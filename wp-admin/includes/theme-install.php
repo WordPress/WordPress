@@ -140,15 +140,12 @@ function install_theme_search($page) {
 add_action('install_themes_dashboard', 'install_themes_dashboard');
 function install_themes_dashboard() {
 	?>
-<p><?php _e('Search for themes by keyword, author, or tag.') ?></p>
+<p class="install-help"><?php _e('Search for themes by keyword, author, or tag.') ?></p>
 
 	<?php install_theme_search_form(); ?>
 
-<h4><?php _e('Advanced Search') ?></h4>
-<p><?php _e('Tag filter goes here') ?></p>
-
 <h4><?php _e('Popular tags') ?></h4>
-<p><?php _e('You may also browse based on the most popular tags in the Theme Directory:') ?></p>
+<p class="install-help"><?php _e('You may also browse based on the most popular tags in the Theme Directory:') ?></p>
 	<?php
 
 	$api_tags = install_themes_popular_tags();
@@ -183,7 +180,7 @@ function install_theme_search_form(){
 	<option value="term" <?php selected('term', $type) ?>><?php _e('Term') ?></option>
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author') ?></option>
 	<option value="tag" <?php selected('tag', $type) ?>><?php _e('Tag') ?></option>
-</select> <input type="text" name="s" id="search-field"
+</select> <input type="text" name="s" class="search-input"
 	value="<?php echo attribute_escape($term) ?>" /> <input type="submit"
 	name="search" value="<?php echo attribute_escape(__('Search')) ?>"
 	class="button" /></form>
@@ -258,7 +255,7 @@ add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 function install_themes_upload($page = 1) {
 	?>
 <h4><?php _e('Install a theme in .zip format') ?></h4>
-<p><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.') ?></p>
+<p class="install-help"><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.') ?></p>
 <form method="post" enctype="multipart/form-data"
 	action="<?php echo admin_url('theme-install.php?tab=do_upload') ?>"><?php wp_nonce_field( 'theme-upload') ?>
 <input type="file" name="themezip" /> <input type="submit"
@@ -279,10 +276,10 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	//	$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
 
 	$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
-	if ( empty($actions) ) {
+	if ( !is_array($actions) ) {
 		$actions = array();
 		$actions[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-										'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
+										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=350') . '" class="thickbox thickbox-preview onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
 		$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
 		$actions = apply_filters('theme_install_action_links', $actions, $theme);
 	}
@@ -290,9 +287,9 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	$actions = implode ( ' | ', $actions );
 	?>
 <a class='thickbox thickbox-preview screenshot'
-	href='<? echo clean_url($preview_link) ?>'
-	title='<?php attribute_escape(sprintf(__('Preview "%s"'), $name)) ?>'>
-<img src='<?php echo clean_url($theme->screenshot_url) ?>' width='150' />
+	href='<? echo clean_url($preview_link); ?>'
+	title='<?php echo attribute_escape(sprintf(__('Preview "%s"'), $name)); ?>'>
+<img src='<?php echo clean_url($theme->screenshot_url); ?>' width='150' />
 </a>
 <h3><?php echo $name ?></h3>
 <span class='action-links'><?php echo $actions ?></span>
@@ -431,7 +428,7 @@ add_action('install_themes_pre_theme-information', 'install_theme_information');
  */
 function install_theme_information() {
 	//TODO: This function needs a LOT of UI work :)
-	global $tab, $themes_allowedtags;;
+	global $tab, $themes_allowedtags;
 
 	$api = themes_api('theme_information', array('slug' => stripslashes( $_REQUEST['theme'] ) ));
 
@@ -444,67 +441,88 @@ function install_theme_information() {
 	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
 		$api->$key = wp_kses($api->$key, $themes_allowedtags);
 
-	$section = isset($_REQUEST['section']) ? stripslashes( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
-	if ( empty($section) || ! isset($api->sections[ $section ]) )
-		$section = array_shift( $section_titles = array_keys((array)$api->sections) );
-
 	iframe_header( __('Theme Install') );
+
+	if ( empty($api->download_link) ) {
+		echo '<div id="message" class="error"><p>' . __('<strong>Error:</strong> This theme is currently not available. Please try again later.') . '</p></div>';
+		iframe_footer();
+		exit;
+	}
 
 	if ( version_compare($GLOBALS['wp_version'], $api->tested, '>') )
 		echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This theme has <strong>not been tested</strong> with your current version of WordPress.') . '</p></div>';
 	else if ( version_compare($GLOBALS['wp_version'], $api->requires, '<') )
 		echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This theme has not been marked as <strong>compatible</strong> with your version of WordPress.') . '</p></div>';
 
-	if ( empty($api->download_link) ) {
-		// No go
-	}
-	?>
-
-<p class="action-button"><?php
 	// Default to a "new" theme
 	$type = 'install';
 	// Check to see if this theme is known to be installed, and has an update awaiting it.
-	$update_themes = get_option('update_themes');
-	foreach ( (array)$update_themes->response as $file => $theme ) {
-		if ( $theme->slug === $api->slug ) {
-			$type = 'update_available';
-		$update_file = $file;
-		break;
+	$update_themes = get_transient('update_themes');
+	if ( is_object($update_themes) ) {
+		foreach ( (array)$update_themes->response as $file => $theme ) {
+			if ( $theme->slug === $api->slug ) {
+				$type = 'update_available';
+				$update_file = $file;
+				break;
+			}
+		}
 	}
-}
 
-$action = '';
+	$themes = get_themes();
+	foreach ( $themes as $this_theme ) {
+		if ( is_array($this_theme) && $this_theme['Stylesheet'] == $api->slug ) {
+			if ( $this_theme['Version'] == $api->version ) {
+				$type = 'latest_installed';
+			} elseif ( $this_theme['Version'] > $api->version ) {
+				$type = 'newer_installed';
+				$newer_version = $this_theme['Version'];
+			}
+			break;
+		}
+	}
+?>
+
+<div class='available-theme'>
+<img src='<?php echo clean_url($api->screenshot_url) ?>' width='300' class="theme-preview-img" />
+<h3><?php echo $api->name; ?></h3>
+<p><?php printf(__('by %s'), $api->author); ?></p>
+<p><?php printf(__('Version: %s'), $api->version); ?></p>
+
+<?php
+$buttons = '<a class="button" id="cancel" href="#" onclick="tb_close();return false;">' . __('Cancel') . '</a> ';
+
 switch ( $type ) {
-	default:
-	case 'install':
-		if ( current_user_can('install_themes') ) :
-			$action = '<a class="button" href="' . wp_nonce_url(admin_url('theme-install.php?tab=install&theme=' . $api->slug), 'install-theme_' . $api->slug) . '" target="_parent">' . __('Install Now') . '</a>';
+default:
+case 'install':
+	if ( current_user_can('install_themes') ) :
+	$buttons .= '<a class="button-primary" id="install" href="' . wp_nonce_url(admin_url('theme-install.php?tab=install&theme=' . $api->slug), 'install-theme_' . $api->slug) . '" target="_parent">' . __('Install Now') . '</a>';
 	endif;
 	break;
 case 'update_available':
 	if ( current_user_can('update_themes') ) :
-	?><a class="button"
-	href="<?php echo wp_nonce_url(admin_url('update.php?action=upgrade-theme&theme=' . $update_file), 'upgrade-theme_' . $update_file) ?>"
-	target="_parent"><?php _e('Install Update Now') ?></a><?php
+	$buttons .= '<a class="button-primary" id="install"	href="' . wp_nonce_url(admin_url('update.php?action=upgrade-theme&theme=' . $update_file), 'upgrade-theme_' . $update_file) . '" target="_parent">' . __('Install Update Now') . '</a>';
 	endif;
 	break;
 case 'newer_installed':
 	if ( current_user_can('install_themes') || current_user_can('update_themes') ) :
-	?><a><?php printf(__('Newer Version (%s) Installed'), $newer_version) ?></a><?php
+	?><p><?php printf(__('Newer version (%s) is installed.'), $newer_version); ?></p><?php
 	endif;
 	break;
 case 'latest_installed':
 	if ( current_user_can('install_themes') || current_user_can('update_themes') ) :
-	?><a><?php _e('Latest Version Installed') ?></a><?php
+	?><p><?php _e('This version is already installed.'); ?></p><?php
 	endif;
 	break;
-} ?></p>
-<div class='available-theme'>
-<?php
-display_theme($api, array($action), false);
-?>
+} ?>
+<br class="clear" />
 </div>
-	<?php
+
+<p class="action-button">
+<?php echo $buttons; ?>
+<br class="clear" />
+</p>
+
+<?php
 	iframe_footer();
 	exit;
 }

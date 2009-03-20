@@ -76,7 +76,7 @@ do_action('admin_head');
 <style type="text/css">.row-actions{visibility:visible;}</style>
 <?php } ?>
 </head>
-<body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ); ?>">
+<body class="wp-admin <?php echo apply_filters( 'admin_body_class', preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix) ); ?>">
 
 <div id="wpwrap">
 <div id="wpcontent">

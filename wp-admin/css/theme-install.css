@@ -72,28 +72,43 @@ div.star img {
 }
 
 .theme-listing br.line {
-	border-bottom: thin solid #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	margin-bottom: 3px;
 }
 
-#search-field {
-	padding: 1px;
-}
-
-p.popular-tags {
-	line-height: 1.8em;
-}
-
 .available-theme {
-	text-align: center;
+	padding: 20px 15px;
 }
 
-#theme-information .available-theme a.screenshot {
-	border: 0 none;
-	display: inline;
+#theme-information .theme-preview-img {
+	float: left;
+	margin: 5px 25px 10px 15px;
+	width: 300px;
+}
+
+#theme-information .action-button {
+	border-top-width: 1px;
+	border-top-style: solid;
+	margin: 10px 5px 20px;
+}
+
+#theme-information .action-button #cancel {
+	float: left;
+	margin: 10px 15px;
+}
+
+#theme-information .action-button #install {
+	float: right;
+	margin: 10px 15px;
 }
 
 #theme-information .available-theme h3 {
 	margin: 1em 0;
 }
+
+body#theme-information {
+	height: auto;
+}
+
 

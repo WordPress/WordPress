@@ -181,14 +181,14 @@ foreach ( $cols as $col => $theme_name ) {
 	$screenshot = $themes[$theme_name]['Screenshot'];
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
 	$preview_link = clean_url( get_option('home') . '/');
-	$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true', 'width' => 600, 'height' => 400 ), $preview_link ) );
+	$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), $preview_link ) );
 	$preview_text = attribute_escape( sprintf( __('Preview of "%s"'), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
 	$thickbox_class = 'thickbox thickbox-preview';
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
 	$activate_text = attribute_escape( sprintf( __('Activate "%s"'), $title ) );
 	$actions = array();
-	$actions[] = '<a href="' . $activate_link .  '" title="' . $activate_text . '">' . __('Activate') . '</a>';
+	$actions[] = '<a href="' . $activate_link .  '" class="activatelink" title="' . $activate_text . '">' . __('Activate') . '</a>';
 	$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attribute_escape(sprintf(__('Preview "%s"'), $theme_name)) . '">' . __('Preview') . '</a>';
 	if ( current_user_can('update_themes') )
 		$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url("themes.php?action=delete&amp;template=$template", 'delete-theme_' . $template) . '" onclick="' . "if ( confirm('" . js_escape(sprintf( __("You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete."), $theme_name )) . "') ) {return true;}return false;" . '">' . __('Delete') . '</a>';
@@ -196,7 +196,7 @@ foreach ( $cols as $col => $theme_name ) {
 
 	$actions = implode ( ' | ', $actions );
 ?>
-		<a href="<?php echo $activate_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
+		<a href="<?php echo $preview_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
 			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
@@ -208,8 +208,6 @@ foreach ( $cols as $col => $theme_name ) {
 		<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
 <?php endif; ?>
 		<?php theme_update_available( $themes[$theme_name] ); ?>
-		<noscript><p class="themeactions"><a href="<?php echo $preview_link; ?>" title="<?php echo $preview_text; ?>"><?php _e('Preview'); ?></a> <a href="<?php echo $activate_link; ?>" title="<?php echo $activate_text; ?>"><?php _e('Activate'); ?></a></p></noscript>
-		<div style="display:none;"><a class="previewlink" href="<?php echo $preview_link; ?>"><?php echo $preview_text; ?></a> <a class="activatelink" href="<?php echo $activate_link; ?>"><?php echo $activate_text; ?></a></div>
 <?php endif; // end if not empty theme_name ?>
 	</td>
 <?php } // end foreach $cols ?>

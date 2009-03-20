@@ -3243,13 +3243,14 @@ function iframe_header( $title = '', $limit_styles = false) {
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
 wp_enqueue_style( 'global' );
-wp_enqueue_style( 'colors' );
 if ( ! $limit_styles )
 	wp_enqueue_style( 'wp-admin' );
+wp_enqueue_style( 'colors' );
 ?>
 <script type="text/javascript">
 //<![CDATA[
-function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}else{ var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}}
+addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+function tb_close(){var win=window.dialogArguments||opener||parent||top;win.tb_remove();}
 //]]>
 </script>
 <?php
@@ -3270,6 +3271,7 @@ do_action('admin_head');
  */
 function iframe_footer() {
 	echo '
+	<script type="text/javascript">if(typeof wpOnload=="function")wpOnload();</script>
 	</body>
 </html>';
 }

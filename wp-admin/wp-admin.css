@@ -3006,3 +3006,29 @@ ol {
 .columns-prefs label {
 	padding: 0 5px;
 }
+
+.theme-install-php h4,
+.plugin-install-php h4 {
+	margin: 2.5em 0 8px;
+}
+
+p.install-help {
+	margin: 8px 0;
+	font-style: italic;
+}
+
+p.popular-tags {
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border-width: 1px;
+	border-style: solid;
+	line-height: 2em;
+	padding: 8px 12px 12px;
+}
+
+p.popular-tags a {
+	padding: 0 3px;
+}
+

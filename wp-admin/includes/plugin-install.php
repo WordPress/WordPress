@@ -125,10 +125,11 @@ function install_dashboard() {
 	<p><?php _e('Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via this page.') ?></p>
 
 	<h4><?php _e('Search') ?></h4>
+	<p class="install-help"><?php _e('Search for plugins by keyword, author, or tag.') ?></p>
 	<?php install_search_form(); ?>
 
 	<h4><?php _e('Install a plugin in .zip format') ?></h4>
-	<p><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
+	<p class="install-help"><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
 	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('plugin-install.php?tab=upload') ?>">
 		<?php wp_nonce_field( 'plugin-upload') ?>
 		<input type="file" name="pluginzip" />
@@ -136,7 +137,7 @@ function install_dashboard() {
 	</form>
 
 	<h4><?php _e('Popular tags') ?></h4>
-	<p><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
+	<p class="install-help"><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
 	<?php
 
 	$api_tags = install_popular_tags();
@@ -149,7 +150,7 @@ function install_dashboard() {
 								'name' => $tag['name'],
 								'id' => sanitize_title_with_dashes($tag['name']),
 								'count' => $tag['count'] );
-	echo '<p>';
+	echo '<p class="popular-tags">';
 	echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
 	echo '</p><br class="clear" />';
 }
@@ -169,7 +170,7 @@ function install_search_form(){
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author') ?></option>
 			<option value="tag"<?php selected('tag', $type) ?>><?php _e('Tag') ?></option>
 		</select>
-		<input type="text" name="s" id="search-field" value="<?php echo attribute_escape($term) ?>" />
+		<input type="text" name="s" class="search-input" value="<?php echo attribute_escape($term) ?>" />
 		<input type="submit" name="search" value="<?php echo attribute_escape(__('Search')) ?>" class="button" />
 	</form><?php
 }

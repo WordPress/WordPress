@@ -1581,3 +1581,16 @@ fieldset.inline-edit-col-right .inline-edit-col {
 input[readonly] {
 	background-color: #eee;
 }
+
+p.popular-tags {
+	background-color: #FFFFFF;
+	border-color: #DFDFDF;
+}
+
+#theme-information .action-button {
+	border-top-color: #DFDFDF;
+}
+
+.theme-listing br.line {
+	border-bottom-color: #ccc;
+}
