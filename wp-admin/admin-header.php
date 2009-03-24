@@ -66,10 +66,12 @@ do_action('admin_head');
 </style>
 </noscript>
 <script type="text/javascript">
+//<![CDATA[
 (function(){
 	var ns = document.getElementsByTagName('noscript');
 	if ( ns && (ns = ns[0]) ) ns.parentNode.removeChild(ns);
 })();
+//]]>
 </script>
 
 <?php if ( $is_iphone ) { ?>

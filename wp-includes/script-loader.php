@@ -609,7 +609,7 @@ function _print_scripts() {
 
 		$ver = md5("$wp_scripts->concat_version");
 		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&load=" . trim($wp_scripts->concat, ', ') . "&ver=$ver";
-		echo "<script type='text/javascript' src='$src'></script>\n";
+		echo "<script type='text/javascript' src='" . attribute_escape($src) . "'></script>\n";
 	}
 
 	if ( !empty($wp_scripts->print_html) )
@@ -676,7 +676,7 @@ function print_admin_styles() {
 			$dir = $wp_styles->text_direction;
 			$ver = md5("$wp_styles->concat_version{$dir}");
 			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}&load=" . trim($wp_styles->concat, ', ') . "&ver=$ver";
-			echo "<link rel='stylesheet' href='$href' type='text/css' media='all' />\n";
+			echo "<link rel='stylesheet' href='" . attribute_escape($href) . "' type='text/css' media='all' />\n";
 		}
 
 		if ( !empty($wp_styles->print_html) )
