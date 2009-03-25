@@ -1549,9 +1549,14 @@ jQuery(function($){
 -->
 </script>
 <div id="sort-buttons" class="hide-if-no-js">
+<span>
+<?php _e('All Tabs:'); ?>
+<a href="#" id="showall" class="toggle"><?php _e('Show'); ?></a>
+<a href="#" id="hideall" class="toggle" style="display:none;"><?php _e('Hide'); ?></a>
+</span>
 <?php _e('Sort Order:'); ?>
-<a href="#" id="asc"><?php _e('Ascending'); ?></a>
-<a href="#" id="desc"><?php _e('Descending'); ?></a>
+<a href="#" id="asc"><?php _e('Ascending'); ?></a> | 
+<a href="#" id="desc"><?php _e('Descending'); ?></a> | 
 <a href="#" id="clear"><?php _e('Clear'); ?></a>
 </div>
 <form enctype="multipart/form-data" method="post" action="<?php echo attribute_escape($form_action_url); ?>" class="media-upload-form validate" id="gallery-form">

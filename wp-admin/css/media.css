@@ -433,7 +433,14 @@ h3.media-title  {
 }
 
 #sort-buttons a {
-	padding: 0 2px;
 	text-decoration: none;
 }
 
+#sort-buttons #asc,
+#sort-buttons #showall {
+	padding-left: 5px;
+}
+
+#sort-buttons span {
+	margin-right: 25px;
+}

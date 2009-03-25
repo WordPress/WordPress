@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-	var gallerySortable, gallerySortableInit, galleryReorder, w, desc = false;
+	var gallerySortable, gallerySortableInit, w, desc = false;
 
 	gallerySortableInit = function() {
 		gallerySortable = $('#media-items').sortable( {
@@ -7,17 +7,16 @@ jQuery(document).ready(function($) {
 			placeholder: 'sorthelper',
 			axis: 'y',
 			distance: 2,
-			update: galleryReorder
+			forcePlaceholderSize: true,
+			stop: function(e, ui) {
+				// When an update has occurred, adjust the order for each item
+				var all = $('#media-items').sortable('toArray'), len = all.length;
+				$.each(all, function(i, id) {
+					var order = desc ? (len - i) : (1 + i);
+					$('#' + id + ' .menu_order input').val(order);
+				});
+			}
 		} );
-	}
-
-	// When an update has occurred, adjust the order for each item
-	galleryReorder = function(e, sort) {
-		var all = sort['element'].sortable('toArray'), len = all.length;
-		$.each(all, function(i, id) {
-			var order = desc ? (len - i) : (1 + i);
-			$('#' + id + ' .menu_order input').val(order);
-		});
 	}
 
 	sortIt = function() {
@@ -34,10 +33,16 @@ jQuery(document).ready(function($) {
 			if ( this.value == '0' || c ) this.value = '';
 		});
 	}
+	
+	toggleAll = function() {
+		$('a.toggle, table.slidetoggle').toggle();
+	}
 
 	$('#asc').click(function(){desc = false; sortIt(); return false;});
 	$('#desc').click(function(){desc = true; sortIt(); return false;});
 	$('#clear').click(function(){clearAll(1); return false;});
+	$('#showall').click(function(){toggleAll();return false;});
+	$('#hideall').click(function(){toggleAll();return false;});
 
 	// initialize sortable
 	gallerySortableInit();
@@ -107,7 +112,7 @@ wpgallery = {
 	},
 
 	setup : function() {
-		var t = this, a, ed = t.editor, g;
+		var t = this, a, ed = t.editor, g, columns, link, order, orderby;
 		if ( ! t.mcemode ) return;
 
 		t.restoreSelection();
@@ -133,8 +138,10 @@ wpgallery = {
 			jQuery('#update-gallery').show();
 			t.is_update = true;
 
-			var columns = a.match(/columns=['"]([0-9]+)['"]/), link = a.match(/link=['"]([^'"]+)['"]/i),
-			order = a.match(/order=['"]([^'"]+)['"]/i), orderby = a.match(/orderby=['"]([^'"]+)['"]/i);
+			columns = a.match(/columns=['"]([0-9]+)['"]/);
+			link = a.match(/link=['"]([^'"]+)['"]/i);
+			order = a.match(/order=['"]([^'"]+)['"]/i);
+			orderby = a.match(/orderby=['"]([^'"]+)['"]/i);
 
 			if ( link && link[1] ) t.I('linkto-file').checked = "checked";
 			if ( order && order[1] ) t.I('order-desc').checked = "checked";

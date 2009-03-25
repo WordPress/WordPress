@@ -324,7 +324,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(commentL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ), '20090315' );
+		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ), '20090325' );
 
 		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20090114' );
 		$scripts->add_data( 'media-upload', 'group', 1 );
@@ -437,7 +437,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081226' );
-	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090315' );
+	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090325' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20081210' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090305' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081210' );
