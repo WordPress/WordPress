@@ -368,7 +368,7 @@ div.dashboard-widget-submit input:hover,
 	color: #EAF2FA !important;
 }
 
-#side-info-column #category-tabs .ui-tabs-selected a {
+#side-sortables #category-tabs .ui-tabs-selected a {
 	color: #333;
 }
 

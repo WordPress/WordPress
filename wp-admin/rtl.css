@@ -314,7 +314,7 @@ td.available-theme {
 }
 /* 1800 - 2000
 =================================== */
-#side-info-column #category-tabs li {
+#side-sortables #category-tabs li {
 	padding-right: 0;
 	padding-left: 8px;
 }

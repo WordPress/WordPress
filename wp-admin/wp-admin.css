@@ -1337,8 +1337,12 @@ table.form-table td .updated {
 }
 
 /* Post Screen */
-#post-body-content #normal-sortables {
+#post-body #normal-sortables {
 	min-height: 50px;
+}
+
+#post-body #advanced-sortables {
+	min-height: 20px;
 }
 
 .postbox {
@@ -1363,10 +1367,6 @@ table.form-table td .updated {
 	float: none;
 	margin: 0;
 	padding: 3px 7px;
-}
-
-#side-sortables {
-	min-height: 300px;
 }
 
 #side-sortables .submitbox .submit input,
@@ -1402,20 +1402,20 @@ table.form-table td .updated {
 	width: 16em;
 }
 
-#side-info-column input#post_password {
+#side-sortables input#post_password {
 	width: 94%
 }
 
-#side-info-column .tagsdiv #newtag {
+#side-sortables .tagsdiv #newtag {
 	width: 68%;
 }
 
 #post-status-info {
 	font-size: 12px;
 	line-height: 2;
-	padding: 0 15px 0 7px;
 	border-width: 0 1px 1px;
 	border-style: none solid solid;
+	width: 100%;
 	-moz-border-radius: 0 0 6px 6px;
 	-webkit-border-bottom-left-radius: 6px;
 	-webkit-border-bottom-right-radius: 6px;
@@ -1425,11 +1425,16 @@ table.form-table td .updated {
 	border-bottom-right-radius: 6px;
 }
 
+.autosave-info {
+	padding: 2px 15px 2px 2px;
+	text-align: right;
+}
+
 #editorcontent #post-status-info {
 	border: none;
 }
 
-#post-body-content .wp_themeSkin .mceStatusbar a.mceResize {
+#post-body .wp_themeSkin .mceStatusbar a.mceResize {
 	display: block;
 	float: right;
 	background: transparent url(images/resize.gif) no-repeat scroll right bottom;
@@ -1569,7 +1574,7 @@ table.form-table td .updated {
 .sortable-placeholder {
 	border-width: 1px;
 	border-style: dashed;
-	z-index: -1;
+	margin-bottom: 20px;
 }
 
 #poststuff h3,
@@ -1670,7 +1675,7 @@ table.form-table td .updated {
 }
 
 #poststuff .inside-submitbox,
-#side-info-column .inside-submitbox {
+#side-sortables .inside-submitbox {
 	margin: 0 3px;
 	font-size: 11px;
 }
@@ -1803,7 +1808,7 @@ input#link_url {
 	margin: 0 0 8px;
 }
 
-#side-info-column #category-adder {
+#side-sortables #category-adder {
 	margin: 0;
 }
 
@@ -1811,11 +1816,11 @@ input#link_url {
 	width: 30%;
 }
 
-#side-info-column #category-add input {
+#side-sortables #category-add input {
 	width: 94%;
 }
 
-#side-info-column #category-add select {
+#side-sortables #category-add select {
 	width: 100%;
 }
 
@@ -1867,16 +1872,16 @@ input#link_url {
 	border-style: solid;
 }
 
-#side-info-column #category-tabs li {
+#side-sortables #category-tabs li {
 	display: inline;
 	padding-right: 8px;
 }
 
-#side-info-column #category-tabs a {
+#side-sortables #category-tabs a {
 	text-decoration: none;
 }
 
-#side-info-column #category-tabs {
+#side-sortables #category-tabs {
 	margin-bottom: 3px;
 }
 
@@ -2070,6 +2075,7 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 
 #wp-word-count {
 	display: block;
+	padding: 2px 7px;
 }
 
 fieldset {

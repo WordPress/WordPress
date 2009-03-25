@@ -3325,30 +3325,6 @@ function screen_meta($screen) {
 	$show_screen = false;
 	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens) )
 		$show_screen = true;
-?>
-<div id="screen-meta">
-<?php
-	if ( $show_screen ) :
-?>
-<div id="screen-options-wrap" class="hidden">
-	<h5><?php _e('Show on screen') ?></h5>
-	<form id="adv-settings" action="" method="get">
-	<div class="metabox-prefs">
-<?php
-	if ( !meta_box_prefs($screen) && isset($column_screens) ) {
-		manage_columns_prefs($screen);
-		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false );
-	}
-?>
-	<br class="clear" />
-	</div></form>
-<?php echo screen_layout($screen); ?>
-</div>
-
-<?php
-	endif;
-
-	global $title;
 
 	if ( !isset($_wp_contextual_help) )
 		$_wp_contextual_help = array();
@@ -3386,15 +3362,37 @@ function screen_meta($screen) {
 			break;
 		case 'theme-install':
 		case 'plugin-install':
-			if ( !isset($_GET['tab']) || 'dashboard' == $_GET['tab'] )
-				$_wp_contextual_help[$screen] = '
-		<p><strong>' . __('Search help') . '</strong></p>' .
-		'<p>' . __('You may search based on 3 criteria:') . '<br />' .
-		__('<strong>Term:</strong> Searches theme names and descriptions for the specified term') . '<br />' .
-		__('<strong>Tag:</strong> Searches for themes tagged as such') . '<br />' .
-		__('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') . "</p>\n";
+			if ( ( !isset($_GET['tab']) || 'dashboard' == $_GET['tab'] ) && !isset($_wp_contextual_help[$screen]) ) {
+				$help = plugins_search_help();
+				$_wp_contextual_help[$screen] = $help;
+			}
 			break;
 	}
+?>
+<div id="screen-meta">
+<?php
+	if ( $show_screen ) :
+?>
+<div id="screen-options-wrap" class="hidden">
+	<form id="adv-settings" action="" method="get">
+	<h5><?php _e('Show on screen') ?></h5>
+	<div class="metabox-prefs">
+<?php
+	if ( !meta_box_prefs($screen) && isset($column_screens) ) {
+		manage_columns_prefs($screen);
+		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false );
+	}
+?>
+	<br class="clear" />
+	</div>
+<?php echo screen_layout($screen); ?>
+</form>
+</div>
+
+<?php
+	endif;
+
+	global $title;
 
 	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen);
 	?>
@@ -3460,20 +3458,39 @@ function drag_drop_help() {
 ';
 }
 
+function plugins_search_help() {
+	return '
+	<p><strong>' . __('Search help') . '</strong></p>' .
+	'<p>' . __('You may search based on 3 criteria:') . '<br />' .
+	__('<strong>Term:</strong> Searches theme names and descriptions for the specified term.') . '<br />' .
+	__('<strong>Tag:</strong> Searches for themes tagged as such.') . '<br />' .
+	__('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') . '</p>
+';
+}
+
 function screen_layout($screen) {
 	global $screen_layout_columns;
 
-	if ( 'dashboard' == $screen ) {
-		$screen_layout_columns = get_user_option('screen_layout_dashboard');
-		$num = 4;
-/* add to the write pages?
-	} elseif ( in_array( $screen, array('post', 'page', 'link') ) ) {
-		$screen_layout_columns = get_user_option('screen_layout_write');
-		$num = 2;
-*/
-	} else {
-		$screen_layout_columns = 0;
-		return '';
+	switch ( $screen ) {
+		case 'dashboard':
+			$screen_layout_columns = get_user_option('screen_layout_dashboard');
+			$num = 4;
+			break;
+		case 'post':
+			$screen_layout_columns = get_user_option('screen_layout_post');
+			$num = 2;
+			break;
+		case 'page':
+			$screen_layout_columns = get_user_option('screen_layout_page');
+			$num = 2;
+			break;
+		case 'link':
+			$screen_layout_columns = get_user_option('screen_layout_link');
+			$num = 2;
+			break;
+		default:
+			$screen_layout_columns = 0;
+			return '';
 	}
 
 	if ( ! $screen_layout_columns )

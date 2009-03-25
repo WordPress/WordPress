@@ -116,19 +116,20 @@ table {
 .inner-sidebar {
 	float: right;
 	clear: right;
+	display: none;
+}
+
+.inner-sidebar #side-sortables {
 	width: 280px;
-	position: relative;
+	min-height: 300px;
 }
 
-.has-sidebar {
-	float: left;
-	clear: left;
-	width: 100%;
-	margin-right: -340px;
+.has-right-sidebar .inner-sidebar {
+	display: block;
 }
 
-.has-sidebar .has-sidebar-content {
-	margin-right: 305px;
+.has-right-sidebar #post-body {
+	margin-right: 300px;
 }
 
 /* 2 columns main area */

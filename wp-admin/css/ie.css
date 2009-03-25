@@ -22,8 +22,9 @@ input.button-highlighted {
 	margin-bottom: -1px;
 }
 
-* html #side-info-column {
-	height: auto;
+* html .inner-sidebar #side-sortables,
+* html .postbox-container .meta-box-sortables {
+	height: 300px;
 }
 
 * html #wpbody-content #screen-options-link-wrap {
@@ -38,16 +39,6 @@ input.button-highlighted {
 	text-align: center;
 }
 
-/*
-* html body.minwidth {
-	_width: expression(document.documentElement.clientWidth < 810 ? "808px" : "99.9%");
-}
-
-* html #wpbody {
-	_width: expression(document.documentElement.clientWidth > 982 ? "980px" : "99.9%");
-}
-*/
-
 * html #adminmenu {
 	margin-left: -80px;
 }
@@ -59,6 +50,10 @@ input.button-highlighted {
 * html #wpcontent #adminmenu li.menu-top {
 	display: inline;
 	padding: 0;
+	margin: 0;
+}
+
+* html #footer {
 	margin: 0;
 }
 
@@ -346,4 +341,10 @@ table.ie-fixed {
 .tablenav a.button-secondary {
 	display: inline-block;
 	padding: 2px 5px;
+}
+
+* html .stuffbox,
+* html .stuffbox input,
+* html .stuffbox textarea {
+	border: 1px solid #DFDFDF;
 }

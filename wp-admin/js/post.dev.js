@@ -210,7 +210,7 @@ var commentsBox, tagCloud;
 })(jQuery);
 
 jQuery(document).ready( function($) {
-	var categoryTabs, noSyncChecks = false, syncChecks, catAddAfter, dotabkey = true, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
+	var noSyncChecks = false, syncChecks, catAddAfter, dotabkey = true, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
 
 	// for Press This
 	if ( typeof autosave != 'function' )
@@ -234,11 +234,23 @@ jQuery(document).ready( function($) {
 	});
 
 	// category tabs
-	categoryTabs =jQuery('#category-tabs').tabs();
+	$('#category-tabs a').click(function(){
+		var t = $(this).attr('href');
+		$(this).parent().addClass('ui-tabs-selected').siblings('li').removeClass('ui-tabs-selected');
+		$('.ui-tabs-panel').hide();
+		$(t).show();
+		if ( '#categories-all' == t )
+			deleteUserSetting('cats');
+		else
+			setUserSetting('cats','pop');
+		return false;
+	});
+	if ( getUserSetting('cats') )
+		$('#category-tabs a[href="#categories-pop"]').click();
 
 	// Ajax Cat
 	$('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
-	$('#category-add-sumbit').click( function() { $('#newcat').focus(); } );
+	$('#category-add-sumbit').click(function(){$('#newcat').focus();});
 
 	syncChecks = function() {
 		if ( noSyncChecks )
@@ -251,6 +263,8 @@ jQuery(document).ready( function($) {
 
 	popularCats = $('#categorychecklist-pop :checkbox').map( function() { return parseInt(jQuery(this).val(), 10); } ).get().join(',');
 	catAddBefore = function( s ) {
+		if ( !$('#newcat').val() )
+			return false;
 		s.data += '&popular_ids=' + popularCats + '&' + jQuery( '#categorychecklist :checked' ).serialize();
 		return s;
 	};
@@ -281,14 +295,9 @@ jQuery(document).ready( function($) {
 
 	$('#category-add-toggle').click( function() {
 		$('#category-adder').toggleClass( 'wp-hidden-children' );
-		categoryTabs.tabs( 'select', 0 );
+		$('#category-tabs a[href="#categories-all"]').click();
 		return false;
 	} );
-
-	$('a[href="#categories-all"]').click(function(){deleteUserSetting('cats');});
-	$('a[href="#categories-pop"]').click(function(){setUserSetting('cats','pop');});
-	if ( 'pop' == getUserSetting('cats') )
-		$('a[href="#categories-pop"]').click();
 
 	$('.categorychecklist .popular-category :checkbox').change( syncChecks ).filter( ':checked' ).change(), sticky = '';
 

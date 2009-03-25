@@ -582,7 +582,7 @@ else
 
 <?php echo $form_extra ?>
 
-<div id="poststuff" class="metabox-holder">
+<div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 
 <div id="side-info-column" class="inner-sidebar">
 
@@ -591,8 +591,7 @@ else
 <?php $side_meta_boxes = do_meta_boxes('post', 'side', $post); ?>
 </div>
 
-<div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">
-<div id="post-body-content" class="has-sidebar-content">
+<div id="post-body"">
 <div id="titlediv">
 <div id="titlewrap">
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
@@ -613,9 +612,9 @@ endif; ?>
 
 <?php the_editor($post->post_content); ?>
 
-<div id="post-status-info">
-	<span id="wp-word-count" class="alignleft"></span>
-	<span class="alignright">
+<table id="post-status-info"><tbody><tr>
+	<td id="wp-word-count"></td>
+	<td class="autosave-info">
 	<span id="autosave">&nbsp;</span>
 <?php
 	if ( $post_ID ) {
@@ -629,9 +628,8 @@ endif; ?>
 		echo '</span>';
 	}
 ?>
-	</span>
-	<br class="clear" />
-</div>
+	</td>
+</tr></tbody></table>
 
 
 <?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
@@ -653,7 +651,6 @@ do_action('dbx_post_sidebar');
 
 ?>
 
-</div>
 </div>
 <br class="clear" />
 </div><!-- /poststuff -->

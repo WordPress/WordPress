@@ -1,13 +1,25 @@
 jQuery(document).ready( function($) {
 
-	var categoryTabs, newCat, noSyncChecks = false, syncChecks, catAddAfter;
+	var newCat, noSyncChecks = false, syncChecks, catAddAfter;
 
 	$('#link_name').focus();
 	// postboxes
 	postboxes.add_postbox_toggles('link');
 
 	// category tabs
-	categoryTabs = $('#category-tabs').tabs();
+	$('#category-tabs a').click(function(){
+		var t = $(this).attr('href');
+		$(this).parent().addClass('ui-tabs-selected').siblings('li').removeClass('ui-tabs-selected');
+		$('.ui-tabs-panel').hide();
+		$(t).show();
+		if ( '#categories-all' == t )
+			deleteUserSetting('cats');
+		else
+			setUserSetting('cats','pop');
+		return false;
+	});
+	if ( getUserSetting('cats') )
+		$('#category-tabs a[href="#categories-pop"]').click();
 
 	// Ajax Cat
 	newCat = $('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
@@ -46,7 +58,7 @@ jQuery(document).ready( function($) {
 
 	$('#category-add-toggle').click( function() {
 		$(this).parents('div:first').toggleClass( 'wp-hidden-children' );
-		categoryTabs.find('a[href="#categories-all"]').click();
+		$('#category-tabs a[href="#categories-all"]').click();
 		return false;
 	} );
 

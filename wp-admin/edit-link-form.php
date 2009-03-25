@@ -340,8 +340,6 @@ do_action('do_meta_boxes', 'link', 'side', $link);
 require_once ('admin-header.php');
 
 ?>
-
-
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2>
@@ -360,7 +358,7 @@ wp_nonce_field( $nonce_action );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
-<div id="poststuff" class="metabox-holder">
+<div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 
 <div id="side-info-column" class="inner-sidebar">
 <?php
@@ -371,8 +369,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 ?>
 </div>
 
-<div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">
-<div id="post-body-content" class="has-sidebar-content">
+<div id="post-body">
 <div id="namediv" class="stuffbox">
 <h3><label for="link_name"><?php _e('Name') ?></label></h3>
 <div class="inside">
@@ -412,7 +409,6 @@ if ( $link_id ) : ?>
 <input type="hidden" name="action" value="add" />
 <?php endif; ?>
 
-</div>
 </div>
 </div>
 

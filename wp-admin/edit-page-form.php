@@ -426,7 +426,7 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
 <?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 
-<div id="poststuff" class="metabox-holder">
+<div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 
 <div id="side-info-column" class="inner-sidebar">
 
@@ -438,9 +438,7 @@ $side_meta_boxes = do_meta_boxes('page', 'side', $post);
 ?>
 </div>
 
-<div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">
-<div id="post-body-content" class="has-sidebar-content">
-
+<div id="post-body">
 <div id="titlediv">
 <div id="titlewrap">
   <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
@@ -458,9 +456,9 @@ endif; ?>
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
 
 <?php the_editor($post->post_content); ?>
-<div id="post-status-info">
-	<span id="wp-word-count" class="alignleft"></span>
-	<span class="alignright">
+<table id="post-status-info"><tbody><tr>
+	<td id="wp-word-count"></td>
+	<td class="autosave-info">
 	<span id="autosave">&nbsp;</span>
 
 <?php
@@ -473,9 +471,8 @@ endif; ?>
 		}
 	}
 ?>
-	</span>
-	<br class="clear" />
-</div>
+	</td>
+</tr></tbody></table>
 
 <?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
@@ -492,7 +489,6 @@ do_meta_boxes('page', 'advanced', $post);
 
 ?>
 
-</div>
 </div>
 </div>
 
