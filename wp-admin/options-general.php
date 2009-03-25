@@ -11,6 +11,8 @@ require_once('./admin.php');
 
 $title = __('General Settings');
 $parent_file = 'options-general.php';
+/* translators: date and time format for exact current time, mainly about timezones, see http://php.net/date */
+$timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
 
 /**
  * Display JavaScript on the page.
@@ -123,9 +125,9 @@ foreach ( $offset_range as $offset ) {
 ?>
 </select>
 <?php _e('hours') ?>
-<span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n(__('Y-m-d G:i:s'), false, 'gmt')); ?></span>
+<span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n( $time_format, false, 'gmt')); ?></span>
 <?php if ($current_offset) : ?>
-	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n(__('Y-m-d G:i:s'))); ?></span>
+	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($time_format)); ?></span>
 <?php endif; ?>
 <br/>
 <span class="setting-description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
@@ -147,9 +149,9 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <?php echo wp_timezone_choice($tzstring); ?>
 </select>
 
-<span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n(__('Y-m-d G:i:s'), false, 'gmt')); ?></span>
+    <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n($timezone_format, false, 'gmt')); ?></span>
 <?php if (get_option('timezone_string')) : ?>
-	<span id="local-time"><?php printf(__('Current time in %1$s is <code>%2$s</code>'), get_option('timezone_string'), date_i18n(__('Y-m-d G:i:s'))); ?>
+	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($timezone_format)); ?></span>
 	<br />
 	<?php
 	$now = localtime(time(),true);
@@ -168,14 +170,14 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 		}
 
 		if ( isset($found) && $found === true ) {
-			_e(' ');
+			echo ' ';
 			$message = $tr['isdst'] ?
 				__('This timezone switches to daylight savings time on: %s.') :
 				__('This timezone switches to standard time on: %s.');
 			$tz = new DateTimeZone($tzstring);
 			$d = new DateTime( "@{$tr['ts']}" );
 			$d->setTimezone($tz);
-			printf( $message, date_i18n(__('Y-m-d \a\t g:i a T'), $d->format('U') ) );
+			printf( $message, /* translators: next daylight savings change time format, see http://php.net/date */ date_i18n(_x('Y-m-d G:i:s T', 'next daylight savings change time format'), $d->format('U') ) );
 		} else {
 			_e('This timezone does not observe daylight savings time.');
 		}
