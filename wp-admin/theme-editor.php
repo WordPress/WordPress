@@ -151,7 +151,7 @@ if ($allowed_files) :
 <?php
 	$template_mapping = array();
 	$template_dir = $themes[$theme]['Template Dir'];
-	foreach($themes[$theme]['Template Files'] as $template_file) {
+	foreach ( $themes[$theme]['Template Files'] as $template_file ) {
 		$description = trim( get_file_description($template_file) );
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : "$description";
@@ -177,7 +177,7 @@ if ($allowed_files) :
 	<ul>
 <?php
 	$template_mapping = array();
-	foreach($themes[$theme]['Stylesheet Files'] as $style_file) {
+	foreach ( $themes[$theme]['Stylesheet Files'] as $style_file ) {
 		$description = trim( get_file_description($style_file) );
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description <span class='nonessential'>($style_show)</span>" : "$description";
@@ -204,7 +204,7 @@ if ($allowed_files) :
 		 </div>
 	<?php if ( isset($functions ) && count($functions) ) { ?>
 		<div id="documentation">
-		<label for="docs-list">Documentation:</label>
+		<label for="docs-list"><?php _e('Documentation:') ?></label>
 		<?php echo $docs_select; ?>
 		<input type="button" class="button" value=" <?php _e( 'Lookup' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" />
 		</div>

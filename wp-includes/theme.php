@@ -372,14 +372,28 @@ function get_themes() {
 						$template_files[] = "$theme_loc/$stylesheet/$file";
 				}
 			}
+			@ $stylesheet_dir->close();
 		}
-
+		
 		$template_dir = @ dir("$theme_root/$template");
 		if ( $template_dir ) {
-			while(($file = $template_dir->read()) !== false) {
-				if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) )
+			while ( ($file = $template_dir->read()) !== false ) {
+				if ( preg_match('|^\.+$|', $file) )
+					continue;
+				if ( preg_match('|\.php$|', $file) ) {
 					$template_files[] = "$theme_loc/$template/$file";
+				} elseif ( is_dir("$theme_root/$template/$file") ) {
+					$template_subdir = @ dir("$theme_root/$template/$file");
+					while ( ($subfile = $template_subdir->read()) !== false ) {
+						if ( preg_match('|^\.+$|', $subfile) )
+							continue;
+						if ( preg_match('|\.php$|', $subfile) )
+							$template_files[] = "$theme_loc/$template/$file/$subfile";
+					}
+					@ $template_subdir->close();
+				}
 			}
+			@ $template_dir->close(); 
 		}
 
 		$template_dir = dirname($template_files[0]);
@@ -1115,6 +1129,29 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
 	require_once(ABSPATH . 'wp-admin/custom-header.php');
 	$GLOBALS['custom_image_header'] =& new Custom_Image_Header($admin_header_callback);
 	add_action('admin_menu', array(&$GLOBALS['custom_image_header'], 'init'));
+}
+
+/**
+ * Get the basename of a theme.
+ *
+ * This method extracts the filename of a theme file from a path
+ *
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 2.8.0
+ *
+ * @access private
+ *
+ * @param string $file The filename of a theme file
+ * @return string The filename relative to the themes folder
+ */
+function theme_basename($file) {
+	$file = str_replace('\\','/',$file); // sanitize for Win32 installs
+	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
+	$theme_dir = str_replace('\\','/', get_theme_root()); // sanitize for Win32 installs
+	$theme_dir = preg_replace('|/+|','/', $theme_dir); // remove any duplicate slash
+	$file = preg_replace('|^.*/themes/.*?/|','',$file); // get relative path from theme dir 
+	return $file;
 }
 
 ?>
