@@ -228,7 +228,7 @@ if ( $links ) {
 					?></td><?php
 					break;
 				case 'rel':
-					?><td <?php echo $attributes ?>><?php echo $link->link_rel; ?></td><?php
+					?><td <?php echo $attributes ?>><?php echo empty($link->link_rel) ? '<br />' : $link->link_rel; ?></td><?php
 					break;
 				case 'visible':
 					?><td <?php echo $attributes ?>><?php echo $visible; ?></td><?php

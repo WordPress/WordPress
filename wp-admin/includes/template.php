@@ -840,7 +840,7 @@ function get_column_headers($page) {
 				'name' => __('Name'),
 				'url' => __('URL'),
 				'categories' => __('Categories'),
-				'rel' => __('rel'),
+				'rel' => __('Relationship'),
 				'visible' => __('Visible')
 			);
 
