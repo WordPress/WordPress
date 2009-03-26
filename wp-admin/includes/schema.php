@@ -326,6 +326,8 @@ function populate_options() {
 			$autoload = 'yes';
 
 		$option = $wpdb->escape($option);
+		if ( is_array($value) )
+			$value = serialize($value);
 		$value = $wpdb->escape($value);
 		if ( !empty($insert) )
 			$insert .= ', ';
