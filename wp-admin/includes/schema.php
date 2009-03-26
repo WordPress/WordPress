@@ -303,7 +303,6 @@ function populate_options() {
 	'comments_per_page' => 50,
 	'default_comments_page' => 'newest',
 	'comment_order' => 'asc',
-	'use_ssl' => 0,
 	'sticky_posts' => array(),
 	'widget_categories' => array(),
 	'widget_text' => array(),
