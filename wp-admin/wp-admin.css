@@ -3038,3 +3038,6 @@ p.popular-tags a {
 	padding: 0 3px;
 }
 
+.stuffbox .editcomment {
+	clear: none;
+}

@@ -7,8 +7,7 @@ input.button-highlighted {
 }
 
 #minor-publishing-actions input,
-#major-publishing-actions input,
-#minor-publishing-actions .preview {
+#major-publishing-actions input {
 	min-width: auto;
 	padding-left: 0;
 	padding-right: 0;
@@ -203,6 +202,7 @@ ul#widget-list li.widget-list-item {
 a.button {
 	line-height: 1.4em;
 	margin: 1px;
+	padding: 4px 6px;
 }
 
 * html div.widget-liquid-left-holder,
@@ -228,7 +228,6 @@ a.button {
 #post-status-info,
 #wpwrap,
 #wpcontent,
-#post,
 #wrap,
 #postdivrich,
 #postdiv,

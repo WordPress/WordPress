@@ -21,7 +21,7 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 <?php screen_icon(); ?>
 <h2><?php _e('Edit Comment'); ?></h2>
 
-<div id="poststuff" class="metabox-holder">
+<div id="poststuff" class="metabox-holder has-right-sidebar">
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 <?php
@@ -85,7 +85,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <div id="namediv" class="stuffbox">
 <h3><label for="name"><?php _e( 'Author' ) ?></label></h3>
 <div class="inside">
-<table class="form-table">
+<table class="form-table editcomment">
 <tbody>
 <tr valign="top">
 	<td class="first"><?php _e( 'Name:' ); ?></td>
