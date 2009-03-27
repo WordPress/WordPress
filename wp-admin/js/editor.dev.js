@@ -70,8 +70,9 @@ var switchEditors = {
 		content = content.replace(new RegExp('<li([^>]*)>', 'g'), '\t<li$1>');
 
 		if ( content.indexOf('<object') != -1 ) {
-			content = content.replace(new RegExp('\\s*<param([^>]*)>\\s*', 'mg'), "<param$1>");
-			content = content.replace(new RegExp('\\s*</embed>\\s*', 'mg'), '</embed>');
+			content = content.replace(/<object[\s\S]+?<\/object>/g, function(a){
+				return a.replace(/[\r\n]+/g, '');
+			});
 		}
 
 		// Unmark special paragraph closing tags
@@ -137,6 +138,16 @@ var switchEditors = {
 	wpautop : function(pee) {
 		var blocklist = 'table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]';
 
+		if ( pee.indexOf('<object') != -1 ) {
+			pee = pee.replace(/<object[\s\S]+?<\/object>/g, function(a){
+				return a.replace(/[\r\n]+/g, '');
+			});
+		}
+
+		pee = pee.replace(/<[^<>]+>/g, function(a){
+			return a.replace(/[\r\n]+/g, ' ');
+		});
+
 		pee = pee + "\n\n";
 		pee = pee.replace(new RegExp('<br />\\s*<br />', 'gi'), "\n\n");
 		pee = pee.replace(new RegExp('(<(?:'+blocklist+')[^>]*>)', 'gi'), "\n$1");
@@ -155,7 +166,6 @@ var switchEditors = {
 		pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*<br />', 'gi'), "$1");
 		pee = pee.replace(new RegExp('<br />(\\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)', 'gi'), '$1');
 		pee = pee.replace(new RegExp('(?:<p>|<br ?/?>)*\\s*\\[caption([^\\[]+)\\[/caption\\]\\s*(?:</p>|<br ?/?>)*', 'gi'), '[caption$1[/caption]');
-		// pee = pee.replace(new RegExp('^((?:&nbsp;)*)\\s', 'mg'), '$1&nbsp;');
 
 		// Fix the pre|script tags
 		pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {

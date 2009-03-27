@@ -142,13 +142,13 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 }
 .wp_themeSkin table.mceSplitButton td {
 	padding: 2px;
+	background-image: url(img/butt2.png);
+	background-position: left top;
+	background-repeat: repeat-x;
 }
 .wp_themeSkin .mceSplitButton a.mceAction {
 	height:20px;
 	width:20px;
-	background-image: url(img/butt2.png);
-	background-position: left top;
-	background-repeat: repeat-x;
 	padding: 1px 2px;
 }
 .wp_themeSkin .mceSplitButton span.mceAction {
@@ -158,31 +158,13 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceSplitButton a.mceOpen {
 	width:10px;
 	height:20px;
-	border-collapse:separate;
-	background-image: url(img/butt2.png);
-	background-position: left top;
-	background-repeat: repeat-x;
+	background-image: url(img/down_arrow.gif);
+	background-position: 1px 2px;
+	background-repeat: no-repeat;
 	padding: 1px;
 	border-left: 0 none !important;
 }
-.wp_themeSkin .mceSplitButton span.mceOpen {
-	width:10px; 
-	background-image: url(img/down_arrow.gif);
-	background-position: 0px 1px;
-	background-repeat: no-repeat;
-	border-collapse:separate;
-	border-left: 0 none !important;
-}
-.wp_themeSkin .mceSplitButton a.mceOpen:hover,
-.wp_themeSkin .mceSplitButtonSelected a.mceOpen,
-.wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
-.wp_themeSkin .mceSplitButton a.mceAction:hover {
-	background-image: none;
-}
-.wp_themeSkin table.mceSplitButtonEnabled:hover span.mceOpen, 
-.wp_themeSkin .mceSplitButtonHover span.mceOpen, 
-.wp_themeSkin .mceSplitButtonSelected span.mceOpen {
-}
+.wp_themeSkin .mceSplitButton span.mceOpen {display:none}
 .wp_themeSkin .mceSplitButtonDisabled .mceAction {
 	opacity:0.3; filter:alpha(opacity=30);
 }
