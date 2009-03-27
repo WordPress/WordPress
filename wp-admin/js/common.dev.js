@@ -123,6 +123,11 @@ screenOptions = {
 			var value = $(this).val();
 			screenOptions.save_screen_option(option, value);
 		});
+		$('.screen-option').submit(function() {
+			var option = $(this).map(function() { return this.id; }).get();
+			var value = $(this).val();
+			screenOptions.save_screen_option(option, value);
+		});
 	},
 
 	save_screen_option : function (option, value) {
