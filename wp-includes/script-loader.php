@@ -178,7 +178,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'swfupload-queue', false, array('swfupload') );
 	}
 
-	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload'), '2.2.0-20081201');
+	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload'), '2.2.0-20090327');
 	// these error messages came from the sample swfupload js, they might need changing.
 	$scripts->localize( 'swfupload-handlers', 'swfuploadL10n', array(
 			'queue_limit_exceeded' => __('You have attempted to queue too many files.'),

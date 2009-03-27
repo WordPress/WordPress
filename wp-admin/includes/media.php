@@ -1267,6 +1267,14 @@ function media_upload_form( $errors = null ) {
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
 
 ?>
+<script type="text/javascript">
+//<!--
+jQuery(document).ready(function($){
+	$('.upload-html-bypass a').click(function(){deleteUserSetting('uploader');swfuploadPreLoad(0);return false;});
+	$('.upload-flash-bypass a').click(function(){setUserSetting('uploader', '1');swfuploadPreLoad(1);return false;});
+});
+//-->
+</script>
 <div id="media-upload-notice">
 <?php if (isset($errors['upload_notice']) ) { ?>
 	<?php echo $errors['upload_notice']; ?>
@@ -1340,12 +1348,11 @@ SWFUpload.onload = function() {
 	<p id="async-upload-wrap">
 	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php echo attribute_escape(__('Upload')); ?>" /> <a href="#" onclick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
 	</p>
-
-	<br class="clear" />
+	<div class="clear"></div>
 	<?php if ( is_lighttpd_before_150() ): ?>
 	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
 	<?php endif;?>
-<?php do_action('post-html-upload-ui'); ?>
+<?php do_action('post-html-upload-ui', $flash); ?>
 </div>
 <?php do_action('post-upload-ui'); ?>
 <?php
@@ -2037,16 +2044,15 @@ function media_upload_flash_bypass() {
  *
  * @since unknown
  */
-function media_upload_html_bypass() {
+function media_upload_html_bypass($flash = true) {
 	echo '<p class="upload-html-bypass">';
-	if ( array_key_exists('flash', $_REQUEST) )
+	_e('You are using the Browser uploader.');
+	if ( $flash ) {
 		// the user manually selected the browser uploader, so let them switch back to Flash
-		printf( __('You are using the Browser uploader.  Try the <a href="%s">Flash uploader</a> instead.'), clean_url(add_query_arg('flash', 1)) );
-	else
-		// the user probably doesn't have Flash
-		printf( __('You are using the Browser uploader.') );
-
-	echo '</p>';
+		echo ' ';
+		printf( __('Try the <a href="%s">Flash uploader</a> instead.'), clean_url(add_query_arg('flash', 1)) );
+	}
+	echo "</p>\n";
 }
 
 add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
@@ -2069,8 +2075,6 @@ function media_upload_bypass_url($url) {
 }
 
 add_filter('media_upload_form_url', 'media_upload_bypass_url');
-
-
 
 add_filter('async_upload_image', 'get_media_item', 10, 2);
 add_filter('async_upload_audio', 'get_media_item', 10, 2);
