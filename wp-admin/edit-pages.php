@@ -186,7 +186,8 @@ endif;
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( ! isset( $per_page ) || $per_page < 0 )
+$per_page = get_user_option('edit_pages_per_page');
+if ( empty( $per_page ) || $per_page < 0 )
 	$per_page = 20;
 
 $num_pages = ceil($wp_query->post_count / $per_page);

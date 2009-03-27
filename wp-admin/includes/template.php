@@ -3386,6 +3386,7 @@ function screen_meta($screen) {
 	<br class="clear" />
 	</div>
 <?php echo screen_layout($screen); ?>
+<?php echo screen_options($screen); ?>
 </form>
 </div>
 
@@ -3502,6 +3503,36 @@ function screen_layout($screen) {
 		$return .= "<label><input type='radio' name='screen_columns' value='$i'" . ( ($screen_layout_columns == $i) ? " checked='checked'" : "" ) . " /> $i</label>\n";
 		++$i;
 	}
+	$return .= "</div>\n";
+	return $return;
+}
+
+function screen_options($screen) {
+	switch ( $screen ) {
+		case 'edit':
+			$per_page_label = __('Posts per page:');
+			break;
+		case 'edit-pages':
+			$per_page_label = __('Pages per page:');
+			break;
+		case 'edit-comments':
+			$per_page_label = __('Comments per page:');
+			break;
+		case 'upload':
+			$per_page_label = __('Media items per page:');
+			break;
+		default:
+			return '';
+	}
+
+	$per_page = get_user_option("${screen}_per_page");
+	if ( empty($per_page) )
+		$per_page = 20;
+
+	$return = '<h5>' . __('Options') . "</h5>\n";
+	$return .= "<div class='screen-options'>\n";
+	if ( !empty($per_page_label) )
+		$return .=  "<label for='${screen}-per-page'>$per_page_label</label> <input type='text' class='screen-option small-text' name='${screen}_per_page' id='${screen}-per-page' value='$per_page' />\n";
 	$return .= "</div>\n";
 	return $return;
 }

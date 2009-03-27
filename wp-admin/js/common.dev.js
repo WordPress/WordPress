@@ -113,7 +113,31 @@ columns = {
 		});
 	}
 }
+
 $(document).ready(function(){columns.init();});
+
+screenOptions = {
+	init : function() {
+		$('.screen-option').change(function() {
+			var option = $(this).map(function() { return this.id; }).get();
+			var value = $(this).val();
+			screenOptions.save_screen_option(option, value);
+		});
+	},
+
+	save_screen_option : function (option, value) {
+		$.post(ajaxurl, {
+			action: 'set-screen-option',
+			option: option,
+			value: value,
+			screenoptionnonce: $('#screenoptionnonce').val(),
+			page: pagenow
+		});
+	}
+}
+
+$(document).ready(function(){screenOptions.init();});
+
 })(jQuery);
 
 // stub for doing better warnings

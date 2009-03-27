@@ -815,7 +815,10 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
-	$posts_per_page = apply_filters('edit_posts_per_page', 15);
+	$posts_per_page = get_user_option('edit_per_page');
+	if ( empty($posts_per_page) )
+		$posts_per_page = 15;
+	$posts_per_page = apply_filters('edit_posts_per_page', $posts_per_page);
 
 	wp("post_type=post&what_to_show=posts$post_status_q&posts_per_page=$posts_per_page&order=$order&orderby=$orderby");
 
@@ -853,7 +856,10 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['cat'] = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$q['post_type'] = 'attachment';
 	$q['post_status'] = 'any';
-	$q['posts_per_page'] = 15;
+	$media_per_page = get_user_option('upload_per_page');
+	if ( empty($media_per_page) )
+		$media_per_page = 20;
+	$q['posts_per_page'] = $media_per_page;
 	$post_mime_types = array(	//	array( adj, noun )
 				'image' => array(__('Images'), __('Manage Images'), _n_noop('Image <span class="count">(%s)</span>', 'Images <span class="count">(%s)</span>')),
 				'audio' => array(__('Audio'), __('Manage Audio'), _n_noop('Audio <span class="count">(%s)</span>', 'Audio <span class="count">(%s)</span>')),
