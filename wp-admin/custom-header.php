@@ -79,7 +79,7 @@ class Custom_Image_Header {
 		if ( 1 == $step )
 			wp_enqueue_script('farbtastic');
 		elseif ( 2 == $step )
-			wp_enqueue_script('cropper');
+			wp_enqueue_script('jcrop');
 	}
 
 	/**
@@ -90,9 +90,10 @@ class Custom_Image_Header {
 	function css_includes() {
 		$step = $this->step();
 
-		if ( 1 == $step ) {
+		if ( 1 == $step )
 			wp_enqueue_style('farbtastic');
-		}
+		elseif ( 2 == $step )
+			wp_enqueue_style('jcrop');
 	}
 
 	/**
@@ -215,13 +216,13 @@ class Custom_Image_Header {
 	 */
 	function js_2() { ?>
 <script type="text/javascript">
-	function onEndCrop( coords, dimensions ) {
-		jQuery( '#x1' ).val(coords.x1);
-		jQuery( '#y1' ).val(coords.y1);
+	function onEndCrop( coords ) {
+		jQuery( '#x1' ).val(coords.x);
+		jQuery( '#y1' ).val(coords.y);
 		jQuery( '#x2' ).val(coords.x2);
 		jQuery( '#y2' ).val(coords.y2);
-		jQuery( '#width' ).val(dimensions.width);
-		jQuery( '#height' ).val(dimensions.height);
+		jQuery( '#width' ).val(coords.w);
+		jQuery( '#height' ).val(coords.h);
 	}
 
 	// with a supplied ratio
@@ -240,14 +241,12 @@ class Custom_Image_Header {
 				yinit = xinit / ratio;
 			}
 		}
-		new Cropper.Img(
-			'upload',
-			{
-				ratioDim: { x: xinit, y: yinit },
-				displayOnInit: true,
-				onEndCrop: onEndCrop
-			}
-		)
+
+		$('#upload').Jcrop({
+			aspectRatio: ratio,
+			setSelect: [ 0, 0, xinit, yinit ],
+			onSelect: onEndCrop
+		});
 	});
 </script>
 <?php
