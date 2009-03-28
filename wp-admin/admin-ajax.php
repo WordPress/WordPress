@@ -564,7 +564,7 @@ case 'add-tag' : // From Manage->Tags
 	$x->send();
 	break;
 case 'get-tagcloud' :
-	if ( !current_user_can( 'manage_categories' ) )
+	if ( !current_user_can( 'edit_posts' ) )
 		die('-1');
 
 	if ( isset($_POST['tax']) )

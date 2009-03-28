@@ -91,18 +91,26 @@ var postboxes;
 				forcePlaceholderSize: true,
 				helper: 'clone',
 				opacity: 0.65,
-				/*
 				start: function(e,ui) {
+					$('body').css({
+						WebkitUserSelect: 'none',
+						KhtmlUserSelect: 'none'
+					});
+					/*
 					if ( $.browser.msie )
 						return;
 					ui.item.addClass('noclick');
+					*/
 				},
-				*/
 				stop: function(e,ui) {
 					postboxes.save_order(page);
 					ui.item.parent().removeClass('temp-border');
+					$('body').css({
+						WebkitUserSelect: '',
+						KhtmlUserSelect: ''
+					});
 				}
-			}).disableSelection();
+			});
 		},
 
 		save_state : function(page) {
