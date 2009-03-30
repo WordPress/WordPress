@@ -35,6 +35,7 @@ function do_plugin_upgrade($plugin) {
 	}
 
 	echo '<div class="wrap">';
+	echo screen_icon();
 	echo '<h2>' . __('Upgrade Plugin') . '</h2>';
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
@@ -94,6 +95,7 @@ function do_theme_upgrade($theme) {
 	}
 
 	echo '<div class="wrap">';
+	echo screen_icon();
 	echo '<h2>' . __('Upgrade Theme') . '</h2>';
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
