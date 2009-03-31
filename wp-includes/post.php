@@ -1159,14 +1159,16 @@ function wp_delete_post($postid = 0) {
 	foreach ( $revision_ids as $revision_id )
 		wp_delete_post_revision( $revision_id );
 
+	do_action('deleted_post', $postid);
+
 	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
-
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d", $postid ));
+
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
 
 	if ( 'page' == $post->post_type ) {
 		clean_page_cache($postid);
@@ -1178,8 +1180,6 @@ function wp_delete_post($postid = 0) {
 	} else {
 		clean_post_cache($postid);
 	}
-
-	do_action('deleted_post', $postid);
 
 	return $post;
 }
@@ -2516,11 +2516,11 @@ function wp_delete_attachment($postid) {
 	/** @todo Delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
-
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d ", $postid ));
+
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
 
 	$uploadPath = wp_upload_dir();
 

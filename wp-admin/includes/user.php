@@ -431,8 +431,8 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	// FINALLY, delete user
 	do_action('delete_user', $id);
 
-	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
+	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
 
 	$user = new WP_User($id);
 
