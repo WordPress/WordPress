@@ -1159,8 +1159,6 @@ function wp_delete_post($postid = 0) {
 	foreach ( $revision_ids as $revision_id )
 		wp_delete_post_revision( $revision_id );
 
-	do_action('deleted_post', $postid);
-
 	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
@@ -1180,6 +1178,8 @@ function wp_delete_post($postid = 0) {
 	} else {
 		clean_post_cache($postid);
 	}
+
+	do_action('deleted_post', $postid);
 
 	return $post;
 }
