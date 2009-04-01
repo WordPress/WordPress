@@ -13,20 +13,6 @@ header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('b
 if ( ! current_user_can('edit_posts') ) wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 /**
- * Replace forward slash with backslash and slash.
- *
- * @package WordPress
- * @subpackage Press_This
- * @since 2.6.0
- *
- * @param string $string
- * @return string
- */
-function preg_quote2($string) {
-	return str_replace('/', '\/', preg_quote($string));
-}
-
-/**
  * Convert characters.
  *
  * @package WordPress
@@ -71,7 +57,7 @@ function press_it() {
 				$upload = media_sideload_image($image, $post_ID, $_REQUEST['photo_description'][$key]);
 				
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote2($image).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
+				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote($image, '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
 
 	// set the post_content and status
