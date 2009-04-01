@@ -77,7 +77,7 @@ if ( ! $is_opera ) {
 } ?>
 </div>
 
-<?php if ( current_user_can('publish_posts') ) : ?>
+<?php if ( current_user_can('edit_posts') ) : ?>
 <div class="tool-box">
 	<h3 class="title"><?php _e('Press This') ?></h3>
 	<p><?php _e('Press This is a bookmarklet: a little app that runs in your browser and lets you grab bits of the web.');?></p>

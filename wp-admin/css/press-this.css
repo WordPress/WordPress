@@ -16,6 +16,10 @@ img {
 	background: #444 !important;
 }
 
+.tagchecklist span a {
+background: transparent url(../images/xit.gif) no-repeat 0 0;
+}
+
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML {
 	-moz-border-radius: 3px 3px 0 0;
