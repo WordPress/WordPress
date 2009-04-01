@@ -2282,9 +2282,11 @@ function wp_explain_nonce( $action ) {
 				return $trans[$verb][$noun][0];
 			}
 		}
-	}
 
-	return apply_filters( 'explain_nonce_' . $verb . '-' . $noun, __( 'Are you sure you want to do this?' ), $matches[4] );
+		return apply_filters( 'explain_nonce_' . $verb . '-' . $noun, __( 'Are you sure you want to do this?' ), $matches[4] );
+	} else {
+		return apply_filters( 'explain_nonce_' . $action, __( 'Are you sure you want to do this?' ) );
+	}
 }
 
 /**
