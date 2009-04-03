@@ -275,10 +275,10 @@ class Custom_Image_Header {
 </div>
 <?php if ( !defined( 'NO_HEADER_TEXT' ) ) { ?>
 <form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
-<input type="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
-<input type="button" value="<?php _e('Select a Text Color'); ?>" id="pickcolor" /><input type="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
+<input type="button" class="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
+<input type="button" class="button" value="<?php _e('Select a Text Color'); ?>" id="pickcolor" /><input type="button" class="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
 <?php wp_nonce_field('custom-header') ?>
-<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" value="<?php _e('Save Changes'); ?>" /></form>
+<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" class="button" value="<?php _e('Save Changes'); ?>" /></form>
 <?php } ?>
 
 <div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;display:none;"> </div>
@@ -304,7 +304,7 @@ class Custom_Image_Header {
 <p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo attribute_escape(add_query_arg('step', 1)) ?>">
 <?php wp_nonce_field('custom-header'); ?>
-<input type="submit" name="resetheader" value="<?php _e('Restore Original Header'); ?>" />
+<input type="submit" class="button" name="resetheader" value="<?php _e('Restore Original Header'); ?>" />
 </form>
 </div>
 		<?php endif;
