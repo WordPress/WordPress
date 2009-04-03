@@ -662,6 +662,10 @@ function delete_transient($transient) {
 function get_transient($transient) {
 	global $_wp_using_ext_object_cache, $wpdb;
 
+	$pre = apply_filters( 'pre_transient_' . $transient, false );
+	if ( false !== $pre )
+		return $pre;
+
 	if ( $_wp_using_ext_object_cache ) {
 		$value = wp_cache_get($transient, 'transient');
 	} else {
