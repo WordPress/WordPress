@@ -27,7 +27,7 @@
 
  * }}}
  */
-
+(function($) {
 $.Jcrop = function(obj,opt)
 {
 	// Initialization {{{
@@ -1080,5 +1080,5 @@ $.fn.Jcrop = function(options)/*{{{*/
 	// Return "this" so we're chainable a la jQuery plugin-style!
 	return this;
 };
+})(jQuery);
 /*}}}*/
-

@@ -242,7 +242,7 @@ class Custom_Image_Header {
 			}
 		}
 
-		$('#upload').Jcrop({
+		jQuery('#upload').Jcrop({
 			aspectRatio: ratio,
 			setSelect: [ 0, 0, xinit, yinit ],
 			onSelect: onEndCrop
