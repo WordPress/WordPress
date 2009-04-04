@@ -57,6 +57,8 @@ do_action("admin_print_scripts-$hook_suffix");
 do_action('admin_print_scripts');
 do_action("admin_head-$hook_suffix");
 do_action('admin_head');
+
+$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
 
 <noscript>
@@ -78,7 +80,7 @@ do_action('admin_head');
 <style type="text/css">.row-actions{visibility:visible;}</style>
 <?php } ?>
 </head>
-<body class="wp-admin <?php echo apply_filters( 'admin_body_class', preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix) ); ?>">
+<body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 
 <div id="wpwrap">
 <div id="wpcontent">
