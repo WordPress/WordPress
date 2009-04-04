@@ -185,8 +185,9 @@ table {
 }
 
 .hidden,
-.closed .inside,
-.hide-if-js {
+.js .closed .inside,
+.js .hide-if-js,
+.no-js .hide-if-no-js {
 	display: none;
 }
 

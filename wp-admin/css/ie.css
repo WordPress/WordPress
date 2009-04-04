@@ -42,7 +42,7 @@ input.button-highlighted {
 	margin-left: -80px;
 }
 
-* html div.folded #adminmenu {
+* html .folded #adminmenu {
 	margin-left: -22px;
 }
 
@@ -56,8 +56,9 @@ input.button-highlighted {
 	margin: 0;
 }
 
-#wpcontent.folded #adminmenu li.menu-top {
+.folded #adminmenu li.menu-top {
 	display: block;
+	zoom: 100%;
 }
 
 ul#adminmenu {
@@ -100,7 +101,7 @@ ul#adminmenu {
 	zoom: 100%;
 }
 
-#wpcontent.folded #adminmenu li.wp-menu-separator {
+.folded #adminmenu li.wp-menu-separator {
 	width: 28px;
 }
 
@@ -109,7 +110,7 @@ ul#adminmenu {
 	zoom: 100%;
 }
 
-#wpcontent.folded #adminmenu .menu-top {
+.folded #adminmenu .menu-top {
 	height: 30px;
 }
 

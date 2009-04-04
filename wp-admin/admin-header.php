@@ -59,28 +59,24 @@ do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
-?>
 
-<noscript>
-<style type="text/css">
-.hide-if-no-js{display:none}
-.hide-if-js,.closed .inside{display:block}
-</style>
-</noscript>
-<script type="text/javascript">
-//<![CDATA[
-(function(){
-	var ns = document.getElementsByTagName('noscript');
-	if ( ns && (ns = ns[0]) ) ns.parentNode.removeChild(ns);
-})();
-//]]>
-</script>
-
-<?php if ( $is_iphone ) { ?>
+if ( $is_iphone ) { ?>
 <style type="text/css">.row-actions{visibility:visible;}</style>
 <?php } ?>
 </head>
-<body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
+<body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
+<script type="text/javascript">
+//<![CDATA[
+(function(){
+var c = document.body.className;
+c = c.replace(/no-js/, 'js');
+<?php if ( get_user_setting('mfold') == 'f' ) { ?>
+c += ' folded';
+<?php } ?>
+document.body.className = c;
+})();
+//]]>
+</script>
 
 <div id="wpwrap">
 <div id="wpcontent">
@@ -117,10 +113,6 @@ if ( function_exists('mb_strlen') ) {
 <?php favorite_actions(); ?>
 </div>
 </div>
-
-<?php if ( get_user_setting('mfold') == 'f' ) { ?>
-<script type="text/javascript">jQuery('#wpcontent').addClass('folded');</script>
-<?php } ?>
 
 <div id="wpbody">
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>

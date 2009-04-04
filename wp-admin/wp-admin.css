@@ -871,7 +871,8 @@ div.comment-item:hover .row-actions {
 	display: none;
 }
 
-#adminmenu li.wp-menu-open .wp-submenu {
+#adminmenu li.wp-menu-open .wp-submenu,
+.no-js #adminmenu .open-if-no-js .wp-submenu {
 	display: block;
 }
 

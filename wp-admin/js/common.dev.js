@@ -14,7 +14,7 @@ adminMenu = {
 		this.favorites();
 
 		$('.wp-menu-separator').click(function(){
-			if ( $('#wpcontent').hasClass('folded') ) {
+			if ( $('body').hasClass('folded') ) {
 				adminMenu.fold(1);
 				setUserSetting( 'mfold', 'o' );
 			} else {
@@ -54,10 +54,10 @@ adminMenu = {
 
 	fold : function(off) {
 		if (off) {
-			$('#wpcontent').removeClass('folded');
+			$('body').removeClass('folded');
 			$('#adminmenu li.wp-has-submenu').unbind();
 		} else {
-			$('#wpcontent').addClass('folded');
+			$('body').addClass('folded');
 			$('#adminmenu li.wp-has-submenu').hoverIntent({
 				over: function(e){
 					var m = $(this).find('.wp-submenu'), t = e.clientY, H = $(window).height(), h = m.height(), o;
@@ -119,13 +119,11 @@ $(document).ready(function(){columns.init();});
 screenOptions = {
 	init : function() {
 		$('.screen-option').change(function() {
-			var option = $(this).map(function() { return this.id; }).get();
-			var value = $(this).val();
+			var option = $(this).map(function() { return this.id; }).get(), value = $(this).val();
 			screenOptions.save_screen_option(option, value);
 		});
 		$('.screen-option').submit(function() {
-			var option = $(this).map(function() { return this.id; }).get();
-			var value = $(this).val();
+			var option = $(this).map(function() { return this.id; }).get(), value = $(this).val();
 			screenOptions.save_screen_option(option, value);
 		});
 	},
