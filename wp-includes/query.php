@@ -1398,8 +1398,10 @@ class WP_Query {
 
 			if ( empty($qv['taxonomy']) || empty($qv['term']) ) {
 				$this->is_tax = false;
-				foreach ( $GLOBALS['wp_taxonomies'] as $t ) {
+				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
 					if ( isset($t->query_var) && isset($qv[$t->query_var]) && '' != $qv[$t->query_var] ) {
+						$qv['taxonomy'] = $taxonomy;
+						$qv['term'] = $qv[$t->query_var];
 						$this->is_tax = true;
 						break;
 					}
