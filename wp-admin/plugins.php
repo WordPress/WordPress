@@ -9,16 +9,14 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$action = '';
-foreach( array('activate-selected', 'deactivate-selected', 'delete-selected', 'clear-recent-list') as $action_key ) {
-	if( isset($_POST[$action_key]) ) {
-		$action = $action_key;
-		break;
-	}
-}
-
-if( isset($_REQUEST['action']) && !empty($_REQUEST['action']) )
-	$action = $_REQUEST['action'];
+if ( isset($_POST['clear-recent-list']) )
+	$action = 'clear-recent-list';
+elseif ( isset($_GET['action']) )
+	$action = $_GET['action'];
+elseif ( isset($_POST['action']) )
+	$action = $_POST['action'];
+else
+	$action = false;
 
 $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 
@@ -127,7 +125,7 @@ if( !empty($action) ) {
 				<p><?php _e('Are you sure you wish to delete these files?') ?></p>
 				<form method="post" action="<?php echo clean_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
 					<input type="hidden" name="verify-delete" value="1" />
-					<input type="hidden" name="delete-selected" value="1" />
+					<input type="hidden" name="action" value="delete-selected" />
 					<?php
 						foreach ( (array)$plugins as $plugin )
 							echo '<input type="hidden" name="checked[]" value="' . attribute_escape($plugin) . '" />';
