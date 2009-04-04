@@ -1411,7 +1411,6 @@ table.form-table td .updated {
 }
 
 #post-status-info {
-	font-size: 12px;
 	line-height: 2;
 	border-width: 0 1px 1px;
 	border-style: none solid solid;
@@ -1423,6 +1422,10 @@ table.form-table td .updated {
 	-khtml-border-bottom-right-radius: 6px;
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
+}
+
+#post-status-info td {
+	font-size: 11px;
 }
 
 .autosave-info {
@@ -1444,7 +1447,7 @@ table.form-table td .updated {
 	margin: 0 2px;
 	position: relative;
 	right: 0;
-	top: 31px;
+	top: 29px;
 }
 
 

@@ -303,11 +303,11 @@ wp_enqueue_style( 'wp-admin' );
 wp_enqueue_style( 'colors' );
 if ( 0 === strpos( $content_func, 'media' ) )
 	wp_enqueue_style( 'media' );
-
+wp_enqueue_style( 'ie' );
 ?>
 <script type="text/javascript">
 //<![CDATA[
-function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}else{ var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}}
+addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
 //]]>
 </script>
@@ -325,6 +325,7 @@ if ( is_string($content_func) )
 	$args = array_slice($args, 1);
 	call_user_func_array($content_func, $args);
 ?>
+<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>
 </html>
 <?php
@@ -1268,12 +1269,14 @@ function media_upload_form( $errors = null ) {
 
 ?>
 <script type="text/javascript">
-//<!--
+//<![CDATA[
+var uploaderMode = 0;
 jQuery(document).ready(function($){
-	$('.upload-html-bypass a').click(function(){deleteUserSetting('uploader');swfuploadPreLoad(0);return false;});
-	$('.upload-flash-bypass a').click(function(){setUserSetting('uploader', '1');swfuploadPreLoad(1);return false;});
+	uploaderMode = getUserSetting('uploader');
+	$('.upload-html-bypass a').click(function(){deleteUserSetting('uploader');uploaderMode=0;swfuploadPreLoad();return false;});
+	$('.upload-flash-bypass a').click(function(){setUserSetting('uploader', '1');uploaderMode=1;swfuploadPreLoad();return false;});
 });
-//-->
+//]]>
 </script>
 <div id="media-upload-notice">
 <?php if (isset($errors['upload_notice']) ) { ?>
@@ -1290,7 +1293,7 @@ jQuery(document).ready(function($){
 
 <?php if ( $flash ) : ?>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 SWFUpload.onload = function() {
 	swfu = new SWFUpload({
 			button_text: '<span class="button"><?php _e('Select Files'); ?></span>',
@@ -1330,7 +1333,7 @@ SWFUpload.onload = function() {
 			debug: false
 		});
 };
-//-->
+//]]>
 </script>
 
 <div id="flash-upload-ui">

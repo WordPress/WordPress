@@ -206,20 +206,28 @@ function fileDialogComplete(num_files_queued) {
 	}
 }
 
-function swfuploadPreLoad(a) {
-	if ( typeof(a) == 'undefined' && typeof(getUserSetting) == 'function' )
-		a = getUserSetting('uploader');
+function switchUploader(s) {
+	var f = document.getElementById(swfu.customSettings.swfupload_element_id), h = document.getElementById(swfu.customSettings.degraded_element_id);
+	if ( s ) {
+		f.style.display = 'block';
+		h.style.display = 'none';
+	} else {
+		f.style.display = 'none';
+		h.style.display = 'block';
+	}
+}
 
-	if ( !a ) {
-		jQuery('#' + swfu.customSettings.swfupload_element_id).show();
-		jQuery('#' + swfu.customSettings.degraded_element_id).hide();
-	} else
-		swfuploadLoadFailed();
+function swfuploadPreLoad() {
+	if ( !uploaderMode ) {
+		switchUploader(1);
+	} else {
+		switchUploader(0);
+	}
 }
 
 function swfuploadLoadFailed() {
-	jQuery('#' + swfu.customSettings.swfupload_element_id).hide();
-	jQuery('#' + swfu.customSettings.degraded_element_id).show();
+	switchUploader(0);
+	jQuery('.upload-html-bypass').hide();
 }
 
 function uploadError(fileObj, error_code, message) {

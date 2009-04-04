@@ -112,7 +112,6 @@ table {
 }
 
 /* inner 2 column liquid layout */
-
 .inner-sidebar {
 	float: right;
 	clear: right;
@@ -130,6 +129,13 @@ table {
 }
 
 .has-right-sidebar #post-body {
+	float: left;
+	clear: left;
+	width: 100%;
+	margin-right: -340px;
+}
+
+.has-right-sidebar #post-body-content {
 	margin-right: 300px;
 }
 

@@ -82,6 +82,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 </div>
 
 <div id="post-body">
+<div id="post-body-content">
 <div id="namediv" class="stuffbox">
 <h3><label for="name"><?php _e( 'Author' ) ?></label></h3>
 <div class="inside">
@@ -133,6 +134,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <?php wp_original_referer_field(true, 'previous'); ?>
 <input type="hidden" name="noredir" value="1" />
 
+</div>
 </div>
 </div>
 </div>

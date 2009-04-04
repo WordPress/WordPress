@@ -439,6 +439,7 @@ $side_meta_boxes = do_meta_boxes('page', 'side', $post);
 </div>
 
 <div id="post-body">
+<div id="post-body-content">
 <div id="titlediv">
 <div id="titlewrap">
   <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
@@ -489,6 +490,7 @@ do_meta_boxes('page', 'advanced', $post);
 
 ?>
 
+</div>
 </div>
 </div>
 

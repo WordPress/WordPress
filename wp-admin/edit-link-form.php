@@ -370,6 +370,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 </div>
 
 <div id="post-body">
+<div id="post-body-content">
 <div id="namediv" class="stuffbox">
 <h3><label for="link_name"><?php _e('Name') ?></label></h3>
 <div class="inside">
@@ -409,6 +410,7 @@ if ( $link_id ) : ?>
 <input type="hidden" name="action" value="add" />
 <?php endif; ?>
 
+</div>
 </div>
 </div>
 
