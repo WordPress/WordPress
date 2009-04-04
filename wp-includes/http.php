@@ -506,8 +506,8 @@ class WP_Http {
 	 *
 	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL in your wp-config.php file
 	 * and this will only allow localhost and your blog to make requests. The constant
-	 * WP_ACCESSABLE_HOSTS will allow additional hosts to go through for requests. The format of the 
-	 * WP_ACCESSABLE_HOSTS constant is a comma separated list of hostnames to allow.
+	 * WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the
+	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow.
 	 *
 	 * @since 2.8.0
 	 * @link http://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
@@ -540,14 +540,14 @@ class WP_Http {
 		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] )
 			return apply_filters('block_local_requests', false);
 
-		if ( !defined('WP_ACCESSABLE_HOSTS') )
+		if ( !defined('WP_ACCESSIBLE_HOSTS') )
 			return true;
 
-		static $accessable_hosts;
-		if ( null == $accessable_hosts )
-			$accessable_hosts = preg_split('|,\s*|', WP_ACCESSABLE_HOSTS);
+		static $accessible_hosts;
+		if ( null == $accessible_hosts )
+			$accessible_hosts = preg_split('|,\s*|', WP_ACCESSIBLE_HOSTS);
 
-		return !in_array( $check['host'], $accessable_hosts ); //Inverse logic, If its in the array, then we can't access it.
+		return !in_array( $check['host'], $accessible_hosts ); //Inverse logic, If its in the array, then we can't access it.
 	}
 }
 
@@ -1248,7 +1248,7 @@ class WP_Http_Curl {
 				curl_setopt( $handle, CURLOPT_PROXYUSERPWD, $proxy->authentication() );
 			}
 		}
-		
+
 		$is_local = isset($args['local']) && $args['local'];
 		$ssl_verify = isset($args['sslverify']) && $args['sslverify'];
 		if ( $is_local )
@@ -1522,11 +1522,11 @@ class WP_HTTP_Proxy {
 
 		if ( !defined('WP_PROXY_BYPASS_HOSTS') )
 			return true;
-		
+
 		static $bypass_hosts;
 		if ( null == $bypass_hosts )
 			$bypass_hosts = preg_split('|,\s*|', WP_PROXY_BYPASS_HOSTS);
-		
+
 		return !in_array( $check['host'], $bypass_hosts );
 	}
 }
