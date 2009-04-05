@@ -108,7 +108,7 @@ columns = {
 		$.post(ajaxurl, {
 			action: 'hidden-columns',
 			hidden: hidden,
-			hiddencolumnsnonce: $('#hiddencolumnsnonce').val(),
+			screenoptionnonce: $('#screenoptionnonce').val(),
 			page: pagenow
 		});
 	}
@@ -118,13 +118,16 @@ $(document).ready(function(){columns.init();});
 
 screenOptions = {
 	init : function() {
-		$('.screen-option').change(function() {
-			var option = $(this).map(function() { return this.id; }).get(), value = $(this).val();
+		$('.screen-per-page').change(function() {
+			var option = this.id, value = parseInt($(this).val());
+			if ( isNaN(value) ) {
+				$(this).val('');
+				return;
+			}
 			screenOptions.save_screen_option(option, value);
-		});
-		$('.screen-option').submit(function() {
-			var option = $(this).map(function() { return this.id; }).get(), value = $(this).val();
-			screenOptions.save_screen_option(option, value);
+		}).parents('form').submit(function(e) {
+			e.preventDefault();
+			return false;
 		});
 	},
 

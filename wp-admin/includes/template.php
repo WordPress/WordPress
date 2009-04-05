@@ -3378,13 +3378,13 @@ function screen_meta($screen) {
 <?php
 	if ( !meta_box_prefs($screen) && isset($column_screens) ) {
 		manage_columns_prefs($screen);
-		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false );
 	}
 ?>
 	<br class="clear" />
 	</div>
 <?php echo screen_layout($screen); ?>
 <?php echo screen_options($screen); ?>
+<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
 </form>
 </div>
 
@@ -3523,14 +3523,15 @@ function screen_options($screen) {
 			return '';
 	}
 
-	$per_page = get_user_option("${screen}_per_page");
+	$option = str_replace('-', '_', "${screen}_per_page");
+	$per_page = get_user_option($option);
 	if ( empty($per_page) )
 		$per_page = 20;
 
 	$return = '<h5>' . __('Options') . "</h5>\n";
 	$return .= "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
-		$return .=  "<label for='${screen}-per-page'>$per_page_label</label> <input type='text' class='screen-option small-text' name='${screen}_per_page' id='${screen}-per-page' value='$per_page' />\n";
+		$return .=  "<label for='$option'>$per_page_label</label> <input type='text' class='screen-per-page' name='$option' id='$option' maxlength='3' value='$per_page' />\n";
 	$return .= "</div>\n";
 	return $return;
 }

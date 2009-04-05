@@ -987,7 +987,7 @@ case 'closed-postboxes' :
 	die('1');
 	break;
 case 'hidden-columns' :
-	check_ajax_referer( 'hiddencolumns', 'hiddencolumnsnonce' );
+	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 	$hidden = isset( $_POST['hidden'] ) ? $_POST['hidden'] : '';
 	$hidden = explode( ',', $_POST['hidden'] );
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
@@ -1024,6 +1024,7 @@ case 'meta-box-order':
 	die('1');
 	break;
 case 'set-screen-option':
+	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 	if ( ! $user = wp_get_current_user() )
 		die(-1);
 	$option = $_POST['option'];
@@ -1040,6 +1041,8 @@ case 'set-screen-option':
 		case 'edit_comments_per_page':
 		case 'upload_per_page':
 			$value = (int) $value;
+			if ( $value < 1 || $value > 999 )
+				die(-1);
 			break;
 		default:
 			$value = apply_filters('set-screen-option', false, $option, $value);

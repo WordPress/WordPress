@@ -1943,10 +1943,15 @@ p.search-box {
 	margin: -5px 0 0;
 }
 
-.search-input {
+.search-input,
+.screen-per-page {
 	border-width: 1px;
 	border-style: solid;
 	padding: 2px;
+}
+
+.screen-per-page {
+	width: 3em;
 }
 
 #posts-filter fieldset {
