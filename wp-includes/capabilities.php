@@ -905,7 +905,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$caps[] = $cap;
 	}
 
-	return $caps;
+	return apply_filters('map_meta_cap', $caps, $cap, $user_id, $args);
 }
 
 /**
