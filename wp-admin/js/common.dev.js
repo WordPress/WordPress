@@ -119,7 +119,7 @@ $(document).ready(function(){columns.init();});
 screenOptions = {
 	init : function() {
 		$('.screen-per-page').change(function() {
-			var option = this.id, value = parseInt($(this).val());
+			var option = this.id, value = parseInt($(this).val(), 10);
 			if ( isNaN(value) ) {
 				$(this).val('');
 				return;
