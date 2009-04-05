@@ -1,8 +1,8 @@
 <?php
 
 /** Set ABSPATH for execution */
-define( 'ABSPATH', dirname(dirname(__FILE__)) );
-define( 'WPINC', '/wp-includes' );
+define( 'ABSPATH', dirname(dirname(__FILE__)) . '/' );
+define( 'WPINC', 'wp-includes' );
 
 /**
  * @ignore
@@ -97,8 +97,8 @@ $load = explode(',', $load);
 if ( empty($load) )
 	exit;
 
-require(ABSPATH . '/wp-includes/script-loader.php');
-require(ABSPATH . '/wp-includes/version.php');
+require(ABSPATH . WPINC . '/script-loader.php');
+require(ABSPATH . WPINC . '/version.php');
 
 $compress = ( isset($_GET['c']) && $_GET['c'] );
 $force_gzip = ( $compress && 'gzip' == $_GET['c'] );

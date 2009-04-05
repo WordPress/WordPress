@@ -7,8 +7,8 @@
  */
 
 /** Set ABSPATH for execution */
-define( 'ABSPATH', dirname(dirname(__FILE__)) );
-define( 'WPINC', '/wp-includes' );
+define( 'ABSPATH', dirname(dirname(__FILE__)) . '/' );
+define( 'WPINC', 'wp-includes' );
 
 /**
  * @ignore
