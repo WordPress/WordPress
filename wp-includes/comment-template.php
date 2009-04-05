@@ -292,7 +292,8 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	// If the comment author has an id (registered), then print the log in name
 	if ( $comment->user_id > 0 && $user = get_userdata($comment->user_id) ) {
 		// For all registered users, 'byuser'
-		$classes[] = 'byuser comment-author-' . $user->user_nicename;
+		$classes[] = 'byuser';
+		$classes[] = 'comment-author-' . $user->user_nicename;
 		// For comment authors who are the author of the post
 		if ( $post = get_post($post_id) ) {
 			if ( $comment->user_id === $post->post_author )
