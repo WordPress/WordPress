@@ -174,7 +174,7 @@ jQuery(document).ready( function($) {
 
 	// show warnings
 	$('#doaction, #doaction2').click(function(){
-		if ( $('select[name^="action"]').val() == 'delete' ) {
+		if ( $('select[name="action"]').val() == 'delete' || $('select[name="action2"]').val() == 'delete' ) {
 			return showNotice.warn();
 		}
 	});
