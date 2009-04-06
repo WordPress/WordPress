@@ -292,7 +292,7 @@ else
 (function($){
 	$(document).ready(function(){
 		$('#doaction, #doaction2').click(function(){
-			if ( $('select[name^="action"]').val() == 'delete' ) {
+			if ( $('select[name="action"]').val() == 'delete' || $('select[name="action2"]').val() == 'delete' ) {
 				var m = '<?php echo js_escape(__("You are about to delete the selected tags.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
 				return showNotice.warn(m);
 			}
