@@ -384,7 +384,8 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'error404';
 
 	if ( is_single() ) {
-		the_post();
+		$wp_query->post = $wp_query->posts[0];
+		setup_postdata($wp_query->post);
 
 		$postID = $wp_query->post->ID;
 		$classes[] = 'single postid-' . $postID;
@@ -394,8 +395,6 @@ function get_body_class( $class = '' ) {
 			$mime_prefix = array( 'application/', 'image/', 'text/', 'audio/', 'video/', 'music/' );
 			$classes[] = 'attachmentid-' . $postID . ' attachment-' . str_replace( $mime_prefix, "", "$mime_type" );
 		}
-
-		rewind_posts();
 	} elseif ( is_archive() ) {
 		if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
@@ -411,8 +410,9 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'tag-' . $tags->slug;
 		}
 	} elseif ( is_page() ) {
-		the_post();
-
+		$wp_query->post = $wp_query->posts[0];
+		setup_postdata($wp_query->post);
+		
 		$pageID = $wp_query->post->ID;
 		$page_children = wp_list_pages("child_of=$pageID&echo=0");
 
@@ -424,17 +424,11 @@ function get_body_class( $class = '' ) {
 
 		if ( is_page_template() )
 			$classes[] = 'page-template page-template-' . str_replace( '.php', '-php', get_post_meta( $pageID, '_wp_page_template', true ) );
-
-		rewind_posts();
 	} elseif ( is_search() ) {
-		the_post();
-
-		if ( have_posts() )
+		if ( !empty($wp_query->posts) )
 			$classes[] = 'search-results';
 		else
 			$classes[] = 'search-no-results';
-
-		rewind_posts();
 	}
 
 	if ( is_user_logged_in() )
