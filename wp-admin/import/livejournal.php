@@ -361,7 +361,7 @@ class LJ_API_Import {
 		$post_content = substr( $post_content, 0, $first + 1 ) . preg_replace( '|<!--more(.*)?-->|sUi', '', substr( $post_content, $first + 1 ) );
 		// lj-user ==>  a href
 		$post_content = $this->translate_lj_user( $post_content );
-		$post_content = force_balance_tags( $post_content );
+		//$post_content = force_balance_tags( $post_content );
 		$post_content = $wpdb->escape( $post_content );
 
 		// Handle any tags associated with the post
