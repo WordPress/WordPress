@@ -18,6 +18,9 @@ wp_admin_css( 'theme-editor' );
 
 $plugins = get_plugins();
 
+if ( isset($_REQUEST['plugin']) )
+	$plugin = $_REQUEST['plugin'];
+
 if ( empty($plugin) ) {
 	$plugin = array_keys($plugins);
 	$plugin = $plugin[0];
@@ -25,13 +28,13 @@ if ( empty($plugin) ) {
 
 $plugin_files = get_plugin_files($plugin);
 
-if (empty($file))
+if ( empty($file) )
 	$file = $plugin_files[0];
 
 $file = validate_file_to_edit($file, $plugin_files);
 $real_file = WP_PLUGIN_DIR . '/' . $file;
 
-switch($action) {
+switch ( $action ) {
 
 case 'update':
 
@@ -70,11 +73,11 @@ default:
 		check_admin_referer('edit-plugin-test_' . $file);
 
 		$error = validate_plugin($file);
-		if( is_wp_error($error) )
+		if ( is_wp_error($error) )
 			wp_die( $error );
 
 		if ( ! is_plugin_active($file) )
-			activate_plugin($file, "plugin-editor.php?file=$file&phperror=1");// we'll override this later if the plugin can be included without fatal error
+			activate_plugin($file, "plugin-editor.php?file=$file&phperror=1"); // we'll override this later if the plugin can be included without fatal error
 
 		wp_redirect("plugin-editor.php?file=$file&a=te");
 		exit;
@@ -86,8 +89,23 @@ default:
 
 	update_recently_edited(WP_PLUGIN_DIR . '/' . $file);
 
-	if ( ! is_file($real_file) )
-		$error = 1;
+	// List of allowable extensions
+	$editable_extensions = array('php', 'txt', 'text', 'js', 'css', 'html', 'htm', 'xml', 'inc', 'include');
+	$extra_extensions = apply_filters('editable_extensions', null);
+	if ( is_array($extra_extensions) )
+		$editable_extensions = array_merge($editable_extensions, $extra_extensions);
+
+	if ( ! is_file($real_file) ) {
+		$error = __('No such file exists! Double check the name and try again.');
+	} else {
+		// Get the extension of the file
+		if ( preg_match('/\.([^.]+)$/', $real_file, $matches) ) {
+			$ext = strtolower($matches[1]);
+			// If extension is not in the acceptable list, skip it
+			if ( !in_array( $ext, $editable_extensions) )
+				$error = __('Files of this type are not editable.');
+		}
+	}
 
 	if ( ! $error ) {
 		$content = file_get_contents( $real_file );
@@ -98,7 +116,7 @@ default:
 			$docs_select = '<select name="docs-list" id="docs-list">';
 			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
 			foreach ( $functions as $function) {
-				$docs_select .= '<option value="' . urlencode( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+				$docs_select .= '<option value="' . attribute_escape( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}
 			$docs_select .= '</select>';
 		}
@@ -126,13 +144,16 @@ default:
 		<strong><label for="theme"><?php _e('Select plugin to edit:'); ?> </label></strong>
 		<select name="plugin" id="plugin">
 <?php
-	foreach ($plugins as $plugin_key => $a_plugin) {
-	$plugin_name = $a_plugin['Name'];
-	if ($plugin_key == $plugin) $selected = " selected='selected'";
-	else $selected = '';
-	$plugin_name = attribute_escape($plugin_name);
-	echo "\n\t<option value=\"$plugin_key\" $selected>$plugin_name</option>";
-}
+	foreach ( $plugins as $plugin_key => $a_plugin ) {
+		$plugin_name = $a_plugin['Name'];
+		if ( $plugin_key == $plugin )
+			$selected = " selected='selected'";
+		else
+			$selected = '';
+		$plugin_name = attribute_escape($plugin_name);
+		$plugin_key = attribute_escape($plugin_key);
+		echo "\n\t<option value=\"$plugin_key\" $selected>$plugin_name</option>";
+	}
 ?>
 		</select>
 		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" />
@@ -161,7 +182,19 @@ default:
 	<h3 id="bordertitle"><?php _e('Plugin Files'); ?></h3>
 
 	<ul>
-<?php foreach($plugin_files as $plugin_file) : ?>
+<?php
+foreach ( $plugin_files as $plugin_file ) :
+	// Get the extension of the file
+	if ( preg_match('/\.([^.]+)$/', $plugin_file, $matches) ) {
+		$ext = strtolower($matches[1]);
+		// If extension is not in the acceptable list, skip it
+		if ( !in_array( $ext, $editable_extensions ) )
+			continue;
+	} else {
+		// No extension found
+		continue;
+	}
+?>
 		<li<?php echo $file == $plugin_file ? ' class="highlight"' : ''; ?>><a href="plugin-editor.php?file=<?php echo $plugin_file; ?>&plugin=<?php echo $plugin; ?>"><?php echo $plugin_file ?></a></li>
 <?php endforeach; ?>
 	</ul>
@@ -175,7 +208,7 @@ default:
 		<input type="hidden" name="plugin" value="<?php echo $plugin ?>" />
 		</div>
 		<?php if ( count( $functions ) ) : ?>
-		<div id="documentation"><label for="docs-list">Documentation:</label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php _e( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
+		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php echo attribute_escape(__( 'Lookup' )) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array($file, (array) get_option('active_plugins')) ) { ?>
@@ -195,7 +228,7 @@ default:
  </form>
 <?php
 	} else {
-		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
+		echo '<div class="error"><p>' . $error . '</p></div>';
 	}
 ?>
 <div class="clear"> &nbsp; </div>
