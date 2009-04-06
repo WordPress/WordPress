@@ -151,8 +151,13 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 
     <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n($timezone_format, false, 'gmt')); ?></span>
 <?php if (get_option('timezone_string')) : ?>
-	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($timezone_format)); ?></span>
-	<br />
+	<span id="local-time"><?php printf(__('Local time is <code>%1$s</code>'), date_i18n($timezone_format)); ?></span>
+<?php endif; ?>
+<br/>
+<span class="setting-description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
+<br />
+<span>
+<?php if (get_option('timezone_string')) : ?>
 	<?php
 	$now = localtime(time(),true);
 	if ($now['tm_isdst']) _e('This timezone is currently in daylight savings time.');
@@ -172,12 +177,12 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 		if ( isset($found) && $found === true ) {
 			echo ' ';
 			$message = $tr['isdst'] ?
-				__('This timezone switches to daylight savings time on: %s.') :
-				__('This timezone switches to standard time on: %s.');
+				__('Daylight savings time begins on: <code>%s</code>.') :
+				__('Standard time begins  on: <code>%s</code>.');
 			$tz = new DateTimeZone($tzstring);
 			$d = new DateTime( "@{$tr['ts']}" );
 			$d->setTimezone($tz);
-			printf( $message, /* translators: next daylight savings change time format, see http://php.net/date */ date_i18n(_x('Y-m-d G:i:s T', 'next daylight savings change time format'), $d->format('U') ) );
+			printf( $message, date_i18n(get_option('date_format').' '.get_option('time_format'), $d->format('U') ) );
 		} else {
 			_e('This timezone does not observe daylight savings time.');
 		}
@@ -185,8 +190,6 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	?>
 	</span>
 <?php endif; ?>
-<br/>
-<span class="setting-description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
 </td>
 
 <?php endif; ?>
