@@ -117,6 +117,7 @@ table {
 	clear: right;
 	display: none;
 	width: 281px;
+	position: relative;
 }
 
 .inner-sidebar #side-sortables {

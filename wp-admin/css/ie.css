@@ -121,7 +121,8 @@ ul#adminmenu {
 #template,
 #template div,
 #editcat,
-#addcat {
+#addcat,
+* html .stuffbox h3 {
 	zoom: 100%;
 }
 

@@ -428,7 +428,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090405' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090404' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090407' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	$styles->add( 'colors', true, array(), '20090405' ); // Register "meta" stylesheet for admin colors
@@ -437,7 +437,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081210');
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090404' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090407' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090325' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20081210' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090305' );
