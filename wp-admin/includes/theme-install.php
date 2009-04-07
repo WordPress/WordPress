@@ -73,18 +73,17 @@ function themes_api($action, $args = null) {
  * @return array
  */
 function install_themes_feature_list( ) {
-	if ( !$cache = get_option( 'wporg_theme_feature_list' ) )
-		add_option( 'wporg_theme_feature_list', array( ), '', 'no' );
+	if ( !$cache = get_transient( 'wporg_theme_feature_list' ) )
+		set_transient( 'wporg_theme_feature_list', array( ),  10800);
 
-	if ( $cache && $cache->timeout +3 * 60 * 60 > time( ) )
-		return $cache->cached;
+	if ( $cache  )
+		return $cache;
 
 	$feature_list = themes_api( 'feature_list', array( ) );
 	if ( is_wp_error( $feature_list ) )
 		return $features;
 
-	$cache = (object) array( 'timeout' => time( ), 'cached' => $feature_list );
-	update_option( 'wporg_theme_feature_list', $cache );
+	set_transient( 'wporg_theme_feature_list', $feature_list, 10800 );
 
 	return $feature_list;
 }
