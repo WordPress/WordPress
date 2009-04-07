@@ -779,7 +779,7 @@ function get_the_tags( $id = 0 ) {
  * @return string
  */
 function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
-	return apply_filters( 'the_tags', get_the_term_list( 0, 'post_tag', $before, $sep, $after ) );
+	return apply_filters( 'the_tags', get_the_term_list( 0, 'post_tag', $before, $sep, $after ), $before, $sep, $after);
 }
 
 /**
@@ -792,8 +792,10 @@ function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
  * @param string $after Optional. After list.
  * @return string
  */
-function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
-	return the_terms( 0, 'post_tag', $before, $sep, $after );
+function the_tags( $before = null, $sep = ', ', $after = '' ) {
+	if ( null === $before )
+		$before = __('Tags: ');
+	echo get_the_tag_list($before, $sep, $after);
 }
 
 /**
