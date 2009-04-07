@@ -1582,7 +1582,8 @@ input[readonly] {
 	background-color: #eee;
 }
 
-p.popular-tags {
+.popular-tags,
+.feature-filter {
 	background-color: #FFFFFF;
 	border-color: #DFDFDF;
 }

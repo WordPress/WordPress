@@ -111,4 +111,33 @@ body#theme-information {
 	height: auto;
 }
 
+.feature-filter {
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 8px 12px 0;
+	margin-bottom: 10px;
+}
 
+.feature-filter .feature-group {
+	float: left;
+	margin-bottom: 20px;
+	width: 725px;
+}
+
+.feature-filter .feature-name {
+	float: left;
+	text-align: right;
+	width: 65px;
+}
+
+.feature-filter .feature-group li {
+	display: inline;
+	float: left;
+	list-style-type: none;
+	padding-right: 25px;
+	min-width: 145px;
+}

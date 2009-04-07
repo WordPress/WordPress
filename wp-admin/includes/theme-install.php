@@ -66,38 +66,32 @@ function themes_api($action, $args = null) {
 }
 
 /**
- * Retrieve popular WordPress theme tags.
+ * Retrive list of WordPress theme features (aka theme tags)
  *
  * @since 2.8.0
  *
- * @param array $args
  * @return array
  */
-function install_themes_popular_tags( $args = array() ) {
-	global $theme_field_defaults;
-	if ( !$cache = get_option('wporg_theme_popular_tags') )
-		add_option('wporg_theme_popular_tags', array(), '', 'no'); ///No autoload.
+function install_themes_feature_list( ) {
+	if ( !$cache = get_option( 'wporg_theme_feature_list' ) )
+		add_option( 'wporg_theme_feature_list', array( ), '', 'no' );
 
-	if ( $cache && $cache->timeout + 3 * 60 * 60 > time() )
+	if ( $cache && $cache->timeout +3 * 60 * 60 > time( ) )
 		return $cache->cached;
 
-	$args['fields'] = $theme_field_defaults;
+	$feature_list = themes_api( 'feature_list', array( ) );
+	if ( is_wp_error( $feature_list ) )
+		return $features;
 
-	$tags = themes_api('hot_tags', $args);
+	$cache = (object) array( 'timeout' => time( ), 'cached' => $feature_list );
+	update_option( 'wporg_theme_feature_list', $cache );
 
-	if ( is_wp_error($tags) )
-		return $tags;
-
-	$cache = (object) array('timeout' => time(), 'cached' => $tags);
-
-	update_option('wporg_theme_popular_tags', $cache);
-
-	return $tags;
+	return $feature_list;
 }
 
 add_action('install_themes_search', 'install_theme_search', 10, 1);
 /**
- * Display theme search results and display as tag cloud.
+ * Display theme search results
  *
  * @since 2.8.0
  *
@@ -127,6 +121,15 @@ function install_theme_search($page) {
 	$args['page'] = $page;
 	$args['fields'] = $theme_field_defaults;
 
+	if ( !empty( $_POST['features'] ) ) {
+		$terms = $_POST['features'];
+		$terms = array_map( 'trim', $terms );
+		$terms = array_map( 'sanitize_title_with_dashes', $terms );
+		$args['tag'] = $terms;
+		$_REQUEST['s'] = implode( ',', $terms );
+		$_REQUEST['type'] = 'tag';
+	}
+
 	$api = themes_api('query_themes', $args);
 
 	if ( is_wp_error($api) )
@@ -137,54 +140,70 @@ function install_theme_search($page) {
 	display_themes($api->themes, $api->info['page'], $api->info['pages']);
 }
 
-add_action('install_themes_dashboard', 'install_themes_dashboard');
-function install_themes_dashboard() {
-	?>
-<p class="install-help"><?php _e('Search for themes by keyword, author, or tag.') ?></p>
-
-	<?php install_theme_search_form(); ?>
-
-<h4><?php _e('Popular tags') ?></h4>
-<p class="install-help"><?php _e('You may also browse based on the most popular tags in the Theme Directory:') ?></p>
-	<?php
-
-	$api_tags = install_themes_popular_tags();
-
-	//Set up the tags in a way which can be interprated by wp_generate_tag_cloud()
-	$tags = array();
-	foreach ( (array)$api_tags as $tag ) {
-		$tags[ $tag['name'] ] = (object) array(
-								'link' => clean_url( admin_url('theme-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
-								'name' => $tag['name'],
-								'id' => sanitize_title_with_dashes($tag['name']),
-								'count' => $tag['count'] );
-	}
-	echo '<p class="popular-tags">';
-	echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d theme'), 'multiple_text' => __('%d themes') ) );
-	echo '</p><br class="clear" />';
-}
-
 /**
  * Display search form for searching themes.
  *
  * @since 2.8.0
  */
-function install_theme_search_form(){
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
-	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
-
+function install_theme_search_form() {
+	$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : '';
+	$term = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
 	?>
-<form id="search-themes" method="post"
-	action="<?php echo admin_url('theme-install.php?tab=search') ?>"><select
-	name="type" id="typeselector">
-	<option value="term" <?php selected('term', $type) ?>><?php _e('Term') ?></option>
-	<option value="author" <?php selected('author', $type) ?>><?php _e('Author') ?></option>
-	<option value="tag" <?php selected('tag', $type) ?>><?php _e('Tag') ?></option>
-</select> <input type="text" name="s" class="search-input"
-	value="<?php echo attribute_escape($term) ?>" /> <input type="submit"
-	name="search" value="<?php echo attribute_escape(__('Search')) ?>"
-	class="button" /></form>
+<p class="install-help"><?php _e('Search for themes by keyword, author, or tag.') ?></p>
+
+<form id="search-themes" method="post" action="<?php echo admin_url( 'theme-install.php?tab=search' ); ?>">
+	<select	name="type" id="typeselector">
+	<option value="term" <?php selected('term', $type) ?>><?php _e('Term'); ?></option>
+	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
+	<option value="tag" <?php selected('tag', $type) ?>><?php _e('Tag'); ?></option>
+	</select>
+	<input type="text" name="s" class="search-input" size="30" value="<?php echo attribute_escape($term) ?>" />
+	<input type="submit" name="search" value="<?php echo attribute_escape(__('Search')); ?>" class="button" />
+</form>
+<?php
+}
+
+add_action('install_themes_dashboard', 'install_themes_dashboard');
+/**
+ * Display tags filter for themes.
+ *
+ * @since 2.8.0
+ */
+function install_themes_dashboard() {
+	install_theme_search_form();
+?>
+<h4><?php _e('Feature Filter') ?></h4>
+<form method="post" action="<?php echo admin_url( 'theme-install.php?tab=search' ); ?>">
+<p class="install-help"><?php _e('Find a theme based on specific features') ?></p>
 	<?php
+	$feature_list = install_themes_feature_list( );
+	echo '<div class="feature-filter">';
+
+	foreach ( (array) $feature_list as $feature_name => $features ) {
+		$html_safe['feature_name'] = wp_specialchars( $feature_name );
+		echo '<div class="feature-name">' . $html_safe['feature_name'] . '</div>';
+
+		echo '<ol style="float: left; width: 725px;" class="feature-group">';
+		foreach ( $features as $feature ) {
+			$html_safe['feature'] = wp_specialchars( $feature );
+?>
+
+<li>
+	<input type="checkbox" name="features[<?php echo $html_safe['feature']; ?>]" id="feature-id-<?php echo $html_safe['feature']; ?>" value="<?php echo $html_safe['feature']; ?>">
+	<label for="feature-id-<?php echo $html_safe['feature']; ?>"><?php echo $html_safe['feature']; ?></label>
+</li>
+
+<?php	} ?>
+</ol>
+<br class="clear" />
+<?php
+	} ?>
+
+</div>
+<br class="clear" />
+<input type="submit" name="search" value="<?php echo attribute_escape(__('Find Themes')); ?>" class="button" />
+</form>
+<?php
 }
 
 add_action('install_themes_featured', 'install_themes_featured', 10, 1);
@@ -201,21 +220,6 @@ function install_themes_featured($page = 1) {
 	$api = themes_api('query_themes', $args);
 	if ( is_wp_error($api) )
 		wp_die($api);
-	display_themes($api->themes, $api->info['page'], $api->info['pages']);
-}
-
-add_action('install_thems_popular', 'install_themes_popular', 10, 1);
-/**
- * Display popular themes.
- *
- * @since 2.8.0
- *
- * @param string $page
- */
-function install_themes_popular($page = 1) {
-	global $theme_field_defaults;
-	$args = array('browse' => 'popular', 'page' => $page, 'fields' => $theme_field_defaults);
-	$api = themes_api('query_themes', $args);
 	display_themes($api->themes, $api->info['page'], $api->info['pages']);
 }
 
@@ -350,8 +354,7 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 	?>
 <div class="tablenav">
-<div class="alignleft actions"><?php do_action('install_themes_table_header'); ?>
-</div>
+<div class="alignleft actions"><?php do_action('install_themes_table_header'); ?></div>
 	<?php
 	$url = clean_url($_SERVER['REQUEST_URI']);
 	if ( ! empty($term) )
