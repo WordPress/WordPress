@@ -242,7 +242,7 @@ function get_user_option( $option, $user = 0, $check_blog_options = true ) {
  * Update user option with global blog capability.
  *
  * User options are just like user metadata except that they have support for
- * global blog options. If the 'global' parameter is false, which it is by false
+ * global blog options. If the 'global' parameter is false, which it is by default
  * it will prepend the WordPress table prefix to the option name.
  *
  * @since 2.0.0
