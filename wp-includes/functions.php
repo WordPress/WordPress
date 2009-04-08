@@ -96,7 +96,11 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 		// specially computed timestamp
 		$gmt = true;
 	}
-
+	
+	// store original value for language with untypical grammars
+	// see http://core.trac.wordpress.org/ticket/9396
+	$req_format = $dateformatstring;
+	
 	$datefunc = $gmt? 'gmdate' : 'date';
 
 	if ( ( !empty( $wp_locale->month ) ) && ( !empty( $wp_locale->weekday ) ) ) {
@@ -117,6 +121,8 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 		$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
 	}
 	$j = @$datefunc( $dateformatstring, $i );
+	// allow plugins to redo this entirely for languages with untypical grammars
+	$j = apply_filters('date_i18n', $j, $req_format, $unixtimestamp, $gmt);
 	return $j;
 }
 
