@@ -62,14 +62,14 @@ class WP_Styles extends WP_Dependencies {
 			$end_cond = "<![endif]-->\n";
 		}
 
-		$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$href' type='text/css' media='$media' />\n", $handle );
+		$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle );
 		if ( 'rtl' === $this->text_direction && isset($this->registered[$handle]->extra['rtl']) && $this->registered[$handle]->extra['rtl'] ) {
 			if ( is_bool( $this->registered[$handle]->extra['rtl'] ) )
 				$rtl_href = str_replace( '.css', '-rtl.css', $href );
 			else
 				$rtl_href = $this->_css_href( $this->registered[$handle]->extra['rtl'], $ver, "$handle-rtl" );
 
-			$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
+			$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
 		}
 
 		$tag .= $end_cond;
