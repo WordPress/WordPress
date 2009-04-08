@@ -411,6 +411,9 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
 	$id = (int) $id;
+	
+	// allow for transaction statement
+	do_action('delete_user', $id);
 
 	if ($reassign == 'novalue') {
 		$post_ids = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id) );
@@ -429,7 +432,6 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	}
 
 	// FINALLY, delete user
-	do_action('delete_user', $id);
 
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
@@ -439,6 +441,9 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
 	wp_cache_delete($user->user_email, 'useremail');
+	
+	// allow for commit transaction
+	do_action('deleted_user', $id);
 
 	return true;
 }
