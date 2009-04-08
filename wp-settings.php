@@ -512,16 +512,22 @@ if ( get_option('hack_file') ) {
 		require(ABSPATH . 'my-hacks.php');
 }
 
-if ( get_option('active_plugins') && !defined('WP_INSTALLING') ) {
-	$current_plugins = get_option('active_plugins');
-	if ( is_array($current_plugins) ) {
-		foreach ( $current_plugins as $plugin ) {
-			if ( '' != $plugin && 0 == validate_file($plugin) && file_exists(WP_PLUGIN_DIR . '/' . $plugin) )
-				include_once(WP_PLUGIN_DIR . '/' . $plugin);
-		}
-		unset($plugin);
+$current_plugins = get_option('active_plugins');
+if ( is_array($current_plugins) && !defined('WP_INSTALLING') ) {
+	foreach ( $current_plugins as $plugin ) {
+		// check the $plugin filename
+		// Validate plugin filename
+		if ( validate_file($plugin) // $plugin must validate as file
+			|| '.php' != substr($plugin, -4) // $plugin must end with '.php'
+			|| !file_exists(WP_PLUGIN_DIR . '/' . $plugin)	// $plugin must exist
+			)
+			continue;
+
+		include_once(WP_PLUGIN_DIR . '/' . $plugin);
 	}
+	unset($plugin);
 }
+unset($current_plugins);
 
 require (ABSPATH . WPINC . '/pluggable.php');
 
