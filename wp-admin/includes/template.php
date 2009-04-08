@@ -369,7 +369,7 @@ function link_cat_row( $category, $name_override = false ) {
  *
  * Compares the first two arguments and if identical marks as checked
  *
- * @since unknown
+ * @since 2.8
  *
  * @param any $checked One of the values to compare
  * @param any $current (true) The other value to compare if not just true
@@ -384,9 +384,9 @@ function checked( $checked, $current = true, $echo = true) {
  *
  * Compares the first two arguments and if identical marks as selected
  *
- * @since unknown
+ * @since 2.8
  *
- * @param any $checked One of the values to compare
+ * @param any selected One of the values to compare
  * @param any $current (true) The other value to compare if not just true
  * @param bool $echo Whether or not to echo or just return the string
  */
@@ -399,10 +399,10 @@ function selected( $selected, $current = true, $echo = true) {
  *
  * Compares the first two arguments and if identical marks as $type
  *
- * @since unknown
+ * @since 2.8
  * @access private
  *
- * @param any $checked One of the values to compare
+ * @param any $helper One of the values to compare
  * @param any $current (true) The other value to compare if not just true
  * @param bool $echo Whether or not to echo or just return the string
  * @param string $type The type of checked|selected we are doing.
