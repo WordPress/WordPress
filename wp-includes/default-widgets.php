@@ -102,6 +102,13 @@ class WP_Widget_Links extends WP_Widget {
 		$show_name = isset($instance['name']) ? $instance['name'] : false;
 		$show_rating = isset($instance['rating']) ? $instance['rating'] : false;
 		$show_images = isset($instance['images']) ? $instance['images'] : true;
+		$category = isset($instance['category']) ? $instance['category'] : false;
+
+		if ( is_admin() && !$category ) {
+			// Display All Links widget as such in the widgets screen
+			echo $before_widget . $before_title. __('All Links') . $after_title . $after_widget;
+			return;
+		}
 
 		$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
 		wp_list_bookmarks(apply_filters('widget_links_args', array(
@@ -109,7 +116,7 @@ class WP_Widget_Links extends WP_Widget {
 			'category_before' => $before_widget, 'category_after' => $after_widget,
 			'show_images' => $show_images, 'show_description' => $show_description,
 			'show_name' => $show_name, 'show_rating' => $show_rating,
-			'class' => 'linkcat widget'
+			'category' => $category, 'class' => 'linkcat widget'
 		)));
 	}
 
@@ -120,6 +127,7 @@ class WP_Widget_Links extends WP_Widget {
 			if ( isset($new_instance[$field]) )
 				$instance[$field] = 1;
 		}
+		$instance['category'] = intval($new_instance['category']);
 
 		return $instance;
 	}
@@ -127,9 +135,21 @@ class WP_Widget_Links extends WP_Widget {
 	function form( $instance ) {
 
 		//Defaults
-		$instance = wp_parse_args( (array) $instance, array( 'images' => true, 'name' => true, 'description' => false, 'rating' => false) );
+		$instance = wp_parse_args( (array) $instance, array( 'images' => true, 'name' => true, 'description' => false, 'rating' => false, 'category' => false ) );
+		$link_cats = get_terms( 'link_category');
 ?>
 		<p>
+		<label for="<?php echo $this->get_field_id('category'); ?>">
+		<select id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>" style="width: 97%;" />
+		<option value=""><?php _e('All Links'); ?></option>
+		<?php
+		foreach ( $link_cats as $link_cat ) {
+			echo '<option value="' . intval($link_cat->term_id) . '"'
+				. ( $link_cat->term_id == $instance['category'] ? ' selected="selected"' : '' )
+				. '>' . $link_cat->name . "</option>\n";
+		}
+		?>
+		</select></label><br />
 		<label for="<?php echo $this->get_field_id('images'); ?>">
 		<input class="checkbox" type="checkbox" <?php checked($instance['images'], true) ?> id="<?php echo $this->get_field_id('images'); ?>" name="<?php echo $this->get_field_name('images'); ?>" /> <?php _e('Show Link Image'); ?></label><br />
 		<label for="<?php echo $this->get_field_id('name'); ?>">
