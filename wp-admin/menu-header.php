@@ -74,7 +74,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		} elseif ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-			if ( ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") && ('index.php' != $submenu[$item[2]][0][2]) ) || !empty($menu_hook)) {
+			if ( ( ('index.php' != $submenu[$item[2]][0][2]) && file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") ) || !empty($menu_hook)) {
 				$admin_is_parent = true;
 				echo "$img$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>{$item[0]}</a>";
 			} else {
@@ -82,7 +82,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			}
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
-			if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) ) {
+			if ( ('index.php' != $item[2]) && file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) ) {
 				$admin_is_parent = true;
 				echo "\n\t$img$toggle<a href='admin.php?page={$item[2]}'$class$tabindex>{$item[0]}</a>";
 			} else {
@@ -115,7 +115,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 				$menu_hook = get_plugin_page_hook($sub_item[2], $item[2]);
 
-				if ( ( file_exists(WP_PLUGIN_DIR . "/{$sub_item[2]}") && ('index.php' != $sub_item[2]) ) || ! empty($menu_hook) ) {
+				if ( ( ('index.php' != $sub_item[2]) && file_exists(WP_PLUGIN_DIR . "/{$sub_item[2]}") ) || ! empty($menu_hook) ) {
 					// If admin.php is the current page or if the parent exists as a file in the plugins or admin dir
 					$parent_exists = (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/{$item[2]}") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($item[2]);
 					if ( $parent_exists )
