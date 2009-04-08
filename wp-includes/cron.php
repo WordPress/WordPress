@@ -39,6 +39,9 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
  * specific interval, specified by you. The action will trigger when someone
  * visits your WordPress site, if the scheduled time has passed.
  *
+ * Valid values for the recurrence are hourly, daily and twicedaily.  These can
+ * be extended using the cron_schedules filter in wp_get_schedules().
+ *
  * @since 2.1.0
  *
  * @param int $timestamp Timestamp for when to run the event.
