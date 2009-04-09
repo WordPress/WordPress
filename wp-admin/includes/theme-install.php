@@ -204,7 +204,7 @@ function install_themes_dashboard() {
 ?>
 
 <li>
-	<input type="checkbox" name="features[<?php echo $feature; ?>]" id="feature-id-<?php echo $feature; ?>" value="<?php echo $feature; ?>">
+	<input type="checkbox" name="features[<?php echo $feature; ?>]" id="feature-id-<?php echo $feature; ?>" value="<?php echo $feature; ?>" />
 	<label for="feature-id-<?php echo $feature; ?>"><?php echo $feature_name; ?></label>
 </li>
 
@@ -272,14 +272,15 @@ function install_themes_updated($page = 1) {
 
 add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 function install_themes_upload($page = 1) {
-	?>
+?>
 <h4><?php _e('Install a theme in .zip format') ?></h4>
 <p class="install-help"><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.') ?></p>
-<form method="post" enctype="multipart/form-data"
-	action="<?php echo admin_url('theme-install.php?tab=do_upload') ?>"><?php wp_nonce_field( 'theme-upload') ?>
-<input type="file" name="themezip" /> <input type="submit"
-	class="button" value="<?php _e('Install Now') ?>" /></form>
-	<?php
+<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('theme-install.php?tab=do_upload') ?>">
+	<?php wp_nonce_field( 'theme-upload') ?>
+	<input type="file" name="themezip" />
+	<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
+</form>
+<?php
 }
 
 function display_theme($theme, $actions = null, $show_details = true) {
@@ -287,12 +288,11 @@ function display_theme($theme, $actions = null, $show_details = true) {
 
 	if ( empty($theme) )
 		return;
-	//var_dump($theme);
 
 	$name = wp_kses($theme->name, $themes_allowedtags);
 	$desc = wp_kses($theme->description, $themes_allowedtags);
 	//if ( strlen($desc) > 30 )
-	//	$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
+	//	$desc =  substr($desc, 0, 15) . '<span class="dots">...</span><span>' . substr($desc, -15) . '</span>';
 
 	$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
 	if ( !is_array($actions) ) {
