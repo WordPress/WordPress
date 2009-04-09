@@ -838,20 +838,14 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		$check_urls = array( $widgets[$widget_id]['url'] );
 	}
 
-
-	/* TODO Cache check here.
+	include_once ABSPATH . WPINC . '/class-feed.php';
 	foreach ( $check_urls as $check_url ) {
-
-		if ( 'HIT' !== $status ) {
+		$cache = new WP_Feed_Cache_Transient('', md5($check_url), '');
+		if ( ! $cache->load() ) {
 			echo $loading;
 			return false;
 		}
 	}
-	*/
-
-	// Always load async until above fixed.
-	echo $loading;
-	return false;
 
 	if ( $callback && is_callable( $callback ) ) {
 		$args = array_slice( func_get_args(), 2 );
