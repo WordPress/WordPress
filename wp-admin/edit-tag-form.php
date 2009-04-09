@@ -34,6 +34,11 @@ do_action('edit_tag_form_pre', $tag); ?>
 			<td><input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo attribute_escape(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
             <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
 		</tr>
+		<tr class="form-field">
+			<th scope="row" valign="top"><label for="description"><?php _e('Description') ?></label></th>
+			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($tag->description); ?></textarea><br />
+            <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
+		</tr>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php _e('Update Tag'); ?>" /></p>
 <?php do_action('edit_tag_form', $tag); ?>

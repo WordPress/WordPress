@@ -287,6 +287,12 @@ else
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 
+<div class="form-field">
+	<label for="description"><?php _e('Description') ?></label>
+	<textarea name="description" id="description" rows="5" cols="40"></textarea>
+    <p><?php _e('The description is not prominent by default, however some themes may show it.'); ?></p>
+</div>
+
 <p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Tag'); ?>" /></p>
 <?php do_action('add_tag_form'); ?>
 </form></div>

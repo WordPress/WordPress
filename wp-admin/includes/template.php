@@ -668,6 +668,9 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					$out .= '<div class="name">' . $qe_data->name . '</div>';
 					$out .= '<div class="slug">' . $qe_data->slug . '</div></div></td>';
 					break;
+				case 'description':
+					$out .= "<td $attributes>$tag->description</td>";
+					break;
 				case 'slug':
 					$out .= "<td $attributes>$tag->slug</td>";
 					break;
@@ -872,6 +875,7 @@ function get_column_headers($page) {
 			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
+				'description' => __('Description'),
 				'slug' => __('Slug'),
 				'posts' => __('Posts')
 			);
