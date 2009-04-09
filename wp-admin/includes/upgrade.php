@@ -112,43 +112,36 @@ function wp_install_defaults($user_id) {
 	$default_links = array();
 	$default_links[] = array(	'link_url' => 'http://codex.wordpress.org/',
 								'link_name' => 'Documentation',
-								'link_category' => 0,
 								'link_rss' => '',
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/development/',
 								'link_name' => 'Development Blog',
-								'link_category' => 0,
 								'link_rss' => 'http://wordpress.org/development/feed/',
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/ideas/',
 								'link_name' => 'Suggest Ideas',
-								'link_category' => 0,
 								'link_rss' => '',
 								'link_notes' =>'');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/support/',
 								'link_name' => 'Support Forum',
-								'link_category' => 0,
 								'link_rss' => '',
 								'link_notes' =>'');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/plugins/',
 								'link_name' => 'Plugins',
-								'link_category' => 0,
 								'link_rss' => '',
 								'link_notes' =>'');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/themes/',
 								'link_name' => 'Themes',
-								'link_category' => 0,
 								'link_rss' => '',
 								'link_notes' =>'');
 
 	$default_links[] = array(	'link_url' => 'http://planet.wordpress.org/',
 								'link_name' => 'WordPress Planet',
-								'link_category' => 0,
 								'link_rss' => '',
 								'link_notes' =>'');
 
@@ -169,7 +162,6 @@ function wp_install_defaults($user_id) {
 								'post_content' => __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!'),
 								'post_excerpt' => '',
 								'post_title' => __('Hello world!'),
-								'post_category' => 0,
 								/* translators: Default post slug */
 								'post_name' => _x('hello-world', 'Default post slug'),
 								'post_modified' => $now,
@@ -201,7 +193,6 @@ function wp_install_defaults($user_id) {
 								'post_content' => __('This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.'),
 								'post_excerpt' => '',
 								'post_title' => __('About'),
-								'post_category' => '',
 								/* translators: Default page slug */
 								'post_name' => _x('about', 'Default page slug'),
 								'post_modified' => $now,

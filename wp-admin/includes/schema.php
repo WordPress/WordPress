@@ -91,7 +91,6 @@ CREATE TABLE $wpdb->links (
   link_notes mediumtext NOT NULL,
   link_rss varchar(255) NOT NULL default '',
   PRIMARY KEY  (link_id),
-  KEY link_category (link_category),
   KEY link_visible (link_visible)
 ) $charset_collate;
 CREATE TABLE $wpdb->options (
