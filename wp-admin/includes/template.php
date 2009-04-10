@@ -3526,6 +3526,9 @@ function screen_options($screen) {
 		case 'categories':
 			$per_page_label = __('Categories per page:');
 			break;
+		case 'edit-tags':
+			$per_page_label = __('Tags per page:');
+			break;
 		default:
 			return '';
 	}

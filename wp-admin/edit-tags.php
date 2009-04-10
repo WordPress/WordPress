@@ -177,14 +177,18 @@ $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
 
-$tagsperpage = apply_filters("tagsperpage",20);
+$tags_per_page = get_user_option('edit_tags_per_page');
+if ( empty($tags_per_page) )
+	$tags_per_page = 20;
+$tags_per_page = apply_filters('edit_tags_per_page', $tags_per_page);
+$tags_per_page = apply_filters('tagsperpage', $tags_per_page); // Old filter
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
-	'total' => ceil(wp_count_terms($taxonomy) / $tagsperpage),
+	'total' => ceil(wp_count_terms($taxonomy) / $tags_per_page),
 	'current' => $pagenum
 ));
 
@@ -224,7 +228,7 @@ if ( $page_links )
 
 $searchterms = isset( $_GET['s'] ) ? trim( $_GET['s'] ) : '';
 
-$count = tag_rows( $pagenum, $tagsperpage, $searchterms, $taxonomy );
+$count = tag_rows( $pagenum, $tags_per_page, $searchterms, $taxonomy );
 ?>
 	</tbody>
 </table>
