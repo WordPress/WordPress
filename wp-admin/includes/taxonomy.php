@@ -20,8 +20,6 @@
  */
 function category_exists($cat_name, $parent = 0) {
 	$id = is_term($cat_name, 'category', $parent);
-	global $wpdb;
-		error_log(var_export($wpdb->queries, true));
 	if ( is_array($id) )
 		$id = $id['term_id'];
 	return $id;
