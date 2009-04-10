@@ -983,7 +983,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$count = $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
 
-	$stats = array( );
+	$stats = array( 'publish' => 0, 'private' => 0, 'draft' => 0, 'pending' => 0, 'future' => 0 );
 	foreach( (array) $count as $row_num => $row ) {
 		$stats[$row['post_status']] = $row['num_posts'];
 	}

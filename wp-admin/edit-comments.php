@@ -368,7 +368,7 @@ if ( $page_links )
 
 <div id="ajax-response"></div>
 
-<?php } elseif ( 'moderated' == $_GET['comment_status'] ) { ?>
+<?php } elseif ( isset($_GET['comment_status']) && 'moderated' == $_GET['comment_status'] ) { ?>
 <p><?php _e('No comments awaiting moderation&hellip; yet.') ?></p>
 </form>
 
