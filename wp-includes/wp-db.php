@@ -387,12 +387,12 @@ class wpdb {
 	 * Sets the table prefix for the WordPress tables.
 	 *
 	 * Also allows for the CUSTOM_USER_TABLE and CUSTOM_USER_META_TABLE to
-	 * override the WordPress users and usersmeta tables.
+	 * override the WordPress users and usersmeta tables that would otherwise be determined by the $prefix.
 	 *
 	 * @since 2.5.0
 	 *
 	 * @param string $prefix Alphanumeric name for the new prefix.
-	 * @return string Old prefix
+	 * @return string|WP_Error Old prefix or WP_Error on error
 	 */
 	function set_prefix($prefix) {
 
@@ -502,21 +502,34 @@ class wpdb {
 	}
 
 	/**
-	 * Prepares a SQL query for safe use, using sprintf() syntax.
+	 * Prepares a SQL query for safe execution.  Uses sprintf()-like syntax.
 	 *
-	 * @link http://php.net/sprintf See for syntax to use for query string.
+	 * This function only supports a small subset of the sprintf syntax; it only supports %d (decimal number), %s (string).
+	 * Does not support sign, padding, alignment, width or precision specifiers.
+	 * Does not support argument numbering/swapping.
+	 *
+	 * May be called like {@link http://php.net/sprintf sprintf()} or like {@link http://php.net/vsprintf vsprintf()}.
+	 *
+	 * Both %d and %s should be left unquoted in the query string.
+	 *
+	 * <code>
+	 * wpdb::prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d", "foo", 1337 )
+	 * </code>
+	 *
+	 * @link http://php.net/sprintf Description of syntax.
 	 * @since 2.3.0
 	 *
-	 * @param null|string $args If string, first parameter must be query statement
-	 * @param mixed $args,... If additional parameters, they will be set inserted into the query.
+	 * @param string $query Query statement with sprintf()-like placeholders
+	 * @param array|mixed $args The array of variables to substitute into the query's placeholders if being called like {@link http://php.net/vsprintf vsprintf()}, or the first variable to substitute into the query's placeholders if being called like {@link http://php.net/sprintf sprintf()}.
+	 * @param mixed $args,... further variables to substitute into the query's placeholders if being called like {@link http://php.net/sprintf sprintf()}.
 	 * @return null|string Sanitized query string
 	 */
-	function prepare($args=null) {
-		if ( is_null( $args ) )
+	function prepare($query = null) { // ( $query, *$args )
+		if ( is_null( $query ) )
 			return;
 		$args = func_get_args();
-		$query = array_shift($args);
-		// If args were passed as an array, move them up
+		array_shift($args);
+		// If args were passed as an array (as in vsprintf), move them up
 		if ( isset($args[0]) && is_array($args[0]) )
 			$args = $args[0];
 		$query = str_replace("'%s'", '%s', $query); // in case someone mistakenly already singlequoted it
@@ -637,7 +650,7 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string $query
-	 * @return unknown
+	 * @return int|false Number of rows affected/selected or false on error
 	 */
 	function query($query) {
 		if ( ! $this->ready )
@@ -707,14 +720,19 @@ class wpdb {
 	}
 
 	/**
-	 * Insert an array of data into a table.
+	 * Insert a row into a table.
+	 *
+	 * <code>
+	 * wpdb::insert( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( '%s', '%d' ) )
+	 * </code>
 	 *
 	 * @since 2.5.0
+	 * @see wpdb::prepare()
 	 *
 	 * @param string $table table name
-	 * @param array $data Should not already be SQL-escaped
-	 * @param array|string $format The format of the field values.
-	 * @return mixed Results of $this->query()
+	 * @param array $data Data to insert (in column => value pairs).  Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 * @param array|string $format (optional) An array of formats to be mapped to each of the value in $data.  If string, that format will be used for all of the values in $data.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $data will be treated as strings.
+	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	function insert($table, $data, $format = null) {
 		$formats = $format = (array) $format;
@@ -733,17 +751,23 @@ class wpdb {
 		return $this->query( $this->prepare( $sql, $data) );
 	}
 
+        
 	/**
-	 * Update a row in the table with an array of data.
+	 * Update a row in the table
+	 *
+	 * <code>
+	 * wpdb::update( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( 'ID' => 1 ), array( '%s', '%d' ), array( '%d' ) )
+	 * </code>
 	 *
 	 * @since 2.5.0
+	 * @see wpdb::prepare()
 	 *
 	 * @param string $table table name
-	 * @param array $data Should not already be SQL-escaped
-	 * @param array $where A named array of WHERE column => value relationships.  Multiple member pairs will be joined with ANDs.
-	 * @param array|string $format The format of the field values.
-	 * @param array|string $where_format The format of the where field values.
-	 * @return mixed Results of $this->query()
+	 * @param array $data Data to update (in column => value pairs).  Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 * @param array $where A named array of WHERE clauses (in column => value pairs).  Multiple clauses will be joined with ANDs.  Both $where columns and $where values should be "raw".
+	 * @param array|string $format (optional) An array of formats to be mapped to each of the values in $data.  If string, that format will be used for all of the values in $data.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $data will be treated as strings.
+	 * @param array|string $format_where (optional) An array of formats to be mapped to each of the values in $where.  If string, that format will be used for all of  the items in $where.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $where will be treated as strings.
+	 * @return int|false The number of rows updated, or false on error.
 	 */
 	function update($table, $data, $where, $format = null, $where_format = null) {
 		if ( !is_array( $where ) )
@@ -779,19 +803,16 @@ class wpdb {
 	/**
 	 * Retrieve one variable from the database.
 	 *
-	 * This combines the functionality of wpdb::get_row() and wpdb::get_col(),
-	 * so both the column and row can be picked.
-	 *
-	 * It is possible to use this function without executing more queries. If
-	 * you already made a query, you can set the $query to 'null' value and just
-	 * retrieve either the column and row of the last query result.
+	 * Executes a SQL query and returns the value from the SQL result.
+	 * If the SQL result contains more than one column and/or more than one row, this function returns the value in the column and row specified.
+	 * If $query is null, this function returns the value in the specified column and row from the previous SQL result.
 	 *
 	 * @since 0.71
 	 *
-	 * @param string $query Can be null as well, for caching
-	 * @param int $x Column num to return
-	 * @param int $y Row num to return
-	 * @return mixed Database query results
+	 * @param string|null $query SQL query.  If null, use the result from the previous query.
+	 * @param int $x (optional) Column of value to return.  Indexed from 0.
+	 * @param int $y (optional) Row of value to return.  Indexed from 0.
+	 * @return string Database query result
 	 */
 	function get_var($query=null, $x = 0, $y = 0) {
 		$this->func_call = "\$db->get_var(\"$query\",$x,$y)";
@@ -810,12 +831,14 @@ class wpdb {
 	/**
 	 * Retrieve one row from the database.
 	 *
+	 * Executes a SQL query and returns the row from the SQL result.
+	 *
 	 * @since 0.71
 	 *
-	 * @param string $query SQL query
-	 * @param string $output ARRAY_A | ARRAY_N | OBJECT
-	 * @param int $y Row num to return
-	 * @return mixed Database query results
+	 * @param string|null $query SQL query.
+	 * @param string $output (optional) one of ARRAY_A | ARRAY_N | OBJECT constants.  Return an associative array (column => value, ...), a numerically indexed array (0 => value, ...) or an object ( ->column = value ), respectively.
+	 * @param int $y (optional) Row to return.  Indexed from 0.
+	 * @return mixed Database query result in format specifed by $output
 	 */
 	function get_row($query = null, $output = OBJECT, $y = 0) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
@@ -841,11 +864,15 @@ class wpdb {
 	/**
 	 * Retrieve one column from the database.
 	 *
+	 * Executes a SQL query and returns the column from the SQL result.
+	 * If the SQL result contains more than one column, this function returns the column specified.
+	 * If $query is null, this function returns the specified column from the previous SQL result.
+	 *
 	 * @since 0.71
 	 *
-	 * @param string $query Can be null as well, for caching
-	 * @param int $x Col num to return. Starts from 0.
-	 * @return array Column results
+	 * @param string|null $query SQL query.  If null, use the result from the previous query.
+	 * @param int $x Column to return.  Indexed from 0.
+	 * @return array Database query result.  Array indexed from 0 by SQL result row number.
 	 */
 	function get_col($query = null , $x = 0) {
 		if ( $query )
@@ -860,12 +887,14 @@ class wpdb {
 	}
 
 	/**
-	 * Retrieve an entire result set from the database.
+	 * Retrieve an entire SQL result set from the database (i.e., many rows)
+	 *
+	 * Executes a SQL query and returns the entire SQL result.
 	 *
 	 * @since 0.71
 	 *
-	 * @param string|null $query Can also be null to pull from the cache
-	 * @param string $output ARRAY_A | ARRAY_N | OBJECT_K | OBJECT
+	 * @param string $query SQL query.
+	 * @param string $output (optional) ane of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.  With one of the first three, return an array of rows indexed from 0 by SQL result row number.  Each row is an associative array (column => value, ...), a numerically indexed array (0 => value, ...), or an object. ( ->column = value ), respectively.  With OBJECT_K, return an associative array of row objects keyed by the value of each row's first column's value.  Duplicate keys are discarded.
 	 * @return mixed Database query results
 	 */
 	function get_results($query = null, $output = OBJECT) {
@@ -936,7 +965,7 @@ class wpdb {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return bool Always returns true
+	 * @return true
 	 */
 	function timer_start() {
 		$mtime = microtime();
@@ -961,12 +990,14 @@ class wpdb {
 	}
 
 	/**
-	 * Wraps fatal errors in a nice header and footer and dies.
+	 * Wraps errors in a nice header and footer and dies.
+	 *
+	 * Will not die if wpdb::$show_errors is true
 	 *
 	 * @since 1.5.0
 	 *
 	 * @param string $message
-	 * @return unknown
+	 * @return false|void
 	 */
 	function bail($message) {
 		if ( !$this->show_errors ) {
@@ -980,7 +1011,7 @@ class wpdb {
 	}
 
 	/**
-	 * Whether or not MySQL database is minimal required version.
+	 * Whether or not MySQL database is at least the required minimum version.
 	 *
 	 * @since 2.5.0
 	 * @uses $wp_version
@@ -996,7 +1027,7 @@ class wpdb {
 	}
 
 	/**
-	 * Whether of not the database version supports collation.
+	 * Whether of not the database supports collation.
 	 *
 	 * Called when WordPress is generating the table scheme.
 	 *
@@ -1012,7 +1043,7 @@ class wpdb {
 	/**
 	 * Generic function to determine if a database supports a particular feature
 	 * @param string $db_cap the feature
-	 * @param false|string|resource $dbh_or_table the databaese (the current database, the database housing the specified table, or the database of the mysql resource)
+	 * @param false|string|resource $dbh_or_table (not implemented) Which database to test.  False = the currently selected database, string = the database containing the specified table, resource = the database corresponding to the specified mysql resource.
 	 * @return bool
 	 */
 	function has_cap( $db_cap ) {
@@ -1063,6 +1094,7 @@ class wpdb {
 
 	/**
 	 * The database version number
+	 * @param false|string|resource $dbh_or_table (not implemented) Which database to test.  False = the currently selected database, string = the database containing the specified table, resource = the database corresponding to the specified mysql resource.
 	 * @return false|string false on failure, version number on success
 	 */
 	function db_version() {
