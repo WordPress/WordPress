@@ -247,19 +247,23 @@ require (ABSPATH . WPINC . '/compat.php');
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/classes.php');
 
-/**
- * Format specifiers for DB columns. Columns not listed here default to %s.
- * @since 2.8.0
- */
-$db_field_types = array( 'post_author' => '%d', 'post_parent' => '%d', 'menu_order' => '%d', 'term_id' => '%d', 'term_group' => '%d', 'term_taxonomy_id' => '%d',
-	'parent' => '%d', 'count' => '%d','object_id' => '%d', 'term_order' => '%d', 'ID' => '%d', 'commment_ID' => '%d', 'comment_post_ID' => '%d', 'comment_parent' => '%d',
-	'user_id' => '%d', 'link_id' => '%d', 'link_owner' => '%d', 'link_rating' => '%d', 'option_id' => '%d', 'blog_id' => '%d', 'meta_id' => '%d', 'post_id' => '%d',
-	'user_status' => '%d', 'umeta_id' => '%d', 'comment_karma' => '%d', 'comment_count' => '%d');
-
 require_wp_db();
 
 if ( !empty($wpdb->error) )
 	dead_db();
+
+/**
+ * Format specifiers for DB columns. Columns not listed here default to %s.
+ * @since 2.8.0
+ * @see wpdb:$field_types
+ * @see wpdb:prepare()
+ * @see wpdb:insert()
+ * @see wpdb:update()
+ */
+$wpdb->field_types = array( 'post_author' => '%d', 'post_parent' => '%d', 'menu_order' => '%d', 'term_id' => '%d', 'term_group' => '%d', 'term_taxonomy_id' => '%d',
+	'parent' => '%d', 'count' => '%d','object_id' => '%d', 'term_order' => '%d', 'ID' => '%d', 'commment_ID' => '%d', 'comment_post_ID' => '%d', 'comment_parent' => '%d',
+	'user_id' => '%d', 'link_id' => '%d', 'link_owner' => '%d', 'link_rating' => '%d', 'option_id' => '%d', 'blog_id' => '%d', 'meta_id' => '%d', 'post_id' => '%d',
+	'user_status' => '%d', 'umeta_id' => '%d', 'comment_karma' => '%d', 'comment_count' => '%d');
 
 $prefix = $wpdb->set_prefix($table_prefix);
 

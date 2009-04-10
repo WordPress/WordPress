@@ -255,6 +255,20 @@ class wpdb {
 			'postmeta', 'terms', 'term_taxonomy', 'term_relationships');
 
 	/**
+	 * Format specifiers for DB columns. Columns not listed here default to %s.  Initialized in wp-settings.php.
+	 *
+	 * Keys are colmn names, values are format types: 'ID' => '%d'
+	 *
+	 * @since 2.8.0
+	 * @see wpdb:prepare()
+	 * @see wpdb:insert()
+	 * @see wpdb:update()
+	 * @access public
+	 * @war array
+	 */
+	var $field_type = array();
+
+	/**
 	 * Database table columns charset
 	 *
 	 * @since 2.2.0
@@ -703,16 +717,14 @@ class wpdb {
 	 * @return mixed Results of $this->query()
 	 */
 	function insert($table, $data, $format = null) {
-		global $db_field_types;
-
 		$formats = $format = (array) $format;
 		$fields = array_keys($data);
 		$formatted_fields = array();
 		foreach ( $fields as $field ) {
 			if ( !empty($format) )
 				$form = ( $form = array_shift($formats) ) ? $form : $format[0];
-			elseif ( isset($db_field_types[$field]) )
-				$form = $db_field_types[$field];
+			elseif ( isset($this->field_types[$field]) )
+				$form = $this->field_types[$field];
 			else
 				$form = '%s';
 			$formatted_fields[] = $form;
@@ -734,8 +746,6 @@ class wpdb {
 	 * @return mixed Results of $this->query()
 	 */
 	function update($table, $data, $where, $format = null, $where_format = null) {
-		global $db_field_types;
-
 		if ( !is_array( $where ) )
 			return false;
 
@@ -744,8 +754,8 @@ class wpdb {
 		foreach ( (array) array_keys($data) as $field ) {
 			if ( !empty($format) )
 				$form = ( $form = array_shift($formats) ) ? $form : $format[0];
-			elseif ( isset($db_field_types[$field]) )
-				$form = $db_field_types[$field];
+			elseif ( isset($this->field_types[$field]) )
+				$form = $this->field_types[$field];
 			else
 				$form = '%s';
 			$bits[] = "`$field` = {$form}";
@@ -755,8 +765,8 @@ class wpdb {
 		foreach ( (array) array_keys($where) as $field ) {
 			if ( !empty($where_format) )
 				$form = ( $form = array_shift($where_formats) ) ? $form : $where_format[0];
-			elseif ( isset($db_field_types[$field]) )
-				$form = $db_field_types[$field];
+			elseif ( isset($this->field_types[$field]) )
+				$form = $this->field_types[$field];
 			else
 				$form = '%s';
 			$wheres[] = "`$field` = {$form}";
