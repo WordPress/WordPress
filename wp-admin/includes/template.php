@@ -3523,6 +3523,9 @@ function screen_options($screen) {
 		case 'upload':
 			$per_page_label = __('Media items per page:');
 			break;
+		case 'categories':
+			$per_page_label = __('Categories per page:');
+			break;
 		default:
 			return '';
 	}

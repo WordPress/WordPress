@@ -160,15 +160,18 @@ endif; ?>
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( ! isset( $catsperpage ) || $catsperpage < 0 )
-	$catsperpage = 20;
+
+$cats_per_page = get_user_option('categories_per_page');
+if ( empty($cats_per_page) )
+	$cats_per_page = 20;
+$cats_per_page = apply_filters('edit_categories_per_page', $cats_per_page);
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
-	'total' => ceil(wp_count_terms('category') / $catsperpage),
+	'total' => ceil(wp_count_terms('category') / $cats_per_page),
 	'current' => $pagenum
 ));
 
@@ -205,7 +208,7 @@ if ( $page_links )
 
 	<tbody id="the-list" class="list:cat">
 <?php
-cat_rows(0, 0, 0, $pagenum, $catsperpage);
+cat_rows(0, 0, 0, $pagenum, $cats_per_page);
 ?>
 	</tbody>
 </table>
