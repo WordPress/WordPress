@@ -697,7 +697,7 @@ class wpdb {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $table WARNING: not sanitized!
+	 * @param string $table table name
 	 * @param array $data Should not already be SQL-escaped
 	 * @param array|string $format The format of the field values.
 	 * @return mixed Results of $this->query()
@@ -717,7 +717,7 @@ class wpdb {
 				$form = '%s';
 			$formatted_fields[] = $form;
 		}
-		$sql = "INSERT INTO $table (`" . implode( '`,`', $fields ) . "`) VALUES ('" . implode( "','", $formatted_fields ) . "')";
+		$sql = "INSERT INTO `$table` (`" . implode( '`,`', $fields ) . "`) VALUES ('" . implode( "','", $formatted_fields ) . "')";
 		return $this->query( $this->prepare( $sql, $data) );
 	}
 
@@ -726,9 +726,9 @@ class wpdb {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $table WARNING: not sanitized!
+	 * @param string $table table name
 	 * @param array $data Should not already be SQL-escaped
-	 * @param array $where A named array of WHERE column => value relationships.  Multiple member pairs will be joined with ANDs.  WARNING: the column names are not currently sanitized!
+	 * @param array $where A named array of WHERE column => value relationships.  Multiple member pairs will be joined with ANDs.
 	 * @param array|string $format The format of the field values.
 	 * @param array|string $where_format The format of the where field values.
 	 * @return mixed Results of $this->query()
@@ -759,10 +759,10 @@ class wpdb {
 				$form = $db_field_types[$field];
 			else
 				$form = '%s';
-			$wheres[] = "$field = {$form}";
+			$wheres[] = "`$field` = {$form}";
 		}
 
-		$sql = "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
+		$sql = "UPDATE `$table` SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
 		return $this->query( $this->prepare( $sql, array_merge(array_values($data), array_values($where))) );
 	}
 
