@@ -188,11 +188,6 @@ input {
 	line-height: 20px;
 }
 
-#the-comment-list .comment-item,
-ul#widget-list li.widget-list-item {
-	zoom: 100%;
-}
-
 #wphead-info {
 	float: right;
 }
@@ -207,7 +202,7 @@ a.button {
 	padding: 4px 6px;
 }
 
-* html div.widget-liquid-left-holder,
+* html div.widget-liquid-left,
 * html div.widget-liquid-right {
 	display: block;
 	position: relative;
@@ -227,6 +222,7 @@ a.button {
 	zoom: 100%;
 }
 
+#the-comment-list .comment-item,
 #post-status-info,
 #wpwrap,
 #wpcontent,
@@ -239,11 +235,13 @@ a.button {
 #post-body,
 #editorcontainer,
 .tablenav,
-.widget-control-list,
-li.widget-list-control-item,
+.widget-liquid-left,
+.widget-liquid-right,
+#widgets-left,
+.widgets-sortables,
 #dragHelper,
-li.widget-list-control-item h4,
-.widget-sortable,
+.widget .widget-top,
+.widget,
 .widget-control-actions,
 .tagchecklist,
 #col-container,
@@ -352,4 +350,24 @@ table.ie-fixed {
 
 * html .feature-filter .feature-group li {
 	width: 145px;
+}
+
+* html .widget-top .widget-title-action a {
+    background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
+}
+
+* html .widget {
+    border-color: #dfdfdf;
+}
+
+* html div.widget-liquid-left {
+    width: 99%;
+}
+
+#wp_inactive_widgets {
+	padding-bottom: 8px;
+}
+
+* html .widgets-sortables {
+	height: 50px;
 }

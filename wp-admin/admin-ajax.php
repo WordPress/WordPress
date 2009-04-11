@@ -1268,6 +1268,110 @@ case 'lj-importer' :
 		echo $result->get_error_message();
 	die;
 	break;
+case 'widgets-order' :
+	check_ajax_referer( 'save-sidebar-widgets', 'savewidgets' );
+
+	if ( !current_user_can('switch_themes') )
+		die('-1');
+
+	unset( $_POST['savewidgets'], $_POST['action'] );
+	$sidebars_widgets = array('array_version' => 3);
+
+	foreach ( $_POST as $key => $val ) {
+		if ( preg_match( '/^(wp_inactive_widgets|sidebar-[0-9]+)$/', $key ) ) {
+			if ( preg_match( '/^[0-9a-z,_-]+$/i', $val ) ) {
+				$val = explode(',', $val);
+
+				foreach ( $val as $k => $v ) {
+					$val[$k] = substr($v, strpos($v, '_') + 1);
+				}
+			} elseif ( '' == $val ) {
+				$val = array();
+			} else {
+				die('-1');
+			}
+
+			$sidebars_widgets[$key] = $val;
+		}
+	}
+
+	wp_set_sidebars_widgets($sidebars_widgets);
+
+	die('1');
+	break;
+case 'save-widget' :
+	check_ajax_referer( 'save-sidebar-widgets', 'savewidgets' );
+
+	if ( !current_user_can('switch_themes') )
+		die('-1');
+
+	unset( $_POST['savewidgets'], $_POST['action'] );
+
+	$number = isset($_POST['widget_number']) ? $_POST['widget_number'] : '';
+	if ( isset($_POST['id_base']) )
+		$id_base = $_POST['id_base'];
+	else
+		die('-1');
+
+	$sidebar_id = (string) $_POST['sidebar'];
+	$sidebars = wp_get_sidebars_widgets();
+	$sidebar = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : array();
+
+	// delete
+	if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
+		$del_id = $_POST['widget-id'];
+		$widget = isset($wp_registered_widgets[$del_id]) ? $wp_registered_widgets[$del_id] : false;
+
+		if ( !in_array($del_id, $sidebar, true) || !$widget )
+			die('-1');
+
+		$option = str_replace( '-', '_', 'widget_' . $id_base );
+		$data = get_option($option);
+
+		if ( isset($widget['params'][0]['number']) ) {
+			$number = $widget['params'][0]['number'];
+			if ( is_array($data) && isset($data[$number]) ) {
+				unset( $data[$number] );
+				update_option($option, $data);
+			}
+		} else {
+			if ( $data ) {
+				$data = array();
+				update_option($option, $data);
+			}
+		}
+
+		$sidebar = array_diff( $sidebar, array($del_id) );
+		$sidebars[$sidebar_id] = $sidebar;
+		wp_set_sidebars_widgets($sidebars);
+
+		echo "deleted:$del_id";
+		die();
+	}
+
+	// save
+	foreach ( (array) $wp_registered_widget_updates as $name => $control ) {
+		if ( $name == $id_base ) {
+			if ( !is_callable( $control['callback'] ) )
+				continue;
+
+			if ( $number ) {
+				// don't delete other instances of the same multi-widget
+				foreach ( $sidebar as $_widget_id ) {
+					if ( isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) )
+						unset($wp_registered_widgets[$_widget_id]['params'][0]['number']);
+				}
+			}
+
+			ob_start();
+				call_user_func_array( $control['callback'], $control['params'] );
+			ob_end_clean();
+			break;
+		}
+	}
+
+	die('1');
+	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

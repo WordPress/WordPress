@@ -140,7 +140,7 @@ class WP_Widget_Links extends WP_Widget {
 ?>
 		<p>
 		<label for="<?php echo $this->get_field_id('category'); ?>">
-		<select id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>" style="width: 97%;" />
+		<select class="widefat" id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>">
 		<option value=""><?php _e('All Links'); ?></option>
 		<?php
 		foreach ( $link_cats as $link_cat ) {
@@ -149,7 +149,8 @@ class WP_Widget_Links extends WP_Widget {
 				. '>' . $link_cat->name . "</option>\n";
 		}
 		?>
-		</select></label><br />
+		</select></label></p>
+		<p>
 		<label for="<?php echo $this->get_field_id('images'); ?>">
 		<input class="checkbox" type="checkbox" <?php checked($instance['images'], true) ?> id="<?php echo $this->get_field_id('images'); ?>" name="<?php echo $this->get_field_name('images'); ?>" /> <?php _e('Show Link Image'); ?></label><br />
 		<label for="<?php echo $this->get_field_id('name'); ?>">
@@ -184,6 +185,12 @@ class WP_Widget_Search extends WP_Widget {
 
 		echo $after_widget;
 	}
+
+	function form( $instance ) { ?>
+		<input name="<?php echo $this->get_field_name('title'); ?>" type="hidden" value="" />
+<?php
+	}
+
 }
 
 /**
@@ -882,7 +889,7 @@ function wp_widget_rss_control($widget_args) {
 		$url = '';
 		$items = 10;
 		$error = false;
-		$number = '%i%';
+		$number = '__i__';
 		$show_summary = 0;
 		$show_author = 0;
 		$show_date = 0;

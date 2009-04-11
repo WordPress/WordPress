@@ -1,150 +1,157 @@
-jQuery(function($) {
-	$('.noscript-action').remove();
 
-	var reminded = false;
-	var lameWidgetReminder = function() {
-		if ( reminded )
-			return;
-		window.onbeforeunload = function () { return widgetsL10n.lamerReminder };
-		$('h2:first').after( '<div class="updated"><p>' + widgetsL10n.lameReminder + '</p></div>' );
-		$('#current-widgets .submit input[name=save-widgets]').css( 'background-color', '#ffffe0' ).click( function() {
-			window.onbeforeunload = null;
-		} );
-		reminded = true;
-	};
+var wpWidgets;
+(function($) {
 
-	var increment = 1;
-
-	// Open or close widget control form
-	var toggleWidget = function( li, disableFields ) {
-		var width = li.find('input.widget-width').val();
-
-		// it seems IE chokes on these animations because of the positioning/floating
-		var widgetAnim = $.browser.msie ? function() {
-			var t = $(this);
-			if ( t.is(':visible') ) {
-				if ( disableFields ) { t.find( ':input:enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
-				li.css( 'marginLeft', 0 );
-				t.siblings('div').children('h4').children('a').text( widgetsL10n.edit );
+wpWidgets = {
+	init : function() {
+        var rem;
+		$('h3.sidebar-name').click(function(){
+            var c = $(this).siblings('.widgets-sortables');
+			if ( c.is(':visible') ) {
+				c.hide().sortable('disable');
 			} else {
-				t.find( ':disabled' ).attr( 'disabled', '' ); // always enable on open
-				if ( width > 250 )
-					li.css( 'marginLeft', ( width - 250 ) * -1 );
-				t.siblings('div').children('h4').children('a').text( widgetsL10n.cancel );
+				c.show().sortable('enable').sortable('refresh');
 			}
-			t.toggle();
-		} : function() {
-			var t = $(this);
+			$(this).siblings('#widget-list').toggle();
+        });
+        this.addEvents();
 
-			if ( t.is(':visible') ) {
-				if ( disableFields ) { t.find( ':input:enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
-				if ( width > 250 )
-					li.animate( { marginLeft: 0 } );
-				t.siblings('div').children('h4').children('a').text( widgetsL10n.edit );
-			} else {
-				t.find( ':disabled' ).attr( 'disabled', '' ); // always enable on open
-				if ( width > 250 )
-					li.animate( { marginLeft: ( width - 250 ) * -1 } );
-				t.siblings('div').children('h4').children('a').text( widgetsL10n.cancel );
+        $('#widget-list .widget').draggable({
+			connectToSortable: '.widgets-sortables',
+			handle: '.widget-title',
+			distance: 2,
+			tolerance: 'pointer',
+		//	forcePlaceholderSize: true,
+			helper: 'clone',
+			start: function() {
+				wpWidgets.fixWebkit(1);
+			},
+			stop: function(e,ui) {
+				if ( rem )
+					$(rem).hide();
+				rem = '';
+				wpWidgets.fixWebkit();
 			}
-			t.animate( { height: 'toggle' } );
+		});
+
+        $('.widgets-sortables').sortable({
+			placeholder: 'widget-placeholder',
+			connectWith: '.widgets-sortables',
+			items: '.widget',
+			handle: '.widget-title',
+			cursor: 'move',
+			distance: 2,
+			tolerance: 'pointer',
+		//	forcePlaceholderSize: true,
+		//	helper: 'clone',
+			opacity: 0.65,
+			start: function(e,ui) {
+				wpWidgets.fixWebkit(1);
+			},
+			stop: function(e,ui) {
+				var add = ui.item.find('input.add_new').val(), n = ui.item.find('input.multi_number').val(), id = ui.item.attr('id'), sb = $(this).parent().attr('id');
+
+				if ( add ) {
+					if ( 'multi' == add ) {
+						ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__/g, n); }) );
+						ui.item.attr( 'id', id.replace(/__i__/g, n) );
+						n++;
+						$('li#' + id).find('input.multi_number').val(n);
+					} else if ( 'single' == add ) {
+						ui.item.attr( 'id', 'new-' + id );
+						rem = 'li#' + id;
+					}
+					wpWidgets.addEvents(ui.item);
+					wpWidgets.save( ui.item.find('form').serializeArray(), sb, 0 );
+					ui.item.find('input.add_new').val('');
+				}
+				wpWidgets.saveOrder(sb);
+				wpWidgets.fixWebkit();
+			},
+			receive: function(e,ui) {
+				if ( !$(this).is(':visible') )
+					$(this).sortable('cancel');
+			}
+
+		}).not(':visible').sortable('disable');
+	},
+
+	saveOrder : function(sb) {
+        $('#' + sb + ' .ajax-feedback').css('visibility', 'visible');
+		var p = {
+			action: 'widgets-order',
+			savewidgets: $('#_wpnonce_widgets').val()
+		};
+		$('.widgets-sortables').each( function() {
+			p[$(this).parent().attr('id')] = $(this).sortable('toArray').join(',');
+		});
+		$.post( ajaxurl, p, function(){
+			$('.ajax-feedback').css('visibility', 'hidden');
+		});
+    },
+
+    save : function(data, sb, del, t) {
+		var a;
+		sb = sb || '';
+		$('#' + sb + ' .ajax-feedback').css('visibility', 'visible');
+
+		a = {
+			action: 'save-widget',
+			savewidgets: $('#_wpnonce_widgets').val(),
+			sidebar: sb
 		};
 
-		return li.children('div.widget-control').each( widgetAnim ).end();
-	};
+		if ( del )
+			a['delete_widget'] = 1;
 
-	// onclick for edit/cancel links
-	var editClick = function() {
-		var q = wpAjax.unserialize( this.href );
-		// if link is in available widgets list, make sure it points to the current sidebar
-		if ( ( q.sidebar && q.sidebar == $('#sidebar').val() ) || q.add ) {
-			var w = q.edit || q.add;
-			toggleWidget( $('#current-sidebar .widget-control-list input[name^="widget-id"][value=' + w + ']').parents('li:first'), false ).blur();
+		$.map(data, function(n,i){ a[n.name] = n.value; });
+
+		$.post( ajaxurl, a, function(r){
+			var id;
+			$('.ajax-feedback').css('visibility', 'hidden');
+			if ( !t )
+				return;
+
+			if ( del ) {
+				$(t).parents('li.widget').remove();
+				if ( !a.widget_number ) {
+					id = a['widget-id'];
+					$('#available-widgets .widget-id').each(function(){
+						if ( $(this).val() == id )
+							$(this).parents('li.widget').show();
+					});
+				}
+			} else {
+				$(t).parents('.widget-inside').hide();
+			}
+		});
+	},
+
+    fixWebkit : function(n) {
+        n = n ? 'none' : '';
+        $('body').css({
+		  WebkitUserSelect: n,
+		  KhtmlUserSelect: n
+		});
+    },
+
+    addEvents : function(sc) {
+		sc = sc || document;
+		$('a.widget-action', sc).click(function(){
+            $(this).parents('.widget-top').siblings('.widget-inside').toggle();
+            return false;
+        });
+        $('.widget-control-save', sc).click(function(){
+			wpWidgets.save( $(this).parents('form').serializeArray(), $(this).parents('.widgets-holder-wrap').attr('id'), 0, this );
 			return false;
-		} else if ( q.sidebar ) { // otherwise, redirect to correct page
-			return true;
-		}
-
-		// If link is in current widgets list, just open the form
-		toggleWidget( $(this).parents('li:first'), true ).blur();
-		return false;
-	};
-
-	// onclick for add links
-	var addClick = function() {
-		var oldLi = $(this).parents('li:first').find('ul.widget-control-info li');
-		var newLi = oldLi.clone();
-
-		if ( newLi.html().match( /%i%/ ) ) {
-			// supplid form is a template, replace %i% by unique id
-			var i = $('#generated-time').val() + increment.toString();
-			increment++;
-			newLi.html( newLi.html().replace( /%i%/g, i ) );
-		} else {
-			$(this).text( widgetsL10n.edit ).unbind().click( editClick );
-			// save form content in textarea so we don't have any conflicting HTML ids
-			oldLi.html( '<textarea>' + oldLi.html() + '</textarea>' );
-		}
-
-		// add event handlers
-		addWidgetControls( newLi );
-
-		// add widget to sidebar sortable
-		widgetSortable.append( newLi ).SortableAddItem( newLi[0] );
-
-		// increment widget counter
-		var n = parseInt( $('#widget-count').text(), 10 ) + 1;
-		$('#widget-count').text( n.toString() )
-
-		lameWidgetReminder();
-		return false;
-	};
-
-	// add event handlers to all links found in context
-	var addWidgetControls = function( context ) {
-		if ( !context )
-			context = document;
-
-		$('a.widget-control-edit', context).click( editClick );
-
-		// onclick for save links
-		$('a.widget-control-save', context).click( function() {
-			lameWidgetReminder();
-			toggleWidget( $(this).parents('li:first'), false ).blur()
+		});
+		$('.widget-control-remove', sc).click(function(){
+			wpWidgets.save( $(this).parents('form').serializeArray(), $(this).parents('.widgets-holder-wrap').attr('id'), 1, this );
 			return false;
-		} );
-
-		// onclick for remove links
-		$('a.widget-control-remove', context).click( function() {
-			var w = $(this).parents('li:first').find('input[name^="widget-id"]').val();
-			$(this).parents('li:first').remove();
-			var t = $('#widget-list ul#widget-control-info-' + w + ' textarea');
-			t.parent().html( t.text() ).parents('li.widget-list-item:first').children( 'h4' ).children('a.widget-action')
-				.show().text( widgetsL10n.add ).unbind().click( addClick );
-			var n = parseInt( $('#widget-count').text(), 10 ) - 1;
-			$('#widget-count').text( n.toString() )
-			return false;
-		} );
+		});
 	}
 
-	addWidgetControls();
+};
+	$(document).ready(function(){wpWidgets.init();});
 
-	$('a.widget-control-add').click( addClick );
-
-	var widgetSortable;
-	var widgetSortableInit = function() {
-		try { // a hack to make sortables work in jQuery 1.2+ and IE7
-			$('#current-sidebar .widget-control-list').SortableDestroy();
-		} catch(e) {}
-		widgetSortable = $('#current-sidebar .widget-control-list').Sortable( {
-			accept: 'widget-sortable',
-			helperclass: 'sorthelper',
-			handle: 'h4.widget-title',
-			onStop: widgetSortableInit
-		} );
-	}
-
-	// initialize sortable
-	widgetSortableInit();
-
-});
+})(jQuery);

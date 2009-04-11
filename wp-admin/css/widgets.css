@@ -1,25 +1,55 @@
 /* 2 column liquid layout */
-div.widget-liquid-left-holder {
+div.widget-liquid-left {
 	float: left;
 	clear: left;
 	width: 100%;
-	margin-right: -310px;
+	margin-right: -325px;
 }
 
-div.widget-liquid-left {
-	margin-right: 320px;
+div#widgets-left {
+	margin-right: 335px;
 }
 
 div.widget-liquid-right {
 	float: right;
 	clear: right;
-	width: 300px;
-	position: relative;
+	width: 320px;
 }
 
-/* pasitioning etc. */
-form#widgets-filter {
-	position: relative;
+.widgets-sortables li {
+	width: 300px;
+	margin: 15px 0 18px;
+}
+
+#widgets-left .widgets-sortables li,
+#widgets-left #widget-list li {
+	float: left;
+	margin: 0 15px 18px 3px;
+	width: 300px;
+}
+
+.widget-placeholder {
+	border-width: 1px;
+	border-style: dashed;
+	margin-bottom: 20px;
+	height: 25px;
+	width: 298px;
+}
+
+div.widgets-holder-wrap {
+    padding: 8px 8px 0;
+    margin: 12px 0;
+	border-width: 1px;
+	border-style: solid;
+    -moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
+
+#widgets-left #available-widgets {
+    background-color: transparent;
+    border: 0 none;
 }
 
 div#available-widgets-filter {
@@ -31,54 +61,77 @@ ul#widget-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	min-height: 100px;
 }
 
-ul#widget-list li.widget-list-item {
-	padding: .7em 0.9em;
-	margin: 0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
+.widget .widget-top {
+	font-size: 12px;
+	font-weight: bold;
 	line-height: 1;
 }
 
-h4.widget-title span {
-	float: left;
+.widget-top .widget-title {
+	margin-right: 30px;
+	padding: 7px 9px;
 }
 
-h4.widget-title a {
+.widget-top .widget-title-action {
 	float: right;
-	text-decoration: underline;
-	border-bottom: none;
-	margin-left: 1em;
 }
 
-ul#widget-list li.widget-list-item h4.widget-title {
-	position: relative;
-	margin: 0;
-	padding: .5em 1em;
-	width: 200px;
-	float: left;
-	font-size: 13px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+.widget-title-action a {
+    display: block;
+    width: 24px;
+    height: 26px;
 }
 
-#dragHelper h4.widget-title {
-	padding: .5em 1em;
-	margin: 0;
+.widget-top:hover .widget-title-action a {
+    background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
 }
 
-ul#widget-list li.widget-list-item div.widget-description {
-	display: block;
-	margin: 0 0 0 200px;
-	padding: 0 0 0 4em;
+.widget .widget-inside {
+	margin: 15px;
 	font-size: 11px;
+	display: none;
 }
 
-ul#widget-list li.widget-list-item ul.widget-control-info {
+.widget-control, 
+.widget-description {
 	display: none;
+}
+
+#available-widgets .widget-description,
+.widget-liquid-right .widget-control,
+#wp_inactive_widgets .widget-control {
+	display: block;
+}
+
+.widget .widget-control p {
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+.widget-title h4 {
+	margin: 0;
+	line-height: 1;
+}
+
+.sidebar-name {
+    margin: 0 0 12px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.widgets-sortables {
+    min-height: 50px;
+}
+
+.widget-control-actions {
+    margin-top: 8px;
+}
+
+.widget-control-actions a {
+	text-decoration: none;
 }
 
 div#sidebar-info {
@@ -87,72 +140,10 @@ div#sidebar-info {
 	font-size: 11px;
 }
 
-ul.widget-control-list {
-	list-style: none;
-	margin: 0;
-	padding: 0 1em;
-}
-
-div#current-widgets p.submit {
-	padding: 1em;
-}
-
-li.widget-list-control-item {
-	margin: 1em 0;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
-li.widget-list-control-item h4,
-#dragHelper li.widget-list-control-item h4,
-li.widget-sortable h4 {
-	margin: 0;
-	cursor: move;
-	font-size: 13px;
-	padding: 0.4em 0.8em;
-	position: relative;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.widget-control-save,
-.widget-control-remove {
-	margin-right: 8px;
-	float: left;
-	text-decoration: none;
-}
-
-li.widget-list-control-item h4.widget-title a,
-#dragHelper li.widget-list-control-item h4.widget-title a,
-#draghelper li.widget-list-control-item h4.widget-title a:visited {
-	right: 1em;
-}
-
-li.widget-list-control-item h4.widget-title a:hover {
+.widget-title a,
+.widget-title a:hover {
 	text-decoration: none;
 	border-bottom: none;
-}
-
-li.widget-list-control-item div.widget-control {
-	border-width: 0 1px 1px;
-	border-style: none solid solid;
-	display: none;
-	padding: 15px;
-	font-size: 11px;
-	position: relative;
-}
-
-li.widget-list-control-item div.widget-control p {
-	margin: 0 0 1em;
-	padding: 0;
-}
-
-ul.widget-control-list div.widget-control-actions {
-	padding: 0.5em 0 0;
 }
 
 .widget-control-edit {
@@ -160,18 +151,4 @@ ul.widget-control-list div.widget-control-actions {
 	font-weight: normal;
 }
 
-div#current-widgets {
-	padding-top: 1em;
-	border-width: 1px 0 0;
-	border-style: solid none none;
-}
 
-#widget-controls .widefat {
-	width: 92%;
-	padding: 3px;
-}
-
-#widget-controls select.widefat {
-	width: auto;
-	display: block;
-}

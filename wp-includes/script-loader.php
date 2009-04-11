@@ -330,15 +330,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20090114' );
 		$scripts->add_data( 'media-upload', 'group', 1 );
 
-		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'interface' ), '20090106' );
-		$scripts->localize( 'admin-widgets', 'widgetsL10n', array(
-			'add' => __('Add'),
-			'edit' => __('Edit'),
-			'cancel' => __('Cancel'),
-			'lameReminder' => __('Remember to click the "Save Changes" button at the bottom of the Current Widgets column after you\'re all done!'),
-			'lamerReminder' => __("You're about to leave without having saved your changes!"),
-			'l10n_print_after' => 'try{convertEntities(widgetsL10n);}catch(e){};'
-		));
+		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), '20090411' );
+		$scripts->add_data( 'admin-widgets', 'group', 1 );
 
 		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20090102' );
 		$scripts->add_data( 'word-count', 'group', 1 );
@@ -425,21 +418,21 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090405' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090411' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090407' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090411' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
-	$styles->add( 'colors', true, array(), '20090405' ); // Register "meta" stylesheet for admin colors
+	$styles->add( 'colors', true, array(), '20090411' ); // Register "meta" stylesheet for admin colors
 	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081210'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081210');
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090407' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090411' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090325' );
-	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20081210' );
+	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090411' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090305' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081210' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20081210' );

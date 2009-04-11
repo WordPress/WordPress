@@ -33,7 +33,6 @@ kbd, code {
 	background: #eaeaea;
 }
 
-div#current-widgets,
 #postcustomstuff table,
 #your-profile fieldset,
 #rightnow,
@@ -83,8 +82,7 @@ div.dashboard-widget-notice {
 	background-color: #cfe1ef;
 }
 
-div.dashboard-widget-submit,
-ul.widget-control-list div.widget-control-actions {
+div.dashboard-widget-submit {
 	border-top-color: #ccc;
 }
 
@@ -101,10 +99,6 @@ textarea.disabled {
 	background-color: #ccc;
 }
 /* #upload-menu li a.upload-tab-link, */
-li.widget-list-control-item h4.widget-title a:hover,
-li.widget-list-control-item h4.widget-title a,
-#dragHelper li.widget-list-control-item h4.widget-title a,
-#draghelper li.widget-list-control-item h4.widget-title a:visited,
 .login #backtoblog a:hover,
 #plugin-information .action-button a,
 #plugin-information .action-button a:hover,
@@ -112,14 +106,9 @@ li.widget-list-control-item h4.widget-title a,
 	color: #fff;
 }
 
-li.widget-list-control-item div.widget-control {
-	background-color: #fff;
-	border-color: #dfdfdf;
-}
-
-.metabox-holder .postbox h3,
-#poststuff .postbox h3,
-#poststuff .stuffbox h3 {
+.widget .widget-top,
+.postbox h3,
+.stuffbox h3 {
 	background: #dfdfdf url("../images/gray-grad.png") repeat-x left top;
 	text-shadow: #fff 0 1px 0;
 }
@@ -141,11 +130,6 @@ select {
 
 strong .post-com-count span {
 	background-color: #21759b;
-}
-
-ul#widget-list li.widget-list-item h4.widget-title {
-	background-color: #f0f0f0;
-	color: #000;
 }
 
 .sorthelper {
@@ -276,7 +260,7 @@ td.help {
 	border-bottom-color: #dadada;
 }
 
-.side-info ul, .widget-description {
+.side-info ul {
 	color: #666;
 }
 
@@ -429,7 +413,6 @@ a.page-numbers {
 }
 
 div#available-widgets-filter,
-ul#widget-list li.widget-list-item,
 .commentlist li {
 	border-bottom-color: #ccc;
 }
@@ -531,23 +514,12 @@ div#plugin-information-header {
 	border-color: #666;
 }
 
-#current-widgets .drop-widget-here {
-	background-color: #ffc;
-}
-
 #dashboard_secondary div.dashboard-widget-content ul li a {
 	background-color: #f9f9f9;
 }
 
 input.readonly, textarea.readonly {
 	background-color: #ddd;
-}
-
-#dragHelper h4.widget-title,
-li.widget-list-control-item h4,
-#dragHelper li.widget-list-control-item h4 {
-	background-color: #2683ae;
-	color: #fff;
 }
 
 #ed_toolbar input,
@@ -642,8 +614,8 @@ li.widget-list-control-item h4,
 	background-color: #fff;
 }
 
-.metabox-holder .postbox,
-#poststuff .postbox,
+.widget,
+.postbox,
 #titlediv,
 #poststuff .postarea,
 #poststuff .stuffbox,
@@ -654,15 +626,17 @@ li.widget-list-control-item h4,
 	border-color: #dfdfdf;
 }
 
-.metabox-holder .postbox,
-#poststuff .postbox {
+.widget,
+.postbox {
 	background-color: #FFF;
 }
 
+.widget .widget-top,
 .ui-sortable .postbox h3 {
 	color: #464646;
 }
 
+.widget .widget-top,
 .ui-sortable .postbox h3:hover {
 	color: #000;
 }
@@ -1594,4 +1568,9 @@ input[readonly] {
 
 .theme-listing br.line {
 	border-bottom-color: #ccc;
+}
+
+div.widgets-holder-wrap {
+    background-color: #F1F1F1;
+    border-color: #DDDDDD;
 }
