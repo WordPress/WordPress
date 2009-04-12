@@ -16,6 +16,18 @@ h1, h2, h3, #sidebar h2 {
 .commentlist li .avatar {
 	float:left;
 }
+
+.commentlist li {
+	padding: 5px 10px 10px 5px;
+	}
+.commentlist li ul li { 
+	margin-left: -5px;
+	margin-right: 10px;
+}
+
+.commentlist p {
+	margin: 10px 0 10px 5px;
+}
 #header {
 	margin:0 1px 0 0;
 }
@@ -75,6 +87,9 @@ html>body .entry li {
 #sidebar ul ul ul, #sidebar ul ol {
 	margin: 0 10px 0 0;
 }
+#commentform {
+	margin: 5px 0 0 10px;
+	}
 #commentform input {
 	margin: 5px 0 1px 5px;
 }
@@ -84,6 +99,12 @@ html>body .entry li {
 .commentlist p {
 	margin: 10px 0 10px 5px;
 }
+
+.children .even, .alt {
+	border-left: 0;
+	border-right: 1px solid #ddd;
+}
+
 #wp-calendar #next a {
 	padding-right:0;
 	padding-left:10px;
