@@ -82,7 +82,7 @@ function do_plugin_upgrade($plugin) {
 function do_theme_upgrade($theme) {
 	global $wp_filesystem;
 
-	$url = wp_nonce_url('update.php?action=upgrade-theme&theme=' . urlencode($theme), 'upgrade-plugin_' . urlencode($theme));
+	$url = wp_nonce_url('update.php?action=upgrade-theme&theme=' . urlencode($theme), 'upgrade-theme_' . urlencode($theme));
 	if ( false === ($credentials = request_filesystem_credentials($url)) )
 		return;
 
