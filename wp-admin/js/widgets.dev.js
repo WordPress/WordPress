@@ -124,7 +124,7 @@ wpWidgets = {
 					});
 				}
 			} else {
-				$(t).parents('.widget-inside').slideUp('fast');
+				$(t).parents('.widget-inside').slideUp('normal', function(){ $(this).parents('li.widget').css({'width':'','marginLeft':''}); });
 			}
 		});
 	},
