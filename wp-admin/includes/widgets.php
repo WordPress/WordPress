@@ -177,6 +177,8 @@ function wp_widget_control( $sidebar_args ) {
 
 	$widget_number = isset($control['params'][0]['number']) ? $control['params'][0]['number'] : '';
 	$id_base = isset($control['id_base']) ? $control['id_base'] : $widget_id;
+	$multi_number = isset($sidebar_args['_multi_num']) ? $sidebar_args['_multi_num'] : '';
+	$add_new = isset($sidebar_args['_add']) ? $sidebar_args['_add'] : '';
 
 	// We aren't showing a widget control, we're outputing a template for a mult-widget control
 	if ( isset($sidebar_args['_display']) && 'template' == $sidebar_args['_display'] && $widget_number ) {
@@ -185,8 +187,6 @@ function wp_widget_control( $sidebar_args ) {
 		// if given, id_base means widget id's should be constructed like {$id_base}-{$id_number}
 		if ( isset($control['id_base']) )
 			$id_format = $control['id_base'] . '-__i__';
-
-		$multi_number = $sidebar_args['_multi_num'];
 	}
 
 	$wp_registered_widgets[$widget_id]['callback'] = $wp_registered_widgets[$widget_id]['_callback'];
@@ -215,15 +215,11 @@ function wp_widget_control( $sidebar_args ) {
 
 			<input type="hidden" name="widget-id" class="widget-id" value="<?php echo $id_format; ?>" />
 			<input type="hidden" name="id_base" class="id_base" value="<?php echo $id_base; ?>" />
-			<input type="hidden" name="widget-width" value="<?php echo $control['width']; ?>" />
-			<input type="hidden" name="widget-height" value="<?php echo $control['height']; ?>" />
+			<input type="hidden" name="widget-width" class="widget-width" value="<?php echo $control['width']; ?>" />
+			<input type="hidden" name="widget-height" class="widget-height" value="<?php echo $control['height']; ?>" />
 			<input type="hidden" name="widget_number" class="widget_number" value="<?php echo $widget_number; ?>" />
-<?php
-			if ( isset($multi_number) )
-				echo "\t\t\t<input type='hidden' name='multi_number' class='multi_number' value='$multi_number' />\n";
-				
-			if ( isset($sidebar_args['_add']) )
-				echo "\t\t\t<input type='hidden' name='add_new' class='add_new' value='" . $sidebar_args['_add'] . "' />\n"; ?>
+			<input type="hidden" name="multi_number" class="multi_number" value="<?php echo $multi_number; ?>" />
+			<input type="hidden" name="add_new" class="add_new" value="<?php echo $add_new; ?>" />
 
 			<div class="widget-control-actions">
 				<a class="button widget-control-remove alignleft" href="<?php echo $edit ? clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key, '_wpnonce' => $nonce ) ) ) : '#remove'; ?>"><?php _e('Remove'); ?></a>

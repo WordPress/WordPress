@@ -19,6 +19,7 @@ div.widget-liquid-right {
 .widgets-sortables li {
 	width: 300px;
 	margin: 15px 0 18px;
+	position: relative;
 }
 
 #widgets-left .widgets-sortables li,
@@ -90,7 +91,7 @@ ul#widget-list {
 }
 
 .widget .widget-inside {
-	margin: 15px;
+	padding: 15px;
 	font-size: 11px;
 	display: none;
 }

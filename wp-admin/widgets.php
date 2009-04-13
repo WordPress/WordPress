@@ -126,17 +126,13 @@ $messages = array(
 
 require_once( 'admin-header.php' ); ?>
 
-<?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
-<?php endif; ?>
-
-
-<div id="message" class="updated"><p>This page is not 100% ready, please use only on test installations.</p></div>
-
-
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2>
+
+<?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php endif; ?>
 
 
 <!--

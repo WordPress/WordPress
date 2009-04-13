@@ -1572,3 +1572,8 @@ div.widgets-holder-wrap {
     background-color: #F1F1F1;
     border-color: #DDDDDD;
 }
+
+.sidebar-name:hover {
+	color: #d54e21;
+}
+

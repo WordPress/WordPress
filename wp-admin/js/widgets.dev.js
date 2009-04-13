@@ -20,9 +20,8 @@ wpWidgets = {
 			connectToSortable: '.widgets-sortables',
 			handle: '.widget-title',
 			distance: 2,
-			tolerance: 'pointer',
-		//	forcePlaceholderSize: true,
 			helper: 'clone',
+			zIndex: 5,
 			start: function() {
 				wpWidgets.fixWebkit(1);
 			},
@@ -41,17 +40,17 @@ wpWidgets = {
 			handle: '.widget-title',
 			cursor: 'move',
 			distance: 2,
-			tolerance: 'pointer',
-		//	forcePlaceholderSize: true,
-		//	helper: 'clone',
 			opacity: 0.65,
 			start: function(e,ui) {
 				wpWidgets.fixWebkit(1);
+				ui.item.find('.widget-inside').hide();
+				ui.item.css({'marginLeft':'','width':''});
 			},
 			stop: function(e,ui) {
 				var add = ui.item.find('input.add_new').val(), n = ui.item.find('input.multi_number').val(), id = ui.item.attr('id'), sb = $(this).parent().attr('id');
+				ui.item.css({'marginLeft':'','width':''});
 
-				if ( add ) {
+				if ( add && n ) {
 					if ( 'multi' == add ) {
 						ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__/g, n); }) );
 						ui.item.attr( 'id', id.replace(/__i__/g, n) );
@@ -92,7 +91,7 @@ wpWidgets = {
 
     save : function(data, sb, del, t) {
 		var a;
-		sb = sb || '';
+
 		$('#' + sb + ' .ajax-feedback').css('visibility', 'visible');
 
 		a = {
@@ -122,7 +121,7 @@ wpWidgets = {
 					});
 				}
 			} else {
-				$(t).parents('.widget-inside').hide();
+				$(t).parents('.widget-inside').hide('fast');
 			}
 		});
 	},
@@ -130,15 +129,27 @@ wpWidgets = {
     fixWebkit : function(n) {
         n = n ? 'none' : '';
         $('body').css({
-		  WebkitUserSelect: n,
-		  KhtmlUserSelect: n
+			WebkitUserSelect: n,
+			KhtmlUserSelect: n
 		});
     },
 
     addEvents : function(sc) {
 		sc = sc || document;
 		$('a.widget-action', sc).click(function(){
-            $(this).parents('.widget-top').siblings('.widget-inside').toggle();
+            var w = parseInt( $(this).parents('.widget').find('.widget-width').val(), 10 ), css = {}, inside = $(this).parents('.widget-top').siblings('.widget-inside');
+			if ( inside.is(':hidden') ) {
+				if ( w > 270 && inside.parents('.widgets-sortables').length ) {
+					css['width'] = w + 30 + 'px';
+					if ( inside.parents('.widget-liquid-right').length )
+						css['marginLeft'] = 270 - w + 'px';
+					inside.parents('.widget').css(css);	
+				}
+				inside.show('fast');
+			} else {
+				inside.parents('.widget').css({'width':'','marginLeft':''});
+				inside.hide('fast');
+			}
             return false;
         });
         $('.widget-control-save', sc).click(function(){
