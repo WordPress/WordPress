@@ -93,15 +93,16 @@ function theme_update_available( $theme ) {
 
 	if ( isset($themes_update->response[ $stylesheet ]) ) {
 		$update = $themes_update->response[ $stylesheet ];
+		$theme_name = is_object($theme) ? $theme->name : (is_array($theme) ? $theme['Name'] : '');
 		$details_url = add_query_arg(array('TB_iframe' => 'true', 'width' => 1024, 'height' => 800), $update['url']); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
 		$update_url = wp_nonce_url('update.php?action=upgrade-theme&amp;theme=' . urlencode($stylesheet), 'upgrade-theme_' . $stylesheet);
 
 		if ( ! current_user_can('update_themes') )
-			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a>.</p>'), $ct->name, $details_url, $update['new_version']);
+			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a>.</p>'), $theme_name, $details_url, $update['new_version']);
 		else if ( empty($update->package) )
-			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> <em>automatic upgrade unavailable for this theme</em>.</p>'), $ct->name, $details_url, $update['new_version']);
+			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> <em>automatic upgrade unavailable for this theme</em>.</p>'), $theme_name, $details_url, $update['new_version']);
 		else
-			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s">upgrade automatically</a>.</p>'), $ct->name, $details_url, $update['new_version'], $update_url );
+			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s">upgrade automatically</a>.</p>'), $theme_name, $details_url, $update['new_version'], $update_url );
 	}
 }
 

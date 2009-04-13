@@ -97,6 +97,8 @@ add_action('install_themes_search', 'install_theme_search', 10, 1);
  * @param string $page
  */
 function install_theme_search($page) {
+	global $theme_field_defaults;
+
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
@@ -398,16 +400,12 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 ?>
 <table id="availablethemes" cellspacing="0" cellpadding="0">
 <?php
-	$in_column = 0;
 	$rows = ceil(count($themes) / 3);
 	$table = array();
-	$i = 0;
-	for ( $row = 1; $row <= $rows; $row++ ) {
-		for ( $col = 1; $col <= 3; $col++ ) {
-			$table[$row][$col] = $i;
-			$i++;
-		}
-	}
+	$theme_keys = array_keys($themes); 
+	for ( $row = 1; $row <= $rows; $row++ ) 
+		for ( $col = 1; $col <= 3; $col++ ) 
+			$table[$row][$col] = array_shift($theme_keys); 
 
 	foreach ( $table as $row => $cols ) {
 	?>
@@ -419,10 +417,10 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 		if ( $col == 1 ) $class[] = 'left';
 		if ( $row == $rows ) $class[] = 'bottom';
 		if ( $col == 3 ) $class[] = 'right';
-		$theme = $themes[$theme_index];
 		?>
 		<td class="<?php echo join(' ', $class); ?>"><?php
-			display_theme($theme);
+			if ( isset($themes[$theme_index]) ) 
+				display_theme($themes[$theme_index]); 
 		?></td>
 		<?php } // end foreach $cols ?>
 	</tr>
@@ -467,20 +465,20 @@ function install_theme_information() {
 		exit;
 	}
 
-	if ( version_compare($GLOBALS['wp_version'], $api->tested, '>') )
+	if ( !empty($api->tested) && version_compare($GLOBALS['wp_version'], $api->tested, '>') )
 		echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This theme has <strong>not been tested</strong> with your current version of WordPress.') . '</p></div>';
-	else if ( version_compare($GLOBALS['wp_version'], $api->requires, '<') )
+	else if ( !empty($api->requires) && version_compare($GLOBALS['wp_version'], $api->requires, '<') )
 		echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This theme has not been marked as <strong>compatible</strong> with your version of WordPress.') . '</p></div>';
 
 	// Default to a "new" theme
 	$type = 'install';
 	// Check to see if this theme is known to be installed, and has an update awaiting it.
 	$update_themes = get_transient('update_themes');
-	if ( is_object($update_themes) ) {
-		foreach ( (array)$update_themes->response as $file => $theme ) {
-			if ( $theme->slug === $api->slug ) {
+	if ( is_object($update_themes) && isset($update_themes->response) ) {
+		foreach ( (array)$update_themes->response as $theme_slug => $theme_info ) {
+			if ( $theme_slug === $api->slug ) {
 				$type = 'update_available';
-				$update_file = $file;
+				$update_file = $theme_slug;
 				break;
 			}
 		}
