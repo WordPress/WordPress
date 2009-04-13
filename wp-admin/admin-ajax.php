@@ -1277,45 +1277,40 @@ case 'widgets-order' :
 		die('-1');
 
 	unset( $_POST['savewidgets'], $_POST['action'] );
-	$sidebars_widgets = array('array_version' => 3);
 
-	foreach ( $_POST as $key => $val ) {
-		if ( preg_match( '/^(wp_inactive_widgets|sidebar-[0-9]+)$/', $key ) ) {
-			if ( preg_match( '/^[0-9a-z,_-]+$/i', $val ) ) {
+	// save widgets order for all sidebars
+	if ( is_array($_POST['sidebars']) ) {
+		$sidebars = array();
+		foreach ( $_POST['sidebars'] as $key => $val ) {
+			$sb = array();
+			if ( !empty($val) ) {
 				$val = explode(',', $val);
-
 				foreach ( $val as $k => $v ) {
-					$val[$k] = substr($v, strpos($v, '_') + 1);
-				}
-			} elseif ( '' == $val ) {
-				$val = array();
-			} else {
-				die('-1');
-			}
+					if ( strpos($v, 'widget-') === false )
+						continue;
 
-			$sidebars_widgets[$key] = $val;
+					$sb[$k] = substr($v, strpos($v, '_') + 1);
+				}
+			}
+			$sidebars[$key] = $sb;
 		}
+		wp_set_sidebars_widgets($sidebars);
+		die('1');
 	}
 
-	wp_set_sidebars_widgets($sidebars_widgets);
-
-	die('1');
+	die('-1');
 	break;
 case 'save-widget' :
 	check_ajax_referer( 'save-sidebar-widgets', 'savewidgets' );
 
-	if ( !current_user_can('switch_themes') )
+	if ( !current_user_can('switch_themes') || !isset($_POST['id_base']) )
 		die('-1');
 
 	unset( $_POST['savewidgets'], $_POST['action'] );
 
+	$id_base = $_POST['id_base'];
 	$number = isset($_POST['widget_number']) ? $_POST['widget_number'] : '';
-	if ( isset($_POST['id_base']) )
-		$id_base = $_POST['id_base'];
-	else
-		die('-1');
-
-	$sidebar_id = (string) $_POST['sidebar'];
+	$sidebar_id = $_POST['sidebar'];
 	$sidebars = wp_get_sidebars_widgets();
 	$sidebar = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : array();
 
