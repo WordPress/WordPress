@@ -981,8 +981,10 @@ case 'closed-postboxes' :
 	if ( is_array($closed) )
 		update_usermeta($user->ID, 'closedpostboxes_'.$page, $closed);
 
-	if ( is_array($hidden) )
+	if ( is_array($hidden) ) {
+		$hidden = array_diff( $hidden, array('submitdiv', 'pagesubmitdiv', 'linksubmitdiv') ); // postboxes that are always shown
 		update_usermeta($user->ID, 'meta-box-hidden_'.$page, $hidden);
+	}
 
 	die('1');
 	break;
