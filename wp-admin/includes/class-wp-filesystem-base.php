@@ -46,8 +46,6 @@ class WP_Filesystem_Base {
 	 * @return string The location of the remote path.
 	 */
 	function abspath() {
-		if ( defined('FTP_BASE') && strpos($this->method, 'ftp') !== false )
-			return FTP_BASE;
 		$folder = $this->find_folder(ABSPATH);
 		//Perhaps the FTP folder is rooted at the WordPress install, Check for wp-includes folder in root, Could have some false positives, but rare.
 		if ( ! $folder && $this->is_dir('/wp-includes') )
@@ -62,8 +60,6 @@ class WP_Filesystem_Base {
 	 * @return string The location of the remote path.
 	 */
 	function wp_content_dir() {
-		if ( defined('FTP_CONTENT_DIR') && strpos($this->method, 'ftp') !== false )
-			return FTP_CONTENT_DIR;
 		return $this->find_folder(WP_CONTENT_DIR);
 	}
 	/**
@@ -75,8 +71,6 @@ class WP_Filesystem_Base {
 	 * @return string The location of the remote path.
 	 */
 	function wp_plugins_dir() {
-		if ( defined('FTP_PLUGIN_DIR') && strpos($this->method, 'ftp') !== false )
-			return FTP_PLUGIN_DIR;
 		return $this->find_folder(WP_PLUGIN_DIR);
 	}
 	/**
@@ -142,6 +136,15 @@ class WP_Filesystem_Base {
 	 */
 	function find_folder($folder) {
 
+		if ( strpos($this->method, 'ftp') !== false ) {
+			$constant_overrides = array( 'FTP_BASE' => ABSPATH, 'FTP_CONTENT_DIR' => WP_CONTENT_DIR, 'FTP_PLUGIN_DIR' => WP_PLUGIN_DIR );
+			foreach ( $constant_overrides as $constant => $dir )
+				if ( defined($constant) && $folder === $dir )
+					return trailingslashit(constant($constant));
+		} elseif ( 'direct' == $this->method ) {
+			return trailingslashit($folder);
+		}
+
 		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows driveletter if its there.
 		$folder = str_replace('\\', '/', $folder); //Windows path sanitiation
 
@@ -149,6 +152,7 @@ class WP_Filesystem_Base {
 			return $this->cache[ $folder ];
 
 		if ( $this->exists($folder) ) { //Folder exists at that absolute path.
+			$folder = trailingslashit($folder);
 			$this->cache[ $folder ] = $folder;
 			return $folder;
 		}
@@ -189,23 +193,23 @@ class WP_Filesystem_Base {
 			// If its found, change into it and follow through looking for it.
 			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
 			// If it reaches the end, and still cant find it, it'll return false for the entire function.
-			if( isset($files[ $key ]) ){
+			if ( isset($files[ $key ]) ){
 				//Lets try that folder:
 				$newdir = trailingslashit(path_join($base, $key));
-				if( $this->verbose )
+				if ( $this->verbose )
 					printf( __('Changing to %s') . '<br/>', $newdir );
-				if( $ret = $this->search_for_folder( $folder, $newdir, $loop) )
+				if ( $ret = $this->search_for_folder( $folder, $newdir, $loop) )
 					return $ret;
 			}
 		}
 
 		//Only check this as a last resort, to prevent locating the incorrect install. All above proceeedures will fail quickly if this is the right branch to take.
-		if(isset( $files[ $last_path ] ) ) {
-			if( $this->verbose )
+		if (isset( $files[ $last_path ] ) ) {
+			if ( $this->verbose )
 				printf( __('Found %s') . '<br/>',  $base . $last_path );
-			return $base . $last_path;
+			return trailingslashit($base . $last_path);
 		}
-		if( $loop )
+		if ( $loop )
 			return false;//Prevent tihs function looping again.
 		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
 		return $this->search_for_folder($folder, '/', true);

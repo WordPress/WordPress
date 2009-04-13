@@ -169,7 +169,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 	function getchmod($file) {
 		$dir = $this->dirlist($file);
-		return $dir[$file]['permsn'];
+		return $this->getnumchmodfromh( $dir[basename($file)]['perms'] );
 	}
 	function group($file) {
 		$dir = $this->dirlist($file);
@@ -187,7 +187,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return ftp_rename($this->link, $source, $destination);
 	}
 
-	function delete($file,$recursive=false) {
+	function delete($file ,$recursive = false ) {
+		if ( empty($file) )
+			return false;
 		if ( $this->is_file($file) )
 			return @ftp_delete($this->link, $file);
 		if ( !$recursive )
@@ -321,11 +323,12 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	function dirlist($path = '.', $incdot = false, $recursive = false) {
-		if( $this->is_file($path) ) {
-			$limitFile = basename($path);
-			$path = dirname($path) . '/';
+
+		if ( substr($path, -1) !== '/') {
+			$limit = basename($path);
+			$path = trailingslashit(dirname($path));
 		} else {
-			$limitFile = false;
+			$limit = false;
 		}
 
 		$list = @ftp_rawlist($this->link, '-a ' . $path, false);
@@ -339,7 +342,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			if ( empty($entry) )
 				continue;
 
-			if ( '.' == $entry["name"] || '..' == $entry["name"] )
+			if ( '.' == $entry['name'] || '..' == $entry['name'] )
+				continue;
+
+			if ( $limit && $entry['name'] != $limit )
 				continue;
 
 			$dirlist[ $entry['name'] ] = $entry;

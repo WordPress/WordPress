@@ -186,7 +186,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 	function getchmod($file) {
 		$dir = $this->dirlist($file);
-		return $dir[$file]['permsn'];
+		return $this->getnumchmodfromh( $dir[basename($file)]['perms'] );
 	}
 
 	function group($file) {
@@ -281,21 +281,25 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function dirlist($path = '.', $incdot = false, $recursive = false ) {
-		if( $this->is_file($path) ) {
-			$limitFile = basename($path);
-			$path = dirname($path) . '/';
+
+		if ( substr($path, -1) !== '/') {
+			$limit = basename($path);
+			$path = trailingslashit(dirname($path));
 		} else {
-			$limitFile = false;
+			$limit = false;
 		}
 
 		$list = $this->ftp->dirlist($path);
 		if( ! $list )
 			return false;
+
 		if( empty($list) )
 			return array();
 
 		$ret = array();
 		foreach ( $list as $struc ) {
+			if ( $limit && $struc['name'] != $limit )
+				continue;
 
 			if ( 'd' == $struc['type'] ) {
 				$struc['files'] = array();

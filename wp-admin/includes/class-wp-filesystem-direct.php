@@ -14,9 +14,9 @@
  * @subpackage Filesystem
  * @uses WP_Filesystem_Base Extends class
  */
-class WP_Filesystem_Direct  extends WP_Filesystem_Base {
+class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	var $permission = null;
-	var $errors = array();
+	var $errors = null;
 	function WP_Filesystem_Direct($arg) {
 		$this->method = 'direct';
 		$this->errors = new WP_Error();
@@ -49,82 +49,82 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 		return @chdir($dir);
 	}
 	function chgrp($file, $group, $recursive = false) {
-		if( ! $this->exists($file) )
+		if ( ! $this->exists($file) )
 			return false;
-		if( ! $recursive )
+		if ( ! $recursive )
 			return @chgrp($file, $group);
-		if( ! $this->is_dir($file) )
+		if ( ! $this->is_dir($file) )
 			return @chgrp($file, $group);
 		//Is a directory, and we want recursive
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename)
+		foreach ($filelist as $filename)
 			$this->chgrp($file . $filename, $group, $recursive);
 
 		return true;
 	}
 	function chmod($file, $mode = false, $recursive = false) {
-		if( ! $mode )
+		if ( ! $mode )
 			$mode = $this->permission;
-		if( ! $this->exists($file) )
+		if ( ! $this->exists($file) )
 			return false;
-		if( ! $recursive )
+		if ( ! $recursive )
 			return @chmod($file,$mode);
-		if( ! $this->is_dir($file) )
+		if ( ! $this->is_dir($file) )
 			return @chmod($file, $mode);
 		//Is a directory, and we want recursive
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename)
+		foreach ($filelist as $filename)
 			$this->chmod($file . $filename, $mode, $recursive);
 
 		return true;
 	}
 	function chown($file, $owner, $recursive = false) {
-		if( ! $this->exists($file) )
+		if ( ! $this->exists($file) )
 			return false;
-		if( ! $recursive )
+		if ( ! $recursive )
 			return @chown($file, $owner);
-		if( ! $this->is_dir($file) )
+		if ( ! $this->is_dir($file) )
 			return @chown($file, $owner);
 		//Is a directory, and we want recursive
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename){
+		foreach ($filelist as $filename){
 			$this->chown($file . '/' . $filename, $owner, $recursive);
 		}
 		return true;
 	}
 	function owner($file) {
 		$owneruid = @fileowner($file);
-		if( ! $owneruid )
+		if ( ! $owneruid )
 			return false;
-		if( ! function_exists('posix_getpwuid') )
+		if ( ! function_exists('posix_getpwuid') )
 			return $owneruid;
 		$ownerarray = posix_getpwuid($owneruid);
 		return $ownerarray['name'];
 	}
 	function getchmod($file) {
-		return @fileperms($file);
+		return substr(decoct(@fileperms($file)),3);
 	}
 	function group($file) {
 		$gid = @filegroup($file);
-		if( ! $gid )
+		if ( ! $gid )
 			return false;
-		if( ! function_exists('posix_getgrgid') )
+		if ( ! function_exists('posix_getgrgid') )
 			return $gid;
 		$grouparray = posix_getgrgid($gid);
 		return $grouparray['name'];
 	}
 
 	function copy($source, $destination, $overwrite = false) {
-		if( ! $overwrite && $this->exists($destination) )
+		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 		return copy($source, $destination);
 	}
 
 	function move($source, $destination, $overwrite = false) {
 		//Possible to use rename()?
-		if( $this->copy($source, $destination, $overwrite) && $this->exists($destination) ){
+		if ( $this->copy($source, $destination, $overwrite) && $this->exists($destination) ){
 			$this->delete($source);
 			return true;
 		} else {
@@ -133,11 +133,13 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 	}
 
 	function delete($file, $recursive = false) {
+		if ( empty($file) ) //Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
+			return false;
 		$file = str_replace('\\', '/', $file); //for win32, occasional problems deleteing files otherwise
 
-		if( $this->is_file($file) )
+		if ( $this->is_file($file) )
 			return @unlink($file);
-		if( ! $recursive && $this->is_dir($file) )
+		if ( ! $recursive && $this->is_dir($file) )
 			return @rmdir($file);
 
 		//At this point its a folder, and we're in recursive mode
@@ -145,13 +147,13 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 		$filelist = $this->dirlist($file, true);
 
 		$retval = true;
-		if( is_array($filelist) ) //false if no files, So check first.
-			foreach($filelist as $filename => $fileinfo)
-				if( ! $this->delete($file . $filename, $recursive) )
+		if ( is_array($filelist) ) //false if no files, So check first.
+			foreach ($filelist as $filename => $fileinfo)
+				if ( ! $this->delete($file . $filename, $recursive) )
 					$retval = false;
 
-		if( ! @rmdir($file) )
-			return false;
+		if ( file_exists($file) && ! @rmdir($file) )
+			$retval = false;
 		return $retval;
 	}
 
@@ -187,33 +189,33 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 	}
 
 	function touch($file, $time = 0, $atime = 0){
-		if($time == 0)
+		if ($time == 0)
 			$time = time();
-		if($atime == 0)
+		if ($atime == 0)
 			$atime = time();
 		return @touch($file, $time, $atime);
 	}
 
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false){
-		if( ! $chmod)
+		if ( ! $chmod)
 			$chmod = $this->permission;
 
-		if( ! @mkdir($path, $chmod) )
+		if ( ! @mkdir($path, $chmod) )
 			return false;
-		if( $chown )
+		if ( $chown )
 			$this->chown($path, $chown);
-		if( $chgrp )
+		if ( $chgrp )
 			$this->chgrp($path, $chgrp);
 		return true;
 	}
 
 	function rmdir($path, $recursive = false) {
 		//Currently unused and untested, Use delete() instead.
-		if( ! $recursive )
+		if ( ! $recursive )
 			return @rmdir($path);
 		//recursive:
 		$filelist = $this->dirlist($path);
-		foreach($filelist as $filename => $det) {
+		foreach ($filelist as $filename => $det) {
 			if ( '/' == substr($filename, -1, 1) )
 				$this->rmdir($path . '/' . $filename, $recursive);
 			@rmdir($filename);
@@ -222,13 +224,13 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 	}
 
 	function dirlist($path, $incdot = false, $recursive = false) {
-		if( $this->is_file($path) ) {
+		if ( $this->is_file($path) ) {
 			$limitFile = basename($path);
 			$path = dirname($path);
 		} else {
 			$limitFile = false;
 		}
-		if( ! $this->is_dir($path) )
+		if ( ! $this->is_dir($path) )
 			return false;
 
 		$ret = array();
@@ -239,11 +241,11 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 			$struc = array();
 			$struc['name'] = $entry;
 
-			if( '.' == $struc['name'] || '..' == $struc['name'] )
+			if ( '.' == $struc['name'] || '..' == $struc['name'] )
 				continue; //Do not care about these folders.
-			if( '.' == $struc['name'][0] && !$incdot)
+			if ( '.' == $struc['name'][0] && !$incdot)
 				continue;
-			if( $limitFile && $struc['name'] != $limitFile)
+			if ( $limitFile && $struc['name'] != $limitFile)
 				continue;
 
 			$struc['perms'] 	= $this->gethchmod($path.'/'.$entry);
@@ -258,7 +260,7 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 			$struc['type']		= $this->is_dir($path.'/'.$entry) ? 'd' : 'f';
 
 			if ( 'd' == $struc['type'] ) {
-				if( $recursive )
+				if ( $recursive )
 					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
 				else
 					$struc['files'] = array();
