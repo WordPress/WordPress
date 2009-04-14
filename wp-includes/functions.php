@@ -2317,7 +2317,7 @@ function wp_nonce_ays( $action ) {
 	if ( wp_get_referer() )
 		$html .= "</p><p><a href='" . remove_query_arg( 'updated', clean_url( wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
 	elseif ( 'log-out' == $action )
-		$html .= "</p><p>" . sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_nonce_url( site_url('wp-login.php?action=logout', 'login'), 'log-out' ) );
+		$html .= "</p><p>" . sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_logout_url() );
 
 	wp_die( $html, $title);
 }

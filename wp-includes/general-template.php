@@ -154,14 +154,20 @@ function wp_loginout() {
  * @since 2.7
  * @uses wp_nonce_url() To protect against CSRF
  * @uses site_url() To generate the log in URL
+ * @uses apply_filters() calls 'logout_url' hook on final logout url
  *
  * @param string $redirect Path to redirect to on logout.
  */
 function wp_logout_url($redirect = '') {
-	if ( strlen($redirect) )
-		$redirect = "&redirect_to=$redirect";
+	$args = array( 'action' => 'logout' );
+	if ( !empty($redirect) ) {
+		$args['redirect_to'] = $redirect;
+	}
 
-	return wp_nonce_url( site_url("wp-login.php?action=logout$redirect", 'login'), 'log-out' );
+	$logout_url = add_query_arg($args, site_url('wp-login.php', 'login'));
+	$logout_url = wp_nonce_url( $logout_url, 'log-out' );
+
+	return apply_filters('logout_url', $logout_url, $redirect);
 }
 
 /**
@@ -171,14 +177,18 @@ function wp_logout_url($redirect = '') {
  *
  * @since 2.7
  * @uses site_url() To generate the log in URL
+ * @uses apply_filters() calls 'login_url' hook on final login url
  *
  * @param string $redirect Path to redirect to on login.
  */
 function wp_login_url($redirect = '') {
-	if ( strlen($redirect) )
-		$redirect = "?redirect_to=$redirect";
+	$login_url = site_url('wp-login.php', 'login');
 
-	return site_url("wp-login.php$redirect", 'login');
+	if ( !empty($redirect) ) {
+		$login_url = add_query_arg('redirect_to', $redirect, $login_url);
+	}
+
+	return apply_filters('login_url', $login_url, $redirect);
 }
 
 /**

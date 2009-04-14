@@ -750,7 +750,7 @@ function auth_redirect() {
 
 	$redirect = ( strpos($_SERVER['REQUEST_URI'], '/options.php') && wp_get_referer() ) ? wp_get_referer() : $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode( $redirect ), 'login' );
+	$login_url = wp_login_url($redirect);
 
 	wp_redirect($login_url);
 	exit();
@@ -1102,7 +1102,7 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 
 	$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
-	$message .= site_url("wp-login.php", 'login') . "\r\n";
+	$message .= wp_login_url() . "\r\n";
 
 	wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_option('blogname')), $message);
 
