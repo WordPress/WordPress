@@ -38,21 +38,43 @@ $sidebars_widgets = wp_get_sidebars_widgets();
 if ( empty( $sidebars_widgets ) )
 	$sidebars_widgets = wp_get_widget_defaults();
 
-// look for "lost" widgets, perhaps run only after changin themes
+// look for "lost" widgets, this has to run at each theme change
 function retrieve_widgets() {
 	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets;
 
-	$key_sidebars = array_keys( (array) $wp_registered_sidebars);
-	$key_widgets = array_keys($sidebars_widgets);
-	if ( count($key_widgets) > count($key_sidebars) ) {
-		$changed_sidebars = array_diff( $key_widgets, $key_sidebars );
-		foreach ( $changed_sidebars as $lost ) {
-			if ( is_array($sidebars_widgets[$lost]) )
-				$sidebars_widgets['wp_inactive_widgets'] = array_merge( (array) $sidebars_widgets['wp_inactive_widgets'], $sidebars_widgets[$lost] );
-			unset($sidebars_widgets[$lost]);
+	$_sidebars_widgets = array();
+	$sidebars = array_keys($wp_registered_sidebars);
+
+	$diff = array_diff( array_keys($sidebars_widgets), $sidebars );
+	if ( empty($diff) )
+		return;
+
+	unset( $sidebars_widgets['array_version'] );
+
+	// Move the known-good ones first
+	foreach ( $sidebars as $id ) {
+		if ( array_key_exists( $id, $sidebars_widgets ) ) {
+			$_sidebars_widgets[$id] = $sidebars_widgets[$id];
+			unset($sidebars_widgets[$id], $sidebars[$id]);
 		}
 	}
 
+	// Assign to each unmatched registered sidebar the first available orphan
+	while ( ( $sidebar = array_shift( $sidebars ) ) && $widgets = array_shift( $sidebars_widgets ) )
+		$_sidebars_widgets[ $sidebar ] = $widgets;
+
+	// if new theme has less sidebars than the old theme
+	if ( !empty($sidebars_widgets) ) {
+		foreach ( $sidebars_widgets as $lost => $val ) {
+			if ( is_array($val) )
+				$_sidebars_widgets['wp_inactive_widgets'] = array_merge( (array) $_sidebars_widgets['wp_inactive_widgets'], $val );
+		}
+	}
+
+	$sidebars_widgets = $_sidebars_widgets;
+	unset($_sidebars_widgets);
+
+	// find hidden/lost multi-widget instances
 	$shown_widgets = array();
 	foreach ( $sidebars_widgets as $sidebar ) {
 		if ( is_array($sidebar) )
@@ -83,6 +105,7 @@ function retrieve_widgets() {
 	}
 
 	$sidebars_widgets['wp_inactive_widgets'] = array_merge($lost_widgets, (array) $sidebars_widgets['wp_inactive_widgets']);
+	$sidebars_widgets['array_version'] = 3;
 	wp_set_sidebars_widgets($sidebars_widgets);
 }
 retrieve_widgets();
@@ -133,7 +156,6 @@ require_once( 'admin-header.php' ); ?>
 <?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
-
 
 <!--
 	<form id="widgets-filter" action="" method="get">
