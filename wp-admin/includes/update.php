@@ -36,7 +36,7 @@ function get_core_updates( $options = array() ) {
 	$from_api = get_transient( 'update_core' );
 	if ( empty($from_api) )
 		return false;
-	if ( !is_array( $from_api->updates ) ) return false;
+	if ( !isset( $from_api->updates ) || !is_array( $from_api->updates ) ) return false;
 	$updates = $from_api->updates;
 	if ( !is_array( $updates ) ) return false;
 	$result = array();

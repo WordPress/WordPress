@@ -243,6 +243,7 @@ function _maybe_update_core() {
 
 	if ( isset( $current->last_checked ) &&
 		43200 > ( time() - $current->last_checked ) &&
+		isset( $current->version_checked ) &&
 		$current->version_checked == $wp_version )
 		return;
 
