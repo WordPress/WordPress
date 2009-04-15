@@ -1094,7 +1094,7 @@ function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_
  * @return string
  */
 function get_index_rel_link() {
-	$link = "<link rel='index' title='" . get_bloginfo('name') . "' href='" . get_bloginfo('siteurl') . "' />\n";
+	$link = "<link rel='index' title='" . attribute_escape(get_bloginfo('name')) . "' href='" . get_bloginfo('siteurl') . "' />\n";
 	return apply_filters( "index_rel_link", $link );
 }
 
