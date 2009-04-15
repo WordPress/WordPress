@@ -224,7 +224,7 @@ function wp_widget_control( $sidebar_args ) {
 			<div class="widget-control-actions">
 				<a class="button widget-control-remove alignleft" href="<?php echo $edit ? clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key, '_wpnonce' => $nonce ) ) ) : '#remove'; ?>"><?php _e('Remove'); ?></a>
 <?php		if ( !empty($control) ) { ?>
-				<a class="button-primary widget-control-save alignright" href="<?php echo $edit ? clean_url( add_query_arg( array( 'save' => $id_format, 'key' => $key, '_wpnonce' => $nonce ) ) ) : '#save'; ?>"><?php _e('Save'); ?></a>
+				<input type="submit" name="savewidget" class="button-primary widget-control-save alignright" value="<?php _e('Save'); ?>" />
 <?php		} ?>
 				<br class="clear" />
 			</div>
