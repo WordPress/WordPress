@@ -3030,24 +3030,6 @@ function wp_suspend_cache_invalidation($suspend = true) {
 	return $current_suspend;
 }
 
-/**
- * Copy an object.
- *
- * Returns a cloned copy of an object.
- *
- * @since 2.7.0
- *
- * @param object $object The object to clone
- * @return object The cloned object
- */
-function wp_clone( $object ) {
-	static $can_clone;
-	if ( !isset( $can_clone ) ) {
-		$can_clone = version_compare( phpversion(), '5.0', '>=' );
-	}
-	return $can_clone ? clone( $object ) : $object;
-}
-
 function get_site_option( $key, $default = false, $use_cache = true ) {
 	return get_option($key, $default);
 }

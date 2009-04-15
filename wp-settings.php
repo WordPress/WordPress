@@ -270,6 +270,24 @@ $prefix = $wpdb->set_prefix($table_prefix);
 if ( is_wp_error($prefix) )
 	wp_die(/*WP_I18N_BAD_PREFIX*/'<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.'/*/WP_I18N_BAD_PREFIX*/);
 
+/**
+ * Copy an object.
+ *
+ * Returns a cloned copy of an object.
+ *
+ * @since 2.7.0
+ *
+ * @param object $object The object to clone
+ * @return object The cloned object
+ */
+function wp_clone( $object ) {
+	static $can_clone;
+	if ( !isset( $can_clone ) ) {
+		$can_clone = version_compare( phpversion(), '5.0', '>=' );
+	}
+	return $can_clone ? clone( $object ) : $object;
+}
+
 if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 	require_once (WP_CONTENT_DIR . '/object-cache.php');
 	$_wp_using_ext_object_cache = true;
