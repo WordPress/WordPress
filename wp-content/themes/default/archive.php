@@ -7,7 +7,7 @@
 get_header();
 ?>
 
-	<div id="content" class="narrowcolumn">
+	<div id="content" class="narrowcolumn" role="main">
 
 		<?php if (have_posts()) : ?>
 
