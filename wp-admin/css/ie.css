@@ -356,10 +356,6 @@ table.ie-fixed {
     background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
 }
 
-* html .widget {
-    border-color: #dfdfdf;
-}
-
 * html div.widget-liquid-left {
     width: 99%;
 }
@@ -371,3 +367,8 @@ table.ie-fixed {
 * html .widgets-sortables {
 	height: 50px;
 }
+
+* html a#content_resize {
+	right: -2px;
+}
+

@@ -10,22 +10,7 @@ var findPosts;
 			}
 			$('#find-posts').show().draggable({
 				handle: '#find-posts-head'
-			}).resizable({
-				handles: 'all',
-				minHeight: 150,
-				minWidth: 280
-			}).css({'top':st + 50 + 'px','left':'50%','marginLeft':'-200px'});
-
-			$('.ui-resizable-handle').css({
-				'backgroundColor': '#e5e5e5'
-			});
-
-			$('.ui-resizable-se').css({
-				'border': '0 none',
-				'width': '15px',
-				'height': '16px',
-				'background': 'transparent url(images/se.png) no-repeat scroll 0 0'
-			});
+			}).css({'top':st + 50 + 'px','left':'50%','marginLeft':'-250px'});
 
 			$('#find-posts-input').focus().keyup(function(e){
 				if (e.which == 27) { findPosts.close(); } // close on Escape
@@ -36,15 +21,15 @@ var findPosts;
 
 		close : function() {
 			$('#find-posts-response').html('');
-			$('#find-posts').draggable('destroy').resizable('destroy').hide();
+			$('#find-posts').draggable('destroy').hide();
 		},
 
 		send : function() {
-			var post = {};
-
-			post['ps'] = $('#find-posts-input').val();
-			post['action'] = 'find_posts';
-			post['_ajax_nonce'] = $('#_ajax_nonce').val();
+			var post = {
+				ps: $('#find-posts-input').val(),
+				action: 'find_posts',
+				_ajax_nonce: $('#_ajax_nonce').val()
+			};
 
 			if ( $('#find-posts-pages:checked').val() ) {
 				post['pages'] = 1;

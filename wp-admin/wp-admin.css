@@ -1,5 +1,33 @@
 
-p, ul, ol, blockquote { font-size: 12px; }
+textarea,
+input,
+select {
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="image"] {
+	border: 0 none;
+}
+
+p,
+ul,
+ol,
+blockquote,
+input,
+select {
+	font-size: 12px;
+}
+
+select option {
+	padding: 2px;
+}
 
 .plugins .name,
 #pass-strength-result.strong,
@@ -307,7 +335,6 @@ form p.submit a.cancel:hover {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;
@@ -352,12 +379,9 @@ a.button-secondary {
 }
 
 #wpcontent select {
-	font: 11px/20px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	padding: 2px;
-	border-width: 1px;
-	border-style: solid;
 	height: 2em;
-	vertical-align: top;
+	font-size: 11px;
 }
 
 #wpcontent option {
@@ -462,15 +486,9 @@ textarea.all-options, input.all-options {
 	margin: 3px 1px 4px;
 	line-height: 18px;
 	display: inline-block;
-	border-width: 1px;
-	border-style: solid;
 	min-width: 26px;
 	padding: 2px 4px;
 	font-size: 12px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 #ed_reply_toolbar input {
@@ -1412,7 +1430,6 @@ table.form-table td .updated {
 }
 
 #post-status-info {
-	line-height: 2;
 	border-width: 0 1px 1px;
 	border-style: none solid solid;
 	width: 100%;
@@ -1440,15 +1457,12 @@ table.form-table td .updated {
 
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
 	display: block;
-	float: right;
 	background: transparent url(images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
-	height: 12px;
 	cursor: se-resize;
 	margin: 0 2px;
 	position: relative;
-	right: 0;
-	top: 29px;
+	top: 22px;
 }
 
 
@@ -1943,13 +1957,6 @@ form#tags-filter {
 p.search-box {
 	float: right;
 	margin: -5px 0 0;
-}
-
-.search-input,
-.screen-per-page {
-	border-width: 1px;
-	border-style: solid;
-	padding: 2px;
 }
 
 .screen-per-page {
@@ -2614,7 +2621,7 @@ ul.cat-checklist {
 	border-width: 1px;
 	overflow-y: scroll;
 	padding: 0 5px;
-	margin: 0 0 5px;
+	margin: 0;
 }
 
 #bulk-titles {
@@ -2773,10 +2780,10 @@ abbr.required {
 
 /* find posts */
 .find-box {
-	width: 400px;
-	height: 250px;
+	width: 500px;
+	height: 300px;
 	overflow: hidden;
-	padding: 33px 5px 50px;
+	padding: 33px 5px 40px;
 	position: absolute;
 	z-index: 1000;
 }
@@ -2814,18 +2821,23 @@ abbr.required {
 }
 
 #find-posts-response .found-radio {
-	padding: 8px 0 0 8px;
+	padding: 5px 0 0 8px;
 	width: 15px;
 }
 
 .find-box-buttons {
-	bottom: 12px;
-	left: 12px;
-	position: absolute;
+	width: 480px;
+	margin: 8px;
 }
 
 .find-box-search label {
 	padding-right: 6px;
+}
+
+.find-box #resize-se {
+	position: absolute;
+	right: 1px;
+	bottom: 1px;
 }
 
 /* favorite-actions */
@@ -2956,6 +2968,7 @@ table.fixed {
 
 .fixed .column-comments {
 	width: 4em;
+	padding-top: 8px;
 }
 
 .fixed .column-slug {
@@ -2979,10 +2992,6 @@ table.fixed {
 .widefat th,
 .widefat td {
 	overflow: hidden;
-}
-
-.widefat th {
-	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
 .icon32 {

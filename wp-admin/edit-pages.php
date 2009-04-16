@@ -170,7 +170,7 @@ endif;
 
 <p class="search-box">
 	<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?>:</label>
-	<input type="text" class="search-input" id="page-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<input type="text" id="page-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
 </p>
 

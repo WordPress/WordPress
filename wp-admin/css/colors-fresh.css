@@ -123,11 +123,6 @@ textarea.disabled {
 	color: #666;
 }
 
-select {
-	background-color: #fff;
-	border-color: #ddd;
-}
-
 strong .post-com-count span {
 	background-color: #21759b;
 }
@@ -195,12 +190,6 @@ strong .post-com-count span {
 	border-color: #c00 !important;
 }
 
-.form-table input,
-.form-table textarea,
-.search-input,
-.screen-per-page,
-.form-field input,
-.form-field textarea,
 .submit {
 	border-color: #DFDFDF;
 }
@@ -618,11 +607,7 @@ input.readonly, textarea.readonly {
 .postbox,
 #titlediv,
 #poststuff .postarea,
-#poststuff .stuffbox,
-.postbox input[type="text"],
-.postbox textarea,
-.stuffbox input[type="text"],
-.stuffbox textarea {
+.stuffbox {
 	border-color: #dfdfdf;
 }
 
@@ -631,7 +616,6 @@ input.readonly, textarea.readonly {
 	background-color: #FFF;
 }
 
-.widget .widget-top,
 .ui-sortable .postbox h3 {
 	color: #464646;
 }
@@ -1579,3 +1563,13 @@ div.widgets-holder-wrap {
 	color: #d54e21;
 }
 
+textarea,
+input,
+select {
+	border-color: #DFDFDF;
+}
+
+* html input,
+* html .widget {
+    border-color: #dfdfdf;
+}

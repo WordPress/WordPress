@@ -106,9 +106,9 @@ textarea.disabled {
 	color: #fff;
 }
 
-.metabox-holder .postbox h3,
-#poststuff .postbox h3,
-#poststuff .stuffbox h3 {
+.widget .widget-top,
+.postbox h3,
+.stuffbox h3 {
 	background: #dfdfdf url("../images/blue-grad.png") repeat-x left top;
 	text-shadow: #fff 0 1px 0;
 }
@@ -121,11 +121,6 @@ textarea.disabled {
 
 .setting-description, .form-wrap p {
 	color: #666;
-}
-
-select {
-	background-color: #fff;
-	border-color: #8CBDD5;
 }
 
 strong .post-com-count span {
@@ -195,12 +190,6 @@ strong .post-com-count span {
 	border-color: #c00 !important;
 }
 
-.form-table input,
-.form-table textarea,
-.search-input,
-.screen-per-page,
-.form-field input,
-.form-field textarea,
 .submit {
 	border-color: #8CBDD5;
 }
@@ -614,15 +603,11 @@ input.readonly, textarea.readonly {
 	background-color: #fff;
 }
 
-.metabox-holder .postbox,
-#poststuff .postbox,
+.widget,
+.postbox,
 #titlediv,
 #poststuff .postarea,
-#poststuff .stuffbox,
-.postbox input[type="text"],
-.postbox textarea,
-.stuffbox input[type="text"],
-.stuffbox textarea {
+.stuffbox {
 	border-color: #BBD8E7;
 }
 
@@ -635,6 +620,7 @@ input.readonly, textarea.readonly {
 	color: #093E56;
 }
 
+.widget .widget-top,
 .ui-sortable .postbox h3:hover {
 	color: #000;
 }
@@ -980,7 +966,7 @@ abbr.required,
 #timestampdiv input,
 #namediv input,
 #poststuff .inside .the-tagcloud {
-	border-color: #ddd;
+	border-color: #8CBDD5;
 }
 
 /* menu */
@@ -1577,3 +1563,13 @@ div.widgets-holder-wrap {
 	color: #d54e21;
 }
 
+textarea,
+input,
+select {
+	border-color: #8CBDD5;
+}
+
+* html input,
+* html .widget {
+    border-color: #8CBDD5;
+}

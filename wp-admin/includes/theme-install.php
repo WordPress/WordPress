@@ -158,7 +158,7 @@ function install_theme_search_form() {
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
 	<option value="tag" <?php selected('tag', $type) ?>><?php _e('Tag'); ?></option>
 	</select>
-	<input type="text" name="s" class="search-input" size="30" value="<?php echo attribute_escape($term) ?>" />
+	<input type="text" name="s" size="30" value="<?php echo attribute_escape($term) ?>" />
 	<input type="submit" name="search" value="<?php echo attribute_escape(__('Search')); ?>" class="button" />
 </form>
 <?php

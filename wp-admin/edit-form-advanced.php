@@ -613,7 +613,7 @@ endif; ?>
 
 <?php the_editor($post->post_content); ?>
 
-<table id="post-status-info"><tbody><tr>
+<table id="post-status-info" cellspacing="0"><tbody><tr>
 	<td id="wp-word-count"></td>
 	<td class="autosave-info">
 	<span id="autosave">&nbsp;</span>

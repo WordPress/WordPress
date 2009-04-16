@@ -74,7 +74,7 @@ endif; ?>
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="link-category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
-	<input type="text" class="search-input" id="link-category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<input type="text" id="link-category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 </form>

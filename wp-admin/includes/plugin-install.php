@@ -162,7 +162,7 @@ function install_search_form(){
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author') ?></option>
 			<option value="tag"<?php selected('tag', $type) ?>><?php _e('Tag') ?></option>
 		</select>
-		<input type="text" name="s" class="search-input" value="<?php echo attribute_escape($term) ?>" />
+		<input type="text" name="s" value="<?php echo attribute_escape($term) ?>" />
 		<input type="submit" name="search" value="<?php echo attribute_escape(__('Search')) ?>" class="button" />
 	</form><?php
 }

@@ -3124,7 +3124,7 @@ function find_posts_div($found_action = '') {
 				<input type="hidden" name="affected" id="affected" value="" />
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
-				<input type="text" id="find-posts-input" class="search-input" name="ps" value="" />
+				<input type="text" id="find-posts-input" name="ps" value="" />
 				<input type="button" onclick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
@@ -3135,8 +3135,8 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
-			<input id="find-posts-submit" type="submit" class="button" value="<?php _e('Select'); ?>" />
+			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
+			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php _e('Select'); ?>" />
 		</div>
 	</div>
 <?php

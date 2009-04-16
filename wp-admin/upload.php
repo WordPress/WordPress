@@ -10,7 +10,6 @@
 require_once('admin.php');
 wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
-wp_enqueue_script( 'jquery-ui-resizable' );
 
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
@@ -211,7 +210,7 @@ unset($type_links);
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
-	<input type="text" class="search-input" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
 </p>
 </form>

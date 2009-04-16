@@ -1705,7 +1705,7 @@ function media_upload_library_form($errors) {
 
 <p id="media-search" class="search-box">
 	<label class="hidden" for="media-search-input"><?php _e('Search Media');?>:</label>
-	<input type="text" id="media-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php echo attribute_escape( __( 'Search Media' ) ); ?>" class="button" />
 </p>
 
