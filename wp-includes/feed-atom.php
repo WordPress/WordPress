@@ -8,8 +8,7 @@
 header('Content-Type: ' . feed_content_type('atom') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
-?>
-<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
+echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <feed
   xmlns="http://www.w3.org/2005/Atom"
   xmlns:thr="http://purl.org/syndication/thread/1.0"

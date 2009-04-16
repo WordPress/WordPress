@@ -8,8 +8,7 @@
 header('Content-Type: ' . feed_content_type('rdf') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
-?>
-<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
+echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
