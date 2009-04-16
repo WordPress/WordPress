@@ -226,8 +226,7 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
  */
 function maybe_unserialize( $original ) {
 	if ( is_serialized( $original ) ) // don't attempt to unserialize data that wasn't serialized going in
-		if ( false !== $gm = @unserialize( $original ) )
-			return $gm;
+		return @unserialize( $original );
 	return $original;
 }
 
