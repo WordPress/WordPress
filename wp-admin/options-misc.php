@@ -62,14 +62,6 @@ include('admin-header.php');
 </tr>
 <tr>
 
-<th scope="row" class="th-full">
-<label for="hack_file">
-<input type="checkbox" id="hack_file" name="hack_file" value="1"<?php checked('1', get_option('hack_file')); ?> />
-<?php _e('Use legacy <code>my-hacks.php</code> file support') ?>
-</label>
-</th>
-</tr>
-
 </table>
 
 <?php do_settings_sections('misc'); ?>
