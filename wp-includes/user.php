@@ -86,7 +86,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 	$userdata = get_userdatabylogin($username);
 
 	if ( !$userdata || ($userdata->user_login != $username) ) {
-		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
+		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), site_url('wp-login.php?action=lostpassword', 'login')));
 	}
 
 	$userdata = apply_filters('wp_authenticate_user', $userdata, $password);
@@ -95,7 +95,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 	}
 
 	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) ) {
-		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
+		return new WP_Error('incorrect_password', sprintf(__('<strong>ERROR</strong>: Incorrect password. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), site_url('wp-login.php?action=lostpassword', 'login')));
 	}
 
 	$user =  new WP_User($userdata->ID);
