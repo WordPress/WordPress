@@ -522,7 +522,7 @@ function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
-		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag'
+		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
 	);
 	$args = wp_parse_args( $args, $defaults );
 
@@ -547,7 +547,7 @@ function wp_tag_cloud( $args = '' ) {
 
 	$return = apply_filters( 'wp_tag_cloud', $return, $args );
 
-	if ( 'array' == $args['format'] )
+	if ( 'array' == $args['format'] || empty($args['echo']) )
 		return $return;
 
 	echo $return;
