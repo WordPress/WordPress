@@ -640,7 +640,10 @@ function get_comment_type() {
  * @param string $trackbacktxt The string to display for trackback type
  * @param string $pingbacktxt The string to display for pingback type
  */
-function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pingbacktxt = 'Pingback') {
+function comment_type($commenttxt = false, $trackbacktxt = false, $pingbacktxt = false) {
+    if ( false === $commenttxt ) $commenttxt = _x( 'Comment', 'noun' );
+    if ( false === $trackbacktxt ) $trackbacktxt = __( 'Trackback' );
+    if ( false === $pingbacktxt ) $pingbacktxt = __( 'Pingback' );
 	$type = get_comment_type();
 	switch( $type ) {
 		case 'trackback' :
@@ -841,7 +844,8 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$overridden_cpage = TRUE;
 	}
 
-	define('COMMENTS_TEMPLATE', true);
+	if ( !defined('COMMENTS_TEMPLATE') || !COMMENTS_TEMPLATE)
+		define('COMMENTS_TEMPLATE', true);
 
 	$include = apply_filters('comments_template', STYLESHEETPATH . $file );
 	if ( file_exists( $include ) )
@@ -902,9 +906,14 @@ function comments_popup_script($width=400, $height=400, $file='') {
  * @param string $none The string to display when comments have been turned off
  * @return null Returns null on single posts and pages.
  */
-function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
+function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post;
-
+	
+    if ( false === $zero ) $zero = __( 'No Comments' );
+    if ( false === $one ) $one = __( '1 Comment' );
+    if ( false === $more ) $more = __( '% Comments' );
+    if ( false === $none ) $none = __( 'Comments Off' );
+	
 	$number = get_comments_number( $id );
 
 	if ( 0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status ) {
@@ -1104,8 +1113,11 @@ function comment_id_fields() {
  * @param string $replytext Optional. Text to display when replying to a comment. Accepts "%s" for the author of the comment being replied to.
  * @param string $linktoparent Optional. Boolean to control making the author's name a link to their comment.
  */
-function comment_form_title( $noreplytext = 'Leave a Reply', $replytext = 'Leave a Reply to %s', $linktoparent = TRUE ) {
+function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = TRUE ) {
 	global $comment;
+	
+	if ( false === $noreplytext ) $noreplytext = __( 'Leave a Reply' );
+	if ( false === $replytext ) $replytext = __( 'Leave a Reply to %s' );
 
 	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
 
