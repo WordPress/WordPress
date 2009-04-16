@@ -862,6 +862,18 @@ function get_admin_page_title() {
 				}
 			}
 		}
+		if ( !isset($title) || empty ( $title ) ) {
+			foreach ( $menu as $menu_array ) {
+				if ( isset( $plugin_page ) &&
+					($plugin_page == $menu_array[2] ) &&
+					($pagenow == 'admin.php' ) &&
+					($parent1 == $menu_array[2] ) )
+					{
+						$title = $menu_array[3];
+						return $menu_array[3];
+					}
+			}
+		}
 	}
 
 	return $title;
