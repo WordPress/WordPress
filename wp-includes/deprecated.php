@@ -1304,6 +1304,21 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
 }
 
 /**
+ * Retrieve the category name by the category ID.
+ *
+ * @since 0.71
+ * @deprecated Use get_cat_name()
+ * @see get_cat_name() get_catname() is deprecated in favor of get_cat_name().
+ *
+ * @param int $cat_ID Category ID
+ * @return string category name
+ */
+function get_catname( $cat_ID ) {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_cat_name()');
+	return get_cat_name( $cat_ID );
+}
+
+/**
  * Retrieve category children list separated before and after the term IDs.
  *
  * @since 1.2.0
