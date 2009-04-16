@@ -410,6 +410,8 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'tag-' . $tags->slug;
 		}
 	} elseif ( is_page() ) {
+		$classes[] = 'page';
+		
 		$wp_query->post = $wp_query->posts[0];
 		setup_postdata($wp_query->post);
 
