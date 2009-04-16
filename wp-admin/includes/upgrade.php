@@ -1185,7 +1185,7 @@ function dbDelta($queries, $execute = true) {
 	// Create a tablename index for an array ($cqueries) of queries
 	foreach($queries as $qry) {
 		if(preg_match("|CREATE TABLE ([^ ]*)|", $qry, $matches)) {
-			$cqueries[strtolower($matches[1])] = $qry;
+			$cqueries[trim( strtolower($matches[1]), '`' )] = $qry;
 			$for_update[$matches[1]] = 'Created table '.$matches[1];
 		}
 		else if(preg_match("|CREATE DATABASE ([^ ]*)|", $qry, $matches)) {
@@ -1224,7 +1224,7 @@ function dbDelta($queries, $execute = true) {
 				foreach($flds as $fld) {
 					// Extract the field name
 					preg_match("|^([^ ]*)|", trim($fld), $fvals);
-					$fieldname = $fvals[1];
+					$fieldname = trim( $fvals[1], '`' );
 
 					// Verify the found field name
 					$validfield = true;
