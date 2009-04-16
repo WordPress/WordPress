@@ -618,7 +618,6 @@ function do_theme_install($download_url, $theme_information = null) {
 
 	$theme        = isset($_REQUEST['theme'])        ? stripslashes( $_REQUEST['theme'] )        : '';
 	$theme_name   = isset($_REQUEST['theme_name'])   ? stripslashes( $_REQUEST['theme_name'] )   : '';
-	$download_url = isset($_REQUEST['download_url']) ? stripslashes( $_REQUEST['download_url'] ) : '';
 
 	$url = 'theme-install.php?tab=install';
 	$url = add_query_arg(array('theme' => $theme, 'theme_name' => $theme_name, 'download_url' => $download_url ), $url);
