@@ -183,6 +183,7 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 		$more_link_text = __( '(more...)' );
 
 	$output = '';
+	$hasTeaser = false;
 
 	// If post password required and it doesn't match the cookie.
 	if ( post_password_required($post) ) {
@@ -203,13 +204,15 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 		$content = explode($matches[0], $content, 2);
 		if ( !empty($matches[1]) && !empty($more_link_text) )
 			$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
+
+		$hasTeaser = true;
 	} else {
 		$content = array($content);
 	}
 	if ( (false !== strpos($post->post_content, '<!--noteaser-->') && ((!$multipage) || ($page==1))) )
 		$stripteaser = 1;
 	$teaser = $content[0];
-	if ( ($more) && ($stripteaser) )
+	if ( ($more) && ($stripteaser) && ($hasTeaser) )
 		$teaser = '';
 	$output .= $teaser;
 	if ( count($content) > 1 ) {
