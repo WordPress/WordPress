@@ -1679,7 +1679,12 @@ function is_blog_installed() {
 		return true;
 
 	$suppress = $wpdb->suppress_errors();
-	$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
+	$alloptions = wp_load_alloptions();
+	// If siteurl is not set to autoload, but other options are loaded, check if it's there
+	if ( !isset($alloptions['siteurl']) && count($alloptions) > 1 )
+		$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
+	else 
+		$installed = $alloptions['siteurl'];
 	$wpdb->suppress_errors($suppress);
 
 	$installed = !empty( $installed ) ? true : false;
