@@ -770,7 +770,7 @@ case 'add-meta' :
 	if ( isset($_POST['metakeyselect']) || isset($_POST['metakeyinput']) ) {
 		if ( !current_user_can( 'edit_post', $pid ) )
 			die('-1');
-		if ( '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
+		if ( isset($_POST['metakeyselect']) && '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
 			die('1');
 		if ( $pid < 0 ) {
 			$now = current_time('timestamp', 1);
@@ -784,12 +784,13 @@ case 'add-meta' :
 					) );
 					$x->send();
 				}
-				$mid = add_meta( $pid );
+				if ( !$mid = add_meta( $pid ) ) 
+					die(__('Please provide a custom field value.'));
 			} else {
 				die('0');
 			}
 		} else if ( !$mid = add_meta( $pid ) ) {
-			die('0');
+			die(__('Please provide a custom field value.'));
 		}
 
 		$meta = get_post_meta_by_id( $mid );
@@ -811,7 +812,8 @@ case 'add-meta' :
 		if ( !current_user_can( 'edit_post', $meta->post_id ) )
 			die('-1');
 		if ( !$u = update_meta( $mid, $key, $value ) )
-			die('1'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+			die('0'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+	
 		$key = stripslashes($key);
 		$value = stripslashes($value);
 		$x = new WP_Ajax_Response( array(

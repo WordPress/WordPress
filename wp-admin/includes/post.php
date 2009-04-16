@@ -677,10 +677,13 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 	if ( in_array($meta_key, $protected) )
 		return false;
 
+	if ( '' === trim( $meta_value ) )
+		return false;
+
 	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $meta_id) );
 	wp_cache_delete($post_id, 'post_meta');
 
-	$meta_value = maybe_serialize( stripslashes( $meta_value ));
+	$meta_value = maybe_serialize( stripslashes( $meta_value ) );
 	$meta_id = (int) $meta_id;
 
 	$data  = compact( 'meta_key', 'meta_value' );
