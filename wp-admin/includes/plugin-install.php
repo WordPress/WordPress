@@ -160,7 +160,7 @@ function install_search_form(){
 		<select name="type" id="typeselector">
 			<option value="term"<?php selected('term', $type) ?>><?php _e('Term') ?></option>
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author') ?></option>
-			<option value="tag"<?php selected('tag', $type) ?>><?php _e('Tag') ?></option>
+			<option value="tag"<?php selected('tag', $type) ?>><?php _x('Tag', 'Plugin Installer') ?></option>
 		</select>
 		<input type="text" name="s" value="<?php echo attribute_escape($term) ?>" />
 		<input type="submit" name="search" value="<?php echo attribute_escape(__('Search')) ?>" class="button" />
