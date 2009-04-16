@@ -412,7 +412,7 @@ function get_body_class( $class = '' ) {
 	} elseif ( is_page() ) {
 		$wp_query->post = $wp_query->posts[0];
 		setup_postdata($wp_query->post);
-		
+
 		$pageID = $wp_query->post->ID;
 		$page_children = wp_list_pages("child_of=$pageID&echo=0");
 
@@ -750,7 +750,7 @@ function wp_list_pages($args = '') {
 			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
 
 		global $wp_query;
-		if ( is_page() || $wp_query->is_posts_page )
+		if ( is_page() || is_attachment() || $wp_query->is_posts_page )
 			$current_page = $wp_query->get_queried_object_id();
 		$output .= walk_page_tree($pages, $r['depth'], $current_page, $r);
 
