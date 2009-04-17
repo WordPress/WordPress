@@ -249,21 +249,19 @@ function print_plugins_table($plugins, $context = '') {
 <table class="widefat" cellspacing="0" id="<?php echo $context ?>-plugins-table">
 	<thead>
 	<tr>
-		<th scope="col" class="check-column"><input type="checkbox" /></th>
-		<th scope="col"><?php _e('Plugin'); ?></th>
-		<th scope="col" class="num"><?php _e('Version'); ?></th>
-		<th scope="col"><?php _e('Description'); ?></th>
-		<th scope="col" class="action-links"><?php _e('Action'); ?></th>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column"><?php _e('Plugin'); ?></th>
+		<th scope="col" class="manage-column num"><?php _e('Version'); ?></th>
+		<th scope="col" class="manage-column"><?php _e('Description'); ?></th>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-		<th scope="col" class="check-column"><input type="checkbox" /></th>
-		<th scope="col"><?php _e('Plugin'); ?></th>
-		<th scope="col" class="num"><?php _e('Version'); ?></th>
-		<th scope="col"><?php _e('Description'); ?></th>
-		<th scope="col" class="action-links"><?php _e('Action'); ?></th>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column"><?php _e('Plugin'); ?></th>
+		<th scope="col" class="manage-column num"><?php _e('Version'); ?></th>
+		<th scope="col" class="manage-column"><?php _e('Description'); ?></th>
 	</tr>
 	</tfoot>
 
@@ -276,28 +274,35 @@ function print_plugins_table($plugins, $context = '') {
 		</tr>';
 	}
 	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
-		$action_links = array();
+		$actions = array();
 
 		if ( 'active' == $context )
-			$action_links[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
+			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
 		else //Inactive or Recently deactivated
-			$action_links[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
+			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
 
 		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
-			$action_links[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
+			$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
 
-		$action_links = apply_filters( 'plugin_action_links', $action_links, $plugin_file, $plugin_data, $context );
-		$action_links = apply_filters( "plugin_action_links_$plugin_file", $action_links, $plugin_file, $plugin_data, $context );
+		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
+		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
+		$action_count = count($actions);
 
 		echo "
 	<tr class='$context'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . attribute_escape($plugin_file) . "' /></th>
-		<td class='name'>{$plugin_data['Title']}</td>
+		<td class='plugin-title'><strong>{$plugin_data['Title']}</strong>";
+		$i = 0;
+		echo '<div class="row-actions">';
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			echo "<span class='$action'>$link$sep</span>";
+		}
+		echo '</div>';
+		echo "</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
-		<td class='desc'><p>{$plugin_data['Description']}</p></td>
-		<td class='togl action-links'>";
-		if ( !empty($action_links) )
-			echo implode(' | ', $action_links);
+		<td class='desc'><p>{$plugin_data['Description']}</p>";
 		echo '</td>
 	</tr>';
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );

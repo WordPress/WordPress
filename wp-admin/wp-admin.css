@@ -1981,13 +1981,17 @@ p.search-box {
 
 /* Edit posts */
 
-td.post-title strong {
+td.post-title strong, td.plugin-title strong {
 	display: block;
 	margin-bottom: .2em;
 }
 
-td.post-title p {
+td.post-title p, td.plugin-title p {
 	margin: 6px 0;
+}
+
+td.plugin-title {
+	white-space: nowrap;
 }
 
 /* Global classes */

@@ -29,7 +29,7 @@ while ( have_posts() ) : the_post();
 
 <p><a href="<?php echo get_post_comments_feed_link($post->ID); ?>"><abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.</a></p>
 
-<?php if ('open' == $post->ping_status) { ?>
+<?php if ( pings_open() ) { ?>
 <p>The <abbr title="Universal Resource Locator">URL</abbr> to TrackBack this entry is: <em><?php trackback_url() ?></em></p>
 <?php } ?>
 
@@ -57,7 +57,7 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 	<p>No comments yet.</p>
 <?php } ?>
 
-<?php if ('open' == $post->comment_status) { ?>
+<?php if ( comments_open() ) { ?>
 <h2>Leave a comment</h2>
 <p>Line and paragraph breaks automatic, e-mail address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
 

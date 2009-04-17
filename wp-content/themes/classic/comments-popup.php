@@ -30,7 +30,7 @@ while( have_posts()) : the_post();
 
 <p><a href="<?php echo get_post_comments_feed_link($post->ID); ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on this post."); ?></a></p>
 
-<?php if ('open' == $post->ping_status) { ?>
+<?php if ( pings_open() ) { ?>
 <p><?php _e("The <abbr title=\"Universal Resource Locator\">URL</abbr> to TrackBack this entry is:"); ?> <em><?php trackback_url() ?></em></p>
 <?php } ?>
 
@@ -58,7 +58,7 @@ if ( post_password_required($commentstatus) ) {  // and it doesn't match the coo
 	<p><?php _e("No comments yet."); ?></p>
 <?php } ?>
 
-<?php if ('open' == $commentstatus->comment_status) { ?>
+<?php if ( comments_open($commentstatus) ) { ?>
 <h2><?php _e("Leave a comment"); ?></h2>
 <p><?php _e("Line and paragraph breaks automatic, e-mail address never displayed, <acronym title=\"Hypertext Markup Language\">HTML</acronym> allowed:"); ?> <code><?php echo allowed_tags(); ?></code></p>
 
