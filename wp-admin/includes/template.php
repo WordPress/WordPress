@@ -3394,7 +3394,7 @@ function screen_meta($screen) {
 	if ( $show_screen ) :
 ?>
 <div id="screen-options-wrap" class="hidden">
-	<form id="adv-settings" action="" method="get">
+	<form id="adv-settings" action="" method="post">
 	<h5><?php _e('Show on screen') ?></h5>
 	<div class="metabox-prefs">
 <?php
@@ -3559,7 +3559,9 @@ function screen_options($screen) {
 	$return = '<h5>' . __('Options') . "</h5>\n";
 	$return .= "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
-		$return .=  "<label for='$option'>$per_page_label</label> <input type='text' class='screen-per-page' name='$option' id='$option' maxlength='3' value='$per_page' />\n";
+		$return .= "<label for='$option'>$per_page_label</label> <input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' />\n";
+		$return .= "<input type='submit' class='button' value='" . __('Apply') . "' />";
+		$return .= "<input type='hidden' name='wp_screen_options[option]' value='$option' />";
 	$return .= "</div>\n";
 	return $return;
 }

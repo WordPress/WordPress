@@ -318,4 +318,46 @@ jQuery('#template').submit(function(){
 <?php
 }
 
-?>
+/**
+ * Saves option for number of rows when listing posts, pages, comments, etc.
+ *
+ * @since 2.8
+**/
+function save_screen_options() {
+
+	if ( isset($_POST['wp_screen_options']) && is_array($_POST['wp_screen_options']) ) {
+		check_admin_referer( 'screen-options-nonce', 'screenoptionnonce' );
+
+		if ( !$user = wp_get_current_user() )
+			return;
+		$option = $_POST['wp_screen_options']['option'];
+		$value = $_POST['wp_screen_options']['value'];
+
+		if ( !preg_match( '/^[a-z_-]+$/', $option ) )
+			return;
+
+		$option = str_replace('-', '_', $option);
+
+		switch ( $option ) {
+			case 'edit_per_page':
+			case 'edit_pages_per_page':
+			case 'edit_comments_per_page':
+			case 'upload_per_page':
+			case 'categories_per_page':
+			case 'edit_tags_per_page':
+				$value = (int) $value;
+				if ( $value < 1 || $value > 999 )
+					return;
+				break;
+			default:
+				$value = apply_filters('set-screen-option', false, $option, $value);
+				if ( false === $value )
+					return;
+				break;
+		}
+
+		update_usermeta($user->ID, $option, $value);
+		wp_redirect( remove_query_arg( array('pagenum', 'apage', 'paged'), wp_get_referer() ) );
+		exit;
+	}
+}
