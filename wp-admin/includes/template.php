@@ -2065,6 +2065,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$comment = get_comment( $comment_id );
 	$post = get_post($comment->comment_post_ID);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
+	$user_can = current_user_can('edit_post', $post->ID);
 
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
@@ -2102,7 +2103,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 			case 'cb':
 				if ( !$checkbox ) break;
 				echo '<th scope="row" class="check-column">';
-				if ( current_user_can('edit_post', $post->ID) ) echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
+				if ( $user_can ) echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
 				echo '</th>';
 				break;
 			case 'comment':
@@ -2113,15 +2114,15 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				comment_text(); ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
-				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
-				<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
+				<div class="author-email"><?php if ( $user_can ) echo attribute_escape( $comment->comment_author_email ); ?></div>
+				<div class="author"><?php if ( $user_can ) echo attribute_escape( $comment->comment_author ); ?></div>
 				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
 				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
 				</div>
 				<?php
 				$actions = array();
 
-				if ( current_user_can('edit_post', $post->ID) ) {
+				if ( $user_can ) {
 					$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
 					$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
 					if ( $comment_status ) { // not looking at all comments
@@ -2164,7 +2165,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				echo "<td $attributes><strong>"; comment_author(); echo '</strong><br />';
 				if ( !empty($author_url) )
 					echo "<a title='$author_url' href='$author_url'>$author_url_display</a><br />";
-				if ( current_user_can( 'edit_post', $post->ID ) ) {
+				if ( $user_can ) {
 					if ( !empty($comment->comment_author_email) ) {
 						comment_author_email_link();
 						echo '<br />';
@@ -2191,7 +2192,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						$_comment_pending_count_temp = (array) get_pending_comments_num( array( $post->ID ) );
 						$pending_comments = $_comment_pending_count[$post->ID] = $_comment_pending_count_temp[$post->ID];
 					}
-					if ( current_user_can( 'edit_post', $post->ID ) ) {
+					if ( $user_can ) {
 						$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
 						$post_link .= get_the_title($post->ID) . '</a>';
 					} else {
