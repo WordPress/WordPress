@@ -84,7 +84,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="mailserver_url"><?php _e('Mail Server') ?></label></th>
-<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" class="regular-text" />
+<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" class="regular-text code" />
 <label for="mailserver_port"><?php _e('Port') ?></label>
 <input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" class="small-text" />
 </td>
@@ -116,7 +116,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 
 <p><label for="ping_sites"><?php _e('When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="http://codex.wordpress.org/Update_Services">Update Services</a> on the Codex. Separate multiple service <abbr title="Universal Resource Locator">URL</abbr>s with line breaks.') ?></label></p>
 
-<textarea name="ping_sites" id="ping_sites" class="large-text" rows="3"><?php form_option('ping_sites'); ?></textarea>
+<textarea name="ping_sites" id="ping_sites" class="large-text code" rows="3"><?php form_option('ping_sites'); ?></textarea>
 
 <?php else : ?>
 

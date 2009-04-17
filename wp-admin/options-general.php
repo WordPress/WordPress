@@ -78,7 +78,7 @@ include('./admin-header.php');
 </tr>
 <tr valign="top">
 <th scope="row"><label for="admin_email"><?php _e('E-mail address') ?> </label></th>
-<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text code" />
+<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text" />
 <span class="setting-description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
 </tr>
 <tr valign="top">
