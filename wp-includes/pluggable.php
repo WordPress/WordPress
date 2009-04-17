@@ -260,10 +260,14 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	// Headers
 	if ( empty( $headers ) ) {
 		$headers = array();
-	} elseif ( !is_array( $headers ) ) {
-		// Explode the headers out, so this function can take both
-		// string headers and an array of headers.
-		$tempheaders = (array) explode( "\n", $headers );
+	} else {
+		if ( !is_array( $headers ) ) {
+			// Explode the headers out, so this function can take both
+			// string headers and an array of headers.
+			$tempheaders = (array) explode( "\n", $headers );
+		} else {
+			$tempheaders = $headers;
+		}
 		$headers = array();
 
 		// If it's actually got contents
