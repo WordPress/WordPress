@@ -411,7 +411,8 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
 	$id = (int) $id;
-	
+	$user = new WP_User($id);	
+
 	// allow for transaction statement
 	do_action('delete_user', $id);
 
@@ -424,7 +425,13 @@ function wp_delete_user($id, $reassign = 'novalue') {
 		}
 
 		// Clean links
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->links WHERE link_owner = %d", $id) );
+		$link_ids = $wpdb->get_col( $wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_owner = %d", $id) );
+
+		if ( $link_ids ) {
+			foreach ( $link_ids as $link_id )
+				wp_delete_link($link_id);
+		}
+
 	} else {
 		$reassign = (int) $reassign;
 		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_author = %d WHERE post_author = %d", $reassign, $id) );
@@ -435,8 +442,6 @@ function wp_delete_user($id, $reassign = 'novalue') {
 
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
-
-	$user = new WP_User($id);
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
