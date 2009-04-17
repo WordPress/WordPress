@@ -167,11 +167,12 @@ function edit_user( $user_id = 0 ) {
 
 	/* checking e-mail address */
 	if ( empty ( $user->user_email ) ) {
-		$errors->add( 'user_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ), array( 'form-field' => 'email' ) );
-	} else
-		if (!is_email( $user->user_email ) ) {
-			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The e-mail address isn't correct." ), array( 'form-field' => 'email' ) );
-		}
+		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ), array( 'form-field' => 'email' ) );
+	} elseif (!is_email( $user->user_email ) ) {
+		$errors->add( 'invalid_email', __( "<strong>ERROR</strong>: The e-mail address isn't correct." ), array( 'form-field' => 'email' ) );
+	} elseif ( ( $owner_id = email_exists($user->user_email) ) && $owner_id != $user->ID ) {
+		$errors->add( 'email_exists', __('<strong>ERROR</strong>: This email is already registered, please choose another one.'), array( 'form-field' => 'email' ) );
+	}
 
 	if ( $errors->get_error_codes() )
 		return $errors;
