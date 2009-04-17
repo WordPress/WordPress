@@ -1128,7 +1128,7 @@ div.comment-item:hover .row-actions {
 
 .post-com-count span {
 	font-size: 9px;
-	font-weight: bild;
+	font-weight: bold;
 	height: 1.7em;
 	line-height: 1.70em;
 	min-width: 0.7em;
@@ -1249,7 +1249,7 @@ strong .post-com-count {
 
 .form-table .color-palette td {
 	border-width: 1px 1px 0;
-	border-stile: solid solid none;
+	border-style: solid solid none;
 	height: 10px;
 	line-height: 20px;
 	width: 10px;
