@@ -139,6 +139,50 @@ function get_userdata( $user_id ) {
 }
 endif;
 
+/**
+ * Retrieve user info by a given field
+ *
+ * @since 2.8.0
+ *
+ * @param string $field The field to retrieve the user with.  id | slug | email | login
+ * @param int|string $value A value for $field.  A user ID, slug, email address, or login name.
+ * @return bool|object False on failure, User DB row object
+ */
+function get_user_by($field, $value) {
+	global $wpdb;
+
+	switch ($field) {
+		case 'id':
+			return get_userdata($value);
+			break;
+		case 'slug':
+			$user_id = wp_cache_get($value, 'userslugs');
+			$field = 'user_nicename';
+			break;
+		case 'email':
+			$user_id = wp_cache_get($value, 'useremail');
+			$field = 'user_email';
+			break;
+		case 'login':
+			$value = sanitize_user( $value );
+			$user_id = wp_cache_get($value, 'userlogins');
+			$field = 'user_login';
+			break;
+		default:
+			return false;
+	}
+
+	 if ( false !== $user_id )
+		return get_userdata($user_id);
+
+	if ( !$user = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->users WHERE $field = %s", $value) ) )
+		return false;
+
+	_fill_user($user);
+
+	return $user;
+}
+
 if ( !function_exists('get_userdatabylogin') ) :
 /**
  * Retrieve user info by login name.
@@ -149,27 +193,7 @@ if ( !function_exists('get_userdatabylogin') ) :
  * @return bool|object False on failure, User DB row object
  */
 function get_userdatabylogin($user_login) {
-	global $wpdb;
-	$user_login = sanitize_user( $user_login );
-
-	if ( empty( $user_login ) )
-		return false;
-
-	$user_id = wp_cache_get($user_login, 'userlogins');
-
-	$user = false;
-	if ( false !== $user_id )
-		$user = wp_cache_get($user_id, 'users');
-
-	if ( false !== $user )
-		return $user;
-
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_login = %s", $user_login)) )
-		return false;
-
-	_fill_user($user);
-
-	return $user;
+	return get_user_by('login', $user_login);
 }
 endif;
 
@@ -183,23 +207,7 @@ if ( !function_exists('get_user_by_email') ) :
  * @return bool|object False on failure, User DB row object
  */
 function get_user_by_email($email) {
-	global $wpdb;
-
-	$user_id = wp_cache_get($email, 'useremail');
-
-	$user = false;
-	if ( false !== $user_id )
-		$user = wp_cache_get($user_id, 'users');
-
-	if ( false !== $user )
-		return $user;
-
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_email = %s", $email)) )
-		return false;
-
-	_fill_user($user);
-
-	return $user;
+	return get_user_by('email', $email);
 }
 endif;
 

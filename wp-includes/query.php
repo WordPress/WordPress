@@ -2004,6 +2004,9 @@ class WP_Query {
 			}
 			$q['author_name'] = sanitize_title($q['author_name']);
 			$q['author'] = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_nicename='".$q['author_name']."'");
+			$q['author'] = get_user_by('slug', $q['author_name']);
+			if ( $q['author'] )
+				$q['author'] = $q['author']->ID; 
 			$whichauthor .= " AND ($wpdb->posts.post_author = ".absint($q['author']).')';
 		}
 
