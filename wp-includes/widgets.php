@@ -290,15 +290,12 @@ class WP_Widget_Factory {
 	}
 
 	function register($widget_class) {
-		$this->widgets[] = new $widget_class();
+		$this->widgets[$widget_class] = new $widget_class();
 	}
 
 	function unregister($widget_class) {
-		$offset = array_search($widget_class, $this->widgets);
-		if ( false === $offset )
-			return;
-
-		array_splice($this->widgets, $offset, 1);
+		if ( isset($this->widgets[$widget_class]) )
+			unset($this->widgets[$widget_class]);
 	}
 
 	function _register_widgets() {
