@@ -88,8 +88,12 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 	if ( 0 == $interval )
 		return false;
 
-	while ( $timestamp < time() + 1 )
-		$timestamp += $interval;
+	$now = time();
+
+    if ( $timestamp >= $now )
+        $timestamp = $now + $interval;
+    else
+        $timestamp = $now + ($interval - (($now - $timestamp) % $interval));
 
 	wp_schedule_event( $timestamp, $recurrence, $hook, $args );
 }
