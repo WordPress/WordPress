@@ -2244,8 +2244,8 @@ function wp_explain_nonce( $action ) {
 		$trans['update']['attachment'] = array( __( 'Your attempt to edit this attachment: &quot;%s&quot; has failed.' ), 'get_the_title' );
 
 		$trans['add']['category']      = array( __( 'Your attempt to add this category has failed.' ), false );
-		$trans['delete']['category']   = array( __( 'Your attempt to delete this category: &quot;%s&quot; has failed.' ), 'get_catname' );
-		$trans['update']['category']   = array( __( 'Your attempt to edit this category: &quot;%s&quot; has failed.' ), 'get_catname' );
+		$trans['delete']['category']   = array( __( 'Your attempt to delete this category: &quot;%s&quot; has failed.' ), 'get_cat_name' );
+		$trans['update']['category']   = array( __( 'Your attempt to edit this category: &quot;%s&quot; has failed.' ), 'get_cat_name' );
 
 		$trans['delete']['comment']    = array( __( 'Your attempt to delete this comment: &quot;%s&quot; has failed.' ), 'use_id' );
 		$trans['unapprove']['comment'] = array( __( 'Your attempt to unapprove this comment: &quot;%s&quot; has failed.' ), 'use_id' );

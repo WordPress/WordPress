@@ -40,7 +40,7 @@ case 'delete':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	$cat_name = get_catname($cat_ID);
+	$cat_name = get_cat_name($cat_ID);
 
 	// Don't delete the default cats.
 	if ( $cat_ID == get_option('default_category') )
@@ -60,7 +60,7 @@ case 'bulk-delete':
 		wp_die( __('You are not allowed to delete categories.') );
 
 	foreach ( (array) $_GET['delete'] as $cat_ID ) {
-		$cat_name = get_catname($cat_ID);
+		$cat_name = get_cat_name($cat_ID);
 
 		// Don't delete the default cats.
 		if ( $cat_ID == get_option('default_category') )
@@ -234,7 +234,7 @@ if ( $page_links )
 </form>
 
 <div class="form-wrap">
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_catname(get_option('default_category')))) ?></p>
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p>
 <p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p>
 </div>
 
