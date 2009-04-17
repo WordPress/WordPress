@@ -293,6 +293,14 @@ class WP_Widget_Factory {
 		$this->widgets[] = new $widget_class();
 	}
 
+	function unregister($widget_class) {
+		$offset = array_search($widget_class, $this->widgets);
+		if ( false === $offset )
+			return;
+
+		array_splice($this->widgets, $offset, 1);
+	}
+
 	function _register_widgets() {
 		foreach ( $this->widgets as $widget )
 			$widget->_register();
@@ -348,6 +356,26 @@ function register_widget($widget_class) {
 	global $wp_widget_factory;
 
 	$wp_widget_factory->register($widget_class);
+}
+
+/**
+ * Unregister a widget
+ *
+ * Unregisters a WP_Widget widget. Useful for unregistering default widgets.
+ * Run within a function hooked to the widgets_init action.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
+ * @see WP_Widget_Factory
+ * @uses WP_Widget_Factory
+ *
+ * @param string $widget_class The name of a class that extends WP_Widget
+ */
+function unregister_widget($widget_class) {
+	global $wp_widget_factory;
+
+	$wp_widget_factory->unregister($widget_class);
 }
 
 /**
