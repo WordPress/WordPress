@@ -59,9 +59,9 @@ switch($step) :
 		$goback = urlencode($goback);
 ?>
 <h2><?php _e('Database Upgrade Required'); ?></h2>
-<p><?php _e('Your WordPress database is out-of-date, and must be upgraded before you can continue.'); ?></p>
-<p><?php _e('The upgrade process may take a while, so please be patient.'); ?></p>
-<p class="step"><a class="button" href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress'); ?></a></p>
+<p><?php _e('WordPress has been updated! Before we send you on your way, we have to upgrade your database to the newest version.'); ?></p>
+<p><?php _e('The upgrade process may take a little while, so please be patient.'); ?></p>
+<p class="step"><a class="button" href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress Database'); ?></a></p>
 <?php
 		break;
 	case 1:
