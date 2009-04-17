@@ -1695,7 +1695,7 @@ function admin_url($path = '') {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	return $url;
+	return apply_filters('admin_url', $url, $path);
 }
 
 /**
@@ -1713,7 +1713,7 @@ function includes_url($path = '') {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	return $url;
+	return apply_filters('includes_url', $url, $path);
 }
 
 /**
@@ -1736,7 +1736,7 @@ function content_url($path = '') {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	return $url;
+	return apply_filters('content_url', $url, $path);
 }
 
 /**
@@ -1768,7 +1768,7 @@ function plugins_url($path = '', $plugin = '') {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	return $url;
+	return apply_filters('plugins_url', $url, $path, $plugin);
 }
 
 ?>
