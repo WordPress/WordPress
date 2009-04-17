@@ -1564,6 +1564,23 @@ function display_page_row( $page, $level = 0 ) {
 	$post = $page;
 	setup_postdata($page);
 
+	if ( 0 == $level && (int)$page->post_parent > 0 ) {
+		//sent level 0 by accident, by default, or because we don't know the actual level
+		$find_main_page = (int)$page->post_parent;
+		while ( $find_main_page > 0 ) {
+			$parent = get_page($find_main_page);
+			
+			if ( is_null($parent) )
+				break;
+			
+			$level++;
+			$find_main_page = (int)$parent->post_parent;
+			
+			if ( !isset($parent_name) )
+				$parent_name = $parent->post_title;
+		}
+	}
+
 	$page->post_title = wp_specialchars( $page->post_title );
 	$pad = str_repeat( '&#8212; ', $level );
 	$id = (int) $page->ID;
@@ -1626,7 +1643,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . wp_specialchars($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
 		if ( current_user_can('edit_page', $page->ID) ) {
