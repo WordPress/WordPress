@@ -1675,20 +1675,20 @@ function is_blog_installed() {
 	global $wpdb;
 
 	// Check cache first. If options table goes away and we have true cached, oh well.
-	if ( wp_cache_get('is_blog_installed') )
+	if ( wp_cache_get( 'is_blog_installed' ) )
 		return true;
 
 	$suppress = $wpdb->suppress_errors();
 	$alloptions = wp_load_alloptions();
-	// If siteurl is not set to autoload, but other options are loaded, check if it's there
-	if ( !isset($alloptions['siteurl']) && count($alloptions) > 1 )
+	// If siteurl is not set to autoload, check it specifically
+	if ( !isset( $alloptions['siteurl'] ) )
 		$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 	else 
 		$installed = $alloptions['siteurl'];
-	$wpdb->suppress_errors($suppress);
+	$wpdb->suppress_errors( $suppress );
 
-	$installed = !empty( $installed ) ? true : false;
-	wp_cache_set('is_blog_installed', $installed);
+	$installed = !empty( $installed );
+	wp_cache_set( 'is_blog_installed', $installed );
 
 	return $installed;
 }
