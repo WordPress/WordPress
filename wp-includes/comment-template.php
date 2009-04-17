@@ -916,7 +916,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	
 	$number = get_comments_number( $id );
 
-	if ( 0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status ) {
+	if ( 0 == $number && !comments_open() && !pings_open() ) {
 		echo '<span' . ((!empty($css_class)) ? ' class="' . $css_class . '"' : '') . '>' . $none . '</span>';
 		return;
 	}
@@ -987,7 +987,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 	$comment = get_comment($comment);
 	$post = get_post($post);
 
-	if ( 'open' != $post->comment_status )
+	if ( !comments_open($post->ID) )
 		return false;
 
 	$link = '';
