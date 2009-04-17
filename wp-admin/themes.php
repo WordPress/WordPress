@@ -46,7 +46,7 @@ require_once('admin-header.php');
 $themes = get_themes();
 $ct = current_theme_info();
 
-ksort( $themes );
+uksort( $themes, "strnatcasecmp" );
 $theme_total = count( $themes );
 $per_page = 15;
 
