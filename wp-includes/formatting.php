@@ -1627,6 +1627,7 @@ function human_time_diff( $from, $to = '' ) {
  * @return string The excerpt.
  */
 function wp_trim_excerpt($text) {
+	$raw_excerpt = $text;
 	if ( '' == $text ) {
 		$text = get_the_content('');
 
@@ -1643,7 +1644,7 @@ function wp_trim_excerpt($text) {
 			$text = implode(' ', $words);
 		}
 	}
-	return $text;
+	return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
 }
 
 /**
