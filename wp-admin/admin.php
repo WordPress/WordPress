@@ -41,7 +41,7 @@ nocache_headers();
 
 update_category_cache();
 
-save_screen_options();
+set_screen_options();
 
 $posts_per_page = get_option('posts_per_page');
 $what_to_show = get_option('what_to_show');

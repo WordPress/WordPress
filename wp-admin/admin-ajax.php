@@ -1027,39 +1027,6 @@ case 'meta-box-order':
 
 	die('1');
 	break;
-case 'set-screen-option':
-	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
-	if ( ! $user = wp_get_current_user() )
-		die(-1);
-	$option = $_POST['option'];
-	$value = $_POST['value'];
-
-	if ( !preg_match( '/^[a-z_-]+$/', $option ) )
-		die(-1);
-
-	$option = str_replace('-', '_', $option);
-
-	switch ( $option ) {
-		case 'edit_per_page':
-		case 'edit_pages_per_page':
-		case 'edit_comments_per_page':
-		case 'upload_per_page':
-		case 'categories_per_page':
-		case 'edit_tags_per_page':
-			$value = (int) $value;
-			if ( $value < 1 || $value > 999 )
-				die(-1);
-			break;
-		default:
-			$value = apply_filters('set-screen-option', false, $option, $value);
-			if ( false === $value )
-				die(-1);
-			break;
-	}
-
-	update_usermeta($user->ID, $option, $value);
-	die('1');
-	break;
 case 'get-permalink':
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;

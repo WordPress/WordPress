@@ -323,7 +323,7 @@ jQuery('#template').submit(function(){
  *
  * @since 2.8
 **/
-function save_screen_options() {
+function set_screen_options() {
 
 	if ( isset($_POST['wp_screen_options']) && is_array($_POST['wp_screen_options']) ) {
 		check_admin_referer( 'screen-options-nonce', 'screenoptionnonce' );
