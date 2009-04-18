@@ -2441,7 +2441,7 @@ function meta_form() {
 		FROM $wpdb->postmeta
 		WHERE meta_key NOT LIKE '\_%'
 		GROUP BY meta_key
-		ORDER BY meta_id DESC
+		ORDER BY meta_key
 		LIMIT $limit" );
 	if ( $keys )
 		natcasesort($keys);
