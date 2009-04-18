@@ -313,7 +313,7 @@ else
 
 <tr>
 	<th><label for="url"><?php _e('Website') ?></label></th>
-	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" class="regular-text" /></td>
+	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" class="regular-text code" /></td>
 </tr>
 
 <tr>

@@ -305,11 +305,11 @@ function link_advanced_meta_box($link) {
 <table class="form-table" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_image"><?php _e('Image Address') ?></label></th>
-		<td><input type="text" name="link_image" id="link_image" size="50" value="<?php echo ( isset( $link->link_image ) ? $link->link_image : ''); ?>" style="width: 95%" /></td>
+		<td><input type="text" name="link_image" class="code" id="link_image" size="50" value="<?php echo ( isset( $link->link_image ) ? $link->link_image : ''); ?>" style="width: 95%" /></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="rss_uri"><?php _e('RSS Address') ?></label></th>
-		<td><input name="link_rss" type="text" id="rss_uri" value="<?php echo  ( isset( $link->link_rss ) ? $link->link_rss : ''); ?>" size="50" style="width: 95%" /></td>
+		<td><input name="link_rss" class="code" type="text" id="rss_uri" value="<?php echo  ( isset( $link->link_rss ) ? $link->link_rss : ''); ?>" size="50" style="width: 95%" /></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_notes"><?php _e('Notes') ?></label></th>
@@ -382,7 +382,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="addressdiv" class="stuffbox">
 <h3><label for="link_url"><?php _e('Web Address') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
+	<input type="text" name="link_url" size="30" class="code" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
     <p><?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?></p>
 </div>
 </div>

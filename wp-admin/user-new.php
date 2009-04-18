@@ -107,7 +107,7 @@ foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
-		<td><input name="url" type="text" id="url" value="<?php echo $new_user_uri; ?>" /></td>
+		<td><input name="url" type="text" id="url" class="code" value="<?php echo $new_user_uri; ?>" /></td>
 	</tr>
 
 <?php if ( apply_filters('show_password_fields', true) ) : ?>

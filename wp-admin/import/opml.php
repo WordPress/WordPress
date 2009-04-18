@@ -42,7 +42,7 @@ switch ($step) {
 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 <div style="width: 48%;" class="alignleft">
 <h3><label for="opml_url"><?php _e('Specify an OPML URL:'); ?></label></h3>
-<input type="text" name="opml_url" id="opml_url" size="50" style="width: 90%;" value="http://" />
+<input type="text" name="opml_url" id="opml_url" size="50" class="code" style="width: 90%;" value="http://" />
 </div>
 
 <div style="width: 48%;" class="alignleft">
