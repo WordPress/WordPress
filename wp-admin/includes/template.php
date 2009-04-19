@@ -2212,6 +2212,12 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 					echo "<a href='" . get_permalink( $post->ID ) . "'>#</a>";
 					echo '</div></td>';
 				}
+				break;
+			default:
+				echo "<td $attributes>\n";
+				do_action( 'manage_comments_custom_column', $column_name, $comment->comment_ID );
+				echo "</td>\n";
+				break;
 		}
 	}
 	echo "</tr>\n";
