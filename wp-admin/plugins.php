@@ -211,10 +211,11 @@ if ( !empty($invalid) )
 <?php
 
 $all_plugins = get_plugins();
+$search_plugins = array();
 $active_plugins = array();
 $inactive_plugins = array();
 $recent_plugins = array();
-$recently_activated = (array) get_option('recently_activated');
+$recently_activated = get_option('recently_activated', array());
 $upgrade_plugins = array();
 
 set_transient( 'plugin_slugs', array_keys($all_plugins), 86400 );
@@ -231,6 +232,7 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
 	//Translate, Apply Markup, Sanitize HTML
 	$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, true, true);
+	$all_plugins[ $plugin_file ] = $plugin_data;
 
 	//Filter into individual sections
 	if ( is_plugin_active($plugin_file) ) {
@@ -245,17 +247,61 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
         $upgrade_plugins[ $plugin_file ] = $plugin_data;
 }
 
-$total_plugins = count($all_plugins);
+$total_all_plugins = count($all_plugins);
 $total_inactive_plugins = count($inactive_plugins);
 $total_active_plugins = count($active_plugins);
 $total_recent_plugins = count($recent_plugins);
 $total_upgrade_plugins = count($upgrade_plugins);
 
-$status = ( isset($_GET['plugin_status']) ) ? $_GET['plugin_status'] : 'all';
-if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade')) )
+//Searching.
+if ( isset($_GET['s']) ) {
+	function _search_plugins_filter_callback($plugin) {
+		static $term;
+		if ( is_null($term) )
+			$term = stripslashes($_GET['s']);
+		if ( 	stripos($plugin['Name'], $term) !== false ||
+				stripos($plugin['Description'], $term) !== false ||
+				stripos($plugin['Author'], $term) !== false ||
+				stripos($plugin['PluginURI'], $term) !== false ||
+				stripos($plugin['AuthorURI'], $term) !== false ||
+				stripos($plugin['Version'], $term) !== false )
+			return true;
+		else
+			return false;
+	}
+	$_GET['plugin_status'] = 'search';
+	$search_plugins = array_filter($all_plugins, '_search_plugins_filter_callback');
+	$total_search_plugins = count($search_plugins);
+}
+
+$status = isset($_GET['plugin_status']) ? $_GET['plugin_status'] : 'all';
+if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'search')) )
 	$status = 'all';
 $plugin_array_name = "${status}_plugins";
 $plugins = &$$plugin_array_name;
+
+//Paging.
+$page = isset($_GET['paged']) ? $_GET['paged'] : 1;
+$total_this_page = "total_{$status}_plugins";
+$total_this_page = $$total_this_page;
+$plugins_per_page = apply_filters('plugins_per_page', 20, $status);
+
+$start = ($page - 1) * $plugins_per_page;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
+	'total' => ceil($total_this_page / $plugins_per_page),
+	'current' => $page
+));
+$page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
+	number_format_i18n( $start + 1 ),
+	number_format_i18n( min( $page * $plugins_per_page, $total_this_page ) ),
+	'<span class="total-type-count">' . number_format_i18n( $total_this_page ) . '</span>',
+	$page_links
+);
 
 /**
  * @ignore
@@ -362,6 +408,14 @@ function print_plugin_actions($context) {
 }
 ?>
 
+<form method="get" action="">
+<p class="search-box">
+	<label class="hidden" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
+	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Plugins' ); ?>" class="button" />
+</p>
+</form>
+
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
@@ -369,7 +423,7 @@ function print_plugin_actions($context) {
 <?php
 $status_links = array();
 $class = ( 'all' == $status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href='plugins.php' $class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_plugins ), number_format_i18n( $total_plugins ) ) . '</a>';
+$status_links[] = "<li><a href='plugins.php' $class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_all_plugins ), number_format_i18n( $total_all_plugins ) ) . '</a>';
 if ( ! empty($active_plugins) ) {
 	$class = ( 'active' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=active' $class>" . sprintf( _n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', $total_active_plugins ), number_format_i18n( $total_active_plugins ) ) . '</a>';
@@ -386,16 +440,40 @@ if ( ! empty($upgrade_plugins) ) {
 	$class = ( 'upgrade' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=upgrade' $class>" . sprintf( _n( 'Upgrade Available <span class="count">(%s)</span>', 'Upgrade Available <span class="count">(%s)</span>', $total_upgrade_plugins ), number_format_i18n( $total_upgrade_plugins ) ) . '</a>';
 }
+if ( ! empty($search_plugins) ) {
+	$class = ( 'search' == $status ) ? ' class="current"' : '';
+	$term = isset($_REQUEST['s']) ? urlencode(stripslashes($_REQUEST['s'])) : '';
+	$status_links[] = "<li><a href='plugins.php?s=$term' $class>" . sprintf( _n( 'Search Results <span class="count">(%s)</span>', 'Search Results <span class="count">(%s)</span>', $total_search_plugins ), number_format_i18n( $total_search_plugins ) ) . '</a>';
+}
 echo implode( " |</li>\n", $status_links ) . '</li>';
 unset( $status_links );
 ?>
 </ul>
 
 <div class="tablenav">
-<?php print_plugin_actions($status) ?>
+<?php
+if ( $page_links )
+	echo '<div class="tablenav-pages">', $page_links_text, '</div>';
+
+print_plugin_actions($status);
+?>
 </div>
 <div class="clear"></div>
-<?php print_plugins_table($plugins, $status) ?>
+<?php
+	if ( $total_this_page > $plugins_per_page )
+		$plugins = array_slice($plugins, $start, $plugins_per_page);
+	
+	print_plugins_table($plugins, $status);
+?>
+<div class="tablenav">
+<?php
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links_text</div>";
+?>
+<div class="alignleft actions">
+<!-- TODO lower bulk actions. -->
+</div>
+</div>
 </form>
 
 <?php if ( empty($all_plugins) ) : ?>
