@@ -340,8 +340,9 @@ function print_plugins_table($plugins, $context = '') {
 	}
 	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
 		$actions = array();
+		$is_active = is_plugin_active($plugin_file);
 
-		if ( 'active' == $context )
+		if ( $is_active )
 			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
 		else //Inactive or Recently deactivated
 			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
@@ -352,7 +353,7 @@ function print_plugins_table($plugins, $context = '') {
 		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
 		$action_count = count($actions);
-		$class = is_plugin_active($plugin_file) ? 'active' : 'inactive';
+		$class = $is_active ? 'active' : 'inactive';
 		echo "
 	<tr class='$class'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . attribute_escape($plugin_file) . "' /></th>
