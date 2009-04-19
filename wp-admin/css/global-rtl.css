@@ -5,7 +5,7 @@
 	margin-right:-160px;
 	margin-left: 5px;
 }
-div.folded #adminmenu {
+body.folded #adminmenu {
 	margin-left: 0;
 	margin-right: -45px;
 }
@@ -14,16 +14,19 @@ div.folded #adminmenu {
 	float: left;
 	clear: left;
 }
-.has-sidebar {
-	float: right;
-	clear: right;
-	margin-right: 0;
-	margin-left: -340px;
+
+.has-right-sidebar #post-body {
+	clear:right;
+	float:right;
+	margin-right:0;
+	margin-left:-340px;
 }
-.has-sidebar .has-sidebar-content {
-	margin-right: 0;
-	margin-left: 305px;
+
+.has-right-sidebar #post-body-content {
+	margin-left: 300px;
+	margin-right:0;
 }
+
 #wpbody {
 	margin-left:0;
 	margin-right: 175px;
