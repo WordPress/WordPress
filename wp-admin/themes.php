@@ -45,6 +45,7 @@ require_once('admin-header.php');
 <?php
 $themes = get_themes();
 $ct = current_theme_info();
+unset($themes[$ct->name]);
 
 uksort( $themes, "strnatcasecmp" );
 $theme_total = count( $themes );
@@ -132,9 +133,12 @@ function theme_update_available( $theme ) {
 <?php theme_update_available($ct); ?>
 
 </div>
+
 <div class="clear"></div>
 <h3><?php _e('Available Themes'); ?></h3>
 <div class="clear"></div>
+
+<?php if ( $theme_total ) { ?>
 
 <?php if ( $page_links ) : ?>
 <div class="tablenav">
@@ -147,7 +151,6 @@ function theme_update_available( $theme ) {
 </div>
 <?php endif; ?>
 
-<?php if ( 1 < $theme_total ) { ?>
 <table id="availablethemes" cellspacing="0" cellpadding="0">
 <?php
 $style = '';
@@ -181,6 +184,8 @@ foreach ( $cols as $col => $theme_name ) {
 	$author = $themes[$theme_name]['Author'];
 	$screenshot = $themes[$theme_name]['Screenshot'];
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
+	$template_dir = $themes[$theme_name]['Template Dir'];
+	$parent_theme = $themes[$theme_name]['Parent Theme'];
 	$preview_link = clean_url( get_option('home') . '/');
 	$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), $preview_link ) );
 	$preview_text = attribute_escape( sprintf( __('Preview of "%s"'), $title ) );
@@ -202,11 +207,18 @@ foreach ( $cols as $col => $theme_name ) {
 			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
 		</a>
-		<h3><?php echo $title; ?></h3>
-		<span class='action-links'><?php echo $actions ?></span>
-		<p><?php echo $description; ?></p>
+<h3><?php
+	/* translators: 1: theme title, 2: theme version, 3: theme author */
+	printf(__('%1$s %2$s by %3$s'), $title, $version, $author) ; ?></h3>
+<p class="description"><?php echo $description; ?></p>
+<span class='action-links'><?php echo $actions ?></span>
+	<?php if ($parent_theme) { ?>
+	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $title, $template_dir, $stylesheet_dir, $title, $parent_theme); ?></p>
+<?php } else { ?>
+	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $title, $template_dir, $stylesheet_dir); ?></p>
+<?php } ?>
 <?php if ( $tags ) : ?>
-		<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
+<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
 <?php endif; ?>
 		<?php theme_update_available( $themes[$theme_name] ); ?>
 <?php endif; // end if not empty theme_name ?>
@@ -215,8 +227,9 @@ foreach ( $cols as $col => $theme_name ) {
 </tr>
 <?php } // end foreach $table ?>
 </table>
-<?php } ?>
-
+<?php } else { ?>
+<p><?php _e('You only have one theme installed at the moment so there is nothing to show you here.  Maybe you should download some more to try out.'); ?></p>
+<?php } // end if $theme_total?>
 <br class="clear" />
 
 <?php if ( $page_links ) : ?>
@@ -265,7 +278,7 @@ if ( count($broken_themes) ) {
 }
 ?>
 
-<h2><?php _e('Get More Themes'); ?></h2>
+<h3><?php _e('Get More Themes'); ?></h3>
 <p><?php _e('You can find additional themes for your site in the <a href="http://wordpress.org/extend/themes/">WordPress theme directory</a>. To install a theme you generally just need to upload the theme folder into your <code>wp-content/themes</code> directory. Once a theme is uploaded, you should see it on this page.'); ?></p>
 
 </div>
