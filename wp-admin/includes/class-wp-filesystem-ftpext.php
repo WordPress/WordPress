@@ -17,7 +17,7 @@
 class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	var $link;
 	var $timeout = 5;
-	var $errors = array();
+	var $errors = null;
 	var $options = array();
 
 	var $permission = null;
@@ -65,7 +65,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	function connect() {
-		if ( $this->options['ssl'] && function_exists('ftp_ssl_connect') )
+		if ( isset($this->options['ssl']) && $this->options['ssl'] && function_exists('ftp_ssl_connect') )
 			$this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'],$this->timeout);
 		else
 			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'],$this->timeout);
@@ -187,30 +187,31 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return ftp_rename($this->link, $source, $destination);
 	}
 
-	function delete($file,$recursive=false) {
+	function delete($file, $recursive = false ) {
+		if ( empty($file) )
+			return false;
 		if ( $this->is_file($file) )
 			return @ftp_delete($this->link, $file);
 		if ( !$recursive )
 			return @ftp_rmdir($this->link, $file);
-		$filelist = $this->dirlist($file);
-		foreach ((array) $filelist as $filename => $fileinfo) {
-			$this->delete($file . '/' . $filename, $recursive);
-		}
+
+		$filelist = $this->dirlist( trailingslashit($file) );
+		if ( !empty($filelist) )
+			foreach ( $filelist as $delete_file )
+				$this->delete( trailingslashit($file) . $delete_file['name'], $recursive);
 		return @ftp_rmdir($this->link, $file);
 	}
 
 	function exists($file) {
-		$list = ftp_rawlist($this->link, $file, false);
-		if( ! $list )
-			return false;
-		return count($list) == 1 ? true : false;
+		$list = @ftp_rawlist($this->link, $file, false);
+		return !empty($list); //empty list = no file, so invert.
 	}
 	function is_file($file) {
-		return $this->is_dir($file) ? false : true;
+		return $this->exists($file) && !$this->is_dir($file);
 	}
 	function is_dir($path) {
 		$cwd = $this->cwd();
-		$result = @ftp_chdir($this->link, $path);
+		$result = @ftp_chdir($this->link, trailingslashit($path) );
 		if( $result && $path == $this->cwd() || $this->cwd() != $cwd ) {
 			@ftp_chdir($this->link, $cwd);
 			return true;
@@ -218,7 +219,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return false;
 	}
 	function is_readable($file) {
-		//Get dir list, Check if the file is writable by the current user??
+		//Get dir list, Check if the file is readable by the current user??
 		return true;
 	}
 	function is_writable($file) {
@@ -238,7 +239,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return false;
 	}
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
-		if( !@ftp_mkdir($this->link, $path) )
+		if( !ftp_mkdir($this->link, $path) )
 			return false;
 		if( $chmod )
 			$this->chmod($path, $chmod);
@@ -249,17 +250,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return true;
 	}
 	function rmdir($path, $recursive = false) {
-		if( ! $recursive )
-			return @ftp_rmdir($this->link, $path);
-
-		//TODO: Recursive Directory delete, Have to delete files from the folder first.
-		//$dir = $this->dirlist($path);
-		//foreach($dir as $file)
-
+		return $this->delete($path, $recursive);
 	}
 
 	function parselisting($line) {
-		$is_windows = ($this->OS_remote == FTP_OS_Windows);
+		static $is_windows;
+		if ( is_null($is_windows) )
+			$is_windows = strpos( strtolower(ftp_systype($this->link)), 'win') !== false;
+
 		if ($is_windows && preg_match("/([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)/", $line, $lucifer)) {
 			$b = array();
 			if ($lucifer[3]<70) { $lucifer[3] +=2000; } else { $lucifer[3]+=1900; } // 4digit year fix

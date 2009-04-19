@@ -598,7 +598,7 @@ function WP_Filesystem( $args = false ) {
 
 	$wp_filesystem = new $method($args);
 
-	if ( $wp_filesystem->errors->get_error_code() )
+	if ( is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->get_error_code() )
 		return false;
 
 	if ( !$wp_filesystem->connect() )

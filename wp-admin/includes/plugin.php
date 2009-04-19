@@ -216,6 +216,7 @@ function get_plugins($plugin_folder = '') {
 
 	// Files in wp-content/plugins directory
 	$plugins_dir = @ opendir( $plugin_root);
+	$plugin_files = array();
 	if ( $plugins_dir ) {
 		while (($file = readdir( $plugins_dir ) ) !== false ) {
 			if ( substr($file, 0, 1) == '.' )
@@ -239,7 +240,7 @@ function get_plugins($plugin_folder = '') {
 	@closedir( $plugins_dir );
 	@closedir( $plugins_subdir );
 
-	if ( !$plugins_dir || !$plugin_files )
+	if ( !$plugins_dir || empty($plugin_files) )
 		return $wp_plugins;
 
 	foreach ( $plugin_files as $plugin_file ) {
@@ -432,14 +433,10 @@ function delete_plugins($plugins, $redirect = '' ) {
 		return;
 	}
 
-	if ( $wp_filesystem->errors->get_error_code() ) {
-		return $wp_filesystem->errors;
-	}
-
 	if ( ! is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
-	if ( $wp_filesystem->errors->get_error_code() )
+	if ( is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->get_error_code() )
 		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
 
 	//Get the base plugin folder

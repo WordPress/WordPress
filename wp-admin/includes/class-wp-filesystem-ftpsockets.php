@@ -17,7 +17,7 @@
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	var $ftp = false;
 	var $timeout = 5;
-	var $errors;
+	var $errors = null;
 	var $options = array();
 
 	var $permission = null;
@@ -210,6 +210,8 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function delete($file, $recursive = false ) {
+		if ( empty($file) )
+			return false;
 		if ( $this->is_file($file) )
 			return $this->ftp->delete($file);
 		if ( !$recursive )

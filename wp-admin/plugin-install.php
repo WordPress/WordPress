@@ -24,7 +24,7 @@ add_thickbox();
 
 //These are the tabs which are shown on the page,
 $tabs = array();
-$tabs['dashboard'] = __('Search'); //TODO: Better name?
+$tabs['dashboard'] = __('Search');
 if ( 'search' == $tab )
 	$tabs['search']	= __('Search Results');
 $tabs['upload'] = __('Upload');
@@ -33,7 +33,7 @@ $tabs['popular']  = __('Popular');
 $tabs['new']      = __('Newest');
 $tabs['updated']  = __('Recently Updated');
 
-$nonmenu_tabs = array('install', 'plugin-information', 'do_upload'); //Valid actions to perform which do not have a Menu item.
+$nonmenu_tabs = array('plugin-information'); //Valid actions to perform which do not have a Menu item.
 
 $tabs = apply_filters('install_plugins_tabs', $tabs );
 $nonmenu_tabs = apply_filters('install_plugins_nonmenu_tabs', $nonmenu_tabs);
@@ -62,7 +62,7 @@ $display_tabs = array();
 foreach ( (array)$tabs as $action => $text ) {
 	$sep = ( end($tabs) != $text ) ? ' | ' : '';
 	$class = ( $action == $tab ) ? ' class="current"' : '';
-	$href = admin_url('plugin-install.php?tab='. $action);
+	$href = admin_url('plugin-install.php?tab=' . $action);
 	echo "\t\t<li><a href='$href'$class>$text</a>$sep</li>\n";
 }
 ?>
@@ -72,4 +72,3 @@ foreach ( (array)$tabs as $action => $text ) {
 </div>
 <?php
 include('admin-footer.php');
-?>
