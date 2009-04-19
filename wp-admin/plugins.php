@@ -215,6 +215,8 @@ $active_plugins = array();
 $inactive_plugins = array();
 $recent_plugins = array();
 $recently_activated = (array) get_option('recently_activated');
+$upgrade_plugins = array();
+
 set_transient( 'plugin_slugs', array_keys($all_plugins), 86400 );
 
 // Clean out any plugins which were deactivated over a week ago.
@@ -223,6 +225,7 @@ foreach ( $recently_activated as $key => $time )
 		unset($recently_activated[ $key ]);
 if ( $recently_activated != get_option('recently_activated') ) //If array changed, update it.
 	update_option('recently_activated', $recently_activated);
+$current = get_transient( 'update_plugins' );
 
 foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
@@ -237,15 +240,19 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 			$recent_plugins[ $plugin_file ] = $plugin_data;
 		$inactive_plugins[ $plugin_file ] = $plugin_data;
 	}
+
+    if ( isset( $current->response[ $plugin_file ] ) )
+        $upgrade_plugins[ $plugin_file ] = $plugin_data;
 }
 
 $total_plugins = count($all_plugins);
 $total_inactive_plugins = count($inactive_plugins);
 $total_active_plugins = count($active_plugins);
 $total_recent_plugins = count($recent_plugins);
+$total_upgrade_plugins = count($upgrade_plugins);
 
 $status = ( isset($_GET['plugin_status']) ) ? $_GET['plugin_status'] : 'all';
-if ( !in_array($status, array('all', 'active', 'inactive', 'recent')) )
+if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade')) )
 	$status = 'all';
 $plugin_array_name = "${status}_plugins";
 $plugins = &$$plugin_array_name;
@@ -374,6 +381,10 @@ if ( ! empty($recent_plugins) ) {
 if ( ! empty($inactive_plugins) ) {
 	$class = ( 'inactive' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=inactive' $class>" . sprintf( _n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', $total_inactive_plugins ), number_format_i18n( $total_inactive_plugins ) ) . '</a>';
+}
+if ( ! empty($upgrade_plugins) ) {
+	$class = ( 'upgrade' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=upgrade' $class>" . sprintf( _n( 'Upgrade Available <span class="count">(%s)</span>', 'Upgrade Available <span class="count">(%s)</span>', $total_upgrade_plugins ), number_format_i18n( $total_upgrade_plugins ) ) . '</a>';
 }
 echo implode( " |</li>\n", $status_links ) . '</li>';
 unset( $status_links );
