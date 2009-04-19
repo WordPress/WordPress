@@ -164,6 +164,11 @@ if( !empty($action) ) {
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
+$help = '<p>' . sprintf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR) . '</p>';
+$help .= '<p>' . sprintf(__('You can find additional plugins for your site by using the new <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> directly and installing manually.  To <em>manually</em> install a plugin you generally just need to upload the plugin file into your <code>%2$s</code> directory.  Once a plugin has been installed, you may activate it here.'), 'plugin-install.php', WP_PLUGIN_DIR) . '</p>';
+
+add_contextual_help('plugins', $help);
+
 $title = __('Manage Plugins');
 require_once('admin-header.php');
 
@@ -228,16 +233,23 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 	if ( is_plugin_active($plugin_file) ) {
 		$active_plugins[ $plugin_file ] = $plugin_data;
 	} else {
-		if ( isset( $recently_activated[ $plugin_file ] ) ) //Was the plugin recently activated?
+		if ( isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
 			$recent_plugins[ $plugin_file ] = $plugin_data;
-		else
-			$inactive_plugins[ $plugin_file ] = $plugin_data;
+		$inactive_plugins[ $plugin_file ] = $plugin_data;
 	}
 }
 
-?>
+$total_plugins = count($all_plugins);
+$total_inactive_plugins = count($inactive_plugins);
+$total_active_plugins = count($active_plugins);
+$total_recent_plugins = count($recent_plugins);
 
-<?php
+$status = ( isset($_GET['plugin_status']) ) ? $_GET['plugin_status'] : 'all';
+if ( !in_array($status, array('all', 'active', 'inactive', 'recent')) )
+	$status = 'all';
+$plugin_array_name = "${status}_plugins";
+$plugins = &$$plugin_array_name;
+
 /**
  * @ignore
  *
@@ -287,9 +299,9 @@ function print_plugins_table($plugins, $context = '') {
 		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
 		$action_count = count($actions);
-
+		$class = is_plugin_active($plugin_file) ? 'active' : 'inactive';
 		echo "
-	<tr class='$context'>
+	<tr class='$class'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . attribute_escape($plugin_file) . "' /></th>
 		<td class='plugin-title'><strong>{$plugin_data['Title']}</strong>";
 		$i = 0;
@@ -343,56 +355,41 @@ function print_plugin_actions($context) {
 }
 ?>
 
-<?php if ( ! empty($active_plugins) ) : ?>
-<h3 id="currently-active"><?php _e('Currently Active Plugins') ?></h3>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
-<div class="tablenav">
-<?php print_plugin_actions('active') ?>
-</div>
-<div class="clear"></div>
-<?php print_plugins_table($active_plugins, 'active') ?>
-</form>
-
-<p><?php printf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR); ?></p>
-<?php endif; ?>
-
-<?php if ( ! empty($recent_plugins) ) : ?>
-<h3 id="recent-plugins"><?php _e('Recently Active Plugins') ?></h3>
-<p><?php _e('The following plugins were recently active. When a plugin has been inactive for more than 7 days it will be moved to the Inactive plugin list.') ?></p>
-<form method="post" action="<?php echo admin_url('plugins.php') ?>">
-<?php wp_nonce_field('bulk-manage-plugins') ?>
-
-<div class="tablenav">
-<?php print_plugin_actions('recent') ?>
-</div>
-<div class="clear"></div>
-<?php print_plugins_table($recent_plugins, 'recent') ?>
-</form>
-<?php endif; ?>
-
-<?php if ( ! empty($inactive_plugins) ) : ?>
-<h3 id="inactive-plugins"><?php _e('Inactive Plugins') ?></h3>
-<form method="post" action="<?php echo admin_url('plugins.php') ?>">
-<?php wp_nonce_field('bulk-manage-plugins') ?>
+<ul class="subsubsub">
+<?php
+$status_links = array();
+$class = ( 'all' == $status ) ? ' class="current"' : '';
+$status_links[] = "<li><a href='plugins.php' $class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_plugins ), number_format_i18n( $total_plugins ) ) . '</a>';
+if ( ! empty($active_plugins) ) {
+	$class = ( 'active' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=active' $class>" . sprintf( _n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', $total_active_plugins ), number_format_i18n( $total_active_plugins ) ) . '</a>';
+}
+if ( ! empty($recent_plugins) ) {
+	$class = ( 'recent' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=recent' $class>" . sprintf( _n( 'Recently Active <span class="count">(%s)</span>', 'Recently Active <span class="count">(%s)</span>', $total_recent_plugins ), number_format_i18n( $total_recent_plugins ) ) . '</a>';
+}
+if ( ! empty($inactive_plugins) ) {
+	$class = ( 'inactive' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=inactive' $class>" . sprintf( _n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', $total_inactive_plugins ), number_format_i18n( $total_inactive_plugins ) ) . '</a>';
+}
+echo implode( " |</li>\n", $status_links ) . '</li>';
+unset( $status_links );
+?>
+</ul>
 
 <div class="tablenav">
-<?php print_plugin_actions('inactive') ?>
+<?php print_plugin_actions($status) ?>
 </div>
 <div class="clear"></div>
-<?php print_plugins_table($inactive_plugins, 'inactive') ?>
+<?php print_plugins_table($plugins, $status) ?>
 </form>
-<?php endif; ?>
 
 <?php if ( empty($all_plugins) ) : ?>
 <p><?php _e('You do not appear to have any plugins available at this time.') ?></p>
 <?php endif; ?>
-
-<h2><?php _e('Get More Plugins'); ?></h2>
-<p><?php _e('You can find additional plugins for your site by using the new <a href="plugin-install.php">Plugin Browser/Installer</a> functionality, Or by browsing the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> directly and installing manually.'); ?></p>
-<p><?php printf(__('To <em>manually</em> install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory.'), WP_PLUGIN_DIR); ?></p>
-<p><?php _e('Once a plugin has been installed, you may activate it here.'); ?></p>
 
 </div>
 
