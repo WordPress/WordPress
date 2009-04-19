@@ -97,12 +97,12 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 				'TextDomain' => $text_domain, 'DomainPath' => $domain_path
 				);
 	if ( $markup || $translate )
-		$plugin_data = _get_plugin_data_markup_translate($plugin_data, $markup, $translate);
+		$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup, $translate);
 
 	return $plugin_data;
 }
 
-function _get_plugin_data_markup_translate($plugin_data, $markup = true, $translate = true) {
+function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup = true, $translate = true) {
 
 	//Translate fields
 	if( $translate && ! empty($plugin_data['TextDomain']) ) {

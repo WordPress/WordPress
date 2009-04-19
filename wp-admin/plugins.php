@@ -230,7 +230,7 @@ $current = get_transient( 'update_plugins' );
 foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
 	//Translate, Apply Markup, Sanitize HTML
-	$plugin_data = _get_plugin_data_markup_translate($plugin_data, true, true);
+	$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, true, true);
 
 	//Filter into individual sections
 	if ( is_plugin_active($plugin_file) ) {
