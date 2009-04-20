@@ -127,7 +127,7 @@ do_action('_admin_menu');
 
 // Create list of page plugin hook names.
 foreach ($menu as $menu_page) {
-	$admin_page_hooks[$menu_page[2]] = sanitize_title($menu_page[0]);
+	$admin_page_hooks[$menu_page[2]] = sanitize_title(basename($menu_page[2], '.php'));
 }
 
 $_wp_submenu_nopriv = array();
