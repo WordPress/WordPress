@@ -534,9 +534,9 @@ class WP_User {
 		$this->allcaps = array();
 		foreach ( (array) $this->roles as $role ) {
 			$role =& $wp_roles->get_role( $role );
-			$this->allcaps = array_merge( $this->allcaps, $role->capabilities );
+			$this->allcaps = array_merge( (array) $this->allcaps, (array) $role->capabilities );
 		}
-		$this->allcaps = array_merge( $this->allcaps, $this->caps );
+		$this->allcaps = array_merge( (array) $this->allcaps, (array) $this->caps );
 	}
 
 	/**
