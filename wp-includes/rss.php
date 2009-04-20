@@ -170,7 +170,7 @@ class MagpieRSS {
 		{
 			// if tags are inlined, then flatten
 			$attrs_str = join(' ',
-					array_map('map_attrs',
+					array_map(array('MagpieRSS', 'map_attrs'),
 					array_keys($attrs),
 					array_values($attrs) ) );
 
