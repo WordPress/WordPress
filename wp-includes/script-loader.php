@@ -168,7 +168,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add_data( 'thickbox', 'group', 1 );
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.5-1');
-	
+
 	if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 		$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.2.0-20081031');
 		$scripts->add( 'swfupload-swfobject', '/wp-includes/js/swfupload/plugins/swfupload.swfobject.js', array('swfupload'), '2.2.0-20081031');

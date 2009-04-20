@@ -1184,8 +1184,8 @@ class Walker_Page extends Walker {
 		} elseif ( $page->ID == get_option('page_for_posts') ) {
 			$css_class[] = 'current_page_parent';
 		}
-		
-		$css_class = implode(' ', apply_filters('page_css_class', $css_class, $page)); 
+
+		$css_class = implode(' ', apply_filters('page_css_class', $css_class, $page));
 
 		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . attribute_escape(apply_filters('the_title', $page->post_title)) . '">' . $link_before . apply_filters('the_title', $page->post_title) . $link_after . '</a>';
 

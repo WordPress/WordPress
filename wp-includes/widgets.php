@@ -35,7 +35,7 @@ class WP_Widget {
 	// Member functions that you must over-ride.
 
 	/** Echo the widget content.
-	 * 
+	 *
 	 * Subclasses should over-ride this function to generate their widget code.
 	 *
 	 * @param array $args Display arguments including before_title, after_title, before_widget, and after_widget.
@@ -46,7 +46,7 @@ class WP_Widget {
 	}
 
 	/** Update a particular instance.
-	 * 
+	 *
 	 * This function should check that $new_instance is set correctly.
 	 * The newly calculated value of $instance should be returned.
 	 * If "false" is returned, the instance won't be saved/updated.
@@ -60,7 +60,7 @@ class WP_Widget {
 	}
 
 	/** Echo the settings update form
-	 * 
+	 *
 	 * @param array $instance Current settings
 	 */
 	function form($instance) {
@@ -96,9 +96,9 @@ class WP_Widget {
 	}
 
 	/** Constructs name attributes for use in form() fields
-	 * 
+	 *
 	 * This function should be used in form() methods to create name attributes for fields to be saved by update()
-	 * 
+	 *
 	 * @param string $field_name Field name
 	 * @return string Name attribute for $field_name
 	 */
@@ -107,9 +107,9 @@ class WP_Widget {
 	}
 
 	/** Constructs id attributes for use in form() fields
-	 * 
+	 *
 	 * This function should be used in form() methods to create id attributes for fields to be saved by update()
-	 * 
+	 *
 	 * @param string $field_name Field name
 	 * @return string ID attribute for $field_name
 	 */

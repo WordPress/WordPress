@@ -412,7 +412,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
 	$id = (int) $id;
-	$user = new WP_User($id);	
+	$user = new WP_User($id);
 
 	// allow for transaction statement
 	do_action('delete_user', $id);
@@ -448,7 +448,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	wp_cache_delete($user->user_login, 'userlogins');
 	wp_cache_delete($user->user_email, 'useremail');
 	wp_cache_delete($user->user_nicename, 'userslugs');
-	
+
 	// allow for commit transaction
 	do_action('deleted_user', $id);
 

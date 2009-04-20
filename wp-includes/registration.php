@@ -187,7 +187,7 @@ function wp_insert_user($userdata) {
 		}
 		$user_nicename = $alt_user_nicename;
 	}
-	
+
 	$data = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
 	$data = stripslashes_deep( $data );
 

@@ -908,12 +908,12 @@ function comments_popup_script($width=400, $height=400, $file='') {
  */
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post;
-	
+
     if ( false === $zero ) $zero = __( 'No Comments' );
     if ( false === $one ) $one = __( '1 Comment' );
     if ( false === $more ) $more = __( '% Comments' );
     if ( false === $none ) $none = __( 'Comments Off' );
-	
+
 	$number = get_comments_number( $id );
 
 	if ( 0 == $number && !comments_open() && !pings_open() ) {
@@ -1115,7 +1115,7 @@ function comment_id_fields() {
  */
 function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = TRUE ) {
 	global $comment;
-	
+
 	if ( false === $noreplytext ) $noreplytext = __( 'Leave a Reply' );
 	if ( false === $replytext ) $replytext = __( 'Leave a Reply to %s' );
 

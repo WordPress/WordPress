@@ -201,7 +201,7 @@ add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
 /**
  * Upload from zip
  * @since 2.8.0
- * 
+ *
  * @param string $page
  */
 function install_plugins_upload( $page = 1 ) {

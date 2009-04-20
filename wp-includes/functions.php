@@ -96,11 +96,11 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 		// specially computed timestamp
 		$gmt = true;
 	}
-	
+
 	// store original value for language with untypical grammars
 	// see http://core.trac.wordpress.org/ticket/9396
 	$req_format = $dateformatstring;
-	
+
 	$datefunc = $gmt? 'gmdate' : 'date';
 
 	if ( ( !empty( $wp_locale->month ) ) && ( !empty( $wp_locale->weekday ) ) ) {
@@ -1683,7 +1683,7 @@ function is_blog_installed() {
 	// If siteurl is not set to autoload, check it specifically
 	if ( !isset( $alloptions['siteurl'] ) )
 		$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
-	else 
+	else
 		$installed = $alloptions['siteurl'];
 	$wpdb->suppress_errors( $suppress );
 

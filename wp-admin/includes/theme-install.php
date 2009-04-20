@@ -403,10 +403,10 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 <?php
 	$rows = ceil(count($themes) / 3);
 	$table = array();
-	$theme_keys = array_keys($themes); 
-	for ( $row = 1; $row <= $rows; $row++ ) 
-		for ( $col = 1; $col <= 3; $col++ ) 
-			$table[$row][$col] = array_shift($theme_keys); 
+	$theme_keys = array_keys($themes);
+	for ( $row = 1; $row <= $rows; $row++ )
+		for ( $col = 1; $col <= 3; $col++ )
+			$table[$row][$col] = array_shift($theme_keys);
 
 	foreach ( $table as $row => $cols ) {
 	?>
@@ -421,8 +421,8 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 		if ( $col == 3 ) $class[] = 'right';
 		?>
 		<td class="<?php echo join(' ', $class); ?>"><?php
-			if ( isset($themes[$theme_index]) ) 
-				display_theme($themes[$theme_index]); 
+			if ( isset($themes[$theme_index]) )
+				display_theme($themes[$theme_index]);
 		?></td>
 		<?php } // end foreach $cols ?>
 	</tr>

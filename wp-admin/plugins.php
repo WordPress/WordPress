@@ -463,7 +463,7 @@ print_plugin_actions($status);
 <?php
 	if ( $total_this_page > $plugins_per_page )
 		$plugins = array_slice($plugins, $start, $plugins_per_page);
-	
+
 	print_plugins_table($plugins, $status);
 ?>
 <div class="tablenav">

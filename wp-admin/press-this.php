@@ -58,7 +58,7 @@ function press_it() {
 			if( strpos($_REQUEST['content'], $image) !== false ) {
 				$desc = isset($_REQUEST['photo_description'][$key]) ? $_REQUEST['photo_description'][$key] : '';
 				$upload = media_sideload_image($image, $post_ID, $desc);
-				
+
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
 				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote($image, '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
@@ -450,7 +450,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 
 			<!-- This div holds the photo metadata -->
 			<div class="photolist"></div>
-			
+
 			<div id="submitdiv" class="stuffbox">
 				<h3><?php _e('Publish') ?></h3>
 				<div class="inside">
@@ -465,7 +465,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 					</p>
 				</div>
 			</div>
-			
+
 			<div id="categorydiv" class="stuffbox">
 				<h3><?php _e('Categories') ?></h3>
 				<div class="inside">
@@ -524,7 +524,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 
 		<div class="postdivrich">
 			<ul id="actions">
-				
+
 				<li id="photo_button">
 					Add: <?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
 <img alt="<?php _e('Insert an Image'); ?>" src="images/media-button-image.gif"/></a>

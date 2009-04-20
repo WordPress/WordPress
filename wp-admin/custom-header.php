@@ -232,7 +232,7 @@ class Custom_Image_Header {
 		var ratio = xinit / yinit;
 		var ximg = jQuery('#upload').width();
 		var yimg = jQuery('#upload').height();
-		
+
 		//set up default values
 		jQuery( '#x1' ).val(0);
 		jQuery( '#y1' ).val(0);
@@ -240,7 +240,7 @@ class Custom_Image_Header {
 		jQuery( '#y2' ).val(yinit);
 		jQuery( '#width' ).val(xinit);
 		jQuery( '#height' ).val(yinit);
-		
+
 		if ( yimg < yinit || ximg < xinit ) {
 			if ( ximg / yimg > ratio ) {
 				yinit = yimg;

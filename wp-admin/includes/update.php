@@ -177,7 +177,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 }
 
 function wp_update_theme($theme, $feedback = '') {
-	
+
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
@@ -188,7 +188,7 @@ function wp_update_theme($theme, $feedback = '') {
 
 
 function wp_update_core($current, $feedback = '') {
-	
+
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 

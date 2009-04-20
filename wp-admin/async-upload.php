@@ -5,8 +5,8 @@
  * @package WordPress
  * @subpackage Administration
  */
- 
-define('WP_ADMIN', true); 
+
+define('WP_ADMIN', true);
 
 if ( defined('ABSPATH') )
 	require_once(ABSPATH . 'wp-load.php');

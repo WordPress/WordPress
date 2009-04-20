@@ -40,7 +40,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<link rel="self" type="application/atom+xml" href="<?php bloginfo_rss('comments_atom_url'); ?>" />
 	<id><?php bloginfo_rss('comments_atom_url'); ?></id>
 <?php } ?>
-<?php do_action('comments_atom_head'); ?> 
+<?php do_action('comments_atom_head'); ?>
 <?php
 if ( have_comments() ) : while ( have_comments() ) : the_comment();
 	$comment_post = get_post($comment->comment_post_ID);

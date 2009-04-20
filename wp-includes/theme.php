@@ -186,12 +186,12 @@ function get_theme_data( $theme_file ) {
 
 	if ( preg_match( '|Theme URI:(.*)$|mi', $theme_data, $theme_uri ) )
 		$theme_uri = clean_url( trim( $theme_uri[1] ) );
-	else 
+	else
 		$theme_uri = '';
-		
+
 	if ( preg_match( '|Description:(.*)$|mi', $theme_data, $description ) )
 		$description = wptexturize( wp_kses( trim( $description[1] ), $themes_allowed_tags ) );
-	else 
+	else
 		$description = '';
 
 	if ( preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri ) )
@@ -374,7 +374,7 @@ function get_themes() {
 			}
 			@ $stylesheet_dir->close();
 		}
-		
+
 		$template_dir = @ dir("$theme_root/$template");
 		if ( $template_dir ) {
 			while ( ($file = $template_dir->read()) !== false ) {
@@ -393,7 +393,7 @@ function get_themes() {
 					@ $template_subdir->close();
 				}
 			}
-			@ $template_dir->close(); 
+			@ $template_dir->close();
 		}
 
 		$template_dir = dirname($template_files[0]);
@@ -1150,7 +1150,7 @@ function theme_basename($file) {
 	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
 	$theme_dir = str_replace('\\','/', get_theme_root()); // sanitize for Win32 installs
 	$theme_dir = preg_replace('|/+|','/', $theme_dir); // remove any duplicate slash
-	$file = preg_replace('|^.*/themes/.*?/|','',$file); // get relative path from theme dir 
+	$file = preg_replace('|^.*/themes/.*?/|','',$file); // get relative path from theme dir
 	return $file;
 }
 

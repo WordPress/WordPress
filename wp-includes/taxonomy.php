@@ -23,7 +23,7 @@ function create_initial_taxonomies() {
 	$wp_taxonomies['category'] = (object) array('name' => 'category', 'object_type' => 'post', 'hierarchical' => true, 'update_count_callback' => '_update_post_term_count', 'label' => __('Categories'));
 	$wp_taxonomies['post_tag'] = (object) array('name' => 'post_tag', 'object_type' => 'post', 'hierarchical' => false, 'update_count_callback' => '_update_post_term_count', 'label' => __('Post Tags'));
 	$wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'object_type' => 'link', 'hierarchical' => false);
-	
+
 }
 add_action( 'init', 'create_initial_taxonomies' );
 
@@ -1078,7 +1078,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  *
  * The $args 'default' will only override the terms found, if there is only one
  * term found. Any other and the found terms are used.
- * 
+ *
  * The $args 'force_default' will force the term supplied as default to be
  * assigned even if the object was not going to be termless
  * @package WordPress
@@ -1413,7 +1413,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @uses $wpdb
  *
  * @param int $object_id The object to relate to.
- * @param array|int|string $term The slug or id of the term, will replace all existing 
+ * @param array|int|string $term The slug or id of the term, will replace all existing
  * related terms in this taxonomy.
  * @param array|string $taxonomy The context in which to relate the term to the object.
  * @param bool $append If false will delete difference of terms.

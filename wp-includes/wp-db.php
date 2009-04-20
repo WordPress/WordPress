@@ -751,7 +751,7 @@ class wpdb {
 		return $this->query( $this->prepare( $sql, $data) );
 	}
 
-        
+
 	/**
 	 * Update a row in the table
 	 *

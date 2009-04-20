@@ -1569,13 +1569,13 @@ function display_page_row( $page, $level = 0 ) {
 		$find_main_page = (int)$page->post_parent;
 		while ( $find_main_page > 0 ) {
 			$parent = get_page($find_main_page);
-			
+
 			if ( is_null($parent) )
 				break;
-			
+
 			$level++;
 			$find_main_page = (int)$parent->post_parent;
-			
+
 			if ( !isset($parent_name) )
 				$parent_name = $parent->post_title;
 		}

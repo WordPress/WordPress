@@ -19,7 +19,7 @@ class WP_Upgrader {
 	var $strings = array();
 	var $skin = null;
 	var $result = array();
-	
+
 	function WP_Upgrader(&$skin = null) {
 		return __construct($skin);
 	}
@@ -30,7 +30,7 @@ class WP_Upgrader {
 			$this->skin = $skin;
 		$this->skin->set_upgrader($this);
 	}
-	
+
 	function generic_strings() {
 		$this->strings['bad_request'] = __('Invalid Data provided.');
 		$this->strings['fs_unavailable'] = __('Could not access filesystem.');
@@ -46,17 +46,17 @@ class WP_Upgrader {
 		$this->strings['folder_exists'] = __('Destination folder already exists.');
 		$this->strings['mkdir_failed'] = __('Could not create directory.');
 		$this->strings['bad_package'] = __('Incompatible Archive');
-		
+
 		$this->strings['maintenance_start'] = __('Enabling Maintenance mode.');
 		$this->strings['maintenance_end'] = __('Disabling Maintenance mode.');
 	}
-	
+
 	function fs_connect( $directories = array() ) {
 		global $wp_filesystem;
-	
+
 		if ( false === ($credentials = $this->skin->request_filesystem_credentials()) )
 			return false;
-	
+
 		if ( ! WP_Filesystem($credentials) ) {
 			$error = true;
 			if ( is_object($wp_filesystem) && $wp_filesystem->errors->get_error_code() )
@@ -67,7 +67,7 @@ class WP_Upgrader {
 
 		if ( ! is_object($wp_filesystem) )
 			return new WP_Error('fs_unavailable', $this->strings['fs_unavailable'] );
-	
+
 		if ( is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->get_error_code() )
 			return new WP_Error('fs_error', $this->strings['fs_error'], $wp_filesystem->errors);
 
@@ -94,23 +94,23 @@ class WP_Upgrader {
 
 		if ( ! preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package) ) //Local file or remote?
 			return $package; //must be a local file..
-		
+
 		if ( empty($package) )
 			return new WP_Error('no_package', $this->strings['no_package']);
 
 		$this->skin->feedback('downloading_package', $package);
 
 		$download_file = download_url($package);
-	
+
 		if ( is_wp_error($download_file) )
 			return new WP_Error('download_failed', $this->strings['download_failed'], $download_file->get_error_message());
-		
+
 		return $download_file;
 	}
-	
+
 	function unpack_package($package, $delete_package = true) {
 		global $wp_filesystem;
-		
+
 		$this->skin->feedback('unpack_package');
 
 		$upgrade_folder = $wp_filesystem->wp_content_dir() . 'upgrade/';
@@ -140,10 +140,10 @@ class WP_Upgrader {
 			$wp_filesystem->delete($working_dir, true);
 			return $result;
 		}
-		
+
 		return $working_dir;
 	}
-	
+
 	function install_package($args = array()) {
 		global $wp_filesystem;
 		$defaults = array( 'source' => '', 'destination' => '', //Please always pass these
@@ -157,7 +157,7 @@ class WP_Upgrader {
 
 		if ( empty($source) || empty($destination) )
 			return new WP_Error('bad_request', $this->strings['bad_request']);
-		
+
 		$this->skin->feedback('installing_package');
 
 		$res = apply_filters('upgrader_pre_install', true, $hook_extra);
@@ -167,7 +167,7 @@ class WP_Upgrader {
 		//Retain the Original source and destinations
 		$remote_source = $source;
 		$local_destination = $destination;
-		
+
 		$source_files = array_keys( $wp_filesystem->dirlist($remote_source) );
 		$remote_destination = $wp_filesystem->find_folder($local_destination);
 
@@ -177,16 +177,16 @@ class WP_Upgrader {
 		elseif ( count($source_files) == 0 )
 			return new WP_Error('bad_package', $this->strings['bad_package']); //There are no files?
 		//else //Its only a single file, The upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
-				  
+
 		//Hook ability to change the source file location..
 		$source = apply_filters('upgrader_source_selection', $source, $remote_source, $this);
 		if ( is_wp_error($source) )
 			return $source;
-		
+
 		//Has the source location changed? If so, we need a new source_files list.
 		if ( $source !== $remote_source )
 			$source_files = array_keys( $wp_filesystem->dirlist($source) );
-		
+
 		//Protection against deleting files in any important base directories.
 		if ( in_array( $destination, array(ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes') ) ) {
 			$remote_destination = trailingslashit($remote_destination) . trailingslashit(basename($source));
@@ -212,12 +212,12 @@ class WP_Upgrader {
 			else if ( ! $removed )
 				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
 		}
-		
+
 		//Create destination if needed
 		if ( !$wp_filesystem->exists($remote_destination) )
 			if ( !$wp_filesystem->mkdir($remote_destination, FS_CHMOD_DIR) )
 				return new WP_Error('mkdir_failed', $this->strings['mkdir_failed'], $remote_destination);
-		
+
 		// Copy new version of item into place.
 		$result = copy_dir($source, $remote_destination);
 		if ( is_wp_error($result) ) {
@@ -225,11 +225,11 @@ class WP_Upgrader {
 				$wp_filesystem->delete($remote_source, true);
 			return $result;
 		}
-		
-		//Clear the Working folder? 
+
+		//Clear the Working folder?
 		if ( $clear_working )
 			$wp_filesystem->delete($remote_source, true);
-		
+
 		$destination_name = basename( str_replace($local_destination, '', $destination) );
 		if ( '.' == $destination_name )
 			$destination_name = '';
@@ -245,7 +245,7 @@ class WP_Upgrader {
 		//Bombard the calling function will all the info which we've just used.
 		return $this->result;
 	}
-	
+
 	function run($options) {
 
 		$defaults = array( 	'package' => '', //Please always pass this.
@@ -277,7 +277,7 @@ class WP_Upgrader {
 			$this->skin->error($download);
 			return $download;
 		}
-		
+
 		//Unzip's the file into a temporary directory
 		$working_dir = $this->unpack_package( $download );
 		if ( is_wp_error($working_dir) ) {
@@ -286,7 +286,7 @@ class WP_Upgrader {
 		}
 
 		//With the given options, this installs it to the destination directory.
-		$result = $this->install_package( array( 
+		$result = $this->install_package( array(
 											'source' => $working_dir,
 											'destination' => $destination,
 											'clear_destination' => $clear_destination,
@@ -305,7 +305,7 @@ class WP_Upgrader {
 		$this->skin->footer();
 		return $result;
 	}
-	
+
 	function maintenance_mode($enable = false) {
 		global $wp_filesystem;
 		$file = $wp_filesystem->abspath() . '.maintenance';
@@ -320,13 +320,13 @@ class WP_Upgrader {
 			$wp_filesystem->delete($file);
 		}
 	}
-	
+
 }
 
 class Plugin_Upgrader extends WP_Upgrader {
 
 	var $result;
-	
+
 	function upgrade_strings() {
 		$this->generic_strings();
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
@@ -351,7 +351,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	function install($package) {
-		
+
 		$this->install_strings();
 
 		$this->run(array(
@@ -361,16 +361,16 @@ class Plugin_Upgrader extends WP_Upgrader {
 					'clear_working' => true,
 					'hook_extra' => array()
 					));
-	
+
 		// Force refresh of plugin update information
 		delete_transient('update_plugins');
 
 	}
 
 	function upgrade($plugin) {
-		
+
 		$this->upgrade_strings();
-		
+
 		$current = get_transient( 'update_plugins' );
 		if ( !isset( $current->response[ $plugin ] ) ) {
 			$this->skin->error('up_to_date');
@@ -380,7 +380,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Get the URL to the zip file
 		$r = $current->response[ $plugin ];
-		
+
 		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
 		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
 		//'source_selection' => array(&$this, 'source_selection'), //theres a track ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
@@ -405,13 +405,13 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information
 		delete_transient('update_plugins');
 	}
-	
+
 	//return plugin info.
 	function plugin_info() {
 		if ( ! is_array($this->result) )
 			return false;
 		if ( empty($this->result['destination_name']) )
-			return false; 
+			return false;
 
 		$plugin = get_plugins('/' . $this->result['destination_name']); //Ensure to pass with leading slash
 		if ( empty($plugin) )
@@ -419,7 +419,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$pluginfiles = array_keys($plugin); //Assume the requested plugin is the first in the list
 
-		return $this->result['destination_name'] . '/' . $pluginfiles[0];	
+		return $this->result['destination_name'] . '/' . $pluginfiles[0];
 	}
 
 	//Hooked to pre_install
@@ -436,26 +436,26 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$this->skin->feedback('deactivate_plugin');
 			//Deactivate the plugin silently, Prevent deactivation hooks from running.
 			deactivate_plugins($plugin, true);
-		}	
+		}
 	}
 
 	//Hooked to upgrade_clear_destination
 	function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
 		global $wp_filesystem;
-	
+
 		if ( is_wp_error($removed) )
 			return $removed; //Pass errors through.
-	
+
 		$plugin = isset($plugin['plugin']) ? $plugin['plugin'] : '';
 		if ( empty($plugin) )
 			return new WP_Error('bad_request', $this->strings['bad_request']);
 
 		$plugins_dir = $wp_filesystem->wp_plugins_dir();
 		$this_plugin_dir = trailingslashit( dirname($plugins_dir . $plugin) );
-		
+
 		if ( ! $wp_filesystem->exists($this_plugin_dir) ) //If its already vanished.
 			return $removed;
-	
+
 		// If plugin is in its own directory, recursively delete the directory.
 		if ( strpos($plugin, '/') && $this_plugin_dir != $plugins_dir ) //base check on if plugin includes directory seperator AND that its not the root plugin folder
 			$deleted = $wp_filesystem->delete($this_plugin_dir, true);
@@ -464,7 +464,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		if ( ! $deleted )
 			return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
-		
+
 		return $removed;
 	}
 }
@@ -497,7 +497,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	function install($package) {
-		
+
 		$this->install_strings();
 
 		$options = array(
@@ -506,30 +506,30 @@ class Theme_Upgrader extends WP_Upgrader {
 						'clear_destination' => false, //Do not overwrite files.
 						'clear_working' => true
 						);
-		
+
 		$this->run($options);
-	
+
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
-	
+
 		// Force refresh of theme update information
 		delete_transient('update_themes');
-	
+
 		if ( empty($result['destination_name']) )
-			return false; 
+			return false;
 		else
 			return $result['destination_name'];
 	}
 
 	function upgrade($theme) {
-		
+
 		$this->upgrade_strings();
-		
+
 		// Is an update available?
 		$current = get_transient( 'update_themes' );
 		if ( !isset( $current->response[ $theme ] ) )
 			return new WP_Error('up_to_date', $this->strings['up_to_date']);
-		
+
 		$r = $current->response[ $theme ];
 
 		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
@@ -545,7 +545,7 @@ class Theme_Upgrader extends WP_Upgrader {
 											'theme' => $theme
 											)
 						);
-		
+
 		$this->run($options);
 
 		if ( ! $this->result || is_wp_error($this->result) )
@@ -556,9 +556,9 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		return true;
 	}
-	
+
 	function current_before($return, $theme) {
-		
+
 		if ( is_wp_error($return) )
 			return $return;
 
@@ -592,22 +592,22 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->maintenance_mode(false);
 		return $return;
 	}
-	
+
 	function delete_old_theme($removed, $local_destination, $remote_destination, $theme) {
 		global $wp_filesystem;
-	
+
 		$theme = isset($theme['theme']) ? $theme['theme'] : '';
-	
+
 		if ( is_wp_error($removed) || empty($theme) )
 			return $removed; //Pass errors through.
-		
+
 		$themes_dir = $wp_filesystem->wp_themes_dir();
 		if ( $wp_filesystem->exists( trailingslashit($themes_dir) . $theme ) )
 			if ( ! $wp_filesystem->delete( trailingslashit($themes_dir) . $theme, true ) )
 				return false;
 		return true;
 	}
-	
+
 	function theme_info() {
 		if ( empty($this->result['destination_name']) )
 			return false;
@@ -631,11 +631,11 @@ class Core_Upgrader extends WP_Upgrader {
 	function upgrade($current) {
 		global $wp_filesystem;
 		$this->upgrade_strings();
-		
-	
+
+
 		if ( !empty($feedback) )
 			add_filter('update_feedback', $feedback);
-	
+
 		// Is an update available?
 		if ( !isset( $current->response ) || $current->response == 'latest' )
 			return new WP_Error('up_to_date', $this->strings['up_to_date']);
@@ -643,13 +643,13 @@ class Core_Upgrader extends WP_Upgrader {
 		$res = $this->fs_connect( array(ABSPATH, WP_CONTENT_DIR) );
 		if ( is_wp_error($res) )
 			return $res;
-		
+
 		$wp_dir = trailingslashit($wp_filesystem->abspath());
-		
+
 		$download = $this->download_package( $current->package );
 		if ( is_wp_error($download) )
 			return $download;
-		
+
 		$working_dir = $this->unpack_package( $download );
 		if ( is_wp_error($working_dir) )
 			return $working_dir;
@@ -660,9 +660,9 @@ class Core_Upgrader extends WP_Upgrader {
 			return new WP_Error('copy_failed', $this->strings['copy_failed']);
 		}
 		$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
-	
+
 		require(ABSPATH . 'wp-admin/includes/update-core.php');
-	
+
 		return update_core($working_dir, $wp_dir);
 	}
 
@@ -677,10 +677,10 @@ class Core_Upgrader extends WP_Upgrader {
  */
 
 class WP_Upgrader_Skin {
-	
+
 	var $upgrader;
 	var $done_header = false;
-	
+
 	function WP_Upgrader_Skin($args = array()) {
 		return __construct($args);
 	}
@@ -688,7 +688,7 @@ class WP_Upgrader_Skin {
 		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '' );
 		$this->options = wp_parse_args($args, $defaults);
 	}
-	
+
 	function set_upgrader(&$upgrader) {
 		if ( is_object($upgrader) )
 			$this->upgrader =& $upgrader;
@@ -696,26 +696,26 @@ class WP_Upgrader_Skin {
 	function set_result($result) {
 		$this->result = $result;
 	}
-	
+
 	function request_filesystem_credentials($error = false) {
 		$url = $this->options['url'];
 		if ( !empty($this->options['nonce']) )
 			$url = wp_nonce_url($url, $this->options['nonce']);
 		return request_filesystem_credentials($url, '', $error); //Possible to bring inline, Leaving as0is for now.
 	}
-	
+
 	function header() {
 		if ( $this->done_header )
 			return;
 		$this->done_header = true;
 		echo '<div class="wrap">';
 		echo screen_icon();
-		echo '<h2>' . $this->options['title'] . '</h2>';	
+		echo '<h2>' . $this->options['title'] . '</h2>';
 	}
 	function footer() {
 		echo '</div>';
 	}
-	
+
 	function error($errors) {
 		if ( ! $this->done_header )
 			$this->header();
@@ -738,10 +738,10 @@ class WP_Upgrader_Skin {
 		if ( empty($string) )
 			return;
 		show_message($string);
-	}	
+	}
 	function before() {}
 	function after() {}
-	
+
 }
 
 class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
@@ -759,10 +759,10 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->plugin = $args['plugin'];
 
 		$this->plugin_active = is_plugin_active($this->plugin);
-		
+
 		parent::__construct($args);
 	}
-	
+
 	function after() {
 		$this->plugin = $this->upgrader->plugin_info();
 		if( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
@@ -796,10 +796,10 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	function __construct($args = array()) {
 		$defaults = array( 'type' => 'web', 'url' => '', 'plugin' => '', 'nonce' => '', 'title' => '' );
 		$args = wp_parse_args($args, $defaults);
-		
+
 		$this->type = $args['type'];
 		$this->api = isset($args['api']) ? $args['api'] : array();
-		
+
 		parent::__construct($args);
 	}
 
@@ -807,7 +807,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		if ( !empty($this->api) )
 			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the plugin <strong>%s %s</strong>.'), $this->api->name, $this->api->version);
 	}
-	
+
 	function after() {
 
 		$plugin_file = $this->upgrader->plugin_info();
@@ -842,10 +842,10 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	function __construct($args = array()) {
 		$defaults = array( 'type' => 'web', 'url' => '', 'theme' => '', 'nonce' => '', 'title' => '' );
 		$args = wp_parse_args($args, $defaults);
-		
+
 		$this->type = $args['type'];
 		$this->api = isset($args['api']) ? $args['api'] : array();
-		
+
 		parent::__construct($args);
 	}
 
@@ -853,7 +853,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		if ( !empty($this->api) )
 			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the theme <strong>%s %s</strong>.'), $this->api->name, $this->api->version);
 	}
-	
+
 	function after() {
 		if ( empty($this->upgrader->result['destination_name']) )
 			return;
@@ -864,10 +864,10 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$name = $theme_info['Name'];
 		$stylesheet = $this->upgrader->result['destination_name'];
 		$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
-		
+
 		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(clean_url(get_option('home'))) ) );
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
-		
+
 		$install_actions = array(
 			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
 			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attribute_escape( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>'
@@ -899,10 +899,10 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		$args = wp_parse_args($args, $defaults);
 
 		$this->theme = $args['theme'];
-		
+
 		parent::__construct($args);
 	}
-	
+
 	function after() {
 
 		if ( empty($this->upgrader->result['destination_name']) )
@@ -914,7 +914,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		$name = $theme_info['Name'];
 		$stylesheet = $this->upgrader->result['destination_name'];
 		$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
-		
+
 		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(clean_url(get_option('home'))) ) );
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
 
@@ -925,7 +925,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		);
 		if ( ( ! $this->result || is_wp_error($this->result) ) || $stylesheet == get_stylesheet() )
 			unset($update_actions['preview'], $update_actions['activate']);
-	
+
 		$update_actions = apply_filters('update_theme_complete_actions', $update_actions, $this->theme);
 		if ( ! empty($update_actions) )
 			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
@@ -942,10 +942,10 @@ class File_Upload_Upgrader {
 	function __construct($form, $urlholder) {
 		if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
 			wp_die($uploads['error']);
-		
+
 		if ( empty($_FILES[$form]['name']) && empty($_GET[$urlholder]) )
 			wp_die(__('Please select a file'));
-	
+
 		if ( !empty($_FILES) )
 			$this->filename = $_FILES[$form]['name'];
 		else if ( isset($_GET[$urlholder]) )
@@ -955,7 +955,7 @@ class File_Upload_Upgrader {
 		if ( !empty($_FILES) ) {
 			$this->filename = wp_unique_filename( $uploads['basedir'], $this->filename );
 			$this->package = $uploads['basedir'] . '/' . $this->filename;
-	
+
 			// Move the file to the uploads dir
 			if ( false === @ move_uploaded_file( $_FILES[$form]['tmp_name'], $this->package) )
 				wp_die( sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path']));
