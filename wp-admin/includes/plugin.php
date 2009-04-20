@@ -1022,7 +1022,7 @@ function add_option_update_handler($option_group, $option_name, $sanitize_callba
  */
 function remove_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
 	global $new_whitelist_options;
-	$pos = array_search( $option_name, $new_whitelist_options );
+	$pos = array_search( $option_name, (array) $new_whitelist_options );
 	if ( $pos !== false )
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
 	if ( $sanitize_callback != '' )
