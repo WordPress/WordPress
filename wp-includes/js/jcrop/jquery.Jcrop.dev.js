@@ -1,8 +1,8 @@
 /**
- * jquery.Jcrop.js v0.9.5
+ * jquery.Jcrop.js v0.9.8
  * jQuery Image Cropping Plugin
- * @author Kelly Hallman <khallman@wrack.org>
- * Copyright (c) 2008 Kelly Hallman - released under MIT License {{{
+ * @author Kelly Hallman <khallman@gmail.com>
+ * Copyright (c) 2008-2009 Kelly Hallman - released under MIT License {{{
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,7 +27,9 @@
 
  * }}}
  */
+
 (function($) {
+
 $.Jcrop = function(obj,opt)
 {
 	// Initialization {{{
@@ -38,12 +40,17 @@ $.Jcrop = function(obj,opt)
 	if (typeof(obj) !== 'object') obj = $(obj)[0];
 	if (typeof(opt) !== 'object') opt = { };
 
+	// Some on-the-fly fixes for MSIE...sigh
 	if (!('trackDocument' in opt))
+	{
 		opt.trackDocument = $.browser.msie ? false : true;
+		if ($.browser.msie && $.browser.version.split('.')[0] == '8')
+			opt.trackDocument = true;
+	}
 
 	if (!('keySupport' in opt))
-		opt.keySupport = $.browser.msie ? false : true;
-	
+			opt.keySupport = $.browser.msie ? false : true;
+		
 	// }}}
 	// Extend the default options {{{
 	var defaults = {
@@ -78,7 +85,10 @@ $.Jcrop = function(obj,opt)
 		animationDelay:		20,
 		swingSpeed:			3,
 
-		watchShift:			false,
+		allowSelect:		true,
+		allowMove:			true,
+		allowResize:		true,
+
 		minSelect:			[ 0, 0 ],
 		maxSize:			[ 0, 0 ],
 		minSize:			[ 0, 0 ],
@@ -94,7 +104,12 @@ $.Jcrop = function(obj,opt)
 	// }}}
 	// Initialize some jQuery objects {{{
 
-	var $img = $(obj).css({ position: 'absolute' });
+	var $origimg = $(obj);
+	var $img = $origimg.clone().removeAttr('id').css({ position: 'absolute' });
+
+	$img.width($origimg.width());
+	$img.height($origimg.height());
+	$origimg.after($img).hide();
 
 	presize($img,options.boxWidth,options.boxHeight);
 
@@ -106,13 +121,12 @@ $.Jcrop = function(obj,opt)
 			.addClass(cssClass('holder'))
 			.css({
 				position: 'relative',
-				//overflow: 'hidden',
 				backgroundColor: options.bgColor
-			})
+			}).insertAfter($origimg).append($img);
 	;
 	
 	if (options.addClass) $div.addClass(options.addClass);
-	$img.wrap($div);
+	//$img.wrap($div);
 
 	var $img2 = $('<img />')/*{{{*/
 			.attr('src',$img.attr('src'))
@@ -130,11 +144,8 @@ $.Jcrop = function(obj,opt)
 	;/*}}}*/
 	var $hdl_holder = $('<div />')/*{{{*/
 		.width(pct(100)).height(pct(100))
-		.css({
-			zIndex: 320
-			//position: 'absolute'
-		})
-	;/*}}}*/
+		.css('zIndex',320);
+	/*}}}*/
 	var $sel = $('<div />')/*{{{*/
 		.css({
 			position: 'absolute',
@@ -145,38 +156,24 @@ $.Jcrop = function(obj,opt)
 	;/*}}}*/
 
 	var bound = options.boundary;
-	var $trk = $('<div />')
-			.addClass(cssClass('tracker'))
-			.width(boundx+(bound*2))
-			.height(boundy+(bound*2))
-			.css({
-				position: 'absolute',
-				top: px(-bound),
-				left: px(-bound),
-				zIndex: 290,
-				opacity: 0
-			})
-			.mousedown(newSelection)
-	;	
+	var $trk = newTracker().width(boundx+(bound*2)).height(boundy+(bound*2))
+		.css({ position: 'absolute', top: px(-bound), left: px(-bound), zIndex: 290 })
+		.mousedown(newSelection);	
 	
 	/* }}} */
 	// Set more variables {{{
 
-	var xscale, yscale;
-	var docOffset = getPos(obj),
+	var xlimit, ylimit, xmin, ymin;
+	var xscale, yscale, enabled = true;
+	var docOffset = getPos($img),
 		// Internal states
-		btndown, aspectLock, lastcurs, dimmed, animating,
+		btndown, lastcurs, dimmed, animating,
 		shift_down;
 
 	// }}}
-	if ('trueSize' in options)/*{{{*/
-	{
-		xscale = options.trueSize[0] / boundx;
-		yscale = options.trueSize[1] / boundy;
-	}
-	/*}}}*/
+		
 
-	// }}}
+		// }}}
 	// Internal Modules {{{
 
 	var Coords = function()/*{{{*/
@@ -234,12 +231,13 @@ $.Jcrop = function(obj,opt)
 		/*}}}*/
 		function getFixed()/*{{{*/
 		{
-			if (!options.aspectRatio && !aspectLock) return getRect();
-
+			if (!options.aspectRatio) return getRect();
 			// This function could use some optimization I think...
-			var aspect = options.aspectRatio ? options.aspectRatio : aspectLock,
-				min = options.minSize,
-				max = options.maxSize,
+			var aspect = options.aspectRatio,
+				min_x = options.minSize[0]/xscale, 
+				min_y = options.minSize[1]/yscale,
+				max_x = options.maxSize[0]/xscale, 
+				max_y = options.maxSize[1]/yscale,
 				rw = x2 - x1,
 				rh = y2 - y1,
 				rwa = Math.abs(rw),
@@ -247,7 +245,8 @@ $.Jcrop = function(obj,opt)
 				real_ratio = rwa / rha,
 				xx, yy
 			;
-			
+			if (max_x == 0) { max_x = boundx * 10 }
+			if (max_y == 0) { max_y = boundy * 10 }
 			if (real_ratio < aspect)
 			{
 				yy = y2;
@@ -285,6 +284,48 @@ $.Jcrop = function(obj,opt)
 					xx = rw < 0 ? x1 - w : w + x1;
 				}
 			}
+
+			// Magic %-)
+			if(xx > x1) { // right side
+			  if(xx - x1 < min_x) {
+				xx = x1 + min_x;
+			  } else if (xx - x1 > max_x) {
+				xx = x1 + max_x;
+			  }
+			  if(yy > y1) {
+				yy = y1 + (xx - x1)/aspect;
+			  } else {
+				yy = y1 - (xx - x1)/aspect;
+			  }
+			} else if (xx < x1) { // left side
+			  if(x1 - xx < min_x) {
+				xx = x1 - min_x
+			  } else if (x1 - xx > max_x) {
+				xx = x1 - max_x;
+			  }
+			  if(yy > y1) {
+				yy = y1 + (x1 - xx)/aspect;
+			  } else {
+				yy = y1 - (x1 - xx)/aspect;
+			  }
+			}
+
+			if(xx < 0) {
+				x1 -= xx;
+				xx = 0;
+			} else  if (xx > boundx) {
+				x1 -= xx - boundx;
+				xx = boundx;
+			}
+
+			if(yy < 0) {
+				y1 -= yy;
+				yy = 0;
+			} else  if (yy > boundy) {
+				y1 -= yy - boundy;
+				yy = boundy;
+			}
+
 			return last = makeObj(flipCoords(x1,y1,xx,yy));
 		};
 		/*}}}*/
@@ -490,15 +531,18 @@ $.Jcrop = function(obj,opt)
 		/*}}}*/
 		function refresh()/*{{{*/
 		{
-			var p = Coords.getFixed();
-			Coords.setPressed([p.x,p.y]);
-			Coords.setCurrent([p.x2,p.y2]);
+			var c = Coords.getFixed();
+
+			Coords.setPressed([c.x,c.y]);
+			Coords.setCurrent([c.x2,c.y2]);
+
+			updateVisible();
 		};
 		/*}}}*/
 
 		// Internal Methods
 		function updateVisible()/*{{{*/
-		{ if (awake) return update(); };
+			{ if (awake) return update(); };
 		/*}}}*/
 		function update()/*{{{*/
 		{
@@ -532,18 +576,24 @@ $.Jcrop = function(obj,opt)
 			awake = false;
 		};
 		/*}}}*/
-		function hide()/*{{{*/
+		function showHandles()//{{{
 		{
-			release();
-			$img.css('opacity',1);
-			awake = false;
+			if (seehandles)
+			{
+				moveHandles(Coords.getFixed());
+				$hdl_holder.show();
+			}
 		};
-		/*}}}*/
+		//}}}
 		function enableHandles()/*{{{*/
 		{ 
 			seehandles = true;
-			moveHandles(Coords.getFixed());
-			$hdl_holder.show();
+			if (options.allowResize)
+			{
+				moveHandles(Coords.getFixed());
+				$hdl_holder.show();
+				return true;
+			}
 		};
 		/*}}}*/
 		function disableHandles()/*{{{*/
@@ -559,29 +609,26 @@ $.Jcrop = function(obj,opt)
 		/*}}}*/
 		function done()/*{{{*/
 		{
-			var c = Coords.getFixed();
 			animMode(false);
 			refresh();
 		};
 		/*}}}*/
 
-		disableHandles();
+		var $track = newTracker().mousedown(createDragger('move'))
+				.css({ cursor: 'move', position: 'absolute', zIndex: 360 })
 
-		$img_holder.append
-		(
-			$('<div />')
-				.addClass(cssClass('tracker'))
-				.mousedown(createDragger('move'))
-				.css({ cursor: 'move', position: 'absolute', zIndex: 360, opacity: 0 })
-		);
+		$img_holder.append($track);
+		disableHandles();
 
 		return {
 			updateVisible: updateVisible,
 			update: update,
 			release: release,
-			show: show,
-			hide: hide,
+			refresh: refresh,
+			setCursor: function (cursor) { $track.css('cursor',cursor); },
 			enableHandles: enableHandles,
+			enableOnly: function() { seehandles = true; },
+			showHandles: showHandles,
 			disableHandles: disableHandles,
 			animMode: animMode,
 			done: done
@@ -605,6 +652,7 @@ $.Jcrop = function(obj,opt)
 
 		function toFront()/*{{{*/
 		{
+			$trk.css({zIndex:450});
 			if (trackDoc)
 			{
 				$(document)
@@ -612,11 +660,11 @@ $.Jcrop = function(obj,opt)
 					.mouseup(trackUp)
 				;
 			}
-			$trk.css({zIndex:450});
 		}
 		/*}}}*/
 		function toBack()/*{{{*/
 		{
+			$trk.css({zIndex:290});
 			if (trackDoc)
 			{
 				$(document)
@@ -624,7 +672,6 @@ $.Jcrop = function(obj,opt)
 					.unbind('mouseup',trackUp)
 				;
 			}
-			$trk.css({zIndex:290});
 		}
 		/*}}}*/
 		function trackMove(e)/*{{{*/
@@ -675,8 +722,7 @@ $.Jcrop = function(obj,opt)
 	{
 		var $keymgr = $('<input type="radio" />')
 				.css({ position: 'absolute', left: '-30px' })
-				.keydown(parseKey)
-				.keyup(watchShift)
+				.keypress(parseKey)
 				.blur(onBlur),
 
 			$keywrap = $('<div />')
@@ -701,28 +747,12 @@ $.Jcrop = function(obj,opt)
 			$keymgr.hide();
 		};
 		/*}}}*/
-		function watchShift(e)/*{{{*/
-		{
-			if (!options.watchShift) return;
-			var init_shift = shift_down, fc;
-			shift_down = e.shiftKey ? true : false;
-
-			if (init_shift != shift_down) {
-				if (shift_down && btndown) {
-					fc = Coords.getFixed();
-					aspectLock = fc.w / fc.h;
-				} else aspectLock = 0;
-				Selection.update();
-			}
-			e.stopPropagation();
-			e.preventDefault();
-			return false;
-		};
-		/*}}}*/
 		function doNudge(e,x,y)/*{{{*/
 		{
-			Coords.moveOffset([x,y]);
-			Selection.updateVisible();
+			if (options.allowMove) {
+				Coords.moveOffset([x,y]);
+				Selection.updateVisible();
+			};
 			e.preventDefault();
 			e.stopPropagation();
 		};
@@ -730,7 +760,7 @@ $.Jcrop = function(obj,opt)
 		function parseKey(e)/*{{{*/
 		{
 			if (e.ctrlKey) return true;
-			watchShift(e);
+			shift_down = e.shiftKey ? true : false;
 			var nudge = shift_down ? 10 : 1;
 			switch(e.keyCode)
 			{
@@ -744,7 +774,7 @@ $.Jcrop = function(obj,opt)
 				case 9: return true;
 			}
 
-			return false;
+			return nothing(e);
 		};
 		/*}}}*/
 		
@@ -785,21 +815,26 @@ $.Jcrop = function(obj,opt)
 	/*}}}*/
 	function startDragMode(mode,pos)/*{{{*/
 	{
-		docOffset = getPos(obj);
+		docOffset = getPos($img);
 		Tracker.setCursor(mode=='move'?mode:mode+'-resize');
 
 		if (mode == 'move')
 			return Tracker.activateHandlers(createMover(pos), doneSelect);
 
 		var fc = Coords.getFixed();
-		Coords.setPressed(Coords.getCorner(oppLockCorner(mode)));
+		var opp = oppLockCorner(mode);
+		var opc = Coords.getCorner(oppLockCorner(opp));
+
+		Coords.setPressed(Coords.getCorner(opp));
+		Coords.setCurrent(opc);
+
 		Tracker.activateHandlers(dragmodeHandler(mode,fc),doneSelect);
 	};
 	/*}}}*/
 	function dragmodeHandler(mode,f)/*{{{*/
 	{
 		return function(pos) {
-			if (!options.aspectRatio && !aspectLock) switch(mode)
+			if (!options.aspectRatio) switch(mode)
 			{
 				case 'e': pos[1] = f.y2; break;
 				case 'w': pos[1] = f.y2; break;
@@ -850,6 +885,8 @@ $.Jcrop = function(obj,opt)
 	function createDragger(ord)/*{{{*/
 	{
 		return function(e) {
+			if (options.disabled) return false;
+			if ((ord == 'move') && !options.allowMove) return false;
 			btndown = true;
 			startDragMode(ord,mouseAbs(e));
 			e.stopPropagation();
@@ -897,19 +934,22 @@ $.Jcrop = function(obj,opt)
 		{
 			Selection.release();
 		}
-		Tracker.setCursor('crosshair');
+		Tracker.setCursor( options.allowSelect?'crosshair':'default' );
 	};
 	/*}}}*/
 	function newSelection(e)/*{{{*/
 	{
+		if (options.disabled) return false;
+		if (!options.allowSelect) return false;
 		btndown = true;
-		docOffset = getPos(obj);
-		Selection.release();
+		docOffset = getPos($img);
 		Selection.disableHandles();
 		myCursor('crosshair');
-		Coords.setPressed(mouseAbs(e));
+		var pos = mouseAbs(e);
+		Coords.setPressed(pos);
 		Tracker.activateHandlers(selectDrag,doneSelect);
 		KeyManager.watchKeys();
+		Selection.update();
 
 		e.stopPropagation();
 		e.preventDefault();
@@ -920,29 +960,31 @@ $.Jcrop = function(obj,opt)
 	{
 		Coords.setCurrent(pos);
 		Selection.update();
-
 	};
 	/*}}}*/
+	function newTracker()
+	{
+		var trk = $('<div></div>').addClass(cssClass('tracker'));
+		$.browser.msie && trk.css({ opacity: 0, backgroundColor: 'white' });
+		return trk;
+	};
 
 	// }}}
-	// Public API {{{
-	
+	// API methods {{{
+		
 	function animateTo(a)/*{{{*/
 	{
-		var x1 = a[0],
-			y1 = a[1],
-			x2 = a[2],
-			y2 = a[3];
+		var x1 = a[0] / xscale,
+			y1 = a[1] / yscale,
+			x2 = a[2] / xscale,
+			y2 = a[3] / yscale;
 
 		if (animating) return;
+
 		var animto = Coords.flipCoords(x1,y1,x2,y2);
 		var c = Coords.getFixed();
 		var animat = initcr = [ c.x, c.y, c.x2, c.y2 ];
 		var interv = options.animationDelay;
-		//var ix1 = (animto[0] - initcr[0]) / steps;
-		//var iy1 = (animto[1] - initcr[1]) / steps;
-		//var ix2 = (animto[2] - initcr[2]) / steps;
-		//var iy2 = (animto[3] - initcr[3]) / steps;
 
 		var x = animat[0];
 		var y = animat[1];
@@ -973,7 +1015,7 @@ $.Jcrop = function(obj,opt)
 
 				if (pcent >= 99.8) pcent = 100;
 
-				setSelect(animat);
+				setSelectRaw(animat);
 			};
 		}();
 
@@ -981,10 +1023,14 @@ $.Jcrop = function(obj,opt)
 			{ window.setTimeout(animator,interv); };
 
 		animateStart();
-
 	};
 	/*}}}*/
-	function setSelect(l) /*{{{*/
+	function setSelect(rect)//{{{
+	{
+		setSelectRaw([rect[0]/xscale,rect[1]/yscale,rect[2]/xscale,rect[3]/yscale]);
+	};
+	//}}}
+	function setSelectRaw(l) /*{{{*/
 	{
 		Coords.setPressed([l[0],l[1]]);
 		Coords.setCurrent([l[2],l[3]]);
@@ -1001,6 +1047,7 @@ $.Jcrop = function(obj,opt)
 
 		if (typeof(options.onSelect)!=='function')
 			options.onSelect = function() { };
+
 	};
 	/*}}}*/
 	function tellSelect()/*{{{*/
@@ -1016,35 +1063,104 @@ $.Jcrop = function(obj,opt)
 	function setOptionsNew(opt)/*{{{*/
 	{
 		setOptions(opt);
-
-		if ('setSelect' in opt) {
-			setSelect(opt.setSelect);
-			Selection.done();
-		}
+		interfaceUpdate();
 	};
 	/*}}}*/
+	function disableCrop()//{{{
+	{
+		options.disabled = true;
+		Selection.disableHandles();
+		Selection.setCursor('default');
+		Tracker.setCursor('default');
+	};
+	//}}}
+	function enableCrop()//{{{
+	{
+		options.disabled = false;
+		interfaceUpdate();
+	};
+	//}}}
+	function cancelCrop()//{{{
+	{
+		Selection.done();
+		Tracker.activateHandlers(null,null);
+	};
+	//}}}
+	function destroy()//{{{
+	{
+		$div.remove();
+		$origimg.show();
+	};
+	//}}}
 
-	if (typeof(opt) != 'object') opt = { };
-	if ('setSelect' in opt) { setSelect(opt.setSelect); Selection.done(); }
+	function interfaceUpdate(alt)//{{{
+	// This method tweaks the interface based on options object.
+	// Called when options are changed and at end of initialization.
+	{
+		options.allowResize ?
+			alt?Selection.enableOnly():Selection.enableHandles():
+			Selection.disableHandles();
+
+		Tracker.setCursor( options.allowSelect? 'crosshair': 'default' );
+		Selection.setCursor( options.allowMove? 'move': 'default' );
+
+		$div.css('backgroundColor',options.bgColor);
+
+		if ('setSelect' in options) {
+			setSelect(opt.setSelect);
+			Selection.done();
+			delete(options.setSelect);
+		}
+
+		if ('trueSize' in options) {
+			xscale = options.trueSize[0] / boundx;
+			yscale = options.trueSize[1] / boundy;
+		}
+
+		xlimit = options.maxSize[0] || 0;
+		ylimit = options.maxSize[1] || 0;
+		xmin = options.minSize[0] || 0;
+		ymin = options.minSize[1] || 0;
+
+		if ('outerImage' in options)
+		{
+			$img.attr('src',options.outerImage);
+			delete(options.outerImage);
+		}
+
+		Selection.refresh();
+	};
+	//}}}
 
 	// }}}
 
-	var xlimit = options.maxSize[0] || 0;
-	var ylimit = options.maxSize[1] || 0;
-	var xmin = options.minSize[0] || 0;
-	var ymin = options.minSize[1] || 0;
-
-	Tracker.setCursor('crosshair');
+	$hdl_holder.hide();
+	interfaceUpdate(true);
 	
-	return {
+	var api = {
 		animateTo: animateTo,
 		setSelect: setSelect,
 		setOptions: setOptionsNew,
 		tellSelect: tellSelect,
-		tellScaled: tellScaled
-	};
-};
+		tellScaled: tellScaled,
 
+		disable: disableCrop,
+		enable: enableCrop,
+		cancel: cancelCrop,
+
+		focus: KeyManager.watchKeys,
+
+		getBounds: function() { return [ boundx * xscale, boundy * yscale ]; },
+		getWidgetSize: function() { return [ boundx, boundy ]; },
+
+		release: Selection.release,
+		destroy: destroy
+
+	};
+
+	$origimg.data('Jcrop',api);
+	return api;
+};
 
 $.fn.Jcrop = function(options)/*{{{*/
 {
@@ -1052,11 +1168,7 @@ $.fn.Jcrop = function(options)/*{{{*/
 	{
 		var loadsrc = options.useImg || from.src;
 		var img = new Image();
-		var from = from;
-		img.onload = function() {
-			$(from).hide().after(img);
-			from.Jcrop = $.Jcrop(img,options);
-		};
+		img.onload = function() { $.Jcrop(from,options); };
 		img.src = loadsrc;
 	};
 	/*}}}*/
@@ -1066,12 +1178,12 @@ $.fn.Jcrop = function(options)/*{{{*/
 	this.each(function()
 	{
 		// If we've already attached to this object
-		if ('Jcrop' in this)
+		if ($(this).data('Jcrop'))
 		{
 			// The API can be requested this way (undocumented)
-			if (options == 'api') return this.Jcrop;
+			if (options == 'api') return $(this).data('Jcrop');
 			// Otherwise, we just reset the options...
-			else this.Jcrop.setOptions(options);
+			else $(this).data('Jcrop').setOptions(options);
 		}
 		// If we haven't been attached, preload and attach
 		else attachWhenDone(this);
@@ -1080,5 +1192,6 @@ $.fn.Jcrop = function(options)/*{{{*/
 	// Return "this" so we're chainable a la jQuery plugin-style!
 	return this;
 };
-})(jQuery);
 /*}}}*/
+
+})(jQuery);
