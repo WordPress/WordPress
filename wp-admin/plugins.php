@@ -390,13 +390,13 @@ function print_plugin_actions($context) {
 	<div class="alignleft actions">
 		<select name="action">
 			<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
-	<?php if( 'active' != $context ) : ?>
+	<?php if ( 'active' != $context ) : ?>
 			<option value="activate-selected"><?php _e('Activate'); ?></option>
 	<?php endif; ?>
-	<?php if ( 'active' == $context ) : ?>
+	<?php if ( 'inactive' != $context && 'recent' != $context ) : ?>
 			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
 	<?php endif; ?>
-	<?php if( current_user_can('delete_plugins') && ( 'recent' == $context || 'inactive' == $context ) ) : ?>
+	<?php if ( current_user_can('delete_plugins') && ( 'active' != $context ) ) : ?>
 			<option value="delete-selected"><?php _e('Delete'); ?></option>
 	<?php endif; ?>
 		</select>
