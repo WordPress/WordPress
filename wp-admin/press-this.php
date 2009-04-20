@@ -10,7 +10,8 @@
 require_once('admin.php');
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if ( ! current_user_can('edit_posts') ) wp_die( __( 'Cheatin&#8217; uh?' ) );
+if ( ! current_user_can('edit_posts') )
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 /**
  * Convert characters.
@@ -41,20 +42,22 @@ function aposfix($text) {
 function press_it() {
 	// define some basic variables
 	$quick['post_status'] = 'draft'; // set as draft first
-	$quick['post_category'] = $_REQUEST['post_category'];
-	$quick['tax_input'] = $_REQUEST['tax_input'];
-	$quick['post_title'] = $_REQUEST['title'];
+	$quick['post_category'] = isset($_REQUEST['post_category']) ? $_REQUEST['post_category'] : null;
+	$quick['tax_input'] = isset($_REQUEST['tax_input']) ? $_REQUEST['tax_input'] : '';
+	$quick['post_title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
 	$quick['post_content'] = '';
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
-	$content = $_REQUEST['content'];
+	$content = isset($_REQUEST['content']) ? $_REQUEST['content'] : '';
 
-	if( $_REQUEST['photo_src'] && current_user_can('upload_files') )
+	$upload = false;
+	if( !empty($_REQUEST['photo_src']) && current_user_can('upload_files') )
 		foreach( (array) $_REQUEST['photo_src'] as $key => $image)
 			// see if files exist in content - we don't want to upload non-used selected files.
 			if( strpos($_REQUEST['content'], $image) !== false ) {
-				$upload = media_sideload_image($image, $post_ID, $_REQUEST['photo_description'][$key]);
+				$desc = isset($_REQUEST['photo_description'][$key]) ? $_REQUEST['photo_description'][$key] : '';
+				$upload = media_sideload_image($image, $post_ID, $desc);
 				
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
 				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote($image, '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
@@ -79,23 +82,25 @@ function press_it() {
 }
 
 // For submitted posts.
-if ( 'post' == $_REQUEST['action'] ) {
+if ( isset($_REQUEST['action']) && 'post' == $_REQUEST['action'] ) {
 	check_admin_referer('press-this');
 	$post_ID = press_it();
 	$posted =  $post_ID;
+} else {
+	$post_ID = 0;
 }
 
 // Set Variables
-$title = wp_specialchars(aposfix(stripslashes($_GET['t'])));
-$selection = trim( aposfix( stripslashes($_GET['s']) ) );
+$title = isset($_GET['t']) ? wp_specialchars(aposfix(stripslashes($_GET['t']))) : '';
+$selection = isset($_GET['s']) ? trim( aposfix( stripslashes($_GET['s']) ) ) : '';
 if ( ! empty($selection) ) {
 	$selection = preg_replace('/(\r?\n|\r)/', '</p><p>', $selection);
 	$selection = '<p>'.str_replace('<p></p>', '', $selection).'</p>';
 }
-$url = clean_url($_GET['u']);
-$image = $_GET['i'];
+$url = isset($_GET['u']) ? clean_url($_GET['u']) : '';
+$image = isset($_GET['i']) ? $_GET['i'] : '';
 
-if($_REQUEST['ajax']) {
+if ( !empty($_REQUEST['ajax']) ) {
 switch ($_REQUEST['ajax']) {
 	case 'video': ?>
 		<script type="text/javascript" charset="utf-8">
@@ -467,7 +472,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 
 					<div id="categories-all" class="ui-tabs-panel">
 						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-							<?php wp_category_checklist($post->ID, false, false, $popular_ids) ?>
+							<?php wp_category_checklist($post_ID, false) ?>
 						</ul>
 					</div>
 
