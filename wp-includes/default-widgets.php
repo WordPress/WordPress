@@ -185,12 +185,6 @@ class WP_Widget_Search extends WP_Widget {
 
 		echo $after_widget;
 	}
-
-	function form( $instance ) { ?>
-		<input name="<?php echo $this->get_field_name('title'); ?>" type="hidden" value="" />
-<?php
-	}
-
 }
 
 /**

@@ -784,7 +784,7 @@ case 'add-meta' :
 					) );
 					$x->send();
 				}
-				if ( !$mid = add_meta( $pid ) ) 
+				if ( !$mid = add_meta( $pid ) )
 					die(__('Please provide a custom field value.'));
 			} else {
 				die('0');
@@ -813,7 +813,7 @@ case 'add-meta' :
 			die('-1');
 		if ( !$u = update_meta( $mid, $key, $value ) )
 			die('0'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
-	
+
 		$key = stripslashes($key);
 		$value = stripslashes($value);
 		$x = new WP_Ajax_Response( array(
@@ -1288,22 +1288,24 @@ case 'save-widget' :
 		$del_id = $_POST['widget-id'];
 		$widget = isset($wp_registered_widgets[$del_id]) ? $wp_registered_widgets[$del_id] : false;
 
-		if ( !in_array($del_id, $sidebar, true) || !$widget )
+		if ( !in_array($del_id, $sidebar, true) )
 			die('-1');
 
-		$option = str_replace( '-', '_', 'widget_' . $id_base );
-		$data = get_option($option);
+		if ( $widget ) {
+			$option = str_replace( '-', '_', 'widget_' . $id_base );
+			$data = get_option($option);
 
-		if ( isset($widget['params'][0]['number']) ) {
-			$number = $widget['params'][0]['number'];
-			if ( is_array($data) && isset($data[$number]) ) {
-				unset( $data[$number] );
-				update_option($option, $data);
-			}
-		} else {
-			if ( $data ) {
-				$data = array();
-				update_option($option, $data);
+			if ( isset($widget['params'][0]['number']) ) {
+				$number = $widget['params'][0]['number'];
+				if ( is_array($data) && isset($data[$number]) ) {
+					unset( $data[$number] );
+					update_option($option, $data);
+				}
+			} else {
+				if ( $data ) {
+					$data = array();
+					update_option($option, $data);
+				}
 			}
 		}
 

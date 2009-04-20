@@ -950,7 +950,8 @@ abbr.required,
 
 #editorcontainer,
 #post-status-info,
-#titlediv #title {
+#titlediv #title,
+.editwidget .widget-control {
 	border-color: #dfdfdf;
 }
 

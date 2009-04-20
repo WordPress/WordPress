@@ -424,7 +424,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090415' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
-	$styles->add( 'colors', true, array(), '20090415' ); // Register "meta" stylesheet for admin colors
+	$styles->add( 'colors', true, array(), '20090419' ); // Register "meta" stylesheet for admin colors
 	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081210'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081210');
@@ -432,7 +432,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090415' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090325' );
-	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090411' );
+	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090419' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090305' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081210' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20081210' );

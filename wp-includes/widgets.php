@@ -23,7 +23,7 @@
  */
 class WP_Widget {
 
-	var $id_base;         	// Root id for all widgets of this type.
+	var $id_base;			// Root id for all widgets of this type.
 	var $name;				// Name for this widget type.
 	var $widget_options;	// Option array passed to wp_register_sidebar_widget()
 	var $control_options;	// Option array passed to wp_register_widget_control()
@@ -61,10 +61,11 @@ class WP_Widget {
 
 	/** Echo the settings update form
 	 * 
-	 * @param array $instance Current settings 
+	 * @param array $instance Current settings
 	 */
 	function form($instance) {
 		echo '<p>' . __('There are no options for this widget.') . '</p>';
+		return false;
 	}
 
 	// Functions you'll need to call.
@@ -87,12 +88,11 @@ class WP_Widget {
 	 */
 	function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$this->id_base = $id_base;
+	//	$this->id_base = str_replace( 'wp_widget_', '', strtolower(get_class($this)) );
 		$this->name = $name;
 		$this->option_name = 'widget_' . $id_base;
 		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
 		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
-
-		//add_action( 'widgets_init', array( &$this, '_register' ) );
 	}
 
 	/** Constructs name attributes for use in form() fields
@@ -207,7 +207,14 @@ class WP_Widget {
 					}
 				}
 			} else {
-				foreach ( (array) $_POST['widget-' . $this->id_base] as $number => $new_instance ) {
+				if ( isset($_POST['widget-' . $this->id_base]) && is_array($_POST['widget-' . $this->id_base]) ) {
+					$settings = $_POST['widget-' . $this->id_base];
+				} else {
+					$num = $_POST['multi_number'] ? (int) $_POST['multi_number'] : (int) $_POST['widget_number'];
+					$settings = array( $num => array() );
+				}
+
+				foreach ( $settings as $number => $new_instance ) {
 					$new_instance = stripslashes_deep($new_instance);
 					$this->_set($number);
 
@@ -244,7 +251,7 @@ class WP_Widget {
 			$instance = $all_instances[ $widget_args['number'] ];
 		}
 
-		$this->form($instance);
+		return $this->form($instance);
 	}
 
 	/** Helper function: Registers a single instance. */

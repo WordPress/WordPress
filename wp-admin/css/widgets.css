@@ -152,4 +152,24 @@ div#sidebar-info {
 	font-weight: normal;
 }
 
+.editwidget .widget-control {
+	display: block;
+	border-width: 1px;
+	border-style: solid;
+	padding: 10px;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
 
+.widget-position table {
+	width: 100%;
+	margin-top: 12px;
+}
+
+.widget-position table td {
+	height: 3em;
+	line-height: 3em;
+	vertical-align: middle;
+}
