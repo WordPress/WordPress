@@ -54,7 +54,7 @@ class WP_Upgrader {
 	function fs_connect( $directories = array() ) {
 		global $wp_filesystem;
 	
-		if ( false === ($credentials = $this->skin->request_filesystem_credentials()) ) //request_filesystem_credentials($url)) )
+		if ( false === ($credentials = $this->skin->request_filesystem_credentials()) )
 			return false;
 	
 		if ( ! WP_Filesystem($credentials) ) {
@@ -258,9 +258,6 @@ class WP_Upgrader {
 		$options = wp_parse_args($options, $defaults);
 		extract($options);
 
-		$this->skin->header();
-		$this->skin->before();
-		
 		//Connect to the Filesystem first.
 		$res = $this->fs_connect( array(WP_CONTENT_DIR, $destination) );
 		if ( ! $res ) //Mainly for non-connected filesystem.
@@ -270,7 +267,10 @@ class WP_Upgrader {
 			$this->skin->error($res);
 			return $res;
 		}
-		
+
+		$this->skin->header();
+		$this->skin->before();
+
 		//Download the package (Note, This just returns the filename of the file if the package is a local file)
 		$download = $this->download_package( $package );
 		if ( is_wp_error($download) ) {

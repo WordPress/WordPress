@@ -77,11 +77,7 @@ if ( isset($_GET['action']) ) {
 	
 		$title = sprintf( __('Installing Plugin: %s'), $api->name . ' ' . $api->version );
 		$nonce = 'install-plugin_' . $plugin;
-		$url = add_query_arg( array(
-								'plugin' => $plugin,
-								'plugin_name' => $api->name . ' ' . $api->version,
-								'download_url' => $api->download_link
-							), 'update.php?action=install-plugin');
+		$url = 'update.php?action=install-plugin&plugin=' . $plugin;
 		$type = 'web'; //Install plugin type, From Web or an Upload.
 
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact('title', 'url', 'nonce', 'plugin', 'api') ) );
@@ -157,11 +153,7 @@ if ( isset($_GET['action']) ) {
 	
 		$title = sprintf( __('Installing theme: %s'), $api->name . ' ' . $api->version );
 		$nonce = 'install-theme_' . $theme;
-		$url = add_query_arg( array(
-								'theme' => $theme,
-								'theme_name' => $api->name . ' ' . $api->version,
-								'download_url' => $api->download_link
-							), 'update.php?action=install-theme');
+		$url = 'update.php?action=install-theme&theme=' . $theme;
 		$type = 'web'; //Install theme type, From Web or an Upload.
 	
 		$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact('title', 'url', 'nonce', 'plugin', 'api') ) );
