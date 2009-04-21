@@ -200,14 +200,13 @@ function get_cat_name( $cat_id ) {
  * @return bool Whether $cat2 is child of $cat1
  */
 function cat_is_ancestor_of( $cat1, $cat2 ) {
-	if ( is_int( $cat1 ) )
+	if ( ! isset($cat1->term_id) )
 		$cat1 = &get_category( $cat1 );
-	if ( is_int( $cat2 ) )
+	if ( ! isset($cat2->parent) )
 		$cat2 = &get_category( $cat2 );
 
-	if ( !$cat1->term_id || !$cat2->parent )
+	if ( empty($cat1->term_id) || empty($cat2->parent) )
 		return false;
-
 	if ( $cat2->parent == $cat1->term_id )
 		return true;
 
