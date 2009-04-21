@@ -20,8 +20,14 @@ else
 
 $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 
-if( !empty($action) ) {
-	switch( $action ) {
+$status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : 'all';
+if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'search')) )
+	$status = 'all';
+
+$page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
+
+if ( !empty($action) ) {
+	switch ( $action ) {
 		case 'activate':
 			check_admin_referer('activate-plugin_' . $plugin);
 			$result = activate_plugin($plugin, 'plugins.php?error=true&plugin=' . $plugin);
@@ -32,7 +38,7 @@ if( !empty($action) ) {
 				unset($recent[ $plugin ]);
 				update_option('recently_activated', $recent);
 			}
-			wp_redirect('plugins.php?activate=true'); // overrides the ?error=true one above
+			wp_redirect("plugins.php?activate=true&plugin_status=$status&paged=$page"); // overrides the ?error=true one above
 			exit;
 			break;
 		case 'activate-selected':
@@ -47,7 +53,7 @@ if( !empty($action) ) {
 			if( $recent != get_option('recently_activated') ) //If array changed, update it.
 				update_option('recently_activated', $recent);
 
-			wp_redirect('plugins.php?activate-multi=true');
+			wp_redirect("plugins.php?activate-multi=true&plugin_status=$status&paged=$page");
 			exit;
 			break;
 		case 'error_scrape':
@@ -65,7 +71,7 @@ if( !empty($action) ) {
 			check_admin_referer('deactivate-plugin_' . $plugin);
 			deactivate_plugins($plugin);
 			update_option('recently_activated', array($plugin => time()) + (array)get_option('recently_activated'));
-			wp_redirect('plugins.php?deactivate=true');
+			wp_redirect("plugins.php?deactivate=true&plugin_status=$status&paged=$page");
 			exit;
 			break;
 		case 'deactivate-selected':
@@ -75,7 +81,7 @@ if( !empty($action) ) {
 			foreach ( (array)$_POST['checked'] as $plugin )
 				$deactivated[ $plugin ] = time();
 			update_option('recently_activated', $deactivated + (array)get_option('recently_activated'));
-			wp_redirect('plugins.php?deactivate-multi=true');
+			wp_redirect("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page");
 			exit;
 			break;
 		case 'delete-selected':
@@ -271,19 +277,15 @@ if ( isset($_GET['s']) ) {
 		else
 			return false;
 	}
-	$_GET['plugin_status'] = 'search';
+	$status = 'search';
 	$search_plugins = array_filter($all_plugins, '_search_plugins_filter_callback');
 	$total_search_plugins = count($search_plugins);
 }
 
-$status = isset($_GET['plugin_status']) ? $_GET['plugin_status'] : 'all';
-if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'search')) )
-	$status = 'all';
 $plugin_array_name = "${status}_plugins";
 $plugins = &$$plugin_array_name;
 
 //Paging.
-$page = isset($_GET['paged']) ? $_GET['paged'] : 1;
 $total_this_page = "total_{$status}_plugins";
 $total_this_page = $$total_this_page;
 $plugins_per_page = get_user_option('plugins_per_page');
@@ -315,6 +317,7 @@ $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s
  * @param string $context
  */
 function print_plugins_table($plugins, $context = '') {
+	global $page;
 ?>
 <table class="widefat" cellspacing="0" id="<?php echo $context ?>-plugins-table">
 	<thead>
@@ -348,9 +351,9 @@ function print_plugins_table($plugins, $context = '') {
 		$is_active = is_plugin_active($plugin_file);
 
 		if ( $is_active )
-			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
+			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
 		else //Inactive or Recently deactivated
-			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
+			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
 
 		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 			$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
@@ -424,6 +427,8 @@ function print_plugin_actions($context) {
 
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
+<input type="hidden" name="plugin_status" value="<?php echo attribute_escape($status) ?>" />
+<input type="hidden" name="paged" value="<?php echo attribute_escape($page) ?>" />
 
 <ul class="subsubsub">
 <?php
