@@ -85,7 +85,14 @@ require_once('admin-header.php');
 
 $mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attribute_escape($_GET['mode']);
 
-$comment_status = !empty($_GET['comment_status']) ? attribute_escape($_GET['comment_status']) : '';
+$default_status = get_user_option('edit_comments_last_view');
+if ( empty($default_status) )
+	$default_status = 'all';
+$comment_status = isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : $default_status;
+if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam')) )
+	$comment_status = 'all';
+if ( $comment_status != $default_status )
+	update_usermeta($current_user->ID, 'edit_comments_last_view', $comment_status);
 
 $comment_type = !empty($_GET['comment_type']) ? attribute_escape($_GET['comment_type']) : '';
 
@@ -141,20 +148,17 @@ $stati = array(
 		'approved' => _n_noop('Approved', 'Approved'), // singular not used
 		'spam' => _n_noop('Spam (<span class="spam-count">%s</span>)', 'Spam (<span class="spam-count">%s</span>)')
 	);
-$class = ( '' === $comment_status ) ? ' class="current"' : '';
-// $status_links[] = "<li><a href='edit-comments.php'$class>" . __( 'All' ) . '</a>';
 $link = 'edit-comments.php';
 if ( !empty($comment_type) && 'all' != $comment_type )
 	$link = add_query_arg( 'comment_type', $comment_type, $link );
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
-	if ( str_replace( 'all', '', $status ) == $comment_status )
+	if ( $status == $comment_status )
 		$class = ' class="current"';
 	if ( !isset( $num_comments->$status ) )
 		$num_comments->$status = 10;
-	if ( 'all' != $status )
-		$link = add_query_arg( 'comment_status', $status, $link );
+	$link = add_query_arg( 'comment_status', $status, $link );
 	if ( $post_id )
 		$link = add_query_arg( 'p', absint( $post_id ), $link );
 	/*
@@ -244,10 +248,10 @@ $page_links = paginate_links( array(
 <div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions') ?></option>
-<?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
-<?php if ( empty($comment_status) || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
 <?php if ( 'spam' != $comment_status ): ?>
@@ -258,7 +262,7 @@ $page_links = paginate_links( array(
 <input type="submit" name="doaction" id="doaction" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
 <?php wp_nonce_field('bulk-comments'); ?>
 
-<?php if ( $comment_status ) echo "<input type='hidden' name='comment_status' value='$comment_status' />\n"; ?>
+<?php echo "<input type='hidden' name='comment_status' value='$comment_status' />\n"; ?>
 <select name="comment_type">
 	<option value="all"><?php _e('Show all comment types'); ?></option>
 <?php
@@ -332,10 +336,10 @@ if ( $page_links )
 <div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Bulk Actions') ?></option>
-<?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
-<?php if ( empty($comment_status) || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
 <?php if ( 'spam' != $comment_status ): ?>
@@ -368,7 +372,7 @@ if ( $page_links )
 
 <div id="ajax-response"></div>
 
-<?php } elseif ( isset($_GET['comment_status']) && 'moderated' == $_GET['comment_status'] ) { ?>
+<?php } elseif ( 'moderated' == $comment_status ) { ?>
 <p><?php _e('No comments awaiting moderation&hellip; yet.') ?></p>
 </form>
 
