@@ -344,7 +344,8 @@ function upgrade_all() {
 
 	maybe_disable_automattic_widgets();
 
-	update_option('db_version', 'db_upgraded');
+	update_option( 'db_version', $wp_db_version );
+	update_option( 'db_upgraded', true );
 }
 
 /**

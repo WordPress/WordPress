@@ -18,9 +18,9 @@ if ( defined('ABSPATH') )
 else
 	require_once('../wp-load.php');
 
-if ( get_option('db_version') == 'db_upgraded' ) {
+if ( get_option('db_upgraded') ) {
 	$wp_rewrite->flush_rules();
-	update_option('db_version', $wp_db_version);
+	update_option( 'db_upgraded',  false );
 
 	/**
 	 * Runs on the next page load after successful upgrade
