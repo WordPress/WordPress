@@ -20,10 +20,10 @@ class WP_Upgrader {
 	var $skin = null;
 	var $result = array();
 
-	function WP_Upgrader(&$skin = null) {
+	function WP_Upgrader($skin = null) {
 		return __construct($skin);
 	}
-	function __construct(&$skin = null) {
+	function __construct($skin = null) {
 		if ( null == $skin )
 			$this->skin = new WP_Upgrader_Skin();
 		else
