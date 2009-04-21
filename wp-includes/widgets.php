@@ -962,6 +962,8 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 	if ( empty($settings) ) {
 		$single = true;
 	} else {
+		if ( isset($settings['number']) )
+			unset($settings['number']);
 		foreach ( array_keys($settings) as $number ) {
 			if ( !is_numeric($number) ) {
 				$single = true;
