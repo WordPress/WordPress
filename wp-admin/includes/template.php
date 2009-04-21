@@ -2199,9 +2199,8 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						$post_link = get_the_title($post->ID);
 					}
 					echo "<td $attributes>\n";
-					echo $post_link;
-
 					echo '<div class="response-links"><span class="post-com-count-wrapper">';
+					echo $post_link . '<br />';
 					$pending_phrase = sprintf( __('%s pending'), number_format( $pending_comments ) );
 					if ( $pending_comments )
 						echo '<strong>';
@@ -2210,7 +2209,10 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						echo '</strong>';
 					echo '</span> ';
 					echo "<a href='" . get_permalink( $post->ID ) . "'>#</a>";
-					echo '</div></td>';
+					echo '</div>';
+					if ( 'attachment' == $post->post_type && ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) )
+						echo $thumb;
+					echo '</td>';
 				}
 				break;
 			default:

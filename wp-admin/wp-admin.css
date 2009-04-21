@@ -1156,7 +1156,11 @@ strong .post-com-count {
 }
 
 .response-links {
-	margin: 4px 0;
+	float: left;
+}
+
+#the-comment-list .attachment-80x60 {
+	padding: 4px 8px;
 }
 
 /* Admin Footer */
