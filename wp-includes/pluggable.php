@@ -139,6 +139,7 @@ function get_userdata( $user_id ) {
 }
 endif;
 
+if ( !function_exists('get_user_by') ) :
 /**
  * Retrieve user info by a given field
  *
@@ -182,6 +183,7 @@ function get_user_by($field, $value) {
 
 	return $user;
 }
+endif;
 
 if ( !function_exists('get_userdatabylogin') ) :
 /**
