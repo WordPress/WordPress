@@ -345,6 +345,7 @@ function set_screen_options() {
 			case 'upload_per_page':
 			case 'categories_per_page':
 			case 'edit_tags_per_page':
+			case 'plugins_per_page':
 				$value = (int) $value;
 				if ( $value < 1 || $value > 999 )
 					return;

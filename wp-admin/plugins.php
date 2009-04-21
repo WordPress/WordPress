@@ -206,7 +206,9 @@ if ( !empty($invalid) )
 
 <div class="wrap">
 <?php screen_icon(); ?>
-	<h2><?php echo wp_specialchars( $title ); ?></h2>
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+
+<p><?php _e('Plugins extend and expand the functionality of WordPress. Install new plugins and then activate, deactivate, or delete them here.'); ?></p>
 
 <?php
 
@@ -284,7 +286,10 @@ $plugins = &$$plugin_array_name;
 $page = isset($_GET['paged']) ? $_GET['paged'] : 1;
 $total_this_page = "total_{$status}_plugins";
 $total_this_page = $$total_this_page;
-$plugins_per_page = apply_filters('plugins_per_page', 20, $status);
+$plugins_per_page = get_user_option('plugins_per_page');
+if ( empty($plugins_per_page) )
+	$plugins_per_page = 20;
+$plugins_per_page = apply_filters('plugins_per_page', $plugins_per_page);
 
 $start = ($page - 1) * $plugins_per_page;
 

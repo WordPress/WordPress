@@ -3351,7 +3351,14 @@ function screen_meta($screen) {
 	if ( isset($meta_screens[$screen]) )
 		$screen = $meta_screens[$screen];
 	$show_screen = false;
-	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens) )
+	$show_on_screen = false;
+	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens) ) {
+		$show_screen = true;
+		$show_on_screen = true;
+	}
+
+	$screen_options = screen_options($screen);
+	if ( $screen_options )
 		$show_screen = true;
 
 	if ( !isset($_wp_contextual_help) )
@@ -3403,6 +3410,7 @@ function screen_meta($screen) {
 ?>
 <div id="screen-options-wrap" class="hidden">
 	<form id="adv-settings" action="" method="post">
+<?php if ( $show_on_screen ) : ?>
 	<h5><?php _e('Show on screen') ?></h5>
 	<div class="metabox-prefs">
 <?php
@@ -3412,8 +3420,9 @@ function screen_meta($screen) {
 ?>
 	<br class="clear" />
 	</div>
+<?php endif; ?>
 <?php echo screen_layout($screen); ?>
-<?php echo screen_options($screen); ?>
+<?php echo $screen_options; ?>
 <div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
 </form>
 </div>
@@ -3555,6 +3564,9 @@ function screen_options($screen) {
 		case 'edit-tags':
 			$per_page_label = __('Tags per page:');
 			break;
+		case 'plugins':
+			$per_page_label = __('Plugins per page:');
+			break;
 		default:
 			return '';
 	}
@@ -3568,8 +3580,8 @@ function screen_options($screen) {
 	$return .= "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
 		$return .= "<label for='$option'>$per_page_label</label> <input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' />\n";
-		$return .= "<input type='submit' class='button' value='" . __('Apply') . "' />";
-		$return .= "<input type='hidden' name='wp_screen_options[option]' value='$option' />";
+	$return .= "<input type='submit' class='button' value='" . __('Apply') . "' />";
+	$return .= "<input type='hidden' name='wp_screen_options[option]' value='$option' />";
 	$return .= "</div>\n";
 	return $return;
 }
