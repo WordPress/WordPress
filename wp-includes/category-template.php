@@ -573,6 +573,9 @@ function default_topic_count_text( $count ) {
  * 'format' argument will format the tags in a UL HTML list. The array value for
  * the 'format' argument will return in PHP array type format.
  *
+ * The 'tag_cloud_sort' filter allows you to override the sorting done
+ * by the 'orderby' argument; passed to the filter: $tags array and $args array.
+ * 
  * The 'orderby' argument will accept 'name' or 'count' and defaults to 'name'.
  * The 'order' is the direction to sort, defaults to 'ASC' and can be 'DESC' or
  * 'RAND'.
@@ -618,6 +621,8 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	else
 		uasort( $tags, create_function('$a, $b', 'return ($a->count > $b->count);') );
 
+        $tags = apply_filters( 'tag_cloud_sort', $tags, $args );
+    
 	if ( 'DESC' == $order )
 		$tags = array_reverse( $tags, true );
 	elseif ( 'RAND' == $order ) {

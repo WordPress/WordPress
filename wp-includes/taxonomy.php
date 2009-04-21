@@ -526,6 +526,12 @@ function get_term_to_edit( $id, $taxonomy ) {
  * The 'list_terms_exclusions' filter passes the compiled exclusions along with
  * the $args.
  *
+ * The 'get_terms_orderby' filter passes the ORDER BY clause for the query 
+ * along with the $args array.
+
+ * The 'get_terms_fields' filter passes the fields for the SELECT query
+ * along with the $args array.
+ *
  * The list of arguments that $args can contain, which will overwrite the defaults:
  *
  * orderby - Default is 'name'. Can be name, count, or nothing (will use
@@ -673,6 +679,7 @@ function &get_terms($taxonomies, $args = '') {
 		$orderby = 't.term_group';
 	else
 		$orderby = 't.term_id';
+        $orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
 
 	$where = '';
 	$inclusions = '';
@@ -757,13 +764,14 @@ function &get_terms($taxonomies, $args = '') {
 		$where .= " AND (t.name LIKE '%$search%')";
 	}
 
-	$select_this = '';
+	$selects = array();
 	if ( 'all' == $fields )
-		$select_this = 't.*, tt.*';
+		$selects = array('t.*', 'tt.*');
 	else if ( 'ids' == $fields )
-		$select_this = 't.term_id, tt.parent, tt.count';
+		$selects = array('t.term_id', 'tt.parent', 'tt.count');
 	else if ( 'names' == $fields )
-		$select_this = 't.term_id, tt.parent, tt.count, t.name';
+		$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
+        $select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $limit";
 
