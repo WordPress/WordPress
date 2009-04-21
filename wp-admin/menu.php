@@ -127,7 +127,25 @@ do_action('_admin_menu');
 
 // Create list of page plugin hook names.
 foreach ($menu as $menu_page) {
-	$admin_page_hooks[$menu_page[2]] = sanitize_title(basename($menu_page[2], '.php'));
+	$hook_name = sanitize_title(basename($menu_page[2], '.php'));
+	
+	// ensure we're backwards compatible
+	$compat = array(
+		'index' => 'dashboard',
+		'edit' => 'posts',
+		'upload' => 'media',
+		'link-manager' => 'links',
+		'edit-pages' => 'pages',
+		'edit-comments' => 'comments',
+		'options-general' => 'settings',
+		);
+	
+	if ( isset($compat[$hook_name]) )
+		$hook_name = $compat[$hook_name];
+	elseif ( !$hook_name )
+		continue;
+	
+	$admin_page_hooks[$menu_page[2]] = $hook_name;
 }
 
 $_wp_submenu_nopriv = array();
