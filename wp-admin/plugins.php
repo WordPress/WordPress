@@ -20,9 +20,14 @@ else
 
 $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 
-$status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : 'all';
+$default_status = get_user_option('plugins_last_view');
+if ( empty($default_status) )
+	$default_status = 'all';
+$status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : $default_status;
 if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'search')) )
 	$status = 'all';
+if ( $status != $default_status )
+	update_usermeta($current_user->ID, 'plugins_last_view', $status);
 
 $page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
 
