@@ -219,7 +219,7 @@ if ( !empty($invalid) )
 <?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2>
 
-<p><?php _e('Plugins extend and expand the functionality of WordPress. Install new plugins and then activate, deactivate, or delete them here.'); ?></p>
+<p><?php printf(__('Plugins extend and expand the functionality of WordPress. <a href="%s">Install new plugins</a> and then activate, deactivate, or delete them here.'), 'plugin-install.php'); ?></p>
 
 <?php
 
