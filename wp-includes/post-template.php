@@ -419,6 +419,9 @@ function get_body_class( $class = '' ) {
 		setup_postdata($wp_query->post);
 
 		$pageID = $wp_query->post->ID;
+
+		$classes[] = 'page-id-' . $pageID;
+
 		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' LIMIT 1", $pageID) ) )
 			$classes[] = 'page-parent';
 
