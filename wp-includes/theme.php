@@ -875,14 +875,17 @@ function preview_theme() {
 	if ( validate_file($_GET['template']) )
 		return;
 
-	add_filter('template', create_function('', "return '{$_GET['template']}';") );
+	add_filter( 'template', create_function('', "return '{$_GET['template']}';") );
 
 	if ( isset($_GET['stylesheet']) ) {
 		$_GET['stylesheet'] = preg_replace('|[^a-z0-9_./-]|i', '', $_GET['stylesheet']);
 		if ( validate_file($_GET['stylesheet']) )
 			return;
-		add_filter('stylesheet', create_function('', "return '{$_GET['stylesheet']}';") );
+		add_filter( 'stylesheet', create_function('', "return '{$_GET['stylesheet']}';") );
 	}
+
+	// Prevent theme mods to current theme being used on theme being previewed 
+	add_filter( 'pre_option_mods_' . get_current_theme(), create_function( '', "return array();" ) );
 
 	ob_start( 'preview_theme_ob_filter' );
 }
