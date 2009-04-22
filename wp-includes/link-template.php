@@ -1422,6 +1422,45 @@ function previous_posts_link( $label = '&laquo; Previous Page' ) {
 }
 
 /**
+ * Return post pages link navigation for previous and next pages.
+ *
+ * @since 2.8
+ *
+ * @param string|array $args Optional args.
+ * @return string The posts link navigation. 
+ */
+function get_posts_nav_link( $args = array() ) {
+	global $wp_query;
+	
+	$return = '';
+
+	if ( !is_singular() ) {
+		$defaults = array(
+			'sep' => ' &#8212; ', 
+			'prelabel' => __('&laquo; Previous Page'), 
+			'nxtlabel' => __('Next Page &raquo;'),
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		$max_num_pages = $wp_query->max_num_pages;
+		$paged = get_query_var('paged');
+
+		//only have sep if there's both prev and next results
+		if ($paged < 2 || $paged >= $max_num_pages) {
+			$args['sep'] = '';
+		}
+
+		if ( $max_num_pages > 1 ) {
+			$return = get_previous_posts_link($args['prelabel']);
+			$return .= preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $args['sep']);
+			$return .= get_next_posts_link($args['nxtlabel']);
+		}
+	}
+	return $return;
+
+}
+
+/**
  * Display post pages link navigation for previous and next pages.
  *
  * @since 0.71
@@ -1430,23 +1469,9 @@ function previous_posts_link( $label = '&laquo; Previous Page' ) {
  * @param string $prelabel Optional. Label for previous pages.
  * @param string $nxtlabel Optional Label for next pages.
  */
-function posts_nav_link( $sep = ' &#8212; ', $prelabel = '&laquo; Previous Page', $nxtlabel = 'Next Page &raquo;' ) {
-	global $wp_query;
-	if ( !is_singular() ) {
-		$max_num_pages = $wp_query->max_num_pages;
-		$paged = get_query_var('paged');
-
-		//only have sep if there's both prev and next results
-		if ($paged < 2 || $paged >= $max_num_pages) {
-			$sep = '';
-		}
-
-		if ( $max_num_pages > 1 ) {
-			previous_posts_link($prelabel);
-			echo preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $sep);
-			next_posts_link($nxtlabel);
-		}
-	}
+function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
+	$args = array_filter( compact('sep', 'prelabel', 'nxtlabel') );
+	echo get_posts_nav_link($args);
 }
 
 /**
