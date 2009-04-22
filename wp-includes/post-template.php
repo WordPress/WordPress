@@ -362,7 +362,7 @@ function body_class( $class = '' ) {
  * @return array Array of classes.
  */
 function get_body_class( $class = '' ) {
-	global $wp_query, $current_user;
+	global $wp_query, $wpdb, $current_user;
 
 	$classes = array();
 
@@ -419,9 +419,7 @@ function get_body_class( $class = '' ) {
 		setup_postdata($wp_query->post);
 
 		$pageID = $wp_query->post->ID;
-		$page_children = wp_list_pages("child_of=$pageID&echo=0");
-
-		if ( $page_children )
+		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' LIMIT 1", $pageID) ) )
 			$classes[] = 'page-parent';
 
 		if ( $wp_query->post->post_parent )
