@@ -396,6 +396,8 @@ function media_upload_form_handler() {
 		if ( isset($post['errors']) ) {
 			$errors[$attachment_id] = $post['errors'];
 			unset($post['errors']);
+		} else {
+			$errors = array();
 		}
 
 		if ( $post != $_post )
@@ -429,7 +431,7 @@ function media_upload_form_handler() {
 		return media_send_to_editor($html);
 	}
 
-	return $errors;
+	return isset($errors) ? $errors : '';
 }
 
 /**
@@ -987,7 +989,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'label'      => __('File URL'),
 			'input'      => 'html',
 			'html'       => "<input type='text' class='urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . attribute_escape($image_url) . "' /><br />",
-			'value'      => $edit_post->post_url,
+			'value'      => isset($edit_post->post_url) ? $edit_post->post_url : '',
 			'helps'      => __('Location of the uploaded file.'),
 		)
 	);
@@ -1222,7 +1224,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	foreach ( $hidden_fields as $name => $value )
 		$item .= "\t<input type='hidden' name='$name' id='$name' value='" . attribute_escape( $value ) . "' />\n";
 
-	if ( $post->post_parent < 1 && (int) $_REQUEST['post_id'] ) {
+	if ( $post->post_parent < 1 && isset($_REQUEST['post_id']) ) {
 		$parent = (int) $_REQUEST['post_id'];
 		$parent_name = "attachments[$attachment_id][post_parent]";
 
@@ -1700,7 +1702,7 @@ function media_upload_library_form($errors) {
 <input type="hidden" name="type" value="<?php echo attribute_escape( $type ); ?>" />
 <input type="hidden" name="tab" value="<?php echo attribute_escape( $tab ); ?>" />
 <input type="hidden" name="post_id" value="<?php echo (int) $post_id; ?>" />
-<input type="hidden" name="post_mime_type" value="<?php echo attribute_escape( $_GET['post_mime_type'] ); ?>" />
+<input type="hidden" name="post_mime_type" value="<?php echo isset( $_GET['post_mime_type'] ) ? attribute_escape( $_GET['post_mime_type'] ) : ''; ?>" />
 
 <p id="media-search" class="search-box">
 	<label class="hidden" for="media-search-input"><?php _e('Search Media');?>:</label>
@@ -1715,7 +1717,10 @@ $_num_posts = (array) wp_count_attachments();
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 foreach ( $matches as $_type => $reals )
 	foreach ( $reals as $real )
-		$num_posts[$_type] += $_num_posts[$real];
+		if ( isset($num_posts[$_type]) )
+			$num_posts[$_type] += $_num_posts[$real];
+		else
+			$num_posts[$_type] = $_num_posts[$real];
 // If available type specified by media button clicked, filter by that type
 if ( empty($_GET['post_mime_type']) && !empty($num_posts[$type]) ) {
 	$_GET['post_mime_type'] = $type;
@@ -1723,6 +1728,8 @@ if ( empty($_GET['post_mime_type']) && !empty($num_posts[$type]) ) {
 }
 if ( empty($_GET['post_mime_type']) || $_GET['post_mime_type'] == 'all' )
 	$class = ' class="current"';
+else
+	$class = '';
 $type_links[] = "<li><a href='" . clean_url(add_query_arg(array('post_mime_type'=>'all', 'paged'=>false, 'm'=>false))) . "'$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
@@ -1730,7 +1737,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
 		continue;
 
-	if ( wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
+	if ( isset($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
 	$type_links[] = "<li><a href='" . clean_url(add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false))) . "'$class>" . sprintf(_n($label[2][0], $label[2][1], $num_posts[$mime_type]), "<span id='$mime_type-counter'>" . number_format_i18n( $num_posts[$mime_type] ) . '</span>') . '</a>';

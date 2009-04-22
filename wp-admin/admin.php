@@ -11,7 +11,8 @@
  *
  * @since unknown
  */
-define('WP_ADMIN', TRUE);
+if ( !defined('WP_ADMIN') )
+	define('WP_ADMIN', TRUE);
 
 if ( defined('ABSPATH') )
 	require_once(ABSPATH . 'wp-load.php');
