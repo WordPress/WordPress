@@ -146,7 +146,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( false !== $group && $grp > $group )
 			$grp = $group;
 
-		parent::set_group( $handle, $recursion, $grp );
+		return parent::set_group( $handle, $recursion, $grp );
 	}
 
 	function all_deps( $handles, $recursion = false, $group = false ) {

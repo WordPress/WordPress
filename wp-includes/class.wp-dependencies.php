@@ -83,17 +83,15 @@ class WP_Dependencies {
 		foreach ( $handles as $handle ) {
 			$handle_parts = explode('?', $handle);
 			$handle = $handle_parts[0];
+			$queued = in_array($handle, $this->to_do, true);
 
 			if ( in_array($handle, $this->done, true) ) // Already done
 				continue;
 
-			$this->set_group( $handle, $recursion, $group );
-
-			if ( in_array($handle, $this->to_do, true) ) // Already grobbed it and its deps
+			$moved = $this->set_group( $handle, $recursion, $group );
+			
+			if ( $queued && !$moved ) // already queued and in the right group
 				continue;
-
-			if ( isset($handle_parts[1]) )
-				$this->args[$handle] = $handle_parts[1];
 
 			$keep_going = true;
 			if ( !isset($this->registered[$handle]) )
@@ -109,6 +107,12 @@ class WP_Dependencies {
 				else
 					continue; // We're at the top level.  Move on to the next one.
 			}
+
+			if ( $queued ) // Already grobbed it and its deps
+				continue;
+
+			if ( isset($handle_parts[1]) )
+				$this->args[$handle] = $handle_parts[1];
 
 			$this->to_do[] = $handle;
 		}
