@@ -114,6 +114,8 @@ function clean_pre($matches) {
  * @return string Text which has been converted into correct paragraph tags.
  */
 function wpautop($pee, $br = 1) {
+	if ( trim($pee) === '' )
+		return '';
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
 	// Space things out a little
