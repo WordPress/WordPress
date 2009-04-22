@@ -35,7 +35,7 @@ include('admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="upload_url_path"><?php _e('Full URL path to files'); ?></label></th>
 <td><input name="upload_url_path" type="text" id="upload_url_path" value="<?php echo attribute_escape( get_option('upload_url_path')); ?>" class="regular-text code" />
-<span class="setting-description"><?php _e('Configuring this is optional by default it should be blank'); ?></span>
+<span class="setting-description"><?php _e('Configuring this is optional. By default, it should be blank.'); ?></span>
 </td>
 </tr>
 
