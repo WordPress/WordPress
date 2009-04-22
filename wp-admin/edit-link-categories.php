@@ -189,19 +189,19 @@ if ( $page_links )
 	$category = (object) array(); $category->parent = 0; do_action('add_link_category_form_pre', $category); ?>
 
 <div class="form-wrap">
-<h3><?php _e('Add Category'); ?></h3>
+<h3><?php _e('Add Link Category'); ?></h3>
 <div id="ajax-response"></div>
 <form name="addcat" id="addcat" class="add:the-list: validate" method="post" action="link-category.php">
 <input type="hidden" name="action" value="addcat" />
 <?php wp_original_referer_field(true, 'previous'); wp_nonce_field('add-link-category'); ?>
 
 <div class="form-field form-required">
-	<label for="name"><?php _e('Category name') ?></label>
+	<label for="name"><?php _e('Link Category name') ?></label>
 	<input name="name" id="name" type="text" value="" size="40" aria-required="true" />
 </div>
 
 <div class="form-field">
-	<label for="slug"><?php _e('Category slug') ?></label>
+	<label for="slug"><?php _e('Link Category slug') ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
