@@ -69,10 +69,9 @@ function the_media_upload_tabs() {
 			$current = $redir_tab;
 		elseif ( isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) )
 			$current = $_GET['tab'];
-		else {
-			$keys = array_keys($tabs);
-			$current = array_shift($keys);
-		}
+		else
+			$current = apply_filters('media_upload_default_tab', 'type');
+
 		foreach ( $tabs as $callback => $text ) {
 			$class = '';
 			if ( $current == $callback )
