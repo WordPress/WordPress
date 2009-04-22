@@ -16,78 +16,45 @@
  * @param string $show Optional, default is all. What to display, can be 'all', 'unused', or 'used'.
  * @param string $_search Optional. Search for widgets. Should be unsanitized.
  */
-function wp_list_widgets( $show = 'all', $_search = false ) {
+function wp_list_widgets() {
 	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 
-	if ( $_search ) {
-		// sanitize
-		$search = preg_replace( '/[^\w\s]/', '', $_search );
-		// array of terms
-		$search_terms = preg_split( '/[\s]/', $search, -1, PREG_SPLIT_NO_EMPTY );
-	} else {
-		$search_terms = array();
-	}
-
-	if ( !in_array( $show, array( 'all', 'unused', 'used' ) ) )
-		$show = 'all';
-?>
+	$no_widgets_shown = true;
+	$already_shown = array(); ?>
 
 	<ul id="widget-list">
 <?php
-		$no_widgets_shown = true;
-		$already_shown = array();
-		foreach ( $wp_registered_widgets as $name => $widget ) {
-			if ( 'all' == $show && in_array( $widget['callback'], $already_shown ) ) // We already showed this multi-widget
-				continue;
+	foreach ( $wp_registered_widgets as $name => $widget ) {
+		if ( in_array( $widget['callback'], $already_shown ) ) // We already showed this multi-widget
+			continue;
 
-			if ( $search_terms ) {
-				$hit = false;
-				// Simple case-insensitive search.  Boolean OR.
-				$search_text = preg_replace( '/[^\w]/', '', $widget['name'] );
-				if ( isset($widget['description']) )
-					$search_text .= preg_replace( '/[^\w]/', '', $widget['description'] );
+		$sidebar = is_active_widget( $widget['callback'], $widget['id'] );
 
-				foreach ( $search_terms as $search_term ) {
-					if ( stristr( $search_text, $search_term ) ) {
-						$hit = true;
-						break;
-					}
-				}
-				if ( !$hit )
-					continue;
-			}
+		if ( ! isset( $widget['params'][0] ) )
+			$widget['params'][0] = array();
 
-			$sidebar = is_active_widget( $widget['callback'], $widget['id'] );
+		$already_shown[] = $widget['callback'];
+		$no_widgets_shown = false;
 
-			if ( ( 'unused' == $show && $sidebar ) || ( 'used' == $show && !$sidebar ) )
-				continue;
+		$args = array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' );
 
-			if ( ! isset( $widget['params'][0] ) )
-				$widget['params'][0] = array();
-
-			$already_shown[] = $widget['callback'];
-			$no_widgets_shown = false;
-
-			$args = array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' );
-
-			if ( isset($wp_registered_widget_controls[$widget['id']]['id_base']) && isset($widget['params'][0]['number']) ) {
-				$id_base = $wp_registered_widget_controls[$widget['id']]['id_base'];
-				$args['_temp_id'] = "$id_base-__i__";
-				$args['_multi_num'] = next_widget_id_number($id_base);
-				$args['_add'] = 'multi';
-			} else {
-				$args['_add'] = 'single';
-				if ( $sidebar )
-					$args['_hide'] = '1';
-			}
-
-			$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
-			call_user_func_array( 'wp_widget_control', $args );
+		if ( isset($wp_registered_widget_controls[$widget['id']]['id_base']) && isset($widget['params'][0]['number']) ) {
+			$id_base = $wp_registered_widget_controls[$widget['id']]['id_base'];
+			$args['_temp_id'] = "$id_base-__i__";
+			$args['_multi_num'] = next_widget_id_number($id_base);
+			$args['_add'] = 'multi';
+		} else {
+			$args['_add'] = 'single';
+			if ( $sidebar )
+				$args['_hide'] = '1';
 		}
 
-		if ( $no_widgets_shown )
-		  echo '<li>' . __( 'No matching widgets' ) . "</li>\n";
-?>
+		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
+		call_user_func_array( 'wp_widget_control', $args );
+	}
+
+	if ( $no_widgets_shown )
+	  echo '<li>' . __( 'No matching widgets' ) . "</li>\n"; ?>
 	</ul>
 <?php
 }

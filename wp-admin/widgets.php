@@ -311,20 +311,6 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	exit;
 }
 
-/*
-// Unsanitized!
-$widget_search = isset($_GET['s']) ? $_GET['s'] : false;
-
-// Not entirely sure what all should be here
-$show_values = array(
-	''		=> $widget_search ? __( 'Show any widgets' ) : __( 'Show all widgets' ),
-	'unused' => __( 'Show unused widgets' ),
-	'used'	=> __( 'Show used widgets' )
-);
-
-$show = isset($_GET['show']) && isset($show_values[$_GET['show']]) ? attribute_escape( $_GET['show'] ) : false;
-*/
-
 $messages = array(
 	__('Changes saved.')
 );
