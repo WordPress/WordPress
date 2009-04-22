@@ -3189,23 +3189,44 @@ function the_post_password() {
  */
 function favorite_actions( $screen = null ) {
 	switch ( $screen ) {
+		case 'post-new.php':
+			$default_action = array('edit.php' => array(__('Edit Posts'), 'edit_posts'));
+			break;
 		case 'edit-pages.php':
 			$default_action = array('page-new.php' => array(__('New Page'), 'edit_pages'));
+			break;
+		case 'page-new.php':
+			$default_action = array('edit-pages.php' => array(__('Edit Pages'), 'edit_pages'));
 			break;
 		case 'upload.php':
 			$default_action = array('media-new.php' => array(__('New Media'), 'upload_files'));
 			break;
+		case 'media-new.php':
+			$default_action = array('upload.php' => array(__('Edit Media'), 'upload_files'));
+			break;
 		case 'link-manager.php':
 			$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
+			break;
+		case 'link-add.php':
+			$default_action = array('link-manager.php' => array(__('Edit Links'), 'manage_links'));
 			break;
 		case 'users.php':
 			$default_action = array('user-new.php' => array(__('New User'), 'create_users'));
 			break;
+		case 'user-new.php':
+			$default_action = array('users.php' => array(__('Edit Users'), 'edit_users'));
+			break;
 		case 'plugins.php':
 			$default_action = array('plugin-install.php' => array(__('Install Plugins'), 'install_plugins'));
 			break;
+		case 'plugin-install.php':
+			$default_action = array('plugins.php' => array(__('Manage Plugins'), 'activate_plugins'));
+			break;
 		case 'themes.php':
 			$default_action = array('theme-install.php' => array(__('Install Themes'), 'install_themes'));
+			break;
+		case 'theme-install.php':
+			$default_action = array('themes.php' => array(__('Manage Themes'), 'switch_themes'));
 			break;
 		default:
 			$default_action = array('post-new.php' => array(__('New Post'), 'edit_posts'));
