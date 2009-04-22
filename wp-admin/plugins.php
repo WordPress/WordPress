@@ -26,7 +26,7 @@ if ( empty($default_status) )
 $status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : $default_status;
 if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'search')) )
 	$status = 'all';
-if ( $status != $default_status )
+if ( $status != $default_status && 'search' != $status )
 	update_usermeta($current_user->ID, 'plugins_last_view', $status);
 
 $page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
