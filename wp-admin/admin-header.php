@@ -110,7 +110,7 @@ if ( function_exists('mb_strlen') ) {
 <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 </div>
 
-<?php favorite_actions(); ?>
+<?php favorite_actions($hook_suffix); ?>
 </div>
 </div>
 

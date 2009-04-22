@@ -3187,7 +3187,31 @@ function the_post_password() {
  *
  * @since unknown
  */
-function favorite_actions() {
+function favorite_actions( $screen = null ) {
+	switch ( $screen ) {
+		case 'edit-pages.php':
+			$default_action = array('page-new.php' => array(__('New Page'), 'edit_pages'));
+			break;
+		case 'upload.php':
+			$default_action = array('media-new.php' => array(__('New Media'), 'upload_files'));
+			break;
+		case 'link-manager.php':
+			$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
+			break;
+		case 'users.php':
+			$default_action = array('user-new.php' => array(__('New User'), 'create_users'));
+			break;
+		case 'plugins.php':
+			$default_action = array('plugin-install.php' => array(__('Install Plugins'), 'install_plugins'));
+			break;
+		case 'themes.php':
+			$default_action = array('theme-install.php' => array(__('Install Themes'), 'install_themes'));
+			break;
+		default:
+			$default_action = array('post-new.php' => array(__('New Post'), 'edit_posts'));
+			break;
+	}
+
 	$actions = array(
 		'post-new.php' => array(__('New Post'), 'edit_posts'),
 		'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),
@@ -3196,6 +3220,11 @@ function favorite_actions() {
 		'edit-comments.php' => array(__('Comments'), 'moderate_comments')
 		);
 
+	$default_key = array_keys($default_action);
+	$default_key = $default_key[0];
+	if ( isset($actions[$default_key]) )
+		unset($actions[$default_key]);
+	$actions = array_merge($default_action, $actions);
 	$actions = apply_filters('favorite_actions', $actions);
 
 	$allowed_actions = array();
