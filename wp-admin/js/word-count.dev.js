@@ -24,7 +24,7 @@
 
 			setTimeout( function() {
 				if ( tx ) {
-					tx = tx.replace( /<.[^<>]*?>/g, ' ' ).replace( /&nbsp;/gi, ' ' );
+					tx = tx.replace( /<.[^<>]*?>/g, ' ' ).replace( /&nbsp;|&#160;/gi, ' ' );
 					tx = tx.replace( /[0-9.(),;:!?%#$¿'"_+=\\/-]*/g, '' );
 					tx.replace( /\S\s+/g, function(){tc++;} );
 				}

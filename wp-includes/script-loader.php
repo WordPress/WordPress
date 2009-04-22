@@ -333,7 +333,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), '20090413a' );
 		$scripts->add_data( 'admin-widgets', 'group', 1 );
 
-		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20090102' );
+		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20090422' );
 		$scripts->add_data( 'word-count', 'group', 1 );
 		$scripts->localize( 'word-count', 'wordCountL10n', array(
 			'count' => __('Word count: %d'),
