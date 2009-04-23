@@ -14,7 +14,7 @@ if ( post_password_required() ) : ?>
 <?php endif; ?>
 </h2>
 
-<?php if ( $comments ) : ?>
+<?php if ( have_comments() ) : ?>
 <ol id="commentlist">
 
 <?php foreach ($comments as $comment) : ?>
@@ -41,13 +41,13 @@ if ( post_password_required() ) : ?>
 <?php if ( comments_open() ) : ?>
 <h2 id="postcomment"><?php _e('Leave a comment'); ?></h2>
 
-<?php if ( get_option('comment_registration') && !$user_ID ) : ?>
+<?php if ( get_option('comment_registration') && !is_user_logged_in() ) : ?>
 <p><?php printf(__('You must be <a href="%s">logged in</a> to post a comment.'), wp_login_url( get_permalink() ) );?></p>
 <?php else : ?>
 
 <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 
-<?php if ( $user_ID ) : ?>
+<?php if ( is_user_logged_in() ) : ?>
 
 <p><?php printf(__('Logged in as %s.'), '<a href="'.get_option('siteurl').'/wp-admin/profile.php">'.$user_identity.'</a>'); ?> <a href="<?php echo wp_logout_url(get_permalink()); ?>" title="<?php _e('Log out of this account') ?>"><?php _e('Log out &raquo;'); ?></a></p>
 
