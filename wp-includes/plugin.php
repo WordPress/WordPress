@@ -494,7 +494,7 @@ function plugin_basename($file) {
 	$plugin_dir = preg_replace('|/+|','/', $plugin_dir); // remove any duplicate slash
 	$mu_plugin_dir = str_replace('\\','/',WPMU_PLUGIN_DIR); // sanitize for Win32 installs
 	$mu_plugin_dir = preg_replace('|/+|','/', $mu_plugin_dir); // remove any duplicate slash
-	$file = preg_replace('#^' . preg_quote($plugin_dir, '#') . '|^' . preg_quote($mu_plugin_dir, '#') . '/#','',$file); // get relative path from plugins dir
+	$file = preg_replace('#^' . preg_quote($plugin_dir, '#') . '/|^' . preg_quote($mu_plugin_dir, '#') . '/#','',$file); // get relative path from plugins dir
 	return $file;
 }
 
