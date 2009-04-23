@@ -49,22 +49,30 @@ function profile_js ( ) {
 
 	}
 
-	function update_nickname () {
-
-		var nickname = $('#nickname').val();
-		var display_nickname = $('#display_nickname').val();
-
-		if ( nickname == '' ) {
-			$('#display_nickname').remove();
-		}
-		$('#display_nickname').val(nickname).html(nickname);
-
-	}
-
 	$(document).ready( function() {
-		$('#nickname').blur(update_nickname);
 		$('#pass1').val('').keyup( check_pass_strength );
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
+		$('#nickname').change(function(){
+			$('#display_name').fadeOut('normal',function(){
+				$(this).fadeIn();
+				$('#display_nickname').html($('#nickname').val()).val($('#nickname').val());
+			});
+		});
+		$('#first_name').change(function(){
+			$('#display_name').fadeOut('normal',function(){
+				$('#display_firstname').html($('#first_name').val()).val($('#first_name').val());
+				$('#display_firstlast').html($('#first_name').val()+' '+$('#last_name').val()).val($('#first_name').val()+' '+$('#last_name').val());
+				$('#display_lastfirst').html($('#last_name').val()+' '+$('#first_name').val()).val($('#last_name').val()+' '+$('#first_name').val());
+				$(this).fadeIn();
+			});
+		});
+		$('#last_name').change(function(){
+			$('#display_name').fadeOut('normal',function(){
+				$('#display_firstlast').html($('#first_name').val()+' '+$('#last_name').val()).val($('#first_name').val()+' '+$('#last_name').val());
+				$('#display_lastfirst').html($('#last_name').val()+' '+$('#first_name').val()).val($('#last_name').val()+' '+$('#first_name').val());
+				$(this).fadeIn();
+			});
+		});
     });
 })(jQuery);
 </script>
@@ -285,16 +293,17 @@ else
 		<select name="display_name" id="display_name">
 		<?php
 			$public_display = array();
-			$public_display['display_displayname'] = $profileuser->display_name;
-			$public_display['display_nickname'] = $profileuser->nickname;
-			$public_display['display_username'] = $profileuser->user_login;
+			$public_display['display_nickname']  = $profileuser->nickname;
+			$public_display['display_username']  = $profileuser->user_login;
 			$public_display['display_firstname'] = $profileuser->first_name;
-			$public_display['display_firstlast'] = $profileuser->first_name.' '.$profileuser->last_name;
-			$public_display['display_lastfirst'] = $profileuser->last_name.' '.$profileuser->first_name;
-			$public_display = array_unique(array_filter(array_map('trim', $public_display)));
-			foreach($public_display as $id => $item) {
+			$public_display['display_firstlast'] = $profileuser->first_name . ' ' . $profileuser->last_name;
+			$public_display['display_lastfirst'] = $profileuser->last_name . ' ' . $profileuser->first_name;
+			if ( !in_array( $profileuser->display_name, $public_display ) )// Only add this if it isn't duplicated elsewhere
+				$public_display = array( 'display_displayname' => $profileuser->display_name ) + $public_display;
+			$public_display = array_map( 'trim', $public_display );
+			foreach ( $public_display as $id => $item ) {
 		?>
-			<option id="<?php echo $id; ?>" value="<?php echo $item; ?>"><?php echo $item; ?></option>
+			<option id="<?php echo $id; ?>" value="<?php echo $item; ?>"<?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
 		<?php
 			}
 		?>
