@@ -1579,18 +1579,18 @@ function wp_unique_term_slug($slug, $term) {
  * @uses apply_filters() Will call the 'term_id_filter' filter and pass the term
  *	id and taxonomy id.
  *
- * @param int $term The ID of the term
+ * @param int $term_id The ID of the term
  * @param string $taxonomy The context in which to relate the term to the object.
  * @param array|string $args Overwrite term field values
  * @return array|WP_Error Returns Term ID and Taxonomy Term ID
  */
-function wp_update_term( $term, $taxonomy, $args = array() ) {
+function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	global $wpdb;
 
 	if ( ! is_taxonomy($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
-	$term_id = (int) $term;
+	$term_id = (int) $term_id;
 
 	// First, get all of the original args
 	$term = get_term ($term_id, $taxonomy, ARRAY_A);
