@@ -13,7 +13,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 /** Get the POP3 class with which to access the mailbox. */
 require_once( ABSPATH . WPINC . '/class-pop3.php' );
 
-$time_difference = absint(get_option('gmt_offset')) * 3600;
+$time_difference = get_option('gmt_offset') * 3600;
 
 $phone_delim = '::';
 
