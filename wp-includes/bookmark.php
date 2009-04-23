@@ -185,9 +185,14 @@ function get_bookmarks($args = '') {
 	if (!empty($exclusions))
 		$exclusions .= ')';
 
-	if ( ! empty($category_name) ) {
-		if ( $category = get_term_by('name', $category_name, 'link_category') )
+	if ( !empty($category_name) ) {
+		if ( $category = get_term_by('name', $category_name, 'link_category') ) {
 			$category = $category->term_id;
+		} else {
+			$cache[ $key ] = array();
+			wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
+			return apply_filters( 'get_bookmarks', array(), $r );
+		}
 	}
 
 	if ( ! empty($search) ) {
