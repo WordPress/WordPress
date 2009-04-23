@@ -1775,14 +1775,19 @@ function content_url($path = '') {
 */
 function plugins_url($path = '', $plugin = '') {
 	$scheme = ( is_ssl() ? 'https' : 'http' );
-	$url = WP_PLUGIN_URL;
+
+	if ( $plugin !== '' && preg_match('#^' . preg_quote(WPMU_PLUGIN_DIR . DIRECTORY_SEPARATOR, '#') . '#', $plugin) ) {
+		$url = WPMU_PLUGIN_URL;
+	} else {
+		$url = WP_PLUGIN_URL;
+	}
+
 	if ( 0 === strpos($url, 'http') ) {
 		if ( is_ssl() )
 			$url = str_replace( 'http://', "{$scheme}://", $url );
 	}
 
-	if ( !empty($plugin) && is_string($plugin) )
-	{
+	if ( !empty($plugin) && is_string($plugin) ) {
 		$folder = dirname(plugin_basename($plugin));
 		if ('.' != $folder)
 			$url .= '/' . ltrim($folder, '/');
