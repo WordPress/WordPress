@@ -136,7 +136,7 @@ var switchEditors = {
 	},
 
 	wpautop : function(pee) {
-		var blocklist = 'table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]';
+		var blocklist = 'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]';
 
 		if ( pee.indexOf('<object') != -1 ) {
 			pee = pee.replace(/<object[\s\S]+?<\/object>/g, function(a){
