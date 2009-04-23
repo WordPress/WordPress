@@ -1410,9 +1410,11 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	// Create a valid post name.  Drafts and pending posts are allowed to have an empty
 	// post name.
-	if ( empty($post_name) ) {
+	if ( !isset($post_name) || empty($post_name) ) {
 		if ( !in_array( $post_status, array( 'draft', 'pending' ) ) )
 			$post_name = sanitize_title($post_title);
+		else
+			$post_name = '';
 	} else {
 		$post_name = sanitize_title($post_name);
 	}
@@ -1484,19 +1486,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( !isset($post_password) || 'private' == $post_status )
 		$post_password = '';
 
-	if ( !in_array( $post_status, array( 'draft', 'pending' ) ) ) {
-		$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $post_name, $post_type, $post_ID, $post_parent));
-
-		if ($post_name_check || in_array($post_name, $wp_rewrite->feeds) ) {
-			$suffix = 2;
-			do {
-				$alt_post_name = substr($post_name, 0, 200-(strlen($suffix)+1)). "-$suffix";
-				$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $alt_post_name, $post_type, $post_ID, $post_parent));
-				$suffix++;
-			} while ($post_name_check);
-			$post_name = $alt_post_name;
-		}
-	}
+	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
 
 	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
@@ -1703,6 +1693,35 @@ function check_and_publish_future_post($post_id) {
 	}
 
 	return wp_publish_post($post_id);
+}
+
+
+/**
+ * Given the desired slug and some post details computes a unique slug for the post.
+ *
+ * @param string $slug the desired slug (post_name)
+ * @param integer $post_ID
+ * @param string $post_status no uniqueness checks are made if the post is still draft or pending
+ * @param string $post_type
+ * @param integer $post_parent
+ * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix) 
+ */
+function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_parent) {
+	global $wpdb, $wp_rewrite;
+	if ( !in_array( $post_status, array( 'draft', 'pending' ) ) ) {
+		$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $slug, $post_type, $post_ID, $post_parent));
+
+		if ($post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
+			$suffix = 2;
+			do {
+				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
+				$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $alt_post_name, $post_type, $post_ID, $post_parent));
+				$suffix++;
+			} while ($post_name_check);
+			$slug = $alt_post_name;
+		}
+	}
+	return $slug;
 }
 
 /**
