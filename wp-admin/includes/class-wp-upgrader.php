@@ -21,7 +21,7 @@ class WP_Upgrader {
 	var $result = array();
 
 	function WP_Upgrader($skin = null) {
-		return __construct($skin);
+		return $this->__construct($skin);
 	}
 	function __construct($skin = null) {
 		if ( null == $skin )
@@ -682,7 +682,7 @@ class WP_Upgrader_Skin {
 	var $done_header = false;
 
 	function WP_Upgrader_Skin($args = array()) {
-		return __construct($args);
+		return $this->__construct($args);
 	}
 	function __construct($args = array()) {
 		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '' );
@@ -755,7 +755,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	var $plugin_active = false;
 
 	function Plugin_Upgrader_Skin($args = array()) {
-		return __construct($args);
+		return $this->__construct($args);
 	}
 
 	function __construct($args = array()) {
@@ -796,7 +796,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	var $type;
 
 	function Plugin_Installer_Skin($args = array()) {
-		return __construct($args);
+		return $this->__construct($args);
 	}
 
 	function __construct($args = array()) {
@@ -842,7 +842,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	var $type;
 
 	function Theme_Installer_Skin($args = array()) {
-		return __construct($args);
+		return $this->__construct($args);
 	}
 
 	function __construct($args = array()) {
@@ -897,7 +897,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	var $theme = '';
 
 	function Theme_Upgrader_Skin($args = array()) {
-		return __construct($args);
+		return $this->__construct($args);
 	}
 
 	function __construct($args = array()) {
@@ -943,7 +943,7 @@ class File_Upload_Upgrader {
 	var $filename;
 
 	function File_Upload_Upgrader($form, $urlholder) {
-		return __construct($form, $urlholder);
+		return $this->__construct($form, $urlholder);
 	}
 	function __construct($form, $urlholder) {
 		if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
