@@ -340,6 +340,11 @@ $wp_registered_widgets = array();
 $wp_registered_widget_controls = array();
 $wp_registered_widget_updates = array();
 
+/**
+ * Private
+ */
+$_wp_sidebars_widgets = array();
+
 /* Template tags & API functions */
 
 /**
@@ -836,9 +841,18 @@ function is_dynamic_sidebar() {
  * @return array Upgraded list of widgets to version 2 array format.
  */
 function wp_get_sidebars_widgets($update = true) {
-	global $wp_registered_widgets, $wp_registered_sidebars;
+	global $wp_registered_widgets, $wp_registered_sidebars, $_wp_sidebars_widgets;
 
-	$sidebars_widgets = get_option('sidebars_widgets', array());
+	// If loading from front page, consult $_wp_sidebars_widgets rather than options
+	// to see if wp_convert_widget_settings() has made manipulations in memory.
+	if ( is_admin() ) {
+		$sidebars_widgets = get_option('sidebars_widgets', array());
+	} else {
+		if ( empty($_wp_sidebars_widgets) )
+			$sidebars_widgets = get_option('sidebars_widgets', array());
+		else
+			$sidebars_widgets = &$_wp_sidebars_widgets;
+	}
 	$_sidebars_widgets = array();
 
 	if ( !isset($sidebars_widgets['array_version']) )
@@ -904,7 +918,7 @@ function wp_get_sidebars_widgets($update = true) {
 				unset($_sidebars_widgets);
 			}
 
-			if ( $update )
+			if ( $update && is_admin() )
 				update_option('sidebars_widgets', $sidebars_widgets);
 	}
 
@@ -956,6 +970,7 @@ function wp_get_widget_defaults() {
  * @return array
  */
 function wp_convert_widget_settings($base_name, $option_name, $settings) {
+	global $_wp_sidebars_widgets;
 	// This test may need expanding.
 	$single = false;
 	if ( empty($settings) ) {
@@ -974,7 +989,15 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 	if ( $single ) {
 		$settings = array( 2 => $settings );
 
-		$sidebars_widgets = get_option('sidebars_widgets');
+		// If loading from the front page, update sidebar in memory but don't save to options
+		if ( is_admin() ) {
+			$sidebars_widgets = get_option('sidebars_widgets');
+		} else {
+			if ( empty($GLOBALS['_wp_sidebars_widgets']) )
+				$GLOBALS['_wp_sidebars_widgets'] = get_option('sidebars_widgets');
+			$sidebars_widgets = &$GLOBALS['_wp_sidebars_widgets'];
+		}
+		
 		foreach ( (array) $sidebars_widgets as $index => $sidebar ) {
 			if ( is_array($sidebar) ) {
 				foreach ( $sidebar as $i => $name ) {
@@ -986,11 +1009,13 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 			}
 		}
 
-		update_option('sidebars_widgets', $sidebars_widgets);
+		if ( is_admin() )
+			update_option('sidebars_widgets', $sidebars_widgets);
 	}
 
 	$settings['_multiwidget'] = 1;
-	update_option( $option_name, $settings );
+	if ( is_admin() )
+		update_option( $option_name, $settings );
 
 	return $settings;
 }
