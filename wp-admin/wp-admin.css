@@ -755,10 +755,16 @@ td.media-icon img {
 	line-height: 29px;
 	font-size: 12px;
 	text-align: center;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-top-width: 1px;
-	border-top-style: solid;
+}
+
+#update-nag {
+	border-width: 1px 0;
+	border-style: solid none;
+}
+
+.plugin-update {
+	border-width: 0 0 1px;
+	border-style: none none solid;
 }
 
 #update-nag a,

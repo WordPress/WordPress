@@ -653,8 +653,7 @@ input.readonly, textarea.readonly {
 
 #update-nag, .plugin-update {
 	background-color: #fffeeb;
-	border-bottom-color: #ccc;
-	border-top-color: #ccc;
+	border-color: #ccc;
 	color: #555;
 }
 
