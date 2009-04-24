@@ -800,7 +800,7 @@ function wp_dashboard_plugins_output() {
 			$title = $item->get_title();
 		$title = wp_specialchars( $title );
 
-		$description = wp_specialchars( strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
+		$description = wp_specialchars( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
 							'&amp;TB_iframe=true&amp;width=600&amp;height=800';

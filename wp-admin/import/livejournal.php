@@ -576,7 +576,7 @@ class LJ_API_Import {
 		// Get the body and HTMLize it
 		preg_match( '|<body>(.*)</body>|is', $comment, $matches );
 		$comment_content = !empty( $comment_subject ) ? $comment_subject . "\n\n" . $matches[1] : $matches[1];
-		$comment_content = html_entity_decode( $comment_content );
+		$comment_content = @html_entity_decode( $comment_content, ENT_COMPAT, get_option('blog_charset') );
 		$comment_content = str_replace( '&apos;', "'", $comment_content );
 		$comment_content = wpautop( $comment_content );
 		$comment_content = str_replace( '<br>', '<br />', $comment_content );

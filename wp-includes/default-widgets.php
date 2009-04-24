@@ -711,7 +711,7 @@ function wp_widget_rss($args, $widget_args = 1) {
 	$desc = '';
 	$link = '';
 	if ( ! is_wp_error($rss) ) {
-		$desc = attribute_escape(strip_tags(html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
+		$desc = attribute_escape(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
 		if ( empty($title) )
 			$title = htmlentities(strip_tags($rss->get_title()));
 		$link = clean_url(strip_tags($rss->get_permalink()));
@@ -788,7 +788,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		if ( empty($title) )
 			$title = __('Untitled');
 
-		$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
+		$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
 		$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
 		$desc = wp_specialchars( $desc );
 
