@@ -722,8 +722,12 @@ class WP_Upgrader_Skin {
 		if ( is_string($errors) ) {
 			$this->feedback($errors);
 		} elseif ( is_wp_error($errors) && $errors->get_error_code() ) {
-			foreach ( $errors->get_error_messages() as $message )
-				$this->feedback($message);
+			foreach ( $errors->get_error_messages() as $message ) {
+				if ( $errors->get_error_data() )
+					$this->feedback($message . ' ' . $errors->get_error_data() );
+				else
+					$this->feedback($message);
+			}
 		}
 	}
 
@@ -731,10 +735,12 @@ class WP_Upgrader_Skin {
 		if ( isset( $this->upgrader->strings[$string]) )
 			$string = $this->upgrader->strings[$string];
 
-		$args = func_get_args();
-		$args = array_splice($args, 1);
-		if ( !empty($args) )
-			$string = vsprintf($string, $args);
+		if ( strpos($string, '%') !== false ) {
+			$args = func_get_args();
+			$args = array_splice($args, 1);
+			if ( !empty($args) )
+				$string = vsprintf($string, $args);
+		}
 		if ( empty($string) )
 			return;
 		show_message($string);
