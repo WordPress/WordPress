@@ -146,7 +146,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$mode = $this->permission;
 		if( ! $mode )
 			return false;
-		if ( ! $this->exists($file) )
+		if ( ! $this->exists($file) && ! $this->is_dir($file) )
 			return false;
 		if ( ! $recursive || ! $this->is_dir($file) ) {
 			if ( ! function_exists('ftp_chmod') )
