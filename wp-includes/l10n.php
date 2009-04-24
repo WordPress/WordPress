@@ -342,10 +342,13 @@ function load_theme_textdomain($domain, $path = false) {
  * @param string $domain
  * @return object A Translation instance
  */
-function get_translations_for_domain( $domain ) {
+function &get_translations_for_domain( $domain ) {
 	global $l10n;
 	$empty = &new Translations;
-	return isset($l10n[$domain])? $l10n[$domain] : $empty;
+	if ( isset($l10n[$domain]) )
+		return $l10n[$domain];
+	else
+		return $empty;
 }
 
 /**
