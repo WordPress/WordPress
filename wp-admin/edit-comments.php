@@ -262,7 +262,6 @@ $page_links = paginate_links( array(
 <input type="submit" name="doaction" id="doaction" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
 <?php wp_nonce_field('bulk-comments'); ?>
 
-<?php echo "<input type='hidden' name='comment_status' value='$comment_status' />\n"; ?>
 <select name="comment_type">
 	<option value="all"><?php _e('Show all comment types'); ?></option>
 <?php
