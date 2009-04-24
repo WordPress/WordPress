@@ -2,12 +2,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>{#paste.paste_word_desc}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3223_1087"></script>
-	<script type="text/javascript" src="js/pasteword.js?ver=3223_1087"></script>
-	<link href="css/pasteword.css?ver=3223_1087" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=323"></script>
+	<script type="text/javascript" src="js/pasteword.js?ver=323"></script>
 </head>
-<body onresize="resizeInputs();" style="display:none; overflow:hidden;">
-	<form name="source" onsubmit="saveContent();" action="#">
+<body onresize="PasteWordDialog.resize();" style="display:none; overflow:hidden;">
+	<form name="source" onsubmit="return PasteWordDialog.insert();" action="#">
 		<div class="title">{#paste.paste_word_desc}</div>
 
 		<div>{#paste_dlg.word_title}</div>
