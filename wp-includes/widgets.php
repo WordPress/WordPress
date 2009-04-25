@@ -87,9 +87,9 @@ class WP_Widget {
 	 *	 - height
 	 */
 	function __construct( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
-		$this->id_base = $id_base === false ? str_replace( 'wp_widget_', '', strtolower(get_class($this)) ) : $id_base;
+		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : $id_base;
 		$this->name = $name;
-		$this->option_name = 'widget_' . $id_base;
+		$this->option_name = 'widget_' . $this->id_base;
 		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
 		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
 	}

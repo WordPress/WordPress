@@ -487,91 +487,88 @@ class WP_Widget_Categories extends WP_Widget {
 }
 
 /**
- * Display recent entries widget.
+ * Recent_Posts widget class
  *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- * @return int Displayed cache.
+ * @since 2.8.0
  */
-function wp_widget_recent_entries($args) {
-	if ( '%BEG_OF_TITLE%' != $args['before_title'] ) {
-		if ( $output = wp_cache_get('widget_recent_entries', 'widget') )
-			return print($output);
-		ob_start();
+class WP_Widget_Recent_Posts extends WP_Widget {
+
+	function WP_Widget_Recent_Posts() {
+		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
+		$this->WP_Widget('recent_posts', __('Recent Posts'), $widget_ops);
+
+		add_action( 'save_post', array(&$this, 'flush_widget_cache') );
+		add_action( 'deleted_post', array(&$this, 'flush_widget_cache') );
+		add_action( 'switch_theme', array(&$this, 'flush_widget_cache') );
 	}
 
-	extract($args);
-	$options = get_option('widget_recent_entries');
-	$title = empty($options['title']) ? __('Recent Posts') : apply_filters('widget_title', $options['title']);
-	if ( !$number = (int) $options['number'] )
-		$number = 10;
-	else if ( $number < 1 )
-		$number = 1;
-	else if ( $number > 15 )
-		$number = 15;
+	function widget($args, $instance) {
+		if ( $output = wp_cache_get('widget_recent_entries', 'widget') )
+			return print($output);
 
-	$r = new WP_Query(array('showposts' => $number, 'what_to_show' => 'posts', 'nopaging' => 0, 'post_status' => 'publish', 'caller_get_posts' => 1));
-	if ($r->have_posts()) :
+		ob_start();
+	
+		extract($args);
+
+		$title = empty($instance['title']) ? __('Recent Posts') : apply_filters('widget_title', $instance['title']);
+		if ( !$number = (int) $instance['number'] )
+			$number = 10;
+		else if ( $number < 1 )
+			$number = 1;
+		else if ( $number > 15 )
+			$number = 15;
+	
+		$r = new WP_Query(array('showposts' => $number, 'what_to_show' => 'posts', 'nopaging' => 0, 'post_status' => 'publish', 'caller_get_posts' => 1));
+		if ($r->have_posts()) :
 ?>
-		<?php echo $before_widget; ?>
+			<?php echo $before_widget; ?>
 			<?php echo $before_title . $title . $after_title; ?>
 			<ul>
 			<?php  while ($r->have_posts()) : $r->the_post(); ?>
 			<li><a href="<?php the_permalink() ?>"><?php if ( get_the_title() ) the_title(); else the_ID(); ?> </a></li>
 			<?php endwhile; ?>
 			</ul>
-		<?php echo $after_widget; ?>
+			<?php echo $after_widget; ?>
 <?php
-		wp_reset_query();  // Restore global post data stomped by the_post().
-	endif;
-
-	if ( '%BEG_OF_TITLE%' != $args['before_title'] )
+			wp_reset_query();  // Restore global post data stomped by the_post().
+		endif;
+	
 		wp_cache_add('widget_recent_entries', ob_get_flush(), 'widget');
-}
-
-/**
- * Remove recent entries widget items cache.
- *
- * @since 2.2.0
- */
-function wp_flush_widget_recent_entries() {
-	wp_cache_delete('widget_recent_entries', 'widget');
-}
-
-add_action('save_post', 'wp_flush_widget_recent_entries');
-add_action('deleted_post', 'wp_flush_widget_recent_entries');
-add_action('switch_theme', 'wp_flush_widget_recent_entries');
-
-/**
- * Display and process recent entries widget options form.
- *
- * @since 2.2.0
- */
-function wp_widget_recent_entries_control() {
-	$options = $newoptions = get_option('widget_recent_entries');
-	if ( isset($_POST["recent-entries-submit"]) ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["recent-entries-title"]));
-		$newoptions['number'] = (int) $_POST["recent-entries-number"];
 	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_recent_entries', $options);
-		wp_flush_widget_recent_entries();
+
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['number'] = (int) $new_instance['number'];
+		$this->flush_widget_cache();
+
+		return $instance;
 	}
-	$title = attribute_escape($options['title']);
-	if ( !$number = (int) $options['number'] )
-		$number = 5;
+
+	function flush_widget_cache() {
+		wp_cache_delete('widget_recent_entries', 'widget');
+	}
+
+	function form( $instance ) {
+		$title = attribute_escape($instance['title']);
+		if ( !$number = (int) $instance['number'] )
+			$number = 5;
 ?>
-
-			<p><label for="recent-entries-title"><?php _e('Title:'); ?> <input class="widefat" id="recent-entries-title" name="recent-entries-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p>
-				<label for="recent-entries-number"><?php _e('Number of posts to show:'); ?> <input style="width: 25px; text-align: center;" id="recent-entries-number" name="recent-entries-number" type="text" value="<?php echo $number; ?>" /></label>
-				<br />
-				<small><?php _e('(at most 15)'); ?></small>
-			</p>
-			<input type="hidden" id="recent-entries-submit" name="recent-entries-submit" value="1" />
+		<p>
+			<label for="<?php echo $this->get_field_id('title'); ?>">
+				<?php _e('Title:'); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
+			</label>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('number'); ?>">
+				<?php _e('Number of posts to show:'); ?>
+				<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" />
+			</label><br />
+			<small><?php _e('(at most 15)'); ?></small>
+		</p>
 <?php
+	}
 }
 
 /**
@@ -1136,9 +1133,7 @@ function wp_widgets_init() {
 
 	register_widget('WP_Widget_Categories');
 
-	$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
-	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $widget_ops);
-	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control' );
+	register_widget('WP_Widget_Recent_Posts');
 
 	$widget_ops = array('classname' => 'widget_tag_cloud', 'description' => __( "Your most used tags in cloud format") );
 	wp_register_sidebar_widget('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud', $widget_ops);
