@@ -267,6 +267,9 @@ class WP_Widget {
 
 	function get_settings() {
 		$settings = get_option($this->option_name);
+		
+		if ( false === $settings && isset($this->alt_option_name) )
+			$settings = get_option($this->alt_option_name);
 
 		if ( !is_array($settings) )
 			$settings = array();
@@ -976,9 +979,9 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 	if ( empty($settings) ) {
 		$single = true;
 	} else {
-		if ( isset($settings['number']) )
-			unset($settings['number']);
 		foreach ( array_keys($settings) as $number ) {
+			if ( 'number' == $number )
+				continue;
 			if ( !is_numeric($number) ) {
 				$single = true;
 				break;

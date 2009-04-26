@@ -495,7 +495,8 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 
 	function WP_Widget_Recent_Posts() {
 		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
-		$this->WP_Widget('recent_posts', __('Recent Posts'), $widget_ops);
+		$this->WP_Widget('recent-posts', __('Recent Posts'), $widget_ops);
+		$this->alt_option_name = 'widget_recent_entries';
 
 		add_action( 'save_post', array(&$this, 'flush_widget_cache') );
 		add_action( 'deleted_post', array(&$this, 'flush_widget_cache') );
@@ -503,11 +504,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	function widget($args, $instance) {
-		if ( $output = wp_cache_get('widget_recent_entries', 'widget') )
+		if ( $output = wp_cache_get('widget_recent_posts' . $args['widget_id'], 'widget') )
 			return print($output);
 
 		ob_start();
-	
 		extract($args);
 
 		$title = empty($instance['title']) ? __('Recent Posts') : apply_filters('widget_title', $instance['title']);
@@ -517,7 +517,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 			$number = 1;
 		else if ( $number > 15 )
 			$number = 15;
-	
+
 		$r = new WP_Query(array('showposts' => $number, 'what_to_show' => 'posts', 'nopaging' => 0, 'post_status' => 'publish', 'caller_get_posts' => 1));
 		if ($r->have_posts()) :
 ?>
@@ -532,8 +532,8 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 <?php
 			wp_reset_query();  // Restore global post data stomped by the_post().
 		endif;
-	
-		wp_cache_add('widget_recent_entries', ob_get_flush(), 'widget');
+
+		wp_cache_add('widget_recent_posts' . $args['widget_id'], ob_get_flush(), 'widget');
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -541,6 +541,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['number'] = (int) $new_instance['number'];
 		$this->flush_widget_cache();
+		
+		$alloptions = wp_cache_get( 'alloptions', 'options' );
+		if ( isset($alloptions['widget_recent_entries']) )
+			delete_option('widget_recent_entries');
 
 		return $instance;
 	}
