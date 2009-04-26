@@ -1898,7 +1898,7 @@ function &_wp_http_get_object() {
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
- * @return WP_Error|string The body of the response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_request($url, $args = array()) {
 	$objFetchSite = _wp_http_get_object();
@@ -1914,7 +1914,7 @@ function wp_remote_request($url, $args = array()) {
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
- * @return WP_Error|string The body of the response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_get($url, $args = array()) {
 	$objFetchSite = _wp_http_get_object();
@@ -1930,7 +1930,7 @@ function wp_remote_get($url, $args = array()) {
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
- * @return WP_Error|string The body of the response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_post($url, $args = array()) {
 	$objFetchSite = _wp_http_get_object();
@@ -1946,7 +1946,7 @@ function wp_remote_post($url, $args = array()) {
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
- * @return WP_Error|string The body of the response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_head($url, $args = array()) {
 	$objFetchSite = _wp_http_get_object();
@@ -1962,7 +1962,7 @@ function wp_remote_head($url, $args = array()) {
  * @return array The headers of the response. Empty array if incorrect parameter given.
  */
 function wp_remote_retrieve_headers(&$response) {
-	if ( ! isset($response['headers']) || ! is_array($response['headers']))
+	if ( is_wp_error($response) || ! isset($response['headers']) || ! is_array($response['headers']))
 		return array();
 
 	return $response['headers'];
@@ -1975,10 +1975,10 @@ function wp_remote_retrieve_headers(&$response) {
  *
  * @param array $response
  * @param string $header Header name to retrieve value from.
- * @return array The header value. Empty string on if incorrect parameter given.
+ * @return string The header value. Empty string on if incorrect parameter given, or if the header doesnt exist.
  */
 function wp_remote_retrieve_header(&$response, $header) {
-	if ( ! isset($response['headers']) || ! is_array($response['headers']))
+	if ( is_wp_error($response) || ! isset($response['headers']) || ! is_array($response['headers']))
 		return '';
 
 	if ( array_key_exists($header, $response['headers']) )
@@ -1995,10 +1995,10 @@ function wp_remote_retrieve_header(&$response, $header) {
  * @since 2.7.0
  *
  * @param array $response HTTP response.
- * @return array The keys 'code' and 'message' give information on the response.
+ * @return string the response code. Empty string on incorrect parameter given.
  */
 function wp_remote_retrieve_response_code(&$response) {
-	if ( ! isset($response['response']) || ! is_array($response['response']))
+	if ( is_wp_error($response) ||! isset($response['response']) || ! is_array($response['response']))
 		return '';
 
 	return $response['response']['code'];
@@ -2012,10 +2012,10 @@ function wp_remote_retrieve_response_code(&$response) {
  * @since 2.7.0
  *
  * @param array $response HTTP response.
- * @return array The keys 'code' and 'message' give information on the response.
+ * @return string The response message. Empty string on incorrect parameter given.
  */
 function wp_remote_retrieve_response_message(&$response) {
-	if ( ! isset($response['response']) || ! is_array($response['response']))
+	if ( is_wp_error($response) || ! isset($response['response']) || ! is_array($response['response']))
 		return '';
 
 	return $response['response']['message'];
@@ -2030,7 +2030,7 @@ function wp_remote_retrieve_response_message(&$response) {
  * @return string The body of the response. Empty string if no body or incorrect parameter given.
  */
 function wp_remote_retrieve_body(&$response) {
-	if ( ! isset($response['body']) )
+	if ( is_wp_error($response) || ! isset($response['body']) )
 		return '';
 
 	return $response['body'];
