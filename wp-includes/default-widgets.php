@@ -504,8 +504,13 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	function widget($args, $instance) {
-		if ( $output = wp_cache_get('widget_recent_posts' . $args['widget_id'], 'widget') )
-			return print($output);
+		$cache = wp_cache_get('widget_recent_posts', 'widget');
+		
+		if ( !is_array($cache) )
+			$cache = array();
+		
+		if ( isset($cache[$args['widget_id']]) )
+			return $cache[$args['widget_id']];
 
 		ob_start();
 		extract($args);
@@ -533,7 +538,8 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 			wp_reset_query();  // Restore global post data stomped by the_post().
 		endif;
 
-		wp_cache_add('widget_recent_posts' . $args['widget_id'], ob_get_flush(), 'widget');
+		$cache[$args['widget_id']] = ob_get_flush();
+		wp_cache_add('widget_recent_posts', $cache, 'widget');
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -550,7 +556,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	function flush_widget_cache() {
-		wp_cache_delete('widget_recent_entries', 'widget');
+		wp_cache_delete('widget_recent_posts', 'widget');
 	}
 
 	function form( $instance ) {
@@ -558,48 +564,65 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
 ?>
-		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>">
-				<?php _e('Title:'); ?>
-				<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
-			</label>
-		</p>
-		<p>
-			<label for="<?php echo $this->get_field_id('number'); ?>">
-				<?php _e('Number of posts to show:'); ?>
-				<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" />
-			</label><br />
-			<small><?php _e('(at most 15)'); ?></small>
-		</p>
+	<p><label for="<?php echo $this->get_field_id('title'); ?>">
+	<?php _e('Title:'); ?>
+	<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+
+	<p><label for="<?php echo $this->get_field_id('number'); ?>">
+	<?php _e('Number of posts to show:'); ?>
+	<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" /></label>
+	<br /><small><?php _e('(at most 15)'); ?></small></p>
 <?php
 	}
 }
 
 /**
- * Display recent comments widget.
+ * Recent_Comments widget class
  *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
+ * @since 2.8.0
  */
-function wp_widget_recent_comments($args) {
-	global $wpdb, $comments, $comment;
-	extract($args, EXTR_SKIP);
-	$options = get_option('widget_recent_comments');
-	$title = empty($options['title']) ? __('Recent Comments') : apply_filters('widget_title', $options['title']);
-	if ( !$number = (int) $options['number'] )
-		$number = 5;
-	else if ( $number < 1 )
-		$number = 1;
-	else if ( $number > 15 )
-		$number = 15;
+class WP_Widget_Recent_Comments extends WP_Widget {
 
-	if ( !$comments = wp_cache_get( 'recent_comments', 'widget' ) ) {
-		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT $number");
-		wp_cache_add( 'recent_comments', $comments, 'widget' );
+	function WP_Widget_Recent_Comments() {
+		$widget_ops = array('classname' => 'widget_recent_comments', 'description' => __( 'The most recent comments' ) );
+		$this->WP_Widget('recent-comments', __('Recent Comments'), $widget_ops);
+		$this->alt_option_name = 'widget_recent_comments';
+
+		if ( is_active_widget(false, false, $this->id_base) )
+			add_action( 'wp_head', array(&$this, 'recent_comments_style') );
+
+		add_action( 'comment_post', array(&$this, 'flush_widget_cache') );
+		add_action( 'wp_set_comment_status', array(&$this, 'flush_widget_cache') );
 	}
-?>
+	
+	function recent_comments_style() { ?>
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<?php
+	}
 
+	function flush_widget_cache() {
+		wp_cache_delete('recent_comments', 'widget');
+	}
+
+	function widget( $args, $instance ) {
+		global $wpdb, $comments, $comment;
+		
+		extract($args, EXTR_SKIP);
+		$title = empty($instance['title']) ? __('Recent Comments') : apply_filters('widget_title', $instance['title']);
+		if ( !$number = (int) $instance['number'] )
+			$number = 5;
+		else if ( $number < 1 )
+			$number = 1;
+		else if ( $number > 15 )
+			$number = 15;
+	
+		if ( !$comments = wp_cache_get( 'recent_comments', 'widget' ) ) {
+			$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 15");
+			wp_cache_add( 'recent_comments', $comments, 'widget' );
+		}
+		
+		$comments = array_slice( (array) $comments, 0, $number );
+?>
 		<?php echo $before_widget; ?>
 			<?php echo $before_title . $title . $after_title; ?>
 			<ul id="recentcomments"><?php
@@ -608,72 +631,36 @@ function wp_widget_recent_comments($args) {
 			endforeach; endif;?></ul>
 		<?php echo $after_widget; ?>
 <?php
-}
-
-/**
- * Remove the cache for recent comments widget.
- *
- * @since 2.2.0
- */
-function wp_delete_recent_comments_cache() {
-	wp_cache_delete( 'recent_comments', 'widget' );
-}
-add_action( 'comment_post', 'wp_delete_recent_comments_cache' );
-add_action( 'wp_set_comment_status', 'wp_delete_recent_comments_cache' );
-
-/**
- * Display and process recent comments widget options form.
- *
- * @since 2.2.0
- */
-function wp_widget_recent_comments_control() {
-	$options = $newoptions = get_option('widget_recent_comments');
-	if ( isset($_POST["recent-comments-submit"]) ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["recent-comments-title"]));
-		$newoptions['number'] = (int) $_POST["recent-comments-number"];
 	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_recent_comments', $options);
-		wp_delete_recent_comments_cache();
+
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['number'] = (int) $new_instance['number'];
+		$this->flush_widget_cache();
+
+		$alloptions = wp_cache_get( 'alloptions', 'options' );
+		if ( isset($alloptions['widget_recent_comments']) )
+			delete_option('widget_recent_comments');
+
+		return $instance;
 	}
-	$title = attribute_escape($options['title']);
-	if ( !$number = (int) $options['number'] )
-		$number = 5;
+
+	function form( $instance ) {
+		$title = attribute_escape($instance['title']);
+		if ( !$number = (int) $instance['number'] )
+			$number = 5;
 ?>
-			<p><label for="recent-comments-title"><?php _e('Title:'); ?> <input class="widefat" id="recent-comments-title" name="recent-comments-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p>
-				<label for="recent-comments-number"><?php _e('Number of comments to show:'); ?> <input style="width: 25px; text-align: center;" id="recent-comments-number" name="recent-comments-number" type="text" value="<?php echo $number; ?>" /></label>
-				<br />
-				<small><?php _e('(at most 15)'); ?></small>
-			</p>
-			<input type="hidden" id="recent-comments-submit" name="recent-comments-submit" value="1" />
+	<p><label for="<?php echo $this->get_field_id('title'); ?>">
+	<?php _e('Title:'); ?>
+	<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+
+	<p><label for="<?php echo $this->get_field_id('number'); ?>">
+	<?php _e('Number of comments to show:'); ?>
+	<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" /></label>
+	<br /><small><?php _e('(at most 15)'); ?></small></p>
 <?php
-}
-
-/**
- * Display the style for recent comments widget.
- *
- * @since 2.2.0
- */
-function wp_widget_recent_comments_style() {
-?>
-<style type="text/css">.recentcomments a{display:inline !important;padding: 0 !important;margin: 0 !important;}</style>
-<?php
-}
-
-/**
- * Register recent comments with control and hook for 'wp_head' action.
- *
- * @since 2.2.0
- */
-function wp_widget_recent_comments_register() {
-	$widget_ops = array('classname' => 'widget_recent_comments', 'description' => __( 'The most recent comments' ) );
-	wp_register_sidebar_widget('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments', $widget_ops);
-	wp_register_widget_control('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments_control');
-
-	if ( is_active_widget('wp_widget_recent_comments') )
-		add_action('wp_head', 'wp_widget_recent_comments_style');
+	}
 }
 
 /**
@@ -1138,13 +1125,14 @@ function wp_widgets_init() {
 	register_widget('WP_Widget_Categories');
 
 	register_widget('WP_Widget_Recent_Posts');
+	
+	register_widget('WP_Widget_Recent_Comments');
 
 	$widget_ops = array('classname' => 'widget_tag_cloud', 'description' => __( "Your most used tags in cloud format") );
 	wp_register_sidebar_widget('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud', $widget_ops);
 	wp_register_widget_control('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud_control' );
 
 	wp_widget_rss_register();
-	wp_widget_recent_comments_register();
 
 	do_action('widgets_init');
 }

@@ -783,28 +783,39 @@ function dynamic_sidebar($index = 1) {
 }
 
 /**
- * Whether widget is registered using callback with widget ID.
+ * Whether widget is displayied on the front-end.
  *
- * Without the optional $widget_id parameter, returns the ID of the first sidebar in which the first instance of the widget with the given callback is found.
- * With the $widget_id parameter, returns the ID of the sidebar in which the widget with that callback AND that ID is found.
+ * Either $callback or $id_base can be used
+ * $id_base is the first argument when extending WP_Widget class
+ * Without the optional $widget_id parameter, returns the ID of the first sidebar
+ * in which the first instance of the widget with the given callback or $id_base is found.
+ * With the $widget_id parameter, returns the ID of the sidebar where
+ * the widget with that callback/$id_base AND that ID is found.
+ * 
+ * NOTE: $widget_id and $id_base are the same for single widgets. To be effective
+ * this function has to run after widgets have initialized, at action 'init' or later.
  *
  * @since 2.2.0
  *
- * @param callback $callback Widget callback to check.
+ * @param callback Optional, Widget callback to check.
  * @param int $widget_id Optional, but needed for checking. Widget ID.
-/* @return mixed false if widget is not active or id of sidebar in which the widget is active.
+ * @param string $id_base Optional, the base ID of a widget created by extending WP_Widget.
+ * @return mixed false if widget is not active or id of sidebar in which the widget is active.
  */
-function is_active_widget($callback, $widget_id = false) {
+function is_active_widget($callback = false, $widget_id = false, $id_base = false) {
 	global $wp_registered_widgets;
 
 	$sidebars_widgets = wp_get_sidebars_widgets(false);
 
 	if ( is_array($sidebars_widgets) ) foreach ( $sidebars_widgets as $sidebar => $widgets )
+		if ( 'wp_inactive_widgets' == $sidebar )
+			continue;
+
 		if ( is_array($widgets) ) foreach ( $widgets as $widget )
-			if ( isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback )
+			if ( ( $callback && isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback ) || ( $id_base && preg_replace( '/-[0-9]+$/', '', $widget ) == $id_base ) ) {
 				if ( !$widget_id || $widget_id == $wp_registered_widgets[$widget]['id'] )
 					return $sidebar;
-
+			}
 
 	return false;
 }
