@@ -167,7 +167,7 @@ class WP_Widget {
 		if ( array_key_exists( $this->number, $settings ) ) {
             $settings = $settings[$this->number];
 			// filters the widget's settings, return false to stop displaying the widget
-			$settings = apply_filters('widget_display_callback', $settings, &$this);   
+			$settings = apply_filters('widget_display_callback', $settings, $this);   
             if ( false !== $settings )
 				$this->widget($args, $settings);
         }
@@ -228,7 +228,7 @@ class WP_Widget {
 						$instance = $this->update($new_instance, array());
 
 					// filters the widget's settings before saving, return false to cancel saving (keep the old settings if updating)
-					$instance = apply_filters('widget_update_callback', $instance, $new_instance, &$this);
+					$instance = apply_filters('widget_update_callback', $instance, $new_instance, $this);
 					if ( false !== $instance )
 						$all_instances[$number] = $instance;
 				}
@@ -258,7 +258,7 @@ class WP_Widget {
 		}
 
 		// filters the widget admin form before displaying, return false to stop displaying it
-		$instance = apply_filters('widget_form_callback', $instance, &$this);
+		$instance = apply_filters('widget_form_callback', $instance, $this);
 		if ( false !== $instance )
 			$this->form($instance);
 	}
