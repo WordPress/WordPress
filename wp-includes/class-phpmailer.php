@@ -1403,6 +1403,15 @@ class PHPMailer {
   }
 
   /**
+   * Callback for converting to "=XX".
+   * @access private
+   * @return string
+   */
+  function EncodeQ_callback ($matches) {
+    return "=".sprintf("%02X", ord($matches[1]));
+  }
+
+  /**
    * Encode string to q encoding.
    * @access private
    * @return string
@@ -1413,15 +1422,18 @@ class PHPMailer {
 
     switch (strtolower($position)) {
       case 'phrase':
-        $encoded = preg_replace("/([^A-Za-z0-9!*+\/ -])/e", "'='.sprintf('%02X', ord('\\1'))", $encoded);
+        $encoded = preg_replace_callback("/([^A-Za-z0-9!*+\/ -])/",
+                                         "EncodeQ_callback", $encoded);
         break;
       case 'comment':
-        $encoded = preg_replace("/([\(\)\"])/e", "'='.sprintf('%02X', ord('\\1'))", $encoded);
+        $encoded = preg_replace_callback("/([\(\)\"])/",
+                                         "EncodeQ_callback", $encoded);
+        break;
       case 'text':
       default:
         /* Replace every high ascii, control =, ? and _ characters */
-        $encoded = preg_replace('/([\000-\011\013\014\016-\037\075\077\137\177-\377])/e',
-              "'='.sprintf('%02X', ord('\\1'))", $encoded);
+        $encoded = preg_replace_callback('/([\000-\011\013\014\016-\037\075\077\137\177-\377])/',
+                                         "EncodeQ_callback", $encoded);
         break;
     }
 
