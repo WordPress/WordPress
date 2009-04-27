@@ -174,6 +174,8 @@ function edit_user( $user_id = 0 ) {
 		$errors->add( 'email_exists', __('<strong>ERROR</strong>: This email is already registered, please choose another one.'), array( 'form-field' => 'email' ) );
 	}
 
+	do_action('user_profile_update_errors', $errors);
+
 	if ( $errors->get_error_codes() )
 		return $errors;
 
