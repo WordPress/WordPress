@@ -136,12 +136,14 @@ function get_search_form() {
  *
  * @since 1.5.0
  * @uses apply_filters() Calls 'loginout' hook on HTML link content.
+ *
+ * @param string $redirect Optional path to redirect to on login/logout.
  */
-function wp_loginout() {
+function wp_loginout($redirect = '') {
 	if ( ! is_user_logged_in() )
-		$link = '<a href="' . wp_login_url() . '">' . __('Log in') . '</a>';
+		$link = '<a href="' . clean_url( wp_login_url($redirect) ) . '">' . __('Log in') . '</a>';
 	else
-		$link = '<a href="' . wp_logout_url() . '">' . __('Log out') . '</a>';
+		$link = '<a href="' . clean_url( wp_logout_url($redirect) ) . '">' . __('Log out') . '</a>';
 
 	echo apply_filters('loginout', $link);
 }
