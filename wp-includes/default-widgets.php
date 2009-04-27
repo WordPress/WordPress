@@ -505,10 +505,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 
 	function widget($args, $instance) {
 		$cache = wp_cache_get('widget_recent_posts', 'widget');
-		
+
 		if ( !is_array($cache) )
 			$cache = array();
-		
+
 		if ( isset($cache[$args['widget_id']]) )
 			return $cache[$args['widget_id']];
 
@@ -547,7 +547,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['number'] = (int) $new_instance['number'];
 		$this->flush_widget_cache();
-		
+
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
 		if ( isset($alloptions['widget_recent_entries']) )
 			delete_option('widget_recent_entries');
@@ -594,7 +594,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		add_action( 'comment_post', array(&$this, 'flush_widget_cache') );
 		add_action( 'wp_set_comment_status', array(&$this, 'flush_widget_cache') );
 	}
-	
+
 	function recent_comments_style() { ?>
 	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
 <?php
@@ -606,7 +606,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		global $wpdb, $comments, $comment;
-		
+
 		extract($args, EXTR_SKIP);
 		$title = empty($instance['title']) ? __('Recent Comments') : apply_filters('widget_title', $instance['title']);
 		if ( !$number = (int) $instance['number'] )
@@ -615,12 +615,12 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			$number = 1;
 		else if ( $number > 15 )
 			$number = 15;
-	
+
 		if ( !$comments = wp_cache_get( 'recent_comments', 'widget' ) ) {
 			$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 15");
 			wp_cache_add( 'recent_comments', $comments, 'widget' );
 		}
-		
+
 		$comments = array_slice( (array) $comments, 0, $number );
 ?>
 		<?php echo $before_widget; ?>
@@ -664,63 +664,74 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 }
 
 /**
- * Display RSS widget.
+ * RSS widget class
  *
- * Allows for multiple widgets to be displayed.
- *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- * @param int $number Widget number.
+ * @since 2.8.0
  */
-function wp_widget_rss($args, $widget_args = 1) {
-	extract($args, EXTR_SKIP);
-	if ( is_numeric($widget_args) )
-		$widget_args = array( 'number' => $widget_args );
-	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-	extract($widget_args, EXTR_SKIP);
+class WP_Widget_RSS extends WP_Widget {
 
-	$options = get_option('widget_rss');
-
-	if ( !isset($options[$number]) )
-		return;
-
-	if ( isset($options[$number]['error']) && $options[$number]['error'] )
-		return;
-
-	$url = $options[$number]['url'];
-	while ( stristr($url, 'http') != $url )
-		$url = substr($url, 1);
-	if ( empty($url) )
-		return;
-
-	$rss = fetch_feed($url);
-	$title = $options[$number]['title'];
-	$desc = '';
-	$link = '';
-	if ( ! is_wp_error($rss) ) {
-		$desc = attribute_escape(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
-		if ( empty($title) )
-			$title = htmlentities(strip_tags($rss->get_title()));
-		$link = clean_url(strip_tags($rss->get_permalink()));
-		while ( stristr($link, 'http') != $link )
-			$link = substr($link, 1);
+	function WP_Widget_RSS() {
+		$widget_ops = array( 'description' => __('Entries from any RSS or Atom feed') );
+		$control_ops = array( 'width' => 400, 'height' => 200 );
+		$this->WP_Widget( 'rss', __('RSS'), $widget_ops, $control_ops );
 	}
-	if ( empty($title) )
-		$title = $desc;
-	if ( empty($title) )
-		$title = __('Unknown Feed');
-	$title = apply_filters('widget_title', $title );
-	$url = clean_url(strip_tags($url));
-	$icon = includes_url('images/rss.png');
-	$title = "<a class='rsswidget' href='$url' title='" . attribute_escape(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 
-	echo $before_widget;
-	echo $before_title . $title . $after_title;
+	function widget($args, $instance) {
 
-	wp_widget_rss_output( $rss, $options[$number] );
+		if ( isset($instance['error']) && $instance['error'] )
+			return;
 
-	echo $after_widget;
+		extract($args, EXTR_SKIP);
+
+		$url = $instance['url'];
+		while ( stristr($url, 'http') != $url )
+			$url = substr($url, 1);
+
+		if ( empty($url) )
+			return;
+
+		$rss = fetch_feed($url);
+		$title = $instance['title'];
+		$desc = '';
+		$link = '';
+
+		if ( ! is_wp_error($rss) ) {
+			$desc = attribute_escape(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
+			if ( empty($title) )
+				$title = htmlentities(strip_tags($rss->get_title()));
+			$link = clean_url(strip_tags($rss->get_permalink()));
+			while ( stristr($link, 'http') != $link )
+				$link = substr($link, 1);
+		}
+
+		if ( empty($title) )
+			$title = empty($desc) ? __('Unknown Feed') : $desc;
+
+		$title = apply_filters('widget_title', $title );
+		$url = clean_url(strip_tags($url));
+		$icon = includes_url('images/rss.png');
+		$title = "<a class='rsswidget' href='$url' title='" . attribute_escape(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
+
+		echo $before_widget;
+		echo $before_title . $title . $after_title;
+		wp_widget_rss_output( $rss, $instance );
+		echo $after_widget;
+	}
+
+	function update($new_instance, $old_instance) {
+		$testurl = $new_instance['url'] != $old_instance['url'];
+		return wp_widget_rss_process( $new_instance, $testurl );
+	}
+
+	function form($instance) {
+
+		if ( empty($instance) )
+			$instance = array( 'number' => '__i__', 'title' => '', 'url' => '', 'items' => 10, 'error' => false, 'show_summary' => 0, 'show_author' => 0, 'show_date' => 0 );
+		else
+			$instance['number'] = $this->number;
+
+		wp_widget_rss_form( $instance );
+	}
 }
 
 /**
@@ -742,11 +753,9 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	}
 
 	if ( is_wp_error($rss) ) {
-		if ( is_admin() || current_user_can('manage_options') ) {
-			echo '<p>';
-			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
-			echo '</p>';
-		}
+		if ( is_admin() || current_user_can('manage_options') )
+			echo '<p>' . sprintf( __('<strong>RSS Error</strong>: %s'), $rss->get_error_message() ) . '</p>';
+
 		return;
 	}
 
@@ -814,75 +823,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	echo '</ul>';
 }
 
-/**
- * Display and process RSS widget control form.
- *
- * @since 2.2.0
- *
- * @param int $widget_args Widget number.
- */
-function wp_widget_rss_control($widget_args) {
-	global $wp_registered_widgets;
-	static $updated = false;
 
-	if ( is_numeric($widget_args) )
-		$widget_args = array( 'number' => $widget_args );
-	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-	extract($widget_args, EXTR_SKIP);
-
-	$options = get_option('widget_rss');
-	if ( !is_array($options) )
-		$options = array();
-
-	$urls = array();
-	foreach ( (array) $options as $option )
-		if ( isset($option['url']) )
-			$urls[$option['url']] = true;
-
-	if ( !$updated && 'POST' == $_SERVER['REQUEST_METHOD'] && !empty($_POST['sidebar']) ) {
-		$sidebar = (string) $_POST['sidebar'];
-
-		$sidebars_widgets = wp_get_sidebars_widgets();
-		if ( isset($sidebars_widgets[$sidebar]) )
-			$this_sidebar =& $sidebars_widgets[$sidebar];
-		else
-			$this_sidebar = array();
-
-		foreach ( (array) $this_sidebar as $_widget_id ) {
-			if ( 'wp_widget_rss' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
-				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				if ( !in_array( "rss-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
-					unset($options[$widget_number]);
-			}
-		}
-
-		foreach( (array) $_POST['widget-rss'] as $widget_number => $widget_rss ) {
-			if ( !isset($widget_rss['url']) && isset($options[$widget_number]) ) // user clicked cancel
-				continue;
-			$widget_rss = stripslashes_deep( $widget_rss );
-			$url = sanitize_url(strip_tags($widget_rss['url']));
-			$options[$widget_number] = wp_widget_rss_process( $widget_rss, !isset($urls[$url]) );
-		}
-
-		update_option('widget_rss', $options);
-		$updated = true;
-	}
-
-	if ( -1 == $number ) {
-		$title = '';
-		$url = '';
-		$items = 10;
-		$error = false;
-		$number = '__i__';
-		$show_summary = 0;
-		$show_author = 0;
-		$show_date = 0;
-	} else {
-		extract( (array) $options[$number] );
-	}
-
-	wp_widget_rss_form( compact( 'number', 'title', 'url', 'items', 'error', 'show_summary', 'show_author', 'show_date' ) );
-}
 
 /**
  * Display RSS widget options form.
@@ -913,11 +854,8 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	$show_author    = (int) $show_author;
 	$show_date      = (int) $show_date;
 
-	if ( !empty($error) ) {
-		$message = sprintf( __('Error in RSS Widget: %s'), $error);
-		echo "<div class='error'><p>$message</p></div>";
-		echo "<p class='hide-if-no-js'><strong>$message</strong></p>";
-	}
+	if ( !empty($error) )
+		echo '<p class="widget-error"><strong>' . sprintf( __('RSS Error: %s'), $error) . '</strong></p>';
 
 	if ( $inputs['url'] ) :
 ?>
@@ -964,7 +902,6 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 			<?php _e('Display item date?'); ?>
 		</label>
 	</p>
-	<input type="hidden" name="widget-rss[<?php echo $number; ?>][submit]" value="1" />
 <?php
 	endif;
 	foreach ( array_keys($default_inputs) as $input ) :
@@ -1019,36 +956,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	return compact( 'title', 'url', 'link', 'items', 'error', 'show_summary', 'show_author', 'show_date' );
 }
 
-/**
- * Register RSS widget to allow multiple RSS widgets on startup.
- *
- * @since 2.2.0
- */
-function wp_widget_rss_register() {
-	$options = get_option('widget_rss');
-	if ( !is_array($options) )
-		$options = array();
 
-	$widget_ops = array('classname' => 'widget_rss', 'description' => __( 'Entries from any RSS or Atom feed' ));
-	$control_ops = array('width' => 400, 'height' => 200, 'id_base' => 'rss');
-	$name = __('RSS');
-
-	$id = false;
-	foreach ( (array) array_keys($options) as $o ) {
-		// Old widgets can have null values for some reason
-		if ( !isset($options[$o]['url']) || !isset($options[$o]['title']) || !isset($options[$o]['items']) )
-			continue;
-		$id = "rss-$o"; // Never never never translate an id
-		wp_register_sidebar_widget($id, $name, 'wp_widget_rss', $widget_ops, array( 'number' => $o ));
-		wp_register_widget_control($id, $name, 'wp_widget_rss_control', $control_ops, array( 'number' => $o ));
-	}
-
-	// If there are none, we register the widget's existance with a generic template
-	if ( !$id ) {
-		wp_register_sidebar_widget( 'rss-1', $name, 'wp_widget_rss', $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( 'rss-1', $name, 'wp_widget_rss_control', $control_ops, array( 'number' => -1 ) );
-	}
-}
 
 /**
  * Display tag cloud widget.
@@ -1125,14 +1033,14 @@ function wp_widgets_init() {
 	register_widget('WP_Widget_Categories');
 
 	register_widget('WP_Widget_Recent_Posts');
-	
+
 	register_widget('WP_Widget_Recent_Comments');
+
+	register_widget('WP_Widget_RSS');
 
 	$widget_ops = array('classname' => 'widget_tag_cloud', 'description' => __( "Your most used tags in cloud format") );
 	wp_register_sidebar_widget('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud', $widget_ops);
 	wp_register_widget_control('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud_control' );
-
-	wp_widget_rss_register();
 
 	do_action('widgets_init');
 }

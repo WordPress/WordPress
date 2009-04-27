@@ -15,6 +15,7 @@ wpWidgets = {
 			$(this).siblings('#widget-list').toggle();
         });
         this.addEvents();
+        $('.widget-error').parents('.widget').find('a.widget-action').click();
 
         $('#widget-list .widget').draggable({
 			connectToSortable: '.widgets-sortables',
