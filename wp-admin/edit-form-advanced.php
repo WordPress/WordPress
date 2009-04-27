@@ -33,11 +33,11 @@ $notices[1] = __( 'There is an autosave of this post that is more recent than th
 if ( 0 == $post_ID ) {
 	$form_action = 'post';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
-	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
+	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='" . attr($temp_ID) . "' />";
 	$autosave = false;
 } else {
 	$form_action = 'editpost';
-	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
+	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='" . attr($post_ID) . "' />";
 	$autosave = wp_get_post_autosave( $post_ID );
 
 	// Detect if there exists an autosave newer than the post and if that autosave is different than the post
@@ -72,15 +72,15 @@ function post_submit_meta_box($post) {
 
 <?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
 <div style="display:none;">
-<input type="submit" name="save" value="<?php echo attribute_escape( __('Save') ); ?>" />
+<input type="submit" name="save" value="<?php _ea('Save'); ?>" />
 </div>
 
 <div id="minor-publishing-actions">
 <div id="save-action">
 <?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
-<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
+<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php _ea('Save Draft'); ?>" tabindex="4" class="button button-highlighted" />
 <?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
-<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save as Pending') ); ?>" tabindex="4" class="button button-highlighted" />
+<input type="submit" name="save" id="save-post" value="<?php _ea('Save as Pending'); ?>" tabindex="4" class="button button-highlighted" />
 <?php } ?>
 </div>
 
@@ -129,7 +129,7 @@ switch ( $post->post_status ) {
 <a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
 <div id="post-status-select" class="hide-if-js">
-<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
+<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo attr($post->post_status); ?>" />
 <select name='post_status' id='post_status' tabindex='4'>
 <?php if ( 'publish' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e('Published') ?></option>
@@ -238,19 +238,19 @@ if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
 if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) { ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<?php if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Schedule') ?>" />
-		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Schedule') ?>" />
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Schedule') ?>" />
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Schedule') ?>" />
 	<?php else : ?>
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Publish') ?>" />
-		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Publish') ?>" />
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Publish') ?>" />
 	<?php endif; ?>
 <?php else : ?>
-	<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Submit for Review') ?>" />
-	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
+	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Submit for Review') ?>" />
+	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Submit for Review') ?>" />
 <?php endif; ?>
 <?php } else { ?>
-	<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Update Post') ?>" />
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Update Post') ?>" />
+	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Update Post') ?>" />
+	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Update Post') ?>" />
 <?php } ?>
 </div>
 <div class="clear"></div>
@@ -276,11 +276,11 @@ function post_tags_meta_box($post, $box) {
 <div class="tagsdiv" id="<?php echo $tax_name; ?>">
 	<p class="jaxtag">
 		<label class="hidden" for="newtag"><?php _e( $box['title'] ); ?></label>
-		<input type="hidden" name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" value="<?php echo get_terms_to_edit( $post->ID, $tax_name ); ?>" />
+		<input type="hidden" name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" value="<?php echo attr(get_terms_to_edit( $post->ID, $tax_name )); ?>" />
 
 	<span class="ajaxtag">
-		<input type="text" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
-		<input type="button" class="button tagadd" value="<?php _e('Add'); ?>" tabindex="3" />
+		<input type="text" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _ea('Add new tag'); ?>" />
+		<input type="button" class="button tagadd" value="<?php _ea('Add'); ?>" tabindex="3" />
 	</span></p>
 	<p class="howto"><?php echo $helps; ?></p>
 	<div class="tagchecklist"></div>
@@ -329,9 +329,9 @@ function post_categories_meta_box($post) {
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="category-add" class="wp-hidden-child">
-		<label class="hidden" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
+		<label class="hidden" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
 		<label class="hidden" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
-		<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _e( 'Add' ); ?>" tabindex="3" />
+		<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _ea( 'Add' ); ?>" tabindex="3" />
 		<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
 		<span id="category-ajax-response"></span>
 	</p>
@@ -572,11 +572,11 @@ else
 ?>
 
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" id="hiddenaction" name="action" value="<?php echo $form_action ?>" />
-<input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
+<input type="hidden" id="hiddenaction" name="action" value="<?php echo attr($form_action) ?>" />
+<input type="hidden" id="originalaction" name="originalaction" value="<?php echo attr($form_action) ?>" />
 <input type="hidden" id="post_author" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
-<input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
-<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
+<input type="hidden" id="post_type" name="post_type" value="<?php echo attr($post->post_type) ?>" />
+<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo attr($post->post_status) ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
 <?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 

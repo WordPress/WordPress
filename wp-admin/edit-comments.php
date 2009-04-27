@@ -182,7 +182,7 @@ unset($status_links);
 <p class="search-box">
 	<label class="hidden" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Comments' ); ?>" class="button" />
 </p>
 
 <?php
@@ -224,12 +224,12 @@ $page_links = paginate_links( array(
 
 ?>
 
-<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+<input type="hidden" name="mode" value="<?php echo attr($mode); ?>" />
 <?php if ( $post_id ) : ?>
-<input type="hidden" name="p" value="<?php echo intval( $post_id ); ?>" />
+<input type="hidden" name="p" value="<?php echo attr( intval( $post_id ) ); ?>" />
 <?php endif; ?>
-<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
-<input type="hidden" name="pagegen_timestamp" value="<?php echo current_time('mysql', 1); ?>" />
+<input type="hidden" name="comment_status" value="<?php echo attr($comment_status); ?>" />
+<input type="hidden" name="pagegen_timestamp" value="<?php echo attr(current_time('mysql', 1)); ?>" />
 
 <div class="tablenav">
 
@@ -240,9 +240,9 @@ $page_links = paginate_links( array(
 	'<span class="total-type-count">' . number_format_i18n( $total ) . '</span>',
 	$page_links
 ); echo $page_links_text; ?></div>
-<input type="hidden" name="_total" value="<?php echo $total; ?>" />
-<input type="hidden" name="_per_page" value="<?php echo $comments_per_page; ?>" />
-<input type="hidden" name="_page" value="<?php echo $page; ?>" />
+<input type="hidden" name="_total" value="<?php echo attr($total); ?>" />
+<input type="hidden" name="_per_page" value="<?php echo attr($comments_per_page); ?>" />
+<input type="hidden" name="_page" value="<?php echo attr($page); ?>" />
 <?php endif; ?>
 
 <div class="alignleft actions">
@@ -259,7 +259,7 @@ $page_links = paginate_links( array(
 <?php endif; ?>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" name="doaction" id="doaction" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
+<input type="submit" name="doaction" id="doaction" value="<?php _ea('Apply'); ?>" class="button-secondary apply" />
 <?php wp_nonce_field('bulk-comments'); ?>
 
 <select name="comment_type">
@@ -271,22 +271,22 @@ $page_links = paginate_links( array(
 	) );
 
 	foreach ( $comment_types as $type => $label ) {
-		echo "	<option value='$type'";
+		echo "	<option value='" . attr($type) . "'";
 		selected( $comment_type, $type );
 		echo ">$label</option>\n";
 	}
 ?>
 </select>
-<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+<input type="submit" id="post-query-submit" value="<?php _ea('Filter'); ?>" class="button-secondary" />
 
 <?php if ( isset($_GET['apage']) ) { ?>
-	<input type="hidden" name="apage" value="<?php echo absint( $_GET['apage'] ); ?>" />
+	<input type="hidden" name="apage" value="<?php echo attr( absint( $_GET['apage'] ) ); ?>" />
 <?php }
 
 if ( 'spam' == $comment_status ) {
 	wp_nonce_field('bulk-spam-delete', '_spam_nonce');
         if ( current_user_can ('moderate_comments')) { ?>
-		<input type="submit" name="delete_all_spam" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
+		<input type="submit" name="delete_all_spam" value="<?php _ea('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php	}
 } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
@@ -346,10 +346,10 @@ if ( $page_links )
 <?php endif; ?>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" name="doaction2" id="doaction2" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
+<input type="submit" name="doaction2" id="doaction2" value="<?php _ea('Apply'); ?>" class="button-secondary apply" />
 
 <?php if ( 'spam' == $comment_status ) { ?>
-<input type="submit" name="delete_all_spam2" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
+<input type="submit" name="delete_all_spam2" value="<?php _ea('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
 </div>
@@ -360,9 +360,9 @@ if ( $page_links )
 </form>
 
 <form id="get-extra-comments" method="post" action="" class="add:the-extra-comment-list:" style="display: none;">
-	<input type="hidden" name="s" value="<?php echo $search; ?>" />
-	<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
-	<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
+	<input type="hidden" name="s" value="<?php echo attr($search); ?>" />
+	<input type="hidden" name="mode" value="<?php echo attr($mode); ?>" />
+	<input type="hidden" name="comment_status" value="<?php echo attr($comment_status); ?>" />
 	<input type="hidden" name="page" value="<?php echo isset($_REQUEST['page']) ? absint( $_REQUEST['page'] ) : 1; ?>" />
 	<input type="hidden" name="p" value="<?php echo attribute_escape( $post_id ); ?>" />
 	<input type="hidden" name="comment_type" value="<?php echo attribute_escape( $comment_type ); ?>" />

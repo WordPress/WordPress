@@ -90,18 +90,18 @@ if ( 'spam' == $_GET['dt'] ) {
 
 <table width="100%">
 <tr>
-<td><input type='button' class="button" value='<?php _e('No'); ?>' onclick="self.location='<?php echo admin_url('edit-comments.php'); ?>" /></td>
-<td class="textright"><input type='submit' class="button" value='<?php echo $button; ?>' /></td>
+<td><input type='button' class="button" value='<?php _ea('No'); ?>' onclick="self.location='<?php echo admin_url('edit-comments.php'); ?>" /></td>
+<td class="textright"><input type='submit' class="button" value='<?php echo attr($button); ?>' /></td>
 </tr>
 </table>
 
 <?php wp_nonce_field( $nonce_action ); ?>
-<input type='hidden' name='action' value='<?php echo $formaction; ?>' />
+<input type='hidden' name='action' value='<?php echo attr($formaction); ?>' />
 <?php if ( 'spam' == $_GET['dt'] ) { ?>
 <input type='hidden' name='dt' value='spam' />
 <?php } ?>
-<input type='hidden' name='p' value='<?php echo $comment->comment_post_ID; ?>' />
-<input type='hidden' name='c' value='<?php echo $comment->comment_ID; ?>' />
+<input type='hidden' name='p' value='<?php echo attr($comment->comment_post_ID); ?>' />
+<input type='hidden' name='c' value='<?php echo attr($comment->comment_ID); ?>' />
 <input type='hidden' name='noredir' value='1' />
 </form>
 

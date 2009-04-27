@@ -67,7 +67,7 @@ function page_submit_meta_box($post) {
 
 <?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
 <div style="display:none;">
-<input type="submit" name="save" value="<?php echo attribute_escape( __('Save') ); ?>" />
+<input type="submit" name="save" value="<?php _ea('Save'); ?>" />
 </div>
 
 <div id="minor-publishing-actions">

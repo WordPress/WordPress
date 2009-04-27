@@ -60,7 +60,7 @@ function link_submit_meta_box($link) {
 
 <?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
 <div style="display:none;">
-<input type="submit" name="save" value="<?php echo attribute_escape( __('Save') ); ?>" />
+<input type="submit" name="save" value="<?php _ea('Save'); ?>" />
 </div>
 
 <div id="minor-publishing-actions">
@@ -91,9 +91,9 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
 
 <div id="publishing-action">
 <?php if ( !empty($link->link_id) ) { ?>
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php _e('Update Link') ?>" />
+	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php _ea('Update Link') ?>" />
 <?php } else { ?>
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php _e('Add Link') ?>" />
+	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php _ea('Add Link') ?>" />
 <?php } ?>
 </div>
 <div class="clear"></div>
@@ -139,8 +139,8 @@ function link_categories_meta_box($link) { ?>
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="link-category-add" class="wp-hidden-child">
 		<label class="hidden" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
-		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" aria-required="true" />
-		<input type="button" id="category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php _e( 'Add' ); ?>" />
+		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" aria-required="true" />
+		<input type="button" id="category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php _ea( 'Add' ); ?>" />
 		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
 		<span id="category-ajax-response"></span>
 	</p>
@@ -185,7 +185,7 @@ function link_xfn_meta_box($link) {
 <table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr>
 		<th style="width: 20%;" scope="row"><label for="link_rel"><?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('rel:') ?></label></th>
-		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo ( isset( $link->link_rel ) ? $link->link_rel : ''); ?>" /></td>
+		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo ( isset( $link->link_rel ) ? attr($link->link_rel) : ''); ?>" /></td>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -305,11 +305,11 @@ function link_advanced_meta_box($link) {
 <table class="form-table" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_image"><?php _e('Image Address') ?></label></th>
-		<td><input type="text" name="link_image" class="code" id="link_image" size="50" value="<?php echo ( isset( $link->link_image ) ? $link->link_image : ''); ?>" style="width: 95%" /></td>
+		<td><input type="text" name="link_image" class="code" id="link_image" size="50" value="<?php echo ( isset( $link->link_image ) ? attr($link->link_image) : ''); ?>" style="width: 95%" /></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="rss_uri"><?php _e('RSS Address') ?></label></th>
-		<td><input name="link_rss" class="code" type="text" id="rss_uri" value="<?php echo  ( isset( $link->link_rss ) ? $link->link_rss : ''); ?>" size="50" style="width: 95%" /></td>
+		<td><input name="link_rss" class="code" type="text" id="rss_uri" value="<?php echo  ( isset( $link->link_rss ) ? attr($link->link_rss) : ''); ?>" size="50" style="width: 95%" /></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_notes"><?php _e('Notes') ?></label></th>
@@ -320,7 +320,7 @@ function link_advanced_meta_box($link) {
 		<td><select name="link_rating" id="link_rating" size="1">
 		<?php
 			for ($r = 0; $r < 10; $r++) {
-				echo('            <option value="'.$r.'" ');
+				echo('            <option value="'. attr($r) .'" ');
 				if ( isset($link->link_rating) && $link->link_rating == $r)
 					echo 'selected="selected"';
 				echo('>'.$r.'</option>');
@@ -374,7 +374,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="namediv" class="stuffbox">
 <h3><label for="link_name"><?php _e('Name') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" />
+	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo attr($link->link_name); ?>" id="link_name" />
     <p><?php _e('Example: Nifty blogging software'); ?></p>
 </div>
 </div>
@@ -382,7 +382,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="addressdiv" class="stuffbox">
 <h3><label for="link_url"><?php _e('Web Address') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_url" size="30" class="code" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
+	<input type="text" name="link_url" size="30" class="code" tabindex="1" value="<?php echo attr($link->link_url); ?>" id="link_url" />
     <p><?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?></p>
 </div>
 </div>
@@ -390,7 +390,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="descriptiondiv" class="stuffbox">
 <h3><label for="link_description"><?php _e('Description') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo isset($link->link_description) ? $link->link_description : ''; ?>" id="link_description" />
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo isset($link->link_description) ? attr($link->link_description) : ''; ?>" id="link_description" />
     <p><?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?></p>
 </div>
 </div>

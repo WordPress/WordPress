@@ -284,10 +284,10 @@ class Custom_Image_Header {
 </div>
 <?php if ( !defined( 'NO_HEADER_TEXT' ) ) { ?>
 <form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
-<input type="button" class="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
-<input type="button" class="button" value="<?php _e('Select a Text Color'); ?>" id="pickcolor" /><input type="button" class="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
+<input type="button" class="button" value="<?php _ea('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
+<input type="button" class="button" value="<?php _ea('Select a Text Color'); ?>" id="pickcolor" /><input type="button" class="button" value="<?php _ea('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
 <?php wp_nonce_field('custom-header') ?>
-<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" class="button" value="<?php _e('Save Changes'); ?>" /></form>
+<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" class="button" value="<?php _ea('Save Changes'); ?>" /></form>
 <?php } ?>
 
 <div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;display:none;"> </div>
@@ -301,7 +301,7 @@ class Custom_Image_Header {
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-header') ?>
 <p class="submit">
-<input type="submit" value="<?php _e('Upload'); ?>" />
+<input type="submit" value="<?php _ea('Upload'); ?>" />
 </p>
 </form>
 
@@ -313,7 +313,7 @@ class Custom_Image_Header {
 <p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo attribute_escape(add_query_arg('step', 1)) ?>">
 <?php wp_nonce_field('custom-header'); ?>
-<input type="submit" class="button" name="resetheader" value="<?php _e('Restore Original Header'); ?>" />
+<input type="submit" class="button" name="resetheader" value="<?php _ea('Restore Original Header'); ?>" />
 </form>
 </div>
 		<?php endif;
@@ -386,10 +386,10 @@ class Custom_Image_Header {
 <input type="hidden" name="y2" id="y2" />
 <input type="hidden" name="width" id="width" />
 <input type="hidden" name="height" id="height" />
-<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo $id; ?>" />
-<input type="hidden" name="oitar" id="oitar" value="<?php echo $oitar; ?>" />
+<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo attr($id); ?>" />
+<input type="hidden" name="oitar" id="oitar" value="<?php echo attr($oitar); ?>" />
 <?php wp_nonce_field('custom-header') ?>
-<input type="submit" value="<?php _e('Crop Header'); ?>" />
+<input type="submit" value="<?php _ea('Crop Header'); ?>" />
 </p>
 
 </form>

@@ -57,13 +57,13 @@ _fill_empty_link_category($category);
 <?php echo $heading ?>
 <div id="ajax-response"></div>
 <?php echo $form ?>
-<input type="hidden" name="action" value="<?php echo $action ?>" />
-<input type="hidden" name="cat_ID" value="<?php echo $category->term_id ?>" />
+<input type="hidden" name="action" value="<?php echo attr($action) ?>" />
+<input type="hidden" name="cat_ID" value="<?php echo attr($category->term_id) ?>" />
 <?php wp_original_referer_field(true, 'previous'); wp_nonce_field($nonce_action); ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Link Category name') ?></label></th>
-			<td><input name="name" id="name" type="text" value="<?php echo $category->name; ?>" size="40" aria-required="true" /></td>
+			<td><input name="name" id="name" type="text" value="<?php echo attr($category->name); ?>" size="40" aria-required="true" /></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Link Category slug') ?></label></th>
@@ -75,7 +75,7 @@ _fill_empty_link_category($category);
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo $submit_text ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo attr($submit_text) ?>" /></p>
 <?php do_action('edit_link_category_form', $category); ?>
 </form>
 </div>
