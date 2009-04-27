@@ -2073,15 +2073,30 @@ function js_escape($text) {
 /**
  * Escaping for HTML attributes.
  *
- * @since 2.0.6
+ * @since 2.8.0
  *
  * @param string $text
  * @return string
  */
-function attribute_escape( $text ) {
+function attr( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = wp_specialchars( $safe_text, ENT_QUOTES );
 	return apply_filters( 'attribute_escape', $safe_text, $text );
+}
+
+/**
+ * Escaping for HTML attributes.
+ *
+ * @since 2.0.6
+ *
+ * @deprecated 2.8.0
+ * @see attr()
+ * 
+ * @param string $text
+ * @return string
+ */
+function attribute_escape( $text ) {
+	return attr( $text );
 }
 
 /**

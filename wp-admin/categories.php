@@ -144,7 +144,7 @@ endif; ?>
 <p class="search-box">
 	<label class="hidden" for="category-search-input"><?php _e('Search Categories'); ?>:</label>
 	<input type="text" id="category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Categories' ); ?>" class="button" />
 </p>
 </form>
 <br class="clear" />
@@ -184,7 +184,7 @@ if ( $page_links )
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-categories'); ?>
 </div>
 
@@ -224,7 +224,7 @@ if ( $page_links )
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 <?php wp_nonce_field('bulk-categories'); ?>
 </div>
 
@@ -278,7 +278,7 @@ if ( $page_links )
     <p><?php _e('The description is not prominent by default, however some themes may show it.'); ?></p>
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Category'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php _ea('Add Category'); ?>" /></p>
 <?php do_action('edit_category_form', $category); ?>
 </form></div>
 
