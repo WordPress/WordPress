@@ -27,7 +27,7 @@ $awaiting_mod = $awaiting_mod->moderated;
 
 $menu[0] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top', 'menu-dashboard', 'div' );
 
-$menu[4] = array( '', 'read', '', '', 'wp-menu-separator' );
+$menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu-top', 'menu-posts', 'div' );
 	$submenu['edit.php'][5]  = array( __('Edit'), 'edit_posts', 'edit.php' );
@@ -65,7 +65,7 @@ $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='c
 
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
-$menu[59] = array( '', 'read', '', '', 'wp-menu-separator' );
+$menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 
 $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top', 'menu-appearance', 'div' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
@@ -116,7 +116,7 @@ $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 
-$menu[99] = array( '', 'read', '', '', 'wp-menu-separator-last' );
+$menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
 
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php';
@@ -238,16 +238,15 @@ function add_menu_classes($menu) {
 		$i++;
 
 		if ( 0 == $order ) { // dashboard is always shown/single
-			$menu[0][4] = add_cssclass('menu-top-first menu-top-last', $top[4]);
+			$menu[0][4] = add_cssclass('menu-top-first', $top[4]);
+			$lastorder = 0;
 			continue;
 		}
 
-		if ( empty($top[2]) ) { // if separator
+		if ( 0 === strpos($top[2], 'separator') ) { // if separator
 			$first = true;
-			if ( $lastorder ) {
-				$c = $menu[$lastorder][4];
-				$menu[$lastorder][4] = add_cssclass('menu-top-last', $c);
-			}
+			$c = $menu[$lastorder][4];
+			$menu[$lastorder][4] = add_cssclass('menu-top-last', $c);
 			continue;
 		}
 
@@ -269,6 +268,38 @@ function add_menu_classes($menu) {
 }
 
 uksort($menu, "strnatcasecmp"); // make it all pretty
+
+if ( apply_filters('custom_menu_order', false) ) {
+	$menu_order = array();
+	foreach ( $menu as $menu_item ) {
+		$menu_order[] = $menu_item[2];
+	}
+	unset($menu_item);
+	$default_menu_order = $menu_order;
+	$menu_order = apply_filters('menu_order', $menu_order);
+	$menu_order = array_flip($menu_order);
+	$default_menu_order = array_flip($default_menu_order);
+
+	function sort_menu($a, $b) {
+		global $menu_order, $default_menu_order;
+		$a = $a[2];
+		$b = $b[2];
+		if ( isset($menu_order[$a]) && !isset($menu_order[$b]) ) {
+			return -1;
+		} elseif ( !isset($menu_order[$a]) && isset($menu_order[$b]) ) {
+			return 1;
+		} elseif ( isset($menu_order[$a]) && isset($menu_order[$b]) ) {
+			if ( $menu_order[$a] == $menu_order[$b] )
+				return 0;
+			return ($menu_order[$a] < $menu_order[$b]) ? -1 : 1;
+		} else {
+			return ($default_menu_order[$a] <= $default_menu_order[$b]) ? -1 : 1;
+		}
+	}
+
+	usort($menu, 'sort_menu');
+	unset($menu_order, $default_menu_order);
+}
 
 $menu = add_menu_classes($menu);
 
