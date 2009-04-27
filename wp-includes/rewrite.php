@@ -178,6 +178,9 @@ define('EP_ALL', 8191);
  * The endpoints are added to the end of the request. So a request matching
  * "/2008/10/14/my_post/myep/", the endpoint will be "/myep/".
  *
+ * Be sure to flush the rewrite rules (wp_rewrite->flush()) when your plugin gets
+ * activated (register_activation_hook()) and deactivated (register_deactivation_hook())
+ *
  * @since 2.1.0
  * @see WP_Rewrite::add_endpoint() Parameters and more description.
  * @uses $wp_rewrite
