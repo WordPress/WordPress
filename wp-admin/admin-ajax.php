@@ -133,7 +133,7 @@ function _wp_ajax_delete_comment_response( $comment_id ) {
 	$per_page = (int) @$_POST['_per_page'];
 	$page = (int) @$_POST['_page'];
 	$url = clean_url( @$_POST['_url'], null, 'url' );
-	// JS didn't send us everything we need to know.  Just die with success message
+	// JS didn't send us everything we need to know. Just die with success message
 	if ( !$total || !$per_page || !$page || !$url )
 		die( (string) time() );
 
@@ -975,10 +975,10 @@ case 'closed-postboxes' :
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
-		die(-1);
+		die('-1');
 
 	if ( ! $user = wp_get_current_user() )
-		die(-1);
+		die('-1');
 
 	if ( is_array($closed) )
 		update_usermeta($user->ID, 'closedpostboxes_'.$page, $closed);
@@ -997,10 +997,10 @@ case 'hidden-columns' :
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
-		die(-1);
+		die('-1');
 
 	if ( ! $user = wp_get_current_user() )
-		die(-1);
+		die('-1');
 
 	if ( is_array($hidden) )
 		update_usermeta($user->ID, "manage-$page-columns-hidden", $hidden);
@@ -1014,10 +1014,10 @@ case 'meta-box-order':
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
-		die(-1);
+		die('-1');
 
 	if ( ! $user = wp_get_current_user() )
-		die(-1);
+		die('-1');
 
 	if ( $order )
 		update_user_option($user->ID, "meta-box-order_$page", $order);
