@@ -160,15 +160,15 @@ function link_target_meta_box($link) { ?>
 <fieldset><legend class="hidden"><?php _e('Target') ?></legend>
 <label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
-<code>_blank</code></label><br />
+<?php _e('<code>_blank</code> - new window or tab.'); ?></label><br />
 <label for="link_target_top" class="selectit">
 <input id="link_target_top" type="radio" name="link_target" value="_top" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
-<code>_top</code></label><br />
+<?php _e('<code>_top</code> - current window or tab, with no frames.'); ?></label><br />
 <label for="link_target_none" class="selectit">
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo ( isset( $link->link_target ) && ($link->link_target == '') ? 'checked="checked"' : ''); ?> />
-<?php _e('none') ?></label>
+<?php _e('<code>_none</code> - same window or tab.'); ?></label>
 </fieldset>
-<p><?php _e('Choose the frame your link targets. Essentially this means if you choose <code>_blank</code> your link will open in a new window.'); ?></p>
+<p><?php _e('Choose the frame your link targets.'); ?></p>
 <?php
 }
 add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'normal', 'core');
