@@ -306,6 +306,30 @@ h6 {
   margin: 2.33em 0;
 }
 
+ul.ul-disc {
+	list-style: disc outside;
+}
+
+ul.ul-square {
+	list-style: square outside;
+}
+
+ol.ol-decimal {
+	list-style: decimal outside;
+}
+
+ul.ul-disc,
+ul.ul-square,
+ol.ol-decimal {
+	margin-left: 1.8em;
+}
+
+ul.ul-disc > li,
+ul.ul-square > li,
+ol.ol-decimal > li {
+	margin: 0 0 0.5em;
+}
+
 .subsubsub {
 	list-style: none;
 	margin: 8px 0 5px;
