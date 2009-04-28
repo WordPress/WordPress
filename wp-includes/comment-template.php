@@ -945,7 +945,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	if ( !empty( $css_class ) ) {
 		echo ' class="'.$css_class.'" ';
 	}
-	$title = attribute_escape( get_the_title() );
+	$title = attr( get_the_title() );
 
 	echo apply_filters( 'comments_popup_link_attributes', '' );
 

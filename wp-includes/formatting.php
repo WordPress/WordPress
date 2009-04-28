@@ -1270,7 +1270,7 @@ function translate_smiley($smiley) {
 
 	$smiley = trim(reset($smiley));
 	$img = $wpsmiliestrans[$smiley];
-	$smiley_masked = attribute_escape($smiley);
+	$smiley_masked = attr($smiley);
 
 	return " <img src='$siteurl/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 }

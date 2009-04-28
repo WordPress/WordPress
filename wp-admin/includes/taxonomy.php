@@ -222,7 +222,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	foreach ( $tags as $tag )
 		$tag_names[] = $tag->name;
 	$tags_to_edit = join( ',', $tag_names );
-	$tags_to_edit = attribute_escape( $tags_to_edit );
+	$tags_to_edit = attr( $tags_to_edit );
 	$tags_to_edit = apply_filters( 'terms_to_edit', $tags_to_edit, $taxonomy );
 
 	return $tags_to_edit;

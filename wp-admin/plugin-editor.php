@@ -116,7 +116,7 @@ default:
 			$docs_select = '<select name="docs-list" id="docs-list">';
 			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
 			foreach ( $functions as $function) {
-				$docs_select .= '<option value="' . attribute_escape( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+				$docs_select .= '<option value="' . attr( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}
 			$docs_select .= '</select>';
 		}
@@ -132,7 +132,7 @@ default:
  <div id="message" class="updated fade"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
 	<?php
 		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $file) ) { ?>
-	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo attribute_escape($file); ?>&amp;_wpnonce=<?php echo attribute_escape($_GET['_error_nonce']); ?>"></iframe>
+	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo attr($file); ?>&amp;_wpnonce=<?php echo attr($_GET['_error_nonce']); ?>"></iframe>
 	<?php } ?>
 </div>
 <?php endif; ?>
@@ -150,8 +150,8 @@ default:
 			$selected = " selected='selected'";
 		else
 			$selected = '';
-		$plugin_name = attribute_escape($plugin_name);
-		$plugin_key = attribute_escape($plugin_key);
+		$plugin_name = attr($plugin_name);
+		$plugin_key = attr($plugin_key);
 		echo "\n\t<option value=\"$plugin_key\" $selected>$plugin_name</option>";
 	}
 ?>
@@ -208,7 +208,7 @@ foreach ( $plugin_files as $plugin_file ) :
 		<input type="hidden" name="plugin" value="<?php echo $plugin ?>" />
 		</div>
 		<?php if ( count( $functions ) ) : ?>
-		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php echo attribute_escape(__( 'Lookup' )) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
+		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php echo attr(__( 'Lookup' )) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array($file, (array) get_option('active_plugins')) ) { ?>

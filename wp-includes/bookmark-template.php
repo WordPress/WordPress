@@ -72,8 +72,8 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		if ( !empty($bookmark->link_url) )
 			$the_link = clean_url($bookmark->link_url);
 
-		$desc = attribute_escape(sanitize_bookmark_field('link_description', $bookmark->link_description, $bookmark->link_id, 'display'));
-		$name = attribute_escape(sanitize_bookmark_field('link_name', $bookmark->link_name, $bookmark->link_id, 'display'));
+		$desc = attr(sanitize_bookmark_field('link_description', $bookmark->link_description, $bookmark->link_id, 'display'));
+		$name = attr(sanitize_bookmark_field('link_name', $bookmark->link_name, $bookmark->link_id, 'display'));
  		$title = $desc;
 
 		if ( $show_updated )

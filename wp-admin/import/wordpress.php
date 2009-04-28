@@ -233,7 +233,7 @@ class WP_Import {
 		}
 
 		echo '<p class="submit">';
-		echo '<input type="submit" class="button" value="'.attribute_escape( __('Submit') ).'" />'.'<br />';
+		echo '<input type="submit" class="button" value="'.attr( __('Submit') ).'" />'.'<br />';
 		echo '</p>';
 		echo '</form>';
 

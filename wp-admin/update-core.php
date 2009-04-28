@@ -46,9 +46,9 @@ function list_core_update( $update ) {
 	echo '<a href="' . $update->package . '" class="button">' . $download . '</a>&nbsp;';
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
-			echo '<input id="dismiss" class="button" type="submit" value="' . attribute_escape(__('Hide this update')) . '" name="dismiss" />';
+			echo '<input id="dismiss" class="button" type="submit" value="' . attr(__('Hide this update')) . '" name="dismiss" />';
 		else
-			echo '<input id="undismiss" class="button" type="submit" value="' . attribute_escape(__('Bring back this update')) . '" name="undismiss" />';
+			echo '<input id="undismiss" class="button" type="submit" value="' . attr(__('Bring back this update')) . '" name="undismiss" />';
 	echo '</p>';
 	echo '</form>';
 

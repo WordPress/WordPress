@@ -28,10 +28,10 @@ if ( empty($doaction) ) {
 }
 
 if ( empty($_REQUEST) ) {
-	$referer = '<input type="hidden" name="wp_http_referer" value="'. attribute_escape(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
+	$referer = '<input type="hidden" name="wp_http_referer" value="'. attr(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
 } elseif ( isset($_REQUEST['wp_http_referer']) ) {
 	$redirect = remove_query_arg(array('wp_http_referer', 'updated', 'delete_count'), stripslashes($_REQUEST['wp_http_referer']));
-	$referer = '<input type="hidden" name="wp_http_referer" value="' . attribute_escape($redirect) . '" />';
+	$referer = '<input type="hidden" name="wp_http_referer" value="' . attr($redirect) . '" />';
 } else {
 	$redirect = 'users.php';
 	$referer = '';
@@ -291,7 +291,7 @@ unset($role_links);
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
-	<input type="text" id="user-search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
+	<input type="text" id="user-search-input" name="usersearch" value="<?php echo attr($wp_user_search->search_term); ?>" />
 	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
 </p>
 </form>
@@ -388,7 +388,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <?php
 	foreach ( array('user_login' => 'user_login', 'first_name' => 'user_firstname', 'last_name' => 'user_lastname', 'email' => 'user_email', 'url' => 'user_uri', 'role' => 'user_role') as $formpost => $var ) {
 		$var = 'new_' . $var;
-		$$var = isset($_REQUEST[$formpost]) ? attribute_escape(stripslashes($_REQUEST[$formpost])) : '';
+		$$var = isset($_REQUEST[$formpost]) ? attr(stripslashes($_REQUEST[$formpost])) : '';
 	}
 	unset($name);
 ?>

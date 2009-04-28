@@ -27,14 +27,14 @@ include('admin-header.php');
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="upload_path"><?php _e('Store uploads in this folder'); ?></label></th>
-<td><input name="upload_path" type="text" id="upload_path" value="<?php echo attribute_escape(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" class="regular-text code" />
+<td><input name="upload_path" type="text" id="upload_path" value="<?php echo attr(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" class="regular-text code" />
 <span class="setting-description"><?php _e('Default is <code>wp-content/uploads</code>'); ?></span>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="upload_url_path"><?php _e('Full URL path to files'); ?></label></th>
-<td><input name="upload_url_path" type="text" id="upload_url_path" value="<?php echo attribute_escape( get_option('upload_url_path')); ?>" class="regular-text code" />
+<td><input name="upload_url_path" type="text" id="upload_url_path" value="<?php echo attr( get_option('upload_url_path')); ?>" class="regular-text code" />
 <span class="setting-description"><?php _e('Configuring this is optional. By default, it should be blank.'); ?></span>
 </td>
 </tr>

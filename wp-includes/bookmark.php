@@ -345,7 +345,7 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 		if ( in_array($field, $format_to_edit) ) {
 			$value = format_to_edit($value);
 		} else {
-			$value = attribute_escape($value);
+			$value = attr($value);
 		}
 	} else if ( 'db' == $context ) {
 		$value = apply_filters("pre_$field", $value);
@@ -355,7 +355,7 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	}
 
 	if ( 'attribute' == $context )
-		$value = attribute_escape($value);
+		$value = attr($value);
 	else if ( 'js' == $context )
 		$value = js_escape($value);
 

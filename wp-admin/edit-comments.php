@@ -83,7 +83,7 @@ else
 
 require_once('admin-header.php');
 
-$mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attribute_escape($_GET['mode']);
+$mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attr($_GET['mode']);
 
 $default_status = get_user_option('edit_comments_last_view');
 if ( empty($default_status) )
@@ -94,10 +94,10 @@ if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam')) )
 if ( $comment_status != $default_status )
 	update_usermeta($current_user->ID, 'edit_comments_last_view', $comment_status);
 
-$comment_type = !empty($_GET['comment_type']) ? attribute_escape($_GET['comment_type']) : '';
+$comment_type = !empty($_GET['comment_type']) ? attr($_GET['comment_type']) : '';
 
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
-$search = attribute_escape( $search_dirty ); ?>
+$search = attr( $search_dirty ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -164,7 +164,7 @@ foreach ( $stati as $status => $label ) {
 	/*
 	// I toyed with this, but decided against it. Leaving it in here in case anyone thinks it is a good idea. ~ Mark
 	if ( !empty( $_GET['s'] ) )
-		$link = add_query_arg( 's', attribute_escape( stripslashes( $_GET['s'] ) ), $link );
+		$link = add_query_arg( 's', attr( stripslashes( $_GET['s'] ) ), $link );
 	*/
 	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf(
 		_n( $label[0], $label[1], $num_comments->$status ),
@@ -364,8 +364,8 @@ if ( $page_links )
 	<input type="hidden" name="mode" value="<?php echo attr($mode); ?>" />
 	<input type="hidden" name="comment_status" value="<?php echo attr($comment_status); ?>" />
 	<input type="hidden" name="page" value="<?php echo isset($_REQUEST['page']) ? absint( $_REQUEST['page'] ) : 1; ?>" />
-	<input type="hidden" name="p" value="<?php echo attribute_escape( $post_id ); ?>" />
-	<input type="hidden" name="comment_type" value="<?php echo attribute_escape( $comment_type ); ?>" />
+	<input type="hidden" name="p" value="<?php echo attr( $post_id ); ?>" />
+	<input type="hidden" name="comment_type" value="<?php echo attr( $comment_type ); ?>" />
 	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
 </form>
 

@@ -92,7 +92,7 @@ if ( !isset( $_GET['paged'] ) )
 if ( empty($_GET['mode']) )
 	$mode = 'list';
 else
-	$mode = attribute_escape($_GET['mode']); ?>
+	$mode = attr($_GET['mode']); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -170,7 +170,7 @@ endif;
 </p>
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
-<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
+<input type="hidden" name="post_status" value="<?php echo attr($_GET['post_status']) ?>" />
 <?php endif; ?>
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 

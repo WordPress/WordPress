@@ -60,8 +60,8 @@ class WP_Widget_Pages extends WP_Widget {
 	function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'sortby' => 'post_title', 'title' => '', 'exclude' => '') );
-		$title = attribute_escape( $instance['title'] );
-		$exclude = attribute_escape( $instance['exclude'] );
+		$title = attr( $instance['title'] );
+		$exclude = attr( $instance['exclude'] );
 	?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 		<p>
@@ -210,7 +210,7 @@ class WP_Widget_Archives extends WP_Widget {
 
 		if ( $d ) {
 ?>
-		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo attribute_escape(__('Select Month')); ?></option> <?php wp_get_archives("type=monthly&format=option&show_post_count=$c"); ?> </select>
+		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo attr(__('Select Month')); ?></option> <?php wp_get_archives("type=monthly&format=option&show_post_count=$c"); ?> </select>
 <?php
 		} else {
 ?>
@@ -239,7 +239,7 @@ class WP_Widget_Archives extends WP_Widget {
 		$count = $instance['count'] ? 'checked="checked"' : '';
 		$dropdown = $instance['dropdown'] ? 'checked="checked"' : '';
 ?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attr($title); ?>" /></label></p>
 		<p>
 			<label for="<?php echo $this->get_field_id('count'); ?>"><input class="checkbox" type="checkbox" <?php echo $count; ?> id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" /> <?php _e('Show post counts'); ?></label>
 			<br />
@@ -273,9 +273,9 @@ class WP_Widget_Meta extends WP_Widget {
 			<ul>
 			<?php wp_register(); ?>
 			<li><?php wp_loginout(); ?></li>
-			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attribute_escape(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attribute_escape(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="http://wordpress.org/" title="<?php echo attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li>
+			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attr(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attr(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="http://wordpress.org/" title="<?php echo attr(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li>
 			<?php wp_meta(); ?>
 			</ul>
 <?php
@@ -293,7 +293,7 @@ class WP_Widget_Meta extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = strip_tags($instance['title']);
 ?>
-			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attr($title); ?>" /></label></p>
 <?php
 	}
 }
@@ -333,7 +333,7 @@ class WP_Widget_Calendar extends WP_Widget {
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>">
 		<?php _e('Title:'); ?>
-		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" />
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attr($title); ?>" />
 		</label></p>
 <?php
 	}
@@ -381,7 +381,7 @@ class WP_Widget_Text extends WP_Widget {
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>">
 		<?php _e('Title:'); ?>
-		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" />
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attr($title); ?>" />
 		</label></p>
 
 		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea>
@@ -463,7 +463,7 @@ class WP_Widget_Categories extends WP_Widget {
 	function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
-		$title = attribute_escape( $instance['title'] );
+		$title = attr( $instance['title'] );
 		$count = (bool) $instance['count'];
 		$hierarchical = (bool) $instance['hierarchical'];
 		$dropdown = (bool) $instance['dropdown'];
@@ -566,7 +566,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$title = attribute_escape($instance['title']);
+		$title = attr($instance['title']);
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
 ?>
@@ -653,7 +653,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$title = attribute_escape($instance['title']);
+		$title = attr($instance['title']);
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
 ?>
@@ -702,7 +702,7 @@ class WP_Widget_RSS extends WP_Widget {
 		$link = '';
 
 		if ( ! is_wp_error($rss) ) {
-			$desc = attribute_escape(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
+			$desc = attr(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
 			if ( empty($title) )
 				$title = htmlentities(strip_tags($rss->get_title()));
 			$link = clean_url(strip_tags($rss->get_permalink()));
@@ -716,7 +716,7 @@ class WP_Widget_RSS extends WP_Widget {
 		$title = apply_filters('widget_title', $title );
 		$url = clean_url(strip_tags($url));
 		$icon = includes_url('images/rss.png');
-		$title = "<a class='rsswidget' href='$url' title='" . attribute_escape(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
+		$title = "<a class='rsswidget' href='$url' title='" . attr(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 
 		echo $before_widget;
 		echo $before_title . $title . $after_title;
@@ -787,11 +787,11 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		while ( stristr($link, 'http') != $link )
 			$link = substr($link, 1);
 		$link = clean_url(strip_tags($link));
-		$title = attribute_escape(strip_tags($item->get_title()));
+		$title = attr(strip_tags($item->get_title()));
 		if ( empty($title) )
 			$title = __('Untitled');
 
-		$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
+		$desc = str_replace(array("\n", "\r"), ' ', attr(strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
 		$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
 		$desc = wp_specialchars( $desc );
 
@@ -850,9 +850,9 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	extract( $args );
 	extract( $inputs, EXTR_SKIP);
 
-	$number = attribute_escape( $number );
-	$title  = attribute_escape( $title );
-	$url    = attribute_escape( $url );
+	$number = attr( $number );
+	$title  = attr( $title );
+	$url    = attr( $url );
 	$items  = (int) $items;
 	if ( $items < 1 || 20 < $items )
 		$items  = 10;
@@ -984,7 +984,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 ?>
 	<p><label for="<?php echo $this->get_field_id('title'); ?>">
 	<?php _e('Title:') ?>
-	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo attribute_escape( $instance['title'] ); ?>" />
+	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo attr( $instance['title'] ); ?>" />
 	</label></p>
 <?php
 	}

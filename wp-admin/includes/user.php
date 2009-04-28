@@ -366,16 +366,16 @@ function get_others_pending($user_id) {
  */
 function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
-	$user->user_login   = attribute_escape($user->user_login);
-	$user->user_email   = attribute_escape($user->user_email);
+	$user->user_login   = attr($user->user_login);
+	$user->user_email   = attr($user->user_email);
 	$user->user_url     = clean_url($user->user_url);
-	$user->first_name   = attribute_escape($user->first_name);
-	$user->last_name    = attribute_escape($user->last_name);
-	$user->display_name = attribute_escape($user->display_name);
-	$user->nickname     = attribute_escape($user->nickname);
-	$user->aim          = isset( $user->aim ) && !empty( $user->aim ) ? attribute_escape($user->aim) : '';
-	$user->yim          = isset( $user->yim ) && !empty( $user->yim ) ? attribute_escape($user->yim) : '';
-	$user->jabber       = isset( $user->jabber ) && !empty( $user->jabber ) ? attribute_escape($user->jabber) : '';
+	$user->first_name   = attr($user->first_name);
+	$user->last_name    = attr($user->last_name);
+	$user->display_name = attr($user->display_name);
+	$user->nickname     = attr($user->nickname);
+	$user->aim          = isset( $user->aim ) && !empty( $user->aim ) ? attr($user->aim) : '';
+	$user->yim          = isset( $user->yim ) && !empty( $user->yim ) ? attr($user->yim) : '';
+	$user->jabber       = isset( $user->jabber ) && !empty( $user->jabber ) ? attr($user->jabber) : '';
 	$user->description  = isset( $user->description ) && !empty( $user->description ) ? wp_specialchars($user->description) : '';
 
 	return $user;

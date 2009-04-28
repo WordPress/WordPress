@@ -356,7 +356,7 @@ $i = 0;
 foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 	if ( 'wp_inactive_widgets' == $sidebar )
 		continue; ?>
-	<div id="<?php echo attribute_escape( $sidebar ); ?>" class="widgets-holder-wrap">
+	<div id="<?php echo attr( $sidebar ); ?>" class="widgets-holder-wrap">
 	<h3 class="sidebar-name"><?php echo wp_specialchars( $registered_sidebar['name'] ); ?>
 	<span><img src="images/loading-publish.gif" class="ajax-feedback" title="" alt="" /></span></h3>
 	<?php wp_list_widget_controls( $sidebar, $i ); // Show the control forms for each of the widgets in this sidebar ?>

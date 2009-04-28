@@ -63,7 +63,7 @@ function the_title($before = '', $after = '', $echo = true) {
  * an array. See the function for what can be override in the $args parameter.
  *
  * The title before it is displayed will have the tags stripped and {@link
- * attribute_escape()} before it is passed to the user or displayed. The default
+ * attr()} before it is passed to the user or displayed. The default
  * as with {@link the_title()}, is to display the title.
  *
  * @since 2.3.0
@@ -83,7 +83,7 @@ function the_title_attribute( $args = '' ) {
 
 
 	$title = $before . $title . $after;
-	$title = attribute_escape(strip_tags($title));
+	$title = attr(strip_tags($title));
 
 	if ( $echo )
 		echo $title;
@@ -924,10 +924,10 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 	if ( $permalink )
 		$url = get_attachment_link($_post->ID);
 
-	$post_title = attribute_escape($_post->post_title);
+	$post_title = attr($_post->post_title);
 
 	if ( $text ) {
-		$link_text = attribute_escape($text);
+		$link_text = attr($text);
 	} elseif ( ( is_int($size) && $size != 0 ) or ( is_string($size) && $size != 'none' ) or $size != false ) {
 		$link_text = wp_get_attachment_image($id, $size, $icon);
 	}
@@ -961,7 +961,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 	if ( $permalink )
 		$url = get_attachment_link($_post->ID);
 
-	$post_title = attribute_escape($_post->post_title);
+	$post_title = attr($_post->post_title);
 
 	$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
 	return "<a href='$url' title='$post_title'>$innerHTML</a>";
@@ -1057,7 +1057,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 		$constraint = '';
 	}
 
-	$post_title = attribute_escape($post->post_title);
+	$post_title = attr($post->post_title);
 
 	$icon = "<img src='$src' title='$post_title' alt='$post_title' $constraint/>";
 
@@ -1085,7 +1085,7 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 		return $innerHTML;
 
 
-	$innerHTML = attribute_escape($post->post_title);
+	$innerHTML = attr($post->post_title);
 
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
 }

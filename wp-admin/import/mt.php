@@ -39,14 +39,14 @@ class MT_Import {
 <p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or Typepad entries into WordPress. To begin, either choose a file to upload and click "Upload file and import," or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click "Import mt-export.txt"'); ?></p>
 
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
-<form method="post" action="<?php echo attribute_escape(add_query_arg('step', 1)); ?>" class="import-upload-form">
+<form method="post" action="<?php echo attr(add_query_arg('step', 1)); ?>" class="import-upload-form">
 
 <?php wp_nonce_field('import-upload'); ?>
 <p>
 	<input type="hidden" name="upload_type" value="ftp" />
 <?php _e('Or use <code>mt-export.txt</code> in your <code>/wp-content/</code> directory'); ?></p>
 <p class="submit">
-<input type="submit" class="button" value="<?php echo attribute_escape(__('Import mt-export.txt')); ?>" />
+<input type="submit" class="button" value="<?php echo attr(__('Import mt-export.txt')); ?>" />
 </p>
 </form>
 <p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>

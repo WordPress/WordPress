@@ -26,7 +26,7 @@ function add_filter() {}
 /**
  * @ignore
  */
-function attribute_escape() {}
+function attr() {}
 
 /**
  * @ignore

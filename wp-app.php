@@ -352,9 +352,9 @@ class AtomServer {
 		if( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
 
-		$entries_url = attribute_escape($this->get_entries_url());
-		$categories_url = attribute_escape($this->get_categories_url());
-		$media_url = attribute_escape($this->get_attachments_url());
+		$entries_url = attr($this->get_entries_url());
+		$categories_url = attr($this->get_categories_url());
+		$media_url = attr($this->get_attachments_url());
 		foreach ($this->media_content_types as $med) {
 			$accepted_media_types = $accepted_media_types . "<accept>" . $med . "</accept>";
 		}
@@ -392,12 +392,12 @@ EOD;
 		if( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
 
-		$home = attribute_escape(get_bloginfo_rss('home'));
+		$home = attr(get_bloginfo_rss('home'));
 
 		$categories = "";
 		$cats = get_categories("hierarchical=0&hide_empty=0");
 		foreach ((array) $cats as $cat) {
-			$categories .= "    <category term=\"" . attribute_escape($cat->name) .  "\" />\n";
+			$categories .= "    <category term=\"" . attr($cat->name) .  "\" />\n";
 }
 		$output = <<<EOD
 <app:categories xmlns:app="$this->ATOMPUB_NS"
@@ -1332,7 +1332,7 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	function redirect($url) {
 
 		log_app('Status','302: Redirect');
-		$escaped_url = attribute_escape($url);
+		$escaped_url = attr($url);
 		$content = <<<EOD
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html>

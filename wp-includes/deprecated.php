@@ -1006,8 +1006,8 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = attribute_escape(sanitize_bookmark_field('link_description', $row->link_description, $row->link_id, 'display'));
-		$name = attribute_escape(sanitize_bookmark_field('link_name', $row->link_name, $row->link_id, 'display'));
+		$desc = attr(sanitize_bookmark_field('link_description', $row->link_description, $row->link_id, 'display'));
+		$name = attr(sanitize_bookmark_field('link_name', $row->link_name, $row->link_id, 'display'));
 		$title = $desc;
 
 		if ( $show_updated )

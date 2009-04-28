@@ -474,7 +474,7 @@ case 'add-cat' : // From Manage->Categories
 		$cat_full_name = $_cat->name . ' &#8212; ' . $cat_full_name;
 		$level++;
 	}
-	$cat_full_name = attribute_escape($cat_full_name);
+	$cat_full_name = attr($cat_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'cat',
@@ -552,7 +552,7 @@ case 'add-tag' : // From Manage->Tags
 		die('0');
 
 	$tag_full_name = $tag->name;
-	$tag_full_name = attribute_escape($tag_full_name);
+	$tag_full_name = attr($tag_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'tag',

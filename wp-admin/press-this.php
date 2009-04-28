@@ -135,12 +135,12 @@ switch ($_REQUEST['ajax']) {
 		<h3 class="tb"><label for="this_photo_description"><?php _e('Description') ?></label></h3>
 		<div class="titlediv">
 		<div class="titlewrap">
-			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attr($title);?>"/>
 		</div>
 		</div>
 
-		<p class="centered"><input type="hidden" name="this_photo" value="<?php echo attribute_escape($image); ?>" id="this_photo" />
-			<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
+		<p class="centered"><input type="hidden" name="this_photo" value="<?php echo attr($image); ?>" id="this_photo" />
+			<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" alt="<?php echo attr(__('Click to insert.')); ?>" title="<?php echo attr(__('Click to insert.')); ?>" /></a></p>
 
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
 
@@ -168,7 +168,7 @@ switch ($_REQUEST['ajax']) {
 		<h3 class="tb"><label for="photo_description"><?php _e('Description') ?></label></h3>
 		<div id="titlediv">
 			<div class="titlewrap">
-			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attr($title);?>"/>
 			</div>
 		</div>
 
@@ -377,7 +377,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 		jQuery('#extra_fields').show();
 		switch(tab_name) {
 			case 'video' :
-				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attribute_escape($selection); ?>'}, function() {
+				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attr($selection); ?>'}, function() {
 					<?php
 					$content = '';
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
@@ -516,7 +516,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 
 		<div id="titlediv">
 			<div class="titlewrap">
-				<input name="title" id="title" class="text" value="<?php echo attribute_escape($title);?>"/>
+				<input name="title" id="title" class="text" value="<?php echo attr($title);?>"/>
 			</div>
 		</div>
 

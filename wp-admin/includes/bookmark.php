@@ -59,7 +59,7 @@ function get_default_link_to_edit() {
 		$link->link_url = '';
 
 	if ( isset( $_GET['name'] ) )
-		$link->link_name = attribute_escape( $_GET['name']);
+		$link->link_name = attr( $_GET['name']);
 	else
 		$link->link_name = '';
 

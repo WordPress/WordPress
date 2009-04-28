@@ -175,7 +175,7 @@ endif;
 </p>
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
-<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
+<input type="hidden" name="post_status" value="<?php echo attr($_GET['post_status']) ?>" />
 <?php endif; ?>
 
 <?php if ($posts) { ?>

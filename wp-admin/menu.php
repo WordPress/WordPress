@@ -39,7 +39,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu
 		if ( $tax->hierarchical || ! in_array('post', (array) $tax->object_type, true) )
 			continue;
 
-		$submenu['edit.php'][$i] = array( attribute_escape($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
+		$submenu['edit.php'][$i] = array( attr($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
 		++$i;
 	}
 

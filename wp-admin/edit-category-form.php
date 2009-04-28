@@ -49,12 +49,12 @@ _fill_empty_category($category);
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
-			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo attribute_escape($category->name); ?>" size="40" aria-required="true" /><br />
+			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo attr($category->name); ?>" size="40" aria-required="true" /><br />
             <?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category Slug') ?></label></th>
-			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo attribute_escape(apply_filters('editable_slug', $category->slug)); ?>" size="40" /><br />
+			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo attr(apply_filters('editable_slug', $category->slug)); ?>" size="40" /><br />
             <?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></td>
 		</tr>
 		<tr class="form-field">

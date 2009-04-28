@@ -26,8 +26,8 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . attr($com
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 <?php
 
-$email = attribute_escape( $comment->comment_author_email );
-$url = attribute_escape( $comment->comment_author_url );
+$email = attr( $comment->comment_author_email );
+$url = attr( $comment->comment_author_url );
 // add_meta_box('submitdiv', __('Save'), 'comment_submit_meta_box', 'comment', 'side', 'core');
 ?>
 
@@ -90,7 +90,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <tbody>
 <tr valign="top">
 	<td class="first"><?php _e( 'Name:' ); ?></td>
-	<td><input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" /></td>
+	<td><input type="text" name="newcomment_author" size="30" value="<?php echo attr( $comment->comment_author ); ?>" tabindex="1" id="name" /></td>
 </tr>
 <tr valign="top">
 	<td class="first">

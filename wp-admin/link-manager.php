@@ -165,7 +165,7 @@ if ( $links ) {
 
 	foreach ($links as $link) {
 		$link = sanitize_bookmark($link);
-		$link->link_name = attribute_escape($link->link_name);
+		$link->link_name = attr($link->link_name);
 		$link->link_category = wp_get_link_cats($link->link_id);
 		$short_url = str_replace('http://', '', $link->link_url);
 		$short_url = preg_replace('/^www\./i', '', $short_url);
@@ -194,7 +194,7 @@ if ( $links ) {
 					break;
 				case 'name':
 
-					echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
+					echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . attr(sprintf(__('Edit "%s"'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";

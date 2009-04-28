@@ -210,7 +210,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	$custom = TRUE;
 
 	foreach ( $date_formats as $format ) {
-		echo "\t<label title='" . attribute_escape($format) . "'><input type='radio' name='date_format' value='" . attribute_escape($format) . "'";
+		echo "\t<label title='" . attr($format) . "'><input type='radio' name='date_format' value='" . attr($format) . "'";
 		if ( get_option('date_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = FALSE;
@@ -220,7 +220,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attr( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
 
 	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click &quot;Save Changes&quot; to update sample output.') . "</p>\n";
 ?>
@@ -242,7 +242,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	$custom = TRUE;
 
 	foreach ( $time_formats as $format ) {
-		echo "\t<label title='" . attribute_escape($format) . "'><input type='radio' name='time_format' value='" . attribute_escape($format) . "'";
+		echo "\t<label title='" . attr($format) . "'><input type='radio' name='time_format' value='" . attr($format) . "'";
 		if ( get_option('time_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = FALSE;
@@ -252,7 +252,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . attr( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
 ?>
 	</fieldset>
 </td>

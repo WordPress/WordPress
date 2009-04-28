@@ -125,7 +125,7 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 	$theme_name = $a_theme['Name'];
 	if ($theme_name == $theme) $selected = " selected='selected'";
 	else $selected = '';
-	$theme_name = attribute_escape($theme_name);
+	$theme_name = attr($theme_name);
 	echo "\n\t<option value=\"$theme_name\" $selected>$theme_name</option>";
 }
 ?>

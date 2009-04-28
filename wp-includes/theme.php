@@ -932,7 +932,7 @@ function preview_theme_ob_filter_callback( $matches ) {
 	$link = add_query_arg( array('preview' => 1, 'template' => $_GET['template'], 'stylesheet' => @$_GET['stylesheet'] ), $matches[3] );
 	if ( 0 === strpos($link, 'preview=1') )
 		$link = "?$link";
-	return $matches[1] . attribute_escape( $link ) . $matches[4];
+	return $matches[1] . attr( $link ) . $matches[4];
 }
 
 /**

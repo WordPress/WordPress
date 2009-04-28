@@ -173,7 +173,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo attribute_escape($permalink_structure); ?>" class="regular-text code" />
+			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
 </table>
@@ -188,11 +188,11 @@ $structures = array(
 <table class="form-table">
 	<tr>
 		<th><label for="category_base"><?php _e('Category base'); ?></label></th>
-		<td><input name="category_base" id="category_base" type="text" value="<?php echo attribute_escape($category_base); ?>" class="regular-text code" /></td>
+		<td><input name="category_base" id="category_base" type="text" value="<?php echo attr($category_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
-		<td><input name="tag_base" id="tag_base" type="text" value="<?php echo attribute_escape($tag_base); ?>" class="regular-text code" /></td>
+		<td><input name="tag_base" id="tag_base" type="text" value="<?php echo attr($tag_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>

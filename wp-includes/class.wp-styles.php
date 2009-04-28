@@ -48,13 +48,13 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		if ( isset($this->registered[$handle]->args) )
-			$media = attribute_escape( $this->registered[$handle]->args );
+			$media = attr( $this->registered[$handle]->args );
 		else
 			$media = 'all';
 
 		$href = $this->_css_href( $this->registered[$handle]->src, $ver, $handle );
 		$rel = isset($this->registered[$handle]->extra['alt']) && $this->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-		$title = isset($this->registered[$handle]->extra['title']) ? "title='" . attribute_escape( $this->registered[$handle]->extra['title'] ) . "'" : '';
+		$title = isset($this->registered[$handle]->extra['title']) ? "title='" . attr( $this->registered[$handle]->extra['title'] ) . "'" : '';
 
 		$end_cond = $tag = '';
 		if ( isset($this->registered[$handle]->extra['conditional']) && $this->registered[$handle]->extra['conditional'] ) {

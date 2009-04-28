@@ -820,8 +820,8 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}
 		$update_actions =  array(
-			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) . '" title="' . attribute_escape(__('Activate this plugin')) . '" target="_parent">' . __('Activate Plugin') . '</a>',
-			'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . attribute_escape(__('Goto plugins page')) . '" target="_parent">' . __('Return to Plugins page') . '</a>'
+			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) . '" title="' . attr(__('Activate this plugin')) . '" target="_parent">' . __('Activate Plugin') . '</a>',
+			'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . attr(__('Goto plugins page')) . '" target="_parent">' . __('Return to Plugins page') . '</a>'
 		);
 		if ( $this->plugin_active )
 			unset( $update_actions['activate_plugin'] );
@@ -871,13 +871,13 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$plugin_file = $this->upgrader->plugin_info();
 
 		$install_actions = array(
-			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . attribute_escape(__('Activate this plugin')) . '" target="_parent">' . __('Activate Plugin') . '</a>',
+			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . attr(__('Activate this plugin')) . '" target="_parent">' . __('Activate Plugin') . '</a>',
 							);
 
 		if ( $this->type == 'web' )
-			$install_actions['plugins_page'] = '<a href="' . admin_url('plugin-install.php') . '" title="' . attribute_escape(__('Return to Plugin Installer')) . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
+			$install_actions['plugins_page'] = '<a href="' . admin_url('plugin-install.php') . '" title="' . attr(__('Return to Plugin Installer')) . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
 		else
-			$install_actions['plugins_page'] = '<a href="' . admin_url('plugins.php') . '" title="' . attribute_escape(__('Return to Plugins page')) . '" target="_parent">' . __('Return to Plugins page') . '</a>';
+			$install_actions['plugins_page'] = '<a href="' . admin_url('plugins.php') . '" title="' . attr(__('Return to Plugins page')) . '" target="_parent">' . __('Return to Plugins page') . '</a>';
 
 
 		if ( ! $this->result || is_wp_error($this->result) )
@@ -936,14 +936,14 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
 
 		$install_actions = array(
-			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
-			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attribute_escape( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>'
+			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attr(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
+			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attr( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>'
 							);
 
 		if ( $this->type == 'web' )
-			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . attribute_escape(__('Back to Theme Installer')) . '" target="_parent">' . __('Return to Theme Installer.') . '</a>';
+			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . attr(__('Back to Theme Installer')) . '" target="_parent">' . __('Return to Theme Installer.') . '</a>';
 		else
-			$install_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . attribute_escape(__('Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>';
+			$install_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . attr(__('Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			unset( $install_actions['activate'], $install_actions['preview'] );
@@ -995,9 +995,9 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
 
 		$update_actions =  array(
-			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
-			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attribute_escape( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>',
-			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . attribute_escape(__('Return to Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>',
+			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attr(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
+			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attr( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>',
+			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . attr(__('Return to Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>',
 		);
 		if ( ( ! $this->result || is_wp_error($this->result) ) || $stylesheet == get_stylesheet() )
 			unset($update_actions['preview'], $update_actions['activate']);
