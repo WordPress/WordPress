@@ -142,10 +142,10 @@ if ( !empty($action) ) {
 							echo '<input type="hidden" name="checked[]" value="' . attr($plugin) . '" />';
 					?>
 					<?php wp_nonce_field('bulk-manage-plugins') ?>
-					<input type="submit" name="submit" value="<?php _e('Yes, Delete these files') ?>" class="button" />
+					<input type="submit" name="submit" value="<?php _ea('Yes, Delete these files') ?>" class="button" />
 				</form>
 				<form method="post" action="<?php echo clean_url(wp_get_referer()); ?>" style="display:inline;">
-					<input type="submit" name="submit" value="<?php _e('No, Return me to the plugin list') ?>" class="button" />
+					<input type="submit" name="submit" value="<?php _ea('No, Return me to the plugin list') ?>" class="button" />
 				</form>
 
 				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
@@ -413,9 +413,9 @@ function print_plugin_actions($context) {
 			<option value="delete-selected"><?php _e('Delete'); ?></option>
 	<?php endif; ?>
 		</select>
-		<input type="submit" name="doaction_active" value="<?php _e('Apply'); ?>" class="button-secondary action" />
+		<input type="submit" name="doaction_active" value="<?php _ea('Apply'); ?>" class="button-secondary action" />
 	<?php if( 'recent' == $context ) : ?>
-		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
+		<input type="submit" name="clear-recent-list" value="<?php _ea('Clear List') ?>" class="button-secondary" />
 	<?php endif; ?>
 	</div>
 <?php
@@ -426,7 +426,7 @@ function print_plugin_actions($context) {
 <p class="search-box">
 	<label class="hidden" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
 	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Plugins' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Plugins' ); ?>" class="button" />
 </p>
 </form>
 

@@ -211,7 +211,7 @@ unset($type_links);
 <p class="search-box">
 	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Media' ); ?>" class="button" />
 </p>
 </form>
 
@@ -247,7 +247,7 @@ if ( $page_links ) : ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-media'); ?>
 
 <?php
@@ -272,7 +272,7 @@ foreach ($arc_result as $arc_row) {
 	else
 		$default = '';
 
-	echo "<option$default value='$arc_row->yyear$arc_row->mmonth'>";
+	echo "<option$default value='" . attr("$arc_row->yyear$arc_row->mmonth") . "'>";
 	echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
 	echo "</option>\n";
 }
@@ -280,12 +280,12 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php endif; // month_count ?>
 
-<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+<input type="submit" id="post-query-submit" value="<?php _ea('Filter'); ?>" class="button-secondary" />
 
 <?php } // ! is_singular ?>
 
 <?php if ( isset($_GET['detached']) ) { ?>
-	<input type="submit" id="find_detached" name="find_detached" value="<?php _e('Scan for lost attachments'); ?>" class="button-secondary" />
+	<input type="submit" id="find_detached" name="find_detached" value="<?php _ea('Scan for lost attachments'); ?>" class="button-secondary" />
 <?php } ?>
 
 </div>
@@ -325,7 +325,7 @@ foreach ($arc_result as $arc_row) {
 			$att_title = wp_specialchars( _draft_or_post_title($post->ID) );
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo $class; ?>' valign="top">
-		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo $post->ID; ?>" /></th>
+		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo attr($post->ID); ?>" /></th>
 
 		<td class="media-icon"><?php
 		if ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) { ?>
@@ -403,7 +403,7 @@ if ( $page_links )
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 
 <br class="clear" />

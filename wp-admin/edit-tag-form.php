@@ -20,7 +20,7 @@ do_action('edit_tag_form_pre', $tag); ?>
 <div id="ajax-response"></div>
 <form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate">
 <input type="hidden" name="action" value="editedtag" />
-<input type="hidden" name="tag_ID" value="<?php echo $tag->term_id ?>" />
+<input type="hidden" name="tag_ID" value="<?php echo attr($tag->term_id) ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo attr($taxonomy) ?>" />
 <?php wp_original_referer_field(true, 'previous'); wp_nonce_field('update-tag_' . $tag_ID); ?>
 	<table class="form-table">
@@ -40,7 +40,7 @@ do_action('edit_tag_form_pre', $tag); ?>
             <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php _e('Update Tag'); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php _ea('Update Tag'); ?>" /></p>
 <?php do_action('edit_tag_form', $tag); ?>
 </form>
 </div>

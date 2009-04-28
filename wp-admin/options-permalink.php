@@ -151,15 +151,15 @@ $structures = array(
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
 	</tr>
 	<tr>
-		<th><label><input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Day and name'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="<?php echo attr($structures[1]); ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Day and name'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
-		<th><label><input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Month and name'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="<?php echo attr($structures[2]); ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Month and name'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
-		<th><label><input name="selection" type="radio" value="<?php echo $structures[3]; ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="<?php echo attr($structures[3]); ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></td>
 	</tr>
 	<tr>
@@ -200,7 +200,7 @@ $structures = array(
 <?php do_settings_sections('permalink'); ?>
 
 <p class="submit">
-	<input type="submit" name="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+	<input type="submit" name="submit" class="button-primary" value="<?php _ea('Save Changes') ?>" />
 </p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>

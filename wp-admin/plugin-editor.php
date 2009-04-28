@@ -156,7 +156,7 @@ default:
 	}
 ?>
 		</select>
-		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" />
+		<input type="submit" name="Submit" value="<?php _ea('Select') ?>" class="button" />
 	</form>
 </div>
 <div class="tablenav">
@@ -204,11 +204,11 @@ foreach ( $plugin_files as $plugin_file ) :
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
 		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
 		<input type="hidden" name="action" value="update" />
-		<input type="hidden" name="file" value="<?php echo $file ?>" />
-		<input type="hidden" name="plugin" value="<?php echo $plugin ?>" />
+		<input type="hidden" name="file" value="<?php echo attr($file) ?>" />
+		<input type="hidden" name="plugin" value="<?php echo attr($plugin) ?>" />
 		</div>
 		<?php if ( count( $functions ) ) : ?>
-		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php echo attr(__( 'Lookup' )) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
+		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value="<?php _ea( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array($file, (array) get_option('active_plugins')) ) { ?>
@@ -217,9 +217,9 @@ foreach ( $plugin_files as $plugin_file ) :
 	<p class="submit">
 	<?php
 		if ( isset($_GET['phperror']) )
-			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' class='button-primary' value='" . __('Update File and Attempt to Reactivate') . "' tabindex='2' />";
+			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' class='button-primary' value='" . _a('Update File and Attempt to Reactivate') . "' tabindex='2' />";
 		else
-			echo "<input type='submit' name='submit' class='button-primary' value='" . __('Update File') . "' tabindex='2' />";
+			echo "<input type='submit' name='submit' class='button-primary' value='" . _a('Update File') . "' tabindex='2' />";
 	?>
 	</p>
 <?php else : ?>

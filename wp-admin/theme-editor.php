@@ -94,7 +94,7 @@ default:
 			$functions = wp_doc_link_parse( $content );
 
 			$docs_select = '<select name="docs-list" id="docs-list">';
-			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
+			$docs_select .= '<option value="">' . _a( 'Function Name...' ) . '</option>';
 			foreach ( $functions as $function ) {
 				$docs_select .= '<option value="' . urlencode( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}
@@ -130,7 +130,7 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 }
 ?>
 		</select>
-		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" />
+		<input type="submit" name="Submit" value="<?php _ea('Select') ?>" class="button" />
 	</form>
 </div>
 <div class="tablenav">
@@ -199,14 +199,14 @@ if ($allowed_files) :
 	<?php wp_nonce_field('edit-theme_' . $file . $theme) ?>
 		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
 		 <input type="hidden" name="action" value="update" />
-		 <input type="hidden" name="file" value="<?php echo $file ?>" />
-		 <input type="hidden" name="theme" value="<?php echo $theme ?>" />
+		 <input type="hidden" name="file" value="<?php echo attr($file) ?>" />
+		 <input type="hidden" name="theme" value="<?php echo attr($theme) ?>" />
 		 </div>
 	<?php if ( isset($functions ) && count($functions) ) { ?>
 		<div id="documentation">
 		<label for="docs-list"><?php _e('Documentation:') ?></label>
 		<?php echo $docs_select; ?>
-		<input type="button" class="button" value=" <?php _e( 'Lookup' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" />
+		<input type="button" class="button" value=" <?php _ea( 'Lookup' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" />
 		</div>
 	<?php } ?>
 
@@ -214,7 +214,7 @@ if ($allowed_files) :
 <?php if ( is_writeable($real_file) ) : ?>
 			<p class="submit">
 <?php
-	echo "<input type='submit' name='submit' class='button-primary' value='" . __('Update File') . "' tabindex='2' />";
+	echo "<input type='submit' name='submit' class='button-primary' value='" . _a('Update File') . "' tabindex='2' />";
 ?>
 </p>
 <?php else : ?>

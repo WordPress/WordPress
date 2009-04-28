@@ -120,7 +120,7 @@ foreach ( $offset_range as $offset ) {
 		$selected = " selected='selected'";
 		$current_offset_name = $offset_name;
 	}
-	echo "<option value=\"$offset\"$selected>" . sprintf(__('UTC %s'), $offset_name) . '</option>';
+	echo "<option value=\"" . attr($offset) . "\"$selected>" . sprintf(__('UTC %s'), $offset_name) . '</option>';
 }
 ?>
 </select>
@@ -263,7 +263,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <?php
 for ($day_index = 0; $day_index <= 6; $day_index++) :
 	$selected = (get_option('start_of_week') == $day_index) ? 'selected="selected"' : '';
-	echo "\n\t<option value='$day_index' $selected>" . $wp_locale->get_weekday($day_index) . '</option>';
+	echo "\n\t<option value='" . attr($day_index) . "' $selected>" . $wp_locale->get_weekday($day_index) . '</option>';
 endfor;
 ?>
 </select></td>
@@ -274,7 +274,7 @@ endfor;
 <?php do_settings_sections('general'); ?>
 
 <p class="submit">
-<input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+<input type="submit" name="Submit" class="button-primary" value="<?php _ea('Save Changes') ?>" />
 </p>
 </form>
 

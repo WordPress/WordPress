@@ -215,7 +215,7 @@ $current_color = get_user_option('admin_color', $user_id);
 if ( empty($current_color) )
 	$current_color = 'fresh';
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
-<div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, $current_color); ?> />
+<div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo attr($color) ?>" class="tog" <?php checked($color, $current_color); ?> />
 	<table class="color-palette">
 	<tr>
 	<?php foreach ( $color_info->colors as $html_color ): ?>
@@ -248,7 +248,7 @@ do_action('personal_options', $profileuser);
 <table class="form-table">
 	<tr>
 		<th><label for="user_login"><?php _e('Username'); ?></label></th>
-		<td><input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" class="regular-text" /> <?php _e('Your username cannot be changed.'); ?></td>
+		<td><input type="text" name="user_login" id="user_login" value="<?php echo attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <?php _e('Your username cannot be changed.'); ?></td>
 	</tr>
 
 <?php if ( !$is_profile_page ): ?>
@@ -274,17 +274,17 @@ else
 
 <tr>
 	<th><label for="first_name"><?php _e('First name') ?></label></th>
-	<td><input type="text" name="first_name" id="first_name" value="<?php echo $profileuser->first_name ?>" class="regular-text" /></td>
+	<td><input type="text" name="first_name" id="first_name" value="<?php echo attr($profileuser->first_name) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="last_name"><?php _e('Last name') ?></label></th>
-	<td><input type="text" name="last_name" id="last_name" value="<?php echo $profileuser->last_name ?>" class="regular-text" /></td>
+	<td><input type="text" name="last_name" id="last_name" value="<?php echo attr($profileuser->last_name) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="nickname"><?php _e('Nickname') ?></label></th>
-	<td><input type="text" name="nickname" id="nickname" value="<?php echo $profileuser->nickname ?>" class="regular-text" /></td>
+	<td><input type="text" name="nickname" id="nickname" value="<?php echo attr($profileuser->nickname) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
@@ -303,7 +303,7 @@ else
 			$public_display = array_map( 'trim', $public_display );
 			foreach ( $public_display as $id => $item ) {
 		?>
-			<option id="<?php echo $id; ?>" value="<?php echo $item; ?>"<?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
+			<option id="<?php echo $id; ?>" value="<?php echo attr($item); ?>"<?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
 		<?php
 			}
 		?>
@@ -317,27 +317,27 @@ else
 <table class="form-table">
 <tr>
 	<th><label for="email"><?php _e('E-mail') ?></label></th>
-	<td><input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" class="regular-text" /> <?php _e('Required.');?></td>
+	<td><input type="text" name="email" id="email" value="<?php echo attr($profileuser->user_email) ?>" class="regular-text" /> <?php _e('Required.');?></td>
 </tr>
 
 <tr>
 	<th><label for="url"><?php _e('Website') ?></label></th>
-	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" class="regular-text code" /></td>
+	<td><input type="text" name="url" id="url" value="<?php echo attr($profileuser->user_url) ?>" class="regular-text code" /></td>
 </tr>
 
 <tr>
 	<th><label for="aim"><?php echo apply_filters('user_aim_label', __('AIM')); ?></label></th>
-	<td><input type="text" name="aim" id="aim" value="<?php echo $profileuser->aim ?>" class="regular-text" /></td>
+	<td><input type="text" name="aim" id="aim" value="<?php echo attr($profileuser->aim) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="yim"><?php echo apply_filters('user_yim_label', __('Yahoo IM')); ?></label></th>
-	<td><input type="text" name="yim" id="yim" value="<?php echo $profileuser->yim ?>" class="regular-text" /></td>
+	<td><input type="text" name="yim" id="yim" value="<?php echo attr($profileuser->yim) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="jabber"><?php echo apply_filters('user_jabber_label', __('Jabber / Google Talk')); ?></label></th>
-	<td><input type="text" name="jabber" id="jabber" value="<?php echo $profileuser->jabber ?>" class="regular-text" /></td>
+	<td><input type="text" name="jabber" id="jabber" value="<?php echo attr($profileuser->jabber) ?>" class="regular-text" /></td>
 </tr>
 </table>
 
@@ -395,8 +395,8 @@ if ( $show_password_fields ) :
 
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
-	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-	<input type="submit" class="button-primary" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User') ?>" name="submit" />
+	<input type="hidden" name="user_id" id="user_id" value="<?php echo attr($user_id); ?>" />
+	<input type="submit" class="button-primary" value="<?php $is_profile_page? _ea('Update Profile') : _ea('Update User') ?>" name="submit" />
 </p>
 </form>
 </div>

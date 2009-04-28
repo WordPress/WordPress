@@ -149,7 +149,7 @@ case 'delete':
 		if ( $id == $current_user->ID ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
-			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"" . attr($id) . "\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
 			$go_delete = true;
 		}
 	}
@@ -157,7 +157,7 @@ case 'delete':
 	$user_dropdown = '<select name="reassign_user">';
 	foreach ( (array) $all_logins as $login )
 		if ( $login->ID == $current_user->ID || !in_array($login->ID, $userids) )
-			$user_dropdown .= "<option value=\"{$login->ID}\">{$login->user_login}</option>";
+			$user_dropdown .= "<option value=\"" . attr($login->ID) . "\">{$login->user_login}</option>";
 	$user_dropdown .= '</select>';
 	?>
 	</ul>
@@ -170,7 +170,7 @@ case 'delete':
 		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:')."</label> $user_dropdown"; ?></li>
 	</ul></fieldset>
 	<input type="hidden" name="action" value="dodelete" />
-	<p class="submit"><input type="submit" name="submit" value="<?php _e('Confirm Deletion'); ?>" class="button-secondary" /></p>
+	<p class="submit"><input type="submit" name="submit" value="<?php _ea('Confirm Deletion'); ?>" class="button-secondary" /></p>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
 <?php endif; ?>
@@ -292,7 +292,7 @@ unset($role_links);
 <p class="search-box">
 	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
 	<input type="text" id="user-search-input" name="usersearch" value="<?php echo attr($wp_user_search->search_term); ?>" />
-	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Users' ); ?>" class="button" />
 </p>
 </form>
 
@@ -308,9 +308,9 @@ unset($role_links);
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <label class="hidden" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option><?php wp_dropdown_roles(); ?></select>
-<input type="submit" value="<?php _e('Change'); ?>" name="changeit" class="button-secondary" />
+<input type="submit" value="<?php _ea('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>
 </div>
 
@@ -374,7 +374,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 
 <br class="clear" />

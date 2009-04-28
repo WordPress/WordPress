@@ -455,11 +455,11 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 				<h3><?php _e('Publish') ?></h3>
 				<div class="inside">
 					<p>
-						<input class="button" type="submit" name="draft" value="<?php _e('Save Draft') ?>" id="save" />
+						<input class="button" type="submit" name="draft" value="<?php _ea('Save Draft') ?>" id="save" />
 						<?php if ( current_user_can('publish_posts') ) { ?>
-							<input class="button-primary" type="submit" name="publish" value="<?php _e('Publish') ?>" id="publish" />
+							<input class="button-primary" type="submit" name="publish" value="<?php _ea('Publish') ?>" id="publish" />
 						<?php } else { ?>
-							<br /><br /><input class="button-primary" type="submit" name="review" value="<?php _e('Submit for Review') ?>" id="review" />
+							<br /><br /><input class="button-primary" type="submit" name="review" value="<?php _ea('Submit for Review') ?>" id="review" />
 						<?php } ?>
 						<img src="images/loading-publish.gif" alt="" id="saving" style="display:none;" />
 					</p>
@@ -479,9 +479,9 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 					<div id="category-adder" class="wp-hidden-children">
 						<a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a>
 						<p id="category-add" class="wp-hidden-child">
-							<label class="hidden" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
+							<label class="hidden" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
 							<label class="hidden" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
-							<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _e( 'Add' ); ?>" tabindex="3" />
+							<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _ea( 'Add' ); ?>" tabindex="3" />
 							<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
 							<span id="category-ajax-response"></span>
 						</p>
@@ -497,8 +497,8 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 							<label class="hidden" for="newtag"><?php _e('Post Tags'); ?></label>
 							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" />
 							<span class="ajaxtag" style="display:none;">
-								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
-								<input type="button" class="button tagadd" value="Add" tabindex="3" />
+								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _ea('Add new tag'); ?>" />
+								<input type="button" class="button tagadd" value="<?php _ea('Add'); ?>" tabindex="3" />
 							</span>
 						</p>
 						<div class="tagchecklist"></div>

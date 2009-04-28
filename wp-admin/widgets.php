@@ -262,7 +262,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 		<div class="widget-position">
 		<table class="widefat"><thead><tr><th><?php _e('Sidebar'); ?></th><th><?php _e('Position'); ?></th></tr></thead><tbody>
 <?php	foreach ( $wp_registered_sidebars as $sbname => $sbvalue ) {
-			echo "\t\t<tr><td><label><input type='radio' name='insidebar' value='$sbname'" . checked( $sbname, $sidebar, false ) . " /> $sbvalue[name]</label></td><td>";
+			echo "\t\t<tr><td><label><input type='radio' name='insidebar' value='" . attr($sbname) . "'" . checked( $sbname, $sidebar, false ) . " /> $sbvalue[name]</label></td><td>";
 			if ( 'wp_inactive_widgets' == $sbname ) {
 				echo '&nbsp;';
 			} else {
@@ -292,12 +292,12 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 <?php	if ( isset($_GET['addnew']) ) { ?>
 		<a href="widgets.php" class="button alignleft"><?php _e('Cancel'); ?></a>
 <?php	} else { ?>
-		<input type="submit" name="removewidget" class="button alignleft" value="<?php _e('Remove'); ?>" />
+		<input type="submit" name="removewidget" class="button alignleft" value="<?php _ea('Remove'); ?>" />
 <?php	} ?>
-		<input type="submit" name="savewidget" class="button-primary alignright" value="<?php _e('Save Widget'); ?>" />
-		<input type="hidden" name="widget-id" class="widget-id" value="<?php echo $widget_id; ?>" />
-		<input type="hidden" name="id_base" class="id_base" value="<?php echo $id_base; ?>" />
-		<input type="hidden" name="multi_number" class="multi_number" value="<?php echo $multi_number; ?>" />
+		<input type="submit" name="savewidget" class="button-primary alignright" value="<?php _ea('Save Widget'); ?>" />
+		<input type="hidden" name="widget-id" class="widget-id" value="<?php echo attr($widget_id); ?>" />
+		<input type="hidden" name="id_base" class="id_base" value="<?php echo attr($id_base); ?>" />
+		<input type="hidden" name="multi_number" class="multi_number" value="<?php echo attr($multi_number); ?>" />
 <?php	wp_nonce_field("save-delete-widget-$widget_id"); ?>
 		</div>
 		</form>

@@ -171,7 +171,7 @@ endif;
 <p class="search-box">
 	<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?>:</label>
 	<input type="text" id="page-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Pages' ); ?>" class="button" />
 </p>
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
@@ -215,7 +215,7 @@ if ( $page_links ) : ?>
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-pages'); ?>
 </div>
 
@@ -254,7 +254,7 @@ if ( $page_links )
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 
 <br class="clear" />

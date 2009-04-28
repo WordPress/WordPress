@@ -130,7 +130,7 @@ endforeach;
 ?>
   </table>
 <?php $options_to_update = implode(',', $options_to_update); ?>
-<p class="submit"><input type="hidden" name="page_options" value="<?php echo $options_to_update; ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes') ?>" class="button-primary" /></p>
+<p class="submit"><input type="hidden" name="page_options" value="<?php echo attr($options_to_update); ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes') ?>" class="button-primary" /></p>
   </form>
 </div>
 

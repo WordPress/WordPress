@@ -64,7 +64,7 @@ $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 
 $thread_comments_depth = '</label><select name="thread_comments_depth" id="thread_comments_depth">';
 for ( $i = 1; $i <= $maxdeep; $i++ ) {
-	$thread_comments_depth .= "<option value='$i'";
+	$thread_comments_depth .= "<option value='" . attr($i) . "'";
 	if ( get_option('thread_comments_depth') == $i ) $thread_comments_depth .= " selected='selected'";
 	$thread_comments_depth .= ">$i</option>";
 }
@@ -125,7 +125,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <tr valign="top">
 <th scope="row"><?php _e('Comment Moderation') ?></th>
 <td><fieldset><legend class="hidden"><?php _e('Comment Moderation') ?></legend>
-<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" value="' . get_option('comment_max_links'). '" class="small-text" />' ) ?></label></p>
+<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" value="' . attr(get_option('comment_max_links')) . '" class="small-text" />' ) ?></label></p>
 
 <p><label for="moderation_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="edit-comments.php?comment_status=moderated">moderation queue</a>. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></label></p>
 <p>
@@ -159,7 +159,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 	$yesorno = array(0 => __("Don&#8217;t show Avatars"), 1 => __('Show Avatars'));
 	foreach ( $yesorno as $key => $value) {
 		$selected = (get_option('show_avatars') == $key) ? 'checked="checked"' : '';
-		echo "\n\t<label><input type='radio' name='show_avatars' value='$key' $selected/> $value</label><br />";
+		echo "\n\t<label><input type='radio' name='show_avatars' value='" . attr($key) . "' $selected/> $value</label><br />";
 	}
 ?>
 </fieldset></td>
@@ -172,7 +172,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 $ratings = array( 'G' => __('G &#8212; Suitable for all audiences'), 'PG' => __('PG &#8212; Possibly offensive, usually for audiences 13 and above'), 'R' => __('R &#8212; Intended for adult audiences above 17'), 'X' => __('X &#8212; Even more mature than above'));
 foreach ($ratings as $key => $rating) :
 	$selected = (get_option('avatar_rating') == $key) ? 'checked="checked"' : '';
-	echo "\n\t<label><input type='radio' name='avatar_rating' value='$key' $selected/> $rating</label><br />";
+	echo "\n\t<label><input type='radio' name='avatar_rating' value='" . attr($key) . "' $selected/> $rating</label><br />";
 endforeach;
 ?>
 
@@ -201,7 +201,7 @@ $size = 32;
 $avatar_list = '';
 foreach ( $avatar_defaults as $default_key => $default_name ) {
 	$selected = ($default == $default_key) ? 'checked="checked" ' : '';
-	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='{$default_key}' {$selected}/> ";
+	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . attr($default_key)  . "' {$selected}/> ";
 
 	$avatar = get_avatar( $user_email, $size, $default_key );
 	$avatar_list .= preg_replace("/src='(.+?)'/", "src='\$1&amp;forcedefault=1'", $avatar);
@@ -220,7 +220,7 @@ echo apply_filters('default_avatar_select', $avatar_list);
 <?php do_settings_sections('discussion'); ?>
 
 <p class="submit">
-<input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+<input type="submit" name="Submit" class="button-primary" value="<?php _ea('Save Changes') ?>" />
 </p>
 </form>
 </div>

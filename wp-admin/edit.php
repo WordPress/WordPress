@@ -166,13 +166,13 @@ endif;
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Posts' ); ?>" class="button" />
 </p>
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attr($_GET['post_status']) ?>" />
 <?php endif; ?>
-<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+<input type="hidden" name="mode" value="<?php echo attr($mode); ?>" />
 
 <?php if ( have_posts() ) { ?>
 
@@ -195,7 +195,7 @@ $page_links = paginate_links( array(
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-posts'); ?>
 
 <?php // view filters
@@ -222,7 +222,7 @@ foreach ($arc_result as $arc_row) {
 	else
 		$default = '';
 
-	echo "<option$default value='$arc_row->yyear$arc_row->mmonth'>";
+	echo "<option$default value='" . attr("$arc_row->yyear$arc_row->mmonth") . "'>";
 	echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
 	echo "</option>\n";
 }
@@ -236,7 +236,7 @@ $dropdown_options = array('show_option_all' => __('View all categories'), 'hide_
 wp_dropdown_categories($dropdown_options);
 do_action('restrict_manage_posts');
 ?>
-<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+<input type="submit" id="post-query-submit" value="<?php _ea('Filter'); ?>" class="button-secondary" />
 
 <?php } ?>
 </div>
@@ -275,7 +275,7 @@ if ( $page_links )
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 <br class="clear" />
 </div>
 <br class="clear" />

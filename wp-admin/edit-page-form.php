@@ -73,9 +73,9 @@ function page_submit_meta_box($post) {
 <div id="minor-publishing-actions">
 <div id="save-action">
 <?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
-<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo attr( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
+<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php _ea('Save Draft'); ?>" tabindex="4" class="button button-highlighted" />
 <?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
-<input type="submit" name="save" id="save-post" value="<?php echo attr( __('Save as Pending') ); ?>" tabindex="4" class="button button-highlighted" />
+<input type="submit" name="save" id="save-post" value="<?php _ea('Save as Pending'); ?>" tabindex="4" class="button button-highlighted" />
 <?php } ?>
 </div>
 
@@ -124,7 +124,7 @@ switch ( $post->post_status ) {
 <a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
 <div id="post-status-select" class="hide-if-js">
-<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
+<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo attr($post->post_status); ?>" />
 <select name='post_status' id='post_status' tabindex='4'>
 <?php if ( 'publish' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e('Published') ?></option>
@@ -228,19 +228,19 @@ if ( ( 'edit' == $action ) && current_user_can('delete_page', $post->ID) ) { ?>
 if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) { ?>
 <?php if ( $can_publish ) : ?>
 	<?php if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Schedule') ?>" />
-		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Schedule') ?>" />
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Schedule') ?>" />
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Schedule') ?>" />
 	<?php else : ?>
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Publish') ?>" />
-		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Publish') ?>" />
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Publish') ?>" />
 	<?php endif; ?>
 <?php else : ?>
-	<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Submit for Review') ?>" />
-	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
+	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Submit for Review') ?>" />
+	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Submit for Review') ?>" />
 <?php endif; ?>
 <?php } else { ?>
-	<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Update Page') ?>" />
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Update Page') ?>" />
+	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Update Page') ?>" />
+	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Update Page') ?>" />
 <?php } ?>
 </div>
 <div class="clear"></div>
@@ -293,7 +293,7 @@ function page_attributes_meta_box($post){
 	}
 ?>
 <h5><?php _e('Order') ?></h5>
-<p><label class="hidden" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
+<p><label class="hidden" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo attr($post->menu_order) ?>" /></p>
 <p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
 <?php
 }
@@ -417,12 +417,12 @@ if (isset($mode) && 'bookmarklet' == $mode)
 	echo '<input type="hidden" name="mode" value="bookmarklet" />';
 ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo $user_ID ?>" />
-<input type="hidden" id="hiddenaction" name="action" value='<?php echo $form_action ?>' />
-<input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
+<input type="hidden" id="hiddenaction" name="action" value='<?php echo attr($form_action) ?>' />
+<input type="hidden" id="originalaction" name="originalaction" value="<?php echo attr($form_action) ?>" />
 <input type="hidden" id="post_author" name="post_author" value="<?php echo attr( $post->post_author ); ?>" />
 <?php echo $form_extra ?>
-<input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
-<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
+<input type="hidden" id="post_type" name="post_type" value="<?php echo attr($post->post_type) ?>" />
+<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo attr($post->post_status) ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
 <?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 
