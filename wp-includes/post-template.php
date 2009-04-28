@@ -117,7 +117,7 @@ function get_the_title( $id = 0 ) {
 			$title = sprintf($private_title_format, $title);
 		}
 	}
-	return apply_filters( 'the_title', $title );
+	return apply_filters( 'the_title', $title, $post->ID );
 }
 
 /**
