@@ -412,10 +412,10 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 }
 
 /**
- * Merge all term children into a single array.
+ * Merge all term children into a single array of their IDs.
  *
  * This recursive function will merge all of the children of $term into the same
- * array. Only useful for taxonomies which are hierarchical.
+ * array of term IDs. Only useful for taxonomies which are hierarchical.
  *
  * Will return an empty array if $term does not exist in $taxonomy.
  *
@@ -427,22 +427,24 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  * @uses _get_term_hierarchy()
  * @uses get_term_children() Used to get the children of both $taxonomy and the parent $term
  *
- * @param string $term Name of Term to get children
+ * @param string $term ID of Term to get children
  * @param string $taxonomy Taxonomy Name
  * @return array|WP_Error List of Term Objects. WP_Error returned if $taxonomy does not exist
  */
-function get_term_children( $term, $taxonomy ) {
+function get_term_children( $term_id, $taxonomy ) {
 	if ( ! is_taxonomy($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 
+	$term_id = intval( $term_id );
+
 	$terms = _get_term_hierarchy($taxonomy);
 
-	if ( ! isset($terms[$term]) )
+	if ( ! isset($terms[$term_id]) )
 		return array();
 
-	$children = $terms[$term];
+	$children = $terms[$term_id];
 
-	foreach ( (array) $terms[$term] as $child ) {
+	foreach ( (array) $terms[$term_id] as $child ) {
 		if ( isset($terms[$child]) )
 			$children = array_merge($children, get_term_children($child, $taxonomy));
 	}
@@ -1965,7 +1967,7 @@ function update_term_cache($terms, $taxonomy = '') {
 
 
 /**
- * Retrieves children of taxonomy.
+ * Retrieves children of taxonomy as Term IDs.
  *
  * @package WordPress
  * @subpackage Taxonomy
@@ -1976,7 +1978,7 @@ function update_term_cache($terms, $taxonomy = '') {
  *	 option. That is the name of the taxonomy, immediately followed by '_children'.
  *
  * @param string $taxonomy Taxonomy Name
- * @return array Empty if $taxonomy isn't hierarachical or returns children.
+ * @return array Empty if $taxonomy isn't hierarachical or returns children as Term IDs.
  */
 function _get_term_hierarchy($taxonomy) {
 	if ( !is_taxonomy_hierarchical($taxonomy) )
