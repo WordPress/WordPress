@@ -1759,8 +1759,11 @@ class WP_Query {
 			if (empty($q['sentence']) && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
 				$search .= " OR ($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
 
-			if ( !empty($search) )
+			if ( !empty($search) ) {
 				$search = " AND ({$search}) ";
+				if ( !is_user_logged_in() )
+					$search .= " AND ($wpdb->posts.post_password = '') ";
+			}
 		}
 
 		// Category stuff
