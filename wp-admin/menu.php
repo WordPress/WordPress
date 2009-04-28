@@ -138,6 +138,7 @@ foreach ($menu as $menu_page) {
 		'edit-pages' => 'pages',
 		'edit-comments' => 'comments',
 		'options-general' => 'settings',
+		'themes' => 'appearance',
 		);
 	
 	if ( isset($compat[$hook_name]) )
