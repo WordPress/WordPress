@@ -1080,6 +1080,9 @@ function wp_create_post_autosave( $post_id ) {
 		return wp_update_post( $new_autosave );
 	}
 
+	// _wp_put_post_revision() expects unescaped.
+	$_POST = stripslashes_deep($_POST);
+
 	// Otherwise create the new autosave as a special post revision
 	return _wp_put_post_revision( $_POST, true );
 }
