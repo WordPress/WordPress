@@ -1089,6 +1089,8 @@ function wp_update_comment($commentarr) {
 	// Escape data pulled from DB.
 	$comment = $wpdb->escape($comment);
 
+	$old_status = $comment['comment_approved'];
+
 	// Merge old and new fields with new fields overwriting old ones.
 	$commentarr = array_merge($comment, $commentarr);
 
@@ -1117,7 +1119,7 @@ function wp_update_comment($commentarr) {
 	wp_update_comment_count($comment_post_ID);
 	do_action('edit_comment', $comment_ID);
 	$comment = get_comment($comment_ID);
-	wp_transition_comment_status($comment_approved, $comment->comment_approved, $comment);
+	wp_transition_comment_status($comment->comment_approved, $old_status, $comment);
 	return $rval;
 }
 
