@@ -61,7 +61,7 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
 
 		$i++;
 
-		if ( $category->parent != $parent )
+		if ( $category->parent != $parent && empty($_GET['s']) )
 			continue;
 
 		// If the page starts in a subtree, print the parents.
