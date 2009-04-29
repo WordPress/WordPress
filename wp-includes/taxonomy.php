@@ -170,9 +170,6 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	if (!is_array($wp_taxonomies)) 
 		$wp_taxonomies = array();
 
-	if (isset($wp_taxonomies[$taxonomy])) 
-		return; 
-
 	$defaults = array('hierarchical' => false, 'update_count_callback' => '', 'rewrite' => true, 'query_var' => true);
 	$args = wp_parse_args($args, $defaults);
 
