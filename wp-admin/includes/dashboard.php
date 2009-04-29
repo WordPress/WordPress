@@ -194,6 +194,8 @@ function wp_dashboard() {
 /* Dashboard Widgets */
 
 function wp_dashboard_right_now() {
+	global $wp_registered_sidebars;
+
 	$num_posts = wp_count_posts( 'post' );
 	$num_pages = wp_count_posts( 'page' );
 
@@ -315,18 +317,33 @@ function wp_dashboard_right_now() {
 
 	echo "\n\t".'<div class="versions">';
 	$ct = current_theme_info();
-	$sidebars_widgets = wp_get_sidebars_widgets();
-	$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ), 0 );
-	$num = number_format_i18n( $num_widgets );
-
+	
 	echo "\n\t<p>";
-	if ( current_user_can( 'switch_themes' ) ) {
-		echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
-		printf(_n('Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $ct->title, $num);
-	} else {
-		printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
-	}
+	if ( !empty($wp_registered_sidebars) ) {
+		$sidebars_widgets = wp_get_sidebars_widgets();
+		$num_widgets = 0;
+		foreach ( (array) $sidebars_widgets as $k => $v ) {
+			if ( 'wp_inactive_widgets' == $k )
+				continue;
+			if ( is_array($v) )
+				$num_widgets = $num_widgets + count($v);
+		}
+		$num = number_format_i18n( $num_widgets );
 
+		if ( current_user_can( 'switch_themes' ) ) {
+			echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
+			printf(_n('Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $ct->title, $num);
+		} else {
+			printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
+		}
+	} else {
+		if ( current_user_can( 'switch_themes' ) ) {
+			echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
+			printf('Theme <span class="b"><a href="themes.php">%1$s</a></span>', $ct->title);
+		} else {
+			printf('Theme <span class="b">%1$s</span>', $ct->title);
+		}
+	}
 	echo '</p>';
 
 	update_right_now_message();
