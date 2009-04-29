@@ -2449,12 +2449,16 @@ function meta_form() {
 	$keys = $wpdb->get_col( "
 		SELECT meta_key
 		FROM $wpdb->postmeta
-		WHERE meta_key NOT LIKE '\_%'
 		GROUP BY meta_key
 		ORDER BY meta_key
 		LIMIT $limit" );
-	if ( $keys )
+	if ( $keys ) {
+		function filter_private_keys($key) {
+			return ( 0 === strpos($key, '_') ) ? false : true;
+		}
+		$keys = array_filter($keys, 'filter_private_keys');
 		natcasesort($keys);
+	}
 ?>
 <p><strong><?php _e( 'Add new custom field:' ) ?></strong></p>
 <table id="newmeta">
