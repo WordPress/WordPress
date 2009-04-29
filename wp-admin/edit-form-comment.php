@@ -69,7 +69,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 
 <div id="major-publishing-actions">
 <div id="delete-action">
-<?php echo "<a class='submitdelete deletion' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ){return true;}return false;\">" . __('Delete') . "</a>\n"; ?>
+<?php echo "<a class='submitdelete deletion' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . urlencode(wp_get_referer()), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ){return true;}return false;\">" . __('Delete') . "</a>\n"; ?>
 </div>
 <div id="publishing-action">
 <input type="submit" name="save" value="<?php _ea('Update Comment'); ?>" tabindex="4" class="button-primary" />
@@ -130,7 +130,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 
 <input type="hidden" name="c" value="<?php echo attr($comment->comment_ID) ?>" />
 <input type="hidden" name="p" value="<?php echo attr($comment->comment_post_ID) ?>" />
-<input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php echo attr(clean_url(stripslashes(wp_get_referer()))); ?>" />
 <?php wp_original_referer_field(true, 'previous'); ?>
 <input type="hidden" name="noredir" value="1" />
 
