@@ -1814,6 +1814,7 @@ class WP_Query {
 
 		// Category stuff for nice URLs
 		if ( '' != $q['category_name'] && !$this->is_singular ) {
+			$q['category_name'] = implode('/', array_map('sanitize_title', explode('/', $q['category_name'])));
 			$reqcat = get_category_by_path($q['category_name']);
 			$q['category_name'] = str_replace('%2F', '/', urlencode(urldecode($q['category_name'])));
 			$cat_paths = '/' . trim($q['category_name'], '/');
