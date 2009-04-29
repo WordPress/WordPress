@@ -12,20 +12,14 @@
 //
 
 /**
- * Default Taxonomy Objects
- * @since 2.3.0
- * @global array $wp_taxonomies
+ * Creates the initial taxonomies when 'init' action is fired.
  */
-$wp_taxonomies = array();
-
 function create_initial_taxonomies() {
-	global $wp_taxonomies;
-	$wp_taxonomies['category'] = (object) array('name' => 'category', 'object_type' => 'post', 'hierarchical' => true, 'update_count_callback' => '_update_post_term_count', 'label' => __('Categories'));
-	$wp_taxonomies['post_tag'] = (object) array('name' => 'post_tag', 'object_type' => 'post', 'hierarchical' => false, 'update_count_callback' => '_update_post_term_count', 'label' => __('Post Tags'));
-	$wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'object_type' => 'link', 'hierarchical' => false);
-
+	register_taxonomy( 'category', 'post', array('hierarchical' => true, 'update_count_callback' => '_update_post_term_count', 'label' => __('Categories')) ) ; 
+	register_taxonomy( 'post_tag', 'post', array('hierarchical' => false, 'update_count_callback' => '_update_post_term_count', 'label' => __('Post Tags')) ) ; 
+	register_taxonomy( 'link_category', 'link', array('hierarchical' => false) ) ; 
 }
-add_action( 'init', 'create_initial_taxonomies' );
+add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
 /**
  * Return all of the taxonomy names that are of $object_type.
@@ -172,6 +166,12 @@ function is_taxonomy_hierarchical($taxonomy) {
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies, $wp_rewrite, $wp;
+
+	if (!is_array($wp_taxonomies)) 
+		$wp_taxonomies = array();
+
+	if (isset($wp_taxonomies[$taxonomy])) 
+		return; 
 
 	$defaults = array('hierarchical' => false, 'update_count_callback' => '', 'rewrite' => true, 'query_var' => true);
 	$args = wp_parse_args($args, $defaults);
