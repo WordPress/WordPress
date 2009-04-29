@@ -362,3 +362,12 @@ function set_screen_options() {
 		exit;
 	}
 }
+
+add_action( 'admin_init', 'wp_menu_unfold' );
+function wp_menu_unfold() {
+	if ( isset($_GET['unfoldmenu']) && $user = get_current_user() ) {
+		delete_user_setting('mfold');
+		wp_redirect( remove_query_arg( 'unfoldmenu', stripslashes($_SERVER['REQUEST_URI']) ) );
+	 	exit;
+	}
+}

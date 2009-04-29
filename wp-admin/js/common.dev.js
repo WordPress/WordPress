@@ -13,20 +13,21 @@ adminMenu = {
 		$('#adminmenu li.menu-top .wp-menu-image').click( function() { window.location = $(this).siblings('a.menu-top')[0].href; } );
 		this.favorites();
 
-		$('.wp-menu-separator').click(function(){
+		$('a.separator').click(function(){
 			if ( $('body').hasClass('folded') ) {
 				adminMenu.fold(1);
-				setUserSetting( 'mfold', 'o' );
+				deleteUserSetting( 'mfold' );
 			} else {
 				adminMenu.fold();
 				setUserSetting( 'mfold', 'f' );
 			}
+			return false;
 		});
 
-		if ( 'f' != getUserSetting( 'mfold' ) ) {
-			this.restoreMenuState();
-		} else {
+		if ( $('body').hasClass('folded') ) {
 			this.fold();
+		} else {
+			this.restoreMenuState();
 		}
 	},
 

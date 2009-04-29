@@ -826,7 +826,7 @@ function delete_user_setting( $names ) {
 		$settings = rtrim($settings, '&');
 
 		update_user_option( $current_user->ID, 'user-settings', $settings );
-		setcookie('wp-settings-'.$current_user->ID, $settings, time() + 31536000, SITECOOKIEPATH);
+		setcookie('wp-settings-' . $current_user->ID, $settings, time() + 31536000, SITECOOKIEPATH);
 	}
 }
 
@@ -843,16 +843,18 @@ function get_all_user_settings() {
 	if ( ! $user = wp_get_current_user() )
 		return array();
 
-	if ( isset($_COOKIE['wp-settings-'.$user->ID]) ) {
-		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-'.$user->ID] );
+	$arr = array();
+	if ( isset($_COOKIE['wp-settings-' . $user->ID]) ) {
+		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $user->ID] );
 
-		if ( $cookie && strpos($cookie, '=') ) { // the '=' cannot be 1st char
+		if ( $cookie && strpos($cookie, '=') ) // the '=' cannot be 1st char
 			parse_str($cookie, $arr);
-			return $arr;
-		}
+
+	} elseif ( isset($user->wp_usersettings) && is_string($user->wp_usersettings) ) {
+		parse_str( $user->wp_usersettings, $arr );
 	}
 
-	return array();
+	return $arr;
 }
 
 /**

@@ -39,7 +39,7 @@ var pagenow = '<?php echo substr($pagenow, 0, -4); ?>';
 <?php
 
 if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php', 'page-new.php') ) ) {
-	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
+	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 5 );
 	wp_enqueue_script('quicktags');
 }
 
@@ -60,6 +60,9 @@ do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
+if ( get_user_setting('mfold') ) {
+	$admin_body_class .= ' folded';
+}
 
 if ( $is_iphone ) { ?>
 <style type="text/css">.row-actions{visibility:visible;}</style>
@@ -71,9 +74,6 @@ if ( $is_iphone ) { ?>
 (function(){
 var c = document.body.className;
 c = c.replace(/no-js/, 'js');
-<?php if ( get_user_setting('mfold') == 'f' ) { ?>
-c += ' folded';
-<?php } ?>
 document.body.className = c;
 })();
 //]]>

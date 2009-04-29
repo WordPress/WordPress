@@ -1038,7 +1038,12 @@ div.comment-item:hover .row-actions {
 	height: 21px;
 	padding: 0;
 	margin: 0;
+}
+
+#adminmenu a.separator {
 	cursor: w-resize;
+	height: 20px;
+	padding: 0;
 }
 
 .folded #adminmenu li.wp-menu-separator {
@@ -1102,6 +1107,15 @@ div.comment-item:hover .row-actions {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 }
+
+#adminmenu .wp-menu-image a {
+	height: 24px;
+}
+
+#adminmenu .wp-menu-image img {
+	padding: 6px 0 0 1px;
+}
+
 /* end side admin menu */
 
 /* comments/plugins bubble in menu */
