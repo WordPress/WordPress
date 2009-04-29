@@ -19,7 +19,10 @@
 /** Define ABSPATH as this files directory */
 define( 'ABSPATH', dirname(__FILE__) . '/' );
 
-error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
+if ( defined('E_RECOVERABLE_ERROR') )
+	error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
+else
+	error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING);
 
 if ( file_exists( ABSPATH . 'wp-config.php') ) {
 

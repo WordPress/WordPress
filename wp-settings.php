@@ -201,13 +201,10 @@ timer_start();
 if (defined('WP_DEBUG') and WP_DEBUG == true) {
 	error_reporting(E_ALL);
 } else {
-	// Unicode Extension is in PHP 6.0 only or do version check when this changes.
-	if ( function_exists('unicode_decode') )
-		error_reporting( E_ALL ^ E_DEPRECATED ^ E_NOTICE ^ E_USER_NOTICE ^ E_STRICT );
-	else if ( defined( 'E_DEPRECATED' ) ) // Introduced in PHP 5.3
-		error_reporting( E_ALL ^ E_DEPRECATED ^ E_NOTICE ^ E_USER_NOTICE );
+	if ( defined('E_RECOVERABLE_ERROR') )
+		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
 	else
-		error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
+		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING);
 }
 
 // For an advanced caching plugin to use, static because you would only want one
