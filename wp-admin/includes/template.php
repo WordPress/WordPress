@@ -510,11 +510,13 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 
 	// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
 	$checked_categories = array();
-	for ( $i = 0; isset($categories[$i]); $i++ ) {
-		if ( in_array($categories[$i]->term_id, $args['selected_cats']) ) {
-			$checked_categories[] = $categories[$i];
-			unset($categories[$i]);
-		}
+	$keys = array_keys( $categories ); 
+	
+	foreach( $keys as $k ) {
+		if ( in_array( $categories[$k]->term_id, $args['selected_cats'] ) ) {
+			$checked_categories[] = $categories[$k];
+			unset( $categories[$k] );
+		}	
 	}
 
 	// Put checked cats on top
