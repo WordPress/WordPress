@@ -105,3 +105,7 @@ h1 a {
 	border: 1px solid #e5e5e5;
 	background: #fbfbfb;
 }
+
+.clear {
+	clear: both;
+}

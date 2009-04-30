@@ -382,6 +382,7 @@ case 'register' :
 	</p>
 <?php do_action('register_form'); ?>
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
+	<br class="clear" />
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php _ea('Register'); ?>" tabindex="100" /></p>
 </form>
 
