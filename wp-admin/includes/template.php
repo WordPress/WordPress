@@ -21,8 +21,25 @@
  * @param unknown_type $per_page
  */
 function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20 ) {
+	
 	$count = 0;
-	_cat_rows($categories, $count, $parent, $level, $page, $per_page);
+	
+	if ( empty($categories) ) {
+		
+		$args = array('hide_empty' => 0);
+		if ( !empty($_GET['s']) )
+			$args['search'] = $_GET['s'];
+			
+		$categories = get_categories( $args ); 
+		
+		if ( empty($categories) )
+			return false;
+	}
+
+	$children = _get_term_hierarchy('category'); 
+	
+	_cat_rows( $parent, $level, $categories, $children, $page, $per_page, $count ); 
+	
 }
 
 /**
@@ -38,42 +55,32 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_pag
  * @param unknown_type $per_page
  * @return unknown
  */
-function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $per_page = 20 ) {
-	if ( empty($categories) ) {
-		$args = array('hide_empty' => 0);
-		if ( !empty($_GET['s']) )
-			$args['search'] = $_GET['s'];
-		$categories = get_categories( $args );
-	}
-
-	if ( !$categories )
-		return false;
-
-	$children = _get_term_hierarchy('category');
-
+function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1, $per_page = 20, &$count ) { 
+	
 	$start = ($page - 1) * $per_page;
 	$end = $start + $per_page;
-	$i = -1;
 	ob_start();
-	foreach ( $categories as $category ) {
+	
+	foreach ( $categories as $key => $category ) {
 		if ( $count >= $end )
 			break;
-
-		$i++;
-
+			
 		if ( $category->parent != $parent && empty($_GET['s']) )
 			continue;
 
 		// If the page starts in a subtree, print the parents.
 		if ( $count == $start && $category->parent > 0 ) {
+			
 			$my_parents = array();
-			while ( $my_parent) {
-				$my_parent = get_category($my_parent);
+			$p = $category->parent;
+			while ( $p ) {
+				$my_parent = get_category( $p );
 				$my_parents[] = $my_parent;
-				if ( !$my_parent->parent )
+				if ( $my_parent->parent == 0 )
 					break;
-				$my_parent = $my_parent->parent;
+				$p = $my_parent->parent;
 			}
+			
 			$num_parents = count($my_parents);
 			while( $my_parent = array_pop($my_parents) ) {
 				echo "\t" . _cat_row( $my_parent, $level - $num_parents );
@@ -84,12 +91,12 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
 		if ( $count >= $start )
 			echo "\t" . _cat_row( $category, $level );
 
-		unset($categories[$i]); // Prune the working set
+		unset( $categories[ $key ] ); 
+		
 		$count++;
 
 		if ( isset($children[$category->term_id]) )
-			_cat_rows( $categories, $count, $category->term_id, $level + 1, $page, $per_page );
-
+			_cat_rows( $category->term_id, $level + 1, $categories, $children, $page, $per_page, $count ); 
 	}
 
 	$output = ob_get_contents();
