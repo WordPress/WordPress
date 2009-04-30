@@ -3586,27 +3586,16 @@ function widgets_help() {
 function screen_layout($screen) {
 	global $screen_layout_columns;
 
-	switch ( $screen ) {
-		case 'dashboard':
-			$screen_layout_columns = get_user_option('screen_layout_dashboard');
-			$num = 4;
-			break;
-		case 'post':
-			$screen_layout_columns = get_user_option('screen_layout_post');
-			$num = 2;
-			break;
-		case 'page':
-			$screen_layout_columns = get_user_option('screen_layout_page');
-			$num = 2;
-			break;
-		case 'link':
-			$screen_layout_columns = get_user_option('screen_layout_link');
-			$num = 2;
-			break;
-		default:
-			$screen_layout_columns = 0;
-			return '';
-	}
+	$columns = array('dashboard' => 4, 'post' => 2, 'page' => 2, 'link' => 2);
+	$columns = apply_filters('screen_layout_columns', $columns, $screen);
+
+	if ( !isset($columns[$screen]) ) {
+		$screen_layout_columns = 0;
+		return '';
+ 	}
+	
+	$screen_layout_columns = get_user_option("screen_layout_$screen");
+	$num = $columns[$screen];
 
 	if ( ! $screen_layout_columns )
 			$screen_layout_columns = 2;
