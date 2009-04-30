@@ -284,8 +284,13 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		if ( !empty( $tempheaders ) ) {
 			// Iterate through the raw headers
 			foreach ( (array) $tempheaders as $header ) {
-				if ( strpos($header, ':') === false )
+				if ( strpos($header, ':') === false ) {
+					if ( false !== stripos( $header, 'boundary=' ) ) {
+						$parts = preg_split('/boundary=/i', trim( $header ) );
+						$boundary = trim( str_replace( array( "'", '"' ), '', $parts[1] ) );
+					}
 					continue;
+				}
 				// Explode them out
 				list( $name, $content ) = explode( ':', trim( $header ), 2 );
 
@@ -311,7 +316,12 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 					if ( strpos( $content,';' ) !== false ) {
 						list( $type, $charset ) = explode( ';', $content );
 						$content_type = trim( $type );
-						$charset = trim( str_replace( array( 'charset=', '"' ), '', $charset ) );
+						if ( false !== stripos( $charset, 'charset=' ) ) {
+							$charset = trim( str_replace( array( 'charset=', '"' ), '', $charset ) );
+						} elseif ( false !== stripos( $charset, 'boundary=' ) ) {
+							$boundary = trim( str_replace( array( 'BOUNDARY=', 'boundary=', '"' ), '', $charset ) );
+							$charset = '';
+						}
 					} else {
 						$content_type = trim( $content );
 					}
@@ -393,11 +403,11 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	$content_type = apply_filters( 'wp_mail_content_type', $content_type );
 
+	$phpmailer->ContentType = $content_type;
+
 	// Set whether it's plaintext or not, depending on $content_type
 	if ( $content_type == 'text/html' ) {
 		$phpmailer->IsHTML( true );
-	} else {
-		$phpmailer->IsHTML( false );
 	}
 
 	// If we don't have a charset from the input headers
@@ -412,6 +422,9 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	if ( !empty( $headers ) ) {
 		foreach( (array) $headers as $name => $content ) {
 			$phpmailer->AddCustomHeader( sprintf( '%1$s: %2$s', $name, $content ) );
+		}
+		if ( false !== stripos( $content_type, 'multipart' ) && ! empty($boundary) ) {
+			$phpmailer->AddCustomHeader( sprintf( "Content-Type: %s;\n\t boundary=\"%s\"", $content_type, $boundary ) );
 		}
 	}
 
