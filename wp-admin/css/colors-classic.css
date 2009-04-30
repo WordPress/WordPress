@@ -615,6 +615,11 @@ input.readonly, textarea.readonly {
 	border-color: #dfdfdf;
 }
 
+.widget,
+.postbox {
+	background-color: #fff;
+}
+
 .ui-sortable .postbox h3 {
 	color: #093e56;
 }
