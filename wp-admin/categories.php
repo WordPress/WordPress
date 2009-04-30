@@ -166,12 +166,17 @@ if ( empty($cats_per_page) )
 	$cats_per_page = 20;
 $cats_per_page = apply_filters('edit_categories_per_page', $cats_per_page);
 
+if ( !empty($_GET['s']) )
+	$num_cats = count(get_categories(array('hide_empty' => 0, 'search' => $_GET['s'])));
+else
+	$num_cats = wp_count_terms('category');
+
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
-	'total' => ceil(wp_count_terms('category') / $cats_per_page),
+	'total' => ceil($num_cats / $cats_per_page),
 	'current' => $pagenum
 ));
 

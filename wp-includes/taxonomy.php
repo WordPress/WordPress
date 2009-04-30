@@ -662,10 +662,10 @@ function &get_terms($taxonomies, $args = '') {
 		wp_cache_set('last_changed', $last_changed, 'terms');
 	}
 	$cache_key = "get_terms:$key:$last_changed";
-
-	if ( $cache = wp_cache_get( $cache_key, 'terms' ) ) {
-		$terms = apply_filters('get_terms', $cache, $taxonomies, $args);
-		return $terms;
+	$cache = wp_cache_get( $cache_key, 'terms' );
+	if ( false !== $cache ) {
+		$cache = apply_filters('get_terms', $cache, $taxonomies, $args);
+		return $cache;
 	}
 
 	if ( 'count' == $orderby )
@@ -780,8 +780,7 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	if ( empty($terms) ) {
-		$cache[ $key ] = array();
-		wp_cache_set( 'get_terms', $cache, 'terms' );
+		wp_cache_add( $cache_key, array(), 'terms' );
 		$terms = apply_filters('get_terms', array(), $taxonomies, $args);
 		return $terms;
 	}
