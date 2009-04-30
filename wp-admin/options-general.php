@@ -65,7 +65,7 @@ include('./admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription"  value="<?php form_option('blogdescription'); ?>" class="regular-text" />
-<span class="setting-description"><?php _e('In a few words, explain what this blog is about.') ?></span></td>
+<span class="description"><?php _e('In a few words, explain what this blog is about.') ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="siteurl"><?php _e('WordPress address (URL)') ?></label></th>
@@ -74,12 +74,12 @@ include('./admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="home"><?php _e('Blog address (URL)') ?></label></th>
 <td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" class="regular-text code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> />
-<span class="setting-description"><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
+<span class="description"><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="admin_email"><?php _e('E-mail address') ?> </label></th>
 <td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text" />
-<span class="setting-description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
+<span class="description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Membership') ?></th>
@@ -129,8 +129,8 @@ foreach ( $offset_range as $offset ) {
 <?php if ($current_offset) : ?>
 	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($time_format)); ?></span>
 <?php endif; ?>
-<br/>
-<span class="setting-description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
+<br />
+<span class="description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
 </td>
 <?php
 else: // looks like we can do nice timezone selection!
@@ -153,8 +153,8 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <?php if (get_option('timezone_string')) : ?>
 	<span id="local-time"><?php printf(__('Local time is <code>%1$s</code>'), date_i18n($timezone_format)); ?></span>
 <?php endif; ?>
-<br/>
-<span class="setting-description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
+<br />
+<span class="description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
 <br />
 <span>
 <?php if (get_option('timezone_string')) : ?>

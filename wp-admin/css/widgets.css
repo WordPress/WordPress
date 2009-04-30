@@ -173,3 +173,12 @@ div#sidebar-info {
 	line-height: 3em;
 	vertical-align: middle;
 }
+
+#wp_inactive_widgets .sidebar-name {
+	margin: 0;
+	padding: 2px 0;
+}
+
+#wp_inactive_widgets p.description {
+	margin: 0 0 15px;
+}

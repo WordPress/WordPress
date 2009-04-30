@@ -135,7 +135,7 @@ table#availablethemes td.bottom {
 	margin: 0;
 }
 
-#current-theme .description {
+#current-theme .theme-description {
 	margin-top: 5px;
 }
 
@@ -1368,11 +1368,14 @@ table.form-table td .updated {
 	width: 95%;
 }
 
+p.description,
 .form-wrap p {
 	margin: 2px 0 5px;
+	font-size: 11px;
 }
 
-.setting-description, .form-wrap p {
+.description,
+.form-wrap p {
 	font-style: italic;
 	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
@@ -2955,10 +2958,7 @@ abbr.required {
 }
 
 #favorite-actions .slide-down {
-/*	background-image: url(images/fav-top.png);
-	background-repeat: repeat-x;
-	background-position: 0 top;
-*/	-moz-border-radius: 12px 12px 0 0;
+	-moz-border-radius: 12px 12px 0 0;
 	-webkit-border-bottom-right-radius: 0;
 	-webkit-border-bottom-left-radius: 0;
 	-khtml-border-bottom-right-radius: 0;

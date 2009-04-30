@@ -3458,6 +3458,12 @@ function screen_meta($screen) {
 				$_wp_contextual_help[$screen] = $help;
 			}
 			break;
+		case 'widgets':
+			if ( !isset($_wp_contextual_help['widgets']) ) {
+				$help = widgets_help();
+				$_wp_contextual_help['widgets'] = $help;
+			}
+			break;
 	}
 ?>
 <div id="screen-meta">
@@ -3559,6 +3565,14 @@ function plugins_search_help() {
 	__('<strong>Term:</strong> Searches theme names and descriptions for the specified term.') . '<br />' .
 	__('<strong>Tag:</strong> Searches for themes tagged as such.') . '<br />' .
 	__('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') . '</p>
+';
+}
+
+function widgets_help() {
+	return '
+	<p>' .	__('Widgets can be added or arranged by dragging. If you hover your mouse over the title bar of a widget you&rsquo;ll notice the 4 arrow cursor appears to let you know it is movable. Click on it, hold down the mouse button and start dragging the widget to a new location. As you drag the module, notice the dotted gray box that also moves. This box indicates where the widget will be placed when you release the mouse button.') . '</p>
+	<p>' . __('To show or hide the settings for a widget, click on the arrow that appears on the right of the widget title.') . '</p>
+	<p>' . __('The Inactive Widgets area stores all widgets that are configured but not curently used on the web site. After changing themes if the new theme has less sidebars than the old theme, all widgets that were in these sidebars will be transfered to Inactive Widgets.') . '</p>
 ';
 }
 

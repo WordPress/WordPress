@@ -119,7 +119,8 @@ textarea.disabled {
 	text-shadow: #fff 0 1px 0;
 }
 
-.setting-description, .form-wrap p {
+.description,
+.form-wrap p {
 	color: #666;
 }
 

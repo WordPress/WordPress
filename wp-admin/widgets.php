@@ -344,6 +344,7 @@ require_once( 'admin-header.php' ); ?>
 	<div id="wp_inactive_widgets" class="widgets-holder-wrap">
 		<h3 class="sidebar-name"><?php _e('Inactive Widgets'); ?>
 		<span><img src="images/loading-publish.gif" class="ajax-feedback" title="" alt="" /></span></h3>
+		<p class="description"><?php _e('Drag widgets here to remove them from the web site but keep their settings.'); ?></p>
 		<?php wp_list_widget_controls('wp_inactive_widgets'); ?>
 		<br class="clear" />
 	</div>
