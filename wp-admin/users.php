@@ -264,7 +264,7 @@ unset($users_of_blog);
 
 $current_role = false;
 $class = empty($role) ? ' class="current"' : '';
-$role_links[] = "<li><a href='users.php'$class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users ), number_format_i18n( $total_users ) ) . '</a>';
+$role_links[] = "<li><a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
 foreach ( $wp_roles->get_names() as $this_role => $name ) {
 	if ( !isset($avail_roles[$this_role]) )
 		continue;

@@ -439,7 +439,7 @@ function print_plugin_actions($context) {
 <?php
 $status_links = array();
 $class = ( 'all' == $status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href='plugins.php?plugin_status=all' $class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_all_plugins ), number_format_i18n( $total_all_plugins ) ) . '</a>';
+$status_links[] = "<li><a href='plugins.php?plugin_status=all' $class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_all_plugins, 'plugins' ), number_format_i18n( $total_all_plugins ) ) . '</a>';
 if ( ! empty($active_plugins) ) {
 	$class = ( 'active' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=active' $class>" . sprintf( _n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', $total_active_plugins ), number_format_i18n( $total_active_plugins ) ) . '</a>';

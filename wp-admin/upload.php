@@ -187,7 +187,7 @@ foreach ( $matches as $type => $reals )
 		$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
 $class = empty($_GET['post_mime_type']) && ! isset($_GET['detached']) ? ' class="current"' : '';
-$type_links[] = "<li><a href='upload.php'$class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts ), number_format_i18n( $_total_posts ) ) . '</a>';
+$type_links[] = "<li><a href='upload.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</a>';
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 

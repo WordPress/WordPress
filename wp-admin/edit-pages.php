@@ -150,7 +150,7 @@ $status_links = array();
 $num_posts = wp_count_posts('page', 'readable');
 $total_posts = array_sum( (array) $num_posts );
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href='edit-pages.php'$class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts ), number_format_i18n( $total_posts ) ) . '</a>';
+$status_links[] = "<li><a href='edit-pages.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'pages' ), number_format_i18n( $total_posts ) ) . '</a>';
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
