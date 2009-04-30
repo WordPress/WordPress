@@ -1353,4 +1353,313 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
 	return $chain;
 }
 
+/**
+ * Retrieve the description of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's description.
+ * @deprecated Use the_author_meta('description')
+ */
+function get_the_author_description() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'description\')' );
+	return get_the_author_meta('description');
+}
+
+/**
+ * Display the description of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_description
+ * @since 1.0.0
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('description')
+ */
+function the_author_description() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'description\')' );
+	the_author_meta('description');
+}
+
+/**
+ * Retrieve the login name of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's login name (username).
+ * @deprecated Use the_author_meta('login')
+ */
+function get_the_author_login() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'login\')' );
+	return get_the_author_meta('login');
+}
+
+/**
+ * Display the login name of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_login
+ * @since 0.71
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('login')
+ */
+function the_author_login() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'login\')' );
+	the_author_meta('login');
+}
+
+/**
+ * Retrieve the first name of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's first name.
+ * @deprecated Use the_author_meta('first_name')
+ */
+function get_the_author_firstname() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'first_name\')' );
+	return get_the_author_meta('first_name');
+}
+
+/**
+ * Display the first name of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_firstname
+ * @since 0.71
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('first_name')
+ */
+function the_author_firstname() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'first_name\')' );
+	the_author_meta('first_name');
+}
+
+/**
+ * Retrieve the last name of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's last name.
+ * @deprecated Use the_author_meta('last_name')
+ */
+function get_the_author_lastname() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'last_name\')' );
+	return get_the_author_meta('last_name');
+}
+
+/**
+ * Display the last name of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_lastname
+ * @since 0.71
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('last_name')
+ */
+function the_author_lastname() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'last_name\')' );
+	the_author_meta('last_name');
+}
+
+/**
+ * Retrieve the nickname of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's nickname.
+ * @deprecated Use the_author_meta('nickname')
+ */
+function get_the_author_nickname() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'nickname\')' );
+	return get_the_author_meta('nickname');
+}
+
+/**
+ * Display the nickname of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_nickname
+ * @since 0.71
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('nickname')
+ */
+function the_author_nickname() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'nickname\')' );
+	the_author_meta('nickname');
+}
+
+/**
+ * Retrieve the email of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's username.
+ * @deprecated Use the_author_meta('email')
+ */
+function get_the_author_email() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'email\')' );
+	return get_the_author_meta('email');
+}
+
+/**
+ * Display the email of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_email
+ * @since 0.71
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('email')
+ */
+function the_author_email() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'email\')' );
+	the_author_meta('email');
+}
+
+/**
+ * Retrieve the ICQ number of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's ICQ number.
+ * @deprecated Use the_author_meta('icq')
+ */
+function get_the_author_icq() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'icq\')' );
+	return get_the_author_meta('icq');
+}
+
+/**
+ * Display the ICQ number of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_icq
+ * @since 0.71
+ * @deprecated 2.8
+ * @see get_the_author_icq()
+ * @deprecated Use the_author_meta('icq')
+ */
+function the_author_icq() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'icq\')' );
+	the_author_meta('icq');
+}
+
+/**
+ * Retrieve the Yahoo! IM name of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's Yahoo! IM name.
+ * @deprecated Use the_author_meta('yim')
+ */
+function get_the_author_yim() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'yim\')' );
+	return get_the_author_meta('yim');
+}
+
+/**
+ * Display the Yahoo! IM name of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_yim
+ * @since 0.71
+ * @deprecated 2.8
+ * @deprecated Use the_author_meta('yim')
+ */
+function the_author_yim() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'yim\')' );
+	the_author_meta('yim');
+}
+
+/**
+ * Retrieve the MSN address of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's MSN address.
+ * @deprecated Use the_author_meta('msn')
+ */
+function get_the_author_msn() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'msn\')' );
+	return get_the_author_meta('msn');
+}
+
+/**
+ * Display the MSN address of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_msn
+ * @since 0.71
+ * @deprecated 2.8
+ * @see get_the_author_msn()
+ * @deprecated Use the_author_meta('msn')
+ */
+function the_author_msn() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'msn\')' );
+	the_author_meta('msn');
+}
+
+/**
+ * Retrieve the specified author's preferred display name.
+ *
+ * @since 1.0.0
+ * @deprecated 2.8
+ * @param int $auth_id The ID of the author.
+ * @return string The author's display name.
+ * @deprecated Use the_author_meta('display_name')
+ */
+function get_author_name( $auth_id = false ) {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'display_name\')' );
+	return get_the_author_meta('display_name', $auth_id);
+}
+
+/**
+ * Retrieve the URL to the home page of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The URL to the author's page.
+ */
+function get_the_author_url() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'url\')' );
+	return get_the_author_meta('url');
+}
+
+/**
+ * Display the URL to the home page of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_url
+ * @since 0.71
+ * @deprecated 2.8
+ */
+function the_author_url() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'url\')' );
+	the_author_meta('url');
+}
+
+/**
+ * Retrieve the ID of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @return int The author's ID.
+ */
+function get_the_author_ID() {  
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'ID\')' );
+	return get_the_author_meta('ID');
+}
+
+/**
+ * Display the ID of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_ID
+ * @since 0.71
+ * @deprecated 2.8
+ * @uses get_the_author_ID()
+*/
+function the_author_ID() {  
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'ID\')' );
+	the_author_meta('ID');
+} 
+
 ?>

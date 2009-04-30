@@ -80,191 +80,40 @@ function the_modified_author() {
 }
 
 /**
- * Retrieve the description of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's description.
+ * Retrieve the requested data of the author of the current post. 
+ * @link http://codex.wordpress.org/Template_Tags/the_author_meta 
+ * @since 2.8.0 
+ * @param string $field selects the field of the users record. 
+ * @return string The author's field from the current author's DB object. 
  */
-function get_the_author_description() {
-	global $authordata;
-	return $authordata->description;
+function get_the_author_meta($field = '', $user_id = false) {
+	if ( ! $user_id )
+		global $authordata;
+	else
+		$authordata = get_userdata( $auth_id );
+
+	$field = strtolower($field);
+	$user_field = "user_$field";
+	
+	if ( 'id' == $field )
+		$value = isset($authordata->ID) ? (int)$authordata->ID : 0;
+	elseif ( isset($authordata->$user_field) )
+		$value = $authordata->$user_field;
+	else
+		$value = isset($authordata->$field) ? $authordata->$field : '';
+
+	return apply_filters('get_the_author_' . $field, $value);
 }
 
 /**
- * Display the description of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_description
- * @since 1.0.0
- * @see get_the_author_description()
+ * Retrieve the requested data of the author of the current post. 
+ * @link http://codex.wordpress.org/Template_Tags/the_author_meta 
+ * @since 2.8.0 
+ * @param string $field selects the field of the users record. 
+ * @echo string The author's field from the current author's DB object. 
  */
-function the_author_description() {
-	echo get_the_author_description();
-}
-
-/**
- * Retrieve the login name of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's login name (username).
- */
-function get_the_author_login() {
-	global $authordata;
-	return $authordata->user_login;
-}
-
-/**
- * Display the login name of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_login
- * @since 0.71
- * @see get_the_author_login()
- */
-function the_author_login() {
-	echo get_the_author_login();
-}
-
-/**
- * Retrieve the first name of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's first name.
- */
-function get_the_author_firstname() {
-	global $authordata;
-	return $authordata->first_name;
-}
-
-/**
- * Display the first name of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_firstname
- * @since 0.71
- * @uses get_the_author_firstname()
- */
-function the_author_firstname() {
-	echo get_the_author_firstname();
-}
-
-/**
- * Retrieve the last name of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's last name.
- */
-function get_the_author_lastname() {
-	global $authordata;
-	return $authordata->last_name;
-}
-
-/**
- * Display the last name of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_lastname
- * @since 0.71
- * @uses get_the_author_lastname()
- */
-function the_author_lastname() {
-	echo get_the_author_lastname();
-}
-
-/**
- * Retrieve the nickname of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's nickname.
- */
-function get_the_author_nickname() {
-	global $authordata;
-	return $authordata->nickname;
-}
-
-/**
- * Display the nickname of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_nickname
- * @since 0.71
- * @uses get_the_author_nickname()
- */
-function the_author_nickname() {
-	echo get_the_author_nickname();
-}
-
-/**
- * Retrieve the ID of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return int The author's ID.
- */
-function get_the_author_ID() {
-	global $authordata;
-	return (int) $authordata->ID;
-}
-
-/**
- * Display the ID of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_ID
- * @since 0.71
- * @uses get_the_author_ID()
- */
-function the_author_ID() {
-	echo get_the_author_id();
-}
-
-/**
- * Retrieve the email of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's username.
- */
-function get_the_author_email() {
-	global $authordata;
-	return $authordata->user_email;
-}
-
-/**
- * Display the email of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_email
- * @since 0.71
- * @uses get_the_author_email()
- */
-function the_author_email() {
-	echo apply_filters('the_author_email', get_the_author_email() );
-}
-
-/**
- * Retrieve the URL to the home page of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The URL to the author's page.
- */
-function get_the_author_url() {
-	global $authordata;
-
-	if ( 'http://' == $authordata->user_url )
-		return '';
-
-	return $authordata->user_url;
-}
-
-/**
- * Display the URL to the home page of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_url
- * @since 0.71
- * @uses get_the_author_url()
- */
-function the_author_url() {
-	echo get_the_author_url();
+function the_author_meta($field = '', $user_id = false) {
+	echo apply_filters('the_author_' . $field, get_the_author_meta($field, $user_id));
 }
 
 /**
@@ -284,98 +133,6 @@ function the_author_link() {
 	} else {
 		the_author();
 	}
-}
-
-/**
- * Retrieve the ICQ number of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's ICQ number.
- */
-function get_the_author_icq() {
-	global $authordata;
-	return $authordata->icq;
-}
-
-/**
- * Display the ICQ number of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_icq
- * @since 0.71
- * @see get_the_author_icq()
- */
-function the_author_icq() {
-	echo get_the_author_icq();
-}
-
-/**
- * Retrieve the AIM name of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's AIM name.
- */
-function get_the_author_aim() {
-	global $authordata;
-	return str_replace(' ', '+', $authordata->aim);
-}
-
-/**
- * Display the AIM name of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_aim
- * @since 0.71
- * @see get_the_author_aim()
- */
-function the_author_aim() {
-	echo get_the_author_aim();
-}
-
-/**
- * Retrieve the Yahoo! IM name of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's Yahoo! IM name.
- */
-function get_the_author_yim() {
-	global $authordata;
-	return $authordata->yim;
-}
-
-/**
- * Display the Yahoo! IM name of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_yim
- * @since 0.71
- * @see get_the_author_yim()
- */
-function the_author_yim() {
-	echo get_the_author_yim();
-}
-
-/**
- * Retrieve the MSN address of the author of the current post.
- *
- * @since 1.5
- * @uses $authordata The current author's DB object.
- * @return string The author's MSN address.
- */
-function get_the_author_msn() {
-	global $authordata;
-	return $authordata->msn;
-}
-
-/**
- * Display the MSN address of the author of the current post.
- *
- * @link http://codex.wordpress.org/Template_Tags/the_author_msn
- * @since 0.71
- * @see get_the_author_msn()
- */
-function the_author_msn() {
-	echo get_the_author_msn();
 }
 
 /**
@@ -454,18 +211,6 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 	$link = apply_filters('author_link', $link, $author_id, $author_nicename);
 
 	return $link;
-}
-
-/**
- * Retrieve the specified author's preferred display name.
- *
- * @since 1.0.0
- * @param int $auth_id The ID of the author.
- * @return string The author's display name.
- */
-function get_author_name( $auth_id ) {
-	$authordata = get_userdata( $auth_id );
-	return $authordata->display_name;
 }
 
 /**
