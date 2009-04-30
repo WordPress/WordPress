@@ -850,6 +850,23 @@ function is_dynamic_sidebar() {
 	return false;
 }
 
+/**
+ * Whether a sidebar is in use.
+ *
+ * @since 2.8
+ *
+ * @param mixed $index, sidebar name, id or number to check.
+ * @return bool true if the sidebar is in use, false otherwise.
+ */
+function is_active_sidebar( $index ) {
+	$index = ( is_int($index) ) ? "sidebar-$index" : sanitize_title($index);
+	$sidebars_widgets = get_option( 'sidebars_widgets', array() );	
+	if ( isset($sidebars_widgets[$index]) && !empty($sidebars_widgets[$index]) ) 
+		return true;
+
+	return false;
+}
+
 /* Internal Functions */
 
 /**
