@@ -83,14 +83,16 @@ function the_modified_author() {
  * Retrieve the requested data of the author of the current post. 
  * @link http://codex.wordpress.org/Template_Tags/the_author_meta 
  * @since 2.8.0 
+ * @uses $authordata The current author's DB object (if $user_id not specified).
  * @param string $field selects the field of the users record. 
+ * @param int $user_id Optional. User ID.
  * @return string The author's field from the current author's DB object. 
  */
 function get_the_author_meta($field = '', $user_id = false) {
 	if ( ! $user_id )
 		global $authordata;
 	else
-		$authordata = get_userdata( $auth_id );
+		$authordata = get_userdata( $user_id );
 
 	$field = strtolower($field);
 	$user_field = "user_$field";
@@ -110,6 +112,7 @@ function get_the_author_meta($field = '', $user_id = false) {
  * @link http://codex.wordpress.org/Template_Tags/the_author_meta 
  * @since 2.8.0 
  * @param string $field selects the field of the users record. 
+ * @param int $user_id Optional. User ID.
  * @echo string The author's field from the current author's DB object. 
  */
 function the_author_meta($field = '', $user_id = false) {
