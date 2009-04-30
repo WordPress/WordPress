@@ -158,17 +158,17 @@ add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'l
  */
 function link_target_meta_box($link) { ?>
 <fieldset><legend class="hidden"><?php _e('Target') ?></legend>
-<label for="link_target_blank" class="selectit">
+<p><label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
-<?php _e('<code>_blank</code> - new window or tab.'); ?></label><br />
-<label for="link_target_top" class="selectit">
+<?php _e('<code>_blank</code> - new window or tab.'); ?></label></p>
+<p><label for="link_target_top" class="selectit">
 <input id="link_target_top" type="radio" name="link_target" value="_top" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
-<?php _e('<code>_top</code> - current window or tab, with no frames.'); ?></label><br />
-<label for="link_target_none" class="selectit">
+<?php _e('<code>_top</code> - current window or tab, with no frames.'); ?></label></p>
+<p><label for="link_target_none" class="selectit">
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo ( isset( $link->link_target ) && ($link->link_target == '') ? 'checked="checked"' : ''); ?> />
-<?php _e('<code>_none</code> - same window or tab.'); ?></label>
+<?php _e('<code>_none</code> - same window or tab.'); ?></label></p>
 </fieldset>
-<p><?php _e('Choose the frame your link targets.'); ?></p>
+<p><?php _e('Choose the target frame for your link.'); ?></p>
 <?php
 }
 add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'normal', 'core');
