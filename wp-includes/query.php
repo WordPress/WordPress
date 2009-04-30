@@ -1399,7 +1399,7 @@ class WP_Query {
 			if ( empty($qv['taxonomy']) || empty($qv['term']) ) {
 				$this->is_tax = false;
 				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
-					if ( isset($t->query_var) && isset($qv[$t->query_var]) && '' != $qv[$t->query_var] ) {
+					if ( $t->query_var && isset($qv[$t->query_var]) && '' != $qv[$t->query_var] ) {
 						$qv['taxonomy'] = $taxonomy;
 						$qv['term'] = $qv[$t->query_var];
 						$this->is_tax = true;
@@ -1938,7 +1938,7 @@ class WP_Query {
 				$terms = get_terms($q['taxonomy'], array('slug'=>$q['term']));
 			} else {
 				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
-					if ( isset($t->query_var) && '' != $q[$t->query_var] ) {
+					if ( $t->query_var && '' != $q[$t->query_var] ) {
 						$terms = get_terms($taxonomy, array('slug'=>$q[$t->query_var]));
 						if ( !is_wp_error($terms) )
 							break;

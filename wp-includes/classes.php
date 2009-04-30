@@ -253,7 +253,7 @@ class WP {
 		$this->public_query_vars = apply_filters('query_vars', $this->public_query_vars);
 
 		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t )
-			if ( isset($t->query_var) )
+			if ( $t->query_var )
 				$taxonomy_query_vars[$t->query_var] = $taxonomy;
 
 		for ($i=0; $i<count($this->public_query_vars); $i += 1) {

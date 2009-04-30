@@ -15,9 +15,9 @@
  * Creates the initial taxonomies when 'init' action is fired.
  */
 function create_initial_taxonomies() {
-	register_taxonomy( 'category', 'post', array('hierarchical' => true, 'update_count_callback' => '_update_post_term_count', 'label' => __('Categories')) ) ; 
-	register_taxonomy( 'post_tag', 'post', array('hierarchical' => false, 'update_count_callback' => '_update_post_term_count', 'label' => __('Post Tags')) ) ; 
-	register_taxonomy( 'link_category', 'link', array('hierarchical' => false) ) ; 
+	register_taxonomy( 'category', 'post', array('hierarchical' => true, 'update_count_callback' => '_update_post_term_count', 'label' => __('Categories'), 'query_var' => false, 'rewrite' => false) ) ; 
+	register_taxonomy( 'post_tag', 'post', array('hierarchical' => false, 'update_count_callback' => '_update_post_term_count', 'label' => __('Post Tags'), 'query_var' => false, 'rewrite' => false) ) ; 
+	register_taxonomy( 'link_category', 'link', array('hierarchical' => false, 'label' => __('Categories'), 'query_var' => false, 'rewrite' => false) ) ; 
 }
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
