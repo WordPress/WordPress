@@ -442,7 +442,8 @@ $side_meta_boxes = do_meta_boxes('page', 'side', $post);
 <div id="post-body-content">
 <div id="titlediv">
 <div id="titlewrap">
-  <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
+	<label class="hidden" for="title"><?php _e('Title') ?></label>
+	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">
 <?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
