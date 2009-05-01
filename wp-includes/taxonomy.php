@@ -865,6 +865,8 @@ function is_term($term, $taxonomy = '', $parent = 0) {
 			return $wpdb->get_var( $wpdb->prepare( $select . $where, $term ) );
 	}
 
+    $term = trim( $term );
+    
 	if ( '' === $slug = sanitize_title($term) )
 		return 0;
 
