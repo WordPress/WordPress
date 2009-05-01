@@ -604,11 +604,13 @@ class WP_Http_Fsockopen {
 
 		$arrURL = parse_url($url);
 
+		$fsockopen_host = $arrURL['host'];
+
 		$secure_transport = false;
 
-		if ( ! isset($arrURL['port']) ) {
-			if ( ($arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https') && extension_loaded('openssl') ) {
-				$arrURL['host'] = 'ssl://' . $arrURL['host'];
+		if ( ! isset( $arrURL['port'] ) ) {
+			if ( ( $arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https' ) && extension_loaded('openssl') ) {
+				$fsockopen_host = "ssl://$fsockopen_host";
 				$arrURL['port'] = 443;
 				$secure_transport = true;
 			} else {
@@ -627,14 +629,14 @@ class WP_Http_Fsockopen {
 
 		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) {
 			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
-				$handle = @fsockopen($proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
+				$handle = @fsockopen( $proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
 			else
-				$handle = @fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+				$handle = @fsockopen( $fsockopen_host, $arrURL['port'], $iError, $strError, $r['timeout'] );
 		} else {
 			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
-				$handle = fsockopen($proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
+				$handle = fsockopen( $proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
 			else
-				$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+				$handle = fsockopen( $fsockopen_host, $arrURL['port'], $iError, $strError, $r['timeout'] );
 		}
 
 		$endDelay = time();
@@ -2001,7 +2003,7 @@ function wp_remote_retrieve_header(&$response, $header) {
  * @return string the response code. Empty string on incorrect parameter given.
  */
 function wp_remote_retrieve_response_code(&$response) {
-	if ( is_wp_error($response) ||! isset($response['response']) || ! is_array($response['response']))
+	if ( is_wp_error($response) || ! isset($response['response']) || ! is_array($response['response']))
 		return '';
 
 	return $response['response']['code'];
