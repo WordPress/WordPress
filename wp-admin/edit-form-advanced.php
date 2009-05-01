@@ -477,7 +477,7 @@ function post_comment_meta_box($post) {
 <tbody id="the-comment-list" class="list:comment">
 </tbody>
 </table>
-<p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
+<p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/wpspin.gif" alt="" /></p>
 <?php
 	$hidden = get_hidden_meta_boxes('post');
 	if ( ! in_array('commentsdiv', $hidden) ) { ?>

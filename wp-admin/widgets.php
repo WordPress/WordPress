@@ -343,7 +343,7 @@ require_once( 'admin-header.php' ); ?>
 
 	<div id="wp_inactive_widgets" class="widgets-holder-wrap">
 		<h3 class="sidebar-name"><?php _e('Inactive Widgets'); ?>
-		<span><img src="images/loading-publish.gif" class="ajax-feedback" title="" alt="" /></span></h3>
+		<span><img src="images/wpspin.gif" class="ajax-feedback" title="" alt="" /></span></h3>
 		<p class="description"><?php _e('Drag widgets here to remove them from the web site but keep their settings.'); ?></p>
 		<?php wp_list_widget_controls('wp_inactive_widgets'); ?>
 		<br class="clear" />
@@ -359,7 +359,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 		continue; ?>
 	<div id="<?php echo attr( $sidebar ); ?>" class="widgets-holder-wrap">
 	<h3 class="sidebar-name"><?php echo wp_specialchars( $registered_sidebar['name'] ); ?>
-	<span><img src="images/loading-publish.gif" class="ajax-feedback" title="" alt="" /></span></h3>
+	<span><img src="images/wpspin.gif" class="ajax-feedback" title="" alt="" /></span></h3>
 	<?php wp_list_widget_controls( $sidebar, $i ); // Show the control forms for each of the widgets in this sidebar ?>
 	</div>
 <?php

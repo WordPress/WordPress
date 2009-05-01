@@ -1509,7 +1509,7 @@ var addExtImage = {
 			t.resetImageData();
 			return false;
 		}
-		document.getElementById('status_img').src = 'images/loading.gif';
+		document.getElementById('status_img').src = 'images/wpspin.gif';
 		t.preloadImg = new Image();
 		t.preloadImg.onload = t.updateImageData;
 		t.preloadImg.onerror = t.resetImageData;
