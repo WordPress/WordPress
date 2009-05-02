@@ -599,6 +599,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 0,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
 		'topic_count_text_callback' => 'default_topic_count_text',
+		'filter' => 1,
 	);
 
 	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
@@ -680,7 +681,10 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		break;
 	endswitch;
 
-	return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
+    if ( $filter )
+		return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
+    else
+		return $return;
 }
 
 //

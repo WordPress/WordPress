@@ -585,7 +585,8 @@ case 'get-tagcloud' :
 		$tags[ $key ]->id = $tag->term_id;
 	}
 
-	$return = wp_generate_tag_cloud( $tags );
+	// We need raw tag names here, so don't filter the output
+	$return = wp_generate_tag_cloud( $tags, array('filter' => 0) );
 
 	if ( empty($return) )
 		die('0');
