@@ -166,7 +166,7 @@ function wp_widget_control( $sidebar_args ) {
 	unset($wp_registered_widgets[$widget_id]['_callback']);
 
 	$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
-	$has_form = 0;
+	$has_form = 'noform';
 
 	echo $sidebar_args['before_widget']; ?>
 	<div class="widget-top">
@@ -195,7 +195,7 @@ function wp_widget_control( $sidebar_args ) {
 
 	<div class="widget-control-actions">
 		<a class="button widget-control-remove alignleft" href="<?php echo $edit ? clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key, '_wpnonce' => $nonce ) ) ) : '#remove'; ?>"><?php _e('Remove'); ?></a>
-<?php		if ( false !== $has_form ) { ?>
+<?php		if ( 'noform' !== $has_form ) { ?>
 		<input type="submit" name="savewidget" class="button-primary widget-control-save alignright" value="<?php _e('Save'); ?>" />
 <?php		} ?>
 		<br class="clear" />

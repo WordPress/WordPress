@@ -65,7 +65,7 @@ class WP_Widget {
 	 */
 	function form($instance) {
 		echo '<p>' . __('There are no options for this widget.') . '</p>';
-		return false;
+		return 'noform';
 	}
 
 	// Functions you'll need to call.
@@ -259,8 +259,14 @@ class WP_Widget {
 
 		// filters the widget admin form before displaying, return false to stop displaying it
 		$instance = apply_filters('widget_form_callback', $instance, $this);
-		if ( false !== $instance )
-			$this->form($instance);
+
+		$return = null;
+		if ( false !== $instance ) {
+			$return = $this->form($instance);
+			if ( 'noform' !== $return )
+				do_action_ref_array( 'in_widget_form', array(&$this) ); // add extra fields in the widget form
+		}
+		return $return;
 	}
 
 	/** Helper function: Registers a single instance. */
