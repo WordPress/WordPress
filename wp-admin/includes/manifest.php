@@ -248,8 +248,6 @@ function &get_manifest(&$man_ver) {
 		array('../wp-includes/js/tinymce/plugins/paste/pasteword.htm', $mce_ver, true),
 		array('../wp-includes/js/tinymce/plugins/paste/blank.htm', $mce_ver, true),
 		array('../wp-includes/js/tinymce/plugins/paste/pastetext.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/css/pasteword.css', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/css/blank.css', $mce_ver, true),
 
 		array('../wp-includes/js/tinymce/plugins/safari/editor_plugin.js', $mce_ver, true),
 
