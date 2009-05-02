@@ -35,21 +35,14 @@ function redirect_page($page_ID) {
 		$location = $_POST['referredby'];
 	} elseif ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
-	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
-		if ( isset($_POST['_wp_original_http_referer']) && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/page.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/page-new.php') === false )
-			$location = add_query_arg( array(
-				'_wp_original_http_referer' => urlencode( stripslashes( $_POST['_wp_original_http_referer'] ) ),
-				'message' => 1
-			), get_edit_post_link( $page_ID, 'url' ) );
-		else {
-			if ( isset( $_POST['publish'] ) ) {
-				if ( 'pending' == get_post_status( $page_ID ) )
-					$location = add_query_arg( 'message', 6, get_edit_post_link( $page_ID, 'url' ) );
-				else
-					$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
-			} else {
-				$location = add_query_arg( 'message', 4, get_edit_post_link( $page_ID, 'url' ) );
-			}
+	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) ) {
+		if ( isset( $_POST['publish'] ) ) {
+			if ( 'pending' == get_post_status( $page_ID ) )
+				$location = add_query_arg( 'message', 6, get_edit_post_link( $page_ID, 'url' ) );
+			else
+				$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
+		} else {
+			$location = add_query_arg( 'message', 1, get_edit_post_link( $page_ID, 'url' ) );
 		}
 	} elseif ( isset($_POST['addmeta']) ) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
@@ -59,19 +52,10 @@ function redirect_page($page_ID) {
 		$location = add_query_arg( 'message', 3, wp_get_referer() );
 		$location = explode('#', $location);
 		$location = $location[0] . '#postcustom';
-	} elseif (!empty($referredby) && $referredby != $referer) {
-		$location = $_POST['referredby'];
-		$location = remove_query_arg('_wp_original_http_referer', $location);
-		if ( false !== strpos($location, 'edit-pages.php') )
-			$location = add_query_arg('posted', $page_ID, $location);
-		elseif ( false !== strpos($location, 'wp-admin') )
-			$location = "page-new.php?posted=$page_ID";
-	} elseif ( isset($_POST['publish']) ) {
-		$location = "page-new.php?posted=$page_ID";
 	} elseif ($action == 'editattachment') {
 		$location = 'attachments.php';
 	} else {
-		$location = add_query_arg( 'message', 4, get_edit_post_link( $page_ID, 'url' ) );
+		$location = add_query_arg( 'message', 1, get_edit_post_link( $page_ID, 'url' ) );
 	}
 
 	wp_redirect($location);

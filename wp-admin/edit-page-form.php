@@ -18,10 +18,9 @@ if ( ! isset( $temp_ID ) )
 
 if ( isset($_GET['message']) )
 	$_GET['message'] = absint( $_GET['message'] );
-$messages[1] = sprintf( __( 'Page updated. Continue editing below or <a href="%s">go back</a>.' ), attr( stripslashes( ( isset( $_GET['_wp_original_http_referer'] ) ? $_GET['_wp_original_http_referer'] : '') ) ) );
+$messages[1] = sprintf(__('Page updated. <a href="%s">View page</a>'), get_permalink($post_ID));
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
-$messages[4] = sprintf(__('Page updated. <a href="%s">View page</a>'), get_permalink($post_ID));
 $messages[5] = sprintf(__('Page published. <a href="%s">View page</a>'), get_permalink($post_ID));
 $messages[6] = sprintf(__('Page submitted. <a href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
 

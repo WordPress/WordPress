@@ -16,7 +16,7 @@ $post_ID = isset($post_ID) ? (int) $post_ID : 0;
 $action = isset($action) ? $action : '';
 if ( isset($_GET['message']) )
 	$_GET['message'] = absint( $_GET['message'] );
-$messages[1] = sprintf( __( 'Post updated. Continue editing below or <a href="%s">go back</a>.' ), attr( stripslashes( ( isset( $_GET['_wp_original_http_referer'] ) ? $_GET['_wp_original_http_referer'] : '') ) ) );
+$messages[1] = sprintf(__('Post updated. <a href="%s">View post</a>'), get_permalink($post_ID));
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Post updated.');
