@@ -179,6 +179,7 @@ function reset_password($key) {
 	// Generate something random for a password...
 	$new_pass = wp_generate_password();
 	wp_set_password($new_pass, $user->ID);
+	update_usermeta($user->ID, 'default_password_nag', true); //Set up the Password change nag.
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= site_url('wp-login.php', 'login') . "\r\n";

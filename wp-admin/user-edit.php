@@ -353,7 +353,7 @@ else
 $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
-<tr>
+<tr id="password">
 	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
 	<td><input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" /> <?php _e("Type your new password again."); ?><br />

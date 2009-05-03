@@ -791,4 +791,24 @@ class WP_User_Search {
 }
 endif;
 
+add_action('admin_init', 'default_password_nag_handler');
+function default_password_nag_handler() {
+	if ( 'hide' == get_user_setting('default_password_nag') || isset($_GET['default_password_nag']) && '0' == $_GET['default_password_nag'] ) {		
+		global $user_ID;
+		delete_user_setting('default_password_nag');
+		update_usermeta($user_ID, 'default_password_nag', false);
+	}
+}
+add_action('admin_notices', 'default_password_nag');
+function default_password_nag() {
+	global $user_ID;
+	if ( ! get_usermeta($user_ID, 'default_password_nag') )
+		return;
+
+	echo '<div class="error default-password-nag"><p>';
+	printf(__("Howdy, you're still using the auto-generated password for your account. We recommend that you change it to something you'll remember easier.  Would you like to do this now?<br />
+			  <a href='%s'>Yes, Take me to my profile page</a> | <a href='%s' id='default-password-nag-no'>No Thanks, Do not remind me again.</a>"), admin_url('profile.php') . '#password', '?default_password_nag=0');
+	echo '</p></div>';
+}
+
 ?>

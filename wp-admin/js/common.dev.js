@@ -232,6 +232,11 @@ jQuery(document).ready( function($) {
 			return '';
 		});
 	});
+	$('#default-password-nag-no').click( function() {
+		setUserSetting('default_password_nag', 'hide');
+		$('div.default-password-nag').hide();
+		return false;
+	});
 });
 
 (function(){

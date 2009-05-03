@@ -60,6 +60,7 @@ function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='
 	if ( !$user_id ) {
 		$random_password = wp_generate_password();
 		$user_id = wp_create_user($user_name, $random_password, $user_email);
+		update_usermeta($user_id, 'default_password_nag', true);
 	} else {
 		$random_password = __('User already exists.  Password inherited.');
 	}
