@@ -40,16 +40,16 @@ if ( empty( $sidebars_widgets ) )
 
 // look for "lost" widgets, this has to run at least on each theme change
 function retrieve_widgets() {
-	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets;
+	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
 	$_sidebars_widgets = array();
 	$sidebars = array_keys($wp_registered_sidebars);
 
+	unset( $sidebars_widgets['array_version'] );
+
 	$diff = array_diff( array_keys($sidebars_widgets), $sidebars );
 	if ( empty($diff) )
 		return;
-
-	unset( $sidebars_widgets['array_version'] );
 
 	// Move the known-good ones first
 	foreach ( $sidebars as $id ) {
@@ -59,10 +59,6 @@ function retrieve_widgets() {
 		}
 	}
 
-	// Assign to each unmatched registered sidebar the first available orphan
-	while ( ( $sidebar = array_shift( $sidebars ) ) && $widgets = array_shift( $sidebars_widgets ) )
-		$_sidebars_widgets[ $sidebar ] = $widgets;
-
 	// if new theme has less sidebars than the old theme
 	if ( !empty($sidebars_widgets) ) {
 		foreach ( $sidebars_widgets as $lost => $val ) {
@@ -70,9 +66,22 @@ function retrieve_widgets() {
 				$_sidebars_widgets['wp_inactive_widgets'] = array_merge( (array) $_sidebars_widgets['wp_inactive_widgets'], $val );
 		}
 	}
+	
+	// discard invalid, theme-specific widgets from sidebars
+	foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
+		if ( !is_array($widgets) )
+			continue;
+		
+		$_widgets = array();
+		foreach ( $widgets as $widget ) {
+			if ( isset($wp_registered_widgets[$widget]) )
+				$_widgets[] = $widget;
+		}
+		$_sidebars_widgets[$sidebar] = $_widgets;
+	}
 
 	$sidebars_widgets = $_sidebars_widgets;
-	unset($_sidebars_widgets);
+	unset($_sidebars_widgets, $_widgets);
 
 	// find hidden/lost multi-widget instances
 	$shown_widgets = array();
@@ -105,7 +114,6 @@ function retrieve_widgets() {
 	}
 
 	$sidebars_widgets['wp_inactive_widgets'] = array_merge($lost_widgets, (array) $sidebars_widgets['wp_inactive_widgets']);
-	$sidebars_widgets['array_version'] = 3;
 	wp_set_sidebars_widgets($sidebars_widgets);
 }
 retrieve_widgets();
