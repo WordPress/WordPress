@@ -122,9 +122,9 @@ wpWidgets = {
 		if ( del )
 			a['delete_widget'] = 1;
 
-		$.map(data, function(n,i){ a[n.name] = n.value; });
+		data += '&' + $.param(a);
 
-		$.post( ajaxurl, a, function(r){
+		$.post( ajaxurl, data, function(r){
 			var id;
 			$('.ajax-feedback').css('visibility', 'hidden');
 			if ( !t )
@@ -171,11 +171,11 @@ wpWidgets = {
             return false;
         });
         $('.widget-control-save', sc).click(function(){
-			wpWidgets.save( $(this).parents('form').serializeArray(), $(this).parents('.widgets-sortables').attr('id'), 0, this );
+			wpWidgets.save( $(this).parents('form').serialize(), $(this).parents('.widgets-sortables').attr('id'), 0, this );
 			return false;
 		});
 		$('.widget-control-remove', sc).click(function(){
-			wpWidgets.save( $(this).parents('form').serializeArray(), $(this).parents('.widgets-sortables').attr('id'), 1, this );
+			wpWidgets.save( $(this).parents('form').serialize(), $(this).parents('.widgets-sortables').attr('id'), 1, this );
 			return false;
 		});
 	}
