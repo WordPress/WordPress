@@ -31,7 +31,7 @@ function wp_list_widgets() {
 		if ( in_array( $widget['callback'], $done, true ) ) // We already showed this multi-widget
 			continue;
 
-		$sidebar = is_active_widget( $widget['callback'], $widget['id'] );
+		$sidebar = is_active_widget( $widget['callback'], $widget['id'], false, false );
 		$done[] = $widget['callback'];
 
 		if ( ! isset( $widget['params'][0] ) )
