@@ -19,22 +19,23 @@
 function wp_list_widgets() {
 	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 
-	$no_widgets_shown = true;
-	$already_shown = array(); ?>
+	$done = array();
+	$sort = array_keys($wp_registered_widgets);
+	natcasesort($sort); ?>
 
-	<ul id="widget-list">
+	<div class="widget-holder">
+	<div id="widget-list">
 <?php
-	foreach ( $wp_registered_widgets as $name => $widget ) {
-		if ( in_array( $widget['callback'], $already_shown ) ) // We already showed this multi-widget
+	foreach ( $sort as $val ) {
+		$widget = $wp_registered_widgets[$val];
+		if ( in_array( $widget['callback'], $done, true ) ) // We already showed this multi-widget
 			continue;
 
 		$sidebar = is_active_widget( $widget['callback'], $widget['id'] );
+		$done[] = $widget['callback'];
 
 		if ( ! isset( $widget['params'][0] ) )
 			$widget['params'][0] = array();
-
-		$already_shown[] = $widget['callback'];
-		$no_widgets_shown = false;
 
 		$args = array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' );
 
@@ -51,11 +52,10 @@ function wp_list_widgets() {
 
 		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
 		call_user_func_array( 'wp_widget_control', $args );
-	}
-
-	if ( $no_widgets_shown )
-	  echo '<li>' . __( 'No matching widgets' ) . "</li>\n"; ?>
-	</ul>
+	} ?>
+	</div>
+	<br class='clear' />
+	</div>
 <?php
 }
 
@@ -66,15 +66,12 @@ function wp_list_widgets() {
  *
  * @param string $sidebar
  */
-function wp_list_widget_controls( $sidebar, $hide = false ) {
+function wp_list_widget_controls( $sidebar ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
-?>
 
-	<ul class="widgets-sortables<?php echo $hide ? ' hide-if-js' : ''; ?>">
-	<?php dynamic_sidebar( $sidebar ); ?>
-	</ul>
-
-<?php
+	echo "\t<div id='$sidebar' class='widgets-sortables'>\n";
+	dynamic_sidebar( $sidebar );
+	echo "\t</div>\n";
 }
 
 /**
@@ -94,8 +91,8 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	$id = isset($params[0]['_temp_id']) ? $params[0]['_temp_id'] : $widget_id;
 	$hidden = isset($params[0]['_hide']) ? ' style="display:none;"' : '';
 
-	$params[0]['before_widget'] = "<li id='widget-${i}_$id' class='widget'$hidden>";
-	$params[0]['after_widget'] = "</li>";
+	$params[0]['before_widget'] = "<div id='widget-${i}_$id' class='widget'$hidden>";
+	$params[0]['after_widget'] = "</div>";
 	$params[0]['before_title'] = "%BEG_OF_TITLE%"; // deprecated
 	$params[0]['after_title'] = "%END_OF_TITLE%"; // deprecated
 	if ( is_callable( $wp_registered_widgets[$widget_id]['callback'] ) ) {
@@ -171,14 +168,14 @@ function wp_widget_control( $sidebar_args ) {
 	echo $sidebar_args['before_widget']; ?>
 	<div class="widget-top">
 	<div class="widget-title-action">
-		<a class="widget-action widget-control-edit" href="<?php echo clean_url( add_query_arg( $query_arg ) ); ?>"></a>
+		<a class="widget-action hide-if-no-js" href="#available-widgets"></a>
+		<a class="widget-control-edit hide-if-js" href="<?php echo clean_url( add_query_arg( $query_arg ) ); ?>"><span class="edit"><?php _e('Edit'); ?></span><span class="add"><?php _e('Add'); ?></span></a>
 	</div>
 	<div class="widget-title"><h4><?php echo $widget_title ?></h4></div>
 	</div>
 
 	<div class="widget-inside">
 	<form action="" method="post">
-	<div class="widget-control">
 <?php
 	if ( isset($control['callback']) )
 		$has_form = call_user_func_array( $control['callback'], $control['params'] );
@@ -200,12 +197,11 @@ function wp_widget_control( $sidebar_args ) {
 <?php		} ?>
 		<br class="clear" />
 	</div>
-	</div>
 	</form>
+	</div>
 
 	<div class="widget-description">
 <?php echo ( $widget_description = wp_widget_description($widget_id) ) ? "$widget_description\n" : "$widget_title\n"; ?>
-	</div>
 	</div>
 <?php
 	echo $sidebar_args['after_widget'];

@@ -426,7 +426,6 @@ a.page-numbers {
 	border-bottom-color: #b8d3e2;
 }
 
-div#available-widgets-filter,
 .commentlist li {
 	border-bottom-color: #ccc;
 }
@@ -608,6 +607,7 @@ input.readonly, textarea.readonly {
 }
 
 .widget,
+#widget-list .widget-top,
 .postbox,
 #titlediv,
 #poststuff .postarea,
@@ -980,7 +980,7 @@ abbr.required,
 #editorcontainer,
 #post-status-info,
 #titlediv #title,
-.editwidget .widget-control {
+.editwidget .widget-inside {
 	border-color: #dfdfdf;
 }
 
@@ -1604,9 +1604,30 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	border-bottom-color: #ccc;
 }
 
-div.widgets-holder-wrap {
-    background-color: #f1f1f1;
+div.widgets-sortables,
+#widgets-left .inactive {
+	background-color: #f1f1f1;
     border-color: #ddd;
+}
+
+#available-widgets .widget-holder {
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+#widgets-left h3.sidebar-name {
+	background-color: #aaa;
+	background-image: url(../images/ed-bg-vs.gif);
+	text-shadow: #FFFFFF 0 -1px 0;
+	border-color: #dfdfdf;
+}
+
+#widgets-right h3.sidebar-name {
+	background-image: url(../images/fav.png);
+	text-shadow: #3f3f3f 0 -1px 0;
+	background-color: #636363;
+	border-color: #636363;
+	color: #fff;
 }
 
 .sidebar-name:hover {

@@ -2,6 +2,26 @@ html {
 	background-color: #f9f9f9;
 }
 
+* html input,
+* html .widget {
+    border-color: #dfdfdf;
+}
+
+textarea,
+input,
+select {
+	border-color: #DFDFDF;
+}
+
+kbd,
+code {
+	background: #eaeaea;
+}
+
+input[readonly] {
+	background-color: #eee;
+}
+
 .find-box-search {
 	border-color: #dfdfdf;
 	background-color: #f1f1f1;
@@ -27,10 +47,6 @@ body,
 
 body > #upload-menu {
 	border-bottom-color: #fff;
-}
-
-kbd, code {
-	background: #eaeaea;
 }
 
 #postcustomstuff table,
@@ -402,7 +418,6 @@ a.page-numbers {
 	border-bottom-color: #B8D3E2;
 }
 
-div#available-widgets-filter,
 .commentlist li {
 	border-bottom-color: #ccc;
 }
@@ -605,6 +620,7 @@ input.readonly, textarea.readonly {
 }
 
 .widget,
+#widget-list .widget-top,
 .postbox,
 #titlediv,
 #poststuff .postarea,
@@ -947,7 +963,7 @@ abbr.required,
 #editorcontainer,
 #post-status-info,
 #titlediv #title,
-.editwidget .widget-control {
+.editwidget .widget-inside {
 	border-color: #dfdfdf;
 }
 
@@ -1549,10 +1565,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background-position:0 -27px;
 }
 
-input[readonly] {
-	background-color: #eee;
-}
-
 .popular-tags,
 .feature-filter {
 	background-color: #FFFFFF;
@@ -1567,22 +1579,32 @@ input[readonly] {
 	border-bottom-color: #ccc;
 }
 
-div.widgets-holder-wrap {
-    background-color: #F1F1F1;
-    border-color: #DDDDDD;
+div.widgets-sortables,
+#widgets-left .inactive {
+	background-color: #f1f1f1;
+    border-color: #ddd;
+}
+
+#available-widgets .widget-holder {
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+#widgets-left h3.sidebar-name {
+	background-color: #aaa;
+	background-image: url(../images/ed-bg.gif);
+	text-shadow: #FFFFFF 0 -1px 0;
+	border-color: #dfdfdf;
+}
+
+#widgets-right h3.sidebar-name {
+	background-image: url(../images/fav.png);
+	text-shadow: #3f3f3f 0 -1px 0;
+	background-color: #636363;
+	border-color: #636363;
+	color: #fff;
 }
 
 .sidebar-name:hover {
 	color: #d54e21;
-}
-
-textarea,
-input,
-select {
-	border-color: #DFDFDF;
-}
-
-* html input,
-* html .widget {
-    border-color: #dfdfdf;
 }

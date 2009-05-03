@@ -823,16 +823,18 @@ function is_active_widget($callback = false, $widget_id = false, $id_base = fals
 
 	$sidebars_widgets = wp_get_sidebars_widgets(false);
 
-	if ( is_array($sidebars_widgets) ) foreach ( $sidebars_widgets as $sidebar => $widgets )
-		if ( 'wp_inactive_widgets' == $sidebar )
-			continue;
-
-		if ( is_array($widgets) ) foreach ( $widgets as $widget )
-			if ( ( $callback && isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback ) || ( $id_base && preg_replace( '/-[0-9]+$/', '', $widget ) == $id_base ) ) {
-				if ( !$widget_id || $widget_id == $wp_registered_widgets[$widget]['id'] )
-					return $sidebar;
+	if ( is_array($sidebars_widgets) ) {
+		foreach ( $sidebars_widgets as $sidebar => $widgets ) {
+			if ( is_array($widgets) ) {
+				foreach ( $widgets as $widget ) {
+					if ( ( $callback && isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback ) || ( $id_base && preg_replace( '/-[0-9]+$/', '', $widget ) == $id_base ) ) {
+						if ( !$widget_id || $widget_id == $wp_registered_widgets[$widget]['id'] )
+							return $sidebar;
+					}
+				}
 			}
-
+		}
+	}
 	return false;
 }
 
