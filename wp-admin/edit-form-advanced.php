@@ -280,7 +280,7 @@ function post_tags_meta_box($post, $box) {
 	<textarea name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]"><?php echo attr(get_terms_to_edit( $post->ID, $tax_name )); ?></textarea></div>
 
 	<span class="ajaxtag hide-if-no-js">
-		<label class="hidden" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
+		<label class="invisible" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
 		<input type="text" id="new-tag-<?php echo $tax_name; ?>" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _ea('Add new tag'); ?>" />
 		<input type="button" class="button tagadd" value="<?php _ea('Add'); ?>" tabindex="3" />
 	</span></div>
@@ -331,8 +331,8 @@ function post_categories_meta_box($post) {
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="category-add" class="wp-hidden-child">
-		<label class="hidden" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
-		<label class="hidden" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
+		<label class="invisible" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
+		<label class="invisible" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
 		<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _ea( 'Add' ); ?>" tabindex="3" />
 		<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
 		<span id="category-ajax-response"></span>
@@ -357,7 +357,7 @@ function post_password_meta_box($post) {
 	<label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label>
 </p>
 <h4><?php _e( 'Post Password' ); ?></h4>
-<p><label class="hidden" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
+<p><label class="invisible" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
 <?php
 }
@@ -372,7 +372,7 @@ function post_password_meta_box($post) {
  */
 function post_excerpt_meta_box($post) {
 ?>
-<label class="hidden" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
+<label class="invisible" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
 <p><?php _e('Excerpts are optional hand-crafted summaries of your content. You can <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" target="_blank">use them in your template</a>'); ?></p>
 <?php
 }
@@ -499,7 +499,7 @@ if ( 'publish' == $post->post_status || 'private' == $post->post_status )
  */
 function post_slug_meta_box($post) {
 ?>
-<label class="hidden" for="post_name"><?php _e('Post Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attr( $post->post_name ); ?>" />
+<label class="invisible" for="post_name"><?php _e('Post Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attr( $post->post_name ); ?>" />
 <?php
 }
 if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) )
@@ -522,7 +522,7 @@ function post_author_meta_box($post) {
 	if ( $post->post_author && !in_array($post->post_author, $authors) )
 		$authors[] = $post->post_author;
 ?>
-<label class="hidden" for="post_author_override"><?php _e('Post Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
+<label class="invisible" for="post_author_override"><?php _e('Post Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
 <?php
 }
 add_meta_box('authordiv', __('Post Author'), 'post_author_meta_box', 'post', 'normal', 'core');
@@ -597,7 +597,7 @@ else
 <div id="post-body-content">
 <div id="titlediv">
 <div id="titlewrap">
-	<label class="hidden" for="title"><?php _e('Title') ?></label>
+	<label class="invisible" for="title"><?php _e('Title') ?></label>
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">

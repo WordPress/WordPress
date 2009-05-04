@@ -119,7 +119,7 @@ function get_search_form() {
 		return;
 
 	$form = '<form role="search" method="get" id="searchform" action="' . get_option('home') . '/" >
-	<div><label class="hidden" for="s">' . __('Search for:') . '</label>
+	<div><label class="invisible" for="s">' . __('Search for:') . '</label>
 	<input type="text" value="' . attr(apply_filters('the_search_query', get_search_query())) . '" name="s" id="s" />
 	<input type="submit" id="searchsubmit" value="'. _a('Search') .'" />
 	</div>

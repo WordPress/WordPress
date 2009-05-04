@@ -142,7 +142,7 @@ endif; ?>
 
 <form class="search-form topmargin" action="" method="get">
 <p class="search-box">
-	<label class="hidden" for="category-search-input"><?php _e('Search Categories'); ?>:</label>
+	<label class="invisible" for="category-search-input"><?php _e('Search Categories'); ?>:</label>
 	<input type="text" id="category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _ea( 'Search Categories' ); ?>" class="button" />
 </p>

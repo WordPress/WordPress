@@ -164,7 +164,7 @@ endif;
 </ul>
 
 <p class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
+	<label class="invisible" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _ea( 'Search Posts' ); ?>" class="button" />
 </p>

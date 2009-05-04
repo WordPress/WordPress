@@ -3162,7 +3162,7 @@ function find_posts_div($found_action = '') {
 
 				<input type="hidden" name="affected" id="affected" value="" />
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
-				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
+				<label class="invisible" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
 				<input type="button" onclick="findPosts.send();" value="<?php _ea( 'Search' ); ?>" class="button" /><br />
 
