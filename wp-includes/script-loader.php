@@ -430,7 +430,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081210');
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090415' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090504' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090325' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090503' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090305' );

@@ -185,7 +185,12 @@ table {
 	clear: both;
 }
 
-.hidden,
+/* Hide visually but not from screen readers */
+.hidden {
+	position: absolute;
+	left: -1000em;
+}
+
 .js .closed .inside,
 .js .hide-if-js,
 .no-js .hide-if-no-js {
