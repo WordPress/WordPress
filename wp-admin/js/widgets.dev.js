@@ -4,7 +4,7 @@ var wpWidgets;
 
 wpWidgets = {
 	init : function() {
-        var rem, hr = $('#available-widgets .widget-holder').height(), firstsb = $('#widgets-right .widgets-holder-wrap .widgets-sortables:first'), hl = firstsb.height();
+        var rem, hr = $('#available-widgets .widget-holder').height() - 7, firstsb = $('#widgets-right .widgets-holder-wrap .widgets-sortables:first'), hl = firstsb.height();
 
 		$('#widgets-right div.sidebar-name').click(function(){
             var c = $(this).siblings('.widgets-sortables');
@@ -77,7 +77,7 @@ wpWidgets = {
 						rem = 'div#' + id;
 					}
 					wpWidgets.addEvents(ui.item);
-					wpWidgets.save( ui.item.find('form').serializeArray(), sb, 0, 0 );
+					wpWidgets.save( ui.item.find('form').serialize(), sb, 0, 0 );
 					ui.item.find('input.add_new').val('');
 					ui.item.find('a.widget-action').click();
 				}
