@@ -31,6 +31,11 @@ function attr() {}
 /**
  * @ignore
  */
+function attribute_escape() {}
+
+/**
+ * @ignore
+ */
 function apply_filters() {}
 
 /**
