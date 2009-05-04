@@ -1112,7 +1112,7 @@ function remove_option_whitelist( $del_options, $options = '' ) {
  * @param string $option_group A settings group name.  This should match the group name used in register_setting().
  */
 function settings_fields($option_group) {
-	echo "<input type='hidden' name='option_page' value='$option_group' />";
+	echo "<input type='hidden' name='option_page' value='" . attr($option_group) . "' />";
 	echo '<input type="hidden" name="action" value="update" />';
 	wp_nonce_field("$option_group-options");
 }

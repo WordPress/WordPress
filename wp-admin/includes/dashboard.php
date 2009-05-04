@@ -132,7 +132,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form action="" method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
-	echo "<p class='submit'><input type='hidden' name='widget_id' value='$meta_box[id]' /><input type='submit' value='" . __( 'Submit' ) . "' /></p>";
+	echo "<p class='submit'><input type='hidden' name='widget_id' value='" . attr($meta_box['id']) . "' /><input type='submit' value='" . _a( 'Submit' ) . "' /></p>";
 
 	echo '</form>';
 }
@@ -413,12 +413,12 @@ function wp_dashboard_quick_press() {
 			<input type="hidden" name="action" id="quickpost-action" value="post-quickpress-save" />
 			<input type="hidden" name="quickpress_post_ID" value="<?php echo (int) $post->ID; ?>" />
 			<?php wp_nonce_field('add-post'); ?>
-			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php _e('Save Draft'); ?>" />
-			<input type="reset" value="<?php _e( 'Reset' ); ?>" class="button" />
+			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php _ea('Save Draft'); ?>" />
+			<input type="reset" value="<?php _ea( 'Reset' ); ?>" class="button" />
 			<?php if ( current_user_can('publish_posts') ) { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _e('Publish'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _ea('Publish'); ?>" />
 			<?php } else { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _e('Submit for Review'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _ea('Submit for Review'); ?>" />
 			<?php } ?>
 			<br class="clear" />
 		</p>

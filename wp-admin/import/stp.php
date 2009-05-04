@@ -33,7 +33,7 @@ class STP_Import {
 		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
 		echo '<form action="admin.php?import=stp&amp;step=1" method="post">';
 		wp_nonce_field('import-stp');
-		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'.__('Step 1').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'._a('Step 1').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
@@ -93,7 +93,7 @@ class STP_Import {
 
 		echo '<form action="admin.php?import=stp&amp;step=2" method="post">';
 		wp_nonce_field('import-stp');
-		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'.__('Step 2').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'._a('Step 2').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
@@ -109,7 +109,7 @@ class STP_Import {
 		echo '<p>' . sprintf( _n('Done! <strong>%s</strong> tag was added!', 'Done! <strong>%s</strong> tags were added!', $tags_added), $tags_added ) . '<br /></p>';
 		echo '<form action="admin.php?import=stp&amp;step=3" method="post">';
 		wp_nonce_field('import-stp');
-		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'.__('Step 3').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'._a('Step 3').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}

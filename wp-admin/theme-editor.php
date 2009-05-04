@@ -96,7 +96,7 @@ default:
 			$docs_select = '<select name="docs-list" id="docs-list">';
 			$docs_select .= '<option value="">' . _a( 'Function Name...' ) . '</option>';
 			foreach ( $functions as $function ) {
-				$docs_select .= '<option value="' . urlencode( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+				$docs_select .= '<option value="' . attr( urlencode( $function ) ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}
 			$docs_select .= '</select>';
 		}

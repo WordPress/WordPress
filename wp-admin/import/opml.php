@@ -64,7 +64,7 @@ foreach ($categories as $category) {
 ?>
 </select></p>
 
-<p class="submit"><input type="submit" name="submit" value="<?php _e('Import OPML File') ?>" /></p>
+<p class="submit"><input type="submit" name="submit" value="<?php _ea('Import OPML File') ?>" /></p>
 </form>
 
 </div>

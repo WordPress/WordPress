@@ -751,7 +751,7 @@ function image_align_input_fields($post, $checked='') {
 
 	$out = array();
 	foreach ($alignments as $name => $label) {
-
+		$name = attr($name);
 		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
 		 	( $checked == $name ? " checked='checked'" : "" ) .
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . $label . "</label>";
@@ -1156,7 +1156,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$delete_href = wp_nonce_url("post.php?action=delete-post&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
 	if ( $send )
-		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . attr( __( 'Insert into Post' ) ) . "' />";
+		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . _a( 'Insert into Post' ) . "' />";
 	if ( $delete )
 		$delete = "<a href=\"#\" class=\"del-link\" onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __('Delete') . "</a>";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
@@ -1413,7 +1413,7 @@ if ( $id ) {
 }
 ?>
 </div>
-<input type="submit" class="button savebutton" name="save" value="<?php echo attr( __( 'Save all changes' ) ); ?>" />
+<input type="submit" class="button savebutton" name="save" value="<?php _ea( 'Save all changes' ); ?>" />
 <?php
 }
 
@@ -1586,7 +1586,7 @@ jQuery(function($){
 </div>
 
 <p class="ml-submit">
-<input type="submit" class="button savebutton" style="display:none;" name="save" id="save-all" value="<?php echo attr( __( 'Save all changes' ) ); ?>" />
+<input type="submit" class="button savebutton" style="display:none;" name="save" id="save-all" value="<?php _ea( 'Save all changes' ); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <input type="hidden" name="type" value="<?php echo attr( $GLOBALS['type'] ); ?>" />
 <input type="hidden" name="tab" value="<?php echo attr( $GLOBALS['tab'] ); ?>" />
@@ -1663,8 +1663,8 @@ jQuery(function($){
 </tbody></table>
 
 <p class="ml-submit">
-<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="insert-gallery" id="insert-gallery" value="<?php echo attr( __( 'Insert gallery' ) ); ?>" />
-<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="update-gallery" id="update-gallery" value="<?php echo attr( __( 'Update gallery settings' ) ); ?>" />
+<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="insert-gallery" id="insert-gallery" value="<?php _ea( 'Insert gallery' ); ?>" />
+<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="update-gallery" id="update-gallery" value="<?php _ea( 'Update gallery settings' ); ?>" />
 </p>
 </div>
 </form>
@@ -1708,7 +1708,7 @@ function media_upload_library_form($errors) {
 <p id="media-search" class="search-box">
 	<label class="hidden" for="media-search-input"><?php _e('Search Media');?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php echo attr( __( 'Search Media' ) ); ?>" class="button" />
+	<input type="submit" value="<?php _ea( 'Search Media' ); ?>" class="button" />
 </p>
 
 <ul class="subsubsub">
@@ -1825,7 +1825,7 @@ jQuery(function($){
 <?php echo get_media_items(null, $errors); ?>
 </div>
 <p class="ml-submit">
-<input type="submit" class="button savebutton" name="save" value="<?php echo attr( __( 'Save all changes' ) ); ?>" />
+<input type="submit" class="button savebutton" name="save" value="<?php _ea( 'Save all changes' ); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 </p>
 </form>
@@ -1907,7 +1907,7 @@ function type_url_form_image() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . attr(__('Insert into Post')) . '" />
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . _a('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
@@ -1943,7 +1943,7 @@ function type_url_form_audio() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . attr(__('Insert into Post')) . '" />
+				<input type="submit" class="button" name="insertonlybutton" value="' . _a('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
@@ -1978,7 +1978,7 @@ function type_url_form_video() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . attr(__('Insert into Post')) . '" />
+				<input type="submit" class="button" name="insertonlybutton" value="' . _a('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
@@ -2013,7 +2013,7 @@ function type_url_form_file() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . attr(__('Insert into Post')) . '" />
+				<input type="submit" class="button" name="insertonlybutton" value="' . _a('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>

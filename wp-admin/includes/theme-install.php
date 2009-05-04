@@ -159,7 +159,7 @@ function install_theme_search_form() {
 	<option value="tag" <?php selected('tag', $type) ?>><?php _e('Tag'); ?></option>
 	</select>
 	<input type="text" name="s" size="30" value="<?php echo attr($term) ?>" />
-	<input type="submit" name="search" value="<?php echo attr(__('Search')); ?>" class="button" />
+	<input type="submit" name="search" value="<?php _ea('Search'); ?>" class="button" />
 </form>
 <?php
 }
@@ -218,7 +218,7 @@ function install_themes_dashboard() {
 
 </div>
 <br class="clear" />
-<input type="submit" name="search" value="<?php echo attr(__('Find Themes')); ?>" class="button" />
+<input type="submit" name="search" value="<?php _ea('Find Themes'); ?>" class="button" />
 </form>
 <?php
 }
@@ -281,7 +281,7 @@ function install_themes_upload($page = 1) {
 	<?php wp_nonce_field( 'theme-upload') ?>
 	<input type="file" name="themezip" />
 	<input type="submit"
-	class="button" value="<?php _e('Install Now') ?>" />
+	class="button" value="<?php _ea('Install Now') ?>" />
 </form>
 	<?php
 }

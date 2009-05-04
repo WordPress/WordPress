@@ -46,7 +46,7 @@ class MT_Import {
 	<input type="hidden" name="upload_type" value="ftp" />
 <?php _e('Or use <code>mt-export.txt</code> in your <code>/wp-content/</code> directory'); ?></p>
 <p class="submit">
-<input type="submit" class="button" value="<?php echo attr(__('Import mt-export.txt')); ?>" />
+<input type="submit" class="button" value="<?php _ea('Import mt-export.txt'); ?>" />
 </p>
 </form>
 <p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>
@@ -207,12 +207,12 @@ class MT_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li><label>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
+			echo '<li><label>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'. attr($author) .'" name="'.'user[]'.'" maxlength="30"> <br />');
 			$this->users_form($j);
 			echo '</label></li>';
 		}
 
-		echo '<p class="submit"><input type="submit" class="button" value="'.__('Submit').'"></p>'.'<br />';
+		echo '<p class="submit"><input type="submit" class="button" value="'._a('Submit').'"></p>'.'<br />';
 		echo '</form>';
 		echo '</ol></div>';
 

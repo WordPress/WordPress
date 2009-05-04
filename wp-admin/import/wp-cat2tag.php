@@ -103,7 +103,7 @@ function check_all_rows() {
 </script>
 
 <form name="catlist" id="catlist" action="admin.php?import=wp-cat2tag&amp;step=2" method="post">
-<p><input type="button" class="button-secondary" value="<?php _e('Check All'); ?>" onclick="this.value=check_all_rows()" />
+<p><input type="button" class="button-secondary" value="<?php _ea('Check All'); ?>" onclick="this.value=check_all_rows()" />
 <?php wp_nonce_field('import-cat2tag'); ?></p>
 <ul style="list-style:none">
 
@@ -128,7 +128,7 @@ function check_all_rows() {
 <?php	if ( ! empty($this->hybrids_ids) )
 			echo '<p><a name="note"></a>' . __('* This category is also a tag. Converting it will add that tag to all posts that are currently in the category.') . '</p>'; ?>
 
-<p class="submit"><input type="submit" name="submit" class="button" value="<?php _e('Convert Categories to Tags'); ?>" /></p>
+<p class="submit"><input type="submit" name="submit" class="button" value="<?php _ea('Convert Categories to Tags'); ?>" /></p>
 </form>
 
 <?php }
@@ -179,7 +179,7 @@ function check_all_tagrows() {
 </script>
 
 <form name="taglist" id="taglist" action="admin.php?import=wp-cat2tag&amp;step=4" method="post">
-<p><input type="button" class="button-secondary" value="<?php _e('Check All'); ?>" onclick="this.value=check_all_tagrows()" />
+<p><input type="button" class="button-secondary" value="<?php _ea('Check All'); ?>" onclick="this.value=check_all_tagrows()" />
 <?php wp_nonce_field('import-cat2tag'); ?></p>
 <ul style="list-style:none">
 
@@ -192,7 +192,7 @@ function check_all_tagrows() {
 <?php	if ( ! empty($this->hybrids_ids) )
 			echo '<p><a name="note"></a>' . __('* This tag is also a category. When converted, all posts associated with the tag will also be in the category.') . '</p>'; ?>
 
-<p class="submit"><input type="submit" name="submit_tags" class="button" value="<?php _e('Convert Tags to Categories'); ?>" /></p>
+<p class="submit"><input type="submit" name="submit_tags" class="button" value="<?php _ea('Convert Tags to Categories'); ?>" /></p>
 </form>
 
 <?php }

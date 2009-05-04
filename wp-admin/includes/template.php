@@ -2304,7 +2304,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<input type="hidden" name="status" id="status" value="" />
 	<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />
 	<input type="hidden" name="checkbox" id="checkbox" value="<?php echo $checkbox ? 1 : 0; ?>" />
-	<input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>" />
+	<input type="hidden" name="mode" id="mode" value="<?php echo attr($mode); ?>" />
 	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
 <?php if ( $table_row ) : ?>
@@ -2436,8 +2436,8 @@ function _list_meta_row( $entry, &$count ) {
 	$r .= "\n\t\t<td class='left'><label class='hidden' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' />";
 
 	$r .= "\n\t\t<div class='submit'><input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
-	$r .= "class='delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta' tabindex='6' value='".attr(__( 'Delete' ))."' />";
-	$r .= "\n\t\t<input name='updatemeta' type='submit' tabindex='6' value='".attr(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /></div>";
+	$r .= "class='delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta' tabindex='6' value='". _a( 'Delete' ) ."' />";
+	$r .= "\n\t\t<input name='updatemeta' type='submit' tabindex='6' value='". _a( 'Update' ) ."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /></div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>";
 
@@ -2486,7 +2486,7 @@ function meta_form() {
 
 	foreach ( $keys as $key ) {
 		$key = attr( $key );
-		echo "\n<option value='$key'>$key</option>";
+		echo "\n<option value='" . attr($key) . "'>$key</option>";
 	}
 ?>
 </select>
@@ -2502,7 +2502,7 @@ function meta_form() {
 </tr>
 
 <tr><td colspan="2" class="submit">
-<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
+<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _ea( 'Add Custom Field' ) ?>" />
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>
 </td></tr>
 </tbody>
@@ -2722,9 +2722,9 @@ function wp_dropdown_roles( $selected = false ) {
 	foreach( $editable_roles as $role => $details ) {
 		$name = translate_user_role($details['name'] );
 		if ( $selected == $role ) // Make default first in list
-			$p = "\n\t<option selected='selected' value='$role'>$name</option>";
+			$p = "\n\t<option selected='selected' value='" . attr($role) . "'>$name</option>";
 		else
-			$r .= "\n\t<option value='$role'>$name</option>";
+			$r .= "\n\t<option value='" . attr($role) . "'>$name</option>";
 	}
 	echo $p . $r;
 }
@@ -2804,7 +2804,7 @@ function wp_import_upload_form( $action ) {
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 </p>
 <p class="submit">
-<input type="submit" class="button" value="<?php _e( 'Upload file and import' ); ?>" />
+<input type="submit" class="button" value="<?php _ea( 'Upload file and import' ); ?>" />
 </p>
 </form>
 <?php
@@ -3157,14 +3157,14 @@ function find_posts_div($found_action = '') {
 		<div class="find-box-inside">
 			<div class="find-box-search">
 				<?php if ( $found_action ) { ?>
-					<input type="hidden" name="found_action" value="<?php echo $found_action; ?>" />
+					<input type="hidden" name="found_action" value="<?php echo attr($found_action); ?>" />
 				<?php } ?>
 
 				<input type="hidden" name="affected" id="affected" value="" />
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" onclick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onclick="findPosts.send();" value="<?php _ea( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -3174,8 +3174,8 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
-			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php _e('Select'); ?>" />
+			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php _ea('Close'); ?>" />
+			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php _ea('Select'); ?>" />
 		</div>
 	</div>
 <?php
@@ -3646,8 +3646,8 @@ function screen_options($screen) {
 	$return .= "<div class='screen-options'>\n";
 	if ( !empty($per_page_label) )
 		$return .= "<label for='$option'>$per_page_label</label> <input type='text' class='screen-per-page' name='wp_screen_options[value]' id='$option' maxlength='3' value='$per_page' />\n";
-	$return .= "<input type='submit' class='button' value='" . __('Apply') . "' />";
-	$return .= "<input type='hidden' name='wp_screen_options[option]' value='$option' />";
+	$return .= "<input type='submit' class='button' value='" . _a('Apply') . "' />";
+	$return .= "<input type='hidden' name='wp_screen_options[option]' value='" . attr($option) . "' />";
 	$return .= "</div>\n";
 	return $return;
 }

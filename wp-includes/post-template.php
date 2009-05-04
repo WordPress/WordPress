@@ -707,7 +707,7 @@ function wp_dropdown_pages($args = '') {
 		if ( $show_option_no_change )
 			$output .= "\t<option value=\"-1\">$show_option_no_change</option>";
 		if ( $show_option_none )
-			$output .= "\t<option value=\"$option_none_value\">$show_option_none</option>\n";
+			$output .= "\t<option value=\"" . attr($option_none_value) . "\">$show_option_none</option>\n";
 		$output .= walk_page_dropdown_tree($pages, $depth, $r);
 		$output .= "</select>\n";
 	}
@@ -1134,7 +1134,7 @@ function get_the_password_form() {
 	$label = 'pwbox-'.(empty($post->ID) ? rand() : $post->ID);
 	$output = '<form action="' . get_option('siteurl') . '/wp-pass.php" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
-	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . __("Submit") . '" /></p>
+	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . _a("Submit") . '" /></p>
 	</form>
 	';
 	return apply_filters('the_password_form', $output);
@@ -1316,7 +1316,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 <div class="tablenav">
 	<div class="alignleft">
-		<input type="submit" class="button-secondary" value="<?php _e( 'Compare Revisions' ); ?>" />
+		<input type="submit" class="button-secondary" value="<?php _ea( 'Compare Revisions' ); ?>" />
 		<input type="hidden" name="action" value="diff" />
 	</div>
 </div>

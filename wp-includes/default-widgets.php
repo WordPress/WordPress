@@ -852,7 +852,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 
 	$number = attr( $number );
 	$title  = attr( $title );
-	$url    = attr( $url );
+	$url    = clean_url( $url );
 	$items  = (int) $items;
 	if ( $items < 1 || 20 < $items )
 		$items  = 10;

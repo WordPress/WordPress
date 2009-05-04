@@ -183,18 +183,18 @@ function wp_widget_control( $sidebar_args ) {
 	else
 		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n"; ?>
 
-	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo $id_format; ?>" />
-	<input type="hidden" name="id_base" class="id_base" value="<?php echo $id_base; ?>" />
-	<input type="hidden" name="widget-width" class="widget-width" value="<?php echo $control['width']; ?>" />
-	<input type="hidden" name="widget-height" class="widget-height" value="<?php echo $control['height']; ?>" />
-	<input type="hidden" name="widget_number" class="widget_number" value="<?php echo $widget_number; ?>" />
-	<input type="hidden" name="multi_number" class="multi_number" value="<?php echo $multi_number; ?>" />
-	<input type="hidden" name="add_new" class="add_new" value="<?php echo $add_new; ?>" />
+	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo attr($id_format); ?>" />
+	<input type="hidden" name="id_base" class="id_base" value="<?php echo $attr(id_base); ?>" />
+	<input type="hidden" name="widget-width" class="widget-width" value="<?php echo attr($control['width']); ?>" />
+	<input type="hidden" name="widget-height" class="widget-height" value="<?php echo attr($control['height']); ?>" />
+	<input type="hidden" name="widget_number" class="widget_number" value="<?php echo attr($widget_number); ?>" />
+	<input type="hidden" name="multi_number" class="multi_number" value="<?php echo attr($multi_number); ?>" />
+	<input type="hidden" name="add_new" class="add_new" value="<?php echo attr($add_new); ?>" />
 
 	<div class="widget-control-actions">
 		<a class="button widget-control-remove alignleft" href="<?php echo $edit ? clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key, '_wpnonce' => $nonce ) ) ) : '#remove'; ?>"><?php _e('Remove'); ?></a>
 <?php		if ( 'noform' !== $has_form ) { ?>
-		<input type="submit" name="savewidget" class="button-primary widget-control-save alignright" value="<?php _e('Save'); ?>" />
+		<input type="submit" name="savewidget" class="button-primary widget-control-save alignright" value="<?php _ea('Save'); ?>" />
 <?php		} ?>
 		<br class="clear" />
 	</div>

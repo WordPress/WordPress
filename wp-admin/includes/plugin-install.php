@@ -213,7 +213,7 @@ function install_plugins_upload( $page = 1 ) {
 		<?php wp_nonce_field( 'plugin-upload') ?>
 		<label class="hidden" for="pluginzip"><?php _e('Plugin zip file'); ?></label>
 		<input type="file" id="pluginzip" name="pluginzip" />
-		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
+		<input type="submit" class="button" value="<?php _ea('Install Now') ?>" />
 	</form>
 <?php
 }
