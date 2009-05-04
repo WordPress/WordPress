@@ -184,7 +184,7 @@ function wp_widget_control( $sidebar_args ) {
 		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n"; ?>
 
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo attr($id_format); ?>" />
-	<input type="hidden" name="id_base" class="id_base" value="<?php echo attr(id_base); ?>" />
+	<input type="hidden" name="id_base" class="id_base" value="<?php echo attr($id_base); ?>" />
 	<input type="hidden" name="widget-width" class="widget-width" value="<?php echo attr($control['width']); ?>" />
 	<input type="hidden" name="widget-height" class="widget-height" value="<?php echo attr($control['height']); ?>" />
 	<input type="hidden" name="widget_number" class="widget_number" value="<?php echo attr($widget_number); ?>" />
