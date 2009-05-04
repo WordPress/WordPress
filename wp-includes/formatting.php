@@ -566,27 +566,27 @@ function remove_accents($string) {
 }
 
 /**
- * Filters certain characters from the file name.
+ * Sanitizes a filename replacing whitespace with dashes
  *
- * Turns all strings to lowercase removing most characters except alphanumeric
- * with spaces, dashes and periods. All spaces and underscores are converted to
- * dashes. Multiple dashes are converted to a single dash. Finally, if the file
- * name ends with a dash, it is removed.
+ * Removes special characters that are illegal in filenames on certain 
+ * operating systems and special characters requiring special escaping 
+ * to manipulate at the command line. Replaces spaces and consecutive 
+ * dashes with a single dash. Trim period, dash and underscore from beginning
+ * and end of filename.
  *
  * @since 2.1.0
  *
- * @param string $name The file name
- * @return string Sanitized file name
+ * @param string $filename The filename to be sanitized
+ * @return string The sanitized filename
  */
-function sanitize_file_name( $name ) { // Like sanitize_title, but with periods
-	$name = strtolower( $name );
-	$name = preg_replace('/&.+?;/', '', $name); // kill entities
-	$name = str_replace( '_', '-', $name );
-	$name = preg_replace('/[^a-z0-9\s-.]/', '', $name);
-	$name = preg_replace('/\s+/', '-', $name);
-	$name = preg_replace('|-+|', '-', $name);
-	$name = trim($name, '-');
-	return $name;
+function sanitize_file_name( $filename ) {
+	$filename_raw = $filename;
+	$special_chars = array("?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", ",", "'", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}");
+	$special_chars = apply_filters('sanitize_file_name_chars', $special_chars, $filename_raw);
+	$filename = str_replace($special_chars, '', $filename);
+	$filename = preg_replace('/[\s-]+/', '-', $filename);
+	$filename = trim($filename, '.-_');
+	return apply_filters('sanitize_file_name', $filename, $filename_raw);
 }
 
 /**

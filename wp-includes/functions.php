@@ -2013,12 +2013,14 @@ function wp_upload_dir( $time = null ) {
  * @return string New filename, if given wasn't unique.
  */
 function wp_unique_filename( $dir, $filename, $unique_filename_callback = null ) {
-	$filename = strtolower( $filename );
+	// sanitize the file name before we begin processing
+	$filename = sanitize_file_name($filename);
+
 	// separate the filename into a name and extension
 	$info = pathinfo($filename);
 	$ext = !empty($info['extension']) ? $info['extension'] : '';
 	$name = basename($filename, ".{$ext}");
-
+	
 	// edge case: if file is named '.ext', treat as an empty name
 	if( $name === ".$ext" )
 		$name = '';
@@ -2030,11 +2032,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		$number = '';
 
 		if ( !empty( $ext ) )
-			$ext = strtolower( ".$ext" );
-
-		$filename = str_replace( $ext, '', $filename );
-		// Strip % so the server doesn't try to decode entities.
-		$filename = str_replace('%', '', sanitize_title_with_dashes( $filename ) ) . $ext;
+			$ext = ".$ext";
 
 		while ( file_exists( $dir . "/$filename" ) ) {
 			if ( '' == "$number$ext" )
