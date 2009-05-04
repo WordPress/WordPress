@@ -133,7 +133,7 @@ function get_page_templates() {
 
 			$name = '';
 			if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) )
-				$name = $name[1];
+				$name = _cleanup_header_comment($name[1]);
 
 			if ( !empty( $name ) ) {
 				$page_templates[trim( $name )] = basename( $template );

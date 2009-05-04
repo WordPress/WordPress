@@ -86,7 +86,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 	foreach ( array( 'name', 'uri', 'version', 'description', 'author_name', 'author_uri', 'text_domain', 'domain_path' ) as $field ) {
 		if ( !empty( ${$field} ) )
-			${$field} = trim(${$field}[1]);
+			${$field} = _cleanup_header_comment(${$field}[1]);
 		else
 			${$field} = '';
 	}

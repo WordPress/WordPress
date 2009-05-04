@@ -370,3 +370,15 @@ function wp_menu_unfold() {
 	 	exit;
 	}
 }
+
+
+/**
+ * Strip close comment and close php tags from file headers used by WP
+ * See http://core.trac.wordpress.org/ticket/8497
+ *
+ * @since 2.8
+**/
+function _cleanup_header_comment($str) {
+	return trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $str));
+}
+

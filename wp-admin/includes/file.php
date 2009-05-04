@@ -52,7 +52,7 @@ function get_file_description( $file ) {
 	elseif ( file_exists( WP_CONTENT_DIR . $file ) && is_file( WP_CONTENT_DIR . $file ) ) {
 		$template_data = implode( '', file( WP_CONTENT_DIR . $file ) );
 		if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ))
-			return $name[1] . ' Page Template';
+			return _cleanup_header_comment($name[1]) . ' Page Template';
 	}
 
 	return basename( $file );
