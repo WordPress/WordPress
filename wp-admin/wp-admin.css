@@ -3129,3 +3129,19 @@ p.popular-tags a {
 	visibility: hidden;
 	vertical-align: bottom;
 }
+
+.tagsdiv .newtag {
+	width: 180px;
+}
+
+.tagsdiv .the-tags {
+	display: block;
+	height: 60px;
+	margin: 0 auto;
+	overflow: auto;
+	width: 260px;
+}
+
+#post-body-content .tagsdiv .the-tags {
+	margin: 0 5px;
+}

@@ -274,14 +274,16 @@ function post_tags_meta_box($post, $box) {
 	$helps = isset($taxonomy->helps) ? attr($taxonomy->helps) : __('Separate tags with commas.');
 ?>
 <div class="tagsdiv" id="<?php echo $tax_name; ?>">
-	<p class="jaxtag">
-		<label class="hidden" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
-		<input type="hidden" name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" value="<?php echo attr(get_terms_to_edit( $post->ID, $tax_name )); ?>" />
+	<div class="jaxtag">
+	<div class="nojs-tags hide-if-js">
+	<p><?php _e('Add or remove tags'); ?></p>
+	<textarea name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]"><?php echo attr(get_terms_to_edit( $post->ID, $tax_name )); ?></textarea></div>
 
-	<span class="ajaxtag">
+	<span class="ajaxtag hide-if-no-js">
+		<label class="hidden" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
 		<input type="text" id="new-tag-<?php echo $tax_name; ?>" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _ea('Add new tag'); ?>" />
 		<input type="button" class="button tagadd" value="<?php _ea('Add'); ?>" tabindex="3" />
-	</span></p>
+	</span></div>
 	<p class="howto"><?php echo $helps; ?></p>
 	<div class="tagchecklist"></div>
 </div>
