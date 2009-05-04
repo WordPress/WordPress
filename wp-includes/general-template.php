@@ -1619,49 +1619,52 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 		$media_buttons = false;
 
 	$richedit =  user_can_richedit();
-	$rows = "rows='$rows'";
+	$class = '';
 
 	if ( $richedit || $media_buttons ) { ?>
 	<div id="editor-toolbar">
-	<?php if ( $richedit ) {
+<?php
+	if ( $richedit ) {
 		$wp_default_editor = wp_default_editor(); ?>
 		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
-		<?php if ( 'html' == $wp_default_editor ) {
+<?php	if ( 'html' == $wp_default_editor ) {
 			add_filter('the_editor_content', 'wp_htmledit_pre'); ?>
-			<a id="edButtonHTML" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
-			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-		<?php } else {
+			<a id="edButtonHTML" class="active hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
+			<a id="edButtonPreview" class="hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
+<?php	} else {
+			$class = " class='theEditor'";
 			add_filter('the_editor_content', 'wp_richedit_pre'); ?>
-			<a id="edButtonHTML" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
-			<a id="edButtonPreview" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-		<?php }
-		}
+			<a id="edButtonHTML" class="hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
+			<a id="edButtonPreview" class="active hide-if-no-js" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
+<?php	}
+	}
 
-		if ( $media_buttons ) { ?>
-			<div id="media-buttons" class="hide-if-no-js">
-			<?php do_action( 'media_buttons' ); ?>
-			</div>
-		<?php } ?>
+	if ( $media_buttons ) { ?>
+		<div id="media-buttons" class="hide-if-no-js">
+<?php	do_action( 'media_buttons' ); ?>
+		</div>
+<?php
+	} ?>
 	</div>
-	<?php } ?>
-
-	<div id="quicktags">
-	<?php wp_print_scripts( 'quicktags' ); ?>
+<?php
+	}
+?>
+	<div id="quicktags"><?php
+	wp_print_scripts( 'quicktags' ); ?>
 	<script type="text/javascript">edToolbar()</script>
 	</div>
 
-	<?php $the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea $rows cols='40' name='$id' tabindex='$tab_index' id='$id'>%s</textarea></div>\n");
+<?php
+	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea rows='$rows'$class cols='40' name='$id' tabindex='$tab_index' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
 
 	printf($the_editor, $the_editor_content);
 
-	?>
+?>
 	<script type="text/javascript">
-	/* <![CDATA[ */
 	edCanvas = document.getElementById('<?php echo $id; ?>');
-	/* ]]> */
 	</script>
-	<?php
+<?php
 }
 
 /**

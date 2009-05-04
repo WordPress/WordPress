@@ -1282,8 +1282,8 @@ function wp_tiny_mce( $teeny = false ) {
 
 	// TinyMCE init settings
 	$initArray = array (
-		'mode' => 'none',
-		'onpageload' => 'switchEditors.edInit',
+		'mode' => 'specific_textareas',
+		'editor_selector' => 'theEditor',
 		'width' => '100%',
 		'theme' => 'advanced',
 		'skin' => 'wp_theme',
@@ -1334,7 +1334,7 @@ function wp_tiny_mce( $teeny = false ) {
 
 	$language = $initArray['language'];
 	$zip = $compress_scripts ? 1 : 0;
-	$ver = apply_filters('tiny_mce_version', '3211');
+	$ver = apply_filters('tiny_mce_version', '323');
 
 	if ( 'en' != $language )
 		include_once(ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php');

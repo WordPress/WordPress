@@ -40,7 +40,7 @@ var pagenow = '<?php echo substr($pagenow, 0, -4); ?>';
 <?php
 
 if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php', 'page-new.php') ) ) {
-	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 5 );
+	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
 	wp_enqueue_script('quicktags');
 }
 

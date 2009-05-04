@@ -1,4 +1,16 @@
 
+jQuery(document).ready(function($){
+	var h = wpCookies.getHash('TinyMCE_content_size');
+
+	if ( getUserSetting( 'editor' ) == 'html' ) {
+		if ( h )
+			$('#content').css('height', h.ch - 15 + 'px');
+	} else {
+		$('#content').css('color', 'white');
+		$('#quicktags').hide();
+	}
+});
+
 var switchEditors = {
 
 	mode : '',
@@ -8,18 +20,6 @@ var switchEditors = {
 	},
 
 	edInit : function() {
-		var h = tinymce.util.Cookie.getHash("TinyMCE_content_size");
-
-		// Activate TinyMCE if it's the user's default editor
-		if ( getUserSetting( 'editor' ) == 'html' ) {
-			if ( h )
-				try { this.I('content').style.height = h.ch - 30 + 'px'; } catch(e){};
-		} else {
-			try {
-				this.I("quicktags").style.display = "none";
-			} catch(e){};
-			tinyMCE.execCommand("mceAddControl", false, "content");
-		}
 	},
 
 	saveCallback : function(el, content, body) {
@@ -94,43 +94,44 @@ var switchEditors = {
 		id = id || 'content';
 		mode = mode || this.mode || '';
 
-		var ed = tinyMCE.get(id) || false, qt = this.I('quicktags'), H = this.I('edButtonHTML'), P = this.I('edButtonPreview'), ta = this.I(id);
+		var ed, qt = this.I('quicktags'), H = this.I('edButtonHTML'), P = this.I('edButtonPreview'), ta = this.I(id);
+
+		try { ed = tinyMCE.get(id); }
+		catch(e) { ed = false; }
 
 		if ( 'tinymce' == mode ) {
-
 			if ( ed && ! ed.isHidden() )
 				return false;
 
+			setUserSetting( 'editor', 'tinymce' );
 			this.mode = 'html';
-			ta.style.color = '#fff';
 
 			P.className = 'active';
 			H.className = '';
 			edCloseAllTags(); // :-(
-
 			qt.style.display = 'none';
 
 			ta.value = this.wpautop(ta.value);
 
-			if ( ed ) ed.show();
-			else tinyMCE.execCommand("mceAddControl", false, id);
-
-			setUserSetting( 'editor', 'tinymce' );
+			if ( ed ) {
+				ed.show();
+			} else {
+				try{tinyMCE.execCommand("mceAddControl", false, id);}
+				catch(e){}
+			}
 		} else {
-			if ( ! ed || ed.isHidden() )
-				return false;
-
+			setUserSetting( 'editor', 'html' );
+			ta.style.color = '#000';
 			this.mode = 'tinymce';
 			H.className = 'active';
 			P.className = '';
 
-			ta.style.height = ed.getContentAreaContainer().offsetHeight + 6 + 'px';
+			if ( ed && !ed.isHidden() ) {
+				ta.style.height = ed.getContentAreaContainer().offsetHeight + 24 + 'px';
+				ed.hide();
+			}
 
-			ed.hide();
 			qt.style.display = 'block';
-
-			ta.style.color = '';
-			setUserSetting( 'editor', 'html' );
 		}
 		return false;
 	},

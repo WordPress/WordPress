@@ -1806,9 +1806,8 @@ input#link_url {
 	border-style: none none solid;
 }
 
-#poststuff #edButtonPreview,
-#poststuff #edButtonHTML {
-	display: block;
+#edButtonPreview,
+#edButtonHTML {
 	height: 18px;
 	margin: 5px 5px 0 0;
 	padding: 4px 5px 2px;
@@ -1823,6 +1822,10 @@ input#link_url {
 	-khtml-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
+}
+
+.js .theEditor {
+	color: white;
 }
 
 #poststuff #edButtonHTML {
