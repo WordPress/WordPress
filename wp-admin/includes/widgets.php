@@ -24,6 +24,7 @@ function wp_list_widgets() {
 	natcasesort($sort); ?>
 
 	<div class="widget-holder">
+	<p class="description"><?php _e('Drag widgets from here to a sidebar on the right to activate them.'); ?></p>
 	<div id="widget-list">
 <?php
 	foreach ( $sort as $val ) {

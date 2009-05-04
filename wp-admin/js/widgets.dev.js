@@ -6,7 +6,7 @@ wpWidgets = {
 	init : function() {
         var rem, hr = $('#available-widgets .widget-holder').height(), firstsb = $('#widgets-right .widgets-holder-wrap .widgets-sortables:first'), hl = firstsb.height();
 
-		$('#widgets-right h3.sidebar-name').click(function(){
+		$('#widgets-right div.sidebar-name').click(function(){
             var c = $(this).siblings('.widgets-sortables');
 			if ( c.is(':visible') ) {
 				c.hide().sortable('disable');
@@ -17,7 +17,7 @@ wpWidgets = {
 			}
         });
         
-        $('#widgets-left h3.sidebar-name').click(function(){
+        $('#widgets-left div.sidebar-name').click(function(){
 			if ( $(this).siblings('.widget-holder').is(':visible') ) {
 				$(this).parent().addClass('closed');
 			} else {

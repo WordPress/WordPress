@@ -39,17 +39,16 @@ div.widget-liquid-right {
 	float: left;
 }
 
-.widget-liquid-right .sidebar-name {
-	width: 256px;
+div.sidebar-name h3 {
+	margin: 0;
+	padding: 5px 12px;
 }
 
-h3.sidebar-name {
+div.sidebar-name {
 	background-repeat: repeat-x;
 	background-position: 0 0;
-	margin: 0;
 	cursor: pointer;
 	font-size: 13px;
-	padding: 5px 12px;
 	border-width: 1px;
 	border-style: solid;
 	-moz-border-radius-topleft: 8px;
@@ -62,7 +61,7 @@ h3.sidebar-name {
 	border-top-left-radius: 8px;
 }
 
-.js .closed h3.sidebar-name {
+.js .closed .sidebar-name {
 	-moz-border-radius-bottomleft: 8px;
 	-moz-border-radius-bottomright: 8px;
 	-webkit-border-bottom-right-radius: 8px;
@@ -94,11 +93,10 @@ h3.sidebar-name {
 
 .widget-liquid-right .widgets-sortables {
 	padding: 15px 0 0;
-	width: 280px;
 }
 
 #available-widgets .widget-holder {
-	padding: 15px 5px 0;
+	padding: 7px 5px 0;
 }
 
 #wp_inactive_widgets {
@@ -250,10 +248,7 @@ a.widget-control-edit {
 	display: none;
 }
 
-#available-widgets .widget-control-edit .add {
-	display: block;
-}
-
+#available-widgets .widget-control-edit .add,
 #widgets-right .widget-control-edit .edit,
 #wp_inactive_widgets .widget-control-edit .edit {
 	display: block;
@@ -274,8 +269,12 @@ a.widget-control-edit {
 	border-radius: 6px;
 }
 
-#widgets-left p.description {
+.inactive p.description {
 	margin: 5px 15px 8px;
+}
+
+#available-widgets p.description {
+	margin: 0 12px 12px;
 }
 
 .widget-position {
@@ -284,4 +283,10 @@ a.widget-control-edit {
 
 .inactive {
 	padding-top: 2px;
+}
+
+.sidebar-name-arrow {
+	float: right;
+	height: 29px;
+	width: 26px;
 }

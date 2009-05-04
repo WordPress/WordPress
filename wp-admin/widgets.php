@@ -346,14 +346,18 @@ require_once( 'admin-header.php' ); ?>
 <div class="widget-liquid-left">
 <div id="widgets-left">
 	<div id="available-widgets" class="widgets-holder-wrap">
-		<h3 class="sidebar-name"><?php _e('Available Widgets'); ?></h3>
+		<div class="sidebar-name">
+		<div class="sidebar-name-arrow"><br /></div>
+		<h3><?php _e('Available Widgets'); ?></h3></div>
 		<?php wp_list_widgets(); ?>
 		<br class="clear" />
 	</div>
 
 	<div class="widgets-holder-wrap">
-		<h3 class="sidebar-name"><?php _e('Inactive Widgets'); ?>
-		<span><img src="images/wpspin.gif" class="ajax-feedback" title="" alt="" /></span></h3>
+		<div class="sidebar-name">
+		<div class="sidebar-name-arrow"><br /></div>
+		<h3><?php _e('Inactive Widgets'); ?>
+		<span><img src="images/wpspin.gif" class="ajax-feedback" title="" alt="" /></span></h3></div>
 		<div class="widget-holder inactive">
 		<p class="description"><?php _e('Drag widgets here to remove them from the sidebar but keep their settings.'); ?></p>
 		<?php wp_list_widget_controls('wp_inactive_widgets'); ?>
@@ -372,8 +376,10 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 		continue;
 	$closed = $i ? ' closed' : ''; ?>
 	<div class="widgets-holder-wrap<?php echo $closed; ?>">
-	<h3 class="sidebar-name"><?php echo wp_specialchars( $registered_sidebar['name'] ); ?>
-	<span><img src="images/wpspin.gif" class="ajax-feedback" title="" alt="" /></span></h3>
+	<div class="sidebar-name">
+	<div class="sidebar-name-arrow"><br /></div>
+	<h3><?php echo wp_specialchars( $registered_sidebar['name'] ); ?>
+	<span><img src="images/wpspin.gif" class="ajax-feedback" title="" alt="" /></span></h3></div>
 	<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 	</div>
 <?php

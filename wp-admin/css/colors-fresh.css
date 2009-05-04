@@ -1590,14 +1590,14 @@ div.widgets-sortables,
     border-color: #ddd;
 }
 
-#widgets-left h3.sidebar-name {
+#widgets-left .sidebar-name {
 	background-color: #aaa;
 	background-image: url(../images/ed-bg.gif);
 	text-shadow: #FFFFFF 0 -1px 0;
 	border-color: #dfdfdf;
 }
 
-#widgets-right h3.sidebar-name {
+#widgets-right .sidebar-name {
 	background-image: url(../images/fav.png);
 	text-shadow: #3f3f3f 0 -1px 0;
 	background-color: #636363;
@@ -1607,4 +1607,12 @@ div.widgets-sortables,
 
 .sidebar-name:hover {
 	color: #d54e21;
+}
+
+#widgets-left .sidebar-name-arrow {
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -109px;
+}
+
+#widgets-right .sidebar-name-arrow {
+	background: transparent url(../images/fav-arrow.gif) no-repeat scroll 0 -1px;
 }
