@@ -98,7 +98,7 @@ if ( 'publish' == $post->post_status ) {
 <div id="misc-publishing-actions">
 
 <div class="misc-pub-section<?php if ( !$can_publish ) { echo ' misc-pub-section-last'; } ?>"><label for="post_status"><?php _e('Status:') ?></label>
-<b><span id="post-status-display">
+<span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
 	case 'private':
@@ -118,7 +118,7 @@ switch ( $post->post_status ) {
 		break;
 }
 ?>
-</span></b>
+</span>
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
 <a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
@@ -144,7 +144,7 @@ switch ( $post->post_status ) {
 </div><?php // /misc-pub-section ?>
 
 <div class="misc-pub-section " id="visibility">
-<?php _e('Visibility:'); ?> <b><span id="post-visibility-display"><?php
+<?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
 
 if ( 'private' == $post->post_status ) {
 	$post->post_password = '';
@@ -158,22 +158,21 @@ if ( 'private' == $post->post_status ) {
 	$visibility_trans = __('Public');
 }
 
-?><?php echo wp_specialchars( $visibility_trans ); ?></span></b> <?php if ( $can_publish ) { ?> <a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
+echo wp_specialchars( $visibility_trans ); ?></span>
+<?php if ( $can_publish ) { ?>
+<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
 
 <div id="post-visibility-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo attr($post->post_password); ?>" />
 <input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo attr( $visibility ); ?>" />
-
 
 <input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
 <input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
 <span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo attr($post->post_password); ?>" /><br /></span>
 <input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _e('Private'); ?></label><br />
 
-<p>
- <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
- <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a>
-</p>
+<p><a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
+<a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a></p>
 </div>
 <?php } ?>
 
@@ -199,15 +198,14 @@ if ( 0 != $post->ID ) {
 	$stamp = __('Publish <b>immediately</b>');
 	$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
 }
-?>
-<?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
+
+if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime misc-pub-section-last">
-	<span id="timestamp">
-	<?php printf($stamp, $date); ?></span>
+	<span id="timestamp"><?php printf($stamp, $date); ?></span>
 	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
-</div><?php // /misc-pub-section ?>
-<?php endif; ?>
+</div><?php // /misc-pub-section
+endif; ?>
 
 </div>
 <div class="clear"></div>
@@ -225,22 +223,25 @@ if ( ( 'edit' == $action ) && current_user_can('delete_page', $post->ID) ) { ?>
 <div id="publishing-action">
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) { ?>
-<?php if ( $can_publish ) : ?>
-	<?php if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
+<?php
+	if ( $can_publish ) :
+		if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Schedule') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Schedule') ?>" />
-	<?php else : ?>
+<?php	else : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Publish') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Publish') ?>" />
-	<?php endif; ?>
-<?php else : ?>
+<?php	endif;
+	else : ?>
 	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Submit for Review') ?>" />
 	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Submit for Review') ?>" />
-<?php endif; ?>
-<?php } else { ?>
+<?php
+	endif;
+} else { ?>
 	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Update Page') ?>" />
 	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Update Page') ?>" />
-<?php } ?>
+<?php
+} ?>
 </div>
 <div class="clear"></div>
 </div>
@@ -280,8 +281,7 @@ function page_attributes_meta_box($post){
 <?php wp_dropdown_pages(array('exclude_tree' => $post->ID, 'selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('Main Page (no parent)'), 'sort_column'=> 'menu_order, post_title')); ?>
 <p><?php _e('You can arrange your pages in hierarchies, for example you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 <?php
-	if ( 0 != count( get_page_templates() ) ) {
-?>
+	if ( 0 != count( get_page_templates() ) ) { ?>
 <h5><?php _e('Template') ?></h5>
 <label class="invisible" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <option value='default'><?php _e('Default Template'); ?></option>
@@ -289,8 +289,7 @@ function page_attributes_meta_box($post){
 </select>
 <p><?php _e('Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them above.'); ?></p>
 <?php
-	}
-?>
+	} ?>
 <h5><?php _e('Order') ?></h5>
 <p><label class="invisible" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo attr($post->menu_order) ?>" /></p>
 <p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
@@ -309,11 +308,10 @@ function page_custom_meta_box($post){
 ?>
 <div id="postcustomstuff">
 <?php
-$metadata = has_meta($post->ID);
-list_meta($metadata);
-meta_form();
-?>
-<div id="ajax-response"></div>
+	$metadata = has_meta($post->ID);
+	list_meta($metadata);
+	meta_form(); ?>
+	<div id="ajax-response"></div>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 <?php
@@ -428,13 +426,9 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 
 <div id="side-info-column" class="inner-sidebar">
-
 <?php
-
 do_action('submitpage_box');
-$side_meta_boxes = do_meta_boxes('page', 'side', $post);
-
-?>
+$side_meta_boxes = do_meta_boxes('page', 'side', $post); ?>
 </div>
 
 <div id="post-body">
@@ -475,19 +469,18 @@ endif; ?>
 	</td>
 </tr></tbody></table>
 
-<?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-<?php wp_nonce_field( 'getpermalink', 'getpermalinknonce', false ); ?>
-<?php wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false ); ?>
-<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+<?php
+wp_nonce_field( 'autosave', 'autosavenonce', false );
+wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+wp_nonce_field( 'getpermalink', 'getpermalinknonce', false );
+wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
+wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 </div>
 
 <?php
-
 do_meta_boxes('page', 'normal', $post);
 do_action('edit_page_form');
 do_meta_boxes('page', 'advanced', $post);
-
 ?>
 
 </div>

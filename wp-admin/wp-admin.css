@@ -309,6 +309,11 @@ form p.submit a.cancel:hover {
 	margin-left: 18px;
 }
 
+#post-status-display,
+#post-visibility-display {
+	font-weight: bold;
+}
+
 .side-info {
 	margin: 0;
 	padding: 4px;

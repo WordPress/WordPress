@@ -104,7 +104,7 @@ if ( 'publish' == $post->post_status ) {
 <div id="misc-publishing-actions">
 
 <div class="misc-pub-section<?php if ( !$can_publish ) { echo '  misc-pub-section-last'; } ?>"><label for="post_status"><?php _e('Status:') ?></label>
-<b><span id="post-status-display">
+<span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
 	case 'private':
@@ -124,7 +124,7 @@ switch ( $post->post_status ) {
 		break;
 }
 ?>
-</span></b>
+</span>
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
 <a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
@@ -149,7 +149,7 @@ switch ( $post->post_status ) {
 </div><?php // /misc-pub-section ?>
 
 <div class="misc-pub-section " id="visibility">
-<?php _e('Visibility:'); ?> <b><span id="post-visibility-display"><?php
+<?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
 
 if ( 'private' == $post->post_status ) {
 	$post->post_password = '';
@@ -166,7 +166,7 @@ if ( 'private' == $post->post_status ) {
 	$visibility_trans = __('Public');
 }
 
-?><?php echo wp_specialchars( $visibility_trans ); ?></span></b> <?php if ( $can_publish ) { ?> <a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
+?><?php echo wp_specialchars( $visibility_trans ); ?></span> <?php if ( $can_publish ) { ?> <a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
 
 <div id="post-visibility-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo attr($post->post_password); ?>" />
@@ -210,8 +210,8 @@ if ( 0 != $post->ID ) {
 	$stamp = __('Publish <b>immediately</b>');
 	$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
 }
-?>
-<?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
+
+if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime misc-pub-section-last">
 	<span id="timestamp">
 	<?php printf($stamp, $date); ?></span>
@@ -235,23 +235,25 @@ if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
 
 <div id="publishing-action">
 <?php
-if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) { ?>
-<?php if ( current_user_can('publish_posts') ) : ?>
-	<?php if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
+if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) {
+	if ( current_user_can('publish_posts') ) :
+		if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Schedule') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Schedule') ?>" />
-	<?php else : ?>
+<?php	else : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Publish') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Publish') ?>" />
-	<?php endif; ?>
-<?php else : ?>
-	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Submit for Review') ?>" />
-	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Submit for Review') ?>" />
-<?php endif; ?>
-<?php } else { ?>
-	<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Update Post') ?>" />
-	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Update Post') ?>" />
-<?php } ?>
+<?php	endif;
+	else : ?>
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Submit for Review') ?>" />
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Submit for Review') ?>" />
+<?php
+	endif;
+} else { ?>
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _ea('Update Post') ?>" />
+		<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _ea('Update Post') ?>" />
+<?php
+} ?>
 </div>
 <div class="clear"></div>
 </div>
@@ -317,13 +319,13 @@ function post_categories_meta_box($post) {
 
 <div id="categories-pop" class="ui-tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear" >
-		<?php $popular_ids = wp_popular_terms_checklist('category'); ?>
+<?php $popular_ids = wp_popular_terms_checklist('category'); ?>
 	</ul>
 </div>
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php wp_category_checklist($post->ID, false, false, $popular_ids) ?>
+<?php wp_category_checklist($post->ID, false, false, $popular_ids) ?>
 	</ul>
 </div>
 
@@ -331,12 +333,11 @@ function post_categories_meta_box($post) {
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="category-add" class="wp-hidden-child">
-		<label class="invisible" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
-		<label class="invisible" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
-		<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _ea( 'Add' ); ?>" tabindex="3" />
-		<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
-		<span id="category-ajax-response"></span>
-	</p>
+	<label class="invisible" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _ea( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
+	<label class="invisible" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
+	<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _ea( 'Add' ); ?>" tabindex="3" />
+<?php	wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
+	<span id="category-ajax-response"></span></p>
 </div>
 <?php
 endif;
@@ -353,9 +354,7 @@ add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post'
  */
 function post_password_meta_box($post) {
 ?>
-<p>
-	<label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label>
-</p>
+<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label></p>
 <h4><?php _e( 'Post Password' ); ?></h4>
 <p><label class="invisible" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
@@ -419,8 +418,7 @@ function post_custom_meta_box($post) {
 <?php
 $metadata = has_meta($post->ID);
 list_meta($metadata);
-meta_form();
-?>
+meta_form(); ?>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 <?php
@@ -441,8 +439,7 @@ function post_comment_status_meta_box($post) {
 <input name="advanced_view" type="hidden" value="1" />
 <p class="meta-options">
 	<label for="comment_status" class="selectit"> <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> /> <?php _e('Allow comments on this post') ?></label><br />
-	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a> on this post') ?></label>
-</p>
+	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a> on this post') ?></label></p>
 <?php
 }
 add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
@@ -468,16 +465,12 @@ function post_comment_meta_box($post) {
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
-<thead>
-	<tr>
+<thead><tr>
     <th scope="col" class="column-author"><?php _e('Author') ?></th>
     <th scope="col" class="column-comment">
-		<?php /* translators: field name in comment form */ echo _x('Comment', 'noun'); ?>
-	</th>
-  </tr>
-</thead>
-<tbody id="the-comment-list" class="list:comment">
-</tbody>
+<?php /* translators: field name in comment form */ echo _x('Comment', 'noun'); ?></th>
+</tr></thead>
+<tbody id="the-comment-list" class="list:comment"></tbody>
 </table>
 <p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/wpspin.gif" alt="" /></p>
 <?php
@@ -580,12 +573,13 @@ else
 <input type="hidden" id="post_type" name="post_type" value="<?php echo attr($post->post_type) ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo attr($post->post_status) ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
-<?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
+<?php
+if ( 'draft' != $post->post_status )
+	wp_original_referer_field(true, 'previous');
 
-<?php echo $form_extra ?>
+echo $form_extra ?>
 
 <div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
-
 <div id="side-info-column" class="inner-sidebar">
 
 <?php do_action('submitpost_box'); ?>
@@ -601,14 +595,17 @@ else
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">
-<?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
-<?php if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) ) { ?>
+<?php
+$sample_permalink_html = get_sample_permalink_html($post->ID);
+if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) ) { ?>
 	<div id="edit-slug-box">
-<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) :
-	echo $sample_permalink_html;
+<?php
+	if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) :
+		echo $sample_permalink_html;
 endif; ?>
 	</div>
-<?php } ?>
+<?php
+} ?>
 </div>
 </div>
 
@@ -630,17 +627,16 @@ endif; ?>
 			printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
 		}
 		echo '</span>';
-	}
-?>
+	} ?>
 	</td>
 </tr></tbody></table>
 
-
-<?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-<?php wp_nonce_field( 'getpermalink', 'getpermalinknonce', false ); ?>
-<?php wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false ); ?>
-<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+<?php
+wp_nonce_field( 'autosave', 'autosavenonce', false );
+wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+wp_nonce_field( 'getpermalink', 'getpermalinknonce', false );
+wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
+wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 </div>
 
 <?php
@@ -651,9 +647,7 @@ do_action('edit_form_advanced');
 
 do_meta_boxes('post', 'advanced', $post);
 
-do_action('dbx_post_sidebar');
-
-?>
+do_action('dbx_post_sidebar'); ?>
 
 </div>
 </div>
