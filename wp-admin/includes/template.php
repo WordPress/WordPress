@@ -853,7 +853,8 @@ function get_column_headers($page) {
 				'url' => __('URL'),
 				'categories' => __('Categories'),
 				'rel' => __('Relationship'),
-				'visible' => __('Visible')
+				'visible' => __('Visible'),
+				'rating' => __('Rating')
 			);
 
 			break;

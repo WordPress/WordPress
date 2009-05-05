@@ -414,10 +414,6 @@ a.button-secondary {
 	line-height: 150%;
 }
 
-table .vers {
-	text-align: center;
-}
-
 textarea.all-options, input.all-options {
 	width: 250px;
 }
@@ -2134,7 +2130,8 @@ body.wp-admin {
 	margin-right: 20px;
 }
 
-td.action-links, th.action-links {
+td.action-links,
+th.action-links {
 	text-align: right;
 }
 
@@ -3018,9 +3015,13 @@ table.fixed {
 	table-layout: fixed;
 }
 
+.fixed .column-rating,
+.fixed .column-visible {
+	width: 8%;
+}
+
 .fixed .column-date,
 .fixed .column-parent,
-.fixed .column-visible,
 .fixed .column-links {
 	width: 10%;
 }
@@ -3060,6 +3061,12 @@ table.fixed {
 .widefat th,
 .widefat td {
 	overflow: hidden;
+}
+
+table .vers,
+table .column-visible,
+table .column-rating {
+	text-align: center;
 }
 
 .icon32 {

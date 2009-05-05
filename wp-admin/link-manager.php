@@ -174,6 +174,7 @@ if ( $links ) {
 		if (strlen($short_url) > 35)
 			$short_url = substr($short_url, 0, 32).'...';
 		$visible = ($link->link_visible == 'Y') ? __('Yes') : __('No');
+		$rating  = $link->link_rating;
 		$style = ($alt % 2) ? '' : ' class="alternate"';
 		++ $alt;
 		$edit_link = get_edit_bookmark_link();
@@ -184,8 +185,7 @@ if ( $links ) {
 			$style = '';
 			if ( in_array($column_name, $hidden) )
 				$style = ' style="display:none;"';
-			if ( 'visible' == $column_name )
-				$style = empty($style) ? ' style="text-align: center;"' : ' style="text-align: center; display: none;"';
+
 			$attributes = "$class$style";
 
 			switch($column_name) {
@@ -233,6 +233,9 @@ if ( $links ) {
 				case 'visible':
 					?><td <?php echo $attributes ?>><?php echo $visible; ?></td><?php
 					break;
+				case 'rating': 
+ 					?><td <?php echo $attributes ?>><?php echo $rating; ?></td><?php 
+					break; 
 				default:
 					?>
 					<td><?php do_action('manage_link_custom_column', $column_name, $link->link_id); ?></td>
