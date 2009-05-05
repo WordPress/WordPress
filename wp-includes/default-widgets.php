@@ -22,7 +22,7 @@ class WP_Widget_Pages extends WP_Widget {
 	function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = empty( $instance['title'] ) ? __( 'Pages' ) : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title']);
 		$sortby = empty( $instance['sortby'] ) ? 'menu_order' : $instance['sortby'];
 		$exclude = empty( $instance['exclude'] ) ? '' : $instance['exclude'];
 
@@ -33,7 +33,8 @@ class WP_Widget_Pages extends WP_Widget {
 
 		if ( !empty( $out ) ) {
 			echo $before_widget;
-			echo $before_title . $title . $after_title;
+			if ( $title)
+				echo $before_title . $title . $after_title;
 		?>
 		<ul>
 			<?php echo $out; ?>
@@ -203,10 +204,11 @@ class WP_Widget_Archives extends WP_Widget {
 		extract($args);
 		$c = $instance['count'] ? '1' : '0';
 		$d = $instance['dropdown'] ? '1' : '0';
-		$title = empty($instance['title']) ? __('Archives') : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Archives') : $instance['title']);
 
 		echo $before_widget;
-		echo $before_title . $title . $after_title;
+		if ( $title )
+			echo $before_title . $title . $after_title;
 
 		if ( $d ) {
 ?>
@@ -265,10 +267,11 @@ class WP_Widget_Meta extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = empty($instance['title']) ? __('Meta') : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Meta') : $instance['title']);
 
 		echo $before_widget;
-		echo $before_title . $title . $after_title;
+		if ( $title )
+			echo $before_title . $title . $after_title;
 ?>
 			<ul>
 			<?php wp_register(); ?>
@@ -312,8 +315,10 @@ class WP_Widget_Calendar extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = empty($instance['title']) ? '&nbsp;' : apply_filters('widget_title', $instance['title']);
-		echo $before_widget . $before_title . $title . $after_title;
+		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+		echo $before_widget;
+		if ( $title )
+			echo $before_title . $title . $after_title;
 		echo '<div id="calendar_wrap">';
 		get_calendar();
 		echo '</div>';
@@ -354,7 +359,7 @@ class WP_Widget_Text extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title']);
 		$text = apply_filters( 'widget_text', $instance['text'] );
 		echo $before_widget;
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
@@ -408,13 +413,14 @@ class WP_Widget_Categories extends WP_Widget {
 	function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = empty( $instance['title'] ) ? __( 'Categories' ) : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title']);
 		$c = $instance['count'] ? '1' : '0';
 		$h = $instance['hierarchical'] ? '1' : '0';
 		$d = $instance['dropdown'] ? '1' : '0';
 
 		echo $before_widget;
-		echo $before_title . $title . $after_title;
+		if ( $title )
+			echo $before_title . $title . $after_title;
 
 		$cat_args = array('orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h);
 
@@ -521,7 +527,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		ob_start();
 		extract($args);
 
-		$title = empty($instance['title']) ? __('Recent Posts') : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Posts') : $instance['title']);
 		if ( !$number = (int) $instance['number'] )
 			$number = 10;
 		else if ( $number < 1 )
@@ -533,7 +539,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ($r->have_posts()) :
 ?>
 		<?php echo $before_widget; ?>
-		<?php echo $before_title . $title . $after_title; ?>
+		<?php if ( $title ) echo $before_title . $title . $after_title; ?>
 		<ul>
 		<?php  while ($r->have_posts()) : $r->the_post(); ?>
 		<li><a href="<?php the_permalink() ?>"><?php if ( get_the_title() ) the_title(); else the_ID(); ?> </a></li>
@@ -614,7 +620,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		global $wpdb, $comments, $comment;
 
 		extract($args, EXTR_SKIP);
-		$title = empty($instance['title']) ? __('Recent Comments') : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Comments') : $instance['title']);
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
 		else if ( $number < 1 )
@@ -630,7 +636,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$comments = array_slice( (array) $comments, 0, $number );
 ?>
 		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
+			<?php if ( $title ) echo $before_title . $title . $after_title; ?>
 			<ul id="recentcomments"><?php
 			if ( $comments ) : foreach ( (array) $comments as $comment) :
 			echo  '<li class="recentcomments">' . /* translators: comments widget: 1: comment author, 2: post link */ sprintf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . clean_url( get_comment_link($comment->comment_ID) ) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
@@ -716,10 +722,12 @@ class WP_Widget_RSS extends WP_Widget {
 		$title = apply_filters('widget_title', $title );
 		$url = clean_url(strip_tags($url));
 		$icon = includes_url('images/rss.png');
-		$title = "<a class='rsswidget' href='$url' title='" . attr(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
+		if ( $title )
+			$title = "<a class='rsswidget' href='$url' title='" . attr(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 
 		echo $before_widget;
-		echo $before_title . $title . $after_title;
+		if ( $title )
+			echo $before_title . $title . $after_title;
 		wp_widget_rss_output( $rss, $instance );
 		echo $after_widget;
 	}
@@ -967,10 +975,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = empty($instance['title']) ? __('Tags') : apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Tags') : $instance['title']);
 
 		echo $before_widget;
-		echo $before_title . $title . $after_title;
+		if ( $title )
+			echo $before_title . $title . $after_title;
 		wp_tag_cloud();
 		echo $after_widget;
 	}
