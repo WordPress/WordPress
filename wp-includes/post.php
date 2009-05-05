@@ -1817,15 +1817,15 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 /**
  * Transition the post status of a post.
  *
- * Calls hooks to transition post status. If the new post status is not the same
- * as the previous post status, then two hooks will be ran, the first is
- * 'transition_post_status' with new status, old status, and post data. The
- * next action called is 'OLDSTATUS_to_NEWSTATUS' the NEWSTATUS is the
+ * Calls hooks to transition post status.
+ *
+ * The first is 'transition_post_status' with new status, old status, and post data.
+ *
+ * The next action called is 'OLDSTATUS_to_NEWSTATUS' the NEWSTATUS is the
  * $new_status parameter and the OLDSTATUS is $old_status parameter; it has the
  * post data.
  *
- * The final action will run whether or not the post statuses are the same. The
- * action is named 'NEWSTATUS_POSTTYPE', NEWSTATUS is from the $new_status
+ * The final action is named 'NEWSTATUS_POSTTYPE', NEWSTATUS is from the $new_status
  * parameter and POSTTYPE is post_type post data.
  *
  * @since 2.3.0
@@ -1835,10 +1835,8 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
  * @param object $post Post data.
  */
 function wp_transition_post_status($new_status, $old_status, $post) {
-	if ( $new_status != $old_status ) {
-		do_action('transition_post_status', $new_status, $old_status, $post);
-		do_action("${old_status}_to_$new_status", $post);
-	}
+	do_action('transition_post_status', $new_status, $old_status, $post);
+	do_action("${old_status}_to_$new_status", $post);
 	do_action("${new_status}_$post->post_type", $post->ID, $post);
 }
 
