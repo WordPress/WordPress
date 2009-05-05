@@ -1,5 +1,5 @@
 (function($) {
-var currentFormEl = false, fs = {add:'ajaxAdd',del:'ajaxDel',dim:'ajaxDim',process:'process',recolor:'recolor'}, wpList;
+var fs = {add:'ajaxAdd',del:'ajaxDel',dim:'ajaxDim',process:'process',recolor:'recolor'}, wpList;
 
 wpList = {
 	settings: {
@@ -264,7 +264,8 @@ wpList = {
 		if ( s.id && ( s.id != s.oldId || !old || !old.size() ) ) { $('#' + s.what + '-' + s.id).remove(); }
 
 		if ( old && old.size() ) {
-			old.replaceWith(e);
+			old.before(e);
+			old.remove();
 		} else if ( isNaN(s.pos) ) {
 			ba = 'after';
 			if ( '-' == s.pos.substr(0,1) ) {
@@ -312,23 +313,7 @@ wpList = {
 		var list = this;
 		$("[class^=add:" + list.id + ":]", el || null)
 			.filter('form').submit( function() { return list.wpList.add(this); } ).end()
-			.not('form').click( function() { return list.wpList.add(this); } ).each( function() {
-				var addEl = this, c = wpList.parseClass(this,'add')[2] || addEl.id, forms = [], ins = [];
-				if ( !c ) { return; }
-				// this is all really inefficient
-				$('#' + c + ' :input').focus( function() { currentFormEl = this; } ).blur( function() { currentFormEl = false; } ).each( function() {
-					ins.push(this);
-					var f = $(this).parents('form:first').get(0);
-					if ( $.inArray(f,forms) < 0 ) { forms.push(f); }
-				} );
-				$(forms).submit( function() {
-					if ( 0 <= $.inArray(currentFormEl,ins) ) {
-						$(addEl).trigger( 'click' );
-						$(currentFormEl).focus();
-						return false;
-					}
-				} );
-			} );
+			.not('form').click( function() { return list.wpList.add(this); } );
 		$("[class^=delete:" + list.id + ":]", el || null).click( function() { return list.wpList.del(this); } );
 		$("[class^=dim:" + list.id + ":]", el || null).click( function() { return list.wpList.dim(this); } );
 	},

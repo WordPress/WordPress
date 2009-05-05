@@ -107,7 +107,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090106' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
-	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20090128' );
+	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20090504' );
 	$scripts->add_data( 'wp-lists', 'group', 1 );
 	$scripts->localize( 'wp-lists', 'wpListL10n', array(
 		'url' => admin_url('admin-ajax.php')
