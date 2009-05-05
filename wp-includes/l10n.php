@@ -38,9 +38,7 @@ function get_locale() {
 	if (empty($locale))
 		$locale = 'en_US';
 
-	$locale = apply_filters('locale', $locale);
-
-	return $locale;
+	return apply_filters('locale', $locale);
 }
 
 /**
