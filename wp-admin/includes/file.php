@@ -67,11 +67,12 @@ function get_file_description( $file ) {
  */
 function get_home_path() {
 	$home = get_option( 'home' );
-	if ( $home != '' && $home != get_option( 'siteurl' ) ) {
-		$home_path = parse_url( $home );
-		$home_path = $home_path['path'];
-		$root = str_replace( $_SERVER["PHP_SELF"], '', $_SERVER["SCRIPT_FILENAME"] );
-		$home_path = trailingslashit( $root.$home_path );
+	$siteurl = get_option( 'siteurl' );
+	if ( $home != '' && $home != $siteurl ) {
+	        $wp_path_rel_to_home = str_replace($home, '', $siteurl); /* $siteurl - $home */
+	        $pos = strpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
+	        $home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);        
+		$home_path = trailingslashit( $home_path );
 	} else {
 		$home_path = ABSPATH;
 	}
