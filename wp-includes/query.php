@@ -2170,7 +2170,7 @@ class WP_Query {
 			if ( $this->is_archive || $this->is_search ) {
 				$cjoin = "LEFT JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) $join ";
 				$cwhere = "WHERE comment_approved = '1' $where";
-				$cgroupby = "GROUP BY $wpdb->comments.comment_id";
+				$cgroupby = "$wpdb->comments.comment_id";
 			} else { // Other non singular e.g. front
 				$cjoin = "LEFT JOIN $wpdb->posts ON ( $wpdb->comments.comment_post_ID = $wpdb->posts.ID )";
 				$cwhere = "WHERE post_status = 'publish' AND comment_approved = '1'";
@@ -2181,9 +2181,13 @@ class WP_Query {
 				$cjoin = apply_filters('comment_feed_join', $cjoin);
 				$cwhere = apply_filters('comment_feed_where', $cwhere);
 				$cgroupby = apply_filters('comment_feed_groupby', $cgroupby);
+				$corderby = apply_filters('comment_feed_orderby', 'comment_date_gmt DESC');
+				$climits = apply_filters('comment_feed_limits', 'LIMIT ' . get_option('posts_per_rss'));
 			}
+			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
+			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
 
-			$this->comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss'));
+			$this->comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits");
 			$this->comment_count = count($this->comments);
 
 			$post_ids = array();
@@ -2248,7 +2252,12 @@ class WP_Query {
 		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
 			$cjoin = apply_filters('comment_feed_join', '');
 			$cwhere = apply_filters('comment_feed_where', "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'");
-			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss');
+			$cgroupby = apply_filters('comment_feed_groupby', '');
+			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
+			$corderby = apply_filters('comment_feed_orderby', 'comment_date_gmt DESC');
+			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
+			$climits = apply_filters('comment_feed_limits', 'LIMIT ' . get_option('posts_per_rss'));
+			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits";
 			$this->comments = $wpdb->get_results($comments_request);
 			$this->comment_count = count($this->comments);
 		}
