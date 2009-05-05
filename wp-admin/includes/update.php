@@ -161,7 +161,9 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_data['Name'], $details_url, $r->new_version);
 	else
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s">upgrade automatically</a>.'), $plugin_data['Name'], $details_url, $r->new_version, wp_nonce_url('update.php?action=upgrade-plugin&amp;plugin=' . $file, 'upgrade-plugin_' . $file) );
-
+	
+	do_action( "in_plugin_update_message-$file", $plugin_data, $r );
+	
 	echo '</td></tr>';
 }
 add_action( 'after_plugin_row', 'wp_plugin_update_row', 10, 2 );
