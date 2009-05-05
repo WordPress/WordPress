@@ -189,15 +189,19 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 			$time = $post->post_date;
 	}
 
+	$name = $_FILES[$file_id]['name'];
 	$file = wp_handle_upload($_FILES[$file_id], $overrides, $time);
 
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );
+		
+	$name_parts = pathinfo($name);
+	$name = trim( substr( $name, 0, -(1 + strlen($name_parts['extension'])) ) );
 
 	$url = $file['url'];
 	$type = $file['type'];
 	$file = $file['file'];
-	$title = preg_replace('/\.[^.]+$/', '', basename($file));
+	$title = $name;
 	$content = '';
 
 	// use image exif/iptc data for title and caption defaults if possible
