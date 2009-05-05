@@ -209,7 +209,7 @@ class LJ_API_Import {
 			</table>
 
 			<p><?php _e( 'If you have any entries on LiveJournal which are marked as private, they will be password-protected when they are imported so that only people who know the password can see them.' ) ?></p>
-			<p><?php _e( "If you don't enter a password, ALL ENTRIES from your LiveJournal will be imported as public posts in WordPress." ) ?></p>
+			<p><?php _e( 'If you don&#8217;t enter a password, ALL ENTRIES from your LiveJournal will be imported as public posts in WordPress.' ) ?></p>
 			<p><?php _e( 'Enter the password you would like to use for all protected entries here:' ) ?></p>
 			<table class="form-table">
 
@@ -383,7 +383,7 @@ class LJ_API_Import {
 				return $post_id;
 			}
 			if ( !$post_id ) {
-				_e( "Couldn't get post ID (creating post failed!)" );
+				_e( 'Couldn&#8217;t get post ID (creating post failed!)' );
 				echo '</li>';
 				return new WP_Error( 'insert_post_failed', __( 'Failed to create post.' ) );
 			}
@@ -778,7 +778,7 @@ class LJ_API_Import {
 
 		echo '<div id="ljapi-status">';
 		echo '<h3>' . __( 'Importing Posts' ) . '</h3>';
-		echo '<p>' . __( "We're downloading and importing your LiveJournal posts..." ) . '</p>';
+		echo '<p>' . __( 'We&#8217;re downloading and importing your LiveJournal posts...' ) . '</p>';
 		if ( get_option( 'ljapi_post_batch' ) && count( get_option( 'ljapi_sync_item_times' ) ) ) {
 			$batch = count( get_option( 'ljapi_sync_item_times' ) );
 			$batch = $count > 300 ? ceil( $batch / 300 ) : 1;
@@ -801,7 +801,7 @@ class LJ_API_Import {
 			if ( 406 == $this->ixr->getErrorCode() ) {
 				?>
 				<p><strong><?php _e( 'Uh oh &ndash; LiveJournal has disconnected us because we made too many requests to their servers too quickly.' ) ?></strong></p>
-				<p><strong><?php _e( "We've saved where you were up to though, so if you come back to this importer in about 30 minutes, you should be able to continue from where you were." ) ?></strong></p>
+				<p><strong><?php _e( 'We&#8217;ve saved where you were up to though, so if you come back to this importer in about 30 minutes, you should be able to continue from where you were.' ) ?></strong></p>
 				<?php
 				echo $this->next_step( 1, __( 'Try Again' ) );
 				return false;
@@ -821,7 +821,7 @@ class LJ_API_Import {
 			<?php $this->auto_ajax( 'ljapi-auto-repost', 'auto-message', 0 ); ?>
 		<?php
 		} else {
-			echo '<p>' . __( "Your posts have all been imported, but wait - there's more! Now we need to download &amp; import your comments." ) . '</p>';
+			echo '<p>' . __( 'Your posts have all been imported, but wait &#8211; there&#8217;s more! Now we need to download &amp; import your comments.' ) . '</p>';
 			echo $this->next_step( 2, __( 'Download my comments &raquo;' ) );
 			$this->auto_submit();
 		}

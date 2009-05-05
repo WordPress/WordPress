@@ -125,7 +125,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
 	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='$edit_link' title='" . attr(sprintf(__('Edit "%s"'), $category->name)) . "'>" . attr( $name ) . '</a><br />';
+		$edit = "<a class='row-title' href='$edit_link' title='" . attr(sprintf(__('Edit &#8220;%s&#8221;'), $category->name)) . "'>" . attr( $name ) . '</a><br />';
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
@@ -296,7 +296,7 @@ function link_cat_row( $category, $name_override = false ) {
 	$name = ( $name_override ? $name_override : $category->name );
 	$edit_link = "link-category.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='$edit_link' title='" . attr(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
+		$edit = "<a class='row-title' href='$edit_link' title='" . attr(sprintf(__('Edit &#8220;%s&#8221;'), $category->name)) . "'>$name</a><br />";
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
@@ -658,7 +658,7 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 					break;
 				case 'name':
-					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . attr(sprintf(__('Edit "%s"'), $name)) . '">' . $name . '</a></strong><br />';
+					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . attr(sprintf(__('Edit &#8220;%s&#8221;'), $name)) . '">' . $name . '</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
@@ -1436,7 +1436,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 		case 'title':
 			$attributes = 'class="post-title column-title"' . $style;
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attr(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states($post); ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states($post); ?></strong>
 		<?php
 			if ( 'excerpt' == $mode )
 				the_excerpt();
@@ -1449,9 +1449,9 @@ function _post_row($a_post, $pending_comments, $mode) {
 			}
 			if ( in_array($post->post_status, array('pending', 'draft')) ) {
 				if ( current_user_can('edit_post', $post->ID) )
-					$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attr(sprintf(__('Preview "%s"'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
+					$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
 			} else {
-				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attr(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 			}
 			$actions = apply_filters('post_row_actions', $actions, $post);
 			$action_count = count($actions);
@@ -1652,7 +1652,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attr(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . wp_specialchars($parent_name) : ''; ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . wp_specialchars($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
 		if ( current_user_can('edit_page', $page->ID) ) {
@@ -1662,9 +1662,9 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
 			if ( current_user_can('edit_page', $page->ID) )
-				$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . attr(sprintf(__('Preview "%s"'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
+				$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
 		} else {
-			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . attr(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		}
 		$actions = apply_filters('page_row_actions', $actions, $page);
 		$action_count = count($actions);
@@ -3508,7 +3508,7 @@ function screen_meta($screen) {
 	$contextual_help = '';
 	if ( isset($_wp_contextual_help[$screen]) ) {
 		if ( !empty($title) )
-			$contextual_help .= '<h5>' . sprintf(__('Get help with "%s"'), $title) . '</h5>';
+			$contextual_help .= '<h5>' . sprintf(__('Get help with &#8220;%s&#8221;'), $title) . '</h5>';
 		else
 			$contextual_help .= '<h5>' . __('Get help with this page') . '</h5>';
 		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen] . "</div>\n";

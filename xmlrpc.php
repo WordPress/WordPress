@@ -498,7 +498,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if( !current_user_can( 'edit_page', $page_id ) )
-			return new IXR_Error( 401, __( 'Sorry, you can not edit this page.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit this page.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPage');
 
@@ -595,7 +595,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if( !current_user_can( 'edit_pages' ) )
-			return new IXR_Error( 401, __( 'Sorry, you can not edit pages.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit pages.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPages');
 
@@ -649,7 +649,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Make sure the user is allowed to add new pages.
 		if(!current_user_can("publish_pages")) {
-			return(new IXR_Error(401, __("Sorry, you can not add new pages.")));
+			return(new IXR_Error(401, __("Sorry, you cannot add new pages.")));
 		}
 
 		// Mark this as content for a page.
@@ -780,7 +780,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if( !current_user_can( 'edit_pages' ) )
-			return new IXR_Error( 401, __( 'Sorry, you can not edit pages.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit pages.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPageList');
 
@@ -833,7 +833,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if(!current_user_can("edit_posts")) {
-			return(new IXR_Error(401, __("Sorry, you can not edit posts on this blog.")));
+			return(new IXR_Error(401, __("Sorry, you cannot edit posts on this blog.")));
 		}
 
 		do_action('xmlrpc_call', 'wp.getAuthors');
@@ -1102,7 +1102,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 401, __( 'Sorry, you can not edit comments.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit comments.' ) );
 
 		do_action('xmlrpc_call', 'wp.getComments');
 
@@ -1665,7 +1665,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if( !current_user_can( 'edit_post', $post_ID ) )
-			return new IXR_Error( 401, __( 'Sorry, you can not edit this post.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		do_action('xmlrpc_call', 'blogger.getPost');
 
@@ -1811,7 +1811,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'blogger.setTemplate');
 
 		if ( !current_user_can('edit_themes') ) {
-			return new IXR_Error(401, __('Sorry, this user can not edit the template.'));
+			return new IXR_Error(401, __('Sorry, this user cannot edit the template.'));
 		}
 
 		/* warning: here we make the assumption that the blog's URL is on the same server */
@@ -2334,7 +2334,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// now and return an error.  Other wise a new post will be
 		// created (which was the old behavior).
 		if(empty($postdata["ID"])) {
-			return(new IXR_Error(404, __("Invalid post id.")));
+			return(new IXR_Error(404, __("Invalid post ID.")));
 		}
 
 		$this->escape($postdata);
@@ -2564,7 +2564,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if( !current_user_can( 'edit_post', $post_ID ) )
-			return new IXR_Error( 401, __( 'Sorry, you can not edit this post.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		do_action('xmlrpc_call', 'metaWeblog.getPost');
 
@@ -3047,7 +3047,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'mt.setPostCategories');
 
 		if ( !current_user_can('edit_post', $post_ID) )
-			return new IXR_Error(401, __('Sorry, you can not edit this post.'));
+			return new IXR_Error(401, __('Sorry, you cannot edit this post.'));
 
 		foreach($categories as $cat) {
 			$catids[] = $cat['categoryId'];
@@ -3157,7 +3157,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'mt.publishPost');
 
 		if ( !current_user_can('edit_post', $post_ID) )
-			return new IXR_Error(401, __('Sorry, you can not edit this post.'));
+			return new IXR_Error(401, __('Sorry, you cannot edit this post.'));
 
 		$postdata = wp_get_single_post($post_ID,ARRAY_A);
 
@@ -3244,7 +3244,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		} else {
 			// TODO: Attempt to extract a post ID from the given URL
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 		}
 		$post_ID = (int) $post_ID;
 
@@ -3254,14 +3254,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post = get_post($post_ID);
 
 		if ( !$post ) // Post_ID not found
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 
 		if ( $post_ID == url_to_postid($pagelinkedfrom) )
 			return new IXR_Error(0, __('The source URL and the target URL cannot both point to the same resource.'));
 
 		// Check if pings are on
 		if ( !pings_open($post) )
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 
 		// Let's check that the remote site didn't already pingback this entry
 		$wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $post_ID, $pagelinkedfrom) );
@@ -3369,7 +3369,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_ID = url_to_postid($url);
 		if (!$post_ID) {
 			// We aren't sure that the resource is available and/or pingback enabled
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 		}
 
 		$actual_post = wp_get_single_post($post_ID, ARRAY_A);

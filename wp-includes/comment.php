@@ -412,9 +412,9 @@ function wp_allow_comment($commentdata) {
 	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
 	if ( $wpdb->get_var($dupe) ) {
 		if ( defined('DOING_AJAX') )
-			die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 
-		wp_die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+		wp_die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 	}
 
 	do_action( 'check_comment_flood', $comment_author_IP, $comment_author_email, $comment_date_gmt );

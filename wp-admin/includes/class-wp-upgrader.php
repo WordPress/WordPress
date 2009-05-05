@@ -936,8 +936,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
 
 		$install_actions = array(
-			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attr(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
-			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attr( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>'
+			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>',
+			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>'
 							);
 
 		if ( $this->type == 'web' )
@@ -995,8 +995,8 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
 
 		$update_actions =  array(
-			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attr(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>',
-			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attr( sprintf( __('Activate "%s"'), $name ) ) . '">' . __('Activate') . '</a>',
+			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>',
+			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>',
 			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . attr(__('Return to Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>',
 		);
 		if ( ( ! $this->result || is_wp_error($this->result) ) || $stylesheet == get_stylesheet() )

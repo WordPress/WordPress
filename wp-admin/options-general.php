@@ -222,7 +222,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	checked( $custom );
 	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attr( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
 
-	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click &quot;Save Changes&quot; to update sample output.') . "</p>\n";
+	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click &#8220;Save Changes&#8221; to update sample output.') . "</p>\n";
 ?>
 	</fieldset>
 </td>

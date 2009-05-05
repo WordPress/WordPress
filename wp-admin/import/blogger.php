@@ -203,7 +203,7 @@ class Blogger_Import {
 		$action   = __('The Magic Button');
 		$posts    = __('Posts');
 		$comments = __('Comments');
-		$noscript = __('This feature requires Javascript but it seems to be disabled. Please enable Javascript and then reload this page. Don\'t worry, you can turn it back off when you\'re done.');
+		$noscript = __('This feature requires Javascript but it seems to be disabled. Please enable Javascript and then reload this page. Don&#8217;t worry, you can turn it back off when you&#8217;re done.');
 
 		$interval = STATUS_INTERVAL * 1000;
 
@@ -653,7 +653,7 @@ class Blogger_Import {
 			$this->save_vars();
 		}
 
-		$directions = __('All posts were imported with the current user as author. Use this form to move each Blogger user\'s posts to a different WordPress user. You may <a href="users.php">add users</a> and then return to this page and complete the user mapping. This form may be used as many times as you like until you activate the "Restart" function below.');
+		$directions = __('All posts were imported with the current user as author. Use this form to move each Blogger user&#8217;s posts to a different WordPress user. You may <a href="users.php">add users</a> and then return to this page and complete the user mapping. This form may be used as many times as you like until you activate the &#8220;Restart&#8221; function below.');
 		$heading = __('Author mapping');
 		$blogtitle = "{$blog['title']} ({$blog['host']})";
 		$mapthis = __('Blogger username');
@@ -796,7 +796,7 @@ class Blogger_Import {
 		$blog = (int) $_GET['blog'];
 		echo '<h1>'.__('Congratulations!').'</h1><p>'.__('Now that you have imported your Blogger blog into WordPress, what are you going to do? Here are some suggestions:').'</p><ul><li>'.__('That was hard work! Take a break.').'</li>';
 		if ( count($this->import['blogs']) > 1 )
-			echo '<li>'.__('In case you haven\'t done it already, you can import the posts from your other blogs:'). $this->show_blogs() . '</li>';
+			echo '<li>'.__('In case you haven&#8217;t done it already, you can import the posts from your other blogs:'). $this->show_blogs() . '</li>';
 		if ( $n = count($this->import['blogs'][$blog]['newusers']) )
 			echo '<li>'.sprintf(__('Go to <a href="%s" target="%s">Authors &amp; Users</a>, where you can modify the new user(s) or delete them. If you want to make all of the imported posts yours, you will be given that option when you delete the new authors.'), 'users.php', '_parent').'</li>';
 		echo '<li>'.__('For security, click the link below to reset this importer.').'</li>';

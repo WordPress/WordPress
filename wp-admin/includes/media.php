@@ -1843,7 +1843,7 @@ function type_url_form_image() {
 
 	if ( apply_filters( 'disable_captions', '' ) ) {
 		$alt = __('Alternate Text');
-		$alt_help = __('Alt text for the image, e.g. "The Mona Lisa"');
+		$alt_help = __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;');
 	} else {
 		$alt = __('Image Caption');
 		$alt_help = __('Also used as alternate text for the image');
@@ -1939,7 +1939,7 @@ function type_url_form_audio() {
 			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. "Still Alive by Jonathan Coulton"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Still Alive by Jonathan Coulton&#8221;') . '</td></tr>
 		<tr>
 			<td></td>
 			<td>
@@ -1974,7 +1974,7 @@ function type_url_form_video() {
 			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. "Lucy on YouTube"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8220;') . '</td></tr>
 		<tr>
 			<td></td>
 			<td>
@@ -2009,7 +2009,7 @@ function type_url_form_file() {
 			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. "Ransom Demands (PDF)"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</td></tr>
 		<tr>
 			<td></td>
 			<td>

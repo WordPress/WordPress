@@ -211,11 +211,11 @@ default:
 			$messages[] = '<div id="message" class="updated fade"><p>' . __('Changed roles.') . '</p></div>';
 			break;
 		case 'err_admin_role':
-			$messages[] = '<div id="message" class="error"><p>' . __("The current user's role must have user editing capabilities.") . '</p></div>';
+			$messages[] = '<div id="message" class="error"><p>' . __('The current user&#8217;s role must have user editing capabilities.') . '</p></div>';
 			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other user roles have been changed.') . '</p></div>';
 			break;
 		case 'err_admin_del':
-			$messages[] = '<div id="message" class="error"><p>' . __("You can't delete the current user.") . '</p></div>';
+			$messages[] = '<div id="message" class="error"><p>' . __('You can&#8217;t delete the current user.') . '</p></div>';
 			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other users have been deleted.') . '</p></div>';
 			break;
 		}

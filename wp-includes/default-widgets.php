@@ -15,7 +15,7 @@
 class WP_Widget_Pages extends WP_Widget {
 
 	function WP_Widget_Pages() {
-		$widget_ops = array('classname' => 'widget_pages', 'description' => __( "Your blog's WordPress Pages") );
+		$widget_ops = array('classname' => 'widget_pages', 'description' => __( 'Your blog&#8217;s WordPress Pages') );
 		$this->WP_Widget('pages', __('Pages'), $widget_ops);
 	}
 
@@ -196,7 +196,7 @@ class WP_Widget_Search extends WP_Widget {
 class WP_Widget_Archives extends WP_Widget {
 
 	function WP_Widget_Archives() {
-		$widget_ops = array('classname' => 'widget_archive', 'description' => __( "A monthly archive of your blog's posts") );
+		$widget_ops = array('classname' => 'widget_archive', 'description' => __( 'A monthly archive of your blog&#8217;s posts') );
 		$this->WP_Widget('archives', __('Archives'), $widget_ops);
 	}
 
@@ -309,7 +309,7 @@ class WP_Widget_Meta extends WP_Widget {
 class WP_Widget_Calendar extends WP_Widget {
 
 	function WP_Widget_Calendar() {
-		$widget_ops = array('classname' => 'widget_calendar', 'description' => __( "A calendar of your blog's posts") );
+		$widget_ops = array('classname' => 'widget_calendar', 'description' => __( 'A calendar of your blog&#8217;s posts') );
 		$this->WP_Widget('calendar', __('Calendar'), $widget_ops);
 	}
 

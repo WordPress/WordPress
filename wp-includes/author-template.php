@@ -132,7 +132,7 @@ function the_author_meta($field = '', $user_id = false) {
  */
 function the_author_link() {
 	if (get_the_author_url()) {
-		echo '<a href="' . get_the_author_url() . '" title="' . sprintf(__("Visit %s's website"), get_the_author()) . '" rel="external">' . get_the_author() . '</a>';
+		echo '<a href="' . get_the_author_url() . '" title="' . sprintf(__("Visit %s&#8217;s website"), get_the_author()) . '" rel="external">' . get_the_author() . '</a>';
 	} else {
 		the_author();
 	}

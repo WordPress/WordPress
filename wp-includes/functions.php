@@ -2239,48 +2239,48 @@ function wp_explain_nonce( $action ) {
 		$noun = $matches[2];
 
 		$trans = array();
-		$trans['update']['attachment'] = array( __( 'Your attempt to edit this attachment: &quot;%s&quot; has failed.' ), 'get_the_title' );
+		$trans['update']['attachment'] = array( __( 'Your attempt to edit this attachment: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
 
 		$trans['add']['category']      = array( __( 'Your attempt to add this category has failed.' ), false );
-		$trans['delete']['category']   = array( __( 'Your attempt to delete this category: &quot;%s&quot; has failed.' ), 'get_cat_name' );
-		$trans['update']['category']   = array( __( 'Your attempt to edit this category: &quot;%s&quot; has failed.' ), 'get_cat_name' );
+		$trans['delete']['category']   = array( __( 'Your attempt to delete this category: &#8220;%s&#8221; has failed.' ), 'get_cat_name' );
+		$trans['update']['category']   = array( __( 'Your attempt to edit this category: &#8220;%s&#8221; has failed.' ), 'get_cat_name' );
 
-		$trans['delete']['comment']    = array( __( 'Your attempt to delete this comment: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['unapprove']['comment'] = array( __( 'Your attempt to unapprove this comment: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['approve']['comment']   = array( __( 'Your attempt to approve this comment: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['update']['comment']    = array( __( 'Your attempt to edit this comment: &quot;%s&quot; has failed.' ), 'use_id' );
+		$trans['delete']['comment']    = array( __( 'Your attempt to delete this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['unapprove']['comment'] = array( __( 'Your attempt to unapprove this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['approve']['comment']   = array( __( 'Your attempt to approve this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['update']['comment']    = array( __( 'Your attempt to edit this comment: &#8220;%s&#8221; has failed.' ), 'use_id' );
 		$trans['bulk']['comments']     = array( __( 'Your attempt to bulk modify comments has failed.' ), false );
 		$trans['moderate']['comments'] = array( __( 'Your attempt to moderate comments has failed.' ), false );
 
 		$trans['add']['bookmark']      = array( __( 'Your attempt to add this link has failed.' ), false );
-		$trans['delete']['bookmark']   = array( __( 'Your attempt to delete this link: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['update']['bookmark']   = array( __( 'Your attempt to edit this link: &quot;%s&quot; has failed.' ), 'use_id' );
+		$trans['delete']['bookmark']   = array( __( 'Your attempt to delete this link: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['update']['bookmark']   = array( __( 'Your attempt to edit this link: &#8220;%s&#8221; has failed.' ), 'use_id' );
 		$trans['bulk']['bookmarks']    = array( __( 'Your attempt to bulk modify links has failed.' ), false );
 
 		$trans['add']['page']          = array( __( 'Your attempt to add this page has failed.' ), false );
-		$trans['delete']['page']       = array( __( 'Your attempt to delete this page: &quot;%s&quot; has failed.' ), 'get_the_title' );
-		$trans['update']['page']       = array( __( 'Your attempt to edit this page: &quot;%s&quot; has failed.' ), 'get_the_title' );
+		$trans['delete']['page']       = array( __( 'Your attempt to delete this page: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
+		$trans['update']['page']       = array( __( 'Your attempt to edit this page: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
 
-		$trans['edit']['plugin']       = array( __( 'Your attempt to edit this plugin file: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['activate']['plugin']   = array( __( 'Your attempt to activate this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['deactivate']['plugin'] = array( __( 'Your attempt to deactivate this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['upgrade']['plugin']    = array( __( 'Your attempt to upgrade this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
+		$trans['edit']['plugin']       = array( __( 'Your attempt to edit this plugin file: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['activate']['plugin']   = array( __( 'Your attempt to activate this plugin: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['deactivate']['plugin'] = array( __( 'Your attempt to deactivate this plugin: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['upgrade']['plugin']    = array( __( 'Your attempt to upgrade this plugin: &#8220;%s&#8221; has failed.' ), 'use_id' );
 
 		$trans['add']['post']          = array( __( 'Your attempt to add this post has failed.' ), false );
-		$trans['delete']['post']       = array( __( 'Your attempt to delete this post: &quot;%s&quot; has failed.' ), 'get_the_title' );
-		$trans['update']['post']       = array( __( 'Your attempt to edit this post: &quot;%s&quot; has failed.' ), 'get_the_title' );
+		$trans['delete']['post']       = array( __( 'Your attempt to delete this post: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
+		$trans['update']['post']       = array( __( 'Your attempt to edit this post: &#8220;%s&#8221; has failed.' ), 'get_the_title' );
 
 		$trans['add']['user']          = array( __( 'Your attempt to add this user has failed.' ), false );
 		$trans['delete']['users']      = array( __( 'Your attempt to delete users has failed.' ), false );
 		$trans['bulk']['users']        = array( __( 'Your attempt to bulk modify users has failed.' ), false );
-		$trans['update']['user']       = array( __( 'Your attempt to edit this user: &quot;%s&quot; has failed.' ), 'get_author_name' );
-		$trans['update']['profile']    = array( __( 'Your attempt to modify the profile for: &quot;%s&quot; has failed.' ), 'get_author_name' );
+		$trans['update']['user']       = array( __( 'Your attempt to edit this user: &#8220;%s&#8221; has failed.' ), 'get_author_name' );
+		$trans['update']['profile']    = array( __( 'Your attempt to modify the profile for: &#8220;%s&#8221; has failed.' ), 'get_author_name' );
 
 		$trans['update']['options']    = array( __( 'Your attempt to edit your settings has failed.' ), false );
 		$trans['update']['permalink']  = array( __( 'Your attempt to change your permalink structure to: %s has failed.' ), 'use_id' );
-		$trans['edit']['file']         = array( __( 'Your attempt to edit this file: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['edit']['theme']        = array( __( 'Your attempt to edit this theme file: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['switch']['theme']      = array( __( 'Your attempt to switch to this theme: &quot;%s&quot; has failed.' ), 'use_id' );
+		$trans['edit']['file']         = array( __( 'Your attempt to edit this file: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['edit']['theme']        = array( __( 'Your attempt to edit this theme file: &#8220;%s&#8221; has failed.' ), 'use_id' );
+		$trans['switch']['theme']      = array( __( 'Your attempt to switch to this theme: &#8220;%s&#8221; has failed.' ), 'use_id' );
 
 		$trans['log']['out']           = array( sprintf( __( 'You are attempting to log out of %s' ), get_bloginfo( 'sitename' ) ), false );
 

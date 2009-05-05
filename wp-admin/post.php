@@ -115,7 +115,7 @@ case 'edit':
 	$post_ID = $p = (int) $_GET['post'];
 	$post = get_post($post_ID);
 
-	if ( empty($post->ID) ) wp_die( __("You attempted to edit a post that doesn't exist. Perhaps it was deleted?") );
+	if ( empty($post->ID) ) wp_die( __('You attempted to edit a post that doesn&#8217;t exist. Perhaps it was deleted?') );
 
 	if ( 'post' != $post->post_type ) {
 		wp_redirect( get_edit_post_link( $post->ID, 'url' ) );

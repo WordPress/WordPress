@@ -1458,7 +1458,7 @@ function feed_links_extra( $args ) {
 		/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
 		'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
-		'searchtitle' => __('%1$s %2$s Search Results for &quot;%3$s&quot; Feed'),
+		'searchtitle' => __('%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed'),
 	);
 
 	$args = wp_parse_args( $args, $defaults );

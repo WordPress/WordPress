@@ -203,7 +203,7 @@ class WP_Import {
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
 <?php
 	if ( $this->allow_create_users() ) {
-		echo '<p>'.__('If a new user is created by WordPress, a password will be randomly generated. Manually change the user\'s details if necessary.')."</p>\n";
+		echo '<p>'.__('If a new user is created by WordPress, a password will be randomly generated. Manually change the user&#8217;s details if necessary.')."</p>\n";
 	}
 
 

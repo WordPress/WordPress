@@ -23,7 +23,7 @@ if ( ! $pop3->connect(get_option('mailserver_url'), get_option('mailserver_port'
 	! $pop3->user(get_option('mailserver_login')) ||
 	( ! $count = $pop3->pass(get_option('mailserver_pass')) ) ) {
 		$pop3->quit();
-		wp_die( ( 0 === $count ) ? __("There doesn't seem to be any new mail.") : wp_specialchars($pop3->ERROR) );
+		wp_die( ( 0 === $count ) ? __('There doesn&#8217;t seem to be any new mail.') : wp_specialchars($pop3->ERROR) );
 }
 
 for ( $i = 1; $i <= $count; $i++ ) {

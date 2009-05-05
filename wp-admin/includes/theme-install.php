@@ -301,8 +301,8 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	if ( !is_array($actions) ) {
 		$actions = array();
 		$actions[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=350') . '" class="thickbox thickbox-preview onclick" title="' . attr(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
-		$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . attr(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
+										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=350') . '" class="thickbox thickbox-preview onclick" title="' . attr(sprintf(__('Install &#8220;%s&#8221;'), $name)) . '">' . __('Install') . '</a>';
+		$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
 		$actions = apply_filters('theme_install_action_links', $actions, $theme);
 	}
 
@@ -310,7 +310,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	?>
 <a class='thickbox thickbox-preview screenshot'
 	href='<? echo clean_url($preview_link); ?>'
-	title='<?php echo attr(sprintf(__('Preview "%s"'), $name)); ?>'>
+	title='<?php echo attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)); ?>'>
 <img src='<?php echo clean_url($theme->screenshot_url); ?>' width='150' />
 </a>
 <h3><?php echo $name ?></h3>

@@ -82,7 +82,7 @@ case 'edit':
 	$page_ID = $post_ID = $p = (int) $_GET['post'];
 	$post = get_post_to_edit($page_ID);
 
-	if ( empty($post->ID) ) wp_die( __("You attempted to edit a page that doesn't exist. Perhaps it was deleted?") );
+	if ( empty($post->ID) ) wp_die( __('You attempted to edit a page that doesn&#8217;t exist. Perhaps it was deleted?') );
 
 	if ( 'page' != $post->post_type ) {
 		wp_redirect( get_edit_post_link( $post_ID, 'url' ) );

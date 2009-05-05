@@ -109,7 +109,7 @@ class BW_Import {
 					return $post_id;
 				}
 				if (!$post_id) {
-					_e("Couldn't get post ID");
+					_e('Couldn&#8217;t get post ID');
 					echo '</li>';
 					break;
 				}
