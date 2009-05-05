@@ -106,7 +106,8 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 			else // If it's a relative path
 				$output .= "<img src=\"" . get_option('siteurl') . "$bookmark->link_image\" $alt $title />";
 
-			if ($show_name) $output .= $name;
+			if ( $show_name )
+				$output .= " $name";
 		} else {
 			$output .= $name;
 		}
