@@ -29,7 +29,7 @@ if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 <?php the_generator( 'comment' ); ?>
 <opml version="1.0">
 	<head>
-		<title>Links for <?php echo attr(get_bloginfo('name', 'display').$cat_name); ?></title>
+		<title>Links for <?php echo esc_attr(get_bloginfo('name', 'display').$cat_name); ?></title>
 		<dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
 	</head>
 	<body>
@@ -44,14 +44,14 @@ foreach ((array) $cats as $cat) {
 	$catname = apply_filters('link_category', $cat->name);
 
 ?>
-<outline type="category" title="<?php echo attr($catname); ?>">
+<outline type="category" title="<?php echo esc_attr($catname); ?>">
 <?php
 
 	$bookmarks = get_bookmarks("category={$cat->term_id}");
 	foreach ((array) $bookmarks as $bookmark) {
-		$title = attr(apply_filters('link_title', $bookmark->link_name));
+		$title = esc_attr(apply_filters('link_title', $bookmark->link_name));
 ?>
-	<outline text="<?php echo $title; ?>" type="link" xmlUrl="<?php echo attr($bookmark->link_rss); ?>" htmlUrl="<?php echo attr($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
+	<outline text="<?php echo $title; ?>" type="link" xmlUrl="<?php echo esc_attr($bookmark->link_rss); ?>" htmlUrl="<?php echo esc_attr($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
 <?php
 
 	}

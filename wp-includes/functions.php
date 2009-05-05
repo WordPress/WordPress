@@ -393,7 +393,7 @@ function wp_protect_special_option( $option ) {
  * @param string $option Option name.
  */
 function form_option( $option ) {
-	echo attr (get_option( $option ) );
+	echo esc_attr(get_option( $option ) );
 }
 
 /**
@@ -1743,7 +1743,7 @@ function wp_nonce_url( $actionurl, $action = -1 ) {
  * @return string Nonce field.
  */
 function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $echo = true ) {
-	$name = attr( $name );
+	$name = esc_attr( $name );
 	$nonce_field = '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . wp_create_nonce( $action ) . '" />';
 	if ( $echo )
 		echo $nonce_field;
@@ -1768,7 +1768,7 @@ function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $ec
  * @return string Referer field.
  */
 function wp_referer_field( $echo = true) {
-	$ref = attr( $_SERVER['REQUEST_URI'] );
+	$ref = esc_attr( $_SERVER['REQUEST_URI'] );
 	$referer_field = '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
 
 	if ( $echo )
@@ -1794,7 +1794,7 @@ function wp_referer_field( $echo = true) {
 function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 	$jump_back_to = ( 'previous' == $jump_back_to ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 	$ref = ( wp_get_original_referer() ) ? wp_get_original_referer() : $jump_back_to;
-	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . attr( stripslashes( $ref ) ) . '" />';
+	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . esc_attr( stripslashes( $ref ) ) . '" />';
 	if ( $echo )
 		echo $orig_referer_field;
 	return $orig_referer_field;

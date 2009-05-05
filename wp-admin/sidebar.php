@@ -88,10 +88,10 @@ form {
 <form name="post" action="post.php" method="post">
 <div>
 <input type="hidden" name="action" value="post" />
-<input type="hidden" name="user_ID" value="<?php echo attr($user_ID) ?>" />
+<input type="hidden" name="user_ID" value="<?php echo esc_attr($user_ID) ?>" />
 <input type="hidden" name="mode" value="sidebar" />
-<input type="hidden" name="ping_status" value="<?php echo attr($post->ping_status); ?>" />
-<input type="hidden" name="comment_status" value="<?php echo attr($post->comment_status); ?>" />
+<input type="hidden" name="ping_status" value="<?php echo esc_attr($post->ping_status); ?>" />
+<input type="hidden" name="comment_status" value="<?php echo esc_attr($post->comment_status); ?>" />
 <?php wp_nonce_field('add-post');
 
 if ( 'b' == $_GET['a'] )
@@ -116,9 +116,9 @@ elseif ( 'c' == $_GET['a'] )
 </div>
 
 <p>
-<input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" accesskey="s" class="button" value="<?php _ea('Save as Draft'); ?>" />
+<input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" accesskey="s" class="button" value="<?php esc_attr_e('Save as Draft'); ?>" />
 <?php if ( current_user_can('publish_posts') ) : ?>
-<input name="publish" type="submit" id="publish" tabindex="6" accesskey="p" value="<?php _ea('Publish') ?>" class="button button-highlighted" />
+<input name="publish" type="submit" id="publish" tabindex="6" accesskey="p" value="<?php esc_attr_e('Publish') ?>" class="button button-highlighted" />
 <?php endif; ?>
 </p>
 </div>

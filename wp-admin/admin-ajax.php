@@ -426,7 +426,7 @@ case 'add-link-category' : // On the Fly
 		$x->add( array(
 			'what' => 'link-category',
 			'id' => $cat_id,
-			'data' => "<li id='link-category-$cat_id'><label for='in-link-category-$cat_id' class='selectit'><input value='" . attr($cat_id) . "' type='checkbox' checked='checked' name='link_category[]' id='in-link-category-$cat_id'/> $cat_name</label></li>",
+			'data' => "<li id='link-category-$cat_id'><label for='in-link-category-$cat_id' class='selectit'><input value='" . esc_attr($cat_id) . "' type='checkbox' checked='checked' name='link_category[]' id='in-link-category-$cat_id'/> $cat_name</label></li>",
 			'position' => -1
 		) );
 	}
@@ -474,7 +474,7 @@ case 'add-cat' : // From Manage->Categories
 		$cat_full_name = $_cat->name . ' &#8212; ' . $cat_full_name;
 		$level++;
 	}
-	$cat_full_name = attr($cat_full_name);
+	$cat_full_name = esc_attr($cat_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'cat',
@@ -552,7 +552,7 @@ case 'add-tag' : // From Manage->Tags
 		die('0');
 
 	$tag_full_name = $tag->name;
-	$tag_full_name = attr($tag_full_name);
+	$tag_full_name = esc_attr($tag_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'tag',
@@ -1214,7 +1214,7 @@ case 'find_posts':
 			$time = mysql2date(__('Y/m/d'), $post->post_date);
 		}
 
-		$html .= '<tr class="found-posts"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . attr($post->ID) . '"></td>';
+		$html .= '<tr class="found-posts"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
 		$html .= '<td><label for="found-'.$post->ID.'">'.wp_specialchars($post->post_title, true).'</label></td><td>'.wp_specialchars($time, true).'</td><td>'.wp_specialchars($stat, true).'</td></tr>'."\n\n";
 	}
 	$html .= '</tbody></table>';

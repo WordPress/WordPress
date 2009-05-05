@@ -83,7 +83,7 @@ else
 
 require_once('admin-header.php');
 
-$mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attr($_GET['mode']);
+$mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : esc_attr($_GET['mode']);
 
 $default_status = get_user_option('edit_comments_last_view');
 if ( empty($default_status) )
@@ -94,10 +94,10 @@ if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam')) )
 if ( $comment_status != $default_status )
 	update_usermeta($current_user->ID, 'edit_comments_last_view', $comment_status);
 
-$comment_type = !empty($_GET['comment_type']) ? attr($_GET['comment_type']) : '';
+$comment_type = !empty($_GET['comment_type']) ? esc_attr($_GET['comment_type']) : '';
 
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
-$search = attr( $search_dirty ); ?>
+$search = esc_attr( $search_dirty ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -164,7 +164,7 @@ foreach ( $stati as $status => $label ) {
 	/*
 	// I toyed with this, but decided against it. Leaving it in here in case anyone thinks it is a good idea. ~ Mark
 	if ( !empty( $_GET['s'] ) )
-		$link = add_query_arg( 's', attr( stripslashes( $_GET['s'] ) ), $link );
+		$link = add_query_arg( 's', esc_attr( stripslashes( $_GET['s'] ) ), $link );
 	*/
 	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf(
 		_n( $label[0], $label[1], $num_comments->$status ),
@@ -182,7 +182,7 @@ unset($status_links);
 <p class="search-box">
 	<label class="invisible" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _ea( 'Search Comments' ); ?>" class="button" />
+	<input type="submit" value="<?php esc_attr_e( 'Search Comments' ); ?>" class="button" />
 </p>
 
 <?php
@@ -224,12 +224,12 @@ $page_links = paginate_links( array(
 
 ?>
 
-<input type="hidden" name="mode" value="<?php echo attr($mode); ?>" />
+<input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 <?php if ( $post_id ) : ?>
-<input type="hidden" name="p" value="<?php echo attr( intval( $post_id ) ); ?>" />
+<input type="hidden" name="p" value="<?php echo esc_attr( intval( $post_id ) ); ?>" />
 <?php endif; ?>
-<input type="hidden" name="comment_status" value="<?php echo attr($comment_status); ?>" />
-<input type="hidden" name="pagegen_timestamp" value="<?php echo attr(current_time('mysql', 1)); ?>" />
+<input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
+<input type="hidden" name="pagegen_timestamp" value="<?php echo esc_attr(current_time('mysql', 1)); ?>" />
 
 <div class="tablenav">
 
@@ -240,9 +240,9 @@ $page_links = paginate_links( array(
 	'<span class="total-type-count">' . number_format_i18n( $total ) . '</span>',
 	$page_links
 ); echo $page_links_text; ?></div>
-<input type="hidden" name="_total" value="<?php echo attr($total); ?>" />
-<input type="hidden" name="_per_page" value="<?php echo attr($comments_per_page); ?>" />
-<input type="hidden" name="_page" value="<?php echo attr($page); ?>" />
+<input type="hidden" name="_total" value="<?php echo esc_attr($total); ?>" />
+<input type="hidden" name="_per_page" value="<?php echo esc_attr($comments_per_page); ?>" />
+<input type="hidden" name="_page" value="<?php echo esc_attr($page); ?>" />
 <?php endif; ?>
 
 <div class="alignleft actions">
@@ -259,7 +259,7 @@ $page_links = paginate_links( array(
 <?php endif; ?>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" name="doaction" id="doaction" value="<?php _ea('Apply'); ?>" class="button-secondary apply" />
+<input type="submit" name="doaction" id="doaction" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
 <?php wp_nonce_field('bulk-comments'); ?>
 
 <select name="comment_type">
@@ -271,22 +271,22 @@ $page_links = paginate_links( array(
 	) );
 
 	foreach ( $comment_types as $type => $label ) {
-		echo "	<option value='" . attr($type) . "'";
+		echo "	<option value='" . esc_attr($type) . "'";
 		selected( $comment_type, $type );
 		echo ">$label</option>\n";
 	}
 ?>
 </select>
-<input type="submit" id="post-query-submit" value="<?php _ea('Filter'); ?>" class="button-secondary" />
+<input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 
 <?php if ( isset($_GET['apage']) ) { ?>
-	<input type="hidden" name="apage" value="<?php echo attr( absint( $_GET['apage'] ) ); ?>" />
+	<input type="hidden" name="apage" value="<?php echo esc_attr( absint( $_GET['apage'] ) ); ?>" />
 <?php }
 
 if ( 'spam' == $comment_status ) {
 	wp_nonce_field('bulk-spam-delete', '_spam_nonce');
         if ( current_user_can ('moderate_comments')) { ?>
-		<input type="submit" name="delete_all_spam" value="<?php _ea('Delete All Spam'); ?>" class="button-secondary apply" />
+		<input type="submit" name="delete_all_spam" value="<?php esc_attr_e('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php	}
 } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
@@ -346,10 +346,10 @@ if ( $page_links )
 <?php endif; ?>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" name="doaction2" id="doaction2" value="<?php _ea('Apply'); ?>" class="button-secondary apply" />
+<input type="submit" name="doaction2" id="doaction2" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
 
 <?php if ( 'spam' == $comment_status ) { ?>
-<input type="submit" name="delete_all_spam2" value="<?php _ea('Delete All Spam'); ?>" class="button-secondary apply" />
+<input type="submit" name="delete_all_spam2" value="<?php esc_attr_e('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
 </div>
@@ -360,12 +360,12 @@ if ( $page_links )
 </form>
 
 <form id="get-extra-comments" method="post" action="" class="add:the-extra-comment-list:" style="display: none;">
-	<input type="hidden" name="s" value="<?php echo attr($search); ?>" />
-	<input type="hidden" name="mode" value="<?php echo attr($mode); ?>" />
-	<input type="hidden" name="comment_status" value="<?php echo attr($comment_status); ?>" />
+	<input type="hidden" name="s" value="<?php echo esc_attr($search); ?>" />
+	<input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
+	<input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
 	<input type="hidden" name="page" value="<?php echo isset($_REQUEST['page']) ? absint( $_REQUEST['page'] ) : 1; ?>" />
-	<input type="hidden" name="p" value="<?php echo attr( $post_id ); ?>" />
-	<input type="hidden" name="comment_type" value="<?php echo attr( $comment_type ); ?>" />
+	<input type="hidden" name="p" value="<?php echo esc_attr( $post_id ); ?>" />
+	<input type="hidden" name="comment_type" value="<?php echo esc_attr( $comment_type ); ?>" />
 	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
 </form>
 

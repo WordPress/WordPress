@@ -151,15 +151,15 @@ $structures = array(
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
 	</tr>
 	<tr>
-		<th><label><input name="selection" type="radio" value="<?php echo attr($structures[1]); ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Day and name'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="<?php echo esc_attr($structures[1]); ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Day and name'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
-		<th><label><input name="selection" type="radio" value="<?php echo attr($structures[2]); ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Month and name'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="<?php echo esc_attr($structures[2]); ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Month and name'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
-		<th><label><input name="selection" type="radio" value="<?php echo attr($structures[3]); ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="<?php echo esc_attr($structures[3]); ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></td>
 	</tr>
 	<tr>
@@ -173,7 +173,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo attr($permalink_structure); ?>" class="regular-text code" />
+			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo esc_attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
 </table>
@@ -188,11 +188,11 @@ $structures = array(
 <table class="form-table">
 	<tr>
 		<th><label for="category_base"><?php _e('Category base'); ?></label></th>
-		<td><input name="category_base" id="category_base" type="text" value="<?php echo attr($category_base); ?>" class="regular-text code" /></td>
+		<td><input name="category_base" id="category_base" type="text" value="<?php echo esc_attr($category_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
-		<td><input name="tag_base" id="tag_base" type="text" value="<?php echo attr($tag_base); ?>" class="regular-text code" /></td>
+		<td><input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>
@@ -200,7 +200,7 @@ $structures = array(
 <?php do_settings_sections('permalink'); ?>
 
 <p class="submit">
-	<input type="submit" name="submit" class="button-primary" value="<?php _ea('Save Changes') ?>" />
+	<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
 </p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>

@@ -108,15 +108,15 @@ function __( $text, $domain = 'default' ) {
  * If there is no translation, or the domain isn't loaded the original text is returned.
  *
  * @see translate() An alias of translate()
- * @see attr()
+ * @see esc_attr()
  * @since 2.8.0
  *
  * @param string $text Text to translate
  * @param string $domain Optional. Domain to retrieve the translated text
  * @return string Translated text
  */
-function _a( $text, $domain = 'default' ) {
-	return attr( translate( $text, $domain ) );
+function esc_attr__( $text, $domain = 'default' ) {
+	return esc_attr( translate( $text, $domain ) );
 }
 
 /**
@@ -136,14 +136,14 @@ function _e( $text, $domain = 'default' ) {
  * Displays translated text that has been escaped for safe use in an attribute.
  *
  * @see translate() Echos returned translate() string
- * @see attr()
+ * @see esc_attr()
  * @since 2.8.0
  *
  * @param string $text Text to translate
  * @param string $domain Optional. Domain to retrieve the translated text
  */
-function _ea( $text, $domain = 'default' ) {
-	echo attr( translate( $text, $domain ) );
+function esc_attr_e( $text, $domain = 'default' ) {
+	echo esc_attr( translate( $text, $domain ) );
 }
 
 /**
@@ -173,8 +173,8 @@ function _x( $single, $context, $domain = 'default' ) {
 	return translate_with_gettext_context( $single, $context, $domain );
 }
 
-function _xa( $single, $context, $domain = 'default' ) {
-	return attr( translate_with_gettext_context( $single, $context, $domain ) );
+function esc_attr_x( $single, $context, $domain = 'default' ) {
+	return esc_attr( translate_with_gettext_context( $single, $context, $domain ) );
 }
 
 function __ngettext() {

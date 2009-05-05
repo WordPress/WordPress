@@ -619,9 +619,9 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  */
 function get_search_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
-		$search = attr(get_search_query());
+		$search = esc_attr(get_search_query());
 	else
-		$search = attr(stripslashes($search_query));
+		$search = esc_attr(stripslashes($search_query));
 
 	if ( empty($feed) )
 		$feed = get_default_feed();
@@ -644,9 +644,9 @@ function get_search_feed_link($search_query = '', $feed = '') {
  */
 function get_search_comments_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
-		$search = attr(get_search_query());
+		$search = esc_attr(get_search_query());
 	else
-		$search = attr(stripslashes($search_query));
+		$search = esc_attr(stripslashes($search_query));
 
 	if ( empty($feed) )
 		$feed = get_default_feed();
@@ -730,7 +730,7 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 			return;
 	}
 
-	$link = '<a class="post-edit-link" href="' . get_edit_post_link( $post->ID ) . '" title="' . attr( __( 'Edit post' ) ) . '">' . $link . '</a>';
+	$link = '<a class="post-edit-link" href="' . get_edit_post_link( $post->ID ) . '" title="' . esc_attr( __( 'Edit post' ) ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
 
@@ -940,7 +940,7 @@ function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $ex
 	$title = apply_filters('the_title', $title, $post);
 
 	$link = $previous ? "<link rel='prev' title='" : "<link rel='next' title='";
-	$link .= attr( $title );
+	$link .= esc_attr( $title );
 	$link .= "' href='" . get_permalink($post) . "' />\n";
 
 	$adjacent = $previous ? 'previous' : 'next';
@@ -1064,7 +1064,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
 	$title = apply_filters('the_title', $title, $post);
 
 	$link = $start ? "<link rel='start' title='" : "<link rel='end' title='";
-	$link .= attr($title);
+	$link .= esc_attr($title);
 	$link .= "' href='" . get_permalink($post) . "' />\n";
 
 	$boundary = $start ? 'start' : 'end';
@@ -1092,7 +1092,7 @@ function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_
  * @return string
  */
 function get_index_rel_link() {
-	$link = "<link rel='index' title='" . attr(get_bloginfo('name')) . "' href='" . get_bloginfo('siteurl') . "' />\n";
+	$link = "<link rel='index' title='" . esc_attr(get_bloginfo('name')) . "' href='" . get_bloginfo('siteurl') . "' />\n";
 	return apply_filters( "index_rel_link", $link );
 }
 
@@ -1127,7 +1127,7 @@ function get_parent_post_rel_link($title = '%title') {
 	$title = apply_filters('the_title', $title, $post);
 
 	$link = "<link rel='up' title='";
-	$link .= attr( $title );
+	$link .= esc_attr( $title );
 	$link .= "' href='" . get_permalink($post) . "' />\n";
 
 	return apply_filters( "parent_post_rel_link", $link );

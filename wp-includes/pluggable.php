@@ -1512,7 +1512,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 	if ( false === $alt)
 		$safe_alt = '';
 	else
-		$safe_alt = attr( $alt );
+		$safe_alt = esc_attr( $alt );
 
 	if ( !is_numeric($size) )
 		$size = '96';

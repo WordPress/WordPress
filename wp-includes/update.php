@@ -62,15 +62,15 @@ function wp_version_check() {
 	foreach( explode( "\n\n", $body ) as $entry) {
 		$returns = explode("\n", $entry);
 		$new_option = new stdClass();
-		$new_option->response = attr( $returns[0] );
+		$new_option->response = esc_attr( $returns[0] );
 		if ( isset( $returns[1] ) )
 			$new_option->url = clean_url( $returns[1] );
 		if ( isset( $returns[2] ) )
 			$new_option->package = clean_url( $returns[2] );
 		if ( isset( $returns[3] ) )
-			$new_option->current = attr( $returns[3] );
+			$new_option->current = esc_attr( $returns[3] );
 		if ( isset( $returns[4] ) )
-			$new_option->locale = attr( $returns[4] );
+			$new_option->locale = esc_attr( $returns[4] );
 		$new_options[] = $new_option;
 	}
 

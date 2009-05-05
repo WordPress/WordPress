@@ -63,7 +63,7 @@ function the_title($before = '', $after = '', $echo = true) {
  * an array. See the function for what can be override in the $args parameter.
  *
  * The title before it is displayed will have the tags stripped and {@link
- * attr()} before it is passed to the user or displayed. The default
+ * esc_attr()} before it is passed to the user or displayed. The default
  * as with {@link the_title()}, is to display the title.
  *
  * @since 2.3.0
@@ -83,7 +83,7 @@ function the_title_attribute( $args = '' ) {
 
 
 	$title = $before . $title . $after;
-	$title = attr(strip_tags($title));
+	$title = esc_attr(strip_tags($title));
 
 	if ( $echo )
 		echo $title;
@@ -707,7 +707,7 @@ function wp_dropdown_pages($args = '') {
 		if ( $show_option_no_change )
 			$output .= "\t<option value=\"-1\">$show_option_no_change</option>";
 		if ( $show_option_none )
-			$output .= "\t<option value=\"" . attr($option_none_value) . "\">$show_option_none</option>\n";
+			$output .= "\t<option value=\"" . esc_attr($option_none_value) . "\">$show_option_none</option>\n";
 		$output .= walk_page_dropdown_tree($pages, $depth, $r);
 		$output .= "</select>\n";
 	}
@@ -927,10 +927,10 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 	if ( $permalink )
 		$url = get_attachment_link($_post->ID);
 
-	$post_title = attr($_post->post_title);
+	$post_title = esc_attr($_post->post_title);
 
 	if ( $text ) {
-		$link_text = attr($text);
+		$link_text = esc_attr($text);
 	} elseif ( ( is_int($size) && $size != 0 ) or ( is_string($size) && $size != 'none' ) or $size != false ) {
 		$link_text = wp_get_attachment_image($id, $size, $icon);
 	}
@@ -964,7 +964,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 	if ( $permalink )
 		$url = get_attachment_link($_post->ID);
 
-	$post_title = attr($_post->post_title);
+	$post_title = esc_attr($_post->post_title);
 
 	$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
 	return "<a href='$url' title='$post_title'>$innerHTML</a>";
@@ -1060,7 +1060,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 		$constraint = '';
 	}
 
-	$post_title = attr($post->post_title);
+	$post_title = esc_attr($post->post_title);
 
 	$icon = "<img src='$src' title='$post_title' alt='$post_title' $constraint/>";
 
@@ -1088,7 +1088,7 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 		return $innerHTML;
 
 
-	$innerHTML = attr($post->post_title);
+	$innerHTML = esc_attr($post->post_title);
 
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
 }
@@ -1134,7 +1134,7 @@ function get_the_password_form() {
 	$label = 'pwbox-'.(empty($post->ID) ? rand() : $post->ID);
 	$output = '<form action="' . get_option('siteurl') . '/wp-pass.php" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
-	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . _a("Submit") . '" /></p>
+	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__("Submit") . '" /></p>
 	</form>
 	';
 	return apply_filters('the_password_form', $output);
@@ -1316,7 +1316,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 <div class="tablenav">
 	<div class="alignleft">
-		<input type="submit" class="button-secondary" value="<?php _ea( 'Compare Revisions' ); ?>" />
+		<input type="submit" class="button-secondary" value="<?php esc_attr_e( 'Compare Revisions' ); ?>" />
 		<input type="hidden" name="action" value="diff" />
 	</div>
 </div>

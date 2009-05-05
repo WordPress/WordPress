@@ -66,7 +66,7 @@ class GM_Import {
 	<?php _e('This importer will search for files 00000001.cgi to 000-whatever.cgi,<br />so you need to enter the number of the last GM post here.<br />(if you don&#8217;t know that number, just log into your FTP and look it out<br />in the entries&#8217; folder)') ?></td>
 </tr>
 </table>
-<p class="submit"><input type="submit" name="submit" class="button" value="<?php _ea('Start Importing') ?>" /></p>
+<p class="submit"><input type="submit" name="submit" class="button" value="<?php esc_attr_e('Start Importing') ?>" /></p>
 </form>
 <?php
 		$this->footer();

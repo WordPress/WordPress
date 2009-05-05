@@ -40,15 +40,15 @@ function list_core_update( $update ) {
 	echo '<form method="post" action="' . $form_action . '" name="upgrade" class="upgrade">';
 	wp_nonce_field('upgrade-core');
 	echo '<p>';
-	echo '<input id="upgrade" class="button" type="submit" value="' . attr($submit) . '" name="upgrade" />&nbsp;';
-	echo '<input name="version" value="'. attr($update->current) .'" type="hidden"/>';
-	echo '<input name="locale" value="'. attr($update->locale) .'" type="hidden"/>';
+	echo '<input id="upgrade" class="button" type="submit" value="' . esc_attr($submit) . '" name="upgrade" />&nbsp;';
+	echo '<input name="version" value="'. esc_attr($update->current) .'" type="hidden"/>';
+	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
 	echo '<a href="' . clean_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
-			echo '<input id="dismiss" class="button" type="submit" value="' . _a('Hide this update') . '" name="dismiss" />';
+			echo '<input id="dismiss" class="button" type="submit" value="' . esc_attr__('Hide this update') . '" name="dismiss" />';
 		else
-			echo '<input id="undismiss" class="button" type="submit" value="' . _a('Bring back this update') . '" name="undismiss" />';
+			echo '<input id="undismiss" class="button" type="submit" value="' . esc_attr__('Bring back this update') . '" name="undismiss" />';
 	echo '</p>';
 	echo '</form>';
 

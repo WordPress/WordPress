@@ -78,7 +78,7 @@ function the_media_upload_tabs() {
 				$class = " class='current'";
 			$href = add_query_arg(array('tab'=>$callback, 's'=>false, 'paged'=>false, 'post_mime_type'=>false, 'm'=>false));
 			$link = "<a href='" . clean_url($href) . "'$class>$text</a>";
-			echo "\t<li id='" . attr("tab-$callback") . "'>$link</li>\n";
+			echo "\t<li id='" . esc_attr("tab-$callback") . "'>$link</li>\n";
 		}
 		echo "</ul>\n";
 	}
@@ -104,7 +104,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 
 	$html = get_image_tag($id, $htmlalt, $title, $align, $size);
 
-	$rel = $rel ? ' rel="attachment wp-att-'.attr($id).'"' : '';
+	$rel = $rel ? ' rel="attachment wp-att-' . esc_attr($id).'"' : '';
 
 	if ( $url )
 		$html = '<a href="' . clean_url($url) . "\"$rel>$html</a>";
@@ -428,7 +428,7 @@ function media_upload_form_handler() {
 		$html = $attachment['post_title'];
 		if ( !empty($attachment['url']) ) {
 			if ( strpos($attachment['url'], 'attachment_id') || false !== strpos($attachment['url'], get_permalink($_POST['post_id'])) )
-				$rel = " rel='attachment wp-att-".attr($send_id)."'";
+				$rel = " rel='attachment wp-att-" . esc_attr($send_id)."'";
 			$html = "<a href='{$attachment['url']}'$rel>$html</a>";
 		}
 		$html = apply_filters('media_send_to_editor', $html, $send_id, $attachment);
@@ -463,9 +463,9 @@ function media_upload_image() {
 		$src = $_POST['insertonly']['src'];
 		if ( !empty($src) && !strpos($src, '://') )
 			$src = "http://$src";
-		$alt = attr($_POST['insertonly']['alt']);
+		$alt = esc_attr($_POST['insertonly']['alt']);
 		if ( isset($_POST['insertonly']['align']) ) {
-			$align = attr($_POST['insertonly']['align']);
+			$align = esc_attr($_POST['insertonly']['align']);
 			$class = " class='align$align'";
 		}
 		if ( !empty($src) )
@@ -557,7 +557,7 @@ function media_upload_audio() {
 		$href = $_POST['insertonly']['href'];
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
-		$title = attr($_POST['insertonly']['title']);
+		$title = esc_attr($_POST['insertonly']['title']);
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
@@ -611,7 +611,7 @@ function media_upload_video() {
 		$href = $_POST['insertonly']['href'];
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
-		$title = attr($_POST['insertonly']['title']);
+		$title = esc_attr($_POST['insertonly']['title']);
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
@@ -665,7 +665,7 @@ function media_upload_file() {
 		$href = $_POST['insertonly']['href'];
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
-		$title = attr($_POST['insertonly']['title']);
+		$title = esc_attr($_POST['insertonly']['title']);
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
@@ -755,7 +755,7 @@ function image_align_input_fields($post, $checked='') {
 
 	$out = array();
 	foreach ($alignments as $name => $label) {
-		$name = attr($name);
+		$name = esc_attr($name);
 		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
 		 	( $checked == $name ? " checked='checked'" : "" ) .
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . $label . "</label>";
@@ -829,10 +829,10 @@ function image_link_input_fields($post, $url_type='') {
 	elseif ( $url_type == 'post' )
 		$url = $link;
 
-	return "<input type='text' class='urlfield' name='attachments[$post->ID][url]' value='" . attr($url) . "' /><br />
+	return "<input type='text' class='urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
 				<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
-				<button type='button' class='button urlfile' title='" . attr($file) . "'>" . __('File URL') . "</button>
-				<button type='button' class='button urlpost' title='" . attr($link) . "'>" . __('Post URL') . "</button>
+				<button type='button' class='button urlfile' title='" . esc_attr($file) . "'>" . __('File URL') . "</button>
+				<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Post URL') . "</button>
 ";
 }
 
@@ -992,7 +992,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		'image_url'	=> array(
 			'label'      => __('File URL'),
 			'input'      => 'html',
-			'html'       => "<input type='text' class='urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . attr($image_url) . "' /><br />",
+			'html'       => "<input type='text' class='urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . esc_attr($image_url) . "' /><br />",
 			'value'      => isset($edit_post->post_url) ? $edit_post->post_url : '',
 			'helps'      => __('Location of the uploaded file.'),
 		)
@@ -1089,19 +1089,19 @@ function get_media_item( $attachment_id, $args = null ) {
 	$post = get_post($attachment_id);
 
 	$filename = basename($post->guid);
-	$title = attr($post->post_title);
+	$title = esc_attr($post->post_title);
 
 	if ( $_tags = get_the_tags($attachment_id) ) {
 		foreach ( $_tags as $tag )
 			$tags[] = $tag->name;
-		$tags = attr(join(', ', $tags));
+		$tags = esc_attr(join(', ', $tags));
 	}
 
 	$type = '';
 	if ( isset($post_mime_types) ) {
 		$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
 		$type = array_shift($keys);
-		$type = "<input type='hidden' id='type-of-$attachment_id' value='" . attr( $type ) . "' />";
+		$type = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 	}
 
 	$form_fields = get_attachment_fields_to_edit($post, $errors);
@@ -1160,7 +1160,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$delete_href = wp_nonce_url("post.php?action=delete-post&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
 	if ( $send )
-		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . _a( 'Insert into Post' ) . "' />";
+		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
 	if ( $delete )
 		$delete = "<a href=\"#\" class=\"del-link\" onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __('Delete') . "</a>";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
@@ -1198,7 +1198,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		elseif ( $field['input'] == 'textarea' ) {
 			$item .= "<textarea type='text' id='$name' name='$name'" . $aria_required . ">" . wp_specialchars( $field['value'] ) . "</textarea>";
 		} else {
-			$item .= "<input type='text' id='$name' name='$name' value='" . attr( $field['value'] ) . "'" . $aria_required . "/>";
+			$item .= "<input type='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'" . $aria_required . "/>";
 		}
 		if ( !empty($field['helps']) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique((array) $field['helps']) ) . '</p>';
@@ -1226,7 +1226,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$item .= "\t</table>\n";
 
 	foreach ( $hidden_fields as $name => $value )
-		$item .= "\t<input type='hidden' name='$name' id='$name' value='" . attr( $value ) . "' />\n";
+		$item .= "\t<input type='hidden' name='$name' id='$name' value='" . esc_attr( $value ) . "' />\n";
 
 	if ( $post->post_parent < 1 && isset($_REQUEST['post_id']) ) {
 		$parent = (int) $_REQUEST['post_id'];
@@ -1307,7 +1307,7 @@ SWFUpload.onload = function() {
 			button_width: "132",
 			button_image_url: '<?php echo includes_url('images/upload.png'); ?>',
 			button_placeholder_id: "flash-browse-button",
-			upload_url : "<?php echo attr( $flash_action_url ); ?>",
+			upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
 			flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",
 			file_post_name: "async-upload",
 			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
@@ -1355,7 +1355,7 @@ SWFUpload.onload = function() {
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
 	<label class="invisible" for="async-upload"><?php _e('Upload'); ?></label>
-	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php _ea('Upload'); ?>" /> <a href="#" onclick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
+	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php esc_attr_e('Upload'); ?>" /> <a href="#" onclick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
 	<?php if ( is_lighttpd_before_150() ): ?>
@@ -1385,7 +1385,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 ?>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
 
@@ -1417,7 +1417,7 @@ if ( $id ) {
 }
 ?>
 </div>
-<input type="submit" class="button savebutton" name="save" value="<?php _ea( 'Save all changes' ); ?>" />
+<input type="submit" class="button savebutton" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
 <?php
 }
 
@@ -1441,7 +1441,7 @@ function media_upload_type_url_form($type = 'file', $errors = null, $id = null) 
 	$callback = "type_url_form_$type";
 ?>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
 
@@ -1575,7 +1575,7 @@ jQuery(function($){
 <a href="#" id="desc"><?php _e('Descending'); ?></a> |
 <a href="#" id="clear"><?php _e('Clear'); ?></a>
 </div>
-<form enctype="multipart/form-data" method="post" action="<?php echo attr($form_action_url); ?>" class="media-upload-form validate" id="gallery-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form validate" id="gallery-form">
 <?php wp_nonce_field('media-form'); ?>
 <?php //media_upload_form( $errors ); ?>
 <table class="widefat" cellspacing="0">
@@ -1590,10 +1590,10 @@ jQuery(function($){
 </div>
 
 <p class="ml-submit">
-<input type="submit" class="button savebutton" style="display:none;" name="save" id="save-all" value="<?php _ea( 'Save all changes' ); ?>" />
+<input type="submit" class="button savebutton" style="display:none;" name="save" id="save-all" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
-<input type="hidden" name="type" value="<?php echo attr( $GLOBALS['type'] ); ?>" />
-<input type="hidden" name="tab" value="<?php echo attr( $GLOBALS['tab'] ); ?>" />
+<input type="hidden" name="type" value="<?php echo esc_attr( $GLOBALS['type'] ); ?>" />
+<input type="hidden" name="tab" value="<?php echo esc_attr( $GLOBALS['tab'] ); ?>" />
 </p>
 
 <div id="gallery-settings" style="display:none;">
@@ -1667,8 +1667,8 @@ jQuery(function($){
 </tbody></table>
 
 <p class="ml-submit">
-<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="insert-gallery" id="insert-gallery" value="<?php _ea( 'Insert gallery' ); ?>" />
-<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="update-gallery" id="update-gallery" value="<?php _ea( 'Update gallery settings' ); ?>" />
+<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="insert-gallery" id="insert-gallery" value="<?php esc_attr_e( 'Insert gallery' ); ?>" />
+<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="update-gallery" id="update-gallery" value="<?php esc_attr_e( 'Update gallery settings' ); ?>" />
 </p>
 </div>
 </form>
@@ -1704,15 +1704,15 @@ function media_upload_library_form($errors) {
 ?>
 
 <form id="filter" action="" method="get">
-<input type="hidden" name="type" value="<?php echo attr( $type ); ?>" />
-<input type="hidden" name="tab" value="<?php echo attr( $tab ); ?>" />
+<input type="hidden" name="type" value="<?php echo esc_attr( $type ); ?>" />
+<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
 <input type="hidden" name="post_id" value="<?php echo (int) $post_id; ?>" />
-<input type="hidden" name="post_mime_type" value="<?php echo isset( $_GET['post_mime_type'] ) ? attr( $_GET['post_mime_type'] ) : ''; ?>" />
+<input type="hidden" name="post_mime_type" value="<?php echo isset( $_GET['post_mime_type'] ) ? esc_attr( $_GET['post_mime_type'] ) : ''; ?>" />
 
 <p id="media-search" class="search-box">
 	<label class="invisible" for="media-search-input"><?php _e('Search Media');?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _ea( 'Search Media' ); ?>" class="button" />
+	<input type="submit" value="<?php esc_attr_e( 'Search Media' ); ?>" class="button" />
 </p>
 
 <ul class="subsubsub">
@@ -1791,7 +1791,7 @@ foreach ($arc_result as $arc_row) {
 	else
 		$default = '';
 
-	echo "<option$default value='" . attr( $arc_row->yyear . $arc_row->mmonth ) . "'>";
+	echo "<option$default value='" . esc_attr( $arc_row->yyear . $arc_row->mmonth ) . "'>";
 	echo wp_specialchars( $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear" );
 	echo "</option>\n";
 }
@@ -1799,7 +1799,7 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php } ?>
 
-<input type="submit" id="post-query-submit" value="<?php echo attr( __( 'Filter &#187;' ) ); ?>" class="button-secondary" />
+<input type="submit" id="post-query-submit" value="<?php echo esc_attr( __( 'Filter &#187;' ) ); ?>" class="button-secondary" />
 
 </div>
 
@@ -1807,7 +1807,7 @@ foreach ($arc_result as $arc_row) {
 </div>
 </form>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo attr($form_action_url); ?>" class="media-upload-form validate" id="library-form">
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form validate" id="library-form">
 
 <?php wp_nonce_field('media-form'); ?>
 <?php //media_upload_form( $errors ); ?>
@@ -1829,7 +1829,7 @@ jQuery(function($){
 <?php echo get_media_items(null, $errors); ?>
 </div>
 <p class="ml-submit">
-<input type="submit" class="button savebutton" name="save" value="<?php _ea( 'Save all changes' ); ?>" />
+<input type="submit" class="button savebutton" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 </p>
 </form>
@@ -1911,7 +1911,7 @@ function type_url_form_image() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . _a('Insert into Post') . '" />
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
@@ -1947,7 +1947,7 @@ function type_url_form_audio() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . _a('Insert into Post') . '" />
+				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
@@ -1982,7 +1982,7 @@ function type_url_form_video() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . _a('Insert into Post') . '" />
+				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
@@ -2017,7 +2017,7 @@ function type_url_form_file() {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . _a('Insert into Post') . '" />
+				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>

@@ -233,7 +233,7 @@ class WP_Import {
 		}
 
 		echo '<p class="submit">';
-		echo '<input type="submit" class="button" value="'. _a('Submit') .'" />'.'<br />';
+		echo '<input type="submit" class="button" value="'. esc_attr__('Submit') .'" />'.'<br />';
 		echo '</p>';
 		echo '</form>';
 
@@ -242,14 +242,14 @@ class WP_Import {
 	function users_form($n, $author) {
 
 		if ( $this->allow_create_users() ) {
-			printf('<label>'.__('Create user %1$s or map to existing'), ' <input type="text" value="'. attr($author) .'" name="'.'user_create['.intval($n).']'.'" maxlength="30" /></label> <br />');
+			printf('<label>'.__('Create user %1$s or map to existing'), ' <input type="text" value="'. esc_attr($author) .'" name="'.'user_create['.intval($n).']'.'" maxlength="30" /></label> <br />');
 		}
 		else {
 			echo __('Map to existing').'<br />';
 		}
 
 		// keep track of $n => $author name
-		echo '<input type="hidden" name="author_in['.intval($n).']" value="'.attr($author).'" />';
+		echo '<input type="hidden" name="author_in['.intval($n).']" value="' . esc_attr($author).'" />';
 
 		$users = get_users_of_blog();
 ?><select name="user_select[<?php echo $n; ?>]">

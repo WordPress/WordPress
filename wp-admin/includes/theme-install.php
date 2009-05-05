@@ -158,8 +158,8 @@ function install_theme_search_form() {
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
 	<option value="tag" <?php selected('tag', $type) ?>><?php _e('Tag'); ?></option>
 	</select>
-	<input type="text" name="s" size="30" value="<?php echo attr($term) ?>" />
-	<input type="submit" name="search" value="<?php _ea('Search'); ?>" class="button" />
+	<input type="text" name="s" size="30" value="<?php echo esc_attr($term) ?>" />
+	<input type="submit" name="search" value="<?php esc_attr_e('Search'); ?>" class="button" />
 </form>
 <?php
 }
@@ -202,7 +202,7 @@ function install_themes_dashboard() {
 			if ( isset($trans[$feature]) )
 				$feature_name = $trans[$feature];
 			$feature_name = wp_specialchars( $feature_name );
-			$feature = attr($feature);
+			$feature = esc_attr($feature);
 ?>
 
 <li>
@@ -218,7 +218,7 @@ function install_themes_dashboard() {
 
 </div>
 <br class="clear" />
-<input type="submit" name="search" value="<?php _ea('Find Themes'); ?>" class="button" />
+<input type="submit" name="search" value="<?php esc_attr_e('Find Themes'); ?>" class="button" />
 </form>
 <?php
 }
@@ -281,7 +281,7 @@ function install_themes_upload($page = 1) {
 	<?php wp_nonce_field( 'theme-upload') ?>
 	<input type="file" name="themezip" />
 	<input type="submit"
-	class="button" value="<?php _ea('Install Now') ?>" />
+	class="button" value="<?php esc_attr_e('Install Now') ?>" />
 </form>
 	<?php
 }
@@ -301,8 +301,8 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	if ( !is_array($actions) ) {
 		$actions = array();
 		$actions[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=350') . '" class="thickbox thickbox-preview onclick" title="' . attr(sprintf(__('Install &#8220;%s&#8221;'), $name)) . '">' . __('Install') . '</a>';
-		$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
+										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=350') . '" class="thickbox thickbox-preview onclick" title="' . esc_attr(sprintf(__('Install &#8220;%s&#8221;'), $name)) . '">' . __('Install') . '</a>';
+		$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
 		$actions = apply_filters('theme_install_action_links', $actions, $theme);
 	}
 
@@ -310,7 +310,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	?>
 <a class='thickbox thickbox-preview screenshot'
 	href='<? echo clean_url($preview_link); ?>'
-	title='<?php echo attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)); ?>'>
+	title='<?php echo esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)); ?>'>
 <img src='<?php echo clean_url($theme->screenshot_url); ?>' width='150' />
 </a>
 <h3><?php echo $name ?></h3>
@@ -331,7 +331,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 <p><strong><?php _e('Downloaded:') ?></strong> <?php printf(_n('%s time', '%s times', $theme->downloaded), number_format_i18n($theme->downloaded)) ?></p>
 <?php endif; ?>
 <div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $theme->num_ratings), number_format_i18n($theme->num_ratings)) ?>">
-	<div class="star star-rating" style="width: <?php echo attr($theme->rating) ?>px"></div>
+	<div class="star star-rating" style="width: <?php echo esc_attr($theme->rating) ?>px"></div>
 	<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
 	<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
 	<div class="star star3"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('3 stars') ?>" /></div>

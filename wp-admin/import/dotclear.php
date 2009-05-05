@@ -215,7 +215,7 @@ class Dotclear_Import {
 		echo '<form action="admin.php?import=dotclear&amp;step=1" method="post">';
 		wp_nonce_field('import-dotclear');
 		$this->db_form();
-		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'._a('Import Categories').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'.esc_attr__('Import Categories').'" /></p>';
 		echo '</form></div>';
 	}
 
@@ -632,7 +632,7 @@ class Dotclear_Import {
 
 		echo '<form action="admin.php?import=dotclear&amp;step=2" method="post">';
 		wp_nonce_field('import-dotclear');
-		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', _a('Import Users'));
+		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__('Import Users'));
 		echo '</form>';
 
 	}
@@ -645,7 +645,7 @@ class Dotclear_Import {
 
 		echo '<form action="admin.php?import=dotclear&amp;step=3" method="post">';
 		wp_nonce_field('import-dotclear');
-		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', _a('Import Posts'));
+		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__('Import Posts'));
 		echo '</form>';
 	}
 
@@ -659,7 +659,7 @@ class Dotclear_Import {
 
 		echo '<form action="admin.php?import=dotclear&amp;step=4" method="post">';
 		wp_nonce_field('import-dotclear');
-		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', _a('Import Comments'));
+		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__('Import Comments'));
 		echo '</form>';
 	}
 
@@ -671,7 +671,7 @@ class Dotclear_Import {
 
 		echo '<form action="admin.php?import=dotclear&amp;step=5" method="post">';
 		wp_nonce_field('import-dotclear');
-		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', _a('Import Links'));
+		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__('Import Links'));
 		echo '</form>';
 	}
 
@@ -684,7 +684,7 @@ class Dotclear_Import {
 
 		echo '<form action="admin.php?import=dotclear&amp;step=6" method="post">';
 		wp_nonce_field('import-dotclear');
-		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', _a('Finish'));
+		printf('<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__('Finish'));
 		echo '</form>';
 	}
 

@@ -873,7 +873,7 @@ function wp_rss( $url, $num_items = -1 ) {
 			printf(
 				'<li><a href="%1$s" title="%2$s">%3$s</a></li>',
 				clean_url( $item['link'] ),
-				attr( strip_tags( $item['description'] ) ),
+				esc_attr( strip_tags( $item['description'] ) ),
 				htmlentities( $item['title'] )
 			);
 		}

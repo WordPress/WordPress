@@ -139,13 +139,13 @@ if ( !empty($action) ) {
 					<input type="hidden" name="action" value="delete-selected" />
 					<?php
 						foreach ( (array)$plugins as $plugin )
-							echo '<input type="hidden" name="checked[]" value="' . attr($plugin) . '" />';
+							echo '<input type="hidden" name="checked[]" value="' . esc_attr($plugin) . '" />';
 					?>
 					<?php wp_nonce_field('bulk-manage-plugins') ?>
-					<input type="submit" name="submit" value="<?php _ea('Yes, Delete these files') ?>" class="button" />
+					<input type="submit" name="submit" value="<?php esc_attr_e('Yes, Delete these files') ?>" class="button" />
 				</form>
 				<form method="post" action="<?php echo clean_url(wp_get_referer()); ?>" style="display:inline;">
-					<input type="submit" name="submit" value="<?php _ea('No, Return me to the plugin list') ?>" class="button" />
+					<input type="submit" name="submit" value="<?php esc_attr_e('No, Return me to the plugin list') ?>" class="button" />
 				</form>
 
 				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
@@ -194,7 +194,7 @@ if ( !empty($invalid) )
 	<div id="message" class="updated fade"><p><?php _e('Plugin could not be activated because it triggered a <strong>fatal error</strong>.') ?></p>
 	<?php
 		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin) ) { ?>
-	<iframe style="border:0" width="100%" height="70px" src="<?php echo admin_url('plugins.php?action=error_scrape&amp;plugin=' . attr($plugin) . '&amp;_wpnonce=' . attr($_GET['_error_nonce'])); ?>"></iframe>
+	<iframe style="border:0" width="100%" height="70px" src="<?php echo admin_url('plugins.php?action=error_scrape&amp;plugin=' . esc_attr($plugin) . '&amp;_wpnonce=' . esc_attr($_GET['_error_nonce'])); ?>"></iframe>
 	<?php
 		}
 	?>
@@ -369,7 +369,7 @@ function print_plugins_table($plugins, $context = '') {
 		$class = $is_active ? 'active' : 'inactive';
 		echo "
 	<tr class='$class'>
-		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . attr($plugin_file) . "' /></th>
+		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
 		<td class='plugin-title'><strong>{$plugin_data['Title']}</strong>";
 		$i = 0;
 		echo '<div class="row-actions">';
@@ -413,9 +413,9 @@ function print_plugin_actions($context) {
 			<option value="delete-selected"><?php _e('Delete'); ?></option>
 	<?php endif; ?>
 		</select>
-		<input type="submit" name="doaction_active" value="<?php _ea('Apply'); ?>" class="button-secondary action" />
+		<input type="submit" name="doaction_active" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary action" />
 	<?php if( 'recent' == $context ) : ?>
-		<input type="submit" name="clear-recent-list" value="<?php _ea('Clear List') ?>" class="button-secondary" />
+		<input type="submit" name="clear-recent-list" value="<?php esc_attr_e('Clear List') ?>" class="button-secondary" />
 	<?php endif; ?>
 	</div>
 <?php
@@ -426,14 +426,14 @@ function print_plugin_actions($context) {
 <p class="search-box">
 	<label class="invisible" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
 	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _ea( 'Search Plugins' ); ?>" class="button" />
+	<input type="submit" value="<?php esc_attr_e( 'Search Plugins' ); ?>" class="button" />
 </p>
 </form>
 
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
-<input type="hidden" name="plugin_status" value="<?php echo attr($status) ?>" />
-<input type="hidden" name="paged" value="<?php echo attr($page) ?>" />
+<input type="hidden" name="plugin_status" value="<?php echo esc_attr($status) ?>" />
+<input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
 
 <ul class="subsubsub">
 <?php

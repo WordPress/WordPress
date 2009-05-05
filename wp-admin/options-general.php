@@ -120,7 +120,7 @@ foreach ( $offset_range as $offset ) {
 		$selected = " selected='selected'";
 		$current_offset_name = $offset_name;
 	}
-	echo "<option value=\"" . attr($offset) . "\"$selected>" . sprintf(__('UTC %s'), $offset_name) . '</option>';
+	echo "<option value=\"" . esc_attr($offset) . "\"$selected>" . sprintf(__('UTC %s'), $offset_name) . '</option>';
 }
 ?>
 </select>
@@ -210,7 +210,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	$custom = TRUE;
 
 	foreach ( $date_formats as $format ) {
-		echo "\t<label title='" . attr($format) . "'><input type='radio' name='date_format' value='" . attr($format) . "'";
+		echo "\t<label title='" . esc_attr($format) . "'><input type='radio' name='date_format' value='" . esc_attr($format) . "'";
 		if ( get_option('date_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = FALSE;
@@ -220,7 +220,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attr( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . esc_attr( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
 
 	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click &#8220;Save Changes&#8221; to update sample output.') . "</p>\n";
 ?>
@@ -242,7 +242,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	$custom = TRUE;
 
 	foreach ( $time_formats as $format ) {
-		echo "\t<label title='" . attr($format) . "'><input type='radio' name='time_format' value='" . attr($format) . "'";
+		echo "\t<label title='" . esc_attr($format) . "'><input type='radio' name='time_format' value='" . esc_attr($format) . "'";
 		if ( get_option('time_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = FALSE;
@@ -252,7 +252,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . attr( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . esc_attr( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
 ?>
 	</fieldset>
 </td>
@@ -263,7 +263,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <?php
 for ($day_index = 0; $day_index <= 6; $day_index++) :
 	$selected = (get_option('start_of_week') == $day_index) ? 'selected="selected"' : '';
-	echo "\n\t<option value='" . attr($day_index) . "' $selected>" . $wp_locale->get_weekday($day_index) . '</option>';
+	echo "\n\t<option value='" . esc_attr($day_index) . "' $selected>" . $wp_locale->get_weekday($day_index) . '</option>';
 endfor;
 ?>
 </select></td>
@@ -274,7 +274,7 @@ endfor;
 <?php do_settings_sections('general'); ?>
 
 <p class="submit">
-<input type="submit" name="Submit" class="button-primary" value="<?php _ea('Save Changes') ?>" />
+<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
 </p>
 </form>
 

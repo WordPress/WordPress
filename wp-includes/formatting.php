@@ -1270,7 +1270,7 @@ function translate_smiley($smiley) {
 
 	$smiley = trim(reset($smiley));
 	$img = $wpsmiliestrans[$smiley];
-	$smiley_masked = attr($smiley);
+	$smiley_masked = esc_attr($smiley);
 
 	return " <img src='$siteurl/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 }
@@ -2078,7 +2078,7 @@ function js_escape($text) {
  * @param string $text
  * @return string
  */
-function attr( $text ) {
+function esc_attr( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = wp_specialchars( $safe_text, ENT_QUOTES );
 	return apply_filters( 'attribute_escape', $safe_text, $text );
@@ -2090,13 +2090,13 @@ function attr( $text ) {
  * @since 2.0.6
  *
  * @deprecated 2.8.0
- * @see attr()
+ * @see esc_attr()
  * 
  * @param string $text
  * @return string
  */
 function attribute_escape( $text ) {
-	return attr( $text );
+	return esc_attr( $text );
 }
 
 /**

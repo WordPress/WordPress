@@ -211,7 +211,7 @@ unset($type_links);
 <p class="search-box">
 	<label class="invisible" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _ea( 'Search Media' ); ?>" class="button" />
+	<input type="submit" value="<?php esc_attr_e( 'Search Media' ); ?>" class="button" />
 </p>
 </form>
 
@@ -247,7 +247,7 @@ if ( $page_links ) : ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-media'); ?>
 
 <?php
@@ -272,7 +272,7 @@ foreach ($arc_result as $arc_row) {
 	else
 		$default = '';
 
-	echo "<option$default value='" . attr("$arc_row->yyear$arc_row->mmonth") . "'>";
+	echo "<option$default value='" . esc_attr("$arc_row->yyear$arc_row->mmonth") . "'>";
 	echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
 	echo "</option>\n";
 }
@@ -280,12 +280,12 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php endif; // month_count ?>
 
-<input type="submit" id="post-query-submit" value="<?php _ea('Filter'); ?>" class="button-secondary" />
+<input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 
 <?php } // ! is_singular ?>
 
 <?php if ( isset($_GET['detached']) ) { ?>
-	<input type="submit" id="find_detached" name="find_detached" value="<?php _ea('Scan for lost attachments'); ?>" class="button-secondary" />
+	<input type="submit" id="find_detached" name="find_detached" value="<?php esc_attr_e('Scan for lost attachments'); ?>" class="button-secondary" />
 <?php } ?>
 
 </div>
@@ -325,14 +325,14 @@ foreach ($arc_result as $arc_row) {
 			$att_title = wp_specialchars( _draft_or_post_title($post->ID) );
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo $class; ?>' valign="top">
-		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo attr($post->ID); ?>" /></th>
+		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo esc_attr($post->ID); ?>" /></th>
 
 		<td class="media-icon"><?php
 		if ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) { ?>
-			<a href="media.php?action=edit&amp;attachment_id=<?php echo $post->ID; ?>" title="<?php echo attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $thumb; ?></a>
+			<a href="media.php?action=edit&amp;attachment_id=<?php echo $post->ID; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $thumb; ?></a>
 <?php	} ?></td>
 
-		<td class="media column-media"><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
+		<td class="media column-media"><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 
 		<div class="row-actions">
@@ -342,7 +342,7 @@ foreach ($arc_result as $arc_row) {
 			$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
 		if ( current_user_can('delete_post', $post->ID) )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this attachment '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this attachment '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
-		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		if ( current_user_can('edit_post', $post->ID) )
 			$actions['attach'] = '<a href="#the-list" onclick="findPosts.open(\'media[]\',\''.$post->ID.'\');return false;">'.__('Attach').'</a>';
 		$actions = apply_filters( 'media_row_actions', $actions, $post );
@@ -403,7 +403,7 @@ if ( $page_links )
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" value="<?php _ea('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 
 <br class="clear" />

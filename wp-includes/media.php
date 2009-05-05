@@ -200,10 +200,10 @@ function get_image_tag($id, $alt, $title, $align, $size='medium') {
 	list( $img_src, $width, $height ) = image_downsize($id, $size);
 	$hwstring = image_hwstring($width, $height);
 
-	$class = 'align'.attr($align).' size-'.attr($size).' wp-image-'.$id;
+	$class = 'align' . esc_attr($align) .' size-' . esc_attr($size) . ' wp-image-' . $id;
 	$class = apply_filters('get_image_tag_class', $class, $id, $align, $size);
 
-	$html = '<img src="'.attr($img_src).'" alt="'.attr($alt).'" title="'.attr($title).'" '.$hwstring.'class="'.$class.'" />';
+	$html = '<img src="' . esc_attr($img_src) . '" alt="' . esc_attr($alt) . '" title="' . esc_attr($title).'" '.$hwstring.'class="'.$class.'" />';
 
 	$html = apply_filters( 'get_image_tag', $html, $id, $alt, $title, $align, $size );
 
@@ -542,7 +542,7 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 			'title'	=> trim(strip_tags( $attachment->post_title )),
 			);
 		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
-		$attr = array_map( 'attr', $attr );
+		$attr = array_map( 'esc_attr', $attr );
 		$html = rtrim("<img $hwstring");
 		foreach ( $attr as $name => $value ) {
 			$html .= " $name=" . '"' . $value . '"';

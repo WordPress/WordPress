@@ -284,10 +284,10 @@ class Custom_Image_Header {
 </div>
 <?php if ( !defined( 'NO_HEADER_TEXT' ) ) { ?>
 <form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
-<input type="button" class="button" value="<?php _ea('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
-<input type="button" class="button" value="<?php _ea('Select a Text Color'); ?>" id="pickcolor" /><input type="button" class="button" value="<?php _ea('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
+<input type="button" class="button" value="<?php esc_attr_e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
+<input type="button" class="button" value="<?php esc_attr_e('Select a Text Color'); ?>" id="pickcolor" /><input type="button" class="button" value="<?php esc_attr_e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
 <?php wp_nonce_field('custom-header') ?>
-<input type="hidden" name="textcolor" id="textcolor" value="#<?php attr(header_textcolor()) ?>" /><input name="submit" type="submit" class="button" value="<?php _ea('Save Changes'); ?>" /></form>
+<input type="hidden" name="textcolor" id="textcolor" value="#<?php esc_attr(header_textcolor()) ?>" /><input name="submit" type="submit" class="button" value="<?php esc_attr_e('Save Changes'); ?>" /></form>
 <?php } ?>
 
 <div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;display:none;"> </div>
@@ -296,12 +296,12 @@ class Custom_Image_Header {
 <h2><?php _e('Upload New Header Image'); ?></h2><p><?php _e('Here you can upload a custom header image to be shown at the top of your blog instead of the default one. On the next screen you will be able to crop the image.'); ?></p>
 <p><?php printf(__('Images of exactly <strong>%1$d x %2$d pixels</strong> will be used as-is.'), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT); ?></p>
 
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo attr(add_query_arg('step', 2)) ?>" style="margin: auto; width: 50%;">
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>" style="margin: auto; width: 50%;">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-header') ?>
 <p class="submit">
-<input type="submit" value="<?php _ea('Upload'); ?>" />
+<input type="submit" value="<?php esc_attr_e('Upload'); ?>" />
 </p>
 </form>
 
@@ -311,9 +311,9 @@ class Custom_Image_Header {
 <div class="wrap">
 <h2><?php _e('Reset Header Image and Color'); ?></h2>
 <p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
-<form method="post" action="<?php echo attr(add_query_arg('step', 1)) ?>">
+<form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <?php wp_nonce_field('custom-header'); ?>
-<input type="submit" class="button" name="resetheader" value="<?php _ea('Restore Original Header'); ?>" />
+<input type="submit" class="button" name="resetheader" value="<?php esc_attr_e('Restore Original Header'); ?>" />
 </form>
 </div>
 		<?php endif;
@@ -372,7 +372,7 @@ class Custom_Image_Header {
 
 <div class="wrap">
 
-<form method="POST" action="<?php echo attr(add_query_arg('step', 3)) ?>">
+<form method="POST" action="<?php echo esc_attr(add_query_arg('step', 3)) ?>">
 
 <p><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
 <div id="testWrap" style="position: relative">
@@ -386,10 +386,10 @@ class Custom_Image_Header {
 <input type="hidden" name="y2" id="y2" />
 <input type="hidden" name="width" id="width" />
 <input type="hidden" name="height" id="height" />
-<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo attr($id); ?>" />
-<input type="hidden" name="oitar" id="oitar" value="<?php echo attr($oitar); ?>" />
+<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr($id); ?>" />
+<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr($oitar); ?>" />
 <?php wp_nonce_field('custom-header') ?>
-<input type="submit" value="<?php _ea('Crop Header'); ?>" />
+<input type="submit" value="<?php esc_attr_e('Crop Header'); ?>" />
 </p>
 
 </form>

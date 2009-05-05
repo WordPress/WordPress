@@ -26,7 +26,7 @@ function add_filter() {}
 /**
  * @ignore
  */
-function attr() {}
+function esc_attr() {}
 
 /**
  * @ignore

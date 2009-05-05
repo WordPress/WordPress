@@ -99,7 +99,7 @@ $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name
 
 foreach ( (array) $options as $option) :
 	$disabled = '';
-	$option->option_name = attr($option->option_name);
+	$option->option_name = esc_attr($option->option_name);
 	if ( is_serialized($option->option_value) ) {
 		if ( is_serialized_string($option->option_value) ) {
 			// this is a serialized string, so we should display it
@@ -122,7 +122,7 @@ foreach ( (array) $options as $option) :
 <td>";
 
 	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>" . wp_specialchars($value) . "</textarea>";
-	else echo "<input class='regular-text $class' type='text' name='$option->option_name' id='$option->option_name' value='" . attr($value) . "'$disabled />";
+	else echo "<input class='regular-text $class' type='text' name='$option->option_name' id='$option->option_name' value='" . esc_attr($value) . "'$disabled />";
 
 	echo "</td>
 </tr>";
@@ -130,7 +130,7 @@ endforeach;
 ?>
   </table>
 <?php $options_to_update = implode(',', $options_to_update); ?>
-<p class="submit"><input type="hidden" name="page_options" value="<?php echo attr($options_to_update); ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes') ?>" class="button-primary" /></p>
+<p class="submit"><input type="hidden" name="page_options" value="<?php echo esc_attr($options_to_update); ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes') ?>" class="button-primary" /></p>
   </form>
 </div>
 

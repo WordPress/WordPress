@@ -120,8 +120,8 @@ function get_search_form() {
 
 	$form = '<form role="search" method="get" id="searchform" action="' . get_option('home') . '/" >
 	<div><label class="invisible" for="s">' . __('Search for:') . '</label>
-	<input type="text" value="' . attr(apply_filters('the_search_query', get_search_query())) . '" name="s" id="s" />
-	<input type="submit" id="searchsubmit" value="'. _a('Search') .'" />
+	<input type="text" value="' . esc_attr(apply_filters('the_search_query', get_search_query())) . '" name="s" id="s" />
+	<input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" />
 	</div>
 	</form>';
 
@@ -688,7 +688,7 @@ function single_month_title($prefix = '', $display = true ) {
  */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
 	$text = wptexturize($text);
-	$title_text = attr($text);
+	$title_text = esc_attr($text);
 	$url = clean_url($url);
 
 	if ('link' == $format)
@@ -1434,8 +1434,8 @@ function feed_links( $args ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
-	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attr(sprintf( $args['feedtitle'], get_bloginfo('name') )) . '" href="' . get_feed_link() . "\" />\n";
-	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attr(sprintf( $args['comstitle'], get_bloginfo('name') )) . '" href="' . get_feed_link( 'comments_' . get_default_feed() ) . "\" />\n";
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr(sprintf( $args['feedtitle'], get_bloginfo('name') )) . '" href="' . get_feed_link() . "\" />\n";
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr(sprintf( $args['comstitle'], get_bloginfo('name') )) . '" href="' . get_feed_link( 'comments_' . get_default_feed() ) . "\" />\n";
 }
 
 /**
@@ -1467,27 +1467,27 @@ function feed_links_extra( $args ) {
 		$post = &get_post( $id = 0 );
 
 		if ( comments_open() || pings_open() || $post->comment_count > 0 ) {
-			$title = attr(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], wp_specialchars( get_the_title() ) ));
+			$title = esc_attr(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], wp_specialchars( get_the_title() ) ));
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_category() ) {
 		$cat_id = intval( get_query_var('cat') );
 
-		$title = attr(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], get_cat_name( $cat_id ) ));
+		$title = esc_attr(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], get_cat_name( $cat_id ) ));
 		$href = get_category_feed_link( $cat_id );
 	} elseif ( is_tag() ) {
 		$tag_id = intval( get_query_var('tag_id') );
 		$tag = get_tag( $tag_id );
 
-		$title = attr(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $tag->name ));
+		$title = esc_attr(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $tag->name ));
 		$href = get_tag_feed_link( $tag_id );
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
-		$title = attr(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_author_name( $author_id ) ));
+		$title = esc_attr(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_author_name( $author_id ) ));
 		$href = get_author_feed_link( $author_id );
 	} elseif ( is_search() ) {
-		$title = attr(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query() ));
+		$title = esc_attr(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query() ));
 		$href = get_search_feed_link();
 	}
 
@@ -1681,14 +1681,14 @@ function get_search_query() {
 /**
  * Display the contents of the search query variable.
  *
- * The search query string is passed through {@link attr()}
+ * The search query string is passed through {@link esc_attr()}
  * to ensure that it is safe for placing in an html attribute.
  *
  * @uses attr
  * @since 2.1.0
  */
 function the_search_query() {
-	echo attr( apply_filters( 'the_search_query', get_search_query() ) );
+	echo esc_attr( apply_filters( 'the_search_query', get_search_query() ) );
 }
 
 /**

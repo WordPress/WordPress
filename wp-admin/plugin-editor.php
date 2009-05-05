@@ -116,7 +116,7 @@ default:
 			$docs_select = '<select name="docs-list" id="docs-list">';
 			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
 			foreach ( $functions as $function) {
-				$docs_select .= '<option value="' . attr( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+				$docs_select .= '<option value="' . esc_attr( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}
 			$docs_select .= '</select>';
 		}
@@ -132,7 +132,7 @@ default:
  <div id="message" class="updated fade"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
 	<?php
 		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $file) ) { ?>
-	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo attr($file); ?>&amp;_wpnonce=<?php echo attr($_GET['_error_nonce']); ?>"></iframe>
+	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo esc_attr($file); ?>&amp;_wpnonce=<?php echo esc_attr($_GET['_error_nonce']); ?>"></iframe>
 	<?php } ?>
 </div>
 <?php endif; ?>
@@ -150,13 +150,13 @@ default:
 			$selected = " selected='selected'";
 		else
 			$selected = '';
-		$plugin_name = attr($plugin_name);
-		$plugin_key = attr($plugin_key);
+		$plugin_name = esc_attr($plugin_name);
+		$plugin_key = esc_attr($plugin_key);
 		echo "\n\t<option value=\"$plugin_key\" $selected>$plugin_name</option>";
 	}
 ?>
 		</select>
-		<input type="submit" name="Submit" value="<?php _ea('Select') ?>" class="button" />
+		<input type="submit" name="Submit" value="<?php esc_attr_e('Select') ?>" class="button" />
 	</form>
 </div>
 <div class="tablenav">
@@ -204,11 +204,11 @@ foreach ( $plugin_files as $plugin_file ) :
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
 		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
 		<input type="hidden" name="action" value="update" />
-		<input type="hidden" name="file" value="<?php echo attr($file) ?>" />
-		<input type="hidden" name="plugin" value="<?php echo attr($plugin) ?>" />
+		<input type="hidden" name="file" value="<?php echo esc_attr($file) ?>" />
+		<input type="hidden" name="plugin" value="<?php echo esc_attr($plugin) ?>" />
 		</div>
 		<?php if ( count( $functions ) ) : ?>
-		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value="<?php _ea( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
+		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value="<?php esc_attr_e( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array($file, (array) get_option('active_plugins')) ) { ?>
@@ -217,9 +217,9 @@ foreach ( $plugin_files as $plugin_file ) :
 	<p class="submit">
 	<?php
 		if ( isset($_GET['phperror']) )
-			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' class='button-primary' value='" . _a('Update File and Attempt to Reactivate') . "' tabindex='2' />";
+			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' class='button-primary' value='" . esc_attr__('Update File and Attempt to Reactivate') . "' tabindex='2' />";
 		else
-			echo "<input type='submit' name='submit' class='button-primary' value='" . _a('Update File') . "' tabindex='2' />";
+			echo "<input type='submit' name='submit' class='button-primary' value='" . esc_attr__('Update File') . "' tabindex='2' />";
 	?>
 	</p>
 <?php else : ?>

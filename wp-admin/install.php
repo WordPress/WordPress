@@ -57,18 +57,18 @@ function display_setup_form( $error = null ) {
 	<table class="form-table">
 		<tr>
 			<th scope="row"><label for="weblog_title"><?php _e('Blog Title'); ?></label></th>
-			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo ( isset($_POST['weblog_title']) ? attr($_POST['weblog_title']) : '' ); ?>" /></td>
+			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo ( isset($_POST['weblog_title']) ? esc_attr($_POST['weblog_title']) : '' ); ?>" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="admin_email"><?php _e('Your E-mail'); ?></label></th>
-			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo ( isset($_POST['admin_email']) ? attr($_POST['admin_email']) : '' ); ?>" /><br />
+			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo ( isset($_POST['admin_email']) ? esc_attr($_POST['admin_email']) : '' ); ?>" /><br />
 			<?php _e('Double-check your email address before continuing.'); ?>
 		</tr>
 		<tr>
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1"<?php if( isset($_POST) && ! empty($_POST) && isset( $_POST['blog_public'] ) ) : ?> checked="checked"<?php endif; ?> /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
 		</tr>
 	</table>
-	<p class="step"><input type="submit" name="Submit" value="<?php _ea('Install WordPress'); ?>" class="button" /></p>
+	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e('Install WordPress'); ?>" class="button" /></p>
 </form>
 <?php
 }

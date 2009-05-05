@@ -42,14 +42,14 @@ require_once ('admin-header.php');
 $authors = $wpdb->get_col( "SELECT post_author FROM $wpdb->posts GROUP BY post_author" );
 foreach ( $authors as $id ) {
 	$o = get_userdata( $id );
-	echo "<option value='" . attr($o->ID) . "'>$o->display_name</option>";
+	echo "<option value='" . esc_attr($o->ID) . "'>$o->display_name</option>";
 }
 ?>
 </select>
 </td>
 </tr>
 </table>
-<p class="submit"><input type="submit" name="submit" class="button" value="<?php _ea('Download Export File'); ?>" />
+<p class="submit"><input type="submit" name="submit" class="button" value="<?php esc_attr_e('Download Export File'); ?>" />
 <input type="hidden" name="download" value="true" />
 </p>
 </form>

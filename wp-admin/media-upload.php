@@ -78,7 +78,7 @@ if ( isset($_GET['inline']) ) {
 	<?php wp_nonce_field('media-form'); ?>
 	<div id="media-items"> </div>
 	<p>
-	<input type="submit" class="button savebutton" name="save" value="<?php _ea( 'Save all changes' ); ?>" />
+	<input type="submit" class="button savebutton" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
 	</p>
 	</form>
 	</div>

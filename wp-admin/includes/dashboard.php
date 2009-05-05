@@ -132,7 +132,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form action="" method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
-	echo "<p class='submit'><input type='hidden' name='widget_id' value='" . attr($meta_box['id']) . "' /><input type='submit' value='" . _a( 'Submit' ) . "' /></p>";
+	echo "<p class='submit'><input type='hidden' name='widget_id' value='" . esc_attr($meta_box['id']) . "' /><input type='submit' value='" . esc_attr__( 'Submit' ) . "' /></p>";
 
 	echo '</form>';
 }
@@ -388,7 +388,7 @@ function wp_dashboard_quick_press() {
 	<form name="post" action="<?php echo clean_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
 		<h4 id="quick-post-title"><label for="title"><?php _e('Title') ?></label></h4>
 		<div class="input-text-wrap">
-			<input type="text" name="post_title" id="title" tabindex="1" autocomplete="off" value="<?php echo attr( $post->post_title ); ?>" />
+			<input type="text" name="post_title" id="title" tabindex="1" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
 		</div>
 
 		<?php if ( current_user_can( 'upload_files' ) ) : ?>
@@ -413,12 +413,12 @@ function wp_dashboard_quick_press() {
 			<input type="hidden" name="action" id="quickpost-action" value="post-quickpress-save" />
 			<input type="hidden" name="quickpress_post_ID" value="<?php echo (int) $post->ID; ?>" />
 			<?php wp_nonce_field('add-post'); ?>
-			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php _ea('Save Draft'); ?>" />
-			<input type="reset" value="<?php _ea( 'Reset' ); ?>" class="button" />
+			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php esc_attr_e('Save Draft'); ?>" />
+			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
 			<?php if ( current_user_can('publish_posts') ) { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _ea('Publish'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php esc_attr_e('Publish'); ?>" />
 			<?php } else { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _ea('Submit for Review'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php esc_attr_e('Submit for Review'); ?>" />
 			<?php } ?>
 			<br class="clear" />
 		</p>
@@ -449,7 +449,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		foreach ( $drafts as $draft ) {
 			$url = get_edit_post_link( $draft->ID );
 			$title = _draft_or_post_title( $draft->ID );
-			$item = "<h4><a href='$url' title='" . sprintf( __( 'Edit &#8220;%s&#8221;' ), attr( $title ) ) . "'>$title</a> <abbr title='" . get_the_time(__('Y/m/d g:i:s A'), $draft) . "'>" . get_the_time( get_option( 'date_format' ), $draft ) . '</abbr></h4>';
+			$item = "<h4><a href='$url' title='" . sprintf( __( 'Edit &#8220;%s&#8221;' ), esc_attr( $title ) ) . "'>$title</a> <abbr title='" . get_the_time(__('Y/m/d g:i:s A'), $draft) . "'>" . get_the_time( get_option( 'date_format' ), $draft ) . '</abbr></h4>';
 			if ( $the_content = preg_split( '#\s#', strip_tags( $draft->post_content ), 11, PREG_SPLIT_NO_EMPTY ) )
 				$item .= '<p>' . join( ' ', array_slice( $the_content, 0, 10 ) ) . ( 10 < count( $the_content ) ? '&hellip;' : '' ) . '</p>';
 			$list[] = $item;
@@ -596,9 +596,9 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 			<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
-				<div class="author-email"><?php echo attr( $comment->comment_author_email ); ?></div>
-				<div class="author"><?php echo attr( $comment->comment_author ); ?></div>
-				<div class="author-url"><?php echo attr( $comment->comment_author_url ); ?></div>
+				<div class="author-email"><?php echo esc_attr( $comment->comment_author_email ); ?></div>
+				<div class="author"><?php echo esc_attr( $comment->comment_author ); ?></div>
+				<div class="author-url"><?php echo esc_attr( $comment->comment_author_url ); ?></div>
 				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
 			</div>
 			</div>

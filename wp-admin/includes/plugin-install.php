@@ -162,9 +162,9 @@ function install_search_form(){
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author') ?></option>
 			<option value="tag"<?php selected('tag', $type) ?>><?php _x('Tag', 'Plugin Installer') ?></option>
 		</select>
-		<input type="text" name="s" value="<?php echo attr($term) ?>" />
+		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
 		<label class="invisible" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<input type="submit" id="plugin-search-input" name="search" value="<?php _ea('Search Plugins') ?>" class="button" />
+		<input type="submit" id="plugin-search-input" name="search" value="<?php esc_attr_e('Search Plugins') ?>" class="button" />
 	</form><?php
 }
 
@@ -213,7 +213,7 @@ function install_plugins_upload( $page = 1 ) {
 		<?php wp_nonce_field( 'plugin-upload') ?>
 		<label class="invisible" for="pluginzip"><?php _e('Plugin zip file'); ?></label>
 		<input type="file" id="pluginzip" name="pluginzip" />
-		<input type="submit" class="button" value="<?php _ea('Install Now') ?>" />
+		<input type="submit" class="button" value="<?php esc_attr_e('Install Now') ?>" />
 	</form>
 <?php
 }
@@ -336,12 +336,12 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				$author = wp_kses($author, $plugins_allowedtags);
 
 				if( isset($plugin['homepage']) )
-					$title = '<a target="_blank" href="' . attr($plugin['homepage']) . '">' . $title . '</a>';
+					$title = '<a target="_blank" href="' . esc_attr($plugin['homepage']) . '">' . $title . '</a>';
 
 				$action_links = array();
 				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' .
-									attr($name) . '">' . __('Install') . '</a>';
+									esc_attr($name) . '">' . __('Install') . '</a>';
 
 				$action_links = apply_filters('plugin_install_action_links', $action_links, $plugin);
 			?>
@@ -350,7 +350,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				<td class="vers"><?php echo $version; ?></td>
 				<td class="vers">
 					<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings']), number_format_i18n($plugin['num_ratings'])) ?>">
-						<div class="star star-rating" style="width: <?php echo attr($plugin['rating']) ?>px"></div>
+						<div class="star star-rating" style="width: <?php echo esc_attr($plugin['rating']) ?>px"></div>
 						<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
 						<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
 						<div class="star star3"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('3 stars') ?>" /></div>
@@ -418,7 +418,7 @@ function install_plugin_information() {
 		$class = ( $section_name == $section ) ? ' class="current"' : '';
 		$href = add_query_arg( array('tab' => $tab, 'section' => $section_name) );
 		$href = clean_url($href);
-		$san_title = attr(sanitize_title_with_dashes($title));
+		$san_title = esc_attr(sanitize_title_with_dashes($title));
 		echo "\t<li><a name='$san_title' target='' href='$href'$class>$title</a></li>\n";
 	}
 	echo "</ul>\n";
@@ -507,7 +507,7 @@ function install_plugin_information() {
 		</ul>
 		<h2><?php _e('Average Rating') ?></h2>
 		<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?>">
-			<div class="star star-rating" style="width: <?php echo attr($api->rating) ?>px"></div>
+			<div class="star star-rating" style="width: <?php echo esc_attr($api->rating) ?>px"></div>
 			<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
 			<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
 			<div class="star star3"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('3 stars') ?>" /></div>
@@ -532,7 +532,7 @@ function install_plugin_information() {
 			$content = links_add_base_url($content, 'http://wordpress.org/extend/plugins/' . $api->slug . '/');
 			$content = links_add_target($content, '_blank');
 
-			$san_title = attr(sanitize_title_with_dashes($title));
+			$san_title = esc_attr(sanitize_title_with_dashes($title));
 
 			$display = ( $section_name == $section ) ? 'block' : 'none';
 

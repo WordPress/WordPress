@@ -869,7 +869,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			else
 				$value = format_to_edit($value);
 		} else {
-			$value = attr($value);
+			$value = esc_attr($value);
 		}
 	} else if ( 'db' == $context ) {
 		if ( $prefixed ) {
@@ -888,7 +888,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 	}
 
 	if ( 'attribute' == $context )
-		$value = attr($value);
+		$value = esc_attr($value);
 	else if ( 'js' == $context )
 		$value = js_escape($value);
 

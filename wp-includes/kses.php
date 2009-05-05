@@ -415,7 +415,7 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols) {
  *
  * @access private
  * @since 1.0.0
- * @uses wp_kses_attr()
+ * @uses wp_kses_esc_attr()
  *
  * @param string $string Content to filter
  * @param array $allowed_html Allowed HTML elements
@@ -459,7 +459,7 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols) {
 		return "<$slash$elem>";
 	# No attributes are allowed for closing elements
 
-	return wp_kses_attr("$slash$elem", $attrlist, $allowed_html, $allowed_protocols);
+	return wp_kses_esc_attr("$slash$elem", $attrlist, $allowed_html, $allowed_protocols);
 }
 
 /**
@@ -479,7 +479,7 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols) {
  * @param array $allowed_protocols Allowed protocols to keep
  * @return string Sanitized HTML element
  */
-function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
+function wp_kses_esc_attr($element, $attr, $allowed_html, $allowed_protocols) {
 	# Is there a closing XHTML slash at the end of the attributes?
 
 	$xhtml_slash = '';
