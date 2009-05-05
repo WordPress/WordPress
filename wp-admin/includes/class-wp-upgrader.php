@@ -941,7 +941,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 							);
 
 		if ( $this->type == 'web' )
-			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . attr(__('Back to Theme Installer')) . '" target="_parent">' . __('Return to Theme Installer.') . '</a>';
+			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . attr(__('Return to Theme Installer')) . '" target="_parent">' . __('Return to Theme Installer.') . '</a>';
 		else
 			$install_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . attr(__('Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
