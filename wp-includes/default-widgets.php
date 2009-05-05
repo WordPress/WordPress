@@ -980,7 +980,9 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
+		echo '<div>';
 		wp_tag_cloud();
+		echo "</div>\n";
 		echo $after_widget;
 	}
 
