@@ -1423,17 +1423,17 @@ class PHPMailer {
     switch (strtolower($position)) {
       case 'phrase':
         $encoded = preg_replace_callback("/([^A-Za-z0-9!*+\/ -])/",
-                                         "EncodeQ_callback", $encoded);
+                                         array('PHPMailer', 'EncodeQ_callback'), $encoded);
         break;
       case 'comment':
         $encoded = preg_replace_callback("/([\(\)\"])/",
-                                         "EncodeQ_callback", $encoded);
+                                         array('PHPMailer', 'EncodeQ_callback'), $encoded);
         break;
       case 'text':
       default:
         /* Replace every high ascii, control =, ? and _ characters */
         $encoded = preg_replace_callback('/([\000-\011\013\014\016-\037\075\077\137\177-\377])/',
-                                         "EncodeQ_callback", $encoded);
+                                         array('PHPMailer', 'EncodeQ_callback'), $encoded);
         break;
     }
 
