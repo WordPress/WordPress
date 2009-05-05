@@ -375,7 +375,7 @@ foreach ($arc_result as $arc_row) {
 <?php	}
 
 	} else { ?>
-	<tr><td colspan="5"><?php _e('No posts found.') ?></td></tr>
+	<tr><td colspan="5"><?php _e('No media attachments found.') ?></td></tr>
 <?php } ?>
 </tbody>
 </table>

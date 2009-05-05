@@ -202,7 +202,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 </table>
 <?php } else { ?>
 
-<p><?php _e('No posts found.') ?></p>
+<p><?php _e('No media attachments found.') ?></p>
 
 <?php
 } // end if ( have_posts() )
