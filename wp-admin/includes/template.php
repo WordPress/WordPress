@@ -265,7 +265,7 @@ function inline_edit_term_row($type) {
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
 		<?php $update_text = ( $is_tag ) ? __( 'Update Tag' ) : __( 'Update Category' ); ?>
 		<a accesskey="s" href="#inline-edit" title="<?php echo attr( $update_text ); ?>" class="save button-primary alignright"><?php echo $update_text; ?></a>
-		<img class="waiting" style="display:none;" src="images/wpspin.gif" alt="" />
+		<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
 		<span class="error" style="display:none;"></span>
 		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
 		<br class="clear" />
@@ -1258,7 +1258,7 @@ function inline_edit_row( $type ) {
 			$update_text = ( $is_page ) ? __( 'Update Page' ) : __( 'Update Post' );
 			?>
 			<a accesskey="s" href="#inline-edit" title="<?php _e('Update'); ?>" class="button-primary save alignright"><?php echo attr( $update_text ); ?></a>
-			<img class="waiting" style="display:none;" src="images/wpspin.gif" alt="" />
+			<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
 		<?php } else {
 			$update_text = ( $is_page ) ? __( 'Update Pages' ) : __( 'Update Posts' );
 		?>
@@ -2293,7 +2293,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<a href="#comments-form" class="save button-primary alignright" tabindex="104">
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
-	<img class="waiting" style="display:none;" src="images/wpspin.gif" alt="" />
+	<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
 	<span class="error" style="display:none;"></span>
 	<br class="clear" />
 	</p>

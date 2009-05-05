@@ -416,6 +416,7 @@ ul.categorychecklist li {
 
 #saving {
 	display: inline;
+	vertical-align: middle;
 }
 
 .submit input,

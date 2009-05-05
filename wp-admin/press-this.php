@@ -402,7 +402,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 				return false;
 				break;
 			case 'photo' :
-				jQuery('#extra_fields').before('<p id="waiting"><img src="images/wpspin.gif" alt="" /> <?php echo js_escape( __( 'Loading...' ) ); ?></p>');
+				jQuery('#extra_fields').before('<p id="waiting"><img src="images/wpspin_light.gif" alt="" /> <?php echo js_escape( __( 'Loading...' ) ); ?></p>');
 				jQuery.ajax({
 					type: "GET",
 					cache : false,
@@ -463,7 +463,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 						<?php } else { ?>
 							<br /><br /><input class="button-primary" type="submit" name="review" value="<?php _ea('Submit for Review') ?>" id="review" />
 						<?php } ?>
-						<img src="images/wpspin.gif" alt="" id="saving" style="display:none;" />
+						<img src="images/wpspin_light.gif" alt="" id="saving" style="display:none;" />
 					</p>
 				</div>
 			</div>

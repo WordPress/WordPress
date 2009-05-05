@@ -23,7 +23,7 @@ jQuery(document).ready( function($) {
 	quickPressLoad = function() {
 		var act = $('#quickpost-action'), t;
 		t = $('#quick-press').submit( function() {
-			$('#dashboard_quick_press h3').append( '<img src="images/wpspin.gif" style="margin: 0 6px 0 0; vertical-align: middle" />' );
+			$('#dashboard_quick_press h3').append( '<img src="images/wpspin_light.gif" style="margin: 0 6px 0 0; vertical-align: middle" />' );
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').attr('disabled','disabled');
 
 			if ( 'post' == act.val() ) {
