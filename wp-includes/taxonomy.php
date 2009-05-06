@@ -612,8 +612,10 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		if ( ! is_taxonomy($taxonomy) )
-			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+		if ( ! is_taxonomy($taxonomy) ) {
+			$error = & new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+			return $error;
+		}
 	}
 
 	$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
