@@ -2382,6 +2382,7 @@ class WP_Query {
 		$this->in_the_loop = true;
 		$post = $this->next_post();
 		setup_postdata($post);
+		do_action('the_post', $post);
 
 		if ( $this->current_post == 0 ) // loop has just started
 			do_action('loop_start');
