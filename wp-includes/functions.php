@@ -471,10 +471,15 @@ function wp_load_alloptions() {
  * value, but you will not be able to set whether it is autoloaded. If you want
  * to set whether an option autoloaded, then you need to use the add_option().
  *
- * When the option is updated, then the filter named
- * 'update_option_$option_name', with the $option_name as the $option_name
+ * Before the option is updated, then the filter named
+ * 'pre_update_option_$option_name', with the $option_name as the $option_name
  * parameter value, will be called. The hook should accept two parameters, the
- * first is the old parameter and the second is the new parameter.
+ * first is the new value and the second is the old value.  Whatever is
+ * returned will be used as the new value.
+ * 
+ * After the value has been updated the action named 'update_option_$option_name'
+ * will be called.  This action receives two parameters the first being the old
+ * value and the second the new value.
  *
  * @since 1.0.0
  * @package WordPress
