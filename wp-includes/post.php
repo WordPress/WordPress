@@ -417,7 +417,8 @@ function get_post_type($post = false) {
  * @uses $wpdb
  *
  * @param int $post_id Post ID to change post type. Not actually optional.
- * @param string $post_type Optional, default is post. Supported values are 'post' or 'page' to name a few.
+ * @param string $post_type Optional, default is post. Supported values are 'post' or 'page' to
+ *  name a few.
  * @return int Amount of rows changed. Should be 1 for success and 0 for failure.
  */
 function set_post_type( $post_id = 0, $post_type = 'post' ) {
@@ -456,7 +457,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  * @uses WP_Query::query() See for more default arguments and information.
  * @link http://codex.wordpress.org/Template_Tags/get_posts
  *
- * @param array $args Optional. Override defaults.
+ * @param array $args Optional. Overrides defaults.
  * @return array List of posts.
  */
 function get_posts($args = null) {
@@ -592,7 +593,8 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
  * @param int $post_id Post ID.
  * @param string $key The meta key to retrieve.
  * @param bool $single Whether to return a single value.
- * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
+ * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
+ *  is true.
  */
 function get_post_meta($post_id, $key, $single = false) {
 	if ( !$key )
@@ -827,15 +829,28 @@ function sanitize_post($post, $context = 'display') {
 /**
  * Sanitize post field based on context.
  *
- * Possible context values are: raw, edit, db, attribute, js, and display. The
- * display context is used by default.
+ * Possible context values are:  'raw', 'edit', 'db', 'display', 'attribute' and 'js'. The
+ * 'display' context is used by default. 'attribute' and 'js' contexts are treated like 'display'
+ * when calling filters.
  *
  * @since 2.3.0
+ * @uses apply_filters() Calls 'edit_$field' and '${field_no_prefix}_edit_pre' passing $value and
+ *  $post_id if $context == 'edit' and field name prefix == 'post_'.
+ *
+ * @uses apply_filters() Calls 'edit_post_$field' passing $value and $post_id if $context == 'db'.
+ * @uses apply_filters() Calls 'pre_$field' passing $value if $context == 'db' and field name prefix == 'post_'.
+ * @uses apply_filters() Calls '${field}_pre' passing $value if $context == 'db' and field name prefix != 'post_'.
+ *
+ * @uses apply_filters() Calls '$field' passing $value, $post_id and $context if $context == anything
+ *  other than 'raw', 'edit' and 'db' and field name prefix == 'post_'.
+ * @uses apply_filters() Calls 'post_$field' passing $value if $context == anything other than 'raw',
+ *  'edit' and 'db' and field name prefix != 'post_'.
  *
  * @param string $field The Post Object field name.
  * @param mixed $value The Post Object value.
  * @param int $post_id Post ID.
- * @param string $context How to sanitize post fields.
+ * @param string $context How to sanitize post fields. Looks for 'raw', 'edit', 'db', 'display',
+ *               'attribute' and 'js'.
  * @return mixed Sanitized value.
  */
 function sanitize_post_field($field, $value, $post_id, $context) {
@@ -1031,7 +1046,8 @@ function wp_count_attachments( $mime_type = '' ) {
  *
  * @since 2.5.0
  *
- * @param string|array $wildcard_mime_types e.g. audio/mpeg or image (same as image/*) or flash (same as *flash*)
+ * @param string|array $wildcard_mime_types e.g. audio/mpeg or image (same as image/*) or
+ *  flash (same as *flash*).
  * @param string|array $real_mime_types post_mime_type values
  * @return array array(wildcard=>array(real types))
  */
@@ -1111,10 +1127,12 @@ function wp_post_mime_type_where($post_mime_types) {
  * This includes comments, post meta fields, and terms associated with the post.
  *
  * @since 1.0.0
- * @uses do_action() Calls 'deleted_post' hook on post ID.
+ * @uses do_action() on 'delete_post' before deletion unless post type is 'attachment'.
+ * @uses do_action() on 'deleted_post' after deletion unless post type is 'attachment'.
+ * @uses wp_delete_attachment() if post type is 'attachment'.
  *
  * @param int $postid Post ID.
- * @return mixed
+ * @return mixed False on failure
  */
 function wp_delete_post($postid = 0) {
 	global $wpdb, $wp_rewrite;
@@ -1212,7 +1230,7 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  * Retrieve the tags for a post.
  *
  * There is only one default for this function, called 'fields' and by default
- * is set to 'all'. There are other defaults that can be override in
+ * is set to 'all'. There are other defaults that can be overridden in
  * {@link wp_get_object_terms()}.
  *
  * @package WordPress
@@ -1233,7 +1251,7 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  * Retrieve the terms for a post.
  *
  * There is only one default for this function, called 'fields' and by default
- * is set to 'all'. There are other defaults that can be override in
+ * is set to 'all'. There are other defaults that can be overridden in
  * {@link wp_get_object_terms()}.
  *
  * @package WordPress
@@ -1322,29 +1340,36 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
  * setting the value for 'comment_status' key.
  *
  * The defaults for the parameter $postarr are:
- *     'post_status' - Default is 'draft'.
- *     'post_type' - Default is 'post'.
- *     'post_author' - Default is current user ID. The ID of the user, who added
- *         the post.
- *     'ping_status' - Default is the value in default ping status option.
- *         Whether the attachment can accept pings.
- *     'post_parent' - Default is 0. Set this for the post it belongs to, if
- *         any.
- *     'menu_order' - Default is 0. The order it is displayed.
- *     'to_ping' - Whether to ping.
- *     'pinged' - Default is empty string.
- *     'post_password' - Default is empty string. The password to access the
- *         attachment.
- *     'guid' - Global Unique ID for referencing the attachment.
+ *     'post_status'   - Default is 'draft'.
+ *     'post_type'     - Default is 'post'.
+ *     'post_author'   - Default is current user ID ($user_ID). The ID of the user who added the post.
+ *     'ping_status'   - Default is the value in 'default_ping_status' option.
+ *                       Whether the attachment can accept pings.
+ *     'post_parent'   - Default is 0. Set this for the post it belongs to, if any.
+ *     'menu_order'    - Default is 0. The order it is displayed.
+ *     'to_ping'       - Whether to ping.
+ *     'pinged'        - Default is empty string.
+ *     'post_password' - Default is empty string. The password to access the attachment.
+ *     'guid'          - Global Unique ID for referencing the attachment.
  *     'post_content_filtered' - Post content filtered.
- *     'post_excerpt' - Post excerpt.
+ *     'post_excerpt'  - Post excerpt.
  *
  * @since 1.0.0
+ * @link http://core.trac.wordpress.org/ticket/9084 Bug report on 'wp_insert_post_data' filter.
  * @uses $wpdb
  * @uses $wp_rewrite
  * @uses $user_ID
  *
- * @param array $postarr Optional. Override defaults.
+ * @uses do_action() Calls 'pre_post_update' on post ID if this is an update.
+ * @uses do_action() Calls 'edit_post' action on post ID and post data if this is an update.
+ * @uses do_action() Calls 'save_post' and 'wp_insert_post' on post id and post data just before
+ *                   returning.
+ *
+ * @uses apply_filters() Calls 'wp_insert_post_data' passing $data, $postarr prior to database
+ *                       update or insert.
+ * @uses wp_transition_post_status()
+ *
+ * @param array $postarr Optional. Overrides defaults.
  * @param bool $wp_error Optional. Allow return of WP_Error on failure.
  * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
  */
@@ -1821,14 +1846,20 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
  *
  * The first is 'transition_post_status' with new status, old status, and post data.
  *
- * The next action called is 'OLDSTATUS_to_NEWSTATUS' the NEWSTATUS is the
- * $new_status parameter and the OLDSTATUS is $old_status parameter; it has the
+ * The next action called is 'OLDSTATUS_to_NEWSTATUS' the 'NEWSTATUS' is the
+ * $new_status parameter and the 'OLDSTATUS' is $old_status parameter; it has the
  * post data.
  *
- * The final action is named 'NEWSTATUS_POSTTYPE', NEWSTATUS is from the $new_status
+ * The final action is named 'NEWSTATUS_POSTTYPE', 'NEWSTATUS' is from the $new_status
  * parameter and POSTTYPE is post_type post data.
  *
  * @since 2.3.0
+ * @link http://codex.wordpress.org/Post_Status_Transitions
+ *
+ * @uses do_action() Calls 'transition_post_status' on $new_status, $old_status and
+ *  $post if there is a status change.
+ * @uses do_action() Calls '${old_status}_to_$new_status' on $post if there is a status change.
+ * @uses do_action() Calls '${new_status}_$post->post_type' on post ID and $post.
  *
  * @param string $new_status Transition to this post status.
  * @param string $old_status Previous post status.
@@ -2097,14 +2128,11 @@ function &get_page_children($page_id, $pages) {
 /**
  * Order the pages with children under parents in a flat list.
  *
- * Fetches the pages returned as a FLAT list, but arranged in order of their
- * hierarchy, i.e., child parents immediately follow their parents.
- *
  * @since 2.0.0
  *
  * @param array $posts Posts array.
  * @param int $parent Parent page ID.
- * @return array
+ * @return array A list arranged by hierarchy. Children immediately follow their parents.
  */
 function get_page_hierarchy($posts, $parent = 0) {
 	$result = array ( );
@@ -2344,28 +2372,26 @@ function is_local_attachment($url) {
  * setting the value for the 'comment_status' key.
  *
  * The $object parameter can have the following:
- *     'post_status' - Default is 'draft'. Can not be override, set the same as
- *         parent post.
- *     'post_type' - Default is 'post', will be set to attachment. Can not
- *         override.
- *     'post_author' - Default is current user ID. The ID of the user, who added
- *         the attachment.
- *     'ping_status' - Default is the value in default ping status option.
- *         Whether the attachment can accept pings.
- *     'post_parent' - Default is 0. Can use $parent parameter or set this for
- *         the post it belongs to, if any.
- *     'menu_order' - Default is 0. The order it is displayed.
- *     'to_ping' - Whether to ping.
- *     'pinged' - Default is empty string.
- *     'post_password' - Default is empty string. The password to access the
- *         attachment.
- *     'guid' - Global Unique ID for referencing the attachment.
+ *     'post_status'   - Default is 'draft'. Can not be overridden, set the same as parent post.
+ *     'post_type'     - Default is 'post', will be set to attachment. Can not override.
+ *     'post_author'   - Default is current user ID. The ID of the user, who added the attachment.
+ *     'ping_status'   - Default is the value in default ping status option. Whether the attachment
+ *                       can accept pings.
+ *     'post_parent'   - Default is 0. Can use $parent parameter or set this for the post it belongs
+ *                       to, if any.
+ *     'menu_order'    - Default is 0. The order it is displayed.
+ *     'to_ping'       - Whether to ping.
+ *     'pinged'        - Default is empty string.
+ *     'post_password' - Default is empty string. The password to access the attachment.
+ *     'guid'          - Global Unique ID for referencing the attachment.
  *     'post_content_filtered' - Attachment post content filtered.
- *     'post_excerpt' - Attachment excerpt.
+ *     'post_excerpt'  - Attachment excerpt.
  *
  * @since 2.0.0
  * @uses $wpdb
  * @uses $user_ID
+ * @uses do_action() Calls 'edit_attachment' on $post_ID if this is an update.
+ * @uses do_action() Calls 'add_attachment' on $post_ID if this is not an update.
  *
  * @param string|array $object Arguments to override defaults.
  * @param string $file Optional filename.
@@ -3008,11 +3034,16 @@ function update_post_cache(&$posts) {
  * Cleaning means delete from the cache of the post. Will call to clean the term
  * object cache associated with the post ID.
  *
+ * clean_post_cache() will call itself recursively for each child post.
+ *
+ * This function not run if $_wp_suspend_cache_invalidation is not empty. See
+ * wp_suspend_cache_invalidation().
+ *
  * @package WordPress
  * @subpackage Cache
  * @since 2.0.0
  *
- * @uses do_action() Will call the 'clean_post_cache' hook action.
+ * @uses do_action() Calls 'clean_post_cache' on $id before adding children (if any).
  *
  * @param int $id The Post ID in the cache to clean
  */
@@ -3187,6 +3218,8 @@ function update_postmeta_cache($post_ids) {
  * @since 2.3.0
  * @access private
  * @uses $wpdb
+ * @uses do_action() Calls 'private_to_published' on post ID if this is a 'private_to_published' call.
+ * @uses wp_clear_scheduled_hook() with 'publish_future_post' and post ID.
  *
  * @param string $new_status New post status
  * @param string $old_status Previous post status
@@ -3212,6 +3245,7 @@ function _transition_post_status($new_status, $old_status, $post) {
  * The $post properties used and must exist are 'ID' and 'post_date_gmt'.
  *
  * @since 2.3.0
+ * @access private
  *
  * @param int $deprecated Not Used. Can be set to null.
  * @param object $post Object type containing the post information
@@ -3225,11 +3259,11 @@ function _future_post_hook($deprecated = '', $post) {
  * Hook to schedule pings and enclosures when a post is published.
  *
  * @since 2.3.0
+ * @access private
  * @uses $wpdb
- * @uses XMLRPC_REQUEST
- * @uses APP_REQUEST
- * @uses do_action Calls 'xmlprc_publish_post' action if XMLRPC_REQUEST is defined. Calls 'app_publish_post'
- *	action if APP_REQUEST is defined.
+ * @uses XMLRPC_REQUEST and APP_REQUEST constants.
+ * @uses do_action() Calls 'xmlprc_publish_post' on post ID if XMLRPC_REQUEST is defined.
+ * @uses do_action() Calls 'app_publish_post' on post ID if APP_REQUEST is defined.
  *
  * @param int $post_id The ID in the database table of the post being published
  */
@@ -3264,6 +3298,7 @@ function _publish_post_hook($post_id) {
  * property.
  *
  * @since 2.3.0
+ * @access private
  * @uses $wp_rewrite Flushes Rewrite Rules.
  *
  * @param int $post_id The ID in the database table for the $post
@@ -3294,8 +3329,8 @@ function _save_post_hook($post_id, $post) {
  * complete. The post parent will be an ancestor and the parent of the post
  * parent will be an ancestor. There will only be two ancestors at the most.
  *
- * @access private
  * @since unknown
+ * @access private
  * @uses $wpdb
  *
  * @param object $_post Post data.
@@ -3331,6 +3366,7 @@ function _get_post_ancestors(&$_post) {
  * @subpackage Post_Revisions
  * @since 2.6.0
  * @access private
+ * @uses apply_filters() Calls '_wp_post_revision_fields' on 'title', 'content' and 'excerpt' fields.
  *
  * @param array $post Optional a post array to be processed for insertion as a post revision.
  * @param bool $autosave optional Is the revision an autosave?
@@ -3585,8 +3621,7 @@ function &wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
 /**
  * Restores a post to the specified revision.
  *
- * Can restore a past using all fields of the post revision, or only selected
- * fields.
+ * Can restore a past revision using all fields of the post revision, or only selected fields.
  *
  * @package WordPress
  * @subpackage Post_Revisions
@@ -3594,9 +3629,11 @@ function &wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
  *
  * @uses wp_get_post_revision()
  * @uses wp_update_post()
+ * @uses do_action() Calls 'wp_restore_post_revision' on post ID and revision ID if wp_update_post()
+ *  is successful.
  *
  * @param int|object $revision_id Revision ID or revision object.
- * @param array $fields Optional. What fields to restore from.  Defaults to all.
+ * @param array $fields Optional. What fields to restore from. Defaults to all.
  * @return mixed Null if error, false if no fields to restore, (int) post ID if success.
  */
 function wp_restore_post_revision( $revision_id, $fields = null ) {
