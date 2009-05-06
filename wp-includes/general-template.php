@@ -1076,8 +1076,7 @@ function get_calendar($initial = true) {
 	if ( $ak_post_titles ) {
 		foreach ( (array) $ak_post_titles as $ak_post_title ) {
 
-				$post_title = apply_filters( "the_title", $ak_post_title->post_title );
-				$post_title = str_replace('"', '&quot;', wptexturize( $post_title ));
+				$post_title = esc_attr( apply_filters( 'the_title', $ak_post_title->post_title ) );
 
 				if ( empty($ak_titles_for_day['day_'.$ak_post_title->dom]) )
 					$ak_titles_for_day['day_'.$ak_post_title->dom] = '';

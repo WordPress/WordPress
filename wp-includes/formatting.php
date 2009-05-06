@@ -200,8 +200,7 @@ function seems_utf8($Str) { # by bmorel at ssi dot fr
  * @param boolean $double_encode Optional. Whether or not to encode existing html entities. Default is false.
  * @return string The encoded text with HTML entities.
  */
-function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false )
-{
+function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
 	$string = (string) $string;
 
 	if ( 0 === strlen( $string ) ) {
@@ -277,8 +276,7 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
  * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old wp_specialchars() values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
  * @return string The decoded text without HTML entities.
  */
-function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES )
-{
+function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
 	$string = (string) $string;
 
 	if ( 0 === strlen( $string ) ) {
@@ -335,8 +333,7 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES )
  * @param boolean $strip Optional. Whether to attempt to strip out invalid UTF8. Default is false.
  * @return string The checked text.
  */
-function wp_check_invalid_utf8( $string, $strip = false )
-{
+function wp_check_invalid_utf8( $string, $strip = false ) {
 	$string = (string) $string;
 
 	if ( 0 === strlen( $string ) ) {
