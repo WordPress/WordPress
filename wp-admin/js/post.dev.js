@@ -236,8 +236,8 @@ jQuery(document).ready( function($) {
 	// category tabs
 	$('#category-tabs a').click(function(){
 		var t = $(this).attr('href');
-		$(this).parent().addClass('ui-tabs-selected').siblings('li').removeClass('ui-tabs-selected');
-		$('.ui-tabs-panel').hide();
+		$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
+		$('.tabs-panel').hide();
 		$(t).show();
 		if ( '#categories-all' == t )
 			deleteUserSetting('cats');

@@ -345,7 +345,7 @@ h3.tb {
 	margin-left: 18px;
 }
 
-#categorydiv div.ui-tabs-panel {
+#categorydiv div.tabs-panel {
 	height: 150px;
 	overflow: auto;
 }

@@ -313,17 +313,17 @@ foreach ( get_object_taxonomies('post') as $tax_name ) {
 function post_categories_meta_box($post) {
 ?>
 <ul id="category-tabs">
-	<li class="ui-tabs-selected"><a href="#categories-all" tabindex="3"><?php _e( 'All Categories' ); ?></a></li>
+	<li class="tabs"><a href="#categories-all" tabindex="3"><?php _e( 'All Categories' ); ?></a></li>
 	<li class="hide-if-no-js"><a href="#categories-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
 </ul>
 
-<div id="categories-pop" class="ui-tabs-panel" style="display: none;">
+<div id="categories-pop" class="tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear" >
 <?php $popular_ids = wp_popular_terms_checklist('category'); ?>
 	</ul>
 </div>
 
-<div id="categories-all" class="ui-tabs-panel">
+<div id="categories-all" class="tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 <?php wp_category_checklist($post->ID, false, false, $popular_ids) ?>
 	</ul>

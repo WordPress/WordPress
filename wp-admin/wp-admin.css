@@ -1916,7 +1916,7 @@ input#link_url {
 	width: 120px;
 	text-align: right;
 	/* Negative margin for the sake of those without JS: all tabs display */
-	margin: 0 -120px 0 0;
+	margin: 0 -120px 0 5px;
 	padding: 0;
 }
 
@@ -1924,7 +1924,7 @@ input#link_url {
 	padding: 8px;
 }
 
-#post-body ul#category-tabs li.ui-tabs-selected {
+#post-body ul#category-tabs li.tabs {
 	-moz-border-radius: 3px 0 0 3px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
@@ -1934,25 +1934,23 @@ input#link_url {
 	border-bottom-left-radius: 3px;
 }
 
-#post-body ul#category-tabs li.ui-tabs-selected a {
+#post-body ul#category-tabs li.tabs a {
 	font-weight: bold;
 	text-decoration: none;
 }
 
-#categorydiv div.ui-tabs-panel,
-#linkcategorydiv div.ui-tabs-panel {
+#categorydiv div.tabs-panel,
+#linkcategorydiv div.tabs-panel {
 	height: 150px;
 	overflow: auto;
 	padding: 0.5em 0.9em;
+	border-style: solid;
+	border-width: 1px;
 }
 
-#post-body #categorydiv div.ui-tabs-panel,
-#post-body #linkcategorydiv div.ui-tabs-panel {
-	margin: 0 5px 0 120px;
-	height: 10em;
-	overflow: auto;
-	border-width: 4px;
-	border-style: solid;
+#post-body #categorydiv div.tabs-panel,
+#post-body #linkcategorydiv div.tabs-panel {
+	margin: 0 5px 0 125px;
 }
 
 #side-sortables #category-tabs li {
@@ -1991,13 +1989,24 @@ ul.categorychecklist li {
 	margin-bottom: 0px;
 }
 
-#categorydiv .ui-tabs-panel {
+#categorydiv .tabs-panel {
 	border-width: 3px;
 	border-style: solid; 
 }
 
 ul#category-tabs {
 	margin-top: 12px;
+}
+
+ul#category-tabs li.tabs {
+	border-style: solid solid none;
+	border-width: 1px 1px 0;
+}
+
+#post-body #category-tabs li.tabs {
+	border-style: solid none solid solid;
+	border-width: 1px 0 1px 1px;
+	margin-right: -1px;
 }
 
 ul#category-tabs li {

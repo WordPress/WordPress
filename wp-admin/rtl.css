@@ -292,7 +292,7 @@ td.available-theme {
 	margin-left: 0;
 	margin-right: 120px;
 }
-#post-body ul#category-tabs li.ui-tabs-selected {
+#post-body ul#category-tabs li.tabs {
 	-moz-border-radius: 0 3px 3px 0;
 	-webkit-border-top-left-radius: 0;
 	-webkit-border-top-right-radius: 3px;
@@ -308,8 +308,8 @@ td.available-theme {
 	text-align: left;
 	margin: 0 0 0 -120px;
 }
-#post-body #categorydiv div.ui-tabs-panel,
-#post-body #linkcategorydiv div.ui-tabs-panel {
+#post-body #categorydiv div.tabs-panel,
+#post-body #linkcategorydiv div.tabs-panel {
 	margin: 0 120px 0 5px;
 }
 /* 1800 - 2000

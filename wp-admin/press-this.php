@@ -472,7 +472,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 				<h3><?php _e('Categories') ?></h3>
 				<div class="inside">
 
-					<div id="categories-all" class="ui-tabs-panel">
+					<div id="categories-all" class="tabs-panel">
 						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 							<?php wp_category_checklist($post_ID, false) ?>
 						</ul>

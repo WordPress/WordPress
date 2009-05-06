@@ -114,11 +114,11 @@ add_meta_box('linksubmitdiv', __('Save'), 'link_submit_meta_box', 'link', 'side'
  */
 function link_categories_meta_box($link) { ?>
 <ul id="category-tabs">
-	<li class="ui-tabs-selected"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
+	<li class="tabs"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
 	<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
 </ul>
 
-<div id="categories-all" class="ui-tabs-panel">
+<div id="categories-all" class="tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 		<?php
 		if ( isset($link->link_id) )
@@ -129,7 +129,7 @@ function link_categories_meta_box($link) { ?>
 	</ul>
 </div>
 
-<div id="categories-pop" class="ui-tabs-panel" style="display: none;">
+<div id="categories-pop" class="tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
 		<?php wp_popular_terms_checklist('link_category'); ?>
 	</ul>

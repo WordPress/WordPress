@@ -102,11 +102,12 @@ div.dashboard-widget-submit {
 	border-top-color: #ccc;
 }
 
-div.ui-tabs-panel {
-	border-color: #f1f1f1;
+div.tabs-panel,
+ul#category-tabs li.tabs {
+	border-color: #dfdfdf;
 }
 
-ul#category-tabs li.ui-tabs-selected {
+ul#category-tabs li.tabs {
 	background-color: #f1f1f1;
 }
 
@@ -367,7 +368,7 @@ div.dashboard-widget-submit input:hover,
 	color: #eaf2fa !important;
 }
 
-#side-sortables #category-tabs .ui-tabs-selected a {
+#side-sortables #category-tabs .tabs a {
 	color: #333;
 }
 
@@ -473,8 +474,8 @@ a,
 }
 
 /* Because we don't want visited on these links */
-body.press-this .ui-tabs-selected a,
-body.press-this .ui-tabs-selected a:hover {
+body.press-this .tabs a,
+body.press-this .tabs a:hover {
 	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;
@@ -1428,7 +1429,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background-color: #f5f5f5;
 }
 
-#post-body ul#category-tabs li.ui-tabs-selected a {
+#post-body ul#category-tabs li.tabs a {
 	color: #333;
 }
 
