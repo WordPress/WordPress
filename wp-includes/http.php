@@ -721,7 +721,7 @@ class WP_Http_Fsockopen {
 		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] ) && 'chunked' == $arrHeaders['headers']['transfer-encoding'] )
 			$process['body'] = WP_Http::chunkTransferDecode($process['body']);
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($arrHeaders) )
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($arrHeaders['headers']) )
 			$process['body'] = WP_Http_Encoding::decompress( $process['body'] );
 
 		return array('headers' => $arrHeaders['headers'], 'body' => $process['body'], 'response' => $arrHeaders['response'], 'cookies' => $arrHeaders['cookies']);
@@ -835,7 +835,7 @@ class WP_Http_Fopen {
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders) )
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders['headers']) )
 			$strResponse = WP_Http_Encoding::decompress( $strResponse );
 
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response'], 'cookies' => $processedHeaders['cookies']);
@@ -1003,7 +1003,7 @@ class WP_Http_Streams {
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders) )
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders['headers']) )
 			$strResponse = WP_Http_Encoding::decompress( $strResponse );
 
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response'], 'cookies' => $processedHeaders['cookies']);
@@ -1159,7 +1159,7 @@ class WP_Http_ExtHTTP {
 				$theBody = http_chunked_decode($theBody);
 		}
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders) )
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
 			$theBody = http_inflate( $theBody );
 
 		$theResponse = array();
@@ -1342,7 +1342,7 @@ class WP_Http_Curl {
 
 		curl_close( $handle );
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders) )
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
 			$theBody = WP_Http_Encoding::decompress( $theBody );
 
 		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $response, 'cookies' => $theHeaders['cookies']);
