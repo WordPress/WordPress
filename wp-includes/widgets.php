@@ -769,6 +769,9 @@ function dynamic_sidebar($index = 1) {
 
 	$did_one = false;
 	foreach ( (array) $sidebars_widgets[$index] as $id ) {
+		
+		if ( !isset($wp_registered_widgets[$id]) ) continue;
+		
 		$params = array_merge(
 			array( array_merge( $sidebar, array('widget_id' => $id, 'widget_name' => $wp_registered_widgets[$id]['name']) ) ),
 			(array) $wp_registered_widgets[$id]['params']
