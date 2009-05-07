@@ -3516,9 +3516,10 @@ function screen_meta($screen) {
 	}
 
 	$contextual_help .= '<div class="metabox-prefs">';
-	$contextual_help .= __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
-	$contextual_help .= '<br />';
-	$contextual_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
+	$default_help = __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
+	$default_help .= '<br />';
+	$default_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
+	$contextual_help .= apply_filters('default_contextual_help', $default_help);
 	$contextual_help .= "</div>\n";
 	echo apply_filters('contextual_help', $contextual_help, $screen);
 	?>
