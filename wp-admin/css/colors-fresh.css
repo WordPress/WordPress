@@ -1599,7 +1599,7 @@ div.widgets-sortables,
 #widgets-left .sidebar-name {
 	background-color: #aaa;
 	background-image: url(../images/ed-bg.gif);
-	text-shadow: #FFFFFF 0 -1px 0;
+	text-shadow: #FFFFFF 0 1px 0;
 	border-color: #dfdfdf;
 }
 
