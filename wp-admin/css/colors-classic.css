@@ -433,11 +433,7 @@ a.page-numbers {
 
 .widefat td,
 .widefat th {
-	border-bottom-color: #dfdfdf;
-}
-
-.widefat tfoot th {
-	border-bottom:0;
+	border-color: #dfdfdf;
 }
 
 .widefat th {
@@ -519,14 +515,10 @@ body.press-this .tabs a:hover {
 	color: #fff;
 }
 
-div#media-upload-header {
+div#media-upload-header,
+div#plugin-information-header {
 	background-color: #f9f9f9;
 	border-bottom-color: #dfdfdf;
-}
-
-div#plugin-information-header {
-	background-color: #e4f2fd;
-	border-bottom-color: #c6d9e9;
 }
 
 #currenttheme img {
@@ -577,8 +569,7 @@ input.readonly, textarea.readonly {
 .checkbox,
 .side-info,
 .plugins tr,
-.metabox-holder .postbox,
-#poststuff .postbox ,
+.postbox,
 #your-profile #rich_editing {
 	background-color: #fff;
 }

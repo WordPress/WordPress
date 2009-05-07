@@ -149,7 +149,8 @@ strong .post-com-count span {
 	background-color: #ccf3fa;
 }
 
-.ac_match, .subsubsub a.current {
+.ac_match,
+.subsubsub a.current {
 	color: #000;
 }
 
@@ -170,7 +171,8 @@ strong .post-com-count span {
 	color: #101010;
 }
 
-.alternate, .alt {
+.alternate,
+.alt {
 	background-color: #f9f9f9;
 }
 
@@ -187,11 +189,13 @@ strong .post-com-count span {
 #media-upload {
 	background: #fff;
 }
+
 #media-upload .slidetoggle {
 	border-top-color: #dfdfdf;
 }
 
-.error, #login #login_error {
+.error,
+#login #login_error {
 	background-color: #ffebe8;
 	border-color: #c00;
 }
@@ -340,11 +344,11 @@ a:hover,
 #adminmenu ul.wp-submenu a:hover,
 #the-comment-list .comment a:hover,
 #rightnow a:hover,
+#login form .submit input:hover,
+#media-upload a.del-link:hover,
+div.dashboard-widget-submit input:hover,
 .subsubsub a:hover,
 .subsubsub a.current:hover,
-#login form .submit input:hover,
-div.dashboard-widget-submit input:hover,
-#media-upload a.del-link:hover,
 .ui-tabs-nav a:hover {
 	color: #d54e21;
 }
@@ -450,13 +454,14 @@ h3.dashboard-widget-title small a:hover {
 	color: #fff;
 }
 
+a,
 #adminmenu a,
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML,
 #the-comment-list p.comment-author strong a,
 #media-upload a.del-link,
 #media-upload a.delete,
-.ui-tabs-nav a, a {
+.ui-tabs-nav a {
 	color: #21759b;
 }
 
@@ -492,10 +497,10 @@ body.press-this .tabs a:hover {
 	background-color: #ddd;
 	color: #000;
 	text-shadow: none;
-	-moz-box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
-	-khtml-box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
-	-webkit-box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
-	box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
+	-moz-box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
+	-khtml-box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
+	-webkit-box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
+	box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
 }
 
 #adminmenu li.current a:hover #awaiting-mod,
@@ -506,14 +511,10 @@ body.press-this .tabs a:hover {
 	color: #fff;
 }
 
-div#media-upload-header {
+div#media-upload-header,
+div#plugin-information-header {
 	background-color: #f9f9f9;
 	border-bottom-color: #dfdfdf;
-}
-
-div#plugin-information-header {
-	background-color: #e4f2fd;
-	border-bottom-color: #c6d9e9;
 }
 
 #currenttheme img {
@@ -561,33 +562,9 @@ input.readonly, textarea.readonly {
 	border-color: #dfdfdf;
 }
 
-#pass-strength-result {
-	background-color: #eee;
-	border-color: #ddd !important;
-}
-
-#pass-strength-result.bad {
-	background-color: #ffb78c;
-	border-color: #ff853c !important;
-}
-
-#pass-strength-result.good {
-	background-color: #ffec8b;
-	border-color: #fc0 !important;
-}
-
-#pass-strength-result.short {
-	background-color: #ffa0a0;
-	border-color: #f04040 !important;
-}
-
-#pass-strength-result.strong {
-	background-color: #c3ff88;
-	border-color: #8dff1c !important;
-}
-
 .checkbox,
 .side-info,
+.plugins tr,
 #your-profile #rich_editing {
 	background-color: #fff;
 }
@@ -614,10 +591,6 @@ input.readonly, textarea.readonly {
 
 #the-comment-list .delete a {
 	color: #bc0b0b;
-}
-
-.plugins tr {
-	background-color: #fff;
 }
 
 .widget,
@@ -699,17 +672,22 @@ body.login {
 	color: #999;
 }
 
-#user_info a:link, #user_info a:visited, #footer a:link, #footer a:visited {
+#user_info a:link,
+#user_info a:visited,
+#footer a:link,
+#footer a:visited {
 	color: #ccc;
 	text-decoration: none;
 }
 
-#user_info a:hover, #footer a:hover {
+#user_info a:hover,
+#footer a:hover {
 	color: #fff;
 	text-decoration: underline !important;
 }
 
-#user_info a:active, #footer a:active {
+#user_info a:active,
+#footer a:active {
 	color: #ccc !important;
 }
 
@@ -723,6 +701,31 @@ abbr.required,
 
 #media-upload a.delete {
 	color: #888;
+}
+
+#pass-strength-result {
+	background-color: #eee;
+	border-color: #ddd !important;
+}
+
+#pass-strength-result.bad {
+	background-color: #ffb78c;
+	border-color: #ff853c !important;
+}
+
+#pass-strength-result.good {
+	background-color: #ffec8b;
+	border-color: #fc0 !important;
+}
+
+#pass-strength-result.short {
+	background-color: #ffa0a0;
+	border-color: #f04040 !important;
+}
+
+#pass-strength-result.strong {
+	background-color: #c3ff88;
+	border-color: #8dff1c !important;
 }
 
 /* editors */
@@ -1197,12 +1200,15 @@ abbr.required,
 table.diff .diff-deletedline {
 	background-color: #ffdddd;
 }
+
 table.diff .diff-deletedline del {
 	background-color: #ff9999;
 }
+
 table.diff .diff-addedline {
 	background-color: #ddffdd;
 }
+
 table.diff .diff-addedline ins {
 	background-color: #99ff99;
 }
@@ -1223,7 +1229,6 @@ table.diff .diff-addedline ins {
 	border-color: #dfdfdf #dfdfdf #fff;
 	color: #D54E21;
 }
-
 
 #screen-options-wrap,
 #contextual-help-wrap {

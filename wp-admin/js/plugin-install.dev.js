@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 				tbWindow.css({'top':'20px','margin-top':'0'});
 		};
 
-		return $('a.thickbox').each( function() {
+		return $('#dashboard_plugins a.thickbox, #install-plugins a.thickbox').each( function() {
 			var href = $(this).attr('href');
 			if ( ! href )
 				return;
@@ -28,11 +28,6 @@ jQuery(document).ready(function($) {
 	});
 
 	/* Plugin install related JS*/
-	$('#install-plugins tbody.plugins tr').click( function() {
-		$(this).find('.action-links a.onclick').click();
-		return false;
-	});
-
 	$('#plugin-information #sidemenu a').click( function() {
 		var tab = $(this).attr('name');
 		//Flip the tab
