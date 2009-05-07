@@ -283,6 +283,8 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 		if ( !$type )
 			$type = $file['type'];
+	} else {
+		$type = '';
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
@@ -305,9 +307,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
 
-	$return = apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ) );
-
-	return $return;
+	return apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ) );
 }
 
 /**
