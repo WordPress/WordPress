@@ -61,7 +61,7 @@ do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
-if ( get_user_setting('mfold') ) {
+if ( get_user_setting('mfold') == 'f' ) {
 	$admin_body_class .= ' folded';
 }
 
