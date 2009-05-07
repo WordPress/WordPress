@@ -747,10 +747,10 @@ function media_upload_library() {
  * @param unknown_type $checked
  * @return unknown
  */
-function image_align_input_fields($post, $checked='') {
+function image_align_input_fields( $post, $checked = '' ) {
 
 	$alignments = array('none' => __('None'), 'left' => __('Left'), 'center' => __('Center'), 'right' => __('Right'));
-	if ( !array_key_exists($checked, $alignments) )
+	if ( !array_key_exists( (string) $checked, $alignments ) )
 		$checked = 'none';
 
 	$out = array();
@@ -772,12 +772,12 @@ function image_align_input_fields($post, $checked='') {
  * @param unknown_type $checked
  * @return unknown
  */
-function image_size_input_fields($post, $checked='') {
+function image_size_input_fields( $post, $checked = '' ) {
 
 		// get a list of the actual pixel dimensions of each possible intermediate version of this image
 		$size_names = array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size'));
 
-		foreach ( $size_names as $size => $name) {
+		foreach ( $size_names as $size => $name ) {
 			$downsize = image_downsize($post->ID, $size);
 
 			// is this size selectable?
