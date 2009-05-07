@@ -156,15 +156,15 @@ function install_search_form(){
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
-	?><form id="search-plugins" method="post" action="<?php echo admin_url('plugin-install.php?tab=search') ?>">
+	?><form id="search-plugins" method="post" action="<?php echo admin_url('plugin-install.php?tab=search'); ?>">
 		<select name="type" id="typeselector">
-			<option value="term"<?php selected('term', $type) ?>><?php _e('Term') ?></option>
-			<option value="author"<?php selected('author', $type) ?>><?php _e('Author') ?></option>
-			<option value="tag"<?php selected('tag', $type) ?>><?php _x('Tag', 'Plugin Installer') ?></option>
+			<option value="term"<?php selected('term', $type) ?>><?php _e('Term'); ?></option>
+			<option value="author"<?php selected('author', $type) ?>><?php _e('Author'); ?></option>
+			<option value="tag"<?php selected('tag', $type) ?>><?php echo _x('Tag', 'Plugin Installer'); ?></option>
 		</select>
 		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
 		<label class="invisible" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<input type="submit" id="plugin-search-input" name="search" value="<?php esc_attr_e('Search Plugins') ?>" class="button" />
+		<input type="submit" id="plugin-search-input" name="search" value="<?php esc_attr_e('Search Plugins'); ?>" class="button" />
 	</form><?php
 }
 
