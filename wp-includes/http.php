@@ -418,12 +418,11 @@ class WP_Http {
 
 			if ( !empty( $value ) ) {
 				$key = strtolower( $key );
-
-				if ( isset( $newheaders[$key] ) )
+				if ( isset( $newheaders[$key] ) ) {
 					$newheaders[$key] = array( $newheaders[$key], trim( $value ) );
-				else
+				} else {
 					$newheaders[$key] = trim( $value );
-
+				}
 				if ( 'set-cookie' == strtolower( $key ) )
 					$cookies[] = new WP_Http_Cookie( $value );
 			}
@@ -448,8 +447,9 @@ class WP_Http {
 	function buildCookieHeader( &$r ) {
 		if ( ! empty($r['cookies']) ) {
 			$cookies_header = '';
-			foreach ( (array) $r['cookies'] as $cookie )
+			foreach ( (array) $r['cookies'] as $cookie ) {
 				$cookies_header .= $cookie->getHeaderValue() . '; ';
+			}
 			$cookies_header = substr( $cookies_header, 0, -2 );
 			$r['headers']['cookie'] = $cookies_header;
 		}
@@ -1292,8 +1292,9 @@ class WP_Http_Curl {
 		if ( !empty( $r['headers'] ) ) {
 			// cURL expects full header strings in each element
 			$headers = array();
-			foreach ( $r['headers'] as $name => $value )
+			foreach ( $r['headers'] as $name => $value ) {
 				$headers[] = "{$name}: $value";
+			}
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 		}
 
