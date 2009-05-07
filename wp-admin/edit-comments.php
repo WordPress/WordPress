@@ -85,14 +85,9 @@ require_once('admin-header.php');
 
 $mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : esc_attr($_GET['mode']);
 
-$default_status = get_user_option('edit_comments_last_view');
-if ( empty($default_status) )
-	$default_status = 'all';
-$comment_status = isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : $default_status;
+$comment_status = isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : 'all';
 if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam')) )
 	$comment_status = 'all';
-if ( $comment_status != $default_status )
-	update_usermeta($current_user->ID, 'edit_comments_last_view', $comment_status);
 
 $comment_type = !empty($_GET['comment_type']) ? esc_attr($_GET['comment_type']) : '';
 
