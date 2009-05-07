@@ -659,9 +659,8 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$title = esc_attr($instance['title']);
-		if ( !$number = (int) $instance['number'] )
-			$number = 5;
+		$title = isset($instance['title']) ? esc_attr($instance['title']) : '';
+		$number = isset($instance['number']) ? absint($instance['number']) : 5;
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>">
 		<?php _e('Title:'); ?>
