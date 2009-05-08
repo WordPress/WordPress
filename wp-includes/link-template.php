@@ -912,6 +912,9 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 		return $result;
 
 	$result = $wpdb->get_row("SELECT p.* FROM $wpdb->posts AS p $join $where $sort");
+	if ( null === $result )
+		$result = '';
+
 	wp_cache_set($query_key, $result, 'counts');
 	return $result;
 }
