@@ -1327,8 +1327,12 @@ case 'save-widget' :
 			if ( $number ) {
 				// don't delete other instances of the same multi-widget
 				foreach ( $sidebar as $_widget_id ) {
-					if ( isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) )
-						unset($wp_registered_widgets[$_widget_id]['params'][0]['number']);
+					$_widget = $wp_registered_widgets[$_widget_id];
+
+					if ( isset($_widget['params']) && 
+						is_array($_widget['params'][0]) && 
+						array_key_exists('number', $_widget['params'][0]) )
+							unset($wp_registered_widgets[$_widget_id]['params'][0]['number']);
 				}
 			}
 
