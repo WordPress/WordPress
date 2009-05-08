@@ -435,7 +435,7 @@ function media_upload_form_handler() {
 		return media_send_to_editor($html);
 	}
 
-	return isset($errors) ? $errors : '';
+	return $errors;
 }
 
 /**
