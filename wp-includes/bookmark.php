@@ -357,7 +357,7 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	if ( 'attribute' == $context )
 		$value = esc_attr($value);
 	else if ( 'js' == $context )
-		$value = js_escape($value);
+		$value = esc_js($value);
 
 	return $value;
 }

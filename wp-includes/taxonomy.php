@@ -1013,7 +1013,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 	if ( 'attribute' == $context )
 		$value = esc_attr($value);
 	else if ( 'js' == $context )
-		$value = js_escape($value);
+		$value = esc_js($value);
 
 	return $value;
 }

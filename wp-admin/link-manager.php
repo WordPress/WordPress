@@ -197,7 +197,7 @@ if ( $links ) {
 					echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
 					echo '<div class="row-actions">';

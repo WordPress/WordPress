@@ -18,7 +18,7 @@ function mce_escape($text) {
 	global $language;
 
 	if ( 'en' == $language ) return $text;
-	else return js_escape($text);
+	else return esc_js($text);
 }
 
 $lang = 'tinyMCE.addI18n({' . $language . ':{

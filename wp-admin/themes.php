@@ -197,7 +197,7 @@ foreach ( $cols as $col => $theme_name ) {
 	$actions[] = '<a href="' . $activate_link .  '" class="activatelink" title="' . $activate_text . '">' . __('Activate') . '</a>';
 	$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $theme_name)) . '">' . __('Preview') . '</a>';
 	if ( current_user_can('update_themes') )
-		$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url("themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet) . '" onclick="' . "if ( confirm('" . js_escape(sprintf( __("You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete."), $theme_name )) . "') ) {return true;}return false;" . '">' . __('Delete') . '</a>';
+		$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url("themes.php?action=delete&amp;template=$stylesheet", 'delete-theme_' . $stylesheet) . '" onclick="' . "if ( confirm('" . esc_js(sprintf( __("You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete."), $theme_name )) . "') ) {return true;}return false;" . '">' . __('Delete') . '</a>';
 	$actions = apply_filters('theme_action_links', $actions, $themes[$theme_name]);
 
 	$actions = implode ( ' | ', $actions );

@@ -2054,17 +2054,34 @@ function htmlentities2($myHTML) {
  *
  * The filter 'js_escape' is also applied here.
  *
- * @since 2.0.4
+ * @since 2.8.0
  *
  * @param string $text The text to be escaped.
  * @return string Escaped text.
  */
-function js_escape($text) {
+function esc_js( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = wp_specialchars( $safe_text, ENT_COMPAT );
 	$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
 	$safe_text = preg_replace( "/\r?\n/", "\\n", addslashes( $safe_text ) );
 	return apply_filters( 'js_escape', $safe_text, $text );
+}
+
+/**
+ * Escape single quotes, specialchar double quotes, and fix line endings.
+ *
+ * The filter 'js_escape' is also applied by esc_js()
+ *
+ * @since 2.0.4
+ *
+ * @deprecated 2.8.0
+ * @see esc_js()
+ *
+ * @param string $text The text to be escaped.
+ * @return string Escaped text.
+ */
+function js_escape( $text ) {
+	return esc_js( $text );
 }
 
 /**

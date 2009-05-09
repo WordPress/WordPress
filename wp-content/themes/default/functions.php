@@ -251,13 +251,13 @@ function kubrick_theme_page_head() {
 		document.getElementById('headerimg').style.display = document.getElementById('fontdisplay').value;
 	}
 	function kRevert() {
-		document.getElementById('headerimage').value = '<?php echo js_escape(kubrick_header_image()); ?>';
-		document.getElementById('advuppercolor').value = document.getElementById('uppercolor').value = '#<?php echo js_escape(kubrick_upper_color()); ?>';
-		document.getElementById('advlowercolor').value = document.getElementById('lowercolor').value = '#<?php echo js_escape(kubrick_lower_color()); ?>';
-		document.getElementById('header').style.background = 'url("<?php echo js_escape(kubrick_header_image_url()); ?>") center no-repeat';
+		document.getElementById('headerimage').value = '<?php echo esc_js(kubrick_header_image()); ?>';
+		document.getElementById('advuppercolor').value = document.getElementById('uppercolor').value = '#<?php echo esc_js(kubrick_upper_color()); ?>';
+		document.getElementById('advlowercolor').value = document.getElementById('lowercolor').value = '#<?php echo esc_js(kubrick_lower_color()); ?>';
+		document.getElementById('header').style.background = 'url("<?php echo esc_js(kubrick_header_image_url()); ?>") center no-repeat';
 		document.getElementById('header').style.color = '';
-		document.getElementById('advfontcolor').value = document.getElementById('fontcolor').value = '<?php echo js_escape(kubrick_header_color_string()); ?>';
-		document.getElementById('fontdisplay').value = '<?php echo js_escape(kubrick_header_display_string()); ?>';
+		document.getElementById('advfontcolor').value = document.getElementById('fontcolor').value = '<?php echo esc_js(kubrick_header_color_string()); ?>';
+		document.getElementById('fontdisplay').value = '<?php echo esc_js(kubrick_header_display_string()); ?>';
 		document.getElementById('headerimg').style.display = document.getElementById('fontdisplay').value;
 	}
 	function kInit() {

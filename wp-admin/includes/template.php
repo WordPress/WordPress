@@ -1446,7 +1446,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			if ( current_user_can('edit_post', $post->ID) ) {
 				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '" title="' . esc_attr(__('Edit this post')) . '">' . __('Edit') . '</a>';
 				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__('Edit this post inline')) . '">' . __('Quick&nbsp;Edit') . '</a>';
-				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n 'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n 'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n 'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n 'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 			}
 			if ( in_array($post->post_status, array('pending', 'draft')) ) {
 				if ( current_user_can('edit_post', $post->ID) )
@@ -1659,7 +1659,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		if ( current_user_can('edit_page', $page->ID) ) {
 			$actions['edit'] = '<a href="' . $edit_link . '" title="' . esc_attr(__('Edit this page')) . '">' . __('Edit') . '</a>';
 			$actions['inline'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
-			$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page')) . "' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $page->post_status) ? __("You are about to delete this draft '%s'\n 'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n 'Cancel' to stop, 'OK' to delete."), $page->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+			$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page')) . "' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( ('draft' == $page->post_status) ? __("You are about to delete this draft '%s'\n 'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n 'Cancel' to stop, 'OK' to delete."), $page->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
 			if ( current_user_can('edit_page', $page->ID) )

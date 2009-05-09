@@ -190,13 +190,13 @@ class Blogger_Import {
 			}
 		}
 //echo '<pre>'.print_r($this,1).'</pre>';
-		$start    = js_escape( __('Import') );
-		$continue = js_escape( __('Continue') );
-		$stop     = js_escape( __('Importing...') );
-		$authors  = js_escape( __('Set Authors') );
-		$loadauth = js_escape( __('Preparing author mapping form...') );
-		$authhead = js_escape( __('Final Step: Author Mapping') );
-		$nothing  = js_escape( __('Nothing was imported. Had you already imported this blog?') );
+		$start    = esc_js( __('Import') );
+		$continue = esc_js( __('Continue') );
+		$stop     = esc_js( __('Importing...') );
+		$authors  = esc_js( __('Set Authors') );
+		$loadauth = esc_js( __('Preparing author mapping form...') );
+		$authhead = esc_js( __('Final Step: Author Mapping') );
+		$nothing  = esc_js( __('Nothing was imported. Had you already imported this blog?') );
 		$title    = __('Blogger Blogs');
 		$name     = __('Blog Name');
 		$url      = __('Blog URL');
@@ -215,7 +215,7 @@ class Blogger_Import {
 			else
 				$value = $authors;
 			$value = esc_attr($value);
-			$blogtitle = js_escape( $blog['title'] );
+			$blogtitle = esc_js( $blog['title'] );
 			$pdone = isset($blog['posts_done']) ? (int) $blog['posts_done'] : 0;
 			$cdone = isset($blog['comments_done']) ? (int) $blog['comments_done'] : 0;
 			$init .= "blogs[$i]=new blog($i,'$blogtitle','{$blog['mode']}'," . $this->get_js_status($i) . ');';
@@ -658,7 +658,7 @@ class Blogger_Import {
 		$blogtitle = "{$blog['title']} ({$blog['host']})";
 		$mapthis = __('Blogger username');
 		$tothis = __('WordPress login');
-		$submit = js_escape( __('Save Changes') );
+		$submit = esc_js( __('Save Changes') );
 
 		foreach ( $blog['authors'] as $i => $author )
 			$rows .= "<tr><td><label for='authors[$i]'>{$author[0]}</label></td><td><select name='authors[$i]' id='authors[$i]'>" . $this->get_user_options($author[1]) . "</select></td></tr>";

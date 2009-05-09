@@ -905,7 +905,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 	if ( 'attribute' == $context )
 		$value = esc_attr($value);
 	else if ( 'js' == $context )
-		$value = js_escape($value);
+		$value = esc_js($value);
 
 	return $value;
 }

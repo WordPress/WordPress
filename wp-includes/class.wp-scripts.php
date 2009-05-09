@@ -60,7 +60,7 @@ class WP_Scripts extends WP_Dependencies {
 				$after = $val;
 				continue;
 			}
-			$data .= "$eol\t$var: \"" . js_escape( $val ) . '"';
+			$data .= "$eol\t$var: \"" . esc_js( $val ) . '"';
 			$eol = ",\n";
 		}
 		$data .= "\n};\n";

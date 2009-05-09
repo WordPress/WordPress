@@ -58,8 +58,8 @@ function dismissed_updates() {
 	$dismissed = get_core_updates( array( 'dismissed' => true, 'available' => false ) );
 	if ( $dismissed ) {
 
-		$show_text = js_escape(__('Show hidden updates'));
-		$hide_text = js_escape(__('Hide hidden updates'));
+		$show_text = esc_js(__('Show hidden updates'));
+		$hide_text = esc_js(__('Hide hidden updates'));
 	?>
 	<script type="text/javascript">
 
