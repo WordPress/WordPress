@@ -29,7 +29,7 @@ class WP_Widget_Pages extends WP_Widget {
 		if ( $sortby == 'menu_order' )
 			$sortby = 'menu_order, post_title';
 
-		$out = wp_list_pages( array('title_li' => '', 'echo' => 0, 'sort_column' => $sortby, 'exclude' => $exclude) );
+		$out = wp_list_pages( apply_filters('widget_pages_args', array('title_li' => '', 'echo' => 0, 'sort_column' => $sortby, 'exclude' => $exclude) ) );
 
 		if ( !empty( $out ) ) {
 			echo $before_widget;
@@ -212,12 +212,12 @@ class WP_Widget_Archives extends WP_Widget {
 
 		if ( $d ) {
 ?>
-		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo esc_attr(__('Select Month')); ?></option> <?php wp_get_archives("type=monthly&format=option&show_post_count=$c"); ?> </select>
+		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo esc_attr(__('Select Month')); ?></option> <?php wp_get_archives(apply_filters('widget_archives_dropdown_args', array('type' => 'monthly', 'format' => 'option', 'show_post_count' => $c))); ?> </select>
 <?php
 		} else {
 ?>
 		<ul>
-		<?php wp_get_archives("type=monthly&show_post_count=$c"); ?>
+		<?php wp_get_archives(apply_filters('widget_archives_args', array('type' => 'monthly', 'show_post_count' => $c))); ?>
 		</ul>
 <?php
 		}
@@ -426,7 +426,7 @@ class WP_Widget_Categories extends WP_Widget {
 
 		if ( $d ) {
 			$cat_args['show_option_none'] = __('Select Category');
-			wp_dropdown_categories($cat_args);
+			wp_dropdown_categories(apply_filters('widget_categories_dropdown_args', $cat_args));
 ?>
 
 <script type='text/javascript'>
@@ -447,7 +447,7 @@ class WP_Widget_Categories extends WP_Widget {
 		<ul>
 <?php
 		$cat_args['title_li'] = '';
-		wp_list_categories($cat_args);
+		wp_list_categories(apply_filters('widget_categories_args', $cat_args));
 ?>
 		</ul>
 <?php
@@ -980,7 +980,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		if ( $title )
 			echo $before_title . $title . $after_title;
 		echo '<div>';
-		wp_tag_cloud();
+		wp_tag_cloud(apply_filters('widget_tag_cloud_args', array()));
 		echo "</div>\n";
 		echo $after_widget;
 	}
