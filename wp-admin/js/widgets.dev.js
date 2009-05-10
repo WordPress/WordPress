@@ -9,10 +9,11 @@ wpWidgets = {
 		$('#widgets-right div.sidebar-name').click(function(){
             var c = $(this).siblings('.widgets-sortables');
 			if ( c.is(':visible') ) {
+				c.sortable('disable');
 				$(this).parent().addClass('closed');
 			} else {
 				$(this).parent().removeClass('closed');
-				c.sortable('refresh');
+				c.sortable('enable').sortable('refresh');
 			}
         });
         
@@ -90,7 +91,7 @@ wpWidgets = {
 				if ( !$(this).is(':visible') )
 					$(this).sortable('cancel');
 			}
-		});
+		}).not(':visible').sortable('disable');
 		wpWidgets.resize();
 	},
 
