@@ -2177,7 +2177,7 @@ function get_page_uri($page_id) {
  *
  * The defaults that can be overridden are the following: 'child_of',
  * 'sort_order', 'sort_column', 'post_title', 'hierarchical', 'exclude',
- * 'include', 'meta_key', 'meta_value', and 'authors'.
+ * 'include', 'meta_key', 'meta_value','authors', 'number', and 'offset'.
  *
  * @since 1.5.0
  * @uses $wpdb
@@ -2194,7 +2194,7 @@ function &get_pages($args = '') {
 		'exclude' => '', 'include' => '',
 		'meta_key' => '', 'meta_value' => '',
 		'authors' => '', 'parent' => -1, 'exclude_tree' => '',
-		'number' => '', offset => '0'
+		'number' => '', 'offset' => 0
 	);
 
 	$r = wp_parse_args( $args, $defaults );
