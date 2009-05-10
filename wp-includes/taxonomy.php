@@ -1273,9 +1273,9 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	}
 
 	if ( ! $terms )
-		return array();
+		return $terms = array();
 
-	return $terms;
+	return apply_filters('wp_get_object_terms', $terms, $object_ids, $taxonomies, $args);
 }
 
 /**
