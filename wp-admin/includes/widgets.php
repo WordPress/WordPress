@@ -19,16 +19,15 @@
 function wp_list_widgets() {
 	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 
-	$done = array();
-	$sort = array_keys($wp_registered_widgets);
-	natcasesort($sort); ?>
+	$sort = $wp_registered_widgets;
+	usort( $sort, create_function( '$a, $b', 'return strnatcasecmp( $a["name"], $b["name"] );' ) );
+	$done = array(); ?>
 
 	<div class="widget-holder">
 	<p class="description"><?php _e('Drag widgets from here to a sidebar on the right to activate them.'); ?></p>
 	<div id="widget-list">
 <?php
-	foreach ( $sort as $val ) {
-		$widget = $wp_registered_widgets[$val];
+	foreach ( $sort as $widget ) {
 		if ( in_array( $widget['callback'], $done, true ) ) // We already showed this multi-widget
 			continue;
 
