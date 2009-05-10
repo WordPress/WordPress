@@ -372,3 +372,20 @@ table.ie-fixed {
 	right: -2px;
 }
 
+* html .widget-title h4 {
+	width: 210px;
+}
+
+#available-widgets .widget-holder {
+	padding-bottom: 65px;
+}
+
+#widgets-left .inactive {
+	padding-bottom: 10px;
+}
+
+.widget-liquid-right .widget,
+#wp_inactive_widgets .widget {
+	position: relative;
+}
+

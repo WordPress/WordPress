@@ -31,7 +31,7 @@ div.widget-liquid-right {
 #wp_inactive_widgets .widget {
 	width: 250px;
 	margin: 0 auto 20px;
-	position: relative;
+	overflow: hidden;
 }
 
 #wp_inactive_widgets .widget {
@@ -43,6 +43,7 @@ div.sidebar-name h3 {
 	margin: 0;
 	padding: 5px 12px;
 	font-size: 13px;
+	height: 19px;
 }
 
 div.sidebar-name {
@@ -157,11 +158,12 @@ ul#widget-list {
 .widget .widget-top {
 	font-size: 12px;
 	font-weight: bold;
-	line-height: 1;
+	height: 26px;
+	overflow: hidden;
 }
 
 .widget-top .widget-title {
-	padding: 7px 9px;
+	padding: 5px 9px;
 }
 
 .widget-top .widget-title-action {
@@ -205,7 +207,9 @@ a.widget-action {
 
 .widget-title h4 {
 	margin: 0;
-	line-height: 1;
+	line-height: 1.3;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .widgets-sortables {
@@ -290,4 +294,9 @@ a.widget-control-edit {
 	float: right;
 	height: 29px;
 	width: 26px;
+}
+
+h4 .in-widget-title {
+	font-size: 11px;
+	white-space: nowrap;
 }

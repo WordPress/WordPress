@@ -330,7 +330,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20090114' );
 		$scripts->add_data( 'media-upload', 'group', 1 );
 
-		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), '20090507' );
+		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable' ), '20090509' );
 		$scripts->add_data( 'admin-widgets', 'group', 1 );
 
 		$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), '20090422' );
@@ -421,10 +421,10 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090506' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090415' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090509' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
-	$styles->add( 'colors', true, array(), '20090506' ); // Register "meta" stylesheet for admin colors
+	$styles->add( 'colors', true, array(), '20090509' ); // Register "meta" stylesheet for admin colors
 	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081210'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081210');
@@ -432,7 +432,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090504' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090325' );
-	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090503' );
+	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090509' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090305' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081210' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20081210' );
