@@ -533,9 +533,10 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * The list of arguments that $args can contain, which will overwrite the defaults:
  *
- * orderby - Default is 'name'. Can be name, count, or nothing (will use
- * term_id).
- *
+ * orderby - Default is 'name'. Can be name, count, term_group, slug or nothing 
+ * (will use term_id), Passing a custom value other than these will cause it to
+ * order based on the custom value.
+ * 
  * order - Default is ASC. Can use DESC.
  *
  * hide_empty - Default is true. Will not return empty terms, which means
@@ -678,9 +679,10 @@ function &get_terms($taxonomies, $args = '') {
 		$orderby = 't.slug';
 	else if ( 'term_group' == $orderby )
 		$orderby = 't.term_group';
-	else
+	elseif ( empty($orderby) || 'id' == $orderby ) 
 		$orderby = 't.term_id';
-        $orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
+    
+	$orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
 
 	$where = '';
 	$inclusions = '';
