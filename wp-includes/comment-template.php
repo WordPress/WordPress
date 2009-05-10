@@ -193,7 +193,8 @@ function comment_author_IP() {
  */
 function get_comment_author_url() {
 	global $comment;
-	return apply_filters('get_comment_author_url', $comment->comment_author_url);
+	$url = ('http://' == $comment->comment_author_url) ? '' : $comment->comment_author_url;
+	return apply_filters('get_comment_author_url', $url);
 }
 
 /**
