@@ -83,7 +83,7 @@ include('./admin-header.php');
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Membership') ?></th>
-<td> <fieldset><legend class="invisible"><?php _e('Membership') ?></legend><label for="users_can_register">
+<td> <fieldset><legend class="invisible"><span><?php _e('Membership') ?></span></legend><label for="users_can_register">
 <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_option('users_can_register')); ?> />
 <?php _e('Anyone can register') ?></label>
 </fieldset></td>
@@ -197,7 +197,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <tr>
 <th scope="row"><?php _e('Date Format') ?></th>
 <td>
-	<fieldset><legend class="invisible"><?php _e('Date Format') ?></legend>
+	<fieldset><legend class="invisible"><span><?php _e('Date Format') ?></span></legend>
 <?php
 
 	$date_formats = apply_filters( 'date_formats', array(
@@ -230,7 +230,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <tr>
 <th scope="row"><?php _e('Time Format') ?></th>
 <td>
-	<fieldset><legend class="invisible"><?php _e('Time Format') ?></legend>
+	<fieldset><legend class="invisible"><span><?php _e('Time Format') ?></span></legend>
 <?php
 
 	$time_formats = apply_filters( 'time_formats', array(

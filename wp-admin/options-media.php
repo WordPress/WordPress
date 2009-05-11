@@ -41,7 +41,7 @@ include('admin-header.php');
 
 <tr valign="top">
 <th scope="row"><?php _e('Medium size') ?></th>
-<td><fieldset><legend class="invisible"><?php _e('Medium size') ?></legend>
+<td><fieldset><legend class="invisible"><span><?php _e('Medium size') ?></span></legend>
 <label for="medium_size_w"><?php _e('Max Width'); ?></label>
 <input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" class="small-text" />
 <label for="medium_size_h"><?php _e('Max Height'); ?></label>
@@ -51,7 +51,7 @@ include('admin-header.php');
 
 <tr valign="top">
 <th scope="row"><?php _e('Large size') ?></th>
-<td><fieldset><legend class="invisible"><?php _e('Large size') ?></legend>
+<td><fieldset><legend class="invisible"><span><?php _e('Large size') ?></span></legend>
 <label for="large_size_w"><?php _e('Max Width'); ?></label>
 <input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" class="small-text" />
 <label for="large_size_h"><?php _e('Max Height'); ?></label>

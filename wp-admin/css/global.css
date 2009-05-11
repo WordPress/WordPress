@@ -186,9 +186,13 @@ table {
 }
 
 /* Hide visually but not from screen readers */
-.invisible {
+.invisible,
+.invisible span {
 	position: absolute;
 	left: -1000em;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
 }
 
 .hidden,
