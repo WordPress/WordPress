@@ -219,8 +219,6 @@ if ( !empty($invalid) )
 <?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2>
 
-<p><?php printf(__('Plugins extend and expand the functionality of WordPress. <a href="%s">Install new plugins</a> and then activate, deactivate, or delete them here.'), 'plugin-install.php'); ?></p>
-
 <?php
 
 $all_plugins = get_plugins();
