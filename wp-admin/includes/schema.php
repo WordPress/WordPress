@@ -303,7 +303,10 @@ function populate_options() {
 	'sticky_posts' => array(),
 	'widget_categories' => array(),
 	'widget_text' => array(),
-	'widget_rss' => array()
+	'widget_rss' => array(),
+	
+	// 2.8
+	'timezone_string' => ''
 	);
 
 	// Set autoload to no for these options
