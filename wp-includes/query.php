@@ -2109,7 +2109,7 @@ class WP_Query {
 					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
 			}
 			if ( $post_status_join ) {
-				$join .= " LEFT JOIN $wpdb->posts AS p2 ON ($wpdb->posts.post_parent = p2.ID) ";
+				$join .= " JOIN $wpdb->posts AS p2 ON ($wpdb->posts.post_parent = p2.ID) ";
 				foreach ( $statuswheres as $index => $statuswhere )
 					$statuswheres[$index] = "($statuswhere OR ($wpdb->posts.post_status = 'inherit' AND " . str_replace($wpdb->posts, 'p2', $statuswhere) . "))";
 			}
@@ -2130,7 +2130,7 @@ class WP_Query {
 
 		// postmeta queries
 		if ( ! empty($q['meta_key']) || ! empty($q['meta_value']) )
-			$join .= " LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
+			$join .= " JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
 		if ( ! empty($q['meta_key']) )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s ", $q['meta_key']);
 		if ( ! empty($q['meta_value']) ) {
@@ -2168,11 +2168,11 @@ class WP_Query {
 		// Comments feeds
 		if ( $this->is_comment_feed && ( $this->is_archive || $this->is_search || !$this->is_singular ) ) {
 			if ( $this->is_archive || $this->is_search ) {
-				$cjoin = "LEFT JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) $join ";
+				$cjoin = "JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) $join ";
 				$cwhere = "WHERE comment_approved = '1' $where";
 				$cgroupby = "$wpdb->comments.comment_id";
 			} else { // Other non singular e.g. front
-				$cjoin = "LEFT JOIN $wpdb->posts ON ( $wpdb->comments.comment_post_ID = $wpdb->posts.ID )";
+				$cjoin = "JOIN $wpdb->posts ON ( $wpdb->comments.comment_post_ID = $wpdb->posts.ID )";
 				$cwhere = "WHERE post_status = 'publish' AND comment_approved = '1'";
 				$cgroupby = '';
 			}
