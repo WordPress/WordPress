@@ -1787,10 +1787,12 @@ class WP_Http_Encoding {
 		if ( false !== $decompressed )
 			return $decompressed;
 
-		$decompressed = gzdecode( $compressed );
+		if ( function_exists('gzdecode') ) {
+			$decompressed = gzdecode( $compressed );
 
-		if ( false !== $decompressed )
-			return $decompressed;
+			if ( false !== $decompressed )
+				return $decompressed;
+		}
 
 		return $compressed;
 	}
