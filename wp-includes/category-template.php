@@ -887,7 +887,7 @@ function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after 
 		return false;
 
 	foreach ( $terms as $term ) {
-		$link = get_term_link( $term, $taxonomy );
+		$link = get_term_link( $term->term_id, $taxonomy );
 		if ( is_wp_error( $link ) )
 			return $link;
 		$term_links[] = '<a href="' . $link . '" rel="tag">' . $term->name . '</a>';
