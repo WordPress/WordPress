@@ -1195,6 +1195,8 @@ function wp_delete_post($postid = 0) {
 		clean_post_cache($postid);
 	}
 
+	wp_clear_scheduled_hook('publish_future_post', $postid); 
+	
 	do_action('deleted_post', $postid);
 
 	return $post;
