@@ -13,6 +13,7 @@ if ( ! current_user_can('update_plugins') )
 	wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));
 
 function list_core_update( $update ) {
+	global $wp_local_package;
 	$version_string = 'en_US' == $update->locale ?
 			$update->current : sprintf("%s&ndash;<strong>%s</strong>", $update->current, $update->locale);
 	$current = false;
@@ -50,6 +51,8 @@ function list_core_update( $update ) {
 		else
 			echo '<input id="undismiss" class="button" type="submit" value="' . esc_attr__('Bring back this update') . '" name="undismiss" />';
 	echo '</p>';
+	if ( 'en_US' != $update->locale && ( !isset($wp_local_package) || $wp_local_package != $update->locale ) )
+	    echo '<p class="hint">'.__('This localized version contains both the translation and various other localization fixes. You can skip upgrading if you want to keep your current translation.').'</p>';
 	echo '</form>';
 
 }

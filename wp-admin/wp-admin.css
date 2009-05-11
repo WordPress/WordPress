@@ -1,4 +1,3 @@
-
 textarea,
 input,
 select {
@@ -2994,6 +2993,12 @@ ul#dismissed-updates {
 }
 form.upgrade {
 	margin-top: 8px;
+}
+
+form.upgrade .hint {
+	font-style: italic;
+	font-size: 85%;
+	margin: -0.5em 0 2em 0;
 }
 
 #poststuff .inside .the-tagcloud {
