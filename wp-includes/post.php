@@ -797,7 +797,7 @@ function is_sticky($post_id = null) {
 /**
  * Sanitize every post field.
  *
- * If the context is 'raw', then the post object or array will just be returned.
+ * If the context is 'raw', then the post object or array will get minimal santization of the int fields.
  *
  * @since 2.3.0
  * @uses sanitize_post_field() Used to sanitize the fields.
@@ -807,8 +807,6 @@ function is_sticky($post_id = null) {
  * @return object|array The now sanitized Post Object or Array (will be the same type as $post)
  */
 function sanitize_post($post, $context = 'display') {
-	if ( 'raw' == $context )
-		return $post;
 	if ( is_object($post) ) {
 		if ( !isset($post->ID) )
 			$post->ID = 0;
