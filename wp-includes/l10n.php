@@ -68,7 +68,7 @@ function before_last_bar( $string ) {
 }
 
 /**
- * Translate $text like translate(), but assumes that the text
+ * Translates $text like translate(), but assumes that the text
  * contains a context after its last vertical bar.
  *
  * @since 2.5
@@ -122,7 +122,7 @@ function esc_attr__( $text, $domain = 'default' ) {
 /**
  * Displays the returned translated text from translate().
  *
- * @see translate() Echos returned translate() string
+ * @see translate() Echoes returned translate() string
  * @since 1.2.0
  *
  * @param string $text Text to translate
@@ -135,7 +135,7 @@ function _e( $text, $domain = 'default' ) {
 /**
  * Displays translated text that has been escaped for safe use in an attribute.
  *
- * @see translate() Echos returned translate() string
+ * @see translate() Echoes returned translate() string
  * @see esc_attr()
  * @since 2.8.0
  *
@@ -186,7 +186,7 @@ function __ngettext() {
 /**
  * Retrieve the plural or single form based on the amount.
  *
- * If the domain is not set in the $l10n list, then a comparsion will be made
+ * If the domain is not set in the $l10n list, then a comparison will be made
  * and either $plural or $single parameters returned.
  *
  * If the domain does exist, then the parameters $single, $plural, and $number
@@ -276,8 +276,8 @@ function _nx_noop( $single, $plural, $context ) {
  * If the domain already exists, the inclusion will fail. If the MO file is not
  * readable, the inclusion will fail.
  *
- * On success, the mofile will be placed in the $l10n global by $domain and will
- * be an gettext_reader object.
+ * On success, the .mo file will be placed in the $l10n global by $domain
+ * and will be an gettext_reader object.
  *
  * @since 1.5.0
  * @uses $l10n Gets list of domain translated string (gettext_reader) objects
