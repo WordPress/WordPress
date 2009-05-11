@@ -12,6 +12,11 @@ This is just a basic layout, with only the bare minimum defined.
 Please tweak this and make it your own. :)
 */
 
+.invisible {
+     position: absolute;
+     left: -1000em;
+}
+
 a {
 	color: #675;
 }

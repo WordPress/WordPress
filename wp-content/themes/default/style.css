@@ -654,6 +654,11 @@ blockquote cite {
 .hidden {
 	display: none;
 	}
+	
+.invisible {
+     position: absolute;
+     left: -1000em;
+}
 
 hr {
 	display: none;
