@@ -16,6 +16,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns:atom="http://www.w3.org/2005/Atom"
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
 	<?php do_action('rss2_ns'); ?>
 >
 
@@ -51,6 +52,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<?php endif; ?>
 <?php endif; ?>
 		<wfw:commentRss><?php echo get_post_comments_feed_link(); ?></wfw:commentRss>
+		<slash:comments><?php echo get_comments_number(); ?></slash:comments>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	</item>
