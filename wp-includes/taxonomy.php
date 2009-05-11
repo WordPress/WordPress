@@ -2077,8 +2077,8 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 function _pad_term_counts(&$terms, $taxonomy) {
 	global $wpdb;
 
-	// This function only works for post categories.
-	if ( 'category' != $taxonomy )
+	// This function only works for hierarchical taxonomies like post categories.
+	if ( !is_taxonomy_hierarchical( $taxonomy ) )
 		return;
 
 	$term_hier = _get_term_hierarchy($taxonomy);
