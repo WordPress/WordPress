@@ -1599,6 +1599,34 @@ function the_author_msn() {
 }
 
 /**
+ * Retrieve the AIM address of the author of the current post.
+ *
+ * @since 1.5
+ * @deprecated 2.8
+ * @uses $authordata The current author's DB object.
+ * @return string The author's AIM address.
+ * @deprecated Use the_author_meta('aim')
+ */
+function get_the_author_aim() {
+	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'aim\')' );
+	return get_the_author_meta('aim');
+}
+
+/**
+ * Display the AIM address of the author of the current post.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_aim
+ * @since 0.71
+ * @deprecated 2.8
+ * @see get_the_author_aim()
+ * @deprecated Use the_author_meta('aim')
+ */
+function the_author_aim() {
+	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'aim\')' );
+	the_author_meta('aim');
+}
+
+/**
  * Retrieve the specified author's preferred display name.
  *
  * @since 1.0.0
