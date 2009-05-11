@@ -163,7 +163,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	else if ( empty($r->package) )
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_name, $details_url, esc_attr($plugin_name), $r->new_version);
 	else
-		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> or <a href="%5$s">upgrade automatically</a>.'), $details_url, $r->new_version, esc_attr($plugin_name), wp_nonce_url('update.php?action=upgrade-plugin&amp;plugin=' . $file, 'upgrade-plugin_' . $file) );
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> or <a href="%5$s">upgrade automatically</a>.'), $plugin_name, $details_url, $r->new_version, esc_attr($plugin_name), wp_nonce_url('update.php?action=upgrade-plugin&amp;plugin=' . $file, 'upgrade-plugin_' . $file) );
 	
 	do_action( "in_plugin_update_message-$file", $plugin_data, $r );
 	
