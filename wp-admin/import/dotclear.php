@@ -48,115 +48,9 @@ if(!function_exists('link_exists'))
 	}
 }
 
-/*
- Identify UTF-8 text
- Taken from http://www.php.net/manual/fr/function.mb-detect-encoding.php#50087
-*/
-//
-//    utf8 encoding validation developed based on Wikipedia entry at:
-//    http://en.wikipedia.org/wiki/UTF-8
-//
-//    Implemented as a recursive descent parser based on a simple state machine
-//    copyright 2005 Maarten Meijer
-//
-//    This cries out for a C-implementation to be included in PHP core
-//
-
 /**
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $char
- * @return string
- */
-function valid_1byte($char) {
-	if(!is_int($char)) return false;
-		return ($char & 0x80) == 0x00;
-}
-
-/**
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $char
- * @return string
- */
-function valid_2byte($char) {
-	if(!is_int($char)) return false;
-		return ($char & 0xE0) == 0xC0;
-}
-
-/**
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $char
- * @return string
- */
-function valid_3byte($char) {
-	if(!is_int($char)) return false;
-		return ($char & 0xF0) == 0xE0;
-}
-
-/**
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $char
- * @return string
- */
-function valid_4byte($char) {
-	if(!is_int($char)) return false;
-		return ($char & 0xF8) == 0xF0;
-}
-
-/**
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $char
- * @return string
- */
-function valid_nextbyte($char) {
-	if(!is_int($char)) return false;
-		return ($char & 0xC0) == 0x80;
-}
-
-/**
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $string
- * @return string
- */
-function valid_utf8($string) {
-	$len = strlen($string);
-	$i = 0;
-	while( $i < $len ) {
-		$char = ord(substr($string, $i++, 1));
-		if(valid_1byte($char)) {    // continue
-			continue;
-		} else if(valid_2byte($char)) { // check 1 byte
-			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-				return false;
-		} else if(valid_3byte($char)) { // check 2 bytes
-			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-				return false;
-			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-				return false;
-		} else if(valid_4byte($char)) { // check 3 bytes
-			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-				return false;
-			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-				return false;
-			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-				return false;
-		} // goto next char
-	}
-	return true; // done
-}
-
-/**
+ * Convert from dotclear charset to utf8 if required
+ * 
  * @package WordPress
  * @subpackage Dotclear_Import
  *
@@ -164,7 +58,7 @@ function valid_utf8($string) {
  * @return string
  */
 function csc ($s) {
-	if (valid_utf8 ($s)) {
+	if (seems_utf8 ($s)) {
 		return $s;
 	} else {
 		return iconv(get_option ("dccharset"),"UTF-8",$s);
