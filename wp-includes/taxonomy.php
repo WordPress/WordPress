@@ -2158,14 +2158,6 @@ function _update_post_term_count( $terms ) {
 function get_term_link( $term, $taxonomy ) {
 	global $wp_rewrite;
 
-	// use legacy functions for core taxonomies until they are fully plugged in
-	if ( $taxonomy == 'category' )
-		return get_category_link($term);
-	if ( $taxonomy == 'post_tag' )
-		return get_tag_link($term);
-
-	$termlink = $wp_rewrite->get_extra_permastruct($taxonomy);
-
 	if ( !is_object($term) ) {
 		if ( is_int($term) ) {
 			$term = &get_term($term, $taxonomy);
@@ -2175,6 +2167,14 @@ function get_term_link( $term, $taxonomy ) {
 	}
 	if ( is_wp_error( $term ) )
 		return $term;
+
+	// use legacy functions for core taxonomies until they are fully plugged in
+	if ( $taxonomy == 'category' )
+		return get_category_link((int) $term->term_id);
+	if ( $taxonomy == 'post_tag' )
+		return get_tag_link((int) $term->term_id);
+
+	$termlink = $wp_rewrite->get_extra_permastruct($taxonomy);
 
 	$slug = $term->slug;
 
