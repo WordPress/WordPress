@@ -47,6 +47,9 @@ wp_unregister_GLOBALS();
 
 unset( $wp_filter, $cache_lastcommentmodified, $cache_lastpostdate );
 
+// Force REQUEST to be GET + POST.  If SERVER, COOKIE, or ENV are needed, use those superglobals directly.
+$_REQUEST = array_merge($_GET, $_POST);
+
 /**
  * The $blog_id global, which you can change in the config allows you to create a simple
  * multiple blog installation using just one WordPress and changing $blog_id around.
