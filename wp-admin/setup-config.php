@@ -26,24 +26,24 @@ define('WPINC', 'wp-includes');
 define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
 /**#@-*/
 
-require_once('../wp-includes/compat.php');
-require_once('../wp-includes/functions.php');
-require_once('../wp-includes/classes.php');
+require_once(ABSPATH . WPINC . '/compat.php');
+require_once(ABSPATH . WPINC . '/functions.php');
+require_once(ABSPATH . WPINC . '/classes.php');
 
-if (!file_exists('../wp-config-sample.php'))
+if (!file_exists(ABSPATH . 'wp-config-sample.php'))
 	wp_die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
 
-$configFile = file('../wp-config-sample.php');
+$configFile = file(ABSPATH . 'wp-config-sample.php');
 
-if ( !is_writable('../'))
+if ( !is_writable(ABSPATH))
 	wp_die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
 // Check if wp-config.php has been created
-if (file_exists('../wp-config.php'))
+if (file_exists(ABSPATH . 'wp-config.php'))
 	wp_die("<p>The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p>");
 
 // Check if wp-config.php exists above the root directory but is not part of another install
-if (file_exists('../../wp-config.php') && ! file_exists('../../wp-settings.php'))
+if (file_exists(ABSPATH . '../wp-config.php') && ! file_exists(ABSPATH . '../wp-settings.php'))
 	wp_die("<p>The file 'wp-config.php' already exists one level above your WordPress installation. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p>");
 
 if (isset($_GET['step']))
@@ -155,7 +155,7 @@ switch($step) {
 	if ( !empty($wpdb->error) )
 		wp_die($wpdb->error->get_error_message());
 
-	$handle = fopen('../wp-config.php', 'w');
+	$handle = fopen(ABSPATH . 'wp-config.php', 'w');
 
 	foreach ($configFile as $line_num => $line) {
 		switch (substr($line,0,16)) {
@@ -179,7 +179,7 @@ switch($step) {
 		}
 	}
 	fclose($handle);
-	chmod('../wp-config.php', 0666);
+	chmod(ABSPATH . 'wp-config.php', 0666);
 
 	display_header();
 ?>
