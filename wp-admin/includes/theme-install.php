@@ -391,8 +391,9 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 
 	if ( $page_links )
 		echo "\t\t<div class='tablenav-pages'>$page_links</div>";
-	?> <br class="clear" />
+	?>
 </div>
+<br class="clear" />
 <?php
 	if ( empty($themes) ) {
 		_e('No themes found');
