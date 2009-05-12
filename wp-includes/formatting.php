@@ -58,7 +58,7 @@ function wptexturize($text) {
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
-		} elseif (strpos($curl, '<code') !== false || strpos($curl, '<kbd') !== false || strpos($curl, '<style') !== false || strpos($curl, '<script') !== false) {
+		} elseif (strpos($curl, '<tt') !== false || strpos($curl, '<code') !== false || strpos($curl, '<kbd') !== false || strpos($curl, '<style') !== false || strpos($curl, '<script') !== false) {
 			$next = false;
 		} elseif (strpos($curl, '<pre') !== false) {
 			$has_pre_parent = true;
