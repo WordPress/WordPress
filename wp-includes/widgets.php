@@ -79,22 +79,27 @@ class WP_Widget {
 
 	/**
 	 * PHP5 constructor
-	 *	 widget_options: passed to wp_register_sidebar_widget()
-	 *	 - description
+	 *
+	 * @param string $id_base Optional Base ID for the widget, lower case,
+	 * if left empty a portion of the widget's class name will be used. Has to be unique.
+	 * @param string $name Name for the widget displayed on the configuration page.
+	 * @param array $widget_options Optional Passed to wp_register_sidebar_widget()
+	 *	 - description: shown on the configuration page
 	 *	 - classname
-	 *	 control_options: passed to wp_register_widget_control()
-	 *	 - width
-	 *	 - height
+	 * @param array $control_options Optional Passed to wp_register_widget_control()
+	 *	 - width: required if more than 250px
+	 *	 - height: currently not used but may be needed in the future
 	 */
 	function __construct( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
-		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : $id_base;
+		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
 		$this->name = $name;
 		$this->option_name = 'widget_' . $this->id_base;
 		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
 		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
 	}
 
-	/** Constructs name attributes for use in form() fields
+	/**
+	 * Constructs name attributes for use in form() fields
 	 *
 	 * This function should be used in form() methods to create name attributes for fields to be saved by update()
 	 *
@@ -105,7 +110,8 @@ class WP_Widget {
 		return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
 	}
 
-	/** Constructs id attributes for use in form() fields
+	/**
+	 * Constructs id attributes for use in form() fields
 	 *
 	 * This function should be used in form() methods to create id attributes for fields to be saved by update()
 	 *
