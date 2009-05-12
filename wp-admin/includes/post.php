@@ -1359,7 +1359,7 @@ tinyMCEPreInit = {
 
 <?php
 	if ( $concatenate_scripts )
-		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&ver=$ver'></script>\n";
+		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&amp;ver=$ver'></script>\n";
 	else
 		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?ver=$ver'></script>\n";
 
