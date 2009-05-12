@@ -239,7 +239,8 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		__( "No file was uploaded." ),
 		'',
 		__( "Missing a temporary folder." ),
-		__( "Failed to write file to disk." ));
+		__( "Failed to write file to disk." ),
+		__( "File upload stopped by extension." ));
 
 	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
 	$test_form = true;
@@ -340,12 +341,14 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 
 	// Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
 	$upload_error_strings = array( false,
-		__( "The file exceeds the <code>upload_max_filesize</code> directive in <code>php.ini</code>." ),
-		__( "The file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form." ),
-		__( "The file was only partially uploaded." ),
-		__( "No file was sent." ),
+		__( "The uploaded file exceeds the <code>upload_max_filesize</code> directive in <code>php.ini</code>." ),
+		__( "The uploaded file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form." ),
+		__( "The uploaded file was only partially uploaded." ),
+		__( "No file was uploaded." ),
+		'',
 		__( "Missing a temporary folder." ),
-		__( "Failed to write file to disk." ));
+		__( "Failed to write file to disk." ),
+		__( "File upload stopped by extension." ));
 
 	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
 	$test_form = true;
