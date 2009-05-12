@@ -3114,7 +3114,16 @@ function wp_timezone_choice($selectedzone) {
 		$i++;
 	}
 
-	asort($zonen);
+	usort($zonen, create_function(
+		'$a, $b', '
+		if ( $a["continent"] == $b["continent"] && $a["city"] == $b["city"] )
+			return strnatcasecmp($a["subcity"], $b["subcity"]);
+		elseif ( $a["continent"] == $b["continent"] )
+			return strnatcasecmp($a["city"], $b["city"]);
+		else
+			return strnatcasecmp($a["continent"], $b["continent"]);
+		'));
+	
 	$structure = '';
 	$pad = '&nbsp;&nbsp;&nbsp;';
 
@@ -3138,7 +3147,10 @@ function wp_timezone_choice($selectedzone) {
 			if ( !empty($subcity) ) {
 				$city = $city . '/'. $subcity;
 			}
-			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected"':'')." value=\"".($continent.'/'.$city)."\">$pad".str_replace('_',' ',$city)."</option>\n"; //Timezone
+			$display = str_replace('_',' ',$city);
+			if ( $continent == 'Etc' )
+				$display = strtr($display, '+-', '-+');
+			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected"':'')." value=\"".($continent.'/'.$city)."\">$pad".$display."</option>\n"; //Timezone
 		} else {
 			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected"':'')." value=\"".$continent."\">".$continent."</option>\n"; //Timezone
 		}
