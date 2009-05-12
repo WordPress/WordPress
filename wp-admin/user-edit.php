@@ -142,9 +142,9 @@ if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('You do not have permission to edit this user.'));
 
 if ($is_profile_page)
-	do_action('personal_options_update');
+	do_action('personal_options_update', $user_id);
 else
-	do_action('edit_user_profile_update');
+	do_action('edit_user_profile_update', $user_id);
 
 $errors = edit_user($user_id);
 
@@ -350,7 +350,7 @@ else
 </tr>
 
 <?php
-$show_password_fields = apply_filters('show_password_fields', true);
+$show_password_fields = apply_filters('show_password_fields', true, $profileuser);
 if ( $show_password_fields ) :
 ?>
 <tr id="password">
@@ -368,13 +368,13 @@ if ( $show_password_fields ) :
 
 <?php
 	if ( $is_profile_page ) {
-		do_action('show_user_profile');
+		do_action('show_user_profile', $profileuser);
 	} else {
-		do_action('edit_user_profile');
+		do_action('edit_user_profile', $profileuser);
 	}
 ?>
 
-<?php if (count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true)): ?>
+<?php if (count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true, $profileuser)): ?>
 <br class="clear" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<tr>
