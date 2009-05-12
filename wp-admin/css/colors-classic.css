@@ -704,7 +704,7 @@ abbr.required,
 	color: #888;
 }
 
-/* password strenght meter */
+/* password strength meter */
 #pass-strength-result {
 	background-color: #eee;
 	border-color: #ddd !important;
