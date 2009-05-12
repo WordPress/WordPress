@@ -311,7 +311,8 @@ function get_post_class( $class = '', $post_id = null ) {
 	$post = get_post($post_id);
 
 	$classes = array();
-
+	
+	$classes[] = 'post-' . $post->ID;
 	$classes[] = $post->post_type;
 
 	// sticky for Sticky Posts
@@ -323,16 +324,16 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	// Categories
 	foreach ( (array) get_the_category($post->ID) as $cat ) {
-		if ( empty($cat->slug ) )
+		if ( empty($cat->cat_ID ) )
 			continue;
-		$classes[] = 'category-' . $cat->slug;
+		$classes[] = 'category-' . $cat->cat_ID;
 	}
 
 	// Tags
 	foreach ( (array) get_the_tags($post->ID) as $tag ) {
-		if ( empty($tag->slug ) )
+		if ( empty($tag->term_id ) )
 			continue;
-		$classes[] = 'tag-' . $tag->slug;
+		$classes[] = 'tag-' . $tag->term_id;
 	}
 
 	if ( !empty($class) ) {
@@ -399,21 +400,22 @@ function get_body_class( $class = '' ) {
 		if ( is_attachment() ) {
 			$mime_type = get_post_mime_type();
 			$mime_prefix = array( 'application/', 'image/', 'text/', 'audio/', 'video/', 'music/' );
-			$classes[] = 'attachmentid-' . $postID . ' attachment-' . str_replace( $mime_prefix, "", "$mime_type" );
+			$classes[] = 'attachmentid-' . $postID;
+			$classes[] = 'attachment-' . str_replace($mime_prefix, '', $mime_type);
 		}
 	} elseif ( is_archive() ) {
 		if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
-			$classes[] = 'author-' . $author->user_nicename;
+			$classes[] = 'author-' . $author->user_id;
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
-			$classes[] = 'category-' . $cat->slug;
+			$classes[] = 'category-' . $cat->cat_ID;
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
-			$classes[] = 'tag-' . $tags->slug;
+			$classes[] = 'tag-' . $tags->term_id;
 		}
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
@@ -429,10 +431,12 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'page-parent';
 
 		if ( $wp_query->post->post_parent )
-			$classes[] = 'page-child parent-pageid-' . $wp_query->post->post_parent;
+			$classes[] = 'page-child';
+			$classes[] = 'parent-pageid-' . $wp_query->post->post_parent;
 
 		if ( is_page_template() )
-			$classes[] = 'page-template page-template-' . str_replace( '.php', '-php', get_post_meta( $pageID, '_wp_page_template', true ) );
+			$classes[] = 'page-template';
+			$classes[] = 'page-template-' . str_replace( '.php', '-php', get_post_meta( $pageID, '_wp_page_template', true ) );
 	} elseif ( is_search() ) {
 		if ( !empty($wp_query->posts) )
 			$classes[] = 'search-results';
