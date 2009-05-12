@@ -220,11 +220,11 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 	$output .= $teaser;
 	if ( count($content) > 1 ) {
 		if ( $more ) {
-			$output .= '<span id="more-'.$id.'"></span>'.$content[1];
+			$output .= '<span id="more-' . $id . '"></span>' . $content[1];
 		} else {
 			$output = balanceTags($output);
 			if ( ! empty($more_link_text) )
-				$output .= ' <a href="'. get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>";
+				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 		}
 
 	}
