@@ -348,7 +348,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
 		$this->strings['no_package'] = __('Upgrade package not available.');
-		$this->strings['downloading_package'] = __('Downloading update from %s.');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>.');
 		$this->strings['unpack_package'] = __('Unpacking the update.');
 		$this->strings['deactivate_plugin'] = __('Deactivating the plugin.');
 		$this->strings['remove_old'] = __('Removing the old version of the plugin.');
@@ -359,7 +359,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 	function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
-		$this->strings['downloading_package'] = __('Downloading install package from %s.');
+		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>.');
 		$this->strings['unpack_package'] = __('Unpacking the package.');
 		$this->strings['installing_package'] = __('Installing the plugin.');
 		$this->strings['process_failed'] = __('Plugin Install Failed.');
@@ -503,7 +503,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The theme is at the latest version.');
 		$this->strings['no_package'] = __('Upgrade package not available.');
-		$this->strings['downloading_package'] = __('Downloading update from %s.');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>.');
 		$this->strings['unpack_package'] = __('Unpacking the update.');
 		$this->strings['remove_old'] = __('Removing the old version of the theme.');
 		$this->strings['remove_old_failed'] = __('Could not remove the old theme.');
@@ -513,7 +513,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 	function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
-		$this->strings['downloading_package'] = __('Downloading install package from %s.');
+		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>.');
 		$this->strings['unpack_package'] = __('Unpacking the package.');
 		$this->strings['installing_package'] = __('Installing the theme.');
 		$this->strings['process_failed'] = __('Theme Install Failed.');
@@ -656,7 +656,7 @@ class Core_Upgrader extends WP_Upgrader {
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('WordPress is at the latest version.');
 		$this->strings['no_package'] = __('Upgrade package not available.');
-		$this->strings['downloading_package'] = __('Downloading update from %s.');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>.');
 		$this->strings['unpack_package'] = __('Unpacking the update.');
 		$this->strings['copy_failed'] = __('Could not copy files.');
 	}
