@@ -83,7 +83,7 @@ function find_core_update( $version, $locale ) {
 
 function core_update_footer( $msg = '' ) {
 	if ( !current_user_can('manage_options') )
-		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
+		return sprintf( __( 'Version %s' ), $GLOBALS['wp_version'] );
 
 	$cur = get_preferred_from_update_core();
 	if ( ! isset( $cur->current ) )
