@@ -1397,6 +1397,7 @@ p.description,
 .tagcloud {
 	width: 97%;
 	margin: 0 0 40px;
+	text-align: justify;
 }
 
 .tagcloud h3 {
@@ -3141,6 +3142,7 @@ p.popular-tags {
 	border-style: solid;
 	line-height: 2em;
 	padding: 8px 12px 12px;
+	text-align: justify;
 }
 
 p.popular-tags a {
