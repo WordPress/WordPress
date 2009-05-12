@@ -264,6 +264,9 @@ $total_active_plugins = count($active_plugins);
 $total_recent_plugins = count($recent_plugins);
 $total_upgrade_plugins = count($upgrade_plugins);
 
+// Sort active before inactive for all plugins list
+$all_plugins = array_merge($active_plugins, $inactive_plugins);
+
 //Searching.
 if ( isset($_GET['s']) ) {
 	function _search_plugins_filter_callback($plugin) {
