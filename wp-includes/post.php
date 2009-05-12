@@ -684,9 +684,11 @@ function delete_post_meta_by_key($post_meta_key) {
 		return false;
 
 	global $wpdb;
-	if ( $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key)) ) {
-		/** @todo Get post_ids and delete cache */
-		// wp_cache_delete($post_id, 'post_meta');
+	$post_ids = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT post_id FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key));
+	if ( $post_ids ) {
+		$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key));
+		foreach ( $post_ids as $post_id )
+			wp_cache_delete($post_id, 'post_meta');
 		return true;
 	}
 	return false;
