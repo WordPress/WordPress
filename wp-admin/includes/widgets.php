@@ -191,7 +191,7 @@ function wp_widget_control( $sidebar_args ) {
 	<input type="hidden" name="add_new" class="add_new" value="<?php echo esc_attr($add_new); ?>" />
 
 	<div class="widget-control-actions">
-		<a class="button widget-control-remove alignleft" href="<?php echo $edit ? clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key, '_wpnonce' => $nonce ) ) ) : '#remove'; ?>"><?php _e('Remove'); ?></a>
+		<a class="button widget-control-remove alignleft" href="#remove"><?php _e('Remove'); ?></a>
 <?php		if ( 'noform' !== $has_form ) { ?>
 		<input type="submit" name="savewidget" class="button-primary widget-control-save alignright" value="<?php esc_attr_e('Save'); ?>" />
 <?php		} ?>
