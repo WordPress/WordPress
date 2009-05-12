@@ -30,7 +30,7 @@ include('admin-header.php');
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Formatting') ?></th>
-<td><fieldset><legend class="invisible"><span><?php _e('Formatting') ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Formatting') ?></span></legend>
 <label for="use_smilies">
 <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_option('use_smilies')); ?> />
 <?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label><br />
@@ -61,7 +61,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e('Atom Publishing Protocol') ?></th>
-<td><fieldset><legend class="invisible"><span><?php _e('Atom Publishing Protocol') ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Atom Publishing Protocol') ?></span></legend>
 <label for="enable_app">
 <input name="enable_app" type="checkbox" id="enable_app" value="1" <?php checked('1', get_option('enable_app')); ?> />
 <?php _e('Enable the Atom Publishing Protocol.') ?></label><br />
@@ -69,7 +69,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('XML-RPC') ?></th>
-<td><fieldset><legend class="invisible"><span><?php _e('XML-RPC') ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('XML-RPC') ?></span></legend>
 <label for="enable_xmlrpc">
 <input name="enable_xmlrpc" type="checkbox" id="enable_xmlrpc" value="1" <?php checked('1', get_option('enable_xmlrpc')); ?> />
 <?php _e('Enable the WordPress, Movable Type, MetaWeblog and Blogger XML-RPC publishing protocols.') ?></label><br />

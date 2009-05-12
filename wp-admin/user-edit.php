@@ -209,7 +209,7 @@ include ('admin-header.php');
 <?php if (count($_wp_admin_css_colors) > 1 ) : ?>
 <tr>
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
-<td><fieldset><legend class="invisible"><span><?php _e('Admin Color Scheme')?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Admin Color Scheme')?></span></legend>
 <?php
 $current_color = get_user_option('admin_color', $user_id);
 if ( empty($current_color) )

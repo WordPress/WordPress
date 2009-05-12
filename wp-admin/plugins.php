@@ -425,7 +425,7 @@ function print_plugin_actions($context) {
 
 <form method="get" action="">
 <p class="search-box">
-	<label class="invisible" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
+	<label class="screen-reader-text" for="plugin-search-input"><?php _e( 'Search Plugins' ); ?>:</label>
 	<input type="text" id="plugin-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Plugins' ); ?>" class="button" />
 </p>

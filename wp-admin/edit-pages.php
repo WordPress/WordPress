@@ -169,7 +169,7 @@ endif;
 </ul>
 
 <p class="search-box">
-	<label class="invisible" for="page-search-input"><?php _e( 'Search Pages' ); ?>:</label>
+	<label class="screen-reader-text" for="page-search-input"><?php _e( 'Search Pages' ); ?>:</label>
 	<input type="text" id="page-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Pages' ); ?>" class="button" />
 </p>

@@ -1354,7 +1354,7 @@ SWFUpload.onload = function() {
 <div id="html-upload-ui">
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
-	<label class="invisible" for="async-upload"><?php _e('Upload'); ?></label>
+	<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
 	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php esc_attr_e('Upload'); ?>" /> <a href="#" onclick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
@@ -1710,7 +1710,7 @@ function media_upload_library_form($errors) {
 <input type="hidden" name="post_mime_type" value="<?php echo isset( $_GET['post_mime_type'] ) ? esc_attr( $_GET['post_mime_type'] ) : ''; ?>" />
 
 <p id="media-search" class="search-box">
-	<label class="invisible" for="media-search-input"><?php _e('Search Media');?>:</label>
+	<label class="screen-reader-text" for="media-search-input"><?php _e('Search Media');?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Media' ); ?>" class="button" />
 </p>

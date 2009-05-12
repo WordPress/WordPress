@@ -26,7 +26,7 @@ include('admin-header.php');
 <?php if ( get_pages() ): ?>
 <tr valign="top">
 <th scope="row"><?php _e('Front page displays')?></th>
-<td><fieldset><legend class="invisible"><span><?php _e('Front page displays')?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Front page displays')?></span></legend>
 	<p><label>
 		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked('posts', get_option('show_on_front')); ?> />
 		<?php _e('Your latest posts'); ?>
@@ -63,7 +63,7 @@ include('admin-header.php');
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('For each article in a feed, show') ?> </th>
-<td><fieldset><legend class="invisible"><span><?php _e('For each article in a feed, show') ?> </span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('For each article in a feed, show') ?> </span></legend>
 <p><label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_option('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_option('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label></p>
 </fieldset></td>

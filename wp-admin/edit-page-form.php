@@ -261,7 +261,7 @@ function page_password_meta_box($post){
 ?>
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
 <h4><?php _e( 'Page Password' ); ?></h4>
-<p><label class="invisible" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
+<p><label class="screen-reader-text" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
 <?php
 }
@@ -277,13 +277,13 @@ function page_password_meta_box($post){
 function page_attributes_meta_box($post){
 ?>
 <h5><?php _e('Parent') ?></h5>
-<label class="invisible" for="parent_id"><?php _e('Page Parent') ?></label>
+<label class="screen-reader-text" for="parent_id"><?php _e('Page Parent') ?></label>
 <?php wp_dropdown_pages(array('exclude_tree' => $post->ID, 'selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('Main Page (no parent)'), 'sort_column'=> 'menu_order, post_title')); ?>
 <p><?php _e('You can arrange your pages in hierarchies, for example you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 <?php
 	if ( 0 != count( get_page_templates() ) ) { ?>
 <h5><?php _e('Template') ?></h5>
-<label class="invisible" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
+<label class="screen-reader-text" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <option value='default'><?php _e('Default Template'); ?></option>
 <?php page_template_dropdown($post->page_template); ?>
 </select>
@@ -291,7 +291,7 @@ function page_attributes_meta_box($post){
 <?php
 	} ?>
 <h5><?php _e('Order') ?></h5>
-<p><label class="invisible" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
+<p><label class="screen-reader-text" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
 <p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
 <?php
 }
@@ -346,7 +346,7 @@ add_meta_box('pagecommentstatusdiv', __('Discussion'), 'page_comments_status_met
  */
 function page_slug_meta_box($post){
 ?>
-<label class="invisible" for="post_name"><?php _e('Page Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo esc_attr( $post->post_name ); ?>" />
+<label class="screen-reader-text" for="post_name"><?php _e('Page Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo esc_attr( $post->post_name ); ?>" />
 <?php
 }
 add_meta_box('pageslugdiv', __('Page Slug'), 'page_slug_meta_box', 'page', 'normal', 'core');
@@ -368,7 +368,7 @@ if ( $authors && count( $authors ) > 1 ) {
 		if ( $post->post_author && !in_array($post->post_author, $authors) )
 			$authors[] = $post->post_author;
 ?>
-<label class="invisible" for="post_author_override"><?php _e('Page Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
+<label class="screen-reader-text" for="post_author_override"><?php _e('Page Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
 <?php
 	}
 	add_meta_box('pageauthordiv', __('Page Author'), 'page_author_meta_box', 'page', 'normal', 'core');
@@ -435,7 +435,7 @@ $side_meta_boxes = do_meta_boxes('page', 'side', $post); ?>
 <div id="post-body-content">
 <div id="titlediv">
 <div id="titlewrap">
-	<label class="invisible" for="title"><?php _e('Title') ?></label>
+	<label class="screen-reader-text" for="title"><?php _e('Title') ?></label>
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">

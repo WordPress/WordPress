@@ -290,7 +290,7 @@ unset($role_links);
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
-	<label class="invisible" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
+	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
 	<input type="text" id="user-search-input" name="usersearch" value="<?php echo esc_attr($wp_user_search->search_term); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" class="button" />
 </p>
@@ -309,7 +309,7 @@ unset($role_links);
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<label class="invisible" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option><?php wp_dropdown_roles(); ?></select>
+<label class="screen-reader-text" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option><?php wp_dropdown_roles(); ?></select>
 <input type="submit" value="<?php esc_attr_e('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>
 </div>

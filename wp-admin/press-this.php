@@ -481,8 +481,8 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 					<div id="category-adder" class="wp-hidden-children">
 						<a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a>
 						<p id="category-add" class="wp-hidden-child">
-							<label class="invisible" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
-							<label class="invisible" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
+							<label class="screen-reader-text" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
+							<label class="screen-reader-text" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
 							<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php esc_attr_e( 'Add' ); ?>" tabindex="3" />
 							<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
 							<span id="category-ajax-response"></span>
@@ -496,7 +496,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag">
 						<p class="jaxtag">
-							<label class="invisible" for="newtag"><?php _e('Post Tags'); ?></label>
+							<label class="screen-reader-text" for="newtag"><?php _e('Post Tags'); ?></label>
 							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" />
 							<span class="ajaxtag" style="display:none;">
 								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php esc_attr_e('Add new tag'); ?>" />

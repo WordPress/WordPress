@@ -2433,7 +2433,7 @@ fieldset {
 	margin: 0 9px 0 0;
 }
 
-#screen-meta .invisible {
+#screen-meta .screen-reader-text {
 	visibility: hidden;
 }
 

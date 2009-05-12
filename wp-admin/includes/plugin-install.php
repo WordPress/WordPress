@@ -163,7 +163,7 @@ function install_search_form(){
 			<option value="tag"<?php selected('tag', $type) ?>><?php echo _x('Tag', 'Plugin Installer'); ?></option>
 		</select>
 		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
-		<label class="invisible" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
+		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
 		<input type="submit" id="plugin-search-input" name="search" value="<?php esc_attr_e('Search Plugins'); ?>" class="button" />
 	</form><?php
 }
@@ -211,7 +211,7 @@ function install_plugins_upload( $page = 1 ) {
 	<p class="install-help"><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
 	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('update.php?action=upload-plugin') ?>">
 		<?php wp_nonce_field( 'plugin-upload') ?>
-		<label class="invisible" for="pluginzip"><?php _e('Plugin zip file'); ?></label>
+		<label class="screen-reader-text" for="pluginzip"><?php _e('Plugin zip file'); ?></label>
 		<input type="file" id="pluginzip" name="pluginzip" />
 		<input type="submit" class="button" value="<?php esc_attr_e('Install Now') ?>" />
 	</form>

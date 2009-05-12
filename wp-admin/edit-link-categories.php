@@ -73,7 +73,7 @@ endif; ?>
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
-	<label class="invisible" for="link-category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
+	<label class="screen-reader-text" for="link-category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
 	<input type="text" id="link-category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Categories' ); ?>" class="button" />
 </p>

@@ -186,8 +186,8 @@ table {
 }
 
 /* Hide visually but not from screen readers */
-.invisible,
-.invisible span {
+.screen-reader-text,
+.screen-reader-text span {
 	position: absolute;
 	left: -1000em;
 	height: 1px;

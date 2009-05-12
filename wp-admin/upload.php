@@ -209,7 +209,7 @@ unset($type_links);
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
-	<label class="invisible" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
+	<label class="screen-reader-text" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Media' ); ?>" class="button" />
 </p>

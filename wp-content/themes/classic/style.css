@@ -12,7 +12,7 @@ This is just a basic layout, with only the bare minimum defined.
 Please tweak this and make it your own. :)
 */
 
-.invisible {
+.screen-reader-text {
      position: absolute;
      left: -1000em;
 }

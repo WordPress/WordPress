@@ -761,7 +761,7 @@ jQuery(function($){
 <tr valign="top">
 <th scope="row"><?php _e('Connection Type') ?></th>
 <td>
-<fieldset><legend class="invisible"><span><?php _e('Connection Type') ?></span></legend>
+<fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>
 <label><input id="ftp" name="connection_type"  type="radio" value="ftp" <?php checked('ftp', $connection_type); if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"'; ?>/> <?php _e('FTP') ?></label><br />
 <label><input id="ftps" name="connection_type" type="radio" value="ftps" <?php checked('ftps', $connection_type); if ( defined('FTP_SSH') || defined('FTP_SSH') ) echo ' disabled="disabled"';  ?>/> <?php _e('FTPS (SSL)') ?></label><br />
 <?php if ( extension_loaded('ssh2') ) { ?><label><input id="ssh" name="connection_type" type="radio" value="ssh" <?php checked('ssh', $connection_type);  if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"'; ?>/> <?php _e('SSH') ?></label><?php } ?>

@@ -88,7 +88,7 @@ if ( isset($_GET['deleted']) ) {
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
-	<label class="invisible" for="link-search-input"><?php _e( 'Search Links' ); ?>:</label>
+	<label class="screen-reader-text" for="link-search-input"><?php _e( 'Search Links' ); ?>:</label>
 	<input type="text" id="link-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Links' ); ?>" class="button" />
 </p>
