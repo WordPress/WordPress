@@ -300,6 +300,7 @@ class WP_Import {
 				continue;
 
 			$category_nicename	= $this->get_tag( $c, 'wp:category_nicename' );
+			$category_description = $this->get_tag( $c, 'wp:category_description' );
 			$posts_private		= (int) $this->get_tag( $c, 'wp:posts_private' );
 			$links_private		= (int) $this->get_tag( $c, 'wp:links_private' );
 
@@ -310,7 +311,7 @@ class WP_Import {
 			else
 				$category_parent = category_exists($parent);
 
-			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name');
+			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name', 'category_description');
 
 			$cat_ID = wp_insert_category($catarr);
 		}
