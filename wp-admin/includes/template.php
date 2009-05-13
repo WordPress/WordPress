@@ -3637,8 +3637,12 @@ function screen_options($screen) {
 
 	$option = str_replace('-', '_', "${screen}_per_page");
 	$per_page = get_user_option($option);
-	if ( empty($per_page) )
-		$per_page = 20;
+	if ( empty($per_page) ) {
+		if ( 'plugins' == $screen )
+			$per_page = 999;
+		else
+			$per_page = 20;
+	}
 
 	$return = '<h5>' . __('Options') . "</h5>\n";
 	$return .= "<div class='screen-options'>\n";
