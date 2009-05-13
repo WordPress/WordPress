@@ -82,7 +82,7 @@ $post_stati  = array(	//	array( adj, noun )
 		'private' => array(_x('Private', 'page'), __('Private pages'), _nx_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>', 'page'))
 	);
 
-$query = array('post_type' => 'page', 'orderby' => 'menu_order title', 'what_to_show' => 'posts',
+$query = array('post_type' => 'page', 'orderby' => 'menu_order title',
 	'posts_per_page' => -1, 'posts_per_archive_page' => -1, 'order' => 'asc');
 
 $post_status_label = __('Pages');

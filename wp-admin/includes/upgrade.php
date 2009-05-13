@@ -527,10 +527,6 @@ function upgrade_130() {
 		}
 	}
 
-	// The "paged" option for what_to_show is no more.
-	if ($wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'what_to_show'") == 'paged')
-		$wpdb->update( $wpdb->options, array('option_value' => 'posts'), array('option_name' => 'what_to_show') );
-
 	$active_plugins = __get_option('active_plugins');
 
 	// If plugins are not stored in an array, they're stored in the old

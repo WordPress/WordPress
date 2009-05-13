@@ -1088,7 +1088,7 @@ EOD;
 
 		$count = get_option('posts_per_rss');
 
-		wp('what_to_show=posts&posts_per_page=' . $count . '&offset=' . ($count * ($page-1) . '&orderby=modified'));
+		wp('posts_per_page=' . $count . '&offset=' . ($count * ($page-1) . '&orderby=modified'));
 
 		$post = $GLOBALS['post'];
 		$posts = $GLOBALS['posts'];

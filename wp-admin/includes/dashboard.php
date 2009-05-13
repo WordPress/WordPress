@@ -367,7 +367,6 @@ function wp_dashboard_quick_press() {
 			printf( '<div class="message"><p>' . __( 'Draft Saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', clean_url( add_query_arg( 'preview', 1, $view ) ), $edit );
 			$drafts_query = new WP_Query( array(
 				'post_type' => 'post',
-				'what_to_show' => 'posts',
 				'post_status' => 'draft',
 				'author' => $GLOBALS['current_user']->ID,
 				'posts_per_page' => 1,
@@ -434,7 +433,6 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	if ( !$drafts ) {
 		$drafts_query = new WP_Query( array(
 			'post_type' => 'post',
-			'what_to_show' => 'posts',
 			'post_status' => 'draft',
 			'author' => $GLOBALS['current_user']->ID,
 			'posts_per_page' => 5,

@@ -212,7 +212,6 @@ function populate_options() {
 	'default_pingback_flag' => 1,
 	'default_post_edit_rows' => 10,
 	'posts_per_page' => 10,
-	'what_to_show' => 'posts',
 	/* translators: default date format, see http://php.net/date */
 	'date_format' => __('F j, Y'),
 	/* translators: default time format, see http://php.net/date */
