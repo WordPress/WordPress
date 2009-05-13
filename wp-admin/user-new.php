@@ -87,6 +87,7 @@ foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name
 	if ( ! isset($$var) )
 		$$var = isset($_POST[$post_field]) ? stripslashes($_POST[$post_field]) : '';
 }
+$new_user_send_password = !$_POST || isset($_POST['send_password']);
 ?>
 <table class="form-table">
 	<tr class="form-field form-required">
@@ -116,6 +117,10 @@ foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name
 		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
 		<br />
 		<input name="pass2" type="password" id="pass2" autocomplete="off"/></td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="send_password"><?php _e('Send Password?') ?></label></th>
+		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" <?php checked($new_user_send_password, true); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
 	</tr>
 <?php endif; ?>
 

@@ -183,7 +183,7 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( get_object_vars( $user ));
 	} else {
 		$user_id = wp_insert_user( get_object_vars( $user ));
-		wp_new_user_notification( $user_id );
+		wp_new_user_notification( $user_id, isset($_POST['send_password']) ? $pass1 : '' );
 	}
 	return $user_id;
 }
