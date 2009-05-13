@@ -1060,7 +1060,8 @@ function debug_fclose( $fp ) {
 /**
  * Check content for video and audio links to add as enclosures.
  *
- * Will not add enclosures that have already been added. This is called as
+ * Will not add enclosures that have already been added and will
+ * remove enclosures that are no longer in the post. This is called as
  * pingbacks and trackbacks.
  *
  * @package WordPress
@@ -1090,6 +1091,12 @@ function do_enclose( $content, $post_ID ) {
 
 	debug_fwrite( $log, 'Post contents:' );
 	debug_fwrite( $log, $content . "\n" );
+
+	foreach ( $pung as $link_test ) {
+		if ( !in_array( $link_test, $post_links_temp[0] ) ) { // link no longer in post
+			$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, $link_test . '%') );
+		}
+	}
 
 	foreach ( (array) $post_links_temp[0] as $link_test ) {
 		if ( !in_array( $link_test, $pung ) ) { // If we haven't pung it already
