@@ -88,8 +88,12 @@ function edit_user( $user_id = 0 ) {
 	if ( isset( $_POST['email'] ))
 		$user->user_email = wp_specialchars( trim( $_POST['email'] ));
 	if ( isset( $_POST['url'] ) ) {
-		$user->user_url = clean_url( trim( $_POST['url'] ));
-		$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
+		if ( empty ( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
+			$user->user_url = '';
+		} else {
+			$user->user_url = clean_url( trim( $_POST['url'] ));
+			$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
+		}
 	}
 	if ( isset( $_POST['first_name'] ))
 		$user->first_name = wp_specialchars( trim( $_POST['first_name'] ));
