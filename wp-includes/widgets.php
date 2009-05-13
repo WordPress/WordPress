@@ -1190,3 +1190,31 @@ function register_widget_control($name, $control_callback, $width = '', $height 
 function unregister_widget_control($id) {
 	return wp_unregister_widget_control($id);
 }
+
+/**
+ * Output an arbitrary widget as a template tag
+ *
+ * @since 2.8
+ *
+ * @param string $widget the widget's PHP class name (see default-widgets.php)
+ * @param array $instance the widget's instance settings
+ * @param array $args the widget's sidebar args
+ * @return void
+ **/
+
+function the_widget($widget, $instance = array(), $args = array()) {
+	global $wp_widget_factory;
+
+	$widget_obj = $wp_widget_factory->widgets[$widget];
+	if ( !is_a($widget_obj, 'WP_Widget') )
+		return;
+
+	$before_widget = sprintf('<div class="widget %s">', $widget_obj->widget_options['classname']);
+	$default_args = array('before_widget' => $before_widget, 'after_widget' => "</div>", 'before_title' => '<h2 class="widgettitle">', 'after_title' => '</h2>');
+
+	$args = wp_parse_args($args, $default_args);
+	$instance = wp_parse_args($instance);
+
+	$widget_obj->_set(-1);
+	$widget_obj->widget($args, $instance);
+}
