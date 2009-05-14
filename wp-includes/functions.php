@@ -3114,7 +3114,7 @@ function wp_timezone_choice($selectedzone) {
 	if ( ! $mo_loaded ) {
 		$locale = get_locale();
 		$mofile = WP_LANG_DIR . "/continents-cities-$locale.mo";
-		load_textdomain('default', $mofile);
+		load_textdomain('continents-cities', $mofile);
 		$mo_loaded = true;
 	}
 
@@ -3133,12 +3133,12 @@ function wp_timezone_choice($selectedzone) {
 
 	usort($zonen, create_function(
 		'$a, $b', '
-		$a_continent = translate($a["continent"]);
-		$b_continent = translate($b["continent"]);
-		$a_city = translate($a["city"]);
-		$b_city = translate($b["city"]);
-		$a_subcity = translate($a["subcity"]);
-		$b_subcity = translate($b["subcity"]);
+		$a_continent = translate($a["continent"], "continents-cities");
+		$b_continent = translate($b["continent"], "continents-cities");
+		$a_city = translate($a["city"], "continents-cities");
+		$b_city = translate($b["city"], "continents-cities");
+		$a_subcity = translate($a["subcity"], "continents-cities");
+		$b_subcity = translate($b["subcity"], "continents-cities");
 		if ( $a_continent == $b_continent && $a_city == $b_city )
 			return strnatcasecmp($a_subcity, $b_subcity);
 		elseif ( $a_continent == $b_continent )
@@ -3156,7 +3156,7 @@ function wp_timezone_choice($selectedzone) {
 		extract($zone);
 		if ( empty($selectcontinent) && !empty($city) ) {
 			$selectcontinent = $continent;
-			$structure .= '<optgroup label="'. esc_attr( translate( $continent ) ) .'">' . "\n"; // continent
+			$structure .= '<optgroup label="'. esc_attr( translate( $continent, "continents-cities" ) ) .'">' . "\n"; // continent
 		} elseif ( !empty($selectcontinent) && $selectcontinent != $continent ) {
 			$structure .= "</optgroup>\n";
 			$selectcontinent = '';
@@ -3168,10 +3168,10 @@ function wp_timezone_choice($selectedzone) {
 
 		if ( !empty($city) ) {
 			$display = str_replace('_',' ',$city);
-			$display = translate($display);
+			$display = translate($display, "continents-cities");
 			if ( !empty($subcity) ) {
 				$display_subcity = str_replace('_', ' ', $subcity);
-				$display_subcity = translate($display_subcity);
+				$display_subcity = translate($display_subcity, "continents-cities");
 				$city = $city . '/'. $subcity;
 				$display = $display . '/' . $display_subcity;
 			}
@@ -3179,7 +3179,7 @@ function wp_timezone_choice($selectedzone) {
 				$display = strtr($display, '+-', '-+');
 			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected"':'')." value=\"".($continent.'/'.$city)."\">$pad".$display."</option>\n"; //Timezone
 		} else {
-			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected"':'')." value=\"".$continent."\">" . translate($continent) . "</option>\n"; //Timezone
+			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected"':'')." value=\"".$continent."\">" . translate($continent, "continents-cities") . "</option>\n"; //Timezone
 		}
 	}
 
