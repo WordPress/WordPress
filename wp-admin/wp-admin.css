@@ -1371,12 +1371,12 @@ table.form-table td .updated {
 p.description,
 .form-wrap p {
 	margin: 2px 0 5px;
-	font-size: 11px;
 }
 
 p.help,
 .description,
 .form-wrap p {
+	font-size: 12px;
 	font-style: italic;
 	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
@@ -2134,6 +2134,14 @@ body.wp-admin {
 
 #templateside ul li a {
 	text-decoration: none;
+}
+
+.indicator-hint {
+	padding-top: 8px;
+}
+
+#display_name {
+	width: 15em;
 }
 
 .tablenav .delete {

@@ -91,8 +91,9 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 ?>
 <table class="form-table">
 	<tr class="form-field form-required">
-		<th scope="row"><label for="user_login"><?php _e('Username (required)') ?></label><input name="action" type="hidden" id="action" value="adduser" /></th>
-		<td ><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr($new_user_login); ?>" aria-required="true" /></td>
+		<th scope="row"><label for="user_login"><?php _e('Username'); ?> <span class="description"><?php _e('(required)'); ?></span></label>
+		<input name="action" type="hidden" id="action" value="adduser" /></th>
+		<td><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr($new_user_login); ?>" aria-required="true" /></td>
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="first_name"><?php _e('First Name') ?> </label></th>
@@ -103,7 +104,7 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 		<td><input name="last_name" type="text" id="last_name" value="<?php echo esc_attr($new_user_lastname); ?>" /></td>
 	</tr>
 	<tr class="form-field form-required">
-		<th scope="row"><label for="email"><?php _e('E-mail (required)') ?></label></th>
+		<th scope="row"><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 		<td><input name="email" type="text" id="email" value="<?php echo esc_attr($new_user_email); ?>" /></td>
 	</tr>
 	<tr class="form-field">
@@ -113,7 +114,7 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
 	<tr class="form-field form-required">
-		<th scope="row"><label for="pass1"><?php _e('Password (twice)') ?> </label></th>
+		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php _e('(twice, required)'); ?></span></label></th>
 		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
 		<br />
 		<input name="pass2" type="password" id="pass2" autocomplete="off"/></td>

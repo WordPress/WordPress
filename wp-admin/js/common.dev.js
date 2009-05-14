@@ -247,11 +247,11 @@ jQuery(document).ready( function($) {
 		gf = new GearsFactory();
 	} else {
 		try {
-			gf = new ActiveXObject('Gears.Factory');
-			if ( factory.getBuildInfo().indexOf('ie_mobile') != -1 )
-				gf.privateSetGlobalObject(this);
-		} catch (e) {
-			if ( ( 'undefined' != typeof navigator.mimeTypes ) && navigator.mimeTypes['application/x-googlegears'] ) {
+			if ( window.ActiveXObject ) {
+				gf = new ActiveXObject('Gears.Factory');
+				if ( gf && gf.getBuildInfo().indexOf('ie_mobile') != -1 )
+					gf.privateSetGlobalObject(this);
+			} else if ( ( 'undefined' != typeof navigator.mimeTypes ) && navigator.mimeTypes['application/x-googlegears'] ) {
 				gf = document.createElement("object");
 				gf.style.display = "none";
 				gf.width = 0;
@@ -259,7 +259,7 @@ jQuery(document).ready( function($) {
 				gf.type = "application/x-googlegears";
 				document.documentElement.appendChild(gf);
 			}
-		}
+		} catch(e){}
 	}
 	if ( gf && gf.hasPermission )
 		return;

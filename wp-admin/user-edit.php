@@ -14,74 +14,8 @@ if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE )
 else
 	$is_profile_page = false;
 
-/**
- * Display JavaScript for profile page.
- *
- * @since 2.5.0
- */
-function profile_js ( ) {
-?>
-<script type="text/javascript">
-(function($){
-
-	function check_pass_strength () {
-
-		var pass = $('#pass1').val();
-		var user = $('#user_login').val();
-
-		$('#pass-strength-result').removeClass('short bad good strong');
-		if ( ! pass ) {
-			$('#pass-strength-result').html( pwsL10n.empty );
-			return;
-		}
-
-		var strength = passwordStrength(pass, user);
-
-		if ( 2 == strength )
-			$('#pass-strength-result').addClass('bad').html( pwsL10n.bad );
-		else if ( 3 == strength )
-			$('#pass-strength-result').addClass('good').html( pwsL10n.good );
-		else if ( 4 == strength )
-			$('#pass-strength-result').addClass('strong').html( pwsL10n.strong );
-		else
-			// this catches 'Too short' and the off chance anything else comes along
-			$('#pass-strength-result').addClass('short').html( pwsL10n.short );
-
-	}
-
-	$(document).ready( function() {
-		$('#pass1').val('').keyup( check_pass_strength );
-		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
-		$('#nickname').change(function(){
-			$('#display_name').fadeOut('normal',function(){
-				$(this).fadeIn();
-				$('#display_nickname').html($('#nickname').val()).val($('#nickname').val());
-			});
-		});
-		$('#first_name').change(function(){
-			$('#display_name').fadeOut('normal',function(){
-				$('#display_firstname').html($('#first_name').val()).val($('#first_name').val());
-				$('#display_firstlast').html($('#first_name').val()+' '+$('#last_name').val()).val($('#first_name').val()+' '+$('#last_name').val());
-				$('#display_lastfirst').html($('#last_name').val()+' '+$('#first_name').val()).val($('#last_name').val()+' '+$('#first_name').val());
-				$(this).fadeIn();
-			});
-		});
-		$('#last_name').change(function(){
-			$('#display_name').fadeOut('normal',function(){
-				$('#display_firstlast').html($('#first_name').val()+' '+$('#last_name').val()).val($('#first_name').val()+' '+$('#last_name').val());
-				$('#display_lastfirst').html($('#last_name').val()+' '+$('#first_name').val()).val($('#last_name').val()+' '+$('#first_name').val());
-				$(this).fadeIn();
-			});
-		});
-    });
-})(jQuery);
-</script>
-<?php
-}
-
 if ( $is_profile_page ) {
-	add_action('admin_head', 'profile_js');
-	wp_enqueue_script('jquery');
+	wp_enqueue_script('user-profile');
 	wp_enqueue_script('password-strength-meter');
 }
 
@@ -248,7 +182,7 @@ do_action('personal_options', $profileuser);
 <table class="form-table">
 	<tr>
 		<th><label for="user_login"><?php _e('Username'); ?></label></th>
-		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <?php _e('Your username cannot be changed.'); ?></td>
+		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e('Your username cannot be changed.'); ?></span></td>
 	</tr>
 
 <?php if ( !$is_profile_page ): ?>
@@ -283,21 +217,26 @@ else
 </tr>
 
 <tr>
-	<th><label for="nickname"><?php _e('Nickname') ?></label></th>
+	<th><label for="nickname"><?php _e('Nickname'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="text" name="nickname" id="nickname" value="<?php echo esc_attr($profileuser->nickname) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
-	<th><label for="display_name"><?php _e('Display name publicly&nbsp;as') ?></label></th>
+	<th><label for="display_name"><?php _e('Display name publicly as') ?></label></th>
 	<td>
 		<select name="display_name" id="display_name">
 		<?php
 			$public_display = array();
 			$public_display['display_nickname']  = $profileuser->nickname;
 			$public_display['display_username']  = $profileuser->user_login;
-			$public_display['display_firstname'] = $profileuser->first_name;
-			$public_display['display_firstlast'] = $profileuser->first_name . ' ' . $profileuser->last_name;
-			$public_display['display_lastfirst'] = $profileuser->last_name . ' ' . $profileuser->first_name;
+			if ( !empty($profileuser->first_name) )
+				$public_display['display_firstname'] = $profileuser->first_name;
+			if ( !empty($profileuser->last_name) )
+				$public_display['display_lastname'] = $profileuser->last_name;
+			if ( !empty($profileuser->first_name) && !empty($profileuser->last_name) ) {
+				$public_display['display_firstlast'] = $profileuser->first_name . ' ' . $profileuser->last_name;
+				$public_display['display_lastfirst'] = $profileuser->last_name . ' ' . $profileuser->first_name;
+			}
 			if ( !in_array( $profileuser->display_name, $public_display ) )// Only add this if it isn't duplicated elsewhere
 				$public_display = array( 'display_displayname' => $profileuser->display_name ) + $public_display;
 			$public_display = array_map( 'trim', $public_display );
@@ -316,8 +255,8 @@ else
 
 <table class="form-table">
 <tr>
-	<th><label for="email"><?php _e('E-mail') ?></label></th>
-	<td><input type="text" name="email" id="email" value="<?php echo esc_attr($profileuser->user_email) ?>" class="regular-text" /> <?php _e('Required.');?></td>
+	<th><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
+	<td><input type="text" name="email" id="email" value="<?php echo esc_attr($profileuser->user_email) ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
@@ -346,7 +285,8 @@ else
 <table class="form-table">
 <tr>
 	<th><label for="description"><?php _e('Biographical Info'); ?></label></th>
-	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea><br /><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></td>
+	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea><br />
+	<span class="description"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></span></td>
 </tr>
 
 <?php
@@ -355,13 +295,12 @@ if ( $show_password_fields ) :
 ?>
 <tr id="password">
 	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
-	<td><input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
-		<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" /> <?php _e("Type your new password again."); ?><br />
+	<td><input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" /> <span class="description"><?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?></span><br />
+		<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" /> <span class="description"><?php _e("Type your new password again."); ?></span><br />
 	<?php if ( $is_profile_page ): ?>
 		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-		<p><?php _e('Hint: Your password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
-	<?php endif; ?>
-	</td>
+		<p class="description indicator-hint"><?php _e('Hint: Your password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+	<?php endif; ?></td>
 </tr>
 <?php endif; ?>
 </table>
