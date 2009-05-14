@@ -3094,9 +3094,9 @@ function wp_timezone_supported() {
 		&& function_exists('timezone_open')
 		&& function_exists('timezone_offset_get')
 		)
-		return true;
+		return apply_filters('timezone_support',true);
 
-	return false;
+	return apply_filters('timezone_support',false);
 }
 
 /**
