@@ -424,10 +424,11 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090509' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
-	$styles->add( 'colors', true, array(), '20090509' ); // Register "meta" stylesheet for admin colors
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081210'); // for login.php.  Is there a better way?
+	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
+	$styles->add( 'colors', true, array(), '20090514' );
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20090514'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
-	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081210');
+	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20090514');
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090504' );
