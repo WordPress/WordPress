@@ -41,7 +41,7 @@ if ( 0 == $post_ID) {
 	$nonce_action = 'update-page_' . $post_ID;
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 	$autosave = wp_get_post_autosave( $post_ID );
-	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) )
+	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) )
 		$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
 }
 

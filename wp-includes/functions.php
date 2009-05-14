@@ -122,7 +122,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 	}
 	$j = @$datefunc( $dateformatstring, $i );
 	// allow plugins to redo this entirely for languages with untypical grammars
-	$j = apply_filters('date_i18n', $j, $req_format, $unixtimestamp, $gmt);
+	$j = apply_filters('date_i18n', $j, $req_format, $i, $gmt);
 	return $j;
 }
 

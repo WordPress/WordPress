@@ -1177,7 +1177,7 @@ function allowed_tags() {
  */
 function the_date_xml() {
 	global $post;
-	echo mysql2date('Y-m-d', $post->post_date);
+	echo mysql2date('Y-m-d', $post->post_date, false);
 }
 
 /**
@@ -1236,9 +1236,9 @@ function the_modified_date($d = '') {
  */
 function get_the_modified_date($d = '') {
 	if ( '' == $d )
-		$the_time = get_post_modified_time(get_option('date_format'));
+		$the_time = get_post_modified_time(get_option('date_format'), null, null, true);
 	else
-		$the_time = get_post_modified_time($d);
+		$the_time = get_post_modified_time($d, null, null, true);
 	return apply_filters('get_the_modified_date', $the_time, $d);
 }
 
@@ -1266,9 +1266,9 @@ function get_the_time( $d = '', $post = null ) {
 	$post = get_post($post);
 
 	if ( '' == $d )
-		$the_time = get_post_time(get_option('time_format'), false, $post);
+		$the_time = get_post_time(get_option('time_format'), false, $post, true);
 	else
-		$the_time = get_post_time($d, false, $post);
+		$the_time = get_post_time($d, false, $post, true);
 	return apply_filters('get_the_time', $the_time, $d, $post);
 }
 
@@ -1280,9 +1280,10 @@ function get_the_time( $d = '', $post = null ) {
  * @param string $d Either 'G', 'U', or php date format.
  * @param bool $gmt Whether of not to return the gmt time.
  * @param int|object $post Optional post ID or object. Default is global $post object.
+ * @param bool $translate Whether to translate the time string or not
  * @return string
  */
-function get_post_time( $d = 'U', $gmt = false, $post = null ) { // returns timestamp
+function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) { // returns timestamp
 	$post = get_post($post);
 
 	if ( $gmt )
@@ -1290,7 +1291,7 @@ function get_post_time( $d = 'U', $gmt = false, $post = null ) { // returns time
 	else
 		$time = $post->post_date;
 
-	$time = mysql2date($d, $time);
+	$time = mysql2date($d, $time, $translate);
 	return apply_filters('get_post_time', $time, $d, $gmt);
 }
 
@@ -1315,9 +1316,9 @@ function the_modified_time($d = '') {
  */
 function get_the_modified_time($d = '') {
 	if ( '' == $d )
-		$the_time = get_post_modified_time(get_option('time_format'));
+		$the_time = get_post_modified_time(get_option('time_format'), null, null, true);
 	else
-		$the_time = get_post_modified_time($d);
+		$the_time = get_post_modified_time($d, null, null, true);
 	return apply_filters('get_the_modified_time', $the_time, $d);
 }
 
@@ -1328,16 +1329,18 @@ function get_the_modified_time($d = '') {
  *
  * @param string $d Either 'G', 'U', or php date format.
  * @param bool $gmt Whether of not to return the gmt time.
+ * @param int|object $post A post_id or post object
+ * @param bool translate Whether to translate the result or not
  * @return string Returns timestamp
  */
-function get_post_modified_time( $d = 'U', $gmt = false ) {
-	global $post;
+function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
+	$post = get_post($post);
 
 	if ( $gmt )
 		$time = $post->post_modified_gmt;
 	else
 		$time = $post->post_modified;
-	$time = mysql2date($d, $time);
+	$time = mysql2date($d, $time, $translate);
 
 	return apply_filters('get_the_modified_time', $time, $d, $gmt);
 }
@@ -1351,7 +1354,7 @@ function get_post_modified_time( $d = 'U', $gmt = false ) {
  */
 function the_weekday() {
 	global $wp_locale, $post;
-	$the_weekday = $wp_locale->get_weekday(mysql2date('w', $post->post_date));
+	$the_weekday = $wp_locale->get_weekday(mysql2date('w', $post->post_date, false));
 	$the_weekday = apply_filters('the_weekday', $the_weekday);
 	echo $the_weekday;
 }
@@ -1372,7 +1375,7 @@ function the_weekday_date($before='',$after='') {
 	$the_weekday_date = '';
 	if ( $day != $previousweekday ) {
 		$the_weekday_date .= $before;
-		$the_weekday_date .= $wp_locale->get_weekday(mysql2date('w', $post->post_date));
+		$the_weekday_date .= $wp_locale->get_weekday(mysql2date('w', $post->post_date, false));
 		$the_weekday_date .= $after;
 		$previousweekday = $day;
 	}

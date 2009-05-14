@@ -1106,7 +1106,7 @@ EOD;
 		$self_page = $page > 1 ? $page : NULL;
 ?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
 <id><?php $this->the_entries_url() ?></id>
-<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></updated>
+<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
 <title type="text"><?php bloginfo_rss('name') ?></title>
 <subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
 <link rel="first" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url() ?>" />

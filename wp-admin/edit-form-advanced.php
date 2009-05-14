@@ -41,7 +41,7 @@ if ( 0 == $post_ID ) {
 	$autosave = wp_get_post_autosave( $post_ID );
 
 	// Detect if there exists an autosave newer than the post and if that autosave is different than the post
-	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) ) {
+	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
 		foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
 			if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
 				$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );

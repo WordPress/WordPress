@@ -50,7 +50,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		?></title>
 		<link><?php comment_link() ?></link>
 		<dc:creator><?php echo get_comment_author_rss() ?></dc:creator>
-		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
+		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true, false), false); ?></pubDate>
 		<guid isPermaLink="false"><?php comment_guid() ?></guid>
 <?php if ( post_password_required($comment_post) ) : ?>
 		<description><?php echo ent2ncr(__('Protected Comments: Please enter your password to view comments.')); ?></description>

@@ -96,7 +96,7 @@ include('./admin-header.php');
 </tr>
 <tr>
 <?php
-if (!wp_timezone_supported()) : // no magic timezone support here
+if ( !wp_timezone_supported() ) : // no magic timezone support here
 ?>
 <th scope="row"><label for="gmt_offset"><?php _e('Timezone') ?> </label></th>
 <td>
@@ -124,7 +124,7 @@ foreach ( $offset_range as $offset ) {
 }
 ?>
 </select>
-<?php _e('hours') ?>
+<?php _e('hours'); ?>
 <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n( $time_format, false, 'gmt')); ?></span>
 <?php if ($current_offset) : ?>
 	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($time_format)); ?></span>

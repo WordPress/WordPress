@@ -1298,12 +1298,12 @@ function get_inline_data($post) {
 	<div class="comment_status">' . $post->comment_status . '</div>
 	<div class="ping_status">' . $post->ping_status . '</div>
 	<div class="_status">' . $post->post_status . '</div>
-	<div class="jj">' . mysql2date( 'd', $post->post_date ) . '</div>
-	<div class="mm">' . mysql2date( 'm', $post->post_date ) . '</div>
-	<div class="aa">' . mysql2date( 'Y', $post->post_date ) . '</div>
-	<div class="hh">' . mysql2date( 'H', $post->post_date ) . '</div>
-	<div class="mn">' . mysql2date( 'i', $post->post_date ) . '</div>
-	<div class="ss">' . mysql2date( 's', $post->post_date ) . '</div>
+	<div class="jj">' . mysql2date( 'd', $post->post_date, false ) . '</div>
+	<div class="mm">' . mysql2date( 'm', $post->post_date, false ) . '</div>
+	<div class="aa">' . mysql2date( 'Y', $post->post_date, false ) . '</div>
+	<div class="hh">' . mysql2date( 'H', $post->post_date, false ) . '</div>
+	<div class="mn">' . mysql2date( 'i', $post->post_date, false ) . '</div>
+	<div class="ss">' . mysql2date( 's', $post->post_date, false ) . '</div>
 	<div class="post_password">' . wp_specialchars($post->post_password, 1) . '</div>';
 
 	if( $post->post_type == 'page' )
@@ -2532,12 +2532,12 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
-	$jj = ($edit) ? mysql2date( 'd', $post_date ) : gmdate( 'd', $time_adj );
-	$mm = ($edit) ? mysql2date( 'm', $post_date ) : gmdate( 'm', $time_adj );
-	$aa = ($edit) ? mysql2date( 'Y', $post_date ) : gmdate( 'Y', $time_adj );
-	$hh = ($edit) ? mysql2date( 'H', $post_date ) : gmdate( 'H', $time_adj );
-	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
-	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
+	$jj = ($edit) ? mysql2date( 'd', $post_date, false ) : gmdate( 'd', $time_adj );
+	$mm = ($edit) ? mysql2date( 'm', $post_date, false ) : gmdate( 'm', $time_adj );
+	$aa = ($edit) ? mysql2date( 'Y', $post_date, false ) : gmdate( 'Y', $time_adj );
+	$hh = ($edit) ? mysql2date( 'H', $post_date, false ) : gmdate( 'H', $time_adj );
+	$mn = ($edit) ? mysql2date( 'i', $post_date, false ) : gmdate( 'i', $time_adj );
+	$ss = ($edit) ? mysql2date( 's', $post_date, false ) : gmdate( 's', $time_adj );
 
 	$cur_jj = gmdate( 'd', $time_adj );
 	$cur_mm = gmdate( 'm', $time_adj );

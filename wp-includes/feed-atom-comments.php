@@ -24,7 +24,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	?></title>
 	<subtitle type="text"><?php bloginfo_rss('description'); ?></subtitle>
 
-	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastcommentmodified('GMT')); ?></updated>
+	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastcommentmodified('GMT'), false); ?></updated>
 	<?php the_generator( 'atom' ); ?>
 
 <?php if ( is_singular() ) { ?>
@@ -65,8 +65,8 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		</author>
 
 		<id><?php comment_guid(); ?></id>
-		<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_comment_time('Y-m-d H:i:s', true), false); ?></updated>
-		<published><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_comment_time('Y-m-d H:i:s', true), false); ?></published>
+		<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_comment_time('Y-m-d H:i:s', true, false), false); ?></updated>
+		<published><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_comment_time('Y-m-d H:i:s', true, false), false); ?></published>
 <?php if ( post_password_required($comment_post) ) : ?>
 		<content type="html" xml:base="<?php comment_link(); ?>"><![CDATA[<?php echo get_the_password_form(); ?>]]></content>
 <?php else : // post pass ?>

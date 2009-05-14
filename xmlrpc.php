@@ -523,8 +523,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$allow_pings = pings_open($page->ID) ? 1 : 0;
 
 			// Format page date.
-			$page_date = mysql2date("Ymd\TH:i:s", $page->post_date);
-			$page_date_gmt = mysql2date("Ymd\TH:i:s", $page->post_date_gmt);
+			$page_date = mysql2date("Ymd\TH:i:s", $page->post_date, false);
+			$page_date_gmt = mysql2date("Ymd\TH:i:s", $page->post_date_gmt, false);
 
 			// Pull the categories info together.
 			$categories = array();
@@ -799,8 +799,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// The date needs to be formated properly.
 		$num_pages = count($page_list);
 		for($i = 0; $i < $num_pages; $i++) {
-			$post_date = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date);
-			$post_date_gmt = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date_gmt);
+			$post_date = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date, false);
+			$post_date_gmt = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date_gmt, false);
 
 			$page_list[$i]->dateCreated = new IXR_Date($post_date);
 			$page_list[$i]->date_created_gmt = new IXR_Date($post_date_gmt);
@@ -1047,8 +1047,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 
 		// Format page date.
-		$comment_date = mysql2date("Ymd\TH:i:s", $comment->comment_date);
-		$comment_date_gmt = mysql2date("Ymd\TH:i:s", $comment->comment_date_gmt);
+		$comment_date = mysql2date("Ymd\TH:i:s", $comment->comment_date, false);
+		$comment_date_gmt = mysql2date("Ymd\TH:i:s", $comment->comment_date_gmt, false);
 
 		if ( 0 == $comment->comment_approved )
 			$comment_status = 'hold';
@@ -1679,7 +1679,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$struct = array(
 			'userid'    => $post_data['post_author'],
-			'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s', $post_data['post_date'])),
+			'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s', $post_data['post_date'], false)),
 			'content'     => $content,
 			'postid'  => $post_data['ID']
 		);
@@ -1721,7 +1721,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
 
-			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);
 			$categories = implode(',', wp_get_post_categories($entry['ID']));
 
 			$content  = '<title>'.stripslashes($entry['post_title']).'</title>';
@@ -2571,8 +2571,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$postdata = wp_get_single_post($post_ID, ARRAY_A);
 
 		if ($postdata['post_date'] != '') {
-			$post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date']);
-			$post_date_gmt = mysql2date('Ymd\TH:i:s', $postdata['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date'], false);
+			$post_date_gmt = mysql2date('Ymd\TH:i:s', $postdata['post_date_gmt'], false);
 
 			$categories = array();
 			$catids = wp_get_post_categories($post_ID);
@@ -2687,8 +2687,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			if( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
 
-			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
-			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);
+			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt'], false);
 
 			$categories = array();
 			$catids = wp_get_post_categories($entry['ID']);
@@ -2922,8 +2922,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			if( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
 
-			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
-			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);
+			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt'], false);
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),

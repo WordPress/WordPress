@@ -353,7 +353,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 function get_comment_date( $d = '' ) {
 	global $comment;
 	if ( '' == $d )
-		$date = mysql2date( get_option('date_format'), $comment->comment_date);
+		$date = mysql2date(get_option('date_format'), $comment->comment_date);
 	else
 		$date = mysql2date($d, $comment->comment_date);
 	return apply_filters('get_comment_date', $date, $d);
@@ -591,15 +591,16 @@ function comment_text() {
  *
  * @param string $d Optional. The format of the time (defaults to user's config)
  * @param bool $gmt Whether to use the GMT date
+ * @param bool $translate Whether to translate the time (for use in feeds)
  * @return string The formatted time
  */
-function get_comment_time( $d = '', $gmt = false ) {
+function get_comment_time( $d = '', $gmt = false, $translate = true ) {
 	global $comment;
 	$comment_date = $gmt? $comment->comment_date_gmt : $comment->comment_date;
 	if ( '' == $d )
-		$date = mysql2date(get_option('time_format'), $comment_date);
+		$date = mysql2date(get_option('time_format'), $comment_date, $translate);
 	else
-		$date = mysql2date($d, $comment_date);
+		$date = mysql2date($d, $comment_date, $translate);
 	return apply_filters('get_comment_time', $date, $d, $gmt);
 }
 

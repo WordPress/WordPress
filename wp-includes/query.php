@@ -2660,8 +2660,8 @@ function setup_postdata($post) {
 
 	$authordata = get_userdata($post->post_author);
 
-	$day = mysql2date('d.m.y', $post->post_date);
-	$currentmonth = mysql2date('m', $post->post_date);
+	$day = mysql2date('d.m.y', $post->post_date, false);
+	$currentmonth = mysql2date('m', $post->post_date, false);
 	$numpages = 1;
 	$page = get_query_var('page');
 	if ( !$page )

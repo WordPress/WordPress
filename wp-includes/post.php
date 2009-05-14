@@ -1467,7 +1467,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	if ( 'publish' == $post_status ) {
 		$now = gmdate('Y-m-d H:i:59');
-		if ( mysql2date('U', $post_date_gmt) > mysql2date('U', $now) )
+		if ( mysql2date('U', $post_date_gmt, false) > mysql2date('U', $now, false) )
 			$post_status = 'future';
 	}
 
