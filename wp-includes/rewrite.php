@@ -1822,13 +1822,7 @@ class WP_Rewrite {
 		$this->use_trailing_slashes = ( substr($this->permalink_structure, -1, 1) == '/' ) ? true : false;
 
 		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
-		$structure = ltrim($this->permalink_structure, '/');
-		if ( $this->using_index_permalinks() )
-			$structure = ltrim($this->permalink_structure, $this->index . '/');
-		if ( 0 === strpos($structure, '%postname%') ||
-			 0 === strpos($structure, '%category%') ||
-			 0 === strpos($structure, '%tag%') ||
-			 0 === strpos($structure, '%author%') )
+		if ( preg_match("/^[^%]*%(?:postname|category|tag|author)%/", $this->permalink_structure) )
 			 $this->use_verbose_page_rules = true;
 		else
 			$this->use_verbose_page_rules = false;
