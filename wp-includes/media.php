@@ -684,7 +684,7 @@ function gallery_shortcode($attr) {
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
 			$output .= "
 				<{$captiontag} class='gallery-caption'>
-				" . wp_specialchars($attachment->post_excerpt) . "
+				" . wptexturize($attachment->post_excerpt) . "
 				</{$captiontag}>";
 		}
 		$output .= "</{$itemtag}>";
