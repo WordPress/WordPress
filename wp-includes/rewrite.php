@@ -1840,6 +1840,9 @@ class WP_Rewrite {
 	 * Will update the 'permalink_structure' option, if there is a difference
 	 * between the current permalink structure and the parameter value. Calls
 	 * {@link WP_Rewrite::init()} after the option is updated.
+	 * 
+	 * Fires the 'permalink_structure_changed' action once the init call has
+	 * processed passing the old and new values
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -1850,6 +1853,7 @@ class WP_Rewrite {
 		if ($permalink_structure != $this->permalink_structure) {
 			update_option('permalink_structure', $permalink_structure);
 			$this->init();
+			do_action('permalink_structure_changed', $this->permalink_structure, $permalink_structure);
 		}
 	}
 
