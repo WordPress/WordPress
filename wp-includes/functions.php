@@ -3106,7 +3106,17 @@ function wp_timezone_supported() {
  *
  */
 function wp_timezone_choice($selectedzone) {
+	static $mo_loaded = false;
+
 	$continents = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc');
+
+	// Load translations for continents and cities
+	if ( ! $mo_loaded ) {
+		$locale = get_locale();
+		$mofile = WP_LANG_DIR . "/continents-cities-$locale.mo";
+		load_textdomain('default', $mofile);
+		$mo_loaded = true;
+	}
 
 	$all = timezone_identifiers_list();
 
@@ -3123,12 +3133,18 @@ function wp_timezone_choice($selectedzone) {
 
 	usort($zonen, create_function(
 		'$a, $b', '
-		if ( $a["continent"] == $b["continent"] && $a["city"] == $b["city"] )
-			return strnatcasecmp($a["subcity"], $b["subcity"]);
-		elseif ( $a["continent"] == $b["continent"] )
-			return strnatcasecmp($a["city"], $b["city"]);
+		$a_continent = translate($a["continent"]);
+		$b_continent = translate($b["continent"]);
+		$a_city = translate($a["city"]);
+		$b_city = translate($b["city"]);
+		$a_subcity = translate($a["subcity"]);
+		$b_subcity = translate($b["subcity"]);
+		if ( $a_continent == $b_continent && $a_city == $b_city )
+			return strnatcasecmp($a_subcity, $b_subcity);
+		elseif ( $a_continent == $b_continent )
+			return strnatcasecmp($a_city, $b_city);
 		else
-			return strnatcasecmp($a["continent"], $b["continent"]);
+			return strnatcasecmp($a_continent, $b_continent);
 		'));
 	
 	$structure = '';
@@ -3151,11 +3167,14 @@ function wp_timezone_choice($selectedzone) {
 		}
 
 		if ( !empty($city) ) {
-			if ( !empty($subcity) ) {
-				$city = $city . '/'. $subcity;
-			}
 			$display = str_replace('_',' ',$city);
 			$display = translate($display);
+			if ( !empty($subcity) ) {
+				$display_subcity = str_replace('_', ' ', $subcity);
+				$display_subcity = translate($display_subcity);
+				$city = $city . '/'. $subcity;
+				$display = $display . '/' . $display_subcity;
+			}
 			if ( $continent == 'Etc' )
 				$display = strtr($display, '+-', '-+');
 			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected"':'')." value=\"".($continent.'/'.$city)."\">$pad".$display."</option>\n"; //Timezone
