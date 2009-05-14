@@ -187,7 +187,7 @@ function wp_login_url($redirect = '') {
 	$login_url = site_url('wp-login.php', 'login');
 
 	if ( !empty($redirect) ) {
-		$login_url = add_query_arg('redirect_to', $redirect, $login_url);
+		$login_url = add_query_arg('redirect_to', urlencode($redirect), $login_url);
 	}
 
 	return apply_filters('login_url', $login_url, $redirect);
