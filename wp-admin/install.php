@@ -136,8 +136,10 @@ switch($step) {
 	</tr>
 	<tr>
 		<th><?php _e('Password'); ?></th>
-		<td><code><?php echo $password; ?></code><br />
-			<?php echo '<p>'.__('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.').'</p>'; ?></td>
+		<td><?php if ( !empty( $password ) ) {
+						echo '<code>'. $password .'</code><br />';
+					}
+					echo '<p>'. $password_message .'</p>'; ?></td>
 	</tr>
 </table>
 

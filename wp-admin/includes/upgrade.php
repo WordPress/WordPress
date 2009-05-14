@@ -20,7 +20,7 @@ require_once(ABSPATH . 'wp-admin/includes/schema.php');
 
 if ( !function_exists('wp_install') ) :
 /**
- * {@internal Missing Short Description}}
+ * Installs the blog
  *
  * {@internal Missing Long Description}}
  *
@@ -31,7 +31,7 @@ if ( !function_exists('wp_install') ) :
  * @param string $user_email User's email.
  * @param bool $public Whether blog is public.
  * @param null $deprecated Optional. Not used.
- * @return array Array keys 'url', 'user_id', 'password'.
+ * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
  */
 function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='') {
 	global $wp_rewrite;
@@ -59,10 +59,12 @@ function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='
 	$user_id = username_exists($user_name);
 	if ( !$user_id ) {
 		$random_password = wp_generate_password();
+		$message = __('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.');
 		$user_id = wp_create_user($user_name, $random_password, $user_email);
 		update_usermeta($user_id, 'default_password_nag', true);
 	} else {
-		$random_password = __('User already exists.  Password inherited.');
+		$random_password = '';
+		$message =  __('User already exists.  Password inherited.');
 	}
 
 	$user = new WP_User($user_id);
@@ -76,7 +78,7 @@ function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='
 
 	wp_cache_flush();
 
-	return array('url' => $guessurl, 'user_id' => $user_id, 'password' => $random_password);
+	return array('url' => $guessurl, 'user_id' => $user_id, 'password' => $random_password, 'password_message' => $message);
 }
 endif;
 
