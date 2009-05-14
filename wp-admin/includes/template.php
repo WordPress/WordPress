@@ -1520,7 +1520,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'author':
 		?>
-		<td <?php echo $attributes ?>><a href="edit.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<td <?php echo $attributes ?>><a href="edit.php?author=<?php the_author_meta('ID'); ?>"><?php the_author() ?></a></td>
 		<?php
 		break;
 
@@ -1701,7 +1701,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'author':
 		?>
-		<td <?php echo $attributes ?>><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<td <?php echo $attributes ?>><a href="edit-pages.php?author=<?php the_author_meta('ID'); ?>"><?php the_author() ?></a></td>
 		<?php
 		break;
 
