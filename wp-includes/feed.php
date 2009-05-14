@@ -523,8 +523,8 @@ function feed_content_type( $type = '' ) {
 		$type = get_default_feed();
 
 	$types = array(
-		'rss'  => 'application/rss+xml',
-		'rss2' => 'application/rss+xml',
+		'rss'  => 'text/xml',
+		'rss2' => 'text/xml',
 		'atom' => 'application/atom+xml',
 		'rdf'  => 'application/rdf+xml',
 	);
