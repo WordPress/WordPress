@@ -2815,7 +2815,7 @@ abbr.required {
 
 #wpbody-content .describe p.help {
 	margin: 0;
-	padding: 0;
+	padding: 0 0 0 5px;
 }
 
 .describe-toggle-on, .describe-toggle-off {
