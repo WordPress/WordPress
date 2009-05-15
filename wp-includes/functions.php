@@ -2357,6 +2357,8 @@ function wp_die( $message, $title = '', $args = array() ) {
 
 	$defaults = array( 'response' => 500 );
 	$r = wp_parse_args($args, $defaults);
+	
+	$have_gettext = function_exists('__');
 
 	if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
 		if ( empty( $title ) ) {
@@ -2379,7 +2381,12 @@ function wp_die( $message, $title = '', $args = array() ) {
 	} elseif ( is_string( $message ) ) {
 		$message = "<p>$message</p>";
 	}
-
+	
+	if ( isset( $r['back_link'] ) && $r['back_link'] ) {
+		$back_text = $have_gettext? __('&laquo; Back') : '&laquo; Back';
+		$message .= "\n<p><a href='javascript:history.back()'>$back_text</p>";
+	}
+	
 	if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL )
 		$admin_dir = WP_SITEURL . '/wp-admin/';
 	elseif ( function_exists( 'get_bloginfo' ) && '' != get_bloginfo( 'wpurl' ) )
@@ -2395,12 +2402,9 @@ function wp_die( $message, $title = '', $args = array() ) {
 		nocache_headers();
 		header( 'Content-Type: text/html; charset=utf-8' );
 	}
-
+	
 	if ( empty($title) ) {
-		if ( function_exists( '__' ) )
-			$title = __( 'WordPress &rsaquo; Error' );
-		else
-			$title = 'WordPress &rsaquo; Error';
+		$title = $have_gettext? __('WordPress &rsaquo; Error') : 'WordPress &rsaquo; Error';
 	}
 
 ?>
