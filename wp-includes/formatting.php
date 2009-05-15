@@ -240,11 +240,11 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
 	} elseif ( $quote_style === 'single' ) {
 		$quote_style = ENT_NOQUOTES;
 	}
-
+	
 	// Handle double encoding ourselves
 	if ( !$double_encode ) {
 		$string = wp_specialchars_decode( $string, $_quote_style );
-		$string = preg_replace( '/&(#?x?[0-9]+|[a-z]+);/i', '|wp_entity|$1|/wp_entity|', $string );
+		$string = preg_replace( '/&(#?x?[0-9a-z]+);/i', '|wp_entity|$1|/wp_entity|', $string );
 	}
 
 	$string = @htmlspecialchars( $string, $quote_style, $charset );
