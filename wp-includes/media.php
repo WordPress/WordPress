@@ -610,6 +610,9 @@ add_shortcode('gallery', 'gallery_shortcode');
  */
 function gallery_shortcode($attr) {
 	global $post;
+	
+	static $instance = 0;
+	$instance++;
 
 	// Allow plugins/themes to override the default gallery template.
 	$output = apply_filters('post_gallery', '', $attr);
@@ -642,8 +645,8 @@ function gallery_shortcode($attr) {
 
 	if ( is_feed() ) {
 		$output = "\n";
-		foreach ( $attachments as $id => $attachment )
-			$output .= wp_get_attachment_link($id, $size, true) . "\n";
+		foreach ( $attachments as $att_id => $attachment )
+			$output .= wp_get_attachment_link($att_id, $size, true) . "\n";
 		return $output;
 	}
 
@@ -651,26 +654,28 @@ function gallery_shortcode($attr) {
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
+	
+	$selector = "gallery-{$instance}";
 
 	$output = apply_filters('gallery_style', "
 		<style type='text/css'>
-			.gallery {
+			#{$selector} {
 				margin: auto;
 			}
-			.gallery-item {
+			#{$selector} .gallery-item {
 				float: left;
 				margin-top: 10px;
 				text-align: center;
 				width: {$itemwidth}%;			}
-			.gallery img {
+			#{$selector} img {
 				border: 2px solid #cfcfcf;
 			}
-			.gallery-caption {
+			#{$selector} .gallery-caption {
 				margin-left: 0;
 			}
 		</style>
 		<!-- see gallery_shortcode() in wp-includes/media.php -->
-		<div class='gallery'>");
+		<div id='$selector' class='gallery galleryid-{$id}'>");
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
