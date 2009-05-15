@@ -1855,7 +1855,7 @@ class WP_Query {
 					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
 					$q['tag_slug__in'][] = $tag;
 				}
-			} else if ( preg_match('/[+\s]+/', $q['tag']) ) {
+			} else if ( preg_match('/[+\s]+/', $q['tag']) || !empty($q['cat']) ) {
 				$tags = preg_split('/[+\s]+/', $q['tag']);
 				foreach ( (array) $tags as $tag ) {
 					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
@@ -1871,7 +1871,7 @@ class WP_Query {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
-		if ( !empty($q['tag__in']) ) {
+		if ( !empty($q['tag__in']) && empty($q['cat']) ) {
 			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag__in']) . "'";
@@ -1881,7 +1881,7 @@ class WP_Query {
 				$q['tag_id'] = $reqtag['term_id'];
 		}
 
-		if ( !empty($q['tag_slug__in']) ) {
+		if ( !empty($q['tag_slug__in']) && empty($q['cat']) ) {
 			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) INNER JOIN $wpdb->terms ON ($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id) ";
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag_slug__in']) . "'";
@@ -1903,23 +1903,26 @@ class WP_Query {
 		}
 
 		// Tag and slug intersections.
-		$intersections = array('category__and' => 'category', 'tag__and' => 'post_tag', 'tag_slug__and' => 'post_tag');
+		$intersections = array('category__and' => 'category', 'tag__and' => 'post_tag', 'tag_slug__and' => 'post_tag', 'tag__in' => 'post_tag', 'tag_slug__in' => 'post_tag');
+		$tagin = array('tag__in', 'tag_slug__in'); // These are used to make some exceptions below
 		foreach ($intersections as $item => $taxonomy) {
 			if ( empty($q[$item]) ) continue;
-
+			if ( in_array($item, $tagin) && empty($q['cat']) ) continue; // We should already have what we need if categories aren't being used
+			
 			if ( $item != 'category__and' ) {
 				$reqtag = is_term( $q[$item][0], 'post_tag' );
 				if ( !empty($reqtag) )
 					$q['tag_id'] = $reqtag['term_id'];
 			}
 
-			$taxonomy_field = $item == 'tag_slug__and' ? 'slug' : 'term_id';
+			$taxonomy_field = $item == ('tag_slug__and' || 'tag_slug__in') ? 'slug' : 'term_id';
 
 			$q[$item] = array_unique($q[$item]);
 			$tsql = "SELECT p.ID FROM $wpdb->posts p INNER JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) INNER JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) INNER JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
 			$tsql .= " WHERE tt.taxonomy = '$taxonomy' AND t.$taxonomy_field IN ('" . implode("', '", $q[$item]) . "')";
-			$tsql .= " GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
-
+			if ( !in_array($item, $tagin) ) { // This next line is only helpful if we are doing an and relationship
+				$tsql .= " GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
+			}
 			$post_ids = $wpdb->get_col($tsql);
 
 			if ( count($post_ids) )
