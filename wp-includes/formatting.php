@@ -28,12 +28,14 @@
  */
 function wptexturize($text) {
 	global $wp_cockneyreplace;
-	$next = true;
-	$has_pre_parent = false;
 	$output = '';
 	$curl = '';
 	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$stop = count($textarr);
+	$no_texturize_tags = apply_filters('no_texturize_tags', array('pre', 'code', 'kbd', 'style', 'script', 'tt'));
+	$no_texturize_shortcodes = apply_filters('no_texturize_shortcodes', array('code'));
+	$no_texturize_tags_stack = array();
+	$no_texturize_shortcodes_stack = array();
 
 	// if a plugin has provided an autocorrect array, use it
 	if ( isset($wp_cockneyreplace) ) {
@@ -53,19 +55,15 @@ function wptexturize($text) {
 	for ( $i = 0; $i < $stop; $i++ ) {
 		$curl = $textarr[$i];
 
-		if ( !empty($curl) && '<' != $curl{0} && '[' != $curl{0} && $next && !$has_pre_parent) { // If it's not a tag
+		if ( !empty($curl) && '<' != $curl{0} && '[' != $curl{0}
+				&& empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack)) { // If it's not a tag
 			// static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
-		} elseif (strpos($curl, '<tt') !== false || strpos($curl, '<code') !== false || strpos($curl, '<kbd') !== false || strpos($curl, '<style') !== false || strpos($curl, '<script') !== false) {
-			$next = false;
-		} elseif (strpos($curl, '<pre') !== false) {
-			$has_pre_parent = true;
-		} elseif (strpos($curl, '</pre>') !== false) {
-			$has_pre_parent = false;
 		} else {
-			$next = true;
+			wptexturize_pushpop_element($curl, $no_texturize_tags_stack, $no_texturize_tags, '<', '>');
+			wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']');
 		}
 
 		$curl = preg_replace('/&([^#])(?![a-zA-Z1-4]{1,8};)/', '&#038;$1', $curl);
@@ -73,6 +71,21 @@ function wptexturize($text) {
 	}
 
 	return $output;
+}
+
+function wptexturize_pushpop_element($text, &$stack, $disabled_elements, $opening = '<', $closing = '>') {
+	$o = preg_quote($opening);
+	$c = preg_quote($closing);
+	foreach($disabled_elements as $element) {
+		if (preg_match('/^'.$o.$element.'\b/', $text)) array_push($stack, $element);
+		if (preg_match('/^'.$o.'\/'.$element.$c.'/', $text)) {
+			$last = array_pop($stack);
+			// disable texturize until we find a closing tag of our type (e.g. <pre>)
+			// even if there was invalid nesting before that
+			// Example: in the case <pre>sadsadasd</code>"baba"</pre> "baba" won't be texturized
+			if ($last != $element) array_push($stack, $last);
+		}
+	}
 }
 
 /**
