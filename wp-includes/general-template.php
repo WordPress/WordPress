@@ -1342,7 +1342,7 @@ function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translat
 		$time = $post->post_modified;
 	$time = mysql2date($d, $time, $translate);
 
-	return apply_filters('get_the_modified_time', $time, $d, $gmt);
+	return apply_filters('get_post_modified_time', $time, $d, $gmt);
 }
 
 /**
