@@ -1062,7 +1062,10 @@ case 'inline-save':
 	}
 
 	$data = &$_POST;
+	
 	$post = get_post( $post_ID, ARRAY_A );
+	$post = add_magic_quotes($post); //since it is from db
+	
 	$data['content'] = $post['post_content'];
 	$data['excerpt'] = $post['post_excerpt'];
 
@@ -1084,7 +1087,6 @@ case 'inline-save':
 		$data['ping_status'] = 'closed';
 
 	// update the post
-	$_POST = $data;
 	edit_post();
 
 	$post = array();
