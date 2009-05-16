@@ -396,8 +396,15 @@ class WP_Http {
 	 * 					Then a numbered array is returned as the value of that header-key.
 	 */
 	function processHeaders($headers) {
-		if ( is_string($headers) )
-			$headers = explode("\n", str_replace(array("\r\n", "\r"), "\n", $headers) );
+		// split headers, one per array element
+		if ( is_string($headers) ) {
+			// tolerate line terminator: CRLF = LF (RFC 2616 19.3)
+			$headers = str_replace("\r\n", "\n");
+			// unfold folded header fields. LWS = [CRLF] 1*( SP | HT ) <US-ASCII SP, space (32)>, <US-ASCII HT, horizontal-tab (9)> (RFC 2616 2.2)
+			$headers = preg_replace('/\n[ \t]/', ' ', $headers);
+			// create the headers array
+			$headers = explode("\n", $headers);
+		}
 
 		$response = array('code' => 0, 'message' => '');
 
