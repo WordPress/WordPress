@@ -119,7 +119,8 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php _e('(twice, required)'); ?></span></label></th>
 		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
 		<br />
-		<input name="pass2" type="password" id="pass2" autocomplete="off"/>
+		<input name="pass2" type="password" id="pass2" autocomplete="off" />
+		<br />
 		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
 		<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 		</td>
