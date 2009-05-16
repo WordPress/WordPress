@@ -3575,9 +3575,10 @@ function plugins_search_help() {
 
 function widgets_help() {
 	return '
-	<p>' .	__('Widgets can be added and arranged by dragging. If you hover your mouse over the title bar of a widget you&rsquo;ll notice the 4 arrow cursor appears to let you know it is movable. Click on it, hold down the mouse button and start dragging the widget to a sidebar. As you drag, notice the dotted gray box that also moves. This box indicates where the widget will be placed when you release the mouse button.') . '</p>
-	<p>' . __('Widgets can be removed from their settings. To show or hide the settings for a widget, click on the arrow that appears on the right of the widget title.') . '</p>
-	<p>' . __('The Inactive Widgets area stores all widgets that are configured but not curently used on the web site. After changing themes if the new theme has less sidebars than the old theme, all widgets that were in these sidebars will be transferred to Inactive Widgets.') . '</p>
+	<p>' . __('Widgets are added and arranged by simple drag &#8217;n&#8217; drop. If you hover your mouse over the titlebar of a widget, you&#8217;ll see a 4-arrow cursor which indicates that the widget is movable.  Click on the titlebar, hold down the mouse button and drag the widget to a sidebar. As you drag, you&#8217;ll see a dotted box that also moves. This box shows where the widget will go once you drop it.') . '</p>
+	<p>' . __('To remove a widget from a sidebar, click on the arrow on its titlebar to reveal its settings, and then click Remove.') . '</p>
+	<p>' . __('To remove a widget from a sidebar <em>and keep its configuration</em>, drag it to Inactive Widgets.') . '</p>
+	<p>' . __('The Inactive Widgets area stores widgets that are configured but not curently used. If you change themes and the new theme has fewer sidebars than the old, all extra widgets will be stored to Inactive Widgets automatically.') . '</p>
 ';
 }
 
