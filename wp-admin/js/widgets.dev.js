@@ -158,8 +158,10 @@ wpWidgets = {
 
 	appendTitle : function(widget) {
 		$('input[type="text"]', widget).each(function(){
-			if ( this.id.indexOf('title') != -1 && $(this).val() ) {
-				$('.widget-title .in-widget-title', widget).html(': ' + $(this).val());
+			var title;
+			if ( this.id.indexOf('title') != -1 ) {
+				title = $(this).val().replace(/<[^<>]+>/g, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+				$('.widget-title .in-widget-title', widget).html(': ' + title);
 				return false;
 			}
 		});
