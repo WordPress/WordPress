@@ -399,7 +399,7 @@ class WP_Http {
 		// split headers, one per array element
 		if ( is_string($headers) ) {
 			// tolerate line terminator: CRLF = LF (RFC 2616 19.3)
-			$headers = str_replace("\r\n", "\n");
+			$headers = str_replace("\r\n", "\n", $headers);
 			// unfold folded header fields. LWS = [CRLF] 1*( SP | HT ) <US-ASCII SP, space (32)>, <US-ASCII HT, horizontal-tab (9)> (RFC 2616 2.2)
 			$headers = preg_replace('/\n[ \t]/', ' ', $headers);
 			// create the headers array
