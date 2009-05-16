@@ -241,7 +241,7 @@ $current = get_transient( 'update_plugins' );
 foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
 	//Translate, Apply Markup, Sanitize HTML
-	$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, true, true);
+	$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
 	$all_plugins[ $plugin_file ] = $plugin_data;
 
 	//Filter into individual sections
@@ -360,6 +360,10 @@ function print_plugins_table($plugins, $context = '') {
 		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 			$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
 
+		if ( ! empty($plugin_data['PluginURI']) ) {
+			$actions[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin homepage' ) . '">' . __('View Site') . '</a>';
+		}
+
 		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
 		$action_count = count($actions);
@@ -367,9 +371,9 @@ function print_plugins_table($plugins, $context = '') {
 		echo "
 	<tr class='$class'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data['Title']}</strong>";
+		<td class='plugin-title'><strong>{$plugin_data['Name']}</strong>";
 		$i = 0;
-		echo '<div class="row-actions">';
+		echo '<div class="row-actions-visible">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
@@ -378,7 +382,14 @@ function print_plugins_table($plugins, $context = '') {
 		echo '</div>';
 		echo "</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
-		<td class='desc'><p>{$plugin_data['Description']}</p>";
+		<td class='desc'><p>{$plugin_data['Description']}";
+		if ( !empty($plugin_data['Author']) ) {
+			$author = $plugin_data['Author'];
+			if ( !empty($plugin_data['AuthorURI']) )
+				$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
+			echo ' <cite>' . sprintf( __('By: %s'), $author ) . '</cite>';
+		}
+		echo "</p>";
 		echo '</td>
 	</tr>';
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
