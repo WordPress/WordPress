@@ -9,18 +9,14 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE )
-	$is_profile_page = true;
-else
-	$is_profile_page = false;
+if ( !defined('IS_PROFILE_PAGE') )
+	define('IS_PROFILE_PAGE', false);
 
-if ( $is_profile_page ) {
-	wp_enqueue_script('user-profile');
-	wp_enqueue_script('password-strength-meter');
-}
+wp_enqueue_script('user-profile');
+wp_enqueue_script('password-strength-meter');
 
-$title = $is_profile_page? __('Profile') : __('Edit User');
-if ( current_user_can('edit_users') && !$is_profile_page )
+$title = IS_PROFILE_PAGE ? __('Profile') : __('Edit User');
+if ( current_user_can('edit_users') && !IS_PROFILE_PAGE )
 	$submenu_file = 'users.php';
 else
 	$submenu_file = 'profile.php';
@@ -33,7 +29,7 @@ $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashe
 $user_id = (int) $user_id;
 
 if ( !$user_id ) {
-	if ( $is_profile_page ) {
+	if ( IS_PROFILE_PAGE ) {
 		$current_user = wp_get_current_user();
 		$user_id = $current_user->ID;
 	} else {
@@ -75,7 +71,7 @@ check_admin_referer('update-user_' . $user_id);
 if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('You do not have permission to edit this user.'));
 
-if ($is_profile_page)
+if ( IS_PROFILE_PAGE )
 	do_action('personal_options_update', $user_id);
 else
 	do_action('edit_user_profile_update', $user_id);
@@ -83,7 +79,7 @@ else
 $errors = edit_user($user_id);
 
 if ( !is_wp_error( $errors ) ) {
-	$redirect = ($is_profile_page? "profile.php?" : "user-edit.php?user_id=$user_id&"). "updated=true";
+	$redirect = (IS_PROFILE_PAGE ? "profile.php?" : "user-edit.php?user_id=$user_id&"). "updated=true";
 	$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
 	wp_redirect($redirect);
 	exit;
@@ -101,7 +97,7 @@ include ('admin-header.php');
 <?php if ( isset($_GET['updated']) ) : ?>
 <div id="message" class="updated fade">
 	<p><strong><?php _e('User updated.') ?></strong></p>
-	<?php if ( $wp_http_referer && !$is_profile_page ) : ?>
+	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
 	<p><a href="users.php"><?php _e('&larr; Back to Authors and Users'); ?></a></p>
 	<?php endif; ?>
 </div>
@@ -173,7 +169,7 @@ do_action('personal_options', $profileuser);
 ?>
 </table>
 <?php
-	if ( $is_profile_page )
+	if ( IS_PROFILE_PAGE )
 		do_action('profile_personal_options', $profileuser);
 ?>
 
@@ -185,7 +181,7 @@ do_action('personal_options', $profileuser);
 		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e('Your username cannot be changed.'); ?></span></td>
 	</tr>
 
-<?php if ( !$is_profile_page ): ?>
+<?php if ( !IS_PROFILE_PAGE ): ?>
 <tr><th><label for="role"><?php _e('Role:') ?></label></th>
 <td><select name="role" id="role">
 <?php
@@ -204,7 +200,7 @@ else
 	echo '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 ?>
 </select></td></tr>
-<?php endif; //!$is_profile_page ?>
+<?php endif; //!IS_PROFILE_PAGE ?>
 
 <tr>
 	<th><label for="first_name"><?php _e('First name') ?></label></th>
@@ -280,7 +276,7 @@ else
 </tr>
 </table>
 
-<h3><?php $is_profile_page? _e('About Yourself') : _e('About the user'); ?></h3>
+<h3><?php IS_PROFILE_PAGE ? _e('About Yourself') : _e('About the user'); ?></h3>
 
 <table class="form-table">
 <tr>
@@ -297,16 +293,15 @@ if ( $show_password_fields ) :
 	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
 	<td><input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" /> <span class="description"><?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?></span><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" /> <span class="description"><?php _e("Type your new password again."); ?></span><br />
-	<?php if ( $is_profile_page ): ?>
 		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-		<p class="description indicator-hint"><?php _e('Hint: Your password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
-	<?php endif; ?></td>
+		<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+	</td>
 </tr>
 <?php endif; ?>
 </table>
 
 <?php
-	if ( $is_profile_page ) {
+	if ( IS_PROFILE_PAGE ) {
 		do_action('show_user_profile', $profileuser);
 	} else {
 		do_action('edit_user_profile', $profileuser);
@@ -335,7 +330,7 @@ if ( $show_password_fields ) :
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo esc_attr($user_id); ?>" />
-	<input type="submit" class="button-primary" value="<?php $is_profile_page? esc_attr_e('Update Profile') : esc_attr_e('Update User') ?>" name="submit" />
+	<input type="submit" class="button-primary" value="<?php IS_PROFILE_PAGE ? esc_attr_e('Update Profile') : esc_attr_e('Update User') ?>" name="submit" />
 </p>
 </form>
 </div>

@@ -37,6 +37,8 @@ $title = __('Add New User');
 $parent_file = 'users.php';
 
 wp_enqueue_script('wp-ajax-response');
+wp_enqueue_script('user-profile');
+wp_enqueue_script('password-strength-meter');
 
 require_once ('admin-header.php');
 
@@ -117,7 +119,10 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php _e('(twice, required)'); ?></span></label></th>
 		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
 		<br />
-		<input name="pass2" type="password" id="pass2" autocomplete="off"/></td>
+		<input name="pass2" type="password" id="pass2" autocomplete="off"/>
+		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
+		<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="send_password"><?php _e('Send Password?') ?></label></th>

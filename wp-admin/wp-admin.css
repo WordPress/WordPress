@@ -1304,8 +1304,9 @@ textarea.large-text {
 	width: 99%;
 }
 
-.form-table input.regular-text {
-	width: 325px;
+.form-table input.regular-text,
+#adduser .form-field input {
+	width: 25em;
 }
 
 .form-table input.small-text {
@@ -1315,10 +1316,6 @@ textarea.large-text {
 #profile-page .form-table textarea {
 	width: 500px;
 	margin-bottom: 6px;
-}
-
-#profile-page .form-table input[type=text] {
-	width: 300px;
 }
 
 #profile-page .form-table #rich_editing {
