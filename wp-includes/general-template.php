@@ -1486,7 +1486,7 @@ function feed_links_extra( $args ) {
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
-		$title = esc_attr(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_author_name( $author_id ) ));
+		$title = esc_attr(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_the_author_meta( 'display_name', $author_id ) ));
 		$href = get_author_feed_link( $author_id );
 	} elseif ( is_search() ) {
 		$title = esc_attr(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query() ));

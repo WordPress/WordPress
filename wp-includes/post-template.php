@@ -1241,7 +1241,7 @@ function wp_post_revision_title( $revision, $link = true ) {
  * @uses wp_get_post_revisions()
  * @uses wp_post_revision_title()
  * @uses get_edit_post_link()
- * @uses get_author_name()
+ * @uses get_the_author_meta()
  *
  * @todo split into two functions (list, form-table) ?
  *
@@ -1286,7 +1286,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 			continue;
 
 		$date = wp_post_revision_title( $revision );
-		$name = get_author_name( $revision->post_author );
+		$name = get_the_author_meta( 'display_name', $revision->post_author );
 
 		if ( 'form-table' == $format ) {
 			if ( $left )

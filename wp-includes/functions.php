@@ -2285,8 +2285,8 @@ function wp_explain_nonce( $action ) {
 		$trans['add']['user']          = array( __( 'Your attempt to add this user has failed.' ), false );
 		$trans['delete']['users']      = array( __( 'Your attempt to delete users has failed.' ), false );
 		$trans['bulk']['users']        = array( __( 'Your attempt to bulk modify users has failed.' ), false );
-		$trans['update']['user']       = array( __( 'Your attempt to edit this user: &#8220;%s&#8221; has failed.' ), 'get_author_name' );
-		$trans['update']['profile']    = array( __( 'Your attempt to modify the profile for: &#8220;%s&#8221; has failed.' ), 'get_author_name' );
+		$trans['update']['user']       = array( __( 'Your attempt to edit this user: &#8220;%s&#8221; has failed.' ), 'get_the_author_meta', 'display_name' );
+		$trans['update']['profile']    = array( __( 'Your attempt to modify the profile for: &#8220;%s&#8221; has failed.' ), 'get_the_author_meta', 'display_name' );
 
 		$trans['update']['options']    = array( __( 'Your attempt to edit your settings has failed.' ), false );
 		$trans['update']['permalink']  = array( __( 'Your attempt to change your permalink structure to: %s has failed.' ), 'use_id' );
@@ -2299,9 +2299,15 @@ function wp_explain_nonce( $action ) {
 		if ( isset( $trans[$verb][$noun] ) ) {
 			if ( !empty( $trans[$verb][$noun][1] ) ) {
 				$lookup = $trans[$verb][$noun][1];
+				if ( isset($trans[$verb][$noun][2]) )
+					$lookup_value = $trans[$verb][$noun][2];
 				$object = $matches[4];
-				if ( 'use_id' != $lookup )
-					$object = call_user_func( $lookup, $object );
+				if ( 'use_id' != $lookup ) {
+					if ( isset( $lookup_value ) )
+						$object = call_user_func( $lookup, $lookup_value, $object );
+					else
+						$object = call_user_func( $lookup, $object );
+				}
 				return sprintf( $trans[$verb][$noun][0], wp_specialchars($object) );
 			} else {
 				return $trans[$verb][$noun][0];
