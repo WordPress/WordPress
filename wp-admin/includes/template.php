@@ -3323,7 +3323,7 @@ function _admin_search_query() {
  * @param bool $limit_styles Limit styles to colour-related styles only (unless others are enqueued).
  *
  */
-function iframe_header( $title = '', $limit_styles = false) {
+function iframe_header( $title = '', $limit_styles = false ) {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
@@ -3358,10 +3358,16 @@ do_action('admin_head');
  *
  */
 function iframe_footer() {
-	echo '
-	<script type="text/javascript">if(typeof wpOnload=="function")wpOnload();</script>
-	</body>
-</html>';
+	//We're going to hide any footer output on iframe pages, but run the hooks anyway since they output Javascript or other needed content. ?>
+	<div class="hidden">
+<?php
+	do_action('admin_footer', '');
+	do_action('admin_print_footer_scripts'); ?>
+	</div>
+<script type="text/javascript">if(typeof wpOnload=="function")wpOnload();</script>
+</body>
+</html>
+<?php
 }
 
 function _post_states($post) {
