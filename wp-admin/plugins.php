@@ -326,7 +326,6 @@ function print_plugins_table($plugins, $context = '') {
 	<tr>
 		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
 		<th scope="col" class="manage-column"><?php _e('Plugin'); ?></th>
-		<th scope="col" class="manage-column num"><?php _e('Version'); ?></th>
 		<th scope="col" class="manage-column"><?php _e('Description'); ?></th>
 	</tr>
 	</thead>
@@ -335,7 +334,6 @@ function print_plugins_table($plugins, $context = '') {
 	<tr>
 		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
 		<th scope="col" class="manage-column"><?php _e('Plugin'); ?></th>
-		<th scope="col" class="manage-column num"><?php _e('Version'); ?></th>
 		<th scope="col" class="manage-column"><?php _e('Description'); ?></th>
 	</tr>
 	</tfoot>
@@ -381,8 +379,11 @@ function print_plugins_table($plugins, $context = '') {
 		}
 		echo '</div>';
 		echo "</td>
-		<td class='vers'>{$plugin_data['Version']}</td>
-		<td class='desc'><p>{$plugin_data['Description']}";
+		<td class='desc'><p>{$plugin_data['Description']}</p>";
+		if ( !empty($plugin_data['Version']) ) {
+			printf(__('Version: %s'), $plugin_data['Version']);
+			echo ' ';
+		}
 		if ( !empty($plugin_data['Author']) ) {
 			$author = $plugin_data['Author'];
 			if ( !empty($plugin_data['AuthorURI']) )
