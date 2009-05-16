@@ -324,7 +324,17 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 					$plugin = (array) $plugin;
 
 				$title = wp_kses($plugin['name'], $plugins_allowedtags);
-				$description = wp_kses($plugin['description'], $plugins_allowedtags);
+				//Limit description to 400char, and remove any HTML.
+				$description = strip_tags($plugin['description']);
+				if ( strlen($description) > 400 )
+					$description = mb_substr($description, 0, 400) . '&#8230;';
+				//remove any trailing entities
+				$description = preg_replace('/&[^;\s]{0,6}$/', '', $description);
+				//strip leading/trailing & multiple consecutive lines
+				$description = trim($description);
+				$description = preg_replace("|(\r?\n)+|", "\n", $description);
+				//\n => <br>
+				$description = nl2br($description);
 				$version = wp_kses($plugin['version'], $plugins_allowedtags);
 
 				$name = strip_tags($title . ' ' . $version);
