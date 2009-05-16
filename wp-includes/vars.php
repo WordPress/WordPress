@@ -73,4 +73,11 @@ $is_apache = ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strp
  */
 $is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? true : false;
 
+/**
+ * Whether the server software is IIS 7.X
+ * @global bool $is_IIS7
+ */
+$is_iis7 = ($is_IIS && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/7.') !== false) ? true : false;
+
+
 ?>

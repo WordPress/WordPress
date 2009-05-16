@@ -1695,6 +1695,36 @@ class WP_Rewrite {
 
 		return $rules;
 	}
+	
+	/**
+	 * Retrieve IIS7 URL Rewrite formatted rewrite rules to write to web.config file.
+	 *
+	 * Does not actually write to the web.config file, but creates the rules for
+	 * the process that will.
+	 *
+	 * @since 2.8.0 
+	 * @access public
+	 *
+	 * @return string
+	 */
+	function iis7_url_rewrite_rules(){
+		
+		if ( ! $this->using_permalinks()) {
+			return '';
+		}
+		$rules  = "<rule name=\"wordpress\" patternSyntax=\"Wildcard\">\n";
+		$rules .= "	<match url=\"*\" />\n";
+		$rules .= "	<conditions>\n";
+		$rules .= "		<add input=\"{REQUEST_FILENAME}\" matchType=\"IsFile\" negate=\"true\" />\n";
+		$rules .= "		<add input=\"{REQUEST_FILENAME}\" matchType=\"IsDirectory\" negate=\"true\" />\n";
+		$rules .= "	</conditions>\n";
+		$rules .= "	<action type=\"Rewrite\" url=\"index.php\" />\n";
+		$rules .= "</rule>";
+				
+		$rules = apply_filters('iis7_url_rewrite_rules', $rules);
+		
+		return $rules;
+	}
 
 	/**
 	 * Add a straight rewrite rule.
@@ -1790,6 +1820,8 @@ class WP_Rewrite {
 		$this->wp_rewrite_rules();
 		if ( function_exists('save_mod_rewrite_rules') )
 			save_mod_rewrite_rules();
+		if ( function_exists('iis7_save_url_rewrite_rules') )
+			iis7_save_url_rewrite_rules();
 	}
 
 	/**
