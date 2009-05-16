@@ -98,7 +98,6 @@ if ( !empty($action) ) {
 			$plugins = $_REQUEST['checked']; //$_POST = from the plugin form; $_GET = from the FTP details screen.
 			include(ABSPATH . 'wp-admin/update.php');
 
-			$title = __('Delete Plugin');
 			$parent_file = 'plugins.php';
 
 			if ( ! isset($_REQUEST['verify-delete']) ) {
@@ -127,10 +126,10 @@ if ( !empty($action) ) {
 					}
 				?>
 				<p><?php _e('Deleting the selected plugins will remove the following plugin(s) and their files:'); ?></p>
-					<ul>
+					<ul class="ul-disc">
 						<?php
 						foreach ( $plugin_info as $plugin )
-							echo '<li>', sprintf(__('%s by %s'), $plugin['Name'], $plugin['Author']), '</li>';
+							echo '<li>', sprintf(__('<strong>%s</strong> by <em>%s</em>'), $plugin['Name'], $plugin['Author']), '</li>';
 						?>
 					</ul>
 				<p><?php _e('Are you sure you wish to delete these files?') ?></p>
@@ -150,7 +149,7 @@ if ( !empty($action) ) {
 
 				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
 				<div id="files-list" style="display:none;">
-					<ul>
+					<ul class="code">
 					<?php
 						foreach ( (array)$files_to_delete as $file )
 							echo '<li>' . str_replace(WP_PLUGIN_DIR, '', $file) . '</li>';
