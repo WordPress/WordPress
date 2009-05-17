@@ -11,10 +11,8 @@ require_once('admin.php');
 
 if ( isset($_POST['clear-recent-list']) )
 	$action = 'clear-recent-list';
-elseif ( isset($_GET['action']) )
-	$action = $_GET['action'];
-elseif ( isset($_POST['action']) )
-	$action = $_POST['action'];
+elseif ( isset($_REQUEST['action']) )
+	$action = $_REQUEST['action'];
 else
 	$action = false;
 
@@ -30,6 +28,9 @@ if ( $status != $default_status && 'search' != $status )
 	update_usermeta($current_user->ID, 'plugins_last_view', $status);
 
 $page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
+
+//Clean up request URI from temporary args for screen options/paging uri's to work as expected.
+$_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate', 'activate-multi', 'deactivate', 'deactivate-multi', '_error_nonce'), $_SERVER['REQUEST_URI']);
 
 if ( !empty($action) ) {
 	switch ( $action ) {
@@ -163,7 +164,9 @@ if ( !empty($action) ) {
 			} //Endif verify-delete
 			$delete_result = delete_plugins($plugins);
 
-			wp_cache_delete('plugins', 'plugins');
+			set_transient('plugins_delete_result_'.$user_ID, $delete_result); //Store the result in a cache rather than a URL param due to object type & length
+			wp_redirect("plugins.php?deleted=true&plugin_status=$status&paged=$page");
+			exit;
 			break;
 		case 'clear-recent-list':
 			update_option('recently_activated', array());
@@ -198,7 +201,10 @@ if ( !empty($invalid) )
 		}
 	?>
 	</div>
-<?php elseif ( 'delete-selected' == $action ) :
+<?php elseif ( isset($_GET['deleted']) ) :
+		$delete_result = get_transient('plugins_delete_result_'.$user_ID);
+		delete_transient('plugins_delete_result'); //Delete it once we're done.
+
 		if ( is_wp_error($delete_result) ) : ?>
 		<div id="message" class="updated fade"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
 		<?php else : ?>
@@ -285,6 +291,11 @@ if ( isset($_GET['s']) ) {
 }
 
 $plugin_array_name = "${status}_plugins";
+if ( empty($$plugin_array_name) && $status != 'all' ) {
+	$status = 'all';
+	$plugin_array_name = "${status}_plugins";
+}
+
 $plugins = &$$plugin_array_name;
 
 //Paging.
@@ -361,6 +372,9 @@ function print_plugins_table($plugins, $context = '') {
 		if ( ! empty($plugin_data['PluginURI']) ) {
 			$actions[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin homepage' ) . '">' . __('View Site') . '</a>';
 		}
+
+		if ( ! $is_active && current_user_can('delete_plugins') )
+			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 
 		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
