@@ -7,7 +7,6 @@ jQuery(document).ready(function($) {
 			placeholder: 'sorthelper',
 			axis: 'y',
 			distance: 2,
-	//		forcePlaceholderSize: true,
 			stop: function(e, ui) {
 				// When an update has occurred, adjust the order for each item
 				var all = $('#media-items').sortable('toArray'), len = all.length;
