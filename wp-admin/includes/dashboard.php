@@ -525,7 +525,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
 	$comment_post_title = strip_tags(get_the_title( $comment->comment_post_ID ));
 	$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
-	$comment_link = '<a class="comment-link" href="' . get_comment_link() . '">#</a>';
+	$comment_link = '<a class="comment-link" href="' . clean_url(get_comment_link()) . '">#</a>';
 
 	$delete_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );

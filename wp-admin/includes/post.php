@@ -1370,6 +1370,7 @@ tinyMCEPreInit = {
 ?>
 
 <script type="text/javascript">
+/* <![CDATA[ */
 <?php if ( $ext_plugins ) echo "$ext_plugins\n"; ?>
 <?php if ( $concatenate_scripts ) { ?>
 tinyMCEPreInit.go();
@@ -1377,6 +1378,7 @@ tinyMCEPreInit.go();
 (function(){var t=tinyMCEPreInit,sl=tinymce.ScriptLoader,ln=t.mceInit.language,th=t.mceInit.theme,pl=t.mceInit.plugins;sl.markDone(t.base+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'_dlg.js');tinymce.each(pl.split(','),function(n){if(n&&n.charAt(0)!='-'){sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'.js');sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'_dlg.js');}});})();
 <?php } ?>
 tinyMCE.init(tinyMCEPreInit.mceInit);
+/* ]]> */
 </script>
 <?php
 }
