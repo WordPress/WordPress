@@ -173,7 +173,7 @@ class WP_Widget {
 		if ( array_key_exists( $this->number, $settings ) ) {
             $settings = $settings[$this->number];
 			// filters the widget's settings, return false to stop displaying the widget
-			$settings = apply_filters('widget_display_callback', $settings, $this);   
+			$settings = apply_filters('widget_display_callback', $settings, $this, $args);   
             if ( false !== $settings )
 				$this->widget($args, $settings);
         }
