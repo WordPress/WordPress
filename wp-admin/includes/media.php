@@ -327,6 +327,8 @@ if ( is_string($content_func) )
 	$args = func_get_args();
 	$args = array_slice($args, 1);
 	call_user_func_array($content_func, $args);
+	
+	do_action('admin_print_footer_scripts');
 ?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>
@@ -1299,12 +1301,14 @@ jQuery(document).ready(function($){
 <?php if ( $flash ) : ?>
 <script type="text/javascript">
 //<![CDATA[
+var swfu;
 SWFUpload.onload = function() {
-	swfu = new SWFUpload({
+	var settings = {
 			button_text: '<span class="button"><?php _e('Select Files'); ?></span>',
 			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }',
 			button_height: "24",
 			button_width: "132",
+			button_text_top_padding: 1,
 			button_image_url: '<?php echo includes_url('images/upload.png'); ?>',
 			button_placeholder_id: "flash-browse-button",
 			upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
@@ -1336,7 +1340,8 @@ SWFUpload.onload = function() {
 				swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
 			},
 			debug: false
-		});
+		};
+		swfu = new SWFUpload(settings);
 };
 //]]>
 </script>
@@ -1344,11 +1349,14 @@ SWFUpload.onload = function() {
 <div id="flash-upload-ui">
 <?php do_action('pre-flash-upload-ui'); ?>
 
-	<div><?php _e( 'Choose files to upload' ); ?> <div id="flash-browse-button"></div></div>
+	<div>
+	<?php _e( 'Choose files to upload' ); ?>
+	<div id="flash-browse-button"></div>
+	<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+	</div>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 </div>
-
 <?php endif; // $flash ?>
 
 <div id="html-upload-ui">
@@ -1394,7 +1402,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 <?php media_upload_form( $errors ); ?>
 
 <script type="text/javascript">
-<!--
+//<![CDATA[
 jQuery(function($){
 	var preloaded = $(".media-item.preloaded");
 	if ( preloaded.length > 0 ) {
@@ -1402,7 +1410,7 @@ jQuery(function($){
 	}
 	updateMediaForm();
 });
--->
+//]]>
 </script>
 <div id="media-items">
 <?php
@@ -1417,7 +1425,9 @@ if ( $id ) {
 }
 ?>
 </div>
-<input type="submit" class="button savebutton" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
+<p class="savebutton ml-submit">
+<input type="submit" class="button" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
+</p>
 <?php
 }
 
@@ -1567,8 +1577,8 @@ jQuery(function($){
 <div id="sort-buttons" class="hide-if-no-js">
 <span>
 <?php _e('All Tabs:'); ?>
-<a href="#" id="showall" class="toggle"><?php _e('Show'); ?></a>
-<a href="#" id="hideall" class="toggle" style="display:none;"><?php _e('Hide'); ?></a>
+<a href="#" id="showall"><?php _e('Show'); ?></a>
+<a href="#" id="hideall" style="display:none;"><?php _e('Hide'); ?></a>
 </span>
 <?php _e('Sort Order:'); ?>
 <a href="#" id="asc"><?php _e('Ascending'); ?></a> |

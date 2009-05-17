@@ -2790,7 +2790,7 @@ table .inline-edit-row fieldset ul.cat-hover {
 }
 
 #wpbody-content .filename {
-	margin-left: 10px;
+	padding: 0 10px;
 }
 
 #wpbody-content .media-item .thumbnail {
@@ -2845,10 +2845,7 @@ abbr.required {
 }
 
 #wpbody-content #media-items .filename {
-	float: left;
 	line-height: 36px;
-	margin-left: 10px;
-	max-width: 430px;
 	overflow: hidden;
 }
 
@@ -2860,9 +2857,53 @@ abbr.required {
 	max-height: 40px;
 }
 
-.media-item  .startopen,
+.media-item .startopen,
 .media-item .startclosed {
 	display: none;
+}
+
+.media-item .original {
+	position: relative;
+	height: 34px;
+	text-align: center;
+}
+
+.media-item .percent {
+	font-weight: bold;
+}
+
+.crunching {
+	display: block;
+	line-height: 32px;
+	text-align: right;
+	margin-right: 5px;
+}
+
+button.dismiss {
+	position: absolute;
+	top: 7px;
+	right: 5px;
+	z-index: 4;
+	width: 8em;
+}
+
+.file-error {
+	float: left;
+	font-weight: bold;
+	padding: 10px;
+}
+
+.progress {
+	position: relative;
+	margin-bottom: -36px;
+	height: 36px;
+}
+
+.bar {
+	width: 0;
+	height: 100%;
+	border-right-width: 3px;
+	border-right-style: solid;
 }
 
 /* find posts */

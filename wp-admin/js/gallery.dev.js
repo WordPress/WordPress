@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
 			placeholder: 'sorthelper',
 			axis: 'y',
 			distance: 2,
-			forcePlaceholderSize: true,
+	//		forcePlaceholderSize: true,
 			stop: function(e, ui) {
 				// When an update has occurred, adjust the order for each item
 				var all = $('#media-items').sortable('toArray'), len = all.length;
@@ -33,16 +33,22 @@ jQuery(document).ready(function($) {
 			if ( this.value == '0' || c ) this.value = '';
 		});
 	}
-	
-	toggleAll = function() {
-		$('a.toggle, table.slidetoggle').toggle();
-	}
 
 	$('#asc').click(function(){desc = false; sortIt(); return false;});
 	$('#desc').click(function(){desc = true; sortIt(); return false;});
 	$('#clear').click(function(){clearAll(1); return false;});
-	$('#showall').click(function(){toggleAll();return false;});
-	$('#hideall').click(function(){toggleAll();return false;});
+	$('#showall').click(function(){
+		$('#sort-buttons span a').toggle();
+		$('a.describe-toggle-on').hide();
+		$('a.describe-toggle-off, table.slidetoggle').show();
+		return false;
+	});
+	$('#hideall').click(function(){
+		$('#sort-buttons span a').toggle();
+		$('a.describe-toggle-on').show();
+		$('a.describe-toggle-off, table.slidetoggle').hide();
+		return false;
+	});
 
 	// initialize sortable
 	gallerySortableInit();

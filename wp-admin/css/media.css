@@ -104,46 +104,6 @@ tr.image-size label {
 	max-height: 40px;
 }
 
-.filename.original {
-	float: left;
-}
-
-.crunching {
-	display: block;
-	line-height: 32px;
-	text-align: right;
-	margin-right: 5px;
-}
-
-button.dismiss {
-	position: absolute;
-	top: 7px;
-	right: 5px;
-	z-index: 4;
-	width: 8em;
-}
-
-.file-error {
-	float: left;
-	font-weight: bold;
-	padding: 10px;
-}
-
-.progress {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 623px;
-	height: 36px;
-}
-
-.bar {
-	width: 0;
-	height: 100%;
-	border-right-width: 3px;
-	border-right-style: solid;
-}
-
 #library-form .progress,
 #gallery-form .progress,
 #flash-upload-ui,
@@ -229,7 +189,7 @@ abbr.required {
 	margin: 0 1em 1em 0;
 }
 
-#media-upload .media-upload-form p.ml-submit {
+#media-upload p.ml-submit {
 	padding: 1em 0;
 }
 
@@ -252,7 +212,6 @@ abbr.required {
 }
 
 #media-upload .media-item {
-	position: relative;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	min-height: 36px;
@@ -264,11 +223,9 @@ abbr.required {
 }
 
 .filename {
-	float: left;
 	line-height: 36px;
-	margin-left: 10px;
+	padding: 0 10px;
 	overflow: hidden;
-	max-width: 430px;
 }
 
 #media-upload .describe {
@@ -355,7 +312,9 @@ abbr.required {
 }
 
 .sorthelper {
-	z-index: -1;
+	height: 37px;
+	width: 623px;
+	display: block;
 }
 
 #gallery-settings th.label {
