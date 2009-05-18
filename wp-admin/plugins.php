@@ -394,16 +394,17 @@ function print_plugins_table($plugins, $context = '') {
 		echo '</div>';
 		echo "</td>
 		<td class='desc'><p>{$plugin_data['Description']}</p>";
-		if ( !empty($plugin_data['Version']) ) {
-			printf(__('Version: %s'), $plugin_data['Version']);
-			echo ' ';
-		}
+		$plugin_meta = array();
+		if ( !empty($plugin_data['Version']) )
+			$plugin_meta[] = sprintf(__('Version: %s'), $plugin_data['Version']);
 		if ( !empty($plugin_data['Author']) ) {
 			$author = $plugin_data['Author'];
 			if ( !empty($plugin_data['AuthorURI']) )
 				$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
-			echo ' <cite>' . sprintf( __('By: %s'), $author ) . '</cite>';
+			$plugin_meta[] = ' <cite>' . sprintf( __('By: %s'), $author ) . '</cite>';
 		}
+		$plugin_meta = apply_filters('plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $context);
+		echo implode(' ', $plugin_meta);
 		echo "</p>";
 		echo '</td>
 	</tr>';
