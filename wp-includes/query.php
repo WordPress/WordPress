@@ -2383,6 +2383,7 @@ class WP_Query {
 	function the_post() {
 		global $post;
 		$this->in_the_loop = true;
+		unset($post); // Break the ref
 		$post = $this->next_post();
 		setup_postdata($post);
 		do_action('the_post', $post);
