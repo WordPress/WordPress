@@ -65,19 +65,19 @@ $is_IE = ( $is_macIE || $is_winIE );
  * Whether the server software is Apache or something else
  * @global bool $is_apache
  */
-$is_apache = ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false)) ? true : false;
+$is_apache = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false);
 
 /**
  * Whether the server software is IIS or something else
  * @global bool $is_IIS
  */
-$is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? true : false;
+$is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer') !== false);
 
 /**
  * Whether the server software is IIS 7.X
- * @global bool $is_IIS7
+ * @global bool $is_iis7
  */
-$is_iis7 = ($is_IIS && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/7.') !== false) ? true : false;
+$is_iis7 = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/7.') !== false);
 
 
 ?>
