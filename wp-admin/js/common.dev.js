@@ -155,14 +155,13 @@ jQuery(document).ready( function($) {
 	// screen settings tab
 	$('#show-settings-link').click(function () {
 		if ( ! $('#screen-options-wrap').hasClass('screen-options-open') ) {
-			$('#contextual-help-link-wrap').addClass('invisible');
+			$('#contextual-help-link-wrap').css('visibility', 'hidden');
 		}
 		$('#screen-options-wrap').slideToggle('fast', function(){
 			if ( $(this).hasClass('screen-options-open') ) {
 				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right.gif")'});
-				$('#contextual-help-link-wrap').removeClass('invisible');
+				$('#contextual-help-link-wrap').css('visibility', '');
 				$(this).removeClass('screen-options-open');
-
 			} else {
 				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right-up.gif")'});
 				$(this).addClass('screen-options-open');
@@ -174,12 +173,12 @@ jQuery(document).ready( function($) {
 	// help tab
 	$('#contextual-help-link').click(function () {
 		if ( ! $('#contextual-help-wrap').hasClass('contextual-help-open') ) {
-			$('#screen-options-link-wrap').addClass('invisible');
+			$('#screen-options-link-wrap').css('visibility', 'hidden');
 		}
 		$('#contextual-help-wrap').slideToggle('fast', function(){
 			if ( $(this).hasClass('contextual-help-open') ) {
 				$('#contextual-help-link').css({'backgroundImage':'url("images/screen-options-right.gif")'});
-				$('#screen-options-link-wrap').removeClass('invisible');
+				$('#screen-options-link-wrap').css('visibility', '');
 				$(this).removeClass('contextual-help-open');
 			} else {
 				$('#contextual-help-link').css({'backgroundImage':'url("images/screen-options-right-up.gif")'});
