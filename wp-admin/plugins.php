@@ -369,10 +369,6 @@ function print_plugins_table($plugins, $context = '') {
 		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 			$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
 
-		if ( ! empty($plugin_data['PluginURI']) ) {
-			$actions[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin homepage' ) . '">' . __('View Site') . '</a>';
-		}
-
 		if ( ! $is_active && current_user_can('delete_plugins') )
 			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 
@@ -396,15 +392,18 @@ function print_plugins_table($plugins, $context = '') {
 		<td class='desc'><p>{$plugin_data['Description']}</p>";
 		$plugin_meta = array();
 		if ( !empty($plugin_data['Version']) )
-			$plugin_meta[] = sprintf(__('Version: %s'), $plugin_data['Version']);
+			$plugin_meta[] = sprintf(__('Version %s'), $plugin_data['Version']);
 		if ( !empty($plugin_data['Author']) ) {
 			$author = $plugin_data['Author'];
 			if ( !empty($plugin_data['AuthorURI']) )
 				$author = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
-			$plugin_meta[] = ' <cite>' . sprintf( __('By: %s'), $author ) . '</cite>';
+			$plugin_meta[] = sprintf( __('By %s'), $author );
+		}
+		if ( ! empty($plugin_data['PluginURI']) ) {
+			$plugin_meta[] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin site' ) . '">' . __('Visit plugin site') . '</a>';
 		}
 		$plugin_meta = apply_filters('plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $context);
-		echo implode(' ', $plugin_meta);
+		echo implode(' | ', $plugin_meta);
 		echo "</p>";
 		echo '</td>
 	</tr>';
