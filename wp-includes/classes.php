@@ -1252,7 +1252,7 @@ class Walker_PageDropdown extends Walker {
 		if ( $page->ID == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
-		$title = wp_specialchars($page->post_title);
+		$title = esc_html($page->post_title);
 		$output .= "$pad$title";
 		$output .= "</option>\n";
 	}

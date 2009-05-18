@@ -379,7 +379,7 @@ function get_option( $setting, $default = false ) {
 function wp_protect_special_option( $option ) {
 	$protected = array( 'alloptions', 'notoptions' );
 	if ( in_array( $option, $protected ) )
-		die( sprintf( __( '%s is a protected WP option and may not be modified' ), wp_specialchars( $option ) ) );
+		die( sprintf( __( '%s is a protected WP option and may not be modified' ), esc_html( $option ) ) );
 }
 
 /**
@@ -1593,7 +1593,7 @@ function do_feed() {
 
 	$hook = 'do_feed_' . $feed;
 	if ( !has_action($hook) ) {
-		$message = sprintf( __( 'ERROR: %s is not a valid feed template' ), wp_specialchars($feed));
+		$message = sprintf( __( 'ERROR: %s is not a valid feed template' ), esc_html($feed));
 		wp_die($message);
 	}
 
@@ -1718,7 +1718,7 @@ function is_blog_installed() {
  */
 function wp_nonce_url( $actionurl, $action = -1 ) {
 	$actionurl = str_replace( '&amp;', '&', $actionurl );
-	return wp_specialchars( add_query_arg( '_wpnonce', wp_create_nonce( $action ), $actionurl ) );
+	return esc_html( add_query_arg( '_wpnonce', wp_create_nonce( $action ), $actionurl ) );
 }
 
 /**
@@ -2308,7 +2308,7 @@ function wp_explain_nonce( $action ) {
 					else
 						$object = call_user_func( $lookup, $object );
 				}
-				return sprintf( $trans[$verb][$noun][0], wp_specialchars($object) );
+				return sprintf( $trans[$verb][$noun][0], esc_html($object) );
 			} else {
 				return $trans[$verb][$noun][0];
 			}
@@ -2334,7 +2334,7 @@ function wp_explain_nonce( $action ) {
  */
 function wp_nonce_ays( $action ) {
 	$title = __( 'WordPress Failure Notice' );
-	$html = wp_specialchars( wp_explain_nonce( $action ) );
+	$html = esc_html( wp_explain_nonce( $action ) );
 	if ( wp_get_referer() )
 		$html .= "</p><p><a href='" . clean_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
 	elseif ( 'log-out' == $action )

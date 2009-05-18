@@ -29,10 +29,10 @@ function edit_link( $link_id = '' ) {
 	if (!current_user_can( 'manage_links' ))
 		wp_die( __( 'Cheatin&#8217; uh?' ));
 
-	$_POST['link_url'] = wp_specialchars( $_POST['link_url'] );
+	$_POST['link_url'] = esc_html( $_POST['link_url'] );
 	$_POST['link_url'] = clean_url($_POST['link_url']);
-	$_POST['link_name'] = wp_specialchars( $_POST['link_name'] );
-	$_POST['link_image'] = wp_specialchars( $_POST['link_image'] );
+	$_POST['link_name'] = esc_html( $_POST['link_name'] );
+	$_POST['link_image'] = esc_html( $_POST['link_image'] );
 	$_POST['link_rss'] = clean_url($_POST['link_rss']);
 	if ( !isset($_POST['link_visible']) || 'N' != $_POST['link_visible'] )
 		$_POST['link_visible'] = 'Y';

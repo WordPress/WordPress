@@ -1469,7 +1469,7 @@ function feed_links_extra( $args ) {
 		$post = &get_post( $id = 0 );
 
 		if ( comments_open() || pings_open() || $post->comment_count > 0 ) {
-			$title = esc_attr(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], wp_specialchars( get_the_title() ) ));
+			$title = esc_attr(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], esc_html( get_the_title() ) ));
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_category() ) {

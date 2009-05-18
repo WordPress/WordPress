@@ -177,7 +177,7 @@ foreach ( _wp_post_revision_fields() as $field => $field_title ) :
 	?>
 
 	<tr id="revision-field-<?php echo $field; ?>">
-		<th scope="row"><?php echo wp_specialchars( $field_title ); ?></th>
+		<th scope="row"><?php echo esc_html( $field_title ); ?></th>
 		<td><div class="pre"><?php echo $content; ?></div></td>
 	</tr>
 

@@ -1198,7 +1198,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( !empty($field[$field['input']]) )
 			$item .= $field[$field['input']];
 		elseif ( $field['input'] == 'textarea' ) {
-			$item .= "<textarea type='text' id='$name' name='$name'" . $aria_required . ">" . wp_specialchars( $field['value'] ) . "</textarea>";
+			$item .= "<textarea type='text' id='$name' name='$name'" . $aria_required . ">" . esc_html( $field['value'] ) . "</textarea>";
 		} else {
 			$item .= "<input type='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'" . $aria_required . "/>";
 		}
@@ -1419,7 +1419,7 @@ if ( $id ) {
 		add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
 		echo get_media_items( $id, $errors );
 	} else {
-		echo '<div id="media-upload-error">'.wp_specialchars($id->get_error_message()).'</div>';
+		echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
 		exit;
 	}
 }
@@ -1802,7 +1802,7 @@ foreach ($arc_result as $arc_row) {
 		$default = '';
 
 	echo "<option$default value='" . esc_attr( $arc_row->yyear . $arc_row->mmonth ) . "'>";
-	echo wp_specialchars( $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear" );
+	echo esc_html( $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear" );
 	echo "</option>\n";
 }
 ?>

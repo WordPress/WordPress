@@ -162,7 +162,7 @@ function wp_widget_control( $sidebar_args ) {
 	$wp_registered_widgets[$widget_id]['callback'] = $wp_registered_widgets[$widget_id]['_callback'];
 	unset($wp_registered_widgets[$widget_id]['_callback']);
 
-	$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
+	$widget_title = esc_html( strip_tags( $sidebar_args['widget_name'] ) );
 	$has_form = 'noform';
 
 	echo $sidebar_args['before_widget']; ?>

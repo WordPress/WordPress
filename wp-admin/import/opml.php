@@ -58,7 +58,7 @@ switch ($step) {
 $categories = get_terms('link_category', 'get=all');
 foreach ($categories as $category) {
 ?>
-<option value="<?php echo $category->term_id; ?>"><?php echo wp_specialchars(apply_filters('link_category', $category->name)); ?></option>
+<option value="<?php echo $category->term_id; ?>"><?php echo esc_html(apply_filters('link_category', $category->name)); ?></option>
 <?php
 } // end foreach
 ?>

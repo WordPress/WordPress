@@ -20,7 +20,7 @@ foreach ( $filters as $filter ) {
 	add_filter($filter, 'strip_tags');
 	add_filter($filter, 'trim');
 	add_filter($filter, 'wp_filter_kses');
-	add_filter($filter, 'wp_specialchars', 30);
+	add_filter($filter, 'esc_html', 30);
 }
 
 // Kses only for textarea saves
@@ -80,7 +80,7 @@ $filters = array('comment_author', 'term_name', 'link_name', 'link_description',
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'wptexturize');
 	add_filter($filter, 'convert_chars');
-	add_filter($filter, 'wp_specialchars');
+	add_filter($filter, 'esc_html');
 }
 
 // Format text area for display.
@@ -131,19 +131,19 @@ add_filter('wp_sprintf', 'wp_sprintf_l', 10, 2);
 // RSS filters
 add_filter('the_title_rss', 'strip_tags');
 add_filter('the_title_rss', 'ent2ncr', 8);
-add_filter('the_title_rss', 'wp_specialchars');
+add_filter('the_title_rss', 'esc_html');
 add_filter('the_content_rss', 'ent2ncr', 8);
 add_filter('the_excerpt_rss', 'convert_chars');
 add_filter('the_excerpt_rss', 'ent2ncr', 8);
 add_filter('comment_author_rss', 'ent2ncr', 8);
 add_filter('comment_text_rss', 'ent2ncr', 8);
-add_filter('comment_text_rss', 'wp_specialchars');
+add_filter('comment_text_rss', 'esc_html');
 add_filter('bloginfo_rss', 'ent2ncr', 8);
 add_filter('the_author', 'ent2ncr', 8);
 
 // Misc filters
 add_filter('option_ping_sites', 'privacy_ping_filter');
-add_filter('option_blog_charset', 'wp_specialchars');
+add_filter('option_blog_charset', '_wp_specialchars'); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop
 add_filter('option_home', '_config_wp_home');
 add_filter('option_siteurl', '_config_wp_siteurl');
 add_filter('tiny_mce_before_init', '_mce_set_direction');

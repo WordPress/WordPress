@@ -91,7 +91,7 @@ if ( isset($_REQUEST['action']) && 'post' == $_REQUEST['action'] ) {
 }
 
 // Set Variables
-$title = isset($_GET['t']) ? wp_specialchars(aposfix(stripslashes($_GET['t']))) : '';
+$title = isset($_GET['t']) ? esc_html(aposfix(stripslashes($_GET['t']))) : '';
 $selection = isset($_GET['s']) ? trim( aposfix( stripslashes($_GET['s']) ) ) : '';
 if ( ! empty($selection) ) {
 	$selection = preg_replace('/(\r?\n|\r)/', '</p><p>', $selection);

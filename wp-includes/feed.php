@@ -165,7 +165,7 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 	if ( $cut && !$encode_html )
 		$encode_html = 2;
 	if ( 1== $encode_html ) {
-		$content = wp_specialchars($content);
+		$content = esc_html($content);
 		$cut = 0;
 	} elseif ( 0 == $encode_html ) {
 		$content = make_url_footnote($content);

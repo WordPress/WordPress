@@ -125,7 +125,7 @@ if ( count($wp_registered_sidebars) == 1 ) {
 
 	<div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php echo wp_specialchars( $title ); ?></h2>
+	<h2><?php echo esc_html( $title ); ?></h2>
 		<div class="error">
 			<p><?php _e( 'No Sidebars Defined' ); ?></p>
 		</div>
@@ -258,9 +258,9 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 		require_once( 'admin-header.php' ); ?>
 		<div class="wrap">
 		<?php screen_icon(); ?>
-		<h2><?php echo wp_specialchars( $title ); ?></h2>
+		<h2><?php echo esc_html( $title ); ?></h2>
 		<div class="editwidget"<?php echo $width; ?>>
-		<h3><?php printf( __( 'Widget %s' ), wp_specialchars( strip_tags($control['name']) ) ); ?></h3>
+		<h3><?php printf( __( 'Widget %s' ), esc_html( strip_tags($control['name']) ) ); ?></h3>
 
 		<form action="widgets.php" method="post">
 		<div class="widget-inside">
@@ -334,7 +334,7 @@ require_once( 'admin-header.php' ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2>
+<h2><?php echo esc_html( $title ); ?></h2>
 
 <?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) { ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
@@ -378,7 +378,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 	<div class="widgets-holder-wrap<?php echo $closed; ?>">
 	<div class="sidebar-name">
 	<div class="sidebar-name-arrow"><br /></div>
-	<h3><?php echo wp_specialchars( $registered_sidebar['name'] ); ?>
+	<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
 	<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt="" /></span></h3></div>
 	<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 	</div>

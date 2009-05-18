@@ -66,7 +66,7 @@ _fill_empty_category($category);
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_description"><?php _e('Description') ?></label></th>
-			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->description); ?></textarea><br />
+			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($category->description); ?></textarea><br />
             <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
 		</tr>
 	</table>

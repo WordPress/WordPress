@@ -23,7 +23,7 @@ if ( ! $pop3->connect(get_option('mailserver_url'), get_option('mailserver_port'
 	! $pop3->user(get_option('mailserver_login')) ||
 	( ! $count = $pop3->pass(get_option('mailserver_pass')) ) ) {
 		$pop3->quit();
-		wp_die( ( 0 === $count ) ? __('There doesn&#8217;t seem to be any new mail.') : wp_specialchars($pop3->ERROR) );
+		wp_die( ( 0 === $count ) ? __('There doesn&#8217;t seem to be any new mail.') : esc_html($pop3->ERROR) );
 }
 
 for ( $i = 1; $i <= $count; $i++ ) {
@@ -195,11 +195,11 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 	do_action('publish_phone', $post_ID);
 
-	echo "\n<p>" . sprintf(__('<strong>Author:</strong> %s'), wp_specialchars($post_author)) . '</p>';
-	echo "\n<p>" . sprintf(__('<strong>Posted title:</strong> %s'), wp_specialchars($post_title)) . '</p>';
+	echo "\n<p>" . sprintf(__('<strong>Author:</strong> %s'), esc_html($post_author)) . '</p>';
+	echo "\n<p>" . sprintf(__('<strong>Posted title:</strong> %s'), esc_html($post_title)) . '</p>';
 
 	if(!$pop3->delete($i)) {
-		echo '<p>' . sprintf(__('Oops: %s'), wp_specialchars($pop3->ERROR)) . '</p>';
+		echo '<p>' . sprintf(__('Oops: %s'), esc_html($pop3->ERROR)) . '</p>';
 		$pop3->reset();
 		exit;
 	} else {

@@ -422,7 +422,7 @@ case 'add-link-category' : // On the Fly
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
 		}
 		$cat_id = $cat_id['term_id'];
-		$cat_name = wp_specialchars(stripslashes($cat_name));
+		$cat_name = esc_html(stripslashes($cat_name));
 		$x->add( array(
 			'what' => 'link-category',
 			'id' => $cat_id,
@@ -898,7 +898,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 			$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
 			$data = new WP_Error( 'locked', sprintf(
 				$_POST['post_type'] == 'page' ? __( 'Autosave disabled: %s is currently editing this page.' ) : __( 'Autosave disabled: %s is currently editing this post.' ),
-				wp_specialchars( $last_user_name )
+				esc_html( $last_user_name )
 			) );
 
 			$supplemental['disable_autosave'] = 'disable';
@@ -1057,7 +1057,7 @@ case 'inline-save':
 	if ( $last = wp_check_post_lock( $post_ID ) ) {
 		$last_user = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
-		printf( $_POST['post_type'] == 'page' ? __( 'Saving is disabled: %s is currently editing this page.' ) : __( 'Saving is disabled: %s is currently editing this post.' ),	wp_specialchars( $last_user_name ) );
+		printf( $_POST['post_type'] == 'page' ? __( 'Saving is disabled: %s is currently editing this page.' ) : __( 'Saving is disabled: %s is currently editing this post.' ),	esc_html( $last_user_name ) );
 		exit;
 	}
 
@@ -1217,7 +1217,7 @@ case 'find_posts':
 		}
 
 		$html .= '<tr class="found-posts"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
-		$html .= '<td><label for="found-'.$post->ID.'">'.wp_specialchars($post->post_title, true).'</label></td><td>'.wp_specialchars($time, true).'</td><td>'.wp_specialchars($stat, true).'</td></tr>'."\n\n";
+		$html .= '<td><label for="found-'.$post->ID.'">'.esc_html( $post->post_title ).'</label></td><td>'.esc_html( $time ).'</td><td>'.esc_html( $stat ).'</td></tr>'."\n\n";
 	}
 	$html .= '</tbody></table>';
 

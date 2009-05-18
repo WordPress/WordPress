@@ -17,7 +17,7 @@ require_once('admin-header.php');
 screen_icon();
 ?>
 <div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2>
+<h2><?php echo esc_html( $title ); ?></h2>
 
 <div class="tool-box">
 <?php

@@ -99,7 +99,7 @@ function wxr_cdata($str) {
 	if ( seems_utf8($str) == false )
 		$str = utf8_encode($str);
 
-	// $str = ent2ncr(wp_specialchars($str));
+	// $str = ent2ncr(esc_html($str));
 
 	$str = "<![CDATA[$str" . ( ( substr($str, -1) == ']' ) ? ' ' : '') . "]]>";
 

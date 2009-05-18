@@ -342,7 +342,7 @@ require_once ('admin-header.php');
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2>
+<h2><?php echo esc_html( $title ); ?></h2>
 
 <?php if ( isset( $_GET['added'] ) ) : ?>
 <div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>

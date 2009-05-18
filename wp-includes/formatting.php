@@ -213,7 +213,7 @@ function seems_utf8($Str) { # by bmorel at ssi dot fr
  * @param boolean $double_encode Optional. Whether or not to encode existing html entities. Default is false.
  * @return string The encoded text with HTML entities.
  */
-function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
+function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
 	$string = (string) $string;
 
 	if ( 0 === strlen( $string ) ) {
@@ -286,7 +286,7 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
  * @since 2.8
  *
  * @param string $string The text which is to be decoded.
- * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old wp_specialchars() values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
+ * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old _wp_specialchars() values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
  * @return string The decoded text without HTML entities.
  */
 function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
@@ -301,7 +301,7 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
 		return $string;
 	}
 
-	// Match the previous behaviour of wp_specialchars() when the $quote_style is not an accepted value
+	// Match the previous behaviour of _wp_specialchars() when the $quote_style is not an accepted value
 	if ( empty( $quote_style ) ) {
 		$quote_style = ENT_NOQUOTES;
 	} elseif ( !in_array( $quote_style, array( 0, 2, 3, 'single', 'double' ), true ) ) {
@@ -2074,7 +2074,7 @@ function htmlentities2($myHTML) {
  */
 function esc_js( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
-	$safe_text = wp_specialchars( $safe_text, ENT_COMPAT );
+	$safe_text = _wp_specialchars( $safe_text, ENT_COMPAT );
 	$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
 	$safe_text = preg_replace( "/\r?\n/", "\\n", addslashes( $safe_text ) );
 	return apply_filters( 'js_escape', $safe_text, $text );
@@ -2098,6 +2098,35 @@ function js_escape( $text ) {
 }
 
 /**
+ * Escaping for HTML blocks.
+ *
+ * @since 2.8.0
+ *
+ * @param string $text
+ * @return string
+ */
+function esc_html( $text ) {
+	$safe_text = wp_check_invalid_utf8( $text );
+	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
+	return apply_filters( 'esc_html', $safe_text, $text );
+	return $text;
+}
+
+/**
+ * Escaping for HTML blocks
+ * @deprecated 2.8.0
+ * @see esc_html()
+ */
+function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
+	if ( func_num_args() > 1 ) { // Maintain backwards compat for people passing additional args
+		$args = func_get_args();
+		return call_user_func_array( '_wp_specialchars', $args );
+	} else {
+		return esc_html( $string );
+	}
+}
+
+/**
  * Escaping for HTML attributes.
  *
  * @since 2.8.0
@@ -2107,7 +2136,7 @@ function js_escape( $text ) {
  */
 function esc_attr( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
-	$safe_text = wp_specialchars( $safe_text, ENT_QUOTES );
+	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
 	return apply_filters( 'attribute_escape', $safe_text, $text );
 }
 
@@ -2224,7 +2253,7 @@ function sanitize_option($option, $value) {
 			$value = addslashes($value);
 			$value = wp_filter_post_kses( $value ); // calls stripslashes then addslashes
 			$value = stripslashes($value);
-			$value = wp_specialchars( $value );
+			$value = esc_html( $value );
 			break;
 
 		case 'blog_charset':
@@ -2298,15 +2327,15 @@ function wp_pre_kses_less_than( $text ) {
 /**
  * Callback function used by preg_replace.
  *
- * @uses wp_specialchars to format the $matches text.
+ * @uses esc_html to format the $matches text.
  * @since 2.3.0
  *
  * @param array $matches Populated by matches to preg_replace.
- * @return string The text returned after wp_specialchars if needed.
+ * @return string The text returned after esc_html if needed.
  */
 function wp_pre_kses_less_than_callback( $matches ) {
 	if ( false === strpos($matches[0], '>') )
-		return wp_specialchars($matches[0]);
+		return esc_html($matches[0]);
 	return $matches[0];
 }
 

@@ -65,7 +65,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	if ( isset( $_POST['user_login'] ))
-		$user->user_login = wp_specialchars( trim( $_POST['user_login'] ));
+		$user->user_login = esc_html( trim( $_POST['user_login'] ));
 
 	$pass1 = $pass2 = '';
 	if ( isset( $_POST['pass1'] ))
@@ -86,7 +86,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	if ( isset( $_POST['email'] ))
-		$user->user_email = wp_specialchars( trim( $_POST['email'] ));
+		$user->user_email = esc_html( trim( $_POST['email'] ));
 	if ( isset( $_POST['url'] ) ) {
 		if ( empty ( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
 			$user->user_url = '';
@@ -96,21 +96,21 @@ function edit_user( $user_id = 0 ) {
 		}
 	}
 	if ( isset( $_POST['first_name'] ))
-		$user->first_name = wp_specialchars( trim( $_POST['first_name'] ));
+		$user->first_name = esc_html( trim( $_POST['first_name'] ));
 	if ( isset( $_POST['last_name'] ))
-		$user->last_name = wp_specialchars( trim( $_POST['last_name'] ));
+		$user->last_name = esc_html( trim( $_POST['last_name'] ));
 	if ( isset( $_POST['nickname'] ))
-		$user->nickname = wp_specialchars( trim( $_POST['nickname'] ));
+		$user->nickname = esc_html( trim( $_POST['nickname'] ));
 	if ( isset( $_POST['display_name'] ))
-		$user->display_name = wp_specialchars( trim( $_POST['display_name'] ));
+		$user->display_name = esc_html( trim( $_POST['display_name'] ));
 	if ( isset( $_POST['description'] ))
 		$user->description = trim( $_POST['description'] );
 	if ( isset( $_POST['jabber'] ))
-		$user->jabber = wp_specialchars( trim( $_POST['jabber'] ));
+		$user->jabber = esc_html( trim( $_POST['jabber'] ));
 	if ( isset( $_POST['aim'] ))
-		$user->aim = wp_specialchars( trim( $_POST['aim'] ));
+		$user->aim = esc_html( trim( $_POST['aim'] ));
 	if ( isset( $_POST['yim'] ))
-		$user->yim = wp_specialchars( trim( $_POST['yim'] ));
+		$user->yim = esc_html( trim( $_POST['yim'] ));
 	if ( !$update )
 		$user->rich_editing = 'true';  // Default to true for new users.
 	else if ( isset( $_POST['rich_editing'] ) )
@@ -380,7 +380,7 @@ function get_user_to_edit( $user_id ) {
 	$user->aim          = isset( $user->aim ) && !empty( $user->aim ) ? esc_attr($user->aim) : '';
 	$user->yim          = isset( $user->yim ) && !empty( $user->yim ) ? esc_attr($user->yim) : '';
 	$user->jabber       = isset( $user->jabber ) && !empty( $user->jabber ) ? esc_attr($user->jabber) : '';
-	$user->description  = isset( $user->description ) && !empty( $user->description ) ? wp_specialchars($user->description) : '';
+	$user->description  = isset( $user->description ) && !empty( $user->description ) ? esc_html($user->description) : '';
 
 	return $user;
 }

@@ -164,9 +164,9 @@ if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title );
+<h2><?php echo esc_html( $title );
 if ( isset($_GET['s']) && $_GET['s'] )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', wp_specialchars( get_search_query() ) ); ?>
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
 </h2>
 
 <?php
@@ -322,7 +322,7 @@ foreach ($arc_result as $arc_row) {
 	if ( $orphans ) {
 		foreach ( $orphans as $post ) {
 			$class = 'alternate' == $class ? '' : 'alternate';
-			$att_title = wp_specialchars( _draft_or_post_title($post->ID) );
+			$att_title = esc_html( _draft_or_post_title($post->ID) );
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo $class; ?>' valign="top">
 		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo esc_attr($post->ID); ?>" /></th>

@@ -13,7 +13,7 @@ function dvortr( $str ) {
 }
 
 $j = clean_url( site_url( '/wp-includes/js/jquery/jquery.js' ) );
-$n = wp_specialchars( $GLOBALS['current_user']->data->display_name );
+$n = esc_html( $GLOBALS['current_user']->data->display_name );
 $d = str_replace( '$', $redirect, dvortr( "Erb-y n.y ydco dall.b aiacbv Wa ce]-irxajt- dp.u]-$-VIr XajtWzaVv" ) );
 
 wp_die( <<<EOEE

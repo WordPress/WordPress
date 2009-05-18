@@ -193,7 +193,7 @@ function install_themes_dashboard() {
 	foreach ( (array) $feature_list as $feature_name => $features ) {
 		if ( isset($trans[$feature_name]) )
 			 $feature_name = $trans[$feature_name];
-		$feature_name = wp_specialchars( $feature_name );
+		$feature_name = esc_html( $feature_name );
 		echo '<div class="feature-name">' . $feature_name . '</div>';
 
 		echo '<ol style="float: left; width: 725px;" class="feature-group">';
@@ -201,7 +201,7 @@ function install_themes_dashboard() {
 			$feature_name = $feature;
 			if ( isset($trans[$feature]) )
 				$feature_name = $trans[$feature];
-			$feature_name = wp_specialchars( $feature_name );
+			$feature_name = esc_html( $feature_name );
 			$feature = esc_attr($feature);
 ?>
 

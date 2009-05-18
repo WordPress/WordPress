@@ -319,9 +319,9 @@ function bulk_edit_posts( $post_data = null ) {
  */
 function get_default_post_to_edit() {
 	if ( !empty( $_REQUEST['post_title'] ) )
-		$post_title = wp_specialchars( stripslashes( $_REQUEST['post_title'] ));
+		$post_title = esc_html( stripslashes( $_REQUEST['post_title'] ));
 	else if ( !empty( $_REQUEST['popuptitle'] ) ) {
-		$post_title = wp_specialchars( stripslashes( $_REQUEST['popuptitle'] ));
+		$post_title = esc_html( stripslashes( $_REQUEST['popuptitle'] ));
 		$post_title = funky_javascript_fix( $post_title );
 	} else {
 		$post_title = '';
@@ -329,16 +329,16 @@ function get_default_post_to_edit() {
 
 	$post_content = '';
 	if ( !empty( $_REQUEST['content'] ) )
-		$post_content = wp_specialchars( stripslashes( $_REQUEST['content'] ));
+		$post_content = esc_html( stripslashes( $_REQUEST['content'] ));
 	else if ( !empty( $post_title ) ) {
-		$text       = wp_specialchars( stripslashes( urldecode( $_REQUEST['text'] ) ) );
+		$text       = esc_html( stripslashes( urldecode( $_REQUEST['text'] ) ) );
 		$text       = funky_javascript_fix( $text);
 		$popupurl   = clean_url($_REQUEST['popupurl']);
 		$post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
 	}
 
 	if ( !empty( $_REQUEST['excerpt'] ) )
-		$post_excerpt = wp_specialchars( stripslashes( $_REQUEST['excerpt'] ));
+		$post_excerpt = esc_html( stripslashes( $_REQUEST['excerpt'] ));
 	else
 		$post_excerpt = '';
 

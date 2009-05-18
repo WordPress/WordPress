@@ -1078,7 +1078,7 @@ function get_cancel_comment_reply_link($text = '') {
 		$text = __('Click here to cancel reply.');
 
 	$style = isset($_GET['replytocom']) ? '' : ' style="display:none;"';
-	$link = wp_specialchars( remove_query_arg('replytocom') ) . '#respond';
+	$link = esc_html( remove_query_arg('replytocom') ) . '#respond';
 	return apply_filters('cancel_comment_reply_link', '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>', $link, $text);
 }
 

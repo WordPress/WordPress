@@ -36,7 +36,7 @@ do_action('edit_tag_form_pre', $tag); ?>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _e('Description') ?></label></th>
-			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($tag->description); ?></textarea><br />
+			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />
             <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
 		</tr>
 	</table>

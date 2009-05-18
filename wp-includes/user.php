@@ -540,7 +540,7 @@ function wp_dropdown_users( $args = '' ) {
 			$user->ID = (int) $user->ID;
 			$_selected = $user->ID == $selected ? " selected='selected'" : '';
 			$display = !empty($user->$show) ? $user->$show : '('. $user->user_login . ')';
-			$output .= "\t<option value='$user->ID'$_selected>" . wp_specialchars($display) . "</option>\n";
+			$output .= "\t<option value='$user->ID'$_selected>" . esc_html($display) . "</option>\n";
 		}
 
 		$output .= "</select>";

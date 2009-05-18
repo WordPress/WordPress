@@ -10,7 +10,7 @@
 if (!isset($_GET["page"])) require_once('admin.php');
 
 get_admin_page_title();
-$title = wp_specialchars( strip_tags( $title ) );
+$title = esc_html( strip_tags( $title ) );
 wp_user_settings();
 wp_menu_unfold();
 ?>

@@ -469,7 +469,7 @@ class Walker_Category_Checklist extends Walker {
 		extract($args);
 
 		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
-		$output .= "\n<li id='category-$category->term_id'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="post_category[]" id="in-category-' . $category->term_id . '"' . (in_array( $category->term_id, $selected_cats ) ? ' checked="checked"' : "" ) . '/> ' . wp_specialchars( apply_filters('the_category', $category->name )) . '</label>';
+		$output .= "\n<li id='category-$category->term_id'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="post_category[]" id="in-category-' . $category->term_id . '"' . (in_array( $category->term_id, $selected_cats ) ? ' checked="checked"' : "" ) . '/> ' . esc_html( apply_filters('the_category', $category->name )) . '</label>';
 	}
 
 	function end_el(&$output, $category, $depth, $args) {
@@ -562,7 +562,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit">
 			<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
-				<?php echo wp_specialchars( apply_filters( 'the_category', $category->name ) ); ?>
+				<?php echo esc_html( apply_filters( 'the_category', $category->name ) ); ?>
 			</label>
 		</li>
 
@@ -614,7 +614,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
 
 	foreach ( $categories as $category ) {
 		$cat_id = $category->term_id;
-		$name = wp_specialchars( apply_filters('the_category', $category->name));
+		$name = esc_html( apply_filters('the_category', $category->name));
 		$checked = in_array( $cat_id, $checked_categories );
 		echo '<li id="link-category-', $cat_id, '"><label for="in-link-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="link_category[]" id="in-link-category-', $cat_id, '"', ($checked ? ' checked="checked"' : "" ), '/> ', $name, "</label></li>";
 	}
@@ -1304,17 +1304,17 @@ function get_inline_data($post) {
 	<div class="hh">' . mysql2date( 'H', $post->post_date, false ) . '</div>
 	<div class="mn">' . mysql2date( 'i', $post->post_date, false ) . '</div>
 	<div class="ss">' . mysql2date( 's', $post->post_date, false ) . '</div>
-	<div class="post_password">' . wp_specialchars($post->post_password, 1) . '</div>';
+	<div class="post_password">' . esc_html( $post->post_password ) . '</div>';
 
 	if( $post->post_type == 'page' )
 		echo '
 	<div class="post_parent">' . $post->post_parent . '</div>
-	<div class="page_template">' . wp_specialchars(get_post_meta( $post->ID, '_wp_page_template', true ), 1) . '</div>
+	<div class="page_template">' . esc_html( get_post_meta( $post->ID, '_wp_page_template', true ) ) . '</div>
 	<div class="menu_order">' . $post->menu_order . '</div>';
 
 	if( $post->post_type == 'post' )
 		echo '
-	<div class="tags_input">' . wp_specialchars( str_replace( ',', ', ', get_tags_to_edit($post->ID) ), 1) . '</div>
+	<div class="tags_input">' . esc_html( str_replace( ',', ', ', get_tags_to_edit($post->ID) ) ) . '</div>
 	<div class="post_category">' . implode( ',', wp_get_post_categories( $post->ID ) ) . '</div>
 	<div class="sticky">' . (is_sticky($post->ID) ? 'sticky' : '') . '</div>';
 
@@ -1331,7 +1331,7 @@ function get_inline_data($post) {
 function post_rows( $posts = array() ) {
 	global $wp_query, $post, $mode;
 
-	add_filter('the_title','wp_specialchars');
+	add_filter('the_title','esc_html');
 
 	// Create array of post IDs.
 	$post_ids = array();
@@ -1478,7 +1478,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			if ( !empty( $categories ) ) {
 				$out = array();
 				foreach ( $categories as $c )
-					$out[] = "<a href='edit.php?category_name=$c->slug'> " . wp_specialchars(sanitize_term_field('name', $c->name, $c->term_id, 'category', 'display')) . "</a>";
+					$out[] = "<a href='edit.php?category_name=$c->slug'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'category', 'display')) . "</a>";
 					echo join( ', ', $out );
 			} else {
 				_e('Uncategorized');
@@ -1494,7 +1494,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			if ( !empty( $tags ) ) {
 				$out = array();
 				foreach ( $tags as $c )
-					$out[] = "<a href='edit.php?tag=$c->slug'> " . wp_specialchars(sanitize_term_field('name', $c->name, $c->term_id, 'post_tag', 'display')) . "</a>";
+					$out[] = "<a href='edit.php?tag=$c->slug'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'post_tag', 'display')) . "</a>";
 				echo join( ', ', $out );
 			} else {
 				_e('No Tags');
@@ -1591,7 +1591,7 @@ function display_page_row( $page, $level = 0 ) {
 		}
 	}
 
-	$page->post_title = wp_specialchars( $page->post_title );
+	$page->post_title = esc_html( $page->post_title );
 	$pad = str_repeat( '&#8212; ', $level );
 	$id = (int) $page->ID;
 	$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
@@ -1653,7 +1653,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . wp_specialchars($parent_name) : ''; ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . esc_html($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
 		if ( current_user_can('edit_page', $page->ID) ) {
@@ -2337,7 +2337,7 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
 		foreach ( $categories as $category ) {
 			if ( $currentcat != $category->term_id && $parent == $category->parent) {
 				$pad = str_repeat( '&#8211; ', $level );
-				$category->name = wp_specialchars( $category->name );
+				$category->name = esc_html( $category->name );
 				echo "\n\t<option value='$category->term_id'";
 				if ( $currentparent == $category->term_id )
 					echo " selected='selected'";
@@ -2627,7 +2627,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 			else
 				$current = '';
 
-			echo "\n\t<option class='level-$level' value='$item->ID'$current>$pad " . wp_specialchars($item->post_title) . "</option>";
+			echo "\n\t<option class='level-$level' value='$item->ID'$current>$pad " . esc_html($item->post_title) . "</option>";
 			parent_dropdown( $default, $item->ID, $level +1 );
 		}
 	} else {

@@ -581,7 +581,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				default :
 					$type = ucwords( $comment->comment_type );
 				endswitch;
-				$type = wp_specialchars( $type );
+				$type = esc_html( $type );
 			?>
 			<div class="dashboard-comment-wrap">
 			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
@@ -646,7 +646,7 @@ function wp_dashboard_incoming_links_output() {
 		$author = $item->get_author();
 		$site_link = clean_url( strip_tags( $author->get_link() ) );
 
-		if ( !$publisher = wp_specialchars( strip_tags( $author->get_name() ) ) )
+		if ( !$publisher = esc_html( strip_tags( $author->get_name() ) ) )
 			$publisher = __( 'Somebody' );
 		if ( $site_link )
 			$publisher = "<a href='$site_link'>$publisher</a>";
@@ -667,7 +667,7 @@ function wp_dashboard_incoming_links_output() {
 			if ( $show_author || $show_summary )
 				/* translators: incoming links feed, %4$s is the date */
 				$text .= ' ' . __( 'on %4$s' );
-			$date = wp_specialchars( strip_tags( $item->get_date() ) );
+			$date = esc_html( strip_tags( $item->get_date() ) );
 			$date = strtotime( $date );
 			$date = gmdate( get_option( 'date_format' ), $date );
 		}
@@ -813,9 +813,9 @@ function wp_dashboard_plugins_output() {
 			$title = $matches[1];
 		else // but let's make it forward compatible if things change
 			$title = $item->get_title();
-		$title = wp_specialchars( $title );
+		$title = esc_html( $title );
 
-		$description = wp_specialchars( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
+		$description = esc_html( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
 							'&amp;TB_iframe=true&amp;width=600&amp;height=800';

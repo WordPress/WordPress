@@ -883,8 +883,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				$struct['name']				= $tag->name;
 				$struct['count']			= $tag->count;
 				$struct['slug']				= $tag->slug;
-				$struct['html_url']			= wp_specialchars( get_tag_link( $tag->term_id ) );
-				$struct['rss_url']			= wp_specialchars( get_tag_feed_link( $tag->term_id ) );
+				$struct['html_url']			= esc_html( get_tag_link( $tag->term_id ) );
+				$struct['rss_url']			= esc_html( get_tag_feed_link( $tag->term_id ) );
 
 				$tags[] = $struct;
 			}
@@ -2790,8 +2790,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				$struct['description'] = $cat->name;
 				$struct['categoryDescription'] = $cat->description;
 				$struct['categoryName'] = $cat->name;
-				$struct['htmlUrl'] = wp_specialchars(get_category_link($cat->term_id));
-				$struct['rssUrl'] = wp_specialchars(get_category_feed_link($cat->term_id, 'rss2'));
+				$struct['htmlUrl'] = esc_html(get_category_link($cat->term_id));
+				$struct['rssUrl'] = esc_html(get_category_feed_link($cat->term_id, 'rss2'));
 
 				$categories_struct[] = $struct;
 			}
@@ -3327,7 +3327,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$pagelinkedfrom = str_replace('&', '&amp;', $pagelinkedfrom);
 
-		$context = '[...] ' . wp_specialchars( $excerpt ) . ' [...]';
+		$context = '[...] ' . esc_html( $excerpt ) . ' [...]';
 		$pagelinkedfrom = $wpdb->escape( $pagelinkedfrom );
 
 		$comment_post_ID = (int) $post_ID;

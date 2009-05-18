@@ -601,7 +601,7 @@ function wp_widget_description( $id ) {
 	global $wp_registered_widgets;
 
 	if ( isset($wp_registered_widgets[$id]['description']) )
-		return wp_specialchars( $wp_registered_widgets[$id]['description'] );
+		return esc_html( $wp_registered_widgets[$id]['description'] );
 }
 
 /**

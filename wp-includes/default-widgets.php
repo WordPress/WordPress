@@ -820,7 +820,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 		$desc = str_replace(array("\n", "\r"), ' ', esc_attr(strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
 		$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
-		$desc = wp_specialchars( $desc );
+		$desc = esc_html( $desc );
 
 		if ( $show_summary ) {
 			$summary = "<div class='rssSummary'>$desc</div>";
@@ -844,7 +844,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		if ( $show_author ) {
 			$author = $item->get_author();
 			$author = $author->get_name();
-			$author = ' <cite>' . wp_specialchars( strip_tags( $author ) ) . '</cite>';
+			$author = ' <cite>' . esc_html( strip_tags( $author ) ) . '</cite>';
 		}
 
 		if ( $link == '' ) {

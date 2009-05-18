@@ -24,7 +24,7 @@ if ( have_posts() ) { ?>
 
 	<tbody id="the-list" class="list:post">
 <?php
-add_filter('the_title','wp_specialchars');
+add_filter('the_title','esc_html');
 $alt = '';
 $posts_columns = get_column_headers('upload');
 $hidden = get_hidden_columns('upload');
@@ -110,7 +110,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		if ( !empty( $tags ) ) {
 			$out = array();
 			foreach ( $tags as $c )
-				$out[] = "<a href='edit.php?tag=$c->slug'> " . wp_specialchars(sanitize_term_field('name', $c->name, $c->term_id, 'post_tag', 'display')) . "</a>";
+				$out[] = "<a href='edit.php?tag=$c->slug'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'post_tag', 'display')) . "</a>";
 			echo join( ', ', $out );
 		} else {
 			_e('No Tags');
