@@ -2,136 +2,21 @@
 
 if ( !defined('ABSPATH') )
 	exit;
-/**
- * @ignore
- */
-function __() {}
 
-/**
- * @ignore
- */
-function _c() {}
+require(ABSPATH . 'wp-includes/version.php');
 
-/**
- * @ignore
- */
-function _x() {}
-
-
-/**
- * @ignore
- */
-function add_filter() {}
-
-/**
- * @ignore
- */
-function esc_attr() {}
-
-/**
- * @ignore
- */
-function attribute_escape() {}
-
-/**
- * @ignore
- */
-function apply_filters() {}
-
-/**
- * @ignore
- */
-function get_option() {}
-
-/**
- * @ignore
- */
-function is_lighttpd_before_150() {}
-
-/**
- * @ignore
- */
-function add_action() {}
-
-/**
- * @ignore
- */
-function do_action_ref_array() {}
-
-/**
- * @ignore
- */
-function get_bloginfo() {}
-
-/**
- * @ignore
- */
-function is_admin() {return true;}
-
-/**
- * @ignore
- */
-function site_url() {}
-
-/**
- * @ignore
- */
-function admin_url() {}
-
-/**
- * @ignore
- */
-function wp_guess_url() {}
-
-require(ABSPATH . '/wp-includes/script-loader.php');
-require(ABSPATH . '/wp-includes/version.php');
+$man_version = md5( $tinymce_version . $manifest_version );
+$mce_ver = "ver=$tinymce_version";
 
 /**
  * Retrieve list of all cacheable WP files
  *
  * Array format: file, version (optional), bool (whether to use src and set ignoreQuery)
  */
+function &get_manifest() {
+	global $mce_ver;
 
-$wp_scripts = new WP_Scripts();
-wp_default_scripts($wp_scripts);
-
-$wp_styles = new WP_Styles();
-wp_default_styles($wp_styles);
-
-function &get_manifest(&$man_ver) {
-	global $wp_scripts, $wp_styles, $wp_version;
-
-	$files = array();
-	foreach ( $wp_scripts->registered as $script ) {
-		if ( empty($script->src) ) continue;
-		$ver = empty($script->ver) ? $wp_version : $script->ver;
-		if ( 'editor' == $script->handle ) $mce_ver = $script->ver;
-		$src = str_replace( array( '/wp-admin/', '/wp-includes/' ), array( '', '../wp-includes/' ), $script->src );
-		$files[] = array($src, $ver);
-		$man_ver .= $ver;
-	}
-
-	foreach ( $wp_styles->registered as $style ) {
-		if ( empty($style->src) ) continue;
-
-		$ver = empty($style->ver) ? $wp_version : $style->ver;
-		$src = str_replace( array( '/wp-admin/', '/wp-includes/' ), array( '', '../wp-includes/' ), $style->src );
-		if ( 'colors' == $style->handle ) $src = 'css/colors-classic.css';
-		$files[] = array($src, $ver);
-		 $man_ver .= $ver;
-
-		if ( isset($style->extra['rtl']) && $style->extra['rtl'] ) {
-			if ( is_bool( $style->extra['rtl'] ) )
-				$rtl_href = str_replace( '.css', '-rtl.css', $src );
-			else
-				$rtl_href = str_replace( array( '/wp-admin/', '/wp-includes/' ), array( '', '../wp-includes/' ), $style->extra['rtl'] );
-
-			$files[] = array($rtl_href, $ver);
-			 $man_ver .= $ver;
-		}
-	}
-
-	$images = array(
+	$files = array(
 		array('images/align-center.png'),
 		array('images/align-left.png'),
 		array('images/align-none.png'),
@@ -203,11 +88,11 @@ function &get_manifest(&$man_ver) {
 		array('../wp-includes/js/thickbox/tb-close.png'),
 	);
 
-	$files = array_merge($files, $images);
-
 	if ( @is_file('../wp-includes/js/tinymce/tiny_mce.js') ) :
 	$mce = array(
-		array('../wp-includes/js/tinymce/wp-tinymce.php', $mce_ver, true),
+		array('../wp-includes/js/tinymce/wp-tinymce.php', 'c=1&' . $mce_ver, true),
+		array('../wp-includes/js/tinymce/wp-tinymce.php', 'c=0&' . $mce_ver, true),
+
 		array('../wp-includes/js/tinymce/tiny_mce.js', $mce_ver, true),
 		array('../wp-includes/js/tinymce/langs/wp-langs-en.js', $mce_ver, true),
 		array('../wp-includes/js/tinymce/utils/mctabs.js', $mce_ver, true),

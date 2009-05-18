@@ -1151,13 +1151,18 @@ function post_preview() {
 /**
  * Adds the TinyMCE editor used on the Write and Edit screens.
  *
- * Has option to output a trimmed down version used in Press This.
- *
  * @package WordPress
  * @since 2.7
+ *
+ * TinyMCE is loaded separately from other Javascript by using wp-tinymce.php. It outputs concatenated
+ * and optionaly pre-compressed version of the core and all default plugins. Additional plugins are loaded
+ * directly by TinyMCE using non-blocking method. Custom plugins can be refreshed by adding a query string
+ * to the URL when queueing them with the mce_external_plugins filter.
+ *
+ * @param bool $teeny optional Output a trimmed down version used in Press This.
  */
 function wp_tiny_mce( $teeny = false ) {
-	global $concatenate_scripts, $compress_scripts;
+	global $concatenate_scripts, $compress_scripts, $tinymce_version;
 
 	if ( ! user_can_richedit() )
 		return;
@@ -1334,7 +1339,16 @@ function wp_tiny_mce( $teeny = false ) {
 
 	$language = $initArray['language'];
 	$zip = $compress_scripts ? 1 : 0;
-	$ver = apply_filters('tiny_mce_version', '323');
+	
+	/**
+	 * Deprecated
+	 *  
+	 * The tiny_mce_version filter is not needed since external plugins are loaded directly by TinyMCE.
+	 * These plugins can be refreshed by appending query string to the URL passed to mce_external_plugins filter.
+	 * If the plugin has a popup dialog, a query string can be added to the button action that opens it (in the plugin's code).	 
+	 */
+	$version = apply_filters('tiny_mce_version', '');
+	$version = 'ver=' . $tinymce_version . $version;
 
 	if ( 'en' != $language )
 		include_once(ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php');
@@ -1350,7 +1364,7 @@ function wp_tiny_mce( $teeny = false ) {
 tinyMCEPreInit = {
 	base : "<?php echo $baseurl; ?>",
 	suffix : "",
-	query : "ver=<?php echo $ver; ?>",
+	query : "<?php echo $version; ?>",
 	mceInit : {<?php echo $mce_options; ?>},
 	load_ext : function(url,lang){var sl=tinymce.ScriptLoader;sl.markDone(url+'/langs/'+lang+'.js');sl.markDone(url+'/langs/'+lang+'_dlg.js');}
 };
@@ -1359,14 +1373,14 @@ tinyMCEPreInit = {
 
 <?php
 	if ( $concatenate_scripts )
-		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&amp;ver=$ver'></script>\n";
+		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&amp;$version'></script>\n";
 	else
-		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?ver=$ver'></script>\n";
+		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?$version'></script>\n";
 
 	if ( 'en' != $language && isset($lang) )
 		echo "<script type='text/javascript'>\n$lang\n</script>\n";
 	else
-		echo "<script type='text/javascript' src='$baseurl/langs/wp-langs-en.js?ver=$ver'></script>\n";
+		echo "<script type='text/javascript' src='$baseurl/langs/wp-langs-en.js?$version'></script>\n";
 ?>
 
 <script type="text/javascript">

@@ -8,8 +8,8 @@
  * file.
  *
  * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
- * define('SCRIPT_DEBUG', true); loads the develppment (non-minified) versions of all scripts
- * define('CONCATENATE_SCRIPTS', false); disables both compression and cancatenating,
+ * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and disables compression and concatenation
+ * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation,
  * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
  * define('COMPRESS_CSS', false); disables compression of CSS,
  * define('ENFORCE_GZIP', true); forces gzip for compression (default is deflate).
@@ -86,13 +86,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
 
-	// Modify this version when tinyMCE plugins are changed.
-	function mce_version() {
-		return '20090503';
-	}
-	add_filter( 'tiny_mce_version', 'mce_version' );
-
-	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", false, mce_version() );
+	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", false, '20090503' );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
