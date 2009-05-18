@@ -73,7 +73,7 @@ switch ( $step ) :
 			$backto = __get_option( 'home' ) . '/';
 		else {
 			$backto = stripslashes( urldecode( $_GET['backto'] ) );
-			$backto = esc_urlaw( $backto  );
+			$backto = esc_url_raw( $backto  );
 		}
 ?>
 <h2><?php _e( 'Upgrade Complete' ); ?></h2>
