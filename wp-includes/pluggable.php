@@ -952,9 +952,9 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	$post    = get_post($comment->comment_post_ID);
 	$user    = get_userdata( $post->post_author );
 	$current_user = wp_get_current_user();
-	
-	if ( $current_user->ID == $user->ID ) return false; // The author moderated a comment on his own post
 
+	if ( $comment->user_id == $post->post_author ) return false; // The author moderated a comment on his own post
+	
 	if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
