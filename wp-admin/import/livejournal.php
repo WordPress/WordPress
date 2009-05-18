@@ -186,7 +186,7 @@ class LJ_API_Import {
 			<p class="submit">
 				<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Continue previous import' ) ?>" />
 			</p>
-			<p class="submitbox"><a href="<?php echo clean_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( $_SERVER['REQUEST_URI'] )) ?>" class="deletion submitdelete"><?php _e( 'Cancel &amp; start a new import' ) ?></a></p>
+			<p class="submitbox"><a href="<?php echo esc_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( $_SERVER['REQUEST_URI'] )) ?>" class="deletion submitdelete"><?php _e( 'Cancel &amp; start a new import' ) ?></a></p>
 			<p>
 		<?php else : ?>
 			<input type="hidden" name="step" value="1" />
@@ -724,7 +724,7 @@ class LJ_API_Import {
 		if ( empty( $this->username ) || empty( $this->password ) ) {
 			?>
 			<p><?php _e( 'Please enter your LiveJournal username <em>and</em> password so we can download your posts and comments.' ) ?></p>
-			<p><a href="<?php echo clean_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( str_replace( '&step=1', '', $_SERVER['REQUEST_URI'] ) ) ) ?>"><?php _e( 'Start again' ) ?></a></p>
+			<p><a href="<?php echo esc_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( str_replace( '&step=1', '', $_SERVER['REQUEST_URI'] ) ) ) ?>"><?php _e( 'Start again' ) ?></a></p>
 			<?php
 			return false;
 		}
@@ -736,7 +736,7 @@ class LJ_API_Import {
 				delete_option( 'ljapi_protected_password' );
 				?>
 				<p><?php _e( 'Logging in to LiveJournal failed. Check your username and password and try again.' ) ?></p>
-				<p><a href="<?php echo clean_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( str_replace( '&step=1', '', $_SERVER['REQUEST_URI'] ) ) ) ?>"><?php _e( 'Start again' ) ?></a></p>
+				<p><a href="<?php echo esc_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( str_replace( '&step=1', '', $_SERVER['REQUEST_URI'] ) ) ) ?>"><?php _e( 'Start again' ) ?></a></p>
 				<?php
 				return false;
 			} else {

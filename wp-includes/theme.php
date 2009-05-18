@@ -185,7 +185,7 @@ function get_theme_data( $theme_file ) {
 		$name = $theme = '';
 
 	if ( preg_match( '|Theme URI:(.*)$|mi', $theme_data, $theme_uri ) )
-		$theme_uri = clean_url( _cleanup_header_comment($theme_uri[1]) );
+		$theme_uri = esc_url( _cleanup_header_comment($theme_uri[1]) );
 	else
 		$theme_uri = '';
 
@@ -195,7 +195,7 @@ function get_theme_data( $theme_file ) {
 		$description = '';
 
 	if ( preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri ) )
-		$author_uri = clean_url( _cleanup_header_comment($author_uri[1]) );
+		$author_uri = esc_url( _cleanup_header_comment($author_uri[1]) );
 	else
 		$author_uri = '';
 

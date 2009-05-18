@@ -2336,7 +2336,7 @@ function wp_nonce_ays( $action ) {
 	$title = __( 'WordPress Failure Notice' );
 	$html = esc_html( wp_explain_nonce( $action ) );
 	if ( wp_get_referer() )
-		$html .= "</p><p><a href='" . clean_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+		$html .= "</p><p><a href='" . esc_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
 	elseif ( 'log-out' == $action )
 		$html .= "</p><p>" . sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_logout_url() );
 

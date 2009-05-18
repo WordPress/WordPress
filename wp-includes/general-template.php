@@ -141,9 +141,9 @@ function get_search_form() {
  */
 function wp_loginout($redirect = '') {
 	if ( ! is_user_logged_in() )
-		$link = '<a href="' . clean_url( wp_login_url($redirect) ) . '">' . __('Log in') . '</a>';
+		$link = '<a href="' . esc_url( wp_login_url($redirect) ) . '">' . __('Log in') . '</a>';
 	else
-		$link = '<a href="' . clean_url( wp_logout_url($redirect) ) . '">' . __('Log out') . '</a>';
+		$link = '<a href="' . esc_url( wp_logout_url($redirect) ) . '">' . __('Log out') . '</a>';
 
 	echo apply_filters('loginout', $link);
 }
@@ -689,7 +689,7 @@ function single_month_title($prefix = '', $display = true ) {
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
 	$text = wptexturize($text);
 	$title_text = esc_attr($text);
-	$url = clean_url($url);
+	$url = esc_url($url);
 
 	if ('link' == $format)
 		$link_html = "\t<link rel='archives' title='$title_text' href='$url' />\n";
@@ -1807,7 +1807,7 @@ function paginate_links( $args = '' ) {
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$link .= $add_fragment;
-		$page_links[] = "<a class='prev page-numbers' href='" . clean_url($link) . "'>$prev_text</a>";
+		$page_links[] = "<a class='prev page-numbers' href='" . esc_url($link) . "'>$prev_text</a>";
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
 		$n_display = number_format_i18n($n);
@@ -1821,7 +1821,7 @@ function paginate_links( $args = '' ) {
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
 				$link .= $add_fragment;
-				$page_links[] = "<a class='page-numbers' href='" . clean_url($link) . "'>$n_display</a>";
+				$page_links[] = "<a class='page-numbers' href='" . esc_url($link) . "'>$n_display</a>";
 				$dots = true;
 			elseif ( $dots && !$show_all ) :
 				$page_links[] = "<span class='page-numbers dots'>...</span>";
@@ -1835,7 +1835,7 @@ function paginate_links( $args = '' ) {
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$link .= $add_fragment;
-		$page_links[] = "<a class='next page-numbers' href='" . clean_url($link) . "'>$next_text</a>";
+		$page_links[] = "<a class='next page-numbers' href='" . esc_url($link) . "'>$next_text</a>";
 	endif;
 	switch ( $type ) :
 		case 'array' :
@@ -1935,9 +1935,9 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 		return;
 	}
 
-	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . clean_url( wp_admin_css_uri( $file ) ) . "' type='text/css' />\n", $file );
+	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . esc_url( wp_admin_css_uri( $file ) ) . "' type='text/css' />\n", $file );
 	if ( 'rtl' == get_bloginfo( 'text_direction' ) )
-		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . clean_url( wp_admin_css_uri( "$file-rtl" ) ) . "' type='text/css' />\n", "$file-rtl" );
+		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . esc_url( wp_admin_css_uri( "$file-rtl" ) ) . "' type='text/css' />\n", "$file-rtl" );
 }
 
 /**

@@ -77,7 +77,7 @@ function the_media_upload_tabs() {
 			if ( $current == $callback )
 				$class = " class='current'";
 			$href = add_query_arg(array('tab'=>$callback, 's'=>false, 'paged'=>false, 'post_mime_type'=>false, 'm'=>false));
-			$link = "<a href='" . clean_url($href) . "'$class>$text</a>";
+			$link = "<a href='" . esc_url($href) . "'$class>$text</a>";
 			echo "\t<li id='" . esc_attr("tab-$callback") . "'>$link</li>\n";
 		}
 		echo "</ul>\n";
@@ -107,7 +107,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	$rel = $rel ? ' rel="attachment wp-att-' . esc_attr($id).'"' : '';
 
 	if ( $url )
-		$html = '<a href="' . clean_url($url) . "\"$rel>$html</a>";
+		$html = '<a href="' . esc_url($url) . "\"$rel>$html</a>";
 
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url, $size );
 
@@ -1745,7 +1745,7 @@ if ( empty($_GET['post_mime_type']) || $_GET['post_mime_type'] == 'all' )
 	$class = ' class="current"';
 else
 	$class = '';
-$type_links[] = "<li><a href='" . clean_url(add_query_arg(array('post_mime_type'=>'all', 'paged'=>false, 'm'=>false))) . "'$class>".__('All Types')."</a>";
+$type_links[] = "<li><a href='" . esc_url(add_query_arg(array('post_mime_type'=>'all', 'paged'=>false, 'm'=>false))) . "'$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
@@ -1755,7 +1755,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( isset($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
-	$type_links[] = "<li><a href='" . clean_url(add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false))) . "'$class>" . sprintf(_n($label[2][0], $label[2][1], $num_posts[$mime_type]), "<span id='$mime_type-counter'>" . number_format_i18n( $num_posts[$mime_type] ) . '</span>') . '</a>';
+	$type_links[] = "<li><a href='" . esc_url(add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false))) . "'$class>" . sprintf(_n($label[2][0], $label[2][1], $num_posts[$mime_type]), "<span id='$mime_type-counter'>" . number_format_i18n( $num_posts[$mime_type] ) . '</span>') . '</a>';
 }
 echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);
@@ -2059,7 +2059,7 @@ add_filter('flash_uploader', 'media_upload_use_flash');
  */
 function media_upload_flash_bypass() {
 	echo '<p class="upload-flash-bypass">';
-	printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), clean_url(add_query_arg('flash', 0)) );
+	printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), esc_url(add_query_arg('flash', 0)) );
 	echo '</p>';
 }
 
@@ -2074,7 +2074,7 @@ function media_upload_html_bypass($flash = true) {
 	if ( $flash ) {
 		// the user manually selected the browser uploader, so let them switch back to Flash
 		echo ' ';
-		printf( __('Try the <a href="%s">Flash uploader</a> instead.'), clean_url(add_query_arg('flash', 1)) );
+		printf( __('Try the <a href="%s">Flash uploader</a> instead.'), esc_url(add_query_arg('flash', 1)) );
 	}
 	echo "</p>\n";
 }

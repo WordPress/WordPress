@@ -115,12 +115,12 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		$wp_dashboard_control_callbacks[$widget_id] = $control_callback;
 		if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
 			list($url) = explode( '#', add_query_arg( 'edit', false ), 2 );
-			$widget_name .= ' <span class="postbox-title-action"><a href="' . clean_url( $url ) . '">' . __( 'Cancel' ) . '</a></span>';
+			$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '">' . __( 'Cancel' ) . '</a></span>';
 			add_meta_box( $widget_id, $widget_name, '_wp_dashboard_control_callback', 'dashboard', 'normal', 'core' );
 			return;
 		}
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
-		$widget_name .= ' <span class="postbox-title-action"><a href="' . clean_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
+		$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 	}
 	$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
 	$location = 'normal';
@@ -357,14 +357,14 @@ function wp_dashboard_quick_press() {
 	$drafts = false;
 	if ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) && isset( $_POST['action'] ) && 0 === strpos( $_POST['action'], 'post-quickpress' ) && (int) $_POST['post_ID'] ) {
 		$view = get_permalink( $_POST['post_ID'] );
-		$edit = clean_url( get_edit_post_link( $_POST['post_ID'] ) );
+		$edit = esc_url( get_edit_post_link( $_POST['post_ID'] ) );
 		if ( 'post-quickpress-publish' == $_POST['action'] ) {
 			if ( current_user_can('publish_posts') )
-				printf( '<div class="message"><p>' . __( 'Post Published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', clean_url( $view ), $edit );
+				printf( '<div class="message"><p>' . __( 'Post Published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( $view ), $edit );
 			else
-				printf( '<div class="message"><p>' . __( 'Post submitted. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', clean_url( add_query_arg( 'preview', 1, $view ) ), $edit );
+				printf( '<div class="message"><p>' . __( 'Post submitted. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
 		} else {
-			printf( '<div class="message"><p>' . __( 'Draft Saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', clean_url( add_query_arg( 'preview', 1, $view ) ), $edit );
+			printf( '<div class="message"><p>' . __( 'Draft Saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
 			$drafts_query = new WP_Query( array(
 				'post_type' => 'post',
 				'post_status' => 'draft',
@@ -384,7 +384,7 @@ function wp_dashboard_quick_press() {
 	$post = get_default_post_to_edit();
 ?>
 
-	<form name="post" action="<?php echo clean_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
+	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
 		<h4 id="quick-post-title"><label for="title"><?php _e('Title') ?></label></h4>
 		<div class="input-text-wrap">
 			<input type="text" name="post_title" id="title" tabindex="1" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
@@ -525,12 +525,12 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
 	$comment_post_title = strip_tags(get_the_title( $comment->comment_post_ID ));
 	$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
-	$comment_link = '<a class="comment-link" href="' . clean_url(get_comment_link()) . '">#</a>';
+	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
 
-	$delete_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
-	$unapprove_url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "unapprove-comment_$comment->comment_ID" ) );
-	$spam_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+	$delete_url = esc_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+	$approve_url = esc_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
+	$unapprove_url = esc_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "unapprove-comment_$comment->comment_ID" ) );
+	$spam_url = esc_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 
 	$actions = array();
 
@@ -641,10 +641,10 @@ function wp_dashboard_incoming_links_output() {
 		$link = '';
 		$content = '';
 		$date = '';
-		$link = clean_url( strip_tags( $item->get_link() ) );
+		$link = esc_url( strip_tags( $item->get_link() ) );
 
 		$author = $item->get_author();
-		$site_link = clean_url( strip_tags( $author->get_link() ) );
+		$site_link = esc_url( strip_tags( $author->get_link() ) );
 
 		if ( !$publisher = esc_html( strip_tags( $author->get_name() ) ) )
 			$publisher = __( 'Somebody' );
@@ -780,7 +780,7 @@ function wp_dashboard_plugins_output() {
 
 			list($link, $frag) = explode( '#', $item->get_link() );
 
-			$link = clean_url($link);
+			$link = esc_url($link);
 			if ( preg_match( '|/([^/]+?)/?$|', $link, $matches ) )
 				$slug = $matches[1];
 			else {

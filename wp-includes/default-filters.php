@@ -43,7 +43,7 @@ $filters = array('pre_comment_author_url', 'pre_user_url', 'pre_link_url', 'pre_
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'strip_tags');
 	add_filter($filter, 'trim');
-	add_filter($filter, 'sanitize_url');
+	add_filter($filter, 'esc_url_raw');
 	add_filter($filter, 'wp_filter_kses');
 }
 
@@ -52,7 +52,7 @@ $filters = array('user_url', 'link_url', 'link_image', 'link_rss', 'comment_url'
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'strip_tags');
 	add_filter($filter, 'trim');
-	add_filter($filter, 'clean_url');
+	add_filter($filter, 'esc_url');
 	add_filter($filter, 'wp_filter_kses');
 }
 

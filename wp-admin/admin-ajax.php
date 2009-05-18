@@ -132,7 +132,7 @@ function _wp_ajax_delete_comment_response( $comment_id ) {
 	$total = (int) @$_POST['_total'];
 	$per_page = (int) @$_POST['_per_page'];
 	$page = (int) @$_POST['_page'];
-	$url = clean_url( @$_POST['_url'], null, 'url' );
+	$url = esc_url_raw( @$_POST['_url'] );
 	// JS didn't send us everything we need to know. Just die with success message
 	if ( !$total || !$per_page || !$page || !$url )
 		die( (string) time() );

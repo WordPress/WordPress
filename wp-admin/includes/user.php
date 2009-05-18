@@ -91,7 +91,7 @@ function edit_user( $user_id = 0 ) {
 		if ( empty ( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
 			$user->user_url = '';
 		} else {
-			$user->user_url = clean_url( trim( $_POST['url'] ));
+			$user->user_url = esc_url( trim( $_POST['url'] ));
 			$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 		}
 	}
@@ -372,7 +372,7 @@ function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
 	$user->user_login   = esc_attr($user->user_login);
 	$user->user_email   = esc_attr($user->user_email);
-	$user->user_url     = clean_url($user->user_url);
+	$user->user_url     = esc_url($user->user_url);
 	$user->first_name   = esc_attr($user->first_name);
 	$user->last_name    = esc_attr($user->last_name);
 	$user->display_name = esc_attr($user->display_name);

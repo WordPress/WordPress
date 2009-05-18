@@ -1149,7 +1149,7 @@ function antispambot($emailaddy, $mailto=0) {
  */
 function _make_url_clickable_cb($matches) {
 	$url = $matches[2];
-	$url = clean_url($url);
+	$url = esc_url($url);
 	if ( empty($url) )
 		return $matches[0];
 	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>";
@@ -1171,7 +1171,7 @@ function _make_web_ftp_clickable_cb($matches) {
 	$ret = '';
 	$dest = $matches[2];
 	$dest = 'http://' . $dest;
-	$dest = clean_url($dest);
+	$dest = esc_url($dest);
 	if ( empty($dest) )
 		return $matches[0];
 	// removed trailing [,;:] from URL
@@ -1988,7 +1988,7 @@ function wp_htmledit_pre($output) {
  * Checks and cleans a URL.
  *
  * A number of characters are removed from the URL. If the URL is for displaying
- * (the default behaviour) amperstands are also replaced. The 'clean_url' filter
+ * (the default behaviour) amperstands are also replaced. The 'esc_url' filter
  * is applied to the returned cleaned URL.
  *
  * @since 1.2.0
@@ -2032,9 +2032,47 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 }
 
 /**
- * Performs clean_url() for database usage.
+ * Checks and cleans a URL.
  *
- * @see clean_url()
+ * A number of characters are removed from the URL. If the URL is for displaying
+ * (the default behaviour) amperstands are also replaced. The 'esc_url' filter
+ * is applied to the returned cleaned URL.
+ *
+ * @since 2.8.0
+ * @uses esc_url()
+ * @uses wp_kses_bad_protocol() To only permit protocols in the URL set
+ *		via $protocols or the common ones set in the function.
+ *
+ * @param string $url The URL to be cleaned.
+ * @param array $protocols Optional. An array of acceptable protocols.
+ *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set.
+ * @return string The cleaned $url after the 'cleaned_url' filter is applied.
+ */
+function esc_url( $url, $protocols = null ) {
+	return clean_url( $url, $protocols, 'display' );
+}
+
+/**
+ * Performs esc_url() for database usage.
+ *
+ * @see esc_url()
+ * @see esc_url()
+ *
+ * @since 2.8.0
+ *
+ * @param string $url The URL to be cleaned.
+ * @param array $protocols An array of acceptable protocols.
+ * @return string The cleaned URL.
+ */
+function esc_url_raw( $url, $protocols = null ) {
+	return clean_url( $url, $protocols, 'db' );
+}
+
+/**
+ * Performs esc_url() for database or redirect usage.
+ *
+ * @see esc_url()
+ * @deprecated 2.8.0
  *
  * @since 2.3.1
  *
@@ -2280,7 +2318,7 @@ function sanitize_option($option, $value) {
 		case 'siteurl':
 		case 'home':
 			$value = stripslashes($value);
-			$value = clean_url($value);
+			$value = esc_url($value);
 			break;
 		default :
 			$value = apply_filters("sanitize_option_{$option}", $value, $option);

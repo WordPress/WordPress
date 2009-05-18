@@ -1001,7 +1001,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 			$output .= get_option('links_recently_updated_prepend');
 		$the_link = '#';
 		if ( !empty($row->link_url) )
-			$the_link = clean_url($row->link_url);
+			$the_link = esc_url($row->link_url);
 		$rel = $row->link_rel;
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';

@@ -102,7 +102,7 @@ class WP_Styles extends WP_Dependencies {
 
 		$src = add_query_arg('ver', $ver, $src);
 		$src = apply_filters( 'style_loader_src', $src, $handle );
-		return clean_url( $src );
+		return esc_url( $src );
 	}
 
 	function in_default_dir($src) {

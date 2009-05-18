@@ -87,10 +87,10 @@ function post_submit_meta_box($post) {
 <div id="preview-action">
 <?php
 if ( 'publish' == $post->post_status ) {
-	$preview_link = clean_url(get_permalink($post->ID));
+	$preview_link = esc_url(get_permalink($post->ID));
 	$preview_button = __('Preview Changes');
 } else {
-	$preview_link = clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID))));
+	$preview_link = esc_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID))));
 	$preview_button = __('Preview');
 }
 ?>
@@ -572,7 +572,7 @@ else
 <input type="hidden" id="post_author" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
 <input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr($post->post_type) ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo esc_attr($post->post_status) ?>" />
-<input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />
 <?php
 if ( 'draft' != $post->post_status )
 	wp_original_referer_field(true, 'previous');

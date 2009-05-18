@@ -134,7 +134,7 @@ if ( !empty($action) ) {
 						?>
 					</ul>
 				<p><?php _e('Are you sure you wish to delete these files?') ?></p>
-				<form method="post" action="<?php echo clean_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
+				<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
 					<input type="hidden" name="verify-delete" value="1" />
 					<input type="hidden" name="action" value="delete-selected" />
 					<?php
@@ -144,7 +144,7 @@ if ( !empty($action) ) {
 					<?php wp_nonce_field('bulk-manage-plugins') ?>
 					<input type="submit" name="submit" value="<?php esc_attr_e('Yes, Delete these files') ?>" class="button" />
 				</form>
-				<form method="post" action="<?php echo clean_url(wp_get_referer()); ?>" style="display:inline;">
+				<form method="post" action="<?php echo esc_url(wp_get_referer()); ?>" style="display:inline;">
 					<input type="submit" name="submit" value="<?php esc_attr_e('No, Return me to the plugin list') ?>" class="button" />
 				</form>
 

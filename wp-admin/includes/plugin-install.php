@@ -138,7 +138,7 @@ function install_dashboard() {
 	$tags = array();
 	foreach ( (array)$api_tags as $tag )
 		$tags[ $tag['name'] ] = (object) array(
-								'link' => clean_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
+								'link' => esc_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
 								'name' => $tag['name'],
 								'id' => sanitize_title_with_dashes($tag['name']),
 								'count' => $tag['count'] );
@@ -273,7 +273,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 		<?php do_action('install_plugins_table_header'); ?>
 		</div>
 		<?php
-			$url = clean_url($_SERVER['REQUEST_URI']);
+			$url = esc_url($_SERVER['REQUEST_URI']);
 			if ( ! empty($term) )
 				$url = add_query_arg('s', $term, $url);
 			if ( ! empty($type) )
@@ -427,7 +427,7 @@ function install_plugin_information() {
 
 		$class = ( $section_name == $section ) ? ' class="current"' : '';
 		$href = add_query_arg( array('tab' => $tab, 'section' => $section_name) );
-		$href = clean_url($href);
+		$href = esc_url($href);
 		$san_title = esc_attr(sanitize_title_with_dashes($title));
 		echo "\t<li><a name='$san_title' target='' href='$href'$class>$title</a></li>\n";
 	}

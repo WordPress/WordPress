@@ -659,7 +659,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			<?php if ( $title ) echo $before_title . $title . $after_title; ?>
 			<ul id="recentcomments"><?php
 			if ( $comments ) : foreach ( (array) $comments as $comment) :
-			echo  '<li class="recentcomments">' . /* translators: comments widget: 1: comment author, 2: post link */ sprintf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . clean_url( get_comment_link($comment->comment_ID) ) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
+			echo  '<li class="recentcomments">' . /* translators: comments widget: 1: comment author, 2: post link */ sprintf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url( get_comment_link($comment->comment_ID) ) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 			endforeach; endif;?></ul>
 		<?php echo $after_widget; ?>
 <?php
@@ -730,7 +730,7 @@ class WP_Widget_RSS extends WP_Widget {
 			$desc = esc_attr(strip_tags(@html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
 			if ( empty($title) )
 				$title = htmlentities(strip_tags($rss->get_title()));
-			$link = clean_url(strip_tags($rss->get_permalink()));
+			$link = esc_url(strip_tags($rss->get_permalink()));
 			while ( stristr($link, 'http') != $link )
 				$link = substr($link, 1);
 		}
@@ -739,7 +739,7 @@ class WP_Widget_RSS extends WP_Widget {
 			$title = empty($desc) ? __('Unknown Feed') : $desc;
 
 		$title = apply_filters('widget_title', $title );
-		$url = clean_url(strip_tags($url));
+		$url = esc_url(strip_tags($url));
 		$icon = includes_url('images/rss.png');
 		if ( $title )
 			$title = "<a class='rsswidget' href='$url' title='" . esc_attr(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
@@ -813,7 +813,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		$link = $item->get_link();
 		while ( stristr($link, 'http') != $link )
 			$link = substr($link, 1);
-		$link = clean_url(strip_tags($link));
+		$link = esc_url(strip_tags($link));
 		$title = esc_attr(strip_tags($item->get_title()));
 		if ( empty($title) )
 			$title = __('Untitled');
@@ -879,7 +879,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 
 	$number = esc_attr( $number );
 	$title  = esc_attr( $title );
-	$url    = clean_url( $url );
+	$url    = esc_url( $url );
 	$items  = (int) $items;
 	if ( $items < 1 || 20 < $items )
 		$items  = 10;
@@ -958,7 +958,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	$items = (int) $widget_rss['items'];
 	if ( $items < 1 || 20 < $items )
 		$items = 10;
-	$url           = sanitize_url(strip_tags( $widget_rss['url'] ));
+	$url           = esc_url_raw(strip_tags( $widget_rss['url'] ));
 	$title         = trim(strip_tags( $widget_rss['title'] ));
 	$show_summary  = (int) $widget_rss['show_summary'];
 	$show_author   = (int) $widget_rss['show_author'];
@@ -971,7 +971,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 		if ( is_wp_error($rss) ) {
 			$error = $rss->get_error_message();
 		} else {
-			$link = clean_url(strip_tags($rss->get_permalink()));
+			$link = esc_url(strip_tags($rss->get_permalink()));
 			while ( stristr($link, 'http') != $link )
 				$link = substr($link, 1);
 		}

@@ -333,7 +333,7 @@ function get_default_post_to_edit() {
 	else if ( !empty( $post_title ) ) {
 		$text       = esc_html( stripslashes( urldecode( $_REQUEST['text'] ) ) );
 		$text       = funky_javascript_fix( $text);
-		$popupurl   = clean_url($_REQUEST['popupurl']);
+		$popupurl   = esc_url($_REQUEST['popupurl']);
 		$post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
 	}
 

@@ -44,7 +44,7 @@ function list_core_update( $update ) {
 	echo '<input id="upgrade" class="button" type="submit" value="' . esc_attr($submit) . '" name="upgrade" />&nbsp;';
 	echo '<input name="version" value="'. esc_attr($update->current) .'" type="hidden"/>';
 	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
-	echo '<a href="' . clean_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
+	echo '<a href="' . esc_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
 			echo '<input id="dismiss" class="button" type="submit" value="' . esc_attr__('Hide this update') . '" name="dismiss" />';

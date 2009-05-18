@@ -194,7 +194,7 @@ foreach ( $cols as $col => $theme_name ) {
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
 	$template_dir = $themes[$theme_name]['Template Dir'];
 	$parent_theme = $themes[$theme_name]['Parent Theme'];
-	$preview_link = clean_url( get_option('home') . '/');
+	$preview_link = esc_url( get_option('home') . '/');
 	$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), $preview_link ) );
 	$preview_text = esc_attr( sprintf( __('Preview of &#8220;%s&#8221;'), $title ) );
 	$tags = $themes[$theme_name]['Tags'];

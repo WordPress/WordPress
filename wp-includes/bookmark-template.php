@@ -70,7 +70,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 		$the_link = '#';
 		if ( !empty($bookmark->link_url) )
-			$the_link = clean_url($bookmark->link_url);
+			$the_link = esc_url($bookmark->link_url);
 
 		$desc = esc_attr(sanitize_bookmark_field('link_description', $bookmark->link_description, $bookmark->link_id, 'display'));
 		$name = esc_attr(sanitize_bookmark_field('link_name', $bookmark->link_name, $bookmark->link_id, 'display'));

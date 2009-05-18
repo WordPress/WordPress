@@ -57,7 +57,7 @@ $step = (int) $step;
 switch ( $step ) :
 	case 0:
 		$goback = stripslashes( wp_get_referer() );
-		$goback = clean_url( $goback, null, 'url' );
+		$goback = esc_url_raw( $goback );
 		$goback = urlencode( $goback );
 ?>
 <h2><?php _e( 'Database Upgrade Required' ); ?></h2>
@@ -73,7 +73,7 @@ switch ( $step ) :
 			$backto = __get_option( 'home' ) . '/';
 		else {
 			$backto = stripslashes( urldecode( $_GET['backto'] ) );
-			$backto = clean_url( $backto, null, 'url' );
+			$backto = esc_urlaw( $backto  );
 		}
 ?>
 <h2><?php _e( 'Upgrade Complete' ); ?></h2>

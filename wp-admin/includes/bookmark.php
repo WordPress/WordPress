@@ -30,10 +30,10 @@ function edit_link( $link_id = '' ) {
 		wp_die( __( 'Cheatin&#8217; uh?' ));
 
 	$_POST['link_url'] = esc_html( $_POST['link_url'] );
-	$_POST['link_url'] = clean_url($_POST['link_url']);
+	$_POST['link_url'] = esc_url($_POST['link_url']);
 	$_POST['link_name'] = esc_html( $_POST['link_name'] );
 	$_POST['link_image'] = esc_html( $_POST['link_image'] );
-	$_POST['link_rss'] = clean_url($_POST['link_rss']);
+	$_POST['link_rss'] = esc_url($_POST['link_rss']);
 	if ( !isset($_POST['link_visible']) || 'N' != $_POST['link_visible'] )
 		$_POST['link_visible'] = 'Y';
 
@@ -54,7 +54,7 @@ function edit_link( $link_id = '' ) {
  */
 function get_default_link_to_edit() {
 	if ( isset( $_GET['linkurl'] ) )
-		$link->link_url = clean_url( $_GET['linkurl']);
+		$link->link_url = esc_url( $_GET['linkurl']);
 	else
 		$link->link_url = '';
 

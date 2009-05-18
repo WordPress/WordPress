@@ -97,7 +97,7 @@ if ( ! empty($selection) ) {
 	$selection = preg_replace('/(\r?\n|\r)/', '</p><p>', $selection);
 	$selection = '<p>'.str_replace('<p></p>', '', $selection).'</p>';
 }
-$url = isset($_GET['u']) ? clean_url($_GET['u']) : '';
+$url = isset($_GET['u']) ? esc_url($_GET['u']) : '';
 $image = isset($_GET['i']) ? $_GET['i'] : '';
 
 if ( !empty($_REQUEST['ajax']) ) {
@@ -140,7 +140,7 @@ switch ($_REQUEST['ajax']) {
 		</div>
 
 		<p class="centered"><input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="this_photo" />
-			<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" /></a></p>
+			<a href="#" class="select"><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" /></a></p>
 
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
 
@@ -205,7 +205,7 @@ switch ($_REQUEST['ajax']) {
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 					else
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
-				$sources[] = clean_url($src);
+				$sources[] = esc_url($src);
 			}
 			return "'" . implode("','", $sources) . "'";
 		}
@@ -222,7 +222,7 @@ switch ($_REQUEST['ajax']) {
 			var my_src = eval(
 				jQuery.ajax({
 			   		type: "GET",
-			   		url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
+			   		url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
 					cache : false,
 					async : false,
 			   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
@@ -233,7 +233,7 @@ switch ($_REQUEST['ajax']) {
 				var my_src = eval(
 				jQuery.ajax({
 			   		type: "GET",
-			   		url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
+			   		url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
 					cache : false,
 					async : false,
 			   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
@@ -377,7 +377,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 		jQuery('#extra_fields').show();
 		switch(tab_name) {
 			case 'video' :
-				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo esc_attr($selection); ?>'}, function() {
+				jQuery('#extra_fields').load('<?php echo esc_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo esc_attr($selection); ?>'}, function() {
 					<?php
 					$content = '';
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
@@ -406,7 +406,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 				jQuery.ajax({
 					type: "GET",
 					cache : false,
-					url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
+					url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
 					data: "ajax=photo_js&u=<?php echo urlencode($url)?>",
 					dataType : "script",
 					success : function() {
