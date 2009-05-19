@@ -208,8 +208,10 @@ function wp_update_themes( ) {
 	$current_theme->last_checked = time();
 	set_transient( 'update_themes', $current_theme );
 
+	$current_theme->template = get_option( 'template' );
+
 	$themes = array( );
-	$themes['current_theme'] = $current_theme;
+	$themes['current_theme'] = (array) $current_theme;
 	foreach( (array) $installed_themes as $theme_title => $theme ) {
 		$themes[$theme['Template']] = array( );
 
