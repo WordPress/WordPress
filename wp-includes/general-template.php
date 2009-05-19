@@ -455,7 +455,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	}
 
 	// If there is a post
-	if ( is_single() ||  ( is_page() && !is_front_page() ) ) {
+	if ( is_single() || ( is_home() && !is_front_page() ) || ( is_page() && !is_front_page() ) ) {
 		$post = $wp_query->get_queried_object();
 		$title = strip_tags( apply_filters( 'single_post_title', $post->post_title ) );
 	}
