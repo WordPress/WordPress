@@ -222,9 +222,9 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 		if ( $more ) {
 			$output .= '<span id="more-' . $id . '"></span>' . $content[1];
 		} else {
-			$output = balanceTags($output);
 			if ( ! empty($more_link_text) )
 				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
+			$output = force_balance_tags($output);
 		}
 
 	}
