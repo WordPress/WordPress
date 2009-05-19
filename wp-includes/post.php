@@ -1551,9 +1551,9 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$where = array( 'ID' => $post_ID );
 	}
 
-	if ( empty($post_name) && !in_array( $post_status, array( 'draft', 'pending' ) ) ) {
-		$post_name = sanitize_title($post_title, $post_ID);
-		$wpdb->update( $wpdb->posts, compact( 'post_name' ), $where );
+	if ( empty($data['post_name']) && !in_array( $data['post_status'], array( 'draft', 'pending' ) ) ) {
+		$data['post_name'] = sanitize_title($data['post_title'], $post_ID);
+		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 	}
 
 	wp_set_post_categories( $post_ID, $post_category );
@@ -1569,7 +1569,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	$current_guid = get_post_field( 'guid', $post_ID );
 
-	if ( 'page' == $post_type )
+	if ( 'page' == $data['post_type'] )
 		clean_page_cache($post_ID);
 	else
 		clean_post_cache($post_ID);
@@ -1580,7 +1580,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	$post = get_post($post_ID);
 
-	if ( !empty($page_template) && 'page' == $post_type ) {
+	if ( !empty($page_template) && 'page' == $data['post_type'] ) {
 		$post->page_template = $page_template;
 		$page_templates = get_page_templates();
 		if ( 'default' != $page_template && !in_array($page_template, $page_templates) ) {
@@ -1592,7 +1592,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		update_post_meta($post_ID, '_wp_page_template',  $page_template);
 	}
 
-	wp_transition_post_status($post_status, $previous_status, $post);
+	wp_transition_post_status($data['post_status'], $previous_status, $post);
 
 	if ( $update)
 		do_action('edit_post', $post_ID, $post);
