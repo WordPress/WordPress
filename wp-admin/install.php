@@ -14,13 +14,8 @@
  */
 define('WP_INSTALLING', true);
 
-/**
- * This constant is used to include wp-load.php
- */
-define('ABSPATH', dirname(dirname(__FILE__)).'/');
-
 /** Load WordPress Bootstrap */
-require_once(ABSPATH . 'wp-load.php');
+require_once(dirname(dirname(__FILE__)) . '/wp-load.php');
 
 /** Load WordPress Administration Upgrade API */
 require_once(dirname(__FILE__) . '/includes/upgrade.php');
