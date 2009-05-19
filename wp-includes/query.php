@@ -73,7 +73,8 @@ function &query_posts($query) {
  * @uses $wp_query
  */
 function wp_reset_query() {
-	unset($GLOBALS['wp_query']);
+	foreach ( array('id', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'post', 'wp_query') as $var )
+		unset($GLOBALS[$var]);
 	$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
 	global $wp_query;
 	if ( !empty($wp_query->post) ) {
