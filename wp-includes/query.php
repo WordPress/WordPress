@@ -2371,7 +2371,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 * @uses $post
-	 * @uses do_action() Calls 'loop_start' if loop has just started
+	 * @uses do_action_ref_array() Calls 'loop_start' if loop has just started
 	 */
 	function the_post() {
 		unset($GLOBALS['post']); // Break the ref
@@ -2382,7 +2382,7 @@ class WP_Query {
 		do_action('the_post', $post);
 
 		if ( $this->current_post == 0 ) // loop has just started
-			do_action('loop_start');
+			do_action_ref_array('loop_start', array(&$this));
 	}
 
 	/**
@@ -2392,7 +2392,7 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @uses do_action() Calls 'loop_start' if loop has just started
+	 * @uses do_action_ref_array() Calls 'loop_end' if loop is ended
 	 *
 	 * @return bool True if posts are available, false if end of loop.
 	 */
@@ -2400,7 +2400,7 @@ class WP_Query {
 		if ($this->current_post + 1 < $this->post_count) {
 			return true;
 		} elseif ($this->current_post + 1 == $this->post_count && $this->post_count > 0) {
-			do_action('loop_end');
+			do_action_ref_array('loop_end', array(&$this));
 			// Do some cleaning up after the loop
 			$this->rewind_posts();
 		}
