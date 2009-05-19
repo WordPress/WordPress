@@ -242,8 +242,10 @@ case 'delete-link-cat' :
 
 	$cat_name = get_term_field('name', $id, 'link_category');
 
+	$default = get_option('default_link_category');
+
 	// Don't delete the default cats.
-	if ( $id == get_option('default_link_category') ) {
+	if ( $id == $default ) {
 		$x = new WP_AJAX_Response( array(
 			'what' => 'link-cat',
 			'id' => $id,
@@ -252,7 +254,7 @@ case 'delete-link-cat' :
 		$x->send();
 	}
 
-	$r = wp_delete_term($id, 'link_category');
+	$r = wp_delete_term($id, 'link_category', array('default' => $default));
 	if ( !$r )
 		die('0');
 	if ( is_wp_error($r) ) {
