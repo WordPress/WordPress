@@ -157,7 +157,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		
 	$details_url = admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&TB_iframe=true&width=600&height=800');
 
-	echo '<tr><td colspan="5" class="plugin-update">';
+	echo '<tr><td colspan="3" class="plugin-update"><div class="update-message">';
 	if ( ! current_user_can('update_plugins') )
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
 	else if ( empty($r->package) )
@@ -167,7 +167,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	
 	do_action( "in_plugin_update_message-$file", $plugin_data, $r );
 	
-	echo '</td></tr>';
+	echo '</div></td></tr>';
 }
 add_action( 'after_plugin_row', 'wp_plugin_update_row', 10, 2 );
 

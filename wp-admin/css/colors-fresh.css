@@ -378,7 +378,9 @@ div.dashboard-widget-submit input:hover,
 	color: #ccc;
 }
 
-.submitbox .submitdelete, a.delete {
+.plugins a.delete:hover,
+.submitbox .submitdelete,
+a.delete {
 	color: #f00;
 	border-bottom-color: #f00;
 }
@@ -414,7 +416,8 @@ div.dashboard-widget-submit input:hover,
 
 .updated,
 .login #login_error,
-.login .message {
+.login .message,
+.update-message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
 }
@@ -461,7 +464,8 @@ a,
 #the-comment-list p.comment-author strong a,
 #media-upload a.del-link,
 #media-upload a.delete,
-.ui-tabs-nav a {
+.ui-tabs-nav a,
+.plugins a.delete {
 	color: #21759b;
 }
 
@@ -569,10 +573,17 @@ input.readonly, textarea.readonly {
 	background-color: #fff;
 }
 
+#all-plugins-table .inactive,
+#all-plugins-table .inactive th,
+#all-plugins-table .inactive td {
+	color: #777;
+}
+
 .plugins .active,
 .plugins .active th,
 .plugins .active td {
-	background-color: #e7f7d3;
+	color: #000;
+	background-color: #f5f5f5;
 }
 
 #the-comment-list .unapproved,

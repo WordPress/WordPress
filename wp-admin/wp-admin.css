@@ -43,7 +43,7 @@ select option {
 }
 
 .plugins .desc p {
-	margin: 0 0 10px;
+	margin: 0 0 8px;
 }
 
 .plugins td.desc {
@@ -61,6 +61,27 @@ select option {
 
 .plugins .action-links { 
 	white-space: nowrap;
+}
+
+.plugins .row-actions-visible {
+	padding: 0;
+}
+
+.widefat tbody.plugins th.check-column {
+	padding: 7px 0;
+}
+
+.plugins td,
+.plugins th {
+	border-bottom: 0 none;
+	padding: 4px 7px 0;
+}
+
+.plugins .second td,
+.plugins .second th {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	padding: 0 7px 4px;
 }
 
 .import-system {
@@ -750,8 +771,7 @@ td.media-icon img {
 	max-height: 60px;
 }
 
-#update-nag,
-.plugin-update {
+#update-nag {
 	line-height: 29px;
 	font-size: 12px;
 	text-align: center;
@@ -762,9 +782,23 @@ td.media-icon img {
 	border-style: solid none;
 }
 
-.plugin-update {
-	border-width: 0 0 1px;
-	border-style: none none solid;
+.plugins .plugin-update {
+	text-align: center;
+	padding: 0;
+}
+
+.plugin-update .update-message {
+	padding: 3px 7px;
+	margin: 2px 20px 10px;
+}
+
+.update-message {
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #update-nag a,
@@ -794,6 +828,7 @@ div.comment-item:hover .row-actions {
 
 .row-actions-visible {
 	padding: 2px 0 0;
+	cursor: pointer;
 }
 
 /* Admin Header */

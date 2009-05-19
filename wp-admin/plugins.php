@@ -354,7 +354,7 @@ function print_plugins_table($plugins, $context = '') {
 
 	if ( empty($plugins) ) {
 		echo '<tr>
-			<td colspan="6">' . __('No plugins to show') . '</td>
+			<td colspan="3">' . __('No plugins to show') . '</td>
 		</tr>';
 	}
 	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
@@ -379,7 +379,17 @@ function print_plugins_table($plugins, $context = '') {
 		echo "
 	<tr class='$class'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data['Name']}</strong>";
+		<td class='plugin-title'><strong>{$plugin_data['Name']}</strong></td>
+		<td class='desc'><p>{$plugin_data['Description']}</p></td>
+	</tr>\n";
+
+		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
+		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $context );
+
+		echo "
+	<tr class='$class second'>
+		<td></td>
+		<td class='plugin-title'>";
 		$i = 0;
 		echo '<div class="row-actions-visible">';
 		foreach ( $actions as $action => $link ) {
@@ -387,9 +397,8 @@ function print_plugins_table($plugins, $context = '') {
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			echo "<span class='$action'>$link$sep</span>";
 		}
-		echo '</div>';
-		echo "</td>
-		<td class='desc'><p>{$plugin_data['Description']}</p>";
+		echo "</div></td>
+		<td class='desc'>";
 		$plugin_meta = array();
 		if ( !empty($plugin_data['Version']) )
 			$plugin_meta[] = sprintf(__('Version %s'), $plugin_data['Version']);
@@ -404,11 +413,8 @@ function print_plugins_table($plugins, $context = '') {
 		}
 		$plugin_meta = apply_filters('plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $context);
 		echo implode(' | ', $plugin_meta);
-		echo "</p>";
-		echo '</td>
-	</tr>';
-		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
-		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $context );
+		echo "</p></td>
+	</tr>\n";
 	}
 ?>
 	</tbody>
