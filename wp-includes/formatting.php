@@ -2480,7 +2480,7 @@ function wp_sprintf_l($pattern, $args) {
 	while ( $i ) {
 		$arg = array_shift($args);
 		$i--;
-		if ( $i == 1 )
+		if ( 0 == $i )
 			$result .= $l['between_last_two'] . $arg;
 		else
 			$result .= $l['between'] . $arg;
