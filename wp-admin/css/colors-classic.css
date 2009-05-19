@@ -1627,7 +1627,7 @@ div.widgets-sortables,
 }
 
 #widgets-right .sidebar-name {
-	background-image: url(../images/fav.png);
+	background-image: url(../images/fav-vs.png);
 	text-shadow: #3f3f3f 0 -1px 0;
 	background-color: #636363;
 	border-color: #636363;
@@ -1639,11 +1639,11 @@ div.widgets-sortables,
 }
 
 #widgets-left .sidebar-name-arrow {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -109px;
+	background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -109px;
 }
 
 #widgets-right .sidebar-name-arrow {
-	background: transparent url(../images/fav-arrow.gif) no-repeat scroll 0 -1px;
+	background: transparent url(../images/fav-arrow-vs.gif) no-repeat scroll 0 -1px;
 }
 
 h4 .in-widget-title {
