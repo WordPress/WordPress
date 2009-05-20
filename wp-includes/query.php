@@ -73,8 +73,7 @@ function &query_posts($query) {
  * @uses $wp_query
  */
 function wp_reset_query() {
-	foreach ( array('id', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'post', 'wp_query') as $var )
-		unset($GLOBALS[$var]);
+	unset($GLOBALS['wp_query']);
 	$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
 	global $wp_query;
 	if ( !empty($wp_query->post) ) {
@@ -2375,12 +2374,10 @@ class WP_Query {
 	 * @uses do_action_ref_array() Calls 'loop_start' if loop has just started
 	 */
 	function the_post() {
-		unset($GLOBALS['post']); // Break the ref
 		global $post;
 		$this->in_the_loop = true;
 		$post = $this->next_post();
 		setup_postdata($post);
-		do_action('the_post', $post);
 
 		if ( $this->current_post == 0 ) // loop has just started
 			do_action_ref_array('loop_start', array(&$this));
@@ -2649,11 +2646,14 @@ function wp_old_slug_redirect () {
  * @since 1.5.0
  *
  * @param object $post Post data.
+ * @uses do_action_ref_array() Calls 'the_post'
  * @return bool True when finished.
  */
 function setup_postdata($post) {
 	global $id, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages;
 
+	do_action_ref_array('the_post', array(&$post));
+	
 	$id = (int) $post->ID;
 
 	$authordata = get_userdata($post->post_author);

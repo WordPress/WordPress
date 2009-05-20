@@ -414,10 +414,10 @@ class WP {
 			$GLOBALS[$key] = $value;
 		}
 
-		$GLOBALS['query_string'] = & $this->query_string;
+		$GLOBALS['query_string'] = $this->query_string;
 		$GLOBALS['posts'] = & $wp_query->posts;
-		$GLOBALS['post'] = & $wp_query->post;
-		$GLOBALS['request'] = & $wp_query->request;
+		$GLOBALS['post'] = $wp_query->post;
+		$GLOBALS['request'] = $wp_query->request;
 
 		if ( is_single() || is_page() ) {
 			$GLOBALS['more'] = 1;
