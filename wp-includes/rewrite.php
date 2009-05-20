@@ -1347,6 +1347,12 @@ class WP_Rewrite {
 			$commentmatch = $match . $commentregex;
 			$commentquery = $index . '?' . $query . '&cpage=' . $this->preg_index($num_toks + 1);
 
+			if ( get_option('page_on_front') ) {
+				//create query for Root /comment-page-xx
+				$rootcommentmatch = $match . $commentregex;
+				$rootcommentquery = $index . '?' . $query . '&page_id=' . get_option('page_on_front') . '&cpage=' . $this->preg_index($num_toks + 1);
+			}
+
 			//create query for /feed/(feed|atom|rss|rss2|rdf)
 			$feedmatch = $match . $feedregex;
 			$feedquery = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
@@ -1371,6 +1377,8 @@ class WP_Rewrite {
 			//only on pages with comments add ../comment-page-xx/
 			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask || EP_NONE & $ep_mask )
 				$rewrite = array_merge($rewrite, array($commentmatch => $commentquery));
+			else if ( EP_ROOT & $ep_mask && get_option('page_on_front') )
+				$rewrite = array_merge($rewrite, array($rootcommentmatch => $rootcommentquery));
 
 			//do endpoints
 			if ($endpoints) {
