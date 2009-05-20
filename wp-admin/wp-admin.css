@@ -383,6 +383,7 @@ a.button-secondary {
 	line-height: 1.2em;
 	-webkit-border-radius: 10px;
 	padding: 4px 10px;
+	white-space: nowrap;
 }
 
 #doaction,
