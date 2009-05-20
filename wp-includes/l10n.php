@@ -352,8 +352,7 @@ function load_default_textdomain() {
  * Loads the plugin's translated strings.
  *
  * If the path is not given then it will be the root of the plugin directory.
- * The .mo file should be named based on the domain with a dash followed by a
- * dash, and then the locale exactly.
+ * The .mo file should be named based on the domain with a dash, and then the locale exactly.
  *
  * @since 1.5.0
  *
