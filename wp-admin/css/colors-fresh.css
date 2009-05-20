@@ -1325,10 +1325,6 @@ div.star.select:hover {
 	border-color: #ddd;
 }
 
-.inline-edit-row p.submit {
-	background-color: #f1f1f1;
-}
-
 .inline-editor .categories .catshow,
 .inline-editor .categories .cathide {
 	color: #21759b;
