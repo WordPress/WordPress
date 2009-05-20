@@ -127,12 +127,12 @@ function the_author_meta($field = '', $user_id = false) {
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_link
  * @since 2.1
- * @uses get_the_author_url()
+ * @uses get_the_author_meta()
  * @uses the_author()
  */
 function the_author_link() {
-	if (get_the_author_url()) {
-		echo '<a href="' . get_the_author_url() . '" title="' . sprintf(__("Visit %s&#8217;s website"), get_the_author()) . '" rel="external">' . get_the_author() . '</a>';
+	if ( get_the_author_meta('url') ) {
+		echo '<a href="' . get_the_author_meta('url') . '" title="' . sprintf(__("Visit %s&#8217;s website"), get_the_author()) . '" rel="external">' . get_the_author() . '</a>';
 	} else {
 		the_author();
 	}

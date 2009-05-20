@@ -1189,8 +1189,8 @@ EOD;
 	</app:control>
 	<author>
 		<name><?php the_author()?></name>
-<?php if (get_the_author_url() && get_the_author_url() != 'http://') { ?>
-		<uri><?php the_author_url()?></uri>
+<?php if ( get_the_author_meta('url') && get_the_author_meta('url') != 'http://' ) { ?>
+		<uri><?php the_author_meta('url') ?></uri>
 <?php } ?>
 	</author>
 <?php if($GLOBALS['post']->post_type == 'attachment') { ?>
