@@ -46,7 +46,7 @@ body {
 	}
 
 #content {
-	font-size: 1.2em
+	font-size: 1.2em;
 	}
 
 .widecolumn .entry p {
@@ -400,7 +400,7 @@ img.alignleft {
 	}
 
 .alignleft {
-	float: left
+	float: left;
 	}
 /* End Images */
 
