@@ -140,7 +140,10 @@ function number_format_i18n( $number, $decimals = null ) {
 	// let the user override the precision only
 	$decimals = ( is_null( $decimals ) ) ? $wp_locale->number_format['decimals'] : intval( $decimals );
 
-	return number_format( $number, $decimals, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
+	$num = number_format( $number, $decimals, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
+  
+	// let the user translate digits from latin to localized language
+	return apply_filters( 'number_format_i18n', $num );
 }
 
 /**
