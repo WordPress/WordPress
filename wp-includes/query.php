@@ -2019,6 +2019,8 @@ class WP_Query {
 		// Order by
 		if ( empty($q['orderby']) ) {
 			$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
+		} elseif ( 'none' == $q['orderby'] ) {
+			$q['orderby'] = '';
 		} else {
 			// Used to filter values
 			$allowed_keys = array('author', 'date', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand');
