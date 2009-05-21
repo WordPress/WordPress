@@ -724,15 +724,10 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '', $id = 0
 	if ( !$post = &get_post( $id ) )
 		return;
 
-	if ( $post->post_type == 'page' ) {
-		if ( !current_user_can( 'edit_page', $post->ID ) )
-			return;
-	} else {
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return;
-	}
+	if ( !$url = get_edit_post_link( $post->ID ) )
+		return;
 
-	$link = '<a class="post-edit-link" href="' . get_edit_post_link( $post->ID ) . '" title="' . esc_attr( __( 'Edit post' ) ) . '">' . $link . '</a>';
+	$link = '<a class="post-edit-link" href="' . $url . '" title="' . esc_attr( __( 'Edit post' ) ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
 
