@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 				tbWindow.css({'top':'20px','margin-top':'0'});
 		};
 
-		return $('#dashboard_plugins a.thickbox, #install-plugins a.thickbox').each( function() {
+		return $('#dashboard_plugins a.thickbox, .plugins a.thickbox').each( function() {
 			var href = $(this).attr('href');
 			if ( ! href )
 				return;

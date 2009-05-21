@@ -381,12 +381,7 @@ function print_plugins_table($plugins, $context = '') {
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
 		<td class='plugin-title'><strong>{$plugin_data['Name']}</strong></td>
 		<td class='desc'><p>{$plugin_data['Description']}</p></td>
-	</tr>\n";
-
-		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
-		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $context );
-
-		echo "
+	</tr>
 	<tr class='$class second'>
 		<td></td>
 		<td class='plugin-title'>";
@@ -415,6 +410,9 @@ function print_plugins_table($plugins, $context = '') {
 		echo implode(' | ', $plugin_meta);
 		echo "</p></td>
 	</tr>\n";
+	
+		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
+		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $context );
 	}
 ?>
 	</tbody>

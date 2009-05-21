@@ -349,7 +349,8 @@ a:hover,
 div.dashboard-widget-submit input:hover,
 .subsubsub a:hover,
 .subsubsub a.current:hover,
-.ui-tabs-nav a:hover {
+.ui-tabs-nav a:hover,
+.plugins .inactive a:hover {
 	color: #d54e21;
 }
 
@@ -468,8 +469,8 @@ a,
 #the-comment-list p.comment-author strong a,
 #media-upload a.del-link,
 #media-items a.delete,
-.ui-tabs-nav a,
-.plugins a.delete {
+.plugins a.delete,
+.ui-tabs-nav a {
 	color: #1c6280;
 }
 
@@ -580,15 +581,15 @@ input.readonly, textarea.readonly {
 
 #all-plugins-table .inactive,
 #all-plugins-table .inactive th,
-#all-plugins-table .inactive td {
-	color: #777;
+#all-plugins-table .inactive td,
+#all-plugins-table .inactive a {
+	color: #888;
 }
 
 .plugins .active,
 .plugins .active th,
 .plugins .active td {
 	color: #000;
-	background-color: #f5f5f5;
 }
 
 #the-comment-list .unapproved,

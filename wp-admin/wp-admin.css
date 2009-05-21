@@ -71,17 +71,30 @@ select option {
 	padding: 7px 0;
 }
 
-.plugins td,
-.plugins th {
+.widefat .plugins td,
+.widefat .plugins th {
 	border-bottom: 0 none;
+}
+
+.plugins .inactive td,
+.plugins .inactive th,
+.plugins .active td,
+.plugins .active th {
+	border-top-style: solid;
+	border-top-width: 1px;
 	padding: 4px 7px 0;
 }
 
 .plugins .second td,
 .plugins .second th {
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
+	border-top: 0 none;
 	padding: 0 7px 4px;
+}
+
+.plugins-php .widefat tfoot th,
+.plugins-php .widefat tfoot td {
+	border-top-style: solid;
+	border-top-width: 1px;
 }
 
 .import-system {
