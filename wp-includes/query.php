@@ -1582,6 +1582,7 @@ class WP_Query {
 		$search = '';
 		$groupby = '';
 		$fields = "$wpdb->posts.*";
+		$post_status_join = false;
 		$page = 1;
 
 		if ( !isset($q['caller_get_posts']) )
@@ -1957,6 +1958,7 @@ class WP_Query {
 					$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
 					$post_type = 'any';
 					$q['post_status'] = 'publish';
+					$post_status_join = true;
 				} else {
 					$whichcat = " AND 0 ";
 				}
@@ -2110,6 +2112,11 @@ class WP_Query {
 					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $p_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
+			}
+			if ( $post_status_join ) {
+				$join .= " JOIN $wpdb->posts AS p2 ON ($wpdb->posts.post_parent = p2.ID) ";
+				foreach ( $statuswheres as $index => $statuswhere )
+					$statuswheres[$index] = "($statuswhere OR ($wpdb->posts.post_status = 'inherit' AND " . str_replace($wpdb->posts, 'p2', $statuswhere) . "))";
 			}
 			foreach ( $statuswheres as $statuswhere )
 				$where .= " AND $statuswhere";
