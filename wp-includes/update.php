@@ -213,10 +213,10 @@ function wp_update_themes( ) {
 	$themes = array( );
 	$themes['current_theme'] = (array) $current_theme;
 	foreach( (array) $installed_themes as $theme_title => $theme ) {
-		$themes[$theme['Template']] = array( );
+		$themes[$theme['Stylesheet']] = array( );
 
 		foreach( (array) $theme as $key => $value ) {
-			$themes[$theme['Template']][$key] = $value;
+			$themes[$theme['Stylesheet']][$key] = $value;
 		}
 	}
 
