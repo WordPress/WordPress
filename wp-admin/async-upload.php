@@ -30,7 +30,7 @@ if ( !current_user_can('upload_files') )
 if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
 	if ( 2 == $_REQUEST['fetch'] ) {
 		add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
-		echo get_media_item($id, array( 'send' => false, 'delete' => false ));
+		echo get_media_item($id, array( 'send' => false, 'delete' => true ));
 	} else {
 		add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
 		echo get_media_item($id);

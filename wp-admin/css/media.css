@@ -271,11 +271,6 @@ abbr.required {
 	width: auto;
 }
 
-#media-upload a.delete,
-#media-upload a.del-link {
-	padding: 0 3px 1px;
-}
-
 #media-upload .del-attachment {
 	display: none;
 	margin: 5px 0;

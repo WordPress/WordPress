@@ -386,7 +386,7 @@ a.delete {
 }
 
 .submitbox .submitdelete:hover,
-#media-upload a.delete:hover {
+#media-items a.delete:hover {
 	color: #fff;
 	background-color: #f00;
 	border-bottom-color: #f00;
@@ -463,7 +463,7 @@ a,
 #poststuff #edButtonHTML,
 #the-comment-list p.comment-author strong a,
 #media-upload a.del-link,
-#media-upload a.delete,
+#media-items a.delete,
 .ui-tabs-nav a,
 .plugins a.delete {
 	color: #21759b;
@@ -708,10 +708,6 @@ abbr.required,
 .widget-control-remove:hover,
 .delete a:hover {
 	color: #f00;
-}
-
-#media-upload a.delete {
-	color: #888;
 }
 
 #pass-strength-result {
