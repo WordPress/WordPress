@@ -3141,6 +3141,8 @@ function wp_timezone_choice($selectedzone) {
 		$zone = explode('/',$zone);
 		if ( ! in_array($zone[0], $continents) )
 			continue;
+		if ( $zone[0] == 'Etc' && in_array($zone[1], array('UCT', 'GMT', 'GMT0', 'GMT+0', 'GMT-0', 'Greenwich', 'Universal', 'Zulu')) )
+			continue;
 		$zonen[$i]['continent'] = isset($zone[0]) ? $zone[0] : '';
 		$zonen[$i]['city'] = isset($zone[1]) ? $zone[1] : '';
 		$zonen[$i]['subcity'] = isset($zone[2]) ? $zone[2] : '';
