@@ -671,17 +671,18 @@ function &get_terms($taxonomies, $args = '') {
 		return $cache;
 	}
 
-	if ( 'count' == $orderby )
+	$_orderby = strtolower($orderby);
+	if ( 'count' == $_orderby )
 		$orderby = 'tt.count';
-	else if ( 'name' == $orderby )
+	else if ( 'name' == $_orderby )
 		$orderby = 't.name';
-	else if ( 'slug' == $orderby )
+	else if ( 'slug' == $_orderby )
 		$orderby = 't.slug';
-	else if ( 'term_group' == $orderby )
+	else if ( 'term_group' == $_orderby )
 		$orderby = 't.term_group';
-	elseif ( empty($orderby) || 'id' == $orderby ) 
+	elseif ( empty($_orderby) || 'id' == $_orderby ) 
 		$orderby = 't.term_id';
-    
+
 	$orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
 
 	$where = '';

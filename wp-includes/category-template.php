@@ -332,7 +332,7 @@ function category_description( $category = 0 ) {
 function wp_dropdown_categories( $args = '' ) {
 	$defaults = array(
 		'show_option_all' => '', 'show_option_none' => '',
-		'orderby' => 'ID', 'order' => 'ASC',
+		'orderby' => 'id', 'order' => 'ASC',
 		'show_last_update' => 0, 'show_count' => 0,
 		'hide_empty' => 1, 'child_of' => 0,
 		'exclude' => '', 'echo' => 1,
