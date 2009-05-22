@@ -10,7 +10,7 @@ adminMenu = {
 			else
 				$(this).hide();
 		});
-		$('#adminmenu li.menu-top .wp-menu-image').click( function() { window.location = $(this).siblings('a.menu-top')[0].href; } );
+
 		this.favorites();
 
 		$('a.separator').click(function(){

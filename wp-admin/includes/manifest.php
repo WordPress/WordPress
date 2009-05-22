@@ -118,8 +118,6 @@ function &get_manifest() {
 		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/content.css', $mce_ver, true),
 		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/dialog.css', $mce_ver, true),
 
-		array('../wp-includes/js/tinymce/plugins/autosave/editor_plugin.js', $mce_ver, true),
-
 		array('../wp-includes/js/tinymce/plugins/fullscreen/editor_plugin.js', $mce_ver, true),
 		array('../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm', $mce_ver, true),
 

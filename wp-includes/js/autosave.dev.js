@@ -1,11 +1,24 @@
-var autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, autosaveFirst = true;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, autosaveFirst = true;
 
 jQuery(function($) {
-	autosaveLast = $('#post #title').val()+$('#post #content').val();
+	autosaveLast = $('#post #title').val() + $('#post #content').val();
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
 	//Disable autosave after the form has been submitted
 	$("#post").submit(function() { $.cancel(autosavePeriodical); });
+	
+	window.onbeforeunload = function(){
+		var mce = typeof(tinyMCE) != 'undefined' ? tinyMCE.activeEditor : false, title, content;
+
+		if ( mce && !mce.isHidden() ) {
+			if ( mce.isDirty() )
+				return autosaveL10n.saveAlert;
+		} else {
+			title = $('#post #title').val(), content = $('#post #content').val();
+			if ( ( title || content ) && title + content != autosaveLast )
+				return autosaveL10n.saveAlert;
+		}
+	};
 });
 
 function autosave_parse_response(response) {
@@ -114,10 +127,11 @@ function autosave_enable_buttons() {
 
 function autosave_disable_buttons() {
 	jQuery(".submitbox :button:enabled, .submitbox :submit:enabled").attr('disabled', 'disabled');
-	setTimeout(autosave_enable_buttons, 5000); // Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
+	// Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
+	setTimeout(autosave_enable_buttons, 5000);
 }
 
-var autosave = function() {
+autosave = function() {
 	// (bool) is rich editor enabled and active
 	var rich = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden(), post_data, doAutoSave, ed, origStatus, successCallback;
 
@@ -181,7 +195,7 @@ var autosave = function() {
 		post_data["post_author"] = jQuery("#post_author").val();
 	post_data["user_ID"] = jQuery("#user-id").val();
 
-	// Don't run while the TinyMCE spellcheck is on.  Why?  Who knows.
+	// Don't run while the TinyMCE spellcheck is on. It resets all found words.
 	if ( rich && tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) {
 		doAutoSave = false;
 	}
