@@ -294,7 +294,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	if ( $comment->user_id > 0 && $user = get_userdata($comment->user_id) ) {
 		// For all registered users, 'byuser'
 		$classes[] = 'byuser';
-		$classes[] = 'comment-author-' . sanitise_css_classname($user->user_nicename, $comment->user_id);
+		$classes[] = 'comment-author-' . sanitize_html_class($user->user_nicename, $comment->user_id);
 		// For comment authors who are the author of the post
 		if ( $post = get_post($post_id) ) {
 			if ( $comment->user_id === $post->post_author )

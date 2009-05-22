@@ -719,26 +719,30 @@ function sanitize_sql_orderby( $orderby ){
 }
 
 /**
- * Santises a css classname to ensure it only contains valid characters
+ * Santizes a html classname to ensure it only contains valid characters
  * 
- * Strips the classname down to A-Z,a-z,0-9,'-' if this results in an empty
+ * Strips the string down to A-Z,a-z,0-9,'-' if this results in an empty
  * string then it will return the alternative value supplied.
+ * 
+ * @todo Expand to support the full range of CDATA that a class attribute can contain.
  *  
- * @param string $classname The classname to be sanitised
- * @param string $alternative The value to return if the sanitisation end's up as an empty string.
- * @return string The sanitised value
+ * @since 2.8.0
+ *  
+ * @param string $class The classname to be sanitized
+ * @param string $fallback The value to return if the sanitization end's up as an empty string.
+ * @return string The sanitized value
  */
-function sanitise_css_classname($classname, $alternative){
+function sanitize_html_class($class, $fallback){
 	//Strip out any % encoded octets
-	$sanitised = preg_replace('|%[a-fA-F0-9][a-fA-F0-9]|', '', $classname);
+	$sanitized = preg_replace('|%[a-fA-F0-9][a-fA-F0-9]|', '', $class);
 	
 	//Limit to A-Z,a-z,0-9,'-'
-	$sanitised = preg_replace('/[^A-Za-z0-9-]/', '', $sanitised);
+	$sanitized = preg_replace('/[^A-Za-z0-9-]/', '', $sanitized);
 	
-	if ('' == $sanitised)
-		$sanitised = $alternative;
+	if ('' == $sanitized)
+		$sanitized = $fallback;
 	
-	return apply_filters('sanitise_css_classname',$sanitised, $classname, $alternative);	
+	return apply_filters('sanitize_html_class',$sanitized, $class, $fallback);	
 }
 
 /**
