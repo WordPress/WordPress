@@ -1099,7 +1099,7 @@ div.comment-item:hover .row-actions {
 	padding: 0;
 }
 
-.folded #adminmenu li.wp-menu-separator {
+.folded #adminmenu a.separator {
  	cursor: e-resize;
 }
 
