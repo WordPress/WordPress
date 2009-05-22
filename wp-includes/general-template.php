@@ -115,8 +115,11 @@ function get_sidebar( $name = null ) {
 function get_search_form() {
 	do_action( 'get_search_form' );
 
-	if ( '' != locate_template(array('searchform.php'), true) )
+	$search_form_template = locate_template(array('searchform.php'));
+	if ( '' != $search_form_template ) {
+		require($search_form_template);
 		return;
+	}
 
 	$form = '<form role="search" method="get" id="searchform" action="' . get_option('home') . '/" >
 	<div><label class="screen-reader-text" for="s">' . __('Search for:') . '</label>
