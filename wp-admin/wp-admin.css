@@ -3279,3 +3279,7 @@ p.popular-tags a {
 #post-body-content .tagsdiv .the-tags {
 	margin: 0 5px;
 }
+
+label {
+	vertical-align: middle;
+}
