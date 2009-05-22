@@ -191,58 +191,54 @@ class WP_Widget {
 		$all_instances = $this->get_settings();
 
 		// We need to update the data
-		if ( !$this->updated && !empty($_POST['sidebar']) ) {
+		if ( $this->updated )
+			return;
 
-			// Tells us what sidebar to put the data in
-			$sidebar = (string) $_POST['sidebar'];
+		$sidebars_widgets = wp_get_sidebars_widgets();
 
-			$sidebars_widgets = wp_get_sidebars_widgets();
-			if ( isset($sidebars_widgets[$sidebar]) )
-				$this_sidebar =& $sidebars_widgets[$sidebar];
+		if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
+			// Delete the settings for this instance of the widget
+			if ( isset($_POST['the-widget-id']) )
+				$del_id = $_POST['the-widget-id'];
 			else
-				$this_sidebar = array();
+				return;
 
-			if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
-				// Delete the settings for this instance of the widget
-				if ( isset($_POST['widget-id']) )
-					$del_id = $_POST['widget-id'];
-				else
-					return;
+			if ( isset($wp_registered_widgets[$del_id]['params'][0]['number']) ) {
+				$number = $wp_registered_widgets[$del_id]['params'][0]['number'];
 
-				if ( $this->_get_display_callback() == $wp_registered_widgets[$del_id]['callback'] && isset($wp_registered_widgets[$del_id]['params'][0]['number']) ) {
-					$number = $wp_registered_widgets[$del_id]['params'][0]['number'];
-
-					if ( $this->id_base . '-' . $number == $del_id ) {
-						unset($all_instances[$number]);
-					}
-				}
+				if ( $this->id_base . '-' . $number == $del_id )
+					unset($all_instances[$number]);
+			}
+		} else {
+			if ( isset($_POST['widget-' . $this->id_base]) && is_array($_POST['widget-' . $this->id_base]) ) {
+				$settings = $_POST['widget-' . $this->id_base];
+			} elseif ( isset($_POST['id_base']) && $_POST['id_base'] == $this->id_base ) {
+				$num = $_POST['multi_number'] ? (int) $_POST['multi_number'] : (int) $_POST['widget_number'];
+				$settings = array( $num => array() );
 			} else {
-				if ( isset($_POST['widget-' . $this->id_base]) && is_array($_POST['widget-' . $this->id_base]) ) {
-					$settings = $_POST['widget-' . $this->id_base];
-				} else {
-					$num = $_POST['multi_number'] ? (int) $_POST['multi_number'] : (int) $_POST['widget_number'];
-					$settings = array( $num => array() );
-				}
-
-				foreach ( $settings as $number => $new_instance ) {
-					$new_instance = stripslashes_deep($new_instance);
-					$this->_set($number);
-
-					if ( isset($all_instances[$number]) )
-						$instance = $this->update($new_instance, $all_instances[$number]);
-					else
-						$instance = $this->update($new_instance, array());
-
-					// filters the widget's settings before saving, return false to cancel saving (keep the old settings if updating)
-					$instance = apply_filters('widget_update_callback', $instance, $new_instance, $this);
-					if ( false !== $instance )
-						$all_instances[$number] = $instance;
-				}
+				return;
 			}
 
-			$this->save_settings($all_instances);
-			$this->updated = true;
+			foreach ( $settings as $number => $new_instance ) {
+				$new_instance = stripslashes_deep($new_instance);
+				$this->_set($number);
+
+				if ( isset($all_instances[$number]) )
+					$instance = $this->update($new_instance, $all_instances[$number]);
+				else
+					$instance = $this->update($new_instance, array());
+
+				// filters the widget's settings before saving, return false to cancel saving (keep the old settings if updating)
+				$instance = apply_filters('widget_update_callback', $instance, $new_instance, $this);
+				if ( false !== $instance )
+					$all_instances[$number] = $instance;
+
+				break; // run only once
+			}
 		}
+
+		$this->save_settings($all_instances);
+		$this->updated = true;
 	}
 
 	/** Generate the control form.

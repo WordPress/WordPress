@@ -1282,63 +1282,33 @@ case 'save-widget' :
 
 	unset( $_POST['savewidgets'], $_POST['action'] );
 
+	do_action('load-widgets.php');
+	do_action('widgets.php');
+	do_action('sidebar_admin_setup');
+
 	$id_base = $_POST['id_base'];
-	$number = isset($_POST['widget_number']) ? $_POST['widget_number'] : '';
+	$widget_id = $_POST['widget-id'];
 	$sidebar_id = $_POST['sidebar'];
+
 	$sidebars = wp_get_sidebars_widgets();
 	$sidebar = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : array();
 
 	// delete
 	if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
-		$del_id = $_POST['widget-id'];
-		$widget = isset($wp_registered_widgets[$del_id]) ? $wp_registered_widgets[$del_id] : false;
 
-		if ( !in_array($del_id, $sidebar, true) )
+		if ( !isset($wp_registered_widgets[$widget_id]) )
 			die('-1');
 
-		if ( $widget ) {
-			$option = str_replace( '-', '_', 'widget_' . $id_base );
-			$data = get_option($option);
-
-			if ( isset($widget['params'][0]['number']) ) {
-				$number = $widget['params'][0]['number'];
-				if ( is_array($data) && isset($data[$number]) ) {
-					unset( $data[$number] );
-					update_option($option, $data);
-				}
-			} else {
-				if ( $data ) {
-					$data = array();
-					update_option($option, $data);
-				}
-			}
-		}
-
-		$sidebar = array_diff( $sidebar, array($del_id) );
-		$sidebars[$sidebar_id] = $sidebar;
-		wp_set_sidebars_widgets($sidebars);
-
-		echo "deleted:$del_id";
-		die();
+		$sidebar = array_diff( $sidebar, array($widget_id) );
+		$_POST = array('sidebar' => $sidebar_id, 'widget-' . $id_base => array(), 'the-widget-id' => $widget_id, 'delete_widget' => '1');
 	}
+	$_POST['widget-id'] = $sidebar;
 
-	// save
 	foreach ( (array) $wp_registered_widget_updates as $name => $control ) {
+
 		if ( $name == $id_base ) {
 			if ( !is_callable( $control['callback'] ) )
 				continue;
-
-			if ( $number ) {
-				// don't delete other instances of the same multi-widget
-				foreach ( $sidebar as $_widget_id ) {
-					$_widget = $wp_registered_widgets[$_widget_id];
-
-					if ( isset($_widget['params']) && 
-						is_array($_widget['params'][0]) && 
-						array_key_exists('number', $_widget['params'][0]) )
-							unset($wp_registered_widgets[$_widget_id]['params'][0]['number']);
-				}
-			}
 
 			ob_start();
 				call_user_func_array( $control['callback'], $control['params'] );
@@ -1347,6 +1317,13 @@ case 'save-widget' :
 		}
 	}
 
+	if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
+		$sidebars[$sidebar_id] = $sidebar;
+		wp_set_sidebars_widgets($sidebars);
+		echo "deleted:$widget_id";
+		die();
+	}
+	
 	die('1');
 	break;
 default :

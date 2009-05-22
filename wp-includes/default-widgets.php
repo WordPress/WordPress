@@ -759,9 +759,8 @@ class WP_Widget_RSS extends WP_Widget {
 	function form($instance) {
 
 		if ( empty($instance) )
-			$instance = array( 'number' => '__i__', 'title' => '', 'url' => '', 'items' => 10, 'error' => false, 'show_summary' => 0, 'show_author' => 0, 'show_date' => 0 );
-		else
-			$instance['number'] = $this->number;
+			$instance = array( 'title' => '', 'url' => '', 'items' => 10, 'error' => false, 'show_summary' => 0, 'show_author' => 0, 'show_date' => 0 );
+		$instance['number'] = $this->number;
 
 		wp_widget_rss_form( $instance );
 	}
