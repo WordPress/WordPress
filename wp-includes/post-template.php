@@ -324,16 +324,16 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	// Categories
 	foreach ( (array) get_the_category($post->ID) as $cat ) {
-		if ( empty($cat->cat_ID ) )
+		if ( empty($cat->slug ) )
 			continue;
-		$classes[] = 'category-' . $cat->cat_ID;
+		$classes[] = 'category-' . sanitise_css_classname($cat->slug, $cat->cat_ID);
 	}
 
 	// Tags
 	foreach ( (array) get_the_tags($post->ID) as $tag ) {
-		if ( empty($tag->term_id ) )
+		if ( empty($tag->slug ) )
 			continue;
-		$classes[] = 'tag-' . $tag->term_id;
+		$classes[] = 'tag-' . sanitise_css_classname($tag->slug, $tag->term_id);
 	}
 
 	if ( !empty($class) ) {
@@ -407,15 +407,15 @@ function get_body_class( $class = '' ) {
 		if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
-			$classes[] = 'author-' . $author->user_id;
+			$classes[] = 'author-' . sanitise_css_classname($author->user_nicename , $author->user_id);
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
-			$classes[] = 'category-' . $cat->cat_ID;
+			$classes[] = 'category-' . sanitise_css_classname($cat->slug, $cat->cat_ID);
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
-			$classes[] = 'tag-' . $tags->term_id;
+			$classes[] = 'tag-' . sanitise_css_classname($tags->slug, $tags->term_id);
 		}
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
