@@ -350,7 +350,8 @@ div.dashboard-widget-submit input:hover,
 .subsubsub a:hover,
 .subsubsub a.current:hover,
 .ui-tabs-nav a:hover,
-.plugins .inactive a:hover {
+.plugins .inactive a:hover,
+#all-plugins-table .plugins .inactive a:hover {
 	color: #d54e21;
 }
 
@@ -380,6 +381,7 @@ div.dashboard-widget-submit input:hover,
 }
 
 .plugins a.delete:hover,
+#all-plugins-table .plugins a.delete:hover,
 .submitbox .submitdelete,
 a.delete {
 	color: #f00;
@@ -417,10 +419,13 @@ a.delete {
 
 .updated,
 .login #login_error,
-.login .message,
-.update-message {
+.login .message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
+}
+
+.update-message {
+	color: #000000;
 }
 
 a.page-numbers {
@@ -578,7 +583,7 @@ input.readonly, textarea.readonly {
 #all-plugins-table .inactive th,
 #all-plugins-table .inactive td,
 #all-plugins-table .inactive a {
-	color: #888;
+	color: #666;
 }
 
 .plugins .active,

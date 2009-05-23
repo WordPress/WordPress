@@ -797,22 +797,12 @@ td.media-icon img {
 }
 
 .plugins .plugin-update {
-	text-align: center;
 	padding: 0;
 }
 
 .plugin-update .update-message {
-	padding: 3px 7px;
-	margin: 2px 20px 10px;
-}
-
-.update-message {
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	margin: 0 10px 10px 31px;
+	font-weight: bold;
 }
 
 #update-nag a,
