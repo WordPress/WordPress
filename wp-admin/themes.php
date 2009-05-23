@@ -166,6 +166,7 @@ $style = '';
 $theme_names = array_keys($themes);
 natcasesort($theme_names);
 
+$table = array();
 $rows = ceil(count($theme_names) / 3);
 for ( $row = 1; $row <= $rows; $row++ )
 	for ( $col = 1; $col <= 3; $col++ )
