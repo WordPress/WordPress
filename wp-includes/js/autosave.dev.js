@@ -6,7 +6,9 @@ jQuery(function($) {
 
 	//Disable autosave after the form has been submitted
 	$("#post").submit(function() { $.cancel(autosavePeriodical); });
-	
+
+	$('.submitbox input[type="submit"], .submitbox a.submitdelete').click(function(){window.onbeforeunload = null;});
+
 	window.onbeforeunload = function(){
 		var mce = typeof(tinyMCE) != 'undefined' ? tinyMCE.activeEditor : false, title, content;
 
