@@ -211,12 +211,10 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'admin_color', $admin_color);
 	update_usermeta( $user_id, 'use_ssl', $use_ssl);
 
-	if ( $update && isset($role) ) {
+	if ( isset($role) ) {
 		$user = new WP_User($user_id);
 		$user->set_role($role);
-	}
-
-	if ( !$update ) {
+	} elseif ( !$update ) {
 		$user = new WP_User($user_id);
 		$user->set_role(get_option('default_role'));
 	}
