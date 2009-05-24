@@ -25,26 +25,22 @@ class WP_Feed_Cache extends SimplePie_Cache {
 }
 
 class WP_Feed_Cache_Transient {
-	var $location;
-	var $filename;
-	var $extension;
 	var $name;
+	var $mod_name;
+	var $lifetime = 43200; //Default lifetime in cache of 12 hours
 
 	function WP_Feed_Cache_Transient($location, $filename, $extension) {
-		//$this->location = $location;
-		//$this->filename = rawurlencode($filename);
-		//$this->extension = rawurlencode($extension);
-		//$this->name = "$location/$this->filename.$this->extension";
 		$this->name = 'feed_' . $filename;
 		$this->mod_name = 'feed_mod_' . $filename;
+		$this->lifetime = apply_filters('wp_feed_cache_transient_lifetime', $this->lifetime, $filename);
 	}
 
 	function save($data) {
 		if ( is_a($data, 'SimplePie') )
 			$data = $data->data;
 
-		set_transient($this->name, $data, 43200);
-		set_transient($this->mod_name, time(), 43200);
+		set_transient($this->name, $data, $this->lifetime);
+		set_transient($this->mod_name, time(), $this->lifetime);
 		return true;
 	}
 
@@ -57,7 +53,7 @@ class WP_Feed_Cache_Transient {
 	}
 
 	function touch() {
-		return set_transient($this->mod_name, time(), 43200);
+		return set_transient($this->mod_name, time(), $this->lifetime);
 	}
 
 	function unlink() {
