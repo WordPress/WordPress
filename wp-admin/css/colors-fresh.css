@@ -1621,8 +1621,13 @@ div.widgets-sortables,
 	color: #fff;
 }
 
-.sidebar-name:hover {
+.sidebar-name:hover,
+#removing-widget {
 	color: #d54e21;
+}
+
+#removing-widget span {
+	color: black;
 }
 
 #widgets-left .sidebar-name-arrow {
@@ -1633,6 +1638,10 @@ div.widgets-sortables,
 	background: transparent url(../images/fav-arrow.gif) no-repeat scroll 0 -1px;
 }
 
-h4 .in-widget-title {
-	color: #636363;
+.in-widget-title {
+	color: #606060;
+}
+
+.deleting .widget-title * {
+	color: #aaa;
 }

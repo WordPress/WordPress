@@ -21,12 +21,8 @@ function wp_list_widgets() {
 
 	$sort = $wp_registered_widgets;
 	usort( $sort, create_function( '$a, $b', 'return strnatcasecmp( $a["name"], $b["name"] );' ) );
-	$done = array(); ?>
+	$done = array();
 
-	<div class="widget-holder">
-	<p class="description"><?php _e('Drag widgets from here to a sidebar on the right to activate them.'); ?></p>
-	<div id="widget-list">
-<?php
 	foreach ( $sort as $widget ) {
 		if ( in_array( $widget['callback'], $done, true ) ) // We already showed this multi-widget
 			continue;
@@ -52,11 +48,7 @@ function wp_list_widgets() {
 
 		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
 		call_user_func_array( 'wp_widget_control', $args );
-	} ?>
-	</div>
-	<br class='clear' />
-	</div>
-<?php
+	}
 }
 
 /**

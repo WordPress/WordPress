@@ -44,6 +44,8 @@ div.sidebar-name h3 {
 	padding: 5px 12px;
 	font-size: 13px;
 	height: 19px;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 div.sidebar-name {
@@ -296,7 +298,15 @@ a.widget-control-edit {
 	width: 26px;
 }
 
-h4 .in-widget-title {
+.widget-title .in-widget-title {
 	font-size: 11px;
 	white-space: nowrap;
 }
+
+#removing-widget {
+	display: none;
+	font-weight: normal;
+	padding-left: 15px;
+	font-size: 12px;
+}
+

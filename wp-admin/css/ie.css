@@ -376,6 +376,10 @@ table.ie-fixed {
 	width: 210px;
 }
 
+* html #removing-widget .in-widget-title {
+	display: none;
+}
+
 #available-widgets .widget-holder {
 	padding-bottom: 65px;
 }
