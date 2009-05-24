@@ -39,6 +39,11 @@ if ( !$user_id ) {
 	wp_die( __('Invalid user ID.') );
 }
 
+$all_post_types = apply_filters('all_post_types', array('post', 'page'));
+$user_can_edit = false;
+foreach ( $all_post_types as $post_type )
+	$user_can_edit |= current_user_can("edit_$post_type");
+
 /**
  * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
  *
@@ -130,7 +135,7 @@ include ('admin-header.php');
 <h3><?php _e('Personal Options'); ?></h3>
 
 <table class="form-table">
-<?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
+<?php if ( rich_edit_exists() && !( IS_PROFILE_PAGE && !$user_can_edit ) ) : // don't bother showing the option if the editor has been removed ?>
 	<tr>
 		<th scope="row"><?php _e('Visual Editor')?></th>
 		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php checked('false', $profileuser->rich_editing); ?> /> <?php _e('Disable the visual editor when writing'); ?></label></td>
@@ -159,11 +164,13 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 	<?php endforeach; ?>
 </fieldset></td>
 </tr>
+<?php if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Keyboard Shortcuts' ); ?></th>
 <td><label for="comment_shortcuts"><input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php if ( !empty($profileuser->comment_shortcuts) ) checked('true', $profileuser->comment_shortcuts); ?> /> <?php _e('Enable keyboard shortcuts for comment moderation. '); ?></label><?php _e('<a href="http://codex.wordpress.org/Keyboard_Shortcuts">More information</a>'); ?></td>
 </tr>
 <?php
+endif;
 endif;
 do_action('personal_options', $profileuser);
 ?>
