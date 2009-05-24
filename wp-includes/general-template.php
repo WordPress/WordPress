@@ -197,6 +197,27 @@ function wp_login_url($redirect = '') {
 }
 
 /**
+ * Returns the Lost Password URL.
+ *
+ * Returns the URL that allows the user to retrieve the lost password
+ *
+ * @since 2.8.0
+ * @uses site_url() To generate the lost password URL
+ * @uses apply_filters() calls 'lostpassword_url' hook on the lostpassword url
+ *
+ * @param string $redirect Path to redirect to on login.
+ */
+function wp_lostpassword_url($redirect = '') {
+	$args = array( 'action' => 'lostpassword' );	
+	if ( !empty($redirect) ) {
+		$args['redirect_to'] = $redirect;
+	}
+
+	$lostpassword_url = add_query_arg($args, site_url('wp-login.php', 'login'));
+	return apply_filters('lostpassword_url', $lostpassword_url, $redirect);
+}
+
+/**
  * Display the Registration or Admin link.
  *
  * Display a link which allows the user to navigate to the registration page if
