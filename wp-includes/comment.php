@@ -169,7 +169,7 @@ function &get_comment(&$comment, $output = OBJECT) {
  * Retrieve a list of comments.
  *
  * The comment list can be for the blog as a whole or for an individual post.
- * 
+ *
  * The list of comment arguments are 'status', 'orderby', 'comment_date_gmt',
  * 'order', 'number', 'offset', and 'post_id'.
  *

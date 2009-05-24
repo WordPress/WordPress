@@ -1,7 +1,7 @@
 // send html to the post editor
 function send_to_editor(h) {
 	var ed;
-	
+
 	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
 		ed.focus();
 		if (tinymce.isIE)

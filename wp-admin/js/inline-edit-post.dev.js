@@ -192,7 +192,7 @@ inlineEditPost = {
 
 	save : function(id) {
 		var params, fields;
-		
+
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 

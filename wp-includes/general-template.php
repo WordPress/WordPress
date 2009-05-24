@@ -208,7 +208,7 @@ function wp_login_url($redirect = '') {
  * @param string $redirect Path to redirect to on login.
  */
 function wp_lostpassword_url($redirect = '') {
-	$args = array( 'action' => 'lostpassword' );	
+	$args = array( 'action' => 'lostpassword' );
 	if ( !empty($redirect) ) {
 		$args['redirect_to'] = $redirect;
 	}

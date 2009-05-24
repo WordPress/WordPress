@@ -317,7 +317,7 @@ function wp_dashboard_right_now() {
 
 	echo "\n\t".'<div class="versions">';
 	$ct = current_theme_info();
-	
+
 	echo "\n\t<p>";
 	if ( !empty($wp_registered_sidebars) ) {
 		$sidebars_widgets = wp_get_sidebars_widgets();

@@ -3,7 +3,7 @@ var theList, theExtraList, toggleWithKeyboard = false;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter;
-	
+
 	totalInput = $('#comments-form .tablenav :input[name="_total"]');
 	perPageInput = $('#comments-form .tablenav :input[name="_per_page"]');
 	pageInput = $('#comments-form .tablenav :input[name="_page"]');
@@ -101,7 +101,7 @@ setCommentsList = function() {
 			a.html(n);
 		});
 
-		
+
 		// XML response
 		if ( ( 'object' == typeof r ) && lastConfidentTime < settings.parsed.responses[0].supplemental.time ) {
 			// Set the total to the known good value (even if this value is a little old, newer values should only be a few less, and so shouldn't mess up the page links)
@@ -156,7 +156,7 @@ commentReply = {
 			if ( $('#the-comment-list #replyrow').length > 0 )
 				commentReply.close();
 		});
-		
+
 		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
 
 	},
@@ -250,7 +250,7 @@ commentReply = {
 
 		setTimeout(function() {
 			var rtop, rbottom, scrollTop, vp, scrollBottom;
-			
+
 			rtop = $('#replyrow').offset().top;
 			rbottom = rtop + $('#replyrow').height();
 			scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -316,7 +316,7 @@ commentReply = {
 
 		$(c).hide()
 		$('#replyrow').after(c);
-		
+
 		this.o = id = '#comment-'+r.id;
 		this.revert();
 		this.addEvents($(id));
@@ -357,7 +357,7 @@ $(document).ready(function(){
 		make_hotkeys_redirect = function(which) {
 			return function() {
 				var first_last, l;
-				
+
 				first_last = 'next' == which? 'first' : 'last';
 				l = $('.'+which+'.page-numbers');
 				if (l.length)

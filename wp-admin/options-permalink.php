@@ -228,9 +228,9 @@ $structures = array(
 <?php wp_nonce_field('update-permalink') ?>
 	<p><textarea rows="10" class="large-text readonly" name="rules" id="rules" readonly="readonly"><?php echo esc_html($wp_rewrite->iis7_url_rewrite_rules()); ?></textarea></p>
 </form>
-<p><?php _e('If you temporarily make your <code>web.config</code> file writable for us to generate rewrite rules automatically, do not forget to revert the permissions after rule has been saved.')  ?></p>  
+<p><?php _e('If you temporarily make your <code>web.config</code> file writable for us to generate rewrite rules automatically, do not forget to revert the permissions after rule has been saved.')  ?></p>
 	<?php endif; ?>
-<?php else : 
+<?php else :
 	if ( $permalink_structure && ! $usingpi && ! $writable ) : ?>
 <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">

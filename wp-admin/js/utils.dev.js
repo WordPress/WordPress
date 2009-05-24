@@ -134,7 +134,7 @@ function getUserSetting( name, def ) {
 function setUserSetting( name, value, del ) {
 	if ( 'object' !== typeof userSettings )
 		return false;
-	
+
 	var c = 'wp-settings-' + userSettings.uid, o = wpCookies.getHash(c) || {}, d = new Date(), p,
 	n = name.toString().replace(/[^A-Za-z0-9_]/, ''), v = value.toString().replace(/[^A-Za-z0-9_]/, '');
 
@@ -149,7 +149,7 @@ function setUserSetting( name, value, del ) {
 
 	wpCookies.setHash(c, o, d, p);
 	wpCookies.set('wp-settings-time-'+userSettings.uid, userSettings.time, d, p);
-	
+
 	return name;
 }
 

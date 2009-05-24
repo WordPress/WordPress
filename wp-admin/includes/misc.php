@@ -138,18 +138,18 @@ function save_mod_rewrite_rules() {
 /**
  * Updates the IIS web.config file with the current rules if it is writable.
  * If the permalinks do not require rewrite rules then the rules are deleted from the web.config file.
- * 
+ *
  * @since 2.8.0
- * 
+ *
  * @return bool True if web.config was updated successfully
  */
 function iis7_save_url_rewrite_rules(){
 	global $wp_rewrite;
-	
+
 	$home_path = get_home_path();
 	$web_config_file = $home_path . 'web.config';
 
-	// Using win_is_writable() instead of is_writable() because of a bug in Windows PHP	
+	// Using win_is_writable() instead of is_writable() because of a bug in Windows PHP
 	if ( ( ! file_exists($web_config_file) && win_is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks() ) || win_is_writable($web_config_file) ) {
 		if ( iis7_supports_permalinks() ) {
 			$rule = $wp_rewrite->iis7_url_rewrite_rules();
@@ -401,15 +401,15 @@ function wp_menu_unfold() {
 
 /**
  * Check if IIS 7 supports pretty permalinks
- * 
+ *
  * @since 2.8.0
- * 
+ *
  * @return bool
  */
 function iis7_supports_permalinks() {
 	global $is_iis7;
 
-	$supports_permalinks = false;	
+	$supports_permalinks = false;
 	if ( $is_iis7 ) {
 		/* First we check if the DOMDocument class exists. If it does not exist,
 		 * which is the case for PHP 4.X, then we cannot easily update the xml configuration file,
@@ -418,29 +418,29 @@ function iis7_supports_permalinks() {
 		 * is recommended to use PHP 5.X NTS.
 		 * Next we check if the URL Rewrite Module 1.1 is loaded and enabled for the web site. When
 		 * URL Rewrite 1.1 is loaded it always sets a server variable called 'IIS_UrlRewriteModule'.
-		 * Lastly we make sure that PHP is running via FastCGI. This is important because if it runs 
+		 * Lastly we make sure that PHP is running via FastCGI. This is important because if it runs
 		 * via ISAPI then pretty permalinks will not work.
 		 */
 		$supports_permalinks = class_exists('DOMDocument') && isset($_SERVER['IIS_UrlRewriteModule']) && ( php_sapi_name() == 'cgi-fcgi' );
 	}
-		
+
 	return apply_filters('iis7_supports_permalinks', $supports_permalinks);
 }
 
 /**
  * Check if rewrite rule for WordPress already exists in the IIS 7 configuration file
- * 
+ *
  * @since 2.8.0
- * 
+ *
  * @return bool
  * @param string $filename The file path to the configuration file
  */
-function iis7_rewrite_rule_exists($filename) {	
+function iis7_rewrite_rule_exists($filename) {
 	if ( ! file_exists($filename) )
-		return false;	
+		return false;
 	if ( ! class_exists('DOMDocument') )
 		return false;
-	
+
 	$doc = new DOMDocument();
 	if ( $doc->load($filename) === false )
 		return false;
@@ -449,25 +449,25 @@ function iis7_rewrite_rule_exists($filename) {
 	if ( $rules->length == 0 )
 		return false;
 	else
-		return true;	
+		return true;
 }
 
 /**
  * Delete WordPress rewrite rule from web.config file if it exists there
  *
- * @since 2.8.0 
+ * @since 2.8.0
  *
  * @param string $filename Name of the configuration file
  * @return bool
  */
-function iis7_delete_rewrite_rule($filename) {	
+function iis7_delete_rewrite_rule($filename) {
 	// If configuration file does not exist then rules also do not exist so there is nothing to delete
 	if ( ! file_exists($filename) )
 		return true;
-	
+
 	if ( ! class_exists('DOMDocument') )
 		return false;
-	
+
 	$doc = new DOMDocument();
 	$doc->preserveWhiteSpace = false;
 
@@ -487,30 +487,30 @@ function iis7_delete_rewrite_rule($filename) {
 
 /**
  * Add WordPress rewrite rule to the IIS 7 configuration file.
- * 
+ *
  * @since 2.8.0
- * 
+ *
  * @param string $filename The file path to the configuration file
  * @param string $rewrite_rule The XML fragment with URL Rewrite rule
  * @return bool
  */
-function iis7_add_rewrite_rule($filename, $rewrite_rule) {	
+function iis7_add_rewrite_rule($filename, $rewrite_rule) {
 	if ( ! class_exists('DOMDocument') )
 		return false;
-	
+
 	// If configuration file does not exist then we create one.
 	if ( ! file_exists($filename) ) {
 		$fp = fopen( $filename, 'w');
 		fwrite($fp, '<configuration/>');
 		fclose($fp);
 	}
-	
+
 	$doc = new DOMDocument();
 	$doc->preserveWhiteSpace = false;
 
 	if ( $doc->load($filename) === false )
 		return false;
-	
+
 	$xpath = new DOMXPath($doc);
 
 	// First check if the rule already exists as in that case there is no need to re-add it
@@ -524,7 +524,7 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule) {
 		$rules_node = $xmlnodes->item(0);
 	} else {
 		$rules_node = $doc->createElement('rules');
-		
+
 		$xmlnodes = $xpath->query('/configuration/system.webServer/rewrite');
 		if ( $xmlnodes->length > 0 ) {
 			$rewrite_node = $xmlnodes->item(0);
@@ -540,7 +540,7 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule) {
 			} else {
 				$system_webServer_node = $doc->createElement('system.webServer');
 				$system_webServer_node->appendChild($rewrite_node);
-		
+
 				$xmlnodes = $xpath->query('/configuration');
 				if ( $xmlnodes->length > 0 ) {
 					$config_node = $xmlnodes->item(0);
@@ -553,20 +553,20 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule) {
 			}
 		}
 	}
-	
+
 	$rule_fragment = $doc->createDocumentFragment();
 	$rule_fragment->appendXML($rewrite_rule);
 	$rules_node->appendChild($rule_fragment);
 
-	$doc->formatOutput = true;	
+	$doc->formatOutput = true;
 	saveDomDocument($doc, $filename);
 
-	return true;	
+	return true;
 }
 
 /**
  * Saves the XML document into a file
- * 
+ *
  * @since 2.8.0
  *
  * @param DOMDocument $doc

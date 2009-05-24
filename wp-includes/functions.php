@@ -141,7 +141,7 @@ function number_format_i18n( $number, $decimals = null ) {
 	$decimals = ( is_null( $decimals ) ) ? $wp_locale->number_format['decimals'] : intval( $decimals );
 
 	$num = number_format( $number, $decimals, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
-  
+
 	// let the user translate digits from latin to localized language
 	return apply_filters( 'number_format_i18n', $num );
 }
@@ -479,7 +479,7 @@ function wp_load_alloptions() {
  * parameter value, will be called. The hook should accept two parameters, the
  * first is the new value and the second is the old value.  Whatever is
  * returned will be used as the new value.
- * 
+ *
  * After the value has been updated the action named 'update_option_$option_name'
  * will be called.  This action receives two parameters the first being the old
  * value and the second the new value.
@@ -2035,7 +2035,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	$info = pathinfo($filename);
 	$ext = !empty($info['extension']) ? $info['extension'] : '';
 	$name = basename($filename, ".{$ext}");
-	
+
 	// edge case: if file is named '.ext', treat as an empty name
 	if( $name === ".$ext" )
 		$name = '';
@@ -2366,7 +2366,7 @@ function wp_die( $message, $title = '', $args = array() ) {
 
 	$defaults = array( 'response' => 500 );
 	$r = wp_parse_args($args, $defaults);
-	
+
 	$have_gettext = function_exists('__');
 
 	if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
@@ -2390,12 +2390,12 @@ function wp_die( $message, $title = '', $args = array() ) {
 	} elseif ( is_string( $message ) ) {
 		$message = "<p>$message</p>";
 	}
-	
+
 	if ( isset( $r['back_link'] ) && $r['back_link'] ) {
 		$back_text = $have_gettext? __('&laquo; Back') : '&laquo; Back';
 		$message .= "\n<p><a href='javascript:history.back()'>$back_text</p>";
 	}
-	
+
 	if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL )
 		$admin_dir = WP_SITEURL . '/wp-admin/';
 	elseif ( function_exists( 'get_bloginfo' ) && '' != get_bloginfo( 'wpurl' ) )
@@ -2411,7 +2411,7 @@ function wp_die( $message, $title = '', $args = array() ) {
 		nocache_headers();
 		header( 'Content-Type: text/html; charset=utf-8' );
 	}
-	
+
 	if ( empty($title) ) {
 		$title = $have_gettext? __('WordPress &rsaquo; Error') : 'WordPress &rsaquo; Error';
 	}
@@ -2683,9 +2683,9 @@ function wp_widgets_add_menu() {
  * @since 2.2.0
  */
 function wp_ob_end_flush_all() {
-	$levels = ob_get_level(); 
-	for ($i=0; $i<$levels; $i++) 
-		ob_end_flush(); 
+	$levels = ob_get_level();
+	for ($i=0; $i<$levels; $i++)
+		ob_end_flush();
 }
 
 /**
@@ -3164,7 +3164,7 @@ function wp_timezone_choice($selectedzone) {
 		else
 			return strnatcasecmp($a_continent, $b_continent);
 		'));
-	
+
 	$structure = '';
 	$pad = '&nbsp;&nbsp;&nbsp;';
 

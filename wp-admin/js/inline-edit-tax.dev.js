@@ -64,7 +64,7 @@ inlineEditTax = {
 
 	save : function(id) {
 		var params, fields, tax = $('input[name="taxonomy"]').val() || '';
-		
+
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 

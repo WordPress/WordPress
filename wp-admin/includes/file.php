@@ -71,7 +71,7 @@ function get_home_path() {
 	if ( $home != '' && $home != $siteurl ) {
 	        $wp_path_rel_to_home = str_replace($home, '', $siteurl); /* $siteurl - $home */
 	        $pos = strpos($_SERVER["SCRIPT_FILENAME"], $wp_path_rel_to_home);
-	        $home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);        
+	        $home_path = substr($_SERVER["SCRIPT_FILENAME"], 0, $pos);
 		$home_path = trailingslashit( $home_path );
 	} else {
 		$home_path = ABSPATH;
@@ -687,7 +687,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	else if ( !isset($credentials['connection_type']) || (isset($_POST['connection_type']) && 'ftp' == $_POST['connection_type']) )
 		$credentials['connection_type'] = 'ftp';
 
-	if ( ! $error && 
+	if ( ! $error &&
 			(
 				( !empty($credentials['password']) && !empty($credentials['username']) && !empty($credentials['hostname']) ) ||
 				( 'ssh' == $credentials['connection_type'] && !empty($credentials['public_key']) && !empty($credentials['private_key']) )

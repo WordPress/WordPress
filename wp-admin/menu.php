@@ -128,7 +128,7 @@ do_action('_admin_menu');
 // Create list of page plugin hook names.
 foreach ($menu as $menu_page) {
 	$hook_name = sanitize_title(basename($menu_page[2], '.php'));
-	
+
 	// ensure we're backwards compatible
 	$compat = array(
 		'index' => 'dashboard',
@@ -140,12 +140,12 @@ foreach ($menu as $menu_page) {
 		'options-general' => 'settings',
 		'themes' => 'appearance',
 		);
-	
+
 	if ( isset($compat[$hook_name]) )
 		$hook_name = $compat[$hook_name];
 	elseif ( !$hook_name )
 		continue;
-	
+
 	$admin_page_hooks[$menu_page[2]] = $hook_name;
 }
 

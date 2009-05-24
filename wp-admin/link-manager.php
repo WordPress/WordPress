@@ -233,9 +233,9 @@ if ( $links ) {
 				case 'visible':
 					?><td <?php echo $attributes ?>><?php echo $visible; ?></td><?php
 					break;
-				case 'rating': 
- 					?><td <?php echo $attributes ?>><?php echo $rating; ?></td><?php 
-					break; 
+				case 'rating':
+ 					?><td <?php echo $attributes ?>><?php echo $rating; ?></td><?php
+					break;
 				default:
 					?>
 					<td><?php do_action('manage_link_custom_column', $column_name, $link->link_id); ?></td>

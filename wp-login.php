@@ -147,12 +147,12 @@ function retrieve_password() {
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
 	$message .= site_url("wp-login.php?action=rp&key=$key", 'login') . "\r\n";
-	
+
 	$title = sprintf(__('[%s] Password Reset'), get_option('blogname'));
-	
+
 	$title = apply_filters('retrieve_password_title', $title);
 	$message = apply_filters('retrieve_password_message', $message, $key);
-	
+
 	if ( $message && !wp_mail($user_email, $title, $message) )
 		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
 
@@ -181,7 +181,7 @@ function reset_password($key) {
 
 	// Generate something random for a password...
 	$new_pass = wp_generate_password();
-	
+
 	do_action('password_reset', $user, $new_pass);
 
 	wp_set_password($new_pass, $user->ID);
@@ -194,7 +194,7 @@ function reset_password($key) {
 
 	$title = apply_filters('password_reset_title', $title);
 	$message = apply_filters('password_reset_message', $message, $new_pass);
-  
+
 	if ( $message && !wp_mail($user->user_email, $title, $message) )
   		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
 

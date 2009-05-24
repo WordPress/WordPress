@@ -50,7 +50,7 @@ if(!function_exists('link_exists'))
 
 /**
  * Convert from dotclear charset to utf8 if required
- * 
+ *
  * @package WordPress
  * @subpackage Dotclear_Import
  *

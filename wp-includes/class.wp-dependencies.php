@@ -89,7 +89,7 @@ class WP_Dependencies {
 				continue;
 
 			$moved = $this->set_group( $handle, $recursion, $group );
-			
+
 			if ( $queued && !$moved ) // already queued and in the right group
 				continue;
 

@@ -69,13 +69,13 @@ function retrieve_widgets() {
 				$_sidebars_widgets['wp_inactive_widgets'] = array_merge( (array) $_sidebars_widgets['wp_inactive_widgets'], $val );
 		}
 	}
-	
+
 	// discard invalid, theme-specific widgets from sidebars
 	$shown_widgets = array();
 	foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
 		if ( !is_array($widgets) )
 			continue;
-		
+
 		$_widgets = array();
 		foreach ( $widgets as $widget ) {
 			if ( isset($wp_registered_widgets[$widget]) )
@@ -220,7 +220,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 
 	if ( !isset($name) )
 		$name = esc_html( strip_tags($control['name']) );
-	
+
 	if ( !isset($sidebar) )
 		$sidebar = isset($_GET['sidebar']) ? $_GET['sidebar'] : 'wp_inactive_widgets';
 
@@ -242,7 +242,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 
 	<form action="widgets.php" method="post">
 	<div class="widget-inside">
-<?php	
+<?php
 	if ( is_callable( $control_callback ) )
 		call_user_func_array( $control_callback, $control['params'] );
 	else

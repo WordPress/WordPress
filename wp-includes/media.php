@@ -610,7 +610,7 @@ add_shortcode('gallery', 'gallery_shortcode');
  */
 function gallery_shortcode($attr) {
 	global $post;
-	
+
 	static $instance = 0;
 	$instance++;
 
@@ -654,7 +654,7 @@ function gallery_shortcode($attr) {
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
-	
+
 	$selector = "gallery-{$instance}";
 
 	$output = apply_filters('gallery_style', "

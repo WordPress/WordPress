@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 			if ( id == options[o].value )
 				options[o] = null;
 	}
-	
+
 	delBefore = function(s) {
 		s.data.taxonomy = $('input[name="taxonomy"]').val();
 

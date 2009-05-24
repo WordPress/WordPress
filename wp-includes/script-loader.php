@@ -422,7 +422,7 @@ function wp_default_styles( &$styles ) {
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20090522';
-	
+
 	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090522' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 

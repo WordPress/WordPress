@@ -173,7 +173,7 @@ class WP_Widget {
 		if ( array_key_exists( $this->number, $settings ) ) {
             $settings = $settings[$this->number];
 			// filters the widget's settings, return false to stop displaying the widget
-			$settings = apply_filters('widget_display_callback', $settings, $this, $args);   
+			$settings = apply_filters('widget_display_callback', $settings, $this, $args);
             if ( false !== $settings )
 				$this->widget($args, $settings);
         }
@@ -285,7 +285,7 @@ class WP_Widget {
 
 	function get_settings() {
 		$settings = get_option($this->option_name);
-		
+
 		if ( false === $settings && isset($this->alt_option_name) )
 			$settings = get_option($this->alt_option_name);
 
@@ -772,9 +772,9 @@ function dynamic_sidebar($index = 1) {
 
 	$did_one = false;
 	foreach ( (array) $sidebars_widgets[$index] as $id ) {
-		
+
 		if ( !isset($wp_registered_widgets[$id]) ) continue;
-		
+
 		$params = array_merge(
 			array( array_merge( $sidebar, array('widget_id' => $id, 'widget_name' => $wp_registered_widgets[$id]['name']) ) ),
 			(array) $wp_registered_widgets[$id]['params']
@@ -813,7 +813,7 @@ function dynamic_sidebar($index = 1) {
  * in which the first instance of the widget with the given callback or $id_base is found.
  * With the $widget_id parameter, returns the ID of the sidebar where
  * the widget with that callback/$id_base AND that ID is found.
- * 
+ *
  * NOTE: $widget_id and $id_base are the same for single widgets. To be effective
  * this function has to run after widgets have initialized, at action 'init' or later.
  *
@@ -834,7 +834,7 @@ function is_active_widget($callback = false, $widget_id = false, $id_base = fals
 		foreach ( $sidebars_widgets as $sidebar => $widgets ) {
 			if ( $skip_inactive && 'wp_inactive_widgets' == $sidebar )
 				continue;
-			
+
 			if ( is_array($widgets) ) {
 				foreach ( $widgets as $widget ) {
 					if ( ( $callback && isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback ) || ( $id_base && preg_replace( '/-[0-9]+$/', '', $widget ) == $id_base ) ) {
@@ -878,8 +878,8 @@ function is_dynamic_sidebar() {
  */
 function is_active_sidebar( $index ) {
 	$index = ( is_int($index) ) ? "sidebar-$index" : sanitize_title($index);
-	$sidebars_widgets = get_option( 'sidebars_widgets', array() );	
-	if ( isset($sidebars_widgets[$index]) && !empty($sidebars_widgets[$index]) ) 
+	$sidebars_widgets = get_option( 'sidebars_widgets', array() );
+	if ( isset($sidebars_widgets[$index]) && !empty($sidebars_widgets[$index]) )
 		return true;
 
 	return false;
@@ -1056,7 +1056,7 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 				$GLOBALS['_wp_sidebars_widgets'] = get_option('sidebars_widgets');
 			$sidebars_widgets = &$GLOBALS['_wp_sidebars_widgets'];
 		}
-		
+
 		foreach ( (array) $sidebars_widgets as $index => $sidebar ) {
 			if ( is_array($sidebar) ) {
 				foreach ( $sidebar as $i => $name ) {

@@ -36,7 +36,7 @@ function tag_update_quickclicks(taxbox) {
 
 	jQuery.each( current_tags, function( key, val ) {
 		var txt, button_id;
-		
+
 		val = jQuery.trim(val);
 		if ( !val.match(/^\s+$/) && '' != val ) {
 			button_id = jQuery(taxbox).attr('id') + '-check-num-' + key;
@@ -52,7 +52,7 @@ function tag_update_quickclicks(taxbox) {
 function tag_flush_to_text(id, a) {
 	a = a || false;
 	var taxbox, text, tags, newtags;
-	
+
 	taxbox = jQuery('#'+id);
 	text = a ? jQuery(a).text() : taxbox.find('input.newtag').val();
 
@@ -68,7 +68,7 @@ function tag_flush_to_text(id, a) {
 	newtags = array_unique_noempty(newtags.split(',')).join(',');
 	taxbox.find('.the-tags').val(newtags);
 	tag_update_quickclicks(taxbox);
-	
+
 	if ( ! a )
 		taxbox.find('input.newtag').val('').focus();
 
@@ -317,7 +317,7 @@ jQuery(document).ready( function($) {
 
 	function updateText() {
 		var attemptedDate, originalDate, currentDate, publishOn;
-		
+
 		attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val());
 		originalDate = new Date( $('#hidden_aa').val(), $('#hidden_mm').val() -1, $('#hidden_jj').val(), $('#hidden_hh').val(), $('#hidden_mn').val());
 		currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val());

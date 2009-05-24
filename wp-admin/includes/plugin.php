@@ -468,7 +468,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s'), implode(', ', $errors)) );
 
 	// Force refresh of plugin update information
-	if ( $current = get_transient('update_plugins') ) { 
+	if ( $current = get_transient('update_plugins') ) {
 		unset( $current->response[ $plugin_file ] );
 		set_transient('update_plugins', $current);
 	}
@@ -598,7 +598,7 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	if ( empty($icon_url) )
 		$icon_url = 'images/generic.png';
 	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
-		$icon_url = 'https://' . substr($icon_url, 7); 
+		$icon_url = 'https://' . substr($icon_url, 7);
 
 	$menu[] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
@@ -640,7 +640,7 @@ function add_utility_page( $page_title, $menu_title, $access_level, $file, $func
 	if ( empty($icon_url) )
 		$icon_url = 'images/generic.png';
 	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
-		$icon_url = 'https://' . substr($icon_url, 7); 
+		$icon_url = 'https://' . substr($icon_url, 7);
 
 	$_wp_last_utility_menu++;
 

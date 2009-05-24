@@ -154,7 +154,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 
 	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
 	$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
-		
+
 	$details_url = admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&TB_iframe=true&width=600&height=800');
 
 	echo '<tr><td colspan="3" class="plugin-update"><div class="update-message">';
@@ -164,9 +164,9 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
 	else
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> or <a href="%5$s">upgrade automatically</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version, wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $file, 'upgrade-plugin_' . $file) );
-	
+
 	do_action( "in_plugin_update_message-$file", $plugin_data, $r );
-	
+
 	echo '</div></td></tr>';
 }
 add_action( 'after_plugin_row', 'wp_plugin_update_row', 10, 2 );

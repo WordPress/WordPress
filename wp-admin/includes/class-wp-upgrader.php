@@ -34,7 +34,7 @@ class WP_Upgrader {
 		else
 			$this->skin = $skin;
 	}
-	
+
 	function init() {
 		$this->skin->set_upgrader($this);
 		$this->generic_strings();
@@ -521,7 +521,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	function install($package) {
-		
+
 		$this->init();
 		$this->install_strings();
 
@@ -786,7 +786,7 @@ class WP_Upgrader_Skin {
 }
 
 /**
- * Plugin Upgrader Skin for WordPress Plugin Upgrades. 
+ * Plugin Upgrader Skin for WordPress Plugin Upgrades.
  *
  * @TODO More Detailed docs, for methods as well.
  *
@@ -835,7 +835,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 }
 
 /**
- * Plugin Installer Skin for WordPress Plugin Installer. 
+ * Plugin Installer Skin for WordPress Plugin Installer.
  *
  * @TODO More Detailed docs, for methods as well.
  *
@@ -890,7 +890,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 }
 
 /**
- * Theme Installer Skin for the WordPress Theme Installer. 
+ * Theme Installer Skin for the WordPress Theme Installer.
  *
  * @TODO More Detailed docs, for methods as well.
  *
@@ -955,7 +955,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 }
 
 /**
- * Theme Upgrader Skin for WordPress Theme Upgrades. 
+ * Theme Upgrader Skin for WordPress Theme Upgrades.
  *
  * @TODO More Detailed docs, for methods as well.
  *

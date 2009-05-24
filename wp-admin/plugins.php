@@ -410,7 +410,7 @@ function print_plugins_table($plugins, $context = '') {
 		echo implode(' | ', $plugin_meta);
 		echo "</p></td>
 	</tr>\n";
-	
+
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
 		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $context );
 	}

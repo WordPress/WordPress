@@ -927,7 +927,7 @@ function get_sample_permalink($id, $title=null, $name = null) {
 		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
 	}
 
-	$post->post_name = wp_unique_post_slug($post->post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent);	
+	$post->post_name = wp_unique_post_slug($post->post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent);
 
 	// If the user wants to set a new name -- override the current one
 	// Note: if empty name is supplied -- use the title instead, see #6072
@@ -1339,13 +1339,13 @@ function wp_tiny_mce( $teeny = false ) {
 
 	$language = $initArray['language'];
 	$zip = $compress_scripts ? 1 : 0;
-	
+
 	/**
 	 * Deprecated
-	 *  
+	 *
 	 * The tiny_mce_version filter is not needed since external plugins are loaded directly by TinyMCE.
 	 * These plugins can be refreshed by appending query string to the URL passed to mce_external_plugins filter.
-	 * If the plugin has a popup dialog, a query string can be added to the button action that opens it (in the plugin's code).	 
+	 * If the plugin has a popup dialog, a query string can be added to the button action that opens it (in the plugin's code).
 	 */
 	$version = apply_filters('tiny_mce_version', '');
 	$version = 'ver=' . $tinymce_version . $version;

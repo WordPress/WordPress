@@ -172,7 +172,7 @@ function wpautop($pee, $br = 1) {
 /**
  * Checks to see if a string is utf8 encoded.
  *
- * NOTE: This function checks for 5-Byte sequences, UTF8 
+ * NOTE: This function checks for 5-Byte sequences, UTF8
  *       has Bytes Sequences with a maximum length of 4.
  *
  * @author bmorel at ssi dot fr (modified)
@@ -184,7 +184,7 @@ function wpautop($pee, $br = 1) {
 function seems_utf8(&$str) {
 	$length = strlen($str);
 	for ($i=0; $i < $length; $i++) {
-		$c = ord($str[$i]); 
+		$c = ord($str[$i]);
 		if ($c < 0x80) $n = 0; # 0bbbbbbb
 		elseif (($c & 0xE0) == 0xC0) $n=1; # 110bbbbb
 		elseif (($c & 0xF0) == 0xE0) $n=2; # 1110bbbb
@@ -256,7 +256,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 	} elseif ( $quote_style === 'single' ) {
 		$quote_style = ENT_NOQUOTES;
 	}
-	
+
 	// Handle double encoding ourselves
 	if ( !$double_encode ) {
 		$string = wp_specialchars_decode( $string, $_quote_style );
@@ -581,9 +581,9 @@ function remove_accents($string) {
 /**
  * Sanitizes a filename replacing whitespace with dashes
  *
- * Removes special characters that are illegal in filenames on certain 
- * operating systems and special characters requiring special escaping 
- * to manipulate at the command line. Replaces spaces and consecutive 
+ * Removes special characters that are illegal in filenames on certain
+ * operating systems and special characters requiring special escaping
+ * to manipulate at the command line. Replaces spaces and consecutive
  * dashes with a single dash. Trim period, dash and underscore from beginning
  * and end of filename.
  *
@@ -720,14 +720,14 @@ function sanitize_sql_orderby( $orderby ){
 
 /**
  * Santizes a html classname to ensure it only contains valid characters
- * 
+ *
  * Strips the string down to A-Z,a-z,0-9,'-' if this results in an empty
  * string then it will return the alternative value supplied.
- * 
+ *
  * @todo Expand to support the full range of CDATA that a class attribute can contain.
- *  
+ *
  * @since 2.8.0
- *  
+ *
  * @param string $class The classname to be sanitized
  * @param string $fallback The value to return if the sanitization end's up as an empty string.
  * @return string The sanitized value
@@ -735,14 +735,14 @@ function sanitize_sql_orderby( $orderby ){
 function sanitize_html_class($class, $fallback){
 	//Strip out any % encoded octets
 	$sanitized = preg_replace('|%[a-fA-F0-9][a-fA-F0-9]|', '', $class);
-	
+
 	//Limit to A-Z,a-z,0-9,'-'
 	$sanitized = preg_replace('/[^A-Za-z0-9-]/', '', $sanitized);
-	
+
 	if ('' == $sanitized)
 		$sanitized = $fallback;
-	
-	return apply_filters('sanitize_html_class',$sanitized, $class, $fallback);	
+
+	return apply_filters('sanitize_html_class',$sanitized, $class, $fallback);
 }
 
 /**
@@ -2215,7 +2215,7 @@ function esc_attr( $text ) {
  *
  * @deprecated 2.8.0
  * @see esc_attr()
- * 
+ *
  * @param string $text
  * @return string
  */

@@ -179,8 +179,8 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	// Allow plugins to return there own errors.
-	do_action_ref_array('user_profile_update_errors', array ( &$errors, $update, &$user ) );	
-	
+	do_action_ref_array('user_profile_update_errors', array ( &$errors, $update, &$user ) );
+
 	if ( $errors->get_error_codes() )
 		return $errors;
 
@@ -803,7 +803,7 @@ function default_password_nag_handler($errors = false) {
 		return;
 
 	//get_user_setting = JS saved UI setting. else no-js-falback code.
-	if ( 'hide' == get_user_setting('default_password_nag') || isset($_GET['default_password_nag']) && '0' == $_GET['default_password_nag'] ) {		
+	if ( 'hide' == get_user_setting('default_password_nag') || isset($_GET['default_password_nag']) && '0' == $_GET['default_password_nag'] ) {
 		delete_user_setting('default_password_nag');
 		update_usermeta($user_ID, 'default_password_nag', false);
 	}

@@ -281,7 +281,7 @@ class WP_Http {
 			$transports = WP_Http::_getTransport($r);
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
-				if ( ! version_compare(phpversion(), '5.1.2', '>=') ) 
+				if ( ! version_compare(phpversion(), '5.1.2', '>=') )
 					$r['body'] = _http_build_query($r['body'], null, '&');
 				else
 					$r['body'] = http_build_query($r['body'], null, '&');

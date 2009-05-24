@@ -1433,17 +1433,17 @@ function previous_posts_link( $label = '&laquo; Previous Page' ) {
  * @since 2.8
  *
  * @param string|array $args Optional args.
- * @return string The posts link navigation. 
+ * @return string The posts link navigation.
  */
 function get_posts_nav_link( $args = array() ) {
 	global $wp_query;
-	
+
 	$return = '';
 
 	if ( !is_singular() ) {
 		$defaults = array(
-			'sep' => ' &#8212; ', 
-			'prelabel' => __('&laquo; Previous Page'), 
+			'sep' => ' &#8212; ',
+			'prelabel' => __('&laquo; Previous Page'),
 			'nxtlabel' => __('Next Page &raquo;'),
 		);
 		$args = wp_parse_args( $args, $defaults );

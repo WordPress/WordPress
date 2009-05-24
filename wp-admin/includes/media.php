@@ -194,7 +194,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );
-		
+
 	$name_parts = pathinfo($name);
 	$name = trim( substr( $name, 0, -(1 + strlen($name_parts['extension'])) ) );
 
@@ -327,7 +327,7 @@ if ( is_string($content_func) )
 	$args = func_get_args();
 	$args = array_slice($args, 1);
 	call_user_func_array($content_func, $args);
-	
+
 	do_action('admin_print_footer_scripts');
 ?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>

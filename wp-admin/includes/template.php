@@ -21,25 +21,25 @@
  * @param unknown_type $per_page
  */
 function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20 ) {
-	
+
 	$count = 0;
-	
+
 	if ( empty($categories) ) {
-		
+
 		$args = array('hide_empty' => 0);
 		if ( !empty($_GET['s']) )
 			$args['search'] = $_GET['s'];
-			
-		$categories = get_categories( $args ); 
-		
+
+		$categories = get_categories( $args );
+
 		if ( empty($categories) )
 			return false;
 	}
 
-	$children = _get_term_hierarchy('category'); 
-	
-	_cat_rows( $parent, $level, $categories, $children, $page, $per_page, $count ); 
-	
+	$children = _get_term_hierarchy('category');
+
+	_cat_rows( $parent, $level, $categories, $children, $page, $per_page, $count );
+
 }
 
 /**
@@ -55,22 +55,22 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_pag
  * @param unknown_type $per_page
  * @return unknown
  */
-function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1, $per_page = 20, &$count ) { 
-	
+function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1, $per_page = 20, &$count ) {
+
 	$start = ($page - 1) * $per_page;
 	$end = $start + $per_page;
 	ob_start();
-	
+
 	foreach ( $categories as $key => $category ) {
 		if ( $count >= $end )
 			break;
-			
+
 		if ( $category->parent != $parent && empty($_GET['s']) )
 			continue;
 
 		// If the page starts in a subtree, print the parents.
 		if ( $count == $start && $category->parent > 0 ) {
-			
+
 			$my_parents = array();
 			$p = $category->parent;
 			while ( $p ) {
@@ -80,7 +80,7 @@ function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1,
 					break;
 				$p = $my_parent->parent;
 			}
-			
+
 			$num_parents = count($my_parents);
 			while( $my_parent = array_pop($my_parents) ) {
 				echo "\t" . _cat_row( $my_parent, $level - $num_parents );
@@ -91,12 +91,12 @@ function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1,
 		if ( $count >= $start )
 			echo "\t" . _cat_row( $category, $level );
 
-		unset( $categories[ $key ] ); 
-		
+		unset( $categories[ $key ] );
+
 		$count++;
 
 		if ( isset($children[$category->term_id]) )
-			_cat_rows( $category->term_id, $level + 1, $categories, $children, $page, $per_page, $count ); 
+			_cat_rows( $category->term_id, $level + 1, $categories, $children, $page, $per_page, $count );
 	}
 
 	$output = ob_get_contents();
@@ -517,13 +517,13 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 
 	// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
 	$checked_categories = array();
-	$keys = array_keys( $categories ); 
-	
+	$keys = array_keys( $categories );
+
 	foreach( $keys as $k ) {
 		if ( in_array( $categories[$k]->term_id, $args['selected_cats'] ) ) {
 			$checked_categories[] = $categories[$k];
 			unset( $categories[$k] );
-		}	
+		}
 	}
 
 	// Put checked cats on top
@@ -3598,7 +3598,7 @@ function screen_layout($screen) {
 		$screen_layout_columns = 0;
 		return '';
  	}
-	
+
 	$screen_layout_columns = get_user_option("screen_layout_$screen");
 	$num = $columns[$screen];
 

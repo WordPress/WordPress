@@ -311,7 +311,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$post = get_post($post_id);
 
 	$classes = array();
-	
+
 	$classes[] = 'post-' . $post->ID;
 	$classes[] = $post->post_type;
 

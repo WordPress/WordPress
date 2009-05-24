@@ -1197,8 +1197,8 @@ function wp_delete_post($postid = 0) {
 		clean_post_cache($postid);
 	}
 
-	wp_clear_scheduled_hook('publish_future_post', $postid); 
-	
+	wp_clear_scheduled_hook('publish_future_post', $postid);
+
 	do_action('deleted_post', $postid);
 
 	return $post;
@@ -1734,7 +1734,7 @@ function check_and_publish_future_post($post_id) {
  * @param string $post_status no uniqueness checks are made if the post is still draft or pending
  * @param string $post_type
  * @param integer $post_parent
- * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix) 
+ * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_parent) {
 	global $wpdb, $wp_rewrite;
@@ -1747,7 +1747,7 @@ function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_pa
 			$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1";
 			$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_type, $post_ID, $post_parent));
 		}
-		
+
 		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
 			$suffix = 2;
 			do {

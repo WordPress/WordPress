@@ -1064,10 +1064,10 @@ case 'inline-save':
 	}
 
 	$data = &$_POST;
-	
+
 	$post = get_post( $post_ID, ARRAY_A );
 	$post = add_magic_quotes($post); //since it is from db
-	
+
 	$data['content'] = $post['post_content'];
 	$data['excerpt'] = $post['post_excerpt'];
 
@@ -1323,7 +1323,7 @@ case 'save-widget' :
 		echo "deleted:$widget_id";
 		die();
 	}
-	
+
 	die('1');
 	break;
 default :

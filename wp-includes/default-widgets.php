@@ -189,7 +189,7 @@ class WP_Widget_Search extends WP_Widget {
 
 		echo $after_widget;
 	}
-	
+
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
 		$title = $instance['title'];
@@ -197,14 +197,14 @@ class WP_Widget_Search extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 <?php
 	}
-	
+
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$new_instance = wp_parse_args((array) $new_instance, array( 'title' => ''));
 		$instance['title'] = strip_tags($new_instance['title']);
 		return $instance;
-	}	
-	
+	}
+
 }
 
 /**

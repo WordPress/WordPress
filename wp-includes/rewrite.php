@@ -1703,20 +1703,20 @@ class WP_Rewrite {
 
 		return $rules;
 	}
-	
+
 	/**
 	 * Retrieve IIS7 URL Rewrite formatted rewrite rules to write to web.config file.
 	 *
 	 * Does not actually write to the web.config file, but creates the rules for
 	 * the process that will.
 	 *
-	 * @since 2.8.0 
+	 * @since 2.8.0
 	 * @access public
 	 *
 	 * @return string
 	 */
 	function iis7_url_rewrite_rules(){
-		
+
 		if ( ! $this->using_permalinks()) {
 			return '';
 		}
@@ -1728,9 +1728,9 @@ class WP_Rewrite {
 		$rules .= "	</conditions>\n";
 		$rules .= "	<action type=\"Rewrite\" url=\"index.php\" />\n";
 		$rules .= "</rule>";
-				
+
 		$rules = apply_filters('iis7_url_rewrite_rules', $rules);
-		
+
 		return $rules;
 	}
 
@@ -1874,7 +1874,7 @@ class WP_Rewrite {
 	 * Will update the 'permalink_structure' option, if there is a difference
 	 * between the current permalink structure and the parameter value. Calls
 	 * {@link WP_Rewrite::init()} after the option is updated.
-	 * 
+	 *
 	 * Fires the 'permalink_structure_changed' action once the init call has
 	 * processed passing the old and new values
 	 *

@@ -1908,7 +1908,7 @@ class WP_Query {
 		foreach ($intersections as $item => $taxonomy) {
 			if ( empty($q[$item]) ) continue;
 			if ( in_array($item, $tagin) && empty($q['cat']) ) continue; // We should already have what we need if categories aren't being used
-			
+
 			if ( $item != 'category__and' ) {
 				$reqtag = is_term( $q[$item][0], 'post_tag' );
 				if ( !empty($reqtag) )
@@ -2662,7 +2662,7 @@ function setup_postdata($post) {
 	global $id, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages;
 
 	do_action_ref_array('the_post', array(&$post));
-	
+
 	$id = (int) $post->ID;
 
 	$authordata = get_userdata($post->post_author);

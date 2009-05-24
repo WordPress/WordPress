@@ -884,7 +884,7 @@ function preview_theme() {
 		add_filter( 'stylesheet', create_function('', "return '{$_GET['stylesheet']}';") );
 	}
 
-	// Prevent theme mods to current theme being used on theme being previewed 
+	// Prevent theme mods to current theme being used on theme being previewed
 	add_filter( 'pre_option_mods_' . get_current_theme(), create_function( '', "return array();" ) );
 
 	ob_start( 'preview_theme_ob_filter' );

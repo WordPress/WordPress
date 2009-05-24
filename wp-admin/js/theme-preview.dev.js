@@ -23,12 +23,12 @@ jQuery(document).ready(function($) {
 	$('a.thickbox-preview').click( function() {
 		var alink = $(this).parents('.available-theme').find('.activatelink'), link = '', href = $(this).attr('href'), url, text;
 
-		if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )			
+		if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )
 			tbWidth = parseInt(tbWidth[0].replace(/[^0-9]+/g, ''), 10);
 		else
 			tbWidth = $(window).width() - 90;
 
-		if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )		
+		if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )
 			tbHeight = parseInt(tbHeight[0].replace(/[^0-9]+/g, ''), 10);
 		else
 			tbHeight = $(window).height() - 60;

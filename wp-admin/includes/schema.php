@@ -303,7 +303,7 @@ function populate_options() {
 	'widget_categories' => array(),
 	'widget_text' => array(),
 	'widget_rss' => array(),
-	
+
 	// 2.8
 	'timezone_string' => ''
 	);

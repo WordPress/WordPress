@@ -1672,7 +1672,7 @@ function the_author_url() {
  * @deprecated 2.8
  * @return int The author's ID.
  */
-function get_the_author_ID() {  
+function get_the_author_ID() {
 	_deprecated_function(__FUNCTION__, '2.8', 'get_the_author_meta(\'ID\')' );
 	return get_the_author_meta('ID');
 }
@@ -1685,9 +1685,9 @@ function get_the_author_ID() {
  * @deprecated 2.8
  * @uses get_the_author_ID()
 */
-function the_author_ID() {  
+function the_author_ID() {
 	_deprecated_function(__FUNCTION__, '2.8', 'the_author_meta(\'ID\')' );
 	the_author_meta('ID');
-} 
+}
 
 ?>
