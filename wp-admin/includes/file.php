@@ -626,18 +626,21 @@ function WP_Filesystem( $args = false ) {
  * @return unknown
  */
 function get_filesystem_method($args = array()) {
-	$method = false;
-	if( function_exists('getmyuid') && function_exists('fileowner') ){
-		$temp_file = wp_tempnam();
-		if ( getmyuid() == fileowner($temp_file) )
-			$method = 'direct';
-		unlink($temp_file);
-	}
+	$method = defined('FS_METHOD') ? FS_METHOD : false; //Please ensure that this is either 'direct', 'ssh', 'ftpext' or 'ftpsockets'
+
+	if( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
+		$temp_file_name = ABSPATH . '.' . time();
+		$temp_handle = @fopen($temp_file_name, 'w');
+		if ( $temp_handle && getmyuid() == fileowner($temp_file_name) )
+ 			$method = 'direct';
+		@fclose($temp_handle);
+		unlink($temp_file_name);
+ 	}
 
 	if ( ! $method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') && extension_loaded('sockets') ) $method = 'ssh2';
 	if ( ! $method && extension_loaded('ftp') ) $method = 'ftpext';
 	if ( ! $method && ( extension_loaded('sockets') || function_exists('fsockopen') ) ) $method = 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
-	return apply_filters('filesystem_method', $method);
+	return apply_filters('filesystem_method', $method, $args);
 }
 
 /**
