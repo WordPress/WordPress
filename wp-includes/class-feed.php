@@ -32,7 +32,7 @@ class WP_Feed_Cache_Transient {
 	function WP_Feed_Cache_Transient($location, $filename, $extension) {
 		$this->name = 'feed_' . $filename;
 		$this->mod_name = 'feed_mod_' . $filename;
-		$this->lifetime = apply_filters('wp_feed_cache_transient_lifetime', $this->lifetime, $filename);
+		$this->lifetime = apply_filters('wp_feed_cache_transient_lifetime', $this->lifetime);
 	}
 
 	function save($data) {
