@@ -1143,7 +1143,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$objects = $wpdb->get_col( $wpdb->prepare( "SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $tt_id ) );
 
 	foreach ( (array) $objects as $object ) {
-		$terms = wp_get_object_terms($object, $taxonomy, 'fields=ids');
+		$terms = wp_get_object_terms($object, $taxonomy, array('fields' => 'ids', 'orderby' => 'none'));
 		if ( 1 == count($terms) && isset($default) ) {
 			$terms = array($default);
 		} else {
@@ -1246,8 +1246,15 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$orderby = 't.term_group';
 	else if ( 'term_order' == $orderby )
 		$orderby = 'tr.term_order';
-	else
+	else if ( 'none' == $orderby ) {
+		$orderby = '';
+		$order = '';
+	} else {
 		$orderby = 't.term_id';
+	}
+
+	if ( !empty($orderby) )
+		$orderby = "ORDER BY $orderby";
 
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
@@ -1262,7 +1269,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	else if ( 'all_with_object_id' == $fields )
 		$select_this = 't.*, tt.*, tr.object_id';
 
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) ORDER BY $orderby $order";
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
 
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
 		$terms = array_merge($terms, $wpdb->get_results($query));
@@ -1270,7 +1277,9 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	} else if ( 'ids' == $fields || 'names' == $fields ) {
 		$terms = array_merge($terms, $wpdb->get_col($query));
 	} else if ( 'tt_ids' == $fields ) {
-		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) ORDER BY tr.term_taxonomy_id $order");
+		if ( !empty($order_by) )
+			$orderby = "ORDER BY tr.term_taxonomy_id";
+		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
 	}
 
 	if ( ! $terms )
@@ -1444,7 +1453,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		$terms = array($terms);
 
 	if ( ! $append )
-		$old_tt_ids =  wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
+		$old_tt_ids =  wp_get_object_terms($object_id, $taxonomy, array('fields' => 'tt_ids', 'orderby' => 'none'));
 
 	$tt_ids = array();
 	$term_ids = array();
