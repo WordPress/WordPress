@@ -578,6 +578,9 @@ function print_head_scripts() {
 function print_footer_scripts() {
 	global $wp_scripts, $concatenate_scripts;
 
+	if ( ! did_action('wp_print_footer_scripts') )
+		do_action('wp_print_footer_scripts');
+
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		return array(); // No need to run if not instantiated.
 
