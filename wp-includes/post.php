@@ -2452,7 +2452,19 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	else
 		$post_name = sanitize_title($post_name);
 
-	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
+	// expected_slashed ($post_name)
+	$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_status = 'inherit' AND ID != %d LIMIT 1", $post_name, $post_ID ) );
+
+	if ( $post_name_check ) {
+		$suffix = 2;
+		while ( $post_name_check ) {
+			$alt_post_name = $post_name . "-$suffix";
+			// expected_slashed ($alt_post_name, $post_name)
+			$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_status = 'inherit' AND ID != %d LIMIT 1", $alt_post_name, $post_ID ) );
+			$suffix++;
+		}
+		$post_name = $alt_post_name;
+	}
 
 	if ( empty($post_date) )
 		$post_date = current_time('mysql');
