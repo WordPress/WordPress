@@ -2385,11 +2385,12 @@ class WP_Query {
 	function the_post() {
 		global $post;
 		$this->in_the_loop = true;
+
+		if ( $this->current_post == -1 ) // loop has just started
+			do_action_ref_array('loop_start', array(&$this));
+
 		$post = $this->next_post();
 		setup_postdata($post);
-
-		if ( $this->current_post == 0 ) // loop has just started
-			do_action_ref_array('loop_start', array(&$this));
 	}
 
 	/**
@@ -2661,8 +2662,6 @@ function wp_old_slug_redirect () {
 function setup_postdata($post) {
 	global $id, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages;
 
-	do_action_ref_array('the_post', array(&$post));
-
 	$id = (int) $post->ID;
 
 	$authordata = get_userdata($post->post_author);
@@ -2689,6 +2688,9 @@ function setup_postdata($post) {
 		$pages[0] = $post->post_content;
 		$multipage = 0;
 	}
+
+	do_action_ref_array('the_post', array(&$post));
+	
 	return true;
 }
 
