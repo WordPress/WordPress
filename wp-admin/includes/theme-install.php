@@ -309,7 +309,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	$actions = implode ( ' | ', $actions );
 	?>
 <a class='thickbox thickbox-preview screenshot'
-	href='<? echo esc_url($preview_link); ?>'
+	href='<?php echo esc_url($preview_link); ?>'
 	title='<?php echo esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)); ?>'>
 <img src='<?php echo esc_url($theme->screenshot_url); ?>' width='150' />
 </a>
