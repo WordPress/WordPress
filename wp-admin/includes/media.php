@@ -439,28 +439,8 @@ function media_upload_form_handler() {
 				$rel = " rel='attachment wp-att-" . esc_attr($send_id)."'";
 			$html = "<a href='{$attachment['url']}'$rel>$html</a>";
 		}
-		
-		
-		
-		
+
 		$html = apply_filters('media_send_to_editor', $html, $send_id, $attachment);
-		
-		
-		
-		
-		
-		
-
-
-
-
-
-
-
-		
-		
-		
-		
 		return media_send_to_editor($html);
 	}
 
