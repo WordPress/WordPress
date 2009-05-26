@@ -130,15 +130,20 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
  */
 function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 
-	if ( empty($alt) || apply_filters( 'disable_captions', '' ) ) return $html;
+	if ( empty($alt) || apply_filters( 'disable_captions', '' ) )
+		return $html;
+
 	$id = ( 0 < (int) $id ) ? 'attachment_' . $id : '';
 
 	preg_match( '/width="([0-9]+)/', $html, $matches );
-	if ( ! isset($matches[1]) ) return $html;
+	if ( ! isset($matches[1]) )
+		return $html;
+
 	$width = $matches[1];
 
-	$html = preg_replace( '/align[^\s\'"]+\s?/', '', $html );
-	if ( empty($align) ) $align = 'none';
+	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
+	if ( empty($align) )
+		$align = 'none';
 
 	$alt = ! empty($alt) ? addslashes($alt) : '';
 
@@ -427,13 +432,35 @@ function media_upload_form_handler() {
 
 	if ( isset($send_id) ) {
 		$attachment = stripslashes_deep( $_POST['attachments'][$send_id] );
+
 		$html = $attachment['post_title'];
 		if ( !empty($attachment['url']) ) {
 			if ( strpos($attachment['url'], 'attachment_id') || false !== strpos($attachment['url'], get_permalink($_POST['post_id'])) )
 				$rel = " rel='attachment wp-att-" . esc_attr($send_id)."'";
 			$html = "<a href='{$attachment['url']}'$rel>$html</a>";
 		}
+		
+		
+		
+		
 		$html = apply_filters('media_send_to_editor', $html, $send_id, $attachment);
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+		
+		
+		
+		
 		return media_send_to_editor($html);
 	}
 
