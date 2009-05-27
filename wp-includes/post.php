@@ -1737,27 +1737,56 @@ function check_and_publish_future_post($post_id) {
  * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_parent) {
+	if ( in_array( $post_status, array( 'draft', 'pending' ) ) )
+		return $slug;
+	
 	global $wpdb, $wp_rewrite;
-	if ( !in_array( $post_status, array( 'draft', 'pending' ) ) ) {
-		$hierarchical_post_types = apply_filters('hierarchical_post_types', array('page', 'attachment'));
-		if ( in_array($post_type, $hierarchical_post_types) ) {
-			$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode("', '", $wpdb->escape($hierarchical_post_types)) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
-			$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID, $post_parent));
-		} else {
-			$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1";
-			$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_type, $post_ID, $post_parent));
-		}
-
+	$hierarchical_post_types = apply_filters('hierarchical_post_types', array('page'));
+	if ( 'attachment' == $post_type ) {
+		// Attachment slugs must be unique across all types.
+		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
+		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID));
+		
 		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
 			$suffix = 2;
 			do {
 				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
-				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_type, $post_ID, $post_parent));
+				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_ID));
+				$suffix++;
+			} while ($post_name_check);
+			$slug = $alt_post_name;
+		}
+	} elseif ( in_array($post_type, $hierarchical_post_types) ) {
+		// Page slugs must be unique within their own trees.  Pages are in a
+		// separate namespace than posts so page slugs are allowed to overlap post slugs.
+		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode("', '", $wpdb->escape($hierarchical_post_types)) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
+		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID, $post_parent));
+		
+		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
+			$suffix = 2;
+			do {
+				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
+				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_ID, $post_parent));
+				$suffix++;
+			} while ($post_name_check);
+			$slug = $alt_post_name;
+		}
+	} else {
+		// Post slugs must be unique across all posts.
+		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
+		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_type, $post_ID));
+		
+		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
+			$suffix = 2;
+			do {
+				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
+				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_type, $post_ID));
 				$suffix++;
 			} while ($post_name_check);
 			$slug = $alt_post_name;
 		}
 	}
+
 	return $slug;
 }
 
@@ -2453,18 +2482,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		$post_name = sanitize_title($post_name);
 
 	// expected_slashed ($post_name)
-	$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_status = 'inherit' AND ID != %d LIMIT 1", $post_name, $post_ID ) );
-
-	if ( $post_name_check ) {
-		$suffix = 2;
-		while ( $post_name_check ) {
-			$alt_post_name = $post_name . "-$suffix";
-			// expected_slashed ($alt_post_name, $post_name)
-			$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_status = 'inherit' AND ID != %d LIMIT 1", $alt_post_name, $post_ID ) );
-			$suffix++;
-		}
-		$post_name = $alt_post_name;
-	}
+	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
 
 	if ( empty($post_date) )
 		$post_date = current_time('mysql');
