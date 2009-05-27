@@ -823,8 +823,10 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		$author = '';
 		if ( $show_author ) {
 			$author = $item->get_author();
-			$author = $author->get_name();
-			$author = ' <cite>' . esc_html( strip_tags( $author ) ) . '</cite>';
+			if ( is_object($author) ) {
+				$author = $author->get_name();
+				$author = ' <cite>' . esc_html( strip_tags( $author ) ) . '</cite>';
+			}
 		}
 
 		if ( $link == '' ) {
