@@ -109,13 +109,14 @@ function theme_update_available( $theme ) {
 		$theme_name = is_object($theme) ? $theme->name : (is_array($theme) ? $theme['Name'] : '');
 		$details_url = add_query_arg(array('TB_iframe' => 'true', 'width' => 1024, 'height' => 800), $update['url']); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
 		$update_url = wp_nonce_url('update.php?action=upgrade-theme&amp;theme=' . urlencode($stylesheet), 'upgrade-theme_' . $stylesheet);
+		$update_onclick = 'onclick="if ( confirm(\'' . esc_js( __("Upgrading this theme will lose any customizations you have made.  'Cancel' to stop, 'OK' to upgrade.") ) . '\') ) {return true;}return false;"';
 
 		if ( ! current_user_can('update_themes') )
 			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a>.</p>'), $theme_name, $details_url, $update['new_version']);
 		else if ( empty($update->package) )
 			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> <em>automatic upgrade unavailable for this theme</em>.</p>'), $theme_name, $details_url, $update['new_version']);
 		else
-			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s">upgrade automatically</a>.</p>'), $theme_name, $details_url, $update['new_version'], $update_url );
+			printf( __('<p>There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s" %5$s >upgrade automatically</a>.</p>'), $theme_name, $details_url, $update['new_version'], $update_url, $update_onclick );
 	}
 }
 
