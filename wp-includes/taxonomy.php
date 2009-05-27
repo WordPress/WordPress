@@ -1250,11 +1250,12 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$orderby = '';
 		$order = '';
 	} else {
-		if ( 'tt_ids' == $fields )
-			$orderby = 'tr.term_taxonomy_id';
-		else
-			$orderby = 't.term_id';
+		$orderby = 't.term_id';
 	}
+
+	// tt_ids queries can only be none or tr.term_taxonomy_id
+	if ( ('tt_ids' == $fields) && !empty($orderby) )
+		$orderby = 'tr.term_taxonomy_id';
 
 	if ( !empty($orderby) )
 		$orderby = "ORDER BY $orderby";
