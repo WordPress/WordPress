@@ -631,10 +631,12 @@ function get_filesystem_method($args = array()) {
 	if( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
 		$temp_file_name = ABSPATH . '.' . time();
 		$temp_handle = @fopen($temp_file_name, 'w');
-		if ( $temp_handle && getmyuid() == fileowner($temp_file_name) )
- 			$method = 'direct';
-		@fclose($temp_handle);
-		unlink($temp_file_name);
+		if ( $temp_handle ) {
+			if ( getmyuid() == fileowner($temp_file_name) )
+				$method = 'direct';
+			@fclose($temp_handle);
+			unlink($temp_file_name);
+		}
  	}
 
 	if ( ! $method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') && extension_loaded('sockets') ) $method = 'ssh2';
