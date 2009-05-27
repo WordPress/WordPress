@@ -1,6 +1,8 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, autosaveFirst = true;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true;
 
-jQuery(function($) {
+jQuery(document).ready( function($) {
+	var dotabkey = true;
+	
 	autosaveLast = $('#post #title').val() + $('#post #content').val();
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
@@ -21,6 +23,38 @@ jQuery(function($) {
 				return autosaveL10n.saveAlert;
 		}
 	};
+
+	// preview
+	$('#post-preview').click(function(){
+		if ( 1 > $('#post_ID').val() && notSaved ) {
+			autosaveDelayPreview = true;
+			autosave();
+			return false;
+		}
+		doPreview();
+		return false;
+	});
+
+	doPreview = function() {
+		$('input#wp-preview').val('dopreview');
+		$('form#post').attr('target', 'wp-preview').submit().attr('target', '');
+		$('input#wp-preview').val('');
+	}
+
+	//  This code is meant to allow tabbing from Title to Post if tinyMCE is defined.
+	if ( typeof tinyMCE != 'undefined' ) {
+		$('#title')[$.browser.opera ? 'keypress' : 'keydown'](function (e) {
+			if ( e.which == 9 && !e.shiftKey && !e.controlKey && !e.altKey ) {
+				if ( ($("#post_ID").val() < 1) && ($("#title").val().length > 0) ) { autosave(); }
+				if ( tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() && dotabkey ) {
+					e.preventDefault();
+					dotabkey = false;
+					tinyMCE.activeEditor.focus();
+					return false;
+				}
+			}
+		});
+	}
 });
 
 function autosave_parse_response(response) {
@@ -68,14 +102,16 @@ function autosave_saved_new(response) {
 		tempID = jQuery('#post_ID').val();
 		postID = parseInt( res.responses[0].id, 10 );
 		autosave_update_post_ID( postID ); // disabled form buttons are re-enabled here
-		if ( tempID < 0 && postID > 0 ) // update media buttons
+		if ( tempID < 0 && postID > 0 ) { // update media buttons
+			notSaved = false;
 			jQuery('#media-buttons a').each(function(){
 				this.href = this.href.replace(tempID, postID);
 			});
-		// activate preview
-		autosaveFirst = false;
-		if ( autosaveDelayPreview )
-			jQuery('#post-preview').click();
+		}
+		if ( autosaveDelayPreview ) {
+			autosaveDelayPreview = false;
+			doPreview();
+		}
 	} else {
 		autosave_enable_buttons(); // re-enable disabled form buttons
 	}
@@ -172,8 +208,8 @@ autosave = function() {
 		post_data["post_name"] = jQuery('#post_name').val();
 
 	// Nothing to save or no change.
-	if( (post_data["post_title"].length==0 && post_data["content"].length==0) || post_data["post_title"] + post_data["content"] == autosaveLast) {
-		doAutoSave = false
+	if( ( post_data["post_title"].length == 0 && post_data["content"].length == 0 ) || post_data["post_title"] + post_data["content"] == autosaveLast) {
+		doAutoSave = false;
 	}
 
 	autosave_disable_buttons();
