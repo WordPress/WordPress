@@ -39,10 +39,10 @@ if ( !$user_id ) {
 	wp_die( __('Invalid user ID.') );
 }
 
-$all_post_types = apply_filters('all_post_types', array('post', 'page'));
+$all_post_caps = array('posts', 'pages');
 $user_can_edit = false;
-foreach ( $all_post_types as $post_type )
-	$user_can_edit |= current_user_can("edit_$post_type");
+foreach ( $all_post_caps as $post_cap )
+	$user_can_edit |= current_user_can("edit_$post_cap");
 
 /**
  * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
