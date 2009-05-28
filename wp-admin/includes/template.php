@@ -635,7 +635,8 @@ function wp_link_category_checklist( $link_id = 0 ) {
  */
 function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 		$count = number_format_i18n( $tag->count );
-		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
+		$tagsel = ($taxonomy == 'post_tag' ? 'tag' : $taxonomy);
+		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug'>$count</a>" : $count;
 
 		$name = apply_filters( 'term_name', $tag->name );
 		$qe_data = get_term($tag->term_id, $taxonomy, object, 'edit');
