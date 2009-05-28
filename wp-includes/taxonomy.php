@@ -630,7 +630,7 @@ function &get_terms($taxonomies, $args = '') {
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
 	if ( !$single_taxonomy || !is_taxonomy_hierarchical($taxonomies[0]) ||
-		'' != $args['parent'] ) {
+		'' !== $args['parent'] ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
@@ -745,7 +745,7 @@ function &get_terms($taxonomies, $args = '') {
 	if ( !empty($name__like) )
 		$where .= " AND t.name LIKE '{$name__like}%'";
 
-	if ( '' != $parent ) {
+	if ( '' !== $parent ) {
 		$parent = (int) $parent;
 		$where .= " AND tt.parent = '$parent'";
 	}
@@ -754,7 +754,7 @@ function &get_terms($taxonomies, $args = '') {
 		$where .= ' AND tt.count > 0';
 
 	// don't limit the query results when we have to descend the family tree
-	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' == $parent ) {
+	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' === $parent ) {
 		if( $offset )
 			$limit = 'LIMIT ' . $offset . ',' . $number;
 		else
