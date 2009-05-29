@@ -26,9 +26,8 @@ adminMenu = {
 
 		if ( $('body').hasClass('folded') ) {
 			this.fold();
-		} else {
-			this.restoreMenuState();
 		}
+		this.restoreMenuState();
 	},
 
 	restoreMenuState : function() {
@@ -61,10 +60,16 @@ adminMenu = {
 			$('body').addClass('folded');
 			$('#adminmenu li.wp-has-submenu').hoverIntent({
 				over: function(e){
-					var m = $(this).find('.wp-submenu'), t = e.clientY, H = $(window).height(), h = m.height(), o;
-
-					if ( (t+h+10) > H ) {
-						o = (t+h+10) - H;
+					var m, b, h, o, f;
+					m = $(this).find('.wp-submenu');
+					b = m.parent().offset().top + m.height() + 1; // Bottom offset of the menu
+					h = $('#wpwrap').height(); // Height of the entire page
+					o = 60 + b - h;
+					f = $(window).height() + $('body').scrollTop() - 15; // The fold
+					if (f < (b - o)) {
+						o = b - f;
+					}
+					if (o > 1) {
 						m.css({'marginTop':'-'+o+'px'});
 					} else if ( m.css('marginTop') ) {
 						m.css({'marginTop':''});
