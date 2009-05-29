@@ -2062,6 +2062,21 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 }
 
 /**
+ * Escapes data for use in a MySQL query
+ *
+ * This is just a handy shortcut for $wpdb->escape(), for completeness' sake
+ *
+ * @since 2.8.0
+ * @param string $sql Unescaped SQL data
+ * @return string The cleaned $sql
+ */
+function esc_sql( $sql ) {
+	global $wpdb;
+	return $wpdb->escape( $sql );
+}
+
+
+/**
  * Checks and cleans a URL.
  *
  * A number of characters are removed from the URL. If the URL is for displaying
