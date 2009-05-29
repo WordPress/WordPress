@@ -529,6 +529,14 @@ td.action-links, th.action-links {
 	padding-left: 0;
 	padding-right: 25px;
 }
+
+ol {
+	list-style-type:decimal;
+	margin-left:0;
+	margin-right:2em;
+}
+
+
 /* TinyMCE
 =================================== */
 .clearlooks2 .mceTop .mceLeft {

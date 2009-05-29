@@ -75,3 +75,9 @@ body, td, textarea, input, select {
 .updated, .error {
 	clear: both;
 }
+
+.screen-reader-text, .screen-reader-text span {
+	left:auto;
+	right:-1000em;
+}
+}
