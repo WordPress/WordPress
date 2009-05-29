@@ -121,7 +121,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$category = get_category( $category, OBJECT, 'display' );
 
 	$default_cat_id = (int) get_option( 'default_category' );
-	$pad = str_repeat( '&#8212; ', $level );
+	$pad = str_repeat( '&#8212; ', max(0, $level) );
 	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
 	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
