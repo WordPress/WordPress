@@ -157,6 +157,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 endif; ?>
 
 <form class="search-form" action="" method="get">
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <p class="search-box">
 	<label class="screen-reader-text" for="tag-search-input"><?php _e( 'Search Tags' ); ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
