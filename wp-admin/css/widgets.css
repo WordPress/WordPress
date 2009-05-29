@@ -182,7 +182,7 @@ a.widget-action {
 	display: none;
 }
 
-.widget-top:hover a.widget-action {
+.widget-top a.widget-action {
     background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
 }
 
