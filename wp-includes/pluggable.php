@@ -1078,11 +1078,13 @@ function wp_notify_moderator($comment_id) {
 
 	$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), get_option('blogname'), $post->post_title );
 	$admin_email = get_option('admin_email');
+	$message_headers = '';
 
 	$notify_message = apply_filters('comment_moderation_text', $notify_message, $comment_id);
 	$subject = apply_filters('comment_moderation_subject', $subject, $comment_id);
+	$message_headers = apply_filters('comment_moderation_headers', $message_headers);
 
-	@wp_mail($admin_email, $subject, $notify_message);
+	@wp_mail($admin_email, $subject, $notify_message, $message_headers);
 
 	return true;
 }
