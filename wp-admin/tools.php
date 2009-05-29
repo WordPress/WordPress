@@ -86,7 +86,11 @@ if ( ! $is_opera ) {
 	<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?></p>
 	<p class="pressthis"><a href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>" title="<?php echo esc_attr(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
 </div>
-<?php endif; ?>
+<?php
+endif;
+
+do_action( 'tool_box' );
+?>
 </div>
 <?php
 include('admin-footer.php');
