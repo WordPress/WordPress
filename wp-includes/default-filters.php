@@ -20,7 +20,7 @@ foreach ( $filters as $filter ) {
 	add_filter($filter, 'strip_tags');
 	add_filter($filter, 'trim');
 	add_filter($filter, 'wp_filter_kses');
-	add_filter($filter, 'wp_specialchars', 30);
+	add_filter($filter, '_wp_specialchars', 30);
 }
 
 // Kses only for textarea saves
