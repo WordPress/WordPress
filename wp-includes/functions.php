@@ -1999,15 +1999,15 @@ function wp_upload_dir( $time = null ) {
 	$dir .= $subdir;
 	$url .= $subdir;
 
+	$uploads = apply_filters( 'upload_dir', array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'basedir' => $bdir, 'baseurl' => $burl, 'error' => false ) );
+
 	// Make sure we have an uploads dir
-	if ( ! wp_mkdir_p( $dir ) ) {
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $dir );
+	if ( ! wp_mkdir_p( $uploads['path'] ) ) {
+		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $uploads['path'] );
 		return array( 'error' => $message );
 	}
 
-	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'basedir' => $bdir, 'baseurl' => $burl, 'error' => false );
-
-	return apply_filters( 'upload_dir', $uploads );
+	return $uploads;
 }
 
 /**
