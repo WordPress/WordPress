@@ -381,6 +381,8 @@ add_action('media_upload_media', 'media_upload_handler');
 function media_upload_form_handler() {
 	check_admin_referer('media-form');
 
+	$errors = array();
+
 	if ( isset($_POST['send']) ) {
 		$keys = array_keys($_POST['send']);
 		$send_id = (int) array_shift($keys);
@@ -407,8 +409,6 @@ function media_upload_form_handler() {
 		if ( isset($post['errors']) ) {
 			$errors[$attachment_id] = $post['errors'];
 			unset($post['errors']);
-		} else {
-			$errors = array();
 		}
 
 		if ( $post != $_post )
