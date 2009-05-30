@@ -47,28 +47,26 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$this->wp_base = $opt['base'];
 
 		// Check if the options provided are OK.
-		if ( empty ($opt['username']) )
+		if ( empty($opt['username']) )
 			$this->errors->add('empty_username', __('FTP username is required'));
 		else
 			$this->options['username'] = $opt['username'];
 
-		if ( empty ($opt['password']) )
+		if ( empty($opt['password']) )
 			$this->errors->add('empty_password', __('FTP password is required'));
 		else
 			$this->options['password'] = $opt['password'];
 
 		$this->options['ssl'] = false;
-		if ( isset($opt['ssl']) )
-			$this->options['ssl'] = ( !empty($opt['ssl']) );
-		elseif ( isset( $opt['connection_type']) )
-			$this->options['ssl'] = ( 'ftps' == $opt['connection_type'] );
+		if ( isset($opt['connection_type']) && 'ftps' == $opt['connection_type'] )
+			$this->options['ssl'] = true;
 	}
 
 	function connect() {
 		if ( isset($this->options['ssl']) && $this->options['ssl'] && function_exists('ftp_ssl_connect') )
-			$this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'],$this->timeout);
+			$this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'], $this->timeout);
 		else
-			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'],$this->timeout);
+			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'], $this->timeout);
 
 		if ( ! $this->link ) {
 			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
