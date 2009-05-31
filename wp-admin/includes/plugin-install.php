@@ -350,7 +350,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 				$action_links = array();
 				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' .
+									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox onclick" title="' .
 									esc_attr($name) . '">' . __('Install') . '</a>';
 
 				$action_links = apply_filters('plugin_install_action_links', $action_links, $plugin);
