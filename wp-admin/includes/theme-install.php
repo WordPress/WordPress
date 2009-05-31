@@ -218,7 +218,7 @@ function install_themes_dashboard() {
 
 </div>
 <br class="clear" />
-<input type="submit" name="search" value="<?php esc_attr_e('Find Themes'); ?>" class="button" />
+<p><input type="submit" name="search" value="<?php esc_attr_e('Find Themes'); ?>" class="button" /></p>
 </form>
 <?php
 }
