@@ -583,12 +583,12 @@ function copy_dir($from, $to) {
  * @param unknown_type $args
  * @return unknown
  */
-function WP_Filesystem( $args = false ) {
+function WP_Filesystem( $args = false, $context = false ) {
 	global $wp_filesystem;
 
 	require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
 
-	$method = get_filesystem_method($args);
+	$method = get_filesystem_method($args, $context);
 
 	if ( ! $method )
 		return false;
@@ -625,13 +625,17 @@ function WP_Filesystem( $args = false ) {
  * @since unknown
  *
  * @param unknown_type $args
+ * @param string $context Full path to the directory that is tested for being writable.
  * @return unknown
  */
-function get_filesystem_method($args = array()) {
+function get_filesystem_method($args = array(), $context = false) {
 	$method = defined('FS_METHOD') ? FS_METHOD : false; //Please ensure that this is either 'direct', 'ssh', 'ftpext' or 'ftpsockets'
 
 	if( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
-		$temp_file_name = ABSPATH . '.' . time();
+		if ( !$context )
+			$context = WP_CONTENT_DIR;
+		$context = trailingslashit($context);
+		$temp_file_name = $context . '.write-test-' . time();
 		$temp_handle = @fopen($temp_file_name, 'w');
 		if ( $temp_handle ) {
 			if ( getmyuid() == fileowner($temp_file_name) )
@@ -657,13 +661,13 @@ function get_filesystem_method($args = array()) {
  * @param unknown_type $error
  * @return unknown
  */
-function request_filesystem_credentials($form_post, $type = '', $error = false) {
-	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error);
+function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false) {
+	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error, $context);
 	if ( '' !== $req_cred )
 		return $req_cred;
 
 	if ( empty($type) )
-		$type = get_filesystem_method();
+		$type = get_filesystem_method(array(), $context);
 
 	if ( 'direct' == $type )
 		return true;

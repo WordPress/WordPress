@@ -142,7 +142,7 @@ function do_core_upgrade( $reinstall = false ) {
 	else
 		$url = 'update-core.php?action=do-core-upgrade';
 	$url = wp_nonce_url($url, 'upgrade-core');
-	if ( false === ($credentials = request_filesystem_credentials($url)) )
+	if ( false === ($credentials = request_filesystem_credentials($url, '', false, ABSPATH)) )
 		return;
 
 	$version = isset( $_POST['version'] )? $_POST['version'] : false;
@@ -152,8 +152,8 @@ function do_core_upgrade( $reinstall = false ) {
 		return;
 
 
-	if ( ! WP_Filesystem($credentials) ) {
-		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
+	if ( ! WP_Filesystem($credentials, ABSPATH) ) {
+		request_filesystem_credentials($url, '', true, ABSPATH); //Failed to connect, Error and request again
 		return;
 	}
 ?>

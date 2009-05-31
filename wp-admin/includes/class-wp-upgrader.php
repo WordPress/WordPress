@@ -720,7 +720,7 @@ class WP_Upgrader_Skin {
 		return $this->__construct($args);
 	}
 	function __construct($args = array()) {
-		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '' );
+		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '', 'context' => false );
 		$this->options = wp_parse_args($args, $defaults);
 	}
 
@@ -734,9 +734,10 @@ class WP_Upgrader_Skin {
 
 	function request_filesystem_credentials($error = false) {
 		$url = $this->options['url'];
+		$context = $this->options['context'];
 		if ( !empty($this->options['nonce']) )
 			$url = wp_nonce_url($url, $this->options['nonce']);
-		return request_filesystem_credentials($url, '', $error); //Possible to bring inline, Leaving as0is for now.
+		return request_filesystem_credentials($url, '', $error, $context); //Possible to bring inline, Leaving as is for now.
 	}
 
 	function header() {
