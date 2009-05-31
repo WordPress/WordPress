@@ -188,7 +188,7 @@ a.widget-action {
 
 .widget .widget-inside,
 .widget .widget-description {
-	padding: 15px;
+	padding: 12px 12px 10px;
 	font-size: 11px;
 	line-height: 16px;
 }
@@ -224,6 +224,18 @@ a.widget-action {
 
 .widget-control-actions a {
 	text-decoration: none;
+}
+
+.widget-control-actions a:hover {
+	text-decoration: underline;
+}
+
+.widget-control-actions .ajax-feedback {
+	padding-bottom: 3px;
+}
+
+.widget-control-actions div.alignleft {
+	margin-top: 6px;
 }
 
 div#sidebar-info {

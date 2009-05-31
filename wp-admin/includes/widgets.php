@@ -168,12 +168,13 @@ function wp_widget_control( $sidebar_args ) {
 
 	<div class="widget-inside">
 	<form action="" method="post">
+	<div class="widget-content">
 <?php
 	if ( isset($control['callback']) )
 		$has_form = call_user_func_array( $control['callback'], $control['params'] );
 	else
 		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n"; ?>
-
+	</div>
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($id_format); ?>" />
 	<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr($id_base); ?>" />
 	<input type="hidden" name="widget-width" class="widget-width" value="<?php echo esc_attr($control['width']); ?>" />
@@ -183,9 +184,15 @@ function wp_widget_control( $sidebar_args ) {
 	<input type="hidden" name="add_new" class="add_new" value="<?php echo esc_attr($add_new); ?>" />
 
 	<div class="widget-control-actions">
-		<a class="button widget-control-remove alignleft" href="#remove"><?php _e('Remove'); ?></a>
+		<div class="alignleft">
+		<a class="widget-control-remove" href="#remove"><?php _e('Remove'); ?></a> |
+		<a class="widget-control-close" href="#close"><?php _e('Close'); ?></a>
+		</div>
 <?php		if ( 'noform' !== $has_form ) { ?>
-		<input type="submit" name="savewidget" class="button-primary widget-control-save alignright" value="<?php esc_attr_e('Save'); ?>" />
+		<div class="alignright">
+		<img src="images/wpspin_light.gif" class="ajax-feedback " title="" alt="" />
+		<input type="submit" name="savewidget" class="button-primary widget-control-save" value="<?php esc_attr_e('Save'); ?>" />
+		</div>
 <?php		} ?>
 		<br class="clear" />
 	</div>

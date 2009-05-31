@@ -297,7 +297,7 @@ class WP_Widget {
 			$settings = wp_convert_widget_settings($this->id_base, $this->option_name, $settings);
 		}
 
-		unset($settings['_multiwidget']);
+		unset($settings['_multiwidget'], $settings['__i__']);
 		return $settings;
 	}
 }

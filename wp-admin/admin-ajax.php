@@ -1289,6 +1289,9 @@ case 'save-widget' :
 	$id_base = $_POST['id_base'];
 	$widget_id = $_POST['widget-id'];
 	$sidebar_id = $_POST['sidebar'];
+	$multi_number = !empty($_POST['multi_number']) ? (int) $_POST['multi_number'] : 0;
+	$settings = isset($_POST['widget-' . $id_base]) && is_array($_POST['widget-' . $id_base]) ? $_POST['widget-' . $id_base] : false;
+	$error = '<p>' . __('An error has occured. Please reload the page and try again.') . '</p>';
 
 	$sidebars = wp_get_sidebars_widgets();
 	$sidebar = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : array();
@@ -1297,10 +1300,17 @@ case 'save-widget' :
 	if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
 
 		if ( !isset($wp_registered_widgets[$widget_id]) )
-			die('-1');
+			die($error);
 
 		$sidebar = array_diff( $sidebar, array($widget_id) );
 		$_POST = array('sidebar' => $sidebar_id, 'widget-' . $id_base => array(), 'the-widget-id' => $widget_id, 'delete_widget' => '1');
+	} elseif ( $settings && preg_match( '/__i__|%i%/', key($settings) ) ) {
+		if ( !$multi_number )
+			die($error);
+
+		$_POST['widget-' . $id_base] = array( $multi_number => array_shift($settings) );
+		$widget_id = $id_base . '-' . $multi_number;
+		$sidebar[] = $widget_id;
 	}
 	$_POST['widget-id'] = $sidebar;
 
@@ -1324,7 +1334,13 @@ case 'save-widget' :
 		die();
 	}
 
-	die('1');
+	if ( !empty($_POST['add_new']) )
+		die();
+
+	if ( $form = $wp_registered_widget_controls[$widget_id] )
+		call_user_func_array( $form['callback'], $form['params'] );
+
+	die();
 	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );

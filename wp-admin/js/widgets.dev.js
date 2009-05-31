@@ -92,7 +92,7 @@ wpWidgets = {
 					ui.item.draggable('destroy');
 
 				if ( ui.item.hasClass('deleting') ) {
-					wpWidgets.save( ui.item, 1, 0, 0, 1 ); // delete widget
+					wpWidgets.save( ui.item, 1, 0, 1 ); // delete widget
 					ui.item.remove();
 					return;
 				}
@@ -112,7 +112,7 @@ wpWidgets = {
 						rem = 'div#' + id;
 					}
 					wpWidgets.addEvents(ui.item);
-					wpWidgets.save( ui.item, 0, 0, 0, 1 );
+					wpWidgets.save( ui.item, 0, 0, 1 );
 					ui.item.find('input.add_new').val('');
 					ui.item.find('a.widget-action').click();
 					return;
@@ -125,12 +125,7 @@ wpWidgets = {
 			}
 		}).not(':visible').sortable('disable');
 		wpWidgets.resize();
-
-		$('.widget-inside label').each(function(){
-			var f = $(this).attr('for');
-			if ( f && f == $('input', this).attr('id') )
-				$(this).removeAttr('for');
-		});
+		wpWidgets.fixLabels();
 	},
 
 	saveOrder : function(sb) {
@@ -153,10 +148,10 @@ wpWidgets = {
 		this.resize();
 	},
 
-	save : function(widget, del, close, animate, order) {
+	save : function(widget, del, animate, order) {
 		var sb = widget.parents('.widgets-sortables').attr('id'), data = widget.find('form').serialize(), a;
 		widget = $(widget);
-		$('#' + sb).parents('.widgets-holder-wrap').find('.ajax-feedback').css('visibility', 'visible');
+		widget.find('.ajax-feedback').css('visibility', 'visible');
 
 		a = {
 			action: 'save-widget',
@@ -191,12 +186,13 @@ wpWidgets = {
 					widget.remove();
 					wpWidgets.resize();
 				}
-			} else if ( close ) {
-				widget.find('.widget-inside').slideUp('fast', function(){
-					widget.css({'width':'','marginLeft':''});
+			} else {
+				$('.ajax-feedback').css('visibility', 'hidden');
+				if ( r && r.length > 2 ) {
+					$('.widget-content', widget).html(r);
 					wpWidgets.appendTitle(widget);
-					$('.ajax-feedback').css('visibility', 'hidden');
-				});
+					wpWidgets.fixLabels(widget);
+				}
 			}
 			if ( order )
 				wpWidgets.saveOrder();
@@ -230,6 +226,23 @@ wpWidgets = {
 			KhtmlUserSelect: n
 		});
     },
+    
+    fixLabels : function(sc) {
+		sc = sc || document;
+
+		$('.widget-inside label', sc).each(function(){
+			var f = $(this).attr('for');
+
+			if ( f && f == $('input', this).attr('id') )
+				$(this).removeAttr('for');
+		});
+	},
+    
+    close : function(widget) {
+		widget.find('.widget-inside').slideUp('fast', function(){
+			widget.css({'width':'','marginLeft':''});
+		});
+	},
 
     addEvents : function(sc) {
 		sc = sc || document;
@@ -249,11 +262,15 @@ wpWidgets = {
             return false;
         });
         $('.widget-control-save', sc).click(function(){
-			wpWidgets.save( $(this).parents('.widget'), 0, 1, 1, 0 );
+			wpWidgets.save( $(this).parents('.widget'), 0, 1, 0 );
 			return false;
 		});
 		$('.widget-control-remove', sc).click(function(){
-			wpWidgets.save( $(this).parents('.widget'), 1, 1, 1, 0 );
+			wpWidgets.save( $(this).parents('.widget'), 1, 1, 0 );
+			return false;
+		});
+		$('.widget-control-close', sc).click(function(){
+			wpWidgets.close( $(this).parents('.widget') );
 			return false;
 		});
 	}
