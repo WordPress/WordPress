@@ -18,8 +18,8 @@ wp_admin_css( 'theme-editor' );
 
 $plugins = get_plugins();
 
-if ( isset($_REQUEST['plugin']) )
-	$plugin = $_REQUEST['plugin'];
+if ( isset($_REQUEST['file']) )
+	$plugin = $_REQUEST['file'];
 
 if ( empty($plugin) ) {
 	$plugin = array_keys($plugins);
