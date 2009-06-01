@@ -300,6 +300,15 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	exit;
 }
 
+$widgets_access = get_user_setting( 'widgets_access' );
+if ( isset($_GET['widgets-access']) ) {
+	$widgets_access = 'on' == $_GET['widgets-access'] ? 'on' : 'off';
+	set_user_setting( 'widgets_access', $widgets_access );
+}
+
+if ( 'on' == $widgets_access )
+	add_filter( 'admin_body_class', create_function('', '{return " widgets_access ";}') );
+
 $messages = array(
 	__('Changes saved.')
 );

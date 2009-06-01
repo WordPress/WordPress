@@ -322,3 +322,43 @@ a.widget-control-edit {
 	font-size: 12px;
 }
 
+#access-off,
+.widgets_access .widget-action,
+.widgets_access .sidebar-name-arrow,
+.widgets_access #access-on,
+.widgets_access .widget-holder .description {
+	display: none;
+}
+
+.widgets_access .widget-holder,
+.widgets_access #widget-list {
+	padding-top: 10px;
+}
+
+.widgets_access #access-off {
+	display: inline;
+}
+
+.widgets_access #wpbody-content .widget-title-action,
+.widgets_access #wpbody-content .widget-control-edit,
+.widgets_access .closed .widgets-sortables,
+.widgets_access .closed .widget-holder {
+	display: block;
+}
+
+.widgets_access .closed .sidebar-name {
+	-moz-border-radius-bottomleft: 0;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-khtml-border-bottom-right-radius: 0;
+	-khtml-border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.widgets_access .sidebar-name,
+.widgets_access .widget .widget-top {
+	cursor: default;
+}
+

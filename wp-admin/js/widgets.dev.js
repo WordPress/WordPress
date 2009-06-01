@@ -6,6 +6,10 @@ wpWidgets = {
 	init : function() {
         var rem;
 
+		if ( $('body').hasClass('widgets_access') ) {
+			return;
+		}
+
 		$('#widgets-right div.sidebar-name').click(function(){
             var c = $(this).siblings('.widgets-sortables');
 			if ( c.is(':visible') ) {

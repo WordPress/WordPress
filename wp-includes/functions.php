@@ -783,6 +783,7 @@ function wp_user_settings() {
 
 	setcookie( 'wp-settings-' . $user->ID, $settings, time() + 31536000, SITECOOKIEPATH );
 	setcookie( 'wp-settings-time-' . $user->ID, time(), time() + 31536000, SITECOOKIEPATH );
+	$_COOKIE['wp-settings-' . $user->ID] = $settings;
 }
 
 /**
@@ -798,44 +799,73 @@ function wp_user_settings() {
  */
 function get_user_setting( $name, $default = false ) {
 
-	$arr = get_all_user_settings();
+	$all = get_all_user_settings();
 
-	return isset($arr[$name]) ? $arr[$name] : $default;
+	return isset($all[$name]) ? $all[$name] : $default;
+}
+
+/**
+ * Add or update user interface setting.
+ *
+ * Both $name and $value can contain only ASCII letters, numbers and underscores.
+ * This function has to be used before any output has started as it calls setcookie().
+ *
+ * @package WordPress
+ * @subpackage Option
+ * @since 2.8.0
+ *
+ * @param string $name The name of the setting.
+ * @param string $value The value for the setting.
+ * @return bool true if set successfully/false if not.
+ */
+function set_user_setting( $name, $value ) {
+
+	if ( headers_sent() )
+		return false;
+
+	$all = get_all_user_settings();
+	$name = preg_replace( '/[^A-Za-z0-9_]+/', '', $name );
+
+	if ( empty($name) )
+		return false;
+
+	$all[$name] = $value;
+
+	return wp_set_all_user_settings($all);
 }
 
 /**
  * Delete user interface settings.
  *
  * Deleting settings would reset them to the defaults.
+ * This function has to be used before any output has started as it calls setcookie().
  *
  * @package WordPress
  * @subpackage Option
  * @since 2.7.0
  *
  * @param mixed $names The name or array of names of the setting to be deleted.
+ * @return bool true if deleted successfully/false if not.
  */
 function delete_user_setting( $names ) {
-	global $current_user;
 
-	$arr = get_all_user_settings();
+	if ( headers_sent() )
+		return false;
+
+	$all = get_all_user_settings();
 	$names = (array) $names;
 
 	foreach ( $names as $name ) {
-		if ( isset($arr[$name]) ) {
-			unset($arr[$name]);
-			$settings = '';
+		if ( isset($all[$name]) ) {
+			unset($all[$name]);
+			$deleted = true;
 		}
 	}
 
-	if ( isset($settings) ) {
-		foreach ( $arr as $k => $v )
-			$settings .= $k . '=' . $v . '&';
+	if ( isset($deleted) )
+		return wp_set_all_user_settings($all);
 
-		$settings = rtrim($settings, '&');
-
-		update_user_option( $current_user->ID, 'user-settings', $settings );
-		setcookie('wp-settings-' . $current_user->ID, $settings, time() + 31536000, SITECOOKIEPATH);
-	}
+	return false;
 }
 
 /**
@@ -848,21 +878,57 @@ function delete_user_setting( $names ) {
  * @return array the last saved user settings or empty array.
  */
 function get_all_user_settings() {
+	global $_updated_user_settings;
+
 	if ( ! $user = wp_get_current_user() )
 		return array();
 
-	$arr = array();
+	if ( isset($_updated_user_settings) && is_array($_updated_user_settings) )
+		return $_updated_user_settings;
+
+	$all = array();
 	if ( isset($_COOKIE['wp-settings-' . $user->ID]) ) {
 		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $user->ID] );
 
 		if ( $cookie && strpos($cookie, '=') ) // the '=' cannot be 1st char
-			parse_str($cookie, $arr);
+			parse_str($cookie, $all);
 
-	} elseif ( isset($user->wp_usersettings) && is_string($user->wp_usersettings) ) {
-		parse_str( $user->wp_usersettings, $arr );
+	} else {
+		$option = get_user_option('user-settings', $user->ID);
+		if ( $option && is_string($option) )
+			parse_str( $option, $all );
 	}
 
-	return $arr;
+	return $all;
+}
+
+/**
+ * Private. Set all user interface settings.
+ *
+ * @package WordPress
+ * @subpackage Option
+ * @since 2.8.0
+ *
+ */
+function wp_set_all_user_settings($all) {
+	global $_updated_user_settings;
+
+	if ( ! $user = wp_get_current_user() )
+		return false;
+
+	$_updated_user_settings = $all;
+	$settings = '';
+	foreach ( $all as $k => $v ) {
+		$v = preg_replace( '/[^A-Za-z0-9_]+/', '', $v );
+		$settings .= $k . '=' . $v . '&';
+	}
+
+	$settings = rtrim($settings, '&');
+
+	update_user_option( $user->ID, 'user-settings', $settings, false );
+	update_user_option( $user->ID, 'user-settings-time', time(), false );
+
+	return true;
 }
 
 /**
@@ -876,8 +942,8 @@ function delete_all_user_settings() {
 	if ( ! $user = wp_get_current_user() )
 		return;
 
-	delete_usermeta( $user->ID, 'user-settings' );
-	setcookie('wp-settings-'.$user->ID, ' ', time() - 31536000, SITECOOKIEPATH);
+	update_user_option( $user->ID, 'user-settings', '', false );
+	setcookie('wp-settings-' . $user->ID, ' ', time() - 31536000, SITECOOKIEPATH);
 }
 
 /**
