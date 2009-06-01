@@ -1915,7 +1915,10 @@ class WP_Query {
 					$q['tag_id'] = $reqtag['term_id'];
 			}
 
-			$taxonomy_field = $item == ('tag_slug__and' || 'tag_slug__in') ? 'slug' : 'term_id';
+			if ( in_array( $item, array('tag_slug__and', 'tag_slug__in' ) ) )
+				$taxonomy_field = 'slug';
+			else
+				$taxonomy_field = 'term_id';
 
 			$q[$item] = array_unique($q[$item]);
 			$tsql = "SELECT p.ID FROM $wpdb->posts p INNER JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) INNER JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) INNER JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
