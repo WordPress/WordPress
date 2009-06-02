@@ -918,8 +918,10 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	function before() {
-		if ( !empty($this->api) )
-			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the theme <strong>%s %s</strong>.'), $this->api->name, $this->api->version);
+		if ( !empty($this->api) ) {
+			/* translators: 1: theme name, 2: version */
+			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the theme <strong>%1$s %2$s</strong>.'), $this->api->name, $this->api->version);
+		}
 	}
 
 	function after() {
@@ -942,7 +944,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 							);
 
 		if ( $this->type == 'web' )
-			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . esc_attr__('Return to Theme Installer') . '" target="_parent">' . __('Return to Theme Installer.') . '</a>';
+			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . esc_attr__('Return to Theme Installer') . '" target="_parent">' . __('Return to Theme Installer') . '</a>';
 		else
 			$install_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . esc_attr__('Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
