@@ -64,7 +64,7 @@ class WP_Widget {
 	 * @param array $instance Current settings
 	 */
 	function form($instance) {
-		echo '<p>' . __('There are no options for this widget.') . '</p>';
+		echo '<p class="no-options-widget">' . __('There are no options for this widget.') . '</p>';
 		return 'noform';
 	}
 
@@ -168,15 +168,15 @@ class WP_Widget {
 
 		$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 		$this->_set( $widget_args['number'] );
-		$settings = $this->get_settings();
+		$instance = $this->get_settings();
 
-		if ( array_key_exists( $this->number, $settings ) ) {
-            $settings = $settings[$this->number];
+		if ( array_key_exists( $this->number, $instance ) ) {
+			$instance = $instance[$this->number];
 			// filters the widget's settings, return false to stop displaying the widget
-			$settings = apply_filters('widget_display_callback', $settings, $this, $args);
-            if ( false !== $settings )
-				$this->widget($args, $settings);
-        }
+			$instance = apply_filters('widget_display_callback', $instance, $this, $args);
+			if ( false !== $instance )
+				$this->widget($args, $instance);
+		}
 	}
 
 	/** Deal with changed settings.
@@ -223,13 +223,12 @@ class WP_Widget {
 				$new_instance = stripslashes_deep($new_instance);
 				$this->_set($number);
 
-				if ( isset($all_instances[$number]) )
-					$instance = $this->update($new_instance, $all_instances[$number]);
-				else
-					$instance = $this->update($new_instance, array());
+				$old_instance = isset($all_instances[$number]) ? $all_instances[$number] : array();
+
+				$instance = $this->update($new_instance, $old_instance);
 
 				// filters the widget's settings before saving, return false to cancel saving (keep the old settings if updating)
-				$instance = apply_filters('widget_update_callback', $instance, $new_instance, $this);
+				$instance = apply_filters('widget_update_callback', $instance, $new_instance, $old_instance, $this);
 				if ( false !== $instance )
 					$all_instances[$number] = $instance;
 
@@ -265,8 +264,9 @@ class WP_Widget {
 		$return = null;
 		if ( false !== $instance ) {
 			$return = $this->form($instance);
-			if ( 'noform' !== $return )
-				do_action_ref_array( 'in_widget_form', array(&$this) ); // add extra fields in the widget form
+			// add extra fields in the widget form - be sure to set $return to null if you add any
+			// if the widget has no form the text echoed from the default form method can be hidden using css
+			do_action_ref_array( 'in_widget_form', array(&$this, &$return, $instance) );
 		}
 		return $return;
 	}
