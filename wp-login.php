@@ -41,6 +41,10 @@ if ( force_ssl_admin() && !is_ssl() ) {
 function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	global $error;
 
+	// Don't index any of these forms
+	add_filter( 'pre_option_blog_public', create_function( '$a', 'return 0;' ) );
+	add_action( 'login_head', 'noindex' );
+
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
 	?>
