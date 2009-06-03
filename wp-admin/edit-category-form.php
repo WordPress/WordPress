@@ -50,24 +50,24 @@ _fill_empty_category($category);
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
 			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo esc_attr($category->name); ?>" size="40" aria-required="true" /><br />
-            <?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></td>
+            <span class="description"><?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></span></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category Slug') ?></label></th>
 			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo esc_attr(apply_filters('editable_slug', $category->slug)); ?>" size="40" /><br />
-            <?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></td>
+            <span class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></span></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category Parent') ?></label></th>
 			<td>
 	  			<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'hierarchical' => true, 'show_option_none' => __('None'))); ?><br />
-                <?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?>
+                <span class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></span>
 	  		</td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_description"><?php _e('Description') ?></label></th>
 			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($category->description); ?></textarea><br />
-            <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
+            <span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Category'); ?>" /></p>

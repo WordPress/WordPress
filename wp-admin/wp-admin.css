@@ -1414,7 +1414,8 @@ p.description,
 }
 
 p.help,
-.description,
+p.description,
+span.description,
 .form-wrap p {
 	font-size: 12px;
 	font-style: italic;
