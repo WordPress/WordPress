@@ -560,7 +560,7 @@ case 'add-tag' : // From Manage->Tags
 		'what' => 'tag',
 		'id' => $tag->term_id,
 		'position' => '-1',
-		'data' => _tag_row( $tag ),
+		'data' => _tag_row( $tag, '', $taxonomy ),
 		'supplemental' => array('name' => $tag_full_name, 'show-link' => sprintf(__( 'Tag <a href="#%s">%s</a> added' ), "tag-$tag->term_id", $tag_full_name))
 	) );
 	$x->send();
