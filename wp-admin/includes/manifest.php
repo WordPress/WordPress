@@ -84,6 +84,8 @@ function &get_manifest() {
 		array('../wp-includes/images/crystal/video.png'),
 		array('../wp-includes/images/crystal/spreadsheet.png'),
 		array('../wp-includes/images/rss.png'),
+		array('../wp-includes/images/blank.gif'),
+		array('../wp-includes/images/upload.png'),
 		array('../wp-includes/js/thickbox/loadingAnimation.gif'),
 		array('../wp-includes/js/thickbox/tb-close.png'),
 	);
