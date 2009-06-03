@@ -1334,6 +1334,11 @@ function wp_tiny_mce( $teeny = false ) {
 		$initArray = apply_filters('tiny_mce_before_init', $initArray);
 	}
 
+	if ( empty($initArray['theme_advanced_buttons3']) && !empty($initArray['theme_advanced_buttons4']) ) {
+		$initArray['theme_advanced_buttons3'] = $initArray['theme_advanced_buttons4'];
+		$initArray['theme_advanced_buttons4'] = '';
+	}
+
 	if ( ! isset($concatenate_scripts) )
 		script_concat_settings();
 
