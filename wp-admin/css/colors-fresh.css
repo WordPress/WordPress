@@ -351,7 +351,8 @@ div.dashboard-widget-submit input:hover,
 .subsubsub a.current:hover,
 .ui-tabs-nav a:hover,
 .plugins .inactive a:hover,
-#all-plugins-table .plugins .inactive a:hover {
+#all-plugins-table .plugins .inactive a:hover,
+#search-plugins-table .plugins .inactive a:hover {
 	color: #d54e21;
 }
 
@@ -382,6 +383,7 @@ div.dashboard-widget-submit input:hover,
 
 .plugins a.delete:hover,
 #all-plugins-table .plugins a.delete:hover,
+#search-plugins-table .plugins a.delete:hover,
 .submitbox .submitdelete,
 a.delete {
 	color: #f00;
@@ -582,6 +584,9 @@ input.readonly, textarea.readonly {
 #all-plugins-table .inactive,
 #all-plugins-table .inactive th,
 #all-plugins-table .inactive td,
+#search-plugins-table .inactive,
+#search-plugins-table .inactive th,
+#search-plugins-table .inactive td,
 tr.inactive + tr.plugin-update-tr .plugin-update {
 	background-color: #eee;
 }
