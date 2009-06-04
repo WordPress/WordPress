@@ -76,6 +76,12 @@ select option {
 	border-bottom: 0 none;
 }
 
+#install-plugins .plugins td,
+#install-plugins .plugins th {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
 .plugins .inactive td,
 .plugins .inactive th,
 .plugins .active td,

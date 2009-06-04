@@ -421,9 +421,9 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20090603';
+	$colors_version = '20090603a';
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090522' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090603' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090514' );
@@ -431,7 +431,9 @@ function wp_default_styles( &$styles ) {
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), $colors_version); // for login.php.  Is there a better way?
+	
+	// do not refer to these directly, the right one is queued by the above "meta" colors handle
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), $colors_version);
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), $colors_version);
 	$styles->add_data( 'colors-classic', 'rtl', true );
