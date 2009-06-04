@@ -187,7 +187,7 @@ function wpautop($pee, $br = 1) {
  * @param string $str The string to be checked
  * @return bool True if $str fits a UTF-8 model, false otherwise.
  */
-function seems_utf8(&$str) {
+function seems_utf8($str) {
 	$length = strlen($str);
 	for ($i=0; $i < $length; $i++) {
 		$c = ord($str[$i]);
