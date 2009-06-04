@@ -322,6 +322,7 @@ a.widget-control-edit {
 	font-size: 12px;
 }
 
+.widget-control-noform,
 #access-off,
 .widgets_access .widget-action,
 .widgets_access .sidebar-name-arrow,

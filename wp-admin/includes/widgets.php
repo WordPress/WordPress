@@ -188,12 +188,10 @@ function wp_widget_control( $sidebar_args ) {
 		<a class="widget-control-remove" href="#remove"><?php _e('Remove'); ?></a> |
 		<a class="widget-control-close" href="#close"><?php _e('Close'); ?></a>
 		</div>
-<?php		if ( 'noform' !== $has_form ) { ?>
-		<div class="alignright">
+		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
 		<img src="images/wpspin_light.gif" class="ajax-feedback " title="" alt="" />
 		<input type="submit" name="savewidget" class="button-primary widget-control-save" value="<?php esc_attr_e('Save'); ?>" />
 		</div>
-<?php		} ?>
 		<br class="clear" />
 	</div>
 	</form>
