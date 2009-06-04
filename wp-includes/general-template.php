@@ -23,7 +23,7 @@
  * @param string $name The name of the specialised header.
  */
 function get_header( $name = null ) {
-	do_action( 'get_header' );
+	do_action( 'get_header', $name );
 
 	$templates = array();
 	if ( isset($name) )
@@ -52,7 +52,7 @@ function get_header( $name = null ) {
  * @param string $name The name of the specialised footer.
  */
 function get_footer( $name = null ) {
-	do_action( 'get_footer' );
+	do_action( 'get_footer', $name );
 
 	$templates = array();
 	if ( isset($name) )
@@ -81,7 +81,7 @@ function get_footer( $name = null ) {
  * @param string $name The name of the specialised sidebar.
  */
 function get_sidebar( $name = null ) {
-	do_action( 'get_sidebar' );
+	do_action( 'get_sidebar', $name );
 
 	$templates = array();
 	if ( isset($name) )
