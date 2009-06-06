@@ -91,6 +91,10 @@ select option {
 	padding: 5px 7px 0;
 }
 
+#wpbody-content .plugins .plugin-title {
+	padding-right: 12px;
+}
+
 .plugins .second td,
 .plugins .second th {
 	border-top: 0 none;

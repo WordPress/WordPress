@@ -590,13 +590,18 @@ input.readonly, textarea.readonly {
 #search-plugins-table .inactive th,
 #search-plugins-table .inactive td,
 tr.inactive + tr.plugin-update-tr .plugin-update {
-	background-color: #eee;
+	background-color: #ebebeb;
 }
 
 .plugins .active,
 .plugins .active th,
 .plugins .active td {
 	color: #000;
+}
+
+#all-plugins-table .inactive a,
+#search-plugins-table .inactive a { 
+	color: #555; 	
 }
 
 #the-comment-list .unapproved,
