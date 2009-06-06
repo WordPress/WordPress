@@ -436,7 +436,7 @@ function print_plugins_table($plugins, $context = '') {
 
 		$plugin_meta = apply_filters('plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $context);
 		echo implode(' | ', $plugin_meta);
-		echo "</p></td>
+		echo "</td>
 	</tr>\n";
 
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
