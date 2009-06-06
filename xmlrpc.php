@@ -604,7 +604,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$page_limit = $num_pages;
 		}
 
-		$pages = get_posts( "post_type=page&post_status=all&numberposts={$page_limit}" );
+		$pages = get_posts( array('post_type' => 'page', 'post_status' => 'all', 'numberposts' => $page_limit) );
 		$num_pages = count($pages);
 
 		// If we have pages, put together their info.
