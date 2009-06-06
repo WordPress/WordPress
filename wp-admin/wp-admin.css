@@ -815,11 +815,6 @@ td.media-icon img {
 	font-weight: bold;
 }
 
-#update-nag a,
-.plugin-update a {
-	font-size: 1.1em;
-}
-
 #pass-strength-result {
 	border-style: solid;
 	border-width: 1px;

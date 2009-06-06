@@ -391,9 +391,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$current = get_transient( 'update_plugins' );
 		if ( !isset( $current->response[ $plugin ] ) ) {
+			$this->skin->set_result(false);
 			$this->skin->error('up_to_date');
+			$this->skin->after();
 			return false;
-			//return new WP_Error('up_to_date', $this->strings['up_to_date']);
 		}
 
 		// Get the URL to the zip file
@@ -553,9 +554,13 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Is an update available?
 		$current = get_transient( 'update_themes' );
-		if ( !isset( $current->response[ $theme ] ) )
-			return new WP_Error('up_to_date', $this->strings['up_to_date']);
-
+		if ( !isset( $current->response[ $theme ] ) ) {
+			$this->skin->set_result(false);
+			$this->skin->error('up_to_date');
+			$this->skin->after();
+			return false;
+		}
+		
 		$r = $current->response[ $theme ];
 
 		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
@@ -984,26 +989,26 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 
 	function after() {
 
-		if ( empty($this->upgrader->result['destination_name']) )
-			return;
+		if ( !empty($this->upgrader->result['destination_name']) &&
+			($theme_info = $this->upgrader->theme_info()) &&
+			!empty($theme_info) ) {
 
-		$theme_info = $this->upgrader->theme_info();
-		if ( empty($theme_info) )
-			return;
-		$name = $theme_info['Name'];
-		$stylesheet = $this->upgrader->result['destination_name'];
-		$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
+			$name = $theme_info['Name'];
+			$stylesheet = $this->upgrader->result['destination_name'];
+			$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
+	
+			$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
+			$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
+	
+			$update_actions =  array(
+				'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>',
+				'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>',
+			);
+			if ( ( ! $this->result || is_wp_error($this->result) ) || $stylesheet == get_stylesheet() )
+				unset($update_actions['preview'], $update_actions['activate']);
+		}
 
-		$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
-		$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
-
-		$update_actions =  array(
-			'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>',
-			'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>',
-			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
-		);
-		if ( ( ! $this->result || is_wp_error($this->result) ) || $stylesheet == get_stylesheet() )
-			unset($update_actions['preview'], $update_actions['activate']);
+		$update_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
 		$update_actions = apply_filters('update_theme_complete_actions', $update_actions, $this->theme);
 		if ( ! empty($update_actions) )
