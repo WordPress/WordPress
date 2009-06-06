@@ -167,7 +167,7 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 <?php if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Keyboard Shortcuts' ); ?></th>
-<td><label for="comment_shortcuts"><input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php if ( !empty($profileuser->comment_shortcuts) ) checked('true', $profileuser->comment_shortcuts); ?> /> <?php _e('Enable keyboard shortcuts for comment moderation. '); ?></label><?php _e('<a href="http://codex.wordpress.org/Keyboard_Shortcuts">More information</a>'); ?></td>
+<td><label for="comment_shortcuts"><input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php if ( !empty($profileuser->comment_shortcuts) ) checked('true', $profileuser->comment_shortcuts); ?> /> <?php _e('Enable keyboard shortcuts for comment moderation. <a href="http://codex.wordpress.org/Keyboard_Shortcuts">More information</a>'); ?></label></td>
 </tr>
 <?php
 endif;
