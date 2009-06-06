@@ -3276,6 +3276,7 @@ p.popular-tags a {
 	margin: 0 5px;
 }
 
-label {
+label,
+#your-profile label + a {
 	vertical-align: middle;
 }
