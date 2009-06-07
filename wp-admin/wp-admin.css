@@ -2116,7 +2116,8 @@ td.plugin-title {
 /* Global classes */
 
 .wp-hidden-children .wp-hidden-child,
-.ui-tabs-hide {
+.ui-tabs-hide,
+#codepress-off {
 	display: none;
 }
 

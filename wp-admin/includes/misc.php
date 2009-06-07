@@ -341,9 +341,33 @@ jQuery('#template').submit(function(){
 	if (jQuery('#newcontent_cp').length)
 		jQuery('#newcontent_cp').val(newcontent.getCode()).removeAttr('disabled');
 });
+jQuery('#codepress-on').hide();
+jQuery('#codepress-off').show();
 /* ]]> */
 </script>
 <?php
+}
+
+/**
+ * Determine whether to use CodePress or not.
+ *
+ * @since 2.8
+**/
+function use_codepress() {
+
+	if ( isset($_GET['codepress']) ) {
+		$on = 'on' == $_GET['codepress'] ? 'on' : 'off';
+		set_user_setting( 'codepress', $on );
+	} else {
+		$on = get_user_setting('codepress', 'on');
+	}
+
+	if ( 'on' == $on ) {
+		add_action( 'admin_print_footer_scripts', 'codepress_footer_js' );
+		return true;
+	}
+
+	return false;
 }
 
 /**

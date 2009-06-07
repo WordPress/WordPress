@@ -122,8 +122,8 @@ CodePress.run = function() {
 	if (navigator.userAgent.toLowerCase().indexOf('webkit') != -1)
 		return;
 	CodePress.path = codepress_path;
-	t = document.getElementsByTagName('textarea');
-	for(var i=0,n=t.length;i<n;i++) {
+	var t = document.getElementsByTagName('textarea'), i, id;
+	for(i=0,n=t.length;i<n;i++) {
 		if(t[i].className.match('codepress')) {
 			id = t[i].id;
 			t[i].id = id+'_cp';

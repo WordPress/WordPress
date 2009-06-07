@@ -83,8 +83,8 @@ default:
 		exit;
 	}
 
-	wp_enqueue_script( 'codepress' );
-	add_action( 'admin_print_footer_scripts', 'codepress_footer_js' );
+	if ( use_codepress() )
+		wp_enqueue_script( 'codepress' );
 
 	// List of allowable extensions
 	$editable_extensions = array('php', 'txt', 'text', 'js', 'css', 'html', 'htm', 'xml', 'inc', 'include');

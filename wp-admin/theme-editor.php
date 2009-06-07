@@ -77,8 +77,9 @@ default:
 	if ( !current_user_can('edit_themes') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
 
-	wp_enqueue_script( 'codepress' );
-	add_action( 'admin_print_footer_scripts', 'codepress_footer_js' );
+	if ( use_codepress() )
+		wp_enqueue_script( 'codepress' );
+
 	require_once('admin-header.php');
 
 	update_recently_edited($file);

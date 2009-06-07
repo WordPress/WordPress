@@ -3431,7 +3431,7 @@ function screen_meta($screen) {
 	if ( !isset($_wp_contextual_help) )
 		$_wp_contextual_help = array();
 
-	$widgets_access = '';
+	$settings = '';
 
 	switch ( $screen ) {
 		case 'post':
@@ -3471,12 +3471,17 @@ function screen_meta($screen) {
 				$_wp_contextual_help[$screen] = $help;
 			}
 			break;
+		case 'theme-editor':
+		case 'plugin-editor':
+			$settings = '<p><a id="codepress-on" href="' . $screen . '.php?codepress=on">' . __('Enable syntax highlighting') . '</a><a id="codepress-off" href="' . $screen . '.php?codepress=off">' . __('Disable syntax highlighting') . "</a></p>\n";
+			$show_screen = true;
+			break;
 		case 'widgets':
 			if ( !isset($_wp_contextual_help['widgets']) ) {
 				$help = widgets_help();
 				$_wp_contextual_help['widgets'] = $help;
 			}
-			$widgets_access = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
+			$settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
 			$show_screen = true;
 			break;
 	}
@@ -3500,7 +3505,7 @@ function screen_meta($screen) {
 <?php endif; ?>
 <?php echo screen_layout($screen); ?>
 <?php echo $screen_options; ?>
-<?php echo $widgets_access; ?>
+<?php echo $settings; ?>
 <div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
 </form>
 </div>
