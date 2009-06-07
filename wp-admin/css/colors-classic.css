@@ -588,14 +588,11 @@ input.readonly, textarea.readonly {
 	background-color: #fff;
 }
 
-#all-plugins-table .inactive,
-#all-plugins-table .inactive th,
-#all-plugins-table .inactive td,
-#search-plugins-table .inactive,
-#search-plugins-table .inactive th,
-#search-plugins-table .inactive td,
+.plugins .inactive,
+.plugins .inactive th,
+.plugins .inactive td,
 tr.inactive + tr.plugin-update-tr .plugin-update {
-	background-color: #ebebeb;
+	background-color: #ebeeef;
 }
 
 .plugins .active,
@@ -604,9 +601,8 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 	color: #000;
 }
 
-#all-plugins-table .inactive a,
-#search-plugins-table .inactive a { 
-	color: #555; 	
+.plugins .inactive a { 
+	color: #557799; 	
 }
 
 #the-comment-list .unapproved,
