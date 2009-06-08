@@ -3246,7 +3246,7 @@ function wp_timezone_choice($selectedzone) {
 			$selectcontinent = '';
 			if ( !empty($city) ) {
 				$selectcontinent = $continent;
-				$structure .= '<optgroup label="'. esc_attr( translate( $continent ) ) .'">' . "\n"; // continent
+				$structure .= '<optgroup label="'. esc_attr( translate( $continent, "continents-cities" ) ) .'">' . "\n"; // continent
 			}
 		}
 
