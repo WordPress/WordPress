@@ -1034,7 +1034,7 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
 		}
 	}
 
-	$categories = array_merge($cat_array, $excluded_categories);
+	$categories = implode(',', array_merge($cat_array, $excluded_categories) );
 
 	$order = $start ? 'ASC' : 'DESC';
 
