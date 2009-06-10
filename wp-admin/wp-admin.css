@@ -2748,6 +2748,11 @@ tr.inline-edit-row td {
 	width: 8em;
 }
 
+.inline-edit-row .catshow,
+.inline-edit-row .cathide {
+	cursor: pointer;
+}
+
 ul.cat-checklist {
 	height: 12em;
 	border-style: solid;
