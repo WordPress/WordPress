@@ -241,32 +241,27 @@ jQuery(document).ready( function($) {
 		$('div.default-password-nag').hide();
 		return false;
 	});
+	
+	
 });
 
-(function(){
-	if ( 'undefined' != typeof google && google.gears ) return;
+jQuery(document).ready( function($){
+	var turboNag = $('.turbo-nag');
 
-	var gf = false;
+	if ( !turboNag.length || ('undefined' != typeof(google) && google.gears) )
+		return;
+
 	if ( 'undefined' != typeof GearsFactory ) {
-		gf = new GearsFactory();
+		return;
 	} else {
 		try {
-			if ( window.ActiveXObject ) {
-				gf = new ActiveXObject('Gears.Factory');
-				if ( gf && gf.getBuildInfo().indexOf('ie_mobile') != -1 )
-					gf.privateSetGlobalObject(this);
-			} else if ( ( 'undefined' != typeof navigator.mimeTypes ) && navigator.mimeTypes['application/x-googlegears'] ) {
-				gf = document.createElement("object");
-				gf.style.display = "none";
-				gf.width = 0;
-				gf.height = 0;
-				gf.type = "application/x-googlegears";
-				document.documentElement.appendChild(gf);
+			if ( ( 'undefined' != typeof window.ActiveXObject && ActiveXObject('Gears.Factory') ) ||
+				( 'undefined' != typeof navigator.mimeTypes && navigator.mimeTypes['application/x-googlegears'] ) ) {
+					return;
 			}
 		} catch(e){}
 	}
-	if ( gf && gf.hasPermission )
-		return;
 
-	jQuery('.turbo-nag').show();
-})();
+	turboNag.show();
+
+});
