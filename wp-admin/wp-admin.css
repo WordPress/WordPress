@@ -3286,3 +3286,14 @@ label,
 #your-profile label + a {
 	vertical-align: middle;
 }
+
+.plugin-update-tr .update-message {
+	margin: 5px;
+	padding: 3px 5px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
