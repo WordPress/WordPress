@@ -448,7 +448,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20090514' );
 	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20090514' );
-	$styles->add( 'theme-install', '/wp-admin/css/theme-install.css', array(), '20090514' );
+	$styles->add( 'theme-install', '/wp-admin/css/theme-install.css', array(), '20090610' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 

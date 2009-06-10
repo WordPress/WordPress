@@ -124,13 +124,13 @@ body#theme-information {
 .feature-filter .feature-group {
 	float: left;
 	margin-bottom: 20px;
-	width: 725px;
+	width: 695px;
 }
 
 .feature-filter .feature-name {
 	float: left;
 	text-align: right;
-	width: 65px;
+	width: 95px;
 }
 
 .feature-filter .feature-group li {
