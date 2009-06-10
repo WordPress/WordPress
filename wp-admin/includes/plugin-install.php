@@ -455,7 +455,7 @@ function install_plugin_information() {
 				$installed_plugin = get_plugins('/' . $api->slug);
 				if ( ! empty($installed_plugin) ) {
 					$key = array_shift( $key = array_keys($installed_plugin) ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
-					if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '>') ){
+					if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '=') ){
 						$type = 'latest_installed';
 					} elseif ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '<') ) {
 						$type = 'newer_installed';
