@@ -99,6 +99,7 @@ div.zerosize {
 }
 
 #side-info-column .sleeve {
+	padding-top: 5px;
 	padding-left: 10px;
 }
 
@@ -188,10 +189,9 @@ h3.tb {
 
 #extra_fields #actions {
 	clear: both;
-	position: absolute;
-	right: 4px;
-	top: 6px;
-	margin: 0;
+	position: relative;
+	right: 0px;
+	margin: -24px 0 0;
 }
 
 #actions li {
@@ -202,6 +202,11 @@ h3.tb {
 
 #extra_fields .button {
 	margin-right: 5px;
+	padding: 3px 6px;
+	border-radius: 10px; 
+	-webkit-border-radius: 10px; 
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
 }
 
 /* Photo Styles */
@@ -216,8 +221,9 @@ h3.tb {
 
 #img_container {
 	background-color: #fff;
-	height: 101px;
-	width: 100%;
+}
+#img_container_container {
+	overflow: auto;
 }
 
 #extra_fields {
@@ -346,7 +352,7 @@ h3.tb {
 }
 
 #categorydiv div.tabs-panel {
-	height: 150px;
+	height: 140px;
 	overflow: auto;
 }
 
@@ -410,6 +416,7 @@ ul.categorychecklist li {
 	margin-left: 1%;
 	margin-bottom: 10px;
 	border: 0 none;
+	height: 365px;
 }
 
 /* Submit */
