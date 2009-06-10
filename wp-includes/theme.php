@@ -1134,27 +1134,4 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
 	add_action('admin_menu', array(&$GLOBALS['custom_image_header'], 'init'));
 }
 
-/**
- * Get the basename of a theme.
- *
- * This method extracts the filename of a theme file from a path
- *
- * @package WordPress
- * @subpackage Plugin
- * @since 2.8.0
- *
- * @access private
- *
- * @param string $file The filename of a theme file
- * @return string The filename relative to the themes folder
- */
-function theme_basename($file) {
-	$file = str_replace('\\','/',$file); // sanitize for Win32 installs
-	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
-	$theme_dir = str_replace('\\','/', get_theme_root()); // sanitize for Win32 installs
-	$theme_dir = preg_replace('|/+|','/', $theme_dir); // remove any duplicate slash
-	$file = preg_replace('|^.*/themes/.*?/|','',$file); // get relative path from theme dir
-	return $file;
-}
-
 ?>
