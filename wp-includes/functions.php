@@ -3217,12 +3217,13 @@ function wp_timezone_choice($selectedzone) {
 
 	usort($zonen, create_function(
 		'$a, $b', '
-		$a_continent = translate($a["continent"], "continents-cities");
-		$b_continent = translate($b["continent"], "continents-cities");
-		$a_city = translate($a["city"], "continents-cities");
-		$b_city = translate($b["city"], "continents-cities");
-		$a_subcity = translate($a["subcity"], "continents-cities");
-		$b_subcity = translate($b["subcity"], "continents-cities");
+		$t = create_function(\'$s\', \'return translate(str_replace("_", " ", $s), "continents-cities");\');
+		$a_continent = $t($a["continent"]);
+		$b_continent = $t($b["continent"]);
+		$a_city = $t($a["city"]);
+		$b_city = $t($b["city"]);
+		$a_subcity = $t($a["subcity"]);
+		$b_subcity = $t($b["subcity"]);
 		if ( $a_continent == $b_continent && $a_city == $b_city )
 			return strnatcasecmp($a_subcity, $b_subcity);
 		elseif ( $a_continent == $b_continent )
