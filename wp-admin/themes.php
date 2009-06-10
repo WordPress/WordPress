@@ -129,7 +129,7 @@ function theme_update_available( $theme ) {
 <h3><?php _e('Current Theme'); ?></h3>
 <div id="current-theme">
 <?php if ( $ct->screenshot ) : ?>
-<img src="<?php echo WP_CONTENT_URL . $ct->stylesheet_dir . '/' . $ct->screenshot; ?>" alt="<?php _e('Current theme preview'); ?>" />
+<img src="<?php echo content_url($ct->stylesheet_dir . '/' . $ct->screenshot); ?>" alt="<?php _e('Current theme preview'); ?>" />
 <?php endif; ?>
 <h4><?php
 	/* translators: 1: theme title, 2: theme version, 3: theme author */
@@ -200,7 +200,9 @@ foreach ( $cols as $col => $theme_name ) {
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
 	$template_dir = $themes[$theme_name]['Template Dir'];
 	$parent_theme = $themes[$theme_name]['Parent Theme'];
-	$preview_link = esc_url( get_option('home') . '/');
+	$preview_link = esc_url(get_option('home') . '/');
+	if ( is_ssl() )
+		$preview_link = str_replace( 'http://', 'https://', $preview_link );
 	$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), $preview_link ) );
 	$preview_text = esc_attr( sprintf( __('Preview of &#8220;%s&#8221;'), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
@@ -218,7 +220,7 @@ foreach ( $cols as $col => $theme_name ) {
 ?>
 		<a href="<?php echo $preview_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
-			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
+			<img src="<?php echo content_url($stylesheet_dir . '/' . $screenshot); ?>" alt="" />
 <?php endif; ?>
 		</a>
 <h3><?php
