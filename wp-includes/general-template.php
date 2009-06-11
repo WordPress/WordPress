@@ -969,7 +969,7 @@ function get_calendar($initial = true) {
 
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT 1 FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
+		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
 		if ( !$gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_calendar', $cache, 'calendar' );
