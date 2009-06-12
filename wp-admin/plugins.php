@@ -252,7 +252,7 @@ if ( !empty($invalid) )
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?></h2>
+<h2><?php echo esc_html( $title ); ?> <a href="plugin-install.php" class="button add-new-h2"><?php esc_html_e('Add New'); ?></a></h2>
 
 <?php
 

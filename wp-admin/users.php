@@ -239,7 +239,7 @@ if ( ! empty($messages) ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title );
+<h2><?php echo esc_html( $title ); ?>  <a href="user-new.php" class="button add-new-h2"><?php esc_html_e('Add New'); ?></a> <?php
 if ( isset($_GET['usersearch']) && $_GET['usersearch'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $_GET['usersearch'] ) ); ?>
 </h2>

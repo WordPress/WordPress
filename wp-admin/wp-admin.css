@@ -3297,3 +3297,10 @@ label,
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
+
+.add-new-h2 {
+	font-style: normal;
+	margin: 0 6px;
+	position: relative;
+	top: -3px;
+}
