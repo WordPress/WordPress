@@ -29,15 +29,6 @@ form {
 	text-align: right;
 }
 
-.media-upload-form label,
-.media-upload-form legend {
-	display: block;
-	font-weight: bold;
-	font-size: 13px;
-	margin-bottom: 0.5em;
-	margin: 0 0 0.5em 0;
-}
-
 th {
 	position: relative;
 }
@@ -62,11 +53,7 @@ th {
 }
 
 /* specific to the image upload form */
-.align .field label {
-	display: inline;
-	padding: 0 0 0 28px;
-	margin: 0 1em 0 0;
-}
+
 
 .image-align-none-label {
 	background: url(../images/align-none.png) no-repeat center left;
@@ -94,16 +81,6 @@ tr.image-size div.image-size-item {
 	margin: 0;
 }
 
-tr.image-size label {
-	display: inline;
-	margin: 0 0 0 1em;
-}
-
-.pinkynail {
-	max-width: 40px;
-	max-height: 40px;
-}
-
 #library-form .progress,
 #gallery-form .progress,
 #flash-upload-ui,
@@ -116,13 +93,6 @@ tr.image-size label {
 .media-item .thumbnail {
 	max-width: 128px;
 	max-height: 128px;
-}
-
-.media-item .pinkynail {
-	float: left;
-	margin: 2px;
-	height: 32px;
-	max-width: 40px;
 }
 
 thead.media-item-info tr {

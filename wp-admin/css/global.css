@@ -438,8 +438,7 @@ ol.ol-decimal > li {
 .widefat .num,
 .column-comments,
 .column-links,
-.column-posts,
-.column-parent {
+.column-posts {
 	text-align: center;
 }
 

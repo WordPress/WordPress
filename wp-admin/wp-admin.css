@@ -785,9 +785,9 @@ p.pagenav {
 }
 
 td.media-icon {
-	vertical-align: middle;
 	text-align: center;
 	width: 80px;
+	padding-top: 8px;
 }
 
 td.media-icon img {
@@ -2833,7 +2833,6 @@ table .inline-edit-row fieldset ul.cat-hover {
 	clear: both;
 	cursor: default;
 	padding: 5px;
-	width: 100%;
 }
 
 #wpbody-content .describe .media-item-info tr {
@@ -2849,10 +2848,31 @@ table .inline-edit-row fieldset ul.cat-hover {
 	max-width: 128px;
 }
 
-#wpbody-content .media-upload-form label {
-	display: block;
-	font-size: 13px;
+.media-upload-form td label {
+	margin-right: 6px;
+	margin-left: 2px;
+}
+
+.media-upload-form .align .field label {
+	display: inline;
+	padding: 0 0 0 22px;
+	margin: 0 1em 0 0;
+	font-weight: bold;
+}
+
+.media-upload-form tr.image-size label {
+	margin: 0 0 0 3px;
+	font-weight: bold;
+}
+
+.media-upload-form th.label label {
+	font-weight: bold;
 	margin: 0.5em;
+	font-size: 13px;
+}
+
+.media-upload-form th.label label span {
+	padding: 0 5px;
 }
 
 abbr.required {
@@ -2870,7 +2890,8 @@ abbr.required {
 	padding: 0 0 0 5px;
 }
 
-.describe-toggle-on, .describe-toggle-off {
+.describe-toggle-on,
+.describe-toggle-off {
 	display: block;
 	line-height: 36px;
 	float: right;
@@ -2902,10 +2923,9 @@ abbr.required {
 
 .media-item .pinkynail {
 	float: left;
-	height: 32px;
 	margin: 2px;
 	max-width: 40px;
-	max-height: 40px;
+	max-height: 32px;
 }
 
 .media-item .startopen,
@@ -2962,6 +2982,9 @@ button.dismiss {
 	padding: 1px 4px 2px;
 }
 
+.upload-php .fixed .column-parent {
+	width: 25%;
+}
 
 /* find posts */
 .find-box {

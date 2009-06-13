@@ -423,10 +423,10 @@ function wp_default_styles( &$styles ) {
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20090610';
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090610' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090612' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090514' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090612' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
@@ -438,8 +438,8 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), $colors_version);
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090514' );
-	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090516' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090612' );
+	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090612' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090603' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090514' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20090514' );

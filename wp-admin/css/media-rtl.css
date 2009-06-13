@@ -47,9 +47,7 @@ button.dismiss {
 	border-right-style: none;
 	border-left-style: solid;
 }
-.media-item .pinkynail {
-	float: right;
-}
+
 .describe-toggle-on,
 .describe-toggle-off {
 	float: left;
