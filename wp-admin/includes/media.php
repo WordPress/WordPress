@@ -1312,10 +1312,10 @@ var swfu;
 SWFUpload.onload = function() {
 	var settings = {
 			button_text: '<span class="button"><?php _e('Select Files'); ?></span>',
-			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }',
+			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; }',
 			button_height: "24",
 			button_width: "132",
-			button_text_top_padding: 1,
+			button_text_top_padding: 2,
 			button_image_url: '<?php echo includes_url('images/upload.png'); ?>',
 			button_placeholder_id: "flash-browse-button",
 			upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
