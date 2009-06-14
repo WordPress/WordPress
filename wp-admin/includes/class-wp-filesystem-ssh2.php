@@ -128,7 +128,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			}
 		} else {
 			if ( ! @ssh2_auth_pubkey_file($this->link, $this->options['username'], $this->options['public_key'], $this->options['private_key'], $this->options['password'] ) ) {
-				$this->errors->add('auth', sprintf(__('Public and Private keys incorrent for %s'), $this->options['username']));
+				$this->errors->add('auth', sprintf(__('Public and Private keys incorrect for %s'), $this->options['username']));
 				return false;
 			}
 		}
