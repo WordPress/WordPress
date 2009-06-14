@@ -229,7 +229,7 @@ function update_core($from, $to) {
 	$result = copy_dir($from . '/wordpress', $to);
 	if ( is_wp_error($result) ) {
 		$wp_filesystem->delete($maintenance_file);
-		$wp_filesystem->delete($working_dir, true);
+		$wp_filesystem->delete($from, true);
 		return $result;
 	}
 
