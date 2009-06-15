@@ -253,7 +253,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 		if ( $user->has_cap("edit_{$post_type}s") || $exclude_zeros == false )
 			return array($user->id);
 		else
-			return false;
+			return array();
 	}
 
 	$level_key = $wpdb->prefix . 'user_level';
