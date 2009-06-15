@@ -944,6 +944,9 @@ function user_can_access_admin_page() {
 		return true;
 	}
 
+	if ( isset( $plugin_page ) && ( $plugin_page == $parent ) && isset( $_wp_menu_nopriv[$plugin_page] ) )
+		return false;
+
 	if ( isset( $submenu[$parent] ) ) {
 		foreach ( $submenu[$parent] as $submenu_array ) {
 			if ( isset( $plugin_page ) && ( $submenu_array[2] == $plugin_page ) ) {
