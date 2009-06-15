@@ -430,13 +430,14 @@ function get_body_class( $class = '' ) {
 		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' LIMIT 1", $pageID) ) )
 			$classes[] = 'page-parent';
 
-		if ( $wp_query->post->post_parent )
+		if ( $wp_query->post->post_parent ) {
 			$classes[] = 'page-child';
 			$classes[] = 'parent-pageid-' . $wp_query->post->post_parent;
-
-		if ( is_page_template() )
+		}
+		if ( is_page_template() ) {
 			$classes[] = 'page-template';
 			$classes[] = 'page-template-' . str_replace( '.php', '-php', get_post_meta( $pageID, '_wp_page_template', true ) );
+		}
 	} elseif ( is_search() ) {
 		if ( !empty($wp_query->posts) )
 			$classes[] = 'search-results';
