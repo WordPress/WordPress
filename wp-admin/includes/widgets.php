@@ -97,10 +97,13 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 
 function next_widget_id_number($id_base) {
 	global $wp_registered_widgets;
-	$number = 2;
+	$number = 1;
 
-	while ( isset($wp_registered_widgets["$id_base-$number"]) )
-		$number++;
+	foreach ( $wp_registered_widgets as $widget_id => $widget ) {
+		if ( preg_match( '/' . $id_base . '-([0-9]+)$/', $widget_id, $matches ) )
+			$number = max($number, $matches[1]);
+	}
+	$number++;
 
 	return $number;
 }
