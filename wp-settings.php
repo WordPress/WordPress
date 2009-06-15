@@ -528,6 +528,10 @@ if ( !defined( 'AUTOSAVE_INTERVAL' ) )
 
 require (ABSPATH . WPINC . '/vars.php');
 
+// make taxonomies available to plugins and themes
+// @plugin authors: warning: this gets registered again on the init hook
+create_initial_taxonomies();
+
 // Check for hacks file if the option is enabled
 if ( get_option('hack_file') ) {
 	if ( file_exists(ABSPATH . 'my-hacks.php') )
