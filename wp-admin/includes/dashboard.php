@@ -644,10 +644,14 @@ function wp_dashboard_incoming_links_output() {
 		$link = esc_url( strip_tags( $item->get_link() ) );
 
 		$author = $item->get_author();
-		$site_link = esc_url( strip_tags( $author->get_link() ) );
+		if ( $author ) {
+			$site_link = esc_url( strip_tags( $author->get_link() ) );
 
-		if ( !$publisher = esc_html( strip_tags( $author->get_name() ) ) )
-			$publisher = __( 'Somebody' );
+			if ( !$publisher = esc_html( strip_tags( $author->get_name() ) ) )
+				$publisher = __( 'Somebody' );
+		} else {
+		  $publisher = __( 'Somebody' );
+		}
 		if ( $site_link )
 			$publisher = "<a href='$site_link'>$publisher</a>";
 		else
