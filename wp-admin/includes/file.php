@@ -445,7 +445,7 @@ function download_url( $url ) {
 	if ( ! $handle )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
-	$response = wp_remote_get($url, array('timeout' => 30));
+	$response = wp_remote_get($url, array('timeout' => 60));
 
 	if ( is_wp_error($response) ) {
 		fclose($handle);
