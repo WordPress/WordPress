@@ -46,6 +46,8 @@ function plugins_api($action, $args = null) {
 			if ( ! $res )
 				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred'), $request['body']);
 		}
+	} elseif ( !is_wp_error($res) ) {
+		$res->external = true;
 	}
 
 	return apply_filters('plugins_api_result', $res, $action, $args);
@@ -441,7 +443,7 @@ function install_plugin_information() {
 			//Default to a "new" plugin
 			$type = 'install';
 			//Check to see if this plugin is known to be installed, and has an update awaiting it.
-			$update_plugins = get_option('update_plugins');
+			$update_plugins = get_transient('update_plugins');
 			if ( is_object( $update_plugins ) ) {
 				foreach ( (array)$update_plugins->response as $file => $plugin ) {
 					if ( $plugin->slug === $api->slug ) {
@@ -462,7 +464,7 @@ function install_plugin_information() {
 						$newer_version = $installed_plugin[ $key ]['Version'];
 					} else {
 						//If the above update check failed, Then that probably means that the update checker has out-of-date information, force a refresh
-						delete_option('update_plugins');
+						delete_transient('update_plugins');
 						$update_file = $api->slug . '/' . $key; //This code branch only deals with a plugin which is in a folder the same name as its slug, Doesnt support plugins which have 'non-standard' names
 						$type = 'update_available';
 					}
@@ -509,12 +511,13 @@ function install_plugin_information() {
 			<li><strong><?php _e('Compatible up to:') ?></strong> <?php echo $api->tested ?></li>
 <?php endif; if ( ! empty($api->downloaded) ) : ?>
 			<li><strong><?php _e('Downloaded:') ?></strong> <?php printf(_n('%s time', '%s times', $api->downloaded), number_format_i18n($api->downloaded)) ?></li>
-<?php endif; if ( ! empty($api->slug) ) : ?>
+<?php endif; if ( ! empty($api->slug) && empty($api->external) ) : ?>
 			<li><a target="_blank" href="http://wordpress.org/extend/plugins/<?php echo $api->slug ?>/"><?php _e('WordPress.org Plugin Page &#187;') ?></a></li>
 <?php endif; if ( ! empty($api->homepage) ) : ?>
 			<li><a target="_blank" href="<?php echo $api->homepage ?>"><?php _e('Plugin Homepage  &#187;') ?></a></li>
 <?php endif; ?>
 		</ul>
+		<?php if ( ! empty($api->rating) ) : ?>
 		<h2><?php _e('Average Rating') ?></h2>
 		<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?>">
 			<div class="star star-rating" style="width: <?php echo esc_attr($api->rating) ?>px"></div>
@@ -525,6 +528,7 @@ function install_plugin_information() {
 			<div class="star star1"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('1 star') ?>" /></div>
 		</div>
 		<small><?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?></small>
+		<?php endif; ?>
 	</div>
 	<div id="section-holder" class="wrap">
 	<?php
