@@ -1822,13 +1822,14 @@ class WP_Rewrite {
 	 *
 	 * @since 2.0.1
 	 * @access public
+	 * @param $hard bool Whether to update .htaccess (hard flush) or just update rewrite_rules transient (soft flush). Default is true (hard).
 	 */
-	function flush_rules() {
+	function flush_rules($hard = true) {
 		delete_transient('rewrite_rules');
 		$this->wp_rewrite_rules();
-		if ( function_exists('save_mod_rewrite_rules') )
+		if ( $hard && function_exists('save_mod_rewrite_rules') )
 			save_mod_rewrite_rules();
-		if ( function_exists('iis7_save_url_rewrite_rules') )
+		if ( $hard && function_exists('iis7_save_url_rewrite_rules') )
 			iis7_save_url_rewrite_rules();
 	}
 
