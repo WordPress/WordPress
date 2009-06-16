@@ -146,7 +146,7 @@ if (isset($plugin_page)) {
 
 	// Make sure rules are flushed
 	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
+	$wp_rewrite->flush_rules(false);
 
 	exit();
 } else {

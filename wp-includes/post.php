@@ -1192,7 +1192,7 @@ function wp_delete_post($postid = 0) {
 		foreach ( (array) $children as $child )
 			clean_page_cache($child->ID);
 
-		$wp_rewrite->flush_rules();
+		$wp_rewrite->flush_rules(false);
 	} else {
 		clean_post_cache($postid);
 	}
@@ -3354,7 +3354,7 @@ function _save_post_hook($post_id, $post) {
 		// Avoid flushing rules for every post during import.
 		if ( !defined('WP_IMPORTING') ) {
 			global $wp_rewrite;
-			$wp_rewrite->flush_rules();
+			$wp_rewrite->flush_rules(false);
 		}
 	} else {
 		clean_post_cache($post_id);

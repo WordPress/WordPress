@@ -72,7 +72,9 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 			$markerdata = explode( "\n", implode( '', file( $filename ) ) );
 		}
 
-		$f = fopen( $filename, 'w' );
+		if ( !$f = @fopen( $filename, 'w' ) )
+			return false;
+
 		$foundit = false;
 		if ( $markerdata ) {
 			$state = true;
