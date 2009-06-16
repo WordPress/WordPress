@@ -115,7 +115,7 @@ function wp_update_plugins() {
 
 	$new_option = new stdClass;
 	$new_option->last_checked = time();
-	$timeout = 'load-plugins.php' == current_filter() ? 360 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
+	$timeout = 'load-plugins.php' == current_filter() ? 3600 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 
 	$plugin_changed = false;
@@ -198,7 +198,7 @@ function wp_update_themes( ) {
 
 	$new_option = new stdClass;
 	$new_option->last_checked = time( );
-	$timeout = 'load-themes.php' == current_filter() ? 360 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
+	$timeout = 'load-themes.php' == current_filter() ? 3600 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
 	$time_not_changed = isset( $current_theme->last_checked ) && $timeout > ( time( ) - $current_theme->last_checked );
 
 	if( $time_not_changed )
