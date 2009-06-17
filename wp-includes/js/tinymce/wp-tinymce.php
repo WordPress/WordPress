@@ -8,7 +8,7 @@ function get_file($path) {
 		$path = realpath($path);
 
 	if ( ! $path || ! @is_file($path) )
-		return '';
+		return false;
 
 	return @file_get_contents($path);
 }
@@ -20,9 +20,9 @@ header('Vary: Accept-Encoding'); // Handle proxies
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
 
-if ( isset($_GET['c']) && 1 == $_GET['c'] && false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') ) {
+if ( isset($_GET['c']) && 1 == $_GET['c'] && false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && ( $file = get_file($basepath . '/wp-tinymce.js.gz') ) ) {
 	header('Content-Encoding: gzip');
-	echo get_file($basepath . '/wp-tinymce.js.gz');
+	echo $file;
 } else {
 	echo get_file($basepath . '/wp-tinymce.js');
 }
