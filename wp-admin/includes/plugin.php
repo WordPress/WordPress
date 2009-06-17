@@ -935,6 +935,8 @@ function user_can_access_admin_page() {
 			return false;
 		if ( isset( $plugin_page ) && isset( $_wp_submenu_nopriv[$pagenow][$plugin_page] ) )
 			return false;
+		if ( isset( $plugin_page ) && isset( $_wp_menu_nopriv[$plugin_page] ) )
+			return false;
 		foreach (array_keys( $_wp_submenu_nopriv ) as $key ) {
 			if ( isset( $_wp_submenu_nopriv[$key][$pagenow] ) )
 				return false;
