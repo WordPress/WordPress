@@ -29,4 +29,4 @@ $tinymce_version = '3241-1141';
  *
  * @global string $manifest_version
  */
-$manifest_version = '20090610';
+$manifest_version = '20090616';

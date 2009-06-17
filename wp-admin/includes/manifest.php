@@ -92,8 +92,7 @@ function &get_manifest() {
 
 	if ( @is_file('../wp-includes/js/tinymce/tiny_mce.js') ) :
 	$mce = array(
-		array('../wp-includes/js/tinymce/wp-tinymce.php', 'c=1&' . $mce_ver, true),
-		array('../wp-includes/js/tinymce/wp-tinymce.php', 'c=0&' . $mce_ver, true),
+		array('../wp-includes/js/tinymce/wp-tinymce.php', $mce_ver, true),
 
 		array('../wp-includes/js/tinymce/tiny_mce.js', $mce_ver, true),
 		array('../wp-includes/js/tinymce/langs/wp-langs-en.js', $mce_ver, true),
