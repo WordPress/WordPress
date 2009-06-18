@@ -3149,36 +3149,74 @@ function update_site_option( $key, $value ) {
  * Overrides the gmt_offset option if we have a timezone_string available
  */
 function wp_timezone_override_offset() {
-	if (!wp_timezone_supported()) return false;
+	if ( !wp_timezone_supported() ) {
+		return false;
+	}
+	if ( !$timezone_string = get_option( 'timezone_string' ) ) {
+		return false;
+	}
 
-	$tz = get_option('timezone_string');
-	if (empty($tz)) return false;
-
-	@date_default_timezone_set($tz);
-
-	$dateTimeZoneSelected = timezone_open($tz);
-	$dateTimeServer = date_create();
-	if ($dateTimeZoneSelected === false || $dateTimeServer === false) return false;
-
-	$timeOffset = timezone_offset_get($dateTimeZoneSelected, $dateTimeServer);
-	$timeOffset = $timeOffset / 3600;
-
-	return $timeOffset;
+	@date_default_timezone_set( $timezone_string );
+	$timezone_object = timezone_open( $timezone_string );
+	$datetime_object = date_create();
+	if ( false === $timezone_object || false === $datetime_object ) {
+		return false;
+	}
+	return round( timezone_offset_get( $timezone_object, $datetime_object ) / 3600, 2 );
 }
 
 /**
  * Check for PHP timezone support
- *
  */
 function wp_timezone_supported() {
-	if (function_exists('date_default_timezone_set')
-		&& function_exists('timezone_identifiers_list')
-		&& function_exists('timezone_open')
-		&& function_exists('timezone_offset_get')
-		)
-		return apply_filters('timezone_support',true);
+	$support = false;
+	if (
+		function_exists( 'date_default_timezone_set' ) &&
+		function_exists( 'timezone_identifiers_list' ) &&
+		function_exists( 'timezone_open' ) &&
+		function_exists( 'timezone_offset_get' )
+	) {
+		$support = true;
+	}
+	return apply_filters( 'timezone_support', $support );
+}
 
-	return apply_filters('timezone_support',false);
+function _wp_timezone_choice_usort_callback( $a, $b ) {
+	// Don't use translated versions of Etc
+	if ( 'Etc' === $a['continent'] && 'Etc' === $b['continent'] ) {
+		// Make the order of these more like the old dropdown
+		if ( 'GMT+' === substr( $a['city'], 0, 4 ) && 'GMT+' === substr( $b['city'], 0, 4 ) ) {
+			return -1 * ( strnatcasecmp( $a['city'], $b['city'] ) );
+		}
+		if ( 'UTC' === $a['city'] ) {
+			if ( 'GMT+' === substr( $b['city'], 0, 4 ) ) {
+				return 1;
+			}
+			return -1;
+		}
+		if ( 'UTC' === $b['city'] ) {
+			if ( 'GMT+' === substr( $a['city'], 0, 4 ) ) {
+				return -1;
+			}
+			return 1;
+		}
+		return strnatcasecmp( $a['city'], $b['city'] );
+	}
+	if ( $a['t_continent'] == $b['t_continent'] ) {
+		if ( $a['t_city'] == $b['t_city'] ) {
+			return strnatcasecmp( $a['t_subcity'], $b['t_subcity'] );
+		}
+		return strnatcasecmp( $a['t_city'], $b['t_city'] );
+	} else {
+		// Force Etc to the bottom of the list
+		if ( 'Etc' === $a['continent'] ) {
+			return 1;
+		}
+		if ( 'Etc' === $b['continent'] ) {
+			return -1;
+		}
+		return strnatcasecmp( $a['t_continent'], $b['t_continent'] );
+	}
 }
 
 /**
@@ -3187,90 +3225,107 @@ function wp_timezone_supported() {
  * @param string $selectedzone - which zone should be the selected one
  *
  */
-function wp_timezone_choice($selectedzone) {
+function wp_timezone_choice( $selected_zone ) {
 	static $mo_loaded = false;
 
-	$continents = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc');
+	$continents = array( 'Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc' );
 
 	// Load translations for continents and cities
-	if ( ! $mo_loaded ) {
+	if ( !$mo_loaded ) {
 		$locale = get_locale();
-		$mofile = WP_LANG_DIR . "/continents-cities-$locale.mo";
-		load_textdomain('continents-cities', $mofile);
+		$mofile = WP_LANG_DIR . '/continents-cities-' . $locale . '.mo';
+		load_textdomain( 'continents-cities', $mofile );
 		$mo_loaded = true;
 	}
 
-	$all = timezone_identifiers_list();
-
-	$i = 0;
-	foreach ( $all as $zone ) {
-		$zone = explode('/',$zone);
-		if ( ! in_array($zone[0], $continents) )
+	$zonen = array();
+	foreach ( timezone_identifiers_list() as $zone ) {
+		$zone = explode( '/', $zone );
+		if ( !in_array( $zone[0], $continents ) ) {
 			continue;
-		if ( $zone[0] == 'Etc' && in_array($zone[1], array('UCT', 'GMT', 'GMT0', 'GMT+0', 'GMT-0', 'Greenwich', 'Universal', 'Zulu')) )
+		}
+		if ( 'Etc' === $zone[0] && in_array( $zone[1], array( 'UCT', 'GMT', 'GMT0', 'GMT+0', 'GMT-0', 'Greenwich', 'Universal', 'Zulu' ) ) ) {
 			continue;
-		$zonen[$i]['continent'] = isset($zone[0]) ? $zone[0] : '';
-		$zonen[$i]['city'] = isset($zone[1]) ? $zone[1] : '';
-		$zonen[$i]['subcity'] = isset($zone[2]) ? $zone[2] : '';
-		$i++;
-	}
-
-	usort($zonen, create_function(
-		'$a, $b', '
-		$t = create_function(\'$s\', \'return translate(str_replace("_", " ", $s), "continents-cities");\');
-		$a_continent = $t($a["continent"]);
-		$b_continent = $t($b["continent"]);
-		$a_city = $t($a["city"]);
-		$b_city = $t($b["city"]);
-		$a_subcity = $t($a["subcity"]);
-		$b_subcity = $t($b["subcity"]);
-		if ( $a_continent == $b_continent && $a_city == $b_city )
-			return strnatcasecmp($a_subcity, $b_subcity);
-		elseif ( $a_continent == $b_continent )
-			return strnatcasecmp($a_city, $b_city);
-		else
-			return strnatcasecmp($a_continent, $b_continent);
-		'));
-
-	$structure = '';
-	$pad = '&nbsp;&nbsp;&nbsp;';
-
-	if ( empty($selectedzone) )
-		$structure .= '<option selected="selected" value="">' . __('Select a city') . "</option>\n";
-	foreach ( $zonen as $zone ) {
-		extract($zone);
-		if ( empty($selectcontinent) && !empty($city) ) {
-			$selectcontinent = $continent;
-			$structure .= '<optgroup label="'. esc_attr( translate( $continent, "continents-cities" ) ) .'">' . "\n"; // continent
-		} elseif ( !empty($selectcontinent) && $selectcontinent != $continent ) {
-			$structure .= "</optgroup>\n";
-			$selectcontinent = '';
-			if ( !empty($city) ) {
-				$selectcontinent = $continent;
-				$structure .= '<optgroup label="'. esc_attr( translate( $continent, "continents-cities" ) ) .'">' . "\n"; // continent
-			}
 		}
 
-		if ( !empty($city) ) {
-			$display = str_replace('_',' ',$city);
-			$display = translate($display, "continents-cities");
-			if ( !empty($subcity) ) {
-				$display_subcity = str_replace('_', ' ', $subcity);
-				$display_subcity = translate($display_subcity, "continents-cities");
-				$city = $city . '/'. $subcity;
-				$display = $display . '/' . $display_subcity;
-			}
-			if ( $continent == 'Etc' )
-				$display = strtr($display, '+-', '-+');
-			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected"':'')." value=\"".($continent.'/'.$city)."\">$pad".$display."</option>\n"; //Timezone
+		// This determines what gets set and translated - we don't translate Etc/* strings here, they are done later
+		$exists = array(
+			0 => ( isset( $zone[0] ) && $zone[0] ) ? true : false,
+			1 => ( isset( $zone[1] ) && $zone[1] ) ? true : false,
+			2 => ( isset( $zone[2] ) && $zone[2] ) ? true : false
+		);
+		$exists[3] = ( $exists[0] && 'Etc' !== $zone[0] ) ? true : false;
+		$exists[4] = ( $exists[1] && $exists[3] ) ? true : false;
+		$exists[5] = ( $exists[2] && $exists[3] ) ? true : false;
+
+		$zonen[] = array(
+			'continent'   => ( $exists[0] ? $zone[0] : '' ),
+			'city'        => ( $exists[1] ? $zone[1] : '' ),
+			'subcity'     => ( $exists[2] ? $zone[2] : '' ),
+			't_continent' => ( $exists[3] ? translate( str_replace( '_', ' ', $zone[0] ), 'continents-cities' ) : '' ),
+			't_city'      => ( $exists[4] ? translate( str_replace( '_', ' ', $zone[1] ), 'continents-cities' ) : '' ),
+			't_subcity'   => ( $exists[5] ? translate( str_replace( '_', ' ', $zone[2] ), 'continents-cities' ) : '' )
+		);
+	}
+	usort( $zonen, '_wp_timezone_choice_usort_callback' );
+
+	$structure = array();
+
+	if ( empty( $selected_zone ) ) {
+		$structure[] = '<option selected="selected" value="">' . __( 'Select a city' ) . '</option>';
+	}
+
+	foreach ( $zonen as $key => $zone ) {
+		// Build value in an array to join later
+		$value = array( $zone['continent'] );
+
+		if ( empty( $zone['city'] ) ) {
+			// It's at the continent level (generally won't happen)
+			$display = $zone['t_continent'];
 		} else {
-			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected"':'')." value=\"".$continent."\">" . translate($continent, "continents-cities") . "</option>\n"; //Timezone
+			// It's inside a continent group
+			
+			// Continent optgroup
+			if ( !isset( $zonen[$key - 1] ) || $zonen[$key - 1]['continent'] !== $zone['continent'] ) {
+				$label = ( 'Etc' === $zone['continent'] ) ? __( 'Manual offsets' ) : $zone['t_continent'];
+				$structure[] = '<optgroup label="'. esc_attr( $label ) .'">';
+			}
+			
+			// Add the city to the value
+			$value[] = $zone['city'];
+			if ( 'Etc' === $zone['continent'] ) {
+				if ( 'UTC' === $zone['city'] ) {
+					$display = '';
+				} else {
+					$display = str_replace( 'GMT', '', $zone['city'] );
+					$display = strtr( $display, '+-', '-+' ) . ':00';
+				}
+				$display = '&nbsp;&nbsp;&nbsp;' . sprintf( __( 'UTC %s' ), $display );
+			} else {
+				$display = '&nbsp;&nbsp;&nbsp;' . $zone['t_city'];
+				if ( !empty( $zone['subcity'] ) ) {
+					// Add the subcity to the value
+					$value[] = $zone['subcity'];
+					$display .= ' - ' . $zone['t_subcity'];
+				}
+			}
+		}
+
+		// Build the value
+		$value = join( '/', $value );
+		$selected = '';
+		if ( $value === $selected_zone ) {
+			$selected = 'selected="selected" ';
+		}
+		$structure[] = '<option ' . $selected . 'value="' . esc_attr( $value ) . '">' . esc_html( $display ) . "</option>";
+		
+		// Close continent optgroup
+		if ( !empty( $zone['city'] ) && isset( $zonen[$key + 1] ) && $zonen[$key + 1]['continent'] !== $zone['continent'] ) {
+			$structure[] = '</optgroup>';
 		}
 	}
 
-	if ( !empty($selectcontinent) )
-		$structure .= "</optgroup>\n";
-	return $structure;
+	return join( "\n", $structure );
 }
 
 
