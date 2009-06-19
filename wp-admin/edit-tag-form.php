@@ -39,6 +39,7 @@ do_action('edit_tag_form_pre', $tag); ?>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />
             <span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
+		<?php do_action('edit_tag_form_fields', $tag); ?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Tag'); ?>" /></p>
 <?php do_action('edit_tag_form', $tag); ?>

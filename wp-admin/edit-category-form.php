@@ -69,6 +69,7 @@ _fill_empty_category($category);
 			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($category->description); ?></textarea><br />
             <span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
+		<?php do_action('edit_category_form_fields', $category); ?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Category'); ?>" /></p>
 <?php do_action('edit_category_form', $category); ?>
