@@ -634,8 +634,10 @@ function wp_dashboard_incoming_links_output() {
 
 	echo "<ul>\n";
 
-	$count = 0;
-	foreach ( $rss->get_items() as $item ) {
+	if ( !isset($items) )
+		$items = 10;
+
+	foreach ( $rss->get_items(0, $items) as $item ) {
 		$publisher = '';
 		$site_link = '';
 		$link = '';
