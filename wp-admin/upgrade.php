@@ -68,13 +68,11 @@ switch ( $step ) :
 		break;
 	case 1:
 		wp_upgrade();
-
-		if ( empty( $_GET['backto'] ) )
-			$backto = __get_option( 'home' ) . '/';
-		else {
-			$backto = stripslashes( urldecode( $_GET['backto'] ) );
+			
+			$backto = empty($_GET['backto']) ? '' : $_GET['backto'] ;
+			$backto = stripslashes( urldecode( $backto ) );
 			$backto = esc_url_raw( $backto  );
-		}
+			$backto = wp_validate_redirect($backto, __get_option( 'home' ) . '/');
 ?>
 <h2><?php _e( 'Upgrade Complete' ); ?></h2>
 	<p><?php _e( 'Your WordPress database has been successfully upgraded!' ); ?></p>
