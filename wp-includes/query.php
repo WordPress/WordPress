@@ -1234,6 +1234,7 @@ class WP_Query {
 		$qv['day'] = absint($qv['day']);
 		$qv['w'] = absint($qv['w']);
 		$qv['m'] = absint($qv['m']);
+		$qv['paged'] = absint($qv['paged']);
 		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
 		$qv['pagename'] = trim( $qv['pagename'] );
 		$qv['name'] = trim( $qv['name'] );
