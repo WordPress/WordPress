@@ -908,8 +908,7 @@ if ( !function_exists('wp_safe_redirect') ) :
  * but only used in a few places.
  *
  * @since 2.3
- * @uses apply_filters() Calls 'allowed_redirect_hosts' on an array containing
- *		WordPress host string and $location host string.
+ * @uses wp_validate_redirect() To validate the redirect is to an allowed host.
  *
  * @return void Does not return anything
  **/
@@ -918,6 +917,31 @@ function wp_safe_redirect($location, $status = 302) {
 	// Need to look at the URL the way it will end up in wp_redirect()
 	$location = wp_sanitize_redirect($location);
 
+	$location = wp_validate_redirect($location, admin_url());
+
+	wp_redirect($location, $status);
+}
+endif;
+
+if ( !function_exists('wp_validate_redirect') ) :
+/**
+ * Validates a URL for use in a redirect.
+ *
+ * Checks whether the $location is using an allowed host, if it has an absolute
+ * path. A plugin can therefore set or remove allowed host(s) to or from the
+ * list.
+ *
+ * If the host is not allowed, then the redirect is to $default supplied
+ *
+ * @since 2.8.1
+ * @uses apply_filters() Calls 'allowed_redirect_hosts' on an array containing
+ *		WordPress host string and $location host string.
+ *
+ * @param string $location The redirect to validate
+ * @param string $default The value to return is $location is not allowed
+ * @return string redirect-sanitized URL
+ **/
+function wp_validate_redirect($location, $default = '') {
 	// browsers will assume 'http' is your protocol, and will obey a redirect to a URL starting with '//'
 	if ( substr($location, 0, 2) == '//' )
 		$location = 'http:' . $location;
@@ -931,9 +955,9 @@ function wp_safe_redirect($location, $status = 302) {
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
 
 	if ( isset($lp['host']) && ( !in_array($lp['host'], $allowed_hosts) && $lp['host'] != strtolower($wpp['host'])) )
-		$location = admin_url();
+		$location = $default;
 
-	wp_redirect($location, $status);
+	return $location;
 }
 endif;
 
