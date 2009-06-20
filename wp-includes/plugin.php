@@ -53,7 +53,7 @@
  * @subpackage Plugin
  * @since 0.71
  * @global array $wp_filter Stores all of the filters added in the form of
- *	wp_filter['tag']['array of priorities']['array of functions serialized']['array of ['array (functions, accepted_args)]']
+ *	wp_filter['tag']['array of priorities']['array of functions serialized']['array of ['array (functions, accepted_args)']']
  * @global array $merged_filters Tracks the tags that need to be merged for later. If the hook is added, it doesn't need to run through that process.
  *
  * @param string $tag The name of the filter to hook the $function_to_add to.
