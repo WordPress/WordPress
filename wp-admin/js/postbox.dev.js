@@ -4,15 +4,15 @@ var postboxes;
 		add_postbox_toggles : function(page,args) {
 			this.init(page,args);
 			$('.postbox h3, .postbox .handlediv').click( function() {
-				var p = $(this).parent('.postbox');
-				/*
-				if ( p.hasClass('noclick') ) {
-					p.removeClass('noclick');
-					return false;
-				}
-				*/
+				var p = $(this).parent('.postbox'), id = p.attr('id');
 				p.toggleClass('closed');
 				postboxes.save_state(page);
+				if ( id ) {
+					if ( !p.hasClass('closed') && $.isFunction(postboxes.pbshow) )
+						postboxes.pbshow(id);
+					else if ( p.hasClass('closed') && $.isFunction(postboxes.pbhide) )
+						postboxes.pbhide(id);
+				}
 			} );
 			$('.postbox h3 a').click( function(e) {
 				e.stopPropagation();
