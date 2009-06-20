@@ -2042,8 +2042,8 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 
 	if ('' == $url) return $url;
 	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
-	$strip = array('%0d', '%0a');
-	$url = str_replace($strip, '', $url);
+	$strip = array('%0d', '%0a', '%0D', '%0A');
+	$url = _deep_replace($strip, $url);
 	$url = str_replace(';//', '://', $url);
 	/* If the URL doesn't appear to contain a scheme, we
 	 * presume it needs http:// appended (unless a relative
@@ -2065,6 +2065,35 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 		return '';
 
 	return apply_filters('clean_url', $url, $original_url, $context);
+}
+
+/**
+ * Perform a deep string replace operation to ensure the values in $search are no longer present
+ * 
+ * Repeats the replacement operation until it no longer replaces anything so as to remove "nested" values
+ * e.g. $subject = '%0%0%0DDD', $search ='%0D', $result ='' rather than the '%0%0DD' that
+ * str_replace would return
+ * 
+ * @since 2.8.1
+ * @access private
+ * 
+ * @param string|array $search
+ * @param string $subject
+ * @return string The processed string
+ */
+function _deep_replace($search, $subject){
+	$found = true;
+	while($found) {
+		$found = false;
+		foreach( (array) $search as $val ) {
+			while(strpos($subject, $val) !== false) {
+				$found = true;
+				$subject = str_replace($val, '', $subject);
+			}
+		}
+	}
+	
+	return $subject;
 }
 
 /**
