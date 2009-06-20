@@ -880,17 +880,8 @@ function wp_sanitize_redirect($location) {
 	$location = wp_kses_no_null($location);
 
 	// remove %0d and %0a from location
-	$strip = array('%0d', '%0a');
-	$found = true;
-	while($found) {
-		$found = false;
-		foreach( (array) $strip as $val ) {
-			while(strpos($location, $val) !== false) {
-				$found = true;
-				$location = str_replace($val, '', $location);
-			}
-		}
-	}
+	$strip = array('%0d', '%0a', '%0D', '%0A');
+	$location = _deep_replace($strip, $location);
 	return $location;
 }
 endif;

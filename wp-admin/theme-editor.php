@@ -65,8 +65,8 @@ case 'update':
 	}
 
 	$location = wp_kses_no_null($location);
-	$strip = array('%0d', '%0a');
-	$location = str_replace($strip, '', $location);
+	$strip = array('%0d', '%0a', '%0D', '%0A');
+	$location = _deep_replace($strip, $location);
 	header("Location: $location");
 	exit();
 
