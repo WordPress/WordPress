@@ -369,7 +369,6 @@ EOF;
 	printf($context, $out);
 }
 add_action( 'media_buttons', 'media_buttons' );
-add_action('media_upload_media', 'media_upload_handler');
 
 /**
  * {@internal Missing Short Description}}
