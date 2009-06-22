@@ -316,6 +316,7 @@ if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === fa
 		$link = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'wp-admin/install.php';
 	require_once(ABSPATH . WPINC . '/kses.php');
 	require_once(ABSPATH . WPINC . '/pluggable.php');
+	require_once(ABSPATH . WPINC . '/formatting.php');
 	wp_redirect($link);
 	die(); // have to die here ~ Mark
 }
