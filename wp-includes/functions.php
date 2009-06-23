@@ -2682,7 +2682,7 @@ function smilies_init() {
 		} else {
 			$wp_smiliessearch .= '|';
 		}
-		$wp_smiliessearch .= preg_quote($rest);
+		$wp_smiliessearch .= preg_quote($rest, '/');
 	}
 
 	$wp_smiliessearch .= ')(?:\s|$)/m';
