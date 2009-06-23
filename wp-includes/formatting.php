@@ -80,8 +80,8 @@ function wptexturize($text) {
 }
 
 function wptexturize_pushpop_element($text, &$stack, $disabled_elements, $opening = '<', $closing = '>') {
-	$o = preg_quote($opening);
-	$c = preg_quote($closing);
+	$o = preg_quote($opening, '/');
+	$c = preg_quote($closing, '/');
 	foreach($disabled_elements as $element) {
 		if (preg_match('/^'.$o.$element.'\b/', $text)) array_push($stack, $element);
 		if (preg_match('/^'.$o.'\/'.$element.$c.'/', $text)) {
