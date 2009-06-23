@@ -2,7 +2,7 @@
 /**
  * Class for working with MO files
  *
- * @version $Id: mo.php 33 2009-02-16 09:33:39Z nbachiyski $
+ * @version $Id: mo.php 106 2009-04-23 19:48:22Z nbachiyski $
  * @package pomo
  * @subpackage mo
  */
@@ -10,15 +10,9 @@
 require_once dirname(__FILE__) . '/translations.php';
 require_once dirname(__FILE__) . '/streams.php';
 
-class MO extends Translations {
+class MO extends Gettext_Translations {
 
 	var $_nplurals = 2;
-
-	function set_header($header, $value) {
-		parent::set_header($header, $value);
-		if ('Plural-Forms' == $header)
-			$this->_gettext_select_plural_form = $this->_make_gettext_select_plural_form($value);
-	}
 
 	/**
 	 * Fills up with the entries from MO file $filename
@@ -32,6 +26,73 @@ class MO extends Translations {
 		}
 		return $this->import_from_reader($reader);
 	}
+	
+	function export_to_file($filename) {
+		$fh = fopen($filename, 'wb');
+		if ( !$fh ) return false;
+		$entries = array_filter($this->entries, create_function('$e', 'return !empty($e->translations);'));
+		ksort($entries);
+		$magic = 0x950412de;
+		$revision = 0;
+		$total = count($entries) + 1; // all the headers are one entry
+		$originals_lenghts_addr = 28;
+		$translations_lenghts_addr = $originals_lenghts_addr + 8 * $total;
+		$size_of_hash = 0;
+		$hash_addr = $translations_lenghts_addr + 8 * $total;
+		$current_addr = $hash_addr;
+		fwrite($fh, pack('V*', $magic, $revision, $total, $originals_lenghts_addr,
+			$translations_lenghts_addr, $size_of_hash, $hash_addr));
+		fseek($fh, $originals_lenghts_addr);
+		
+		// headers' msgid is an empty string
+		fwrite($fh, pack('VV', 0, $current_addr));
+		$current_addr++;
+		$originals_table = chr(0);
+
+		foreach($entries as $entry) {
+			$originals_table .= $this->export_original($entry) . chr(0);
+			$length = strlen($this->export_original($entry));
+			fwrite($fh, pack('VV', $length, $current_addr));
+			$current_addr += $length + 1; // account for the NULL byte after
+		}
+		
+		$exported_headers = $this->export_headers();
+		fwrite($fh, pack('VV', strlen($exported_headers), $current_addr));
+		$current_addr += strlen($exported_headers) + 1;
+		$translations_table = $exported_headers . chr(0);
+		
+		foreach($entries as $entry) {
+			$translations_table .= $this->export_translations($entry) . chr(0);
+			$length = strlen($this->export_translations($entry));
+			fwrite($fh, pack('VV', $length, $current_addr));
+			$current_addr += $length + 1;
+		}
+		
+		fwrite($fh, $originals_table);
+		fwrite($fh, $translations_table);
+		fclose($fh);
+	}
+	
+	function export_original($entry) {
+		//TODO: warnings for control characters
+		$exported = $entry->singular;
+		if ($entry->is_plural) $exported .= chr(0).$entry->plural;
+		if (!is_null($entry->context)) $exported = $entry->context . chr(4) . $exported;
+		return $exported;
+	}
+	
+	function export_translations($entry) {
+		//TODO: warnings for control characters
+		return implode(chr(0), $entry->translations);
+	}
+	
+	function export_headers() {
+		$exported = '';
+		foreach($this->headers as $header => $value) {
+			$exported.= "$header: $value\n";
+		}
+		return $exported;
+	}
 
 	function get_byteorder($magic) {
 
@@ -42,7 +103,7 @@ class MO extends Translations {
 		$magic_little_64 = (int) 2500072158;
 		// 0xde120495
 		$magic_big = ((int) - 569244523) && 0xFFFFFFFF;
-
+		
 		if ($magic_little == $magic || $magic_little_64 == $magic) {
 			return 'little';
 		} else if ($magic_big == $magic) {
@@ -63,22 +124,22 @@ class MO extends Translations {
 		$revision = $reader->readint32();
 		$total = $reader->readint32();
 		// get addresses of array of lenghts and offsets for original string and translations
-		$originals_lo_addr = $reader->readint32();
-		$translations_lo_addr = $reader->readint32();
+		$originals_lenghts_addr = $reader->readint32();
+		$translations_lenghts_addr = $reader->readint32();
 
-		$reader->seekto($originals_lo_addr);
-		$originals_lo = $reader->readint32array($total * 2); // each of
-		$reader->seekto($translations_lo_addr);
-		$translations_lo = $reader->readint32array($total * 2);
+		$reader->seekto($originals_lenghts_addr);
+		$originals_lenghts = $reader->readint32array($total * 2); // each of 
+		$reader->seekto($translations_lenghts_addr);
+		$translations_lenghts = $reader->readint32array($total * 2);
 
 		$length = create_function('$i', 'return $i * 2 + 1;');
 		$offset = create_function('$i', 'return $i * 2 + 2;');
 
 		for ($i = 0; $i < $total; ++$i) {
-			$reader->seekto($originals_lo[$offset($i)]);
-			$original = $reader->read($originals_lo[$length($i)]);
-			$reader->seekto($translations_lo[$offset($i)]);
-			$translation = $reader->read($translations_lo[$length($i)]);
+			$reader->seekto($originals_lenghts[$offset($i)]);
+			$original = $reader->read($originals_lenghts[$length($i)]);
+			$reader->seekto($translations_lenghts[$offset($i)]);
+			$translation = $reader->read($translations_lenghts[$length($i)]);
 			if ('' == $original) {
 				$this->set_headers($this->make_headers($translation));
 			} else {
@@ -86,17 +147,6 @@ class MO extends Translations {
 			}
 		}
 		return true;
-	}
-
-	function make_headers($translation) {
-		$headers = array();
-		$lines = explode("\n", $translation);
-		foreach($lines as $line) {
-			$parts = explode(':', $line, 2);
-			if (!isset($parts[1])) continue;
-			$headers[trim($parts[0])] = trim($parts[1]);
-		}
-		return $headers;
 	}
 
 	/**

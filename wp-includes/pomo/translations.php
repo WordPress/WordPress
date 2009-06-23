@@ -2,7 +2,7 @@
 /**
  * Class for a set of entries for translation and their associated headers
  *
- * @version $Id: translations.php 35 2009-02-16 12:54:57Z nbachiyski $
+ * @version $Id: translations.php 114 2009-05-11 17:30:38Z nbachiyski $
  * @package pomo
  * @subpackage translations
  */
@@ -19,10 +19,13 @@ class Translations {
 	 * @param object &$entry
 	 * @return bool true on success, false if the entry doesn't have a key
 	 */
-	function add_entry(&$entry) {
+	function add_entry($entry) {
+		if (is_array($entry)) {
+			$entry = new Translation_Entry($entry);
+		}
 		$key = $entry->key();
 		if (false === $key) return false;
-		$this->entries[$key] = &$entry;
+		$this->entries[$key] = $entry;
 		return true;
 	}
 
@@ -87,12 +90,24 @@ class Translations {
 		$total_plural_forms = $this->get_plural_forms_count();
 		if ($translated && 0 <= $index && $index < $total_plural_forms &&
 				is_array($translated->translations) &&
-				count($translated->translations) == $total_plural_forms)
+				isset($translated->translations[$index]))
 			return $translated->translations[$index];
 		else
 			return 1 == $count? $singular : $plural;
 	}
 
+	/**
+	 * Merge $other in the current object.
+	 *
+	 * @param Object &$other Another Translation object, whose translations will be merged in this one
+	 * @return void
+	 **/
+	function merge_with(&$other) {
+		$this->entries = array_merge($this->entries, $other->entries);
+	}
+}
+
+class Gettext_Translations extends Translations {
 	/**
 	 * The gettext implmentation of select_plural_form.
 	 *
@@ -130,7 +145,7 @@ class Translations {
 	/**
 	 * Adds parantheses to the inner parts of ternary operators in
 	 * plural expressions, because PHP evaluates ternary oerators from left to right
-	 *
+	 * 
 	 * @param string $expression the expression without parentheses
 	 * @return string the expression with parentheses added
 	 */
@@ -158,16 +173,27 @@ class Translations {
 		}
 		return rtrim($res, ';');
 	}
-
-	/**
-	 * Merge $other in the current object.
-	 *
-	 * @param Object &$other Another Translation object, whose translations will be merged in this one
-	 * @return void
-	 **/
-	function merge_with(&$other) {
-		$this->entries = array_merge($this->entries, $other->entries);
+	
+	function make_headers($translation) {
+		$headers = array();
+		// sometimes \ns are used instead of real new lines
+		$translation = str_replace('\n', "\n", $translation);
+		$lines = explode("\n", $translation);
+		foreach($lines as $line) {
+			$parts = explode(':', $line, 2);
+			if (!isset($parts[1])) continue;
+			$headers[trim($parts[0])] = trim($parts[1]);
+		}
+		return $headers;
 	}
+
+	function set_header($header, $value) {
+		parent::set_header($header, $value);
+		if ('Plural-Forms' == $header)
+			$this->_gettext_select_plural_form = $this->_make_gettext_select_plural_form($value);
+	}
+
+	
 }
 
 ?>
