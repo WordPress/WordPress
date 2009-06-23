@@ -2574,6 +2574,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date'], false);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $postdata['post_date_gmt'], false);
 
+			// For drafts use the GMT version of the post date
+			if ( $postdata['post_status'] == 'draft' ) {
+				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $postdata['post_date'] ) );
+				$post_date_gmt = preg_replace( '|\-|', '', $post_date_gmt );
+				$post_date_gmt = preg_replace( '| |', 'T', $post_date_gmt );
+			}
+
 			$categories = array();
 			$catids = wp_get_post_categories($post_ID);
 			foreach($catids as $catid)
