@@ -645,7 +645,7 @@ function get_filesystem_method($args = array(), $context = false) {
 		}
  	}
 
-	if ( ! $method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') && extension_loaded('sockets') ) $method = 'ssh2';
+	if ( ! $method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') && function_exists('stream_get_contents') ) $method = 'ssh2';
 	if ( ! $method && extension_loaded('ftp') ) $method = 'ftpext';
 	if ( ! $method && ( extension_loaded('sockets') || function_exists('fsockopen') ) ) $method = 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
 	return apply_filters('filesystem_method', $method, $args);
@@ -761,7 +761,7 @@ jQuery(function($){
 <td><input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php if ( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 
-<?php if ( extension_loaded('ssh2') ) : ?>
+<?php if ( extension_loaded('ssh2') && function_exists('stream_get_contents') ) : ?>
 <tr id="ssh_keys" valign="top" style="<?php if ( 'ssh' != $connection_type ) echo 'display:none' ?>">
 <th scope="row"><?php _e('Authentication Keys') ?>
 <div class="key-labels textright">
@@ -781,7 +781,7 @@ jQuery(function($){
 <?php if ( 'ftpext' == $type ) : ?>
 <br /><label><input id="ftps" name="connection_type" type="radio" value="ftps" <?php checked('ftps', $connection_type); if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"';  ?>/> <?php _e('FTPS (SSL)') ?></label>
 <?php endif; ?>
-<?php if ( extension_loaded('ssh2') ) : ?>
+<?php if ( extension_loaded('ssh2') && function_exists('stream_get_contents') ) : ?>
 <br /><label><input id="ssh" name="connection_type" type="radio" value="ssh" <?php checked('ssh', $connection_type);  if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"'; ?>/> <?php _e('SSH') ?></label>
 <?php endif; ?>
 </fieldset>
