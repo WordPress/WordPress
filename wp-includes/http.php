@@ -73,11 +73,11 @@ class WP_Http {
 	 * Tests all of the objects and returns the object that passes. Also caches
 	 * that object to be used later.
 	 *
-	 * The order for the GET/HEAD requests are HTTP Extension, FSockopen Streams, 
-	 * Fopen, and finally cURL. Whilst Fsockopen has the highest overhead, Its
-	 * used 2nd due to high compatibility with most hosts, The HTTP Extension is
-	 * tested first due to hosts which have it enabled, are likely to work
-	 * correctly with it.
+	 * The order for the GET/HEAD requests are Streams, HTTP Extension, Fopen,
+	 * and finally Fsockopen. fsockopen() is used last, because it has the most
+	 * overhead in its implementation. There isn't any real way around it, since
+	 * redirects have to be supported, much the same way the other transports
+	 * also handle redirects.
 	 *
 	 * There are currently issues with "localhost" not resolving correctly with
 	 * DNS. This may cause an error "failed to open stream: A connection attempt
@@ -98,18 +98,18 @@ class WP_Http {
 			if ( true === WP_Http_ExtHttp::test($args) ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Fsockopen::test($args) ) {
-				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
-				$blocking_transport[] = &$working_transport['fsockopen'];
+			} else if ( true === WP_Http_Curl::test($args) ) {
+				$working_transport['curl'] = new WP_Http_Curl();
+				$blocking_transport[] = &$working_transport['curl'];
 			} else if ( true === WP_Http_Streams::test($args) ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
 			} else if ( true === WP_Http_Fopen::test($args) ) {
 				$working_transport['fopen'] = new WP_Http_Fopen();
 				$blocking_transport[] = &$working_transport['fopen'];
-			} else if ( true === WP_Http_Curl::test($args) ) {
-				$working_transport['curl'] = new WP_Http_Curl();
-				$blocking_transport[] = &$working_transport['curl'];
+			} else if ( true === WP_Http_Fsockopen::test($args) ) {
+				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
+				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
 
 			foreach ( array('curl', 'streams', 'fopen', 'fsockopen', 'exthttp') as $transport ) {
@@ -149,15 +149,15 @@ class WP_Http {
 			if ( true === WP_Http_ExtHttp::test($args) ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Fsockopen::test($args) ) {
-				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
-				$blocking_transport[] = &$working_transport['fsockopen'];
-			} else if ( true === WP_Http_Streams::test($args) ) {
-				$working_transport['streams'] = new WP_Http_Streams();
-				$blocking_transport[] = &$working_transport['streams'];
 			} else if ( true === WP_Http_Curl::test($args) ) {
 				$working_transport['curl'] = new WP_Http_Curl();
 				$blocking_transport[] = &$working_transport['curl'];
+			} else if ( true === WP_Http_Streams::test($args) ) {
+				$working_transport['streams'] = new WP_Http_Streams();
+				$blocking_transport[] = &$working_transport['streams'];
+			} else if ( true === WP_Http_Fsockopen::test($args) ) {
+				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
+				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
 
 			foreach ( array('curl', 'streams', 'fsockopen', 'exthttp') as $transport ) {
