@@ -13,7 +13,7 @@
  *
  * @contrib http://kevin.vanzonneveld.net/techblog/article/make_ssh_connections_with_php/ - Installation Notes
  *
- * Complie libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now.)
+ * Complie libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now, But many users have found the latest versions work)
  *
  * cd /usr/src
  * wget http://surfnet.dl.sourceforge.net/sourceforge/libssh2/libssh2-0.14.tar.gz
@@ -22,7 +22,7 @@
  * ./configure
  * make all install
  *
- * Note: No not leave the directory yet!
+ * Note: Do not leave the directory yet!
  *
  * Enter: pecl install -f ssh2
  *
@@ -33,6 +33,7 @@
  * Restart Apache!
  * Check phpinfo() streams to confirm that: ssh2.shell, ssh2.exec, ssh2.tunnel, ssh2.scp, ssh2.sftp  exist.
  *
+ * Note: as of WordPress 2.8, This utilises the PHP5+ function 'stream_get_contents'
  *
  * @since 2.7
  * @package WordPress
@@ -45,7 +46,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	var $sftp_link = false;
 	var $keys = false;
 	/*
-	 * This is the timeout value for ssh results to comeback.
+	 * This is the timeout value for ssh results.
 	 * Slower servers might need this incressed, but this number otherwise should not change.
 	 *
 	 * @parm $timeout int
@@ -66,8 +67,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->errors->add('no_ssh2_ext', __('The ssh2 PHP extension is not available'));
 			return false;
 		}
-		if ( ! version_compare(phpversion(), '5', '>=') ) {
-			$this->errors->add('ssh2_php_requirement', __('The ssh2 PHP extension is available, however requires PHP 5+'));
+		if ( !function_exists('stream_get_contents') ) {
+			$this->errors->add('ssh2_php_requirement', __('The ssh2 PHP extension is available, however, we require the PHP5 function <code>stream_get_contents()</code>'));
 			return false;
 		}
 
@@ -101,7 +102,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->options['username'] = $opt['username'];
 
 		if ( empty ($opt['password']) ) {
-			if ( !$this->keys )	//	 password can be blank if we are using keys
+			if ( !$this->keys )	//password can be blank if we are using keys
 				$this->errors->add('empty_password', __('SSH2 password is required'));
 		} else {
 			$this->options['password'] = $opt['password'];
@@ -148,10 +149,11 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		} else {
 			stream_set_blocking( $stream, true );
 			stream_set_timeout( $stream, $this->timeout );
-			$data = stream_get_contents($stream);
+			$data = stream_get_contents( $stream );
+			fclose( $stream );
 
 			if ( $returnbool )
-				return '' != trim($data);
+				return ( $data === false ) ? false : '' != trim($data);
 			else
 				return $data;
 		}
@@ -166,17 +168,17 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 	function get_contents($file, $type = '', $resumepos = 0 ) {
 		$file = ltrim($file, '/');
-		return file_get_contents('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return file_get_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function get_contents_array($file) {
 		$file = ltrim($file, '/');
-		return file('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return file('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function put_contents($file, $contents, $type = '' ) {
 		$file = ltrim($file, '/');
-		return file_put_contents('ssh2.sftp://' . $this->sftp_link .'/' . $file, $contents);
+		return file_put_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file, $contents);
 	}
 
 	function cwd() {
@@ -270,44 +272,43 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	function exists($file) {
-		//return $this->run_command(sprintf('ls -lad %s', escapeshellarg($file)), true);
 		$file = ltrim($file, '/');
-		return file_exists('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return file_exists('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function is_file($file) {
 		$file = ltrim($file, '/');
-		return is_file('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return is_file('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function is_dir($path) {
 		$path = ltrim($path, '/');
-		return is_dir('ssh2.sftp://' . $this->sftp_link .'/' . $path);
+		return is_dir('ssh2.sftp://' . $this->sftp_link . '/' . $path);
 	}
 
 	function is_readable($file) {
 		$file = ltrim($file, '/');
-		return is_readable('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return is_readable('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function is_writable($file) {
 		$file = ltrim($file, '/');
-		return is_writable('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return is_writable('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function atime($file) {
 		$file = ltrim($file, '/');
-		return fileatime('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return fileatime('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function mtime($file) {
 		$file = ltrim($file, '/');
-		return filemtime('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return filemtime('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function size($file) {
 		$file = ltrim($file, '/');
-		return filesize('ssh2.sftp://' . $this->sftp_link .'/' . $file);
+		return filesize('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
 	function touch($file, $time = 0, $atime = 0) {
