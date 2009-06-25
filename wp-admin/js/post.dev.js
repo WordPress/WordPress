@@ -212,10 +212,6 @@ var commentsBox, tagCloud;
 jQuery(document).ready( function($) {
 	var noSyncChecks = false, syncChecks, catAddAfter, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
 
-	// for Press This
-	if ( typeof autosave != 'function' )
-		autosave = function(){};
-
 	// postboxes
 	postboxes.add_postbox_toggles('post');
 
@@ -225,7 +221,13 @@ jQuery(document).ready( function($) {
 	// prepare the tag UI
 	tag_init();
 
-	$('#title').blur( function() { if ( ($("#post_ID").val() > 0) || ($("#title").val().length == 0) ) return; autosave(); } );
+	$('#title').blur( function() {
+		if ( ($("#post_ID").val() > 0) || ($("#title").val().length == 0) )
+			return;
+
+		if ( typeof(autosave) != 'undefined' )
+			autosave();
+	});
 
 	// auto-suggest stuff
 	$('.newtag').each(function(){
@@ -477,7 +479,7 @@ jQuery(document).ready( function($) {
 	// Custom Fields
 	$('#the-list').wpList( { addAfter: function( xml, s ) {
 		$('table#list-table').show();
-		if ( $.isFunction( autosave_update_post_ID ) ) {
+		if ( typeof( autosave_update_post_ID ) != 'undefined' ) {
 			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
 		}
 	}, addBefore: function( s ) {
