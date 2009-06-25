@@ -380,7 +380,7 @@ add_action( 'media_buttons', 'media_buttons' );
 function media_upload_form_handler() {
 	check_admin_referer('media-form');
 
-	$errors = array();
+	$errors = null;
 
 	if ( isset($_POST['send']) ) {
 		$keys = array_keys($_POST['send']);

@@ -29,16 +29,7 @@ if ( isset($action) && $action == 'edit' && !$ID )
 	wp_die(__("You are not allowed to be here"));
 
 if ( isset($_GET['inline']) ) {
-
-	if ( isset($_GET['upload-page-form']) ) {
-		$errors = media_upload_form_handler();
-
-		$location = 'upload.php';
-		if ( $errors )
-			$location .= '?message=3';
-
-		wp_redirect( admin_url($location) );
-	}
+	$errors = array();
 
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		// Upload File button was clicked
@@ -48,6 +39,16 @@ if ( isset($_GET['inline']) ) {
 			$errors['upload_error'] = $id;
 			$id = false;
 		}
+	}
+
+	if ( isset($_GET['upload-page-form']) ) {
+		$errors = array_merge($errors, (array) media_upload_form_handler());
+
+		$location = 'upload.php';
+		if ( $errors )
+			$location .= '?message=3';
+
+		wp_redirect( admin_url($location) );
 	}
 
 	$title = __('Upload New Media');
