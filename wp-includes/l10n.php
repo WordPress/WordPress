@@ -423,6 +423,6 @@ function &get_translations_for_domain( $domain ) {
  * won't suffer from that problem.
  */
 function translate_user_role( $name ) {
-	return before_last_bar( translate_with_gettext_context( $name, 'User role' ) );
+	return translate_with_gettext_context( before_last_bar($name), 'User role' );
 }
 ?>
