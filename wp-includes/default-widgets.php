@@ -526,8 +526,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		if ( !is_array($cache) )
 			$cache = array();
 
-		if ( isset($cache[$args['widget_id']]) )
-			return $cache[$args['widget_id']];
+		if ( isset($cache[$args['widget_id']]) ) {
+			echo $cache[$args['widget_id']];
+			return;
+		}
 
 		ob_start();
 		extract($args);
