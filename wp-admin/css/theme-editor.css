@@ -11,41 +11,26 @@
 #templateside {
 	float: right;
 	width: 190px;
+	word-wrap: break-word;
 }
 
-#templateside h3, #postcustomstuff p.submit {
+#templateside h3,
+#postcustomstuff p.submit {
 	margin: 0;
 }
 
-h3#bordertitle {
-	margin-bottom: 10px;
-}
-
 #templateside h4 {
-	margin-bottom: 0;
+	margin: 1em 0 0;
 }
 
-#templateside ol, #templateside ul {
-	list-style: none;
+#templateside ol,
+#templateside ul {
 	margin: .5em;
 	padding: 0;
 }
 
-#templateside ol li, #templateside ul li {
-	margin: 1px 0;
-}
-
-#themeselector {
-	padding-right: 5px;
-	float: right;
-	position: relative;
-	bottom: 25px;
-	top:20px;
-}
-
-#themeselector select {
-	margin: 0;
-	padding: 0;
+#templateside li {
+	margin: 4px 0;
 }
 
 .nonessential {
@@ -54,11 +39,6 @@ h3#bordertitle {
 
 .highlight {
 	padding: 1px;
-}
-
-div.bordertitle h2 {
-	border: none;
-	padding-bottom: 0;
 }
 
 div.tablenav {
@@ -72,4 +52,9 @@ div.tablenav {
 	line-height: 22px;
 	vertical-align: top;
 	font-weight: bold;
+}
+
+.fileedit-sub {
+	padding: 10px 0 8px;
+	line-height: 180%;
 }

@@ -2092,12 +2092,6 @@ p.search-box {
 	padding: 0 0 .2em 1px;
 }
 
-.bordertitle {
-	padding-bottom: 5px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
 /* Edit posts */
 
 td.post-title strong, td.plugin-title strong {
