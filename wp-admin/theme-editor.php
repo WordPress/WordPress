@@ -117,8 +117,13 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
-<div class="bordertitle">
-	<form id="themeselector" action="theme-editor.php" method="post">
+
+<div class="fileedit-sub">
+<div class="alignleft">
+<big><?php echo sprintf($desc_header, $file_show); ?></big>
+</div>
+<div class="alignright">
+	<form action="theme-editor.php" method="post">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
 		<select name="theme" id="theme">
 <?php
@@ -134,15 +139,11 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 		<input type="submit" name="Submit" value="<?php esc_attr_e('Select') ?>" class="button" />
 	</form>
 </div>
-<div class="tablenav">
-<div class="alignleft">
-<big><?php echo sprintf($desc_header, $file_show); ?></big>
-</div>
 <br class="clear" />
 </div>
 <br class="clear" />
 	<div id="templateside">
-	<h3 id="bordertitle"><?php _e("Theme Files"); ?></h3>
+	<h3><?php _e("Theme Files"); ?></h3>
 
 <?php
 if ($allowed_files) :
@@ -193,9 +194,7 @@ if ($allowed_files) :
 	</ul>
 <?php endif; ?>
 </div>
-	<?php
-	if (!$error) {
-	?>
+<?php if (!$error) { ?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
 	<?php wp_nonce_field('edit-theme_' . $file . $theme) ?>
 		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
@@ -223,15 +222,15 @@ if ($allowed_files) :
 <?php endif; ?>
 		</div>
 	</form>
-	<?php
+<?php
 	} else {
 		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 	}
-	?>
-<div class="clear"> &nbsp; </div>
+?>
+<br class="clear" />
 </div>
 <?php
 break;
 }
 
-include("admin-footer.php") ?>
+include("admin-footer.php");

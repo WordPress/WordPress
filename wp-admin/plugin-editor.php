@@ -136,8 +136,25 @@ default:
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
-<div class="bordertitle">
-	<form id="themeselector" action="plugin-editor.php" method="post">
+
+<div class="fileedit-sub">
+<div class="alignleft">
+<big><?php
+	if ( is_plugin_active($plugin) ) {
+		if ( is_writeable($real_file) )
+			echo sprintf(__('Editing <strong>%s</strong> (active)'), $file);
+		else
+			echo sprintf(__('Browsing <strong>%s</strong> (active)'), $file);
+	} else {
+		if ( is_writeable($real_file) )
+			echo sprintf(__('Editing <strong>%s</strong> (inactive)'), $file);
+		else
+			echo sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file);
+	}
+	?></big>
+</div>
+<div class="alignright">
+	<form action="plugin-editor.php" method="post">
 		<strong><label for="plugin"><?php _e('Select plugin to edit:'); ?> </label></strong>
 		<select name="plugin" id="plugin">
 <?php
@@ -156,27 +173,11 @@ default:
 		<input type="submit" name="Submit" value="<?php esc_attr_e('Select') ?>" class="button" />
 	</form>
 </div>
-<div class="tablenav">
-<div class="alignleft">
-<big><?php
-	if ( is_plugin_active($plugin) ) {
-		if ( is_writeable($real_file) )
-			echo sprintf(__('Editing <strong>%s</strong> (active)'), $file);
-		else
-			echo sprintf(__('Browsing <strong>%s</strong> (active)'), $file);
-	} else {
-		if ( is_writeable($real_file) )
-			echo sprintf(__('Editing <strong>%s</strong> (inactive)'), $file);
-		else
-			echo sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file);
-	}
-	?></big>
-</div>
 <br class="clear" />
 </div>
-<br class="clear" />
-	<div id="templateside">
-	<h3 id="bordertitle"><?php _e('Plugin Files'); ?></h3>
+
+<div id="templateside">
+	<h3><?php _e('Plugin Files'); ?></h3>
 
 	<ul>
 <?php
@@ -195,8 +196,8 @@ foreach ( $plugin_files as $plugin_file ) :
 		<li<?php echo $file == $plugin_file ? ' class="highlight"' : ''; ?>><a href="plugin-editor.php?file=<?php echo $plugin_file; ?>&amp;plugin=<?php echo $plugin; ?>"><?php echo $plugin_file ?></a></li>
 <?php endforeach; ?>
 	</ul>
-	</div>
-	<form name="template" id="template" action="plugin-editor.php" method="post">
+</div>
+<form name="template" id="template" action="plugin-editor.php" method="post">
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
 		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
 		<input type="hidden" name="action" value="update" />
@@ -221,10 +222,10 @@ foreach ( $plugin_files as $plugin_file ) :
 <?php else : ?>
 	<p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
 <?php endif; ?>
- </form>
-<div class="clear"> &nbsp; </div>
+</form>
+<br class="clear" />
 </div>
 <?php
 	break;
 }
-include("admin-footer.php") ?>
+include("admin-footer.php");
