@@ -437,6 +437,10 @@ a.button-secondary {
 	padding: 2px;
 }
 
+#timezone_string option {
+	margin-left: 1em;
+}
+
 .approve {
 	display: none;
 }
