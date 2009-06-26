@@ -814,8 +814,10 @@ case 'add-meta' :
 			die('0'); // if meta doesn't exist
 		if ( !current_user_can( 'edit_post', $meta->post_id ) )
 			die('-1');
-		if ( !$u = update_meta( $mid, $key, $value ) )
-			die('0'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+		if ( $meta->meta_value != stripslashes($value) ) {
+			if ( !$u = update_meta( $mid, $key, $value ) )
+				die('0'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+		}
 
 		$key = stripslashes($key);
 		$value = stripslashes($value);
