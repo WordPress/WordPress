@@ -3300,9 +3300,9 @@ function wp_timezone_choice( $selected_zone ) {
 					$display = str_replace( 'GMT', '', $zone['city'] );
 					$display = strtr( $display, '+-', '-+' ) . ':00';
 				}
-				$display = '&nbsp;&nbsp;&nbsp;' . sprintf( __( 'UTC %s' ), $display );
+				$display = sprintf( __( 'UTC %s' ), $display );
 			} else {
-				$display = '&nbsp;&nbsp;&nbsp;' . $zone['t_city'];
+				$display = $zone['t_city'];
 				if ( !empty( $zone['subcity'] ) ) {
 					// Add the subcity to the value
 					$value[] = $zone['subcity'];
