@@ -92,7 +92,7 @@ function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false,
  */
 function wp_style_is( $handle, $list = 'queue' ) {
 	global $wp_styles;
-	if ( !is_a($wp_styles, 'WP_Scripts') )
+	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
 
 	$query = $wp_styles->query( $handle, $list );
