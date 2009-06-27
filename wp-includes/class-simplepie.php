@@ -751,7 +751,7 @@ class SimplePie
 	 */
 	function __destruct()
 	{
-		if (version_compare(PHP_VERSION, '5.3', '<') || !gc_enabled())
+		if ((version_compare(PHP_VERSION, '5.3', '<') || !gc_enabled()) && !ini_get('zend.ze1_compatibility_mode'))
 		{
 			if (!empty($this->data['items']))
 			{
@@ -1686,7 +1686,7 @@ function embed_wmedia(width, height, link) {
 
 				$headers = $file->headers;
 				$data = $file->body;
-				$sniffer = new $this->content_type_sniffer_class($file);
+				$sniffer =& new $this->content_type_sniffer_class($file);
 				$sniffed = $sniffer->get_type();
 			}
 			else
@@ -1964,7 +1964,7 @@ function embed_wmedia(width, height, link) {
 
 					if ($file->success && ($file->status_code == 200 || ($file->status_code > 206 && $file->status_code < 300)) && strlen($file->body) > 0)
 					{
-						$sniffer = new $this->content_type_sniffer_class($file);
+						$sniffer =& new $this->content_type_sniffer_class($file);
 						if (substr($sniffer->get_type(), 0, 6) === 'image/')
 						{
 							if ($cache->save(array('headers' => $file->headers, 'body' => $file->body)))
@@ -3085,7 +3085,7 @@ class SimplePie_Item
 	 */
 	function __destruct()
 	{
-		if (version_compare(PHP_VERSION, '5.3', '<') || !gc_enabled())
+		if ((version_compare(PHP_VERSION, '5.3', '<') || !gc_enabled()) && !ini_get('zend.ze1_compatibility_mode'))
 		{
 			unset($this->feed);
 		}
@@ -7744,7 +7744,7 @@ class SimplePie_File
 								{
 									case 'gzip':
 									case 'x-gzip':
-										$decoder = new SimplePie_gzdecode($this->body);
+										$decoder =& new SimplePie_gzdecode($this->body);
 										if (!$decoder->parse())
 										{
 											$this->error = 'Unable to decode HTTP "gzip" stream';
@@ -10542,7 +10542,7 @@ class SimplePie_Misc
 	 */
 	function entities_decode($data)
 	{
-		$decoder = new SimplePie_Decode_HTML_Entities($data);
+		$decoder =& new SimplePie_Decode_HTML_Entities($data);
 		return $decoder->parse();
 	}
 
@@ -10938,7 +10938,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x00\x00\x00\x3F\x00\x00\x00\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32BE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32BE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -10951,7 +10951,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x00\x00\x00\x3E\x00\x00\x00"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32LE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32LE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -10964,7 +10964,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x00\x3F\x00\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16BE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16BE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -10977,7 +10977,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x00\x3E\x00"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16LE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16LE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -10990,7 +10990,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
+				$parser =& new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -11716,20 +11716,7 @@ class SimplePie_Parse_Date
 		static $cache;
 		if (!isset($cache[get_class($this)]))
 		{
-			if (extension_loaded('Reflection'))
-			{
-				$class = new ReflectionClass(get_class($this));
-				$methods = $class->getMethods();
-				$all_methods = array();
-				foreach ($methods as $method)
-				{
-					$all_methods[] = $method->getName();
-				}
-			}
-			else
-			{
-				$all_methods = get_class_methods($this);
-			}
+			$all_methods = get_class_methods($this);
 
 			foreach ($all_methods as $method)
 			{
@@ -11756,7 +11743,7 @@ class SimplePie_Parse_Date
 		static $object;
 		if (!$object)
 		{
-			$object = new SimplePie_Parse_Date;
+			$object =& new SimplePie_Parse_Date;
 		}
 		return $object;
 	}
@@ -12791,7 +12778,7 @@ class SimplePie_Locator
 
 		if ($this->file->method & SIMPLEPIE_FILE_SOURCE_REMOTE)
 		{
-			$sniffer = new $this->content_type_sniffer_class($this->file);
+			$sniffer =& new $this->content_type_sniffer_class($this->file);
 			if ($sniffer->get_type() !== 'text/html')
 			{
 				return null;
@@ -12837,7 +12824,7 @@ class SimplePie_Locator
 	{
 		if ($file->method & SIMPLEPIE_FILE_SOURCE_REMOTE)
 		{
-			$sniffer = new $this->content_type_sniffer_class($file);
+			$sniffer =& new $this->content_type_sniffer_class($file);
 			$sniffed = $sniffer->get_type();
 			if (in_array($sniffed, array('application/rss+xml', 'application/rdf+xml', 'text/rdf', 'application/atom+xml', 'text/xml', 'application/xml')))
 			{
@@ -13065,7 +13052,7 @@ class SimplePie_Parser
 
 		if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false)
 		{
-			$declaration = new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
+			$declaration =& new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
 			if ($declaration->parse())
 			{
 				$data = substr($data, $pos + 2);
