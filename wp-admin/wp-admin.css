@@ -3207,6 +3207,10 @@ table.fixed {
 	overflow: hidden;
 }
 
+.widefat td p {
+	margin: 2px 0 0.8em;
+}
+
 table .vers,
 table .column-visible,
 table .column-rating {

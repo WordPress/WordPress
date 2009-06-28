@@ -375,7 +375,8 @@ ol.ol-decimal > li {
 .widefat {
 	border-width: 1px;
 	border-style: solid;
-	border-collapse: separate;
+	empty-cells: show;
+	border-collapse: collapse;
 	border-spacing: 0;
 	width: 100%;
 	clear: both;
