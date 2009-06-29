@@ -22,8 +22,7 @@ if (empty($theme)) {
 	$theme = get_current_theme();
 } else {
 	$theme = stripslashes($theme);
- }
-
+}
 
 if ( ! isset($themes[$theme]) )
 	wp_die(__('The requested theme does not exist.'));
@@ -76,9 +75,6 @@ default:
 
 	if ( !current_user_can('edit_themes') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
-
-	if ( use_codepress() )
-		wp_enqueue_script( 'codepress' );
 
 	require_once('admin-header.php');
 
