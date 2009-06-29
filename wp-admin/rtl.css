@@ -138,6 +138,12 @@ td.available-theme {
 .folded #adminmenu img.wp-menu-image {
 	padding: 7px 6px 0 0;
 }
+#adminmenu a.separator {
+	cursor: e-resize;
+}
+.folded #adminmenu a.separator {
+ 	cursor: w-resize;
+}
 #adminmenu .wp-submenu .wp-submenu-head {
 	padding: 6px 10px 6px 4px;
 }
