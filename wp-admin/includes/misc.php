@@ -272,6 +272,9 @@ function wp_doc_link_parse( $content ) {
 	if ( !is_string( $content ) || empty( $content ) )
 		return array();
 
+	if ( !function_exists('token_get_all') )
+		return array();
+
 	$tokens = token_get_all( $content );
 	$functions = array();
 	$ignore_functions = array();
