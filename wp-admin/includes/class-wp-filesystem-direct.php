@@ -20,7 +20,6 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function WP_Filesystem_Direct($arg) {
 		$this->method = 'direct';
 		$this->errors = new WP_Error();
-		$this->permission = umask();
 	}
 	function connect() {
 		return true;
@@ -64,12 +63,22 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return true;
 	}
 	function chmod($file, $mode = false, $recursive = false) {
-		if ( ! $mode )
-			$mode = $this->permission;
 		if ( ! $this->exists($file) )
 			return false;
+
+		if ( ! $mode ) {
+			if ( $this->permission )
+				$mode = $this->permission;
+			elseif ( $this->is_file($file) )
+				$mode = FS_CHMOD_FILE;
+			elseif ( $this->is_dir($file) )
+				$mode = FS_CHMOD_DIR;
+			else
+				return false;	
+		}
+
 		if ( ! $recursive )
-			return @chmod($file,$mode);
+			return @chmod($file, $mode);
 		if ( ! $this->is_dir($file) )
 			return @chmod($file, $mode);
 		//Is a directory, and we want recursive
@@ -197,11 +206,9 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false){
-		if ( ! $chmod)
-			$chmod = $this->permission;
-
-		if ( ! @mkdir($path, $chmod) )
+		if ( ! @mkdir($path) )
 			return false;
+		$this->chmod($path, $chmod);
 		if ( $chown )
 			$this->chown($path, $chown);
 		if ( $chgrp )
