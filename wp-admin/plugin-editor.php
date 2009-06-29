@@ -111,12 +111,14 @@ default:
 	if ( '.php' == substr( $real_file, strrpos( $real_file, '.' ) ) ) {
 		$functions = wp_doc_link_parse( $content );
 
-		$docs_select = '<select name="docs-list" id="docs-list">';
-		$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
-		foreach ( $functions as $function) {
-			$docs_select .= '<option value="' . esc_attr( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+		if ( !empty($functions) ) {
+			$docs_select = '<select name="docs-list" id="docs-list">';
+			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
+			foreach ( $functions as $function) {
+				$docs_select .= '<option value="' . esc_attr( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+			}
+			$docs_select .= '</select>';
 		}
-		$docs_select .= '</select>';
 	}
 
 	$content = htmlspecialchars( $content );
@@ -204,7 +206,7 @@ foreach ( $plugin_files as $plugin_file ) :
 		<input type="hidden" name="file" value="<?php echo esc_attr($file) ?>" />
 		<input type="hidden" name="plugin" value="<?php echo esc_attr($plugin) ?>" />
 		</div>
-		<?php if ( isset( $functions ) ) : ?>
+		<?php if ( !empty( $docs_select ) ) : ?>
 		<div id="documentation"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value="<?php esc_attr_e( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_locale() ) ?>&amp;version=<?php echo urlencode( $wp_version ) ?>&amp;redirect=true'); }" /></div>
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
