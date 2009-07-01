@@ -338,6 +338,11 @@ table.ie-fixed {
 	padding: 4px 0 22px;
 }
 
+.widefat {
+	empty-cells: show;
+	border-collapse: collapse;
+}
+
 .tablenav a.button-secondary {
 	display: inline-block;
 	padding: 2px 5px;
