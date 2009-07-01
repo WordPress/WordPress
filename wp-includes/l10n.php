@@ -301,35 +301,34 @@ function _nx_noop( $single, $plural, $context ) {
 
 
 /**
- * Loads MO file into the list of domains.
+ * Loads a MO file into the domain $domain.
  *
- * If the domain already exists, the inclusion will fail. If the MO file is not
- * readable, the inclusion will fail.
+ * If the domain already exists, the translations will be merged. If both
+ * sets have the same string, the translation from the original value will be taken.
  *
  * On success, the .mo file will be placed in the $l10n global by $domain
- * and will be an gettext_reader object.
+ * and will be a MO object.
  *
  * @since 1.5.0
- * @uses $l10n Gets list of domain translated string (gettext_reader) objects
- * @uses CacheFileReader Reads the MO file
- * @uses gettext_reader Allows for retrieving translated strings
+ * @uses $l10n Gets list of domain translated string objects
  *
  * @param string $domain Unique identifier for retrieving translated strings
  * @param string $mofile Path to the .mo file
- * @return null On failure returns null and also on success returns nothing.
+ * @return bool true on success, false on failure
  */
 function load_textdomain($domain, $mofile) {
 	global $l10n;
 
-	if ( !is_readable($mofile)) return;
+	if ( !is_readable( $mofile ) ) return false;
 
 	$mo = new MO();
-	$mo->import_from_file( $mofile );
+	if ( !$mo->import_from_file( $mofile ) ) return false;
 
-	if (isset($l10n[$domain]))
+	if ( isset( $l10n[$domain] ) )
 		$mo->merge_with( $l10n[$domain] );
 
 	$l10n[$domain] = &$mo;
+	return true;
 }
 
 /**
@@ -345,7 +344,7 @@ function load_default_textdomain() {
 
 	$mofile = WP_LANG_DIR . "/$locale.mo";
 
-	load_textdomain('default', $mofile);
+	return load_textdomain('default', $mofile);
 }
 
 /**
@@ -372,7 +371,7 @@ function load_plugin_textdomain($domain, $abs_rel_path = false, $plugin_rel_path
 		$path = WP_PLUGIN_DIR;
 
 	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
-	load_textdomain($domain, $mofile);
+	return load_textdomain($domain, $mofile);
 }
 
 /**
@@ -393,7 +392,7 @@ function load_theme_textdomain($domain, $path = false) {
 	$path = ( empty( $path ) ) ? get_template_directory() : $path;
 
 	$mofile = "$path/$locale.mo";
-	load_textdomain($domain, $mofile);
+	return load_textdomain($domain, $mofile);
 }
 
 /**
