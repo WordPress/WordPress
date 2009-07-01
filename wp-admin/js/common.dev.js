@@ -1,4 +1,4 @@
-var showNotice, adminMenu, columns;
+var showNotice, adminMenu, columns, validateForm;
 (function($){
 // sidebar admin menu
 adminMenu = {
@@ -121,6 +121,10 @@ columns = {
 }
 
 $(document).ready(function(){columns.init();});
+
+validateForm = function( form ) {
+	return !$( form ).find('.form-required').filter( function() { return $('input:visible', this).val() == ''; } ).addClass( 'form-invalid' ).change( function() { $(this).removeClass( 'form-invalid' ); } ).size();
+}
 
 })(jQuery);
 

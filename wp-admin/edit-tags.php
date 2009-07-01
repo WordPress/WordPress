@@ -34,7 +34,7 @@ case 'addtag':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	$ret = wp_insert_term($_POST['name'], $taxonomy, $_POST);
+	$ret = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST);
 	if ( $ret && !is_wp_error( $ret ) ) {
 		wp_redirect('edit-tags.php?message=1#addtag');
 	} else {
@@ -155,6 +155,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 <div id="message" class="updated fade"><p><?php echo $messages[$msg]; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
+<div id="ajax-response"></div>
 
 <form class="search-form" action="" method="get">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
@@ -274,15 +275,14 @@ else
 
 <div class="form-wrap">
 <h3><?php _e('Add a New Tag'); ?></h3>
-<div id="ajax-response"></div>
-<form name="addtag" id="addtag" method="post" action="edit-tags.php" class="add:the-list: validate">
-<input type="hidden" name="action" value="addtag" />
+<form id="addtag" method="post" action="edit-tags.php" class="validate">
+<input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
-<?php wp_original_referer_field(true, 'previous'); wp_nonce_field('add-tag'); ?>
+<?php wp_nonce_field('add-tag'); ?>
 
 <div class="form-field form-required">
-	<label for="name"><?php _e('Tag name') ?></label>
-	<input name="name" id="name" type="text" value="" size="40" aria-required="true" />
+	<label for="tag-name"><?php _e('Tag name') ?></label>
+	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
 	<p><?php _e('The name is how the tag appears on your site.'); ?></p>
 </div>
 
@@ -298,7 +298,7 @@ else
     <p><?php _e('The description is not prominent by default, however some themes may show it.'); ?></p>
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
 <?php do_action('add_tag_form'); ?>
 </form></div>
 <?php } ?>

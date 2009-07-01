@@ -385,7 +385,7 @@ form p.submit a.cancel:hover {
 #postcustomstuff .submit input {
 	text-decoration: none;
 	font-size: 11px !important;
-	line-height: 16px;
+	line-height: 14px;
 	padding: 2px 8px;
 	cursor: pointer;
 	border-width: 1px;
@@ -403,9 +403,8 @@ form p.submit a.cancel:hover {
 a.button,
 a.button-primary,
 a.button-secondary {
-	line-height: 1.2em;
-	-webkit-border-radius: 10px;
-	padding: 4px 10px;
+	line-height: 15px;
+	padding: 3px 10px;
 	white-space: nowrap;
 }
 
@@ -2416,7 +2415,7 @@ fieldset {
 #replysubmit img.waiting,
 .inline-edit-save img.waiting,
 #commentstatusdiv img.waiting {
-	padding: 0 10px;
+	padding: 2px 10px 0;
 	vertical-align: top;
 }
 

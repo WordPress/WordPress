@@ -213,20 +213,18 @@ case 'delete-cat' :
 		die('0');
 	break;
 case 'delete-tag' :
-	check_ajax_referer( "delete-tag_$id" );
+	$tag_id = (int) $_POST['tag_ID'];
+	check_ajax_referer( "delete-tag_$tag_id" );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
-	if ( !empty($_POST['taxonomy']) )
-		$taxonomy = $_POST['taxonomy'];
-	else
-		$taxonomy = 'post_tag';
+	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 
-	$tag = get_term( $id, $taxonomy );
+	$tag = get_term( $tag_id, $taxonomy );
 	if ( !$tag || is_wp_error( $tag ) )
 		die('1');
 
-	if ( wp_delete_term($id, $taxonomy))
+	if ( wp_delete_term($tag_id, $taxonomy))
 		die('1');
 	else
 		die('0');
@@ -527,43 +525,16 @@ case 'add-tag' : // From Manage->Tags
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
-	if ( '' === trim($_POST['name']) ) {
-		$x = new WP_Ajax_Response( array(
-			'what' => 'tag',
-			'id' => new WP_Error( 'name', __('You did not enter a tag name.') )
-		) );
-		$x->send();
+	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
+	$tag = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST );
+
+	if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
+		echo '<div class="error"><p>' . __('An error has occured. Please reload the page and try again.') . '</p></div>';
+		exit;
 	}
 
-	if ( !empty($_POST['taxonomy']) )
-		$taxonomy = $_POST['taxonomy'];
-	else
-		$taxonomy = 'post_tag';
-
-	$tag = wp_insert_term($_POST['name'], $taxonomy, $_POST );
-
-	if ( is_wp_error($tag) ) {
-		$x = new WP_Ajax_Response( array(
-			'what' => 'tag',
-			'id' => $tag
-		) );
-		$x->send();
-	}
-
-	if ( !$tag || (!$tag = get_term( $tag['term_id'], $taxonomy )) )
-		die('0');
-
-	$tag_full_name = $tag->name;
-	$tag_full_name = esc_attr($tag_full_name);
-
-	$x = new WP_Ajax_Response( array(
-		'what' => 'tag',
-		'id' => $tag->term_id,
-		'position' => '-1',
-		'data' => _tag_row( $tag, '', $taxonomy ),
-		'supplemental' => array('name' => $tag_full_name, 'show-link' => sprintf(__( 'Tag <a href="#%s">%s</a> added' ), "tag-$tag->term_id", $tag_full_name))
-	) );
-	$x->send();
+	echo _tag_row( $tag, '', $taxonomy );
+	exit;
 	break;
 case 'get-tagcloud' :
 	if ( !current_user_can( 'edit_posts' ) )
@@ -1148,10 +1119,7 @@ case 'inline-save-tax':
 
 			break;
 		case 'tag' :
-			if ( !empty($_POST['taxonomy']) )
-				$taxonomy = $_POST['taxonomy'];
-			else
-				$taxonomy = 'post_tag';
+			$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 
 			$tag = get_term( $id, $taxonomy );
 			$_POST['description'] = $tag->description;
@@ -1162,7 +1130,7 @@ case 'inline-save-tax':
 				if ( !$tag || is_wp_error( $tag ) )
 					die( __('Tag not updated.') );
 
-				echo _tag_row($tag);
+				echo _tag_row($tag, '', $taxonomy);
 			} else {
 				die( __('Tag not updated.') );
 			}
