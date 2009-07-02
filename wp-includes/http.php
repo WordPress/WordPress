@@ -1784,7 +1784,7 @@ class WP_Http_Encoding {
 	 * @return string|bool False on failure.
 	 */
 	function decompress( $compressed, $length = null ) {
-		$decompressed = gzinflate( $compressed );
+		$decompressed = WP_Http_Encoding::compatible_gzinflate( $compressed );
 
 		if ( false !== $decompressed )
 			return $decompressed;
@@ -1802,6 +1802,42 @@ class WP_Http_Encoding {
 		}
 
 		return $compressed;
+	}
+
+	/**
+	 * Decompression of deflated string while staying compatible with the majority of servers.
+	 *
+	 * Certain Servers will return deflated data with headers which PHP's gziniflate() 
+	 * function cannot handle out of the box. The following function lifted from
+	 * http://au2.php.net/manual/en/function.gzinflate.php#77336 will attempt to deflate 
+	 * the various return forms used. 
+	 *
+	 * @since 2.8.1
+	 * @link http://au2.php.net/manual/en/function.gzinflate.php#77336
+	 *
+	 * @param string $gzData String to decompress.
+	 * @return string|bool False on failure.
+	 */
+	function compatible_gzinflate($gzData) {
+		if ( substr($gzData, 0, 3) == "\x1f\x8b\x08" ) {
+			$i = 10;
+			$flg = ord( substr($gzData, 3, 1) );
+			if ( $flg > 0 ) {
+				if ( $flg & 4 ) {
+					list($xlen) = unpack('v', substr($gzData, $i, 2) );
+					$i = $i + 2 + $xlen;
+				}
+				if ( $flg & 8 )
+					$i = strpos($gzData, "\0", $i) + 1;
+				if ( $flg & 16 )
+					$i = strpos($gzData, "\0", $i) + 1;
+				if ( $flg & 2 )
+					$i = $i + 2;
+			}
+			return gzinflate( substr($gzData, $i, -8) );
+		} else {
+			return false;
+		}
 	}
 
 	/**
