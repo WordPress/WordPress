@@ -885,7 +885,7 @@ function dynamic_sidebar($index = 1) {
 function is_active_widget($callback = false, $widget_id = false, $id_base = false, $skip_inactive = true) {
 	global $wp_registered_widgets;
 
-	$sidebars_widgets = wp_get_sidebars_widgets(false);
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( is_array($sidebars_widgets) ) {
 		foreach ( $sidebars_widgets as $sidebar => $widgets ) {
@@ -935,7 +935,7 @@ function is_dynamic_sidebar() {
  */
 function is_active_sidebar( $index ) {
 	$index = ( is_int($index) ) ? "sidebar-$index" : sanitize_title($index);
-	$sidebars_widgets = wp_get_sidebars_widgets(false);
+	$sidebars_widgets = wp_get_sidebars_widgets();
 	if ( isset($sidebars_widgets[$index]) && !empty($sidebars_widgets[$index]) )
 		return true;
 
@@ -953,89 +953,93 @@ function is_active_sidebar( $index ) {
  * @since 2.2.0
  * @access private
  *
- * @param bool $update Optional, default is true. Whether to save upgrade of widget array list.
- * @return array Upgraded list of widgets to version 2 array format.
+ * @param bool $update Optional, deprecated.
+ * @return array Upgraded list of widgets to version 3 array format when called from the admin.
  */
-function wp_get_sidebars_widgets($update = true) {
+function wp_get_sidebars_widgets($deprecated = true) {
 	global $wp_registered_widgets, $wp_registered_sidebars, $_wp_sidebars_widgets;
 
 	// If loading from front page, consult $_wp_sidebars_widgets rather than options
 	// to see if wp_convert_widget_settings() has made manipulations in memory.
-	if ( is_admin() ) {
-		$sidebars_widgets = get_option('sidebars_widgets', array());
-	} else {
+	if ( !is_admin() ) {
 		if ( empty($_wp_sidebars_widgets) )
-			$sidebars_widgets = get_option('sidebars_widgets', array());
-		else
-			$sidebars_widgets = &$_wp_sidebars_widgets;
-	}
-	$_sidebars_widgets = array();
+			$_wp_sidebars_widgets = get_option('sidebars_widgets', array());
 
-	if ( !isset($sidebars_widgets['array_version']) )
-		$sidebars_widgets['array_version'] = 1;
+		$sidebars_widgets = $_wp_sidebars_widgets;
+	} else {
+		$sidebars_widgets = get_option('sidebars_widgets', array());
+		$_sidebars_widgets = array();
 
-	switch ( $sidebars_widgets['array_version'] ) {
-		case 1 :
-			foreach ( (array) $sidebars_widgets as $index => $sidebar )
-			if ( is_array($sidebar) )
-			foreach ( (array) $sidebar as $i => $name ) {
-				$id = strtolower($name);
-				if ( isset($wp_registered_widgets[$id]) ) {
-					$_sidebars_widgets[$index][$i] = $id;
-					continue;
-				}
-				$id = sanitize_title($name);
-				if ( isset($wp_registered_widgets[$id]) ) {
-					$_sidebars_widgets[$index][$i] = $id;
-					continue;
-				}
+		if ( isset($sidebars_widgets['wp_inactive_widgets']) )
+			$sidebars_widgets['array_version'] = 3;
+		elseif ( !isset($sidebars_widgets['array_version']) )
+			$sidebars_widgets['array_version'] = 1;
 
-				$found = false;
-
-				foreach ( $wp_registered_widgets as $widget_id => $widget ) {
-					if ( strtolower($widget['name']) == strtolower($name) ) {
-						$_sidebars_widgets[$index][$i] = $widget['id'];
-						$found = true;
-						break;
-					} elseif ( sanitize_title($widget['name']) == sanitize_title($name) ) {
-						$_sidebars_widgets[$index][$i] = $widget['id'];
-						$found = true;
-						break;
+		switch ( $sidebars_widgets['array_version'] ) {
+			case 1 :
+				foreach ( (array) $sidebars_widgets as $index => $sidebar )
+				if ( is_array($sidebar) )
+				foreach ( (array) $sidebar as $i => $name ) {
+					$id = strtolower($name);
+					if ( isset($wp_registered_widgets[$id]) ) {
+						$_sidebars_widgets[$index][$i] = $id;
+						continue;
 					}
-				}
-
-				if ( $found )
-					continue;
-
-				unset($_sidebars_widgets[$index][$i]);
-			}
-			$_sidebars_widgets['array_version'] = 2;
-			$sidebars_widgets = $_sidebars_widgets;
-			unset($_sidebars_widgets);
-
-		case 2 :
-			$sidebars = array_keys( $wp_registered_sidebars );
-			if ( !empty( $sidebars ) ) {
-				// Move the known-good ones first
-				foreach ( (array) $sidebars as $id ) {
-					if ( array_key_exists( $id, $sidebars_widgets ) ) {
-						$_sidebars_widgets[$id] = $sidebars_widgets[$id];
-						unset($sidebars_widgets[$id], $sidebars[$id]);
+					$id = sanitize_title($name);
+					if ( isset($wp_registered_widgets[$id]) ) {
+						$_sidebars_widgets[$index][$i] = $id;
+						continue;
 					}
+
+					$found = false;
+
+					foreach ( $wp_registered_widgets as $widget_id => $widget ) {
+						if ( strtolower($widget['name']) == strtolower($name) ) {
+							$_sidebars_widgets[$index][$i] = $widget['id'];
+							$found = true;
+							break;
+						} elseif ( sanitize_title($widget['name']) == sanitize_title($name) ) {
+							$_sidebars_widgets[$index][$i] = $widget['id'];
+							$found = true;
+							break;
+						}
+					}
+
+					if ( $found )
+						continue;
+
+					unset($_sidebars_widgets[$index][$i]);
 				}
-
-				// Assign to each unmatched registered sidebar the first available orphan
-				unset( $sidebars_widgets[ 'array_version' ] );
-				while ( ( $sidebar = array_shift( $sidebars ) ) && $widgets = array_shift( $sidebars_widgets ) )
-					$_sidebars_widgets[ $sidebar ] = $widgets;
-
-				$_sidebars_widgets['array_version'] = 3;
+				$_sidebars_widgets['array_version'] = 2;
 				$sidebars_widgets = $_sidebars_widgets;
 				unset($_sidebars_widgets);
-			}
 
-			if ( $update && is_admin() )
-				update_option('sidebars_widgets', $sidebars_widgets);
+			case 2 :
+				$sidebars = array_keys( $wp_registered_sidebars );
+				if ( !empty( $sidebars ) ) {
+					// Move the known-good ones first
+					foreach ( (array) $sidebars as $id ) {
+						if ( array_key_exists( $id, $sidebars_widgets ) ) {
+							$_sidebars_widgets[$id] = $sidebars_widgets[$id];
+							unset($sidebars_widgets[$id], $sidebars[$id]);
+						}
+					}
+
+					// move the rest to wp_inactive_widgets
+					if ( !isset($_sidebars_widgets['wp_inactive_widgets']) )
+						$_sidebars_widgets['wp_inactive_widgets'] = array();
+
+					if ( !empty($sidebars_widgets) ) {
+						foreach ( $sidebars_widgets as $lost => $val ) {
+							if ( is_array($val) )
+								$_sidebars_widgets['wp_inactive_widgets'] = array_merge( (array) $_sidebars_widgets['wp_inactive_widgets'], $val );
+						}
+					}
+
+					$sidebars_widgets = $_sidebars_widgets;
+					unset($_sidebars_widgets);
+				}
+		}
 	}
 
 	if ( isset($sidebars_widgets['array_version']) )
@@ -1086,9 +1090,8 @@ function wp_get_widget_defaults() {
  * @return array
  */
 function wp_convert_widget_settings($base_name, $option_name, $settings) {
-	global $_wp_sidebars_widgets;
 	// This test may need expanding.
-	$single = false;
+	$single = $changed = false;
 	if ( empty($settings) ) {
 		$single = true;
 	} else {
@@ -1110,7 +1113,7 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 			$sidebars_widgets = get_option('sidebars_widgets');
 		} else {
 			if ( empty($GLOBALS['_wp_sidebars_widgets']) )
-				$GLOBALS['_wp_sidebars_widgets'] = get_option('sidebars_widgets');
+				$GLOBALS['_wp_sidebars_widgets'] = get_option('sidebars_widgets', array());
 			$sidebars_widgets = &$GLOBALS['_wp_sidebars_widgets'];
 		}
 
@@ -1119,13 +1122,14 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 				foreach ( $sidebar as $i => $name ) {
 					if ( $base_name == $name ) {
 						$sidebars_widgets[$index][$i] = "$name-2";
+						$changed = true;
 						break 2;
 					}
 				}
 			}
 		}
 
-		if ( is_admin() )
+		if ( is_admin() && $changed )
 			update_option('sidebars_widgets', $sidebars_widgets);
 	}
 
