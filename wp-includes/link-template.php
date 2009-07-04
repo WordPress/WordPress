@@ -1693,7 +1693,7 @@ function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
 	$orig_scheme = $scheme;
 	if ( !in_array($scheme, array('http', 'https')) ) {
-		if ( ('login_post' == $scheme) && ( force_ssl_login() || force_ssl_admin() ) )
+		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
 			$scheme = 'https';
 		elseif ( ('login' == $scheme) && ( force_ssl_admin() ) )
 			$scheme = 'https';
