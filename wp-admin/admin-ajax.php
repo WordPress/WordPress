@@ -37,8 +37,8 @@ if ( ! is_user_logged_in() ) {
 			$x->send();
 	}
 
-	if ( !empty( $_POST['action']) )
-		do_action( 'wp_ajax_nopriv_' . $_POST['action'] );
+	if ( !empty( $_REQUEST['action']) )
+		do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
 
 	die('-1');
 }
