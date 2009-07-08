@@ -536,7 +536,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 			if ( $arreach['name'] == 'style' ) {
 				$orig_value = $arreach['value'];
 
-				$value = safecss_filter_attr($orig_value, $element);
+				$value = safecss_filter_attr($orig_value);
 
 				if ( empty($value) )
 					continue;
@@ -1148,7 +1148,7 @@ function kses_init() {
 add_action('init', 'kses_init');
 add_action('set_current_user', 'kses_init');
 
-function safecss_filter_attr( $css, $element ) {
+function safecss_filter_attr( $css, $deprecated = '' ) {
 	$css = wp_kses_no_null($css);
 	$css = str_replace(array("\n","\r","\t"), '', $css);
 
