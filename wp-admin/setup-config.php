@@ -35,9 +35,6 @@ if (!file_exists(ABSPATH . 'wp-config-sample.php'))
 
 $configFile = file(ABSPATH . 'wp-config-sample.php');
 
-if ( !is_writable(ABSPATH))
-	wp_die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
-
 // Check if wp-config.php has been created
 if (file_exists(ABSPATH . 'wp-config.php'))
 	wp_die("<p>The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p>");
@@ -155,38 +152,52 @@ switch($step) {
 	if ( !empty($wpdb->error) )
 		wp_die($wpdb->error->get_error_message());
 
-	$handle = fopen(ABSPATH . 'wp-config.php', 'w');
-
 	foreach ($configFile as $line_num => $line) {
 		switch (substr($line,0,16)) {
 			case "define('DB_NAME'":
-				fwrite($handle, str_replace("putyourdbnamehere", $dbname, $line));
+				$configFile[$line_num] = str_replace("putyourdbnamehere", $dbname, $line);
 				break;
 			case "define('DB_USER'":
-				fwrite($handle, str_replace("'usernamehere'", "'$uname'", $line));
+				$configFile[$line_num] = str_replace("'usernamehere'", "'$uname'", $line);
 				break;
 			case "define('DB_PASSW":
-				fwrite($handle, str_replace("'yourpasswordhere'", "'$passwrd'", $line));
+				$configFile[$line_num] = str_replace("'yourpasswordhere'", "'$passwrd'", $line);
 				break;
 			case "define('DB_HOST'":
-				fwrite($handle, str_replace("localhost", $dbhost, $line));
+				$configFile[$line_num] = str_replace("localhost", $dbhost, $line);
 				break;
 			case '$table_prefix  =':
-				fwrite($handle, str_replace('wp_', $prefix, $line));
+				$configFile[$line_num] = str_replace('wp_', $prefix, $line);
 				break;
-			default:
-				fwrite($handle, $line);
 		}
 	}
-	fclose($handle);
-	chmod(ABSPATH . 'wp-config.php', 0666);
-
-	display_header();
+	if ( ! is_writable(ABSPATH) ) :
+		display_header();
+?>
+<p>Sorry, but I can't write the <code>wp-config.php</code> file.</p>
+<p>You can create the <code>wp-config.php</code> manually and paste the following text into it.</p>
+<textarea cols="90" rows="15"><?php
+		foreach( $configFile as $line ) {
+			echo htmlentities($line);
+		}
+?></textarea>
+<p>After you've done that, click "Run the install."</p>
+<p class="step"><a href="install.php" class="button">Run the install</a></p>
+<?php
+	else :
+		$handle = fopen(ABSPATH . 'wp-config.php', 'w');
+		foreach( $configFile as $line ) {
+			fwrite($handle, $line);
+		}
+		fclose($handle);
+		chmod(ABSPATH . 'wp-config.php', 0666);
+		display_header();
 ?>
 <p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;</p>
 
 <p class="step"><a href="install.php" class="button">Run the install</a></p>
 <?php
+	endif;
 	break;
 }
 ?>
