@@ -591,14 +591,6 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<?php endif; // comment_type ?>
 			<blockquote><p><?php comment_excerpt(); ?></p></blockquote>
 			<p class="row-actions"><?php echo $actions_string; ?></p>
-
-			<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
-				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
-				<div class="author-email"><?php echo esc_attr( $comment->comment_author_email ); ?></div>
-				<div class="author"><?php echo esc_attr( $comment->comment_author ); ?></div>
-				<div class="author-url"><?php echo esc_attr( $comment->comment_author_url ); ?></div>
-				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
-			</div>
 			</div>
 		</div>
 <?php
