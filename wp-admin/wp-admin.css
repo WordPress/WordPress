@@ -732,7 +732,7 @@ p.pagenav {
 	font-weight: bold;
 }
 
-.column-comment p {
+.widefat .column-comment p {
 	margin: 0.6em 0;
 }
 

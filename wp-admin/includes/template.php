@@ -2123,15 +2123,17 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				echo '<div id="submitted-on">';
 				printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), get_comment_link($comment->comment_ID), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
 				echo '</div>';
-				comment_text(); ?>
+				comment_text(); 
+				if ( $user_can ) { ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
-				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
-				<div class="author-email"><?php if ( $user_can ) echo esc_attr( $comment->comment_author_email ); ?></div>
-				<div class="author"><?php if ( $user_can ) echo esc_attr( $comment->comment_author ); ?></div>
+				<textarea class="comment" rows="1" cols="1"><?php echo htmlspecialchars($comment->comment_content, ENT_QUOTES); ?></textarea>
+				<div class="author-email"><?php echo esc_attr( $comment->comment_author_email ); ?></div>
+				<div class="author"><?php echo esc_attr( $comment->comment_author ); ?></div>
 				<div class="author-url"><?php echo esc_attr( $comment->comment_author_url ); ?></div>
 				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
 				</div>
 				<?php
+				}
 				$actions = array();
 
 				if ( $user_can ) {
