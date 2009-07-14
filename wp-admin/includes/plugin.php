@@ -107,9 +107,9 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
 	//Translate fields
 	if( $translate && ! empty($plugin_data['TextDomain']) ) {
 		if( ! empty( $plugin_data['DomainPath'] ) )
-			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file). $plugin_data['DomainPath']);
+			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file). $plugin_data['DomainPath']);
 		else
-			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file));
+			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file));
 
 		foreach ( array('Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version') as $field )
 			$plugin_data[ $field ] = translate($plugin_data[ $field ], $plugin_data['TextDomain']);
