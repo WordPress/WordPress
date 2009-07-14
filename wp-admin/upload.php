@@ -267,7 +267,7 @@ foreach ($arc_result as $arc_row) {
 		continue;
 	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
 
-	if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
+	if ( isset($_GET['m']) && ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] ) )
 		$default = ' selected="selected"';
 	else
 		$default = '';
