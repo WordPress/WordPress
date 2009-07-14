@@ -201,7 +201,36 @@ function wp_update_themes( ) {
 	$timeout = 'load-themes.php' == current_filter() ? 3600 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
 	$time_not_changed = isset( $current_theme->last_checked ) && $timeout > ( time( ) - $current_theme->last_checked );
 
-	if( $time_not_changed )
+	$themes = array();
+	$checked = array();
+	$themes['current_theme'] = (array) $current_theme;
+	foreach( (array) $installed_themes as $theme_title => $theme ) {
+		$themes[$theme['Stylesheet']] = array();
+		$checked[$theme['Stylesheet']] = $theme['Version'];
+
+		foreach( (array) $theme as $key => $value ) {
+			$themes[$theme['Stylesheet']][$key] = $value;
+		}
+	}
+
+	$theme_changed = false;
+	foreach ( $checked as $slug => $v ) {
+		$new_option->checked[ $slug ] = $v;
+
+		if ( !isset( $current_theme->checked[ $slug ] ) || strval($current_theme->checked[ $slug ]) !== strval($v) )
+			$theme_changed = true;
+	}
+
+	if ( isset ( $current_theme->response ) && is_array( $current_theme->response ) ) {
+		foreach ( $current_theme->response as $slug => $update_details ) {
+			if ( ! isset($checked[ $slug ]) ) {
+				$theme_changed = true;
+				break;
+			}
+		}
+	}
+
+	if( $time_not_changed && !$theme_changed )
 		return false;
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
@@ -209,16 +238,6 @@ function wp_update_themes( ) {
 	set_transient( 'update_themes', $current_theme );
 
 	$current_theme->template = get_option( 'template' );
-
-	$themes = array( );
-	$themes['current_theme'] = (array) $current_theme;
-	foreach( (array) $installed_themes as $theme_title => $theme ) {
-		$themes[$theme['Stylesheet']] = array( );
-
-		foreach( (array) $theme as $key => $value ) {
-			$themes[$theme['Stylesheet']][$key] = $value;
-		}
-	}
 
 	$options = array(
 		'timeout'		=> 3,
@@ -235,8 +254,10 @@ function wp_update_themes( ) {
 		return false;
 
 	$response = unserialize( $raw_response['body'] );
-	if( $response )
+	if( $response ) {
+		$new_option->checked = $checked;
 		$new_option->response = $response;
+	}
 
 	set_transient( 'update_themes', $new_option );
 }
