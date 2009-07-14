@@ -171,6 +171,7 @@ function wp_tempnam($filename = '', $dir = ''){
 	if ( empty($filename) )
 		$filename = time();
 
+	$filename = preg_replace('|\..*$|', '.tmp', $filename);
 	$filename = $dir . wp_unique_filename($dir, $filename);
 	touch($filename);
 	return $filename;
