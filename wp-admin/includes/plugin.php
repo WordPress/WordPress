@@ -620,6 +620,8 @@ function add_object_page( $page_title, $menu_title, $access_level, $file, $funct
 
 	if ( empty($icon_url) )
 		$icon_url = 'images/generic.png';
+	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
+		$icon_url = 'https://' . substr($icon_url, 7);
 
 	$_wp_last_object_menu++;
 
