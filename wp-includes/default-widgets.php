@@ -609,7 +609,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			add_action( 'wp_head', array(&$this, 'recent_comments_style') );
 
 		add_action( 'comment_post', array(&$this, 'flush_widget_cache') );
-		add_action( 'wp_set_comment_status', array(&$this, 'flush_widget_cache') );
+		add_action( 'transition_comment_status', array(&$this, 'flush_widget_cache') );
 	}
 
 	function recent_comments_style() { ?>
