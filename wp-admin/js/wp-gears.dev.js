@@ -28,9 +28,13 @@ var wpGears = {
 	},
 
 	storeName : function() {
-		var name = window.location.protocol + window.location.host;
+		var name, host = window.location.host;
 
-		name = name.replace(/[\/\\:*"?<>|;,]+/g, '_'); // gears beta doesn't allow certain chars in the store name
+		if ( host.match(/[^a-z0-9._-]/i) )
+			host = encodeURIComponent(host);
+		
+		name = window.location.protocol + host;
+		name = name.replace(/[^a-z0-9._-]+/gi, '_');
 		name = 'wp_' + name.substring(0, 60); // max length of name is 64 chars
 
 		return name;

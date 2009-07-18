@@ -347,7 +347,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(wordCountL10n);}catch(e){};'
 		));
 
-		$scripts->add( 'wp-gears', "/wp-admin/js/wp-gears$suffix.js", false, '20090102' );
+		$scripts->add( 'wp-gears', "/wp-admin/js/wp-gears$suffix.js", false, '20090717' );
 		$scripts->localize( 'wp-gears', 'wpGearsL10n', array(
 			'updateCompleted' => __('Update completed.'),
 			'error' => __('Error:'),
