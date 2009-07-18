@@ -2085,9 +2085,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
-	$author_url_display = $author_url;
-	$author_url_display = str_replace('http://www.', '', $author_url_display);
-	$author_url_display = str_replace('http://', '', $author_url_display);
+	$author_url_display = preg_replace('|http://(www\.)?|i', '', $author_url);
 	if ( strlen($author_url_display) > 50 )
 		$author_url_display = substr($author_url_display, 0, 49) . '...';
 

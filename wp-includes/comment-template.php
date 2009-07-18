@@ -194,6 +194,7 @@ function comment_author_IP() {
 function get_comment_author_url() {
 	global $comment;
 	$url = ('http://' == $comment->comment_author_url) ? '' : $comment->comment_author_url;
+	$url = esc_url( $url, array('http', 'https') );
 	return apply_filters('get_comment_author_url', $url);
 }
 
