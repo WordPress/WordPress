@@ -22,7 +22,7 @@ if ( isset( $_POST['deletecomment'] ) )
  *
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
  */
-function comment_footer_die( $msg ) {  //
+function comment_footer_die( $msg ) {
 	echo "<div class='wrap'><p>$msg</p></div>";
 	include('admin-footer.php');
 	die;
@@ -119,7 +119,7 @@ if ( 'spam' == $_GET['dt'] ) {
 <?php if ( $comment->comment_author_url ) { ?>
 <tr>
 <th scope="row"><?php _e('URL'); ?></th>
-<td><a href='<?php echo $comment->comment_author_url; ?>'><?php echo $comment->comment_author_url; ?></a></td>
+<td><a href="<?php echo $comment->comment_author_url; ?>"><?php echo $comment->comment_author_url; ?></a></td>
 </tr>
 <?php } ?>
 <tr>

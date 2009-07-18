@@ -89,8 +89,8 @@ function get_comment_to_edit( $id ) {
 
 	$comment->comment_author = format_to_edit( $comment->comment_author );
 	$comment->comment_author_email = format_to_edit( $comment->comment_author_email );
-	$comment->comment_author_url = esc_url($comment->comment_author_url);
 	$comment->comment_author_url = format_to_edit( $comment->comment_author_url );
+	$comment->comment_author_url = esc_url($comment->comment_author_url);
 
 	return $comment;
 }
