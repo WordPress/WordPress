@@ -13,6 +13,7 @@ $submitbutton_text = __('Edit Comment');
 $toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
 $form_action = 'editedcomment';
 $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . esc_attr($comment->comment_ID) . "' />\n<input type='hidden' name='comment_post_ID' value='" . esc_attr($comment->comment_post_ID);
+$comment->comment_author_email = esc_attr($comment->comment_author_email);
 ?>
 
 <form name="post" action="comment.php" method="post" id="post">
