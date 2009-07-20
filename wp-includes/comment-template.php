@@ -830,19 +830,19 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 * The name of the current comment author escaped for use in attributes.  Use
 	 * wp_get_current_commenter() to get the raw value.
 	 */
-	$comment_author = esc_attr($commenter['comment_author']);
+	$comment_author = $commenter['comment_author'];
 
 	/**
 	 * The email address of the current comment author escaped for use in attributes.  Use
 	 * wp_get_current_commenter() to get the raw value.
 	 */	
-	$comment_author_email = esc_attr($commenter['comment_author_email']);
+	$comment_author_email = $commenter['comment_author_email'];
 
 	/**
 	 * The url of the current comment author escaped for use in attributes.  Use
 	 * wp_get_current_commenter() to get the raw value.
 	 */	
-	$comment_author_url = esc_url($commenter['comment_author_url']);
+	$comment_author_url = $commenter['comment_author_url'];
 
 	/** @todo Use API instead of SELECTs. */
 	if ( $user_ID) {
