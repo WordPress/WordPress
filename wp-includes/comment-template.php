@@ -820,29 +820,26 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	$req = get_option('require_name_email');
 
 	/**
-	 * Raw comment author information fetched from the comment cookies.
+	 * Comment author information fetched from the comment cookies.
 	 *
 	 * @uses wp_get_current_commenter()
 	 */
 	$commenter = wp_get_current_commenter();
 
 	/**
-	 * The name of the current comment author escaped for use in attributes.  Use
-	 * wp_get_current_commenter() to get the raw value.
+	 * The name of the current comment author escaped for use in attributes.
 	 */
-	$comment_author = $commenter['comment_author'];
+	$comment_author = $commenter['comment_author']; // Escaped by sanitize_comment_cookies()
 
 	/**
-	 * The email address of the current comment author escaped for use in attributes.  Use
-	 * wp_get_current_commenter() to get the raw value.
+	 * The email address of the current comment author escaped for use in attributes.
 	 */	
-	$comment_author_email = $commenter['comment_author_email'];
+	$comment_author_email = $commenter['comment_author_email'];  // Escaped by sanitize_comment_cookies()
 
 	/**
-	 * The url of the current comment author escaped for use in attributes.  Use
-	 * wp_get_current_commenter() to get the raw value.
+	 * The url of the current comment author escaped for use in attributes.
 	 */	
-	$comment_author_url = $commenter['comment_author_url'];
+	$comment_author_url = esc_url($commenter['comment_author_url']);
 
 	/** @todo Use API instead of SELECTs. */
 	if ( $user_ID) {
