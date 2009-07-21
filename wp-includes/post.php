@@ -3274,9 +3274,15 @@ function _transition_post_status($new_status, $old_status, $post) {
 		if ( '' == get_the_guid($post->ID) )
 			$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post->ID ) ), array( 'ID' => $post->ID ) );
 		do_action('private_to_published', $post->ID);  // Deprecated, use private_to_publish
-		// do generic pings once per hour at most
-		if ( !wp_next_scheduled('do_generic_ping') )
-			wp_schedule_single_event(time() + 3600, 'do_generic_ping');
+		// do generic pings once per half hour at most
+		if ( !wp_next_scheduled('do_generic_ping') ) {
+			$schedule = time();
+			$last_ping = get_transient('generic_ping_last');
+			if ($last_ping) {
+			  $schedule = max($schedule, $last_ping + 1800);
+			}
+			wp_schedule_single_event($schedule, 'do_generic_ping');
+		}
 	}
 
 	// Always clears the hook in case the post status bounced from future to draft.
