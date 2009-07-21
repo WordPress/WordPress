@@ -1435,6 +1435,8 @@ function generic_ping($post_id = 0) {
 			weblog_ping($service);
 	}
 
+	set_transient('generic_ping_last', time(), 1800);
+
 	return $post_id;
 }
 
