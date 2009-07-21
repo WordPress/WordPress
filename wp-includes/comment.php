@@ -1373,6 +1373,9 @@ function do_all_pings() {
 	if ( is_array($trackbacks) )
 		foreach ( $trackbacks as $trackback )
 			do_trackbacks($trackback);
+
+	//Do Update Services/Generic Pings
+	generic_ping();
 }
 
 /**
@@ -1434,8 +1437,6 @@ function generic_ping($post_id = 0) {
 		if ( '' != $service )
 			weblog_ping($service);
 	}
-
-	set_transient('generic_ping_last', time(), 1800);
 
 	return $post_id;
 }
