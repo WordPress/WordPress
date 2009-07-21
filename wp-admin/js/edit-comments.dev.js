@@ -38,7 +38,7 @@ setCommentsList = function() {
 		settings.data._page = pageInput.val();
 		settings.data._url = document.location.href;
 
-		if ( 'undefined' != showNotice && settings.data.action && settings.data.action == 'delete-comment' && !settings.data.spam )
+		if ( 'undefined' != showNotice && settings.data.action && settings.data.action == 'delete-comment' && settings.data.deleted)
 			return showNotice.warn() ? settings : false;
 
 		return settings;
@@ -91,8 +91,27 @@ setCommentsList = function() {
 			if ( isNaN(n) ) return;
 			if ( $(settings.target).parents( 'span.spam' ).size() ) { // we marked a comment as spam
 				n = n + 1;
-			} else if ( $('#' + settings.element).is('.spam') ) { // we approved or deleted a comment marked as spam
+			} else if ( $('#' + settings.element).is('.spam') ) { // we approved, deleted, or destroyed a comment marked as spam
 				n = n - 1;
+			}
+			if ( n < 0 ) { n = 0; }
+			n = n.toString();
+			if ( n.length > 3 )
+				n = n.substr(0, n.length-3)+' '+n.substr(-3);
+			a.html(n);
+		});
+
+		$('span.deleted-count').each( function() {
+			var a = $(this), n;
+			n = a.html().replace(/[ ,.]+/g, '');
+			n = parseInt(n,10);
+			if ( isNaN(n) ) return;
+			if ( $(settings.target).parents( 'span.delete' ).size() && $('#' + settings.element).is('.deleted,.spam') ) { // we destroyed a deleted or spam comment
+				n--;
+			} else if ( $(settings.target).parents( 'span.delete' ).size() ) { // we deleted a comment
+				n++;
+			} else if ( $('#' + settings.element).is('.deleted') ) { // we approved or spammed a deleted comment
+				n--;
 			}
 			if ( n < 0 ) { n = 0; }
 			n = n.toString();

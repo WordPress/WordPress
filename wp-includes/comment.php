@@ -208,6 +208,8 @@ function get_comments( $args = '' ) {
 		$approved = "comment_approved = '1'";
 	elseif ( 'spam' == $status )
 		$approved = "comment_approved = 'spam'";
+	elseif ( 'deleted' == $status )
+		$approved = "comment_approved = 'deleted'";
 	else
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
 
@@ -699,7 +701,7 @@ function wp_count_comments( $post_id = 0 ) {
 	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
 
 	$total = 0;
-	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam');
+	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'deleted' => 'deleted');
 	$known_types = array_keys( $approved );
 	foreach( (array) $count as $row_num => $row ) {
 		$total += $row['num_comments'];
@@ -735,8 +737,13 @@ function wp_count_comments( $post_id = 0 ) {
  * @return bool False if delete comment query failure, true on success.
  */
 function wp_delete_comment($comment_id) {
+	if (wp_get_comment_status($comment_id) != 'deleted' && wp_get_comment_status($comment_id) != 'spam')
+		return wp_set_comment_status($comment_id, 'delete');
+	
 	global $wpdb;
 	do_action('delete_comment', $comment_id);
+	
+	wp_unschedule_comment_destruction($comment_id);
 
 	$comment = get_comment($comment_id);
 
@@ -784,6 +791,8 @@ function wp_get_comment_status($comment_id) {
 		return 'unapproved';
 	elseif ( $approved == 'spam' )
 		return 'spam';
+	elseif ( $approved == 'deleted' )
+		return 'deleted';
 	else
 		return false;
 }
@@ -1028,7 +1037,8 @@ function wp_new_comment( $commentdata ) {
  */
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
-
+	wp_unschedule_comment_destruction($comment_id);
+	
 	$status = '0';
 	switch ( $comment_status ) {
 		case 'hold':
@@ -1045,7 +1055,10 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 			$status = 'spam';
 			break;
 		case 'delete':
-			return wp_delete_comment($comment_id);
+			if (wp_get_comment_status($comment_id) == 'deleted' || wp_get_comment_status($comment_id) == 'spam')
+				return wp_delete_comment($comment_id);
+			$status = 'deleted';
+			wp_schedule_comment_destruction($comment_id);
 			break;
 		default:
 			return false;
@@ -1068,6 +1081,42 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 	wp_update_comment_count($comment->comment_post_ID);
 
 	return true;
+}
+
+/**
+ * Schedules a comment for destruction in 30 days.
+ * 
+ * @since 2.9.0
+ * 
+ * @param int $comment_id Comment ID.
+ * @return void
+ */
+function wp_schedule_comment_destruction($comment_id) {
+	$to_destroy = get_option('to_destroy');
+	if (!is_array($to_destroy))
+		$to_destroy = array();
+	
+	$to_destroy['comments'][$comment_id] = time();
+	
+	update_option('to_destroy', $to_destroy);
+}
+
+/**
+ * Unschedules a comment for destruction.
+ * 
+ * @since 2.9.0
+ * 
+ * @param int $comment_id Comment ID.
+ * @return void
+ */
+function wp_unschedule_comment_destruction($comment_id) {
+	$to_destroy = get_option('to_destroy');
+	if (!is_array($to_destroy))
+		return;
+	
+	unset($to_destroy['comments'][$comment_id]);
+	
+	update_option('to_destroy', $to_destroy);
 }
 
 /**

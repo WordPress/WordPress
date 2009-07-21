@@ -192,7 +192,7 @@ case 'delete-comment' : // On success, die with time() instead of 1
 			die( (string) time() );
 		$r = wp_set_comment_status( $comment->comment_ID, 'spam' );
 	} else {
-		$r = wp_delete_comment( $comment->comment_ID );
+		$r = wp_set_comment_status( $comment->comment_ID, 'delete' );
 	}
 	if ( $r ) // Decide if we need to send back '1' or a more complicated response including page links and comment counts
 		_wp_ajax_delete_comment_response( $comment->comment_ID );

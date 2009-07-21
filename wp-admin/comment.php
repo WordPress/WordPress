@@ -44,6 +44,9 @@ case 'editcomment' :
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
 		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
+	if ( 'deleted' == $comment->comment_status )
+		comment_footer_die( __('This comment has been deleted. Please move it out of the Trash if you want to edit it.') );
+	
 	$comment = get_comment_to_edit( $comment_id );
 
 	include('edit-form-comment.php');

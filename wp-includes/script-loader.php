@@ -60,10 +60,10 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20090623' );
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20090720' );
 	$scripts->add_data( 'common', 'group', 1 );
 	$scripts->localize( 'common', 'commonL10n', array(
-		'warnDelete' => __("You are about to delete the selected items.\n  'Cancel' to stop, 'OK' to delete."),
+		'warnDelete' => __("You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."),
 		'l10n_print_after' => 'try{convertEntities(commonL10n);}catch(e){};'
 	) );
 
@@ -245,7 +245,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20090514' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20090627' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20090720' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
@@ -426,9 +426,9 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20090625';
+	$colors_version = '20090720';
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090625' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090720' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090630' );

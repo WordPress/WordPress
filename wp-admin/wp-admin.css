@@ -444,7 +444,7 @@ a.button-secondary {
 	display: none;
 }
 
-.unapproved .approve, .spam .approve {
+.unapproved .approve, .spam .approve, .deleted .approve {
 	display: inline;
 }
 
