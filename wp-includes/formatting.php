@@ -1317,8 +1317,10 @@ function translate_smiley($smiley) {
 	$smiley = trim(reset($smiley));
 	$img = $wpsmiliestrans[$smiley];
 	$smiley_masked = esc_attr($smiley);
+	
+	$srcurl = apply_filters('smilies_src', "$siteurl/wp-includes/images/smilies/$img", $img, $siteurl);
 
-	return " <img src='$siteurl/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
+	return " <img src='$srcurl' alt='$smiley_masked' class='wp-smiley' /> ";
 }
 
 
