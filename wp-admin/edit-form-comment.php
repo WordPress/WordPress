@@ -107,7 +107,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 		} else {
 			_e( 'URL:' );
 		} ?></td>
-	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr($url); ?>" tabindex="3" /></td>
+	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr($comment->comment_author_url); ?>" tabindex="3" /></td>
 </tr>
 </tbody>
 </table>
