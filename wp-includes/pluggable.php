@@ -1767,32 +1767,3 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 }
 endif;
 
-/**
- * Destroys comments which have previously been scheduled for destruction.
- * Will do the same for posts, pages, etc in the future.
- * 
- * @access private
- * @since 2.9.0
- *
- * @return void
- */
-function _scheduled_destruction() {
-	$to_destroy = get_option('to_destroy');
-	if (!is_array($to_destroy))
-		return;
-
-	$deletetimestamp = time()-(60*60*24*30);
-	foreach ($to_destroy['comments'] as $comment_id => $timestamp) {
-		if ($timestamp < $deletetimestamp) {
-			wp_delete_comment($comment_id);
-			unset($to_destroy['comments'][$comment_id]);
-		}
-	}
-
-	update_option('to_destroy', $to_destroy);
-}
-add_action( '_scheduled_destruction', '_scheduled_destruction' );
-if ( !wp_next_scheduled('_scheduled_destruction') && !defined('WP_INSTALLING') )
-	wp_schedule_event(time(), 'daily', '_scheduled_destruction');
-
-

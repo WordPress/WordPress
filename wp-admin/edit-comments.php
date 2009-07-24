@@ -250,16 +250,19 @@ $page_links = paginate_links( array(
 <?php if ( 'all' == $comment_status || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
-<?php if ( 'approved' != $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
-<?php if ( 'spam' != $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'approved' == $comment_status || 'moderated' == $comment_status ): ?>
 <option value="markspam"><?php _e('Mark as Spam'); ?></option>
+<?php endif; ?>
+<?php if ( 'deleted' == $comment_status ): ?>
+<option value="unapprove"><?php _e('Return to Pending'); ?></option>
 <?php endif; ?>
 <?php if ( 'deleted' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="destroy"><?php _e('Delete Permanently'); ?></option>
 <?php else: ?>
-<option value="delete"><?php _e('Delete'); ?></option>
+<option value="delete"><?php _e('Move to Trash'); ?></option>
 <?php endif; ?>
 </select>
 <input type="submit" name="doaction" id="doaction" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
@@ -286,10 +289,12 @@ $page_links = paginate_links( array(
 	<input type="hidden" name="apage" value="<?php echo esc_attr( absint( $_GET['apage'] ) ); ?>" />
 <?php }
 
-if ( 'spam' == $comment_status || 'deleted' == $comment_status ) {
+if ( ( 'spam' == $comment_status || 'deleted' == $comment_status) && current_user_can ('moderate_comments') ) {
 	wp_nonce_field('bulk-destroy', '_destroy_nonce');
-        if ( current_user_can ('moderate_comments')) { ?>
+    if ( 'spam' == $comment_status ) { ?>
 		<input type="submit" name="destroy_all" id="destroy_all" value="<?php esc_attr_e('Permanently Delete All'); ?>" class="button-secondary apply" />
+<?php } elseif ( 'deleted' == $comment_status ) { ?>
+		<input type="submit" name="destroy_all" id="destroy_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-primary apply" />
 <?php }
 } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
@@ -341,22 +346,27 @@ if ( $page_links )
 <?php if ( 'all' == $comment_status || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
-<?php if ( 'approved' != $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
-<?php if ( 'spam' != $comment_status ): ?>
+<?php if ( 'all' == $comment_status || 'approved' == $comment_status || 'moderated' == $comment_status ): ?>
 <option value="markspam"><?php _e('Mark as Spam'); ?></option>
+<?php endif; ?>
+<?php if ( 'deleted' == $comment_status ): ?>
+<option value="unapprove"><?php _e('Return to Pending'); ?></option>
 <?php endif; ?>
 <?php if ( 'deleted' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="destroy"><?php _e('Delete Permanently'); ?></option>
 <?php else: ?>
-<option value="delete"><?php _e('Delete'); ?></option>
+<option value="delete"><?php _e('Move to Trash'); ?></option>
 <?php endif; ?>
 </select>
 <input type="submit" name="doaction2" id="doaction2" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
 
-<?php if ( 'spam' == $comment_status || 'deleted' == $comment_status ) { ?>
-<input type="submit" name="destroy_all2" id="destroy_all2" value="<?php esc_attr_e('Permanently Delete All'); ?>" class="button-secondary apply" />
+<?php if ( 'spam' == $comment_status ) { ?>
+<input type="submit" name="destroy_all2" id="destroy_all2" value="<?php esc_attr_e('Empty Quarantine'); ?>" class="button-secondary apply" />
+<?php } elseif ( 'deleted' == $comment_status ) { ?>
+<input type="submit" name="destroy_all2" id="destroy_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
 </div>

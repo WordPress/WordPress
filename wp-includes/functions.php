@@ -3328,8 +3328,6 @@ function wp_timezone_choice( $selected_zone ) {
 	return join( "\n", $structure );
 }
 
-
-
 /**
  * Strip close comment and close php tags from file headers used by WP
  * See http://core.trac.wordpress.org/ticket/8497
@@ -3339,4 +3337,32 @@ function wp_timezone_choice( $selected_zone ) {
 function _cleanup_header_comment($str) {
 	return trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $str));
 }
-?>
+
+/**
+ * Permanently deletes comments that have been scheduled for deleting.
+ * Will do the same for posts, pages, etc in the future.
+ * 
+ * @access private
+ * @since 2.9.0
+ *
+ * @return void
+ */
+function wp_scheduled_delete() {
+	$to_delete = get_option('wp_scheduled_delete');
+	if (!is_array($to_delete))
+		return;
+
+	if ( !isset($to_delete['comments']) || !is_array($to_delete['comments']) )
+		$to_delete['comments'] = array();
+
+	$delete_delay = defined('EMPTY_TRASH_TIMEOUT') ? (int) EMPTY_TRASH_TIMEOUT : (60*60*24*30);
+	$deletetimestamp = time() - $delete_delay;
+	foreach ($to_delete['comments'] as $comment_id => $timestamp) {
+		if ($timestamp < $deletetimestamp) {
+			wp_delete_comment($comment_id);
+			unset($to_delete['comments'][$comment_id]);
+		}
+	}
+
+	update_option('wp_scheduled_delete', $to_delete);
+}

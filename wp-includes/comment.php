@@ -743,7 +743,7 @@ function wp_delete_comment($comment_id) {
 	global $wpdb;
 	do_action('delete_comment', $comment_id);
 	
-	wp_unschedule_comment_destruction($comment_id);
+	wp_unschedule_comment_delete($comment_id);
 
 	$comment = get_comment($comment_id);
 
@@ -1037,7 +1037,7 @@ function wp_new_comment( $commentdata ) {
  */
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
-	wp_unschedule_comment_destruction($comment_id);
+	wp_unschedule_comment_delete($comment_id);
 	
 	$status = '0';
 	switch ( $comment_status ) {
@@ -1058,7 +1058,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 			if (wp_get_comment_status($comment_id) == 'deleted' || wp_get_comment_status($comment_id) == 'spam')
 				return wp_delete_comment($comment_id);
 			$status = 'deleted';
-			wp_schedule_comment_destruction($comment_id);
+			wp_schedule_comment_delete($comment_id);
 			break;
 		default:
 			return false;
@@ -1091,14 +1091,14 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
  * @param int $comment_id Comment ID.
  * @return void
  */
-function wp_schedule_comment_destruction($comment_id) {
-	$to_destroy = get_option('to_destroy');
-	if (!is_array($to_destroy))
-		$to_destroy = array();
+function wp_schedule_comment_delete($comment_id) {
+	$to_delete = get_option('wp_scheduled_delete');
+	if ( !is_array($to_delete) )
+		$to_delete = array();
 	
-	$to_destroy['comments'][$comment_id] = time();
+	$to_delete['comments'][$comment_id] = time();
 	
-	update_option('to_destroy', $to_destroy);
+	update_option('wp_scheduled_delete', $to_delete);
 }
 
 /**
@@ -1109,14 +1109,14 @@ function wp_schedule_comment_destruction($comment_id) {
  * @param int $comment_id Comment ID.
  * @return void
  */
-function wp_unschedule_comment_destruction($comment_id) {
-	$to_destroy = get_option('to_destroy');
-	if (!is_array($to_destroy))
+function wp_unschedule_comment_delete($comment_id) {
+	$to_delete = get_option('wp_scheduled_delete');
+	if ( !is_array($to_delete) )
 		return;
 	
-	unset($to_destroy['comments'][$comment_id]);
+	unset($to_delete['comments'][$comment_id]);
 	
-	update_option('to_destroy', $to_destroy);
+	update_option('wp_scheduled_delete', $to_delete);
 }
 
 /**
