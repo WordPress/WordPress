@@ -181,7 +181,7 @@ inlineEditPost = {
 	},
 
 	save : function(id) {
-		var params, fields;
+		var params, fields, page = $('.post_status_page').val() || '';
 
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
@@ -192,7 +192,8 @@ inlineEditPost = {
 			action: 'inline-save',
 			post_type: this.type,
 			post_ID: id,
-			edit_date: 'true'
+			edit_date: 'true',
+			post_status: page
 		};
 
 		fields = $('#edit-'+id+' :input').serialize();

@@ -753,13 +753,7 @@ function wp_manage_posts_columns() {
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
-
-	$post_status = 'all';
-	if ( isset($_GET['post_status']) )
-		$post_status = $_GET['post_status'];
-	elseif ( isset($_POST['_status']) )
-		$post_status = $_POST['_status'];
-
+	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
 	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');
@@ -807,13 +801,7 @@ function wp_manage_pages_columns() {
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['title'] = __('Title');
 	$posts_columns['author'] = __('Author');
-
-	$post_status = 'all';
-	if ( isset($_GET['post_status']) )
-		$post_status = $_GET['post_status'];
-	elseif ( isset($_POST['_status']) )
-		$post_status = $_POST['_status'];
-
+	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
 	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');

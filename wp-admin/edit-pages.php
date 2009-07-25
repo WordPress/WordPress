@@ -176,9 +176,7 @@ endif;
 	<input type="submit" value="<?php esc_attr_e( 'Search Pages' ); ?>" class="button" />
 </p>
 
-<?php if ( isset($_GET['post_status'] ) ) : ?>
-<input type="hidden" name="post_status" value="<?php echo esc_attr($_GET['post_status']) ?>" />
-<?php endif; ?>
+<input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_GET['post_status']) ? esc_attr($_GET['post_status']) : 'all'; ?>" />
 
 <?php if ($posts) { ?>
 
