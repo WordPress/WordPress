@@ -8,9 +8,6 @@ inlineEditPost = {
 		t.type = $('table.widefat').hasClass('page') ? 'page' : 'post';
 		t.what = '#'+t.type+'-';
 
-		// get all editable rows
-		t.rows = $('tr.iedit');
-
 		// prepare the edit rows
 		qeRow.keyup(function(e) { if(e.which == 27) return inlineEditPost.revert(); });
 		bulkRow.keyup(function(e) { if (e.which == 27) return inlineEditPost.revert(); });
@@ -31,7 +28,7 @@ inlineEditPost = {
 		});
 
 		// add events
-		t.addEvents(t.rows);
+		$('a.editinline').live('click', function() { inlineEditPost.edit(this); return false; });
 
 		$('#bulk-title-div').parents('fieldset').after(
 			$('#inline-edit fieldset.inline-edit-categories').clone()
@@ -74,13 +71,6 @@ inlineEditPost = {
 	toggle : function(el) {
 		var t = this;
 		$(t.what+t.getId(el)).css('display') == 'none' ? t.revert() : t.edit(el);
-	},
-
-	addEvents : function(r) {
-		r.each(function() {
-			var row = $(this);
-			$('a.editinline', row).click(function() { inlineEditPost.edit(this); return false; });
-		});
 	},
 
 	setBulk : function() {
@@ -205,7 +195,7 @@ inlineEditPost = {
 			edit_date: 'true'
 		};
 
-		fields = $('#edit-'+id+' :input').fieldSerialize();
+		fields = $('#edit-'+id+' :input').serialize();
 		params = fields + '&' + $.param(params);
 
 		// make ajax request
@@ -217,15 +207,7 @@ inlineEditPost = {
 					if ( -1 != r.indexOf('<tr') ) {
 						$(inlineEditPost.what+id).remove();
 						$('#edit-'+id).before(r).remove();
-
-						var row = $(inlineEditPost.what+id);
-						row.hide();
-
-						if ( 'draft' == $('input[name="post_status"]').val() )
-							row.find('td.column-comments').hide();
-
-						inlineEditPost.addEvents(row);
-						row.fadeIn();
+						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );
 						$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+r+'</span>');

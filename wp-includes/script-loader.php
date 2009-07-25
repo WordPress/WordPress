@@ -116,6 +116,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'scriptaculous-controls', '/wp-includes/js/scriptaculous/controls.js', array('scriptaculous-root'), '1.8.0');
 	$scripts->add( 'scriptaculous', '', array('scriptaculous-dragdrop', 'scriptaculous-slider', 'scriptaculous-controls'), '1.8.0');
 
+	// not used in core, replaced by Jcrop.js
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
 	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.3.2');
@@ -144,12 +145,14 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-dialog', '/wp-includes/js/jquery/ui.dialog.js', array('jquery-ui-resizable', 'jquery-ui-draggable'), '1.7.1' );
 	$scripts->add_data( 'jquery-ui-dialog', 'group', 1 );
 
+	// deprecated, not used in core, most functionality is included in jQuery 1.3
 	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array('jquery'), '2.02m');
 	$scripts->add_data( 'jquery-form', 'group', 1 );
 
 	$scripts->add( 'jquery-color', "/wp-includes/js/jquery/jquery.color$suffix.js", array('jquery'), '2.0-4561m');
 	$scripts->add_data( 'jquery-color', 'group', 1 );
 
+	// deprecated, not used in core
 	$scripts->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
 
 	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array('jquery'), '1.1-20090125');
@@ -357,7 +360,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20090319' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery-form', 'suggest' ), '20090125' );
+		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20090725' );
 		$scripts->add_data( 'inline-edit-post', 'group', 1 );
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),

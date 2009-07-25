@@ -753,7 +753,14 @@ function wp_manage_posts_columns() {
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
-	if ( !isset($_GET['post_status']) || !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
+
+	$post_status = 'all';
+	if ( isset($_GET['post_status']) )
+		$post_status = $_GET['post_status'];
+	elseif ( isset($_POST['_status']) )
+		$post_status = $_POST['_status'];
+
+	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
@@ -800,10 +807,14 @@ function wp_manage_pages_columns() {
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['title'] = __('Title');
 	$posts_columns['author'] = __('Author');
+
 	$post_status = 'all';
-	if ( !empty($_GET['post_status']) )
+	if ( isset($_GET['post_status']) )
 		$post_status = $_GET['post_status'];
-	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
+	elseif ( isset($_POST['_status']) )
+		$post_status = $_POST['_status'];
+
+	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');
 	$posts_columns = apply_filters('manage_pages_columns', $posts_columns);
@@ -1362,7 +1373,7 @@ function post_rows( $posts = array() ) {
  * @param unknown_type $mode
  */
 function _post_row($a_post, $pending_comments, $mode) {
-	global $post;
+	global $post, $current_user;
 	static $rowclass;
 
 	$global_post = $post;
@@ -1370,7 +1381,6 @@ function _post_row($a_post, $pending_comments, $mode) {
 	setup_postdata($post);
 
 	$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
-	global $current_user;
 	$post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
 	$edit_link = get_edit_post_link( $post->ID );
 	$title = _draft_or_post_title();
