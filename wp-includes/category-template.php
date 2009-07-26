@@ -573,8 +573,9 @@ function default_topic_count_text( $count ) {
  * 'format' argument will format the tags in a UL HTML list. The array value for
  * the 'format' argument will return in PHP array type format.
  *
- * The 'tag_cloud_sort' filter allows you to override the sorting done
- * by the 'orderby' argument; passed to the filter: $tags array and $args array.
+ * The 'tag_cloud_sort' filter allows you to override the sorting.
+ * Passed to the filter: $tags array and $args array, has to return the $tags array
+ * after sorting it.
  *
  * The 'orderby' argument will accept 'name' or 'count' and defaults to 'name'.
  * The 'order' is the direction to sort, defaults to 'ASC' and can be 'DESC' or
@@ -604,37 +605,34 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
 		$body = 'return sprintf (
-			_n('.var_export($args['single_text'], true).', '.var_export($args['multiple_text'], true).', $count),
+			_n(' . var_export($args['single_text'], true) . ', ' . var_export($args['multiple_text'], true) . ', $count),
 			number_format_i18n( $count ));';
 		$args['topic_count_text_callback'] = create_function('$count', $body);
 	}
 
 	$args = wp_parse_args( $args, $defaults );
-
 	extract( $args );
 
 	if ( empty( $tags ) )
 		return;
 
-	// SQL cannot save you; this is a second (potentially different) sort on a subset of data.
-	if ( 'name' == $orderby )
-		uasort( $tags, create_function('$a, $b', 'return strnatcasecmp($a->name, $b->name);') );
-	else
-		uasort( $tags, create_function('$a, $b', 'return ($a->count > $b->count);') );
+	$tags_sorted = apply_filters( 'tag_cloud_sort', $tags, $args );
+	if ( $tags_sorted != $tags  ) { // the tags have been sorted by a plugin
+		$tags = $tags_sorted;
+		unset($tags_sorted);
+	} else {
+		if ( 'RAND' == $order ) {
+			shuffle($tags);
+		} else {
+			// SQL cannot save you; this is a second (potentially different) sort on a subset of data.
+			if ( 'name' == $orderby )
+				uasort( $tags, create_function('$a, $b', 'return strnatcasecmp($a->name, $b->name);') );
+			else
+				uasort( $tags, create_function('$a, $b', 'return ($a->count > $b->count);') );
 
-        $tags = apply_filters( 'tag_cloud_sort', $tags, $args );
-
-	if ( 'DESC' == $order )
-		$tags = array_reverse( $tags, true );
-	elseif ( 'RAND' == $order ) {
-		$keys = (array) array_rand( $tags, count( $tags ) );
-		$temp = array();
-		foreach ( $keys as $key )
-			$temp[$key] = $tags[$key];
-
-		$tags = $temp;
-		$temp = null;
-		unset( $temp );
+			if ( 'DESC' == $order )
+				$tags = array_reverse( $tags, true );
+		}
 	}
 
 	if ( $number > 0 )
