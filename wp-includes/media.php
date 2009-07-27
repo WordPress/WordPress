@@ -330,15 +330,19 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false
  * @param int $jpeg_quality Optional, default is 90. Image quality percentage.
  * @return mixed WP_Error on failure. String with new destination path. Array of dimensions from {@link image_resize_dimensions()}
  */
-function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_path=null, $jpeg_quality=90) {
+function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {
 
 	$image = wp_load_image( $file );
 	if ( !is_resource( $image ) )
 		return new WP_Error('error_loading_image', $image);
 
-	list($orig_w, $orig_h, $orig_type) = getimagesize( $file );
+	$size = @getimagesize( $file );
+	if ( !$size )
+		return new WP_Error('invalid_image', __('Could not read image size'), $file);
+	list($orig_w, $orig_h, $orig_type) = $size;
+
 	$dims = image_resize_dimensions($orig_w, $orig_h, $max_w, $max_h, $crop);
-	if (!$dims)
+	if ( !$dims )
 		return $dims;
 	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
 
@@ -371,18 +375,35 @@ function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_p
 		$dir = $_dest_path;
 	$destfilename = "{$dir}/{$name}-{$suffix}.{$ext}";
 
-	if ( $orig_type == IMAGETYPE_GIF ) {
-		if (!imagegif( $newimage, $destfilename ) )
+	if ( IMAGETYPE_GIF == $orig_type ) {
+		if ( !imagegif( $newimage, $destfilename ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
-	}
-	elseif ( $orig_type == IMAGETYPE_PNG ) {
+	} elseif ( IMAGETYPE_PNG == $orig_type ) {
 		if (!imagepng( $newimage, $destfilename ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
-	}
-	else {
+	} else {
+		$rotated = false;
+		if ( IMAGETYPE_JPEG == $orig_type ) {
+			// rotate if EXIF 'Orientation' is set
+			$exif = exif_read_data($file, null, true);
+			if ( $exif && isset($exif['IFD0']) && is_array($exif['IFD0']) && isset($exif['IFD0']['Orientation']) ) {
+				if ( 6 == $exif['IFD0']['Orientation'] )
+					$rotated = rotate_image($newimage, 90);
+				elseif ( 8 == $exif['IFD0']['Orientation'] )
+					$rotated = rotate_image($newimage, 270);
+			}
+		}
+
 		// all other formats are converted to jpg
 		$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
-		if (!imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) )
+		if ( $rotated ) {
+			$return = imagejpeg( $rotated, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) );
+			imagedestroy($rotated);
+		} else {
+			$return = imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) );
+		}
+
+		if ( !$return )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	}
 
@@ -797,4 +818,100 @@ function get_attachment_taxonomies($attachment) {
 	return array_unique($taxonomies);
 }
 
-?>
+/**
+ * Rotate an image.
+ *
+ * @since 2.9.0
+ *
+ * @param resource $src_img GD image handle of source image.
+ * @param $angle int clockwise angle of rotation, only 90, 180 and 270 are supported.
+ * @param $keep_transparency bool preserve transparency.
+ * @return mixed GD image handle of rotated image or false on error.
+ */
+function rotate_image( $src_img, $angle, $keep_transparency = false ) {
+
+	if ( function_exists('imagerotate') )
+		return imagerotate($src_img, 360 - $angle, 0); // imagerotate() rotates CCW
+
+	if ( 180 == $angle )
+		return flip_image( $src_img, 'both', $keep_transparency );
+
+	$width = imagesx( $src_img );
+    $height = imagesy( $src_img );
+
+    $dest_img = imagecreatetruecolor( $height, $width );
+    if ( $keep_transparency ) {
+		imagealphablending($dest_img, false);
+		imagesavealpha($dest_img, true);
+	}
+
+	if ( 90 == $angle ) {
+		for( $x = 0; $x < $width; $x++ ) {
+			for( $y = 0; $y < $height; $y++ ) {
+				if ( !imagecopy($dest_img, $src_img, $height - $y - 1, $x, $x, $y, 1, 1) )
+					return false;
+			}
+		}
+	} elseif ( 270 == $angle ) {
+		for( $x = 0; $x < $width; $x++ ) {
+			for( $y = 0; $y < $height; $y++ ) {
+				if ( !imagecopy($dest_img, $src_img, $y, $width - $x - 1, $x, $y, 1, 1) )
+					return false;
+			}
+		}
+	} else {
+		return false;
+	}
+
+	return $dest_img;
+}
+
+/**
+ * Flip an image.
+ *
+ * @since 2.9.0
+ *
+ * @param resource $src_img GD image handle of source image.
+ * @param $mode string 'horizontal', 'vertical' or 'both'.
+ * @param $keep_transparency bool preserve transparency.
+ * @return mixed GD image handle of flipped image or false on error.
+ */
+function flip_image( $src_img, $mode, $keep_transparency = false ) {
+
+	$width = $src_width = imagesx( $src_img );
+	$height = $src_height = imagesy( $src_img );
+	$src_x = $src_y = 0;
+
+	switch ( $mode ) {
+		case 'vertical':
+			$src_y = $height -1;
+			$src_height = -$height;
+			break;
+		case 'horizontal':
+			$src_x = $width -1;
+			$src_width = -$width;
+			break;
+		case 'both':
+			if ( function_exists('imagerotate') )
+				return imagerotate($src_img, 180, 0);
+
+			$src_x = $width -1;
+			$src_y = $height -1;
+			$src_width = -$width;
+			$src_height = -$height;
+			break;
+		default:
+			return false;
+	}
+
+	$dest_img = imagecreatetruecolor( $width, $height );
+	if ( $keep_transparency ) {
+		imagealphablending($dest_img, false);
+		imagesavealpha($dest_img, true);
+	}
+
+	if ( imagecopyresampled( $dest_img, $src_img, 0, 0, $src_x, $src_y , $width, $height, $src_width, $src_height ) )
+		return $dest_img;
+
+	return false;
+}
