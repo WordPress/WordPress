@@ -1981,13 +1981,13 @@ function user_row( $user_object, $style = '', $role = '' ) {
  *
  * @since unknown
  *
- * @param unknown_type $status
- * @param unknown_type $s
- * @param unknown_type $start
- * @param unknown_type $num
- * @param unknown_type $post
- * @param unknown_type $type
- * @return unknown
+ * @param string $status Comment status (approved, spam, deleted, etc)
+ * @param string $s Term to search for
+ * @param int $start Offset to start at for pagination
+ * @param int $num Maximum number of comments to return
+ * @param int $post Post ID or 0 to return all comments
+ * @param string $type Comment type (comment, trackback, pingback, etc)
+ * @return array [0] contains the comments and [1] contains the total number of comments that match (ignoring $start and $num)
  */
 function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0, $type = '' ) {
 	global $wpdb;
@@ -2027,12 +2027,10 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 
 	if ( 'comment' == $type )
 		$typesql = "AND comment_type = ''";
-	elseif ( 'pingback' == $type )
-		$typesql = "AND comment_type = 'pingback'";
-	elseif ( 'trackback' == $type )
-		$typesql = "AND comment_type = 'trackback'";
 	elseif ( 'pings' == $type )
 		$typesql = "AND ( comment_type = 'pingback' OR comment_type = 'trackback' )";
+	elseif ( !empty($type) )
+		$typesql = $wpdb->prepare("AND comment_type = %s", $type);
 	else
 		$typesql = '';
 
@@ -2122,7 +2120,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				echo '<div id="submitted-on">';
 				printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), get_comment_link($comment->comment_ID), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
 				echo '</div>';
-				comment_text(); 
+				comment_text();
 				if ( $user_can ) { ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 				<textarea class="comment" rows="1" cols="1"><?php echo htmlspecialchars($comment->comment_content, ENT_QUOTES); ?></textarea>
