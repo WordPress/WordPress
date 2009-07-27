@@ -121,7 +121,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 	}
 
-	return apply_filters( 'wp_generate_attachment_metadata', $metadata );
+	return apply_filters( 'wp_generate_attachment_metadata', $metadata, $attachment_id );
 }
 
 /**
