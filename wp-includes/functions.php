@@ -3352,18 +3352,18 @@ function wp_scheduled_delete() {
 
 	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
 
-	foreach ( $trash_meta['comments'] as $id => $meta ) {
+	foreach ( (array) $trash_meta['comments'] as $id => $meta ) {
 		if ( $meta['time'] < $delete_timestamp ) {
 			wp_delete_comment($id);
 			unset($trash_meta['comments'][$id]);
 		}
 	}
-	foreach ( $trash_meta['posts'] as $id => $meta ) {
+	foreach ( (array) $trash_meta['posts'] as $id => $meta ) {
 		if ( $meta['time'] < $delete_timestamp ) {
 			wp_delete_post($id);
-			unset($to_delete['posts'][$id]);
+			unset($trash_meta['posts'][$id]);
 		}
 	}
 
-	update_option('wp_scheduled_delete', $to_delete);
+	update_option('wp_trash_meta', $trash_meta);
 }

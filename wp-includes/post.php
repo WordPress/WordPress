@@ -1249,7 +1249,7 @@ function wp_trash_post($postid = 0) {
 }
 
 /**
- * Removes a post or page from the Trash
+ * Restores a post or page from the Trash
  *
  * @since 2.9.0
  * @uses do_action() on 'untrash_post' before undeletion
@@ -1259,22 +1259,22 @@ function wp_trash_post($postid = 0) {
  * @return mixed False on failure
  */
 function wp_untrash_post($postid = 0) {
-	if (!$post = wp_get_single_post($postid, ARRAY_A))
+	if ( !$post = wp_get_single_post($postid, ARRAY_A) )
 		return $post;
 
 	do_action('untrash_post', $postid);
-	
+
 	$post['post_status'] = 'draft';
-	
+
 	$trash_meta = get_option('wp_trash_meta');
-	if (is_array($trash_meta) && isset($trash_meta['posts'][$postid])) {
+	if ( is_array($trash_meta) && isset($trash_meta['posts'][$postid]) ) {
 		$post['post_status'] = $trash_meta['posts'][$postid]['status'];
 		unset($trash_meta['posts'][$postid]);
 		update_option('wp_trash_meta', $trash_meta);
 	}
-	
+
 	wp_insert_post($post);
-	
+
 	do_action('untrashed_post', $postid);
 
 	return $post;
@@ -2662,7 +2662,7 @@ function wp_delete_attachment($postid) {
 
 	if ( 'attachment' != $post->post_type )
 		return false;
-	
+
 	if ( 'trash' != $post->post_status )
 		return wp_trash_post($postid);
 
