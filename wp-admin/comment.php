@@ -93,7 +93,7 @@ if ( 'spam' == $_GET['dt'] ) {
 
 <table width="100%">
 <tr>
-<td><input type='button' class="button" value='<?php esc_attr_e('No'); ?>' onclick="self.location='<?php echo admin_url('edit-comments.php'); ?>" /></td>
+<td><input type='button' class="button" value='<?php esc_attr_e('No'); ?>' onclick="self.location='<?php echo admin_url('edit-comments.php'); ?>'" /></td>
 <td class="textright"><input type='submit' class="button" value='<?php echo esc_attr($button); ?>' /></td>
 </tr>
 </table>
