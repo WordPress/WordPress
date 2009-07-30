@@ -768,8 +768,7 @@ function get_edit_comment_link( $comment_id = 0 ) {
 function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $comment, $post;
 
-	if ( $post->post_type == 'attachment' ) {
-	} elseif ( $post->post_type == 'page' ) {
+	if ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
 	} else {
