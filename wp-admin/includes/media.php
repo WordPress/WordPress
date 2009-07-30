@@ -1166,15 +1166,13 @@ function get_media_item( $attachment_id, $args = null ) {
 		'extra_rows' => array(),
 	);
 
-	$delete_href = wp_nonce_url("post.php?action=delete-post&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
+	$delete_href = wp_nonce_url("post.php?action=trash&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
 	if ( $send )
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
 	if ( $delete )
-		$delete = "<a href=\"#\" class=\"del-link\" onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __('Delete') . "</a>";
+		$delete = "<a href=\"$delete_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a>";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
-		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete
-		<div id=\"del_attachment_$attachment_id\" class=\"del-attachment\" style=\"display:none;\">" . sprintf(__("You are about to delete <strong>%s</strong>."), $filename) . " <a href=\"$delete_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Continue') . "</a>
-		<a href=\"#\" class=\"del-link\" onclick=\"this.parentNode.style.display='none';return false;\">" . __('Cancel') . "</a></div></td></tr>\n");
+		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete</td></tr>\n");
 
 	$hidden_fields = array();
 

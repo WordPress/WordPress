@@ -14,20 +14,20 @@ enqueue_comment_hotkeys_js();
 
 $post_id = isset($_REQUEST['p']) ? (int) $_REQUEST['p'] : 0;
 
-if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_REQUEST['destroy_all']) || isset($_REQUEST['destroy_all2']) ) {
+if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2']) ) {
 	check_admin_referer('bulk-comments');
 	
-	if ((isset($_REQUEST['destroy_all']) || isset($_REQUEST['destroy_all2'])) && !empty($_REQUEST['pagegen_timestamp'])) {
+	if ((isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2'])) && !empty($_REQUEST['pagegen_timestamp'])) {
 		$comment_status = $wpdb->escape($_REQUEST['comment_status']);
 		$delete_time = $wpdb->escape($_REQUEST['pagegen_timestamp']);
 		$comment_ids = $wpdb->get_col( "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = '$comment_status' AND '$delete_time' > comment_date_gmt" );
-		$doaction = 'destroy';
+		$doaction = 'delete';
 	} elseif (($_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1) && isset($_REQUEST['delete_comments'])) {
 		$comment_ids = $_REQUEST['delete_comments'];
 		$doaction = ($_REQUEST['action'] != -1) ? $_REQUEST['action'] : $_REQUEST['action2'];
 	} else wp_redirect($_SERVER['HTTP_REFERER']);
 	
-	$approved = $unapproved = $spammed = $deleted = $destroyed = 0;
+	$approved = $unapproved = $spammed = $trashed = $untrashed = $deleted = 0;
 	
 	foreach ($comment_ids as $comment_id) { // Check the permissions on each
 		$_post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id) );
@@ -48,18 +48,22 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 				wp_set_comment_status($comment_id, 'spam');
 				$spammed++;
 				break;
-			case 'delete' :
-				wp_set_comment_status($comment_id, 'delete');
-				$deleted++;
+			case 'trash' :
+				wp_trash_comment($comment_id);
+				$trashed++;
 				break;
-			case 'destroy' :
-				wp_set_comment_status($comment_id, 'delete');
-				$destroyed++;
+			case 'untrash' :
+				wp_untrash_comment($comment_id);
+				$untrashed++;
+				break;
+			case 'delete' :
+				wp_delete_comment($comment_id);
+				$deleted++;
 				break;
 		}
 	}
 
-	$redirect_to = 'edit-comments.php?approved=' . $approved . '&unapproved=' . $unapproved . '&spam=' . $spammed . '&deleted=' . $deleted . '&destroyed=' . $destroyed;
+	$redirect_to = 'edit-comments.php?approved=' . $approved . '&unapproved=' . $unapproved . '&spam=' . $spammed . '&trashed=' . $trashed . '&untrashed=' . $untrashed . '&deleted=' . $deleted;
 	if ( $post_id )
 		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
 	if ( isset($_REQUEST['apage']) )
@@ -86,7 +90,7 @@ require_once('admin-header.php');
 $mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : esc_attr($_GET['mode']);
 
 $comment_status = isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : 'all';
-if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam', 'deleted')) )
+if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam', 'trash')) )
 	$comment_status = 'all';
 
 $comment_type = !empty($_GET['comment_type']) ? esc_attr($_GET['comment_type']) : '';
@@ -102,13 +106,14 @@ if ( isset($_GET['s']) && $_GET['s'] )
 </h2>
 
 <?php
-if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['destroyed'] ) || isset( $_GET['spam'] ) ) {
-	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
-	$deleted = isset( $_GET['deleted'] ) ? (int) $_GET['deleted'] : 0;
-	$destroyed = isset( $_GET['destroyed'] ) ? (int) $_GET['destroyed'] : 0;
-	$spam = isset( $_GET['spam'] ) ? (int) $_GET['spam'] : 0;
+if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) || isset($_GET['spam']) ) {
+	$approved = isset($_GET['approved']) ? (int) $_GET['approved'] : 0;
+	$deleted = isset($_GET['deleted']) ? (int) $_GET['deleted'] : 0;
+	$trashed = isset($_GET['trashed']) ? (int) $_GET['trashed'] : 0;
+	$untrashed = isset($_GET['untrashed']) ? (int) $_GET['untrashed'] : 0;
+	$spam = isset($_GET['spam']) ? (int) $_GET['spam'] : 0;
 
-	if ( $approved > 0 || $deleted > 0 || $destroyed > 0 || $spam > 0 ) {
+	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spam > 0 ) {
 		echo '<div id="moderated" class="updated fade"><p>';
 
 		if ( $approved > 0 ) {
@@ -119,12 +124,16 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['de
 			printf( _n( '%s comment marked as spam', '%s comments marked as spam', $spam ), $spam );
 			echo '<br />';
 		}
-		if ( $deleted > 0 ) {
-			printf( _n( '%s comment deleted', '%s comments deleted', $deleted ), $deleted );
+		if ( $trashed > 0 ) {
+			printf( _n( '%s comment moved to the trash', '%s comments moved to the trash', $trashed ), $trashed );
 			echo '<br />';
 		}
-		if ( $destroyed > 0 ) {
-			printf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $destroyed ), $destroyed );
+		if ( $untrashed > 0 ) {
+			printf( _n( '%s comment removed from the trash', '%s comments removed from the trash', $untrashed ), $untrashed );
+			echo '<br />';
+		}
+		if ( $deleted > 0 ) {
+			printf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
 			echo '<br />';
 		}
 
@@ -145,7 +154,7 @@ $stati = array(
 		'moderated' => _n_noop('Pending <span class="count">(<span class="pending-count">%s</span>)</span>', 'Pending <span class="count">(<span class="pending-count">%s</span>)</span>'),
 		'approved' => _n_noop('Approved', 'Approved'), // singular not used
 		'spam' => _n_noop('Spam <span class="count">(<span class="spam-count">%s</span>)</span>', 'Spam <span class="count">(<span class="spam-count">%s</span>)</span>'),
-		'deleted' => _n_noop('Trash <span class="count">(<span class="deleted-count">%s</span>)</span>', 'Trash <span class="count">(<span class="deleted-count">%s</span>)</span>')
+		'trash' => _n_noop('Trash <span class="count">(<span class="trash-count">%s</span>)</span>', 'Trash <span class="count">(<span class="trash-count">%s</span>)</span>')
 	);
 $link = 'edit-comments.php';
 if ( !empty($comment_type) && 'all' != $comment_type )
@@ -256,13 +265,13 @@ $page_links = paginate_links( array(
 <?php if ( 'all' == $comment_status || 'approved' == $comment_status || 'moderated' == $comment_status ): ?>
 <option value="markspam"><?php _e('Mark as Spam'); ?></option>
 <?php endif; ?>
-<?php if ( 'deleted' == $comment_status ): ?>
-<option value="unapprove"><?php _e('Return to Pending'); ?></option>
+<?php if ( 'trash' == $comment_status ): ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
 <?php endif; ?>
-<?php if ( 'deleted' == $comment_status || 'spam' == $comment_status ): ?>
-<option value="destroy"><?php _e('Delete Permanently'); ?></option>
+<?php if ( 'trash' == $comment_status || 'spam' == $comment_status ): ?>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php else: ?>
-<option value="delete"><?php _e('Move to Trash'); ?></option>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
 <?php endif; ?>
 </select>
 <input type="submit" name="doaction" id="doaction" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
@@ -289,12 +298,12 @@ $page_links = paginate_links( array(
 	<input type="hidden" name="apage" value="<?php echo esc_attr( absint( $_GET['apage'] ) ); ?>" />
 <?php }
 
-if ( ( 'spam' == $comment_status || 'deleted' == $comment_status) && current_user_can ('moderate_comments') ) {
+if ( ( 'spam' == $comment_status || 'trash' == $comment_status) && current_user_can ('moderate_comments') ) {
 	wp_nonce_field('bulk-destroy', '_destroy_nonce');
     if ( 'spam' == $comment_status ) { ?>
-		<input type="submit" name="destroy_all" id="destroy_all" value="<?php esc_attr_e('Permanently Delete All'); ?>" class="button-secondary apply" />
-<?php } elseif ( 'deleted' == $comment_status ) { ?>
-		<input type="submit" name="destroy_all" id="destroy_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-primary apply" />
+		<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Spam'); ?>" class="button-secondary apply" />
+<?php } elseif ( 'trash' == $comment_status ) { ?>
+		<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php }
 } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
@@ -352,21 +361,21 @@ if ( $page_links )
 <?php if ( 'all' == $comment_status || 'approved' == $comment_status || 'moderated' == $comment_status ): ?>
 <option value="markspam"><?php _e('Mark as Spam'); ?></option>
 <?php endif; ?>
-<?php if ( 'deleted' == $comment_status ): ?>
-<option value="unapprove"><?php _e('Return to Pending'); ?></option>
+<?php if ( 'trash' == $comment_status ): ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
 <?php endif; ?>
-<?php if ( 'deleted' == $comment_status || 'spam' == $comment_status ): ?>
-<option value="destroy"><?php _e('Delete Permanently'); ?></option>
+<?php if ( 'trash' == $comment_status || 'spam' == $comment_status ): ?>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php else: ?>
-<option value="delete"><?php _e('Move to Trash'); ?></option>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
 <?php endif; ?>
 </select>
 <input type="submit" name="doaction2" id="doaction2" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
 
 <?php if ( 'spam' == $comment_status ) { ?>
-<input type="submit" name="destroy_all2" id="destroy_all2" value="<?php esc_attr_e('Empty Quarantine'); ?>" class="button-secondary apply" />
-<?php } elseif ( 'deleted' == $comment_status ) { ?>
-<input type="submit" name="destroy_all2" id="destroy_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
+<input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Spam'); ?>" class="button-secondary apply" />
+<?php } elseif ( 'trash' == $comment_status ) { ?>
+<input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
 </div>

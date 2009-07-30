@@ -116,6 +116,7 @@ case 'edit':
 	$post = get_post($post_ID);
 
 	if ( empty($post->ID) ) wp_die( __('You attempted to edit a post that doesn&#8217;t exist. Perhaps it was deleted?') );
+	if ( $post->post_status == 'trash' ) wp_die( __('You can&#8217;t edit this post because it is in the Trash. Please move it out of the Trash and try again.') );
 
 	if ( 'post' != $post->post_type ) {
 		wp_redirect( get_edit_post_link( $post->ID, 'url' ) );
@@ -178,6 +179,46 @@ case 'editpost':
 
 	redirect_post($post_ID); // Send user on their way while we keep working
 
+	exit();
+	break;
+
+case 'trash':
+	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('trash-post_' . $post_id);
+
+	$post = & get_post($post_id);
+
+	if ( !current_user_can('delete_post', $post_id) )
+		wp_die( __('You are not allowed to move this post to the trash.') );
+
+	if ( ! wp_trash_post($post_id) )
+		wp_die( __('Error in moving to trash...') );
+
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('edit.php?trashed=1');
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	else $sendback = add_query_arg('trashed', 1, $sendback);
+	wp_redirect($sendback);
+	exit();
+	break;
+
+case 'untrash':
+	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('untrash-post_' . $post_id);
+
+	$post = & get_post($post_id);
+
+	if ( !current_user_can('delete_post', $post_id) )
+		wp_die( __('You are not allowed to remove this post from the trash.') );
+
+	if ( ! wp_untrash_post($post_id) )
+		wp_die( __('Error in removing from trash...') );
+
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('edit.php?untrashed=1');
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	else $sendback = add_query_arg('untrashed', 1, $sendback);
+	wp_redirect($sendback);
 	exit();
 	break;
 

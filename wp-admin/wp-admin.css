@@ -409,7 +409,8 @@ a.button-secondary {
 }
 
 #doaction,
-#doaction2 {
+#doaction2,
+#post-query-submit {
 	margin-right: 8px;
 }
 
@@ -444,7 +445,9 @@ a.button-secondary {
 	display: none;
 }
 
-.unapproved .approve, .spam .approve, .deleted .approve {
+.unapproved .approve,
+.spam .approve,
+.trash .approve {
 	display: inline;
 }
 

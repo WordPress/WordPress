@@ -83,6 +83,7 @@ case 'edit':
 	$post = get_post_to_edit($page_ID);
 
 	if ( empty($post->ID) ) wp_die( __('You attempted to edit a page that doesn&#8217;t exist. Perhaps it was deleted?') );
+	if ( $post->post_status == 'trash' ) wp_die( __('You can&#8217;t edit this page because it is in the Trash. Please move it out of the Trash and try again.') );
 
 	if ( 'page' != $post->post_type ) {
 		wp_redirect( get_edit_post_link( $post_ID, 'url' ) );
@@ -137,6 +138,46 @@ case 'editpost':
 
 	redirect_page($page_ID);
 
+	exit();
+	break;
+
+case 'trash':
+	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('trash-page_' . $post_id);
+
+	$post = & get_post($post_id);
+
+	if ( !current_user_can('delete_page', $page_id) )
+		wp_die( __('You are not allowed to move this page to the trash.') );
+
+	if ( !wp_trash_post($post_id) )
+		wp_die( __('Error in removing from trash...') );
+
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('edit-pages.php?trashed=1');
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	else $sendback = add_query_arg('trashed', 1, $sendback);
+	wp_redirect($sendback);
+	exit();
+	break;
+
+case 'untrash':
+	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('untrash-page_' . $post_id);
+
+	$post = & get_post($post_id);
+
+	if ( !current_user_can('delete_page', $page_id) )
+		wp_die( __('You are not allowed to remove this page form the trash.') );
+
+	if ( !wp_untrash_post($post_id) )
+		wp_die( __('Error in removing from trash...') );
+
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('edit-pages.php?untrashed=1');
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	else $sendback = add_query_arg('untrashed', 1, $sendback);
+	wp_redirect($sendback);
 	exit();
 	break;
 

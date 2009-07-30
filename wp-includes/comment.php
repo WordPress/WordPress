@@ -208,8 +208,8 @@ function get_comments( $args = '' ) {
 		$approved = "comment_approved = '1'";
 	elseif ( 'spam' == $status )
 		$approved = "comment_approved = 'spam'";
-	elseif ( 'deleted' == $status )
-		$approved = "comment_approved = 'deleted'";
+	elseif ( 'trash' == $status )
+		$approved = "comment_approved = 'trash'";
 	else
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
 
@@ -694,14 +694,15 @@ function wp_count_comments( $post_id = 0 ) {
 	if ( false !== $count )
 		return $count;
 
-	$where = '';
+	$where = 'WHERE ';
 	if( $post_id > 0 )
-		$where = $wpdb->prepare( "WHERE comment_post_ID = %d", $post_id );
+		$where .= $wpdb->prepare( "c.comment_post_ID = %d AND ", $post_id );
+	$where .= "p.post_status <> 'trash'";
 
-	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
+	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} c LEFT JOIN {$wpdb->posts} p ON c.comment_post_ID = p.ID {$where} GROUP BY comment_approved", ARRAY_A );
 
 	$total = 0;
-	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'deleted' => 'deleted');
+	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'trash' => 'trash');
 	$known_types = array_keys( $approved );
 	foreach( (array) $count as $row_num => $row ) {
 		$total += $row['num_comments'];
@@ -737,15 +738,20 @@ function wp_count_comments( $post_id = 0 ) {
  * @return bool False if delete comment query failure, true on success.
  */
 function wp_delete_comment($comment_id) {
-	if (wp_get_comment_status($comment_id) != 'deleted' && wp_get_comment_status($comment_id) != 'spam')
-		return wp_set_comment_status($comment_id, 'delete');
-	
 	global $wpdb;
+	if (!$comment = get_comment($comment_id))
+		return false;
+
+	if (wp_get_comment_status($comment_id) != 'trash' && wp_get_comment_status($comment_id) != 'spam' && EMPTY_TRASH_DAYS > 0)
+		return wp_trash_comment($comment_id);
+	
 	do_action('delete_comment', $comment_id);
 	
-	wp_unschedule_comment_delete($comment_id);
-
-	$comment = get_comment($comment_id);
+	$trash_meta = get_option('wp_trash_meta');
+	if (is_array($trash_meta) && isset($trash_meta['comments'][$comment_id])) {
+		unset($trash_meta['comments'][$comment_id]);
+		update_option('wp_trash_meta', $trash_meta);
+	}
 
 	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
 		return false;
@@ -769,12 +775,72 @@ function wp_delete_comment($comment_id) {
 }
 
 /**
+ * Moves a comment to the Trash
+ *
+ * @since 2.9.0
+ * @uses do_action() on 'trash_comment' before trashing
+ * @uses do_action() on 'trashed_comment' after trashing
+ *
+ * @param int $comment_id Comment ID.
+ * @return mixed False on failure
+ */
+function wp_trash_comment($comment_id = 0) {
+	if (EMPTY_TRASH_DAYS == 0)
+		return wp_delete_comment($comment_id);
+
+	if (!$comment = get_comment($comment_id))
+		return false;
+
+	do_action('trash_comment', $comment_id);
+
+	$trash_meta = get_option('wp_trash_meta', array());
+	$trash_meta['comments'][$comment_id]['status'] = $comment->comment_approved;
+	$trash_meta['comments'][$comment_id]['time'] = time();
+	update_option('wp_trash_meta', $trash_meta);
+
+	wp_set_comment_status($comment_id, 'trash');
+
+	do_action('trashed_comment', $comment_id);
+
+	return true;
+}
+
+/**
+ * Removes a comment from the Trash
+ *
+ * @since 2.9.0
+ * @uses do_action() on 'untrash_comment' before undeletion
+ * @uses do_action() on 'untrashed_comment' after undeletion
+ *
+ * @param int $comment_id Comment ID.
+ * @return mixed False on failure
+ */
+function wp_untrash_comment($comment_id = 0) {
+	do_action('untrash_comment', $comment_id);
+
+	$comment = array('comment_ID'=>$comment_id, 'comment_approved'=>'0');
+
+	$trash_meta = get_option('wp_trash_meta');
+	if (is_array($trash_meta) && isset($trash_meta['comments'][$comment_id])) {
+		$comment['comment_approved'] = $trash_meta['comments'][$comment_id]['status'];
+		unset($trash_meta['comments'][$comment_id]);
+		update_option('wp_trash_meta', $trash_meta);
+	}
+
+	wp_update_comment($comment);
+
+	do_action('untrashed_comment', $comment_id);
+
+	return true;
+}
+
+/**
  * The status of a comment by ID.
  *
  * @since 1.0.0
  *
  * @param int $comment_id Comment ID
- * @return string|bool Status might be 'deleted', 'approved', 'unapproved', 'spam'. False on failure.
+ * @return string|bool Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
  */
 function wp_get_comment_status($comment_id) {
 	$comment = get_comment($comment_id);
@@ -784,15 +850,15 @@ function wp_get_comment_status($comment_id) {
 	$approved = $comment->comment_approved;
 
 	if ( $approved == NULL )
-		return 'deleted';
+		return false;
 	elseif ( $approved == '1' )
 		return 'approved';
 	elseif ( $approved == '0' )
 		return 'unapproved';
 	elseif ( $approved == 'spam' )
 		return 'spam';
-	elseif ( $approved == 'deleted' )
-		return 'deleted';
+	elseif ( $approved == 'trash' )
+		return 'trash';
 	else
 		return false;
 }
@@ -1037,8 +1103,7 @@ function wp_new_comment( $commentdata ) {
  */
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
-	wp_unschedule_comment_delete($comment_id);
-	
+		
 	$status = '0';
 	switch ( $comment_status ) {
 		case 'hold':
@@ -1054,11 +1119,8 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 		case 'spam':
 			$status = 'spam';
 			break;
-		case 'delete':
-			if (wp_get_comment_status($comment_id) == 'deleted' || wp_get_comment_status($comment_id) == 'spam')
-				return wp_delete_comment($comment_id);
-			$status = 'deleted';
-			wp_schedule_comment_delete($comment_id);
+		case 'trash':
+			$status = 'trash';
 			break;
 		default:
 			return false;
@@ -1081,42 +1143,6 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 	wp_update_comment_count($comment->comment_post_ID);
 
 	return true;
-}
-
-/**
- * Schedules a comment for destruction in 30 days.
- * 
- * @since 2.9.0
- * 
- * @param int $comment_id Comment ID.
- * @return void
- */
-function wp_schedule_comment_delete($comment_id) {
-	$to_delete = get_option('wp_scheduled_delete');
-	if ( !is_array($to_delete) )
-		$to_delete = array();
-	
-	$to_delete['comments'][$comment_id] = time();
-	
-	update_option('wp_scheduled_delete', $to_delete);
-}
-
-/**
- * Unschedules a comment for destruction.
- * 
- * @since 2.9.0
- * 
- * @param int $comment_id Comment ID.
- * @return void
- */
-function wp_unschedule_comment_delete($comment_id) {
-	$to_delete = get_option('wp_scheduled_delete');
-	if ( !is_array($to_delete) )
-		return;
-	
-	unset($to_delete['comments'][$comment_id]);
-	
-	update_option('wp_scheduled_delete', $to_delete);
 }
 
 /**

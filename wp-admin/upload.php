@@ -67,33 +67,60 @@ if ( isset($_GET['find_detached'] ) ) {
 		exit;
 	}
 
-} elseif ( isset($_GET['action']) && isset($_GET['media']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
+} elseif ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 	check_admin_referer('bulk-media');
-	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
-
-	if ( 'delete' == $doaction ) {
-		foreach( (array) $_GET['media'] as $post_id_del ) {
-			$post_del = & get_post($post_id_del);
-
-			if ( !current_user_can('delete_post', $post_id_del) )
-				wp_die( __('You are not allowed to delete this post.') );
-
-			if ( $post_del->post_type == 'attachment' )
-				if ( ! wp_delete_attachment($post_id_del) )
-					wp_die( __('Error in deleting...') );
-		}
-
-		$location = 'upload.php';
-		if ( $referer = wp_get_referer() ) {
-			if ( false !== strpos($referer, 'upload.php') )
-				$location = $referer;
-		}
-
-		$location = add_query_arg('message', 2, $location);
-		$location = remove_query_arg('posted', $location);
-		wp_redirect($location);
-		exit;
+	
+	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
+		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
+		$doaction = 'delete';
+	} elseif ( ($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['media']) ) {
+		$post_ids = $_GET['media'];
+		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
+	} else
+		wp_redirect($_SERVER['HTTP_REFERER']);
+	
+	$location = 'upload.php';
+	if ( $referer = wp_get_referer() ) {
+		if ( false !== strpos($referer, 'upload.php') )
+			$location = $referer;
 	}
+
+	switch ( $doaction ) {
+		case 'trash':
+			foreach( (array) $post_ids as $post_id ) {
+				if ( !current_user_can('delete_post', $post_id) )
+					wp_die( __('You are not allowed to move this post to the trash.') );
+				
+				if ( !wp_trash_post($post_id) )
+					wp_die( __('Error in moving to trash...') );
+			}
+			$location = add_query_arg('message', 4, $location);
+			break;
+		case 'untrash':
+			foreach( (array) $post_ids as $post_id ) {
+				if ( !current_user_can('delete_post', $post_id) )
+					wp_die( __('You are not allowed to remove this post from the trash.') );
+				
+				if ( !wp_untrash_post($post_id) )
+					wp_die( __('Error in restoring from trash...') );
+			}
+			$location = add_query_arg('message', 5, $location);
+			break;
+		case 'delete':
+			foreach( (array) $post_ids as $post_id_del ) {
+				if ( !current_user_can('delete_post', $post_id_del) )
+					wp_die( __('You are not allowed to delete this post.') );
+	
+				if ( !wp_delete_attachment($post_id_del) )
+					wp_die( __('Error in deleting...') );
+			}
+			$location = add_query_arg('message', 2, $location);
+			break;
+	}
+
+	$location = remove_query_arg('posted', $location);
+	wp_redirect($location);
+	exit;
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
@@ -115,7 +142,7 @@ if ( isset($_GET['detached']) ) {
 		$orphans = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE post_type = 'attachment' AND ID IN ($lost) LIMIT $start, 50" );
 	} else {
 		$start = ( $_GET['paged'] - 1 ) * 25;
-		$orphans = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent < 1 LIMIT $start, 25" );
+		$orphans = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1 LIMIT $start, 25" );
 		$page_links_total = ceil($wpdb->get_var( "SELECT FOUND_ROWS()" ) / 25);
 	}
 
@@ -135,6 +162,8 @@ if ( isset($_GET['detached']) ) {
 	list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 }
 
+$is_trash = ( isset($_GET['status']) && $_GET['status'] == 'trash' );
+
 wp_enqueue_script('media');
 require_once('admin-header.php'); ?>
 
@@ -153,6 +182,8 @@ if ( isset($_GET['attached']) && (int) $_GET['attached'] ) {
 $messages[1] = __('Media attachment updated.');
 $messages[2] = __('Media deleted.');
 $messages[3] = __('Error saving media attachment.');
+$messages[4] = __('Media moved to Trash.');
+$messages[5] = __('Media removed from Trash.');
 
 if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 	$message = $messages[$_GET['message']];
@@ -180,13 +211,13 @@ if ( isset($message) ) { ?>
 <?php
 $type_links = array();
 $_num_posts = (array) wp_count_attachments();
-$_total_posts = array_sum( $_num_posts );
+$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 foreach ( $matches as $type => $reals )
 	foreach ( $reals as $real )
 		$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
-$class = empty($_GET['post_mime_type']) && ! isset($_GET['detached']) ? ' class="current"' : '';
+$class = ( empty($_GET['post_mime_type']) && !isset($_GET['detached']) && !isset($_GET['status']) ) ? ' class="current"' : '';
 $type_links[] = "<li><a href='upload.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</a>';
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
@@ -199,8 +230,8 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 
 	$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
 }
-$class = isset($_GET['detached']) ? ' class="current"' : '';
-$type_links[] = '<li><a href="upload.php?detached=1"' . $class . '>' . __('Unattached') . '</a>';
+$type_links[] = '<li><a href="upload.php?detached=1"' . ( isset($_GET['detached']) ? ' class="current"' : '' ) . '>' . __('Unattached') . '</a>';
+$type_links[] = '<li><a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
 
 echo implode( " |</li>\n", $type_links) . '</li>';
 unset($type_links);
@@ -242,8 +273,12 @@ if ( $page_links ) : ?>
 <div class="alignleft actions">
 <select name="action" class="select-action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-<?php if ( isset($orphans) ) { ?>
+<?php if ( $is_trash ) { ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
+<?php } if ( isset($orphans) ) { ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
@@ -251,7 +286,7 @@ if ( $page_links ) : ?>
 <?php wp_nonce_field('bulk-media'); ?>
 
 <?php
-if ( ! is_singular() && ! isset($_GET['detached']) ) {
+if ( !is_singular() && !isset($_GET['detached']) && !$is_trash ) {
 	$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'attachment' ORDER BY post_date DESC";
 
 	$arc_result = $wpdb->get_results( $arc_query );
@@ -286,6 +321,8 @@ foreach ($arc_result as $arc_row) {
 
 <?php if ( isset($_GET['detached']) ) { ?>
 	<input type="submit" id="find_detached" name="find_detached" value="<?php esc_attr_e('Scan for lost attachments'); ?>" class="button-secondary" />
+<?php } elseif ( isset($_GET['status']) && $_GET['status'] == 'trash' ) { ?>
+	<input type="submit" id="delete_all" name="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 
 </div>
@@ -341,7 +378,7 @@ foreach ($arc_result as $arc_row) {
 		if ( current_user_can('edit_post', $post->ID) )
 			$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
 		if ( current_user_can('delete_post', $post->ID) )
-			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this attachment '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this attachment '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+			$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
 		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		if ( current_user_can('edit_post', $post->ID) )
 			$actions['attach'] = '<a href="#the-list" onclick="findPosts.open(\'media[]\',\''.$post->ID.'\');return false;">'.__('Attach').'</a>';
@@ -398,12 +435,20 @@ if ( $page_links )
 <div class="alignleft actions">
 <select name="action2" class="select-action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-<?php if ( isset($orphans) ) { ?>
+<?php if ($is_trash) { ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
+<?php } if (isset($orphans)) { ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+
+<?php if ( isset($_GET['status']) && $_GET['status'] == 'trash' ) { ?>
+	<input type="submit" id="delete_all2" name="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
+<?php } ?>
 </div>
 
 <br class="clear" />

@@ -2099,6 +2099,8 @@ class WP_Query {
 				$p_status[] = "$wpdb->posts.post_status = 'private'";
 			if ( in_array( 'publish', $q_status ) )
 				$r_status[] = "$wpdb->posts.post_status = 'publish'";
+			if ( in_array( 'trash', $q_status ) )
+				$r_status[] = "$wpdb->posts.post_status = 'trash'";
 
 			if ( empty($q['perm'] ) || 'readable' != $q['perm'] ) {
 				$r_status = array_merge($r_status, $p_status);

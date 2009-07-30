@@ -60,7 +60,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20090720' );
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20090730' );
 	$scripts->add_data( 'common', 'group', 1 );
 	$scripts->localize( 'common', 'commonL10n', array(
 		'warnDelete' => __("You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."),
@@ -204,7 +204,7 @@ function wp_default_scripts( &$scripts ) {
 			'upload_stopped' => __('Upload stopped.'),
 			'dismiss' => __('Dismiss'),
 			'crunching' => __('Crunching&hellip;'),
-			'deleted' => __('Deleted'),
+			'deleted' => __('Moved to Trash'),
 			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
 	) );
 
@@ -248,7 +248,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20090514' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20090720' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20090730' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),

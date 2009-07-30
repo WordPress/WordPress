@@ -3339,28 +3339,29 @@ function _cleanup_header_comment($str) {
 }
 
 /**
- * Permanently deletes comments that have been scheduled for deleting.
- * Will do the same for posts, pages, etc in the future.
+ * Permanently deletes posts, pages, attachments, and comments which have been in the trash for EMPTY_TRASH_DAYS.
  * 
- * @access private
  * @since 2.9.0
  *
  * @return void
  */
 function wp_scheduled_delete() {
-	$to_delete = get_option('wp_scheduled_delete');
-	if (!is_array($to_delete))
+	$trash_meta = get_option('wp_trash_meta');
+	if ( !is_array($trash_meta) )
 		return;
 
-	if ( !isset($to_delete['comments']) || !is_array($to_delete['comments']) )
-		$to_delete['comments'] = array();
+	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
 
-	$delete_delay = defined('EMPTY_TRASH_TIMEOUT') ? (int) EMPTY_TRASH_TIMEOUT : (60*60*24*30);
-	$deletetimestamp = time() - $delete_delay;
-	foreach ($to_delete['comments'] as $comment_id => $timestamp) {
-		if ($timestamp < $deletetimestamp) {
-			wp_delete_comment($comment_id);
-			unset($to_delete['comments'][$comment_id]);
+	foreach ( $trash_meta['comments'] as $id => $meta ) {
+		if ( $meta['time'] < $delete_timestamp ) {
+			wp_delete_comment($id);
+			unset($trash_meta['comments'][$id]);
+		}
+	}
+	foreach ( $trash_meta['posts'] as $id => $meta ) {
+		if ( $meta['time'] < $delete_timestamp ) {
+			wp_delete_post($id);
+			unset($to_delete['posts'][$id]);
 		}
 	}
 

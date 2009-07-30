@@ -28,12 +28,18 @@ add_filter('the_title','esc_html');
 $alt = '';
 $posts_columns = get_column_headers('upload');
 $hidden = get_hidden_columns('upload');
-while (have_posts()) : the_post();
+
+while ( have_posts() ) : the_post();
+
+if ( $is_trash && $post->post_status != 'trash' )
+	continue;
+elseif ( !$is_trash && $post->post_status == 'trash' )
+	continue;
+
 $alt = ( 'alternate' == $alt ) ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
 $att_title = _draft_or_post_title();
-
 ?>
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 
@@ -60,13 +66,15 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		?>
 		<td <?php echo $attributes ?>><?php
 			if ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) {
+				if ( $is_trash ) echo $thumb;
+				else {
 ?>
-
 				<a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>">
 					<?php echo $thumb; ?>
 				</a>
 
 <?php			}
+			}
 		?></td>
 		<?php
 		// TODO
@@ -74,16 +82,21 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 
 	case 'media':
 		?>
-		<td <?php echo $attributes ?>><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
+		<td <?php echo $attributes ?>><strong><?php if ( $is_trash ) echo $att_title; else { ?><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a><?php } ?></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<p>
 		<?php
 		$actions = array();
-		if ( current_user_can('edit_post', $post->ID) )
-			$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
-		if ( current_user_can('delete_post', $post->ID) )
-			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this attachment '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this attachment '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
-		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+		if ( $is_trash && current_user_can('delete_post', $post->ID) ) {
+			$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
+			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+		} else {
+			if ( current_user_can('edit_post', $post->ID) )
+				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
+			if ( current_user_can('delete_post', $post->ID) )
+				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
+			$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+		}
 		$action_count = count($actions);
 		$i = 0;
 		echo '<div class="row-actions">';

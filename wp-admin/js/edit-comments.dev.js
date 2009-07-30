@@ -38,9 +38,6 @@ setCommentsList = function() {
 		settings.data._page = pageInput.val();
 		settings.data._url = document.location.href;
 
-		if ( 'undefined' != showNotice && settings.data.action && settings.data.action == 'delete-comment' && settings.data.deleted)
-			return showNotice.warn() ? settings : false;
-
 		return settings;
 	};
 
@@ -101,17 +98,15 @@ setCommentsList = function() {
 			a.html(n);
 		});
 
-		$('span.deleted-count').each( function() {
+		$('span.trash-count').each( function() {
 			var a = $(this), n;
 			n = a.html().replace(/[ ,.]+/g, '');
 			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
-			if ( $(settings.target).parents( 'span.delete' ).size() && $('#' + settings.element).is('.deleted,.spam') ) { // we destroyed a deleted or spam comment
-				n--;
-			} else if ( $(settings.target).parents( 'span.delete' ).size() ) { // we deleted a comment
-				n++;
-			} else if ( $('#' + settings.element).is('.deleted') ) { // we approved or spammed a deleted comment
-				n--;
+			if ( $(settings.target).parents( 'span.trash' ).size() ) { // we trashed a comment
+				n = n + 1;
+			} else if ( $('#' + settings.element).is('.trash') ) { // we deleted or untrashed a trash comment
+				n = n - 1;
 			}
 			if ( n < 0 ) { n = 0; }
 			n = n.toString();

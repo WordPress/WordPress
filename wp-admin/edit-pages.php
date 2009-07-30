@@ -10,44 +10,70 @@
 require_once('admin.php');
 
 // Handle bulk actions
-if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
-	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
+if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
+	check_admin_referer('bulk-pages');
+	
+	if (isset($_GET['delete_all']) || isset($_GET['delete_all2'])) {
+		$post_status = $wpdb->escape($_GET['post_status']);
+		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = '$post_status'" );
+		$doaction = 'delete';
+	} elseif (($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['post'])) {
+		$post_ids = $_GET['post'];
+		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
+	} else wp_redirect($_SERVER['HTTP_REFERER']);
 
 	switch ( $doaction ) {
+		case 'trash':
+			$trashed = 0;
+			foreach( (array) $post_ids as $post_id ) {
+				if ( !current_user_can('delete_page', $post_id) )
+					wp_die( __('You are not allowed to move this page to the trash.') );
+
+				if ( !wp_trash_post($post_id) )
+					wp_die( __('Error in moving to trash...') );
+				
+				$trashed++;
+			}
+			break;
+		case 'untrash':
+			$untrashed = 0;
+			foreach( (array) $post_ids as $post_id ) {
+				if ( !current_user_can('delete_page', $post_id) )
+					wp_die( __('You are not allowed to remove this page from the trash.') );
+
+				if ( !wp_untrash_post($post_id) )
+					wp_die( __('Error in removing from trash...') );
+				
+				$untrashed++;
+			}
+			break;
 		case 'delete':
-			if ( isset($_GET['post']) && ! isset($_GET['bulk_edit']) && (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
-				check_admin_referer('bulk-pages');
-				$deleted = 0;
-				foreach( (array) $_GET['post'] as $post_id_del ) {
-					$post_del = & get_post($post_id_del);
+			$deleted = 0;
+			foreach( (array) $post_ids as $post_id_del ) {
+				$post_del = & get_post($post_id_del);
 
-					if ( !current_user_can('delete_page', $post_id_del) )
-						wp_die( __('You are not allowed to delete this page.') );
+				if ( !current_user_can('delete_page', $post_id_del) )
+					wp_die( __('You are not allowed to delete this page.') );
 
-					if ( $post_del->post_type == 'attachment' ) {
-						if ( ! wp_delete_attachment($post_id_del) )
-							wp_die( __('Error in deleting...') );
-					} else {
-						if ( !wp_delete_post($post_id_del) )
-							wp_die( __('Error in deleting...') );
-					}
-					$deleted++;
+				if ( $post_del->post_type == 'attachment' ) {
+					if ( ! wp_delete_attachment($post_id_del) )
+						wp_die( __('Error in deleting...') );
+				} else {
+					if ( !wp_delete_post($post_id_del) )
+						wp_die( __('Error in deleting...') );
 				}
+				$deleted++;
 			}
 			break;
 		case 'edit':
-			if ( isset($_GET['post']) && isset($_GET['bulk_edit']) ) {
-				check_admin_referer('bulk-pages');
-
-				if ( -1 == $_GET['_status'] ) {
-					$_GET['post_status'] = null;
-					unset($_GET['_status'], $_GET['post_status']);
-				} else {
-					$_GET['post_status'] = $_GET['_status'];
-				}
-
-				$done = bulk_edit_posts($_GET);
+			if ( -1 == $_GET['_status'] ) {
+				$_GET['post_status'] = null;
+				unset($_GET['_status'], $_GET['post_status']);
+			} else {
+				$_GET['post_status'] = $_GET['_status'];
 			}
+
+			$done = bulk_edit_posts($_GET);
 			break;
 	}
 
@@ -62,6 +88,10 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 	}
 	if ( isset($deleted) )
 		$sendback = add_query_arg('deleted', $deleted, $sendback);
+	elseif ( isset($trashed) )
+		$sendback = add_query_arg('trashed', $trashed, $sendback);
+	elseif ( isset($untrashed) )
+		$sendback = add_query_arg('untrashed', $untrashed, $sendback);
 	wp_redirect($sendback);
 	exit();
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
@@ -79,7 +109,8 @@ $post_stati  = array(	//	array( adj, noun )
 		'future' => array(_x('Scheduled', 'page'), __('Scheduled pages'), _nx_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>', 'page')),
 		'pending' => array(_x('Pending Review', 'page'), __('Pending pages'), _nx_noop('Pending Review <span class="count">(%s)</span>', 'Pending Review <span class="count">(%s)</span>', 'page')),
 		'draft' => array(_x('Draft', 'page'), _x('Drafts', 'manage posts header'), _nx_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>', 'page')),
-		'private' => array(_x('Private', 'page'), __('Private pages'), _nx_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>', 'page'))
+		'private' => array(_x('Private', 'page'), __('Private pages'), _nx_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>', 'page')),
+		'trash' => array(_x('Trash', 'page'), __('Trash pages'), _nx_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', 'page'))
 	);
 
 $post_stati = apply_filters('page_stati', $post_stati);
@@ -111,28 +142,33 @@ if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
 </h2>
 
-<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) || isset($_GET['deleted']) ) { ?>
+<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) ) { ?>
 <div id="message" class="updated fade"><p>
 <?php if ( isset($_GET['updated']) && (int) $_GET['updated'] ) {
 	printf( _n( '%s page updated.', '%s pages updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
 	unset($_GET['updated']);
 }
-
 if ( isset($_GET['skipped']) && (int) $_GET['skipped'] ) {
 	printf( _n( '%s page not updated, invalid parent page specified.', '%s pages not updated, invalid parent page specified.', $_GET['skipped'] ), number_format_i18n( $_GET['skipped'] ) );
 	unset($_GET['skipped']);
 }
-
 if ( isset($_GET['locked']) && (int) $_GET['locked'] ) {
 	printf( _n( '%s page not updated, somebody is editing it.', '%s pages not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['skipped'] ) );
 	unset($_GET['locked']);
 }
-
 if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
-	printf( _n( 'Page deleted.', '%s pages deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
+	printf( _n( 'Page permanently deleted.', '%s pages permanently deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
 	unset($_GET['deleted']);
 }
-$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted'), $_SERVER['REQUEST_URI'] );
+if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
+	printf( _n( 'Page moved to the trash.', '%s pages moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
+	unset($_GET['trashed']);
+}
+if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
+	printf( _n( 'Page removed from the trash.', '%s pages removed from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
+	unset($_GET['untrashed']);
+}
+$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'), $_SERVER['REQUEST_URI'] );
 ?>
 </p></div>
 <?php } ?>
@@ -150,7 +186,7 @@ $avail_post_stati = get_available_post_statuses('page');
 if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts('page', 'readable');
-$total_posts = array_sum( (array) $num_posts );
+$total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href='edit-pages.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'pages' ), number_format_i18n( $total_posts ) ) . '</a>';
 foreach ( $post_stati as $status => $label ) {
@@ -212,11 +248,19 @@ if ( $page_links ) : ?>
 <div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
+<?php if ($_GET['post_status'] == 'trash') { ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
 <option value="edit"><?php _e('Edit'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
+<?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-pages'); ?>
+<?php if ($_GET['post_status'] == 'trash') { ?>
+<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
+<?php } ?>
 </div>
 
 <br class="clear" />
@@ -251,10 +295,18 @@ if ( $page_links )
 <div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
+<?php if ($_GET['post_status'] == 'trash') { ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
 <option value="edit"><?php _e('Edit'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
+<?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<?php if ($_GET['post_status'] == 'trash') { ?>
+<input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
+<?php } ?>
 </div>
 
 <br class="clear" />

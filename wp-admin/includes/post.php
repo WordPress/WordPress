@@ -795,6 +795,7 @@ function wp_edit_posts_query( $q = false ) {
 				'pending' => array(_x('Pending Review', 'post'), __('Pending posts'), _n_noop('Pending Review <span class="count">(%s)</span>', 'Pending Review <span class="count">(%s)</span>')),
 				'draft' => array(_x('Draft', 'post'), _x('Drafts', 'manage posts header'), _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')),
 				'private' => array(_x('Private', 'post'), __('Private posts'), _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')),
+				'trash' => array(_x('Trash', 'post'), __('Trash posts'), _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')),
 			);
 
 	$post_stati = apply_filters('post_stati', $post_stati);
@@ -858,7 +859,7 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['m']   = isset( $q['m'] ) ? (int) $q['m'] : 0;
 	$q['cat'] = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$q['post_type'] = 'attachment';
-	$q['post_status'] = 'any';
+	$q['post_status'] = isset( $q['status'] ) && 'trash' == $q['status'] ? 'trash' : 'any';
 	$media_per_page = get_user_option('upload_per_page');
 	if ( empty($media_per_page) )
 		$media_per_page = 20;

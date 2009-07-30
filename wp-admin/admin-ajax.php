@@ -181,18 +181,27 @@ function _wp_ajax_delete_comment_response( $comment_id ) {
 $id = isset($_POST['id'])? (int) $_POST['id'] : 0;
 switch ( $action = $_POST['action'] ) :
 case 'delete-comment' : // On success, die with time() instead of 1
-	check_ajax_referer( "delete-comment_$id" );
 	if ( !$comment = get_comment( $id ) )
 		die( (string) time() );
 	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 
-	if ( isset($_POST['spam']) && 1 == $_POST['spam'] ) {
+	if ( isset($_POST['trash']) && 1 == $_POST['trash'] ) {
+		check_ajax_referer( "trash-comment_$id" );
+		if ( 'trash' == wp_get_comment_status( $comment->comment_ID ) )
+			die( (string) time() );
+		$r = wp_trash_comment( $comment->comment_ID );
+	} elseif ( isset($_POST['untrash']) && 1 == $_POST['untrash'] ) {
+		check_ajax_referer( "untrash-comment_$id" );
+		$r = wp_untrash_comment( $comment->comment_ID );
+	} elseif ( isset($_POST['spam']) && 1 == $_POST['spam'] ) {
+		check_ajax_referer( "delete-comment_$id" );
 		if ( 'spam' == wp_get_comment_status( $comment->comment_ID ) )
 			die( (string) time() );
 		$r = wp_set_comment_status( $comment->comment_ID, 'spam' );
 	} else {
-		$r = wp_set_comment_status( $comment->comment_ID, 'delete' );
+		check_ajax_referer( "delete-comment_$id" );
+		$r = wp_delete_comment( $comment->comment_ID );
 	}
 	if ( $r ) // Decide if we need to send back '1' or a more complicated response including page links and comment counts
 		_wp_ajax_delete_comment_response( $comment->comment_ID );

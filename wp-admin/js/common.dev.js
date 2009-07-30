@@ -154,16 +154,6 @@ jQuery(document).ready( function($) {
 	$('div.wrap h2 ~ div.updated, div.wrap h2 ~ div.error').addClass('below-h2');
 	$('div.updated, div.error').not('.below-h2').insertAfter('div.wrap h2:first');
 
-	// show warnings
-	$('#doaction, #doaction2').click(function(){
-		if ( $('select[name="action"]').val() == 'destroy' || $('select[name="action2"]').val() == 'destroy' ) {
-			return showNotice.warn();
-		}
-	});
-	$('#destroy_all, #destroy_all2').click(function(){
-		return showNotice.warn();
-	});
-
 	// screen settings tab
 	$('#show-settings-link').click(function () {
 		if ( ! $('#screen-options-wrap').hasClass('screen-options-open') ) {

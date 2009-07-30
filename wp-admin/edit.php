@@ -18,44 +18,74 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 }
 
 // Handle bulk actions
-if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
-	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
-
+if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
+	check_admin_referer('bulk-posts');
+	
+	if (isset($_GET['delete_all']) || isset($_GET['delete_all2'])) {
+		$post_status = $wpdb->escape($_GET['post_status']);
+		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='post' AND post_status = '$post_status'" );
+		$doaction = 'delete';
+	} elseif (($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['post'])) {
+		$post_ids = $_GET['post'];
+		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
+	} else wp_redirect($_SERVER['HTTP_REFERER']);
+	
 	switch ( $doaction ) {
+		case 'trash':
+			$trashed = 0;
+			foreach( (array) $post_ids as $post_id ) {
+				$post_del = & get_post($post_id);
+
+				if ( !current_user_can('delete_post', $post_id_del) )
+					wp_die( __('You are not allowed to move this post to the trash.') );
+
+				if ( !wp_trash_post($post_id) )
+					wp_die( __('Error in moving to trash...') );
+				
+				$trashed++;
+			}
+			break;
+		case 'untrash':
+			$untrashed = 0;
+			foreach( (array) $post_ids as $post_id ) {
+				$post_del = & get_post($post_id);
+
+				if ( !current_user_can('delete_post', $post_id_del) )
+					wp_die( __('You are not allowed to remove this post from the trash.') );
+
+				if ( !wp_untrash_post($post_id) )
+					wp_die( __('Error in removing from trash...') );
+				
+				$untrashed++;
+			}
+			break;
 		case 'delete':
-			if ( isset($_GET['post']) && ! isset($_GET['bulk_edit']) && (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
-				check_admin_referer('bulk-posts');
-				$deleted = 0;
-				foreach( (array) $_GET['post'] as $post_id_del ) {
-					$post_del = & get_post($post_id_del);
+			$deleted = 0;
+			foreach( (array) $post_ids as $post_id_del ) {
+				$post_del = & get_post($post_id_del);
 
-					if ( !current_user_can('delete_post', $post_id_del) )
-						wp_die( __('You are not allowed to delete this post.') );
+				if ( !current_user_can('delete_post', $post_id_del) )
+					wp_die( __('You are not allowed to delete this post.') );
 
-					if ( $post_del->post_type == 'attachment' ) {
-						if ( ! wp_delete_attachment($post_id_del) )
-							wp_die( __('Error in deleting...') );
-					} else {
-						if ( !wp_delete_post($post_id_del) )
-							wp_die( __('Error in deleting...') );
-					}
-					$deleted++;
+				if ( $post_del->post_type == 'attachment' ) {
+					if ( ! wp_delete_attachment($post_id_del) )
+						wp_die( __('Error in deleting...') );
+				} else {
+					if ( !wp_delete_post($post_id_del) )
+						wp_die( __('Error in deleting...') );
 				}
+				$deleted++;
 			}
 			break;
 		case 'edit':
-			if ( isset($_GET['post']) && isset($_GET['bulk_edit']) ) {
-				check_admin_referer('bulk-posts');
-
-				if ( -1 == $_GET['_status'] ) {
-					$_GET['post_status'] = null;
-					unset($_GET['_status'], $_GET['post_status']);
-				} else {
-					$_GET['post_status'] = $_GET['_status'];
-				}
-
-				$done = bulk_edit_posts($_GET);
+			if ( -1 == $_GET['_status'] ) {
+				$_GET['post_status'] = null;
+				unset($_GET['_status'], $_GET['post_status']);
+			} else {
+				$_GET['post_status'] = $_GET['_status'];
 			}
+
+			$done = bulk_edit_posts($_GET);
 			break;
 	}
 
@@ -70,6 +100,10 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 	}
 	if ( isset($deleted) )
 		$sendback = add_query_arg('deleted', $deleted, $sendback);
+	elseif ( isset($trashed) )
+		$sendback = add_query_arg('trashed', $trashed, $sendback);
+	elseif ( isset($untrashed) )
+		$sendback = add_query_arg('untrashed', $untrashed, $sendback);
 	wp_redirect($sendback);
 	exit();
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
@@ -107,7 +141,7 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) || isset($_GET['deleted']) ) { ?>
+<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) ) { ?>
 <div id="message" class="updated fade"><p>
 <?php if ( isset($_GET['updated']) && (int) $_GET['updated'] ) {
 	printf( _n( '%s post updated.', '%s posts updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
@@ -123,8 +157,18 @@ if ( isset($_GET['locked']) && (int) $_GET['locked'] ) {
 }
 
 if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
-	printf( _n( 'Post deleted.', '%s posts deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
+	printf( _n( 'Post permanently deleted.', '%s posts permanently deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
 	unset($_GET['deleted']);
+}
+
+if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
+	printf( _n( 'Post moved to the trash.', '%s posts moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
+	unset($_GET['deleted']);
+}
+
+if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
+	printf( _n( 'Post removed from the trash.', '%s posts removed from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
+	unset($_GET['undeleted']);
 }
 
 $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted'), $_SERVER['REQUEST_URI'] );
@@ -139,7 +183,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts( 'post', 'readable' );
-$total_posts = array_sum( (array) $num_posts );
+$total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
 $class = empty( $_GET['post_status'] ) ? ' class="current"' : '';
 $status_links[] = "<li><a href='edit.php' $class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
@@ -190,8 +234,13 @@ $page_links = paginate_links( array(
 <div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
+<?php if ($_GET['post_status'] == 'trash') { ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
 <option value="edit"><?php _e('Edit'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
+<?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-posts'); ?>
@@ -235,7 +284,8 @@ wp_dropdown_categories($dropdown_options);
 do_action('restrict_manage_posts');
 ?>
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
-
+<?php } if ( $_GET['post_status'] == 'trash' ) { ?>
+<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
 
@@ -270,10 +320,18 @@ if ( $page_links )
 <div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
+<?php if ( $_GET['post_status'] == 'trash' ) { ?>
+<option value="untrash"><?php _e('Restore'); ?></option>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
 <option value="edit"><?php _e('Edit'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
+<option value="trash"><?php _e('Move to Trash'); ?></option>
+<?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<?php if ( $_GET['post_status'] == 'trash' ) { ?>
+<input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
+<?php } ?>
 <br class="clear" />
 </div>
 <br class="clear" />

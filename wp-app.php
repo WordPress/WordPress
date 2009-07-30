@@ -1231,7 +1231,7 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 		log_app('Status','204: No Content');
 		header('Content-Type: text/plain');
 		status_header('204');
-		echo "Deleted.";
+		echo "Moved to Trash.";
 		exit;
 	}
 

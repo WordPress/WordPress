@@ -534,6 +534,12 @@ force_ssl_login(FORCE_SSL_LOGIN);
 if ( !defined( 'AUTOSAVE_INTERVAL' ) )
 	define( 'AUTOSAVE_INTERVAL', 60 );
 
+/**
+ * It is possible to define this in wp-config.php
+ * @since 2.9.0
+ */
+if ( !defined( 'EMPTY_TRASH_DAYS' ) )
+	define( 'EMPTY_TRASH_DAYS', 30 );
 
 require (ABSPATH . WPINC . '/vars.php');
 
