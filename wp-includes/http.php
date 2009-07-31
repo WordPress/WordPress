@@ -236,6 +236,11 @@ class WP_Http {
 		$r = wp_parse_args( $args, $defaults );
 		$r = apply_filters( 'http_request_args', $r, $url );
 
+		// Allow plugins to short-circuit the request
+		$pre = apply_filters( 'pre_http_request', false, $r, $url );
+		if ( false !== $pre )
+			return $pre;
+
 		$arrURL = parse_url($url);
 
 		if ( $this->block_request( $url ) )
@@ -306,7 +311,7 @@ class WP_Http {
 				do_action( 'http_api_debug', $response, 'response', get_class($transport) );
 
 			if ( ! is_wp_error($response) )
-				return $response;
+				return apply_filters( 'http_response', $response, $r, $url );
 		}
 
 		return $response;
