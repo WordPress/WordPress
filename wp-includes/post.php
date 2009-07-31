@@ -114,11 +114,12 @@ function update_attached_file( $attachment_id, $file ) {
  * @return array|bool False on failure and the type will be determined by $output parameter.
  */
 function &get_children($args = '', $output = OBJECT) {
+	$kids = array();
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
 			$args = array('post_parent' => (int) $GLOBALS['post']->post_parent );
 		} else {
-			return false;
+			return $kids;
 		}
 	} elseif ( is_object( $args ) ) {
 		$args = array('post_parent' => (int) $args->post_parent );
@@ -134,10 +135,9 @@ function &get_children($args = '', $output = OBJECT) {
 	$r = wp_parse_args( $args, $defaults );
 
 	$children = get_posts( $r );
-	if ( !$children ) {
-		$kids = false;
+	
+	if ( !$children )
 		return $kids;
-	}
 
 	update_post_cache($children);
 
