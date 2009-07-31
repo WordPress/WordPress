@@ -406,7 +406,7 @@ class WP_Widget_Text extends WP_Widget {
 
 		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea>
 
-		<p><input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox" <?php checked($instance['filter']); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs.'); ?></label></p>
+		<p><input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox" <?php checked(isset($instance['filter']) ? $instance['filter'] : 0); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs.'); ?></label></p>
 <?php
 	}
 }
@@ -483,9 +483,9 @@ class WP_Widget_Categories extends WP_Widget {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
 		$title = esc_attr( $instance['title'] );
-		$count = (bool) $instance['count'];
-		$hierarchical = (bool) $instance['hierarchical'];
-		$dropdown = (bool) $instance['dropdown'];
+		$count = isset($instance['count']) ? (bool) $instance['count'] :false;
+		$hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;
+		$dropdown = isset( $instance['dropdown'] ) ? (bool) $instance['dropdown'] : false;
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -579,8 +579,8 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	function form( $instance ) {
-		$title = esc_attr($instance['title']);
-		if ( !$number = (int) $instance['number'] )
+		$title = isset($instance['title']) ? esc_attr($instance['title']) : '';
+		if ( !isset($instance['number']) || !$number = (int) $instance['number'] )
 			$number = 5;
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
@@ -985,7 +985,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	function form( $instance ) {
 ?>
 	<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:') ?></label>
-	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" /></p>
+	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php if (isset ( $instance['title'])) {echo esc_attr( $instance['title'] );} ?>" /></p>
 <?php
 	}
 }
