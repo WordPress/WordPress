@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+if ( !current_user_can('switch_themes') )
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
+
 if ( isset($_GET['action']) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['template']);
