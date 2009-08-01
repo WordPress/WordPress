@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+if ( !current_user_can('edit_pages') )
+	wp_die(__('Cheatin&#8217; uh?'));
+
 // Handle bulk actions
 if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 	check_admin_referer('bulk-pages');
