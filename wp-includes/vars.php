@@ -17,6 +17,7 @@ if ( is_admin() ) {
 	// wp-admin pages are checked more carefully
 	preg_match('#/wp-admin/?(.*?)$#i', $PHP_SELF, $self_matches);
 	$pagenow = $self_matches[1];
+	$pagenow = trim($pagenow, '/');
 	$pagenow = preg_replace('#\?.*?$#', '', $pagenow);
 	if ( '' === $pagenow || 'index' === $pagenow || 'index.php' === $pagenow ) {
 		$pagenow = 'index.php';
