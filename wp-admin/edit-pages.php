@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+if ( !current_user_can('edit_pages') )
+	wp_die(__('Cheatin&#8217; uh?'));
+
 // Handle bulk actions
 if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
 	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
