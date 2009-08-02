@@ -8,6 +8,10 @@
 
 /** Load WordPress Bootstrap */
 require_once ('admin.php');
+
+if ( !current_user_can('edit_files') )
+	wp_die(__('You do not have sufficient permissions to import content in this blog.'));
+
 $title = __('Import');
 require_once ('admin-header.php');
 $parent_file = 'tools.php';
