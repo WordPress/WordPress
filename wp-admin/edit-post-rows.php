@@ -6,7 +6,9 @@
  * @subpackage Administration
  */
 
-if ( ! defined('ABSPATH') ) die();
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
 ?>
 <table class="widefat post fixed" cellspacing="0">
 	<thead>

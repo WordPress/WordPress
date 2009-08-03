@@ -6,6 +6,10 @@
  * @subpackage Administration
  */
 
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
+
 if ( ! empty($link_id) ) {
 	$heading = sprintf( __( '<a href="%s">Links</a> / Edit Link' ), 'link-manager.php' );
 	$submit_text = __('Update Link');
