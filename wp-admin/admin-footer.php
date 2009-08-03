@@ -5,6 +5,10 @@
  * @package WordPress
  * @subpackage Administration
  */
+
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
 ?>
 
 <div class="clear"></div></div><!-- wpbody-content -->

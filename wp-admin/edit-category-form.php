@@ -6,6 +6,10 @@
  * @subpackage Administration
  */
 
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
+
 if ( !current_user_can('manage_categories') )
 	wp_die(__('You do not have sufficient permissions to edit categories for this blog.'));
 

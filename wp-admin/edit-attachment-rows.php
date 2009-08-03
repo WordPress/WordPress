@@ -6,7 +6,9 @@
  * @subpackage Administration
  */
 
-if ( ! defined('ABSPATH') ) die();
+// don't load directly
+if ( !defined('ABSPATH') )
+	die('-1');
 
 if ( have_posts() ) { ?>
 <table class="widefat fixed" cellspacing="0">
