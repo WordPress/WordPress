@@ -378,6 +378,7 @@ class WP_Import {
 		$menu_order     = $this->get_tag( $post, 'wp:menu_order' );
 		$post_type      = $this->get_tag( $post, 'wp:post_type' );
 		$post_password  = $this->get_tag( $post, 'wp:post_password' );
+		$is_sticky		= $this->get_tag( $post, 'wp:is_sticky' );
 		$guid           = $this->get_tag( $post, 'guid' );
 		$post_author    = $this->get_tag( $post, 'dc:creator' );
 
@@ -448,6 +449,9 @@ class WP_Import {
 			else {
 				printf(__('Importing post <em>%s</em>...'), stripslashes($post_title));
 				$comment_post_ID = $post_id = wp_insert_post($postdata);
+				if ( $post_id && $is_sticky == 1 )
+					stick_post( $post_id );
+
 			}
 
 			if ( is_wp_error( $post_id ) )

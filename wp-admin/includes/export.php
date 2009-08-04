@@ -268,7 +268,13 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 			// Don't export revisions.  They bloat the export.
 			if ( 'revision' == $post->post_type )
 				continue;
-			setup_postdata($post); ?>
+			setup_postdata($post); 
+
+			$is_sticky = 0;
+			if ( is_sticky( $post->ID ) )
+				$is_sticky = 1;
+
+?>
 <item>
 <title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
 <link><?php the_permalink_rss() ?></link>
@@ -291,6 +297,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <wp:menu_order><?php echo $post->menu_order; ?></wp:menu_order>
 <wp:post_type><?php echo $post->post_type; ?></wp:post_type>
 <wp:post_password><?php echo $post->post_password; ?></wp:post_password>
+<wp:is_sticky><?php echo $is_sticky; ?></wp:is_sticky>
 <?php
 if ($post->post_type == 'attachment') { ?>
 <wp:attachment_url><?php echo wp_get_attachment_url($post->ID); ?></wp:attachment_url>
