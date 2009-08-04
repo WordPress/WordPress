@@ -2351,7 +2351,8 @@ function sanitize_option($option, $value) {
 		case 'close_comments_days_old':
 		case 'comments_per_page':
 		case 'thread_comments_depth':
-			$value = abs((int) $value);
+		case 'users_can_register':
+			$value = absint( $value );
 			break;
 
 		case 'posts_per_page':
