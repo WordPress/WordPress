@@ -145,6 +145,15 @@ function update_right_now_message() {
 	echo "<span id='wp-version-message'>$msg</span>";
 }
 
+function wp_plugin_update_rows() {
+	$plugins = get_transient( 'update_plugins' );
+	$plugins = array_keys( $plugins->response );
+	foreach( $plugins as $plugin_file ) {
+		add_action( "after_plugin_row_$plugin_file", 'wp_plugin_update_row', 10, 2 );
+	}
+}
+add_action( 'admin_init', 'wp_plugin_update_rows' );
+
 function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_transient( 'update_plugins' );
 	if ( !isset( $current->response[ $file ] ) )
@@ -169,7 +178,6 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 
 	echo '</div></td></tr>';
 }
-add_action( 'after_plugin_row', 'wp_plugin_update_row', 10, 2 );
 
 function wp_update_plugin($plugin, $feedback = '') {
 
