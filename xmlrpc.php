@@ -419,6 +419,11 @@ class wp_xmlrpc_server extends IXR_Server {
 				'desc'			=> __( 'Time Format' ),
 				'readonly'		=> false,
 				'option'		=> 'time_format'
+			),
+			'users_can_register'	=> array(
+				'desc'			=> __( 'Allow new users to sign up' ),
+				'readonly'		=> false,
+				'option'		=> 'users_can_register'
 			)
 		);
 
@@ -1551,9 +1556,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach( $options as $o_name => $o_value ) {
 			$option_names[] = $o_name;
-			if( empty( $o_value ) )
-				continue;
-
 			if( !array_key_exists( $o_name, $this->blog_options ) )
 				continue;
 
