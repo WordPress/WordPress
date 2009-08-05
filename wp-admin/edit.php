@@ -287,7 +287,9 @@ wp_dropdown_categories($dropdown_options);
 do_action('restrict_manage_posts');
 ?>
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
-<?php } if ( $_GET['post_status'] == 'trash' ) { ?>
+<?php }
+
+if ( $_GET['post_status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
 <input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
@@ -332,7 +334,7 @@ if ( $page_links )
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-<?php if ( $_GET['post_status'] == 'trash' ) { ?>
+<?php if ( $_GET['post_status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <br class="clear" />
