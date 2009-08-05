@@ -1806,4 +1806,22 @@ function plugins_url($path = '', $plugin = '') {
 	return apply_filters('plugins_url', $url, $path, $plugin);
 }
 
+/**
+ * Output rel=canonical for singular queries
+ *
+ * @package WordPress
+ * @since 2.9.0
+*/
+function rel_canonical() {
+	if ( !is_singular() )
+		return;
+
+	global $wp_the_query;
+	if ( !$id = $wp_the_query->get_queried_object_id() )
+		return;
+
+	$link = get_permalink( $id );
+	echo "<link rel='canonical' href='$link' />\n";
+}
+
 ?>

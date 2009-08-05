@@ -178,6 +178,7 @@ add_action('wp_head', 'noindex', 1);
 add_action('wp_head', 'wp_print_styles', 8);
 add_action('wp_head', 'wp_print_head_scripts', 9);
 add_action('wp_head', 'wp_generator');
+add_action('wp_head', 'rel_canonical');
 add_action('wp_footer', 'wp_print_footer_scripts');
 if(!defined('DOING_CRON'))
 	add_action('sanitize_comment_cookies', 'wp_cron');
