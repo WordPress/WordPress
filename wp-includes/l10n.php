@@ -253,7 +253,7 @@ function _nc( $single, $plural, $number, $domain = 'default' ) {
 function _nx($single, $plural, $number, $context, $domain = 'default') {
 	$translations = &get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number, $context );
-	return apply_filters( 'ngettext_with_context ', $translation, $single, $plural, $number, $context, $domain );
+	return apply_filters( 'ngettext_with_context', $translation, $single, $plural, $number, $context, $domain );
 }
 
 /**
