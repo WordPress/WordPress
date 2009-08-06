@@ -267,20 +267,16 @@ else
 	<td><input type="text" name="url" id="url" value="<?php echo esc_attr($profileuser->user_url) ?>" class="regular-text code" /></td>
 </tr>
 
+<?php
+	foreach (_wp_get_user_contactmethods() as $name => $desc) {
+?>
 <tr>
-	<th><label for="aim"><?php echo apply_filters('user_aim_label', __('AIM')); ?></label></th>
-	<td><input type="text" name="aim" id="aim" value="<?php echo esc_attr($profileuser->aim) ?>" class="regular-text" /></td>
-</tr>
-
-<tr>
-	<th><label for="yim"><?php echo apply_filters('user_yim_label', __('Yahoo IM')); ?></label></th>
-	<td><input type="text" name="yim" id="yim" value="<?php echo esc_attr($profileuser->yim) ?>" class="regular-text" /></td>
-</tr>
-
-<tr>
-	<th><label for="jabber"><?php echo apply_filters('user_jabber_label', __('Jabber / Google Talk')); ?></label></th>
-	<td><input type="text" name="jabber" id="jabber" value="<?php echo esc_attr($profileuser->jabber) ?>" class="regular-text" /></td>
-</tr>
+	<th><label for="<?php echo $name; ?>"><?php echo apply_filters('user_'.$name.'_label', $desc); ?></label></th>
+	<td><input type="text" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo esc_attr($profileuser->$name) ?>" class="regular-text" /></td>
+</tr>	
+<?php
+	}
+?>
 </table>
 
 <h3><?php IS_PROFILE_PAGE ? _e('About Yourself') : _e('About the user'); ?></h3>
