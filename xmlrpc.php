@@ -1055,11 +1055,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment_date = mysql2date("Ymd\TH:i:s", $comment->comment_date, false);
 		$comment_date_gmt = mysql2date("Ymd\TH:i:s", $comment->comment_date_gmt, false);
 
-		if ( 0 == $comment->comment_approved )
+		if ( '0' == $comment->comment_approved )
 			$comment_status = 'hold';
 		else if ( 'spam' == $comment->comment_approved )
 			$comment_status = 'spam';
-		else if ( 1 == $comment->comment_approved )
+		else if ( '1' == $comment->comment_approved )
 			$comment_status = 'approve';
 		else
 			$comment_status = $comment->comment_approved;
