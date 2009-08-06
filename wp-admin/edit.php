@@ -24,7 +24,7 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 	check_admin_referer('bulk-posts');
 	
-	if (isset($_GET['delete_all']) || isset($_GET['delete_all2'])) {
+	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 		$post_status = $wpdb->escape($_GET['post_status']);
 		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='post' AND post_status = '$post_status'" );
 		$doaction = 'delete';
@@ -166,15 +166,15 @@ if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
 
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	printf( _n( 'Post moved to the trash.', '%s posts moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
-	unset($_GET['deleted']);
+	unset($_GET['trashed']);
 }
 
 if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
-	printf( _n( 'Post removed from the trash.', '%s posts removed from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
+	printf( _n( 'Post restored from the trash.', '%s posts restored from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
 	unset($_GET['undeleted']);
 }
 
-$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted'), $_SERVER['REQUEST_URI'] );
+$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'), $_SERVER['REQUEST_URI'] );
 ?>
 </p></div>
 <?php } ?>
@@ -232,12 +232,14 @@ $page_links = paginate_links( array(
 	'current' => $_GET['paged']
 ));
 
+$is_trash = isset($_GET['post_status']) && $_GET['post_status'] == 'trash';
+
 ?>
 
 <div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<?php if ($_GET['post_status'] == 'trash') { ?>
+<?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
@@ -289,7 +291,7 @@ do_action('restrict_manage_posts');
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 <?php }
 
-if ( $_GET['post_status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
+if ( $is_trash && current_user_can('edit_others_posts') ) { ?>
 <input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
@@ -325,7 +327,7 @@ if ( $page_links )
 <div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<?php if ( $_GET['post_status'] == 'trash' ) { ?>
+<?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
@@ -334,7 +336,7 @@ if ( $page_links )
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-<?php if ( $_GET['post_status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
+<?php if ( $is_trash && current_user_can('edit_others_posts') ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <br class="clear" />

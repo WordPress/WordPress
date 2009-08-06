@@ -168,7 +168,7 @@ if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	unset($_GET['trashed']);
 }
 if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
-	printf( _n( 'Page removed from the trash.', '%s pages removed from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
+	printf( _n( 'Page restored from the trash.', '%s pages restored from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
 	unset($_GET['untrashed']);
 }
 $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed'), $_SERVER['REQUEST_URI'] );
@@ -239,6 +239,8 @@ $page_links = paginate_links( array(
 	'current' => $pagenum
 ));
 
+$is_trash = isset($_GET['post_status']) && $_GET['post_status'] == 'trash';
+
 if ( $page_links ) : ?>
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 	number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
@@ -251,7 +253,7 @@ if ( $page_links ) : ?>
 <div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<?php if ($_GET['post_status'] == 'trash') { ?>
+<?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
@@ -261,7 +263,7 @@ if ( $page_links ) : ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-pages'); ?>
-<?php if ($_GET['post_status'] == 'trash') { ?>
+<?php if ( $is_trash ) { ?>
 <input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
@@ -298,7 +300,7 @@ if ( $page_links )
 <div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<?php if ($_GET['post_status'] == 'trash') { ?>
+<?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
@@ -307,7 +309,7 @@ if ( $page_links )
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-<?php if ($_GET['post_status'] == 'trash') { ?>
+<?php if ( $is_trash ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>

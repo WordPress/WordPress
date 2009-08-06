@@ -132,7 +132,7 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 			echo '<br />';
 		}
 		if ( $untrashed > 0 ) {
-			printf( _n( '%s comment removed from the trash', '%s comments removed from the trash', $untrashed ), $untrashed );
+			printf( _n( '%s comment restored from the trash', '%s comments restored from the trash', $untrashed ), $untrashed );
 			echo '<br />';
 		}
 		if ( $deleted > 0 ) {
