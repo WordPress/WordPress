@@ -63,7 +63,6 @@ include('admin-header.php');
 </label>
 </th>
 </tr>
-<tr>
 
 </table>
 
