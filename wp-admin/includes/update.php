@@ -147,9 +147,11 @@ function update_right_now_message() {
 
 function wp_plugin_update_rows() {
 	$plugins = get_transient( 'update_plugins' );
-	$plugins = array_keys( $plugins->response );
-	foreach( $plugins as $plugin_file ) {
-		add_action( "after_plugin_row_$plugin_file", 'wp_plugin_update_row', 10, 2 );
+	if ( isset($plugins->response) && is_array($plugins->response) ) {
+		$plugins = array_keys( $plugins->response );
+		foreach( $plugins as $plugin_file ) {
+			add_action( "after_plugin_row_$plugin_file", 'wp_plugin_update_row', 10, 2 );
+		}
 	}
 }
 add_action( 'admin_init', 'wp_plugin_update_rows' );
