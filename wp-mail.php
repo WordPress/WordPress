@@ -15,7 +15,7 @@ require_once( ABSPATH . WPINC . '/class-pop3.php' );
 
 /** Only check at this interval for new messages. */
 if ( !defined('WP_MAIL_INTERVAL') )
-	define('WP_MAIL_INTERVAL', 500); // 5 minutes
+	define('WP_MAIL_INTERVAL', 300); // 5 minutes
 
 $last_checked = get_transient('mailserver_last_checked');
 
