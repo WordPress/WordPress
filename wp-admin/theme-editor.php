@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+if ( !current_user_can('edit_themes') )
+	wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
+
 $title = __("Edit Themes");
 $parent_file = 'themes.php';
 
@@ -36,6 +39,7 @@ if (empty($file)) {
 
 $file = validate_file_to_edit($file, $allowed_files);
 $real_file = get_real_file_to_edit($file);
+$scrollto = isset($_REQUEST['scrollto']) ? (int) $_REQUEST['scrollto'] : 0;
 
 $file_show = basename( $file );
 
@@ -45,9 +49,6 @@ case 'update':
 
 	check_admin_referer('edit-theme_' . $file . $theme);
 
-	if ( !current_user_can('edit_themes') )
-		wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
-
 	$newcontent = stripslashes($_POST['newcontent']);
 	$theme = urlencode($theme);
 	if (is_writeable($real_file)) {
@@ -56,12 +57,12 @@ case 'update':
 		if ($f !== FALSE) {
 			fwrite($f, $newcontent);
 			fclose($f);
-			$location = "theme-editor.php?file=$file&theme=$theme&a=te";
+			$location = "theme-editor.php?file=$file&theme=$theme&a=te&scrollto=$scrollto";
 		} else {
-			$location = "theme-editor.php?file=$file&theme=$theme";
+			$location = "theme-editor.php?file=$file&theme=$theme&scrollto=$scrollto";
 		}
 	} else {
-		$location = "theme-editor.php?file=$file&theme=$theme";
+		$location = "theme-editor.php?file=$file&theme=$theme&scrollto=$scrollto";
 	}
 
 	$location = wp_kses_no_null($location);
@@ -73,9 +74,6 @@ case 'update':
 break;
 
 default:
-
-	if ( !current_user_can('edit_themes') )
-		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
 
 	if ( use_codepress() )
 		wp_enqueue_script( 'codepress' );
@@ -201,6 +199,7 @@ if ($allowed_files) :
 		 <input type="hidden" name="action" value="update" />
 		 <input type="hidden" name="file" value="<?php echo esc_attr($file) ?>" />
 		 <input type="hidden" name="theme" value="<?php echo esc_attr($theme) ?>" />
+		 <input type="hidden" name="scrollto" id="scrollto" value="<?php echo $scrollto; ?>" />
 		 </div>
 	<?php if ( isset($functions ) && count($functions) ) { ?>
 		<div id="documentation">
@@ -229,6 +228,14 @@ if ($allowed_files) :
 ?>
 <br class="clear" />
 </div>
+<script type="text/javascript">
+/* <![CDATA[ */
+jQuery(document).ready(function($){
+	$('#template').submit(function(){ $('#scrollto').val( $('#newcontent').scrollTop() ); });
+	$('#newcontent').scrollTop( $('#scrollto').val() );
+});
+/* ]]> */
+</script>
 <?php
 break;
 }
