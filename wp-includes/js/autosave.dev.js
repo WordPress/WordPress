@@ -196,11 +196,16 @@ autosave = function() {
 		doAutoSave = false;
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
-	if ( rich ) {
+	if ( rich && doAutoSave ) {
 		ed = tinyMCE.activeEditor;
-		if ( 'mce_fullscreen' == ed.id )
-			tinyMCE.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
-		tinyMCE.get('content').save();
+		// Don't run while the TinyMCE spellcheck is on. It resets all found words.
+		if ( ed.plugins.spellchecker && ed.plugins.spellchecker.active ) {
+			doAutoSave = false;
+		} else {
+			if ( 'mce_fullscreen' == ed.id )
+				tinyMCE.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
+			tinyMCE.get('content').save();
+		}
 	}
 
 	post_data["content"] = jQuery("#content").val();
@@ -208,7 +213,7 @@ autosave = function() {
 		post_data["post_name"] = jQuery('#post_name').val();
 
 	// Nothing to save or no change.
-	if( ( post_data["post_title"].length == 0 && post_data["content"].length == 0 ) || post_data["post_title"] + post_data["content"] == autosaveLast) {
+	if ( ( post_data["post_title"].length == 0 && post_data["content"].length == 0 ) || post_data["post_title"] + post_data["content"] == autosaveLast ) {
 		doAutoSave = false;
 	}
 
@@ -216,7 +221,6 @@ autosave = function() {
 
 	origStatus = jQuery('#original_post_status').val();
 
-	autosaveLast = jQuery("#title").val()+jQuery("#content").val();
 	goodcats = ([]);
 	jQuery("[name='post_category[]']:checked").each( function(i) {
 		goodcats.push(this.value);
@@ -233,9 +237,10 @@ autosave = function() {
 		post_data["post_author"] = jQuery("#post_author").val();
 	post_data["user_ID"] = jQuery("#user-id").val();
 
-	// Don't run while the TinyMCE spellcheck is on. It resets all found words.
-	if ( rich && tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) {
-		doAutoSave = false;
+	if ( doAutoSave ) {
+		autosaveLast = jQuery("#title").val()+jQuery("#content").val();
+	} else {
+		post_data['autosave'] = 0;
 	}
 
 	if ( parseInt(post_data["post_ID"], 10) < 1 ) {
@@ -243,10 +248,6 @@ autosave = function() {
 		successCallback = autosave_saved_new; // new post
 	} else {
 		successCallback = autosave_saved; // pre-existing post
-	}
-
-	if ( !doAutoSave ) {
-		post_data['autosave'] = 0;
 	}
 
 	autosaveOldMessage = jQuery('#autosave').html();
