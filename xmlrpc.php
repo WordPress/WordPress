@@ -201,6 +201,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->initialise_blog_option_info( );
 		$this->methods = apply_filters('xmlrpc_methods', $this->methods);
+	}
+
+	function serve_request() {
 		$this->IXR_Server($this->methods);
 	}
 
@@ -3405,5 +3408,5 @@ class wp_xmlrpc_server extends IXR_Server {
 }
 
 $wp_xmlrpc_server = new wp_xmlrpc_server();
-
+$wp_xmlrpc_server->serve_request();
 ?>
