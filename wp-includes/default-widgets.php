@@ -376,8 +376,8 @@ class WP_Widget_Text extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title']);
-		$text = apply_filters( 'widget_text', $instance['text'] );
+		$title = apply_filters( 'widget_title', empty($instance['title']) ? '' : $instance['title'], $instance );
+		$text = apply_filters( 'widget_text', $instance['text'], $instance );
 		echo $before_widget;
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
 			<div class="textwidget"><?php echo $instance['filter'] ? wpautop($text) : $text; ?></div>
