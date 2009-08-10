@@ -983,6 +983,8 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		if ( isset($view_post) )
 			$return .= "<span id='view-post-btn'><a href='$permalink' class='button' target='_blank'>$view_post</a></span>\n";
 
+		$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
+
 		return $return;
 	}
 
@@ -1009,6 +1011,8 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
 	if ( isset($view_post) )
 		$return .= "<span id='view-post-btn'><a href='$view_link' class='button' target='_blank'>$view_post</a></span>\n";
+
+	$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
 
 	return $return;
 }
