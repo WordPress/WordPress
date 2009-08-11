@@ -161,7 +161,7 @@ function retrieve_password() {
 	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= site_url("wp-login.php?action=rp&key=$key", 'login') . "\r\n";
+	$message .= site_url("wp-login.php?action=rp&key=$key&login=$user_login", 'login') . "\r\n";
 
 	$title = sprintf(__('[%s] Password Reset'), get_option('blogname'));
 
@@ -182,7 +182,7 @@ function retrieve_password() {
  * @param string $key Hash to validate sending user's password
  * @return bool|WP_Error
  */
-function reset_password($key) {
+function reset_password($key, $login) {
 	global $wpdb;
 
 	$key = preg_replace('/[^a-z0-9]/i', '', $key);
@@ -190,7 +190,10 @@ function reset_password($key) {
 	if ( empty( $key ) || !is_string( $key ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
 
-	$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_activation_key = %s", $key));
+	if ( empty($login) || !is_string($login) )
+		return new WP_Error('invalid_key', __('Invalid key'));
+
+	$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_activation_key = %s AND user_login = %s", $key, $login));
 	if ( empty( $user ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
 
@@ -370,7 +373,7 @@ break;
 
 case 'resetpass' :
 case 'rp' :
-	$errors = reset_password($_GET['key']);
+	$errors = reset_password($_GET['key'], $_GET['login']);
 
 	if ( ! is_wp_error($errors) ) {
 		wp_redirect('wp-login.php?checkemail=newpass');
