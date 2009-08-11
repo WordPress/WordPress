@@ -187,7 +187,7 @@ function reset_password($key) {
 
 	$key = preg_replace('/[^a-z0-9]/i', '', $key);
 
-	if ( empty( $key ) )
+	if ( empty( $key ) || is_array( $key ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
 
 	$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_activation_key = %s", $key));
