@@ -13,17 +13,23 @@ if ( !current_user_can('edit_pages') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
 // Handle bulk actions
-if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
+if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) || isset($_GET['bulk_edit']) ) {
 	check_admin_referer('bulk-pages');
-	
-	if (isset($_GET['delete_all']) || isset($_GET['delete_all2'])) {
-		$post_status = $wpdb->escape($_GET['post_status']);
-		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = '$post_status'" );
+	$sendback = wp_get_referer();
+
+	if ( strpos($sendback, 'page.php') !== false )
+		$sendback = admin_url('page-new.php');
+
+	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
+		$post_status = preg_replace('/[^a-z0-9_-]+/i', '', $_GET['post_status']);
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = %s", $post_status ) );
 		$doaction = 'delete';
-	} elseif (($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['post'])) {
-		$post_ids = $_GET['post'];
+	} elseif ( ($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['post']) ) {
+		$post_ids = array_map( 'intval', (array) $_GET['post'] );
 		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
-	} else wp_redirect($_SERVER['HTTP_REFERER']);
+	} else {
+		wp_redirect( admin_url('edit-pages.php') );
+	}
 
 	switch ( $doaction ) {
 		case 'trash':
@@ -37,64 +43,56 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 				
 				$trashed++;
 			}
+			$sendback = add_query_arg('trashed', $trashed, $sendback);
 			break;
 		case 'untrash':
 			$untrashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can('delete_page', $post_id) )
-					wp_die( __('You are not allowed to remove this page from the trash.') );
+					wp_die( __('You are not allowed to restore this page from the trash.') );
 
 				if ( !wp_untrash_post($post_id) )
-					wp_die( __('Error in removing from trash...') );
+					wp_die( __('Error in restoring from trash...') );
 				
 				$untrashed++;
 			}
+			$sendback = add_query_arg('untrashed', $untrashed, $sendback);
 			break;
 		case 'delete':
 			$deleted = 0;
-			foreach( (array) $post_ids as $post_id_del ) {
-				$post_del = & get_post($post_id_del);
+			foreach( (array) $post_ids as $post_id ) {
+				$post_del = & get_post($post_id);
 
-				if ( !current_user_can('delete_page', $post_id_del) )
+				if ( !current_user_can('delete_page', $post_id) )
 					wp_die( __('You are not allowed to delete this page.') );
 
 				if ( $post_del->post_type == 'attachment' ) {
-					if ( ! wp_delete_attachment($post_id_del) )
+					if ( ! wp_delete_attachment($post_id) )
 						wp_die( __('Error in deleting...') );
 				} else {
-					if ( !wp_delete_post($post_id_del) )
+					if ( !wp_delete_post($post_id) )
 						wp_die( __('Error in deleting...') );
 				}
 				$deleted++;
 			}
+			$sendback = add_query_arg('deleted', $deleted, $sendback);
 			break;
 		case 'edit':
-			if ( -1 == $_GET['_status'] ) {
-				$_GET['post_status'] = null;
-				unset($_GET['_status'], $_GET['post_status']);
-			} else {
-				$_GET['post_status'] = $_GET['_status'];
-			}
-
+			$_GET['post_type'] = 'page';
 			$done = bulk_edit_posts($_GET);
+
+			if ( is_array($done) ) {
+				$done['updated'] = count( $done['updated'] );
+				$done['skipped'] = count( $done['skipped'] );
+				$done['locked'] = count( $done['locked'] );
+				$sendback = add_query_arg( $done, $sendback );
+			}
 			break;
 	}
 
-	$sendback = wp_get_referer();
-	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('page-new.php');
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
-	if ( isset($done) ) {
-		$done['updated'] = count( $done['updated'] );
-		$done['skipped'] = count( $done['skipped'] );
-		$done['locked'] = count( $done['locked'] );
-		$sendback = add_query_arg( $done, $sendback );
-	}
-	if ( isset($deleted) )
-		$sendback = add_query_arg('deleted', $deleted, $sendback);
-	elseif ( isset($trashed) )
-		$sendback = add_query_arg('trashed', $trashed, $sendback);
-	elseif ( isset($untrashed) )
-		$sendback = add_query_arg('untrashed', $untrashed, $sendback);
+	if ( isset($_GET['action']) )
+		$sendback = remove_query_arg( array('action', 'action2', 'post_parent', 'page_template', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view', 'post_type'), $sendback );
+
 	wp_redirect($sendback);
 	exit();
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
@@ -181,7 +179,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<form id="posts-filter" action="" method="get">
+<form id="posts-filter" action="<?php echo admin_url('edit-pages.php'); ?>" method="get">
 <ul class="subsubsub">
 <?php
 

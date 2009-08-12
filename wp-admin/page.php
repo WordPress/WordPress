@@ -52,8 +52,6 @@ function redirect_page($page_ID) {
 		$location = add_query_arg( 'message', 3, wp_get_referer() );
 		$location = explode('#', $location);
 		$location = $location[0] . '#postcustom';
-	} elseif ($action == 'editattachment') {
-		$location = 'attachments.php';
 	} else {
 		$location = add_query_arg( 'message', 1, get_edit_post_link( $page_ID, 'url' ) );
 	}
@@ -82,8 +80,14 @@ case 'edit':
 	$page_ID = $post_ID = $p = (int) $_GET['post'];
 	$post = get_post_to_edit($page_ID);
 
-	if ( empty($post->ID) ) wp_die( __('You attempted to edit a page that doesn&#8217;t exist. Perhaps it was deleted?') );
-	if ( $post->post_status == 'trash' ) wp_die( __('You can&#8217;t edit this page because it is in the Trash. Please move it out of the Trash and try again.') );
+	if ( empty($post->ID) )
+		wp_die( __('You attempted to edit a page that doesn&#8217;t exist. Perhaps it was deleted?') );
+
+	if ( !current_user_can('edit_page', $page_ID) )
+		wp_die( __('You are not allowed to edit this page.') );
+
+	if ( 'trash' == $post->post_status )
+		wp_die( __('You can&#8217;t edit this page because it is in the Trash. Please move it out of the Trash and try again.') );
 
 	if ( 'page' != $post->post_type ) {
 		wp_redirect( get_edit_post_link( $post_ID, 'url' ) );
@@ -97,21 +101,16 @@ case 'edit':
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('word-count');
 
-	if ( current_user_can('edit_page', $page_ID) ) {
-		if ( $last = wp_check_post_lock( $post->ID ) ) {
-			$last_user = get_userdata( $last );
-			$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
-			$message = sprintf( __( 'Warning: %s is currently editing this page' ), esc_html( $last_user_name ) );
-			$message = str_replace( "'", "\'", "<div class='error'><p>$message</p></div>" );
-			add_action('admin_notices', create_function( '', "echo '$message';" ) );
-		} else {
-			wp_set_post_lock( $post->ID );
-			wp_enqueue_script('autosave');
-		}
+	if ( $last = wp_check_post_lock( $post->ID ) ) {
+		$last_user = get_userdata( $last );
+		$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
+		$message = sprintf( __( 'Warning: %s is currently editing this page' ), esc_html( $last_user_name ) );
+		$message = str_replace( "'", "\'", "<div class='error'><p>$message</p></div>" );
+		add_action('admin_notices', create_function( '', "echo '$message';" ) );
+	} else {
+		wp_set_post_lock( $post->ID );
+		wp_enqueue_script('autosave');
 	}
-
-	if ( !current_user_can('edit_page', $page_ID) )
-		die ( __('You are not allowed to edit this page.') );
 
 	include('edit-page-form.php');
 	break;
@@ -142,7 +141,7 @@ case 'editpost':
 	break;
 
 case 'trash':
-	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	$post_id = isset($_GET['post']) ? intval($_GET['post']) : intval($_POST['post_ID']);
 	check_admin_referer('trash-page_' . $post_id);
 
 	$post = & get_post($post_id);
@@ -151,38 +150,42 @@ case 'trash':
 		wp_die( __('You are not allowed to move this page to the trash.') );
 
 	if ( !wp_trash_post($post_id) )
-		wp_die( __('Error in removing from trash...') );
+		wp_die( __('Error in moving to trash...') );
 
 	$sendback = wp_get_referer();
-	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('edit-pages.php?trashed=1');
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
-	else $sendback = add_query_arg('trashed', 1, $sendback);
+	if ( strpos($sendback, 'page.php') !== false )
+		$sendback = admin_url('edit-pages.php?trashed=1');
+	else
+		$sendback = add_query_arg('trashed', 1, $sendback);
+
 	wp_redirect($sendback);
 	exit();
 	break;
 
 case 'untrash':
-	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	$post_id = isset($_GET['post']) ? intval($_GET['post']) : intval($_POST['post_ID']);
 	check_admin_referer('untrash-page_' . $post_id);
 
 	$post = & get_post($post_id);
 
 	if ( !current_user_can('delete_page', $page_id) )
-		wp_die( __('You are not allowed to remove this page form the trash.') );
+		wp_die( __('You are not allowed to move this page out of the trash.') );
 
 	if ( !wp_untrash_post($post_id) )
-		wp_die( __('Error in removing from trash...') );
+		wp_die( __('Error in restoring from trash...') );
 
 	$sendback = wp_get_referer();
-	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('edit-pages.php?untrashed=1');
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
-	else $sendback = add_query_arg('untrashed', 1, $sendback);
+	if ( strpos($sendback, 'page.php') !== false )
+		$sendback = admin_url('edit-pages.php?untrashed=1');
+	else
+		$sendback = add_query_arg('untrashed', 1, $sendback);
+
 	wp_redirect($sendback);
 	exit();
 	break;
 
 case 'delete':
-	$page_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	$page_id = isset($_GET['post']) ? intval($_GET['post']) : intval($_POST['post_ID']);
 	check_admin_referer('delete-page_' .  $page_id);
 
 	$page = & get_post($page_id);
@@ -199,9 +202,11 @@ case 'delete':
 	}
 
 	$sendback = wp_get_referer();
-	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('edit-pages.php?deleted=1');
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
-	else $sendback = add_query_arg('deleted', 1, $sendback);
+	if ( strpos($sendback, 'page.php') !== false )
+		$sendback = admin_url('edit-pages.php?deleted=1');
+	else
+		$sendback = add_query_arg('deleted', 1, $sendback);
+
 	wp_redirect($sendback);
 	exit();
 	break;

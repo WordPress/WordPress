@@ -236,6 +236,14 @@ function bulk_edit_posts( $post_data = null ) {
 			wp_die( __('You are not allowed to edit posts.') );
 	}
 
+	if ( -1 == $post_data['_status'] ) {
+		$post_data['post_status'] = null;
+		unset($post_data['post_status']);
+	} else {
+		$post_data['post_status'] = $post_data['_status'];
+	}
+	unset($post_data['_status']);
+
 	$post_IDs = array_map( 'intval', (array) $post_data['post'] );
 
 	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private', 'tags_input', 'post_category', 'sticky' );
@@ -298,7 +306,7 @@ function bulk_edit_posts( $post_data = null ) {
 		$post_data['ID'] = $post_ID;
 		$updated[] = wp_update_post( $post_data );
 
-		if ( current_user_can( 'edit_others_posts' ) && isset( $post_data['sticky'] ) ) {
+		if ( isset( $post_data['sticky'] ) && current_user_can( 'edit_others_posts' ) ) {
 			if ( 'sticky' == $post_data['sticky'] )
 				stick_post( $post_ID );
 			else

@@ -11,13 +11,13 @@ require_once('admin.php');
 wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 
-if (!current_user_can('upload_files'))
+if ( !current_user_can('upload_files') )
 	wp_die(__('You do not have permission to upload files.'));
 
-if ( isset($_GET['find_detached'] ) ) {
+if ( isset($_GET['find_detached']) ) {
 	check_admin_referer('bulk-media');
 
-	if ( ! current_user_can('edit_posts') )
+	if ( !current_user_can('edit_posts') )
 		wp_die( __('You are not allowed to scan for lost attachments.') );
 
 	$all_posts = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'post' OR post_type = 'page'");
@@ -99,7 +99,7 @@ if ( isset($_GET['find_detached'] ) ) {
 		case 'untrash':
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can('delete_post', $post_id) )
-					wp_die( __('You are not allowed to remove this post from the trash.') );
+					wp_die( __('You are not allowed to move this post out of the trash.') );
 				
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from trash...') );
