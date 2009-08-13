@@ -355,6 +355,7 @@ class AtomServer {
 		$entries_url = esc_attr($this->get_entries_url());
 		$categories_url = esc_attr($this->get_categories_url());
 		$media_url = esc_attr($this->get_attachments_url());
+		$accepted_media_types = '';
 		foreach ($this->media_content_types as $med) {
 			$accepted_media_types = $accepted_media_types . "<accept>" . $med . "</accept>";
 		}
@@ -877,7 +878,7 @@ EOD;
 	 * @return string
 	 */
 	function get_entries_url($page = null) {
-		if($GLOBALS['post_type'] == 'attachment') {
+		if ( isset($GLOBALS['post_type']) && ( $GLOBALS['post_type'] == 'attachment' ) ) {
 			$path = $this->MEDIA_PATH;
 		} else {
 			$path = $this->ENTRIES_PATH;
