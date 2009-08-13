@@ -676,13 +676,13 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	$credentials = get_option('ftp_credentials', array( 'hostname' => '', 'username' => ''));
 
 	// If defined, set it to that, Else, If POST'd, set it to that, If not, Set it to whatever it previously was(saved details in option)
-	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? $_POST['hostname'] : $credentials['hostname']);
-	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? $_POST['username'] : $credentials['username']);
-	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? $_POST['password'] : '');
+	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? stripslashes($_POST['hostname']) : $credentials['hostname']);
+	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? stripslashes($_POST['username']) : $credentials['username']);
+	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? stripslashes($_POST['password']) : '');
 
 	// Check to see if we are setting the public/private keys for ssh
-	$credentials['public_key'] = defined('FTP_PUBKEY') ? FTP_PUBKEY : (!empty($_POST['public_key']) ? $_POST['public_key'] : '');
-	$credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : (!empty($_POST['private_key']) ? $_POST['private_key'] : '');
+	$credentials['public_key'] = defined('FTP_PUBKEY') ? FTP_PUBKEY : (!empty($_POST['public_key']) ? stripslashes($_POST['public_key']) : '');
+	$credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : (!empty($_POST['private_key']) ? stripslashes($_POST['private_key']) : '');
 
 	//sanitize the hostname, Some people might pass in odd-data:
 	$credentials['hostname'] = preg_replace('|\w+://|', '', $credentials['hostname']); //Strip any schemes off
@@ -697,7 +697,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	else if ( defined('FTP_SSL') && 'ftpext' == $type ) //Only the FTP Extension understands SSL
 		$credentials['connection_type'] = 'ftps';
 	else if ( !empty($_POST['connection_type']) )
-		$credentials['connection_type'] = $_POST['connection_type'];
+		$credentials['connection_type'] = stripslashes($_POST['connection_type']);
 	else if ( !isset($credentials['connection_type']) ) //All else fails (And its not defaulted to something else saved), Default to FTP
 		$credentials['connection_type'] = 'ftp';
 
@@ -791,10 +791,10 @@ jQuery(function($){
 </table>
 
 <?php if ( isset( $_POST['version'] ) ) : ?>
-<input type="hidden" name="version" value="<?php echo esc_attr($_POST['version']) ?>" />
+<input type="hidden" name="version" value="<?php echo esc_attr(stripslashes($_POST['version'])) ?>" />
 <?php endif; ?>
 <?php if ( isset( $_POST['locale'] ) ) : ?>
-<input type="hidden" name="locale" value="<?php echo esc_attr($_POST['locale']) ?>" />
+<input type="hidden" name="locale" value="<?php echo esc_attr(stripslashes($_POST['locale'])) ?>" />
 <?php endif; ?>
 <p class="submit">
 <input id="upgrade" name="upgrade" type="submit" class="button" value="<?php esc_attr_e('Proceed'); ?>" />
