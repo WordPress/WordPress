@@ -1492,13 +1492,13 @@ EOD;
 		// If Basic Auth is working...
 		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 			log_app("Basic Auth",$_SERVER['PHP_AUTH_USER']);
-		}
 
-		$user = wp_authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-		if ( $user && !is_wp_error($user) ) {
-			wp_set_current_user($user->ID);
-			log_app("authenticate()", $user->user_login);
-			return true;
+			$user = wp_authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			if ( $user && !is_wp_error($user) ) {
+				wp_set_current_user($user->ID);
+				log_app("authenticate()", $user->user_login);
+				return true;
+			}
 		}
 
 		return false;
