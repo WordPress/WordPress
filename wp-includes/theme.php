@@ -590,9 +590,9 @@ function get_author_template() {
 /**
  * Retrieve path of category template in current or parent template.
  *
- * Works by retrieving the current category ID, for example 'category-1.php' and
- * will fallback to category.php template, if the ID category file doesn't
- * exist.
+ * Works by first retrieving the current slug for example 'category-default.php' and then
+ * trying category ID, for example 'category-1.php' and will finally fallback to category.php
+ * template, if those files don't exist.
  *
  * @since 1.5.0
  * @uses apply_filters() Calls 'category_template' on file path of category template.
@@ -600,7 +600,18 @@ function get_author_template() {
  * @return string
  */
 function get_category_template() {
-	$template = locate_template(array("category-" . absint( get_query_var('cat') ) . '.php', 'category.php'));
+	$cat_ID = absint( get_query_var('cat') );
+	$category = get_category( $cat_ID );
+
+	$templates = array();
+	
+	if ( !is_wp_error($category) )
+		$templates[] = "category-{$category->slug}.php";
+
+	$templates[] = "category-$cat_ID.php";
+	$templates[] = "category.php";	
+	
+	$template = locate_template($templates);
 	return apply_filters('category_template', $template);
 }
 
