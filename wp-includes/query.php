@@ -1596,7 +1596,7 @@ class WP_Query {
 			if ( $this->is_search )
 				$q['post_type'] = 'any';
 			else
-				$q['post_type'] = 'post';
+				$q['post_type'] = '';
 		}
 		$post_type = $q['post_type'];
 		if ( !isset($q['posts_per_page']) || $q['posts_per_page'] == 0 )
@@ -2078,8 +2078,9 @@ class WP_Query {
 			$where .= " AND $wpdb->posts.post_type = 'attachment'";
 		} elseif ($this->is_page) {
 			$where .= " AND $wpdb->posts.post_type = 'page'";
-		} elseif ($this->is_single) {
+		} else {
 			$where .= " AND $wpdb->posts.post_type = 'post'";
+			$post_type = 'post';
 		}
 
 		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
