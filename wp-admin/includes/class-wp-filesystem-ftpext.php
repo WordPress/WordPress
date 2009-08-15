@@ -16,7 +16,6 @@
  */
 class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	var $link;
-	var $timeout = 5;
 	var $errors = null;
 	var $options = array();
 
@@ -33,6 +32,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		// Set defaults:
+		//This Class uses the timeout on a per-connection basis, Others use it on a per-action basis.
+
+		if ( ! defined('FS_TIMEOUT') )
+			define('FS_TIMEOUT', 240);
+
 		if ( empty($opt['port']) )
 			$this->options['port'] = 21;
 		else
@@ -64,9 +68,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 	function connect() {
 		if ( isset($this->options['ssl']) && $this->options['ssl'] && function_exists('ftp_ssl_connect') )
-			$this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'], $this->timeout);
+			$this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
 		else
-			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'], $this->timeout);
+			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
 
 		if ( ! $this->link ) {
 			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
@@ -80,6 +84,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		//Set the Connection to use Passive FTP
 		@ftp_pasv( $this->link, true );
+		if ( @ftp_get_option($this->link, FTP_TIMEOUT_SEC) < FTP_TIMEOUT )
+			@ftp_set_option($this->link, FTP_TIMEOUT_SEC, FTP_TIMEOUT);
 
 		return true;
 	}

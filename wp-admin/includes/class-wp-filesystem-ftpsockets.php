@@ -16,7 +16,6 @@
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	var $ftp = false;
-	var $timeout = 5;
 	var $errors = null;
 	var $options = array();
 
@@ -61,12 +60,13 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		if ( ! $this->ftp )
 			return false;
 
-		//$this->ftp->Verbose = true;
+		$this->ftp->setTimeout(FS_CONNECT_TIMEOUT);
 
 		if ( ! $this->ftp->SetServer($this->options['hostname'], $this->options['port']) ) {
 			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
 			return false;
 		}
+
 		if ( ! $this->ftp->connect() ) {
 			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
 			return false;
@@ -79,6 +79,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		$this->ftp->SetType(FTP_AUTOASCII);
 		$this->ftp->Passive(true);
+		$this->ftp->setTimeout(FS_TIMEOUT);
 		return true;
 	}
 

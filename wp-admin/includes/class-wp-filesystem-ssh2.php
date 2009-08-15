@@ -45,14 +45,6 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	var $link = false;
 	var $sftp_link = false;
 	var $keys = false;
-	/*
-	 * This is the timeout value for ssh results.
-	 * Slower servers might need this incressed, but this number otherwise should not change.
-	 *
-	 * @parm $timeout int
-	 *
-	 */
-	var $timeout = 15;
 	var $errors = array();
 	var $options = array();
 
@@ -148,7 +140,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->errors->add('command', sprintf(__('Unable to perform command: %s'), $command));
 		} else {
 			stream_set_blocking( $stream, true );
-			stream_set_timeout( $stream, $this->timeout );
+			stream_set_timeout( $stream, FS_TIMEOUT );
 			$data = stream_get_contents( $stream );
 			fclose( $stream );
 

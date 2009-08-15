@@ -605,6 +605,12 @@ function WP_Filesystem( $args = false, $context = false ) {
 
 	$wp_filesystem = new $method($args);
 
+	//Define the timeouts for the connections. Only available after the construct is called to allow for per-transport overriding of the default.
+	if ( ! defined('FS_CONNECT_TIMEOUT') )
+		define('FS_CONNECT_TIMEOUT', 30);
+	if ( ! defined('FS_TIMEOUT') )
+		define('FS_TIMEOUT', 30);
+
 	if ( is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->get_error_code() )
 		return false;
 
