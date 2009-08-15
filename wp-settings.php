@@ -123,6 +123,7 @@ if ( file_exists(ABSPATH . '.maintenance') && !defined('WP_INSTALLING') ) {
 			$protocol = 'HTTP/1.0';
 		header( "$protocol 503 Service Unavailable", true, 503 );
 		header( 'Content-Type: text/html; charset=utf-8' );
+		header( 'Retry-After: 600' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
