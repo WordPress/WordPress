@@ -2072,14 +2072,14 @@ class WP_Query {
 
 		if ( 'any' == $post_type ) {
 			$where .= " AND $wpdb->posts.post_type != 'revision'";
+		} elseif ( ! empty( $post_type ) ) {
+			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		} elseif ( $this->is_attachment ) {
 			$where .= " AND $wpdb->posts.post_type = 'attachment'";
 		} elseif ($this->is_page) {
 			$where .= " AND $wpdb->posts.post_type = 'page'";
 		} elseif ($this->is_single) {
 			$where .= " AND $wpdb->posts.post_type = 'post'";
-		} else {
-			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		}
 
 		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
