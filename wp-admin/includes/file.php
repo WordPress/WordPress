@@ -636,13 +636,13 @@ function get_filesystem_method($args = array(), $context = false) {
 		if ( !$context )
 			$context = WP_CONTENT_DIR;
 		$context = trailingslashit($context);
-		$temp_file_name = $context . '.write-test-' . time();
+		$temp_file_name = $context . 'temp-write-test-' . time();
 		$temp_handle = @fopen($temp_file_name, 'w');
 		if ( $temp_handle ) {
-			if ( getmyuid() == fileowner($temp_file_name) )
+			if ( getmyuid() == @fileowner($temp_file_name) )
 				$method = 'direct';
 			@fclose($temp_handle);
-			unlink($temp_file_name);
+			@unlink($temp_file_name);
 		}
  	}
 
