@@ -210,7 +210,7 @@ class WP_Filesystem_Base {
 			return trailingslashit($base . $last_path);
 		}
 		if ( $loop )
-			return false;//Prevent tihs function looping again.
+			return false; //Prevent tihs function looping again.
 		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
 		return $this->search_for_folder($folder, '/', true);
 
@@ -242,7 +242,7 @@ class WP_Filesystem_Base {
 			$info = 'd';
 		elseif (($perms & 0x2000) == 0x2000) // Character special
 			$info = 'c';
-		elseif (($perms & 0x1000) == 0x1000)// FIFO pipe
+		elseif (($perms & 0x1000) == 0x1000) // FIFO pipe
 			$info = 'p';
 		else // Unknown
 			$info = 'u';

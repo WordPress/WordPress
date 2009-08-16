@@ -19,14 +19,12 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	var $errors = null;
 	var $options = array();
 
-	var $permission = null;
-
 	function WP_Filesystem_ftpsockets($opt = '') {
 		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
 
 		//Check if possible to use ftp functions.
-		if( ! @include_once ABSPATH . 'wp-admin/includes/class-ftp.php' )
+		if ( ! @include_once ABSPATH . 'wp-admin/includes/class-ftp.php' )
 				return false;
 		$this->ftp = new ftp();
 
@@ -83,15 +81,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return true;
 	}
 
-	function setDefaultPermissions($perm) {
-		$this->permission = $perm;
-	}
-
 	function get_contents($file, $type = '', $resumepos = 0) {
-		if( ! $this->exists($file) )
+		if ( ! $this->exists($file) )
 			return false;
 
-		if( empty($type) )
+		if ( empty($type) )
 			$type = FTP_AUTOASCII;
 		$this->ftp->SetType($type);
 
@@ -122,7 +116,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function put_contents($file, $contents, $type = '' ) {
-		if( empty($type) )
+		if ( empty($type) )
 			$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
 
 		$this->ftp->SetType($type);
@@ -145,7 +139,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 	function cwd() {
 		$cwd = $this->ftp->pwd();
-		if( $cwd )
+		if ( $cwd )
 			$cwd = trailingslashit($cwd);
 		return $cwd;
 	}
@@ -159,14 +153,18 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function chmod($file, $mode = false, $recursive = false ) {
-		if( ! $mode )
-			$mode = $this->permission;
-		if( ! $mode )
-			return false;
-		//if( ! $this->exists($file) )
-		//	return false;
-		if( ! $recursive || ! $this->is_dir($file) ) {
-			return $this->ftp->chmod($file,$mode);
+
+		if ( ! $mode ) {
+			if ( $this->is_file($file) )
+				$mode = FS_CHMOD_FILE;
+			elseif ( $this->is_dir($file) )
+				$mode = FS_CHMOD_DIR;
+			else
+				return false;	
+		}
+
+		if ( ! $recursive || ! $this->is_dir($file) ) {
+			return $this->ftp->chmod($file, $mode);
 		}
 		//Is a directory, and we want recursive
 		$filelist = $this->dirlist($file);
@@ -196,7 +194,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function copy($source, $destination, $overwrite = false ) {
-		if( ! $overwrite && $this->exists($destination) )
+		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 
 		$content = $this->get_contents($source);
@@ -265,26 +263,27 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false ) {
-		if( ! $this->ftp->mkdir($path) )
+		if ( ! $this->ftp->mkdir($path) )
 			return false;
-		if( $chmod )
-			$this->chmod($path, $chmod);
-		if( $chown )
+		if ( ! $chmod )
+			$chmod = FS_CHMOD_DIR;
+		$this->chmod($path, $chmod);
+		if ( $chown )
 			$this->chown($path, $chown);
-		if( $chgrp )
+		if ( $chgrp )
 			$this->chgrp($path, $chgrp);
 		return true;
 	}
 
 	function rmdir($path, $recursive = false ) {
-		if( ! $recursive )
+		if ( ! $recursive )
 			return $this->ftp->rmdir($path);
 
 		return $this->ftp->mdel($path);
 	}
 
 	function dirlist($path = '.', $incdot = false, $recursive = false ) {
-		if( $this->is_file($path) ) {
+		if ( $this->is_file($path) ) {
 			$limitFile = basename($path);
 			$path = dirname($path) . '/';
 		} else {
@@ -292,9 +291,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		}
 
 		$list = $this->ftp->dirlist($path);
-		if( ! $list )
+		if ( ! $list )
 			return false;
-		if( empty($list) )
+		if ( empty($list) )
 			return array();
 
 		$ret = array();
@@ -305,7 +304,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 				if ( $incdot ){
 					//We're including the doted starts
-					if( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder
+					if ( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder
 						if ($recursive)
 							$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
 					}
