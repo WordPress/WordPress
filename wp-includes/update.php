@@ -47,7 +47,7 @@ function wp_version_check() {
 	$url = "http://api.wordpress.org/core/version-check/1.3/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
 
 	$options = array(
-		'timeout' => 3,
+		'timeout' => defined('DOING_CRON') && DOING_CRON ? 30 : 3,
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
@@ -146,7 +146,7 @@ function wp_update_plugins() {
 	$to_send = (object)compact('plugins', 'active');
 
 	$options = array(
-		'timeout' => 3,
+		'timeout' => defined('DOING_CRON') && DOING_CRON ? 30 : 3,
 		'body' => array( 'plugins' => serialize( $to_send ) ),
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
@@ -240,7 +240,7 @@ function wp_update_themes( ) {
 	$current_theme->template = get_option( 'template' );
 
 	$options = array(
-		'timeout'		=> 3,
+		'timeout' => defined('DOING_CRON') && DOING_CRON ? 30 : 3,
 		'body'			=> array( 'themes' => serialize( $themes ) ),
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
@@ -306,7 +306,7 @@ function _maybe_update_themes( ) {
 	if( isset( $current->last_checked ) && 43200 > ( time( ) - $current->last_checked ) )
 		return;
 
-	wp_update_themes( );
+	wp_update_themes();
 }
 
 add_action( 'admin_init', '_maybe_update_core' );

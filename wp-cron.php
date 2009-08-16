@@ -35,7 +35,7 @@ $local_time = time();
 if ( isset($keys[0]) && $keys[0] > $local_time )
 	die();
 
-foreach ($crons as $timestamp  => $cronhooks) {
+foreach ($crons as $timestamp => $cronhooks) {
 	if ( $timestamp > $local_time )
 		break;
 
