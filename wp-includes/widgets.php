@@ -970,7 +970,7 @@ function wp_get_sidebars_widgets($deprecated = true) {
 		$sidebars_widgets = get_option('sidebars_widgets', array());
 		$_sidebars_widgets = array();
 
-		if ( isset($sidebars_widgets['wp_inactive_widgets']) )
+		if ( isset($sidebars_widgets['wp_inactive_widgets']) || empty($sidebars_widgets) )
 			$sidebars_widgets['array_version'] = 3;
 		elseif ( !isset($sidebars_widgets['array_version']) )
 			$sidebars_widgets['array_version'] = 1;

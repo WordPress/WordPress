@@ -252,13 +252,15 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	<p class="describe"><?php _e('Select both the sidebar for this widget and the position of the widget in that sidebar.'); ?></p>
 	<div class="widget-position">
 	<table class="widefat"><thead><tr><th><?php _e('Sidebar'); ?></th><th><?php _e('Position'); ?></th></tr></thead><tbody>
-<?php	foreach ( $wp_registered_sidebars as $sbname => $sbvalue ) {
+<?php
+	foreach ( $wp_registered_sidebars as $sbname => $sbvalue ) {
 		echo "\t\t<tr><td><label><input type='radio' name='sidebar' value='" . esc_attr($sbname) . "'" . checked( $sbname, $sidebar, false ) . " /> $sbvalue[name]</label></td><td>";
 		if ( 'wp_inactive_widgets' == $sbname ) {
 			echo '&nbsp;';
 		} else {
 			if ( !isset($sidebars_widgets[$sbname]) || !is_array($sidebars_widgets[$sbname]) ) {
 				$j = 1;
+				$sidebars_widgets[$sbname] = array();
 			} else {
 				$j = count($sidebars_widgets[$sbname]);
 				if ( isset($_GET['addnew']) || !in_array($widget_id, $sidebars_widgets[$sbname], true) )
