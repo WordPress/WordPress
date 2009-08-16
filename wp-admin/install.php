@@ -68,7 +68,7 @@ function display_setup_form( $error = null ) {
 		<tr>
 			<th scope="row"><label for="admin_email"><?php _e('Your E-mail'); ?></label></th>
 			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo ( isset($_POST['admin_email']) ? esc_attr($_POST['admin_email']) : '' ); ?>" /><br />
-			<?php _e('Double-check your email address before continuing.'); ?>
+			<?php _e('Double-check your email address before continuing.'); ?></td>
 		</tr>
 		<tr>
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked($blog_public); ?> /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
