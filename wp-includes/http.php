@@ -118,8 +118,7 @@ class WP_Http {
 			}
 		}
 
-		if ( has_filter('http_transport_get_debug') )
-			do_action('http_transport_get_debug', $working_transport, $blocking_transport, $nonblocking_transport);
+		do_action( 'http_transport_get_debug', $working_transport, $blocking_transport, $nonblocking_transport );
 
 		if ( isset($args['blocking']) && !$args['blocking'] )
 			return $nonblocking_transport;
@@ -166,8 +165,7 @@ class WP_Http {
 			}
 		}
 
-		if ( has_filter('http_transport_post_debug') )
-			do_action('http_transport_post_debug', $working_transport, $blocking_transport, $nonblocking_transport);
+		do_action( 'http_transport_post_debug', $working_transport, $blocking_transport, $nonblocking_transport );
 
 		if ( isset($args['blocking']) && !$args['blocking'] )
 			return $nonblocking_transport;
@@ -300,15 +298,13 @@ class WP_Http {
 			$transports = WP_Http::_postTransport($r);
 		}
 
-		if ( has_action('http_api_debug') )
-			do_action('http_api_debug', $transports, 'transports_list');
+		do_action( 'http_api_debug', $transports, 'transports_list' );
 
 		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		foreach ( (array) $transports as $transport ) {
 			$response = $transport->request($url, $r);
 
-			if ( has_action('http_api_debug') )
-				do_action( 'http_api_debug', $response, 'response', get_class($transport) );
+			do_action( 'http_api_debug', $response, 'response', get_class($transport) );
 
 			if ( ! is_wp_error($response) )
 				return apply_filters( 'http_response', $response, $r, $url );
