@@ -383,7 +383,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	} else {
 		$rotated = false;
-		if ( IMAGETYPE_JPEG == $orig_type ) {
+		if ( IMAGETYPE_JPEG == $orig_type && function_exists('exif_read_data') ) {
 			// rotate if EXIF 'Orientation' is set
 			$exif = exif_read_data($file, null, true);
 			if ( $exif && isset($exif['IFD0']) && is_array($exif['IFD0']) && isset($exif['IFD0']['Orientation']) ) {
