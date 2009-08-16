@@ -1027,10 +1027,30 @@ function valid_unicode($i) {
  * @return string Content after decoded entities
  */
 function wp_kses_decode_entities($string) {
-	$string = preg_replace_callback('/&#([0-9]+);/', create_function('$match', 'return chr($match[1]);'), $string);
-	$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', create_function('$match', 'return chr(hexdec($match[1]));'), $string);
+	$string = preg_replace_callback('/&#([0-9]+);/', '_wp_kses_decode_entities_chr', $string);
+	$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', '_wp_kses_decode_entities_chr_hexdec', $string);
 
 	return $string;
+}
+
+/**
+ * Regex callback for wp_kses_decode_entities()
+ *
+ * @param array $match preg match
+ * @return string
+ */
+function _wp_kses_decode_entities_chr( $match ) {
+	return chr( $match[1] );
+}
+
+/**
+ * Regex callback for wp_kses_decode_entities()
+ *
+ * @param array $match preg match
+ * @return string
+ */
+function _wp_kses_decode_entities_chr_hexdec( $match ) {
+	return chr( hexdec( $match[1] ) );
 }
 
 /**
