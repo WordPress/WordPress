@@ -122,7 +122,7 @@ include ('admin-header.php');
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form id="your-profile" action="" method="post">
+<form id="your-profile" action="<?php if ( IS_PROFILE_PAGE ) { echo admin_url('profile.php'); } else { echo admin_url('user-edit.php'); } ?>" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url($wp_http_referer); ?>" />
