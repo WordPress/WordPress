@@ -339,9 +339,9 @@ function wp_dashboard_right_now() {
 	} else {
 		if ( current_user_can( 'switch_themes' ) ) {
 			echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
-			printf('Theme <span class="b"><a href="themes.php">%1$s</a></span>', $ct->title);
+			printf( __('Theme <span class="b"><a href="themes.php">%1$s</a></span>'), $ct->title );
 		} else {
-			printf('Theme <span class="b">%1$s</span>', $ct->title);
+			printf( __('Theme <span class="b">%1$s</span>'), $ct->title );
 		}
 	}
 	echo '</p>';
