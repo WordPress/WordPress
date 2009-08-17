@@ -625,16 +625,6 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
 	do_action('wp_blacklist_check', $author, $email, $url, $comment, $user_ip, $user_agent);
 
-	if ( preg_match_all('/&#(\d+);/', $comment . $author . $url, $chars) ) {
-		foreach ( (array) $chars[1] as $char ) {
-			// If it's an encoded char in the normal ASCII set, reject
-			if ( 38 == $char )
-				continue; // Unless it's &
-			if ( $char < 128 )
-				return true;
-		}
-	}
-
 	$mod_keys = trim( get_option('blacklist_keys') );
 	if ( '' == $mod_keys )
 		return false; // If moderation keys are empty
