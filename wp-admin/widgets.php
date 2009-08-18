@@ -15,8 +15,18 @@ require_once(ABSPATH . 'wp-admin/includes/widgets.php');
 if ( ! current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
 
-wp_enqueue_script('admin-widgets');
 wp_admin_css( 'widgets' );
+
+$widgets_access = get_user_setting( 'widgets_access' );
+if ( isset($_GET['widgets-access']) ) {
+	$widgets_access = 'on' == $_GET['widgets-access'] ? 'on' : 'off';
+	set_user_setting( 'widgets_access', $widgets_access );
+}
+
+if ( 'on' == $widgets_access )
+	add_filter( 'admin_body_class', create_function('', '{return " widgets_access ";}') );
+else
+	wp_enqueue_script('admin-widgets');
 
 do_action( 'sidebar_admin_setup' );
 
@@ -301,15 +311,6 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	require_once( 'admin-footer.php' );
 	exit;
 }
-
-$widgets_access = get_user_setting( 'widgets_access' );
-if ( isset($_GET['widgets-access']) ) {
-	$widgets_access = 'on' == $_GET['widgets-access'] ? 'on' : 'off';
-	set_user_setting( 'widgets_access', $widgets_access );
-}
-
-if ( 'on' == $widgets_access )
-	add_filter( 'admin_body_class', create_function('', '{return " widgets_access ";}') );
 
 $messages = array(
 	__('Changes saved.')
