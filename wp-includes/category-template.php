@@ -68,7 +68,7 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
 	}
 
 	if ( $link )
-		$chain .= '<a href="' . get_category_link( $parent->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $parent->cat_name ) . '">'.$name.'</a>' . $separator;
+		$chain .= '<a href="' . get_category_link( $parent->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $parent->cat_name ) ) . '">'.$name.'</a>' . $separator;
 	else
 		$chain .= $name.$separator;
 	return $chain;
@@ -190,17 +190,17 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 				case 'multiple':
 					if ( $category->parent )
 						$thelist .= get_category_parents( $category->parent, true, $separator );
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>' . $category->name.'</a></li>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->name.'</a></li>';
 					break;
 				case 'single':
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>';
 					if ( $category->parent )
 						$thelist .= get_category_parents( $category->parent, false, $separator );
 					$thelist .= $category->name.'</a></li>';
 					break;
 				case '':
 				default:
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>' . $category->cat_name.'</a></li>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->cat_name.'</a></li>';
 			}
 		}
 		$thelist .= '</ul>';
@@ -213,17 +213,17 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 				case 'multiple':
 					if ( $category->parent )
 						$thelist .= get_category_parents( $category->parent, true, $separator );
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>' . $category->cat_name.'</a>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->cat_name.'</a>';
 					break;
 				case 'single':
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>';
 					if ( $category->parent )
 						$thelist .= get_category_parents( $category->parent, false, $separator );
 					$thelist .= "$category->cat_name</a>";
 					break;
 				case '':
 				default:
-					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>' . $category->name.'</a>';
+					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $category->name ) ) . '" ' . $rel . '>' . $category->name.'</a>';
 			}
 			++$i;
 		}
@@ -352,6 +352,8 @@ function wp_dropdown_categories( $args = '' ) {
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
 	$categories = get_categories( $r );
+	$name = esc_attr($name);
+	$class = esc_attr($class);
 
 	$output = '';
 	if ( ! empty( $categories ) ) {

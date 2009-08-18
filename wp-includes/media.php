@@ -616,9 +616,9 @@ function img_caption_shortcode($attr, $content = null) {
 	if ( 1 > (int) $width || empty($caption) )
 		return $content;
 
-	if ( $id ) $id = 'id="' . $id . '" ';
+	if ( $id ) $id = 'id="' . esc_attr($id) . '" ';
 
-	return '<div ' . $id . 'class="wp-caption ' . $align . '" style="width: ' . (10 + (int) $width) . 'px">'
+	return '<div ' . $id . 'class="wp-caption ' . esc_attr($align) . '" style="width: ' . (10 + (int) $width) . 'px">'
 	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $caption . '</p></div>';
 }
 

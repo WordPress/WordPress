@@ -1023,7 +1023,7 @@ function get_calendar($initial = true) {
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption');
-	echo '<table id="wp-calendar" summary="' . __('Calendar') . '">
+	echo '<table id="wp-calendar" summary="' . esc_attr__('Calendar') . '">
 	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
@@ -1036,6 +1036,7 @@ function get_calendar($initial = true) {
 
 	foreach ( $myweek as $wd ) {
 		$day_name = (true == $initial) ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
+		$wd = esc_attr($wd);
 		echo "\n\t\t<th abbr=\"$wd\" scope=\"col\" title=\"$wd\">$day_name</th>";
 	}
 
@@ -1058,8 +1059,8 @@ function get_calendar($initial = true) {
 
 	if ( $next ) {
 		echo "\n\t\t".'<td abbr="' . $wp_locale->get_month($next->month) . '" colspan="3" id="next"><a href="' .
-		get_month_link($next->year, $next->month) . '" title="' . sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($next->month),
-			date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
+		get_month_link($next->year, $next->month) . '" title="' . esc_attr( sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($next->month) ,
+			date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
 	} else {
 		echo "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
 	}
@@ -1116,7 +1117,7 @@ function get_calendar($initial = true) {
 	// See how much we should pad in the beginning
 	$pad = calendar_week_mod(date('w', $unixmonth)-$week_begins);
 	if ( 0 != $pad )
-		echo "\n\t\t".'<td colspan="'.$pad.'" class="pad">&nbsp;</td>';
+		echo "\n\t\t".'<td colspan="'. esc_attr($pad) .'" class="pad">&nbsp;</td>';
 
 	$daysinmonth = intval(date('t', $unixmonth));
 	for ( $day = 1; $day <= $daysinmonth; ++$day ) {
@@ -1130,7 +1131,7 @@ function get_calendar($initial = true) {
 			echo '<td>';
 
 		if ( in_array($day, $daywithpost) ) // any posts today?
-				echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"$ak_titles_for_day[$day]\">$day</a>";
+				echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"" . esc_attr($ak_titles_for_day[$day]) . "\">$day</a>";
 		else
 			echo $day;
 		echo '</td>';
@@ -1141,7 +1142,7 @@ function get_calendar($initial = true) {
 
 	$pad = 7 - calendar_week_mod(date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))-$week_begins);
 	if ( $pad != 0 && $pad != 7 )
-		echo "\n\t\t".'<td class="pad" colspan="'.$pad.'">&nbsp;</td>';
+		echo "\n\t\t".'<td class="pad" colspan="'. esc_attr($pad) .'">&nbsp;</td>';
 
 	echo "\n\t</tr>\n\t</tbody>\n\t</table>";
 
