@@ -1091,6 +1091,8 @@ function wp_create_post_autosave( $post_id ) {
 	if ( $old_autosave = wp_get_post_autosave( $post_id ) ) {
 		$new_autosave = _wp_post_revision_fields( $_POST, true );
 		$new_autosave['ID'] = $old_autosave->ID;
+		$current_user = wp_get_current_user();
+		$new_autosave['post_author'] = $current_user->ID;
 		return wp_update_post( $new_autosave );
 	}
 
