@@ -688,8 +688,8 @@ class WP_Import {
 	}
 
 	function is_valid_meta_key($key) {
-		// skip _wp_attached_file metadata since we'll regenerate it from scratch
-		if ( $key == '_wp_attached_file' )
+		// skip attachment metadata since we'll regenerate it from scratch
+		if ( $key == '_wp_attached_file' || $key == '_wp_attachment_metadata' )
 			return false;
 		return $key;
 	}
