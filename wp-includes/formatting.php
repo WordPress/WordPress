@@ -1185,10 +1185,18 @@ function antispambot($emailaddy, $mailto=0) {
  */
 function _make_url_clickable_cb($matches) {
 	$url = $matches[2];
+
+	$after = '';
+	if ( preg_match( '|(.+)([).])$|', $url, $split ) ) {
+		$url = $split[1];
+		$after = $split[2];
+	}
+
 	$url = esc_url($url);
 	if ( empty($url) )
 		return $matches[0];
-	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>";
+
+	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>$after";
 }
 
 /**
@@ -1210,12 +1218,13 @@ function _make_web_ftp_clickable_cb($matches) {
 	$dest = esc_url($dest);
 	if ( empty($dest) )
 		return $matches[0];
-	// removed trailing [,;:] from URL
-	if ( in_array(substr($dest, -1), array('.', ',', ';', ':')) === true ) {
+
+	// removed trailing [.,;:)] from URL
+	if ( in_array( substr($dest, -1), array('.', ',', ';', ':', ')') ) === true ) {
 		$ret = substr($dest, -1);
 		$dest = substr($dest, 0, strlen($dest)-1);
 	}
-	return $matches[1] . "<a href=\"$dest\" rel=\"nofollow\">$dest</a>" . $ret;
+	return $matches[1] . "<a href=\"$dest\" rel=\"nofollow\">$dest</a>$ret";
 }
 
 /**
