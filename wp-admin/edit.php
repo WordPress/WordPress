@@ -112,6 +112,14 @@ if ( empty($title) )
 $parent_file = 'edit.php';
 wp_enqueue_script('inline-edit-post');
 
+$user_posts = false;
+if ( !current_user_can('edit_others_posts') ) {
+	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = 'post' AND post_status != 'trash' AND post_author = %d", $current_user->ID) );
+	$user_posts = true;
+	if ( $user_posts_count && empty($_GET['post_status']) && empty($_GET['all_posts']) && empty($_GET['author']) )
+		$_GET['author'] = $current_user->ID;
+}
+
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 
 require_once('admin-header.php');
@@ -179,10 +187,19 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts( 'post', 'readable' );
-$total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
-$class = empty( $_GET['post_status'] ) ? ' class="current"' : '';
-$status_links[] = "<li><a href='edit.php' $class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
+$class = '';
+$allposts = '';
 
+if ( $user_posts ) {
+	if ( $_GET['author'] == $current_user->ID )
+		$class = ' class="current"';
+	$status_links[] = "<li><a href='edit.php?author=$current_user->ID'$class>" . sprintf( _nx( 'My Posts <span class="count">(%s)</span>', 'My Posts <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
+	$allposts = '?all_posts=1';
+}
+
+$total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
+$class = empty($class) && empty($_GET['post_status']) ? ' class="current"' : '';
+$status_links[] = "<li><a href='edit.php{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
@@ -192,10 +209,11 @@ foreach ( $post_stati as $status => $label ) {
 
 	if ( empty( $num_posts->$status ) )
 		continue;
+
 	if ( isset($_GET['post_status']) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href='edit.php?post_status=$status' $class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
+	$status_links[] = "<li><a href='edit.php?post_status=$status'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
 echo implode( " |</li>\n", $status_links ) . '</li>';
 unset( $status_links );
@@ -339,7 +357,12 @@ if ( $page_links )
 
 <?php } else { // have_posts() ?>
 <div class="clear"></div>
-<p><?php _e('No posts found') ?></p>
+<p><?php
+if ( 'trash' == $_GET['post_status'] )
+	_e('No posts found in the trash');
+else
+	_e('No posts found');
+?></p>
 <?php } ?>
 
 </form>
@@ -347,9 +370,7 @@ if ( $page_links )
 <?php inline_edit_row( 'post' ); ?>
 
 <div id="ajax-response"></div>
-
 <br class="clear" />
-
 </div>
 
 <?php
