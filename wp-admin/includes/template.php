@@ -1439,9 +1439,11 @@ function _post_row($a_post, $pending_comments, $mode) {
 				the_excerpt();
 
 			$actions = array();
-			if ( 'trash' == $post->post_status && current_user_can('delete_post', $post->ID) ) {
-				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this post from the Trash')) . "' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
-				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post permanently')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+			if ('trash' == $post->post_status) {
+				if ( current_user_can('delete_post', $post->ID) ) {
+					$actions['untrash'] = "<a title='" . esc_attr(__('Restore this post from the Trash')) . "' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
+					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post permanently')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+				}
 			} else {
 				if ( current_user_can('edit_post', $post->ID) ) {
 					$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '" title="' . esc_attr(__('Edit this post')) . '">' . __('Edit') . '</a>';

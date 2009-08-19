@@ -321,7 +321,7 @@ foreach ($arc_result as $arc_row) {
 
 <?php if ( isset($_GET['detached']) ) { ?>
 	<input type="submit" id="find_detached" name="find_detached" value="<?php esc_attr_e('Scan for lost attachments'); ?>" class="button-secondary" />
-<?php } elseif ( isset($_GET['status']) && $_GET['status'] == 'trash' ) { ?>
+<?php } elseif ( isset($_GET['status']) && $_GET['status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
 	<input type="submit" id="delete_all" name="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 
@@ -362,7 +362,7 @@ foreach ($arc_result as $arc_row) {
 			$att_title = esc_html( _draft_or_post_title($post->ID) );
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo $class; ?>' valign="top">
-		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo esc_attr($post->ID); ?>" /></th>
+		<th scope="row" class="check-column"><?php if ( current_user_can('edit_post', $post->ID) ) { ?><input type="checkbox" name="media[]" value="<?php echo esc_attr($post->ID); ?>" /><?php } ?></th>
 
 		<td class="media-icon"><?php
 		if ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) { ?>
@@ -446,7 +446,7 @@ if ( $page_links )
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 
-<?php if ( isset($_GET['status']) && $_GET['status'] == 'trash' ) { ?>
+<?php if ( isset($_GET['status']) && $_GET['status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
 	<input type="submit" id="delete_all2" name="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>

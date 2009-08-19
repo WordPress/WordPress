@@ -1062,9 +1062,12 @@ function get_media_items( $post_id, $errors ) {
 	}
 
 	$output = '';
-	foreach ( (array) $attachments as $id => $attachment )
+	foreach ( (array) $attachments as $id => $attachment ) {
+		if ( $attachment->post_status == 'trash' )
+			continue;
 		if ( $item = get_media_item( $id, array( 'errors' => isset($errors[$id]) ? $errors[$id] : null) ) )
 			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div class='progress'><div class='bar'></div></div><div id='media-upload-error-$id'></div><div class='filename'></div>$item\n</div>";
+	}
 
 	return $output;
 }
@@ -1166,11 +1169,11 @@ function get_media_item( $attachment_id, $args = null ) {
 		'extra_rows' => array(),
 	);
 
-	$delete_href = wp_nonce_url("post.php?action=trash&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
+	$delete_href = wp_nonce_url("post.php?action=trash&amp;post=$attachment_id", 'trash-post_' . $attachment_id);
 	if ( $send )
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
 	if ( $delete )
-		$delete = "<a href=\"$delete_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a>";
+		$delete = current_user_can('delete_post', $attachment_id) ? "<a href=\"$delete_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a>" : "";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
 		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete</td></tr>\n");
 

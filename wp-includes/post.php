@@ -1264,7 +1264,7 @@ function wp_untrash_post($postid = 0) {
 
 	do_action('untrash_post', $postid);
 
-	$post['post_status'] = 'draft';
+	$post['post_status'] = ($post->post_type == 'attachment') ? 'inherit' : 'draft';
 
 	$trash_meta = get_option('wp_trash_meta');
 	if ( is_array($trash_meta) && isset($trash_meta['posts'][$postid]) ) {

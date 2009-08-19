@@ -78,7 +78,7 @@ function prepareMediaItemInit(fileObj) {
 		// Tell the server to delete it. TODO: handle exceptions
 		jQuery.ajax({url:'admin-ajax.php',type:'post',success:deleteSuccess,error:deleteError,id:fileObj.id,data:{
 			id : this.id.replace(/[^0-9]/g,''),
-			action : 'delete-post',
+			action : 'trash-post',
 			_ajax_nonce : this.href.replace(/^.*wpnonce=/,'')}
 			});
 		return false;

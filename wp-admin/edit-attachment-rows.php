@@ -59,7 +59,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 
 	case 'cb':
 		?>
-		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><?php if ( current_user_can('edit_post', $post->ID) ) { ?><input type="checkbox" name="media[]" value="<?php the_ID(); ?>" /><?php } ?></th>
 		<?php
 		break;
 
@@ -89,9 +89,11 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		<p>
 		<?php
 		$actions = array();
-		if ( $is_trash && current_user_can('delete_post', $post->ID) ) {
-			$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
-			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+		if ( $is_trash ) {
+			if ( current_user_can('delete_post', $post->ID) ) {
+				$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
+				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+			}
 		} else {
 			if ( current_user_can('edit_post', $post->ID) )
 				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';

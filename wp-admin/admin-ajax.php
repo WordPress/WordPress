@@ -312,6 +312,19 @@ case 'delete-post' :
 	else
 		die('0');
 	break;
+case 'trash-post' :
+	check_ajax_referer( "{$action}_$id" );
+	if ( !current_user_can( 'delete_post', $id ) )
+		die('-1');
+
+	if ( !get_post( $id ) )
+		die('1');
+
+	if ( wp_trash_post( $id ) )
+		die('1');
+	else
+		die('0');
+	break;
 case 'delete-page' :
 	check_ajax_referer( "{$action}_$id" );
 	if ( !current_user_can( 'delete_page', $id ) )

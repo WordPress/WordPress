@@ -827,11 +827,16 @@ function map_meta_cap( $cap, $user_id ) {
 		// If the user is the author...
 		if ( $user_id == $post_author_data->ID ) {
 			// If the post is published...
-			if ( 'publish' == $post->post_status )
+			if ( 'publish' == $post->post_status ) {
 				$caps[] = 'edit_published_posts';
-			else
+			} elseif ( 'trash' == $post->post_status ) {
+				$trash_meta = get_option('wp_trash_meta');
+				if ( is_array($trash_meta) && isset($trash_meta['posts'][$post->ID]['status']) && $trash_meta['posts'][$post->ID]['status'] == 'publish' )
+					$caps[] = 'edit_published_posts';
+			} else {
 				// If the post is draft...
 				$caps[] = 'edit_posts';
+			}
 		} else {
 			// The user is trying to edit someone else's post.
 			$caps[] = 'edit_others_posts';
@@ -851,11 +856,16 @@ function map_meta_cap( $cap, $user_id ) {
 		// If the user is the author...
 		if ( $user_id == $page_author_data->ID ) {
 			// If the page is published...
-			if ( 'publish' == $page->post_status )
+			if ( 'publish' == $page->post_status ) {
 				$caps[] = 'edit_published_pages';
-			else
+			} elseif ( 'trash' == $page->post_status ) {
+				$trash_meta = get_option('wp_trash_meta');
+				if ( is_array($trash_meta) && isset($trash_meta['posts'][$page->ID]['status']) && $trash_meta['posts'][$page->ID]['status'] == 'publish' )
+					$caps[] = 'edit_published_pages';
+			} else {
 				// If the page is draft...
 				$caps[] = 'edit_pages';
+			}
 		} else {
 			// The user is trying to edit someone else's page.
 			$caps[] = 'edit_others_pages';

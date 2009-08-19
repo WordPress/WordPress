@@ -303,7 +303,7 @@ $page_links = paginate_links( array(
 
 if ( ( 'spam' == $comment_status || 'trash' == $comment_status) && current_user_can ('moderate_comments') ) {
 	wp_nonce_field('bulk-destroy', '_destroy_nonce');
-    if ( 'spam' == $comment_status ) { ?>
+    if ( 'spam' == $comment_status && current_user_can('moderate_comments') ) { ?>
 		<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Spam'); ?>" class="button-secondary apply" />
 <?php } elseif ( 'trash' == $comment_status && current_user_can('moderate_comments') ) { ?>
 		<input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
@@ -375,7 +375,7 @@ if ( $page_links )
 </select>
 <input type="submit" name="doaction2" id="doaction2" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
 
-<?php if ( 'spam' == $comment_status ) { ?>
+<?php if ( 'spam' == $comment_status && current_user_can('moderate_comments') ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Spam'); ?>" class="button-secondary apply" />
 <?php } elseif ( 'trash' == $comment_status && current_user_can('moderate_comments') ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
