@@ -426,13 +426,15 @@ function wp_default_styles( &$styles ) {
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/');
 
+	$suffix = defined('STYLE_DEBUG') && STYLE_DEBUG ? '.dev' : '';
+
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20090720';
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20090720' );
-	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
+	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20090720' );
+	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090630' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -441,22 +443,22 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors', true, array(), $colors_version );
 	
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), $colors_version);
+	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array(), $colors_version);
 	$styles->add_data( 'colors-fresh', 'rtl', true );
-	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), $colors_version);
+	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version);
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20090630' );
-	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20090612' );
-	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20090603' );
-	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20090514' );
-	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20090514' );
-	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20090625' );
-	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20090514' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20090612' );
+	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
+	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );
+	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20090625' );
+	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20090514' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
-	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20090514' );
-	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20090514' );
-	$styles->add( 'theme-install', '/wp-admin/css/theme-install.css', array(), '20090610' );
+	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20090514' );
+	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20090514' );
+	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20090610' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 

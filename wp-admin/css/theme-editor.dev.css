@@ -1,0 +1,60 @@
+#template textarea {
+	font-family: Consolas, Monaco, Courier, monospace;
+	font-size: 12px;
+	width: 97%;
+}
+
+#template p {
+	width: 97%;
+}
+
+#templateside {
+	float: right;
+	width: 190px;
+	word-wrap: break-word;
+}
+
+#templateside h3,
+#postcustomstuff p.submit {
+	margin: 0;
+}
+
+#templateside h4 {
+	margin: 1em 0 0;
+}
+
+#templateside ol,
+#templateside ul {
+	margin: .5em;
+	padding: 0;
+}
+
+#templateside li {
+	margin: 4px 0;
+}
+
+.nonessential {
+	font-size: small;
+}
+
+.highlight {
+	padding: 1px;
+}
+
+div.tablenav {
+	margin-right: 210px;
+}
+
+#documentation {
+	margin-top: 10px;
+}
+#documentation label {
+	line-height: 22px;
+	vertical-align: top;
+	font-weight: bold;
+}
+
+.fileedit-sub {
+	padding: 10px 0 8px;
+	line-height: 180%;
+}
