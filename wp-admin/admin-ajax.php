@@ -957,15 +957,14 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 case 'autosave-generate-nonces' :
 	check_ajax_referer( 'autosave', 'autosavenonce' );
 	$ID = (int) $_POST['post_ID'];
-	if($_POST['post_type'] == 'post') {
-		if(current_user_can('edit_post', $ID))
+	if ( $_POST['post_type'] == 'post' ) {
+		if ( current_user_can('edit_post', $ID) )
 			die(wp_create_nonce('update-post_' . $ID));
-	}
-	if($_POST['post_type'] == 'page') {
-		if(current_user_can('edit_page', $ID)) {
+	} elseif ( $_POST['post_type'] == 'page' ) {
+		if ( current_user_can('edit_page', $ID) )
 			die(wp_create_nonce('update-page_' . $ID));
-		}
 	}
+	do_action('autosave_generate_nonces');
 	die('0');
 break;
 case 'closed-postboxes' :
