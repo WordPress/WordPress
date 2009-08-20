@@ -526,6 +526,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			$page_date = mysql2date("Ymd\TH:i:s", $page->post_date, false);
 			$page_date_gmt = mysql2date("Ymd\TH:i:s", $page->post_date_gmt, false);
 
+			// For drafts use the GMT version of the date
+			if ( $page->post_status == 'draft' ) {
+				$page_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $page->post_date ), 'Ymd\TH:i:s' );
+			}
+
 			// Pull the categories info together.
 			$categories = array();
 			foreach(wp_get_post_categories($page->ID) as $cat_id) {
@@ -790,7 +795,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				post_title page_title,
 				post_parent page_parent_id,
 				post_date_gmt,
-				post_date
+				post_date,
+				post_status
 			FROM {$wpdb->posts}
 			WHERE post_type = 'page'
 			ORDER BY ID
@@ -805,8 +811,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			$page_list[$i]->dateCreated = new IXR_Date($post_date);
 			$page_list[$i]->date_created_gmt = new IXR_Date($post_date_gmt);
 
+			// For drafts use the GMT version of the date
+			if ( $page_list[$i]->post_status == 'draft' ) {
+				$page_list[$i]->date_created_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $page_list[$i]->post_date ), 'Ymd\TH:i:s' );
+				$page_list[$i]->date_created_gmt = new IXR_Date( $page_list[$i]->date_created_gmt );
+			}
+
 			unset($page_list[$i]->post_date_gmt);
 			unset($page_list[$i]->post_date);
+			unset($page_list[$i]->post_status);
 		}
 
 		return($page_list);
@@ -2576,9 +2589,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			// For drafts use the GMT version of the post date
 			if ( $postdata['post_status'] == 'draft' ) {
-				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $postdata['post_date'] ) );
-				$post_date_gmt = preg_replace( '|\-|', '', $post_date_gmt );
-				$post_date_gmt = preg_replace( '| |', 'T', $post_date_gmt );
+				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $postdata['post_date'] ), 'Ymd\TH:i:s' );
 			}
 
 			$categories = array();
@@ -2696,6 +2707,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt'], false);
+
+			// For drafts use the GMT version of the date
+			if ( $entry['post_status'] == 'draft' ) {
+				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $entry['post_date'] ), 'Ymd\TH:i:s' );
+			}
 
 			$categories = array();
 			$catids = wp_get_post_categories($entry['ID']);
@@ -2931,6 +2947,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt'], false);
+
+			// For drafts use the GMT version of the date
+			if ( $entry['post_status'] == 'draft' ) {
+				$post_date_gmt = get_gmt_from_date( mysql2date( 'Y-m-d H:i:s', $entry['post_date'] ), 'Ymd\TH:i:s' );
+			}
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
