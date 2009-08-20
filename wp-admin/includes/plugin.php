@@ -584,7 +584,7 @@ function uninstall_plugin($plugin) {
 // Menu
 //
 
-function add_menu_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '' ) {
+function add_menu_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '', $position = NULL ) {
 	global $menu, $admin_page_hooks, $_registered_pages;
 
 	$file = plugin_basename( $file );
@@ -595,66 +595,39 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	if (!empty ( $function ) && !empty ( $hookname ))
 		add_action( $hookname, $function );
 
-	if ( empty($icon_url) )
+	if ( empty($icon_url) ) {
 		$icon_url = 'images/generic.png';
-	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
+	} elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') ) {
 		$icon_url = 'https://' . substr($icon_url, 7);
+	}
 
-	$menu[] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
+	$new_menu = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
+	if ( NULL === $position  ) {
+		$menu[] = $new_menu;
+	} else {
+		$menu[$position] = $new_menu;
+	}
+	
 	$_registered_pages[$hookname] = true;
 
 	return $hookname;
 }
 
 function add_object_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
-	global $menu, $admin_page_hooks, $_wp_last_object_menu, $_registered_pages;
-
-	$file = plugin_basename( $file );
-
-	$admin_page_hooks[$file] = sanitize_title( $menu_title );
-
-	$hookname = get_plugin_page_hookname( $file, '' );
-	if (!empty ( $function ) && !empty ( $hookname ))
-		add_action( $hookname, $function );
-
-	if ( empty($icon_url) )
-		$icon_url = 'images/generic.png';
-	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
-		$icon_url = 'https://' . substr($icon_url, 7);
-
+	global $_wp_last_object_menu;
+	
 	$_wp_last_object_menu++;
-
-	$menu[$_wp_last_object_menu] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
-
-	$_registered_pages[$hookname] = true;
-
-	return $hookname;
+	
+	return add_menu_page($page_title, $menu_title, $access_level, $file, $function, $icon_url, $_wp_last_object_menu);
 }
 
 function add_utility_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
-	global $menu, $admin_page_hooks, $_wp_last_utility_menu, $_registered_pages;
-
-	$file = plugin_basename( $file );
-
-	$admin_page_hooks[$file] = sanitize_title( $menu_title );
-
-	$hookname = get_plugin_page_hookname( $file, '' );
-	if (!empty ( $function ) && !empty ( $hookname ))
-		add_action( $hookname, $function );
-
-	if ( empty($icon_url) )
-		$icon_url = 'images/generic.png';
-	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
-		$icon_url = 'https://' . substr($icon_url, 7);
-
+	global $_wp_last_utility_menu;
+	
 	$_wp_last_utility_menu++;
-
-	$menu[$_wp_last_utility_menu] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
-
-	$_registered_pages[$hookname] = true;
-
-	return $hookname;
+	
+	return add_menu_page($page_title, $menu_title, $access_level, $file, $function, $icon_url, $_wp_last_utility_menu);
 }
 
 function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $file, $function = '' ) {
