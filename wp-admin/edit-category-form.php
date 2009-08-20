@@ -67,7 +67,7 @@ _fill_empty_category($category);
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category Parent') ?></label></th>
 			<td>
-	  			<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'hierarchical' => true, 'show_option_none' => __('None'))); ?><br />
+	  			<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'exclude' => $category->term_id, 'hierarchical' => true, 'show_option_none' => __('None'))); ?><br />
                 <span class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></span>
 	  		</td>
 		</tr>
