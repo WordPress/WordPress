@@ -1463,18 +1463,20 @@ function wp_iso_descrambler($string) {
  * Returns a date in the GMT equivalent.
  *
  * Requires and returns a date in the Y-m-d H:i:s format. Simply subtracts the
- * value of the 'gmt_offset' option.
+ * value of the 'gmt_offset' option. Return format can be overridden using the
+ * $format parameter
  *
  * @since 1.2.0
  *
  * @uses get_option() to retrieve the the value of 'gmt_offset'.
  * @param string $string The date to be converted.
+ * @param string $format The format string for the returned date (default is Y-m-d H:i:s)
  * @return string GMT version of the date provided.
  */
-function get_gmt_from_date($string) {
+function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
 	$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-	$string_gmt = gmdate('Y-m-d H:i:s', $string_time - get_option('gmt_offset') * 3600);
+	$string_gmt = gmdate($format, $string_time - get_option('gmt_offset') * 3600);
 	return $string_gmt;
 }
 
@@ -1482,17 +1484,18 @@ function get_gmt_from_date($string) {
  * Converts a GMT date into the correct format for the blog.
  *
  * Requires and returns in the Y-m-d H:i:s format. Simply adds the value of
- * gmt_offset.
+ * gmt_offset.Return format can be overridden using the $format parameter
  *
  * @since 1.2.0
  *
  * @param string $string The date to be converted.
+ * @param string $format The format string for the returned date (default is Y-m-d H:i:s)
  * @return string Formatted date relative to the GMT offset.
  */
-function get_date_from_gmt($string) {
+function get_date_from_gmt($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
 	$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-	$string_localtime = gmdate('Y-m-d H:i:s', $string_time + get_option('gmt_offset')*3600);
+	$string_localtime = gmdate($format, $string_time + get_option('gmt_offset')*3600);
 	return $string_localtime;
 }
 
