@@ -300,4 +300,22 @@ function wp_create_user($username, $password, $email = '') {
 	return wp_insert_user($userdata);
 }
 
+
+/**
+ * Setup the default contact methods
+ *
+ * @access private
+ * @since 
+ *
+ * @return array $user_contactmethods Array of contact methods and their labels.
+ */
+function _wp_get_user_contactmethods() {
+	$user_contactmethods = array(
+		'aim' => __('AIM'),
+		'yim' => __('Yahoo IM'),
+		'jabber' => __('Jabber / Google Talk')
+	);
+	return apply_filters('user_contactmethods',$user_contactmethods);
+}
+
 ?>

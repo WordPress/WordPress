@@ -837,21 +837,4 @@ function default_password_nag() {
 	echo '</p></div>';
 }
 
-/**
- * Setup the default contact methods
- *
- * @access private
- * @since 
- *
- * @return array $user_contactmethods Array of contact methods and their labels.
- */
-function _wp_get_user_contactmethods() {
-	$user_contactmethods = array(
-		'aim' => __('AIM'),
-		'yim' => __('Yahoo IM'),
-		'jabber' => __('Jabber / Google Talk')
-	);
-	return apply_filters('user_contactmethods',$user_contactmethods);
-}
-
 ?>
