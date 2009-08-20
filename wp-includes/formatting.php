@@ -1187,7 +1187,7 @@ function _make_url_clickable_cb($matches) {
 	$url = $matches[2];
 
 	$after = '';
-	if ( preg_match( '|(.+?)([).]*)$|', $url, $split ) ) {
+	if ( preg_match( '|(.+?)([).,;:]*)$|', $url, $split ) ) {
 		$url = $split[1];
 		$after = $split[2];
 	}
