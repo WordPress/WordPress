@@ -104,7 +104,7 @@ function get_the_author_meta($field = '', $user_id = false) {
 	else
 		$value = isset($authordata->$field) ? $authordata->$field : '';
 
-	return apply_filters('get_the_author_' . $field, $value);
+	return apply_filters('get_the_author_' . $field, $value, $user_id);
 }
 
 /**
@@ -116,7 +116,7 @@ function get_the_author_meta($field = '', $user_id = false) {
  * @echo string The author's field from the current author's DB object.
  */
 function the_author_meta($field = '', $user_id = false) {
-	echo apply_filters('the_author_' . $field, get_the_author_meta($field, $user_id));
+	echo apply_filters('the_author_' . $field, get_the_author_meta($field, $user_id), $user_id);
 }
 
 /**
