@@ -1206,8 +1206,9 @@ function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_cate
 
 	$title = apply_filters('the_title', $title, $post);
 	$date = mysql2date(get_option('date_format'), $post->post_date);
+	$rel = $previous ? 'prev' : 'next';
 
-	$string = '<a href="'.get_permalink($post).'">';
+	$string = '<a href="'.get_permalink($post).'" rel="'.$rel.'">';
 	$link = str_replace('%title', $title, $link);
 	$link = str_replace('%date', $date, $link);
 	$link = $string . $link . '</a>';
