@@ -94,7 +94,7 @@ class WP_Upgrader {
 				return new WP_Error('fs_no_themes_dir', $this->strings['fs_no_themes_dir']);
 
 			elseif ( ! $wp_filesystem->find_folder($dir) )
-				return new WP_Error('fs_no_folder', sprintf($strings['fs_no_folder'], $dir));
+				return new WP_Error('fs_no_folder', sprintf($this->strings['fs_no_folder'], $dir));
 		}
 		return true;
 	} //end fs_connect();
