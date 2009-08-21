@@ -187,10 +187,13 @@ function wp_default_scripts( &$scripts ) {
 	}
 
 	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20090818');
+	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
+	if ( empty($max_upload_size) )
+		$max_upload_size = __('not configured');
 	// these error messages came from the sample swfupload js, they might need changing.
 	$scripts->localize( 'swfupload-handlers', 'swfuploadL10n', array(
 			'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
-			'file_exceeds_size_limit' => sprintf(__('This file is too big. Your php.ini upload_max_filesize is %s.'), @ini_get('upload_max_filesize')),
+			'file_exceeds_size_limit' => sprintf( __('This file is too big. The maximum upload size for your server is %s.'), $max_upload_size ),
 			'zero_byte_file' => __('This file is empty. Please try another.'),
 			'invalid_filetype' => __('This file type is not allowed. Please try another.'),
 			'default_error' => __('An error occurred in the upload. Please try again later.'),
