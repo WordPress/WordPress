@@ -91,7 +91,6 @@ wpWidgets = {
 			placeholder: 'widget-placeholder',
 			items: '> .widget',
 			handle: '> .widget-top > .widget-title',
-			connectWith: 'div.widgets-sortables',
 			cursor: 'move',
 			distance: 2,
 			containment: 'document',
@@ -138,7 +137,7 @@ wpWidgets = {
 				if ( !$(this).is(':visible') )
 					$(this).sortable('cancel');
 			}
-		}).parent().filter('.closed').children('.widgets-sortables').sortable('disable');
+		})..sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
 
 		$('#available-widgets').droppable({
 			tolerance: 'pointer',

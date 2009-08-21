@@ -175,8 +175,8 @@ jQuery(document).ready( function($) {
 	.animate( { opacity: 1 }, 400);
 
 	// Move .updated and .error alert boxes
-	$('div.wrap').children('h2:first').nextAll('div.updated, div.error').addClass('below-h2');
-	$('div.updated, div.error').not('.below-h2').insertAfter( $('div.wrap').children('h2:first') );
+	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
+	$('div.updated, div.error').not('.below-h2').insertAfter( $('div.wrap h2:first') );
 
 	// screen settings tab
 	$('#show-settings-link').click(function () {
