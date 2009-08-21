@@ -1116,6 +1116,8 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 			return false;
 	}
 
+	$comment_old = get_comment($comment_id);
+
 	if ( !$wpdb->update( $wpdb->comments, array('comment_approved' => $status), array('comment_ID' => $comment_id) ) ) {
 		if ( $wp_error )
 			return new WP_Error('db_update_error', __('Could not update comment status'), $wpdb->last_error);
@@ -1128,7 +1130,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 	$comment = get_comment($comment_id);
 
 	do_action('wp_set_comment_status', $comment_id, $comment_status);
-	wp_transition_comment_status($comment_status, $comment->comment_approved, $comment);
+	wp_transition_comment_status($comment_status, $comment_old->comment_approved, $comment);
 
 	wp_update_comment_count($comment->comment_post_ID);
 
