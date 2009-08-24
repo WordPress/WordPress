@@ -316,13 +316,19 @@ wp_enqueue_style( 'ie' );
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
+var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time(); ?>'};
+var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'media-upload-popup', adminpage = 'media-upload-popup';
 //]]>
 </script>
 <?php
+do_action('admin_enqueue_scripts', 'media-upload-popup');
+do_action('admin_print_styles-media-upload-popup');
 do_action('admin_print_styles');
+do_action('admin_print_scripts-media-upload-popup');
 do_action('admin_print_scripts');
+do_action('admin_head-media-upload-popup');
 do_action('admin_head');
+
 if ( is_string($content_func) )
 	do_action( "admin_head_{$content_func}" );
 ?>
