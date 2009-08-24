@@ -254,7 +254,7 @@ function bulk_edit_posts( $post_data = null ) {
 
 	if ( isset($post_data['post_category']) ) {
 		if ( is_array($post_data['post_category']) && ! empty($post_data['post_category']) )
-			$new_cats = array_map( absint, $post_data['post_category'] );
+			$new_cats = array_map( 'absint', $post_data['post_category'] );
 		else
 			unset($post_data['post_category']);
 	}
