@@ -84,7 +84,10 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect_url = redirect_guess_404_permalink();
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
-		if ( is_single() && !empty($_GET['p']) && ! $redirect_url ) {
+		if ( is_attachment() && !empty($_GET['attachment_id']) && ! $redirect_url ) {
+			if ( $redirect_url = get_attachment_link(get_query_var('attachment_id')) )
+				$redirect['query'] = remove_query_arg('attachment_id', $redirect['query']);
+		} elseif ( is_single() && !empty($_GET['p']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('p')) )
 				$redirect['query'] = remove_query_arg('p', $redirect['query']);
 			if ( get_query_var( 'page' ) ) {
