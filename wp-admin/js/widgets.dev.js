@@ -137,7 +137,7 @@ wpWidgets = {
 				if ( !$(this).is(':visible') )
 					$(this).sortable('cancel');
 			}
-		})..sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
+		}).sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
 
 		$('#available-widgets').droppable({
 			tolerance: 'pointer',
