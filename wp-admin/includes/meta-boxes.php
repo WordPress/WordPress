@@ -190,6 +190,7 @@ if ( ( 'edit' == $action ) && current_user_can("delete_${post_type}", $post->ID)
 </div>
 
 <div id="publishing-action">
+<img src="images/wpspin_light.gif" id="ajax-loading" style="visibility:hidden;" alt="" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) {
 	if ( $can_publish ) :

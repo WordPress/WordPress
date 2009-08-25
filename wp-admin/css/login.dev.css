@@ -22,9 +22,13 @@ form {
 	box-shadow: rgba(200,200,200,1) 0 4px 18px;
 }
 
-form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0; }
+form .forgetmenot {
+	font-weight: normal;
+	float: left;
+	margin-bottom: 0;
+}
 
-#login form .submit input {
+.button-primary {
 	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	padding: 3px 10px;
 	border: none;
@@ -38,7 +42,6 @@ form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0; }
 	cursor: pointer;
 	text-decoration: none;
 	margin-top: -3px;
-	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
 }
 
 #login form p {
@@ -55,9 +58,13 @@ form .forgetmenot label {
 	line-height: 19px;
 }
 
-form .submit { float: right; }
+form .submit {
+	float: right;
+}
 
-form p { margin-bottom: 24px; }
+form p {
+	margin-bottom: 24px;
+}
 
 h1 a {
 	background: url(../images/logo-login.gif) no-repeat top center;
@@ -82,7 +89,8 @@ h1 a {
 
 #login { width: 320px; margin: 7em auto; }
 
-#login_error, .message {
+#login_error,
+.message {
 	margin: 0 0 16px 8px;
 	border-width: 1px;
 	border-style: solid;
@@ -93,9 +101,14 @@ h1 a {
 	border-radius: 3px;
 }
 
-#nav { margin: 0 0 0 8px; padding: 16px; }
+#nav {
+	margin: 0 0 0 8px;
+	padding: 16px;
+}
 
-#user_pass, #user_login, #user_email {
+#user_pass,
+#user_login,
+#user_email {
 	font-size: 24px;
 	width: 97%;
 	padding: 3px;
@@ -104,6 +117,10 @@ h1 a {
 	margin-bottom: 16px;
 	border: 1px solid #e5e5e5;
 	background: #fbfbfb;
+}
+
+input {
+	color: #555;
 }
 
 .clear {

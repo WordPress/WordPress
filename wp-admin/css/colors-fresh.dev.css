@@ -196,7 +196,7 @@ strong .post-com-count span {
 }
 
 .error,
-#login #login_error {
+.login #login_error {
 	background-color: #ffebe8;
 	border-color: #c00;
 }
@@ -298,6 +298,7 @@ input[type=submit]:hover {
 .submit input,
 .button-secondary {
 	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 
 .button:active,
@@ -306,46 +307,62 @@ input[type=submit]:hover {
 	background: #eee url(../images/white-grad-active.png) repeat-x scroll left top;
 }
 
-.button-primary,
-.submit .button-primary,
-#login form .submit input {
-	border-color: #298cba !important;
+input.button-primary,
+button.button-primary,
+a.button-primary {
+	border-color: #298cba;
 	font-weight: bold;
-	color: #FFF !important;
+	color: #fff;
 	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
+	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
 }
 
-.button-primary:active,
-#login form .submit input:active {
-	background: #21759b url(../images/button-grad-active.png) repeat-x scroll left top !important;
+input.button-primary:active,
+button.button-primary:active,
+a.button-primary:active {
+	background: #21759b url(../images/button-grad-active.png) repeat-x scroll left top;
+	color: #eaf2fa;
 }
 
+input.button-primary:hover,
+button.button-primary:hover,
+a.button-primary:hover,
+a.button-primary:focus,
+a.button-primary:active {
+	border-color: #13455b;
+	color: #eaf2fa;
+}
+
+.button-disabled,
 .button[disabled],
 .button:disabled,
 .button-secondary[disabled],
 .button-secondary:disabled,
 a.button.disabled {
-	color: #ccc !important;
-	border-color: #ccc;
+	color: #aaa !important;
+	border-color: #bbb !important;
+	background: #ddd !important;
+	text-shadow: 1px 1px 2px white !important;
 }
 
+.button-primary-disabled,
 .button-primary[disabled],
 .button-primary:disabled {
-	color: #2fa0d5 !important;
+	color: #9FD0D5 !important;
+	background: #298CBA none repeat scroll 0 0 !important;
 }
 
+a:hover,
 a:active,
 a:focus {
 	color: #d54e21;
 }
 
-a:hover,
 #wphead #viewsite a:hover,
 #adminmenu a:hover,
 #adminmenu ul.wp-submenu a:hover,
 #the-comment-list .comment a:hover,
 #rightnow a:hover,
-#login form .submit input:hover,
 #media-upload a.del-link:hover,
 div.dashboard-widget-submit input:hover,
 .subsubsub a:hover,
@@ -360,12 +377,6 @@ div.dashboard-widget-submit input:hover,
 #the-comment-list .comment-item,
 #dashboard-widgets #dashboard_quick_press form p.submit {
 	border-color: #dfdfdf;
-}
-
-.button-primary:hover,
-#login form .submit input:hover {
-	border-color: #13455b !important;
-	color: #EAF2FA !important;
 }
 
 #side-sortables #category-tabs .tabs a {
@@ -421,7 +432,6 @@ a.delete {
 }
 
 .updated,
-.login #login_error,
 .login .message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
@@ -693,10 +703,6 @@ body.login {
 
 #wphead h1 a {
 	color: #fff;
-}
-
-#login form input {
-	color: #555;
 }
 
 #user_info {
@@ -1487,20 +1493,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #favorite-actions .slide-down {
 	border-bottom-color: #626262;
-}
-
-.submit input,
-.button,
-.button-primary,
-.button-secondary,
-.button-highlighted,
-#postcustomstuff .submit input {
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
-}
-
-.button-primary,
-.submit .button-primary {
-	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
 }
 
 #screen-meta a.show-settings {

@@ -7,9 +7,21 @@ jQuery(document).ready( function($) {
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
 	//Disable autosave after the form has been submitted
-	$("#post").submit(function() { $.cancel(autosavePeriodical); });
+	$("#post").submit(function() {
+		$.cancel(autosavePeriodical);
+	});
 
-	$('.submitbox input[type="submit"], .submitbox a.submitdelete').click(function(){window.onbeforeunload = null;});
+	$('input[type="submit"], a.submitdelete', '#submitpost').click(function(){
+		window.onbeforeunload = null;
+		$(':button, :submit', '#submitpost').each(function(){
+			var t = $(this);
+			if ( t.hasClass('button-primary') )
+				t.addClass('button-primary-disabled');
+			else
+				t.addClass('button-disabled');
+		});
+		$('#ajax-loading').css('visibility', 'visible');
+	});
 
 	window.onbeforeunload = function(){
 		var mce = typeof(tinyMCE) != 'undefined' ? tinyMCE.activeEditor : false, title, content;
@@ -160,11 +172,13 @@ function autosave_loading() {
 }
 
 function autosave_enable_buttons() {
-	jQuery(".submitbox :button:disabled, .submitbox :submit:disabled").attr('disabled', '');
+	jQuery(':button, :submit', '#submitpost').removeAttr('disabled');
+	jQuery('#ajax-loading').css('visibility', 'hidden');
 }
 
 function autosave_disable_buttons() {
-	jQuery(".submitbox :button:enabled, .submitbox :submit:enabled").attr('disabled', 'disabled');
+	jQuery(':button, :submit', '#submitpost').attr('disabled', 'disabled');
+	//jQuery('#ajax-loading').css('visibility', 'visible');
 	// Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
 	setTimeout(autosave_enable_buttons, 5000);
 }
@@ -173,12 +187,13 @@ autosave = function() {
 	// (bool) is rich editor enabled and active
 	var rich = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden(), post_data, doAutoSave, ed, origStatus, successCallback;
 
+	autosave_disable_buttons();
+
 	post_data = {
 		action: "autosave",
 		post_ID:  jQuery("#post_ID").val() || 0,
 		post_title: jQuery("#title").val() || "",
 		autosavenonce: jQuery('#autosavenonce').val(),
-		//tags_input: jQuery("#tags-input").val() || "",
 		post_type: jQuery('#post_type').val() || "",
 		autosave: 1
 	};
@@ -216,8 +231,6 @@ autosave = function() {
 	if ( ( post_data["post_title"].length == 0 && post_data["content"].length == 0 ) || post_data["post_title"] + post_data["content"] == autosaveLast ) {
 		doAutoSave = false;
 	}
-
-	autosave_disable_buttons();
 
 	origStatus = jQuery('#original_post_status').val();
 

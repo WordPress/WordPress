@@ -98,7 +98,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(wpAjax);}catch(e){};'
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090807' );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090823' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20090504' );
@@ -434,12 +434,12 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20090720';
+	$colors_version = '20090824';
 
-	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20090720' );
+	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20090824' );
 	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090630' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090824' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
@@ -459,7 +459,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20090625' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20090514' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
-	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20090514' );
+	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20090824' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20090514' );
 	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20090610' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
@@ -541,15 +541,22 @@ function wp_style_loader_src( $src, $handle ) {
 	if ( 'colors' == $handle || 'colors-rtl' == $handle ) {
 		global $_wp_admin_css_colors;
 		$color = get_user_option('admin_color');
+
 		if ( empty($color) || !isset($_wp_admin_css_colors[$color]) )
 			$color = 'fresh';
+
 		$color = $_wp_admin_css_colors[$color];
 		$parsed = parse_url( $src );
 		$url = $color->url;
+
+		if ( defined('STYLE_DEBUG') && STYLE_DEBUG )
+			$url = preg_replace('/.css$|.css(?=\?)/', '.dev.css', $url);
+
 		if ( isset($parsed['query']) && $parsed['query'] ) {
 			wp_parse_str( $parsed['query'], $qv );
 			$url = add_query_arg( $qv, $url );
 		}
+
 		return $url;
 	}
 

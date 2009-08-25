@@ -347,7 +347,7 @@ case 'retrievepassword' :
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" tabindex="10" /></label>
 	</p>
 <?php do_action('lostpassword_form'); ?>
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php esc_attr_e('Get New Password'); ?>" tabindex="100" /></p>
+	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Get New Password'); ?>" tabindex="100" /></p>
 </form>
 
 <p id="nav">
@@ -420,7 +420,7 @@ case 'register' :
 <?php do_action('register_form'); ?>
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
 	<br class="clear" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php esc_attr_e('Register'); ?>" tabindex="100" /></p>
+	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Register'); ?>" tabindex="100" /></p>
 </form>
 
 <p id="nav">
@@ -514,7 +514,7 @@ default:
 <?php do_action('login_form'); ?>
 	<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php esc_attr_e('Remember Me'); ?></label></p>
 	<p class="submit">
-		<input type="submit" name="wp-submit" id="wp-submit" value="<?php esc_attr_e('Log In'); ?>" tabindex="100" />
+		<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Log In'); ?>" tabindex="100" />
 		<input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to); ?>" />
 		<input type="hidden" name="testcookie" value="1" />
 	</p>

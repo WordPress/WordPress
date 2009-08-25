@@ -325,6 +325,7 @@ form p.submit a.cancel:hover {
 #publishing-action {
 	text-align: right;
 	float: right;
+	line-height: 23px;
 }
 
 #post-body #minor-publishing {
@@ -406,6 +407,7 @@ a.button-secondary {
 	line-height: 15px;
 	padding: 3px 10px;
 	white-space: nowrap;
+	-webkit-border-radius: 10px;
 }
 
 #doaction,
@@ -1896,7 +1898,8 @@ input#link_url {
 	padding: 0 0 5px 10px;
 }
 
-#media-buttons img {
+#media-buttons img,
+#submitpost #ajax-loading {
 	vertical-align: middle;
 }
 
@@ -3312,6 +3315,10 @@ p.popular-tags a {
 label,
 #your-profile label + a {
 	vertical-align: middle;
+}
+
+#misc-publishing-actions label {
+	vertical-align: baseline;
 }
 
 .plugin-update-tr .update-message {
