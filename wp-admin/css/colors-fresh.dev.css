@@ -340,16 +340,14 @@ a.button-primary:active {
 .button-secondary:disabled,
 a.button.disabled {
 	color: #aaa !important;
-	border-color: #bbb !important;
-	background: #ddd !important;
-	text-shadow: 1px 1px 2px white !important;
+	border-color: #ddd !important;
 }
 
 .button-primary-disabled,
 .button-primary[disabled],
 .button-primary:disabled {
 	color: #9FD0D5 !important;
-	background: #298CBA none repeat scroll 0 0 !important;
+	background: #298CBA !important;
 }
 
 a:hover,
