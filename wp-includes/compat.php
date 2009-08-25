@@ -56,7 +56,7 @@ if (!function_exists('stripos')) {
 	}
 }
 
-if ( ! function_exists('hash_hmac') ):
+if ( !function_exists('hash_hmac') ):
 function hash_hmac($algo, $data, $key, $raw_output = false) {
 	$packs = array('md5' => 'H32', 'sha1' => 'H40');
 
@@ -77,7 +77,7 @@ function hash_hmac($algo, $data, $key, $raw_output = false) {
 }
 endif;
 
-if ( ! function_exists('mb_substr') ):
+if ( !function_exists('mb_substr') ):
 	function mb_substr( $str, $start, $length=null, $encoding=null ) {
 		return _mb_substr($str, $start, $length, $encoding);
 	}
@@ -115,4 +115,29 @@ if ( !function_exists( 'htmlspecialchars_decode' ) ) {
 	}
 }
 
-?>
+// For PHP < 5.2.0
+if ( !function_exists('json_encode') ) {
+	function json_encode( $string ) {
+		global $wp_json;
+
+		if ( !is_a($wp_json, 'Services_JSON') ) {
+			require_once( 'class-json.php' );
+			$wp_json = new Services_JSON();
+		}
+
+		return $wp_json->encode( $string );
+	}
+}
+
+if ( !function_exists('json_decode') ) {
+	function json_decode( $string ) {
+		global $wp_json;
+
+		if ( !is_a($wp_json, 'Services_JSON') ) {
+			require_once( 'class-json.php' );
+			$wp_json = new Services_JSON();
+		}
+
+		return $wp_json->decode( $string );
+	}
+}
