@@ -3346,11 +3346,21 @@ function _cleanup_header_comment($str) {
  * @return void
  */
 function wp_scheduled_delete() {
+	global $wpdb;
+
+	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
+	
+	$posts_to_delete = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
+	
+	foreach ( (array) $posts_to_delete as $post ) {
+		wp_delete_post($post['post_id']);
+	}
+
+	//Trashed Comments
+	//TODO Come up with a better store for the comment trash meta. 
 	$trash_meta = get_option('wp_trash_meta');
 	if ( !is_array($trash_meta) )
 		return;
-
-	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
 
 	foreach ( (array) $trash_meta['comments'] as $id => $meta ) {
 		if ( $meta['time'] < $delete_timestamp ) {
@@ -3358,12 +3368,7 @@ function wp_scheduled_delete() {
 			unset($trash_meta['comments'][$id]);
 		}
 	}
-	foreach ( (array) $trash_meta['posts'] as $id => $meta ) {
-		if ( $meta['time'] < $delete_timestamp ) {
-			wp_delete_post($id);
-			unset($trash_meta['posts'][$id]);
-		}
-	}
 
 	update_option('wp_trash_meta', $trash_meta);
 }
+?>

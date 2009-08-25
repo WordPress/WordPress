@@ -776,8 +776,7 @@ function map_meta_cap( $cap, $user_id ) {
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = 'delete_published_posts';
 			} elseif ( 'trash' == $post->post_status ) {
-				$trash_meta = get_option('wp_trash_meta');
-				if (is_array($trash_meta) && isset($trash_meta['posts'][$post->ID]['status']) && $trash_meta['posts'][$post->ID]['status'] == 'publish')
+				if ('publish' == get_post_meta($post->ID, '_wp_trash_meta_status', true) )
 					$caps[] = 'delete_published_posts';
 			} else {
 				// If the post is draft...
@@ -805,8 +804,7 @@ function map_meta_cap( $cap, $user_id ) {
 			if ( $page->post_status == 'publish' ) {
 				$caps[] = 'delete_published_pages';
 			} elseif ( 'trash' == $page->post_status ) {
-				$trash_meta = get_option('wp_trash_meta');
-				if (is_array($trash_meta) && isset($trash_meta['posts'][$page->ID]['status']) && $trash_meta['posts'][$page->ID]['status'] == 'publish')
+				if ('publish' == get_post_meta($page->ID, '_wp_trash_meta_status', true) )
 					$caps[] = 'delete_published_pages';
 			} else {
 				// If the page is draft...
@@ -840,8 +838,7 @@ function map_meta_cap( $cap, $user_id ) {
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = 'edit_published_posts';
 			} elseif ( 'trash' == $post->post_status ) {
-				$trash_meta = get_option('wp_trash_meta');
-				if ( is_array($trash_meta) && isset($trash_meta['posts'][$post->ID]['status']) && $trash_meta['posts'][$post->ID]['status'] == 'publish' )
+				if ('publish' == get_post_meta($post->ID, '_wp_trash_meta_status', true) )
 					$caps[] = 'edit_published_posts';
 			} else {
 				// If the post is draft...
@@ -869,8 +866,7 @@ function map_meta_cap( $cap, $user_id ) {
 			if ( 'publish' == $page->post_status ) {
 				$caps[] = 'edit_published_pages';
 			} elseif ( 'trash' == $page->post_status ) {
-				$trash_meta = get_option('wp_trash_meta');
-				if ( is_array($trash_meta) && isset($trash_meta['posts'][$page->ID]['status']) && $trash_meta['posts'][$page->ID]['status'] == 'publish' )
+				if ('publish' == get_post_meta($page->ID, '_wp_trash_meta_status', true) )
 					$caps[] = 'edit_published_pages';
 			} else {
 				// If the page is draft...

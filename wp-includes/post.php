@@ -1149,11 +1149,8 @@ function wp_delete_post($postid = 0) {
 
 	do_action('delete_post', $postid);
 	
-	$trash_meta = get_option('wp_trash_meta');
-	if ( is_array($trash_meta) && isset($trash_meta['posts'][$postid]) ) {
-		unset($trash_meta['posts'][$postid]);
-		update_option('wp_trash_meta', $trash_meta);
-	}
+	delete_post_meta($postid,'_wp_trash_meta_status');
+	delete_post_meta($postid,'_wp_trash_meta_time');
 
 	/** @todo delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
@@ -1224,26 +1221,22 @@ function wp_delete_post($postid = 0) {
  * @param int $postid Post ID.
  * @return mixed False on failure
  */
-function wp_trash_post($postid = 0) {
+function wp_trash_post($post_id = 0) {
 	if ( EMPTY_TRASH_DAYS == 0 )
-		return wp_delete_post($postid);
+		return wp_delete_post($post_id);
 
-	if ( !$post = wp_get_single_post($postid, ARRAY_A) )
+	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
 		return $post;
 
-	do_action('trash_post', $postid);
+	do_action('trash_post', $post_id);
 
-	$trash_meta = get_option('wp_trash_meta');
-	if ( !is_array($trash_meta) )
-		$trash_meta = array();
-	$trash_meta['posts'][$postid]['status'] = $post['post_status'];
-	$trash_meta['posts'][$postid]['time'] = time();
-	update_option('wp_trash_meta', $trash_meta);
+	add_post_meta($post_id,'_wp_trash_meta_status', $post['post_status']);
+	add_post_meta($post_id,'_wp_trash_meta_time', time());
 
 	$post['post_status'] = 'trash';
 	wp_insert_post($post);
 
-	do_action('trashed_post', $postid);
+	do_action('trashed_post', $post_id);
 
 	return $post;
 }
@@ -1258,24 +1251,20 @@ function wp_trash_post($postid = 0) {
  * @param int $postid Post ID.
  * @return mixed False on failure
  */
-function wp_untrash_post($postid = 0) {
-	if ( !$post = wp_get_single_post($postid, ARRAY_A) )
+function wp_untrash_post($post_id = 0) {
+	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
 		return $post;
 
-	do_action('untrash_post', $postid);
+	do_action('untrash_post', $post_id);
 
-	$post['post_status'] = ($post->post_type == 'attachment') ? 'inherit' : 'draft';
+	$post['post_status'] = ('attachment' == $post['post_type'] ) ? 'inherit' : 'draft';
 
-	$trash_meta = get_option('wp_trash_meta');
-	if ( is_array($trash_meta) && isset($trash_meta['posts'][$postid]) ) {
-		$post['post_status'] = $trash_meta['posts'][$postid]['status'];
-		unset($trash_meta['posts'][$postid]);
-		update_option('wp_trash_meta', $trash_meta);
-	}
+	delete_post_meta($post_id,'_wp_trash_meta_status');
+	delete_post_meta($post_id,'_wp_trash_meta_time');
 
 	wp_insert_post($post);
 
-	do_action('untrashed_post', $postid);
+	do_action('untrashed_post', $post_id);
 
 	return $post;
 }
@@ -2666,11 +2655,9 @@ function wp_delete_attachment($postid) {
 	if ( 'trash' != $post->post_status )
 		return wp_trash_post($postid);
 
-	$trash_meta = get_option('wp_trash_meta');
-	if ( is_array($trash_meta) && isset($trash_meta['posts'][$postid]) ) {
-		unset($trash_meta['posts'][$postid]);
-		update_option('wp_trash_meta', $trash_meta);
-	}
+	delete_post_meta($post_id,'_wp_trash_meta_status');
+	delete_post_meta($post_id,'_wp_trash_meta_time');
+		
 
 	$meta = wp_get_attachment_metadata( $postid );
 	$file = get_attached_file( $postid );
