@@ -1257,10 +1257,14 @@ function wp_untrash_post($post_id = 0) {
 
 	do_action('untrash_post', $post_id);
 
-	$post['post_status'] = ('attachment' == $post['post_type'] ) ? 'inherit' : 'draft';
+	$post_status = get_post_meta($post_id, '_wp_trash_meta_status', true);
+	if ( empty($post_status) )
+		$post_status = ('attachment' == $post['post_type'] ) ? 'inherit' : 'draft';
 
-	delete_post_meta($post_id,'_wp_trash_meta_status');
-	delete_post_meta($post_id,'_wp_trash_meta_time');
+	$post['post_status'] = $post_status;
+
+	delete_post_meta($post_id, '_wp_trash_meta_status');
+	delete_post_meta($post_id, '_wp_trash_meta_time');
 
 	wp_insert_post($post);
 
