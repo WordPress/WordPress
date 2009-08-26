@@ -1,15 +1,15 @@
 <?php
 /**
- * Movable Type and Typepad Importer
+ * Movable Type and TypePad Importer
  *
  * @package WordPress
  * @subpackage Importer
  */
 
 /**
- * Moveable Type and Typepad Importer class
+ * Moveable Type and TypePad Importer class
  *
- * Upload your exported Movable Type or Typepad entries into WordPress.
+ * Upload your exported Movable Type or TypePad entries into WordPress.
  *
  * @since unknown
  */
@@ -36,7 +36,7 @@ class MT_Import {
 		$this->header();
 ?>
 <div class="narrow">
-<p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or Typepad entries into WordPress. To begin, either choose a file to upload and click &#8220;Upload file and import&#8221;, or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click "Import mt-export.txt"'); ?></p>
+<p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or TypePad entries into WordPress. To begin, either choose a file to upload and click &#8220;Upload file and import&#8221;, or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click "Import mt-export.txt"'); ?></p>
 
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)); ?>" class="import-upload-form">
@@ -510,5 +510,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-register_importer('mt', __('Movable Type and TypePad'), __('Import posts and comments from a Movable Type or Typepad blog.'), array ($mt_import, 'dispatch'));
+register_importer('mt', __('Movable Type and TypePad'), __('Import posts and comments from a Movable Type or TypePad blog.'), array ($mt_import, 'dispatch'));
 ?>
