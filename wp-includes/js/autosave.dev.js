@@ -1,4 +1,4 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false;
 
 jQuery(document).ready( function($) {
 	var dotabkey = true;
@@ -12,6 +12,7 @@ jQuery(document).ready( function($) {
 	});
 
 	$('input[type="submit"], a.submitdelete', '#submitpost').click(function(){
+		blockSave = true;
 		window.onbeforeunload = null;
 		$(':button, :submit', '#submitpost').each(function(){
 			var t = $(this);
@@ -65,6 +66,16 @@ jQuery(document).ready( function($) {
 					return false;
 				}
 			}
+		});
+	}
+
+	// autosave new posts after a title is typed but not if Publish or Save Draft is clicked
+	if ( 0 > $('#post_ID').val() ) {
+		$('#title').blur( function() {
+			if ( !this.value || 0 < $('#post_ID').val() )
+				return;
+
+			delayed_autosave();
 		});
 	}
 });
@@ -181,6 +192,14 @@ function autosave_disable_buttons() {
 	//jQuery('#ajax-loading').css('visibility', 'visible');
 	// Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
 	setTimeout(autosave_enable_buttons, 5000);
+}
+
+function delayed_autosave() {
+	setTimeout(function(){
+		if ( blockSave )
+			return;
+		autosave();
+	}, 200);
 }
 
 autosave = function() {

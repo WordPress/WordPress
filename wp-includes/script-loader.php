@@ -98,7 +98,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(wpAjax);}catch(e){};'
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090823' );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090825' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20090504' );
@@ -275,7 +275,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(slugL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'slug'), '20090624' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'slug'), '20090825' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
@@ -303,7 +303,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(postL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'page', "/wp-admin/js/page$suffix.js", array('jquery', 'slug', 'wp-lists', 'postbox'), '20090526' );
+		$scripts->add( 'page', "/wp-admin/js/page$suffix.js", array('jquery', 'slug', 'wp-lists', 'postbox'), '20090825' );
 		$scripts->add_data( 'page', 'group', 1 );
 		$scripts->localize( 'page', 'postL10n', array(
 			'cancel' => __('Cancel'),

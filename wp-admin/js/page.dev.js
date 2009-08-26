@@ -2,8 +2,6 @@ jQuery(document).ready( function($) {
 	postboxes.add_postbox_toggles('page');
 	make_slugedit_clickable();
 
-	$('#title').blur( function() { if ( ($("#post_ID").val() > 0) || ($("#title").val().length == 0) ) return; autosave(); } );
-
 	var stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html();
 
 	function updateVisibility() {

@@ -221,14 +221,6 @@ jQuery(document).ready( function($) {
 	// prepare the tag UI
 	tag_init();
 
-	$('#title').blur( function() {
-		if ( ($("#post_ID").val() > 0) || ($("#title").val().length == 0) )
-			return;
-
-		if ( typeof(autosave) != 'undefined' )
-			autosave();
-	});
-
 	// auto-suggest stuff
 	$('.newtag').each(function(){
 		var tax = $(this).parents('div.tagsdiv').attr('id');
