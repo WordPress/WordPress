@@ -269,6 +269,7 @@ function wp_upgrade() {
 
 	wp_check_mysql_version();
 	wp_cache_flush();
+	pre_schema_upgrade();
 	make_db_current_silent();
 	upgrade_all();
 	wp_cache_flush();
@@ -554,8 +555,10 @@ function upgrade_130() {
 		if ( 1 != $option->dupes ) { // Could this be done in the query?
 			$limit = $option->dupes - 1;
 			$dupe_ids = $wpdb->get_col( $wpdb->prepare("SELECT option_id FROM $wpdb->options WHERE option_name = %s LIMIT %d", $option->option_name, $limit) );
-			$dupe_ids = join($dupe_ids, ',');
-			$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($dupe_ids)");
+			if ( $dupe_ids ) {
+				$dupe_ids = join($dupe_ids, ',');
+				$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($dupe_ids)");
+			}
 		}
 	}
 
@@ -1654,6 +1657,33 @@ function maybe_disable_automattic_widgets() {
 			break;
 		}
 	}
+}
+
+/**
+ * Runs before the schema is upgraded.
+ */
+function pre_schema_upgrade() {
+	global $wp_current_db_version, $wp_db_version, $wpdb;
+
+	// Only run if less than 2.9
+	if ( $wp_current_db_version >= 11557 )
+		return;
+
+	// Delete duplicate options.  Keep the option with the highest option_id.
+	$delete_options = $wpdb->get_col("SELECT o1.option_id FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 ON o2.option_name = o1.option_name AND o2.option_id > o1.option_id");
+	if ( !empty($delete_options) ) {
+		$delete_options = implode("', '", $delete_options);
+		$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($delete_options)");
+	}
+
+	// Add an index on option_id to satisfy the auto_increment requirement
+	$wpdb->query("ALTER TABLE $wpdb->options ADD INDEX option_id (option_id)");
+
+	// Drop the old primary key. The new primary will be created by dbDelta()
+	$wpdb->query("ALTER TABLE $wpdb->options DROP PRIMARY KEY");
+
+	// Drop the old option_name index. dbDelta() doesn't do the drop.
+	$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_name");
 }
 
 ?>
