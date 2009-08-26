@@ -348,9 +348,7 @@ case 'dim-comment' : // On success, die with time() instead of 1
 		$x->send();
 	}
 
-	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
-		die('-1');
-	if ( !current_user_can( 'moderate_comments' ) )
+	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) && !current_user_can( 'moderate_comments' ) )
 		die('-1');
 
 	$current = wp_get_comment_status( $comment->comment_ID );
