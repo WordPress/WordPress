@@ -4,6 +4,8 @@
  * @subpackage Default_Theme
  */
 
+$content_width = 450;
+
 automatic_feed_links();
 
 if ( function_exists('register_sidebar') ) {
