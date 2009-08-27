@@ -1672,7 +1672,7 @@ function pre_schema_upgrade() {
 	// Delete duplicate options.  Keep the option with the highest option_id.
 	$delete_options = $wpdb->get_col("SELECT o1.option_id FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 ON o2.option_name = o1.option_name AND o2.option_id > o1.option_id");
 	if ( !empty($delete_options) ) {
-		$delete_options = implode("', '", $delete_options);
+		$delete_options = implode(',', $delete_options);
 		$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($delete_options)");
 	}
 
