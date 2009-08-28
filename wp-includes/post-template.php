@@ -342,6 +342,8 @@ function get_post_class( $class = '', $post_id = null ) {
 		$classes = array_merge($classes, $class);
 	}
 
+	$classes = array_map('esc_attr', $classes);
+
 	return apply_filters('post_class', $classes, $class, $post_id);
 }
 
@@ -477,6 +479,8 @@ function get_body_class( $class = '' ) {
 			$class = preg_split('#\s+#', $class);
 		$classes = array_merge($classes, $class);
 	}
+
+	$classes = array_map('esc_attr', $classes);
 
 	return apply_filters('body_class', $classes, $class);
 }
@@ -706,6 +710,7 @@ function wp_dropdown_pages($args = '') {
 
 	$pages = get_pages($r);
 	$output = '';
+	$name = esc_attr($name);
 
 	if ( ! empty($pages) ) {
 		$output = "<select name=\"$name\" id=\"$name\">\n";
@@ -842,7 +847,7 @@ function wp_page_menu( $args = array() ) {
 	if ( $menu )
 		$menu = '<ul>' . $menu . '</ul>';
 
-	$menu = '<div class="' . $args['menu_class'] . '">' . $menu . "</div>\n";
+	$menu = '<div class="' . esc_attr($args['menu_class']) . '">' . $menu . "</div>\n";
 	$menu = apply_filters( 'wp_page_menu', $menu, $args );
 	if ( $args['echo'] )
 		echo $menu;
