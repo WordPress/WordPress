@@ -916,6 +916,11 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = 'read_private_pages';
 		break;
+	case 'unfiltered_upload':
+		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS == true )
+			$caps[] = $cap;
+		else
+			$caps[] = 'do_not_allow';
 	default:
 		// If no meta caps match, return the original cap.
 		$caps[] = $cap;
