@@ -14,7 +14,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 require_once( ABSPATH . WPINC . '/class-pop3.php' );
 
 /** Allow a plugin to do a complete takeover of Post by Email **/
-do_action('wp-mail');
+do_action('wp_mail');
 
 /** Only check at this interval for new messages. */
 if ( !defined('WP_MAIL_INTERVAL') )
