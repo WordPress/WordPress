@@ -1567,13 +1567,14 @@ var addExtImage = {
  * @param unknown_type $errors
  */
 function media_upload_gallery_form($errors) {
-	global $redir_tab;
+	global $redir_tab, $type;
 
 	$redir_tab = 'gallery';
 	media_upload_header();
 
 	$post_id = intval($_REQUEST['post_id']);
-	$form_action_url = admin_url("media-upload.php?type={$GLOBALS['type']}&tab=gallery&post_id=$post_id");
+	$form_action_url = admin_url("media-upload.php?type=$type&tab=gallery&post_id=$post_id");
+	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 ?>
 
 <script type="text/javascript">
@@ -1712,7 +1713,8 @@ function media_upload_library_form($errors) {
 
 	$post_id = intval($_REQUEST['post_id']);
 
-	$form_action_url = admin_url("media-upload.php?type={$GLOBALS['type']}&tab=library&post_id=$post_id");
+	$form_action_url = admin_url("media-upload.php?type=$type&tab=library&post_id=$post_id");
+	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 
 	$_GET['paged'] = isset( $_GET['paged'] ) ? intval($_GET['paged']) : 0;
 	if ( $_GET['paged'] < 1 )
