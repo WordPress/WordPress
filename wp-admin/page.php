@@ -37,10 +37,16 @@ function redirect_page($page_ID) {
 		$location = 'sidebar.php?a=b';
 	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) ) {
 		if ( isset( $_POST['publish'] ) ) {
-			if ( 'pending' == get_post_status( $page_ID ) )
-				$location = add_query_arg( 'message', 6, get_edit_post_link( $page_ID, 'url' ) );
-			else
-				$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
+			switch ( get_post_status( $page_ID ) ) {
+				case 'pending':
+					$location = add_query_arg( 'message', 6, get_edit_post_link( $page_ID, 'url' ) );
+					break;
+				case 'future':
+					$location = add_query_arg( 'message', 7, get_edit_post_link( $page_ID, 'url' ) );
+					break;
+				default:
+					$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
+			}
 		} else {
 			$location = add_query_arg( 'message', 1, get_edit_post_link( $page_ID, 'url' ) );
 		}
