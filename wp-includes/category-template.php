@@ -566,6 +566,17 @@ function default_topic_count_text( $count ) {
 }
 
 /**
+ * Default topic count scaling for tag links
+ *
+ * @param integer $count number of posts with that tag
+ * @return integer scaled count
+ */
+function default_topic_count_scale( $count ) {
+	return round(log10($count + 1) * 100);
+}
+
+
+/**
  * Generates a tag cloud (heatmap) from provided data.
  *
  * The text size is set by the 'smallest' and 'largest' arguments, which will
@@ -602,7 +613,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 0,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
 		'topic_count_text_callback' => 'default_topic_count_text',
-		'filter' => 1,
+		'filter' => 1, 'topic_count_scale_callback' => 'default_topic_count_scale'
 	);
 
 	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
@@ -641,8 +652,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tags = array_slice($tags, 0, $number);
 
 	$counts = array();
-	foreach ( (array) $tags as $key => $tag )
-		$counts[ $key ] = $tag->count;
+	$real_counts = array(); // For the alt tag
+	foreach ( (array) $tags as $key => $tag ) {
+		$real_counts[ $key ] = $tag->count;
+		$counts[ $key ] = $topic_count_scale_callback($tag->count);
+	}
 
 	$min_count = min( $counts );
 	$spread = max( $counts ) - $min_count;
@@ -659,10 +673,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	foreach ( $tags as $key => $tag ) {
 		$count = $counts[ $key ];
+		$real_count = $real_counts[ $key ];
 		$tag_link = '#' != $tag->link ? esc_url( $tag->link ) : '#';
 		$tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
 		$tag_name = $tags[ $key ]->name;
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( $topic_count_text_callback( $count ) ) . "'$rel style='font-size: " .
+		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( $topic_count_text_callback( $real_count ) ) . "'$rel style='font-size: " .
 			( $smallest + ( ( $count - $min_count ) * $font_step ) )
 			. "$unit;'>$tag_name</a>";
 	}
