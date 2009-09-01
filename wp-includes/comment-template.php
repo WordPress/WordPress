@@ -532,7 +532,7 @@ function get_comments_number( $post_id = 0 ) {
 	else
 		$count = $post->comment_count;
 
-	return apply_filters('get_comments_number', $count);
+	return apply_filters('get_comments_number', $count, $post_id);
 }
 
 /**
