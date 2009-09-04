@@ -925,12 +925,13 @@ function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after 
  * @param string $after Optional. After list.
  * @return null|bool False on WordPress error. Returns null when displaying.
  */
-function the_terms( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
-	$return = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
-	if ( is_wp_error( $return ) )
+function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
+	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
+
+	if ( is_wp_error( $term_list ) )
 		return false;
-	else
-		echo $return;
+
+	echo apply_filters('the_terms', $term_list, $taxonomy, $before, $sep, $after);
 }
 
 /**
