@@ -2031,11 +2031,11 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	if ( $post ) {
 		$total = '';
 		$post = " AND c.comment_post_ID = '$post'";
-		$orderby = "ORDER BY c.comment_date_gmt ASC LIMIT $start, $num";
 	} else {
 		$post = '';
-		$orderby = "ORDER BY c.comment_date_gmt DESC LIMIT $start, $num";
 	}
+
+	$orderby = "ORDER BY c.comment_date_gmt DESC LIMIT $start, $num";
 
 	if ( 'comment' == $type )
 		$typesql = "AND c.comment_type = ''";
