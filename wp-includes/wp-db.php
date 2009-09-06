@@ -255,6 +255,16 @@ class wpdb {
 			'postmeta', 'terms', 'term_taxonomy', 'term_relationships');
 
 	/**
+	 * List of deprecated WordPress tables
+	 *
+	 * @since 2.9.0
+	 * @access private
+	 * @var array
+	 */
+	var $old_tables = array('categories', 'post2cat', 'link2cat');
+
+	
+	/**
 	 * Format specifiers for DB columns. Columns not listed here default to %s.  Initialized in wp-settings.php.
 	 *
 	 * Keys are colmn names, values are format types: 'ID' => '%d'

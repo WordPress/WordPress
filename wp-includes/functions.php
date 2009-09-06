@@ -1771,7 +1771,31 @@ function is_blog_installed() {
 	$installed = !empty( $installed );
 	wp_cache_set( 'is_blog_installed', $installed );
 
-	return $installed;
+	if ( $installed )
+		return true;
+
+	$suppress = $wpdb->suppress_errors();
+	$tables = $wpdb->get_col('SHOW TABLES');
+	$wpdb->suppress_errors( $suppress );
+
+	// Loop over the WP tables.  If none exist, then scratch install is allowed.
+	// If one or more exist, suggest table repair since we got here because the options
+	// table could not be accessed.
+	foreach ($wpdb->tables as $table) {
+		// If one of the WP tables exist, then we are in an insane state.
+		if ( in_array($wpdb->prefix . $table, $tables) ) {
+			// If visiting repair.php, return true and let it take over.
+			if ( defined('WP_REPAIRING') )
+				return true;
+			// Die with a DB error.
+			$wpdb->error = __('One or more database tables are unavailable.  The database may need to be <a href="maint/repair.php?referrer=is_blog_installed">repaired</a>.');
+			dead_db();
+		}
+	}
+
+	wp_cache_set( 'is_blog_installed', false );
+
+	return false;
 }
 
 /**
