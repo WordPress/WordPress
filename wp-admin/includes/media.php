@@ -1331,6 +1331,7 @@ SWFUpload.onload = function() {
 			post_params : {
 				"post_id" : "<?php echo $post_id; ?>",
 				"auth_cookie" : "<?php if ( is_ssl() ) echo $_COOKIE[SECURE_AUTH_COOKIE]; else echo $_COOKIE[AUTH_COOKIE]; ?>",
+				"logged_in_cookie": "<?php echo $_COOKIE[LOGGED_IN_COOKIE]; ?>",
 				"_wpnonce" : "<?php echo wp_create_nonce('media-form'); ?>",
 				"type" : "<?php echo $type; ?>",
 				"tab" : "<?php echo $tab; ?>",

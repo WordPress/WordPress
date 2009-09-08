@@ -18,6 +18,8 @@ if ( is_ssl() && empty($_COOKIE[SECURE_AUTH_COOKIE]) && !empty($_REQUEST['auth_c
 	$_COOKIE[SECURE_AUTH_COOKIE] = $_REQUEST['auth_cookie'];
 elseif ( empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
 	$_COOKIE[AUTH_COOKIE] = $_REQUEST['auth_cookie'];
+if ( empty($_COOKIE[LOGGED_IN_COOKIE]) && !empty($_REQUEST['logged_in_cookie']) )
+	$_COOKIE[LOGGED_IN_COOKIE] = $_REQUEST['logged_in_cookie'];
 unset($current_user);
 require_once('admin.php');
 
