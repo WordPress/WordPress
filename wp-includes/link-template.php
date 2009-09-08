@@ -1648,27 +1648,19 @@ function paginate_comments_links($args = array()) {
  */
 function get_shortcut_link() {
 	$link = "javascript:
-			var d=document,
-			w=window,
-			e=w.getSelection,
-			k=d.getSelection,
+			var d=document, 
+			w=window, 
+			e=w.getSelection, 
+			k=d.getSelection, 
 			x=d.selection,
 			s=(e?e():(k)?k():(x?x.createRange().text:0)),
 			f='" . admin_url('press-this.php') . "',
 			l=d.location,
 			e=encodeURIComponent,
-			g=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=2';
-			function a(){
-				if(!w.open(g,'t','toolbar=0,resizable=0,scrollbars=1,status=1,width=720,height=570')){
-					l.href=g;
-				}
-			}";
-			if (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') !== false)
-				$link .= 'setTimeout(a,0);';
-			else
-				$link .= 'a();';
-
-			$link .= "void(0);";
+			u=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=4';
+			a=function(){if(!w.open(u,'t','toolbar=0,resizable=0,status=1,width=720,height=570'))l.href=u;};
+			if (/Firefox/.test(navigator.userAgent)) setTimeout(a, 0); else a();
+			void(0)";
 
 	$link = str_replace(array("\r", "\n", "\t"),  '', $link);
 
