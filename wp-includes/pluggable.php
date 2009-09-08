@@ -750,7 +750,7 @@ function auth_redirect() {
 		}
 	}
 
-	if ( $user_id = wp_validate_auth_cookie() ) {
+	if ( $user_id = wp_validate_auth_cookie( '', apply_filters( 'auth_redirect_scheme', '' ) ) ) {
 		do_action('auth_redirect', $user_id);
 
 		// If the user wants ssl but the session is not ssl, redirect.
