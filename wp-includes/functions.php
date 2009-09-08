@@ -3081,10 +3081,10 @@ function is_ssl() {
  * @param string|bool $force Optional.
  * @return bool True if forced, false if not forced.
  */
-function force_ssl_login($force = '') {
-	static $forced;
+function force_ssl_login( $force = null ) {
+	static $forced = false;
 
-	if ( '' != $force ) {
+	if ( !is_null( $force ) ) {
 		$old_forced = $forced;
 		$forced = $force;
 		return $old_forced;
@@ -3101,10 +3101,10 @@ function force_ssl_login($force = '') {
  * @param string|bool $force
  * @return bool True if forced, false if not forced.
  */
-function force_ssl_admin($force = '') {
-	static $forced;
+function force_ssl_admin( $force = null ) {
+	static $forced = false;
 
-	if ( '' != $force ) {
+	if ( !is_null( $force ) ) {
 		$old_forced = $forced;
 		$forced = $force;
 		return $old_forced;
