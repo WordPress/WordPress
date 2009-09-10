@@ -307,12 +307,20 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 		$meta_value = serialize($meta_value);
 	$meta_value = trim( $meta_value );
 
+	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
+
+	if ( $cur && $cur->umeta_id )
+		do_action( 'delete_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
+
 	if ( ! empty($meta_value) )
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s AND meta_value = %s", $user_id, $meta_key, $meta_value) );
 	else
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
 
 	wp_cache_delete($user_id, 'users');
+
+	if ( $cur && $cur->umeta_id )
+		do_action( 'deleted_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
 
 	return true;
 }
@@ -399,6 +407,10 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	}
 
 	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
+
+	if ( $cur )
+		do_action( 'update_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
+
 	if ( !$cur )
 		$wpdb->insert($wpdb->usermeta, compact('user_id', 'meta_key', 'meta_value') );
 	else if ( $cur->meta_value != $meta_value )
@@ -407,6 +419,11 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		return false;
 
 	wp_cache_delete($user_id, 'users');
+
+	if ( !$cur ) 
+		do_action( 'added_usermeta', $wpdb->insert_id, $user_id, $meta_key, $meta_value );
+	else
+		do_action( 'updated_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
 
 	return true;
 }

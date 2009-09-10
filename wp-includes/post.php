@@ -532,6 +532,8 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 
 	wp_cache_delete($post_id, 'post_meta');
 
+	do_action( 'added_post_meta', $wpdb->insert_id, $post_id, $meta_key, $meta_value );
+
 	return true;
 }
 
@@ -573,12 +575,16 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 	if ( !$meta_id )
 		return false;
 
+	do_action( 'delete_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
+
 	if ( empty( $meta_value ) )
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
 	else
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $meta_key, $meta_value ) );
 
 	wp_cache_delete($post_id, 'post_meta');
+	
+	do_action( 'deleted_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
 
 	return true;
 }
@@ -651,9 +657,9 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	if ( !$meta_key )
 		return false;
 
-	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) ) {
+	$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) );
+	if ( ! $meta_id )
 		return add_post_meta($post_id, $meta_key, $meta_value);
-	}
 
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
@@ -665,8 +671,13 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 		$where['meta_value'] = $prev_value;
 	}
 
+	do_action( 'update_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
+	
 	$wpdb->update( $wpdb->postmeta, $data, $where );
 	wp_cache_delete($post_id, 'post_meta');
+	
+	do_action( 'updated_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
+	
 	return true;
 }
 

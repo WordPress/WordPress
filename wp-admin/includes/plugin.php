@@ -314,8 +314,10 @@ function activate_plugin($plugin, $redirect = '') {
 		@include(WP_PLUGIN_DIR . '/' . $plugin);
 		$current[] = $plugin;
 		sort($current);
+		do_action( 'activate_plugin', trim( $plugin) );
 		update_option('active_plugins', $current);
-		do_action('activate_' . $plugin);
+		do_action( 'activate_' . trim( $plugin ) );
+		do_action( 'activated_plugin', trim( $plugin) );
 		ob_end_clean();
 	}
 
@@ -343,9 +345,14 @@ function deactivate_plugins($plugins, $silent= false) {
 		$plugin = plugin_basename($plugin);
 		if( ! is_plugin_active($plugin) )
 			continue;
+		if ( ! $silent )
+			do_action( 'deactivate_plugin', trim( $plugin ) );
 		array_splice($current, array_search( $plugin, $current), 1 ); // Fixed Array-fu!
-		if ( ! $silent ) //Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
-			do_action('deactivate_' . trim( $plugin ));
+		//Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
+		if ( ! $silent ) {
+			do_action( 'deactivate_' . trim( $plugin ) );
+			do_action( 'deactivated_plugin', trim( $plugin ) );
+		}
 	}
 
 	update_option('active_plugins', $current);
