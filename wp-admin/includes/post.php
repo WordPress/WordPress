@@ -986,7 +986,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $permalink . "</span>\n";
-		if ( current_user_can( 'manage_options' ) )
+		if ( current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) )
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		if ( isset($view_post) )
 			$return .= "<span id='view-post-btn'><a href='$permalink' class='button' target='_blank'>$view_post</a></span>\n";
