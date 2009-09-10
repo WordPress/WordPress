@@ -111,6 +111,19 @@ case 'wp-compression-test' :
 
 	die('0');
 	break;
+case 'load-preview-image' :
+	$post_id = intval($_GET['postid']);
+	if ( empty($post_id) || !current_user_can('edit_post', $post_id) )
+		die('-1');
+
+	check_ajax_referer( "image_editor-$post_id" );
+
+	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
+	if ( !stream_preview_image($post_id) )
+		die('-1');
+
+	die();
+	break;
 default :
 	do_action( 'wp_ajax_' . $_GET['action'] );
 	die('0');
@@ -1332,6 +1345,31 @@ case 'save-widget' :
 
 	if ( $form = $wp_registered_widget_controls[$widget_id] )
 		call_user_func_array( $form['callback'], $form['params'] );
+
+	die();
+	break;
+case 'image-edit-save':
+	// $post_id is the attachment ID
+	$post_id = intval($_POST['postid']);
+	if ( empty($post_id) || !current_user_can('edit_post', $post_id) )
+		die('-1');
+
+	check_ajax_referer( "image_editor-$post_id" );
+
+	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
+	$msg = wp_save_image($post_id);
+
+	die($msg);
+	break;
+case 'open-image-editor' :
+	$post_id = intval($_POST['postid']);
+	if ( empty($post_id) || !current_user_can('edit_post', $post_id) )
+		die('-1');
+
+	check_ajax_referer( "image_editor-$post_id" );
+
+	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
+	wp_image_editor($post_id);
 
 	die();
 	break;

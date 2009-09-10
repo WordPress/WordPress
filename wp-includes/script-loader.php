@@ -213,6 +213,11 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'comment-reply', "/wp-includes/js/comment-reply$suffix.js", false, '20090102');
 
+	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", false, '20090817');
+
+	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.1' );
+	$scripts->add_data( 'imgareaselect', 'group', 1 );
+
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ), '20090102' );
 		$scripts->add_data( 'ajaxcat', 'group', 1 );
@@ -399,6 +404,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'codepress', '/wp-includes/js/codepress/codepress.js', false, '0.9.6' );
 		$scripts->add_data( 'codepress', 'group', 1 );
+
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090831' );
+		$scripts->add_data( 'image-edit', 'group', 1 );
 	}
 }
 
@@ -464,6 +472,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20090610' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
+	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 
 	foreach ( $rtl_styles as $rtl_style )
 		$styles->add_data( $rtl_style, 'rtl', true );

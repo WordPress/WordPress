@@ -49,7 +49,7 @@ function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_
 	if ( !is_resource( $src ))
 		return $src;
 
-	$dst = imagecreatetruecolor( $dst_w, $dst_h );
+	$dst = wp_imagecreatetruecolor( $dst_w, $dst_h );
 
 	if ( $src_abs ) {
 		$src_w -= $src_x;
@@ -326,5 +326,3 @@ function file_is_displayable_image($path) {
 
 	return apply_filters('file_is_displayable_image', $result, $path);
 }
-
-?>

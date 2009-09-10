@@ -1299,7 +1299,7 @@ strong .post-com-count {
 .form-table td,
 #wpbody-content .describe td {
 	margin-bottom: 9px;
-	padding: 4px 10px 12px;
+	padding: 8px 10px;
 	line-height: 20px;
 	font-size: 11px;
 }
@@ -2842,6 +2842,14 @@ table .inline-edit-row fieldset ul.cat-hover {
 	background-color: transparent;
 }
 
+#wpbody-content .describe .media-item-info td {
+	padding: 4px 10px 0;
+}
+
+#wpbody-content .describe .media-item-info .A1B1 {
+	padding-bottom: 8px;
+}
+
 #wpbody-content .filename {
 	padding: 0 10px;
 }
@@ -3338,3 +3346,82 @@ label,
 	position: relative;
 	top: -3px;
 }
+
+.imgedit-wrap {
+	position: relative;
+	min-height: 500px;
+}
+
+.imgedit-wait {
+	position: absolute;
+	top: 0;
+	background: #FFFFFF url(images/wpspin_light.gif) no-repeat scroll 200px 75px;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	width: 100%;
+	height: 500px;
+	display: none;
+}
+
+.media-disabled {
+	color: grey;
+}
+
+.imgedit-wait-spin {
+	padding: 0 4px 4px;
+	vertical-align: bottom;
+	visibility: hidden;
+}
+
+.imgedit-menu {
+	margin: 5px 0;
+}
+
+.imgedit-menu div {
+	float: left;
+	width: 34px;
+	height: 34px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.imgedit-crop {
+	background: transparent url(images/imgedit.gif) no-repeat scroll -62px 2px;
+	margin: 0 8px 0 0;
+}
+
+.imgedit-rleft {
+	background: transparent url(images/imgedit.gif) no-repeat scroll -31px 2px;
+	margin: 0 3px;
+}
+
+.imgedit-rright {
+	background: transparent url(images/imgedit.gif) no-repeat scroll 1px 2px;
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-fliph {
+	background: transparent url(images/imgedit.gif) no-repeat scroll -127px 2px;
+	margin: 0 3px;
+}
+
+.imgedit-flipv {
+	background: transparent url(images/imgedit.gif) no-repeat scroll -95px 3px;
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-undo {
+	background: transparent url(images/imgedit.gif) no-repeat scroll -161px 2px;
+	margin: 0 3px;
+}
+
+.imgedit-redo {
+	background: transparent url(images/imgedit.gif) no-repeat scroll -195px 2px;
+	margin: 0 8px 0 3px;
+}
+
+

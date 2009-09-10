@@ -1151,22 +1151,35 @@ function get_media_item( $attachment_id, $args = null ) {
 		}
 	}
 
+	$media_dims = '';
+	$meta = wp_get_attachment_metadata($post->ID);
+	if ( is_array($meta) && array_key_exists('width', $meta) && array_key_exists('height', $meta) )
+		$media_dims .= "<span id='media-dims-{$post->ID}'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+
+	$image_edit_button = '';
+	if ( gd_edit_image_support($post->post_mime_type) ) {
+		$nonce = wp_create_nonce("image_editor-$post->ID");
+		$image_edit_button = "<tr><td class='A1B1'><input type='button' id='imgedit-open-btn-{$post->ID}' onclick='imageEdit.open($post->ID, \"$nonce\")' class='button' value='" . esc_attr__( 'Edit image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' /></td></tr>";
+	}
+
 	$item = "
 	$type
 	$toggle_links
 	$order
 	$display_title
 	<table class='slidetoggle describe $class'>
-		<thead class='media-item-info'>
+		<thead class='media-item-info' id='media-head-$post->ID'>
 		<tr>
-			<td class='A1B1' rowspan='4'><img class='thumbnail' src='$thumb_url' alt='' /></td>
+			<td class='A1B1' rowspan='5'><img class='thumbnail' src='$thumb_url' alt='' /></td>
 			<td>$filename</td>
 		</tr>
 		<tr><td>$post->post_mime_type</td></tr>
 		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
-		<tr><td>" . apply_filters('media_meta', '', $post) . "</td></tr>
+		<tr><td>" . apply_filters('media_meta', $media_dims, $post) . "</td></tr>
+		$image_edit_button
 		</thead>
-		<tbody>\n";
+		<tbody>
+		<tr><td style='display:none' colspan='2' id='image-editor-$post->ID'></td></tr>\n";
 
 	$defaults = array(
 		'input'      => 'text',
@@ -2130,4 +2143,3 @@ add_filter('media_upload_gallery', 'media_upload_gallery');
 
 add_filter('media_upload_library', 'media_upload_library');
 
-?>

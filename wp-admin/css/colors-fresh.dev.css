@@ -1649,3 +1649,21 @@ div.widgets-sortables,
 .deleting .widget-title * {
 	color: #aaa;
 }
+
+.imgedit-menu div {
+	border-color: #d5d5d5;
+	background-color: #f1f1f1;
+}
+
+.imgedit-menu div:hover {
+	border-color: #b1b1b1;
+	background-color: #e3e3e3;
+}
+
+.imgedit-menu div.disabled {
+	border-color: #b3b3b3;
+	background-color: #cacaca;
+	filter: alpha(opacity=40);
+	opacity: 0.4;
+}
+

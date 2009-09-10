@@ -141,3 +141,14 @@ if ( !function_exists('json_decode') ) {
 		return $wp_json->decode( $string );
 	}
 }
+
+// pathinfo that fills 'filename' without extension like in PHP 5.2+
+function pathinfo52($path) {
+	$parts = pathinfo($path);
+	if ( !isset($parts['filename']) ) {
+		$parts['filename'] = substr( $parts['basename'], 0, strrpos($parts['basename'], '.') );
+		if ( empty($parts['filename']) ) // there's no extension
+			$parts['filename'] = $parts['basename'];
+	}
+	return $parts;
+}

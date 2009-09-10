@@ -2658,53 +2658,63 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
  * @param int $postid Attachment ID.
  * @return mixed False on failure. Post data on success.
  */
-function wp_delete_attachment($postid) {
+function wp_delete_attachment($post_id) {
 	global $wpdb;
 
-	if ( !$post = $wpdb->get_row(  $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID = %d", $postid)) )
+	if ( !$post = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $post_id) ) )
 		return $post;
 
 	if ( 'attachment' != $post->post_type )
 		return false;
 
 	if ( 'trash' != $post->post_status )
-		return wp_trash_post($postid);
+		return wp_trash_post($post_id);
 
-	delete_post_meta($post_id,'_wp_trash_meta_status');
-	delete_post_meta($post_id,'_wp_trash_meta_time');
-		
+	delete_post_meta($post_id, '_wp_trash_meta_status');
+	delete_post_meta($post_id, '_wp_trash_meta_time');
 
-	$meta = wp_get_attachment_metadata( $postid );
-	$file = get_attached_file( $postid );
+	$meta = wp_get_attachment_metadata( $post_id, false, false );
+	$file = get_attached_file( $post_id );
 
-	do_action('delete_attachment', $postid);
+	do_action('delete_attachment', $post_id);
 
 	/** @todo Delete for pluggable post taxonomies too */
-	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
+	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d ", $postid ));
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $post_id ));
 
-	$uploadPath = wp_upload_dir();
+	$uploadpath = wp_upload_dir();
 
 	if ( ! empty($meta['thumb']) ) {
 		// Don't delete the thumb if another attachment uses it
-		if (! $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s AND post_id <> %d", '%'.$meta['thumb'].'%', $postid)) ) {
+		if (! $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s AND post_id <> %d", '%' . $meta['thumb'] . '%', $post_id)) ) {
 			$thumbfile = str_replace(basename($file), $meta['thumb'], $file);
 			$thumbfile = apply_filters('wp_delete_file', $thumbfile);
-			@ unlink( path_join($uploadPath['basedir'], $thumbfile) );
+			@ unlink( path_join($uploadpath['basedir'], $thumbfile) );
 		}
 	}
 
-	// remove intermediate images if there are any
+	// remove intermediate and backup images if there are any
 	$sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium', 'large'));
 	foreach ( $sizes as $size ) {
-		if ( $intermediate = image_get_intermediate_size($postid, $size) ) {
+		if ( $intermediate = image_get_intermediate_size($post_id, $size) ) {
 			$intermediate_file = apply_filters('wp_delete_file', $intermediate['path']);
-			@ unlink( path_join($uploadPath['basedir'], $intermediate_file) );
+			@ unlink( path_join($uploadpath['basedir'], $intermediate_file) );
+		}
+	}
+
+	if ( isset($meta['sizes']) && is_array($meta['sizes']) ) {
+		foreach ( array_keys($meta['sizes']) as $size ) {
+			if ( preg_match('/backup-[0-9]+/', $size) ) { // make sure this is a backup
+	            if ( $del = image_get_intermediate_size($post_id, $size) ) {
+					$del_file = apply_filters('wp_delete_file', $del['path']);
+	                @ unlink( path_join($uploadpath['basedir'], $del_file) );
+	        	}
+	        }
 		}
 	}
 
@@ -2713,7 +2723,7 @@ function wp_delete_attachment($postid) {
 	if ( ! empty($file) )
 		@ unlink($file);
 
-	clean_post_cache($postid);
+	clean_post_cache($post_id);
 
 	return $post;
 }
@@ -2727,14 +2737,24 @@ function wp_delete_attachment($postid) {
  * @param bool $unfiltered Optional, default is false. If true, filters are not run.
  * @return string|bool Attachment meta field. False on failure.
  */
-function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
+function wp_get_attachment_metadata( $post_id, $unfiltered = false, $remove_backups = true ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
 	$data = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
+
+	if ( $remove_backups && isset($data['sizes']) && is_array($data['sizes']) ) {
+		$sizes = apply_filters( 'intermediate_image_sizes', array('large', 'medium', 'thumbnail') );
+		foreach ( $data['sizes'] as $size => $val ) {
+			if ( !in_array( $size, $sizes, true ) )
+				unset($data['sizes'][$size]);
+		}
+	}
+
 	if ( $unfiltered )
 		return $data;
+
 	return apply_filters( 'wp_get_attachment_metadata', $data, $post->ID );
 }
 

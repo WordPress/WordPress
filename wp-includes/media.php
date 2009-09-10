@@ -346,13 +346,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 		return $dims;
 	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
 
-	$newimage = imagecreatetruecolor( $dst_w, $dst_h);
-
-	// preserve PNG transparency
-	if ( IMAGETYPE_PNG == $orig_type && function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' ) ) {
-		imagealphablending( $newimage, false);
-		imagesavealpha( $newimage, true);
-	}
+	$newimage = wp_imagecreatetruecolor( $dst_w, $dst_h );
 
 	imagecopyresampled( $newimage, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 	
@@ -816,3 +810,53 @@ function get_attachment_taxonomies($attachment) {
 
 	return array_unique($taxonomies);
 }
+
+/**
+ * Check if the installed version of GD supports particular image type
+ *
+ * @since 2.9.0
+ *
+ * @param $mime_type string
+ * @return bool
+ */
+function gd_edit_image_support($mime_type) {
+	if ( function_exists('imagetypes') ) {
+		switch( $mime_type ) {
+			case 'image/jpeg':
+				return (imagetypes() & IMG_JPG) != 0;
+			case 'image/png':
+				return (imagetypes() & IMG_PNG) != 0;
+			case 'image/gif':
+				return (imagetypes() & IMG_GIF) != 0;
+		}
+	} else {
+		switch( $mime_type ) {
+			case 'image/jpeg':
+				return function_exists('imagecreatefromjpeg');
+			case 'image/png':
+				return function_exists('imagecreatefrompng');
+			case 'image/gif':
+				return function_exists('imagecreatefromgif');
+		}		
+	}
+	return false;
+}
+
+/**
+ * Create new GD image resource with transparency support
+ *
+ * @since 2.9.0
+ *
+ * @param $width
+ * @param $height
+ * @return image resource
+ */
+function wp_imagecreatetruecolor($width, $height) {
+	$img = imagecreatetruecolor($width, $height);
+	if ( is_resource($img) && function_exists('imagealphablending') && function_exists('imagesavealpha') ) {
+		imagealphablending($img, false);
+		imagesavealpha($img, true);
+	}
+	return $img;
+}
+

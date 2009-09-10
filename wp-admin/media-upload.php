@@ -17,6 +17,8 @@ if (!current_user_can('upload_files'))
 
 wp_enqueue_script('swfupload-all');
 wp_enqueue_script('swfupload-handlers');
+wp_enqueue_script('image-edit');
+wp_enqueue_style('imgareaselect');
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
