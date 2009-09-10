@@ -10,11 +10,11 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require(dirname(__FILE__) . '/wp-load.php');
 
-/** Get the POP3 class with which to access the mailbox. */
-require_once( ABSPATH . WPINC . '/class-pop3.php' );
-
 /** Allow a plugin to do a complete takeover of Post by Email **/
 do_action('wp_mail');
+
+/** Get the POP3 class with which to access the mailbox. */
+require_once( ABSPATH . WPINC . '/class-pop3.php' );
 
 /** Only check at this interval for new messages. */
 if ( !defined('WP_MAIL_INTERVAL') )
