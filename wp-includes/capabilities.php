@@ -921,6 +921,7 @@ function map_meta_cap( $cap, $user_id ) {
 			$caps[] = $cap;
 		else
 			$caps[] = 'do_not_allow';
+		break;
 	default:
 		// If no meta caps match, return the original cap.
 		$caps[] = $cap;
