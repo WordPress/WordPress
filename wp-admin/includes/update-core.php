@@ -126,6 +126,8 @@ $_old_files = array(
 'wp-admin/edit-form-ajax-cat.php',
 'wp-admin/execute-pings.php',
 'wp-admin/import/b2.php',
+'wp-admin/import/btt.php',
+'wp-admin/import/jkw.php',
 'wp-admin/inline-uploading.php',
 'wp-admin/link-categories.php',
 'wp-admin/list-manipulation.js',
