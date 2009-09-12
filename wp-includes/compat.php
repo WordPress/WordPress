@@ -72,13 +72,17 @@ function _hash_hmac($algo, $data, $key, $raw_output = false) {
 
 	if (strlen($key) > 64)
 		$key = pack($pack, $algo($key));
-	else if (strlen($key) < 64)
-		$key = str_pad($key, 64, chr(0));
+
+	$key = str_pad($key, 64, chr(0));
 
 	$ipad = (substr($key, 0, 64) ^ str_repeat(chr(0x36), 64));
 	$opad = (substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64));
 
-	return $algo($opad . pack($pack, $algo($ipad . $data)));
+	$hmac = $algo($opad . pack($pack, $algo($ipad . $data)));
+
+	if ( $raw_output )
+		return pack( $pack, $hmac );
+	return $hmac;
 }
 
 if ( !function_exists('mb_substr') ):
