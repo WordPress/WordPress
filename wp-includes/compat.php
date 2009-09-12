@@ -58,6 +58,11 @@ if (!function_exists('stripos')) {
 
 if ( !function_exists('hash_hmac') ):
 function hash_hmac($algo, $data, $key, $raw_output = false) {
+	return _hash_hmac($algo, $data, $key, $raw_output);
+}
+endif;
+
+function _hash_hmac($algo, $data, $key, $raw_output = false) {
 	$packs = array('md5' => 'H32', 'sha1' => 'H40');
 
 	if ( !isset($packs[$algo]) )
@@ -75,7 +80,6 @@ function hash_hmac($algo, $data, $key, $raw_output = false) {
 
 	return $algo($opad . pack($pack, $algo($ipad . $data)));
 }
-endif;
 
 if ( !function_exists('mb_substr') ):
 	function mb_substr( $str, $start, $length=null, $encoding=null ) {
