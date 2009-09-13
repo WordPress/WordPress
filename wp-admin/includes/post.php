@@ -1073,6 +1073,21 @@ function wp_set_post_lock( $post_id ) {
 }
 
 /**
+ * Outputs the notice message to say that someone else is editing this post at the moment.
+ * 
+ * @since 2.9.0
+ * @return none
+ */
+function _admin_notice_post_locked() {
+	global $post;
+	$last_user = get_userdata( get_post_meta( $post->ID, '_edit_last', true ) );
+	$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
+	$post_type_name = ('page' == $post->post_type) ? _x('page', 'Used to describe page in admin_notice when other user editing.') : _x('post','Used to describe post in admin_notice when other user editing.');
+	$message = sprintf( __( 'Warning: %1$s is currently editing this %2$s' ), esc_html( $last_user_name ), esc_html( $post_type_name ) );
+	echo "<div class='error'><p>$message</p></div>";	
+}
+
+/**
  * Creates autosave data for the specified post from $_POST data.
  *
  * @package WordPress
