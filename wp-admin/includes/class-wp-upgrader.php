@@ -210,24 +210,26 @@ class WP_Upgrader {
 			$destination = trailingslashit($destination) . trailingslashit(basename($source));
 		}
 
-		//If we're not clearing the destination folder, and something exists there allready, Bail.
-		if ( ! $clear_destination && $wp_filesystem->exists($remote_destination) ) {
-			$wp_filesystem->delete($remote_source, true); //Clear out the source files.
-			return new WP_Error('folder_exists', $this->strings['folder_exists'], $remote_destination );
-		} else if ( $clear_destination ) {
-			//We're going to clear the destination if theres something there
-			$this->skin->feedback('remove_old');
-
-			$removed = true;
-			if ( $wp_filesystem->exists($remote_destination) )
+		if ( $wp_filesystem->exists($remote_destination) ) {
+			if ( $clear_destination ) {
+				//We're going to clear the destination if theres something there
+				$this->skin->feedback('remove_old');
 				$removed = $wp_filesystem->delete($remote_destination, true);
+				$removed = apply_filters('upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra);
 
-			$removed = apply_filters('upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra);
-
-			if ( is_wp_error($removed) )
-				return $removed;
-			else if ( ! $removed )
-				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
+				if ( is_wp_error($removed) )
+					return $removed;
+				else if ( ! $removed )
+					return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
+			} else {
+				//If we're not clearing the destination folder and something exists there allready, Bail.
+				//But first check to see if there are actually any files in the folder.
+				$_files = $wp_filesystem->dirlist($remote_destination);
+				if ( ! empty($_files) ) {
+					$wp_filesystem->delete($remote_source, true); //Clear out the source files.
+					return new WP_Error('folder_exists', $this->strings['folder_exists'], $remote_destination );
+				}
+			}
 		}
 
 		//Create destination if needed
