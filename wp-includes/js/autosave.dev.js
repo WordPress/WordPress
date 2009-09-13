@@ -183,13 +183,15 @@ function autosave_loading() {
 }
 
 function autosave_enable_buttons() {
-	jQuery(':button, :submit', '#submitpost').removeAttr('disabled');
-	jQuery('#ajax-loading').css('visibility', 'hidden');
+	// delay that a bit to avoid some rare collisions while the DOM is being updated.
+	setTimeout(function(){
+		jQuery(':button, :submit', '#submitpost').removeAttr('disabled');
+		jQuery('#ajax-loading').css('visibility', 'hidden');
+	}, 500);
 }
 
 function autosave_disable_buttons() {
 	jQuery(':button, :submit', '#submitpost').attr('disabled', 'disabled');
-	//jQuery('#ajax-loading').css('visibility', 'visible');
 	// Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
 	setTimeout(autosave_enable_buttons, 5000);
 }
