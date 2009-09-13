@@ -1026,11 +1026,11 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Check to see if the post is currently being edited by another user.
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param unknown_type $post_id
+ * @param int $post_id ID of the post to check for editing
  * @return bool|int False: not locked or locked by current user. Int: user ID of user with lock.
  */
 function wp_check_post_lock( $post_id ) {
@@ -1050,12 +1050,12 @@ function wp_check_post_lock( $post_id ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Mark the post as currently being edited by the current user
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param unknown_type $post_id
- * @return unknown
+ * @param int $post_id ID of the post to being edited
+ * @return bool Returns false if the post doesn't exist of there is no current user
  */
 function wp_set_post_lock( $post_id ) {
 	global $current_user;
