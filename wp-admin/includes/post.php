@@ -1082,8 +1082,19 @@ function _admin_notice_post_locked() {
 	global $post;
 	$last_user = get_userdata( get_post_meta( $post->ID, '_edit_last', true ) );
 	$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
-	$post_type_name = ('page' == $post->post_type) ? _x('page', 'Used to describe page in admin_notice when other user editing.') : _x('post','Used to describe post in admin_notice when other user editing.');
-	$message = sprintf( __( 'Warning: %1$s is currently editing this %2$s' ), esc_html( $last_user_name ), esc_html( $post_type_name ) );
+	
+	switch ($post->post_type) {
+		case 'post':
+			$message = __( 'Warning: %s is currently editing this post' );
+			break;
+		case 'page':
+			$message = __( 'Warning: %s is currently editing this page' );
+			break;
+		default:
+			$message = __( 'Warning: %s is currently editing this.' );
+	}
+	
+	$message = sprintf( $message, esc_html( $last_user_name ) );
 	echo "<div class='error'><p>$message</p></div>";	
 }
 
