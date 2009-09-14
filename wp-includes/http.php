@@ -1813,10 +1813,10 @@ class WP_Http_Encoding {
 	/**
 	 * Decompression of deflated string while staying compatible with the majority of servers.
 	 *
-	 * Certain Servers will return deflated data with headers which PHP's gziniflate() 
+	 * Certain Servers will return deflated data with headers which PHP's gziniflate()
 	 * function cannot handle out of the box. The following function lifted from
-	 * http://au2.php.net/manual/en/function.gzinflate.php#77336 will attempt to deflate 
-	 * the various return forms used. 
+	 * http://au2.php.net/manual/en/function.gzinflate.php#77336 will attempt to deflate
+	 * the various return forms used.
 	 *
 	 * @since 2.8.1
 	 * @link http://au2.php.net/manual/en/function.gzinflate.php#77336

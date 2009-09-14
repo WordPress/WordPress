@@ -734,9 +734,9 @@ function wp_delete_comment($comment_id) {
 
 	if (wp_get_comment_status($comment_id) != 'trash' && wp_get_comment_status($comment_id) != 'spam' && EMPTY_TRASH_DAYS > 0)
 		return wp_trash_comment($comment_id);
-	
+
 	do_action('delete_comment', $comment_id);
-	
+
 	$trash_meta = get_option('wp_trash_meta');
 	if (is_array($trash_meta) && isset($trash_meta['comments'][$comment_id])) {
 		unset($trash_meta['comments'][$comment_id]);
@@ -1093,7 +1093,7 @@ function wp_new_comment( $commentdata ) {
  */
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
-		
+
 	$status = '0';
 	switch ( $comment_status ) {
 		case 'hold':

@@ -268,7 +268,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 			// Don't export revisions.  They bloat the export.
 			if ( 'revision' == $post->post_type )
 				continue;
-			setup_postdata($post); 
+			setup_postdata($post);
 
 			$is_sticky = 0;
 			if ( is_sticky( $post->ID ) )

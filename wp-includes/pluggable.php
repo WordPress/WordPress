@@ -998,7 +998,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$notify_message .= sprintf( __('URL    : %s'), $comment->comment_author_url ) . "\r\n";
 		$notify_message .= __('Excerpt: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
 		$notify_message .= __('You can see all trackbacks on this post here: ') . "\r\n";
-		/* translators: 1: blog name, 2: post title */		
+		/* translators: 1: blog name, 2: post title */
 		$subject = sprintf( __('[%1$s] Trackback: "%2$s"'), $blogname, $post->post_title );
 	} elseif ('pingback' == $comment_type) {
 		/* translators: 1: post id, 2: post title */

@@ -135,7 +135,7 @@ function &get_children($args = '', $output = OBJECT) {
 	$r = wp_parse_args( $args, $defaults );
 
 	$children = get_posts( $r );
-	
+
 	if ( !$children )
 		return $kids;
 
@@ -583,7 +583,7 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $meta_key, $meta_value ) );
 
 	wp_cache_delete($post_id, 'post_meta');
-	
+
 	do_action( 'deleted_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
 
 	return true;
@@ -672,12 +672,12 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	}
 
 	do_action( 'update_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
-	
+
 	$wpdb->update( $wpdb->postmeta, $data, $where );
 	wp_cache_delete($post_id, 'post_meta');
-	
+
 	do_action( 'updated_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
-	
+
 	return true;
 }
 
@@ -1154,12 +1154,12 @@ function wp_delete_post($postid = 0) {
 
 	if ( ($post->post_type == 'post' || $post->post_type == 'page') && get_post_status($postid) != 'trash' && EMPTY_TRASH_DAYS > 0 )
 		return wp_trash_post($postid);
-		
+
 	if ( $post->post_type == 'attachment' )
 		return wp_delete_attachment($postid);
 
 	do_action('delete_post', $postid);
-	
+
 	delete_post_meta($postid,'_wp_trash_meta_status');
 	delete_post_meta($postid,'_wp_trash_meta_time');
 
@@ -1819,14 +1819,14 @@ function check_and_publish_future_post($post_id) {
 function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_parent) {
 	if ( in_array( $post_status, array( 'draft', 'pending' ) ) )
 		return $slug;
-	
+
 	global $wpdb, $wp_rewrite;
 	$hierarchical_post_types = apply_filters('hierarchical_post_types', array('page'));
 	if ( 'attachment' == $post_type ) {
 		// Attachment slugs must be unique across all types.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID));
-		
+
 		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
 			$suffix = 2;
 			do {
@@ -1841,7 +1841,7 @@ function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_pa
 		// separate namespace than posts so page slugs are allowed to overlap post slugs.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode("', '", $wpdb->escape($hierarchical_post_types)) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
 		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID, $post_parent));
-		
+
 		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
 			$suffix = 2;
 			do {
@@ -1855,7 +1855,7 @@ function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_pa
 		// Post slugs must be unique across all posts.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_type, $post_ID));
-		
+
 		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
 			$suffix = 2;
 			do {

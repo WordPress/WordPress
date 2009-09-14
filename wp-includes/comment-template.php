@@ -835,12 +835,12 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	/**
 	 * The email address of the current comment author escaped for use in attributes.
-	 */	
+	 */
 	$comment_author_email = $commenter['comment_author_email'];  // Escaped by sanitize_comment_cookies()
 
 	/**
 	 * The url of the current comment author escaped for use in attributes.
-	 */	
+	 */
 	$comment_author_url = esc_url($commenter['comment_author_url']);
 
 	/** @todo Use API instead of SELECTs. */

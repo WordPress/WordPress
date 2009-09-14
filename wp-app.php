@@ -781,7 +781,7 @@ EOD;
 		}
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
-		$location = get_option ('upload_path') . '/' . $location; 
+		$location = get_option ('upload_path') . '/' . $location;
 		$filetype = wp_check_filetype($location);
 
 		if(!isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']))
@@ -791,9 +791,9 @@ EOD;
 		header('Content-Type: ' . $entry['post_mime_type']);
 		header('Connection: close');
 
-		if ($fp = fopen($location, "rb")) { 
-			status_header('200'); 
-			header('Content-Type: ' . $entry['post_mime_type']); 
+		if ($fp = fopen($location, "rb")) {
+			status_header('200');
+			header('Content-Type: ' . $entry['post_mime_type']);
 			header('Connection: close');
 
 			while(!feof($fp)) {

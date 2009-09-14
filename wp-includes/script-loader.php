@@ -452,7 +452,7 @@ function wp_default_styles( &$styles ) {
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
-	
+
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array(), $colors_version);
 	$styles->add_data( 'colors-fresh', 'rtl', true );

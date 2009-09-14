@@ -42,7 +42,7 @@ function wp_image_editor($post_id) {
 
 		<div onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>)" class="imgedit-fliph" title="<?php echo esc_attr__( 'Flip horizontally' ); ?>"></div>
 		<div onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>)" class="imgedit-flipv" title="<?php echo esc_attr__( 'Flip vertically' ); ?>"></div>
-		
+
 		<div id="image-undo-<?php echo $post_id; ?>" onclick="imageEdit.undo(<?php echo "$post_id, '$nonce'"; ?>)" class="imgedit-undo disabled" title="<?php echo esc_attr__( 'Undo' ); ?>"></div>
 		<div id="image-redo-<?php echo $post_id; ?>" onclick="imageEdit.redo(<?php echo "$post_id, '$nonce'"; ?>)" class="imgedit-redo disabled" title="<?php echo esc_attr__( 'Redo' ); ?>"></div>
 		<br class="clear" />

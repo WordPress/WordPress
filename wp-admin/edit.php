@@ -48,7 +48,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 
 				if ( !wp_trash_post($post_id) )
 					wp_die( __('Error in moving to trash...') );
-				
+
 				$trashed++;
 			}
 			$sendback = add_query_arg('trashed', $trashed, $sendback);
@@ -61,7 +61,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from trash...') );
-				
+
 				$untrashed++;
 			}
 			$sendback = add_query_arg('untrashed', $untrashed, $sendback);

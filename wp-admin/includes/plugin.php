@@ -615,7 +615,7 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	} else {
 		$menu[$position] = $new_menu;
 	}
-	
+
 	$_registered_pages[$hookname] = true;
 
 	return $hookname;
@@ -623,17 +623,17 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 
 function add_object_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
 	global $_wp_last_object_menu;
-	
+
 	$_wp_last_object_menu++;
-	
+
 	return add_menu_page($page_title, $menu_title, $access_level, $file, $function, $icon_url, $_wp_last_object_menu);
 }
 
 function add_utility_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
 	global $_wp_last_utility_menu;
-	
+
 	$_wp_last_utility_menu++;
-	
+
 	return add_menu_page($page_title, $menu_title, $access_level, $file, $function, $icon_url, $_wp_last_utility_menu);
 }
 
@@ -674,7 +674,7 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 
 	$_registered_pages[$hookname] = true;
 	// backwards-compatibility for plugins using add_management page.  See wp-admin/admin.php for redirect from edit.php to tools.php
-	if ( 'tools.php' == $parent ) 
+	if ( 'tools.php' == $parent )
 		$_registered_pages[get_plugin_page_hookname( $file, 'edit.php')] = true;
 
 	return $hookname;

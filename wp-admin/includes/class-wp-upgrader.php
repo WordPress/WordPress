@@ -570,7 +570,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			$this->skin->after();
 			return false;
 		}
-		
+
 		$r = $current->response[ $theme ];
 
 		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
@@ -1006,10 +1006,10 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 			$name = $theme_info['Name'];
 			$stylesheet = $this->upgrader->result['destination_name'];
 			$template = !empty($theme_info['Template']) ? $theme_info['Template'] : $stylesheet;
-	
+
 			$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true' ), trailingslashit(esc_url(get_option('home'))) ) );
 			$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=" . urlencode($template) . "&amp;stylesheet=" . urlencode($stylesheet), 'switch-theme_' . $template);
-	
+
 			$update_actions =  array(
 				'preview' => '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>',
 				'activate' => '<a href="' . $activate_link .  '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>',

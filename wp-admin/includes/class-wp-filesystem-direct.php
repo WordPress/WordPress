@@ -18,7 +18,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	var $errors = null;
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param $arg mixed ingored argument
 	 */
 	function WP_Filesystem_Direct($arg) {
@@ -27,7 +27,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * connect filesystem.
-	 * 
+	 *
 	 * @return bool Returns true on success or false on failure (always true for WP_Filesystem_Direct).
 	 */
 	function connect() {
@@ -35,26 +35,26 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Reads entire file into a string
-	 * 
+	 *
 	 * @param $file string Name of the file to read.
-	 * @return string|bool The function returns the read data or false on failure. 
+	 * @return string|bool The function returns the read data or false on failure.
 	 */
 	function get_contents($file) {
 		return @file_get_contents($file);
 	}
 	/**
 	 * Reads entire file into an array
-	 * 
-	 * @param $file string Path to the file. 
-	 * @return array|bool the file contents in an array or false on failure. 
+	 *
+	 * @param $file string Path to the file.
+	 * @return array|bool the file contents in an array or false on failure.
 	 */
 	function get_contents_array($file) {
 		return @file($file);
 	}
 	/**
 	 * Write a string to a file
-	 * 
-	 * @param $file string Path to the file where to write the data. 
+	 *
+	 * @param $file string Path to the file where to write the data.
 	 * @param $contents string The data to write.
 	 * @param $mode int (optional) The file permissions as octal number, usually 0644.
 	 * @param $type string (optional) Specifies additional type of access you require to the file.
@@ -70,8 +70,8 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Gets the current working directory
-	 * 
-	 * @return string|bool the current working directory on success, or false on failure. 
+	 *
+	 * @return string|bool the current working directory on success, or false on failure.
 	 */
 	function cwd() {
 		return @getcwd();
@@ -79,7 +79,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Change directory
 	 *
-	 * @param $dir string The new current directory. 
+	 * @param $dir string The new current directory.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chdir($dir) {
@@ -87,10 +87,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Changes file group
-	 * 
-	 * @param $file string Path to the file. 
+	 *
+	 * @param $file string Path to the file.
 	 * @param $group mixed A group name or number.
-	 * @param $recursive bool (optional) If set True changes file group recursivly. Defaults to False. 
+	 * @param $recursive bool (optional) If set True changes file group recursivly. Defaults to False.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chgrp($file, $group, $recursive = false) {
@@ -110,10 +110,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Changes filesystem permissions
-	 * 
+	 *
 	 * @param $file string Path to the file.
 	 * @param $mode int (optional) The permissions as octal number, usually 0644 for files, 0755 for dirs.
-	 * @param $recursive bool (optional) If set True changes file group recursivly. Defaults to False. 
+	 * @param $recursive bool (optional) If set True changes file group recursivly. Defaults to False.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chmod($file, $mode = false, $recursive = false) {
@@ -126,7 +126,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 			elseif ( $this->is_dir($file) )
 				$mode = FS_CHMOD_DIR;
 			else
-				return false;	
+				return false;
 		}
 
 		if ( ! $recursive )
@@ -143,10 +143,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Changes file owner
-	 * 
-	 * @param $file string Path to the file. 
+	 *
+	 * @param $file string Path to the file.
 	 * @param $owner mixed A user name or number.
-	 * @param $recursive bool (optional) If set True changes file owner recursivly. Defaults to False. 
+	 * @param $recursive bool (optional) If set True changes file owner recursivly. Defaults to False.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chown($file, $owner, $recursive = false) {
@@ -165,8 +165,8 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Gets file owner
-	 * 
-	 * @param $file string Path to the file. 
+	 *
+	 * @param $file string Path to the file.
 	 * @return string Username of the user.
 	 */
 	function owner($file) {
@@ -180,10 +180,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 	/**
 	 * Gets file permissions
-	 * 
+	 *
 	 * FIXME does not handle errors in fileperms()
-	 * 
-	 * @param $file string Path to the file. 
+	 *
+	 * @param $file string Path to the file.
 	 * @return string Mode of the file (last 4 digits).
 	 */
 	function getchmod($file) {

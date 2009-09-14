@@ -95,8 +95,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
 			}
 		} elseif ( is_single() && !empty($_GET['name'])  && ! $redirect_url ) {
-			if ( $redirect_url = get_permalink( $wp_query->get_queried_object_id() ) ) 
-				$redirect['query'] = remove_query_arg('name', $redirect['query']); 
+			if ( $redirect_url = get_permalink( $wp_query->get_queried_object_id() ) )
+				$redirect['query'] = remove_query_arg('name', $redirect['query']);
 		} elseif ( is_page() && !empty($_GET['page_id']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('page_id')) )
 				$redirect['query'] = remove_query_arg('page_id', $redirect['query']);

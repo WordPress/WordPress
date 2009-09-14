@@ -32,12 +32,12 @@ function wptexturize($text) {
 	$curl = '';
 	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$stop = count($textarr);
-	
+
 	/* translators: opening curly quote */
 	$opening_quote = _x('&#8220;', 'opening curly quote');
 	/* translators: closing curly quote */
 	$closing_quote = _x('&#8221;', 'closing curly quote');
-	
+
 	$no_texturize_tags = apply_filters('no_texturize_tags', array('pre', 'code', 'kbd', 'style', 'script', 'tt'));
 	$no_texturize_shortcodes = apply_filters('no_texturize_shortcodes', array('code'));
 	$no_texturize_tags_stack = array();
@@ -1326,7 +1326,7 @@ function translate_smiley($smiley) {
 	$smiley = trim(reset($smiley));
 	$img = $wpsmiliestrans[$smiley];
 	$smiley_masked = esc_attr($smiley);
-	
+
 	$srcurl = apply_filters('smilies_src', "$siteurl/wp-includes/images/smilies/$img", $img, $siteurl);
 
 	return " <img src='$srcurl' alt='$smiley_masked' class='wp-smiley' /> ";
@@ -2087,14 +2087,14 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 
 /**
  * Perform a deep string replace operation to ensure the values in $search are no longer present
- * 
+ *
  * Repeats the replacement operation until it no longer replaces anything so as to remove "nested" values
  * e.g. $subject = '%0%0%0DDD', $search ='%0D', $result ='' rather than the '%0%0DD' that
  * str_replace would return
- * 
+ *
  * @since 2.8.1
  * @access private
- * 
+ *
  * @param string|array $search
  * @param string $subject
  * @return string The processed string
@@ -2110,7 +2110,7 @@ function _deep_replace($search, $subject){
 			}
 		}
 	}
-	
+
 	return $subject;
 }
 

@@ -266,7 +266,7 @@ class Services_JSON
 	*/
 	function _encode($var)
 	{
-		
+
 		switch (gettype($var)) {
 			case 'boolean':
 				return $var ? 'true' : 'false';

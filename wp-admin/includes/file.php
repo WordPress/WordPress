@@ -598,7 +598,7 @@ function WP_Filesystem( $args = false, $context = false ) {
 		$abstraction_file = apply_filters('filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method);
 		if( ! file_exists($abstraction_file) )
 			return;
-	
+
 		require_once($abstraction_file);
 	}
 	$method = "WP_Filesystem_$method";

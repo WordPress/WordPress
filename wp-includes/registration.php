@@ -306,7 +306,7 @@ function wp_create_user($username, $password, $email = '') {
  * Setup the default contact methods
  *
  * @access private
- * @since 
+ * @since
  *
  * @return array $user_contactmethods Array of contact methods and their labels.
  */

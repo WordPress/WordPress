@@ -46,7 +46,7 @@ case 'editcomment' :
 
 	if ( 'trash' == $comment->comment_approved )
 		comment_footer_die( __('This comment is in the Trash. Please move it out of the Trash if you want to edit it.') );
-	
+
 	$comment = get_comment_to_edit( $comment_id );
 
 	include('edit-form-comment.php');
@@ -170,12 +170,12 @@ case 'trashcomment' :
 case 'untrashcomment' :
 	$comment_id = absint( $_REQUEST['c'] );
 	$noredir = isset($_REQUEST['noredir']);
-	
+
 	if (!$comment = get_comment($comment_id))
 		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
 	if (!current_user_can('edit_post', $comment->comment_post_ID ))
 		comment_footer_die( __('You are not allowed to edit comments on this post.') );
-	
+
 	if ($action == 'trashcomment') {
 		check_admin_referer( 'trash-comment_' . $comment_id );
 		wp_trash_comment($comment_id);
@@ -184,7 +184,7 @@ case 'untrashcomment' :
 		check_admin_referer( 'untrash-comment_' . $comment_id );
 		wp_untrash_comment($comment_id);
 	}
-	
+
 	if ('' != wp_get_referer() && false == $noredir && false === strpos(wp_get_referer(), 'comment.php' ))
 		wp_redirect( wp_get_referer() );
 	else if ('' != wp_get_original_referer() && false == $noredir)

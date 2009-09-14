@@ -68,7 +68,7 @@ switch ( $step ) :
 		break;
 	case 1:
 		wp_upgrade();
-			
+
 			$backto = empty($_GET['backto']) ? '' : $_GET['backto'] ;
 			$backto = stripslashes( urldecode( $backto ) );
 			$backto = esc_url_raw( $backto  );

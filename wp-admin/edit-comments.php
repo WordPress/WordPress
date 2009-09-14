@@ -19,7 +19,7 @@ $post_id = isset($_REQUEST['p']) ? (int) $_REQUEST['p'] : 0;
 
 if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2']) ) {
 	check_admin_referer('bulk-comments');
-	
+
 	if ((isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2'])) && !empty($_REQUEST['pagegen_timestamp'])) {
 		$comment_status = $wpdb->escape($_REQUEST['comment_status']);
 		$delete_time = $wpdb->escape($_REQUEST['pagegen_timestamp']);
@@ -29,9 +29,9 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 		$comment_ids = $_REQUEST['delete_comments'];
 		$doaction = ($_REQUEST['action'] != -1) ? $_REQUEST['action'] : $_REQUEST['action2'];
 	} else wp_redirect($_SERVER['HTTP_REFERER']);
-	
+
 	$approved = $unapproved = $spammed = $trashed = $untrashed = $deleted = 0;
-	
+
 	foreach ($comment_ids as $comment_id) { // Check the permissions on each
 		$_post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id) );
 

@@ -604,13 +604,13 @@ function get_category_template() {
 	$category = get_category( $cat_ID );
 
 	$templates = array();
-	
+
 	if ( !is_wp_error($category) )
 		$templates[] = "category-{$category->slug}.php";
 
 	$templates[] = "category-$cat_ID.php";
-	$templates[] = "category.php";	
-	
+	$templates[] = "category.php";
+
 	$template = locate_template($templates);
 	return apply_filters('category_template', $template);
 }

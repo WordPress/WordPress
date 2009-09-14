@@ -61,7 +61,7 @@ if ( !empty($action) ) {
 		case 'activate-selected':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to activate plugins for this blog.'));
-			
+
 			check_admin_referer('bulk-manage-plugins');
 
 			$plugins = (array) $_POST['checked'];

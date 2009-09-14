@@ -1648,10 +1648,10 @@ function paginate_comments_links($args = array()) {
  */
 function get_shortcut_link() {
 	$link = "javascript:
-			var d=document, 
-			w=window, 
-			e=w.getSelection, 
-			k=d.getSelection, 
+			var d=document,
+			w=window,
+			e=w.getSelection,
+			k=d.getSelection,
 			x=d.selection,
 			s=(e?e():(k)?k():(x?x.createRange().text:0)),
 			f='" . admin_url('press-this.php') . "',

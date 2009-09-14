@@ -2065,7 +2065,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	} else {
 		$query .= "AND $approved $post $typesql";
 	}
-	
+
 	$comments = $wpdb->get_results("SELECT * $query $orderby");
 	if ( '' === $total )
 		$total = $wpdb->get_var("SELECT COUNT(c.comment_ID) $query");

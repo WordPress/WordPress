@@ -2697,7 +2697,7 @@ function setup_postdata($post) {
 	}
 
 	do_action_ref_array('the_post', array(&$post));
-	
+
 	return true;
 }
 

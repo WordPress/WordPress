@@ -60,7 +60,7 @@ case 'edit' :
 
 	if ( empty($att->ID) ) wp_die( __('You attempted to edit an attachment that doesn&#8217;t exist. Perhaps it was deleted?') );
 	if ( $att->post_status == 'trash' ) wp_die( __('You can&#8217;t edit this attachment because it is in the Trash. Please move it out of the Trash and try again.') );
-	
+
 	add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
 
 	wp_enqueue_script( 'wp-ajax-response' );

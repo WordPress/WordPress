@@ -420,7 +420,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 
 	wp_cache_delete($user_id, 'users');
 
-	if ( !$cur ) 
+	if ( !$cur )
 		do_action( 'added_usermeta', $wpdb->insert_id, $user_id, $meta_key, $meta_value );
 	else
 		do_action( 'updated_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );

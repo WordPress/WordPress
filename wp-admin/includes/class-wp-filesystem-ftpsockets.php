@@ -160,7 +160,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			elseif ( $this->is_dir($file) )
 				$mode = FS_CHMOD_DIR;
 			else
-				return false;	
+				return false;
 		}
 
 		if ( ! $recursive || ! $this->is_dir($file) ) {

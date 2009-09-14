@@ -263,7 +263,7 @@ class wpdb {
 	 */
 	var $old_tables = array('categories', 'post2cat', 'link2cat');
 
-	
+
 	/**
 	 * Format specifiers for DB columns. Columns not listed here default to %s.  Initialized in wp-settings.php.
 	 *

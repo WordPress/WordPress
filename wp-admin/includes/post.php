@@ -1078,7 +1078,7 @@ function wp_set_post_lock( $post_id ) {
 
 /**
  * Outputs the notice message to say that someone else is editing this post at the moment.
- * 
+ *
  * @since 2.9.0
  * @return none
  */
@@ -1086,7 +1086,7 @@ function _admin_notice_post_locked() {
 	global $post;
 	$last_user = get_userdata( get_post_meta( $post->ID, '_edit_last', true ) );
 	$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
-	
+
 	switch ($post->post_type) {
 		case 'post':
 			$message = __( 'Warning: %s is currently editing this post' );
@@ -1097,9 +1097,9 @@ function _admin_notice_post_locked() {
 		default:
 			$message = __( 'Warning: %s is currently editing this.' );
 	}
-	
+
 	$message = sprintf( $message, esc_html( $last_user_name ) );
-	echo "<div class='error'><p>$message</p></div>";	
+	echo "<div class='error'><p>$message</p></div>";
 }
 
 /**

@@ -3308,13 +3308,13 @@ function wp_timezone_choice( $selected_zone ) {
 			$display = $zone['t_continent'];
 		} else {
 			// It's inside a continent group
-			
+
 			// Continent optgroup
 			if ( !isset( $zonen[$key - 1] ) || $zonen[$key - 1]['continent'] !== $zone['continent'] ) {
 				$label = ( 'Etc' === $zone['continent'] ) ? __( 'Manual offsets' ) : $zone['t_continent'];
 				$structure[] = '<optgroup label="'. esc_attr( $label ) .'">';
 			}
-			
+
 			// Add the city to the value
 			$value[] = $zone['city'];
 			if ( 'Etc' === $zone['continent'] ) {
@@ -3342,7 +3342,7 @@ function wp_timezone_choice( $selected_zone ) {
 			$selected = 'selected="selected" ';
 		}
 		$structure[] = '<option ' . $selected . 'value="' . esc_attr( $value ) . '">' . esc_html( $display ) . "</option>";
-		
+
 		// Close continent optgroup
 		if ( !empty( $zone['city'] ) && ( !isset($zonen[$key + 1]) || (isset( $zonen[$key + 1] ) && $zonen[$key + 1]['continent'] !== $zone['continent']) ) ) {
 			$structure[] = '</optgroup>';
@@ -3364,7 +3364,7 @@ function _cleanup_header_comment($str) {
 
 /**
  * Permanently deletes posts, pages, attachments, and comments which have been in the trash for EMPTY_TRASH_DAYS.
- * 
+ *
  * @since 2.9.0
  *
  * @return void
@@ -3373,15 +3373,15 @@ function wp_scheduled_delete() {
 	global $wpdb;
 
 	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
-	
+
 	$posts_to_delete = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
-	
+
 	foreach ( (array) $posts_to_delete as $post ) {
 		wp_delete_post($post['post_id']);
 	}
 
 	//Trashed Comments
-	//TODO Come up with a better store for the comment trash meta. 
+	//TODO Come up with a better store for the comment trash meta.
 	$trash_meta = get_option('wp_trash_meta');
 	if ( !is_array($trash_meta) )
 		return;

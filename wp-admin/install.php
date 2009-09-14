@@ -54,7 +54,7 @@ function display_setup_form( $error = null ) {
 	if ( isset($_POST) && !empty($_POST) ) {
 		$blog_public = isset($_POST['blog_public']);
 	}
-	
+
 	if ( ! is_null( $error ) ) {
 ?>
 <p><?php printf( __('<strong>ERROR</strong>: %s'), $error); ?></p>

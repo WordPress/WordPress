@@ -349,7 +349,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 	$newimage = wp_imagecreatetruecolor( $dst_w, $dst_h );
 
 	imagecopyresampled( $newimage, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
-	
+
 	// convert from full colors to index colors, like original PNG.
 	if ( IMAGETYPE_PNG == $orig_type && !imageistruecolor( $image ) )
 		imagetruecolortopalette( $newimage, false, imagecolorstotal( $image ) );
@@ -378,7 +378,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 	} else {
 		// all other formats are converted to jpg
 		$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
-		if ( !imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) ) 
+		if ( !imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	}
 
@@ -837,7 +837,7 @@ function gd_edit_image_support($mime_type) {
 				return function_exists('imagecreatefrompng');
 			case 'image/gif':
 				return function_exists('imagecreatefromgif');
-		}		
+		}
 	}
 	return false;
 }

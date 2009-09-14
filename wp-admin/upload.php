@@ -69,7 +69,7 @@ if ( isset($_GET['find_detached']) ) {
 
 } elseif ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 	check_admin_referer('bulk-media');
-	
+
 	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
 		$doaction = 'delete';
@@ -78,7 +78,7 @@ if ( isset($_GET['find_detached']) ) {
 		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
 	} else
 		wp_redirect($_SERVER['HTTP_REFERER']);
-	
+
 	$location = 'upload.php';
 	if ( $referer = wp_get_referer() ) {
 		if ( false !== strpos($referer, 'upload.php') )
@@ -90,7 +90,7 @@ if ( isset($_GET['find_detached']) ) {
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can('delete_post', $post_id) )
 					wp_die( __('You are not allowed to move this post to the trash.') );
-				
+
 				if ( !wp_trash_post($post_id) )
 					wp_die( __('Error in moving to trash...') );
 			}
@@ -100,7 +100,7 @@ if ( isset($_GET['find_detached']) ) {
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can('delete_post', $post_id) )
 					wp_die( __('You are not allowed to move this post out of the trash.') );
-				
+
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from trash...') );
 			}
@@ -110,7 +110,7 @@ if ( isset($_GET['find_detached']) ) {
 			foreach( (array) $post_ids as $post_id_del ) {
 				if ( !current_user_can('delete_post', $post_id_del) )
 					wp_die( __('You are not allowed to delete this post.') );
-	
+
 				if ( !wp_delete_attachment($post_id_del) )
 					wp_die( __('Error in deleting...') );
 			}
