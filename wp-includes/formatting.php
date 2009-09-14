@@ -628,7 +628,7 @@ function sanitize_file_name( $filename ) {
  */
 function sanitize_user( $username, $strict = false ) {
 	$raw_username = $username;
-	$username = strip_tags($username);
+	$username = wp_strip_all_tags($username);
 	// Kill octets
 	$username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
 	$username = preg_replace('/&.+?;/', '', $username); // Kill entities
@@ -2245,7 +2245,6 @@ function esc_html( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
 	return apply_filters( 'esc_html', $safe_text, $text );
-	return $text;
 }
 
 /**
@@ -2601,7 +2600,7 @@ function wp_sprintf_l($pattern, $args) {
  * @return string The excerpt.
  */
 function wp_html_excerpt( $str, $count ) {
-	$str = strip_tags( $str );
+	$str = wp_strip_all_tags( $str, true );
 	$str = mb_substr( $str, 0, $count );
 	// remove part of an entity at the end
 	$str = preg_replace( '/&[^;\s]{0,6}$/', '', $str );
@@ -2668,6 +2667,7 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 			create_function('$m', 'return _links_add_target($m, "' . $target . '");'),
 			$content);
 }
+
 /**
  * Callback to add a target attribute to all links in passed content.
  *
@@ -2690,6 +2690,56 @@ function normalize_whitespace( $str ) {
 	$str  = str_replace("\r", "\n", $str);
 	$str  = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $str );
 	return $str;
+}
+
+/**
+ * Properly strip all HTML tags including script and style
+ *
+ * @since 2.9.0
+ *
+ * @param string $string String containing HTML tags
+ * @param bool $remove_breaks optional Whether to remove left over line breaks and white space chars
+ * @return string The processed string.
+ */
+function wp_strip_all_tags($string, $remove_breaks = false) {
+	$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+	$string = strip_tags($string);
+
+	if ( $remove_breaks )
+		$string = preg_replace('/\s+/', ' ', $string);
+
+	return trim($string);
+}
+
+/**
+ * Sanitize a string from user input or from the db
+ *
+ * check for invalid UTF-8,
+ * Convert single < characters to entity,
+ * strip all tags,
+ * remove line breaks, tabs and extra whitre space,
+ * strip octets.
+ *
+ * @since 2.9
+ *
+ * @param string $str
+ * @return string
+ */
+function sanitize_text_field($str) {
+	$filtered = wp_check_invalid_utf8( $str );
+
+	if ( strpos($filtered, '<') !== false ) {
+		$filtered = wp_pre_kses_less_than( $filtered );
+		$filtered = wp_strip_all_tags( $filtered, true );
+	} else {
+		 $filtered = trim( preg_replace('/\s+/', ' ', $filtered) );
+	}
+
+	$match = array();
+	while ( preg_match('/%[a-f0-9]{2}/i', $filtered, $match) )
+		$filtered = str_replace($match[0], '', $filtered);
+
+	return apply_filters('sanitize_text_field', $filtered, $str);
 }
 
 ?>

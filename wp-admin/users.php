@@ -385,14 +385,6 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 </form>
 </div>
 
-<?php
-	foreach ( array('user_login' => 'user_login', 'first_name' => 'user_firstname', 'last_name' => 'user_lastname', 'email' => 'user_email', 'url' => 'user_uri', 'role' => 'user_role') as $formpost => $var ) {
-		$var = 'new_' . $var;
-		$$var = isset($_REQUEST[$formpost]) ? esc_attr(stripslashes($_REQUEST[$formpost])) : '';
-	}
-	unset($name);
-?>
-
 <br class="clear" />
 <?php
 break;

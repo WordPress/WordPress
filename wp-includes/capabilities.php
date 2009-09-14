@@ -449,6 +449,15 @@ class WP_User {
 	var $last_name = '';
 
 	/**
+	 * The filter context applied to user data fields.
+	 *
+	 * @since 2.9.0
+	 * @access private
+	 * @var string
+	 */
+	var $filter = null;
+
+	/**
 	 * PHP4 Constructor - Sets up the object properties.
 	 *
 	 * Retrieves the userdata and then assigns all of the data keys to direct

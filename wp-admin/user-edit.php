@@ -284,7 +284,7 @@ else
 <table class="form-table">
 <tr>
 	<th><label for="description"><?php _e('Biographical Info'); ?></label></th>
-	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea><br />
+	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo esc_html($profileuser->description); ?></textarea><br />
 	<span class="description"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></span></td>
 </tr>
 
@@ -311,16 +311,17 @@ if ( $show_password_fields ) :
 	}
 ?>
 
-<?php if (count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true, $profileuser)): ?>
+<?php if ( count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true, $profileuser) ) { ?>
 <br class="clear" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<tr>
 			<th scope="row"><?php _e('Additional Capabilities') ?></th>
 			<td><?php
 			$output = '';
-			foreach($profileuser->caps as $cap => $value) {
-				if(!$wp_roles->is_role($cap)) {
-					if($output != '') $output .= ', ';
+			foreach ( $profileuser->caps as $cap => $value ) {
+				if ( !$wp_roles->is_role($cap) ) {
+					if ( $output != '' )
+						$output .= ', ';
 					$output .= $value ? $cap : "Denied: {$cap}";
 				}
 			}
@@ -328,7 +329,7 @@ if ( $show_password_fields ) :
 			?></td>
 		</tr>
 	</table>
-<?php endif; ?>
+<?php } ?>
 
 <p class="submit">
 	<input type="hidden" name="action" value="update" />

@@ -169,7 +169,7 @@ function wp_insert_user($userdata) {
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
-	if ($user_nicename_check) {
+	if ( $user_nicename_check ) {
 		$suffix = 2;
 		while ($user_nicename_check) {
 			$alt_user_nicename = $user_nicename . "-$suffix";
@@ -198,10 +198,11 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'comment_shortcuts', $comment_shortcuts);
 	update_usermeta( $user_id, 'admin_color', $admin_color);
 	update_usermeta( $user_id, 'use_ssl', $use_ssl);
-	foreach (_wp_get_user_contactmethods() as $method => $name) {
+
+	foreach ( _wp_get_user_contactmethods() as $method => $name ) {
 		if ( empty($$method) )
 			$$method = '';
-		
+
 		update_usermeta( $user_id, $method, $$method );
 	}
 

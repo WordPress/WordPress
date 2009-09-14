@@ -25,15 +25,16 @@ function add_user() {
 		$user_id = (int) func_get_arg( 0 );
 
 		if ( isset( $_POST['role'] ) ) {
+			$new_role = sanitize_text_field( $_POST['role'] );
 			// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
-			if( $user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap( 'edit_users' ) ) {
+			if ( $user_id != $current_user->id || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ) ) {
 				// If the new role isn't editable by the logged-in user die with error
 				$editable_roles = get_editable_roles();
-				if (!$editable_roles[$_POST['role']])
+				if ( !$editable_roles[$new_role] )
 					wp_die(__('You can&#8217;t give users that role.'));
 
 				$user = new WP_User( $user_id );
-				$user->set_role( $_POST['role'] );
+				$user->set_role( $new_role );
 			}
 		}
 	} else {
@@ -64,8 +65,8 @@ function edit_user( $user_id = 0 ) {
 		$user = '';
 	}
 
-	if ( isset( $_POST['user_login'] ))
-		$user->user_login = esc_html( trim( $_POST['user_login'] ));
+	if ( !$update && isset( $_POST['user_login'] ) )
+		$user->user_login = sanitize_user($userdata['user_login'], true);
 
 	$pass1 = $pass2 = '';
 	if ( isset( $_POST['pass1'] ))
@@ -74,61 +75,54 @@ function edit_user( $user_id = 0 ) {
 		$pass2 = $_POST['pass2'];
 
 	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) {
-
+		$new_role = sanitize_text_field( $_POST['role'] );
 		// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
-		if( $user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap( 'edit_users' ))
-			$user->role = $_POST['role'];
+		if( $user_id != $current_user->id || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ))
+			$user->role = $new_role;
 
 		// If the new role isn't editable by the logged-in user die with error
 		$editable_roles = get_editable_roles();
-		if (!$editable_roles[$_POST['role']])
+		if ( !$editable_roles[$new_role] )
 			wp_die(__('You can&#8217;t give users that role.'));
 	}
 
 	if ( isset( $_POST['email'] ))
-		$user->user_email = esc_html( trim( $_POST['email'] ));
+		$user->user_email = sanitize_text_field( $_POST['email'] );
 	if ( isset( $_POST['url'] ) ) {
 		if ( empty ( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
 			$user->user_url = '';
 		} else {
-			$user->user_url = esc_url( trim( $_POST['url'] ));
+			$user->user_url = sanitize_url( $_POST['url'] );
 			$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 		}
 	}
-	if ( isset( $_POST['first_name'] ))
-		$user->first_name = esc_html( trim( $_POST['first_name'] ));
-	if ( isset( $_POST['last_name'] ))
-		$user->last_name = esc_html( trim( $_POST['last_name'] ));
-	if ( isset( $_POST['nickname'] ))
-		$user->nickname = esc_html( trim( $_POST['nickname'] ));
-	if ( isset( $_POST['display_name'] ))
-		$user->display_name = esc_html( trim( $_POST['display_name'] ));
-	if ( isset( $_POST['description'] ))
-		$user->description = trim( $_POST['description'] );
-	$user_contactmethods = _wp_get_user_contactmethods();
-	foreach ($user_contactmethods as $method => $name) {
-		if ( isset( $_POST[$method] ))
-			$user->$method = esc_html( trim( $_POST[$method] ) );
-	}
-	if ( !$update )
-		$user->rich_editing = 'true';  // Default to true for new users.
-	else if ( isset( $_POST['rich_editing'] ) )
-		$user->rich_editing = $_POST['rich_editing'];
-	else
-		$user->rich_editing = 'true';
+	if ( isset( $_POST['first_name'] ) )
+		$user->first_name = sanitize_text_field( $_POST['first_name'] );
+	if ( isset( $_POST['last_name'] ) )
+		$user->last_name = sanitize_text_field( $_POST['last_name'] );
+	if ( isset( $_POST['nickname'] ) )
+		$user->nickname = sanitize_text_field( $_POST['nickname'] );
+	if ( isset( $_POST['display_name'] ) )
+		$user->display_name = sanitize_text_field( $_POST['display_name'] );
 
-	$user->comment_shortcuts = isset( $_POST['comment_shortcuts'] )? $_POST['comment_shortcuts'] : '';
+	if ( isset( $_POST['description'] ) )
+		$user->description = trim( $_POST['description'] );
+
+	foreach ( _wp_get_user_contactmethods() as $method => $name ) {
+		if ( isset( $_POST[$method] ))
+			$user->$method = sanitize_text_field( $_POST[$method] );
+	}
+
+	if ( $update ) {
+		$user->rich_editing = isset( $_POST['rich_editing'] ) && 'false' == $_POST['rich_editing'] ? 'false' : 'true';
+		$user->admin_color = isset( $_POST['admin_color'] ) ? sanitize_text_field( $_POST['admin_color'] ) : 'fresh';
+	}
+
+	$user->comment_shortcuts = isset( $_POST['comment_shortcuts'] ) && 'true' == $_POST['comment_shortcuts'] ? 'true' : '';
 
 	$user->use_ssl = 0;
 	if ( !empty($_POST['use_ssl']) )
 		$user->use_ssl = 1;
-
-	if ( !$update )
-		$user->admin_color = 'fresh';  // Default to fresh for new users.
-	else if ( isset( $_POST['admin_color'] ) )
-		$user->admin_color = $_POST['admin_color'];
-	else
-		$user->admin_color = 'fresh';
 
 	$errors = new WP_Error();
 
@@ -159,34 +153,34 @@ function edit_user( $user_id = 0 ) {
 	if ( $pass1 != $pass2 )
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.' ), array( 'form-field' => 'pass1' ) );
 
-	if (!empty ( $pass1 ))
+	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;
 
 	if ( !$update && !validate_username( $user->user_login ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid. Please enter a valid username.' ));
 
-	if (!$update && username_exists( $user->user_login ))
+	if ( !$update && username_exists( $user->user_login ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ));
 
 	/* checking e-mail address */
-	if ( empty ( $user->user_email ) ) {
+	if ( empty( $user->user_email ) ) {
 		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ), array( 'form-field' => 'email' ) );
-	} elseif (!is_email( $user->user_email ) ) {
+	} elseif ( !is_email( $user->user_email ) ) {
 		$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The e-mail address isn&#8217;t correct.' ), array( 'form-field' => 'email' ) );
 	} elseif ( ( $owner_id = email_exists($user->user_email) ) && $owner_id != $user->ID ) {
 		$errors->add( 'email_exists', __('<strong>ERROR</strong>: This email is already registered, please choose another one.'), array( 'form-field' => 'email' ) );
 	}
 
-	// Allow plugins to return there own errors.
+	// Allow plugins to return their own errors.
 	do_action_ref_array('user_profile_update_errors', array ( &$errors, $update, &$user ) );
 
 	if ( $errors->get_error_codes() )
 		return $errors;
 
 	if ( $update ) {
-		$user_id = wp_update_user( get_object_vars( $user ));
+		$user_id = wp_update_user( get_object_vars( $user ) );
 	} else {
-		$user_id = wp_insert_user( get_object_vars( $user ));
+		$user_id = wp_insert_user( get_object_vars( $user ) );
 		wp_new_user_notification( $user_id, isset($_POST['send_password']) ? $pass1 : '' );
 	}
 	return $user_id;
@@ -370,20 +364,17 @@ function get_others_pending($user_id) {
  */
 function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
-	$user->user_login   = esc_attr($user->user_login);
-	$user->user_email   = esc_attr($user->user_email);
-	$user->user_url     = esc_url($user->user_url);
-	$user->first_name   = esc_attr($user->first_name);
-	$user->last_name    = esc_attr($user->last_name);
-	$user->display_name = esc_attr($user->display_name);
-	$user->nickname     = esc_attr($user->nickname);
 
 	$user_contactmethods = _wp_get_user_contactmethods();
 	foreach ($user_contactmethods as $method => $name) {
-		$user->{$method} = isset( $user->{$method} ) && !empty( $user->{$method} ) ? esc_attr($user->{$method}) : '';
+		if ( empty( $user->{$method} ) )
+			$user->{$method} = '';
 	}
-	
-	$user->description  = isset( $user->description ) && !empty( $user->description ) ? esc_html($user->description) : '';
+
+	if ( empty($user->description) )
+		$user->description = '';
+
+	$user = sanitize_user_object($user, 'edit');
 
 	return $user;
 }

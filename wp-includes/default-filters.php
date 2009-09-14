@@ -17,22 +17,36 @@ $filters = array('pre_term_name', 'pre_comment_author_name', 'pre_link_name', 'p
 	'pre_link_rel', 'pre_user_display_name', 'pre_user_first_name', 'pre_user_last_name',
 	'pre_user_nickname');
 foreach ( $filters as $filter ) {
-	add_filter($filter, 'strip_tags');
-	add_filter($filter, 'trim');
+	add_filter($filter, 'sanitize_text_field');
 	add_filter($filter, 'wp_filter_kses');
 	add_filter($filter, '_wp_specialchars', 30);
 }
 
-// Kses only for textarea saves
-$filters = array('pre_term_description', 'pre_link_description', 'pre_link_notes', 'pre_user_description');
+// Strip, kses, special chars for string display
+$filters = array('term_name', 'comment_author_name', 'link_name', 'link_target', 'link_rel', 'user_display_name', 'user_first_name', 'user_last_name', 'user_nickname');
+foreach ( $filters as $filter ) {
+	add_filter($filter, 'sanitize_text_field');
+	add_filter($filter, 'wp_filter_kses');
+	add_filter($filter, '_wp_specialchars', 30);
+}
+
+// Kses only for textarea saves and displays
+$filters = array('pre_term_description', 'term_description', 'pre_link_description', 'link_description', 'pre_link_notes', 'link_notes', 'pre_user_description', 'user_description');
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'wp_filter_kses');
 }
 
-// Email
+// Email saves
 $filters = array('pre_comment_author_email', 'pre_user_email');
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'trim');
+	add_filter($filter, 'sanitize_email');
+	add_filter($filter, 'wp_filter_kses');
+}
+
+// Email display
+$filters = array('comment_author_email', 'user_email');
+foreach ( $filters as $filter ) {
 	add_filter($filter, 'sanitize_email');
 	add_filter($filter, 'wp_filter_kses');
 }
@@ -41,8 +55,7 @@ foreach ( $filters as $filter ) {
 $filters = array('pre_comment_author_url', 'pre_user_url', 'pre_link_url', 'pre_link_image',
 	'pre_link_rss');
 foreach ( $filters as $filter ) {
-	add_filter($filter, 'strip_tags');
-	add_filter($filter, 'trim');
+	add_filter($filter, 'wp_strip_all_tags');
 	add_filter($filter, 'esc_url_raw');
 	add_filter($filter, 'wp_filter_kses');
 }
@@ -50,8 +63,7 @@ foreach ( $filters as $filter ) {
 // Display URL
 $filters = array('user_url', 'link_url', 'link_image', 'link_rss', 'comment_url');
 foreach ( $filters as $filter ) {
-	add_filter($filter, 'strip_tags');
-	add_filter($filter, 'trim');
+	add_filter($filter, 'wp_strip_all_tags');
 	add_filter($filter, 'esc_url');
 	add_filter($filter, 'wp_filter_kses');
 }
