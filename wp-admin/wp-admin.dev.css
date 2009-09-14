@@ -59,7 +59,7 @@ select option {
 	list-style-type: disc;
 }
 
-.plugins .action-links { 
+.plugins .action-links {
 	white-space: nowrap;
 }
 
@@ -2047,7 +2047,7 @@ ul.categorychecklist li {
 
 #categorydiv .tabs-panel {
 	border-width: 3px;
-	border-style: solid; 
+	border-style: solid;
 }
 
 ul#category-tabs {

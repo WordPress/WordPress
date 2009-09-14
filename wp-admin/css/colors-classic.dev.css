@@ -615,8 +615,8 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 	color: #000;
 }
 
-.plugins .inactive a { 
-	color: #557799; 	
+.plugins .inactive a {
+	color: #557799;
 }
 
 #the-comment-list .unapproved,
