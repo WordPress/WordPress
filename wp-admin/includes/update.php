@@ -3,7 +3,7 @@
  * WordPress Administration Update API
  *
  * @package WordPress
- * @subpackage Admin
+ * @subpackage Administration
  */
 
 // The admin side of our 1.1 update system
