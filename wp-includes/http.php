@@ -280,7 +280,7 @@ class WP_Http {
 		if ( is_null($r['body']) ) {
 			// Some servers fail when sending content without the content-length
 			// header being set.
-			$r['headers']['Content-Length'] = 0;
+			$r['headers']['Content-Length'] = null;
 			$transports = WP_Http::_getTransport($r);
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
