@@ -920,7 +920,7 @@ function postbox_classes( $id, $page ) {
  * @param unknown_type $name
  * @return unknown
  */
-function get_sample_permalink($id, $title=null, $name = null) {
+function get_sample_permalink($id, $title = null, $name = null) {
 	$post = &get_post($id);
 	if (!$post->ID) {
 		return array('', '');
@@ -981,8 +981,13 @@ function get_sample_permalink($id, $title=null, $name = null) {
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$post = &get_post($id);
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
-	if ( 'publish' == $post->post_status )
+
+	if ( 'publish' == $post->post_status ) {
 		$view_post = 'post' == $post->post_type ? __('View Post') : __('View Page');
+		$title = __('Click to edit this part of the permalink');
+	} else {
+		$title = __('Temporary permalink. Click to edit this part.');
+	}
 
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $permalink . "</span>\n";
@@ -996,15 +1001,14 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		return $return;
 	}
 
-	$title = __('Click to edit this part of the permalink');
-	if (function_exists('mb_strlen')) {
-		if (mb_strlen($post_name) > 30) {
+	if ( function_exists('mb_strlen') ) {
+		if ( mb_strlen($post_name) > 30 ) {
 			$post_name_abridged = mb_substr($post_name, 0, 14). '&hellip;' . mb_substr($post_name, -14);
 		} else {
 			$post_name_abridged = $post_name;
 		}
 	} else {
-		if (strlen($post_name) > 30) {
+		if ( strlen($post_name) > 30 ) {
 			$post_name_abridged = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
 		} else {
 			$post_name_abridged = $post_name;

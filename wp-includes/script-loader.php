@@ -275,7 +275,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add_data( 'slug', 'group', 1 );
 		$scripts->localize( 'slug', 'slugL10n', array(
 			'requestFile' => admin_url('admin-ajax.php'),
-			'save' => __('Save'),
+			'save' => __('OK'),
 			'cancel' => __('Cancel'),
 			'l10n_print_after' => 'try{convertEntities(slugL10n);}catch(e){};'
 		) );
