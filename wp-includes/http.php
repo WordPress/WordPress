@@ -208,6 +208,11 @@ class WP_Http {
 	 *
 	 * @access public
 	 * @since 2.7.0
+	 * @todo Refactor this code. The code in this method extends the scope of its original purpose
+	 *		and should be refactored to allow for cleaner abstraction and reduce duplication of the
+	 *		code. One suggestion is to create a class specifically for the arguments, however
+	 *		preliminary refactoring to this affect has affect more than just the scope of the
+	 *		arguments. Something to ponder at least.
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -277,10 +282,16 @@ class WP_Http {
 		if ( WP_Http_Encoding::is_available() )
 			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
 
-		if ( is_null($r['body']) ) {
-			// Some servers fail when sending content without the content-length
-			// header being set.
-			$r['headers']['Content-Length'] = null;
+		if ( empty($r['body']) ) {
+			// Some servers fail when sending content without the content-length header being set.
+			// Also, to fix another bug, we only send when doing POST and PUT and the content-length
+			// header isn't already set.
+			if( ($r['method'] == 'POST' || $r['method'] == 'PUT') && ! isset($r['headers']['Content-Length']) )
+				$r['headers']['Content-Length'] = 0;
+
+			// The method is ambiguous, because we aren't talking about HTTP methods, the "get" in
+			// this case is simply that we aren't sending any bodies and to get the transports that
+			// don't support sending bodies along with those which do.
 			$transports = WP_Http::_getTransport($r);
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
@@ -295,6 +306,10 @@ class WP_Http {
 			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
 				$r['headers']['Content-Length'] = strlen($r['body']);
 
+			// The method is ambiguous, because we aren't talking about HTTP methods, the "post" in
+			// this case is simply that we are sending HTTP body and to get the transports that do
+			// support sending the body. Not all do, depending on the limitations of the PHP core
+			// limitations.
 			$transports = WP_Http::_postTransport($r);
 		}
 
