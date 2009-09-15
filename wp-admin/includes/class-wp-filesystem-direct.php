@@ -307,29 +307,34 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return @rmdir($path);
 	}
 
-	function dirlist($path, $incdot = false, $recursive = false) {
+	function dirlist($path, $include_hidden = true, $recursive = false) {
 		if ( $this->is_file($path) ) {
-			$limitFile = basename($path);
+			$limit_file = basename($path);
 			$path = dirname($path);
 		} else {
-			$limitFile = false;
+			$limit_file = false;
 		}
+
 		if ( ! $this->is_dir($path) )
 			return false;
 
-		$ret = array();
 		$dir = @dir($path);
 		if ( ! $dir )
 			return false;
+
+		$ret = array();
+
 		while (false !== ($entry = $dir->read()) ) {
 			$struc = array();
 			$struc['name'] = $entry;
 
 			if ( '.' == $struc['name'] || '..' == $struc['name'] )
-				continue; //Do not care about these folders.
-			if ( '.' == $struc['name'][0] && !$incdot)
 				continue;
-			if ( $limitFile && $struc['name'] != $limitFile)
+
+			if ( ! $include_hidden && '.' == $struc['name'][0] )
+				continue;
+
+			if ( $limit_file && $struc['name'] != $limit_file)
 				continue;
 
 			$struc['perms'] 	= $this->gethchmod($path.'/'.$entry);
@@ -345,7 +350,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 			if ( 'd' == $struc['type'] ) {
 				if ( $recursive )
-					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
+					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
 				else
 					$struc['files'] = array();
 			}

@@ -323,12 +323,12 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return $b;
 	}
 
-	function dirlist($path = '.', $incdot = false, $recursive = false) {
+	function dirlist($path = '.', $include_hidden = true, $recursive = false) {
 		if ( $this->is_file($path) ) {
-			$limitFile = basename($path);
+			$limit_file = basename($path);
 			$path = dirname($path) . '/';
 		} else {
-			$limitFile = false;
+			$limit_file = false;
 		}
 
 		$list = @ftp_rawlist($this->link, '-a ' . $path, false);
@@ -342,7 +342,13 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			if ( empty($entry) )
 				continue;
 
-			if ( '.' == $entry["name"] || '..' == $entry["name"] )
+			if ( '.' == $entry['name'] || '..' == $entry['name'] )
+				continue;
+
+			if ( ! $include_hidden && '.' == $entry['name'][0] )
+				continue;
+
+			if ( $limit_file && $entry['name'] != $limit_file)
 				continue;
 
 			$dirlist[ $entry['name'] ] = $entry;
@@ -350,28 +356,17 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		if ( ! $dirlist )
 			return false;
-		if ( empty($dirlist) )
-			return array();
 
 		$ret = array();
-		foreach ( $dirlist as $struc ) {
-
+		foreach ( (array)$dirlist as $struc ) {
 			if ( 'd' == $struc['type'] ) {
-				$struc['files'] = array();
-
-				if ( $incdot ) {
-					//We're including the doted starts
-					if ( '.' != $struc['name'] && '..' != $struc['name'] ) { //Ok, It isnt a special folder
-						if ($recursive)
-							$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
-					}
-				} else { //No dots
-					if ($recursive)
-						$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
-				}
+				if ( $recursive )
+					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
+				else
+					$struc['files'] = array();
 			}
-			//File
-			$ret[$struc['name']] = $struc;
+
+			$ret[ $struc['name'] ] = $struc;
 		}
 		return $ret;
 	}

@@ -122,7 +122,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		$this->ftp->SetType($type);
 
 		$temp = wp_tempnam( $file );
-		if ( ! $temphandle = fopen($temp, 'w+') ){
+		if ( ! $temphandle = fopen($temp, 'w+') ) {
 			unlink($temp);
 			return false;
 		}
@@ -166,11 +166,12 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		if ( ! $recursive || ! $this->is_dir($file) ) {
 			return $this->ftp->chmod($file, $mode);
 		}
+
 		//Is a directory, and we want recursive
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename){
+		foreach ( $filelist as $filename )
 			$this->chmod($file . '/' . $filename, $mode, $recursive);
-		}
+
 		return true;
 	}
 
@@ -282,39 +283,38 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $this->ftp->mdel($path);
 	}
 
-	function dirlist($path = '.', $incdot = false, $recursive = false ) {
+	function dirlist($path = '.', $include_hidden = true, $recursive = false ) {
 		if ( $this->is_file($path) ) {
-			$limitFile = basename($path);
+			$limit_file = basename($path);
 			$path = dirname($path) . '/';
 		} else {
-			$limitFile = false;
+			$limit_file = false;
 		}
 
 		$list = $this->ftp->dirlist($path);
 		if ( ! $list )
 			return false;
-		if ( empty($list) )
-			return array();
 
 		$ret = array();
 		foreach ( $list as $struc ) {
 
-			if ( 'd' == $struc['type'] ) {
-				$struc['files'] = array();
+			if ( '.' == $struct['name'] || '..' == $struc['name'] )
+				continue;
 
-				if ( $incdot ){
-					//We're including the doted starts
-					if ( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder
-						if ($recursive)
-							$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
-					}
-				} else { //No dots
-					if ($recursive)
-						$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
-				}
+			if ( ! $include_hidden && '.' == $struc['name'][0] )
+				continue;
+
+			if ( $limit_file && $srtuc['name'] != $limit_file )
+				continue;
+
+			if ( 'd' == $struc['type'] ) {
+				if ( $recursive )
+					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
+				else
+					$struc['files'] = array();
 			}
-			//File
-			$ret[$struc['name']] = $struc;
+
+			$ret[ $struc['name'] ] = $struc;
 		}
 		return $ret;
 	}
