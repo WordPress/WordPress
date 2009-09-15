@@ -2199,8 +2199,10 @@ function htmlentities2($myHTML) {
 }
 
 /**
- * Escape single quotes, specialchar double quotes, and fix line endings.
+ * Escape single quotes, htmlspecialchar " < > &, and fix line endings.
  *
+ * Escapes text strings for echoing in JS, both inline (for example in onclick="...")
+ * and inside <script> tag. Note that the strings have to be in single quotes.
  * The filter 'js_escape' is also applied here.
  *
  * @since 2.8.0
@@ -2212,7 +2214,8 @@ function esc_js( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_COMPAT );
 	$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
-	$safe_text = preg_replace( "/\r?\n/", "\\n", addslashes( $safe_text ) );
+	$safe_text = str_replace( "\r", '', $safe_text );
+	$safe_text = str_replace( "\n", '\\n', addslashes( $safe_text ) );
 	return apply_filters( 'js_escape', $safe_text, $text );
 }
 
