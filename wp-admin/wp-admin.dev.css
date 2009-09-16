@@ -1073,21 +1073,17 @@ div.comment-item:hover .row-actions {
 	border-bottom-left-radius: 0;
 }
 
-#adminmenu img.wp-menu-image {
+#adminmenu .wp-menu-image img {
 	float: left;
 	padding: 8px 6px 0;
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 }
 
-#adminmenu li.menu-top:hover img.wp-menu-image,
-#adminmenu li.wp-has-current-submenu img.wp-menu-image {
+#adminmenu li.menu-top:hover .wp-menu-image img,
+#adminmenu li.wp-has-current-submenu .wp-menu-image img {
 	opacity: 1;
 	filter: alpha(opacity=100);
-}
-
-.folded #adminmenu img.wp-menu-image {
-	padding: 7px 0 0 6px;
 }
 
 #adminmenu li.wp-menu-separator {
