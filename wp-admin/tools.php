@@ -14,9 +14,9 @@ wp_enqueue_script( 'wp-gears' );
 
 require_once('admin-header.php');
 
-screen_icon();
 ?>
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <div class="tool-box">
