@@ -819,11 +819,8 @@ function wp_delete_comment($comment_id) {
 
 	do_action('delete_comment', $comment_id);
 
-	$trash_meta = get_option('wp_trash_meta');
-	if (is_array($trash_meta) && isset($trash_meta['comments'][$comment_id])) {
-		unset($trash_meta['comments'][$comment_id]);
-		update_option('wp_trash_meta', $trash_meta);
-	}
+	delete_comment_meta($comment_id,'_wp_trash_meta_status');
+	delete_comment_meta($comment_id,'_wp_trash_meta_time');
 
 	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
 		return false;
@@ -865,11 +862,9 @@ function wp_trash_comment($comment_id = 0) {
 
 	do_action('trash_comment', $comment_id);
 
-	$trash_meta = get_option('wp_trash_meta', array());
-	$trash_meta['comments'][$comment_id]['status'] = $comment->comment_approved;
-	$trash_meta['comments'][$comment_id]['time'] = time();
-	update_option('wp_trash_meta', $trash_meta);
-
+	add_comment_meta($comment_id,'_wp_trash_meta_status', $comment->comment_approved);
+	add_comment_meta($comment_id,'_wp_trash_meta_time', time() );	
+	
 	wp_set_comment_status($comment_id, 'trash');
 
 	do_action('trashed_comment', $comment_id);
@@ -891,13 +886,9 @@ function wp_untrash_comment($comment_id = 0) {
 	do_action('untrash_comment', $comment_id);
 
 	$comment = array('comment_ID'=>$comment_id, 'comment_approved'=>'0');
-
-	$trash_meta = get_option('wp_trash_meta');
-	if (is_array($trash_meta) && isset($trash_meta['comments'][$comment_id])) {
-		$comment['comment_approved'] = $trash_meta['comments'][$comment_id]['status'];
-		unset($trash_meta['comments'][$comment_id]);
-		update_option('wp_trash_meta', $trash_meta);
-	}
+	
+	//Either set comment_approved to the value in comment_meta or worse case to false which will mean moderation
+	$comment['comment_approved'] = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
 
 	wp_update_comment($comment);
 

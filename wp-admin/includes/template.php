@@ -2193,13 +2193,10 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						if ( ('reply' == $action || 'quickedit' == $action) && ! $from_ajax )
 							$action .= ' hide-if-no-js';
 						elseif ($action == 'untrash' && $the_comment_status == 'trash') {
-							$trash_meta = get_option('wp_trash_meta');
-							if (is_array($trash_meta) && isset($trash_meta['comments'][$comment_id]['status'])) {
-								if ($trash_meta['comments'][$comment_id]['status'] == '1')
-									$action .= ' approve';
-								else
-									$action .= ' unapprove';
-							}
+							if ('1' == get_comment_meta($comment_id, '_wp_trash_meta_status', true))
+								$action .= ' approve';
+							else
+								$action .= ' unapprove';
 						}
 
 						echo "<span class='$action'>$sep$link</span>";
