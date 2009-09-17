@@ -2092,7 +2092,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		$post_title = $content_struct['title'];
-		$post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
+		$post_content = $content_struct['description'];
 
 		$post_status = $publish ? 'publish' : 'draft';
 
@@ -2459,7 +2459,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		$post_title = $content_struct['title'];
-		$post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
+		$post_content = $content_struct['description'];
 		$catnames = $content_struct['categories'];
 
 		$post_category = array();
