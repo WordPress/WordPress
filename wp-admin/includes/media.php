@@ -249,8 +249,8 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
  */
 function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
 	$overrides = array('test_form'=>false);
+	
 	$file = wp_handle_sideload($file_array, $overrides);
-
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );
 
@@ -279,7 +279,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 		'post_content' => $content,
 	), $post_data );
 
-	// Save the data
+	// Save the attachment metadata
 	$id = wp_insert_attachment($attachment, $file, $post_id);
 	if ( !is_wp_error($id) ) {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
@@ -520,25 +520,33 @@ function media_upload_image() {
  */
 function media_sideload_image($file, $post_id, $desc = null) {
 	if (!empty($file) ) {
-		$file_array['name'] = basename($file);
+		// Download file to temp location
 		$tmp = download_url($file);
+		
+		// Set variables for storage
+		// fix file filename for query strings
+		preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $file, $matches);
+		$file_array['name'] = basename($matches[0]);
 		$file_array['tmp_name'] = $tmp;
-		$desc = @$desc;
 
+		// If error storing temporarily, unlink
 		if ( is_wp_error($tmp) ) {
 			@unlink($file_array['tmp_name']);
 			$file_array['tmp_name'] = '';
 		}
-
-		$id = media_handle_sideload($file_array, $post_id, $desc);
+		
+		// do the validation and storage stuff
+		$id = media_handle_sideload($file_array, $post_id, @$desc);
 		$src = $id;
-
+		
+		// If error storing permanently, unlink
 		if ( is_wp_error($id) ) {
 			@unlink($file_array['tmp_name']);
 			return $id;
 		}
 	}
-
+	
+	// Finally check to make sure the file has been saved, then return the html
 	if ( !empty($src) ) {
 		$alt = @$desc;
 		$html = "<img src='$src' alt='$alt' />";

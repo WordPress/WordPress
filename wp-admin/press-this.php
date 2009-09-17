@@ -42,29 +42,29 @@ function aposfix($text) {
 function press_it() {
 	// define some basic variables
 	$quick['post_status'] = 'draft'; // set as draft first
-	$quick['post_category'] = isset($_REQUEST['post_category']) ? $_REQUEST['post_category'] : null;
-	$quick['tax_input'] = isset($_REQUEST['tax_input']) ? $_REQUEST['tax_input'] : '';
-	$quick['post_title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
+	$quick['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
+	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : '';
+	$quick['post_title'] = isset($_POST['title']) ? $_POST['title'] : '';
 	$quick['post_content'] = '';
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
-	$content = isset($_REQUEST['content']) ? $_REQUEST['content'] : '';
+	$content = isset($_POST['content']) ? $_POST['content'] : '';
 
 	$upload = false;
-	if( !empty($_REQUEST['photo_src']) && current_user_can('upload_files') )
-		foreach( (array) $_REQUEST['photo_src'] as $key => $image)
+	if( !empty($_POST['photo_src']) && current_user_can('upload_files') )
+		foreach( (array) $_POST['photo_src'] as $key => $image)
 			// see if files exist in content - we don't want to upload non-used selected files.
-			if( strpos($_REQUEST['content'], $image) !== false ) {
-				$desc = isset($_REQUEST['photo_description'][$key]) ? $_REQUEST['photo_description'][$key] : '';
+			if( strpos($_POST['content'], htmlspecialchars($image)) !== false ) {
+				$desc = isset($_POST['photo_description'][$key]) ? $_POST['photo_description'][$key] : '';
 				$upload = media_sideload_image($image, $post_ID, $desc);
 
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote($image, '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
+				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
-
+	
 	// set the post_content and status
-	$quick['post_status'] = isset($_REQUEST['publish']) ? 'publish' : 'draft';
+	$quick['post_status'] = isset($_POST['publish']) ? 'publish' : 'draft';
 	$quick['post_content'] = $content;
 	// error handling for $post
 	if ( is_wp_error($post_ID)) {
@@ -100,80 +100,86 @@ if ( ! empty($selection) ) {
 $url = isset($_GET['u']) ? esc_url($_GET['u']) : '';
 $image = isset($_GET['i']) ? $_GET['i'] : '';
 
-if ( !empty($_REQUEST['ajax']) ) {
-switch ($_REQUEST['ajax']) {
-	case 'video': ?>
-		<script type="text/javascript" charset="utf-8">
-			jQuery('.select').click(function() {
-				append_editor(jQuery('#embed-code').val());
-				jQuery('#extra_fields').hide();
-				jQuery('#extra_fields').html('');
-			});
-			jQuery('.close').click(function() {
-				jQuery('#extra_fields').hide();
-				jQuery('#extra_fields').html('');
-			});
-		</script>
-		<div class="postbox">
-		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
-		<div class="inside">
-			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection, true); ?></textarea>
-			<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
-		</div>
-		</div>
-		<?php break;
-
-	case 'photo_thickbox': ?>
-		<script type="text/javascript" charset="utf-8">
-			jQuery('.cancel').click(function() {
-				tb_remove();
-			});
-			jQuery('.select').click(function() {
-				image_selector();
-			});
-		</script>
-		<h3 class="tb"><label for="this_photo_description"><?php _e('Description') ?></label></h3>
-		<div class="titlediv">
-		<div class="titlewrap">
-			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
-		</div>
-		</div>
-
-		<p class="centered"><input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="this_photo" />
-			<a href="#" class="select"><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" /></a></p>
-
-		<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
-
-
-		<?php break;
-
-	case 'photo_thickbox_url': ?>
-		<script type="text/javascript" charset="utf-8">
-			jQuery('.cancel').click(function() {
-				tb_remove();
-			});
-
-			jQuery('.select').click(function() {
-				image_selector();
-			});
-		</script>
-		<h3 class="tb"><label for="this_photo"><?php _e('URL') ?></label></h3>
-		<div class="titlediv">
-			<div class="titlewrap">
-			<input id="this_photo" name="this_photo" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" />
+if ( !empty($_GET['ajax']) ) {
+	switch ($_GET['ajax']) {
+		case 'video': ?>
+			<script type="text/javascript" charset="utf-8">
+			/* <![CDATA[ */
+				jQuery('.select').click(function() {
+					append_editor(jQuery('#embed-code').val());
+					jQuery('#extra_fields').hide();
+					jQuery('#extra_fields').html('');
+				});
+				jQuery('.close').click(function() {
+					jQuery('#extra_fields').hide();
+					jQuery('#extra_fields').html('');
+				});
+			/* ]]> */
+			</script>
+			<div class="postbox">
+				<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
+				<div class="inside">
+					<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection, true); ?></textarea>
+					<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
+				</div>
 			</div>
-		</div>
+			<?php break;
 
-
-		<h3 class="tb"><label for="photo_description"><?php _e('Description') ?></label></h3>
-		<div id="titlediv">
-			<div class="titlewrap">
-			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
+		case 'photo_thickbox': ?>
+			<script type="text/javascript" charset="utf-8">
+				/* <![CDATA[ */
+				jQuery('.cancel').click(function() {
+					tb_remove();
+				});
+				jQuery('.select').click(function() {
+					image_selector();
+				});
+				/* ]]> */
+			</script>
+			<h3 class="tb"><label for="this_photo_description"><?php _e('Description') ?></label></h3>
+			<div class="titlediv">
+				<div class="titlewrap">
+					<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
+				</div>
 			</div>
-		</div>
 
-		<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
-		<?php break;
+			<p class="centered">
+				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="this_photo" />
+				<a href="#" class="select">
+					<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" />
+				</a>
+			</p>
+
+			<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
+			<?php break;
+
+		case 'photo_thickbox_url': ?>
+			<script type="text/javascript" charset="utf-8">
+				/* <![CDATA[ */
+				jQuery('.cancel').click(function() {
+					tb_remove();
+				});
+
+				jQuery('.select').click(function() {
+					image_selector();
+				});
+				/* ]]> */
+			</script>
+			<h3 class="tb"><label for="this_photo"><?php _e('URL') ?></label></h3>
+			<div class="titlediv">
+				<div class="titlewrap">
+					<input id="this_photo" name="this_photo" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" />
+				</div>
+			</div>
+			<h3 class="tb"><label for="photo_description"><?php _e('Description') ?></label></h3>
+			<div id="titlediv">
+				<div class="titlewrap">
+					<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo esc_attr($title);?>"/>
+				</div>
+			</div>
+
+			<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
+			<?php break;
 	case 'photo_images':
 		/**
 		 * Retrieve all image URLs from given URI.
@@ -186,13 +192,13 @@ switch ($_REQUEST['ajax']) {
 		 * @return string
 		 */
 		function get_images_from_uri($uri) {
-			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
-				return "'".$uri."'";
+			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)/', $uri) && !strpos($uri,'blogger.com') )
+				return "'".html_entity_decode($uri)."'";
 			$content = wp_remote_fopen($uri);
 			if ( false === $content )
 				return '';
 			$host = parse_url($uri);
-			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif))[^<>\'\"]*(\2)([^>\/]*)\/*>/is';
+			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif)[^<>\'\"]*)(\2)([^>\/]*)\/*>/is';
 			preg_match_all($pattern, $content, $matches);
 			if ( empty($matches[0]) )
 				return '';
@@ -210,7 +216,6 @@ switch ($_REQUEST['ajax']) {
 			return "'" . implode("','", $sources) . "'";
 		}
 		$url = urldecode($url);
-		$url = str_replace(' ', '%20', $url);
 		echo 'new Array('.get_images_from_uri($url).')';
 
 		break;
@@ -219,31 +224,31 @@ switch ($_REQUEST['ajax']) {
 		// gather images and load some default JS
 		var last = null
 		var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
+		var my_src = eval(
+			jQuery.ajax({
+		   		type: "GET",
+		   		url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
+				cache : false,
+				async : false,
+		   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
+				dataType : "script"
+			}).responseText
+		);
+		if(my_src.length == 0) {
 			var my_src = eval(
 				jQuery.ajax({
-			   		type: "GET",
-			   		url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
+		   			type: "GET",
+		   			url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
 					cache : false,
 					async : false,
-			   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
+		   			data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
 					dataType : "script"
 				}).responseText
 			);
 			if(my_src.length == 0) {
-				var my_src = eval(
-				jQuery.ajax({
-			   		type: "GET",
-			   		url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
-					cache : false,
-					async : false,
-			   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
-					dataType : "script"
-				}).responseText
-				);
-				if(my_src.length == 0) {
-					strtoappend = '<?php _e('Unable to retrieve images or no images on page.'); ?>';
-				}
+				strtoappend = '<?php _e('Unable to retrieve images or no images on page.'); ?>';
 			}
+		}
 
 		for (i = 0; i < my_src.length; i++) {
 			img = new Image();
