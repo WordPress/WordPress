@@ -134,7 +134,10 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		}
 	}
 
-	return false;
+	if ($single)
+		return '';
+	else
+		return array();
 }
 
 function update_meta_cache($meta_type, $object_ids) {
