@@ -54,6 +54,15 @@ CREATE TABLE $wpdb->term_relationships (
  PRIMARY KEY  (object_id,term_taxonomy_id),
  KEY term_taxonomy_id (term_taxonomy_id)
 ) $charset_collate;
+CREATE TABLE $wpdb->commentmeta (
+  meta_id bigint(20) unsigned NOT NULL auto_increment,
+  comment_id bigint(20) unsigned NOT NULL default '0',
+  meta_key varchar(255) default NULL,
+  meta_value longtext,
+  PRIMARY KEY  (meta_id),
+  KEY post_id (comment_id),
+  KEY meta_key (meta_key)
+) $charset_collate;
 CREATE TABLE $wpdb->comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
   comment_post_ID bigint(20) unsigned NOT NULL default '0',

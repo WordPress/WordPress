@@ -332,6 +332,7 @@ require (ABSPATH . WPINC . '/capabilities.php');
 require (ABSPATH . WPINC . '/query.php');
 require (ABSPATH . WPINC . '/theme.php');
 require (ABSPATH . WPINC . '/user.php');
+require (ABSPATH . WPINC . '/meta.php');
 require (ABSPATH . WPINC . '/general-template.php');
 require (ABSPATH . WPINC . '/link-template.php');
 require (ABSPATH . WPINC . '/author-template.php');

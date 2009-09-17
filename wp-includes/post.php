@@ -511,30 +511,11 @@ function get_posts($args = null) {
  * @return bool False for failure. True for success.
  */
 function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
-	if ( !$meta_key )
-		return false;
-
-	global $wpdb;
-
 	// make sure meta is added to the post, not a revision
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
-
-	if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) )
-		return false;
-
-	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
-
-	$wpdb->insert( $wpdb->postmeta, compact( 'post_id', 'meta_key', 'meta_value' ) );
-
-	wp_cache_delete($post_id, 'post_meta');
-
-	do_action( 'added_post_meta', $wpdb->insert_id, $post_id, $meta_key, $meta_value );
-
-	return true;
+	return add_metadata('post', $post_id, $meta_key, $meta_value, $unique);
 }
 
 /**
@@ -554,39 +535,11 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
  * @return bool False for failure. True for success.
  */
 function delete_post_meta($post_id, $meta_key, $meta_value = '') {
-	global $wpdb;
-
 	// make sure meta is added to the post, not a revision
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
-	// expected_slashed ($meta_key, $meta_value)
-	$meta_key = stripslashes( $meta_key );
-	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
-
-	if ( !$meta_key )
-		return false;
-
-	if ( empty( $meta_value ) )
-		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
-	else
-		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $meta_key, $meta_value ) );
-
-	if ( !$meta_id )
-		return false;
-
-	do_action( 'delete_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
-
-	if ( empty( $meta_value ) )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
-	else
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $meta_key, $meta_value ) );
-
-	wp_cache_delete($post_id, 'post_meta');
-
-	do_action( 'deleted_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
-
-	return true;
+	return delete_metadata('post', $post_id, $meta_key, $meta_value);
 }
 
 /**
@@ -603,27 +556,7 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
  *  is true.
  */
 function get_post_meta($post_id, $key, $single = false) {
-	if ( !$key )
-		return '';
-
-	$post_id = (int) $post_id;
-
-	$meta_cache = wp_cache_get($post_id, 'post_meta');
-
-	if ( !$meta_cache ) {
-		update_postmeta_cache($post_id);
-		$meta_cache = wp_cache_get($post_id, 'post_meta');
-	}
-
-	if ( isset($meta_cache[$key]) ) {
-		if ( $single ) {
-			return maybe_unserialize( $meta_cache[$key][0] );
-		} else {
-			return array_map('maybe_unserialize', $meta_cache[$key]);
-		}
-	}
-
-	return '';
+	return get_metadata('post', $post_id, $key, $single);
 }
 
 /**
@@ -645,40 +578,11 @@ function get_post_meta($post_id, $key, $single = false) {
  * @return bool False on failure, true if success.
  */
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
-	global $wpdb;
-
 	// make sure meta is added to the post, not a revision
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
-
-	if ( !$meta_key )
-		return false;
-
-	$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) );
-	if ( ! $meta_id )
-		return add_post_meta($post_id, $meta_key, $meta_value);
-
-	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
-
-	$data  = compact( 'meta_value' );
-	$where = compact( 'meta_key', 'post_id' );
-
-	if ( !empty( $prev_value ) ) {
-		$prev_value = maybe_serialize($prev_value);
-		$where['meta_value'] = $prev_value;
-	}
-
-	do_action( 'update_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
-
-	$wpdb->update( $wpdb->postmeta, $data, $where );
-	wp_cache_delete($post_id, 'post_meta');
-
-	do_action( 'updated_post_meta', $meta_id, $post_id, $meta_key, $meta_value );
-
-	return true;
+	return update_metadata('post', $post_id, $meta_key, $meta_value, $prev_value);
 }
 
 /**
@@ -3304,56 +3208,7 @@ function update_post_caches(&$posts) {
  * @return bool|array Returns false if there is nothing to update or an array of metadata.
  */
 function update_postmeta_cache($post_ids) {
-	global $wpdb;
-
-	if ( empty( $post_ids ) )
-		return false;
-
-	if ( !is_array($post_ids) ) {
-		$post_ids = preg_replace('|[^0-9,]|', '', $post_ids);
-		$post_ids = explode(',', $post_ids);
-	}
-
-	$post_ids = array_map('intval', $post_ids);
-
-	$ids = array();
-	foreach ( (array) $post_ids as $id ) {
-		if ( false === wp_cache_get($id, 'post_meta') )
-			$ids[] = $id;
-	}
-
-	if ( empty( $ids ) )
-		return false;
-
-	// Get post-meta info
-	$id_list = join(',', $ids);
-	$cache = array();
-	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN ($id_list)", ARRAY_A) ) {
-		foreach ( (array) $meta_list as $metarow) {
-			$mpid = (int) $metarow['post_id'];
-			$mkey = $metarow['meta_key'];
-			$mval = $metarow['meta_value'];
-
-			// Force subkeys to be array type:
-			if ( !isset($cache[$mpid]) || !is_array($cache[$mpid]) )
-				$cache[$mpid] = array();
-			if ( !isset($cache[$mpid][$mkey]) || !is_array($cache[$mpid][$mkey]) )
-				$cache[$mpid][$mkey] = array();
-
-			// Add a value to the current pid/key:
-			$cache[$mpid][$mkey][] = $mval;
-		}
-	}
-
-	foreach ( (array) $ids as $id ) {
-		if ( ! isset($cache[$id]) )
-			$cache[$id] = array();
-	}
-
-	foreach ( (array) array_keys($cache) as $post)
-		wp_cache_set($post, $cache[$post], 'post_meta');
-
-	return $cache;
+	return update_meta_cache('post', $post_ids);
 }
 
 //

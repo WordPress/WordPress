@@ -209,6 +209,15 @@ class wpdb {
 	var $postmeta;
 
 	/**
+	 * WordPress Comment Metadata table
+	 *
+	 * @since 2.9
+	 * @access public
+	 * @var string
+	 */
+	var $commentmeta;
+
+	/**
 	 * WordPress User Metadata table
 	 *
 	 * @since 2.3.0
@@ -252,7 +261,7 @@ class wpdb {
 	 * @var array
 	 */
 	var $tables = array('users', 'usermeta', 'posts', 'categories', 'post2cat', 'comments', 'links', 'link2cat', 'options',
-			'postmeta', 'terms', 'term_taxonomy', 'term_relationships');
+			'postmeta', 'terms', 'term_taxonomy', 'term_relationships', 'commentmeta');
 
 	/**
 	 * List of deprecated WordPress tables
