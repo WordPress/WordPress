@@ -11,7 +11,7 @@
 require(dirname(__FILE__) . '/wp-load.php');
 
 /** Allow a plugin to do a complete takeover of Post by Email **/
-do_action('wp_mail');
+do_action('wp-mail.php');
 
 /** Get the POP3 class with which to access the mailbox. */
 require_once( ABSPATH . WPINC . '/class-pop3.php' );
