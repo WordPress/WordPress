@@ -821,7 +821,7 @@ function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	if ( $query_arg )
 		$nonce = $_REQUEST[$query_arg];
 	else
-		$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
+		$nonce = isset($_REQUEST['_ajax_nonce']) ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
 
 	$result = wp_verify_nonce( $nonce, $action );
 
