@@ -129,7 +129,7 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 		}
 		if ( $trashed > 0 ) {
 			printf( _n( '%s comment moved to the trash', '%s comments moved to the trash', $trashed ), $trashed );
-			echo '<br />';
+			echo ' <a href="' . admin_url('edit-comments.php?comment_status=trash') . '">' . __('View trash') . '</a><br />';
 		}
 		if ( $untrashed > 0 ) {
 			printf( _n( '%s comment restored from the trash', '%s comments restored from the trash', $untrashed ), $untrashed );

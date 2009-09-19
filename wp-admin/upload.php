@@ -165,9 +165,20 @@ if ( isset($_GET['detached']) ) {
 $is_trash = ( isset($_GET['status']) && $_GET['status'] == 'trash' );
 
 wp_enqueue_script('media');
-require_once('admin-header.php'); ?>
+require_once('admin-header.php');
 
-<?php
+do_action('restrict_manage_posts');
+?>
+
+<div class="wrap">
+<?php screen_icon(); ?>
+<h2><?php echo esc_html( $title ); ?> <a href="media-new.php" class="button add-new-h2"><?php esc_html_e('Add New'); ?></a> <?php
+if ( isset($_GET['s']) && $_GET['s'] )
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
+</h2>
+
+<?php 
+$message = '';
 if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
 	$_GET['message'] = '1';
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
@@ -179,33 +190,35 @@ if ( isset($_GET['attached']) && (int) $_GET['attached'] ) {
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('attached'), $_SERVER['REQUEST_URI']);
 }
 
+if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
+	$_GET['message'] = '2';
+	$_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
+}
+
+if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
+	$_GET['message'] = '4';
+	$_SERVER['REQUEST_URI'] = remove_query_arg(array('trashed'), $_SERVER['REQUEST_URI']);
+}
+
+if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
+	$_GET['message'] = '5';
+	$_SERVER['REQUEST_URI'] = remove_query_arg(array('untrashed'), $_SERVER['REQUEST_URI']);
+}
+
 $messages[1] = __('Media attachment updated.');
-$messages[2] = __('Media deleted.');
+$messages[2] = __('Media permanently deleted.');
 $messages[3] = __('Error saving media attachment.');
-$messages[4] = __('Media moved to Trash.');
-$messages[5] = __('Media removed from Trash.');
+$messages[4] = __('Media moved to the trash.') . ' <a href="' . admin_url('upload.php?status=trash') . '">' . __('View trash') . '</a> ';
+$messages[5] = __('Media restored from the trash.');
 
 if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 	$message = $messages[$_GET['message']];
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 }
-?>
 
-<?php do_action('restrict_manage_posts'); ?>
-
-<div class="wrap">
-<?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="media-new.php" class="button add-new-h2"><?php esc_html_e('Add New'); ?></a> <?php
-if ( isset($_GET['s']) && $_GET['s'] )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
-</h2>
-
-<?php
-if ( isset($message) ) { ?>
+if ( !empty($message) ) { ?>
 <div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
-<?php
-}
-?>
+<?php } ?>
 
 <ul class="subsubsub">
 <?php

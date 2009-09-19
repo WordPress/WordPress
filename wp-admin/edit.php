@@ -167,6 +167,7 @@ if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
 
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	printf( _n( 'Post moved to the trash.', '%s posts moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
+	echo ' <a href="' . admin_url('edit.php?post_status=trash') . '">' . __('View trash') . '</a> ';
 	unset($_GET['trashed']);
 }
 
