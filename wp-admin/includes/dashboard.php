@@ -132,7 +132,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form action="" method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
-	echo "<p class='submit'><input type='hidden' name='widget_id' value='" . esc_attr($meta_box['id']) . "' /><input type='submit' value='" . esc_attr__( 'Submit' ) . "' /></p>";
+	echo '<p class="submit"><input type="hidden" name="widget_id" value="' . esc_attr($meta_box['id']) . '" /><input type="submit" value="' . esc_attr__( 'Submit' ) . '" /></p>';
 
 	echo '</form>';
 }
@@ -163,7 +163,7 @@ function wp_dashboard() {
 			$hide2 = $hide3 = $hide4 = 'display:none;';
 	}
 ?>
-<div id='dashboard-widgets' class='metabox-holder'>
+<div id="dashboard-widgets" class="metabox-holder">
 <?php
 	echo "\t<div class='postbox-container' style='$width'>\n";
 	do_meta_boxes( 'dashboard', 'normal', '' );
@@ -179,7 +179,7 @@ function wp_dashboard() {
 ?>
 </div></div>
 
-<form style='display: none' method='get' action=''>
+<form style="display:none" method="get" action="">
 	<p>
 <?php
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
@@ -566,7 +566,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<?php echo get_avatar( $comment, 50 ); ?>
 
 			<div class="dashboard-comment-wrap">
-			<h4 class="comment-meta"><?php printf( __( 'From %1$s on %2$s%3$s' ), '<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link." ".$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?></h4>
+			<h4 class="comment-meta"><?php printf( __( 'From %1$s on %2$s%3$s' ), '<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link.' '.$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?></h4>
 
 			<?php
 			else :
@@ -697,7 +697,7 @@ function wp_dashboard_primary_control() {
  */
 function wp_dashboard_rss_output( $widget_id ) {
 	$widgets = get_option( 'dashboard_widget_options' );
-	echo "<div class='rss-widget'>";
+	echo '<div class="rss-widget">';
 	wp_widget_rss_output( $widgets[$widget_id] );
 	echo "</div>";
 }
