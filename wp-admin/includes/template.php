@@ -1450,7 +1450,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__('Edit this post inline')) . '">' . __('Quick&nbsp;Edit') . '</a>';
 				}
 				if ( current_user_can('delete_post', $post->ID) ) {
-					$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this post to the Trash')) . "' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
+					$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this post to the Trash')) . "' href='" . get_delete_post_link($post->ID) . "'>" . __('Trash') . "</a>";
 				}
 				if ( in_array($post->post_status, array('pending', 'draft')) ) {
 					if ( current_user_can('edit_post', $post->ID) )
@@ -1670,7 +1670,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 				$actions['inline'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
 			}
 			if ( current_user_can('delete_page', $page->ID) ) {
-				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this page to the Trash')) . "' href='" . wp_nonce_url("page.php?action=trash&amp;post=$page->ID", 'trash-page_' . $page->ID) . "'>" . __('Trash') . "</a>";
+				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this page to the Trash')) . "' href='" . get_delete_post_link($page->ID) . "'>" . __('Trash') . "</a>";
 			}
 			if ( in_array($post->post_status, array('pending', 'draft')) ) {
 				if ( current_user_can('edit_page', $page->ID) )

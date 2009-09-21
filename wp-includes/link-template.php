@@ -732,6 +732,58 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '', $id = 0
 }
 
 /**
+ * Retrieve delete posts link for post.
+ *
+ * Can be used within the WordPress loop or outside of it. Can be used with
+ * pages, posts, attachments, and revisions.
+ *
+ * @since 2.9.0
+ *
+ * @param int $id Optional. Post ID.
+ * @param string $context Optional, default to display. How to write the '&', defaults to '&amp;'.
+ * @return string
+ */
+function get_delete_post_link($id = 0, $context = 'display') {
+	if ( !$post = &get_post( $id ) )
+		return;
+
+	if ( 'display' == $context )
+		$action = 'action=trash&amp;';
+	else
+		$action = 'action=trash&';
+
+	switch ( $post->post_type ) :
+	case 'page' :
+		if ( !current_user_can( 'delete_page', $post->ID ) )
+			return;
+		$file = 'page';
+		$var  = 'post';
+		break;
+	case 'attachment' :
+		if ( !current_user_can( 'delete_post', $post->ID ) )
+			return;
+		$file = 'media';
+		$var  = 'attachment_id';
+		break;
+	case 'revision' :
+		if ( !current_user_can( 'delete_post', $post->ID ) )
+			return;
+		$file = 'revision';
+		$var  = 'revision';
+		$action = '';
+		break;
+	default :
+		if ( !current_user_can( 'edit_post', $post->ID ) )
+			return apply_filters( 'get_delete_post_link', '', $post->ID, $context );;
+		$file = 'post';
+		$var  = 'post';
+		break;
+	endswitch;
+
+	return apply_filters( 'get_delete_post_link', wp_nonce_url( admin_url("$file.php?{$action}$var=$post->ID"), "trash-{$file}_" . $post->ID ), $context );
+}
+
+/**
  * Retrieve edit comment link.
  *
  * @since 2.3.0
