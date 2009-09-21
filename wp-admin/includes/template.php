@@ -2042,6 +2042,8 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 		$typesql = "AND c.comment_type = ''";
 	elseif ( 'pings' == $type )
 		$typesql = "AND ( c.comment_type = 'pingback' OR c.comment_type = 'trackback' )";
+	elseif ( 'all' == $type )
+		$typesql = '';
 	elseif ( !empty($type) )
 		$typesql = $wpdb->prepare("AND c.comment_type = %s", $type);
 	else
