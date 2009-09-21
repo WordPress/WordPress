@@ -60,7 +60,7 @@ CREATE TABLE $wpdb->commentmeta (
   meta_key varchar(255) default NULL,
   meta_value longtext,
   PRIMARY KEY  (meta_id),
-  KEY post_id (comment_id),
+  KEY comment_id (comment_id),
   KEY meta_key (meta_key)
 ) $charset_collate;
 CREATE TABLE $wpdb->comments (
