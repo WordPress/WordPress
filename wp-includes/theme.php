@@ -872,7 +872,7 @@ function locale_stylesheet() {
  * Will only preform task if the user has permissions and template and preview
  * query variables exist.
  *
- * @since 2.5.0
+ * @since 2.6.0
  */
 function preview_theme() {
 	if ( ! (isset($_GET['template']) && isset($_GET['preview'])) )
@@ -904,6 +904,9 @@ add_action('setup_theme', 'preview_theme');
 
 /**
  * Private function to modify the current template when previewing a theme
+ *
+ * @since 2.9.0
+ * @access private
  * 
  * @return string
  */
@@ -914,6 +917,9 @@ function _preview_theme_template_filter() {
 /**
  * Private function to modify the current stylesheet when previewing a theme
  * 
+ * @since 2.9.0
+ * @access private
+ * 
  * @return string
  */
 function _preview_theme_stylesheet_filter() {
@@ -923,7 +929,7 @@ function _preview_theme_stylesheet_filter() {
 /**
  * Callback function for ob_start() to capture all links in the theme.
  *
- * @since unknown
+ * @since 2.6.0
  * @access private
  *
  * @param string $content
@@ -938,7 +944,7 @@ function preview_theme_ob_filter( $content ) {
  *
  * Callback function for preg_replace_callback() to accept and filter matches.
  *
- * @since unknown
+ * @since 2.6.0
  * @access private
  *
  * @param array $matches
