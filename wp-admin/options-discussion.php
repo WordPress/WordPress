@@ -66,7 +66,7 @@ include('admin-header.php');
 $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 
 $thread_comments_depth = '</label><select name="thread_comments_depth" id="thread_comments_depth">';
-for ( $i = 1; $i <= $maxdeep; $i++ ) {
+for ( $i = 2; $i <= $maxdeep; $i++ ) {
 	$thread_comments_depth .= "<option value='" . esc_attr($i) . "'";
 	if ( get_option('thread_comments_depth') == $i ) $thread_comments_depth .= " selected='selected'";
 	$thread_comments_depth .= ">$i</option>";
