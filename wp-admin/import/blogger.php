@@ -529,6 +529,10 @@ class Blogger_Import {
 		return preg_replace( '|\s+|', ' ', $string );
 	}
 
+	function _normalize_tag( $matches ) {
+		return '<' . strtolower( $match[1] );
+	}
+
 	function import_post( $entry ) {
 		global $importing_blog;
 
@@ -551,7 +555,7 @@ class Blogger_Import {
 		$post_status  = isset( $entry->draft ) ? 'draft' : 'publish';
 
 		// Clean up content
-		$post_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $post_content);
+		$post_content = preg_replace_callback('|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content);
 		$post_content = str_replace('<br>', '<br />', $post_content);
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
 
@@ -604,7 +608,7 @@ class Blogger_Import {
 		$comment_content = addslashes( $this->no_apos( @html_entity_decode( $entry->content, ENT_COMPAT, get_option('blog_charset') ) ) );
 
 		// Clean up content
-		$comment_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $comment_content);
+		$comment_content = preg_replace_callback('|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $comment_content);
 		$comment_content = str_replace('<br>', '<br />', $comment_content);
 		$comment_content = str_replace('<hr>', '<hr />', $comment_content);
 
@@ -905,10 +909,19 @@ class AtomParser {
 	var $entry;
 
 	function AtomParser() {
-
 		$this->entry = new AtomEntry();
-		$this->map_attrs_func = create_function('$k,$v', 'return "$k=\"$v\"";');
-		$this->map_xmlns_func = create_function('$p,$n', '$xd = "xmlns"; if(strlen($n[0])>0) $xd .= ":{$n[0]}"; return "{$xd}=\"{$n[1]}\"";');
+	}
+
+	function _map_attrs_func( $k, $v ) {
+		return "$k=\"$v\"";
+	}
+
+	function _map_xmlns_func( $p, $n ) {
+		$xd = "xmlns";
+		if ( strlen( $n[0] ) > 0 )
+			$xd .= ":{$n[0]}";
+
+		return "{$xd}=\"{$n[1]}\"";
 	}
 
 	function parse($xml) {
@@ -950,12 +963,12 @@ class AtomParser {
 			foreach($attrs as $key => $value) {
 				$attrs_prefix[$this->ns_to_prefix($key)] = $this->xml_escape($value);
 			}
-			$attrs_str = join(' ', array_map($this->map_attrs_func, array_keys($attrs_prefix), array_values($attrs_prefix)));
+			$attrs_str = join(' ', array_map( array( &$this, '_map_attrs_func' ), array_keys($attrs_prefix), array_values($attrs_prefix)));
 			if(strlen($attrs_str) > 0) {
 				$attrs_str = " " . $attrs_str;
 			}
 
-			$xmlns_str = join(' ', array_map($this->map_xmlns_func, array_keys($this->ns_contexts[0]), array_values($this->ns_contexts[0])));
+			$xmlns_str = join(' ', array_map( array( &$this, '_map_xmlns_func' ), array_keys($this->ns_contexts[0]), array_values($this->ns_contexts[0])));
 			if(strlen($xmlns_str) > 0) {
 				$xmlns_str = " " . $xmlns_str;
 			}

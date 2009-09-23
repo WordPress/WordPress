@@ -43,6 +43,10 @@ class RSS_Import {
 		echo '</div>';
 	}
 
+	function _normalize_tag( $matches ) {
+		return '<' . strtolower( $match[1] );
+	}
+
 	function get_posts() {
 		global $wpdb;
 
@@ -103,7 +107,7 @@ class RSS_Import {
 			}
 
 			// Clean up content
-			$post_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $post_content);
+			$post_content = preg_replace_callback('|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content);
 			$post_content = str_replace('<br>', '<br />', $post_content);
 			$post_content = str_replace('<hr>', '<hr />', $post_content);
 

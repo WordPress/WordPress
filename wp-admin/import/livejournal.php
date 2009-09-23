@@ -324,6 +324,10 @@ class LJ_API_Import {
 		echo '</ol>';
 	}
 
+	function _normalize_tag( $matches ) {
+		return '<' . strtolower( $match[1] );
+	}
+
 	function import_post( $post ) {
 		global $wpdb;
 
@@ -350,7 +354,7 @@ class LJ_API_Import {
 
 		// Clean up content
 		$post_content = $post['event'];
-		$post_content = preg_replace_callback( '|<(/?[A-Z]+)|', create_function( '$match', 'return "<" . strtolower( $match[1] );' ), $post_content );
+		$post_content = preg_replace_callback( '|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content );
 		// XHTMLize some tags
 		$post_content = str_replace( '<br>', '<br />', $post_content );
 		$post_content = str_replace( '<hr>', '<hr />', $post_content );
@@ -581,7 +585,7 @@ class LJ_API_Import {
 		$comment_content = wpautop( $comment_content );
 		$comment_content = str_replace( '<br>', '<br />', $comment_content );
 		$comment_content = str_replace( '<hr>', '<hr />', $comment_content );
-		$comment_content = preg_replace_callback( '|<(/?[A-Z]+)|', create_function( '$match', 'return "<" . strtolower( $match[1] );' ), $comment_content );
+		$comment_content = preg_replace_callback( '|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $comment_content );
 		$comment_content = $wpdb->escape( trim( $comment_content ) );
 
 		// Get and convert the date

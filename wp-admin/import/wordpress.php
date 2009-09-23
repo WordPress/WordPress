@@ -357,6 +357,10 @@ class WP_Import {
 		echo '<h3>'.sprintf(__('All done.').' <a href="%s">'.__('Have fun!').'</a>', get_option('home')).'</h3>';
 	}
 
+	function _normalize_tag( $matches ) {
+		return '<' . strtolower( $match[1] );
+	}
+
 	function process_post($post) {
 		global $wpdb;
 
@@ -383,12 +387,12 @@ class WP_Import {
 		$post_author    = $this->get_tag( $post, 'dc:creator' );
 
 		$post_excerpt = $this->get_tag( $post, 'excerpt:encoded' );
-		$post_excerpt = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $post_excerpt);
+		$post_excerpt = preg_replace_callback('|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_excerpt);
 		$post_excerpt = str_replace('<br>', '<br />', $post_excerpt);
 		$post_excerpt = str_replace('<hr>', '<hr />', $post_excerpt);
 
 		$post_content = $this->get_tag( $post, 'content:encoded' );
-		$post_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $post_content);
+		$post_content = preg_replace_callback('|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content);
 		$post_content = str_replace('<br>', '<br />', $post_content);
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
 
