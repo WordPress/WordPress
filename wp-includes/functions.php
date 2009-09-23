@@ -2407,7 +2407,7 @@ function wp_explain_nonce( $action ) {
 			}
 		}
 
-		return apply_filters( 'explain_nonce_' . $verb . '-' . $noun, __( 'Are you sure you want to do this?' ), $matches[4] );
+		return apply_filters( 'explain_nonce_' . $verb . '-' . $noun, __( 'Are you sure you want to do this?' ), isset($matches[4]) ? $matches[4] : '' );
 	} else {
 		return apply_filters( 'explain_nonce_' . $action, __( 'Are you sure you want to do this?' ) );
 	}
