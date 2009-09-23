@@ -265,7 +265,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// A non-empty file will pass this test.
 	if ( $test_size && !($file['size'] > 0 ) )
-		return $upload_error_handler( $file, __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini.' ));
+		return $upload_error_handler( $file, __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.' ));
 
 	// A properly uploaded file will pass this test. There should be no reason to override this one.
 	if (! @ is_uploaded_file( $file['tmp_name'] ) )
