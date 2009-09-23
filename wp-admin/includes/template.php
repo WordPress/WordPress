@@ -2814,11 +2814,11 @@ function wp_max_upload_size() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the form used by the importers to accept the data to be imported
  *
- * @since unknown
+ * @since 2.0
  *
- * @param unknown_type $action
+ * @param string $action The action attribute for the form.
  */
 function wp_import_upload_form( $action ) {
 	$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
@@ -2829,9 +2829,8 @@ function wp_import_upload_form( $action ) {
 		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php
 	else :
 ?>
-<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo esc_attr($action) ?>">
+<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo esc_attr(wp_nonce_url($action, 'import-upload')); ?>">
 <p>
-<?php wp_nonce_field('import-upload'); ?>
 <label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?>)
 <input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />
