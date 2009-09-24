@@ -90,7 +90,7 @@ function wp_image_editor($post_id, $msg = false) {
 	</div>
 
 	<div class="imgedit-submit">
-		<input type="button" onclick="imageEdit.close(<?php echo "$post_id, '$nonce'"; ?>)" class="button" value="<?php echo esc_attr__( 'Cancel' ); ?>" />
+		<input type="button" onclick="imageEdit.close(<?php echo $post_id; ?>, 1)" class="button" value="<?php echo esc_attr__( 'Cancel' ); ?>" />
 		<input type="button" onclick="imageEdit.save(<?php echo "$post_id, '$nonce'"; ?>)" class="button-primary imgedit-submit-btn" value="<?php echo esc_attr__( 'Save' ); ?>" />
 	</div>
 	</td>
@@ -232,7 +232,7 @@ function load_image_to_edit($post, $size = 'full') {
 			break;
 	}
 	if ( is_resource($image) ) {
-		$image = apply_filters('load_image_to_edit', $image, $post->ID);
+		$image = apply_filters('load_image_to_edit', $image, $post->ID, $size);
 		if ( function_exists('imagealphablending') && function_exists('imagesavealpha') ) {
 			imagealphablending($image, false);
 			imagesavealpha($image, true);

@@ -355,10 +355,12 @@ imageEdit = {
 		$('#imgedit-selection-' + postid).val( JSON.stringify(sel) );
 	},
 
-	close : function(postid) {
-		if ( this.notsaved(postid) )
+	close : function(postid, warn) {
+		warn = warn || false;
+
+		if ( warn && this.notsaved(postid) )
 			return false;
-		
+
 		this.iasapi = {};
 		this.hold = {};
 		$('#image-editor-' + postid).fadeOut('fast', function() {
