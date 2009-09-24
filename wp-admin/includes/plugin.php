@@ -272,7 +272,7 @@ function get_plugins($plugin_folder = '') {
  * @return bool True, if in the active plugins list. False, not in the list.
  */
 function is_plugin_active($plugin) {
-	return in_array($plugin, get_option('active_plugins'));
+	return in_array( $plugin, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 }
 
 /**
@@ -347,7 +347,12 @@ function deactivate_plugins($plugins, $silent= false) {
 			continue;
 		if ( ! $silent )
 			do_action( 'deactivate_plugin', trim( $plugin ) );
-		array_splice($current, array_search( $plugin, $current), 1 ); // Fixed Array-fu!
+			
+		$key = array_search( $plugin, (array) $current );
+		
+		if ( false !== $key )
+			array_splice( $current, $key, 1 );
+			
 		//Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
 		if ( ! $silent ) {
 			do_action( 'deactivate_' . trim( $plugin ) );
@@ -484,7 +489,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 }
 
 function validate_active_plugins() {
-	$check_plugins = get_option('active_plugins');
+	$check_plugins = apply_filters( 'active_plugins', get_option('active_plugins') ); 
 
 	// Sanity check.  If the active plugin list is not an array, make it an
 	// empty array.

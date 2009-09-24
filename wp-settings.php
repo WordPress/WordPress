@@ -552,7 +552,7 @@ if ( get_option('hack_file') ) {
 		require(ABSPATH . 'my-hacks.php');
 }
 
-$current_plugins = get_option('active_plugins');
+$current_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
 if ( is_array($current_plugins) && !defined('WP_INSTALLING') ) {
 	foreach ( $current_plugins as $plugin ) {
 		// check the $plugin filename
