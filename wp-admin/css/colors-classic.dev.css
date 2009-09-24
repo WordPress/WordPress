@@ -585,7 +585,8 @@ input.readonly, textarea.readonly {
 	color: #b6d1e4;
 }
 
-#media-items {
+#media-items,
+.imgedit-group {
 	border-color: #dfdfdf;
 }
 

@@ -1292,8 +1292,7 @@ strong .post-com-count {
 	clear: both;
 }
 
-.form-table td,
-#wpbody-content .describe td {
+.form-table td {
 	margin-bottom: 9px;
 	padding: 8px 10px;
 	line-height: 20px;
@@ -1306,8 +1305,7 @@ strong .post-com-count {
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 
-.form-table th,
-#wpbody-content .describe th {
+.form-table th {
 	vertical-align: top;
 	text-align: left;
 	padding: 10px;
@@ -2834,6 +2832,13 @@ table .inline-edit-row fieldset ul.cat-hover {
 	padding: 5px;
 }
 
+#wpbody-content .describe th {
+	vertical-align: top;
+	text-align: left;
+	padding: 10px;
+	width: 140px;
+}
+
 #wpbody-content .describe .media-item-info tr {
 	background-color: transparent;
 }
@@ -2842,8 +2847,8 @@ table .inline-edit-row fieldset ul.cat-hover {
 	padding: 4px 10px 0;
 }
 
-#wpbody-content .describe .media-item-info .A1B1 {
-	padding-bottom: 8px;
+.describe .media-item-info .A1B1 {
+	padding: 0 15px 8px 0;
 }
 
 #wpbody-content .filename {
@@ -2915,6 +2920,11 @@ abbr.required {
 	min-height: 36px;
 	position: relative;
 	width: 100%;
+}
+
+#wpbody-content .media-single .media-item {
+	border-bottom-style: none;
+	border-bottom-width: 0;
 }
 
 #wpbody-content #media-items {
@@ -3343,15 +3353,41 @@ label,
 	top: -3px;
 }
 
+.describe .image-editor {
+	vertical-align: top;
+}
+
 .imgedit-wrap {
 	position: relative;
-	min-height: 500px;
+}
+
+.imgedit-settings p {
+	margin: 8px 0;
+}
+
+.describe .imgedit-wrap table td {
+	vertical-align: top;
+	padding-top: 0;
+}
+
+.imgedit-wrap p,
+.describe .imgedit-wrap table td {
+	font-size: 11px;
+	line-height: 18px;
+}
+
+.describe .imgedit-wrap table td.imgedit-settings {
+	padding: 0 5px;
+}
+
+td.imgedit-settings input {
+	vertical-align: middle;
 }
 
 .imgedit-wait {
 	position: absolute;
 	top: 0;
-	background: #FFFFFF url(images/wpspin_light.gif) no-repeat scroll 200px 75px;
+	background: #FFFFFF url(images/wpspin_light.gif) no-repeat scroll 22px 10px;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
 	width: 100%;
@@ -3359,7 +3395,8 @@ label,
 	display: none;
 }
 
-.media-disabled {
+.media-disabled,
+.imgedit-settings .disabled  {
 	color: grey;
 }
 
@@ -3370,7 +3407,8 @@ label,
 }
 
 .imgedit-menu {
-	margin: 5px 0;
+	margin: 0 0 12px;
+	min-width: 315px;
 }
 
 .imgedit-menu div {
@@ -3383,6 +3421,10 @@ label,
 	border-radius: 4px;
 	border-width: 1px;
 	border-style: solid;
+}
+
+.imgedit-crop-wrap {
+	position: relative;
 }
 
 .imgedit-crop {
@@ -3418,6 +3460,74 @@ label,
 .imgedit-redo {
 	background: transparent url(images/imgedit.gif) no-repeat scroll -195px 2px;
 	margin: 0 8px 0 3px;
+}
+
+
+.imgedit-applyto img {
+	margin: 0 8px 0 0;
+}
+
+.imgedit-group-top {
+	margin: 5px 0;
+}
+
+.imgedit-applyto .imgedit-label {
+	padding: 2px 0 0;
+	display: block;
+}
+
+.imgedit-help {
+	display: none;
+	font-style: italic;
+	margin-bottom: 8px;
+}
+
+.imgedit-help ul li {
+	font-size: 11px;
+}
+
+a.imgedit-help-toggle {
+	text-decoration: none;
+}
+
+#wpbody-content .imgedit-response div {
+	width: 600px;
+	margin: 8px;
+}
+
+.form-table td.imgedit-response {
+	padding: 0;
+}
+
+.imgedit-submit {
+	margin: 8px 0;
+}
+
+.imgedit-submit-btn {
+	margin-left: 20px;
+}
+
+.imgedit-wrap .nowrap {
+	white-space: nowrap;
+}
+
+span.imgedit-scale-warn {
+	color: red;
+	font-size: 20px;
+	font-style: normal;
+	visibility: hidden;
+	vertical-align: middle;
+}
+
+.imgedit-group {
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	margin-bottom: 8px;
+	padding: 2px 10px;
 }
 
 

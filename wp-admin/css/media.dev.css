@@ -120,7 +120,7 @@ abbr.required {
 
 .describe td {
 	vertical-align: middle;
-	padding: 0 5px 0 0;
+	padding: 0 5px 8px 0;
 }
 
 .describe td.A1 {
@@ -154,10 +154,6 @@ abbr.required {
 }
 
 /* Specific to Uploader */
-
-#media-upload .media-upload-form p {
-	margin: 0 1em 1em 0;
-}
 
 #media-upload p.ml-submit {
 	padding: 1em 0;
@@ -211,7 +207,7 @@ abbr.required {
 }
 
 #media-upload .describe th.label {
-	padding-top: .5em;
+	padding-top: .2em;
 	text-align: left;
 	min-width: 120px;
 }

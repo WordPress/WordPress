@@ -111,7 +111,7 @@ case 'wp-compression-test' :
 
 	die('0');
 	break;
-case 'load-preview-image' :
+case 'imgedit-preview' :
 	$post_id = intval($_GET['postid']);
 	if ( empty($post_id) || !current_user_can('edit_post', $post_id) )
 		die('-1');
@@ -1348,29 +1348,30 @@ case 'save-widget' :
 
 	die();
 	break;
-case 'image-edit-save':
-	// $post_id is the attachment ID
-	$post_id = intval($_POST['postid']);
-	if ( empty($post_id) || !current_user_can('edit_post', $post_id) )
+case 'image-editor':
+	$attachment_id = intval($_POST['postid']);
+	if ( empty($attachment_id) || !current_user_can('edit_post', $attachment_id) )
 		die('-1');
 
-	check_ajax_referer( "image_editor-$post_id" );
-
+	check_ajax_referer( "image_editor-$attachment_id" );
 	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
-	$msg = wp_save_image($post_id);
 
-	die($msg);
-	break;
-case 'open-image-editor' :
-	$post_id = intval($_POST['postid']);
-	if ( empty($post_id) || !current_user_can('edit_post', $post_id) )
-		die('-1');
+	$msg = false;
+	switch ( $_POST['do'] ) {
+		case 'save' :
+			$msg = wp_save_image($attachment_id);
+			$msg = json_encode($msg);
+			die($msg);
+			break;
+		case 'scale' :
+			$msg = wp_save_image($attachment_id);
+			break;
+		case 'restore' :
+			$msg = wp_restore_image($attachment_id);
+			break;
+	}
 
-	check_ajax_referer( "image_editor-$post_id" );
-
-	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
-	wp_image_editor($post_id);
-
+	wp_image_editor($attachment_id, $msg);
 	die();
 	break;
 default :

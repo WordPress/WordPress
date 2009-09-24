@@ -2575,7 +2575,8 @@ function wp_delete_attachment($post_id) {
 	delete_post_meta($post_id, '_wp_trash_meta_status');
 	delete_post_meta($post_id, '_wp_trash_meta_time');
 
-	$meta = wp_get_attachment_metadata( $post_id, false, false );
+	$meta = wp_get_attachment_metadata( $post_id );
+	$backup_sizes = get_post_meta( $post->ID, '_wp_attachment_backup_sizes', true );
 	$file = get_attached_file( $post_id );
 
 	do_action('delete_attachment', $post_id);
@@ -2609,14 +2610,11 @@ function wp_delete_attachment($post_id) {
 		}
 	}
 
-	if ( isset($meta['sizes']) && is_array($meta['sizes']) ) {
-		foreach ( array_keys($meta['sizes']) as $size ) {
-			if ( preg_match('/backup-[0-9]+/', $size) ) { // make sure this is a backup
-	            if ( $del = image_get_intermediate_size($post_id, $size) ) {
-					$del_file = apply_filters('wp_delete_file', $del['path']);
-	                @ unlink( path_join($uploadpath['basedir'], $del_file) );
-	        	}
-	        }
+	if ( is_array($backup_sizes) ) {
+		foreach ( $backup_sizes as $size ) {
+			$del_file = path_join( dirname($meta['file']), $size['file'] );
+			$del_file = apply_filters('wp_delete_file', $del_file);
+            @ unlink( path_join($uploadpath['basedir'], $del_file) );
 		}
 	}
 
@@ -2639,20 +2637,12 @@ function wp_delete_attachment($post_id) {
  * @param bool $unfiltered Optional, default is false. If true, filters are not run.
  * @return string|bool Attachment meta field. False on failure.
  */
-function wp_get_attachment_metadata( $post_id, $unfiltered = false, $remove_backups = true ) {
+function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
 	$data = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
-
-	if ( $remove_backups && isset($data['sizes']) && is_array($data['sizes']) ) {
-		$sizes = apply_filters( 'intermediate_image_sizes', array('large', 'medium', 'thumbnail') );
-		foreach ( $data['sizes'] as $size => $val ) {
-			if ( !in_array( $size, $sizes, true ) )
-				unset($data['sizes'][$size]);
-		}
-	}
 
 	if ( $unfiltered )
 		return $data;

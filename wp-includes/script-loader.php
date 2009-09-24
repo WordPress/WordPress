@@ -405,7 +405,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'codepress', '/wp-includes/js/codepress/codepress.js', false, '0.9.6' );
 		$scripts->add_data( 'codepress', 'group', 1 );
 
-		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090831' );
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090922' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
 	}
 }
@@ -442,12 +442,12 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20090824';
+	$colors_version = '20090922';
 
 	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20090824' );
 	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090824' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090922' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
@@ -460,7 +460,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20090612' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20090922' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );

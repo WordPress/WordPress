@@ -249,7 +249,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
  */
 function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
 	$overrides = array('test_form'=>false);
-	
+
 	$file = wp_handle_sideload($file_array, $overrides);
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );
@@ -522,7 +522,7 @@ function media_sideload_image($file, $post_id, $desc = null) {
 	if (!empty($file) ) {
 		// Download file to temp location
 		$tmp = download_url($file);
-		
+
 		// Set variables for storage
 		// fix file filename for query strings
 		preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $file, $matches);
@@ -534,18 +534,18 @@ function media_sideload_image($file, $post_id, $desc = null) {
 			@unlink($file_array['tmp_name']);
 			$file_array['tmp_name'] = '';
 		}
-		
+
 		// do the validation and storage stuff
 		$id = media_handle_sideload($file_array, $post_id, @$desc);
 		$src = $id;
-		
+
 		// If error storing permanently, unlink
 		if ( is_wp_error($id) ) {
 			@unlink($file_array['tmp_name']);
 			return $id;
 		}
 	}
-	
+
 	// Finally check to make sure the file has been saved, then return the html
 	if ( !empty($src) ) {
 		$alt = @$desc;
@@ -1167,7 +1167,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$image_edit_button = '';
 	if ( gd_edit_image_support($post->post_mime_type) ) {
 		$nonce = wp_create_nonce("image_editor-$post->ID");
-		$image_edit_button = "<tr><td class='A1B1'><input type='button' id='imgedit-open-btn-{$post->ID}' onclick='imageEdit.open($post->ID, \"$nonce\")' class='button' value='" . esc_attr__( 'Edit image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' /></td></tr>";
+		$image_edit_button = "<input type='button' id='imgedit-open-btn-{$post->ID}' onclick='imageEdit.open($post->ID, \"$nonce\")' class='button' value='" . esc_attr__( 'Edit image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' />";
 	}
 
 	$item = "
@@ -1178,16 +1178,17 @@ function get_media_item( $attachment_id, $args = null ) {
 	<table class='slidetoggle describe $class'>
 		<thead class='media-item-info' id='media-head-$post->ID'>
 		<tr>
-			<td class='A1B1' rowspan='5'><img class='thumbnail' src='$thumb_url' alt='' /></td>
+			<td class='A1B1' id='thumbnail-head-$post->ID' rowspan='5'><img class='thumbnail' src='$thumb_url' alt='' /></td>
 			<td>$filename</td>
 		</tr>
 		<tr><td>$post->post_mime_type</td></tr>
 		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
 		<tr><td>" . apply_filters('media_meta', $media_dims, $post) . "</td></tr>
-		$image_edit_button
+		<tr><td class='A1B1'>$image_edit_button</td></tr>
 		</thead>
 		<tbody>
-		<tr><td style='display:none' colspan='2' id='image-editor-$post->ID'></td></tr>\n";
+		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>
+		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n";
 
 	$defaults = array(
 		'input'      => 'text',
