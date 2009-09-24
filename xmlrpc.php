@@ -2282,7 +2282,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		global $wpdb;
 
 		// find any unattached files
-		$attachments = $wpdb->get_results( "SELECT ID, guid FROM {$wpdb->posts} WHERE post_parent = '-1' AND post_type = 'attachment'" );
+		$attachments = $wpdb->get_results( "SELECT ID, guid FROM {$wpdb->posts} WHERE post_parent = '0' AND post_type = 'attachment'" );
 		if( is_array( $attachments ) ) {
 			foreach( $attachments as $file ) {
 				if( strpos( $post_content, $file->guid ) !== false ) {
@@ -2889,8 +2889,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, $errorString);
 		}
 		// Construct the attachment array
-		// attach to post_id -1
-		$post_id = -1;
+		// attach to post_id 0
+		$post_id = 0;
 		$attachment = array(
 			'post_title' => $name,
 			'post_content' => '',
