@@ -601,7 +601,10 @@ function delete_post_meta_by_key($post_meta_key) {
 	global $wpdb;
 	$post_ids = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT post_id FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key));
 	if ( $post_ids ) {
-		$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key));
+		$postmetaids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key ) );
+		do_action( 'delete_postmeta', $postmetaids );
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id IN(%s)", implode( ',', $postmetaids) ) );
+		do_action( 'deleted_postmeta', $postmetaids );
 		foreach ( $post_ids as $post_id )
 			wp_cache_delete($post_id, 'post_meta');
 		return true;
@@ -1102,11 +1105,19 @@ function wp_delete_post($postid = 0) {
 	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
+	$commentids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
+	do_action( 'delete_comment', $commentids );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_ID IN(%s)", implode( ',', $commentids ) ));
+	do_action( 'deleted_comment', $commentids );
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d", $postid ));
+	$postmetaids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
+	do_action( 'delete_postmeta', $postmetaids );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_id IN(%s)", implode( ',', $postmetaids ) ));
+	do_action( 'deleted_postmeta', $postmetaids );
 
+	do_action( 'delete_post', $post_id );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
+	do_action( 'deleted_post', $post_id );
 
 	if ( 'page' == $post->post_type ) {
 		clean_page_cache($postid);
@@ -2584,11 +2595,19 @@ function wp_delete_attachment($post_id) {
 	/** @todo Delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
+	$commentids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
+	do_action( 'delete_comment', $commentids );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_ID IN(%s)", implode( ',', $commentids ) ));
+	do_action( 'deleted_comment', $commentids );
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
+	$postmetaids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
+	do_action( 'delete_postmeta', $postmetaids );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_id IN(%s)", implode( ',', $postmetaids ) ));
+	do_action( 'deleted_postmeta', $postmetaids );
 
+	do_action( 'delete_post', $post_id );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $post_id ));
+	do_action( 'deleted_post', $post_id );
 
 	$uploadpath = wp_upload_dir();
 
@@ -3270,9 +3289,13 @@ function _publish_post_hook($post_id) {
 		return;
 
 	$data = array( 'post_id' => $post_id, 'meta_value' => '1' );
-	if ( get_option('default_pingback_flag') )
+	if ( get_option('default_pingback_flag') ) {
 		$wpdb->insert( $wpdb->postmeta, $data + array( 'meta_key' => '_pingme' ) );
+		do_action( 'added_postmeta', $wpdb->insert_id, $post_id, '_pingme', 1 );
+	}
 	$wpdb->insert( $wpdb->postmeta, $data + array( 'meta_key' => '_encloseme' ) );
+	do_action( 'added_postmeta', $wpdb->insert_id, $post_id, '_encloseme', 1 );
+
 	wp_schedule_single_event(time(), 'do_pings');
 }
 

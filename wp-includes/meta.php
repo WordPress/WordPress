@@ -57,7 +57,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
-	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
+	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
 		return add_metadata($meta_type, $object_id, $meta_key, $meta_value);
 
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
@@ -70,12 +70,12 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 		$where['meta_value'] = $prev_value;
 	}
 
-	do_action( "update_{$meta_type}_meta", $object_id, $meta_key, $meta_value );
+	do_action( "update_{$meta_type}_meta", $object_id, $meta_key, $meta_value, $meta_id );
 
 	$wpdb->update( $table, $data, $where );
 	wp_cache_delete($object_id, $meta_type . '_meta');
 
-	do_action( "updated_{$meta_type}_meta", $object_id, $meta_key, $meta_value );
+	do_action( "updated_{$meta_type}_meta", $object_id, $meta_key, $meta_value, $meta_id );
 
 	return true;
 }
@@ -95,10 +95,16 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '') {
 	$meta_key = stripslashes($meta_key);
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
-	$query = $wpdb->prepare( "DELETE FROM $table WHERE meta_key = %s", $meta_key );
-
+	$query = $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s", $meta_key );
+	
 	if ( $meta_value )
 		$query .= $wpdb->prepare("AND meta_value = %s", $meta_value );
+
+	$meta_ids = $wpdb->get_col( $query );
+	if ( !count( $meta_ids ) )
+		return false;
+
+	$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
 	
 	$count = $wpdb->query($query);
 	
@@ -107,7 +113,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '') {
 
 	wp_cache_delete($object_id, $meta_type . '_meta');
 
-	do_action( "deleted_{$meta_type}_meta", $object_id, $meta_key, $meta_value );
+	do_action( "deleted_{$meta_type}_meta", $object_id, $meta_key, $meta_value, $meta_ids );
 
 	return true;
 }

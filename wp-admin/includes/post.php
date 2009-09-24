@@ -588,6 +588,8 @@ function add_meta( $post_ID ) {
 		wp_cache_delete($post_ID, 'post_meta');
 
 		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value ) VALUES (%s, %s, %s)", $post_ID, $metakey, $metavalue) );
+		do_action( 'added_postmeta', $wpdb->insert_id, $post_ID, $metakey, $metavalue );
+		
 		return $wpdb->insert_id;
 	}
 	return false;
@@ -608,7 +610,11 @@ function delete_meta( $mid ) {
 	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 	wp_cache_delete($post_id, 'post_meta');
 
-	return $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
+	do_action( 'delete_postmeta', $mid );
+	$rval = $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
+	do_action( 'deleted_postmeta', $mid );
+
+	return $rval;
 }
 
 /**
@@ -697,7 +703,11 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 	$data  = compact( 'meta_key', 'meta_value' );
 	$where = compact( 'meta_id' );
 
-	return $wpdb->update( $wpdb->postmeta, $data, $where );
+	do_action( 'update_postmeta', $meta_id, $post_id, $meta_key, $meta_value );
+	$rval = $wpdb->update( $wpdb->postmeta, $data, $where );
+	do_action( 'updated_postmeta', $meta_id, $post_id, $meta_key, $meta_value );
+
+	return $rval;
 }
 
 //
