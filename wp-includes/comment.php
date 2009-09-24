@@ -863,8 +863,8 @@ function wp_trash_comment($comment_id = 0) {
 	do_action('trash_comment', $comment_id);
 
 	add_comment_meta($comment_id,'_wp_trash_meta_status', $comment->comment_approved);
-	add_comment_meta($comment_id,'_wp_trash_meta_time', time() );	
-	
+	add_comment_meta($comment_id,'_wp_trash_meta_time', time() );
+
 	wp_set_comment_status($comment_id, 'trash');
 
 	do_action('trashed_comment', $comment_id);
@@ -886,7 +886,7 @@ function wp_untrash_comment($comment_id = 0) {
 	do_action('untrash_comment', $comment_id);
 
 	$comment = array('comment_ID'=>$comment_id, 'comment_approved'=>'0');
-	
+
 	//Either set comment_approved to the value in comment_meta or worse case to false which will mean moderation
 	$comment['comment_approved'] = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
 

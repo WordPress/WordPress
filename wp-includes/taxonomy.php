@@ -1689,7 +1689,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	do_action( 'edit_term_taxonomy', $tt_id );
 	$wpdb->update( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent' ), array( 'term_taxonomy_id' => $tt_id ) );
 	do_action( 'edited_term_taxonomy', $tt_id );
-	
+
 	do_action("edit_term", $term_id, $tt_id);
 	do_action("edit_$taxonomy", $term_id, $tt_id);
 

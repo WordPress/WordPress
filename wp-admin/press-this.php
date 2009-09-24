@@ -62,7 +62,7 @@ function press_it() {
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
 				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
-	
+
 	// set the post_content and status
 	$quick['post_status'] = isset($_POST['publish']) ? 'publish' : 'draft';
 	$quick['post_content'] = $content;

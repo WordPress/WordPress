@@ -24,15 +24,15 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	$meta_key = stripslashes($meta_key);
 
 	if ( $unique && $wpdb->get_var( $wpdb->prepare(
-		"SELECT COUNT(*) FROM $table WHERE meta_key = %s AND $column = %d", 
+		"SELECT COUNT(*) FROM $table WHERE meta_key = %s AND $column = %d",
 		$meta_key, $object_id ) ) )
 		return false;
 
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
 	$wpdb->insert( $table, array(
-		$column => $object_id, 
-		'meta_key' => $meta_key, 
+		$column => $object_id,
+		'meta_key' => $meta_key,
 		'meta_value' => $meta_value
 	) );
 
@@ -96,7 +96,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '') {
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
 	$query = $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s", $meta_key );
-	
+
 	if ( $meta_value )
 		$query .= $wpdb->prepare("AND meta_value = %s", $meta_value );
 
@@ -105,9 +105,9 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '') {
 		return false;
 
 	$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
-	
+
 	$count = $wpdb->query($query);
-	
+
 	if ( !$count )
 		return false;
 
@@ -177,7 +177,7 @@ function update_meta_cache($meta_type, $object_ids) {
 	// Get meta info
 	$id_list = join(',', $ids);
 	$cache = array();
-	$meta_list = $wpdb->get_results( $wpdb->prepare("SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list)", 
+	$meta_list = $wpdb->get_results( $wpdb->prepare("SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list)",
 		$meta_type), ARRAY_A );
 
 	if ( !empty($meta_list) ) {

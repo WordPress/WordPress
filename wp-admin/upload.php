@@ -177,7 +177,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
 </h2>
 
-<?php 
+<?php
 $message = '';
 if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
 	$_GET['message'] = '1';

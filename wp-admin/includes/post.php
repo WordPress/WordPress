@@ -589,7 +589,7 @@ function add_meta( $post_ID ) {
 
 		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value ) VALUES (%s, %s, %s)", $post_ID, $metakey, $metavalue) );
 		do_action( 'added_postmeta', $wpdb->insert_id, $post_ID, $metakey, $metavalue );
-		
+
 		return $wpdb->insert_id;
 	}
 	return false;

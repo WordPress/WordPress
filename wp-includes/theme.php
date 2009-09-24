@@ -907,7 +907,7 @@ add_action('setup_theme', 'preview_theme');
  *
  * @since 2.9.0
  * @access private
- * 
+ *
  * @return string
  */
 function _preview_theme_template_filter() {
@@ -916,10 +916,10 @@ function _preview_theme_template_filter() {
 
 /**
  * Private function to modify the current stylesheet when previewing a theme
- * 
+ *
  * @since 2.9.0
  * @access private
- * 
+ *
  * @return string
  */
 function _preview_theme_stylesheet_filter() {
