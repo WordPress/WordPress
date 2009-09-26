@@ -2155,22 +2155,48 @@ function &get_page_children($page_id, $pages) {
 /**
  * Order the pages with children under parents in a flat list.
  *
+ * It uses auxiliary structure to hold parent-children relationships and
+ * runs in O(N) complexity
+ * 
  * @since 2.0.0
  *
  * @param array $posts Posts array.
  * @param int $parent Parent page ID.
  * @return array A list arranged by hierarchy. Children immediately follow their parents.
  */
-function get_page_hierarchy($posts, $parent = 0) {
-	$result = array ( );
-	if ($posts) { foreach ( (array) $posts as $post) {
-		if ($post->post_parent == $parent) {
-			$result[$post->ID] = $post->post_name;
-			$children = get_page_hierarchy($posts, $post->ID);
-			$result += $children; //append $children to $result
-		}
-	} }
+function &get_page_hierarchy( &$pages, $page_id = 0 ) {
+	
+	if ( empty( $pages ) )
+		return null;
+		
+	$children = array();
+	foreach ( (array) $pages as $p ) {
+		
+		$parent_id = intval( $p->post_parent );
+		$children[ $parent_id ][] = $p;
+	 }
+	 
+	 $result = array();
+	 _page_traverse_name( $page_id, $children, $result );
+	 
 	return $result;
+}
+
+/**
+ * function to traverse and return all the nested children post names of a root page.
+ * $children contains parent-chilren relations
+ * 
+ */
+function _page_traverse_name( $page_id, &$children, &$result ){ 
+	
+	if ( isset( $children[ $page_id ] ) ){
+		
+		foreach( (array)$children[ $page_id ] as $child ) {
+			
+			$result[ $child->ID ] = $child->post_name;
+			_page_traverse_name( $child->ID, $children, $result );
+		}
+	}
 }
 
 /**
