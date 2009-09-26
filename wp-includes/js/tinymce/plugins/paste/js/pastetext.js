@@ -19,7 +19,7 @@ var PasteTextDialog = {
 			}
 		}
 
-		tinyMCEPopup.editor.execCommand('mceInsertClipboardContent', false, h);
+		tinyMCEPopup.editor.execCommand('mceInsertClipboardContent', false, {content : h});
 		tinyMCEPopup.close();
 	},
 

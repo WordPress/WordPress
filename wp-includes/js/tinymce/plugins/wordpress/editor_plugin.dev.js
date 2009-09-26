@@ -161,6 +161,15 @@
 				});
 			};
 
+			ed.onSaveContent.add(function(ed, o) {
+				if ( typeof(switchEditors) == 'object' ) {
+					if ( ed.isHidden() )
+						o.content = o.element.value;
+					else
+						o.content = switchEditors.pre_wpautop(o.content);
+				}
+			});
+
 			// Add listeners to handle more break
 			t._handleMoreBreak(ed, url);
 

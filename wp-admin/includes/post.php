@@ -1370,7 +1370,9 @@ function wp_tiny_mce( $teeny = false ) {
 		'accessibility_focus' => true,
 		'tabfocus_elements' => 'major-publishing-actions',
 		'media_strict' => false,
-		'save_callback' => 'switchEditors.saveCallback',
+		'paste_remove_styles' => true,
+		'paste_remove_spans' => true,
+		'paste_strip_class_attributes' => 'all',
 		'wpeditimage_disable_captions' => $no_captions,
 		'plugins' => "$plugins"
 	);

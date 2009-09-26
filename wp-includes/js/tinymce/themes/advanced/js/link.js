@@ -63,8 +63,8 @@ var LinkDialog = {
 					ed.dom.setAttribs(e, {
 						href : f.href.value,
 						title : f.linktitle.value,
-						target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : null,
-						'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
+						target : f.target_list ? getSelectValue(f, "target_list") : null,
+						'class' : f.class_list ? getSelectValue(f, "class_list") : null
 					});
 				}
 			});
@@ -72,8 +72,8 @@ var LinkDialog = {
 			ed.dom.setAttribs(e, {
 				href : f.href.value,
 				title : f.linktitle.value,
-				target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : null,
-				'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
+				target : f.target_list ? getSelectValue(f, "target_list") : null,
+				'class' : f.class_list ? getSelectValue(f, "class_list") : null
 			});
 		}
 
