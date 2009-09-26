@@ -1121,6 +1121,9 @@ class WP_Http_ExtHTTP {
 			case 'HEAD':
 				$r['method'] = HTTP_METH_HEAD;
 				break;
+			case 'PUT':
+				$r['method'] =  HTTP_METH_PUT;
+				break;
 			case 'GET':
 			default:
 				$r['method'] = HTTP_METH_GET;
@@ -1304,6 +1307,10 @@ class WP_Http_Curl {
 				break;
 			case 'POST':
 				curl_setopt( $handle, CURLOPT_POST, true );
+				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
+				break;
+			case 'PUT':
+				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'PUT' );
 				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
 				break;
 		}
