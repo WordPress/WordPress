@@ -99,7 +99,7 @@ imageEdit = {
 		return '1:1';
 	},
 
-	filterHistory : function(postid) {
+	filterHistory : function(postid, setSize) {
 		// apply undo state to history
 		var history = $('#imgedit-history-' + postid).val(), pop, n, o, i, op = [];
 
@@ -113,19 +113,21 @@ imageEdit = {
 				}
 			}
 
-			if ( !history.length ) {
-				this.newDims(postid, this.hold['ow'], this.hold['oh']);
-				return '';
-			}
+			if ( setSize ) {
+				if ( !history.length ) {
+					this.hold['w'] = this.hold['ow'];
+					this.hold['h'] = this.hold['oh'];
+					return '';
+				}
 
-			// restore
-			o = history[history.length - 1];
-			if ( o.hasOwnProperty('c') ) {
-				this.newDims(postid, o.c.fw, o.c.fh);
-			} else if ( o.hasOwnProperty('r') ) {
-				this.newDims(postid, o.r.fw, o.r.fh);
-			} else if ( o.hasOwnProperty('f') ) {
-				this.newDims(postid, o.f.fw, o.f.fh);
+				// restore
+				o = history[history.length - 1];
+				o = o.c || o.r || o.f || false;
+
+				if ( o ) {
+					this.hold['w'] = o.fw;
+					this.hold['h'] = o.fh;
+				}
 			}
 
 			// filter the values
@@ -152,15 +154,21 @@ imageEdit = {
 			'action': 'imgedit-preview',
 			'_ajax_nonce': nonce,
 			'postid': postid,
-			'history': t.filterHistory(postid),
+			'history': t.filterHistory(postid, 1),
 			'rand': t.intval(Math.random() * 1000000)
 		};
 
 		img = $('<img id="image-preview-' + postid + '" />');
 		img.load( function() {
-			var parent = $('#imgedit-crop-' + postid), t = imageEdit;
+			var max1, max2, parent = $('#imgedit-crop-' + postid), t = imageEdit;
 
 			parent.empty().append(img);
+
+			// w, h are the new full size dims
+			max1 = Math.max( t.hold.w, t.hold.h );
+			max2 = Math.max( $(img).width(), $(img).height() );
+			t.hold['sizer'] = max1 > max2 ? max2 / max1 : 1;
+
 			t.initCrop(postid, img, parent);
 			t.setCropSelection(postid, 0);
 
@@ -217,7 +225,7 @@ imageEdit = {
 	},
 
 	save : function(postid, nonce) {
-		var data, target = this.getTarget(postid), history = this.filterHistory(postid);
+		var data, target = this.getTarget(postid), history = this.filterHistory(postid, 0);
 
 		if ( '' == history )
 			return false;
@@ -368,7 +376,7 @@ imageEdit = {
 			$(this).empty();
 		});
 	},
-	
+
 	notsaved : function(postid) {
 		var h = $('#imgedit-history-' + postid).val(),
 			history = (h != '') ? JSON.parse(h) : new Array(),
@@ -417,27 +425,18 @@ imageEdit = {
 		this.addStep({ 'f': { 'f': axis, 'fw': this.hold['w'], 'fh': this.hold['h'] }}, postid, nonce);
 	},
 
-	// w, h are the new full size dims
-	newDims : function(postid, w, h) {
-		var max = Math.max( w, h ), s;
-
-		s = max > 400 ? 400 / max : 1;
-		this.hold['sizer'] = s;
-		this.hold['w'] = w;
-		this.hold['h'] = h;
-		return s;
-	},
-
 	crop : function (postid, nonce, t) {
-		var sel = $('#imgedit-selection-' + postid).val();
+		var sel = $('#imgedit-selection-' + postid).val(),
+			w = this.intval( $('#imgedit-sel-width-' + postid).val() ),
+			h = this.intval( $('#imgedit-sel-height-' + postid).val() );
 
 		if ( $(t).hasClass('disabled') || sel == '' )
 			return false;
 
 		sel = JSON.parse(sel);
-		if ( sel.w > 0 && sel.h > 0 ) {
-			sel['fw'] = this.intval( $('#imgedit-sel-width-' + postid).val() );
-			sel['fh'] = this.intval( $('#imgedit-sel-height-' + postid).val() );
+		if ( sel.w > 0 && sel.h > 0 && w > 0 && h > 0 ) {
+			sel['fw'] = w;
+			sel['fh'] = h;
 			this.addStep({ 'c': sel }, postid, nonce);
 		}
 	},
@@ -512,7 +511,7 @@ imageEdit = {
 			this.setCropSelection(postid, ias.getSelection());
 		}
 	},
-	
+
 	round : function(num) {
 		var s;
 		num = Math.round(num);

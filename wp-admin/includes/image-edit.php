@@ -276,7 +276,7 @@ function wp_save_image_file($filename, $image, $mime_type, $post_id = 0, $interm
 
 function _image_get_preview_ratio($w, $h) {
 	$max = max($w, $h);
-		return $max > 400 ? (400 / $max) : 1;
+	return $max > 400 ? (400 / $max) : 1;
 }
 
 function _rotate_image_resource($img, $angle) {
