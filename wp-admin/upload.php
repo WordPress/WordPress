@@ -394,7 +394,7 @@ foreach ($arc_result as $arc_row) {
 			$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
 		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		if ( current_user_can('edit_post', $post->ID) )
-			$actions['attach'] = '<a href="#the-list" onclick="findPosts.open(\'media[]\',\''.$post->ID.'\');return false;">'.__('Attach').'</a>';
+			$actions['attach'] = '<a href="#the-list" onclick="findPosts.open(\'media[]\',\''.$post->ID.'\');return false;" class="hide-if-no-js">'.__('Attach').'</a>';
 		$actions = apply_filters( 'media_row_actions', $actions, $post );
 		$action_count = count($actions);
 		$i = 0;
