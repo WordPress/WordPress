@@ -497,7 +497,7 @@ function update_option( $option_name, $newvalue ) {
 
 	wp_protect_special_option( $option_name );
 
-	$safe_option_name = $wpdb->escape( $option_name );
+	$safe_option_name = esc_sql( $option_name );
 	$newvalue = sanitize_option( $option_name, $newvalue );
 
 	$oldvalue = get_option( $safe_option_name );
@@ -571,7 +571,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 	global $wpdb;
 
 	wp_protect_special_option( $name );
-	$safe_name = $wpdb->escape( $name );
+	$safe_name = esc_sql( $name );
 	$value = sanitize_option( $name, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
@@ -654,7 +654,7 @@ function delete_transient($transient) {
 	if ( $_wp_using_ext_object_cache ) {
 		return wp_cache_delete($transient, 'transient');
 	} else {
-		$transient = '_transient_' . $wpdb->escape($transient);
+		$transient = '_transient_' . esc_sql($transient);
 		return delete_option($transient);
 	}
 }
@@ -682,11 +682,11 @@ function get_transient($transient) {
 	if ( $_wp_using_ext_object_cache ) {
 		$value = wp_cache_get($transient, 'transient');
 	} else {
-		$transient_option = '_transient_' . $wpdb->escape($transient);
+		$transient_option = '_transient_' . esc_sql($transient);
 		// If option is not in alloptions, it is not autoloaded and thus has a timeout
 		$alloptions = wp_load_alloptions();
 		if ( !isset( $alloptions[$transient_option] ) ) {
-			$transient_timeout = '_transient_timeout_' . $wpdb->escape($transient);
+			$transient_timeout = '_transient_timeout_' . esc_sql($transient);
 			if ( get_option($transient_timeout) < time() ) {
 				delete_option($transient_option);
 				delete_option($transient_timeout);
@@ -723,7 +723,7 @@ function set_transient($transient, $value, $expiration = 0) {
 	} else {
 		$transient_timeout = '_transient_timeout_' . $transient;
 		$transient = '_transient_' . $transient;
-		$safe_transient = $wpdb->escape($transient);
+		$safe_transient = esc_sql($transient);
 		if ( false === get_option( $safe_transient ) ) {
 			$autoload = 'yes';
 			if ( 0 != $expiration ) {
@@ -1412,7 +1412,7 @@ function add_magic_quotes( $array ) {
 		if ( is_array( $v ) ) {
 			$array[$k] = add_magic_quotes( $v );
 		} else {
-			$array[$k] = $wpdb->escape( $v );
+			$array[$k] = esc_sql( $v );
 		}
 	}
 	return $array;

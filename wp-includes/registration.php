@@ -293,8 +293,8 @@ function wp_update_user($userdata) {
 function wp_create_user($username, $password, $email = '') {
 	global $wpdb;
 
-	$user_login = $wpdb->escape($username);
-	$user_email = $wpdb->escape($email);
+	$user_login = esc_sql( $username );
+	$user_email = esc_sql( $email    );
 	$user_pass = $password;
 
 	$userdata = compact('user_login', 'user_email', 'user_pass');

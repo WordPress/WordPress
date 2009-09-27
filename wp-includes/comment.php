@@ -1229,7 +1229,7 @@ function wp_update_comment($commentarr) {
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
 
 	// Escape data pulled from DB.
-	$comment = $wpdb->escape($comment);
+	$comment = esc_sql($comment);
 
 	$old_status = $comment['comment_approved'];
 

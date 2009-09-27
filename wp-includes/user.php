@@ -153,7 +153,7 @@ function wp_authenticate_cookie($user, $username, $password) {
 function get_profile($field, $user = false) {
 	global $wpdb;
 	if ( !$user )
-		$user = $wpdb->escape($_COOKIE[USER_COOKIE]);
+		$user = esc_sql( $_COOKIE[USER_COOKIE] );
 	return $wpdb->get_var( $wpdb->prepare("SELECT $field FROM $wpdb->users WHERE user_login = %s", $user) );
 }
 

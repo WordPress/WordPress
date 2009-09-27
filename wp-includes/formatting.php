@@ -1110,7 +1110,7 @@ function addslashes_gpc($gpc) {
 		$gpc = stripslashes($gpc);
 	}
 
-	return $wpdb->escape($gpc);
+	return esc_sql($gpc);
 }
 
 /**
@@ -1280,7 +1280,7 @@ function wp_rel_nofollow( $text ) {
 	// This is a pre save filter, so text is already escaped.
 	$text = stripslashes($text);
 	$text = preg_replace_callback('|<a (.+?)>|i', 'wp_rel_nofollow_callback', $text);
-	$text = $wpdb->escape($text);
+	$text = esc_sql($text);
 	return $text;
 }
 
