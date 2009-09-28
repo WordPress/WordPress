@@ -46,7 +46,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <?php else : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 	<?php if ( strlen( $post->post_content ) > 0 ) : ?>
-		<content:encoded><![CDATA[<?php the_content() ?>]]></content:encoded>
+		<content:encoded><![CDATA[<?php the_content_feed('rss2') ?>]]></content:encoded>
 	<?php else : ?>
 		<content:encoded><![CDATA[<?php the_excerpt_rss() ?>]]></content:encoded>
 	<?php endif; ?>

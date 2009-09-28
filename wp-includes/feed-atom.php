@@ -43,7 +43,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<?php the_category_rss('atom') ?>
 		<summary type="<?php html_type_rss(); ?>"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php if ( !get_option('rss_use_excerpt') ) : ?>
-		<content type="<?php html_type_rss(); ?>" xml:base="<?php the_permalink_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
+		<content type="<?php html_type_rss(); ?>" xml:base="<?php the_permalink_rss() ?>"><![CDATA[<?php the_content_feed('atom') ?>]]></content>
 <?php endif; ?>
 <?php atom_enclosure(); ?>
 <?php do_action('atom_entry'); ?>

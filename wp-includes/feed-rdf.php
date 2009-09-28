@@ -46,8 +46,8 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <?php if (get_option('rss_use_excerpt')) : ?>
 	<description><?php the_excerpt_rss() ?></description>
 <?php else : ?>
-	<description><?php the_content_rss('', 0, '', get_option('rss_excerpt_length'), 2) ?></description>
-	<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
+	<description><?php the_excerpt_rss() ?></description>
+	<content:encoded><![CDATA[<?php the_content_feed('rdf') ?>]]></content:encoded>
 <?php endif; ?>
 	<?php do_action('rdf_item'); ?>
 </item>
