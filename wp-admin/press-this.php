@@ -347,10 +347,8 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 	do_action('admin_print_scripts');
 	do_action('admin_head');
 
-	if ( user_can_richedit() ) {
-		add_filter( 'teeny_mce_before_init', create_function( '$a', '$a["height"] = "400"; $a["onpageload"] = ""; $a["mode"] = "textareas"; $a["editor_selector"] = "mceEditor"; return $a;' ) );
-		wp_tiny_mce( true );
-	}
+	if ( user_can_richedit() )
+		wp_tiny_mce( true, array( 'height' => '370' ) );
 ?>
 	<script type="text/javascript">
 	function insert_plain_editor(text) {
@@ -422,7 +420,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 				break;
 		}
 	}
-	jQuery(document).ready(function() {
+	jQuery(document).ready(function($) {
 		//resize screen
 		window.resizeTo(720,570);
 		// set button actions
@@ -438,10 +436,14 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 		<?php } ?>
 		jQuery('#title').unbind();
 		jQuery('#publish, #save').click(function() { jQuery('#saving').css('display', 'inline'); });
+		
+		$('#tagsdiv-post_tag, #categorydiv').children('h3').click(function(){
+			$(this).siblings('.inside').toggle();
+		});
 	});
 </script>
 </head>
-<body class="press-this">
+<body class="press-this wp-admin">
 <div id="wphead"></div>
 <form action="press-this.php?action=post" method="post">
 <div id="poststuff" class="metabox-holder">
@@ -552,10 +554,16 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 			</ul>
 			<div id="quicktags"></div>
 			<div class="editor-container">
-				<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
-					<?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?>
-					<?php if ($url) { echo '<p>'; if($selection) _e('via '); echo "<a href='$url'>$title</a>."; echo '</p>'; } ?>
-				</textarea>
+				<textarea name="content" id="content" style="width:100%;" class="theEditor" rows="15"><?php
+					if ( $selection )
+						echo wp_richedit_pre(htmlspecialchars_decode($selection));
+					if ( $url ) {
+						echo '<p>';
+						if ( $selection )
+							_e('via ');
+						echo "<a href='$url'>$title</a>.</p>";
+					}
+				?></textarea>
 			</div>
 		</div>
 	</div>

@@ -16,8 +16,9 @@
 
 			// Hides the specified toolbar and resizes the iframe
 			ed.onPostRender.add(function() {
-				if ( ed.getParam('wordpress_adv_hidden', 1) ) {
-					DOM.hide(ed.controlManager.get(tbId).id);
+				var adv_toolbar = ed.controlManager.get(tbId);
+				if ( ed.getParam('wordpress_adv_hidden', 1) && adv_toolbar ) {
+					DOM.hide(adv_toolbar.id);
 					t._resizeIframe(ed, tbId, 28);
 				}
 			});
@@ -41,9 +42,12 @@
 				});
 
 			ed.addCommand('WP_Adv', function() {
-				var id = ed.controlManager.get(tbId).id, cm = ed.controlManager;
+				var cm = ed.controlManager, id = cm.get(tbId).id;
 
-				if (DOM.isHidden(id)) {
+				if ( 'undefined' == id )
+					return;
+
+				if ( DOM.isHidden(id) ) {
 					cm.setActive('wp_adv', 1);
 					DOM.show(id);
 					t._resizeIframe(ed, tbId, -28);
@@ -122,8 +126,9 @@
 
 			// Add Media buttons to fullscreen
 			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+				var DOM = tinymce.DOM;
 				if ( 'mceFullScreen' != cmd ) return;
-				if ( 'mce_fullscreen' != ed.id )
+				if ( 'mce_fullscreen' != ed.id && DOM.get('add_audio') && DOM.get('add_video') && DOM.get('add_image') && DOM.get('add_media') )
 					ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
 			});
 

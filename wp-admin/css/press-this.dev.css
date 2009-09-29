@@ -65,8 +65,7 @@ input.text {
 
 /* Editor/Main Column */
 div#poststuff {
-	padding-left: 10px;
-	margin-top: 10px;
+	margin: 10px;
 }
 
 div.zerosize {
@@ -85,35 +84,40 @@ div.zerosize {
 }
 
 .posting {
-	margin-right: 228px;
+	margin-right: 212px;
 	position: relative;
 	left: 0;
 }
 
+* html .posting {
+	width: 470px;
+}
+
 #side-info-column {
 	float: right;
-	width: 218px;
-	position: absolute;
-	right: 0;
-	margin-right: 10px;
+	width: 200px;
 }
 
 #side-info-column .sleeve {
 	padding-top: 5px;
-	padding-left: 10px;
 }
 
 #poststuff .inside {
 	font-size: 11px;
-	margin: 0 12px 12px;
+	margin: 8px;
 }
 
 #poststuff h2, #poststuff h3 {
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 1;
-	margin: 0 0 10px;
+	margin: 0;
 	padding: 7px 9px;
+}
+
+#tagsdiv-post_tag h3,
+#categorydiv h3 {
+	cursor: pointer;
 }
 
 h3.tb {
@@ -163,7 +167,7 @@ h3.tb {
 }
 
 #title {
-	width: 98%;
+	width: 97%;
 }
 
 .editor-container {
@@ -181,10 +185,8 @@ h3.tb {
 }
 
 #actions {
-	clear: both;
 	float: right;
-	margin-top: -19px;
-	position: relative;
+	margin: -19px 0 0;
 }
 
 #extra_fields #actions {
@@ -412,11 +414,11 @@ ul.categorychecklist li {
 }
 
 #content {
-	width: 96% !important;
-	margin-left: 1%;
-	margin-bottom: 10px;
+	margin: 5px 0;
+	padding: 0 5px;
 	border: 0 none;
 	height: 365px;
+	width: 97% !important;
 }
 
 /* Submit */

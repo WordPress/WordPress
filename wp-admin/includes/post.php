@@ -1216,8 +1216,9 @@ function post_preview() {
  * to the URL when queueing them with the mce_external_plugins filter.
  *
  * @param bool $teeny optional Output a trimmed down version used in Press This.
+ * @param mixed $settings optional An array that can add to or overwrite the default TinyMCE settings.
  */
-function wp_tiny_mce( $teeny = false ) {
+function wp_tiny_mce( $teeny = false, $settings = false ) {
 	global $concatenate_scripts, $compress_scripts, $tinymce_version;
 
 	if ( ! user_can_richedit() )
@@ -1236,7 +1237,7 @@ function wp_tiny_mce( $teeny = false ) {
 	$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
 
 	if ( $teeny ) {
-		$plugins = apply_filters( 'teeny_mce_plugins', array('safari', 'inlinepopups', 'media', 'autosave', 'fullscreen') );
+		$plugins = apply_filters( 'teeny_mce_plugins', array('safari', 'inlinepopups', 'media', 'fullscreen', 'wordpress') );
 		$ext_plugins = '';
 	} else {
 		$plugins = array( 'safari', 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus' );
@@ -1381,6 +1382,9 @@ function wp_tiny_mce( $teeny = false ) {
 
 	if ( ! empty($mce_css) )
 		$initArray['content_css'] = "$mce_css";
+
+	if ( is_array($settings) )
+		$initArray = array_merge($initArray, $settings);
 
 	// For people who really REALLY know what they're doing with TinyMCE
 	// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
