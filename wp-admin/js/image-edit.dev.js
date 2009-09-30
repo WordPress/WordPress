@@ -64,7 +64,7 @@ imageEdit = {
 	},
 
 	getTarget : function(postid) {
-		return $('input:checked', '#imgedit-save-target-' + postid).val() || 'all';
+		return $('input[name=imgedit-target-' + postid + ']:checked', '#imgedit-save-target-' + postid).val() || 'full';
 	},
 
 	scaleChanged : function(postid, x) {

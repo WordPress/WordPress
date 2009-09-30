@@ -405,7 +405,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'codepress', '/wp-includes/js/codepress/codepress.js', false, '0.9.6' );
 		$scripts->add_data( 'codepress', 'group', 1 );
 
-		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090925' );
+		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090929' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
 	}
 }

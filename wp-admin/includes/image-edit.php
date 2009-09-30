@@ -10,21 +10,23 @@ function wp_image_editor($post_id, $msg = false) {
 	$nonce = wp_create_nonce("image_editor-$post_id");
 	$meta = wp_get_attachment_metadata($post_id);
 	$thumb = image_get_intermediate_size($post_id, 'thumbnail');
+	$sub_sizes = isset($meta['sizes']) && is_array($meta['sizes']);
 	$note = '';
 
 	if ( is_array($meta) && isset($meta['width']) )
 		$big = max( $meta['width'], $meta['height'] );
 	else
-		wp_die( __('Image data does not exist. Please re-upload the image.') );
+		die( __('Image data does not exist. Please re-upload the image.') );
 
 	$sizer = $big > 400 ? 400 / $big : 1;
 
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
-	$can_restore = !empty($backup_sizes) && isset($backup_sizes['full-orig']);
+	$can_restore = !empty($backup_sizes) && isset($backup_sizes['full-orig'])
+		&& $backup_sizes['full-orig']['file'] != basename($meta['file']);
 
 
 	// temp convert backup sizes
-	if ( isset($meta['sizes']) && is_array($meta['sizes']) ) {
+	if ( $sub_sizes ) {
 		$update = false;
 		foreach ( $meta['sizes'] as $name => $val ) {
 			if ( strpos($name, 'backup-') === 0 ) {
@@ -45,7 +47,6 @@ function wp_image_editor($post_id, $msg = false) {
 		}
 	}
 	// end temp
-
 
 	if ( $msg ) {
 		if ( isset($msg->error) )
@@ -168,7 +169,7 @@ function wp_image_editor($post_id, $msg = false) {
 	</p>
 	</div>
 
-	<?php if ( $thumb ) {
+	<?php if ( $thumb && $sub_sizes ) {
 		$thumb_img = wp_constrain_dimensions( $thumb['width'], $thumb['height'], 160, 120 );
 	?>
 
@@ -211,28 +212,36 @@ function wp_image_editor($post_id, $msg = false) {
 <?php
 }
 
-function load_image_to_edit($post, $size = 'full') {
-	$filename = get_attached_file($post->ID);
+function load_image_to_edit($post_id, $mime_type, $size = 'full') {
+	$filepath = get_attached_file($post_id);
 
-	if ( 'full' != $size && ( $data = image_get_intermediate_size($post->ID, $size) ) )
-		$filename = path_join( dirname($filename), $data['file'] );
+	if ( $filepath && file_exists($filepath) ) {
+		if ( 'full' != $size && ( $data = image_get_intermediate_size($post_id, $size) ) )
+			$filepath = path_join( dirname($filepath), $data['file'] );
+	} elseif ( function_exists('fopen') ) {
+		$filepath = wp_get_attachment_url($post_id);
+	}
 
-	switch ( $post->post_mime_type ) {
+	$filepath = apply_filters('load_image_to_edit_path', $filepath, $post_id, $size);
+	if ( empty($filepath) )
+		return false;
+
+	switch ( $mime_type ) {
 		case 'image/jpeg':
-			$image = imagecreatefromjpeg($filename);
+			$image = imagecreatefromjpeg($filepath);
 			break;
 		case 'image/png':
-			$image = imagecreatefrompng($filename);
+			$image = imagecreatefrompng($filepath);
 			break;
 		case 'image/gif':
-			$image = imagecreatefromgif($filename);
+			$image = imagecreatefromgif($filepath);
 			break;
 		default:
 			$image = false;
 			break;
 	}
 	if ( is_resource($image) ) {
-		$image = apply_filters('load_image_to_edit', $image, $post->ID, $size);
+		$image = apply_filters('load_image_to_edit', $image, $post_id, $size);
 		if ( function_exists('imagealphablending') && function_exists('imagesavealpha') ) {
 			imagealphablending($image, false);
 			imagesavealpha($image, true);
@@ -241,8 +250,8 @@ function load_image_to_edit($post, $size = 'full') {
 	return $image;
 }
 
-function wp_stream_image($image, $mime_type, $post_id = 0, $intermediate_size = '') {
-	$image = apply_filters('image_save_pre', $image, $post->ID, $intermediate_size);
+function wp_stream_image($image, $mime_type, $post_id) {
+	$image = apply_filters('image_save_pre', $image, $post_id);
 
 	switch ( $mime_type ) {
 		case 'image/jpeg':
@@ -259,8 +268,11 @@ function wp_stream_image($image, $mime_type, $post_id = 0, $intermediate_size = 
 	}
 }
 
-function wp_save_image_file($filename, $image, $mime_type, $post_id = 0, $intermediate_size = '') {
-	$image = apply_filters('image_save_pre', $image, $post->ID, $intermediate_size);
+function wp_save_image_file($filename, $image, $mime_type, $post_id) {
+	$image = apply_filters('image_save_pre', $image, $post_id);
+	$saved = apply_filters('wp_save_image_file', null, $filename, $image, $mime_type, $post_id);
+	if ( null !== $saved )
+		return $saved;
 
 	switch ( $mime_type ) {
 		case 'image/jpeg':
@@ -394,7 +406,7 @@ function image_edit_apply_changes($img, $changes) {
 function stream_preview_image($post_id) {
 	$post = get_post($post_id);
 	@ini_set('memory_limit', '256M');
-	$img = load_image_to_edit( $post, array(400, 400) );
+	$img = load_image_to_edit( $post_id, $post->post_mime_type, array(400, 400) );
 
 	if ( !is_resource($img) )
 		return false;
@@ -439,7 +451,8 @@ function wp_restore_image($post_id) {
 		if ( isset($backup_sizes["$default_size-orig"]) ) {
 			$data = $backup_sizes["$default_size-orig"];
 			if ( 'full' == $default_size ) {
-				$backup_sizes["full-$suffix"] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $parts['basename']);
+				if ( $parts['basename'] != $data['file'] )
+					$backup_sizes["full-$suffix"] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $parts['basename']);
 
 				$meta['file'] = path_join($parts['dirname'], $data['file']);
 				$meta['width'] = $data['width'];
@@ -449,11 +462,13 @@ function wp_restore_image($post_id) {
 				$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
 				$restored = update_attached_file($post_id, $meta['file']);
 			} else {
-				if ( isset($meta['sizes'][$default_size]) )
+				if ( isset($meta['sizes'][$default_size]) && $meta['sizes'][$default_size]['file'] != $data['file'] )
 					$backup_sizes["$default_size-{$suffix}"] = $meta['sizes'][$default_size];
 
 				$meta['sizes'][$default_size] = $data;
 			}
+		} else {
+			unset($meta['sizes'][$default_size]);
 		}
 	}
 
@@ -475,7 +490,7 @@ function wp_save_image($post_id) {
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post($post_id);
 	@ini_set('memory_limit', '256M');
-	$img = load_image_to_edit($post);
+	$img = load_image_to_edit($post_id, $post->post_mime_type);
 
 	if ( !is_resource($img) ) {
 		$return->error = esc_js( __('Unable to create new image.') );
@@ -549,9 +564,17 @@ function wp_save_image($post_id) {
 		return $return;
 	}
 
-	if ( 'nothumb' == $target || 'all' == $target || $scaled ) {
-		$tag = !isset($backup_sizes['full-orig']) ? 'full-orig' : "full-$suffix";
-		$backup_sizes[$tag] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $path_parts['basename']);
+	if ( 'nothumb' == $target || 'all' == $target || 'full' == $target || $scaled ) {
+		$tag = false;
+		if ( isset($backup_sizes['full-orig']) ) {
+			if ( $backup_sizes['full-orig']['file'] != $path_parts['basename'] )
+				$tag = "full-$suffix";
+		} else {
+			$tag = 'full-orig';
+		}
+
+		if ( $tag )
+			$backup_sizes[$tag] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $path_parts['basename']);
 
 		$success = update_attached_file($post_id, $new_path);
 		$meta['file'] = get_attached_file($post_id, true); // get the path unfiltered
@@ -576,9 +599,17 @@ function wp_save_image($post_id) {
 
 	if ( isset($sizes) ) {
 		foreach ( $sizes as $size ) {
+			$tag = false;
 			if ( isset($meta['sizes'][$size]) ) {
-				$tag = !isset($backup_sizes["$size-orig"]) ? "$size-orig" : "$size-$suffix";
-				$backup_sizes[$tag] = $meta['sizes'][$size];
+				if ( isset($backup_sizes["$size-orig"]) ) {
+					if ( $backup_sizes["$size-orig"]['file'] != $meta['sizes'][$size]['file'] )
+						$tag = "$size-$suffix";
+				} else {
+					$tag = "$size-orig";
+				}
+
+				if ( $tag )
+					$backup_sizes[$tag] = $meta['sizes'][$size];
 			}
 
 			$crop = $nocrop ? false : get_option("{$size}_crop");
@@ -595,7 +626,7 @@ function wp_save_image($post_id) {
 		wp_update_attachment_metadata($post_id, $meta);
 		update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes);
 
-		if ( $target == 'thumbnail' || $target == 'all' ) {
+		if ( $target == 'thumbnail' || $target == 'all' || $target == 'full' ) {
 			if ( $thumb = $meta['sizes']['thumbnail'] ) {
 				$file_url = wp_get_attachment_url($post_id);
 				$return->thumbnail = path_join( dirname($file_url), $thumb['file'] );
