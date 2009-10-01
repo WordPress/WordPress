@@ -152,9 +152,12 @@ function autosave_update_post_ID( postID ) {
 			autosavenonce: jQuery('#autosavenonce').val(),
 			post_type: jQuery('#post_type').val()
 		}, function(html) {
-			jQuery('#_wpnonce').val(html);
+			jQuery('#_wpnonce').val(html.updateNonce);
+			jQuery('#delete-action a.submitdelete').attr('href', html.deleteURL);
 			autosave_enable_buttons(); // re-enable disabled form buttons
-		});
+			jQuery('#delete-action a.submitdelete').fadeIn();
+		},
+		'json');
 		jQuery('#hiddenaction').val('editpost');
 	}
 }

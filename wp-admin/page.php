@@ -155,7 +155,7 @@ case 'trash':
 		wp_die( __('Error in moving to trash...') );
 
 	$sendback = wp_get_referer();
-	if ( strpos($sendback, 'page.php') !== false )
+	if ( strpos($sendback, 'page.php') !== false || strpos($sendback, 'page-new.php') !== false )
 		$sendback = admin_url('edit-pages.php?trashed=1');
 	else
 		$sendback = add_query_arg('trashed', 1, $sendback);
