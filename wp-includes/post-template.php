@@ -409,7 +409,7 @@ function get_body_class( $class = '' ) {
 		if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
-			$classes[] = 'author-' . sanitize_html_class($author->user_nicename , $author->user_id);
+			$classes[] = 'author-' . sanitize_html_class($author->user_nicename , $author->ID);
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
