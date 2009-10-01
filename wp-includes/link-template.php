@@ -720,12 +720,15 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * @param string $after Optional. Display after edit link.
  * @param int $id Optional. Post ID.
  */
-function edit_post_link( $link = 'Edit This', $before = '', $after = '', $id = 0 ) {
+function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
 	if ( !$post = &get_post( $id ) )
 		return;
 
 	if ( !$url = get_edit_post_link( $post->ID ) )
 		return;
+
+	if ( null === $link )
+		$link = __('Edit This');
 
 	$link = '<a class="post-edit-link" href="' . $url . '" title="' . esc_attr( __( 'Edit post' ) ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
@@ -817,7 +820,7 @@ function get_edit_comment_link( $comment_id = 0 ) {
  * @param string $after Optional. Display after edit link.
  * @return string|null HTML content, if $echo is set to false.
  */
-function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
+function edit_comment_link( $link = null, $before = '', $after = '' ) {
 	global $comment, $post;
 
 	if ( $post->post_type == 'page' ) {
@@ -827,6 +830,9 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
 	}
+
+	if ( null === $link )
+		$link = __('Edit This');
 
 	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
