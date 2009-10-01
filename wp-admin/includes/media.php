@@ -1182,7 +1182,7 @@ function get_media_item( $attachment_id, $args = null ) {
 			<td>$filename</td>
 		</tr>
 		<tr><td>$post->post_mime_type</td></tr>
-		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
+		<tr><td>" . mysql2date(get_option('time_format'), $post->post_date) . "</td></tr>
 		<tr><td>" . apply_filters('media_meta', $media_dims, $post) . "</td></tr>
 		<tr><td class='A1B1'>$image_edit_button</td></tr>
 		</thead>
