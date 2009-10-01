@@ -890,8 +890,11 @@ function wp_untrash_comment($comment_id = 0) {
 	//Either set comment_approved to the value in comment_meta or worse case to false which will mean moderation
 	$comment['comment_approved'] = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
 
+	delete_comment_meta($comment_id, '_wp_trash_meta_time'); 
+	delete_comment_meta($comment_id, '_wp_trash_meta_status'); 
+	
 	wp_update_comment($comment);
-
+		
 	do_action('untrashed_comment', $comment_id);
 
 	return true;
