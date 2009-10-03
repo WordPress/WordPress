@@ -3158,17 +3158,31 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 function get_site_option( $key, $default = false, $use_cache = true ) {
-	return get_option($key, $default);
+	// Allow plugins to short-circuit site options. 
+ 	$pre = apply_filters( 'pre_site_option_' . $key, false ); 
+ 	if ( false !== $pre ) 
+ 		return $pre; 
+ 
+ 	$value = get_option($key, $default);
+ 
+ 	return apply_filters( 'site_option_' . $key, $value );
 }
 
 // expects $key, $value not to be SQL escaped
 function add_site_option( $key, $value ) {
-	return add_option($key, $value);
+	$value = apply_filters( 'pre_add_site_option_' . $key, $value );
+	$result =  add_option($key, $value);
+	do_action( "add_site_option_{$key}", $key, $value );
+	return $result;
 }
 
 // expects $key, $value not to be SQL escaped
 function update_site_option( $key, $value ) {
-	return update_option($key, $value);
+	$oldvalue = get_site_option( $key );
+	$value = apply_filters( 'pre_update_site_option_' . $key, $value, $oldvalue );
+	$result = update_option($key, $value);
+	do_action( "update_site_option_{$key}", $key, $value );
+	return $result;
 }
 
 /**
