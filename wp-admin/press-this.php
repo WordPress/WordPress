@@ -192,13 +192,13 @@ if ( !empty($_GET['ajax']) ) {
 		 * @return string
 		 */
 		function get_images_from_uri($uri) {
-			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)/', $uri) && !strpos($uri,'blogger.com') )
+			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
 				return "'".html_entity_decode($uri)."'";
 			$content = wp_remote_fopen($uri);
 			if ( false === $content )
 				return '';
 			$host = parse_url($uri);
-			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif)[^<>\'\"]*)(\2)([^>\/]*)\/*>/is';
+			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif)[^<>\'\"]*)(\2)([^>]*)\/*>/is';
 			preg_match_all($pattern, $content, $matches);
 			if ( empty($matches[0]) )
 				return '';

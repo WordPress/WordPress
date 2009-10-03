@@ -365,6 +365,9 @@ ul.categorychecklist li {
 }
 
 /* Tags */
+.screen-reader-text {
+	display: none;
+}
 .tagsdiv .newtag {
 	margin-right: 5px;
 }
