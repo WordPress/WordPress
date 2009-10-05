@@ -853,17 +853,17 @@ function wp_delete_comment($comment_id) {
  * @param int $comment_id Comment ID.
  * @return mixed False on failure
  */
-function wp_trash_comment($comment_id = 0) {
-	if (EMPTY_TRASH_DAYS == 0)
+function wp_trash_comment($comment_id) {
+	if ( EMPTY_TRASH_DAYS == 0 )
 		return wp_delete_comment($comment_id);
 
-	if (!$comment = get_comment($comment_id))
+	if ( !$comment = get_comment($comment_id) )
 		return false;
 
 	do_action('trash_comment', $comment_id);
 
-	add_comment_meta($comment_id,'_wp_trash_meta_status', $comment->comment_approved);
-	add_comment_meta($comment_id,'_wp_trash_meta_time', time() );
+	add_comment_meta($comment_id, '_wp_trash_meta_status', $comment->comment_approved);
+	add_comment_meta($comment_id, '_wp_trash_meta_time', time() );
 
 	wp_set_comment_status($comment_id, 'trash');
 
@@ -882,19 +882,25 @@ function wp_trash_comment($comment_id = 0) {
  * @param int $comment_id Comment ID.
  * @return mixed False on failure
  */
-function wp_untrash_comment($comment_id = 0) {
+function wp_untrash_comment($comment_id) {
+	if ( ! (int)$comment_id )
+		return false;
+
 	do_action('untrash_comment', $comment_id);
 
-	$comment = array('comment_ID'=>$comment_id, 'comment_approved'=>'0');
+	$comment = array('comment_ID'=>$comment_id);
 
-	//Either set comment_approved to the value in comment_meta or worse case to false which will mean moderation
-	$comment['comment_approved'] = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
+	$status = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
+	if ( false === $status || '' === $status )
+		$status = '0';
+
+	$comment['comment_approved'] = $status;
 
 	delete_comment_meta($comment_id, '_wp_trash_meta_time'); 
 	delete_comment_meta($comment_id, '_wp_trash_meta_status'); 
-	
+
 	wp_update_comment($comment);
-		
+
 	do_action('untrashed_comment', $comment_id);
 
 	return true;
