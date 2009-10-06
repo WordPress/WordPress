@@ -7,6 +7,21 @@
  * @since 1.5.0
  */
 
+//
+// Post Type Registration
+//
+
+/**
+ * Creates the initial post types when 'init' action is fired.
+ */
+function create_initial_post_types() {
+	register_post_type( 'post', array('exclude_from_search' => false) );
+	register_post_type( 'page', array('exclude_from_search' => false) );
+	register_post_type( 'attachment', array('exclude_from_search' => false) );
+	register_post_type( 'revision', array('exclude_from_search' => true) );
+}
+add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
+
 /**
  * Retrieve attached file path based on attachment ID.
  *
@@ -405,6 +420,80 @@ function get_post_type($post = false) {
 		return $post->post_type;
 
 	return false;
+}
+
+/**
+ * Get a list of all registered post type objects.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.9.0
+ * @uses $wp_post_types
+ * @see register_post_type
+ * @see get_post_types
+ *
+ * @param array|string $args An array of key => value arguments to match against the post types.
+ *  Only post types having attributes that match all arguments are returned.
+ * @param string $output The type of output to return, either post type 'names' or 'objects'. 'names' is the default.
+ * @return array A list of post type names or objects
+ */
+function get_post_types( $args = array(), $output = 'names' ) {
+	global $wp_post_types;
+
+	$do_names = false;
+	if ( 'names' == $output )
+		$do_names = true;
+
+	$post_types = array();
+	foreach ( (array) $wp_post_types as $post_type ) {
+		if ( empty($args) ) {
+			if ( $do_names )
+				$post_types[] = $post_type->name;
+			else
+				$post_types[] = $post_type;
+		} elseif ( array_intersect((array) $post_type, $args) ) {
+			if ( $do_names )
+				$post_types[] = $post_type->name;
+			else
+				$post_types[] = $post_type;
+		}
+	}
+
+	return $post_types;
+}
+
+/**
+ * Register a post type. Do not use before init.
+ *
+ * A simple function for creating or modifying a post type based on the
+ * parameters given. The function will accept an array (second optional
+ * parameter), along with a string for the post type name.
+ *
+ *
+ * Optional $args contents:
+ *
+ * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true.
+ * 
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.9.0
+ * @uses $wp_post_types Inserts new post type object into the list
+ *
+ * @param string $post_type Name of the post type.
+ * @param array|string $args See above description.
+ */
+function register_post_type($post_type, $args = array()) {
+	global $wp_post_types;
+
+	if (!is_array($wp_post_types))
+		$wp_post_types = array();
+
+	$defaults = array('exclude_from_search' => true);
+	$args = wp_parse_args($args, $defaults);
+
+	$post_type = sanitize_user($post_type, true);
+	$args['name'] = $post_type;
+	$wp_post_types[$post_type] = (object) $args;
 }
 
 /**

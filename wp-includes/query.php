@@ -2072,8 +2072,12 @@ class WP_Query {
 
 		$post_type_cap = $post_type;
 
+		$exclude_post_types = '';
+		foreach ( get_post_types( array('exclude_from_search' => true) ) as $_wp_post_type )
+			$exclude_post_types .= $wpdb->prepare(" AND $wpdb->posts.post_type != %s", $_wp_post_type);
+
 		if ( 'any' == $post_type ) {
-			$where .= " AND $wpdb->posts.post_type != 'revision'";
+			$where .= $exclude_post_types;
 		} elseif ( ! empty( $post_type ) ) {
 			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		} elseif ( $this->is_attachment ) {
