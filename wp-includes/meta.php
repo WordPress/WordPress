@@ -81,14 +81,15 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 }
 
 function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false) {
-	if ( !$meta_type || !$meta_key || (!$delete_all && ! (int)$object_id) )
+	if ( !$meta_type || !$meta_key || (!$delete_all && ! (int)$object_id) ) 
 		return false;
-
+	
 	if ( ! $table = _get_meta_table($meta_type) )
 		return false;
 
 	global $wpdb;
 
+	$type_column = esc_sql($meta_type . '_id');
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
@@ -96,7 +97,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	$query = $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s", $meta_key );
 
 	if ( !$delete_all )
-		$query .= $wpdb->prepare(" AND %s = %d", $meta_type . '_id', $object_id );
+		$query .= $wpdb->prepare(" AND $type_column = %d", $object_id );
 
 	if ( $meta_value )
 		$query .= $wpdb->prepare(" AND meta_value = %s", $meta_value );
