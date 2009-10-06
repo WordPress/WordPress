@@ -175,6 +175,7 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 </div><?php // /misc-pub-section ?>
 <?php endif; ?>
 
+<?php do_action('post_submitbox_misc_actions'); ?>
 </div>
 <div class="clear"></div>
 </div>
