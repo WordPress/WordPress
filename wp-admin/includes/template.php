@@ -3506,11 +3506,6 @@ function screen_meta($screen) {
 				$_wp_contextual_help[$screen] = $help;
 			}
 			break;
-		case 'theme-editor':
-		case 'plugin-editor':
-			$settings = '<p><a id="codepress-on" href="' . $screen . '.php?codepress=on">' . __('Enable syntax highlighting') . '</a><a id="codepress-off" href="' . $screen . '.php?codepress=off">' . __('Disable syntax highlighting') . "</a></p>\n";
-			$show_screen = true;
-			break;
 		case 'widgets':
 			if ( !isset($_wp_contextual_help['widgets']) ) {
 				$help = widgets_help();

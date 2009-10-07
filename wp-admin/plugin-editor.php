@@ -81,9 +81,6 @@ default:
 		exit;
 	}
 
-	if ( use_codepress() )
-		wp_enqueue_script( 'codepress' );
-
 	// List of allowable extensions
 	$editable_extensions = array('php', 'txt', 'text', 'js', 'css', 'html', 'htm', 'xml', 'inc', 'include');
 	$editable_extensions = (array) apply_filters('editable_extensions', $editable_extensions);

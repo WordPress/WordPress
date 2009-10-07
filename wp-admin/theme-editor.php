@@ -25,8 +25,7 @@ if (empty($theme)) {
 	$theme = get_current_theme();
 } else {
 	$theme = stripslashes($theme);
- }
-
+}
 
 if ( ! isset($themes[$theme]) )
 	wp_die(__('The requested theme does not exist.'));
@@ -74,9 +73,6 @@ case 'update':
 break;
 
 default:
-
-	if ( use_codepress() )
-		wp_enqueue_script( 'codepress' );
 
 	require_once('admin-header.php');
 
