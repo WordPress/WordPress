@@ -74,6 +74,7 @@ foreach ( get_object_taxonomies('post') as $tax_name ) {
 }
 
 add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'side', 'core');
+add_meta_box('postthumbnaildiv', __('Post Thumbnail'), 'post_thumbnail_meta_box', 'post', 'side', 'low');
 // add_meta_box('passworddiv', __('Privacy Options'), 'post_password_meta_box', 'post', 'side', 'core');
 add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'post', 'normal', 'core');
 add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', 'post', 'normal', 'core');

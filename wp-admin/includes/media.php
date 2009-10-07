@@ -114,6 +114,21 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	return $html;
 }
 
+function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
+	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
+		$thumbnail_html = wp_get_attachment_image($thumbnail_id, 'thumbnail');
+		if ( !empty( $thumbnail_html ) )
+			return '<a href="#" id="cws-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . $thumbnail_html . '</a>';
+	}
+	return '<a href="#" id="cws-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . esc_html__( 'Set thumbnail' ) . '</a>';
+}
+
+function post_thumbnail_meta_box() {
+	global $post;
+	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
+	echo _wp_post_thumbnail_html( $thumbnail_id );
+}
+
 /**
  * {@internal Missing Short Description}}
  *
@@ -1135,7 +1150,8 @@ function get_media_item( $attachment_id, $args = null ) {
 		$class = empty($errors) ? 'startclosed' : 'startopen';
 		$toggle_links = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
-	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
+	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>
+	<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"" . intval( $attachment_id ) . "\");return false;'>" . esc_html__( "Use for thumbnail" ) . "</a>";
 	} else {
 		$class = 'form-table';
 		$toggle_links = '';
@@ -1629,6 +1645,7 @@ jQuery(function($){
 <thead><tr>
 <th><?php _e('Media'); ?></th>
 <th class="order-head"><?php _e('Order'); ?></th>
+<th class="actions-head"><?php _e('Actions'); ?></th>
 </tr></thead>
 </table>
 <div id="media-items">

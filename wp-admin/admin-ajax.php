@@ -1370,6 +1370,19 @@ case 'image-editor':
 	wp_image_editor($attachment_id, $msg);
 	die();
 	break;
+case 'set-post-thumbnail':
+	$post_id = intval( $_POST['post_id'] );
+	if ( !current_user_can( 'edit_post', $post_id ) )
+		die( '-1' );
+	$thumbnail_id = intval( $_POST['thumbnail_id'] );
+	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
+		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
+		if ( !empty( $thumbnail_html ) ) {
+			update_post_meta( $post_id, '_thumbnail_id', $thumbnail_id );
+			die( _wp_post_thumbnail_html( $thumbnail_id ) );
+		}
+	}
+	die( '0' );
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

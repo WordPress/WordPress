@@ -407,6 +407,18 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090929' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
+
+		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091005' );
+		$scripts->add_data( 'set-post-thumbnail', 'group', 1 );
+		$scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
+			'setThumbnail' => __( 'Use for thumbnail' ),
+			'saving' => __( 'Saving...' ),
+			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' )
+		) );
+
+		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091005' );
+		$scripts->add_data( 'set-post-thumbnail-handler', 'group', 1 );
+	
 	}
 }
 
@@ -460,7 +472,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20090922' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091005' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );
