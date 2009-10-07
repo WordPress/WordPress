@@ -542,6 +542,11 @@ ol {
 	margin-right:2em;
 }
 
+.postbox-container {
+	float: right;
+	padding-left: 0.5%;
+	padding-right: 0;
+}
 
 /* TinyMCE
 =================================== */
