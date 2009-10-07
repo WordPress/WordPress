@@ -163,7 +163,9 @@ $_old_files = array(
 'wp-images/smilies',
 'wp-images/wp-small.png',
 'wp-images/wpminilogo.png',
-'wp.php'
+'wp.php',
+'wp-includes/gettext.php',
+'wp-includes/streams.php'
 );
 
 /**
