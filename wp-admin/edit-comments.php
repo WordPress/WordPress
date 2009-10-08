@@ -28,6 +28,9 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 	} elseif (($_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1) && isset($_REQUEST['delete_comments'])) {
 		$comment_ids = $_REQUEST['delete_comments'];
 		$doaction = ($_REQUEST['action'] != -1) ? $_REQUEST['action'] : $_REQUEST['action2'];
+	} elseif ($_REQUEST['action'] == 'untrash' && isset($_REQUEST['ids'])) {
+		$comment_ids = explode(',', $_REQUEST['ids']);
+		$doaction = 'untrash';
 	} else wp_redirect($_SERVER['HTTP_REFERER']);
 
 	$approved = $unapproved = $spammed = $trashed = $untrashed = $deleted = 0;
@@ -66,7 +69,7 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 		}
 	}
 
-	$redirect_to = 'edit-comments.php?approved=' . $approved . '&unapproved=' . $unapproved . '&spam=' . $spammed . '&trashed=' . $trashed . '&untrashed=' . $untrashed . '&deleted=' . $deleted;
+	$redirect_to = 'edit-comments.php?approved=' . $approved . '&unapproved=' . $unapproved . '&spam=' . $spammed . '&trashed=' . $trashed . '&untrashed=' . $untrashed . '&deleted=' . $deleted . '&ids=' . join(',', $comment_ids);
 	if ( $post_id )
 		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
 	if ( isset($_REQUEST['apage']) )
@@ -128,8 +131,9 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 			echo '<br />';
 		}
 		if ( $trashed > 0 ) {
-			printf( _n( '%s comment moved to the trash', '%s comments moved to the trash', $trashed ), $trashed );
-			echo ' <a href="' . admin_url('edit-comments.php?comment_status=trash') . '">' . __('View trash') . '</a><br />';
+			printf( _n( '%s comment moved to the trash.', '%s comments moved to the trash.', $trashed ), $trashed );
+			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
+			echo ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo?') . '</a><br />';
 		}
 		if ( $untrashed > 0 ) {
 			printf( _n( '%s comment restored from the trash', '%s comments restored from the trash', $untrashed ), $untrashed );
@@ -414,4 +418,5 @@ if ( $page_links )
 
 <?php
 wp_comment_reply('-1', true, 'detail');
+wp_comment_trashnotice();
 include('admin-footer.php'); ?>

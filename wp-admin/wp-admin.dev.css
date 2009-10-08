@@ -3530,4 +3530,13 @@ span.imgedit-scale-warn {
 	padding: 2px 10px;
 }
 
+#dashboard_recent_comments .trash-undo {
+	border-top-style: solid;
+	border-top-width: 1px;
+	margin: 0 -10px;
+	padding: 3px;
+}
 
+.trash-undo-inside {
+	margin: 3px 8px;
+}

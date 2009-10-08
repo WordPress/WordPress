@@ -410,6 +410,7 @@ function post_comment_meta_box($post) {
 		<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 <?php
 	}
+	wp_comment_trashnotice();
 }
 
 

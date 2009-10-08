@@ -199,23 +199,27 @@ case 'delete-comment' : // On success, die with time() instead of 1
 	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 
+	check_ajax_referer( "delete-comment_$id" );
+	$status = wp_get_comment_status( $comment->comment_ID );
+
 	if ( isset($_POST['trash']) && 1 == $_POST['trash'] ) {
-		check_ajax_referer( "trash-comment_$id" );
-		if ( 'trash' == wp_get_comment_status( $comment->comment_ID ) )
+		if ( 'trash' == $status )
 			die( (string) time() );
 		$r = wp_trash_comment( $comment->comment_ID );
 	} elseif ( isset($_POST['untrash']) && 1 == $_POST['untrash'] ) {
-		check_ajax_referer( "untrash-comment_$id" );
+		if ( 'trash' != $status )
+			die( (string) time() );
 		$r = wp_untrash_comment( $comment->comment_ID );
 	} elseif ( isset($_POST['spam']) && 1 == $_POST['spam'] ) {
-		check_ajax_referer( "delete-comment_$id" );
-		if ( 'spam' == wp_get_comment_status( $comment->comment_ID ) )
+		if ( 'spam' == $status )
 			die( (string) time() );
 		$r = wp_set_comment_status( $comment->comment_ID, 'spam' );
-	} else {
-		check_ajax_referer( "delete-comment_$id" );
+	} elseif ( isset($_POST['delete']) && 1 == $_POST['delete'] ) {
 		$r = wp_delete_comment( $comment->comment_ID );
+	} else {
+		die('-1');
 	}
+
 	if ( $r ) // Decide if we need to send back '1' or a more complicated response including page links and comment counts
 		_wp_ajax_delete_comment_response( $comment->comment_ID );
 	die( '0' );
@@ -368,14 +372,12 @@ case 'dim-comment' : // On success, die with time() instead of 1
 	if ( $_POST['new'] == $current )
 		die( (string) time() );
 
-	$r = 0;
-	if ( in_array( $current, array( 'unapproved', 'spam' ) ) ) {
-		check_ajax_referer( "approve-comment_$id" );
+	check_ajax_referer( "approve-comment_$id" );
+	if ( in_array( $current, array( 'unapproved', 'spam' ) ) )
 		$result = wp_set_comment_status( $comment->comment_ID, 'approve', true );
-	} else {
-		check_ajax_referer( "unapprove-comment_$id" );
+	else
 		$result = wp_set_comment_status( $comment->comment_ID, 'hold', true );
-	}
+
 	if ( is_wp_error($result) ) {
 		$x = new WP_Ajax_Response( array(
 			'what' => 'comment',

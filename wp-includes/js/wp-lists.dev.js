@@ -135,7 +135,7 @@ wpList = {
 		);
 
 		if ( $.isFunction(s.delBefore) ) {
-			s = s.delBefore( s );
+			s = s.delBefore( s, list );
 			if ( !s ) { return true; }
 		}
 		if ( !s.data._ajax_nonce ) { return true; }

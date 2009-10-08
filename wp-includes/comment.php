@@ -891,7 +891,7 @@ function wp_untrash_comment($comment_id) {
 	$comment = array('comment_ID'=>$comment_id);
 
 	$status = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
-	if ( false === $status || '' === $status )
+	if ( empty($status) )
 		$status = '0';
 
 	$comment['comment_approved'] = $status;

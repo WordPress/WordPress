@@ -2107,12 +2107,17 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	else
 		$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $comment->comment_date );
 
-	$delete_url = esc_url( wp_nonce_url( "comment.php?action=deletecomment&p=$post->ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-	$approve_url = esc_url( wp_nonce_url( "comment.php?action=approvecomment&p=$post->ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
-	$unapprove_url = esc_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$post->ID&c=$comment->comment_ID", "unapprove-comment_$comment->comment_ID" ) );
-	$spam_url = esc_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$post->ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-	$trash_url = esc_url( wp_nonce_url( "comment.php?action=trashcomment&p=$post->ID&c=$comment->comment_ID", "trash-comment_$comment->comment_ID" ) );
-	$untrash_url = esc_url( wp_nonce_url( "comment.php?action=untrashcomment&p=$post->ID&c=$comment->comment_ID", "untrash-comment_$comment->comment_ID" ) );
+	if ( $user_can ) {
+		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
+		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
+
+		$delete_url = esc_url( "comment.php?action=deletecomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+		$approve_url = esc_url( "comment.php?action=approvecomment&p=$post->ID&c=$comment->comment_ID&$approve_nonce" );
+		$unapprove_url = esc_url( "comment.php?action=unapprovecomment&p=$post->ID&c=$comment->comment_ID&$approve_nonce" );
+		$spam_url = esc_url( "comment.php?action=deletecomment&dt=spam&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+		$trash_url = esc_url( "comment.php?action=trashcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+		$untrash_url = esc_url( "comment.php?action=untrashcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+	}
 
 	echo "<tr id='comment-$comment->comment_ID' class='$the_comment_status'>";
 	$columns = get_column_headers('edit-comments');
@@ -2153,8 +2158,8 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 
 				if ( $user_can ) {
 					if ( 'trash' == $the_comment_status ) {
-						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID::untrash=1 vim-t vim-destructive''>" . __( 'Restore' ) . '</a>';
-						$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
+						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:ABF888:untrash=1 vim-t vim-destructive''>" . __( 'Restore' ) . '</a>';
+						$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
 					} else {
 						$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
 						$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
@@ -2170,10 +2175,10 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						}
 
 						if ( 'spam' == $the_comment_status ) {
-							$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
+							$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
 						} else {
 							$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
-							$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-t vim-destructive'>" . __('Trash') . '</a>';
+							$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-t vim-destructive' title='" . __( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
 						}
 
 						$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
@@ -2351,6 +2356,19 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 </div></div>
 <?php endif; ?>
 </form>
+<?php
+}
+
+/**
+ * Output 'undo move to trash' text for comments
+ *
+ * @since 2.9.0
+ */
+function wp_comment_trashnotice() {
+?>
+<div class="hidden" id="undo-holder">
+<div class="trash-undo-inside"><?php _e('Comment by'); ?> <strong></strong> <?php _e('moved to the trash.'); ?> <span class="untrash"><a class="undo-trash" href="#"><?php _e('Undo'); ?></a></span></div>
+</div>
 <?php
 }
 

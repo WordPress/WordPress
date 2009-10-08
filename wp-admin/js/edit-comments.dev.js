@@ -4,9 +4,9 @@ var theList, theExtraList, toggleWithKeyboard = false;
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter;
 
-	totalInput = $('#comments-form .tablenav :input[name="_total"]');
-	perPageInput = $('#comments-form .tablenav :input[name="_per_page"]');
-	pageInput = $('#comments-form .tablenav :input[name="_page"]');
+	totalInput = $('.tablenav input[name="_total"]', '#comments-form');
+	perPageInput = $('.tablenav input[name="_per_page"]', '#comments-form');
+	pageInput = $('.tablenav input[name="_page"]', '#comments-form');
 
 	dimAfter = function( r, settings ) {
 		var c = $('#' + settings.element);
@@ -23,7 +23,7 @@ setCommentsList = function() {
 			if ( isNaN(n) ) return;
 			n = n + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
 			if ( n < 0 ) { n = 0; }
-			a.parents('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			a.closest('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 			n = n.toString();
 			if ( n.length > 3 )
 				n = n.substr(0, n.length-3)+' '+n.substr(-3);
@@ -32,17 +32,54 @@ setCommentsList = function() {
 	};
 
 	// Send current total, page, per_page and url
-	delBefore = function( settings ) {
-		settings.data._total = totalInput.val();
-		settings.data._per_page = perPageInput.val();
-		settings.data._page = pageInput.val();
+	delBefore = function( settings, list ) {
+		var cl = $(settings.target).attr('className'), id, el, n, h, a, author;
+
+		settings.data._total = totalInput.val() || 0;
+		settings.data._per_page = perPageInput.val() || 0;
+		settings.data._page = pageInput.val() || 0;
 		settings.data._url = document.location.href;
+
+		if ( cl.indexOf(':trash=1') != -1 ) {
+			id = cl.replace(/.*?comment-([0-9]+).*/, '$1');
+			el = $('#comment-' + id);
+			note = $('#undo-holder').html();
+
+			if ( el.is('tr') ) {
+				n = el.children(':visible').length;
+				author = $('.author strong', el).html();
+				h = $('<tr id="trashundo-' + id + '" style="display:none;"><td class="trash-undo" colspan="' + n + '">' + note + '</td></tr>');
+			} else {
+				author = $('.comment-author', el).html();
+				h = $('<div id="trashundo-' + id + '" style="display:none;" class="trash-undo">' + note + '</div>');
+			}
+
+			el.before(h);
+			h.fadeIn(400);
+
+			$('strong', '#trashundo-' + id).html(author);
+			a = $('a.undo-trash', '#trashundo-' + id);
+			a.attr('href', 'comment.php?action=untrashcomment&c=' + id + '&_ajax_nonce=' + settings.data._ajax_nonce);
+			a.attr('className', 'delete:the-comment-list:comment-' + id + '::untrash=1 vim-t vim-destructive');
+
+			a.click(function(){
+				list.wpList.del(this);
+				$('#trashundo-' + id).fadeOut(250, function(){
+					$(this).remove();
+					$('#comment-' + id).css('backgroundColor', '').fadeIn(400);
+				});
+				return false;
+			});
+
+			window.setTimeout( function(){
+				$('#trashundo-' + id).fadeOut('slow', function(){ $(this).remove(); });
+			}, 200000 );
+		}
 
 		return settings;
 	};
 
-	/* Updates the current total (as displayed visibly)
-	*/
+	// Updates the current total (as displayed visibly)
 	updateTotalCount = function( total, time, setConfidentTime ) {
 		if ( time < lastConfidentTime ) {
 			return;
@@ -58,23 +95,24 @@ setCommentsList = function() {
 				n = n.substr(0, n.length-3)+' '+n.substr(-3);
 			a.html(n);
 		});
-
 	};
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
+		var total, pageLinks, untrash = $(settings.target).parent().is('span.untrash');
+
 		$('span.pending-count').each( function() {
-			var a = $(this), n;
+			var a = $(this), n, unapproved = $('#' + settings.element).is('.unapproved');
 			n = a.html().replace(/[ ,.]+/g, '');
 			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
-			if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
-				n = n - 1;
-			} else if ( $(settings.target).parents( 'span.unapprove' ).size() ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
+			if ( $(settings.target).parent().is('span.unapprove') || ( untrash && unapproved ) ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
 				n = n + 1;
+			} else if ( unapproved ) { // we deleted a formerly unapproved comment
+				n = n - 1;
 			}
 			if ( n < 0 ) { n = 0; }
-			a.parents('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			a.closest('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 			n = n.toString();
 			if ( n.length > 3 )
 				n = n.substr(0, n.length-3)+' '+n.substr(-3);
@@ -86,7 +124,7 @@ setCommentsList = function() {
 			n = a.html().replace(/[ ,.]+/g, '');
 			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
-			if ( $(settings.target).parents( 'span.spam' ).size() ) { // we marked a comment as spam
+			if ( $(settings.target).parent().is( 'span.spam' ) ) { // we marked a comment as spam
 				n = n + 1;
 			} else if ( $('#' + settings.element).is('.spam') ) { // we approved, deleted, or destroyed a comment marked as spam
 				n = n - 1;
@@ -103,9 +141,9 @@ setCommentsList = function() {
 			n = a.html().replace(/[ ,.]+/g, '');
 			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
-			if ( $(settings.target).parents( 'span.trash' ).size() ) { // we trashed a comment
+			if ( $(settings.target).parent().is( 'span.trash' ) ) { // we trashed a comment
 				n = n + 1;
-			} else if ( $('#' + settings.element).is('.trash') ) { // we deleted or untrashed a trash comment
+			} else if ( $('#' + settings.element).is('.trash') || untrash ) { // we deleted or untrashed a trash comment
 				n = n - 1;
 			}
 			if ( n < 0 ) { n = 0; }
@@ -115,25 +153,29 @@ setCommentsList = function() {
 			a.html(n);
 		});
 
-
 		// XML response
 		if ( ( 'object' == typeof r ) && lastConfidentTime < settings.parsed.responses[0].supplemental.time ) {
 			// Set the total to the known good value (even if this value is a little old, newer values should only be a few less, and so shouldn't mess up the page links)
-			updateTotalCount( settings.parsed.responses[0].supplemental.total, settings.parsed.responses[0].supplemental.time, true );
-			if ( $.trim( settings.parsed.responses[0].supplemental.pageLinks ) ) {
-				$('.tablenav-pages').find( '.page-numbers' ).remove().end().append( $( settings.parsed.responses[0].supplemental.pageLinks ) );
-			} else if ( 'undefined' != typeof settings.parsed.responses[0].supplemental.pageLinks ) {
-				$('.tablenav-pages').find( '.page-numbers' ).remove();
+			total = settings.parsed.responses[0].supplemental.total || false;
+			pageLinks = settings.parsed.responses[0].supplemental.pageLinks || false;
+
+			if ( total && pageLinks ) {
+				updateTotalCount( total, settings.parsed.responses[0].supplemental.time, true );
+				if ( $.trim( pageLinks ) ) {
+					$('.tablenav-pages').find( '.page-numbers' ).remove().end().append( $( pageLinks ) );
+				} else {
+					$('.tablenav-pages').find( '.page-numbers' ).remove();
+				}
 			}
 		} else {
 			// Decrement the total
-			var total = parseInt( totalInput.val(), 10 );
+			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
 			if ( total-- < 0 )
 				total = 0;
 			updateTotalCount( total, r, false );
 		}
 
-		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {
+		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash ) {
 			return;
 		}
 
