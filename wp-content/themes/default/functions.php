@@ -313,6 +313,12 @@ function kubrick_theme_page_head() {
 		width: 100%;
 		display: <?php echo kubrick_header_display_string(); ?>;
 	}
+	
+	.description {
+		margin-top: 16px;
+		color: #fff;
+	}
+
 	#jsForm {
 		display: none;
 		text-align: center;
