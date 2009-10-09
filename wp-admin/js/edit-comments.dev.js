@@ -460,7 +460,7 @@ $(document).ready(function(){
 
 		$.table_hotkeys(
 			$('table.widefat'),
-			['a', 'u', 's', 'd', 'r', 'q', 't', 'z', ['e', edit_comment], ['shift+x', toggle_all],
+			['a', 'u', 's', 'd', 'r', 'q', 'z', ['e', edit_comment], ['shift+x', toggle_all],
 			['shift+a', make_bulk('approve')], ['shift+s', make_bulk('markspam')],
 			['shift+d', make_bulk('delete')], ['shift+t', make_bulk('trash')],
 			['shift+z', make_bulk('untrash')], ['shift+u', make_bulk('unapprove')]],
