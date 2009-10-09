@@ -2158,7 +2158,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 
 				if ( $user_can ) {
 					if ( 'trash' == $the_comment_status ) {
-						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:ABF888:untrash=1 vim-t vim-destructive''>" . __( 'Restore' ) . '</a>';
+						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:ABF888:untrash=1 vim-z vim-destructive'>" . __( 'Restore' ) . '</a>';
 						$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
 					} else {
 						$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';

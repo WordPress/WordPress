@@ -236,7 +236,7 @@ function wp_dashboard_right_now() {
 	*/
 
 	// Total Comments
-	$num = number_format_i18n($num_comm->total_comments);
+	$num = '<span class="total-count">' . number_format_i18n($num_comm->total_comments) . '</span>';
 	$text = _n( 'Comment', 'Comments', $num_comm->total_comments );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php'>$num</a>";
@@ -258,7 +258,7 @@ function wp_dashboard_right_now() {
 	echo '<td class="t pages">' . $text . '</td>';
 
 	// Approved Comments
-	$num = number_format_i18n($num_comm->approved);
+	$num = '<span class="approved-count">' . number_format_i18n($num_comm->approved) . '</span>';
 	$text = _nc( 'Approved|Right Now', 'Approved', $num_comm->approved );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php?comment_status=approved'>$num</a>";
@@ -280,10 +280,10 @@ function wp_dashboard_right_now() {
 	echo '<td class="t cats">' . $text . '</td>';
 
 	// Pending Comments
-	$num = number_format_i18n($num_comm->moderated);
+	$num = '<span class="pending-count">' . number_format_i18n($num_comm->moderated) . '</span>';
 	$text = _n( 'Pending', 'Pending', $num_comm->moderated );
 	if ( current_user_can( 'moderate_comments' ) ) {
-		$num = "<a href='edit-comments.php?comment_status=moderated'><span class='pending-count'>$num</span></a>";
+		$num = "<a href='edit-comments.php?comment_status=moderated'>$num</a>";
 		$text = "<a class='waiting' href='edit-comments.php?comment_status=moderated'>$text</a>";
 	}
 	echo '<td class="b b-waiting">' . $num . '</td>';
