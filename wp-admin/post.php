@@ -38,26 +38,31 @@ function redirect_post($post_ID = '') {
 			$location = 'sidebar.php?a=c';
 		elseif ( isset($_POST['publish']) )
 			$location = 'sidebar.php?a=b';
-	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) ) {
+	} elseif ( isset($_POST['save']) || isset($_POST['publish']) ) {
+		$status = get_post_status( $post_ID );
+		$link = get_edit_post_link( $post_ID, 'url' );
+
 		if ( isset( $_POST['publish'] ) ) {
-			switch ( get_post_status( $post_ID ) ) {
+			switch ( $status ) {
 				case 'pending':
-					$location = add_query_arg( 'message', 8, get_edit_post_link( $post_ID, 'url' ) );
+					$message = 8;
 					break;
 				case 'future':
-					$location = add_query_arg( 'message', 9, get_edit_post_link( $post_ID, 'url' ) );
+					$message = 9;
 					break;
 				default:
-					$location = add_query_arg( 'message', 6, get_edit_post_link( $post_ID, 'url' ) );
+					$message = 6;
 			}
 		} else {
-			$location = add_query_arg( 'message', 1, get_edit_post_link( $post_ID, 'url' ) );
+				$message = 'draft' == $status ? 10 : 1;
 		}
-	} elseif (isset($_POST['addmeta']) && $_POST['addmeta']) {
+
+		$location = add_query_arg( 'message', $message, $link );
+	} elseif ( isset($_POST['addmeta']) && $_POST['addmeta'] ) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
 		$location = explode('#', $location);
 		$location = $location[0] . '#postcustom';
-	} elseif (isset($_POST['deletemeta']) && $_POST['deletemeta']) {
+	} elseif ( isset($_POST['deletemeta']) && $_POST['deletemeta'] ) {
 		$location = add_query_arg( 'message', 3, wp_get_referer() );
 		$location = explode('#', $location);
 		$location = $location[0] . '#postcustom';
