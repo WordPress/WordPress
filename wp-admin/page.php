@@ -35,21 +35,25 @@ function redirect_page($page_ID) {
 		$location = $_POST['referredby'];
 	} elseif ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
-	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) ) {
+	} elseif ( isset($_POST['save']) || isset($_POST['publish']) ) {
+		$status = get_post_status( $page_ID );
+
 		if ( isset( $_POST['publish'] ) ) {
-			switch ( get_post_status( $page_ID ) ) {
+			switch ( $status ) {
 				case 'pending':
-					$location = add_query_arg( 'message', 6, get_edit_post_link( $page_ID, 'url' ) );
+					$message = 6;
 					break;
 				case 'future':
-					$location = add_query_arg( 'message', 7, get_edit_post_link( $page_ID, 'url' ) );
+					$message = 7;
 					break;
 				default:
-					$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
+					$message = 4;
 			}
 		} else {
-			$location = add_query_arg( 'message', 1, get_edit_post_link( $page_ID, 'url' ) );
+				$message = 'draft' == $status ? 8 : 1;
 		}
+
+		$location = add_query_arg( 'message', $message, get_edit_post_link( $page_ID, 'url' ) );
 	} elseif ( isset($_POST['addmeta']) ) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
 		$location = explode('#', $location);

@@ -18,25 +18,48 @@ if ( !defined('ABSPATH') )
 $post_ID = isset($post_ID) ? (int) $post_ID : 0;
 
 $action = isset($action) ? $action : '';
-if ( isset($_GET['message']) )
-	$_GET['message'] = absint( $_GET['message'] );
-$messages[1] = sprintf(__('Post updated. <a href="%s">View post</a>'), get_permalink($post_ID));
-$messages[2] = __('Custom field updated.');
-$messages[3] = __('Custom field deleted.');
-$messages[4] = __('Post updated.');
-$messages[6] = sprintf(__('Post published. <a href="%s">View post</a>'), get_permalink($post_ID));
-$messages[7] = __('Post saved.');
-$messages[8] = sprintf(__('Post submitted. <a href="%s">Preview post</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
-// translators: Publish box date formt, see http://php.net/date - Same as in meta-boxes.php
-$messages[9] = sprintf(__('Post scheduled for: <b>%1$s</b>. <a href="%2$s">Preview post</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID));
-$messages[10] = sprintf(__('Draft updated. <a href="%s">Preview</a>'), get_permalink($post_ID));
 
-if ( isset($_GET['revision']) )
-	$messages[5] = sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) );
+$message = false;
+if ( isset($_GET['message']) ) {
+	$_GET['message'] = absint( $_GET['message'] );
+
+	switch ( $_GET['message'] ) {
+		case 1:
+			$message = sprintf( __('Post updated. <a target="_blank" href="%s">View post</a>'), get_permalink($post_ID) );
+			break;
+		case 2:
+			$message = __('Custom field updated.');
+			break;
+		case 3:
+			$message = __('Custom field deleted.');
+			break;
+		case 4:
+			$message = __('Post updated.');
+			break;
+		case 5:
+			if ( isset($_GET['revision']) )
+				$message = sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) );
+			break;
+		case 6:
+			$message = sprintf( __('Post published. <a target="_blank" href="%s">View post</a>'), get_permalink($post_ID) );
+			break;
+		case 7:
+			$message = __('Post saved.');
+			break;
+		case 8:
+			$message = sprintf( __('Post submitted. <a target="_blank" href="%s">Preview post</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
+			break;
+		case 9:
+			// translators: Publish box date formt, see http://php.net/date - Same as in meta-boxes.php
+			$message = sprintf( __('Post scheduled for: <b>%1$s</b>. <a target="_blank" href="%2$s">Preview post</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) );
+			break;
+		case 10:
+			$message = sprintf( __('Post draft updated. <a target="_blank" href="%s">Preview post</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
+			break;
+	}
+}
 
 $notice = false;
-$notices[1] = __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>.' );
-
 if ( 0 == $post_ID ) {
 	$form_action = 'post';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
@@ -51,7 +74,7 @@ if ( 0 == $post_ID ) {
 	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
 		foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
 			if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
-				$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
+				$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>.' ), get_edit_post_link( $autosave->ID ) );
 				break;
 			}
 		}
@@ -116,8 +139,8 @@ require_once('admin-header.php');
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>
 <?php endif; ?>
-<?php if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php if ( $message ) : ?>
+<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 <form name="post" action="post.php" method="post" id="post">
 <?php

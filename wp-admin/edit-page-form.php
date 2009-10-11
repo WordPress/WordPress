@@ -20,22 +20,41 @@ if ( ! isset( $post_ID ) )
 if ( ! isset( $temp_ID ) )
 	$temp_ID = 0;
 
-if ( isset($_GET['message']) )
+$message = false;
+if ( isset($_GET['message']) ) {
 	$_GET['message'] = absint( $_GET['message'] );
-$messages[1] = sprintf(__('Page updated. <a href="%s">View page</a>'), get_permalink($post_ID));
-$messages[2] = __('Custom field updated.');
-$messages[3] = __('Custom field deleted.');
-$messages[5] = sprintf(__('Page published. <a href="%s">View page</a>'), get_permalink($post_ID));
-$messages[6] = sprintf(__('Page submitted. <a href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
-// translators: Publish box date formt, see http://php.net/date - Same as in meta-boxes.php
-$messages[7] = sprintf(__('Page scheduled for: <b>%1$s</b>. <a href="%2$s">Preview post</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID));
 
-if ( isset($_GET['revision']) )
-	$messages[5] = sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) );
+	switch ( $_GET['message'] ) {
+		case 1:
+			$message = sprintf( __('Page updated. <a target="_blank" href="%s">View page</a>'), get_permalink($post_ID) );
+			break;
+		case 2:
+			$message = __('Custom field updated.');
+			break;
+		case 3:
+			$message = __('Custom field deleted.');
+			break;
+		case 4:
+			$message = sprintf( __('Page published. <a target="_blank" href="%s">View page</a>'), get_permalink($post_ID) );
+			break;
+		case 5:
+			if ( isset($_GET['revision']) )
+				$message = sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) );
+			break;
+		case 6:
+			$message = sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
+			break;
+		case 7:
+			// translators: Publish box date formt, see http://php.net/date - Same as in meta-boxes.php
+			$message = sprintf( __('Page scheduled for: <b>%1$s</b>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) );
+			break;
+		case 8:
+			$message = sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
+			break;
+	}
+}
 
 $notice = false;
-$notices[1] = __( 'There is an autosave of this page that is more recent than the version below.  <a href="%s">View the autosave</a>.' );
-
 if ( 0 == $post_ID) {
 	$form_action = 'post';
 	$nonce_action = 'add-page';
@@ -48,7 +67,7 @@ if ( 0 == $post_ID) {
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 	$autosave = wp_get_post_autosave( $post_ID );
 	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) )
-		$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
+		$notice = sprintf( __( 'There is an autosave of this page that is more recent than the version below.  <a href="%s">View the autosave</a>.' ), get_edit_post_link( $autosave->ID ) );
 }
 
 $temp_ID = (int) $temp_ID;
@@ -87,8 +106,8 @@ require_once('admin-header.php');
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>
 <?php endif; ?>
-<?php if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php if ( $message ) : ?>
+<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 
 <?php

@@ -40,7 +40,6 @@ function redirect_post($post_ID = '') {
 			$location = 'sidebar.php?a=b';
 	} elseif ( isset($_POST['save']) || isset($_POST['publish']) ) {
 		$status = get_post_status( $post_ID );
-		$link = get_edit_post_link( $post_ID, 'url' );
 
 		if ( isset( $_POST['publish'] ) ) {
 			switch ( $status ) {
@@ -57,7 +56,7 @@ function redirect_post($post_ID = '') {
 				$message = 'draft' == $status ? 10 : 1;
 		}
 
-		$location = add_query_arg( 'message', $message, $link );
+		$location = add_query_arg( 'message', $message, get_edit_post_link( $post_ID, 'url' ) );
 	} elseif ( isset($_POST['addmeta']) && $_POST['addmeta'] ) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
 		$location = explode('#', $location);
