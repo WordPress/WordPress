@@ -1,4 +1,4 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, interimLogin = false;
 
 jQuery(document).ready( function($) {
 	var dotabkey = true;
@@ -81,17 +81,25 @@ jQuery(document).ready( function($) {
 });
 
 function autosave_parse_response(response) {
-	var res = wpAjax.parseAjaxResponse(response, 'autosave'), message = '', postID;
+	var res = wpAjax.parseAjaxResponse(response, 'autosave'), message = '', postID, sup, url;
 
 	if ( res && res.responses && res.responses.length ) {
 		message = res.responses[0].data; // The saved message or error.
 		// someone else is editing: disable autosave, set errors
 		if ( res.responses[0].supplemental ) {
-			if ( 'disable' == res.responses[0].supplemental['disable_autosave'] ) {
+			sup = res.responses[0].supplemental;
+			if ( 'disable' == sup['disable_autosave'] ) {
 				autosave = function() {};
 				res = { errors: true };
 			}
-			jQuery.each(res.responses[0].supplemental, function(selector, value) {
+			if ( sup['session_expired'] && (url = sup['session_expired']) ) {
+				if ( !interimLogin || interimLogin.closed ) {
+					interimLogin = window.open(url, 'login', 'width=600,height=450,resizable=yes,scrollbars=yes,status=yes');
+					interimLogin.focus();
+				}
+				delete sup['session_expired'];
+			}
+			jQuery.each(sup, function(selector, value) {
 				if ( selector.match(/^replace-/) ) {
 					jQuery('#'+selector.replace('replace-', '')).val(value);
 				}

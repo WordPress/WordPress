@@ -891,6 +891,8 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$message = sprintf( __('Draft Saved at %s.'), date_i18n( $draft_saved_date_format ) );
 
 	$supplemental = array();
+	if ( isset($login_grace_period) )
+		$supplemental['session_expired'] = add_query_arg( 'interim-login', 1, wp_login_url() );
 
 	$id = $revision_id = 0;
 	if($_POST['post_ID'] < 0) {

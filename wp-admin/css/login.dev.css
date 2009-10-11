@@ -58,7 +58,8 @@ form .forgetmenot label {
 	line-height: 19px;
 }
 
-form .submit {
+form .submit,
+.alignright {
 	float: right;
 }
 

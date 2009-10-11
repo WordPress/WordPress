@@ -39,7 +39,7 @@ if ( force_ssl_admin() && !is_ssl() ) {
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
 function login_header($title = 'Log In', $message = '', $wp_error = '') {
-	global $error, $is_iphone;
+	global $error, $is_iphone, $interim_login;
 
 	// Don't index any of these forms
 	add_filter( 'pre_option_blog_public', create_function( '$a', 'return 0;' ) );
@@ -53,18 +53,22 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 <head>
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<?php
+<?php
 	wp_admin_css( 'login', true );
 	wp_admin_css( 'colors-fresh', true );
 
-	if ( $is_iphone ) {
-	?>
+	if ( $is_iphone ) { ?>
 	<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" />
 	<style type="text/css" media="screen">
 	form { margin-left: 0px; }
 	#login { margin-top: 20px; }
 	</style>
-	<?php
+<?php
+	} elseif ( isset($interim_login) && $interim_login ) { ?>
+	<style type="text/css" media="all">
+	.login #login { margin: 20px auto; }
+	</style>
+<?php
 	}
 
 	do_action('login_head'); ?>
@@ -282,7 +286,7 @@ if ( isset($_GET['key']) )
 	$action = 'resetpass';
 
 // validate action so as to default to the login screen
-if ( !in_array($action, array('logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login')) && false === has_filter('login_form_' . $action) )
+if ( !in_array($action, array('logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login'), true) && false === has_filter('login_form_' . $action) )
 	$action = 'login';
 
 nocache_headers();
@@ -443,6 +447,7 @@ break;
 case 'login' :
 default:
 	$secure_cookie = '';
+	$interim_login = isset($_REQUEST['interim-login']);
 
 	// If the user wants ssl but the session is not ssl, force a secure cookie.
 	if ( !empty($_POST['log']) && !force_ssl_admin() ) {
@@ -472,6 +477,15 @@ default:
 	$redirect_to = apply_filters('login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user);
 
 	if ( !is_wp_error($user) ) {
+		if ( $interim_login ) {
+			$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
+			login_header( '', $message ); ?>
+			<script type="text/javascript">setTimeout( function(){window.close()}, 8000);</script>
+			<p class="alignright">
+			<input type="button" class="button-primary" value="<?php esc_attr_e('Close'); ?>" onclick="window.close()" /></p>
+			</div></body></html>
+<?php		exit;
+		}
 		// If the user can't edit posts, send them to their profile.
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) )
 			$redirect_to = admin_url('profile.php');
@@ -489,11 +503,18 @@ default:
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
 	// Some parts of this script use the main login form to display a message
-	if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )			$errors->add('loggedout', __('You are now logged out.'), 'message');
-	elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )	$errors->add('registerdisabled', __('User registration is currently not allowed.'));
-	elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )	$errors->add('confirm', __('Check your e-mail for the confirmation link.'), 'message');
-	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )	$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
-	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
+	if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )
+		$errors->add('loggedout', __('You are now logged out.'), 'message');
+	elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )
+		$errors->add('registerdisabled', __('User registration is currently not allowed.'));
+	elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )
+		$errors->add('confirm', __('Check your e-mail for the confirmation link.'), 'message');
+	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )
+		$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
+	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
+		$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
+	elseif	( $interim_login )
+		$errors->add('expired', __('Your session has expired. Please log-in again.'), 'message');
 
 	login_header(__('Log In'), '', $errors);
 
@@ -515,12 +536,17 @@ default:
 	<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php esc_attr_e('Remember Me'); ?></label></p>
 	<p class="submit">
 		<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Log In'); ?>" tabindex="100" />
+<?php	if ( $interim_login ) { ?>
+		<input type="hidden" name="interim-login" value="1" />
+<?php	} else { ?>
 		<input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to); ?>" />
+<?php 	} ?>
 		<input type="hidden" name="testcookie" value="1" />
 	</p>
 </form>
 <?php endif; ?>
 
+<?php if ( !$interim_login ) { ?>
 <p id="nav">
 <?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 <?php elseif (get_option('users_can_register')) : ?>
@@ -531,12 +557,12 @@ default:
 <?php endif; ?>
 </p>
 
+<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&larr; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
+<?php } ?>
 </div>
 
-<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&larr; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
-
 <script type="text/javascript">
-<?php if ( $user_login ) { ?>
+<?php if ( $user_login || $interim_login ) { ?>
 setTimeout( function(){ try{
 d = document.getElementById('user_pass');
 d.value = '';

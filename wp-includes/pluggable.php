@@ -539,6 +539,9 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 		return false;
 	}
 
+	if ( $expiration < time() ) // AJAX/POST grace period set above
+		$GLOBALS['login_grace_period'] = 1;
+
 	do_action('auth_cookie_valid', $cookie_elements, $user);
 
 	return $user->ID;
