@@ -487,7 +487,7 @@ class Walker_Category_Checklist extends Walker {
  * @param unknown_type $selected_cats
  * @param unknown_type $popular_cats
  */
-function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null ) {
+function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null, $checked_ontop = true ) {
 	if ( empty($walker) || !is_a($walker, 'Walker') )
 		$walker = new Walker_Category_Checklist;
 
@@ -515,19 +515,21 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 		$categories = get_categories('get=all');
 	}
 
-	// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
-	$checked_categories = array();
-	$keys = array_keys( $categories );
+	if ( $checked_ontop ) {
+		// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
+		$checked_categories = array();
+		$keys = array_keys( $categories );
 
-	foreach( $keys as $k ) {
-		if ( in_array( $categories[$k]->term_id, $args['selected_cats'] ) ) {
-			$checked_categories[] = $categories[$k];
-			unset( $categories[$k] );
+		foreach( $keys as $k ) {
+			if ( in_array( $categories[$k]->term_id, $args['selected_cats'] ) ) {
+				$checked_categories[] = $categories[$k];
+				unset( $categories[$k] );
+			}
 		}
-	}
 
-	// Put checked cats on top
-	echo call_user_func_array(array(&$walker, 'walk'), array($checked_categories, 0, $args));
+		// Put checked cats on top
+		echo call_user_func_array(array(&$walker, 'walk'), array($checked_categories, 0, $args));
+	}
 	// Then the rest of them
 	echo call_user_func_array(array(&$walker, 'walk'), array($categories, 0, $args));
 }
@@ -545,10 +547,12 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
  */
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
 	global $post_ID;
+
 	if ( $post_ID )
 		$checked_categories = wp_get_post_categories($post_ID);
 	else
 		$checked_categories = array();
+
 	$categories = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
 
 	$popular_ids = array();
@@ -557,11 +561,12 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 		if ( !$echo ) // hack for AJAX use
 			continue;
 		$id = "popular-category-$category->term_id";
+		$checked = in_array( $category->term_id, $checked_categories ) ? 'checked="checked"' : '';
 		?>
 
 		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit">
-			<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
+			<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $category->term_id; ?>" />
 				<?php echo esc_html( apply_filters( 'the_category', $category->name ) ); ?>
 			</label>
 		</li>
@@ -3058,10 +3063,7 @@ function get_hidden_meta_boxes($page) {
 
 	// Hide slug boxes by default
 	if ( empty($hidden[0]) ) {
-		if ( 'page' == $page )
-			$hidden = array('pageslugdiv');
-		elseif ( 'post' == $page )
-			$hidden = array('slugdiv');
+		$hidden = array('slugdiv');
 	}
 
 	return $hidden;

@@ -12,7 +12,7 @@ $title = __('Add New Page');
 $parent_file = 'edit-pages.php';
 $editing = true;
 wp_enqueue_script('autosave');
-wp_enqueue_script('page');
+wp_enqueue_script('post');
 if ( user_can_richedit() )
 	wp_enqueue_script('editor');
 add_thickbox();

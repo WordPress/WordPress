@@ -98,7 +98,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(wpAjax);}catch(e){};'
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20091010' );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20091012' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20091007' );
@@ -265,28 +265,17 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", false, '3517m' );
 
-		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20090618' );
+		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20091012' );
 		$scripts->add_data( 'postbox', 'group', 1 );
-		$scripts->localize( 'postbox', 'postboxL10n', array(
-			'requestFile' => admin_url('admin-ajax.php')
-		) );
 
-		$scripts->add( 'slug', "/wp-admin/js/slug$suffix.js", array('jquery'), '20090207' );
-		$scripts->add_data( 'slug', 'group', 1 );
-		$scripts->localize( 'slug', 'slugL10n', array(
-			'requestFile' => admin_url('admin-ajax.php'),
-			'save' => __('OK'),
-			'cancel' => __('Cancel'),
-			'l10n_print_after' => 'try{convertEntities(slugL10n);}catch(e){};'
-		) );
-
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox', 'slug'), '20090825' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20091012' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
 			'add' => esc_attr(__('Add')),
 			'addTag' => esc_attr(__('Add new tag')),
 			'separate' => __('Separate tags with commas'),
+			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
 			'publishOn' => __('Publish on:'),
@@ -296,35 +285,13 @@ function wp_default_scripts( &$scripts ) {
 			'endcomm' => __('No more comments found.'),
 			'publish' => __('Publish'),
 			'schedule' => __('Schedule'),
-			'update' => __('Update Post'),
+			'updatePost' => __('Update Post'),
+			'updatePage' => __('Update Page'),
 			'savePending' => __('Save as Pending'),
 			'saveDraft' => __('Save Draft'),
 			'private' => __('Private'),
 			'public' => __('Public'),
 			'publicSticky' => __('Public, Sticky'),
-			'password' => __('Password Protected'),
-			'privatelyPublished' => __('Privately Published'),
-			'published' => __('Published'),
-			'l10n_print_after' => 'try{convertEntities(postL10n);}catch(e){};'
-		) );
-
-		$scripts->add( 'page', "/wp-admin/js/page$suffix.js", array('jquery', 'slug', 'wp-lists', 'postbox'), '20090825' );
-		$scripts->add_data( 'page', 'group', 1 );
-		$scripts->localize( 'page', 'postL10n', array(
-			'cancel' => __('Cancel'),
-			'edit' => __('Edit'),
-			'publishOn' => __('Publish on:'),
-			'publishOnFuture' =>  __('Schedule for:'),
-			'publishOnPast' => __('Published on:'),
-			'showcomm' => __('Show more comments'),
-			'endcomm' => __('No more comments found.'),
-			'publish' => __('Publish'),
-			'schedule' => __('Schedule'),
-			'update' => __('Update Page'),
-			'savePending' => __('Save as Pending'),
-			'saveDraft' => __('Save Draft'),
-			'private' => __('Private'),
-			'public' => __('Public'),
 			'password' => __('Password Protected'),
 			'privatelyPublished' => __('Privately Published'),
 			'published' => __('Published'),
@@ -456,7 +423,7 @@ function wp_default_styles( &$styles ) {
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20091007';
 
-	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091007' );
+	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091012' );
 	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090922' );

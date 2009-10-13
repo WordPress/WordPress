@@ -399,11 +399,8 @@ case 'add-category' : // On the Fly
 		$parent = 0;
 	$post_category = isset($_POST['post_category'])? (array) $_POST['post_category'] : array();
 	$checked_categories = array_map( 'absint', (array) $post_category );
-	$popular_ids = isset( $_POST['popular_ids'] ) ?
-			array_map( 'absint', explode( ',', $_POST['popular_ids'] ) ) :
-			false;
+	$popular_ids = wp_popular_terms_checklist('category', 0, 10, false);
 
-	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
 		$cat_name = trim($cat_name);
 		$category_nicename = sanitize_title($cat_name);
@@ -418,28 +415,43 @@ case 'add-category' : // On the Fly
 			wp_category_checklist( 0, $cat_id, $checked_categories, $popular_ids );
 		$data = ob_get_contents();
 		ob_end_clean();
-		$x->add( array(
+		$add = array(
 			'what' => 'category',
 			'id' => $cat_id,
-			'data' => $data,
+			'data' => str_replace( array("\n", "\t"), '', $data),
 			'position' => -1
-		) );
+		);
 	}
 	if ( $parent ) { // Foncy - replace the parent and all its children
 		$parent = get_category( $parent );
+		$term_id = $parent->term_id;
+
+		while ( $parent->parent ) { // get the top parent
+			$parent = &get_category( $parent->parent );
+			if ( is_wp_error( $parent ) )
+				break;
+			$term_id = $parent->term_id;
+		}
+
 		ob_start();
-			dropdown_categories( 0, $parent );
+			wp_category_checklist( 0, $term_id, $checked_categories, $popular_ids, null, false );
 		$data = ob_get_contents();
 		ob_end_clean();
-		$x->add( array(
+		$add = array(
 			'what' => 'category',
-			'id' => $parent->term_id,
-			'old_id' => $parent->term_id,
-			'data' => $data,
+			'id' => $term_id,
+			'data' => str_replace( array("\n", "\t"), '', $data),
 			'position' => -1
-		) );
-
+		);
 	}
+
+	ob_start();
+		wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) );
+	$sup = ob_get_contents();
+	ob_end_clean();
+	$add['supplemental'] = array( 'newcat_parent' => $sup );
+
+	$x = new WP_Ajax_Response( $add );
 	$x->send();
 	break;
 case 'add-link-category' : // On the Fly
@@ -996,7 +1008,7 @@ case 'closed-postboxes' :
 		update_usermeta($user->ID, 'closedpostboxes_'.$page, $closed);
 
 	if ( is_array($hidden) ) {
-		$hidden = array_diff( $hidden, array('submitdiv', 'pagesubmitdiv', 'linksubmitdiv') ); // postboxes that are always shown
+		$hidden = array_diff( $hidden, array('submitdiv', 'linksubmitdiv') ); // postboxes that are always shown
 		update_usermeta($user->ID, 'meta-box-hidden_'.$page, $hidden);
 	}
 

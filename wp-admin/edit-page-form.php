@@ -75,12 +75,11 @@ $user_ID = (int) $user_ID;
 
 require_once('includes/meta-boxes.php');
 
-add_meta_box('pagesubmitdiv', __('Publish'), 'post_submit_meta_box', 'page', 'side', 'core');
-// add_meta_box('pagepassworddiv', __('Privacy Options'), 'post_password_meta_box', 'page', 'side', 'core');
+add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', 'page', 'side', 'core');
 add_meta_box('pageparentdiv', __('Attributes'), 'page_attributes_meta_box', 'page', 'side', 'core');
-add_meta_box('pagecustomdiv', __('Custom Fields'), 'post_custom_meta_box', 'page', 'normal', 'core');
-add_meta_box('pagecommentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'page', 'normal', 'core');
-add_meta_box('pageslugdiv', __('Page Slug'), 'post_slug_meta_box', 'page', 'normal', 'core');
+add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', 'page', 'normal', 'core');
+add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'page', 'normal', 'core');
+add_meta_box('slugdiv', __('Page Slug'), 'post_slug_meta_box', 'page', 'normal', 'core');
 
 $authors = get_editable_user_ids( $current_user->id, true, 'page' ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )

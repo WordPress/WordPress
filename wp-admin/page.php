@@ -104,7 +104,7 @@ case 'edit':
 		exit();
 	}
 
-	wp_enqueue_script('page');
+	wp_enqueue_script('post');
 	if ( user_can_richedit() )
 		wp_enqueue_script('editor');
 	add_thickbox();

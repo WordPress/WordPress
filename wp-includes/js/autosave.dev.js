@@ -172,9 +172,9 @@ function autosave_update_post_ID( postID ) {
 
 function autosave_update_slug(post_id) {
 	// create slug area only if not already there
-	if ( jQuery.isFunction(make_slugedit_clickable) && !jQuery('#edit-slug-box > *').size() ) {
+	if ( 'undefined' != makeSlugeditClickable && jQuery.isFunction(makeSlugeditClickable) && !jQuery('#edit-slug-box > *').size() ) {
 		jQuery.post(
-			slugL10n.requestFile,
+			ajaxurl,
 			{
 				action: 'sample-permalink',
 				post_id: post_id,
@@ -183,7 +183,7 @@ function autosave_update_slug(post_id) {
 			},
 			function(data) {
 				jQuery('#edit-slug-box').html(data);
-				make_slugedit_clickable();
+				makeSlugeditClickable();
 			}
 		);
 	}
