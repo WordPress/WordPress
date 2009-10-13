@@ -2358,7 +2358,6 @@ function sanitize_option($option, $value) {
 		case 'medium_size_h':
 		case 'large_size_w':
 		case 'large_size_h':
-		//case 'embed_size_w':
 		case 'embed_size_h':
 		case 'default_post_edit_rows':
 		case 'mailserver_port':
@@ -2373,6 +2372,11 @@ function sanitize_option($option, $value) {
 		case 'thread_comments_depth':
 		case 'users_can_register':
 			$value = absint( $value );
+			break;
+
+		case 'embed_size_w':
+			if ( '' !== $value )
+				$value = absint( $value );
 			break;
 
 		case 'posts_per_page':

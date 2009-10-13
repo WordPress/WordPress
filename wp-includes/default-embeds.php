@@ -8,32 +8,6 @@
  */
 
 /**
- * The YouTube.com embed handler callback. YouTube does not support oEmbed and we want to provide extra customization.
- *
- * @see WP_Embed::register_handler()
- * @see WP_Embed::shortcode()
- *
- * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
- * @param array $attr Embed attributes.
- * @param string $url The original URL that was matched by the regex.
- * @param array $rawattr The original unmodified attributes.
- * @return string The embed HTML.
- */
-function wp_embed_handler_youtube( $matches, $attr, $url, $rawattr ) {
-	// If the user supplied a fixed width AND height, use it
-	if ( !empty($rawattr['width']) && !empty($rawattr['height']) ) {
-		$width  = (int) $rawattr['width'];
-		$height = (int) $rawattr['height'];
-	} else {
-		list( $width, $height ) = wp_expand_dimensions( 425, 344, $attr['width'], $attr['height'] );
-	}
-
-	return apply_filters( 'embed_youtube', '<object width="' . esc_attr($width) . '" height="' . esc_attr($height) . '"><param name="movie" value="http://www.youtube.com/v/' . esc_attr($matches[3]) . '&amp;hl=en&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/' . esc_attr($matches[3]) . '&amp;hl=en&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '"></embed></object>', $matches, $attr, $url, $rawattr );
-}
-wp_embed_register_handler( 'youtube', '#http://(www.youtube|youtube|[A-Za-z]{2}.youtube)\.com/(watch\?v=|w/\?v=|\?v=)([\w-]+)(.*?)#i', 'wp_embed_handler_youtube' );
-
-
-/**
  * The Google Video embed handler callback. Google Video does not support oEmbed.
  *
  * @see WP_Embed::register_handler()

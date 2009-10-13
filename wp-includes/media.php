@@ -1134,6 +1134,7 @@ $wp_embed = new WP_Embed();
 /**
  * Register an embed handler. This function should probably only be used for sites that do not support oEmbed.
  *
+ * @since 2.9.0
  * @see WP_Embed::register_handler()
  */
 function wp_embed_register_handler( $id, $regex, $callback, $priority = 10 ) {
@@ -1144,6 +1145,7 @@ function wp_embed_register_handler( $id, $regex, $callback, $priority = 10 ) {
 /**
  * Unregister a previously registered embed handler.
  *
+ * @since 2.9.0
  * @see WP_Embed::unregister_handler()
  */
 function wp_embed_unregister_handler( $id, $priority = 10 ) {
@@ -1153,6 +1155,8 @@ function wp_embed_unregister_handler( $id, $priority = 10 ) {
 
 /**
  * Create default array of embed parameters.
+ *
+ * @since 2.9.0
  *
  * @return array Default embed parameters.
  */
@@ -1177,6 +1181,7 @@ function wp_embed_defaults() {
 /**
  * Based on a supplied width/height example, return the biggest possible dimensions based on the max width/height.
  *
+ * @since 2.9.0
  * @uses wp_constrain_dimensions() This function passes the widths and the heights.
  *
  * @param int $example_width The width of an example embed.
@@ -1197,6 +1202,7 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
 /**
  * Attempts to fetch the embed HTML for a provided URL using oEmbed.
  *
+ * @since 2.9.0
  * @see WP_oEmbed
  *
  * @uses _wp_oembed_get_object()
@@ -1210,4 +1216,21 @@ function wp_oembed_get( $url, $args = '' ) {
 	require_once( 'class-oembed.php' );
 	$oembed = _wp_oembed_get_object();
 	return $oembed->get_html( $url, $args );
+}
+
+/**
+ * Adds a URL format and oEmbed provider URL pair.
+ *
+ * @since 2.9.0
+ * @see WP_oEmbed
+ *
+ * @uses _wp_oembed_get_object()
+ *
+ * @param string $format The format of URL that this provider can handle. Use asterisks as wildcards.
+ * @param string $provider The URL to the oEmbed provider.
+ */
+function wp_oembed_add_provider( $format, $provider ) {
+	require_once( 'class-oembed.php' );
+	$oembed = _wp_oembed_get_object();
+	$oembed->providers[$format] = $provider;
 }

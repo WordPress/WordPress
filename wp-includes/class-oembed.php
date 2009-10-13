@@ -37,12 +37,14 @@ class WP_oEmbed {
 		// The WP_Embed class disables discovery for non-unfiltered_html users,
 		// so only providers in this array will be used for them.
 		$this->providers = apply_filters( 'oembed_providers', array(
+			'http://*.youtube.com/watch*' => 'http://www.youtube.com/oembed',
+			'http://youtube.com/watch*'   => 'http://www.youtube.com/oembed',
 			'http://blip.tv/file/*'       => 'http://blip.tv/oembed/',
 			'http://*.flickr.com/*'       => 'http://www.flickr.com/services/oembed/',
+			'http://www.hulu.com/watch/*' => 'http://www.hulu.com/api/oembed.{format}',
 			'http://*.viddler.com/*'      => 'http://lab.viddler.com/services/oembed/',
 			'http://qik.com/*'            => 'http://qik.com/api/oembed.{format}',
 			'http://*.revision3.com/*'    => 'http://revision3.com/api/oembed/',
-			'http://www.hulu.com/watch/*' => 'http://www.hulu.com/api/oembed.{format}',
 
 			// Vimeo uses the discovery <link>, so leave this commented to use it as a discovery test
 			//'http://www.vimeo.com/*'      => 'http://www.vimeo.com/api/oembed.{format}',
