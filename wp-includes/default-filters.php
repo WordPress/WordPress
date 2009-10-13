@@ -206,6 +206,7 @@ add_action('admin_print_footer_scripts', 'print_footer_scripts', 20);
 add_action('admin_print_styles', 'print_admin_styles', 20);
 add_action('init', 'smilies_init', 5);
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
+add_action( 'plugins_loaded', 'wp_maybe_load_embeds', 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1);
 add_action( 'pre_post_update', 'wp_save_post_revision' );
 add_action('publish_post', '_publish_post_hook', 5, 1);

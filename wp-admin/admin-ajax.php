@@ -124,6 +124,10 @@ case 'imgedit-preview' :
 
 	die();
 	break;
+case 'oembed-cache' :
+	$return = ( $wp_embed->cache_oembed( $_GET['post'] ) ) ? '1' : '0';
+	die( $return );
+	break;
 default :
 	do_action( 'wp_ajax_' . $_GET['action'] );
 	die('0');

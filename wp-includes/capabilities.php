@@ -960,6 +960,30 @@ function current_user_can( $capability ) {
 }
 
 /**
+ * Whether author of supplied post has capability or role.
+ *
+ * @since 2.9
+ *
+ * @param int|object $post Post ID or post object.
+ * @param string $capability Capability or role name.
+ * @return bool
+ */
+function author_can( $post, $capability ) {
+	if ( !$post = get_post($post) )
+		return false;
+
+	$author = new WP_User( $post->post_author );
+
+	if ( empty( $author ) )
+		return false;
+
+	$args = array_slice( func_get_args(), 2 );
+	$args = array_merge( array( $capability ), $args );
+
+	return call_user_func_array( array( &$author, 'has_cap' ), $args );
+}
+
+/**
  * Retrieve role object.
  *
  * @see WP_Roles::get_role() Uses method to retrieve role object.

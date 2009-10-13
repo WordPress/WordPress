@@ -313,7 +313,13 @@ function populate_options() {
 	'widget_rss' => array(),
 
 	// 2.8
-	'timezone_string' => ''
+	'timezone_string' => '',
+
+	// 2.9
+	'embed_useoembed' => 1,
+	'embed_autourls' => 1,
+	'embed_size_w' => '',
+	'embed_size_h' => 600,
 	);
 
 	// Set autoload to no for these options

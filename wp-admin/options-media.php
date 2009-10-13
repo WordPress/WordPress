@@ -44,7 +44,7 @@ include('admin-header.php');
 
 <tr valign="top">
 <th scope="row"><?php _e('Medium size') ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Medium size') ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Medium size'); ?></span></legend>
 <label for="medium_size_w"><?php _e('Max Width'); ?></label>
 <input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" class="small-text" />
 <label for="medium_size_h"><?php _e('Max Height'); ?></label>
@@ -54,7 +54,7 @@ include('admin-header.php');
 
 <tr valign="top">
 <th scope="row"><?php _e('Large size') ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Large size') ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Large size'); ?></span></legend>
 <label for="large_size_w"><?php _e('Max Width'); ?></label>
 <input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" class="small-text" />
 <label for="large_size_h"><?php _e('Max Height'); ?></label>
@@ -63,6 +63,38 @@ include('admin-header.php');
 </tr>
 
 <?php do_settings_fields('media', 'default'); ?>
+</table>
+
+<h3><?php _e('Embeds') ?></h3>
+
+<table class="form-table">
+
+<tr valign="top">
+<th scope="row"><?php _e('oEmbed'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php printf( __('Use <a href="%s">oEmbed</a> to assist in rich content embedding'), 'http://codex.wordpress.org/oEmbed' ); ?></span></legend>
+<label for="embed_useoembed"><input name="embed_useoembed" type="checkbox" id="embed_useoembed" value="1" <?php checked( '1', get_option('embed_useoembed') ); ?>/> <?php printf( __('Use <a href="%s">oEmbed</a> to assist in rich content embedding'), 'http://codex.wordpress.org/oEmbed' ); ?></label>
+</fieldset></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><?php _e('Auto-embeds'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Attempt to automatically embed all plain text URLs'); ?></span></legend>
+<label for="embed_autourls"><input name="embed_autourls" type="checkbox" id="embed_autourls" value="1" <?php checked( '1', get_option('embed_autourls') ); ?>/> <?php _e('Attempt to automatically embed all plain text URLs'); ?></label>
+</fieldset></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><?php _e('Embed size') ?></th>
+<td>
+<label for="embed_size_w"><?php _e('Width'); ?></label>
+<input name="embed_size_w" type="text" id="embed_size_w" value="<?php form_option('embed_size_w'); ?>" class="small-text" />
+<label for="embed_size_h"><?php _e('Height'); ?></label>
+<input name="embed_size_h" type="text" id="embed_size_h" value="<?php form_option('embed_size_h'); ?>" class="small-text" />
+<?php if ( !empty($content_width) ) echo '<br />' . __("If the width value is left blank, embeds will default to the max width of your theme."); ?>
+</td>
+</tr>
+
+<?php do_settings_fields('media', 'embeds'); ?>
 </table>
 
 <?php do_settings_sections('media'); ?>

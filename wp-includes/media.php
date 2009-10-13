@@ -860,3 +860,354 @@ function wp_imagecreatetruecolor($width, $height) {
 	return $img;
 }
 
+/**
+ * API for easily embedding rich media such as videos and images into content.
+ *
+ * @package WordPress
+ * @subpackage Embed
+ * @since 2.9.0
+ */
+class WP_Embed {
+	var $handlers = array();
+	var $post_ID;
+	var $usecache = true;
+	var $linkifunknown = true;
+
+	/**
+	 * PHP4 constructor
+	 */
+	function WP_Embed() {
+		return $this->__construct();
+	}
+
+	/**
+	 * PHP5 constructor
+	 */
+	function __construct() {
+		// Hack to get the [embed] shortcode to run before wpautop()
+		add_filter( 'the_content', array(&$this, 'run_shortcode'), 8 );
+
+		// Attempts to embed all URLs in a post
+		if ( get_option('embed_autourls') )
+			add_filter( 'the_content', array(&$this, 'autoembed'), 8 );
+
+		// After a post is saved, cache oEmbed items via AJAX
+		if ( get_option('embed_useoembed') )
+			add_action( 'edit_form_advanced', array(&$this, 'maybe_run_ajax_cache') );
+	}
+
+	/**
+	 * Process the [embed] shortcode.
+	 *
+	 * Since the [embed] shortcode needs to be run earlier than other shortcodes,
+	 * this function removes all existing shortcodes, registers the [embed] shortcode,
+	 * calls {@link do_shortcode()}, and then re-registers the old shortcodes.
+	 *
+	 * @uses $shortcode_tags
+	 * @uses remove_all_shortcodes()
+	 * @uses add_shortcode()
+	 * @uses do_shortcode()
+	 *
+	 * @param string $content Content to parse
+	 * @return string Content with shortcode parsed
+	 */
+	function run_shortcode( $content ) {
+		global $shortcode_tags;
+
+		// Backup current registered shortcodes and clear them all out
+		$orig_shortcode_tags = $shortcode_tags;
+		remove_all_shortcodes();
+
+		add_shortcode( 'embed', array(&$this, 'shortcode') );
+
+		// Do the shortcode (only the [embed] one is registered)
+		$content = do_shortcode( $content );
+
+		// Put the original shortcodes back
+		$shortcode_tags = $orig_shortcode_tags;
+
+		return $content;
+	}
+
+	/**
+	 * If a post/page was saved, then output Javascript to make
+	 * an AJAX request that will call WP_Embed::cache_oembed().
+	 */
+	function maybe_run_ajax_cache() {
+		global $post_ID;
+
+		if ( empty($post_ID) || empty($_GET['message']) || 1 != $_GET['message'] )
+			return;
+
+?>
+<script type="text/javascript">
+/* <![CDATA[ */
+	jQuery(document).ready(function($){
+		$.get("<?php echo admin_url( 'admin-ajax.php?action=oembed-cache&post=' . $post_ID ); ?>");
+	});
+/* ]]> */
+</script>
+<?php
+	}
+
+	/**
+	 * Register an embed handler. Do not use this function directly, use {@link wp_embed_register_handler()} instead.
+	 * This function should probably also only be used for sites that do not support oEmbed.
+	 *
+	 * @param string $id An internal ID/name for the handler. Needs to be unique.
+	 * @param string $regex The regex that will be used to see if this handler should be used for a URL.
+	 * @param callback $callback The callback function that will be called if the regex is matched.
+	 * @param int $priority Optional. Used to specify the order in which the registered handlers will be tested (default: 10). Lower numbers correspond with earlier testing, and handlers with the same priority are tested in the order in which they were added to the action.
+	 */
+	function register_handler( $id, $regex, $callback, $priority = 10 ) {
+		$this->handlers[$priority][$id] = array(
+			'regex'    => $regex,
+			'callback' => $callback,
+		);
+	}
+
+	/**
+	 * Unregister a previously registered embed handler. Do not use this function directly, use {@link wp_embed_unregister_handler()} instead.
+	 *
+	 * @param string $id The handler ID that should be removed.
+	 * @param int $priority Optional. The priority of the handler to be removed (default: 10).
+	 */
+	function unregister_handler( $id, $priority = 10 ) {
+		if ( isset($this->handlers[$priority][$id]) )
+			unset($this->handlers[$priority][$id]);
+	}
+
+	/**
+	 * The {@link do_shortcode()} callback function.
+	 *
+	 * Attempts to convert a URL into embed HTML. Starts by checking the URL against the regex of the registered embed handlers.
+	 * If none of the regex matches and it's enabled, then the URL will be given to the {@link WP_oEmbed} class.
+	 *
+	 * @uses wp_oembed_get()
+	 * @uses wp_parse_args()
+	 * @uses wp_embed_defaults()
+	 * @uses WP_Embed::maybe_make_link()
+	 * @uses get_option()
+	 * @uses current_user_can()
+	 * @uses wp_cache_get()
+	 * @uses wp_cache_set()
+	 * @uses get_post_meta()
+	 * @uses update_post_meta()
+	 *
+	 * @param array $attr Shortcode attributes.
+	 * @param string $url The URL attempting to be embeded.
+	 * @return string The embed HTML on success, otherwise the original URL.
+	 */
+	function shortcode( $attr, $url = '' ) {
+		global $post, $_wp_using_ext_object_cache;
+
+		if ( empty($url) )
+			return '';
+
+		$rawattr = $attr;
+		$attr = wp_parse_args( $attr, wp_embed_defaults() );
+
+		// Look for known internal handlers
+		ksort( $this->handlers );
+		foreach ( $this->handlers as $priority => $handlers ) {
+			foreach ( $handlers as $id => $handler ) {
+				if ( preg_match( $handler['regex'], $url, $matches ) && is_callable( $handler['callback'] ) ) {
+					if ( false !== $return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr ) )
+						return $return;
+				}
+			}
+		}
+
+		$post_ID = ( !empty($post->ID) ) ? $post->ID : null;
+		if ( !empty($this->post_ID) ) // Potentially set by WP_Embed::cache_oembed()
+			$post_ID = $this->post_ID;
+
+		// Unknown URL format. Let oEmbed have a go.
+		if ( $post_ID && get_option('embed_useoembed') ) {
+
+			// Check for a cached result (stored in the post meta)
+			$cachekey = '_oembed_' . md5( $url . implode( '|', $attr ) );
+			if ( $this->usecache ) {
+				$cache = ( $_wp_using_ext_object_cache ) ? wp_cache_get( "{$post_ID}_{$cachekey}", 'oembed' ) : get_post_meta( $post_ID, $cachekey, true );
+
+				// Failures are cached
+				if ( '{{unknown}}' === $cache )
+					return $this->maybe_make_link( $url );
+
+				if ( !empty($cache) )
+					return $cache;
+			}
+
+			// Use oEmbed to get the HTML
+			$attr['discover'] = author_can( $post_ID, 'unfiltered_html' );
+			$html = wp_oembed_get( $url, $attr );
+
+			// Cache the result
+			$cache = ( $html ) ? $html : '{{unknown}}';
+			if ( $_wp_using_ext_object_cache )
+				wp_cache_set( "{$post_ID}_{$cachekey}", $cache, 'oembed' );
+			else
+				update_post_meta( $post_ID, $cachekey, $cache );
+
+			// If there was a result, return it
+			if ( $html )
+				return $html;
+		}
+
+		// Still unknown
+		return $this->maybe_make_link( $url );
+	}
+
+	/**
+	 * Triggers a caching of all oEmbed results.
+	 *
+	 * @param int $post_ID Post ID to do the caching for.
+	 */
+	function cache_oembed( $post_ID ) {
+		$post = get_post( $post_ID );
+
+		// post_type check is incase of "save_post" usage
+		if ( empty($post->ID) || !in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', array( 'post', 'page' ) ) ) )
+			return;
+
+		// Dump existing caches
+		$post_metas = get_post_custom_keys( $post->ID );
+		foreach( $post_metas as $post_meta_key ) {
+			if ( '_oembed_' == substr( $post_meta_key, 0, 8 ) )
+				delete_post_meta( $post->ID, $post_meta_key );
+		}
+
+		// Trigger a caching
+		if ( !empty($post->post_content) ) {
+			$this->post_ID = $post->ID;
+			$this->usecache = false;
+
+			$content = $this->run_shortcode( $post->post_content );
+			if ( get_option('embed_autourls') )
+				$this->autoembed( $content );
+
+			$this->usecache = true;
+		}
+	}
+
+	/**
+	 * Passes any unlinked URLs that are on their own line to {@link WP_Embed::shortcode()} for potential embedding.
+	 *
+	 * @uses WP_Embed::autoembed_callback()
+	 *
+	 * @param string $content The content to be searched.
+	 * @return string Potentially modified $content.
+	 */
+	function autoembed( $content ) {
+		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array(&$this, 'autoembed_callback'), $content );
+	}
+
+	/**
+	 * Callback function for {@link WP_Embed::autoembed()}.
+	 *
+	 * @uses WP_Embed::shortcode()
+	 *
+	 * @param array $match A regex match array.
+	 * @return string The embed HTML on success, otherwise the original URL.
+	 */
+	function autoembed_callback( $match ) {
+		$oldval = $this->linkifunknown;
+		$this->linkifunknown = false;
+		$return = $this->shortcode( array(), $match[1] );
+		$this->linkifunknown = $oldval;
+
+		return "\n$return\n";
+	}
+
+	/**
+	 * Conditionally makes a hyperlink based on an internal class variable.
+	 *
+	 * @param string $url URL to potentially be linked.
+	 * @return string Linked URL or the original URL.
+	 */
+	function maybe_make_link( $url ) {
+		return ( $this->linkifunknown ) ? '<a href="' . esc_attr($url) . '">' . esc_html($url) . '</a>' : $url;
+	}
+}
+$wp_embed = new WP_Embed();
+
+/**
+ * Register an embed handler. This function should probably only be used for sites that do not support oEmbed.
+ *
+ * @see WP_Embed::register_handler()
+ */
+function wp_embed_register_handler( $id, $regex, $callback, $priority = 10 ) {
+	global $wp_embed;
+	$wp_embed->register_handler( $id, $regex, $callback, $priority );
+}
+
+/**
+ * Unregister a previously registered embed handler.
+ *
+ * @see WP_Embed::unregister_handler()
+ */
+function wp_embed_unregister_handler( $id, $priority = 10 ) {
+	global $wp_embed;
+	$wp_embed->unregister_handler( $id, $priority );
+}
+
+/**
+ * Create default array of embed parameters.
+ *
+ * @return array Default embed parameters.
+ */
+function wp_embed_defaults() {
+	if ( !empty($GLOBALS['content_width']) )
+		$theme_width = (int) $GLOBALS['content_width'];
+
+	$width = get_option('embed_size_w');
+
+	if ( !$width && !empty($theme_width) )
+		$width = $theme_width;
+
+	if ( !$width )
+		$width = 500;
+
+	return apply_filters( 'embed_defaults', array(
+		'width' => $width,
+		'height' => 700,
+	) );
+}
+
+/**
+ * Based on a supplied width/height example, return the biggest possible dimensions based on the max width/height.
+ *
+ * @uses wp_constrain_dimensions() This function passes the widths and the heights.
+ *
+ * @param int $example_width The width of an example embed.
+ * @param int $example_height The height of an example embed.
+ * @param int $max_width The maximum allowed width.
+ * @param int $max_height The maximum allowed height.
+ * @return array The maximum possible width and height based on the example ratio.
+ */
+function wp_expand_dimensions( $example_width, $example_height, $max_width, $max_height ) {
+	$example_width  = (int) $example_width;
+	$example_height = (int) $example_height;
+	$max_width      = (int) $max_width;
+	$max_height     = (int) $max_height;
+
+	return wp_constrain_dimensions( $example_width * 1000000, $example_height * 1000000, $max_width, $max_height );
+}
+
+/**
+ * Attempts to fetch the embed HTML for a provided URL using oEmbed.
+ *
+ * @see WP_oEmbed
+ *
+ * @uses _wp_oembed_get_object()
+ * @uses WP_oEmbed::get_html()
+ *
+ * @param string $url The URL that should be embeded.
+ * @param array $args Addtional arguments and parameters.
+ * @return string The original URL on failure or the embed HTML on success.
+ */
+function wp_oembed_get( $url, $args = '' ) {
+	require_once( 'class-oembed.php' );
+	$oembed = _wp_oembed_get_object();
+	return $oembed->get_html( $url, $args );
+}
