@@ -28,6 +28,8 @@ function current_theme_info() {
 	$ct->description = $themes[$current_theme]['Description'];
 	$ct->author = $themes[$current_theme]['Author'];
 	$ct->tags = $themes[$current_theme]['Tags'];
+	$ct->theme_root = $themes[$current_theme]['Theme Root'];
+	$ct->theme_root_uri = $themes[$current_theme]['Theme Root URI'];
 	return $ct;
 }
 

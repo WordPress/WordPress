@@ -132,16 +132,16 @@ function theme_update_available( $theme ) {
 <h3><?php _e('Current Theme'); ?></h3>
 <div id="current-theme">
 <?php if ( $ct->screenshot ) : ?>
-<img src="<?php echo content_url($ct->stylesheet_dir . '/' . $ct->screenshot); ?>" alt="<?php _e('Current theme preview'); ?>" />
+<img src="<?php echo $ct->theme_root_uri . '/' . $ct->stylesheet . '/' . $ct->screenshot; ?>" alt="<?php _e('Current theme preview'); ?>" />
 <?php endif; ?>
 <h4><?php
 	/* translators: 1: theme title, 2: theme version, 3: theme author */
 	printf(__('%1$s %2$s by %3$s'), $ct->title, $ct->version, $ct->author) ; ?></h4>
 <p class="theme-description"><?php echo $ct->description; ?></p>
 <?php if ($ct->parent_theme) { ?>
-	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $ct->title, $ct->template_dir, $ct->stylesheet_dir, $ct->title, $ct->parent_theme); ?></p>
+	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ), $ct->title, $ct->parent_theme); ?></p>
 <?php } else { ?>
-	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $ct->title, $ct->template_dir, $ct->stylesheet_dir); ?></p>
+	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ) ); ?></p>
 <?php } ?>
 <?php if ( $ct->tags ) : ?>
 <p><?php _e('Tags:'); ?> <?php echo join(', ', $ct->tags); ?></p>
@@ -203,6 +203,8 @@ foreach ( $cols as $col => $theme_name ) {
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
 	$template_dir = $themes[$theme_name]['Template Dir'];
 	$parent_theme = $themes[$theme_name]['Parent Theme'];
+	$theme_root = $themes[$theme_name]['Theme Root'];
+	$theme_root_uri = $themes[$theme_name]['Theme Root URI'];
 	$preview_link = esc_url(get_option('home') . '/');
 	if ( is_ssl() )
 		$preview_link = str_replace( 'http://', 'https://', $preview_link );
@@ -223,7 +225,7 @@ foreach ( $cols as $col => $theme_name ) {
 ?>
 		<a href="<?php echo $preview_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
-			<img src="<?php echo content_url($stylesheet_dir . '/' . $screenshot); ?>" alt="" />
+			<img src="<?php echo $theme_root_uri . '/' . $stylesheet . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
 		</a>
 <h3><?php
@@ -233,9 +235,9 @@ foreach ( $cols as $col => $theme_name ) {
 <span class='action-links'><?php echo $actions ?></span>
 	<?php if ($parent_theme) {
 	/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
-	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $title, $template_dir, $stylesheet_dir, $title, $parent_theme); ?></p>
+	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ), $title, $parent_theme); ?></p>
 <?php } else { ?>
-	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $title, $template_dir, $stylesheet_dir); ?></p>
+	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ) ); ?></p>
 <?php } ?>
 <?php if ( $tags ) : ?>
 <p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>

@@ -34,8 +34,10 @@ function get_stylesheet() {
  */
 function get_stylesheet_directory() {
 	$stylesheet = get_stylesheet();
-	$stylesheet_dir = get_theme_root() . "/$stylesheet";
-	return apply_filters('stylesheet_directory', $stylesheet_dir, $stylesheet);
+	$theme_root = get_theme_root( $stylesheet );
+	$stylesheet_dir = "$theme_root/$stylesheet";
+
+	return apply_filters( 'stylesheet_directory', $stylesheet_dir, $stylesheet, $theme_root );
 }
 
 /**
@@ -47,8 +49,10 @@ function get_stylesheet_directory() {
  */
 function get_stylesheet_directory_uri() {
 	$stylesheet = get_stylesheet();
-	$stylesheet_dir_uri = get_theme_root_uri() . "/$stylesheet";
-	return apply_filters('stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet);
+	$theme_root_uri = get_theme_root_uri( $stylesheet );
+	$stylesheet_dir_uri = "$theme_root_uri/$stylesheet";
+
+	return apply_filters( 'stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet, $theme_root_uri );
 }
 
 /**
@@ -123,8 +127,10 @@ function get_template() {
  */
 function get_template_directory() {
 	$template = get_template();
-	$template_dir = get_theme_root() . "/$template";
-	return apply_filters('template_directory', $template_dir, $template);
+	$theme_root = get_theme_root( $template );
+	$template_dir = "$theme_root/$template";
+		
+	return apply_filters( 'template_directory', $template_dir, $template, $theme_root );
 }
 
 /**
@@ -137,8 +143,10 @@ function get_template_directory() {
  */
 function get_template_directory_uri() {
 	$template = get_template();
-	$template_dir_uri = get_theme_root_uri() . "/$template";
-	return apply_filters('template_directory_uri', $template_dir_uri, $template);
+	$theme_root_uri = get_theme_root_uri( $template );
+	$template_dir_uri = "$theme_root_uri/$template";
+	
+	return apply_filters( 'template_directory_uri', $template_dir_uri, $template, $theme_root_uri );
 }
 
 /**
@@ -253,65 +261,18 @@ function get_themes() {
 	if ( isset($wp_themes) )
 		return $wp_themes;
 
-	$themes = array();
-	$wp_broken_themes = array();
-	$theme_loc = $theme_root = get_theme_root();
-	if ( '/' != WP_CONTENT_DIR ) // don't want to replace all forward slashes, see Trac #4541
-		$theme_loc = str_replace(WP_CONTENT_DIR, '', $theme_root);
+	/* Register wp-content/themes as a theme directory */
+	register_theme_directory( 'themes' );
 
-	// Files in wp-content/themes directory and one subdir down
-	$themes_dir = @ opendir($theme_root);
-	if ( !$themes_dir )
+	if ( !$theme_files = search_theme_directories() )
 		return false;
-
-	while ( ($theme_dir = readdir($themes_dir)) !== false ) {
-		if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
-			if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
-				continue;
-			$stylish_dir = @ opendir($theme_root . '/' . $theme_dir);
-			$found_stylesheet = false;
-			while ( ($theme_file = readdir($stylish_dir)) !== false ) {
-				if ( $theme_file == 'style.css' ) {
-					$theme_files[] = $theme_dir . '/' . $theme_file;
-					$found_stylesheet = true;
-					break;
-				}
-			}
-			@closedir($stylish_dir);
-			if ( !$found_stylesheet ) { // look for themes in that dir
-				$subdir = "$theme_root/$theme_dir";
-				$subdir_name = $theme_dir;
-				$theme_subdir = @ opendir( $subdir );
-				while ( ($theme_dir = readdir($theme_subdir)) !== false ) {
-					if ( is_dir( $subdir . '/' . $theme_dir) && is_readable($subdir . '/' . $theme_dir) ) {
-						if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
-							continue;
-						$stylish_dir = @ opendir($subdir . '/' . $theme_dir);
-						$found_stylesheet = false;
-						while ( ($theme_file = readdir($stylish_dir)) !== false ) {
-							if ( $theme_file == 'style.css' ) {
-								$theme_files[] = $subdir_name . '/' . $theme_dir . '/' . $theme_file;
-								$found_stylesheet = true;
-								break;
-							}
-						}
-						@closedir($stylish_dir);
-					}
-				}
-				@closedir($theme_subdir);
-				$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
-			}
-		}
-	}
-	if ( is_dir( $theme_dir ) )
-		@closedir( $theme_dir );
-
-	if ( !$themes_dir || !$theme_files )
-		return $themes;
-
-	sort($theme_files);
-
+	
+	asort( $theme_files );
+	
 	foreach ( (array) $theme_files as $theme_file ) {
+		$theme_root = $theme_file['theme_root'];
+		$theme_file = $theme_file['theme_file'];
+
 		if ( !is_readable("$theme_root/$theme_file") ) {
 			$wp_broken_themes[$theme_file] = array('Name' => $theme_file, 'Title' => $theme_file, 'Description' => __('File not readable.'));
 			continue;
@@ -346,19 +307,31 @@ function get_themes() {
 			else
 				continue;
 		}
-
-		$template = trim($template);
+		
+		$template = trim( $template );
 
 		if ( !file_exists("$theme_root/$template/index.php") ) {
 			$parent_dir = dirname(dirname($theme_file));
 			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
-				$template = "$parent_dir/$template";
+				$template = "$theme_root/$parent_dir/$template";
 			} else {
-				$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
-				continue;
+				/**  
+				 * The parent theme doesn't exist in the current theme's folder or sub folder 
+				 * so lets use the theme root for the parent template. 
+				 */
+				$parent_theme_root = $theme_files[$template]['theme_root'];
+				if ( file_exists( "$parent_theme_root/$template/index.php" ) ) {
+					$template = "$parent_theme_root/$template";
+				} else {
+					$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
+					continue;
+				}
+				
 			}
+		} else {
+			$template = trim( $theme_root . '/' . $template );
 		}
-
+		
 		$stylesheet_files = array();
 		$template_files = array();
 
@@ -367,28 +340,28 @@ function get_themes() {
 			while ( ($file = $stylesheet_dir->read()) !== false ) {
 				if ( !preg_match('|^\.+$|', $file) ) {
 					if ( preg_match('|\.css$|', $file) )
-						$stylesheet_files[] = "$theme_loc/$stylesheet/$file";
+						$stylesheet_files[] = "$theme_root/$stylesheet/$file";
 					elseif ( preg_match('|\.php$|', $file) )
-						$template_files[] = "$theme_loc/$stylesheet/$file";
+						$template_files[] = "$theme_root/$stylesheet/$file";
 				}
 			}
 			@ $stylesheet_dir->close();
 		}
 
-		$template_dir = @ dir("$theme_root/$template");
+		$template_dir = @ dir("$template");
 		if ( $template_dir ) {
 			while ( ($file = $template_dir->read()) !== false ) {
 				if ( preg_match('|^\.+$|', $file) )
 					continue;
 				if ( preg_match('|\.php$|', $file) ) {
-					$template_files[] = "$theme_loc/$template/$file";
-				} elseif ( is_dir("$theme_root/$template/$file") ) {
-					$template_subdir = @ dir("$theme_root/$template/$file");
+					$template_files[] = "$template/$file";
+				} elseif ( is_dir("$template/$file") ) {
+					$template_subdir = @ dir("$template/$file");
 					while ( ($subfile = $template_subdir->read()) !== false ) {
 						if ( preg_match('|^\.+$|', $subfile) )
 							continue;
 						if ( preg_match('|\.php$|', $subfile) )
-							$template_files[] = "$theme_loc/$template/$file/$subfile";
+							$template_files[] = "$template/$file/$subfile";
 					}
 					@ $template_subdir->close();
 				}
@@ -422,11 +395,16 @@ function get_themes() {
 			}
 		}
 
-		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags']);
+		$theme_roots[$stylesheet] = str_replace( WP_CONTENT_DIR, '', $theme_root );
+		$themes[$name] = array( 'Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => basename( $template ), 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags'], 'Theme Root' => $theme_root, 'Theme Root URI' => str_replace( WP_CONTENT_DIR, content_url(), $theme_root ) );
 	}
 
-	// Resolve theme dependencies.
-	$theme_names = array_keys($themes);
+	/* Resolve theme dependencies. */
+	$theme_names = array_keys( $themes );
+
+	/* Store theme roots in the DB */
+	if ( get_transient( 'theme_roots' ) != $theme_roots )
+		set_transient( 'theme_roots', $theme_roots, 7200 ); // cache for two hours
 
 	foreach ( (array) $theme_names as $theme_name ) {
 		$themes[$theme_name]['Parent Theme'] = '';
@@ -441,8 +419,24 @@ function get_themes() {
 	}
 
 	$wp_themes = $themes;
-
+	
 	return $themes;
+}
+
+/**
+ * Retrieve theme roots.
+ *
+ * @since 2.9.0
+ *
+ * @return array Theme roots
+ */
+function get_theme_roots() {
+	$theme_roots = get_transient( 'theme_roots' );
+	if ( false === $theme_roots ) {
+		get_themes();
+		$theme_roots = get_transient( 'theme_roots' ); // this is set in get_theme()
+	}
+	return $theme_roots;
 }
 
 /**
@@ -499,17 +493,130 @@ function get_current_theme() {
 }
 
 /**
+ * Register a directory that contains themes relative to the content directory.
+ *
+ * @since 2.9.0
+ *
+ * @return bool
+ */
+function register_theme_directory( $directory ) {
+	global $wp_theme_directories;
+	
+	/* The theme directory should be relative to the content directory */
+	$registered_directory = WP_CONTENT_DIR . '/' . $directory;
+	
+	/* If this folder does not exist, return and do not register */
+	if ( !file_exists( $registered_directory ) )
+		return false;
+	
+	$wp_theme_directories[] = $registered_directory;
+	
+	return true;
+}
+
+/**
+ * Search all registered theme directories for complete and valid themes.
+ *
+ * @since 2.9.0
+ *
+ * @return array Valid themes found
+ */
+function search_theme_directories() {
+	global $wp_theme_directories, $wp_broken_themes;
+	
+	if ( empty( $wp_theme_directories ) )
+		return false;
+
+	$theme_files = array();
+	$wp_broken_themes = array();
+
+	/* Loop the registered theme directories and extract all themes */
+	foreach ( (array) $wp_theme_directories as $theme_root ) {
+		$theme_loc = $theme_root;
+		
+		/* We don't want to replace all forward slashes, see Trac #4541 */
+		if ( '/' != WP_CONTENT_DIR ) 
+			$theme_loc = str_replace(WP_CONTENT_DIR, '', $theme_root);
+
+		/* Files in the root of the current theme directory and one subdir down */
+		$themes_dir = @ opendir($theme_root);
+
+		if ( !$themes_dir )
+			return false;
+
+		while ( ($theme_dir = readdir($themes_dir)) !== false ) {
+			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
+				if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
+					continue;
+
+				$stylish_dir = @ opendir($theme_root . '/' . $theme_dir);
+				$found_stylesheet = false;
+				
+				while ( ($theme_file = readdir($stylish_dir)) !== false ) {
+					if ( $theme_file == 'style.css' ) {
+						$theme_files[$theme_dir] = array( 'theme_file' => $theme_dir . '/' . $theme_file, 'theme_root' => $theme_root );
+						$found_stylesheet = true;
+						break;
+					}
+				}
+				@closedir($stylish_dir);
+				
+				if ( !$found_stylesheet ) { // look for themes in that dir
+					$subdir = "$theme_root/$theme_dir";
+					$subdir_name = $theme_dir;
+					$theme_subdir = @ opendir( $subdir );
+					
+					while ( ($theme_dir = readdir($theme_subdir)) !== false ) {
+						if ( is_dir( $subdir . '/' . $theme_dir) && is_readable($subdir . '/' . $theme_dir) ) {
+							if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
+								continue;
+								
+							$stylish_dir = @ opendir($subdir . '/' . $theme_dir);
+							$found_stylesheet = false;
+							
+							while ( ($theme_file = readdir($stylish_dir)) !== false ) {
+								if ( $theme_file == 'style.css' ) {
+									$theme_files[$theme_dir] = array( 'theme_file' => $subdir_name . '/' . $theme_dir . '/' . $theme_file, 'theme_root' => $theme_root );
+									$found_stylesheet = true;
+									break;
+								}
+							}
+							@closedir($stylish_dir);
+						}
+					}
+					@closedir($theme_subdir);
+					
+					$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
+				}
+			}
+		}
+		if ( is_dir( $theme_dir ) )
+			@closedir( $theme_dir );
+	}
+	
+	return $theme_files;
+}
+
+/**
  * Retrieve path to themes directory.
  *
  * Does not have trailing slash.
  *
  * @since 1.5.0
+ * @param $stylesheet_or_template The stylesheet or template name of the theme
  * @uses apply_filters() Calls 'theme_root' filter on path.
  *
  * @return string Theme path.
  */
-function get_theme_root() {
-	return apply_filters('theme_root', WP_CONTENT_DIR . "/themes");
+function get_theme_root( $stylesheet_or_template = false ) {
+	$theme_roots = get_theme_roots();
+	
+	if ( $theme_roots[$stylesheet_or_template] )
+		$theme_root = WP_CONTENT_DIR . '/' . $theme_roots[$stylesheet_or_template];
+	else
+		$theme_root = WP_CONTENT_DIR . '/themes';
+
+	return apply_filters( 'theme_root', $theme_root );
 }
 
 /**
@@ -518,11 +625,19 @@ function get_theme_root() {
  * Does not have trailing slash.
  *
  * @since 1.5.0
+ * @param $stylesheet_or_template The stylesheet or template name of the theme
  *
  * @return string Themes URI.
  */
-function get_theme_root_uri() {
-	return apply_filters('theme_root_uri', content_url('themes'), get_option('siteurl'));
+function get_theme_root_uri( $stylesheet_or_template = false ) {
+	$theme_roots = get_theme_roots();
+	
+	if ( $theme_roots[$stylesheet_or_template] )
+		$theme_root_uri = content_url( $theme_roots[$stylesheet_or_template] );
+	else
+		$theme_root_uri = content_url( 'themes' );
+
+	return apply_filters( 'theme_root_uri', $theme_root_uri, get_option('siteurl'), $stylesheet_or_template );
 }
 
 /**
