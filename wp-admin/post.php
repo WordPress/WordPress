@@ -31,9 +31,7 @@ function redirect_post($post_ID = '') {
 	}
 	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
-	if ( !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
-		$location = $_POST['referredby'];
-	} elseif ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
+	if ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		if ( isset($_POST['saveasdraft']) )
 			$location = 'sidebar.php?a=c';
 		elseif ( isset($_POST['publish']) )

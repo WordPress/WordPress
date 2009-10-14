@@ -109,12 +109,8 @@ require_once('admin-header.php');
 <div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 
-<?php
-wp_nonce_field($nonce_action);
+<?php wp_nonce_field($nonce_action); ?>
 
-if (isset($mode) && 'bookmarklet' == $mode)
-	echo '<input type="hidden" name="mode" value="bookmarklet" />';
-?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value='<?php echo esc_attr($form_action) ?>' />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo esc_attr($form_action) ?>" />

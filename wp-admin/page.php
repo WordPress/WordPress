@@ -31,9 +31,7 @@ function redirect_page($page_ID) {
 	}
 	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
-	if ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
-		$location = $_POST['referredby'];
-	} elseif ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
+	if ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
 	} elseif ( isset($_POST['save']) || isset($_POST['publish']) ) {
 		$status = get_post_status( $page_ID );

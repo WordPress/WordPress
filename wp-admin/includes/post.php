@@ -326,29 +326,18 @@ function bulk_edit_posts( $post_data = null ) {
  * @return unknown
  */
 function get_default_post_to_edit() {
+
+	$post_title = '';
 	if ( !empty( $_REQUEST['post_title'] ) )
 		$post_title = esc_html( stripslashes( $_REQUEST['post_title'] ));
-	else if ( !empty( $_REQUEST['popuptitle'] ) ) {
-		$post_title = esc_html( stripslashes( $_REQUEST['popuptitle'] ));
-		$post_title = funky_javascript_fix( $post_title );
-	} else {
-		$post_title = '';
-	}
 
 	$post_content = '';
 	if ( !empty( $_REQUEST['content'] ) )
 		$post_content = esc_html( stripslashes( $_REQUEST['content'] ));
-	else if ( !empty( $post_title ) ) {
-		$text       = esc_html( stripslashes( urldecode( $_REQUEST['text'] ) ) );
-		$text       = funky_javascript_fix( $text);
-		$popupurl   = esc_url($_REQUEST['popupurl']);
-		$post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
-	}
 
+	$post_excerpt = '';
 	if ( !empty( $_REQUEST['excerpt'] ) )
 		$post_excerpt = esc_html( stripslashes( $_REQUEST['excerpt'] ));
-	else
-		$post_excerpt = '';
 
 	$post->ID = 0;
 	$post->post_name = '';
