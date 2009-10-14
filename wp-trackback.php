@@ -50,7 +50,7 @@ $excerpt   = stripslashes($_POST['excerpt']);
 $blog_name = stripslashes($_POST['blog_name']);
 
 if ($charset)
-	$charset = strtoupper( trim($charset) );
+	$charset = str_replace( array(',', ' '), '', strtoupper( trim($charset) ) );
 else
 	$charset = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
 
