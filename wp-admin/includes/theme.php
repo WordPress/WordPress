@@ -131,7 +131,7 @@ function get_page_templates() {
 
 	if ( is_array( $templates ) ) {
 		foreach ( $templates as $template ) {
-			$template_data = implode( '', file( WP_CONTENT_DIR.$template ));
+			$template_data = implode( '', file( $template ));
 
 			$name = '';
 			if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) )
