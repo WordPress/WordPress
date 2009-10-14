@@ -208,12 +208,16 @@ jQuery(document).ready( function($) {
 		postboxes.add_postbox_toggles('page');
 
 	// multi-taxonomies
-	$('div.postbox').each(function(){
-		if ( this.id.indexOf('tagsdiv-') === 0 ) {
-			tagBox.init();
-			return false;
-		}
-	});
+	if ( $('#tagsdiv-post_tag').length ) {
+		tagBox.init();
+	} else {
+		$('#side-sortables, #normal-sortables, #advanced-sortables').children('div.postbox').each(function(){
+			if ( this.id.indexOf('tagsdiv-') === 0 ) {
+				tagBox.init();
+				return false;
+			}
+		});
+	}
 
 	// categories
 	if ( $('#categorydiv').length ) {

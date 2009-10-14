@@ -338,7 +338,7 @@ die;
 //<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
-var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-this';
 //]]>
 </script>
 
@@ -505,10 +505,11 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 						<p class="jaxtag">
 							<label class="screen-reader-text" for="newtag"><?php _e('Post Tags'); ?></label>
 							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" />
-							<span class="ajaxtag" style="display:none;">
-								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php esc_attr_e('Add new tag'); ?>" />
+							<div class="ajaxtag">
+								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
 								<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" tabindex="3" />
-							</span>
+								<div class="taghint"><?php _e('Add new tag'); ?></div>
+							</div>
 						</p>
 						<div class="tagchecklist"></div>
 					</div>

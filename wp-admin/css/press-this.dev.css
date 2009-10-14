@@ -562,3 +562,18 @@ ul.categorychecklist li {
 	border-width: 1px;
 	border-style: solid;
 }
+
+/* tag hints */
+.taghint {
+	color: #aaa;
+	margin: -17px 6px 0 0;
+	visibility: hidden;
+}
+
+input.newtag ~ div.taghint {
+	visibility: visible;
+}
+
+input.newtag:focus ~ div.taghint {
+	visibility: hidden;
+}

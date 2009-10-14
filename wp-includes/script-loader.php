@@ -268,7 +268,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20091012' );
 		$scripts->add_data( 'postbox', 'group', 1 );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20091012' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20091014' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
@@ -444,7 +444,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20090625' );
-	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20090514' );
+	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20091014' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20091010' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20090514' );
