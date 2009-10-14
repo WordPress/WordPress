@@ -605,6 +605,7 @@ class WP_User {
 		update_usermeta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
+		do_action( 'set_user_role', $this->ID, $role );
 	}
 
 	/**
