@@ -375,7 +375,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090929' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
 
-		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091005' );
+		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091014' );
 		$scripts->add_data( 'set-post-thumbnail', 'group', 1 );
 		$scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
 			'setThumbnail' => __( 'Use for thumbnail' ),
@@ -383,7 +383,7 @@ function wp_default_scripts( &$scripts ) {
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' )
 		) );
 
-		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091005' );
+		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091014' );
 		$scripts->add_data( 'set-post-thumbnail-handler', 'group', 1 );
 	
 	}

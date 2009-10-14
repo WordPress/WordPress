@@ -12,7 +12,6 @@ function WPSetAsThumbnail(id){
 			jQuery('#media-item-' + id + ' > a.wp-post-thumbnail').hide();
 			win.WPSetThumbnailID(id);
 			win.WPSetThumbnailHTML(str);
-			win.WPCloseTB();
 		}
 	}
 	);
