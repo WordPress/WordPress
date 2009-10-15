@@ -3418,4 +3418,65 @@ function wp_scheduled_delete() {
 		wp_delete_comment($comment['comment_id']);
 	}
 }
+
+/**
+ * Parse the file contents to retrieve its metadata.
+ *
+ * Searches for metadata for a file, such as a plugin or theme.  Each piece of 
+ * metadata must be on its own line. For a field spanning multple lines, it
+ * must not have any newlines or only parts of it will be displayed.
+ *
+ * Some users have issues with opening large files and manipulating the contents
+ * for want is usually the first 1kiB or 2kiB. This function stops pulling in
+ * the file contents when it has all of the required data.
+ *
+ * The first 8kiB of the file will be pulled in and if the file data is not
+ * within that first 8kiB, then the author should correct their plugin file
+ * and move the data headers to the top.
+ *
+ * The file is assumed to have permissions to allow for scripts to read
+ * the file. This is not checked however and the file is only opened for
+ * reading.
+ *
+ * @since 2.9.0
+ *
+ * @param string $file Path to the file
+ * @param bool $markup If the returned data should have HTML markup applied
+ * @param string $context If specified adds filter hook "extra_<$context>_headers" 
+ */
+function get_file_data( $file, $default_headers, $context = '' ) {
+	// We don't need to write to the file, so just open for reading.
+	$fp = fopen( $file, 'r' );
+
+	// Pull only the first 8kiB of the file in.
+	$file_data = fread( $fp, 8192 );
+
+	// PHP will close file handle, but we are good citizens.
+	fclose( $fp );
+
+	if( $context != '' ) {
+		$extra_headers = apply_filters( "extra_$context".'_headers', array() );
+
+		$extra_headers = array_flip( $extra_headers );
+		foreach( $extra_headers as $key=>$value ) {
+			$extra_headers[$key] = $key;
+		}
+		$all_headers = array_merge($extra_headers, $default_headers);
+	} else {
+		$all_headers = $default_headers;
+	}
+
+	
+	foreach ( $all_headers as $field => $regex ) {
+		preg_match( '/' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, ${$field});
+		if ( !empty( ${$field} ) )
+			${$field} = _cleanup_header_comment( ${$field}[1] );
+		else
+			${$field} = '';
+	}
+
+	$file_data = compact( array_keys( $all_headers ) );
+	
+	return $file_data;
+}
 ?>

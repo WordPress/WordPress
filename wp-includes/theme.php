@@ -170,6 +170,18 @@ function get_template_directory_uri() {
  * @return array Theme data.
  */
 function get_theme_data( $theme_file ) {
+	$default_headers = array( 
+		'Name' => 'Theme Name', 
+		'URI' => 'Theme URI', 
+		'Description' => 'Description', 
+		'Author' => 'Author', 
+		'AuthorURI' => 'Author URI',
+		'Version' => 'Version', 
+		'Template' => 'Template', 
+		'Status' => 'Status', 
+		'Tags' => 'Tags'
+		);
+
 	$themes_allowed_tags = array(
 		'a' => array(
 			'href' => array(),'title' => array()
@@ -185,59 +197,41 @@ function get_theme_data( $theme_file ) {
 		'strong' => array()
 	);
 
-	$theme_data = implode( '', file( $theme_file ) );
-	$theme_data = str_replace ( '\r', '\n', $theme_data );
-	if ( preg_match( '|Theme Name:(.*)$|mi', $theme_data, $theme_name ) )
-		$name = $theme = wp_kses( _cleanup_header_comment($theme_name[1]), $themes_allowed_tags );
-	else
-		$name = $theme = '';
+	$theme_data = get_file_data( $theme_file, $default_headers, 'theme' );
 
-	if ( preg_match( '|Theme URI:(.*)$|mi', $theme_data, $theme_uri ) )
-		$theme_uri = esc_url( _cleanup_header_comment($theme_uri[1]) );
-	else
-		$theme_uri = '';
+	$theme_data['Name'] = $theme_data['Title'] = wp_kses( $theme_data['Name'], $themes_allowed_tags );
 
-	if ( preg_match( '|Description:(.*)$|mi', $theme_data, $description ) )
-		$description = wptexturize( wp_kses( _cleanup_header_comment($description[1]), $themes_allowed_tags ) );
-	else
-		$description = '';
+	$theme_data['URI'] = esc_url( $theme_data['URI'] );
 
-	if ( preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri ) )
-		$author_uri = esc_url( _cleanup_header_comment($author_uri[1]) );
-	else
-		$author_uri = '';
+	$theme_data['Description'] = wptexturize( wp_kses( $theme_data['Description'], $themes_allowed_tags ) );
 
-	if ( preg_match( '|Template:(.*)$|mi', $theme_data, $template ) )
-		$template = wp_kses( _cleanup_header_comment($template[1]), $themes_allowed_tags );
-	else
-		$template = '';
+	$theme_data['AuthorURI'] = esc_url( $theme_data['AuthorURI'] );
 
-	if ( preg_match( '|Version:(.*)|i', $theme_data, $version ) )
-		$version = wp_kses( _cleanup_header_comment($version[1]), $themes_allowed_tags );
-	else
-		$version = '';
+	$theme_data['Template'] = wp_kses( $theme_data['Template'], $themes_allowed_tags );
 
-	if ( preg_match('|Status:(.*)|i', $theme_data, $status) )
-		$status = wp_kses( _cleanup_header_comment($status[1]), $themes_allowed_tags );
-	else
-		$status = 'publish';
+	$theme_data['Version'] = wp_kses( $theme_data['Version'], $themes_allowed_tags );
 
-	if ( preg_match('|Tags:(.*)|i', $theme_data, $tags) )
-		$tags = array_map( 'trim', explode( ',', wp_kses( _cleanup_header_comment($tags[1]), array() ) ) );
+	if ( $theme_data['Status'] == '' )
+		$theme_data['Status'] = 'publish';
 	else
-		$tags = array();
+		$theme_data['Status'] = wp_kses( $theme_data['Status'], $themes_allowed_tags );
 
-	if ( preg_match( '|Author:(.*)$|mi', $theme_data, $author_name ) ) {
-		if ( empty( $author_uri ) ) {
-			$author = wp_kses( _cleanup_header_comment($author_name[1]), $themes_allowed_tags );
-		} else {
-			$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), wp_kses( _cleanup_header_comment($author_name[1]), $themes_allowed_tags ) );
-		}
+	if ( $theme_data['Tags'] == '' )
+		$theme_data['Tags'] = array();
+	else
+		$theme_data['Tags'] = array_map( 'trim', explode( ',', wp_kses( $theme_data['Tags'], array() ) ) );
+
+	if ( $theme_data['Author'] == '' ) {
+		$theme_data['Author'] = __('Anonymous');
 	} else {
-		$author = __('Anonymous');
+		if ( empty( $theme_data['AuthorURI'] ) ) {
+			$theme_data['Author'] = wp_kses( $theme_data['Author'], $themes_allowed_tags );
+		} else {
+			$theme_data['Author'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $theme_data['AuthorURI'], __( 'Visit author homepage' ), wp_kses( $theme_data['Author'], $themes_allowed_tags ) );
+		}
 	}
 
-	return array( 'Name' => $name, 'Title' => $theme, 'URI' => $theme_uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Status' => $status, 'Tags' => $tags );
+	return $theme_data;
 }
 
 /**

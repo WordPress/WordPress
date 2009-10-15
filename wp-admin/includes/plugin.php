@@ -66,38 +66,22 @@
  * @return array See above for description.
  */
 function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
-	// We don't need to write to the file, so just open for reading.
-	$fp = fopen($plugin_file, 'r');
 
-	// Pull only the first 8kiB of the file in.
-	$plugin_data = fread( $fp, 8192 );
+	$default_headers = array( 
+		'Name' => 'Plugin Name', 
+		'PluginURI' => 'Plugin URI', 
+		'Version' => 'Version', 
+		'Description' => 'Description', 
+		'Author' => 'Author', 
+		'AuthorURI' => 'Author URI', 
+		'TextDomain' => 'Text Domain', 
+		'DomainPath' => 'Domain Path' 
+		);
 
-	// PHP will close file handle, but we are good citizens.
-	fclose($fp);
+	$plugin_data = get_file_data( $plugin_file, $default_headers, 'plugin' );
 
-	preg_match( '|Plugin Name:(.*)$|mi', $plugin_data, $name );
-	preg_match( '|Plugin URI:(.*)$|mi', $plugin_data, $uri );
-	preg_match( '|Version:(.*)|i', $plugin_data, $version );
-	preg_match( '|Description:(.*)$|mi', $plugin_data, $description );
-	preg_match( '|Author:(.*)$|mi', $plugin_data, $author_name );
-	preg_match( '|Author URI:(.*)$|mi', $plugin_data, $author_uri );
-	preg_match( '|Text Domain:(.*)$|mi', $plugin_data, $text_domain );
-	preg_match( '|Domain Path:(.*)$|mi', $plugin_data, $domain_path );
-
-	foreach ( array( 'name', 'uri', 'version', 'description', 'author_name', 'author_uri', 'text_domain', 'domain_path' ) as $field ) {
-		if ( !empty( ${$field} ) )
-			${$field} = _cleanup_header_comment(${$field}[1]);
-		else
-			${$field} = '';
-	}
-
-	$plugin_data = array(
-				'Name' => $name, 'Title' => $name, 'PluginURI' => $uri, 'Description' => $description,
-				'Author' => $author_name, 'AuthorURI' => $author_uri, 'Version' => $version,
-				'TextDomain' => $text_domain, 'DomainPath' => $domain_path
-				);
 	if ( $markup || $translate )
-		$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup, $translate);
+		$plugin_data = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup, $translate );
 
 	return $plugin_data;
 }
