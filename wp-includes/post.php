@@ -473,7 +473,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * Optional $args contents:
  *
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true.
- * 
+ *
  * @package WordPress
  * @subpackage Post
  * @since 2.9.0
@@ -2246,7 +2246,7 @@ function &get_page_children($page_id, $pages) {
  *
  * It uses auxiliary structure to hold parent-children relationships and
  * runs in O(N) complexity
- * 
+ *
  * @since 2.0.0
  *
  * @param array $posts Posts array.
@@ -2254,34 +2254,34 @@ function &get_page_children($page_id, $pages) {
  * @return array A list arranged by hierarchy. Children immediately follow their parents.
  */
 function &get_page_hierarchy( &$pages, $page_id = 0 ) {
-	
+
 	if ( empty( $pages ) )
 		return null;
-		
+
 	$children = array();
 	foreach ( (array) $pages as $p ) {
-		
+
 		$parent_id = intval( $p->post_parent );
 		$children[ $parent_id ][] = $p;
 	 }
-	 
+
 	 $result = array();
 	 _page_traverse_name( $page_id, $children, $result );
-	 
+
 	return $result;
 }
 
 /**
  * function to traverse and return all the nested children post names of a root page.
  * $children contains parent-chilren relations
- * 
+ *
  */
-function _page_traverse_name( $page_id, &$children, &$result ){ 
-	
+function _page_traverse_name( $page_id, &$children, &$result ){
+
 	if ( isset( $children[ $page_id ] ) ){
-		
+
 		foreach( (array)$children[ $page_id ] as $child ) {
-			
+
 			$result[ $child->ID ] = $child->post_name;
 			_page_traverse_name( $child->ID, $children, $result );
 		}

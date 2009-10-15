@@ -1715,7 +1715,7 @@ function the_author_ID() {
  *		parameters.
  *
  * @deprecated 2.9.0
- * 
+ *
  * @param string $more_link_text Optional. Text to display when more content is available but not displayed.
  * @param int|bool $stripteaser Optional. Default is 0.
  * @param string $more_file Optional.

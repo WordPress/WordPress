@@ -81,9 +81,9 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 }
 
 function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false) {
-	if ( !$meta_type || !$meta_key || (!$delete_all && ! (int)$object_id) ) 
+	if ( !$meta_type || !$meta_key || (!$delete_all && ! (int)$object_id) )
 		return false;
-	
+
 	if ( ! $table = _get_meta_table($meta_type) )
 		return false;
 

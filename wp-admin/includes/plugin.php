@@ -991,7 +991,7 @@ function user_can_access_admin_page() {
  * @since 2.7.0
  *
  * @param string $option_group A settings group name.  Should correspond to a whitelisted option key name.
- * 	Default whitelisted option key names include "general," "discussion," and "reading," among others. 
+ * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
  * @param string $option_name The name of an option to sanitize and save.
  * @param unknown_type $sanitize_callback A callback function that sanitizes the option's value.
  * @return unknown

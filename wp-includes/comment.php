@@ -896,8 +896,8 @@ function wp_untrash_comment($comment_id) {
 
 	$comment['comment_approved'] = $status;
 
-	delete_comment_meta($comment_id, '_wp_trash_meta_time'); 
-	delete_comment_meta($comment_id, '_wp_trash_meta_status'); 
+	delete_comment_meta($comment_id, '_wp_trash_meta_time');
+	delete_comment_meta($comment_id, '_wp_trash_meta_status');
 
 	wp_update_comment($comment);
 

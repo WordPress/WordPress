@@ -174,7 +174,7 @@ class WP_oEmbed {
 		// Example content: http://vimeo.com/api/oembed.xml?url=http%3A%2F%2Fvimeo.com%2F240975
 		elseif ( function_exists('simplexml_load_string') ) {
 			$errors = libxml_use_internal_errors( 'true' );
-			
+
 			$data = simplexml_load_string( $result );
 
 			libxml_use_internal_errors( $errors );

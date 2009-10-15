@@ -129,7 +129,7 @@ function get_template_directory() {
 	$template = get_template();
 	$theme_root = get_theme_root( $template );
 	$template_dir = "$theme_root/$template";
-		
+
 	return apply_filters( 'template_directory', $template_dir, $template, $theme_root );
 }
 
@@ -145,7 +145,7 @@ function get_template_directory_uri() {
 	$template = get_template();
 	$theme_root_uri = get_theme_root_uri( $template );
 	$template_dir_uri = "$theme_root_uri/$template";
-	
+
 	return apply_filters( 'template_directory_uri', $template_dir_uri, $template, $theme_root_uri );
 }
 
@@ -266,9 +266,9 @@ function get_themes() {
 
 	if ( !$theme_files = search_theme_directories() )
 		return false;
-	
+
 	asort( $theme_files );
-	
+
 	foreach ( (array) $theme_files as $theme_file ) {
 		$theme_root = $theme_file['theme_root'];
 		$theme_file = $theme_file['theme_file'];
@@ -307,7 +307,7 @@ function get_themes() {
 			else
 				continue;
 		}
-		
+
 		$template = trim( $template );
 
 		if ( !file_exists("$theme_root/$template/index.php") ) {
@@ -315,9 +315,9 @@ function get_themes() {
 			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
 				$template = "$theme_root/$parent_dir/$template";
 			} else {
-				/**  
-				 * The parent theme doesn't exist in the current theme's folder or sub folder 
-				 * so lets use the theme root for the parent template. 
+				/**
+				 * The parent theme doesn't exist in the current theme's folder or sub folder
+				 * so lets use the theme root for the parent template.
 				 */
 				$parent_theme_root = $theme_files[$template]['theme_root'];
 				if ( file_exists( "$parent_theme_root/$template/index.php" ) ) {
@@ -326,12 +326,12 @@ function get_themes() {
 					$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
 					continue;
 				}
-				
+
 			}
 		} else {
 			$template = trim( $theme_root . '/' . $template );
 		}
-		
+
 		$stylesheet_files = array();
 		$template_files = array();
 
@@ -419,7 +419,7 @@ function get_themes() {
 	}
 
 	$wp_themes = $themes;
-	
+
 	return $themes;
 }
 
@@ -501,16 +501,16 @@ function get_current_theme() {
  */
 function register_theme_directory( $directory ) {
 	global $wp_theme_directories;
-	
+
 	/* The theme directory should be relative to the content directory */
 	$registered_directory = WP_CONTENT_DIR . '/' . $directory;
-	
+
 	/* If this folder does not exist, return and do not register */
 	if ( !file_exists( $registered_directory ) )
 		return false;
-	
+
 	$wp_theme_directories[] = $registered_directory;
-	
+
 	return true;
 }
 
@@ -523,7 +523,7 @@ function register_theme_directory( $directory ) {
  */
 function search_theme_directories() {
 	global $wp_theme_directories, $wp_broken_themes;
-	
+
 	if ( empty( $wp_theme_directories ) )
 		return false;
 
@@ -533,9 +533,9 @@ function search_theme_directories() {
 	/* Loop the registered theme directories and extract all themes */
 	foreach ( (array) $wp_theme_directories as $theme_root ) {
 		$theme_loc = $theme_root;
-		
+
 		/* We don't want to replace all forward slashes, see Trac #4541 */
-		if ( '/' != WP_CONTENT_DIR ) 
+		if ( '/' != WP_CONTENT_DIR )
 			$theme_loc = str_replace(WP_CONTENT_DIR, '', $theme_root);
 
 		/* Files in the root of the current theme directory and one subdir down */
@@ -551,7 +551,7 @@ function search_theme_directories() {
 
 				$stylish_dir = @ opendir($theme_root . '/' . $theme_dir);
 				$found_stylesheet = false;
-				
+
 				while ( ($theme_file = readdir($stylish_dir)) !== false ) {
 					if ( $theme_file == 'style.css' ) {
 						$theme_files[$theme_dir] = array( 'theme_file' => $theme_dir . '/' . $theme_file, 'theme_root' => $theme_root );
@@ -560,20 +560,20 @@ function search_theme_directories() {
 					}
 				}
 				@closedir($stylish_dir);
-				
+
 				if ( !$found_stylesheet ) { // look for themes in that dir
 					$subdir = "$theme_root/$theme_dir";
 					$subdir_name = $theme_dir;
 					$theme_subdir = @ opendir( $subdir );
-					
+
 					while ( ($theme_dir = readdir($theme_subdir)) !== false ) {
 						if ( is_dir( $subdir . '/' . $theme_dir) && is_readable($subdir . '/' . $theme_dir) ) {
 							if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
 								continue;
-								
+
 							$stylish_dir = @ opendir($subdir . '/' . $theme_dir);
 							$found_stylesheet = false;
-							
+
 							while ( ($theme_file = readdir($stylish_dir)) !== false ) {
 								if ( $theme_file == 'style.css' ) {
 									$theme_files[$theme_dir] = array( 'theme_file' => $subdir_name . '/' . $theme_dir . '/' . $theme_file, 'theme_root' => $theme_root );
@@ -585,7 +585,7 @@ function search_theme_directories() {
 						}
 					}
 					@closedir($theme_subdir);
-					
+
 					$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
 				}
 			}
@@ -593,7 +593,7 @@ function search_theme_directories() {
 		if ( is_dir( $theme_dir ) )
 			@closedir( $theme_dir );
 	}
-	
+
 	return $theme_files;
 }
 
@@ -610,7 +610,7 @@ function search_theme_directories() {
  */
 function get_theme_root( $stylesheet_or_template = false ) {
 	$theme_roots = get_theme_roots();
-	
+
 	if ( $theme_roots[$stylesheet_or_template] )
 		$theme_root = WP_CONTENT_DIR . '/' . $theme_roots[$stylesheet_or_template];
 	else
@@ -631,7 +631,7 @@ function get_theme_root( $stylesheet_or_template = false ) {
  */
 function get_theme_root_uri( $stylesheet_or_template = false ) {
 	$theme_roots = get_theme_roots();
-	
+
 	if ( $theme_roots[$stylesheet_or_template] )
 		$theme_root_uri = content_url( $theme_roots[$stylesheet_or_template] );
 	else
@@ -736,7 +736,7 @@ function get_category_template() {
  * Works by first retrieving the current tag name, for example 'tag-wordpress.php' and then
  * trying tag ID, for example 'tag-1.php' and will finally fallback to tag.php
  * template, if those files don't exist.
- * 
+ *
  * @since 2.3.0
  * @uses apply_filters() Calls 'tag_template' on file path of tag template.
  *
@@ -753,7 +753,7 @@ function get_tag_template() {
 	if ( $tag_id )
 		$templates[] = "tag-$tag_id.php";
 	$templates[] = "tag.php";
-	
+
 	$template = locate_template($templates);
 	return apply_filters('tag_template', $template);
 }

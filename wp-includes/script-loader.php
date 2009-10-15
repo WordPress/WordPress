@@ -385,7 +385,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091015' );
 		$scripts->add_data( 'set-post-thumbnail-handler', 'group', 1 );
-	
+
 	}
 }
 

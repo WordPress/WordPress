@@ -3172,13 +3172,13 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 function get_site_option( $key, $default = false, $use_cache = true ) {
-	// Allow plugins to short-circuit site options. 
- 	$pre = apply_filters( 'pre_site_option_' . $key, false ); 
- 	if ( false !== $pre ) 
- 		return $pre; 
- 
+	// Allow plugins to short-circuit site options.
+ 	$pre = apply_filters( 'pre_site_option_' . $key, false );
+ 	if ( false !== $pre )
+ 		return $pre;
+
  	$value = get_option($key, $default);
- 
+
  	return apply_filters( 'site_option_' . $key, $value );
 }
 
