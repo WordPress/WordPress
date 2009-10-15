@@ -261,8 +261,8 @@ function get_themes() {
 	if ( isset($wp_themes) )
 		return $wp_themes;
 
-	/* Register wp-content/themes as a theme directory */
-	register_theme_directory( 'themes' );
+	/* Register the default root as a theme directory */
+	register_theme_directory( get_theme_root() );
 
 	if ( !$theme_files = search_theme_directories() )
 		return false;
@@ -493,18 +493,23 @@ function get_current_theme() {
 }
 
 /**
- * Register a directory that contains themes relative to the content directory.
+ * Register a directory that contains themes.
  *
  * @since 2.9.0
  *
+ * @param string $directory Either the full filesystem path to a theme folder or a folder within WP_CONTENT_DIR
  * @return bool
  */
-function register_theme_directory( $directory ) {
+function register_theme_directory( $directory) {
 	global $wp_theme_directories;
-
-	/* The theme directory should be relative to the content directory */
-	$registered_directory = WP_CONTENT_DIR . '/' . $directory;
-
+	
+	/* If this folder does not exist, return and do not register */
+	if ( !file_exists( $directory ) )
+			/* Try prepending as the theme directory could be relative to the content directory */
+		$registered_directory = WP_CONTENT_DIR . '/' . $directory;
+	else
+		$registered_directory = $directory;
+	
 	/* If this folder does not exist, return and do not register */
 	if ( !file_exists( $registered_directory ) )
 		return false;
@@ -523,7 +528,6 @@ function register_theme_directory( $directory ) {
  */
 function search_theme_directories() {
 	global $wp_theme_directories, $wp_broken_themes;
-
 	if ( empty( $wp_theme_directories ) )
 		return false;
 
@@ -609,13 +613,17 @@ function search_theme_directories() {
  * @return string Theme path.
  */
 function get_theme_root( $stylesheet_or_template = false ) {
-	$theme_roots = get_theme_roots();
-
-	if ( $theme_roots[$stylesheet_or_template] )
-		$theme_root = WP_CONTENT_DIR . '/' . $theme_roots[$stylesheet_or_template];
-	else
+	if ($stylesheet_or_template) {
+		$theme_roots = get_theme_roots();
+		
+		if ( $theme_roots[$stylesheet_or_template] )
+			$theme_root = WP_CONTENT_DIR . '/' . $theme_roots[$stylesheet_or_template];
+		else
+			$theme_root = WP_CONTENT_DIR . '/themes';
+	} else {
 		$theme_root = WP_CONTENT_DIR . '/themes';
-
+	}
+	
 	return apply_filters( 'theme_root', $theme_root );
 }
 
