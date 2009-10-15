@@ -527,7 +527,7 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
  * @param bool $icon Optional, default is false. Whether it is an icon.
  * @return string HTML img element or empty string on failure.
  */
-function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = false) {
+function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = false, $attr = '') {
 
 	$html = '';
 	$image = wp_get_attachment_image_src($attachment_id, $size, $icon);
@@ -537,12 +537,13 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		if ( is_array($size) )
 			$size = join('x', $size);
 		$attachment =& get_post($attachment_id);
-		$attr = array(
+		$default_attr = array(
 			'src'	=> $src,
 			'class'	=> "attachment-$size",
 			'alt'	=> trim(strip_tags( $attachment->post_excerpt )),
 			'title'	=> trim(strip_tags( $attachment->post_title )),
-			);
+		);
+		$attr = wp_parse_args($attr, $default_attr);
 		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
 		$attr = array_map( 'esc_attr', $attr );
 		$html = rtrim("<img $hwstring");
