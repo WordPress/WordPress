@@ -383,7 +383,7 @@ function wp_default_scripts( &$scripts ) {
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' )
 		) );
 
-		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091014' );
+		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091015' );
 		$scripts->add_data( 'set-post-thumbnail-handler', 'group', 1 );
 	
 	}
