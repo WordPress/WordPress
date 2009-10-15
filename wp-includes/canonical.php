@@ -128,7 +128,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_category() && !empty($_GET['cat']) && preg_match( '|^[0-9]+$|', $_GET['cat'] ) ) {
 			if ( $redirect_url = get_category_link(get_query_var('cat')) )
 				$redirect['query'] = remove_query_arg('cat', $redirect['query']);
-		} elseif ( is_author() && !empty($_GET['author']) ) {
+		} elseif ( is_author() && !empty($_GET['author']) && preg_match( '|^[0-9]+$|', $_GET['author'] ) ) {
 			$author = get_userdata(get_query_var('author'));
 			if ( false !== $author && $redirect_url = get_author_posts_url($author->ID, $author->user_nicename) )
 				$redirect['query'] = remove_query_arg('author', $redirect['author']);
