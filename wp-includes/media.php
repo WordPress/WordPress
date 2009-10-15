@@ -556,6 +556,41 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 	return $html;
 }
 
+/**
+ * Adds a 'wp-post-image' class to post image thumbnails
+ * Uses the begin_fetch_post_image_html and end_fetch_post_image_html action hooks to
+ * dynamically add/remove itself so as to only filter post image thumbnails
+ * 
+ * @author Mark Jaquith
+ * @since 2.9.0
+ * @param array $attr Attributes including src, class, alt, title
+ * @return array
+ */
+function _wp_post_image_class_filter( $attr ) {
+	$attr['class'] .= ' wp-post-image';
+	return $attr;
+}
+
+/**
+ * Adds _wp_post_image_class_filter to the wp_get_attachment_image_attributes filter
+ * 
+ * @author Mark Jaquith
+ * @since 2.9.0
+ */
+function _wp_post_image_class_filter_add( $attr ) {
+	add_filter( 'wp_get_attachment_image_attributes', '_wp_post_image_class_filter' );
+}
+
+/**
+ * Removes _wp_post_image_class_filter from the wp_get_attachment_image_attributes filter
+ * 
+ * @author Mark Jaquith
+ * @since 2.9.0
+ */
+function _wp_post_image_class_filter_remove( $attr ) {
+	remove_filter( 'wp_get_attachment_image_attributes', '_wp_post_image_class_filter' );
+}
+
 add_shortcode('wp_caption', 'img_caption_shortcode');
 add_shortcode('caption', 'img_caption_shortcode');
 
