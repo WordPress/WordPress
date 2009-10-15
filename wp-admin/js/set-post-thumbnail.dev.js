@@ -6,7 +6,6 @@ function WPSetAsThumbnail(id){
 		var win = window.dialogArguments || opener || parent || top;
 		if ( str == '0' ) {
 			alert( setPostThumbnailL10n.error );
-			win.cwsCloseTB();
 		} else {
 			jQuery('a.wp-post-thumbnail').text( setPostThumbnailL10n.setThumbnail );
 			jQuery('#media-item-' + id + ' > a.wp-post-thumbnail').hide();
