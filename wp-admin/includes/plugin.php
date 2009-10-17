@@ -80,6 +80,9 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 	$plugin_data = get_file_data( $plugin_file, $default_headers, 'plugin' );
 
+	//For backward compatibility by default Title is the same as Name.
+	$plugin_data['Title'] = $plugin_data['Name'];
+
 	if ( $markup || $translate )
 		$plugin_data = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup, $translate );
 
