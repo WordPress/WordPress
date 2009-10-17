@@ -451,7 +451,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
 				$post_types[] = $post_type->name;
 			else
 				$post_types[] = $post_type;
-		} elseif ( array_intersect((array) $post_type, $args) ) {
+		} elseif ( array_intersect_assoc((array) $post_type, $args) ) {
 			if ( $do_names )
 				$post_types[] = $post_type->name;
 			else
