@@ -107,7 +107,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	$rel = $rel ? ' rel="attachment wp-att-' . esc_attr($id).'"' : '';
 
 	if ( $url )
-		$html = '<a href="' . esc_url($url) . "\"$rel>$html</a>";
+		$html = '<a href="' . esc_attr($url) . "\"$rel>$html</a>";
 
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url, $size );
 
