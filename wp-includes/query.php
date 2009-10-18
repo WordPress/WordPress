@@ -1747,7 +1747,7 @@ class WP_Query {
 				$q['search_terms'] = array($q['s']);
 			} else {
 				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $q['s'], $matches);
-				$q['search_terms'] = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
+				$q['search_terms'] = array_map('_search_terms_tidy', $matches[0]);
 			}
 			$n = !empty($q['exact']) ? '' : '%';
 			$searchand = '';

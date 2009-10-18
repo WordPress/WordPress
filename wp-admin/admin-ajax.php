@@ -1197,7 +1197,7 @@ case 'find_posts':
 	$what = isset($_POST['pages']) ? 'page' : 'post';
 	$s = stripslashes($_POST['ps']);
 	preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
-	$search_terms = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
+	$search_terms = array_map('_search_terms_tidy', $matches[0]);
 
 	$searchand = $search = '';
 	foreach( (array) $search_terms as $term) {
