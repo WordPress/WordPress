@@ -778,8 +778,14 @@ function map_meta_cap( $cap, $user_id ) {
 			$args = array_merge( array( 'delete_page', $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
-		$post_author_data = get_userdata( $post->post_author );
-		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br />";
+
+		if ('' != $post->post_author) {
+			$post_author_data = get_userdata( $post->post_author );
+		} else {
+			//No author set yet so default to current user for cap checks
+			$post_author_data = $author_data;
+		}
+
 		// If the user is the author...
 		if ( $user_id == $post_author_data->ID ) {
 			// If the post is published...
