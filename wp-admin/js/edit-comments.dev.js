@@ -54,7 +54,6 @@ setCommentsList = function() {
 			}
 
 			el.before(h);
-			h.fadeIn(400);
 
 			$('strong', '#trashundo-' + id).html(author);
 			a = $('a.undo-trash', '#trashundo-' + id);
@@ -65,7 +64,7 @@ setCommentsList = function() {
 				list.wpList.del(this);
 				$('#trashundo-' + id).fadeOut(250, function(){
 					$(this).remove();
-					$('#comment-' + id).css('backgroundColor', '').fadeIn(400);
+					$('#comment-' + id).css('backgroundColor', '').fadeIn(300);
 				});
 				return false;
 			});
@@ -203,8 +202,13 @@ setCommentsList = function() {
 	};
 
 	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
-	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
+	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
+		.bind('wpListDelEnd', function(e, s){
+			var id = s.element.replace(/[^0-9]+/g, '');
 
+			if ( s.target.className.indexOf(':trash=1') != -1 )
+				$('#trashundo-' + id).fadeIn(300);
+		});
 };
 
 commentReply = {

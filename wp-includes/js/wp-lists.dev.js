@@ -3,7 +3,7 @@ var fs = {add:'ajaxAdd',del:'ajaxDel',dim:'ajaxDim',process:'process',recolor:'r
 
 wpList = {
 	settings: {
-		url: wpListL10n.url, type: 'POST',
+		url: ajaxurl, type: 'POST',
 		response: 'ajax-response',
 
 		what: '',
@@ -107,6 +107,7 @@ wpList = {
 				};
 			}
 			list.wpList.recolor();
+			$(list).trigger( 'wpListAddEnd', [ s, list.wpList ] );
 			wpList.clear.call(list,'#' + s.element);
 		};
 
@@ -116,7 +117,7 @@ wpList = {
 
 	ajaxDel: function( e, s ) {
 		e = $(e); s = s || {};
-		var list = this, cls = wpList.parseClass(e,'delete'), element, anim;
+		var list = this, cls = wpList.parseClass(e,'delete'), element;
 		s = wpList.pre.call( list, e, s, 'delete' );
 
 		s.element = cls[2] || s.element || null;
@@ -143,14 +144,13 @@ wpList = {
 		element = $('#' + s.element);
 
 		if ( 'none' != s.delColor ) {
-			anim = 'slideUp';
-			if ( element.css( 'display' ).match(/table/) )
-				anim = 'fadeOut'; // Can't slideup table rows and other table elements.  Known jQuery bug
-			element
-				.animate( { backgroundColor: s.delColor }, 'fast'  )[anim]( 'fast' )
-				.queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
+			element.css( 'backgroundColor', s.delColor ).fadeOut( 350, function(){
+				list.wpList.recolor();
+				$(list).trigger( 'wpListDelEnd', [ s, list.wpList ] );
+			});
 		} else {
 			list.wpList.recolor();
+			$(list).trigger( 'wpListDelEnd', [ s, list.wpList ] );
 		}
 
 		s.success = function(r) {
@@ -213,7 +213,9 @@ wpList = {
 			element
 				.animate( { backgroundColor: dimColor }, 'fast' )
 				.queue( function() { element.toggleClass(s.dimClass); $(this).dequeue(); } )
-				.animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); } } );
+				.animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); $(list).trigger( 'wpListDimEnd', [ s, list.wpList ] ); } } );
+		} else {
+			$(list).trigger( 'wpListDimEnd', [ s, list.wpList ] );
 		}
 
 		if ( !s.data._ajax_nonce ) { return true; }

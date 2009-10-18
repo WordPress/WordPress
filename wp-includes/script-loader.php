@@ -101,11 +101,8 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20091012' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
-	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20091007' );
+	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20091017' );
 	$scripts->add_data( 'wp-lists', 'group', 1 );
-	$scripts->localize( 'wp-lists', 'wpListL10n', array(
-		'url' => admin_url('admin-ajax.php')
-	) );
 
 	$scripts->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/wp-scriptaculous.js', array('prototype'), '1.8.0');
 	$scripts->add( 'scriptaculous-builder', '/wp-includes/js/scriptaculous/builder.js', array('scriptaculous-root'), '1.8.0');
@@ -256,7 +253,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20090514' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20091008' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20091017' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
