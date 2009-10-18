@@ -2710,6 +2710,8 @@ function wp_delete_attachment($post_id) {
 	/** @todo Delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
 
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND meta_value = %d", $post_id ));
+
 	$commentids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
 	do_action( 'delete_comment', $commentids );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_ID IN(%s)", implode( ',', $commentids ) ));
