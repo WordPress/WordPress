@@ -108,6 +108,7 @@ case 'edit':
 	add_thickbox();
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('word-count');
+	wp_enqueue_script('set-post-thumbnail-handler');
 
 	if ( $last = wp_check_post_lock( $post->ID ) ) {
 		add_action('admin_notices', '_admin_notice_post_locked' );
