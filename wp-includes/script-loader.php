@@ -265,7 +265,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20091012' );
 		$scripts->add_data( 'postbox', 'group', 1 );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20091014' );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), '20091019' );
 		$scripts->add_data( 'post', 'group', 1 );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
@@ -379,9 +379,6 @@ function wp_default_scripts( &$scripts ) {
 			'saving' => __( 'Saving...' ),
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' )
 		) );
-
-		$scripts->add( 'set-post-thumbnail-handler', "/wp-admin/js/set-post-thumbnail-handler$suffix.js", array( 'jquery' ), '20091015' );
-		$scripts->add_data( 'set-post-thumbnail-handler', 'group', 1 );
 
 	}
 }

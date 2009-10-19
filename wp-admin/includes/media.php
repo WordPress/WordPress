@@ -114,26 +114,6 @@ function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel =
 	return $html;
 }
 
-function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
-	$content = '<p class="hide-if-no-js"><a href="#" id="set-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . esc_html__( 'Set thumbnail' ) . '</a></p>';
-
-	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
-		$thumbnail_html = wp_get_attachment_image($thumbnail_id, array( 266, 266 ) );
-		if ( !empty( $thumbnail_html ) ) {
-			$content = '<a href="#" id="set-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . $thumbnail_html . '</a>';
-			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail();return false;">' . esc_html__( 'Remove thumbnail' ) . '</a></p>';
-		}
-	}
-
-	return apply_filters( 'admin_post_thumbnail_html', $content );
-}
-
-function post_thumbnail_meta_box() {
-	global $post;
-	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
-	echo _wp_post_thumbnail_html( $thumbnail_id );
-}
-
 /**
  * {@internal Missing Short Description}}
  *

@@ -1029,6 +1029,28 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 }
 
 /**
+ * Output HTML for the post thumbnail meta-box.
+ *
+ * @since 2.9.0
+ *
+ * @param int $thumbnail_id ID of the attachment used for thumbnail
+ * @return string html
+ */
+function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
+	$content = '<p class="hide-if-no-js"><a href="#" id="set-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . esc_html__( 'Set thumbnail' ) . '</a></p>';
+
+	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
+		$thumbnail_html = wp_get_attachment_image($thumbnail_id, array( 266, 266 ) );
+		if ( !empty( $thumbnail_html ) ) {
+			$content = '<a href="#" id="set-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . $thumbnail_html . '</a>';
+			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail();return false;">' . esc_html__( 'Remove thumbnail' ) . '</a></p>';
+		}
+	}
+
+	return apply_filters( 'admin_post_thumbnail_html', $content );
+}
+
+/**
  * Check to see if the post is currently being edited by another user.
  *
  * @since 2.5.0
