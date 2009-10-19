@@ -98,7 +98,7 @@ function the_media_upload_tabs() {
  * @param unknown_type $size
  * @return unknown
  */
-function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false, $size='medium') {
+function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel = false, $size='medium', $alt = '') {
 
 	$htmlalt = ( empty($alt) ) ? $title : $alt;
 
@@ -109,7 +109,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	if ( $url )
 		$html = '<a href="' . esc_attr($url) . "\"$rel>$html</a>";
 
-	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url, $size );
+	$html = apply_filters( 'image_send_to_editor', $html, $id, $caption, $title, $align, $url, $size, $alt );
 
 	return $html;
 }
@@ -148,15 +148,14 @@ function post_thumbnail_meta_box() {
  * @param unknown_type $size
  * @return unknown
  */
-function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
+function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $alt = '' ) {
 
-	if ( empty($alt) || apply_filters( 'disable_captions', '' ) )
+	if ( empty($caption) || apply_filters( 'disable_captions', '' ) )
 		return $html;
 
 	$id = ( 0 < (int) $id ) ? 'attachment_' . $id : '';
 
-	preg_match( '/width="([0-9]+)/', $html, $matches );
-	if ( ! isset($matches[1]) )
+	if ( ! preg_match( '/width="([0-9]+)/', $html, $matches ) )
 		return $html;
 
 	$width = $matches[1];
@@ -165,14 +164,12 @@ function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 	if ( empty($align) )
 		$align = 'none';
 
-	$alt = ! empty($alt) ? addslashes($alt) : '';
-
 	$shcode = '[caption id="' . $id . '" align="align' . $align
-	. '" width="' . $width . '" caption="' . $alt . '"]' . $html . '[/caption]';
+	. '" width="' . $width . '" caption="' . addslashes($caption) . '"]' . $html . '[/caption]';
 
 	return apply_filters( 'image_add_caption_shortcode', $shcode, $html );
 }
-add_filter( 'image_send_to_editor', 'image_add_caption', 20, 7 );
+add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 
 /**
  * {@internal Missing Short Description}}
@@ -431,6 +428,15 @@ function media_upload_form_handler() {
 
 		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
 
+		if ( isset($attachment['image_alt']) && !empty($attachment['image_alt']) ) {
+			$image_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+			if ( $image_alt != stripslashes($attachment['image_alt']) ) {
+				$image_alt = wp_strip_all_tags( stripslashes($attachment['image_alt']), true );
+				// update_meta expects slashed
+				update_post_meta( $attachment_id, '_wp_attachment_image_alt', addslashes($image_alt) );
+			}
+		}
+
 		if ( isset($post['errors']) ) {
 			$errors[$attachment_id] = $post['errors'];
 			unset($post['errors']);
@@ -439,9 +445,10 @@ function media_upload_form_handler() {
 		if ( $post != $_post )
 			wp_update_post($post);
 
-		foreach ( get_attachment_taxonomies($post) as $t )
+		foreach ( get_attachment_taxonomies($post) as $t ) {
 			if ( isset($attachment[$t]) )
 				wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[$t])), $t, false);
+		}
 	}
 
 	if ( isset($_POST['insert-gallery']) || isset($_POST['update-gallery']) ) { ?>
@@ -889,15 +896,17 @@ function image_link_input_fields($post, $url_type='') {
  */
 function image_attachment_fields_to_edit($form_fields, $post) {
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
+		$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
+		if ( empty($alt) )
+			$alt = '';
+
 		$form_fields['post_title']['required'] = true;
-		$file = wp_get_attachment_url($post->ID);
 
-		$form_fields['image_url']['value'] = $file;
-
-		$form_fields['post_excerpt']['label'] = __('Caption');
-		$form_fields['post_excerpt']['helps'][] = __('Also used as alternate text for the image');
-
-		$form_fields['post_content']['label'] = __('Description');
+		$form_fields['image_alt'] = array(
+			'value' => $alt,
+			'label' => __('Alternate text'),
+			'helps' => __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;')
+		);
 
 		$form_fields['align'] = array(
 			'label' => __('Alignment'),
@@ -905,7 +914,10 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 			'html'  => image_align_input_fields($post, get_option('image_default_align')),
 		);
 
-		$form_fields['image-size'] = image_size_input_fields($post, get_option('image_default_size'));
+		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size') );
+
+	} else {
+		unset( $form_fields['image_alt'] );
 	}
 	return $form_fields;
 }
@@ -967,20 +979,12 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 	$post =& get_post($attachment_id);
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$url = $attachment['url'];
-
-		if ( isset($attachment['align']) )
-			$align = $attachment['align'];
-		else
-			$align = 'none';
-
-		if ( !empty($attachment['image-size']) )
-			$size = $attachment['image-size'];
-		else
-			$size = 'medium';
-
+		$align = !empty($attachment['align']) ? $attachment['align'] : 'none';
+		$size = !empty($attachment['image-size']) ? $attachment['image-size'] : 'medium';
+		$alt = !empty($attachment['image_alt']) ? $attachment['image_alt'] : '';
 		$rel = ( $url == get_attachment_link($attachment_id) );
 
-		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel, $size);
+		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel, $size, $alt);
 	}
 
 	return $html;
@@ -1010,22 +1014,23 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	$form_fields = array(
 		'post_title'   => array(
 			'label'      => __('Title'),
-			'value'      => $edit_post->post_title,
+			'value'      => $edit_post->post_title
 		),
+		'image_alt'   => array(),
 		'post_excerpt' => array(
 			'label'      => __('Caption'),
-			'value'      => $edit_post->post_excerpt,
+			'value'      => $edit_post->post_excerpt
 		),
 		'post_content' => array(
 			'label'      => __('Description'),
 			'value'      => $edit_post->post_content,
-			'input'      => 'textarea',
+			'input'      => 'textarea'
 		),
 		'url'          => array(
 			'label'      => __('Link URL'),
 			'input'      => 'html',
 			'html'       => image_link_input_fields($post, get_option('image_default_link_type')),
-			'helps'      => __('Enter a link URL or click above for presets.'),
+			'helps'      => __('Enter a link URL or click above for presets.')
 		),
 		'menu_order'   => array(
 			'label'      => __('Order'),
@@ -1035,8 +1040,8 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'label'      => __('File URL'),
 			'input'      => 'html',
 			'html'       => "<input type='text' class='urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . esc_attr($image_url) . "' /><br />",
-			'value'      => isset($edit_post->post_url) ? $edit_post->post_url : '',
-			'helps'      => __('Location of the uploaded file.'),
+			'value'      => isset($edit_post->post_url) ? $edit_post->post_url : wp_get_attachment_url($post->ID),
+			'helps'      => __('Location of the uploaded file.')
 		)
 	);
 
@@ -1525,21 +1530,22 @@ var addExtImage = {
 	align : 'alignnone',
 
 	insert : function() {
-		var t = this, html, f = document.forms[0], cls, title = '', alt = '', caption = null;
+		var t = this, html, f = document.forms[0], cls, title = '', alt = '', caption = '';
 
 		if ( '' == f.src.value || '' == t.width ) return false;
 
 		if ( f.title.value ) {
-			title = f.title.value.replace(/['"<>]+/g, '');
+			title = f.title.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 			title = ' title="'+title+'"';
 		}
 
-		if ( f.alt.value ) {
-			alt = f.alt.value.replace(/['"<>]+/g, '');
+		if ( f.alt.value )
+			alt = f.alt.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 <?php if ( ! apply_filters( 'disable_captions', '' ) ) { ?>
-			caption = f.alt.value.replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		if ( f.caption.value )
+			caption = f.caption.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 <?php } ?>
-		}
 
 		cls = caption ? '' : ' class="'+t.align+'"';
 
@@ -1915,12 +1921,17 @@ jQuery(function($){
  */
 function type_url_form_image() {
 
-	if ( apply_filters( 'disable_captions', '' ) ) {
-		$alt = __('Alternate Text');
-		$alt_help = __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;');
+	if ( !apply_filters( 'disable_captions', '' ) ) {
+		$caption = '
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="caption">' . __('Image Caption') . '</label></span>
+			</th>
+			<td class="field"><input id="caption" name="caption" value="" type="text" /></td>
+		</tr>
+';
 	} else {
-		$alt = __('Image Caption');
-		$alt_help = __('Also used as alternate text for the image');
+		$caption = '';
 	}
 
 	$default_align = get_option('image_default_align');
@@ -1942,17 +1953,17 @@ function type_url_form_image() {
 				<span class="alignleft"><label for="title">' . __('Image Title') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><p><input id="title" name="title" value="" type="text" aria-required="true" /></p></td>
+			<td class="field"><input id="title" name="title" value="" type="text" aria-required="true" /></td>
 		</tr>
 
 		<tr>
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="alt">' . $alt . '</label></span>
+				<span class="alignleft"><label for="alt">' . __('Alternate Text') . '</label></span>
 			</th>
 			<td class="field"><input id="alt" name="alt" value="" type="text" aria-required="true" />
-			<p class="help">' . $alt_help . '</p></td>
+			<p class="help">' . __('Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;') . '</p></td>
 		</tr>
-
+		' . $caption . '
 		<tr class="align">
 			<th valign="top" scope="row" class="label"><p><label for="align">' . __('Alignment') . '</label></p></th>
 			<td class="field">
