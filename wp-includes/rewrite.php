@@ -1607,11 +1607,11 @@ class WP_Rewrite {
 	 * @return array Rewrite rules.
 	 */
 	function wp_rewrite_rules() {
-		$this->rules = get_transient('rewrite_rules');
+		$this->rules = get_option('rewrite_rules');
 		if ( empty($this->rules) ) {
 			$this->matches = 'matches';
 			$this->rewrite_rules();
-			set_transient('rewrite_rules', $this->rules);
+			update_option('rewrite_rules', $this->rules);
 		}
 
 		return $this->rules;
@@ -1822,10 +1822,10 @@ class WP_Rewrite {
 	 *
 	 * @since 2.0.1
 	 * @access public
-	 * @param $hard bool Whether to update .htaccess (hard flush) or just update rewrite_rules transient (soft flush). Default is true (hard).
+	 * @param $hard bool Whether to update .htaccess (hard flush) or just update rewrite_rules option (soft flush). Default is true (hard).
 	 */
 	function flush_rules($hard = true) {
-		delete_transient('rewrite_rules');
+		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
 		if ( $hard && function_exists('save_mod_rewrite_rules') )
 			save_mod_rewrite_rules();
