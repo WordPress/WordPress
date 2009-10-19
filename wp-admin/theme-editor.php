@@ -15,7 +15,7 @@ if ( !current_user_can('edit_themes') )
 $title = __("Edit Themes");
 $parent_file = 'themes.php';
 
-wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme'));
+wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme', 'dir'));
 
 wp_admin_css( 'theme-editor' );
 
@@ -34,10 +34,15 @@ $allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme
 
 if (empty($file)) {
 	$file = $allowed_files[0];
+} else {
+	if ( 'theme' == $dir ) {
+		$file = dirname(dirname($themes[$theme]['Template Dir'])) . $file ; 
+	} else if ( 'style' == $dir) {
+		$file = dirname(dirname($themes[$theme]['Stylesheer Dir'])) . $file ; 
+	}
 }
 
-$file = validate_file_to_edit($file, $allowed_files);
-$real_file = get_real_file_to_edit($file);
+$real_file = validate_file_to_edit($file, $allowed_files);
 $scrollto = isset($_REQUEST['scrollto']) ? (int) $_REQUEST['scrollto'] : 0;
 
 $file_show = basename( $file );
@@ -157,33 +162,34 @@ if ($allowed_files) :
 		// This means that we display the correct files for child themes which overload Templates as well as Styles
 		if( array_key_exists($description, $template_mapping ) ) {
 			if ( false !== strpos( $template_file, $template_dir ) )  {
-				$template_mapping[ $description ] = array( $template_file, $filedesc );
+				$template_mapping[ $description ] = array( _get_template_edit_filename($template_file, $template_dir), $filedesc );
 			}
 		} else {
-			$template_mapping[ $description ] = array( $template_file, $filedesc );
+			$template_mapping[ $description ] = array( _get_template_edit_filename($template_file, $template_dir), $filedesc );
 		}
 	}
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $template_file, $filedesc ) ) = each( $template_mapping ) ) :
 	?>
-		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
+		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>&amp;dir=theme"><?php echo $filedesc ?></a></li>
 <?php endwhile; ?>
 	</ul>
 	<h4><?php /* translators: Theme stylesheets in theme editor */ echo _x('Styles', 'Theme stylesheets in theme editor'); ?></h4>
 	<ul>
 <?php
 	$template_mapping = array();
+	$stylesheet_dir = $themes[$theme]['Stylesheet Dir'];
 	foreach ( $themes[$theme]['Stylesheet Files'] as $style_file ) {
 		$description = trim( get_file_description($style_file) );
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description <span class='nonessential'>($style_show)</span>" : "$description";
 		$filedesc = ( $style_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($style_show)</span></span>" : $filedesc;
-		$template_mapping[ $description ] = array( $style_file, $filedesc );
+		$template_mapping[ $description ] = array( _get_template_edit_filename($style_file, $style_file), $filedesc );
 	}
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $style_file, $filedesc ) ) = each( $template_mapping ) ) :
 		?>
-		<li><a href="theme-editor.php?file=<?php echo "$style_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
+		<li><a href="theme-editor.php?file=<?php echo "$style_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>&amp;dir=style"><?php echo $filedesc ?></a></li>
 <?php endwhile; ?>
 	</ul>
 <?php endif; ?>

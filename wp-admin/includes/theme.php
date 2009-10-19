@@ -146,4 +146,18 @@ function get_page_templates() {
 	return $page_templates;
 }
 
+/**
+ * Tidies a filename for url display by the theme editor.
+ * 
+ * @since 2.9.0
+ * @private
+ * 
+ * @param string $fullpath Full path to the theme file
+ * @param string $containingfolder Path of the theme parent folder
+ * @return string
+ */
+function _get_template_edit_filename($fullpath, $containingfolder) {
+	return str_replace(dirname(dirname( $containingfolder )) , '', $fullpath);
+}
+
 ?>
