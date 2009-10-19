@@ -232,8 +232,8 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 			return $null;
 	} elseif ( is_object($post) && empty($post->filter) ) {
 		_get_post_ancestors($post);
-		wp_cache_add($post->ID, $post, 'posts');
-		$_post = &$post;
+		$_post = sanitize_post($post, 'raw');
+		wp_cache_add($post->ID, $_post, 'posts');
 	} else {
 		if ( is_object($post) )
 			$post = $post->ID;
@@ -243,11 +243,13 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 			if ( ! $_post )
 				return $null;
 			_get_post_ancestors($_post);
+			$_post = sanitize_post($_post, 'raw');
 			wp_cache_add($_post->ID, $_post, 'posts');
 		}
 	}
 
-	$_post = sanitize_post($_post, $filter);
+	if ($filter != 'raw')
+		$_post = sanitize_post($_post, $filter);
 
 	if ( $output == OBJECT ) {
 		return $_post;
@@ -817,12 +819,18 @@ function is_sticky($post_id = null) {
  */
 function sanitize_post($post, $context = 'display') {
 	if ( is_object($post) ) {
+		// Check if post already filtered for this context
+		if ( isset($post->filter) && $context == $post->filter )
+			return $post;
 		if ( !isset($post->ID) )
 			$post->ID = 0;
 		foreach ( array_keys(get_object_vars($post)) as $field )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
 		$post->filter = $context;
 	} else {
+		// Check if post already filtered for this context
+		if ( isset($post['filter']) && $context == $post['filter'] )
+			return $post;
 		if ( !isset($post['ID']) )
 			$post['ID'] = 0;
 		foreach ( array_keys($post) as $field )
@@ -2450,6 +2458,12 @@ function &get_pages($args = '') {
 		return $pages;
 	}
 
+	// Sanitize before caching so it'll only get done once
+	$num_pages = count($pages);
+	for ($i = 0; $i < $num_pages; $i++) {
+		$pages[$i] = sanitize_post($pages[$i], 'raw');
+	}
+
 	// Update cache.
 	update_page_cache($pages);
 
@@ -2465,8 +2479,7 @@ function &get_pages($args = '') {
 		foreach ( $children as $child )
 			$excludes[] = $child->ID;
 		$excludes[] = $exclude;
-		$total = count($pages);
-		for ( $i = 0; $i < $total; $i++ ) {
+		for ( $i = 0; $i < $num_pages; $i++ ) {
 			if ( in_array($pages[$i]->ID, $excludes) )
 				unset($pages[$i]);
 		}

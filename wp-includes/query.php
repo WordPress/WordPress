@@ -2360,9 +2360,15 @@ class WP_Query {
 		if ( !$q['suppress_filters'] )
 			$this->posts = apply_filters('the_posts', $this->posts);
 
+		$this->post_count = count($this->posts);
+
+		// Sanitize before caching so it'll only get done once
+		for ($i = 0; $i < $this->post_count; $i++) {
+			$this->posts[$i] = sanitize_post($this->posts[$i], 'raw');
+		}
+
 		update_post_caches($this->posts);
 
-		$this->post_count = count($this->posts);
 		if ($this->post_count > 0) {
 			$this->post = $this->posts[0];
 		}
