@@ -1151,7 +1151,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	if ( isset($post_mime_types) ) {
 		$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
 		$type = array_shift($keys);
-		$type = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
+		$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 	}
 
 	$form_fields = get_attachment_fields_to_edit($post, $errors);
@@ -1160,8 +1160,9 @@ function get_media_item( $attachment_id, $args = null ) {
 		$class = empty($errors) ? 'startclosed' : 'startopen';
 		$toggle_links = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
-	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>
-	<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"" . intval( $attachment_id ) . "\");return false;'>" . esc_html__( "Use for thumbnail" ) . "</a>";
+	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
+	if ( 'image' == $type )
+		$toggle_links .= "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"" . intval( $attachment_id ) . "\");return false;'>" . esc_html__( "Use for thumbnail" ) . "</a>";
 	} else {
 		$class = 'form-table';
 		$toggle_links = '';
@@ -1197,7 +1198,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$item = "
-	$type
+	$type_html
 	$toggle_links
 	$order
 	$display_title
