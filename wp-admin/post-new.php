@@ -18,7 +18,6 @@ if ( user_can_richedit() )
 add_thickbox();
 wp_enqueue_script('media-upload');
 wp_enqueue_script('word-count');
-wp_enqueue_script( 'set-post-thumbnail-handler' );
 
 if ( ! current_user_can('edit_posts') ) {
 	require_once ('./admin-header.php'); ?>

@@ -141,7 +141,6 @@ case 'edit':
 	add_thickbox();
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('word-count');
-	wp_enqueue_script( 'set-post-thumbnail-handler' );
 	wp_enqueue_script( 'admin-comments' );
 	enqueue_comment_hotkeys_js();
 
