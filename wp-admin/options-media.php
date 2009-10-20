@@ -70,16 +70,16 @@ include('admin-header.php');
 <table class="form-table">
 
 <tr valign="top">
-<th scope="row"><?php _e('oEmbed'); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php printf( __('Use <a href="%s">oEmbed</a> to assist in rich content embedding'), 'http://codex.wordpress.org/oEmbed' ); ?></span></legend>
-<label for="embed_useoembed"><input name="embed_useoembed" type="checkbox" id="embed_useoembed" value="1" <?php checked( '1', get_option('embed_useoembed') ); ?>/> <?php printf( __('Use <a href="%s">oEmbed</a> to assist in rich content embedding'), 'http://codex.wordpress.org/oEmbed' ); ?></label>
+<th scope="row"><?php _e('Auto-embeds'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Attempt to automatically embed all plain text URLs'); ?></span></legend>
+<label for="embed_autourls"><input name="embed_autourls" type="checkbox" id="embed_autourls" value="1" <?php checked( '1', get_option('embed_autourls') ); ?>/> <?php _e('Attempt to automatically embed all plain text URLs'); ?></label>
 </fieldset></td>
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e('Auto-embeds'); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Attempt to automatically embed all plain text URLs'); ?></span></legend>
-<label for="embed_autourls"><input name="embed_autourls" type="checkbox" id="embed_autourls" value="1" <?php checked( '1', get_option('embed_autourls') ); ?>/> <?php _e('Attempt to automatically embed all plain text URLs'); ?></label>
+<th scope="row"><?php _e('oEmbed'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php printf( __('Use <a href="%s">oEmbed</a> to assist in rich content embedding'), 'http://codex.wordpress.org/oEmbed' ); ?></span></legend>
+<label for="embed_useoembed"><input name="embed_useoembed" type="checkbox" id="embed_useoembed" value="1" <?php checked( '1', get_option('embed_useoembed') ); ?>/> <?php printf( __('Use <a href="%s">oEmbed</a> to allow embedding content from additional websites'), 'http://codex.wordpress.org/oEmbed' ); ?></label>
 </fieldset></td>
 </tr>
 
