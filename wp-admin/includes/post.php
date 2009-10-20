@@ -1100,7 +1100,7 @@ function wp_set_post_lock( $post_id ) {
 /**
  * Outputs the notice message to say that someone else is editing this post at the moment.
  *
- * @since 2.9.0
+ * @since 2.8.5
  * @return none
  */
 function _admin_notice_post_locked() {
