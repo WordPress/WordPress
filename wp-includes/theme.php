@@ -875,13 +875,13 @@ function preview_theme() {
 	if ( validate_file($_GET['template']) )
 		return;
 
-	add_filter( 'template', create_function('', "return '{$_GET['template']}';") );
+	add_filter( 'template', '_preview_theme_template_filter' );
 
 	if ( isset($_GET['stylesheet']) ) {
 		$_GET['stylesheet'] = preg_replace('|[^a-z0-9_./-]|i', '', $_GET['stylesheet']);
 		if ( validate_file($_GET['stylesheet']) )
 			return;
-		add_filter( 'stylesheet', create_function('', "return '{$_GET['stylesheet']}';") );
+		add_filter( 'stylesheet', '_preview_theme_stylesheet_filter' );
 	}
 
 	// Prevent theme mods to current theme being used on theme being previewed
@@ -890,6 +890,24 @@ function preview_theme() {
 	ob_start( 'preview_theme_ob_filter' );
 }
 add_action('setup_theme', 'preview_theme');
+
+/**
+ * Private function to modify the current template when previewing a theme
+ * 
+ * @return string
+ */
+function _preview_theme_template_filter() {
+	return isset($_GET['template']) ? $_GET['template'] : '';
+}
+
+/**
+ * Private function to modify the current stylesheet when previewing a theme
+ * 
+ * @return string
+ */
+function _preview_theme_stylesheet_filter() {
+	return isset($_GET['stylesheet']) ? $_GET['stylesheet'] : '';
+}
 
 /**
  * Callback function for ob_start() to capture all links in the theme.
