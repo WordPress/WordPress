@@ -127,8 +127,80 @@ function core_upgrade_preamble() {
 	echo '</ul>';
 	dismissed_updates();
 	echo '</div>';
+
+	list_plugin_updates();
+	list_theme_updates();
 }
 
+function list_plugin_updates() {
+	$plugins = get_plugin_updates();
+	if ( empty($plugins) )
+		return;
+?>
+<h3><?php _e('Plugins'); ?></h3>
+<table class="widefat" cellspacing="0" id="update-plugins-table">
+	<thead>
+	<tr>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+	</tr>
+	</tfoot>
+	<tbody class="plugins">
+<?php
+	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
+		echo "
+	<tr class='active'>
+		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
+		<td class='plugin-title'><strong>{$plugin_data->Name}</strong></td>
+	</tr>";
+	}
+?>
+	</tbody>
+</table>
+<?php
+}
+
+function list_theme_updates() {
+	$themes = get_theme_updates();
+	if ( empty($themes) )
+		return;
+?>
+<h3><?php _e('Themes'); ?></h3>
+<table class="widefat" cellspacing="0" id="update-themes-table">
+	<thead>
+	<tr>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+	</tr>
+	</tfoot>
+	<tbody class="plugins">
+<?php
+	foreach ( (array) $themes as $stylesheet => $theme_data) {
+		echo "
+	<tr class='active'>
+		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($stylesheet) . "' /></th>
+		<td class='plugin-title'><strong>{$theme_data->Name}</strong></td>
+	</tr>";
+	}
+?>
+	</tbody>
+</table>
+<?php
+}
 
 /**
  * Upgrade WordPress core display.
