@@ -364,7 +364,7 @@ commentReply = {
 
 		$.ajax({
 			type : 'POST',
-			url : wpListL10n.url,
+			url : ajaxurl,
 			data : post,
 			success : function(x) { commentReply.show(x); },
 			error : function(r) { commentReply.error(r); }
