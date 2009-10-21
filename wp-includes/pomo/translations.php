@@ -2,13 +2,14 @@
 /**
  * Class for a set of entries for translation and their associated headers
  *
- * @version $Id: translations.php 114 2009-05-11 17:30:38Z nbachiyski $
+ * @version $Id: translations.php 291 2009-10-21 05:46:08Z nbachiyski $
  * @package pomo
  * @subpackage translations
  */
 
 require_once dirname(__FILE__) . '/entry.php';
 
+if ( !class_exists( 'Translations' ) ):
 class Translations {
 	var $entries = array();
 	var $headers = array();
@@ -25,7 +26,7 @@ class Translations {
 		}
 		$key = $entry->key();
 		if (false === $key) return false;
-		$this->entries[$key] = $entry;
+		$this->entries[$key] = &$entry;
 		return true;
 	}
 
@@ -117,29 +118,33 @@ class Gettext_Translations extends Translations {
 	 */
 	function gettext_select_plural_form($count) {
 		if (!isset($this->_gettext_select_plural_form) || is_null($this->_gettext_select_plural_form)) {
-			$plural_header = $this->get_header('Plural-Forms');
-			$this->_gettext_select_plural_form = $this->_make_gettext_select_plural_form($plural_header);
+			list( $nplurals, $expression ) = $this->nplurals_and_expression_from_header($this->get_header('Plural-Forms'));
+			$this->_nplurals = $nplurals;
+			$this->_gettext_select_plural_form = $this->make_plural_form_function($nplurals, $expression);
 		}
 		return call_user_func($this->_gettext_select_plural_form, $count);
+	}
+	
+	function nplurals_and_expression_from_header($header) {
+		if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches)) {
+			$nplurals = (int)$matches[1];
+			$expression = trim($this->parenthesize_plural_exression($matches[2]));
+			return array($nplurals, $expression);
+		} else {
+			return array(2, 'n != 1');
+		}
 	}
 
 	/**
 	 * Makes a function, which will return the right translation index, according to the
 	 * plural forms header
 	 */
-	function _make_gettext_select_plural_form($plural_header) {
-		$res = create_function('$count', 'return 1 == $count? 0 : 1;');
-		if ($plural_header && (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $plural_header, $matches))) {
-			$nplurals = (int)$matches[1];
-			$this->_nplurals = $nplurals;
-			$plural_expr = trim($this->_parenthesize_plural_exression($matches[2]));
-			$plural_expr = str_replace('n', '$n', $plural_expr);
-			$func_body = "
-				\$index = (int)($plural_expr);
-				return (\$index < $nplurals)? \$index : $nplurals - 1;";
-			$res = create_function('$n', $func_body);
-		}
-		return $res;
+	function make_plural_form_function($nplurals, $expression) {
+		$expression = str_replace('n', '$n', $expression);
+		$func_body = "
+			\$index = (int)($expression);
+			return (\$index < $nplurals)? \$index : $nplurals - 1;";
+		return create_function('$n', $func_body);
 	}
 
 	/**
@@ -149,7 +154,7 @@ class Gettext_Translations extends Translations {
 	 * @param string $expression the expression without parentheses
 	 * @return string the expression with parentheses added
 	 */
-	function _parenthesize_plural_exression($expression) {
+	function parenthesize_plural_exression($expression) {
 		$expression .= ';';
 		$res = '';
 		$depth = 0;
@@ -186,14 +191,61 @@ class Gettext_Translations extends Translations {
 		}
 		return $headers;
 	}
-
+	
 	function set_header($header, $value) {
 		parent::set_header($header, $value);
-		if ('Plural-Forms' == $header)
-			$this->_gettext_select_plural_form = $this->_make_gettext_select_plural_form($value);
+		if ('Plural-Forms' == $header) {
+			list( $nplurals, $expression ) = $this->nplurals_and_expression_from_header($this->get_header('Plural-Forms'));
+			$this->_nplurals = $nplurals;
+			$this->_gettext_select_plural_form = $this->make_plural_form_function($nplurals, $expression);
+		}
+	}
+}
+endif;
+
+if ( !class_exists( 'NOOP_Translations' ) ):
+/**
+ * Provides the same interface as Translations, but doesn't do anything
+ */
+class NOOP_Translations {
+	var $entries = array();
+	var $headers = array();
+	
+	function add_entry($entry) {
+		return true;
 	}
 
-	
-}
+	function set_header($header, $value) {
+	}
 
-?>
+	function set_headers(&$headers) {
+	}
+
+	function get_header($header) {
+		return false;
+	}
+
+	function translate_entry(&$entry) {
+		return false;
+	}
+
+	function translate($singular, $context=null) {
+		return $singular;
+	}
+
+	function select_plural_form($count) {
+		return 1 == $count? 0 : 1;
+	}
+
+	function get_plural_forms_count() {
+		return 2;
+	}
+
+	function translate_plural($singular, $plural, $count, $context = null) {
+			return 1 == $count? $singular : $plural;
+	}
+
+	function merge_with(&$other) {
+	}
+}
+endif;

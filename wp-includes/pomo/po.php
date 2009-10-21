@@ -2,7 +2,7 @@
 /**
  * Class for working with PO files
  *
- * @version $Id: po.php 123 2009-05-13 19:35:43Z nbachiyski $
+ * @version $Id: po.php 283 2009-09-23 16:21:51Z nbachiyski $
  * @package pomo
  * @subpackage po
  */
@@ -16,6 +16,7 @@ ini_set('auto_detect_line_endings', 1);
 /**
  * Routines for working with PO files
  */
+if ( !class_exists( 'PO' ) ):
 class PO extends Gettext_Translations {
 	
 
@@ -316,7 +317,9 @@ class PO extends Gettext_Translations {
 				return false;
 			}
 		}
-		if (array() == array_filter($entry->translations)) $entry->translations = array();
+		if (array() == array_filter($entry->translations, create_function('$t', 'return $t || "0" === $t;'))) {
+			$entry->translations = array();
+		}
 		return array('entry' => $entry, 'lineno' => $lineno);
 	}
 	
@@ -357,4 +360,4 @@ class PO extends Gettext_Translations {
 		return $s;
 	}
 }
-?>
+endif;

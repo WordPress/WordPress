@@ -2,7 +2,7 @@
 /**
  * Class for working with MO files
  *
- * @version $Id: mo.php 106 2009-04-23 19:48:22Z nbachiyski $
+ * @version $Id: mo.php 221 2009-09-07 21:08:21Z nbachiyski $
  * @package pomo
  * @subpackage mo
  */
@@ -10,6 +10,7 @@
 require_once dirname(__FILE__) . '/translations.php';
 require_once dirname(__FILE__) . '/streams.php';
 
+if ( !class_exists( 'MO' ) ):
 class MO extends Gettext_Translations {
 
 	var $_nplurals = 2;
@@ -95,15 +96,13 @@ class MO extends Gettext_Translations {
 	}
 
 	function get_byteorder($magic) {
-
 		// The magic is 0x950412de
 
 		// bug in PHP 5.0.2, see https://savannah.nongnu.org/bugs/?func=detailitem&item_id=10565
 		$magic_little = (int) - 1794895138;
 		$magic_little_64 = (int) 2500072158;
 		// 0xde120495
-		$magic_big = ((int) - 569244523) && 0xFFFFFFFF;
-		
+		$magic_big = ((int) - 569244523) & 0xFFFFFFFF;
 		if ($magic_little == $magic || $magic_little_64 == $magic) {
 			return 'little';
 		} else if ($magic_big == $magic) {
@@ -182,4 +181,4 @@ class MO extends Gettext_Translations {
 
 
 }
-?>
+endif;

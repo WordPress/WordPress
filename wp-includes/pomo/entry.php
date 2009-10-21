@@ -2,12 +2,12 @@
 /**
  * Contains Translation_Entry class
  *
- * @version $Id: entry.php 115 2009-05-11 18:56:15Z nbachiyski $
+ * @version $Id: entry.php 222 2009-09-07 21:14:23Z nbachiyski $
  * @package pomo
  * @subpackage entry
  */
 
-
+if ( !class_exists( 'Translation_Entry' ) ):
 /**
  * Translation_Entry class encapsulates a translatable string
  */
@@ -67,4 +67,4 @@ class Translation_Entry {
 		return is_null($this->context)? $this->singular : $this->context.chr(4).$this->singular;
 	}
 }
-?>
+endif;
