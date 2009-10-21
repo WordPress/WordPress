@@ -2986,11 +2986,6 @@ button.dismiss {
 	border-right-style: solid;
 }
 
-#media-items a.delete,
-#media-items a.del-link {
-	padding: 1px 4px 2px;
-}
-
 .upload-php .fixed .column-parent {
 	width: 25%;
 }

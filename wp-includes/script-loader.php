@@ -417,7 +417,7 @@ function wp_default_styles( &$styles ) {
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20091007';
 
-	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091012' );
+	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091020' );
 	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090922' );
@@ -433,7 +433,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091005' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091020' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );

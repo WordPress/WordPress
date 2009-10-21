@@ -1101,17 +1101,16 @@ function get_media_items( $post_id, $errors ) {
  * @return string HTML form for attachment.
  */
 function get_media_item( $attachment_id, $args = null ) {
-	global $redir_tab;
+	global $post_mime_types, $redir_tab;
 
-	$default_args = array( 'errors' => null, 'send' => true, 'delete' => true, 'toggle' => true, 'show_title' => true );
-	$args = wp_parse_args( $args, $default_args );
-	extract( $args, EXTR_SKIP );
-
-	global $post_mime_types;
 	if ( ( $attachment_id = intval($attachment_id) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
 		$thumb_url = $thumb_url[0];
 	else
 		return false;
+
+	$default_args = array( 'errors' => null, 'send' => true, 'delete' => true, 'toggle' => true, 'show_title' => true );
+	$args = wp_parse_args( $args, $default_args );
+	extract( $args, EXTR_SKIP );
 
 	$toggle_on = __('Show');
 	$toggle_off = __('Hide');
@@ -1141,8 +1140,6 @@ function get_media_item( $attachment_id, $args = null ) {
 		$toggle_links = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
-	if ( 'image' == $type )
-		$toggle_links .= "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"" . intval( $attachment_id ) . "\");return false;'>" . esc_html__( "Use for thumbnail" ) . "</a>";
 	} else {
 		$class = 'form-table';
 		$toggle_links = '';
@@ -1209,8 +1206,11 @@ function get_media_item( $attachment_id, $args = null ) {
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
 	if ( $delete )
 		$delete = current_user_can('delete_post', $attachment_id) ? "<a href=\"$delete_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a>" : "";
-	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
-		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete</td></tr>\n");
+	if ( 'image' == $type && get_post_image_id($_GET['post_id']) != $attachment_id )
+		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
+
+	if ( ( $send || $thumbnail || $delete ) && !isset($form_fields['buttons']) )
+		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $thumbnail $delete</td></tr>\n");
 
 	$hidden_fields = array();
 

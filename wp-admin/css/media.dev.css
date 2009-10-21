@@ -272,11 +272,13 @@ abbr.required {
 	text-align: center;
 }
 
-#media-upload a.wp-post-thumbnail{
+#media-upload a.wp-post-thumbnail {
+	margin: 0 20px;
+}
+
+#media-items a.delete {
 	display: block;
-	line-height: 36px;
 	float: right;
-	margin-right: 20px;
 }
 
 #media-upload .widefat {
