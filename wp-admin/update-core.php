@@ -129,27 +129,31 @@ function core_upgrade_preamble() {
 	echo '</div>';
 
 	list_plugin_updates();
-	list_theme_updates();
+	//list_theme_updates();
 }
 
 function list_plugin_updates() {
 	$plugins = get_plugin_updates();
 	if ( empty($plugins) )
 		return;
-?>
+	$form_action = '';
+	?>
 <h3><?php _e('Plugins'); ?></h3>
+<form method="post" action="<?php $form_action; ?>" name="upgrade-plugins" class="upgrade">
+<?php wp_nonce_field('upgrade-core'); ?>
+<p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Upgrade Plugins'); ?>" name="upgrade" /></p>
 <table class="widefat" cellspacing="0" id="update-plugins-table">
 	<thead>
 	<tr>
 		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
-		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+		<th scope="col" class="manage-column"><?php _e('Select All'); ?></th>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
 		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
-		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+		<th scope="col" class="manage-column"><?php _e('Select All'); ?></th>
 	</tr>
 	</tfoot>
 	<tbody class="plugins">
@@ -164,6 +168,8 @@ function list_plugin_updates() {
 ?>
 	</tbody>
 </table>
+<p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e('Upgrade Plugins'); ?>" name="upgrade" /></p>
+</form>
 <?php
 }
 
