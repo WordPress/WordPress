@@ -544,10 +544,10 @@ function search_theme_directories() {
 
 		while ( ($theme_dir = readdir($themes_dir)) !== false ) {
 			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
-				if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
+				if ( $theme_dir{0} == '.' || $theme_dir == 'CVS' )
 					continue;
 
-				$stylish_dir = @ opendir($theme_root . '/' . $theme_dir);
+				$stylish_dir = @opendir($theme_root . '/' . $theme_dir);
 				$found_stylesheet = false;
 
 				while ( ($theme_file = readdir($stylish_dir)) !== false ) {
@@ -562,14 +562,14 @@ function search_theme_directories() {
 				if ( !$found_stylesheet ) { // look for themes in that dir
 					$subdir = "$theme_root/$theme_dir";
 					$subdir_name = $theme_dir;
-					$theme_subdir = @ opendir( $subdir );
+					$theme_subdirs = @opendir( $subdir );
 
-					while ( ($theme_dir = readdir($theme_subdir)) !== false ) {
-						if ( is_dir( $subdir . '/' . $theme_dir) && is_readable($subdir . '/' . $theme_dir) ) {
-							if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
+					while ( ($theme_subdir = readdir($theme_subdirs)) !== false ) {
+						if ( is_dir( $subdir . '/' . $theme_subdir) && is_readable($subdir . '/' . $theme_subdir) ) {
+							if ( $theme_subdir{0} == '.' || $theme_subdir == 'CVS' )
 								continue;
 
-							$stylish_dir = @ opendir($subdir . '/' . $theme_dir);
+							$stylish_dir = @opendir($subdir . '/' . $theme_subdir);
 							$found_stylesheet = false;
 
 							while ( ($theme_file = readdir($stylish_dir)) !== false ) {
@@ -583,7 +583,6 @@ function search_theme_directories() {
 						}
 					}
 					@closedir($theme_subdir);
-
 					$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
 				}
 			}

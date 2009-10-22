@@ -272,7 +272,7 @@ if ( count($broken_themes) ) {
 <h2><?php _e('Broken Themes'); ?></h2>
 <p><?php _e('The following themes are installed but incomplete.  Themes must have a stylesheet and a template.'); ?></p>
 
-<table width="100%" cellpadding="3" cellspacing="3">
+<table id="broken-themes">
 	<tr>
 		<th><?php _e('Name'); ?></th>
 		<th><?php _e('Description'); ?></th>

@@ -3542,3 +3542,9 @@ input.newtag:focus ~ div.taghint {
 	visibility: hidden;
 }
 
+#broken-themes {
+	text-align: left;
+	width: 50%;
+	border-spacing: 3px;
+	padding: 3px;
+}
