@@ -675,24 +675,30 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 	global $wp_filter;
 	static $filter_id_count = 0;
 
-	// If function then just skip all of the tests and not overwrite the following.
-	if ( is_string($function) )
+	if ( is_string($function) ) {
 		return $function;
-	// Object Class Calling
-	else if (is_object($function[0]) ) {
-		$obj_idx = get_class($function[0]).$function[1];
-		if ( !isset($function[0]->wp_filter_id) ) {
-			if ( false === $priority )
-				return false;
-			$obj_idx .= isset($wp_filter[$tag][$priority]) ? count((array)$wp_filter[$tag][$priority]) : 0;
-			$function[0]->wp_filter_id = $filter_id_count++;
-		} else
-			$obj_idx .= $function[0]->wp_filter_id;
-		return $obj_idx;
-	}
-	// Static Calling
-	else if ( is_string($function[0]) )
+	} else if (is_object($function[0]) ) {
+		// Object Class Calling
+		if ( function_exists('spl_object_hash') ) {
+			return spl_object_hash($function[0]) . $function[1];
+		} else {
+			$obj_idx = get_class($function[0]).$function[1];
+			if ( !isset($function[0]->wp_filter_id) ) {
+				if ( false === $priority )
+					return false;
+				$obj_idx .= isset($wp_filter[$tag][$priority]) ? count((array)$wp_filter[$tag][$priority]) : $filter_id_count;
+				$function[0]->wp_filter_id = $filter_id_count;
+				++$filter_id_count;
+			} else {
+				$obj_idx .= $function[0]->wp_filter_id;
+			}
+	
+			return $obj_idx;
+		}
+	} else if ( is_string($function[0]) ) {
+		// Static Calling
 		return $function[0].$function[1];
+	}
 }
 
 ?>
