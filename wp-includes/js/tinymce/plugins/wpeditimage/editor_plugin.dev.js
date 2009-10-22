@@ -40,6 +40,13 @@
 				tinymce.dom.Event.add(ed.getWin(), 'scroll', function(e) {
 					ed.plugins.wpeditimage.hideButtons();
 				});
+
+				tinymce.dom.Event.add(ed.getBody(), 'dragstart', function(e) {
+					ed.plugins.wpeditimage.hideButtons();
+
+					if ( !tinymce.isGecko && e.target.nodeName == 'IMG' && ed.dom.getParent(e.target, 'dl.wp-caption') )
+						return tinymce.dom.Event.cancel(e);
+				});
 			});
 
 			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
@@ -51,33 +58,32 @@
 			});
 
 			ed.onMouseUp.add(function(ed, e) {
-				var n, DL;
-				
-				if ( tinymce.isOpera ) {
-					if ( e.target.nodeName == 'IMG' )
-						ed.plugins.wpeditimage.showButtons(e.target);
-				} else if ( ! tinymce.isWebKit ) {
-					n = ed.selection.getNode();
-					
-					if ( n.nodeName == 'IMG' && (DL = ed.dom.getParent(n, 'DL')) ) {					
-						window.setTimeout(function(){
-							var ed = tinyMCE.activeEditor, n = ed.selection.getNode(), DL = ed.dom.getParent(n, 'DL');
-						
-							if ( n.width != (parseInt(ed.dom.getStyle(DL, 'width')) - 10) ) {
-								ed.dom.setStyle(DL, 'width', parseInt(n.width)+10);
-								ed.execCommand('mceRepaint');
-							}
-						}, 100);
-					}
+				if ( tinymce.isWebKit || tinymce.isOpera )
+					return;
+
+				if ( ed.dom.getParent(e.target, 'div.mceTemp') || ed.dom.is(e.target, 'div.mceTemp') ) {					
+					window.setTimeout(function(){
+						var ed = tinyMCE.activeEditor, n = ed.selection.getNode(), DL = ed.dom.getParent(n, 'dl.wp-caption');
+
+						if ( DL && n.width != ( parseInt(ed.dom.getStyle(DL, 'width'), 10) - 10 ) ) {
+							ed.dom.setStyle(DL, 'width', parseInt(n.width, 10) + 10);
+							ed.execCommand('mceRepaint');
+						}
+					}, 100);
 				}
 			});
 
 			ed.onMouseDown.add(function(ed, e) {
-				if ( tinymce.isOpera || e.target.nodeName != 'IMG' ) {
+				var p;
+
+				if ( e.target.nodeName != 'IMG' ) {
 					t.hideButtons();
 					return;
 				}
 				ed.plugins.wpeditimage.showButtons(e.target);
+
+				if ( tinymce.isGecko && (p = ed.dom.getParent(e.target, 'dl.wp-caption')) && ed.dom.hasClass(p.parentNode, 'mceTemp') )
+					ed.selection.select(p.parentNode);
 			});
 
 			ed.onKeyPress.add(function(ed, e) {
@@ -124,7 +130,7 @@
 				
 				div_cls = (cls == 'aligncenter') ? 'mceTemp mceIEcenter' : 'mceTemp';
 
-				return '<div class="'+div_cls+'"><dl id="'+id+'" class="wp-caption '+cls+'" style="width: '+(10+parseInt(w))+
+				return '<div class="'+div_cls+'" draggable><dl id="'+id+'" class="wp-caption '+cls+'" style="width: '+(10+parseInt(w))+
 				'px"><dt class="wp-caption-dt">'+c+'</dt><dd class="wp-caption-dd">'+cap+'</dd></dl></div>';
 			});
 		},
@@ -196,12 +202,10 @@
 				title : ed.getLang('wpeditimage.edit_img')
 			});
 
-			wp_editimgbtn.onmousedown = function(e) {
-				var ed = tinyMCE.activeEditor;
+			tinymce.dom.Event.add(wp_editimgbtn, 'mousedown', function(e) {
 				ed.windowManager.bookmark = ed.selection.getBookmark('simple');
 				ed.execCommand("WP_EditImage");
-				this.parentNode.style.display = 'none';
-			};
+			});
 
 			wp_delimgbtn = DOM.add('wp_editbtns', 'img', {
 				src : t.url+'/img/delete.png',
@@ -211,7 +215,7 @@
 				title : ed.getLang('wpeditimage.del_img')
 			});
 
-			wp_delimgbtn.onmousedown = function(e) {
+			tinymce.dom.Event.add(wp_delimgbtn, 'mousedown', function(e) {
 				var ed = tinyMCE.activeEditor, el = ed.selection.getNode(), p;
 
 				if ( el.nodeName == 'IMG' && ed.dom.getAttrib(el, 'class').indexOf('mceItem') == -1 ) {
@@ -219,13 +223,13 @@
 						ed.dom.remove(p);
 					else if ( (p = ed.dom.getParent(el, 'A')) && p.childNodes.length == 1 )
 						ed.dom.remove(p);
-					else ed.dom.remove(el);
+					else
+						ed.dom.remove(el);
 
-					this.parentNode.style.display = 'none';
 					ed.execCommand('mceRepaint');
 					return false;
 				}
-			};
+			});
 		},
 
 		getInfo : function() {
