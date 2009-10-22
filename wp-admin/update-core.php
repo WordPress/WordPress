@@ -136,10 +136,11 @@ function list_plugin_updates() {
 	$plugins = get_plugin_updates();
 	if ( empty($plugins) )
 		return;
-	$form_action = '';
+	$form_action = 'update-core.php?action=do-plugin-upgrade';
 	?>
 <h3><?php _e('Plugins'); ?></h3>
-<form method="post" action="<?php $form_action; ?>" name="upgrade-plugins" class="upgrade">
+<p><?php _e('The following plugins have new versions available.  Check the ones you want to upgrade and then click "Upgrade Plugins".'); ?><p>
+<form method="post" action="<?php echo $form_action; ?>" name="upgrade-plugins" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Upgrade Plugins'); ?>" name="upgrade" /></p>
 <table class="widefat" cellspacing="0" id="update-plugins-table">
@@ -284,19 +285,29 @@ function do_undismiss_core_update() {
 	wp_redirect( wp_nonce_url('update-core.php?action=upgrade-core', 'upgrade-core') );
 }
 
+function do_plugin_upgrade() {
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+	$plugins = (array) $_POST['checked'];
+	$url = 'update-core.php';
+
+	foreach ( $plugins as $plugin ) {
+		$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact('title', 'nonce', 'url', 'plugin') ) );
+		$upgrader->upgrade($plugin);		
+	}
+}
+
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
+
+$title = __('Upgrade WordPress');
+$parent_file = 'tools.php';
 
 if ( 'upgrade-core' == $action ) {
 	wp_version_check();
-	$title = __('Upgrade WordPress');
-	$parent_file = 'tools.php';
 	require_once('admin-header.php');
 	core_upgrade_preamble();
-	include('admin-footer.php');
 } elseif ( 'do-core-upgrade' == $action || 'do-core-reinstall' == $action ) {
 	check_admin_referer('upgrade-core');
-	$title = __('Upgrade WordPress');
-	$parent_file = 'tools.php';
 	// do the (un)dismiss actions before headers,
 	// so that they can redirect
 	if ( isset( $_POST['dismiss'] ) )
@@ -310,6 +321,10 @@ if ( 'upgrade-core' == $action ) {
 		$reinstall = false;
 	if ( isset( $_POST['upgrade'] ) )
 		do_core_upgrade($reinstall);
-	include('admin-footer.php');
+} elseif ( 'do-plugin-upgrade' == $action ) {
+	check_admin_referer('upgrade-core');
+	require_once('admin-header.php');
+	do_plugin_upgrade();
+}
 
-}?>
+include('admin-footer.php');
