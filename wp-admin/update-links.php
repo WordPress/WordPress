@@ -50,7 +50,7 @@ $returns = explode("\n", $body);
 foreach ($returns as $return) {
 	$time = substr($return, 0, 19);
 	$uri = preg_replace('/(.*?) | (.*?)/', '$2', $return);
-	$wdpdb->update( $wpdb->links, array('link_updated' => $time), array('link_url' => $uri) );
+	$wpdb->update( $wpdb->links, array('link_updated' => $time), array('link_url' => $uri) );
 }
 
 ?>
