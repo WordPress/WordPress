@@ -354,6 +354,7 @@ class WP_Upgrader {
 class Plugin_Upgrader extends WP_Upgrader {
 
 	var $result;
+	var $bulk = true;
 
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
@@ -433,6 +434,58 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		delete_transient('update_plugins');
+	}
+
+	function bulk_upgrade($plugins) {
+
+		$this->init();
+		$this->bulk = true;
+		$this->upgrade_strings();
+
+		$current = get_transient( 'update_plugins' );
+
+		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
+		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
+
+		foreach ( $plugins as $plugin ) {
+			if ( !isset( $current->response[ $plugin ] ) ) {
+				$this->skin->set_result(false);
+				$this->skin->error('up_to_date');
+				$this->skin->after();
+				$results[$plugin] = false;
+				continue;
+			}
+
+			// Get the URL to the zip file
+			$r = $current->response[ $plugin ];
+
+			$this->skin->plugin_active = is_plugin_active($plugin);
+
+			$result = $this->run(array(
+						'package' => $r->package,
+						'destination' => WP_PLUGIN_DIR,
+						'clear_destination' => true,
+						'clear_working' => true,
+						'hook_extra' => array(
+									'plugin' => $plugin
+						)
+					));
+				
+			$results[$plugin] = $this->result;
+
+			// Prevent credentials auth screen from displaying multiple times
+			if ( false === $result )
+				break;
+		}
+
+		//Cleanup our hooks, incase something else does a upgrade on this connection.
+		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
+		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
+
+		// Force refresh of plugin update information
+		delete_transient('update_plugins');
+
+		return $results;
 	}
 
 	//return plugin info.
@@ -847,6 +900,13 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $this->plugin);
 		if ( ! empty($update_actions) )
 			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
+	}
+
+	function footer() {
+		if ( $this->upgrader->bulk )
+			return;
+
+		echo '</div>';
 	}
 }
 

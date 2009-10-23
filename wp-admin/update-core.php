@@ -285,16 +285,25 @@ function do_undismiss_core_update() {
 	wp_redirect( wp_nonce_url('update-core.php?action=upgrade-core', 'upgrade-core') );
 }
 
+function no_update_actions($actions) {
+	return '';
+}
+
 function do_plugin_upgrade() {
 	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
-	$plugins = (array) $_POST['checked'];
-	$url = 'update-core.php';
-
-	foreach ( $plugins as $plugin ) {
-		$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact('title', 'nonce', 'url', 'plugin') ) );
-		$upgrader->upgrade($plugin);		
+	if ( isset($_GET['plugins']) ) {
+		$plugins = explode(',', $_GET['plugins']);
+	} else {
+		$plugins = (array) $_POST['checked'];
 	}
+	$url = 'update-core.php?action=do-plugin-upgrade&amp;plugins=' . urlencode(join(',', $plugins));
+	$title = __('Upgrade Plugins');
+	$nonce = 'upgrade-core';
+	add_filter('update_plugin_complete_actions', 'no_update_actions');
+
+	$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact('title', 'nonce', 'url', 'plugin') ) );
+	$upgrader->bulk_upgrade($plugins);
 }
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
