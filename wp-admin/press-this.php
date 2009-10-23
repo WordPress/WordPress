@@ -100,19 +100,19 @@ if ( ! empty($selection) ) {
 $url = isset($_GET['u']) ? esc_url($_GET['u']) : '';
 $image = isset($_GET['i']) ? $_GET['i'] : '';
 
-if ( !empty($_GET['ajax']) ) {
-	switch ($_GET['ajax']) {
+if ( !empty($_REQUEST['ajax']) ) {
+	switch ($_REQUEST['ajax']) {
 		case 'video': ?>
 			<script type="text/javascript" charset="utf-8">
 			/* <![CDATA[ */
 				jQuery('.select').click(function() {
 					append_editor(jQuery('#embed-code').val());
-					jQuery('#extra_fields').hide();
-					jQuery('#extra_fields').html('');
+					jQuery('#extra-fields').hide();
+					jQuery('#extra-fields').html('');
 				});
 				jQuery('.close').click(function() {
-					jQuery('#extra_fields').hide();
-					jQuery('#extra_fields').html('');
+					jQuery('#extra-fields').hide();
+					jQuery('#extra-fields').html('');
 				});
 			/* ]]> */
 			</script>
@@ -192,13 +192,14 @@ if ( !empty($_GET['ajax']) ) {
 		 * @return string
 		 */
 		function get_images_from_uri($uri) {
+			$uri = preg_replace('/\/#.+?$/','', $uri);
 			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
 				return "'".html_entity_decode($uri)."'";
 			$content = wp_remote_fopen($uri);
 			if ( false === $content )
 				return '';
 			$host = parse_url($uri);
-			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif)[^<>\'\"]*)(\2)([^>]*)\/*>/is';
+			$pattern = '/<img ([^>]*)src=(\"|\')([^<>\'\"]+)(\2)([^>]*)\/*>/is';
 			preg_match_all($pattern, $content, $matches);
 			if ( empty($matches[0]) )
 				return '';
@@ -215,15 +216,15 @@ if ( !empty($_GET['ajax']) ) {
 			}
 			return "'" . implode("','", $sources) . "'";
 		}
-		$url = urldecode($url);
+		$url = wp_kses(urldecode($url), null);
 		echo 'new Array('.get_images_from_uri($url).')';
-
 		break;
 
 	case 'photo_js': ?>
 		// gather images and load some default JS
 		var last = null
 		var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
+		if(photostorage == false) {
 		var my_src = eval(
 			jQuery.ajax({
 		   		type: "GET",
@@ -249,7 +250,7 @@ if ( !empty($_GET['ajax']) ) {
 				strtoappend = '<?php _e('Unable to retrieve images or no images on page.'); ?>';
 			}
 		}
-
+		}
 		for (i = 0; i < my_src.length; i++) {
 			img = new Image();
 			img.src = my_src[i];
@@ -294,26 +295,12 @@ if ( !empty($_GET['ajax']) ) {
 			desc = jQuery('#this_photo_description').val();
 			src = jQuery('#this_photo').val();
 			pick(src, desc);
-			jQuery('#extra_fields').hide();
-			jQuery('#extra_fields').html('');
+			jQuery('#extra-fields').hide();
+			jQuery('#extra-fields').html('');
 			return false;
 		}
-
-		jQuery(document).ready(function() {
-			jQuery('#extra_fields').html('<div class="postbox"><h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
-			jQuery('.close').click(function() {
-				jQuery('#extra_fields').hide();
-				jQuery('#extra_fields').html('');
-			});
-			jQuery('.refresh').click(function() {
-						show('photo');
-					});
+			jQuery('#extra-fields').html('<div class="postbox"><h2>Add Photos <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul class="actions"><li><a href="#" id="photo-add-url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
 			jQuery('#img_container').html(strtoappend);
-			jQuery('#photo_add_url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
-			tb_init('#extra_fields .thickbox');
-
-
-		});
 		<?php break;
 }
 die;
@@ -328,17 +315,18 @@ die;
 
 <?php
 	add_thickbox();
-	wp_enqueue_style('press-this');
-	wp_enqueue_style('press-this-ie');
+	wp_enqueue_style( 'press-this' );
+	wp_enqueue_style( 'press-this-ie');
 	wp_enqueue_style( 'colors' );
 	wp_enqueue_script( 'post' );
-	wp_enqueue_script('editor');
+	wp_enqueue_script( 'editor' );
 ?>
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
 var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-this';
+var photostorage = false;
 //]]>
 </script>
 
@@ -376,11 +364,10 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 	}
 
 	function show(tab_name) {
-		jQuery('#extra_fields').html('');
-		jQuery('#extra_fields').show();
+		jQuery('#extra-fields').html('');
 		switch(tab_name) {
 			case 'video' :
-				jQuery('#extra_fields').load('<?php echo esc_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo esc_attr($selection); ?>'}, function() {
+				jQuery('#extra-fields').load('<?php echo esc_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo esc_attr($selection); ?>'}, function() {
 					<?php
 					$content = '';
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
@@ -402,27 +389,50 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 					?>
 					jQuery('#embed-code').prepend('<?php echo htmlentities($content); ?>');
 				});
+				jQuery('#extra-fields').show();
 				return false;
 				break;
 			case 'photo' :
-				jQuery('#extra_fields').before('<p id="waiting"><img src="images/wpspin_light.gif" alt="" /> <?php echo esc_js( __( 'Loading...' ) ); ?></p>');
-				jQuery.ajax({
-					type: "GET",
-					cache : false,
-					url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
-					data: "ajax=photo_js&u=<?php echo urlencode($url)?>",
-					dataType : "script",
-					success : function() {
-						jQuery('#waiting').remove();
-					}
-				});
+				function setup_photo_actions() {
+					jQuery('.close').click(function() {
+						jQuery('#extra-fields').hide();
+						jQuery('#extra-fields').html('');
+					});
+					jQuery('.refresh').click(function() {
+						photostorage = false;
+						show('photo');
+					});
+					jQuery('#photo-add-url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
+					tb_init('#extra-fields .thickbox');
+					jQuery('#waiting').hide();
+					jQuery('#extra-fields').show();
+				}
+				jQuery('#extra-fields').before('<div id="waiting"><img src="images/wpspin_light.gif" alt="" /> <?php echo esc_js( __( 'Loading...' ) ); ?></div>');
+				
+				if(photostorage == false) {
+					jQuery.ajax({
+						type: "GET",
+						cache : false,
+						url: "<?php echo esc_url($_SERVER['PHP_SELF']); ?>",
+						data: "ajax=photo_js&u=<?php echo urlencode($url)?>",
+						dataType : "script",
+						success : function(data) {
+							eval(data);
+							photostorage = jQuery('#extra-fields').html();
+							setup_photo_actions();
+						}
+					});
+				} else {
+					jQuery('#extra-fields').html(photostorage);
+					setup_photo_actions();
+				}
 				return false;
 				break;
 		}
 	}
 	jQuery(document).ready(function($) {
 		//resize screen
-		window.resizeTo(720,570);
+		window.resizeTo(720,540);
 		// set button actions
     	jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
@@ -449,7 +459,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 <div id="poststuff" class="metabox-holder">
 	<div id="side-info-column">
 		<div class="sleeve">
-			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/" target="_blank"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
+			<h1 id="viewsite"><a href="<?php echo get_option('home'); ?>/" target="_blank"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
 
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>
@@ -461,6 +471,9 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 			<div class="photolist"></div>
 
 			<div id="submitdiv" class="stuffbox">
+				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
+					<br/>
+				</div>
 				<h3><?php _e('Publish') ?></h3>
 				<div class="inside">
 					<p>
@@ -476,10 +489,14 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 			</div>
 
 			<div id="categorydiv" class="stuffbox">
+				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
+					<br/>
+				</div>
 				<h3><?php _e('Categories') ?></h3>
 				<div class="inside">
 
 					<div id="categories-all" class="tabs-panel">
+
 						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 							<?php wp_category_checklist($post_ID, false) ?>
 						</ul>
@@ -499,6 +516,9 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 			</div>
 
 			<div id="tagsdiv-post_tag" class="stuffbox" >
+				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
+					<br/>
+				</div>
 				<h3><span><?php _e('Post Tags'); ?></span></h3>
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag">
@@ -518,7 +538,6 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 			</div>
 		</div>
 	</div>
-
 	<div class="posting">
 		<?php if ( isset($posted) && intval($posted) ) { $post_ID = intval($posted); ?>
 		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
@@ -530,10 +549,10 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = 'press-thi
 			</div>
 		</div>
 
-		<div id="extra_fields" style="display: none"></div>
+		<div id="extra-fields" style="display: none"></div>
 
 		<div class="postdivrich">
-			<ul id="actions">
+			<ul id="actions" class="actions">
 
 				<li id="photo_button">
 					Add: <?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">

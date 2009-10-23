@@ -1,8 +1,11 @@
+
 body {
-	font: 13px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: 13px "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
+	min-width: 675px;
+	min-height: 400px;
 }
 
 img {
@@ -17,7 +20,7 @@ img {
 }
 
 .tagchecklist span a {
-background: transparent url(../images/xit.gif) no-repeat 0 0;
+	background: transparent url(../images/xit.gif) no-repeat 0 0;
 }
 
 #poststuff #edButtonPreview,
@@ -74,7 +77,6 @@ div.zerosize {
 	margin: 0;
 	overflow: hidden;
 	padding: 0;
-	position: absolute;
 	width: 0;
 }
 
@@ -86,16 +88,13 @@ div.zerosize {
 .posting {
 	margin-right: 212px;
 	position: relative;
-	left: 0;
-}
-
-* html .posting {
-	width: 470px;
 }
 
 #side-info-column {
 	float: right;
 	width: 200px;
+	position: relative;
+	right: 0;
 }
 
 #side-info-column .sleeve {
@@ -107,7 +106,7 @@ div.zerosize {
 	margin: 8px;
 }
 
-#poststuff h2, #poststuff h3 {
+#poststuff h2,#poststuff h3 {
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 1;
@@ -147,6 +146,16 @@ h3.tb {
 	border-radius: 6px;
 }
 
+.stuffbox:hover .handlediv {
+    background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -111px;
+}
+
+.handlediv {
+	float: right;
+	height: 26px;
+	width: 23px;
+}
+
 #title,
 .tbtitle {
 	-moz-border-radius: 6px;
@@ -167,7 +176,7 @@ h3.tb {
 }
 
 #title {
-	width: 97%;
+width: 97%;
 }
 
 .editor-container {
@@ -180,29 +189,26 @@ h3.tb {
 }
 
 .postdivrich {
-	position: relative;
 	padding-top: 25px;
+	position: relative;
 }
 
-#actions {
+.actions {
 	float: right;
 	margin: -19px 0 0;
 }
 
-#extra_fields #actions {
-	clear: both;
-	position: relative;
-	right: 0px;
-	margin: -24px 0 0;
+#extra-fields .actions {
+	margin: -15px -5px 0 0;
 }
 
-#actions li {
+.actions li {
 	float: left;
 	list-style: none;
 	margin-right: 10px;
 }
 
-#extra_fields .button {
+#extra-fields .button {
 	margin-right: 5px;
 	padding: 3px 6px;
 	border-radius: 10px;
@@ -224,27 +230,28 @@ h3.tb {
 #img_container {
 	background-color: #fff;
 }
+
 #img_container_container {
 	overflow: auto;
 }
 
-#extra_fields {
+#extra-fields {
 	margin-top: 10px;
 	position: relative;
 }
 
-#extra_fields .postbox {
+#waiting {
+	margin-top: 10px;
+}
+
+#extra-fields .postbox {
 	margin-bottom: 5px;
 }
 
-#extra_fields .titlewrap {
+#extra-fields .titlewrap {
 	padding: 0;
 	overflow: auto;
 	height: 100px;
-}
-
-#img_container {
-	position: relative;
 }
 
 #img_container a {
@@ -291,14 +298,9 @@ h3.tb {
 /* Submit Column */
 #viewsite {
 	padding: 0;
-	margin: 0 0 20px 0;
+	margin: 0 0 20px 5px;
 	font-size: 10px;
 	clear: both;
-}
-
-#viewsite .button {
-	margin: 0;
-	display: block;
 }
 
 .wp-hidden-children
@@ -316,7 +318,7 @@ h3.tb {
 
 #category-add input {
 	width: 94%;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
 	font-size: 13px;
 	margin: 1px;
 	padding: 3px;
@@ -327,7 +329,7 @@ h3.tb {
 	-x-system-font: none;
 	border-style: solid;
 	border-width: 1px;
-	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande","Bitstream Vera Sans",Verdana,Arial,sans-serif;
 	font-size: 12px;
 	height: 2em;
 	line-height: 20px;
@@ -368,6 +370,7 @@ ul.categorychecklist li {
 .screen-reader-text {
 	display: none;
 }
+
 .tagsdiv .newtag {
 	margin-right: 5px;
 }
@@ -425,7 +428,6 @@ ul.categorychecklist li {
 }
 
 /* Submit */
-
 #saving {
 	display: inline;
 	vertical-align: middle;
@@ -437,7 +439,7 @@ ul.categorychecklist li {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;
@@ -542,6 +544,7 @@ ul.categorychecklist li {
 #footer p a {
 	text-decoration: none;
 }
+
 #footer p a:hover {
 	text-decoration: underline;
 }
@@ -566,7 +569,7 @@ ul.categorychecklist li {
 /* tag hints */
 .taghint {
 	color: #aaa;
-	margin: -17px 6px 0 0;
+	margin: -17px 0 0 7px;
 	visibility: hidden;
 }
 
