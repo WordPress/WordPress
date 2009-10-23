@@ -33,21 +33,18 @@ class WP_oEmbed {
 	 * @uses apply_filters() Filters a list of pre-defined oEmbed providers.
 	 */
 	function __construct() {
-		// List out some popular sites, mainly ones that don't have discovery tags in their <head>
-		// The WP_Embed class disables discovery for non-unfiltered_html users,
-		// so only providers in this array will be used for them.
+		// List out some popular sites that support oEmbed.
+		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
+		// Add to this list using the wp_oembed_add_provider() function
 		$this->providers = apply_filters( 'oembed_providers', array(
-			'http://*.youtube.com/watch*' => 'http://www.youtube.com/oembed',
-			'http://youtube.com/watch*'   => 'http://www.youtube.com/oembed',
-			'http://blip.tv/file/*'       => 'http://blip.tv/oembed/',
-			'http://*.flickr.com/*'       => 'http://www.flickr.com/services/oembed/',
-			'http://www.hulu.com/watch/*' => 'http://www.hulu.com/api/oembed.{format}',
-			'http://*.viddler.com/*'      => 'http://lab.viddler.com/services/oembed/',
-			'http://qik.com/*'            => 'http://qik.com/api/oembed.{format}',
-			'http://*.revision3.com/*'    => 'http://revision3.com/api/oembed/',
-
-			// Vimeo uses the discovery <link>, so leave this commented to use it as a discovery test
-			//'http://www.vimeo.com/*'      => 'http://www.vimeo.com/api/oembed.{format}',
+			'http://www.youtube.com/watch*'   => array( 'http://www.youtube.com/oembed',            false  ),
+			'http://blip.tv/file/*'           => array( 'http://blip.tv/oembed/',                   false ),
+			'#http://(www\.)?vimeo\.com/.*#i' => array( 'http://www.vimeo.com/api/oembed.{format}', true  ),
+			'http://*.flickr.com/*'           => array( 'http://www.flickr.com/services/oembed/',   false ),
+			'http://www.hulu.com/watch/*'     => array( 'http://www.hulu.com/api/oembed.{format}',  false ),
+			'http://*.viddler.com/*'          => array( 'http://lab.viddler.com/services/oembed/',  false ),
+			'http://qik.com/*'                => array( 'http://qik.com/api/oembed.{format}',       false ),
+			'http://*.revision3.com/*'        => array( 'http://revision3.com/api/oembed/',         false ),
 		) );
 	}
 
@@ -68,11 +65,14 @@ class WP_oEmbed {
 		if ( !isset($args['discover']) )
 			$args['discover'] = true;
 
-		foreach ( $this->providers as $matchmask => $providerurl ) {
-			// Turn the asterisk-type provider URLs into regex
-			$regex = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $matchmask ), '#' ) ) . '#i';
+		foreach ( $this->providers as $matchmask => $data ) {
+			list( $providerurl, $regex ) = $data;
 
-			if ( preg_match( $regex, $url ) ) {
+			// Turn the asterisk-type provider URLs into regex
+			if ( !$regex )
+				$matchmask = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $matchmask ), '#' ) ) . '#i';
+
+			if ( preg_match( $matchmask, $url ) ) {
 				$provider = str_replace( '{format}', 'json', $providerurl ); // JSON is easier to deal with than XML
 				break;
 			}
