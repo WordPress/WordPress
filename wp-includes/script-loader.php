@@ -86,7 +86,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
 
-	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", false, '20090925' );
+	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", false, '20091023' );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
@@ -309,7 +309,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ), '20090516' );
 
-		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20090114' );
+		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20091023' );
 		$scripts->add_data( 'media-upload', 'group', 1 );
 
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '20090824' );
@@ -433,7 +433,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091020' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091023' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );
