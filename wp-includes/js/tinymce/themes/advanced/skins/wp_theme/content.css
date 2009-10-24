@@ -64,13 +64,6 @@ dl.aligncenter {
 	margin: 0;
 }
 
-img.wpGallery {
-	border: 1px dotted #cc0000;
-	background: #ffffcc url("../../../../plugins/wpgallery/img/gallery.png") no-repeat scroll center center;
-	width: 99%;
-	height: 250px;
-}
-
 body.mceContentBody {
 	font: 13px/19px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 0.6em;

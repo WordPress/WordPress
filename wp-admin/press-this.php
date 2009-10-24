@@ -447,7 +447,7 @@ var photostorage = false;
 		jQuery('#title').unbind();
 		jQuery('#publish, #save').click(function() { jQuery('#saving').css('display', 'inline'); });
 
-		$('#tagsdiv-post_tag, #categorydiv').children('h3').click(function(){
+		$('#tagsdiv-post_tag, #categorydiv').children('h3, .handlediv').click(function(){
 			$(this).siblings('.inside').toggle();
 		});
 	});

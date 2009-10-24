@@ -166,7 +166,7 @@ var win = window.dialogArguments || opener || parent || top;
 win.send_to_editor('<?php echo addslashes($html); ?>');
 /* ]]> */
 </script>
-	<?php
+<?php
 	exit;
 }
 
@@ -481,16 +481,25 @@ function media_upload_image() {
 	}
 
 	if ( !empty($_POST['insertonlybutton']) ) {
-		$src = $_POST['insertonly']['src'];
-		if ( !empty($src) && !strpos($src, '://') )
-			$src = "http://$src";
-		$alt = esc_attr($_POST['insertonly']['alt']);
-		if ( isset($_POST['insertonly']['align']) ) {
-			$align = esc_attr($_POST['insertonly']['align']);
-			$class = " class='align$align'";
+		$alt = $align = '';
+		if ( !empty($_POST['insertonly']['embed-src']) ) {
+			$src = $_POST['insertonly']['embed-src'];
+			if ( !strpos($src, '://') )
+				$src = "http://$src";
+			$html = '[embed]' . $src . '[/embed]';
+		} else {
+			$src = $_POST['insertonly']['src'];
+			if ( !empty($src) && !strpos($src, '://') )
+				$src = "http://$src";
+			$alt = esc_attr($_POST['insertonly']['alt']);
+			if ( isset($_POST['insertonly']['align']) ) {
+				$align = esc_attr($_POST['insertonly']['align']);
+				$class = " class='align$align'";
+			}
+			if ( !empty($src) )
+				$html = "<img src='$src' alt='$alt'$class />";
 		}
-		if ( !empty($src) )
-			$html = "<img src='$src' alt='$alt'$class />";
+
 		$html = apply_filters('image_send_to_editor_url', $html, $src, $alt, $align);
 		return media_send_to_editor($html);
 	}
@@ -586,12 +595,9 @@ function media_upload_audio() {
 		$href = $_POST['insertonly']['href'];
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
-		$title = esc_attr($_POST['insertonly']['title']);
-		if ( empty($title) )
-			$title = basename($href);
-		if ( !empty($title) && !empty($href) )
-			$html = "<a href='$href' >$title</a>";
-		$html = apply_filters('audio_send_to_editor_url', $html, $href, $title);
+
+		$html = '[embed]' . $href . '[/embed]';
+		$html = apply_filters('audio_send_to_editor_url', $html, $href);
 		return media_send_to_editor($html);
 	}
 
@@ -640,12 +646,9 @@ function media_upload_video() {
 		$href = $_POST['insertonly']['href'];
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
-		$title = esc_attr($_POST['insertonly']['title']);
-		if ( empty($title) )
-			$title = basename($href);
-		if ( !empty($title) && !empty($href) )
-			$html = "<a href='$href' >$title</a>";
-		$html = apply_filters('video_send_to_editor_url', $html, $href, $title);
+
+		$html = '[embed]' . $href . '[/embed]';
+		$html = apply_filters('video_send_to_editor_url', $html, $href);
 		return media_send_to_editor($html);
 	}
 
@@ -694,6 +697,7 @@ function media_upload_file() {
 		$href = $_POST['insertonly']['href'];
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
+
 		$title = esc_attr($_POST['insertonly']['title']);
 		if ( empty($title) )
 			$title = basename($href);
@@ -1513,7 +1517,11 @@ var addExtImage = {
 	insert : function() {
 		var t = this, html, f = document.forms[0], cls, title = '', alt = '', caption = '';
 
-		if ( '' == f.src.value || '' == t.width ) return false;
+		if ( '' != document.getElementById('embed-src').value )
+			return true;
+
+		if ( '' == f.src.value || '' == t.width )
+			return false;
 
 		if ( f.title.value ) {
 			title = f.title.value.replace(/'/g, '&#039;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -1540,6 +1548,7 @@ var addExtImage = {
 
 		var win = window.dialogArguments || opener || parent || top;
 		win.send_to_editor(html);
+		return false;
 	},
 
 	resetImageData : function() {
@@ -1548,8 +1557,8 @@ var addExtImage = {
 		t.width = t.height = '';
 		document.getElementById('go_button').style.color = '#bbb';
 		if ( ! document.forms[0].src.value )
-			document.getElementById('status_img').src = 'images/required.gif';
-		else document.getElementById('status_img').src = 'images/no.png';
+			document.getElementById('status_img').innerHTML = '*';
+		else document.getElementById('status_img').innerHTML = '<img src="images/no.png" alt="" />';
 	},
 
 	updateImageData : function() {
@@ -1558,7 +1567,7 @@ var addExtImage = {
 		t.width = t.preloadImg.width;
 		t.height = t.preloadImg.height;
 		document.getElementById('go_button').style.color = '#333';
-		document.getElementById('status_img').src = 'images/yes.png';
+		document.getElementById('status_img').innerHTML = '<img src="images/yes.png" alt="" />';
 	},
 
 	getImageData : function() {
@@ -1568,7 +1577,7 @@ var addExtImage = {
 			t.resetImageData();
 			return false;
 		}
-		document.getElementById('status_img').src = 'images/wpspin_light.gif';
+		document.getElementById('status_img').innerHTML = '<img src="images/wpspin_light.gif" alt="" />';
 		t.preloadImg = new Image();
 		t.preloadImg.onload = t.updateImageData;
 		t.preloadImg.onerror = t.resetImageData;
@@ -1920,11 +1929,30 @@ function type_url_form_image() {
 		$default_align = 'none';
 
 	return '
+	<h4 class="media-sub-title">' . __('Embed a picture from a web site that supports oEmbed') . '</h4>
 	<table class="describe"><tbody>
 		<tr>
-			<th valign="top" scope="row" class="label" style="width:120px;">
+			<th valign="top" scope="row" class="label" style="width:130px;">
+				<span class="alignleft"><label for="embed-src">' . __('Embed image') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
+			<td class="field"><input id="embed-src" name="insertonly[embed-src]" value="" type="text" /></td>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td>
+				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Embed') . '" />
+			</td>
+		</tr>
+	</tbody></table>
+
+	<h4 class="media-sub-title">' . __('Insert an image from another web site') . '</h4>
+	<table class="describe"><tbody>
+		<tr>
+			<th valign="top" scope="row" class="label" style="width:130px;">
 				<span class="alignleft"><label for="src">' . __('Image URL') . '</label></span>
-				<span class="alignright"><img id="status_img" src="images/required.gif" title="required" alt="required" /></span>
+				<span class="alignright"><abbr id="status_img" title="required" class="required">*</abbr></span>
 			</th>
 			<td class="field"><input id="src" name="src" value="" type="text" aria-required="true" onblur="addExtImage.getImageData()" /></td>
 		</tr>
@@ -1998,14 +2026,7 @@ function type_url_form_audio() {
 			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Still Alive by Jonathan Coulton&#8221;') . '</td></tr>
+
 		<tr>
 			<td></td>
 			<td>
@@ -2033,14 +2054,7 @@ function type_url_form_video() {
 			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
-		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8221;') . '</td></tr>
+
 		<tr>
 			<td></td>
 			<td>

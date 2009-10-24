@@ -303,24 +303,32 @@ abbr.required {
 #gallery-settings .title {
 	clear: both;
 	padding: 0 0 3px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	font-family: Georgia,"Times New Roman",Times,serif;
 	font-size: 1.6em;
-	border-bottom-color: #DADADA;
-	color: #5A5A5A;
+	border-bottom: 1px solid #DADADA;
 }
 
 h3.media-title  {
-	color: #5A5A5A;
-	font-family: Georgia,"Times New Roman",Times,serif;
 	font-size: 1.6em;
+}
+
+h4.media-sub-title  {
+	border-bottom: 1px solid #DADADA;
+	font-size: 1.3em;
+	margin: 12px;
+	padding: 0 0 3px;
+}
+
+#gallery-settings .title,
+h3.media-title,
+h4.media-sub-title {
+	font-family: Georgia,"Times New Roman",Times,serif;
 	font-weight: normal;
+	color: #5A5A5A;
 }
 
 #gallery-settings .describe td {
 	vertical-align: middle;
-	height: 3.5em;
+	height: 3em;
 }
 
 #gallery-settings .describe th.label {
@@ -337,7 +345,11 @@ h3.media-title  {
 
 #gallery-settings .describe select {
 	width: 15em;
-	border: 1px solid #dfdfdf;
+}
+
+#gallery-settings .describe select option,
+#gallery-settings .describe td {
+	padding: 0;
 }
 
 #gallery-settings label,

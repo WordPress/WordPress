@@ -4,7 +4,7 @@ function send_to_editor(h) {
 
 	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
 		ed.focus();
-		if (tinymce.isIE)
+		if ( tinymce.isIE )
 			ed.selection.moveToBookmark(tinymce.EditorManager.activeEditor.windowManager.bookmark);
 
 		if ( h.indexOf('[caption') === 0 ) {
@@ -13,6 +13,9 @@ function send_to_editor(h) {
 		} else if ( h.indexOf('[gallery') === 0 ) {
 			if ( ed.plugins.wpgallery )
 				h = ed.plugins.wpgallery._do_gallery(h);
+		} else if ( h.indexOf('[embed') === 0 ) {
+			if ( ed.plugins.wordpress )
+				h = ed.plugins.wordpress._setEmbed(h);
 		}
 
 		ed.execCommand('mceInsertContent', false, h);

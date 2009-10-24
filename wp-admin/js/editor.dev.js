@@ -22,7 +22,7 @@ var switchEditors = {
 		return document.getElementById(e);
 	},
 
-	pre_wpautop : function(content) {
+	_wp_Nop : function(content) {
 		var blocklist1, blocklist2;
 
 		// Protect pre|script tags
@@ -79,7 +79,6 @@ var switchEditors = {
 		content = content.replace(/<wp_temp>/g, '\n');
 		content = content.replace(/<wp_empty_p>\s*/g, '<p>&nbsp;</p>\n\n');
 
-		// Hope.
 		return content;
 	},
 
@@ -104,14 +103,17 @@ var switchEditors = {
 			edCloseAllTags(); // :-(
 			qt.style.display = 'none';
 
+			ta.style.color = '#FFF';
 			ta.value = this.wpautop(ta.value);
 
-			if ( ed ) {
-				ed.show();
-			} else {
-				try{tinyMCE.execCommand("mceAddControl", false, id);}
-				catch(e){}
-			}
+			try {
+				if ( ed )
+					ed.show();
+				else
+					tinyMCE.execCommand("mceAddControl", false, id);
+			} catch(e) {}
+
+			ta.style.color = '#000';
 		} else {
 			setUserSetting( 'editor', 'html' );
 			ta.style.color = '#000';
@@ -129,7 +131,7 @@ var switchEditors = {
 		return false;
 	},
 
-	wpautop : function(pee) {
+	_wp_Autop : function(pee) {
 		var blocklist = 'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]';
 
 		if ( pee.indexOf('<object') != -1 ) {
@@ -168,5 +170,23 @@ var switchEditors = {
 		});
 
 		return pee;
+	},
+	
+	pre_wpautop : function(content) {
+		var t = this, o = { o: t, data: content, unfiltered: content };
+
+		jQuery('body').trigger('beforePreWpautop', [o]);
+		o.data = t._wp_Nop(o.data);
+		jQuery('body').trigger('afterPreWpautop', [o]);
+		return o.data;
+	},
+	
+	wpautop : function(pee) {
+		var t = this, o = { o: t, data: pee, unfiltered: pee };
+
+		jQuery('body').trigger('beforeWpautop', [o]);
+		o.data = t._wp_Autop(o.data);
+		jQuery('body').trigger('afterWpautop', [o]);
+		return o.data;
 	}
 };
