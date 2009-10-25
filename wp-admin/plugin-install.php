@@ -25,10 +25,10 @@ $tabs['dashboard'] = __('Search');
 if ( 'search' == $tab )
 	$tabs['search']	= __('Search Results');
 $tabs['upload'] = __('Upload');
-$tabs['featured'] = __('Featured');
-$tabs['popular']  = __('Popular');
-$tabs['new']      = __('Newest');
-$tabs['updated']  = __('Recently Updated');
+$tabs['featured'] = _x('Featured','Plugin Installer');
+$tabs['popular']  = _x('Popular','Plugin Installer');
+$tabs['new']      = _x('Newest','Plugin Installer');
+$tabs['updated']  = _x('Recently Updated','Plugin Installer');
 
 $nonmenu_tabs = array('plugin-information'); //Valid actions to perform which do not have a Menu item.
 
