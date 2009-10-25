@@ -724,7 +724,7 @@ class LJ_API_Import {
 			$this->protected_password = get_option( 'ljapi_protected_password' );
 		}
 
-		// Login to confirm the details are correct
+		// Log in to confirm the details are correct
 		if ( empty( $this->username ) || empty( $this->password ) ) {
 			?>
 			<p><?php _e( 'Please enter your LiveJournal username <em>and</em> password so we can download your posts and comments.' ) ?></p>
