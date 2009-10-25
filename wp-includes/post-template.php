@@ -160,10 +160,9 @@ function get_the_guid( $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param string $stripteaser Optional. Teaser content before the more text.
- * @param string $more_file Optional. Not used.
  */
-function the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
-	$content = get_the_content($more_link_text, $stripteaser, $more_file);
+function the_content($more_link_text = null, $stripteaser = 0) {
+	$content = get_the_content($more_link_text, $stripteaser);
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
 	echo $content;
@@ -176,10 +175,9 @@ function the_content($more_link_text = null, $stripteaser = 0, $more_file = '') 
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param string $stripteaser Optional. Teaser content before the more text.
- * @param string $more_file Optional. Not used.
  * @return string
  */
-function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
+function get_the_content($more_link_text = null, $stripteaser = 0) {
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
 
 	if ( null === $more_link_text )
@@ -193,11 +191,6 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 		$output = get_the_password_form();
 		return $output;
 	}
-
-	if ( $more_file != '' )
-		$file = $more_file;
-	else
-		$file = $pagenow; //$_SERVER['PHP_SELF'];
 
 	if ( $page > count($pages) ) // if the requested page doesn't exist
 		$page = count($pages); // give them the highest numbered page that DOES exist
@@ -549,8 +542,6 @@ function sticky_class( $post_id = null ) {
  *      each bookmarks.
  * 'after' - Default is '</p>' (string). The html or text to append to each
  *      bookmarks.
- * 'more_file' - Default is '' (string) Page the links should point to. Defaults
- *      to the current page.
  * 'link_before' - Default is '' (string). The html or text to prepend to each
  *      Pages link inside the <a> tag.
  * 'link_after' - Default is '' (string). The html or text to append to each
@@ -568,17 +559,13 @@ function wp_link_pages($args = '') {
 		'link_before' => '', 'link_after' => '',
 		'next_or_number' => 'number', 'nextpagelink' => __('Next page'),
 		'previouspagelink' => __('Previous page'), 'pagelink' => '%',
-		'more_file' => '', 'echo' => 1
+		'echo' => 1
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
 	global $post, $page, $numpages, $multipage, $more, $pagenow;
-	if ( $more_file != '' )
-		$file = $more_file;
-	else
-		$file = $pagenow;
 
 	$output = '';
 	if ( $multipage ) {
