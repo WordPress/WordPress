@@ -75,7 +75,7 @@ include('admin-header.php');
 <tr valign="top">
 <th scope="row"><label for="blog_charset"><?php _e('Encoding for pages and feeds') ?></label></th>
 <td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" class="regular-text" />
-<span class="description"><?php _e('The character encoding you write your blog in (UTF-8 is <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></span></td>
+<span class="description"><?php _e('The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your blog (UTF-8 is recommended, if you are adventurous there are some <a href="http://en.wikipedia.org/wiki/Character_set">other encodings</a>)') ?></span></td>
 </tr>
 <?php do_settings_fields('reading', 'default'); ?>
 </table>
