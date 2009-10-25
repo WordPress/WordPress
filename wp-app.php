@@ -17,14 +17,8 @@ define('APP_REQUEST', true);
 /** Set up WordPress environment */
 require_once('./wp-load.php');
 
-/** Post Template API */
-require_once(ABSPATH . WPINC . '/post-template.php');
-
 /** Atom Publishing Protocol Class */
 require_once(ABSPATH . WPINC . '/atomlib.php');
-
-/** Feed Handling API */
-require_once(ABSPATH . WPINC . '/feed.php');
 
 /** Admin Image API for metadata updating */
 require_once(ABSPATH . '/wp-admin/includes/image.php');
@@ -68,22 +62,6 @@ function log_app($label,$msg) {
 		fclose($fp);
 	}
 }
-
-if ( !function_exists('wp_set_current_user') ) :
-/**
- * @ignore
- */
-function wp_set_current_user($id, $name = '') {
-	global $current_user;
-
-	if ( isset($current_user) && ($id == $current_user->ID) )
-		return $current_user;
-
-	$current_user = new WP_User($id, $name);
-
-	return $current_user;
-}
-endif;
 
 /**
  * Filter to add more post statuses.
