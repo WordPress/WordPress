@@ -197,6 +197,7 @@ class Blogger_Import {
 		$loadauth = esc_js( __('Preparing author mapping form...') );
 		$authhead = esc_js( __('Final Step: Author Mapping') );
 		$nothing  = esc_js( __('Nothing was imported. Had you already imported this blog?') );
+		$stopping = ''; //Missing String used below.
 		$title    = __('Blogger Blogs');
 		$name     = __('Blog Name');
 		$url      = __('Blog URL');
@@ -530,7 +531,7 @@ class Blogger_Import {
 	}
 
 	function _normalize_tag( $matches ) {
-		return '<' . strtolower( $match[1] );
+		return '<' . strtolower( $matches[1] );
 	}
 
 	function import_post( $entry ) {

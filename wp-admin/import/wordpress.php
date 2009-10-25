@@ -358,7 +358,7 @@ class WP_Import {
 	}
 
 	function _normalize_tag( $matches ) {
-		return '<' . strtolower( $match[1] );
+		return '<' . strtolower( $matches[1] );
 	}
 
 	function process_post($post) {

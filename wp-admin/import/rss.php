@@ -44,7 +44,7 @@ class RSS_Import {
 	}
 
 	function _normalize_tag( $matches ) {
-		return '<' . strtolower( $match[1] );
+		return '<' . strtolower( $matches[1] );
 	}
 
 	function get_posts() {
