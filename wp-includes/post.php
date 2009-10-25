@@ -2471,8 +2471,6 @@ function &get_pages($args = '') {
 		$pages = & get_page_children($child_of, $pages);
 
 	if ( !empty($exclude_tree) ) {
-		$exclude = array();
-
 		$exclude = (int) $exclude_tree;
 		$children = get_page_children($exclude, $pages);
 		$excludes = array();
