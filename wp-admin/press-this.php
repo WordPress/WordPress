@@ -194,12 +194,13 @@ if ( !empty($_REQUEST['ajax']) ) {
 		function get_images_from_uri($uri) {
 			$uri = preg_replace('/\/#.+?$/','', $uri);
 			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
-				return "'".html_entity_decode($uri)."'";
+				return "'" . esc_attr( html_entity_decode($uri) ) . "'";
 			$content = wp_remote_fopen($uri);
 			if ( false === $content )
 				return '';
 			$host = parse_url($uri);
-			$pattern = '/<img ([^>]*)src=(\"|\')([^<>\'\"]+)(\2)([^>]*)\/*>/is';
+			$pattern = '/<img ([^>]*)src=(\"|\')([^<>\'\"]+)(\2)([^>]*)\/*>/i';
+			$content = str_replace(array("\n","\t","\r"), '', $content);
 			preg_match_all($pattern, $content, $matches);
 			if ( empty($matches[0]) )
 				return '';
@@ -212,7 +213,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 					else
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
-				$sources[] = esc_url($src);
+				$sources[] = esc_attr($src);
 			}
 			return "'" . implode("','", $sources) . "'";
 		}
