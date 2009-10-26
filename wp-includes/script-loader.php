@@ -372,10 +372,10 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20090929' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
 
-		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091015' );
+		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091021' );
 		$scripts->add_data( 'set-post-thumbnail', 'group', 1 );
 		$scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
-			'setThumbnail' => __( 'Use for thumbnail' ),
+			'setThumbnail' => __( 'Use as thumbnail' ),
 			'saving' => __( 'Saving...' ),
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' )
 		) );
