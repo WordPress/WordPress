@@ -837,6 +837,23 @@ function wp_edit_posts_query( $q = false ) {
 }
 
 /**
+ * Get default post mime types
+ *
+ * @since 2.9.0
+ *
+ * @return array
+ */
+function get_post_mime_types() {
+	$post_mime_types = array(	//	array( adj, noun )
+		'image' => array(__('Images'), __('Manage Images'), _n_noop('Image <span class="count">(%s)</span>', 'Images <span class="count">(%s)</span>')),
+		'audio' => array(__('Audio'), __('Manage Audio'), _n_noop('Audio <span class="count">(%s)</span>', 'Audio <span class="count">(%s)</span>')),
+		'video' => array(__('Video'), __('Manage Video'), _n_noop('Video <span class="count">(%s)</span>', 'Video <span class="count">(%s)</span>')),
+	);
+
+	return apply_filters('post_mime_types', $post_mime_types);
+}
+
+/**
  * {@internal Missing Short Description}}
  *
  * @since unknown
@@ -871,13 +888,8 @@ function wp_edit_attachments_query( $q = false ) {
 	if ( empty($media_per_page) )
 		$media_per_page = 20;
 	$q['posts_per_page'] = $media_per_page;
-	$post_mime_types = array(	//	array( adj, noun )
-				'image' => array(__('Images'), __('Manage Images'), _n_noop('Image <span class="count">(%s)</span>', 'Images <span class="count">(%s)</span>')),
-				'audio' => array(__('Audio'), __('Manage Audio'), _n_noop('Audio <span class="count">(%s)</span>', 'Audio <span class="count">(%s)</span>')),
-				'video' => array(__('Video'), __('Manage Video'), _n_noop('Video <span class="count">(%s)</span>', 'Video <span class="count">(%s)</span>')),
-			);
-	$post_mime_types = apply_filters('post_mime_types', $post_mime_types);
 
+	$post_mime_types = get_post_mime_types();
 	$avail_post_mime_types = get_available_post_mime_types('attachment');
 
 	if ( isset($q['post_mime_type']) && !array_intersect( (array) $q['post_mime_type'], array_keys($post_mime_types) ) )

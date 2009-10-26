@@ -1105,7 +1105,7 @@ function get_media_items( $post_id, $errors ) {
  * @return string HTML form for attachment.
  */
 function get_media_item( $attachment_id, $args = null ) {
-	global $post_mime_types, $redir_tab;
+	global $redir_tab;
 
 	if ( ( $attachment_id = intval($attachment_id) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
 		$thumb_url = $thumb_url[0];
@@ -1130,12 +1130,10 @@ function get_media_item( $attachment_id, $args = null ) {
 		$tags = esc_attr(join(', ', $tags));
 	}
 
-	$type = '';
-	if ( isset($post_mime_types) ) {
-		$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
-		$type = array_shift($keys);
-		$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
-	}
+	$post_mime_types = get_post_mime_types();
+	$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
+	$type = array_shift($keys);
+	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 
 	$form_fields = get_attachment_fields_to_edit($post, $errors);
 

@@ -146,13 +146,7 @@ if ( isset($_GET['detached']) ) {
 		$page_links_total = ceil($wpdb->get_var( "SELECT FOUND_ROWS()" ) / 25);
 	}
 
-	$post_mime_types = array(
-				'image' => array(__('Images'), __('Manage Images'), _n_noop('Image (%s)', 'Images (%s)')),
-				'audio' => array(__('Audio'), __('Manage Audio'), _n_noop('Audio (%s)', 'Audio (%s)')),
-				'video' => array(__('Video'), __('Manage Video'), _n_noop('Video (%s)', 'Video (%s)')),
-			);
-	$post_mime_types = apply_filters('post_mime_types', $post_mime_types);
-
+	$post_mime_types = get_post_mime_types();
 	$avail_post_mime_types = get_available_post_mime_types('attachment');
 
 	if ( isset($_GET['post_mime_type']) && !array_intersect( (array) $_GET['post_mime_type'], array_keys($post_mime_types) ) )
