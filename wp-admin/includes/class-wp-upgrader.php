@@ -271,6 +271,7 @@ class WP_Upgrader {
 							'destination' => '', //And this
 							'clear_destination' => false,
 							'clear_working' => true,
+							'is_multi' => false,
 							'hook_extra' => array() //Pass any extra $hook_extra args here, this will be passed to any hooked filters.
 						);
 
@@ -287,7 +288,9 @@ class WP_Upgrader {
 			return $res;
 		}
 
-		$this->skin->header();
+		if ( !$is_multi ) // call $this->header separately if running multiple times
+			$this->skin->header();
+
 		$this->skin->before();
 
 		//Download the package (Note, This just returns the filename of the file if the package is a local file)
@@ -321,7 +324,10 @@ class WP_Upgrader {
 			$this->skin->feedback('process_success');
 		}
 		$this->skin->after();
-		$this->skin->footer();
+
+		if ( !$is_multi )
+			$this->skin->footer();
+
 		return $result;
 	}
 
@@ -355,6 +361,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 	var $result;
 	var $bulk = true;
+	var $show_before = '';
 
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
@@ -447,7 +454,14 @@ class Plugin_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
 		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
 
+		$this->skin->header();
+		$all = count($plugins);
+		$i = 1;
 		foreach ( $plugins as $plugin ) {
+
+			$this->show_before = sprintf( '<h4>' . __('Updating plugin %d of %d...') . '</h4>', $i, $all );
+			$i++;
+
 			if ( !isset( $current->response[ $plugin ] ) ) {
 				$this->skin->set_result(false);
 				$this->skin->error('up_to_date');
@@ -466,17 +480,19 @@ class Plugin_Upgrader extends WP_Upgrader {
 						'destination' => WP_PLUGIN_DIR,
 						'clear_destination' => true,
 						'clear_working' => true,
+						'is_multi' => true,
 						'hook_extra' => array(
 									'plugin' => $plugin
 						)
 					));
-				
+
 			$results[$plugin] = $this->result;
 
 			// Prevent credentials auth screen from displaying multiple times
 			if ( false === $result )
 				break;
 		}
+		$this->skin->footer();
 
 		//Cleanup our hooks, incase something else does a upgrade on this connection.
 		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
@@ -902,11 +918,11 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
 	}
 
-	function footer() {
-		if ( $this->upgrader->bulk )
-			return;
-
-		echo '</div>';
+	function before() {
+		if ( $this->upgrader->show_before ) {
+			echo $this->upgrader->show_before;
+			$this->upgrader->show_before = '';
+		}
 	}
 }
 

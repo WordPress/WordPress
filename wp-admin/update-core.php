@@ -126,10 +126,10 @@ function core_upgrade_preamble() {
 	}
 	echo '</ul>';
 	dismissed_updates();
-	echo '</div>';
 
 	list_plugin_updates();
 	//list_theme_updates();
+	echo '</div>';
 }
 
 function list_plugin_updates() {
