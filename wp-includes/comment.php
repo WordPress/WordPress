@@ -766,12 +766,11 @@ function wp_count_comments( $post_id = 0 ) {
 	if ( false !== $count )
 		return $count;
 
-	$where = 'WHERE ';
-	if( $post_id > 0 )
-		$where .= $wpdb->prepare( "c.comment_post_ID = %d AND ", $post_id );
-	$where .= "p.post_status <> 'trash'";
+	$where = '';
+	if ( $post_id > 0 )
+		$where = $wpdb->prepare( "comment_post_ID = %d AND ", $post_id );
 
-	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} c LEFT JOIN {$wpdb->posts} p ON c.comment_post_ID = p.ID {$where} GROUP BY comment_approved", ARRAY_A );
+	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
 
 	$total = 0;
 	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'trash' => 'trash');
