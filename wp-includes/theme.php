@@ -296,8 +296,8 @@ function get_themes() {
 		}
 
 		if ( empty($template) ) {
-			if ( file_exists(dirname("$theme_root/$theme_file/index.php")) )
-				$template = dirname($theme_file);
+			if ( file_exists("$theme_root/$stylesheet/index.php") )
+				$template = $stylesheet;
 			else
 				continue;
 		}
@@ -307,7 +307,8 @@ function get_themes() {
 		if ( !file_exists("$theme_root/$template/index.php") ) {
 			$parent_dir = dirname(dirname($theme_file));
 			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
-				$template = "$theme_root/$parent_dir/$template";
+				$template = "$parent_dir/$template";
+				$template_directory = "$theme_root/$parent_dir/$template";
 			} else {
 				/**
 				 * The parent theme doesn't exist in the current theme's folder or sub folder
@@ -323,7 +324,7 @@ function get_themes() {
 
 			}
 		} else {
-			$template = trim( $theme_root . '/' . $template );
+			$template_directory = trim( $theme_root . '/' . $template );
 		}
 
 		$stylesheet_files = array();
@@ -342,20 +343,20 @@ function get_themes() {
 			@ $stylesheet_dir->close();
 		}
 
-		$template_dir = @ dir("$template");
+		$template_dir = @ dir("$template_directory");
 		if ( $template_dir ) {
 			while ( ($file = $template_dir->read()) !== false ) {
 				if ( preg_match('|^\.+$|', $file) )
 					continue;
 				if ( preg_match('|\.php$|', $file) ) {
-					$template_files[] = "$template/$file";
-				} elseif ( is_dir("$template/$file") ) {
-					$template_subdir = @ dir("$template/$file");
+					$template_files[] = "$template_directory/$file";
+				} elseif ( is_dir("$template_directory/$file") ) {
+					$template_subdir = @ dir("$template_directory/$file");
 					while ( ($subfile = $template_subdir->read()) !== false ) {
 						if ( preg_match('|^\.+$|', $subfile) )
 							continue;
 						if ( preg_match('|\.php$|', $subfile) )
-							$template_files[] = "$template/$file/$subfile";
+							$template_files[] = "$template_directory/$file/$subfile";
 					}
 					@ $template_subdir->close();
 				}
@@ -390,7 +391,7 @@ function get_themes() {
 		}
 
 		$theme_roots[$stylesheet] = str_replace( WP_CONTENT_DIR, '', $theme_root );
-		$themes[$name] = array( 'Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => basename( $template ), 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags'], 'Theme Root' => $theme_root, 'Theme Root URI' => str_replace( WP_CONTENT_DIR, content_url(), $theme_root ) );
+		$themes[$name] = array( 'Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags'], 'Theme Root' => $theme_root, 'Theme Root URI' => str_replace( WP_CONTENT_DIR, content_url(), $theme_root ) );
 	}
 
 	/* Resolve theme dependencies. */
