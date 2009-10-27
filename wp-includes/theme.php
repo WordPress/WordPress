@@ -574,7 +574,7 @@ function search_theme_directories() {
 
 							while ( ($theme_file = readdir($stylish_dir)) !== false ) {
 								if ( $theme_file == 'style.css' ) {
-									$theme_files[$theme_dir] = array( 'theme_file' => $subdir_name . '/' . $theme_dir . '/' . $theme_file, 'theme_root' => $theme_root );
+									$theme_files["$theme_dir/$theme_subdir"] = array( 'theme_file' => $subdir_name . '/' . $theme_subdir . '/' . $theme_file, 'theme_root' => $theme_root );
 									$found_stylesheet = true;
 									break;
 								}
