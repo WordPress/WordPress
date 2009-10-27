@@ -23,11 +23,8 @@
 			});
 
 			ed.onMouseDown.add(function(ed, e) {
-				if ( e.target.nodeName != 'IMG' ) {
-					ed.plugins.wordpress._hideButtons();
-				} else if ( ed.dom.hasClass(e.target, 'wpGallery') ) {
+				if ( e.target.nodeName == 'IMG' && ed.dom.hasClass(e.target, 'wpGallery') )
 					ed.plugins.wordpress._showButtons(e.target, 'wp_gallerybtns');
-				}
 			});
 
 			ed.onBeforeSetContent.add(function(ed, o) {

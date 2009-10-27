@@ -230,6 +230,11 @@
 			ed.onSaveContent.add(function(ed, o) {
 				ed.plugins.wordpress._hideButtons();
 			});
+
+			ed.onMouseDown.add(function(ed, e) {
+				if ( e.target.nodeName != 'IMG' )
+					ed.plugins.wordpress._hideButtons();
+			});
 		},
 
 		getInfo : function() {
@@ -276,18 +281,24 @@
 				'display' : 'block'
 			});
 
+			if ( this.mceTout )
+				clearTimeout(this.mceTout);
+
 			this.mceTout = setTimeout( function(){ed.plugins.wordpress._hideButtons();}, 5000 );
 		},
 
 		_hideButtons : function() {
+			if ( !this.mceTout )
+				return;
+
 			if ( document.getElementById('wp_editbtns') )
 				tinymce.DOM.hide('wp_editbtns');
 
 			if ( document.getElementById('wp_gallerybtns') )
 				tinymce.DOM.hide('wp_gallerybtns');
 
-			if ( this.mceTout )
-				clearTimeout(this.mceTout);
+			clearTimeout(this.mceTout);
+			this.mceTout = 0;
 		},
 
 		do_align : function(n, a) {

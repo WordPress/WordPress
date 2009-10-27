@@ -62,9 +62,7 @@
 			ed.onMouseDown.add(function(ed, e) {
 				var p;
 
-				if ( e.target.nodeName != 'IMG' ) {
-					ed.plugins.wordpress._hideButtons();
-				} else if ( ed.dom.getAttrib(e.target, 'class').indexOf('mceItem') == -1 ) {
+				if ( e.target.nodeName == 'IMG' && ed.dom.getAttrib(e.target, 'class').indexOf('mceItem') == -1 ) {
 					ed.plugins.wordpress._showButtons(e.target, 'wp_editbtns');
 					if ( tinymce.isGecko && (p = ed.dom.getParent(e.target, 'dl.wp-caption')) && ed.dom.hasClass(p.parentNode, 'mceTemp') )
 						ed.selection.select(p.parentNode);
