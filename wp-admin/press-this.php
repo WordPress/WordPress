@@ -529,7 +529,6 @@ var photostorage = false;
 							<div class="ajaxtag">
 								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
 								<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" tabindex="3" />
-								<div class="taghint"><?php _e('Add new tag'); ?></div>
 							</div>
 						</p>
 						<div class="tagchecklist"></div>

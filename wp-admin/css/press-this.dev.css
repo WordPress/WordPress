@@ -176,7 +176,7 @@ h3.tb {
 }
 
 #title {
-width: 97%;
+	width: 97%;
 }
 
 .editor-container {
@@ -425,6 +425,10 @@ ul.categorychecklist li {
 	border: 0 none;
 	height: 365px;
 	width: 97% !important;
+}
+
+* html .postdivrich {
+	zoom: 1;
 }
 
 /* Submit */

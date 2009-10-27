@@ -6,6 +6,8 @@
 	var DOM = tinymce.DOM;
 
 	tinymce.create('tinymce.plugins.WordPress', {
+		mceTout : 0,
+
 		init : function(ed, url) {
 			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML;
 			moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
@@ -259,7 +261,7 @@
 		},
 
 		_showButtons : function(n, id) {
-			var t = this, ed = tinyMCE.activeEditor, p1, p2, vp, DOM = tinymce.DOM, X, Y;
+			var ed = tinyMCE.activeEditor, p1, p2, vp, DOM = tinymce.DOM, X, Y;
 
 			vp = ed.dom.getViewPort(ed.getWin());
 			p1 = DOM.getPos(ed.getContentAreaContainer());
@@ -274,14 +276,18 @@
 				'display' : 'block'
 			});
 
-			t.tout = window.setTimeout( function(){ed.plugins.wordpress._hideButtons();}, 5000 );
+			this.mceTout = setTimeout( function(){ed.plugins.wordpress._hideButtons();}, 5000 );
 		},
 
 		_hideButtons : function() {
-			tinymce.DOM.hide(['wp_editbtns', 'wp_gallerybtns']);
+			if ( document.getElementById('wp_editbtns') )
+				tinymce.DOM.hide('wp_editbtns');
 
-			if ( this.tout )
-				window.clearTimeout(this.tout);
+			if ( document.getElementById('wp_gallerybtns') )
+				tinymce.DOM.hide('wp_gallerybtns');
+
+			if ( this.mceTout )
+				clearTimeout(this.mceTout);
 		},
 
 		do_align : function(n, a) {
