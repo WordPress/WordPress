@@ -171,33 +171,36 @@ case 'untrashcomment' :
 	$comment_id = absint( $_REQUEST['c'] );
 	$noredir = isset($_REQUEST['noredir']);
 
-	if (!$comment = get_comment($comment_id))
+	if ( !$comment = get_comment($comment_id) )
 		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
-	if (!current_user_can('edit_post', $comment->comment_post_ID ))
+	if ( !current_user_can('edit_post', $comment->comment_post_ID ) )
 		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
-	if ($action == 'trashcomment') {
-		check_admin_referer( 'trash-comment_' . $comment_id );
+	check_admin_referer( 'delete-comment_' . $comment_id );
+
+	if ( '' != wp_get_referer() && false == $noredir && false === strpos(wp_get_referer(), 'comment.php') )
+		$redir = wp_get_referer();
+	elseif ( '' != wp_get_original_referer() && false == $noredir )
+		$redir = wp_get_original_referer();
+	else
+		$redir = admin_url('edit-comments.php');
+
+	if ( $action == 'trashcomment' ) {
 		wp_trash_comment($comment_id);
-	}
-	else {
-		check_admin_referer( 'untrash-comment_' . $comment_id );
+		$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
+	} else {
 		wp_untrash_comment($comment_id);
+		$redir = add_query_arg( array('untrashed' => '1'), $redir );
 	}
 
-	if ('' != wp_get_referer() && false == $noredir && false === strpos(wp_get_referer(), 'comment.php' ))
-		wp_redirect( wp_get_referer() );
-	else if ('' != wp_get_original_referer() && false == $noredir)
-		wp_redirect(wp_get_original_referer());
-	else
-		wp_redirect(admin_url('edit-comments.php'));
+	wp_redirect( $redir );
 
 	die;
 	break;
 
 case 'unapprovecomment' :
 	$comment_id = absint( $_GET['c'] );
-	check_admin_referer( 'unapprove-comment_' . $comment_id );
+	check_admin_referer( 'approve-comment_' . $comment_id );
 
 	if ( isset( $_GET['noredir'] ) )
 		$noredir = true;
