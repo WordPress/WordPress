@@ -393,7 +393,3 @@ function _upgrade_cron_array($cron) {
 function check_server_timer( $local_time ) {
 	return true;
 }
-
-add_action( 'wp_scheduled_delete', 'wp_scheduled_delete' );
-if ( !wp_next_scheduled('wp_scheduled_delete') && !defined('WP_INSTALLING') )
-	wp_schedule_event(time(), 'daily', 'wp_scheduled_delete');

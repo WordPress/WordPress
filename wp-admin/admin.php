@@ -42,6 +42,10 @@ nocache_headers();
 
 update_category_cache();
 
+// Schedule trash collection
+if ( !wp_next_scheduled('wp_scheduled_delete') && !defined('WP_INSTALLING') )
+	wp_schedule_event(time(), 'daily', 'wp_scheduled_delete');
+
 set_screen_options();
 
 $posts_per_page = get_option('posts_per_page');

@@ -203,6 +203,7 @@ add_action( 'future_page',                '_future_post_hook',        5, 2 );
 add_action( 'save_post',                  '_save_post_hook',          5, 2 );
 add_action( 'transition_post_status',     '_transition_post_status',  5, 3 );
 add_action( 'comment_form', 'wp_comment_form_unfiltered_html_nonce'        );
+add_action( 'wp_scheduled_delete',        'wp_scheduled_delete' );
 
 // Post Image CSS class filtering
 add_action( 'begin_fetch_post_image_html', '_wp_post_image_class_filter_add'    );
