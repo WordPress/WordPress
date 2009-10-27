@@ -3530,16 +3530,16 @@ span.imgedit-scale-warn {
 /* tag hints */
 .taghint {
 	color: #aaa;
-	margin: -18px 8px 0;
-	visibility: hidden;
+	margin: 14px 0 -17px 8px;
 }
 
-input.newtag ~ div.taghint {
-	visibility: visible;
+#poststuff .tagsdiv .howto {
+	margin: 0 0 6px 8px;
 }
 
-input.newtag:focus ~ div.taghint {
-	visibility: hidden;
+.ajaxtag .newtag {
+	background: transparent;
+	position: relative;
 }
 
 #broken-themes {

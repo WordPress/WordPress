@@ -241,9 +241,9 @@ function post_tags_meta_box($post, $box) {
 
 	<div class="ajaxtag hide-if-no-js">
 		<label class="screen-reader-text" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
+		<div class="taghint"><?php _e('Add new tag'); ?></div>
 		<input type="text" id="new-tag-<?php echo $tax_name; ?>" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
 		<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" tabindex="3" />
-		<div class="taghint"><?php _e('Add new tag'); ?></div>
 	</div></div>
 	<p class="howto"><?php echo $helps; ?></p>
 	<div class="tagchecklist"></div>

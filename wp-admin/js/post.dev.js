@@ -106,13 +106,16 @@ tagBox = {
 			t.flushTags( $(this).closest('.tagsdiv') );
 		});
 
+		$('div.taghint', ajaxtag).click(function(){
+			$(this).css('visibility', 'hidden').siblings('.newtag').focus();
+		});
+
 		$('input.newtag', ajaxtag).blur(function() {
-	        var taghint = $(this).siblings('.taghint');
 			if ( this.value == '' )
-	            taghint.css('visibility', '');
-	        else
-	        	taghint.css('visibility', 'hidden');
-	    }).keyup(function(e){
+	            $(this).siblings('.taghint').css('visibility', '');
+	    }).focus(function(){
+			$(this).siblings('.taghint').css('visibility', 'hidden');
+		}).keyup(function(e){
 			if ( 13 == e.which ) {
 				tagBox.flushTags( $(this).closest('.tagsdiv') );
 				return false;
