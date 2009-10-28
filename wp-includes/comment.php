@@ -768,7 +768,7 @@ function wp_count_comments( $post_id = 0 ) {
 
 	$where = '';
 	if ( $post_id > 0 )
-		$where = $wpdb->prepare( "comment_post_ID = %d AND ", $post_id );
+		$where = $wpdb->prepare( "WHERE comment_post_ID = %d", $post_id );
 
 	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
 
