@@ -23,7 +23,7 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 // Handle bulk actions
 if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) || isset($_GET['bulk_edit']) ) {
 	check_admin_referer('bulk-posts');
-	$sendback = wp_get_referer();
+	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
 
 	if ( strpos($sendback, 'post.php') !== false )
 		$sendback = admin_url('post-new.php');
@@ -32,8 +32,8 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 		$post_status = preg_replace('/[^a-z0-9_-]+/i', '', $_GET['post_status']);
 		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='post' AND post_status = %s", $post_status ) );
 		$doaction = 'delete';
-	} elseif ( ($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['post']) ) {
-		$post_ids = array_map( 'intval', (array) $_GET['post'] );
+	} elseif ( ( $_GET['action'] != -1 || $_GET['action2'] != -1 ) && ( isset($_GET['post']) || isset($_GET['ids']) ) ) {
+		$post_ids = isset($_GET['post']) ? array_map( 'intval', (array) $_GET['post'] ) : explode(',', $_GET['ids']);
 		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
 	} else {
 		wp_redirect( admin_url('edit.php') );
@@ -51,7 +51,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 
 				$trashed++;
 			}
-			$sendback = add_query_arg('trashed', $trashed, $sendback);
+			$sendback = add_query_arg( array('trashed' => $trashed, 'ids' => join(',', $post_ids)), $sendback );
 			break;
 		case 'untrash':
 			$untrashed = 0;
@@ -167,7 +167,8 @@ if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
 
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	printf( _n( 'Post moved to the trash.', '%s posts moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
-	echo ' <a href="' . admin_url('edit.php?post_status=trash') . '">' . __('View trash') . '</a> ';
+	$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
+	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo?') . '</a><br />';
 	unset($_GET['trashed']);
 }
 

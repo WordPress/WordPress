@@ -196,11 +196,11 @@ case 'trash':
 	if ( ! wp_trash_post($post_id) )
 		wp_die( __('Error in moving to trash...') );
 
-	$sendback = wp_get_referer();
+	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
 	if ( strpos($sendback, 'post.php') !== false || strpos($sendback, 'post-new.php') !== false )
-		$sendback = admin_url('edit.php?trashed=1');
+		$sendback = admin_url('edit.php?trashed=1&ids='.$post_id);
 	else
-		$sendback = add_query_arg('trashed', 1, $sendback);
+		$sendback = add_query_arg( array('trashed' => 1, ids => $post_id), $sendback );
 
 	wp_redirect($sendback);
 	exit();

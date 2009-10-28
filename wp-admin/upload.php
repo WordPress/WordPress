@@ -73,8 +73,8 @@ if ( isset($_GET['find_detached']) ) {
 	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
 		$doaction = 'delete';
-	} elseif ( ($_GET['action'] != -1 || $_GET['action2'] != -1) && isset($_GET['media']) ) {
-		$post_ids = $_GET['media'];
+	} elseif ( ( $_GET['action'] != -1 || $_GET['action2'] != -1 ) && ( isset($_GET['media']) || isset($_GET['ids']) ) ) {
+		$post_ids = isset($_GET['media']) ? $_GET['media'] : explode(',', $_GET['ids']);
 		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
 	} else
 		wp_redirect($_SERVER['HTTP_REFERER']);
@@ -82,7 +82,7 @@ if ( isset($_GET['find_detached']) ) {
 	$location = 'upload.php';
 	if ( $referer = wp_get_referer() ) {
 		if ( false !== strpos($referer, 'upload.php') )
-			$location = $referer;
+			$location = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'message', 'ids'), $referer );
 	}
 
 	switch ( $doaction ) {
@@ -94,7 +94,7 @@ if ( isset($_GET['find_detached']) ) {
 				if ( !wp_trash_post($post_id) )
 					wp_die( __('Error in moving to trash...') );
 			}
-			$location = add_query_arg('message', 4, $location);
+			$location = add_query_arg( array( 'message' => 4, 'ids' => join(',', $post_ids) ), $location );
 			break;
 		case 'untrash':
 			foreach( (array) $post_ids as $post_id ) {
@@ -202,7 +202,7 @@ if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
 $messages[1] = __('Media attachment updated.');
 $messages[2] = __('Media permanently deleted.');
 $messages[3] = __('Error saving media attachment.');
-$messages[4] = __('Media moved to the trash.') . ' <a href="' . admin_url('upload.php?status=trash') . '">' . __('View trash') . '</a> ';
+$messages[4] = __('Media moved to the trash.') . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.$_GET['ids'], "bulk-media" ) ) . '">' . __('Undo?') . '</a>';
 $messages[5] = __('Media restored from the trash.');
 
 if ( isset($_GET['message']) && (int) $_GET['message'] ) {
