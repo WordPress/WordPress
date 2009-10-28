@@ -612,9 +612,9 @@ function search_theme_directories() {
 function get_theme_root( $stylesheet_or_template = false ) {
 	if ($stylesheet_or_template) {
 		$theme_roots = get_theme_roots();
-		
+
 		if ( $theme_roots[$stylesheet_or_template] )
-			$theme_root = WP_CONTENT_DIR . '/' . $theme_roots[$stylesheet_or_template];
+			$theme_root = WP_CONTENT_DIR . $theme_roots[$stylesheet_or_template];
 		else
 			$theme_root = WP_CONTENT_DIR . '/themes';
 	} else {
