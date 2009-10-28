@@ -44,7 +44,9 @@ class WP_oEmbed {
 			'http://www.hulu.com/watch/*'     => array( 'http://www.hulu.com/api/oembed.{format}',  false ),
 			'http://*.viddler.com/*'          => array( 'http://lab.viddler.com/services/oembed/',  false ),
 			'http://qik.com/*'                => array( 'http://qik.com/api/oembed.{format}',       false ),
-			'http://*.revision3.com/*'        => array( 'http://revision3.com/api/oembed/',         false ),
+			'http://revision3.com/*'          => array( 'http://revision3.com/api/oembed/',         false ),
+			'http://i*.photobucket.com/albums/*' => array( 'http://photobucket.com/oembed',         false ),
+			'http://gi*.photobucket.com/groups/*' => array( 'http://photobucket.com/oembed',        false ),
 		) );
 	}
 
