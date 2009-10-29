@@ -3190,6 +3190,12 @@ function add_site_option( $key, $value ) {
 	return $result;
 }
 
+function delete_site_option( $key ) {
+	$result = delete_option($key);
+	do_action( "delete_site_option_{$key}", $key );
+	return $result;
+}
+
 // expects $key, $value not to be SQL escaped
 function update_site_option( $key, $value ) {
 	$oldvalue = get_site_option( $key );
@@ -3197,6 +3203,100 @@ function update_site_option( $key, $value ) {
 	$result = update_option($key, $value);
 	do_action( "update_site_option_{$key}", $key, $value );
 	return $result;
+}
+
+/**
+ * Delete a site transient
+ *
+ * @since 2.890
+ * @package WordPress
+ * @subpackage Transient
+ *
+ * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @return bool true if successful, false otherwise
+ */
+function delete_site_transient($transient) {
+	global $_wp_using_ext_object_cache, $wpdb;
+
+	if ( $_wp_using_ext_object_cache ) {
+		return wp_cache_delete($transient, 'site-transient');
+	} else {
+		$transient = '_site_transient_' . esc_sql($transient);
+		return delete_site_option($transient);
+	}
+}
+
+/**
+ * Get the value of a site transient
+ *
+ * If the transient does not exist or does not have a value, then the return value
+ * will be false.
+ * 
+ * @since 2.9.0
+ * @package WordPress
+ * @subpackage Transient
+ *
+ * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @return mixed Value of transient
+ */
+function get_site_transient($transient) {
+	global $_wp_using_ext_object_cache, $wpdb;
+
+	$pre = apply_filters( 'pre_site_transient_' . $transient, false );
+	if ( false !== $pre )
+		return $pre;
+
+	if ( $_wp_using_ext_object_cache ) {
+		$value = wp_cache_get($transient, 'site-transient');
+	} else {
+		$transient_option = '_site_transient_' . esc_sql($transient);
+		$transient_timeout = '_site_transient_timeout_' . esc_sql($transient);
+		if ( get_site_option($transient_timeout) < time() ) {
+			delete_site_option($transient_option);
+			delete_site_option($transient_timeout);
+			return false;
+		}
+
+		$value = get_site_option($transient_option);
+	}
+
+	return apply_filters('site_transient_' . $transient, $value);
+}
+
+/**
+ * Set/update the value of a site transient
+ *
+ * You do not need to serialize values, if the value needs to be serialize, then
+ * it will be serialized before it is set.
+ *
+ * @since 2.9.0
+ * @package WordPress
+ * @subpackage Transient
+ *
+ * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @param mixed $value Transient value.
+ * @param int $expiration Time until expiration in seconds, default 0
+ * @return bool False if value was not set and true if value was set.
+ */
+function set_site_transient($transient, $value, $expiration = 0) {
+	global $_wp_using_ext_object_cache, $wpdb;
+
+	if ( $_wp_using_ext_object_cache ) {
+		return wp_cache_set($transient, $value, 'site-transient', $expiration);
+	} else {
+		$transient_timeout = '_site_transient_timeout_' . $transient;
+		$transient = '_site_transient_' . $transient;
+		$safe_transient = esc_sql($transient);
+		if ( false === get_site_option( $safe_transient ) ) {
+			if ( 0 != $expiration )
+				add_site_option($transient_timeout, time() + $expiration);
+			return add_site_option($transient, $value);
+		} else {
+			if ( 0 != $expiration )
+				update_site_option($transient_timeout, time() + $expiration);
+			return update_site_option($transient, $value);
+		}
+	}
 }
 
 /**

@@ -304,7 +304,7 @@ if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 
 wp_cache_init();
 if ( function_exists('wp_cache_add_global_groups') ) {
-	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta'));
+	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta', 'site-transient'));
 	wp_cache_add_non_persistent_groups(array( 'comment', 'counts', 'plugins' ));
 }
 

@@ -398,8 +398,8 @@ function get_themes() {
 	$theme_names = array_keys( $themes );
 
 	/* Store theme roots in the DB */
-	if ( get_transient( 'theme_roots' ) != $theme_roots )
-		set_transient( 'theme_roots', $theme_roots, 7200 ); // cache for two hours
+	if ( get_site_transient( 'theme_roots' ) != $theme_roots )
+		set_site_transient( 'theme_roots', $theme_roots, 7200 ); // cache for two hours
 
 	foreach ( (array) $theme_names as $theme_name ) {
 		$themes[$theme_name]['Parent Theme'] = '';
@@ -426,10 +426,10 @@ function get_themes() {
  * @return array Theme roots
  */
 function get_theme_roots() {
-	$theme_roots = get_transient( 'theme_roots' );
+	$theme_roots = get_site_transient( 'theme_roots' );
 	if ( false === $theme_roots ) {
 		get_themes();
-		$theme_roots = get_transient( 'theme_roots' ); // this is set in get_theme()
+		$theme_roots = get_site_transient( 'theme_roots' ); // this is set in get_theme()
 	}
 	return $theme_roots;
 }
