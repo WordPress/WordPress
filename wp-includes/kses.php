@@ -1059,12 +1059,26 @@ function _wp_kses_decode_entities_chr_hexdec( $match ) {
  * @since 1.0.0
  * @uses $allowedtags
  *
- * @param string $data Content to filter
+ * @param string $data Content to filter, expected to be escaped with slashes
  * @return string Filtered content
  */
 function wp_filter_kses($data) {
 	global $allowedtags;
 	return addslashes( wp_kses(stripslashes( $data ), $allowedtags) );
+}
+
+/**
+ * Sanitize content with allowed HTML Kses rules.
+ *
+ * @since 2.9.0
+ * @uses $allowedtags
+ *
+ * @param string $data Content to filter, expected to not be escaped
+ * @return string Filtered content
+ */
+function wp_kses_data($data) {
+	global $allowedtags;
+	return wp_kses( $data , $allowedtags );
 }
 
 /**
@@ -1076,12 +1090,29 @@ function wp_filter_kses($data) {
  * @since 2.0.0
  * @uses $allowedposttags
  *
- * @param string $data Post content to filter
+ * @param string $data Post content to filter, expected to be escaped with slashes
  * @return string Filtered post content with allowed HTML tags and attributes intact.
  */
 function wp_filter_post_kses($data) {
 	global $allowedposttags;
 	return addslashes ( wp_kses(stripslashes( $data ), $allowedposttags) );
+}
+
+/**
+ * Sanitize content for allowed HTML tags for post content.
+ *
+ * Post content refers to the page contents of the 'post' type and not $_POST
+ * data from forms.
+ *
+ * @since 2.9.0
+ * @uses $allowedposttags
+ *
+ * @param string $data Post content to filter
+ * @return string Filtered post content with allowed HTML tags and attributes intact.
+ */
+function wp_kses_post($data) {
+	global $allowedposttags;
+	return wp_kses( $data , $allowedposttags );
 }
 
 /**

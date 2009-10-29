@@ -26,9 +26,14 @@ foreach ( array( 'term_name', 'comment_author_name', 'link_name', 'link_target',
 	add_filter( $filter, '_wp_specialchars', 30 );
 }
 
-// Kses only for textarea saves and displays
-foreach ( array( 'pre_term_description', 'term_description', 'pre_link_description', 'link_description', 'pre_link_notes', 'link_notes', 'pre_user_description', 'user_description' ) as $filter ) {
+// Kses only for textarea saves
+foreach ( array( 'pre_term_description', 'pre_link_description', 'pre_link_notes', 'pre_user_description' ) as $filter ) {
 	add_filter( $filter, 'wp_filter_kses' );
+}
+
+// Kses only for textarea saves displays
+foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description' ) as $filter ) {
+	add_filter( $filter, 'wp_kses_data' );
 }
 
 // Email saves
