@@ -22,7 +22,7 @@ foreach ( array( 'pre_term_name', 'pre_comment_author_name', 'pre_link_name', 'p
 // Strip, kses, special chars for string display
 foreach ( array( 'term_name', 'comment_author_name', 'link_name', 'link_target', 'link_rel', 'user_display_name', 'user_first_name', 'user_last_name', 'user_nickname' ) as $filter ) {
 	add_filter( $filter, 'sanitize_text_field'  );
-	add_filter( $filter, 'wp_filter_kses'       );
+	add_filter( $filter, 'wp_kses_data'       );
 	add_filter( $filter, '_wp_specialchars', 30 );
 }
 
@@ -46,7 +46,7 @@ foreach ( array( 'pre_comment_author_email', 'pre_user_email' ) as $filter ) {
 // Email display
 foreach ( array( 'comment_author_email', 'user_email' ) as $filter ) {
 	add_filter( $filter, 'sanitize_email' );
-	add_filter( $filter, 'wp_filter_kses' );
+	add_filter( $filter, 'wp_kses_data' );
 }
 
 // Save URL
@@ -61,7 +61,7 @@ foreach ( array( 'pre_comment_author_url', 'pre_user_url', 'pre_link_url', 'pre_
 foreach ( array( 'user_url', 'link_url', 'link_image', 'link_rss', 'comment_url' ) as $filter ) {
 	add_filter( $filter, 'wp_strip_all_tags' );
 	add_filter( $filter, 'esc_url'           );
-	add_filter( $filter, 'wp_filter_kses'    );
+	add_filter( $filter, 'wp_kses_data'    );
 }
 
 // Slugs
