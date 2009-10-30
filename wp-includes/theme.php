@@ -263,6 +263,8 @@ function get_themes() {
 
 	asort( $theme_files );
 
+	$wp_themes = array();
+
 	foreach ( (array) $theme_files as $theme_file ) {
 		$theme_root = $theme_file['theme_root'];
 		$theme_file = $theme_file['theme_file'];
@@ -308,7 +310,7 @@ function get_themes() {
 			$parent_dir = dirname(dirname($theme_file));
 			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
 				$template = "$parent_dir/$template";
-				$template_directory = "$theme_root/$parent_dir/$template";
+				$template_directory = "$theme_root/$template";
 			} else {
 				/**
 				 * The parent theme doesn't exist in the current theme's folder or sub folder
@@ -316,7 +318,7 @@ function get_themes() {
 				 */
 				$parent_theme_root = $theme_files[$template]['theme_root'];
 				if ( file_exists( "$parent_theme_root/$template/index.php" ) ) {
-					$template = "$parent_theme_root/$template";
+					$template_directory = "$parent_theme_root/$template";
 				} else {
 					$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
 					continue;
@@ -376,46 +378,46 @@ function get_themes() {
 		// a new theme directory and the theme header is not updated.  Whichever
 		// theme is first keeps the name.  Subsequent themes get a suffix applied.
 		// The Default and Classic themes always trump their pretenders.
-		if ( isset($themes[$name]) ) {
+		if ( isset($wp_themes[$name]) ) {
 			if ( ('WordPress Default' == $name || 'WordPress Classic' == $name) &&
 					 ('default' == $stylesheet || 'classic' == $stylesheet) ) {
 				// If another theme has claimed to be one of our default themes, move
 				// them aside.
-				$suffix = $themes[$name]['Stylesheet'];
+				$suffix = $wp_themes[$name]['Stylesheet'];
 				$new_name = "$name/$suffix";
-				$themes[$new_name] = $themes[$name];
-				$themes[$new_name]['Name'] = $new_name;
+				$wp_themes[$new_name] = $wp_themes[$name];
+				$wp_themes[$new_name]['Name'] = $new_name;
 			} else {
 				$name = "$name/$stylesheet";
 			}
 		}
 
 		$theme_roots[$stylesheet] = str_replace( WP_CONTENT_DIR, '', $theme_root );
-		$themes[$name] = array( 'Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags'], 'Theme Root' => $theme_root, 'Theme Root URI' => str_replace( WP_CONTENT_DIR, content_url(), $theme_root ) );
+		$wp_themes[$name] = array( 'Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags'], 'Theme Root' => $theme_root, 'Theme Root URI' => str_replace( WP_CONTENT_DIR, content_url(), $theme_root ) );
 	}
 
-	/* Resolve theme dependencies. */
-	$theme_names = array_keys( $themes );
+	unset($theme_files);
 
 	/* Store theme roots in the DB */
 	if ( get_site_transient( 'theme_roots' ) != $theme_roots )
 		set_site_transient( 'theme_roots', $theme_roots, 7200 ); // cache for two hours
+	unset($theme_roots);
 
+	/* Resolve theme dependencies. */
+	$theme_names = array_keys( $wp_themes );
 	foreach ( (array) $theme_names as $theme_name ) {
-		$themes[$theme_name]['Parent Theme'] = '';
-		if ( $themes[$theme_name]['Stylesheet'] != $themes[$theme_name]['Template'] ) {
+		$wp_themes[$theme_name]['Parent Theme'] = '';
+		if ( $wp_themes[$theme_name]['Stylesheet'] != $wp_themes[$theme_name]['Template'] ) {
 			foreach ( (array) $theme_names as $parent_theme_name ) {
-				if ( ($themes[$parent_theme_name]['Stylesheet'] == $themes[$parent_theme_name]['Template']) && ($themes[$parent_theme_name]['Template'] == $themes[$theme_name]['Template']) ) {
-					$themes[$theme_name]['Parent Theme'] = $themes[$parent_theme_name]['Name'];
+				if ( ($wp_themes[$parent_theme_name]['Stylesheet'] == $wp_themes[$parent_theme_name]['Template']) && ($wp_themes[$parent_theme_name]['Template'] == $wp_themes[$theme_name]['Template']) ) {
+					$wp_themes[$theme_name]['Parent Theme'] = $wp_themes[$parent_theme_name]['Name'];
 					break;
 				}
 			}
 		}
 	}
 
-	$wp_themes = $themes;
-
-	return $themes;
+	return $wp_themes;
 }
 
 /**
