@@ -47,6 +47,7 @@ class WP_oEmbed {
 			'http://revision3.com/*'          => array( 'http://revision3.com/api/oembed/',         false ),
 			'http://i*.photobucket.com/albums/*' => array( 'http://photobucket.com/oembed',         false ),
 			'http://gi*.photobucket.com/groups/*' => array( 'http://photobucket.com/oembed',        false ),
+			'http://www.scribd.com/*'         => array( 'http://www.scribd.com/services/oembed',    false)
 		) );
 	}
 
