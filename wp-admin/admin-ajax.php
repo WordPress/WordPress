@@ -334,6 +334,7 @@ case 'delete-post' :
 		die('0');
 	break;
 case 'trash-post' :
+case 'untrash-post' :
 	check_ajax_referer( "{$action}_$id" );
 	if ( !current_user_can( 'delete_post', $id ) )
 		die('-1');
@@ -341,10 +342,15 @@ case 'trash-post' :
 	if ( !get_post( $id ) )
 		die('1');
 
-	if ( wp_trash_post( $id ) )
-		die('1');
+	if ( 'trash-post' == $action )
+		$done = wp_trash_post( $id );
 	else
-		die('0');
+		$done = wp_untrash_post( $id );
+
+	if ( $done )
+		die('1');
+
+	die('0');
 	break;
 case 'delete-page' :
 	check_ajax_referer( "{$action}_$id" );

@@ -48,12 +48,6 @@ button.dismiss {
 	border-left-style: solid;
 }
 
-.describe-toggle-on,
-.describe-toggle-off {
-	float: left;
-	margin-right: 0;
-	margin-left: 20px;
-}
 /* Specific to Uploader */
 #media-upload .media-upload-form p {
 	margin: 0 0 1em 1em;

@@ -1251,6 +1251,9 @@ function wp_trash_post($post_id = 0) {
 	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
 		return $post;
 
+	if ( $post['post_status'] == 'trash' )
+		return false;
+
 	do_action('trash_post', $post_id);
 
 	add_post_meta($post_id,'_wp_trash_meta_status', $post['post_status']);
@@ -1277,6 +1280,9 @@ function wp_trash_post($post_id = 0) {
 function wp_untrash_post($post_id = 0) {
 	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
 		return $post;
+
+	if ( $post['post_status'] != 'trash' )
+		return false;
 
 	do_action('untrash_post', $post_id);
 

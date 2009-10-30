@@ -183,7 +183,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'swfupload-all', '/wp-includes/js/swfupload/swfupload-all.js', array(), '2201');
 	}
 
-	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20090818');
+	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20091029');
 	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
 	if ( empty($max_upload_size) )
 		$max_upload_size = __('not configured');
@@ -204,7 +204,7 @@ function wp_default_scripts( &$scripts ) {
 			'upload_stopped' => __('Upload stopped.'),
 			'dismiss' => __('Dismiss'),
 			'crunching' => __('Crunching&hellip;'),
-			'deleted' => __('Moved to Trash'),
+			'deleted' => __('moved to the trash.'),
 			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
 	) );
 
@@ -433,7 +433,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091023' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091029' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );

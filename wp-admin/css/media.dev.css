@@ -134,18 +134,6 @@ abbr.required {
 	border-style: solid;
 }
 
-.describe-toggle-on,
-.describe-toggle-off {
-	display: block;
-	line-height: 36px;
-	float: right;
-	margin-right: 20px;
-}
-
-.describe-toggle-off {
-	display: none;
-}
-
 .hidden {
 	height: 0;
 	width: 0;
