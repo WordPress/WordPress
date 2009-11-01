@@ -1303,4 +1303,30 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
 	add_action('admin_menu', array(&$GLOBALS['custom_image_header'], 'init'));
 }
 
+/**
+ * Allows a theme to register its support of a certain feature
+ *
+ * @author Mark Jaquith
+ * @since 2.9
+ * @param string $feature the feature being added
+ */
+function add_theme_support( $feature ) {
+	global $_wp_theme_features;
+	$_wp_theme_features[$feature] = true;
+}
+
+/**
+ * Checks a theme's support for a given feature
+ *
+ * @author Mark Jaquith
+ * @since 2.9
+ * @param string $feature the feature being checked
+ * @return boolean
+ */
+
+function current_theme_supports( $feature ) {
+	global $_wp_theme_features;
+	return ( isset( $_wp_theme_features[$feature] ) && $_wp_theme_features[$feature] );
+}
+
 ?>
