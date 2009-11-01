@@ -687,6 +687,9 @@ if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists(STYLESHEETPATH . '/functions
 if ( file_exists(TEMPLATEPATH . '/functions.php') )
 	include(TEMPLATEPATH . '/functions.php');
 
+// Load in support for template functions which the theme supports
+require_if_theme_supports( 'post-thumbnails', ABSPATH . WPINC . '/post-image-template.php' );
+
 /**
  * Runs just before PHP shuts down execution.
  *

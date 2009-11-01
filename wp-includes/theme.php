@@ -1305,6 +1305,8 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
 
 /**
  * Allows a theme to register its support of a certain feature
+ * 
+ * Must be called in the themes functions.php file to work.
  *
  * @author Mark Jaquith
  * @since 2.9
@@ -1327,6 +1329,19 @@ function add_theme_support( $feature ) {
 function current_theme_supports( $feature ) {
 	global $_wp_theme_features;
 	return ( isset( $_wp_theme_features[$feature] ) && $_wp_theme_features[$feature] );
+}
+
+/**
+ * Checks a theme's support for a given feature before loading the functions which implement it.
+ *
+ * @author Peter Westwood
+ * @since 2.9
+ * @param string $feature the feature being checked
+ * @param string $include the file containing the functions that implement the feature
+ */
+function require_if_theme_supports( $feature, $include) {
+	if ( current_theme_supports( $feature ) )
+		require ( $include );
 }
 
 ?>
