@@ -827,9 +827,9 @@ function get_home_template() {
 /**
  * Retrieve path of page template in current or parent template.
  *
- * First attempt is to look for the file in the '_wp_page_template' page meta
- * data. The second attempt, if the first has a file and is not empty, is to
- * look for 'page.php'.
+ * Will first look for the specifically assigned page template
+ * The will search for 'page-{slug}.php' followed by 'page-id.php'
+ * and finally 'page.php'
  *
  * @since 1.5.0
  *
@@ -840,6 +840,7 @@ function get_page_template() {
 
 	$id = (int) $wp_query->post->ID;
 	$template = get_post_meta($id, '_wp_page_template', true);
+	$pagename = get_query_var('pagename');
 
 	if ( 'default' == $template )
 		$template = '';
@@ -847,7 +848,10 @@ function get_page_template() {
 	$templates = array();
 	if ( !empty($template) && !validate_file($template) )
 		$templates[] = $template;
-
+	if ( $pagename )
+		$templates[] = "page-$pagename.php";
+	if ( $id )
+		$templates[] = "page-$id.php";
 	$templates[] = "page.php";
 
 	return apply_filters('page_template', locate_template($templates));
