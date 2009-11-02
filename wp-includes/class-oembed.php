@@ -40,7 +40,7 @@ class WP_oEmbed {
 			'#http://(www\.)?youtube.com/watch.*#i' => array( 'http://www.youtube.com/oembed',            true  ),
 			'http://blip.tv/file/*'                 => array( 'http://blip.tv/oembed/',                   false ),
 			'#http://(www\.)?vimeo\.com/.*#i'       => array( 'http://www.vimeo.com/api/oembed.{format}', true  ),
-			'#http://(www\.)?flickr.com/.*'         => array( 'http://www.flickr.com/services/oembed/',   true ),
+			'#http://(www\.)?flickr.com/.*#i'       => array( 'http://www.flickr.com/services/oembed/',   true ),
 			'#http://(www\.)?hulu.com/watch/.*#i'   => array( 'http://www.hulu.com/api/oembed.{format}',  true ),
 			'#http://(www\.)?viddler.com/.*#i'      => array( 'http://lab.viddler.com/services/oembed/',  true ),
 			'http://qik.com/*'                      => array( 'http://qik.com/api/oembed.{format}',       false ),
