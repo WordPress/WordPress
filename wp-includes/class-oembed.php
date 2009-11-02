@@ -37,17 +37,17 @@ class WP_oEmbed {
 		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
 		// Add to this list using the wp_oembed_add_provider() function
 		$this->providers = apply_filters( 'oembed_providers', array(
-			'http://www.youtube.com/watch*'   => array( 'http://www.youtube.com/oembed',            false  ),
-			'http://blip.tv/file/*'           => array( 'http://blip.tv/oembed/',                   false ),
-			'#http://(www\.)?vimeo\.com/.*#i' => array( 'http://www.vimeo.com/api/oembed.{format}', true  ),
-			'http://*.flickr.com/*'           => array( 'http://www.flickr.com/services/oembed/',   false ),
-			'http://www.hulu.com/watch/*'     => array( 'http://www.hulu.com/api/oembed.{format}',  false ),
-			'http://*.viddler.com/*'          => array( 'http://lab.viddler.com/services/oembed/',  false ),
-			'http://qik.com/*'                => array( 'http://qik.com/api/oembed.{format}',       false ),
-			'http://revision3.com/*'          => array( 'http://revision3.com/api/oembed/',         false ),
-			'http://i*.photobucket.com/albums/*' => array( 'http://photobucket.com/oembed',         false ),
-			'http://gi*.photobucket.com/groups/*' => array( 'http://photobucket.com/oembed',        false ),
-			'http://www.scribd.com/*'         => array( 'http://www.scribd.com/services/oembed',    false)
+			'#http://(www\.)?youtube.com/watch.*#i' => array( 'http://www.youtube.com/oembed',            true  ),
+			'http://blip.tv/file/*'                 => array( 'http://blip.tv/oembed/',                   false ),
+			'#http://(www\.)?vimeo\.com/.*#i'       => array( 'http://www.vimeo.com/api/oembed.{format}', true  ),
+			'#http://(www\.)?flickr.com/.*'         => array( 'http://www.flickr.com/services/oembed/',   true ),
+			'#http://(www\.)?hulu.com/watch/.*#i'   => array( 'http://www.hulu.com/api/oembed.{format}',  true ),
+			'#http://(www\.)?viddler.com/.*#i'      => array( 'http://lab.viddler.com/services/oembed/',  true ),
+			'http://qik.com/*'                      => array( 'http://qik.com/api/oembed.{format}',       false ),
+			'http://revision3.com/*'                => array( 'http://revision3.com/api/oembed/',         false ),
+			'http://i*.photobucket.com/albums/*'    => array( 'http://photobucket.com/oembed',            false ),
+			'http://gi*.photobucket.com/groups/*'   => array( 'http://photobucket.com/oembed',            false ),
+			'#http://(www\.)?scribd.com/.*#i'       => array( 'http://www.scribd.com/services/oembed',    true)
 		) );
 	}
 

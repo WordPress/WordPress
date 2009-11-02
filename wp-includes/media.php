@@ -928,8 +928,7 @@ class WP_Embed {
 			add_filter( 'the_content', array(&$this, 'autoembed'), 8 );
 
 		// After a post is saved, cache oEmbed items via AJAX
-		if ( get_option('embed_useoembed') )
-			add_action( 'edit_form_advanced', array(&$this, 'maybe_run_ajax_cache') );
+		add_action( 'edit_form_advanced', array(&$this, 'maybe_run_ajax_cache') );
 	}
 
 	/**
@@ -1059,7 +1058,7 @@ class WP_Embed {
 			$post_ID = $this->post_ID;
 
 		// Unknown URL format. Let oEmbed have a go.
-		if ( $post_ID && get_option('embed_useoembed') ) {
+		if ( $post_ID ) {
 
 			// Check for a cached result (stored in the post meta)
 			$cachekey = '_oembed_' . md5( $url . implode( '|', $attr ) );
@@ -1075,7 +1074,7 @@ class WP_Embed {
 			}
 
 			// Use oEmbed to get the HTML
-			$attr['discover'] = author_can( $post_ID, 'unfiltered_html' );
+			$attr['discover'] = ( get_option( 'embed_oembed_discover' ) && author_can( $post_ID, 'unfiltered_html' ) ) ? true : false;
 			$html = wp_oembed_get( $url, $attr );
 
 			// Cache the result

@@ -77,14 +77,14 @@ include('admin-header.php');
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e('oEmbed'); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php printf( __('Use <a href="%s">oEmbed</a> to assist in rich content embedding'), 'http://codex.wordpress.org/oEmbed' ); ?></span></legend>
-<label for="embed_useoembed"><input name="embed_useoembed" type="checkbox" id="embed_useoembed" value="1" <?php checked( '1', get_option('embed_useoembed') ); ?>/> <?php printf( __('Use <a href="%s">oEmbed</a> to allow embedding content from additional websites'), 'http://codex.wordpress.org/oEmbed' ); ?></label>
+<th scope="row"><?php _e('oEmbed discovery'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php printf( __('Attempt to embed content from unknown URLs using <a href="%s">oEmbed</a>'), 'http://codex.wordpress.org/Embeds#oEmbed' ); ?></span></legend>
+<label for="embed_oembed_discover"><input name="embed_oembed_discover" type="checkbox" id="embed_oembed_discover" value="1" <?php checked( '1', get_option('embed_oembed_discover') ); ?>/> <?php printf( __('Attempt to embed content from unknown URLs using <a href="%s">oEmbed</a>'), 'http://codex.wordpress.org/Embeds#oEmbed' ); ?></label>
 </fieldset></td>
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e('Embed size') ?></th>
+<th scope="row"><?php _e('Maximum embed size') ?></th>
 <td>
 <label for="embed_size_w"><?php _e('Width'); ?></label>
 <input name="embed_size_w" type="text" id="embed_size_w" value="<?php form_option('embed_size_w'); ?>" class="small-text" />
