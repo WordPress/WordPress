@@ -1209,7 +1209,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
 	if ( $delete )
 		$delete = current_user_can('delete_post', $attachment_id) ? "<a href=\"$trash_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a> <a href=\"$untrash_href\" id=\"undo[$attachment_id]\" class=\"undo hidden\">" . __('Undo?') . "</a>" : "";
-	if ( 'image' == $type && get_post_image_id($_GET['post_id']) != $attachment_id )
+	if ( 'image' == $type && current_theme_supports( 'post-thumbnails' ) && get_post_image_id($_GET['post_id']) != $attachment_id )
 		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
 
 	if ( ( $send || $thumbnail || $delete ) && !isset($form_fields['buttons']) )
