@@ -2309,9 +2309,9 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 ?>
 <form method="get" action="">
 <?php if ( $table_row ) : ?>
-<table style="display:none;"><tbody id="com-reply"><tr id="replyrow"><td colspan="<?php echo $col_count; ?>">
+<table style="display:none;"><tbody id="com-reply"><tr id="replyrow" style="display:none;"><td colspan="<?php echo $col_count; ?>">
 <?php else : ?>
-<div id="com-reply" style="display:none;"><div id="replyrow">
+<div id="com-reply" style="display:none;"><div id="replyrow" style="display:none;">
 <?php endif; ?>
 	<div id="replyhead" style="display:none;"><?php _e('Reply to Comment'); ?></div>
 
