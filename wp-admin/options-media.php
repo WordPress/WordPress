@@ -76,6 +76,7 @@ include('admin-header.php');
 </fieldset></td>
 </tr>
 
+<?php if ( current_user_can('unfiltered_html') ) { ?>
 <tr valign="top">
 <th scope="row"><?php _e('oEmbed discovery'); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php printf( __('Attempt to embed content from unknown URLs using <a href="%s">oEmbed</a>'), 'http://codex.wordpress.org/Embeds#oEmbed' ); ?></span></legend>
@@ -83,6 +84,7 @@ include('admin-header.php');
 </fieldset></td>
 </tr>
 
+<?php } ?>
 <tr valign="top">
 <th scope="row"><?php _e('Maximum embed size') ?></th>
 <td>
