@@ -1202,15 +1202,21 @@ function wp_delete_post($postid = 0) {
 	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
-	$commentids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
-	do_action( 'delete_comment', $commentids );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_ID IN(%s)", implode( ',', $commentids ) ));
-	do_action( 'deleted_comment', $commentids );
+	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
+	if ( ! empty($comment_ids) ) {
+		do_action( 'delete_comment', $comment_ids );
+		$in_comment_ids = "'" . implode("', '", $comment_ids) . "'";
+		$wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_ID IN($in_comment_ids)" );
+		do_action( 'deleted_comment', $comment_ids );
+	}
 
-	$postmetaids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
-	do_action( 'delete_postmeta', $postmetaids );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_id IN(%s)", implode( ',', $postmetaids ) ));
-	do_action( 'deleted_postmeta', $postmetaids );
+	$post_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $postid ));
+	if ( !empty($post_meta_ids) ) {
+		do_action( 'delete_postmeta', $post_meta_ids );
+		$in_post_meta_ids = "'" . implode("', '", $post_meta_ids) . "'";
+		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_id IN($in_post_meta_ids)" );
+		do_action( 'deleted_postmeta', $post_meta_ids );
+	}
 
 	do_action( 'delete_post', $post_id );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
@@ -2729,15 +2735,21 @@ function wp_delete_attachment($post_id) {
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND meta_value = %d", $post_id ));
 
-	$commentids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
-	do_action( 'delete_comment', $commentids );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_ID IN(%s)", implode( ',', $commentids ) ));
-	do_action( 'deleted_comment', $commentids );
+	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
+	if ( ! empty($comment_ids) ) {
+		do_action( 'delete_comment', $comment_ids );
+		$in_comment_ids = "'" . implode("', '", $comment_ids) . "'";
+		$wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_ID IN($in_comment_ids)" );
+		do_action( 'deleted_comment', $comment_ids );
+	}
 
-	$postmetaids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
-	do_action( 'delete_postmeta', $postmetaids );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_id IN(%s)", implode( ',', $postmetaids ) ));
-	do_action( 'deleted_postmeta', $postmetaids );
+	$post_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
+	if ( !empty($post_meta_ids) ) {
+		do_action( 'delete_postmeta', $post_meta_ids );
+		$in_post_meta_ids = "'" . implode("', '", $post_meta_ids) . "'";
+		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_id IN($in_post_meta_ids)" );
+		do_action( 'deleted_postmeta', $post_meta_ids );
+	}
 
 	do_action( 'delete_post', $post_id );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $post_id ));
