@@ -30,6 +30,9 @@ if ( empty($status->comment_status) ) {
 } elseif ( in_array($status->post_status, array('draft', 'pending') ) ) {
 	do_action('comment_on_draft', $comment_post_ID);
 	exit;
+} elseif ( 'trash' == $status->post_status ) {
+	do_action('comment_on_trash', $comment_post_ID);
+	exit;
 } else {
 	do_action('pre_comment_on_post', $comment_post_ID);
 }

@@ -773,10 +773,12 @@ function wp_count_comments( $post_id = 0 ) {
 	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
 
 	$total = 0;
-	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'trash' => 'trash');
+	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'trash' => 'trash', 'post-trashed' => 'post-trashed');
 	$known_types = array_keys( $approved );
 	foreach( (array) $count as $row_num => $row ) {
-		$total += $row['num_comments'];
+		// Don't count post-trashed toward totals
+		if ( 'post-trashed' != $row['comment_approved'] )
+			$total += $row['num_comments'];
 		if ( in_array( $row['comment_approved'], $known_types ) )
 			$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
 	}
@@ -1178,9 +1180,13 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 	$status = '0';
 	switch ( $comment_status ) {
 		case 'hold':
+		case '0':
+		case 0:
 			$status = '0';
 			break;
 		case 'approve':
+		case '1':
+		case 1:
 			$status = '1';
 			if ( get_option('comments_notify') ) {
 				$comment = get_comment($comment_id);
