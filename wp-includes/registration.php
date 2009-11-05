@@ -283,7 +283,6 @@ function wp_update_user($userdata) {
  *
  * @since 2.0.0
  * @see wp_insert_user() More complete way to create a new user
- * @uses $wpdb Escapes $username and $email parameters
  *
  * @param string $username The user's username.
  * @param string $password The user's password.
@@ -291,8 +290,6 @@ function wp_update_user($userdata) {
  * @return int The new user's ID.
  */
 function wp_create_user($username, $password, $email = '') {
-	global $wpdb;
-
 	$user_login = esc_sql( $username );
 	$user_email = esc_sql( $email    );
 	$user_pass = $password;
