@@ -732,7 +732,7 @@ function wp_list_pages($args = '') {
 		'child_of' => 0, 'exclude' => '',
 		'title_li' => __('Pages'), 'echo' => 1,
 		'authors' => '', 'sort_column' => 'menu_order, post_title',
-		'link_before' => '', 'link_after' => ''
+		'link_before' => '', 'link_after' => '', 'walker' => '',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
