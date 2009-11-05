@@ -1181,12 +1181,10 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 	switch ( $comment_status ) {
 		case 'hold':
 		case '0':
-		case 0:
 			$status = '0';
 			break;
 		case 'approve':
 		case '1':
-		case 1:
 			$status = '1';
 			if ( get_option('comments_notify') ) {
 				$comment = get_comment($comment_id);
