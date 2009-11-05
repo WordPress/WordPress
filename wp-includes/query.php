@@ -2062,6 +2062,7 @@ class WP_Query {
 						break;
 					case 'comment_count':
 						$orderby = "$wpdb->posts.comment_count";
+						break;
 					default:
 						$orderby = "$wpdb->posts.post_" . $orderby;
 				}
