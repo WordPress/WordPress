@@ -99,13 +99,14 @@ function get_real_file_to_edit( $file ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
+ * The depth of the recursiveness can be controlled by the $levels param.
  *
- * @since unknown
+ * @since 2.6.0
  *
- * @param string $folder Optional. Full path to folder
- * @param int $levels Optional. Levels of folders to follow, Default: 100 (PHP Loop limit).
- * @return bool|array
+ * @param string $folder Full path to folder
+ * @param int $levels (optional) Levels of folders to follow, Default: 100 (PHP Loop limit).
+ * @return bool|array False on failure, Else array of files
  */
 function list_files( $folder = '', $levels = 100 ) {
 	if( empty($folder) )
@@ -135,11 +136,14 @@ function list_files( $folder = '', $levels = 100 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Determines a writable directory for temporary files.
+ * Function's preference is to WP_CONTENT_DIR followed by the return value of <code>sys_get_temp_dir()</code>, before finally defaulting to /tmp/
  *
- * @since unknown
+ * In the event that this function does not find a writable location, It may be overridden by the <code>WP_TEMP_DIR</code> constant in your <code>wp-config.php</code> file.
  *
- * @return unknown
+ * @since 2.5.0
+ *
+ * @return string Writable temporary directory
  */
 function get_temp_dir() {
 	if ( defined('WP_TEMP_DIR') )
@@ -156,13 +160,17 @@ function get_temp_dir() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Returns a filename of a Temporary unique file.
+ * Please note that the calling function must unlink() this itself.
  *
- * @since unknown
+ * The filename is based off the passed parameter or defaults to the current unix timestamp,
+ * while the directory can either be passed as well, or by leaving  it blank, default to a writable temporary directory.
  *
- * @param unknown_type $filename
- * @param unknown_type $dir
- * @return unknown
+ * @since 2.6.0
+ *
+ * @param string $filename (optional) Filename to base the Unique file off
+ * @param string $dir (optional) Directory to store the file in
+ * @return string a writable filename
  */
 function wp_tempnam($filename = '', $dir = ''){
 	if ( empty($dir) )
@@ -431,10 +439,10 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 }
 
 /**
- * Downloads a url to a local file using the Snoopy HTTP Class.
+ * Downloads a url to a local temporary file using the WordPress HTTP Class.
+ * Please note, That the calling function must unlink() the  file.
  *
- * @since unknown
- * @todo Transition over to using the new HTTP Request API (jacob).
+ * @since 2.5.0
  *
  * @param string $url the URL of the file to download
  * @return mixed WP_Error on failure, string Filename on success.
@@ -473,13 +481,17 @@ function download_url( $url ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Unzip's a specified ZIP file to a location on the Filesystem via the WordPress Filesystem Abstraction.
+ * Assumes that WP_Filesystem() has already been called and set up.
  *
- * @since unknown
+ * Attempts to increase the PHP Memory limit to 256M before uncompressing,
+ * However, The most memory required shouldn't be much larger than the Archive itself.
  *
- * @param unknown_type $file
- * @param unknown_type $to
- * @return unknown
+ * @since 2.5.0
+ *
+ * @param string $file Full path and filename of zip archive
+ * @param string $to Full path on the filesystem to extract archive to
+ * @return mixed WP_Error on failure, True on success
  */
 function unzip_file($file, $to) {
 	global $wp_filesystem;
@@ -487,7 +499,7 @@ function unzip_file($file, $to) {
 	if ( ! $wp_filesystem || !is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
-	// Unzip uses a lot of memory
+	// Unzip uses a lot of memory, but not this much hopefully
 	@ini_set('memory_limit', '256M');
 
 	$fs =& $wp_filesystem;
@@ -545,13 +557,14 @@ function unzip_file($file, $to) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Copies a directory from one location to another via the WordPress Filesystem Abstraction.
+ * Assumes that WP_Filesystem() has already been called and setup.
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param unknown_type $from
- * @param unknown_type $to
- * @return unknown
+ * @param string $from source directory
+ * @param string $to destination directory
+ * @return mixed WP_Error on failure, True on success.
  */
 function copy_dir($from, $to) {
 	global $wp_filesystem;
@@ -580,15 +593,20 @@ function copy_dir($from, $to) {
 				return $result;
 		}
 	}
+	return true;
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Initialises and connects the WordPress Filesystem Abstraction classes.
+ * This function will include the chosen transport and attempt connecting.
  *
- * @since unknown
+ * Plugins may add extra transports, And force WordPress to use them by returning the filename via the 'filesystem_method_file' filter.
  *
- * @param unknown_type $args
- * @return unknown
+ * @since 2.5.0
+ *
+ * @param array $args (optional) Connection args, These are passed directly to the WP_Filesystem_*() classes.
+ * @param string $context (optional) Context for get_filesystem_method(), See function declaration for more information.
+ * @return boolean false on failure, true on success
  */
 function WP_Filesystem( $args = false, $context = false ) {
 	global $wp_filesystem;
@@ -633,13 +651,20 @@ function WP_Filesystem( $args = false, $context = false ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Determines which Filesystem Method to use.
+ * The priority of the Transports are: Direct, SSH2, FTP PHP Extension, FTP Sockets (Via Sockets class, or fsoxkopen())
  *
- * @since unknown
+ * Note that the return value of this function can be overridden in 2 ways
+ *  - By defining FS_METHOD in your <code>wp-config.php</code> file
+ *  - By using the filesystem_method filter
+ * Valid values for these are: 'direct', 'ssh', 'ftpext' or 'ftpsockets'
+ * Plugins may also define a custom transport handler, See the WP_Filesystem function for more information.
  *
- * @param unknown_type $args
+ * @since 2.5.0
+ *
+ * @param array $args Connection details.
  * @param string $context Full path to the directory that is tested for being writable.
- * @return unknown
+ * @return string The transport to use, see description for valid return values.
  */
 function get_filesystem_method($args = array(), $context = false) {
 	$method = defined('FS_METHOD') ? FS_METHOD : false; //Please ensure that this is either 'direct', 'ssh', 'ftpext' or 'ftpsockets'
@@ -665,14 +690,20 @@ function get_filesystem_method($args = array(), $context = false) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Displays a form to the user to request for their FTP/SSH details in order to  connect to the filesystem.
+ * All chosen/entered details are saved, Excluding the Password.
  *
- * @since unknown
+ * Hostnames may be in the form of hostname:portnumber (eg: wordpress.org:2467) to specify an alternate FTP/SSH port.
  *
- * @param unknown_type $form_post
- * @param unknown_type $type
- * @param unknown_type $error
- * @return unknown
+ * Plugins may override this form by returning true|false via the <code>request_filesystem_credentials</code> filter.
+ *
+ * @since 2.5.0
+ *
+ * @param string $form_post the URL to post the form to
+ * @param string $type the chosen Filesystem method in use
+ * @param boolean $error if the current request has failed to connect
+ * @param string $context The directory which is needed access to, The write-test will be performed on  this directory by get_filesystem_method()
+ * @return boolean False on failure. True on success.
  */
 function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false) {
 	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error, $context);
@@ -699,10 +730,13 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	//sanitize the hostname, Some people might pass in odd-data:
 	$credentials['hostname'] = preg_replace('|\w+://|', '', $credentials['hostname']); //Strip any schemes off
 
-	if ( strpos($credentials['hostname'], ':') )
+	if ( strpos($credentials['hostname'], ':') ) {
 		list( $credentials['hostname'], $credentials['port'] ) = explode(':', $credentials['hostname'], 2);
-	else
+		if ( ! is_numeric($credentials['port']) )
+			unset($credentials['port']);
+	} else {
 		unset($credentials['port']);
+	}
 
 	if ( defined('FTP_SSH') || (defined('FS_METHOD') && 'ssh' == FS_METHOD) )
 		$credentials['connection_type'] = 'ssh';
@@ -738,6 +772,17 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 			$error_string = $error->get_error_message();
 		echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
 	}
+
+	$types = array();
+	if ( extension_loaded('ftp') || extension_loaded('sockets') || function_exists('fsockopen') )
+		$types[ 'ftp' ] = __('FTP');
+	if ( extension_loaded('ftp') ) //Only this supports FTPS
+		$types[ 'ftps' ] = __('FTPS (SSL)');
+	if ( extension_loaded('ssh2') && function_exists('stream_get_contents') )
+		$types[ 'ssh' ] = __('SSH2');
+
+	$types = apply_filters('fs_ftp_connection_types', $types, $credentials, $type, $error, $context);
+
 ?>
 <script type="text/javascript">
 <!--
@@ -774,7 +819,7 @@ jQuery(function($){
 <td><input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php if ( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 
-<?php if ( extension_loaded('ssh2') && function_exists('stream_get_contents') ) : ?>
+<?php if ( isset($types['ssh']) ) : ?>
 <tr id="ssh_keys" valign="top" style="<?php if ( 'ssh' != $connection_type ) echo 'display:none' ?>">
 <th scope="row"><?php _e('Authentication Keys') ?>
 <div class="key-labels textright">
@@ -790,13 +835,16 @@ jQuery(function($){
 <th scope="row"><?php _e('Connection Type') ?></th>
 <td>
 <fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>
-<label><input id="ftp" name="connection_type"  type="radio" value="ftp" <?php checked('ftp', $connection_type); if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"'; ?>/> <?php _e('FTP') ?></label>
-<?php if ( 'ftpext' == $type ) : ?>
-<br /><label><input id="ftps" name="connection_type" type="radio" value="ftps" <?php checked('ftps', $connection_type); if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"';  ?>/> <?php _e('FTPS (SSL)') ?></label>
-<?php endif; ?>
-<?php if ( extension_loaded('ssh2') && function_exists('stream_get_contents') ) : ?>
-<br /><label><input id="ssh" name="connection_type" type="radio" value="ssh" <?php checked('ssh', $connection_type);  if ( defined('FTP_SSL') || defined('FTP_SSH') ) echo ' disabled="disabled"'; ?>/> <?php _e('SSH') ?></label>
-<?php endif; ?>
+<?php
+
+	$disabled = defined('FTP_SSL') || defined('FTP_SSH') ? '' : ' disabled="disabled"';
+
+	foreach ( $types as $name => $text ) : ?>
+	<label for="<?php echo esc_atr($name) ?>">
+		<input type="radio" name="connection_type" id="<?php echo esc_atr($name) ?>" value="<?php echo esc_atr($name) ?>" <?php checked($name, $connection_type); echo $disabled; ?>/>
+		<?php echo $text ?>
+	</label>
+	<?php endforeach; ?>
 </fieldset>
 </td>
 </tr>
