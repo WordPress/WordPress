@@ -2348,7 +2348,17 @@ class WP_Query {
 			// Fetch sticky posts that weren't in the query results
 			if ( !empty($sticky_posts) ) {
 				$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
-				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in)" );
+				// honor post type(s) if not set to any
+				$stickies_where = '';
+				if ( 'any' != $post_type && '' != $post_type ) {
+					if ( is_array( $post_type ) ) {
+						$post_types = join( "', '", $post_type );
+					} else {
+						$post_types = $post_type;
+					}
+					$stickies_where = "AND $wpdb->posts.post_type IN ('" . $post_types . "')";
+				}
+				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in) $stickies_where" );
 				/** @todo Make sure post is published or viewable by the current user */
 				foreach ( $stickies as $sticky_post ) {
 					if ( 'publish' != $sticky_post->post_status )
