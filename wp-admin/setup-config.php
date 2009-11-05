@@ -16,6 +16,14 @@
  */
 define('WP_INSTALLING', true);
 
+/**
+ * Disable error reporting
+ *
+ * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) f
+or debugging
+ */
+error_reporting(0);
+
 /**#@+
  * These three defines are required to allow us to use require_wp_db() to load
  * the database class while being wp-content/db.php aware.
