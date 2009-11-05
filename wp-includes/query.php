@@ -1486,8 +1486,12 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($qv['post_type']) )
-			$qv['post_type'] = sanitize_user($qv['post_type'], true);
+		if ( !empty($qv['post_type']) )	{
+			if(is_array($qv['post_type']))
+				$qv['post_type'] = array_map('sanitize_user', $qv['post_type'], array(true));
+			else
+				$qv['post_type'] = sanitize_user($qv['post_type'], true);
+		}
 
 		if ( !empty($qv['post_status']) )
 			$qv['post_status'] = preg_replace('|[^a-z0-9_,-]|', '', $qv['post_status']);
@@ -2072,7 +2076,10 @@ class WP_Query {
 				$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		}
 
-		$post_type_cap = $post_type;
+		if ( is_array($post_type) )
+			$post_type_cap = 'multiple_post_type';
+		else
+			$post_type_cap = $post_type;
 
 		$exclude_post_types = '';
 		foreach ( get_post_types( array('exclude_from_search' => true) ) as $_wp_post_type )
@@ -2080,6 +2087,8 @@ class WP_Query {
 
 		if ( 'any' == $post_type ) {
 			$where .= $exclude_post_types;
+		} elseif ( !empty( $post_type ) && is_array( $post_type ) ) {
+			$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $post_type) . "')"; 
 		} elseif ( ! empty( $post_type ) ) {
 			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		} elseif ( $this->is_attachment ) {
