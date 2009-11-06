@@ -47,8 +47,11 @@ class WP_oEmbed {
 			'http://revision3.com/*'                => array( 'http://revision3.com/api/oembed/',         false ),
 			'http://i*.photobucket.com/albums/*'    => array( 'http://photobucket.com/oembed',            false ),
 			'http://gi*.photobucket.com/groups/*'   => array( 'http://photobucket.com/oembed',            false ),
-			'#http://(www\.)?scribd.com/.*#i'       => array( 'http://www.scribd.com/services/oembed',    true)
+			'#http://(www\.)?scribd.com/.*#i'       => array( 'http://www.scribd.com/services/oembed',    true ),
 		) );
+
+		// Fix Scribd embeds. They contain new lines in the middle of the HTML which breaks wpautop().
+		add_filter( 'oembed_dataparse', array(&$this, 'strip_scribd_newlines'), 10, 3 );
 	}
 
 	/**
@@ -87,7 +90,7 @@ class WP_oEmbed {
 		if ( !$provider || false === $data = $this->fetch( $provider, $url, $args ) )
 			return false;
 
-		return apply_filters( 'oembed_output', $this->data2html( $data, $url ), $url, $args );
+		return apply_filters( 'oembed_result', $this->data2html( $data, $url ), $url, $args );
 	}
 
 	/**
@@ -206,17 +209,39 @@ class WP_oEmbed {
 					return false;
 
 				$title = ( !empty($data->title) ) ? $data->title : '';
-				return '<img src="' . esc_attr( clean_url( $data->url ) ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" />';
+				$return = '<img src="' . esc_attr( clean_url( $data->url ) ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" />';
+				break;
 
 			case 'video':
 			case 'rich':
-				return ( !empty($data->html) ) ? $data->html : false;
+				$return = ( !empty($data->html) ) ? $data->html : false;
+				break;
 
 			case 'link':
-				return ( !empty($data->title) ) ? '<a href="' . clean_url($url) . '">' . esc_html($data->title) . '</a>' : false;
+				$return = ( !empty($data->title) ) ? '<a href="' . clean_url($url) . '">' . esc_html($data->title) . '</a>' : false;
+				break;
+
+			default;
+				$return = false;
 		}
 
-		return false;
+		// You can use this filter to add support for custom data types or to filter the result
+		return apply_filters( 'oembed_dataparse', $return, $data, $url );
+	}
+
+	/**
+	 * Strip new lines from the HTML if it's a Scribd embed.
+	 *
+	 * @param string $html Existing HTML.
+	 * @param object $data Data object from WP_oEmbed::data2html()
+	 * @param string $url The original URL passed to oEmbed.
+	 * @return string Possibly modified $html
+	 */
+	function strip_scribd_newlines( $html, $data, $url ) {
+		if ( preg_match( '#http://(www\.)?scribd.com/.*#i', $url ) )
+			$html = str_replace( array( "\r\n", "\n" ), '', $html );
+
+		return $html;
 	}
 }
 

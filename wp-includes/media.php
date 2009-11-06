@@ -927,6 +927,9 @@ class WP_Embed {
 		if ( get_option('embed_autourls') )
 			add_filter( 'the_content', array(&$this, 'autoembed'), 8 );
 
+		// After a post is saved, invalidate the oEmbed cache
+		add_action( 'save_post', array(&$this, 'delete_oembed_caches') );
+
 		// After a post is saved, cache oEmbed items via AJAX
 		add_action( 'edit_form_advanced', array(&$this, 'maybe_run_ajax_cache') );
 	}
@@ -1048,7 +1051,7 @@ class WP_Embed {
 			foreach ( $handlers as $id => $handler ) {
 				if ( preg_match( $handler['regex'], $url, $matches ) && is_callable( $handler['callback'] ) ) {
 					if ( false !== $return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr ) )
-						return $return;
+						return apply_filters( 'embed_handler_html', $return, $url, $attr );
 				}
 			}
 		}
@@ -1070,7 +1073,7 @@ class WP_Embed {
 					return $this->maybe_make_link( $url );
 
 				if ( !empty($cache) )
-					return $cache;
+					return apply_filters( 'embed_oembed_html', $cache, $url, $attr );
 			}
 
 			// Use oEmbed to get the HTML
@@ -1086,11 +1089,26 @@ class WP_Embed {
 
 			// If there was a result, return it
 			if ( $html )
-				return $html;
+				return apply_filters( 'embed_oembed_html', $html, $url, $attr );
 		}
 
 		// Still unknown
 		return $this->maybe_make_link( $url );
+	}
+
+	/**
+	 * Delete all oEmbed caches.
+	 *
+	 * @param int $post_ID Post ID to delete the caches for.
+	 */
+	function delete_oembed_caches( $post_ID ) {
+		$post_metas = get_post_custom_keys( $post_ID );
+		if ( empty($post_metas) )
+			return;
+		foreach( (array) $post_metas as $post_meta_key ) {
+			if ( '_oembed_' == substr( $post_meta_key, 0, 8 ) )
+				delete_post_meta( $post_ID, $post_meta_key );
+		}
 	}
 
 	/**
@@ -1101,16 +1119,8 @@ class WP_Embed {
 	function cache_oembed( $post_ID ) {
 		$post = get_post( $post_ID );
 
-		// post_type check is incase of "save_post" usage
 		if ( empty($post->ID) || !in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', array( 'post', 'page' ) ) ) )
 			return;
-
-		// Dump existing caches
-		$post_metas = get_post_custom_keys( $post->ID );
-		foreach( $post_metas as $post_meta_key ) {
-			if ( '_oembed_' == substr( $post_meta_key, 0, 8 ) )
-				delete_post_meta( $post->ID, $post_meta_key );
-		}
 
 		// Trigger a caching
 		if ( !empty($post->post_content) ) {
@@ -1161,7 +1171,8 @@ class WP_Embed {
 	 * @return string Linked URL or the original URL.
 	 */
 	function maybe_make_link( $url ) {
-		return ( $this->linkifunknown ) ? '<a href="' . esc_attr($url) . '">' . esc_html($url) . '</a>' : $url;
+		$output = ( $this->linkifunknown ) ? '<a href="' . esc_attr($url) . '">' . esc_html($url) . '</a>' : $url;
+		return apply_filters( 'embed_maybe_make_link', $output, $url );
 	}
 }
 $wp_embed = new WP_Embed();
