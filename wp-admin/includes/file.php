@@ -840,8 +840,8 @@ jQuery(function($){
 	$disabled = defined('FTP_SSL') || defined('FTP_SSH') ? '' : ' disabled="disabled"';
 
 	foreach ( $types as $name => $text ) : ?>
-	<label for="<?php echo esc_atr($name) ?>">
-		<input type="radio" name="connection_type" id="<?php echo esc_atr($name) ?>" value="<?php echo esc_atr($name) ?>" <?php checked($name, $connection_type); echo $disabled; ?>/>
+	<label for="<?php echo esc_attr($name) ?>">
+		<input type="radio" name="connection_type" id="<?php echo esc_attr($name) ?>" value="<?php echo esc_attr($name) ?>" <?php checked($name, $connection_type); echo $disabled; ?>/>
 		<?php echo $text ?>
 	</label>
 	<?php endforeach; ?>
