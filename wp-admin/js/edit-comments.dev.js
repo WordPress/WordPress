@@ -72,6 +72,9 @@ setCommentsList = function() {
 				return false;
 			});
 
+			if ( to )
+				window.clearTimeout(to);
+
 			to = window.setTimeout( function(){
 				$('#trashundo-' + id).fadeOut('slow', function(){ $(this).remove(); });
 			}, 7000 );
