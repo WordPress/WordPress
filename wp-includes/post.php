@@ -693,8 +693,9 @@ function delete_post_meta_by_key($post_meta_key) {
 	$post_ids = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT post_id FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key));
 	if ( $post_ids ) {
 		$postmetaids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key ) );
+		$in = implode( ',', array_fill(1, count($postmetaids), '%d'));
 		do_action( 'delete_postmeta', $postmetaids );
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id IN(%s)", implode( ',', $postmetaids) ) );
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id IN($in)", $postmetaids ));
 		do_action( 'deleted_postmeta', $postmetaids );
 		foreach ( $post_ids as $post_id )
 			wp_cache_delete($post_id, 'post_meta');
