@@ -72,7 +72,7 @@ tagBox = {
 
 		if ( !a )
 			newtag.val('');
-		if ( 'undefined' == f )
+		if ( 'undefined' == typeof(f) )
 			newtag.focus();
 
 		return false;
