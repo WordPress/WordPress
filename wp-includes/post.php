@@ -1149,19 +1149,20 @@ function wp_post_mime_type_where($post_mime_types) {
  * @uses wp_delete_attachment() if post type is 'attachment'.
  *
  * @param int $postid Post ID.
+ * @param bool $force_delete Whether to bypass trash and force deletion
  * @return mixed False on failure
  */
-function wp_delete_post($postid = 0) {
+function wp_delete_post( $postid = 0, $force_delete = false ) {
 	global $wpdb, $wp_rewrite;
 
 	if ( !$post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $postid)) )
 		return $post;
 
-	if ( ($post->post_type == 'post' || $post->post_type == 'page') && get_post_status($postid) != 'trash' && EMPTY_TRASH_DAYS > 0 )
-		return wp_trash_post($postid);
+	if ( !$force_delete && ( $post->post_type == 'post' || $post->post_type == 'page') && get_post_status( $postid ) != 'trash' && EMPTY_TRASH_DAYS > 0 )
+			return wp_trash_post($postid);
 
 	if ( $post->post_type == 'attachment' )
-		return wp_delete_attachment($postid);
+		return wp_delete_attachment( $postid, $force_delete );
 
 	do_action('delete_post', $postid);
 
@@ -2799,9 +2800,10 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
  * @uses do_action() Calls 'delete_attachment' hook on Attachment ID.
  *
  * @param int $postid Attachment ID.
+ * @param bool $force_delete Whether to bypass trash and force deletion
  * @return mixed False on failure. Post data on success.
  */
-function wp_delete_attachment($post_id) {
+function wp_delete_attachment( $post_id, $force_delete = false ) {
 	global $wpdb;
 
 	if ( !$post = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $post_id) ) )
@@ -2810,8 +2812,8 @@ function wp_delete_attachment($post_id) {
 	if ( 'attachment' != $post->post_type )
 		return false;
 
-	if ( 'trash' != $post->post_status )
-		return wp_trash_post($post_id);
+	if ( !$force_delete && 'trash' != $post->post_status )
+		return wp_trash_post( $post_id );
 
 	delete_post_meta($post_id, '_wp_trash_meta_status');
 	delete_post_meta($post_id, '_wp_trash_meta_time');
