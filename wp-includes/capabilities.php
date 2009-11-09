@@ -123,12 +123,15 @@ class WP_Roles {
 	 *
 	 * Updates the list of roles, if the role doesn't already exist.
 	 *
+	 * The capabilities are defined in the following format `array( 'read' => true );`
+	 * To explicitly deny a role a capability you set the value for that capability to false.
+	 * 
 	 * @since 2.0.0
 	 * @access public
 	 *
 	 * @param string $role Role name.
 	 * @param string $display_name Role display name.
-	 * @param array $capabilities List of role capabilities.
+	 * @param array $capabilities List of role capabilities in the above format.
 	 * @return null|WP_Role WP_Role object if role is added, null if already exists.
 	 */
 	function add_role( $role, $display_name, $capabilities = array() ) {
@@ -174,7 +177,7 @@ class WP_Roles {
 	 *
 	 * @param string $role Role name.
 	 * @param string $cap Capability name.
-	 * @param bool $grant Optional, default is true. Whether role is capable of preforming capability.
+	 * @param bool $grant Optional, default is true. Whether role is capable of performing capability.
 	 */
 	function add_cap( $role, $cap, $grant = true ) {
 		$this->roles[$role]['capabilities'][$cap] = $grant;
