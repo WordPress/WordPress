@@ -432,7 +432,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 					)
 				));
 
-		//Cleanup our hooks, incase something else does a upgrade on this connection.
+		// Cleanup our hooks, incase something else does a upgrade on this connection.
 		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
 		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
 
@@ -451,10 +451,19 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$current = get_transient( 'update_plugins' );
 
-		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
 		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
 
 		$this->skin->header();
+
+		// Connect to the Filesystem first.
+		$res = $this->fs_connect( array(WP_CONTENT_DIR, WP_PLUGIN_DIR) );
+		if ( ! $res ) {
+			$this->skin->footer();
+			return false;
+		}
+
+		$this->maintenance_mode(true);
+
 		$all = count($plugins);
 		$i = 1;
 		foreach ( $plugins as $plugin ) {
@@ -492,10 +501,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 			if ( false === $result )
 				break;
 		}
+		$this->maintenance_mode(false);
 		$this->skin->footer();
 
-		//Cleanup our hooks, incase something else does a upgrade on this connection.
-		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
+		// Cleanup our hooks, incase something else does a upgrade on this connection.
 		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information
@@ -899,11 +908,15 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	function after() {
+		if ( $this->upgrader->bulk )
+			return;
+
 		$this->plugin = $this->upgrader->plugin_info();
 		if( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
 			show_message(__('Attempting reactivation of the plugin'));
 			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}
+
 		$update_actions =  array(
 			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
 			'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . esc_attr__('Goto plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'

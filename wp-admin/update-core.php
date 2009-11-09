@@ -133,6 +133,11 @@ function core_upgrade_preamble() {
 }
 
 function list_plugin_updates() {
+	global $wp_version;
+
+	$cur_wp_version = preg_replace('/-.*$/', '', $wp_version);
+
+	require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
 	$plugins = get_plugin_updates();
 	if ( empty($plugins) )
 		return;
@@ -160,10 +165,17 @@ function list_plugin_updates() {
 	<tbody class="plugins">
 <?php
 	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
+		$info = plugins_api('plugin_information', array('slug' => $plugin_data->update->slug ));
+		if ( isset($info->compatibility[$cur_wp_version][$plugin_data->update->new_version]) ) {
+			$compat = $info->compatibility[$cur_wp_version][$plugin_data->update->new_version];
+			$compat = '  ' . sprintf(__('Compatibility: %1$d%% (%2$d "works" votes out of %3$d total)'), $compat[0], $compat[2], $compat[1]);
+		} else {
+			$compat = '';
+		}
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You are running version %1$s. Upgrade to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . "</td>
+		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You are running version %1$s. Upgrade to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . "</td>
 	</tr>";
 	}
 ?>
@@ -300,8 +312,6 @@ function do_plugin_upgrade() {
 	$url = 'update-core.php?action=do-plugin-upgrade&amp;plugins=' . urlencode(join(',', $plugins));
 	$title = __('Upgrade Plugins');
 	$nonce = 'upgrade-core';
-	add_filter('update_plugin_complete_actions', 'no_update_actions');
-
 	$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact('title', 'nonce', 'url', 'plugin') ) );
 	$upgrader->bulk_upgrade($plugins);
 }
