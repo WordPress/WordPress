@@ -100,9 +100,7 @@ function the_media_upload_tabs() {
  */
 function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel = false, $size='medium', $alt = '') {
 
-	$htmlalt = ( empty($alt) ) ? $title : $alt;
-
-	$html = get_image_tag($id, $htmlalt, $title, $align, $size);
+	$html = get_image_tag($id, $alt, $title, $align, $size);
 
 	$rel = $rel ? ' rel="attachment wp-att-' . esc_attr($id).'"' : '';
 

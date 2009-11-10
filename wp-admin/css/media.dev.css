@@ -123,6 +123,10 @@ abbr.required {
 	padding: 0 5px 8px 0;
 }
 
+.describe td.error {
+	padding: 2px 8px;
+}
+
 .describe td.A1 {
 	width: 132px;
 }
