@@ -1444,25 +1444,23 @@ function _post_row($a_post, $pending_comments, $mode) {
 				the_excerpt();
 
 			$actions = array();
-			if ('trash' == $post->post_status) {
-				if ( current_user_can('delete_post', $post->ID) ) {
+			if ( current_user_can('edit_post', $post->ID) && 'trash' != $post->post_status ) {
+				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '" title="' . esc_attr(__('Edit this post')) . '">' . __('Edit') . '</a>';
+				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__('Edit this post inline')) . '">' . __('Quick&nbsp;Edit') . '</a>';
+			}
+			if ( current_user_can('delete_post', $post->ID) ) {
+				if ( 'trash' == $post->post_status )
 					$actions['untrash'] = "<a title='" . esc_attr(__('Restore this post from the Trash')) . "' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
-					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post permanently')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
-				}
-			} else {
-				if ( current_user_can('edit_post', $post->ID) ) {
-					$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '" title="' . esc_attr(__('Edit this post')) . '">' . __('Edit') . '</a>';
-					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__('Edit this post inline')) . '">' . __('Quick&nbsp;Edit') . '</a>';
-				}
-				if ( current_user_can('delete_post', $post->ID) ) {
+				elseif ( EMPTY_TRASH_DAYS )
 					$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this post to the Trash')) . "' href='" . get_delete_post_link($post->ID) . "'>" . __('Trash') . "</a>";
-				}
-				if ( in_array($post->post_status, array('pending', 'draft')) ) {
-					if ( current_user_can('edit_post', $post->ID) )
-						$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
-				} else {
-					$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
-				}
+				if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
+					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post permanently')) . "' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+			}
+			if ( in_array($post->post_status, array('pending', 'draft')) ) {
+				if ( current_user_can('edit_post', $post->ID) )
+					$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
+			} elseif ( 'trash' != $post->post_status ) {
+				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 			}
 			$actions = apply_filters('post_row_actions', $actions, $post);
 			$action_count = count($actions);
@@ -1666,23 +1664,23 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		<td <?php echo $attributes ?>><strong><?php if ( current_user_can('edit_page', $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . esc_html($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
-		if ($post->post_status == 'trash' && current_user_can('delete_page', $page->ID)) {
-			$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("page.php?action=untrash&amp;post=$page->ID", 'untrash-page_' . $page->ID) . "'>" . __('Restore') . "</a>";
-			$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
-		} else {
-			if ( current_user_can('edit_page', $page->ID) ) {
-				$actions['edit'] = '<a href="' . $edit_link . '" title="' . esc_attr(__('Edit this page')) . '">' . __('Edit') . '</a>';
-				$actions['inline'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
-			}
-			if ( current_user_can('delete_page', $page->ID) ) {
+		if ( current_user_can('edit_page', $page->ID) && $post->post_status != 'trash' ) {
+			$actions['edit'] = '<a href="' . $edit_link . '" title="' . esc_attr(__('Edit this page')) . '">' . __('Edit') . '</a>';
+			$actions['inline'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
+		}
+		if ( current_user_can('delete_page', $page->ID) ) {
+			if ( $post->post_status == 'trash' )
+				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("page.php?action=untrash&amp;post=$page->ID", 'untrash-page_' . $page->ID) . "'>" . __('Restore') . "</a>";
+			elseif ( EMPTY_TRASH_DAYS )
 				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this page to the Trash')) . "' href='" . get_delete_post_link($page->ID) . "'>" . __('Trash') . "</a>";
-			}
-			if ( in_array($post->post_status, array('pending', 'draft')) ) {
-				if ( current_user_can('edit_page', $page->ID) )
-					$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
-			} else {
-				$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
-			}
+			if ( $post->post_status == 'trash' || !EMPTY_TRASH_DAYS )
+				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
+		}
+		if ( in_array($post->post_status, array('pending', 'draft')) ) {
+			if ( current_user_can('edit_page', $page->ID) )
+				$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
+		} elseif ( $post->post_status != 'trash' ) {
+			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		}
 		$actions = apply_filters('page_row_actions', $actions, $page);
 		$action_count = count($actions);
@@ -2179,10 +2177,12 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 							}
 						}
 
-						if ( 'spam' == $the_comment_status ) {
+						if ( 'spam' != $the_comment_status ) {
+							$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
+						}
+						if ( 'spam' == $the_comment_status || !EMPTY_TRASH_DAYS ) {
 							$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
 						} else {
-							$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
 							$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-d vim-destructive' title='" . __( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
 						}
 

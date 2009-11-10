@@ -163,9 +163,14 @@ $stati = array(
 		'spam' => _n_noop('Spam <span class="count">(<span class="spam-count">%s</span>)</span>', 'Spam <span class="count">(<span class="spam-count">%s</span>)</span>'),
 		'trash' => _n_noop('Trash <span class="count">(<span class="trash-count">%s</span>)</span>', 'Trash <span class="count">(<span class="trash-count">%s</span>)</span>')
 	);
+
+if ( !EMPTY_TRASH_DAYS )
+	unset($stati['trash']);
+
 $link = 'edit-comments.php';
 if ( !empty($comment_type) && 'all' != $comment_type )
 	$link = add_query_arg( 'comment_type', $comment_type, $link );
+
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
@@ -275,7 +280,7 @@ $page_links = paginate_links( array(
 <?php if ( 'trash' == $comment_status ): ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <?php endif; ?>
-<?php if ( 'trash' == $comment_status || 'spam' == $comment_status ): ?>
+<?php if ( 'trash' == $comment_status || 'spam' == $comment_status || !EMPTY_TRASH_DAYS ): ?>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php else: ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>
@@ -371,7 +376,7 @@ if ( $page_links )
 <?php if ( 'trash' == $comment_status ): ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <?php endif; ?>
-<?php if ( 'trash' == $comment_status || 'spam' == $comment_status ): ?>
+<?php if ( 'trash' == $comment_status || 'spam' == $comment_status || !EMPTY_TRASH_DAYS ): ?>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php else: ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>

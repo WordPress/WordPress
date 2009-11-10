@@ -184,10 +184,16 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <?php do_action('post_submitbox_start'); ?>
 <div id="delete-action">
 <?php
-if ( current_user_can("delete_${post_type}", $post->ID) ) { ?>
-<?php $delete_url = add_query_arg( array('action'=>'trash', 'post'=>$post->ID) ); ?>
-<a class="submitdelete deletion<?php if ( 'edit' != $action ) { echo " hidden"; } ?>" href="<?php echo wp_nonce_url($delete_url, "trash-${post_type}_" . $post->ID); ?>"><?php _e('Move to Trash'); ?></a>
-<?php } ?>
+if ( current_user_can("delete_${post_type}", $post->ID) ) {
+	if ( !EMPTY_TRASH_DAYS ) {
+		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'delete', 'post' => $post->ID) ), "delete-${post_type}_{$post->ID}" );
+		$delete_text = __('Delete Permanently');
+	} else {
+		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'trash', 'post' => $post->ID) ), "trash-${post_type}_{$post->ID}" );
+		$delete_text = __('Move to Trash');
+	} ?>
+<a class="submitdelete deletion<?php if ( 'edit' != $action ) { echo " hidden"; } ?>" href="<?php echo $delete_url; ?>"><?php echo $delete_text; ?></a><?php
+} ?>
 </div>
 
 <div id="publishing-action">

@@ -89,18 +89,18 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		<p>
 		<?php
 		$actions = array();
-		if ( $is_trash ) {
-			if ( current_user_can('delete_post', $post->ID) ) {
+		if ( current_user_can('edit_post', $post->ID) && !$is_trash )
+			$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
+		if ( current_user_can('delete_post', $post->ID) ) {
+			if ( $is_trash )
 				$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
-				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
-			}
-		} else {
-			if ( current_user_can('edit_post', $post->ID) )
-				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
-			if ( current_user_can('delete_post', $post->ID) )
+			elseif ( EMPTY_TRASH_DAYS )
 				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
-			$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+			if ( $is_trash || !EMPTY_TRASH_DAYS )
+				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
 		}
+		if ( !$is_trash )
+			$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		$action_count = count($actions);
 		$i = 0;
 		echo '<div class="row-actions">';

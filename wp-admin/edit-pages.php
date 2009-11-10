@@ -114,6 +114,9 @@ $post_stati  = array(	//	array( adj, noun )
 		'trash' => array(_x('Trash', 'page'), __('Trash pages'), _nx_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', 'page'))
 	);
 
+if ( !EMPTY_TRASH_DAYS )
+	unset($post_stati['trash']);
+
 $post_stati = apply_filters('page_stati', $post_stati);
 
 $query = array('post_type' => 'page', 'orderby' => 'menu_order title',
@@ -255,9 +258,11 @@ if ( $page_links ) : ?>
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
-<option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
 <option value="edit"><?php _e('Edit'); ?></option>
+<?php } if ( $is_trash || !EMPTY_TRASH_DAYS ) { ?>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>
 <?php } ?>
 </select>
@@ -302,9 +307,11 @@ if ( $page_links )
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
-<option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
 <option value="edit"><?php _e('Edit'); ?></option>
+<?php } if ( $is_trash || !EMPTY_TRASH_DAYS ) { ?>
+<option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php } else { ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>
 <?php } ?>
 </select>

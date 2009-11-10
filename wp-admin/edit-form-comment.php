@@ -68,7 +68,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 
 <div id="major-publishing-actions">
 <div id="delete-action">
-<?php echo "<a class='submitdelete deletion' href='" . wp_nonce_url("comment.php?action=trashcomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . urlencode(wp_get_referer()), 'delete-comment_' . $comment->comment_ID) . "'>" . __('Move to Trash') . "</a>\n"; ?>
+<?php echo "<a class='submitdelete deletion' href='" . wp_nonce_url("comment.php?action=" . ( !EMPTY_TRASH_DAYS ? 'deletecomment' : 'trashcomment' ) . "&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . urlencode(wp_get_referer()), 'delete-comment_' . $comment->comment_ID) . "'>" . ( !EMPTY_TRASH_DAYS ? __('Delete Permanently') : __('Move to Trash') ) . "</a>\n"; ?>
 </div>
 <div id="publishing-action">
 <input type="submit" name="save" value="<?php esc_attr_e('Update Comment'); ?>" tabindex="4" class="button-primary" />

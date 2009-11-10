@@ -394,8 +394,7 @@ div.dashboard-widget-submit input:hover,
 .plugins a.delete:hover,
 #all-plugins-table .plugins a.delete:hover,
 #search-plugins-table .plugins a.delete:hover,
-.submitbox .submitdelete,
-a.delete {
+.submitbox .submitdelete {
 	color: #f00;
 	border-bottom-color: #f00;
 }
@@ -629,7 +628,10 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 	color: #d98500;
 }
 
-#the-comment-list .delete a {
+table.widefat .delete a,
+table.widefat .trash a,
+#dashboard_recent_comments .delete a,
+#dashboard_recent_comments .trash a {
 	color: #bc0b0b;
 }
 
@@ -731,7 +733,10 @@ div#media-upload-error,
 .file-error,
 abbr.required,
 .widget-control-remove:hover,
-.delete a:hover {
+table.widefat .delete a:hover,
+table.widefat .trash a:hover,
+#dashboard_recent_comments .delete a:hover,
+#dashboard_recent_comments .trash a:hover {
 	color: #f00;
 }
 

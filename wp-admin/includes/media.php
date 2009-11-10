@@ -1201,12 +1201,17 @@ function get_media_item( $attachment_id, $args = null ) {
 		'extra_rows' => array(),
 	);
 
-	$trash_href = wp_nonce_url("post.php?action=trash&amp;post=$attachment_id", 'trash-post_' . $attachment_id);
-	$untrash_href = wp_nonce_url("post.php?action=untrash&amp;post=$attachment_id", 'untrash-post_' . $attachment_id);
 	if ( $send )
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
-	if ( $delete )
-		$delete = current_user_can('delete_post', $attachment_id) ? "<a href=\"$trash_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a> <a href=\"$untrash_href\" id=\"undo[$attachment_id]\" class=\"undo hidden\">" . __('Undo?') . "</a>" : "";
+	if ( $delete && current_user_can('delete_post', $attachment_id) ) {
+		if ( !EMPTY_TRASH_DAYS )
+			$delete = "<a href=\"" . wp_nonce_url("post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id) . "\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Delete Permanently') . "</a>";
+		else
+			$delete = "<a href=\"" . wp_nonce_url("post.php?action=trash&amp;post=$attachment_id", 'trash-post_' . $attachment_id) . "\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a> <a href=\"" . wp_nonce_url("post.php?action=untrash&amp;post=$attachment_id", 'untrash-post_' . $attachment_id) . "\" id=\"undo[$attachment_id]\" class=\"undo hidden\">" . __('Undo?') . "</a>";
+	} else {
+		$delete = '';
+	}
+
 	if ( 'image' == $type && current_theme_supports( 'post-thumbnails' ) && get_post_image_id($_GET['post_id']) != $attachment_id )
 		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
 
