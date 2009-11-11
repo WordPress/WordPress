@@ -175,6 +175,11 @@ imageEdit = {
 			if ( (typeof callback != "unknown") && callback != null )
 				callback();
 
+			if ( $('#imgedit-history-' + postid).val() && $('#imgedit-undone-' + postid).val() == 0 )
+				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).removeAttr('disabled');
+			else
+				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).attr('disabled', 'disabled');
+
 			t.toggleEditor(postid, 0);
 		}).attr('src', ajaxurl + '?' + $.param(data));
 	},

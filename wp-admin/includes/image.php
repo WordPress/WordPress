@@ -88,35 +88,27 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 	$metadata = array();
 	if ( preg_match('!^image/!', get_post_mime_type( $attachment )) && file_is_displayable_image($file) ) {
-		$full_path_file = $file;
-		$imagesize = getimagesize( $full_path_file );
+		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
 		list($uwidth, $uheight) = wp_shrink_dimensions($metadata['width'], $metadata['height']);
 		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		// Make the file path relative to the upload dir
-		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { // Get upload directory
-			if ( 0 === strpos($file, $uploads['basedir']) ) {// Check that the upload base exists in the file path
-				$file = str_replace($uploads['basedir'], '', $file); // Remove upload dir from the file path
-				$file = ltrim($file, '/');
-			}
-		}
-		$metadata['file'] = $file;
+		$metadata['file'] = _wp_relative_upload_path($file);
 
 		// make thumbnails and other intermediate sizes
-		$sizes = array('thumbnail', 'medium', 'large');
-		$sizes = apply_filters('intermediate_image_sizes', $sizes);
+		$sizes = apply_filters( 'intermediate_image_sizes', array('thumbnail', 'medium', 'large') );
 
 		foreach ($sizes as $size) {
-			$resized = image_make_intermediate_size( $full_path_file, get_option("{$size}_size_w"), get_option("{$size}_size_h"), get_option("{$size}_crop") );
+			$resized = image_make_intermediate_size( $file, get_option("{$size}_size_w"), get_option("{$size}_size_h"), get_option("{$size}_crop") );
 			if ( $resized )
 				$metadata['sizes'][$size] = $resized;
 		}
 
 		// fetch additional metadata from exif/iptc
-		$image_meta = wp_read_image_metadata( $full_path_file );
-		if ($image_meta)
+		$image_meta = wp_read_image_metadata( $file );
+		if ( $image_meta )
 			$metadata['image_meta'] = $image_meta;
 
 	}

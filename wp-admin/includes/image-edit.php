@@ -68,7 +68,7 @@ function wp_image_editor($post_id, $msg = false) {
 
 	<div class="imgedit-submit">
 		<input type="button" onclick="imageEdit.close(<?php echo $post_id; ?>, 1)" class="button" value="<?php echo esc_attr__( 'Cancel' ); ?>" />
-		<input type="button" onclick="imageEdit.save(<?php echo "$post_id, '$nonce'"; ?>)" class="button-primary imgedit-submit-btn" value="<?php echo esc_attr__( 'Save' ); ?>" />
+		<input type="button" onclick="imageEdit.save(<?php echo "$post_id, '$nonce'"; ?>)" disabled="disabled" class="button-primary imgedit-submit-btn" value="<?php echo esc_attr__( 'Save' ); ?>" />
 	</div>
 	</td>
 
@@ -92,7 +92,12 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-group-top">
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><strong><?php _e('Restore Original Image'); ?></strong></a>
 		<div class="imgedit-help">
-		<p><?php _e('Discard any changes and restore the original image. Previously edited copies of the image will not be deleted.'); ?></p>
+		<p><?php _e('Discard any changes and restore the original image.'); 
+
+		if ( !defined('IMAGE_EDIT_OVERWRITE') || !IMAGE_EDIT_OVERWRITE )
+			_e(' Previously edited copies of the image will not be deleted.');
+
+		?></p>
 		<div class="imgedit-submit">
 		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'restore')" class="button-primary" value="<?php echo esc_attr__( 'Restore image' ); ?>" <?php echo $can_restore; ?> />
 		</div>
@@ -409,6 +414,7 @@ function stream_preview_image($post_id) {
 
 function wp_restore_image($post_id) {
 	$meta = wp_get_attachment_metadata($post_id);
+	$file = get_attached_file($post_id);
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$restored = false;
 	$msg = '';
@@ -418,49 +424,51 @@ function wp_restore_image($post_id) {
 		return $msg;
 	}
 
-	$parts = pathinfo($meta['file']);
+	$parts = pathinfo($file);
 	$suffix = time() . rand(100, 999);
 	$default_sizes = apply_filters( 'intermediate_image_sizes', array('large', 'medium', 'thumbnail') );
-	$default_sizes[] = 'full';
+
+	if ( isset($backup_sizes['full-orig']) && is_array($backup_sizes['full-orig']) ) {
+		$data = $backup_sizes['full-orig'];
+
+		if ( $parts['basename'] != $data['file'] ) {
+			if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
+				// delete only if it's edited image
+				if ( preg_match('/-e[0-9]{13}\./', $parts['basename']) ) {
+					$delpath = apply_filters('wp_delete_file', $file);
+					@unlink($delpath);
+				}
+			} else {
+				$backup_sizes["full-$suffix"] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $parts['basename']);
+			}
+		}
+
+		$restored_file = path_join($parts['dirname'], $data['file']);
+		$restored = update_attached_file($post_id, $restored_file);
+
+		$meta['file'] = _wp_relative_upload_path( $restored_file );
+		$meta['width'] = $data['width'];
+		$meta['height'] = $data['height'];
+		list ( $uwidth, $uheight ) = wp_shrink_dimensions($meta['width'], $meta['height']);
+		$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
+	}
 
 	foreach ( $default_sizes as $default_size ) {
 		if ( isset($backup_sizes["$default_size-orig"]) ) {
 			$data = $backup_sizes["$default_size-orig"];
-			if ( 'full' == $default_size ) {
-				if ( $parts['basename'] != $data['file'] ) {
-					if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
-						// delete only if it's edited image
-						if ( preg_match('/-e[0-9]{13}\./', $parts['basename']) ) {
-							$delpath = apply_filters('wp_delete_file', $meta['file']);
-							@unlink($delpath);
-						}
-					} else {
-						$backup_sizes["full-$suffix"] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $parts['basename']);
+			if ( isset($meta['sizes'][$default_size]) && $meta['sizes'][$default_size]['file'] != $data['file'] ) {
+				if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
+					// delete only if it's edited image
+					if ( preg_match('/-e[0-9]{13}-/', $meta['sizes'][$default_size]['file']) ) {
+						$delpath = apply_filters( 'wp_delete_file', path_join($parts['dirname'], $meta['sizes'][$default_size]['file']) );
+						@unlink($delpath);
 					}
+				} else {
+					$backup_sizes["$default_size-{$suffix}"] = $meta['sizes'][$default_size];
 				}
-
-				$meta['file'] = path_join($parts['dirname'], $data['file']);
-				$meta['width'] = $data['width'];
-				$meta['height'] = $data['height'];
-
-				list ( $uwidth, $uheight ) = wp_shrink_dimensions($meta['width'], $meta['height']);
-				$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
-				$restored = update_attached_file($post_id, $meta['file']);
-			} else {
-				if ( isset($meta['sizes'][$default_size]) && $meta['sizes'][$default_size]['file'] != $data['file'] ) {
-					if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
-						// delete only if it's edited image
-						if ( preg_match('/-e[0-9]{13}-/', $meta['sizes'][$default_size]['file']) ) {
-							$delpath = apply_filters( 'wp_delete_file', path_join($parts['dirname'], $meta['sizes'][$default_size]['file']) );
-							@unlink($delpath);
-						}
-					} else {
-						$backup_sizes["$default_size-{$suffix}"] = $meta['sizes'][$default_size];
-					}
-				}
-
-				$meta['sizes'][$default_size] = $data;
 			}
+
+			$meta['sizes'][$default_size] = $data;
 		} else {
 			unset($meta['sizes'][$default_size]);
 		}
@@ -580,7 +588,8 @@ function wp_save_image($post_id) {
 			$backup_sizes[$tag] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $path_parts['basename']);
 
 		$success = update_attached_file($post_id, $new_path);
-		$meta['file'] = get_attached_file($post_id, true); // get the path unfiltered
+
+		$meta['file'] = _wp_relative_upload_path($new_path);
 		$meta['width'] = imagesx($img);
 		$meta['height'] = imagesy($img);
 

@@ -68,16 +68,33 @@ function update_attached_file( $attachment_id, $file ) {
 		return false;
 
 	$file = apply_filters( 'update_attached_file', $file, $attachment_id );
+	$file = _wp_relative_upload_path($file);
 
-	// Make the file path relative to the upload dir
-	if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { // Get upload directory
-		if ( 0 === strpos($file, $uploads['basedir']) ) {// Check that the upload base exists in the file path
-				$file = str_replace($uploads['basedir'], '', $file); // Remove upload dir from the file path
-				$file = ltrim($file, '/');
+	return update_post_meta( $attachment_id, '_wp_attached_file', $file );
+}
+
+/**
+ * Return relative path to an uploaded file.
+ *
+ * The path is relative to the current upload dir.
+ *
+ * @since 2.9
+ * @uses apply_filters() Calls '_wp_relative_upload_path' on file path.
+ *
+ * @param string $path Full path to the file
+ * @return string relative path on success, unchanged path on failure.
+ */
+function _wp_relative_upload_path( $path ) {
+	$new_path = $path;
+
+	if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) {
+		if ( 0 === strpos($new_path, $uploads['basedir']) ) {
+				$new_path = str_replace($uploads['basedir'], '', $new_path);
+				$new_path = ltrim($new_path, '/');
 		}
 	}
 
-	return update_post_meta( $attachment_id, '_wp_attached_file', $file );
+	return apply_filters( '_wp_relative_upload_path', $new_path, $path );
 }
 
 /**
