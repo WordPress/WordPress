@@ -522,6 +522,7 @@ function update_option( $option_name, $newvalue ) {
 	$_newvalue = $newvalue;
 	$newvalue = maybe_serialize( $newvalue );
 
+	do_action( 'update_option', $option_name, $oldvalue, $newvalue );
 	$alloptions = wp_load_alloptions();
 	if ( isset( $alloptions[$option_name] ) ) {
 		$alloptions[$option_name] = $newvalue;
@@ -534,6 +535,7 @@ function update_option( $option_name, $newvalue ) {
 
 	if ( $wpdb->rows_affected == 1 ) {
 		do_action( "update_option_{$option_name}", $oldvalue, $_newvalue );
+		do_action( 'updated_option', $option_name, $oldvalue, $_newvalue );
 		return true;
 	}
 	return false;
@@ -582,7 +584,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	$value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
-
+	do_action( 'add_option', $name, $value );
 	if ( 'yes' == $autoload ) {
 		$alloptions = wp_load_alloptions();
 		$alloptions[$name] = $value;
@@ -601,6 +603,8 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 	$wpdb->insert($wpdb->options, array('option_name' => $name, 'option_value' => $value, 'autoload' => $autoload) );
 
 	do_action( "add_option_{$name}", $name, $value );
+	do_action( 'added_option', $name, $value );
+	
 	return;
 }
 
@@ -624,6 +628,7 @@ function delete_option( $name ) {
 	$option = $wpdb->get_row( "SELECT autoload FROM $wpdb->options WHERE option_name = '$name'" );
 	if ( is_null($option) )
 		return false;
+	do_action( 'delete_option', $name );
 	// expected_slashed ($name)
 	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name = '$name'" );
 	if ( 'yes' == $option->autoload ) {
@@ -635,6 +640,7 @@ function delete_option( $name ) {
 	} else {
 		wp_cache_delete( $name, 'options' );
 	}
+	do_action( 'deleted_option', $name );
 	return true;
 }
 
