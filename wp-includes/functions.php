@@ -2260,8 +2260,36 @@ function wp_ext2type( $ext ) {
  * @return array Values with extension first and mime type.
  */
 function wp_check_filetype( $filename, $mimes = null ) {
-	// Accepted MIME types are set here as PCRE unless provided.
-	$mimes = ( is_array( $mimes ) ) ? $mimes : apply_filters( 'upload_mimes', array(
+	if ( null === $mimes )
+		$mimes = get_allowed_mime_types();
+	$type = false;
+	$ext = false;
+
+	foreach ( $mimes as $ext_preg => $mime_match ) {
+		$ext_preg = '!\.(' . $ext_preg . ')$!i';
+		if ( preg_match( $ext_preg, $filename, $ext_matches ) ) {
+			$type = $mime_match;
+			$ext = $ext_matches[1];
+			break;
+		}
+	}
+
+	return compact( 'ext', 'type' );
+}
+
+/**
+ * Retrieve list of allowed mime types and file extensions.
+ *
+ * @since 2.8.6
+ *
+ * @return array Array of mime types keyed by the file extension regex corresponding to those types.
+ */
+function get_allowed_mime_types() {
+	static $mimes = false;
+
+	if ( !$mimes ) {
+		// Accepted MIME types are set here as PCRE unless provided.
+		$mimes = apply_filters( 'upload_mimes', array(
 		'jpg|jpeg|jpe' => 'image/jpeg',
 		'gif' => 'image/gif',
 		'png' => 'image/png',
@@ -2307,24 +2335,11 @@ function wp_check_filetype( $filename, $mimes = null ) {
 		'odc' => 'application/vnd.oasis.opendocument.chart',
 		'odb' => 'application/vnd.oasis.opendocument.database',
 		'odf' => 'application/vnd.oasis.opendocument.formula',
-		)
-	);
-
-	$type = false;
-	$ext = false;
-
-	foreach ( $mimes as $ext_preg => $mime_match ) {
-		$ext_preg = '!\.(' . $ext_preg . ')$!i';
-		if ( preg_match( $ext_preg, $filename, $ext_matches ) ) {
-			$type = $mime_match;
-			$ext = $ext_matches[1];
-			break;
-		}
+		) );
 	}
 
-	return compact( 'ext', 'type' );
+	return $mimes;
 }
-
 /**
  * Retrieve nonce action "Are you sure" message.
  *
