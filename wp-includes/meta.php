@@ -70,12 +70,12 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 		$where['meta_value'] = $prev_value;
 	}
 
-	do_action( "update_{$meta_type}_meta", $object_id, $meta_key, $meta_value, $meta_id );
+	do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $meta_value );
 
 	$wpdb->update( $table, $data, $where );
 	wp_cache_delete($object_id, $meta_type . '_meta');
 
-	do_action( "updated_{$meta_type}_meta", $object_id, $meta_key, $meta_value, $meta_id );
+	do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $meta_value );
 
 	return true;
 }
@@ -115,7 +115,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	wp_cache_delete($object_id, $meta_type . '_meta');
 
-	do_action( "deleted_{$meta_type}_meta", $object_id, $meta_key, $meta_value, $meta_ids );
+	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $meta_value );
 
 	return true;
 }
