@@ -2260,7 +2260,7 @@ function wp_ext2type( $ext ) {
  * @return array Values with extension first and mime type.
  */
 function wp_check_filetype( $filename, $mimes = null ) {
-	if ( null === $mimes )
+	if ( empty($mimes) )
 		$mimes = get_allowed_mime_types();
 	$type = false;
 	$ext = false;
@@ -2340,6 +2340,7 @@ function get_allowed_mime_types() {
 
 	return $mimes;
 }
+
 /**
  * Retrieve nonce action "Are you sure" message.
  *
