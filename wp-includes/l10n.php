@@ -396,6 +396,27 @@ function load_theme_textdomain($domain, $path = false) {
 }
 
 /**
+ * Loads the child themes translated strings.
+ *
+ * If the current locale exists as a .mo file in the child themes root directory, it
+ * will be included in the translated strings by the $domain.
+ *
+ * The .mo files must be named based on the locale exactly.
+ *
+ * @since 2.9.0
+ *
+ * @param string $domain Unique identifier for retrieving translated strings
+ */
+function load_child_theme_textdomain($domain, $path = false) {
+        $locale = get_locale();
+
+        $path = ( empty( $path ) ) ? get_stylesheet_directory() : $path;
+
+        $mofile = "$path/$locale.mo";
+        return load_textdomain($domain, $mofile);
+}
+
+/**
  * Returns the Translations instance for a domain. If there isn't one,
  * returns empty Translations instance.
  *
