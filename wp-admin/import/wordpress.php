@@ -204,7 +204,6 @@ class WP_Import {
 
 	function wp_authors_form() {
 ?>
-<?php screen_icon(); ?>
 <h2><?php _e('Assign Authors'); ?></h2>
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
 <?php
@@ -216,7 +215,9 @@ class WP_Import {
 		$authors = $this->get_wp_authors();
 		echo '<form action="?import=wordpress&amp;step=2&amp;id=' . $this->id . '" method="post">';
 		wp_nonce_field('import-wordpress');
-		echo '<ol id="authors">';
+?>
+<ol id="authors">
+<?php
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
@@ -228,7 +229,6 @@ class WP_Import {
 		if ( $this->allow_fetch_attachments() ) {
 ?>
 </ol>
-<?php screen_icon(); ?>
 <h2><?php _e('Import Attachments'); ?></h2>
 <p>
 	<input type="checkbox" value="1" name="attachments" id="import-attachments" />
