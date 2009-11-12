@@ -91,8 +91,8 @@ if ( isset($_REQUEST['action']) && 'post' == $_REQUEST['action'] ) {
 }
 
 // Set Variables
-$title = isset($_GET['t']) ? esc_html(aposfix(stripslashes($_GET['t']))) : '';
-$selection = isset($_GET['s']) ? trim( aposfix( stripslashes($_GET['s']) ) ) : '';
+$title = isset( $_GET['t'] ) ? trim( strip_tags( aposfix( stripslashes( $_GET['t'] ) ) ) ) : '';
+$selection = isset( $_GET['s'] ) ? trim( htmlspecialchars( html_entity_decode( aposfix( stripslashes( $_GET['s'] ) ) ) ) ) : '';
 if ( ! empty($selection) ) {
 	$selection = preg_replace('/(\r?\n|\r)/', '</p><p>', $selection);
 	$selection = '<p>'.str_replace('<p></p>', '', $selection).'</p>';
@@ -117,7 +117,7 @@ switch ($_REQUEST['ajax']) {
 		<div class="postbox">
 		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
 		<div class="inside">
-			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection, true); ?></textarea>
+			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo wp_htmledit_pre( $selection ); ?></textarea>
 			<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
 		</div>
 		</div>
@@ -548,8 +548,8 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 			<div id="quicktags"></div>
 			<div class="editor-container">
 				<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
-					<?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?>
-					<?php if ($url) { echo '<p>'; if($selection) _e('via '); echo "<a href='$url'>$title</a>."; echo '</p>'; } ?>
+					<?php if ($selection) echo wp_richedit_pre( $selection ); ?>
+					<?php if ($url) { echo '<p>'; if($selection) _e('via '); printf( "<a href='%s'>%s</a>.", esc_url( $url ), esc_html( $title ) ); echo '</p>'; } ?>
 				</textarea>
 			</div>
 		</div>
