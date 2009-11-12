@@ -582,7 +582,7 @@ var photostorage = false;
 						echo '<p>';
 						if ( $selection )
 							_e('via ');
-						echo "<a href='$url'>$title</a>.</p>";
+						printf( "<a href='%s'>%s</a>.</p>", esc_url( $url ), esc_html( $title ) );
 					}
 				?></textarea>
 			</div>
