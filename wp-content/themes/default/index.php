@@ -17,9 +17,6 @@ get_header(); ?>
 				<small><?php the_time('F jS, Y') ?> <!-- by <?php the_author() ?> --></small>
 
 				<div class="entry">
-					<?php if ( has_post_image() ) : ?>
-						<a href="<?php the_permalink(); ?>"><?php the_post_image( array( 75, 75 ), array( 'class' => 'alignleft' ) ); ?></a>
-					<?php endif; ?>
 					<?php the_content('Read the rest of this entry &raquo;'); ?>
 				</div>
 
