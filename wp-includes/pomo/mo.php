@@ -2,7 +2,7 @@
 /**
  * Class for working with MO files
  *
- * @version $Id: mo.php 221 2009-09-07 21:08:21Z nbachiyski $
+ * @version $Id: mo.php 293 2009-11-12 15:43:50Z nbachiyski $
  * @package pomo
  * @subpackage mo
  */
@@ -21,10 +21,9 @@ class MO extends Gettext_Translations {
 	 * @param string $filename MO file to load
 	 */
 	function import_from_file($filename) {
-		$reader = new POMO_CachedIntFileReader($filename);
-		if (isset($reader->error)) {
+		$reader = new POMO_FileReader($filename);
+		if (!$reader->is_resource())
 			return false;
-		}
 		return $this->import_from_reader($reader);
 	}
 	
@@ -113,61 +112,111 @@ class MO extends Gettext_Translations {
 	}
 
 	function import_from_reader($reader) {
-		$reader->setEndian('little');
-		$endian = MO::get_byteorder($reader->readint32());
-		if (false === $endian) {
+		$endian_string = MO::get_byteorder($reader->readint32());
+		if (false === $endian_string) {
 			return false;
 		}
-		$reader->setEndian($endian);
+		$reader->setEndian($endian_string);
 
-		$revision = $reader->readint32();
-		$total = $reader->readint32();
-		// get addresses of array of lenghts and offsets for original string and translations
-		$originals_lenghts_addr = $reader->readint32();
-		$translations_lenghts_addr = $reader->readint32();
+		$endian = ('big' == $endian_string)? 'N' : 'V';
 
+		$header = $reader->read(24);
+		if ($reader->strlen($header) != 24)
+			return false;
+
+		// parse header
+		$header = unpack("{$endian}revision/{$endian}total/{$endian}originals_lenghts_addr/{$endian}translations_lenghts_addr/{$endian}hash_length/{$endian}hash_addr", $header);
+		if (!is_array($header))
+			return false;
+
+		extract( $header );
+
+		// support revision 0 of MO format specs, only
+		if ($revision != 0)
+			return false;
+
+		// seek to data blocks
 		$reader->seekto($originals_lenghts_addr);
-		$originals_lenghts = $reader->readint32array($total * 2); // each of 
-		$reader->seekto($translations_lenghts_addr);
-		$translations_lenghts = $reader->readint32array($total * 2);
 
-		$length = create_function('$i', 'return $i * 2 + 1;');
-		$offset = create_function('$i', 'return $i * 2 + 2;');
+		// read originals' indices
+		$originals_lengths_length = $translations_lenghts_addr - $originals_lenghts_addr;
+		if ( $originals_lengths_length != $total * 8 )
+			return false;
 
-		for ($i = 0; $i < $total; ++$i) {
-			$reader->seekto($originals_lenghts[$offset($i)]);
-			$original = $reader->read($originals_lenghts[$length($i)]);
-			$reader->seekto($translations_lenghts[$offset($i)]);
-			$translation = $reader->read($translations_lenghts[$length($i)]);
-			if ('' == $original) {
+		$originals = $reader->read($originals_lengths_length);
+		if ( $reader->strlen( $originals ) != $originals_lengths_length )
+			return false;
+
+		// read translations' indices
+		$translations_lenghts_length = $hash_addr - $translations_lenghts_addr;
+		if ( $translations_lenghts_length != $total * 8 )
+			return false;
+
+		$translations = $reader->read($translations_lenghts_length);
+		if ( $reader->strlen( $translations ) != $translations_lenghts_length )
+			return false;
+
+		// transform raw data into set of indices
+		$originals    = $reader->str_split( $originals, 8 );
+		$translations = $reader->str_split( $translations, 8 );
+
+		// skip hash table
+		$strings_addr = $hash_addr + $hash_length * 4;
+
+		$reader->seekto($strings_addr);
+
+		$strings = $reader->read_all();
+		$reader->close();
+
+		for ( $i = 0; $i < $total; $i++ ) {
+			$o = unpack( "{$endian}length/{$endian}pos", $originals[$i] );
+			$t = unpack( "{$endian}length/{$endian}pos", $translations[$i] );
+			if ( !$o || !$t ) return false;
+
+			// adjust offset due to reading strings to separate space before
+			$o['pos'] -= $strings_addr;
+			$t['pos'] -= $strings_addr;
+
+			$original    = $reader->substr( $strings, $o['pos'], $o['length'] );
+			$translation = $reader->substr( $strings, $t['pos'], $t['length'] );
+
+			if ('' === $original) {
 				$this->set_headers($this->make_headers($translation));
 			} else {
-				$this->add_entry($this->make_entry($original, $translation));
+				$entry = &$this->make_entry($original, $translation);
+				$this->entries[$entry->key()] = &$entry;
 			}
 		}
 		return true;
 	}
 
 	/**
+	 * Build a Translation_Entry from original string and translation strings,
+	 * found in a MO file
+	 * 
 	 * @static
+	 * @param string $original original string to translate from MO file. Might contain
+	 * 	0x04 as context separator or 0x00 as singular/plural separator
+	 * @param string $translation translation string from MO file. Might contain
+	 * 	0x00 as a plural translations separator
 	 */
 	function &make_entry($original, $translation) {
-		$args = array();
+		$entry = & new Translation_Entry();
 		// look for context
 		$parts = explode(chr(4), $original);
 		if (isset($parts[1])) {
 			$original = $parts[1];
-			$args['context'] = $parts[0];
+			$entry->context = $parts[0];
 		}
 		// look for plural original
 		$parts = explode(chr(0), $original);
-		$args['singular'] = $parts[0];
+		$entry->singular = $parts[0];
 		if (isset($parts[1])) {
-			$args['plural'] = $parts[1];
+			$entry->is_plural = true;
+			$entry->plural = $parts[1];
 		}
 		// plural translations are also separated by \0
-		$args['translations'] = explode(chr(0), $translation);
-		$entry = & new Translation_Entry($args);
+		$entry->translations = explode(chr(0), $translation);
 		return $entry;
 	}
 
@@ -178,7 +227,5 @@ class MO extends Gettext_Translations {
 	function get_plural_forms_count() {
 		return $this->_nplurals;
 	}
-
-
 }
 endif;
