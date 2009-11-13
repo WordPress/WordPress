@@ -360,7 +360,7 @@ class WP_Upgrader {
 class Plugin_Upgrader extends WP_Upgrader {
 
 	var $result;
-	var $bulk = true;
+	var $bulk = false;
 	var $show_before = '';
 
 	function upgrade_strings() {
