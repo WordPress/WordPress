@@ -89,3 +89,7 @@ p.submit { /* quick edit and reply in edit-comments.php */
 form#widgets-filter { /* fix widget page */
 	position: static;
 }
+
+* html .meta-box-sortables .postbox .handlediv {
+	background: transparent url(../images/menu-bits-rtl-vs.gif) no-repeat scroll right -111px;
+}

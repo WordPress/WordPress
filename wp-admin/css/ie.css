@@ -21,6 +21,14 @@ input.button-highlighted {
 	margin-bottom: -1px;
 }
 
+* html .meta-box-sortables .postbox .handlediv {
+	background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -111px;
+}
+
+* html .edit-box {
+	display: inline;
+}
+
 * html .inner-sidebar #side-sortables,
 * html .postbox-container .meta-box-sortables {
 	height: 300px;

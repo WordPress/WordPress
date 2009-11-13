@@ -125,11 +125,17 @@ setCommentsList = function() {
 	}
 
 	function updateCount(el, n) {
+		var n1 = '';
 		if ( isNaN(n) )
 			return;
 		n = n < 1 ? '0' : n.toString();
-		if ( n.length > 3 )
-			n = n.substr(0, n.length-3) + thousandsSeparator + n.substr(-3);
+		if ( n.length > 3 ) {
+			while ( n.length > 3 ) {
+				n1 = thousandsSeparator + n.substr(n.length - 3) + n1;
+				n = n.substr(0, n.length - 3);
+			}
+			n = n + n1;
+		}
 		el.html(n);
 	}
 

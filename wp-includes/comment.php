@@ -777,7 +777,7 @@ function wp_count_comments( $post_id = 0 ) {
 	$known_types = array_keys( $approved );
 	foreach( (array) $count as $row_num => $row ) {
 		// Don't count post-trashed toward totals
-		if ( 'post-trashed' != $row['comment_approved'] )
+		if ( 'post-trashed' != $row['comment_approved'] && 'trash' != $row['comment_approved'] )
 			$total += $row['num_comments'];
 		if ( in_array( $row['comment_approved'], $known_types ) )
 			$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
