@@ -38,7 +38,7 @@ if (empty($file)) {
 	if ( 'theme' == $dir ) {
 		$file = dirname(dirname($themes[$theme]['Template Dir'])) . $file ; 
 	} else if ( 'style' == $dir) {
-		$file = dirname(dirname($themes[$theme]['Stylesheer Dir'])) . $file ; 
+		$file = dirname(dirname($themes[$theme]['Stylesheet Dir'])) . $file ; 
 	}
 }
 
@@ -184,7 +184,7 @@ if ($allowed_files) :
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description <span class='nonessential'>($style_show)</span>" : "$description";
 		$filedesc = ( $style_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($style_show)</span></span>" : $filedesc;
-		$template_mapping[ $description ] = array( _get_template_edit_filename($style_file, $style_file), $filedesc );
+		$template_mapping[ $description ] = array( _get_template_edit_filename($style_file, $stylesheet_dir), $filedesc );
 	}
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $style_file, $filedesc ) ) = each( $template_mapping ) ) :
