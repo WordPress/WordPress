@@ -200,7 +200,7 @@ case 'trash':
 	if ( strpos($sendback, 'post.php') !== false || strpos($sendback, 'post-new.php') !== false )
 		$sendback = admin_url('edit.php?trashed=1&ids='.$post_id);
 	else
-		$sendback = add_query_arg( array('trashed' => 1, ids => $post_id), $sendback );
+		$sendback = add_query_arg( array('trashed' => 1, 'ids' => $post_id), $sendback );
 
 	wp_redirect($sendback);
 	exit();
