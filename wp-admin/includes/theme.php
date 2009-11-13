@@ -117,11 +117,11 @@ function get_broken_themes() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Get the Page Templates available in this theme
  *
  * @since unknown
  *
- * @return unknown
+ * @return array Key is template name, Value is path within the theme folder
  */
 function get_page_templates() {
 	$themes = get_themes();
@@ -138,7 +138,7 @@ function get_page_templates() {
 				$name = _cleanup_header_comment($name[1]);
 
 			if ( !empty( $name ) ) {
-				$page_templates[trim( $name )] = basename( $template );
+				$page_templates[trim( $name )] = str_replace(get_template_directory(), '', $template);
 			}
 		}
 	}
