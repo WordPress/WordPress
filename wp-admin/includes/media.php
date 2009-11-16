@@ -40,8 +40,10 @@ function update_gallery_tab($tabs) {
 		return $tabs;
 	}
 
-	if ( intval($_REQUEST['post_id']) )
-		$attachments = intval($wpdb->get_var($wpdb->prepare("SELECT count(*) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $_REQUEST['post_id'])));
+	$post_id = intval($_REQUEST['post_id']);
+
+	if ( $post_id )
+		$attachments = intval( $wpdb->get_var( $wpdb->prepare( "SELECT count(*) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent = %d", $post_id ) ) );
 
 	if ( empty($attachments) ) {
 		unset($tabs['gallery']);
