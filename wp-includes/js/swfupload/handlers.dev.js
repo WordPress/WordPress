@@ -169,7 +169,7 @@ function deleteError(X, textStatus, errorThrown) {
 
 function updateMediaForm() {
 	var one = jQuery('form.type-form #media-items').children(), items = jQuery('#media-items').children();
-	storeState();
+
 	// Just one file, no need for collapsible part
 	if ( one.length == 1 ) {
 		jQuery('.slidetoggle', one).slideDown(500).siblings().addClass('hidden').filter('.toggle').toggle();
@@ -316,38 +316,22 @@ function cancelUpload() {
 }
 
 // remember the last used image size, alignment and url
-var storeState;
-(function($){
+jQuery(document).ready(function($){
+	$('input[type="radio"]', '#media-items').live('click', function(){
+		var tr = $(this).closest('tr');
 
-storeState = function(){
-	var align = getUserSetting('align') || '', imgsize = getUserSetting('imgsize') || '';
+		if ( $(tr).hasClass('align') )
+			setUserSetting('align', $(this).val());
+		else if ( $(tr).hasClass('image-size') )
+			setUserSetting('imgsize', $(this).val());
+	});
 
-	$('tr.align input[type="radio"]').click(function(){
-		setUserSetting('align', $(this).val());
-	}).filter(function(){
-		if ( $(this).val() == align )
-			return true;
-		return false;
-	}).attr('checked','checked');
-
-	$('tr.image-size input[type="radio"]').click(function(){
-		setUserSetting('imgsize', $(this).val());
-	}).filter(function(){
-		if ( $(this).attr('disabled') || $(this).val() != imgsize )
-			return false;
-		return true;
-	}).attr('checked','checked');
-
-	$('tr.url button').click(function(){
+	$('button.button', '#media-items').live('click', function(){
 		var c = this.className || '';
-		c = c.replace(/.*?(url[^ '"]+).*/, '$1');
-		if (c) setUserSetting('urlbutton', c);
-		$(this).siblings('.urlfield').val( $(this).attr('title') );
+		c = c.replace(/.*?url([^ '"]+).*/, '$1');
+		if ( c ) {
+			setUserSetting('urlbutton', c);
+			$(this).siblings('.urlfield').val( $(this).attr('title') );
+		}
 	});
-
-	$('tr.url .urlfield').each(function(){
-		var b = getUserSetting('urlbutton');
-		$(this).val( $(this).siblings('button.'+b).attr('title') );
-	});
-}
-})(jQuery);
+});

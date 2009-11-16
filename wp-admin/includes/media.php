@@ -780,16 +780,19 @@ function media_upload_library() {
  */
 function image_align_input_fields( $post, $checked = '' ) {
 
+	if ( empty($checked) )
+		$checked = get_user_setting('align', 'none');
+
 	$alignments = array('none' => __('None'), 'left' => __('Left'), 'center' => __('Center'), 'right' => __('Right'));
 	if ( !array_key_exists( (string) $checked, $alignments ) )
 		$checked = 'none';
 
 	$out = array();
-	foreach ($alignments as $name => $label) {
+	foreach ( $alignments as $name => $label ) {
 		$name = esc_attr($name);
 		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
 		 	( $checked == $name ? " checked='checked'" : "" ) .
-			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . $label . "</label>";
+			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>$label</label>";
 	}
 	return join("\n", $out);
 }
@@ -803,27 +806,36 @@ function image_align_input_fields( $post, $checked = '' ) {
  * @param unknown_type $checked
  * @return unknown
  */
-function image_size_input_fields( $post, $checked = '' ) {
+function image_size_input_fields( $post, $check = '' ) {
 
 		// get a list of the actual pixel dimensions of each possible intermediate version of this image
 		$size_names = array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size'));
 
-		foreach ( $size_names as $size => $name ) {
+		if ( empty($check) )
+			$check = get_user_setting('imgsize', 'medium');
+
+		foreach ( $size_names as $size => $label ) {
 			$downsize = image_downsize($post->ID, $size);
+			$checked = '';
 
 			// is this size selectable?
 			$enabled = ( $downsize[3] || 'full' == $size );
 			$css_id = "image-size-{$size}-{$post->ID}";
 			// if this size is the default but that's not available, don't select it
-			if ( $checked && !$enabled )
-				$checked = '';
-			// if $checked was not specified, default to the first available size that's bigger than a thumbnail
-			if ( !$checked && $enabled && 'thumbnail' != $size )
-				$checked = $size;
+			if ( $size == $check ) {
+				if ( $enabled )
+					$checked = " checked='checked'";
+				else
+					$check = '';
+			} elseif ( !$check && $enabled && 'thumbnail' != $size ) {
+				// if $check is not enabled, default to the first available size that's bigger than a thumbnail
+				$check = $size;
+				$checked = " checked='checked'";
+			}
 
-			$html = "<div class='image-size-item'><input type='radio' ".( $enabled ? '' : "disabled='disabled'")."name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'".( $checked == $size ? " checked='checked'" : '') ." />";
+			$html = "<div class='image-size-item'><input type='radio' " . ( $enabled ? '' : "disabled='disabled' " ) . "name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'$checked />";
 
-			$html .= "<label for='{$css_id}'>" . __($name). "</label>";
+			$html .= "<label for='{$css_id}'>$label</label>";
 			// only show the dimensions if that choice is available
 			if ( $enabled )
 				$html .= " <label for='{$css_id}' class='help'>" . sprintf( __("(%d&nbsp;&times;&nbsp;%d)"), $downsize[1], $downsize[2] ). "</label>";
@@ -849,10 +861,13 @@ function image_size_input_fields( $post, $checked = '' ) {
  * @param unknown_type $url_type
  * @return unknown
  */
-function image_link_input_fields($post, $url_type='') {
+function image_link_input_fields($post, $url_type = '') {
 
 	$file = wp_get_attachment_url($post->ID);
 	$link = get_attachment_link($post->ID);
+
+	if ( empty($url_type) )
+		$url_type = get_user_setting('urlbutton', 'post');
 
 	$url = '';
 	if ( $url_type == 'file' )
@@ -860,10 +875,11 @@ function image_link_input_fields($post, $url_type='') {
 	elseif ( $url_type == 'post' )
 		$url = $link;
 
-	return "<input type='text' class='urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
-				<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
-				<button type='button' class='button urlfile' title='" . esc_attr($file) . "'>" . __('File URL') . "</button>
-				<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Post URL') . "</button>
+	return "
+	<input type='text' class='urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
+	<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
+	<button type='button' class='button urlfile' title='" . esc_attr($file) . "'>" . __('File URL') . "</button>
+	<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Post URL') . "</button>
 ";
 }
 
@@ -896,7 +912,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 			'html'  => image_align_input_fields($post, get_option('image_default_align')),
 		);
 
-		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size') );
+		$form_fields['image-size'] = image_size_input_fields( $post, get_option('image_default_size', 'medium') );
 
 	} else {
 		unset( $form_fields['image_alt'] );
