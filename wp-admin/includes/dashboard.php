@@ -624,11 +624,15 @@ function wp_dashboard_incoming_links_output() {
 			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
 			echo '</p>';
 		}
+		$rss->__destruct(); 
+		unset($rss);
 		return;
 	}
 
 	if ( !$rss->get_item_quantity() ) {
 		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. It has found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
+		$rss->__destruct(); 
+		unset($rss);
 		return;
 	}
 
@@ -682,7 +686,8 @@ function wp_dashboard_incoming_links_output() {
 	}
 
 	echo "</ul>\n";
-
+	$rss->__destruct(); 
+	unset($rss);
 }
 
 function wp_dashboard_incoming_links_control() {
@@ -737,12 +742,18 @@ function wp_dashboard_secondary_output() {
 			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
 			echo '</p></div>';
 		}
+		$rss->__destruct(); 
+		unset($rss);
 	} elseif ( !$rss->get_item_quantity() ) {
+		$rss->__destruct(); 
+		unset($rss);
 		return false;
 	} else {
 		echo '<div class="rss-widget">';
 		wp_widget_rss_output( $rss, $widgets['dashboard_secondary'] );
 		echo '</div>';
+		$rss->__destruct(); 
+		unset($rss);
 	}
 }
 
@@ -825,6 +836,9 @@ function wp_dashboard_plugins_output() {
 		echo "<h4>$label</h4>\n";
 		echo "<h5><a href='$link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span>\n";
 		echo "<p>$description</p>\n";
+		
+		$$feed->__destruct();
+		unset($$feed);
 	}
 }
 
@@ -922,6 +936,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
 			else
 				$widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
+			$rss->__destruct(); 
+			unset($rss);
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
 	}

@@ -732,6 +732,8 @@ class WP_Widget_RSS extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		wp_widget_rss_output( $rss, $instance );
 		echo $after_widget;
+		$rss->__destruct(); 
+		unset($rss);
 	}
 
 	function update($new_instance, $old_instance) {
@@ -770,7 +772,8 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_wp_error($rss) ) {
 		if ( is_admin() || current_user_can('manage_options') )
 			echo '<p>' . sprintf( __('<strong>RSS Error</strong>: %s'), $rss->get_error_message() ) . '</p>';
-
+		$rss->__destruct(); 
+		unset($rss);
 		return;
 	}
 
@@ -787,6 +790,8 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 	if ( !$rss->get_item_quantity() ) {
 		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
+		$rss->__destruct(); 
+		unset($rss);
 		return;
 	}
 
@@ -838,6 +843,8 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		}
 	}
 	echo '</ul>';
+	$rss->__destruct(); 
+	unset($rss);
 }
 
 
@@ -947,6 +954,8 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 			while ( stristr($link, 'http') != $link )
 				$link = substr($link, 1);
 		}
+		$rss->__destruct(); 
+		unset($rss);
 	}
 
 	return compact( 'title', 'url', 'link', 'items', 'error', 'show_summary', 'show_author', 'show_date' );
