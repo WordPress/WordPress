@@ -420,3 +420,8 @@ table.ie-fixed {
 #wpcontent #ajax-loading {
 	vertical-align: baseline;
 }
+
+* html .describe .field input.text,
+* html .describe .field textarea {
+	width: 440px;
+}

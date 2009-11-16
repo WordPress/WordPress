@@ -876,7 +876,7 @@ function image_link_input_fields($post, $url_type = '') {
 		$url = $link;
 
 	return "
-	<input type='text' class='urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
+	<input type='text' class='text urlfield' name='attachments[$post->ID][url]' value='" . esc_attr($url) . "' /><br />
 	<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
 	<button type='button' class='button urlfile' title='" . esc_attr($file) . "'>" . __('File URL') . "</button>
 	<button type='button' class='button urlpost' title='" . esc_attr($link) . "'>" . __('Post URL') . "</button>
@@ -1037,7 +1037,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		'image_url'	=> array(
 			'label'      => __('File URL'),
 			'input'      => 'html',
-			'html'       => "<input type='text' class='urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . esc_attr($image_url) . "' /><br />",
+			'html'       => "<input type='text' class='text urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . esc_attr($image_url) . "' /><br />",
 			'value'      => isset($edit_post->post_url) ? $edit_post->post_url : wp_get_attachment_url($post->ID),
 			'helps'      => __('Location of the uploaded file.')
 		)
@@ -1264,7 +1264,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		elseif ( $field['input'] == 'textarea' ) {
 			$item .= "<textarea type='text' id='$name' name='$name'" . $aria_required . ">" . esc_html( $field['value'] ) . "</textarea>";
 		} else {
-			$item .= "<input type='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'" . $aria_required . "/>";
+			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'" . $aria_required . "/>";
 		}
 		if ( !empty($field['helps']) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique((array) $field['helps']) ) . '</p>';

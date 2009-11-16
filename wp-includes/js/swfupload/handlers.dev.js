@@ -328,9 +328,9 @@ jQuery(document).ready(function($){
 
 	$('button.button', '#media-items').live('click', function(){
 		var c = this.className || '';
-		c = c.replace(/.*?url([^ '"]+).*/, '$1');
-		if ( c ) {
-			setUserSetting('urlbutton', c);
+		c = c.match(/url([^ '"]+)/);
+		if ( c && c[1] ) {
+			setUserSetting('urlbutton', c[1]);
 			$(this).siblings('.urlfield').val( $(this).attr('title') );
 		}
 	});
