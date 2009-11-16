@@ -217,7 +217,7 @@ if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
 }
 
 // For an advanced caching plugin to use, static because you would only want one
-if ( defined('WP_CACHE') )
+if ( defined('WP_CACHE') && WP_CACHE )
 	@include WP_CONTENT_DIR . '/advanced-cache.php';
 
 /**
