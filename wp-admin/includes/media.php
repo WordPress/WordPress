@@ -1201,11 +1201,11 @@ function get_media_item( $attachment_id, $args = null ) {
 		<thead class='media-item-info' id='media-head-$post->ID'>
 		<tr>
 			<td class='A1B1' id='thumbnail-head-$post->ID' rowspan='5'><img class='thumbnail' src='$thumb_url' alt='' /></td>
-			<td>$filename</td>
+			<td><strong>" . __('File name:') . "</strong> $filename</td>
 		</tr>
-		<tr><td>$post->post_mime_type</td></tr>
-		<tr><td>" . mysql2date(get_option('time_format'), $post->post_date) . "</td></tr>
-		<tr><td>" . apply_filters('media_meta', $media_dims, $post) . "</td></tr>
+		<tr><td><strong>" . __('File type:') . "</strong> $post->post_mime_type</td></tr>
+		<tr><td><strong>" . __('Upload date:') . "</strong> " . mysql2date( get_option('date_format'), $post->post_date ) . "</td></tr>
+		<tr><td><strong>" . __('Dimensions:') . "</strong> " . apply_filters('media_meta', $media_dims, $post) . "</td></tr>
 		<tr><td class='A1B1'>$image_edit_button</td></tr>
 		</thead>
 		<tbody>
