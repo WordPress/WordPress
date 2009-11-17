@@ -713,6 +713,7 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
  * @return unknown
  */
 function _fix_attachment_links( $post_ID ) {
+	global $_fix_attachment_link_id;
 
 	$post = & get_post( $post_ID, ARRAY_A );
 
@@ -740,7 +741,8 @@ function _fix_attachment_links( $post_ID ) {
 		}
 
 		$post_search[$i] = $anchor;
-		$post_replace[$i] = preg_replace( "#href=(\"|')[^'\"]*\\1#e", "stripslashes( 'href=\\1' ).get_attachment_link( $id ).stripslashes( '\\1' )", $anchor );
+		 $_fix_attachment_link_id = $id;
+		$post_replace[$i] = preg_replace_callback( "#href=(\"|')[^'\"]*\\1#", '_fix_attachment_links_replace_cb', $anchor );
 		++$i;
 	}
 
@@ -750,6 +752,11 @@ function _fix_attachment_links( $post_ID ) {
 	$post = add_magic_quotes( $post);
 
 	return wp_update_post( $post);
+}
+
+function _fix_attachment_links_replace_cb($match) {
+        global $_fix_attachment_link_id;
+        return stripslashes( 'href='.$m[1] ).get_attachment_link( $_fix_attachment_link_id ).stripslashes( $m[1] );
 }
 
 /**
