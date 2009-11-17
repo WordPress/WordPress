@@ -62,7 +62,7 @@ if ( isset($_GET['find_detached']) ) {
 				$location = $referer;
 		}
 
-		$location = add_query_arg( array( 'detached' => 1, 'attached' => $attached ) , $location );
+		$location = add_query_arg( array( 'attached' => $attached ) , $location );
 		wp_redirect($location);
 		exit;
 	}
@@ -76,13 +76,14 @@ if ( isset($_GET['find_detached']) ) {
 	} elseif ( ( $_GET['action'] != -1 || $_GET['action2'] != -1 ) && ( isset($_GET['media']) || isset($_GET['ids']) ) ) {
 		$post_ids = isset($_GET['media']) ? $_GET['media'] : explode(',', $_GET['ids']);
 		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
-	} else
+	} else {
 		wp_redirect($_SERVER['HTTP_REFERER']);
+	}
 
 	$location = 'upload.php';
 	if ( $referer = wp_get_referer() ) {
 		if ( false !== strpos($referer, 'upload.php') )
-			$location = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'message', 'ids'), $referer );
+			$location = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'message', 'ids', 'posted'), $referer );
 	}
 
 	switch ( $doaction ) {
@@ -118,7 +119,6 @@ if ( isset($_GET['find_detached']) ) {
 			break;
 	}
 
-	$location = remove_query_arg('posted', $location);
 	wp_redirect($location);
 	exit;
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
@@ -134,16 +134,20 @@ if ( ! isset( $_GET['paged'] ) || $_GET['paged'] < 1 )
 
 if ( isset($_GET['detached']) ) {
 
+	$media_per_page = (int) get_user_option('upload_per_page');
+	if ( empty($media_per_page) )
+		$media_per_page = 20;
+
 	if ( !empty($lost) ) {
-		$start = ( $_GET['paged'] - 1 ) * 50;
-		$page_links_total = ceil(count($lost) / 50);
+		$start = ( (int) $_GET['paged'] - 1 ) * $media_per_page;
+		$page_links_total = ceil(count($lost) / $media_per_page);
 		$lost = implode(',', $lost);
 
-		$orphans = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE post_type = 'attachment' AND ID IN ($lost) LIMIT $start, 50" );
+		$orphans = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_type = 'attachment' AND ID IN (%s) LIMIT %d, %d", $lost, $start, $media_per_page ) );
 	} else {
-		$start = ( $_GET['paged'] - 1 ) * 25;
-		$orphans = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1 LIMIT $start, 25" );
-		$page_links_total = ceil($wpdb->get_var( "SELECT FOUND_ROWS()" ) / 25);
+		$start = ( (int) $_GET['paged'] - 1 ) * $media_per_page;
+		$orphans = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1 LIMIT %d, %d", $start, $media_per_page ) );
+		$page_links_total = ceil($wpdb->get_var( "SELECT FOUND_ROWS()" ) / $media_per_page);
 	}
 
 	$post_mime_types = get_post_mime_types();
@@ -429,7 +433,7 @@ foreach ($arc_result as $arc_row) {
 </tbody>
 </table>
 
-<?php find_posts_div();
+<?php
 
 } else {
 	include( 'edit-attachment-rows.php' );
@@ -466,6 +470,7 @@ if ( $page_links )
 
 <br class="clear" />
 </div>
+<?php find_posts_div(); ?>
 </form>
 <br class="clear" />
 

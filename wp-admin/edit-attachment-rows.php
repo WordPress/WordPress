@@ -173,7 +173,8 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 			<?php
 		} else {
 			?>
-			<td <?php echo $attributes ?>>&nbsp;</td>
+			<td <?php echo $attributes ?>><?php _e('(Unattached)'); ?><br />
+			<a class="hide-if-no-js" onclick="findPosts.open('media[]','<?php echo $post->ID ?>');return false;" href="#the-list"><?php _e('Attach'); ?></a></td>
 			<?php
 		}
 
