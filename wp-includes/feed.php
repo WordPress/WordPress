@@ -283,10 +283,12 @@ function comment_text_rss() {
  * @since 2.1.0
  * @uses apply_filters()
  *
- * @param string $type Optional, default is 'rss'. Either 'rss', 'atom', or 'rdf'.
+ * @param string $type Optional, default is the type returned by get_default_feed().
  * @return string All of the post categories for displaying in the feed.
  */
-function get_the_category_rss($type = 'rss') {
+function get_the_category_rss($type = null) {
+	if ( empty($type) )
+		$type = get_default_feed();
 	$categories = get_the_category();
 	$tags = get_the_tags();
 	$the_list = '';
@@ -326,9 +328,9 @@ function get_the_category_rss($type = 'rss') {
  * @since 0.71
  * @see get_the_category_rss() For better explanation.
  *
- * @param string $type Optional, default is 'rss'. Either 'rss', 'atom', or 'rdf'.
+ * @param string $type Optional, default is the type returned by get_default_feed().
  */
-function the_category_rss($type = 'rss') {
+function the_category_rss($type = null) {
 	echo get_the_category_rss($type);
 }
 
