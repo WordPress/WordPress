@@ -775,7 +775,6 @@ function wp_kses_check_attr_val($value, $vless, $checkname, $checkvalue) {
  */
 function wp_kses_bad_protocol($string, $allowed_protocols) {
 	$string = wp_kses_no_null($string);
-	$string = preg_replace('/\xad+/', '', $string); # deals with Opera "feature"
 	$string2 = $string.'a';
 
 	while ($string != $string2) {
@@ -920,8 +919,6 @@ function wp_kses_bad_protocol_once2($matches) {
 	$string2 = wp_kses_decode_entities($string);
 	$string2 = preg_replace('/\s/', '', $string2);
 	$string2 = wp_kses_no_null($string2);
-	$string2 = preg_replace('/\xad+/', '', $string2);
-	# deals with Opera "feature"
 	$string2 = strtolower($string2);
 
 	$allowed = false;
