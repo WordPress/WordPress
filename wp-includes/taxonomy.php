@@ -301,6 +301,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  */
 function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
+	$null = null;
 
 	if ( empty($term) ) {
 		$error = new WP_Error('invalid_term', __('Empty Term'));
@@ -321,6 +322,8 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 		$term = (int) $term;
 		if ( ! $_term = wp_cache_get($term, $taxonomy) ) {
 			$_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND t.term_id = %s LIMIT 1", $taxonomy, $term) );
+			if ( ! $_term )
+				return $null;
 			wp_cache_add($term, $_term, $taxonomy);
 		}
 	}
