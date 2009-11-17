@@ -817,6 +817,7 @@ function wp_get_archives($args = '') {
 			$afterafter = $after;
 			foreach ( (array) $arcresults as $arcresult ) {
 				$url = get_month_link( $arcresult->year, $arcresult->month );
+				/* translators: 1: month name, 2: 4-digit year */
 				$text = sprintf(__('%1$s %2$d'), $wp_locale->get_month($arcresult->month), $arcresult->year);
 				if ( $show_post_count )
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
