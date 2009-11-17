@@ -129,6 +129,7 @@ function core_upgrade_preamble() {
 
 	list_plugin_updates();
 	//list_theme_updates();
+	do_action('core_upgrade_preamble');
 	echo '</div>';
 }
 
