@@ -772,8 +772,6 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_wp_error($rss) ) {
 		if ( is_admin() || current_user_can('manage_options') )
 			echo '<p>' . sprintf( __('<strong>RSS Error</strong>: %s'), $rss->get_error_message() ) . '</p>';
-		$rss->__destruct(); 
-		unset($rss);
 		return;
 	}
 
@@ -953,9 +951,10 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 			$link = esc_url(strip_tags($rss->get_permalink()));
 			while ( stristr($link, 'http') != $link )
 				$link = substr($link, 1);
+
+			$rss->__destruct();
+			unset($rss);
 		}
-		$rss->__destruct(); 
-		unset($rss);
 	}
 
 	return compact( 'title', 'url', 'link', 'items', 'error', 'show_summary', 'show_author', 'show_date' );

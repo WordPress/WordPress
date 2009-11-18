@@ -624,8 +624,6 @@ function wp_dashboard_incoming_links_output() {
 			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
 			echo '</p>';
 		}
-		$rss->__destruct(); 
-		unset($rss);
 		return;
 	}
 
@@ -742,8 +740,6 @@ function wp_dashboard_secondary_output() {
 			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
 			echo '</p></div>';
 		}
-		$rss->__destruct(); 
-		unset($rss);
 	} elseif ( !$rss->get_item_quantity() ) {
 		$rss->__destruct(); 
 		unset($rss);
@@ -932,12 +928,13 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		// title is optional.  If black, fill it if possible
 		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
 			$rss = fetch_feed($widget_options[$widget_id]['url']);
-			if ( ! is_wp_error($rss) )
-				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
-			else
+			if ( is_wp_error($rss) ) {
 				$widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
-			$rss->__destruct(); 
-			unset($rss);
+			} else {
+				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));	
+				$rss->__destruct();
+				unset($rss);				
+			}
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
 	}
