@@ -356,6 +356,9 @@ function populate_options() {
 		'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron', 'random_seed', 'rss_excerpt_length');
 	foreach ($unusedoptions as $option)
 		delete_option($option);
+	
+	// delete obsolete magpie stuff
+	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'");
 }
 
 /**
