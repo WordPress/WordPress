@@ -655,7 +655,7 @@ class WP_Http_Fsockopen {
 
 		$proxy = new WP_HTTP_Proxy();
 
-		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) {
+		if ( !WP_DEBUG ) {
 			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
 				$handle = @fsockopen( $proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
 			else
@@ -826,7 +826,7 @@ class WP_Http_Fopen {
 		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
-		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+		if ( !WP_DEBUG )
 			$handle = @fopen($url, 'r');
 		else
 			$handle = fopen($url, 'r');
@@ -999,7 +999,7 @@ class WP_Http_Streams {
 
 		$context = stream_context_create($arrContext);
 
-		if ( ! defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+		if ( !WP_DEBUG )
 			$handle = @fopen($url, 'r', false, $context);
 		else
 			$handle = fopen($url, 'r', false, $context);
@@ -1167,7 +1167,7 @@ class WP_Http_ExtHTTP {
 			}
 		}
 
-		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) //Emits warning level notices for max redirects and timeouts
+		if ( !WP_DEBUG ) //Emits warning level notices for max redirects and timeouts
 			$strResponse = @http_request($r['method'], $url, $r['body'], $options, $info);
 		else
 			$strResponse = http_request($r['method'], $url, $r['body'], $options, $info); //Emits warning level notices for max redirects and timeouts
@@ -1184,7 +1184,7 @@ class WP_Http_ExtHTTP {
 		$theHeaders = WP_Http::processHeaders($theHeaders);
 
 		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] ) {
-			if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+			if ( !WP_DEBUG )
 				$theBody = @http_chunked_decode($theBody);
 			else
 				$theBody = http_chunked_decode($theBody);

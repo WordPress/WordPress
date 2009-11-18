@@ -2927,8 +2927,7 @@ function atom_service_url_filter($url)
  * to get the backtrace up to what file and function called the deprecated
  * function.
  *
- * The current behavior is to trigger an user error if WP_DEBUG is defined and
- * is true.
+ * The current behavior is to trigger an user error if WP_DEBUG is true.
  *
  * This function is to be used in every function in depreceated.php
  *
@@ -2949,7 +2948,7 @@ function _deprecated_function($function, $version, $replacement=null) {
 	do_action('deprecated_function_run', $function, $replacement);
 
 	// Allow plugin to filter the output error trigger
-	if( defined('WP_DEBUG') && ( true === WP_DEBUG ) && apply_filters( 'deprecated_function_trigger_error', true )) {
+	if( WP_DEBUG && apply_filters( 'deprecated_function_trigger_error', true )) {
 		if( !is_null($replacement) )
 			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $function, $version, $replacement ) );
 		else
@@ -2964,8 +2963,7 @@ function _deprecated_function($function, $version, $replacement=null) {
  * to get the backtrace up to what file and function included the deprecated
  * file.
  *
- * The current behavior is to trigger an user error if WP_DEBUG is defined and
- * is true.
+ * The current behavior is to trigger an user error if WP_DEBUG is true.
  *
  * This function is to be used in every file that is depreceated
  *
@@ -2986,7 +2984,7 @@ function _deprecated_file($file, $version, $replacement=null) {
 	do_action('deprecated_file_included', $file, $replacement);
 
 	// Allow plugin to filter the output error trigger
-	if( defined('WP_DEBUG') && ( true === WP_DEBUG ) && apply_filters( 'deprecated_file_trigger_error', true )) {
+	if( WP_DEBUG && apply_filters( 'deprecated_file_trigger_error', true ) ) {
 		if( !is_null($replacement) )
 			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $file, $version, $replacement ) );
 		else
