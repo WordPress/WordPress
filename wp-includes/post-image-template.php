@@ -37,7 +37,7 @@ function get_the_post_image( $post_id = NULL, $size = 'thumbnail', $attr = '' ) 
 	} else {
 		$html = '';
 	}
-	return apply_filters( 'post_image_html', $html, $post_id, $post_image_id );
+	return apply_filters( 'post_image_html', $html, $post_id, $post_image_id, $size, $attr );
 }
 
 ?>
