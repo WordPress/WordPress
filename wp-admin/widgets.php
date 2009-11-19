@@ -37,6 +37,7 @@ $parent_file = 'themes.php';
 register_sidebar(array(
 	'name' => __('Inactive Widgets'),
 	'id' => 'wp_inactive_widgets',
+	'description' => '',
 	'before_widget' => '',
 	'after_widget' => '',
 	'before_title' => '',

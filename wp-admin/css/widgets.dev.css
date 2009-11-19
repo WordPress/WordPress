@@ -28,10 +28,15 @@ div.widget-liquid-right {
 }
 
 .widget-liquid-right .widget,
-#wp_inactive_widgets .widget {
+#wp_inactive_widgets .widget,
+.widget-liquid-right .sidebar-description {
 	width: 250px;
 	margin: 0 auto 20px;
 	overflow: hidden;
+}
+
+.widget-liquid-right .sidebar-description {
+	margin-bottom: 10px;
 }
 
 #wp_inactive_widgets .widget {

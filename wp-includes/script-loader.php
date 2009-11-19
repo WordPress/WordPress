@@ -434,7 +434,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20090630' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091029' );
-	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20090603' );
+	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20091118' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20090514' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20090514' );
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20090625' );

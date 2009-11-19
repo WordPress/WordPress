@@ -52,18 +52,28 @@ function wp_list_widgets() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Show the widgets and their settings for a sidebar.
+ * Used in the the admin widget config screen.
  *
  * @since unknown
  *
- * @param string $sidebar
+ * @param string $sidebar id slug of the sidebar
  */
 function wp_list_widget_controls( $sidebar ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
 
-	echo "\t<div id='$sidebar' class='widgets-sortables'>\n";
+	echo "<div id='$sidebar' class='widgets-sortables'>\n";
+
+	$description = wp_sidebar_description( $sidebar );
+
+	if ( !empty( $description ) ) {
+		echo "<div class='sidebar-description'>\n";
+		echo "\t<p class='description'>$description</p>"; 
+		echo "</div>\n";
+	}
+
 	dynamic_sidebar( $sidebar );
-	echo "\t</div>\n";
+	echo "</div>\n";
 }
 
 /**
