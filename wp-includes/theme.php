@@ -316,9 +316,8 @@ function get_themes() {
 				 * The parent theme doesn't exist in the current theme's folder or sub folder
 				 * so lets use the theme root for the parent template.
 				 */
-				$parent_theme_root = $theme_files[$template]['theme_root'];
-				if ( file_exists( "$parent_theme_root/$template/index.php" ) ) {
-					$template_directory = "$parent_theme_root/$template";
+				if ( isset($theme_files[$template]) && file_exists( $theme_files[$template]['theme_root'] . "/$template/index.php" ) ) {
+					$template_directory = $theme_files[$template]['theme_root'] . "/$template";
 				} else {
 					$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
 					continue;
