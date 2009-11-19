@@ -365,6 +365,10 @@ function get_themes() {
 			@ $template_dir->close();
 		}
 
+		//Make unique and remove duplicates when stylesheet and template are the same i.e. most themes
+		$template_files = array_unique($template_files);
+		$stylesheet_files = array_unique($stylesheet_files);
+				
 		$template_dir = dirname($template_files[0]);
 		$stylesheet_dir = dirname($stylesheet_files[0]);
 
@@ -595,7 +599,6 @@ function search_theme_directories() {
 		if ( is_dir( $theme_dir ) )
 			@closedir( $theme_dir );
 	}
-
 	return $theme_files;
 }
 
