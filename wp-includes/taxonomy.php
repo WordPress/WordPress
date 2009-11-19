@@ -2216,7 +2216,7 @@ function get_term_link( $term, $taxonomy ) {
 	$slug = $term->slug;
 
 	if ( empty($termlink) ) {
-		$file = get_option('home') . '/';
+		$file = trailingslashit( get_option('home') );
 		$t = get_taxonomy($taxonomy);
 		if ( $t->query_var )
 			$termlink = "$file?$t->query_var=$slug";
@@ -2224,7 +2224,7 @@ function get_term_link( $term, $taxonomy ) {
 			$termlink = "$file?taxonomy=$taxonomy&term=$slug";
 	} else {
 		$termlink = str_replace("%$taxonomy%", $slug, $termlink);
-		$termlink = get_option('home') . user_trailingslashit($termlink, 'category');
+		$termlink = trailingslashit( get_option('home') ) . user_trailingslashit($termlink, 'category');
 	}
 	return apply_filters('term_link', $termlink, $term, $taxonomy);
 }
