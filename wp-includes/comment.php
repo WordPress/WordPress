@@ -132,6 +132,7 @@ function get_approved_comments($post_id) {
  */
 function &get_comment(&$comment, $output = OBJECT) {
 	global $wpdb;
+	$null = null;
 
 	if ( empty($comment) ) {
 		if ( isset($GLOBALS['comment']) )
@@ -146,6 +147,8 @@ function &get_comment(&$comment, $output = OBJECT) {
 			$_comment = & $GLOBALS['comment'];
 		} elseif ( ! $_comment = wp_cache_get($comment, 'comment') ) {
 			$_comment = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment));
+			if ( ! $_comment )
+				return $null;
 			wp_cache_add($_comment->comment_ID, $_comment, 'comment');
 		}
 	}
