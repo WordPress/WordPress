@@ -1237,9 +1237,9 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		do_action( 'deleted_postmeta', $post_meta_ids );
 	}
 
-	do_action( 'delete_post', $post_id );
+	do_action( 'delete_post', $postid );
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
-	do_action( 'deleted_post', $post_id );
+	do_action( 'deleted_post', $postid );
 
 	if ( 'page' == $post->post_type ) {
 		clean_page_cache($postid);
