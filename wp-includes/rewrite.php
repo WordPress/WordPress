@@ -1060,6 +1060,8 @@ class WP_Rewrite {
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
 	function get_extra_permastruct($name) {
+		if ( empty($this->permalink_structure) )
+			return false;
 		if ( isset($this->extra_permastructs[$name]) )
 			return $this->extra_permastructs[$name];
 		return false;
