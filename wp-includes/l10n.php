@@ -207,6 +207,10 @@ function esc_attr_x( $single, $context, $domain = 'default' ) {
 	return esc_attr( translate_with_gettext_context( $single, $context, $domain ) );
 }
 
+function esc_html_x( $single, $context, $domain = 'default' ) {
+	return esc_html( translate_with_gettext_context( $single, $context, $domain ) );
+}
+
 function __ngettext() {
 	_deprecated_function( __FUNCTION__, '2.8', '_n()' );
 	$args = func_get_args();

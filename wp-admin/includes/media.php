@@ -1657,7 +1657,7 @@ jQuery(function($){
 <?php _e('Sort Order:'); ?>
 <a href="#" id="asc"><?php _e('Ascending'); ?></a> |
 <a href="#" id="desc"><?php _e('Descending'); ?></a> |
-<a href="#" id="clear"><?php _e('Clear'); ?></a>
+<a href="#" id="clear"><?php echo _x('Clear', 'verb'); ?></a>
 </div>
 <form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form validate" id="gallery-form">
 <?php wp_nonce_field('media-form'); ?>

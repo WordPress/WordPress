@@ -170,7 +170,7 @@ do_action('restrict_manage_posts');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="media-new.php" class="button add-new-h2"><?php esc_html_e('Add New'); ?></a> <?php
+<h2><?php echo esc_html( $title ); ?> <a href="media-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a> <?php
 if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
 </h2>

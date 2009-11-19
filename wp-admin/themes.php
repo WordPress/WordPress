@@ -127,7 +127,7 @@ function theme_update_available( $theme ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="theme-install.php" class="button add-new-h2"><?php esc_html_e('Add New'); ?></a></h2>
+<h2><?php echo esc_html( $title ); ?> <a href="theme-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a></h2>
 
 <h3><?php _e('Current Theme'); ?></h3>
 <div id="current-theme">
