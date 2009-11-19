@@ -867,11 +867,12 @@ function get_the_terms( $id = 0, $taxonomy ) {
 
  	$id = (int) $id;
 
-	if ( ! $id && ! in_the_loop() )
-		return false; // in-the-loop function
-
-	if ( !$id )
-		$id = (int) $post->ID;
+	if ( !$id ) {
+		if ( !$post->ID )
+			return false;
+		else
+			$id = (int) $post->ID;
+	}
 
 	$terms = get_object_term_cache( $id, $taxonomy );
 	if ( false === $terms )
