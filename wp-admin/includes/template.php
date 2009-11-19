@@ -3162,7 +3162,7 @@ function do_settings_fields($page, $section) {
 		else
 			echo '<th scope="row">' . $field['title'] . '</th>';
 		echo '<td>';
-		call_user_func($field['callback']);
+		call_user_func($field['callback'], $field['args']);
 		echo '</td>';
 		echo '</tr>';
 	}
