@@ -801,7 +801,7 @@ function link_advanced_meta_box($link) {
 		<th valign="top"  scope="row"><label for="link_rating"><?php _e('Rating') ?></label></th>
 		<td><select name="link_rating" id="link_rating" size="1">
 		<?php
-			for ($r = 0; $r < 10; $r++) {
+			for ($r = 0; $r <= 10; $r++) {
 				echo('            <option value="'. esc_attr($r) .'" ');
 				if ( isset($link->link_rating) && $link->link_rating == $r)
 					echo 'selected="selected"';
