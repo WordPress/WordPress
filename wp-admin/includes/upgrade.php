@@ -1709,7 +1709,7 @@ function pre_schema_upgrade() {
 	global $wp_current_db_version, $wp_db_version, $wpdb;
 
 	// Upgrade 2.9 development versions
-	if ( ( $wp_current_db_version > 11557 ) && ( $wp_current_db_version < 12217 ) ) {
+	if ( ( $wp_current_db_version >= 11557 ) && ( $wp_current_db_version < 12217 ) ) {
 		// Drop the option_id index. dbDelta() doesn't do the drop.
 		$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_id");
 
