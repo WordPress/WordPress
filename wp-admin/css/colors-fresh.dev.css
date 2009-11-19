@@ -10,7 +10,8 @@ html {
 textarea,
 input,
 select {
-	border-color: #DFDFDF;
+	border-color: #dfdfdf;
+	background-color: #fff;
 }
 
 kbd,

@@ -11,6 +11,7 @@ textarea,
 input,
 select {
 	border-color: #dfdfdf;
+	background-color: #fff;
 }
 
 kbd,
