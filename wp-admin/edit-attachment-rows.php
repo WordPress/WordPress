@@ -101,6 +101,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		}
 		if ( !$is_trash )
 			$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
+		$actions = apply_filters( 'media_row_actions', $actions, $post );
 		$action_count = count($actions);
 		$i = 0;
 		echo '<div class="row-actions">';
