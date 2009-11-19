@@ -1708,25 +1708,33 @@ function maybe_disable_automattic_widgets() {
 function pre_schema_upgrade() {
 	global $wp_current_db_version, $wp_db_version, $wpdb;
 
-	// Only run if less than 2.9
-	if ( $wp_current_db_version >= 11557 )
-		return;
+	// Upgrade 2.9 development versions
+	if ( ( $wp_current_db_version > 11557 ) && ( $wp_current_db_version < 12204 ) ) {
+		// Drop the option_id index. dbDelta() doesn't do the drop.
+		$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_id");
 
-	// Delete duplicate options.  Keep the option with the highest option_id.
-	$delete_options = $wpdb->get_col("SELECT o1.option_id FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 ON o2.option_name = o1.option_name AND o2.option_id > o1.option_id");
-	if ( !empty($delete_options) ) {
-		$delete_options = implode(',', $delete_options);
-		$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($delete_options)");
+		// Drop the old primary key and add the new.
+		$wpdb->query("ALTER TABLE $wpdb->options DROP PRIMARY KEY, ADD PRIMARY KEY(option_id)");
+
+		return;
 	}
 
-	// Add an index on option_id to satisfy the auto_increment requirement
-	$wpdb->query("ALTER TABLE $wpdb->options ADD INDEX option_id (option_id)");
+	// Upgrade versions prior to 2.9
+	if ( $wp_current_db_version < 11557 ) {
+		// Delete duplicate options.  Keep the option with the highest option_id.
+		$delete_options = $wpdb->get_col("SELECT o1.option_id FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 ON o2.option_name = o1.option_name AND o2.option_id > o1.option_id");
+		if ( !empty($delete_options) ) {
+			$delete_options = implode(',', $delete_options);
+			$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($delete_options)");
+		}
 
-	// Drop the old primary key. The new primary will be created by dbDelta()
-	$wpdb->query("ALTER TABLE $wpdb->options DROP PRIMARY KEY");
+		// Drop the old primary key and add the new.
+		$wpdb->query("ALTER TABLE $wpdb->options DROP PRIMARY KEY, ADD PRIMARY KEY(option_id)");
 
-	// Drop the old option_name index. dbDelta() doesn't do the drop.
-	$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_name");
+		// Drop the old option_name index. dbDelta() doesn't do the drop.
+		$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_name");
+	}
+
 }
 
 ?>
