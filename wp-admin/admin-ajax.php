@@ -91,6 +91,8 @@ case 'wp-compression-test' :
 		 	echo $test_str;
 		 	die;
 		 } elseif ( 2 == $_GET['test'] ) {
+			if ( !isset($_SERVER['HTTP_ACCEPT_ENCODING']) )
+				die('-1');
 			if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') && ! $force_gzip ) {
 				header('Content-Encoding: deflate');
 				$out = gzdeflate( $test_str, 1 );
