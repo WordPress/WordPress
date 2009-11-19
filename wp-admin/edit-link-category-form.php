@@ -79,7 +79,8 @@ _fill_empty_link_category($category);
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _e('Description (optional)') ?></label></th>
-			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea></td>
+			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea><br />
+			<span class="description"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></span></td>
 		</tr>
 		<?php do_action('edit_link_category_form_fields', $category); ?>
 	</table>

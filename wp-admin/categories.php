@@ -280,7 +280,7 @@ if ( $page_links )
 <div class="form-field">
 	<label for="category_description"><?php _e('Description') ?></label>
 	<textarea name="category_description" id="category_description" rows="5" cols="40"></textarea>
-    <p><?php _e('The description is not prominent by default, however some themes may show it.'); ?></p>
+    <p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
 <p class="submit"><input type="submit" class="button" name="submit" value="<?php esc_attr_e('Add Category'); ?>" /></p>

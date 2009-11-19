@@ -33,8 +33,7 @@ do_action('edit_tag_form_pre', $tag); ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Tag name') ?></label></th>
-			<td><input name="name" id="name" type="text" value="<?php if ( isset( $tag->name ) ) echo esc_attr($tag->name); ?>" size="40" aria-required="true" />
-            <p class="description"><?php _e('The name is how the tag appears on your site.'); ?></p></td>
+			<td><input name="name" id="name" type="text" value="<?php if ( isset( $tag->name ) ) echo esc_attr($tag->name); ?>" size="40" aria-required="true" /></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug') ?></label></th>
