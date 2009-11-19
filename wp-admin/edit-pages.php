@@ -198,7 +198,7 @@ $status_links[] = "<li><a href='edit-pages.php'$class>" . sprintf( _nx( 'All <sp
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
-	if ( !in_array($status, $avail_post_stati) )
+	if ( !in_array($status, $avail_post_stati) || $num_posts->$status <= 0 )
 		continue;
 
 	if ( isset( $_GET['post_status'] ) && $status == $_GET['post_status'] )
