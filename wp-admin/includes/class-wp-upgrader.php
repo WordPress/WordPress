@@ -468,7 +468,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$i = 1;
 		foreach ( $plugins as $plugin ) {
 
-			$this->show_before = sprintf( '<h4>' . __('Updating plugin %d of %d...') . '</h4>', $i, $all );
+			$this->show_before = sprintf( '<h4>' . __('Updating plugin %1$d of %2$d...') . '</h4>', $i, $all );
 			$i++;
 
 			if ( !isset( $current->response[ $plugin ] ) ) {
