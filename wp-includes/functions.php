@@ -2271,6 +2271,7 @@ function get_allowed_mime_types() {
 		'asf|asx|wax|wmv|wmx' => 'video/asf',
 		'avi' => 'video/avi',
 		'divx' => 'video/divx',
+		'flv' => 'video/x-flv',
 		'mov|qt' => 'video/quicktime',
 		'mpeg|mpg|mpe' => 'video/mpeg',
 		'txt|c|cc|h' => 'text/plain',
