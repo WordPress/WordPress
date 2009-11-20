@@ -1230,6 +1230,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		$delete = '';
 	}
 
+	$thumbnail = '';
 	if ( 'image' == $type && current_theme_supports( 'post-thumbnails' ) && get_post_image_id($_GET['post_id']) != $attachment_id )
 		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
 
@@ -1873,7 +1874,7 @@ foreach ($arc_result as $arc_row) {
 		continue;
 	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
 
-	if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
+	if ( isset($_GET['m']) && ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] ) )
 		$default = ' selected="selected"';
 	else
 		$default = '';

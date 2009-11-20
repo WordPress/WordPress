@@ -756,7 +756,7 @@ function _fix_attachment_links( $post_ID ) {
 
 function _fix_attachment_links_replace_cb($match) {
         global $_fix_attachment_link_id;
-        return stripslashes( 'href='.$m[1] ).get_attachment_link( $_fix_attachment_link_id ).stripslashes( $m[1] );
+        return stripslashes( 'href='.$match[1] ).get_attachment_link( $_fix_attachment_link_id ).stripslashes( $match[1] );
 }
 
 /**
