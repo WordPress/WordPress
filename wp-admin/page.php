@@ -150,7 +150,7 @@ case 'trash':
 
 	$post = & get_post($post_id);
 
-	if ( !current_user_can('delete_page', $page_id) )
+	if ( !current_user_can('delete_page', $post_id) )
 		wp_die( __('You are not allowed to move this page to the trash.') );
 
 	if ( !wp_trash_post($post_id) )
@@ -172,7 +172,7 @@ case 'untrash':
 
 	$post = & get_post($post_id);
 
-	if ( !current_user_can('delete_page', $page_id) )
+	if ( !current_user_can('delete_page', $post_id) )
 		wp_die( __('You are not allowed to move this page out of the trash.') );
 
 	if ( !wp_untrash_post($post_id) )
