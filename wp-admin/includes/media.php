@@ -1040,7 +1040,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'label'      => __('File URL'),
 			'input'      => 'html',
 			'html'       => "<input type='text' class='text urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . esc_attr($image_url) . "' /><br />",
-			'value'      => isset($edit_post->post_url) ? $edit_post->post_url : wp_get_attachment_url($post->ID),
+			'value'      => wp_get_attachment_url($post->ID),
 			'helps'      => __('Location of the uploaded file.')
 		)
 	);
