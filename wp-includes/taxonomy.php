@@ -2224,7 +2224,7 @@ function get_term_link( $term, $taxonomy ) {
 			$termlink = "$file?taxonomy=$taxonomy&term=$slug";
 	} else {
 		$termlink = str_replace("%$taxonomy%", $slug, $termlink);
-		$termlink = trailingslashit( get_option('home') ) . user_trailingslashit($termlink, 'category');
+		$termlink = get_option('home') . user_trailingslashit($termlink, 'category');
 	}
 	return apply_filters('term_link', $termlink, $term, $taxonomy);
 }
