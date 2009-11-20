@@ -8,8 +8,9 @@
  * file.
  *
  * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
- * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and disables compression and concatenation
- * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation,
+ * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and disables compression and concatenation,
+ * define('STYLE_DEBUG', true); loads the development (non-minified) versions of all CSS and disables compression and concatenation,
+ * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation of scripts and CSS,
  * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
  * define('COMPRESS_CSS', false); disables compression of CSS,
  * define('ENFORCE_GZIP', true); forces gzip for compression (default is deflate).
