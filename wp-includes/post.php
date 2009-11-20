@@ -1504,12 +1504,12 @@ function wp_get_recent_posts($num = 10) {
 
 	// Set the limit clause, if we got a limit
 	$num = (int) $num;
-	if ($num) {
+	if ( $num ) {
 		$limit = "LIMIT $num";
 	}
 
-	$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC $limit";
-	$result = $wpdb->get_results($sql,ARRAY_A);
+	$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'post' AND post_status IN ( 'draft', 'publish', 'future', 'pending', 'private' ) ORDER BY post_date DESC $limit";
+	$result = $wpdb->get_results($sql, ARRAY_A);
 
 	return $result ? $result : array();
 }
