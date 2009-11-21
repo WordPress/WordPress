@@ -493,7 +493,7 @@ function wp_allow_comment($commentdata) {
 
 	// Simple duplicate check
 	// expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
-	$dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND ( comment_author = '$comment_author' ";
+	$dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND comment_approved != 'trash' AND ( comment_author = '$comment_author' ";
 	if ( $comment_author_email )
 		$dupe .= "OR comment_author_email = '$comment_author_email' ";
 	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
