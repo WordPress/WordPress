@@ -127,10 +127,18 @@ function get_page_templates() {
 	$themes = get_themes();
 	$theme = get_current_theme();
 	$templates = $themes[$theme]['Template Files'];
-	$page_templates = array ();
+	$page_templates = array();
 
 	if ( is_array( $templates ) ) {
+		$base = array( trailingslashit(get_template_directory()), trailingslashit(get_stylesheet_directory()) );
+
 		foreach ( $templates as $template ) {
+			$basename = str_replace($base, '', $template);
+
+			// don't allow template files in subdirectories
+			if ( false !== strpos($basename, '/') )
+				continue;
+
 			$template_data = implode( '', file( $template ));
 
 			$name = '';
@@ -138,7 +146,7 @@ function get_page_templates() {
 				$name = _cleanup_header_comment($name[1]);
 
 			if ( !empty( $name ) ) {
-				$page_templates[trim( $name )] = basename( $template ); ;
+				$page_templates[trim( $name )] = $basename;
 			}
 		}
 	}
