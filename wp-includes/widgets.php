@@ -126,19 +126,23 @@ class WP_Widget {
 
 	function _register() {
 		$settings = $this->get_settings();
+		$empty = true;
 
-		if ( empty($settings) ) {
-			// If there are none, we register the widget's existance with a
-			// generic template
-			$this->_set(1);
-			$this->_register_one();
-		} elseif ( is_array($settings) ) {
+		if ( is_array($settings) ) {
 			foreach ( array_keys($settings) as $number ) {
 				if ( is_numeric($number) ) {
 					$this->_set($number);
 					$this->_register_one($number);
+					$empty = false;
 				}
 			}
+		}
+
+		if ( $empty ) {
+			// If there are none, we register the widget's existance with a
+			// generic template
+			$this->_set(1);
+			$this->_register_one();
 		}
 	}
 
