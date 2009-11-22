@@ -164,6 +164,7 @@ function wp_install_defaults($user_id) {
 								'post_date_gmt' => $now_gmt,
 								'post_content' => sprintf(__('
 Welcome to WordPress!  This post contains important information.  After you read it, you can make it private to hide it from visitors but still have the information handy for future reference.
+
 First things first:
 <ul>
 <li><a href="%1$s" title="Subscribe to the WordPress mailing list for Release Notifications">Subscribe to the WordPress mailing list for release notifications</a></li>
@@ -171,6 +172,7 @@ First things first:
 As a subscriber, you will receive an email every time an update is available (and only then).  This will make it easier to keep your site up to date, and secure from evildoers.
 When a new version is released, <a href="%2$s" title="If you are already logged in, this will take you directly to the Dashboard">log in to the Dashboard</a> and follow the instructions.
 Upgrading is a couple of clicks!
+
 Then you can start enjoying the WordPress experience:
 <ul>
 <li>Edit your personal information at <a href="%3$s" title="Edit settings like your password, your display name and your contact information">Users &#8250; Your Profile</a></li>
@@ -182,7 +184,9 @@ Then you can start enjoying the WordPress experience:
 <li>Find answers to your questions at the <a href="%10$s" title="The official WordPress documentation, maintained by the WordPress community">WordPress Codex</a></li>
 </ul>
 To keep this post for reference, <a href="%11$s" title="Click to edit the content and settings of this post">click to edit it</a>, go to the Publish box and change its Visibility from Public to Private.
+
 Thank you for selecting WordPress.  We wish you happy publishing!
+
 PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscribe to the WordPress mailing list for Release Notifications">Do it now!</a>
 '), _c('http://wordpress.org/download/','url for release notification mailing list subscription.'), admin_url(''), admin_url('profile.php'), admin_url('post-new.php'), admin_url('page-new.php'),
 admin_url('plugin-install.php'), admin_url('theme-install.php'), admin_url('options-permalink.php'), admin_url('import.php'), _c('http://codex.wordpress.org','url for codex documentation.'), admin_url('post.php?action=edit&post=1')),
