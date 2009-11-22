@@ -69,7 +69,7 @@ function redirect_post($post_ID = '') {
 		$location = add_query_arg( 'message', 4, get_edit_post_link( $post_ID, 'url' ) );
 	}
 
-	wp_redirect( $location );
+	wp_redirect( apply_filters( 'redirect_post_location', $location, $post_ID ) );
 }
 
 if ( isset( $_POST['deletepost'] ) )
