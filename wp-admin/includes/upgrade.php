@@ -188,8 +188,8 @@ To keep this post for reference, <a href="%11$s" title="Click to edit the conten
 Thank you for selecting WordPress.  We wish you happy publishing!
 
 PS.  Not yet subscribed for update notifications?  <a href="%1$s" title="Subscribe to the WordPress mailing list for Release Notifications">Do it now!</a>
-'), _x('http://wordpress.org/download/','url for release notification mailing list subscription.'), admin_url(''), admin_url('profile.php'), admin_url('post-new.php'), admin_url('page-new.php'),
-admin_url('plugin-install.php'), admin_url('theme-install.php'), admin_url('options-permalink.php'), admin_url('import.php'), _x('http://codex.wordpress.org','url for codex documentation.'), admin_url('post.php?action=edit&post=1')),
+'), esc_attr_x('http://wordpress.org/download/','url for release notification mailing list subscription.'), admin_url(''), admin_url('profile.php'), admin_url('post-new.php'), admin_url('page-new.php'),
+admin_url('plugin-install.php'), admin_url('theme-install.php'), admin_url('options-permalink.php'), admin_url('import.php'), esc_attr_x('http://codex.wordpress.org','url for codex documentation.'), admin_url('post.php?action=edit&post=1')),
 								'post_excerpt' => '',
 								'post_title' => __('Welcome!'),
 								/* translators: Default post slug */
