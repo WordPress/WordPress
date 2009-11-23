@@ -3695,7 +3695,7 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
  */
 function wp_save_post_revision( $post_id ) {
 	// We do autosaves manually with wp_create_post_autosave()
-	if ( @constant( 'DOING_AUTOSAVE' ) )
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		return;
 
 	// WP_POST_REVISIONS = 0, false
