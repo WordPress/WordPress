@@ -82,8 +82,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		//Set the Connection to use Passive FTP
 		@ftp_pasv( $this->link, true );
-		if ( @ftp_get_option($this->link, FTP_TIMEOUT_SEC) < FTP_TIMEOUT )
-			@ftp_set_option($this->link, FTP_TIMEOUT_SEC, FTP_TIMEOUT);
+		if ( @ftp_get_option($this->link, FTP_TIMEOUT_SEC) < FS_TIMEOUT )
+			@ftp_set_option($this->link, FTP_TIMEOUT_SEC, FS_TIMEOUT);
 
 		return true;
 	}

@@ -738,9 +738,9 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 		unset($credentials['port']);
 	}
 
-	if ( defined('FTP_SSH') || (defined('FS_METHOD') && 'ssh' == FS_METHOD) )
+	if ( (defined('FTP_SSH') && FTP_SSH) || (defined('FS_METHOD') && 'ssh' == FS_METHOD) )
 		$credentials['connection_type'] = 'ssh';
-	else if ( defined('FTP_SSL') && 'ftpext' == $type ) //Only the FTP Extension understands SSL
+	else if ( (defined('FTP_SSL') && FTP_SSL) && 'ftpext' == $type ) //Only the FTP Extension understands SSL
 		$credentials['connection_type'] = 'ftps';
 	else if ( !empty($_POST['connection_type']) )
 		$credentials['connection_type'] = stripslashes($_POST['connection_type']);
@@ -837,7 +837,7 @@ jQuery(function($){
 <fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>
 <?php
 
-	$disabled = defined('FTP_SSL') || defined('FTP_SSH') ? '' : ' disabled="disabled"';
+	$disabled = (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH) ? ' disabled="disabled"' : '';
 
 	foreach ( $types as $name => $text ) : ?>
 	<label for="<?php echo esc_attr($name) ?>">
