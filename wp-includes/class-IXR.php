@@ -153,34 +153,41 @@ class IXR_Message {
     var $_currentTagContents;
     // The XML parser
     var $_parser;
-    function IXR_Message ($message) {
-        $this->message = $message;
+    function IXR_Message (&$message) {
+        $this->message = &$message;
     }
     function parse() {
-        // first remove the XML declaration
-        $this->message = preg_replace('/<\?xml.*?\?'.'>/', '', $this->message);
+		// first remove the XML declaration
+		// this method avoids the RAM usage of preg_replace on very large messages
+		$header = preg_replace( '/<\?xml.*?\?'.'>/', '', substr( $this->message, 0, 100 ), 1 );
+		$this->message = substr_replace($this->message, $header, 0, 100);
         if (trim($this->message) == '') {
             return false;
-        }
+		}
         $this->_parser = xml_parser_create();
         // Set XML parser to take the case of tags in to account
         xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, false);
         // Set XML parser callback functions
         xml_set_object($this->_parser, $this);
         xml_set_element_handler($this->_parser, 'tag_open', 'tag_close');
-        xml_set_character_data_handler($this->_parser, 'cdata');
-        if (!xml_parse($this->_parser, $this->message)) {
-            /* die(sprintf('XML error: %s at line %d',
-                xml_error_string(xml_get_error_code($this->_parser)),
-                xml_get_current_line_number($this->_parser))); */
-            return false;
-        }
-        xml_parser_free($this->_parser);
+		xml_set_character_data_handler($this->_parser, 'cdata');
+		$chunk_size = 262144; // 256Kb, parse in chunks to avoid the RAM usage on very large messages
+		do {
+			if ( strlen($this->message) <= $chunk_size )
+				$final=true;
+			$part = substr( $this->message, 0, $chunk_size );
+			$this->message = substr( $this->message, $chunk_size );
+			if ( !xml_parse( $this->_parser, $part, $final ) )
+				return false;
+			if ( $final )
+				break;
+		} while ( true );
+		xml_parser_free($this->_parser);
         // Grab the error messages, if any
         if ($this->messageType == 'fault') {
             $this->faultCode = $this->params[0]['faultCode'];
             $this->faultString = $this->params[0]['faultString'];
-        }
+		}
         return true;
     }
     function tag_open($parser, $tag, $attr) {
@@ -304,7 +311,7 @@ class IXR_Server {
                header( 'Content-Type: text/plain' );
                die('XML-RPC server accepts POST requests only.');
             }
-            $data = $HTTP_RAW_POST_DATA;
+            $data = &$HTTP_RAW_POST_DATA;
         }
         $this->message = new IXR_Message($data);
         if (!$this->message->parse()) {
