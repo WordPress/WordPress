@@ -258,7 +258,7 @@ function register_new_user($user_login, $user_email) {
 
 	do_action('register_post', $user_login, $user_email, $errors);
 
-	$errors = apply_filters( 'registration_errors', $errors );
+	$errors = apply_filters( 'registration_errors', $errors, $user_login, $user_email );
 
 	if ( $errors->get_error_code() )
 		return $errors;
