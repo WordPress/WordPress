@@ -1717,19 +1717,37 @@ class WP_Rewrite {
 	 *
 	 * @return string
 	 */
-	function iis7_url_rewrite_rules(){
+	function iis7_url_rewrite_rules($add_parent_tags = false, $indent = "  ", $end_of_line = "\n") {
 
 		if ( ! $this->using_permalinks()) {
 			return '';
 		}
-		$rules  = "<rule name=\"wordpress\" patternSyntax=\"Wildcard\">\n";
-		$rules .= "	<match url=\"*\" />\n";
-		$rules .= "	<conditions>\n";
-		$rules .= "		<add input=\"{REQUEST_FILENAME}\" matchType=\"IsFile\" negate=\"true\" />\n";
-		$rules .= "		<add input=\"{REQUEST_FILENAME}\" matchType=\"IsDirectory\" negate=\"true\" />\n";
-		$rules .= "	</conditions>\n";
-		$rules .= "	<action type=\"Rewrite\" url=\"index.php\" />\n";
-		$rules .= "</rule>";
+		
+		$rules = '';
+		$extra_indent = '';
+		if ( $add_parent_tags ) {
+			$rules .= "<configuration>".$end_of_line;
+			$rules .= $indent."<system.webServer>".$end_of_line;
+			$rules .= $indent.$indent."<rewrite>".$end_of_line;
+			$rules .= $indent.$indent.$indent."<rules>".$end_of_line;
+			$extra_indent = $indent.$indent.$indent.$indent;
+		}
+		
+		$rules .= $extra_indent."<rule name=\"wordpress\" patternSyntax=\"Wildcard\">".$end_of_line;
+		$rules .= $extra_indent.$indent."<match url=\"*\" />".$end_of_line;
+		$rules .= $extra_indent.$indent.$indent."<conditions>".$end_of_line;
+		$rules .= $extra_indent.$indent.$indent.$indent."<add input=\"{REQUEST_FILENAME}\" matchType=\"IsFile\" negate=\"true\" />".$end_of_line;
+		$rules .= $extra_indent.$indent.$indent.$indent."<add input=\"{REQUEST_FILENAME}\" matchType=\"IsDirectory\" negate=\"true\" />".$end_of_line;
+		$rules .= $extra_indent.$indent.$indent."</conditions>".$end_of_line;
+		$rules .= $extra_indent.$indent."<action type=\"Rewrite\" url=\"index.php\" />".$end_of_line;
+		$rules .= $extra_indent."</rule>";
+		
+		if ( $add_parent_tags ) {
+			$rules .= $end_of_line.$indent.$indent.$indent."</rules>".$end_of_line;
+			$rules .= $indent.$indent."</rewrite>".$end_of_line;
+			$rules .= $indent."</system.webServer>".$end_of_line;
+			$rules .= "</configuration>";
+		}
 
 		$rules = apply_filters('iis7_url_rewrite_rules', $rules);
 
