@@ -1610,7 +1610,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$previous_status = 'new';
 	}
 
-	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) ) {
+	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) && ('attachment' != $post_type) ) {
 		if ( $wp_error )
 			return new WP_Error('empty_content', __('Content, title, and excerpt are empty.'));
 		else
