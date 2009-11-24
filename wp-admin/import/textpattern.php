@@ -397,33 +397,24 @@ class Textpattern_Import {
 				$web = $wpdb->escape($web);
 				$message = $wpdb->escape($message);
 
-				if($cinfo = comment_exists($name, $posted))
-				{
+				$comment = array(
+							'comment_post_ID'	=> $comment_post_ID,
+							'comment_author'	=> $name,
+							'comment_author_IP'	=> $ip,
+							'comment_author_email'	=> $email,
+							'comment_author_url'	=> $web,
+							'comment_date'		=> $posted,
+							'comment_content'	=> $message,
+							'comment_approved'	=> $comment_approved);
+				$comment = wp_filter_comment($comment);
+
+				if ( $cinfo = comment_exists($name, $posted) ) {
 					// Update comments
-					$ret_id = wp_update_comment(array(
-						'comment_ID'			=> $cinfo,
-						'comment_post_ID'		=> $comment_post_ID,
-						'comment_author'		=> $name,
-						'comment_author_email'	=> $email,
-						'comment_author_url'	=> $web,
-						'comment_date'			=> $posted,
-						'comment_content'		=> $message,
-						'comment_approved'		=> $comment_approved)
-						);
-				}
-				else
-				{
+					$comment['comment_ID'] = $cinfo;
+					$ret_id = wp_update_comment($comment);
+				} else {
 					// Insert comments
-					$ret_id = wp_insert_comment(array(
-						'comment_post_ID'		=> $comment_post_ID,
-						'comment_author'		=> $name,
-						'comment_author_email'	=> $email,
-						'comment_author_url'	=> $web,
-						'comment_author_IP'		=> $ip,
-						'comment_date'			=> $posted,
-						'comment_content'		=> $message,
-						'comment_approved'		=> $comment_approved)
-						);
+					$ret_id = wp_insert_comment($comment);
 				}
 				$txpcm2wpcm[$comment_ID] = $ret_id;
 			}

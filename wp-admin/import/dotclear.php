@@ -413,36 +413,25 @@ class Dotclear_Import {
 				$web = "http://".$wpdb->escape($comment_site);
 				$message = $wpdb->escape(textconv ($comment_content));
 
-				if($cinfo = comment_exists($name, $comment_dt))
-				{
+				$comment = array(
+							'comment_post_ID'	=> $comment_post_ID,
+							'comment_author'	=> $name,
+							'comment_author_email'	=> $email,
+							'comment_author_url'	=> $web,
+							'comment_author_IP'	=> $comment_ip,
+							'comment_date'		=> $comment_dt,
+							'comment_date_gmt'	=> $comment_dt,
+							'comment_content'	=> $message,
+							'comment_approved'	=> $comment_approved);
+				$comment = wp_filter_comment($comment);
+
+				if ( $cinfo = comment_exists($name, $comment_dt) ) {
 					// Update comments
-					$ret_id = wp_update_comment(array(
-							'comment_ID'		=> $cinfo,
-							'comment_post_ID'	=> $comment_post_ID,
-							'comment_author'	=> $name,
-							'comment_author_email'	=> $email,
-							'comment_author_url'	=> $web,
-							'comment_author_IP'	=> $comment_ip,
-							'comment_date'		=> $comment_dt,
-							'comment_date_gmt'	=> $comment_dt,
-							'comment_content'	=> $message,
-							'comment_approved'	=> $comment_approved)
-							);
-				}
-				else
-				{
+					$comment['comment_ID'] = $cinfo;
+					$ret_id = wp_update_comment($comment);
+				} else {
 					// Insert comments
-					$ret_id = wp_insert_comment(array(
-							'comment_post_ID'	=> $comment_post_ID,
-							'comment_author'	=> $name,
-							'comment_author_email'	=> $email,
-							'comment_author_url'	=> $web,
-							'comment_author_IP'	=> $comment_ip,
-							'comment_date'		=> $comment_dt,
-							'comment_date_gmt'	=> $comment_dt,
-							'comment_content'	=> $message,
-							'comment_approved'	=> $comment_approved)
-							);
+					$ret_id = wp_insert_comment($comment);
 				}
 				$dccm2wpcm[$comment_ID] = $ret_id;
 			}

@@ -535,6 +535,7 @@ class LJ_API_Import {
 
 				// Parse this comment into an array and insert
 				$comment = $this->parse_comment( $comment );
+				$comment = wp_filter_comment( $comment );
 				$id = wp_insert_comment( $comment );
 
 				// Clear cache

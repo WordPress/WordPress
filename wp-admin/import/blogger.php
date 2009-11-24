@@ -622,6 +622,7 @@ class Blogger_Import {
 		} else {
 			$comment = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_date', 'comment_content');
 
+			$comment = wp_filter_comment($comment);
 			$comment_id = wp_insert_comment($comment);
 
 			$this->blogs[$importing_blog]['comments'][$entry->old_permalink] = $comment_id;
