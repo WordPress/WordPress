@@ -574,6 +574,7 @@ class WP_Import {
 			// if this is a new post we can skip the comment_exists() check
 			if ( !$post_exists || !comment_exists($comment_author, $comment_date) ) {
 				$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_approved', 'comment_type', 'comment_parent');
+				$commentdata = wp_filter_comment($commentdata);
 				wp_insert_comment($commentdata);
 				$num_comments++;
 			}
