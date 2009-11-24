@@ -184,7 +184,7 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <?php do_action('post_submitbox_start'); ?>
 <div id="delete-action">
 <?php
-if ( current_user_can("delete_${post_type}", $post->ID) ) {
+if ( ( 'edit' == $action ) && current_user_can("delete_${post_type}", $post->ID) ) {
 	if ( !EMPTY_TRASH_DAYS ) {
 		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'delete', 'post' => $post->ID) ), "delete-${post_type}_{$post->ID}" );
 		$delete_text = __('Delete Permanently');
