@@ -177,14 +177,14 @@ function _cat_row( $category, $level, $name_override = false ) {
 				$output .= "<td $attributes>$edit";
 				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 				$output .= '<div class="name">' . $qe_data->name . '</div>';
-				$output .= '<div class="slug">' . $qe_data->slug . '</div>';
+				$output .= '<div class="slug">' . apply_filters('editable_slug', $qe_data->slug) . '</div>';
 				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
 				break;
 			case 'slug':
-				$output .= "<td $attributes>$category->slug</td>";
+				$output .= "<td $attributes>" . apply_filters('editable_slug', $category->slug) . "</td>";
 				break;
 			case 'posts':
 				$attributes = 'class="posts column-posts num"' . $style;
@@ -347,14 +347,14 @@ function link_cat_row( $category, $name_override = false ) {
 				$output .= "<td $attributes>$edit";
 				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 				$output .= '<div class="name">' . $qe_data->name . '</div>';
-				$output .= '<div class="slug">' . $qe_data->slug . '</div>';
+				$output .= '<div class="slug">' . apply_filters('editable_slug', $qe_data->slug) . '</div>';
 				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
 				break;
 			case 'slug':
-				$output .= "<td $attributes>$category->slug</td>";
+				$output .= "<td $attributes>" . apply_filters('editable_slug', $category->slug) . "</td>";
 				break;
 			case 'links':
 				$attributes = 'class="links column-links num"' . $style;
@@ -681,13 +681,13 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					$out .= '</div>';
 					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 					$out .= '<div class="name">' . $qe_data->name . '</div>';
-					$out .= '<div class="slug">' . $qe_data->slug . '</div></div></td>';
+					$out .= '<div class="slug">' . apply_filters('editable_slug', $qe_data->slug) . '</div></div></td>';
 					break;
 				case 'description':
 					$out .= "<td $attributes>$tag->description</td>";
 					break;
 				case 'slug':
-					$out .= "<td $attributes>$tag->slug</td>";
+					$out .= "<td $attributes>" . apply_filters('editable_slug', $tag->slug) . "</td>";
 					break;
 				case 'posts':
 					$attributes = 'class="posts column-posts num"' . $style;
@@ -1295,7 +1295,7 @@ function get_inline_data($post) {
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
 	<div class="post_title">' . $title . '</div>
-	<div class="post_name">' . $post->post_name . '</div>
+	<div class="post_name">' . apply_filters('editable_slug', $post->post_name) . '</div>
 	<div class="post_author">' . $post->post_author . '</div>
 	<div class="comment_status">' . $post->comment_status . '</div>
 	<div class="ping_status">' . $post->ping_status . '</div>
