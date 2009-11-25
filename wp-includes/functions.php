@@ -2105,11 +2105,11 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 
 	// separate the filename into a name and extension
 	$info = pathinfo($filename);
-	$ext = !empty($info['extension']) ? $info['extension'] : '';
-	$name = basename($filename, ".{$ext}");
+	$ext = !empty($info['extension']) ? '.' . $info['extension'] : '';
+	$name = basename($filename, $ext);
 
 	// edge case: if file is named '.ext', treat as an empty name
-	if( $name === ".$ext" )
+	if( $name === $ext )
 		$name = '';
 
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
@@ -2118,8 +2118,20 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	} else {
 		$number = '';
 
-		if ( !empty( $ext ) )
-			$ext = ".$ext";
+		// change '.ext' to lower case
+		if ( $ext && strtolower($ext) != $ext ) {
+			$ext2 = strtolower($ext);
+			$filename2 = preg_replace( '|' . preg_quote($ext) . '$|', $ext2, $filename );
+
+			// check for both lower and upper case extension or image sub-sizes may be overwritten
+			while ( file_exists($dir . "/$filename") || file_exists($dir . "/$filename2") ) {
+				$new_number = $number + 1;
+				$filename = str_replace( "$number$ext", "$new_number$ext", $filename );
+				$filename2 = str_replace( "$number$ext2", "$new_number$ext2", $filename2 );
+				$number = $new_number;
+			}
+			return $filename2;
+		}
 
 		while ( file_exists( $dir . "/$filename" ) ) {
 			if ( '' == "$number$ext" )
