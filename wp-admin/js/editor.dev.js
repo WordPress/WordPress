@@ -31,10 +31,8 @@ var switchEditors = {
 			return a.replace(/<\/?p( [^>]*)?>[\r\n]*/g, '<wp_temp>');
 		});
 
-		content = content.replace(/<p>[\s\u00a0]*<\/p>/g, '<wp_empty_p>');
-
 		// Pretty it up for the source editor
-		blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|div|h[1-6]|p';
+		blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|div|h[1-6]|p|fieldset';
 		content = content.replace(new RegExp('\\s*</('+blocklist1+')>\\s*', 'g'), '</$1>\n');
 		content = content.replace(new RegExp('\\s*<(('+blocklist1+')[^>]*)>', 'g'), '\n<$1>');
 
@@ -56,7 +54,7 @@ var switchEditors = {
 		content = content.replace(/\s*\[caption([^\[]+)\[\/caption\]\s*/gi, '\n\n[caption$1[/caption]\n\n');
 		content = content.replace(/caption\]\n\n+\[caption/g, 'caption]\n\n[caption');
 
-		blocklist2 = 'blockquote|ul|ol|li|table|thead|tfoot|tr|th|td|h[1-6]|pre';
+		blocklist2 = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|h[1-6]|pre|fieldset';
 		content = content.replace(new RegExp('\\s*<(('+blocklist2+') ?[^>]*)\\s*>', 'g'), '\n<$1>');
 		content = content.replace(new RegExp('\\s*</('+blocklist2+')>\\s*', 'g'), '</$1>\n');
 		content = content.replace(/<li([^>]*)>/g, '\t<li$1>');
@@ -77,7 +75,6 @@ var switchEditors = {
 
 		// put back the line breaks in pre|script
 		content = content.replace(/<wp_temp>/g, '\n');
-		content = content.replace(/<wp_empty_p>\s*/g, '<p>&nbsp;</p>\n\n');
 
 		return content;
 	},
@@ -132,7 +129,7 @@ var switchEditors = {
 	},
 
 	_wp_Autop : function(pee) {
-		var blocklist = 'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]';
+		var blocklist = 'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend';
 
 		if ( pee.indexOf('<object') != -1 ) {
 			pee = pee.replace(/<object[\s\S]+?<\/object>/g, function(a){
@@ -163,6 +160,13 @@ var switchEditors = {
 		pee = pee.replace(/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)/gi, '$1');
 		pee = pee.replace(/(?:<p>|<br ?\/?>)*\s*\[caption([^\[]+)\[\/caption\]\s*(?:<\/p>|<br ?\/?>)*/gi, '[caption$1[/caption]');
 
+		pee = pee.replace(/(<(?:div|th|td|form|fieldset|dd)[^>]*>)(.*?)<\/p>/g, function(a, b, c) {
+			if ( c.match(/<p( [^>]+)?>/) )
+				return a;
+
+			return b + '<p>' + c + '</p>';
+		});
+
 		// Fix the pre|script tags
 		pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
 			a = a.replace(/<br ?\/?>[\r\n]*/g, '\n');
@@ -171,7 +175,7 @@ var switchEditors = {
 
 		return pee;
 	},
-	
+
 	pre_wpautop : function(content) {
 		var t = this, o = { o: t, data: content, unfiltered: content };
 
@@ -180,7 +184,7 @@ var switchEditors = {
 		jQuery('body').trigger('afterPreWpautop', [o]);
 		return o.data;
 	},
-	
+
 	wpautop : function(pee) {
 		var t = this, o = { o: t, data: pee, unfiltered: pee };
 
