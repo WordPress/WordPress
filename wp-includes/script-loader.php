@@ -165,8 +165,17 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), '20090102' );
 	$scripts->add_data( 'jquery-table-hotkeys', 'group', 1 );
 
-	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20091117');
+	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20091124');
 	$scripts->add_data( 'thickbox', 'group', 1 );
+	$scripts->localize( 'thickbox', 'thickboxL10n', array(
+			'next' => __('Next &gt;'),
+			'prev' => __('&lt; Prev'),
+			'image' => __('Image'),
+			'of' => __('of'),
+			'close' => __('Close'),
+			'l10n_print_after' => 'try{convertEntities(thickboxL10n);}catch(e){};'
+	) );
+	
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.8');
 
