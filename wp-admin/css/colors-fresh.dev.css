@@ -629,8 +629,8 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 	color: #d98500;
 }
 
-table.widefat .delete a,
-table.widefat .trash a,
+table.widefat span.delete a,
+table.widefat span.trash a,
 #dashboard_recent_comments .delete a,
 #dashboard_recent_comments .trash a {
 	color: #bc0b0b;
@@ -1672,10 +1672,6 @@ div.widgets-sortables,
 	background-color: #cacaca;
 	filter: alpha(opacity=40);
 	opacity: 0.4;
-}
-
-.trash-undo {
-	background-color: #ebffe0;
 }
 
 #dashboard_recent_comments .trash-undo {

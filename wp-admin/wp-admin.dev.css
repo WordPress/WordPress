@@ -3520,11 +3520,20 @@ span.imgedit-scale-warn {
 	border-top-style: solid;
 	border-top-width: 1px;
 	margin: 0 -10px;
-	padding: 3px;
+	padding: 3px 8px;
+	font-size: 11px;
 }
 
 .trash-undo-inside {
-	margin: 3px 8px;
+	margin: 1px 8px 1px 0;
+	line-height: 16px;
+}
+
+.trash-undo-inside .avatar {
+	height: 20px;
+	width: 20px;
+	margin-right: 8px;
+	vertical-align: middle;
 }
 
 /* tag hints */

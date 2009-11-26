@@ -114,7 +114,7 @@ function prepareMediaItemInit(fileObj) {
 				jQuery('.filename .trashnotice', item).remove();
 				jQuery('a.undo', item).addClass('hidden');
 				jQuery('a.describe-toggle-on, .menu_order_input', item).show();
-				item.animate( {backgroundColor: '#fff'}, { queue: false, duration: 200, complete: function(){ jQuery(this).css({backgroundColor:''}); } });
+				item.animate( {backgroundColor: '#fff'}, { queue: false, duration: 300, complete: function(){ jQuery(this).css({backgroundColor:''}); } }).removeClass('trash-undo');
 			}
 		});
 		return false;
@@ -153,13 +153,13 @@ function deleteSuccess(data, textStatus) {
 	// Vanish it.
 	jQuery('.toggle', item).toggle();
 	jQuery('.slidetoggle', item).slideUp(200).siblings().removeClass('hidden');
-	item.css( {backgroundColor:'#fff'} ).animate( {backgroundColor:'#ffc0c0'}, {queue:false, duration:500} );
+	item.css( {backgroundColor:'#fff'} ).animate( {backgroundColor:'#ffffe0'}, {queue:false, duration:500} ).addClass('trash-undo');
 
 	jQuery('.filename:empty', item).remove();
 	jQuery('.filename', item).append('<span class="trashnotice"> ' + swfuploadL10n.deleted + ' </span>').siblings('a.toggle').hide();
 	jQuery('.filename', item).append( jQuery('a.undo', item).removeClass('hidden') );
 	jQuery('.menu_order_input', item).hide();
-
+	
 	return;
 }
 

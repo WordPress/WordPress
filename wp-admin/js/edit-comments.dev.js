@@ -32,7 +32,7 @@ setCommentsList = function() {
 
 	// Send current total, page, per_page and url
 	delBefore = function( settings, list ) {
-		var cl = $(settings.target).attr('className'), id, el, n, h, a, to, author;
+		var cl = $(settings.target).attr('className'), id, el, n, h, a, author;
 
 		settings.data._total = totalInput.val() || 0;
 		settings.data._per_page = perPageInput.val() || 0;
@@ -49,19 +49,20 @@ setCommentsList = function() {
 
 			if ( el.is('tr') ) {
 				n = el.children(':visible').length;
-				author = $('.author strong', el).html();
-				h = $('<tr id="trashundo-' + id + '" style="display:none;"><td class="trash-undo" colspan="' + n + '">' + note + '</td></tr>');
+				author = $('.author strong', el).text();
+				h = $('<tr id="trashundo-' + id + '" class="trash-undo" style="display:none;"><td colspan="' + n + '">' + note + '</td></tr>');
 			} else {
-				author = $('.comment-author', el).html();
+				author = $('.comment-author', el).text();
 				h = $('<div id="trashundo-' + id + '" style="display:none;" class="trash-undo">' + note + '</div>');
 			}
 
 			el.before(h);
 
-			$('strong', '#trashundo-' + id).html(author + ' ');
+			$('strong', '#trashundo-' + id).text(author + ' ');
 			a = $('a.undo-trash', '#trashundo-' + id);
 			a.attr('href', 'comment.php?action=untrashcomment&c=' + id + '&_ajax_nonce=' + settings.data._ajax_nonce);
 			a.attr('className', 'delete:the-comment-list:comment-' + id + '::untrash=1 vim-z vim-destructive');
+			$('.avatar', el).clone().prependTo('#trashundo-' + id + ' .trash-undo-inside');
 
 			a.click(function(){
 				list.wpList.del(this);
@@ -71,13 +72,6 @@ setCommentsList = function() {
 				});
 				return false;
 			});
-
-			if ( to )
-				window.clearTimeout(to);
-
-			to = window.setTimeout( function(){
-				$('#trashundo-' + id).fadeOut('slow', function(){ $(this).remove(); });
-			}, 7000 );
 		}
 
 		return settings;
