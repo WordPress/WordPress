@@ -17,7 +17,7 @@ require( dirname(__FILE__) . '/wp-load.php' );
 
 nocache_headers();
 
-$comment_post_ID = (int) $_POST['comment_post_ID'];
+$comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post_ID'] : 0;
 
 $status = $wpdb->get_row( $wpdb->prepare("SELECT post_status, comment_status FROM $wpdb->posts WHERE ID = %d", $comment_post_ID) );
 

@@ -22,7 +22,7 @@
  */
 function get_the_author($deprecated = '') {
 	global $authordata;
-	return apply_filters('the_author', $authordata->display_name);
+	return apply_filters('the_author', is_object($authordata) ? $authordata->display_name : null);
 }
 
 /**

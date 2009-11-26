@@ -36,18 +36,18 @@ function trackback_response($error = 0, $error_message = '') {
 // trackback is done by a POST
 $request_array = 'HTTP_POST_VARS';
 
-if ( !$_GET['tb_id'] ) {
+if ( !isset($_GET['tb_id']) || !$_GET['tb_id'] ) {
 	$tb_id = explode('/', $_SERVER['REQUEST_URI']);
 	$tb_id = intval( $tb_id[ count($tb_id) - 1 ] );
 }
 
-$tb_url  = $_POST['url'];
-$charset = $_POST['charset'];
+$tb_url  = isset($_POST['url'])     ? $_POST['url']     : '';
+$charset = isset($_POST['charset']) ? $_POST['charset'] : '';
 
 // These three are stripslashed here so that they can be properly escaped after mb_convert_encoding()
-$title     = stripslashes($_POST['title']);
-$excerpt   = stripslashes($_POST['excerpt']);
-$blog_name = stripslashes($_POST['blog_name']);
+$title     = isset($_POST['title'])     ? stripslashes($_POST['title'])      : '';
+$excerpt   = isset($_POST['excerpt'])   ? stripslashes($_POST['excerpt'])    : '';
+$blog_name = isset($_POST['blog_name']) ? stripslashes($_POST['blog_name'])  : '';
 
 if ($charset)
 	$charset = str_replace( array(',', ' '), '', strtoupper( trim($charset) ) );
@@ -72,7 +72,7 @@ $blog_name = $wpdb->escape($blog_name);
 if ( is_single() || is_page() )
 	$tb_id = $posts[0]->ID;
 
-if ( !intval( $tb_id ) )
+if ( !isset($tb_id) || !intval( $tb_id ) )
 	trackback_response(1, 'I really need an ID for this to work.');
 
 if (empty($title) && empty($tb_url) && empty($blog_name)) {

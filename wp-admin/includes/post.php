@@ -933,10 +933,10 @@ function postbox_classes( $id, $page ) {
  *
  * @since unknown
  *
- * @param unknown_type $id
- * @param unknown_type $title
- * @param unknown_type $name
- * @return unknown
+ * @param int|object $id    Post ID or post object. 
+ * @param string $title (optional) Title 
+ * @param string $name (optional) Name 
+ * @return array With two entries of type string 
  */
 function get_sample_permalink($id, $title = null, $name = null) {
 	$post = &get_post($id);
@@ -951,7 +951,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 	// drafts, so we will fake, that our post is published
 	if (in_array($post->post_status, array('draft', 'pending'))) {
 		$post->post_status = 'publish';
-		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
+		$post->post_name = sanitize_title($post->post_name ? $post->post_name : $post->post_title, $post->ID);
 	}
 
 	$post->post_name = wp_unique_post_slug($post->post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent);
@@ -959,7 +959,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 	// If the user wants to set a new name -- override the current one
 	// Note: if empty name is supplied -- use the title instead, see #6072
 	if (!is_null($name)) {
-		$post->post_name = sanitize_title($name? $name : $title, $post->ID);
+		$post->post_name = sanitize_title($name ? $name : $title, $post->ID);
 	}
 
 	$post->filter = 'sample';
@@ -987,14 +987,16 @@ function get_sample_permalink($id, $title = null, $name = null) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * sample permalink html
  *
+ * intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor.
+ * 
  * @since unknown
  *
- * @param unknown_type $id
- * @param unknown_type $new_title
- * @param unknown_type $new_slug
- * @return unknown
+ * @param int|object $id Post ID or post object. 
+ * @param string $new_title (optional) New title  
+ * @param string $new_slug (optional) New slug 
+ * @return string intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor. 
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$post = &get_post($id);

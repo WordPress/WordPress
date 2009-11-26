@@ -1137,7 +1137,7 @@ function wp_new_comment( $commentdata ) {
 	else
 		$commentdata['user_id'] = $commentdata['user_ID'] = (int) $commentdata['user_id'];
 
-	$commentdata['comment_parent'] = absint($commentdata['comment_parent']);
+	$commentdata['comment_parent'] = isset($commentdata['comment_parent']) ? absint($commentdata['comment_parent']) : 0;
 	$parent_status = ( 0 < $commentdata['comment_parent'] ) ? wp_get_comment_status($commentdata['comment_parent']) : '';
 	$commentdata['comment_parent'] = ( 'approved' == $parent_status || 'unapproved' == $parent_status ) ? $commentdata['comment_parent'] : 0;
 

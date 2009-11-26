@@ -1941,6 +1941,8 @@ function check_and_publish_future_post($post_id) {
 /**
  * Given the desired slug and some post details computes a unique slug for the post.
  *
+ * @global wpdb $wpdb 
+ * @global WP_Rewrite $wp_rewrite 
  * @param string $slug the desired slug (post_name)
  * @param integer $post_ID
  * @param string $post_status no uniqueness checks are made if the post is still draft or pending
@@ -1953,13 +1955,18 @@ function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_pa
 		return $slug;
 
 	global $wpdb, $wp_rewrite;
+
+	$feeds = $wp_rewrite->feeds;
+	if ( !is_array($feeds) )
+		$feeds = array();
+
 	$hierarchical_post_types = apply_filters('hierarchical_post_types', array('page'));
 	if ( 'attachment' == $post_type ) {
 		// Attachment slugs must be unique across all types.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID));
 
-		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
+		if ( $post_name_check || in_array($slug, $feeds) ) {
 			$suffix = 2;
 			do {
 				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
@@ -1974,7 +1981,7 @@ function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_pa
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode("', '", esc_sql($hierarchical_post_types)) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
 		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID, $post_parent));
 
-		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
+		if ( $post_name_check || in_array($slug, $feeds) ) {
 			$suffix = 2;
 			do {
 				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
