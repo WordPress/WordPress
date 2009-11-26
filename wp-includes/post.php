@@ -2599,6 +2599,7 @@ function &get_pages($args = '') {
 		foreach ( $children as $child )
 			$excludes[] = $child->ID;
 		$excludes[] = $exclude;
+		$num_pages = count($pages);
 		for ( $i = 0; $i < $num_pages; $i++ ) {
 			if ( in_array($pages[$i]->ID, $excludes) )
 				unset($pages[$i]);
