@@ -3428,12 +3428,12 @@ td.imgedit-settings input {
 	margin: 0 8px 0 3px;
 }
 
-.imgedit-fliph {
+.imgedit-flipv {
 	background: transparent url(images/imgedit.gif) no-repeat scroll -127px 2px;
 	margin: 0 3px;
 }
 
-.imgedit-flipv {
+.imgedit-fliph {
 	background: transparent url(images/imgedit.gif) no-repeat scroll -95px 3px;
 	margin: 0 8px 0 3px;
 }

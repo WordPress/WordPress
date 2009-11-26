@@ -37,20 +37,20 @@ function wp_image_editor($post_id, $msg = false) {
 	<table id="imgedit-panel-<?php echo $post_id; ?>"><tbody>
 	<tr><td>
 	<div class="imgedit-menu">
-		<div onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop disabled" title="<?php echo esc_attr__( 'Crop' ); ?>"></div><?php
+		<div onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop disabled" title="<?php esc_attr_e( 'Crop' ); ?>"></div><?php
 
 	if ( function_exists('imagerotate') ) { ?>
 
-		<div onclick="imageEdit.rotate(90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rleft" title="<?php echo esc_attr__( 'Rotate couter-clockwise' ); ?>"></div>
-		<div onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rright" title="<?php echo esc_attr__( 'Rotate clockwise' ); ?>"></div><?php
+		<div onclick="imageEdit.rotate(90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rleft" title="<?php esc_attr_e( 'Rotate couter-clockwise' ); ?>"></div>
+		<div onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rright" title="<?php esc_attr_e( 'Rotate clockwise' ); ?>"></div><?php
 
 	} ?>
 
-		<div onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-fliph" title="<?php echo esc_attr__( 'Flip horizontally' ); ?>"></div>
-		<div onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-flipv" title="<?php echo esc_attr__( 'Flip vertically' ); ?>"></div>
+		<div onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-flipv" title="<?php esc_attr_e( 'Flip vertically' ); ?>"></div>
+		<div onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-fliph" title="<?php esc_attr_e( 'Flip horizontally' ); ?>"></div>
 
-		<div id="image-undo-<?php echo $post_id; ?>" onclick="imageEdit.undo(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-undo disabled" title="<?php echo esc_attr__( 'Undo' ); ?>"></div>
-		<div id="image-redo-<?php echo $post_id; ?>" onclick="imageEdit.redo(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-redo disabled" title="<?php echo esc_attr__( 'Redo' ); ?>"></div>
+		<div id="image-undo-<?php echo $post_id; ?>" onclick="imageEdit.undo(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-undo disabled" title="<?php esc_attr_e( 'Undo' ); ?>"></div>
+		<div id="image-redo-<?php echo $post_id; ?>" onclick="imageEdit.redo(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-redo disabled" title="<?php esc_attr_e( 'Redo' ); ?>"></div>
 		<br class="clear" />
 	</div>
 
@@ -67,8 +67,8 @@ function wp_image_editor($post_id, $msg = false) {
 	</div>
 
 	<div class="imgedit-submit">
-		<input type="button" onclick="imageEdit.close(<?php echo $post_id; ?>, 1)" class="button" value="<?php echo esc_attr__( 'Cancel' ); ?>" />
-		<input type="button" onclick="imageEdit.save(<?php echo "$post_id, '$nonce'"; ?>)" disabled="disabled" class="button-primary imgedit-submit-btn" value="<?php echo esc_attr__( 'Save' ); ?>" />
+		<input type="button" onclick="imageEdit.close(<?php echo $post_id; ?>, 1)" class="button" value="<?php esc_attr_e( 'Cancel' ); ?>" />
+		<input type="button" onclick="imageEdit.save(<?php echo "$post_id, '$nonce'"; ?>)" disabled="disabled" class="button-primary imgedit-submit-btn" value="<?php esc_attr_e( 'Save' ); ?>" />
 	</div>
 	</td>
 
@@ -82,7 +82,7 @@ function wp_image_editor($post_id, $msg = false) {
 		<div class="imgedit-submit">
 		<span class="nowrap"><input type="text" id="imgedit-scale-width-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1)" style="width:4em;" value="<?php echo $meta['width']; ?>" />&times;<input type="text" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0)" style="width:4em;" value="<?php echo $meta['height']; ?>" />
 		<span class="imgedit-scale-warn" id="imgedit-scale-warn-<?php echo $post_id; ?>">!</span></span>
-		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button-primary" value="<?php echo esc_attr__( 'Scale' ); ?>" />
+		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button-primary" value="<?php esc_attr_e( 'Scale' ); ?>" />
 		</div>
 		</div>
 	</div>
@@ -99,7 +99,7 @@ function wp_image_editor($post_id, $msg = false) {
 
 		?></p>
 		<div class="imgedit-submit">
-		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'restore')" class="button-primary" value="<?php echo esc_attr__( 'Restore image' ); ?>" <?php echo $can_restore; ?> />
+		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'restore')" class="button-primary" value="<?php esc_attr_e( 'Restore image' ); ?>" <?php echo $can_restore; ?> />
 		</div>
 		</div>
 	</div>
