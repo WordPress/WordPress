@@ -1060,15 +1060,15 @@ function inline_edit_row( $type ) {
 <?php endif; // $bulk
 
 		$authors = get_editable_user_ids( $current_user->id, true, $type ); // TODO: ROLE SYSTEM
+		$authors_dropdown = '';
 		if ( $authors && count( $authors ) > 1 ) :
 			$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1, 'echo' => 0);
 			if ( $bulk )
 				$users_opt['show_option_none'] = __('- No Change -');
-
-		$authors_dropdown  = '<label>';
-		$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
-		$authors_dropdown .= wp_dropdown_users( $users_opt );
-		$authors_dropdown .= '</label>';
+			$authors_dropdown  = '<label>';
+			$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
+			$authors_dropdown .= wp_dropdown_users( $users_opt );
+			$authors_dropdown .= '</label>';
 
 		endif; // authors
 ?>
