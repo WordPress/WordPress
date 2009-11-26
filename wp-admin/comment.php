@@ -185,6 +185,8 @@ case 'untrashcomment' :
 	else
 		$redir = admin_url('edit-comments.php');
 
+	$redir = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $redir );
+
 	if ( $action == 'trashcomment' ) {
 		wp_trash_comment($comment_id);
 		$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
