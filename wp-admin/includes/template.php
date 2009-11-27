@@ -2158,9 +2158,18 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				</div>
 				<?php
 				}
-				$actions = array();
 
 				if ( $user_can ) {
+					// preorder it: Approve | Reply | Quick Edit | Edit | Trash | Spam 
+					$actions = array(
+						'approve' => '', 'unapprove' => '',
+						'reply' => '',
+						'quickedit' => '',
+						'edit' => '',
+						'trash' => '', 'untrash' => '', 'delete' => '',
+						'spam' => '', 'unspam' => ''
+					);
+
 					if ( $comment_status && 'all' != $comment_status ) { // not looking at all comments
 						if ( 'approved' == $the_comment_status )
 							$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=unapproved vim-u vim-destructive' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
@@ -2192,7 +2201,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 							$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\');return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
 					}
 
-					$actions = apply_filters( 'comment_row_actions', $actions, $comment );
+					$actions = apply_filters( 'comment_row_actions', array_filter($actions), $comment );
 
 					$i = 0;
 					echo '<div class="row-actions">';

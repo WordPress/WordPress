@@ -529,10 +529,17 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
 	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
 
-	$actions = array();
-
 	$actions_string = '';
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+		// preorder it: Approve | Reply | Edit | Trash | Spam 
+		$actions = array(
+			'approve' => '', 'unapprove' => '',
+			'reply' => '',
+			'edit' => '',
+			'trash' => '', 'delete' => '',
+			'spam' => ''
+		);
+
 		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 
@@ -552,7 +559,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		else
 			$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-d vim-destructive' title='" . __( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
 
-		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
+		$actions = apply_filters( 'comment_row_actions', array_filter($actions), $comment );
 
 		$i = 0;
 		foreach ( $actions as $action => $link ) {
