@@ -219,7 +219,11 @@ case 'delete-comment' : // On success, die with time() instead of 1
 	} elseif ( isset($_POST['spam']) && 1 == $_POST['spam'] ) {
 		if ( 'spam' == $status )
 			die( (string) time() );
-		$r = wp_set_comment_status( $comment->comment_ID, 'spam' );
+		$r = wp_spam_comment( $comment->comment_ID );
+	} elseif ( isset($_POST['unspam']) && 1 == $_POST['unspam'] ) {
+		if ( 'spam' != $status )
+			die( (string) time() );
+		$r = wp_unspam_comment( $comment->comment_ID );
 	} elseif ( isset($_POST['delete']) && 1 == $_POST['delete'] ) {
 		$r = wp_delete_comment( $comment->comment_ID );
 	} else {

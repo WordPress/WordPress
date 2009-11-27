@@ -20,20 +20,22 @@ $post_id = isset($_REQUEST['p']) ? (int) $_REQUEST['p'] : 0;
 if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2']) ) {
 	check_admin_referer('bulk-comments');
 
-	if ((isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2'])) && !empty($_REQUEST['pagegen_timestamp'])) {
+	if ( (isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2'])) && !empty($_REQUEST['pagegen_timestamp']) ) {
 		$comment_status = $wpdb->escape($_REQUEST['comment_status']);
 		$delete_time = $wpdb->escape($_REQUEST['pagegen_timestamp']);
 		$comment_ids = $wpdb->get_col( "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = '$comment_status' AND '$delete_time' > comment_date_gmt" );
 		$doaction = 'delete';
-	} elseif (($_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1) && isset($_REQUEST['delete_comments'])) {
+	} elseif ( ($_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1) && isset($_REQUEST['delete_comments']) ) {
 		$comment_ids = $_REQUEST['delete_comments'];
 		$doaction = ($_REQUEST['action'] != -1) ? $_REQUEST['action'] : $_REQUEST['action2'];
-	} elseif ($_REQUEST['action'] == 'untrash' && isset($_REQUEST['ids'])) {
-		$comment_ids = explode(',', $_REQUEST['ids']);
-		$doaction = 'untrash';
-	} else wp_redirect($_SERVER['HTTP_REFERER']);
+	} elseif ( $_REQUEST['doaction'] == 'undo' && isset($_REQUEST['ids']) ) {
+		$comment_ids = array_map( 'absint', explode(',', $_REQUEST['ids']) );
+		$doaction = $_REQUEST['action'];
+	} else {
+		wp_redirect($_SERVER['HTTP_REFERER']);
+	}
 
-	$approved = $unapproved = $spammed = $trashed = $untrashed = $deleted = 0;
+	$approved = $unapproved = $spammed = $unspammed = $trashed = $untrashed = $deleted = 0;
 
 	foreach ($comment_ids as $comment_id) { // Check the permissions on each
 		$_post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id) );
@@ -50,9 +52,13 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 				wp_set_comment_status($comment_id, 'hold');
 				$unapproved++;
 				break;
-			case 'markspam' :
-				wp_set_comment_status($comment_id, 'spam');
+			case 'spam' :
+				wp_spam_comment($comment_id);
 				$spammed++;
+				break;
+			case 'unspam' :
+				wp_unspam_comment($comment_id);
+				$unspammed++;
 				break;
 			case 'trash' :
 				wp_trash_comment($comment_id);
@@ -69,7 +75,25 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 		}
 	}
 
-	$redirect_to = 'edit-comments.php?approved=' . $approved . '&unapproved=' . $unapproved . '&spam=' . $spammed . '&trashed=' . $trashed . '&untrashed=' . $untrashed . '&deleted=' . $deleted . '&ids=' . join(',', $comment_ids);
+	$redirect_to = 'edit-comments.php';
+
+	if ( $approved )
+		$redirect_to = add_query_arg( 'approved', $approved, $redirect_to );
+	if ( $unapproved )
+		$redirect_to = add_query_arg( 'unapproved', $unapproved, $redirect_to );
+	if ( $spammed )
+		$redirect_to = add_query_arg( 'spammed', $spammed, $redirect_to );
+	if ( $unspammed )
+		$redirect_to = add_query_arg( 'unspammed', $unspammed, $redirect_to );
+	if ( $trashed )
+		$redirect_to = add_query_arg( 'trashed', $trashed, $redirect_to );
+	if ( $untrashed )
+		$redirect_to = add_query_arg( 'untrashed', $untrashed, $redirect_to );
+	if ( $deleted )
+		$redirect_to = add_query_arg( 'deleted', $deleted, $redirect_to );
+	if ( $trashed || $spammed )
+		$redirect_to = add_query_arg( 'ids', join(',', $comment_ids), $redirect_to );
+
 	if ( $post_id )
 		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
 	if ( isset($_REQUEST['apage']) )
@@ -112,22 +136,28 @@ if ( isset($_GET['s']) && $_GET['s'] )
 </h2>
 
 <?php
-if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) || isset($_GET['spam']) ) {
+if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) || isset($_GET['spammed']) || isset($_GET['unspammed']) ) {
 	$approved = isset($_GET['approved']) ? (int) $_GET['approved'] : 0;
 	$deleted = isset($_GET['deleted']) ? (int) $_GET['deleted'] : 0;
 	$trashed = isset($_GET['trashed']) ? (int) $_GET['trashed'] : 0;
 	$untrashed = isset($_GET['untrashed']) ? (int) $_GET['untrashed'] : 0;
-	$spam = isset($_GET['spam']) ? (int) $_GET['spam'] : 0;
+	$spammed = isset($_GET['spammed']) ? (int) $_GET['spammed'] : 0;
+	$unspammed = isset($_GET['unspammed']) ? (int) $_GET['unspammed'] : 0;
 
-	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spam > 0 ) {
+	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 ) {
 		echo '<div id="moderated" class="updated fade"><p>';
 
 		if ( $approved > 0 ) {
 			printf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
 			echo '<br />';
 		}
-		if ( $spam > 0 ) {
-			printf( _n( '%s comment marked as spam', '%s comments marked as spam', $spam ), $spam );
+		if ( $spammed > 0 ) {
+			printf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed );
+			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
+			echo ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo?') . '</a><br />';
+		}
+		if ( $unspammed > 0 ) {
+			printf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
 			echo '<br />';
 		}
 		if ( $trashed > 0 ) {
@@ -275,10 +305,12 @@ $page_links = paginate_links( array(
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
 <?php if ( 'all' == $comment_status || 'approved' == $comment_status || 'moderated' == $comment_status ): ?>
-<option value="markspam"><?php _e('Mark as Spam'); ?></option>
+<option value="spam"><?php _e('Mark as Spam'); ?></option>
 <?php endif; ?>
 <?php if ( 'trash' == $comment_status ): ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
+<?php elseif ( 'spam' == $comment_status ): ?>
+<option value="unspam"><?php _e('Not Spam'); ?></option>
 <?php endif; ?>
 <?php if ( 'trash' == $comment_status || 'spam' == $comment_status || !EMPTY_TRASH_DAYS ): ?>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
@@ -371,13 +403,15 @@ if ( $page_links )
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
 <?php if ( 'all' == $comment_status || 'approved' == $comment_status || 'moderated' == $comment_status ): ?>
-<option value="markspam"><?php _e('Mark as Spam'); ?></option>
+<option value="spam"><?php _e('Mark as Spam'); ?></option>
 <?php endif; ?>
 <?php if ( 'trash' == $comment_status ): ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
 <?php endif; ?>
 <?php if ( 'trash' == $comment_status || 'spam' == $comment_status || !EMPTY_TRASH_DAYS ): ?>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
+<?php elseif ( 'spam' == $comment_status ): ?>
+<option value="unspam"><?php _e('Not Spam'); ?></option>
 <?php else: ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>
 <?php endif; ?>

@@ -2114,12 +2114,13 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 
-		$delete_url = esc_url( "comment.php?action=deletecomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
 		$approve_url = esc_url( "comment.php?action=approvecomment&p=$post->ID&c=$comment->comment_ID&$approve_nonce" );
 		$unapprove_url = esc_url( "comment.php?action=unapprovecomment&p=$post->ID&c=$comment->comment_ID&$approve_nonce" );
-		$spam_url = esc_url( "comment.php?action=deletecomment&dt=spam&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+		$spam_url = esc_url( "comment.php?action=spamcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+		$unspam_url = esc_url( "comment.php?action=unspamcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
 		$trash_url = esc_url( "comment.php?action=trashcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
 		$untrash_url = esc_url( "comment.php?action=untrashcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
+		$delete_url = esc_url( "comment.php?action=deletecomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
 	}
 
 	echo "<tr id='comment-$comment->comment_ID' class='$the_comment_status'>";
@@ -2160,35 +2161,33 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				$actions = array();
 
 				if ( $user_can ) {
-					if ( 'trash' == $the_comment_status ) {
-						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:ABF888:untrash=1 vim-z vim-destructive'>" . __( 'Restore' ) . '</a>';
-						$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
+					if ( $comment_status && 'all' != $comment_status ) { // not looking at all comments
+						if ( 'approved' == $the_comment_status )
+							$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=unapproved vim-u vim-destructive' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+						else if ( 'unapproved' == $the_comment_status )
+							$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=approved vim-a vim-destructive' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
 					} else {
 						$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
 						$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+					}
 
-						if ( $comment_status && 'all' != $comment_status ) { // not looking at all comments
-							if ( 'approved' == $the_comment_status ) {
-								$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=unapproved vim-u vim-destructive' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
-								unset($actions['approve']);
-							} else {
-								$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=approved vim-a vim-destructive' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
-								unset($actions['unapprove']);
-							}
-						}
+					if ( 'spam' != $the_comment_status && 'trash' != $the_comment_status ) {
+						$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
+					} elseif ( 'spam' == $the_comment_status ) {
+						$actions['unspam'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:ABF888:unspam=1 vim-z vim-destructive'>" . __( 'Not Spam' ) . '</a>';
+					} elseif ( 'trash' == $the_comment_status ) {
+						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:ABF888:untrash=1 vim-z vim-destructive'>" . __( 'Restore' ) . '</a>';
+					}
 
-						if ( 'spam' != $the_comment_status ) {
-							$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
-						}
-						if ( 'spam' == $the_comment_status || !EMPTY_TRASH_DAYS ) {
-							$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
-						} else {
-							$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-d vim-destructive' title='" . __( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
-						}
+					if ( 'spam' == $the_comment_status || 'trash' == $the_comment_status || !EMPTY_TRASH_DAYS ) {
+						$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::delete=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
+					} else {
+						$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-d vim-destructive' title='" . __( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
+					}
 
+					if ( 'trash' != $the_comment_status ) {
 						$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
 						$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick&nbsp;Edit') . '</a>';
-
 						if ( 'spam' != $the_comment_status )
 							$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\');return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
 					}
@@ -2204,7 +2203,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						// Reply and quickedit need a hide-if-no-js span when not added with ajax
 						if ( ('reply' == $action || 'quickedit' == $action) && ! $from_ajax )
 							$action .= ' hide-if-no-js';
-						elseif ($action == 'untrash' && $the_comment_status == 'trash') {
+						elseif ( ($action == 'untrash' && $the_comment_status == 'trash') || ($action == 'unspam' && $the_comment_status == 'spam') ) {
 							if ('1' == get_comment_meta($comment_id, '_wp_trash_meta_status', true))
 								$action .= ' approve';
 							else
@@ -2371,8 +2370,11 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
  */
 function wp_comment_trashnotice() {
 ?>
-<div class="hidden" id="undo-holder">
-<div class="trash-undo-inside"><?php _e('Comment by'); ?> <strong></strong> <?php _e('moved to the trash.'); ?> <span class="untrash"><a class="undo-trash" href="#"><?php _e('Undo'); ?></a></span></div>
+<div class="hidden" id="trash-undo-holder">
+	<div class="trash-undo-inside"><?php printf(__('Comment by %s moved to the trash.'), '<strong></strong>'); ?> <span class="undo untrash"><a href="#"><?php _e('Undo'); ?></a></span></div>
+</div>
+<div class="hidden" id="spam-undo-holder">
+	<div class="spam-undo-inside"><?php printf(__('Comment by %s marked as spam.'), '<strong></strong>'); ?> <span class="undo unspam"><a href="#"><?php _e('Undo'); ?></a></span></div>
 </div>
 <?php
 }

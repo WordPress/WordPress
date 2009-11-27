@@ -3516,7 +3516,7 @@ span.imgedit-scale-warn {
 	padding: 2px 10px;
 }
 
-#dashboard_recent_comments .trash-undo {
+#dashboard_recent_comments div.undo {
 	border-top-style: solid;
 	border-top-width: 1px;
 	margin: 0 -10px;
@@ -3524,11 +3524,13 @@ span.imgedit-scale-warn {
 	font-size: 11px;
 }
 
-.trash-undo-inside {
+.trash-undo-inside,
+.spam-undo-inside {
 	margin: 1px 8px 1px 0;
 	line-height: 16px;
 }
 
+.spam-undo-inside .avatar,
 .trash-undo-inside .avatar {
 	height: 20px;
 	width: 20px;

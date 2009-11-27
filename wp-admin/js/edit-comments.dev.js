@@ -32,17 +32,22 @@ setCommentsList = function() {
 
 	// Send current total, page, per_page and url
 	delBefore = function( settings, list ) {
-		var cl = $(settings.target).attr('className'), id, el, n, h, a, author;
+		var cl = $(settings.target).attr('className'), id, el, n, h, a, author, action = false;
 
 		settings.data._total = totalInput.val() || 0;
 		settings.data._per_page = perPageInput.val() || 0;
 		settings.data._page = pageInput.val() || 0;
 		settings.data._url = document.location.href;
 
-		if ( cl.indexOf(':trash=1') != -1 ) {
+		if ( cl.indexOf(':trash=1') != -1 )
+			action = 'trash';
+		else if ( cl.indexOf(':spam=1') != -1 )
+			action = 'spam';
+
+		if ( action ) {
 			id = cl.replace(/.*?comment-([0-9]+).*/, '$1');
 			el = $('#comment-' + id);
-			note = $('#undo-holder').html();
+			note = $('#' + action + '-undo-holder').html();
 
 			if ( el.siblings('#replyrow').length && commentReply.cid == id )
 				commentReply.close();
@@ -50,23 +55,23 @@ setCommentsList = function() {
 			if ( el.is('tr') ) {
 				n = el.children(':visible').length;
 				author = $('.author strong', el).text();
-				h = $('<tr id="trashundo-' + id + '" class="trash-undo" style="display:none;"><td colspan="' + n + '">' + note + '</td></tr>');
+				h = $('<tr id="undo-' + id + '" class="undo un' + action + '" style="display:none;"><td colspan="' + n + '">' + note + '</td></tr>');
 			} else {
 				author = $('.comment-author', el).text();
-				h = $('<div id="trashundo-' + id + '" style="display:none;" class="trash-undo">' + note + '</div>');
+				h = $('<div id="undo-' + id + '" style="display:none;" class="undo un' + action + '">' + note + '</div>');
 			}
 
 			el.before(h);
 
-			$('strong', '#trashundo-' + id).text(author + ' ');
-			a = $('a.undo-trash', '#trashundo-' + id);
-			a.attr('href', 'comment.php?action=untrashcomment&c=' + id + '&_ajax_nonce=' + settings.data._ajax_nonce);
-			a.attr('className', 'delete:the-comment-list:comment-' + id + '::untrash=1 vim-z vim-destructive');
-			$('.avatar', el).clone().prependTo('#trashundo-' + id + ' .trash-undo-inside');
+			$('strong', '#undo-' + id).text(author + ' ');
+			a = $('.undo a', '#undo-' + id);
+			a.attr('href', 'comment.php?action=un' + action + 'comment&c=' + id + '&_wpnonce=' + settings.data._ajax_nonce);
+			a.attr('className', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1 vim-z vim-destructive');
+			$('.avatar', el).clone().prependTo('#undo-' + id + ' .' + action + '-undo-inside');
 
 			a.click(function(){
 				list.wpList.del(this);
-				$('#trashundo-' + id).fadeOut(300, function(){
+				$('#undo-' + id).fadeOut(300, function(){
 					$(this).remove();
 					$('#comment-' + id).css('backgroundColor', '').fadeIn(300, function(){ $(this).show() });
 				});
@@ -135,7 +140,7 @@ setCommentsList = function() {
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total, pageLinks, N, untrash = $(settings.target).parent().is('span.untrash'), spam, trash;
+		var total, pageLinks, N, untrash = $(settings.target).parent().is('span.untrash'), unspam = $(settings.target).parent().is('span.unspam'), spam, trash;
 
 		function getUpdate(s) {
 			if ( $(settings.target).parent().is('span.' + s) )
@@ -150,11 +155,13 @@ setCommentsList = function() {
 
 		if ( untrash )
 			trash = -1;
+		if ( unspam )
+			spam = -1;
 
 		$('span.pending-count').each( function() {
 			var a = $(this), n = getCount(a), unapproved = $('#' + settings.element).is('.unapproved');
 
-			if ( $(settings.target).parent().is('span.unapprove') || ( untrash && unapproved ) ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
+			if ( $(settings.target).parent().is('span.unapprove') || ( ( untrash || unspam ) && unapproved ) ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
 				n = n + 1;
 			} else if ( unapproved ) { // we deleted a formerly unapproved comment
 				n = n - 1;
@@ -212,8 +219,8 @@ setCommentsList = function() {
 		.bind('wpListDelEnd', function(e, s){
 			var id = s.element.replace(/[^0-9]+/g, '');
 
-			if ( s.target.className.indexOf(':trash=1') != -1 )
-				$('#trashundo-' + id).fadeIn(300, function(){ $(this).show() });
+			if ( s.target.className.indexOf(':trash=1') != -1 || s.target.className.indexOf(':spam=1') != -1 )
+				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
 		});
 };
 

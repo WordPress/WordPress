@@ -168,6 +168,8 @@ case 'deletecomment' :
 
 case 'trashcomment' :
 case 'untrashcomment' :
+case 'spamcomment' :
+case 'unspamcomment' :
 	$comment_id = absint( $_REQUEST['c'] );
 	$noredir = isset($_REQUEST['noredir']);
 
@@ -185,14 +187,25 @@ case 'untrashcomment' :
 	else
 		$redir = admin_url('edit-comments.php');
 
-	$redir = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $redir );
+	$redir = remove_query_arg( array('spammed', 'unspammed', 'trashed', 'untrashed', 'deleted', 'ids'), $redir );
 
-	if ( $action == 'trashcomment' ) {
-		wp_trash_comment($comment_id);
-		$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
-	} else {
-		wp_untrash_comment($comment_id);
-		$redir = add_query_arg( array('untrashed' => '1'), $redir );
+	switch ( $action ) {
+		case 'trashcomment' :
+			wp_trash_comment($comment_id);
+			$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
+			break;
+		case 'untrashcomment' :
+			wp_untrash_comment($comment_id);
+			$redir = add_query_arg( array('untrashed' => '1'), $redir );
+			break;
+		case 'spamcomment' :
+			wp_spam_comment($comment_id);
+			$redir = add_query_arg( array('spammed' => '1', 'ids' => $comment_id), $redir );
+			break;
+		case 'unspamcomment' :
+			wp_unspam_comment($comment_id);
+			$redir = add_query_arg( array('unspammed' => '1'), $redir );
+			break;
 	}
 
 	wp_redirect( $redir );

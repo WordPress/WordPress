@@ -1685,6 +1685,6 @@ div.widgets-sortables,
 	opacity: 0.4;
 }
 
-#dashboard_recent_comments .trash-undo {
+#dashboard_recent_comments div.undo {
 	border-top-color: #dfdfdf;
 }

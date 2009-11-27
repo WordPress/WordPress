@@ -866,22 +866,22 @@ function wp_trash_comment($comment_id) {
 
 	do_action('trash_comment', $comment_id);
 
-	add_comment_meta($comment_id, '_wp_trash_meta_status', $comment->comment_approved);
-	add_comment_meta($comment_id, '_wp_trash_meta_time', time() );
+	if ( wp_set_comment_status($comment_id, 'trash') ) {
+		add_comment_meta($comment_id, '_wp_trash_meta_status', $comment->comment_approved);
+		add_comment_meta($comment_id, '_wp_trash_meta_time', time() );
+		do_action('trashed_comment', $comment_id);
+		return true;
+	}
 
-	wp_set_comment_status($comment_id, 'trash');
-
-	do_action('trashed_comment', $comment_id);
-
-	return true;
+	return false;
 }
 
 /**
  * Removes a comment from the Trash
  *
  * @since 2.9.0
- * @uses do_action() on 'untrash_comment' before undeletion
- * @uses do_action() on 'untrashed_comment' after undeletion
+ * @uses do_action() on 'untrash_comment' before untrashing
+ * @uses do_action() on 'untrashed_comment' after untrashing
  *
  * @param int $comment_id Comment ID.
  * @return mixed False on failure
@@ -892,7 +892,7 @@ function wp_untrash_comment($comment_id) {
 
 	do_action('untrash_comment', $comment_id);
 
-	$comment = array('comment_ID'=>$comment_id);
+	$comment = array('comment_ID' => $comment_id);
 
 	$status = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
 	if ( empty($status) )
@@ -900,14 +900,68 @@ function wp_untrash_comment($comment_id) {
 
 	$comment['comment_approved'] = $status;
 
-	delete_comment_meta($comment_id, '_wp_trash_meta_time');
-	delete_comment_meta($comment_id, '_wp_trash_meta_status');
+	if ( wp_update_comment($comment) ) {
+		delete_comment_meta($comment_id, '_wp_trash_meta_time');
+		delete_comment_meta($comment_id, '_wp_trash_meta_status');
+		do_action('untrashed_comment', $comment_id);
+		return true;
+	}
 
-	wp_update_comment($comment);
+	return false;
+}
 
-	do_action('untrashed_comment', $comment_id);
+/**
+ * Marks a comment as Spam
+ *
+ * @since 2.9.0
+ * @uses do_action() on 'spam_comment' before spamming
+ * @uses do_action() on 'spammed_comment' after spamming
+ *
+ * @param int $comment_id Comment ID.
+ * @return mixed False on failure
+ */
+function wp_spam_comment($comment_id) {
+	if ( !$comment = get_comment($comment_id) )
+		return false;
 
-	return true;
+	do_action('spam_comment', $comment_id);
+
+	if ( wp_set_comment_status($comment_id, 'spam') ) {
+		add_comment_meta($comment_id, '_wp_trash_meta_status', $comment->comment_approved);
+		do_action('spammed_comment', $comment_id);
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Removes a comment from the Spam
+ *
+ * @since 2.9.0
+ * @uses do_action() on 'unspam_comment' before unspamming
+ * @uses do_action() on 'unspammed_comment' after unspamming
+ *
+ * @param int $comment_id Comment ID.
+ * @return mixed False on failure
+ */
+function wp_unspam_comment($comment_id) {
+	if ( ! (int)$comment_id )
+		return false;
+
+	do_action('unspam_comment', $comment_id);
+
+	$status = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
+	if ( empty($status) )
+		$status = '0';
+
+	if ( wp_set_comment_status($comment_id, "$status") ) {
+		delete_comment_meta($comment_id, '_wp_trash_meta_status');
+		do_action('unspammed_comment', $comment_id);
+		return true;
+	}
+
+	return false;
 }
 
 /**
