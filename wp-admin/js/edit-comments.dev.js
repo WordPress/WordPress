@@ -71,7 +71,7 @@ setCommentsList = function() {
 
 			a.click(function(){
 				list.wpList.del(this);
-				$('#undo-' + id).fadeOut(300, function(){
+				$('#undo-' + id).css( {backgroundColor:'#6c6'} ).fadeOut(300, function(){
 					$(this).remove();
 					$('#comment-' + id).css('backgroundColor', '').fadeIn(300, function(){ $(this).show() });
 				});

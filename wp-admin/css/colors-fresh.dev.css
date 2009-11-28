@@ -188,7 +188,8 @@ strong .post-com-count span {
 	border-right-color: #99d;
 }
 
-#media-upload {
+#media-upload,
+#media-upload .media-item .slidetoggle {
 	background: #fff;
 }
 
