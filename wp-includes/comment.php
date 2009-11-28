@@ -892,15 +892,11 @@ function wp_untrash_comment($comment_id) {
 
 	do_action('untrash_comment', $comment_id);
 
-	$comment = array('comment_ID' => $comment_id);
-
-	$status = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
+	$status = (string) get_comment_meta($comment_id, '_wp_trash_meta_status', true);
 	if ( empty($status) )
 		$status = '0';
 
-	$comment['comment_approved'] = $status;
-
-	if ( wp_update_comment($comment) ) {
+	if ( wp_set_comment_status($comment_id, $status) ) {
 		delete_comment_meta($comment_id, '_wp_trash_meta_time');
 		delete_comment_meta($comment_id, '_wp_trash_meta_status');
 		do_action('untrashed_comment', $comment_id);
@@ -951,11 +947,11 @@ function wp_unspam_comment($comment_id) {
 
 	do_action('unspam_comment', $comment_id);
 
-	$status = get_comment_meta($comment_id, '_wp_trash_meta_status', true);
+	$status = (string) get_comment_meta($comment_id, '_wp_trash_meta_status', true);
 	if ( empty($status) )
 		$status = '0';
 
-	if ( wp_set_comment_status($comment_id, "$status") ) {
+	if ( wp_set_comment_status($comment_id, $status) ) {
 		delete_comment_meta($comment_id, '_wp_trash_meta_status');
 		do_action('unspammed_comment', $comment_id);
 		return true;
