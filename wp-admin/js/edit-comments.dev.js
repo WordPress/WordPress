@@ -71,7 +71,7 @@ setCommentsList = function() {
 
 			a.click(function(){
 				list.wpList.del(this);
-				$('#undo-' + id).css( {backgroundColor:'#6c6'} ).fadeOut(300, function(){
+				$('#undo-' + id).css( {backgroundColor:'#ceb'} ).fadeOut(350, function(){
 					$(this).remove();
 					$('#comment-' + id).css('backgroundColor', '').fadeIn(300, function(){ $(this).show() });
 				});
@@ -189,21 +189,22 @@ setCommentsList = function() {
 			else if ( N < 0 )
 				dashboardTotals(1);
 		} else {
-			// XML response
+			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
+			total = total - spam - trash;
+			if ( total < 0 )
+				total = 0;
+
 			if ( ( 'object' == typeof r ) && lastConfidentTime < settings.parsed.responses[0].supplemental.time ) {
 				pageLinks = settings.parsed.responses[0].supplemental.pageLinks || '';
 				if ( $.trim( pageLinks ) )
 					$('.tablenav-pages').find( '.page-numbers' ).remove().end().append( $( pageLinks ) );
 				else
 					$('.tablenav-pages').find( '.page-numbers' ).remove();
+
+				updateTotalCount( total, settings.parsed.responses[0].supplemental.time, true );
+			} else {
+				updateTotalCount( total, r, false );
 			}
-
-			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
-			total = total - spam - trash;
-			if ( total < 0 )
-				total = 0;
-
-			updateTotalCount( total, r, false );
 		}
 
 		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash ) {

@@ -102,7 +102,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20091012' );
 	$scripts->add_data( 'autosave', 'group', 1 );
 
-	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20091017' );
+	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20091128' );
 	$scripts->add_data( 'wp-lists', 'group', 1 );
 
 	$scripts->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/wp-scriptaculous.js', array('prototype'), '1.8.0');
@@ -193,7 +193,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'swfupload-all', '/wp-includes/js/swfupload/swfupload-all.js', array(), '2201');
 	}
 
-	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20091127');
+	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20091128');
 	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
 	if ( empty($max_upload_size) )
 		$max_upload_size = __('not configured');
@@ -263,7 +263,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20090514' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20091127' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20091128' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
@@ -425,12 +425,12 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20091127';
+	$colors_version = '20091128';
 
 	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091126' );
 	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20090922' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20091128' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.

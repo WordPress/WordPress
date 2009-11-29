@@ -122,7 +122,7 @@ wpList = {
 
 		s.element = cls[2] || s.element || null;
 		if ( cls[3] ) { s.delColor = '#' + cls[3]; }
-		else { s.delColor = s.delColor || '#FF3333'; }
+		else { s.delColor = s.delColor || '#faa'; }
 
 		if ( !s || !s.element ) { return false; }
 
@@ -156,7 +156,7 @@ wpList = {
 		s.success = function(r) {
 			var res = wpAjax.parseAjaxResponse(r, s.response, s.element), o;
 			if ( !res || res.errors ) {
-				element.stop().stop().css( 'backgroundColor', '#FF3333' ).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
+				element.stop().stop().css( 'backgroundColor', '#faa' ).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
 			if ( $.isFunction(s.delAfter) ) {

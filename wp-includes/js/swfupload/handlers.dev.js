@@ -115,7 +115,7 @@ function prepareMediaItemInit(fileObj) {
 				jQuery('.filename .title', item).css('font-weight','normal');
 				jQuery('a.undo', item).addClass('hidden');
 				jQuery('a.describe-toggle-on, .menu_order_input', item).show();
-				item.css( {backgroundColor:'#3c3'} ).animate( {backgroundColor: '#fff'}, { queue: false, duration: 300, complete: function(){ jQuery(this).css({backgroundColor:''}); } }).removeClass('trash-undo');
+				item.css( {backgroundColor:'#ceb'} ).animate( {backgroundColor: '#fff'}, { queue: false, duration: 500, complete: function(){ jQuery(this).css({backgroundColor:''}); } }).removeClass('undo');
 			}
 		});
 		return false;
@@ -154,7 +154,7 @@ function deleteSuccess(data, textStatus) {
 	// Vanish it.
 	jQuery('.toggle', item).toggle();
 	jQuery('.slidetoggle', item).slideUp(200).siblings().removeClass('hidden');
-	item.css( {backgroundColor:'#f33'} ).animate( {backgroundColor:'#fff'}, {queue:false, duration:500} ).addClass('trash-undo');
+	item.css( {backgroundColor:'#faa'} ).animate( {backgroundColor:'#f4f4f4'}, {queue:false, duration:500} ).addClass('undo');
 
 	jQuery('.filename:empty', item).remove();
 	jQuery('.filename .title', item).css('font-weight','bold');

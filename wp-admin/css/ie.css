@@ -425,3 +425,9 @@ table.ie-fixed {
 * html .describe .field textarea {
 	width: 440px;
 }
+
+#the-comment-list .unapproved tr,
+#the-comment-list .unapproved td {
+	background-color: #ffffe0;
+}
+

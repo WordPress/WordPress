@@ -621,9 +621,12 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 	color: #557799;
 }
 
-#the-comment-list .unapproved,
-#the-comment-list .unapproved th,
-#the-comment-list .unapproved td {
+#the-comment-list tr.undo,
+#the-comment-list div.undo {
+	background-color: #f4f4f4;
+}
+
+#the-comment-list .unapproved {
 	background-color: #ffffe0;
 }
 
