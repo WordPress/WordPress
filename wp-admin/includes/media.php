@@ -486,7 +486,7 @@ function media_upload_image() {
 			$src = $_POST['insertonly']['embed-src'];
 			if ( !strpos($src, '://') )
 				$src = "http://$src";
-			$html = '[embed]' . $src . '[/embed]';
+			$html = '[embed]' . esc_url($src) . '[/embed]';
 		} else {
 			$src = $_POST['insertonly']['src'];
 			if ( !empty($src) && !strpos($src, '://') )
@@ -497,10 +497,10 @@ function media_upload_image() {
 				$class = " class='align$align'";
 			}
 			if ( !empty($src) )
-				$html = "<img src='$src' alt='$alt'$class />";
+				$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
 		}
 
-		$html = apply_filters('image_send_to_editor_url', $html, $src, $alt, $align);
+		$html = apply_filters('image_send_to_editor_url', $html, esc_url_raw($src), $alt, $align);
 		return media_send_to_editor($html);
 	}
 
@@ -596,8 +596,8 @@ function media_upload_audio() {
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 
-		$html = '[embed]' . $href . '[/embed]';
-		$html = apply_filters('audio_send_to_editor_url', $html, $href);
+		$html = '[embed]' . esc_url($href) . '[/embed]';
+		$html = apply_filters('audio_send_to_editor_url', $html, esc_url_raw($href));
 		return media_send_to_editor($html);
 	}
 
@@ -647,8 +647,8 @@ function media_upload_video() {
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 
-		$html = '[embed]' . $href . '[/embed]';
-		$html = apply_filters('video_send_to_editor_url', $html, $href);
+		$html = '[embed]' . esc_url($href) . '[/embed]';
+		$html = apply_filters('video_send_to_editor_url', $html, esc_url_raw($href));
 		return media_send_to_editor($html);
 	}
 
@@ -702,8 +702,8 @@ function media_upload_file() {
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
-			$html = "<a href='$href' >$title</a>";
-		$html = apply_filters('file_send_to_editor_url', $html, $href, $title);
+			$html = "<a href='" . esc_url($href) . "' >$title</a>";
+		$html = apply_filters('file_send_to_editor_url', $html, esc_url_raw($href), $title);
 		return media_send_to_editor($html);
 	}
 
