@@ -106,14 +106,12 @@ setCommentsList = function() {
 		total = $('span.total-count', dash);
 		appr = $('span.approved-count', dash);
 		totalN = getCount(total);
-		apprN = getCount(appr);
 
-		if ( totalN ) {
-			totalN = totalN + n;
-			apprN = totalN - getCount( $('span.pending-count', dash) ) - getCount( $('span.spam-count', dash) );
-			updateCount(total, totalN);
-			updateCount(appr, apprN);
-		}
+		totalN = totalN + n;
+		apprN = totalN - getCount( $('span.pending-count', dash) ) - getCount( $('span.spam-count', dash) );
+		updateCount(total, totalN);
+		updateCount(appr, apprN);
+
 	}
 
 	function getCount(el) {
