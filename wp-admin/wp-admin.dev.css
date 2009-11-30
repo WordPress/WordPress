@@ -2852,6 +2852,10 @@ table .inline-edit-row fieldset ul.cat-hover {
 	max-width: 128px;
 }
 
+#wpbody-content #async-upload-wrap a {
+	display: none;
+}
+
 .media-upload-form td label {
 	margin-right: 6px;
 	margin-left: 2px;
