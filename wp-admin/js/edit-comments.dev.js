@@ -110,7 +110,7 @@ setCommentsList = function() {
 
 		if ( totalN ) {
 			totalN = totalN + n;
-			apprN = totalN - getCount( $('span.pending-count', dash) );
+			apprN = totalN - getCount( $('span.pending-count', dash) ) - getCount( $('span.spam-count', dash) );
 			updateCount(total, totalN);
 			updateCount(appr, apprN);
 		}
@@ -183,11 +183,8 @@ setCommentsList = function() {
 		});
 
 		if ( $('#dashboard_right_now').length ) {
-			N = spam || trash || 0;
-			if ( N > 0 )
-				dashboardTotals(-1);
-			else if ( N < 0 )
-				dashboardTotals(1);
+			N = trash ? -1 * trash : 0;
+			dashboardTotals(N);
 		} else {
 			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
 			total = total - spam - trash;
