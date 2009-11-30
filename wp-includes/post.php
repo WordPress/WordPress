@@ -1186,8 +1186,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	delete_post_meta($postid,'_wp_trash_meta_status');
 	delete_post_meta($postid,'_wp_trash_meta_time');
 
-	/** @todo delete for pluggable post taxonomies too */
-	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
+	wp_delete_object_term_relationships($postid, get_object_taxonomies('post'));
 
 	$parent_data = array( 'post_parent' => $post->post_parent );
 	$parent_where = array( 'post_parent' => $postid );
