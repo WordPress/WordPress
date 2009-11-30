@@ -477,8 +477,8 @@ function media_upload_image() {
 			$class = " class='align$align'";
 		}
 		if ( !empty($src) )
-			$html = "<img src='$src' alt='$alt'$class />";
-		$html = apply_filters('image_send_to_editor_url', $html, $src, $alt, $align);
+			$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
+		$html = apply_filters('image_send_to_editor_url', $html, esc_url_raw($src), $alt, $align);
 		return media_send_to_editor($html);
 	}
 
@@ -569,8 +569,8 @@ function media_upload_audio() {
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
-			$html = "<a href='$href' >$title</a>";
-		$html = apply_filters('audio_send_to_editor_url', $html, $href, $title);
+			$html = "<a href='" . esc_url($href) . "' >$title</a>";
+		$html = apply_filters('audio_send_to_editor_url', $html, esc_url_raw($href), $title);
 		return media_send_to_editor($html);
 	}
 
@@ -623,8 +623,8 @@ function media_upload_video() {
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
-			$html = "<a href='$href' >$title</a>";
-		$html = apply_filters('video_send_to_editor_url', $html, $href, $title);
+			$html = "<a href='" . esc_url($href) . "' >$title</a>";
+		$html = apply_filters('video_send_to_editor_url', $html, esc_url_raw($href), $title);
 		return media_send_to_editor($html);
 	}
 
@@ -677,8 +677,8 @@ function media_upload_file() {
 		if ( empty($title) )
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
-			$html = "<a href='$href' >$title</a>";
-		$html = apply_filters('file_send_to_editor_url', $html, $href, $title);
+			$html = "<a href='" . esc_url($href) . "' >$title</a>";
+		$html = apply_filters('file_send_to_editor_url', $html, esc_url_raw($href), $title);
 		return media_send_to_editor($html);
 	}
 
