@@ -773,7 +773,17 @@ function _relocate_children( $old_ID, $new_ID ) {
 	global $wpdb;
 	$old_ID = (int) $old_ID;
 	$new_ID = (int) $new_ID;
-	return $wpdb->update($wpdb->posts, array('post_parent' => $new_ID), array('post_parent' => $old_ID) );
+
+	$children = $wpdb->get_col( $wpdb->prepare("
+		SELECT post_id
+		FROM $wpdb->postmeta
+		WHERE meta_key = '_wp_attachment_temp_parent'
+		AND meta_value = %d", $old_ID) );
+
+	foreach ( $children as $child_id ) {
+		$wpdb->update($wpdb->posts, array('post_parent' => $new_ID), array('ID' => $child_id) );
+		delete_post_meta($child_id, '_wp_attachment_temp_parent');
+	}
 }
 
 /**
