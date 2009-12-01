@@ -22,7 +22,7 @@ wp_admin_css( 'theme-editor' );
 $plugins = get_plugins();
 
 if ( isset($_REQUEST['file']) )
-	$plugin = $_REQUEST['file'];
+	$plugin = stripslashes($_REQUEST['file']);
 
 if ( empty($plugin) ) {
 	$plugin = array_keys($plugins);
@@ -33,6 +33,8 @@ $plugin_files = get_plugin_files($plugin);
 
 if ( empty($file) )
 	$file = $plugin_files[0];
+else
+	$file = stripslashes($file);
 
 $file = validate_file_to_edit($file, $plugin_files);
 $real_file = WP_PLUGIN_DIR . '/' . $file;

@@ -195,8 +195,6 @@ function wp_tempnam($filename = '', $dir = ''){
  * @return unknown
  */
 function validate_file_to_edit( $file, $allowed_files = '' ) {
-	$file = stripslashes( $file );
-
 	$code = validate_file( $file, $allowed_files );
 
 	if (!$code )
@@ -206,8 +204,8 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
 		case 1 :
 			wp_die( __('Sorry, can&#8217;t edit files with &#8220;..&#8221; in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.' ));
 
-		case 2 :
-			wp_die( __('Sorry, can&#8217;t call files with their real path.' ));
+		//case 2 :
+		//	wp_die( __('Sorry, can&#8217;t call files with their real path.' ));
 
 		case 3 :
 			wp_die( __('Sorry, that file cannot be edited.' ));

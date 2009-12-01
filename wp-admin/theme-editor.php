@@ -35,6 +35,7 @@ $allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme
 if (empty($file)) {
 	$file = $allowed_files[0];
 } else {
+	$file = stripslashes($file);
 	if ( 'theme' == $dir ) {
 		$file = dirname(dirname($themes[$theme]['Template Dir'])) . $file ; 
 	} else if ( 'style' == $dir) {
@@ -42,9 +43,8 @@ if (empty($file)) {
 	}
 }
 
-$real_file = validate_file_to_edit($file, $allowed_files);
+validate_file_to_edit($file, $allowed_files);
 $scrollto = isset($_REQUEST['scrollto']) ? (int) $_REQUEST['scrollto'] : 0;
-
 $file_show = basename( $file );
 
 switch($action) {
@@ -55,9 +55,9 @@ case 'update':
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	$theme = urlencode($theme);
-	if (is_writeable($real_file)) {
+	if (is_writeable($file)) {
 		//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
-		$f = fopen($real_file, 'w+');
+		$f = fopen($file, 'w+');
 		if ($f !== FALSE) {
 			fwrite($f, $newcontent);
 			fclose($f);
@@ -83,14 +83,14 @@ default:
 
 	update_recently_edited($file);
 
-	if ( !is_file($real_file) )
+	if ( !is_file($file) )
 		$error = 1;
 
-	if ( !$error && filesize($real_file) > 0 ) {
-		$f = fopen($real_file, 'r');
-		$content = fread($f, filesize($real_file));
+	if ( !$error && filesize($file) > 0 ) {
+		$f = fopen($file, 'r');
+		$content = fread($f, filesize($file));
 
-		if ( '.php' == substr( $real_file, strrpos( $real_file, '.' ) ) ) {
+		if ( '.php' == substr( $file, strrpos( $file, '.' ) ) ) {
 			$functions = wp_doc_link_parse( $content );
 
 			$docs_select = '<select name="docs-list" id="docs-list">';
@@ -102,7 +102,7 @@ default:
 		}
 
 		$content = htmlspecialchars( $content );
-		$codepress_lang = codepress_get_lang($real_file);
+		$codepress_lang = codepress_get_lang($file);
 	}
 
 	?>
@@ -212,7 +212,7 @@ if ($allowed_files) :
 	<?php } ?>
 
 		<div>
-<?php if ( is_writeable($real_file) ) : ?>
+<?php if ( is_writeable($file) ) : ?>
 			<p class="submit">
 <?php
 	echo "<input type='submit' name='submit' class='button-primary' value='" . esc_attr__('Update File') . "' tabindex='2' />";
