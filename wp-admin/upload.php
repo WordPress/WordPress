@@ -206,7 +206,7 @@ if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
 $messages[1] = __('Media attachment updated.');
 $messages[2] = __('Media permanently deleted.');
 $messages[3] = __('Error saving media attachment.');
-$messages[4] = __('Media moved to the trash.') . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo?') . '</a>';
+$messages[4] = __('Media moved to the trash.') . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
 $messages[5] = __('Media restored from the trash.');
 
 if ( isset($_GET['message']) && (int) $_GET['message'] ) {

@@ -168,7 +168,7 @@ if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	printf( _n( 'Post moved to the trash.', '%s posts moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
 	$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
-	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo?') . '</a><br />';
+	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a><br />';
 	unset($_GET['trashed']);
 }
 
