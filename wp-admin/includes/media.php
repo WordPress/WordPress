@@ -482,23 +482,17 @@ function media_upload_image() {
 
 	if ( !empty($_POST['insertonlybutton']) ) {
 		$alt = $align = '';
-		if ( !empty($_POST['insertonly']['embed-src']) ) {
-			$src = $_POST['insertonly']['embed-src'];
-			if ( !strpos($src, '://') )
-				$src = "http://$src";
-			$html = '[embed]' . esc_url($src) . '[/embed]';
-		} else {
-			$src = $_POST['insertonly']['src'];
-			if ( !empty($src) && !strpos($src, '://') )
-				$src = "http://$src";
-			$alt = esc_attr($_POST['insertonly']['alt']);
-			if ( isset($_POST['insertonly']['align']) ) {
-				$align = esc_attr($_POST['insertonly']['align']);
-				$class = " class='align$align'";
-			}
-			if ( !empty($src) )
-				$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
+
+		$src = $_POST['insertonly']['src'];
+		if ( !empty($src) && !strpos($src, '://') )
+			$src = "http://$src";
+		$alt = esc_attr($_POST['insertonly']['alt']);
+		if ( isset($_POST['insertonly']['align']) ) {
+			$align = esc_attr($_POST['insertonly']['align']);
+			$class = " class='align$align'";
 		}
+		if ( !empty($src) )
+			$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
 
 		$html = apply_filters('image_send_to_editor_url', $html, esc_url_raw($src), $alt, $align);
 		return media_send_to_editor($html);
@@ -596,8 +590,15 @@ function media_upload_audio() {
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 
-		$html = '[embed]' . esc_url($href) . '[/embed]';
-		$html = apply_filters('audio_send_to_editor_url', $html, esc_url_raw($href));
+		$title = esc_attr($_POST['insertonly']['title']);
+		if ( empty($title) )
+            $title = esc_attr( basename($href) );
+
+		if ( !empty($title) && !empty($href) )
+            $html = "<a href='" . esc_url($href) . "' >$title</a>";
+
+		$html = apply_filters('audio_send_to_editor_url', $html, $href, $title);
+
 		return media_send_to_editor($html);
 	}
 
@@ -647,8 +648,15 @@ function media_upload_video() {
 		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 
-		$html = '[embed]' . esc_url($href) . '[/embed]';
-		$html = apply_filters('video_send_to_editor_url', $html, esc_url_raw($href));
+		$title = esc_attr($_POST['insertonly']['title']);
+        if ( empty($title) )
+            $title = esc_attr( basename($href) );
+
+		if ( !empty($title) && !empty($href) )
+            $html = "<a href='" . esc_url($href) . "' >$title</a>";
+
+		$html = apply_filters('video_send_to_editor_url', $html, $href, $title);
+
 		return media_send_to_editor($html);
 	}
 
@@ -1539,9 +1547,6 @@ var addExtImage = {
 	insert : function() {
 		var t = this, html, f = document.forms[0], cls, title = '', alt = '', caption = '';
 
-		if ( '' != document.getElementById('embed-src').value )
-			return true;
-
 		if ( '' == f.src.value || '' == t.width )
 			return false;
 
@@ -1951,24 +1956,6 @@ function type_url_form_image() {
 		$default_align = 'none';
 
 	return '
-	<h4 class="media-sub-title">' . __('Embed a picture from a web site that supports oEmbed') . '</h4>
-	<table class="describe"><tbody>
-		<tr>
-			<th valign="top" scope="row" class="label" style="width:130px;">
-				<span class="alignleft"><label for="embed-src">' . __('Embed image') . '</label></span>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
-			</th>
-			<td class="field"><input id="embed-src" name="insertonly[embed-src]" value="" type="text" /></td>
-		</tr>
-
-		<tr>
-			<td></td>
-			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Embed') . '" />
-			</td>
-		</tr>
-	</tbody></table>
-
 	<h4 class="media-sub-title">' . __('Insert an image from another web site') . '</h4>
 	<table class="describe"><tbody>
 		<tr>
@@ -2048,7 +2035,14 @@ function type_url_form_audio() {
 			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
-
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
+			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
+		</tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Still Alive by Jonathan Coulton&#8221;') . '</td></tr>
 		<tr>
 			<td></td>
 			<td>
@@ -2076,7 +2070,14 @@ function type_url_form_video() {
 			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
-
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
+			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
+		</tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8220;') . '</td></tr>
 		<tr>
 			<td></td>
 			<td>

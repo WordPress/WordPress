@@ -177,6 +177,7 @@
 				}
 			});
 
+			/* disable for now
 			ed.onBeforeSetContent.add(function(ed, o) {
 				o.content = t._setEmbed(o.content);
 			});
@@ -185,6 +186,7 @@
 				if ( o.get )
 					o.content = t._getEmbed(o.content);
 			});
+			*/
 
 			// Add listeners to handle more break
 			t._handleMoreBreak(ed, url);
