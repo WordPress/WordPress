@@ -88,9 +88,10 @@ foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description',
 
 // Format text area for display.
 foreach ( array( 'term_description' ) as $filter ) {
-	add_filter( $filter, 'wptexturize'   );
-	add_filter( $filter, 'convert_chars' );
-	add_filter( $filter, 'wpautop'       );
+	add_filter( $filter, 'wptexturize'      );
+	add_filter( $filter, 'convert_chars'    );
+	add_filter( $filter, 'wpautop'          );
+	add_filter( $filter, 'shortcode_unautop');
 }
 
 // Format for RSS
@@ -107,13 +108,15 @@ add_filter( 'the_content', 'wptexturize'        );
 add_filter( 'the_content', 'convert_smilies'    );
 add_filter( 'the_content', 'convert_chars'      );
 add_filter( 'the_content', 'wpautop'            );
+add_filter( 'the_content', 'shortcode_unautop'  );
 add_filter( 'the_content', 'prepend_attachment' );
 
-add_filter( 'the_excerpt',     'wptexturize'     );
-add_filter( 'the_excerpt',     'convert_smilies' );
-add_filter( 'the_excerpt',     'convert_chars'   );
-add_filter( 'the_excerpt',     'wpautop'         );
-add_filter( 'get_the_excerpt', 'wp_trim_excerpt' );
+add_filter( 'the_excerpt',     'wptexturize'      );
+add_filter( 'the_excerpt',     'convert_smilies'  );
+add_filter( 'the_excerpt',     'convert_chars'    );
+add_filter( 'the_excerpt',     'wpautop'          );
+add_filter( 'the_excerpt',     'shortcode_unautop');
+add_filter( 'get_the_excerpt', 'wp_trim_excerpt'  );
 
 add_filter( 'comment_text', 'wptexturize'            );
 add_filter( 'comment_text', 'convert_chars'          );

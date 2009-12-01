@@ -179,6 +179,7 @@ function clean_pre($matches) {
  * @return string Text which has been converted into correct paragraph tags.
  */
 function wpautop($pee, $br = 1) {
+
 	if ( trim($pee) === '' )
 		return '';
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
@@ -216,7 +217,28 @@ function wpautop($pee, $br = 1) {
 	if (strpos($pee, '<pre') !== false)
 		$pee = preg_replace_callback('!(<pre[^>]*>)(.*?)</pre>!is', 'clean_pre', $pee );
 	$pee = preg_replace( "|\n</p>$|", '</p>', $pee );
-	$pee = preg_replace('/<p>\s*?(' . get_shortcode_regex() . ')\s*<\/p>/s', '$1', $pee); // don't auto-p wrap shortcodes that stand alone
+
+	return $pee;
+}
+
+/**
+ * Don't auto-p wrap shortcodes that stand alone
+ *
+ * Ensures that shortcodes are not wrapped in <<p>>...<</p>>.
+ *
+ * @since 2.9.0
+ *
+ * @param string $pee The content.
+ * @return string The filtered content.
+ */
+function shortcode_unautop($pee) {
+	global $shortcode_tags;
+
+	if ( !empty($shortcode_tags) && is_array($shortcode_tags) ) {
+		$tagnames = array_keys($shortcode_tags);
+		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
+		$pee = preg_replace('/<p>\\s*?(\\[(' . $tagregexp . ')\\b.*?\\/?\\](?:.+?\\[\\/\\2\\])?)\\s*<\\/p>/s', '$1', $pee);
+	}
 
 	return $pee;
 }
