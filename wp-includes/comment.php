@@ -1126,11 +1126,10 @@ function wp_insert_comment($commentdata) {
  * @return array Parsed comment information.
  */
 function wp_filter_comment($commentdata) {
-	// user_id is preferred. user_ID is accepted for back-compat.
 	if ( isset($commentdata['user_ID']) )
-		$commentdata['user_id'] = $commentdata['user_ID'] = apply_filters('pre_user_id', $commentdata['user_ID']);
-	else
-		$commentdata['user_id'] = $commentdata['user_ID'] = apply_filters('pre_user_id', $commentdata['user_id']);
+		$commentdata['user_id'] = apply_filters('pre_user_id', $commentdata['user_ID']);
+	elseif ( isset($commentdata['user_id']) )
+		$commentdata['user_id'] = apply_filters('pre_user_id', $commentdata['user_id']);
 	$commentdata['comment_agent']        = apply_filters('pre_comment_user_agent', $commentdata['comment_agent']);
 	$commentdata['comment_author']       = apply_filters('pre_comment_author_name', $commentdata['comment_author']);
 	$commentdata['comment_content']      = apply_filters('pre_comment_content', $commentdata['comment_content']);
@@ -1181,11 +1180,10 @@ function wp_new_comment( $commentdata ) {
 	$commentdata = apply_filters('preprocess_comment', $commentdata);
 
 	$commentdata['comment_post_ID'] = (int) $commentdata['comment_post_ID'];
-	// user_id is preferred. user_ID is accepted for back-compat.
 	if ( isset($commentdata['user_ID']) )
 		$commentdata['user_id'] = $commentdata['user_ID'] = (int) $commentdata['user_ID'];
-	else
-		$commentdata['user_id'] = $commentdata['user_ID'] = (int) $commentdata['user_id'];
+	elseif ( isset($commentdata['user_id']) )
+		$commentdata['user_id'] = (int) $commentdata['user_id'];
 
 	$commentdata['comment_parent'] = isset($commentdata['comment_parent']) ? absint($commentdata['comment_parent']) : 0;
 	$parent_status = ( 0 < $commentdata['comment_parent'] ) ? wp_get_comment_status($commentdata['comment_parent']) : '';

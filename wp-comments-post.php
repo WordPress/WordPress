@@ -75,7 +75,7 @@ if ( '' == $comment_content )
 
 $comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_parent']) : 0;
 
-$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_id');
+$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
 $comment_id = wp_new_comment( $commentdata );
 
