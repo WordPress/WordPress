@@ -2852,7 +2852,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	do_action('delete_attachment', $post_id);
 
 	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
-	wp_delete_object_term_relationships($postid, get_object_taxonomies($post->post_type));
+	wp_delete_object_term_relationships($post_id, get_object_taxonomies($post->post_type));
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND meta_value = %d", $post_id ));
 
