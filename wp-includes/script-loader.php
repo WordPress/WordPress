@@ -234,7 +234,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(catL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'admin-categories', "/wp-admin/js/categories$suffix.js", array('wp-lists'), '20091119' );
+		$scripts->add( 'admin-categories', "/wp-admin/js/categories$suffix.js", array('wp-lists'), '20091201' );
 		$scripts->add_data( 'admin-categories', 'group', 1 );
 
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery'), '20090623' );

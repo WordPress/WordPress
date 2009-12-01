@@ -30,5 +30,5 @@ jQuery(document).ready(function($) {
 	else
 		$('#the-list').wpList({ delBefore: delBefore });
 
-	$('.delete a[class^="delete"]').click(function(){return false;});
+	$('.delete a[class^="delete"]').live('click', function(){return false;});
 });
