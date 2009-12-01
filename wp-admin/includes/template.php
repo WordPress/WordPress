@@ -2160,14 +2160,14 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				}
 
 				if ( $user_can ) {
-					// preorder it: Approve | Reply | Quick Edit | Edit | Trash | Spam 
+					// preorder it: Approve | Reply | Quick Edit | Edit | Spam | Trash
 					$actions = array(
 						'approve' => '', 'unapprove' => '',
 						'reply' => '',
 						'quickedit' => '',
 						'edit' => '',
-						'trash' => '', 'untrash' => '', 'delete' => '',
-						'spam' => '', 'unspam' => ''
+						'spam' => '', 'unspam' => '',
+						'trash' => '', 'untrash' => '', 'delete' => ''
 					);
 
 					if ( $comment_status && 'all' != $comment_status ) { // not looking at all comments

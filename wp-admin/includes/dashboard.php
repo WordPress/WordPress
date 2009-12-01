@@ -531,13 +531,13 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 	$actions_string = '';
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-		// preorder it: Approve | Reply | Edit | Trash | Spam 
+		// preorder it: Approve | Reply | Edit | Spam | Trash
 		$actions = array(
 			'approve' => '', 'unapprove' => '',
 			'reply' => '',
 			'edit' => '',
-			'trash' => '', 'delete' => '',
-			'spam' => ''
+			'spam' => '',
+			'trash' => '', 'delete' => ''
 		);
 
 		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
