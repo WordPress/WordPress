@@ -612,7 +612,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getPages');
 
-		$pages = get_posts( array('post_type' => 'page', 'post_status' => 'all', 'numberposts' => $num_pages) );
+		$pages = get_posts( array('post_type' => 'page', 'post_status' => 'any', 'numberposts' => $num_pages) );
 		$num_pages = count($pages);
 
 		// If we have pages, put together their info.
