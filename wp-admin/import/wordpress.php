@@ -559,26 +559,35 @@ class WP_Import {
 		preg_match_all('|<wp:comment>(.*?)</wp:comment>|is', $post, $comments);
 		$comments = $comments[1];
 		$num_comments = 0;
-		if ( $comments) { foreach ($comments as $comment) {
-			$comment_author       = $this->get_tag( $comment, 'wp:comment_author');
-			$comment_author_email = $this->get_tag( $comment, 'wp:comment_author_email');
-			$comment_author_IP    = $this->get_tag( $comment, 'wp:comment_author_IP');
-			$comment_author_url   = $this->get_tag( $comment, 'wp:comment_author_url');
-			$comment_date         = $this->get_tag( $comment, 'wp:comment_date');
-			$comment_date_gmt     = $this->get_tag( $comment, 'wp:comment_date_gmt');
-			$comment_content      = $this->get_tag( $comment, 'wp:comment_content');
-			$comment_approved     = $this->get_tag( $comment, 'wp:comment_approved');
-			$comment_type         = $this->get_tag( $comment, 'wp:comment_type');
-			$comment_parent       = $this->get_tag( $comment, 'wp:comment_parent');
-
-			// if this is a new post we can skip the comment_exists() check
-			if ( !$post_exists || !comment_exists($comment_author, $comment_date) ) {
-				$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_approved', 'comment_type', 'comment_parent');
-				$commentdata = wp_filter_comment($commentdata);
-				wp_insert_comment($commentdata);
-				$num_comments++;
+		$inserted_comments = array();
+		if ( $comments) { 
+			foreach ($comments as $comment) {
+				$comment_id	= $this->get_tag( $comment, 'wp:comment_id');
+				$newcomments[$comment_id]['comment_post_ID']      = $comment_post_ID;
+				$newcomments[$comment_id]['comment_author']       = $this->get_tag( $comment, 'wp:comment_author');
+				$newcomments[$comment_id]['comment_author_email'] = $this->get_tag( $comment, 'wp:comment_author_email');
+				$newcomments[$comment_id]['comment_author_IP']    = $this->get_tag( $comment, 'wp:comment_author_IP');
+				$newcomments[$comment_id]['comment_author_url']   = $this->get_tag( $comment, 'wp:comment_author_url');
+				$newcomments[$comment_id]['comment_date']         = $this->get_tag( $comment, 'wp:comment_date');
+				$newcomments[$comment_id]['comment_date_gmt']     = $this->get_tag( $comment, 'wp:comment_date_gmt');
+				$newcomments[$comment_id]['comment_content']      = $this->get_tag( $comment, 'wp:comment_content');
+				$newcomments[$comment_id]['comment_approved']     = $this->get_tag( $comment, 'wp:comment_approved');
+				$newcomments[$comment_id]['comment_type']         = $this->get_tag( $comment, 'wp:comment_type');
+				$newcomments[$comment_id]['comment_parent'] 	  = $this->get_tag( $comment, 'wp:comment_parent');
 			}
-		} }
+			// Sort by comment ID, to make sure comment parents exist (if there at all)
+			ksort($newcomments);
+			foreach ($newcomments as $key => $comment) {
+				// if this is a new post we can skip the comment_exists() check
+				if ( !$post_exists || !comment_exists($comment['comment_author'], $comment['comment_date']) ) {
+					if (isset($inserted_comments[$comment['comment_parent']]))
+						$comment['comment_parent'] = $inserted_comments[$comment['comment_parent']];
+					$comment = wp_filter_comment($comment);
+					$inserted_comments[$key] = wp_insert_comment($comment);
+					$num_comments++;
+				}
+			}
+		}
 
 		if ( $num_comments )
 			printf(' '._n('(%s comment)', '(%s comments)', $num_comments), $num_comments);
