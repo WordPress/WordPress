@@ -1186,7 +1186,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	delete_post_meta($postid,'_wp_trash_meta_status');
 	delete_post_meta($postid,'_wp_trash_meta_time');
 
-	wp_delete_object_term_relationships($postid, get_object_taxonomies('post'));
+	wp_delete_object_term_relationships($postid, get_object_taxonomies($post->post_type));
 
 	$parent_data = array( 'post_parent' => $post->post_parent );
 	$parent_where = array( 'post_parent' => $postid );
@@ -2851,8 +2851,8 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 
 	do_action('delete_attachment', $post_id);
 
-	/** @todo Delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
+	wp_delete_object_term_relationships($postid, get_object_taxonomies($post->post_type));
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND meta_value = %d", $post_id ));
 
