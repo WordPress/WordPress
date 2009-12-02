@@ -254,14 +254,7 @@ function is_tax( $slug = '' ) {
 	if ( empty($slug) )
 		return true;
 
-	$term = $wp_query->get_queried_object();
-
-	$slug = (array) $slug;
-
-	if ( in_array( $term->slug, $slug ) )
-		return true;
-
-	return false;
+	return in_array( get_query_var('taxonomy'), (array) $slug );
 }
 
 /**
