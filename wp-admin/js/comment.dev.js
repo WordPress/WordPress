@@ -22,15 +22,25 @@ jQuery(document).ready( function($) {
 	});
 
 	$('.save-timestamp').click(function () { // crazyhorse - multiple ok cancels
+		var aa = $('#aa').val(), mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val(),
+			newD = new Date( aa, mm - 1, jj, hh, mn );
+
+		if ( newD.getFullYear() != aa || (1 + newD.getMonth()) != mm || newD.getDate() != jj || newD.getMinutes() != mn ) {
+			$('.timestamp-wrap', '#timestampdiv').addClass('form-invalid');
+			return false;
+		} else {
+			$('.timestamp-wrap', '#timestampdiv').removeClass('form-invalid');
+		}
+
 		$('#timestampdiv').slideUp("normal");
 		$('.edit-timestamp').show();
 		$('#timestamp').html(
 			commentL10n.submittedOn + ' <b>' +
-			$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
-			$('#jj').val() + ', ' +
-			$('#aa').val() + ' @ ' +
-			$('#hh').val() + ':' +
-			$('#mn').val() + '</b> '
+			$( '#mm option[value=' + mm + ']' ).text() + ' ' +
+			jj + ', ' +
+			aa + ' @ ' +
+			hh + ':' +
+			mn + '</b> '
 		);
 		return false;
 	});

@@ -2276,8 +2276,9 @@ fieldset {
 
 #timestampdiv select {
 	height: 20px;
-	line-height: 20px;
+	line-height: 14px;
 	padding: 0;
+	vertical-align: top;
 }
 
 #jj, #hh, #mn {

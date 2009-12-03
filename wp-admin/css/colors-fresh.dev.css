@@ -211,7 +211,8 @@ strong .post-com-count span {
 	background-color: #ffebe8 !important;
 }
 
-.form-invalid input {
+.form-invalid input,
+.form-invalid select {
 	border-color: #c00 !important;
 }
 

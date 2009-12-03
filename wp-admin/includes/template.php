@@ -2629,10 +2629,12 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	$year = '<input type="text" ' . ( $multi ? '' : 'id="aa" ' ) . 'name="aa" value="' . $aa . '" size="4" maxlength="4"' . $tab_index_attribute . ' autocomplete="off" />';
 	$hour = '<input type="text" ' . ( $multi ? '' : 'id="hh" ' ) . 'name="hh" value="' . $hh . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off" />';
 	$minute = '<input type="text" ' . ( $multi ? '' : 'id="mn" ' ) . 'name="mn" value="' . $mn . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off" />';
+
+	echo '<div class="timestamp-wrap">';
 	/* translators: 1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input */
 	printf(__('%1$s%2$s, %3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
 
-	echo '<input type="hidden" id="ss" name="ss" value="' . $ss . '" />';
+	echo '</div><input type="hidden" id="ss" name="ss" value="' . $ss . '" />';
 
 	if ( $multi ) return;
 

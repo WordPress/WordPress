@@ -340,11 +340,21 @@ jQuery(document).ready( function($) {
 		}
 
 		function updateText() {
-			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'), optPublish = $('option[value=publish]', postStatus);
+			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
+				optPublish = $('option[value=publish]', postStatus), aa = $('#aa').val(),
+				mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val();
 
-			attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val() );
+			attemptedDate = new Date( aa, mm - 1, jj, hh, mn );
 			originalDate = new Date( $('#hidden_aa').val(), $('#hidden_mm').val() -1, $('#hidden_jj').val(), $('#hidden_hh').val(), $('#hidden_mn').val() );
 			currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val() );
+
+			if ( attemptedDate.getFullYear() != aa || (1 + attemptedDate.getMonth()) != mm || attemptedDate.getDate() != jj || attemptedDate.getMinutes() != mn ) {
+				$('.timestamp-wrap', '#timestampdiv').addClass('form-invalid');
+				return false;
+			} else {
+				$('.timestamp-wrap', '#timestampdiv').removeClass('form-invalid');
+			}
+
 			if ( attemptedDate > currentDate && $('#original_post_status').val() != 'future' ) {
 				publishOn = postL10n.publishOnFuture;
 				$('#publish').val( postL10n.schedule );
@@ -364,10 +374,10 @@ jQuery(document).ready( function($) {
 				$('#timestamp').html(
 					publishOn + ' <b>' +
 					$('option[value=' + $('#mm').val() + ']', '#mm').text() + ' ' +
-					$('#jj').val() + ', ' +
-					$('#aa').val() + ' @ ' +
-					$('#hh').val() + ':' +
-					$('#mn').val() + '</b> '
+					jj + ', ' +
+					aa + ' @ ' +
+					hh + ':' +
+					mn + '</b> '
 				);
 			}
 
@@ -392,7 +402,8 @@ jQuery(document).ready( function($) {
 				} else {
 					optPublish.html( postL10n.published );
 				}
-				$('.edit-post-status', '#misc-publishing-actions').show();
+				if ( postStatus.is(':hidden') )
+					$('.edit-post-status', '#misc-publishing-actions').show();
 			}
 			$('#post-status-display').html($('option:selected', postStatus).text());
 			if ( $('option:selected', postStatus).val() == 'private' || $('option:selected', postStatus).val() == 'publish' ) {
@@ -405,6 +416,7 @@ jQuery(document).ready( function($) {
 					$('#save-post').show().val( postL10n.saveDraft );
 				}
 			}
+			return true;
 		}
 
 		$('.edit-visibility', '#visibility').click(function () {
@@ -473,9 +485,10 @@ jQuery(document).ready( function($) {
 		});
 
 		$('.save-timestamp', '#timestampdiv').click(function () { // crazyhorse - multiple ok cancels
-			$('#timestampdiv').slideUp("normal");
-			$('#timestampdiv').siblings('a.edit-timestamp').show();
-			updateText();
+			if ( updateText() ) {
+				$('#timestampdiv').slideUp("normal");
+				$('#timestampdiv').siblings('a.edit-timestamp').show();
+			}
 			return false;
 		});
 
