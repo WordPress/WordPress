@@ -74,7 +74,7 @@ inlineEditPost = {
 	},
 
 	setBulk : function() {
-		var te = '', type = this.type, tax;
+		var te = '', type = this.type, tax, c = true;
 		this.revert();
 
 		$('#bulk-edit td').attr('colspan', $('.widefat:first thead th:visible').length);
@@ -83,11 +83,15 @@ inlineEditPost = {
 
 		$('tbody th.check-column input[type="checkbox"]').each(function(i){
 			if ( $(this).attr('checked') ) {
+				c = false;
 				var id = $(this).val(), theTitle;
 				theTitle = $('#inline_'+id+' .post_title').text() || inlineEditL10n.notitle;
 				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+inlineEditL10n.ntdeltitle+'">X</a>'+theTitle+'</div>';
 			}
 		});
+
+		if ( c )
+			return this.revert();
 
 		$('#bulk-titles').html(te);
 		$('#bulk-titles a').click(function() {

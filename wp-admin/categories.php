@@ -34,17 +34,20 @@ case 'addcat':
 break;
 
 case 'delete':
+	if ( !isset( $_GET['cat_ID'] ) ) {
+		wp_redirect('categories.php');
+		exit;
+	}
+
 	$cat_ID = (int) $_GET['cat_ID'];
 	check_admin_referer('delete-category_' .  $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	$cat_name = get_cat_name($cat_ID);
-
 	// Don't delete the default cats.
 	if ( $cat_ID == get_option('default_category') )
-		wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+		wp_die( sprintf( __("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), get_cat_name($cat_ID) ) );
 
 	wp_delete_category($cat_ID);
 
@@ -59,18 +62,20 @@ case 'bulk-delete':
 	if ( !current_user_can('manage_categories') )
 		wp_die( __('You are not allowed to delete categories.') );
 
-	foreach ( (array) $_GET['delete'] as $cat_ID ) {
-		$cat_name = get_cat_name($cat_ID);
+	$cats = (array) $_GET['delete'];
+	$default_cat = get_option('default_category');
+	foreach ( $cats as $cat_ID ) {
+		$cat_ID = (int) $cat_ID;
 
-		// Don't delete the default cats.
-		if ( $cat_ID == get_option('default_category') )
-			wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+		// Don't delete the default cat.
+		if ( $cat_ID == $default_cat )
+			wp_die( sprintf( __("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), get_cat_name($cat_ID) ) );
 
 		wp_delete_category($cat_ID);
 	}
 
 	wp_safe_redirect( wp_get_referer() );
-	exit();
+	exit;
 
 break;
 case 'edit':

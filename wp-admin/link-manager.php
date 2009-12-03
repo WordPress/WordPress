@@ -18,13 +18,14 @@ if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 		wp_die( __('You do not have sufficient permissions to edit the links for this blog.') );
 
 	if ( 'delete' == $doaction ) {
-		foreach ( (array) $_GET['linkcheck'] as $link_id ) {
+		$bulklinks = (array) $_GET['linkcheck'];
+		foreach ( $bulklinks as $link_id ) {
 			$link_id = (int) $link_id;
 
 			wp_delete_link($link_id);
 		}
 
-		wp_redirect( wp_get_referer() );
+		wp_safe_redirect( wp_get_referer() );
 		exit;
 	}
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {

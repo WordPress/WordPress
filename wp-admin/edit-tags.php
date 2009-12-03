@@ -44,6 +44,11 @@ case 'addtag':
 break;
 
 case 'delete':
+	if ( !isset( $_GET['tag_ID'] ) ) {
+		wp_redirect("edit-tags.php?taxonomy=$taxonomy");
+		exit;
+	}
+
 	$tag_ID = (int) $_GET['tag_ID'];
 	check_admin_referer('delete-tag_' .  $tag_ID);
 
@@ -70,8 +75,8 @@ case 'bulk-delete':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	$tags = $_GET['delete_tags'];
-	foreach( (array) $tags as $tag_ID ) {
+	$tags = (array) $_GET['delete_tags'];
+	foreach( $tags as $tag_ID ) {
 		wp_delete_term( $tag_ID, $taxonomy);
 	}
 
