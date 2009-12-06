@@ -1038,7 +1038,7 @@ class WP_Embed {
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	function shortcode( $attr, $url = '' ) {
-		global $post, $_wp_using_ext_object_cache;
+		global $post;
 
 		if ( empty($url) )
 			return '';
@@ -1065,9 +1065,9 @@ class WP_Embed {
 		if ( $post_ID ) {
 
 			// Check for a cached result (stored in the post meta)
-			$cachekey = '_oembed_' . md5( $url . implode( '|', $attr ) );
+			$cachekey = '_oembed_' . md5( $url . serialize( $attr ) );
 			if ( $this->usecache ) {
-				$cache = ( $_wp_using_ext_object_cache ) ? wp_cache_get( "{$post_ID}_{$cachekey}", 'oembed' ) : get_post_meta( $post_ID, $cachekey, true );
+				$cache = get_post_meta( $post_ID, $cachekey, true );
 
 				// Failures are cached
 				if ( '{{unknown}}' === $cache )
@@ -1083,10 +1083,7 @@ class WP_Embed {
 
 			// Cache the result
 			$cache = ( $html ) ? $html : '{{unknown}}';
-			if ( $_wp_using_ext_object_cache )
-				wp_cache_set( "{$post_ID}_{$cachekey}", $cache, 'oembed' );
-			else
-				update_post_meta( $post_ID, $cachekey, $cache );
+			update_post_meta( $post_ID, $cachekey, $cache );
 
 			// If there was a result, return it
 			if ( $html )
@@ -1106,7 +1103,8 @@ class WP_Embed {
 		$post_metas = get_post_custom_keys( $post_ID );
 		if ( empty($post_metas) )
 			return;
-		foreach( (array) $post_metas as $post_meta_key ) {
+
+		foreach( $post_metas as $post_meta_key ) {
 			if ( '_oembed_' == substr( $post_meta_key, 0, 8 ) )
 				delete_post_meta( $post_ID, $post_meta_key );
 		}
