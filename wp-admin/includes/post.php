@@ -1077,7 +1077,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
 		} else {
 			$type = $post->post_type;
 		}
-		return sprintf( __( '<p>Your theme does not currently support <a href="%1$s">%2$s thumbnails</a>.</p><p>You can hide this module by clicking the "Screen Options" tab.</p>' ), _x( 'http://codex.wordpress.org/Post_Images', 'Within the post/page thumbnail module on the post/page edit screen' ), $type );
+		return sprintf( __( '<p>Your theme does not currently support <a href="%1$s" target="blank" rel="external">%2$s thumbnails</a>.</p><p>You can hide this module by clicking the "Screen Options" tab.</p>' ), _x( 'http://codex.wordpress.org/Post_Images', 'Within the post/page thumbnail module on the post/page edit screen' ), $type );
 	}
 	$content = '<p class="hide-if-no-js"><a href="#" id="set-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . esc_html__( 'Set thumbnail' ) . '</a></p>';
 
