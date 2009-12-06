@@ -1068,6 +1068,17 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * @return string html
  */
 function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
+	global $post;
+	if ( !current_theme_supports( 'post-thumbnails' ) ) {
+		if ( 'post' == $post->post_type ) {
+			$type = __( 'post' );
+		} elseif ( 'page' == $post->post_type ) {
+			$type = __( 'page' );
+		} else {
+			$type = $post->post_type;
+		}
+		return sprintf( __( '<p>Your theme does not currently support <a href="%1$s">%2$s thumbnails</a>.</p><p>You can hide this module by clicking the "Screen Options" tab.</p>' ), _x( 'http://codex.wordpress.org/Post_Images', 'Within the post/page thumbnail module on the post/page edit screen' ), $type );
+	}
 	$content = '<p class="hide-if-no-js"><a href="#" id="set-post-thumbnail" onclick="jQuery(\'#add_image\').click();return false;">' . esc_html__( 'Set thumbnail' ) . '</a></p>';
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
