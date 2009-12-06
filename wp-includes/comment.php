@@ -1674,8 +1674,7 @@ function pingback($content, $post_ID) {
 			// using a timeout of 3 seconds should be enough to cover slow servers
 			$client = new IXR_Client($pingback_server_url);
 			$client->timeout = 3;
-			$client->useragent .= ' -- WordPress/' . $wp_version;
-
+			$client->useragent = apply_filters( 'pingback_useragent', $client->useragent . ' -- WordPress/' . $wp_version, $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom);
 			// when set to true, this outputs debug messages by itself
 			$client->debug = false;
 
