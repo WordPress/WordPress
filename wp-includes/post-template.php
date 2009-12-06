@@ -746,8 +746,9 @@ function wp_list_pages($args = '') {
 	// sanitize, mostly to keep spaces out
 	$r['exclude'] = preg_replace('/[^0-9,]/', '', $r['exclude']);
 
-	// Allow plugins to filter an array of excluded pages
-	$r['exclude'] = implode(',', apply_filters('wp_list_pages_excludes', explode(',', $r['exclude'])));
+	// Allow plugins to filter an array of excluded pages (but don't put a nullstring into the array)
+	$exclude_array = ( $r['exclude'] ) ? explode(',', $r['exclude']) : array();
+	$r['exclude'] = implode( ',', apply_filters('wp_list_pages_excludes', $exclude_array) );
 
 	// Query pages.
 	$r['hierarchical'] = 0;
