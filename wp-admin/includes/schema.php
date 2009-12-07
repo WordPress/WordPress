@@ -109,8 +109,7 @@ CREATE TABLE $wpdb->options (
   option_value longtext NOT NULL,
   autoload varchar(20) NOT NULL default 'yes',
   PRIMARY KEY  (option_id),
-  UNIQUE option_name (option_name),
-  UNIQUE autoloaded_options (autoload, option_name)
+  UNIQUE KEY option_name (option_name)
 ) $charset_collate;
 CREATE TABLE $wpdb->postmeta (
   meta_id bigint(20) unsigned NOT NULL auto_increment,
