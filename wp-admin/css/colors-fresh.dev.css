@@ -636,8 +636,10 @@ tr.inactive + tr.plugin-update-tr .plugin-update {
 
 table.widefat span.delete a,
 table.widefat span.trash a,
+table.widefat span.spam a,
 #dashboard_recent_comments .delete a,
-#dashboard_recent_comments .trash a {
+#dashboard_recent_comments .trash a,
+#dashboard_recent_comments .spam a {
 	color: #bc0b0b;
 }
 
@@ -741,8 +743,10 @@ abbr.required,
 .widget-control-remove:hover,
 table.widefat .delete a:hover,
 table.widefat .trash a:hover,
+table.widefat .spam a:hover,
 #dashboard_recent_comments .delete a:hover,
-#dashboard_recent_comments .trash a:hover {
+#dashboard_recent_comments .trash a:hover
+#dashboard_recent_comments .spam a:hover {
 	color: #f00;
 }
 
