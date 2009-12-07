@@ -818,6 +818,14 @@ function map_meta_cap( $cap, $user_id ) {
 		$page_author_data = get_userdata( $page->post_author );
 		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br />";
 		// If the user is the author...
+
+		if ('' != $page->post_author) {
+			$page_author_data = get_userdata( $page->post_author );
+		} else {
+			//No author set yet so default to current user for cap checks
+			$page_author_data = $author_data;
+		}
+
 		if ( $user_id == $page_author_data->ID ) {
 			// If the page is published...
 			if ( $page->post_status == 'publish' ) {

@@ -2279,8 +2279,8 @@ function get_all_page_ids() {
  */
 function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
 	if ( empty($page) ) {
-		if ( isset( $GLOBALS['page'] ) && isset( $GLOBALS['page']->ID ) ) {
-			return get_post($GLOBALS['page'], $output, $filter);
+		if ( isset( $GLOBALS['post'] ) && isset( $GLOBALS['post']->ID ) ) {
+			return get_post($GLOBALS['post'], $output, $filter);
 		} else {
 			$page = null;
 			return $page;
