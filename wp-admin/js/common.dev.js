@@ -50,7 +50,7 @@ adminMenu = {
 			el.css('display','');
 		}).parent().toggleClass( 'wp-menu-open' );
 
-		$('.wp-has-submenu', '#adminmenu').each(function(i, e) {
+		$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
 			var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';
 			setUserSetting( 'm'+i, v );
 		});

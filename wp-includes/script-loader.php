@@ -61,7 +61,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20091119' );
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20091207' );
 	$scripts->add_data( 'common', 'group', 1 );
 	$scripts->localize( 'common', 'commonL10n', array(
 		'warnDelete' => __("You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."),
