@@ -1,6 +1,6 @@
 <?php
 /**
- * Main Wordpress Formatting API.
+ * Main WordPress Formatting API.
  *
  * Handles many functions for formatting output.
  *

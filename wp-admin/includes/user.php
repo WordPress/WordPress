@@ -10,7 +10,7 @@
  * Creates a new user from the "Users" form using $_POST information.
  *
  * It seems that the first half is for backwards compatibility, but only
- * has the ability to alter the user's role. Wordpress core seems to
+ * has the ability to alter the user's role. WordPress core seems to
  * use this function only in the second way, running edit_user() with
  * no id so as to create a new user.
  *
