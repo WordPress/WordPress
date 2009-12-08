@@ -166,7 +166,7 @@ function wp_loginout($redirect = '') {
 function wp_logout_url($redirect = '') {
 	$args = array( 'action' => 'logout' );
 	if ( !empty($redirect) ) {
-		$args['redirect_to'] = $redirect;
+		$args['redirect_to'] = urlencode( $redirect );
 	}
 
 	$logout_url = add_query_arg($args, site_url('wp-login.php', 'login'));
