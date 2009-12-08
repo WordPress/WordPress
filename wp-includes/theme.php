@@ -368,7 +368,7 @@ function get_themes() {
 		//Make unique and remove duplicates when stylesheet and template are the same i.e. most themes
 		$template_files = array_unique($template_files);
 		$stylesheet_files = array_unique($stylesheet_files);
-				
+			
 		$template_dir = dirname($template_files[0]);
 		$stylesheet_dir = dirname($stylesheet_files[0]);
 
@@ -502,14 +502,14 @@ function get_current_theme() {
  */
 function register_theme_directory( $directory) {
 	global $wp_theme_directories;
-	
+
 	/* If this folder does not exist, return and do not register */
 	if ( !file_exists( $directory ) )
 			/* Try prepending as the theme directory could be relative to the content directory */
 		$registered_directory = WP_CONTENT_DIR . '/' . $directory;
 	else
 		$registered_directory = $directory;
-	
+
 	/* If this folder does not exist, return and do not register */
 	if ( !file_exists( $registered_directory ) )
 		return false;
@@ -624,7 +624,7 @@ function get_theme_root( $stylesheet_or_template = false ) {
 	} else {
 		$theme_root = WP_CONTENT_DIR . '/themes';
 	}
-	
+
 	return apply_filters( 'theme_root', $theme_root );
 }
 
