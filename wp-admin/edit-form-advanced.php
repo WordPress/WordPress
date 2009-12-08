@@ -99,7 +99,7 @@ foreach ( get_object_taxonomies('post') as $tax_name ) {
 
 add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'side', 'core');
 if ( current_theme_supports( 'post-images' ) )
-	add_meta_box('postimagediv', __('Post Thumbnail'), 'post_thumbnail_meta_box', 'post', 'side', 'low');
+	add_meta_box('postimagediv', __('Post Image'), 'post_image_meta_box', 'post', 'side', 'low');
 add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'post', 'normal', 'core');
 add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', 'post', 'normal', 'core');
 add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', 'post', 'normal', 'core');

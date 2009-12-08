@@ -1410,14 +1410,14 @@ case 'set-post-thumbnail':
 
 	if ( $thumbnail_id == '-1' ) {
 		delete_post_meta( $post_id, '_thumbnail_id' );
-		die( _wp_post_thumbnail_html() );
+		die( _wp_post_image_html() );
 	}
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
 		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
 		if ( !empty( $thumbnail_html ) ) {
 			update_post_meta( $post_id, '_thumbnail_id', $thumbnail_id );
-			die( _wp_post_thumbnail_html( $thumbnail_id ) );
+			die( _wp_post_image_html( $thumbnail_id ) );
 		}
 	}
 	die( '0' );
