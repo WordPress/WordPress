@@ -98,10 +98,33 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$metadata['file'] = _wp_relative_upload_path($file);
 
 		// make thumbnails and other intermediate sizes
-		$sizes = apply_filters( 'intermediate_image_sizes', array('thumbnail', 'medium', 'large') );
+		global $_wp_additional_image_sizes;
+		$temp_sizes = array('thumbnail', 'medium', 'large'); // Standard sizes
+		if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) )
+			$temp_sizes = array_merge( $temp_sizes, array_keys( $_wp_additional_image_sizes ) );
 
-		foreach ($sizes as $size) {
-			$resized = image_make_intermediate_size( $file, get_option("{$size}_size_w"), get_option("{$size}_size_h"), get_option("{$size}_crop") );
+		$temp_sizes = apply_filters( 'intermediate_image_sizes', $temp_sizes );
+
+		foreach ( $temp_sizes as $s ) {
+			$sizes[$s] = array( 'width' => '', 'height' => '', 'crop' => FALSE );
+			if ( isset( $_wp_additional_image_sizes[$s]['width'] ) )
+				$sizes[$s]['width'] = intval( $_wp_additional_image_sizes[$s]['width'] ); // For theme-added sizes
+			else
+				$sizes[$s]['width'] = get_option( "{$size}_size_w" ); // For default sizes set in options
+			if ( isset( $_wp_additional_image_sizes[$s]['height'] ) )
+				$sizes[$s]['height'] = intval( $_wp_additional_image_sizes[$s]['height'] ); // For theme-added sizes
+			else
+				$sizes[$s]['height'] = get_option( "{$size}_size_h" ); // For default sizes set in options
+			if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )
+				$sizes[$s]['crop'] = intval( $_wp_additional_image_sizes[$s]['crop'] ); // For theme-added sizes
+			else
+				$sizes[$s]['crop'] = get_option( "{$size}_crop" ); // For default sizes set in options
+		}
+
+		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes );
+
+		foreach ($sizes as $size => $size_data ) {
+			$resized = image_make_intermediate_size( $file, $size_data['width'], $size_data['height'], $size_data['crop'] );
 			if ( $resized )
 				$metadata['sizes'][$size] = $resized;
 		}

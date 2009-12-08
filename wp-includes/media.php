@@ -32,7 +32,7 @@
  * @return array Width and height of what the result image should resize to.
  */
 function image_constrain_size_for_editor($width, $height, $size = 'medium') {
-	global $content_width;
+	global $content_width, $_wp_additional_image_sizes;
 
 	if ( is_array($size) ) {
 		$max_width = $size[0];
@@ -59,6 +59,11 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 		// can resize it in the editor if they wish.
 		$max_width = intval(get_option('large_size_w'));
 		$max_height = intval(get_option('large_size_h'));
+		if ( intval($content_width) > 0 )
+			$max_width = min( intval($content_width), $max_width );
+	} elseif ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
+		$max_width = intval( $_wp_additional_image_sizes[$size]['width'] );
+		$max_height = intval( $_wp_additional_image_sizes[$size]['height'] );
 		if ( intval($content_width) > 0 )
 			$max_width = min( intval($content_width), $max_width );
 	}
@@ -167,6 +172,21 @@ function image_downsize($id, $size = 'medium') {
 	}
 	return false;
 
+}
+
+/**
+ * Registers a new image size
+ */
+function add_image_size( $name, $width = 0, $height = 0, $crop = FALSE ) {
+	global $_wp_additional_image_sizes;
+	$_wp_additional_image_sizes[$name] = array( 'width' => absint( $width ), 'height' => absint( $height ), 'crop' => !!$crop );
+}
+
+/**
+ * Registers an image size for the post image
+ */
+function set_post_image_size( $width = 0, $height = 0, $crop = FALSE ) {
+	add_image_size( 'post-image', $width, $height, $crop );
 }
 
 /**
