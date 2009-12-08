@@ -2,8 +2,8 @@
 /**
  * WordPress Post Image Template Functions.
  *
- * Support for post thumbnails
- * Themes function.php must call add_theme_support( 'post-thumbnails' ) to use these.
+ * Support for post images
+ * Themes function.php must call add_theme_support( 'post-images' ) to use these.
  *
  * @package WordPress
  * @subpackage Template

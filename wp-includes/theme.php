@@ -1320,6 +1320,8 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
  */
 function add_theme_support( $feature ) {
 	global $_wp_theme_features;
+	if ( 'post-thumbnails' == $feature ) // This was changed during 2.9 beta. I'll be nice and not break things.
+		$feature = 'post-images';
 	$_wp_theme_features[$feature] = true;
 }
 

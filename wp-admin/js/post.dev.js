@@ -202,7 +202,7 @@ commentsBox = {
 };
 
 WPSetThumbnailHTML = function(html){
-	$('.inside', '#postthumbnaildiv').html(html);
+	$('.inside', '#postimagediv').html(html);
 };
 
 WPSetThumbnailID = function(id){

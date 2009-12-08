@@ -80,8 +80,8 @@ add_meta_box('pageparentdiv', __('Attributes'), 'page_attributes_meta_box', 'pag
 add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', 'page', 'normal', 'core');
 add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'page', 'normal', 'core');
 add_meta_box('slugdiv', __('Page Slug'), 'post_slug_meta_box', 'page', 'normal', 'core');
-if ( current_theme_supports( 'post-thumbnails' ) )
-	add_meta_box('postthumbnaildiv', __('Page Thumbnail'), 'post_thumbnail_meta_box', 'page', 'side', 'low');
+if ( current_theme_supports( 'post-images' ) )
+	add_meta_box('postimagediv', __('Page Thumbnail'), 'post_thumbnail_meta_box', 'page', 'side', 'low');
 
 $authors = get_editable_user_ids( $current_user->id, true, 'page' ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
