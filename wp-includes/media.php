@@ -648,7 +648,7 @@ add_shortcode('gallery', 'gallery_shortcode');
  * @return string HTML content to display gallery.
  */
 function gallery_shortcode($attr) {
-	global $post;
+	global $post, $wp_locale;
 
 	static $instance = 0;
 	$instance++;
@@ -711,7 +711,8 @@ function gallery_shortcode($attr) {
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
-
+	$float = $wp_locale->text_direction == 'rtl' ? 'right' : 'left'; 
+	
 	$selector = "gallery-{$instance}";
 
 	$output = apply_filters('gallery_style', "
@@ -720,7 +721,7 @@ function gallery_shortcode($attr) {
 				margin: auto;
 			}
 			#{$selector} .gallery-item {
-				float: left;
+				float: {$float};
 				margin-top: 10px;
 				text-align: center;
 				width: {$itemwidth}%;			}
