@@ -65,8 +65,16 @@ function prepareMediaItemInit(fileObj) {
 	// Also bind toggle to the links
 	jQuery('a.toggle', item).click(function(){
 		jQuery(this).siblings('.slidetoggle').slideToggle(350, function(){
-			var o = jQuery(this).offset();
-			window.scrollTo(0, o.top - 36);
+			var w = jQuery(window).height(), t = jQuery(this).offset().top, h = jQuery(this).height(), b;
+
+			if ( w && t && h ) {
+                b = t + h;
+
+                if ( b > w && (h + 48) < w )
+                    window.scrollBy(0, b - w + 13);
+                else if ( b > w )
+                    window.scrollTo(0, t - 36);
+            }
 		});
 		jQuery(this).siblings('.toggle').andSelf().toggle();
 		jQuery(this).siblings('a.toggle').focus();
@@ -161,7 +169,7 @@ function deleteSuccess(data, textStatus) {
 	jQuery('.filename', item).append('<span class="trashnotice"> ' + swfuploadL10n.deleted + ' </span>').siblings('a.toggle').hide();
 	jQuery('.filename', item).append( jQuery('a.undo', item).removeClass('hidden') );
 	jQuery('.menu_order_input', item).hide();
-	
+
 	return;
 }
 
