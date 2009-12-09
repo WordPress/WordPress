@@ -110,15 +110,15 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			if ( isset( $_wp_additional_image_sizes[$s]['width'] ) )
 				$sizes[$s]['width'] = intval( $_wp_additional_image_sizes[$s]['width'] ); // For theme-added sizes
 			else
-				$sizes[$s]['width'] = get_option( "{$size}_size_w" ); // For default sizes set in options
+				$sizes[$s]['width'] = get_option( "{$s}_size_w" ); // For default sizes set in options
 			if ( isset( $_wp_additional_image_sizes[$s]['height'] ) )
 				$sizes[$s]['height'] = intval( $_wp_additional_image_sizes[$s]['height'] ); // For theme-added sizes
 			else
-				$sizes[$s]['height'] = get_option( "{$size}_size_h" ); // For default sizes set in options
+				$sizes[$s]['height'] = get_option( "{$s}_size_h" ); // For default sizes set in options
 			if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )
 				$sizes[$s]['crop'] = intval( $_wp_additional_image_sizes[$s]['crop'] ); // For theme-added sizes
 			else
-				$sizes[$s]['crop'] = get_option( "{$size}_crop" ); // For default sizes set in options
+				$sizes[$s]['crop'] = get_option( "{$s}_crop" ); // For default sizes set in options
 		}
 
 		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes );
