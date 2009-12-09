@@ -12,9 +12,9 @@ adminMenu = {
 			else
 				t.hide();
 		});
-		
+
 		this.favorites();
-		
+
 		$('.separator', menu).click(function(){
 			if ( $('body').hasClass('folded') ) {
 				adminMenu.fold(1);
@@ -28,7 +28,7 @@ adminMenu = {
 
 		if ( $('body').hasClass('folded') )
 			this.fold();
-		
+
 		this.restoreMenuState();
 	},
 
@@ -46,14 +46,18 @@ adminMenu = {
 	},
 
 	toggle : function(el) {
-		el['slideToggle'](150, function() {
+		var id = el.slideToggle(150, function() {
 			el.css('display','');
-		}).parent().toggleClass( 'wp-menu-open' );
+		}).parent().toggleClass( 'wp-menu-open' ).attr('id');
 
-		$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
-			var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';
-			setUserSetting( 'm'+i, v );
-		});
+		if ( id ) {
+			$('li.wp-has-submenu', '#adminmenu').each(function(i, e) {
+				if ( id == e.id ) {
+				    var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';
+				    setUserSetting( 'm'+i, v );
+				}
+			});
+		}
 
 		return false;
 	},
@@ -240,7 +244,7 @@ jQuery(document).ready( function($) {
 		var c = $(this).attr('checked'),
 			kbtoggle = 'undefined' == typeof toggleWithKeyboard ? false : toggleWithKeyboard,
 			toggle = e.shiftKey || kbtoggle;
-		
+
 		$(this).closest( 'table' ).children( 'tbody' ).filter(':visible')
 		.children().children('.check-column').find(':checkbox')
 		.attr('checked', function() {
