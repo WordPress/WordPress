@@ -1683,15 +1683,15 @@ div.widgets-sortables,
 }
 
 .imgedit-menu div:hover {
-	border-color: #b1b1b1;
-	background-color: #e3e3e3;
+	border-color: #c1c1c1;
+	background-color: #eaeaea;
 }
 
 .imgedit-menu div.disabled {
-	border-color: #b3b3b3;
-	background-color: #cacaca;
-	filter: alpha(opacity=40);
-	opacity: 0.4;
+	border-color: #ccc;
+	background-color: #ddd;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
 }
 
 #dashboard_recent_comments div.undo {

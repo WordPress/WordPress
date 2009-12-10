@@ -3404,8 +3404,8 @@ td.imgedit-settings input {
 
 .imgedit-menu div {
 	float: left;
-	width: 34px;
-	height: 34px;
+	width: 32px;
+	height: 32px;
 	-moz-border-radius: 4px;
 	-khtml-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -3419,40 +3419,95 @@ td.imgedit-settings input {
 }
 
 .imgedit-crop {
-	background: transparent url(images/imgedit.gif) no-repeat scroll -62px 2px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -9px -31px;
 	margin: 0 8px 0 0;
 }
 
+.imgedit-crop.disabled:hover {
+	background-position: -9px -31px;
+}
+
+.imgedit-crop:hover {
+	background-position: -9px -1px;
+}
+
 .imgedit-rleft {
-	background: transparent url(images/imgedit.gif) no-repeat scroll -31px 2px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -46px -31px;
 	margin: 0 3px;
+}
+
+.imgedit-rleft.disabled:hover {
+	background-position: -46px -31px;
+}
+
+.imgedit-rleft:hover {
+	background-position: -46px -1px;
 }
 
 .imgedit-rright {
-	background: transparent url(images/imgedit.gif) no-repeat scroll 1px 2px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -77px -31px;
 	margin: 0 8px 0 3px;
+}
+
+.imgedit-rright.disabled:hover {
+	background-position: -77px -31px;
+}
+
+.imgedit-rright:hover {
+	background-position: -77px -1px;
 }
 
 .imgedit-flipv {
-	background: transparent url(images/imgedit.gif) no-repeat scroll -127px 2px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -115px -31px;
 	margin: 0 3px;
+}
+
+.imgedit-flipv.disabled:hover {
+	background-position: -115px -31px;
+}
+
+.imgedit-flipv:hover {
+	background-position: -115px -1px;
 }
 
 .imgedit-fliph {
-	background: transparent url(images/imgedit.gif) no-repeat scroll -95px 3px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -147px -31px;
 	margin: 0 8px 0 3px;
+}
+
+.imgedit-fliph.disabled:hover {
+	background-position: -147px -31px;
+}
+
+.imgedit-fliph:hover {
+	background-position: -147px -1px;
 }
 
 .imgedit-undo {
-	background: transparent url(images/imgedit.gif) no-repeat scroll -161px 2px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -184px -31px;
 	margin: 0 3px;
 }
 
+.imgedit-undo.disabled:hover {
+	background-position: -184px -31px;
+}
+
+.imgedit-undo:hover {
+	background-position: -184px -1px;
+}
+
 .imgedit-redo {
-	background: transparent url(images/imgedit.gif) no-repeat scroll -195px 2px;
+	background: transparent url(images/imgedit-icons.png) no-repeat scroll -215px -31px;
 	margin: 0 8px 0 3px;
 }
 
+.imgedit-redo.disabled:hover {
+	background-position: -215px -31px;
+}
+
+.imgedit-redo:hover {
+	background-position: -215px -1px;
+}
 
 .imgedit-applyto img {
 	margin: 0 8px 0 0;
