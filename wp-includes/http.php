@@ -1352,8 +1352,6 @@ class WP_Http_Curl {
 		$theResponse = curl_exec( $handle );
 
 		if ( !empty($theResponse) ) {
-			$parts = explode("\r\n\r\n", $theResponse);
-
 			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
 			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
 			$theBody = substr( $theResponse, $headerLength );
