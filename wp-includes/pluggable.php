@@ -865,7 +865,7 @@ function wp_redirect($location, $status = 302) {
 	} else {
 		if ( php_sapi_name() != 'cgi-fcgi' )
 			status_header($status); // This causes problems on IIS and some FastCGI setups
-		header("Location: $location");
+		header("Location: $location", true, $status);
 	}
 }
 endif;
