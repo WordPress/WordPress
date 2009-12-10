@@ -43,9 +43,9 @@ function press_it() {
 	// define some basic variables
 	$quick['post_status'] = 'draft'; // set as draft first
 	$quick['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
-	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : '';
-	$quick['post_title'] = isset($_POST['title']) ? $_POST['title'] : '';
-	$quick['post_content'] = '';
+	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
+	$quick['post_title'] = ( trim($_POST['title']) != '' ) ? $_POST['title'] : '  ';
+	$quick['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : ''; 
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
@@ -68,12 +68,12 @@ function press_it() {
 	$quick['post_content'] = $content;
 	// error handling for $post
 	if ( is_wp_error($post_ID)) {
-		wp_die($id);
 		wp_delete_post($post_ID);
+		wp_die($id);
 	// error handling for media_sideload
 	} elseif ( is_wp_error($upload)) {
-		wp_die($upload);
 		wp_delete_post($post_ID);
+		wp_die($upload);
 	} else {
 		$quick['ID'] = $post_ID;
 		wp_update_post($quick);
