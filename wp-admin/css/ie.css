@@ -325,6 +325,10 @@ div#dashboard-widgets {
 	margin-top: 2px;
 }
 
+.tablenav .actions select {
+	width: 155px;
+}
+
 table.ie-fixed {
 	table-layout: fixed;
 }

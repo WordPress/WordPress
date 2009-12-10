@@ -145,6 +145,10 @@ div.postbox div.inside {
 	color: #777;
 }
 
+#dashboard_right_now .t a {
+	white-space: nowrap;
+}
+
 #dashboard_right_now td.first,
 #dashboard_right_now td.last {
 	width: 1px;

@@ -417,15 +417,15 @@ a.button-secondary {
 
 .tablenav select[name="action"],
 .tablenav select[name="action2"] {
-	width: 120px;
+	width: 130px;
 }
 
 .tablenav select[name="m"] {
-	width: 120px;
+	width: 155px;
 }
 
 .tablenav select#cat {
-	width: 150px;
+	width: 170px;
 }
 
 #wpcontent select {
