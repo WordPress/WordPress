@@ -296,7 +296,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 <?php	if ( isset($_GET['addnew']) ) { ?>
 	<a href="widgets.php" class="button alignleft"><?php _e('Cancel'); ?></a>
 <?php	} else { ?>
-	<input type="submit" name="removewidget" class="button alignleft" value="<?php esc_attr_e('Remove'); ?>" />
+	<input type="submit" name="removewidget" class="button alignleft" value="<?php esc_attr_e('Delete'); ?>" />
 <?php	} ?>
 	<input type="submit" name="savewidget" class="button-primary alignright" value="<?php esc_attr_e('Save Widget'); ?>" />
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($widget_id); ?>" />

@@ -198,7 +198,7 @@ function wp_widget_control( $sidebar_args ) {
 
 	<div class="widget-control-actions">
 		<div class="alignleft">
-		<a class="widget-control-remove" href="#remove"><?php _e('Remove'); ?></a> |
+		<a class="widget-control-remove" href="#remove"><?php _e('Delete'); ?></a> |
 		<a class="widget-control-close" href="#close"><?php _e('Close'); ?></a>
 		</div>
 		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
