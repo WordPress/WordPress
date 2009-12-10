@@ -1,5 +1,5 @@
 function WPSetAsThumbnail(id){
-	var $link = jQuery('#media-item-' + id + ' a.wp-post-thumbnail');
+	var $link = jQuery('a#wp-post-thumbnail-' + id);
 
 	$link.text( setPostThumbnailL10n.saving );
 	jQuery.post(ajaxurl, {

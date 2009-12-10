@@ -382,7 +382,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20091111' );
 		$scripts->add_data( 'image-edit', 'group', 1 );
 
-		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091210' );
+		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), '20091210b' );
 		$scripts->add_data( 'set-post-thumbnail', 'group', 1 );
 		$scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
 			'setThumbnail' => __( 'Use as thumbnail' ),
