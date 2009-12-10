@@ -1239,7 +1239,12 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$thumbnail = '';
-	if ( 'image' == $type && isset($_GET['post_id']) && current_theme_supports( 'post-thumbnails', get_post_type($_GET['post_id']) ) && get_post_thumbnail_id($_GET['post_id']) != $attachment_id )
+	$calling_post_id = 0;
+	if ( isset( $_GET['post_id'] ) )
+		$calling_post_id = $_GET['post_id'];
+	elseif ( isset( $_POST ) && count( $_POST ) ) // Like for async-upload where $_GET['post_id'] isn't set
+		$calling_post_id = $post->post_parent;
+	if ( 'image' == $type && $calling_post_id && current_theme_supports( 'post-thumbnails', get_post_type( $calling_post_id ) ) && get_post_thumbnail_id( $calling_post_id ) != $attachment_id )
 		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
 
 	if ( ( $send || $thumbnail || $delete ) && !isset($form_fields['buttons']) )
