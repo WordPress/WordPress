@@ -183,10 +183,10 @@ function add_image_size( $name, $width = 0, $height = 0, $crop = FALSE ) {
 }
 
 /**
- * Registers an image size for the post image
+ * Registers an image size for the post thumbnail
  */
-function set_post_image_size( $width = 0, $height = 0, $crop = FALSE ) {
-	add_image_size( 'post-image', $width, $height, $crop );
+function set_post_thumbnail_size( $width = 0, $height = 0, $crop = FALSE ) {
+	add_image_size( 'post-thumbnail', $width, $height, $crop );
 }
 
 /**
@@ -578,38 +578,38 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 }
 
 /**
- * Adds a 'wp-post-image' class to post image thumbnails
- * Uses the begin_fetch_post_image_html and end_fetch_post_image_html action hooks to
- * dynamically add/remove itself so as to only filter post image thumbnails
+ * Adds a 'wp-post-image' class to post thumbnail thumbnails
+ * Uses the begin_fetch_post_thumbnail_html and end_fetch_post_thumbnail_html action hooks to
+ * dynamically add/remove itself so as to only filter post thumbnail thumbnails
  *
  * @author Mark Jaquith
  * @since 2.9.0
  * @param array $attr Attributes including src, class, alt, title
  * @return array
  */
-function _wp_post_image_class_filter( $attr ) {
+function _wp_post_thumbnail_class_filter( $attr ) {
 	$attr['class'] .= ' wp-post-image';
 	return $attr;
 }
 
 /**
- * Adds _wp_post_image_class_filter to the wp_get_attachment_image_attributes filter
+ * Adds _wp_post_thumbnail_class_filter to the wp_get_attachment_image_attributes filter
  *
  * @author Mark Jaquith
  * @since 2.9.0
  */
-function _wp_post_image_class_filter_add( $attr ) {
-	add_filter( 'wp_get_attachment_image_attributes', '_wp_post_image_class_filter' );
+function _wp_post_thumbnail_class_filter_add( $attr ) {
+	add_filter( 'wp_get_attachment_image_attributes', '_wp_post_thumbnail_class_filter' );
 }
 
 /**
- * Removes _wp_post_image_class_filter from the wp_get_attachment_image_attributes filter
+ * Removes _wp_post_thumbnail_class_filter from the wp_get_attachment_image_attributes filter
  *
  * @author Mark Jaquith
  * @since 2.9.0
  */
-function _wp_post_image_class_filter_remove( $attr ) {
-	remove_filter( 'wp_get_attachment_image_attributes', '_wp_post_image_class_filter' );
+function _wp_post_thumbnail_class_filter_remove( $attr ) {
+	remove_filter( 'wp_get_attachment_image_attributes', '_wp_post_thumbnail_class_filter' );
 }
 
 add_shortcode('wp_caption', 'img_caption_shortcode');

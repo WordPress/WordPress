@@ -1321,9 +1321,6 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
 function add_theme_support( $feature ) {
 	global $_wp_theme_features;
 
-	if ( 'post-thumbnails' == $feature ) // This was changed during 2.9 beta. I'll be nice and not break things.
-		$feature = 'post-images';
-
 	if ( func_num_args() == 1 )
 		$_wp_theme_features[$feature] = true;
 	else
@@ -1353,7 +1350,7 @@ function current_theme_supports( $feature ) {
 
 	// @todo Allow pluggable arg checking
 	switch ( $feature ) {
-		case 'post-images':
+		case 'post-thumbnails':
 			// post-thumbnails can be registered for only certain content/post types by passing
 			// an array of types to add_theme_support().  If no array was passed, then
 			// any type is accepted

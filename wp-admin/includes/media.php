@@ -1239,8 +1239,8 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$thumbnail = '';
-	if ( 'image' == $type && isset($_GET['post_id']) && current_theme_supports( 'post-images', get_post_type($_GET['post_id']) ) && get_post_image_id($_GET['post_id']) != $attachment_id )
-		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as post image" ) . "</a>";
+	if ( 'image' == $type && isset($_GET['post_id']) && current_theme_supports( 'post-thumbnails', get_post_type($_GET['post_id']) ) && get_post_thumbnail_id($_GET['post_id']) != $attachment_id )
+		$thumbnail = "<a class='wp-post-thumbnail' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
 
 	if ( ( $send || $thumbnail || $delete ) && !isset($form_fields['buttons']) )
 		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $thumbnail $delete</td></tr>\n");

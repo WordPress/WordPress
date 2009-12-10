@@ -815,12 +815,12 @@ function link_advanced_meta_box($link) {
 }
 
 /**
- * Display post image meta box.
+ * Display post thumbnail meta box.
  *
  * @since 2.9.0
  */
-function post_image_meta_box() {
+function post_thumbnail_meta_box() {
 	global $post;
 	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
-	echo _wp_post_image_html( $thumbnail_id );
+	echo _wp_post_thumbnail_html( $thumbnail_id );
 }

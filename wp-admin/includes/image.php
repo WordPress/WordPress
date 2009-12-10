@@ -75,7 +75,7 @@ function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_
 }
 
 /**
- * Generate post image attachment meta data.
+ * Generate post thumbnail attachment meta data.
  *
  * @since 2.1.0
  *
