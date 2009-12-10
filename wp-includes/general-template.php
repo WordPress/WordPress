@@ -1705,7 +1705,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
  * @return string
  */
 function get_search_query() {
-	return apply_filters( 'get_search_query', stripslashes( get_query_var( 's' ) ) );
+	return apply_filters( 'get_search_query', get_query_var( 's' ) );
 }
 
 /**
