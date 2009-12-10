@@ -134,7 +134,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return $cwd;
 	}
 	function chdir($dir) {
-		return @ftp_chdir($dir);
+		return @ftp_chdir($this->link, $dir);
 	}
 	function chgrp($file, $group, $recursive = false ) {
 		return false;
