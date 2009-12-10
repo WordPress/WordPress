@@ -358,7 +358,7 @@ if ( $comments ) { foreach ( $comments as $c ) { ?>
 <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
 <wp:comment_author><?php echo wxr_cdata($c->comment_author); ?></wp:comment_author>
 <wp:comment_author_email><?php echo $c->comment_author_email; ?></wp:comment_author_email>
-<wp:comment_author_url><?php echo $c->comment_author_url; ?></wp:comment_author_url>
+<wp:comment_author_url><?php echo esc_url_raw( $c->comment_author_url ); ?></wp:comment_author_url>
 <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
 <wp:comment_date><?php echo $c->comment_date; ?></wp:comment_date>
 <wp:comment_date_gmt><?php echo $c->comment_date_gmt; ?></wp:comment_date_gmt>
