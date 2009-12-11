@@ -184,11 +184,11 @@ $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
 
-$tags_per_page = get_user_option('edit_tags_per_page');
-if ( empty($tags_per_page) )
+$tags_per_page = (int) get_user_option( 'edit_tags_per_page', 0, false );
+if ( empty($tags_per_page) || $tags_per_page < 1 )
 	$tags_per_page = 20;
-$tags_per_page = apply_filters('edit_tags_per_page', $tags_per_page);
-$tags_per_page = apply_filters('tagsperpage', $tags_per_page); // Old filter
+$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
+$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),

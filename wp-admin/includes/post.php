@@ -845,10 +845,10 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
-	$posts_per_page = get_user_option('edit_per_page');
-	if ( empty($posts_per_page) )
+	$posts_per_page = (int) get_user_option( 'edit_per_page', 0, false );
+	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 15;
-	$posts_per_page = apply_filters('edit_posts_per_page', $posts_per_page);
+	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page );
 
 	wp("post_type=post&$post_status_q&posts_per_page=$posts_per_page&order=$order&orderby=$orderby");
 
@@ -903,10 +903,10 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['cat'] = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$q['post_type'] = 'attachment';
 	$q['post_status'] = isset( $q['status'] ) && 'trash' == $q['status'] ? 'trash' : 'inherit';
-	$media_per_page = get_user_option('upload_per_page');
-	if ( empty($media_per_page) )
+	$media_per_page = (int) get_user_option( 'upload_per_page', 0, false );
+	if ( empty( $media_per_page ) || $media_per_page < 1 )
 		$media_per_page = 20;
-	$q['posts_per_page'] = $media_per_page;
+	$q['posts_per_page'] = apply_filters( 'upload_per_page', $media_per_page );
 
 	$post_mime_types = get_post_mime_types();
 	$avail_post_mime_types = get_available_post_mime_types('attachment');

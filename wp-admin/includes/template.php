@@ -3716,14 +3716,20 @@ function screen_options($screen) {
 			return '';
 	}
 
-	$option = str_replace('-', '_', "${screen}_per_page");
-	$per_page = get_user_option($option);
-	if ( empty($per_page) ) {
+	$option = str_replace( '-', '_', "${screen}_per_page" );
+	$per_page = (int) get_user_option( $option, 0, false );
+	if ( empty( $per_page ) || $per_page < 1 ) {
 		if ( 'plugins' == $screen )
 			$per_page = 999;
 		else
 			$per_page = 20;
 	}
+	if ( 'edit_comments_per_page' == $option )
+		$per_page = apply_filters( 'comments_per_page', $per_page, isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : 'all' );
+	elseif ( 'categories' == $option )
+		$per_page = apply_filters( 'edit_categories_per_page', $per_page );
+	else
+		$per_page = apply_filters( $option, $per_page );
 
 	$return = '<h5>' . __('Options') . "</h5>\n";
 	$return .= "<div class='screen-options'>\n";

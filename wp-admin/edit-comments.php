@@ -236,10 +236,10 @@ unset($status_links);
 </p>
 
 <?php
-$comments_per_page = get_user_option('edit_comments_per_page');
-if ( empty($comments_per_page) )
+$comments_per_page = (int) get_user_option( 'edit_comments_per_page', 0, false );
+if ( empty( $comments_per_page ) || $comments_per_page < 1 )
 	$comments_per_page = 20;
-$comments_per_page = apply_filters('comments_per_page', $comments_per_page, $comment_status);
+$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
 
 if ( isset( $_GET['apage'] ) )
 	$page = abs( (int) $_GET['apage'] );
