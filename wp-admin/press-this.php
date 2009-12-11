@@ -43,37 +43,38 @@ function press_it() {
 	// define some basic variables
 	$quick['post_status'] = 'draft'; // set as draft first
 	$quick['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
-	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : '';
-	$quick['post_title'] = isset($_POST['title']) ? $_POST['title'] : '';
-	$quick['post_content'] = '';
+	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
+	$quick['post_title'] = ( trim($_POST['title']) != '' ) ? $_POST['title'] : '  ';
+	$quick['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : ''; 
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
+	if ( is_wp_error($post_ID) )
+		wp_die($post_ID);
+
 	$content = isset($_POST['content']) ? $_POST['content'] : '';
 
 	$upload = false;
-	if( !empty($_POST['photo_src']) && current_user_can('upload_files') )
-		foreach( (array) $_POST['photo_src'] as $key => $image)
+	if( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
+		foreach( (array) $_POST['photo_src'] as $key => $image) {
 			// see if files exist in content - we don't want to upload non-used selected files.
-			if( strpos($_POST['content'], htmlspecialchars($image)) !== false ) {
+			if ( strpos($_POST['content'], htmlspecialchars($image)) !== false ) {
 				$desc = isset($_POST['photo_description'][$key]) ? $_POST['photo_description'][$key] : '';
 				$upload = media_sideload_image($image, $post_ID, $desc);
 
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
+				if( !is_wp_error($upload) )
+					$content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
-
+		}
+	}
 	// set the post_content and status
 	$quick['post_status'] = isset($_POST['publish']) ? 'publish' : 'draft';
 	$quick['post_content'] = $content;
-	// error handling for $post
-	if ( is_wp_error($post_ID)) {
-		wp_die($id);
-		wp_delete_post($post_ID);
 	// error handling for media_sideload
-	} elseif ( is_wp_error($upload)) {
-		wp_die($upload);
+	if ( is_wp_error($upload) ) {
 		wp_delete_post($post_ID);
+		wp_die($upload);
 	} else {
 		$quick['ID'] = $post_ID;
 		wp_update_post($quick);
