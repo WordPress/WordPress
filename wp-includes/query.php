@@ -1424,7 +1424,7 @@ class WP_Query {
 		if ( '' != $qv['tb'] )
 			$this->is_trackback = true;
 
-		if ( '' != $qv['paged'] )
+		if ( '' != $qv['paged'] && ( intval($qv['paged']) > 1 ) )
 			$this->is_paged = true;
 
 		if ( '' != $qv['comments_popup'] )
