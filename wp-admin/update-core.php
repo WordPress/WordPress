@@ -173,10 +173,15 @@ function list_plugin_updates() {
 		} else {
 			$compat = '';
 		}
+		if ( isset($plugin_data->update->upgrade_notice) ) {
+			$upgrade_notice = '<br />' . strip_tags($plugin_data->update->upgrade_notice);
+		} else {
+			$upgrade_notice = '';
+		}
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You are running version %1$s. Upgrade to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . "</td>
+		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You are running version %1$s. Upgrade to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . $upgrade_notice . "</td>
 	</tr>";
 	}
 ?>
