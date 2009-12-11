@@ -599,9 +599,9 @@ function delete_meta( $mid ) {
 	$mid = (int) $mid;
 
 	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
-	wp_cache_delete($post_id, 'post_meta');
 
 	do_action( 'delete_postmeta', $mid );
+	wp_cache_delete($post_id, 'post_meta');
 	$rval = $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 	do_action( 'deleted_postmeta', $mid );
 
@@ -686,7 +686,6 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 		return false;
 
 	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $meta_id) );
-	wp_cache_delete($post_id, 'post_meta');
 
 	$meta_value = maybe_serialize( stripslashes_deep( $meta_value ) );
 	$meta_id = (int) $meta_id;
@@ -696,6 +695,7 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 
 	do_action( 'update_postmeta', $meta_id, $post_id, $meta_key, $meta_value );
 	$rval = $wpdb->update( $wpdb->postmeta, $data, $where );
+	wp_cache_delete($post_id, 'post_meta');
 	do_action( 'updated_postmeta', $meta_id, $post_id, $meta_key, $meta_value );
 
 	return $rval;
