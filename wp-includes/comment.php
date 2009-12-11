@@ -550,7 +550,8 @@ function check_comment_flood_db( $ip, $email, $date ) {
 	global $wpdb;
 	if ( current_user_can( 'manage_options' ) )
 		return; // don't throttle admins
-	if ( $lasttime = $wpdb->get_var( $wpdb->prepare("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = %s OR comment_author_email = %s ORDER BY comment_date DESC LIMIT 1", $ip, $email) ) ) {
+	$hour_ago = gmdate( 'Y-m-d H:i:s', time() - 3600 );
+	if ( $lasttime = $wpdb->get_var( $wpdb->prepare( "SELECT `comment_date_gmt` FROM `$wpdb->comments` WHERE `comment_date_gmt` >= %s AND ( `comment_author_IP` = %s OR `comment_author_email` = %s ) ORDER BY `comment_date_gmt` DESC LIMIT 1", $hour_ago, $ip, $email ) ) ) {
 		$time_lastcomment = mysql2date('U', $lasttime, false);
 		$time_newcomment  = mysql2date('U', $date, false);
 		$flood_die = apply_filters('comment_flood_filter', false, $time_lastcomment, $time_newcomment);
