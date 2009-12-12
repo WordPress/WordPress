@@ -1193,6 +1193,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$meta = wp_get_attachment_metadata($post->ID);
 	if ( is_array($meta) && array_key_exists('width', $meta) && array_key_exists('height', $meta) )
 		$media_dims .= "<span id='media-dims-{$post->ID}'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+	$media_dims = apply_filters('media_meta', $media_dims, $post);
 
 	$image_edit_button = '';
 	if ( gd_edit_image_support($post->post_mime_type) ) {
@@ -1212,8 +1213,12 @@ function get_media_item( $attachment_id, $args = null ) {
 			<td><strong>" . __('File name:') . "</strong> $filename</td>
 		</tr>
 		<tr><td><strong>" . __('File type:') . "</strong> $post->post_mime_type</td></tr>
-		<tr><td><strong>" . __('Upload date:') . "</strong> " . mysql2date( get_option('date_format'), $post->post_date ) . "</td></tr>
-		<tr><td><strong>" . __('Dimensions:') . "</strong> " . apply_filters('media_meta', $media_dims, $post) . "</td></tr>
+		<tr><td><strong>" . __('Upload date:') . "</strong> " . mysql2date( get_option('date_format'), $post->post_date ) . "</td></tr>\n";
+
+	if ( !empty($media_dims) )
+		$item .= "<tr><td><strong>" . __('Dimensions:') . "</strong> $media_dims</td></tr>\n";
+
+	$item .= "
 		<tr><td class='A1B1'>$image_edit_button</td></tr>
 		</thead>
 		<tbody>
