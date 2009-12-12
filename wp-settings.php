@@ -201,14 +201,17 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 }
 timer_start();
 
-// Add define('WP_DEBUG',true); to wp-config.php to enable display of notices during development.
-if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
-	error_reporting(E_ALL);
+// Add define('WP_DEBUG', true); to wp-config.php to enable display of notices during development.
+if ( defined('WP_DEBUG') && WP_DEBUG ) {
+	if ( defined('E_DEPRECATED') )
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+	else
+		error_reporting(E_ALL);
 	// Add define('WP_DEBUG_DISPLAY', false); to wp-config.php to use the globally configured setting for display_errors and not force it to On
-	if ( ! defined('WP_DEBUG_DISPLAY') || WP_DEBUG_DISPLAY == true )
+	if ( ! defined('WP_DEBUG_DISPLAY') || WP_DEBUG_DISPLAY )
 		ini_set('display_errors', 1);
 	// Add define('WP_DEBUG_LOG', true); to enable php debug logging to WP_CONTENT_DIR/debug.log
-	if ( defined('WP_DEBUG_LOG') && WP_DEBUG_LOG == true ) {
+	if ( defined('WP_DEBUG_LOG') && WP_DEBUG_LOG ) {
 		ini_set('log_errors', 1);
 		ini_set('error_log', WP_CONTENT_DIR . '/debug.log');
 	}
