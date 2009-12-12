@@ -52,7 +52,12 @@ if ( isset($_GET['action']) ) {
 
 		if( isset($_GET['failure']) ){
 			echo '<p>' . __('Plugin failed to reactivate due to a fatal error.') . '</p>';
-			error_reporting( E_ALL ^ E_NOTICE );
+
+			if ( defined('E_RECOVERABLE_ERROR') )
+				error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
+			else
+				error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING);
+
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
 			include(WP_PLUGIN_DIR . '/' . $plugin);
 		}
