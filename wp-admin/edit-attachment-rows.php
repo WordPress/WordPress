@@ -94,9 +94,9 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		if ( current_user_can('delete_post', $post->ID) ) {
 			if ( $is_trash )
 				$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
-			elseif ( EMPTY_TRASH_DAYS )
+			elseif ( EMPTY_TRASH_DAYS && MEDIA_TRASH )
 				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
-			if ( $is_trash || !EMPTY_TRASH_DAYS )
+			if ( $is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH )
 				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
 		}
 		if ( !$is_trash )

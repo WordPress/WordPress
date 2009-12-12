@@ -243,7 +243,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
 }
 $type_links[] = '<li><a href="upload.php?detached=1"' . ( isset($_GET['detached']) ? ' class="current"' : '' ) . '>' . __('Unattached') . '</a>';
-if ( EMPTY_TRASH_DAYS )
+if ( EMPTY_TRASH_DAYS && ( MEDIA_TRASH || !empty($_num_posts['trash']) ) )
 	$type_links[] = '<li><a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
 
 echo implode( " |</li>\n", $type_links) . '</li>';
@@ -288,7 +288,7 @@ if ( $page_links ) : ?>
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <?php if ( $is_trash ) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
-<?php } if ( $is_trash || !EMPTY_TRASH_DAYS ) { ?>
+<?php } if ( $is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH ) { ?>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>
@@ -392,7 +392,7 @@ foreach ($arc_result as $arc_row) {
 		if ( current_user_can('edit_post', $post->ID) )
 			$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
 		if ( current_user_can('delete_post', $post->ID) )
-			if ( EMPTY_TRASH_DAYS )
+			if ( EMPTY_TRASH_DAYS && MEDIA_TRASH )
 				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
 			else
 				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
@@ -454,7 +454,7 @@ if ( $page_links )
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <?php if ($is_trash) { ?>
 <option value="untrash"><?php _e('Restore'); ?></option>
-<?php } if ( $is_trash || !EMPTY_TRASH_DAYS ) { ?>
+<?php } if ( $is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH ) { ?>
 <option value="delete"><?php _e('Delete Permanently'); ?></option>
 <?php } else { ?>
 <option value="trash"><?php _e('Move to Trash'); ?></option>

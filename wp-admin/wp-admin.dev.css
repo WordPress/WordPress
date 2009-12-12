@@ -3619,3 +3619,7 @@ span.imgedit-scale-warn {
 	border-spacing: 3px;
 	padding: 3px;
 }
+
+.describe .del-link {
+	padding-left: 5px;
+}

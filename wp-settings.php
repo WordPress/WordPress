@@ -225,6 +225,12 @@ if ( defined('WP_CACHE') && WP_CACHE )
 	@include WP_CONTENT_DIR . '/advanced-cache.php';
 
 /**
+ * Private
+ */ 
+if ( !defined('MEDIA_TRASH') )
+	define('MEDIA_TRASH', false);
+
+/**
  * Stores the location of the WordPress directory of functions, classes, and core content.
  *
  * @since 1.0.0
