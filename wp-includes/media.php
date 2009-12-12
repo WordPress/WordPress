@@ -325,7 +325,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
 
 	// the return array matches the parameters to imagecopyresampled()
 	// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
-	return array( 0, 0, $s_x, $s_y, $new_w, $new_h, $crop_w, $crop_h );
+	return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
 
 }
 
