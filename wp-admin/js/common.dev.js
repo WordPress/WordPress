@@ -173,10 +173,10 @@ jQuery(document).ready( function($) {
 	var lastClicked = false, checks, first, last, checked;
 
 	// pulse
-	$('div.fade').animate( { opacity: .5 }, 400)
-	.animate( { opacity: 1 }, 400)
-	.animate( { opacity: .5 }, 400)
-	.animate( { opacity: 1 }, 400);
+	$('div.fade').animate( { opacity: .5 }, 200)
+	.animate( { opacity: 1 }, 200)
+	.animate( { opacity: .5 }, 200)
+	.animate( { opacity: 1 }, 200);
 
 	// Move .updated and .error alert boxes
 	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
