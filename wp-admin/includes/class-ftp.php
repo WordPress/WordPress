@@ -278,7 +278,10 @@ class ftp_base {
 	        $dns=@gethostbyaddr($host);
 	        if(!$ip) $ip=$host;
 	        if(!$dns) $dns=$host;
-			if(ip2long($ip) === -1) {
+	        // Validate the IPAddress PHP4 returns -1 for invalid, PHP5 false
+	        // -1 === "255.255.255.255" which is the broadcast address which is also going to be invalid
+	        $ipaslong = ip2long($ip);
+			if ( ($ipaslong == false) || ($ipaslong === -1) ) {
 				$this->SendMSG("Wrong host name/address \"".$host."\"");
 				return FALSE;
 			}
