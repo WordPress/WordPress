@@ -506,7 +506,7 @@ function wp_allow_comment($commentdata) {
 
 	do_action( 'check_comment_flood', $comment_author_IP, $comment_author_email, $comment_date_gmt );
 
-	if ( $user_id ) {
+	if ( isset($user_id) ) {
 		$userdata = get_userdata($user_id);
 		$user = new WP_User($user_id);
 		$post_author = $wpdb->get_var($wpdb->prepare("SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1", $comment_post_ID));
