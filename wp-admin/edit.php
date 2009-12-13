@@ -193,7 +193,7 @@ $class = '';
 $allposts = '';
 
 if ( $user_posts ) {
-	if ( $_GET['author'] == $current_user->ID )
+	if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user->ID ) )
 		$class = ' class="current"';
 	$status_links[] = "<li><a href='edit.php?author=$current_user->ID'$class>" . sprintf( _nx( 'My Posts <span class="count">(%s)</span>', 'My Posts <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
 	$allposts = '?all_posts=1';
