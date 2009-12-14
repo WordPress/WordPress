@@ -619,9 +619,9 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  */
 function get_search_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
-		$search = esc_attr(get_search_query());
+		$search = esc_attr( urlencode(get_search_query()) );
 	else
-		$search = esc_attr(stripslashes($search_query));
+		$search = esc_attr( urlencode(stripslashes($search_query)) );
 
 	if ( empty($feed) )
 		$feed = get_default_feed();
@@ -644,9 +644,9 @@ function get_search_feed_link($search_query = '', $feed = '') {
  */
 function get_search_comments_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
-		$search = esc_attr(get_search_query());
+		$search = esc_attr( urlencode(get_search_query()) );
 	else
-		$search = esc_attr(stripslashes($search_query));
+		$search = esc_attr( urlencode(stripslashes($search_query)) );
 
 	if ( empty($feed) )
 		$feed = get_default_feed();
