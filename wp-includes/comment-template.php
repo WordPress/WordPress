@@ -599,12 +599,12 @@ function comment_text() {
  */
 function get_comment_time( $d = '', $gmt = false, $translate = true ) {
 	global $comment;
-	$comment_date = $gmt? $comment->comment_date_gmt : $comment->comment_date;
+	$comment_date = $gmt ? $comment->comment_date_gmt : $comment->comment_date;
 	if ( '' == $d )
 		$date = mysql2date(get_option('time_format'), $comment_date, $translate);
 	else
 		$date = mysql2date($d, $comment_date, $translate);
-	return apply_filters('get_comment_time', $date, $d, $gmt);
+	return apply_filters('get_comment_time', $date, $d, $gmt, $translate);
 }
 
 /**
