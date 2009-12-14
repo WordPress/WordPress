@@ -307,6 +307,22 @@ function wp_clone( $object ) {
 	return $can_clone ? clone( $object ) : $object;
 }
 
+/**
+ * Whether the current request is in WordPress admin Panel
+ *
+ * Does not inform on whether the user is an admin! Use capability checks to
+ * tell if the user should be accessing a section or not.
+ *
+ * @since 1.5.1
+ *
+ * @return bool True if inside WordPress administration pages.
+ */
+function is_admin() {
+	if ( defined('WP_ADMIN') )
+		return WP_ADMIN;
+	return false;
+}
+
 if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 	require_once (WP_CONTENT_DIR . '/object-cache.php');
 	$_wp_using_ext_object_cache = true;

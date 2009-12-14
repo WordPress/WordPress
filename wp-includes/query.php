@@ -87,22 +87,6 @@ function wp_reset_query() {
  */
 
 /**
- * Whether the current request is in WordPress admin Panel
- *
- * Does not inform on whether the user is an admin! Use capability checks to
- * tell if the user should be accessing a section or not.
- *
- * @since 1.5.1
- *
- * @return bool True if inside WordPress administration pages.
- */
-function is_admin () {
-	if ( defined('WP_ADMIN') )
-		return WP_ADMIN;
-	return false;
-}
-
-/**
  * Is query requesting an archive page.
  *
  * @since 1.5.0
