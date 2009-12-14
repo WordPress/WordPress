@@ -708,7 +708,7 @@ case 'replyto-comment' :
 
 	if ( empty($status) )
 		die('1');
-	elseif ( in_array($status, array('draft', 'pending') ) )
+	elseif ( in_array($status, array('draft', 'pending', 'trash') ) )
 		die( __('Error: you are replying to a comment on a draft post.') );
 
 	$user = wp_get_current_user();
