@@ -1421,14 +1421,14 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$wpdb->insert( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent') + array( 'count' => 0 ) );
 	$tt_id = (int) $wpdb->insert_id;
 
-	do_action("create_term", $term_id, $tt_id);
+	do_action("create_term", $term_id, $tt_id, $taxonomy);
 	do_action("create_$taxonomy", $term_id, $tt_id);
 
 	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
 	clean_term_cache($term_id, $taxonomy);
 
-	do_action("created_term", $term_id, $tt_id);
+	do_action("created_term", $term_id, $tt_id, $taxonomy);
 	do_action("created_$taxonomy", $term_id, $tt_id);
 
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
@@ -1693,14 +1693,14 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$wpdb->update( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent' ), array( 'term_taxonomy_id' => $tt_id ) );
 	do_action( 'edited_term_taxonomy', $tt_id );
 
-	do_action("edit_term", $term_id, $tt_id);
+	do_action("edit_term", $term_id, $tt_id, $taxonomy);
 	do_action("edit_$taxonomy", $term_id, $tt_id);
 
 	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
 	clean_term_cache($term_id, $taxonomy);
 
-	do_action("edited_term", $term_id, $tt_id);
+	do_action("edited_term", $term_id, $tt_id, $taxonomy);
 	do_action("edited_$taxonomy", $term_id, $tt_id);
 
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
