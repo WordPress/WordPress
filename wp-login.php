@@ -167,7 +167,11 @@ function retrieve_password() {
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
 	$message .= site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . "\r\n";
 
-	$title = sprintf(__('[%s] Password Reset'), get_option('blogname'));
+	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
+	// we want to reverse this for the plain text arena of emails.
+	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+
+	$title = sprintf(__('[%s] Password Reset'), $blogname);
 
 	$title = apply_filters('retrieve_password_title', $title);
 	$message = apply_filters('retrieve_password_message', $message, $key);
@@ -212,7 +216,11 @@ function reset_password($key, $login) {
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= site_url('wp-login.php', 'login') . "\r\n";
 
-	$title = sprintf(__('[%s] Your new password'), get_option('blogname'));
+	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
+	// we want to reverse this for the plain text arena of emails.
+	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+
+	$title = sprintf(__('[%s] Your new password'), $blogname);
 
 	$title = apply_filters('password_reset_title', $title);
 	$message = apply_filters('password_reset_message', $message, $new_pass);
