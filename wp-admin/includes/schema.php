@@ -313,7 +313,6 @@ function populate_options() {
 
 	// 2.9
 	'embed_autourls' => 1,
-	'embed_oembed_discover' => 1,
 	'embed_size_w' => '',
 	'embed_size_h' => 600,
 	);

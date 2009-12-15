@@ -1099,7 +1099,7 @@ class WP_Embed {
 			}
 
 			// Use oEmbed to get the HTML
-			$attr['discover'] = ( get_option( 'embed_oembed_discover' ) && author_can( $post_ID, 'unfiltered_html' ) ) ? true : false;
+			$attr['discover'] = ( apply_filters('embed_oembed_discover', false) && author_can( $post_ID, 'unfiltered_html' ) ) ? true : false;
 			$html = wp_oembed_get( $url, $attr );
 
 			// Cache the result
