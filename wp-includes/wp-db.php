@@ -385,17 +385,15 @@ class wpdb {
 
 		$this->ready = true;
 
-		if ( $this->has_cap( 'collation' ) ) {
-			if ( !empty($this->charset) ) {
-				if ( function_exists('mysql_set_charset') ) {
-					mysql_set_charset($this->charset, $this->dbh);
-					$this->real_escape = true;
-				} else {
-					$collation_query = "SET NAMES '{$this->charset}'";
-					if ( !empty($this->collate) )
-						$collation_query .= " COLLATE '{$this->collate}'";
-					$this->query($collation_query);
-				}
+		if ( !empty($this->charset) ) {
+			if ( function_exists('mysql_set_charset') ) {
+				mysql_set_charset($this->charset, $this->dbh);
+				$this->real_escape = true;
+			} else {
+				$collation_query = "SET NAMES '{$this->charset}'";
+				if ( !empty($this->collate) )
+					$collation_query .= " COLLATE '{$this->collate}'";
+				$this->query($collation_query);
 			}
 		}
 

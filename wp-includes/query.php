@@ -1784,14 +1784,8 @@ class WP_Query {
 		}
 
 		if ( !empty($q['category__not_in']) ) {
-			if ( $wpdb->has_cap( 'subqueries' ) ) {
-				$cat_string = "'" . implode("', '", $q['category__not_in']) . "'";
-				$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tt.term_id IN ($cat_string) )";
-			} else {
-				$ids = get_objects_in_term($q['category__not_in'], 'category');
-				if ( !is_wp_error($ids) && is_array($ids) && count($ids) > 0 )
-					$whichcat .= " AND $wpdb->posts.ID NOT IN ('" . implode("', '", $ids) . "')";
-			}
+			$cat_string = "'" . implode("', '", $q['category__not_in']) . "'";
+			$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tt.term_id IN ($cat_string) )";
 		}
 
 		// Category stuff for nice URLs
@@ -1874,14 +1868,8 @@ class WP_Query {
 		}
 
 		if ( !empty($q['tag__not_in']) ) {
-			if ( $wpdb->has_cap( 'subqueries' ) ) {
-				$tag_string = "'" . implode("', '", $q['tag__not_in']) . "'";
-				$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'post_tag' AND tt.term_id IN ($tag_string) )";
-			} else {
-				$ids = get_objects_in_term($q['tag__not_in'], 'post_tag');
-				if ( !is_wp_error($ids) && is_array($ids) && count($ids) > 0 )
-					$whichcat .= " AND $wpdb->posts.ID NOT IN ('" . implode("', '", $ids) . "')";
-			}
+			$tag_string = "'" . implode("', '", $q['tag__not_in']) . "'";
+			$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'post_tag' AND tt.term_id IN ($tag_string) )";
 		}
 
 		// Tag and slug intersections.

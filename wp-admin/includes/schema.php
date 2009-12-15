@@ -19,12 +19,10 @@ $charset_collate = '';
 // Declare these as global in case schema.php is included from a function.
 global $wpdb, $wp_queries;
 
-if ( $wpdb->has_cap( 'collation' ) ) {
-	if ( ! empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-	if ( ! empty($wpdb->collate) )
-		$charset_collate .= " COLLATE $wpdb->collate";
-}
+if ( ! empty($wpdb->charset) )
+	$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+if ( ! empty($wpdb->collate) )
+	$charset_collate .= " COLLATE $wpdb->collate";
 
 /** Create WordPress database tables SQL */
 $wp_queries = "CREATE TABLE $wpdb->terms (
