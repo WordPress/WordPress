@@ -3623,3 +3623,14 @@ span.imgedit-scale-warn {
 .describe .del-link {
 	padding-left: 5px;
 }
+
+.comment-ays {
+	margin-bottom: 0;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.comment-ays th {
+	border-right-style: solid;
+	border-right-width: 1px;
+}

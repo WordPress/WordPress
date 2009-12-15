@@ -1017,8 +1017,11 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$subject = sprintf( __('[%1$s] Pingback: "%2$s"'), $blogname, $post->post_title );
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
-	$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=cdc&c=$comment_id") ) . "\r\n";
-	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=cdc&dt=spam&c=$comment_id") ) . "\r\n";
+	if ( EMPTY_TRASH_DAYS )
+		$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c=$comment_id") ) . "\r\n";
+	else
+		$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c=$comment_id") ) . "\r\n";
 
 	$wp_email = 'wordpress@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
 
@@ -1101,9 +1104,12 @@ function wp_notify_moderator($comment_id) {
 			break;
 	}
 
-	$notify_message .= sprintf( __('Approve it: %s'),  admin_url("comment.php?action=mac&c=$comment_id") ) . "\r\n";
-	$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=cdc&c=$comment_id") ) . "\r\n";
-	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=cdc&dt=spam&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __('Approve it: %s'),  admin_url("comment.php?action=approve&c=$comment_id") ) . "\r\n";
+	if ( EMPTY_TRASH_DAYS )
+		$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c=$comment_id") ) . "\r\n";
+	else
+		$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c=$comment_id") ) . "\r\n";
 
 	$notify_message .= sprintf( _n('Currently %s comment is waiting for approval. Please visit the moderation panel:',
  		'Currently %s comments are waiting for approval. Please visit the moderation panel:', $comments_waiting), number_format_i18n($comments_waiting) ) . "\r\n";

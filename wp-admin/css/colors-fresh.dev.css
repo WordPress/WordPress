@@ -1686,3 +1686,12 @@ div.widgets-sortables,
 #dashboard_recent_comments div.undo {
 	border-top-color: #dfdfdf;
 }
+
+.comment-ays,
+.comment-ays th {
+	border-color: #ddd;
+}
+
+.comment-ays th {
+	background-color: #f1f1f1;
+}
