@@ -26,7 +26,7 @@ if ( isset($_GET['message']) ) {
 
 	switch ( $_GET['message'] ) {
 		case 1:
-			$message = sprintf( __('Page updated. <a target="_blank" href="%s">View page</a>'), get_permalink($post_ID) );
+			$message = sprintf( __('Page updated. <a href="%s">View page</a>'), get_permalink($post_ID) );
 			break;
 		case 2:
 			$message = __('Custom field updated.');
@@ -35,7 +35,7 @@ if ( isset($_GET['message']) ) {
 			$message = __('Custom field deleted.');
 			break;
 		case 4:
-			$message = sprintf( __('Page published. <a target="_blank" href="%s">View page</a>'), get_permalink($post_ID) );
+			$message = sprintf( __('Page published. <a href="%s">View page</a>'), get_permalink($post_ID) );
 			break;
 		case 5:
 			if ( isset($_GET['revision']) )
