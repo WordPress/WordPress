@@ -137,35 +137,6 @@ if ( 'spam' == $_GET['dt'] ) {
 	break;
 
 case 'deletecomment' :
-	$comment_id = absint( $_REQUEST['c'] );
-	check_admin_referer( 'delete-comment_' . $comment_id );
-
-	if ( isset( $_REQUEST['noredir'] ) )
-		$noredir = true;
-	else
-		$noredir = false;
-
-	if ( !$comment = get_comment( $comment_id ) )
-		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
-
-	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
-		comment_footer_die( __('You are not allowed to edit comments on this post.') );
-
-	if ( 'spam' == $_REQUEST['dt'] )
-		wp_set_comment_status( $comment->comment_ID, 'spam' );
-	else
-		wp_delete_comment( $comment->comment_ID );
-
-	if ( '' != wp_get_referer() && false == $noredir && false === strpos(wp_get_referer(), 'comment.php' ) )
-		wp_redirect( wp_get_referer() );
-	else if ( '' != wp_get_original_referer() && false == $noredir )
-		wp_redirect( wp_get_original_referer() );
-	else
-		wp_redirect( admin_url('edit-comments.php') );
-
-	die;
-	break;
-
 case 'trashcomment' :
 case 'untrashcomment' :
 case 'spamcomment' :
@@ -190,6 +161,10 @@ case 'unspamcomment' :
 	$redir = remove_query_arg( array('spammed', 'unspammed', 'trashed', 'untrashed', 'deleted', 'ids'), $redir );
 
 	switch ( $action ) {
+		case 'deletecomment' :
+			wp_delete_comment($comment_id);
+			$redir = add_query_arg( array('deleted' => '1'), $redir );
+			break;
 		case 'trashcomment' :
 			wp_trash_comment($comment_id);
 			$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
