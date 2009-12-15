@@ -19,7 +19,7 @@
  */
 function has_post_thumbnail( $post_id = NULL ) {
 	global $id;
-	$post_id = ( NULL === $post_id ) ? $id : $popost-thumbnailst_id;
+	$post_id = ( NULL === $post_id ) ? $id : $post_id;
 	return !! get_post_thumbnail_id( $post_id );
 }
 
