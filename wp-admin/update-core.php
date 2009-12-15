@@ -143,6 +143,12 @@ function list_plugin_updates() {
 	if ( empty($plugins) )
 		return;
 	$form_action = 'update-core.php?action=do-plugin-upgrade';
+
+	$core_updates = get_core_updates();
+	if ( !isset($core_updates[0]->response) || 'latest' == $core_updates[0]->response || 'development' == $core_updates[0]->response )
+		$core_update_version = false;
+	else
+		$core_update_version = $core_updates[0]->current;
 	?>
 <h3><?php _e('Plugins'); ?></h3>
 <p><?php _e('The following plugins have new versions available.  Check the ones you want to upgrade and then click "Upgrade Plugins".'); ?><p>
@@ -167,12 +173,23 @@ function list_plugin_updates() {
 <?php
 	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
 		$info = plugins_api('plugin_information', array('slug' => $plugin_data->update->slug ));
+		// Get plugin compat for running version of WordPress.
 		if ( isset($info->compatibility[$cur_wp_version][$plugin_data->update->new_version]) ) {
 			$compat = $info->compatibility[$cur_wp_version][$plugin_data->update->new_version];
-			$compat = '  ' . sprintf(__('Compatibility: %1$d%% (%2$d "works" votes out of %3$d total)'), $compat[0], $compat[2], $compat[1]);
+			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $cur_wp_version, $compat[0], $compat[2], $compat[1]);
 		} else {
-			$compat = '';
+			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: Unknown)'), $cur_wp_version);
 		}
+		// Get plugin compat for updated version of WordPress.
+		if ( $core_update_version ) {
+			if ( isset($info->compatibility[$core_update_version][$plugin_data->update->new_version]) ) {
+				$update_compat = $info->compatibility[$core_update_version][$plugin_data->update->new_version];
+				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $core_update_version, $update_compat[0], $update_compat[2], $update_compat[1]);
+			} else {
+				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: Unknown'), $core_update_version);
+			}
+		}
+		// Get the upgrade notice for the new plugin version.
 		if ( isset($plugin_data->update->upgrade_notice) ) {
 			$upgrade_notice = '<br />' . strip_tags($plugin_data->update->upgrade_notice);
 		} else {
