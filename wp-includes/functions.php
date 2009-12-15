@@ -2035,16 +2035,20 @@ function wp_upload_dir( $time = null ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
-	if ( empty($upload_path) )
+	if ( empty($upload_path) ) {
 		$dir = WP_CONTENT_DIR . '/uploads';
-	else
+	} else {
 		$dir = $upload_path;
-
-	// $dir is absolute, $path is (maybe) relative to ABSPATH
-	$dir = path_join( ABSPATH, $dir );
+		if ( 'wp-content/uploads' == $upload_path ) {
+			$dir = WP_CONTENT_DIR . '/uploads';
+		} elseif ( 0 !== strpos($dir, ABSPATH) ) {
+			// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+			$dir = path_join( ABSPATH, $dir );
+		}
+	}
 
 	if ( !$url = get_option( 'upload_url_path' ) ) {
-		if ( empty($upload_path) or ( $upload_path == $dir ) )
+		if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) )
 			$url = WP_CONTENT_URL . '/uploads';
 		else
 			$url = trailingslashit( $siteurl ) . $upload_path;

@@ -30,7 +30,7 @@ include('admin-header.php');
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="upload_path"><?php _e('Store uploads in this folder'); ?></label></th>
-<td><input name="upload_path" type="text" id="upload_path" value="<?php echo esc_attr(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" class="regular-text code" />
+<td><input name="upload_path" type="text" id="upload_path" value="<?php echo esc_attr(get_option('upload_path')); ?>" class="regular-text code" />
 <span class="description"><?php _e('Default is <code>wp-content/uploads</code>'); ?></span>
 </td>
 </tr>

@@ -189,12 +189,10 @@ function populate_options() {
 	do_action('populate_options');
 
 	if ( ini_get('safe_mode') ) {
-		// Safe mode screws up mkdir(), so we must use a flat structure.
+		// Safe mode can break mkdir() so use a flat structure by default.
 		$uploads_use_yearmonth_folders = 0;
-		$upload_path = WP_CONTENT_DIR;
 	} else {
 		$uploads_use_yearmonth_folders = 1;
-		$upload_path = WP_CONTENT_DIR . '/uploads';
 	}
 
 	$options = array(
@@ -265,7 +263,7 @@ function populate_options() {
 
 	// 2.0.1
 	'uploads_use_yearmonth_folders' => $uploads_use_yearmonth_folders,
-	'upload_path' => $upload_path,
+	'upload_path' => '',
 
 	// 2.0.3
 	'secret' => wp_generate_password(64),
