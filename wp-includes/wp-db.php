@@ -1050,9 +1050,9 @@ class wpdb {
 	function check_database_version()
 	{
 		global $wp_version;
-		// Make sure the server has MySQL 4.1
-		if ( version_compare($this->db_version(), '4.1.0', '<') )
-			return new WP_Error('database_version',sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.1.0 or higher'), $wp_version));
+		// Make sure the server has MySQL 4.1.2
+		if ( version_compare($this->db_version(), '4.1.2', '<') )
+			return new WP_Error('database_version',sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.1.2 or higher'), $wp_version));
 	}
 
 	/**
