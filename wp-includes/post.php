@@ -2839,7 +2839,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	if ( 'attachment' != $post->post_type )
 		return false;
 
-	if ( !$force_delete && 'trash' != $post->post_status )
+	if ( !$force_delete && EMPTY_TRASH_DAYS && MEDIA_TRASH && 'trash' != $post->post_status )
 		return wp_trash_post( $post_id );
 
 	delete_post_meta($post_id, '_wp_trash_meta_status');
