@@ -371,13 +371,11 @@ function get_comment_count( $post_id = 0 ) {
 /**
  * Add meta data field to a comment.
  *
- * Post meta data is called "Custom Fields" on the Administration Panels.
- *
  * @since 2.9
  * @uses add_metadata
  * @link http://codex.wordpress.org/Function_Reference/add_comment_meta
  *
- * @param int $comment_id Post ID.
+ * @param int $comment_id Comment ID.
  * @param string $key Metadata name.
  * @param mixed $value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
@@ -414,7 +412,7 @@ function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
  * @uses get_metadata
  * @link http://codex.wordpress.org/Function_Reference/get_comment_meta
  *
- * @param int $comment_id Post ID.
+ * @param int $comment_id Comment ID.
  * @param string $key The meta key to retrieve.
  * @param bool $single Whether to return a single value.
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
@@ -436,7 +434,7 @@ function get_comment_meta($comment_id, $key, $single = false) {
  * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_comment_meta
  *
- * @param int $comment_id Post ID.
+ * @param int $comment_id Comment ID.
  * @param string $key Metadata key.
  * @param mixed $value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
