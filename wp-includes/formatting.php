@@ -1788,11 +1788,11 @@ function human_time_diff( $from, $to = '' ) {
  * Generates an excerpt from the content, if needed.
  *
  * The excerpt word amount will be 55 words and if the amount is greater than
- * that, then the string '[...]' will be appended to the excerpt. If the string
+ * that, then the string ' [...]' will be appended to the excerpt. If the string
  * is less than 55 words, then the content will be returned as is.
  *
  * The 55 word limit can be modified by plugins/themes using the excerpt_length filter
- * The '[..]' string can be modified by plugins/themes using the excerpt_more filter
+ * The ' [...]' string can be modified by plugins/themes using the excerpt_more filter
  *
  * @since 1.5.0
  *
@@ -1810,12 +1810,12 @@ function wp_trim_excerpt($text) {
 		$text = str_replace(']]>', ']]&gt;', $text);
 		$text = strip_tags($text);
 		$excerpt_length = apply_filters('excerpt_length', 55);
-		$excerpt_more = apply_filters('excerpt_more', '[...]');
+		$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
 		$words = explode(' ', $text, $excerpt_length + 1);
 		if (count($words) > $excerpt_length) {
 			array_pop($words);
-			array_push($words, $excerpt_more);
 			$text = implode(' ', $words);
+			$text = $text . $excerpt_more;
 		}
 	}
 	return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
