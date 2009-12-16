@@ -3518,13 +3518,35 @@ function wp_scheduled_delete() {
 	$posts_to_delete = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
 
 	foreach ( (array) $posts_to_delete as $post ) {
-		wp_delete_post($post['post_id']);
+		$post_id = (int) $post['post_id'];
+		if ( !$post_id )
+			continue;
+
+		$del_post = get_post($post_id);
+
+		if ( !$del_post || 'trash' != $del_post->post_status ) {
+			delete_post_meta($post_id, '_wp_trash_meta_status');
+			delete_post_meta($post_id, '_wp_trash_meta_time');
+		} else {
+			wp_delete_post($post_id);
+		}
 	}
 
 	$comments_to_delete = $wpdb->get_results($wpdb->prepare("SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
 
 	foreach ( (array) $comments_to_delete as $comment ) {
-		wp_delete_comment($comment['comment_id']);
+		$comment_id = (int) $comment['comment_id'];
+		if ( !$comment_id )
+			continue;
+
+		$del_comment = get_comment($comment_id);
+
+		if ( !$del_comment || 'trash' != $del_comment->comment_approved ) {
+			delete_comment_meta($comment_id, '_wp_trash_meta_time');
+			delete_comment_meta($comment_id, '_wp_trash_meta_status');
+		} else {
+			wp_delete_comment($comment_id);
+		}
 	}
 }
 
