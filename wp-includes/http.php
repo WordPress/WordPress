@@ -678,7 +678,9 @@ class WP_Http_Fsockopen {
 		if ( false === $handle )
 			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
 
-		stream_set_timeout($handle, $r['timeout'] );
+		$timeout = (int) floor( $r['timeout'] );
+		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
+		stream_set_timeout( $handle, $timeout, $utimeout );
 
 		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) //Some proxies require full URL in this field.
 			$requestPath = $url;
@@ -834,7 +836,9 @@ class WP_Http_Fopen {
 		if (! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		stream_set_timeout($handle, $r['timeout'] );
+		$timeout = (int) floor( $r['timeout'] );
+		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
+		stream_set_timeout( $handle, $timeout, $utimeout );
 
 		if ( ! $r['blocking'] ) {
 			fclose($handle);
@@ -1007,9 +1011,9 @@ class WP_Http_Streams {
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		// WordPress supports PHP 4.3, which has this function. Removed sanity checking for
-		// performance reasons.
-		stream_set_timeout($handle, $r['timeout'] );
+		$timeout = (int) floor( $r['timeout'] );
+		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
+		stream_set_timeout( $handle, $timeout, $utimeout );
 
 		if ( ! $r['blocking'] ) {
 			stream_set_blocking($handle, 0);
@@ -1141,6 +1145,8 @@ class WP_Http_ExtHTTP {
 		elseif ( ! $is_local )
 			$ssl_verify = apply_filters('https_ssl_verify', $ssl_verify);
 
+		$r['timeout'] = (int) ceil( $r['timeout'] );
+
 		$options = array(
 			'timeout' => $r['timeout'],
 			'connecttimeout' => $r['timeout'],
@@ -1255,11 +1261,6 @@ class WP_Http_Curl {
 		// Construct Cookie: header if any cookies are set.
 		WP_Http::buildCookieHeader( $r );
 
-		// cURL extension will sometimes fail when the timeout is less than 1 as it may round down
-		// to 0, which gives it unlimited timeout.
-		if ( $r['timeout'] > 0 && $r['timeout'] < 1 )
-			$r['timeout'] = 1;
-
 		$handle = curl_init();
 
 		// cURL offers really easy proxy support.
@@ -1292,13 +1293,25 @@ class WP_Http_Curl {
 		elseif ( ! $is_local )
 			$ssl_verify = apply_filters('https_ssl_verify', $ssl_verify);
 
+
+		// CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers.  Have to use ceil since
+		// a value of 0 will allow an ulimited timeout.
+		// Use _MS if available.
+		if ( defined( 'CURLOPT_TIMEOUT_MS' ) ) {
+			$timeout_ms = (int) ceil( 1000 * $r['timeout'] );
+			curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT_MS, $timeout_ms );
+			curl_setopt( $handle, CURLOPT_TIMEOUT_MS, $timeout_ms );
+		} else {
+			$timeout = (int) ceil( $r['timeout'] );
+			curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $timeout );
+			curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
+		}
+
 		curl_setopt( $handle, CURLOPT_URL, $url);
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, $ssl_verify );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
 		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
-		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $r['timeout'] );
-		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
 		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
 
 		switch ( $r['method'] ) {
