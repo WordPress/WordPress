@@ -636,7 +636,7 @@ case 'get-tagcloud' :
 	break;
 case 'add-comment' :
 	check_ajax_referer( $action );
-	if ( !current_user_can( 'edit_post', $id ) )
+	if ( !current_user_can( 'edit_posts' ) )
 		die('-1');
 	$search = isset($_POST['s']) ? $_POST['s'] : false;
 	$status = isset($_POST['comment_status']) ? $_POST['comment_status'] : 'all';
