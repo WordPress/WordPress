@@ -353,6 +353,8 @@ function get_themes() {
 					$template_files[] = "$template_directory/$file";
 				} elseif ( is_dir("$template_directory/$file") ) {
 					$template_subdir = @ dir("$template_directory/$file");
+					if ( !$template_subdir )
+						continue;
 					while ( ($subfile = $template_subdir->read()) !== false ) {
 						if ( preg_match('|^\.+$|', $subfile) )
 							continue;
