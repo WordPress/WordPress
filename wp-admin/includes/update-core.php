@@ -219,18 +219,6 @@ function update_core($from, $to) {
 
 	@set_time_limit( 300 );
 
-	$php_version   = phpversion();
-	$php_compat    = version_compare( $php_version, '4.3', '>=' );
-	$mysql_version = $wpdb->db_version();
-	$mysql_compat  = version_compare( $mysql_version, '4.1.2', '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
-
-	if ( !$mysql_compat && !$php_compat )
-		return new WP_Error( 'php_mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress requires PHP version 4.3 or higher and MySQL version 4.1.2 or higher. You are running PHP version %1$s and MySQL version %2$s.'), $php_version, $mysql_version ) );
-	elseif ( !$php_compat )
-		return new WP_Error( 'php_not_compatible', sprintf( __('The update cannot be installed because WordPress requires PHP version 4.3 or higher. You are running version %s.'), $php_version ) );
-	elseif ( !$mysql_compat )
-		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress requires MySQL version 4.1.2 or higher. You are running version %s.'), $mysql_version ) );
-
 	// Sanity check the unzipped distribution
 	apply_filters('update_feedback', __('Verifying the unpacked files'));
 	if ( !$wp_filesystem->exists($from . '/wordpress/wp-settings.php') || !$wp_filesystem->exists($from . '/wordpress/wp-admin/admin.php') ||
@@ -238,6 +226,19 @@ function update_core($from, $to) {
 		$wp_filesystem->delete($from, true);
 		return new WP_Error('insane_distro', __('The update could not be unpacked') );
 	}
+
+	include( $from . '/wordpress/wp-includes/version.php' );
+	$php_version    = phpversion();
+	$mysql_version  = $wpdb->db_version();
+	$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
+	$mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+
+	if ( !$mysql_compat && !$php_compat )
+		return new WP_Error( 'php_mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version ) );
+	elseif ( !$php_compat )
+		return new WP_Error( 'php_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.'), $wp_version, $required_php_version, $php_version ) );
+	elseif ( !$mysql_compat )
+		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version ) );
 
 	apply_filters('update_feedback', __('Installing the latest version'));
 
