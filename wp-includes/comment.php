@@ -806,6 +806,7 @@ function wp_count_comments( $post_id = 0 ) {
  * @since 2.0.0
  * @uses $wpdb
  * @uses do_action() Calls 'delete_comment' hook on comment ID
+ * @uses do_action() Calls 'deleted_comment' hook on comment ID after deletion, on success
  * @uses do_action() Calls 'wp_set_comment_status' hook on comment ID with 'delete' set for the second parameter
  * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
@@ -822,9 +823,6 @@ function wp_delete_comment($comment_id) {
 
 	do_action('delete_comment', $comment_id);
 
-	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
-		return false;
-
 	// Move children up a level.
 	$children = $wpdb->get_col( $wpdb->prepare("SELECT comment_ID FROM $wpdb->comments WHERE comment_parent = %d", $comment_id) );
 	if ( !empty($children) ) {
@@ -840,6 +838,10 @@ function wp_delete_comment($comment_id) {
 		$wpdb->query( "DELETE FROM $wpdb->commentmeta WHERE meta_id IN ($in_meta_ids)" );
 		do_action( 'deleted_commentmeta', $meta_ids );
 	}
+
+	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
+		return false;
+	do_action('deleted_comment', $comment_id);
 
 	$post_id = $comment->comment_post_ID;
 	if ( $post_id && $comment->comment_approved == 1 )
