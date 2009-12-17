@@ -221,7 +221,7 @@ function update_core($from, $to) {
 
 	$php_version   = phpversion();
 	$php_compat    = version_compare( $php_version, '4.3', '>=' );
-	$mysql_version = $wpdb->db_version;
+	$mysql_version = $wpdb->db_version();
 	$mysql_compat  = version_compare( $mysql_version, '4.1.2', '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
 
 	if ( !$mysql_compat && !$php_compat )
