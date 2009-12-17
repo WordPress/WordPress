@@ -183,7 +183,7 @@ function list_plugin_updates() {
 		$info = plugins_api('plugin_information', array('slug' => $plugin_data->update->slug ));
 		// Get plugin compat for running version of WordPress.
 		if ( isset($info->tested) && version_compare($info->tested, $cur_wp_version, '>=') ) {
-			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: 100% (according to its author)'), $cur_wp_version);
+			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: 100%% (according to its author)'), $cur_wp_version);
 		} elseif ( isset($info->compatibility[$cur_wp_version][$plugin_data->update->new_version]) ) {
 			$compat = $info->compatibility[$cur_wp_version][$plugin_data->update->new_version];
 			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $cur_wp_version, $compat[0], $compat[2], $compat[1]);
