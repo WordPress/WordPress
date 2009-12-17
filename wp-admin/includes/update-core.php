@@ -215,9 +215,21 @@ $_old_files = array(
  * @return WP_Error|null WP_Error on failure, null on success.
  */
 function update_core($from, $to) {
-	global $wp_filesystem, $_old_files;
+	global $wp_filesystem, $_old_files, $wpdb;
 
 	@set_time_limit( 300 );
+
+	$php_version   = phpversion();
+	$php_compat    = version_compare( $php_version, '4.3', '>=' );
+	$mysql_version = $wpdb->db_version;
+	$mysql_compat  = version_compare( $mysql_version, '4.1.2', '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+
+	if ( !$mysql_compat && !$php_compat )
+		return new WP_Error( 'php_mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress requires PHP version 4.3 or higher and MySQL version 4.1.2 or higher. You are running PHP version %1$s and MySQL version %2$s.'), $php_version, $mysql_version ) );
+	elseif ( !$php_compat )
+		return new WP_Error( 'php_not_compatible', sprintf( __('The update cannot be installed because WordPress requires PHP version 4.3 or higher. You are running version %s.'), $php_version ) );
+	elseif ( !$mysql_compat )
+		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress requires MySQL version 4.1.2 or higher. You are running version %s.'), $mysql_version ) );
 
 	// Sanity check the unzipped distribution
 	apply_filters('update_feedback', __('Verifying the unpacked files'));
