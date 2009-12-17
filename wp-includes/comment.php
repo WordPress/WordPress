@@ -822,9 +822,6 @@ function wp_delete_comment($comment_id) {
 
 	do_action('delete_comment', $comment_id);
 
-	delete_comment_meta($comment_id,'_wp_trash_meta_status');
-	delete_comment_meta($comment_id,'_wp_trash_meta_time');
-
 	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
 		return false;
 
@@ -833,6 +830,15 @@ function wp_delete_comment($comment_id) {
 	if ( !empty($children) ) {
 		$wpdb->update($wpdb->comments, array('comment_parent' => $comment->comment_parent), array('comment_parent' => $comment_id));
 		clean_comment_cache($children);
+	}
+
+	// Delete metadata
+	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->commentmeta WHERE comment_id = %d ", $comment_id ) );
+	if ( !empty($meta_ids) ) {
+		do_action( 'delete_commentmeta', $meta_ids );
+		$in_meta_ids = "'" . implode("', '", $meta_ids) . "'";
+		$wpdb->query( "DELETE FROM $wpdb->commentmeta WHERE meta_id IN ($in_meta_ids)" );
+		do_action( 'deleted_commentmeta', $meta_ids );
 	}
 
 	$post_id = $comment->comment_post_ID;
