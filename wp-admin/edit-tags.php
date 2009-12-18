@@ -27,7 +27,7 @@ if ( isset( $_GET['action'] ) && isset($_GET['delete_tags']) && ( 'delete' == $_
 
 switch($action) {
 
-case 'addtag':
+case 'add-tag':
 
 	check_admin_referer('add-tag');
 
@@ -281,7 +281,7 @@ else
 <div class="form-wrap">
 <h3><?php _e('Add a New Tag'); ?></h3>
 <form id="addtag" method="post" action="edit-tags.php" class="validate">
-<input type="hidden" name="action" value="addtag" />
+<input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <?php wp_nonce_field('add-tag'); ?>
 
