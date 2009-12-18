@@ -509,7 +509,8 @@ function wp_save_image($post_id) {
 		$sY = imagesy($img);
 
 		// check if it has roughly the same w / h ratio
-		if ( round($sX / $sY, 2) == round($fwidth / $fheight, 2) ) {
+		$diff = round($sX / $sY, 2) - round($fwidth / $fheight, 2);
+		if ( -0.1 < $diff && $diff < 0.1 ) {
 			// scale the full size image
 			$dst = wp_imagecreatetruecolor($fwidth, $fheight);
 			if ( imagecopyresampled( $dst, $img, 0, 0, 0, 0, $fwidth, $fheight, $sX, $sY ) ) {
