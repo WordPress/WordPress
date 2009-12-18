@@ -1,5 +1,10 @@
 textarea,
-input,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
 select {
 	border-width: 1px;
 	border-style: solid;
@@ -7,12 +12,6 @@ select {
 	-khtml-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-}
-
-input[type="checkbox"],
-input[type="radio"],
-input[type="image"] {
-	border: 0 none;
 }
 
 p,
@@ -1309,14 +1308,6 @@ strong .post-com-count {
 
 .form-table th.th-full {
 	width: auto;
-}
-
-.form-table input,
-.form-table textarea,
-#wpbody-content .describe input,
-#wpbody-content .describe textarea {
-	border-width: 1px;
-	border-style: solid;
 }
 
 .form-table div.color-option {

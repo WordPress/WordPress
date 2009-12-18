@@ -438,3 +438,7 @@ table.ie-fixed {
 .imgedit-submit {
 	width: 300px;
 }
+
+* html input {
+	border: 1px solid #dfdfdf;
+}

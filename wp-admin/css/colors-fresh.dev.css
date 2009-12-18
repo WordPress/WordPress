@@ -8,7 +8,12 @@ html {
 }
 
 textarea,
-input,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
 select {
 	border-color: #dfdfdf;
 	background-color: #fff;
@@ -240,11 +245,6 @@ strong .post-com-count span {
 
 #wpbody-content #media-items .describe {
 	border-top-color: #dfdfdf;
-}
-
-.describe input[type="text"],
-.describe textarea {
-	border-color: #dfdfdf;
 }
 
 .media-upload-form label.form-help,
