@@ -188,7 +188,7 @@ function list_plugin_updates() {
 			$compat = $info->compatibility[$cur_wp_version][$plugin_data->update->new_version];
 			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $cur_wp_version, $compat[0], $compat[2], $compat[1]);
 		} else {
-			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: Unknown)'), $cur_wp_version);
+			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: Unknown'), $cur_wp_version);
 		}
 		// Get plugin compat for updated version of WordPress.
 		if ( $core_update_version ) {
