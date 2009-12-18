@@ -219,17 +219,11 @@ function update_core($from, $to) {
 
 	@set_time_limit( 300 );
 
-	// Sanity check the unzipped distribution
-	apply_filters('update_feedback', __('Verifying the unpacked files'));
-	if ( !$wp_filesystem->exists($from . '/wordpress/wp-settings.php') || !$wp_filesystem->exists($from . '/wordpress/wp-admin/admin.php') ||
-		!$wp_filesystem->exists($from . '/wordpress/wp-includes/functions.php') ) {
-		$wp_filesystem->delete($from, true);
-		return new WP_Error('insane_distro', __('The update could not be unpacked') );
-	}
-
-	include( $from . '/wordpress/wp-includes/version.php' );
 	$php_version    = phpversion();
 	$mysql_version  = $wpdb->db_version();
+	$required_php_version = '4.3';
+	$required_mysql_version = '4.1.2';
+	$wp_version = '2.9';
 	$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
 	$mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
 
@@ -239,6 +233,14 @@ function update_core($from, $to) {
 		return new WP_Error( 'php_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.'), $wp_version, $required_php_version, $php_version ) );
 	elseif ( !$mysql_compat )
 		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version ) );
+
+	// Sanity check the unzipped distribution
+	apply_filters('update_feedback', __('Verifying the unpacked files'));
+	if ( !$wp_filesystem->exists($from . '/wordpress/wp-settings.php') || !$wp_filesystem->exists($from . '/wordpress/wp-admin/admin.php') ||
+		!$wp_filesystem->exists($from . '/wordpress/wp-includes/functions.php') ) {
+		$wp_filesystem->delete($from, true);
+		return new WP_Error('insane_distro', __('The update could not be unpacked') );
+	}
 
 	apply_filters('update_feedback', __('Installing the latest version'));
 
