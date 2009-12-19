@@ -260,7 +260,7 @@ function wp_dashboard_right_now() {
 
 	// Approved Comments
 	$num = '<span class="approved-count">' . number_format_i18n($num_comm->approved) . '</span>';
-	$text = _nc( 'Approved|Right Now', 'Approved', $num_comm->approved );
+	$text = _nx( 'Approved', 'Approved', $num_comm->approved, 'Right Now' );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php?comment_status=approved'>$num</a>";
 		$text = "<a class='approved' href='edit-comments.php?comment_status=approved'>$text</a>";

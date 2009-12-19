@@ -1801,6 +1801,8 @@ function make_url_footnote( $content ) {
  *
  * @since 2.2.0
  * @deprecated 2.9.0
+ * @deprecated Use _x()
+ * @see _x()
  *
  * @param string $text Text to translate
  * @param string $domain Optional. Domain to retrieve the translated text
@@ -1809,5 +1811,22 @@ function make_url_footnote( $content ) {
 function _c( $text, $domain = 'default' ) {
 	_deprecated_function(__FUNCTION__, '2.9', '_x' );
 	return translate_with_context( $text, $domain );
+}
+
+/**
+ * A version of _n(), which supports contexts.
+ * Strips everything from the translation after the last bar.
+ *
+ * @since 2.7.0
+ * @deprecated 3.0.0
+ * @deprecated Use _nx()
+ * @see _nx()
+ * @see _n() For parameters.
+ * @see _c() For parameters. _c() is deprecated.
+ *
+ */
+function _nc( $single, $plural, $number, $domain = 'default' ) {
+	_deprecated_function(__FUNCTION__, '2.9', '_nx' );
+	return before_last_bar( _n( $single, $plural, $number, $domain ) );
 }
 ?>

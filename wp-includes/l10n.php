@@ -239,14 +239,12 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
 }
 
 /**
- * @see _n() A version of _n(), which supports contexts --
- * strips everything from the translation after the last bar
+ * A hybrid of _n() and _x(). It supports contexts and plurals.
+ *
+ * @see _n()
+ * @see _x()
  *
  */
-function _nc( $single, $plural, $number, $domain = 'default' ) {
-	return before_last_bar( _n( $single, $plural, $number, $domain ) );
-}
-
 function _nx($single, $plural, $number, $context, $domain = 'default') {
 	$translations = &get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number, $context );
