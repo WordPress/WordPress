@@ -2410,7 +2410,7 @@ function tag_escape($tag_name) {
  * @return string text, safe for inclusion in LIKE query.
  */
 function like_escape($text) {
-	return str_replace(array("%", "_"), array("\\%", "\\_"), $text);
+	return addcslashes($text, '\\%_'); 
 }
 
 /**
