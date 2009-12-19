@@ -1113,14 +1113,15 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
  */
 function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
 	$posts = get_boundary_post($in_same_cat,$excluded_categories,$start);
+	// If there is no post stop.
+	if ( empty($posts) )
+		return;
+	
 	// Even though we limited get_posts to return only 1 item it still returns an array of objects.
 	$post = $posts[0];
 
-	if ( empty($post) )
-			 return;
-
-		if ( empty($post->post_title) )
-				$post->post_title = $start ? __('First Post') : __('Last Post');
+	if ( empty($post->post_title) )
+		$post->post_title = $start ? __('First Post') : __('Last Post');
 
 	$date = mysql2date(get_option('date_format'), $post->post_date);
 
