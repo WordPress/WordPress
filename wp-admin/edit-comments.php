@@ -32,10 +32,11 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 		$comment_ids = array_map( 'absint', explode(',', $_REQUEST['ids']) );
 		$doaction = $_REQUEST['action'];
 	} else {
-		wp_redirect($_SERVER['HTTP_REFERER']);
+		wp_redirect( wp_get_referer() );
 	}
 
 	$approved = $unapproved = $spammed = $unspammed = $trashed = $untrashed = $deleted = 0;
+	$redirect_to = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'spammed', 'unspammed', 'approved', 'unapproved', 'ids'), wp_get_referer() );
 
 	foreach ($comment_ids as $comment_id) { // Check the permissions on each
 		$_post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id) );
@@ -75,8 +76,6 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 		}
 	}
 
-	$redirect_to = 'edit-comments.php';
-
 	if ( $approved )
 		$redirect_to = add_query_arg( 'approved', $approved, $redirect_to );
 	if ( $unapproved )
@@ -94,17 +93,8 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 	if ( $trashed || $spammed )
 		$redirect_to = add_query_arg( 'ids', join(',', $comment_ids), $redirect_to );
 
-	if ( $post_id )
-		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
-	if ( isset($_REQUEST['apage']) )
-		$redirect_to = add_query_arg( 'apage', absint($_REQUEST['apage']), $redirect_to );
-	if ( !empty($_REQUEST['mode']) )
-		$redirect_to = add_query_arg('mode', $_REQUEST['mode'], $redirect_to);
-	if ( !empty($_REQUEST['comment_status']) )
-		$redirect_to = add_query_arg('comment_status', $_REQUEST['comment_status'], $redirect_to);
-	if ( !empty($_REQUEST['s']) )
-		$redirect_to = add_query_arg('s', $_REQUEST['s'], $redirect_to);
 	wp_redirect( $redirect_to );
+	exit;
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
