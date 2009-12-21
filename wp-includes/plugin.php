@@ -299,10 +299,13 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 function do_action($tag, $arg = '') {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
-	if ( is_array($wp_actions) )
-		$wp_actions[] = $tag;
+	if ( ! isset($wp_actions) )
+		$wp_actions = array();
+	
+	if ( ! isset($wp_actions[$tag]) )
+		$wp_actions[$tag] = 1;
 	else
-		$wp_actions = array($tag);
+		++$wp_actions[$tag];
 
 	$wp_current_filter[] = $tag;
 
@@ -357,10 +360,10 @@ function do_action($tag, $arg = '') {
 function did_action($tag) {
 	global $wp_actions;
 
-	if ( empty($wp_actions) )
+	if ( ! isset( $wp_actions ) || ! isset( $wp_actions[$tag] ) )
 		return 0;
 
-	return count(array_keys($wp_actions, $tag));
+	return $wp_actions[$tag];
 }
 
 /**
@@ -382,10 +385,13 @@ function did_action($tag) {
 function do_action_ref_array($tag, $args) {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
-	if ( !is_array($wp_actions) )
-		$wp_actions = array($tag);
+	if ( ! isset($wp_actions) )
+		$wp_actions = array();
+	
+	if ( ! isset($wp_actions[$tag]) )
+		$wp_actions[$tag] = 1;
 	else
-		$wp_actions[] = $tag;
+		++$wp_actions[$tag];
 
 	$wp_current_filter[] = $tag;
 
