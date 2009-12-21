@@ -1296,16 +1296,9 @@ class WP_Http_Curl {
 
 		// CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers.  Have to use ceil since
 		// a value of 0 will allow an ulimited timeout.
-		// Use _MS if available.
-		if ( defined( 'CURLOPT_TIMEOUT_MS' ) ) {
-			$timeout_ms = (int) ceil( 1000 * $r['timeout'] );
-			curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT_MS, $timeout_ms );
-			curl_setopt( $handle, CURLOPT_TIMEOUT_MS, $timeout_ms );
-		} else {
-			$timeout = (int) ceil( $r['timeout'] );
-			curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $timeout );
-			curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
-		}
+		$timeout = (int) ceil( $r['timeout'] );
+		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $timeout );
+		curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
 
 		curl_setopt( $handle, CURLOPT_URL, $url);
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
