@@ -732,7 +732,9 @@ class WP_Widget_RSS extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		wp_widget_rss_output( $rss, $instance );
 		echo $after_widget;
-		$rss->__destruct(); 
+
+		if ( ! is_wp_error($rss) )
+			$rss->__destruct();
 		unset($rss);
 	}
 
