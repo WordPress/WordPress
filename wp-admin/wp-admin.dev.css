@@ -31,6 +31,7 @@ select option {
 #pass-strength-result.strong,
 #pass-strength-result.short,
 .button-highlighted,
+input.button-highlighted,
 #quicktags #ed_strong,
 #ed_reply_toolbar #ed_reply_strong {
 	font-weight: bold;
@@ -378,9 +379,13 @@ form p.submit a.cancel:hover {
 
 .submit input,
 .button,
+input.button,
 .button-primary,
+input.button-primary,
 .button-secondary,
+input.button-secondary,
 .button-highlighted,
+input.button-highlighted,
 #postcustomstuff .submit input {
 	text-decoration: none;
 	font-size: 11px !important;
