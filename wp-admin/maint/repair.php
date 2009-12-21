@@ -41,9 +41,9 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 			echo "<p>The {$wpdb->prefix}$table table is okay.";
 		} else {
 			echo "<p>The {$wpdb->prefix}$table table is not okay. It is reporting the following error: <code>$check->Msg_text</code>.  WordPress will attempt to repair this table&hellip;";
-			$repair = $wpdb->get_row("REPAIR TABLE {$wpb->prefix}$table");
+			$repair = $wpdb->get_row("REPAIR TABLE {$wpdb->prefix}$table");
 			if ( 'OK' == $check->Msg_text ) {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Sucessfully repaired the {$wpb->prefix}$table table.";
+				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Sucessfully repaired the {$wpdb->prefix}$table table.";
 			} else {
 				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to repair the {$wpdb->prefix}$table table. Error: $check->Msg_text<br />";
 				$problems["{$wpdb->prefix}$table"] = $check->Msg_text;
@@ -53,11 +53,11 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 		if ( $okay && $optimize ) {
 			$check = $wpdb->get_row("ANALYZE TABLE {$wpdb->prefix}$table");
 			if ( 'Table is already up to date' == $check->Msg_text )  {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;The {$wpb->prefix}$table table is already optimized.";
+				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;The {$wpdb->prefix}$table table is already optimized.";
 			} else {
 				$check = $wpdb->get_row("OPTIMIZE TABLE {$wpdb->prefix}$table");
 				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text )
-					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Sucessfully optimized the {$wpb->prefix}$table table.";
+					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Sucessfully optimized the {$wpdb->prefix}$table table.";
 				else
 					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to optimize the {$wpdb->prefix}$table table. Error: $check->Msg_text";
 			}
