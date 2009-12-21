@@ -1137,7 +1137,7 @@ function wp_filter_comment($commentdata) {
 		$commentdata['user_id'] = apply_filters('pre_user_id', $commentdata['user_ID']);
 	elseif ( isset($commentdata['user_id']) )
 		$commentdata['user_id'] = apply_filters('pre_user_id', $commentdata['user_id']);
-	$commentdata['comment_agent']        = apply_filters('pre_comment_user_agent', $commentdata['comment_agent']);
+	$commentdata['comment_agent']        = apply_filters('pre_comment_user_agent', ( isset( $commentdata['comment_agent'] ) ? $commentdata['comment_agent'] : '' ) );
 	$commentdata['comment_author']       = apply_filters('pre_comment_author_name', $commentdata['comment_author']);
 	$commentdata['comment_content']      = apply_filters('pre_comment_content', $commentdata['comment_content']);
 	$commentdata['comment_author_IP']    = apply_filters('pre_comment_user_ip', $commentdata['comment_author_IP']);
