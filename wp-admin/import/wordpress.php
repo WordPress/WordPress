@@ -60,8 +60,12 @@ class WP_Import {
 	function get_tag( $string, $tag ) {
 		global $wpdb;
 		preg_match("|<$tag.*?>(.*?)</$tag>|is", $string, $return);
-		$return = preg_replace('|^<!\[CDATA\[(.*)\]\]>$|s', '$1', $return[1]);
-		$return = $wpdb->escape( trim( $return ) );
+		if ( isset($return[1]) ) {
+			$return = preg_replace('|^<!\[CDATA\[(.*)\]\]>$|s', '$1', $return[1]);
+			$return = $wpdb->escape( trim( $return ) );
+		} else {
+			$return = '';
+		}
 		return $return;
 	}
 
@@ -190,8 +194,10 @@ class WP_Import {
 				if ( !$user_id ) {
 					$user_id = wp_create_user($new_author_name, wp_generate_password());
 				}
-
-				$this->author_ids[$in_author_name] = $user_id;
+				
+				if ( !is_wp_error( $user_id ) ) {
+					$this->author_ids[$in_author_name] = $user_id;
+				}
 			}
 
 			// failsafe: if the user_id was invalid, default to the current user
@@ -842,7 +848,8 @@ class WP_Import {
 				break;
 			case 2:
 				check_admin_referer('import-wordpress');
-				$result = $this->import( $_GET['id'], $_POST['attachments'] );
+				$fetch_attachments = (!empty($_POST['attachments'])) ? true : false;
+				$result = $this->import( $_GET['id'], $fetch_attachments);
 				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();
 				break;
