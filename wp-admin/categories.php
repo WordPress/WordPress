@@ -11,7 +11,7 @@ require_once('admin.php');
 
 $title = __('Categories');
 
-wp_reset_vars( array('action', 'cat') );
+wp_reset_vars( array('action') );
 
 if ( isset( $_GET['action'] ) && isset($_GET['delete']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )
 	$action = 'bulk-delete';
