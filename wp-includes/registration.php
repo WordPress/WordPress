@@ -98,7 +98,7 @@ function validate_username( $username ) {
  * @uses do_action() Calls 'user_register' hook when creating a new user giving the user's ID
  *
  * @param array $userdata An array of user data.
- * @return int The newly created user's ID.
+ * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not be created.
  */
 function wp_insert_user($userdata) {
 	global $wpdb;
@@ -118,7 +118,14 @@ function wp_insert_user($userdata) {
 
 	$user_login = sanitize_user($user_login, true);
 	$user_login = apply_filters('pre_user_login', $user_login);
-
+	
+	//Remove any non-printable chars from the login string to see if we have ended up with an empty username
+	$user_login = trim($user_login);
+	
+	if ( empty($user_login) ) {
+		return new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.') );
+	}
+	
 	if ( empty($user_nicename) )
 		$user_nicename = sanitize_title( $user_login );
 	$user_nicename = apply_filters('pre_user_nicename', $user_nicename);
