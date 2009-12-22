@@ -213,13 +213,14 @@ function edit_post( $post_data = null ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Process the post data for the bulk editing of posts.
  *
  * Updates all bulk edited posts/pages, adding (but not removing) tags and
  * categories. Skips pages when they would be their own parent or child.
  *
- * @since unknown
+ * @since 2.7.0
  *
+ * @param array $post_data Optional, the array of post data to process if not provided will use $_POST superglobal.
  * @return array
  */
 function bulk_edit_posts( $post_data = null ) {
@@ -323,7 +324,7 @@ function bulk_edit_posts( $post_data = null ) {
  *
  * @since unknown
  *
- * @return unknown
+ * @return object stdClass object containing all the default post data as attributes
  */
 function get_default_post_to_edit() {
 
@@ -364,11 +365,11 @@ function get_default_post_to_edit() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Get the default page information to use.
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @return unknown
+ * @return object stdClass object containing all the default post data as attributes
  */
 function get_default_page_to_edit() {
 	$page = get_default_post_to_edit();
@@ -738,8 +739,8 @@ function _fix_attachment_links( $post_ID ) {
 		if ( ! empty( $attachment) && ! is_object( get_post( $attachment['post_parent'] ) ) ) {
 			$attachment['post_parent'] = $post_ID;
 			// Escape data pulled from DB.
-			$attachment = add_magic_quotes( $attachment);
-			wp_update_post( $attachment);
+			$attachment = add_magic_quotes( $attachment );
+			wp_update_post( $attachment );
 		}
 
 		$post_search[$i] = $anchor;
@@ -789,12 +790,12 @@ function _relocate_children( $old_ID, $new_ID ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Get all the possible statuses for a post_type
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param unknown_type $type
- * @return unknown
+ * @param string $type The post_type you want the statuses for
+ * @return array As array of all the statuses for the supplied post type
  */
 function get_available_post_statuses($type = 'post') {
 	$stati = wp_count_posts($type);
@@ -803,17 +804,17 @@ function get_available_post_statuses($type = 'post') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Run the wp query to fetch the posts for listing on the edit posts page
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param unknown_type $q
- * @return unknown
+ * @param array|bool $q Array of query variables to use to build the query or false to use $_GET superglobal.
+ * @return array
  */
 function wp_edit_posts_query( $q = false ) {
 	if ( false === $q )
 		$q = $_GET;
-	$q['m']   = isset($q['m']) ? (int) $q['m'] : 0;
+	$q['m'] = isset($q['m']) ? (int) $q['m'] : 0;
 	$q['cat'] = isset($q['cat']) ? (int) $q['cat'] : 0;
 	$post_stati  = array(	//	array( adj, noun )
 				'publish' => array(_x('Published', 'post'), __('Published posts'), _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')),
@@ -922,6 +923,7 @@ function wp_edit_attachments_query( $q = false ) {
 /**
  * {@internal Missing Short Description}}
  *
+ * @uses get_user_option()
  * @since unknown
  *
  * @param unknown_type $id
@@ -933,7 +935,9 @@ function postbox_classes( $id, $page ) {
 		return '';
 	$current_user = wp_get_current_user();
 	if ( $closed = get_user_option('closedpostboxes_'.$page, 0, false ) ) {
-		if ( !is_array( $closed ) ) return '';
+		if ( !is_array( $closed ) ) {
+			return '';
+		}
 		return in_array( $id, $closed )? 'closed' : '';
 	} else {
 		return '';
@@ -952,7 +956,7 @@ function postbox_classes( $id, $page ) {
  */
 function get_sample_permalink($id, $title = null, $name = null) {
 	$post = &get_post($id);
-	if (!$post->ID) {
+	if ( !$post->ID ) {
 		return array('', '');
 	}
 	$original_status = $post->post_status;
@@ -961,7 +965,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 
 	// Hack: get_permalink would return ugly permalink for
 	// drafts, so we will fake, that our post is published
-	if (in_array($post->post_status, array('draft', 'pending'))) {
+	if ( in_array($post->post_status, array('draft', 'pending')) ) {
 		$post->post_status = 'publish';
 		$post->post_name = sanitize_title($post->post_name ? $post->post_name : $post->post_title, $post->ID);
 	}
@@ -970,7 +974,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 
 	// If the user wants to set a new name -- override the current one
 	// Note: if empty name is supplied -- use the title instead, see #6072
-	if (!is_null($name)) {
+	if ( !is_null($name) ) {
 		$post->post_name = sanitize_title($name ? $name : $title, $post->ID);
 	}
 
@@ -1172,6 +1176,8 @@ function _admin_notice_post_locked() {
  *
  * @uses _wp_translate_postdata()
  * @uses _wp_post_revision_fields()
+ * 
+ * @return unknown
  */
 function wp_create_post_autosave( $post_id ) {
 	$translated = _wp_translate_postdata( true );
@@ -1198,7 +1204,7 @@ function wp_create_post_autosave( $post_id ) {
  * Save draft or manually autosave for showing preview.
  *
  * @package WordPress
- * @since 2.7
+ * @since 2.7.0
  *
  * @uses wp_write_post()
  * @uses edit_post()
@@ -1259,7 +1265,7 @@ function post_preview() {
  * Adds the TinyMCE editor used on the Write and Edit screens.
  *
  * @package WordPress
- * @since 2.7
+ * @since 2.7.0
  *
  * TinyMCE is loaded separately from other Javascript by using wp-tinymce.php. It outputs concatenated
  * and optionaly pre-compressed version of the core and all default plugins. Additional plugins are loaded
