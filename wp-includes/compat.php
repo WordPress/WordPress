@@ -133,7 +133,7 @@ if ( !function_exists('json_encode') ) {
 			$wp_json = new Services_JSON();
 		}
 
-		return $wp_json->encode( $string );
+		return $wp_json->encodeUnsafe( $string );
 	}
 }
 

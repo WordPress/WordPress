@@ -50,7 +50,7 @@
  * @author		Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author		Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
  * @copyright	2005 Michal Migurski
- * @version		CVS: $Id: JSON.php,v 1.3 2009/05/22 23:51:00 alan_k Exp $
+ * @version     CVS: $Id: JSON.php 288200 2009-09-09 15:41:29Z alan_k $
  * @license		http://www.opensource.org/licenses/bsd-license.php
  * @link		http://pear.php.net/pepr/pepr-proposal-show.php?id=198
  */
@@ -235,7 +235,7 @@ class Services_JSON
 	*/
 	function encode($var)
 	{
-		header('Content-type: application/x-javascript');
+		header('Content-type: application/json');
 		return $this->_encode($var);
 	}
 	/**
