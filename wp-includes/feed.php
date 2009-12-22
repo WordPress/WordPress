@@ -524,7 +524,8 @@ function fetch_feed($url) {
 	$feed->set_feed_url($url);
 	$feed->set_cache_class('WP_Feed_Cache');
 	$feed->set_file_class('WP_SimplePie_File');
-	$feed->set_cache_duration(apply_filters('wp_feed_cache_transient_lifetime', 43200));
+	$feed->set_cache_duration(apply_filters('wp_feed_cache_transient_lifetime', 43200, $url));
+	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();
 	$feed->handle_content_type();
 
