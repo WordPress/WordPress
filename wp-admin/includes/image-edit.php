@@ -41,7 +41,7 @@ function wp_image_editor($post_id, $msg = false) {
 
 	if ( function_exists('imagerotate') ) { ?>
 
-		<div onclick="imageEdit.rotate(90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rleft" title="<?php esc_attr_e( 'Rotate couter-clockwise' ); ?>"></div>
+		<div onclick="imageEdit.rotate(90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rleft" title="<?php esc_attr_e( 'Rotate counter-clockwise' ); ?>"></div>
 		<div onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rright" title="<?php esc_attr_e( 'Rotate clockwise' ); ?>"></div><?php
 
 	} ?>
