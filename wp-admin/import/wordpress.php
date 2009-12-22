@@ -605,7 +605,9 @@ class WP_Import {
 			$key   = $this->get_tag( $p, 'wp:meta_key' );
 			$value = $this->get_tag( $p, 'wp:meta_value' );
 			$value = stripslashes($value); // add_post_meta() will escape.
-
+			// get_post_meta would have done this but we read straight from the db on export so we could have a serialized string
+			$value = maybe_unserialize($value);
+			
 			$this->process_post_meta($post_id, $key, $value);
 
 		} }
