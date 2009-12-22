@@ -97,8 +97,7 @@ class WP_Roles {
 	 * @global array $wp_user_roles Used to set the 'roles' property value.
 	 */
 	function _init () {
-		global $wpdb;
-		global $wp_user_roles;
+		global $wpdb, $wp_user_roles;
 		$this->role_key = $wpdb->prefix . 'user_roles';
 		if ( ! empty( $wp_user_roles ) ) {
 			$this->roles = $wp_user_roles;
@@ -545,8 +544,8 @@ class WP_User {
 		//Build $allcaps from role caps, overlay user's $caps
 		$this->allcaps = array();
 		foreach ( (array) $this->roles as $role ) {
-			$role =& $wp_roles->get_role( $role );
-			$this->allcaps = array_merge( (array) $this->allcaps, (array) $role->capabilities );
+			$the_role =& $wp_roles->get_role( $role );
+			$this->allcaps = array_merge( (array) $this->allcaps, (array) $the_role->capabilities );
 		}
 		$this->allcaps = array_merge( (array) $this->allcaps, (array) $this->caps );
 	}
@@ -652,7 +651,7 @@ class WP_User {
 	function update_user_level_from_caps() {
 		global $wpdb;
 		$this->user_level = array_reduce( array_keys( $this->allcaps ), array( &$this, 'level_reduction' ), 0 );
-		update_usermeta( $this->ID, $wpdb->prefix.'user_level', $this->user_level );
+		update_usermeta( $this->ID, $wpdb->prefix . 'user_level', $this->user_level );
 	}
 
 	/**
@@ -678,7 +677,8 @@ class WP_User {
 	 * @param string $cap Capability name.
 	 */
 	function remove_cap( $cap ) {
-		if ( empty( $this->caps[$cap] ) ) return;
+		if ( empty( $this->caps[$cap] ) )
+			return;
 		unset( $this->caps[$cap] );
 		update_usermeta( $this->ID, $this->cap_key, $this->caps );
 	}
@@ -693,7 +693,7 @@ class WP_User {
 		global $wpdb;
 		$this->caps = array();
 		update_usermeta( $this->ID, $this->cap_key, '' );
-		update_usermeta( $this->ID, $wpdb->prefix.'user_level', '' );
+		update_usermeta( $this->ID, $wpdb->prefix . 'user_level', '' );
 		$this->get_role_caps();
 	}
 
@@ -782,7 +782,7 @@ function map_meta_cap( $cap, $user_id ) {
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
 
-		if ('' != $post->post_author) {
+		if ( '' != $post->post_author ) {
 			$post_author_data = get_userdata( $post->post_author );
 		} else {
 			//No author set yet so default to current user for cap checks
