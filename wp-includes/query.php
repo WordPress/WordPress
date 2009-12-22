@@ -298,6 +298,20 @@ function is_feed () {
 }
 
 /**
+ * Whether current page query is comment feed URL.
+ *
+ * @since 3.0.0
+ * @uses $wp_query
+ *
+ * @return bool
+ */
+function is_comment_feed () {
+	global $wp_query;
+
+	return $wp_query->is_comment_feed;
+}
+
+/**
  * Whether current page query is the front of the site.
  *
  * @since 2.5.0
