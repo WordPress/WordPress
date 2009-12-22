@@ -428,10 +428,10 @@ function wp_default_styles( &$styles ) {
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20091217';
 
-	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091217' );
+	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091221' );
 	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20091217' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20091221' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
