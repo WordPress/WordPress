@@ -1092,7 +1092,7 @@ EOD;
 		$prev_page = ($page - 1) < 1 ? NULL : $page - 1;
 		$last_page = ((int)$last_page == 1 || (int)$last_page == 0) ? NULL : (int) $last_page;
 		$self_page = $page > 1 ? $page : NULL;
-?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
+?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>" <?php do_action('app_ns'); ?> >
 <id><?php $this->the_entries_url() ?></id>
 <updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
 <title type="text"><?php bloginfo_rss('name') ?></title>
@@ -1108,6 +1108,7 @@ EOD;
 <link rel="self" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($self_page) ?>" />
 <rights type="text">Copyright <?php echo date('Y'); ?></rights>
 <?php the_generator( 'atom' ); ?>
+<?php do_action('app_head'); ?>
 <?php if ( have_posts() ) {
 			while ( have_posts() ) {
 				the_post();
@@ -1195,6 +1196,7 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	<?php the_category_rss( 'atom' ); ?>
 <?php list($content_type, $content) = prep_atom_text_construct(get_the_excerpt()); ?>
 	<summary type="<?php echo $content_type ?>"><?php echo $content ?></summary>
+	<?php do_action('app_entry'); ?>
 </entry>
 <?php }
 
