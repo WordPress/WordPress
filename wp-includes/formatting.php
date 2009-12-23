@@ -2841,11 +2841,16 @@ function sanitize_text_field($str) {
 	}
 
 	$match = array();
+	$found = false;
 	while ( preg_match('/%[a-f0-9]{2}/i', $filtered, $match) ) {
 		$filtered = str_replace($match[0], '', $filtered);
+		$found = true;
 	}
-	// Strip out the whitespace that may now exist after removing the octets.
-	$filtered = trim( preg_replace('/[\r\n\t ]+/', ' ', $filtered) );
+
+	if ( $found ) {
+		// Strip out the whitespace that may now exist after removing the octets.
+		$filtered = trim( preg_replace('/ +/', ' ', $filtered) );
+	}
 
 	return apply_filters('sanitize_text_field', $filtered, $str);
 }
