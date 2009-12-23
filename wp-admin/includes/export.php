@@ -347,7 +347,7 @@ if ( $postmeta ) {
 <?php foreach( $postmeta as $meta ) { ?>
 <wp:postmeta>
 <wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
-<wp:meta_value><?Php echo $meta->meta_value; ?></wp:meta_value>
+<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
 </wp:postmeta>
 <?php } ?>
 <?php } ?>
