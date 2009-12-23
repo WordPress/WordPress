@@ -185,7 +185,21 @@ function &get_comment(&$comment, $output = OBJECT) {
 function get_comments( $args = '' ) {
 	global $wpdb;
 
-	$defaults = array('status' => '', 'orderby' => 'comment_date_gmt', 'order' => 'DESC', 'number' => '', 'offset' => '', 'post_id' => 0);
+	$defaults = array(
+		'author_email' => '',
+		'ID' => '',
+		'karma' => '',
+		'number' => '', 
+		'offset' => '', 
+		'orderby' => '', 
+		'order' => 'DESC', 
+		'parent' => '',
+		'post_ID' => '',
+		'post_id' => 0,
+		'status' => '', 
+		'type' => '',
+		'user_id' => '',
+	);
 
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
@@ -218,7 +232,32 @@ function get_comments( $args = '' ) {
 
 	$order = ( 'ASC' == $order ) ? 'ASC' : 'DESC';
 
-	$orderby = 'comment_date_gmt';  // Hard code for now
+	if ( ! empty( $orderby ) ) {
+		$ordersby = is_array($orderby) ? $orderby : preg_split('/[,\s]/', $orderby);
+		$ordersby = array_intersect(
+			$ordersby, 
+			array(
+				'comment_agent',
+				'comment_approved',
+				'comment_author',
+				'comment_author_email',
+				'comment_author_IP',
+				'comment_author_url',
+				'comment_content',
+				'comment_date',
+				'comment_date_gmt',
+				'comment_ID',
+				'comment_karma',
+				'comment_parent',
+				'comment_post_ID',
+				'comment_type',
+				'user_id',
+			)
+		);
+		$orderby = empty( $ordersby ) ? 'comment_date_gmt' : implode(', ', $ordersby);
+	} else {
+		$orderby = 'comment_date_gmt';
+	}
 
 	$number = absint($number);
 	$offset = absint($offset);
@@ -233,10 +272,22 @@ function get_comments( $args = '' ) {
 		$number = '';
 	}
 
+	$post_where = '';
+
 	if ( ! empty($post_id) )
-		$post_where = $wpdb->prepare( 'comment_post_ID = %d AND', $post_id );
-	else
-		$post_where = '';
+		$post_where .= $wpdb->prepare( 'comment_post_ID = %d AND ', $post_id );
+	if ( '' !== $author_email ) 
+		$post_where .= $wpdb->prepare( 'comment_author_email = %s AND ', $author_email );
+	if ( '' !== $karma )
+		$post_where .= $wpdb->prepare( 'comment_karma = %d AND ', $karma );
+	if ( 'comment' == $type )
+		$post_where .= "comment_type = '' AND ";
+	elseif ( ! empty( $type ) ) 
+		$post_where .= $wpdb->prepare( 'comment_type = %s AND ', $type );
+	if ( '' !== $parent )
+		$post_where .= $wpdb->prepare( 'comment_parent = %d AND ', $parent );
+	if ( '' !== $user_id )
+		$post_where .= $wpdb->prepare( 'user_id = %d AND ', $user_id );
 
 	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE $post_where $approved ORDER BY $orderby $order $number" );
 	wp_cache_add( $cache_key, $comments, 'comment' );
