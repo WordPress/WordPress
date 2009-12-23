@@ -355,7 +355,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 
 	$image = wp_load_image( $file );
 	if ( !is_resource( $image ) )
-		return new WP_Error('error_loading_image', $image);
+		return new WP_Error( 'error_loading_image', $image, $file );
 
 	$size = @getimagesize( $file );
 	if ( !$size )

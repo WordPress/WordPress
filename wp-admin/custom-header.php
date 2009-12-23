@@ -360,6 +360,9 @@ class Custom_Image_Header {
 		} elseif ( $width > HEADER_IMAGE_WIDTH ) {
 			$oitar = $width / HEADER_IMAGE_WIDTH;
 			$image = wp_crop_image($file, 0, 0, $width, $height, HEADER_IMAGE_WIDTH, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
+			if ( is_wp_error( $image ) )
+				wp_die( __( 'Image could not be processed.  Please go back and try again.' ), __( 'Image Processing Error' ) );
+
 			$image = apply_filters('wp_create_file_in_uploads', $image, $id); // For replication
 
 			$url = str_replace(basename($url), basename($image), $url);
@@ -414,6 +417,9 @@ class Custom_Image_Header {
 		$original = get_attached_file( $_POST['attachment_id'] );
 
 		$cropped = wp_crop_image($_POST['attachment_id'], $_POST['x1'], $_POST['y1'], $_POST['width'], $_POST['height'], HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT);
+		if ( is_wp_error( $cropped ) )
+			wp_die( __( 'Image could not be processed.  Please go back and try again.' ), __( 'Image Processing Error' ) );
+
 		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $_POST['attachment_id']); // For replication
 
 		$parent = get_post($_POST['attachment_id']);
