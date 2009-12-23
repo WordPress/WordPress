@@ -1245,11 +1245,22 @@ function the_date($d='', $before='', $after='', $echo = true) {
  *
  * @since 2.1.0
  *
- * @param string $d Optional. PHP date format.
- * @return string
+ * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
+ * @param string $before Optional. Output before the date.
+ * @param string $after Optional. Output after the date.
+ * @param bool $echo Optional, default is display. Whether to echo the date or return it.
+ * @return string|null Null if displaying, string if retrieving.
  */
-function the_modified_date($d = '') {
-	echo apply_filters('the_modified_date', get_the_modified_date($d), $d);
+function the_modified_date($d = '', $before='', $after='', $echo = true) {
+	
+	$the_modified_date = $before . get_the_modified_date($d) . $after;
+	$the_modified_date = apply_filters('the_modified_date', $the_modified_date, $d, $before, $after);
+	
+	if ( $echo )
+		echo $the_modified_date;
+	else
+		return $the_modified_date;
+	
 }
 
 /**
