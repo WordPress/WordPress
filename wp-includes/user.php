@@ -638,9 +638,8 @@ function sanitize_user_object($user, $context = 'display') {
 		else
 			$vars = get_object_vars($user);
 		foreach ( array_keys($vars) as $field ) {
-			if ( is_array($user->$field) )
-				continue;
-			$user->$field = sanitize_user_field($field, $user->$field, $user->ID, $context);
+			if ( is_string($user->$field) || is_numeric($user->$field) ) 
+				$user->$field = sanitize_user_field($field, $user->$field, $user->ID, $context);
 		}
 		$user->filter = $context;
 	} else {
@@ -689,7 +688,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 	if ( 'raw' == $context )
 		return $value;
 
-	if ( is_array($value) )
+	if ( !is_string($value) && !is_numeric($value) )
 		return $value;
 
 	$prefixed = false;
