@@ -3393,7 +3393,7 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 function wp_timezone_choice( $selected_zone ) {
 	static $mo_loaded = false;
 
-	$continents = array( 'Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc' );
+	$continents = array( 'Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
 
 	// Load translations for continents and cities
 	if ( !$mo_loaded ) {
@@ -3407,9 +3407,6 @@ function wp_timezone_choice( $selected_zone ) {
 	foreach ( timezone_identifiers_list() as $zone ) {
 		$zone = explode( '/', $zone );
 		if ( !in_array( $zone[0], $continents ) ) {
-			continue;
-		}
-		if ( 'Etc' === $zone[0] && in_array( $zone[1], array( 'UCT', 'GMT', 'GMT0', 'GMT+0', 'GMT-0', 'Greenwich', 'Universal', 'Zulu' ) ) ) {
 			continue;
 		}
 
@@ -3452,27 +3449,18 @@ function wp_timezone_choice( $selected_zone ) {
 
 			// Continent optgroup
 			if ( !isset( $zonen[$key - 1] ) || $zonen[$key - 1]['continent'] !== $zone['continent'] ) {
-				$label = ( 'Etc' === $zone['continent'] ) ? __( 'Manual offsets' ) : $zone['t_continent'];
+				$label = $zone['t_continent'];
 				$structure[] = '<optgroup label="'. esc_attr( $label ) .'">';
 			}
 
 			// Add the city to the value
 			$value[] = $zone['city'];
-			if ( 'Etc' === $zone['continent'] ) {
-				if ( 'UTC' === $zone['city'] ) {
-					$display = '';
-				} else {
-					$display = str_replace( 'GMT', '', $zone['city'] );
-					$display = strtr( $display, '+-', '-+' ) . ':00';
-				}
-				$display = sprintf( __( 'UTC %s' ), $display );
-			} else {
-				$display = $zone['t_city'];
-				if ( !empty( $zone['subcity'] ) ) {
-					// Add the subcity to the value
-					$value[] = $zone['subcity'];
-					$display .= ' - ' . $zone['t_subcity'];
-				}
+
+			$display = $zone['t_city'];
+			if ( !empty( $zone['subcity'] ) ) {
+				// Add the subcity to the value
+				$value[] = $zone['subcity'];
+				$display .= ' - ' . $zone['t_subcity'];
 			}
 		}
 
@@ -3489,6 +3477,36 @@ function wp_timezone_choice( $selected_zone ) {
 			$structure[] = '</optgroup>';
 		}
 	}
+
+	// Do UTC
+	$structure[] = '<optgroup label="'. esc_attr__( 'UTC' ) .'">';
+	$selected = '';
+	if ( 'UTC' === $selected_zone )
+		$selected = 'selected="selected" ';
+	$structure[] = '<option ' . $selected . 'value="' . esc_attr( 'UTC' ) . '">' . __('UTC') . '</option>';
+	$structure[] = '</optgroup>';
+
+	// Do manual UTC offsets
+	$structure[] = '<optgroup label="'. esc_attr__( 'Manual Offsets' ) .'">';
+	$offset_range = array (-12, -11.5, -11, -10.5, -10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5,
+		0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 5.75, 6, 6.5, 7, 7.5, 8, 8.5, 8.75, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.75, 13, 13.75, 14);
+	foreach ( $offset_range as $offset ) {
+		if ( 0 <= $offset )
+			$offset_name = '+' . $offset;
+		else
+			$offset_name = (string) $offset;
+
+		$offset_value = $offset_name;
+		$offset_name = str_replace(array('.25','.5','.75'), array(':15',':30',':45'), $offset_name);
+		$offset_name = 'UTC' . $offset_name;
+		$offset_value = 'UTC' . $offset_value;
+		$selected = '';
+		if ( $offset_value === $selected_zone )
+			$selected = 'selected="selected" ';
+		$structure[] = '<option ' . $selected . 'value="' . esc_attr( $offset_value ) . '">' . esc_html( $offset_name ) . "</option>";
+		
+	}
+	$structure[] = '</optgroup>';
 
 	return join( "\n", $structure );
 }

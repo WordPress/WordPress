@@ -139,11 +139,23 @@ foreach ( $offset_range as $offset ) {
 else: // looks like we can do nice timezone selection!
 $current_offset = get_option('gmt_offset');
 $tzstring = get_option('timezone_string');
-if (empty($tzstring)) { // set the Etc zone if no timezone string exists
-	if ($current_offset < 0) $offnum = - ceil($current_offset);
-	else $offnum = - floor($current_offset);
-	$tzstring = 'Etc/GMT' . (($offnum >= 0) ? '+' : '') . $offnum;
+
+$check_zone_info = true;
+
+// Remove old Etc mappings.  Fallback to gmt_offset.
+if ( false !== strpos($tzstring,'Etc/GMT') )
+	$tzstring = '';
+
+if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
+	$check_zone_info = false;
+	if ( 0 == $current_offset )
+		$tzstring = 'UTC+0';
+	elseif ($current_offset < 0)
+		$tzstring = 'UTC' . $current_offset;
+	else
+		$tzstring = 'UTC+' . $current_offset;
 }
+
 ?>
 <th scope="row"><label for="timezone_string"><?php _e('Timezone') ?></label></th>
 <td>
@@ -160,7 +172,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 <span class="description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
 <br />
 <span>
-<?php if ($tzstring) : ?>
+<?php if ($check_zone_info && $tzstring) : ?>
 	<?php
 	$now = localtime(time(),true);
 	if ($now['tm_isdst']) _e('This timezone is currently in daylight savings time.');
