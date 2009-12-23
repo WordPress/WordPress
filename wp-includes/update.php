@@ -44,7 +44,7 @@ function wp_version_check() {
 	else
 		$mysql_version = 'N/A';
 	$local_package = isset( $wp_local_package )? $wp_local_package : '';
-	$url = "http://api.wordpress.org/core/version-check/1.3/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
+	$url = "http://api.wordpress.org/core/version-check/1.4/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
@@ -74,6 +74,10 @@ function wp_version_check() {
 			$new_option->current = esc_attr( $returns[3] );
 		if ( isset( $returns[4] ) )
 			$new_option->locale = esc_attr( $returns[4] );
+		if ( isset( $returns[5] ) )
+			$new_option->php_version = esc_attr( $returns[5] );
+		if ( isset( $returns[6] ) )
+			$new_option->mysql_version = esc_attr( $returns[6] );
 		$new_options[] = $new_option;
 	}
 

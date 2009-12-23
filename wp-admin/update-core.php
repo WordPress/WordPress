@@ -13,7 +13,7 @@ if ( ! current_user_can('update_plugins') )
 	wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));
 
 function list_core_update( $update ) {
-	global $wp_local_package;
+	global $wp_local_package, $wpdb;
 	$version_string = ('en_US' == $update->locale && 'en_US' == get_locale() ) ?
 			$update->current : sprintf("%s&ndash;<strong>%s</strong>", $update->current, $update->locale);
 	$current = false;
@@ -21,6 +21,9 @@ function list_core_update( $update ) {
 		$current = true;
 	$submit = __('Upgrade Automatically');
 	$form_action = 'update-core.php?action=do-core-upgrade';
+	$php_version    = phpversion();
+	$mysql_version  = $wpdb->db_version();
+	$show_buttons = true;
 	if ( 'development' == $update->response ) {
 		$message = __('You are using a development version of WordPress.  You can upgrade to the latest nightly build automatically or download the nightly build and install it manually:');
 		$download = __('Download nightly build');
@@ -30,7 +33,18 @@ function list_core_update( $update ) {
 			$submit = __('Re-install Automatically');
 			$form_action = 'update-core.php?action=do-core-reinstall';
 		} else {
-			$message = 	sprintf(__('You can upgrade to version %s automatically or download the package and install it manually:'), $version_string);
+			$php_compat     = version_compare( $php_version, $update->php_version, '>=' );
+			$mysql_compat   = version_compare( $mysql_version, $update->mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+			if ( !$mysql_compat && !$php_compat )
+				$message = sprintf( __('You cannot upgrade because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $update->current, $update->php_version, $update->mysql_version, $php_version, $mysql_version );
+			elseif ( !$php_compat )
+				$message = sprintf( __('You cannot upgrade because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.'), $update->current, $update->php_version, $php_version );
+			elseif ( !$mysql_compat )
+				$message = sprintf( __('You cannot upgrade because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $update->current, $update->mysql_version, $mysql_version );
+			else
+				$message = 	sprintf(__('You can upgrade to version %s automatically or download the package and install it manually:'), $version_string);
+			if ( !$mysql_compat || !$php_compat )
+				$show_buttons = false;
 		}
 		$download = sprintf(__('Download %s'), $version_string);
 	}
@@ -41,10 +55,12 @@ function list_core_update( $update ) {
 	echo '<form method="post" action="' . $form_action . '" name="upgrade" class="upgrade">';
 	wp_nonce_field('upgrade-core');
 	echo '<p>';
-	echo '<input id="upgrade" class="button" type="submit" value="' . esc_attr($submit) . '" name="upgrade" />&nbsp;';
 	echo '<input name="version" value="'. esc_attr($update->current) .'" type="hidden"/>';
 	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
-	echo '<a href="' . esc_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
+	if ( $show_buttons ) {
+		echo '<input id="upgrade" class="button" type="submit" value="' . esc_attr($submit) . '" name="upgrade" />&nbsp;';
+		echo '<a href="' . esc_url($update->package) . '" class="button">' . $download . '</a>&nbsp;';
+	}
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
 			echo '<input id="dismiss" class="button" type="submit" value="' . esc_attr__('Hide this update') . '" name="dismiss" />';
