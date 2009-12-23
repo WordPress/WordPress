@@ -225,7 +225,7 @@ function _get_page_link( $id = false, $leavename = false, $sample = false ) {
 	if ( '' != $pagestruct && ( ( isset($post->post_status) && 'draft' != $post->post_status && 'pending' != $post->post_status ) || $sample ) ) {
 		$link = get_page_uri($id);
 		$link = ( $leavename ) ? $pagestruct : str_replace('%pagename%', $link, $pagestruct);
-		$link = trailingslashit(get_option('home')) . "$link";
+		$link = trailingslashit(get_option('home')) . $link;
 		$link = user_trailingslashit($link, 'page');
 	} else {
 		$link = trailingslashit(get_option('home')) . "?page_id=$id";

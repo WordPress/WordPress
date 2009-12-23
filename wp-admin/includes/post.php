@@ -1406,12 +1406,12 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'width' => '100%',
 		'theme' => 'advanced',
 		'skin' => 'wp_theme',
-		'theme_advanced_buttons1' => "$mce_buttons",
-		'theme_advanced_buttons2' => "$mce_buttons_2",
-		'theme_advanced_buttons3' => "$mce_buttons_3",
-		'theme_advanced_buttons4' => "$mce_buttons_4",
-		'language' => "$mce_locale",
-		'spellchecker_languages' => "$mce_spellchecker_languages",
+		'theme_advanced_buttons1' => $mce_buttons,
+		'theme_advanced_buttons2' => $mce_buttons_2,
+		'theme_advanced_buttons3' => $mce_buttons_3,
+		'theme_advanced_buttons4' => $mce_buttons_4,
+		'language' => $mce_locale,
+		'spellchecker_languages' => $mce_spellchecker_languages,
 		'theme_advanced_toolbar_location' => 'top',
 		'theme_advanced_toolbar_align' => 'left',
 		'theme_advanced_statusbar_location' => 'bottom',
@@ -1432,13 +1432,13 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'paste_remove_spans' => true,
 		'paste_strip_class_attributes' => 'all',
 		'wpeditimage_disable_captions' => $no_captions,
-		'plugins' => "$plugins"
+		'plugins' => $plugins
 	);
 
 	$mce_css = trim(apply_filters('mce_css', ''), ' ,');
 
 	if ( ! empty($mce_css) )
-		$initArray['content_css'] = "$mce_css";
+		$initArray['content_css'] = $mce_css;
 
 	if ( is_array($settings) )
 		$initArray = array_merge($initArray, $settings);

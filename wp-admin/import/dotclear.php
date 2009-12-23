@@ -407,7 +407,7 @@ class Dotclear_Import {
 				// WordPressify Data
 				$comment_ID = (int) ltrim($comment_id, '0');
 				$comment_post_ID = (int) $postarr[$post_id];
-				$comment_approved = "$comment_pub";
+				$comment_approved = $comment_pub;
 				$name = $wpdb->escape(csc ($comment_auteur));
 				$email = $wpdb->escape($comment_email);
 				$web = "http://".$wpdb->escape($comment_site);

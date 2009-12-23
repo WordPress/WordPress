@@ -239,13 +239,13 @@ function wp_reset_vars( $vars ) {
 		global $$var;
 
 		if (!isset( $$var ) ) {
-			if ( empty( $_POST["$var"] ) ) {
-				if ( empty( $_GET["$var"] ) )
+			if ( empty( $_POST[$var] ) ) {
+				if ( empty( $_GET[$var] ) )
 					$$var = '';
 				else
-					$$var = $_GET["$var"];
+					$$var = $_GET[$var];
 			} else {
-				$$var = $_POST["$var"];
+				$$var = $_POST[$var];
 			}
 		}
 	}

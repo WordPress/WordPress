@@ -86,14 +86,14 @@ class GM_Import {
 		for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 			$wpvar = $wpvarstoreset[$i];
 			if (!isset($$wpvar)) {
-				if (empty($_POST["$wpvar"])) {
-					if (empty($_GET["$wpvar"])) {
+				if (empty($_POST[$wpvar])) {
+					if (empty($_GET[$wpvar])) {
 						$$wpvar = '';
 					} else {
-						$$wpvar = $_GET["$wpvar"];
+						$$wpvar = $_GET[$wpvar];
 					}
 				} else {
-					$$wpvar = $_POST["$wpvar"];
+					$$wpvar = $_POST[$wpvar];
 				}
 			}
 		}
@@ -139,7 +139,7 @@ class GM_Import {
 			continue;
 		}
 
-		$user_info = array("user_login"=>"$user_login", "user_pass"=>"$pass1", "user_nickname"=>"$user_nickname", "user_email"=>"$user_email", "user_url"=>"$user_url", "user_ip"=>"$user_ip", "user_domain"=>"$user_domain", "user_browser"=>"$user_browser", "dateYMDhour"=>"$user_joindate", "user_level"=>"1", "user_idmode"=>"nickname");
+		$user_info = array("user_login"=>$user_login, "user_pass"=>$pass1, "user_nickname"=>$user_nickname, "user_email"=>$user_email, "user_url"=>$user_url, "user_ip"=>$user_ip, "user_domain"=>$user_domain, "user_browser"=>$user_browser, "dateYMDhour"=>$user_joindate, "user_level"=>"1", "user_idmode"=>"nickname");
 		$user_id = wp_insert_user($user_info);
 		$this->gmnames[$userdata[0]] = $user_id;
 
@@ -171,7 +171,7 @@ class GM_Import {
 									$entryfile .= "0";
 		}}}}}}}
 
-		$entryfile .= "$i";
+		$entryfile .= $i;
 
 		if (is_file($entryfile.".cgi")) {
 

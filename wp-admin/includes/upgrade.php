@@ -1519,7 +1519,7 @@ function make_site_theme_from_default($theme_name, $template) {
 	// Copy files from the default theme to the site theme.
 	//$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
 
-	$theme_dir = @ opendir("$default_dir");
+	$theme_dir = @ opendir($default_dir);
 	if ($theme_dir) {
 		while(($theme_file = readdir( $theme_dir )) !== false) {
 			if (is_dir("$default_dir/$theme_file"))

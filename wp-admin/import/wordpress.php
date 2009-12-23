@@ -163,7 +163,7 @@ class WP_Import {
 		for ($x = 1; $x < $y; $x ++) {
 			$next = array_shift($temp);
 			if (!(in_array($next, $authors)))
-				array_push($authors, "$next");
+				array_push($authors, $next);
 		}
 
 		return $authors;

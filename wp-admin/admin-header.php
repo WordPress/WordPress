@@ -29,11 +29,11 @@ wp_enqueue_script('utils');
 
 $hook_suffix = '';
 if ( isset($page_hook) )
-	$hook_suffix = "$page_hook";
+	$hook_suffix = $page_hook;
 else if ( isset($plugin_page) )
-	$hook_suffix = "$plugin_page";
+	$hook_suffix = $plugin_page;
 else if ( isset($pagenow) )
-	$hook_suffix = "$pagenow";
+	$hook_suffix = $pagenow;
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>

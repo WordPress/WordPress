@@ -155,7 +155,7 @@ class MT_Import {
 		for ($x = 1; $x < $y; $x ++) {
 			$next = array_shift($temp);
 			if (!(in_array($next, $authors)))
-				array_push($authors, "$next");
+				array_push($authors, $next);
 		}
 
 		$this->fclose($handle);
@@ -171,12 +171,12 @@ class MT_Import {
 			$newname = trim(stripslashes($line));
 			if ($newname == '')
 				$newname = 'left_blank'; //passing author names from step 1 to step 2 is accomplished by using POST. left_blank denotes an empty entry in the form.
-			array_push($formnames, "$newname");
+			array_push($formnames, $newname);
 		} // $formnames is the array with the form entered names
 
 		foreach ($_POST['userselect'] as $user => $key) {
 			$selected = trim(stripslashes($key));
-			array_push($selectnames, "$selected");
+			array_push($selectnames, $selected);
 		}
 
 		$count = count($formnames);

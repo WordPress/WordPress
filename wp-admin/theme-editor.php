@@ -155,7 +155,7 @@ if ($allowed_files) :
 	foreach ( $themes[$theme]['Template Files'] as $template_file ) {
 		$description = trim( get_file_description($template_file) );
 		$template_show = basename($template_file);
-		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : "$description";
+		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : $description;
 		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($template_show)</span></span>" : $filedesc;
 
 		// If we have two files of the same name prefer the one in the Template Directory

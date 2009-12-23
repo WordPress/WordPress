@@ -467,15 +467,15 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$my_year = substr($m, 0, 4);
 		$my_month = $wp_locale->get_month(substr($m, 4, 2));
 		$my_day = intval(substr($m, 6, 2));
-		$title = "$my_year" . ($my_month ? "$t_sep$my_month" : "") . ($my_day ? "$t_sep$my_day" : "");
+		$title = $my_year . ($my_month ? $t_sep . $my_month : "") . ($my_day ? $t_sep . $my_day : "");
 	}
 
 	if ( !empty($year) ) {
 		$title = $year;
 		if ( !empty($monthnum) )
-			$title .= "$t_sep" . $wp_locale->get_month($monthnum);
+			$title .= $t_sep . $wp_locale->get_month($monthnum);
 		if ( !empty($day) )
-			$title .= "$t_sep" . zeroise($day, 2);
+			$title .= $t_sep . zeroise($day, 2);
 	}
 
 	// If there is a post
@@ -491,7 +491,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$tax = $tax->label;
 		$term = $wp_query->get_queried_object();
 		$term = $term->name;
-		$title = "$tax$t_sep$term";
+		$title = $tax . $t_sep . $term;
 	}
 
 	//If it's a search

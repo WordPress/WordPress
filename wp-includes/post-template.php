@@ -574,7 +574,7 @@ function wp_link_pages($args = '') {
 		if ( 'number' == $next_or_number ) {
 			$output .= $before;
 			for ( $i = 1; $i < ($numpages+1); $i = $i + 1 ) {
-				$j = str_replace('%',"$i",$pagelink);
+				$j = str_replace('%',$i,$pagelink);
 				$output .= ' ';
 				if ( ($i != $page) || ((!$more) && ($page==1)) ) {
 					if ( 1 == $i ) {
