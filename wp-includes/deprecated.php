@@ -471,23 +471,30 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', 
  * Gets the links associated with the named category.
  *
  * @since 1.0.1
- * @deprecated Use wp_get_links()
- * @see wp_get_links()
+ * @deprecated Use wp_list_bookmarks()
+ * @see wp_list_bookmarks()
  *
  * @param string $category The category to use.
  * @param string $args
  * @return bool|null
  */
 function wp_get_linksbyname($category, $args = '') {
-	_deprecated_function(__FUNCTION__, '0.0', 'wp_get_links()');
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_bookmarks()');
 
-	$cat = get_term_by('name', $category, 'link_category');
-	if ( !$cat )
-		return false;
-	$cat_id = $cat->term_id;
+	$defaults = array(
+		'after' => '<br />',
+		'before' => '',
+		'categorize' => 0,
+		'category_after' => '',
+		'category_before' => '',
+		'category_name' => $category,
+		'show_description' => 1,
+		'title_li' => '',
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
 
-	$args = add_query_arg('category', $cat_id, $args);
-	wp_get_links($args);
+	return wp_list_bookmarks($r);
 }
 
 /**
@@ -927,7 +934,7 @@ function permalink_single_rss($deprecated = '') {
  * @return null|string
  */
 function wp_get_links($args = '') {
-	_deprecated_function(__FUNCTION__, '0.0', 'get_bookmarks()');
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_bookmarks()');
 
 	if ( strpos( $args, '=' ) === false ) {
 		$cat_id = $args;
@@ -935,18 +942,24 @@ function wp_get_links($args = '') {
 	}
 
 	$defaults = array(
-		'category' => -1, 'before' => '',
-		'after' => '<br />', 'between' => ' ',
-		'show_images' => true, 'orderby' => 'name',
-		'show_description' => true, 'show_rating' => false,
-		'limit' => -1, 'show_updated' => true,
-		'echo' => true
+		'after' => '<br />', 
+		'before' => '',
+		'between' => ' ',
+		'categorize' => 0,
+		'category' => '', 
+		'echo' => true,
+		'limit' => -1, 
+		'orderby' => 'name',
+		'show_description' => true, 
+		'show_images' => true, 
+		'show_rating' => false,
+		'show_updated' => true,
+		'title_li' => '',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
+	
+	return wp_list_bookmarks($r);
 }
 
 /**

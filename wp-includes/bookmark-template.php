@@ -153,6 +153,8 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
  *		formatted bookmarks.
  * 'categorize' - Default is 1 (integer). Whether to show links listed by
  *		category (default) or show links in one column.
+ * 'show_description' - Default is 0 (integer). Whether to show the description
+ *		of the bookmark.
  *
  * These options define how the Category name will appear before the category
  * links are displayed, if 'categorize' is 1. If 'categorize' is 0, then it will
