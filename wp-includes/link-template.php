@@ -933,7 +933,7 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
 		if ( $in_same_cat ) {
-			$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=ids');
+			$cat_array = wp_get_object_terms($post->ID, 'category', array('fields' => 'ids'));
 			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode(',', $cat_array) . ")";
 		}
 
@@ -1075,7 +1075,7 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
 	$excluded_categories = array();
 	if ( !empty($in_same_cat) || !empty($excluded_categories) ) {
 		if ( !empty($in_same_cat) ) {
-			$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=ids');
+			$cat_array = wp_get_object_terms($post->ID, 'category', array('fields' => 'ids'));
 		}
 
 		if ( !empty($excluded_categories) ) {

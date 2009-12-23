@@ -302,7 +302,7 @@ class WP_Import {
 	function process_categories() {
 		global $wpdb;
 
-		$cat_names = (array) get_terms('category', 'fields=names');
+		$cat_names = (array) get_terms('category', array('fields' => 'names'));
 
 		while ( $c = array_shift($this->categories) ) {
 			$cat_name = trim($this->get_tag( $c, 'wp:cat_name' ));
@@ -332,7 +332,7 @@ class WP_Import {
 	function process_tags() {
 		global $wpdb;
 
-		$tag_names = (array) get_terms('post_tag', 'fields=names');
+		$tag_names = (array) get_terms('post_tag', array('fields' => 'names'));
 
 		while ( $c = array_shift($this->tags) ) {
 			$tag_name = trim($this->get_tag( $c, 'wp:tag_name' ));

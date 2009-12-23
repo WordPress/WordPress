@@ -55,7 +55,7 @@ switch ($step) {
 <p style="clear: both; margin-top: 1em;"><label for="cat_id"><?php _e('Now select a category you want to put these links in.') ?></label><br />
 <?php _e('Category:') ?> <select name="cat_id" id="cat_id">
 <?php
-$categories = get_terms('link_category', 'get=all');
+$categories = get_terms('link_category', array('get' => 'all'));
 foreach ($categories as $category) {
 ?>
 <option value="<?php echo $category->term_id; ?>"><?php echo esc_html(apply_filters('link_category', $category->name)); ?></option>

@@ -2806,7 +2806,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$categories_struct = array();
 
-		if ( $cats = get_categories('get=all') ) {
+		if ( $cats = get_categories(array('get' => 'all')) ) {
 			foreach ( $cats as $cat ) {
 				$struct['categoryId'] = $cat->term_id;
 				$struct['parentId'] = $cat->parent;
@@ -2998,7 +2998,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$categories_struct = array();
 
-		if ( $cats = get_categories('hide_empty=0&hierarchical=0') ) {
+		if ( $cats = get_categories(array('hide_empty' => 0, 'hierarchical' => 0)) ) {
 			foreach ($cats as $cat) {
 				$struct['categoryId'] = $cat->term_id;
 				$struct['categoryName'] = $cat->name;

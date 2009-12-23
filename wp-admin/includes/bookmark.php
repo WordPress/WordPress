@@ -102,7 +102,7 @@ function wp_delete_link( $link_id ) {
  */
 function wp_get_link_cats( $link_id = 0 ) {
 
-	$cats = wp_get_object_terms( $link_id, 'link_category', 'fields=ids' );
+	$cats = wp_get_object_terms( $link_id, 'link_category', array('fields' => 'ids') );
 
 	return array_unique( $cats );
 }

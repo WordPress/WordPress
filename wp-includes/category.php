@@ -15,7 +15,7 @@
  */
 function get_all_category_ids() {
 	if ( ! $cat_ids = wp_cache_get( 'all_category_ids', 'category' ) ) {
-		$cat_ids = get_terms( 'category', 'fields=ids&get=all' );
+		$cat_ids = get_terms( 'category', array('fields' => 'ids', 'get' => 'all') );
 		wp_cache_add( 'all_category_ids', $cat_ids, 'category' );
 	}
 
@@ -113,7 +113,7 @@ function get_category_by_path( $category_path, $full_match = true, $output = OBJ
 	foreach ( (array) $category_paths as $pathdir )
 		$full_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title( $pathdir );
 
-	$categories = get_terms( 'category', "get=all&slug=$leaf_path" );
+	$categories = get_terms( 'category', array('get' => 'all', 'slug' => $leaf_path) );
 
 	if ( empty( $categories ) )
 		return null;

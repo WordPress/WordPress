@@ -374,7 +374,7 @@ EOD;
 		$home = esc_attr(get_bloginfo_rss('home'));
 
 		$categories = "";
-		$cats = get_categories("hierarchical=0&hide_empty=0");
+		$cats = get_categories(array('hierarchical' => 0, 'hide_empty' => 0));
 		foreach ((array) $cats as $cat) {
 			$categories .= "    <category term=\"" . esc_attr($cat->name) .  "\" />\n";
 }

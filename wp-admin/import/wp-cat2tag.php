@@ -39,7 +39,7 @@ class WP_Categories_to_Tags {
 
 	function populate_cats() {
 
-		$categories = get_categories('get=all');
+		$categories = get_categories(array('get' => 'all'));
 		foreach ( $categories as $category ) {
 			$this->all_categories[] = $category;
 			if ( is_term( $category->slug, 'post_tag' ) )
@@ -49,7 +49,7 @@ class WP_Categories_to_Tags {
 
 	function populate_tags() {
 
-		$tags = get_terms( array('post_tag'), 'get=all' );
+		$tags = get_terms( array('post_tag'), array('get' => 'all') );
 		foreach ( $tags as $tag ) {
 			$this->all_tags[] = $tag;
 			if ( is_term( $tag->slug, 'category' ) )

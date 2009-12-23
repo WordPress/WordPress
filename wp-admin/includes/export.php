@@ -43,8 +43,8 @@ if ( $author and $author != 'all' ) {
 // grab a snapshot of post IDs, just in case it changes during the export
 $post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 
-$categories = (array) get_categories('get=all');
-$tags = (array) get_tags('get=all');
+$categories = (array) get_categories(array('get' => 'all'));
+$tags = (array) get_tags(array('get' => 'all'));
 
 $custom_taxonomies = $wp_taxonomies;
 unset($custom_taxonomies['category']);
@@ -76,7 +76,7 @@ function wxr_missing_parents($categories) {
 }
 
 while ( $parents = wxr_missing_parents($categories) ) {
-	$found_parents = get_categories("include=" . join(', ', $parents));
+	$found_parents = get_categories(array('include' => join(', ', $parents)));
 	if ( is_array($found_parents) && count($found_parents) )
 		$categories = array_merge($categories, $found_parents);
 	else

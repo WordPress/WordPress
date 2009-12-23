@@ -508,11 +508,11 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 		$args['popular_cats'] = get_terms( 'category', array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
 
 	if ( $descendants_and_self ) {
-		$categories = get_categories( "child_of=$descendants_and_self&hierarchical=0&hide_empty=0" );
+		$categories = get_categories(array('child_of' => $descendants_and_self, 'hierarchical' => 0, 'hide_empty' => 0));
 		$self = get_category( $descendants_and_self );
 		array_unshift( $categories, $self );
 	} else {
-		$categories = get_categories('get=all');
+		$categories = get_categories(array('get' => 'all'));
 	}
 
 	if ( $checked_ontop ) {
@@ -612,7 +612,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
 		$checked_categories[] = $default;
 	}
 
-	$categories = get_terms('link_category', 'orderby=count&hide_empty=0');
+	$categories = get_terms('link_category', array('orderby' => 'count', 'hide_empty' => 0));
 
 	if ( empty($categories) )
 		return;

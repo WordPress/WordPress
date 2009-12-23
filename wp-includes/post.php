@@ -1895,7 +1895,7 @@ function wp_publish_post($post_id) {
 
 	// Update counts for the post's terms.
 	foreach ( (array) get_object_taxonomies('post') as $taxonomy ) {
-		$tt_ids = wp_get_object_terms($post_id, $taxonomy, 'fields=tt_ids');
+		$tt_ids = wp_get_object_terms($post_id, $taxonomy, array('fields' => 'tt_ids'));
 		wp_update_term_count($tt_ids, $taxonomy);
 	}
 

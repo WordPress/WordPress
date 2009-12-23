@@ -1079,7 +1079,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 		$taxonomies = array($taxonomies);
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		$tt_ids = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
+		$tt_ids = wp_get_object_terms($object_id, $taxonomy, array('fields' => 'tt_ids'));
 		$in_tt_ids = "'" . implode("', '", $tt_ids) . "'";
 		do_action( 'delete_term_relationships', $object_id, $tt_ids );
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id) );
@@ -1510,7 +1510,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	if ( ! $append && isset($t->sort) && $t->sort ) {
 		$values = array();
 		$term_order = 0;
-		$final_tt_ids = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
+		$final_tt_ids = wp_get_object_terms($object_id, $taxonomy, array('fields' => 'tt_ids'));
 		foreach ( $tt_ids as $tt_id )
 			if ( in_array($tt_id, $final_tt_ids) )
 				$values[] = $wpdb->prepare( "(%d, %d, %d)", $object_id, $tt_id, ++$term_order);
@@ -1958,7 +1958,7 @@ function update_object_term_cache($object_ids, $object_type) {
 	if ( empty( $ids ) )
 		return false;
 
-	$terms = wp_get_object_terms($ids, $taxonomies, 'fields=all_with_object_id');
+	$terms = wp_get_object_terms($ids, $taxonomies, array('fields' => 'all_with_object_id'));
 
 	$object_terms = array();
 	foreach ( (array) $terms as $term )
@@ -2029,7 +2029,7 @@ function _get_term_hierarchy($taxonomy) {
 		return $children;
 
 	$children = array();
-	$terms = get_terms($taxonomy, 'get=all');
+	$terms = get_terms($taxonomy, array('get' => 'all'));
 	foreach ( $terms as $term ) {
 		if ( $term->parent > 0 )
 			$children[$term->parent][] = $term->term_id;

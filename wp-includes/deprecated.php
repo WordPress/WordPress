@@ -986,7 +986,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 	if ( $category == -1 ) //get_bookmarks uses '' to signify all categories
 		$category = '';
 
-	$results = get_bookmarks("category=$category&orderby=$orderby&order=$order&show_updated=$show_updated&limit=$limit");
+	$results = get_bookmarks(array('category' => $category, 'orderby' => $orderby, 'order' => $order, 'show_updated' => $show_updated, 'limit' => $limit));
 
 	if ( !$results )
 		return;
@@ -1083,7 +1083,7 @@ function get_links_list($order = 'name', $deprecated = '') {
 	if ( !isset($direction) )
 		$direction = '';
 
-	$cats = get_categories("type=link&orderby=$order&order=$direction&hierarchical=0");
+	$cats = get_categories(array('type' => 'link', 'orderby' => $order, 'order' => $direction, 'hierarchical' => 0));
 
 	// Display each category
 	if ( $cats ) {

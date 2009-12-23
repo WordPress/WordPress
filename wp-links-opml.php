@@ -36,9 +36,9 @@ if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 <?php
 
 if (empty ($link_cat))
-	$cats = get_categories("type=link&hierarchical=0");
+	$cats = get_categories(array('type' => 'link', 'hierarchical' => 0));
 else
-	$cats = get_categories('type=link&hierarchical=0&include='.$link_cat);
+	$cats = get_categories(array('type' => 'link', 'hierarchical' => 0, 'include' => $link_cat));
 
 foreach ((array) $cats as $cat) {
 	$catname = apply_filters('link_category', $cat->name);
@@ -47,7 +47,7 @@ foreach ((array) $cats as $cat) {
 <outline type="category" title="<?php echo esc_attr($catname); ?>">
 <?php
 
-	$bookmarks = get_bookmarks("category={$cat->term_id}");
+	$bookmarks = get_bookmarks(array("category" => $cat->term_id));
 	foreach ((array) $bookmarks as $bookmark) {
 		$title = esc_attr(apply_filters('link_title', $bookmark->link_name));
 ?>
