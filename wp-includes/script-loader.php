@@ -179,7 +179,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.8');
 
-	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", false, '2.1');
+	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", false, '2.2');
 
 	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2201');
 	$scripts->add( 'swfupload-swfobject', '/wp-includes/js/swfupload/plugins/swfupload.swfobject.js', array('swfupload', 'swfobject'), '2201');
