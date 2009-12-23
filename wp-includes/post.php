@@ -2062,6 +2062,15 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 		$tags = array();
 
 	$tags = is_array($tags) ? $tags : explode( ',', trim($tags, " \n\t\r\0\x0B,") );
+
+	// Hierarchical taxonomies must always pass IDs rather than names so that children with the same
+	// names but different parents aren't confused.
+	$taxonomy_obj = get_taxonomy( $taxonomy );
+	if ( $taxonomy_obj->hierarchical ) {
+		$tags = array_map( 'intval', $tags );
+		$tags = array_unique( $tags );
+	}
+
 	wp_set_object_terms($post_id, $tags, $taxonomy, $append);
 }
 
