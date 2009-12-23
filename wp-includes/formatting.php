@@ -2810,7 +2810,7 @@ function wp_strip_all_tags($string, $remove_breaks = false) {
 	$string = strip_tags($string);
 
 	if ( $remove_breaks )
-		$string = preg_replace('/\s+/', ' ', $string);
+		$string = preg_replace('/[\r\n\t ]+/', ' ', $string);
 
 	return trim($string);
 }
@@ -2836,7 +2836,7 @@ function sanitize_text_field($str) {
 		$filtered = wp_pre_kses_less_than( $filtered );
 		$filtered = wp_strip_all_tags( $filtered, true );
 	} else {
-		 $filtered = trim( preg_replace('/\s+/', ' ', $filtered) );
+		 $filtered = trim( preg_replace('/[\r\n\t ]+/', ' ', $filtered) );
 	}
 
 	$match = array();
