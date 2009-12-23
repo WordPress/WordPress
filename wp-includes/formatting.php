@@ -2834,14 +2834,18 @@ function sanitize_text_field($str) {
 
 	if ( strpos($filtered, '<') !== false ) {
 		$filtered = wp_pre_kses_less_than( $filtered );
+		// This will strip extra whitespace for us.
 		$filtered = wp_strip_all_tags( $filtered, true );
 	} else {
-		 $filtered = trim( preg_replace('/[\r\n\t ]+/', ' ', $filtered) );
+		$filtered = trim( preg_replace('/[\r\n\t ]+/', ' ', $filtered) );
 	}
 
 	$match = array();
-	while ( preg_match('/%[a-f0-9]{2}/i', $filtered, $match) )
+	while ( preg_match('/%[a-f0-9]{2}/i', $filtered, $match) ) {
 		$filtered = str_replace($match[0], '', $filtered);
+	}
+	// Strip out the whitespace that may now exist after removing the octets.
+	$filtered = trim( preg_replace('/[\r\n\t ]+/', ' ', $filtered) );
 
 	return apply_filters('sanitize_text_field', $filtered, $str);
 }
