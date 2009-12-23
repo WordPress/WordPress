@@ -786,14 +786,16 @@ class WP_Rewrite {
 
 		//get pages in order of hierarchy, i.e. children after parents
 		$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page'"));
+		
+		// If we have no pages get out quick
+		if ( !$posts )
+			return array( array(), array() );
+
 		//now reverse it, because we need parents after children for rewrite rules to work properly
 		$posts = array_reverse($posts, true);
 
 		$page_uris = array();
 		$page_attachment_uris = array();
-
-		if ( !$posts )
-			return array( array(), array() );
 
 		foreach ($posts as $id => $post) {
 			// URL => page name
