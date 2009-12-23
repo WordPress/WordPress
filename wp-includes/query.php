@@ -332,6 +332,10 @@ function is_front_page () {
 
 /**
  * Whether current page view is the blog homepage.
+ * 
+ * This is the page which is showing the time based blog content of your site
+ * so if you set a static page for the front page of your site then this will
+ * only be true on the page which you set as the "Posts page" in Reading Settings. 
  *
  * @since 1.5.0
  * @uses $wp_query
