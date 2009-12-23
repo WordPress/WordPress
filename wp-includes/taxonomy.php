@@ -1860,18 +1860,23 @@ function clean_term_cache($ids, $taxonomy = '') {
 	$taxonomies = array();
 	// If no taxonomy, assume tt_ids.
 	if ( empty($taxonomy) ) {
-		$tt_ids = implode(', ', $ids);
+		$tt_ids = array_map('intval', $ids);
+		$tt_ids = implode(', ', $tt_ids);
 		$terms = $wpdb->get_results("SELECT term_id, taxonomy FROM $wpdb->term_taxonomy WHERE term_taxonomy_id IN ($tt_ids)");
+		$ids = array();
 		foreach ( (array) $terms as $term ) {
 			$taxonomies[] = $term->taxonomy;
+			$ids[] = $term->term_id;
 			wp_cache_delete($term->term_id, $term->taxonomy);
 		}
 		$taxonomies = array_unique($taxonomies);
 	} else {
-		foreach ( $ids as $id ) {
-			wp_cache_delete($id, $taxonomy);
-		}
 		$taxonomies = array($taxonomy);
+		foreach ( $taxonomies as $taxonomy ) {
+			foreach ( $ids as $id ) {
+				wp_cache_delete($id, $taxonomy);
+			}
+		}
 	}
 
 	foreach ( $taxonomies as $taxonomy ) {
@@ -1881,11 +1886,10 @@ function clean_term_cache($ids, $taxonomy = '') {
 		wp_cache_delete('all_ids', $taxonomy);
 		wp_cache_delete('get', $taxonomy);
 		delete_option("{$taxonomy}_children");
+		do_action('clean_term_cache', $ids, $taxonomy);
 	}
 
 	wp_cache_set('last_changed', time(), 'terms');
-
-	do_action('clean_term_cache', $ids, $taxonomy);
 }
 
 
