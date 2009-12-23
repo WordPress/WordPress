@@ -373,6 +373,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), '20090102' );
 		$scripts->add_data( 'hoverIntent', 'group', 1 );
 
+		$scripts->add( 'list-revisions', "/wp-includes/js/wp-list-revisions$suffix.js", null, '20091223' );
+
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery-ui-draggable' ), '20090415' );
 		$scripts->add_data( 'media', 'group', 1 );
 

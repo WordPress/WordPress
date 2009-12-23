@@ -1299,7 +1299,8 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 				$actions = '';
 
 			$rows .= "<tr$class>\n";
-			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked /><input type='radio' name='right' value='$revision->ID'$right_checked /></th>\n";
+			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked />\n";
+			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='right' value='$revision->ID'$right_checked /></th>\n";
 			$rows .= "\t<td>$date</td>\n";
 			$rows .= "\t<td>$name</td>\n";
 			$rows .= "\t<td class='action-links'>$actions</td>\n";
@@ -1323,14 +1324,16 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 <br class="clear" />
 
-<table class="widefat post-revisions" cellspacing="0">
+<table class="widefat post-revisions" cellspacing="0" id="post-revisions">
+	<col />
 	<col />
 	<col style="width: 33%" />
 	<col style="width: 33%" />
 	<col style="width: 33%" />
 <thead>
 <tr>
-	<th scope="col"></th>
+	<th scope="col"><?php _e( 'Old' ); ?></th>
+	<th scope="col"><?php _e( 'New' ); ?></th>
 	<th scope="col"><?php _e( 'Date Created' ); ?></th>
 	<th scope="col"><?php _e( 'Author' ); ?></th>
 	<th scope="col" class="action-links"><?php _e( 'Actions' ); ?></th>

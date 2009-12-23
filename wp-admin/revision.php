@@ -9,6 +9,8 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+wp_enqueue_script('list-revisions');
+
 wp_reset_vars(array('revision', 'left', 'right', 'diff', 'action'));
 $revision_id = absint($revision);
 $diff        = absint($diff);
