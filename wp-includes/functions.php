@@ -3008,6 +3008,49 @@ function _deprecated_file($file, $version, $replacement=null) {
 			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $file, $version ) );
 	}
 }
+/**
+ * Marks a function argument as deprecated and informs when it has been used.
+ *
+ * This function is to be used whenever a deprecated function argument is used.
+ * Before this function is called, the argument must be checked for whether it was
+ * used by comparing it to its default value or evaluating whether it is empty.
+ * For example:
+ * <code>
+ * if ( !empty($deprecated) )
+ * 	_deprecated_argument( __FUNCTION__, 'deprecated', '0.0' );
+ * </code>
+ *
+ * There is a hook deprecated_argument_run that will be called that can be used
+ * to get the backtrace up to what file and function used the deprecated
+ * argument.
+ *
+ * The current behavior is to trigger an user error if WP_DEBUG is true.
+ *
+ * @package WordPress
+ * @package Debug
+ * @since 3.0.0
+ * @access private
+ *
+ * @uses do_action() Calls 'deprecated_argument_run' and passes the function and argument names and what to use instead.
+ * @uses apply_filters() Calls 'deprecated_argument_trigger_error' and expects boolean value of true to do trigger or false to not trigger error.
+ *
+ * @param string $function The function that was called
+ * @param string $argument The name of the deprecated argument that was used
+ * @param string $version The version of WordPress that deprecated the function
+ * @param string $message Optional. A message regarding the change.
+ */
+function _deprecated_argument($function, $argument, $version, $message = null) {
+
+	do_action('deprecated_argument_run', $function, $argument, $message);
+
+	// Allow plugin to filter the output error trigger
+	if( WP_DEBUG && apply_filters( 'deprecated_argument_trigger_error', true ) ) {
+		if( !is_null($replacement) )
+			trigger_error( sprintf( __('The %1$s argument of %2$s is <strong>deprecated</strong> since version %3$s! %4$s'), $function, $argument, $version, $message ) );
+		else
+			trigger_error( sprintf( __('The %1$s argument of %2$s is <strong>deprecated</strong> since version %3$s with no alternative available.'), $function, $argument, $version ) );
+	}
+}
 
 /**
  * Is the server running earlier than 1.5.0 version of lighttpd
