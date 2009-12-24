@@ -987,7 +987,7 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
  * @return string
  */
 function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $previous = true) {
-	if ( $previous && is_attachment() )
+	if ( $previous && is_attachment() && is_object( $GLOBALS['post'] ) )
 		$post = & get_post($GLOBALS['post']->post_parent);
 	else
 		$post = get_adjacent_post($in_same_cat,$excluded_categories,$previous);
