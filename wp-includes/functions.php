@@ -2993,7 +2993,7 @@ function _deprecated_function($function, $version, $replacement=null) {
  * @uses apply_filters() Calls 'deprecated_file_trigger_error' and expects boolean value of true to do trigger or false to not trigger error.
  *
  * @param string $file The file that was included
- * @param string $version The version of WordPress that deprecated the function
+ * @param string $version The version of WordPress that deprecated the file
  * @param string $replacement Optional. The file that should have been included based on ABSPATH
  */
 function _deprecated_file($file, $version, $replacement=null) {

@@ -4,6 +4,6 @@
  *
  * @package WordPress
  */
-_deprecated_file( basename(__FILE__), '0.0', WPINC .  '/registration.php' );
+_deprecated_file( basename(__FILE__), '2.1', WPINC .  '/registration.php' );
 require_once(ABSPATH . WPINC .  '/registration.php');
 ?>
