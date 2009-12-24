@@ -1251,7 +1251,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		clean_post_cache($postid);
 	}
 
-	wp_clear_scheduled_hook('publish_future_post', $postid);
+	wp_clear_scheduled_hook('publish_future_post', array( $postid ) );
 
 	do_action('deleted_post', $postid);
 
@@ -1928,7 +1928,7 @@ function check_and_publish_future_post($post_id) {
 	$time = strtotime( $post->post_date_gmt . ' GMT' );
 
 	if ( $time > time() ) { // Uh oh, someone jumped the gun!
-		wp_clear_scheduled_hook( 'publish_future_post', $post_id ); // clear anything else in the system
+		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // clear anything else in the system
 		wp_schedule_single_event( $time, 'publish_future_post', array( $post_id ) );
 		return;
 	}
@@ -3524,7 +3524,7 @@ function _transition_post_status($new_status, $old_status, $post) {
 	}
 
 	// Always clears the hook in case the post status bounced from future to draft.
-	wp_clear_scheduled_hook('publish_future_post', $post->ID);
+	wp_clear_scheduled_hook('publish_future_post', array( $post->ID ) );
 }
 
 /**
@@ -3539,7 +3539,7 @@ function _transition_post_status($new_status, $old_status, $post) {
  * @param object $post Object type containing the post information
  */
 function _future_post_hook($deprecated = '', $post) {
-	wp_clear_scheduled_hook( 'publish_future_post', $post->ID );
+	wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) );
 	wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', array($post->ID));
 }
 
