@@ -51,13 +51,13 @@ class WP_Upgrader {
 		$this->strings['fs_no_folder'] = __('Unable to locate needed folder (%s).');
 
 		$this->strings['download_failed'] = __('Download failed.');
-		$this->strings['installing_package'] = __('Installing the latest version.');
+		$this->strings['installing_package'] = __('Installing the latest version&#8230;');
 		$this->strings['folder_exists'] = __('Destination folder already exists.');
 		$this->strings['mkdir_failed'] = __('Could not create directory.');
 		$this->strings['bad_package'] = __('Incompatible Archive');
 
-		$this->strings['maintenance_start'] = __('Enabling Maintenance mode.');
-		$this->strings['maintenance_end'] = __('Disabling Maintenance mode.');
+		$this->strings['maintenance_start'] = __('Enabling Maintenance mode&#8230;');
+		$this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
 	}
 
 	function fs_connect( $directories = array() ) {
@@ -366,22 +366,22 @@ class Plugin_Upgrader extends WP_Upgrader {
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
 		$this->strings['no_package'] = __('Upgrade package not available.');
-		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>.');
-		$this->strings['unpack_package'] = __('Unpacking the update.');
-		$this->strings['deactivate_plugin'] = __('Deactivating the plugin.');
-		$this->strings['remove_old'] = __('Removing the old version of the plugin.');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
+		$this->strings['unpack_package'] = __('Unpacking the update&#8230;');
+		$this->strings['deactivate_plugin'] = __('Deactivating the plugin&#8230;');
+		$this->strings['remove_old'] = __('Removing the old version of the plugin&#8230;');
 		$this->strings['remove_old_failed'] = __('Could not remove the old plugin.');
-		$this->strings['process_failed'] = __('Plugin upgrade Failed.');
+		$this->strings['process_failed'] = __('Plugin upgrade failed.');
 		$this->strings['process_success'] = __('Plugin upgraded successfully.');
 	}
 
 	function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
-		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>.');
-		$this->strings['unpack_package'] = __('Unpacking the package.');
-		$this->strings['installing_package'] = __('Installing the plugin.');
-		$this->strings['process_failed'] = __('Plugin Install Failed.');
-		$this->strings['process_success'] = __('Plugin Installed successfully.');
+		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
+		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
+		$this->strings['installing_package'] = __('Installing the plugin&#8230;');
+		$this->strings['process_failed'] = __('Plugin install failed.');
+		$this->strings['process_success'] = __('Plugin installed successfully.');
 	}
 
 	function install($package) {
@@ -592,21 +592,21 @@ class Theme_Upgrader extends WP_Upgrader {
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The theme is at the latest version.');
 		$this->strings['no_package'] = __('Upgrade package not available.');
-		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>.');
-		$this->strings['unpack_package'] = __('Unpacking the update.');
-		$this->strings['remove_old'] = __('Removing the old version of the theme.');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
+		$this->strings['unpack_package'] = __('Unpacking the update&#8230;');
+		$this->strings['remove_old'] = __('Removing the old version of the theme&#8230;');
 		$this->strings['remove_old_failed'] = __('Could not remove the old theme.');
-		$this->strings['process_failed'] = __('Theme upgrade Failed.');
+		$this->strings['process_failed'] = __('Theme upgrade failed.');
 		$this->strings['process_success'] = __('Theme upgraded successfully.');
 	}
 
 	function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
-		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>.');
-		$this->strings['unpack_package'] = __('Unpacking the package.');
-		$this->strings['installing_package'] = __('Installing the theme.');
-		$this->strings['process_failed'] = __('Theme Install Failed.');
-		$this->strings['process_success'] = __('Theme Installed successfully.');
+		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
+		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
+		$this->strings['installing_package'] = __('Installing the theme&#8230;');
+		$this->strings['process_failed'] = __('Theme install failed.');
+		$this->strings['process_success'] = __('Theme installed successfully.');
 	}
 
 	function install($package) {
@@ -749,8 +749,8 @@ class Core_Upgrader extends WP_Upgrader {
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('WordPress is at the latest version.');
 		$this->strings['no_package'] = __('Upgrade package not available.');
-		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>.');
-		$this->strings['unpack_package'] = __('Unpacking the update.');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
+		$this->strings['unpack_package'] = __('Unpacking the update&#8230;');
 		$this->strings['copy_failed'] = __('Could not copy files.');
 	}
 
@@ -913,7 +913,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		$this->plugin = $this->upgrader->plugin_info();
 		if( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
-			show_message(__('Attempting reactivation of the plugin'));
+			show_message(__('Reactivating the plugin&#8230;'));
 			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}
 

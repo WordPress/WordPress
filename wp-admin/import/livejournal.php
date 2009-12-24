@@ -842,7 +842,7 @@ class LJ_API_Import {
 		$this->ixr = new IXR_Client( $this->ixr_url, false, 80, 30 );
 
 		echo '<div id="ljapi-status">';
-		echo '<h3>' . __( 'Downloading Comments' ) . '</h3>';
+		echo '<h3>' . __( 'Downloading Comments&#8230;' ) . '</h3>';
 		echo '<p>' . __( 'Now we will download your comments so we can import them (this could take a <strong>long</strong> time if you have lots of comments)...' ) . '</p>';
 		ob_flush(); flush();
 
@@ -890,7 +890,7 @@ class LJ_API_Import {
 		update_option( 'ljapi_step', 3 );
 
 		echo '<div id="ljapi-status">';
-		echo '<h3>' . __( 'Threading Comments' ) . '</h3>';
+		echo '<h3>' . __( 'Threading Comments&#8230;' ) . '</h3>';
 		echo '<p>' . __( 'We are now re-building the threading of your comments (this can also take a while if you have lots of comments)...' ) . '</p>';
 		ob_flush(); flush();
 
@@ -963,12 +963,12 @@ class LJ_API_Import {
 			});
 
 			function ljapi_msg() {
-				str = '<?php _e( "Continuing in %d" ) ?>';
+				str = '<?php _e( "Continuing in %d&#8230;" ) ?>';
 				jQuery( '#<?php echo $msg ?>' ).text( str.replace( /%d/, next_counter ) );
 				if ( next_counter <= 0 ) {
 					if ( jQuery( '#<?php echo $id ?>' ).length ) {
 						jQuery( "#<?php echo $id ?> input[type='submit']" ).hide();
-						str = '<?php _e( "Continuing" ) ?> <img src="images/wpspin_light.gif" alt="" id="processing" align="top" />';
+						str = '<?php _e( "Continuing&#8230;" ) ?> <img src="images/wpspin_light.gif" alt="" id="processing" align="top" />';
 						jQuery( '#<?php echo $msg ?>' ).html( str );
 						jQuery( '#<?php echo $id ?>' ).submit();
 						return;
@@ -991,7 +991,7 @@ class LJ_API_Import {
 			});
 
 			function ljapi_msg() {
-				str = '<?php _e( "Continuing in %d" ) ?>';
+				str = '<?php _e( "Continuing in %d&#8230;" ) ?>';
 				jQuery( '#<?php echo $msg ?>' ).text( str.replace( /%d/, next_counter ) );
 				if ( next_counter <= 0 ) {
 					if ( jQuery( '#<?php echo $id ?>' ).length ) {

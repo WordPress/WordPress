@@ -235,14 +235,14 @@ function update_core($from, $to) {
 		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version ) );
 
 	// Sanity check the unzipped distribution
-	apply_filters('update_feedback', __('Verifying the unpacked files'));
+	apply_filters('update_feedback', __('Verifying the unpacked files&#8230;'));
 	if ( !$wp_filesystem->exists($from . '/wordpress/wp-settings.php') || !$wp_filesystem->exists($from . '/wordpress/wp-admin/admin.php') ||
 		!$wp_filesystem->exists($from . '/wordpress/wp-includes/functions.php') ) {
 		$wp_filesystem->delete($from, true);
 		return new WP_Error('insane_distro', __('The update could not be unpacked') );
 	}
 
-	apply_filters('update_feedback', __('Installing the latest version'));
+	apply_filters('update_feedback', __('Installing the latest version&#8230;'));
 
 	// Create maintenance file to signal that we are upgrading
 	$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
@@ -267,7 +267,7 @@ function update_core($from, $to) {
 	}
 
 	// Upgrade DB with separate request
-	apply_filters('update_feedback', __('Upgrading database'));
+	apply_filters('update_feedback', __('Upgrading database&#8230;'));
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
