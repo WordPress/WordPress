@@ -806,11 +806,18 @@ td.media-icon img {
 	line-height: 29px;
 	font-size: 12px;
 	text-align: center;
-}
-
-#update-nag {
-	border-width: 1px 0;
-	border-style: solid none;
+	margin: 0 6px;
+	border-width: 1px;
+	border-style: solid;
+	border-top-width: 0;
+	border-top-style: none;
+	-moz-border-radius: 0 0 6px 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-khtml-border-bottom-right-radius: 6px;
+	-khtml-border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
 }
 
 .plugins .plugin-update {
