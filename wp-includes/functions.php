@@ -3045,7 +3045,7 @@ function _deprecated_argument($function, $argument, $version, $message = null) {
 
 	// Allow plugin to filter the output error trigger
 	if( WP_DEBUG && apply_filters( 'deprecated_argument_trigger_error', true ) ) {
-		if( !is_null($replacement) )
+		if( !is_null($message) )
 			trigger_error( sprintf( __('The %1$s argument of %2$s is <strong>deprecated</strong> since version %3$s! %4$s'), $function, $argument, $version, $message ) );
 		else
 			trigger_error( sprintf( __('The %1$s argument of %2$s is <strong>deprecated</strong> since version %3$s with no alternative available.'), $function, $argument, $version ) );

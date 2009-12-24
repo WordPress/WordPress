@@ -135,8 +135,10 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
 function wp_clear_scheduled_hook( $hook, $args = array() ) {
 	// Backward compatibility
 	// Previously this function took the arguments as discrete vars rather than an array like the rest of the API
-	if ( !is_array($args) )
+	if ( !is_array($args) ) {
+		_deprecated_argument(__FUNCTION__, 'args', '3.0.0', __('This argument has changed to an array so as to match with the behaviour of all the other cron functions.') );
 		$args = array_slice( func_get_args(), 1 );
+	}
 
 	while ( $timestamp = wp_next_scheduled( $hook, $args ) )
 		wp_unschedule_event( $timestamp, $hook, $args );

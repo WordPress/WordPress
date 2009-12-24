@@ -41,10 +41,14 @@ function get_the_author($deprecated = '') {
  * @link http://codex.wordpress.org/Template_Tags/the_author
  *
  * @param string $deprecated Deprecated.
- * @param string $deprecated_echo Echo the string or return it.
+ * @param string $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
  * @return string The author's display name, from get_the_author().
  */
 function the_author($deprecated = '', $deprecated_echo = true) {
+	if ( !empty($deprecated) )
+		_deprecated_argument(__FUNCTION__, 'deprecated', '1.5');
+	if ( $deprecated_echo !== true )
+		_deprecated_argument(__FUNCTION__, 'deprecated_echo', '1.5', __('Use get_the_author() instead if you do not want the value echoed.'));
 	if ( $deprecated_echo )
 		echo get_the_author();
 	return get_the_author();
@@ -177,6 +181,9 @@ function the_author_posts() {
  * @param string $deprecated Deprecated.
  */
 function the_author_posts_link($deprecated = '') {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument(__FUNCTION__, 'deprecated', '0.0');
+
 	global $authordata;
 	$link = sprintf(
 		'<a href="%1$s" title="%2$s">%3$s</a>',

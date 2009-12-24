@@ -1511,7 +1511,9 @@ function wp_update_comment_count_now($post_id) {
  * @param int $deprecated Not Used.
  * @return bool|string False on failure, string containing URI on success.
  */
-function discover_pingback_server_uri($url, $deprecated = 2048) {
+function discover_pingback_server_uri($url, $deprecated = '') {
+	if ( !empty($deprecated) )
+		_deprecated_argument(__FUNCTION__, 'deprecated', '0.0');
 
 	$pingback_str_dquote = 'rel="pingback"';
 	$pingback_str_squote = 'rel=\'pingback\'';

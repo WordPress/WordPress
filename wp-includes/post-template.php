@@ -246,6 +246,9 @@ function the_excerpt() {
  * @return string
  */
 function get_the_excerpt($deprecated = '') {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument(__FUNCTION__, 'deprecated', '2.3');
+
 	global $post;
 	$output = $post->post_excerpt;
 	if ( post_password_required($post) ) {

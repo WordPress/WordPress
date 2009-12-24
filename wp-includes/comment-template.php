@@ -503,10 +503,15 @@ function get_comments_link() {
  *
  * @since 0.71
  *
- * @param string $deprecated Not Used
- * @param bool $deprecated Not Used
+ * @param string $deprecated_1 Not Used
+ * @param bool $deprecated_2 Not Used
  */
-function comments_link( $deprecated = '', $deprecated = '' ) {
+function comments_link( $deprecated_1 = '', $deprecated_2 = '' ) {
+	if ( !empty( $deprecated_1 ) )
+		_deprecated_argument(__FUNCTION__, 'deprecated_1', '0.0');
+	if ( !empty( $deprecated_2 ) )
+		_deprecated_argument(__FUNCTION__, 'deprecated_2', '0.0');
+
 	echo get_comments_link();
 }
 
