@@ -9426,7 +9426,7 @@ class SimplePie_Misc
 		}
 
 		// This is first, as behaviour of this is completely predictable
-		if ($input === 'Windows-1252' && $output === 'UTF-8')
+		if ($input === 'windows-1252' && $output === 'UTF-8')
 		{
 			return SimplePie_Misc::windows_1252_to_utf8($data);
 		}
