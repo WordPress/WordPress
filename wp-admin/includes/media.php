@@ -1019,6 +1019,8 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 
 	$edit_post = sanitize_post($post, 'edit');
 
+	
+
 	$form_fields = array(
 		'post_title'   => array(
 			'label'      => __('Title'),
@@ -1131,7 +1133,7 @@ function get_media_items( $post_id, $errors ) {
 function get_media_item( $attachment_id, $args = null ) {
 	global $redir_tab;
 
-	if ( ( $attachment_id = intval($attachment_id) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
+	if ( ( $attachment_id = intval( $attachment_id ) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
 		$thumb_url = $thumb_url[0];
 	else
 		return false;
@@ -1140,29 +1142,29 @@ function get_media_item( $attachment_id, $args = null ) {
 	$args = wp_parse_args( $args, $default_args );
 	extract( $args, EXTR_SKIP );
 
-	$toggle_on = __('Show');
-	$toggle_off = __('Hide');
+	$toggle_on  = __( 'Show' );
+	$toggle_off = __( 'Hide' );
 
-	$post = get_post($attachment_id);
+	$post = get_post( $attachment_id );
 
-	$filename = basename($post->guid);
-	$title = esc_attr($post->post_title);
+	$filename = basename( $post->guid );
+	$title = esc_attr( $post->post_title );
 
-	if ( $_tags = get_the_tags($attachment_id) ) {
+	if ( $_tags = get_the_tags( $attachment_id ) ) {
 		foreach ( $_tags as $tag )
 			$tags[] = $tag->name;
-		$tags = esc_attr(join(', ', $tags));
+		$tags = esc_attr( join( ', ', $tags ) );
 	}
 
 	$post_mime_types = get_post_mime_types();
-	$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
-	$type = array_shift($keys);
+	$keys = array_keys( wp_match_mime_types( array_keys( $post_mime_types ), $post->post_mime_type ) );
+	$type = array_shift( $keys );
 	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 
-	$form_fields = get_attachment_fields_to_edit($post, $errors);
+	$form_fields = get_attachment_fields_to_edit( $post, $errors );
 
 	if ( $toggle ) {
-		$class = empty($errors) ? 'startclosed' : 'startopen';
+		$class = empty( $errors ) ? 'startclosed' : 'startopen';
 		$toggle_links = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
@@ -1172,33 +1174,33 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$display_title = ( !empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
-	$display_title = $show_title ? "<div class='filename new'><span class='title'>" . wp_html_excerpt($display_title, 60) . "</span></div>" : '';
+	$display_title = $show_title ? "<div class='filename new'><span class='title'>" . wp_html_excerpt( $display_title, 60 ) . "</span></div>" : '';
 
-	$gallery = ( (isset($_REQUEST['tab']) && 'gallery' == $_REQUEST['tab']) || (isset($redir_tab) && 'gallery' == $redir_tab) ) ? true : false;
+	$gallery = ( ( isset( $_REQUEST['tab'] ) && 'gallery' == $_REQUEST['tab'] ) || ( isset( $redir_tab ) && 'gallery' == $redir_tab ) ) ? true : false;
 	$order = '';
 
 	foreach ( $form_fields as $key => $val ) {
 		if ( 'menu_order' == $key ) {
 			if ( $gallery )
-				$order = '<div class="menu_order"> <input class="menu_order_input" type="text" id="attachments['.$attachment_id.'][menu_order]" name="attachments['.$attachment_id.'][menu_order]" value="'.$val['value'].'" /></div>';
+				$order = "<div class='menu_order'> <input class='menu_order_input' type='text' id='attachments[$attachment_id][menu_order]' name='attachments[$attachment_id][menu_order]' value='" . esc_attr( $val['value'] ). "' /></div>";
 			else
-				$order = '<input type="hidden" name="attachments['.$attachment_id.'][menu_order]" value="'.$val['value'].'" />';
+				$order = "<input type='hidden' name='attachments[$attachment_id][menu_order]' value='" . esc_attr( $val['value'] ) . "' />";
 
-			unset($form_fields['menu_order']);
+			unset( $form_fields['menu_order'] );
 			break;
 		}
 	}
 
 	$media_dims = '';
-	$meta = wp_get_attachment_metadata($post->ID);
-	if ( is_array($meta) && array_key_exists('width', $meta) && array_key_exists('height', $meta) )
-		$media_dims .= "<span id='media-dims-{$post->ID}'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
-	$media_dims = apply_filters('media_meta', $media_dims, $post);
+	$meta = wp_get_attachment_metadata( $post->ID );
+	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
+		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
 
 	$image_edit_button = '';
-	if ( gd_edit_image_support($post->post_mime_type) ) {
-		$nonce = wp_create_nonce("image_editor-$post->ID");
-		$image_edit_button = "<input type='button' id='imgedit-open-btn-{$post->ID}' onclick='imageEdit.open($post->ID, \"$nonce\")' class='button' value='" . esc_attr__( 'Edit image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' />";
+	if ( gd_edit_image_support( $post->post_mime_type ) ) {
+		$nonce = wp_create_nonce( "image_editor-$post->ID" );
+		$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' />";
 	}
 
 	$attachment_url = get_permalink( $attachment_id );
@@ -1210,20 +1212,23 @@ function get_media_item( $attachment_id, $args = null ) {
 	$display_title
 	<table class='slidetoggle describe $class'>
 		<thead class='media-item-info' id='media-head-$post->ID'>
-		<tr>
-			<td class='A1B1' id='thumbnail-head-$post->ID' rowspan='5'>
-			<a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' /></a>
+		<tr valign='top'>
+			<td class='A1B1' id='thumbnail-head-$post->ID'>
+			<p><a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' style='margin-top: 3px' /></a></p>
+			<p>$image_edit_button</p>
 			</td>
-			<td><strong>" . __('File name:') . "</strong> $filename</td>
-		</tr>
-		<tr><td><strong>" . __('File type:') . "</strong> $post->post_mime_type</td></tr>
-		<tr><td><strong>" . __('Upload date:') . "</strong> " . mysql2date( get_option('date_format'), $post->post_date ) . "</td></tr>\n";
+			<td>
+			<p><strong>" . __('File name:') . "</strong> $filename</p>
+			<p><strong>" . __('File type:') . "</strong> $post->post_mime_type</p>
+			<p><strong>" . __('Upload date:') . "</strong> " . mysql2date( get_option('date_format'), $post->post_date ). '</p>';
+			if ( !empty( $media_dims ) )
+				$item .= "<p><strong>" . __('Dimensions:') . "</strong> $media_dims</p>\n";
+			
+			echo "</td></tr>\n";
 
-	if ( !empty($media_dims) )
-		$item .= "<tr><td><strong>" . __('Dimensions:') . "</strong> $media_dims</td></tr>\n";
+	
 
 	$item .= "
-		<tr><td class='A1B1'>$image_edit_button</td></tr>
 		</thead>
 		<tbody>
 		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>
@@ -1238,13 +1243,18 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	if ( $send )
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . esc_attr__( 'Insert into Post' ) . "' />";
-	if ( $delete && current_user_can('delete_post', $attachment_id) ) {
+	if ( $delete && current_user_can( 'delete_post', $attachment_id ) ) {
 		if ( !EMPTY_TRASH_DAYS ) {
-			$delete = "<a href=\"" . wp_nonce_url("post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id) . "\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Delete Permanently') . "</a>";
+			$delete = "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete'>" . __( 'Delete Permanently' ) . '</a>';
 		} elseif ( !MEDIA_TRASH ) {
-			$delete = "<a href=\"#\" class=\"del-link\" onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __('Delete') . "</a> <div id=\"del_attachment_$attachment_id\" class=\"del-attachment\" style=\"display:none;\">" . sprintf(__("You are about to delete <strong>%s</strong>."), $filename) . " <a href=\"" . wp_nonce_url("post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id) . "\" id=\"del[$attachment_id]\" class=\"button\">" . __('Continue') . "</a> <a href=\"#\" class=\"button\" onclick=\"this.parentNode.style.display='none';return false;\">" . __('Cancel') . "</a></div>";
+			$delete = "<a href='#' class='del-link' onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __( 'Delete' ) . "</a>
+			 <div id='del_attachment_$attachment_id' class='del-attachment' style='display:none;'>" . sprintf( __( 'You are about to delete <strong>%s</strong>.' ), $filename ) . " 
+			 <a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='button'>" . __( 'Continue' ) . "</a> 
+			 <a href='#' class='button' onclick=\"this.parentNode.style.display='none';return false;\">" . __( 'Cancel' ) . "</a>
+			 </div>";
 		} else {
-			$delete = "<a href=\"" . wp_nonce_url("post.php?action=trash&amp;post=$attachment_id", 'trash-post_' . $attachment_id) . "\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Move to Trash') . "</a> <a href=\"" . wp_nonce_url("post.php?action=untrash&amp;post=$attachment_id", 'untrash-post_' . $attachment_id) . "\" id=\"undo[$attachment_id]\" class=\"undo hidden\">" . __('Undo') . "</a>";
+			$delete = "<a href='" . wp_nonce_url( "post.php?action=trash&amp;post=$attachment_id", 'trash-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete'>" . __( 'Move to Trash' ) . "</a> 
+			<a href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$attachment_id", 'untrash-post_' . $attachment_id ) . "' id='undo[$attachment_id]' class='undo hidden'>" . __( 'Undo' ) . "</a>";
 		}
 	} else {
 		$delete = '';
@@ -1259,8 +1269,8 @@ function get_media_item( $attachment_id, $args = null ) {
 	if ( 'image' == $type && $calling_post_id && current_theme_supports( 'post-thumbnails', get_post_type( $calling_post_id ) ) && get_post_thumbnail_id( $calling_post_id ) != $attachment_id )
 		$thumbnail = "<a class='wp-post-thumbnail' id='wp-post-thumbnail-" . $attachment_id . "' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\");return false;'>" . esc_html__( "Use as thumbnail" ) . "</a>";
 
-	if ( ( $send || $thumbnail || $delete ) && !isset($form_fields['buttons']) )
-		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $thumbnail $delete</td></tr>\n");
+	if ( ( $send || $thumbnail || $delete ) && !isset( $form_fields['buttons'] ) )
+		$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $thumbnail $delete</td></tr>\n" );
 
 	$hidden_fields = array();
 
@@ -1268,12 +1278,12 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( $id{0} == '_' )
 			continue;
 
-		if ( !empty($field['tr']) ) {
+		if ( !empty( $field['tr'] ) ) {
 			$item .= $field['tr'];
 			continue;
 		}
 
-		$field = array_merge($defaults, $field);
+		$field = array_merge( $defaults, $field );
 		$name = "attachments[$attachment_id][$id]";
 
 		if ( $field['input'] == 'hidden' ) {
@@ -1281,30 +1291,30 @@ function get_media_item( $attachment_id, $args = null ) {
 			continue;
 		}
 
-		$required = $field['required'] ? '<abbr title="required" class="required">*</abbr>' : '';
+		$required      = $field['required'] ? '<abbr title="required" class="required">*</abbr>' : '';
 		$aria_required = $field['required'] ? " aria-required='true' " : '';
 		$class  = $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
 		$item .= "\t\t<tr class='$class'>\n\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span><span class='alignright'>$required</span><br class='clear' /></label></th>\n\t\t\t<td class='field'>";
-		if ( !empty($field[$field['input']]) )
-			$item .= $field[$field['input']];
+		if ( !empty( $field[ $field['input'] ] ) )
+			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
-			$item .= "<textarea type='text' id='$name' name='$name'" . $aria_required . ">" . esc_html( $field['value'] ) . "</textarea>";
+			$item .= "<textarea type='text' id='$name' name='$name' $aria_required>" . esc_html( $field['value'] ) . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'" . $aria_required . "/>";
+			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
 		}
-		if ( !empty($field['helps']) )
-			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique((array) $field['helps']) ) . '</p>';
+		if ( !empty( $field['helps'] ) )
+			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
 		$item .= "</td>\n\t\t</tr>\n";
 
 		$extra_rows = array();
 
-		if ( !empty($field['errors']) )
-			foreach ( array_unique((array) $field['errors']) as $error )
+		if ( !empty( $field['errors'] ) )
+			foreach ( array_unique( (array) $field['errors'] ) as $error )
 				$extra_rows['error'][] = $error;
 
-		if ( !empty($field['extra_rows']) )
+		if ( !empty( $field['extra_rows'] ) )
 			foreach ( $field['extra_rows'] as $class => $rows )
 				foreach ( (array) $rows as $html )
 					$extra_rows[$class][] = $html;
@@ -1314,7 +1324,7 @@ function get_media_item( $attachment_id, $args = null ) {
 				$item .= "\t\t<tr><td></td><td class='$class'>$html</td></tr>\n";
 	}
 
-	if ( !empty($form_fields['_final']) )
+	if ( !empty( $form_fields['_final'] ) )
 		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
 	$item .= "\t</tbody>\n";
 	$item .= "\t</table>\n";
@@ -1322,11 +1332,10 @@ function get_media_item( $attachment_id, $args = null ) {
 	foreach ( $hidden_fields as $name => $value )
 		$item .= "\t<input type='hidden' name='$name' id='$name' value='" . esc_attr( $value ) . "' />\n";
 
-	if ( $post->post_parent < 1 && isset($_REQUEST['post_id']) ) {
+	if ( $post->post_parent < 1 && isset( $_REQUEST['post_id'] ) ) {
 		$parent = (int) $_REQUEST['post_id'];
 		$parent_name = "attachments[$attachment_id][post_parent]";
-
-		$item .= "\t<input type='hidden' name='$parent_name' id='$parent_name' value='" . $parent . "' />\n";
+		$item .= "\t<input type='hidden' name='$parent_name' id='$parent_name' value='$parent' />\n";
 	}
 
 	return $item;

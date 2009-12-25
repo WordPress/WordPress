@@ -90,7 +90,7 @@ case 'edit' :
 <h2><?php _e( 'Edit Media' ); ?></h2>
 
 <form method="post" action="<?php echo esc_url( remove_query_arg( 'message' ) ); ?>" class="media-upload-form" id="media-single-form">
-<p class="submit">
+<p class="submit" style="padding-bottom: 0;">
 <input type="submit" class="button-primary" name="save" value="<?php esc_attr_e('Update Media'); ?>" />
 </p>
 
