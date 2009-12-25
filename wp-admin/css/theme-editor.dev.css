@@ -34,11 +34,19 @@
 }
 
 .nonessential {
-	font-size: small;
+	font-size: 11px;
+	font-style: italic;
+	padding-left: 12px;
 }
 
 .highlight {
-	padding: 1px;
+	padding: 3px 3px 3px 12px;
+	margin-left: -12px;
+	font-weight: bold;
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
 }
 
 div.tablenav {
