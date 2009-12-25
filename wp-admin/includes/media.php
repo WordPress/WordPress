@@ -1201,6 +1201,8 @@ function get_media_item( $attachment_id, $args = null ) {
 		$image_edit_button = "<input type='button' id='imgedit-open-btn-{$post->ID}' onclick='imageEdit.open($post->ID, \"$nonce\")' class='button' value='" . esc_attr__( 'Edit image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' />";
 	}
 
+	$attachment_url = get_permalink( $attachment_id );
+
 	$item = "
 	$type_html
 	$toggle_links
@@ -1209,7 +1211,9 @@ function get_media_item( $attachment_id, $args = null ) {
 	<table class='slidetoggle describe $class'>
 		<thead class='media-item-info' id='media-head-$post->ID'>
 		<tr>
-			<td class='A1B1' id='thumbnail-head-$post->ID' rowspan='5'><img class='thumbnail' src='$thumb_url' alt='' /></td>
+			<td class='A1B1' id='thumbnail-head-$post->ID' rowspan='5'>
+			<a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' /></a>
+			</td>
 			<td><strong>" . __('File name:') . "</strong> $filename</td>
 		</tr>
 		<tr><td><strong>" . __('File type:') . "</strong> $post->post_mime_type</td></tr>
@@ -1441,7 +1445,7 @@ SWFUpload.onload = function() {
 	<div>
 	<?php _e( 'Choose files to upload' ); ?>
 	<div id="flash-browse-button"></div>
-	<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+	<span><input id="cancel-upload" disabled="disabled" onClick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
 	</div>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
@@ -1452,7 +1456,7 @@ SWFUpload.onload = function() {
 <?php do_action('pre-html-upload-ui'); ?>
 	<p id="async-upload-wrap">
 	<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
-	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php esc_attr_e('Upload'); ?>" /> <a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
+	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php esc_attr_e('Upload'); ?>" /> <a href="#" onClick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
 	<?php if ( is_lighttpd_before_150() ): ?>
@@ -1772,8 +1776,8 @@ jQuery(function($){
 </tbody></table>
 
 <p class="ml-submit">
-<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="insert-gallery" id="insert-gallery" value="<?php esc_attr_e( 'Insert gallery' ); ?>" />
-<input type="button" class="button" style="display:none;" onmousedown="wpgallery.update();" name="update-gallery" id="update-gallery" value="<?php esc_attr_e( 'Update gallery settings' ); ?>" />
+<input type="button" class="button" style="display:none;" onMouseDown="wpgallery.update();" name="insert-gallery" id="insert-gallery" value="<?php esc_attr_e( 'Insert gallery' ); ?>" />
+<input type="button" class="button" style="display:none;" onMouseDown="wpgallery.update();" name="update-gallery" id="update-gallery" value="<?php esc_attr_e( 'Update gallery settings' ); ?>" />
 </p>
 </div>
 </form>
@@ -2000,11 +2004,11 @@ function type_url_form_image() {
 			<td class="field">
 				<input name="align" id="align-none" value="none" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'none' ? ' checked="checked"' : '').' />
 				<label for="align-none" class="align image-align-none-label">' . __('None') . '</label>
-				<input name="align" id="align-left" value="left" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'left' ? ' checked="checked"' : '').' />
+				<input name="align" id="align-left" value="left" onClick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'left' ? ' checked="checked"' : '').' />
 				<label for="align-left" class="align image-align-left-label">' . __('Left') . '</label>
-				<input name="align" id="align-center" value="center" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'center' ? ' checked="checked"' : '').' />
+				<input name="align" id="align-center" value="center" onClick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'center' ? ' checked="checked"' : '').' />
 				<label for="align-center" class="align image-align-center-label">' . __('Center') . '</label>
-				<input name="align" id="align-right" value="right" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'right' ? ' checked="checked"' : '').' />
+				<input name="align" id="align-right" value="right" onClick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'right' ? ' checked="checked"' : '').' />
 				<label for="align-right" class="align image-align-right-label">' . __('Right') . '</label>
 			</td>
 		</tr>
@@ -2015,15 +2019,15 @@ function type_url_form_image() {
 			</th>
 			<td class="field"><input id="url" name="url" value="" type="text" /><br />
 
-			<button type="button" class="button" value="" onclick="document.forms[0].url.value=null">' . __('None') . '</button>
-			<button type="button" class="button" value="" onclick="document.forms[0].url.value=document.forms[0].src.value">' . __('Link to image') . '</button>
+			<button type="button" class="button" value="" onClick="document.forms[0].url.value=null">' . __('None') . '</button>
+			<button type="button" class="button" value="" onClick="document.forms[0].url.value=document.forms[0].src.value">' . __('Link to image') . '</button>
 			<p class="help">' . __('Enter a link URL or click above for presets.') . '</p></td>
 		</tr>
 
 		<tr>
 			<td></td>
 			<td>
-				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onClick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
