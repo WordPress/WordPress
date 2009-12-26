@@ -125,7 +125,7 @@ $wp_rewrite->flush_rules();
 ?>
 
 <?php if (isset($_POST['submit'])) : ?>
-<div id="message" class="updated fade"><p><?php
+<div id="message" class="updated"><p><?php
 if ( $iis7_permalinks ) {
 	if ( $permalink_structure && ! $usingpi && ! $writable )
 		_e('You should update your web.config now');

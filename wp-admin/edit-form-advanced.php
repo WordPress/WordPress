@@ -136,7 +136,7 @@ require_once('admin-header.php');
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>
 <?php endif; ?>
 <?php if ( $message ) : ?>
-<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
+<div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 <form name="post" action="post.php" method="post" id="post">
 <?php

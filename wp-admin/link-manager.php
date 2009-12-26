@@ -79,7 +79,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 
 <?php
 if ( isset($_GET['deleted']) ) {
-	echo '<div id="message" class="updated fade"><p>';
+	echo '<div id="message" class="updated"><p>';
 	$deleted = (int) $_GET['deleted'];
 	printf(_n('%s link deleted.', '%s links deleted', $deleted), $deleted);
 	echo '</p></div>';

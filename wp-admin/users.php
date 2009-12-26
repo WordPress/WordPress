@@ -202,21 +202,21 @@ default:
 		case 'del':
 		case 'del_many':
 			$delete_count = isset($_GET['delete_count']) ? (int) $_GET['delete_count'] : 0;
-			$messages[] = '<div id="message" class="updated fade"><p>' . sprintf(_n('%s user deleted', '%s users deleted', $delete_count), $delete_count) . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . sprintf(_n('%s user deleted', '%s users deleted', $delete_count), $delete_count) . '</p></div>';
 			break;
 		case 'add':
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('New user created.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('New user created.') . '</p></div>';
 			break;
 		case 'promote':
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('Changed roles.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('Changed roles.') . '</p></div>';
 			break;
 		case 'err_admin_role':
 			$messages[] = '<div id="message" class="error"><p>' . __('The current user&#8217;s role must have user editing capabilities.') . '</p></div>';
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other user roles have been changed.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('Other user roles have been changed.') . '</p></div>';
 			break;
 		case 'err_admin_del':
 			$messages[] = '<div id="message" class="error"><p>' . __('You can&#8217;t delete the current user.') . '</p></div>';
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other users have been deleted.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('Other users have been deleted.') . '</p></div>';
 			break;
 		}
 	endif; ?>

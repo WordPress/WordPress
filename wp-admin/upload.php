@@ -216,7 +216,7 @@ if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 }
 
 if ( !empty($message) ) { ?>
-<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
+<div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php } ?>
 
 <ul class="subsubsub">

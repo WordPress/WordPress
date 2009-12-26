@@ -45,7 +45,7 @@ include('admin-header.php');
 	<li><?php printf("<label for='page_for_posts'>".__('Posts page: %s')."</label>", wp_dropdown_pages("name=page_for_posts&echo=0&show_option_none=".__('- Select -')."&selected=" . get_option('page_for_posts'))); ?></li>
 </ul>
 <?php if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') == get_option('page_on_front') ) : ?>
-<div id="front-page-warning" class="updated fade-ff0000">
+<div id="front-page-warning" class="updated">
 	<p>
 		<?php _e('<strong>Warning:</strong> these pages should not be the same!'); ?>
 	</p>

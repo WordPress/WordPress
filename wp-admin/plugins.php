@@ -246,7 +246,7 @@ if ( !empty($invalid) )
 ?>
 
 <?php if ( isset($_GET['error']) ) : ?>
-	<div id="message" class="updated fade"><p><?php _e('Plugin could not be activated because it triggered a <strong>fatal error</strong>.') ?></p>
+	<div id="message" class="updated"><p><?php _e('Plugin could not be activated because it triggered a <strong>fatal error</strong>.') ?></p>
 	<?php
 		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin) ) { ?>
 	<iframe style="border:0" width="100%" height="70px" src="<?php echo admin_url('plugins.php?action=error_scrape&amp;plugin=' . esc_attr($plugin) . '&amp;_wpnonce=' . esc_attr($_GET['_error_nonce'])); ?>"></iframe>
@@ -259,18 +259,18 @@ if ( !empty($invalid) )
 		delete_transient('plugins_delete_result'); //Delete it once we're done.
 
 		if ( is_wp_error($delete_result) ) : ?>
-		<div id="message" class="updated fade"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
+		<div id="message" class="updated"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
 		<?php else : ?>
-		<div id="message" class="updated fade"><p><?php _e('The selected plugins have been <strong>deleted</strong>.'); ?></p></div>
+		<div id="message" class="updated"><p><?php _e('The selected plugins have been <strong>deleted</strong>.'); ?></p></div>
 		<?php endif; ?>
 <?php elseif ( isset($_GET['activate']) ) : ?>
-	<div id="message" class="updated fade"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
+	<div id="message" class="updated"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
 <?php elseif (isset($_GET['activate-multi'])) : ?>
-	<div id="message" class="updated fade"><p><?php _e('Selected plugins <strong>activated</strong>.'); ?></p></div>
+	<div id="message" class="updated"><p><?php _e('Selected plugins <strong>activated</strong>.'); ?></p></div>
 <?php elseif ( isset($_GET['deactivate']) ) : ?>
-	<div id="message" class="updated fade"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p></div>
+	<div id="message" class="updated"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p></div>
 <?php elseif (isset($_GET['deactivate-multi'])) : ?>
-	<div id="message" class="updated fade"><p><?php _e('Selected plugins <strong>deactivated</strong>.'); ?></p></div>
+	<div id="message" class="updated"><p><?php _e('Selected plugins <strong>deactivated</strong>.'); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">

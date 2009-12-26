@@ -107,7 +107,7 @@ default:
 
 	?>
 <?php if (isset($_GET['a'])) : ?>
- <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
+ <div id="message" class="updated"><p><?php _e('File edited successfully.') ?></p></div>
 <?php endif;
 
 $description = get_file_description($file);

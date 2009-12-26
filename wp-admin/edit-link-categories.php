@@ -68,7 +68,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 </h2>
 
 <?php if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$msg]; ?></p></div>
+<div id="message" class="updated"><p><?php echo $messages[$msg]; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
 

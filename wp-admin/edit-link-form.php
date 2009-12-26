@@ -42,7 +42,7 @@ require_once ('admin-header.php');
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <?php if ( isset( $_GET['added'] ) ) : ?>
-<div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>
+<div id="message" class="updated"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 
 <?php

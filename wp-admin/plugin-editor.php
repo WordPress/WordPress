@@ -123,9 +123,9 @@ default:
 
 	?>
 <?php if (isset($_GET['a'])) : ?>
- <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
+ <div id="message" class="updated"><p><?php _e('File edited successfully.') ?></p></div>
 <?php elseif (isset($_GET['phperror'])) : ?>
- <div id="message" class="updated fade"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
+ <div id="message" class="updated"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
 	<?php
 		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $file) ) { ?>
 	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo esc_attr($file); ?>&amp;_wpnonce=<?php echo esc_attr($_GET['_error_nonce']); ?>"></iframe>

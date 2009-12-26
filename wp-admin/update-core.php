@@ -130,7 +130,7 @@ function core_upgrade_preamble() {
 		_e('You have the latest version of WordPress. You do not need to upgrade');
 		echo '</h3>';
 	} else {
-		echo '<div class="updated fade"><p>';
+		echo '<div class="updated"><p>';
 		_e('<strong>Important:</strong> before upgrading, please <a href="http://codex.wordpress.org/WordPress_Backups">backup your database and files</a>.');
 		echo '</p></div>';
 

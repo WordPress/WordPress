@@ -268,7 +268,7 @@ class Custom_Image_Header {
 	 */
 	function step_1() {
 		if ( $_GET['updated'] ) { ?>
-<div id="message" class="updated fade">
+<div id="message" class="updated">
 <p><?php _e('Header updated.') ?></p>
 </div>
 		<?php } ?>

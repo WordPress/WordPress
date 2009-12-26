@@ -135,7 +135,7 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 	$unspammed = isset($_GET['unspammed']) ? (int) $_GET['unspammed'] : 0;
 
 	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 ) {
-		echo '<div id="moderated" class="updated fade"><p>';
+		echo '<div id="moderated" class="updated"><p>';
 
 		if ( $approved > 0 ) {
 			printf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );

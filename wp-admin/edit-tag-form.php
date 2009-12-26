@@ -14,7 +14,7 @@ if ( !current_user_can('manage_categories') )
 	wp_die(__('You do not have sufficient permissions to edit tags for this blog.'));
 
 if ( empty($tag_ID) ) { ?>
-	<div id="message" class="updated fade"><p><strong><?php _e('A tag was not selected for editing.'); ?></strong></p></div>
+	<div id="message" class="updated"><p><strong><?php _e('A tag was not selected for editing.'); ?></strong></p></div>
 <?php
 	return;
 }

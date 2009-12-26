@@ -100,7 +100,7 @@ include ('admin-header.php');
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
-<div id="message" class="updated fade">
+<div id="message" class="updated">
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
 	<p><a href="users.php"><?php _e('&larr; Back to Authors and Users'); ?></a></p>

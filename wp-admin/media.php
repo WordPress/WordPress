@@ -76,7 +76,7 @@ case 'edit' :
 		switch ( $_GET['message'] ) :
 		case 'updated' :
 			$message = __('Media attachment updated.');
-			$class = 'updated fade';
+			$class = 'updated';
 			break;
 		endswitch;
 	}
