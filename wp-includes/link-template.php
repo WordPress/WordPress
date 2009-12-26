@@ -701,7 +701,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 		break;
 	default :
 		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return apply_filters( 'get_edit_post_link', '', $post->ID, $context );;
+			return apply_filters( 'get_edit_post_link', '', $post->ID, $context );
 		$file = 'post';
 		$var  = 'post';
 		break;
@@ -777,7 +777,7 @@ function get_delete_post_link($id = 0, $context = 'display') {
 		break;
 	default :
 		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return apply_filters( 'get_delete_post_link', '', $post->ID, $context );;
+			return apply_filters( 'get_delete_post_link', '', $post->ID, $context );
 		$file = 'post';
 		$var  = 'post';
 		break;

@@ -495,7 +495,7 @@ class ftp_base {
 		$this->_features=array();
 		foreach($f as $k=>$v) {
 			$v=explode(" ", trim($v));
-			$this->_features[array_shift($v)]=$v;;
+			$this->_features[array_shift($v)]=$v;
 		}
 		return true;
 	}
