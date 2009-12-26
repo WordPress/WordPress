@@ -204,10 +204,10 @@ imageEdit = {
 
 			if ( fw < 1 ) {
 				w.focus();
-				return false;;
+				return false;
 			} else if ( fh < 1 ) {
 				h.focus();
-				return false;;
+				return false;
 			}
 
 			if ( fw == t.hold.ow || fh == t.hold.oh )
