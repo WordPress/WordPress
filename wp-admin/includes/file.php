@@ -239,7 +239,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	$upload_error_handler = 'wp_handle_upload_error';
 
 	// You may have had one or more 'wp_handle_upload_prefilter' functions error out the file.  Handle that gracefully.
-	if ( isset( $file['error'] ) && !ctype_digit( $file['error'] ) && $file['error'] )
+	if ( isset( $file['error'] ) && !is_numeric( $file['error'] ) && $file['error'] )
 		return $upload_error_handler( $file, $file['error'] );
 
 	// You may define your own function and pass the name in $overrides['unique_filename_callback']
