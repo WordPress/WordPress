@@ -48,7 +48,6 @@ if ( !wp_next_scheduled('wp_scheduled_delete') && !defined('WP_INSTALLING') )
 
 set_screen_options();
 
-$posts_per_page = get_option('posts_per_page');
 $date_format = get_option('date_format');
 $time_format = get_option('time_format');
 
