@@ -425,13 +425,12 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('STYLE_DEBUG') && STYLE_DEBUG ? '.dev' : '';
 
-	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
+	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20091227';
 
-	$styles->add( 'wp-admin', "/wp-admin/wp-admin$suffix.css", array(), '20091224' );
-	$styles->add_data( 'wp-admin', 'rtl', "/wp-admin/rtl$suffix.css" );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20091227' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20091221' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
