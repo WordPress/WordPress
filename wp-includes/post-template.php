@@ -106,7 +106,8 @@ function the_title_attribute( $args = '' ) {
 function get_the_title( $id = 0 ) {
 	$post = &get_post($id);
 
-	$title = $post->post_title;
+	$title = isset($post->post_title) ? $post->post_title : '';
+	$id = isset($post->ID) ? $post->ID : (int) $id;
 
 	if ( !is_admin() ) {
 		if ( !empty($post->post_password) ) {
@@ -117,7 +118,7 @@ function get_the_title( $id = 0 ) {
 			$title = sprintf($private_title_format, $title);
 		}
 	}
-	return apply_filters( 'the_title', $title, $post->ID );
+	return apply_filters( 'the_title', $title, $id );
 }
 
 /**
