@@ -63,7 +63,7 @@
 }
 
 #adminmenu .wp-submenu a {
-	background: #FFFFFF url(../images/menu-bits-rtl-vs.gif) no-repeat scroll right -310px;
+	background: #fff url(../images/menu-bits-rtl-vs.gif) no-repeat scroll right -310px;
 }
 
 #adminmenu li.current a,

@@ -371,11 +371,11 @@ table.ie-fixed {
 }
 
 * html .widget-top .widget-title-action a {
-    background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
+	background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
 }
 
 * html div.widget-liquid-left {
-    width: 99%;
+	width: 99%;
 }
 
 #wp_inactive_widgets {

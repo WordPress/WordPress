@@ -477,7 +477,7 @@ ol.ol-decimal > li {
 	margin: 0;
 	padding: 14px 15px 3px 0;
 	line-height: 35px;
-	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 
 .wrap h2.long-header {

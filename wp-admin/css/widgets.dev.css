@@ -151,8 +151,8 @@ div.widgets-holder-wrap {
 }
 
 #widgets-left #available-widgets {
-    background-color: transparent;
-    border: 0 none;
+	background-color: transparent;
+	border: 0 none;
 }
 
 ul#widget-list {
@@ -178,9 +178,9 @@ ul#widget-list {
 }
 
 a.widget-action {
-    display: block;
-    width: 24px;
-    height: 26px;
+	display: block;
+	width: 24px;
+	height: 26px;
 }
 
 #available-widgets a.widget-action {
@@ -188,7 +188,7 @@ a.widget-action {
 }
 
 .widget-top a.widget-action {
-    background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
+	background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
 }
 
 .widget .widget-inside,
@@ -220,11 +220,11 @@ a.widget-action {
 }
 
 .widgets-sortables {
-    min-height: 90px;
+	min-height: 90px;
 }
 
 .widget-control-actions {
-    margin-top: 8px;
+	margin-top: 8px;
 }
 
 .widget-control-actions a {

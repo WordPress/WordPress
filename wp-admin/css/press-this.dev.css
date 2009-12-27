@@ -147,7 +147,7 @@ h3.tb {
 }
 
 .stuffbox:hover .handlediv {
-    background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -111px;
+	background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -111px;
 }
 
 .handlediv {

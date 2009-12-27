@@ -4,7 +4,7 @@ html {
 
 * html input,
 * html .widget {
-    border-color: #8cbdd5;
+	border-color: #8cbdd5;
 }
 
 textarea,
@@ -381,7 +381,7 @@ div.dashboard-widget-submit input:hover,
 }
 
 #dashboard_right_now .table {
-	background:#faf9f7 !important;
+	background: #faf9f7 !important;
 }
 
 #side-sortables #category-tabs .tabs a {
@@ -442,7 +442,7 @@ div.dashboard-widget-submit input:hover,
 }
 
 .update-message {
-	color: #000000;
+	color: #000;
 }
 
 a.page-numbers {
@@ -1629,18 +1629,18 @@ fieldset.inline-edit-col-right .inline-edit-col {
 div.widgets-sortables,
 #widgets-left .inactive {
 	background-color: #f1f1f1;
-    border-color: #ddd;
+	border-color: #ddd;
 }
 
 #available-widgets .widget-holder {
-    background-color: #fff;
-    border-color: #ddd;
+	background-color: #fff;
+	border-color: #ddd;
 }
 
 #widgets-left .sidebar-name {
 	background-color: #aaa;
 	background-image: url(../images/ed-bg-vs.gif);
-	text-shadow: #FFFFFF 0 1px 0;
+	text-shadow: #fff 0 1px 0;
 	border-color: #dfdfdf;
 }
 

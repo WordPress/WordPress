@@ -4,7 +4,7 @@ html {
 
 * html input,
 * html .widget {
-    border-color: #dfdfdf;
+	border-color: #dfdfdf;
 }
 
 textarea,
@@ -438,7 +438,7 @@ div.dashboard-widget-submit input:hover,
 }
 
 .update-message {
-	color: #000000;
+	color: #000;
 }
 
 a.page-numbers {
@@ -1061,7 +1061,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu a {
-	background: #FFFFFF url(../images/menu-bits.gif) no-repeat scroll 0 -310px;
+	background: #fff url(../images/menu-bits.gif) no-repeat scroll 0 -310px;
 }
 
 #adminmenu .wp-has-current-submenu ul li a {
@@ -1077,7 +1077,7 @@ table.widefat .spam a:hover,
 	background: #6d6d6d url(../images/menu-bits.gif) top left repeat-x;
 	border-color: #6d6d6d;
 	color: #fff;
-	text-shadow: rgba(0,0,0,0.4) 0px -1px 0px;
+	text-shadow: rgba(0,0,0,0.4) 0 -1px 0;
 }
 
 #adminmenu li.wp-has-current-submenu .wp-submenu,
@@ -1113,7 +1113,7 @@ table.widefat .spam a:hover,
 	background-color: #f5f5f5;
 	background-image: none;
 	border-color: #e3e3e3;
-	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 
 #adminmenu .wp-submenu ul {
@@ -1245,19 +1245,19 @@ table.widefat .spam a:hover,
 
 /* Diff */
 table.diff .diff-deletedline {
-	background-color: #ffdddd;
+	background-color: #fdd;
 }
 
 table.diff .diff-deletedline del {
-	background-color: #ff9999;
+	background-color: #f99;
 }
 
 table.diff .diff-addedline {
-	background-color: #ddffdd;
+	background-color: #dfd;
 }
 
 table.diff .diff-addedline ins {
-	background-color: #99ff99;
+	background-color: #9f9;
 }
 
 #att-info {
@@ -1357,7 +1357,7 @@ div.star.select:hover {
 }
 
 .inline-editor ul.cat-checklist {
-	background-color: #FFFFFF;
+	background-color: #fff;
 	border-color: #ddd;
 }
 
@@ -1586,14 +1586,14 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #wphead #site-visit-button {
-	background-color:#585858;
+	background-color: #585858;
 	background-image: url(../images/visit-site-button-grad.gif);
-	color:#aaa;
+	color: #aaa;
 	text-shadow: #3F3F3F 0 -1px 0;
 }
 
 #wphead a:hover #site-visit-button {
-	color:#fff;
+	color: #fff;
 }
 
 #wphead a:focus #site-visit-button,
@@ -1603,7 +1603,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 .popular-tags,
 .feature-filter {
-	background-color: #FFFFFF;
+	background-color: #fff;
 	border-color: #DFDFDF;
 }
 
@@ -1618,18 +1618,18 @@ fieldset.inline-edit-col-right .inline-edit-col {
 div.widgets-sortables,
 #widgets-left .inactive {
 	background-color: #f1f1f1;
-    border-color: #ddd;
+	border-color: #ddd;
 }
 
 #available-widgets .widget-holder {
-    background-color: #fff;
-    border-color: #ddd;
+	background-color: #fff;
+	border-color: #ddd;
 }
 
 #widgets-left .sidebar-name {
 	background-color: #aaa;
 	background-image: url(../images/ed-bg.gif);
-	text-shadow: #FFFFFF 0 1px 0;
+	text-shadow: #fff 0 1px 0;
 	border-color: #dfdfdf;
 }
 

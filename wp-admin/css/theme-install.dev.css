@@ -60,12 +60,15 @@ div.star img {
 .theme-listing .theme-item-info span {
 	display: none;
 }
+
 .theme-listing .theme-item:hover .theme-item-info span {
 	display: inline;
 }
+
 .theme-listing .theme-item:hover .theme-item-info span.dots {
 	display: none;
 }
+
 .theme-listing .theme-item-info span.action-links {
 	font-weight: bold;
 	text-align: center;
