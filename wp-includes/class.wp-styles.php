@@ -35,9 +35,13 @@ class WP_Styles extends WP_Dependencies {
 		if ( !parent::do_item($handle) )
 			return false;
 
-		$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
+		if ( null === $this->registered[$handle]->ver )
+			$ver = '';
+		else
+			$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
+
 		if ( isset($this->args[$handle]) )
-			$ver .= '&amp;' . $this->args[$handle];
+			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : '?' . $this->args[$handle];
 
 		if ( $this->do_concat ) {
 			if ( $this->in_default_dir($this->registered[$handle]->src) && !isset($this->registered[$handle]->extra['conditional']) && !isset($this->registered[$handle]->extra['alt']) ) {
@@ -100,7 +104,8 @@ class WP_Styles extends WP_Dependencies {
 			$src = $this->base_url . $src;
 		}
 
-		$src = add_query_arg('ver', $ver, $src);
+		if ( !empty($ver) )
+			$src = add_query_arg('ver', $ver, $src);
 		$src = apply_filters( 'style_loader_src', $src, $handle );
 		return esc_url( $src );
 	}

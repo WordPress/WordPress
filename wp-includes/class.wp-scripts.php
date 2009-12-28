@@ -90,9 +90,13 @@ class WP_Scripts extends WP_Dependencies {
 		if ( false === $group && in_array($handle, $this->in_footer, true) )
 			$this->in_footer = array_diff( $this->in_footer, (array) $handle );
 
-		$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
+		if ( null === $this->registered[$handle]->ver )
+			$ver = '';
+		else
+			$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
+
 		if ( isset($this->args[$handle]) )
-			$ver .= '&amp;' . $this->args[$handle];
+			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : '?' . $this->args[$handle];
 
 		$src = $this->registered[$handle]->src;
 
@@ -114,7 +118,8 @@ class WP_Scripts extends WP_Dependencies {
 			$src = $this->base_url . $src;
 		}
 
-		$src = add_query_arg('ver', $ver, $src);
+		if ( !empty($ver) )
+			$src = add_query_arg('ver', $ver, $src);
 		$src = esc_url(apply_filters( 'script_loader_src', $src, $handle ));
 
 		if ( $this->do_concat )

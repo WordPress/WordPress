@@ -232,8 +232,6 @@ class _WP_Dependency {
 		@list($this->handle, $this->src, $this->deps, $this->ver, $this->args) = func_get_args();
 		if ( !is_array($this->deps) )
 			$this->deps = array();
-		if ( !$this->ver )
-			$this->ver = false;
 	}
 
 	function add_data( $name, $data ) {

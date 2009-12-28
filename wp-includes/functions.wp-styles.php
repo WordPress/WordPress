@@ -45,9 +45,8 @@ function wp_print_styles( $handles = false ) {
  * @param string|bool $src Path to the stylesheet from the root directory of WordPress. Example: '/css/mystyle.css'.
  * @param array $deps Array of handles of any stylesheet that this stylesheet depends on.
  *  (Stylesheets that must be loaded before this stylesheet.) Pass an empty array if there are no dependencies.
- * @param string|bool $ver String specifying the stylesheet version number, if it has one. This parameter
- *  is used to ensure that the correct version is sent to the client regardless of caching, and so should be included
- *  if a version number is available and makes sense for the stylesheet.
+ * @param string|bool $ver String specifying the stylesheet version number. Set to NULL to disable.
+ *  Used to ensure that the correct version is sent to the client regardless of caching.
  * @param string $media The media for which this stylesheet has been defined.
  */
 function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' ) {
@@ -77,6 +76,8 @@ function wp_deregister_style( $handle ) {
 
 /**
  * Enqueue a CSS style file.
+ *
+ * Registers the style if src provided (does NOT overwrite) and enqueues.
  *
  * @since r79
  * @see WP_Styles::add(), WP_Styles::enqueue()
