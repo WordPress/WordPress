@@ -223,9 +223,12 @@ function update_core($from, $to) {
 	$mysql_version  = $wpdb->db_version();
 	$required_php_version = '4.3';
 	$required_mysql_version = '4.1.2';
-	$wp_version = '2.9';
+	$wp_version = '2.9.1';
 	$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
 	$mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+
+	if ( !$mysql_compat || !$php_compat )
+		$wp_filesystem->delete($from, true);
 
 	if ( !$mysql_compat && !$php_compat )
 		return new WP_Error( 'php_mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version ) );
