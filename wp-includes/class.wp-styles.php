@@ -41,7 +41,7 @@ class WP_Styles extends WP_Dependencies {
 			$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
 
 		if ( isset($this->args[$handle]) )
-			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : '?' . $this->args[$handle];
+			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
 
 		if ( $this->do_concat ) {
 			if ( $this->in_default_dir($this->registered[$handle]->src) && !isset($this->registered[$handle]->extra['conditional']) && !isset($this->registered[$handle]->extra['alt']) ) {

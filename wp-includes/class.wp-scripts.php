@@ -96,7 +96,7 @@ class WP_Scripts extends WP_Dependencies {
 			$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
 
 		if ( isset($this->args[$handle]) )
-			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : '?' . $this->args[$handle];
+			$ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
 
 		$src = $this->registered[$handle]->src;
 
