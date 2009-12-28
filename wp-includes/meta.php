@@ -53,11 +53,12 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	global $wpdb;
 
 	$column = esc_sql($meta_type . '_id');
+	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
-	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
+	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
 		return add_metadata($meta_type, $object_id, $meta_key, $meta_value);
 
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
@@ -90,11 +91,12 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	global $wpdb;
 
 	$type_column = esc_sql($meta_type . '_id');
+	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
-	$query = $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s", $meta_key );
+	$query = $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s", $meta_key );
 
 	if ( !$delete_all )
 		$query .= $wpdb->prepare(" AND $type_column = %d", $object_id );
@@ -106,7 +108,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	if ( !count( $meta_ids ) )
 		return false;
 
-	$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
+	$query = "DELETE FROM $table WHERE $id_column IN( " . implode( ',', $meta_ids ) . " )";
 
 	$count = $wpdb->query($query);
 
