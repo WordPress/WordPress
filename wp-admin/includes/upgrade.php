@@ -1688,11 +1688,7 @@ function pre_schema_upgrade() {
 	// Upgrade versions prior to 2.9
 	if ( $wp_current_db_version < 11557 ) {
 		// Delete duplicate options.  Keep the option with the highest option_id.
-		$delete_options = $wpdb->get_col("SELECT o1.option_id FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 ON o2.option_name = o1.option_name AND o2.option_id > o1.option_id");
-		if ( !empty($delete_options) ) {
-			$delete_options = implode(',', $delete_options);
-			$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($delete_options)");
-		}
+		$wpdb->query("DELETE o1 FROM $wpdb->options AS o1 JOIN $wpdb->options AS o2 USING (`option_name`) WHERE o2.option_id > o1.option_id");
 
 		// Drop the old primary key and add the new.
 		$wpdb->query("ALTER TABLE $wpdb->options DROP PRIMARY KEY, ADD PRIMARY KEY(option_id)");
