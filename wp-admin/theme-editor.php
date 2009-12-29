@@ -140,7 +140,6 @@ $desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (
 </div>
 <br class="clear" />
 </div>
-<br class="clear" />
 	<div id="templateside">
 	<h3><?php _e("Theme Files"); ?></h3>
 
