@@ -385,7 +385,7 @@ class wpdb {
 
 		$this->ready = true;
 
-		if ( !empty($this->charset) ) {
+		if ( $this->has_cap( 'collation' ) && !empty($this->charset) ) {
 			if ( function_exists('mysql_set_charset') ) {
 				mysql_set_charset($this->charset, $this->dbh);
 				$this->real_escape = true;
