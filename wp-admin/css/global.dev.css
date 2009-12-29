@@ -431,6 +431,7 @@ ol.ol-decimal > li {
 
 .widefat tbody th.check-column {
 	padding: 7px 0 22px;
+	vertical-align: top;
 }
 
 .widefat .num,
