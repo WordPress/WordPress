@@ -2391,8 +2391,10 @@ function &get_page_children($page_id, $pages) {
  */
 function &get_page_hierarchy( &$pages, $page_id = 0 ) {
 
-	if ( empty( $pages ) )
-		return null;
+	if ( empty( $pages ) ) {
+		$return = array();
+		return $return;
+	}
 
 	$children = array();
 	foreach ( (array) $pages as $p ) {
