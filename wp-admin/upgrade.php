@@ -64,7 +64,7 @@ $mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>='
 	elseif ( !$php_compat )
 		printf( __('You cannot upgrade because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.'), $wp_version, $required_php_version, $php_version );
 	elseif ( !$mysql_compat )
-		printf( __('You cannot upgrade because because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version );
+		printf( __('You cannot upgrade because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version );
 ?>
 <?php else :
 switch ( $step ) :
