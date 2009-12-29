@@ -35,6 +35,11 @@ if ( 'upgrade_db' === $step ) {
 
 $step = (int) $step;
 
+$php_version    = phpversion();
+$mysql_version  = $wpdb->db_version();
+$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
+$mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+
 @header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -53,6 +58,14 @@ $step = (int) $step;
 <p><?php _e( 'Your WordPress database is already up-to-date!' ); ?></p>
 <p class="step"><a class="button" href="<?php echo get_option( 'home' ); ?>/"><?php _e( 'Continue' ); ?></a></p>
 
+<?php elseif ( !$php_compat || !$mysql_compat ) :
+	if ( !$mysql_compat && !$php_compat )
+		printf( __('You cannot upgrade because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version );
+	elseif ( !$php_compat )
+		printf( __('You cannot upgrade because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.'), $wp_version, $required_php_version, $php_version );
+	elseif ( !$mysql_compat )
+		printf( __('You cannot upgrade because because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version );
+?>
 <?php else :
 switch ( $step ) :
 	case 0:
