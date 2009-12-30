@@ -1123,7 +1123,7 @@ function get_calendar($initial = true) {
 			echo "\n\t</tr>\n\t<tr>\n\t\t";
 		$newrow = false;
 
-		if ( $day == gmdate('j', (time() + (get_option('gmt_offset') * 3600))) && $thismonth == gmdate('m', time()+(get_option('gmt_offset') * 3600)) && $thisyear == gmdate('Y', time()+(get_option('gmt_offset') * 3600)) )
+		if ( $day == gmdate('j', current_time('timestamp')) && $thismonth == gmdate('m', current_time('timestamp')) && $thisyear == gmdate('Y', current_time('timestamp')) )
 			echo '<td id="today">';
 		else
 			echo '<td>';

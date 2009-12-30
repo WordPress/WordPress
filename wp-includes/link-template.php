@@ -289,7 +289,7 @@ function get_attachment_link($id = false) {
 function get_year_link($year) {
 	global $wp_rewrite;
 	if ( !$year )
-		$year = gmdate('Y', time()+(get_option('gmt_offset') * 3600));
+		$year = gmdate('Y', current_time('timestamp'));
 	$yearlink = $wp_rewrite->get_year_permastruct();
 	if ( !empty($yearlink) ) {
 		$yearlink = str_replace('%year%', $year, $yearlink);
@@ -311,9 +311,9 @@ function get_year_link($year) {
 function get_month_link($year, $month) {
 	global $wp_rewrite;
 	if ( !$year )
-		$year = gmdate('Y', time()+(get_option('gmt_offset') * 3600));
+		$year = gmdate('Y', current_time('timestamp'));
 	if ( !$month )
-		$month = gmdate('m', time()+(get_option('gmt_offset') * 3600));
+		$month = gmdate('m', current_time('timestamp'));
 	$monthlink = $wp_rewrite->get_month_permastruct();
 	if ( !empty($monthlink) ) {
 		$monthlink = str_replace('%year%', $year, $monthlink);
@@ -337,11 +337,11 @@ function get_month_link($year, $month) {
 function get_day_link($year, $month, $day) {
 	global $wp_rewrite;
 	if ( !$year )
-		$year = gmdate('Y', time()+(get_option('gmt_offset') * 3600));
+		$year = gmdate('Y', current_time('timestamp'));
 	if ( !$month )
-		$month = gmdate('m', time()+(get_option('gmt_offset') * 3600));
+		$month = gmdate('m', current_time('timestamp'));
 	if ( !$day )
-		$day = gmdate('j', time()+(get_option('gmt_offset') * 3600));
+		$day = gmdate('j', current_time('timestamp'));
 
 	$daylink = $wp_rewrite->get_day_permastruct();
 	if ( !empty($daylink) ) {
