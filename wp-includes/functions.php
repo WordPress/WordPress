@@ -1160,10 +1160,25 @@ function do_enclose( $content, $post_ID ) {
 
 	foreach ( (array) $post_links as $url ) {
 		if ( $url != '' && !$wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, $url . '%' ) ) ) {
+
 			if ( $headers = wp_get_http_headers( $url) ) {
 				$len = (int) $headers['content-length'];
 				$type = $headers['content-type'];
 				$allowed_types = array( 'video', 'audio' );
+
+				// Check to see if we can figure out the mime type from
+				// the extension
+				$url_parts = parse_url( $url );
+				$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
+				if ( !empty( $extension ) ) {
+					foreach ( get_allowed_mime_types( ) as $exts => $mime ) {
+						if ( preg_match( '!^(' . $exts . ')$!i', $extension ) ) {
+							$type = $mime;
+							break;
+						}
+					}
+				}
+
 				if ( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
 					$meta_value = "$url\n$len\n$type\n";
 					$wpdb->insert($wpdb->postmeta, array('post_id' => $post_ID, 'meta_key' => 'enclosure', 'meta_value' => $meta_value) );
