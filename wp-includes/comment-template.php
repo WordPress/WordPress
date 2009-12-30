@@ -988,7 +988,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	echo apply_filters( 'comments_popup_link_attributes', '' );
 
 	echo ' title="' . esc_attr( sprintf( __('Comment on %s'), $title ) ) . '">';
-	comments_number( $zero, $one, $more, $number );
+	comments_number( $zero, $one, $more );
 	echo '</a>';
 }
 
