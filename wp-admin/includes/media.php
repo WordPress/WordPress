@@ -1291,12 +1291,12 @@ function get_media_item( $attachment_id, $args = null ) {
 			continue;
 		}
 
-		$required      = $field['required'] ? '<abbr title="required" class="required">*</abbr>' : '';
+		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
 		$aria_required = $field['required'] ? " aria-required='true' " : '';
 		$class  = $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
-		$item .= "\t\t<tr class='$class'>\n\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span><span class='alignright'>$required</span><br class='clear' /></label></th>\n\t\t\t<td class='field'>";
+		$item .= "\t\t<tr class='$class'>\n\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label></th>\n\t\t\t<td class='field'>";
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
@@ -1531,6 +1531,7 @@ if ( $id ) {
 <p class="savebutton ml-submit">
 <input type="submit" class="button" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
 </p>
+</form>
 <?php
 }
 
