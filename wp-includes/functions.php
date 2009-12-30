@@ -570,6 +570,9 @@ function update_option( $option_name, $newvalue ) {
  * @return null returns when finished.
  */
 function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '2.3' );
+
 	global $wpdb;
 
 	wp_protect_special_option( $name );
@@ -1203,6 +1206,9 @@ function do_enclose( $content, $post_ID ) {
  * @return bool|string False on failure and string of headers if HEAD request.
  */
 function wp_get_http( $url, $file_path = false, $deprecated = false ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	@set_time_limit( 60 );
 
 	$options = array();
@@ -1245,6 +1251,9 @@ function wp_get_http( $url, $file_path = false, $deprecated = false ) {
  * @return bool|string False on failure, headers on success.
  */
 function wp_get_http_headers( $url, $deprecated = false ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	$response = wp_remote_head( $url );
 
 	if ( is_wp_error( $response ) )
@@ -2187,6 +2196,9 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
  * @return array
  */
 function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	if ( empty( $name ) )
 		return array( 'error' => __( 'Empty filename' ) );
 
@@ -3039,7 +3051,7 @@ function _deprecated_file($file, $version, $replacement=null) {
  * For example:
  * <code>
  * if ( !empty($deprecated) )
- * 	_deprecated_argument( __FUNCTION__, 'deprecated', '0.0' );
+ * 	_deprecated_argument( __FUNCTION__, '0.0' );
  * </code>
  *
  * There is a hook deprecated_argument_run that will be called that can be used
@@ -3053,24 +3065,23 @@ function _deprecated_file($file, $version, $replacement=null) {
  * @since 3.0.0
  * @access private
  *
- * @uses do_action() Calls 'deprecated_argument_run' and passes the function and argument names and what to use instead.
+ * @uses do_action() Calls 'deprecated_argument_run' and passes the function name and what to use instead.
  * @uses apply_filters() Calls 'deprecated_argument_trigger_error' and expects boolean value of true to do trigger or false to not trigger error.
  *
  * @param string $function The function that was called
- * @param string $argument The name of the deprecated argument that was used
- * @param string $version The version of WordPress that deprecated the function
+ * @param string $version The version of WordPress that deprecated the argument used
  * @param string $message Optional. A message regarding the change.
  */
-function _deprecated_argument($function, $argument, $version, $message = null) {
+function _deprecated_argument($function, $version, $message = null) {
 
-	do_action('deprecated_argument_run', $function, $argument, $message);
+	do_action('deprecated_argument_run', $function, $message);
 
 	// Allow plugin to filter the output error trigger
 	if( WP_DEBUG && apply_filters( 'deprecated_argument_trigger_error', true ) ) {
 		if( !is_null($message) )
-			trigger_error( sprintf( __('The %1$s argument of %2$s is <strong>deprecated</strong> since version %3$s! %4$s'), $function, $argument, $version, $message ) );
+			trigger_error( sprintf( __('%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s! %3$s'), $function, $version, $message ) );
 		else
-			trigger_error( sprintf( __('The %1$s argument of %2$s is <strong>deprecated</strong> since version %3$s with no alternative available.'), $function, $argument, $version ) );
+			trigger_error( sprintf( __('%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s with no alternative available.'), $function, $version ) );
 	}
 }
 

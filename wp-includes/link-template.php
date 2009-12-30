@@ -168,7 +168,10 @@ function get_permalink($id = 0, $leavename = false) {
  * @param mixed $deprecated Not used.
  * @return string
  */
-function post_permalink($post_id = 0, $deprecated = '') {
+function post_permalink( $post_id = 0, $deprecated = '' ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	return get_permalink($post_id);
 }
 

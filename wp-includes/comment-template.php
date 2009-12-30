@@ -503,15 +503,12 @@ function get_comments_link() {
  *
  * @since 0.71
  *
- * @param string $deprecated_1 Not Used
- * @param bool $deprecated_2 Not Used
+ * @param string $deprecated Not Used
+ * @param bool $deprecated Not Used
  */
-function comments_link( $deprecated_1 = '', $deprecated_2 = '' ) {
-	if ( !empty( $deprecated_1 ) )
-		_deprecated_argument(__FUNCTION__, 'deprecated_1', '0.0');
-	if ( !empty( $deprecated_2 ) )
-		_deprecated_argument(__FUNCTION__, 'deprecated_2', '0.0');
-
+function comments_link( $deprecated = '', $deprecated = '' ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
 	echo get_comments_link();
 }
 
@@ -554,6 +551,10 @@ function get_comments_number( $post_id = 0 ) {
  */
 function comments_number( $zero = false, $one = false, $more = false, $deprecated = '' ) {
 	global $id;
+
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	$number = get_comments_number($id);
 
 	if ( $number > 1 )
@@ -696,12 +697,16 @@ function get_trackback_url() {
  * @since 0.71
  * @uses get_trackback_url() Gets the trackback url for the current post
  *
- * @param bool $deprecated Remove backwards compat in 2.5
+ * @param bool $deprecated_echo Remove backwards compat in 2.5
  * @return void|string Should only be used to echo the trackback URL, use get_trackback_url() for the result instead.
  */
-function trackback_url($deprecated = true) {
-	if ($deprecated) echo get_trackback_url();
-	else return get_trackback_url();
+function trackback_url( $deprecated_echo = true ) {
+	if ( $deprecated_echo !== true )
+		_deprecated_argument( __FUNCTION__, '2.5', __('Use get_trackback_url() instead if you do not want the value echoed.') );
+	if ( $deprecated_echo )
+		echo get_trackback_url();
+	else
+		return get_trackback_url();
 }
 
 /**
@@ -712,6 +717,9 @@ function trackback_url($deprecated = true) {
  * @param int $deprecated Not used (Was $timezone = 0)
  */
 function trackback_rdf($deprecated = '') {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '2.5' );
+
 	if (stripos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
 		echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 				xmlns:dc="http://purl.org/dc/elements/1.1/"

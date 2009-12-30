@@ -17,9 +17,12 @@
  *
  * @param mixed $file Filename of the original image, Or attachment id.
  * @param int $max_side Maximum length of a single side for the thumbnail.
+ * @param mixed $deprecated Not used.
  * @return string Thumbnail path on success, Error string on failure.
  */
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
 	$thumbpath = image_resize( $file, $max_side, $max_side );
 	return apply_filters( 'wp_create_thumbnail', $thumbpath );
 }

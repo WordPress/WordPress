@@ -246,9 +246,9 @@ function the_excerpt() {
  * @param mixed $deprecated Not used.
  * @return string
  */
-function get_the_excerpt($deprecated = '') {
+function get_the_excerpt( $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument(__FUNCTION__, 'deprecated', '2.3');
+		_deprecated_argument( __FUNCTION__, '2.3' );
 
 	global $post;
 	$output = $post->post_excerpt;
@@ -901,7 +901,10 @@ function walk_page_dropdown_tree() {
  * @param bool $deprecated Deprecated. Not used.
  * @param bool $permalink Optional, default is false. Whether to include permalink.
  */
-function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $permalink = false) {
+function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $permalink = false ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	if ( $fullsize )
 		echo wp_get_attachment_link($id, 'full', $permalink);
 	else

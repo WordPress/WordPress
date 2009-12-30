@@ -1197,6 +1197,9 @@ add_action('init', 'kses_init');
 add_action('set_current_user', 'kses_init');
 
 function safecss_filter_attr( $css, $deprecated = '' ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
+
 	$css = wp_kses_no_null($css);
 	$css = str_replace(array("\n","\r","\t"), '', $css);
 

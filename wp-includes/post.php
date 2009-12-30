@@ -3538,9 +3538,11 @@ function _transition_post_status($new_status, $old_status, $post) {
  * @param int $deprecated Not Used. Can be set to null.
  * @param object $post Object type containing the post information
  */
-function _future_post_hook($deprecated = '', $post) {
+function _future_post_hook( $deprecated = '', $post ) {
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '0.0' );
 	wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) );
-	wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', array($post->ID));
+	wp_schedule_single_event( strtotime( $post->post_date_gmt. ' GMT' ), 'publish_future_post', array( $post->ID ) );
 }
 
 /**

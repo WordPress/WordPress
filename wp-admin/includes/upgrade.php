@@ -33,8 +33,11 @@ if ( !function_exists('wp_install') ) :
  * @param null $deprecated Optional. Not used.
  * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
  */
-function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='') {
+function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '' ) {
 	global $wp_rewrite;
+
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '2.6' );
 
 	wp_check_mysql_version();
 	wp_cache_flush();

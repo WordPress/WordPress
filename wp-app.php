@@ -884,10 +884,12 @@ EOD;
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param mixed $deprecated Optional, not used.
+	 * @param mixed $deprecated Not used.
 	 * @return string
 	 */
 	function get_categories_url($deprecated = '') {
+		if ( !empty( $deprecated ) )
+			_deprecated_argument( __FUNCTION__, '2.5' );
 		return $this->app_base . $this->CATEGORIES_PATH;
 	}
 
