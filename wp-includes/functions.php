@@ -2236,18 +2236,18 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  * @return string|null The file type, example: audio, video, document, spreadsheet, etc. Null if not found.
  */
 function wp_ext2type( $ext ) {
-	$ext2type = apply_filters('ext2type', array(
-		'audio' => array('aac','ac3','aif','aiff','mp1','mp2','mp3','m3a','m4a','m4b','ogg','ram','wav','wma'),
-		'video' => array('asf','avi','divx','dv','mov','mpg','mpeg','mp4','mpv','ogm','qt','rm','vob','wmv', 'm4v'),
-		'document' => array('doc','docx','pages','odt','rtf','pdf'),
-		'spreadsheet' => array('xls','xlsx','numbers','ods'),
-		'interactive' => array('ppt','pptx','key','odp','swf'),
-		'text' => array('txt'),
-		'archive' => array('tar','bz2','gz','cab','dmg','rar','sea','sit','sqx','zip'),
-		'code' => array('css','html','php','js'),
+	$ext2type = apply_filters( 'ext2type', array(
+		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b', 'mka', 'mp1',  'mp2', 'mp3', 'ogg', 'ram', 'wav', 'wma' ),
+		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'mkv',   'mov', 'mpg', 'mpeg', 'mp4', 'mpv', 'ogm', 'qt',  'rm', 'vob', 'wmv', 'm4v' ),
+		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf', 'rtf' ),
+		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsb',  'xlsm' ),
+		'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp',  'swf' ),
+		'text'        => array( 'asc', 'txt' ),
+		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz', 'zip' ),
+		'code'        => array( 'css', 'html', 'php',  'js' ),
 	));
 	foreach ( $ext2type as $type => $exts )
-		if ( in_array($ext, $exts) )
+		if ( in_array( $ext, $exts ) )
 			return $type;
 }
 
@@ -2305,7 +2305,7 @@ function get_allowed_mime_types() {
 		'flv' => 'video/x-flv',
 		'mov|qt' => 'video/quicktime',
 		'mpeg|mpg|mpe' => 'video/mpeg',
-		'txt|c|cc|h' => 'text/plain',
+		'txt|asc|c|cc|h' => 'text/plain',
 		'rtx' => 'text/richtext',
 		'css' => 'text/css',
 		'htm|html' => 'text/html',
@@ -2316,15 +2316,22 @@ function get_allowed_mime_types() {
 		'ogg' => 'audio/ogg',
 		'mid|midi' => 'audio/midi',
 		'wma' => 'audio/wma',
+		'mka' => 'audio/x-matroska', 
+		'mkv' => 'video/x-matroska', 
 		'rtf' => 'application/rtf',
 		'js' => 'application/javascript',
 		'pdf' => 'application/pdf',
 		'doc|docx' => 'application/msword',
-		'pot|pps|ppt|pptx' => 'application/vnd.ms-powerpoint',
+		'pot|pps|ppt|pptx|ppam|pptm|sldm|ppsm|potm' => 'application/vnd.ms-powerpoint',
 		'wri' => 'application/vnd.ms-write',
-		'xla|xls|xlsx|xlt|xlw' => 'application/vnd.ms-excel',
+		'xla|xls|xlsx|xlt|xlw|xlam|xlsb|xlsm|xltm' => 'application/vnd.ms-excel',
 		'mdb' => 'application/vnd.ms-access',
 		'mpp' => 'application/vnd.ms-project',
+		'docm|dotm' => 'application/vnd.ms-word',
+		'pptx|sldx|ppsx|potx' => 'application/vnd.openxmlformats-officedocument.presentationml',
+		'xlsx|xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
+		'docx|dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml',
+		'onetoc|onetoc2|onetmp|onepkg' => 'application/onenote',
 		'swf' => 'application/x-shockwave-flash',
 		'class' => 'application/java',
 		'tar' => 'application/x-tar',
