@@ -712,9 +712,11 @@ class WP_User {
 	 * @return bool True, if user has capability; false, if user does not have capability.
 	 */
 	function has_cap( $cap ) {
-		if ( is_numeric( $cap ) )
+		if ( is_numeric( $cap ) ) {
+			_deprecated_argument( __FUNCTION__, '2.0', __('Usage of user levels by plugins and themes is deprecated. Use roles and capabilities instead.') );
 			$cap = $this->translate_level_to_cap( $cap );
-
+		}
+		
 		$args = array_slice( func_get_args(), 1 );
 		$args = array_merge( array( $cap, $this->ID ), $args );
 		$caps = call_user_func_array( 'map_meta_cap', $args );
