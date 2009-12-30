@@ -14,10 +14,7 @@
 if ( !defined('WP_ADMIN') )
 	define('WP_ADMIN', TRUE);
 
-if ( defined('ABSPATH') )
-	require_once(ABSPATH . 'wp-load.php');
-else
-	require_once('../wp-load.php');
+require_once(dirname(dirname(__FILE__)) . '/wp-load.php');
 
 if ( get_option('db_upgraded') ) {
 	$wp_rewrite->flush_rules();
