@@ -36,7 +36,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<link rel="self" type="application/atom+xml" href="<?php echo get_search_comments_feed_link('', 'atom'); ?>" />
 	<id><?php echo get_search_comments_feed_link('', 'atom'); ?></id>
 <?php } else { ?>
-	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php bloginfo_rss('home'); ?>" />
+	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php bloginfo_rss('url'); ?>" />
 	<link rel="self" type="application/atom+xml" href="<?php bloginfo_rss('comments_atom_url'); ?>" />
 	<id><?php bloginfo_rss('comments_atom_url'); ?></id>
 <?php } ?>

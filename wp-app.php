@@ -371,7 +371,7 @@ EOD;
 		if( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
 
-		$home = esc_attr(get_bloginfo_rss('home'));
+		$home = esc_attr(get_bloginfo_rss('url'));
 
 		$categories = "";
 		$cats = get_categories(array('hierarchical' => 0, 'hide_empty' => 0));

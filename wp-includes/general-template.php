@@ -273,9 +273,8 @@ function bloginfo($show='') {
  * Retrieve information about the blog.
  *
  * Some show parameter values are deprecated and will be removed in future
- * versions. Care should be taken to check the function contents and know what
- * the deprecated blog info options are. Options without "// DEPRECATED" are
- * the preferred and recommended ways to get the information.
+ * versions. These options will trigger the _deprecated_argument() function.
+ * The deprecated blog info options are listed in the function contents.
  *
  * The possible values for the 'show' parameter are listed below.
  * <ol>
@@ -289,21 +288,19 @@ function bloginfo($show='') {
  * comment feeds can be retrieved from the 'comments_atom_url' (Atom comment
  * feed) or 'comments_rss2_url' (RSS 2.0 comment feed).
  *
- * There are many other options and you should check the function contents:
- * {@source 32 37}
- *
  * @since 0.71
  *
  * @param string $show Blog info to retrieve.
  * @param string $filter How to filter what is retrieved.
  * @return string Mostly string values, might be empty.
  */
-function get_bloginfo($show = '', $filter = 'raw') {
+function get_bloginfo( $show = '', $filter = 'raw' ) {
 
-	switch($show) {
-		case 'url' :
+	switch( $show ) {
 		case 'home' : // DEPRECATED
 		case 'siteurl' : // DEPRECATED
+			_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The \'%1$s\' option is deprecated for the family of bloginfo() functions. Use the \'%2$s\' option instead.'), $show, 'url' ) );
+		case 'url' :
 			$output = get_option('home');
 			break;
 		case 'wpurl' :

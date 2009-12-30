@@ -13,7 +13,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
   xmlns="http://www.w3.org/2005/Atom"
   xmlns:thr="http://purl.org/syndication/thread/1.0"
   xml:lang="<?php echo get_option('rss_language'); ?>"
-  xml:base="<?php bloginfo_rss('home') ?>/wp-atom.php"
+  xml:base="<?php bloginfo_rss('url') ?>/wp-atom.php"
   <?php do_action('atom_ns'); ?>
  >
 	<title type="text"><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
@@ -22,7 +22,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
 	<?php the_generator( 'atom' ); ?>
 
-	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('home') ?>" />
+	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('url') ?>" />
 	<id><?php bloginfo('atom_url'); ?></id>
 	<link rel="self" type="application/atom+xml" href="<?php self_link(); ?>" />
 
