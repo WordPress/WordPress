@@ -15,7 +15,7 @@
 	<?php wp_list_categories('title_li=' . __('Categories:')); ?>
  <li id="search">
    <label for="s"><?php _e('Search:'); ?></label>
-   <form id="searchform" method="get" action="<?php bloginfo('home'); ?>">
+   <form id="searchform" method="get" action="<?php bloginfo('url'); ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
 		<input type="submit" value="<?php esc_attr_e('Search'); ?>" />
