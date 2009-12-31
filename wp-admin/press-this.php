@@ -14,23 +14,6 @@ if ( ! current_user_can('edit_posts') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 /**
- * Convert characters.
- *
- * @package WordPress
- * @subpackage Press_This
- * @since 2.6.0
- *
- * @param string $text
- * @return string
- */
-function aposfix($text) {
-	$translation_table[chr(34)] = '&quot;';
-	$translation_table[chr(38)] = '&';
-	$translation_table[chr(39)] = '&apos;';
-	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($text, $translation_table));
-}
-
-/**
  * Press It form handler.
  *
  * @package WordPress
@@ -92,11 +75,17 @@ if ( isset($_REQUEST['action']) && 'post' == $_REQUEST['action'] ) {
 }
 
 // Set Variables
-$title = isset( $_GET['t'] ) ? trim( strip_tags( aposfix( stripslashes( $_GET['t'] ) ) ) ) : '';
-$selection = isset( $_GET['s'] ) ? trim( htmlspecialchars( html_entity_decode( aposfix( stripslashes( $_GET['s'] ) ) ) ) ) : '';
+$title = isset( $_GET['t'] ) ? trim( strip_tags( html_entity_decode( stripslashes( $_GET['t'] ) , ENT_QUOTES) ) ) : '';
+
+$selection = '';
+if ( !empty($_GET['s']) ) {
+	$selection = str_replace('&apos;', "'", stripslashes($_GET['s']));
+	$selection = trim( htmlspecialchars( html_entity_decode($selection, ENT_QUOTES) ) );
+}
+
 if ( ! empty($selection) ) {
 	$selection = preg_replace('/(\r?\n|\r)/', '</p><p>', $selection);
-	$selection = '<p>'.str_replace('<p></p>', '', $selection).'</p>';
+	$selection = '<p>' . str_replace('<p></p>', '', $selection) . '</p>';
 }
 
 $url = isset($_GET['u']) ? esc_url($_GET['u']) : '';
