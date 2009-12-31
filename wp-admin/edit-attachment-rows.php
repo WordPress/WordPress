@@ -96,8 +96,10 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 				$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID) . "'>" . __('Restore') . "</a>";
 			elseif ( EMPTY_TRASH_DAYS && MEDIA_TRASH )
 				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
-			if ( $is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH )
-				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+			if ( $is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH ) {
+				$delete_ays = (!$is_trash && !MEDIA_TRASH) ? " onclick='return showNotice.warn();'" : '';
+				$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+			}
 		}
 		if ( !$is_trash )
 			$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
