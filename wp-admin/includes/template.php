@@ -2263,8 +2263,8 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 					if ( isset( $_comment_pending_count[$post->ID] ) ) {
 						$pending_comments = absint( $_comment_pending_count[$post->ID] );
 					} else {
-						$_comment_pending_count_temp = (array) get_pending_comments_num( array( $post->ID ) );
-						$pending_comments = $_comment_pending_count[$post->ID] = $_comment_pending_count_temp[$post->ID];
+						$_comment_pending_count_temp = get_pending_comments_num( array( $post->ID ) );
+						$pending_comments = $_comment_pending_count[$post->ID] = $_comment_pending_count_temp;
 					}
 					if ( $user_can ) {
 						$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
