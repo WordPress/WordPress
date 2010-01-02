@@ -369,13 +369,15 @@ function load_default_textdomain() {
 function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_path = false ) {
 	$locale = get_locale();
 
-	if ( false !== $plugin_rel_path	)
+	if ( false !== $plugin_rel_path	) {
 		$path = WP_PLUGIN_DIR . '/' . trim( $plugin_rel_path, '/' );
-	else if ( false !== $abs_rel_path )
+	} else if ( false !== $abs_rel_path ) {
+		_deprecated_argument( __FUNCTION__, '2.7' );
 		$path = ABSPATH . trim( $abs_rel_path, '/' );
-	else
+	} else {
 		$path = WP_PLUGIN_DIR;
-
+	}
+	
 	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
 	return load_textdomain( $domain, $mofile );
 }
