@@ -96,13 +96,13 @@ function get_comment_to_edit( $id ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Get the number of pending comments on a post or posts
  *
  * @since unknown
  * @uses $wpdb
  *
- * @param int $post_id Post ID
- * @return unknown
+ * @param int|array $post_id Either a single Post ID or an array of Post IDs
+ * @return int|array Either a single Posts pending comments as an int or an array of ints keyed on the Post IDs
  */
 function get_pending_comments_num( $post_id ) {
 	global $wpdb;
