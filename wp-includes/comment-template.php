@@ -967,7 +967,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	echo '<a href="';
 	if ( $wpcommentsjavascript ) {
 		if ( empty( $wpcommentspopupfile ) )
-			$home = get_option('home');
+			$home = home_url();
 		else
 			$home = get_option('siteurl');
 		echo $home . '/' . $wpcommentspopupfile . '?comments_popup=' . $id;

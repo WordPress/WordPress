@@ -150,11 +150,11 @@ function get_permalink($id = 0, $leavename = false) {
 			$author,
 			$post->post_name,
 		);
-		$permalink = get_option('home') . str_replace($rewritecode, $rewritereplace, $permalink);
+		$permalink = home_url( str_replace($rewritecode, $rewritereplace, $permalink) );
 		$permalink = user_trailingslashit($permalink, 'single');
 		return apply_filters('post_link', $permalink, $post, $leavename);
 	} else { // if they're not using the fancy permalink option
-		$permalink = trailingslashit(get_option('home')) . '?p=' . $post->ID;
+		$permalink = home_url('?p=' . $post->ID);
 		return apply_filters('post_link', $permalink, $post, $leavename);
 	}
 }
@@ -195,7 +195,7 @@ function get_page_link( $id = false, $leavename = false, $sample = false ) {
 		$id = (int) $post->ID;
 
 	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
-		$link = get_option('home');
+		$link = home_url();
 	else
 		$link = _get_page_link( $id , $leavename, $sample );
 
@@ -228,10 +228,10 @@ function _get_page_link( $id = false, $leavename = false, $sample = false ) {
 	if ( '' != $pagestruct && ( ( isset($post->post_status) && 'draft' != $post->post_status && 'pending' != $post->post_status ) || $sample ) ) {
 		$link = get_page_uri($id);
 		$link = ( $leavename ) ? $pagestruct : str_replace('%pagename%', $link, $pagestruct);
-		$link = trailingslashit(get_option('home')) . $link;
+		$link = home_url($link);
 		$link = user_trailingslashit($link, 'page');
 	} else {
-		$link = trailingslashit(get_option('home')) . "?page_id=$id";
+		$link = home_url("?page_id=$id");
 	}
 
 	return apply_filters( '_get_page_link', $link, $id );
@@ -293,9 +293,9 @@ function get_year_link($year) {
 	$yearlink = $wp_rewrite->get_year_permastruct();
 	if ( !empty($yearlink) ) {
 		$yearlink = str_replace('%year%', $year, $yearlink);
-		return apply_filters('year_link', get_option('home') . user_trailingslashit($yearlink, 'year'), $year);
+		return apply_filters('year_link', home_url( user_trailingslashit($yearlink, 'year') ), $year);
 	} else {
-		return apply_filters('year_link', trailingslashit(get_option('home')) . '?m=' . $year, $year);
+		return apply_filters('year_link', home_url('?m=' . $year), $year);
 	}
 }
 
@@ -318,9 +318,9 @@ function get_month_link($year, $month) {
 	if ( !empty($monthlink) ) {
 		$monthlink = str_replace('%year%', $year, $monthlink);
 		$monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-		return apply_filters('month_link', get_option('home') . user_trailingslashit($monthlink, 'month'), $year, $month);
+		return apply_filters('month_link', home_url( user_trailingslashit($monthlink, 'month') ), $year, $month);
 	} else {
-		return apply_filters('month_link', trailingslashit(get_option('home')) . '?m=' . $year . zeroise($month, 2), $year, $month);
+		return apply_filters('month_link', home_url( '?m=' . $year . zeroise($month, 2) ), $year, $month);
 	}
 }
 
@@ -348,9 +348,9 @@ function get_day_link($year, $month, $day) {
 		$daylink = str_replace('%year%', $year, $daylink);
 		$daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
 		$daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-		return apply_filters('day_link', get_option('home') . user_trailingslashit($daylink, 'day'), $year, $month, $day);
+		return apply_filters('day_link', home_url( user_trailingslashit($daylink, 'day') ), $year, $month, $day);
 	} else {
-		return apply_filters('day_link', trailingslashit(get_option('home')) . '?m=' . $year . zeroise($month, 2) . zeroise($day, 2), $year, $month, $day);
+		return apply_filters('day_link', home_url( '?m=' . $year . zeroise($month, 2) . zeroise($day, 2) ), $year, $month, $day);
 	}
 }
 
@@ -377,7 +377,7 @@ function get_feed_link($feed = '') {
 
 		$permalink = str_replace('%feed%', $feed, $permalink);
 		$permalink = preg_replace('#/+#', '/', "/$permalink");
-		$output =  get_option('home') . user_trailingslashit($permalink, 'feed');
+		$output =  home_url( user_trailingslashit($permalink, 'feed') );
 	} else {
 		if ( empty($feed) )
 			$feed = get_default_feed();
@@ -385,7 +385,7 @@ function get_feed_link($feed = '') {
 		if ( false !== strpos($feed, 'comments_') )
 			$feed = str_replace('comments_', 'comments-', $feed);
 
-		$output = trailingslashit(get_option('home')) . "?feed={$feed}";
+		$output = home_url("?feed={$feed}");
 	}
 
 	return apply_filters('feed_link', $output, $feed);
@@ -417,9 +417,9 @@ function get_post_comments_feed_link($post_id = '', $feed = '') {
 	} else {
 		$type = get_post_field('post_type', $post_id);
 		if ( 'page' == $type )
-			$url = trailingslashit(get_option('home')) . "?feed=$feed&amp;page_id=$post_id";
+			$url = home_url("?feed=$feed&amp;page_id=$post_id");
 		else
-			$url = trailingslashit(get_option('home')) . "?feed=$feed&amp;p=$post_id";
+			$url = home_url("?feed=$feed&amp;p=$post_id");
 	}
 
 	return apply_filters('post_comments_feed_link', $url);
@@ -471,7 +471,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 		$feed = get_default_feed();
 
 	if ( '' == $permalink_structure ) {
-		$link = trailingslashit(get_option('home')) . "?feed=$feed&amp;author=" . $author_id;
+		$link = home_url("?feed=$feed&amp;author=" . $author_id);
 	} else {
 		$link = get_author_posts_url($author_id);
 		if ( $feed == get_default_feed() )
@@ -515,7 +515,7 @@ function get_category_feed_link($cat_id, $feed = '') {
 	$permalink_structure = get_option('permalink_structure');
 
 	if ( '' == $permalink_structure ) {
-		$link = trailingslashit(get_option('home')) . "?feed=$feed&amp;cat=" . $cat_id;
+		$link = home_url("?feed=$feed&amp;cat=" . $cat_id);
 	} else {
 		$link = get_category_link($cat_id);
 		if( $feed == get_default_feed() )
@@ -554,7 +554,7 @@ function get_tag_feed_link($tag_id, $feed = '') {
 		$feed = get_default_feed();
 
 	if ( '' == $permalink_structure ) {
-		$link = trailingslashit(get_option('home')) . "?feed=$feed&amp;tag=" . $tag->slug;
+		$link = home_url("?feed=$feed&amp;tag=" . $tag->slug);
 	} else {
 		$link = get_tag_link($tag->term_id);
 		if ( $feed == get_default_feed() )
@@ -629,7 +629,7 @@ function get_search_feed_link($search_query = '', $feed = '') {
 	if ( empty($feed) )
 		$feed = get_default_feed();
 
-	$link = trailingslashit(get_option('home')) . "?s=$search&amp;feed=$feed";
+	$link = home_url("?s=$search&amp;feed=$feed");
 
 	$link = apply_filters('search_feed_link', $link);
 
@@ -654,7 +654,7 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 	if ( empty($feed) )
 		$feed = get_default_feed();
 
-	$link = trailingslashit(get_option('home')) . "?s=$search&amp;feed=comments-$feed";
+	$link = home_url("?s=$search&amp;feed=comments-$feed");
 
 	$link = apply_filters('search_feed_link', $link);
 
@@ -1275,7 +1275,7 @@ function get_pagenum_link($pagenum = 1) {
 
 	$request = remove_query_arg( 'paged' );
 
-	$home_root = parse_url(get_option('home'));
+	$home_root = parse_url(home_url());
 	$home_root = ( isset($home_root['path']) ) ? $home_root['path'] : '';
 	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
 
@@ -1706,6 +1706,31 @@ function get_shortcut_link() {
 	$link = str_replace(array("\r", "\n", "\t"),  '', $link);
 
 	return apply_filters('shortcut_link', $link);
+}
+
+/**
+ * Retrieve the home url.
+ *
+ * Returns the 'home' option with the appropriate protocol,  'https' if
+ * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
+ * overridden.
+ *
+ * @package WordPress
+ * @since 3.0
+ *
+ * @param  string $path   (optional) Path relative to the home url.
+ * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
+ * @return string Home url link with optional path appended.
+*/
+function home_url( $path = '', $scheme = null ) {
+	$orig_scheme = $scheme;
+	$scheme      = is_ssl() && !is_admin() ? 'https' : 'http';
+	$url = str_replace( 'http://', "$scheme://", get_option('home') );
+
+	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+		$url .= '/' . ltrim( $path, '/' );
+
+	return apply_filters( 'home_url', $url, $path, $orig_scheme );
 }
 
 /**

@@ -475,7 +475,7 @@ function prep_atom_text_construct($data) {
  * @since 2.5
  */
 function self_link() {
-	$host = @parse_url(get_option('home'));
+	$host = @parse_url(home_url());
 	$host = $host['host'];
 	echo esc_url(
 		'http'

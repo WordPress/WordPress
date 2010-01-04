@@ -121,7 +121,7 @@ function get_search_form() {
 		return;
 	}
 
-	$form = '<form role="search" method="get" id="searchform" action="' . get_option('home') . '/" >
+	$form = '<form role="search" method="get" id="searchform" action="' . home_url() . '/" >
 	<div><label class="screen-reader-text" for="s">' . __('Search for:') . '</label>
 	<input type="text" value="' . esc_attr(apply_filters('the_search_query', get_search_query())) . '" name="s" id="s" />
 	<input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" />
@@ -301,7 +301,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 		case 'siteurl' : // DEPRECATED
 			_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The \'%1$s\' option is deprecated for the family of bloginfo() functions. Use the \'%2$s\' option instead.'), $show, 'url' ) );
 		case 'url' :
-			$output = get_option('home');
+			$output = home_url();
 			break;
 		case 'wpurl' :
 			$output = get_option('siteurl');
@@ -886,7 +886,7 @@ function wp_get_archives($args = '') {
 						$arc_week = get_weekstartend($arcresult->yyyymmdd, get_option('start_of_week'));
 						$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 						$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-						$url  = sprintf('%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', get_option('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
+						$url  = sprintf('%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						if ($show_post_count)
 							$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;

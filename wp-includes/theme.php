@@ -1098,7 +1098,7 @@ function preview_theme_ob_filter_callback( $matches ) {
 	if (
 		( false !== strpos($matches[3], '/wp-admin/') )
 	||
-		( false !== strpos($matches[3], '://') && 0 !== strpos($matches[3], get_option('home')) )
+		( false !== strpos( $matches[3], '://' ) && 0 !== strpos( $matches[3], home_url() ) )
 	||
 		( false !== strpos($matches[3], '/feed/') )
 	||

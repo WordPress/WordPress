@@ -2246,15 +2246,15 @@ function get_term_link( $term, $taxonomy ) {
 	$slug = $term->slug;
 
 	if ( empty($termlink) ) {
-		$file = trailingslashit( get_option('home') );
 		$t = get_taxonomy($taxonomy);
 		if ( $t->query_var )
-			$termlink = "$file?$t->query_var=$slug";
+			$termlink = "?$t->query_var=$slug";
 		else
-			$termlink = "$file?taxonomy=$taxonomy&term=$slug";
+			$termlink = "?taxonomy=$taxonomy&term=$slug";
+		$termlink = home_url($termlink);
 	} else {
 		$termlink = str_replace("%$taxonomy%", $slug, $termlink);
-		$termlink = get_option('home') . user_trailingslashit($termlink, 'category');
+		$termlink = home_url( user_trailingslashit($termlink, 'category') );
 	}
 	return apply_filters('term_link', $termlink, $term, $taxonomy);
 }

@@ -256,23 +256,23 @@ function url_to_postid($url) {
 	$url = $url_split[0];
 
 	// Add 'www.' if it is absent and should be there
-	if ( false !== strpos(get_option('home'), '://www.') && false === strpos($url, '://www.') )
+	if ( false !== strpos(home_url(), '://www.') && false === strpos($url, '://www.') )
 		$url = str_replace('://', '://www.', $url);
 
 	// Strip 'www.' if it is present and shouldn't be
-	if ( false === strpos(get_option('home'), '://www.') )
+	if ( false === strpos(home_url(), '://www.') )
 		$url = str_replace('://www.', '://', $url);
 
 	// Strip 'index.php/' if we're not using path info permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )
 		$url = str_replace('index.php/', '', $url);
 
-	if ( false !== strpos($url, get_option('home')) ) {
+	if ( false !== strpos($url, home_url()) ) {
 		// Chop off http://domain.com
-		$url = str_replace(get_option('home'), '', $url);
+		$url = str_replace(home_url(), '', $url);
 	} else {
 		// Chop off /path/to/blog
-		$home_path = parse_url(get_option('home'));
+		$home_path = parse_url(home_url());
 		$home_path = $home_path['path'];
 		$url = str_replace($home_path, '', $url);
 	}
@@ -1645,7 +1645,7 @@ class WP_Rewrite {
 			$site_root = trailingslashit($site_root['path']);
 		}
 
-		$home_root = parse_url(get_option('home'));
+		$home_root = parse_url(home_url());
 		if ( isset( $home_root['path'] ) ) {
 			$home_root = trailingslashit($home_root['path']);
 		} else {

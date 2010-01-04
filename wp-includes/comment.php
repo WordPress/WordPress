@@ -78,7 +78,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 		if ( 'trackback' == $comment_type || 'pingback' == $comment_type ) { // check if domain is in blogroll
 			$uri = parse_url($url);
 			$domain = $uri['host'];
-			$uri = parse_url( get_option('home') );
+			$uri = parse_url( home_url() );
 			$home_domain = $uri['host'];
 			if ( $wpdb->get_var($wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_url LIKE (%s) LIMIT 1", '%'.$domain.'%')) || $domain == $home_domain )
 				return true;
@@ -1819,7 +1819,7 @@ function weblog_ping($server = '', $path = '') {
 
 	// when set to true, this outputs debug messages by itself
 	$client->debug = false;
-	$home = trailingslashit( get_option('home') );
+	$home = trailingslashit( home_url() );
 	if ( !$client->query('weblogUpdates.extendedPing', get_option('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
 		$client->query('weblogUpdates.ping', get_option('blogname'), $home);
 }

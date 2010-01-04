@@ -32,7 +32,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<link rel="self" type="application/atom+xml" href="<?php echo get_post_comments_feed_link('', 'atom'); ?>" />
 	<id><?php echo get_post_comments_feed_link('', 'atom'); ?></id>
 <?php } elseif(is_search()) { ?>
-	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php echo get_option('home') . '?s=' . esc_attr(get_search_query()); ?>" />
+	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php echo home_url() . '?s=' . esc_attr(get_search_query()); ?>" />
 	<link rel="self" type="application/atom+xml" href="<?php echo get_search_comments_feed_link('', 'atom'); ?>" />
 	<id><?php echo get_search_comments_feed_link('', 'atom'); ?></id>
 <?php } else { ?>

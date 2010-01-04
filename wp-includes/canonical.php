@@ -198,7 +198,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect = @parse_url($redirect_url);
 
 	// www.example.com vs example.com
-	$user_home = @parse_url(get_option('home'));
+	$user_home = @parse_url(home_url());
 	if ( !empty($user_home['host']) )
 		$redirect['host'] = $user_home['host'];
 	if ( empty($user_home['path']) )

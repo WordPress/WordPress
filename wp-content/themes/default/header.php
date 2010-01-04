@@ -38,7 +38,7 @@ if ( empty($withcomments) && !is_single() ) {
 
 <div id="header" role="banner">
 	<div id="headerimg">
-		<h1><a href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?></a></h1>
+		<h1><a href="<?php echo home_url(); ?>/"><?php bloginfo('name'); ?></a></h1>
 		<div class="description"><?php bloginfo('description'); ?></div>
 	</div>
 </div>

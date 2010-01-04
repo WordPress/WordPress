@@ -159,7 +159,7 @@ class WP {
 			$req_uri_array = explode('?', $req_uri);
 			$req_uri = $req_uri_array[0];
 			$self = $_SERVER['PHP_SELF'];
-			$home_path = parse_url(get_option('home'));
+			$home_path = parse_url(home_url());
 			if ( isset($home_path['path']) )
 				$home_path = $home_path['path'];
 			else

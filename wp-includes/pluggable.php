@@ -944,7 +944,7 @@ function wp_validate_redirect($location, $default = '') {
 	$test = ( $cut = strpos($location, '?') ) ? substr( $location, 0, $cut ) : $location;
 
 	$lp  = parse_url($test);
-	$wpp = parse_url(get_option('home'));
+	$wpp = parse_url(home_url());
 
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
 
