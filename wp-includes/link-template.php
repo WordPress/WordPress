@@ -678,39 +678,18 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 		return;
 
 	if ( 'display' == $context )
-		$action = 'action=edit&amp;';
+		$action = '&amp;action=edit';
 	else
-		$action = 'action=edit&';
+		$action = '&action=edit';
 
-	switch ( $post->post_type ) :
-	case 'page' :
-		if ( !current_user_can( 'edit_page', $post->ID ) )
-			return;
-		$file = 'page';
-		$var  = 'post';
-		break;
-	case 'attachment' :
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return;
-		$file = 'media';
-		$var  = 'attachment_id';
-		break;
-	case 'revision' :
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return;
-		$file = 'revision';
-		$var  = 'revision';
-		$action = '';
-		break;
-	default :
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return apply_filters( 'get_edit_post_link', '', $post->ID, $context );
-		$file = 'post';
-		$var  = 'post';
-		break;
-	endswitch;
+	$post_type_object = get_post_type_object( $post->post_type ); 
+	if ( !$post_type_object )
+		return;
 
-	return apply_filters( 'get_edit_post_link', admin_url("$file.php?{$action}$var=$post->ID"), $post->ID, $context );
+	if ( !current_user_can( $post_type_object->edit_cap, $post->ID ) )
+		return;
+
+	return apply_filters( 'get_edit_post_link', admin_url( sprintf($post_type_object->_edit_link . $action, $post->ID) ), $post->ID, $context );
 }
 
 /**

@@ -846,12 +846,17 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
+	$post_type_q = 'post_type=post';
+	if ( isset($q['post_type']) && in_array( $q['post_type'], get_post_types( array('_show' => true) ) ) )
+		$post_type_q = 'post_type=' . $q['post_type'];
+
+
 	$posts_per_page = (int) get_user_option( 'edit_per_page', 0, false );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 15;
 	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page );
 
-	wp("post_type=post&$post_status_q&posts_per_page=$posts_per_page&order=$order&orderby=$orderby");
+	wp("$post_type_q&$post_status_q&posts_per_page=$posts_per_page&order=$order&orderby=$orderby");
 
 	return array($post_stati, $avail_post_stati);
 }

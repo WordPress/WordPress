@@ -19,8 +19,18 @@ if ( empty($taxonomy) )
 if ( !is_taxonomy($taxonomy) )
 	wp_die(__('Invalid taxonomy'));
 
-$parent_file = 'edit.php';
-$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
+if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('_show' => true) ) ) )
+	$post_type = $_GET['post_type'];
+else
+	$post_type = 'post';
+
+if ( 'post' != $post_type ) {
+	$parent_file = "edit.php?post_type=$post_type";
+	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&post_type=$post_type";
+} else {
+	$parent_file = 'edit.php';
+	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";	
+}
 
 if ( isset( $_GET['action'] ) && isset($_GET['delete_tags']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )
 	$action = 'bulk-delete';

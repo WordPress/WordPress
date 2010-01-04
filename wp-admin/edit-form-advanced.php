@@ -85,45 +85,46 @@ if ( 0 == $post_ID ) {
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once('includes/meta-boxes.php');
 
-add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', 'post', 'side', 'core');
+add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', $post_type, 'side', 'core');
 
 // all tag-style post taxonomies
-foreach ( get_object_taxonomies('post') as $tax_name ) {
+foreach ( get_object_taxonomies($post_type) as $tax_name ) {
 	if ( !is_taxonomy_hierarchical($tax_name) ) {
 		$taxonomy = get_taxonomy($tax_name);
 		$label = isset($taxonomy->label) ? esc_attr($taxonomy->label) : $tax_name;
 
-		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', 'post', 'side', 'core');
+		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', $post_type, 'side', 'core');
 	}
 }
 
-add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'side', 'core');
-if ( current_theme_supports( 'post-thumbnails', 'post' ) )
-	add_meta_box('postimagediv', __('Post Thumbnail'), 'post_thumbnail_meta_box', 'post', 'side', 'low');
-add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'post', 'normal', 'core');
-add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', 'post', 'normal', 'core');
-add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', 'post', 'normal', 'core');
+if ( is_object_in_taxonomy($post_type, 'category') )
+	add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', $post_type, 'side', 'core');
+if ( current_theme_supports( 'post-thumbnails', $post_type ) )
+	add_meta_box('postimagediv', __('Post Thumbnail'), 'post_thumbnail_meta_box', $post_type, 'side', 'low');
+add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', $post_type, 'normal', 'core');
+add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', $post_type, 'normal', 'core');
+add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', $post_type, 'normal', 'core');
 do_action('dbx_post_advanced');
-add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
+add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', $post_type, 'normal', 'core');
 
 if ( 'publish' == $post->post_status || 'private' == $post->post_status )
-	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', 'post', 'normal', 'core');
+	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', $post_type, 'normal', 'core');
 
 if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) )
-	add_meta_box('slugdiv', __('Post Slug'), 'post_slug_meta_box', 'post', 'normal', 'core');
+	add_meta_box('slugdiv', __('Post Slug'), 'post_slug_meta_box', $post_type, 'normal', 'core');
 
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 )
-	add_meta_box('authordiv', __('Post Author'), 'post_author_meta_box', 'post', 'normal', 'core');
+	add_meta_box('authordiv', __('Post Author'), 'post_author_meta_box', $post_type, 'normal', 'core');
 
 if ( 0 < $post_ID && wp_get_post_revisions( $post_ID ) )
-	add_meta_box('revisionsdiv', __('Post Revisions'), 'post_revisions_meta_box', 'post', 'normal', 'core');
+	add_meta_box('revisionsdiv', __('Post Revisions'), 'post_revisions_meta_box', $post_type, 'normal', 'core');
 
-do_action('do_meta_boxes', 'post', 'normal', $post);
-do_action('do_meta_boxes', 'post', 'advanced', $post);
-do_action('do_meta_boxes', 'post', 'side', $post);
+do_action('do_meta_boxes', $post_type, 'normal', $post);
+do_action('do_meta_boxes', $post_type, 'advanced', $post);
+do_action('do_meta_boxes', $post_type, 'side', $post);
 
 require_once('admin-header.php');
 
@@ -152,7 +153,7 @@ else
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr($form_action) ?>" />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo esc_attr($form_action) ?>" />
 <input type="hidden" id="post_author" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
-<input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr($post->post_type) ?>" />
+<input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr($post_type) ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo esc_attr($post->post_status) ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />
 <?php
@@ -166,7 +167,7 @@ echo $form_extra ?>
 
 <?php do_action('submitpost_box'); ?>
 
-<?php $side_meta_boxes = do_meta_boxes('post', 'side', $post); ?>
+<?php $side_meta_boxes = do_meta_boxes($post_type, 'side', $post); ?>
 </div>
 
 <div id="post-body">
@@ -223,11 +224,11 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
 <?php
 
-do_meta_boxes('post', 'normal', $post);
+do_meta_boxes($post_type, 'normal', $post);
 
 do_action('edit_form_advanced');
 
-do_meta_boxes('post', 'advanced', $post);
+do_meta_boxes($post_type, 'advanced', $post);
 
 do_action('dbx_post_sidebar'); ?>
 

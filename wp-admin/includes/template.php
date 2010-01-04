@@ -3482,7 +3482,7 @@ function _post_states($post) {
 }
 
 function screen_meta($screen) {
-	global $wp_meta_boxes, $_wp_contextual_help;
+	global $wp_meta_boxes, $_wp_contextual_help, $typenow;
 
 	$screen = str_replace('.php', '', $screen);
 	$screen = str_replace('-new', '', $screen);
@@ -3491,6 +3491,12 @@ function screen_meta($screen) {
 
 	$column_screens = get_column_headers($screen);
 	$meta_screens = array('index' => 'dashboard');
+
+	// Give post_type pages their own screen
+	if ( 'post' == $screen ) {
+		if ( !empty($typenow) )
+			$screen = $typenow;
+	}
 
 	if ( isset($meta_screens[$screen]) )
 		$screen = $meta_screens[$screen];
@@ -3675,6 +3681,11 @@ function screen_layout($screen) {
 	global $screen_layout_columns;
 
 	$columns = array('dashboard' => 4, 'post' => 2, 'page' => 2, 'link' => 2);
+
+	// Add custom post types
+	foreach ( get_post_types( array('_show' => true) ) as $post_type )
+		$columns[$post_type] = 2;
+
 	$columns = apply_filters('screen_layout_columns', $columns, $screen);
 
 	if ( !isset($columns[$screen]) ) {
@@ -3754,8 +3765,12 @@ function screen_icon($name = '') {
 	global $parent_file, $hook_suffix;
 
 	if ( empty($name) ) {
-		if ( isset($parent_file) && !empty($parent_file) )
-			$name = substr($parent_file, 0, -4);
+		if ( isset($parent_file) && !empty($parent_file) ) {
+			$name = $parent_file;
+			if ( false !== $pos = strpos($name, '?post_type=') )
+				$name = substr($name, 0, $pos);
+			$name = substr($name, 0, -4);
+		}
 		else
 			$name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
 	}

@@ -126,6 +126,7 @@ case 'edit':
 	}
 	$post_ID = $p = (int) $_GET['post'];
 	$post = get_post($post_ID);
+	$post_type_object = get_post_type_object($post->post_type);
 
 	if ( empty($post->ID) )
 		wp_die( __('You attempted to edit a post that doesn&#8217;t exist. Perhaps it was deleted?') );
@@ -136,9 +137,18 @@ case 'edit':
 	if ( 'trash' == $post->post_status )
 		wp_die( __('You can&#8217;t edit this post because it is in the Trash. Please restore it and try again.') );
 
-	if ( 'post' != $post->post_type ) {
+	if ( null == $post_type_object )
+		wp_die( __('Unknown post type.') );
+
+	if ( 'post' != $post->post_type && $post_type_object->_builtin ) {
 		wp_redirect( get_edit_post_link( $post->ID, 'url' ) );
 		exit();
+	}
+
+	$post_type = $post->post_type;
+	if ( 'post' != $post_type ) {
+		$parent_file = "edit.php?post_type=$post_type";
+		$submenu_file = "edit.php?post_type=$post_type";
 	}
 
 	wp_enqueue_script('post');
@@ -157,7 +167,7 @@ case 'edit':
 		wp_enqueue_script('autosave');
 	}
 
-	$title = __('Edit Post');
+	$title = sprintf(__('Edit %s'), $post_type_object->label);
 	$post = get_post_to_edit($post_ID);
 
 	include('edit-form-advanced.php');

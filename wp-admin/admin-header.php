@@ -35,13 +35,20 @@ else if ( isset($plugin_page) )
 else if ( isset($pagenow) )
 	$hook_suffix = $pagenow;
 
+if ( isset($submenu_file) && (false !== $pos = strpos($submenu_file, 'post_type=')) )
+	$typenow = substr($submenu_file, $pos + 10);
+elseif ( isset($parent_file) && (false !== $pos = strpos($parent_file, 'post_type=')) )
+	$typenow = substr($parent_file, $pos + 10);
+else
+	$typenow = '';
+
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
-var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = '<?php echo substr($pagenow, 0, -4); ?>', adminpage = '<?php echo $admin_body_class; ?>',  thousandsSeparator = '<?php echo $wp_locale->number_format['thousands_sep']; ?>', decimalPoint = '<?php echo $wp_locale->number_format['decimal_point']; ?>';
+var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = '<?php echo substr($pagenow, 0, -4); ?>', typenow = '<?php echo $typenow; ?>', adminpage = '<?php echo $admin_body_class; ?>',  thousandsSeparator = '<?php echo $wp_locale->number_format['thousands_sep']; ?>', decimalPoint = '<?php echo $wp_locale->number_format['decimal_point']; ?>';
 //]]>
 </script>
 <?php

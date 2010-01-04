@@ -15,10 +15,10 @@
  * Creates the initial post types when 'init' action is fired.
  */
 function create_initial_post_types() {
-	register_post_type( 'post', array('exclude_from_search' => false) );
-	register_post_type( 'page', array('exclude_from_search' => false) );
-	register_post_type( 'attachment', array('exclude_from_search' => false) );
-	register_post_type( 'revision', array('exclude_from_search' => true) );
+	register_post_type( 'post', array('label' => __('Posts'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false) );
+	register_post_type( 'page', array('label' => __('Pages'),'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'page.php?post=%d', 'capability_type' => 'page', 'hierarchical' => true) );
+	register_post_type( 'attachment', array('label' => __('Media'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'media.php?attachment_id=%d', 'capability_type' => 'post', 'hierarchical' => false) );
+	register_post_type( 'revision', array('label' => __('Revisions'),'exclude_from_search' => true, '_builtin' => true, '_edit_link' => 'revision.php?revision=%d', 'capability_type' => 'post', 'hierarchical' => false) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
@@ -442,6 +442,28 @@ function get_post_type($post = false) {
 }
 
 /**
+ * Retrieve a post type object by name
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 3.0
+ * @uses $wp_post_types
+ * @see register_post_type
+ * @see get_post_types
+ *
+ * @param string $post_type The name of a registered post type
+ * @return object A post type object
+ */
+function get_post_type_object( $post_type ) {
+	global $wp_post_types;
+
+	if ( empty($wp_post_types[$post_type]) )
+		return null;
+
+	return $wp_post_types[$post_type];
+}
+
+/**
  * Get a list of all registered post type objects.
  *
  * @package WordPress
@@ -491,7 +513,12 @@ function get_post_types( $args = array(), $output = 'names' ) {
  *
  * Optional $args contents:
  *
+ * label - A descriptive name for the post type marked for translation. Defaults to $post_type.
+ * public - Whether posts of this type should be shown in the admin UI. Defaults to true.
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true.
+ * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
+ * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
+ * hierarchical - Whether the post type is hierarchical. Defaults to false.
  *
  * @package WordPress
  * @subpackage Post
@@ -507,12 +534,31 @@ function register_post_type($post_type, $args = array()) {
 	if (!is_array($wp_post_types))
 		$wp_post_types = array();
 
-	$defaults = array('exclude_from_search' => true);
+	// Args prefixed with an underscore are reserved for internal use.
+	$defaults = array('label' => false, 'exclude_from_search' => true, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false);
 	$args = wp_parse_args($args, $defaults);
+	$args = (object) $args;
 
 	$post_type = sanitize_user($post_type, true);
-	$args['name'] = $post_type;
-	$wp_post_types[$post_type] = (object) $args;
+	$args->name = $post_type;
+
+	if ( false === $args->label )
+		$args->label = $post_type;
+
+	if ( empty($args->capability_type) ) {
+		$args->edit_cap = '';
+		$args->read_cap = '';
+	} else {
+		$args->edit_cap = 'edit_' . $args->capability_type;
+		$args->read_cap = 'read_' . $args->capability_type;
+	}
+
+	if ( !$args->_builtin && $args->public )
+		$args->_show = true;
+
+	$wp_post_types[$post_type] = $args;
+
+	return $args;
 }
 
 /**
@@ -1018,7 +1064,8 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
-		if ( !current_user_can("read_private_{$type}s") ) {
+		$post_type_object = get_post_type_object($type);
+		if ( !current_user_can("read_private_{$post_type_object->capability_type}s") ) {
 			$cache_key .= '_' . $perm . '_' . $user->ID;
 			$query .= " AND (post_status != 'private' OR ( post_author = '$user->ID' AND post_status = 'private' ))";
 		}

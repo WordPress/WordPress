@@ -745,14 +745,15 @@ function get_admin_page_parent( $parent = '' ) {
 			$parent = $_wp_real_parent_file[$parent];
 		return $parent;
 	}
-/*
+
+	/*
 	if ( !empty ( $parent_file ) ) {
 		if ( isset( $_wp_real_parent_file[$parent_file] ) )
 			$parent_file = $_wp_real_parent_file[$parent_file];
 
 		return $parent_file;
 	}
-*/
+	*/
 
 	if ( $pagenow == 'admin.php' && isset( $plugin_page ) ) {
 		foreach ( (array)$menu as $parent_menu ) {
@@ -782,7 +783,7 @@ function get_admin_page_parent( $parent = '' ) {
 		foreach ( $submenu[$parent] as $submenu_array ) {
 			if ( isset( $_wp_real_parent_file[$parent] ) )
 				$parent = $_wp_real_parent_file[$parent];
-			if ( $submenu_array[2] == $pagenow ) {
+			if ( $submenu_array[2] == $pagenow && ( empty($parent_file) || false === strpos($parent_file, '?') ) ) {
 				$parent_file = $parent;
 				return $parent;
 			} else

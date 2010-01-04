@@ -2062,8 +2062,13 @@ class WP_Query {
 
 		if ( is_array($post_type) )
 			$post_type_cap = 'multiple_post_type';
-		else
-			$post_type_cap = $post_type;
+		else {
+			$post_type_object = get_post_type_object ( $post_type );
+			if ( !empty($post_type_object) )
+				$post_type_cap = $post_type_object->capability_type; 
+			else
+				$post_type_cap = $post_type;
+		}
 
 		$exclude_post_types = '';
 		foreach ( get_post_types( array('exclude_from_search' => true) ) as $_wp_post_type )

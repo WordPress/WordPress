@@ -20,17 +20,34 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 	unset( $_redirect );
 }
 
+if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('_show' => true) ) ) )
+	$post_type = $_GET['post_type'];
+else
+	$post_type = 'post';
+
+$post_type_object = get_post_type_object($post_type);
+
+if ( 'post' != $post_type ) {
+	$parent_file = "edit.php?post_type=$post_type";
+	$submenu_file = "edit.php?post_type=$post_type";
+	$post_new_file = "post-new.php?post_type=$post_type";
+} else {
+	$parent_file = 'edit.php';
+	$submenu_file = 'edit.php';
+	$post_new_file = 'post-new.php';
+}
+
 // Handle bulk actions
 if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) || isset($_GET['bulk_edit']) ) {
 	check_admin_referer('bulk-posts');
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
 
 	if ( strpos($sendback, 'post.php') !== false )
-		$sendback = admin_url('post-new.php');
+		$sendback = admin_url($post_new_file);
 
 	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 		$post_status = preg_replace('/[^a-z0-9_-]+/i', '', $_GET['post_status']);
-		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='post' AND post_status = %s", $post_status ) );
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_status = %s", $post_type, $post_status ) );
 		$doaction = 'delete';
 	} elseif ( ( $_GET['action'] != -1 || $_GET['action2'] != -1 ) && ( isset($_GET['post']) || isset($_GET['ids']) ) ) {
 		$post_ids = isset($_GET['post']) ? array_map( 'intval', (array) $_GET['post'] ) : explode(',', $_GET['ids']);
@@ -107,14 +124,13 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 	 exit;
 }
 
-if ( empty($title) )
-	$title = __('Edit Posts');
-$parent_file = 'edit.php';
+$title = sprintf(__('Edit %s'), $post_type_object->label);
+
 wp_enqueue_script('inline-edit-post');
 
 $user_posts = false;
 if ( !current_user_can('edit_others_posts') ) {
-	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = 'post' AND post_status != 'trash' AND post_author = %d", $current_user->ID) );
+	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = '%s' AND post_status != 'trash' AND post_author = %d", $post_type, $current_user->ID) );
 	$user_posts = true;
 	if ( $user_posts_count && empty($_GET['post_status']) && empty($_GET['all_posts']) && empty($_GET['author']) )
 		$_GET['author'] = $current_user->ID;
@@ -134,7 +150,7 @@ else
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="post-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'post'); ?></a> <?php
+<h2><?php echo esc_html( $title ); ?> <a href="<?php echo $post_new_file ?>" class="button add-new-h2"><?php echo esc_html_x('Add New', 'post'); ?></a> <?php
 if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
 </h2>
@@ -188,7 +204,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 <?php
 if ( empty($locked_post_status) ) :
 $status_links = array();
-$num_posts = wp_count_posts( 'post', 'readable' );
+$num_posts = wp_count_posts( $post_type, 'readable' );
 $class = '';
 $allposts = '';
 
@@ -215,7 +231,7 @@ foreach ( $post_stati as $status => $label ) {
 	if ( isset($_GET['post_status']) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href='edit.php?post_status=$status'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
+	$status_links[] = "<li><a href='edit.php?post_status=$status&amp;post_type=$post_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
 echo implode( " |</li>\n", $status_links ) . '</li>';
 unset( $status_links );
@@ -230,6 +246,7 @@ endif;
 </p>
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_GET['post_status']) ? esc_attr($_GET['post_status']) : 'all'; ?>" />
+<input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
 <input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 
 <?php if ( have_posts() ) { ?>
@@ -267,7 +284,7 @@ $is_trash = isset($_GET['post_status']) && $_GET['post_status'] == 'trash';
 
 <?php // view filters
 if ( !is_singular() ) {
-$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
+$arc_query = $wpdb->prepare("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = %s ORDER BY post_date DESC", $post_type);
 
 $arc_result = $wpdb->get_results( $arc_query );
 

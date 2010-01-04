@@ -8,8 +8,24 @@
 
 /** Load WordPress Administration Bootstrap */
 require_once('admin.php');
-$title = __('Add New Post');
-$parent_file = 'edit.php';
+
+if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('_show' => true) ) ) )
+	$post_type = $_GET['post_type'];
+else
+	$post_type = 'post';
+
+if ( 'post' != $post_type ) {
+	$parent_file = "edit.php?post_type=$post_type";
+	$submenu_file = "post-new.php?post_type=$post_type";
+} else {
+	$parent_file = 'edit.php';
+	$submenu_file = 'post-new.php';
+}
+
+$post_type_object = get_post_type_object($post_type);
+
+$title = sprintf(__('Add New %s'), $post_type_object->label);
+
 $editing = true;
 wp_enqueue_script('autosave');
 wp_enqueue_script('post');
@@ -34,6 +50,7 @@ When you&#8217;re promoted, just reload this page and you&#8217;ll be able to bl
 
 // Show post form.
 $post = get_default_post_to_edit();
+$post->post_type = $post_type;
 include('edit-form-advanced.php');
 
 include('admin-footer.php');
