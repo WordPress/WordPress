@@ -1210,7 +1210,7 @@ function wp_post_revision_title( $revision, $link = true ) {
 	/* translators: 1: date */
 	$currentf  = __( '%1$s [Current Revision]' );
 
-	$date = date_i18n( $datef, strtotime( $revision->post_modified_gmt . ' +0000' ) );
+	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
 		$date = "<a href='$link'>$date</a>";
 
