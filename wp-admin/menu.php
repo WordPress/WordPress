@@ -101,7 +101,8 @@ $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	if ( !is_multisite() )
 		$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
-	$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
+	if ( is_super_admin() )
+		$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 
 $update_plugins = get_transient( 'update_plugins' );
 $update_count = 0;
