@@ -1062,4 +1062,33 @@ function remove_role( $role ) {
 	return $wp_roles->remove_role( $role );
 }
 
+/**
+ * Determine if user is a site admin.
+ *
+ * @since 3.0
+ *
+ * @param int $user_id (Optional) The ID of a user. Defaults to the current user.
+ * @return bool True if the user is a site admin.
+ */
+function is_super_admin( $user_id = false ) {
+	global $current_user;
+
+	if ( !$current_user && !$user_id )
+		return false;
+
+	if ( !$user_id )
+		$user_id = $current_user->id;
+
+	if ( !$user_id )
+		return false;
+
+	$user = new WP_User($user_id);
+
+	$site_admins = get_site_option( 'site_admins', array('admin') );
+	if ( is_array( $site_admins ) && in_array( $user->user_login, $site_admins ) )
+		return true;
+
+	return false;
+}
+
 ?>

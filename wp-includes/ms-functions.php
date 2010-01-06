@@ -183,25 +183,28 @@ function get_current_user_id() {
 	return $current_user->ID;
 }
 
-function is_site_admin( $user_login = false ) {
-	global $current_user;
+/**
+ * Determine if user is a site admin.
+ *
+ * @deprecated Use {@link is_keymaster()}
+ * 
+ */
+function is_site_admin( $user_login = '' ) {
+	// This function must reside in a file included only if is_multsite() since many plugins
+	// test for its existence to determine if multisite is enabled.
 
-	if ( !$current_user && !$user_login )
-		return false;
-
-	if ( $user_login ) {
-		$user_login = sanitize_user( $user_login );
-	} elseif( isset( $current_user->user_login ) ) {
-		$user_login = $current_user->user_login;
+	if ( empty($user_login) ) {
+		$user_id = get_current_user_id();
+		if ( !$user_id )
+			return false;
 	} else {
-		return false;
+		$user = new WP_User(null, $user_login);
+		if ( empty($user->id) )
+			return false;
+		$user_id = $user->id;
 	}
 
-	$site_admins = get_site_option( 'site_admins', array('admin') );
-	if( is_array( $site_admins ) && in_array( $user_login, $site_admins ) )
-		return true;
-
-	return false;
+	return is_super_admin($user_id);
 }
 
 /**
