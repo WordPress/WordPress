@@ -1,5 +1,9 @@
 <?php
 require_once('admin.php');
+
+if ( !is_multisite() )
+	wp_die( __('Multisite support is not enabled.') );
+
 if( is_site_admin() == false ) {
 	wp_die( __('You do not have permission to access this page.') );
 }

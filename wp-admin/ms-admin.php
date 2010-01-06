@@ -1,6 +1,9 @@
 <?php
 require_once('admin.php');
 
+if ( !is_multisite() )
+	wp_die( __('Multisite support is not enabled.') );
+
 $title = __('WordPress MU &rsaquo; Admin');
 $parent_file = 'wpmu-admin.php';
 
@@ -11,7 +14,7 @@ add_action( 'admin_head', 'index_css' );
 
 require_once('admin-header.php');
 
-if( is_site_admin() == false ) {
+if ( is_site_admin() == false ) {
 	wp_die( __('You do not have permission to access this page.') );
 }
 

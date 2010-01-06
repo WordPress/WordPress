@@ -323,6 +323,20 @@ function is_admin() {
 	return false;
 }
 
+/**
+ * Whether Multisite support is enabled
+ * 
+ * @since 3.0
+ *
+ * @return bool True if multisite is enabled, false otherwise.
+ */
+function is_multisite() {
+	if ( defined('MULTISITE') )
+		return true;
+
+	return false;
+}
+
 if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 	require_once (WP_CONTENT_DIR . '/object-cache.php');
 	$_wp_using_ext_object_cache = true;
@@ -387,6 +401,11 @@ require (ABSPATH . WPINC . '/shortcodes.php');
 require (ABSPATH . WPINC . '/media.php');
 require (ABSPATH . WPINC . '/http.php');
 require (ABSPATH . WPINC . '/widgets.php');
+
+if ( is_multisite() ) {
+	require_once( ABSPATH . WPINC . '/ms-functions.php' );
+	require_once( ABSPATH . WPINC . '/ms-default-filters.php' );
+}
 
 if ( !defined('WP_CONTENT_URL') )
 	define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up

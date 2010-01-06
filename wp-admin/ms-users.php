@@ -1,6 +1,9 @@
 <?php
 require_once('admin.php');
 
+if ( !is_multisite() )
+	wp_die( __('Multisite support is not enabled.') );
+
 $title = __('WordPress MU &rsaquo; Admin &rsaquo; Users');
 $parent_file = 'wpmu-admin.php';
 

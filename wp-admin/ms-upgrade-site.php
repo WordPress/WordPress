@@ -1,12 +1,16 @@
 <?php
 require_once('admin.php');
+
+if ( !is_multisite() )
+	wp_die( __('Multisite support is not enabled.') );
+
 require_once( ABSPATH . WPINC . '/http.php' );
 
 $title = __('WordPress MU &rsaquo; Admin &rsaquo; Upgrade Site');
 $parent_file = 'wpmu-admin.php';
 require_once('admin-header.php');
 
-if( is_site_admin() == false ) {
+if ( is_site_admin() == false ) {
     wp_die( __('You do not have permission to access this page.') );
 }
 
