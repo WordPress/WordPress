@@ -551,22 +551,6 @@ add_action( 'admin_page_access_denied', 'redirect_user_to_blog', 99 );
 function wpmu_menu() {
 	global $menu, $submenu, $current_user;
 
-	if( is_site_admin() ) {
-		$menu[1] = array( '', 'read', '', '', 'wp-menu-separator' );
-		$menu[2] = array(__('Site Admin'), '10', 'wpmu-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
-		$submenu[ 'wpmu-admin.php' ][1] = array( __('Admin'), '10', 'wpmu-admin.php' );
-		$submenu[ 'wpmu-admin.php' ][5] = array( __('Blogs'), '10', 'wpmu-blogs.php' );
-		$submenu[ 'wpmu-admin.php' ][10] = array( __('Users'), '10', 'wpmu-users.php' );
-		$submenu[ 'wpmu-admin.php' ][20] = array( __('Themes'), '10', 'wpmu-themes.php' );
-		$submenu[ 'wpmu-admin.php' ][25] = array( __('Options'), '10', 'wpmu-options.php' );
-		$submenu[ 'wpmu-admin.php' ][30] = array( __('Upgrade'), '10', 'wpmu-upgrade-site.php' );
-	}
-
-	if( !is_site_admin() )
-		unset( $submenu['plugins.php'][10] ); // always remove the plugin installer for regular users
-	unset( $submenu['plugins.php'][15] ); // always remove the plugin editor
-	unset( $submenu['themes.php'][10] ); // always remove the themes editor
-
 	$menu_perms = get_site_option( "menu_items" );
 	if( is_array( $menu_perms ) == false )
 		$menu_perms = array();
