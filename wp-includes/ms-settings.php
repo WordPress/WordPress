@@ -2,7 +2,7 @@
 if( isset( $current_site ) && isset( $current_blog ) )
 	return;
 
-// depreciated
+// deprecated
 $wpmuBaseTablePrefix = $table_prefix;
 
 $domain = addslashes( $_SERVER['HTTP_HOST'] );
