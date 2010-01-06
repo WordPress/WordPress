@@ -1084,9 +1084,14 @@ function is_super_admin( $user_id = false ) {
 
 	$user = new WP_User($user_id);
 
-	$site_admins = get_site_option( 'site_admins', array('admin') );
-	if ( is_array( $site_admins ) && in_array( $user->user_login, $site_admins ) )
-		return true;
+	if ( is_multisite() ) {
+		$site_admins = get_site_option( 'site_admins', array('admin') );
+		if ( is_array( $site_admins ) && in_array( $user->user_login, $site_admins ) )
+			return true;
+	} else {
+		if ( $user->has_cap('delete_users') )
+			return true;
+	}
 
 	return false;
 }
