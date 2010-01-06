@@ -3257,36 +3257,112 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 function get_site_option( $key, $default = false, $use_cache = true ) {
+	global $wpdb;
+
 	// Allow plugins to short-circuit site options.
  	$pre = apply_filters( 'pre_site_option_' . $key, false );
  	if ( false !== $pre )
  		return $pre;
 
- 	$value = get_option($key, $default);
+	if ( !is_multisite() ) {
+		$value = get_option($key, $default);
+	} else {
+		$cache_key = "{$wpdb->siteid}:$key";
+
+		if ( $use_cache == true && $value = wp_cache_get($cache_key, 'site-options') )
+			return $value;
+
+		$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid) );
+
+		if ( is_null($value) )
+			$value = $default;
+
+		$value = maybe_unserialize( $value );
+
+		wp_cache_set( $cache_key, $value, 'site-options' );
+	}
 
  	return apply_filters( 'site_option_' . $key, $value );
 }
 
 // expects $key, $value not to be SQL escaped
 function add_site_option( $key, $value ) {
+	global $wpdb;
+
 	$value = apply_filters( 'pre_add_site_option_' . $key, $value );
-	$result =  add_option($key, $value);
+
+	if ( !is_multisite() ) {
+		$result =  add_option($key, $value);
+	} else {
+		$cache_key = "{$wpdb->siteid}:$key";
+
+		if ( $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid ) ) )
+			return update_site_option( $key, $value );
+
+		$value = sanitize_option( $key, $value );
+		wp_cache_set( $cache_key, $value, 'site-options');
+
+		$value = maybe_serialize($value);
+
+		$wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $key, 'meta_value' => $value) );
+	}
+
 	do_action( "add_site_option_{$key}", $key, $value );
+	do_action( "add_site_option", $key, $value );
+
 	return $result;
 }
 
 function delete_site_option( $key ) {
-	$result = delete_option($key);
+	global $wpdb;
+
+	//wpmu_protect_special_option( $key ); @todo
+
+	do_action( 'pre_delete_site_option_' . $key );
+
+	if ( !is_multisite() ) {
+		$result = delete_option($key);
+	} else {
+		$option = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid ) );
+		if ( is_null( $option ) || !$option->meta_id )
+			return false;
+		$cache_key = "{$wpdb->siteid}:$key";
+		wp_cache_delete( $cache_key, 'site-options' );
+
+		$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid ) );
+	}
+
 	do_action( "delete_site_option_{$key}", $key );
+	do_action( "delete_site_option", $key );
 	return $result;
 }
 
 // expects $key, $value not to be SQL escaped
 function update_site_option( $key, $value ) {
+	global $wpdb;
+
 	$oldvalue = get_site_option( $key );
 	$value = apply_filters( 'pre_update_site_option_' . $key, $value, $oldvalue );
-	$result = update_option($key, $value);
+
+	if ( $value == $oldvalue )
+		return false;
+
+	if ( !is_multisite() ) {
+		$result = update_option($key, $value);
+	} else {
+		$cache_key = "{$wpdb->siteid}:$key";
+
+		if ( $value && !$wpdb->get_row( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid) ) )
+			return add_site_option( $key, $value );
+		$value = sanitize_option( $key, $value );
+		wp_cache_set( $cache_key, $value, 'site-options' );
+
+		$value = maybe_serialize($value);
+		$result = $wpdb->update( $wpdb->sitemeta, array('meta_value' => $value), array('site_id' => $wpdb->siteid, 'meta_key' => $key) );
+	}
+
 	do_action( "update_site_option_{$key}", $key, $value );
+	do_action( "update_site_option", $key, $value );
 	return $result;
 }
 
