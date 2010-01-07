@@ -1470,9 +1470,12 @@ function wp_generate_password($length = 12, $special_chars = true) {
 		$chars .= '!@#$%^&*()';
 
 	$password = '';
-	for ( $i = 0; $i < $length; $i++ )
+	for ( $i = 0; $i < $length; $i++ ) {
 		$password .= substr($chars, wp_rand(0, strlen($chars) - 1), 1);
-	return $password;
+	}
+
+	// random_password filter was previously in random_password function which was deprecated
+	return apply_filters('random_password', $password);
 }
 endif;
 
