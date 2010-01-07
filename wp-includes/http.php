@@ -1816,18 +1816,18 @@ class WP_Http_Encoding {
 	 * @return string|bool False on failure.
 	 */
 	function decompress( $compressed, $length = null ) {
-		$decompressed = WP_Http_Encoding::compatible_gzinflate( $compressed );
 
-		if ( false !== $decompressed )
+		if ( false !== ( $decompressed = @gzinflate( $compressed ) ) )
 			return $decompressed;
 
-		$decompressed = gzuncompress( $compressed );
+		if ( false !== ( $decompressed = WP_Http_Encoding::compatible_gzinflate( $compressed ) ) )
+			return $decompressed;
 
-		if ( false !== $decompressed )
+		if ( false !== ( $decompressed = @gzuncompress( $compressed ) ) )
 			return $decompressed;
 
 		if ( function_exists('gzdecode') ) {
-			$decompressed = gzdecode( $compressed );
+			$decompressed = @gzdecode( $compressed );
 
 			if ( false !== $decompressed )
 				return $decompressed;
@@ -1916,7 +1916,7 @@ class WP_Http_Encoding {
 		if ( is_array( $headers ) ) {
 			if ( array_key_exists('content-encoding', $headers) && ! empty( $headers['content-encoding'] ) )
 				return true;
-		} else if( is_string( $headers ) ) {
+		} else if ( is_string( $headers ) ) {
 			return ( stripos($headers, 'content-encoding:') !== false );
 		}
 
