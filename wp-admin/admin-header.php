@@ -25,6 +25,8 @@ wp_admin_css( 'css/global' );
 wp_admin_css();
 wp_admin_css( 'css/colors' );
 wp_admin_css( 'css/ie' );
+if ( is_multisite() )
+	wp_admin_css( 'css/ms' );
 wp_enqueue_script('utils');
 
 $hook_suffix = '';

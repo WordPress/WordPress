@@ -583,11 +583,6 @@ function check_import_new_users( $permission ) {
 add_filter( 'import_allow_create_users', 'check_import_new_users' );
 // See "import_allow_fetch_attachments" and "import_attachment_size_limit" filters too.
 
-function mu_css() {
-	wp_admin_css( 'css/mu' );
-}
-add_action( 'admin_head', 'mu_css' );
-
 function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 	$flag = false;	
 	$output = array();
