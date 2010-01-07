@@ -6,7 +6,7 @@ if ( !is_multisite() )
 
 require_once( ABSPATH . WPINC . '/http.php' );
 
-$title = __('WordPress MU &rsaquo; Admin &rsaquo; Upgrade Site');
+$title = __('Upgrade Site');
 $parent_file = 'ms-admin.php';
 require_once('admin-header.php');
 

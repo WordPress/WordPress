@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
-$title = __('WordPress MU &rsaquo; Admin &rsaquo; Site Options');
+$title = __('Options');
 $parent_file = 'ms-admin.php';
 
 include('admin-header.php');

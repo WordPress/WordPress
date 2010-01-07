@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
-$title = __('WordPress MU &rsaquo; Admin');
+$title = __('Site Admin');
 $parent_file = 'ms-admin.php';
 
 function index_css() {
@@ -26,7 +26,7 @@ $user_text = sprintf( __ngettext( '%s user', '%s users', $c_users ), number_form
 $blog_text = sprintf( __ngettext( '%s blog', '%s blogs', $c_blogs ), number_format_i18n( $c_blogs ) );
 
 $sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
-$title = __( 'WordPress MU : Admin' );
+$title = __( 'Site Admin' );
 ?>
 
 <div class="wrap">
