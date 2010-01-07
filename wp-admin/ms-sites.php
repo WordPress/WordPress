@@ -79,7 +79,7 @@ switch( $_GET['action'] ) {
 		?>
 		<div class="wrap">
 		<h2><?php _e('Edit Blog'); ?> - <a href='http://<?php echo $details['domain'].$details['path']; ?>'>http://<?php echo $details['domain'].$details['path']; ?></a></h2>
-		<form method="post" action="wpmu-edit.php?action=updateblog"> 
+		<form method="post" action="ms-edit.php?action=updateblog">
 			<?php wp_nonce_field('editblog'); ?>
 			<input type="hidden" name="id" value="<?php echo esc_attr($id) ?>" /> 
 			<div class='metabox-holder' style='width:49%;float:left;'>
@@ -377,7 +377,7 @@ switch( $_GET['action'] ) {
 			<input type="submit" class="button" name="blog_ip" value="<?php esc_attr_e('by IP address') ?>" />
 		</form>
 
-		<form id="form-blog-list" action="wpmu-edit.php?action=allblogs" method="post">
+		<form id="form-blog-list" action="ms-edit.php?action=allblogs" method="post">
 
 		<div class="tablenav">
 			<?php if ( $blog_navigation ) echo "<div class='tablenav-pages'>$blog_navigation</div>"; ?>
@@ -478,21 +478,21 @@ switch( $_GET['action'] ) {
 									$controlActions[]	= "<a href='{$protocol}{$blog['domain']}{$blog['path']}wp-admin/' class='edit'>" . __('Backend') . '</a>';
 									
 									if( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
-										$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
+										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
 									else
-										$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the blog %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
+										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the blog %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
 									
 									if( get_blog_status( $blog['blog_id'], "archived" ) == '1' )
-										$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the blog %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
+										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the blog %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
 									else
-										$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the blog %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
+										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the blog %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
 									
 									if( get_blog_status( $blog['blog_id'], "spam" ) == '1' )
-										$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the blog %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
+										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the blog %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
 									else
-										$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the blog %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
+										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the blog %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
 									
-									$controlActions[]	= '<a class="delete" href="wpmu-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the blog %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
+									$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the blog %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
 									
 									$controlActions[]	= "<a href='http://{$blog['domain']}{$blog['path']}' rel='permalink'>" . __('Visit') . '</a>';
 									?>
@@ -578,7 +578,7 @@ switch( $_GET['action'] ) {
 		<div class="wrap">
 			<a name="form-add-blog"></a>
 			<h2><?php _e('Add Blog') ?></h2>
-			<form method="post" action="wpmu-edit.php?action=addblog">
+			<form method="post" action="ms-edit.php?action=addblog">
 				<?php wp_nonce_field('add-blog') ?>
 				<table class="form-table">
 					<tr class="form-field form-required">

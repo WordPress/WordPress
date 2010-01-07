@@ -111,7 +111,7 @@ if ( $_GET['updated'] == 'true' ) {
 	</form>
 	</div>
 
-	<form id="form-user-list" action='wpmu-edit.php?action=allusers' method='post'>
+	<form id="form-user-list" action='ms-edit.php?action=allusers' method='post'>
 		<div class="tablenav">
 			<?php if ( $user_navigation ) echo "<div class='tablenav-pages'>$user_navigation</div>"; ?>
 
@@ -183,8 +183,8 @@ if ( $_GET['updated'] == 'true' ) {
 							case 'login':
 								$avatar	= get_avatar( $user['user_email'], 32 );
 								$edit	= clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=".$user['ID'] ) );
-								// @todo Make delete link work like delete button with transfering users (in wpmu-edit.php)
-								//$delete	= clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), wp_nonce_url( 'wpmu-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) );
+								// @todo Make delete link work like delete button with transfering users (in ms-edit.php)
+								//$delete	= clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) );
 								?>
 								<td class="username column-username">
 									<?php echo $avatar; ?><strong><a href="<?php echo $edit; ?>" class="edit"><?php echo stripslashes($user['user_login']); ?></a></strong>
@@ -280,7 +280,7 @@ if( apply_filters('show_adduser_fields', true) ) :
 ?>
 <div class="wrap">
 	<h2><?php _e('Add user') ?></h2>
-	<form action="wpmu-edit.php?action=adduser" method="post">
+	<form action="ms-edit.php?action=adduser" method="post">
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope='row'><?php _e('Username') ?></th>

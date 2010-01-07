@@ -425,7 +425,7 @@ switch( $_GET['action'] ) {
 			</head>
 			<body id="error-page">
 				<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
-				<form action='wpmu-edit.php?action=<?php echo wp_specialchars( $_GET[ 'action2' ] ) ?>' method='post'>
+				<form action='ms-edit.php?action=<?php echo wp_specialchars( $_GET[ 'action2' ] ) ?>' method='post'>
 					<input type='hidden' name='action' value='<?php echo wp_specialchars( $_GET['action2'] ) ?>' />
 					<input type='hidden' name='id' value='<?php echo wp_specialchars( $id ); ?>' />
 					<input type='hidden' name='ref' value='<?php echo $referrer; ?>' />

@@ -143,7 +143,7 @@ function confirm_delete_users( $users ) {
 
 	echo '<p>' . __( 'Transfer posts before deleting users:' ) . '</p>';
 
-	echo '<form action="wpmu-edit.php?action=allusers" method="post">';
+	echo '<form action="ms-edit.php?action=allusers" method="post">';
 	echo '<input type="hidden" name="alluser_transfer_delete" />';
 	wp_nonce_field( 'allusers' );
 	foreach ( (array) $_POST['allusers'] as $key => $val ) {
