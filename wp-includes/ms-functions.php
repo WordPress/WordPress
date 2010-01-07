@@ -2401,7 +2401,7 @@ function filter_SSL( $url) {
 }
 
 function maybe_cancel_post_by_email() {
-	if ( false == defined( 'POST_BY_EMAIL' ) ) {
+	if ( !defined( 'POST_BY_EMAIL' ) || !POST_BY_EMAIL ) {
 		die( __( 'This action has been disabled by the administrator' ) );
 	}
 }
