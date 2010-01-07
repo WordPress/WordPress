@@ -19,8 +19,6 @@ function create_initial_post_types() {
 	register_post_type( 'page', array('label' => __('Pages'),'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'page.php?post=%d', 'capability_type' => 'page', 'hierarchical' => true) );
 	register_post_type( 'attachment', array('label' => __('Media'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'media.php?attachment_id=%d', 'capability_type' => 'post', 'hierarchical' => false) );
 	register_post_type( 'revision', array('label' => __('Revisions'),'exclude_from_search' => true, '_builtin' => true, '_edit_link' => 'revision.php?revision=%d', 'capability_type' => 'post', 'hierarchical' => false) );
-	add_post_type_support('post', array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments') );
-	add_post_type_support('page', array('post-thumbnails', 'page-attributes', 'custom-fields', 'comments') );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
@@ -561,50 +559,6 @@ function register_post_type($post_type, $args = array()) {
 	$wp_post_types[$post_type] = $args;
 
 	return $args;
-}
-
-/**
- * Register support of certain features for a post type.
- * 
- * @since 3.0
- * @param string $post_type The post type for which to add the feature
- * @param string|array $feature the feature being added, can be an array of feature strings or a single string
- */
-function add_post_type_support( $post_type, $feature ) {
-	global $_wp_post_type_features;
-
-	$features = (array) $feature;
-	foreach ($features as $feature) {
-		if ( func_num_args() == 2 )
-			$_wp_post_type_features[$post_type][$feature] = true;
-		else
-			$_wp_post_type_features[$post_type][$feature] = array_slice( func_get_args(), 2 );
-	}
-}
-
-/**
- * Checks a post type's support for a given feature
- *
- * @since 3.0
- * @param string $post_type The post type being checked
- * @param string $feature the feature being checked
- * @return boolean
- */
-
-function post_type_supports( $post_type, $feature ) {
-	global $_wp_post_type_features;
-
-	if ( !isset( $_wp_post_type_features[$post_type][$feature] ) )
-		return false;
-
-	// If no args passed then no extra checks need be performed
-	if ( func_num_args() <= 2 )
-		return true;
-
-	// @todo Allow pluggable arg checking
-	//$args = array_slice( func_get_args(), 2 );
-
-	return true;
 }
 
 /**
