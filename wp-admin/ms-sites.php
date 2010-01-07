@@ -308,8 +308,8 @@ switch( $_GET['action'] ) {
 
 	// List blogs
 	default:
-		$apage = isset( $_GET['apage'] ) ? intval( $_GET['apage'] ) : 1;
-		$num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 15;
+		$apage = ( isset($_GET['apage'] ) && intval( $_GET['apage'] ) ) ? absint( $_GET['apage'] ) : 1; 
+		$num = ( isset($_GET['num'] ) && intval( $_GET['num'] ) ) ? absint( $_GET['num'] ) : 15; 
 		$s = wp_specialchars( trim( $_GET[ 's' ] ) );
 
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
