@@ -949,10 +949,24 @@ function map_meta_cap( $cap, $user_id ) {
 			$caps[] = 'read_private_pages';
 		break;
 	case 'unfiltered_upload':
-		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS == true )
+		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS == true && ( !is_multisite() || is_super_admin() )  )
 			$caps[] = $cap;
 		else
 			$caps[] = 'do_not_allow';
+		break;
+	case 'unfiltered_html':
+	case 'update_plugins':
+	case 'delete_plugins':
+	case 'install_plugins':
+	case 'edit_plugins':
+	case 'update_themes':
+	case 'install_themes':
+	case 'edit_themes':
+		// If multisite these caps are allowed only for super admins.
+		if ( is_multisite() && !is_super_admin() )
+			$caps[] = 'do_not_allow';
+		else
+			$caps[] = $cap;
 		break;
 	default:
 		// If no meta caps match, return the original cap.
