@@ -1776,7 +1776,7 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 			// catch and repair bad pages
 			if ( $page->post_parent == $page->ID ) {
 				$page->post_parent = 0;
-				$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = '0' WHERE ID = %d", $page->ID) );
+				$wpdb->update($wpdb->posts, array('post_parent' => 0), array('ID' => $page->ID));
 				clean_page_cache( $page->ID );
 			}
 

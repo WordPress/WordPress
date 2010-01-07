@@ -747,7 +747,7 @@ class WP_Import {
 			$local_child_id = $this->post_ids_processed[$child_id];
 			$local_parent_id = $this->post_ids_processed[$parent_id];
 			if ($local_child_id and $local_parent_id) {
-				$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_parent = %d WHERE ID = %d", $local_parent_id, $local_child_id));
+				$wpdb->update($wpdb->posts, array('post_parent' => $local_parent_id), array('ID' => $local_child_id) );
 			}
 		}
 	}

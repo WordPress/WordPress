@@ -3787,7 +3787,7 @@ function wp_save_post_revision( $post_id ) {
 	// all revisions and (possibly) one autosave
 	$revisions = wp_get_post_revisions( $post_id, array( 'order' => 'ASC' ) );
 
-	// WP_POST_REVISIONS = (int) (# of autasaves to save)
+	// WP_POST_REVISIONS = (int) (# of autosaves to save)
 	$delete = count($revisions) - WP_POST_REVISIONS;
 
 	if ( $delete < 1 )
