@@ -25,8 +25,11 @@ function fileQueued(fileObj) {
 }
 
 function uploadStart(fileObj) {
-	if ( typeof topWin.tb_remove != 'undefined' )
-		topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove); 
+	try {
+		if ( typeof topWin.tb_remove != 'undefined' )
+			topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove); 
+	} catch(e){}
+
 	return true;
 }
 
@@ -46,8 +49,10 @@ function prepareMediaItem(fileObj, serverData) {
 	jQuery('.bar', item).remove();
 	jQuery('.progress', item).hide();
 
-	if ( typeof topWin.tb_remove != 'undefined' )
-		topWin.jQuery('#TB_overlay').click(topWin.tb_remove);
+	try {
+		if ( typeof topWin.tb_remove != 'undefined' )
+			topWin.jQuery('#TB_overlay').click(topWin.tb_remove);
+	} catch(e){}
 
 	// Old style: Append the HTML returned by the server -- thumbnail and form inputs
 	if ( isNaN(serverData) || !serverData ) {
