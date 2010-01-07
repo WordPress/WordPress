@@ -1124,4 +1124,15 @@ function settings_fields($option_group) {
 	wp_nonce_field("$option_group-options");
 }
 
+/**
+ * Outputs the notice message for multisite regarding activation of plugin page.
+ *
+ * @since 3.0
+ * @return none
+ */
+function _admin_notice_multisite_activate_plugins_page() {
+	$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="ms-options.php#menu">' . __( 'Activate' ) . '</a>' );
+	echo "<div class='error'><p>$message</p></div>";
+}
+
 ?>

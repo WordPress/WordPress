@@ -239,9 +239,7 @@ add_contextual_help('plugins', $help);
 if ( is_multisite() && is_super_admin() ) {
 	$menu_perms = get_site_option('menu_items', array());
 	if ( !$menu_perms['plugins'] ) {
-		$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="ms-options.php#menu">' . __( 'Activate' ) . '</a>' );
-		$message = str_replace( "'", "\'", "<div class='error'><p>$message</p></div>" );
-		add_action( 'admin_notices', create_function( '', "echo '$message';" ) );
+		add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
 	}
 }
 
