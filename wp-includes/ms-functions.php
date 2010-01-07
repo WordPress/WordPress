@@ -105,10 +105,10 @@ function is_main_blog() {
 function get_id_from_blogname( $name ) {
 	global $wpdb, $current_site;
 	$blog_id = wp_cache_get( "get_id_from_blogname_" . $name, 'blog-details' );
-	if( $blog_id )
+	if ( $blog_id )
 		return $blog_id;
 
-	if( constant( 'VHOST' ) == 'yes' ) {
+	if ( defined('VHOST') && constant( 'VHOST' ) == 'yes' ) {
 		$domain = $name . '.' . $current_site->domain;
 		$path = $current_site->path;
 	} else {
