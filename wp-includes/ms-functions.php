@@ -184,30 +184,6 @@ function get_current_user_id() {
 }
 
 /**
- * Determine if user is a site admin.
- *
- * @deprecated Use {@link is_keymaster()}
- *
- */
-function is_site_admin( $user_login = '' ) {
-	// This function must reside in a file included only if is_multsite() since many plugins
-	// test for its existence to determine if multisite is enabled.
-
-	if ( empty($user_login) ) {
-		$user_id = get_current_user_id();
-		if ( !$user_id )
-			return false;
-	} else {
-		$user = new WP_User(null, $user_login);
-		if ( empty($user->id) )
-			return false;
-		$user_id = $user->id;
-	}
-
-	return is_super_admin($user_id);
-}
-
-/**
  * Retrieve option value based on setting name and blog_id.
  *
  * If the option does not exist or does not have a value, then the return value
