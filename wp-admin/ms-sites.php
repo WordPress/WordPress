@@ -317,7 +317,7 @@ switch( $_GET['action'] ) {
 		if( isset($_GET['blog_name']) ) {
 			$query .= " AND ( {$wpdb->blogs}.domain LIKE '%{$s}%' OR {$wpdb->blogs}.path LIKE '%{$s}%' ) ";
 		} elseif( isset($_GET['blog_id']) ) {
-			$query .= " AND   blog_id = '".intval($_GET['s'])."' ";
+			$query .= " AND   blog_id = '". absint( $_GET['blog_id'] )."' ";
 		} elseif( isset($_GET['blog_ip']) ) {
 			$query = "SELECT *
 				FROM {$wpdb->blogs}, {$wpdb->registration_log}
