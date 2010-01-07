@@ -214,11 +214,14 @@ function user_pass_ok($user_login, $user_pass) {
  *
  * @param string $option User option name.
  * @param int $user Optional. User ID.
- * @param bool $check_blog_options Whether to check for an option in the options table if a per-user option does not exist. Default is true.
+ * @param bool $deprecated Use get_option() to check for an option in the options table.
  * @return mixed
  */
-function get_user_option( $option, $user = 0, $check_blog_options = true ) {
+function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	global $wpdb;
+
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '3.0' );
 
 	$option = preg_replace('|[^a-z0-9_]|i', '', $option);
 	if ( empty($user) )
@@ -230,8 +233,6 @@ function get_user_option( $option, $user = 0, $check_blog_options = true ) {
 		$result = $user->{$wpdb->prefix . $option};
 	elseif ( isset( $user->{$option} ) ) // User specific and cross-blog
 		$result = $user->{$option};
-	elseif ( $check_blog_options ) // Blog global
-		$result = get_option( $option );
 	else
 		$result = false;
 

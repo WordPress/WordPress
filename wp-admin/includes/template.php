@@ -983,7 +983,7 @@ function register_column_headers($screen, $columns) {
  */
 function get_hidden_columns($page) {
 	$page = str_replace('.php', '', $page);
-	return (array) get_user_option( 'manage-' . $page . '-columns-hidden', 0, false );
+	return (array) get_user_option( 'manage-' . $page . '-columns-hidden' );
 }
 
 /**
@@ -2987,7 +2987,7 @@ function do_meta_boxes($page, $context, $object) {
 	$i = 0;
 	do {
 		// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
-		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page", 0, false ) ) {
+		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
 			foreach ( $sorted as $box_context => $ids )
 				foreach ( explode(',', $ids) as $id )
 					if ( $id )
@@ -3081,7 +3081,7 @@ function meta_box_prefs($page) {
 }
 
 function get_hidden_meta_boxes($page) {
-	$hidden = (array) get_user_option( "meta-box-hidden_$page", 0, false );
+	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
 
 	// Hide slug boxes by default
 	if ( empty($hidden[0]) ) {
@@ -3737,7 +3737,7 @@ function screen_options($screen) {
 	}
 
 	$option = str_replace( '-', '_', "${screen}_per_page" );
-	$per_page = (int) get_user_option( $option, 0, false );
+	$per_page = (int) get_user_option( $option );
 	if ( empty( $per_page ) || $per_page < 1 ) {
 		if ( 'plugins' == $screen )
 			$per_page = 999;

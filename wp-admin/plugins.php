@@ -354,7 +354,7 @@ $plugins = &$$plugin_array_name;
 //Paging.
 $total_this_page = "total_{$status}_plugins";
 $total_this_page = $$total_this_page;
-$plugins_per_page = (int) get_user_option( 'plugins_per_page', 0, false );
+$plugins_per_page = (int) get_user_option( 'plugins_per_page' );
 if ( empty( $plugins_per_page ) || $plugins_per_page < 1 )
 	$plugins_per_page = 999;
 $plugins_per_page = apply_filters( 'plugins_per_page', $plugins_per_page );

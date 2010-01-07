@@ -166,7 +166,7 @@ $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
 
-$cats_per_page = (int) get_user_option( 'categories_per_page', 0, false );
+$cats_per_page = (int) get_user_option( 'categories_per_page' );
 if ( empty( $cats_per_page ) || $cats_per_page < 1 )
 	$cats_per_page = 20;
 $cats_per_page = apply_filters( 'edit_categories_per_page', $cats_per_page );

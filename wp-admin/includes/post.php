@@ -851,7 +851,7 @@ function wp_edit_posts_query( $q = false ) {
 		$post_type_q = 'post_type=' . $q['post_type'];
 
 
-	$posts_per_page = (int) get_user_option( 'edit_per_page', 0, false );
+	$posts_per_page = (int) get_user_option( 'edit_per_page' );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 15;
 	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page );
@@ -909,7 +909,7 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['cat'] = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$q['post_type'] = 'attachment';
 	$q['post_status'] = isset( $q['status'] ) && 'trash' == $q['status'] ? 'trash' : 'inherit';
-	$media_per_page = (int) get_user_option( 'upload_per_page', 0, false );
+	$media_per_page = (int) get_user_option( 'upload_per_page' );
 	if ( empty( $media_per_page ) || $media_per_page < 1 )
 		$media_per_page = 20;
 	$q['posts_per_page'] = apply_filters( 'upload_per_page', $media_per_page );
@@ -939,7 +939,7 @@ function postbox_classes( $id, $page ) {
 	if ( isset( $_GET['edit'] ) && $_GET['edit'] == $id )
 		return '';
 	$current_user = wp_get_current_user();
-	if ( $closed = get_user_option('closedpostboxes_'.$page, 0, false ) ) {
+	if ( $closed = get_user_option('closedpostboxes_'.$page ) ) {
 		if ( !is_array( $closed ) ) {
 			return '';
 		}

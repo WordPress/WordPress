@@ -134,7 +134,7 @@ if ( ! isset( $_GET['paged'] ) || $_GET['paged'] < 1 )
 
 if ( isset($_GET['detached']) ) {
 
-	$media_per_page = (int) get_user_option( 'upload_per_page', 0, false );
+	$media_per_page = (int) get_user_option( 'upload_per_page' );
 	if ( empty($media_per_page) || $media_per_page < 1 )
 		$media_per_page = 20;
 	$media_per_page = apply_filters( 'upload_per_page', $media_per_page );

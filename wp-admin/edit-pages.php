@@ -228,7 +228,7 @@ endif;
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-$per_page = (int) get_user_option( 'edit_pages_per_page', 0, false );
+$per_page = (int) get_user_option( 'edit_pages_per_page' );
 if ( empty( $per_page ) || $per_page < 1 )
 	$per_page = 20;
 $per_page = apply_filters( 'edit_pages_per_page', $per_page );
