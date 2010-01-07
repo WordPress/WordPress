@@ -10,9 +10,10 @@ $parent_file = 'ms-admin.php';
 wp_enqueue_script( 'admin-forms' );
 
 require_once('admin-header.php');
-if( is_site_admin() == false ) {
-    wp_die( __('You do not have permission to access this page.') );
-}
+
+if ( !is_super_admin() )
+	wp_die( __('You do not have permission to access this page.') );
+
 $id = intval( $_GET['id'] );
 $protocol = is_ssl() ? 'https://' : 'http://';
 

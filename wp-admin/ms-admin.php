@@ -14,9 +14,8 @@ add_action( 'admin_head', 'index_css' );
 
 require_once('admin-header.php');
 
-if ( is_site_admin() == false ) {
+if ( !is_super_admin() )
 	wp_die( __('You do not have permission to access this page.') );
-}
 
 global $wpdb;
 $c_users = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->users}");
