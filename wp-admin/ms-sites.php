@@ -311,11 +311,12 @@ switch( $_GET['action'] ) {
 		$apage = ( isset($_GET['apage'] ) && intval( $_GET['apage'] ) ) ? absint( $_GET['apage'] ) : 1; 
 		$num = ( isset($_GET['num'] ) && intval( $_GET['num'] ) ) ? absint( $_GET['num'] ) : 15; 
 		$s = wp_specialchars( trim( $_GET[ 's' ] ) );
-
+		$like_s = like_escape($s);
+		
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
 
 		if( isset($_GET['blog_name']) ) {
-			$query .= " AND ( {$wpdb->blogs}.domain LIKE '%{$s}%' OR {$wpdb->blogs}.path LIKE '%{$s}%' ) ";
+			$query .= " AND ( {$wpdb->blogs}.domain LIKE '%{$like_s}%' OR {$wpdb->blogs}.path LIKE '%{$like_s}%' ) ";
 		} elseif( isset($_GET['blog_id']) ) {
 			$query .= " AND   blog_id = '". absint( $_GET['blog_id'] )."' ";
 		} elseif( isset($_GET['blog_ip']) ) {
@@ -323,7 +324,7 @@ switch( $_GET['action'] ) {
 				FROM {$wpdb->blogs}, {$wpdb->registration_log}
 				WHERE site_id = '{$wpdb->siteid}'
 				AND {$wpdb->blogs}.blog_id = {$wpdb->registration_log}.blog_id
-				AND {$wpdb->registration_log}.IP LIKE ('%{$s}%')";
+				AND {$wpdb->registration_log}.IP LIKE ('%{$like_s}%')";
 		}
 
 		if( isset( $_GET['sortby'] ) == false ) {
