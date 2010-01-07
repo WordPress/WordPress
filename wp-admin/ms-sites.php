@@ -81,7 +81,7 @@ switch( $_GET['action'] ) {
 		<h2><?php _e('Edit Blog'); ?> - <a href='http://<?php echo $details['domain'].$details['path']; ?>'>http://<?php echo $details['domain'].$details['path']; ?></a></h2>
 		<form method="post" action="wpmu-edit.php?action=updateblog"> 
 			<?php wp_nonce_field('editblog'); ?>
-			<input type="hidden" name="id" value="<?php echo $id ?>" /> 
+			<input type="hidden" name="id" value="<?php echo esc_attr($id) ?>" /> 
 			<div class='metabox-holder' style='width:49%;float:left;'>
 			<div id="blogedit_bloginfo" class="postbox " >
 			<h3 class='hndle'><span><?php _e('Blog info (wp_blogs)'); ?></span></h3>
@@ -93,16 +93,16 @@ switch( $_GET['action'] ) {
 							</tr> 
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Path') ?></th> 
-								<td><input name="blog[path]" type="text" id="path" value="<?php echo $details['path'] ?>" size="40" style='margin-bottom:5px;' />
+								<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr($details['path']) ?>" size="40" style='margin-bottom:5px;' />
 								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if( get_blog_option( $id, 'siteurl' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) || get_blog_option( $id, 'home' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
 							</tr> 
 							<tr class="form-field">
 								<th scope="row"><?php _e('Registered') ?></th> 
-								<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo $details['registered'] ?>" size="40" /></td> 
+								<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr($details['registered']) ?>" size="40" /></td> 
 							</tr> 
 							<tr class="form-field">
 								<th scope="row"><?php _e('Last Updated') ?></th> 
-								<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo $details['last_updated'] ?>" size="40" /></td> 
+								<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr($details['last_updated']) ?>" size="40" /></td> 
 							</tr> 
 							<tr class="form-field">
 								<th scope="row"><?php _e('Public') ?></th> 
@@ -140,7 +140,7 @@ switch( $_GET['action'] ) {
 								</td> 
 							</tr> 
 						</table>
-						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _esc_attr_e('Update Options &raquo;') ?>" /></p>
 			</div></div>
 			
 			<div id="blogedit_blogoptions" class="postbox " >
@@ -173,14 +173,14 @@ switch( $_GET['action'] ) {
 								?>
 									<tr class="form-field">
 										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $val['option_name'] ) ) ?></th> 
-										<td><input name="option[<?php echo $val['option_name'] ?>]" type="text" id="<?php echo $val['option_name'] ?>" value="<?php echo wp_specialchars( stripslashes( $val['option_value'] ), 1 ) ?>" size="40" <?php echo $disabled ?> /></td> 
+										<td><input name="option[<?php echo $val['option_name'] ?>]" type="text" id="<?php echo $val['option_name'] ?>" value="<?php echo esc_attr( stripslashes( $val['option_value'] ), 1 ) ?>" size="40" <?php echo $disabled ?> /></td> 
 									</tr> 
 								<?php
 								}
 							} // End foreach
 							?>
 						</table>
-						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
 			</div></div>
 			</div>
 			
@@ -214,7 +214,7 @@ switch( $_GET['action'] ) {
 					<tr><th style="font-weight:bold;"><?php _e('Theme'); ?></th></tr>
 					<?php echo $out; ?>
 				</table>
-				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
 			</div></div>
 			<?php } ?>
 			
@@ -240,7 +240,7 @@ switch( $_GET['action'] ) {
 										foreach( $editblog_roles as $role => $role_assoc ){
 											$name = translate_with_context($role_assoc['name']);
 											$selected = ( $role == $existing_role ) ? 'selected="selected"' : '';
-											echo "<option {$selected} value=\"{$role}\">{$name}</option>";
+											echo "<option {$selected} value=\"" . esc_attr($role) . "\">{$name}</option>";
 										}
 										?>
 									</select>
@@ -256,7 +256,7 @@ switch( $_GET['action'] ) {
 							echo '</tr>';
 						}
 						echo "</table>";
-						echo '<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="' . __('Update Options &raquo;') . '" /></p>';
+						echo '<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="' . esc_attr__('Update Options &raquo;') . '" /></p>';
 						echo "</div></div>";
 					}
 			?>
@@ -279,14 +279,14 @@ switch( $_GET['action'] ) {
 								foreach( $editblog_roles as $role => $role_assoc ){
 									$name = translate_with_context($role_assoc['name']);
 									$selected = ( $role == $editblog_default_role ) ? 'selected="selected"' : '';
-									echo "<option {$selected} value=\"{$role}\">{$name}</option>";
+									echo "<option {$selected} value=\"" . esc_attr($role) . "\">{$name}</option>";
 								}
 								?>
 								</select>
 							</td>
 						</tr>
 					</table>
-				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
 			</div></div>
 			
 			<div id="blogedit_miscoptions" class="postbox">
@@ -295,7 +295,7 @@ switch( $_GET['action'] ) {
 				<table class="form-table">
 						<?php do_action( 'wpmueditblogaction', $id ); ?>
 					</table>
-				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
 			</div></div>
 			
 			</div>
@@ -371,10 +371,10 @@ switch( $_GET['action'] ) {
 
 		<form action="wpmu-blogs.php" method="get" id="wpmu-search">
 			<input type="hidden" name="action" value="blogs" />
-			<input type="text" name="s" value="<?php if (isset($_GET['s'])) echo stripslashes( wp_specialchars( $s, 1 ) ); ?>" size="17" />
-			<input type="submit" class="button" name="blog_name" value="<?php _e('Search blogs by name') ?>" />
-			<input type="submit" class="button" name="blog_id" value="<?php _e('by blog ID') ?>" />
-			<input type="submit" class="button" name="blog_ip" value="<?php _e('by IP address') ?>" />
+			<input type="text" name="s" value="<?php if (isset($_GET['s'])) echo stripslashes( esc_attr( $s, 1 ) ); ?>" size="17" />
+			<input type="submit" class="button" name="blog_name" value="<?php esc_attr_e('Search blogs by name') ?>" />
+			<input type="submit" class="button" name="blog_id" value="<?php esc_attr_e('by blog ID') ?>" />
+			<input type="submit" class="button" name="blog_ip" value="<?php esc_attr_e('by IP address') ?>" />
 		</form>
 
 		<form id="form-blog-list" action="wpmu-edit.php?action=allblogs" method="post">
@@ -383,9 +383,9 @@ switch( $_GET['action'] ) {
 			<?php if ( $blog_navigation ) echo "<div class='tablenav-pages'>$blog_navigation</div>"; ?>
 
 			<div class="alignleft">
-				<input type="submit" value="<?php _e('Delete') ?>" name="allblog_delete" class="button-secondary delete" />
-				<input type="submit" value="<?php _e('Mark as Spam') ?>" name="allblog_spam" class="button-secondary" />
-				<input type="submit" value="<?php _e('Not Spam') ?>" name="allblog_notspam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="allblog_delete" class="button-secondary delete" />
+				<input type="submit" value="<?php esc_attr_e('Mark as Spam') ?>" name="allblog_spam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="allblog_notspam" class="button-secondary" />
 				<?php wp_nonce_field( 'allblogs' ); ?>
 				<br class="clear" />
 			</div>
@@ -460,7 +460,7 @@ switch( $_GET['action'] ) {
 						switch($column_name) {
 							case 'id': ?>
 								<th scope="row" class="check-column">
-									<input type='checkbox' id='blog_<?php echo $blog['blog_id'] ?>' name='allblogs[]' value='<?php echo $blog['blog_id'] ?>' />
+									<input type='checkbox' id='blog_<?php echo $blog['blog_id'] ?>' name='allblogs[]' value='<?php echo esc_attr($blog['blog_id']) ?>' />
 								</th>
 								<th scope="row">
 									<?php echo $blog['blog_id'] ?>
@@ -606,7 +606,7 @@ switch( $_GET['action'] ) {
 					</tr>
 				</table>
 				<p class="submit">
-					<input class="button" type="submit" name="go" value="<?php _e('Add Blog') ?>" /></p>
+					<input class="button" type="submit" name="go" value="<?php esc_attr_e('Add Blog') ?>" /></p>
 			</form>
 		</div>
 		<?php
