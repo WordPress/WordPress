@@ -66,9 +66,9 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	<?php }
 
 	if( constant( "VHOST" ) == 'no' ) {
-		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><br />';
+		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="50" /><br />';
 	} else {
-		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
 	}
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' );
@@ -86,7 +86,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
-	echo '<input name="blog_title" type="text" id="blog_title" value="'.wp_specialchars($blog_title, 1).'" /></p>';
+	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_attr($blog_title).'" /></p>';
 	?>
 
 	<div id="privacy">
@@ -123,7 +123,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	if ( $errmsg = $errors->get_error_message('user_name') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
-	echo '<input name="user_name" type="text" id="user_name" value="'.$user_name.'" maxlength="50" /><br />';
+	echo '<input name="user_name" type="text" id="user_name" value="'. esc_attr($user_name) .'" maxlength="50" /><br />';
 	_e('(Must be at least 4 characters, letters and numbers only.)');
 	?>
 
@@ -131,7 +131,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php } ?>		
-	<input name="user_email" type="text" id="user_email" value="<?php  echo wp_specialchars($user_email, 1) ?>" maxlength="200" /><br /><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?>
+	<input name="user_email" type="text" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
@@ -182,7 +182,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php _e('Create Blog &raquo;') ?>" /></p>
+		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Create Blog') ?>" /></p>
 	</form>
 	<?php
 }
@@ -259,7 +259,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 		<?php } ?>
 		</p>
 		
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php _e('Next &raquo;') ?>" /></p>
+		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Next') ?>" /></p>
 	</form>
 	<?php
 }
@@ -311,11 +311,11 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 	?>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-blog-signup" />
-		<input type="hidden" name="user_name" value="<?php echo $user_name ?>" />
-		<input type="hidden" name="user_email" value="<?php echo $user_email ?>" />
+		<input type="hidden" name="user_name" value="<?php echo esc_attr($user_name) ?>" />
+		<input type="hidden" name="user_email" value="<?php echo esc_attr($user_email) ?>" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php _e('Signup &raquo;') ?>" /></p>
+		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Signup') ?>" /></p>
 	</form>
 	<?php
 }

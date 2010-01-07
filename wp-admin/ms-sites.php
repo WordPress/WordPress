@@ -140,7 +140,7 @@ switch( $_GET['action'] ) {
 								</td> 
 							</tr> 
 						</table>
-						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php _esc_attr_e('Update Options &raquo;') ?>" /></p>
+						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
 			</div></div>
 			
 			<div id="blogedit_blogoptions" class="postbox " >
@@ -180,7 +180,7 @@ switch( $_GET['action'] ) {
 							} // End foreach
 							?>
 						</table>
-						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
+						<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
 			</div></div>
 			</div>
 			
@@ -214,7 +214,7 @@ switch( $_GET['action'] ) {
 					<tr><th style="font-weight:bold;"><?php _e('Theme'); ?></th></tr>
 					<?php echo $out; ?>
 				</table>
-				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
+				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
 			</div></div>
 			<?php } ?>
 			
@@ -256,7 +256,7 @@ switch( $_GET['action'] ) {
 							echo '</tr>';
 						}
 						echo "</table>";
-						echo '<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="' . esc_attr__('Update Options &raquo;') . '" /></p>';
+						echo '<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="' . esc_attr__('Update Options') . '" /></p>';
 						echo "</div></div>";
 					}
 			?>
@@ -286,7 +286,7 @@ switch( $_GET['action'] ) {
 							</td>
 						</tr>
 					</table>
-				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
+				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
 			</div></div>
 			
 			<div id="blogedit_miscoptions" class="postbox">
@@ -295,7 +295,7 @@ switch( $_GET['action'] ) {
 				<table class="form-table">
 						<?php do_action( 'wpmueditblogaction', $id ); ?>
 					</table>
-				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options &raquo;') ?>" /></p>
+				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
 			</div></div>
 			
 			</div>

@@ -45,7 +45,7 @@ $title = __( 'Site Admin' );
 		<p>
 			<input type="hidden" name="action" value="users" />
 			<input type="text" name="s" value="" size="17" /> 
-			<input class="button" type="submit" name="submit" value="<?php _e("Search Users &raquo;"); ?>" />
+			<input class="button" type="submit" name="submit" value="<?php esc_attr_e("Search Users"); ?>" />
 		</p> 
 	</form>
 
@@ -53,7 +53,7 @@ $title = __( 'Site Admin' );
 		<p>
 			<input type="hidden" name="action" value="blogs" />
 			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="blog_name" value="<?php _e("Search Blogs &raquo;"); ?>" />
+			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e("Search Blogs"); ?>" />
 		</p>
 	</form>
 

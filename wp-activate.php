@@ -38,7 +38,7 @@ get_header();
 			    <br /><input type="text" name="key" id="key" value="" size="50" />
 			</p>
 			<p class="submit">
-			    <input id="submit" type="submit" name="Submit" class="submit" value="<?php _e('Activate &raquo;') ?>" />
+			    <input id="submit" type="submit" name="Submit" class="submit" value="<?php esc_attr_e('Activate') ?>" />
 			</p>
 		</form>
 		

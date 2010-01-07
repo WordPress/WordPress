@@ -1895,10 +1895,10 @@ SITE_NAME
 			<p><?php printf(__('If you do not want to use your %s blog any more, you can delete it using the form below. When you click <strong>Delete My Blog</strong> you will be sent an email with a link in it. Click on this link to delete your blog.'), $current_site->site_name); ?></p>
 			<p><?php _e('Remember, once deleted your blog cannot be restored.') ?></p>
 			<form method='post' name='deletedirect'>
-			<input type="hidden" name="page" value="<?php echo $_GET['page'] ?>" />
+			<input type="hidden" name="page" value="<?php echo esc_attr($_GET['page']) ?>" />
 			<input type='hidden' name='action' value='deleteblog' />
 			<p><input id='confirmdelete' type='checkbox' name='confirmdelete' value='1' /> <label for='confirmdelete'><strong><?php printf( __("I'm sure I want to permanently disable my blog, and I am aware I can never get it back or use %s again."), $current_blog->domain); ?></strong></label></p>
-			<p class="submit"><input type='submit' value='<?php _e('Delete My Blog Permanently &raquo;') ?>' /></p>
+			<p class="submit"><input type='submit' value='<?php esc_attr_e('Delete My Blog Permanently') ?>' /></p>
 			</form>
 <?php
 		}
