@@ -9,9 +9,8 @@ $parent_file = 'wpmu-admin.php';
 
 include('admin-header.php');
 
-if( is_site_admin() == false ) {
+if ( !is_super_admin() )
     wp_die( __('You do not have permission to access this page.') );
-}
 
 if (isset($_GET['updated'])) {
 	?>
@@ -29,7 +28,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Site Name') ?></th>
 				<td>
-					<input name="site_name" type="text" id="site_name" style="width: 95%" value="<?php echo $current_site->site_name ?>" size="45" />
+					<input name="site_name" type="text" id="site_name" style="width: 95%" value="<?php echo esc_attr($current_site->site_name) ?>" size="45" />
 					<br />
 					<?php _e('What you would like to call this website.') ?>
 				</td>
@@ -38,7 +37,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Site Admin Email') ?></th>
 				<td>
-					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo stripslashes( get_site_option('admin_email') ) ?>" size="45" />
+					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo esc_attr( stripslashes( get_site_option('admin_email') ) ) ?>" size="45" />
 					<br />
 					<?php printf( __( 'Registration and support mails will come from this address. Make it generic like "support@%s"' ), $current_site->domain ); ?>
 				</td>
@@ -95,8 +94,8 @@ if (isset($_GET['updated'])) {
 					} else {
 						$blogname = '';
 					}?>
-					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo $blogname; ?>" />
-					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo $blogname; ?>" size="30" />
+					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr($blogname); ?>" />
+					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr($blogname); ?>" size="30" />
 					<br />
 					<?php _e( "Blogname ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this blog as subscribers (or the user role defined below) if they don't have a blog. Leave blank for the main blog. 'Subscriber' users on old blog will be moved to the new blog if changed. New blog will be created if it does not exist." ); ?>
 				</td>
@@ -116,7 +115,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Banned Names') ?></th>
 				<td>
-					<input name="illegal_names" type="text" id="illegal_names" style="width: 95%" value="<?php echo implode( " ", get_site_option('illegal_names') ); ?>" size="45" />
+					<input name="illegal_names" type="text" id="illegal_names" style="width: 95%" value="<?php echo esc_attr( implode( " ", get_site_option('illegal_names') ) ); ?>" size="45" />
 					<br />
 					<?php _e('Users are not allowed to register these blogs. Separate names by spaces.') ?>
 				</td>
@@ -193,7 +192,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('First Comment URL') ?></th>
 				<td>
-					<input type="text" size='40' name="first_comment_url" id="first_comment_url" value="<?php echo get_site_option('first_comment_url') ?>" />
+					<input type="text" size='40' name="first_comment_url" id="first_comment_url" value="<?php echo esc_attr(get_site_option('first_comment_url')) ?>" />
 					<br />
 					<?php _e('URL on first comment on a new blog.') ?>
 				</td>
@@ -216,21 +215,21 @@ if (isset($_GET['updated'])) {
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Blog upload space') ?></th>
-				<td><input name="blog_upload_space" type="text" id="blog_upload_space" value="<?php echo get_site_option('blog_upload_space', 10) ?>" size="3" /> MB</td>
+				<td><input name="blog_upload_space" type="text" id="blog_upload_space" value="<?php echo esc_attr( get_site_option('blog_upload_space', 10) ) ?>" size="3" /> MB</td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Upload File Types') ?></th>
-				<td><input name="upload_filetypes" type="text" id="upload_filetypes" value="<?php echo get_site_option('upload_filetypes', 'jpg jpeg png gif') ?>" size="45" /></td>
+				<td><input name="upload_filetypes" type="text" id="upload_filetypes" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Max upload file size') ?></th>
-				<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo get_site_option('fileupload_maxk', 300) ?>" size="5" /> KB</td>
+				<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo esc_attr( get_site_option('fileupload_maxk', 300) ) ?>" size="5" /> KB</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
-				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo get_site_option( 'admin_notice_feed' ) ?>" size="80" /><br />
+				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
 				<?php _e( 'Display the latest post from this RSS or Atom feed on all blog dashboards. Leave blank to disable.' ); ?><br />
 				<?php if( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
 					echo __( "A good one to use would be the feed from your main blog: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
@@ -242,7 +241,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Site Admins') ?></th>
 				<td>
-					<input name="site_admins" type="text" id="site_admins" style="width: 95%" value="<?php echo implode(' ', get_site_option( 'site_admins', array( 'admin' ) ) ) ?>" size="45" />
+					<input name="site_admins" type="text" id="site_admins" style="width: 95%" value="<?php echo esc_attr( implode(' ', get_site_option( 'site_admins', array( 'admin' ) ) ) ) ?>" size="45" />
 					<br />
 					<?php _e('These users may login to the main blog and administer the site. Space separated list of usernames.') ?>
 				</td>
@@ -291,7 +290,7 @@ if (isset($_GET['updated'])) {
 		<?php do_action( 'wpmu_options' ); // Add more options here ?>
 
 		<p class="submit">
-			<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /></p>
+			<input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
 	</form>
 </div>
 
