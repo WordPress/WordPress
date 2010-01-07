@@ -105,8 +105,8 @@ if ( $_GET['updated'] == 'true' ) {
 	<h2><?php _e( $current_site->site_name ); ?> <?php _e("Users"); ?></h2>
 	<form action="wpmu-users.php" method="get" class="search-form">
 		<p class="search-box">
-		<input type="text" name="s" value="<?php if (isset($_GET['s'])) _e( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />
-		<input type="submit" id="post-query-submit" value="<?php _e('Search Users') ?>" class="button" />
+		<input type="text" name="s" value="<?php if (isset($_GET['s'])) esc_attr( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />
+		<input type="submit" id="post-query-submit" value="<?php esc_attr_e('Search Users') ?>" class="button" />
 		</p>
 	</form>
 	</div>
@@ -116,9 +116,9 @@ if ( $_GET['updated'] == 'true' ) {
 			<?php if ( $user_navigation ) echo "<div class='tablenav-pages'>$user_navigation</div>"; ?>
 
 			<div class="alignleft actions">
-				<input type="submit" value="<?php _e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
-				<input type="submit" value="<?php _e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
-				<input type="submit" value="<?php _e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
+				<input type="submit" value="<?php esc_attr_e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
 				<?php wp_nonce_field( 'allusers' ); ?>
 				<br class="clear" />
 			</div>
@@ -176,7 +176,7 @@ if ( $_GET['updated'] == 'true' ) {
 					foreach( (array) $posts_columns as $column_name=>$column_display_name) :
 						switch($column_name) {
 							case 'checkbox': ?>
-								<th scope="row" class="check-column"><input type='checkbox' id='user_<?php echo $user['ID'] ?>' name='allusers[]' value='<?php echo $user['ID'] ?>' /></th>
+								<th scope="row" class="check-column"><input type='checkbox' id='user_<?php echo $user['ID'] ?>' name='allusers[]' value='<?php echo esc_attr($user['ID']) ?>' /></th>
 							<?php 
 							break;
 
@@ -265,9 +265,9 @@ if ( $_GET['updated'] == 'true' ) {
 			<?php if ( $user_navigation ) echo "<div class='tablenav-pages'>$user_navigation</div>"; ?>
 
 			<div class="alignleft">
-				<input type="submit" value="<?php _e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
-				<input type="submit" value="<?php _e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
-				<input type="submit" value="<?php _e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
+				<input type="submit" value="<?php esc_attr_e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
 				<?php wp_nonce_field( 'allusers' ); ?>
 				<br class="clear" />
 			</div>
@@ -296,7 +296,7 @@ if( apply_filters('show_adduser_fields', true) ) :
 	</table>
 	<p class="submit">
 		<?php wp_nonce_field('add-user') ?>
-		<input class="button" type="submit" name="Add user" value="<?php _e('Add user') ?>" /></p>
+		<input class="button" type="submit" name="Add user" value="<?php esc_attr_e('Add user') ?>" /></p>
 	</form>
 </div>
 <?php endif; ?>
