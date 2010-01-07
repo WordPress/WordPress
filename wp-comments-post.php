@@ -27,11 +27,14 @@ if ( empty($status->comment_status) ) {
 } elseif ( !comments_open($comment_post_ID) ) {
 	do_action('comment_closed', $comment_post_ID);
 	wp_die( __('Sorry, comments are closed for this item.') );
-} elseif ( in_array($status->post_status, array('draft', 'pending') ) ) {
+} elseif ( in_array($status->post_status, array('draft', 'future', 'pending') ) ) {
 	do_action('comment_on_draft', $comment_post_ID);
 	exit;
 } elseif ( 'trash' == $status->post_status ) {
 	do_action('comment_on_trash', $comment_post_ID);
+	exit;
+} elseif ( post_password_required($comment_post_ID) ) {
+	do_action('comment_on_password_protected', $comment_post_ID);
 	exit;
 } else {
 	do_action('pre_comment_on_post', $comment_post_ID);
