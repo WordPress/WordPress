@@ -109,14 +109,17 @@ $update_count = 0;
 if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );
 
-$menu[65] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
-	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
-	if ( is_super_admin() ) {
-		/* translators: add new plugin */
-		$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
-	}
-	if ( !is_multisite() )
-		$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
+$menu_perms = get_site_option('menu_items', array());
+if ( is_super_admin() || is_multisite() && $menu_perms['plugins'] ) {
+	$menu[65] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
+		$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
+		if ( is_super_admin() ) {
+			/* translators: add new plugin */
+			$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
+		}
+		if ( !is_multisite() )
+			$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
+}
 
 if ( current_user_can('edit_users') )
 	$menu[70] = array( __('Users'), 'edit_users', 'users.php', '', 'menu-top', 'menu-users', 'div' );
@@ -126,7 +129,11 @@ else
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
 	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
-	$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
+	if ( !is_multisite() )
+		$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
+	elseif ( is_super_admin() || get_site_option( 'add_new_users' ) )
+		$submenu['users.php'][10] = array(__('Add New') . ' <strong>*</strong>', 'create_users', 'ms-options.php#addnewusers');
+		
 	$submenu['users.php'][15] = array(__('Your Profile'), 'read', 'profile.php');
 } else {
 	$_wp_real_parent_file['users.php'] = 'profile.php';
@@ -137,7 +144,8 @@ $menu[75] = array( __('Tools'), 'read', 'tools.php', '', 'menu-top', 'menu-tools
 	$submenu['tools.php'][5] = array( __('Tools'), 'read', 'tools.php' );
 	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
 	$submenu['tools.php'][15] = array( __('Export'), 'import', 'export.php' );
-	$submenu['tools.php'][20] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
+	if ( is_super_admin() )
+		$submenu['tools.php'][20] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
 
 $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top', 'menu-settings', 'div' );
 	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
@@ -147,7 +155,8 @@ $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 	$submenu['options-general.php'][30] = array(__('Media'), 'manage_options', 'options-media.php');
 	$submenu['options-general.php'][35] = array(__('Privacy'), 'manage_options', 'options-privacy.php');
 	$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
-	$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
+	if ( is_super_admin() )
+		$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 

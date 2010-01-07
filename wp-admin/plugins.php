@@ -236,6 +236,15 @@ $help .= '<p>' . sprintf(__('You can find additional plugins for your site by us
 
 add_contextual_help('plugins', $help);
 
+if ( is_multisite() && is_super_admin() ) {
+	$menu_perms = get_site_option('menu_items', array());
+	if ( !$menu_perms['plugins'] ) {
+		$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="ms-options.php#menu">' . __( 'Activate' ) . '</a>' );
+		$message = str_replace( "'", "\'", "<div class='error'><p>$message</p></div>" );
+		add_action( 'admin_notices', create_function( '', "echo '$message';" ) );
+	}
+}
+
 $title = __('Manage Plugins');
 require_once('admin-header.php');
 

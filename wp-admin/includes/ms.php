@@ -549,34 +549,8 @@ function redirect_user_to_blog() {
 add_action( 'admin_page_access_denied', 'redirect_user_to_blog', 99 );
 
 function wpmu_menu() {
-	global $menu, $submenu, $current_user;
-
-	$menu_perms = get_site_option( "menu_items" );
-	if( is_array( $menu_perms ) == false )
-		$menu_perms = array();
-	if( $menu_perms[ 'plugins' ] != 1 ) {
-		if( !is_site_admin() ) {
-			unset( $menu['65'] ); // Plugins
-			unset( $submenu[ 'plugins.php' ] );
-		} elseif ( strpos( $_SERVER[ 'PHP_SELF' ], 'wp-admin/plugins.php' ) ) {
-			$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="wpmu-options.php#menu">' . __( 'Activate' ) . '</a>' );
-			$message = str_replace( "'", "\'", "<div class='error'><p>$message</p></div>" );
-			add_action( 'admin_notices', create_function( '', "echo '$message';" ) );
-		}
-	} elseif ( !is_site_admin() ) {
-		$menu[65] = array( sprintf( __('Plugins %s'), "" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
-	}
-	if( !get_site_option( 'add_new_users' ) ) {
-		if( !is_site_admin() ) {
-			unset( $submenu['users.php'][10] );
-		} else {
-			$submenu['users.php'][10] = array(__('Add New') . ' <strong>*</strong>', 'create_users', 'wpmu-options.php#addnewusers');
-		}
-	}
-	unset( $submenu['tools.php'][20] ); // core upgrade
-	unset( $submenu['options-general.php'][45] ); // Misc
+	// deprecated. See #11763
 }
-add_action( '_admin_menu', 'wpmu_menu' );
 
 function mu_options( $options ) {
 	if ( defined( 'POST_BY_EMAIL' ) ) {
