@@ -1085,15 +1085,12 @@ function remove_role( $role ) {
  * @return bool True if the user is a site admin.
  */
 function is_super_admin( $user_id = false ) {
-	global $current_user;
+	if ( ! $user_id ) {
+		$current_user = wp_get_current_user();
+		$user_id = ! empty($current_user) ? $current_user->id : 0;
+	}
 
-	if ( !$current_user && !$user_id )
-		return false;
-
-	if ( !$user_id )
-		$user_id = $current_user->id;
-
-	if ( !$user_id )
+	if ( ! $user_id )
 		return false;
 
 	$user = new WP_User($user_id);
