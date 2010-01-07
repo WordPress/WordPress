@@ -37,7 +37,7 @@ switch( $_GET['action'] ) {
 						wp_die( "<strong>Warning!</strong> Problem upgrading {$siteurl}. Your server may not be able to connect to blogs running on it.<br /> Error message: <em>" . $response->get_error_message() ."</em>" );
 					}
 					do_action( 'after_mu_upgrade', $response );
-					do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] ); 
+					do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 				}
 			}
 			echo "</ul>";
@@ -54,7 +54,7 @@ switch( $_GET['action'] ) {
 			echo '<p>'.__('All Done!').'</p>';
 		}
 	break;
-	default: 
+	default:
 		?><p><?php _e("You can upgrade all the blogs on your site through this page. It works by calling the upgrade script of each blog automatically. Hit the link below to upgrade."); ?></p>
 		<p><a class="button" href="ms-upgrade-site.php?action=upgrade"><?php _e("Upgrade Site"); ?></a></p><?php
 		do_action( 'wpmu_upgrade_page' );

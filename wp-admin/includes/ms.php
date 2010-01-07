@@ -47,8 +47,8 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 	update_blog_status( $blog_id, 'deleted', 1 );
 
 	if ( $drop ) {
-		$drop_tables = $wpdb->get_results("show tables LIKE '". $wpdb->base_prefix . $blog_id . "\_%'", ARRAY_A); 
-		$drop_tables = apply_filters( 'wpmu_drop_tables', $drop_tables ); 
+		$drop_tables = $wpdb->get_results("show tables LIKE '". $wpdb->base_prefix . $blog_id . "\_%'", ARRAY_A);
+		$drop_tables = apply_filters( 'wpmu_drop_tables', $drop_tables );
 
 		reset( $drop_tables );
 		foreach ( (array) $drop_tables as $drop_table) {
@@ -219,10 +219,10 @@ function update_option_new_admin_email($old_value, $value) {
 		"newemail" => $value
 	);
 	update_option( 'adminhash', $new_admin_email );
-	
+
 	$content = apply_filters( 'new_admin_email_content', __("Dear user,
 
-You recently requested to have the administration email address on 
+You recently requested to have the administration email address on
 your blog changed.
 If this is correct, please click on the following link to change it:
 ###ADMIN_URL###
@@ -235,12 +235,12 @@ This email has been sent to ###EMAIL###
 Regards,
 All at ###SITENAME###
 ###SITEURL###"), $new_admin_email );
-	
+
 	$content = str_replace('###ADMIN_URL###', clean_url(get_option( "siteurl" ).'/wp-admin/options.php?adminhash='.$hash), $content);
 	$content = str_replace('###EMAIL###', $value, $content);
 	$content = str_replace('###SITENAME###', get_site_option( 'site_name' ), $content);
 	$content = str_replace('###SITEURL###', 'http://' . $current_site->domain . $current_site->path, $content);
-	
+
 	wp_mail( $value, sprintf(__('[%s] New Admin Email Address'), get_option('blogname')), $content );
 }
 add_action('update_option_new_admin_email', 'update_option_new_admin_email', 10, 2);
@@ -354,7 +354,7 @@ function get_site_allowed_themes() {
 
 function get_space_allowed() {
 	$spaceAllowed = get_option("blog_upload_space");
-	if( $spaceAllowed == false ) 
+	if( $spaceAllowed == false )
 		$spaceAllowed = get_site_option("blog_upload_space");
 	if( empty($spaceAllowed) || !is_numeric($spaceAllowed) )
 		$spaceAllowed = 50;
@@ -376,12 +376,12 @@ function display_space_usage() {
 		$space .= __('MB');
 	}
 	?>
-	<strong><?php printf(__('Used: %1s%% of %2s'), number_format($percentused), $space );?></strong> 
+	<strong><?php printf(__('Used: %1s%% of %2s'), number_format($percentused), $space );?></strong>
 	<?php
 }
 
 // Display File upload quota on dashboard
-function dashboard_quota() {	
+function dashboard_quota() {
 	if ( get_site_option( 'upload_space_check_disabled' ) ) {
 		return true;
 	}
@@ -412,10 +412,10 @@ if( current_user_can('edit_posts') )
 
 // Edit blog upload space setting on Edit Blog page
 function upload_space_setting( $id ) {
-	$quota = get_blog_option($id, "blog_upload_space"); 
+	$quota = get_blog_option($id, "blog_upload_space");
 	if( !$quota )
 		$quota = '';
-	
+
 	?>
 	<tr>
 		<th><?php _e('Blog Upload Space Quota'); ?></th>
@@ -432,9 +432,9 @@ function update_user_status( $id, $pref, $value, $refresh = 1 ) {
 
 	if( $refresh == 1 )
 		refresh_user_details($id);
-	
+
 	if( $pref == 'spam' ) {
-		if( $value == 1 ) 
+		if( $value == 1 )
 			do_action( "make_spam_user", $id );
 		else
 			do_action( "make_ham_user", $id );
@@ -445,7 +445,7 @@ function update_user_status( $id, $pref, $value, $refresh = 1 ) {
 
 function refresh_user_details($id) {
 	$id = (int) $id;
-	
+
 	if ( !$user = get_userdata( $id ) )
 		return false;
 
@@ -464,8 +464,8 @@ function wpmu_checkAvailableSpace() {
 	$spaceAllowed = get_space_allowed();
 
 	$dirName = trailingslashit( BLOGUPLOADDIR );
-	if (!(is_dir($dirName) && is_readable($dirName))) 
-		return; 
+	if (!(is_dir($dirName) && is_readable($dirName)))
+		return;
 
   	$dir = dir($dirName);
    	$size = 0;
@@ -512,7 +512,7 @@ function redirect_user_to_blog() {
 	$c = 0;
 	if ( isset( $_GET[ 'c' ] ) )
 		$c = (int)$_GET[ 'c' ];
-	
+
 	if ( $c >= 5 ) {
 		wp_die( __( "You don&#8217;t have permission to view this blog. Please contact the system administrator." ) );
 	}
@@ -521,13 +521,13 @@ function redirect_user_to_blog() {
 	$blog = get_active_blog_for_user( $current_user->ID );
 	$dashboard_blog = get_dashboard_blog();
 	if( is_object( $blog ) ) {
-		$protocol = ( is_ssl() ? 'https://' : 'http://' ); 
+		$protocol = ( is_ssl() ? 'https://' : 'http://' );
 		wp_redirect( $protocol . $blog->domain . $blog->path . 'wp-admin/?c=' . $c ); // redirect and count to 5, "just in case"
 		exit;
 	}
 
-	/* 
-	   If the user is a member of only 1 blog and the user's primary_blog isn't set to that blog, 
+	/*
+	   If the user is a member of only 1 blog and the user's primary_blog isn't set to that blog,
 	   then update the primary_blog record to match the user's blog
 	 */
 	$blogs = get_blogs_of_user( $current_user->ID );
@@ -540,7 +540,7 @@ function redirect_user_to_blog() {
 			}
 		}
 		$blog = get_blog_details( get_usermeta( $current_user->ID , 'primary_blog' ) );
-		$protocol = ( is_ssl() ? 'https://' : 'http://' ); 
+		$protocol = ( is_ssl() ? 'https://' : 'http://' );
 		wp_redirect( $protocol . $blog->domain . $blog->path . 'wp-admin/?c=' . $c ); // redirect and count to 5, "just in case"
 		exit;
 	}
@@ -558,7 +558,7 @@ function mu_options( $options ) {
 	} else {
 		$writing = array( 'ping_sites', 'mailserver_login', 'mailserver_pass', 'default_email_category', 'mailserver_port', 'mailserver_url' );
 	}
-	$removed = array( 
+	$removed = array(
 		'general' => array( 'siteurl', 'home', 'admin_email', 'users_can_register', 'default_role' ),
 		'reading' => array( 'gzipcompression' ),
 		'writing' => $writing,
@@ -584,12 +584,12 @@ add_filter( 'import_allow_create_users', 'check_import_new_users' );
 // See "import_allow_fetch_attachments" and "import_attachment_size_limit" filters too.
 
 function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
-	$flag = false;	
+	$flag = false;
 	$output = array();
-					
+
 	foreach ( (array) $lang_files as $val ) {
 		$code_lang = basename( $val, '.mo' );
-		
+
 		if ( $code_lang == 'en_US' ) { // American English
 			$flag = true;
 			$ae = __('American English');
@@ -602,18 +602,18 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 			$translated = format_code_lang($code_lang);
 			$output[$translated] =  '<option value="'.$code_lang.'"'.(($current == $code_lang) ? ' selected="selected"' : '').'> '.$translated.'</option>';
 		}
-		
-	}						
-	
+
+	}
+
 	if ( $flag === false ) { // WordPress english
 		$output[] = '<option value=""'.((empty($current)) ? ' selected="selected"' : '').'>'.__('English')."</option>";
 	}
-	
+
 	// Order by name
 	uksort($output, 'strnatcasecmp');
-	
-	$output = apply_filters('mu_dropdown_languages', $output, $lang_files, $current);	
-	echo implode("\n\t", $output);	
+
+	$output = apply_filters('mu_dropdown_languages', $output, $lang_files, $current);
+	echo implode("\n\t", $output);
 }
 
 // Only show "Media" upload icon
@@ -762,10 +762,10 @@ add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 
 function activate_sitewide_plugin() {
 	if ( !isset( $_GET['sitewide'] ) )
 		return false;
-		
+
 	/* Add the plugin to the list of sitewide active plugins */
 	$active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
-	
+
 	/* Add the activated plugin to the list */
 	$active_sitewide_plugins[ $_GET['plugin'] ] = time();
 
@@ -775,7 +775,7 @@ function activate_sitewide_plugin() {
 
 	return true;
 }
-add_action( 'activate_' . $_GET['plugin'], 'activate_sitewide_plugin' ); 
+add_action( 'activate_' . $_GET['plugin'], 'activate_sitewide_plugin' );
 
 /**
  * deactivate_sitewide_plugin()
@@ -785,7 +785,7 @@ add_action( 'activate_' . $_GET['plugin'], 'activate_sitewide_plugin' );
 function deactivate_sitewide_plugin( $plugin = false ) {
 	if ( !$plugin )
 		$plugin = $_GET['plugin'];
-		
+
 	/* Get the active sitewide plugins */
 	$active_sitewide_plugins = (array) maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
 
@@ -797,11 +797,11 @@ function deactivate_sitewide_plugin( $plugin = false ) {
 
 	if ( !update_site_option( 'active_sitewide_plugins', $active_sitewide_plugins ) )
 		wp_redirect( 'plugins.php?error=true' );
-	
+
 	return true;
 }
-add_action( 'deactivate_' . $_GET['plugin'], 'deactivate_sitewide_plugin' ); 
-add_action( 'deactivate_invalid_plugin', 'deactivate_sitewide_plugin' ); 
+add_action( 'deactivate_' . $_GET['plugin'], 'deactivate_sitewide_plugin' );
+add_action( 'deactivate_invalid_plugin', 'deactivate_sitewide_plugin' );
 
 /**
  * add_sitewide_activate_row()
@@ -811,13 +811,13 @@ add_action( 'deactivate_invalid_plugin', 'deactivate_sitewide_plugin' );
 function add_sitewide_activate_row( $file, $plugin_data, $context ) {
 	if ( !is_site_admin() )
 		return false;
-	
+
 	if ( 'sitewide-active' == $context )
 		return false;
-	
+
 	if ( is_plugin_active( $file ) )
 		return false;
-		
+
 	echo '<tr><td colspan="5" style="background: #f5f5f5; text-align: right;">';
 
 	echo '<a href="' . wp_nonce_url( admin_url( 'plugins.php?action=activate&amp;sitewide=1&amp;plugin=' . $file ), 'activate-plugin_' . $file ) . '" title="' . __( 'Activate this plugin for all blogs across the entire network' ) . '">&uarr; ' . sprintf( __( 'Activate %s Site Wide' ), strip_tags( $plugin_data["Title"] ) ) . '</a>';
@@ -834,13 +834,13 @@ add_action( 'after_plugin_row', 'add_sitewide_activate_row', 9, 3 );
 function is_wpmu_sitewide_plugin( $file ) {
 	/* Open the plugin file for reading to check if this is a ms-plugin. */
 	$fp = @fopen( WP_PLUGIN_DIR . '/' . $file, 'r' );
-	
+
 	/* Pull only the first 8kiB of the file in. */
 	$plugin_data = @fread( $fp, 8192 );
-	
+
 	/* PHP will close file handle, but we are good citizens. */
 	@fclose($fp);
-	
+
 	if ( preg_match( '|Site Wide Only:(.*)true$|mi', $plugin_data ) )
 		return true;
 
@@ -858,14 +858,14 @@ function list_activate_sitewide_plugins() {
 
 	if ( !is_site_admin() )
 		return false;
-		
+
 	$active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins') );
 	$context = 'sitewide-active';
 
-	if ( $active_sitewide_plugins ) { 
+	if ( $active_sitewide_plugins ) {
 ?>
 		<h3><?php _e( 'Currently Active Site Wide Plugins' ) ?></h3>
-	
+
 		<p><?php _e( 'Plugins that appear in the list below are activate for all blogs across this installation.' ) ?></p>
 
 		<table class="widefat" cellspacing="0" id="<?php echo $context ?>-plugins-table">
@@ -898,7 +898,7 @@ function list_activate_sitewide_plugins() {
 				$action_links = apply_filters( "plugin_action_links_$plugin_file", $action_links, $plugin_file, $plugin_data, $context );
 
 				$plugin_data = $all_plugins[$plugin_file];
-				
+
 				echo "
 			<tr class='$context' style='background: #eef2ff;'>
 				<th scope='row' class='check-column'>&nbsp;</th>
@@ -931,16 +931,16 @@ function list_activate_sitewide_plugins() {
 				echo implode(' | ', $plugin_meta);
 				echo "</td>
 			</tr>\n";
-			
+
 				do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
 				do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $context );
 			}
 		?>
 			</tbody>
 		</table>
-		
+
 		<p><?php _e( 'Plugins that are enabled site wide can only be disabled by a site administrator.' ) ?></p>
-		
+
 <?php
 	}
 }
@@ -959,14 +959,14 @@ function sitewide_filter_inactive_plugins_list( $inactive_plugins ) {
 		unset( $inactive_plugins[ $sitewide_plugin ] );
 	}
 
-	/* Now unset any sitewide only plugins if the user is not a site admin */	
+	/* Now unset any sitewide only plugins if the user is not a site admin */
 	if ( !is_site_admin() ) {
 		foreach ( $inactive_plugins as $plugin_name => $activated_time ) {
 			if ( is_wpmu_sitewide_plugin( $plugin_name ) )
 				unset( $inactive_plugins[ $plugin_name ] );
 		}
 	}
-	
+
 	return $inactive_plugins;
 }
 add_filter( 'all_plugins', 'sitewide_filter_inactive_plugins_list' );
@@ -983,7 +983,7 @@ function sitewide_filter_active_plugins_list( $active_plugins ) {
 	foreach ( $active_sitewide_plugins as $sitewide_plugin => $activated_time ) {
 		unset( $active_plugins[ $sitewide_plugin ] );
 	}
-	
+
 	return $active_plugins;
 }
 add_filter( 'all_plugins', 'sitewide_filter_active_plugins_list' );
@@ -996,12 +996,12 @@ add_filter( 'all_plugins', 'sitewide_filter_active_plugins_list' );
  */
 function check_is_wpmu_plugin_on_activate() {
 	/***
-	 * On plugin activation on a blog level, check to see if this is actually a 
+	 * On plugin activation on a blog level, check to see if this is actually a
 	 * site wide MU plugin. If so, deactivate and activate it site wide.
 	 */
 	if ( is_wpmu_sitewide_plugin( $_GET['plugin'] ) || isset( $_GET['sitewide'] ) ) {
 		deactivate_plugins( $_GET['plugin'], true );
-		
+
 		/* Silently activate because the activate_* hook has already run. */
 		if ( is_site_admin() ) {
 			$_GET['sitewide'] = true;
@@ -1022,7 +1022,7 @@ function check_wpmu_plugins_on_bulk_activate( $plugins ) {
 
 				if ( is_site_admin() )
 					activate_sitewide_plugin( $plugin );
-			}			
+			}
 		}
 	}
 }
@@ -1050,10 +1050,10 @@ function choose_primary_blog() {
 			$found = false;
 			?>
 			<select name="primary_blog">
-				<?php foreach( (array) $all_blogs as $blog ) { 
+				<?php foreach( (array) $all_blogs as $blog ) {
 					if( $primary_blog == $blog->userblog_id )
 						$found = true;
-					?><option value='<?php echo $blog->userblog_id ?>'<?php if( $primary_blog == $blog->userblog_id ) echo ' selected="selected"' ?>>http://<?php echo $blog->domain.$blog->path ?></option><?php 
+					?><option value='<?php echo $blog->userblog_id ?>'<?php if( $primary_blog == $blog->userblog_id ) echo ' selected="selected"' ?>>http://<?php echo $blog->domain.$blog->path ?></option><?php
 				} ?>
 			</select>
 			<?php
@@ -1073,7 +1073,7 @@ function choose_primary_blog() {
 		</td>
 	</tr>
 	</table>
-	<?php	
+	<?php
 }
 add_action ( 'myblogs_allblogs_options', 'choose_primary_blog' );
 
@@ -1144,7 +1144,7 @@ function blogs_listing() {
 	<form id="myblogs" action="" method="post">
 	<?php
 	do_action( 'myblogs_allblogs_options' );
-	?><table class='widefat'> <?php 
+	?><table class='widefat'> <?php
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
 	if ( $settings_html != '' ) {
 		echo "<tr><td valign='top'><h3>" . __( 'Global Settings' ) . "</h3></td><td>";
@@ -1165,7 +1165,7 @@ function blogs_listing() {
 		$rows[] = array_slice( $blogs, $split, $cols );
 		$split = $split + $cols;
 	}
-  
+
 	foreach( $rows as $row ) {
 		$c = $c == "alternate" ? "" : "alternate";
 		echo "<tr class='$c'>";
@@ -1216,8 +1216,8 @@ function stripslashes_from_options( $blog_id ) {
 		while( $rows = $wpdb->get_results( "SELECT meta_key, meta_value FROM {$wpdb->sitemeta} ORDER BY meta_id LIMIT $start, 20" ) ) {
 			foreach( $rows as $row ) {
 				$value = $row->meta_value;
-				if ( !@unserialize( $value ) ) 
-					$value = stripslashes( $value ); 
+				if ( !@unserialize( $value ) )
+					$value = stripslashes( $value );
 				if ( $value !== $row->meta_value ) {
 					update_site_option( $row->meta_key, $value );
 				}
@@ -1230,8 +1230,8 @@ function stripslashes_from_options( $blog_id ) {
 	while( $rows = $wpdb->get_results( "SELECT option_name, option_value FROM $options_table ORDER BY option_id LIMIT $start, 20" ) ) {
 		foreach( $rows as $row ) {
 			$value = $row->option_value;
-			if ( !@unserialize( $value ) ) 
-				$value = stripslashes( $value ); 
+			if ( !@unserialize( $value ) )
+				$value = stripslashes( $value );
 			if ( $value !== $row->option_value ) {
 				update_blog_option( $blog_id, $row->option_name, $value );
 			}

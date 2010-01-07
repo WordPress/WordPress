@@ -30,7 +30,7 @@ $title = __( 'Site Admin' );
 ?>
 
 <div class="wrap">
-	<h2><?php echo wp_specialchars( $title ); ?></h2> 
+	<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 	<ul class="subsubsub">
 	<li><a href="ms-blogs.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Blog'); ?></strong></a> | </li>
@@ -44,9 +44,9 @@ $title = __( 'Site Admin' );
 	<form name="searchform" action="ms-users.php" method="get">
 		<p>
 			<input type="hidden" name="action" value="users" />
-			<input type="text" name="s" value="" size="17" /> 
+			<input type="text" name="s" value="" size="17" />
 			<input class="button" type="submit" name="submit" value="<?php esc_attr_e("Search Users"); ?>" />
-		</p> 
+		</p>
 	</form>
 
 	<form name="searchform" action="ms-blogs.php" method="get">

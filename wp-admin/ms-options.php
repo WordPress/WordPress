@@ -280,7 +280,7 @@ if (isset($_GET['updated'])) {
 			<a name='menu'></a>
 			<?php
 			$menu_perms = get_site_option( "menu_items" );
-			$menu_items = apply_filters( 'mu_menu_items', array('plugins' => __('Plugins')) );			
+			$menu_items = apply_filters( 'mu_menu_items', array('plugins' => __('Plugins')) );
 			foreach ( (array) $menu_items as $key => $val ) {
 				echo "<tr><th scope='row'>" . wp_specialchars($val) . "</th><td><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . (( $menu_perms[$key] == '1' ) ? ' checked="checked"' : '') . " /></td></tr>";
 			}

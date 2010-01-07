@@ -53,7 +53,7 @@ function wpmu_current_site() {
 	$current_site = wp_cache_get( "current_site", "site-options" );
 	if( $current_site )
 		return $current_site;
-		
+
 	$wpdb->suppress_errors();
 	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
 	if( count( $sites ) == 1 ) {

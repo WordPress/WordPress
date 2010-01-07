@@ -77,7 +77,7 @@ function get_sitestats() {
 
 function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	global $wpdb;
-	
+
 	if( $sitedomain == '' ) {
 		$site_id = $wpdb->siteid;
 	} else {
@@ -187,7 +187,7 @@ function get_current_user_id() {
  * Determine if user is a site admin.
  *
  * @deprecated Use {@link is_keymaster()}
- * 
+ *
  */
 function is_site_admin( $user_login = '' ) {
 	// This function must reside in a file included only if is_multsite() since many plugins
@@ -269,7 +269,7 @@ function get_blog_option( $blog_id, $setting, $default = false ) {
 
 function add_blog_option( $id, $key, $value ) {
 	$id = (int) $id;
-	
+
 	switch_to_blog($id);
 	add_option( $key, $value );
 	restore_current_blog();
@@ -278,7 +278,7 @@ function add_blog_option( $id, $key, $value ) {
 
 function delete_blog_option( $id, $key ) {
 	$id = (int) $id;
-	
+
 	switch_to_blog($id);
 	delete_option( $key );
 	restore_current_blog();
@@ -287,7 +287,7 @@ function delete_blog_option( $id, $key ) {
 
 function update_blog_option( $id, $key, $value, $refresh = true ) {
 	$id = (int) $id;
-	
+
 	switch_to_blog($id);
 	update_option( $key, $value );
 	restore_current_blog();
@@ -308,8 +308,8 @@ function switch_to_blog( $new_blog ) {
 
 	$switched_stack[] = $blog_id;
 
-	/* If we're switching to the same blog id that we're on, 
-	* set the right vars, do the associated actions, but skip 
+	/* If we're switching to the same blog id that we're on,
+	* set the right vars, do the associated actions, but skip
 	* the extra unnecessary work */
 	if ( $blog_id == $new_blog ) {
 		do_action( 'switch_blog', $blog_id, $blog_id );
@@ -407,7 +407,7 @@ function restore_current_blog() {
 
 	do_action('switch_blog', $blog_id, $prev_blog_id);
 
-	/* If we still have items in the switched stack, consider ourselves still 'switched' */ 
+	/* If we still have items in the switched stack, consider ourselves still 'switched' */
 	$switched = ( is_array( $switched_stack ) && count( $switched_stack ) > 0 );
 	return true;
 }
@@ -511,12 +511,12 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
 	$user_id = (int) $user_id;
 	$blog_id = (int) $blog_id;
-	
+
 	if( $blog_id == 0 ) {
 		global $wpdb;
 		$blog_id = $wpdb->blogid;
 	}
-	
+
 	$blogs = get_blogs_of_user( $user_id );
 	if( is_array( $blogs ) ) {
 		return array_key_exists( $blog_id, $blogs );
@@ -906,9 +906,9 @@ function validate_email( $email, $check_domain = true) {
 
 function is_email_address_unsafe( $user_email ) {
 	$banned_names = get_site_option( "banned_email_domains" );
-	if ($banned_names && !is_array( $banned_names )) { 
-		$banned_names = explode( "\n", $banned_names); 
-	} 
+	if ($banned_names && !is_array( $banned_names )) {
+		$banned_names = explode( "\n", $banned_names);
+	}
 	if ( is_array( $banned_names ) && empty( $banned_names ) == false ) {
 		$email_domain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
 		foreach( (array) $banned_names as $banned_domain ) {
@@ -1116,15 +1116,15 @@ function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = ''
 	$domain = $wpdb->escape($domain);
 	$path = $wpdb->escape($path);
 	$title = $wpdb->escape($title);
-					
+
 	$wpdb->insert( $wpdb->signups, array(
-		'domain' => $domain, 
-		'path' => $path, 
+		'domain' => $domain,
+		'path' => $path,
 		'title' => $title,
-		'user_login' => $user, 
-		'user_email' => $user_email, 
+		'user_login' => $user,
+		'user_email' => $user_email,
 		'registered' => current_time('mysql', true),
-		'activation_key' => $key, 
+		'activation_key' => $key,
 		'meta' => $meta
 	) );
 
@@ -1139,15 +1139,15 @@ function wpmu_signup_user($user, $user_email, $meta = '') {
 	$user_email = sanitize_email( $user_email );
 	$key = substr( md5( time() . rand() . $user_email ), 0, 16 );
 	$meta = serialize($meta);
-					
+
 	$wpdb->insert( $wpdb->signups, array(
-		'domain' => '', 
-		'path' => '', 
+		'domain' => '',
+		'path' => '',
 		'title' => '',
-		'user_login' => $user, 
-		'user_email' => $user_email, 
+		'user_login' => $user,
+		'user_email' => $user_email,
 		'registered' => current_time('mysql', true),
-		'activation_key' => $key, 
+		'activation_key' => $key,
 		'meta' => $meta
 	) );
 
@@ -1343,25 +1343,25 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	global $current_site;
 	if( get_site_option( 'registrationnotification' ) != 'yes' )
 		return false;
-		
+
 	$email = get_site_option( 'admin_email' );
 	if( is_email($email) == false )
 		return false;
-	
+
 	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
 
 	switch_to_blog( $blog_id );
 	$blogname = get_option( 'blogname' );
 	$siteurl = get_option( 'siteurl' );
 	restore_current_blog();
-	
+
 	$msg = sprintf( __( "New Blog: %1s
 URL: %2s
 Remote IP: %3s
 
 Disable these notifications: %4s"), $blogname, $siteurl, $_SERVER['REMOTE_ADDR'], $options_site_url);
 	$msg = apply_filters( 'newblog_notify_siteadmin', $msg );
-	
+
 	wp_mail( $email, sprintf( __( "New Blog Registration: %s" ), $siteurl ), $msg );
 	return true;
 }
@@ -1370,7 +1370,7 @@ function newuser_notify_siteadmin( $user_id ) {
 	global $current_site;
 	if( get_site_option( 'registrationnotification' ) != 'yes' )
 		return false;
-		
+
 	$email = get_site_option( 'admin_email' );
 	if( is_email($email) == false )
 		return false;
@@ -1381,7 +1381,7 @@ function newuser_notify_siteadmin( $user_id ) {
 Remote IP: %2s
 
 Disable these notifications: %3s"), $user->user_login, $_SERVER['REMOTE_ADDR'], $options_site_url);
-	
+
 	$msg = apply_filters( 'newuser_notify_siteadmin', $msg );
 	wp_mail( $email, sprintf(__("New User Registration: %s"), $user->user_login), $msg );
 	return true;
@@ -1416,7 +1416,7 @@ function install_blog($blog_id, $blog_title = '') {
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
 
-	if ( $wpdb->get_results("SELECT ID FROM $wpdb->posts") ) 
+	if ( $wpdb->get_results("SELECT ID FROM $wpdb->posts") )
 		die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>') . '</body></html>');
 	$wpdb->suppress_errors( false);
 
@@ -1444,7 +1444,7 @@ function install_blog($blog_id, $blog_title = '') {
 	// Default link category
 	$cat_name = __('Blogroll');
 	$cat_slug = sanitize_title($cat_name);
-	
+
 	$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
 	if( $blogroll_id == null ) {
 		$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
@@ -1487,11 +1487,11 @@ function install_blog_defaults($blog_id, $user_id) {
 	$first_post = str_replace( "SITE_URL", clean_url("http://" . $current_site->domain . $current_site->path), $first_post );
 	$first_post = str_replace( "SITE_NAME", $current_site->site_name, $first_post );
 	$wpdb->insert( $wpdb->posts, array(
-		'post_author' => $user_id, 
-		'post_date' => $now, 
+		'post_author' => $user_id,
+		'post_date' => $now,
 		'post_date_gmt' => $now_gmt,
-		'post_content' => stripslashes( $first_post ), 
-		'post_excerpt' => '', 
+		'post_content' => stripslashes( $first_post ),
+		'post_excerpt' => '',
 		'post_title' => __('Hello world!'),
 		'post_name' => __('hello-world'),
 		'post_modified' => $now,
@@ -1506,11 +1506,11 @@ function install_blog_defaults($blog_id, $user_id) {
 
 	// First page
 	$wpdb->insert( $wpdb->posts, array(
-		'post_author' => $user_id, 
-		'post_date' => $now, 
+		'post_author' => $user_id,
+		'post_date' => $now,
 		'post_date_gmt' => $now_gmt,
 		'post_content' => get_site_option( 'first_page' ),
-		'post_excerpt' => '', 
+		'post_excerpt' => '',
 		'post_title' => __('About'),
 		'post_name' => __('about'),
 		'post_modified' => $now,
@@ -1521,30 +1521,30 @@ function install_blog_defaults($blog_id, $user_id) {
 		'pinged' => '',
 		'post_content_filtered' => ''
 	) );
-	
+
 	// Flush rules to pick up the new page.
 	$wp_rewrite->init();
 	$wp_rewrite->flush_rules();
 
 	// Default comment
 	$wpdb->insert( $wpdb->comments, array(
-		'comment_post_ID' => '1', 
+		'comment_post_ID' => '1',
 		'comment_author' => __( get_site_option( 'first_comment_author' ) ),
 		'comment_author_email' => '',
 		'comment_author_url' => get_site_option( 'first_comment_url' ),
-		'comment_author_IP' => '127.0.0.1', 
+		'comment_author_IP' => '127.0.0.1',
 		'comment_date' => $now,
-		'comment_date_gmt' => $now_gmt, 
+		'comment_date_gmt' => $now_gmt,
 		'comment_content' => __( get_site_option( 'first_comment' ) )
 	) );
-	
+
 	$user = new WP_User($user_id);
 	$wpdb->update( $wpdb->options, array('option_value' => $user->user_email), array('option_name' => 'admin_email') );
 
 	// Remove all perms except for the login user.
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'user_level') );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'capabilities') );
-	
+
 	// Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
 	if ( !is_site_admin( $user->user_login ) && $user_id != 1 )
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $wpdb->base_prefix.'1_capabilities') );
@@ -1605,7 +1605,7 @@ function wpmu_welcome_user_notification($user_id, $password, $meta = '') {
 	if( !apply_filters('wpmu_welcome_user_notification', $user_id, $password, $meta) )
 		return false;
 
-	$welcome_email = get_site_option( 'welcome_user_email' ); 
+	$welcome_email = get_site_option( 'welcome_user_email' );
 
 	$user = new WP_User($user_id);
 
@@ -1746,12 +1746,12 @@ function upload_is_user_over_quota( $echo = true ) {
 	}
 	$spaceAllowed = get_space_allowed();
 	if(empty($spaceAllowed) || !is_numeric($spaceAllowed))
-		$spaceAllowed = 10;	// Default space allowed is 10 MB 
-	
+		$spaceAllowed = 10;	// Default space allowed is 10 MB
+
 	$dirName = BLOGUPLOADDIR;
 	$size = get_dirsize($dirName) / 1024 / 1024;
-	
-	if( ($spaceAllowed-$size) < 0 ) { 
+
+	if( ($spaceAllowed-$size) < 0 ) {
 		if( $echo )
 			_e( "Sorry, you have used your space allocation. Please delete some files to upload more files." ); //No space left
 		return true;
@@ -1787,7 +1787,7 @@ function fix_import_form_size( $size ) {
 	if( upload_is_user_over_quota( false ) == true ) {
 		return 0;
 	}
-	
+
 	$spaceAllowed = 1024 * 1024 * get_space_allowed();
 	$dirName = BLOGUPLOADDIR;
 	$dirsize = get_dirsize($dirName) ;
@@ -1801,7 +1801,7 @@ function fix_import_form_size( $size ) {
 if ( !function_exists('graceful_fail') ) :
 function graceful_fail( $message ) {
 	$message = apply_filters('graceful_fail', $message);
-	$message_template = apply_filters( 'graceful_fail_template', 
+	$message_template = apply_filters( 'graceful_fail_template',
 '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -1843,7 +1843,7 @@ class delete_blog {
 			return false;
 
 		if( $this->reallydeleteblog == true ) {
-			wpmu_delete_blog( $wpdb->blogid ); 
+			wpmu_delete_blog( $wpdb->blogid );
 		}
 	}
 
@@ -1862,14 +1862,14 @@ class delete_blog {
 			update_option( "delete_blog_hash", $hash );
 			$url_delete = get_option( "siteurl" ) . "/wp-admin/options-general.php?page=delete-blog&h=" . $hash;
 			$msg = __("Dear User,
-You recently clicked the 'Delete Blog' link on your blog and filled in a 
+You recently clicked the 'Delete Blog' link on your blog and filled in a
 form on that page.
 If you really want to delete your blog, click the link below. You will not
 be asked to confirm again so only click this link if you are 100% certain:
 URL_DELETE
 
 If you delete your blog, please consider opening a new blog here
-some time in the future! (But remember your current blog and username 
+some time in the future! (But remember your current blog and username
 are gone forever.)
 
 Thanks for using the site,
@@ -1932,8 +1932,8 @@ function global_terms( $term_id, $deprecated = '' ) {
 
 	clean_term_cache($term_id);
 
-	return $global_id; 
-}   
+	return $global_id;
+}
 
 function redirect_this_site( $deprecated = '' ) {
 	global $current_site;
@@ -1944,7 +1944,7 @@ function upload_is_file_too_big( $upload ) {
 	if( is_array( $upload ) == false || defined( 'WP_IMPORTING' ) )
 		return $upload;
 	if( strlen( $upload[ 'bits' ] )  > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
-		return sprintf(__( "This file is too big. Files must be less than %dKb in size.<br />" ), get_site_option( 'fileupload_maxk', 1500 )); 
+		return sprintf(__( "This file is too big. Files must be less than %dKb in size.<br />" ), get_site_option( 'fileupload_maxk', 1500 ));
 	}
 
 	return $upload;
@@ -2112,7 +2112,7 @@ function strtolower_usernames( $username, $raw, $strict ) {
 	return strtolower( $username );
 }
 
-/* Short circuit the update checks. Make sure update informtion is 
+/* Short circuit the update checks. Make sure update informtion is
    stored in wp_sitemeta rather than the options table of individual blogs */
 
 // update_plugins (transient)
@@ -2197,8 +2197,8 @@ function redirect_mu_dashboard() {
 	global $current_site, $current_blog;
 
 	$dashboard_blog = get_dashboard_blog();
-	if ( $current_blog->blog_id == $dashboard_blog->blog_id && $dashboard_blog->blog_id != $current_site->blog_id ) { 
-		$protocol = ( is_ssl() ? 'https://' : 'http://' ); 
+	if ( $current_blog->blog_id == $dashboard_blog->blog_id && $dashboard_blog->blog_id != $current_site->blog_id ) {
+		$protocol = ( is_ssl() ? 'https://' : 'http://' );
 		wp_redirect( $protocol . $dashboard_blog->domain . trailingslashit( $dashboard_blog->path ) . 'wp-admin/' );
 		die();
 	}
@@ -2222,7 +2222,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
 		$user_id = $current_user->ID;
 	if( $blog_id == 0 )
 		$blog_id = $wpdb->blogid;
-	
+
 	$local_key = $wpdb->base_prefix . $blog_id . "_" . $key;
 	if( isset( $current_user->$local_key ) )
 		return true;
@@ -2346,7 +2346,7 @@ function mu_filter_plugins_list( $active_plugins ) {
 
 	if ( !$active_sitewide_plugins )
 		return $active_plugins;
-	
+
 	$plugins = array_merge( (array) $active_plugins, array_keys( (array) $active_sitewide_plugins ) );
 	sort( $plugins );
 	return $plugins;

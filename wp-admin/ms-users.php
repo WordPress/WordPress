@@ -26,9 +26,9 @@ if ( $_GET['updated'] == 'true' ) {
 			case 'all_spam':
 				_e('Users marked as spam !');
 			break;
-			case 'all_notspam': 
-				_e('Users marked as not spam !'); 
-			break; 
+			case 'all_notspam':
+				_e('Users marked as not spam !');
+			break;
 			case 'all_delete':
 				_e('Users deleted !');
 			break;
@@ -85,12 +85,12 @@ if ( $_GET['updated'] == 'true' ) {
 
 	// Pagination
 	$user_navigation = paginate_links( array(
-		'total' => ceil($total / $num),	
+		'total' => ceil($total / $num),
 		'current' => $apage,
 		'base' => add_query_arg( 'apage', '%#%' ),
 		'format' => ''
 	));
-	
+
 	if ( $user_navigation ) {
 		$user_navigation = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 			number_format_i18n( ( $apage - 1 ) * $num + 1 ),
@@ -99,7 +99,7 @@ if ( $_GET['updated'] == 'true' ) {
 			$user_navigation
 		);
 	}
-	
+
 	?>
 	<div class="wrap">
 	<h2><?php _e( $current_site->site_name ); ?> <?php _e("Users"); ?></h2>
@@ -157,11 +157,11 @@ if ( $_GET['updated'] == 'true' ) {
 			<tbody id="users" class="list:user user-list">
 			<?php if ($user_list) {
 				$bgcolor = '';
-				foreach ( (array) $user_list as $user) { 
+				foreach ( (array) $user_list as $user) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
-					
+
 					$status_list = array( "spam" => "#faa", "deleted" => "#f55" );
-					
+
 					$bgcolour = "";
 					foreach ( $status_list as $status => $col ) {
 						if( $user[$status] ) {
@@ -177,7 +177,7 @@ if ( $_GET['updated'] == 'true' ) {
 						switch($column_name) {
 							case 'checkbox': ?>
 								<th scope="row" class="check-column"><input type='checkbox' id='user_<?php echo $user['ID'] ?>' name='allusers[]' value='<?php echo esc_attr($user['ID']) ?>' /></th>
-							<?php 
+							<?php
 							break;
 
 							case 'login':
@@ -212,7 +212,7 @@ if ( $_GET['updated'] == 'true' ) {
 							<?php
 							break;
 
-							case 'blogs': 
+							case 'blogs':
 								$blogs = get_blogs_of_user( $user['ID'], true );
 								?>
 								<td>
@@ -222,17 +222,17 @@ if ( $_GET['updated'] == 'true' ) {
 											$path	= ($val->path == '/') ? '' : $val->path;
 											echo '<a href="ms-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 											echo ' <small class="row-actions">';
-											
+
 											// Edit
 											echo '<a href="ms-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . __('Edit') . '</a> | ';
-											
+
 											// View
-											echo '<a '; 
+											echo '<a ';
 											if( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
 												echo 'style="background-color: #f66" ';
 											echo 'target="_new" href="http://'.$val->domain . $val->path.'">' . __('View') . '</a>';
-											
-											echo '</small><br />'; 
+
+											echo '</small><br />';
 										}
 									}
 									?>
@@ -247,20 +247,20 @@ if ( $_GET['updated'] == 'true' ) {
 						}
 					endforeach
 					?>
-					</tr> 
+					</tr>
 					<?php
 				}
 			} else {
 			?>
-				<tr style='background-color: <?php echo $bgcolor; ?>'> 
-					<td colspan="<?php echo (int) count($posts_columns); ?>"><?php _e('No users found.') ?></td> 
-				</tr> 
+				<tr style='background-color: <?php echo $bgcolor; ?>'>
+					<td colspan="<?php echo (int) count($posts_columns); ?>"><?php _e('No users found.') ?></td>
+				</tr>
 				<?php
 			} // end if ($users)
-			?> 
+			?>
 			</tbody>
 		</table>
-		
+
 		<div class="tablenav">
 			<?php if ( $user_navigation ) echo "<div class='tablenav-pages'>$user_navigation</div>"; ?>
 

@@ -10,10 +10,10 @@ if( is_site_admin() == false ) {
 
 do_action('wpmuadminedit', '');
 
-if( isset($_GET[ 'id' ]) ) { 
-	$id = intval( $_GET[ 'id' ] ); 
-} elseif( isset($_POST[ 'id' ]) ) { 
-	$id = intval( $_POST[ 'id' ] ); 
+if( isset($_GET[ 'id' ]) ) {
+	$id = intval( $_GET[ 'id' ] );
+} elseif( isset($_POST[ 'id' ]) ) {
+	$id = intval( $_POST[ 'id' ] );
 }
 
 if( isset( $_POST['ref'] ) == false && !empty($_SERVER['HTTP_REFERER']) ) {
@@ -143,8 +143,8 @@ switch( $_GET['action'] ) {
 
 		if ( empty($domain) || empty($email))
 			wp_die( __('Missing blog address or email address.') );
-		if( !is_email( $email ) ) 
-			wp_die( __('Invalid email address') ); 
+		if( !is_email( $email ) )
+			wp_die( __('Invalid email address') );
 
 		if( constant( 'VHOST' ) == 'yes' ) {
 			$newdomain = $domain.".".$current_site->domain;
@@ -218,7 +218,7 @@ switch( $_GET['action'] ) {
 			if( get_option( 'home' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
 				update_option( 'home', 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] );
 		}
-			
+
 		$wp_rewrite->flush_rules();
 
 		// update blogs table
@@ -317,11 +317,11 @@ switch( $_GET['action'] ) {
 				} elseif ( isset($_POST['allblog_spam']) ) {
 					$blogfunction = 'all_spam';
 					update_blog_status( $val, "spam", '1', 0 );
-					set_time_limit(60); 
+					set_time_limit(60);
 				} elseif ( isset($_POST['allblog_notspam']) ) {
 					$blogfunction = 'all_notspam';
 					update_blog_status( $val, "spam", '0', 0 );
-					set_time_limit(60); 
+					set_time_limit(60);
 				}
 			}
 		}
@@ -431,7 +431,7 @@ switch( $_GET['action'] ) {
 					<input type='hidden' name='ref' value='<?php echo $referrer; ?>' />
 					<?php wp_nonce_field( $_GET['action2'] ) ?>
 					<p><?php echo wp_specialchars( stripslashes($_GET['msg']) ); ?></p>
-					<p class="submit"><input class="button" type='submit' value='<?php _e("Confirm"); ?>' /></p>						
+					<p class="submit"><input class="button" type='submit' value='<?php _e("Confirm"); ?>' /></p>
 				</form>
 			</body>
 		</html>
