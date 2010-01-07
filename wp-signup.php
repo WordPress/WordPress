@@ -375,7 +375,7 @@ if( !$active_signup )
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 
 if( is_site_admin() )
-	echo '<div class="mu_alert">' . sprintf( __( "Greetings Site Administrator! You are currently allowing '%s' registrations. To change or disable registration go to your <a href='wp-admin/wpmu-options.php'>Options page</a>." ), $active_signup ) . '</div>';
+	echo '<div class="mu_alert">' . sprintf( __( "Greetings Site Administrator! You are currently allowing '%s' registrations. To change or disable registration go to your <a href='wp-admin/ms-options.php'>Options page</a>." ), $active_signup ) . '</div>';
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 

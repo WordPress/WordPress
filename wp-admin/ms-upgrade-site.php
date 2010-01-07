@@ -7,7 +7,7 @@ if ( !is_multisite() )
 require_once( ABSPATH . WPINC . '/http.php' );
 
 $title = __('WordPress MU &rsaquo; Admin &rsaquo; Upgrade Site');
-$parent_file = 'wpmu-admin.php';
+$parent_file = 'ms-admin.php';
 require_once('admin-header.php');
 
 if ( is_site_admin() == false ) {
@@ -41,11 +41,11 @@ switch( $_GET['action'] ) {
 				}
 			}
 			echo "</ul>";
-			?><p><?php _e("If your browser doesn't start loading the next page automatically click this link:"); ?> <a class="button" href="wpmu-upgrade-site.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Blogs"); ?></a></p>
+			?><p><?php _e("If your browser doesn't start loading the next page automatically click this link:"); ?> <a class="button" href="ms-upgrade-site.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Blogs"); ?></a></p>
 			<script type='text/javascript'>
 			<!--
 			function nextpage() {
-				location.href = "wpmu-upgrade-site.php?action=upgrade&n=<?php echo ($n + 5) ?>";
+				location.href = "ms-upgrade-site.php?action=upgrade&n=<?php echo ($n + 5) ?>";
 			}
 			setTimeout( "nextpage()", 250 );
 			//-->
@@ -56,7 +56,7 @@ switch( $_GET['action'] ) {
 	break;
 	default: 
 		?><p><?php _e("You can upgrade all the blogs on your site through this page. It works by calling the upgrade script of each blog automatically. Hit the link below to upgrade."); ?></p>
-		<p><a class="button" href="wpmu-upgrade-site.php?action=upgrade"><?php _e("Upgrade Site"); ?></a></p><?php
+		<p><a class="button" href="ms-upgrade-site.php?action=upgrade"><?php _e("Upgrade Site"); ?></a></p><?php
 		do_action( 'wpmu_upgrade_page' );
 	break;
 }

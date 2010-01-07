@@ -24,7 +24,7 @@ switch( $_GET['action'] ) {
 	case "siteoptions":
 		check_admin_referer('siteoptions');
 		if( empty( $_POST ) )
-			wp_die( __("You probably need to go back to the <a href='wpmu-options.php'>options page</a>") );
+			wp_die( __("You probably need to go back to the <a href='ms-options.php'>options page</a>") );
 
 		update_site_option( "WPLANG", $_POST['WPLANG'] );
 
@@ -127,7 +127,7 @@ switch( $_GET['action'] ) {
 		// Update more options here
 		do_action( 'update_wpmu_options' );
 
-		wp_redirect( add_query_arg( "updated", "true", 'wpmu-options.php' ) );
+		wp_redirect( add_query_arg( "updated", "true", 'ms-options.php' ) );
 		exit();
 	break;
 	case "addblog":
@@ -186,7 +186,7 @@ switch( $_GET['action'] ) {
 	case "updateblog":
 		check_admin_referer('editblog');
 		if( empty( $_POST ) )
-			wp_die( __('You probably need to go back to the <a href="wpmu-blogs.php">blogs page</a>') );
+			wp_die( __('You probably need to go back to the <a href="ms-blogs.php">blogs page</a>') );
 
 		// themes
 		if( is_array( $_POST[ 'theme' ] ) ) {
@@ -295,7 +295,7 @@ switch( $_GET['action'] ) {
 		}
 		do_action( 'wpmu_update_blog_options' );
 		restore_current_blog();
-		wpmu_admin_do_redirect( "wpmu-blogs.php?action=editblog&updated=true&id=".$id );
+		wpmu_admin_do_redirect( "ms-blogs.php?action=editblog&updated=true&id=".$id );
 	break;
 
 	case "deleteblog":
@@ -467,7 +467,7 @@ switch( $_GET['action'] ) {
 				foreach( $_POST[ 'user' ] as $id )
 					wpmu_delete_user( $id );
 
-			wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'all_delete'), 'wpmu-users.php' ) );
+			wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'all_delete'), 'ms-users.php' ) );
 		} else {
 			foreach ( (array) $_POST['allusers'] as $key => $val ) {
 				if( $val == '' || $val == '0' ) {
@@ -533,7 +533,7 @@ switch( $_GET['action'] ) {
 	break;
 
 	default:
-		wpmu_admin_do_redirect( "wpmu-admin.php" );
+		wpmu_admin_do_redirect( "ms-admin.php" );
 	break;
 }
 ?>

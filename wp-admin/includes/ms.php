@@ -731,7 +731,7 @@ function site_admin_notice() {
 		return false;
 	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a site administrator.") . "</div>", $current_user->user_login);
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
-		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="wpmu-upgrade-site.php">Upgrade Site</a> page to update all your blogs.' ) . "</div>";
+		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="ms-upgrade-site.php">Upgrade Site</a> page to update all your blogs.' ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'site_admin_notice' );
@@ -837,7 +837,7 @@ add_action( 'after_plugin_row', 'add_sitewide_activate_row', 9, 3 );
  * be activated as a site wide MU plugin.
  */
 function is_wpmu_sitewide_plugin( $file ) {
-	/* Open the plugin file for reading to check if this is a wpmu-plugin. */
+	/* Open the plugin file for reading to check if this is a ms-plugin. */
 	$fp = @fopen( WP_PLUGIN_DIR . '/' . $file, 'r' );
 	
 	/* Pull only the first 8kiB of the file in. */
@@ -1092,7 +1092,7 @@ function disable_some_pages() {
 
 	if ( strpos( $_SERVER['PHP_SELF'], 'user-new.php' ) && !get_site_option( 'add_new_users' ) ) {
 		if ( is_site_admin() ) {
-			$messages[] = '<div id="message" class="updated fade"><p>' . __( 'Warning! Only site administrators may see this page. Everyone else will see a <em>page disabled</em> message. Enable it again on <a href="wpmu-options.php#addnewusers">the options page</a>.' ) . '</p></div>';
+			$messages[] = '<div id="message" class="updated fade"><p>' . __( 'Warning! Only site administrators may see this page. Everyone else will see a <em>page disabled</em> message. Enable it again on <a href="ms-options.php#addnewusers">the options page</a>.' ) . '</p></div>';
 		} else {
 			wp_die( __('Page disabled by the administrator') );
 		}
@@ -1253,7 +1253,7 @@ function show_post_thumbnail_warning() {
 	}
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );
 	if ( !$mu_media_buttons[ 'image' ] && current_theme_supports( 'post-thumbnails' ) ) {
-		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports post thumbnails. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), admin_url( 'wpmu-options.php' ) ) . "</div>";
+		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports post thumbnails. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), admin_url( 'ms-options.php' ) ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'show_post_thumbnail_warning' );

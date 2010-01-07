@@ -5,7 +5,7 @@ if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
 $title = __('WordPress MU &rsaquo; Admin &rsaquo; Users');
-$parent_file = 'wpmu-admin.php';
+$parent_file = 'ms-admin.php';
 
 wp_enqueue_script( 'admin-forms' );
 
@@ -103,7 +103,7 @@ if ( $_GET['updated'] == 'true' ) {
 	?>
 	<div class="wrap">
 	<h2><?php _e( $current_site->site_name ); ?> <?php _e("Users"); ?></h2>
-	<form action="wpmu-users.php" method="get" class="search-form">
+	<form action="ms-users.php" method="get" class="search-form">
 		<p class="search-box">
 		<input type="text" name="s" value="<?php if (isset($_GET['s'])) esc_attr( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />
 		<input type="submit" id="post-query-submit" value="<?php esc_attr_e('Search Users') ?>" class="button" />
@@ -125,7 +125,7 @@ if ( $_GET['updated'] == 'true' ) {
 		</div>
 
 		<?php if( isset($_GET['s']) && $_GET['s'] != '' ) : ?>
-			<p><a href="wpmu-blogs.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Blogs for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
+			<p><a href="ms-blogs.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Blogs for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
 		<?php endif; ?>
 
 		<?php
@@ -149,7 +149,7 @@ if ( $_GET['updated'] == 'true' ) {
 					} elseif( $column_id == 'checkbox') {
 						echo '<th scope="col" class="check-column"><input type="checkbox" /></th>';
 					} else { ?>
-						<th scope="col"><a href="wpmu-users.php?sortby=<?php echo $column_id ?>&amp;<?php if( $_GET['sortby'] == $column_id ) { if( $_GET['order'] == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
+						<th scope="col"><a href="ms-users.php?sortby=<?php echo $column_id ?>&amp;<?php if( $_GET['sortby'] == $column_id ) { if( $_GET['order'] == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
 					<?php } ?>
 				<?php } ?>
 			</tr>
@@ -220,11 +220,11 @@ if ( $_GET['updated'] == 'true' ) {
 									if( is_array( $blogs ) ) {
 										foreach ( (array) $blogs as $key => $val ) {
 											$path	= ($val->path == '/') ? '' : $val->path;
-											echo '<a href="wpmu-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+											echo '<a href="ms-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 											echo ' <small class="row-actions">';
 											
 											// Edit
-											echo '<a href="wpmu-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . __('Edit') . '</a> | ';
+											echo '<a href="ms-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . __('Edit') . '</a> | ';
 											
 											// View
 											echo '<a '; 

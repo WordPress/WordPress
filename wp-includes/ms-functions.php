@@ -1354,7 +1354,7 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	if( is_email($email) == false )
 		return false;
 	
-	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/wpmu-options.php");
+	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
 
 	switch_to_blog( $blog_id );
 	$blogname = get_option( 'blogname' );
@@ -1382,7 +1382,7 @@ function newuser_notify_siteadmin( $user_id ) {
 		return false;
 	$user = new WP_User($user_id);
 
-	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/wpmu-options.php");
+	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
 	$msg = sprintf(__("New User: %1s
 Remote IP: %2s
 

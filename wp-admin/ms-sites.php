@@ -5,7 +5,7 @@ if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
 $title = __('WordPress MU &rsaquo; Admin &rsaquo; Blogs');
-$parent_file = 'wpmu-admin.php';
+$parent_file = 'ms-admin.php';
 
 wp_enqueue_script( 'admin-forms' );
 
@@ -369,7 +369,7 @@ switch( $_GET['action'] ) {
 		<div class="wrap" style="position:relative;">
 		<h2><?php _e('Blogs') ?></h2>
 
-		<form action="wpmu-blogs.php" method="get" id="wpmu-search">
+		<form action="ms-blogs.php" method="get" id="ms-search">
 			<input type="hidden" name="action" value="blogs" />
 			<input type="text" name="s" value="<?php if (isset($_GET['s'])) echo stripslashes( esc_attr( $s, 1 ) ); ?>" size="17" />
 			<input type="submit" class="button" name="blog_name" value="<?php esc_attr_e('Search blogs by name') ?>" />
@@ -394,7 +394,7 @@ switch( $_GET['action'] ) {
 		<br class="clear" />
 
 		<?php if( isset($_GET['s']) && !empty($_GET['s']) ) : ?>
-			<p><a href="wpmu-users.php?action=users&s=<?php echo urlencode( stripslashes( $s ) ) ?>"><?php _e('Search Users:') ?> <strong><?php echo stripslashes( $s ); ?></strong></a></p>
+			<p><a href="ms-users.php?action=users&s=<?php echo urlencode( stripslashes( $s ) ) ?>"><?php _e('Search Users:') ?> <strong><?php echo stripslashes( $s ); ?></strong></a></p>
 		<?php endif; ?>
 
 		<?php
@@ -426,7 +426,7 @@ switch( $_GET['action'] ) {
 				<tr>
 				<th scope="col" class="check-column"></th>
 				<?php foreach($posts_columns as $column_id => $column_display_name) {
-					$column_link = "<a href='wpmu-blogs.php?{$sortby_url}&amp;sortby={$column_id}&amp;";
+					$column_link = "<a href='ms-blogs.php?{$sortby_url}&amp;sortby={$column_id}&amp;";
 					if( $_GET['sortby'] == $column_id ) { 
 						$column_link .= $_GET[ 'order' ] == 'DESC' ? 'order=ASC&amp;' : 'order=DESC&amp;';
 					}
@@ -470,11 +470,11 @@ switch( $_GET['action'] ) {
  
 							case 'blogname': ?>
 								<td valign="top">
-									<a href="wpmu-blogs.php?action=editblog&amp;id=<?php echo $blog['blog_id'] ?>" class="edit"><?php echo $blogname; ?></a>
+									<a href="ms-blogs.php?action=editblog&amp;id=<?php echo $blog['blog_id'] ?>" class="edit"><?php echo $blogname; ?></a>
 									<br/>
 									<?php
 									$controlActions	= array();
-									$controlActions[]	= '<a href="wpmu-blogs.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
+									$controlActions[]	= '<a href="ms-blogs.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
 									$controlActions[]	= "<a href='{$protocol}{$blog['domain']}{$blog['path']}wp-admin/' class='edit'>" . __('Backend') . '</a>';
 									
 									if( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
