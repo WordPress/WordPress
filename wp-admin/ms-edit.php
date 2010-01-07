@@ -157,7 +157,7 @@ switch( $_GET['action'] ) {
 		$password = 'N/A';
 		$user_id = email_exists($email);
 		if( !$user_id ) { // Create a new user with a random password
-			$password = generate_random_password();
+			$password = wp_generate_password();
 			$user_id = wpmu_create_user( $domain, $password, $email );
 			if(false == $user_id) {
 				wp_die( __('There was an error creating the user') );

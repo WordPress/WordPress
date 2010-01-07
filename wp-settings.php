@@ -405,6 +405,7 @@ require (ABSPATH . WPINC . '/widgets.php');
 if ( is_multisite() ) {
 	require_once( ABSPATH . WPINC . '/ms-functions.php' );
 	require_once( ABSPATH . WPINC . '/ms-default-filters.php' );
+	require_once( ABSPATH . WPINC . '/ms-deprecated.php' );
 }
 
 if ( !defined('WP_CONTENT_URL') )

@@ -1214,7 +1214,7 @@ function wpmu_activate_signup($key) {
 	$user_login = $wpdb->escape($signup->user_login);
 	$user_email = $wpdb->escape($signup->user_email);
 	wpmu_validate_user_signup($user_login, $user_email);
-	$password = generate_random_password();
+	$password = wp_generate_password();
 
 	$user_id = username_exists($user_login);
 
@@ -1266,12 +1266,6 @@ function wpmu_activate_signup($key) {
 	do_action('wpmu_activate_blog', $blog_id, $user_id, $password, $signup->title, $meta);
 
 	return array('blog_id' => $blog_id, 'user_id' => $user_id, 'password' => $password, 'title' => $signup->title, 'meta' => $meta);
-}
-
-function generate_random_password( $len = 8 ) {
-	$random_password = substr(md5(uniqid(microtime())), 0, intval( $len ) );
-	$random_password = apply_filters('random_password', $random_password);
-	return $random_password;
 }
 
 function wpmu_create_user( $user_name, $password, $email) {
