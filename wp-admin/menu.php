@@ -31,7 +31,7 @@ if ( is_multisite() && is_super_admin() ) {
 	$menu[1] = array( '', 'read', 'separator0', '', 'wp-menu-separator' );
 	$menu[2] = array(__('Site Admin'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
 	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'delete_users', 'ms-admin.php' );
-	$submenu[ 'ms-admin.php' ][5] = array( __('Blogs'), 'delete_users', 'ms-blogs.php' );
+	$submenu[ 'ms-admin.php' ][5] = array( __('Blogs'), 'delete_users', 'ms-sites.php' );
 	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'delete_users', 'ms-users.php' );
 	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'delete_users', 'ms-themes.php' );
 	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'delete_users', 'ms-options.php' );
