@@ -401,7 +401,7 @@ switch( $_GET['action'] ) {
 
 		<?php
 		// define the columns to display, the syntax is 'internal name' => 'display name'
-		$blogname_columns = ( constant( "VHOST" ) == 'yes' ) ? __('Domain') : __('Path');
+		$blogname_columns = ( is_subdomain_install() ) ? __('Domain') : __('Path');
 		$posts_columns = array(
 			'id'           => __('ID'),
 			'blogname'     => $blogname_columns,
@@ -457,7 +457,7 @@ switch( $_GET['action'] ) {
 					}
 					echo "<tr $bgcolour class='$class'>";
 
-					$blogname = ( constant( "VHOST" ) == 'yes' ) ? str_replace('.'.$current_site->domain, '', $blog['domain']) : $blog['path'];
+					$blogname = ( is_subdomain_install() ) ? str_replace('.'.$current_site->domain, '', $blog['domain']) : $blog['path'];
 					foreach( $posts_columns as $column_name=>$column_display_name ) {
 						switch($column_name) {
 							case 'id': ?>
@@ -586,7 +586,7 @@ switch( $_GET['action'] ) {
 					<tr class="form-field form-required">
 						<th style="text-align:center;" scope='row'><?php _e('Blog Address') ?></th>
 						<td>
-						<?php if ( constant( "VHOST" ) == 'yes' ) { ?>
+						<?php if ( is_subdomain_install() ) { ?>
 							<input name="blog[domain]" type="text" title="<?php _e('Domain') ?>"/>.<?php echo $current_site->domain;?>
 						<?php } else {
 							echo $current_site->domain . $current_site->path ?><input name="blog[domain]" type="text" title="<?php _e('Domain') ?>"/>

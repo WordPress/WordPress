@@ -55,7 +55,7 @@ if (isset($_GET['updated'])) {
 					<label><input name="registration" type="radio" id="registration3" value='user' <?php echo get_site_option('registration') == 'user' ? 'checked="checked"' : ''; ?> /> <?php _e('Only user account can be created.'); ?></label><br />
 					<label><input name="registration" type="radio" id="registration4" value='blog' <?php echo get_site_option('registration') == 'blog' ? 'checked="checked"' : ''; ?> /> <?php _e('Only logged in users can create new blogs.'); ?></label><br />
 					<p><?php _e('Disable or enable registration and who or what can be registered. (Default=all)'); ?></p>
-					<?php if( constant( 'VHOST' ) == 'yes' ) {
+					<?php if( is_subdomain_install() ) {
 						echo "<p>" . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non existant blog.') . "</p>";
 					} ?>
 				</td>

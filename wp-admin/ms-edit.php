@@ -70,7 +70,7 @@ switch( $_GET['action'] ) {
 			if ( false === $blog_details ) {
 				if ( is_numeric( $dashboard_blog ) )
 					wp_die( __( 'Dashboard blog_id must be a blog that already exists' ) );
-				if ( constant( 'VHOST' ) == 'yes' ) {
+				if ( is_subdomain_install() ) {
 					$domain = $dashboard_blog . '.' . $current_site->domain;
 					$path = $current_site->path;
 				} else {
@@ -145,7 +145,7 @@ switch( $_GET['action'] ) {
 		if( !is_email( $email ) )
 			wp_die( __('Invalid email address') );
 
-		if( constant( 'VHOST' ) == 'yes' ) {
+		if( is_subdomain_install() ) {
 			$newdomain = $domain.".".$current_site->domain;
 			$path = $base;
 		} else {

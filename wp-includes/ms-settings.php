@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * Whether a subdomain configuration is enabled
+ *
+ * @since 3.0
+ *
+ * @return bool True if subdomain configuration is enabled, false otherwise.
+ */
+function is_subdomain_install() {
+	if ( defined('VHOST') && VHOST == 'yes' )
+		return true;
+
+	return false;
+}
+
 if( isset( $current_site ) && isset( $current_blog ) )
 	return;
 
@@ -65,7 +80,7 @@ function wpmu_current_site() {
 		return $current_site;
 	}
 	$path = substr( $_SERVER[ 'REQUEST_URI' ], 0, 1 + strpos( $_SERVER[ 'REQUEST_URI' ], '/', 1 ) );
-	if( constant( 'VHOST' ) == 'yes' ) {
+	if( is_subdomain_install() ) {
 		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path) );
 		if( $current_site != null )
 			return $current_site;
@@ -113,7 +128,7 @@ $current_site = wpmu_current_site();
 if( !isset( $current_site->blog_id ) )
 	$current_site->blog_id = $wpdb->get_var( "SELECT blog_id FROM {$wpdb->blogs} WHERE domain='{$current_site->domain}' AND path='{$current_site->path}'" );
 
-if( constant( 'VHOST' ) == 'yes' ) {
+if( is_subdomain_install() ) {
 	$current_blog = wp_cache_get( 'current_blog_' . $domain, 'site-options' );
 	if( !$current_blog ) {
 		$current_blog = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE domain = %s", $domain) );
@@ -143,7 +158,7 @@ if( constant( 'VHOST' ) == 'yes' ) {
 	}
 }
 
-if( defined( "WP_INSTALLING" ) == false && constant( 'VHOST' ) == 'yes' && !is_object( $current_blog ) ) {
+if( defined( "WP_INSTALLING" ) == false && is_subdomain_install() && !is_object( $current_blog ) ) {
 	if( defined( 'NOBLOGREDIRECT' ) ) {
 		$destination = constant( 'NOBLOGREDIRECT' );
 		if ( $destination == '%siteurl%' )

@@ -31,7 +31,7 @@ function get_blogaddress_by_id( $blog_id ) {
 function get_blogaddress_by_name( $blogname ) {
 	global $current_site;
 
-	if( defined( "VHOST" ) && constant( "VHOST" ) == 'yes' ) {
+	if( is_subdomain_install() ) {
 		if( $blogname == 'main' )
 			$blogname = 'www';
 		return clean_url( "http://" . $blogname . "." . $current_site->domain . $current_site->path );
@@ -41,7 +41,7 @@ function get_blogaddress_by_name( $blogname ) {
 }
 
 function get_blogaddress_by_domain( $domain, $path ){
-	if( defined( "VHOST" ) && constant( "VHOST" ) == 'yes' ) {
+	if( is_subdomain_install() ) {
 		$url = "http://".$domain.$path;
 	} else {
 		if( $domain != $_SERVER['HTTP_HOST'] ) {
@@ -108,7 +108,7 @@ function get_id_from_blogname( $name ) {
 	if ( $blog_id )
 		return $blog_id;
 
-	if ( defined('VHOST') && constant( 'VHOST' ) == 'yes' ) {
+	if ( is_subdomain_install() ) {
 		$domain = $name . '.' . $current_site->domain;
 		$path = $current_site->path;
 	} else {
@@ -1033,7 +1033,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$errors->add('blogname', __("Sorry, blog names may not contain the character '_'!"));
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
-	if ( constant( "VHOST" ) == 'no' && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_site->blog_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) ) {
+	if ( !is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_site->blog_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) ) {
 		$errors->add( 'blogname', __( "Sorry, you may not use that blog name" ) );
 	}
 
@@ -1051,7 +1051,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	    $errors->add('blog_title', __("Please enter a blog title"));
 
 	// Check if the domain/path has been used already.
-	if( constant( "VHOST" ) == 'yes' ) {
+	if( is_subdomain_install() ) {
 		$mydomain = "$blogname.$domain";
 		$path = $base;
 	} else {
@@ -1138,7 +1138,7 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 		return false;
 
 	// Send email with activation link.
-	if( constant( "VHOST" ) == 'no' || $current_site->id != 1 ) {
+	if( !is_subdomain_install() || $current_site->id != 1 ) {
 		$activate_url = "http://" . $current_site->domain . $current_site->path . "wp-activate.php?key=$key";
 	} else {
 		$activate_url = "http://{$domain}{$path}wp-activate.php?key=$key";
@@ -1267,7 +1267,7 @@ function wpmu_create_user( $user_name, $password, $email) {
 
 function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id = 1) {
 	$domain = preg_replace( "/\s+/", '', sanitize_user( $domain, true ) );
-	if( constant( 'VHOST' ) == 'yes' )
+	if( is_subdomain_install() )
 		$domain = str_replace( '@', '', $domain );
 	$title = strip_tags( $title );
 	$user_id = (int) $user_id;

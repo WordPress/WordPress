@@ -732,7 +732,7 @@ function site_admin_notice() {
 add_action( 'admin_notices', 'site_admin_notice' );
 
 function avoid_blog_page_permalink_collision( $data, $postarr ) {
-	if( constant( 'VHOST' ) == 'yes' )
+	if( is_subdomain_install() )
 		return $data;
 	if( $data[ 'post_type' ] != 'page' )
 		return $data;

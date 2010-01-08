@@ -56,7 +56,7 @@ get_header();
 function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	global $current_site;
 	// Blog name
-	if( constant( "VHOST" ) == 'no' )
+	if( !is_subdomain_install() )
 		echo '<label for="blogname">' . __('Blog Name:') . '</label>';
 	else
 		echo '<label for="blogname">' . __('Blog Domain:') . '</label>';
@@ -65,14 +65,14 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
 
-	if( constant( "VHOST" ) == 'no' ) {
+	if( !is_subdomain_install() ) {
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="50" /><br />';
 	} else {
 		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
 	}
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' );
-		if( constant( "VHOST" ) == 'no' ) {
+		if( !is_subdomain_install() ) {
 			print $current_site->domain . $current_site->path . __( 'blogname' );
 		} else {
 			print __( 'domain.' ) . $current_site->domain . $current_site->path;
@@ -420,7 +420,7 @@ if( $active_signup == "none" ) {
 				_e( "You're logged in already. No need to register again!" );
 			}
 			if ($newblogname) {
-				if( constant( "VHOST" ) == 'no' )
+				if( !is_subdomain_install() )
 					$newblog = 'http://' . $current_site->domain . $current_site->path . $newblogname . '/';
 				else
 					$newblog = 'http://' . $newblogname . '.' . $current_site->domain . $current_site->path;
