@@ -775,7 +775,9 @@ function activate_sitewide_plugin() {
 
 	return true;
 }
-add_action( 'activate_' . $_GET['plugin'], 'activate_sitewide_plugin' );
+
+// @todo Throws warning if plugin is not set.  Kinda janky.
+//add_action( 'activate_' . $_GET['plugin'], 'activate_sitewide_plugin' );
 
 /**
  * deactivate_sitewide_plugin()
@@ -800,7 +802,8 @@ function deactivate_sitewide_plugin( $plugin = false ) {
 
 	return true;
 }
-add_action( 'deactivate_' . $_GET['plugin'], 'deactivate_sitewide_plugin' );
+// @todo Throws warning if plugin is not set.  Kinda janky.
+//add_action( 'deactivate_' . $_GET['plugin'], 'deactivate_sitewide_plugin' );
 add_action( 'deactivate_invalid_plugin', 'deactivate_sitewide_plugin' );
 
 /**
@@ -1009,7 +1012,8 @@ function check_is_wpmu_plugin_on_activate() {
 		}
 	}
 }
-add_action( 'activate_' . $_GET['plugin'], 'check_is_wpmu_plugin_on_activate' );
+// @todo Throws warning if plugin is not set.  Kinda janky.
+//add_action( 'activate_' . $_GET['plugin'], 'check_is_wpmu_plugin_on_activate' );
 
 /**
  * check_wpmu_plugins_on_bulk_activate()
