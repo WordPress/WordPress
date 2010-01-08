@@ -19,8 +19,7 @@ define('WP_INSTALLING', true);
 /**
  * Disable error reporting
  *
- * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) f
-or debugging
+ * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) for debugging
  */
 error_reporting(0);
 
@@ -192,7 +191,7 @@ switch($step) {
 <p>You can create the <code>wp-config.php</code> manually and paste the following text into it.</p>
 <textarea cols="90" rows="15"><?php
 		foreach( $configFile as $line ) {
-			echo htmlentities($line);
+			echo htmlentities($line, ENT_COMPAT, 'UTF-8');
 		}
 ?></textarea>
 <p>After you've done that, click "Run the install."</p>
