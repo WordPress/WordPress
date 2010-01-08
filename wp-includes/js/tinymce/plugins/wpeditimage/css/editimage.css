@@ -40,6 +40,12 @@ select {
 	padding: 3px;
 }
 
+p.help {
+	margin: 4px 0;
+	font-size: 12px;
+	font-style: italic;
+}
+
 body, td {
 	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
@@ -52,11 +58,13 @@ abbr.required {
 img.alignright,
 .alignright {
 	float: right;
+	margin-left: 5px;
 }
 
 img.alignleft,
 .alignleft {
 	float: left;
+	margin-right: 5px;
 }
 
 img.aligncenter {
@@ -149,9 +157,9 @@ th.label {
 	-khtml-border-top-right-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	border-top-right-radius: 4px;
-	border-style:solid;
-	border-width:1px;
-	font-weight:normal;
+	border-style: solid;
+	border-width: 1px;
+	font-weight: normal;
 }
 
 #adv_settings .field label {
@@ -279,13 +287,16 @@ form {
 .describe textarea {
 	width: 460px;
 	border: 1px solid #dfdfdf;
+	-moz-border-radius: 4px;
+ 	-khtml-border-radius: 4px;
+ 	-webkit-border-radius: 4px;
+	border-radius: 4px;
 }
-
 
 .media-upload-form label,
 .media-upload-form legend {
 	font-weight: bold;
-	font-size: 13px;
+	font-size: 12px;
 	color: #464646;
 }
 
@@ -340,4 +351,8 @@ div#media-upload-error {
 * html #sidemenu a {
 	height: 27px;
 	line-height: 26px;
+}
+
+* html input {
+	border: 1px solid #ddd;
 }

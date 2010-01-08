@@ -4,10 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
 
-<script type="text/javascript" src="js/editimage.js?ver=3223"></script>
+<script type="text/javascript" src="js/editimage.js?ver=327"></script>
 <script type="text/javascript" src="../../utils/form_utils.js?ver=3223"></script>
 
-<link rel="stylesheet" href="css/editimage.css?ver=3223" type="text/css" media="all" />
+<link rel="stylesheet" href="css/editimage.css?ver=327" type="text/css" media="all" />
 
 <script type="text/javascript">
 if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
@@ -85,6 +85,17 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</td>
 		</tr>
 
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_alt">
+				<span class="alignleft">{#wpeditimage.alt}</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_alt" name="img_alt" value="" size="60" />
+			</td>
+		</tr>
+
 		<tr id="cap_field">
 			<th valign="top" scope="row" class="label">
 				<label for="img_cap">
@@ -126,17 +137,6 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</th>
 			<td class="field">
 				<input type="text" id="img_src" name="img_src" value="" onblur="wpImage.checkVal(this)" aria-required="true" size="60" />
-			</td>
-		</tr>
-		
-		<tr>
-			<th valign="top" scope="row" class="label">
-				<label for="img_alt">
-				<span class="alignleft">{#wpeditimage.alt}</span>
-				</label>
-			</th>
-			<td class="field">
-				<input type="text" id="img_alt" name="img_alt" value="" size="60" />
 			</td>
 		</tr>
 
