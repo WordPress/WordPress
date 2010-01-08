@@ -98,7 +98,7 @@ $themes = array_slice( $themes, $start, $per_page );
 function theme_update_available( $theme ) {
 	static $themes_update;
 	if ( !isset($themes_update) )
-		$themes_update = get_transient('update_themes');
+		$themes_update = get_site_transient('update_themes');
 
 	if ( is_object($theme) && isset($theme->stylesheet) )
 		$stylesheet = $theme->stylesheet;

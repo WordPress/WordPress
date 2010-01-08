@@ -31,9 +31,9 @@ function get_preferred_from_update_core() {
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge( array('available' => true, 'dismissed' => false ), $options );
-	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed = get_site_option( 'dismissed_update_core' );
 	if ( !is_array( $dismissed ) ) $dismissed = array();
-	$from_api = get_transient( 'update_core' );
+	$from_api = get_site_transient( 'update_core' );
 	if ( empty($from_api) )
 		return false;
 	if ( !isset( $from_api->updates ) || !is_array( $from_api->updates ) ) return false;
@@ -57,21 +57,21 @@ function get_core_updates( $options = array() ) {
 }
 
 function dismiss_core_update( $update ) {
-	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed = get_site_option( 'dismissed_update_core' );
 	$dismissed[ $update->current.'|'.$update->locale ] = true;
-	return update_option( 'dismissed_update_core', $dismissed );
+	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
 function undismiss_core_update( $version, $locale ) {
-	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed = get_site_option( 'dismissed_update_core' );
 	$key = $version.'|'.$locale;
 	if ( !isset( $dismissed[$key] ) ) return false;
 	unset( $dismissed[$key] );
-	return update_option( 'dismissed_update_core', $dismissed );
+	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
 function find_core_update( $version, $locale ) {
-	$from_api = get_transient( 'update_core' );
+	$from_api = get_site_transient( 'update_core' );
 	if ( !is_array( $from_api->updates ) ) return false;
 	$updates = $from_api->updates;
 	foreach($updates as $update) {
@@ -148,7 +148,7 @@ function update_right_now_message() {
 function get_plugin_updates() {
 	$all_plugins = get_plugins();
 	$upgrade_plugins = array();
-	$current = get_transient( 'update_plugins' );
+	$current = get_site_transient( 'update_plugins' );
 	foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 		if ( isset( $current->response[ $plugin_file ] ) ) {
 			$upgrade_plugins[ $plugin_file ] = (object) $plugin_data;
@@ -160,7 +160,7 @@ function get_plugin_updates() {
 }
 
 function wp_plugin_update_rows() {
-	$plugins = get_transient( 'update_plugins' );
+	$plugins = get_site_transient( 'update_plugins' );
 	if ( isset($plugins->response) && is_array($plugins->response) ) {
 		$plugins = array_keys( $plugins->response );
 		foreach( $plugins as $plugin_file ) {
@@ -171,7 +171,7 @@ function wp_plugin_update_rows() {
 add_action( 'admin_init', 'wp_plugin_update_rows' );
 
 function wp_plugin_update_row( $file, $plugin_data ) {
-	$current = get_transient( 'update_plugins' );
+	$current = get_site_transient( 'update_plugins' );
 	if ( !isset( $current->response[ $file ] ) )
 		return false;
 
@@ -207,7 +207,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 function get_theme_updates() {
 	$themes = get_themes();
-	$current = get_transient('update_themes');
+	$current = get_site_transient('update_themes');
 	$update_themes = array();
 
 	foreach ( $themes as $theme ) {

@@ -278,8 +278,8 @@ function update_core($from, $to) {
 	$wp_filesystem->delete($from, true);
 
 	// Force refresh of update information
-	if ( function_exists('delete_transient') )
-		delete_transient('update_core');
+	if ( function_exists('delete_site_transient') )
+		delete_site_transient('update_core');
 	else
 		delete_option('update_core');
 

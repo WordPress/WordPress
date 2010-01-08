@@ -398,7 +398,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 					));
 
 		// Force refresh of plugin update information
-		delete_transient('update_plugins');
+		delete_site_transient('update_plugins');
 
 	}
 
@@ -407,7 +407,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->init();
 		$this->upgrade_strings();
 
-		$current = get_transient( 'update_plugins' );
+		$current = get_site_transient( 'update_plugins' );
 		if ( !isset( $current->response[ $plugin ] ) ) {
 			$this->skin->set_result(false);
 			$this->skin->error('up_to_date');
@@ -440,7 +440,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return $this->result;
 
 		// Force refresh of plugin update information
-		delete_transient('update_plugins');
+		delete_site_transient('update_plugins');
 	}
 
 	function bulk_upgrade($plugins) {
@@ -449,7 +449,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->bulk = true;
 		$this->upgrade_strings();
 
-		$current = get_transient( 'update_plugins' );
+		$current = get_site_transient( 'update_plugins' );
 
 		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
 
@@ -508,7 +508,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information
-		delete_transient('update_plugins');
+		delete_site_transient('update_plugins');
 
 		return $results;
 	}
@@ -627,7 +627,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $this->result;
 
 		// Force refresh of theme update information
-		delete_transient('update_themes');
+		delete_site_transient('update_themes');
 
 		if ( empty($result['destination_name']) )
 			return false;
@@ -641,7 +641,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->upgrade_strings();
 
 		// Is an update available?
-		$current = get_transient( 'update_themes' );
+		$current = get_site_transient( 'update_themes' );
 		if ( !isset( $current->response[ $theme ] ) ) {
 			$this->skin->set_result(false);
 			$this->skin->error('up_to_date');
@@ -671,7 +671,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $this->result;
 
 		// Force refresh of theme update information
-		delete_transient('update_themes');
+		delete_site_transient('update_themes');
 
 		return true;
 	}

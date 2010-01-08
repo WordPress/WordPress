@@ -476,7 +476,7 @@ function install_theme_information() {
 	// Default to a "new" theme
 	$type = 'install';
 	// Check to see if this theme is known to be installed, and has an update awaiting it.
-	$update_themes = get_transient('update_themes');
+	$update_themes = get_site_transient('update_themes');
 	if ( is_object($update_themes) && isset($update_themes->response) ) {
 		foreach ( (array)$update_themes->response as $theme_slug => $theme_info ) {
 			if ( $theme_slug === $api->slug ) {

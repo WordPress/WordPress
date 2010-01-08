@@ -302,7 +302,7 @@ foreach ( $recently_activated as $key => $time )
 		unset($recently_activated[ $key ]);
 if ( $recently_activated != get_option('recently_activated') ) //If array changed, update it.
 	update_option('recently_activated', $recently_activated);
-$current = get_transient( 'update_plugins' );
+$current = get_site_transient( 'update_plugins' );
 
 foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 

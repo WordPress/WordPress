@@ -97,7 +97,7 @@ function delete_theme($template) {
 		return new WP_Error('could_not_remove_theme', sprintf(__('Could not fully remove the theme %s'), $template) );
 
 	// Force refresh of theme update information
-	delete_transient('update_themes');
+	delete_site_transient('update_themes');
 
 	return true;
 }

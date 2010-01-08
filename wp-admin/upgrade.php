@@ -20,7 +20,7 @@ require( '../wp-load.php' );
 timer_start();
 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-delete_transient('update_core');
+delete_site_transient('update_core');
 
 if ( isset( $_GET['step'] ) )
 	$step = $_GET['step'];

@@ -443,7 +443,7 @@ function install_plugin_information() {
 			//Default to a "new" plugin
 			$type = 'install';
 			//Check to see if this plugin is known to be installed, and has an update awaiting it.
-			$update_plugins = get_transient('update_plugins');
+			$update_plugins = get_site_transient('update_plugins');
 			if ( is_object( $update_plugins ) ) {
 				foreach ( (array)$update_plugins->response as $file => $plugin ) {
 					if ( $plugin->slug === $api->slug ) {
@@ -464,7 +464,7 @@ function install_plugin_information() {
 						$newer_version = $installed_plugin[ $key ]['Version'];
 					} else {
 						//If the above update check failed, Then that probably means that the update checker has out-of-date information, force a refresh
-						delete_transient('update_plugins');
+						delete_site_transient('update_plugins');
 						$update_file = $api->slug . '/' . $key; //This code branch only deals with a plugin which is in a folder the same name as its slug, Doesnt support plugins which have 'non-standard' names
 						$type = 'update_available';
 					}

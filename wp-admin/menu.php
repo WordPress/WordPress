@@ -104,7 +104,7 @@ $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 	if ( is_super_admin() )
 		$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 
-$update_plugins = get_transient( 'update_plugins' );
+$update_plugins = get_site_transient( 'update_plugins' );
 $update_count = 0;
 if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );
