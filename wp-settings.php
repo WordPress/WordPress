@@ -331,7 +331,7 @@ function is_admin() {
  * @return bool True if multisite is enabled, false otherwise.
  */
 function is_multisite() {
-	if ( defined('MULTISITE') )
+	if ( defined('MULTISITE') || defined('VHOST') )
 		return true;
 
 	return false;
