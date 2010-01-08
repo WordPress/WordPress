@@ -2750,6 +2750,21 @@ function wp_parse_args( $args, $defaults = '' ) {
 }
 
 /**
+ * Clean up an array, comma- or space-separated list of IDs
+ *
+ * @since 3.0.0
+ *
+ * @param array|string $list
+ * @return array Sanitized array of IDs
+ */
+function wp_parse_id_list($list) {
+	if ( !is_array($list) )
+		$list = preg_split('/[\s,]+/', $list);
+
+	return array_unique(array_map('absint', $list));
+}
+
+/**
  * Determines if default embed handlers should be loaded.
  *
  * Checks to make sure that the embeds library hasn't already been loaded. If

@@ -571,18 +571,19 @@ function get_term_to_edit( $id, $taxonomy ) {
  * hide_empty - Default is true. Will not return empty terms, which means
  * terms whose count is 0 according to the given taxonomy.
  *
- * exclude - Default is an empty string.  A comma- or space-delimited string
+ * exclude - Default is an empty array.  An array, comma- or space-delimited string
  * of term ids to exclude from the return array.  If 'include' is non-empty,
  * 'exclude' is ignored.
  *
- * exclude_tree - A comma- or space-delimited string of term ids to exclude
- * from the return array, along with all of their descendant terms according to
- * the primary taxonomy.  If 'include' is non-empty, 'exclude_tree' is ignored.
+ * exclude_tree - Default is an empty array.  An array, comma- or space-delimited 
+ * string of term ids to exclude from the return array, along with all of their 
+ * descendant terms according to the primary taxonomy.  If 'include' is non-empty, 
+ * 'exclude_tree' is ignored.
  *
- * include - Default is an empty string.  A comma- or space-delimited string
+ * include - Default is an empty array.  An array, comma- or space-delimited string
  * of term ids to include in the return array.
  *
- * number - The maximum number of terms to return.  Default is empty.
+ * number - The maximum number of terms to return.  Default is to return them all.
  *
  * offset - The number by which to offset the terms query.
  *
@@ -651,7 +652,7 @@ function &get_terms($taxonomies, $args = '') {
 	$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'exclude' => '', 'exclude_tree' => '', 'include' => '',
+		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
 		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '',
 		'pad_counts' => false, 'offset' => '', 'search' => '');
@@ -719,14 +720,12 @@ function &get_terms($taxonomies, $args = '') {
 	if ( !empty($include) ) {
 		$exclude = '';
 		$exclude_tree = '';
-		$interms = preg_split('/[\s,]+/',$include);
-		if ( count($interms) ) {
-			foreach ( (array) $interms as $interm ) {
-				if (empty($inclusions))
-					$inclusions = ' AND ( t.term_id = ' . intval($interm) . ' ';
-				else
-					$inclusions .= ' OR t.term_id = ' . intval($interm) . ' ';
-			}
+		$interms = wp_parse_id_list($include);
+		foreach ( $interms as $interm ) {
+			if ( empty($inclusions) )
+				$inclusions = ' AND ( t.term_id = ' . intval($interm) . ' ';
+			else
+				$inclusions .= ' OR t.term_id = ' . intval($interm) . ' ';
 		}
 	}
 
@@ -735,29 +734,27 @@ function &get_terms($taxonomies, $args = '') {
 	$where .= $inclusions;
 
 	$exclusions = '';
-	if ( ! empty( $exclude_tree ) ) {
-		$excluded_trunks = preg_split('/[\s,]+/',$exclude_tree);
-		foreach( (array) $excluded_trunks as $extrunk ) {
+	if ( !empty( $exclude_tree ) ) {
+		$excluded_trunks = wp_parse_id_list($exclude_tree);
+		foreach ( $excluded_trunks as $extrunk ) {
 			$excluded_children = (array) get_terms($taxonomies[0], array('child_of' => intval($extrunk), 'fields' => 'ids'));
 			$excluded_children[] = $extrunk;
-			foreach( (array) $excluded_children as $exterm ) {
+			foreach( $excluded_children as $exterm ) {
 				if ( empty($exclusions) )
 					$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
 				else
 					$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
-
 			}
 		}
 	}
+
 	if ( !empty($exclude) ) {
-		$exterms = preg_split('/[\s,]+/',$exclude);
-		if ( count($exterms) ) {
-			foreach ( (array) $exterms as $exterm ) {
-				if ( empty($exclusions) )
-					$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
-				else
-					$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
-			}
+		$exterms = wp_parse_id_list($exclude);
+		foreach ( $exterms as $exterm ) {
+			if ( empty($exclusions) )
+				$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
+			else
+				$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
 		}
 	}
 
@@ -834,7 +831,7 @@ function &get_terms($taxonomies, $args = '') {
 		foreach ( $terms as $k => $term ) {
 			if ( ! $term->count ) {
 				$children = _get_term_children($term->term_id, $terms, $taxonomies[0]);
-				if( is_array($children) )
+				if ( is_array($children) )
 					foreach ( $children as $child )
 						if ( $child->count )
 							continue 2;
