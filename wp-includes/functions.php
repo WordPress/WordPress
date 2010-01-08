@@ -400,50 +400,13 @@ function form_option( $option ) {
 }
 
 /**
- * Retrieve all autoload options or all options, if no autoloaded ones exist.
- *
- * This is different from wp_load_alloptions() in that this function does not
- * cache its results and will retrieve all options from the database every time
- *
- * it is called.
- *
- * @since 1.0.0
- * @package WordPress
- * @subpackage Option
- * @uses apply_filters() Calls 'pre_option_$optionname' hook with option value as parameter.
- * @uses apply_filters() Calls 'all_options' on options list.
- *
- * @return array List of all options.
- */
-function get_alloptions() {
-	global $wpdb;
-	$show = $wpdb->hide_errors();
-	if ( !$options = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'" ) )
-		$options = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
-	$wpdb->show_errors($show);
-
-	foreach ( (array) $options as $option ) {
-		// "When trying to design a foolproof system,
-		//  never underestimate the ingenuity of the fools :)" -- Dougal
-		if ( in_array( $option->option_name, array( 'siteurl', 'home', 'category_base', 'tag_base' ) ) )
-			$option->option_value = untrailingslashit( $option->option_value );
-		$value = maybe_unserialize( $option->option_value );
-		$all_options->{$option->option_name} = apply_filters( 'pre_option_' . $option->option_name, $value );
-	}
-	return apply_filters( 'all_options', $all_options );
-}
-
-/**
  * Loads and caches all autoloaded options, if available or all options.
- *
- * This is different from get_alloptions(), in that this function will cache the
- * options and will return the cached options when called again.
  *
  * @since 2.2.0
  * @package WordPress
  * @subpackage Option
  *
- * @return array List all options.
+ * @return array List of all options.
  */
 function wp_load_alloptions() {
 	global $wpdb;

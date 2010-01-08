@@ -1899,4 +1899,19 @@ function _nc( $single, $plural, $number, $domain = 'default' ) {
 	_deprecated_function(__FUNCTION__, '2.9', '_nx' );
 	return before_last_bar( _n( $single, $plural, $number, $domain ) );
 }
+
+/**
+ * Retrieve all autoload options, or all options if no autoloaded ones exist.
+ *
+ * @since 1.0.0
+ * @deprecated 3.0.0
+ * @deprecated Use wp_load_alloptions())
+ * @see wp_load_alloptions()
+ *
+ * @return array List of all options.
+ */
+function get_alloptions() {
+	_deprecated_function( __FUNCTION__, '3.0', 'wp_load_alloptions()' );
+	return wp_load_alloptions();
+}
 ?>
