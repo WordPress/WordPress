@@ -102,13 +102,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 		// make thumbnails and other intermediate sizes
 		global $_wp_additional_image_sizes;
-		$temp_sizes = array('thumbnail', 'medium', 'large'); // Standard sizes
-		if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) )
-			$temp_sizes = array_merge( $temp_sizes, array_keys( $_wp_additional_image_sizes ) );
 
-		$temp_sizes = apply_filters( 'intermediate_image_sizes', $temp_sizes );
-
-		foreach ( $temp_sizes as $s ) {
+		foreach ( get_intermediate_image_sizes() as $s ) {
 			$sizes[$s] = array( 'width' => '', 'height' => '', 'crop' => FALSE );
 			if ( isset( $_wp_additional_image_sizes[$s]['width'] ) )
 				$sizes[$s]['width'] = intval( $_wp_additional_image_sizes[$s]['width'] ); // For theme-added sizes

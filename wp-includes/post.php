@@ -2946,8 +2946,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	}
 
 	// remove intermediate and backup images if there are any
-	$sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium', 'large'));
-	foreach ( $sizes as $size ) {
+	foreach ( get_intermediate_image_sizes() as $size ) {
 		if ( $intermediate = image_get_intermediate_size($post_id, $size) ) {
 			$intermediate_file = apply_filters('wp_delete_file', $intermediate['path']);
 			@ unlink( path_join($uploadpath['basedir'], $intermediate_file) );

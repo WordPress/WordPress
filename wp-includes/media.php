@@ -507,6 +507,20 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 }
 
 /**
+ * Get the available image sizes
+ * @since 3.0
+ * @return array Returns a filtered array of image size strings
+ */
+function get_intermediate_image_sizes() {
+	global $_wp_additional_image_sizes;
+	$image_sizes = array('thumbnail', 'medium', 'large'); // Standard sizes
+	if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) )
+		$image_sizes = array_merge( $image_sizes, array_keys( $_wp_additional_image_sizes ) );
+
+	return apply_filters( 'intermediate_image_sizes', $image_sizes );
+}
+
+/**
  * Retrieve an image to represent an attachment.
  *
  * A mime icon for files, thumbnail or intermediate size for images.
