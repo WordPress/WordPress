@@ -2953,7 +2953,7 @@ abbr.required {
 .media-item .original {
 	position: relative;
 	height: 34px;
-	text-align: center;
+	width: 503px;
 }
 
 .media-item .percent {
