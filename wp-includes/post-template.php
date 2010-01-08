@@ -437,7 +437,7 @@ function get_body_class( $class = '' ) {
 		}
 		if ( is_page_template() ) {
 			$classes[] = 'page-template';
-			$classes[] = 'page-template-' . str_replace( '.php', '-php', get_post_meta( $pageID, '_wp_page_template', true ) );
+			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_post_meta( $pageID, '_wp_page_template', true ) ), '' );
 		}
 	} elseif ( is_search() ) {
 		if ( !empty($wp_query->posts) )
