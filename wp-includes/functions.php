@@ -3282,7 +3282,7 @@ function add_site_option( $key, $value ) {
 
 		$value = maybe_serialize($value);
 
-		$wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $key, 'meta_value' => $value) );
+		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $key, 'meta_value' => $value) );
 	}
 
 	do_action( "add_site_option_{$key}", $key, $value );
