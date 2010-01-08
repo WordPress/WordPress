@@ -666,7 +666,7 @@ class wpdb {
 
                 // If there is an error then take note of it
                 if( is_multisite() ) {
-                        $msg = "WordPress database error: [$str]\n{$this->query}\n";
+                        $msg = "WordPress database error: [$str]\n{$this->last_query}\n";
                         if( defined( 'ERRORLOGFILE' ) )
                                 error_log( $msg, 3, CONSTANT( 'ERRORLOGFILE' ) );
                         if( defined( 'DIEONDBERROR' ) )
