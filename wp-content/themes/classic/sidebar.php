@@ -24,7 +24,7 @@
  </li>
  <li id="archives"><?php _e('Archives:'); ?>
 	<ul>
-	 <?php wp_get_archives('type=monthly'); ?>
+	 <?php wp_get_archives(array('type' => 'monthly')); ?>
 	</ul>
  </li>
  <li id="meta"><?php _e('Meta:'); ?>

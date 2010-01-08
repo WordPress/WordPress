@@ -983,7 +983,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	if ( !empty( $css_class ) ) {
 		echo ' class="'.$css_class.'" ';
 	}
-	$title = the_title_attribute( 'echo=0' );
+	$title = the_title_attribute( array('echo' => 0 ) );
 
 	echo apply_filters( 'comments_popup_link_attributes', '' );
 

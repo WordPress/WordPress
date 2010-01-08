@@ -592,7 +592,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
 function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
 	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
 
-	$links = get_bookmarks("category=$category&orderby=$orderby&limit=$limit");
+	$links = get_bookmarks( array( 'category' => $category, 'orderby' => $orderby, 'limit' => $limit ) ) ;
 
 	$links_array = array();
 	foreach ($links as $link)

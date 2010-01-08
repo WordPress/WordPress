@@ -7,7 +7,7 @@
 
 if (empty($wp)) {
 	require_once('./wp-load.php');
-	wp('tb=1');
+	wp( array( 'tb' => '1' ) );
 }
 
 /**

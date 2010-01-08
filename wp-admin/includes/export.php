@@ -51,7 +51,7 @@ unset($custom_taxonomies['category']);
 unset($custom_taxonomies['post_tag']);
 unset($custom_taxonomies['link_category']);
 $custom_taxonomies = array_keys($custom_taxonomies);
-$terms = (array) get_terms($custom_taxonomies, 'get=all');
+$terms = (array) get_terms($custom_taxonomies, array('get' => 'all'));
 
 /**
  * {@internal Missing Short Description}}

@@ -360,7 +360,7 @@ class WP_Import {
 		unset( $custom_taxonomies['link_category'] );
 		
 		$custom_taxonomies = array_keys( $custom_taxonomies );
-		$current_terms = (array) get_terms( $custom_taxonomies, 'get=all' );
+		$current_terms = (array) get_terms( $custom_taxonomies, array('get' => 'all') );
 		$taxonomies = array();
 		foreach ( $current_terms as $term ) {
 			if ( isset( $_terms[$term->taxonomy] ) ) {
