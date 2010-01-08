@@ -576,7 +576,7 @@ function mu_options( $options ) {
 add_filter( 'whitelist_options', 'mu_options' );
 
 function check_import_new_users( $permission ) {
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 	return true;
 }
@@ -648,7 +648,7 @@ remove_action( 'media_buttons', 'media_buttons' );
 
 /* Warn the admin if SECRET SALT information is missing from wp-config.php */
 function secret_salt_warning() {
-	if( !is_site_admin() )
+	if( !is_super_admin() )
 		return;
 	$secret_keys = array( 'NONCE_KEY', 'AUTH_KEY', 'AUTH_SALT', 'LOGGED_IN_KEY', 'LOGGED_IN_SALT', 'SECURE_AUTH_KEY', 'SECURE_AUTH_SALT' );
 	$out = '';
@@ -714,7 +714,7 @@ function admin_notice_feed() {
 		$link = clean_url( strip_tags( $item['link'] ) );
 		$msg .= "<p>" . $content . " <a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $item[ 'title' ] ) . "'>" . __( "Dismiss" ) . "</a></p>";
 		echo "<div class='updated fade'>$msg</div>";
-	} elseif( is_site_admin() ) {
+	} elseif( is_super_admin() ) {
 		printf("<div id='update-nag'>" . __("Your feed at %s is empty.") . "</div>", wp_specialchars( $url ));
 	}
 }
@@ -722,7 +722,7 @@ add_action( 'admin_notices', 'admin_notice_feed' );
 
 function site_admin_notice() {
 	global $current_user, $wp_db_version;
-	if( !is_site_admin() )
+	if( !is_super_admin() )
 		return false;
 	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a site administrator.") . "</div>", $current_user->user_login);
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
@@ -812,7 +812,7 @@ add_action( 'deactivate_invalid_plugin', 'deactivate_sitewide_plugin' );
  * Adds the "Activate plugin site wide" row for each plugin in the inactive plugins list.
  */
 function add_sitewide_activate_row( $file, $plugin_data, $context ) {
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	if ( 'sitewide-active' == $context )
@@ -859,7 +859,7 @@ function is_wpmu_sitewide_plugin( $file ) {
 function list_activate_sitewide_plugins() {
 	$all_plugins = get_plugins();
 
-	if ( !is_site_admin() )
+	if ( !is_super_admin() )
 		return false;
 
 	$active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins') );
@@ -963,7 +963,7 @@ function sitewide_filter_inactive_plugins_list( $inactive_plugins ) {
 	}
 
 	/* Now unset any sitewide only plugins if the user is not a site admin */
-	if ( !is_site_admin() ) {
+	if ( !is_super_admin() ) {
 		foreach ( $inactive_plugins as $plugin_name => $activated_time ) {
 			if ( is_wpmu_sitewide_plugin( $plugin_name ) )
 				unset( $inactive_plugins[ $plugin_name ] );
@@ -1006,7 +1006,7 @@ function check_is_wpmu_plugin_on_activate() {
 		deactivate_plugins( $_GET['plugin'], true );
 
 		/* Silently activate because the activate_* hook has already run. */
-		if ( is_site_admin() ) {
+		if ( is_super_admin() ) {
 			$_GET['sitewide'] = true;
 			activate_sitewide_plugin( $_GET['plugin'], true );
 		}
@@ -1024,7 +1024,7 @@ function check_wpmu_plugins_on_bulk_activate( $plugins ) {
 			if ( is_wpmu_sitewide_plugin( $plugin ) ) {
 				deactivate_plugins( $plugin );
 
-				if ( is_site_admin() )
+				if ( is_super_admin() )
 					activate_sitewide_plugin( $plugin );
 			}
 		}
@@ -1090,7 +1090,7 @@ function disable_some_pages() {
 	global $messages;
 
 	if ( strpos( $_SERVER['PHP_SELF'], 'user-new.php' ) && !get_site_option( 'add_new_users' ) ) {
-		if ( is_site_admin() ) {
+		if ( is_super_admin() ) {
 			$messages[] = '<div id="message" class="updated fade"><p>' . __( 'Warning! Only site administrators may see this page. Everyone else will see a <em>page disabled</em> message. Enable it again on <a href="ms-options.php#addnewusers">the options page</a>.' ) . '</p></div>';
 		} else {
 			wp_die( __('Page disabled by the administrator') );
@@ -1106,7 +1106,7 @@ function disable_some_pages() {
 
 	$pages = array( 'theme-install.php', 'plugin-install.php' );
 	foreach( $pages as $page ) {
-		if ( strpos( $_SERVER['PHP_SELF'], $page ) && !is_site_admin() ) {
+		if ( strpos( $_SERVER['PHP_SELF'], $page ) && !is_super_admin() ) {
 			wp_die( __( "Sorry, you're not allowed here." ) );
 		}
 	}
@@ -1247,7 +1247,7 @@ function stripslashes_from_options( $blog_id ) {
 add_action( 'wpmu_upgrade_site', 'stripslashes_from_options' );
 
 function show_post_thumbnail_warning() {
-	if ( false == is_site_admin() ) {
+	if ( false == is_super_admin() ) {
 		return;
 	}
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );

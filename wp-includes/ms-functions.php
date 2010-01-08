@@ -1025,7 +1025,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	if( in_array( $blogname, $illegal_names ) == true ) {
 	    $errors->add('blogname',  __("That name is not allowed"));
 	}
-	if( strlen( $blogname ) < 4 && !is_site_admin() ) {
+	if( strlen( $blogname ) < 4 && !is_super_admin() ) {
 	    $errors->add('blogname',  __("Blog name must be at least 4 characters"));
 	}
 
@@ -1305,7 +1305,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 
 	update_option( 'blog_public', $meta['public'] );
 
-	if ( !is_site_admin() && get_usermeta( $user_id, 'primary_blog' ) == get_site_option( 'dashboard_blog', 1 ) )
+	if ( !is_super_admin() && get_usermeta( $user_id, 'primary_blog' ) == get_site_option( 'dashboard_blog', 1 ) )
 		update_usermeta( $user_id, 'primary_blog', $blog_id );
 
 	restore_current_blog();
@@ -1522,7 +1522,7 @@ function install_blog_defaults($blog_id, $user_id) {
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'capabilities') );
 
 	// Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
-	if ( !is_site_admin( $user->user_login ) && $user_id != 1 )
+	if ( !is_super_admin( $user->user_login ) && $user_id != 1 )
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $wpdb->base_prefix.'1_capabilities') );
 
 	$wpdb->suppress_errors( false );
@@ -1927,7 +1927,7 @@ function upload_is_file_too_big( $upload ) {
 }
 
 function wordpressmu_authenticate_siteadmin( $user, $password = '' ) {
-	if( is_site_admin( $user->user_login ) == false && ( $primary_blog = get_usermeta( $user->user_id, "primary_blog" ) ) ) {
+	if( is_super_admin( $user->user_login ) == false && ( $primary_blog = get_usermeta( $user->user_id, "primary_blog" ) ) ) {
 		$details = get_blog_details( $primary_blog );
 		if( is_object( $details ) && $details->spam == 1 ) {
 			return new WP_Error('blog_suspended', __('Blog Suspended.'));

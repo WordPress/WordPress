@@ -443,7 +443,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function wp_getUsersBlogs( $args ) {
 		// If this isn't on WPMU then just use blogger_getUsersBlogs
-		if( !function_exists( 'is_site_admin' ) ) {
+		if( !is_multisite() ) {
 			array_unshift( $args, 1 );
 			return $this->blogger_getUsersBlogs( $args );
 		}
