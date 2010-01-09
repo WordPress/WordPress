@@ -145,7 +145,7 @@ switch( $_GET['action'] ) {
 			</div></div>
 
 			<div id="blogedit_blogoptions" class="postbox " >
-			<h3 class='hndle'><span><?php printf( __('Blog options (wp_%s_options)'), $id ); ?></span></h3>
+			<h3 class='hndle'><span><?php printf( __('Blog options (%s_options)'), $blog_prefix ); ?></span></h3>
 			<div class="inside">
 				<table class="form-table">
 							<?php
