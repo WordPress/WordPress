@@ -903,7 +903,7 @@ function walk_page_dropdown_tree() {
  */
 function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $permalink = false ) {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '2.5' );
 
 	if ( $fullsize )
 		echo wp_get_attachment_link($id, 'full', $permalink);

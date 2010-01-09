@@ -170,7 +170,7 @@ function get_permalink($id = 0, $leavename = false) {
  */
 function post_permalink( $post_id = 0, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '1.3' );
 
 	return get_permalink($post_id);
 }

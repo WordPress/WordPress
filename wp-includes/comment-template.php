@@ -504,11 +504,13 @@ function get_comments_link() {
  * @since 0.71
  *
  * @param string $deprecated Not Used
- * @param bool $deprecated Not Used
+ * @param bool $deprecated_2 Not Used
  */
-function comments_link( $deprecated = '', $deprecated = '' ) {
+function comments_link( $deprecated = '', $deprecated_2 = '' ) {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '0.72' );
+	if ( !empty( $deprecated_2 ) )
+		_deprecated_argument( __FUNCTION__, '1.3' );
 	echo get_comments_link();
 }
 
@@ -553,7 +555,7 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
 	global $id;
 
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '1.3' );
 
 	$number = get_comments_number($id);
 

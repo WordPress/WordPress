@@ -24,7 +24,7 @@ function get_the_author($deprecated = '') {
 	global $authordata;
 
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '2.1' );
 
 	return apply_filters('the_author', is_object($authordata) ? $authordata->display_name : null);
 }
@@ -49,8 +49,10 @@ function get_the_author($deprecated = '') {
  * @return string The author's display name, from get_the_author().
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
-	if ( !empty( $deprecated ) || $deprecated_echo !== true )
-		_deprecated_argument( __FUNCTION__, '1.5', $deprecated_echo !== true ? __('Use get_the_author() instead if you do not want the value echoed.') : null );
+	if ( !empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '2.1' );
+	if ( $deprecated_echo !== true )
+		_deprecated_argument( __FUNCTION__, '1.5', __('Use get_the_author() instead if you do not want the value echoed.') );
 	if ( $deprecated_echo )
 		echo get_the_author();
 	return get_the_author();
@@ -184,7 +186,7 @@ function the_author_posts() {
  */
 function the_author_posts_link($deprecated = '') {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '2.1' );
 
 	global $authordata;
 	$link = sprintf(

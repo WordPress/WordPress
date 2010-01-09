@@ -867,7 +867,7 @@ function sanitize_html_class($class, $fallback){
  */
 function convert_chars($content, $deprecated = '') {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' );
+		_deprecated_argument( __FUNCTION__, '0.71' );
 
 	// Translation of invalid Unicode references range to valid range
 	$wp_htmltranswinuni = array(
