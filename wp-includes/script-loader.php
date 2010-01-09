@@ -165,7 +165,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), '20090102' );
 	$scripts->add_data( 'jquery-table-hotkeys', 'group', 1 );
 
-	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20091124');
+	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20100108');
 	$scripts->add_data( 'thickbox', 'group', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
 			'next' => __('Next &gt;'),
@@ -173,6 +173,7 @@ function wp_default_scripts( &$scripts ) {
 			'image' => __('Image'),
 			'of' => __('of'),
 			'close' => __('Close'),
+			'noiframes' => __('This feature requires inline frames. You have iframes disabled or your browser does not support them.'),
 			'l10n_print_after' => 'try{convertEntities(thickboxL10n);}catch(e){};'
 	) );
 	
