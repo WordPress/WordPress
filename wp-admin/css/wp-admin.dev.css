@@ -389,8 +389,8 @@ input.button-highlighted,
 #postcustomstuff .submit input {
 	text-decoration: none;
 	font-size: 11px !important;
-	line-height: 14px;
-	padding: 2px 8px;
+	line-height: 13px;
+	padding: 3px 8px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
