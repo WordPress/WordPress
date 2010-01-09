@@ -56,7 +56,7 @@ _fill_empty_category($category);
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
-			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo esc_attr($category->name); ?>" size="40" aria-required="true" /><br />
+			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo esc_attr($category->name); ?>" size="40" aria-required="true" /></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category Slug') ?></label></th>
