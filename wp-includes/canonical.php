@@ -162,7 +162,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 					if ( $paged > 1 && !is_single() ) {
 						$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit("page/$paged", 'paged');
 					} elseif ( !is_single() ) {
-						$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit($paged_redirect['path'], 'paged');
+						$addl_path = !empty( $addl_path ) ? trailingslashit($addl_path) : '';
 					}
 				} elseif ( $paged > 1 ) {
 					$redirect['query'] = add_query_arg( 'paged', $paged, $redirect['query'] );
