@@ -11,7 +11,7 @@ require_once('admin.php');
 
 $title = __('Tags');
 
-wp_reset_vars( array('action', 'tag', 'taxonomy') );
+wp_reset_vars( array('action', 'tag', 'taxonomy', 'post_type') );
 
 if ( empty($taxonomy) )
 	$taxonomy = 'post_tag';
@@ -19,14 +19,12 @@ if ( empty($taxonomy) )
 if ( !is_taxonomy($taxonomy) )
 	wp_die(__('Invalid taxonomy'));
 
-if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('_show' => true) ) ) )
-	$post_type = $_GET['post_type'];
-else
+if ( empty($post_type) || !in_array( $post_type, get_post_types( array('_show' => true) ) ) )
 	$post_type = 'post';
 
 if ( 'post' != $post_type ) {
 	$parent_file = "edit.php?post_type=$post_type";
-	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&post_type=$post_type";
+	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&amp;post_type=$post_type";
 } else {
 	$parent_file = 'edit.php';
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";	
@@ -162,7 +160,7 @@ $messages[6] = __('Tags deleted.'); ?>
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title );
-if ( isset($_GET['s']) && $_GET['s'] )
+if ( !empty($_GET['s']) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( stripslashes($_GET['s']) ) ); ?>
 </h2>
 
@@ -174,6 +172,7 @@ endif; ?>
 
 <form class="search-form" action="" method="get">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
+<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <p class="search-box">
 	<label class="screen-reader-text" for="tag-search-input"><?php _e( 'Search Tags' ); ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
@@ -188,6 +187,7 @@ endif; ?>
 <div class="col-wrap">
 <form id="posts-filter" action="" method="get">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
+<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <div class="tablenav">
 <?php
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
