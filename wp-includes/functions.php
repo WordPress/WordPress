@@ -3058,7 +3058,7 @@ function _deprecated_file( $file, $version, $replacement = null ) {
  */
 function _deprecated_argument( $function, $version, $message = null ) {
 
-	do_action( 'deprecated_argument_run', $function, $message );
+	do_action( 'deprecated_argument_run', $function, $message, $version );
 
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'deprecated_argument_trigger_error', true ) ) {
