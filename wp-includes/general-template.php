@@ -1292,7 +1292,7 @@ function the_time( $d = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $d Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
+ * @param string $d Optional Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
  * @param int|object $post Optional post ID or object. Default is global $post object.
  * @return string
  */
@@ -1311,8 +1311,8 @@ function get_the_time( $d = '', $post = null ) {
  *
  * @since 2.0.0
  *
- * @param string $d Either 'G', 'U', or php date format.
- * @param bool $gmt Whether of not to return the gmt time.
+ * @param string $d Optional Either 'G', 'U', or php date format.
+ * @param bool $gmt Optional, default is false. Whether of not to return the gmt time.
  * @param int|object $post Optional post ID or object. Default is global $post object.
  * @param bool $translate Whether to translate the time string or not
  * @return string
@@ -1334,7 +1334,7 @@ function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false
  *
  * @since 2.0.0
  *
- * @param string $d Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
+ * @param string $d Optional Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
  */
 function the_modified_time($d = '') {
 	echo apply_filters('the_modified_time', get_the_modified_time($d), $d);
@@ -1345,7 +1345,7 @@ function the_modified_time($d = '') {
  *
  * @since 2.0.0
  *
- * @param string $d Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
+ * @param string $d Optional Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
  * @return string
  */
 function get_the_modified_time($d = '') {
@@ -1361,10 +1361,10 @@ function get_the_modified_time($d = '') {
  *
  * @since 2.0.0
  *
- * @param string $d Either 'G', 'U', or php date format.
- * @param bool $gmt Whether of not to return the gmt time.
- * @param int|object $post A post_id or post object
- * @param bool translate Whether to translate the result or not
+ * @param string $d Optional, default is 'U'. Either 'G', 'U', or php date format.
+ * @param bool $gmt Optional, default is false. Whether of not to return the gmt time.
+ * @param int|object $post Optional, default is global post object. A post_id or post object
+ * @param bool $translate Optional, default is false. Whether to translate the result or not
  * @return string Returns timestamp
  */
 function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
@@ -1401,8 +1401,8 @@ function the_weekday() {
  *
  * @since 0.71
  *
- * @param string $before output before the date.
- * @param string $after output after the date.
+ * @param string $before Optional Output before the date.
+ * @param string $after Optional Output after the date.
   */
 function the_weekday_date($before='',$after='') {
 	global $wp_locale, $post, $day, $previousweekday;
@@ -1442,7 +1442,7 @@ function wp_footer() {
  *
  * @since 2.8.0
  *
- * @param boolean $add Add or remove links. Defaults to true.
+ * @param boolean $add Optional, default is true. Add or remove links. Defaults to true.
  */
 function automatic_feed_links( $add = true ) {
 	if ( $add )
@@ -1460,7 +1460,7 @@ function automatic_feed_links( $add = true ) {
  *
  * @param array $args Optional arguments.
  */
-function feed_links( $args ) {
+function feed_links( $args = array() ) {
 	$defaults = array(
 		/* translators: Separator between blog name and feed type in feed links */
 		'separator'	=> _x('&raquo;', 'feed link'),
@@ -1483,7 +1483,7 @@ function feed_links( $args ) {
  *
  * @param array $args Optional arguments.
  */
-function feed_links_extra( $args ) {
+function feed_links_extra( $args = array() ) {
 	$defaults = array(
 		/* translators: Separator between blog name and feed type in feed links */
 		'separator'   => _x('&raquo;', 'feed link'),
@@ -1643,8 +1643,8 @@ function wp_default_editor() {
  * @since 2.1.0
  *
  * @param string $content Textarea content.
- * @param string $id HTML ID attribute value.
- * @param string $prev_id HTML ID name for switching back and forth between visual editors.
+ * @param string $id Optional, default is 'content'. HTML ID attribute value.
+ * @param string $prev_id Optional, default is 'title'. HTML ID name for switching back and forth between visual editors.
  * @param bool $media_buttons Optional, default is true. Whether to display media buttons.
  * @param int $tab_index Optional, default is 2. Tabindex for textarea element.
  */
@@ -1903,7 +1903,7 @@ function paginate_links( $args = '' ) {
  * @param string $key The unique key for this theme.
  * @param string $name The name of the theme.
  * @param string $url The url of the css file containing the colour scheme.
- * @param array @colors An array of CSS color definitions which are used to give the user a feel for the theme.
+ * @param array @colors Optional An array of CSS color definitions which are used to give the user a feel for the theme.
  */
 function wp_admin_css_color($key, $name, $url, $colors = array()) {
 	global $_wp_admin_css_colors;
