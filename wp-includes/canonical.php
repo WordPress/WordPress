@@ -285,7 +285,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			$redirect_url .= '?' . $redirect['query'];
 	}
 
-	if ( $redirect_url == $requested_url )
+	if ( !$redirect_url || $redirect_url == $requested_url )
 		return false;
 
 	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning FALSE
