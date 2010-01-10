@@ -79,6 +79,16 @@ $post_type = 'page';
 
 add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', 'page', 'side', 'core');
 
+// all tag-style page taxonomies
+foreach ( get_object_taxonomies('page') as $tax_name ) {
+	if ( !is_taxonomy_hierarchical($tax_name) ) {
+		$taxonomy = get_taxonomy($tax_name);
+		$label = isset($taxonomy->label) ? esc_attr($taxonomy->label) : $tax_name;
+
+		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', $post_type, 'side', 'core');
+	}
+}
+
 if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', __('Attributes'), 'page_attributes_meta_box', $post_type, 'side', 'core');
 if ( post_type_supports($post_type, 'custom-fields') )
