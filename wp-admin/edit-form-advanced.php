@@ -99,15 +99,19 @@ foreach ( get_object_taxonomies($post_type) as $tax_name ) {
 
 if ( is_object_in_taxonomy($post_type, 'category') )
 	add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', $post_type, 'side', 'core');
-if ( current_theme_supports( 'post-thumbnails', $post_type ) )
+if ( current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports($post_type, 'post-thumbnails') )
 	add_meta_box('postimagediv', __('Post Thumbnail'), 'post_thumbnail_meta_box', $post_type, 'side', 'low');
-add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', $post_type, 'normal', 'core');
-add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', $post_type, 'normal', 'core');
-add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', $post_type, 'normal', 'core');
+if ( post_type_supports($post_type, 'excerpts') )
+	add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', $post_type, 'normal', 'core');
+if ( post_type_supports($post_type, 'trackbacks') )
+	add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', $post_type, 'normal', 'core');
+if ( post_type_supports($post_type, 'custom-fields') )
+	add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', $post_type, 'normal', 'core');
 do_action('dbx_post_advanced');
-add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', $post_type, 'normal', 'core');
+if ( post_type_supports($post_type, 'comments') )
+	add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', $post_type, 'normal', 'core');
 
-if ( 'publish' == $post->post_status || 'private' == $post->post_status )
+if ( ('publish' == $post->post_status || 'private' == $post->post_status) && post_type_supports($post_type, 'comments') )
 	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', $post_type, 'normal', 'core');
 
 if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) )
