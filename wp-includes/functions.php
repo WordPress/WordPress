@@ -3396,7 +3396,8 @@ function get_site_transient($transient) {
 	} else {
 		$transient_option = '_site_transient_' . esc_sql($transient);
 		$transient_timeout = '_site_transient_timeout_' . esc_sql($transient);
-		if ( get_site_option($transient_timeout) < time() ) {
+		$timeout = get_site_option($transient_timeout);
+		if ( false !== $timeout && $timeout < time() ) {
 			delete_site_option($transient_option);
 			delete_site_option($transient_timeout);
 			return false;
