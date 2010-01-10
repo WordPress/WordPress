@@ -9,8 +9,28 @@
  * @package WordPress
  */
 
-if ( !defined('WP_MEMORY_LIMIT') )
-	define('WP_MEMORY_LIMIT', '32M');
+
+/**
+ * Whether Multisite support is enabled
+ *
+ * @since 3.0
+ *
+ * @return bool True if multisite is enabled, false otherwise.
+ */
+function is_multisite() {
+	if ( ( defined('MULTISITE') && MULTISITE ) || defined('VHOST') || defined('SUNRISE') )
+		return true;
+
+	return false;
+}
+
+if ( !defined('WP_MEMORY_LIMIT') ) {
+        if( is_multisite() ) {
+        	define('WP_MEMORY_LIMIT', '64M');
+        } else {
+        	define('WP_MEMORY_LIMIT', '32M');
+        }
+}
 
 if ( function_exists('memory_get_usage') && ( (int) @ini_get('memory_limit') < abs(intval(WP_MEMORY_LIMIT)) ) )
 	@ini_set('memory_limit', WP_MEMORY_LIMIT);
@@ -325,20 +345,6 @@ function is_admin() {
 	return false;
 }
 
-/**
- * Whether Multisite support is enabled
- * 
- * @since 3.0
- *
- * @return bool True if multisite is enabled, false otherwise.
- */
-function is_multisite() {
-	if ( ( defined('MULTISITE') && MULTISITE ) || defined('VHOST') )
-		return true;
-
-	return false;
-}
-
 if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 	require_once (WP_CONTENT_DIR . '/object-cache.php');
 	$_wp_using_ext_object_cache = true;
@@ -349,16 +355,32 @@ if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 
 wp_cache_init();
 if ( function_exists('wp_cache_add_global_groups') ) {
-	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta', 'site-transient'));
+        if( is_multisite() ) {
+                wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss'));
+        } else {
+        	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta', 'site-transient'));
+        }
 	wp_cache_add_non_persistent_groups(array( 'comment', 'counts', 'plugins' ));
+}
+
+if( is_multisite() ) {
+    require (ABSPATH . WPINC . '/ms-load.php');
 }
 
 require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');
 include_once(ABSPATH . WPINC . '/pomo/mo.php');
+
+if( is_multisite() && defined( "SHORTINIT" ) && SHORTINIT ) // stop most of WP being loaded, we just want the basics
+	return false;
+
 require_once (ABSPATH . WPINC . '/l10n.php');
 
-if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === false && !defined('WP_INSTALLING')) ) {
+if( is_multisite() ) {
+        if ( !is_blog_installed() && !defined('WP_INSTALLING') ) {
+                die( __( 'The blog you have requested is not installed properly. Please contact the system administrator.' ) ); // have to die here ~ Mark
+        }
+} elseif ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === false && !defined('WP_INSTALLING')) ) {
 	if ( defined('WP_SITEURL') )
 		$link = WP_SITEURL . '/wp-admin/install.php';
 	elseif (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
@@ -437,6 +459,8 @@ if ( !defined('WP_PLUGIN_URL') )
 if ( !defined('PLUGINDIR') )
 	define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
 
+if( is_multisite() )
+        ms_network_settings();
 /**
  * Allows for the mu-plugins directory to be moved from the default location.
  *
@@ -463,20 +487,40 @@ if ( !defined( 'MUPLUGINDIR' ) )
 
 if ( is_dir( WPMU_PLUGIN_DIR ) ) {
 	if ( $dh = opendir( WPMU_PLUGIN_DIR ) ) {
-		while ( ( $plugin = readdir( $dh ) ) !== false ) {
-			if ( substr( $plugin, -4 ) == '.php' ) {
-				include_once( WPMU_PLUGIN_DIR . '/' . $plugin );
-			}
-		}
+		$mu_plugins = array ();
+		while ( ( $plugin = readdir( $dh ) ) !== false )
+			if ( substr( $plugin, -4 ) == '.php' )
+				$mu_plugins[] = $plugin;
+		closedir( $dh );
+                if( is_multisite() )
+        		sort( $mu_plugins );
+		foreach( $mu_plugins as $mu_plugin )
+			include_once( WPMU_PLUGIN_DIR . '/' . $mu_plugin );
 	}
 }
+/**
+ * Used to load network wide plugins
+ * @since 3.0
+ */
+if( is_multisite() )
+        ms_network_plugins();
+
 do_action('muplugins_loaded');
 
+/**
+ * Used to check site status
+ * @since 3.0
+ */
+if( is_multisite() ) {
+    ms_site_check();
+    ms_network_cookies();
+}
 /**
  * Used to guarantee unique hash cookies
  * @since 1.5
  */
-define('COOKIEHASH', md5(get_option('siteurl')));
+if( !defined('COOKIEHASH') )
+        define('COOKIEHASH', md5(get_option('siteurl')));
 
 /**
  * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php
