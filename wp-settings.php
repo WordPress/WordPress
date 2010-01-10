@@ -202,7 +202,10 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 timer_start();
 
 // Add define('WP_DEBUG', true); to wp-config.php to enable display of notices during development.
-if ( defined('WP_DEBUG') && WP_DEBUG ) {
+if ( !defined('WP_DEBUG') )
+	define( 'WP_DEBUG', false );
+
+if ( WP_DEBUG ) {
 	if ( defined('E_DEPRECATED') )
 		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 	else
@@ -216,7 +219,6 @@ if ( defined('WP_DEBUG') && WP_DEBUG ) {
 		ini_set('error_log', WP_CONTENT_DIR . '/debug.log');
 	}
 } else {
-	define('WP_DEBUG', false);
 	if ( defined('E_RECOVERABLE_ERROR') )
 		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
 	else
