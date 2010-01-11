@@ -1725,76 +1725,76 @@ class WP_Rewrite {
 			return '';
 		}
 
-                if( !is_multisite() ) {
-                        $rules = '';
-                        $extra_indent = '';
-                        if ( $add_parent_tags ) {
-                                $rules .= "<configuration>".$end_of_line;
-                                $rules .= $indent."<system.webServer>".$end_of_line;
-                                $rules .= $indent.$indent."<rewrite>".$end_of_line;
-                                $rules .= $indent.$indent.$indent."<rules>".$end_of_line;
-                                $extra_indent = $indent.$indent.$indent.$indent;
-                        }
-
-                        $rules .= $extra_indent."<rule name=\"wordpress\" patternSyntax=\"Wildcard\">".$end_of_line;
-                        $rules .= $extra_indent.$indent."<match url=\"*\" />".$end_of_line;
-                        $rules .= $extra_indent.$indent.$indent."<conditions>".$end_of_line;
-                        $rules .= $extra_indent.$indent.$indent.$indent."<add input=\"{REQUEST_FILENAME}\" matchType=\"IsFile\" negate=\"true\" />".$end_of_line;
-                        $rules .= $extra_indent.$indent.$indent.$indent."<add input=\"{REQUEST_FILENAME}\" matchType=\"IsDirectory\" negate=\"true\" />".$end_of_line;
-                        $rules .= $extra_indent.$indent.$indent."</conditions>".$end_of_line;
-                        $rules .= $extra_indent.$indent."<action type=\"Rewrite\" url=\"index.php\" />".$end_of_line;
-                        $rules .= $extra_indent."</rule>";
-
-                        if ( $add_parent_tags ) {
-                                $rules .= $end_of_line.$indent.$indent.$indent."</rules>".$end_of_line;
-                                $rules .= $indent.$indent."</rewrite>".$end_of_line;
-                                $rules .= $indent."</system.webServer>".$end_of_line;
-                                $rules .= "</configuration>";
-                        }
-                } else {
-                        $rules = '<rule name="wordpress - strip index.php" stopProcessing="false">
-                            <match url="^index.php/(.*)$" />
-                            <action type="Rewrite" url="{R:1}" />
-                        </rule>
-                        <rule name="wordpress - 1" stopProcessing="true">
-                            <match url="^(.*/)?files/$" />
-                            <action type="Rewrite" url="index.php" />
-                        </rule>
-                        <rule name="wordpress - 2" stopProcessing="true">
-                            <match url="^(.*/)?files/(.*)" />
-                            <conditions>
-                                <add input="{REQUEST_URI}" negate="true" pattern=".*wp-content/plugins.*"/>
-                            </conditions>
-                            <action type="Rewrite" url="wp-content/blogs.php?file={R:2}" appendQueryString="false" />
-                        </rule>
-                        <rule name="wordpress - 3" stopProcessing="true">
-                            <match url="^(.+)$" />
-                            <conditions>
-                                <add input="{REQUEST_URI}" pattern="^.*/wp-admin$" />
-                            </conditions>
-                            <action type="Redirect" url="{R:1}/" redirectType="Permanent" />
-                        </rule>
-                        <rule name="wordpress - 4" stopProcessing="true">
-                            <match url="."/>
-                            <conditions logicalGrouping="MatchAny">
-                                <add input="{REQUEST_FILENAME}" matchType="IsFile" pattern="" />
-                                <add input="{REQUEST_FILENAME}" matchType="IsDirectory" pattern="" />
-                            </conditions>
-                            <action type="None" />
-                        </rule>
-                        <rule name="wordpress - 5" stopProcessing="true">
-                            <match url="^([_0-9a-zA-Z-]+/)?(wp-.*)" />
-                            <action type="Rewrite" url="{R:2}" />
-                        </rule>
-                        <rule name="wordpress - 6" stopProcessing="true">
-                            <match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" />
-                            <action type="Rewrite" url="{R:2}" />
-                        </rule>
-                        <rule name="wordpress - 7" stopProcessing="true">
-                            <match url="." />
-                            <action type="Rewrite" url="index.php" />
-                        </rule>';
-                }
+		if ( !is_multisite() ) {
+			$rules = '';
+			$extra_indent = '';
+			if ( $add_parent_tags ) {
+				$rules .= "<configuration>".$end_of_line;
+				$rules .= $indent."<system.webServer>".$end_of_line;
+				$rules .= $indent.$indent."<rewrite>".$end_of_line;
+				$rules .= $indent.$indent.$indent."<rules>".$end_of_line;
+				$extra_indent = $indent.$indent.$indent.$indent;
+			}
+	
+			$rules .= $extra_indent."<rule name=\"wordpress\" patternSyntax=\"Wildcard\">".$end_of_line;
+			$rules .= $extra_indent.$indent."<match url=\"*\" />".$end_of_line;
+			$rules .= $extra_indent.$indent.$indent."<conditions>".$end_of_line;
+			$rules .= $extra_indent.$indent.$indent.$indent."<add input=\"{REQUEST_FILENAME}\" matchType=\"IsFile\" negate=\"true\" />".$end_of_line;
+			$rules .= $extra_indent.$indent.$indent.$indent."<add input=\"{REQUEST_FILENAME}\" matchType=\"IsDirectory\" negate=\"true\" />".$end_of_line;
+			$rules .= $extra_indent.$indent.$indent."</conditions>".$end_of_line;
+			$rules .= $extra_indent.$indent."<action type=\"Rewrite\" url=\"index.php\" />".$end_of_line;
+			$rules .= $extra_indent."</rule>";
+	
+			if ( $add_parent_tags ) {
+				$rules .= $end_of_line.$indent.$indent.$indent."</rules>".$end_of_line;
+				$rules .= $indent.$indent."</rewrite>".$end_of_line;
+				$rules .= $indent."</system.webServer>".$end_of_line;
+				$rules .= "</configuration>";
+			}
+		} else {
+			$rules = '<rule name="wordpress - strip index.php" stopProcessing="false">
+					<match url="^index.php/(.*)$" />
+						<action type="Rewrite" url="{R:1}" />
+					</rule>
+					<rule name="wordpress - 1" stopProcessing="true">
+						<match url="^(.*/)?files/$" />
+						<action type="Rewrite" url="index.php" />
+					</rule>
+					<rule name="wordpress - 2" stopProcessing="true">
+						<match url="^(.*/)?files/(.*)" />
+						<conditions>
+							<add input="{REQUEST_URI}" negate="true" pattern=".*wp-content/plugins.*"/>
+						</conditions>
+						<action type="Rewrite" url="wp-content/blogs.php?file={R:2}" appendQueryString="false" />
+					</rule>
+					<rule name="wordpress - 3" stopProcessing="true">
+						<match url="^(.+)$" />
+						<conditions>
+							<add input="{REQUEST_URI}" pattern="^.*/wp-admin$" />
+						</conditions>
+						<action type="Redirect" url="{R:1}/" redirectType="Permanent" />
+					</rule>
+					<rule name="wordpress - 4" stopProcessing="true">
+						<match url="."/>
+						<conditions logicalGrouping="MatchAny">
+							<add input="{REQUEST_FILENAME}" matchType="IsFile" pattern="" />
+							<add input="{REQUEST_FILENAME}" matchType="IsDirectory" pattern="" />
+						</conditions>
+						<action type="None" />
+					</rule>
+					<rule name="wordpress - 5" stopProcessing="true">
+						<match url="^([_0-9a-zA-Z-]+/)?(wp-.*)" />
+						<action type="Rewrite" url="{R:2}" />
+					</rule>
+					<rule name="wordpress - 6" stopProcessing="true">
+						<match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" />
+						<action type="Rewrite" url="{R:2}" />
+					</rule>
+					<rule name="wordpress - 7" stopProcessing="true">
+						<match url="." />
+						<action type="Rewrite" url="index.php" />
+					</rule>';
+		}
 
 		$rules = apply_filters('iis7_url_rewrite_rules', $rules);
 
