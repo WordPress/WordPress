@@ -1908,7 +1908,7 @@ function clean_term_cache($ids, $taxonomy = '') {
 		$cleaned[$taxonomy] = true;
 		wp_cache_delete('all_ids', $taxonomy);
 		wp_cache_delete('get', $taxonomy);
-		delete_option("{$taxonomy}_children");
+		delete_transient("{$taxonomy}_children");
 		do_action('clean_term_cache', $ids, $taxonomy);
 	}
 
@@ -2047,7 +2047,7 @@ function update_term_cache($terms, $taxonomy = '') {
 function _get_term_hierarchy($taxonomy) {
 	if ( !is_taxonomy_hierarchical($taxonomy) )
 		return array();
-	$children = get_option("{$taxonomy}_children");
+	$children = get_transient("{$taxonomy}_children");
 	if ( is_array($children) )
 		return $children;
 
@@ -2057,7 +2057,7 @@ function _get_term_hierarchy($taxonomy) {
 		if ( $term->parent > 0 )
 			$children[$term->parent][] = $term->term_id;
 	}
-	update_option("{$taxonomy}_children", $children);
+	set_transient("{$taxonomy}_children", $children);
 
 	return $children;
 }
