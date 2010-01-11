@@ -200,7 +200,7 @@ function wp_login_url($redirect = '') {
  * Provides a simple login form for use anywhere within WordPress. By default, it echos
  * the HTML immediately. Pass array('echo'=>false) to return the string instead.
  *
- * @since x.x
+ * @since 3.0.0
  * @param array $args Configuration options to modify the form output
  * @return Void, or string containing the form
  */
