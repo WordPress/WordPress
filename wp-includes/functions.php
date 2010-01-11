@@ -28,13 +28,13 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 	if ( empty( $m ) )
 		return false;
 
-	if( 'G' == $dateformatstring ) {
+	if ( 'G' == $dateformatstring ) {
 		return strtotime( $m . ' +0000' );
 	}
 
 	$i = strtotime( $m );
 
-	if( 'U' == $dateformatstring )
+	if ( 'U' == $dateformatstring )
 		return $i;
 
 	if ( $translate)
@@ -200,7 +200,7 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	$day = mktime( 0, 0, 0, $md, $mm, $my ); // The timestamp for mysqlstring day.
 	$weekday = date( 'w', $day ); // The day of the week from the timestamp
 	$i = 86400; // One day
-	if( !is_numeric($start_of_week) )
+	if ( !is_numeric($start_of_week) )
 		$start_of_week = get_option( 'start_of_week' );
 
 	if ( $weekday < $start_of_week )
@@ -329,11 +329,11 @@ function get_option( $setting, $default = false ) {
 	// prevent non-existent options from triggering multiple queries
 	if ( defined( 'WP_INSTALLING' ) && is_multisite() ) {
 		$notoptions = array();
-        } else {
-                $notoptions = wp_cache_get( 'notoptions', 'options' );
-                if ( isset( $notoptions[$setting] ) )
-                        return $default;
-        }
+	} else {
+		$notoptions = wp_cache_get( 'notoptions', 'options' );
+		if ( isset( $notoptions[$setting] ) )
+			return $default;
+	}
 
 	$alloptions = wp_load_alloptions();
 
@@ -416,7 +416,7 @@ function wp_load_alloptions() {
 	global $wpdb;
 
 	if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
-        	$alloptions = wp_cache_get( 'alloptions', 'options' );
+		$alloptions = wp_cache_get( 'alloptions', 'options' );
 
 	if ( !$alloptions ) {
 		$suppress = $wpdb->suppress_errors();
@@ -426,8 +426,8 @@ function wp_load_alloptions() {
 		$alloptions = array();
 		foreach ( (array) $alloptions_db as $o )
 			$alloptions[$o->option_name] = $o->option_value;
-                if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
-                        wp_cache_add( 'alloptions', $alloptions, 'options' );
+			if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
+				wp_cache_add( 'alloptions', $alloptions, 'options' );
 	}
 	return $alloptions;
 }
@@ -629,8 +629,7 @@ function delete_option( $name ) {
 function delete_transient($transient) {
 	global $_wp_using_ext_object_cache, $wpdb;
 
-        if( is_multisite() )
-            	do_action( 'delete_transient_' . $transient );
+    do_action( 'delete_transient_' . $transient );
 
 	if ( $_wp_using_ext_object_cache ) {
 		return wp_cache_delete($transient, 'transient');
@@ -699,8 +698,7 @@ function get_transient($transient) {
 function set_transient($transient, $value, $expiration = 0) {
 	global $_wp_using_ext_object_cache, $wpdb;
 
-        if( is_multisite() )
-            	$value = apply_filters( 'pre_set_transient_' . $transient, $value );
+    $value = apply_filters( 'pre_set_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
 		return wp_cache_set($transient, $value, 'transient', $expiration);
@@ -1432,7 +1430,7 @@ function wp( $query_vars = '' ) {
 	global $wp, $wp_query, $wp_the_query;
 	$wp->main( $query_vars );
 
-	if( !isset($wp_the_query) )
+	if ( !isset($wp_the_query) )
 		$wp_the_query = $wp_query;
 }
 
@@ -2112,7 +2110,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	$name = basename($filename, $ext);
 
 	// edge case: if file is named '.ext', treat as an empty name
-	if( $name === $ext )
+	if ( $name === $ext )
 		$name = '';
 
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
@@ -2186,14 +2184,11 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	if ( $upload['error'] !== false )
 		return $upload;
 
-        if( is_multisite() ) {
-            	/* WPMU check file before writing it */
-                $upload_bits_error = apply_filters( 'wp_upload_bits', array( 'name' => $name, 'bits' => $bits, 'time' => $time ) );
-                if( is_array( $upload_bits_error ) == false ) {
-                        $upload[ 'error' ] = $upload_bits_error;
-                        return $upload;
-                }
-        }
+	$upload_bits_error = apply_filters( 'wp_upload_bits', array( 'name' => $name, 'bits' => $bits, 'time' => $time ) );
+	if ( !is_array( $upload_bits_error ) ) {
+		$upload[ 'error' ] = $upload_bits_error;
+		return $upload;
+	}
 
 	$filename = wp_unique_filename( $upload['path'], $name );
 
@@ -2529,7 +2524,7 @@ function wp_die( $message, $title = '', $args = array() ) {
 		$admin_dir = 'wp-admin/';
 
 	if ( !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ) :
-	if( !headers_sent() ){
+	if ( !headers_sent() ){
 		status_header( $r['response'] );
 		nocache_headers();
 		header( 'Content-Type: text/html; charset=utf-8' );
@@ -3761,7 +3756,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	// PHP will close file handle, but we are good citizens.
 	fclose( $fp );
 
-	if( $context != '' ) {
+	if ( $context != '' ) {
 		$extra_headers = apply_filters( "extra_$context".'_headers', array() );
 
 		$extra_headers = array_flip( $extra_headers );
