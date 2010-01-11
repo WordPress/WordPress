@@ -327,9 +327,13 @@ function get_option( $setting, $default = false ) {
 		return $pre;
 
 	// prevent non-existent options from triggering multiple queries
-	$notoptions = wp_cache_get( 'notoptions', 'options' );
-	if ( isset( $notoptions[$setting] ) )
-		return $default;
+	if ( defined( 'WP_INSTALLING' ) && is_multisite() ) {
+		$notoptions = array();
+        } else {
+                $notoptions = wp_cache_get( 'notoptions', 'options' );
+                if ( isset( $notoptions[$setting] ) )
+                        return $default;
+        }
 
 	$alloptions = wp_load_alloptions();
 
@@ -411,7 +415,8 @@ function form_option( $option ) {
 function wp_load_alloptions() {
 	global $wpdb;
 
-	$alloptions = wp_cache_get( 'alloptions', 'options' );
+	if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
+        	$alloptions = wp_cache_get( 'alloptions', 'options' );
 
 	if ( !$alloptions ) {
 		$suppress = $wpdb->suppress_errors();
@@ -421,7 +426,8 @@ function wp_load_alloptions() {
 		$alloptions = array();
 		foreach ( (array) $alloptions_db as $o )
 			$alloptions[$o->option_name] = $o->option_value;
-		wp_cache_add( 'alloptions', $alloptions, 'options' );
+                if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
+                        wp_cache_add( 'alloptions', $alloptions, 'options' );
 	}
 	return $alloptions;
 }
@@ -623,6 +629,9 @@ function delete_option( $name ) {
 function delete_transient($transient) {
 	global $_wp_using_ext_object_cache, $wpdb;
 
+        if( is_multisite() )
+            	do_action( 'delete_transient_' . $transient );
+
 	if ( $_wp_using_ext_object_cache ) {
 		return wp_cache_delete($transient, 'transient');
 	} else {
@@ -689,6 +698,9 @@ function get_transient($transient) {
  */
 function set_transient($transient, $value, $expiration = 0) {
 	global $_wp_using_ext_object_cache, $wpdb;
+
+        if( is_multisite() )
+            	$value = apply_filters( 'pre_set_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
 		return wp_cache_set($transient, $value, 'transient', $expiration);
@@ -2173,6 +2185,15 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 
 	if ( $upload['error'] !== false )
 		return $upload;
+
+        if( is_multisite() ) {
+            	/* WPMU check file before writing it */
+                $upload_bits_error = apply_filters( 'wp_upload_bits', array( 'name' => $name, 'bits' => $bits, 'time' => $time ) );
+                if( is_array( $upload_bits_error ) == false ) {
+                        $upload[ 'error' ] = $upload_bits_error;
+                        return $upload;
+                }
+        }
 
 	$filename = wp_unique_filename( $upload['path'], $name );
 

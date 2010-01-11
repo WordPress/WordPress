@@ -1417,16 +1417,30 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	if ( ! $term_id = is_term($slug) ) {
-		if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
-			return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
-		$term_id = (int) $wpdb->insert_id;
+                if ( !is_multisite() ) {
+                        if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
+                                return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+                        $term_id = (int) $wpdb->insert_id;
+                } else {
+                 	$maxterm = $wpdb->get_var( "SELECT max(term_id) FROM {$wpdb->terms}" );
+                        $term_id = mt_rand( $maxterm+100, $maxterm+4000 );
+                        if ( false === $wpdb->insert( $wpdb->terms, compact( 'term_id', 'name', 'slug', 'term_group' ) ) )
+                                return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+                }
 	} else if ( is_taxonomy_hierarchical($taxonomy) && !empty($parent) ) {
 		// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
 		// by incorporating parent slugs.
-		$slug = wp_unique_term_slug($slug, (object) $args);
-		if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
-			return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
-		$term_id = (int) $wpdb->insert_id;
+                $slug = wp_unique_term_slug($slug, (object) $args);
+                if( !is_multisite() ) {
+                        if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
+                                return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+                        $term_id = (int) $wpdb->insert_id;
+                } else {
+                        $maxterm = $wpdb->get_var( "SELECT max(term_id) FROM {$wpdb->terms}" );
+                        $term_id = mt_rand( $maxterm+100, $maxterm+4000 );
+                        if ( false === $wpdb->insert( $wpdb->terms, compact( 'term_id','name', 'slug', 'term_group' ) ) )
+                                return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+                }
 	}
 
 	if ( empty($slug) ) {

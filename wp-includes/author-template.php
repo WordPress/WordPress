@@ -269,7 +269,21 @@ function wp_list_authors($args = '') {
 	$return = '';
 
 	/** @todo Move select to get_authors(). */
-	$authors = $wpdb->get_results("SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name");
+        if( is_multisite() ) {
+                $users = get_users_of_blog();
+                $author_ids = array();
+                foreach ( (array) $users as $user ) {
+                        $author_ids[] = $user->user_id;
+                }
+                if ( count($author_ids) > 0  ) {
+                        $author_ids=implode(',', $author_ids );
+                        $authors = $wpdb->get_results( "SELECT ID, user_nicename from $wpdb->users WHERE ID IN($author_ids) " . ($exclude_admin ? "AND user_login <> 'admin' " : '') . "ORDER BY display_name" );
+                } else {
+                        $authors = array();
+                }
+        } else {
+                $authors = $wpdb->get_results("SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name");
+        }
 
 	$author_count = array();
 	foreach ((array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row) {
