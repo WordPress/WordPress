@@ -8,6 +8,9 @@
 
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
+
+$post_type = 'page';
+
 $title = __('Add New Page');
 $parent_file = 'edit-pages.php';
 $editing = true;
@@ -23,7 +26,7 @@ if ( current_user_can('edit_pages') ) {
 	$action = 'post';
 	$post = get_default_page_to_edit();
 
-	include('edit-page-form.php');
+	include('edit-form-advanced.php');
 }
 
 include('admin-footer.php');

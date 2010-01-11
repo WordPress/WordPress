@@ -122,7 +122,8 @@ case 'edit':
 		wp_enqueue_script('autosave');
 	}
 
-	include('edit-page-form.php');
+	$post_type = $post->post_type;
+	include('edit-form-advanced.php');
 	break;
 
 case 'editattachment':
