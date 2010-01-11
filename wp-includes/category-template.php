@@ -337,7 +337,8 @@ function wp_dropdown_categories( $args = '' ) {
 		'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0,
 		'name' => 'cat', 'class' => 'postform',
-		'depth' => 0, 'tab_index' => 0
+		'depth' => 0, 'tab_index' => 0,
+		'taxonomy' => 'category', 'hide_if_empty' => false
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
@@ -359,9 +360,11 @@ function wp_dropdown_categories( $args = '' ) {
 	$name = esc_attr($name);
 	$class = esc_attr($class);
 
-	$output = '';
-	if ( ! empty( $categories ) ) {
+	if ( ! $r['hide_if_empty'] || ! empty($categories) )
 		$output = "<select name='$name' id='$name' class='$class' $tab_index_attribute>\n";
+	else
+		$output = '';
+	if ( ! empty( $categories ) ) {
 
 		if ( $show_option_all ) {
 			$show_option_all = apply_filters( 'list_cats', $show_option_all );
@@ -381,8 +384,10 @@ function wp_dropdown_categories( $args = '' ) {
 			$depth = -1; // Flat.
 
 		$output .= walk_category_dropdown_tree( $categories, $depth, $r );
-		$output .= "</select>\n";
 	}
+	if ( ! $r['hide_if_empty'] || ! empty($categories) )
+		$output .= "</select>\n";
+
 
 	$output = apply_filters( 'wp_dropdown_cats', $output );
 

@@ -108,7 +108,7 @@ function wp_delete_category($cat_ID) {
  * @return unknown
  */
 function wp_insert_category($catarr, $wp_error = false) {
-	$cat_defaults = array('cat_ID' => 0, 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
+	$cat_defaults = array('cat_ID' => 0, 'taxonomy' => 'category', 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
 	$catarr = wp_parse_args($catarr, $cat_defaults);
 	extract($catarr, EXTR_SKIP);
 
@@ -142,9 +142,9 @@ function wp_insert_category($catarr, $wp_error = false) {
 	$args = compact('name', 'slug', 'parent', 'description');
 
 	if ( $update )
-		$cat_ID = wp_update_term($cat_ID, 'category', $args);
+		$cat_ID = wp_update_term($cat_ID, $taxonomy, $args);
 	else
-		$cat_ID = wp_insert_term($cat_name, 'category', $args);
+		$cat_ID = wp_insert_term($cat_name, $taxonomy, $args);
 
 	if ( is_wp_error($cat_ID) ) {
 		if ( $wp_error )

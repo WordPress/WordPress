@@ -11,7 +11,25 @@ require_once('admin.php');
 
 $title = __('Categories');
 
-wp_reset_vars( array('action') );
+wp_reset_vars( array('action', 'taxonomy', 'post_type') );
+
+if ( empty($taxonomy) )
+	$taxonomy = 'category';
+
+if ( !is_taxonomy($taxonomy) )
+	wp_die(__('Invalid taxonomy'));
+
+if ( empty($post_type) || !in_array( $post_type, get_post_types( array('_show' => true) ) ) )
+	$post_type = 'post';
+
+if ( 'post' != $post_type ) {
+	$parent_file = "edit.php?post_type=$post_type";
+	$submenu_file = "categories.php?taxonomy=$taxonomy&amp;post_type=$post_type";
+} else {
+	$parent_file = 'edit.php';
+	$submenu_file = "categories.php?taxonomy=$taxonomy";	
+}
+
 
 if ( isset( $_GET['action'] ) && isset($_GET['delete']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )
 	$action = 'bulk-delete';
@@ -135,7 +153,7 @@ $messages[5] = __('Category not updated.');
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title );
-if ( isset($_GET['s']) && $_GET['s'] )
+if ( !empty($_GET['s']) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( stripslashes($_GET['s']) ) ); ?>
 </h2>
 
@@ -146,6 +164,8 @@ if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
 endif; ?>
 
 <form class="search-form topmargin" action="" method="get">
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
+<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <p class="search-box">
 	<label class="screen-reader-text" for="category-search-input"><?php _e('Search Categories'); ?>:</label>
 	<input type="text" id="category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
@@ -159,6 +179,8 @@ endif; ?>
 <div id="col-right">
 <div class="col-wrap">
 <form id="posts-filter" action="" method="get">
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
+<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <div class="tablenav">
 
 <?php
@@ -172,9 +194,9 @@ if ( empty( $cats_per_page ) || $cats_per_page < 1 )
 $cats_per_page = apply_filters( 'edit_categories_per_page', $cats_per_page );
 
 if ( !empty($_GET['s']) )
-	$num_cats = count(get_categories(array('hide_empty' => 0, 'search' => $_GET['s'])));
+	$num_cats = count(get_categories(array('taxonomy' => $taxonomy, 'hide_empty' => 0, 'search' => $_GET['s'])));
 else
-	$num_cats = wp_count_terms('category');
+	$num_cats = wp_count_terms($taxonomy);
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
@@ -218,7 +240,7 @@ if ( $page_links )
 
 	<tbody id="the-list" class="list:cat">
 <?php
-cat_rows(0, 0, 0, $pagenum, $cats_per_page);
+cat_rows(0, 0, 0, $pagenum, $cats_per_page, $taxonomy);
 ?>
 	</tbody>
 </table>
@@ -244,8 +266,12 @@ if ( $page_links )
 </form>
 
 <div class="form-wrap">
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p>
+<?php if ( get_option('default_' . $taxonomy) ) : ?>
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a %1$s does not delete the objects in that %1$s. Instead, objects that were only assigned to the deleted %1$s are set to the %1$s <strong>%2$s</strong>.'), $tax->label, apply_filters('the_category', get_cat_name(get_option('default_' . $taxonomy)))) ?></p>
+<?php endif; ?>
+<?php if ( 'category' == $taxonomy ) : ?>
 <p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p>
+<?php endif; ?>
 </div>
 
 </div>
@@ -261,6 +287,8 @@ if ( $page_links )
 <h3><?php _e('Add Category'); ?></h3>
 <div id="ajax-response"></div>
 <form name="addcat" id="addcat" method="post" action="categories.php" class="add:the-list: validate">
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
+<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <input type="hidden" name="action" value="addcat" />
 <?php wp_original_referer_field(true, 'previous'); wp_nonce_field('add-category'); ?>
 
@@ -278,7 +306,7 @@ if ( $page_links )
 
 <div class="form-field">
 	<label for="category_parent"><?php _e('Category Parent') ?></label>
-	<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
     <p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
 </div>
 

@@ -47,14 +47,15 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
-		if ( $tax->hierarchical || ! in_array('post', (array) $tax->object_type, true) )
+		if ( ! in_array('post', (array) $tax->object_type, true) )
 			continue;
 
-		$submenu['edit.php'][$i] = array( esc_attr($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
+		if ( $tax->hierarchical )
+			$submenu['edit.php'][$i] = array( esc_attr($tax->label), 'manage_categories', 'categories.php?taxonomy=' . $tax->name );
+		else
+			$submenu['edit.php'][$i] = array( esc_attr($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
 		++$i;
 	}
-
-	$submenu['edit.php'][50] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'menu-media', 'div' );
 	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
@@ -86,10 +87,13 @@ foreach ( (array) get_post_types( array('_show' => true) ) as $ptype ) {
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
-		if ( $tax->hierarchical || ! in_array($ptype, (array) $tax->object_type, true) )
+		if ( ! in_array($ptype, (array) $tax->object_type, true) )
 			continue;
 
-		$submenu["edit.php?post_type=$ptype"][$i] = array( esc_attr($tax->label), 'manage_categories', "edit-tags.php?taxonomy=$tax->name&amp;post_type=$ptype" );
+		if ( $tax->hierarchical )
+			$submenu["edit.php?post_type=$ptype"][$i] = array( esc_attr($tax->label), 'manage_categories', "categories.php?taxonomy=$tax->name&amp;post_type=$ptype" );
+		else
+			$submenu["edit.php?post_type=$ptype"][$i] = array( esc_attr($tax->label), 'manage_categories', "edit-tags.php?taxonomy=$tax->name&amp;post_type=$ptype" );
 		++$i;
 	}
 }

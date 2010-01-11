@@ -20,13 +20,13 @@
  * @param unknown_type $page
  * @param unknown_type $per_page
  */
-function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20 ) {
+function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20, $taxonomy = 'category' ) {
 
 	$count = 0;
 
 	if ( empty($categories) ) {
 
-		$args = array('hide_empty' => 0);
+		$args = array('hide_empty' => 0, 'taxonomy' => $taxonomy);
 		if ( !empty($_GET['s']) )
 			$args['search'] = $_GET['s'];
 
@@ -36,9 +36,9 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_pag
 			return false;
 	}
 
-	$children = _get_term_hierarchy('category');
+	$children = _get_term_hierarchy($taxonomy);
 
-	_cat_rows( $parent, $level, $categories, $children, $page, $per_page, $count );
+	echo _cat_rows( $parent, $level, $categories, $children, $page, $per_page, $count );
 
 }
 
@@ -53,14 +53,14 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_pag
  * @param unknown_type $level
  * @param unknown_type $page
  * @param unknown_type $per_page
- * @return unknown
+ * @return string the output of the table.
  */
 function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1, $per_page = 20, &$count ) {
 
 	$start = ($page - 1) * $per_page;
 	$end = $start + $per_page;
-	ob_start();
 
+	$output = '';
 	foreach ( $categories as $key => $category ) {
 		if ( $count >= $end )
 			break;
@@ -83,26 +83,23 @@ function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1,
 
 			$num_parents = count($my_parents);
 			while( $my_parent = array_pop($my_parents) ) {
-				echo "\t" . _cat_row( $my_parent, $level - $num_parents );
+				$output =  "\t" . _cat_row( $my_parent, $level - $num_parents );
 				$num_parents--;
 			}
 		}
 
 		if ( $count >= $start )
-			echo "\t" . _cat_row( $category, $level );
+			$output .= "\t" . _cat_row( $category, $level );
 
 		unset( $categories[ $key ] );
 
 		$count++;
 
 		if ( isset($children[$category->term_id]) )
-			_cat_rows( $category->term_id, $level + 1, $categories, $children, $page, $per_page, $count );
+			$output .= _cat_rows( $category->term_id, $level + 1, $categories, $children, $page, $per_page, $count );
 	}
 
-	$output = ob_get_contents();
-	ob_end_clean();
-
-	echo $output;
+	return $output;
 }
 
 /**
@@ -2568,7 +2565,7 @@ function meta_form() {
 ?>
 </select>
 <input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
-<a href="#postcustomstuff" class="hide-if-no-js" onClick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
+<a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
 <span id="enternew"><?php _e('Enter new'); ?></span>
 <span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span></a>
 <?php } else { ?>
@@ -3239,7 +3236,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" onClick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onclick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -3249,7 +3246,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button alignleft" onClick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
+			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php esc_attr_e('Select'); ?>" />
 		</div>
 	</div>

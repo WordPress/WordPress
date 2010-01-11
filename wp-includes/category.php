@@ -37,12 +37,14 @@ function get_all_category_ids() {
  * @return array List of categories.
  */
 function &get_categories( $args = '' ) {
-	$defaults = array( 'type' => 'category' );
+	$defaults = array( 'taxonomy' => 'category' );
 	$args = wp_parse_args( $args, $defaults );
 
-	$taxonomy = apply_filters( 'get_categories_taxonomy', 'category', $args );
-	if ( 'link' == $args['type'] )
-		$taxonomy = 'link_category';
+	$taxonomy = apply_filters( 'get_categories_taxonomy', $args['taxonomy'], $args );
+
+	if ( isset($args['type']) && 'link' == $args['type'] ) //Back compat
+		$taxonomy = $args['taxonomy'] = 'link_category';
+
 	$categories = (array) get_terms( $taxonomy, $args );
 
 	foreach ( array_keys( $categories ) as $k )
