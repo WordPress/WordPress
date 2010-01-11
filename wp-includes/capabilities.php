@@ -987,8 +987,8 @@ function map_meta_cap( $cap, $user_id ) {
 function current_user_can( $capability ) {
 	$current_user = wp_get_current_user();
 
-        if( is_multisite() && is_super_admin() )
-                return true;
+    if ( is_multisite() && is_super_admin() )
+		return true;
 
 	if ( empty( $current_user ) )
 		return false;
