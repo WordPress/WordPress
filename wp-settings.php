@@ -488,22 +488,29 @@ if ( !defined( 'MUPLUGINDIR' ) )
 if ( is_dir( WPMU_PLUGIN_DIR ) ) {
 	if ( $dh = opendir( WPMU_PLUGIN_DIR ) ) {
 		$mu_plugins = array ();
-		while ( ( $plugin = readdir( $dh ) ) !== false )
-			if ( substr( $plugin, -4 ) == '.php' )
+		while ( ( $plugin = readdir( $dh ) ) !== false ) {
+			if ( substr( $plugin, -4 ) == '.php' ) {
 				$mu_plugins[] = $plugin;
+			}
+		}
+		
 		closedir( $dh );
-                if( is_multisite() )
-        		sort( $mu_plugins );
-		foreach( $mu_plugins as $mu_plugin )
+
+		if( is_multisite() )
+			sort( $mu_plugins );
+		
+		foreach( $mu_plugins as $mu_plugin ) {
 			include_once( WPMU_PLUGIN_DIR . '/' . $mu_plugin );
+		}
 	}
 }
 /**
  * Used to load network wide plugins
  * @since 3.0
  */
-if( is_multisite() )
-        ms_network_plugins();
+if( is_multisite() ) {
+	ms_network_plugins();
+}
 
 do_action('muplugins_loaded');
 
@@ -512,15 +519,15 @@ do_action('muplugins_loaded');
  * @since 3.0
  */
 if( is_multisite() ) {
-    ms_site_check();
-    ms_network_cookies();
+	ms_site_check();
+	ms_network_cookies();
 }
 /**
  * Used to guarantee unique hash cookies
  * @since 1.5
  */
 if( !defined('COOKIEHASH') )
-        define('COOKIEHASH', md5(get_option('siteurl')));
+	define('COOKIEHASH', md5(get_option('siteurl')));
 
 /**
  * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php
