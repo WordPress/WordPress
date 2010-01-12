@@ -1,5 +1,5 @@
 <?php
-if ( !in_array('Snoopy', get_declared_classes() ) ) :
+if ( !class_exists( 'Snoopy' ) ) :
 /*************************************************
 
 Snoopy - the PHP net client

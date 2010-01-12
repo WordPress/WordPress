@@ -1,4 +1,5 @@
 <?php
+if ( !class_exists( 'Services_JSON' ) ) :
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Converts to and from JSON format.
@@ -858,3 +859,5 @@ if (class_exists('PEAR_Error')) {
 	}
 
 }
+endif;
+?>

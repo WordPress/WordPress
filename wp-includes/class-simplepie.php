@@ -1,4 +1,5 @@
 <?php
+if ( !class_exists( 'SimplePie' ) ) :
 /**
  * SimplePie
  *
@@ -14997,5 +14998,5 @@ class SimplePie_Sanitize
 		}
 	}
 }
-
+endif;
 ?>
