@@ -85,9 +85,6 @@ if ( 0 == $post_ID ) {
 
 $post_type_object = get_post_type_object($post_type);
 $post_type_cap = $post_type_object->capability_type;
-$form_post = 'post.php';
-if ( 'page' == $post_type )
-	$form_post = 'page.php';
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once('includes/meta-boxes.php');
@@ -157,7 +154,7 @@ require_once('admin-header.php');
 <?php if ( $message ) : ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
-<form name="post" action="<?php echo $form_post; ?>" method="post" id="post">
+<form name="post" action="post.php" method="post" id="post">
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr($form_action) ?>" />
