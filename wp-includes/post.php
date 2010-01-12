@@ -16,7 +16,7 @@
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array('label' => __('Posts'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false) );
-	register_post_type( 'page', array('label' => __('Pages'),'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'page.php?post=%d', 'capability_type' => 'page', 'hierarchical' => true) );
+	register_post_type( 'page', array('label' => __('Pages'),'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'page', 'hierarchical' => true) );
 	register_post_type( 'attachment', array('label' => __('Media'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'media.php?attachment_id=%d', 'capability_type' => 'post', 'hierarchical' => false) );
 	register_post_type( 'revision', array('label' => __('Revisions'),'exclude_from_search' => true, '_builtin' => true, '_edit_link' => 'revision.php?revision=%d', 'capability_type' => 'post', 'hierarchical' => false) );
 	add_post_type_support('post', array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments') );

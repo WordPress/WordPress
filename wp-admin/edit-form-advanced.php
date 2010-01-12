@@ -40,8 +40,9 @@ $messages['page'] = array(
 	sprintf( __('Page updated. <a href="%s">View page</a>'), get_permalink($post_ID) ),
 	__('Custom field updated.'),
 	__('Custom field deleted.'),
-	sprintf( __('Page published. <a href="%s">View page</a>'), get_permalink($post_ID) ),
+	__('Page updated.'),
 	isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	sprintf( __('Page published. <a href="%s">View page</a>'), get_permalink($post_ID) ),
 	sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ),
 	// translators: Publish box date format, see http://php.net/date - Same as in meta-boxes.php
 	sprintf( __('Page scheduled for: <b>%1$s</b>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) ),
