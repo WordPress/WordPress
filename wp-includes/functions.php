@@ -3462,6 +3462,28 @@ function set_site_transient($transient, $value, $expiration = 0) {
 }
 
 /**
+ * is main site
+ *
+ *
+ * @since 3.0.0
+ * @package WordPress
+ *
+ * @param int $blog_id optional blog id to test (default current blog)
+ * @return bool True if not multisite or $blog_id is main site
+ */
+function is_main_site( $blog_id = '' ) {
+	global $current_site, $current_blog;
+
+	if ( !is_multisite() )
+		return true;
+
+	if ( !$blog_id )
+		$blog_id = $current_blog->blog_id;
+
+	return $blog_id == $current_site->blog_id;
+}
+
+/**
  * gmt_offset modification for smart timezone handling
  *
  * Overrides the gmt_offset option if we have a timezone_string available
