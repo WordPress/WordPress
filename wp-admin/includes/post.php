@@ -828,12 +828,16 @@ function wp_edit_posts_query( $q = false ) {
 
 	$post_stati = apply_filters('post_stati', $post_stati);
 
-	$avail_post_stati = get_available_post_statuses('post');
+	if ( isset($q['post_type']) && in_array( $q['post_type'], get_post_types( array('_show' => true) ) ) )
+		$post_type = $q['post_type'];
+	else
+		$post_type = 'post';
 
-	$post_status_q = '';
+	$avail_post_stati = get_available_post_statuses($post_type);
+
 	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) ) {
-		$post_status_q = '&post_status=' . $q['post_status'];
-		$post_status_q .= '&perm=readable';
+		$post_status = $q['post_status'];
+		$perm = 'readable';
 	}
 
 	if ( isset($q['post_status']) && 'pending' === $q['post_status'] ) {
@@ -847,17 +851,12 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
-	$post_type_q = 'post_type=post';
-	if ( isset($q['post_type']) && in_array( $q['post_type'], get_post_types( array('_show' => true) ) ) )
-		$post_type_q = 'post_type=' . $q['post_type'];
-
-
 	$posts_per_page = (int) get_user_option( 'edit_per_page' );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 15;
 	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page );
 
-	wp("$post_type_q&$post_status_q&posts_per_page=$posts_per_page&order=$order&orderby=$orderby");
+	wp( compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page') );
 
 	return array($post_stati, $avail_post_stati);
 }

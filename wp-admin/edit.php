@@ -24,6 +24,7 @@ if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( 
 	$post_type = $_GET['post_type'];
 else
 	$post_type = 'post';
+$_GET['post_type'] = $post_type;
 
 $post_type_object = get_post_type_object($post_type);
 
