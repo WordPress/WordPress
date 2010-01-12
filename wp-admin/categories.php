@@ -297,7 +297,7 @@ if ( $page_links )
 	<input name="cat_name" id="cat_name" type="text" value="" size="40" aria-required="true" />
     <p><?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></p>
 </div>
-<?php if ( is_multisite() ) { ?>
+<?php if ( !is_multisite() ) { ?>
 <div class="form-field">
 	<label for="category_nicename"><?php _e('Category Slug') ?></label>
 	<input name="category_nicename" id="category_nicename" type="text" value="" size="40" />

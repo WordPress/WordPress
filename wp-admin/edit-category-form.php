@@ -58,7 +58,7 @@ _fill_empty_category($category);
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
 			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo esc_attr($category->name); ?>" size="40" aria-required="true" /></td>
 		</tr>
-<?php if ( is_multisite() ) { ?>
+<?php if ( !is_multisite() ) { ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category Slug') ?></label></th>
 			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo esc_attr(apply_filters('editable_slug', $category->slug)); ?>" size="40" /><br />

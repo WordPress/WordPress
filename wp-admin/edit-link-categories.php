@@ -200,7 +200,7 @@ if ( $page_links )
 	<label for="name"><?php _e('Link Category name') ?></label>
 	<input name="name" id="name" type="text" value="" size="40" aria-required="true" />
 </div>
-<?php if ( is_multisite() ) { ?>
+<?php if ( !is_multisite() ) { ?>
 <div class="form-field">
 	<label for="slug"><?php _e('Link Category slug') ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
