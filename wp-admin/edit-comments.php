@@ -244,11 +244,8 @@ $_comment_post_ids = array();
 foreach ( $_comments as $_c ) {
 	$_comment_post_ids[] = $_c->comment_post_ID;
 }
-$_comment_pending_count_temp = (array) get_pending_comments_num($_comment_post_ids);
-foreach ( (array) $_comment_post_ids as $_cpid )
-	$_comment_pending_count[$_cpid] = isset( $_comment_pending_count_temp[$_cpid] ) ? $_comment_pending_count_temp[$_cpid] : 0;
-if ( empty($_comment_pending_count) )
-	$_comment_pending_count = array();
+
+$_comment_pending_count = get_pending_comments_num($_comment_post_ids);
 
 $comments = array_slice($_comments, 0, $comments_per_page);
 $extra_comments = array_slice($_comments, $comments_per_page);
