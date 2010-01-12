@@ -2066,7 +2066,7 @@ function _get_term_hierarchy($taxonomy) {
 		return $children;
 
 	$children = array();
-	$terms = get_terms($taxonomy, array('get' => 'all'));
+	$terms = get_terms($taxonomy, array('get' => 'all', 'orderby' => 'id', 'fields' => 'ids'));
 	foreach ( $terms as $term ) {
 		if ( $term->parent > 0 )
 			$children[$term->parent][] = $term->term_id;
