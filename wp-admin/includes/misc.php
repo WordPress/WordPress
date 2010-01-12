@@ -399,7 +399,13 @@ function set_screen_options() {
 
 		$option = str_replace('-', '_', $option);
 
-		switch ( $option ) {
+		$map_option = $option;
+		$type = str_replace('edit_', '', $map_option);
+		$type = str_replace('_per_page', '', $type);
+		if ( in_array($type, get_post_types()) )
+			$map_option = 'edit_per_page';
+
+		switch ( $map_option ) {
 			case 'edit_per_page':
 			case 'edit_pages_per_page':
 			case 'edit_comments_per_page':

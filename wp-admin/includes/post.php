@@ -851,6 +851,10 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
+	if ( 'post' != $post_type )
+		$per_page = 'edit_' . $post_type . '_per_page';
+	else
+		$per_page = 'edit_per_page';
 	$posts_per_page = (int) get_user_option( 'edit_per_page' );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 15;
