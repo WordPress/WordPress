@@ -324,9 +324,10 @@ function bulk_edit_posts( $post_data = null ) {
  *
  * @since unknown
  *
+ *@param string A post type string, defaults to 'post'.
  * @return object stdClass object containing all the default post data as attributes
  */
-function get_default_post_to_edit() {
+function get_default_post_to_edit( $post_type = 'post' ) {
 
 	$post_title = '';
 	if ( !empty( $_REQUEST['post_title'] ) )
@@ -347,7 +348,7 @@ function get_default_post_to_edit() {
 	$post->post_date_gmt = '';
 	$post->post_password = '';
 	$post->post_status = 'draft';
-	$post->post_type = 'post';
+	$post->post_type = $post_type;
 	$post->to_ping = '';
 	$post->pinged = '';
 	$post->comment_status = get_option( 'default_comment_status' );

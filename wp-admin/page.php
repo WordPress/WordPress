@@ -73,7 +73,7 @@ elseif ( isset($_POST['wp-preview']) && 'dopreview' == $_POST['wp-preview'] )
 	$action = 'preview';
 
 $sendback = wp_get_referer();
-if ( strpos($sendback, 'page.php') !== false || strpos($sendback, 'page-new.php') !== false )
+if ( strpos($sendback, 'page.php') !== false || strpos($sendback, 'post-new.php') !== false )
 	$sendback = admin_url('edit-pages.php');
 else
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $sendback );

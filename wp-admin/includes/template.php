@@ -748,15 +748,19 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
  * @return unknown
  */
 function wp_manage_posts_columns() {
+	global $typenow;
+
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	/* translators: manage posts column name */
 	$posts_columns['title'] = _x('Post', 'column name');
 	$posts_columns['author'] = __('Author');
-	$posts_columns['categories'] = __('Categories');
-	$posts_columns['tags'] = __('Tags');
+	if ( empty($typenow) || is_object_in_taxonomy($typenow, 'category') )
+		$posts_columns['categories'] = __('Categories');
+	if ( empty($typenow) || is_object_in_taxonomy($typenow, 'category') )
+		$posts_columns['tags'] = __('Tags');
 	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
-	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) )
+	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($typenow) || post_type_supports($typenow, 'comments') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
@@ -826,11 +830,16 @@ function get_column_headers($page) {
 	if ( !isset($_wp_column_headers) )
 		$_wp_column_headers = array();
 
+	$map_screen = $page;
+	$type = str_replace('edit-', '', $map_screen);
+	if ( in_array($type, get_post_types()) )
+		$map_screen = 'edit';
+
 	// Store in static to avoid running filters on each call
 	if ( isset($_wp_column_headers[$page]) )
 		return $_wp_column_headers[$page];
 
-	switch ($page) {
+	switch ($map_screen) {
 		case 'edit':
 			 $_wp_column_headers[$page] = wp_manage_posts_columns();
 			 break;
@@ -924,10 +933,6 @@ function print_column_headers( $type, $id = true ) {
 	$columns = get_column_headers( $type );
 	$hidden = get_hidden_columns($type);
 	$styles = array();
-//	$styles['tag']['posts'] = 'width: 90px;';
-//	$styles['link-category']['links'] = 'width: 90px;';
-//	$styles['category']['posts'] = 'width: 90px;';
-//	$styles['link']['visible'] = 'text-align: center;';
 
 	foreach ( $columns as $column_key => $column_display_name ) {
 		$class = ' class="manage-column';
@@ -3494,6 +3499,10 @@ function screen_meta($screen) {
 		if ( !empty($typenow) )
 			$screen = $typenow;
 	}
+	if ( 'edit' == $screen ) {
+		if ( !empty($typenow) )
+			$screen = 'edit-' . $typenow;
+	}
 
 	if ( isset($meta_screens[$screen]) )
 		$screen = $meta_screens[$screen];
@@ -3707,7 +3716,12 @@ function screen_layout($screen) {
 }
 
 function screen_options($screen) {
-	switch ( $screen ) {
+	$map_screen = $screen;
+	$type = str_replace('edit-', '', $map_screen);
+	if ( in_array($type, get_post_types()) )
+		$map_screen = 'edit';
+
+	switch ( $map_screen ) {
 		case 'edit':
 			$per_page_label = __('Posts per page:');
 			break;

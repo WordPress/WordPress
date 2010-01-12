@@ -18,7 +18,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
 
 	if ( strpos($sendback, 'page.php') !== false )
-		$sendback = admin_url('page-new.php');
+		$sendback = admin_url('post-new.php?post_type=page');
 
 	if ( isset($_GET['delete_all']) || isset($_GET['delete_all2']) ) {
 		$post_status = preg_replace('/[^a-z0-9_-]+/i', '', $_GET['post_status']);
@@ -141,7 +141,7 @@ require_once('admin-header.php'); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="page-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'page'); ?></a> <?php
+<h2><?php echo esc_html( $title ); ?> <a href="post-new.php?post_type=page" class="button add-new-h2"><?php echo esc_html_x('Add New', 'page'); ?></a> <?php
 if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( get_search_query() ) ); ?>
 </h2>

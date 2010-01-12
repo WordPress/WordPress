@@ -55,7 +55,7 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>', pagenow = '<?php ech
 </script>
 <?php
 
-if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php', 'page-new.php') ) ) {
+if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php') ) ) {
 	add_action( 'admin_print_footer_scripts', 'wp_tiny_mce', 25 );
 	wp_enqueue_script('quicktags');
 }
