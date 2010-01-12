@@ -27,8 +27,23 @@ if ( get_option('db_upgraded') ) {
 	 */
 	do_action('after_db_upgrade');
 } elseif ( get_option('db_version') != $wp_db_version ) {
-	wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI']))));
-	exit;
+	if ( !is_multisite() ) {
+		wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI']))));
+		exit;
+	} elseif ( apply_filters( 'do_mu_upgrade', true ) ) {
+		/**
+		 * On really small MU installs run the upgrader every time, 
+		 * else run it less often to reduce load.
+		 *
+		 * @since 2.8.4b
+		 */
+		$c = get_blog_count();
+		if ( $c <= 50 || ( $c > 50 && mt_rand( 0, (int)( $c / 50 ) ) == 1 ) ) {
+			require_once( ABSPATH . WPINC . '/http.php' );
+			$response = wp_remote_get( admin_url( 'upgrade.php?step=1' ), array( 'timeout' => 120, 'httpversion' => '1.1' ) );
+			do_action( 'after_mu_upgrade', $response );
+		}
+	}
 }
 
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
@@ -45,6 +60,7 @@ if ( !wp_next_scheduled('wp_scheduled_delete') && !defined('WP_INSTALLING') )
 
 set_screen_options();
 
+$posts_per_page = get_option('posts_per_page');
 $date_format = get_option('date_format');
 $time_format = get_option('time_format');
 
@@ -94,7 +110,7 @@ if (isset($plugin_page)) {
 			wp_die(__('Invalid plugin page'));
 		}
 
-		if (! ( file_exists(WP_PLUGIN_DIR . "/$plugin_page") && is_file(WP_PLUGIN_DIR . "/$plugin_page") ) )
+		if ( !( file_exists(WP_PLUGIN_DIR . "/$plugin_page") && is_file(WP_PLUGIN_DIR . "/$plugin_page") ) && !( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") && is_file(WPMU_PLUGIN_DIR . "/$plugin_page") ) )
 			wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
 
 		do_action('load-' . $plugin_page);
@@ -102,7 +118,10 @@ if (isset($plugin_page)) {
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
-		include(WP_PLUGIN_DIR . "/$plugin_page");
+		if ( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") )
+			include(WPMU_PLUGIN_DIR . "/$plugin_page");
+		else
+			include(ABSPATH . PLUGINDIR . "/$plugin_page");
 	}
 
 	include(ABSPATH . 'wp-admin/admin-footer.php');
@@ -139,6 +158,9 @@ if (isset($plugin_page)) {
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 	define('WP_IMPORTING', true);
+	if ( is_multisite() ) {
+		kses_init_filters();  // Always filter imported data with kses.
+	}
 
 	call_user_func($wp_importers[$importer][2]);
 

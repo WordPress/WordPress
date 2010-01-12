@@ -297,13 +297,13 @@ if ( $page_links )
 	<input name="cat_name" id="cat_name" type="text" value="" size="40" aria-required="true" />
     <p><?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></p>
 </div>
-
+<?php if ( is_multisite() ) { ?>
 <div class="form-field">
 	<label for="category_nicename"><?php _e('Category Slug') ?></label>
 	<input name="category_nicename" id="category_nicename" type="text" value="" size="40" />
     <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
-
+<?php } ?>
 <div class="form-field">
 	<label for="category_parent"><?php _e('Category Parent') ?></label>
 	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>

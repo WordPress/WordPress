@@ -35,11 +35,13 @@ do_action('edit_tag_form_pre', $tag); ?>
 			<th scope="row" valign="top"><label for="name"><?php _e('Tag name') ?></label></th>
 			<td><input name="name" id="name" type="text" value="<?php if ( isset( $tag->name ) ) echo esc_attr($tag->name); ?>" size="40" aria-required="true" /></td>
 		</tr>
+<?php if ( !is_multisite() ) { ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug') ?></label></th>
 			<td><input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo esc_attr(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
             <p class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
 		</tr>
+<?php } ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _e('Description') ?></label></th>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />

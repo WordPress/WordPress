@@ -200,13 +200,13 @@ if ( $page_links )
 	<label for="name"><?php _e('Link Category name') ?></label>
 	<input name="name" id="name" type="text" value="" size="40" aria-required="true" />
 </div>
-
+<?php if ( is_multisite() ) { ?>
 <div class="form-field">
 	<label for="slug"><?php _e('Link Category slug') ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
-
+<?php } ?>
 <div class="form-field">
 	<label for="description"><?php _e('Description (optional)') ?></label>
 	<textarea name="description" id="description" rows="5" cols="40"></textarea>

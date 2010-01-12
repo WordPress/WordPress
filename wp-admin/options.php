@@ -38,6 +38,20 @@ $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 if ( !current_user_can('manage_options') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
+if ( is_multisite() && is_super_admin() && $_GET[ 'adminhash' ] ) {
+	$new_admin_details = get_option( 'adminhash' );
+	if( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && $new_admin_details[ 'newemail' ] != '' ) {
+		update_option( "admin_email", $new_admin_details[ 'newemail' ] );
+		delete_option( "adminhash" );
+		delete_option( "new_admin_email" );
+		wp_redirect( get_option( "siteurl" ) . "/wp-admin/options-general.php?updated=true" );
+		exit;
+	} else {
+		wp_redirect( get_option( "siteurl" ) . "/wp-admin/options-general.php?updated=false" );
+		exit;
+	}
+}
+
 switch($action) {
 
 case 'update':
@@ -55,6 +69,8 @@ case 'update':
 
 	if ( 'options' == $option_page ) {
 		$options = explode(',', stripslashes( $_POST[ 'page_options' ] ));
+		if ( !is_super_admin() ) 
+			wp_die( __( 'Not allowed here' ) );
 	} else {
 		$options = $whitelist_options[ $option_page ];
 	}
@@ -90,6 +106,9 @@ case 'update':
 	break;
 
 default:
+	if ( !is_super_admin() )
+		wp_die( __( 'Not admin' ) );
+
 	include('admin-header.php'); ?>
 
 <div class="wrap">
@@ -99,6 +118,11 @@ default:
   <?php wp_nonce_field('options-options') ?>
   <input type="hidden" name="action" value="update" />
   <input type='hidden' name='option_page' value='options' />
+<?php if ( is_multisite() ) { ?>
+<p class="submit submit-top">
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button-primary" />
+</p>
+<?php } ?>
   <table class="form-table">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
@@ -106,6 +130,8 @@ $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name
 foreach ( (array) $options as $option) :
 	$disabled = '';
 	$option->option_name = esc_attr($option->option_name);
+	if( $option->option_name == '' )
+		continue;
 	if ( is_serialized($option->option_value) ) {
 		if ( is_serialized_string($option->option_value) ) {
 			// this is a serialized string, so we should display it

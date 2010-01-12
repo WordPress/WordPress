@@ -58,11 +58,13 @@ _fill_empty_category($category);
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
 			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo esc_attr($category->name); ?>" size="40" aria-required="true" /></td>
 		</tr>
+<?php if ( is_multisite() ) { ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category Slug') ?></label></th>
 			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo esc_attr(apply_filters('editable_slug', $category->slug)); ?>" size="40" /><br />
             <span class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></span></td>
 		</tr>
+<?php } ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category Parent') ?></label></th>
 			<td>

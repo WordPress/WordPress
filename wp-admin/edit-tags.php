@@ -300,13 +300,13 @@ else
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
 	<p><?php _e('The name is how the tag appears on your site.'); ?></p>
 </div>
-
+<?php if ( !is_multisite() ) { ?>
 <div class="form-field">
 	<label for="slug"><?php _e('Tag slug') ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
-
+<?php } ?>
 <div class="form-field">
 	<label for="description"><?php _e('Description') ?></label>
 	<textarea name="description" id="description" rows="5" cols="40"></textarea>

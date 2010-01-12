@@ -81,6 +81,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 <?php do_settings_fields('writing', 'remote_publishing'); ?>
 </table>
 
+<?php if ( !is_multisite() || defined( 'POST_BY_EMAIL' ) ) { ?>
 <h3><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <kbd>%s</kbd>, <kbd>%s</kbd>, <kbd>%s</kbd>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
 
@@ -112,7 +113,8 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 </tr>
 <?php do_settings_fields('writing', 'post_via_email'); ?>
 </table>
-
+<?php } ?>
+<?php if ( !is_multisite() ) { ?>
 <h3><?php _e('Update Services') ?></h3>
 
 <?php if ( get_option('blog_public') ) : ?>
@@ -126,6 +128,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog&#8217;s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?></p>
 
 <?php endif; ?>
+<?php } // multisite ?>
 
 <?php do_settings_sections('writing'); ?>
 

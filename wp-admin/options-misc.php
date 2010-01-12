@@ -25,7 +25,7 @@ include('admin-header.php');
 
 <form method="post" action="options.php">
 <?php settings_fields('misc'); ?>
-
+<?php if ( !is_multisite() ) { ?>
 <h3><?php _e('Uploading Files'); ?></h3>
 <table class="form-table">
 <tr valign="top">
@@ -65,7 +65,7 @@ include('admin-header.php');
 </tr>
 
 </table>
-
+<?php } ?>
 <?php do_settings_sections('misc'); ?>
 
 <p class="submit">
