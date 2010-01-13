@@ -817,16 +817,7 @@ function wp_edit_posts_query( $q = false ) {
 		$q = $_GET;
 	$q['m'] = isset($q['m']) ? (int) $q['m'] : 0;
 	$q['cat'] = isset($q['cat']) ? (int) $q['cat'] : 0;
-	$post_stati  = array(	//	array( adj, noun )
-				'publish' => array(_x('Published', 'post'), __('Published posts'), _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')),
-				'future' => array(_x('Scheduled', 'post'), __('Scheduled posts'), _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')),
-				'pending' => array(_x('Pending Review', 'post'), __('Pending posts'), _n_noop('Pending Review <span class="count">(%s)</span>', 'Pending Review <span class="count">(%s)</span>')),
-				'draft' => array(_x('Draft', 'post'), _x('Drafts', 'manage posts header'), _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')),
-				'private' => array(_x('Private', 'post'), __('Private posts'), _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')),
-				'trash' => array(_x('Trash', 'post'), __('Trash posts'), _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')),
-			);
-
-	$post_stati = apply_filters('post_stati', $post_stati);
+	$post_stati  = get_post_stati();
 
 	if ( isset($q['post_type']) && in_array( $q['post_type'], get_post_types( array('_show' => true) ) ) )
 		$post_type = $q['post_type'];
@@ -835,7 +826,7 @@ function wp_edit_posts_query( $q = false ) {
 
 	$avail_post_stati = get_available_post_statuses($post_type);
 
-	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) ) {
+	if ( isset($q['post_status']) && in_array( $q['post_status'], $post_stati ) ) {
 		$post_status = $q['post_status'];
 		$perm = 'readable';
 	}
@@ -862,7 +853,7 @@ function wp_edit_posts_query( $q = false ) {
 
 	wp( compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page') );
 
-	return array($post_stati, $avail_post_stati);
+	return $avail_post_stati;
 }
 
 /**

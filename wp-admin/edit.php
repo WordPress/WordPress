@@ -137,7 +137,7 @@ if ( !current_user_can('edit_others_posts') ) {
 		$_GET['author'] = $current_user->ID;
 }
 
-list($post_stati, $avail_post_stati) = wp_edit_posts_query();
+$avail_post_stati = wp_edit_posts_query();
 
 require_once('admin-header.php');
 
@@ -220,19 +220,21 @@ $total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
 $class = empty($class) && empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href='edit.php{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
-foreach ( $post_stati as $status => $label ) {
+foreach ( get_post_stati(array(), 'objects') as $status ) {
 	$class = '';
 
-	if ( !in_array( $status, $avail_post_stati ) )
+	$status_name = $status->name;
+
+	if ( !in_array( $status_name, $avail_post_stati ) )
 		continue;
 
-	if ( empty( $num_posts->$status ) )
+	if ( empty( $num_posts->$status_name ) )
 		continue;
 
-	if ( isset($_GET['post_status']) && $status == $_GET['post_status'] )
+	if ( isset($_GET['post_status']) && $status_name == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href='edit.php?post_status=$status&amp;post_type=$post_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
+	$status_links[] = "<li><a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( _n( $status->label_count[0], $status->label_count[1], $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
 }
 echo implode( " |</li>\n", $status_links ) . '</li>';
 unset( $status_links );

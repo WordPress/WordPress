@@ -21,6 +21,12 @@ function create_initial_post_types() {
 	register_post_type( 'revision', array('label' => __('Revisions'),'exclude_from_search' => true, '_builtin' => true, '_edit_link' => 'revision.php?revision=%d', 'capability_type' => 'post', 'hierarchical' => false) );
 	add_post_type_support('post', array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments') );
 	add_post_type_support('page', array('post-thumbnails', 'page-attributes', 'custom-fields', 'comments') );
+
+	register_post_status( 'publish', array('label' => _x('Published', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')) );
+	register_post_status( 'future', array('label' => _x('Scheduled', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')) );
+	register_post_status( 'draft', array('label' => _x('Draft', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')) );
+	register_post_status( 'private', array('label' => _x('Private', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')) );
+	register_post_status( 'trash', array('label' => _x('Trash', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
@@ -416,6 +422,118 @@ function get_page_statuses( ) {
 	);
 
 	return $status;
+}
+
+/**
+ * Register a post type. Do not use before init.
+ *
+ * A simple function for creating or modifying a post status based on the
+ * parameters given. The function will accept an array (second optional
+ * parameter), along with a string for the post status name.
+ *
+ *
+ * Optional $args contents:
+ *
+ * label - A descriptive name for the post status marked for translation. Defaults to $post_status.
+ * public - Whether posts of this status should be shown in the admin UI. Defaults to true.
+ * exclude_from_search - Whether to exclude posts with this post status from search results. Defaults to true.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 3.0
+ * @uses $wp_post_statuses Inserts new post status object into the list
+ *
+ * @param string $post_status Name of the post status.
+ * @param array|string $args See above description.
+ */
+function register_post_status($post_status, $args = array()) {
+	global $wp_post_statuses;
+
+	if (!is_array($wp_post_statuses))
+		$wp_post_statuses = array();
+
+	// Args prefixed with an underscore are reserved for internal use.
+	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => true, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false);
+	$args = wp_parse_args($args, $defaults);
+	$args = (object) $args;
+
+	$post_status = sanitize_user($post_status, true);
+	$args->name = $post_status;
+
+	if ( false === $args->label )
+		$args->label = $post_status;
+
+	if ( false === $args->label_count )
+		$args->label_count = $args->label;
+
+	if ( !$args->_builtin && $args->public )
+		$args->_show = true;
+
+	$wp_post_statuses[$post_status] = $args;
+
+	return $args;
+}
+
+/**
+ * Retrieve a post status object by name
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 3.0
+ * @uses $wp_post_statuses
+ * @see register_post_status
+ * @see get_post_statuses
+ *
+ * @param string $post_type The name of a registered post status
+ * @return object A post status object
+ */
+function get_post_status_object( $post_status ) {
+	global $wp_post_statuses;
+
+	if ( empty($wp_post_statuses[$post_status]) )
+		return null;
+
+	return $wp_post_statuses[$post_status];
+}
+
+/**
+ * Get a list of all registered post status objects.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 3.0
+ * @uses $wp_post_statuses
+ * @see register_post_status
+ * @see get_post_status_object
+ *
+ * @param array|string $args An array of key => value arguments to match against the post statuses.
+ *  Only post statuses having attributes that match all arguments are returned.
+ * @param string $output The type of output to return, either post status 'names' or 'objects'. 'names' is the default.
+ * @return array A list of post type names or objects
+ */
+function get_post_stati( $args = array(), $output = 'names' ) {
+	global $wp_post_statuses;
+
+	$do_names = false;
+	if ( 'names' == $output )
+		$do_names = true;
+
+	$post_statuses = array();
+	foreach ( (array) $wp_post_statuses as $post_status ) {
+		if ( empty($args) ) {
+			if ( $do_names )
+				$post_statuses[] = $post_status->name;
+			else
+				$post_statuses[] = $post_status;
+		} elseif ( array_intersect_assoc((array) $post_status, $args) ) {
+			if ( $do_names )
+				$post_statuses[] = $post_status->name;
+			else
+				$post_statuses[] = $post_status;
+		}
+	}
+
+	return $post_statuses;
 }
 
 /**
