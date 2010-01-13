@@ -548,6 +548,10 @@ ol {
 	padding-right: 0;
 }
 
+.media-upload-form .align .field label {
+	padding: 0 22px 0 0;
+}
+
 /* TinyMCE
 =================================== */
 .clearlooks2 .mceTop .mceLeft {
