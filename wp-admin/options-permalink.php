@@ -92,7 +92,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 		$category_base = $_POST['category_base'];
 		if (! empty($category_base) )
 			$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
-		if ( is_miltisite() && !is_subdomain_install() && $category_base != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) {
+		if ( is_multisite() && !is_subdomain_install() && $category_base != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) {
 			$category_base = '/blog' . $category_base;
 		}
 		$wp_rewrite->set_category_base($category_base);
