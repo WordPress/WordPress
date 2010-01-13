@@ -2228,13 +2228,13 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  */
 function wp_ext2type( $ext ) {
 	$ext2type = apply_filters( 'ext2type', array(
-		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b', 'mka', 'mp1',  'mp2', 'mp3', 'ogg', 'ram', 'wav', 'wma' ),
-		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'mkv',   'mov', 'mpg', 'mpeg', 'mp4', 'mpv', 'ogm', 'qt',  'rm', 'vob', 'wmv', 'm4v' ),
+		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b', 'mka', 'mp1', 'mp2',  'mp3', 'ogg', 'ram', 'wav', 'wma' ),
+		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mpv', 'ogm', 'qt',  'rm', 'vob', 'wmv' ),
 		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf', 'rtf' ),
 		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsb',  'xlsm' ),
 		'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp',  'swf' ),
 		'text'        => array( 'asc', 'txt' ),
-		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz', 'zip' ),
+		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz',  'zip' ),
 		'code'        => array( 'css', 'html', 'php',  'js' ),
 	));
 	foreach ( $ext2type as $type => $exts )
@@ -2300,7 +2300,7 @@ function get_allowed_mime_types() {
 		'rtx' => 'text/richtext',
 		'css' => 'text/css',
 		'htm|html' => 'text/html',
-		'mp3|m4a' => 'audio/mpeg',
+		'mp3|m4a|m4b' => 'audio/mpeg',
 		'mp4|m4v' => 'video/mp4',
 		'ra|ram' => 'audio/x-realaudio',
 		'wav' => 'audio/wav',
