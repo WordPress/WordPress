@@ -185,7 +185,7 @@ switch( $_GET['action'] ) {
 	case "updateblog":
 		check_admin_referer('editblog');
 		if( empty( $_POST ) )
-			wp_die( __('You probably need to go back to the <a href="ms-blogs.php">blogs page</a>') );
+			wp_die( __('You probably need to go back to the <a href="ms-sites.php">sites page</a>') );
 
 		// themes
 		if( is_array( $_POST[ 'theme' ] ) ) {
@@ -294,7 +294,7 @@ switch( $_GET['action'] ) {
 		}
 		do_action( 'wpmu_update_blog_options' );
 		restore_current_blog();
-		wpmu_admin_do_redirect( "ms-blogs.php?action=editblog&updated=true&id=".$id );
+		wpmu_admin_do_redirect( "ms-sites.php?action=editblog&updated=true&id=".$id );
 	break;
 
 	case "deleteblog":

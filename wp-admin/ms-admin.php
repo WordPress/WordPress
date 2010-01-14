@@ -32,7 +32,7 @@ $title = __( 'Site Admin' );
 	<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 	<ul class="subsubsub">
-	<li><a href="ms-blogs.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Blog'); ?></strong></a> | </li>
+	<li><a href="ms-sites.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Blog'); ?></strong></a> | </li>
 	<li><a href="ms-users.php#form-add-user" class="rbutton"><?php _e('Create a New User'); ?></a></li>
 	</ul>
 	<br clear='all' />
@@ -48,7 +48,7 @@ $title = __( 'Site Admin' );
 		</p>
 	</form>
 
-	<form name="searchform" action="ms-blogs.php" method="get">
+	<form name="searchform" action="ms-sites.php" method="get">
 		<p>
 			<input type="hidden" name="action" value="blogs" />
 			<input type="text" name="s" value="" size="17" />

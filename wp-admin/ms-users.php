@@ -124,7 +124,7 @@ if ( $_GET['updated'] == 'true' ) {
 		</div>
 
 		<?php if( isset($_GET['s']) && $_GET['s'] != '' ) : ?>
-			<p><a href="ms-blogs.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Blogs for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
+			<p><a href="ms-sites.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Blogs for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
 		<?php endif; ?>
 
 		<?php
@@ -219,11 +219,11 @@ if ( $_GET['updated'] == 'true' ) {
 									if( is_array( $blogs ) ) {
 										foreach ( (array) $blogs as $key => $val ) {
 											$path	= ($val->path == '/') ? '' : $val->path;
-											echo '<a href="ms-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+											echo '<a href="ms-sites.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 											echo ' <small class="row-actions">';
 
 											// Edit
-											echo '<a href="ms-blogs.php?action=editblog&amp;id=' . $val->userblog_id . '">' . __('Edit') . '</a> | ';
+											echo '<a href="ms-sites.php?action=editblog&amp;id=' . $val->userblog_id . '">' . __('Edit') . '</a> | ';
 
 											// View
 											echo '<a ';
