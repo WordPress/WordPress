@@ -98,10 +98,18 @@ case 'dodelete':
 		}
 		switch($_REQUEST['delete_option']) {
 		case 'delete':
-			wp_delete_user($id);
+			if ( !is_multisite() ) {
+				wp_delete_user($id);
+			} else {
+				remove_user_from_blog($id, $blog_id); // WPMU only remove user from blog
+			}
 			break;
 		case 'reassign':
-			wp_delete_user($id, $_REQUEST['reassign_user']);
+			if ( !is_multisite() ) {
+				wp_delete_user($id, $_REQUEST['reassign_user']);
+			} else {
+				remove_user_from_blog($id, $blog_id, $_REQUEST['reassign_user']);
+			}
 			break;
 		}
 		++$delete_count;
@@ -153,7 +161,12 @@ case 'delete':
 			$go_delete = true;
 		}
 	}
-	$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY user_login");
+	if ( !is_multisite() ) {
+		$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY user_login");
+	} else {
+		// WPMU only searches users of current blog
+		$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users, $wpdb->usermeta WHERE $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '".$wpdb->prefix."capabilities' ORDER BY user_login");
+	}
 	$user_dropdown = '<select name="reassign_user">';
 	foreach ( (array) $all_logins as $login )
 		if ( $login->ID == $current_user->ID || !in_array($login->ID, $userids) )
@@ -239,7 +252,7 @@ if ( ! empty($messages) ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?>  <a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'user'); ?></a> <?php
+<h2><?php echo esc_html( $title ); if ( !is_multisite() || get_site_option( 'add_new_users' ) ) { ?>  <a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'user'); ?></a><?php }
 if ( isset($_GET['usersearch']) && $_GET['usersearch'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $_GET['usersearch'] ) ); ?>
 </h2>
@@ -384,6 +397,16 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 
 </form>
 </div>
+
+<?php
+if ( is_multisite() ) {
+	foreach ( array('user_login' => 'user_login', 'first_name' => 'user_firstname', 'last_name' => 'user_lastname', 'email' => 'user_email', 'url' => 'user_uri', 'role' => 'user_role') as $formpost => $var ) {
+		$var = 'new_' . $var;
+		$$var = isset($_REQUEST[$formpost]) ? esc_attr(stripslashes($_REQUEST[$formpost])) : '';
+	}
+	unset($name);
+}
+?>
 
 <br class="clear" />
 <?php

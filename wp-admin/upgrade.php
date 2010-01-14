@@ -86,6 +86,11 @@ switch ( $step ) :
 			$backto = stripslashes( urldecode( $backto ) );
 			$backto = esc_url_raw( $backto  );
 			$backto = wp_validate_redirect($backto, __get_option( 'home' ) . '/');
+		if( $wpdb->get_row( "SELECT blog_id FROM {$wpdb->blog_versions} WHERE blog_id = '{$wpdb->blogid}'" ) ) {
+			$wpdb->query( "UPDATE {$wpdb->blog_versions} SET db_version = '{$wp_db_version}' WHERE blog_id = '{$wpdb->blogid}'" );
+		} else {
+			$wpdb->query( "INSERT INTO {$wpdb->blog_versions} ( `blog_id` , `db_version` , `last_updated` ) VALUES ( '{$wpdb->blogid}', '{$wp_db_version}', NOW());" );
+		}
 ?>
 <h2><?php _e( 'Upgrade Complete' ); ?></h2>
 	<p><?php _e( 'Your WordPress database has been successfully upgraded!' ); ?></p>

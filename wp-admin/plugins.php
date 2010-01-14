@@ -231,8 +231,10 @@ wp_enqueue_script('plugin-install');
 add_thickbox();
 
 $help = '<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>';
+if ( !is_multisite() || is_super_admin() ) {
 $help .= '<p>' . sprintf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR) . '</p>';
 $help .= '<p>' . sprintf(__('You can find additional plugins for your site by using the new <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> directly and installing manually.  To <em>manually</em> install a plugin you generally just need to upload the plugin file into your <code>%2$s</code> directory.  Once a plugin has been installed, you may activate it here.'), 'plugin-install.php', WP_PLUGIN_DIR) . '</p>';
+}
 
 add_contextual_help('plugins', $help);
 
@@ -282,11 +284,11 @@ if ( !empty($invalid) )
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="plugin-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a></h2>
+<h2><?php echo esc_html( $title ); if ( !is_multisite() || is_super_admin() ) { ?> <a href="plugin-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a><?php } ?></h2>
 
 <?php
 
-$all_plugins = get_plugins();
+$all_plugins = apply_filters( 'all_plugins', get_plugins() );
 $search_plugins = array();
 $active_plugins = array();
 $inactive_plugins = array();
@@ -321,6 +323,10 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
     if ( isset( $current->response[ $plugin_file ] ) )
         $upgrade_plugins[ $plugin_file ] = $plugin_data;
+}
+
+if ( is_multisite() && !is_super_admin() ) {
+	$upgrade_plugins = false;
 }
 
 $total_all_plugins = count($all_plugins);
@@ -514,6 +520,8 @@ function print_plugin_actions($context, $field_name = 'action' ) {
 	<input type="submit" value="<?php esc_attr_e( 'Search Plugins' ); ?>" class="button" />
 </p>
 </form>
+
+<?php do_action( 'pre_current_active_plugins', $all_plugins ) ?>
 
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
