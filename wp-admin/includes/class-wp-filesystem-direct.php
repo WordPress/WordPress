@@ -54,14 +54,13 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Write a string to a file
 	 *
-	 * @param $file string Path to the file where to write the data.
+	 * @param $file string Remote path to the file where to write the data.
 	 * @param $contents string The data to write.
 	 * @param $mode int (optional) The file permissions as octal number, usually 0644.
-	 * @param $type string (optional) Specifies additional type of access you require to the file.
 	 * @return bool False upon failure.
 	 */
-	function put_contents($file, $contents, $mode = false, $type = '') {
-		if ( ! ($fp = @fopen($file, 'w' . $type)) )
+	function put_contents($file, $contents, $mode = false ) {
+		if ( ! ($fp = @fopen($file, 'w')) )
 			return false;
 		@fwrite($fp, $contents);
 		@fclose($fp);

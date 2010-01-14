@@ -160,9 +160,13 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		return file('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
 
-	function put_contents($file, $contents, $type = '' ) {
+	function put_contents($file, $contents, $mode = false ) {
 		$file = ltrim($file, '/');
-		return false !== file_put_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file, $contents);
+		$ret = file_put_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file, $contents);
+
+		$this->chmod($file, $mode);
+
+		return false !== $ret;
 	}
 
 	function cwd() {

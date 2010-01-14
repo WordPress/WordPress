@@ -111,10 +111,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	function get_contents_array($file) {
 		return explode("\n", $this->get_contents($file));
 	}
-	function put_contents($file, $contents, $type = '' ) {
-		if ( empty($type) )
-			$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
-
+	
+	function put_contents($file, $contents, $mode = false ) {
 		$temp = tmpfile();
 		if ( ! $temp )
 			return false;
@@ -122,9 +120,13 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		fwrite($temp, $contents);
 		fseek($temp, 0); //Skip back to the start of the file being written to
 
+		$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
 		$ret = @ftp_fput($this->link, $file, $temp, $type);
 
 		fclose($temp);
+
+		$this->chmod($file, $mode);
+
 		return $ret;
 	}
 	function cwd() {

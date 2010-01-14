@@ -550,9 +550,8 @@ function unzip_file($file, $to) {
 
 		// We've made sure the folders are there, so let's extract the file now:
 		if ( ! $file['folder'] ) {
-			if ( !$fs->put_contents( $to . $file['filename'], $file['content']) )
+			if ( !$fs->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
 				return new WP_Error('copy_failed', __('Could not copy file'), $to . $file['filename']);
-			$fs->chmod($to . $file['filename'], FS_CHMOD_FILE);
 		}
 	}
 	return true;
