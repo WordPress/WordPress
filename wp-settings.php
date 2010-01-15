@@ -64,7 +64,7 @@ require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');
 include_once(ABSPATH . WPINC . '/pomo/mo.php');
 
-if( is_multisite() && SHORTINIT ) // stop most of WP being loaded, we just want the basics
+if ( SHORTINIT ) // stop most of WP being loaded, we just want the basics
 	return false;
 
 require_once (ABSPATH . WPINC . '/l10n.php');
@@ -110,8 +110,8 @@ if ( is_multisite() ) {
 
 wp_default_constants('wp_included');
 
-if( is_multisite() )
-        ms_network_settings();
+if ( is_multisite() )
+    ms_network_settings();
 
 wp_default_constants('ms_network_settings_loaded');
 
@@ -121,7 +121,7 @@ wp_load_mu_plugins();
  * Used to load network wide plugins
  * @since 3.0
  */
-if( is_multisite() )
+if ( is_multisite() )
 	ms_network_plugins();
 
 do_action('muplugins_loaded');
@@ -130,7 +130,7 @@ do_action('muplugins_loaded');
  * Used to check site status
  * @since 3.0
  */
-if( is_multisite() ) {
+if ( is_multisite() ) {
 	ms_site_check();
 	ms_network_cookies();
 }

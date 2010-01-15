@@ -271,10 +271,9 @@ function wp_start_object_cache() {
 }
 
 function wp_not_installed() {
-	if( is_multisite() ) {
-			if ( !is_blog_installed() && !defined('WP_INSTALLING') ) {
+	if ( is_multisite() ) {
+			if ( !is_blog_installed() && !defined('WP_INSTALLING') )
 					die( __( 'The blog you have requested is not installed properly. Please contact the system administrator.' ) ); // have to die here ~ Mark
-			}
 	} elseif ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === false && !defined('WP_INSTALLING')) ) {
 		if ( defined('WP_SITEURL') )
 			$link = WP_SITEURL . '/wp-admin/install.php';
@@ -329,7 +328,6 @@ function wp_load_plugins() {
 		unset($plugin);
 	}
 	unset($current_plugins);
-
 }
 
 function wp_set_internal_encoding() {
