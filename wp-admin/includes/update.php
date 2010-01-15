@@ -82,6 +82,9 @@ function find_core_update( $version, $locale ) {
 }
 
 function core_update_footer( $msg = '' ) {
+	if( is_multisite() && !is_super_admin() )
+		return false;
+
 	if ( !current_user_can('manage_options') )
 		return sprintf( __( 'Version %s' ), $GLOBALS['wp_version'] );
 
@@ -115,6 +118,9 @@ function core_update_footer( $msg = '' ) {
 add_filter( 'update_footer', 'core_update_footer' );
 
 function update_nag() {
+	if( is_multisite() && !is_super_admin() )
+		return false;
+
 	global $pagenow;
 
 	if ( 'update-core.php' == $pagenow )
@@ -136,6 +142,9 @@ add_action( 'admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
+	if( is_multisite() && !is_super_admin() )
+		return false;
+
 	$cur = get_preferred_from_update_core();
 
 	$msg = sprintf( __('You are using <span class="b">WordPress %s</span>.'), $GLOBALS['wp_version'] );
@@ -196,6 +205,9 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 }
 
 function wp_update_plugin($plugin, $feedback = '') {
+	if( is_multisite() && !is_super_admin() )
+		return false;
+
 
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);

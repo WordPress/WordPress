@@ -197,7 +197,11 @@ function edit_user( $user_id = 0 ) {
  */
 function get_author_user_ids() {
 	global $wpdb;
-	$level_key = $wpdb->prefix . 'user_level';
+	if( !is_multisite() ) {
+		$level_key = $wpdb->get_blog_prefix() . 'user_level';
+	} else {
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+	}
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value != '0'", $level_key) );
 }
 
@@ -248,8 +252,11 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 		else
 			return array();
 	}
-
-	$level_key = $wpdb->prefix . 'user_level';
+	if( !is_multisite() ) {
+		$level_key = $wpdb->get_blog_prefix() . 'user_level';
+	} else {
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+	}
 
 	$query = $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s", $level_key);
 	if ( $exclude_zeros )
@@ -294,7 +301,12 @@ function get_editable_roles() {
  */
 function get_nonauthor_user_ids() {
 	global $wpdb;
-	$level_key = $wpdb->prefix . 'user_level';
+
+	if ( !is_multisite() ) {
+		$level_key = $wpdb->get_blog_prefix() . 'user_level';
+	} else {
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+	}
 
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
 }
@@ -440,9 +452,13 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	}
 
 	// FINALLY, delete user
-
-	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
-	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
+	if ( !is_multisite() ) {
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
+	} else {
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = $id AND meta_key = '{$level_key}'");
+	}
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
@@ -661,8 +677,12 @@ class WP_User_Search {
 		$this->query_from_where = "FROM $wpdb->users";
 		if ( $this->role )
 			$this->query_from_where .= $wpdb->prepare(" INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
-		else
+		elseif ( !is_multisite() )
 			$this->query_from_where .= " WHERE 1=1";
+		else {
+			$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+			$this->query_from_where .= ", $wpdb->usermeta WHERE $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
+		}
 		$this->query_from_where .= " $search_sql";
 
 	}
