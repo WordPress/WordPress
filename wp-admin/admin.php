@@ -82,8 +82,7 @@ require(ABSPATH . 'wp-admin/menu.php');
 
 do_action('admin_init');
 
-// Handle plugin admin pages.
-if (isset($plugin_page)) {
+if (isset($plugin_page) ) {
 	if( ! $page_hook = get_plugin_page_hook($plugin_page, $pagenow) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 		// backwards compatibility for plugins using add_management_page
@@ -97,7 +96,49 @@ if (isset($plugin_page)) {
 			exit;
 		}
 	}
+}
 
+$hook_suffix = '';
+if ( isset($page_hook) )
+	$hook_suffix = $page_hook;
+else if ( isset($plugin_page) )
+	$hook_suffix = $plugin_page;
+else if ( isset($pagenow) )
+	$hook_suffix = $pagenow;
+
+if ( isset($_GET['post_type']) )
+	$typenow = $_GET['post_type'];
+else
+	$typenow = '';
+// @todo validate typenow against post types.
+
+/**
+ * Global object containing info about the current screen.
+ */
+$current_screen = $hook_suffix;
+$current_screen = str_replace('.php', '', $current_screen);
+$current_screen = str_replace('-new', '', $current_screen);
+$current_screen = str_replace('-add', '', $current_screen);
+$current_screen = array('id' => $current_screen, 'base' => $current_screen);
+$current_screen = (object) $current_screen;
+if ( 'edit' == $current_screen->id ) {
+	if ( empty($typenow) )
+		$typenow = 'post';
+	$current_screen->id .= '-' . $typenow;
+	$current_screen->post_type = $typenow;
+} elseif ( 'post' == $current_screen->id ) {
+	if ( empty($typenow) )
+		$typenow = 'post';
+	$current_screen->id = $typenow;
+	$current_screen->post_type = $typenow;
+} else {
+	$typenow = '';
+}
+
+$current_screen = apply_filters('current_screen', $current_screen);
+
+// Handle plugin admin pages.
+if ( isset($plugin_page) ) {
 	if ( $page_hook ) {
 		do_action('load-' . $page_hook);
 		if (! isset($_GET['noheader']))
@@ -176,44 +217,5 @@ if (isset($plugin_page)) {
 
 if ( !empty($_REQUEST['action']) )
 	do_action('admin_action_' . $_REQUEST['action']);
-
-$hook_suffix = '';
-if ( isset($page_hook) )
-	$hook_suffix = $page_hook;
-else if ( isset($plugin_page) )
-	$hook_suffix = $plugin_page;
-else if ( isset($pagenow) )
-	$hook_suffix = $pagenow;
-
-if ( isset($_GET['post_type']) )
-	$typenow = $_GET['post_type'];
-else
-	$typenow = '';
-// @todo validate typenow against post types.
-
-/**
- * Global object containing info about the current screen.
- */
-$current_screen = $hook_suffix;
-$current_screen = str_replace('.php', '', $current_screen);
-$current_screen = str_replace('-new', '', $current_screen);
-$current_screen = str_replace('-add', '', $current_screen);
-$current_screen = array('id' => $current_screen, 'base' => $current_screen);
-$current_screen = (object) $current_screen;
-if ( 'edit' == $current_screen->id ) {
-	if ( empty($typenow) )
-		$typenow = 'post';
-	$current_screen->id .= '-' . $typenow;
-	$current_screen->post_type = $typenow;
-} elseif ( 'post' == $current_screen->id ) {
-	if ( empty($typenow) )
-		$typenow = 'post';
-	$current_screen->id = $typenow;
-	$current_screen->post_type = $typenow;
-} else {
-	$typenow = '';
-}
-
-$current_screen = apply_filters('current_screen', $current_screen);
 
 ?>
