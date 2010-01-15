@@ -57,7 +57,7 @@ wp_set_wpdb_vars();
 
 wp_start_object_cache();
 
-if( is_multisite() )
+if ( is_multisite() )
     require (ABSPATH . WPINC . '/ms-load.php');
 
 require (ABSPATH . WPINC . '/plugin.php');

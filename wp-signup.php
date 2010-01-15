@@ -8,7 +8,7 @@ add_action( 'wp_head', 'signuppageheaders' ) ;
 require( 'wp-blog-header.php' );
 require_once( ABSPATH . WPINC . '/registration.php' );
 
-if( is_array( get_site_option( 'illegal_names' )) && $_GET[ 'new' ] != '' && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {
+if ( is_array( get_site_option( 'illegal_names' )) && $_GET[ 'new' ] != '' && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {
 	wp_redirect( "http://{$current_site->domain}{$current_site->path}" );
 	die();
 }
@@ -22,7 +22,7 @@ function signuppageheaders() {
 	echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
-if( $current_blog->domain . $current_blog->path != $current_site->domain . $current_site->path ) {
+if ( $current_blog->domain . $current_blog->path != $current_site->domain . $current_site->path ) {
 	wp_redirect( "http://" . $current_site->domain . $current_site->path . "wp-signup.php" );
 	die();
 }
@@ -56,7 +56,7 @@ get_header();
 function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	global $current_site;
 	// Blog name
-	if( !is_subdomain_install() )
+	if ( !is_subdomain_install() )
 		echo '<label for="blogname">' . __('Blog Name:') . '</label>';
 	else
 		echo '<label for="blogname">' . __('Blog Domain:') . '</label>';
@@ -65,18 +65,17 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
 
-	if( !is_subdomain_install() ) {
+	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="50" /><br />';
-	} else {
+	else
 		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
-	}
+
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' );
-		if( !is_subdomain_install() ) {
+		if ( !is_subdomain_install() )
 			print $current_site->domain . $current_site->path . __( 'blogname' );
-		} else {
+		else
 			print __( 'domain.' ) . $current_site->domain . $current_site->path;
-		}
 		echo '.</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)' ) . '</p>';
 	}
 
@@ -95,11 +94,11 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
             <?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.'); ?>
             <div style="clear:both;"></div>
             <label class="checkbox" for="blog_public_on">
-                <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
+                <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if ( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
                 <strong><?php _e( 'Yes' ); ?></strong>
             </label>
             <label class="checkbox" for="blog_public_off">
-                <input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && $_POST['blog_public'] == '0' ) { ?>checked="checked"<?php } ?> />
+                <input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if ( isset( $_POST['blog_public'] ) && $_POST['blog_public'] == '0' ) { ?>checked="checked"<?php } ?> />
                 <strong><?php _e( 'No' ); ?></strong>
             </label>
         </p>
@@ -190,7 +189,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 function validate_another_blog_signup() {
 	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
 	$current_user = wp_get_current_user();
-	if( !is_user_logged_in() )
+	if ( !is_user_logged_in() )
 		die();
 
 	$result = validate_blog_form();
@@ -225,11 +224,10 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 
 	if ( !is_wp_error($errors) )
 		$errors = new WP_Error();
-	if( isset( $_POST[ 'signup_for' ] ) ) {
+	if ( isset( $_POST[ 'signup_for' ] ) )
 		$signup[ wp_specialchars( $_POST[ 'signup_for' ] ) ] = 'checked="checked"';
-	} else {
+	else
 		$signup[ 'blog' ] = 'checked="checked"';
-	}
 
 	// allow definition of default variables
 	$filtered_results = apply_filters('signup_user_init', array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors ));
@@ -246,9 +244,9 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 		<?php show_user_form($user_name, $user_email, $errors); ?>
 
 		<p>
-		<?php if( $active_signup == 'blog' ) { ?>
+		<?php if ( $active_signup == 'blog' ) { ?>
 			<input id="signupblog" type="hidden" name="signup_for" value="blog" />
-		<?php } elseif( $active_signup == 'user' ) { ?>
+		<?php } elseif ( $active_signup == 'user' ) { ?>
 			<input id="signupblog" type="hidden" name="signup_for" value="user" />
 		<?php } else { ?>
 			<input id="signupblog" type="radio" name="signup_for" value="blog" <?php echo $signup['blog'] ?> />
@@ -369,25 +367,24 @@ function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user
 
 // Main
 $active_signup = get_site_option( 'registration' );
-if( !$active_signup )
+if ( !$active_signup )
 	$active_signup = 'all';
 
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 
-if( is_super_admin() )
+if ( is_super_admin() )
 	echo '<div class="mu_alert">' . sprintf( __( "Greetings Site Administrator! You are currently allowing '%s' registrations. To change or disable registration go to your <a href='wp-admin/ms-options.php'>Options page</a>." ), $active_signup ) . '</div>';
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
 $current_user = wp_get_current_user();
-if( $active_signup == "none" ) {
+if ( $active_signup == "none" ) {
 	_e( "Registration has been disabled." );
-} elseif( $active_signup == 'blog' && !is_user_logged_in() ){
-	if( is_ssl() ) {
+} elseif ( $active_signup == 'blog' && !is_user_logged_in() ) {
+	if ( is_ssl() )
 		$proto = 'https://';
-	} else {
+	else
 		$proto = 'http://';
-	}
 	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode($proto . $_SERVER['HTTP_HOST'] . '/wp-signup.php' ));
 	echo sprintf( __( "You must first <a href=\"%s\">login</a>, and then you can create a new blog."), $login_url );
 } else {
@@ -399,7 +396,7 @@ if( $active_signup == "none" ) {
 				_e( "User registration has been disabled." );
 		break;
 		case 'validate-blog-signup':
-			if( $active_signup == 'all' || $active_signup == 'blog' )
+			if ( $active_signup == 'all' || $active_signup == 'blog' )
 				validate_blog_signup();
 			else
 				_e( "Blog registration has been disabled." );
@@ -410,21 +407,21 @@ if( $active_signup == "none" ) {
 		default :
 			$user_email = $_POST[ 'user_email' ];
 			do_action( "preprocess_signup_form" ); // populate the form from invites, elsewhere?
-			if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) ) {
+			if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) )
 				signup_another_blog($newblogname);
-			} elseif( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) ) {
+			elseif( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )
 				signup_user( $newblogname, $user_email );
-			} elseif( is_user_logged_in() == false && ( $active_signup == 'blog' ) ) {
+			elseif( is_user_logged_in() == false && ( $active_signup == 'blog' ) )
 				_e( "I'm sorry. We're not accepting new registrations at this time." );
-			} else {
+			else
 				_e( "You're logged in already. No need to register again!" );
-			}
+
 			if ($newblogname) {
-				if( !is_subdomain_install() )
+				if ( !is_subdomain_install() )
 					$newblog = 'http://' . $current_site->domain . $current_site->path . $newblogname . '/';
 				else
 					$newblog = 'http://' . $newblogname . '.' . $current_site->domain . $current_site->path;
-				if ($active_signup == 'blog' || $active_signup == 'all')
+				if ( $active_signup == 'blog' || $active_signup == 'all' )
 					printf(__("<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist but you can create it now!</em></p>"), $newblog );
 				else
 					printf(__("<p><em>The blog you were looking for, <strong>%s</strong> doesn't exist.</em></p>"), $newblog );

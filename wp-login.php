@@ -74,7 +74,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	do_action('login_head'); ?>
 </head>
 <body class="login">
-<?php   if( !is_multisite() ) { ?>
+<?php   if ( !is_multisite() ) { ?>
 <div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><?php bloginfo('name'); ?></a></h1>
 <?php   } else { ?>
 <div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://' . $current_site->domain . $current_site->path ); ?>" title="<?php echo apply_filters('login_headertitle', $current_site->site_name ); ?>"><span class="hide"><?php bloginfo('name'); ?></span></a></h1>
@@ -165,18 +165,16 @@ function retrieve_password() {
 		$wpdb->update($wpdb->users, array('user_activation_key' => $key), array('user_login' => $user_login));
 	}
 	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
-        if( !is_multisite() ) {
+        if ( !is_multisite() )
         	$message .= get_option('siteurl') . "\r\n\r\n";
-        } else {
+        else
             	$message .= 'http://' . trailingslashit( $current_site->domain . $current_site->path ) . "\r\n\r\n";
-        }
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
-        if( !is_multisite() ) {
+        if ( !is_multisite() )
         	$message .= site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . "\r\n";
-        } else {
+        else
         	$message .= 'http://' . trailingslashit( $current_site->domain . $current_site->path ) . "wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login) . "\r\n";
-        }
 
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 	// we want to reverse this for the plain text arena of emails.
@@ -409,11 +407,12 @@ case 'rp' :
 break;
 
 case 'register' :
-        if( is_multisite() ) {
-            	// WPMU doesn't use this
-                wp_redirect( apply_filters( 'wp_signup_location', get_bloginfo('wpurl') . '/wp-signup.php' ) );
-                exit;
-        }
+	if ( is_multixsite() ) {
+		// WPMU doesn't use this
+		wp_redirect( apply_filters( 'wp_signup_location', get_bloginfo('wpurl') . '/wp-signup.php' ) );
+		exit;
+	}
+
 	if ( !get_option('users_can_register') ) {
 		wp_redirect('wp-login.php?registration=disabled');
 		exit();
