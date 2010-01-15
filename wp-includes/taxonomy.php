@@ -797,11 +797,11 @@ function &get_terms($taxonomies, $args = '') {
 	$selects = array();
 	if ( 'all' == $fields )
 		$selects = array('t.*', 'tt.*');
-	else if ( 'ids' == $fields )
+	else if ( 'ids' == $fields || 'id=>parent' == $fields )
 		$selects = array('t.term_id', 'tt.parent', 'tt.count');
 	else if ( 'names' == $fields )
 		$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
-        $select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
+    $select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $limit";
 
@@ -844,7 +844,11 @@ function &get_terms($taxonomies, $args = '') {
 	reset ( $terms );
 
 	$_terms = array();
-	if ( 'ids' == $fields ) {
+	if ( 'id=>parent' == $fields ) {
+		while ( $term = array_shift($terms) )
+			$_terms[$term->term_id] = $term->parent;
+		$terms = $_terms;
+	} elseif ( 'ids' == $fields ) {
 		while ( $term = array_shift($terms) )
 			$_terms[] = $term->term_id;
 		$terms = $_terms;
@@ -2066,10 +2070,10 @@ function _get_term_hierarchy($taxonomy) {
 		return $children;
 
 	$children = array();
-	$terms = get_terms($taxonomy, array('get' => 'all', 'orderby' => 'id', 'fields' => 'ids'));
-	foreach ( $terms as $term ) {
-		if ( $term->parent > 0 )
-			$children[$term->parent][] = $term->term_id;
+	$terms = get_terms($taxonomy, array('get' => 'all', 'orderby' => 'id', 'fields' => 'id=>parent'));
+	foreach ( $terms as $term_id => $parent ) {
+		if ( $parent > 0 )
+			$children[$parent][] = $term_id;
 	}
 	set_transient("{$taxonomy}_children", $children);
 
