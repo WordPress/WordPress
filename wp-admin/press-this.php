@@ -28,7 +28,7 @@ function press_it() {
 	$quick['post_category'] = isset($_POST['post_category']) ? $_POST['post_category'] : null;
 	$quick['tax_input'] = isset($_POST['tax_input']) ? $_POST['tax_input'] : null;
 	$quick['post_title'] = ( trim($_POST['title']) != '' ) ? $_POST['title'] : '  ';
-	$quick['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : ''; 
+	$quick['post_content'] = isset($_POST['post_content']) ? $_POST['post_content'] : '';
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
@@ -400,7 +400,7 @@ var photostorage = false;
 					jQuery('#extra-fields').show();
 				}
 				jQuery('#extra-fields').before('<div id="waiting"><img src="images/wpspin_light.gif" alt="" /> <?php echo esc_js( __( 'Loading...' ) ); ?></div>');
-				
+
 				if(photostorage == false) {
 					jQuery.ajax({
 						type: "GET",

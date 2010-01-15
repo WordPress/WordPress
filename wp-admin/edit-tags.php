@@ -27,7 +27,7 @@ if ( 'post' != $post_type ) {
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&amp;post_type=$post_type";
 } else {
 	$parent_file = 'edit.php';
-	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";	
+	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
 }
 
 if ( isset( $_GET['action'] ) && isset($_GET['delete_tags']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )

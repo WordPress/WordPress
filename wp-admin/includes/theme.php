@@ -156,10 +156,10 @@ function get_page_templates() {
 
 /**
  * Tidies a filename for url display by the theme editor.
- * 
+ *
  * @since 2.9.0
  * @private
- * 
+ *
  * @param string $fullpath Full path to the theme file
  * @param string $containingfolder Path of the theme parent folder
  * @return string

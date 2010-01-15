@@ -576,7 +576,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	do_action( "add_option_{$name}", $name, $value );
 	do_action( 'added_option', $name, $value );
-	
+
 	return;
 }
 
@@ -2307,8 +2307,8 @@ function get_allowed_mime_types() {
 		'ogg' => 'audio/ogg',
 		'mid|midi' => 'audio/midi',
 		'wma' => 'audio/wma',
-		'mka' => 'audio/x-matroska', 
-		'mkv' => 'video/x-matroska', 
+		'mka' => 'audio/x-matroska',
+		'mkv' => 'video/x-matroska',
 		'rtf' => 'application/rtf',
 		'js' => 'application/javascript',
 		'pdf' => 'application/pdf',
@@ -3392,7 +3392,7 @@ function delete_site_transient($transient) {
  *
  * If the transient does not exist or does not have a value, then the return value
  * will be false.
- * 
+ *
  * @since 2.9.0
  * @package WordPress
  * @subpackage Transient
@@ -3678,7 +3678,7 @@ function wp_timezone_choice( $selected_zone ) {
 		if ( $offset_value === $selected_zone )
 			$selected = 'selected="selected" ';
 		$structure[] = '<option ' . $selected . 'value="' . esc_attr( $offset_value ) . '">' . esc_html( $offset_name ) . "</option>";
-		
+
 	}
 	$structure[] = '</optgroup>';
 
@@ -3745,7 +3745,7 @@ function wp_scheduled_delete() {
 /**
  * Parse the file contents to retrieve its metadata.
  *
- * Searches for metadata for a file, such as a plugin or theme.  Each piece of 
+ * Searches for metadata for a file, such as a plugin or theme.  Each piece of
  * metadata must be on its own line. For a field spanning multple lines, it
  * must not have any newlines or only parts of it will be displayed.
  *
@@ -3765,7 +3765,7 @@ function wp_scheduled_delete() {
  *
  * @param string $file Path to the file
  * @param bool $markup If the returned data should have HTML markup applied
- * @param string $context If specified adds filter hook "extra_<$context>_headers" 
+ * @param string $context If specified adds filter hook "extra_<$context>_headers"
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
 	// We don't need to write to the file, so just open for reading.
@@ -3789,7 +3789,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 		$all_headers = $default_headers;
 	}
 
-	
+
 	foreach ( $all_headers as $field => $regex ) {
 		preg_match( '/' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, ${$field});
 		if ( !empty( ${$field} ) )
@@ -3799,12 +3799,12 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	}
 
 	$file_data = compact( array_keys( $all_headers ) );
-	
+
 	return $file_data;
 }
 /*
  * Used internally to tidy up the search terms
- * 
+ *
  * @private
  * @since 2.9.0
  */

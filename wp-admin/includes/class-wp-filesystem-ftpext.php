@@ -111,7 +111,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	function get_contents_array($file) {
 		return explode("\n", $this->get_contents($file));
 	}
-	
+
 	function put_contents($file, $contents, $mode = false ) {
 		$temp = tmpfile();
 		if ( ! $temp )

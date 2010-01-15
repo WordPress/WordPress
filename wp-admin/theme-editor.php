@@ -37,9 +37,9 @@ if (empty($file)) {
 } else {
 	$file = stripslashes($file);
 	if ( 'theme' == $dir ) {
-		$file = dirname(dirname($themes[$theme]['Template Dir'])) . $file ; 
+		$file = dirname(dirname($themes[$theme]['Template Dir'])) . $file ;
 	} else if ( 'style' == $dir) {
-		$file = dirname(dirname($themes[$theme]['Stylesheet Dir'])) . $file ; 
+		$file = dirname(dirname($themes[$theme]['Stylesheet Dir'])) . $file ;
 	}
 }
 

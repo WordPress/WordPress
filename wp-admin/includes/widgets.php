@@ -68,7 +68,7 @@ function wp_list_widget_controls( $sidebar ) {
 
 	if ( !empty( $description ) ) {
 		echo "<div class='sidebar-description'>\n";
-		echo "\t<p class='description'>$description</p>"; 
+		echo "\t<p class='description'>$description</p>";
 		echo "</div>\n";
 	}
 

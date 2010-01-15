@@ -67,15 +67,15 @@
  */
 function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
-	$default_headers = array( 
-		'Name' => 'Plugin Name', 
-		'PluginURI' => 'Plugin URI', 
-		'Version' => 'Version', 
-		'Description' => 'Description', 
-		'Author' => 'Author', 
-		'AuthorURI' => 'Author URI', 
-		'TextDomain' => 'Text Domain', 
-		'DomainPath' => 'Domain Path' 
+	$default_headers = array(
+		'Name' => 'Plugin Name',
+		'PluginURI' => 'Plugin URI',
+		'Version' => 'Version',
+		'Description' => 'Description',
+		'Author' => 'Author',
+		'AuthorURI' => 'Author URI',
+		'TextDomain' => 'Text Domain',
+		'DomainPath' => 'Domain Path'
 		);
 
 	$plugin_data = get_file_data( $plugin_file, $default_headers, 'plugin' );

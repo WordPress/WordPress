@@ -313,15 +313,15 @@ function _nx_noop( $single, $plural, $context ) {
  */
 function load_textdomain( $domain, $mofile ) {
 	global $l10n;
-	
+
 	$plugin_override = apply_filters( 'override_load_textdomain', false, $domain, $mofile );
-	
+
 	if ( true == $plugin_override ) {
 		return true;
 	}
-	
+
 	do_action( 'load_textdomain', $domain, $mofile );
-		
+
 	$mofile = apply_filters( 'load_textdomain_mofile', $mofile, $domain );
 
 	if ( !is_readable( $mofile ) ) return false;
@@ -333,7 +333,7 @@ function load_textdomain( $domain, $mofile ) {
 		$mo->merge_with( $l10n[$domain] );
 
 	$l10n[$domain] = &$mo;
-	
+
 	return true;
 }
 
@@ -377,7 +377,7 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
 	} else {
 		$path = WP_PLUGIN_DIR;
 	}
-	
+
 	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
 	return load_textdomain( $domain, $mofile );
 }

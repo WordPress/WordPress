@@ -9,7 +9,7 @@ td.available-theme {
 	margin-left: 1em;
 }
 .quicktags, .search {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 /* 200 - 500
 =================================== */
@@ -51,10 +51,10 @@ td.available-theme {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #wpcontent select {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #quicktags {
 	background-position: right top;
@@ -69,7 +69,7 @@ td.available-theme {
 	margin-left: 0;
 }
 #your-profile legend {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #ajax-response.alignleft {
 	margin-left: 0;
@@ -93,7 +93,7 @@ td.available-theme {
 .tablenav .displaying-num {
 	margin-right: 0;
 	margin-left: 10px;
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #postcustomstuff table input,
 #postcustomstuff table select,
@@ -115,22 +115,22 @@ td.available-theme {
 	margin: 7px 15px 0 0;
 }
 #wphead h1 {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 	float: right;
 }
 #wphead h1.long-title {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #adminmenu .wp-submenu a {
 	padding-left: 0;
 	padding-right: 12px;
 	border-width: 0 0 0 1px;
 	border-style: none none none solid;
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #adminmenu a.menu-top,
 #adminmenu .wp-submenu-head {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 #adminmenu img.wp-menu-image {
 	float: right;
@@ -177,7 +177,7 @@ td.available-theme {
 #adminmenu #awaiting-mod,
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 	margin-left: 0;
 	margin-right: 2px;
 }
@@ -187,7 +187,7 @@ td.available-theme {
 	float: right;
 }
 .post-com-count-wrapper {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 .column-response .post-com-count {
 	float: right;
@@ -249,7 +249,7 @@ td.available-theme {
 	clear: right;
 }
 .description, .form-wrap p {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 /* 1500 - 1800
 =================================== */
@@ -257,7 +257,7 @@ td.available-theme {
 	float: left;
 }
 .howto {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 .postarea h3 label {
 	float: right;
@@ -372,7 +372,7 @@ td.action-links, th.action-links {
 	margin-right: 10px;
 }
 .tool-box .title {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 .settings-toggle {
 	text-align: left;
@@ -413,7 +413,7 @@ td.action-links, th.action-links {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: left;
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 	margin: 0 0 0 6px;
 }
 .metabox-prefs label {
@@ -476,7 +476,7 @@ td.action-links, th.action-links {
 .inline-edit-row .catshow,
 .inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
-	font-family: Tahoma, Arial, sans-serif; 
+	font-family: Tahoma, Arial, sans-serif;
 }
 .quick-edit-row-post fieldset label.inline-edit-status {
 	float: right;

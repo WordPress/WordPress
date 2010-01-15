@@ -155,7 +155,7 @@ function get_temp_dir() {
 
 	if  ( function_exists('sys_get_temp_dir') )
 		return trailingslashit(sys_get_temp_dir());
-	
+
 	$temp = ini_get('upload_tmp_dir');
 	if ( is_dir($temp) ) // always writable
 		return trailingslashit($temp);

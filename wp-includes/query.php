@@ -332,10 +332,10 @@ function is_front_page () {
 
 /**
  * Whether current page view is the blog homepage.
- * 
+ *
  * This is the page which is showing the time based blog content of your site
  * so if you set a static page for the front page of your site then this will
- * only be true on the page which you set as the "Posts page" in Reading Settings. 
+ * only be true on the page which you set as the "Posts page" in Reading Settings.
  *
  * @since 1.5.0
  * @uses $wp_query
@@ -2065,7 +2065,7 @@ class WP_Query {
 		else {
 			$post_type_object = get_post_type_object ( $post_type );
 			if ( !empty($post_type_object) )
-				$post_type_cap = $post_type_object->capability_type; 
+				$post_type_cap = $post_type_object->capability_type;
 			else
 				$post_type_cap = $post_type;
 		}
@@ -2077,7 +2077,7 @@ class WP_Query {
 		if ( 'any' == $post_type ) {
 			$where .= $exclude_post_types;
 		} elseif ( !empty( $post_type ) && is_array( $post_type ) ) {
-			$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $post_type) . "')"; 
+			$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $post_type) . "')";
 		} elseif ( ! empty( $post_type ) ) {
 			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		} elseif ( $this->is_attachment ) {

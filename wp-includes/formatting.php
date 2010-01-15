@@ -33,7 +33,7 @@ function wptexturize($text) {
 	$curl = '';
 	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$stop = count($textarr);
-	
+
 	// No need to setup these variables more than once
 	if (!$static_setup) {
 		/* translators: opening curly quote */
@@ -74,7 +74,7 @@ function wptexturize($text) {
 		$curl = $textarr[$i];
 
 		if ( !empty($curl) && '<' != $curl{0} && '[' != $curl{0}
-				&& empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack)) { 
+				&& empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack)) {
 			// This is not a tag, nor is the texturization disabled
 			// static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
@@ -120,7 +120,7 @@ function _wptexturize_pushpop_element($text, &$stack, $disabled_elements, $openi
 			/*
 			 * This disables texturize until we find a closing tag of our type
 			 * (e.g. <pre>) even if there was invalid nesting before that
-			 * 
+			 *
 			 * Example: in the case <pre>sadsadasd</code>"baba"</pre>
 			 *          "baba" won't be texturize
 			 */
@@ -690,7 +690,7 @@ function sanitize_file_name( $filename ) {
 	// long alpha string not in the extension whitelist.
 	foreach ( (array) $parts as $part) {
 		$filename .= '.' . $part;
-		
+
 		if ( preg_match("/^[a-zA-Z]{2,5}\d?$/", $part) ) {
 			$allowed = false;
 			foreach ( $mimes as $ext_preg => $mime_match ) {
@@ -2413,7 +2413,7 @@ function tag_escape($tag_name) {
  * @return string text, safe for inclusion in LIKE query.
  */
 function like_escape($text) {
-	return addcslashes($text, '\\%_'); 
+	return addcslashes($text, '\\%_');
 }
 
 /**

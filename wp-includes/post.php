@@ -683,7 +683,7 @@ function register_post_type($post_type, $args = array()) {
 
 /**
  * Register support of certain features for a post type.
- * 
+ *
  * @since 3.0
  * @param string $post_type The post type for which to add the feature
  * @param string|array $feature the feature being added, can be an array of feature strings or a single string
@@ -2151,8 +2151,8 @@ function check_and_publish_future_post($post_id) {
 /**
  * Given the desired slug and some post details computes a unique slug for the post.
  *
- * @global wpdb $wpdb 
- * @global WP_Rewrite $wp_rewrite 
+ * @global wpdb $wpdb
+ * @global WP_Rewrite $wp_rewrite
  * @param string $slug the desired slug (post_name)
  * @param integer $post_ID
  * @param string $post_status no uniqueness checks are made if the post is still draft or pending

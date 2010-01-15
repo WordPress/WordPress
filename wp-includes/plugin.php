@@ -301,7 +301,7 @@ function do_action($tag, $arg = '') {
 
 	if ( ! isset($wp_actions) )
 		$wp_actions = array();
-	
+
 	if ( ! isset($wp_actions[$tag]) )
 		$wp_actions[$tag] = 1;
 	else
@@ -387,7 +387,7 @@ function do_action_ref_array($tag, $args) {
 
 	if ( ! isset($wp_actions) )
 		$wp_actions = array();
-	
+
 	if ( ! isset($wp_actions[$tag]) )
 		$wp_actions[$tag] = 1;
 	else

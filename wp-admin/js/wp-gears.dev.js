@@ -32,7 +32,7 @@ var wpGears = {
 
 		if ( host.match(/[^a-z0-9._-]/i) )
 			host = encodeURIComponent(host);
-		
+
 		name = window.location.protocol + host;
 		name = name.replace(/[^a-z0-9._-]+/gi, '_');
 		name = 'wp_' + name.substring(0, 60); // max length of name is 64 chars

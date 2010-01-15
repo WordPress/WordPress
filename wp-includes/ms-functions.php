@@ -1373,7 +1373,7 @@ function install_blog($blog_id, $blog_title = '') {
 
 	if ( $wpdb->get_results("SELECT ID FROM $wpdb->posts") )
 		die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>') . '</body></html>');
-		
+
 	$wpdb->suppress_errors(false);
 
 	$url = get_blogaddress_by_id($blog_id);
@@ -1402,7 +1402,7 @@ function install_blog($blog_id, $blog_title = '') {
 	$cat_slug = sanitize_title($cat_name);
 
 	$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
-	
+
 	if ( $blogroll_id == null ) {
 		$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
 		$blogroll_id = $wpdb->insert_id;

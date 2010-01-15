@@ -976,7 +976,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
-	
+
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
@@ -1072,11 +1072,11 @@ function wp_notify_moderator($comment_id) {
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 	$comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
-	
+
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-	
+
 	switch ($comment->comment_type)
 	{
 		case 'trackback':
@@ -1164,7 +1164,7 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 
 	$user_login = stripslashes($user->user_login);
 	$user_email = stripslashes($user->user_email);
-	
+
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);

@@ -11,7 +11,7 @@
 /*
  * Deprecated functions come here to die.
  */
- 
+
 /**
  * @since unknown
  * @deprecated 3.0

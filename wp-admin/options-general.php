@@ -300,14 +300,14 @@ $lang = get_option('WPLANG');
 
 if( is_array($lang_files) && !empty($lang_files) ) {
 	?>
-	<tr valign="top"> 
-		<th width="33%" scope="row"><?php _e('Blog language:') ?></th> 
+	<tr valign="top">
+		<th width="33%" scope="row"><?php _e('Blog language:') ?></th>
 		<td>
 			<select name="WPLANG" id="WPLANG">
 				<?php mu_dropdown_languages( $lang_files, get_option('WPLANG') ); ?>
 			</select>
 		</td>
-	</tr> 
+	</tr>
 	<?php
 } // languages
 ?>

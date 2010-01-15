@@ -15,7 +15,7 @@ if ( !current_user_can('switch_themes') )
 if ( is_multisite() ) {
 	$themes = get_themes();
 	$ct = current_theme_info();
-	$allowed_themes = apply_filters("allowed_themes", get_site_allowed_themes() ); 
+	$allowed_themes = apply_filters("allowed_themes", get_site_allowed_themes() );
 	if( $allowed_themes == false )
 		$allowed_themes = array();
 

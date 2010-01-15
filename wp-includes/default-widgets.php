@@ -790,7 +790,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 	if ( !$rss->get_item_quantity() ) {
 		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
-		$rss->__destruct(); 
+		$rss->__destruct();
 		unset($rss);
 		return;
 	}
@@ -843,7 +843,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		}
 	}
 	echo '</ul>';
-	$rss->__destruct(); 
+	$rss->__destruct();
 	unset($rss);
 }
 

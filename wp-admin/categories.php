@@ -27,7 +27,7 @@ if ( 'post' != $post_type ) {
 	$submenu_file = "categories.php?taxonomy=$taxonomy&amp;post_type=$post_type";
 } else {
 	$parent_file = 'edit.php';
-	$submenu_file = "categories.php?taxonomy=$taxonomy";	
+	$submenu_file = "categories.php?taxonomy=$taxonomy";
 }
 
 

@@ -575,9 +575,9 @@ function get_term_to_edit( $id, $taxonomy ) {
  * of term ids to exclude from the return array.  If 'include' is non-empty,
  * 'exclude' is ignored.
  *
- * exclude_tree - Default is an empty array.  An array, comma- or space-delimited 
- * string of term ids to exclude from the return array, along with all of their 
- * descendant terms according to the primary taxonomy.  If 'include' is non-empty, 
+ * exclude_tree - Default is an empty array.  An array, comma- or space-delimited
+ * string of term ids to exclude from the return array, along with all of their
+ * descendant terms according to the primary taxonomy.  If 'include' is non-empty,
  * 'exclude_tree' is ignored.
  *
  * include - Default is an empty array.  An array, comma- or space-delimited string

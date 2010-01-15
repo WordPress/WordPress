@@ -640,7 +640,7 @@ function sanitize_user_object($user, $context = 'display') {
 		else
 			$vars = get_object_vars($user);
 		foreach ( array_keys($vars) as $field ) {
-			if ( is_string($user->$field) || is_numeric($user->$field) ) 
+			if ( is_string($user->$field) || is_numeric($user->$field) )
 				$user->$field = sanitize_user_field($field, $user->$field, $user->ID, $context);
 		}
 		$user->filter = $context;

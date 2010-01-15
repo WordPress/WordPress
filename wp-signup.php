@@ -29,17 +29,17 @@ if( $current_blog->domain . $current_blog->path != $current_site->domain . $curr
 
 function wpmu_signup_stylesheet() {
 	?>
-	<style type="text/css">	
+	<style type="text/css">
 		.mu_register { width: 90%; margin:0 auto; }
 		.mu_register form { margin-top: 2em; }
 		.mu_register .error { font-weight:700; padding:10px; color:#333333; background:#FFEBE8; border:1px solid #CC0000; }
 		.mu_register input[type="submit"],
 			.mu_register #blog_title,
-			.mu_register #user_email, 
+			.mu_register #user_email,
 			.mu_register #blogname,
-			.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }	
+			.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }
 		.mu_register .prefix_address,
-			.mu_register .suffix_address {font-size: 18px;display:inline; }			
+			.mu_register .suffix_address {font-size: 18px;display:inline; }
 		.mu_register label { font-weight:700; font-size:15px; display:block; margin:10px 0; }
 		.mu_register label.checkbox { display:inline; }
 		.mu_register .mu_alert { font-weight:700; padding:10px; color:#333333; background:#ffffe0; border:1px solid #e6db55; }
@@ -82,7 +82,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 
 	// Blog Title
 	?>
-	<label for="blog_title"><?php _e('Blog Title:') ?></label>	
+	<label for="blog_title"><?php _e('Blog Title:') ?></label>
 	<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
@@ -92,7 +92,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	<div id="privacy">
         <p class="privacy-intro">
             <label for="blog_public_on"><?php _e('Privacy:') ?></label>
-            <?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.'); ?> 
+            <?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.'); ?>
             <div style="clear:both;"></div>
             <label class="checkbox" for="blog_public_on">
                 <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
@@ -104,7 +104,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
             </label>
         </p>
 	</div>
-	
+
 	<?php
 	do_action('signup_blogform', $errors);
 }
@@ -130,7 +130,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	<label for="user_email"><?php _e('Email&nbsp;Address:') ?></label>
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
-	<?php } ?>		
+	<?php } ?>
 	<input name="user_email" type="text" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
@@ -145,7 +145,7 @@ function validate_user_form() {
 
 function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	global $current_user, $current_site;
-	
+
 	if ( ! is_wp_error($errors) ) {
 		$errors = new WP_Error();
 	}
@@ -163,9 +163,9 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	}
 	?>
 	<p><?php printf(__("Welcome back, %s. By filling out the form below, you can <strong>add another blog to your account</strong>. There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly."), $current_user->display_name) ?></p>
-	
+
 	<?php
-	$blogs = get_blogs_of_user($current_user->ID);	
+	$blogs = get_blogs_of_user($current_user->ID);
 	if ( !empty($blogs) ) { ?>
 		<p>
 			<?php _e('Blogs you are already a member of:') ?>
@@ -176,7 +176,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 			</ul>
 		</p>
 	<?php } ?>
-	
+
 	<p><?php _e("If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!") ?></p>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
@@ -238,13 +238,13 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 	$errors = $filtered_results['errors'];
 
 	?>
-	
+
 	<h2><?php printf( __('Get your own %s account in seconds'), $current_site->site_name ) ?></h2>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php show_user_form($user_name, $user_email, $errors); ?>
-		
+
 		<p>
 		<?php if( $active_signup == 'blog' ) { ?>
 			<input id="signupblog" type="hidden" name="signup_for" value="blog" />
@@ -252,13 +252,13 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 			<input id="signupblog" type="hidden" name="signup_for" value="user" />
 		<?php } else { ?>
 			<input id="signupblog" type="radio" name="signup_for" value="blog" <?php echo $signup['blog'] ?> />
-			<label class="checkbox" for="signupblog"><?php _e('Gimme a blog!') ?></label>	
-			<br />			
-			<input id="signupuser" type="radio" name="signup_for" value="user" <?php echo $signup['user'] ?> />			
+			<label class="checkbox" for="signupblog"><?php _e('Gimme a blog!') ?></label>
+			<br />
+			<input id="signupuser" type="radio" name="signup_for" value="user" <?php echo $signup['user'] ?> />
 			<label class="checkbox" for="signupuser"><?php _e('Just a username, please.') ?></label>
 		<?php } ?>
 		</p>
-		
+
 		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Next') ?>" /></p>
 	</form>
 	<?php
@@ -350,7 +350,7 @@ function validate_blog_signup() {
 function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta) {
 	?>
 	<h2><?php printf(__('Congratulations! Your new blog, %s, is almost ready.'), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
-	
+
 	<p><?php _e('But, before you can start using your blog, <strong>you must activate it</strong>.') ?></p>
 	<p><?php printf(__('Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.'),  $user_email) ?></p>
 	<p><?php _e('If you do not activate your blog within two days, you will have to sign up again.'); ?></p>

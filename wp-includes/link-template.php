@@ -682,7 +682,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	else
 		$action = '&action=edit';
 
-	$post_type_object = get_post_type_object( $post->post_type ); 
+	$post_type_object = get_post_type_object( $post->post_type );
 	if ( !$post_type_object )
 		return;
 
@@ -1098,7 +1098,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
 	// If there is no post stop.
 	if ( empty($posts) )
 		return;
-	
+
 	// Even though we limited get_posts to return only 1 item it still returns an array of objects.
 	$post = $posts[0];
 

@@ -32,7 +32,7 @@ if ( get_option('db_upgraded') ) {
 		exit;
 	} elseif ( apply_filters( 'do_mu_upgrade', true ) ) {
 		/**
-		 * On really small MU installs run the upgrader every time, 
+		 * On really small MU installs run the upgrader every time,
 		 * else run it less often to reduce load.
 		 *
 		 * @since 2.8.4b

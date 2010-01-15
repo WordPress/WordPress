@@ -14,7 +14,7 @@ do_action("activate_header");
 
 function wpmu_activate_stylesheet() {
 	?>
-	<style type="text/css">	
+	<style type="text/css">
 		form { margin-top: 2em; }
 		#submit, #key { width: 90%; font-size: 24px; }
 		#language { margin-top: .5em; }
@@ -30,7 +30,7 @@ get_header();
 
 <div id="content" class="widecolumn">
 	<?php if ( empty($_GET['key']) && empty($_POST['key']) ) { ?>
-		
+
 		<h2><?php _e('Activation Key Required') ?></h2>
 		<form name="activateform" id="activateform" method="post" action="<?php echo 'http://' . $current_site->domain . $current_site->path ?>wp-activate.php">
 			<p>
@@ -41,11 +41,11 @@ get_header();
 			    <input id="submit" type="submit" name="Submit" class="submit" value="<?php esc_attr_e('Activate') ?>" />
 			</p>
 		</form>
-		
+
 	<?php } else {
 
 		$key = !empty($_GET['key']) ? $_GET['key'] : $_POST['key'];
-		$result = wpmu_activate_signup($key);		
+		$result = wpmu_activate_signup($key);
 		if ( is_wp_error($result) ) {
 			if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
 			    $signup = $result->get_error_data();
@@ -69,18 +69,18 @@ get_header();
 			$user = new WP_User( (int) $user_id);
 			?>
 			<h2><?php _e('Your account is now active!'); ?></h2>
-			
+
 			<div id="signup-welcome">
 				<p><span class="h3"><?php _e('Username:'); ?></span> <?php echo $user->user_login ?></p>
 				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $password; ?></p>
 			</div>
-					
+
 			<?php if( $url != 'http://' . $current_site->domain . $current_site->path ) : ?>
 				<p class="view"><?php printf(__('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Login</a>'), $url, $url . 'wp-login.php' ); ?></p>
 			<?php else: ?>
 				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.' ), 'http://' . $current_site->domain . $current_site->path . 'wp-login.php', 'http://' . $current_site->domain . $current_site->path ); ?></p>
 			<?php endif;
-		}		
+		}
 	}
 	?>
 </div>

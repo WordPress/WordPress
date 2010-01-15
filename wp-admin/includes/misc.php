@@ -231,7 +231,7 @@ function url_shorten( $url ) {
 
 /**
  * Resets global variables based on $_GET and $_POST
- * 
+ *
  * This function resets global variables based on the names passed
  * in the $vars array to the value of $_POST[$var] or $_GET[$var] or ''
  * if neither is defined.

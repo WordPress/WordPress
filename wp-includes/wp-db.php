@@ -805,7 +805,7 @@ class wpdb {
 		// Perform the query via std mysql_query function..
 		if ( defined('SAVEQUERIES') && SAVEQUERIES )
 			$this->timer_start();
-		
+
 		// use $this->dbh for read ops, and $this->dbhwrite for write ops
 		// use $this->dbhglobal for gloal table ops
 		unset( $dbh );

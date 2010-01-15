@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * The base configurations of the WordPress.
  *
  * This file has the following configurations: MySQL settings, Table Prefix,

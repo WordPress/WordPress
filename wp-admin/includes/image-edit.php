@@ -39,7 +39,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-menu">
 		<div onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop disabled" title="<?php esc_attr_e( 'Crop' ); ?>"></div><?php
 
-	// On some setups GD library does not provide imagerotate() - Ticket #11536   
+	// On some setups GD library does not provide imagerotate() - Ticket #11536
 	if ( function_exists('imagerotate') ) { ?>
 		<div class="imgedit-rleft"  onclick="imageEdit.rotate( 90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate counter-clockwise' ); ?>"></div>
 		<div class="imgedit-rright" onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate clockwise' ); ?>"></div>
@@ -96,7 +96,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-group-top">
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><strong><?php _e('Restore Original Image'); ?></strong></a>
 		<div class="imgedit-help">
-		<p><?php _e('Discard any changes and restore the original image.'); 
+		<p><?php _e('Discard any changes and restore the original image.');
 
 		if ( !defined('IMAGE_EDIT_OVERWRITE') || !IMAGE_EDIT_OVERWRITE )
 			_e(' Previously edited copies of the image will not be deleted.');

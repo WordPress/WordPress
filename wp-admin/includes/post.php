@@ -958,10 +958,10 @@ function postbox_classes( $id, $page ) {
  *
  * @since unknown
  *
- * @param int|object $id    Post ID or post object. 
- * @param string $title (optional) Title 
- * @param string $name (optional) Name 
- * @return array With two entries of type string 
+ * @param int|object $id    Post ID or post object.
+ * @param string $title (optional) Title
+ * @param string $name (optional) Name
+ * @return array With two entries of type string
  */
 function get_sample_permalink($id, $title = null, $name = null) {
 	$post = &get_post($id);
@@ -1015,13 +1015,13 @@ function get_sample_permalink($id, $title = null, $name = null) {
  * sample permalink html
  *
  * intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor.
- * 
+ *
  * @since unknown
  *
- * @param int|object $id Post ID or post object. 
- * @param string $new_title (optional) New title  
- * @param string $new_slug (optional) New slug 
- * @return string intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor. 
+ * @param int|object $id Post ID or post object.
+ * @param string $new_title (optional) New title
+ * @param string $new_slug (optional) New slug
+ * @return string intended to be used for the inplace editor of the permalink post slug on in the post (and page?) editor.
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$post = &get_post($id);
@@ -1185,7 +1185,7 @@ function _admin_notice_post_locked() {
  *
  * @uses _wp_translate_postdata()
  * @uses _wp_post_revision_fields()
- * 
+ *
  * @return unknown
  */
 function wp_create_post_autosave( $post_id ) {

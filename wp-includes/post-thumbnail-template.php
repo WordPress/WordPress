@@ -11,7 +11,7 @@
 
 /**
  * Check if post has an image attached.
- * 
+ *
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID.
@@ -25,7 +25,7 @@ function has_post_thumbnail( $post_id = NULL ) {
 
 /**
  * Retrieve Post Thumbnail ID.
- * 
+ *
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID.
@@ -39,7 +39,7 @@ function get_post_thumbnail_id( $post_id = NULL ) {
 
 /**
  * Display Post Thumbnail.
- * 
+ *
  * @since 2.9.0
  *
  * @param int $size Optional. Image size.  Defaults to 'post-thumbnail', which theme sets using set_post_thumbnail_size( $width, $height, $crop_flag );.
@@ -51,7 +51,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 
 /**
  * Retrieve Post Thumbnail.
- * 
+ *
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID.

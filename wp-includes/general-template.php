@@ -210,18 +210,18 @@ function wp_login_form( $args = array() ) {
 	 					'form_id' => 'loginform',
 						'label_username' => __( 'Username' ),
 						'label_password' => __( 'Password' ),
-						'label_remember' => __( 'Remember Me' ), 
-						'label_log_in' => __( 'Log In' ), 
-						'id_username' => 'user_login',  
-						'id_password' => 'user_pass', 
-						'id_remember' => 'rememberme', 
-						'id_submit' => 'wp-submit', 
-						'remember' => true, 
+						'label_remember' => __( 'Remember Me' ),
+						'label_log_in' => __( 'Log In' ),
+						'id_username' => 'user_login',
+						'id_password' => 'user_pass',
+						'id_remember' => 'rememberme',
+						'id_submit' => 'wp-submit',
+						'remember' => true,
 						'value_username' => '',
 						'value_remember' => false, // Set this to true to default the "Remember me" checkbox to checked
 					);
 	$args = wp_parse_args( $args, apply_filters( 'login_form_defaults', $defaults ) );
-	
+
 	$form = '
 		<form name="' . $args['form_id'] . '" id="' . $args['form_id'] . '" action="' . site_url( 'wp-login.php', 'login' ) . '" method="post">
 			' . do_action( 'login_form_top' ) . '
@@ -241,7 +241,7 @@ function wp_login_form( $args = array() ) {
 			</p>
 			' . do_action( 'login_form_bottom' ) . '
 		</form>';
-		
+
 	if ( $args['echo'] )
 		echo $form;
 	else
@@ -1301,15 +1301,15 @@ function the_date($d='', $before='', $after='', $echo = true) {
  * @return string|null Null if displaying, string if retrieving.
  */
 function the_modified_date($d = '', $before='', $after='', $echo = true) {
-	
+
 	$the_modified_date = $before . get_the_modified_date($d) . $after;
 	$the_modified_date = apply_filters('the_modified_date', $the_modified_date, $d, $before, $after);
-	
+
 	if ( $echo )
 		echo $the_modified_date;
 	else
 		return $the_modified_date;
-	
+
 }
 
 /**

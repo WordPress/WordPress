@@ -786,7 +786,7 @@ class WP_Rewrite {
 
 		//get pages in order of hierarchy, i.e. children after parents
 		$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page'"));
-		
+
 		// If we have no pages get out quick
 		if ( !$posts )
 			return array( array(), array() );
@@ -1735,7 +1735,7 @@ class WP_Rewrite {
 				$rules .= $indent.$indent.$indent."<rules>".$end_of_line;
 				$extra_indent = $indent.$indent.$indent.$indent;
 			}
-	
+
 			$rules .= $extra_indent."<rule name=\"wordpress\" patternSyntax=\"Wildcard\">".$end_of_line;
 			$rules .= $extra_indent.$indent."<match url=\"*\" />".$end_of_line;
 			$rules .= $extra_indent.$indent.$indent."<conditions>".$end_of_line;
@@ -1744,7 +1744,7 @@ class WP_Rewrite {
 			$rules .= $extra_indent.$indent.$indent."</conditions>".$end_of_line;
 			$rules .= $extra_indent.$indent."<action type=\"Rewrite\" url=\"index.php\" />".$end_of_line;
 			$rules .= $extra_indent."</rule>";
-	
+
 			if ( $add_parent_tags ) {
 				$rules .= $end_of_line.$indent.$indent.$indent."</rules>".$end_of_line;
 				$rules .= $indent.$indent."</rewrite>".$end_of_line;

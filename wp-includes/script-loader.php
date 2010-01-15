@@ -176,7 +176,7 @@ function wp_default_scripts( &$scripts ) {
 			'noiframes' => __('This feature requires inline frames. You have iframes disabled or your browser does not support them.'),
 			'l10n_print_after' => 'try{convertEntities(thickboxL10n);}catch(e){};'
 	) );
-	
+
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop$suffix.js", array('jquery'), '0.9.8');
 

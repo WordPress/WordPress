@@ -507,7 +507,7 @@ function wp_get_linksbyname($category, $args = '') {
 		'show_description' => 1,
 		'title_li' => '',
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 
 	return wp_list_bookmarks($r);
@@ -973,23 +973,23 @@ function wp_get_links($args = '') {
 	}
 
 	$defaults = array(
-		'after' => '<br />', 
+		'after' => '<br />',
 		'before' => '',
 		'between' => ' ',
 		'categorize' => 0,
-		'category' => '', 
+		'category' => '',
 		'echo' => true,
-		'limit' => -1, 
+		'limit' => -1,
 		'orderby' => 'name',
-		'show_description' => true, 
-		'show_images' => true, 
+		'show_description' => true,
+		'show_images' => true,
 		'show_rating' => false,
 		'show_updated' => true,
 		'title_li' => '',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	
+
 	return wp_list_bookmarks($r);
 }
 

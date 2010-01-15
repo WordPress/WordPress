@@ -189,14 +189,14 @@ function get_comments( $args = '' ) {
 		'author_email' => '',
 		'ID' => '',
 		'karma' => '',
-		'number' => '', 
-		'offset' => '', 
-		'orderby' => '', 
-		'order' => 'DESC', 
+		'number' => '',
+		'offset' => '',
+		'orderby' => '',
+		'order' => 'DESC',
 		'parent' => '',
 		'post_ID' => '',
 		'post_id' => 0,
-		'status' => '', 
+		'status' => '',
 		'type' => '',
 		'user_id' => '',
 	);
@@ -235,7 +235,7 @@ function get_comments( $args = '' ) {
 	if ( ! empty( $orderby ) ) {
 		$ordersby = is_array($orderby) ? $orderby : preg_split('/[,\s]/', $orderby);
 		$ordersby = array_intersect(
-			$ordersby, 
+			$ordersby,
 			array(
 				'comment_agent',
 				'comment_approved',
@@ -276,13 +276,13 @@ function get_comments( $args = '' ) {
 
 	if ( ! empty($post_id) )
 		$post_where .= $wpdb->prepare( 'comment_post_ID = %d AND ', $post_id );
-	if ( '' !== $author_email ) 
+	if ( '' !== $author_email )
 		$post_where .= $wpdb->prepare( 'comment_author_email = %s AND ', $author_email );
 	if ( '' !== $karma )
 		$post_where .= $wpdb->prepare( 'comment_karma = %d AND ', $karma );
 	if ( 'comment' == $type )
 		$post_where .= "comment_type = '' AND ";
-	elseif ( ! empty( $type ) ) 
+	elseif ( ! empty( $type ) )
 		$post_where .= $wpdb->prepare( 'comment_type = %s AND ', $type );
 	if ( '' !== $parent )
 		$post_where .= $wpdb->prepare( 'comment_parent = %d AND ', $parent );

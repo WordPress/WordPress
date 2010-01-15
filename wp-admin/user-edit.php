@@ -61,10 +61,10 @@ function use_ssl_preference($user) {
 }
 
 
-// Only allow site admins to edit every user. 
-if ( is_multisite() && !defined( "EDIT_ANY_USER" ) && !is_super_admin() && $user_id != $current_user->ID ) 
-	wp_die( __( 'You do not have permission to edit this user.' ) ); 
-	
+// Only allow site admins to edit every user.
+if ( is_multisite() && !defined( "EDIT_ANY_USER" ) && !is_super_admin() && $user_id != $current_user->ID )
+	wp_die( __( 'You do not have permission to edit this user.' ) );
+
 switch ($action) {
 case 'switchposts':
 

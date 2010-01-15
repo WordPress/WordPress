@@ -236,7 +236,7 @@ $structures = array(
   </form>
 <?php if ( !is_multisite || is_super_admin() ) { ?>
 <?php if ($iis7_permalinks) :
-	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) : 
+	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>
 <p><?php _e('If your <code>web.config</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file.') ?></p>
 <form action="options-permalink.php" method="post">
@@ -250,7 +250,7 @@ $structures = array(
 <?php wp_nonce_field('update-permalink') ?>
 	<p><textarea rows="18" class="large-text readonly" name="rules" id="rules" readonly="readonly"><?php echo esc_html($wp_rewrite->iis7_url_rewrite_rules(true)); ?></textarea></p>
 </form>
-<p><?php _e('If you temporarily make your site&#8217;s root directory writable for us to generate the <code>web.config</code> file automatically, do not forget to revert the permissions after the file has been created.')  ?></p>			
+<p><?php _e('If you temporarily make your site&#8217;s root directory writable for us to generate the <code>web.config</code> file automatically, do not forget to revert the permissions after the file has been created.')  ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
 <?php else :

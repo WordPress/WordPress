@@ -333,7 +333,7 @@ function edInsertTag(myField, i) {
 
 function edInsertContent(myField, myValue) {
 	var sel, startPos, endPos, scrollTop;
-	
+
 	//IE support
 	if (document.selection) {
 		myField.focus();

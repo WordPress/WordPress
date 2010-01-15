@@ -2,7 +2,7 @@ var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', au
 
 jQuery(document).ready( function($) {
 	var dotabkey = true;
-	
+
 	autosaveLast = $('#post #title').val() + $('#post #content').val();
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 

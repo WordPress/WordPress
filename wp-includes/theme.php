@@ -170,15 +170,15 @@ function get_template_directory_uri() {
  * @return array Theme data.
  */
 function get_theme_data( $theme_file ) {
-	$default_headers = array( 
-		'Name' => 'Theme Name', 
-		'URI' => 'Theme URI', 
-		'Description' => 'Description', 
-		'Author' => 'Author', 
+	$default_headers = array(
+		'Name' => 'Theme Name',
+		'URI' => 'Theme URI',
+		'Description' => 'Description',
+		'Author' => 'Author',
 		'AuthorURI' => 'Author URI',
-		'Version' => 'Version', 
-		'Template' => 'Template', 
-		'Status' => 'Status', 
+		'Version' => 'Version',
+		'Template' => 'Template',
+		'Status' => 'Status',
 		'Tags' => 'Tags'
 		);
 
@@ -370,7 +370,7 @@ function get_themes() {
 		//Make unique and remove duplicates when stylesheet and template are the same i.e. most themes
 		$template_files = array_unique($template_files);
 		$stylesheet_files = array_unique($stylesheet_files);
-			
+
 		$template_dir = dirname($template_files[0]);
 		$stylesheet_dir = dirname($stylesheet_files[0]);
 
@@ -1313,7 +1313,7 @@ function add_custom_image_header($header_callback, $admin_header_callback) {
 
 /**
  * Allows a theme to register its support of a certain feature
- * 
+ *
  * Must be called in the themes functions.php file to work.
  *
  * @author Mark Jaquith

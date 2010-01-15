@@ -745,8 +745,8 @@ function gallery_shortcode($attr) {
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
-	$float = $wp_locale->text_direction == 'rtl' ? 'right' : 'left'; 
-	
+	$float = $wp_locale->text_direction == 'rtl' ? 'right' : 'left';
+
 	$selector = "gallery-{$instance}";
 
 	$output = apply_filters('gallery_style', "
