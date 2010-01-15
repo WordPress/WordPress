@@ -1003,8 +1003,11 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 case 'autosave-generate-nonces' :
 	check_ajax_referer( 'autosave', 'autosavenonce' );
 	$ID = (int) $_POST['post_ID'];
-	$post_type = ( 'page' == $_POST['post_type'] ) ? 'page' : 'post';
-	if ( current_user_can( "edit_{$post_type}", $ID ) )
+	$post_type = $_POST['post_type'];
+	$post_type_object = get_post_type_object($post_type);
+	if ( !$post_type_object )
+		die('0');
+	if ( current_user_can( $post_type_object->edit_cap, $ID ) )
 		die( json_encode( array( 'updateNonce' => wp_create_nonce( "update-{$post_type}_{$ID}" ), 'deleteURL' => str_replace( '&amp;', '&', wp_nonce_url( admin_url( $post_type . '.php?action=trash&post=' . $ID ), "trash-{$post_type}_{$ID}" ) ) ) ) );
 	do_action('autosave_generate_nonces');
 	die('0');

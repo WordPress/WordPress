@@ -52,6 +52,8 @@ $body_id = $tab;
 
 do_action('install_themes_pre_' . $tab); //Used to override the general interface, Eg, install or theme information.
 
+add_contextual_help($current_screen, plugins_search_help());
+
 include('admin-header.php');
 ?>
 <div class="wrap">

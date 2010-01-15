@@ -410,7 +410,6 @@ function set_screen_options() {
 
 		switch ( $map_option ) {
 			case 'edit_per_page':
-			case 'edit_pages_per_page':
 			case 'edit_comments_per_page':
 			case 'upload_per_page':
 			case 'categories_per_page':

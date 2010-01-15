@@ -236,7 +236,7 @@ $help .= '<p>' . sprintf(__('If something goes wrong with a plugin and you can&#
 $help .= '<p>' . sprintf(__('You can find additional plugins for your site by using the new <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> directly and installing manually.  To <em>manually</em> install a plugin you generally just need to upload the plugin file into your <code>%2$s</code> directory.  Once a plugin has been installed, you may activate it here.'), 'plugin-install.php', WP_PLUGIN_DIR) . '</p>';
 }
 
-add_contextual_help('plugins', $help);
+add_contextual_help($current_screen, $help);
 
 if ( is_multisite() && is_super_admin() ) {
 	$menu_perms = get_site_option('menu_items', array());

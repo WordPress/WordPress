@@ -748,22 +748,26 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
  *
  * @return unknown
  */
-function wp_manage_posts_columns() {
-	global $typenow;
+function wp_manage_posts_columns( $screen = '') {
+	if ( empty($screen) )
+		$post_type = 'post';
+	else
+		$post_type = $screen->post_type;
 
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	/* translators: manage posts column name */
-	$posts_columns['title'] = _x('Post', 'column name');
+	$posts_columns['title'] = _x('Title', 'column name');
 	$posts_columns['author'] = __('Author');
-	if ( empty($typenow) || is_object_in_taxonomy($typenow, 'category') )
+	if ( empty($post_type) || is_object_in_taxonomy($post_type, 'category') )
 		$posts_columns['categories'] = __('Categories');
-	if ( empty($typenow) || is_object_in_taxonomy($typenow, 'category') )
+	if ( empty($post_type) || is_object_in_taxonomy($post_type, 'category') )
 		$posts_columns['tags'] = __('Tags');
 	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
-	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($typenow) || post_type_supports($typenow, 'comments') ) )
+	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($post_type) || post_type_supports($post_type, 'comments') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');
+	// @todo filter per type
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
 	return $posts_columns;
@@ -804,17 +808,7 @@ function wp_manage_media_columns() {
  * @return unknown
  */
 function wp_manage_pages_columns() {
-	$posts_columns = array();
-	$posts_columns['cb'] = '<input type="checkbox" />';
-	$posts_columns['title'] = __('Title');
-	$posts_columns['author'] = __('Author');
-	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
-	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) )
-		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
-	$posts_columns['date'] = __('Date');
-	$posts_columns = apply_filters('manage_pages_columns', $posts_columns);
-
-	return $posts_columns;
+	return wp_manage_posts_columns();
 }
 
 /**
@@ -822,33 +816,28 @@ function wp_manage_pages_columns() {
  *
  * @since unknown
  *
- * @param unknown_type $page
+ * @param unknown_type $screen
  * @return unknown
  */
-function get_column_headers($page) {
+function get_column_headers($screen) {
 	global $_wp_column_headers;
 
 	if ( !isset($_wp_column_headers) )
 		$_wp_column_headers = array();
 
-	$map_screen = $page;
-	$type = str_replace('edit-', '', $map_screen);
-	if ( in_array($type, get_post_types()) )
-		$map_screen = 'edit';
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
 
 	// Store in static to avoid running filters on each call
-	if ( isset($_wp_column_headers[$page]) )
-		return $_wp_column_headers[$page];
+	if ( isset($_wp_column_headers[$screen->id]) )
+		return $_wp_column_headers[$screen->id];
 
-	switch ($map_screen) {
+	switch ($screen->base) {
 		case 'edit':
-			 $_wp_column_headers[$page] = wp_manage_posts_columns();
+			 $_wp_column_headers[$screen->id] = wp_manage_posts_columns( $screen );
 			 break;
-		case 'edit-pages':
-			$_wp_column_headers[$page] = wp_manage_pages_columns();
-			break;
 		case 'edit-comments':
-			$_wp_column_headers[$page] = array(
+			$_wp_column_headers[$screen->id] = array(
 				'cb' => '<input type="checkbox" />',
 				'author' => __('Author'),
 				/* translators: column name */
@@ -859,7 +848,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'link-manager':
-			$_wp_column_headers[$page] = array(
+			$_wp_column_headers[$screen->id] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'url' => __('URL'),
@@ -871,10 +860,10 @@ function get_column_headers($page) {
 
 			break;
 		case 'upload':
-			$_wp_column_headers[$page] = wp_manage_media_columns();
+			$_wp_column_headers[$screen->id] = wp_manage_media_columns();
 			break;
 		case 'categories':
-			$_wp_column_headers[$page] = array(
+			$_wp_column_headers[$screen->id] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
@@ -884,7 +873,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'edit-link-categories':
-			$_wp_column_headers[$page] = array(
+			$_wp_column_headers[$screen->id] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
@@ -894,7 +883,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'edit-tags':
-			$_wp_column_headers[$page] = array(
+			$_wp_column_headers[$screen->id] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
@@ -904,7 +893,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'users':
-			$_wp_column_headers[$page] = array(
+			$_wp_column_headers[$screen->id] = array(
 				'cb' => '<input type="checkbox" />',
 				'username' => __('Username'),
 				'name' => __('Name'),
@@ -914,11 +903,11 @@ function get_column_headers($page) {
 			);
 			break;
 		default :
-			$_wp_column_headers[$page] = array();
+			$_wp_column_headers[$screen->id] = array();
 	}
 
-	$_wp_column_headers[$page] = apply_filters('manage_' . $page . '_columns', $_wp_column_headers[$page]);
-	return $_wp_column_headers[$page];
+	$_wp_column_headers[$screen->id] = apply_filters('manage_' . $screen->id . '_columns', $_wp_column_headers[$screen->id]);
+	return $_wp_column_headers[$screen->id];
 }
 
 /**
@@ -926,13 +915,15 @@ function get_column_headers($page) {
  *
  * @since unknown
  *
- * @param unknown_type $type
+ * @param unknown_type $screen
  * @param unknown_type $id
  */
-function print_column_headers( $type, $id = true ) {
-	$type = str_replace('.php', '', $type);
-	$columns = get_column_headers( $type );
-	$hidden = get_hidden_columns($type);
+function print_column_headers( $screen, $id = true ) {
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
+	$columns = get_column_headers( $screen );
+	$hidden = get_hidden_columns($screen);
 	$styles = array();
 
 	foreach ( $columns as $column_key => $column_display_name ) {
@@ -951,8 +942,8 @@ function print_column_headers( $type, $id = true ) {
 		if ( in_array($column_key, $hidden) )
 			$style = 'display:none;';
 
-		if ( isset($styles[$type]) && isset($styles[$type][$column_key]) )
-			$style .= ' ' . $styles[$type][$column_key];
+		if ( isset($styles[$screen->id]) && isset($styles[$screen->id][$column_key]) )
+			$style .= ' ' . $styles[$screen>id][$column_key];
 		$style = ' style="' . $style . '"';
 ?>
 	<th scope="col" <?php echo $id ? "id=\"$column_key\"" : ""; echo $class; echo $style; ?>><?php echo $column_display_name; ?></th>
@@ -971,10 +962,13 @@ function print_column_headers( $type, $id = true ) {
 function register_column_headers($screen, $columns) {
 	global $_wp_column_headers;
 
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
 	if ( !isset($_wp_column_headers) )
 		$_wp_column_headers = array();
 
-	$_wp_column_headers[$screen] = $columns;
+	$_wp_column_headers[$screen->id] = $columns;
 }
 
 /**
@@ -982,11 +976,13 @@ function register_column_headers($screen, $columns) {
  *
  * @since unknown
  *
- * @param unknown_type $page
+ * @param unknown_type $screen
  */
-function get_hidden_columns($page) {
-	$page = str_replace('.php', '', $page);
-	return (array) get_user_option( 'manage-' . $page . '-columns-hidden' );
+function get_hidden_columns($screen) {
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
+	return (array) get_user_option( 'manage-' . $screen->id. '-columns-hidden' );
 }
 
 /**
@@ -998,23 +994,23 @@ function get_hidden_columns($page) {
  *
  * @param string $type 'post' or 'page'
  */
-function inline_edit_row( $type ) {
+function inline_edit_row( $screen ) {
 	global $current_user, $mode;
 
-	$is_page = 'page' == $type;
-	if ( $is_page ) {
-		$screen = 'edit-pages';
-		$post = get_default_page_to_edit();
-	} else {
-		$screen = 'edit';
-		$post = get_default_post_to_edit();
+	if ( is_string($screen) ) {
+		$screen = array('id' => 'edit-' . $screen, 'base' => 'edit', 'post_type' => $screen );
+		$screen = (object) $screen;
 	}
 
-	$columns = $is_page ? wp_manage_pages_columns() : wp_manage_posts_columns();
+	$post = get_default_post_to_edit( $screen->post_type );
+	$post_type_object = get_post_type_object( $screen->post_type );
+
+	$columns = wp_manage_posts_columns($screen);
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($screen) ) );
 	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
-	$can_publish = current_user_can("publish_{$type}s");
+	// @todo use capability_type
+	$can_publish = current_user_can("publish_{$screen->post_type}s");
 	$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
 
 ?>
@@ -1024,12 +1020,12 @@ function inline_edit_row( $type ) {
 	$bulk = 0;
 	while ( $bulk < 2 ) { ?>
 
-	<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$type ";
-		echo $bulk ? "bulk-edit-row bulk-edit-row-$type" : "quick-edit-row quick-edit-row-$type";
+	<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$screen->post_type ";
+		echo $bulk ? "bulk-edit-row bulk-edit-row-$screen->post_type" : "quick-edit-row quick-edit-row-$screen->post_type";
 	?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 
 	<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
-		<h4><?php echo $bulk ? ( $is_page ? __( 'Bulk Edit Pages' ) : __( 'Bulk Edit Posts' ) ) : __( 'Quick Edit' ); ?></h4>
+		<h4><?php echo $bulk ? ( __( 'Bulk Edit' ) ) : __( 'Quick Edit' ); ?></h4>
 
 
 <?php if ( $bulk ) : ?>
@@ -1062,7 +1058,7 @@ function inline_edit_row( $type ) {
 
 <?php endif; // $bulk
 
-		$authors = get_editable_user_ids( $current_user->id, true, $type ); // TODO: ROLE SYSTEM
+		$authors = get_editable_user_ids( $current_user->id, true, $screen->post_type ); // TODO: ROLE SYSTEM
 		$authors_dropdown = '';
 		if ( $authors && count( $authors ) > 1 ) :
 			$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1, 'echo' => 0);
@@ -1092,7 +1088,7 @@ function inline_edit_row( $type ) {
 			</em>
 			<label class="alignleft inline-edit-private">
 				<input type="checkbox" name="keep_private" value="private" />
-				<span class="checkbox-title"><?php echo $is_page ? __('Private page') : __('Private post'); ?></span>
+				<span class="checkbox-title"><?php echo __('Private'); ?></span>
 			</label>
 		</div>
 
@@ -1100,7 +1096,7 @@ function inline_edit_row( $type ) {
 
 	</div></fieldset>
 
-<?php if ( !$is_page && !$bulk ) : ?>
+<?php if ( is_object_in_taxonomy($screen->post_type, 'categories') && !$bulk ) : ?>
 
 	<fieldset class="inline-edit-col-center inline-edit-categories"><div class="inline-edit-col">
 		<span class="title inline-edit-categories-label"><?php _e( 'Categories' ); ?>
@@ -1112,7 +1108,7 @@ function inline_edit_row( $type ) {
 		</ul>
 	</div></fieldset>
 
-<?php endif; // !$is_page && !$bulk ?>
+<?php endif; // !hierarchical && !$bulk ?>
 
 	<fieldset class="inline-edit-col-right"><div class="inline-edit-col">
 
@@ -1121,7 +1117,7 @@ function inline_edit_row( $type ) {
 		echo $authors_dropdown;
 ?>
 
-<?php if ( $is_page ) : ?>
+<?php if ( $post_type_object->hierarchical ) : ?>
 
 		<label>
 			<span class="title"><?php _e( 'Parent' ); ?></span>
@@ -1221,7 +1217,7 @@ function inline_edit_row( $type ) {
 				</select>
 			</label>
 
-<?php if ( !$is_page && $can_publish && current_user_can( 'edit_others_posts' ) ) : ?>
+<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( 'edit_others_posts' ) ) : ?>
 
 <?php	if ( $bulk ) : ?>
 
@@ -1260,12 +1256,12 @@ function inline_edit_row( $type ) {
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel alignleft"><?php _e('Cancel'); ?></a>
 		<?php if ( ! $bulk ) {
 			wp_nonce_field( 'inlineeditnonce', '_inline_edit', false );
-			$update_text = ( $is_page ) ? __( 'Update Page' ) : __( 'Update Post' );
+			$update_text = __( 'Update' );
 			?>
 			<a accesskey="s" href="#inline-edit" title="<?php _e('Update'); ?>" class="button-primary save alignright"><?php echo esc_attr( $update_text ); ?></a>
 			<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
 		<?php } else {
-			$update_text = ( $is_page ) ? __( 'Update Pages' ) : __( 'Update Posts' );
+			$update_text = __( 'Update' );
 		?>
 			<input accesskey="s" class="button-primary alignright" type="submit" name="bulk_edit" value="<?php echo esc_attr( $update_text ); ?>" />
 		<?php } ?>
@@ -1369,7 +1365,7 @@ function post_rows( $posts = array() ) {
  * @param unknown_type $mode
  */
 function _post_row($a_post, $pending_comments, $mode) {
-	global $post, $current_user;
+	global $post, $current_user, $current_screen;
 	static $rowclass;
 
 	$global_post = $post;
@@ -1383,8 +1379,8 @@ function _post_row($a_post, $pending_comments, $mode) {
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $rowclass . ' author-' . $post_owner . ' status-' . $post->post_status ); ?> iedit' valign="top">
 <?php
-	$posts_columns = get_column_headers('edit');
-	$hidden = get_hidden_columns('edit');
+	$posts_columns = get_column_headers( $current_screen );
+	$hidden = get_hidden_columns( $current_screen );
 	foreach ( $posts_columns as $column_name=>$column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
@@ -1579,7 +1575,7 @@ function _post_row($a_post, $pending_comments, $mode) {
  * @param unknown_type $level
  */
 function display_page_row( $page, $level = 0 ) {
-	global $post;
+	global $post, $current_screen;
 	static $rowclass;
 
 	$post = $page;
@@ -1606,8 +1602,8 @@ function display_page_row( $page, $level = 0 ) {
 	$pad = str_repeat( '&#8212; ', $level );
 	$id = (int) $page->ID;
 	$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
-	$posts_columns = get_column_headers('edit-pages');
-	$hidden = get_hidden_columns('edit-pages');
+	$posts_columns = get_column_headers( $current_screen );
+	$hidden = get_hidden_columns(  $current_screen );
 	$title = _draft_or_post_title();
 ?>
 <tr id="page-<?php echo $id; ?>" class="<?php echo $rowclass; ?> iedit">
@@ -3056,19 +3052,22 @@ function remove_meta_box($id, $page, $context) {
  *
  * @since unknown
  *
- * @param unknown_type $page
+ * @param unknown_type $screen
  */
-function meta_box_prefs($page) {
+function meta_box_prefs($screen) {
 	global $wp_meta_boxes;
 
-	if ( empty($wp_meta_boxes[$page]) )
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
+	if ( empty($wp_meta_boxes[$screen->id]) )
 		return;
 
-	$hidden = get_hidden_meta_boxes($page);
+	$hidden = get_hidden_meta_boxes($screen);
 
-	foreach ( array_keys($wp_meta_boxes[$page]) as $context ) {
-		foreach ( array_keys($wp_meta_boxes[$page][$context]) as $priority ) {
-			foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
+	foreach ( array_keys($wp_meta_boxes[$screen->id]) as $context ) {
+		foreach ( array_keys($wp_meta_boxes[$screen->id][$context]) as $priority ) {
+			foreach ( $wp_meta_boxes[$screen->id][$context][$priority] as $box ) {
 				if ( false == $box || ! $box['title'] )
 					continue;
 				// Submit box cannot be hidden
@@ -3083,8 +3082,11 @@ function meta_box_prefs($page) {
 	}
 }
 
-function get_hidden_meta_boxes($page) {
-	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
+function get_hidden_meta_boxes($screen) {
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
+	$hidden = (array) get_user_option( "meta-box-hidden_$screen->id" );
 
 	// Hide slug boxes by default
 	if ( empty($hidden[0]) ) {
@@ -3279,44 +3281,47 @@ function the_post_password() {
  * @since unknown
  */
 function favorite_actions( $screen = null ) {
-	switch ( $screen ) {
-		case 'post-new.php':
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
+	switch ( $screen->id ) {
+		case 'post':
 			$default_action = array('edit.php' => array(__('Edit Posts'), 'edit_posts'));
 			break;
-		case 'edit-pages.php':
-			$default_action = array('page-new.php' => array(__('New Page'), 'edit_pages'));
+		case 'edit-page':
+			$default_action = array('post-new.php?post_type=page' => array(__('New Page'), 'edit_pages'));
 			break;
-		case 'page-new.php':
-			$default_action = array('edit-pages.php' => array(__('Edit Pages'), 'edit_pages'));
+		case 'page':
+			$default_action = array('edit.php?post_type=page' => array(__('Edit Pages'), 'edit_pages'));
 			break;
 		case 'upload.php':
 			$default_action = array('media-new.php' => array(__('New Media'), 'upload_files'));
 			break;
-		case 'media-new.php':
+		case 'media':
 			$default_action = array('upload.php' => array(__('Edit Media'), 'upload_files'));
 			break;
-		case 'link-manager.php':
+		case 'link-manager':
 			$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
 			break;
-		case 'link-add.php':
+		case 'link-add':
 			$default_action = array('link-manager.php' => array(__('Edit Links'), 'manage_links'));
 			break;
-		case 'users.php':
+		case 'users':
 			$default_action = array('user-new.php' => array(__('New User'), 'create_users'));
 			break;
-		case 'user-new.php':
+		case 'user':
 			$default_action = array('users.php' => array(__('Edit Users'), 'edit_users'));
 			break;
-		case 'plugins.php':
+		case 'plugins':
 			$default_action = array('plugin-install.php' => array(__('Install Plugins'), 'install_plugins'));
 			break;
-		case 'plugin-install.php':
+		case 'plugin-install':
 			$default_action = array('plugins.php' => array(__('Manage Plugins'), 'activate_plugins'));
 			break;
-		case 'themes.php':
+		case 'themes':
 			$default_action = array('theme-install.php' => array(__('Install Themes'), 'install_themes'));
 			break;
-		case 'theme-install.php':
+		case 'theme-install':
 			$default_action = array('themes.php' => array(__('Manage Themes'), 'switch_themes'));
 			break;
 		default:
@@ -3484,32 +3489,34 @@ function _post_states($post) {
 	}
 }
 
-function screen_meta($screen) {
-	global $wp_meta_boxes, $_wp_contextual_help, $typenow;
-
+// Convert a screen string to a screen object
+function convert_to_screen( $screen ) {
 	$screen = str_replace('.php', '', $screen);
 	$screen = str_replace('-new', '', $screen);
 	$screen = str_replace('-add', '', $screen);
 	$screen = apply_filters('screen_meta_screen', $screen);
 
+	$screen = array('id' => $screen, 'base' => $screen);
+	return (object) $screen;
+}
+
+function screen_meta($screen) {
+	global $wp_meta_boxes, $_wp_contextual_help, $post_type;
+
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
 	$column_screens = get_column_headers($screen);
 	$meta_screens = array('index' => 'dashboard');
 
-	// Give post_type pages their own screen
-	if ( 'post' == $screen ) {
-		if ( !empty($typenow) )
-			$screen = $typenow;
-	}
-	if ( 'edit' == $screen ) {
-		if ( !empty($typenow) )
-			$screen = 'edit-' . $typenow;
+	if ( isset($meta_screens[$screen->id]) ) {
+		$screen->id = $meta_screens[$screen->id];
+		$screen->base = $screen->id;
 	}
 
-	if ( isset($meta_screens[$screen]) )
-		$screen = $meta_screens[$screen];
 	$show_screen = false;
 	$show_on_screen = false;
-	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens) ) {
+	if ( !empty($wp_meta_boxes[$screen->id]) || !empty($column_screens) ) {
 		$show_screen = true;
 		$show_on_screen = true;
 	}
@@ -3523,49 +3530,8 @@ function screen_meta($screen) {
 
 	$settings = '';
 
-	switch ( $screen ) {
-		case 'post':
-			if ( !isset($_wp_contextual_help['post']) ) {
-				$help = drag_drop_help();
-				$help .= '<p>' . __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>') . '</p>';
-				$_wp_contextual_help['post'] = $help;
-			}
-			break;
-		case 'page':
-			if ( !isset($_wp_contextual_help['page']) ) {
-				$help = drag_drop_help();
-				$_wp_contextual_help['page'] = $help;
-			}
-			break;
-		case 'dashboard':
-			if ( !isset($_wp_contextual_help['dashboard']) ) {
-				$help = '<p>' . __('The modules on this screen can be arranged in several columns. You can select the number of columns from the Screen Options tab.') . "</p>\n";
-				$help .= drag_drop_help();
-				$_wp_contextual_help['dashboard'] = $help;
-			}
-			break;
-		case 'link':
-			if ( !isset($_wp_contextual_help['link']) ) {
-				$help = drag_drop_help();
-				$_wp_contextual_help['link'] = $help;
-			}
-			break;
-		case 'options-general':
-			if ( !isset($_wp_contextual_help['options-general']) )
-				$_wp_contextual_help['options-general'] = __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
-			break;
-		case 'theme-install':
-		case 'plugin-install':
-			if ( ( !isset($_GET['tab']) || 'dashboard' == $_GET['tab'] ) && !isset($_wp_contextual_help[$screen]) ) {
-				$help = plugins_search_help();
-				$_wp_contextual_help[$screen] = $help;
-			}
-			break;
+	switch ( $screen->id ) {
 		case 'widgets':
-			if ( !isset($_wp_contextual_help['widgets']) ) {
-				$help = widgets_help();
-				$_wp_contextual_help['widgets'] = $help;
-			}
 			$settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
 			$show_screen = true;
 			break;
@@ -3605,12 +3571,12 @@ function screen_meta($screen) {
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
 	$contextual_help = '';
-	if ( isset($_wp_contextual_help[$screen]) ) {
+	if ( isset($_wp_contextual_help[$screen->id]) ) {
 		if ( !empty($title) )
 			$contextual_help .= '<h5>' . sprintf(__('Get help with &#8220;%s&#8221;'), $title) . '</h5>';
 		else
 			$contextual_help .= '<h5>' . __('Get help with this page') . '</h5>';
-		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen] . "</div>\n";
+		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen->id] . "</div>\n";
 
 		$contextual_help .= '<h5>' . __('Other Help') . '</h5>';
 	} else {
@@ -3652,10 +3618,13 @@ function screen_meta($screen) {
 function add_contextual_help($screen, $help) {
 	global $_wp_contextual_help;
 
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
+
 	if ( !isset($_wp_contextual_help) )
 		$_wp_contextual_help = array();
 
-	$_wp_contextual_help[$screen] = $help;
+	$_wp_contextual_help[$screen->id] = $help;
 }
 
 function drag_drop_help() {
@@ -3675,17 +3644,11 @@ function plugins_search_help() {
 ';
 }
 
-function widgets_help() {
-	return '
-	<p>' . __('Widgets are added and arranged by simple drag &#8217;n&#8217; drop. If you hover your mouse over the titlebar of a widget, you&#8217;ll see a 4-arrow cursor which indicates that the widget is movable.  Click on the titlebar, hold down the mouse button and drag the widget to a sidebar. As you drag, you&#8217;ll see a dotted box that also moves. This box shows where the widget will go once you drop it.') . '</p>
-	<p>' . __('To remove a widget from a sidebar, drag it back to Available Widgets or click on the arrow on its titlebar to reveal its settings, and then click Remove.') . '</p>
-	<p>' . __('To remove a widget from a sidebar <em>and keep its configuration</em>, drag it to Inactive Widgets.') . '</p>
-	<p>' . __('The Inactive Widgets area stores widgets that are configured but not curently used. If you change themes and the new theme has fewer sidebars than the old, all extra widgets will be stored to Inactive Widgets automatically.') . '</p>
-';
-}
-
 function screen_layout($screen) {
 	global $screen_layout_columns;
+
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
 
 	$columns = array('dashboard' => 4, 'post' => 2, 'page' => 2, 'link' => 2);
 
@@ -3693,15 +3656,15 @@ function screen_layout($screen) {
 	foreach ( get_post_types( array('_show' => true) ) as $post_type )
 		$columns[$post_type] = 2;
 
-	$columns = apply_filters('screen_layout_columns', $columns, $screen);
+	$columns = apply_filters('screen_layout_columns', $columns, $screen->id, $screen);
 
-	if ( !isset($columns[$screen]) ) {
+	if ( !isset($columns[$screen->id]) ) {
 		$screen_layout_columns = 0;
 		return '';
  	}
 
-	$screen_layout_columns = get_user_option("screen_layout_$screen");
-	$num = $columns[$screen];
+	$screen_layout_columns = get_user_option("screen_layout_$screen->id");
+	$num = $columns[$screen->id];
 
 	if ( ! $screen_layout_columns )
 			$screen_layout_columns = 2;
@@ -3717,12 +3680,10 @@ function screen_layout($screen) {
 }
 
 function screen_options($screen) {
-	$map_screen = $screen;
-	$type = str_replace('edit-', '', $map_screen);
-	if ( in_array($type, get_post_types()) )
-		$map_screen = 'edit';
+	if ( is_string($screen) )
+		$screen = convert_to_screen($screen);
 
-	switch ( $map_screen ) {
+	switch ( $screen->base ) {
 		case 'edit':
 			$per_page_label = __('Posts per page:');
 			break;
@@ -3748,10 +3709,10 @@ function screen_options($screen) {
 			return '';
 	}
 
-	$option = str_replace( '-', '_', "${screen}_per_page" );
+	$option = str_replace( '-', '_', "{$screen->id}_per_page" );
 	$per_page = (int) get_user_option( $option );
 	if ( empty( $per_page ) || $per_page < 1 ) {
-		if ( 'plugins' == $screen )
+		if ( 'plugins' == $screen->id )
 			$per_page = 999;
 		else
 			$per_page = 20;
@@ -3773,18 +3734,19 @@ function screen_options($screen) {
 	return $return;
 }
 
-function screen_icon($name = '') {
-	global $parent_file, $hook_suffix;
+function screen_icon($screen = '') {
+	global $current_screen;
+
+	if ( empty($screen) )
+		$screen = $current_screen;
+	elseif ( is_string($screen) )
+		$name = $screen;
 
 	if ( empty($name) ) {
-		if ( isset($parent_file) && !empty($parent_file) ) {
-			$name = $parent_file;
-			if ( false !== $pos = strpos($name, '?post_type=') )
-				$name = substr($name, 0, $pos);
-			$name = substr($name, 0, -4);
-		}
+		if ( !empty($screen->parent_base) )
+			$name = $screen->parent_base;
 		else
-			$name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
+			$name = $screen->base;
 	}
 ?>
 	<div id="icon-<?php echo $name; ?>" class="icon32"><br /></div>

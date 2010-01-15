@@ -819,10 +819,11 @@ function wp_edit_posts_query( $q = false ) {
 	$q['cat'] = isset($q['cat']) ? (int) $q['cat'] : 0;
 	$post_stati  = get_post_stati();
 
-	if ( isset($q['post_type']) && in_array( $q['post_type'], get_post_types( array('_show' => true) ) ) )
+	if ( isset($q['post_type']) && in_array( $q['post_type'], get_post_types() ) )
 		$post_type = $q['post_type'];
 	else
 		$post_type = 'post';
+	$post_type_object = get_post_type_object($post_type);
 
 	$avail_post_stati = get_available_post_statuses($post_type);
 
@@ -842,16 +843,24 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
-	if ( 'post' != $post_type )
-		$per_page = 'edit_' . $post_type . '_per_page';
-	else
-		$per_page = 'edit_per_page';
-	$posts_per_page = (int) get_user_option( 'edit_per_page' );
+	$per_page = 'edit_' . $post_type . '_per_page';
+	$posts_per_page = (int) get_user_option( $per_page );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 15;
-	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page );
+	$posts_per_page = apply_filters( $per_page, $posts_per_page );
 
-	wp( compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page') );
+
+	$query = compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page');
+
+	// Hierarchical types require special args.
+	if ( $post_type_object->hierarchical ) {
+		$query['orderby'] = 'menu_order title';
+		$query['order'] = 'asc';
+		$query['posts_per_page'] = -1;
+		$query['posts_per_archive_page'] = -1;
+	}
+
+	wp( $query );
 
 	return $avail_post_stati;
 }

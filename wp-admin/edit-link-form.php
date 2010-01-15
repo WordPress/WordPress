@@ -34,6 +34,8 @@ do_action('do_meta_boxes', 'link', 'normal', $link);
 do_action('do_meta_boxes', 'link', 'advanced', $link);
 do_action('do_meta_boxes', 'link', 'side', $link);
 
+add_contextual_help($current_screen, drag_drop_help());
+
 require_once ('admin-header.php');
 
 ?>

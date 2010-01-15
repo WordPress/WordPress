@@ -29,21 +29,6 @@ if ( is_multisite() )
 	wp_admin_css( 'css/ms' );
 wp_enqueue_script('utils');
 
-$hook_suffix = '';
-if ( isset($page_hook) )
-	$hook_suffix = $page_hook;
-else if ( isset($plugin_page) )
-	$hook_suffix = $plugin_page;
-else if ( isset($pagenow) )
-	$hook_suffix = $pagenow;
-
-if ( isset($submenu_file) && (false !== $pos = strpos($submenu_file, 'post_type=')) )
-	$typenow = substr($submenu_file, $pos + 10);
-elseif ( isset($parent_file) && (false !== $pos = strpos($parent_file, 'post_type=')) )
-	$typenow = substr($parent_file, $pos + 10);
-else
-	$typenow = '';
-
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
 <script type="text/javascript">
@@ -119,16 +104,22 @@ if ( function_exists('mb_strlen') ) {
 <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 </div>
 
-<?php favorite_actions($hook_suffix); ?>
+<?php favorite_actions($current_screen); ?>
 </div>
 </div>
 
 <div id="wpbody">
-<?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
+<?php
+require(ABSPATH . 'wp-admin/menu-header.php');
+
+$current_screen->parent_file = $parent_file;
+$current_screen->parent_base = preg_replace('/\?.*$/', '', $parent_file);
+$current_screen->parent_base = str_replace('.php', '', $current_screen->parent_base);
+?>
 
 <div id="wpbody-content">
 <?php
-screen_meta($hook_suffix);
+screen_meta($current_screen);
 
 do_action('admin_notices');
 

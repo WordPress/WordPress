@@ -23,16 +23,28 @@ elseif ( isset($_POST['post_ID']) )
 else
 	$post_id = 0;
 $post_ID = $post_id;
-
 $post = null;
 $post_type_object = null;
 $post_type_cap = null;
+$post_type = null;
 if ( $post_id ) {
 	$post = get_post($post_id);
 	if ( $post ) {
 		$post_type_object = get_post_type_object($post->post_type);
-		if ( $post_type_object )
+		if ( $post_type_object ) {
+			$post_type = $post->post_type;
+			$current_screen->post_type = $post->post_type;
+			$current_screen->id = $current_screen->post_type;
 			$post_type_cap = $post_type_object->capability_type;
+		}
+	}
+} elseif ( isset($_POST['post_type']) ) {
+	$post_type_object = get_post_type_object($_POST['post_type']);
+	if ( $post_type_object ) {
+		$post_type = $post_type_object->name;
+		$current_screen->post_type = $post_type;
+		$current_screen->id = $current_screen->post_type;
+		$post_type_cap = $post_type_object->capability_type;
 	}
 }
 
@@ -108,7 +120,7 @@ case 'postajaxpost':
 case 'post':
 case 'post-quickpress-publish':
 case 'post-quickpress-save':
-	check_admin_referer('add-post');
+	check_admin_referer('add-' . $post_type);
 
 	if ( 'post-quickpress-publish' == $action )
 		$_POST['publish'] = 'publish'; // tell write_post() to publish
@@ -163,17 +175,9 @@ case 'edit':
 	if ( 'post' == $post_type ) {
 		$parent_file = "edit.php";
 		$submenu_file = "edit.php";
-	} elseif ( 'page' == $post_type ) {
-		$parent_file = "edit-pages.php";
-		$submenu_file = "edit-pages.php";
 	} else {
-		if ( $post_type_object->hierarchical ) {
-			$parent_file = "edit-pages.php?post_type=$post_type";
-			$submenu_file = "edit-pages.php?post_type=$post_type";
-		} else {
-			$parent_file = "edit.php?post_type=$post_type";
-			$submenu_file = "edit.php?post_type=$post_type";
-		}
+		$parent_file = "edit.php?post_type=$post_type";
+		$submenu_file = "edit.php?post_type=$post_type";
 	}
 
 	wp_enqueue_script('post');
@@ -213,7 +217,7 @@ case 'editattachment':
 	wp_update_attachment_metadata( $post_id, $newmeta );
 
 case 'editpost':
-	check_admin_referer('update-' . $post->post_type . '_' . $post_id);
+	check_admin_referer('update-' . $post_type . '_' . $post_id);
 
 	$post_id = edit_post();
 
@@ -223,7 +227,7 @@ case 'editpost':
 	break;
 
 case 'trash':
-	check_admin_referer('trash-post_' . $post_id);
+	check_admin_referer('trash-' . $post_type . '_' . $post_id);
 
 	$post = & get_post($post_id);
 
@@ -238,7 +242,7 @@ case 'trash':
 	break;
 
 case 'untrash':
-	check_admin_referer('untrash-post_' . $post_id);
+	check_admin_referer('untrash-' . $post_type . '_' . $post_id);
 
 	if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
 		wp_die( __('You are not allowed to move this item out of the trash.') );
@@ -251,7 +255,7 @@ case 'untrash':
 	break;
 
 case 'delete':
-	check_admin_referer('delete-post_' . $post_id);
+	check_admin_referer('delete-' . $post_type . '_' . $post_id);
 
 	if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
 		wp_die( __('You are not allowed to delete this item.') );
@@ -280,9 +284,6 @@ case 'preview':
 	break;
 
 default:
-	if ( $post_type_object->hierarchical )
-		wp_redirect('edit-pages.php');
-	else
 		wp_redirect('edit.php');
 	exit();
 	break;

@@ -17,8 +17,6 @@ else
 if ( 'post' != $post_type ) {
 	$parent_file = "edit.php?post_type=$post_type";
 	$submenu_file = "post-new.php?post_type=$post_type";
-	if ( 'page' == $post_type )
-		$parent_file = 'edit-pages.php';
 } else {
 	$parent_file = 'edit.php';
 	$submenu_file = 'post-new.php';

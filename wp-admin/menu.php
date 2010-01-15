@@ -68,10 +68,10 @@ $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-to
 	$submenu['link-manager.php'][10] = array( _x('Add New', 'links'), 'manage_links', 'link-add.php' );
 	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
-$menu[20] = array( __('Pages'), 'edit_pages', 'edit-pages.php', '', 'menu-top', 'menu-pages', 'div' );
-	$submenu['edit-pages.php'][5] = array( __('Edit'), 'edit_pages', 'edit-pages.php' );
+$menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'menu-top', 'menu-pages', 'div' );
+	$submenu['edit.php?post_type=page'][5] = array( __('Edit'), 'edit_pages', 'edit.php?post_type=page' );
 	/* translators: add new page */
-	$submenu['edit-pages.php'][10] = array( _x('Add New', 'page'), 'edit_pages', 'post-new.php?post_type=page' );
+	$submenu['edit.php?post_type=page'][10] = array( _x('Add New', 'page'), 'edit_pages', 'post-new.php?post_type=page' );
 
 $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top', 'menu-comments', 'div' );
 

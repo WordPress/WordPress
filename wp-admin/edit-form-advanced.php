@@ -142,6 +142,8 @@ do_action('do_meta_boxes', $post_type, 'normal', $post);
 do_action('do_meta_boxes', $post_type, 'advanced', $post);
 do_action('do_meta_boxes', $post_type, 'side', $post);
 
+add_contextual_help($current_screen, drag_drop_help());
+
 require_once('admin-header.php');
 ?>
 

@@ -61,7 +61,7 @@ if ( current_user_can('install_themes') ) {
 	$help .= '<p>' . __('Once a theme is uploaded, you should see it on this page.') . '</p>' ;
 }
 
-add_contextual_help('themes', $help);
+add_contextual_help($current_screen, $help);
 
 add_thickbox();
 wp_enqueue_script( 'theme-preview' );

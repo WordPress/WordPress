@@ -20,13 +20,14 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 	unset( $_redirect );
 }
 
-if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('_show' => true) ) ) )
+if ( isset($_GET['post_type']) && ( in_array( $_GET['post_type'], get_post_types( array('_show' => true ) ) ) || in_array( $_GET['post_type'], get_post_types( array('_builtin' => true ) ) ) ) )
 	$post_type = $_GET['post_type'];
 else
 	$post_type = 'post';
 $_GET['post_type'] = $post_type;
 
 $post_type_object = get_post_type_object($post_type);
+$post_type_cap = $post_type_object->capability_type;
 
 if ( 'post' != $post_type ) {
 	$parent_file = "edit.php?post_type=$post_type";
@@ -37,6 +38,16 @@ if ( 'post' != $post_type ) {
 	$submenu_file = 'edit.php';
 	$post_new_file = 'post-new.php';
 }
+
+$pagenum = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
+if ( empty($pagenum) )
+	$pagenum = 1;
+$per_page = 'edit_' . $post_type . '_per_page';
+$per_page = (int) get_user_option( $per_page );
+if ( empty( $per_page ) || $per_page < 1 )
+	$per_page = 15;
+// @todo filter based on type
+$per_page = apply_filters( 'edit_posts_per_page', $per_page );
 
 // Handle bulk actions
 if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) || isset($_GET['bulk_edit']) ) {
@@ -61,8 +72,8 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 		case 'trash':
 			$trashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
-				if ( !current_user_can('delete_post', $post_id) )
-					wp_die( __('You are not allowed to move this post to the trash.') );
+				if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+					wp_die( __('You are not allowed to move this item to the trash.') );
 
 				if ( !wp_trash_post($post_id) )
 					wp_die( __('Error in moving to trash...') );
@@ -74,8 +85,8 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 		case 'untrash':
 			$untrashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
-				if ( !current_user_can('delete_post', $post_id) )
-					wp_die( __('You are not allowed to restore this post from the trash.') );
+				if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+					wp_die( __('You are not allowed to restore this item from the trash.') );
 
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from trash...') );
@@ -89,8 +100,8 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 			foreach( (array) $post_ids as $post_id ) {
 				$post_del = & get_post($post_id);
 
-				if ( !current_user_can('delete_post', $post_id) )
-					wp_die( __('You are not allowed to delete this post.') );
+				if ( !current_user_can('delete_' .  $post_type_cap, $post_id) )
+					wp_die( __('You are not allowed to delete this item.') );
 
 				if ( $post_del->post_type == 'attachment' ) {
 					if ( ! wp_delete_attachment($post_id) )
@@ -130,7 +141,7 @@ $title = sprintf(__('Edit %s'), $post_type_object->label);
 wp_enqueue_script('inline-edit-post');
 
 $user_posts = false;
-if ( !current_user_can('edit_others_posts') ) {
+if ( !current_user_can('edit_others_' . $post_type_cap . 's') ) {
 	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = '%s' AND post_status != 'trash' AND post_author = %d", $post_type, $current_user->ID) );
 	$user_posts = true;
 	if ( $user_posts_count && empty($_GET['post_status']) && empty($_GET['all_posts']) && empty($_GET['author']) )
@@ -139,10 +150,12 @@ if ( !current_user_can('edit_others_posts') ) {
 
 $avail_post_stati = wp_edit_posts_query();
 
-require_once('admin-header.php');
+if ( $post_type_object->hierarchical )
+	$num_pages = ceil($wp_query->post_count / $per_page);
+else
+	$num_pages = $wp_query->max_num_pages;
 
-if ( !isset( $_GET['paged'] ) )
-	$_GET['paged'] = 1;
+require_once('admin-header.php');
 
 if ( empty($_GET['mode']) )
 	$mode = 'list';
@@ -158,7 +171,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 
 <?php
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
+<div id="message" class="updated"><p><strong><?php _e('This has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
@@ -173,24 +186,24 @@ if ( isset($_GET['skipped']) && (int) $_GET['skipped'] )
 	unset($_GET['skipped']);
 
 if ( isset($_GET['locked']) && (int) $_GET['locked'] ) {
-	printf( _n( '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['locked'] ) );
+	printf( _n( '%s item not updated, somebody is editing it.', '%s items not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['locked'] ) );
 	unset($_GET['locked']);
 }
 
 if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
-	printf( _n( 'Post permanently deleted.', '%s posts permanently deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
+	printf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
 	unset($_GET['deleted']);
 }
 
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
-	printf( _n( 'Post moved to the trash.', '%s posts moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
+	printf( _n( 'Item moved to the trash.', '%s items moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
 	$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
 	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a><br />';
 	unset($_GET['trashed']);
 }
 
 if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
-	printf( _n( 'Post restored from the trash.', '%s posts restored from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
+	printf( _n( 'Item restored from the trash.', '%s items restored from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
 	unset($_GET['undeleted']);
 }
 
@@ -212,7 +225,7 @@ $allposts = '';
 if ( $user_posts ) {
 	if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user->ID ) )
 		$class = ' class="current"';
-	$status_links[] = "<li><a href='edit.php?author=$current_user->ID'$class>" . sprintf( _nx( 'My Posts <span class="count">(%s)</span>', 'My Posts <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
+	$status_links[] = "<li><a href='edit.php?author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
 	$allposts = '?all_posts=1';
 }
 
@@ -261,8 +274,8 @@ $page_links = paginate_links( array(
 	'format' => '',
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
-	'total' => $wp_query->max_num_pages,
-	'current' => $_GET['paged']
+	'total' => $num_pages,
+	'current' => $pagenum
 ));
 
 $is_trash = isset($_GET['post_status']) && $_GET['post_status'] == 'trash';
@@ -318,23 +331,25 @@ foreach ($arc_result as $arc_row) {
 <?php } ?>
 
 <?php
-$dropdown_options = array('show_option_all' => __('View all categories'), 'hide_empty' => 0, 'hierarchical' => 1,
-	'show_count' => 0, 'orderby' => 'name', 'selected' => $cat);
-wp_dropdown_categories($dropdown_options);
-do_action('restrict_manage_posts');
+if ( is_object_in_taxonomy($post_type, 'category') ) {
+	$dropdown_options = array('show_option_all' => __('View all categories'), 'hide_empty' => 0, 'hierarchical' => 1,
+		'show_count' => 0, 'orderby' => 'name', 'selected' => $cat);
+	wp_dropdown_categories($dropdown_options);
+	do_action('restrict_manage_posts');
+}
 ?>
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 <?php }
 
-if ( $is_trash && current_user_can('edit_others_posts') ) { ?>
+if ( $is_trash && current_user_can('edit_others_' . $post_type_cap .'s') ) { ?>
 <input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
 
 <?php if ( $page_links ) { ?>
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
-	number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
-	number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
+	number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
+	number_format_i18n( min( $pagenum * $per_page, $wp_query->found_posts ) ),
 	number_format_i18n( $wp_query->found_posts ),
 	$page_links
 ); echo $page_links_text; ?></div>
@@ -373,7 +388,7 @@ if ( $page_links )
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-<?php if ( $is_trash && current_user_can('edit_others_posts') ) { ?>
+<?php if ( $is_trash && current_user_can('edit_others_' . $post_type_cap . 's') ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <br class="clear" />
@@ -393,7 +408,7 @@ else
 
 </form>
 
-<?php inline_edit_row( 'post' ); ?>
+<?php inline_edit_row( $current_screen ); ?>
 
 <div id="ajax-response"></div>
 <br class="clear" />

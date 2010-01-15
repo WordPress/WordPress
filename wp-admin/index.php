@@ -23,6 +23,9 @@ add_thickbox();
 
 $title = __('Dashboard');
 $parent_file = 'index.php';
+
+add_contextual_help($current_screen, '<p>' . __('The modules on this screen can be arranged in several columns. You can select the number of columns from the Screen Options tab.') . "</p>\n" . drag_drop_help() );
+
 require_once('admin-header.php');
 
 $today = current_time('mysql', 1);
