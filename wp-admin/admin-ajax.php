@@ -910,7 +910,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	global $current_user;
 
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
-	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
+	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
 		unset($_POST['post_category']);
 
 	$do_autosave = (bool) $_POST['autosave'];
@@ -926,7 +926,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 		$supplemental['session_expired'] = add_query_arg( 'interim-login', 1, wp_login_url() );
 
 	$id = $revision_id = 0;
-	if($_POST['post_ID'] < 0) {
+	if ( $_POST['post_ID'] < 0 ) {
 		$_POST['post_status'] = 'draft';
 		$_POST['temp_ID'] = $_POST['post_ID'];
 		if ( $do_autosave ) {

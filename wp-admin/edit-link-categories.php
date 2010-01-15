@@ -92,7 +92,7 @@ endif; ?>
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( ! isset( $catsperpage ) || $catsperpage < 0 )
+if ( ! isset( $catsperpage ) || $catsperpage < 0 )
 	$catsperpage = 20;
 
 $page_links = paginate_links( array(
