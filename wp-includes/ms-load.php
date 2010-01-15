@@ -17,7 +17,7 @@ if( defined( 'SUNRISE' ) )
 $wpdb->blogid           = $current_blog->blog_id;
 $wpdb->siteid           = $current_blog->site_id;
 $wpdb->set_prefix($table_prefix); // set up blog tables
-$table_prefix = $table_prefix . $blog_id . '_';
+$table_prefix = $wpdb->get_blog_prefix();
 
 // Fix empty PHP_SELF
 $PHP_SELF = $_SERVER['PHP_SELF'];
