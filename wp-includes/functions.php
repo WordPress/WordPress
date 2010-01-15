@@ -3496,7 +3496,6 @@ function wp_timezone_override_offset() {
 		return false;
 	}
 
-	@date_default_timezone_set( $timezone_string );
 	$timezone_object = timezone_open( $timezone_string );
 	$datetime_object = date_create();
 	if ( false === $timezone_object || false === $datetime_object ) {
