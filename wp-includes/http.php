@@ -1360,7 +1360,10 @@ class WP_Http_Curl {
 		if ( !empty($theResponse) ) {
 			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
 			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
-			$theBody = substr( $theResponse, $headerLength );
+			if ( strlen($theResponse) > $headerLength )
+				$theBody = substr( $theResponse, $headerLength );
+			else
+				$theBody = '';
 			if ( false !== strrpos($theHeaders, "\r\n\r\n") ) {
 				$headerParts = explode("\r\n\r\n", $theHeaders);
 				$theHeaders = $headerParts[ count($headerParts) -1 ];
@@ -1816,6 +1819,9 @@ class WP_Http_Encoding {
 	 * @return string|bool False on failure.
 	 */
 	function decompress( $compressed, $length = null ) {
+
+		if ( empty($compressed) )
+			return $compressed;
 
 		if ( false !== ( $decompressed = @gzinflate( $compressed ) ) )
 			return $decompressed;
