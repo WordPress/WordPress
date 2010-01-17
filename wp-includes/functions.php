@@ -1933,6 +1933,12 @@ function wp_get_original_referer() {
 function wp_mkdir_p( $target ) {
 	// from php.net/mkdir user contributed notes
 	$target = str_replace( '//', '/', $target );
+
+	// safe mode fails with trailing slash under certain PHP versions.
+	$target = untrailingslashit($target);
+	if ( empty($target) )
+		$target = '/';
+
 	if ( file_exists( $target ) )
 		return @is_dir( $target );
 
