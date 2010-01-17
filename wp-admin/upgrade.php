@@ -82,9 +82,8 @@ switch ( $step ) :
 	case 1:
 		wp_upgrade();
 
-			$backto = empty($_GET['backto']) ? '' : $_GET['backto'] ;
-			$backto = stripslashes( urldecode( $backto ) );
-			$backto = esc_url_raw( $backto  );
+			$backto = !empty($_GET['backto']) ? stripslashes( urldecode( $_GET['backto'] ) ) :  __get_option( 'home' ) . '/';
+			$backto = esc_url_raw( $backto );
 			$backto = wp_validate_redirect($backto, __get_option( 'home' ) . '/');
 		if( $wpdb->get_row( "SELECT blog_id FROM {$wpdb->blog_versions} WHERE blog_id = '{$wpdb->blogid}'" ) ) {
 			$wpdb->query( "UPDATE {$wpdb->blog_versions} SET db_version = '{$wp_db_version}' WHERE blog_id = '{$wpdb->blogid}'" );
