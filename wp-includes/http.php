@@ -424,6 +424,15 @@ class WP_Http {
 
 		$response = array('code' => 0, 'message' => '');
 
+		// If a redirection has taken place, The headers for each page request may have been passed.
+		// In this case, determine the final HTTP header and parse from there.
+		for ( $i = count($headers)-1; $i >= 0; $i-- ) {
+			if ( false === strpos($headers[$i], ':') ) {
+				$headers = array_splice($headers, $i);
+				break;
+			}
+		}
+
 		$cookies = array();
 		$newheaders = array();
 		foreach ( $headers as $tempheader ) {
