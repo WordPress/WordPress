@@ -976,7 +976,7 @@ class WP_Http_Streams {
 			array(
 				'method' => strtoupper($r['method']),
 				'user_agent' => $r['user-agent'],
-				'max_redirects' => $r['redirection'],
+				'max_redirects' => $r['redirection'] + 1, // See #11557
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $strHeaders,
 				'timeout' => $r['timeout'],
