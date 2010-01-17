@@ -1934,7 +1934,7 @@ function wp_mkdir_p( $target ) {
 	// from php.net/mkdir user contributed notes
 	$target = str_replace( '//', '/', $target );
 
-	// safe mode fails with trailing slash under certain PHP versions.
+	// safe mode fails with a trailing slash under certain PHP versions.
 	$target = untrailingslashit($target);
 	if ( empty($target) )
 		$target = '/';
