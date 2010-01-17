@@ -190,23 +190,23 @@ function get_shortcode_regex() {
  * @param array $m Regular expression match array
  * @return mixed False on failure.
  */
-function do_shortcode_tag($m) {
+function do_shortcode_tag( $m ) {
 	global $shortcode_tags;
 
 	// allow [[foo]] syntax for escaping a tag
-	if ($m[1] == '[' && $m[6] == ']') {
+	if ( $m[1] == '[' && $m[6] == ']' ) {
 		return substr($m[0], 1, -1);
 	}
 
 	$tag = $m[2];
-	$attr = shortcode_parse_atts($m[3]);
+	$attr = shortcode_parse_atts( $m[3] );
 
-	if ( isset($m[5]) ) {
+	if ( isset( $m[5] ) ) {
 		// enclosing tag - extra parameter
-		return $m[1] . call_user_func($shortcode_tags[$tag], $attr, $m[5], $m[2]) . $m[6];
+		return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
 	} else {
 		// self-closing tag
-		return $m[1] . call_user_func($shortcode_tags[$tag], $attr, NULL, $m[2]) . $m[6];
+		return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
 	}
 }
 
