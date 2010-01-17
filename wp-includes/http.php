@@ -837,6 +837,25 @@ class WP_Http_Fopen {
 		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
+		if ( is_null( $r['headers'] ) )
+			$r['headers'] = array();
+
+		if ( is_string($r['headers']) ) {
+			$processedHeaders = WP_Http::processHeaders($r['headers']);
+			$r['headers'] = $processedHeaders['headers'];
+		}
+
+		$initial_user_agent = ini_get('user_agent');
+
+		if ( !empty($r['headers']) && is_array($r['headers']) ) {
+			$user_agent_extra_headers = '';
+			foreach ( $r['headers'] as $header => $value )
+				$user_agent_extra_headers .= "\r\n$header: $value";
+			@ini_set('user_agent', $r['user-agent'] . $user_agent_extra_headers);
+		} else {
+			@ini_set('user_agent', $r['user-agent']);
+		}
+
 		if ( !WP_DEBUG )
 			$handle = @fopen($url, 'r');
 		else
@@ -851,6 +870,7 @@ class WP_Http_Fopen {
 
 		if ( ! $r['blocking'] ) {
 			fclose($handle);
+			@ini_set('user_agent', $initial_user_agent); //Clean up any extra headers added
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		}
 
@@ -870,6 +890,8 @@ class WP_Http_Fopen {
 		}
 
 		fclose($handle);
+
+		@ini_set('user_agent', $initial_user_agent); //Clean up any extra headers added
 
 		$processedHeaders = WP_Http::processHeaders($theHeaders);
 
