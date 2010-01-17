@@ -24,7 +24,7 @@
  *
  * @param string $action
  * @param array|object $args Optional. Arguments to serialize for the Plugin Info API.
- * @return mixed
+ * @return object plugins_api response object on success, WP_Error on failure.
  */
 function plugins_api($action, $args = null) {
 
@@ -34,16 +34,19 @@ function plugins_api($action, $args = null) {
 	if ( !isset($args->per_page) )
 		$args->per_page = 24;
 
-	$args = apply_filters('plugins_api_args', $args, $action); //NOTE: Ensure that an object is returned via this filter.
-	$res = apply_filters('plugins_api', false, $action, $args); //NOTE: Allows a plugin to completely override the builtin WordPress.org API.
+	// Allows a plugin to override the WordPress.org API entirely. 
+	// Use the filter 'plugins_api_result' to mearly add results.
+	// Please ensure that a object is returned from the following filters.
+	$args = apply_filters('plugins_api_args', $args, $action);
+	$res = apply_filters('plugins_api', false, $action, $args);
 
-	if ( ! $res ) {
-		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array( 'body' => array('action' => $action, 'request' => serialize($args))) );
+	if ( false === $res ) {
+		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array( 'timeout' => 15, 'body' => array('action' => $action, 'request' => serialize($args))) );
 		if ( is_wp_error($request) ) {
 			$res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occurred during the API request.</p> <p><a href="?" onclick="document.location.reload(); return false;">Try again</a>'), $request->get_error_message() );
 		} else {
 			$res = unserialize($request['body']);
-			if ( ! $res )
+			if ( false === $res )
 				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred'), $request['body']);
 		}
 	} elseif ( !is_wp_error($res) ) {
@@ -197,6 +200,8 @@ add_action('install_plugins_popular', 'install_popular', 10, 1);
 function install_popular($page = 1) {
 	$args = array('browse' => 'popular', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
+	if ( is_wp_error($api) )
+		wp_die($api);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 
@@ -248,6 +253,8 @@ add_action('install_plugins_updated', 'install_updated', 10, 1);
 function install_updated($page = 1) {
 	$args = array('browse' => 'updated', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
+	if ( is_wp_error($api) )
+		wp_die($api);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 
