@@ -1416,10 +1416,7 @@ class WP_Http_Curl {
 
 		curl_close( $handle );
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
-			$theBody = WP_Http_Encoding::decompress( $theBody );
-
-		// See #11605 - When running under safe mode, redirection is disabled above. Handle it manually.
+		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
 		if ( !empty($theHeaders['headers']['location']) && (ini_get('safe_mode') || ini_get('open_basedir')) ) {
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request($theHeaders['headers']['location'], $r);
@@ -1427,6 +1424,9 @@ class WP_Http_Curl {
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
 			}
 		}
+
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
+			$theBody = WP_Http_Encoding::decompress( $theBody );
 
 		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $response, 'cookies' => $theHeaders['cookies']);
 	}
