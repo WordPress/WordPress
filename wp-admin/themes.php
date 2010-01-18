@@ -12,30 +12,6 @@ require_once('admin.php');
 if ( !current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-if ( is_multisite() ) {
-	$themes = get_themes();
-	$ct = current_theme_info();
-	$allowed_themes = apply_filters("allowed_themes", get_site_allowed_themes() );
-	if ( $allowed_themes == false )
-		$allowed_themes = array();
-
-	$blog_allowed_themes = wpmu_get_blog_allowedthemes();
-	if ( is_array( $blog_allowed_themes ) )
-		$allowed_themes = array_merge( $allowed_themes, $blog_allowed_themes );
-	if ( $blog_id != 1 )
-		unset( $allowed_themes[ "h3" ] );
-
-	if ( isset( $allowed_themes[ wp_specialchars( $ct->stylesheet ) ] ) == false )
-		$allowed_themes[ wp_specialchars( $ct->stylesheet ) ] = true;
-
-	reset( $themes );
-	foreach ( $themes as $key => $theme ) {
-		if ( isset( $allowed_themes[ wp_specialchars( $theme[ 'Stylesheet' ] ) ] ) == false ) {
-			unset( $themes[ $key ] );
-		}
-	}
-	reset( $themes );
-}
 if ( isset($_GET['action']) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['template']);
@@ -85,8 +61,7 @@ if ( is_multisite() && current_user_can('edit_themes') ) {
 <?php endif; ?>
 
 <?php
-if ( !is_multisite() )
-	$themes = get_themes();
+$themes = get_allowed_themes();
 $ct = current_theme_info();
 unset($themes[$ct->name]);
 

@@ -197,11 +197,11 @@ function edit_user( $user_id = 0 ) {
  */
 function get_author_user_ids() {
 	global $wpdb;
-	if( !is_multisite() ) {
+	if ( !is_multisite() )
 		$level_key = $wpdb->get_blog_prefix() . 'user_level';
-	} else {
+	else
 		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-	}
+
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value != '0'", $level_key) );
 }
 
@@ -220,7 +220,7 @@ function get_editable_authors( $user_id ) {
 
 	$editable = get_editable_user_ids( $user_id );
 
-	if( !$editable ) {
+	if ( !$editable ) {
 		return false;
 	} else {
 		$editable = join(',', $editable);
@@ -252,11 +252,11 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 		else
 			return array();
 	}
-	if( !is_multisite() ) {
+
+	if ( !is_multisite() )
 		$level_key = $wpdb->get_blog_prefix() . 'user_level';
-	} else {
+	else
 		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-	}
 
 	$query = $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s", $level_key);
 	if ( $exclude_zeros )
@@ -302,11 +302,10 @@ function get_editable_roles() {
 function get_nonauthor_user_ids() {
 	global $wpdb;
 
-	if ( !is_multisite() ) {
+	if ( !is_multisite() )
 		$level_key = $wpdb->get_blog_prefix() . 'user_level';
-	} else {
+	else
 		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-	}
 
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
 }
@@ -332,7 +331,7 @@ function get_others_unpublished_posts($user_id, $type='any') {
 
 	$dir = ( 'pending' == $type ) ? 'ASC' : 'DESC';
 
-	if( !$editable ) {
+	if ( !$editable ) {
 		$other_unpubs = '';
 	} else {
 		$editable = join(',', $editable);
@@ -675,11 +674,11 @@ class WP_User_Search {
 		}
 
 		$this->query_from_where = "FROM $wpdb->users";
-		if ( $this->role )
+		if ( $this->role ) {
 			$this->query_from_where .= $wpdb->prepare(" INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
-		elseif ( !is_multisite() )
+		} elseif ( !is_multisite() ) {
 			$this->query_from_where .= " WHERE 1=1";
-		else {
+		} else {
 			$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
 			$this->query_from_where .= ", $wpdb->usermeta WHERE $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
 		}

@@ -117,6 +117,45 @@ function get_broken_themes() {
 }
 
 /**
+ * Get the allowed themes for the current blog.
+ *
+ * @since 3.0
+ *
+ * @uses get_themes()
+ * @uses current_theme_info()
+ * @uses get_site_allowed_themes()
+ * @uses wpmu_get_blog_allowedthemes
+ *
+ * @return array $themes Array of allowed themes.
+ */
+function get_allowed_themes() {
+	if ( !is_multisite() )
+		return get_themes();
+
+	$themes = get_themes();
+	$ct = current_theme_info();
+	$allowed_themes = apply_filters("allowed_themes", get_site_allowed_themes() );
+	if ( $allowed_themes == false )
+		$allowed_themes = array();
+
+	$blog_allowed_themes = wpmu_get_blog_allowedthemes();
+	if ( is_array( $blog_allowed_themes ) )
+		$allowed_themes = array_merge( $allowed_themes, $blog_allowed_themes );
+
+	if ( isset( $allowed_themes[ wp_specialchars( $ct->stylesheet ) ] ) == false )
+		$allowed_themes[ wp_specialchars( $ct->stylesheet ) ] = true;
+
+	reset( $themes );
+	foreach ( $themes as $key => $theme ) {
+		if ( isset( $allowed_themes[ wp_specialchars( $theme[ 'Stylesheet' ] ) ] ) == false )
+			unset( $themes[ $key ] );
+	}
+	reset( $themes );
+	
+	return $themes;
+}
+
+/**
  * Get the Page Templates available in this theme
  *
  * @since unknown
