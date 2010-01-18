@@ -592,9 +592,9 @@ function populate_roles_280() {
 }
 
 /**
- * Create and modify WordPress roles for WordPress 2.8.
+ * Create and modify WordPress roles for WordPress 3.0.
  *
- * @since 2.8.0
+ * @since 3.0
  */
 function populate_roles_300() {
 	$role =& get_role( 'administrator' );
