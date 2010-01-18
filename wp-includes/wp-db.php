@@ -370,14 +370,13 @@ class wpdb {
 		if ( WP_DEBUG )
 			$this->show_errors();
 
-                if( is_multisite() ) {
-                        $this->charset = 'utf8';
-                        if( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' ) {
-                                $this->collate = constant( 'DB_COLLATE' );
-                        } else {
-                                $this->collate = 'utf8_general_ci';
-                        }
-                }
+		if ( is_multisite() ) {
+			$this->charset = 'utf8';
+			if ( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' )
+				$this->collate = constant( 'DB_COLLATE' );
+			else
+				$this->collate = 'utf8_general_ci';
+		}
 
 		if ( defined('DB_CHARSET') )
 			$this->charset = DB_CHARSET;
@@ -446,12 +445,12 @@ class wpdb {
 		if ( preg_match('|[^a-z0-9_]|i', $prefix) )
 			return new WP_Error('invalid_db_prefix', /*WP_I18N_DB_BAD_PREFIX*/'Invalid database prefix'/*/WP_I18N_DB_BAD_PREFIX*/);
 
-                if( is_multisite() ) {
-                        $old_prefix = '';
-                } else {
-                        $old_prefix = $prefix;
-                }
-		if( isset( $this->base_prefix ) )
+		if ( is_multisite() )
+			$old_prefix = '';
+		else
+			$old_prefix = $prefix;
+
+		if ( isset( $this->base_prefix ) )
 			$old_prefix = $this->base_prefix;
 		$this->base_prefix = $prefix;
 		foreach ( $this->global_tables as $table )
@@ -664,22 +663,22 @@ class wpdb {
 		if ( !$this->show_errors )
 			return false;
 
-                // If there is an error then take note of it
-                if( is_multisite() ) {
-                        $msg = "WordPress database error: [$str]\n{$this->last_query}\n";
-                        if( defined( 'ERRORLOGFILE' ) )
-                                error_log( $msg, 3, CONSTANT( 'ERRORLOGFILE' ) );
-                        if( defined( 'DIEONDBERROR' ) )
-                                die( $msg );
-                } else {
-                        $str = htmlspecialchars($str, ENT_QUOTES);
-                        $query = htmlspecialchars($this->last_query, ENT_QUOTES);
+		// If there is an error then take note of it
+		if ( is_multisite() ) {
+			$msg = "WordPress database error: [$str]\n{$this->last_query}\n";
+			if ( defined( 'ERRORLOGFILE' ) )
+				error_log( $msg, 3, CONSTANT( 'ERRORLOGFILE' ) );
+			if ( defined( 'DIEONDBERROR' ) )
+				die( $msg );
+		} else {
+			$str = htmlspecialchars($str, ENT_QUOTES);
+			$query = htmlspecialchars($this->last_query, ENT_QUOTES);
 
-                        print "<div id='error'>
-                        <p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
-                        <code>$query</code></p>
-                        </div>";
-                }
+			print "<div id='error'>
+			<p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
+			<code>$query</code></p>
+			</div>";
+		}
 	}
 
 	/**
@@ -739,10 +738,10 @@ class wpdb {
 
 	function db_connect( $query = "SELECT" ) {
 		global $db_list, $global_db_list;
-		if( is_array( $db_list ) == false )
+		if ( is_array( $db_list ) == false )
 			return true;
 
-		if( $this->blogs != '' && preg_match("/(" . $this->blogs . "|" . $this->users . "|" . $this->usermeta . "|" . $this->site . "|" . $this->sitemeta . "|" . $this->sitecategories . ")/i",$query) ) {
+		if ( $this->blogs != '' && preg_match("/(" . $this->blogs . "|" . $this->users . "|" . $this->usermeta . "|" . $this->site . "|" . $this->sitemeta . "|" . $this->sitecategories . ")/i",$query) ) {
 			$action = 'global';
 			$details = $global_db_list[ mt_rand( 0, count( $global_db_list ) -1 ) ];
 			$this->db_global = $details;

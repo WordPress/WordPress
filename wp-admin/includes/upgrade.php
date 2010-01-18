@@ -259,7 +259,7 @@ if ( !function_exists('wp_upgrade') ) :
  * @return null
  */
 function wp_upgrade() {
-	global $wp_current_db_version, $wp_db_version;
+	global $wp_current_db_version, $wp_db_version, $wpdb;
 
 	$wp_current_db_version = __get_option('db_version');
 
@@ -276,6 +276,14 @@ function wp_upgrade() {
 	make_db_current_silent();
 	upgrade_all();
 	wp_cache_flush();
+
+	if ( is_multisite() ) {
+		if ( $wpdb->get_row( "SELECT blog_id FROM {$wpdb->blog_versions} WHERE blog_id = '{$wpdb->blogid}'" ) ) {
+			$wpdb->query( "UPDATE {$wpdb->blog_versions} SET db_version = '{$wp_db_version}' WHERE blog_id = '{$wpdb->blogid}'" );
+		} else {
+			$wpdb->query( "INSERT INTO {$wpdb->blog_versions} ( `blog_id` , `db_version` , `last_updated` ) VALUES ( '{$wpdb->blogid}', '{$wp_db_version}', NOW());" );
+		}
+	}
 }
 endif;
 
@@ -351,6 +359,9 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
+
+	if ( $wp_current_db_version < 12751 )
+		upgrade_300();
 
 	maybe_disable_automattic_widgets();
 
@@ -1006,6 +1017,14 @@ function upgrade_290() {
 	}
 }
 
+/**
+ * Execute changes made in WordPress 3.0.
+ *
+ * @since 3.0
+ */
+function upgrade_300() {
+	populate_roles_300();
+}
 
 // The functions we use to actually do stuff
 

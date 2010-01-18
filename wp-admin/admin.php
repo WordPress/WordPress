@@ -198,9 +198,9 @@ if ( isset($plugin_page) ) {
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 	define('WP_IMPORTING', true);
-	if ( is_multisite() ) {
+
+	if ( is_multisite() )
 		kses_init_filters();  // Always filter imported data with kses.
-	}
 
 	call_user_func($wp_importers[$importer][2]);
 

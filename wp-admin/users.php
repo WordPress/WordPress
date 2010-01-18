@@ -15,6 +15,10 @@ require_once( ABSPATH . WPINC . '/registration.php');
 if ( !current_user_can('edit_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
+$del_cap_type = 'remove';
+if ( !is_multisite() && current_user_can('delete_users') )
+	$del_cap_type = 'delete';
+
 $title = __('Users');
 $parent_file = 'users.php';
 
@@ -43,22 +47,22 @@ switch ($doaction) {
 case 'promote':
 	check_admin_referer('bulk-users');
 
-	if (empty($_REQUEST['users'])) {
+	if ( empty($_REQUEST['users']) ) {
 		wp_redirect($redirect);
 		exit();
 	}
 
 	$editable_roles = get_editable_roles();
-	if (!$editable_roles[$_REQUEST['new_role']])
+	if ( !$editable_roles[$_REQUEST['new_role']] )
 		wp_die(__('You can&#8217;t give users that role.'));
 
 	$userids = $_REQUEST['users'];
 	$update = 'promote';
-	foreach($userids as $id) {
+	foreach ( $userids as $id ) {
 		if ( ! current_user_can('edit_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have edit_users caps
-		if($id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('edit_users')) {
+		if ( $id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('edit_users') ) {
 			$update = 'err_admin_role';
 			continue;
 		}
@@ -81,7 +85,7 @@ case 'dodelete':
 		exit();
 	}
 
-	if ( !current_user_can('delete_users') )
+	if ( !current_user_can($del_cap_type . '_users') )
 		wp_die(__('You can&#8217;t delete users.'));
 
 	$userids = $_REQUEST['users'];
@@ -89,27 +93,25 @@ case 'dodelete':
 	$delete_count = 0;
 
 	foreach ( (array) $userids as $id) {
-		if ( ! current_user_can('delete_user', $id) )
+		if ( ! current_user_can($del_cap_type . '_user', $id) )
 			wp_die(__('You can&#8217;t delete that user.'));
 
-		if ($id == $current_user->ID) {
+		if ( $id == $current_user->ID ) {
 			$update = 'err_admin_del';
 			continue;
 		}
-		switch($_REQUEST['delete_option']) {
+		switch ( $_REQUEST['delete_option'] ) {
 		case 'delete':
-			if ( !is_multisite() ) {
+			if ( !is_multisite() && current_user_can('delete_user', $id) )
 				wp_delete_user($id);
-			} else {
+			else
 				remove_user_from_blog($id, $blog_id); // WPMU only remove user from blog
-			}
 			break;
 		case 'reassign':
-			if ( !is_multisite() ) {
+			if ( !is_multisite() && current_user_can('delete_user', $id) )
 				wp_delete_user($id, $_REQUEST['reassign_user']);
-			} else {
+			else
 				remove_user_from_blog($id, $blog_id, $_REQUEST['reassign_user']);
-			}
 			break;
 		}
 		++$delete_count;
@@ -130,7 +132,7 @@ case 'delete':
 		exit();
 	}
 
-	if ( !current_user_can('delete_users') )
+	if ( !current_user_can($del_cap_type . '_users') )
 		$errors = new WP_Error('edit_users', __('You can&#8217;t delete users.'));
 
 	if ( empty($_REQUEST['users']) )

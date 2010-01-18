@@ -231,7 +231,7 @@ wp_enqueue_script('plugin-install');
 add_thickbox();
 
 $help = '<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>';
-if ( !is_multisite() || is_super_admin() ) {
+if ( current_user_can('edit_plugins') ) {
 $help .= '<p>' . sprintf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR) . '</p>';
 $help .= '<p>' . sprintf(__('You can find additional plugins for your site by using the new <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> directly and installing manually.  To <em>manually</em> install a plugin you generally just need to upload the plugin file into your <code>%2$s</code> directory.  Once a plugin has been installed, you may activate it here.'), 'plugin-install.php', WP_PLUGIN_DIR) . '</p>';
 }
@@ -284,7 +284,7 @@ if ( !empty($invalid) )
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); if ( !is_multisite() || is_super_admin() ) { ?> <a href="plugin-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a><?php } ?></h2>
+<h2><?php echo esc_html( $title ); if ( current_user_can('install_plugins') ) { ?> <a href="plugin-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a><?php } ?></h2>
 
 <?php
 
@@ -325,9 +325,8 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
         $upgrade_plugins[ $plugin_file ] = $plugin_data;
 }
 
-if ( is_multisite() && !is_super_admin() ) {
-	$upgrade_plugins = false;
-}
+if ( !current_user_can('update_plugins') )
+	$upgrade_plugins = array();
 
 $total_all_plugins = count($all_plugins);
 $total_inactive_plugins = count($inactive_plugins);

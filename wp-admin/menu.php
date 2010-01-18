@@ -30,12 +30,12 @@ $menu[0] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top', 'menu-da
 if ( is_multisite() && is_super_admin() ) {
 	$menu[1] = array( '', 'read', 'separator0', '', 'wp-menu-separator' );
 	$menu[2] = array(__('Site Admin'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
-	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'delete_users', 'ms-admin.php' );
-	$submenu[ 'ms-admin.php' ][5] = array( __('Blogs'), 'delete_users', 'ms-sites.php' );
-	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'delete_users', 'ms-users.php' );
-	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'delete_users', 'ms-themes.php' );
-	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'delete_users', 'ms-options.php' );
-	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'delete_users', 'ms-upgrade-site.php' );
+	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'super_admin', 'ms-admin.php' );
+	$submenu[ 'ms-admin.php' ][5] = array( __('Blogs'), 'super_admin', 'ms-sites.php' );
+	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'super_admin', 'ms-users.php' );
+	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'super_admin', 'ms-themes.php' );
+	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'super_admin', 'ms-options.php' );
+	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'super_admin', 'ms-upgrade-site.php' );
 }
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
@@ -105,8 +105,7 @@ $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	if ( !is_multisite() )
 		$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
-	if ( is_super_admin() )
-		$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
+	$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 
 $update_plugins = get_site_transient( 'update_plugins' );
 $update_count = 0;
@@ -117,10 +116,8 @@ $menu_perms = get_site_option('menu_items', array());
 if ( is_super_admin() || is_multisite() && $menu_perms['plugins'] ) {
 	$menu[65] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
 		$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
-		if ( is_super_admin() ) {
-			/* translators: add new plugin */
-			$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
-		}
+		/* translators: add new plugin */
+		$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
 		if ( !is_multisite() )
 			$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 }

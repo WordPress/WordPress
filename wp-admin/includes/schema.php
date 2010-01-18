@@ -369,6 +369,7 @@ function populate_roles() {
 	populate_roles_260();
 	populate_roles_270();
 	populate_roles_280();
+	populate_roles_300();
 }
 
 /**
@@ -587,6 +588,21 @@ function populate_roles_280() {
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'install_themes' );
+	}
+}
+
+/**
+ * Create and modify WordPress roles for WordPress 2.8.
+ *
+ * @since 2.8.0
+ */
+function populate_roles_300() {
+	$role =& get_role( 'administrator' );
+
+	if ( !empty( $role ) ) {
+		$role->add_cap( 'update_core' );
+		$role->add_cap( 'remove_user' );
+		$role->add_cap( 'remove_users' );
 	}
 }
 

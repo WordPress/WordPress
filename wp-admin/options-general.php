@@ -292,14 +292,17 @@ endfor;
 </tr>
 <?php do_settings_fields('general', 'default'); ?>
 <?php
-if ( is_multisite() && is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) )
-	while( ( $lang_file = readdir( $dh ) ) !== false )
+
+$lang_files = array();
+if ( is_multisite() && is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) ) {
+	while ( ( $lang_file = readdir( $dh ) ) !== false ) {
 		if ( substr( $lang_file, -3 ) == '.mo' )
 			$lang_files[] = $lang_file;
-$lang = get_option('WPLANG');
+	}
+}
 
-if ( is_array($lang_files) && !empty($lang_files) ) {
-	?>
+if ( !empty($lang_files) ) {
+?>
 	<tr valign="top">
 		<th width="33%" scope="row"><?php _e('Blog language:') ?></th>
 		<td>
@@ -308,7 +311,7 @@ if ( is_array($lang_files) && !empty($lang_files) ) {
 			</select>
 		</td>
 	</tr>
-	<?php
+<?php
 } // languages
 ?>
 </table>

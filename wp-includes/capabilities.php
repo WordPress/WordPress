@@ -717,6 +717,10 @@ class WP_User {
 			$cap = $this->translate_level_to_cap( $cap );
 		}
 
+		// Multisite super admin has all caps by definition.
+		if ( is_multisite() && is_super_admin() )
+			return true;
+
 		$args = array_slice( func_get_args(), 1 );
 		$args = array_merge( array( $cap, $this->ID ), $args );
 		$caps = call_user_func_array( 'map_meta_cap', $args );
@@ -962,6 +966,9 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'update_themes':
 	case 'install_themes':
 	case 'edit_themes':
+	case 'update_core':
+	case 'delete_user':
+	case 'delete_users':
 		// If multisite these caps are allowed only for super admins.
 		if ( is_multisite() && !is_super_admin() )
 			$caps[] = 'do_not_allow';

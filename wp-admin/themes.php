@@ -67,7 +67,7 @@ add_thickbox();
 wp_enqueue_script( 'theme-preview' );
 
 require_once('admin-header.php');
-if ( is_multisite() && is_super_admin() ) {
+if ( is_multisite() && current_user_can('edit_themes') ) {
 	?><div id="message0" class="updated fade"><p><?php _e('Administrator: new themes must be activated in the <a href="wpmu-themes.php">Themes Admin</a> page before they appear here.'); ?></p></div><?php
 }
 ?>
@@ -126,7 +126,7 @@ $themes = array_slice( $themes, $start, $per_page );
 function theme_update_available( $theme ) {
 	static $themes_update;
 
-	if ( is_multisite() && !is_super_admin() )
+	if ( !current_user_can('update_themes' ) )
 		return;
 
 	if ( !isset($themes_update) )
@@ -159,7 +159,7 @@ function theme_update_available( $theme ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); if ( !is_multisite() || is_super_admin() ) { ?> <a href="theme-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php } ?></h2>
+<h2><?php echo esc_html( $title ); if ( !current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php } ?></h2>
 
 <h3><?php _e('Current Theme'); ?></h3>
 <div id="current-theme">
@@ -170,7 +170,7 @@ function theme_update_available( $theme ) {
 	/* translators: 1: theme title, 2: theme version, 3: theme author */
 	printf(__('%1$s %2$s by %3$s'), $ct->title, $ct->version, $ct->author) ; ?></h4>
 <p class="theme-description"><?php echo $ct->description; ?></p>
-<?php if ( ( !is_multisite() || is_super_admin() ) && $ct->parent_theme ) { ?>
+<?php if ( current_user_can('edit_themes') && $ct->parent_theme ) { ?>
 	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ), $ct->title, $ct->parent_theme); ?></p>
 <?php } else { ?>
 	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ) ); ?></p>
@@ -265,7 +265,7 @@ foreach ( $cols as $col => $theme_name ) {
 	printf(__('%1$s %2$s by %3$s'), $title, $version, $author) ; ?></h3>
 <p class="description"><?php echo $description; ?></p>
 <span class='action-links'><?php echo $actions ?></span>
-	<?php if ( ( !is_multisite() || is_super_admin() ) && $parent_theme ) {
+	<?php if ( current_user_can('edit_themes') && $parent_theme ) {
 	/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
 	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ), $title, $parent_theme); ?></p>
 <?php } else { ?>
@@ -298,7 +298,7 @@ foreach ( $cols as $col => $theme_name ) {
 <?php
 // List broken themes, if any.
 $broken_themes = get_broken_themes();
-if ( ( !is_multisite() || is_super_admin() ) && count( $broken_themes ) ) {
+if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 ?>
 
 <h2><?php _e('Broken Themes'); ?> <?php if ( is_multisite() ) _e( '(Site admin only)' ); ?></h2>
