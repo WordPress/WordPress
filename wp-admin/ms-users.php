@@ -49,30 +49,30 @@ if ( $_GET['updated'] == 'true' ) {
 
 	$query = "SELECT * FROM {$wpdb->users}";
 
-	if( !empty( $s ) ) {
+	if ( !empty( $s ) ) {
 		$search = '%' . trim( $s ) . '%';
 		$query .= " WHERE user_login LIKE '$search' OR user_email LIKE '$search'";
 	}
 
-	if( !isset($_GET['sortby']) ) {
+	if ( !isset($_GET['sortby']) ) {
 		$_GET['sortby'] = 'id';
 	}
 
-	if( $_GET['sortby'] == 'email' ) {
+	if ( $_GET['sortby'] == 'email' ) {
 		$query .= ' ORDER BY user_email ';
-	} elseif( $_GET['sortby'] == 'id' ) {
+	} elseif ( $_GET['sortby'] == 'id' ) {
 		$query .= ' ORDER BY ID ';
-	} elseif( $_GET['sortby'] == 'login' ) {
+	} elseif ( $_GET['sortby'] == 'login' ) {
 		$query .= ' ORDER BY user_login ';
-	} elseif( $_GET['sortby'] == 'name' ) {
+	} elseif ( $_GET['sortby'] == 'name' ) {
 		$query .= ' ORDER BY display_name ';
-	} elseif( $_GET['sortby'] == 'registered' ) {
+	} elseif ( $_GET['sortby'] == 'registered' ) {
 		$query .= ' ORDER BY user_registered ';
 	}
 
 	$query .= ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC';
 
-	if( !empty( $s )) {
+	if ( !empty( $s )) {
 		$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(ID)', $query) );
 	} else {
 		$total = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users}");
@@ -123,7 +123,7 @@ if ( $_GET['updated'] == 'true' ) {
 			</div>
 		</div>
 
-		<?php if( isset($_GET['s']) && $_GET['s'] != '' ) : ?>
+		<?php if ( isset($_GET['s']) && $_GET['s'] != '' ) : ?>
 			<p><a href="ms-sites.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Blogs for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
 		<?php endif; ?>
 
@@ -143,12 +143,12 @@ if ( $_GET['updated'] == 'true' ) {
 			<thead>
 			<tr>
 				<?php foreach( (array) $posts_columns as $column_id => $column_display_name) {
-					if( $column_id == 'blogs' ) {
+					if ( $column_id == 'blogs' ) {
 						echo '<th scope="col">'.__('Blogs').'</th>';
-					} elseif( $column_id == 'checkbox') {
+					} elseif ( $column_id == 'checkbox') {
 						echo '<th scope="col" class="check-column"><input type="checkbox" /></th>';
 					} else { ?>
-						<th scope="col"><a href="ms-users.php?sortby=<?php echo $column_id ?>&amp;<?php if( $_GET['sortby'] == $column_id ) { if( $_GET['order'] == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
+						<th scope="col"><a href="ms-users.php?sortby=<?php echo $column_id ?>&amp;<?php if ( $_GET['sortby'] == $column_id ) { if ( $_GET['order'] == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
 					<?php } ?>
 				<?php } ?>
 			</tr>
@@ -163,7 +163,7 @@ if ( $_GET['updated'] == 'true' ) {
 
 					$bgcolour = "";
 					foreach ( $status_list as $status => $col ) {
-						if( $user[$status] ) {
+						if ( $user[$status] ) {
 							$bgcolour = "style='background: $col'";
 						}
 					}
@@ -216,7 +216,7 @@ if ( $_GET['updated'] == 'true' ) {
 								?>
 								<td>
 									<?php
-									if( is_array( $blogs ) ) {
+									if ( is_array( $blogs ) ) {
 										foreach ( (array) $blogs as $key => $val ) {
 											$path	= ($val->path == '/') ? '' : $val->path;
 											echo '<a href="ms-sites.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
@@ -227,7 +227,7 @@ if ( $_GET['updated'] == 'true' ) {
 
 											// View
 											echo '<a ';
-											if( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
+											if ( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
 												echo 'style="background-color: #f66" ';
 											echo 'target="_new" href="http://'.$val->domain . $val->path.'">' . __('View') . '</a>';
 
@@ -275,7 +275,7 @@ if ( $_GET['updated'] == 'true' ) {
 </div>
 
 <?php
-if( apply_filters('show_adduser_fields', true) ) :
+if ( apply_filters('show_adduser_fields', true) ) :
 ?>
 <div class="wrap">
 	<h2><?php _e('Add user') ?></h2>

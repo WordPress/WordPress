@@ -53,13 +53,13 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	} else {
 		$user_login = preg_replace( "/\s+/", '', sanitize_user( $_REQUEST[ 'user_login' ], true ) );
 		$user_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE user_login = %s AND user_email = %s", $user_login, $_REQUEST[ 'email' ] ) );
-		if( $user_details ) {
+		if ( $user_details ) {
 			// Adding an existing user to this blog
 			$new_user_email = wp_specialchars(trim($_REQUEST['email']));
 			$redirect = 'user-new.php';
 			$username = $user_details->user_login;
 			$user_id = $user_details->ID;
-			if( ($username != null && is_site_admin( $username ) == false ) && ( array_key_exists($blog_id, get_blogs_of_user($user_id)) ) ) {
+			if ( ($username != null && is_site_admin( $username ) == false ) && ( array_key_exists($blog_id, get_blogs_of_user($user_id)) ) ) {
 				$redirect = add_query_arg( array('update' => 'addexisting'), 'user-new.php' );
 			} else {
 				if ( isset( $_POST[ 'noconfirmation' ] ) && is_site_admin() ) {

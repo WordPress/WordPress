@@ -912,7 +912,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			return;
 
 		$this->plugin = $this->upgrader->plugin_info();
-		if( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
+		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
 			show_message(__('Reactivating the plugin&#8230;'));
 			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}

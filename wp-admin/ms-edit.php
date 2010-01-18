@@ -204,10 +204,10 @@ switch ( $_GET['action'] ) {
 		}
 
 		if ( $_POST['update_home_url'] == 'update' ) {
-			if( get_option( 'siteurl' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
+			if ( get_option( 'siteurl' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
 				update_option( 'siteurl', 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] );
 
-			if( get_option( 'home' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
+			if ( get_option( 'home' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
 				update_option( 'home', 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] );
 		}
 
@@ -245,7 +245,7 @@ switch ( $_GET['action'] ) {
 		}
 
 		// remove user
-		if( is_array( $_POST[ 'blogusers' ] ) ) {
+		if ( is_array( $_POST[ 'blogusers' ] ) ) {
 			reset( $_POST[ 'blogusers' ] );
 			foreach ( (array) $_POST[ 'blogusers' ] as $key => $val )
 				remove_user_from_blog( $key, $id );

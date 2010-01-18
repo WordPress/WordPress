@@ -65,7 +65,7 @@ function delete_theme($template) {
 		request_filesystem_credentials($url, '', true); // Failed to connect, Error and request again
 		$data = ob_get_contents();
 		ob_end_clean();
-		if( ! empty($data) ){
+		if ( ! empty($data) ) {
 			include_once( ABSPATH . 'wp-admin/admin-header.php');
 			echo $data;
 			include( ABSPATH . 'wp-admin/admin-footer.php');

@@ -92,8 +92,8 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup = true, $translate = true) {
 
 	//Translate fields
-	if( $translate && ! empty($plugin_data['TextDomain']) ) {
-		if( ! empty( $plugin_data['DomainPath'] ) )
+	if ( $translate && ! empty($plugin_data['TextDomain']) ) {
+		if ( ! empty( $plugin_data['DomainPath'] ) )
 			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file). $plugin_data['DomainPath']);
 		else
 			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file));
@@ -113,7 +113,7 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
 			$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
 
 		$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
-		if( ! empty($plugin_data['Author']) )
+		if ( ! empty($plugin_data['Author']) )
 			$plugin_data['Description'] .= ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
 	}
 
@@ -198,7 +198,7 @@ function get_plugins($plugin_folder = '') {
 
 	$wp_plugins = array ();
 	$plugin_root = WP_PLUGIN_DIR;
-	if( !empty($plugin_folder) )
+	if ( !empty($plugin_folder) )
 		$plugin_root .= $plugin_folder;
 
 	// Files in wp-content/plugins directory
@@ -330,7 +330,7 @@ function deactivate_plugins($plugins, $silent= false) {
 
 	foreach ( $plugins as $plugin ) {
 		$plugin = plugin_basename($plugin);
-		if( ! is_plugin_active($plugin) )
+		if ( ! is_plugin_active($plugin) )
 			continue;
 		if ( ! $silent )
 			do_action( 'deactivate_plugin', trim( $plugin ) );
@@ -398,7 +398,7 @@ function activate_plugins($plugins, $redirect = '') {
 function delete_plugins($plugins, $redirect = '' ) {
 	global $wp_filesystem;
 
-	if( empty($plugins) )
+	if ( empty($plugins) )
 		return false;
 
 	$checked = array();
@@ -410,7 +410,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 	if ( false === ($credentials = request_filesystem_credentials($url)) ) {
 		$data = ob_get_contents();
 		ob_end_clean();
-		if( ! empty($data) ){
+		if ( ! empty($data) ){
 			include_once( ABSPATH . 'wp-admin/admin-header.php');
 			echo $data;
 			include( ABSPATH . 'wp-admin/admin-footer.php');
@@ -423,7 +423,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
 		$data = ob_get_contents();
 		ob_end_clean();
-		if( ! empty($data) ){
+		if ( ! empty($data) ){
 			include_once( ABSPATH . 'wp-admin/admin-header.php');
 			echo $data;
 			include( ABSPATH . 'wp-admin/admin-footer.php');
@@ -1064,7 +1064,7 @@ add_filter( 'whitelist_options', 'option_update_filter' );
  * @return unknown
  */
 function add_option_whitelist( $new_options, $options = '' ) {
-	if( $options == '' ) {
+	if ( $options == '' ) {
 		global $whitelist_options;
 	} else {
 		$whitelist_options = $options;
@@ -1094,7 +1094,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * @return unknown
  */
 function remove_option_whitelist( $del_options, $options = '' ) {
-	if( $options == '' ) {
+	if ( $options == '' ) {
 		global $whitelist_options;
 	} else {
 		$whitelist_options = $options;
@@ -1103,7 +1103,7 @@ function remove_option_whitelist( $del_options, $options = '' ) {
 		foreach( $keys as $key ) {
 			if ( isset($whitelist_options[ $page ]) && is_array($whitelist_options[ $page ]) ) {
 				$pos = array_search( $key, $whitelist_options[ $page ] );
-				if( $pos !== false )
+				if ( $pos !== false )
 					unset( $whitelist_options[ $page ][ $pos ] );
 			}
 		}

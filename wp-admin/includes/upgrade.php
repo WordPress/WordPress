@@ -267,7 +267,7 @@ function wp_upgrade() {
 	if ( $wp_db_version == $wp_current_db_version )
 		return;
 
-	if( ! is_blog_installed() )
+	if ( ! is_blog_installed() )
 		return;
 
 	wp_check_mysql_version();
@@ -631,7 +631,7 @@ function upgrade_160() {
 
 	// populate comment_count field of posts table
 	$comments = $wpdb->get_results( "SELECT comment_post_ID, COUNT(*) as c FROM $wpdb->comments WHERE comment_approved = '1' GROUP BY comment_post_ID" );
-	if( is_array( $comments ) )
+	if ( is_array( $comments ) )
 		foreach ($comments as $comment)
 			$wpdb->update( $wpdb->posts, array('comment_count' => $comment->c), array('ID' => $comment->comment_post_ID) );
 
@@ -1199,9 +1199,9 @@ function dbDelta($queries, $execute = true) {
 	global $wpdb;
 
 	// Separate individual queries into an array
-	if( !is_array($queries) ) {
+	if ( !is_array($queries) ) {
 		$queries = explode( ';', $queries );
-		if('' == $queries[count($queries) - 1]) array_pop($queries);
+		if ('' == $queries[count($queries) - 1]) array_pop($queries);
 	}
 
 	$cqueries = array(); // Creation Queries
@@ -1210,30 +1210,26 @@ function dbDelta($queries, $execute = true) {
 
 	// Create a tablename index for an array ($cqueries) of queries
 	foreach($queries as $qry) {
-		if(preg_match("|CREATE TABLE ([^ ]*)|", $qry, $matches)) {
+		if (preg_match("|CREATE TABLE ([^ ]*)|", $qry, $matches)) {
 			$cqueries[trim( strtolower($matches[1]), '`' )] = $qry;
 			$for_update[$matches[1]] = 'Created table '.$matches[1];
-		}
-		else if(preg_match("|CREATE DATABASE ([^ ]*)|", $qry, $matches)) {
+		} else if (preg_match("|CREATE DATABASE ([^ ]*)|", $qry, $matches)) {
 			array_unshift($cqueries, $qry);
-		}
-		else if(preg_match("|INSERT INTO ([^ ]*)|", $qry, $matches)) {
+		} else if (preg_match("|INSERT INTO ([^ ]*)|", $qry, $matches)) {
 			$iqueries[] = $qry;
-		}
-		else if(preg_match("|UPDATE ([^ ]*)|", $qry, $matches)) {
+		} else if (preg_match("|UPDATE ([^ ]*)|", $qry, $matches)) {
 			$iqueries[] = $qry;
-		}
-		else {
+		} else {
 			// Unrecognized query type
 		}
 	}
 
 	// Check to see which tables and fields exist
-	if($tables = $wpdb->get_col('SHOW TABLES;')) {
+	if ($tables = $wpdb->get_col('SHOW TABLES;')) {
 		// For every table in the database
-		foreach($tables as $table) {
+		foreach ($tables as $table) {
 			// If a table query exists for the database table...
-			if( array_key_exists(strtolower($table), $cqueries) ) {
+			if ( array_key_exists(strtolower($table), $cqueries) ) {
 				// Clear the field and index arrays
 				unset($cfields);
 				unset($indices);
@@ -1247,15 +1243,14 @@ function dbDelta($queries, $execute = true) {
 				//echo "<hr/><pre>\n".print_r(strtolower($table), true).":\n".print_r($cqueries, true)."</pre><hr/>";
 
 				// For every field line specified in the query
-				foreach($flds as $fld) {
+				foreach ($flds as $fld) {
 					// Extract the field name
 					preg_match("|^([^ ]*)|", trim($fld), $fvals);
 					$fieldname = trim( $fvals[1], '`' );
 
 					// Verify the found field name
 					$validfield = true;
-					switch(strtolower($fieldname))
-					{
+					switch (strtolower($fieldname)) {
 					case '':
 					case 'primary':
 					case 'index':
@@ -1269,7 +1264,7 @@ function dbDelta($queries, $execute = true) {
 					$fld = trim($fld);
 
 					// If it's a valid field, add it to the field array
-					if($validfield) {
+					if ($validfield) {
 						$cfields[strtolower($fieldname)] = trim($fld, ", \n");
 					}
 				}
@@ -1278,15 +1273,15 @@ function dbDelta($queries, $execute = true) {
 				$tablefields = $wpdb->get_results("DESCRIBE {$table};");
 
 				// For every field in the table
-				foreach($tablefields as $tablefield) {
+				foreach ($tablefields as $tablefield) {
 					// If the table field exists in the field array...
-					if(array_key_exists(strtolower($tablefield->Field), $cfields)) {
+					if (array_key_exists(strtolower($tablefield->Field), $cfields)) {
 						// Get the field type from the query
 						preg_match("|".$tablefield->Field." ([^ ]*( unsigned)?)|i", $cfields[strtolower($tablefield->Field)], $matches);
 						$fieldtype = $matches[1];
 
 						// Is actual field type different from the field type in query?
-						if($tablefield->Type != $fieldtype) {
+						if ($tablefield->Type != $fieldtype) {
 							// Add a query to change the column type
 							$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[strtolower($tablefield->Field)];
 							$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
@@ -1294,10 +1289,9 @@ function dbDelta($queries, $execute = true) {
 
 						// Get the default value from the array
 							//echo "{$cfields[strtolower($tablefield->Field)]}<br>";
-						if(preg_match("| DEFAULT '(.*)'|i", $cfields[strtolower($tablefield->Field)], $matches)) {
+						if (preg_match("| DEFAULT '(.*)'|i", $cfields[strtolower($tablefield->Field)], $matches)) {
 							$default_value = $matches[1];
-							if($tablefield->Default != $default_value)
-							{
+							if ($tablefield->Default != $default_value) {
 								// Add a query to change the column's default value
 								$cqueries[] = "ALTER TABLE {$table} ALTER COLUMN {$tablefield->Field} SET DEFAULT '{$default_value}'";
 								$for_update[$table.'.'.$tablefield->Field] = "Changed default value of {$table}.{$tablefield->Field} from {$tablefield->Default} to {$default_value}";
@@ -1306,14 +1300,13 @@ function dbDelta($queries, $execute = true) {
 
 						// Remove the field from the array (so it's not added)
 						unset($cfields[strtolower($tablefield->Field)]);
-					}
-					else {
+					} else {
 						// This field exists in the table, but not in the creation queries?
 					}
 				}
 
 				// For every remaining field specified for the table
-				foreach($cfields as $fieldname => $fielddef) {
+				foreach ($cfields as $fieldname => $fielddef) {
 					// Push a query line into $cqueries that adds the field to that table
 					$cqueries[] = "ALTER TABLE {$table} ADD COLUMN $fielddef";
 					$for_update[$table.'.'.$fieldname] = 'Added column '.$table.'.'.$fieldname;
@@ -1323,12 +1316,12 @@ function dbDelta($queries, $execute = true) {
 				// Fetch the table index structure from the database
 				$tableindices = $wpdb->get_results("SHOW INDEX FROM {$table};");
 
-				if($tableindices) {
+				if ($tableindices) {
 					// Clear the index array
 					unset($index_ary);
 
 					// For every index in the table
-					foreach($tableindices as $tableindex) {
+					foreach ($tableindices as $tableindex) {
 						// Add the index to the index data array
 						$keyname = $tableindex->Key_name;
 						$index_ary[$keyname]['columns'][] = array('fieldname' => $tableindex->Column_name, 'subpart' => $tableindex->Sub_part);
@@ -1336,32 +1329,31 @@ function dbDelta($queries, $execute = true) {
 					}
 
 					// For each actual index in the index array
-					foreach($index_ary as $index_name => $index_data) {
+					foreach ($index_ary as $index_name => $index_data) {
 						// Build a create string to compare to the query
 						$index_string = '';
-						if($index_name == 'PRIMARY') {
+						if ($index_name == 'PRIMARY') {
 							$index_string .= 'PRIMARY ';
-						}
-						else if($index_data['unique']) {
+						} else if($index_data['unique']) {
 							$index_string .= 'UNIQUE ';
 						}
 						$index_string .= 'KEY ';
-						if($index_name != 'PRIMARY') {
+						if ($index_name != 'PRIMARY') {
 							$index_string .= $index_name;
 						}
 						$index_columns = '';
 						// For each column in the index
-						foreach($index_data['columns'] as $column_data) {
-							if($index_columns != '') $index_columns .= ',';
+						foreach ($index_data['columns'] as $column_data) {
+							if ($index_columns != '') $index_columns .= ',';
 							// Add the field to the column list string
 							$index_columns .= $column_data['fieldname'];
-							if($column_data['subpart'] != '') {
+							if ($column_data['subpart'] != '') {
 								$index_columns .= '('.$column_data['subpart'].')';
 							}
 						}
 						// Add the column list to the index create string
 						$index_string .= ' ('.$index_columns.')';
-						if(!(($aindex = array_search($index_string, $indices)) === false)) {
+						if (!(($aindex = array_search($index_string, $indices)) === false)) {
 							unset($indices[$aindex]);
 							//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br />Found index:".$index_string."</pre>\n";
 						}
@@ -1386,8 +1378,8 @@ function dbDelta($queries, $execute = true) {
 	}
 
 	$allqueries = array_merge($cqueries, $iqueries);
-	if($execute) {
-		foreach($allqueries as $query) {
+	if ($execute) {
+		foreach ($allqueries as $query) {
 			//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">".print_r($query, true)."</pre>\n";
 			$wpdb->query($query);
 		}

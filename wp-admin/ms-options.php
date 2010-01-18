@@ -46,7 +46,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Allow new registrations') ?></th>
 				<?php
-				if( !get_site_option('registration') )
+				if ( !get_site_option('registration') )
 					update_site_option( 'registration', 'all' );
 				?>
 				<td>
@@ -55,7 +55,7 @@ if (isset($_GET['updated'])) {
 					<label><input name="registration" type="radio" id="registration3" value='user' <?php echo get_site_option('registration') == 'user' ? 'checked="checked"' : ''; ?> /> <?php _e('Only user account can be created.'); ?></label><br />
 					<label><input name="registration" type="radio" id="registration4" value='blog' <?php echo get_site_option('registration') == 'blog' ? 'checked="checked"' : ''; ?> /> <?php _e('Only logged in users can create new blogs.'); ?></label><br />
 					<p><?php _e('Disable or enable registration and who or what can be registered. (Default=all)'); ?></p>
-					<?php if( is_subdomain_install() ) {
+					<?php if ( is_subdomain_install() ) {
 						echo "<p>" . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non existant blog.') . "</p>";
 					} ?>
 				</td>
@@ -64,7 +64,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Registration notification') ?></th>
 				<?php
-				if( !get_site_option('registrationnotification') )
+				if ( !get_site_option('registrationnotification') )
 					update_site_option( 'registrationnotification', 'yes' );
 				?>
 				<td>
@@ -201,16 +201,16 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Upload media button') ?></th>
 				<?php $mu_media_buttons = get_site_option( 'mu_media_buttons', array() ); ?>
-				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1' <?php if( $mu_media_buttons[ 'image' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Images' ); ?></label><br />
-				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1' <?php if( $mu_media_buttons[ 'video' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Videos' ); ?></label><br />
-				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1' <?php if( $mu_media_buttons[ 'audio' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Music' ); ?></label><br />
+				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1' <?php if ( $mu_media_buttons[ 'image' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Images' ); ?></label><br />
+				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1' <?php if ( $mu_media_buttons[ 'video' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Videos' ); ?></label><br />
+				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1' <?php if ( $mu_media_buttons[ 'audio' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Music' ); ?></label><br />
 				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the "Upload File Types" below as well.' ); ?></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Blog upload space check') ?></th>
 				<td>
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php if( !get_site_option( 'upload_space_check_disabled' ) ) { echo 'checked=checked '; } ?>/> <?php _e( 'Enabled' ); ?></label><br />
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php if( get_site_option( 'upload_space_check_disabled' ) ) { echo 'checked=checked '; } ?>/> <?php _e( 'Disabled' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php if ( !get_site_option( 'upload_space_check_disabled' ) ) { echo 'checked=checked '; } ?>/> <?php _e( 'Enabled' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php if ( get_site_option( 'upload_space_check_disabled' ) ) { echo 'checked=checked '; } ?>/> <?php _e( 'Disabled' ); ?></label><br />
 				<?php _e( 'By default there is a limit on the total size of files uploaded but it can be disabled here.' ); ?></td>
 			</tr>
 			<tr valign="top">
@@ -231,7 +231,7 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
 				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
 				<?php _e( 'Display the latest post from this RSS or Atom feed on all blog dashboards. Leave blank to disable.' ); ?><br />
-				<?php if( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
+				<?php if ( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
 					echo __( "A good one to use would be the feed from your main blog: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
 			</tr>
 		</table>
@@ -251,12 +251,12 @@ if (isset($_GET['updated'])) {
 		<h3><?php _e('Site Wide Settings <em>(These settings may be overridden by blog owners)</em>') ?></h3>
 		<table class="form-table">
 			<?php
-			if( is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) )
+			if ( is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) )
 				while( ( $lang_file = readdir( $dh ) ) !== false )
-					if( substr( $lang_file, -3 ) == '.mo' )
+					if ( substr( $lang_file, -3 ) == '.mo' )
 						$lang_files[] = $lang_file;
 			$lang = get_site_option('WPLANG');
-			if( is_array($lang_files) && !empty($lang_files) ) {
+			if ( is_array($lang_files) && !empty($lang_files) ) {
 				?>
 				<tr valign="top">
 					<th width="33%"><?php _e('Default Language') ?></th>

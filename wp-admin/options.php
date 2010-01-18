@@ -40,7 +40,7 @@ if ( !current_user_can('manage_options') )
 
 if ( is_multisite() && is_super_admin() && $_GET[ 'adminhash' ] ) {
 	$new_admin_details = get_option( 'adminhash' );
-	if( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && $new_admin_details[ 'newemail' ] != '' ) {
+	if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && $new_admin_details[ 'newemail' ] != '' ) {
 		update_option( "admin_email", $new_admin_details[ 'newemail' ] );
 		delete_option( "adminhash" );
 		delete_option( "new_admin_email" );
@@ -130,7 +130,7 @@ $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name
 foreach ( (array) $options as $option) :
 	$disabled = '';
 	$option->option_name = esc_attr($option->option_name);
-	if( $option->option_name == '' )
+	if ( $option->option_name == '' )
 		continue;
 	if ( is_serialized($option->option_value) ) {
 		if ( is_serialized_string($option->option_value) ) {

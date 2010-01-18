@@ -95,7 +95,7 @@ switch( $_GET['action'] ) {
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Path') ?></th>
 								<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr($details['path']) ?>" size="40" style='margin-bottom:5px;' />
-								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if( get_blog_option( $id, 'siteurl' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) || get_blog_option( $id, 'home' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
+								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if ( get_blog_option( $id, 'siteurl' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) || get_blog_option( $id, 'home' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e('Registered') ?></th>
@@ -108,36 +108,36 @@ switch( $_GET['action'] ) {
 							<tr class="form-field">
 								<th scope="row"><?php _e('Public') ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[public]' value='1' <?php if( $details['public'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[public]' value='0' <?php if( $details['public'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[public]' value='1' <?php if ( $details['public'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[public]' value='0' <?php if ( $details['public'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Archived' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[archived]' value='1' <?php if( $details['archived'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[archived]' value='0' <?php if( $details['archived'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[archived]' value='1' <?php if ( $details['archived'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[archived]' value='0' <?php if ( $details['archived'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Mature' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[mature]' value='1' <?php if( $details['mature'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[mature]' value='0' <?php if( $details['mature'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[mature]' value='1' <?php if ( $details['mature'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[mature]' value='0' <?php if ( $details['mature'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Spam' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[spam]' value='1' <?php if( $details['spam'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[spam]' value='0' <?php if( $details['spam'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[spam]' value='1' <?php if ( $details['spam'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[spam]' value='0' <?php if ( $details['spam'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Deleted' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[deleted]' value='1' <?php if( $details['deleted'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[deleted]' value='0' <?php if( $details['deleted'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[deleted]' value='1' <?php if ( $details['deleted'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[deleted]' value='0' <?php if ( $details['deleted'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 						</table>
@@ -151,7 +151,7 @@ switch( $_GET['action'] ) {
 							<?php
 							$editblog_default_role = 'subscriber';
 							foreach ( $options as $key => $val ) {
-								if( $val['option_name'] == 'default_role' ) {
+								if ( $val['option_name'] == 'default_role' ) {
 									$editblog_default_role = $val['option_value'];
 								}
 								$disabled = '';
@@ -191,13 +191,13 @@ switch( $_GET['action'] ) {
 					$themes = get_themes();
 					$blog_allowed_themes = wpmu_get_blog_allowedthemes( $id );
 					$allowed_themes = get_site_option( "allowedthemes" );
-					if( $allowed_themes == false ) {
+					if ( $allowed_themes == false ) {
 						$allowed_themes = array_keys( $themes );
 					}
 					$out = '';
 					foreach( $themes as $key => $theme ) {
 						$theme_key = wp_specialchars( $theme['Stylesheet'] );
-						if( isset($allowed_themes[$theme_key] ) == false ) {
+						if ( isset($allowed_themes[$theme_key] ) == false ) {
 							$checked = ( isset($blog_allowed_themes[ $theme_key ]) ) ? 'checked="checked"' : '';
 							$out .= '<tr class="form-field form-required">
 									<th title="'.htmlspecialchars( $theme["Description"] ).'" scope="row">'.$key.'</th>
@@ -222,19 +222,19 @@ switch( $_GET['action'] ) {
 			<?php
 					// Blog users
 					$blogusers = get_users_of_blog( $id );
-					if( is_array( $blogusers ) ) {
+					if ( is_array( $blogusers ) ) {
 						echo '<div id="blogedit_blogusers" class="postbox"><h3 class="hndle"><span>' . __('Blog Users') . '</span></h3><div class="inside">';
 						echo '<table class="form-table">';
 						echo "<tr><th>" . __('User') . "</th><th>" . __('Role') . "</th><th>" . __('Password') . "</th><th>" . __('Remove') . "</th></tr>";
 						reset($blogusers);
 						foreach ( (array) $blogusers as $key => $val ) {
 							$t = @unserialize( $val->meta_value );
-							if( is_array( $t ) ) {
+							if ( is_array( $t ) ) {
 								reset( $t );
 								$existing_role = key( $t );
 							}
 							echo '<tr><td><a href="user-edit.php?user_id=' . $val->user_id . '">' . $val->user_login . '</a></td>';
-							if( $val->user_id != $current_user->data->ID ) {
+							if ( $val->user_id != $current_user->data->ID ) {
 								?>
 								<td>
 									<select name="role[<?php echo $val->user_id ?>]" id="new_role"><?php
@@ -316,11 +316,11 @@ switch( $_GET['action'] ) {
 
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
 
-		if( isset($_GET['blog_name']) ) {
+		if ( isset($_GET['blog_name']) ) {
 			$query .= " AND ( {$wpdb->blogs}.domain LIKE '%{$like_s}%' OR {$wpdb->blogs}.path LIKE '%{$like_s}%' ) ";
-		} elseif( isset($_GET['blog_id']) ) {
+		} elseif ( isset($_GET['blog_id']) ) {
 			$query .= " AND   blog_id = '". absint( $_GET['blog_id'] )."' ";
-		} elseif( isset($_GET['blog_ip']) ) {
+		} elseif ( isset($_GET['blog_ip']) ) {
 			$query = "SELECT *
 				FROM {$wpdb->blogs}, {$wpdb->registration_log}
 				WHERE site_id = '{$wpdb->siteid}'
@@ -328,23 +328,23 @@ switch( $_GET['action'] ) {
 				AND {$wpdb->registration_log}.IP LIKE ('%{$like_s}%')";
 		}
 
-		if( isset( $_GET['sortby'] ) == false ) {
+		if ( isset( $_GET['sortby'] ) == false ) {
 			$_GET['sortby'] = 'id';
 		}
 
-		if( $_GET['sortby'] == 'registered' ) {
+		if ( $_GET['sortby'] == 'registered' ) {
 			$query .= ' ORDER BY registered ';
-		} elseif( $_GET['sortby'] == 'id' ) {
+		} elseif ( $_GET['sortby'] == 'id' ) {
 			$query .= ' ORDER BY ' . $wpdb->blogs . '.blog_id ';
-		} elseif( $_GET['sortby'] == 'lastupdated' ) {
+		} elseif ( $_GET['sortby'] == 'lastupdated' ) {
 			$query .= ' ORDER BY last_updated ';
-		} elseif( $_GET['sortby'] == 'blogname' ) {
+		} elseif ( $_GET['sortby'] == 'blogname' ) {
 			$query .= ' ORDER BY domain ';
 		}
 
 		$query .= ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC';
 
-		if( !empty($s) ) {
+		if ( !empty($s) ) {
 			$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(blog_id)', $query) );
 		} else {
 			$total = $wpdb->get_var( "SELECT COUNT(blog_id) FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ");
@@ -355,7 +355,7 @@ switch( $_GET['action'] ) {
 
 		// Pagination
 		$url2 = "&amp;order=" . $_GET['order'] . "&amp;sortby=" . $_GET['sortby'] . "&amp;s=";
-		if( $_GET[ 'blog_ip' ] ) {
+		if ( $_GET[ 'blog_ip' ] ) {
 			$url2 .= "&amp;ip_address=" . urlencode( $s );
 		} else {
 			$url2 .= $s . "&amp;ip_address=" . urlencode( $s );
@@ -395,7 +395,7 @@ switch( $_GET['action'] ) {
 
 		<br class="clear" />
 
-		<?php if( isset($_GET['s']) && !empty($_GET['s']) ) : ?>
+		<?php if ( isset($_GET['s']) && !empty($_GET['s']) ) : ?>
 			<p><a href="ms-users.php?action=users&s=<?php echo urlencode( stripslashes( $s ) ) ?>"><?php _e('Search Users:') ?> <strong><?php echo stripslashes( $s ); ?></strong></a></p>
 		<?php endif; ?>
 
@@ -410,13 +410,13 @@ switch( $_GET['action'] ) {
 			'users'        => __('Users')
 		);
 
-		if( has_filter( 'wpmublogsaction' ) )
+		if ( has_filter( 'wpmublogsaction' ) )
 			$posts_columns['plugins'] = __('Actions');
 
 		$posts_columns = apply_filters('wpmu_blogs_columns', $posts_columns);
 
 		$sortby_url = "s=";
-		if( $_GET[ 'blog_ip' ] ) {
+		if ( $_GET[ 'blog_ip' ] ) {
 			$sortby_url .= "&ip_address=" . urlencode( $s );
 		} else {
 			$sortby_url .= urlencode( $s ) . "&ip_address=" . urlencode( $s );
@@ -429,7 +429,7 @@ switch( $_GET['action'] ) {
 				<th scope="col" class="check-column"></th>
 				<?php foreach($posts_columns as $column_id => $column_display_name) {
 					$column_link = "<a href='ms-sites.php?{$sortby_url}&amp;sortby={$column_id}&amp;";
-					if( $_GET['sortby'] == $column_id ) {
+					if ( $_GET['sortby'] == $column_id ) {
 						$column_link .= $_GET[ 'order' ] == 'DESC' ? 'order=ASC&amp;' : 'order=DESC&amp;';
 					}
 					$column_link .= "apage={$apage}'>{$column_display_name}</a>";
@@ -451,7 +451,7 @@ switch( $_GET['action'] ) {
 
 					$bgcolour = "";
 					foreach ( $status_list as $status => $col ) {
-						if( get_blog_status( $blog['blog_id'], $status ) == 1 ) {
+						if ( get_blog_status( $blog['blog_id'], $status ) == 1 ) {
 							$bgcolour = "style='background: $col'";
 						}
 					}
@@ -479,17 +479,17 @@ switch( $_GET['action'] ) {
 									$controlActions[]	= '<a href="ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
 									$controlActions[]	= "<a href='{$protocol}{$blog['domain']}{$blog['path']}wp-admin/' class='edit'>" . __('Backend') . '</a>';
 
-									if( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
+									if ( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
 										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
 									else
 										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the blog %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
 
-									if( get_blog_status( $blog['blog_id'], "archived" ) == '1' )
+									if ( get_blog_status( $blog['blog_id'], "archived" ) == '1' )
 										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the blog %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
 									else
 										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the blog %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
 
-									if( get_blog_status( $blog['blog_id'], "spam" ) == '1' )
+									if ( get_blog_status( $blog['blog_id'], "spam" ) == '1' )
 										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the blog %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
 									else
 										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the blog %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
@@ -534,7 +534,7 @@ switch( $_GET['action'] ) {
 										foreach ( $blogusers as $key => $val ) {
 											echo '<a href="user-edit.php?user_id=' . $val->user_id . '">' . $val->user_login . '</a> ('.$val->user_email.')<br />';
 										}
-										if( $blogusers_warning != '' ) {
+										if ( $blogusers_warning != '' ) {
 											echo '<strong>' . $blogusers_warning . '</strong><br />';
 										}
 									}
@@ -544,7 +544,7 @@ switch( $_GET['action'] ) {
 							break;
 
 							case 'plugins': ?>
-								<?php if( has_filter( 'wpmublogsaction' ) ) { ?>
+								<?php if ( has_filter( 'wpmublogsaction' ) ) { ?>
 								<td valign="top">
 									<?php do_action( "wpmublogsaction", $blog['blog_id'] ); ?>
 								</td>
@@ -552,7 +552,7 @@ switch( $_GET['action'] ) {
 							<?php break;
 
 							default: ?>
-								<?php if( has_filter( 'manage_blogs_custom_column' ) ) { ?>
+								<?php if ( has_filter( 'manage_blogs_custom_column' ) ) { ?>
 								<td valign="top">
 									<?php do_action('manage_blogs_custom_column', $column_name, $blog['blog_id']); ?>
 								</td>

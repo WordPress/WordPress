@@ -28,7 +28,7 @@
  */
 function plugins_api($action, $args = null) {
 
-	if( is_array($args) )
+	if ( is_array($args) )
 		$args = (object)$args;
 
 	if ( !isset($args->per_page) )
@@ -325,10 +325,10 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 		<tbody class="plugins">
 		<?php
-			if( empty($plugins) )
+			if ( empty($plugins) )
 				echo '<tr><td colspan="5">', __('No plugins match your request.'), '</td></tr>';
 
-			foreach( (array) $plugins as $plugin ){
+			foreach ( (array) $plugins as $plugin ){
 				if ( is_object($plugin) )
 					$plugin = (array) $plugin;
 
@@ -349,12 +349,12 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				$name = strip_tags($title . ' ' . $version);
 
 				$author = $plugin['author'];
-				if( ! empty($plugin['author']) )
+				if ( ! empty($plugin['author']) )
 					$author = ' <cite>' . sprintf( __('By %s'), $author ) . '.</cite>';
 
 				$author = wp_kses($author, $plugins_allowedtags);
 
-				if( isset($plugin['homepage']) )
+				if ( isset($plugin['homepage']) )
 					$title = '<a target="_blank" href="' . esc_attr($plugin['homepage']) . '">' . $title . '</a>';
 
 				$action_links = array();
@@ -423,7 +423,7 @@ function install_plugin_information() {
 		$api->$key = wp_kses($api->$key, $plugins_allowedtags);
 
 	$section = isset($_REQUEST['section']) ? stripslashes( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
-	if( empty($section) || ! isset($api->sections[ $section ]) )
+	if ( empty($section) || ! isset($api->sections[ $section ]) )
 		$section = array_shift( $section_titles = array_keys((array)$api->sections) );
 
 	iframe_header( __('Plugin Install') );

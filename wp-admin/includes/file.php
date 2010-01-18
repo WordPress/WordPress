@@ -109,10 +109,10 @@ function get_real_file_to_edit( $file ) {
  * @return bool|array False on failure, Else array of files
  */
 function list_files( $folder = '', $levels = 100 ) {
-	if( empty($folder) )
+	if ( empty($folder) )
 		return false;
 
-	if( ! $levels )
+	if ( ! $levels )
 		return false;
 
 	$files = array();
@@ -122,7 +122,7 @@ function list_files( $folder = '', $levels = 100 ) {
 				continue;
 			if ( is_dir( $folder . '/' . $file ) ) {
 				$files2 = list_files( $folder . '/' . $file, $levels - 1);
-				if( $files2 )
+				if ( $files2 )
 					$files = array_merge($files, $files2 );
 				else
 					$files[] = $folder . '/' . $file . '/';
@@ -621,7 +621,7 @@ function WP_Filesystem( $args = false, $context = false ) {
 
 	if ( ! class_exists("WP_Filesystem_$method") ) {
 		$abstraction_file = apply_filters('filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method);
-		if( ! file_exists($abstraction_file) )
+		if ( ! file_exists($abstraction_file) )
 			return;
 
 		require_once($abstraction_file);
@@ -670,7 +670,7 @@ function WP_Filesystem( $args = false, $context = false ) {
 function get_filesystem_method($args = array(), $context = false) {
 	$method = defined('FS_METHOD') ? FS_METHOD : false; //Please ensure that this is either 'direct', 'ssh', 'ftpext' or 'ftpsockets'
 
-	if( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
+	if ( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
 		if ( !$context )
 			$context = WP_CONTENT_DIR;
 		$context = trailingslashit($context);
@@ -807,12 +807,12 @@ jQuery(function($){
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="hostname"><?php _e('Hostname') ?></label></th>
-<td><input name="hostname" type="text" id="hostname" value="<?php echo esc_attr($hostname); if ( !empty($port) ) echo ":$port"; ?>"<?php if( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
+<td><input name="hostname" type="text" id="hostname" value="<?php echo esc_attr($hostname); if ( !empty($port) ) echo ":$port"; ?>"<?php if ( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><label for="username"><?php _e('Username') ?></label></th>
-<td><input name="username" type="text" id="username" value="<?php echo esc_attr($username) ?>"<?php if( defined('FTP_USER') ) echo ' disabled="disabled"' ?> size="40" /></td>
+<td><input name="username" type="text" id="username" value="<?php echo esc_attr($username) ?>"<?php if ( defined('FTP_USER') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 
 <tr valign="top">
@@ -827,7 +827,7 @@ jQuery(function($){
 <label for="public_key"><?php _e('Public Key:') ?></label ><br />
 <label for="private_key"><?php _e('Private Key:') ?></label>
 </div></th>
-<td><br /><input name="public_key" type="text" id="public_key" value="<?php echo esc_attr($public_key) ?>"<?php if( defined('FTP_PUBKEY') ) echo ' disabled="disabled"' ?> size="40" /><br /><input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php if( defined('FTP_PRIKEY') ) echo ' disabled="disabled"' ?> size="40" />
+<td><br /><input name="public_key" type="text" id="public_key" value="<?php echo esc_attr($public_key) ?>"<?php if ( defined('FTP_PUBKEY') ) echo ' disabled="disabled"' ?> size="40" /><br /><input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php if ( defined('FTP_PRIKEY') ) echo ' disabled="disabled"' ?> size="40" />
 <div><?php _e('Enter the location on the server where the keys are located. If a passphrase is needed, enter that in the password field above.') ?></div></td>
 </tr>
 <?php endif; ?>

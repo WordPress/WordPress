@@ -92,7 +92,7 @@ case 'dodelete':
 		if ( ! current_user_can('delete_user', $id) )
 			wp_die(__('You can&#8217;t delete that user.'));
 
-		if($id == $current_user->ID) {
+		if ($id == $current_user->ID) {
 			$update = 'err_admin_del';
 			continue;
 		}

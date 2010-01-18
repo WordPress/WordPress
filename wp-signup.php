@@ -390,7 +390,7 @@ if ( $active_signup == "none" ) {
 } else {
 	switch ($_POST['stage']) {
 		case 'validate-user-signup' :
-			if( $active_signup == 'all' || $_POST[ 'signup_for' ] == 'blog' && $active_signup == 'blog' || $_POST[ 'signup_for' ] == 'user' && $active_signup == 'user' )
+			if ( $active_signup == 'all' || $_POST[ 'signup_for' ] == 'blog' && $active_signup == 'blog' || $_POST[ 'signup_for' ] == 'user' && $active_signup == 'user' )
 				validate_user_signup();
 			else
 				_e( "User registration has been disabled." );
@@ -409,9 +409,9 @@ if ( $active_signup == "none" ) {
 			do_action( "preprocess_signup_form" ); // populate the form from invites, elsewhere?
 			if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) )
 				signup_another_blog($newblogname);
-			elseif( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )
+			elseif ( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )
 				signup_user( $newblogname, $user_email );
-			elseif( is_user_logged_in() == false && ( $active_signup == 'blog' ) )
+			elseif ( is_user_logged_in() == false && ( $active_signup == 'blog' ) )
 				_e( "I'm sorry. We're not accepting new registrations at this time." );
 			else
 				_e( "You're logged in already. No need to register again!" );

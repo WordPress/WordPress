@@ -3,7 +3,7 @@ function check_upload_size( $file ) {
 	if ( get_site_option( 'upload_space_check_disabled' ) ) {
 		return $file;
 	}
-	if( $file['error'] != '0' ) // there's already an error
+	if ( $file['error'] != '0' ) // there's already an error
 		return $file;
 
 	if ( defined( 'WP_IMPORTING' ) )
@@ -13,14 +13,14 @@ function check_upload_size( $file ) {
 	$space_used = get_dirsize( BLOGUPLOADDIR );
 	$space_left = $space_allowed - $space_used;
 	$file_size = filesize( $file['tmp_name'] );
-	if( $space_left < $file_size )
+	if ( $space_left < $file_size )
 		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s Kb needed.' ), number_format( ($file_size - $space_left) /1024 ) );
-	if( $file_size > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
+	if ( $file_size > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
 		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s Kb in size.'), get_site_option( 'fileupload_maxk', 1500 ) );
-	if( upload_is_user_over_quota( false ) ) {
+	if ( upload_is_user_over_quota( false ) ) {
 		$file['error'] = __('You have used your space quota. Please delete files before uploading.');
 	}
-	if( $file['error'] != '0' )
+	if ( $file['error'] != '0' )
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 
 	return $file;
@@ -90,7 +90,7 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 	$blogs = get_site_option( "blog_list" );
 	if ( is_array( $blogs ) ) {
 		foreach( $blogs as $n => $blog ) {
-			if( $blog[ 'blog_id' ] == $blog_id ) {
+			if ( $blog[ 'blog_id' ] == $blog_id ) {
 				unset( $blogs[ $n ] );
 			}
 		}
@@ -138,7 +138,7 @@ function wpmu_delete_user($id) {
 }
 
 function confirm_delete_users( $users ) {
-	if( !is_array( $users ) )
+	if ( !is_array( $users ) )
 		return false;
 
 	echo '<p>' . __( 'Transfer posts before deleting users:' ) . '</p>';
@@ -147,25 +147,25 @@ function confirm_delete_users( $users ) {
 	echo '<input type="hidden" name="alluser_transfer_delete" />';
 	wp_nonce_field( 'allusers' );
 	foreach ( (array) $_POST['allusers'] as $key => $val ) {
-		if( $val != '' && $val != '0' ) {
+		if ( $val != '' && $val != '0' ) {
 			$user = new WP_User( $val );
 			if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) ) {
 				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a site admnistrator.' ), $user->user_login ) );
 			}
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
-			if( !empty( $blogs ) ) {
+			if ( !empty( $blogs ) ) {
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users_of_blog( $details->userblog_id );
-					if( is_array( $blog_users ) && !empty( $blog_users ) ) {
+					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
 						echo "<p><a href='http://{$details->domain}{$details->path}'>{$details->blogname}</a> ";
 						echo "<select name='blog[$val][{$key}]'>";
 						$out = '';
 						foreach( $blog_users as $user ) {
-							if( $user->user_id != $val )
+							if ( $user->user_id != $val )
 								$out .= "<option value='{$user->user_id}'>{$user->user_login}</option>";
 						}
-						if( $out == '' )
+						if ( $out == '' )
 							$out = "<option value='1'>admin</option>";
 						echo $out;
 						echo "</select>\n";
@@ -182,17 +182,17 @@ function confirm_delete_users( $users ) {
 function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
 	$themes = get_themes();
 
-	if( $blog_id != 0 )
+	if ( $blog_id != 0 )
 		switch_to_blog( $blog_id );
 
 	$blog_allowed_themes = get_option( "allowedthemes" );
-	if( !is_array( $blog_allowed_themes ) || empty( $blog_allowed_themes ) ) { // convert old allowed_themes to new allowedthemes
+	if ( !is_array( $blog_allowed_themes ) || empty( $blog_allowed_themes ) ) { // convert old allowed_themes to new allowedthemes
 		$blog_allowed_themes = get_option( "allowed_themes" );
 
-		if( is_array( $blog_allowed_themes ) ) {
+		if ( is_array( $blog_allowed_themes ) ) {
 			foreach( (array) $themes as $key => $theme ) {
 				$theme_key = wp_specialchars( $theme[ 'Stylesheet' ] );
-				if( isset( $blog_allowed_themes[ $key ] ) == true ) {
+				if ( isset( $blog_allowed_themes[ $key ] ) == true ) {
 					$blog_allowedthemes[ $theme_key ] = 1;
 				}
 			}
@@ -202,7 +202,7 @@ function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
 		}
 	}
 
-	if( $blog_id != 0 )
+	if ( $blog_id != 0 )
 		restore_current_blog();
 
 	return $blog_allowed_themes;
@@ -256,9 +256,9 @@ function profile_page_email_warning_ob_content( $content ) {
 
 function update_profile_email() {
 	global $current_user, $wpdb;
-	if( isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
+	if ( isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
 		$new_email = get_option( $current_user->ID . '_new_email' );
-		if( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
+		if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
 			$user->ID = $current_user->ID;
 			$user->user_email = wp_specialchars( trim( $new_email[ 'newemail' ] ) );
 			if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) ) {
@@ -277,16 +277,16 @@ function send_confirmation_on_profile_email() {
 	if ( ! is_object($errors) )
 		$errors = new WP_Error();
 
-	if( $current_user->id != $_POST[ 'user_id' ] )
+	if ( $current_user->id != $_POST[ 'user_id' ] )
 		return false;
 
-	if( $current_user->user_email != $_POST[ 'email' ] ) {
+	if ( $current_user->user_email != $_POST[ 'email' ] ) {
 		if ( !is_email( $_POST[ 'email' ] ) ) {
 			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The e-mail address isn't correct." ), array( 'form-field' => 'email' ) );
 			return;
 		}
 
-		if( $wpdb->get_var( $wpdb->prepare( "SELECT user_email FROM {$wpdb->users} WHERE user_email=%s", $_POST[ 'email' ] ) ) ) {
+		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_email FROM {$wpdb->users} WHERE user_email=%s", $_POST[ 'email' ] ) ) ) {
 			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The e-mail address is already used." ), array( 'form-field' => 'email' ) );
 			delete_option( $current_user->ID . '_new_email' );
 			return;
@@ -327,7 +327,7 @@ add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 
 function new_user_email_admin_notice() {
 	global $current_user;
-	if( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET[ 'updated' ] ) && $email = get_option( $current_user->ID . '_new_email' ) )
+	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET[ 'updated' ] ) && $email = get_option( $current_user->ID . '_new_email' ) )
 		echo "<div id='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email[ 'newemail' ] ) . "</div>";
 }
 add_action( 'admin_notices', 'new_user_email_admin_notice' );
@@ -335,14 +335,14 @@ add_action( 'admin_notices', 'new_user_email_admin_notice' );
 function get_site_allowed_themes() {
 	$themes = get_themes();
 	$allowed_themes = get_site_option( 'allowedthemes' );
-	if( !is_array( $allowed_themes ) || empty( $allowed_themes ) ) {
+	if ( !is_array( $allowed_themes ) || empty( $allowed_themes ) ) {
 		$allowed_themes = get_site_option( "allowed_themes" ); // convert old allowed_themes format
-		if( !is_array( $allowed_themes ) ) {
+		if ( !is_array( $allowed_themes ) ) {
 			$allowed_themes = array();
 		} else {
 			foreach( (array) $themes as $key => $theme ) {
 				$theme_key = wp_specialchars( $theme[ 'Stylesheet' ] );
-				if( isset( $allowed_themes[ $key ] ) == true ) {
+				if ( isset( $allowed_themes[ $key ] ) == true ) {
 					$allowedthemes[ $theme_key ] = 1;
 				}
 			}
@@ -354,9 +354,9 @@ function get_site_allowed_themes() {
 
 function get_space_allowed() {
 	$spaceAllowed = get_option("blog_upload_space");
-	if( $spaceAllowed == false )
+	if ( $spaceAllowed == false )
 		$spaceAllowed = get_site_option("blog_upload_space");
-	if( empty($spaceAllowed) || !is_numeric($spaceAllowed) )
+	if ( empty($spaceAllowed) || !is_numeric($spaceAllowed) )
 		$spaceAllowed = 50;
 
 	return $spaceAllowed;
@@ -369,7 +369,7 @@ function display_space_usage() {
 	if ($used > $space) $percentused = '100';
 	else $percentused = ( $used / $space ) * 100;
 
-	if( $space > 1000 ) {
+	if ( $space > 1000 ) {
 		$space = number_format( $space / 1024 );
 		$space .= __('GB');
 	} else {
@@ -407,13 +407,13 @@ function dashboard_quota() {
 	</div>
 	<?php
 }
-if( current_user_can('edit_posts') )
+if ( current_user_can('edit_posts') )
 	add_action('activity_box_end', 'dashboard_quota');
 
 // Edit blog upload space setting on Edit Blog page
 function upload_space_setting( $id ) {
 	$quota = get_blog_option($id, "blog_upload_space");
-	if( !$quota )
+	if ( !$quota )
 		$quota = '';
 
 	?>
@@ -430,11 +430,11 @@ function update_user_status( $id, $pref, $value, $refresh = 1 ) {
 
 	$wpdb->update( $wpdb->users, array( $pref => $value ), array( 'ID' => $id ) );
 
-	if( $refresh == 1 )
+	if ( $refresh == 1 )
 		refresh_user_details($id);
 
-	if( $pref == 'spam' ) {
-		if( $value == 1 )
+	if ( $pref == 'spam' ) {
+		if ( $value == 1 )
 			do_action( "make_spam_user", $id );
 		else
 			do_action( "make_ham_user", $id );
@@ -482,7 +482,7 @@ function wpmu_checkAvailableSpace() {
 	$dir->close();
 	$size = $size / 1024 / 1024;
 
-	if( ($spaceAllowed - $size) <= 0 ) {
+	if ( ($spaceAllowed - $size) <= 0 ) {
 		wp_die( __('Sorry, you must delete files before you can upload any more.') );
 	}
 }
@@ -496,8 +496,8 @@ function format_code_lang( $code = '' ) {
 }
 
 function sync_category_tag_slugs( $term, $taxonomy ) {
-	if( $taxonomy == 'category' || $taxonomy == 'post_tag' ) {
-		if( is_object( $term ) ) {
+	if ( $taxonomy == 'category' || $taxonomy == 'post_tag' ) {
+		if ( is_object( $term ) ) {
 			$term->slug = sanitize_title( $term->name );
 		} else {
 			$term[ 'slug' ] = sanitize_title( $term[ 'name' ] );
@@ -520,7 +520,7 @@ function redirect_user_to_blog() {
 
 	$blog = get_active_blog_for_user( $current_user->ID );
 	$dashboard_blog = get_dashboard_blog();
-	if( is_object( $blog ) ) {
+	if ( is_object( $blog ) ) {
 		$protocol = ( is_ssl() ? 'https://' : 'http://' );
 		wp_redirect( $protocol . $blog->domain . $blog->path . 'wp-admin/?c=' . $c ); // redirect and count to 5, "just in case"
 		exit;
@@ -625,17 +625,17 @@ function mu_media_buttons() {
 	$media_title = __('Add Media');
 	$mu_media_buttons = get_site_option( 'mu_media_buttons' );
 	$out = '';
-	if( $mu_media_buttons[ 'image' ] ) {
+	if ( $mu_media_buttons[ 'image' ] ) {
 		$image_upload_iframe_src = apply_filters('image_upload_iframe_src', "$media_upload_iframe_src&amp;type=image");
 		$image_title = __('Add an Image');
 		$out .= "<a href='{$image_upload_iframe_src}&amp;TB_iframe=true' id='add_image' class='thickbox' title='$image_title'><img src='images/media-button-image.gif' alt='$image_title' /></a>";
 	}
-	if( $mu_media_buttons[ 'video' ] ) {
+	if ( $mu_media_buttons[ 'video' ] ) {
 		$video_upload_iframe_src = apply_filters('video_upload_iframe_src', "$media_upload_iframe_src&amp;type=video");
 		$video_title = __('Add Video');
 		$out .= "<a href='{$video_upload_iframe_src}&amp;TB_iframe=true' id='add_video' class='thickbox' title='$video_title'><img src='images/media-button-video.gif' alt='$video_title' /></a>";
 	}
-	if( $mu_media_buttons[ 'audio' ] ) {
+	if ( $mu_media_buttons[ 'audio' ] ) {
 		$audio_upload_iframe_src = apply_filters('audio_upload_iframe_src', "$media_upload_iframe_src&amp;type=audio");
 		$audio_title = __('Add Audio');
 		$out .= "<a href='{$audio_upload_iframe_src}&amp;TB_iframe=true' id='add_audio' class='thickbox' title='$audio_title'><img src='images/media-button-music.gif' alt='$audio_title' /></a>";
@@ -648,15 +648,15 @@ remove_action( 'media_buttons', 'media_buttons' );
 
 /* Warn the admin if SECRET SALT information is missing from wp-config.php */
 function secret_salt_warning() {
-	if( !is_super_admin() )
+	if ( !is_super_admin() )
 		return;
 	$secret_keys = array( 'NONCE_KEY', 'AUTH_KEY', 'AUTH_SALT', 'LOGGED_IN_KEY', 'LOGGED_IN_SALT', 'SECURE_AUTH_KEY', 'SECURE_AUTH_SALT' );
 	$out = '';
 	foreach( $secret_keys as $key ) {
-		if( !defined( $key ) )
+		if ( !defined( $key ) )
 			$out .= "define( '$key', '" . wp_generate_password() . wp_generate_password() . "' );<br />";
 	}
-	if( $out != '' ) {
+	if ( $out != '' ) {
 		$msg = sprintf( __( 'Warning! WordPress encrypts user cookies, but you must add the following lines to <strong>%swp-config.php</strong> for it to be more secure.<br />Please add the code before the line, <code>/* That\'s all, stop editing! Happy blogging. */</code>' ), ABSPATH );
 		$msg .= "<blockquote>$out</blockquote>";
 
@@ -686,19 +686,19 @@ add_action ( 'myblogs_update', 'profile_update_primary_blog' );
 
 function admin_notice_feed() {
 	global $current_user;
-	if( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' )
+	if ( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' )
 		return;
 
-	if( isset( $_GET[ 'feed_dismiss' ] ) )
+	if ( isset( $_GET[ 'feed_dismiss' ] ) )
 		update_user_option( $current_user->id, 'admin_feed_dismiss', $_GET[ 'feed_dismiss' ], true );
 
 	$url = get_site_option( 'admin_notice_feed' );
-	if( $url == '' )
+	if ( $url == '' )
 		return;
 	include_once( ABSPATH . 'wp-includes/rss.php' );
 	$rss = @fetch_rss( $url );
-	if( isset($rss->items) && 1 <= count($rss->items) ) {
-		if( md5( $rss->items[0][ 'title' ] ) == get_user_option( 'admin_feed_dismiss', $current_user->id ) )
+	if ( isset($rss->items) && 1 <= count($rss->items) ) {
+		if ( md5( $rss->items[0][ 'title' ] ) == get_user_option( 'admin_feed_dismiss', $current_user->id ) )
 			return;
 		$item = $rss->items[0];
 		$msg = "<h3>" . wp_specialchars( $item[ 'title' ] ) . "</h3>\n";
@@ -714,7 +714,7 @@ function admin_notice_feed() {
 		$link = clean_url( strip_tags( $item['link'] ) );
 		$msg .= "<p>" . $content . " <a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $item[ 'title' ] ) . "'>" . __( "Dismiss" ) . "</a></p>";
 		echo "<div class='updated fade'>$msg</div>";
-	} elseif( is_super_admin() ) {
+	} elseif ( is_super_admin() ) {
 		printf("<div id='update-nag'>" . __("Your feed at %s is empty.") . "</div>", wp_specialchars( $url ));
 	}
 }
@@ -722,7 +722,7 @@ add_action( 'admin_notices', 'admin_notice_feed' );
 
 function site_admin_notice() {
 	global $current_user, $wp_db_version;
-	if( !is_super_admin() )
+	if ( !is_super_admin() )
 		return false;
 	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a site administrator.") . "</div>", $current_user->user_login);
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
@@ -732,13 +732,13 @@ function site_admin_notice() {
 add_action( 'admin_notices', 'site_admin_notice' );
 
 function avoid_blog_page_permalink_collision( $data, $postarr ) {
-	if( is_subdomain_install() )
+	if ( is_subdomain_install() )
 		return $data;
-	if( $data[ 'post_type' ] != 'page' )
+	if ( $data[ 'post_type' ] != 'page' )
 		return $data;
-	if( !isset( $data[ 'post_name' ] ) || $data[ 'post_name' ] == '' )
+	if ( !isset( $data[ 'post_name' ] ) || $data[ 'post_name' ] == '' )
 		return $data;
-	if( !is_main_blog() )
+	if ( !is_main_blog() )
 		return $data;
 
 	$post_name = $data[ 'post_name' ];
@@ -747,7 +747,7 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 		$post_name .= mt_rand( 1, 10 );
 		$c ++;
 	}
-	if( $post_name != $data[ 'post_name' ] ) {
+	if ( $post_name != $data[ 'post_name' ] ) {
 		$data[ 'post_name' ] = $post_name;
 	}
 	return $data;
@@ -1033,7 +1033,7 @@ function check_wpmu_plugins_on_bulk_activate( $plugins ) {
 
 function remove_edit_plugin_link( $action_links, $plugin_file, $plugin_data, $context ) {
 	foreach( $action_links as $t => $link ) {
-		if( !strpos( $link, __( "Open this file in the Plugin Editor" ) ) )
+		if ( !strpos( $link, __( "Open this file in the Plugin Editor" ) ) )
 			$links[ $t ] = $link;
 	}
 	return $links;
@@ -1050,25 +1050,25 @@ function choose_primary_blog() {
 		<?php
 		$all_blogs = get_blogs_of_user( $current_user->ID );
 		$primary_blog = get_usermeta($current_user->ID, 'primary_blog');
-		if( count( $all_blogs ) > 1 ) {
+		if ( count( $all_blogs ) > 1 ) {
 			$found = false;
 			?>
 			<select name="primary_blog">
 				<?php foreach( (array) $all_blogs as $blog ) {
-					if( $primary_blog == $blog->userblog_id )
+					if ( $primary_blog == $blog->userblog_id )
 						$found = true;
-					?><option value='<?php echo $blog->userblog_id ?>'<?php if( $primary_blog == $blog->userblog_id ) echo ' selected="selected"' ?>>http://<?php echo $blog->domain.$blog->path ?></option><?php
+					?><option value='<?php echo $blog->userblog_id ?>'<?php if ( $primary_blog == $blog->userblog_id ) echo ' selected="selected"' ?>>http://<?php echo $blog->domain.$blog->path ?></option><?php
 				} ?>
 			</select>
 			<?php
-			if( !$found ) {
+			if ( !$found ) {
 				$blog = array_shift( $all_blogs );
 				update_usermeta( $current_user->ID, 'primary_blog', $blog->userblog_id );
 			}
-		} elseif( count( $all_blogs ) == 1 ) {
+		} elseif ( count( $all_blogs ) == 1 ) {
 			$blog = array_shift( $all_blogs );
 			echo $blog->domain;
-			if( $primary_blog != $blog->userblog_id ) // Set the primary blog again if it's out of sync with blog list.
+			if ( $primary_blog != $blog->userblog_id ) // Set the primary blog again if it's out of sync with blog list.
 				update_usermeta( $current_user->ID, 'primary_blog', $blog->userblog_id );
 		} else {
 			echo "N/A";
@@ -1081,7 +1081,7 @@ function choose_primary_blog() {
 }
 add_action ( 'myblogs_allblogs_options', 'choose_primary_blog' );
 
-if( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) ) {
+if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) ) {
 	add_action( 'admin_init', 'update_profile_email' );
 	add_action( 'admin_init', 'profile_page_email_warning_ob_start' );
 }
@@ -1132,7 +1132,7 @@ function blogs_listing() {
 	global $current_user;
 
 	$blogs = get_blogs_of_user( $current_user->ID );
-	if( !$blogs || ( is_array( $blogs ) && empty( $blogs ) ) ) {
+	if ( !$blogs || ( is_array( $blogs ) && empty( $blogs ) ) ) {
 		wp_die( __( 'You must be a member of at least one blog to use this page.' ) );
 	}
 
@@ -1140,7 +1140,7 @@ function blogs_listing() {
 		$title = apply_filters( 'my_blogs_title', __( 'My Blogs' ) );
 	?>
 	<div class="wrap">
-	<?php if( $_GET[ 'updated' ] ) { ?>
+	<?php if ( $_GET[ 'updated' ] ) { ?>
 		<div id="message" class="updated fade"><p><strong><?php _e( 'Your blog options have been updated.' ); ?></strong></p></div>
 	<?php } ?>
 	<?php screen_icon(); ?>

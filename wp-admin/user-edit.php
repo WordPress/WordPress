@@ -92,16 +92,16 @@ if ( !is_multisite() ) {
 	// WPMU must delete the user from the current blog if WP added him after editing.
 	$delete_role = false;
 	$blog_prefix = $wpdb->get_blog_prefix();
-	if( $user_id != $current_user->ID ) {
+	if ( $user_id != $current_user->ID ) {
 		$cap = $wpdb->get_var( "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = '{$user_id}' AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'" );
-		if( null == $cap && $_POST[ 'role' ] == '' ) {
+		if ( null == $cap && $_POST[ 'role' ] == '' ) {
 			$_POST[ 'role' ] = 'contributor';
 			$delete_role = true;
 		}
 	}
 	if ( !isset( $errors ) || ( isset( $errors ) && is_object( $errors ) && false == $errors->get_error_codes() ) )
 		$errors = edit_user($user_id);
-	if( $delete_role ) // stops users being added to current blog when they are edited
+	if ( $delete_role ) // stops users being added to current blog when they are edited
 		update_usermeta( $user_id, $blog_prefix . 'capabilities' , '' );
 }
 

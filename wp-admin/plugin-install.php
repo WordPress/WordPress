@@ -36,11 +36,11 @@ $tabs = apply_filters('install_plugins_tabs', $tabs );
 $nonmenu_tabs = apply_filters('install_plugins_nonmenu_tabs', $nonmenu_tabs);
 
 //If a non-valid menu tab has been selected, And its not a non-menu action.
-if( empty($tab) || ( ! isset($tabs[ $tab ]) && ! in_array($tab, (array)$nonmenu_tabs) ) ) {
+if ( empty($tab) || ( ! isset($tabs[ $tab ]) && ! in_array($tab, (array)$nonmenu_tabs) ) ) {
 	$tab_actions = array_keys($tabs);
 	$tab = $tab_actions[0];
 }
-if( empty($paged) )
+if ( empty($paged) )
 	$paged = 1;
 
 wp_enqueue_style( 'plugin-install' );

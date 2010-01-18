@@ -294,11 +294,11 @@ endfor;
 <?php
 if ( is_multisite() && is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) )
 	while( ( $lang_file = readdir( $dh ) ) !== false )
-		if( substr( $lang_file, -3 ) == '.mo' )
+		if ( substr( $lang_file, -3 ) == '.mo' )
 			$lang_files[] = $lang_file;
 $lang = get_option('WPLANG');
 
-if( is_array($lang_files) && !empty($lang_files) ) {
+if ( is_array($lang_files) && !empty($lang_files) ) {
 	?>
 	<tr valign="top">
 		<th width="33%" scope="row"><?php _e('Blog language:') ?></th>

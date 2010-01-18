@@ -171,7 +171,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 	function cwd() {
 		$cwd = $this->run_command('pwd');
-		if( $cwd )
+		if ( $cwd )
 			$cwd = trailingslashit($cwd);
 		return $cwd;
 	}
@@ -239,10 +239,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	function copy($source, $destination, $overwrite = false ) {
-		if( ! $overwrite && $this->exists($destination) )
+		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 		$content = $this->get_contents($source);
-		if( false === $content)
+		if ( false === $content)
 			return false;
 		return $this->put_contents($destination, $content);
 	}

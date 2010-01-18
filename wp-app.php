@@ -284,7 +284,7 @@ class AtomServer {
 		}
 
 		// redirect to /service in case no path is found.
-		if(strlen($path) == 0 || $path == '/')
+		if (strlen($path) == 0 || $path == '/')
 			$this->redirect($this->get_service_url());
 
 		// check to see if AtomPub is enabled
@@ -663,7 +663,7 @@ EOD;
 		$this->get_accepted_content_type($this->atom_content_types);
 
 		$parser = new AtomParser();
-		if(!$parser->parse()) {
+		if (!$parser->parse()) {
 			$this->bad_request();
 		}
 
@@ -805,7 +805,7 @@ EOD;
 
 		$location = "{$upload_dir['basedir']}/{$location}";
 
-		if(!isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']))
+		if (!isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']))
 			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
 
 		$fp = fopen("php://input", "rb");
@@ -899,7 +899,7 @@ EOD;
 	 */
 	function get_attachments_url($page = null) {
 		$url = $this->app_base . $this->MEDIA_PATH;
-		if(isset($page) && is_int($page)) {
+		if (isset($page) && is_int($page)) {
 			$url .= "/$page";
 		}
 		return $url;
@@ -936,7 +936,7 @@ EOD;
 	 * @return string
 	 */
 	function get_entry_url($postID = null) {
-		if(!isset($postID)) {
+		if (!isset($postID)) {
 			global $post;
 			$postID = (int) $post->ID;
 		}
@@ -967,7 +967,7 @@ EOD;
 	 * @return string
 	 */
 	function get_media_url($postID = null) {
-		if(!isset($postID)) {
+		if (!isset($postID)) {
 			global $post;
 			$postID = (int) $post->ID;
 		}
@@ -1000,14 +1000,14 @@ EOD;
 		global $entry;
 		log_app('function',"set_current_entry($postID)");
 
-		if(!isset($postID)) {
+		if (!isset($postID)) {
 			// $this->bad_request();
 			$this->not_found();
 		}
 
 		$entry = wp_get_single_post($postID,ARRAY_A);
 
-		if(!isset($entry) || !isset($entry['ID']))
+		if (!isset($entry) || !isset($entry['ID']))
 			$this->not_found();
 
 		return;
@@ -1058,7 +1058,7 @@ EOD;
 
 		$this->ENTRY_PATH = $post_type;
 
-		if(!isset($page)) {
+		if (!isset($page)) {
 			$page = 1;
 		}
 		$page = (int) $page;
@@ -1087,10 +1087,10 @@ EOD;
 <title type="text"><?php bloginfo_rss('name') ?></title>
 <subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
 <link rel="first" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url() ?>" />
-<?php if(isset($prev_page)): ?>
+<?php if (isset($prev_page)): ?>
 <link rel="previous" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($prev_page) ?>" />
 <?php endif; ?>
-<?php if(isset($next_page)): ?>
+<?php if (isset($next_page)): ?>
 <link rel="next" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($next_page) ?>" />
 <?php endif; ?>
 <link rel="last" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($last_page) ?>" />
@@ -1171,7 +1171,7 @@ EOD;
 		<uri><?php the_author_meta('url') ?></uri>
 <?php } ?>
 	</author>
-<?php if($GLOBALS['post']->post_type == 'attachment') { ?>
+<?php if ($GLOBALS['post']->post_type == 'attachment') { ?>
 	<link rel="edit-media" href="<?php $this->the_media_url() ?>" />
 	<content type="<?php echo $GLOBALS['post']->post_mime_type ?>" src="<?php the_guid(); ?>"/>
 <?php } else { ?>
@@ -1364,7 +1364,7 @@ EOD;
 				break;
 		}
 		header("Content-Type: $this->ATOM_CONTENT_TYPE");
-		if(isset($ctloc))
+		if (isset($ctloc))
 			header('Content-Location: ' . $ctloc);
 		header('Location: ' . $edit);
 		status_header('201');
@@ -1419,7 +1419,7 @@ EOD;
 			header('Content-Type: ' . $ctype);
 			header('Content-Disposition: attachment; filename=atom.xml');
 			header('Date: '. date('r'));
-			if($this->do_output)
+			if ($this->do_output)
 				echo $xml;
 			log_app('function', "output:\n$xml");
 			exit;
@@ -1458,7 +1458,7 @@ EOD;
 
 		// if using mod_rewrite/ENV hack
 		// http://www.besthostratings.com/articles/http-auth-php-cgi.html
-		if(isset($_SERVER['HTTP_AUTHORIZATION'])) {
+		if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 			list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) =
 				explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
 		} else if (isset($_SERVER['REDIRECT_REMOTE_USER'])) {
@@ -1469,7 +1469,7 @@ EOD;
 		}
 
 		// If Basic Auth is working...
-		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 			log_app("Basic Auth",$_SERVER['PHP_AUTH_USER']);
 
 			$user = wp_authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
@@ -1493,11 +1493,11 @@ EOD;
 	 */
 	function get_accepted_content_type($types = null) {
 
-		if(!isset($types)) {
+		if (!isset($types)) {
 			$types = $this->media_content_types;
 		}
 
-		if(!isset($_SERVER['CONTENT_LENGTH']) || !isset($_SERVER['CONTENT_TYPE'])) {
+		if (!isset($_SERVER['CONTENT_LENGTH']) || !isset($_SERVER['CONTENT_TYPE'])) {
 			$this->length_required();
 		}
 
@@ -1508,8 +1508,8 @@ EOD;
 
 		foreach($types as $t) {
 			list($acceptedType,$acceptedSubtype) = explode('/',$t);
-			if($acceptedType == '*' || $acceptedType == $type) {
-				if($acceptedSubtype == '*' || $acceptedSubtype == $subtype)
+			if ($acceptedType == '*' || $acceptedType == $type) {
+				if ($acceptedSubtype == '*' || $acceptedSubtype == $subtype)
 					return $type . "/" . $subtype;
 			}
 		}
@@ -1524,8 +1524,8 @@ EOD;
 	 */
 	function process_conditionals() {
 
-		if(empty($this->params)) return;
-		if($_SERVER['REQUEST_METHOD'] == 'DELETE') return;
+		if (empty($this->params)) return;
+		if ($_SERVER['REQUEST_METHOD'] == 'DELETE') return;
 
 		switch($this->params[0]) {
 			case $this->ENTRY_PATH:
@@ -1576,10 +1576,10 @@ EOD;
 	function rfc3339_str2time($str) {
 
 		$match = false;
-		if(!preg_match("/(\d{4}-\d{2}-\d{2})T(\d{2}\:\d{2}\:\d{2})\.?\d{0,3}(Z|[+-]+\d{2}\:\d{2})/", $str, $match))
+		if (!preg_match("/(\d{4}-\d{2}-\d{2})T(\d{2}\:\d{2}\:\d{2})\.?\d{0,3}(Z|[+-]+\d{2}\:\d{2})/", $str, $match))
 			return false;
 
-		if($match[3] == 'Z')
+		if ($match[3] == 'Z')
 			$match[3] == '+0000';
 
 		return strtotime($match[1] . " " . $match[2] . " " . $match[3]);
@@ -1597,7 +1597,7 @@ EOD;
 
 		$pubtime = $this->rfc3339_str2time($published);
 
-		if(!$pubtime) {
+		if (!$pubtime) {
 			return array(current_time('mysql'),current_time('mysql',1));
 		} else {
 			return array(date("Y-m-d H:i:s", $pubtime), gmdate("Y-m-d H:i:s", $pubtime));

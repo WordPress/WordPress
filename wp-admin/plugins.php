@@ -165,12 +165,12 @@ if ( !empty($action) ) {
 					foreach ( (array) $plugins as $plugin ) {
 						if ( '.' == dirname($plugin) ) {
 							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
-							if( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) )
+							if ( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) )
 								$plugin_info[ $plugin ] = $data;
 						} else {
 							//Locate all the files in that folder:
 							$files = list_files( WP_PLUGIN_DIR . '/' . dirname($plugin) );
-							if( $files ) {
+							if ( $files ) {
 								$files_to_delete = array_merge($files_to_delete, $files);
 							}
 							//Get plugins list from that folder
@@ -505,7 +505,7 @@ function print_plugin_actions($context, $field_name = 'action' ) {
 	<?php endif; ?>
 		</select>
 		<input type="submit" name="doaction_active" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary action" />
-	<?php if( 'recent' == $context ) : ?>
+	<?php if ( 'recent' == $context ) : ?>
 		<input type="submit" name="clear-recent-list" value="<?php esc_attr_e('Clear List') ?>" class="button-secondary" />
 	<?php endif; ?>
 	</div>

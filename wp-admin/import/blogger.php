@@ -781,7 +781,7 @@ class Blogger_Import {
 
 		// First line of headers is the HTTP response code
 		$http_response_line = array_shift($response_header_lines);
-		if(preg_match('@^HTTP/[0-9]\.[0-9] ([0-9]{3})@',$http_response_line, $matches)) { $response_code = $matches[1]; }
+		if (preg_match('@^HTTP/[0-9]\.[0-9] ([0-9]{3})@',$http_response_line, $matches)) { $response_code = $matches[1]; }
 
 		// put the rest of the headers in an array
 		$response_header_array = array();
@@ -958,7 +958,7 @@ class AtomParser {
 
 		$this->depth++;
 
-		if(!empty($this->in_content)) {
+		if (!empty($this->in_content)) {
 			$attrs_prefix = array();
 
 			// resolve prefixes for attributes
@@ -966,28 +966,28 @@ class AtomParser {
 				$attrs_prefix[$this->ns_to_prefix($key)] = $this->xml_escape($value);
 			}
 			$attrs_str = join(' ', array_map( array( &$this, '_map_attrs_func' ), array_keys($attrs_prefix), array_values($attrs_prefix)));
-			if(strlen($attrs_str) > 0) {
+			if (strlen($attrs_str) > 0) {
 				$attrs_str = " " . $attrs_str;
 			}
 
 			$xmlns_str = join(' ', array_map( array( &$this, '_map_xmlns_func' ), array_keys($this->ns_contexts[0]), array_values($this->ns_contexts[0])));
-			if(strlen($xmlns_str) > 0) {
+			if (strlen($xmlns_str) > 0) {
 				$xmlns_str = " " . $xmlns_str;
 			}
 
 			// handle self-closing tags (case: a new child found right-away, no text node)
-			if(count($this->in_content) == 2) {
+			if (count($this->in_content) == 2) {
 				array_push($this->in_content, ">");
 			}
 
 			array_push($this->in_content, "<". $this->ns_to_prefix($name) ."{$xmlns_str}{$attrs_str}");
-		} else if(in_array($tag, $this->ATOM_CONTENT_ELEMENTS) || in_array($tag, $this->ATOM_SIMPLE_ELEMENTS)) {
+		} else if (in_array($tag, $this->ATOM_CONTENT_ELEMENTS) || in_array($tag, $this->ATOM_SIMPLE_ELEMENTS)) {
 			$this->in_content = array();
 			$this->is_xhtml = $attrs['type'] == 'xhtml';
 			array_push($this->in_content, array($tag,$this->depth));
-		} else if($tag == 'link') {
+		} else if ($tag == 'link') {
 			array_push($this->entry->links, $attrs);
-		} else if($tag == 'category') {
+		} else if ($tag == 'category') {
 			array_push($this->entry->categories, $attrs['term']);
 		}
 
@@ -998,11 +998,11 @@ class AtomParser {
 
 		$tag = array_pop(split(":", $name));
 
-		if(!empty($this->in_content)) {
-			if($this->in_content[0][0] == $tag &&
+		if (!empty($this->in_content)) {
+			if ($this->in_content[0][0] == $tag &&
 			$this->in_content[0][1] == $this->depth) {
 				array_shift($this->in_content);
-				if($this->is_xhtml) {
+				if ($this->is_xhtml) {
 					$this->in_content = array_slice($this->in_content, 2, count($this->in_content)-3);
 				}
 				$this->entry->$tag = join('',$this->in_content);
@@ -1035,7 +1035,7 @@ class AtomParser {
 
 	function cdata($parser, $data) {
 		#print str_repeat(" ", $this->depth * $this->indent) . "data: #" . $data . "#\n";
-		if(!empty($this->in_content)) {
+		if (!empty($this->in_content)) {
 			// handle self-closing tags (case: text node found, need to close element started)
 			if (strpos($this->in_content[count($this->in_content)-1], '<') !== false) {
 				array_push($this->in_content, ">");
@@ -1053,11 +1053,11 @@ class AtomParser {
 		$components = split(":", $qname);
 		$name = array_pop($components);
 
-		if(!empty($components)) {
+		if (!empty($components)) {
 			$ns = join(":",$components);
-			foreach($this->ns_contexts as $context) {
-				foreach($context as $mapping) {
-					if($mapping[1] == $ns && strlen($mapping[0]) > 0) {
+			foreach ($this->ns_contexts as $context) {
+				foreach ($context as $mapping) {
+					if ($mapping[1] == $ns && strlen($mapping[0]) > 0) {
 						return "$mapping[0]:$name";
 					}
 				}

@@ -158,7 +158,7 @@ if ($allowed_files) :
 
 		// If we have two files of the same name prefer the one in the Template Directory
 		// This means that we display the correct files for child themes which overload Templates as well as Styles
-		if( array_key_exists($description, $template_mapping ) ) {
+		if ( array_key_exists($description, $template_mapping ) ) {
 			if ( false !== strpos( $template_file, $template_dir ) )  {
 				$template_mapping[ $description ] = array( _get_template_edit_filename($template_file, $template_dir), $filedesc );
 			}

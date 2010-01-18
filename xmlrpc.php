@@ -2241,7 +2241,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$post_type = 'page';
 				if ( !empty( $content_struct['wp_page_template'] ) )
 					$page_template = $content_struct['wp_page_template'];
-			} elseif( $content_struct['post_type'] == 'post' ) {
+			} elseif ( $content_struct['post_type'] == 'post' ) {
 				// This is the default, no changes needed
 			} else {
 				// No other post_type values are allowed here
@@ -2827,7 +2827,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		foreach ($posts_list as $entry) {
-			if( !current_user_can( 'edit_post', $entry['ID'] ) )
+			if ( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date'], false);

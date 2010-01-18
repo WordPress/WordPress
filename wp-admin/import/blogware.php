@@ -62,7 +62,7 @@ class BW_Import {
 			flush();
 			preg_match('|<item type=\"(.*?)\">|is', $post, $post_type);
 			$post_type = $post_type[1];
-			if($post_type == "photo") {
+			if ($post_type == "photo") {
 				preg_match('|<photoFilename>(.*?)</photoFilename>|is', $post, $post_title);
 			} else {
 				preg_match('|<title>(.*?)</title>|is', $post, $post_title);
@@ -82,7 +82,7 @@ class BW_Import {
 				$cat_index++;
 			}
 
-			if(strcasecmp($post_type, "photo") === 0) {
+			if (strcasecmp($post_type, "photo") === 0) {
 				preg_match('|<sizedPhotoUrl>(.*?)</sizedPhotoUrl>|is', $post, $post_content);
 				$post_content = '<img src="'.trim($post_content[1]).'" />';
 				$post_content = $this->unhtmlentities($post_content);
@@ -117,7 +117,7 @@ class BW_Import {
 					echo '</li>';
 					break;
 				}
-				if(0 != count($categories))
+				if (0 != count($categories))
 					wp_create_categories($categories, $post_id);
 			}
 

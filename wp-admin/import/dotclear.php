@@ -12,8 +12,7 @@
 	Add These Functions to make our lives easier
 **/
 
-if(!function_exists('get_comment_count'))
-{
+if (!function_exists('get_comment_count')) {
 	/**
 	 * Get the comment count for posts.
 	 *
@@ -30,8 +29,7 @@ if(!function_exists('get_comment_count'))
 	}
 }
 
-if(!function_exists('link_exists'))
-{
+if (!function_exists('link_exists')) {
 	/**
 	 * Check whether link already exists.
 	 *
@@ -180,11 +178,9 @@ class Dotclear_Import {
 		$count = 0;
 		$dccat2wpcat = array();
 		// Do the Magic
-		if(is_array($categories))
-		{
+		if (is_array($categories)) {
 			echo '<p>'.__('Importing Categories...').'<br /><br /></p>';
-			foreach ($categories as $category)
-			{
+			foreach ($categories as $category) {
 				$count++;
 				extract($category);
 
@@ -193,12 +189,9 @@ class Dotclear_Import {
 				$title = $wpdb->escape(csc ($cat_libelle));
 				$desc = $wpdb->escape(csc ($cat_desc));
 
-				if($cinfo = category_exists($name))
-				{
+				if ($cinfo = category_exists($name)) {
 					$ret_id = wp_insert_category(array('cat_ID' => $cinfo, 'category_nicename' => $name, 'cat_name' => $title, 'category_description' => $desc));
-				}
-				else
-				{
+				} else {
 					$ret_id = wp_insert_category(array('category_nicename' => $name, 'cat_name' => $title, 'category_description' => $desc));
 				}
 				$dccat2wpcat[$id] = $ret_id;
@@ -213,19 +206,16 @@ class Dotclear_Import {
 		return false;
 	}
 
-	function users2wp($users='')
-	{
+	function users2wp($users='') {
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
 		$dcid2wpid = array();
 
 		// Midnight Mojo
-		if(is_array($users))
-		{
+		if (is_array($users)) {
 			echo '<p>'.__('Importing Users...').'<br /><br /></p>';
-			foreach($users as $user)
-			{
+			foreach ($users as $user) {
 				$count++;
 				extract($user);
 
@@ -233,8 +223,7 @@ class Dotclear_Import {
 				$name = $wpdb->escape(csc ($name));
 				$RealName = $wpdb->escape(csc ($user_pseudo));
 
-				if($uinfo = get_userdatabylogin($name))
-				{
+				if ($uinfo = get_userdatabylogin($name)) {
 
 					$ret_id = wp_insert_user(array(
 								'ID'		=> $uinfo->ID,
@@ -244,9 +233,7 @@ class Dotclear_Import {
 								'user_url'	=> 'http://',
 								'display_name'	=> $Realname)
 								);
-				}
-				else
-				{
+				} else {
 					$ret_id = wp_insert_user(array(
 								'user_login'	=> $user_id,
 								'user_nicename'	=> csc ($user_pseudo),
@@ -262,12 +249,12 @@ class Dotclear_Import {
 				// Update Usermeta Data
 				$user = new WP_User($ret_id);
 				$wp_perms = $user_level + 1;
-				if(10 == $wp_perms) { $user->set_role('administrator'); }
-				else if(9  == $wp_perms) { $user->set_role('editor'); }
-				else if(5  <= $wp_perms) { $user->set_role('editor'); }
-				else if(4  <= $wp_perms) { $user->set_role('author'); }
-				else if(3  <= $wp_perms) { $user->set_role('contributor'); }
-				else if(2  <= $wp_perms) { $user->set_role('contributor'); }
+				if (10 == $wp_perms) { $user->set_role('administrator'); }
+				else if (9  == $wp_perms) { $user->set_role('editor'); }
+				else if (5  <= $wp_perms) { $user->set_role('editor'); }
+				else if (4  <= $wp_perms) { $user->set_role('author'); }
+				else if (3  <= $wp_perms) { $user->set_role('contributor'); }
+				else if (2  <= $wp_perms) { $user->set_role('contributor'); }
 				else                     { $user->set_role('subscriber'); }
 
 				update_usermeta( $ret_id, 'wp_user_level', $wp_perms);
@@ -289,8 +276,7 @@ class Dotclear_Import {
 
 	}// End function user2wp()
 
-	function posts2wp($posts='')
-	{
+	function posts2wp($posts='') {
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
@@ -298,8 +284,7 @@ class Dotclear_Import {
 		$cats = array();
 
 		// Do the Magic
-		if(is_array($posts))
-		{
+		if (is_array($posts)) {
 			echo '<p>'.__('Importing Posts...').'<br /><br /></p>';
 			foreach($posts as $post)
 			{
@@ -327,8 +312,7 @@ class Dotclear_Import {
 
 				// Import Post data into WordPress
 
-				if($pinfo = post_exists($Title,$post_content))
-				{
+				if ($pinfo = post_exists($Title,$post_content)) {
 					$ret_id = wp_insert_post(array(
 							'ID'			=> $pinfo,
 							'post_author'		=> $authorid,
@@ -347,9 +331,7 @@ class Dotclear_Import {
 							);
 					if ( is_wp_error( $ret_id ) )
 						return $ret_id;
-				}
-				else
-				{
+				} else {
 					$ret_id = wp_insert_post(array(
 							'post_author'		=> $authorid,
 							'post_date'		=> $post_dt,
@@ -375,9 +357,9 @@ class Dotclear_Import {
 				$category1 = get_category_by_slug($post_cat_name);
 				$category1 = $category1->term_id;
 
-				if($cat1 = $category1) { $cats[1] = $cat1; }
+				if ($cat1 = $category1) { $cats[1] = $cat1; }
 
-				if(!empty($cats)) { wp_set_post_categories($ret_id, $cats); }
+				if (!empty($cats)) { wp_set_post_categories($ret_id, $cats); }
 			}
 		}
 		// Store ID translation for later use
@@ -387,8 +369,7 @@ class Dotclear_Import {
 		return true;
 	}
 
-	function comments2wp($comments='')
-	{
+	function comments2wp($comments='') {
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
@@ -396,11 +377,9 @@ class Dotclear_Import {
 		$postarr = get_option('dcposts2wpposts');
 
 		// Magic Mojo
-		if(is_array($comments))
-		{
+		if (is_array($comments)) {
 			echo '<p>'.__('Importing Comments...').'<br /><br /></p>';
-			foreach($comments as $comment)
-			{
+			foreach ($comments as $comment) {
 				$count++;
 				extract($comment);
 
@@ -449,18 +428,15 @@ class Dotclear_Import {
 		return false;
 	}
 
-	function links2wp($links='')
-	{
+	function links2wp($links='') {
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
 
 		// Deal with the links
-		if(is_array($links))
-		{
+		if (is_array($links)) {
 			echo '<p>'.__('Importing Links...').'<br /><br /></p>';
-			foreach($links as $link)
-			{
+			foreach ($links as $link) {
 				$count++;
 				extract($link);
 
@@ -475,7 +451,7 @@ class Dotclear_Import {
 					$linkname = $wpdb->escape(csc ($label));
 					$description = $wpdb->escape(csc ($title));
 
-					if($linfo = link_exists($linkname)) {
+					if ($linfo = link_exists($linkname)) {
 						$ret_id = wp_insert_link(array(
 									'link_id'		=> $linfo,
 									'link_url'		=> $href,
@@ -504,8 +480,7 @@ class Dotclear_Import {
 		return false;
 	}
 
-	function import_categories()
-	{
+	function import_categories() {
 		// Category Import
 		$cats = $this->get_dc_cats();
 		$this->cat2wp($cats);
@@ -520,8 +495,7 @@ class Dotclear_Import {
 
 	}
 
-	function import_users()
-	{
+	function import_users() {
 		// User Import
 		$users = $this->get_dc_users();
 		$this->users2wp($users);
@@ -532,8 +506,7 @@ class Dotclear_Import {
 		echo '</form>';
 	}
 
-	function import_posts()
-	{
+	function import_posts() {
 		// Post Import
 		$posts = $this->get_dc_posts();
 		$result = $this->posts2wp($posts);
@@ -546,8 +519,7 @@ class Dotclear_Import {
 		echo '</form>';
 	}
 
-	function import_comments()
-	{
+	function import_comments() {
 		// Comment Import
 		$comments = $this->get_dc_comments();
 		$this->comments2wp($comments);
@@ -571,8 +543,7 @@ class Dotclear_Import {
 		echo '</form>';
 	}
 
-	function cleanup_dcimport()
-	{
+	function cleanup_dcimport() {
 		delete_option('dcdbprefix');
 		delete_option('dc_cats');
 		delete_option('dcid2wpid');
@@ -589,8 +560,7 @@ class Dotclear_Import {
 		$this->tips();
 	}
 
-	function tips()
-	{
+	function tips() {
 		echo '<p>'.__('Welcome to WordPress.  We hope (and expect!) that you will find this platform incredibly rewarding!  As a new WordPress user coming from DotClear, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.').'</p>';
 		echo '<h3>'.__('Users').'</h3>';
 		echo '<p>'.sprintf(__('You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn&#8217;t have that login in DotClear, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and DotClear uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="%1$s">Log in</a> and change it.'), '/wp-login.php').'</p>';
@@ -608,8 +578,7 @@ class Dotclear_Import {
 		echo '<p>'.sprintf(__('That&#8217;s it! What are you waiting for? Go <a href="%1$s">log in</a>!'), '../wp-login.php').'</p>';
 	}
 
-	function db_form()
-	{
+	function db_form() {
 		echo '<table class="form-table">';
 		printf('<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('DotClear Database User:'));
 		printf('<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('DotClear Database Password:'));
@@ -620,8 +589,7 @@ class Dotclear_Import {
 		echo '</table>';
 	}
 
-	function dispatch()
-	{
+	function dispatch() {
 
 		if (empty ($_GET['step']))
 			$step = 0;
@@ -629,44 +597,37 @@ class Dotclear_Import {
 			$step = (int) $_GET['step'];
 		$this->header();
 
-		if ( $step > 0 )
-		{
+		if ( $step > 0 ) {
 			check_admin_referer('import-dotclear');
 
-			if($_POST['dbuser'])
-			{
+			if ($_POST['dbuser']) {
 				if(get_option('dcuser'))
 					delete_option('dcuser');
 				add_option('dcuser', sanitize_user($_POST['dbuser'], true));
 			}
-			if($_POST['dbpass'])
-			{
+			if ($_POST['dbpass']) {
 				if(get_option('dcpass'))
 					delete_option('dcpass');
 				add_option('dcpass', sanitize_user($_POST['dbpass'], true));
 			}
 
-			if($_POST['dbname'])
-			{
-				if(get_option('dcname'))
+			if ($_POST['dbname']) {
+				if (get_option('dcname'))
 					delete_option('dcname');
 				add_option('dcname', sanitize_user($_POST['dbname'], true));
 			}
-			if($_POST['dbhost'])
-			{
+			if ($_POST['dbhost']) {
 				if(get_option('dchost'))
 					delete_option('dchost');
 				add_option('dchost', sanitize_user($_POST['dbhost'], true));
 			}
-			if($_POST['dccharset'])
-			{
-				if(get_option('dccharset'))
+			if ($_POST['dccharset']) {
+				if (get_option('dccharset'))
 					delete_option('dccharset');
 				add_option('dccharset', sanitize_user($_POST['dccharset'], true));
 			}
-			if($_POST['dbprefix'])
-			{
-				if(get_option('dcdbprefix'))
+			if ($_POST['dbprefix']) {
+				if (get_option('dcdbprefix'))
 					delete_option('dcdbprefix');
 				add_option('dcdbprefix', sanitize_user($_POST['dbprefix'], true));
 			}
@@ -674,8 +635,7 @@ class Dotclear_Import {
 
 		}
 
-		switch ($step)
-		{
+		switch ($step) {
 			default:
 			case 0 :
 				$this->greet();
@@ -705,8 +665,7 @@ class Dotclear_Import {
 		$this->footer();
 	}
 
-	function Dotclear_Import()
-	{
+	function Dotclear_Import() {
 		// Nothing.
 	}
 }

@@ -38,7 +38,7 @@ function press_it() {
 	$content = isset($_POST['content']) ? $_POST['content'] : '';
 
 	$upload = false;
-	if( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
+	if ( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
 		foreach( (array) $_POST['photo_src'] as $key => $image) {
 			// see if files exist in content - we don't want to upload non-used selected files.
 			if ( strpos($_POST['content'], htmlspecialchars($image)) !== false ) {
@@ -46,7 +46,7 @@ function press_it() {
 				$upload = media_sideload_image($image, $post_ID, $desc);
 
 				// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-				if( !is_wp_error($upload) )
+				if ( !is_wp_error($upload) )
 					$content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
 		}
@@ -184,7 +184,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 		 */
 		function get_images_from_uri($uri) {
 			$uri = preg_replace('/\/#.+?$/','', $uri);
-			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
+			if ( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
 				return "'" . esc_attr( html_entity_decode($uri) ) . "'";
 			$content = wp_remote_fopen($uri);
 			if ( false === $content )
@@ -198,9 +198,9 @@ if ( !empty($_REQUEST['ajax']) ) {
 			$sources = array();
 			foreach ($matches[3] as $src) {
 				// if no http in url
-				if(strpos($src, 'http') === false)
+				if (strpos($src, 'http') === false)
 					// if it doesn't have a relative uri
-					if( strpos($src, '../') === false && strpos($src, './') === false && strpos($src, '/') === 0)
+					if ( strpos($src, '../') === false && strpos($src, './') === false && strpos($src, '/') === 0)
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 					else
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
@@ -553,7 +553,7 @@ var photostorage = false;
 				<li id="video_button">
 					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="images/media-button-video.gif"/></a>
 				</li>
-				<?php if( user_can_richedit() ) { ?>
+				<?php if ( user_can_richedit() ) { ?>
 				<li id="switcher">
 					<?php wp_print_scripts( 'quicktags' ); ?>
 					<?php add_filter('the_editor_content', 'wp_richedit_pre'); ?>

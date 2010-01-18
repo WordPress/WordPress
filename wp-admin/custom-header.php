@@ -189,7 +189,7 @@ class Custom_Image_Header {
 	}
 
 	function toggle_text(force) {
-		if(jQuery('#textcolor').val() == 'blank') {
+		if (jQuery('#textcolor').val() == 'blank') {
 			//Show text
 			jQuery( buttons.toString() ).show();
 			jQuery('#textcolor').val('<?php echo HEADER_TEXTCOLOR; ?>');

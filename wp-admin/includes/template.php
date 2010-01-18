@@ -1307,13 +1307,13 @@ function get_inline_data($post) {
 	<div class="ss">' . mysql2date( 's', $post->post_date, false ) . '</div>
 	<div class="post_password">' . esc_html( $post->post_password ) . '</div>';
 
-	if( $post->post_type == 'page' )
+	if ( $post->post_type == 'page' )
 		echo '
 	<div class="post_parent">' . $post->post_parent . '</div>
 	<div class="page_template">' . esc_html( get_post_meta( $post->ID, '_wp_page_template', true ) ) . '</div>
 	<div class="menu_order">' . $post->menu_order . '</div>';
 
-	if( $post->post_type == 'post' )
+	if ( $post->post_type == 'post' )
 		echo '
 	<div class="tags_input">' . esc_html( str_replace( ',', ', ', get_tags_to_edit($post->ID) ) ) . '</div>
 	<div class="post_category">' . implode( ',', wp_get_post_categories( $post->ID ) ) . '</div>

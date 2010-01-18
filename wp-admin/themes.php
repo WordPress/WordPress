@@ -16,21 +16,21 @@ if ( is_multisite() ) {
 	$themes = get_themes();
 	$ct = current_theme_info();
 	$allowed_themes = apply_filters("allowed_themes", get_site_allowed_themes() );
-	if( $allowed_themes == false )
+	if ( $allowed_themes == false )
 		$allowed_themes = array();
 
 	$blog_allowed_themes = wpmu_get_blog_allowedthemes();
-	if( is_array( $blog_allowed_themes ) )
+	if ( is_array( $blog_allowed_themes ) )
 		$allowed_themes = array_merge( $allowed_themes, $blog_allowed_themes );
-	if( $blog_id != 1 )
+	if ( $blog_id != 1 )
 		unset( $allowed_themes[ "h3" ] );
 
-	if( isset( $allowed_themes[ wp_specialchars( $ct->stylesheet ) ] ) == false )
+	if ( isset( $allowed_themes[ wp_specialchars( $ct->stylesheet ) ] ) == false )
 		$allowed_themes[ wp_specialchars( $ct->stylesheet ) ] = true;
 
 	reset( $themes );
-	foreach( $themes as $key => $theme ) {
-		if( isset( $allowed_themes[ wp_specialchars( $theme[ 'Stylesheet' ] ) ] ) == false ) {
+	foreach ( $themes as $key => $theme ) {
+		if ( isset( $allowed_themes[ wp_specialchars( $theme[ 'Stylesheet' ] ) ] ) == false ) {
 			unset( $themes[ $key ] );
 		}
 	}
@@ -67,7 +67,7 @@ add_thickbox();
 wp_enqueue_script( 'theme-preview' );
 
 require_once('admin-header.php');
-if( is_multisite() && is_super_admin() ) {
+if ( is_multisite() && is_super_admin() ) {
 	?><div id="message0" class="updated fade"><p><?php _e('Administrator: new themes must be activated in the <a href="wpmu-themes.php">Themes Admin</a> page before they appear here.'); ?></p></div><?php
 }
 ?>
