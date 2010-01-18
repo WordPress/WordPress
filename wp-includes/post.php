@@ -15,18 +15,69 @@
  * Creates the initial post types when 'init' action is fired.
  */
 function create_initial_post_types() {
-	register_post_type( 'post', array('label' => __('Posts'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false) );
-	register_post_type( 'page', array('label' => __('Pages'),'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'page', 'hierarchical' => true) );
-	register_post_type( 'attachment', array('label' => __('Media'), 'exclude_from_search' => false, '_builtin' => true, '_edit_link' => 'media.php?attachment_id=%d', 'capability_type' => 'post', 'hierarchical' => false) );
-	register_post_type( 'revision', array('label' => __('Revisions'),'exclude_from_search' => true, '_builtin' => true, '_edit_link' => 'revision.php?revision=%d', 'capability_type' => 'post', 'hierarchical' => false) );
-	add_post_type_support('post', array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments') );
-	add_post_type_support('page', array('post-thumbnails', 'page-attributes', 'custom-fields', 'comments') );
+	register_post_type( 'post', array(	'label' => __('Posts'),
+										'exclude_from_search' => false,
+										'_builtin' => true,
+										'_edit_link' => 'post.php?post=%d',
+										'capability_type' => 'post',
+										'hierarchical' => false,
+										'supports' => array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments', 'revisions')
+									) );
 
-	register_post_status( 'publish', array('label' => _x('Published', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')) );
-	register_post_status( 'future', array('label' => _x('Scheduled', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')) );
-	register_post_status( 'draft', array('label' => _x('Draft', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')) );
-	register_post_status( 'private', array('label' => _x('Private', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')) );
-	register_post_status( 'trash', array('label' => _x('Trash', 'post'), 'exclude_from_search' => false, '_builtin' => true, 'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')) );
+	register_post_type( 'page', array(	'label' => __('Pages'),
+										'exclude_from_search' => false,
+										'_builtin' => true,
+										'_edit_link' => 'post.php?post=%d',
+										'capability_type' => 'page',
+										'hierarchical' => true,
+										'supports' => array('post-thumbnails', 'page-attributes', 'custom-fields', 'comments', 'revisions')
+									) );
+
+	register_post_type( 'attachment', array('label' => __('Media'),
+											'exclude_from_search' => false,
+											'_builtin' => true,
+											'_edit_link' => 'media.php?attachment_id=%d',
+											'capability_type' => 'post',
+											'hierarchical' => false
+										) );
+
+	register_post_type( 'revision', array(	'label' => __('Revisions'),
+											'exclude_from_search' => true,
+											'_builtin' => true,
+											'_edit_link' => 'revision.php?revision=%d',
+											'capability_type' => 'post',
+											'hierarchical' => false
+										) );
+
+	register_post_status( 'publish', array(	'label' => _x('Published', 'post'),
+											'exclude_from_search' => false,
+											'_builtin' => true,
+											'label_count' => _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')
+										) );
+
+	register_post_status( 'future', array(	'label' => _x('Scheduled', 'post'),
+											'exclude_from_search' => false,
+											'_builtin' => true,
+											'label_count' => _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')
+										) );
+
+	register_post_status( 'draft', array(	'label' => _x('Draft', 'post'),
+											'exclude_from_search' => false,
+											'_builtin' => true,
+											'label_count' => _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')
+										) );
+
+	register_post_status( 'private', array(	'label' => _x('Private', 'post'),
+											'exclude_from_search' => false,
+											'_builtin' => true,
+											'label_count' => _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')
+										) );
+
+	register_post_status( 'trash', array(	'label' => _x('Trash', 'post'),
+											'exclude_from_search' => false,
+											'_builtin' => true,
+											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
+										) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
@@ -639,6 +690,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
  * hierarchical - Whether the post type is hierarchical. Defaults to false.
+ * supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
  *
  * @package WordPress
  * @subpackage Post
@@ -655,7 +707,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'exclude_from_search' => true, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false);
+	$defaults = array('label' => false, 'exclude_from_search' => true, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false, 'supports' => array());
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -675,6 +727,11 @@ function register_post_type($post_type, $args = array()) {
 
 	if ( !$args->_builtin && $args->public )
 		$args->_show = true;
+
+	if ( ! empty($args->supports) ) {
+		add_post_type_support($post_type, $args->supports);
+		unset($args->supports);
+	}
 
 	$wp_post_types[$post_type] = $args;
 
@@ -3940,7 +3997,7 @@ function wp_save_post_revision( $post_id ) {
 	if ( !$post = get_post( $post_id, ARRAY_A ) )
 		return;
 
-	if ( !in_array( $post['post_type'], array( 'post', 'page' ) ) )
+	if ( !post_type_supports($post['post_type'], 'revisions') )
 		return;
 
 	$return = _wp_put_post_revision( $post );

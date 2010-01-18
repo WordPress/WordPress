@@ -1260,17 +1260,17 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	extract( wp_parse_args( $args, $defaults ), EXTR_SKIP );
 
 	switch ( $type ) {
-	case 'autosave' :
-		if ( !$autosave = wp_get_post_autosave( $post->ID ) )
-			return;
-		$revisions = array( $autosave );
-		break;
-	case 'revision' : // just revisions - remove autosave later
-	case 'all' :
-	default :
-		if ( !$revisions = wp_get_post_revisions( $post->ID ) )
-			return;
-		break;
+		case 'autosave' :
+			if ( !$autosave = wp_get_post_autosave( $post->ID ) )
+				return;
+			$revisions = array( $autosave );
+			break;
+		case 'revision' : // just revisions - remove autosave later
+		case 'all' :
+		default :
+			if ( !$revisions = wp_get_post_revisions( $post->ID ) )
+				return;
+			break;
 	}
 
 	/* translators: post revision: 1: when, 2: author name */
@@ -1326,6 +1326,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	<div class="alignleft">
 		<input type="submit" class="button-secondary" value="<?php esc_attr_e( 'Compare Revisions' ); ?>" />
 		<input type="hidden" name="action" value="diff" />
+		<input type="hidden" name="post_type" value="<?php echo esc_attr($GLOBALS['post_type']); ?>" />
 	</div>
 </div>
 

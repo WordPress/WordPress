@@ -135,7 +135,7 @@ if ( $post->post_author && !in_array($post->post_author, $authors) )
 if ( $authors && count( $authors ) > 1 )
 	add_meta_box('authordiv', __('Author'), 'post_author_meta_box', $post_type, 'normal', 'core');
 
-if ( 0 < $post_ID && wp_get_post_revisions( $post_ID ) )
+if ( post_type_supports($post_type, 'revisions') && 0 < $post_ID && wp_get_post_revisions( $post_ID ) )
 	add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', $post_type, 'normal', 'core');
 
 do_action('do_meta_boxes', $post_type, 'normal', $post);
