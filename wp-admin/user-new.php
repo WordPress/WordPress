@@ -12,6 +12,9 @@ require_once('admin.php');
 if ( !current_user_can('create_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
+if ( is_multisite() && !get_site_option( 'add_new_users' ) )
+	wp_die( __('Page disabled by the administrator') );
+
 /** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
 

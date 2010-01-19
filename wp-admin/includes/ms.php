@@ -1086,34 +1086,6 @@ if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) ) {
 	add_action( 'admin_init', 'profile_page_email_warning_ob_start' );
 }
 
-function disable_some_pages() {
-	global $messages;
-
-	if ( strpos( $_SERVER['PHP_SELF'], 'user-new.php' ) && !get_site_option( 'add_new_users' ) ) {
-		if ( is_super_admin() ) {
-			$messages[] = '<div id="message" class="updated fade"><p>' . __( 'Warning! Only site administrators may see this page. Everyone else will see a <em>page disabled</em> message. Enable it again on <a href="ms-options.php#addnewusers">the options page</a>.' ) . '</p></div>';
-		} else {
-			wp_die( __('Page disabled by the administrator') );
-		}
-	}
-
-	$pages = array( 'theme-editor.php', 'plugin-editor.php' );
-	foreach( $pages as $page ) {
-		if ( strpos( $_SERVER['PHP_SELF'], $page ) ) {
-			wp_die( __('Page disabled by the administrator') );
-		}
-	}
-
-	$pages = array( 'theme-install.php', 'plugin-install.php' );
-	foreach( $pages as $page ) {
-		if ( strpos( $_SERVER['PHP_SELF'], $page ) && !is_super_admin() ) {
-			wp_die( __( "Sorry, you're not allowed here." ) );
-		}
-	}
-
-}
-add_action( 'admin_init', 'disable_some_pages' );
-
 function blogs_listing_post() {
 	if ( !isset( $_POST[ 'action' ] ) ) {
 		return false;
