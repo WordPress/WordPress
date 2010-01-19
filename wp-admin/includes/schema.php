@@ -319,8 +319,8 @@ function populate_options() {
 
 	// 3.0 multisite
 	if ( is_multisite() ) {
-		 $options[ 'blogdescription' ] = sprintf(__('Just another %s site'), $current_site->site_name );
-		 $options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
+		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), $current_site->site_name );
+		$options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
 
 	// Set autoload to no for these options
@@ -623,27 +623,27 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	global $wpdb, $current_site, $wp_version, $wp_db_version, $wp_rewrite;
 
 	//@todo: turn these checks into returned messages
-	if( $domain == '' )
+	if ( $domain == '' )
 		die( 'You must provide a domain name!' );
-	if( $site_name == '' )
+	if ( $site_name == '' )
 		die( 'You must provide a site name!' );
 
 	// check for network collision
 	$existing_network = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->site} WHERE id = %d", $network_id ) );
-	if( $existing_network == $network_id )
+	if ( $existing_network == $network_id )
 		die( 'That network already exists!' );
 
 	$site_user = get_user_by_email( $email );
-	if( !$site_user )
+	if ( !$site_user )
 		die( 'You must provide an email address!' );
 	// set up site tables
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
-	if ( $template != $stylesheet ) {
+	if ( $template != $stylesheet )
 		$allowed_themes = array( $template, $stylesheet );
-	} else {
+	else
 		$allowed_themes = array( $stylesheet );
-	}
+
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'site_name', %s)", $network_id, $site_name ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_email', %s)", $network_id, $site_user->user_email ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_user_id', %d)", $network_id, $site_user->ID ) );
@@ -661,9 +661,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$users = get_users_of_blog();
 		if ( $users ) {
 			foreach ( $users as $user ) {
-				if ( is_super_admin( $user->ID ) && !in_array( $user->user_login, $site_admins ) ) {
+				if ( is_super_admin( $user->ID ) && !in_array( $user->user_login, $site_admins ) )
 					$site_admins[] = $user->user_login;
-				}
 			}
 		}
 	} else {
@@ -700,24 +699,25 @@ Thanks!
 		update_usermeta( $site_user->ID, 'primary_blog', 1 );
 	}
 
-	if( $vhost == 'yes' ) {
+	if ( $vhost == 'yes' )
 		update_option( 'permalink_structure', '/%year%/%monthnum%/%day%/%postname%/');
-	} else {
+	else
 		update_option( 'permalink_structure', '/blog/%year%/%monthnum%/%day%/%postname%/');
-	}
+
 	$wp_rewrite->flush_rules();
 
 	if ( $vhost == 'yes' ) {
 		$vhost_ok = false;
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!
 		$page = wp_remote_get( 'http://' . $hostname, array( 'timeout' => 5, 'httpversion' => '1.1' ) );
-		if( is_object( $page ) && is_wp_error( $page ) ) {
-			foreach ( $page->get_error_messages() as $err )
+		if ( is_object( $page ) && is_wp_error( $page ) ) {
+			foreach ( $page->get_error_messages() as $err ) {
 				$errstr = $err;
+			}
 		} elseif( $page[ 'response' ][ 'code' ] == 200 ) {
 				$vhost_ok = true;
 		}
-		if( !$vhost_ok ) {
+		if ( !$vhost_ok ) {
 			$msg = "<h2>Warning! Wildcard DNS may not be configured correctly!</h2>";
 			$msg .= "<p>To use the subdomain feature of WordPress MU you must have a wildcard entry in your dns. The installer attempted to contact a random hostname ($hostname) on your domain but failed. It returned this error message:<br /> <strong>$errstr</strong></p><p>From the README.txt:</p>";
 			$msg .= "<p><blockquote> If you want to host blogs of the form http://blog.domain.tld/ where domain.tld is the domain name of your machine then you must add a wildcard record to your DNS records.<br />
@@ -727,4 +727,5 @@ This usually means adding a '*' hostname record pointing at your webserver in yo
 	}
 	return $msg;
 }
+
 ?>
