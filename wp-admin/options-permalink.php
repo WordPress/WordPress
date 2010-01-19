@@ -234,7 +234,7 @@ $structures = array(
 	<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
 </p>
   </form>
-<?php if ( !is_multisite || is_super_admin() ) { ?>
+<?php if ( !is_multisite() || is_super_admin() ) { ?>
 <?php if ($iis7_permalinks) :
 	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>
