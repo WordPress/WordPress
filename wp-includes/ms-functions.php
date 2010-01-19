@@ -444,7 +444,7 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 		$blogs = get_blogs_of_user( $user_id, true ); // if a user's primary blog is shut down, check their other blogs.
 		$ret = false;
 		if ( is_array( $blogs ) && count( $blogs ) > 0 ) {
-			foreach( (array) $blogs as $blog_id => $blog ) {
+			foreach ( (array) $blogs as $blog_id => $blog ) {
 				if ( $blog->site_id != $wpdb->siteid )
 					continue;
 				$details = get_blog_details( $blog_id );
@@ -874,7 +874,7 @@ function is_email_address_unsafe( $user_email ) {
 
 	if ( is_array( $banned_names ) && empty( $banned_names ) == false ) {
 		$email_domain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
-		foreach( (array) $banned_names as $banned_domain ) {
+		foreach ( (array) $banned_names as $banned_domain ) {
 			if ( $banned_domain == '' )
 				continue;
 			if (
@@ -2127,7 +2127,7 @@ function rss_gc() {
 	// Garbage Collection
 	$rows = $wpdb->get_results( "SELECT meta_key FROM {$wpdb->sitemeta} WHERE meta_key LIKE 'rss\_%\_ts' AND meta_value < unix_timestamp( date_sub( NOW(), interval 7200 second ) )" );
 	if ( is_array( $rows ) ) {
-		foreach( $rows as $row ) {
+		foreach ( $rows as $row ) {
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s", $row->meta_key ) );
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s", str_replace( '_ts', '', $row->meta_key ) ) );
 		}

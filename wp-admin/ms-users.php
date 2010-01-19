@@ -104,7 +104,7 @@ if ( $_GET['updated'] == 'true' ) {
 	<h2><?php _e( $current_site->site_name ); ?> <?php _e("Users"); ?></h2>
 	<form action="ms-users.php" method="get" class="search-form">
 		<p class="search-box">
-		<input type="text" name="s" value="<?php if (isset($_GET['s'])) esc_attr( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />
+		<input type="text" name="s" value="<?php if ( isset($_GET['s']) ) esc_attr( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />
 		<input type="submit" id="post-query-submit" value="<?php esc_attr_e('Search Users') ?>" class="button" />
 		</p>
 	</form>

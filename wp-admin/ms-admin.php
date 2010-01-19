@@ -29,7 +29,7 @@ $title = __( 'Site Admin' );
 ?>
 
 <div class="wrap">
-	<h2><?php echo wp_specialchars( $title ); ?></h2>
+	<h2><?php echo esc_html( $title ); ?></h2>
 
 	<ul class="subsubsub">
 	<li><a href="ms-sites.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Blog'); ?></strong></a> | </li>

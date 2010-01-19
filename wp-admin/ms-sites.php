@@ -70,7 +70,7 @@ if ( $_GET['updated'] == 'true' ) {
 	<?php
 }
 
-switch( $_GET['action'] ) {
+switch ( $_GET['action'] ) {
 	// Edit blog
 	case "editblog":
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
@@ -277,7 +277,7 @@ switch( $_GET['action'] ) {
 								<select name="new_role" id="new_role">
 								<?php
 								reset( $editblog_roles );
-								foreach( $editblog_roles as $role => $role_assoc ){
+								foreach ( $editblog_roles as $role => $role_assoc ){
 									$name = translate_with_context($role_assoc['name']);
 									$selected = ( $role == $editblog_default_role ) ? 'selected="selected"' : '';
 									echo "<option {$selected} value=\"" . esc_attr($role) . "\">{$name}</option>";
@@ -373,7 +373,7 @@ switch( $_GET['action'] ) {
 
 		<form action="ms-sites.php" method="get" id="ms-search">
 			<input type="hidden" name="action" value="blogs" />
-			<input type="text" name="s" value="<?php if (isset($_GET['s'])) echo stripslashes( esc_attr( $s, 1 ) ); ?>" size="17" />
+			<input type="text" name="s" value="<?php if (isset($_GET['s'])) echo stripslashes( esc_attr( $s ) ); ?>" size="17" />
 			<input type="submit" class="button" name="blog_name" value="<?php esc_attr_e('Search blogs by name') ?>" />
 			<input type="submit" class="button" name="blog_id" value="<?php esc_attr_e('by blog ID') ?>" />
 			<input type="submit" class="button" name="blog_ip" value="<?php esc_attr_e('by IP address') ?>" />
@@ -442,10 +442,10 @@ switch( $_GET['action'] ) {
 			</thead>
 			<tbody id="the-list">
 			<?php
-			if ($blog_list) {
+			if ( $blog_list ) {
 				$bgcolor = $class = '';
 				$status_list = array( "archived" => "#fee", "spam" => "#faa", "deleted" => "#f55" );
-				foreach ($blog_list as $blog) {
+				foreach ( $blog_list as $blog ) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 					reset( $status_list );
 
@@ -458,7 +458,7 @@ switch( $_GET['action'] ) {
 					echo "<tr $bgcolour class='$class'>";
 
 					$blogname = ( is_subdomain_install() ) ? str_replace('.'.$current_site->domain, '', $blog['domain']) : $blog['path'];
-					foreach( $posts_columns as $column_name=>$column_display_name ) {
+					foreach ( $posts_columns as $column_name=>$column_display_name ) {
 						switch($column_name) {
 							case 'id': ?>
 								<th scope="row" class="check-column">
