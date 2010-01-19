@@ -693,24 +693,21 @@ function admin_notice_feed() {
 	$url = get_site_option( 'admin_notice_feed' );
 	if ( $url == '' )
 		return;
-	include_once( ABSPATH . 'wp-includes/rss.php' );
-	$rss = @fetch_rss( $url );
-	if ( isset($rss->items) && 1 <= count($rss->items) ) {
-		if ( md5( $rss->items[0][ 'title' ] ) == get_user_option( 'admin_feed_dismiss', $current_user->id ) )
+
+	$rss = @fetch_feed( $url );
+	$item = $rss->get_item();
+	if ( !is_null( $item ) ) {
+		$title = $item->get_title();
+		if ( md5( $title ) == get_user_option( 'admin_feed_dismiss', $current_user->id ) ) 
 			return;
-		$item = $rss->items[0];
-		$msg = "<h3>" . wp_specialchars( $item[ 'title' ] ) . "</h3>\n";
-		if ( isset($item['description']) )
-			$content = $item['description'];
-		elseif ( isset($item['summary']) )
-			$content = $item['summary'];
-		elseif ( isset($item['atom_content']) )
-			$content = $item['atom_content'];
-		else
+		$msg = "<h3>" . esc_html( $title ) . "</h3>\n";
+		$content = $item->get_description();
+		if ( is_null( $content ) ) 
 			$content = __( 'something' );
+
 		$content = wp_html_excerpt($content, 200) . ' ...';
-		$link = clean_url( strip_tags( $item['link'] ) );
-		$msg .= "<p>" . $content . " <a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $item[ 'title' ] ) . "'>" . __( "Dismiss" ) . "</a></p>";
+		$link = clean_url( strip_tags( $item->get_link() ) );
+		$msg .= "<p>" . $content . " <a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $title ) . "'>" . __( "Dismiss" ) . "</a></p>";
 		echo "<div class='updated fade'>$msg</div>";
 	} elseif ( is_super_admin() ) {
 		printf("<div id='update-nag'>" . __("Your feed at %s is empty.") . "</div>", wp_specialchars( $url ));
