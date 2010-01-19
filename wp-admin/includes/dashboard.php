@@ -46,7 +46,7 @@ function wp_dashboard_setup() {
 	wp_add_dashboard_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_incoming_links', 'wp_dashboard_incoming_links_control' );
 
 	// WP Plugins Widget
-	if ( current_user_can( 'activate_plugins' ) )
+	if ( current_user_can( 'install_plugins' ) )
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
