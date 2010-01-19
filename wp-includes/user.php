@@ -735,4 +735,21 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 	return $value;
 }
 
+/**
+ * Clean all user caches
+ *
+ * @since 3.0
+ *
+ * @param int $id User ID
+ * @return void
+ */
+function clean_user_cache($id) {
+	$user = new WP_User($id);
+
+	wp_cache_delete($id, 'users');
+	wp_cache_delete($user->user_login, 'userlogins');
+	wp_cache_delete($user->user_email, 'useremail');
+	wp_cache_delete($user->user_nicename, 'userslugs');
+}
+
 ?>

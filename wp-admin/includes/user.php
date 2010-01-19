@@ -419,7 +419,7 @@ function get_users_drafts( $user_id ) {
  * @param int $reassign Optional. Reassign posts and links to new User ID.
  * @return bool True when finished.
  */
-function wp_delete_user($id, $reassign = 'novalue') {
+function wp_delete_user( $id, $reassign = 'novalue' ) {
 	global $wpdb;
 
 	$id = (int) $id;
@@ -428,11 +428,11 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	// allow for transaction statement
 	do_action('delete_user', $id);
 
-	if ($reassign == 'novalue') {
+	if ( 'novalue' === $reassign || null === $reassign ) {
 		$post_ids = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id) );
 
-		if ($post_ids) {
-			foreach ($post_ids as $post_id)
+		if ( $post_ids ) {
+			foreach ( $post_ids as $post_id )
 				wp_delete_post($post_id);
 		}
 
@@ -443,7 +443,6 @@ function wp_delete_user($id, $reassign = 'novalue') {
 			foreach ( $link_ids as $link_id )
 				wp_delete_link($link_id);
 		}
-
 	} else {
 		$reassign = (int) $reassign;
 		$wpdb->update( $wpdb->posts, array('post_author' => $reassign), array('post_author' => $id) );
@@ -459,10 +458,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = $id AND meta_key = '{$level_key}'");
 	}
 
-	wp_cache_delete($id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
-	wp_cache_delete($user->user_email, 'useremail');
-	wp_cache_delete($user->user_nicename, 'userslugs');
+	clean_user_cache($id);
 
 	// allow for commit transaction
 	do_action('deleted_user', $id);

@@ -101,6 +101,7 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 		restore_current_blog();
 }
 
+// @todo Merge with wp_delete_user() ?
 function wpmu_delete_user($id) {
 	global $wpdb;
 
@@ -131,8 +132,10 @@ function wpmu_delete_user($id) {
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
 
-	wp_cache_delete($id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
+	clean_user_cache($id);	
+
+	// allow for commit transaction
+	do_action('deleted_user', $id);
 
 	return true;
 }
@@ -449,8 +452,8 @@ function refresh_user_details($id) {
 	if ( !$user = get_userdata( $id ) )
 		return false;
 
-	wp_cache_delete($id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
+	clean_user_cache($id);
+
 	return $id;
 }
 
