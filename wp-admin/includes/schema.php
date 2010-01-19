@@ -640,9 +640,9 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
 	if ( $template != $stylesheet )
-		$allowed_themes = array( $template, $stylesheet );
+		$allowed_themes = array( $template => true, $stylesheet => true );
 	else
-		$allowed_themes = array( $stylesheet );
+		$allowed_themes = array( $stylesheet => true );
 
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'site_name', %s)", $network_id, $site_name ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_email', %s)", $network_id, $site_user->user_email ) );
