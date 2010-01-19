@@ -291,7 +291,7 @@ class wpdb {
 	 * @see wpdb:insert()
 	 * @see wpdb:update()
 	 * @access public
-	 * @war array
+	 * @var array
 	 */
 	var $field_types = array();
 
