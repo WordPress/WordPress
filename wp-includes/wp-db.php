@@ -491,7 +491,7 @@ class wpdb {
 	function get_blog_prefix( $blog_id = '' ) {
 		if ( $blog_id ) {
                         if( defined('MULTISITE') && ( $blog_id == 0 || $blog_id == 1) ) {
-        			return $this->prefix;
+        			return $this->base_prefix;
                         } else {
         			return $this->base_prefix . $blog_id . '_';
                         }
