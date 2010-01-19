@@ -508,11 +508,16 @@ class WP_User {
 	 * used.
 	 *
 	 * @since 2.1.0
+	 *
+	 * @param string $cap_key Optional capability key
 	 * @access protected
 	 */
-	function _init_caps() {
+	function _init_caps( $cap_key = '' ) {
 		global $wpdb;
-		$this->cap_key = $wpdb->prefix . 'capabilities';
+		if ( empty($cap_key) )
+			$this->cap_key = $wpdb->prefix . 'capabilities';
+		else
+			$this->cap_key = $cap_key;
 		$this->caps = &$this->{$this->cap_key};
 		if ( ! is_array( $this->caps ) )
 			$this->caps = array();

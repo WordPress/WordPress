@@ -235,12 +235,12 @@ switch ( $_GET['action'] ) {
 			$newroles = $_POST[ 'role' ];
 			reset( $newroles );
 			foreach ( (array) $newroles as $userid => $role ) {
-				$role_len = strlen( $role );
-				$existing_role = $wpdb->get_var( "SELECT meta_value FROM $wpdb->usermeta WHERE user_id = '$userid'  AND meta_key = '" . $blog_prefix. "capabilities'" );
-				if ( false == $existing_role )
-					$wpdb->query( "INSERT INTO " . $wpdb->usermeta . "( `umeta_id` , `user_id` , `meta_key` , `meta_value` ) VALUES ( NULL, '$userid', '" . $blog_prefix . "capabilities', 'a:1:{s:" . strlen( $role ) . ":\"" . $role . "\";b:1;}')" );
-				elseif ( $existing_role != "a:1:{s:" . strlen( $role ) . ":\"" . $role . "\";b:1;}" )
-					$wpdb->query( "UPDATE $wpdb->usermeta SET meta_value = 'a:1:{s:" . strlen( $role ) . ":\"" . $role . "\";b:1;}' WHERE user_id = '$userid'  AND meta_key = '" . $blog_prefix . "capabilities'" );
+				$user = new WP_User($userid);
+				if ( ! $user )
+					continue;
+				// Hack. Init user caps for given blog.
+				$user->_init_caps($blog_prefix . 'capabilities');
+				$user->set_role($role);
 			}
 		}
 
