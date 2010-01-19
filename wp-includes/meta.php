@@ -1,14 +1,33 @@
 <?php
 /**
- * Meta API
+ * Metadata API
  *
- * Functions for retrieving and manipulating metadata
+ * Functions for retrieving and manipulating metadata of various WordPress object types.  Metadata 
+ * for an object is a represented by a simple key-value pair.  Objects may contain multiple 
+ * metadata entries that share the same key and differ only in their value.
  *
  * @package WordPress
  * @subpackage Meta
  * @since 2.9.0
  */
 
+/**
+ * Add metadata for the specified object.
+ *
+ * @since 2.9.0
+ * @uses $wpdb WordPress database object for queries.
+ * @uses do_action() Calls 'added_{$meta_type}_meta' with meta_id of added metadata entry,
+ * 		object ID, meta key, and meta value
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int $object_id ID of the object metadata is for
+ * @param string $meta_key Metadata key
+ * @param string $meta_value Metadata value
+ * @param bool $unique Optional, default is false.  Whether the specified metadata key should be 
+ * 		unique for the object.  If true, and the object already has a value for the specified 
+ * 		metadata key, no change will be made
+ * @return bool True on successful update, false on failure.
+ */
 function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false) {
 	if ( !$meta_type || !$meta_key )
 		return false;
@@ -43,6 +62,25 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	return true;
 }
 
+/**
+ * Update metadata for the specified object.  If no value already exists for the specified object 
+ * ID and metadata key, the metadata will be added.
+ *
+ * @since 2.9.0
+ * @uses $wpdb WordPress database object for queries.
+ * @uses do_action() Calls 'update_{$meta_type}_meta' before updating metadata with meta_id of 
+ * 		metadata entry to update, object ID, meta key, and meta value
+ * @uses do_action() Calls 'updated_{$meta_type}_meta' after updating metadata with meta_id of 
+ * 		updated metadata entry, object ID, meta key, and meta value
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int $object_id ID of the object metadata is for
+ * @param string $meta_key Metadata key
+ * @param string $meta_value Metadata value
+ * @param string $prev_value Optional.  If specified, only update existing metadata entries with 
+ * 		the specified value.  Otherwise, update all entries.
+ * @return bool True on successful update, false on failure.
+ */
 function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '') {
 	if ( !$meta_type || !$meta_key )
 		return false;
@@ -81,6 +119,24 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	return true;
 }
 
+/**
+ * Delete metadata for the specified object.
+ *
+ * @since 2.9.0
+ * @uses $wpdb WordPress database object for queries.
+ * @uses do_action() Calls 'deleted_{$meta_type}_meta' after deleting with meta_id of 
+ * 		deleted metadata entries, object ID, meta key, and meta value
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int $object_id ID of the object metadata is for
+ * @param string $meta_key Metadata key
+ * @param string $meta_value Optional. Metadata value.  If specified, only delete metadata entries 
+ * 		with this value.  Otherwise, delete all entries with the specified meta_key.
+ * @param bool $delete_all Optional, default is false.  If true, delete matching metadata entries 
+ * 		for all objects, ignoring the specified object_id.  Otherwise, only delete matching 
+ * 		metadata entries for the specified object_id.
+ * @return bool True on successful delete, false on failure.
+ */
 function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false) {
 	if ( !$meta_type || !$meta_key || (!$delete_all && ! (int)$object_id) )
 		return false;
@@ -122,6 +178,19 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	return true;
 }
 
+/**
+ * Retrieve metadata for the specified object.
+ *
+ * @since 2.9.0
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int $object_id ID of the object metadata is for
+ * @param string $meta_key Optional.  Metadata key.  If not specified, retrieve all metadata for 
+ * 		the specified object.
+ * @param bool $single Optional, default is false.  If true, return only the first value of the 
+ * 		specified meta_key.  This parameter has no effect if meta_key is not specified.
+ * @return string|array Single metadata value, or array of values
+ */
 function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	if ( !$meta_type )
 		return false;
@@ -150,6 +219,16 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		return array();
 }
 
+/**
+ * Update the metadata cache for the specified objects.
+ *
+ * @since 2.9.0
+ * @uses $wpdb WordPress database object for queries.
+ *
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
+ * @param int|array $object_ids array or comma delimited list of object IDs to update cache for
+ * @return mixed Metadata cache for the specified objects, or false on failure.
+ */
 function update_meta_cache($meta_type, $object_ids) {
 	if ( empty( $meta_type ) || empty( $object_ids ) )
 		return false;
@@ -212,6 +291,15 @@ function update_meta_cache($meta_type, $object_ids) {
 	return $cache;
 }
 
+/**
+ * Retrieve the name of the metadata table for the specified object type.
+ *
+ * @since 2.9.0
+ * @uses $wpdb WordPress database object for queries.
+ *
+ * @param string $meta_type Type of object to get metadata table for (e.g., comment, post, or user)
+ * @return mixed Metadata table name, or false if no metadata table exists
+ */
 function _get_meta_table($type) {
 	global $wpdb;
 
