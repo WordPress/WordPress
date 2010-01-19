@@ -13,9 +13,9 @@
 if( defined( 'SUNRISE' ) )
 	include_once( WP_CONTENT_DIR . '/sunrise.php' );
 
-    require (ABSPATH . WPINC . '/ms-settings.php');
-$wpdb->blogid           = $current_blog->blog_id;
-$wpdb->siteid           = $current_blog->site_id;
+    require( ABSPATH . WPINC . '/ms-settings.php' );
+$wpdb->blogid = $current_blog->blog_id;
+$wpdb->siteid = $current_blog->site_id;
 $wpdb->set_prefix($table_prefix); // set up blog tables
 $table_prefix = $wpdb->get_blog_prefix();
 
@@ -40,56 +40,57 @@ if( !defined( "BLOGUPLOADDIR" ) )
 	define( "BLOGUPLOADDIR", WP_CONTENT_DIR . "/blogs.dir/{$wpdb->blogid}/files/" );
 
 function ms_network_settings() {
-        global $wpdb, $current_site, $cookiehash;
+	global $wpdb, $current_site, $cookiehash;
 
-        if( !isset($current_site->site_name) )
-                $current_site->site_name = get_site_option('site_name');
+	if( !isset($current_site->site_name) )
+		$current_site->site_name = get_site_option('site_name');
 
-        if( $current_site->site_name == false )
-                $current_site->site_name = ucfirst( $current_site->domain );
+	if( $current_site->site_name == false )
+		$current_site->site_name = ucfirst( $current_site->domain );
 
-        if ( ! defined('WP_INSTALLING') ) {
-                // Used to guarantee unique hash cookies
-                if ( !isset($cookiehash) )
-                        $cookiehash = '';
+	if ( ! defined('WP_INSTALLING') ) {
+		if ( !isset($cookiehash) )
+			$cookiehash = '';
 
-                /**
-                 * Used to guarantee unique hash cookies
-                 * @since 1.5
-                 */
-                if ( !defined('COOKIEHASH') )
-                        define( 'COOKIEHASH', $cookiehash );
-        }
+		/**
+		 * Used to guarantee unique hash cookies
+		 * @since 1.5
+		 */
+		if ( !defined('COOKIEHASH') )
+				define( 'COOKIEHASH', $cookiehash );
+	}
 
-        $wpdb->hide_errors();
+	$wpdb->hide_errors();
 }
 
 function ms_network_plugins() {
-        $wpmu_sitewide_plugins = (array) maybe_unserialize( get_site_option( 'wpmu_sitewide_plugins' ) );
-        foreach( $wpmu_sitewide_plugins as $plugin_file => $activation_time ) {
-                if ( !$plugin_file )
-                        continue;
+	$network_plugins = array();
+	$wpmu_sitewide_plugins = (array) maybe_unserialize( get_site_option( 'wpmu_sitewide_plugins' ) );
+	foreach( $wpmu_sitewide_plugins as $plugin_file => $activation_time ) {
+		if ( !$plugin_file )
+			continue;
 
-                if ( !file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
-                        $deleted_sitewide_plugins[] = $plugin_file;
-                } else {
-                        include_once( WP_PLUGIN_DIR . '/' . $plugin_file );
-                }
-        }
+		if ( !file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
+			$deleted_sitewide_plugins[] = $plugin_file;
+		} else {
+			$network_plugins = WP_PLUGIN_DIR . '/' . $plugin_file;
+		}
+	}
 
-        if ( isset( $deleted_sitewide_plugins ) ) {
-                $active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
+	if ( isset( $deleted_sitewide_plugins ) ) {
+		$active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
 
-                /* Remove any deleted plugins from the wpmu_sitewide_plugins array */
-                foreach( $deleted_sitewide_plugins as $plugin_file ) {
-                        unset( $wpmu_sitewide_plugins[$plugin_file] );
-                        unset( $active_sitewide_plugins[$plugin_file] );
-                }
+		/* Remove any deleted plugins from the wpmu_sitewide_plugins array */
+		foreach( $deleted_sitewide_plugins as $plugin_file ) {
+			unset( $wpmu_sitewide_plugins[$plugin_file] );
+			unset( $active_sitewide_plugins[$plugin_file] );
+		}
 
-                update_site_option( 'wpmu_sitewide_plugins', $wpmu_sitewide_plugins );
-                update_site_option( 'active_sitewide_plugins', $wpmu_sitewide_plugins );
-        }
+		update_site_option( 'wpmu_sitewide_plugins', $wpmu_sitewide_plugins );
+		update_site_option( 'active_sitewide_plugins', $wpmu_sitewide_plugins );
+	}
 
+	return $network_plugins;
 }
 
 function ms_site_check() {
@@ -99,8 +100,7 @@ function ms_site_check() {
 
         if ( '1' == $current_blog->deleted ) {
                 if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) ) {
-                        require_once( WP_CONTENT_DIR . '/blog-deleted.php' );
-                        die();
+                        return WP_CONTENT_DIR . '/blog-deleted.php';
                 } else {
                         header('HTTP/1.1 410 Gone');
                         graceful_fail(__('This user has elected to delete their account and the content is no longer available.'));
@@ -109,8 +109,7 @@ function ms_site_check() {
 
         if ( '2' == $current_blog->deleted ) {
                 if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) ) {
-                        require_once( WP_CONTENT_DIR . '/blog-inactive.php' );
-                        die();
+                        return WP_CONTENT_DIR . '/blog-inactive.php';
                 } else {
                         graceful_fail( sprintf( __( 'This blog has not been activated yet. If you are having problems activating your blog, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
                 }
@@ -118,13 +117,13 @@ function ms_site_check() {
 
         if( $current_blog->archived == '1' || $current_blog->spam == '1' ) {
                 if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) ) {
-                        require_once( WP_CONTENT_DIR . '/blog-suspended.php' );
-                        die();
+                        return WP_CONTENT_DIR . '/blog-suspended.php';
                 } else {
                         header('HTTP/1.1 410 Gone');
                         graceful_fail(__('This blog has been archived or suspended.'));
                 }
         }
+		return true;
 }
 
 function ms_network_cookies() {
