@@ -3672,6 +3672,9 @@ function clean_post_cache($id) {
 		foreach( $children as $cid )
 			clean_post_cache( $cid );
 	}
+
+	if ( is_multisite() )
+		wp_cache_delete( $wpdb->blogid . '-' . $id, 'global-posts' );
 }
 
 /**

@@ -661,13 +661,10 @@ function get_blog_post( $blog_id, $post_id ) {
 	return $post;
 }
 
+// deprecated, see clean_post_cache()
 function clear_global_post_cache( $post_id ) {
-	global $wpdb;
-
-	wp_cache_delete( $wpdb->blogid . '-' . $post_id, 'global-posts' );
+	return;
 }
-add_action( 'publish_post', 'clear_global_post_cache' );
-add_action( 'delete_post', 'clear_global_post_cache' );
 
 function add_user_to_blog( $blog_id, $user_id, $role ) {
 	switch_to_blog($blog_id);
