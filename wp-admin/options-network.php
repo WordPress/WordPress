@@ -34,8 +34,8 @@ $dirs = array( substr( ABSPATH, 0, -1), ABSPATH . "wp-content" );
 <form method="post" action="options-network.php">
 <?php
 function filestats( $err ) {
-	print "<h2>Server Summary</h2>";
-	print "<p>If you post a message to the WordPress support forum at <a target='_blank' href='http://wordpress.org/support/'>http://wordpress.org/support/</a> then copy and paste the following information into your message:</p>";
+	print '<h2>' . esc_html__('Server Summary') . '</h2>';
+	print '<p>' . __("If you post a message to the WordPress support forum at <a target='_blank' href='http://wordpress.org/support/'>http://wordpress.org/support/</a> then copy and paste the following information into your message:") . '</p>';
 
 	print "<blockquote style='background: #eee; border: 1px solid #333; padding: 5px;'>";
 	print "<br /><strong>ERROR: $err</strong><br />";
@@ -100,10 +100,10 @@ function step2_htaccess() {
 function step1() {
 	$rewrite_enabled = false;
 	?>
-	<h2>Installing Network of WordPress Sites</h2>
-	<p>I will help you enable the features for creating a network of sites by asking you a few questions so that you can create configuration files and make a directory to store all your uploaded files.</p>
+	<h2><?php esc_html_e('Installing Network of WordPress Sites'); ?></h2>
+	<p><?php _e('I will help you enable the features for creating a network of sites by asking you a few questions so that you can create configuration files and make a directory to store all your uploaded files.'); ?></p>
 	
-	<h2>What do I need?</h2>
+	<h2><?php esc_html_e('What do I need?'); ?></h2>
 	<ul>
 		<li>Access to your server to change directory permissions. This can be done through ssh or ftp for example.</li>
 		<li>A valid email where your password and administrative emails will be sent.</li>
