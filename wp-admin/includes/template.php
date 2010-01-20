@@ -3747,7 +3747,12 @@ function screen_icon($screen = '') {
 			$name = $screen->parent_base;
 		else
 			$name = $screen->base;
+
+		// @todo Remove this once we have a site admin icon
+		if ( 'ms-admin' == $screen->parent_base )
+			$name = 'tools';
 	}
+
 ?>
 	<div id="icon-<?php echo $name; ?>" class="icon32"><br /></div>
 <?php

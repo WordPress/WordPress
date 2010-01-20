@@ -20,6 +20,7 @@ if (isset($_GET['updated'])) {
 ?>
 
 <div class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php _e('Site Options') ?></h2>
 	<form method="post" action="ms-edit.php?action=siteoptions">
 		<?php wp_nonce_field( "siteoptions" ); ?>

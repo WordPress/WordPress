@@ -54,29 +54,26 @@ if ( $_GET['updated'] == 'true' ) {
 		$query .= " WHERE user_login LIKE '$search' OR user_email LIKE '$search'";
 	}
 
-	if ( !isset($_GET['sortby']) ) {
+	if ( !isset($_GET['sortby']) )
 		$_GET['sortby'] = 'id';
-	}
 
-	if ( $_GET['sortby'] == 'email' ) {
+	if ( $_GET['sortby'] == 'email' )
 		$query .= ' ORDER BY user_email ';
-	} elseif ( $_GET['sortby'] == 'id' ) {
+	elseif ( $_GET['sortby'] == 'id' )
 		$query .= ' ORDER BY ID ';
-	} elseif ( $_GET['sortby'] == 'login' ) {
+	elseif ( $_GET['sortby'] == 'login' )
 		$query .= ' ORDER BY user_login ';
-	} elseif ( $_GET['sortby'] == 'name' ) {
+	elseif ( $_GET['sortby'] == 'name' )
 		$query .= ' ORDER BY display_name ';
-	} elseif ( $_GET['sortby'] == 'registered' ) {
+	elseif ( $_GET['sortby'] == 'registered' )
 		$query .= ' ORDER BY user_registered ';
-	}
 
 	$query .= ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC';
 
-	if ( !empty( $s )) {
+	if ( !empty( $s ) )
 		$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(ID)', $query) );
-	} else {
+	else
 		$total = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users}");
-	}
 
 	$query .= " LIMIT " . intval( ( $apage - 1 ) * $num) . ", " . intval( $num );
 
@@ -101,7 +98,8 @@ if ( $_GET['updated'] == 'true' ) {
 
 	?>
 	<div class="wrap">
-	<h2><?php _e( $current_site->site_name ); ?> <?php _e("Users"); ?></h2>
+	<?php screen_icon(); ?>
+	<h2><?php esc_html_e("Users"); ?></h2>
 	<form action="ms-users.php" method="get" class="search-form">
 		<p class="search-box">
 		<input type="text" name="s" value="<?php if ( isset($_GET['s']) ) esc_attr( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />

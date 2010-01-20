@@ -29,6 +29,7 @@ $title = __( 'Site Admin' );
 ?>
 
 <div class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
 
 	<ul class="subsubsub">

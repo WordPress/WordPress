@@ -14,6 +14,7 @@ if ( !is_super_admin() )
 	wp_die( __('You do not have permission to access this page.') );
 
 echo '<div class="wrap">';
+screen_icon();
 echo '<h2>'.__('Upgrade Site').'</h2>';
 switch( $_GET['action'] ) {
 	case "upgrade":

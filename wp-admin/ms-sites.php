@@ -79,6 +79,7 @@ switch ( $_GET['action'] ) {
 		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
 		?>
 		<div class="wrap">
+		<?php screen_icon(); ?>
 		<h2><?php _e('Edit Blog'); ?> - <a href='http://<?php echo $details['domain'].$details['path']; ?>'>http://<?php echo $details['domain'].$details['path']; ?></a></h2>
 		<form method="post" action="ms-edit.php?action=updateblog">
 			<?php wp_nonce_field('editblog'); ?>
@@ -369,6 +370,7 @@ switch ( $_GET['action'] ) {
 		?>
 
 		<div class="wrap" style="position:relative;">
+		<?php screen_icon(); ?>
 		<h2><?php _e('Blogs') ?></h2>
 
 		<form action="ms-sites.php" method="get" id="ms-search">
@@ -579,6 +581,7 @@ switch ( $_GET['action'] ) {
 
 		<div class="wrap">
 			<a name="form-add-blog"></a>
+			<?php screen_icon(); ?>
 			<h2><?php _e('Add Blog') ?></h2>
 			<form method="post" action="ms-edit.php?action=addblog">
 				<?php wp_nonce_field('add-blog') ?>
