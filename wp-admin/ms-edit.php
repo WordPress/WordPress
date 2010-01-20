@@ -214,16 +214,8 @@ switch ( $_GET['action'] ) {
 		$wp_rewrite->flush_rules();
 
 		// update blogs table
-		$result = $wpdb->query( "UPDATE {$wpdb->blogs} SET
-				domain       = '".$_POST[ 'blog' ][ 'domain' ]."',
-				path         = '".$_POST[ 'blog' ][ 'path' ]."',
-				registered   = '".$_POST[ 'blog' ][ 'registered' ]."',
-				public       = '".$_POST[ 'blog' ][ 'public' ]."',
-				archived     = '".$_POST[ 'blog' ][ 'archived' ]."',
-				mature       = '".$_POST[ 'blog' ][ 'mature' ]."',
-				deleted      = '".$_POST[ 'blog' ][ 'deleted' ]."',
-				spam         = '".$_POST[ 'blog' ][ 'spam' ]."'
-			WHERE  blog_id = '$id'" );
+		$blog_data = stripslashes_deep($_POST[ 'blog' ]);
+		$result = $wpdb->update( $wpdb->blogs, $blog_data, array('blog_id' => $id) );
 
 		update_blog_status( $id, 'spam', $_POST[ 'blog' ][ 'spam' ] );
 		update_option( 'blog_public', $_POST[ 'blog' ][ 'public' ] );
