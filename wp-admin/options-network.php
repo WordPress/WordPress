@@ -151,9 +151,9 @@ function printstep1form( $rewrite_enabled = false ) {
 			<tr> 
 				<th scope='row'>Server Address</th> 
 				<td>
-					<p>What is the Internet address of your site? You should enter the shortest address possible. For example, use <em>example.com</em> instead of <em>www.example.com</em> but if you are going to use an address like <em>blogs.example.com</em> then enter that unaltered in the box below.</p>
-					<input type='text' name='basedomain' value='<?php echo $hostname ?>' />
-					<p>Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address, use <q>localhost.localdomain</q> instead.</p>
+					<p>This will be the Internet address of your site: <strong><em><?php echo $hostname; ?></em></strong>.</p>
+					<input type='hidden' name='basedomain' value='<?php echo $hostname ?>' />
+					<p>Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.</p>
 				</td> 
 			</tr>
 		</table>
@@ -262,8 +262,8 @@ function step2_config() {
 
 function get_clean_basedomain() {
 	global $wpdb;
-	$domain =   $wpdb->escape( $_POST[ 'basedomain' ] );
-	$domain = str_replace( 'http://', '', $domain );
+	$domain = preg_replace( '|https?://|', '', get_option( 'siteurl') );
+	//@todo: address no www in multisite code
 	if( substr( $domain, 0, 4 ) == 'www.' )
 		$domain = substr( $domain, 4 );
 	if( strpos( $domain, '/' ) )
@@ -308,14 +308,11 @@ switch($action) {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		// create network tables
-		$_SERVER[ 'HTTP_HOST' ] = str_replace( 'www.', '', $_SERVER[ 'HTTP_HOST' ] ); // normalise hostname - no www.
+		$domain = get_clean_basedomain();
 		install_network();
-		populate_network( 1, $_SERVER[ 'HTTP_HOST' ], sanitize_email( $_POST[ 'email' ] ), $_POST[ 'weblog_title' ], $base, $_POST[ 'vhost' ] );
+		populate_network( 1, $domain, sanitize_email( $_POST[ 'email' ] ), $_POST[ 'weblog_title' ], $base, $_POST[ 'vhost' ] );
 		// create wp-config.php / htaccess
 		step2();
-//continue;
-		
-//		step3();
 	break;
 	default:
 		//@todo: give an informative screen instead
