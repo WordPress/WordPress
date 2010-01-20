@@ -96,7 +96,7 @@ if ( !function_exists('wp_install_defaults') ) :
  * @param int $user_id User ID.
  */
 function wp_install_defaults($user_id) {
-	global $wpdb;
+	global $wpdb, $wp_rewrite, $current_site, $table_prefix;
 
 	// Default category
 	$cat_name = __('Uncategorized');
@@ -161,11 +161,23 @@ function wp_install_defaults($user_id) {
 	$now_gmt = gmdate('Y-m-d H:i:s');
 	$first_post_guid = get_option('home') . '/?p=1';
 
+	if ( is_multisite() ) {
+		$first_post = get_site_option( 'first_post' );
+
+		if ( empty($first_post) )
+			$first_post = stripslashes( __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ) );
+
+		$first_post = str_replace( "SITE_URL", clean_url("http://" . $current_site->domain . $current_site->path), $first_post );
+		$first_post = str_replace( "SITE_NAME", $current_site->site_name, $first_post );
+	} else {
+		$first_post = __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!');
+	}
+
 	$wpdb->insert( $wpdb->posts, array(
 								'post_author' => $user_id,
 								'post_date' => $now,
 								'post_date_gmt' => $now_gmt,
-								'post_content' => __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!'),
+								'post_content' => $first_post,
 								'post_excerpt' => '',
 								'post_title' => __('Hello world!'),
 								/* translators: Default post slug */
@@ -181,22 +193,36 @@ function wp_install_defaults($user_id) {
 	$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => 1, 'object_id' => 1) );
 
 	// Default comment
+	if ( is_multisite() ) {
+		$first_comment_author = get_site_option( 'first_comment_author' );
+		$first_comment_url = get_site_option( 'first_comment_url' );
+		$first_comment = get_site_option( 'first_comment' );
+	} else {
+		$first_comment_author = __('Mr WordPress');
+		$first_comment_url = 'http://wordpress.org/';
+		$first_comment = __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
+	}	
 	$wpdb->insert( $wpdb->comments, array(
 								'comment_post_ID' => 1,
-								'comment_author' => __('Mr WordPress'),
+								'comment_author' => $first_comment_author,
 								'comment_author_email' => '',
 								'comment_author_url' => 'http://wordpress.org/',
 								'comment_date' => $now,
 								'comment_date_gmt' => $now_gmt,
-								'comment_content' => __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.')
+								'comment_content' => $first_comment
 								));
+
 	// First Page
+	if ( is_multisite() && get_site_option( 'first_page' ) )
+		$first_page = get_site_option( 'first_page' );
+	else
+		$first_page = __('This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.');
 	$first_post_guid = get_option('home') . '/?page_id=2';
 	$wpdb->insert( $wpdb->posts, array(
 								'post_author' => $user_id,
 								'post_date' => $now,
 								'post_date_gmt' => $now_gmt,
-								'post_content' => __('This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.'),
+								'post_content' => $first_page,
 								'post_excerpt' => '',
 								'post_title' => __('About'),
 								/* translators: Default page slug */
@@ -209,6 +235,23 @@ function wp_install_defaults($user_id) {
 								'pinged' => '',
 								'post_content_filtered' => ''
 								));
+
+	if ( is_multisite() ) {
+		// Flush rules to pick up the new page.
+		$wp_rewrite->init();
+		$wp_rewrite->flush_rules();
+
+		$user = new WP_User($user_id);
+		$wpdb->update( $wpdb->options, array('option_value' => $user->user_email), array('option_name' => 'admin_email') );
+
+		// Remove all perms except for the login user.
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'user_level') );
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'capabilities') );
+
+		// Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
+		if ( !is_super_admin( $user_id ) && $user_id != 1 )
+			$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $wpdb->base_prefix.'1_capabilities') );
+	}
 }
 endif;
 

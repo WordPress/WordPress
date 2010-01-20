@@ -1265,7 +1265,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 
 	switch_to_blog($blog_id);
 	install_blog($blog_id, $title);
-	install_blog_defaults($blog_id, $user_id);
+	wp_install_defaults($user_id);
 
 	add_user_to_blog($blog_id, $user_id, 'administrator');
 
@@ -1415,94 +1415,16 @@ function install_blog($blog_id, $blog_title = '') {
 	$wpdb->suppress_errors( false );
 }
 
+// Deprecated, use wp_install_defaults()
 // should be switched already as $blog_id is ignored.
 function install_blog_defaults($blog_id, $user_id) {
-	global $wpdb, $wp_rewrite, $current_site, $table_prefix;
+	global $wpdb;
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	$wpdb->suppress_errors();
 
-	// Cast for security
-	$user_id = (int) $user_id;
-	$blog_id = (int) $blog_id;
-
-	// Default links
-	$wpdb->insert( $wpdb->links, array( 'link_url' => 'http://wordpress.com/', 'link_name' => 'WordPress.com', 'link_owner' => $user_id, 'link_rss' => 'http://en.blog.wordpress.com/feed/', 'link_notes' => '' ) );
-	$wpdb->insert( $wpdb->links, array( 'link_url' => 'http://wordpress.org/', 'link_name' => 'WordPress.org', 'link_owner' => $user_id, 'link_rss' => 'http://wordpress.org/development/feed/', 'link_notes' => '' ) );
-	$wpdb->insert( $wpdb->term_relationships, array('object_id' => 1, 'term_taxonomy_id' => 2));
-	$wpdb->insert( $wpdb->term_relationships, array('object_id' => 2, 'term_taxonomy_id' => 2));
-
-	// First post
-	$now = date('Y-m-d H:i:s');
-	$now_gmt = gmdate('Y-m-d H:i:s');
-	$first_post = get_site_option( 'first_post' );
-
-	if ( $first_post == false )
-		$first_post = stripslashes( __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ) );
-
-	$first_post = str_replace( "SITE_URL", clean_url("http://" . $current_site->domain . $current_site->path), $first_post );
-	$first_post = str_replace( "SITE_NAME", $current_site->site_name, $first_post );
-	$wpdb->insert( $wpdb->posts, array(
-		'post_author' => $user_id,
-		'post_date' => $now,
-		'post_date_gmt' => $now_gmt,
-		'post_content' => stripslashes( $first_post ),
-		'post_excerpt' => '',
-		'post_title' => __('Hello world!'),
-		'post_name' => __('hello-world'),
-		'post_modified' => $now,
-		'post_modified_gmt' => $now_gmt,
-		'comment_count' => 1,
-		'to_ping' => '',
-		'pinged' => '',
-		'post_content_filtered' => ''
-	) );
-	$wpdb->insert( $wpdb->term_relationships, array('object_id' => 1, 'term_taxonomy_id' => 1));
-	update_option( "post_count", 1 );
-
-	// First page
-	$wpdb->insert( $wpdb->posts, array(
-		'post_author' => $user_id,
-		'post_date' => $now,
-		'post_date_gmt' => $now_gmt,
-		'post_content' => get_site_option( 'first_page' ),
-		'post_excerpt' => '',
-		'post_title' => __('About'),
-		'post_name' => __('about'),
-		'post_modified' => $now,
-		'post_modified_gmt' => $now_gmt,
-		'post_status' => 'publish',
-		'post_type' => 'page',
-		'to_ping' => '',
-		'pinged' => '',
-		'post_content_filtered' => ''
-	) );
-
-	// Flush rules to pick up the new page.
-	$wp_rewrite->init();
-	$wp_rewrite->flush_rules();
-
-	// Default comment
-	$wpdb->insert( $wpdb->comments, array(
-		'comment_post_ID' => '1',
-		'comment_author' => __( get_site_option( 'first_comment_author' ) ),
-		'comment_author_email' => '',
-		'comment_author_url' => get_site_option( 'first_comment_url' ),
-		'comment_author_IP' => '127.0.0.1',
-		'comment_date' => $now,
-		'comment_date_gmt' => $now_gmt,
-		'comment_content' => __( get_site_option( 'first_comment' ) )
-	) );
-
-	$user = new WP_User($user_id);
-	$wpdb->update( $wpdb->options, array('option_value' => $user->user_email), array('option_name' => 'admin_email') );
-
-	// Remove all perms except for the login user.
-	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'user_level') );
-	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'capabilities') );
-
-	// Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
-	if ( !is_super_admin( $user->user_login ) && $user_id != 1 )
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $wpdb->base_prefix.'1_capabilities') );
+	wp_install_defaults($user_id);
 
 	$wpdb->suppress_errors( false );
 }
