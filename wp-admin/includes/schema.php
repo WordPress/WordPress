@@ -687,7 +687,8 @@ Thanks!
 
 --The Team @ SITE_NAME')", $network_id ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'first_post', 'Welcome to <a href=\"SITE_URL\">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' )", $network_id ) );
-	$weblog_title = stripslashes( $_POST[ 'weblog_title' ] );
+	//@todo - network admins should have a method of editing the network siteurl (used for cookie hash)
+	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'siteurl', %s)", $network_id, get_option( 'siteurl' ) ) );
 
 	$current_site->domain = $domain;
 	$current_site->path = $base;

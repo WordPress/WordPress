@@ -134,8 +134,13 @@ function wp_default_constants( $context ) {
 			 * Used to guarantee unique hash cookies
 			 * @since 1.5
 			 */
-			if( !defined('COOKIEHASH') )
-					define('COOKIEHASH', md5(get_option('siteurl')));
+			if ( !defined( 'COOKIEHASH' ) ) {
+				$siteurl = get_site_option( 'siteurl' );
+				if ( $siteurl )
+					define( 'COOKIEHASH', md5( $siteurl ) );
+				else
+					define( 'COOKIEHASH', '' );
+			}
 
 			/**
 			 * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php

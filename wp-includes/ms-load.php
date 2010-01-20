@@ -48,18 +48,6 @@ function ms_network_settings() {
 	if( $current_site->site_name == false )
 		$current_site->site_name = ucfirst( $current_site->domain );
 
-	if ( ! defined('WP_INSTALLING') ) {
-		if ( !isset($cookiehash) )
-			$cookiehash = '';
-
-		/**
-		 * Used to guarantee unique hash cookies
-		 * @since 1.5
-		 */
-		if ( !defined('COOKIEHASH') )
-				define( 'COOKIEHASH', $cookiehash );
-	}
-
 	$wpdb->hide_errors();
 }
 
