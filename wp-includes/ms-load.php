@@ -53,19 +53,19 @@ function ms_network_settings() {
 
 function ms_network_plugins() {
 	$network_plugins = array();
+	$deleted_sitewide_plugins = array();
 	$wpmu_sitewide_plugins = (array) maybe_unserialize( get_site_option( 'wpmu_sitewide_plugins' ) );
 	foreach( $wpmu_sitewide_plugins as $plugin_file => $activation_time ) {
 		if ( !$plugin_file )
 			continue;
 
-		if ( !file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
+		if ( !file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) )
 			$deleted_sitewide_plugins[] = $plugin_file;
-		} else {
-			$network_plugins = WP_PLUGIN_DIR . '/' . $plugin_file;
-		}
+		else
+			$network_plugins[] = WP_PLUGIN_DIR . '/' . $plugin_file;
 	}
 
-	if ( isset( $deleted_sitewide_plugins ) ) {
+	if ( !empty( $deleted_sitewide_plugins ) ) {
 		$active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
 
 		/* Remove any deleted plugins from the wpmu_sitewide_plugins array */
