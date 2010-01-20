@@ -317,10 +317,11 @@ switch($action) {
 	default:
 		//@todo: give an informative screen instead
 		if ( is_multisite() ) {
-			wp_die('Network already enabled');
+			_e('Network already enabled');
+		} else {
+			$rewrite_enabled = step1();
+			printstep1form($rewrite_enabled);
 		}
-		$rewrite_enabled = step1();
-		printstep1form($rewrite_enabled);
 	break;
 }
 ?>
