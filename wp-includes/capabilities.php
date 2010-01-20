@@ -980,6 +980,12 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = $cap;
 		break;
+	case 'create_users':
+		if ( is_multisite() && !get_site_option( 'add_new_users' ) )
+			$caps[] = 'do_not_allow';
+		else
+			$caps[] = $cap;
+		break;
 	default:
 		// If no meta caps match, return the original cap.
 		$caps[] = $cap;

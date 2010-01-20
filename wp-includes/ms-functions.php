@@ -1222,14 +1222,11 @@ function wpmu_activate_signup($key) {
 
 function wpmu_create_user( $user_name, $password, $email) {
 	$user_name = preg_replace( "/\s+/", '', sanitize_user( $user_name, true ) );
-	if ( username_exists($user_name) )
-		return false;
-
-	// Check if the email address has been used already.
-	if ( email_exists($email) )
-		return false;
 
 	$user_id = wp_create_user( $user_name, $password, $email );
+	if ( is_wp_error($user_id) )
+		return false;
+
 	$user = new WP_User($user_id);
 
 	// Newly created users have no roles or caps until they are added to a blog.

@@ -62,10 +62,10 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 			$redirect = 'user-new.php';
 			$username = $user_details->user_login;
 			$user_id = $user_details->ID;
-			if ( ($username != null && is_site_admin( $username ) == false ) && ( array_key_exists($blog_id, get_blogs_of_user($user_id)) ) ) {
+			if ( ( $username != null && !is_super_admin( $user_id ) ) && ( array_key_exists($blog_id, get_blogs_of_user($user_id)) ) ) {
 				$redirect = add_query_arg( array('update' => 'addexisting'), 'user-new.php' );
 			} else {
-				if ( isset( $_POST[ 'noconfirmation' ] ) && is_site_admin() ) {
+				if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 					add_existing_user_to_blog( array( 'user_id' => $user_id, 'role' => $_REQUEST[ 'role' ] ) );
 					$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
 				} else {
@@ -184,12 +184,16 @@ foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name
 $new_user_send_password = !$_POST || isset($_POST['send_password']);
 ?>
 <table class="form-table">
-<?php if ( !is_multisite() ) { ?>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="user_login"><?php _e('Username'); ?> <span class="description"><?php _e('(required)'); ?></span></label>
 		<input name="action" type="hidden" id="action" value="adduser" /></th>
 		<td><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr($new_user_login); ?>" aria-required="true" /></td>
 	</tr>
+	<tr class="form-field form-required">
+		<th scope="row"><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
+		<td><input name="email" type="text" id="email" value="<?php echo esc_attr($new_user_email); ?>" /></td>
+	</tr>
+<?php if ( !is_multisite() ) { ?>
 	<tr class="form-field">
 		<th scope="row"><label for="first_name"><?php _e('First Name') ?> </label></th>
 		<td><input name="first_name" type="text" id="first_name" value="<?php echo esc_attr($new_user_firstname); ?>" /></td>
@@ -198,15 +202,10 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 		<th scope="row"><label for="last_name"><?php _e('Last Name') ?> </label></th>
 		<td><input name="last_name" type="text" id="last_name" value="<?php echo esc_attr($new_user_lastname); ?>" /></td>
 	</tr>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
-		<td><input name="email" type="text" id="email" value="<?php echo esc_attr($new_user_email); ?>" /></td>
-	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
 		<td><input name="url" type="text" id="url" class="code" value="<?php echo esc_attr($new_user_uri); ?>" /></td>
 	</tr>
-
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php _e('(twice, required)'); ?></span></label></th>
@@ -223,16 +222,7 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" <?php checked($new_user_send_password, true); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
 	</tr>
 <?php endif; ?>
-<?php } else { // multisite ?>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="user_login"><?php _e('Username (required)') ?></label><input name="action" type="hidden" id="action" value="adduser" /></th>
-		<td ><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" aria-required="true" /></td>
-	</tr>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="email"><?php _e('E-mail (required)') ?></label></th>
-		<td><input name="email" type="text" id="email" value="<?php echo $new_user_email; ?>" /></td>
-	</tr>
-<?php } ?>
+<?php } // !is_multisite ?>
 	<tr class="form-field">
 		<th scope="row"><label for="role"><?php _e('Role'); ?></label></th>
 		<td><select name="role" id="role">
@@ -244,11 +234,10 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 			</select>
 		</td>
 	</tr>
-
 	<?php if ( is_multisite() && is_super_admin() ) { ?>
-	<tr class="form-field">
+	<tr>
 		<th scope="row"><label for="noconfirmation"><?php _e('Skip Confirmation Email') ?></label></th>
-		<td><input name="noconfirmation" type="checkbox" id="noconfirmation" value="1" /> <label for="noconfirmation"><?php _e( 'Site administrators can add a user without sending the confirmation email.' ); ?></label></td>
+		<td><label for="noconfirmation"><input type="checkbox" name="noconfirmation" id="noconfirmation" value="1" /> <?php _e( 'Site administrators can add a user without sending the confirmation email.' ); ?></label></td>
 	</tr>
 	<?php } ?>
 </table>

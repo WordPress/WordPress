@@ -122,9 +122,11 @@ function wp_insert_user($userdata) {
 	//Remove any non-printable chars from the login string to see if we have ended up with an empty username
 	$user_login = trim($user_login);
 
-	if ( empty($user_login) ) {
+	if ( empty($user_login) )
 		return new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.') );
-	}
+
+	if ( !$update && username_exists( $user_login ) )
+		return new WP_Error('existing_user_login', __('This username is already registered.') );
 
 	if ( empty($user_nicename) )
 		$user_nicename = sanitize_title( $user_login );
@@ -137,6 +139,9 @@ function wp_insert_user($userdata) {
 	if ( empty($user_email) )
 		$user_email = '';
 	$user_email = apply_filters('pre_user_email', $user_email);
+
+	if ( !$update && email_exists($user_email) )
+		return new WP_Error('existing_user_email', __('This email address is already registered.') );
 
 	if ( empty($display_name) )
 		$display_name = $user_login;

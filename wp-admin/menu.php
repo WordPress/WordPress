@@ -130,10 +130,7 @@ else
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
 	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
-	if ( !is_multisite() )
-		$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
-	elseif ( is_super_admin() || get_site_option( 'add_new_users' ) )
-		$submenu['users.php'][10] = array(__('Add New') . ' <strong>*</strong>', 'create_users', 'ms-options.php#addnewusers');
+	$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
 
 	$submenu['users.php'][15] = array(__('Your Profile'), 'read', 'profile.php');
 } else {
