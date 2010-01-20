@@ -21,8 +21,8 @@ global $wpdb;
 $c_users = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->users}");
 $c_blogs = $wpdb->get_var("SELECT COUNT(blog_id) FROM {$wpdb->blogs}");
 
-$user_text = sprintf( __ngettext( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
-$blog_text = sprintf( __ngettext( '%s blog', '%s blogs', $c_blogs ), number_format_i18n( $c_blogs ) );
+$user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
+$blog_text = sprintf( _n( '%s blog', '%s blogs', $c_blogs ), number_format_i18n( $c_blogs ) );
 
 $sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 $title = __( 'Site Admin' );

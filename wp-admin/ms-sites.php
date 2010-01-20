@@ -14,10 +14,10 @@ require_once('admin-header.php');
 if ( !is_super_admin() )
 	wp_die( __('You do not have permission to access this page.') );
 
-$id = intval( $_GET['id'] );
+$id = isset($_GET['id']) ? intval( $_GET['id'] ) : 0;
 $protocol = is_ssl() ? 'https://' : 'http://';
 
-if ( $_GET['updated'] == 'true' ) {
+if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 	?>
 	<div id="message" class="updated fade"><p>
 		<?php
@@ -70,7 +70,9 @@ if ( $_GET['updated'] == 'true' ) {
 	<?php
 }
 
-switch ( $_GET['action'] ) {
+$action = isset($_GET['action']) ? $_GET['action'] : 'list';
+
+switch ( $action ) {
 	// Edit blog
 	case "editblog":
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
@@ -309,6 +311,7 @@ switch ( $_GET['action'] ) {
 	break;
 
 	// List blogs
+	case 'list':
 	default:
 		$apage = ( isset($_GET['apage'] ) && intval( $_GET['apage'] ) ) ? absint( $_GET['apage'] ) : 1;
 		$num = ( isset($_GET['num'] ) && intval( $_GET['num'] ) ) ? absint( $_GET['num'] ) : 15;

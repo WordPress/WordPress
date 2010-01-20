@@ -1218,7 +1218,7 @@ function show_post_thumbnail_warning() {
 		return;
 	}
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );
-	if ( !$mu_media_buttons[ 'image' ] && current_theme_supports( 'post-thumbnails' ) ) {
+	if ( empty($mu_media_buttons[ 'image' ]) && current_theme_supports( 'post-thumbnails' ) ) {
 		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports post thumbnails. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), admin_url( 'ms-options.php' ) ) . "</div>";
 	}
 }
