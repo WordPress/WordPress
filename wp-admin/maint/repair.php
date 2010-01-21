@@ -43,7 +43,7 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 			echo "<p>The {$wpdb->prefix}$table table is not okay. It is reporting the following error: <code>$check->Msg_text</code>.  WordPress will attempt to repair this table&hellip;";
 			$repair = $wpdb->get_row("REPAIR TABLE {$wpdb->prefix}$table");
 			if ( 'OK' == $check->Msg_text ) {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Sucessfully repaired the {$wpdb->prefix}$table table.";
+				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully repaired the {$wpdb->prefix}$table table.";
 			} else {
 				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to repair the {$wpdb->prefix}$table table. Error: $check->Msg_text<br />";
 				$problems["{$wpdb->prefix}$table"] = $check->Msg_text;
@@ -57,7 +57,7 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 			} else {
 				$check = $wpdb->get_row("OPTIMIZE TABLE {$wpdb->prefix}$table");
 				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text )
-					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Sucessfully optimized the {$wpdb->prefix}$table table.";
+					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully optimized the {$wpdb->prefix}$table table.";
 				else
 					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to optimize the {$wpdb->prefix}$table table. Error: $check->Msg_text";
 			}
