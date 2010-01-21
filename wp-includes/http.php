@@ -73,7 +73,7 @@ class WP_Http {
 	 * Tests all of the objects and returns the object that passes. Also caches
 	 * that object to be used later.
 	 *
-	 * The order for the GET/HEAD requests are Streams, HTTP Extension, Fopen,
+	 * The order for the GET/HEAD requests are HTTP Extension, cURL, Streams, Fopen,
 	 * and finally Fsockopen. fsockopen() is used last, because it has the most
 	 * overhead in its implementation. There isn't any real way around it, since
 	 * redirects have to be supported, much the same way the other transports
