@@ -99,7 +99,7 @@ function wp_image_editor($post_id, $msg = false) {
 		<p><?php _e('Discard any changes and restore the original image.');
 
 		if ( !defined('IMAGE_EDIT_OVERWRITE') || !IMAGE_EDIT_OVERWRITE )
-			_e(' Previously edited copies of the image will not be deleted.');
+			echo ' '.__('Previously edited copies of the image will not be deleted.');
 
 		?></p>
 		<div class="imgedit-submit">
@@ -118,7 +118,7 @@ function wp_image_editor($post_id, $msg = false) {
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><?php _e('(help)'); ?></a>
 		<div class="imgedit-help">
 		<p><?php _e('The image can be cropped by clicking on it and dragging to select the desired part. While dragging the dimensions of the selection are displayed below.'); ?></p>
-		<strong><?php _e('Keyboard shortcuts'); ?></strong>
+		<strong><?php _e('Keyboard Shortcuts'); ?></strong>
 		<ul>
 		<li><?php _e('Arrow: move by 10px'); ?></li>
 		<li><?php _e('Shift + arrow: move by 1px'); ?></li>

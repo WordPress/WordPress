@@ -59,7 +59,7 @@ class MT_Import {
 		global $wpdb;
 		$users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY ID");
 ?><select name="userselect[<?php echo $n; ?>]">
-	<option value="#NONE#"><?php _e('- Select -') ?></option>
+	<option value="#NONE#"><?php _e('&mdash; Select &mdash;') ?></option>
 	<?php
 
 
@@ -269,7 +269,7 @@ class MT_Import {
 			 // Add tags or keywords
 			if ( 1 < strlen($post->post_keywords) ) {
 			 	// Keywords exist.
-				printf(__('<br />Adding tags <i>%s</i>...'), stripslashes($post->post_keywords));
+				printf('<br />'.__('Adding tags <em>%s</em>...'), stripslashes($post->post_keywords));
 				wp_add_post_tags($post_id, $post->post_keywords);
 			}
 		}

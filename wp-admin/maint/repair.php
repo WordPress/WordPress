@@ -19,7 +19,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <?php
 
 if ( !defined('WP_ALLOW_REPAIR') ) {
-	_e("<p>To allow use of this page to automatically repair database problems, please add the following line to your wp-config.php file.  Once this line is added to your config, reload this page.</p><code>define('WP_ALLOW_REPAIR', true);</code>");
+	echo '<p>'.__('To allow use of this page to automatically repair database problems, please add the following line to your wp-config.php file.  Once this line is added to your config, reload this page.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 } elseif ( isset($_GET['repair']) ) {
 	$problems = array();
 	check_admin_referer('repair_db');
@@ -66,13 +66,13 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 	}
 
 	if ( !empty($problems) ) {
-		printf(__('<p>Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.</p>'), 'http://wordpress.org/support/forum/3');
+		printf('<p>'.__('Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.').'</p>', 'http://wordpress.org/support/forum/3');
 		$problem_output = array();
 		foreach ( $problems as $table => $problem )
 			$problem_output[] = "$table: $problem";
 		echo '<textarea name="errors" id="errors" rows="20" cols="60">' . format_to_edit(implode("\n", $problem_output)) . '</textarea>';
 	} else {
-		_e("<p>Repairs complete.  Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.</p><code>define('WP_ALLOW_REPAIR', true);</code>");
+		echo '<p>'.__('Repairs complete.  Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.')."</p><code>define('WP_ALLOW_REPAIR', true);</code>";
 	}
 } else {
 	if ( isset($_GET['referrer']) && 'is_blog_installed' == $_GET['referrer'] )

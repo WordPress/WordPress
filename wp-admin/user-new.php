@@ -208,7 +208,7 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 	</tr>
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
 	<tr class="form-field form-required">
-		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php _e('(twice, required)'); ?></span></label></th>
+		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php /* translators: password input field */_e('(twice, required)'); ?></span></label></th>
 		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
 		<br />
 		<input name="pass2" type="password" id="pass2" autocomplete="off" />

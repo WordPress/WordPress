@@ -139,7 +139,7 @@ class RSS_Import {
 
 				if (0 != count($categories))
 					wp_create_categories($categories, $post_id);
-				_e('Done !');
+				_e('Done!');
 			}
 			echo '</li>';
 		}

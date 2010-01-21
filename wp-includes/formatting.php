@@ -1770,6 +1770,7 @@ function human_time_diff( $from, $to = '' ) {
 		if ($mins <= 1) {
 			$mins = 1;
 		}
+		/* translators: min=minute */
 		$since = sprintf(_n('%s min', '%s mins', $mins), $mins);
 	} else if (($diff <= 86400) && ($diff > 3600)) {
 		$hours = round($diff / 3600);

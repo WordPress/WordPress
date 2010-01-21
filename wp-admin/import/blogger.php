@@ -659,7 +659,7 @@ class Blogger_Import {
 			$this->save_vars();
 		}
 
-		$directions = __('All posts were imported with the current user as author. Use this form to move each Blogger user&#8217;s posts to a different WordPress user. You may <a href="users.php">add users</a> and then return to this page and complete the user mapping. This form may be used as many times as you like until you activate the &#8220;Restart&#8221; function below.');
+		$directions = sprintf( __('All posts were imported with the current user as author. Use this form to move each Blogger user&#8217;s posts to a different WordPress user. You may <a href="%s">add users</a> and then return to this page and complete the user mapping. This form may be used as many times as you like until you activate the &#8220;Restart&#8221; function below.'), 'users.php' );
 		$heading = __('Author mapping');
 		$blogtitle = "{$blog['title']} ({$blog['host']})";
 		$mapthis = __('Blogger username');

@@ -215,7 +215,7 @@ add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
 function install_plugins_upload( $page = 1 ) {
 ?>
 	<h4><?php _e('Install a plugin in .zip format') ?></h4>
-	<p class="install-help"><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
+	<p class="install-help"><?php _e('If you have a plugin in a .zip format, you may install it by uploading it here.') ?></p>
 	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('update.php?action=upload-plugin') ?>">
 		<?php wp_nonce_field( 'plugin-upload') ?>
 		<label class="screen-reader-text" for="pluginzip"><?php _e('Plugin zip file'); ?></label>
@@ -503,7 +503,7 @@ function install_plugin_information() {
 			endswitch; ?>
 		</p>
 		<?php endif; ?>
-		<h2 class="mainheader"><?php _e('FYI') ?></h2>
+		<h2 class="mainheader"><?php /* translators: For Your Information */ _e('FYI') ?></h2>
 		<ul>
 <?php if ( ! empty($api->version) ) : ?>
 			<li><strong><?php _e('Version:') ?></strong> <?php echo $api->version ?></li>

@@ -582,7 +582,10 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<?php echo get_avatar( $comment, 50 ); ?>
 
 			<div class="dashboard-comment-wrap">
-			<h4 class="comment-meta"><?php printf( __( 'From %1$s on %2$s%3$s' ), '<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link.' '.$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?></h4>
+			<h4 class="comment-meta">
+				<?php printf( /* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */__( 'From %1$s on %2$s%3$s' ),
+					'<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link.' '.$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?>
+			</h4>
 
 			<?php
 			else :

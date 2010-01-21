@@ -436,7 +436,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
 	if ( is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->get_error_code() )
-		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
+		return new WP_Error('fs_error', __('Filesystem error.'), $wp_filesystem->errors);
 
 	//Get the base plugin folder
 	$plugins_dir = $wp_filesystem->wp_plugins_dir();
@@ -464,7 +464,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 	}
 
 	if ( ! empty($errors) )
-		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s'), implode(', ', $errors)) );
+		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s.'), implode(', ', $errors)) );
 
 	// Force refresh of plugin update information
 	if ( $current = get_site_transient('update_plugins') ) {

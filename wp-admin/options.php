@@ -65,7 +65,7 @@ case 'update':
 	}
 
 	if ( !isset( $whitelist_options[ $option_page ] ) )
-		wp_die( __( 'Error! Options page not found.' ) );
+		wp_die( __( 'Error: options page not found.' ) );
 
 	if ( 'options' == $option_page ) {
 		$options = explode(',', stripslashes( $_POST[ 'page_options' ] ));

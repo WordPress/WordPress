@@ -177,7 +177,7 @@ $num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments
 //, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
 //, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 $stati = array(
-		'all' => _n_noop('All', 'All'), // singular not used
+		'all' => _nx_noop('All', 'All', 'comments'), // singular not used
 		'moderated' => _n_noop('Pending <span class="count">(<span class="pending-count">%s</span>)</span>', 'Pending <span class="count">(<span class="pending-count">%s</span>)</span>'),
 		'approved' => _n_noop('Approved', 'Approved'), // singular not used
 		'spam' => _n_noop('Spam <span class="count">(<span class="spam-count">%s</span>)</span>', 'Spam <span class="count">(<span class="spam-count">%s</span>)</span>'),

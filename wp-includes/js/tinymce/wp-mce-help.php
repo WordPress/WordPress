@@ -210,10 +210,10 @@ wp_admin_css( 'wp-admin', true );
 		<script type="text/javascript">
 		if ( ! tinymce.isWebKit )
 			document.write("<tr><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>"+
-			"<tr><th>u</th><td><?php _e('Underline') ?></td><th>1</th><td><?php _e('Header 1') ?></td></tr>"+
-			"<tr><th>2</th><td><?php _e('Header 2') ?></td><th>3</th><td><?php _e('Header 3') ?></td></tr>"+
-			"<tr><th>4</th><td><?php _e('Header 4') ?></td><th>5</th><td><?php _e('Header 5') ?></td></tr>"+
-			"<tr><th>6</th><td><?php _e('Header 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>")
+			"<tr><th>u</th><td><?php _e('Underline') ?></td><th>1</th><td><?php _e('Heading 1') ?></td></tr>"+
+			"<tr><th>2</th><td><?php _e('Heading 2') ?></td><th>3</th><td><?php _e('Heading 3') ?></td></tr>"+
+			"<tr><th>4</th><td><?php _e('Heading 4') ?></td><th>5</th><td><?php _e('Heading 5') ?></td></tr>"+
+			"<tr><th>6</th><td><?php _e('Heading 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>")
 		</script>
 	</table>
 

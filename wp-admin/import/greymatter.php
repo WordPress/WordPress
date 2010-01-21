@@ -42,7 +42,7 @@ class GM_Import {
 <ul>
 <li><?php _e('Parse gm-counter.cgi, gm-banlist.cgi, gm-cplog.cgi (you can make a CP log hack if you really feel like it, but I question the need of a CP log).') ?></li>
 <li><?php _e('Import gm-templates.') ?></li>
-<li><?php _e("Doesn't keep entries on top.")?></li>
+<li><?php _e("Doesn&#8217;t keep entries on top.")?></li>
 </ul>
 <p>&nbsp;</p>
 

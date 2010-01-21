@@ -79,7 +79,7 @@ function delete_theme($template) {
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
 	if ( is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->get_error_code() )
-		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
+		return new WP_Error('fs_error', __('Filesystem error.'), $wp_filesystem->errors);
 
 	//Get the base plugin folder
 	$themes_dir = $wp_filesystem->wp_themes_dir();
@@ -94,7 +94,7 @@ function delete_theme($template) {
 	$deleted = $wp_filesystem->delete($theme_dir, true);
 
 	if ( ! $deleted )
-		return new WP_Error('could_not_remove_theme', sprintf(__('Could not fully remove the theme %s'), $template) );
+		return new WP_Error('could_not_remove_theme', sprintf(__('Could not fully remove the theme %s.'), $template) );
 
 	// Force refresh of theme update information
 	delete_site_transient('update_themes');

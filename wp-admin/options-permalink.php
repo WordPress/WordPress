@@ -218,7 +218,7 @@ $structures = array(
 
 <table class="form-table">
 	<tr>
-		<th><label for="category_base"><?php _e('Category base'); ?></label></th>
+		<th><label for="category_base"><?php /* translators: prefix for category permalinks */ _e('Category base'); ?></label></th>
 		<td><?php if ( is_multisite() && !is_subdomain_install() && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) { echo "/blog"; $category_base = str_replace( "/blog", "", $category_base ); }?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>

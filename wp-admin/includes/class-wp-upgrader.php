@@ -43,7 +43,7 @@ class WP_Upgrader {
 	function generic_strings() {
 		$this->strings['bad_request'] = __('Invalid Data provided.');
 		$this->strings['fs_unavailable'] = __('Could not access filesystem.');
-		$this->strings['fs_error'] = __('Filesystem error');
+		$this->strings['fs_error'] = __('Filesystem error.');
 		$this->strings['fs_no_root_dir'] = __('Unable to locate WordPress Root directory.');
 		$this->strings['fs_no_content_dir'] = __('Unable to locate WordPress Content directory (wp-content).');
 		$this->strings['fs_no_plugins_dir'] = __('Unable to locate WordPress Plugin directory.');
@@ -54,7 +54,7 @@ class WP_Upgrader {
 		$this->strings['installing_package'] = __('Installing the latest version&#8230;');
 		$this->strings['folder_exists'] = __('Destination folder already exists.');
 		$this->strings['mkdir_failed'] = __('Could not create directory.');
-		$this->strings['bad_package'] = __('Incompatible Archive');
+		$this->strings['bad_package'] = __('Incompatible Archive.');
 
 		$this->strings['maintenance_start'] = __('Enabling Maintenance mode&#8230;');
 		$this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
@@ -468,7 +468,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$i = 1;
 		foreach ( $plugins as $plugin ) {
 
-			$this->show_before = sprintf( '<h4>' . __('Updating plugin %1$d of %2$d...') . '</h4>', $i, $all );
+			$this->show_before = sprintf( '<h4>' . __('Updating plugin %1$d of %2$d&#8230;') . '</h4>', $i, $all );
 			$i++;
 
 			if ( !isset( $current->response[ $plugin ] ) ) {

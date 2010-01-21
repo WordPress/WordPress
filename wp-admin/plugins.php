@@ -183,7 +183,8 @@ if ( !empty($action) ) {
 					<ul class="ul-disc">
 						<?php
 						foreach ( $plugin_info as $plugin )
-							echo '<li>', sprintf(__('<strong>%s</strong> by <em>%s</em>'), $plugin['Name'], $plugin['Author']), '</li>';
+							/* translators: 1: plugin name, 2: plugin author */
+							echo '<li>', sprintf(__('<strong>%1$s</strong> by <em>%2$s</em>'), $plugin['Name'], $plugin['Author']), '</li>';
 						?>
 					</ul>
 				<p><?php _e('Are you sure you wish to delete these files?') ?></p>

@@ -287,7 +287,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 			}
 			$selected = '';
 			echo "\t\t<select name='{$sbname}_position'>\n";
-			echo "\t\t<option value=''>" . __('-- select --') . "</option>\n";
+			echo "\t\t<option value=''>" . __('&mdash; Select &mdash;') . "</option>\n";
 			for ( $i = 1; $i <= $j; $i++ ) {
 				if ( in_array($widget_id, $sidebars_widgets[$sbname], true) )
 					$selected = selected( $i, $key + 1, false );

@@ -156,7 +156,7 @@ if ( isset($_GET['action']) ) {
 		$submenu_file = 'theme-install.php';
 		require_once('admin-header.php');
 
-		$title = sprintf( __('Installing theme: %s'), $api->name . ' ' . $api->version );
+		$title = sprintf( __('Installing Theme: %s'), $api->name . ' ' . $api->version );
 		$nonce = 'install-theme_' . $theme;
 		$url = 'update.php?action=install-theme&theme=' . $theme;
 		$type = 'web'; //Install theme type, From Web or an Upload.

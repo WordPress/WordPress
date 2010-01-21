@@ -607,7 +607,7 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
 	if ( empty($link) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . get_edit_tag_link( $tag->term_id ) . '" title="' . __( 'Edit tag' ) . '">' . $link . '</a>';
+	$link = '<a href="' . get_edit_tag_link( $tag->term_id ) . '" title="' . __( 'Edit Tag' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_tag_link', $link, $tag->term_id ) . $after;
 }
 
@@ -712,7 +712,7 @@ function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
 	if ( null === $link )
 		$link = __('Edit This');
 
-	$link = '<a class="post-edit-link" href="' . $url . '" title="' . esc_attr( __( 'Edit post' ) ) . '">' . $link . '</a>';
+	$link = '<a class="post-edit-link" href="' . $url . '" title="' . esc_attr( __( 'Edit Post' ) ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
 
@@ -841,7 +841,7 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 	if ( empty($link) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . get_edit_bookmark_link( $link ) . '" title="' . __( 'Edit link' ) . '">' . $link . '</a>';
+	$link = '<a href="' . get_edit_bookmark_link( $link ) . '" title="' . __( 'Edit Link' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_bookmark_link', $link, $bookmark->link_id ) . $after;
 }
 

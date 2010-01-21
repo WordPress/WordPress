@@ -452,15 +452,15 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 function download_url( $url ) {
 	//WARNING: The file is not automatically deleted, The script must unlink() the file.
 	if ( ! $url )
-		return new WP_Error('http_no_url', __('Invalid URL Provided'));
+		return new WP_Error('http_no_url', __('Invalid URL Provided.'));
 
 	$tmpfname = wp_tempnam($url);
 	if ( ! $tmpfname )
-		return new WP_Error('http_no_file', __('Could not create Temporary file'));
+		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
 	$handle = @fopen($tmpfname, 'wb');
 	if ( ! $handle )
-		return new WP_Error('http_no_file', __('Could not create Temporary file'));
+		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
 	$response = wp_remote_get($url, array('timeout' => 300));
 
@@ -512,10 +512,10 @@ function unzip_file($file, $to) {
 
 	// Is the archive valid?
 	if ( false == ($archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING)) )
-		return new WP_Error('incompatible_archive', __('Incompatible archive'), $archive->errorInfo(true));
+		return new WP_Error('incompatible_archive', __('Incompatible Archive.'), $archive->errorInfo(true));
 
 	if ( 0 == count($archive_files) )
-		return new WP_Error('empty_archive', __('Empty archive'));
+		return new WP_Error('empty_archive', __('Empty archive.'));
 
 	$path = explode('/', untrailingslashit($to));
 	for ( $i = count($path); $i > 0; $i-- ) { //>0 = first element is empty allways for paths starting with '/'
@@ -524,7 +524,7 @@ function unzip_file($file, $to) {
 			for ( $i = $i + 1; $i <= count($path); $i++ ) {
 				$tmppath = implode('/', array_slice($path, 0, $i) );
 				if ( ! $fs->mkdir($tmppath, FS_CHMOD_DIR) )
-					return new WP_Error('mkdir_failed', __('Could not create directory'), $tmppath);
+					return new WP_Error('mkdir_failed', __('Could not create directory.'), $tmppath);
 			}
 			break; //Exit main for loop
 		}
@@ -542,7 +542,7 @@ function unzip_file($file, $to) {
 				for ( $i = $i + 1; $i <= count($path); $i++ ) { //< count() no file component please.
 					$tmppath = $to . implode('/', array_slice($path, 0, $i) );
 					if ( ! $fs->is_dir($tmppath) && ! $fs->mkdir($tmppath, FS_CHMOD_DIR) )
-						return new WP_Error('mkdir_failed', __('Could not create directory'), $tmppath);
+						return new WP_Error('mkdir_failed', __('Could not create directory.'), $tmppath);
 				}
 				break; //Exit main for loop
 			}
@@ -551,7 +551,7 @@ function unzip_file($file, $to) {
 		// We've made sure the folders are there, so let's extract the file now:
 		if ( ! $file['folder'] ) {
 			if ( !$fs->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
-				return new WP_Error('copy_failed', __('Could not copy file'), $to . $file['filename']);
+				return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
 		}
 	}
 	return true;
@@ -581,13 +581,13 @@ function copy_dir($from, $to) {
 				// If copy failed, chmod file to 0644 and try again.
 				$wp_filesystem->chmod($to . $filename, 0644);
 				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
-					return new WP_Error('copy_failed', __('Could not copy file'), $to . $filename);
+					return new WP_Error('copy_failed', __('Could not copy file.'), $to . $filename);
 			}
 			$wp_filesystem->chmod($to . $filename, FS_CHMOD_FILE);
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->is_dir($to . $filename) ) {
 				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )
-					return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $filename);
+					return new WP_Error('mkdir_failed', __('Could not create directory.'), $to . $filename);
 			}
 			$result = copy_dir($from . $filename, $to . $filename);
 			if ( is_wp_error($result) )

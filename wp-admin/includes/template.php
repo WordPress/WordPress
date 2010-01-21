@@ -1063,7 +1063,7 @@ function inline_edit_row( $screen ) {
 		if ( $authors && count( $authors ) > 1 ) :
 			$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1, 'echo' => 0);
 			if ( $bulk )
-				$users_opt['show_option_none'] = __('- No Change -');
+				$users_opt['show_option_none'] = __('&mdash; No Change &mdash;');
 			$authors_dropdown  = '<label>';
 			$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
 			$authors_dropdown .= wp_dropdown_users( $users_opt );
@@ -1124,7 +1124,7 @@ function inline_edit_row( $screen ) {
 <?php
 	$dropdown_args = array('selected' => $post->post_parent, 'name' => 'post_parent', 'show_option_none' => __('Main Page (no parent)'), 'option_none_value' => 0, 'sort_column'=> 'menu_order, post_title');
 	if ( $bulk )
-		$dropdown_args['show_option_no_change'] =  __('- No Change -');
+		$dropdown_args['show_option_no_change'] =  __('&mdash; No Change &mdash;');
 	$dropdown_args = apply_filters('quick_edit_dropdown_pages_args', $dropdown_args);
 	wp_dropdown_pages($dropdown_args);
 ?>
@@ -1143,7 +1143,7 @@ function inline_edit_row( $screen ) {
 			<span class="title"><?php _e( 'Template' ); ?></span>
 			<select name="page_template">
 <?php	if ( $bulk ) : ?>
-				<option value="-1"><?php _e('- No Change -'); ?></option>
+				<option value="-1"><?php _e('&mdash; No Change &mdash;'); ?></option>
 <?php	endif; // $bulk ?>
 				<option value="default"><?php _e( 'Default Template' ); ?></option>
 				<?php page_template_dropdown() ?>
@@ -1165,7 +1165,7 @@ function inline_edit_row( $screen ) {
 		<label class="alignleft">
 			<span class="title"><?php _e( 'Comments' ); ?></span>
 			<select name="comment_status">
-				<option value=""><?php _e('- No Change -'); ?></option>
+				<option value=""><?php _e('&mdash; No Change &mdash;'); ?></option>
 				<option value="open"><?php _e('Allow'); ?></option>
 				<option value="closed"><?php _e('Do not allow'); ?></option>
 			</select>
@@ -1174,7 +1174,7 @@ function inline_edit_row( $screen ) {
 		<label class="alignright">
 			<span class="title"><?php _e( 'Pings' ); ?></span>
 			<select name="ping_status">
-				<option value=""><?php _e('- No Change -'); ?></option>
+				<option value=""><?php _e('&mdash; No Change &mdash;'); ?></option>
 				<option value="open"><?php _e('Allow'); ?></option>
 				<option value="closed"><?php _e('Do not allow'); ?></option>
 			</select>
@@ -1203,7 +1203,7 @@ function inline_edit_row( $screen ) {
 				<span class="title"><?php _e( 'Status' ); ?></span>
 				<select name="_status">
 <?php if ( $bulk ) : ?>
-					<option value="-1"><?php _e('- No Change -'); ?></option>
+					<option value="-1"><?php _e('&mdash; No Change &mdash;'); ?></option>
 <?php endif; // $bulk ?>
 				<?php if ( $can_publish ) : // Contributors only get "Unpublished" and "Pending Review" ?>
 					<option value="publish"><?php _e( 'Published' ); ?></option>
@@ -1224,7 +1224,7 @@ function inline_edit_row( $screen ) {
 			<label class="alignright">
 				<span class="title"><?php _e( 'Sticky' ); ?></span>
 				<select name="sticky">
-					<option value="-1"><?php _e( '- No Change -' ); ?></option>
+					<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
 					<option value="sticky"><?php _e( 'Sticky' ); ?></option>
 					<option value="unsticky"><?php _e( 'Not Sticky' ); ?></option>
 				</select>
@@ -1964,7 +1964,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 				$r .= "<td $attributes>$user_object->first_name $user_object->last_name</td>";
 				break;
 			case 'email':
-				$r .= "<td $attributes><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>";
+				$r .= "<td $attributes><a href='mailto:$email' title='" . sprintf( __('E-mail: %s' ), $email ) . "'>$email</a></td>";
 				break;
 			case 'role':
 				$r .= "<td $attributes>$role_name</td>";
@@ -2146,13 +2146,16 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 			case 'comment':
 				echo "<td $attributes>";
 				echo '<div id="submitted-on">';
-				printf( __( '<a href="%1$s">%2$s at %3$s</a>' ), $comment_url, get_comment_date( __('Y/m/d') ), get_comment_date( __( 'g:ia' ) ) );
+				/* translators: 2: comment date, 3: comment time */
+				printf( __( '<a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
+					/* translators: comment date format. See http://php.net/date */ get_comment_date( __('Y/m/d') ),
+					/* translators: comment time format. See http://php.net/date */ get_comment_date( get_option( 'time_format' ) ) );
 
 				if ( $comment->comment_parent ) {
 					$parent = get_comment( $comment->comment_parent );
 					$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
 					$name = apply_filters( 'get_comment_author', $parent->comment_author ); // there's no API function for this
-					printf( __( ' | In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+					printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
 				}
 
 				echo '</div>';
@@ -2544,7 +2547,7 @@ function meta_form() {
 	if ( $keys )
 		natcasesort($keys);
 ?>
-<p><strong><?php _e( 'Add new custom field:' ) ?></strong></p>
+<p><strong><?php _e( 'Add New Custom Field:' ) ?></strong></p>
 <table id="newmeta">
 <thead>
 <tr>
@@ -2558,7 +2561,7 @@ function meta_form() {
 <td id="newmetaleft" class="left">
 <?php if ( $keys ) { ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
-<option value="#NONE#"><?php _e( '- Select -' ); ?></option>
+<option value="#NONE#"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 <?php
 
 	foreach ( $keys as $key ) {

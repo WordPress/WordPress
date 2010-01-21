@@ -490,7 +490,7 @@ class LJ_API_Import {
 		update_option( 'ljapi_maxid',      $maxid );
 		update_option( 'ljapi_highest_id', $highest_id );
 
-		echo '<p>' . __( ' Comment metadata downloaded successfully, proceeding with comment bodies...' ) . '</p>';
+		echo '<p>' . __( 'Comment metadata downloaded successfully, proceeding with comment bodies...' ) . '</p>';
 
 		return true;
 	}

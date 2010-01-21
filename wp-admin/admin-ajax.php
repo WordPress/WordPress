@@ -28,7 +28,7 @@ if ( ! is_user_logged_in() ) {
 		if ( ! $id )
 			die('-1');
 
-		$message = sprintf( __('<strong>ALERT: You are logged out!</strong> Could not save draft. <a href="%s" target="blank">Please log in again.</a>'), wp_login_url() );
+		$message = sprintf( __('<strong>ALERT: You are logged out!</strong> Could not save draft. <a href="%s" target="_blank">Please log in again.</a>'), wp_login_url() );
 			$x = new WP_Ajax_Response( array(
 				'what' => 'autosave',
 				'id' => $id,
@@ -919,7 +919,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$data = '';
 	/* translators: draft saved date format, see http://php.net/date */
 	$draft_saved_date_format = __('g:i:s a');
-	$message = sprintf( __('Draft Saved at %s.'), date_i18n( $draft_saved_date_format ) );
+	$message = sprintf( __('Draft saved at %s.'), date_i18n( $draft_saved_date_format ) );
 
 	$supplemental = array();
 	if ( isset($login_grace_period) )

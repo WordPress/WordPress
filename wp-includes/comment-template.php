@@ -962,7 +962,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	}
 
 	if ( post_password_required() ) {
-		echo __('Enter your password to view comments');
+		echo __('Enter your password to view comments.');
 		return;
 	}
 
@@ -1282,7 +1282,12 @@ class Walker_Comment extends Walker {
 		<br />
 <?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'&nbsp;&nbsp;','') ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>">
+			<?php
+				/* translators: 1: date, 2: time */
+				printf( __('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'&nbsp;&nbsp;','' );
+			?>
+		</div>
 
 		<?php comment_text() ?>
 

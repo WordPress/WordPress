@@ -27,12 +27,14 @@ $messages['post'] = array(
 	__('Custom field updated.'),
 	__('Custom field deleted.'),
 	__('Post updated.'),
+	/* translators: %s: date and time of the revision */
 	isset($_GET['revision']) ? sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	sprintf( __('Post published. <a href="%s">View post</a>'), get_permalink($post_ID) ),
 	__('Post saved.'),
 	sprintf( __('Post submitted. <a target="_blank" href="%s">Preview post</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ),
-	// translators: Publish box date format, see http://php.net/date - Same as in meta-boxes.php
-	sprintf( __('Post scheduled for: <b>%1$s</b>. <a target="_blank" href="%2$s">Preview post</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) ),
+	sprintf( __('Post scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview post</a>'),
+		// translators: Publish box date format, see http://php.net/date
+		date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) ),
 	sprintf( __('Post draft updated. <a target="_blank" href="%s">Preview post</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) )
 );
 $messages['page'] = array(
@@ -44,8 +46,7 @@ $messages['page'] = array(
 	isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	sprintf( __('Page published. <a href="%s">View page</a>'), get_permalink($post_ID) ),
 	sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ),
-	// translators: Publish box date format, see http://php.net/date - Same as in meta-boxes.php
-	sprintf( __('Page scheduled for: <b>%1$s</b>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) ),
+	sprintf( __('Page scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) ),
 	sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) )
 );
 
@@ -75,7 +76,7 @@ if ( 0 == $post_ID ) {
 	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
 		foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
 			if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
-				$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>.' ), get_edit_post_link( $autosave->ID ) );
+				$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>' ), get_edit_post_link( $autosave->ID ) );
 				break;
 			}
 		}

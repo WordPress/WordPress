@@ -378,7 +378,7 @@ function post_comment_status_meta_box($post) {
 <input name="advanced_view" type="hidden" value="1" />
 <p class="meta-options">
 	<label for="comment_status" class="selectit"><input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> /><?php _e('Allow Comments.') ?></label><br />
-	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /><?php printf( __('Allow <a href="%s" target="_blank">trackbacks and pingbacks</a> on this page.'),_x('http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments','Url to codex article on Managing Comments')); ?></label>
+	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /><?php printf( __('Allow <a href="%s" target="_blank">trackbacks and pingbacks</a> on this page.'),__('http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments')); ?></label>
 </p>
 <?php
 }
@@ -616,13 +616,13 @@ function link_target_meta_box($link) { ?>
 <fieldset><legend class="screen-reader-text"><span><?php _e('Target') ?></span></legend>
 <p><label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
-<?php _e('<code>_blank</code> - new window or tab.'); ?></label></p>
+<?php _e('<code>_blank</code> &mdash; new window or tab.'); ?></label></p>
 <p><label for="link_target_top" class="selectit">
 <input id="link_target_top" type="radio" name="link_target" value="_top" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
-<?php _e('<code>_top</code> - current window or tab, with no frames.'); ?></label></p>
+<?php _e('<code>_top</code> &mdash; current window or tab, with no frames.'); ?></label></p>
 <p><label for="link_target_none" class="selectit">
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo ( isset( $link->link_target ) && ($link->link_target == '') ? 'checked="checked"' : ''); ?> />
-<?php _e('<code>_none</code> - same window or tab.'); ?></label></p>
+<?php _e('<code>_none</code> &mdash; same window or tab.'); ?></label></p>
 </fieldset>
 <p><?php _e('Choose the target frame for your link.'); ?></p>
 <?php

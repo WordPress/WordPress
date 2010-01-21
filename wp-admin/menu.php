@@ -65,7 +65,7 @@ $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'm
 $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-top', 'menu-links', 'div' );
 	$submenu['link-manager.php'][5] = array( __('Edit'), 'manage_links', 'link-manager.php' );
 	/* translators: add new links */
-	$submenu['link-manager.php'][10] = array( _x('Add New', 'links'), 'manage_links', 'link-add.php' );
+	$submenu['link-manager.php'][10] = array( _x('Add New', 'link'), 'manage_links', 'link-add.php' );
 	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
 $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'menu-top', 'menu-pages', 'div' );
@@ -104,7 +104,7 @@ $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top', 'menu-appearance', 'div' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	if ( !is_multisite() )
-		$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
+		$submenu['themes.php'][10] = array(_x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
 	$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 
 $update_plugins = get_site_transient( 'update_plugins' );
@@ -119,7 +119,7 @@ if ( is_super_admin() || is_multisite() && $menu_perms['plugins'] ) {
 		/* translators: add new plugin */
 		$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
 		if ( !is_multisite() )
-			$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
+			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 }
 
 if ( current_user_can('edit_users') )
@@ -146,7 +146,7 @@ $menu[75] = array( __('Tools'), 'read', 'tools.php', '', 'menu-top', 'menu-tools
 		$submenu['tools.php'][20] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
 
 $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top', 'menu-settings', 'div' );
-	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
+	$submenu['options-general.php'][10] = array(_x('General', 'settings screen'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
 	$submenu['options-general.php'][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
 	$submenu['options-general.php'][25] = array(__('Discussion'), 'manage_options', 'options-discussion.php');
