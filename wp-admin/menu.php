@@ -167,6 +167,7 @@ $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
 $_wp_real_parent_file['post.php'] = 'edit.php';
 $_wp_real_parent_file['post-new.php'] = 'edit.php';
 $_wp_real_parent_file['page-new.php'] = 'edit-pages.php';
+$_wp_real_parent_file['wpmu-admin.php'] = 'ms-admin.php';
 
 do_action('_admin_menu');
 
