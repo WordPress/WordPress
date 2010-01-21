@@ -2470,10 +2470,11 @@ function wp_nonce_ays( $action ) {
 	wp_die( $html, $title, array('response' => 403) );
 }
 
+
 /**
  * Kill WordPress execution and display HTML message with error message.
  *
- * Call this function complements the die() PHP function. The difference is that
+ * This function complements the die() PHP function. The difference is that
  * HTML will be displayed to the user. It is recommended to use this function
  * only, when the execution should not continue any further. It is not
  * recommended to call this function very often and try to handle as many errors
@@ -2486,6 +2487,29 @@ function wp_nonce_ays( $action ) {
  * @param string|array $args Optional arguements to control behaviour.
  */
 function wp_die( $message, $title = '', $args = array() ) {
+	if ( function_exists( 'apply_filters' ) ) {
+		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler');
+	}else {
+		$function = '_default_wp_die_handler';
+	}
+
+	call_user_func( $function, $message, $title, $args );
+}
+
+/**
+ * Kill WordPress execution and display HTML message with error message.
+ *
+ * This is the default handler for wp_die if you want a custom one for your
+ * site then you can overload using the wp_die_handler filter in wp_die
+ *
+ * @since 3.0.0
+ * @private
+ * 
+ * @param string $message Error message.
+ * @param string $title Error title.
+ * @param string|array $args Optional arguements to control behaviour.
+ */
+function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	global $wp_locale;
 
 	$defaults = array( 'response' => 500 );
