@@ -21,8 +21,6 @@ if ( isset( $current_site ) && isset( $current_blog ) )
 $wpmuBaseTablePrefix = $table_prefix;
 
 $domain = addslashes( $_SERVER['HTTP_HOST'] );
-if ( substr( $domain, 0, 4 ) == 'www.' )
-	$domain = substr( $domain, 4 );
 if ( strpos( $domain, ':' ) ) {
 	if ( substr( $domain, -3 ) == ':80' ) {
 		$domain = substr( $domain, 0, -3 );
@@ -37,6 +35,11 @@ if ( strpos( $domain, ':' ) ) {
 $domain = preg_replace('/:.*$/', '', $domain); // Strip ports
 if ( substr( $domain, -1 ) == '.' )
 	$domain = substr( $domain, 0, -1 );
+
+if ( substr( $domain, 0, 4 ) == 'www.' )
+	$cookie_domain = substr( $domain, 4 );
+else
+	$cookie_domain = $domain;
 
 $path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $_SERVER['REQUEST_URI'] );
 $path = str_replace ( '/wp-admin/', '/', $path );
@@ -55,13 +58,20 @@ function get_current_site_name( $current_site ) {
 }
 
 function wpmu_current_site() {
-	global $wpdb, $current_site, $domain, $path, $sites;
+	global $wpdb, $current_site, $domain, $path, $sites, $cookie_domain;
 	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
 		$current_site->id = (defined( 'SITE_ID_CURRENT_SITE' ) ? constant('SITE_ID_CURRENT_SITE') : 1);
 		$current_site->domain = DOMAIN_CURRENT_SITE;
 		$current_site->path   = $path = PATH_CURRENT_SITE;
 		if ( defined( 'BLOGID_CURRENT_SITE' ) )
 			$current_site->blog_id = BLOGID_CURRENT_SITE;
+		if ( DOMAIN_CURRENT_SITE == $domain ) 
+			$current_site->cookie_domain = $cookie_domain;
+		elseif ( substr( $current_site->domain, 0, 4 ) == 'www.' )
+			$current_site->cookie_domain = substr( $current_site->domain, 4 );
+		else
+			$current_site->cookie_domain = $current_site->domain;
+			
 		return $current_site;
 	}
 
@@ -76,24 +86,34 @@ function wpmu_current_site() {
 		$path = $current_site->path;
 		$current_site->blog_id = $wpdb->get_var( "SELECT blog_id FROM {$wpdb->blogs} WHERE domain='{$current_site->domain}' AND path='{$current_site->path}'" );
 		$current_site = get_current_site_name( $current_site );
+		if ( substr( $current_site->domain, 0, 4 ) == 'www.' )
+			$current_site->cookie_domain = substr( $current_site->domain, 4 );
 		wp_cache_set( "current_site", $current_site, "site-options" );
 		return $current_site;
 	}
 	$path = substr( $_SERVER[ 'REQUEST_URI' ], 0, 1 + strpos( $_SERVER[ 'REQUEST_URI' ], '/', 1 ) );
-	if ( is_subdomain_install() ) {
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path) );
-		if ( $current_site != null )
-			return $current_site;
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $domain) );
-		if ( $current_site != null ) {
-			$path = '/';
-			return $current_site;
-		}
 
+	if ( $domain == $cookie_domain )
+		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
+	else
+		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = %s ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
+	if ( $current_site == null ) {
+		if ( $domain == $cookie_domain )
+			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $domain ) );
+		else
+			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = '/' ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
+	}
+	if ( $current_site != null ) {
+		$path = $current_site->path;
+		$current_site->cookie_domain = $cookie_domain;
+		return $current_site;
+	} elseif ( is_subdomain_install() ) {
 		$sitedomain = substr( $domain, 1 + strpos( $domain, '.' ) );
 		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path) );
-		if ( $current_site != null )
+		if ( $current_site != null ) {
+			$current_site->cookie_domain = $current_site->domain;
 			return $current_site;
+		}
 		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $sitedomain) );
 		if ( $current_site == null && defined( "WP_INSTALLING" ) == false ) {
 			if ( count( $sites ) == 1 ) {
@@ -105,21 +125,15 @@ function wpmu_current_site() {
 		} else {
 			$path = '/';
 		}
-	} else {
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path) );
-		if ( $current_site != null )
-			return $current_site;
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $domain) );
-		if ( $current_site == null && defined( "WP_INSTALLING" ) == false ) {
-			if ( count( $sites ) == 1 ) {
-				$current_site = $sites[0];
-				die( "That blog does not exist. Please try <a href='http://{$current_site->domain}{$current_site->path}'>http://{$current_site->domain}{$current_site->path}</a>" );
-			} else {
-				die( "No WPMU site defined on this host. If you are the owner of this site, please check <a href='http://codex.wordpress.org/Debugging_WPMU'>Debugging WPMU</a> for further assistance." );
-			}
+	} elseif ( defined( "WP_INSTALLING" ) == false ) {
+		if ( count( $sites ) == 1 ) {
+			$current_site = $sites[0];
+			die( "That blog does not exist. Please try <a href='http://{$current_site->domain}{$current_site->path}'>http://{$current_site->domain}{$current_site->path}</a>" );
 		} else {
-			$path = '/';
+			die( "No WPMU site defined on this host. If you are the owner of this site, please check <a href='http://codex.wordpress.org/Debugging_WPMU'>Debugging WPMU</a> for further assistance." );
 		}
+	} else {
+		$path = '/';
 	}
 	return $current_site;
 }

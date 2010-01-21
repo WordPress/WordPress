@@ -146,6 +146,6 @@ function ms_network_cookies() {
 	 * @since 2.0.0
 	 */
 	if ( !defined('COOKIE_DOMAIN') )
-			define('COOKIE_DOMAIN', '.' . $current_site->domain);
+			define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
 }
 ?>

@@ -129,9 +129,9 @@ function step1() {
 function printstep1form( $rewrite_enabled = false ) {
 	$weblog_title = ucfirst( get_option( 'blogname' ) ) . ' Sites';
 	$email = get_option( 'admin_email' );
-	$hostname = $_SERVER[ 'HTTP_HOST' ];
-	if( substr( $_SERVER[ 'HTTP_HOST' ], 0, 4 ) == 'www.' )
-		$hostname = str_replace( "www.", "", $_SERVER[ 'HTTP_HOST' ] );
+	$hostname = get_clean_basedomain();
+	if( substr( $hostname, 0, 4 ) == 'www.' )
+		$nowww = substr( $hostname, 4 );
 
 	wp_nonce_field( 'install-network-1' );
 	?>
@@ -147,6 +147,9 @@ function printstep1form( $rewrite_enabled = false ) {
 		</p>
 
 		<h2>Server Address</h2>
+		<?php if ( isset( $nowww ) ) { ?>
+		<h3>We recommend you change your siteurl to <code><?php echo $nowww; ?></code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code><?php echo $hostname; ?></code> but any links will not have the "www" prefix. </h3>
+		<?php } ?>
 		<table class="form-table">  
 			<tr> 
 				<th scope='row'>Server Address</th> 
@@ -263,43 +266,15 @@ function step2_config() {
 function get_clean_basedomain() {
 	global $wpdb;
 	$domain = preg_replace( '|https?://|', '', get_option( 'siteurl') );
-	//@todo: address no www in multisite code
-	if( substr( $domain, 0, 4 ) == 'www.' )
-		$domain = substr( $domain, 4 );
 	if( strpos( $domain, '/' ) )
 		$domain = substr( $domain, 0, strpos( $domain, '/' ) );
 	return $domain;
-}
-
-function nowww() {
-	$nowww = str_replace( 'www.', '', $_POST[ 'basedomain' ] );
-	?>
-	<h2>No-www</h2>
-	<p>WordPress strips the string "www" from the URLs of sites using this software. It is still possible to visit your site using the "www" prefix with an address like <em><?php echo $_POST[ 'basedomain' ] ?></em> but any links will not have the "www" prefix. They will instead point at <?php echo $nowww ?>.</p>
-	<p>The preferred method of hosting sites is without the "www" prefix as it's more compact and simple.</p>
-	<p>You can still use "<?php echo $_POST[ 'basedomain' ] ?>" and URLs like "www.blog1.<?php echo $nowww; ?>" to address your site and blogs after installation but internal links will use the <?php echo $nowww ?> format.</p>
-
-	<p><a href="http://no-www.org/">www. is depreciated</a> has a lot more information on why 'www.' isn't needed any more.</p>
-	<p>
-	<?php wp_nonce_field( 'install-network-1' ); ?>
-		<input type='hidden' name='vhost' value='<?php echo $_POST[ 'vhost' ]; ?>' />
-		<input type='hidden' name='weblog_title' value='<?php echo $_POST[ 'weblog_title' ]; ?>' />
-		<input type='hidden' name='email' value='<?php echo $_POST[ 'email' ]; ?>' />
-		<input type='hidden' name='action' value='step2' />
-		<input type='hidden' name='basedomain' value='<?echo $nowww ?>' />
-		<input class="button" type='submit' value='Continue' />
-	</p>
-	<?php
 }
 
 $action = isset($_POST[ 'action' ]) ? $_POST[ 'action' ] : null; 
 switch($action) {
 	case "step2":
 		check_admin_referer( 'install-network-1' );
-		if( substr( $_POST[ 'basedomain' ], 0, 4 ) == 'www.' ) {
-			nowww();
-			continue;
-		}
 		
 		// Install!
 		$base = stripslashes( dirname( dirname($_SERVER["SCRIPT_NAME"]) ) );
