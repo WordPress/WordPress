@@ -720,9 +720,11 @@ function register_post_type($post_type, $args = array()) {
 	if ( empty($args->capability_type) ) {
 		$args->edit_cap = '';
 		$args->read_cap = '';
+		$args->delete_cap = '';
 	} else {
 		$args->edit_cap = 'edit_' . $args->capability_type;
 		$args->read_cap = 'read_' . $args->capability_type;
+		$args->delete_cap = 'delete_' . $args->capability_type;
 	}
 
 	if ( !$args->_builtin && $args->public )

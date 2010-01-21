@@ -252,8 +252,8 @@ function wp_dashboard_right_now() {
 	$num = number_format_i18n( $num_pages->publish );
 	$text = _n( 'Page', 'Pages', $num_pages->publish );
 	if ( current_user_can( 'edit_pages' ) ) {
-		$num = "<a href='edit-pages.php'>$num</a>";
-		$text = "<a href='edit-pages.php'>$text</a>";
+		$num = "<a href='edit.php?post_type=page'>$num</a>";
+		$text = "<a href='edit.php?post_type=page'>$text</a>";
 	}
 	echo '<td class="first b b_pages">' . $num . '</td>';
 	echo '<td class="t pages">' . $text . '</td>';

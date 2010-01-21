@@ -737,35 +737,19 @@ function get_delete_post_link($id = 0, $context = 'display') {
 	else
 		$action = 'action=trash&';
 
-	switch ( $post->post_type ) :
-	case 'page' :
-		if ( !current_user_can( 'delete_page', $post->ID ) )
-			return;
-		$file = 'page';
-		$var  = 'post';
-		break;
-	case 'attachment' :
-		if ( !current_user_can( 'delete_post', $post->ID ) )
-			return;
-		$file = 'media';
-		$var  = 'attachment_id';
-		break;
-	case 'revision' :
-		if ( !current_user_can( 'delete_post', $post->ID ) )
-			return;
-		$file = 'revision';
-		$var  = 'revision';
-		$action = '';
-		break;
-	default :
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return apply_filters( 'get_delete_post_link', '', $post->ID, $context );
-		$file = 'post';
-		$var  = 'post';
-		break;
-	endswitch;
+	if ( 'display' == $context )
+		$action = '&amp;action=trash';
+	else
+		$action = '&action=trash';
 
-	return apply_filters( 'get_delete_post_link', wp_nonce_url( admin_url("$file.php?{$action}$var=$post->ID"), "trash-{$file}_" . $post->ID ), $context );
+	$post_type_object = get_post_type_object( $post->post_type );
+	if ( !$post_type_object )
+		return;
+
+	if ( !current_user_can( $post_type_object->delete_cap, $post->ID ) )
+		return;
+
+	return apply_filters( 'get_delete_post_link', wp_nonce_url( admin_url( sprintf($post_type_object->_edit_link . $action, $post->ID) ),  "trash-{$post->post_type}_" . $post->ID), $post->ID, $context );
 }
 
 /**

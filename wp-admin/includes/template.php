@@ -1605,6 +1605,7 @@ function display_page_row( $page, $level = 0 ) {
 	$posts_columns = get_column_headers( $current_screen );
 	$hidden = get_hidden_columns(  $current_screen );
 	$title = _draft_or_post_title();
+	$post_type = $page->post_type;
 ?>
 <tr id="page-<?php echo $id; ?>" class="<?php echo $rowclass; ?> iedit">
 <?php
@@ -1669,11 +1670,11 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		}
 		if ( current_user_can('delete_page', $page->ID) ) {
 			if ( $post->post_status == 'trash' )
-				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("page.php?action=untrash&amp;post=$page->ID", 'untrash-page_' . $page->ID) . "'>" . __('Restore') . "</a>";
+				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=untrash&amp;post=$page->ID", 'untrash-page_' . $page->ID) . "'>" . __('Restore') . "</a>";
 			elseif ( EMPTY_TRASH_DAYS )
 				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this page to the Trash')) . "' href='" . get_delete_post_link($page->ID) . "'>" . __('Trash') . "</a>";
 			if ( $post->post_status == 'trash' || !EMPTY_TRASH_DAYS )
-				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
+				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
 			if ( current_user_can('edit_page', $page->ID) )

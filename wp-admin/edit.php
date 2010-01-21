@@ -65,7 +65,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 		$post_ids = isset($_GET['post']) ? array_map( 'intval', (array) $_GET['post'] ) : explode(',', $_GET['ids']);
 		$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
 	} else {
-		wp_redirect( admin_url('edit.php') );
+		wp_redirect( admin_url("edit.php?post_type=$post_type") );
 	}
 
 	switch ( $doaction ) {
@@ -127,7 +127,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 	}
 
 	if ( isset($_GET['action']) )
-		$sendback = remove_query_arg( array('action', 'action2', 'cat', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view', 'post_type'), $sendback );
+		$sendback = remove_query_arg( array('action', 'action2', 'cat', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view'), $sendback );
 
 	wp_redirect($sendback);
 	exit();
@@ -198,7 +198,7 @@ if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	printf( _n( 'Item moved to the trash.', '%s items moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
 	$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
-	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a><br />';
+	echo ' <a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a><br />';
 	unset($_GET['trashed']);
 }
 
