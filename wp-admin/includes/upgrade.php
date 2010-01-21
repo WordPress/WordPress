@@ -181,7 +181,7 @@ function wp_install_defaults($user_id) {
 								'post_excerpt' => '',
 								'post_title' => __('Hello world!'),
 								/* translators: Default post slug */
-								'post_name' => _x('hello-world', 'Default post slug'),
+								'post_name' => sanitize_title( _x('hello-world', 'Default post slug') ),
 								'post_modified' => $now,
 								'post_modified_gmt' => $now_gmt,
 								'guid' => $first_post_guid,
