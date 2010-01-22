@@ -64,7 +64,7 @@ $allowed_themes = get_site_allowed_themes();
 		</table>
 
 		<p class="submit">
-			<input type='submit' value='<?php _e('Update Themes &raquo;') ?>' /></p>
+			<input type='submit' value='<?php _e('Update Themes') ?>' /></p>
 	</form>
 
 	<h3><?php _e('Total')?></h3>
