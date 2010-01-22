@@ -271,6 +271,8 @@ function wp_update_user($userdata) {
 		$userdata['user_pass'] = wp_hash_password($userdata['user_pass']);
 	}
 
+	wp_cache_delete($user[ 'user_email' ], 'useremail');
+
 	// Merge old and new fields with new fields overwriting old ones.
 	$userdata = array_merge($user, $userdata);
 	$user_id = wp_insert_user($userdata);
