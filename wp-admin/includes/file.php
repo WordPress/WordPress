@@ -504,8 +504,6 @@ function unzip_file($file, $to) {
 	// Unzip uses a lot of memory, but not this much hopefully
 	@ini_set('memory_limit', '256M');
 
-	$fs =& $wp_filesystem;
-
 	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
 
 	$archive = new PclZip($file);
@@ -517,42 +515,47 @@ function unzip_file($file, $to) {
 	if ( 0 == count($archive_files) )
 		return new WP_Error('empty_archive', __('Empty archive.'));
 
-	$path = explode('/', untrailingslashit($to));
-	for ( $i = count($path); $i > 0; $i-- ) { //>0 = first element is empty allways for paths starting with '/'
-		$tmppath = implode('/', array_slice($path, 0, $i) );
-		if ( $fs->is_dir($tmppath) ) { //Found the highest folder that exists, Create from here(ie +1)
-			for ( $i = $i + 1; $i <= count($path); $i++ ) {
-				$tmppath = implode('/', array_slice($path, 0, $i) );
-				if ( ! $fs->mkdir($tmppath, FS_CHMOD_DIR) )
-					return new WP_Error('mkdir_failed', __('Could not create directory.'), $tmppath);
-			}
-			break; //Exit main for loop
+	$needed_dirs = array();
+	$to = trailingslashit($to);
+
+	// Determine any parent dir's needed (of the upgrade directory)
+	if ( ! $wp_filesystem->is_dir($to) ) { //Only do parents if no children exist
+		$path = preg_split('![/\\\]!', untrailingslashit($to));
+		for ( $i = count($path); $i >= 0; $i-- ) {
+			if ( empty($path[$i]) )
+				continue;
+
+			$dir = implode('/', array_slice($path, 0, $i+1) );
+			if ( preg_match('!^[a-z]:$!i', $dir) ) // Skip it if it looks like a Windows Drive letter only.
+				continue;
+
+			if ( ! $wp_filesystem->is_dir($dir) )
+				$needed_dirs[] = $dir;
+			else
+				break; // A folder exists, therefor, we dont need the check the levels below this
 		}
 	}
 
-	$to = trailingslashit($to);
-	foreach ($archive_files as $file) {
-		$path = $file['folder'] ? $file['filename'] : dirname($file['filename']);
-		$path = explode('/', $path);
-		for ( $i = count($path); $i >= 0; $i-- ) { //>=0 as the first element contains data
-			if ( empty($path[$i]) )
-				continue;
-			$tmppath = $to . implode('/', array_slice($path, 0, $i) );
-			if ( $fs->is_dir($tmppath) ) {//Found the highest folder that exists, Create from here
-				for ( $i = $i + 1; $i <= count($path); $i++ ) { //< count() no file component please.
-					$tmppath = $to . implode('/', array_slice($path, 0, $i) );
-					if ( ! $fs->is_dir($tmppath) && ! $fs->mkdir($tmppath, FS_CHMOD_DIR) )
-						return new WP_Error('mkdir_failed', __('Could not create directory.'), $tmppath);
-				}
-				break; //Exit main for loop
-			}
-		}
+	// Determine any children directories needed (From within the archive)
+	foreach ( $archive_files as $file )
+		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname($file['filename']) );
 
-		// We've made sure the folders are there, so let's extract the file now:
-		if ( ! $file['folder'] ) {
-			if ( !$fs->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
-				return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
-		}
+	$needed_dirs = array_unique($needed_dirs);
+	asort($needed_dirs);
+
+	// Create those directories if need be:
+	foreach ( $needed_dirs as $_dir ) {
+		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
+			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
+	}
+
+	// Extract the files from the zip
+	foreach ( $archive_files as $file ) {
+		if ( $file['folder'] )
+			continue;
+
+		if ( ! $wp_filesystem->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
+			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
 	}
 	return true;
 }
