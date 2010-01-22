@@ -1099,6 +1099,9 @@ case 'inline-save':
 			die( __('You are not allowed to edit this post.') );
 	}
 
+	if ( isset($_POST['screen']) )
+		set_current_screen($_POST['screen']);
+
 	if ( $last = wp_check_post_lock( $post_ID ) ) {
 		$last_user = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );

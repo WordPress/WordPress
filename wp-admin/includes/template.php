@@ -1265,7 +1265,8 @@ function inline_edit_row( $screen ) {
 		?>
 			<input accesskey="s" class="button-primary alignright" type="submit" name="bulk_edit" value="<?php echo esc_attr( $update_text ); ?>" />
 		<?php } ?>
-		<input type="hidden" name="post_view" value="<?php echo $m; ?>" />
+		<input type="hidden" name="post_view" value="<?php echo esc_attr($m); ?>" />
+		<input type="hidden" name="screen" value="<?php echo esc_attr($screen->id); ?>" />
 		<br class="clear" />
 	</p>
 	</td></tr>
@@ -3825,6 +3826,49 @@ function compression_test() {
 	/* ]]> */
 	</script>
 <?php
+}
+
+/**
+ * Set the current screen object
+ *
+ * @since 3.0
+ *
+ * @uses $current_screen
+ * 
+ * @param string $id Screen id, optional.
+ */
+function set_current_screen( $id =  '' ) {
+	global $current_screen, $hook_suffix, $typenow;
+
+	if ( empty($id) ) {
+		$current_screen = $hook_suffix;
+		$current_screen = str_replace('.php', '', $current_screen);
+		$current_screen = str_replace('-new', '', $current_screen);
+		$current_screen = str_replace('-add', '', $current_screen);
+		$current_screen = array('id' => $current_screen, 'base' => $current_screen);
+	} else {
+		if ( false !== strpos($id, '-') )
+			list( $id, $typenow ) = explode('-', $id, 2);
+		$current_screen = array('id' => $id, 'base' => $id);
+	}
+	
+	$current_screen = (object) $current_screen;
+	
+	if ( 'edit' == $current_screen->id ) {
+		if ( empty($typenow) )
+			$typenow = 'post';
+		$current_screen->id .= '-' . $typenow;
+		$current_screen->post_type = $typenow;
+	} elseif ( 'post' == $current_screen->id ) {
+		if ( empty($typenow) )
+			$typenow = 'post';
+		$current_screen->id = $typenow;
+		$current_screen->post_type = $typenow;
+	} else {
+		$typenow = '';
+	}
+	
+	$current_screen = apply_filters('current_screen', $current_screen);
 }
 
 ?>

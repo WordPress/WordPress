@@ -112,30 +112,7 @@ else
 	$typenow = '';
 // @todo validate typenow against post types.
 
-/**
- * Global object containing info about the current screen.
- */
-$current_screen = $hook_suffix;
-$current_screen = str_replace('.php', '', $current_screen);
-$current_screen = str_replace('-new', '', $current_screen);
-$current_screen = str_replace('-add', '', $current_screen);
-$current_screen = array('id' => $current_screen, 'base' => $current_screen);
-$current_screen = (object) $current_screen;
-if ( 'edit' == $current_screen->id ) {
-	if ( empty($typenow) )
-		$typenow = 'post';
-	$current_screen->id .= '-' . $typenow;
-	$current_screen->post_type = $typenow;
-} elseif ( 'post' == $current_screen->id ) {
-	if ( empty($typenow) )
-		$typenow = 'post';
-	$current_screen->id = $typenow;
-	$current_screen->post_type = $typenow;
-} else {
-	$typenow = '';
-}
-
-$current_screen = apply_filters('current_screen', $current_screen);
+set_current_screen();
 
 // Handle plugin admin pages.
 if ( isset($plugin_page) ) {
