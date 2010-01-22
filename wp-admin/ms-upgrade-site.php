@@ -16,7 +16,10 @@ if ( !is_super_admin() )
 echo '<div class="wrap">';
 screen_icon();
 echo '<h2>'.__('Upgrade Site').'</h2>';
-switch( $_GET['action'] ) {
+
+$action = isset($_GET['action']) ? $_GET['action'] : 'show';
+
+switch ( $action ) {
 	case "upgrade":
 		$n = ( isset($_GET['n']) ) ? intval($_GET['n']) : 0;
 
@@ -28,14 +31,13 @@ switch( $_GET['action'] ) {
 		$blogs = $wpdb->get_results( "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' AND spam = '0' AND deleted = '0' AND archived = '0' ORDER BY registered DESC LIMIT {$n}, 5", ARRAY_A );
 		if ( is_array( $blogs ) ) {
 			echo "<ul>";
-			foreach( (array) $blogs as $details ) {
+			foreach ( (array) $blogs as $details ) {
 				if ( $details['spam'] == 0 && $details['deleted'] == 0 && $details['archived'] == 0 ) {
 					$siteurl = $wpdb->get_var("SELECT option_value from {$wpdb->base_prefix}{$details['blog_id']}_options WHERE option_name = 'siteurl'");
 					echo "<li>$siteurl</li>";
 					$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=1", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
-					if ( is_wp_error( $response ) ) {
+					if ( is_wp_error( $response ) )
 						wp_die( "<strong>Warning!</strong> Problem upgrading {$siteurl}. Your server may not be able to connect to blogs running on it.<br /> Error message: <em>" . $response->get_error_message() ."</em>" );
-					}
 					do_action( 'after_mu_upgrade', $response );
 					do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 				}
@@ -54,6 +56,7 @@ switch( $_GET['action'] ) {
 			echo '<p>'.__('All Done!').'</p>';
 		}
 	break;
+	case 'show':
 	default:
 		?><p><?php _e("You can upgrade all the blogs on your site through this page. It works by calling the upgrade script of each blog automatically. Hit the link below to upgrade."); ?></p>
 		<p><a class="button" href="ms-upgrade-site.php?action=upgrade"><?php _e("Upgrade Site"); ?></a></p><?php
