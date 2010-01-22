@@ -469,15 +469,19 @@ function get_blogs_of_user( $id, $all = false ) {
 
 	$blogs = $match = array();
 	foreach ( (array) $user as $key => $value ) {
-		if ( false !== strpos( $key, '_capabilities') && 0 === strpos( $key, $wpdb->base_prefix ) && preg_match( '/' . $wpdb->base_prefix . '(\d+)_capabilities/', $key, $match ) ) {
-			$blog = get_blog_details( $match[1] );
+		if ( false !== strpos( $key, '_capabilities') && 0 === strpos( $key, $wpdb->base_prefix ) && preg_match( '/' . $wpdb->base_prefix . '((\d+)_)?capabilities/', $key, $match ) ) {
+			if ( count( $match ) > 2 )
+				$blog_id = $match[ 2 ];
+			else
+				$blog_id = 1;
+			$blog = get_blog_details( $blog_id );
 			if ( $blog && isset( $blog->domain ) && ( $all == true || $all == false && ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
-				$blogs[$match[1]]->userblog_id	= $match[1];
-				$blogs[$match[1]]->blogname		= $blog->blogname;
-				$blogs[$match[1]]->domain		= $blog->domain;
-				$blogs[$match[1]]->path			= $blog->path;
-				$blogs[$match[1]]->site_id		= $blog->site_id;
-				$blogs[$match[1]]->siteurl		= $blog->siteurl;
+				$blogs[ $blog_id ]->userblog_id	= $blog_id;
+				$blogs[ $blog_id ]->blogname		= $blog->blogname;
+				$blogs[ $blog_id ]->domain		= $blog->domain;
+				$blogs[ $blog_id ]->path			= $blog->path;
+				$blogs[ $blog_id ]->site_id		= $blog->site_id;
+				$blogs[ $blog_id ]->siteurl		= $blog->siteurl;
 			}
 		}
 	}
