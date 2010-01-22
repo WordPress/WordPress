@@ -755,6 +755,23 @@ class WP_User {
 		return 'level_' . $level;
 	}
 
+	/**
+	 * Set the blog to operate on. Defaults to the current blog.
+	 *
+	 * @since 3.0
+	 *
+	 * @param int $blog_id Optional Blog ID, defaults to current blog.
+	 */
+	function for_blog( $blog_id = '' ) {
+		global $wpdb;
+		if ( !empty($blog_id) ) {
+			$cap_key = $wpdb->get_blog_prefix( $blog_id );
+			$cap_key. 'capabilities';
+		} else {
+			$cap_key = '';
+		}
+		$this->_init_caps($cap_key);
+	}
 }
 
 /**
@@ -1015,6 +1032,36 @@ function current_user_can( $capability ) {
 	$args = array_merge( array( $capability ), $args );
 
 	return call_user_func_array( array( &$current_user, 'has_cap' ), $args );
+}
+
+/**
+ * Whether current user has a capability or role for a given blog.
+ *
+ * @since 2.0.0
+ *
+ * @param int $blog_id Blog ID
+ * @param string $capability Capability or role name.
+ * @return bool
+ */
+function current_user_can_for_blog( $blog_id, $capability ) {
+	$current_user = wp_get_current_user();
+
+    if ( is_multisite() && is_super_admin() )
+		return true;
+
+	if ( empty( $current_user ) )
+		return false;
+
+	// Create new object to avoid stomping the global current_user.
+	$user = new WP_User( $current_user->id) ;
+
+	// Set the blog id.  @todo add blog id arg to WP_User constructor?
+	$user->for_blog( $blog_id );
+
+	$args = array_slice( func_get_args(), 2 );
+	$args = array_merge( array( $capability ), $args );
+
+	return call_user_func_array( array( &$user, 'has_cap' ), $args );
 }
 
 /**

@@ -306,7 +306,7 @@ function switch_to_blog( $new_blog ) {
 	}
 
 	if ( is_object( $current_user ) )
-		$current_user->_init_caps();
+		$current_user->for_blog( $blog_id );
 
 	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 		$global_groups = $wp_object_cache->global_groups;
@@ -359,7 +359,7 @@ function restore_current_blog() {
 	}
 
 	if ( is_object( $current_user ) )
-		$current_user->_init_caps();
+		$current_user->for_blog( $blog_id );
 
 	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 		$global_groups = $wp_object_cache->global_groups;

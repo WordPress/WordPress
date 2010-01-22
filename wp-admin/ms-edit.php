@@ -222,6 +222,7 @@ switch ( $_GET['action'] ) {
 
 		// get blog prefix
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
+
 		// user roles
 		if ( is_array( $_POST[ 'role' ] ) == true ) {
 			$newroles = $_POST[ 'role' ];
@@ -230,8 +231,7 @@ switch ( $_GET['action'] ) {
 				$user = new WP_User($userid);
 				if ( ! $user )
 					continue;
-				// Hack. Init user caps for given blog.
-				$user->_init_caps($blog_prefix . 'capabilities');
+				$user->for_blog($id);
 				$user->set_role($role);
 			}
 		}
