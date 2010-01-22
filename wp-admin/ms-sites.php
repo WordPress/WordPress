@@ -378,7 +378,7 @@ switch ( $action ) {
 
 		<form action="ms-sites.php" method="get" id="ms-search">
 			<input type="hidden" name="action" value="blogs" />
-			<input type="text" name="s" value="<?php if (isset($_GET['s'])) echo stripslashes( esc_attr( $s ) ); ?>" size="17" />
+			<input type="text" name="s" value="<?php echo($s); ?>" size="17" />
 			<input type="submit" class="button" name="blog_name" value="<?php esc_attr_e('Search blogs by name') ?>" />
 			<input type="submit" class="button" name="blog_id" value="<?php esc_attr_e('by blog ID') ?>" />
 			<input type="submit" class="button" name="blog_ip" value="<?php esc_attr_e('by IP address') ?>" />

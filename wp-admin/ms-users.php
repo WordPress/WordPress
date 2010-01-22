@@ -14,7 +14,7 @@ require_once('admin-header.php');
 if ( !is_super_admin() )
 	wp_die( __('You do not have permission to access this page.') );
 
-if ( $_GET['updated'] == 'true' ) {
+if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 	?>
 	<div id="message" class="updated fade"><p>
 		<?php
@@ -45,7 +45,7 @@ if ( $_GET['updated'] == 'true' ) {
 	<?php
 	$apage = isset( $_GET['apage'] ) ? intval( $_GET['apage'] ) : 1;
 	$num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 15;
-	$s = wp_specialchars( trim( $_GET[ 's' ] ) );
+	$s = isset($_GET[ 's' ]) ? esc_attr( trim( $_GET[ 's' ] ) ) : '';
 
 	$query = "SELECT * FROM {$wpdb->users}";
 
@@ -54,21 +54,24 @@ if ( $_GET['updated'] == 'true' ) {
 		$query .= " WHERE user_login LIKE '$search' OR user_email LIKE '$search'";
 	}
 
-	if ( !isset($_GET['sortby']) )
-		$_GET['sortby'] = 'id';
+	$order_by = isset( $_GET['sortby'] ) ? $_GET['sortby'] : 'id';
 
-	if ( $_GET['sortby'] == 'email' )
+	if ( $order_by == 'email' ) {
 		$query .= ' ORDER BY user_email ';
-	elseif ( $_GET['sortby'] == 'id' )
-		$query .= ' ORDER BY ID ';
-	elseif ( $_GET['sortby'] == 'login' )
+	} elseif ( $order_by == 'login' ) {
 		$query .= ' ORDER BY user_login ';
-	elseif ( $_GET['sortby'] == 'name' )
+	} elseif ( $order_by == 'name' ) {
 		$query .= ' ORDER BY display_name ';
-	elseif ( $_GET['sortby'] == 'registered' )
+	} elseif ( $order_by == 'registered' ) {
 		$query .= ' ORDER BY user_registered ';
+	} else {
+		$order_by = 'id';
+		$query .= ' ORDER BY ID ';
+	}
 
-	$query .= ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC';
+	$order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
+	$order = ( 'DESC' == $order ) ? 'DESC' : 'ASC';
+	$query .= $order;
 
 	if ( !empty( $s ) )
 		$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(ID)', $query) );
@@ -146,7 +149,7 @@ if ( $_GET['updated'] == 'true' ) {
 					} elseif ( $column_id == 'checkbox') {
 						echo '<th scope="col" class="check-column"><input type="checkbox" /></th>';
 					} else { ?>
-						<th scope="col"><a href="ms-users.php?sortby=<?php echo $column_id ?>&amp;<?php if ( $_GET['sortby'] == $column_id ) { if ( $_GET['order'] == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
+						<th scope="col"><a href="ms-users.php?sortby=<?php echo $column_id ?>&amp;<?php if ( $order_by == $column_id ) { if ( $order == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
 					<?php } ?>
 				<?php } ?>
 			</tr>
@@ -154,6 +157,7 @@ if ( $_GET['updated'] == 'true' ) {
 			<tbody id="users" class="list:user user-list">
 			<?php if ($user_list) {
 				$bgcolor = '';
+				$class = '';
 				foreach ( (array) $user_list as $user) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 
