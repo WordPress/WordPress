@@ -132,7 +132,7 @@ function wpmu_delete_user($id) {
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
 
-	clean_user_cache($id);	
+	clean_user_cache($id);
 
 	// allow for commit transaction
 	do_action('deleted_user', $id);
@@ -385,25 +385,27 @@ function display_space_usage() {
 
 // Display File upload quota on dashboard
 function dashboard_quota() {
-	if ( get_site_option( 'upload_space_check_disabled' ) ) {
+	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return true;
-	}
+
 	$quota = get_space_allowed();
 	$used = get_dirsize( BLOGUPLOADDIR )/1024/1024;
 
-	if ($used > $quota) $percentused = '100';
-	else $percentused = ( $used / $quota ) * 100;
+	if ( $used > $quota )
+		$percentused = '100';
+	else
+		$percentused = ( $used / $quota ) * 100;
 	$percentused = number_format($percentused);
 	$used = round($used,2);
 	$used_color = ($used < 70) ? (($used >= 40) ? 'waiting' : 'approved') : 'spam';
 	?>
-	<p class="sub musub"><?php _e("Storage Space <a href='upload.php' title='Manage Uploads...'>&raquo;</a>"); ?></p>
+	<p class="sub musub"><?php _e('Storage Space'); ?></p>
 	<div class="table">
 	<table>
 		<tr class="first">
-			<td class="first b b-posts"><?php printf( __( '<a href="upload.php" title="Manage Uploads..." class="musublink">%sMB</a>' ), $quota ); ?></td>
+			<td class="first b b-posts"><?php printf( __( '<a href="upload.php" title="Manage Uploads" class="musublink">%sMB</a>' ), $quota ); ?></td>
 			<td class="t posts"><?php _e('Space Allowed'); ?></td>
-			<td class="b b-comments"><?php printf( __( '<a href="upload.php" title="Manage Uploads..." class="musublink">%1sMB (%2s%%)</a>' ), $used, $percentused ); ?>
+			<td class="b b-comments"><?php printf( __( '<a href="upload.php" title="Manage Uploads" class="musublink">%1sMB (%2s%%)</a>' ), $used, $percentused ); ?>
 			<td class="last t comments <?php echo $used_color;?>"><?php _e('Space Used');?></td>
 		</tr>
 	</table>
@@ -698,11 +700,11 @@ function admin_notice_feed() {
 	$item = $rss->get_item();
 	if ( !is_null( $item ) ) {
 		$title = $item->get_title();
-		if ( md5( $title ) == get_user_option( 'admin_feed_dismiss', $current_user->id ) ) 
+		if ( md5( $title ) == get_user_option( 'admin_feed_dismiss', $current_user->id ) )
 			return;
 		$msg = "<h3>" . esc_html( $title ) . "</h3>\n";
 		$content = $item->get_description();
-		if ( is_null( $content ) ) 
+		if ( is_null( $content ) )
 			$content = __( 'something' );
 
 		$content = wp_html_excerpt($content, 200) . ' ...';
