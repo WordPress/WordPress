@@ -5,11 +5,10 @@ $title = __('WordPress &rsaquo; Admin &rsaquo; Themes');
 $parent_file = 'ms-admin.php';
 require_once('admin-header.php');
 
-if( is_super_admin() == false ) {
+if ( !is_super_admin() )
 	wp_die( __('You do not have permission to access this page.') );
-}
 
-if (isset($_GET['updated'])) {
+if ( isset($_GET['updated']) ) {
 	?>
 	<div id="message" class="updated fade"><p><?php _e('Site themes saved.') ?></p></div>
 	<?php
@@ -35,13 +34,14 @@ $allowed_themes = get_site_allowed_themes();
 			<tbody id="plugins">
 			<?php
 			$total_theme_count = $activated_themes_count = 0;
-			foreach( (array) $themes as $key => $theme ) {
+			$class = '';
+			foreach ( (array) $themes as $key => $theme ) {
 				$total_theme_count++;
 				$theme_key = wp_specialchars($theme['Stylesheet']);
 				$class = ('alt' == $class) ? '' : 'alt';
 				$class1 = $enabled = $disabled = '';
 
-				if( isset( $allowed_themes[ $theme_key ] ) == true ) {
+				if ( isset( $allowed_themes[ $theme_key ] ) == true ) {
 					$enabled = 'checked="checked" ';
 					$activated_themes_count++;
 					$class1 = ' active';
@@ -52,13 +52,13 @@ $allowed_themes = get_site_allowed_themes();
 				<tr valign="top" class="<?php echo $class.$class1; ?>">
 					<td style="text-align:center;">
 						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="enabled_<?php echo $theme_key ?>" value="enabled" <?php echo $enabled ?> /> <?php _e('Yes') ?></label>
-						&nbsp;&nbsp;&nbsp; 
+						&nbsp;&nbsp;&nbsp;
 						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="disabled_<?php echo $theme_key ?>" value="disabled" <?php echo $disabled ?> /> <?php _e('No') ?></label>
 					</td>
-					<th scope="row" style="text-align:left;"><?php echo $key ?></th> 
+					<th scope="row" style="text-align:left;"><?php echo $key ?></th>
 					<td><?php echo $theme['Version'] ?></td>
 					<td><?php echo $theme['Description'] ?></td>
-				</tr> 
+				</tr>
 			<?php } ?>
 			</tbody>
 		</table>
@@ -66,7 +66,7 @@ $allowed_themes = get_site_allowed_themes();
 		<p class="submit">
 			<input type='submit' value='<?php _e('Update Themes &raquo;') ?>' /></p>
 	</form>
-	
+
 	<h3><?php _e('Total')?></h3>
 	<p>
 		<?php printf(__('Themes Installed: %d'), $total_theme_count); ?>
