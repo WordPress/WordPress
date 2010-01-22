@@ -183,7 +183,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __('You probably need to go back to the <a href="ms-sites.php">sites page</a>') );
 
 		// themes
-		if ( is_array( $_POST[ 'theme' ] ) )
+		if ( isset($_POST[ 'theme' ]) && is_array( $_POST[ 'theme' ] ) )
 			$_POST[ 'option' ][ 'allowedthemes' ] = $_POST[ 'theme' ];
 		else
 			$_POST[ 'option' ][ 'allowedthemes' ] = '';
@@ -215,10 +215,7 @@ switch ( $_GET['action'] ) {
 
 		// update blogs table
 		$blog_data = stripslashes_deep($_POST[ 'blog' ]);
-		$result = $wpdb->update( $wpdb->blogs, $blog_data, array('blog_id' => $id) );
-
-		update_blog_status( $id, 'spam', $_POST[ 'blog' ][ 'spam' ] );
-		update_option( 'blog_public', $_POST[ 'blog' ][ 'public' ] );
+		update_blog_details($id, $blog_data);
 
 		// get blog prefix
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
@@ -237,7 +234,7 @@ switch ( $_GET['action'] ) {
 		}
 
 		// remove user
-		if ( is_array( $_POST[ 'blogusers' ] ) ) {
+		if ( isset($_POST[ 'blogusers' ]) && is_array( $_POST[ 'blogusers' ] ) ) {
 			reset( $_POST[ 'blogusers' ] );
 			foreach ( (array) $_POST[ 'blogusers' ] as $key => $val )
 				remove_user_from_blog( $key, $id );

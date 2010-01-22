@@ -17,6 +17,7 @@ function load_muplugin_textdomain($domain, $path = false) {
 	load_textdomain($domain, $mofile);
 }
 
+// @todo use update_blog_details
 function wpmu_update_blogs_date() {
 	global $wpdb;
 
@@ -92,6 +93,7 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	return false;
 }
 
+// @todo Use get_user_by() and deprecate.
 function get_user_details( $username ) {
 	global $wpdb;
 	return $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_login = %s", $username) );
@@ -122,39 +124,47 @@ function get_id_from_blogname( $name ) {
 	return $blog_id;
 }
 
-function get_blog_details( $id, $getall = true ) {
+/**
+ * Retrieve the details for a blog from the blogs table and blog options.
+ *
+ * @since 3.0
+ * @param int $blog_id Blog ID
+ * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
+ * @return object Blog details.
+ */
+function get_blog_details( $blog_id, $get_all = true ) {
 	global $wpdb;
 
-	if ( !is_numeric( $id ) )
-		$id = get_id_from_blogname( $id );
+	if ( !is_numeric( $blog_id ) )
+		$blog_id = get_id_from_blogname( $blog_id );
 
-	$id = (int) $id;
+	$blog_id = (int) $blog_id;
 
-	$all = $getall == true ? '' : 'short';
-	$details = wp_cache_get( $id . $all, 'blog-details' );
+	$all = $get_all == true ? '' : 'short';
+	$details = wp_cache_get( $blog_id . $all, 'blog-details' );
 
 	if ( $details ) {
 		if ( !is_object($details) && $details == -1 )
 			return false;
 		elseif ( !is_object($details) ) // Clear old pre-serialized objects. Cache clients do better with that.
-			wp_cache_delete( $id . $all, 'blog-details' );
+			wp_cache_delete( $blog_id . $all, 'blog-details' );
 		else
 			return $details;
 	}
 
-	$details = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE blog_id = %d /* get_blog_details */", $id) );
+	$details = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE blog_id = %d /* get_blog_details */", $blog_id) );
 	if ( !$details ) {
-		wp_cache_set( $id . $all, -1, 'blog-details' );
+		wp_cache_set( $blog_id . $all, -1, 'blog-details' );
 		return false;
 	}
 
-	if ( !$getall ) {
-		wp_cache_set( $id . $all, $details, 'blog-details' );
+	if ( !$get_all ) {
+		wp_cache_set( $blog_id . $all, $details, 'blog-details' );
 		return $details;
 	}
 
 	$wpdb->suppress_errors();
-	switch_to_blog( $id );
+	switch_to_blog( $blog_id );
 	$details->blogname		= get_option( 'blogname' );
 	$details->siteurl		= get_option( 'siteurl' );
 	$details->post_count	= get_option( 'post_count' );
@@ -163,7 +173,7 @@ function get_blog_details( $id, $getall = true ) {
 
 	$details = apply_filters('blog_details', $details);
 
-	wp_cache_set( $id . $all, $details, 'blog-details' );
+	wp_cache_set( $blog_id . $all, $details, 'blog-details' );
 
 	$key = md5( $details->domain . $details->path );
 	wp_cache_set( $key, $details, 'blog-lookup' );
@@ -171,17 +181,75 @@ function get_blog_details( $id, $getall = true ) {
 	return $details;
 }
 
-function refresh_blog_details( $id ) {
-	$id = (int) $id;
-	$details = get_blog_details( $id, false );
+/**
+ * Clear the blog details cache.
+ *
+ * @since 3.0
+ *
+ * @param int $blog_id Blog ID
+ */
+function refresh_blog_details( $blog_id ) {
+	$blog_id = (int) $blog_id;
+	$details = get_blog_details( $blog_id, false );
 
-	wp_cache_delete( $id , 'blog-details' );
-	wp_cache_delete( $id . 'short' , 'blog-details' );
+	wp_cache_delete( $blog_id , 'blog-details' );
+	wp_cache_delete( $blog_id . 'short' , 'blog-details' );
 	wp_cache_delete( md5( $details->domain . $details->path )  , 'blog-lookup' );
 	wp_cache_delete( 'current_blog_' . $details->domain, 'site-options' );
 	wp_cache_delete( 'current_blog_' . $details->domain . $details->path, 'site-options' );
 }
 
+/**
+ * Update the details for a blog. Updates the blogs table for a given blog id.
+ *
+ * @since 3.0
+ *
+ * @param int $blog_id Blog ID
+ * @param array $details Array of details keyed by blogs table field names.
+ * @return bool True if update succeeds, false otherwise.
+ */
+function update_blog_details( $blog_id, $details = array() ) {
+	global $wpdb;
+
+	if ( empty($details) )
+		return false;
+
+	if ( is_object($details) )
+		$details = get_object_vars($details);
+
+	$current_details = get_blog_details($blog_id, false);
+	if ( empty($current_details) )
+		return false;
+
+	$current_details = get_object_vars($current_details);
+
+	$details = array_merge($current_details, $details);
+	$details['last_updated'] = current_time('mysql', true);
+
+	$update_details = array();
+	$fields = array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id');
+	foreach ( array_intersect( array_keys( $details ), $fields ) as $field )
+		$update_details[$field] = $details[$field];
+
+	$result = $wpdb->update( $wpdb->blogs, $update_details, array('blog_id' => $blog_id) );
+
+	// If spam status changed, issue actions.
+	if ( $details[ 'spam' ] != $current_details[ 'spam' ] ) {
+		if ( $details[ 'spam' ] == 1 )
+			do_action( "make_spam_blog", $blog_id );
+		else
+			do_action( "make_ham_blog", $blog_id );
+	}
+
+	if ( isset($details[ 'public' ]) )
+		update_blog_option( $blog_id, 'blog_public', $details[ 'public' ], false );
+
+	refresh_blog_details($blog_id);
+
+	return true;
+}
+
+// @todo move to user.php
 function get_current_user_id() {
 	global $current_user;
 	return $current_user->ID;
@@ -507,14 +575,25 @@ function update_archived( $id, $archived ) {
 	return $archived;
 }
 
-function update_blog_status( $id, $pref, $value, $refresh = 1 ) {
+/**
+ * Update a blog details field.
+ *
+ * @since 3.0
+ *
+ * @param int $blog_id BLog ID
+ * @param string $pref A field name
+ * @param string $value Value for $pref
+ * @param bool $refresh Whether to refresh the blog details cache. Default is true.
+ */
+function update_blog_status( $blog_id, $pref, $value, $refresh = true ) {
 	global $wpdb;
 
 	if ( !in_array( $pref, array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id') ) )
 		return $value;
 
-	$wpdb->update( $wpdb->blogs, array($pref => $value, 'last_updated' => current_time('mysql', true)), array('blog_id' => $id) );
-	if ( $refresh == 1 )
+	$wpdb->update( $wpdb->blogs, array($pref => $value, 'last_updated' => current_time('mysql', true)), array('blog_id' => $blog_id) );
+
+	if ( $refresh )
 		refresh_blog_details($id);
 
 	if ( $pref == 'spam' ) {
@@ -534,7 +613,7 @@ function get_blog_status( $id, $pref ) {
 	if ( $details )
 		return $details->$pref;
 
-	return $wpdb->get_var( $wpdb->prepare("SELECT $pref FROM {$wpdb->blogs} WHERE blog_id = %d", $id) );
+	return $wpdb->get_var( $wpdb->prepare("SELECT %s FROM {$wpdb->blogs} WHERE blog_id = %d", $pref, $id) );
 }
 
 function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
