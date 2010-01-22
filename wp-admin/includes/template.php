@@ -465,9 +465,16 @@ class Walker_Category_Checklist extends Walker {
 
 	function start_el(&$output, $category, $depth, $args) {
 		extract($args);
+		if ( empty($taxonomy) )
+			$taxonomy = 'category';
+
+		if ( $taxonomy == 'category' )
+			$name = 'post_category';
+		else
+			$name = 'tax_input['.$taxonomy.']';
 
 		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
-		$output .= "\n<li id='category-$category->term_id'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="post_category[]" id="in-category-' . $category->term_id . '"' . (in_array( $category->term_id, $selected_cats ) ? ' checked="checked"' : "" ) . '/> ' . esc_html( apply_filters('the_category', $category->name )) . '</label>';
+		$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' . (in_array( $category->term_id, $selected_cats ) ? ' checked="checked"' : "" ) . '/> ' . esc_html( apply_filters('the_category', $category->name )) . '</label>';
 	}
 
 	function end_el(&$output, $category, $depth, $args) {
@@ -486,31 +493,59 @@ class Walker_Category_Checklist extends Walker {
  * @param unknown_type $popular_cats
  */
 function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null, $checked_ontop = true ) {
+	wp_terms_checklist($post_id,
+	 	array(
+			'taxonomy' => 'category',
+			'descendants_and_self' => $descendants_and_self,
+			'selected_cats' => $selected_cats,
+			'popular_cats' => $popular_cats,
+			'walker' => $walker,
+			'checked_ontop' => $checked_ontop
+  ));
+}
+
+/**
+ * Taxonomy independent version of wp_category_checklist
+ *
+ * @param int $post_id
+ * @param array $args
+ */
+function wp_terms_checklist($post_id = 0, $args = array()) {
+ 	$defaults = array(
+		'descendants_and_self' => 0,
+		'selected_cats' => false,
+		'popular_cats' => false,
+		'walker' => null,
+		'taxonomy' => 'category',
+		'checked_ontop' => true
+	);
+	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
+
 	if ( empty($walker) || !is_a($walker, 'Walker') )
 		$walker = new Walker_Category_Checklist;
 
 	$descendants_and_self = (int) $descendants_and_self;
 
-	$args = array();
+	$args = array('taxonomy' => $taxonomy);
 
 	if ( is_array( $selected_cats ) )
 		$args['selected_cats'] = $selected_cats;
 	elseif ( $post_id )
-		$args['selected_cats'] = wp_get_post_categories($post_id);
+		$args['selected_cats'] = wp_get_object_terms($post_id, $taxonomy, array_merge($args, array('fields' => 'ids')));
 	else
 		$args['selected_cats'] = array();
 
 	if ( is_array( $popular_cats ) )
 		$args['popular_cats'] = $popular_cats;
 	else
-		$args['popular_cats'] = get_terms( 'category', array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
+		$args['popular_cats'] = get_terms( $taxonomy, array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
 
 	if ( $descendants_and_self ) {
-		$categories = get_categories(array('child_of' => $descendants_and_self, 'hierarchical' => 0, 'hide_empty' => 0));
-		$self = get_category( $descendants_and_self );
+		$categories = (array) get_terms($taxonomy, array( 'child_of' => $descendants_and_self, 'hierarchical' => 0, 'hide_empty' => 0 ) );
+		$self = get_term( $descendants_and_self, $taxonomy );
 		array_unshift( $categories, $self );
 	} else {
-		$categories = get_categories(array('get' => 'all'));
+		$categories = (array) get_terms($taxonomy, array('get' => 'all'));
 	}
 
 	if ( $checked_ontop ) {
@@ -547,7 +582,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	global $post_ID;
 
 	if ( $post_ID )
-		$checked_categories = wp_get_post_categories($post_ID);
+		$checked_categories = wp_get_object_terms($post_ID, 'category', array('fields'=>'ids'));
 	else
 		$checked_categories = array();
 
@@ -558,7 +593,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 		$popular_ids[] = $category->term_id;
 		if ( !$echo ) // hack for AJAX use
 			continue;
-		$id = "popular-category-$category->term_id";
+		$id = "popular-$taxonomy-$category->term_id";
 		$checked = in_array( $category->term_id, $checked_categories ) ? 'checked="checked"' : '';
 		?>
 
@@ -3834,7 +3869,7 @@ function compression_test() {
  * @since 3.0
  *
  * @uses $current_screen
- * 
+ *
  * @param string $id Screen id, optional.
  */
 function set_current_screen( $id =  '' ) {
@@ -3851,9 +3886,9 @@ function set_current_screen( $id =  '' ) {
 			list( $id, $typenow ) = explode('-', $id, 2);
 		$current_screen = array('id' => $id, 'base' => $id);
 	}
-	
+
 	$current_screen = (object) $current_screen;
-	
+
 	if ( 'edit' == $current_screen->id ) {
 		if ( empty($typenow) )
 			$typenow = 'post';
@@ -3867,7 +3902,7 @@ function set_current_screen( $id =  '' ) {
 	} else {
 		$typenow = '';
 	}
-	
+
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
 

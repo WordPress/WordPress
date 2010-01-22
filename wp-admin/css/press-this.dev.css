@@ -115,7 +115,7 @@ div.zerosize {
 }
 
 #tagsdiv-post_tag h3,
-#categorydiv h3 {
+.categorydiv h3 {
 	cursor: pointer;
 }
 
@@ -308,15 +308,15 @@ h3.tb {
 	display: none;
 }
 
-#category-adder {
+.category-adder {
 	padding: 4px 0;
 }
 
-#category-adder h4 {
+.category-adder h4 {
 	margin: 0 0 8px;
 }
 
-#category-add input {
+.category-add input {
 	width: 94%;
 	font-family: Verdana,Arial,Helvetica,sans-serif;
 	font-size: 13px;
@@ -324,7 +324,7 @@ h3.tb {
 	padding: 3px;
 }
 
-#category-add select {
+.category-add select {
 	width: 70%;
 	-x-system-font: none;
 	border-style: solid;
@@ -338,24 +338,24 @@ h3.tb {
 	vertical-align: top;
 }
 
-#category-add input,
-#category-add-sumbit {
+.category-add input,
+.category-add-sumbit {
 	width: auto;
 }
 
 /* Categories */
-#categorydiv ul,
+.categorydiv ul,
 #linkcategorydiv ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
-#categorydiv ul.categorychecklist ul {
+.categorydiv ul.categorychecklist ul {
 	margin-left: 18px;
 }
 
-#categorydiv div.tabs-panel {
+.categorydiv div.tabs-panel {
 	height: 140px;
 	overflow: auto;
 }

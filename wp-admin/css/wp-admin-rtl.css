@@ -294,11 +294,11 @@ td.available-theme {
 	margin-left: 4px;
 }
 /* Categories */
-#category-adder {
+.category-adder {
 	margin-left: 0;
 	margin-right: 120px;
 }
-#post-body ul#category-tabs li.tabs {
+#post-body ul.category-tabs li.tabs {
 	-moz-border-radius: 0 3px 3px 0;
 	-webkit-border-top-left-radius: 0;
 	-webkit-border-top-right-radius: 3px;
@@ -309,22 +309,22 @@ td.available-theme {
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 3px;
 }
-#post-body ul#category-tabs {
+#post-body ul.category-tabs {
 	float: right;
 	text-align: left;
 	margin: 0 0 0 -120px;
 }
-#post-body #categorydiv div.tabs-panel,
+#post-body .categorydiv div.tabs-panel,
 #post-body #linkcategorydiv div.tabs-panel {
 	margin: 0 120px 0 5px;
 }
 /* 1800 - 2000
 =================================== */
-#side-sortables #category-tabs li {
+#side-sortables .category-tabs li {
 	padding-right: 0;
 	padding-left: 8px;
 }
-#categorydiv ul.categorychecklist ul,
+.categorydiv ul.categorychecklist ul,
 #linkcategorydiv ul.categorychecklist ul {
 	margin-left: 0;
 	margin-right: 18px;

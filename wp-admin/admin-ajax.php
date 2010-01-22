@@ -200,6 +200,81 @@ function _wp_ajax_delete_comment_response( $comment_id ) {
 	$x->send();
 }
 
+function _wp_ajax_add_hierarchical_term() {
+	$action = $_POST['action'];
+	$taxonomy = get_taxonomy(substr($action, 4));
+	check_ajax_referer( $action );
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+	$names = explode(',', $_POST['new'.$taxonomy->name]);
+	$parent = isset($_POST['new'.$taxonomy->name.'_parent']) ? (int) $_POST['new'.$taxonomy->name.'_parent'] : 0;
+	if ( 0 > $parent )
+		$parent = 0;
+	if ( $taxonomy->name == 'category' )
+		$post_category = isset($_POST['post_category']) ? (array) $_POST['post_category'] : array();
+	else
+		$post_category = ( isset($_POST['tax_input']) && isset($_POST['tax_input'][$taxonomy->name]) ) ? (array) $_POST['tax_input'][$taxonomy->name] : array();
+	$checked_categories = array_map( 'absint', (array) $post_category );
+	$popular_ids = wp_popular_terms_checklist($taxonomy->name, 0, 10, false);
+
+	foreach ( $names as $cat_name ) {
+		$cat_name = trim($cat_name);
+		$category_nicename = sanitize_title($cat_name);
+		if ( '' === $category_nicename )
+			continue;
+		if ( !($cat_id = is_term($cat_name, $taxonomy->name, $parent)) ) {
+			$new_term = wp_insert_term($cat_name, $taxonomy->name, array('parent' => $parent));
+			$cat_id = $new_term['term_id'];
+		}
+		$checked_categories[] = $cat_id;
+		if ( $parent ) // Do these all at once in a second
+			continue;
+		$category = get_term( $cat_id, $taxonomy->name );
+		ob_start();
+			wp_terms_checklist( 0, array( 'taxonomy' => $taxonomy->name, 'descendants_and_self' => $cat_id, 'selected_cats' => $checked_categories, 'popular_cats' => $popular_ids ));
+		$data = ob_get_contents();
+		ob_end_clean();
+		$add = array(
+			'what' => $taxonomy->name,
+			'id' => $cat_id,
+			'data' => str_replace( array("\n", "\t"), '', $data),
+			'position' => -1
+		);
+	}
+
+	if ( $parent ) { // Foncy - replace the parent and all its children
+		$parent = get_term( $parent, $taxonomy->name );
+		$term_id = $parent->term_id;
+
+		while ( $parent->parent ) { // get the top parent
+			$parent = &get_term( $parent->parent, $taxonomy->name );
+			if ( is_wp_error( $parent ) )
+				break;
+			$term_id = $parent->term_id;
+		}
+
+		ob_start();
+			wp_terms_checklist( 0, array('taxonomy' => $taxonomy->name, 'descendants_and_self' => $term_id, 'selected_cats' => $checked_categories, 'popular_cats' => $popular_ids));
+		$data = ob_get_contents();
+		ob_end_clean();
+		$add = array(
+			'what' => $taxonomy->name,
+			'id' => $term_id,
+			'data' => str_replace( array("\n", "\t"), '', $data),
+			'position' => -1
+		);
+	}
+
+	ob_start();
+		wp_dropdown_categories( array( 'taxonomy' => $taxonomy->name, 'hide_empty' => 0, 'name' => 'new'.$taxonomy->name.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) );
+	$sup = ob_get_contents();
+	ob_end_clean();
+	$add['supplemental'] = array( 'newcat_parent' => $sup );
+
+	$x = new WP_Ajax_Response( $add );
+	$x->send();
+}
+
 $id = isset($_POST['id'])? (int) $_POST['id'] : 0;
 switch ( $action = $_POST['action'] ) :
 case 'delete-comment' : // On success, die with time() instead of 1
@@ -409,70 +484,6 @@ case 'dim-comment' : // On success, die with time() instead of 1
 	_wp_ajax_delete_comment_response( $comment->comment_ID );
 	die( '0' );
 	break;
-case 'add-category' : // On the Fly
-	check_ajax_referer( $action );
-	if ( !current_user_can( 'manage_categories' ) )
-		die('-1');
-	$names = explode(',', $_POST['newcat']);
-	if ( 0 > $parent = (int) $_POST['newcat_parent'] )
-		$parent = 0;
-	$post_category = isset($_POST['post_category'])? (array) $_POST['post_category'] : array();
-	$checked_categories = array_map( 'absint', (array) $post_category );
-	$popular_ids = wp_popular_terms_checklist('category', 0, 10, false);
-
-	foreach ( $names as $cat_name ) {
-		$cat_name = trim($cat_name);
-		$category_nicename = sanitize_title($cat_name);
-		if ( '' === $category_nicename )
-			continue;
-		$cat_id = wp_create_category( $cat_name, $parent );
-		$checked_categories[] = $cat_id;
-		if ( $parent ) // Do these all at once in a second
-			continue;
-		$category = get_category( $cat_id );
-		ob_start();
-			wp_category_checklist( 0, $cat_id, $checked_categories, $popular_ids );
-		$data = ob_get_contents();
-		ob_end_clean();
-		$add = array(
-			'what' => 'category',
-			'id' => $cat_id,
-			'data' => str_replace( array("\n", "\t"), '', $data),
-			'position' => -1
-		);
-	}
-	if ( $parent ) { // Foncy - replace the parent and all its children
-		$parent = get_category( $parent );
-		$term_id = $parent->term_id;
-
-		while ( $parent->parent ) { // get the top parent
-			$parent = &get_category( $parent->parent );
-			if ( is_wp_error( $parent ) )
-				break;
-			$term_id = $parent->term_id;
-		}
-
-		ob_start();
-			wp_category_checklist( 0, $term_id, $checked_categories, $popular_ids, null, false );
-		$data = ob_get_contents();
-		ob_end_clean();
-		$add = array(
-			'what' => 'category',
-			'id' => $term_id,
-			'data' => str_replace( array("\n", "\t"), '', $data),
-			'position' => -1
-		);
-	}
-
-	ob_start();
-		wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) );
-	$sup = ob_get_contents();
-	ob_end_clean();
-	$add['supplemental'] = array( 'newcat_parent' => $sup );
-
-	$x = new WP_Ajax_Response( $add );
-	$x->send();
-	break;
 case 'add-link-category' : // On the Fly
 	check_ajax_referer( $action );
 	if ( !current_user_can( 'manage_categories' ) )
@@ -511,7 +522,7 @@ case 'add-cat' : // From Manage->Categories
 		$x->send();
 	}
 
-	if ( category_exists( trim( $_POST['cat_name'] ), $_POST['category_parent'] ) ) {
+	if ( is_term( trim( $_POST['cat_name'] ), $_POST['taxonomy'], $_POST['category_parent'] ) ) {
 		$x = new WP_Ajax_Response( array(
 			'what' => 'cat',
 			'id' => new WP_Error( 'cat_exists', __('The category you are trying to create already exists.'), array( 'form-field' => 'cat_name' ) ),
@@ -529,7 +540,7 @@ case 'add-cat' : // From Manage->Categories
 		$x->send();
 	}
 
-	if ( !$cat || (!$cat = get_category( $cat )) )
+	if ( !$cat || (!$cat = get_term( $cat, $_POST['taxonomy'] ) ) )
 		die('0');
 
 	$level = 0;

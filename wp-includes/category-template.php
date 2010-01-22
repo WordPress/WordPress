@@ -356,7 +356,7 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( (int) $tab_index > 0 )
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
-	$categories = get_categories( $r );
+	$categories = get_terms( $taxonomy, $r );
 	$name = esc_attr($name);
 	$class = esc_attr($class);
 

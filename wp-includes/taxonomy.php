@@ -194,6 +194,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$args['name'] = $taxonomy;
 	$args['object_type'] = (array) $object_type;
 	$wp_taxonomies[$taxonomy] = (object) $args;
+
+	// register callback handling for metabox
+ 	add_filter('wp_ajax_add-'.$taxonomy, '_wp_ajax_add_hierarchical_term');
 }
 
 /**
@@ -1573,7 +1576,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
  * slug has to be globally unique for every taxonomy.
  *
  * The way this works is that if the taxonomy that the term belongs to is
- * heirarchical and has a parent, it will append that parent to the $slug.
+ * hierarchical and has a parent, it will append that parent to the $slug.
  *
  * If that still doesn't return an unique slug, then it try to append a number
  * until it finds a number that is truely unique.
