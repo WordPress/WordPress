@@ -1,7 +1,10 @@
 <?php
-/*
-	Helper functions for WPMU
-*/
+/**
+ * Multi-site WordPress API
+ *
+ * @package WordPress
+ */
+
 function load_muplugin_textdomain($domain, $path = false) {
 	$locale = get_locale();
 	if ( empty($locale) )
@@ -125,11 +128,13 @@ function get_blog_details( $id, $getall = true ) {
 	if ( !is_numeric( $id ) )
 		$id = get_id_from_blogname( $id );
 
+	$id = (int) $id;
+
 	$all = $getall == true ? '' : 'short';
 	$details = wp_cache_get( $id . $all, 'blog-details' );
 
 	if ( $details ) {
-		if ( $details == -1 )
+		if ( !is_object($details) && $details == -1 )
 			return false;
 		elseif ( !is_object($details) ) // Clear old pre-serialized objects. Cache clients do better with that.
 			wp_cache_delete( $id . $all, 'blog-details' );

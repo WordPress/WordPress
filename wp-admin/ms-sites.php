@@ -315,7 +315,7 @@ switch ( $action ) {
 	default:
 		$apage = ( isset($_GET['apage'] ) && intval( $_GET['apage'] ) ) ? absint( $_GET['apage'] ) : 1;
 		$num = ( isset($_GET['num'] ) && intval( $_GET['num'] ) ) ? absint( $_GET['num'] ) : 15;
-		$s = wp_specialchars( trim( $_GET[ 's' ] ) );
+		$s = isset($_GET['s']) ? esc_attr( trim( $_GET[ 's' ] ) ) : '';
 		$like_s = like_escape($s);
 
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
@@ -332,38 +332,38 @@ switch ( $action ) {
 				AND {$wpdb->registration_log}.IP LIKE ('%{$like_s}%')";
 		}
 
-		if ( isset( $_GET['sortby'] ) == false ) {
-			$_GET['sortby'] = 'id';
-		}
+		$order_by = isset( $_GET['sortby'] ) ? $_GET['sortby'] : 'id';
 
-		if ( $_GET['sortby'] == 'registered' ) {
+		if ( $order_by == 'registered' ) {
 			$query .= ' ORDER BY registered ';
-		} elseif ( $_GET['sortby'] == 'id' ) {
-			$query .= ' ORDER BY ' . $wpdb->blogs . '.blog_id ';
-		} elseif ( $_GET['sortby'] == 'lastupdated' ) {
+		} elseif ( $order_by == 'lastupdated' ) {
 			$query .= ' ORDER BY last_updated ';
-		} elseif ( $_GET['sortby'] == 'blogname' ) {
+		} elseif ( $order_by == 'blogname' ) {
 			$query .= ' ORDER BY domain ';
-		}
-
-		$query .= ( $_GET['order'] == 'DESC' ) ? 'DESC' : 'ASC';
-
-		if ( !empty($s) ) {
-			$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(blog_id)', $query) );
 		} else {
-			$total = $wpdb->get_var( "SELECT COUNT(blog_id) FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ");
+			$order_by = 'id';
+			$query .= ' ORDER BY ' . $wpdb->blogs . '.blog_id ';
 		}
+
+		$order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
+		$order = ( 'DESC' == $order ) ? 'DESC' : 'ASC';
+		$query .= $order;
+
+		if ( !empty($s) )
+			$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(blog_id)', $query) );
+		else
+			$total = $wpdb->get_var( "SELECT COUNT(blog_id) FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ");
 
 		$query .= " LIMIT " . intval( ( $apage - 1 ) * $num) . ", " . intval( $num );
 		$blog_list = $wpdb->get_results( $query, ARRAY_A );
 
 		// Pagination
-		$url2 = "&amp;order=" . $_GET['order'] . "&amp;sortby=" . $_GET['sortby'] . "&amp;s=";
-		if ( $_GET[ 'blog_ip' ] ) {
+		$url2 = "&amp;order=" . $order . "&amp;sortby=" . $order_by . "&amp;s=";
+		if ( !empty($_GET[ 'blog_ip' ])  )
 			$url2 .= "&amp;ip_address=" . urlencode( $s );
-		} else {
+		else
 			$url2 .= $s . "&amp;ip_address=" . urlencode( $s );
-		}
+
 		$blog_navigation = paginate_links( array(
 			'base' => add_query_arg( 'apage', '%#%' ).$url2,
 			'format' => '',
@@ -421,11 +421,10 @@ switch ( $action ) {
 		$posts_columns = apply_filters('wpmu_blogs_columns', $posts_columns);
 
 		$sortby_url = "s=";
-		if ( $_GET[ 'blog_ip' ] ) {
+		if ( !empty($_GET[ 'blog_ip' ]) )
 			$sortby_url .= "&ip_address=" . urlencode( $s );
-		} else {
+		else
 			$sortby_url .= urlencode( $s ) . "&ip_address=" . urlencode( $s );
-		}
 		?>
 
 		<table width="100%" cellpadding="3" cellspacing="3" class="widefat">
@@ -434,8 +433,8 @@ switch ( $action ) {
 				<th scope="col" class="check-column"></th>
 				<?php foreach($posts_columns as $column_id => $column_display_name) {
 					$column_link = "<a href='ms-sites.php?{$sortby_url}&amp;sortby={$column_id}&amp;";
-					if ( $_GET['sortby'] == $column_id ) {
-						$column_link .= $_GET[ 'order' ] == 'DESC' ? 'order=ASC&amp;' : 'order=DESC&amp;';
+					if ( $order_by == $column_id ) {
+						$column_link .= ($order_by == 'DESC') ? 'order=ASC&amp;' : 'order=DESC&amp;';
 					}
 					$column_link .= "apage={$apage}'>{$column_display_name}</a>";
 
