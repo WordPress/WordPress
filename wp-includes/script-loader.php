@@ -143,6 +143,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-dialog', '/wp-includes/js/jquery/ui.dialog.js', array('jquery-ui-resizable', 'jquery-ui-draggable'), '1.7.1' );
 	$scripts->add_data( 'jquery-ui-dialog', 'group', 1 );
 
+	$scripts->add( 'jquery-ui-effects', '/wp-includes/js/jquery/ui.effects.js', array('jquery-ui-core'), '1.7.2' ); // Yes, this one is 1.7.2 — the others need to be updated
+	$scripts->add_data( 'jquery-ui-effects', 'group', 1 );
+
 	// deprecated, not used in core, most functionality is included in jQuery 1.3
 	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array('jquery'), '2.02m');
 	$scripts->add_data( 'jquery-form', 'group', 1 );

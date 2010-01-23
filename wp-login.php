@@ -45,8 +45,21 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	add_filter( 'pre_option_blog_public', create_function( '$a', 'return 0;' ) );
 	add_action( 'login_head', 'noindex' );
 
+	// Print scripts
+	add_action( 'login_head', 'wp_print_scripts' );
+
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
+
+	// Shake it!
+	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
+	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
+
+	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) ) {
+		wp_enqueue_script( 'jquery-ui-effects' );
+		add_action( 'login_head', 'wp_shake_js', 12 );
+	}
+
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -107,6 +120,17 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 			echo '<p class="message">' . apply_filters('login_messages', $messages) . "</p>\n";
 	}
 } // End of login_header()
+
+function wp_shake_js() {
+?>
+<script type="text/javascript">
+jQuery( document ).ready(function(){
+	jQuery( '#h1' ).focus();
+	jQuery( '#loginform, #registerform, #lostpasswordform' ).effect('shake', {times: 3}, 40, function(){try{wp_attempt_focus();} catch(e){}});
+});
+</script>
+<?php
+}
 
 /**
  * Handles sending password retrieval email to user.
@@ -588,15 +612,21 @@ default:
 </div>
 
 <script type="text/javascript">
-<?php if ( $user_login || $interim_login ) { ?>
+function wp_attempt_focus(){
 setTimeout( function(){ try{
+<?php if ( $user_login || $interim_login ) { ?>
 d = document.getElementById('user_pass');
+<?php } else { ?>
+d = document.getElementById('user_login');	
+<?php } ?>
 d.value = '';
 d.focus();
 } catch(e){}
 }, 200);
-<?php } else { ?>
-try{document.getElementById('user_login').focus();}catch(e){}
+}
+
+<?php if ( !$error ) { ?>
+wp_attempt_focus();
 <?php } ?>
 </script>
 </body>
