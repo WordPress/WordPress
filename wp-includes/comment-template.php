@@ -833,7 +833,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	if ( empty($file) )
 		$file = '/comments.php';
-
+	
 	$req = get_option('require_name_email');
 
 	/**
@@ -1414,6 +1414,90 @@ function wp_list_comments($args = array(), $comments = null ) {
 	$wp_query->max_num_comment_pages = $walker->max_pages;
 
 	$in_comment_loop = false;
+}
+
+/**
+ * Outputs a complete commenting form for use within a template.
+ * Most strings and form fields may be controlled through the $args array passed
+ * into the function, while you may also choose to use the comments_form_default_fields
+ * filter to modify the array of default fields if you'd just like to add a new
+ * one or remove a single field. All fields are also individually passed through
+ * a filter of the form comments_form_field_$name where $name is the key used
+ * in the array of fields.
+ *
+ * @since x.x
+ * @param array $args Options for strings, fields etc in the form
+ * @param mixed $post_id Post ID to generate the form for, uses the current post if null
+ * @return void
+ */
+function comment_form( $args = array(), $post_id = null ) {
+	global $user_identity, $id;
+		
+	if ( null === $post_id )
+		$post_id = $id;
+	else
+		$id = $post_id;
+	
+	$commenter = wp_get_current_commenter();
+	
+	$req = get_option( 'require_name_email' );
+	$aria_req = ( $req ? " aria-required='true'" : '' );
+	$req_str  = ( $req ? __( ' (required)' ) : '' );
+	$defaults = array( 'fields' => apply_filters( 'comment_form_default_fields', array( 'author' => '<p><input type="text" name="author" id="author" value="' . esc_attr( $commenter['comment_author'] ) . '" size="22" tabindex="1"' . $aria_req . ' /> <label for="author"><small>' . __( 'Name' ) . $req_str . '</small></label></p>', 
+																					    'email'  => '<p><input type="text" name="email" id="email" value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="22" tabindex="2"' . $aria_req . ' /> <label for="email"><small>' . __( 'Mail (will not be published)' ) . $req_str . '</small></label></p>', 
+																					    'url'    => '<p><input type="text" name="url" id="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="22" tabindex="3" /> <label for="url"><small>' . __( 'Website' ) . '</small></label></p>' ) ),
+						'comment_field' => '<p><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea></p>', 
+						'must_log_in' => '<p>' .  sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>', 
+						'logged_in_as' => '<p>' . sprintf( __( 'Logged in as <a href="%s">%s</a>. <a href="%s" title="Log out of this account">Log out &raquo;</a></p>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ), 
+						'id_form' => 'commentform', 
+						'id_submit' => 'submit', 
+						'title_reply' => __( 'Leave a Reply' ), 
+						'title_reply_to' => __( 'Leave a Reply to %s'), 
+						'cancel_reply_link' => '', 
+						'label_submit' => __( 'Submit Comment' ), 
+				);
+	$args = wp_parse_args( $args, apply_filters( 'comment_form_defaults', $defaults ) );
+	
+	?>
+		<?php if ( comments_open() ) : ?>
+			<?php do_action( 'comment_form_before' ); ?>
+			<div id="respond">
+				<h3><?php comment_form_title( $args['title_reply'], $args['title_reply_to'] ); ?></h3>
+				<div class="cancel-comment-reply">
+					<small><?php cancel_comment_reply_link( $args['cancel_comment_reply_link'] ); ?></small>
+				</div>
+				<?php if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) : ?>
+					<?php echo $args['must_log_in']; ?>
+					<?php do_action( 'comment_form_must_log_in_after' ); ?>
+				<?php else : ?>
+					<form action="<?php echo site_url( '/wp-comments-post.php' ); ?>" method="post" id="<?php echo esc_attr( $args['id_form'] ); ?>">
+						<?php do_action( 'comment_form_top' ); ?>
+						<?php if ( is_user_logged_in() ) : ?>
+							<?php echo apply_filters( 'comment_form_logged_in', $args['logged_in_as'], $commenter, $user_identity ); ?>
+							<?php do_action( 'comment_form_logged_in_after', $commenter, $user_identity ); ?>
+						<?php else : ?>
+							<?php
+							do_action( 'comment_form_before_fields' );
+							foreach ( (array) $args['fields'] as $name => $field ) {
+								echo apply_filters( "comment_form_field_{$name}", $field ) . "\n";
+							}
+							do_action( 'comment_form_after_fields' );
+							?>
+						<?php endif; ?>
+						<?php echo apply_filters( 'comment_form_field_comment', $args['comment_field'] ); ?>
+						<p>
+							<input name="submit" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" tabindex="<?php echo ( count( $args['fields'] ) + 2 ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
+							<?php comment_id_fields(); ?>
+						</p>
+						<?php do_action( 'comments_form', $post_id ); ?>
+					</form>
+				<?php endif; ?>
+			</div>
+			<?php do_action( 'comment_form_after' ); ?>
+		<?php else : ?>
+			<?php do_action( 'comment_form_comments_closed' ); ?>
+		<?php endif; ?>
+	<?php
 }
 
 ?>
