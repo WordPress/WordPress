@@ -1131,7 +1131,7 @@ function inline_edit_row( $screen ) {
 
 	</div></fieldset>
 
-<?php if ( is_object_in_taxonomy($screen->post_type, 'categories') && !$bulk ) : ?>
+<?php if ( is_object_in_taxonomy($screen->post_type, 'category') && !$bulk ) : ?>
 
 	<fieldset class="inline-edit-col-center inline-edit-categories"><div class="inline-edit-col">
 		<span class="title inline-edit-categories-label"><?php _e( 'Categories' ); ?>
