@@ -34,33 +34,35 @@ $dirs = array( substr( ABSPATH, 0, -1), ABSPATH . "wp-content" );
 <form method="post" action="options-network.php">
 <?php
 function filestats( $err ) {
-	print '<h2>' . esc_html__('Server Summary') . '</h2>';
-	print '<p>' . __("If you post a message to the WordPress support forum at <a target='_blank' href='http://wordpress.org/support/'>http://wordpress.org/support/</a> then copy and paste the following information into your message:") . '</p>';
-
-	print "<blockquote style='background: #eee; border: 1px solid #333; padding: 5px;'>";
-	print "<br /><strong>ERROR: $err</strong><br />";
+?>
+	<h2><?php esc_html_e('Server Summary'); ?></h2>
+	<p><?php _e('If you post a message to the WordPress support forum at <a target="_blank" href="http://wordpress.org/support/">http://wordpress.org/support/</a> then copy and paste the following information into your message:'); ?></p>
+	<blockquote style="background: #eee; border: 1px solid #333; padding: 5px;">
+	<br /><strong><?php echo __('ERROR:') . " $err"; ?></strong><br />
+<?php
 	clearstatcache();
 	$files = array( "htaccess.dist", ".htaccess" );
 	
+	$indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
 	foreach ( (array) $files as $val ) {
 		$stats = @stat( $val );
 		if( $stats ) {
-			print "<h2>$val</h2>";
-			print "&nbsp;&nbsp;&nbsp;&nbsp;uid/gid: " . $stats[ 'uid' ] . "/" . $stats[ 'gid' ] . "<br />\n";
-			print "&nbsp;&nbsp;&nbsp;&nbsp;size: " . $stats[ 'size' ] . "<br />";
-			print "&nbsp;&nbsp;&nbsp;&nbsp;perms: " . substr( sprintf('%o', fileperms( $val ) ), -4 ) . "<br />";
-			print "&nbsp;&nbsp;&nbsp;&nbsp;readable: ";
-			print is_readable( $val ) == true ? "yes" : "no";
-			print "<br />";
-			print "&nbsp;&nbsp;&nbsp;&nbsp;writeable: ";
-			print is_writeable( $val ) == true ? "yes" : "no";
-			print "<br />";
-		} elseif( file_exists( $val ) == false ) {
-			print "<h2>$val</h2>";
-			print "&nbsp;&nbsp;&nbsp;&nbsp;FILE NOT FOUND: $val<br />";
+?>
+			<h2><?php echo esc_html( $val ); ?></h2>
+			<?php echo $indent . sprintf( __('uid/gid: %1$s/%2$s'), $stats[ 'uid' ], $stats[ 'gid' ] ); ?><br />
+			<?php echo $indent . sprintf( __('size: %s'), $stats['size'] ); ?><br/>
+			<?php echo $indent . sprintf( __('perms: %s'), substr( sprintf('%o', fileperms( $val ) ), -4 ) ); ?><br/>
+			<?php echo $indent . sprintf( __('readable: %s'), is_readable( $val ) ? __('yes') : __('no') ); ?><br/>
+			<?php echo $indent . sprintf( __('writeable: %s'), is_writeable( $val ) ? __('yes') : __('no') ); ?><br/>
+<?php
+		} elseif( ! file_exists( $val ) ) {
+?>
+			<h2><?php echo esc_html( $val ); ?></h2>
+			<?php echo $indent . sprintf( __('FILE NOT FOUND: %s'), $val ); ?><br/>
+<?php
 		}
 	}
-	print "</blockquote>";
+	echo "</blockquote>";
 }
 
 function step2_htaccess() {
@@ -73,7 +75,7 @@ function step2_htaccess() {
 	}
 	$htaccess_sample = ABSPATH . 'wp-admin/includes/htaccess.ms';
 	if ( !file_exists( $htaccess_sample ) )
-		wp_die("Sorry, I need a {$htaccess_sample} to work from. Please re-upload this file to your WordPress installation.");
+		wp_die( sprintf( __('Sorry, I need a %s to work from. Please re-upload this file to your WordPress installation.'), $htaccess_sample ) );
 
 	$htaccess_file = file( $htaccess_sample );
 	$fp = @fopen( $htaccess_sample, "r" );
@@ -84,12 +86,12 @@ function step2_htaccess() {
 		fclose( $fp );
 		$htaccess_file = str_replace( "BASE", $base, $htaccess );
 	} else {
-		wp_die("Sorry, I need to be able to read {$htaccess_sample}. Please check the permissions on this file.");
+		wp_die( sprintf( __('Sorry, I need to be able to read %s. Please check the permissions on this file.'), $htaccess_sample ) );
 	}
 
 	//@todo: check for super-cache in use
 ?>
-			<li><p>Replace the contents of your <code>.htaccess</code> with the following:</p>
+			<li><p><?php _e('Replace the contents of your <code>.htaccess</code> with the following:'); ?></p>
 				<textarea name="htaccess" cols="120" rows="20">
 <?php echo $htaccess_file; ?>
 				</textarea>
@@ -105,29 +107,27 @@ function step1() {
 	
 	<h2><?php esc_html_e('What do I need?'); ?></h2>
 	<ul>
-		<li>Access to your server to change directory permissions. This can be done through ssh or ftp for example.</li>
-		<li>A valid email where your password and administrative emails will be sent.</li>
-		<li> Wildcard dns records if you're going to use the virtual host (sub-domain) functionality. Check the <a href='http://trac.mu.wordpress.org/browser/trunk/README.txt'>README</a> for further details.</li>
+		<li><?php _e( 'Access to your server to change directory permissions. This can be done through ssh or ftp for example.' ); ?></li>
+		<li><?php _e( 'A valid email where your password and administrative emails will be sent.' ); ?></li>
+		<li><?php _e( "Wildcard dns records if you're going to use the virtual host (sub-domain) functionality. Check the <a href='http://trac.mu.wordpress.org/browser/trunk/README.txt'>README</a> for further details."); ?></li>
 	</ul>
 	<?php
-	$mod_rewrite_msg = "<p>If the <code>mod_rewrite</code> module is disabled ask your administrator to enable that module, or look at the <a href='http://httpd.apache.org/docs/mod/mod_rewrite.html'>Apache documentation</a> or <a href='http://www.google.com/search?q=apache+mod_rewrite'>elsewhere</a> for help setting it up.</p>";
+	$mod_rewrite_msg = "\n<p>" . __( "If the <code>mod_rewrite</code> module is disabled ask your administrator to enable that module, or look at the <a href='http://httpd.apache.org/docs/mod/mod_rewrite.html'>Apache documentation</a> or <a href='http://www.google.com/search?q=apache+mod_rewrite'>elsewhere</a> for help setting it up." ) . '</p>';
 	
-	if( function_exists( "apache_get_modules" ) ) {
+	if ( function_exists( 'apache_get_modules' ) ) {
 		$modules = apache_get_modules();
-		if( in_array( "mod_rewrite", $modules ) == false ) {
-			echo "<p><strong>Warning!</strong> It looks like mod_rewrite is not installed.</p>" . $mod_rewrite_msg;
-		} else {
+		if ( ! in_array( 'mod_rewrite', $modules ) )
+			echo '<p>' . __('<strong>Warning!</strong> It looks like mod_rewrite is not installed.') . '</p>' . $mod_rewrite_msg;
+		else
 			$rewrite_enabled = true;
-		}
 	} else {
-		?><p>Please make sure <code>mod_rewrite</code> is installed as it will be activated at the end of this install.</p><?php
-		echo $mod_rewrite_msg;
+		echo '<p>' . __( 'Please make sure <code>mod_rewrite</code> is installed as it will be activated at the end of this install.' ) . '</p>' . $mod_rewrite_msg;
 	}
 	return $rewrite_enabled;
 }
 
 function printstep1form( $rewrite_enabled = false ) {
-	$weblog_title = ucfirst( get_option( 'blogname' ) ) . ' Sites';
+	$weblog_title = sprintf( __('%s Sites'), ucfirst( get_option( 'blogname' ) ) );
 	$email = get_option( 'admin_email' );
 	$hostname = get_clean_basedomain();
 	if( substr( $hostname, 0, 4 ) == 'www.' )
@@ -136,58 +136,58 @@ function printstep1form( $rewrite_enabled = false ) {
 	wp_nonce_field( 'install-network-1' );
 	?>
 		<input type='hidden' name='action' value='step2' />
-		<h2>Site Addresses</h2>
-		<p>Please choose whether you would like sites in your WordPress install to use sub-domains or sub-directories. You can not change this later.</p>
+		<h2><?php esc_html_e( 'Site Addresses' ); ?></h2>
+		<p><?php _e( 'Please choose whether you would like sites in your WordPress install to use sub-domains or sub-directories. You cannot change this later.' ); ?></p>
 		<?php if ( !$rewrite_enabled ) { ?>
-		<p><strong>Note</strong> It looks like <code>mod_rewrite</code> is not installed.</p>
+		<p><?php _e( '<strong>Note</strong> It looks like <code>mod_rewrite</code> is not installed.'); ?></p>
 		<?php } ?>
 		<p class="blog-address">
-			<label><input type='radio' name='vhost' value='yes' <?php if( $rewrite_enabled ) echo 'checked="checked"'; ?> /> Sub-domains (like <code>blog1.example.com</code>)</label><br />
-			<label><input type='radio' name='vhost' value='no' <?php if( !$rewrite_enabled ) echo 'checked="checked"'; ?> /> Sub-directories (like <code>example.com/blog1</code>)</label>
+			<label><input type='radio' name='vhost' value='yes'<?php if( $rewrite_enabled ) echo ' checked="checked"'; ?> /> <?php _e( 'Sub-domains (like <code>blog1.example.com</code>)' ); ?></label><br />
+			<label><input type='radio' name='vhost' value='no'<?php if( !$rewrite_enabled ) echo ' checked="checked"'; ?> /> <?php _e( 'Sub-directories (like <code>example.com/blog1</code>) '); ?></label>
 		</p>
 
-		<h2>Server Address</h2>
+		<h2><?php esc_html_e( 'Server Address' ); ?></h2>
 		<?php if ( isset( $nowww ) ) { ?>
-		<h3>We recommend you change your siteurl to <code><?php echo $nowww; ?></code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code><?php echo $hostname; ?></code> but any links will not have the "www" prefix. </h3>
+		<h3><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code>%2$s</code> but any links will not have the "www" prefix.' ), $nowww, $hostname ); ?></h3>
 		<?php } ?>
 		<table class="form-table">  
 			<tr> 
-				<th scope='row'>Server Address</th> 
+				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th> 
 				<td>
-					<p>This will be the Internet address of your site: <strong><em><?php echo $hostname; ?></em></strong>.</p>
-					<input type='hidden' name='basedomain' value='<?php echo $hostname ?>' />
-					<p>Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.</p>
+					<p><?php printf( __( 'This will be the Internet address of your site: <strong><em>%s</em></strong>.' ), $hostname ); ?></p>
+					<input type='hidden' name='basedomain' value='<?php echo esc_attr( $hostname ); ?>' />
+					<p><?php _e( 'Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.' ); ?></p>
 				</td> 
 			</tr>
 		</table>
 
-		<h2>Site Details</h2>
+		<h2><?php esc_html_e( 'Site Details' ); ?></h2>
 		<table class="form-table">  
 			<tr> 
-				<th scope='row'>Site&nbsp;Title</th> 
+				<th scope='row'><?php esc_html_e( 'Site&nbsp;Title' ); ?></th> 
 				<td>
-					<input name='weblog_title' type='text' size='45' value='<?php echo $weblog_title ?>' />
-					<br />What would you like to call your site?
+					<input name='weblog_title' type='text' size='45' value='<?php echo esc_attr( $weblog_title ); ?>' />
+					<br /><?php _e( 'What would you like to call your site?' ); ?>
 				</td> 
 			</tr> 
 			<tr> 
-				<th scope='row'>Email</th> 
+				<th scope='row'><?php esc_html_e( 'Email' ); ?></th> 
 				<td>
-					<input name='email' type='text' size='45' value='<?php echo $email ?>' /> 
-					<br />Your email address.
+					<input name='email' type='text' size='45' value='<?php echo esc_attr( $email ); ?>' /> 
+					<br /><?php _e( 'Your email address.' ); ?>
 				</td> 
 			</tr> 
 		</table> 
-		<p class='submit'><input class="button" name='submit' type='submit' value='Proceed' /></p>
+		<p class='submit'><input class="button" name='submit' type='submit' value='<?php esc_attr_e( 'Proceed' ); ?>' /></p>
 	<?php
 }
 
 function step2() {
 ?>
-		<h2>Enabling WordPress Sites</h2>
-		<p>Complete the following steps to enable the features for creating a network of sites. <strong>Note:</strong> We recommend you make a backup copy of your existing <code>wp-config.php</code> and <code>.htaccess</code> files.</p>
+		<h2><?php esc_html_e( 'Enabling WordPress Sites' ); ?></h2>
+		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites. <strong>Note:</strong> We recommend you make a backup copy of your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p>
 		<ol>
-			<li>Create a <code>blogs.dir</code> directory in your <code>wp-content</code> directory. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.</li>
+			<li><?php _e( 'Create a <code>blogs.dir</code> directory in your <code>wp-content</code> directory. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ); ?></li>
 <?php step2_config(); ?>
 <?php step2_htaccess(); ?>
 		</ol>
@@ -202,11 +202,11 @@ function step2_config() {
 
 	$config_sample = ABSPATH . 'wp-admin/includes/wp-config.ms';
 	if ( !file_exists( $config_sample ) )
-		wp_die("Sorry, I need a {$config_sample} to work from. Please re-upload this file to your WordPress installation.");
+		wp_die( sprintf( __( 'Sorry, I need a <code>%s</code> to work from. Please re-upload this file to your WordPress installation.' ), $config_sample ) );
 
 	$wp_config_file = file( $config_sample );
 ?>
-			<li><p>Replace the contents of your <code>wp-config.php</code> with the following:</p>
+			<li><p><?php _e( 'Replace the contents of your <code>wp-config.php</code> with the following:' ); ?></p>
 				<textarea name="wp-config" cols="120" rows="20">
 <?php
 	foreach ($wp_config_file as $line) {
