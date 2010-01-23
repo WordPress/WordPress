@@ -3372,7 +3372,7 @@ function favorite_actions( $screen = null ) {
 	$actions = array(
 		'post-new.php' => array(__('New Post'), 'edit_posts'),
 		'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),
-		'page-new.php' => array(__('New Page'), 'edit_pages'),
+		'post-new.php?post_type=page' => array(__('New Page'), 'edit_pages'),
 		'media-new.php' => array(__('Upload'), 'upload_files'),
 		'edit-comments.php' => array(__('Comments'), 'moderate_comments')
 		);
