@@ -1425,7 +1425,7 @@ function wp_list_comments($args = array(), $comments = null ) {
  * a filter of the form comments_form_field_$name where $name is the key used
  * in the array of fields.
  *
- * @since x.x
+ * @since 3.0 
  * @param array $args Options for strings, fields etc in the form
  * @param mixed $post_id Post ID to generate the form for, uses the current post if null
  * @return void
