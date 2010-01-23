@@ -407,7 +407,7 @@ case 'rp' :
 break;
 
 case 'register' :
-	if ( is_multixsite() ) {
+	if ( is_multisite() ) {
 		// WPMU doesn't use this
 		wp_redirect( apply_filters( 'wp_signup_location', get_bloginfo('wpurl') . '/wp-signup.php' ) );
 		exit;
