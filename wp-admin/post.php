@@ -110,10 +110,12 @@ elseif ( isset($_POST['wp-preview']) && 'dopreview' == $_POST['wp-preview'] )
 	$action = 'preview';
 
 $sendback = wp_get_referer();
-if ( strpos($sendback, 'post.php') !== false || strpos($sendback, 'post-new.php') !== false )
+if ( strpos($sendback, 'post.php') !== false || strpos($sendback, 'post-new.php') !== false ) {
 	$sendback = admin_url('edit.php');
-else
+	$sendback .= ( !empty( $post_type ) ) ? '?post_type=' . $post_type : '';
+} else {
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $sendback );
+}
 
 switch($action) {
 case 'postajaxpost':
