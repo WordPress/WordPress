@@ -200,12 +200,17 @@ if ( empty($tags_per_page) || $tags_per_page < 1 )
 $tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
 $tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
 
+if ( !empty($_GET['s']) )
+	$total_terms = count( get_terms( $taxonomy, array( 'search' => trim(stripslashes($_GET['s'])), 'number' => 0, 'hide_empty' => 0 ) ) );
+else
+	$total_terms = wp_count_terms($taxonomy);
+
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
-	'total' => ceil(wp_count_terms($taxonomy) / $tags_per_page),
+	'total' => ceil($total_terms / $tags_per_page),
 	'current' => $pagenum
 ));
 
@@ -310,7 +315,7 @@ else
 <div class="form-field">
 	<label for="description"><?php _e('Description') ?></label>
 	<textarea name="description" id="description" rows="5" cols="40"></textarea>
-    <p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
+	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
 <p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
