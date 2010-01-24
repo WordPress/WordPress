@@ -786,13 +786,13 @@ function &get_terms($taxonomies, $args = '') {
 
 	// don't limit the query results when we have to descend the family tree
 	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' === $parent ) {
-		if( $offset )
+		if ( $offset )
 			$limit = 'LIMIT ' . $offset . ',' . $number;
 		else
 			$limit = 'LIMIT ' . $number;
-
-	} else
+	} else {
 		$limit = '';
+	}
 
 	if ( !empty($search) ) {
 		$search = like_escape($search);
@@ -2445,5 +2445,6 @@ function is_object_in_taxonomy($object_type, $taxonomy) {
 
 	return false;
 }
+
 
 ?>

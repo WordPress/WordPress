@@ -610,7 +610,19 @@ case 'add-tag' : // From Manage->Tags
 		exit;
 	}
 
-	echo _tag_row( $tag, '', $taxonomy );
+	$level = 0;
+	$tag_full_name = false;
+	if ( is_taxonomy_hierarchical($taxonomy) ) {
+		$tag_full_name = $tag->name;
+		$_tag = $tag;
+		while ( $_tag->parent ) {
+			$_tag = get_term( $_tag->parent, $taxonomy );
+			$tag_full_name = $_tag->name . ' &#8212; ' . $tag_full_name;
+			$level++;
+		}
+		$tag_full_name = esc_attr($tag_full_name);	
+	}
+	echo _tag_row( $tag, $level, $tag_full_name, $taxonomy );
 	exit;
 	break;
 case 'get-tagcloud' :
@@ -1210,7 +1222,7 @@ case 'inline-save-tax':
 				if ( !$tag || is_wp_error( $tag ) )
 					die( __('Tag not updated.') );
 
-				echo _tag_row($tag, '', $taxonomy);
+				echo _tag_row($tag, 0, '', $taxonomy);
 			} else {
 				die( __('Tag not updated.') );
 			}

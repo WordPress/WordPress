@@ -73,7 +73,7 @@ function wp_create_categories($categories, $post_id = '') {
 				$cat_ids[] = $id;
 	}
 
-	if ($post_id)
+	if ( $post_id )
 		wp_set_post_categories($post_id, $cat_ids);
 
 	return $cat_ids;

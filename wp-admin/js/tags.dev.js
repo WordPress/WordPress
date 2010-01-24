@@ -34,7 +34,11 @@ jQuery(document).ready(function($) {
 				$('#ajax-response').append(r);
 			} else {
 				$('#ajax-response').empty();
-				$('#the-list').prepend(r);
+				var parent = form.find('select#parent').val();
+				if ( parent > 0 && $('#tag-' + parent ).length > 0 ) // If the parent exists on this page, insert it below. Else insert it at the top of the list.
+					$('#the-list #tag-' + parent).after(r);
+				else
+					$('#the-list').prepend(r);
 				$('input[type="text"]:visible, textarea:visible', form).val('');
 			}
 		});

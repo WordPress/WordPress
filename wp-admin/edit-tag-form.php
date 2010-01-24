@@ -39,13 +39,22 @@ do_action('edit_tag_form_pre', $tag); ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug') ?></label></th>
 			<td><input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo esc_attr(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
-            <p class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
+			<p class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
+		</tr>
+<?php } ?>
+<?php if ( is_taxonomy_hierarchical($taxonomy) ) { ?>
+		<tr class="form-field">
+			<th scope="row" valign="top"><label for="parent"><?php _e('Category Parent') ?></label></th>
+			<td>
+				<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'name' => 'parent', 'orderby' => 'name', 'taxonomy' => $taxonomy, 'selected' => $tag->parent, 'exclude' => $tag->term_id, 'hierarchical' => true, 'show_option_none' => __('None'))); ?><br />
+				<span class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></span>
+			</td>
 		</tr>
 <?php } ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="description"><?php _e('Description') ?></label></th>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />
-            <span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
+			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
 		<?php do_action('edit_tag_form_fields', $tag); ?>
 	</table>

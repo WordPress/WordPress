@@ -205,15 +205,15 @@ function _cat_row( $category, $level, $name_override = false ) {
  *
  * Outputs the HTML for the hidden table rows used in Categories, Link Caregories and Tags quick edit.
  *
- * @param string $type "tag", "category" or "link-category"
+ * @param string $type "edit-tags", "categoried" or "edit-link-categories"
+ * @param string $taxonomy The taxonomy of the row.
  * @return
  */
-function inline_edit_term_row($type) {
+function inline_edit_term_row($type, $taxonomy) {
 
 	if ( ! current_user_can( 'manage_categories' ) )
 		return;
 
-	$is_tag = $type == 'edit-tags';
 	$columns = get_column_headers($type);
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($type) ) );
 	$col_count = count($columns) - count($hidden);
@@ -236,14 +236,13 @@ function inline_edit_term_row($type) {
 			</label>
 <?php } ?>
 
-<?php if ( 'category' == $type ) : ?>
-
+<?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 			<label>
 				<span class="title"><?php _e( 'Parent' ); ?></span>
-				<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('None'))); ?>
+				<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => 1, 'taxonomy' => $taxonomy, 'show_option_none' => __('None'))); ?>
 			</label>
 
-<?php endif; // $type ?>
+<?php endif; // $hierarchical ?>
 
 		</div></fieldset>
 
@@ -254,14 +253,14 @@ function inline_edit_term_row($type) {
 	foreach ( $columns as $column_name => $column_display_name ) {
 		if ( isset( $core_columns[$column_name] ) )
 			continue;
-		do_action( 'quick_edit_custom_box', $column_name, $type );
+		do_action( 'quick_edit_custom_box', $column_name, $type, $taxonomy );
 	}
 
 ?>
 
 	<p class="inline-edit-save submit">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
-		<?php $update_text = ( $is_tag ) ? __( 'Update Tag' ) : __( 'Update Category' ); ?>
+		<?php $update_text = ( 'post_tag' == $taxonomy ) ? __( 'Update Tag' ) : __( 'Update Category' ); ?>
 		<a accesskey="s" href="#inline-edit" title="<?php echo esc_attr( $update_text ); ?>" class="save button-primary alignright"><?php echo $update_text; ?></a>
 		<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
 		<span class="error" style="display:none;"></span>
@@ -671,12 +670,18 @@ function wp_link_category_checklist( $link_id = 0 ) {
  * @param unknown_type $class
  * @return unknown
  */
-function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
+function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 		$count = number_format_i18n( $tag->count );
-		$tagsel = ($taxonomy == 'post_tag' ? 'tag' : $taxonomy);
+		if ( 'post_tag' == $taxonomy ) 
+			$tagsel = 'tag';
+		elseif ( 'category' == $taxonomy )
+			$tagsel = 'category_name';
+		else
+			$tagsel = $taxonomy;
 		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug'>$count</a>" : $count;
 
-		$name = apply_filters( 'term_name', $tag->name );
+		$pad = str_repeat( '&#8212; ', max(0, $level) );
+		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name );
 		$qe_data = get_term($tag->term_id, $taxonomy, object, 'edit');
 		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id";
 		$out = '';
@@ -694,15 +699,22 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 
 			switch ($column_name) {
 				case 'cb':
-					$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
+					if ( $tag->term_id != get_option('default_' . $taxonomy) )
+						$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
+					else
+						$out .= '<th scope="row" class="check-column">&nbsp;</th>';
 					break;
 				case 'name':
 					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $name)) . '">' . $name . '</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
-					$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "'>" . __('Delete') . "</a>";
+					if ( $tag->term_id != get_option('default_' . $taxonomy) )
+						$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "'>" . __('Delete') . "</a>";
+
 					$actions = apply_filters('tag_row_actions', $actions, $tag);
+					$actions = apply_filters("${taxonomy}_row_actions", $actions, $tag);
+
 					$action_count = count($actions);
 					$i = 0;
 					$out .= '<div class="row-actions">';
@@ -714,7 +726,8 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					$out .= '</div>';
 					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 					$out .= '<div class="name">' . $qe_data->name . '</div>';
-					$out .= '<div class="slug">' . apply_filters('editable_slug', $qe_data->slug) . '</div></div></td>';
+					$out .= '<div class="slug">' . apply_filters('editable_slug', $qe_data->slug) . '</div>';
+					$out .= '<div class="parent">' . $qe_data->parent . '</div></div></td>';
 					break;
 				case 'description':
 					$out .= "<td $attributes>$tag->description</td>";
@@ -758,21 +771,83 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
 
 	$args = array('offset' => $start, 'number' => $pagesize, 'hide_empty' => 0);
 
-	if ( !empty( $searchterms ) ) {
+	if ( !empty( $searchterms ) )
 		$args['search'] = $searchterms;
-	}
-
-	$tags = get_terms( $taxonomy, $args );
 
 	// convert it to table rows
 	$out = '';
 	$count = 0;
-	foreach( $tags as $tag )
-		$out .= _tag_row( $tag, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
+	if ( is_taxonomy_hierarchical($taxonomy) ) {
+		// We'll need the full set of terms then.
+		$args['number'] = $args['offset'] = 0;
+
+		$terms = get_terms( $taxonomy, $args );
+		if ( !empty( $searchterms ) ) // Ignore children on searches.
+			$children = array();
+		else
+			$children = _get_term_hierarchy($taxonomy);
+
+		// Some funky recursion to get the job done is contained within, Skip it for non-hierarchical taxonomies for performance sake
+		$out .= _term_rows($taxonomy, $terms, $children, $page, $pagesize, $count);
+	} else {
+		$terms = get_terms( $taxonomy, $args );
+		foreach( $terms as $term )
+			$out .= _tag_row( $term, 0, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
+	}
 
 	// filter and send to screen
 	echo $out;
 	return $count;
+}
+
+function _term_rows( $taxonomy, $terms, &$children, $page = 1, $per_page = 20, &$count, $parent = 0, $level = 0 ) {
+
+	$start = ($page - 1) * $per_page;
+	$end = $start + $per_page;
+
+	$output = '';
+	foreach ( $terms as $key => $term ) {
+
+		if ( $count >= $end )
+			break;
+
+		if ( $term->parent != $parent && empty($_GET['s']) )
+			continue;
+
+		// If the page starts in a subtree, print the parents.
+		if ( $count == $start && $term->parent > 0 && empty($_GET['s']) ) {
+			$my_parents = $parent_ids = array();
+			$p = $term->parent;
+			while ( $p ) {
+				$my_parent = get_term( $p, $taxonomy );
+				$my_parents[] = $my_parent;
+				$p = $my_parent->parent;
+				if ( in_array($p, $parent_ids) ) // Prevent parent loops.
+					break;
+				$parent_ids[] = $p;
+			}
+			unset($parent_ids);
+
+			$num_parents = count($my_parents);
+			$count -= $num_parents; // Do not include parents in the per-page count, This is due to paging issues with unknown numbers of rows.
+			while ( $my_parent = array_pop($my_parents) ) {
+				$output .=  "\t" . _tag_row( $my_parent, $level - $num_parents, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
+				$num_parents--;
+			}
+		}
+
+		if ( $count >= $start )
+			$output .= "\t" . _tag_row( $term, $level, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
+		else
+			++$count;
+
+		unset($terms[$key]);
+
+		if ( isset($children[$term->term_id]) )
+			$output .= _term_rows( $taxonomy, $terms, $children, $page, $per_page, $count, $term->term_id, $level + 1 );
+	}
+
+	return $output;
 }
 
 // define the columns to display, the syntax is 'internal name' => 'display name'

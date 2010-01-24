@@ -226,5 +226,5 @@ if ( $page_links )
 </div><!-- /col-container -->
 </div><!-- /wrap -->
 
-<?php inline_edit_term_row('edit-link-categories'); ?>
+<?php inline_edit_term_row('edit-link-categories', 'link_category'); ?>
 <?php include('admin-footer.php'); ?>

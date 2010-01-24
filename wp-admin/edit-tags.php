@@ -44,9 +44,9 @@ case 'add-tag':
 
 	$ret = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST);
 	if ( $ret && !is_wp_error( $ret ) ) {
-		wp_redirect('edit-tags.php?message=1#addtag');
+		wp_redirect("edit-tags.php?taxonomy=$taxonomy&amp;message=1#addtag");
 	} else {
-		wp_redirect('edit-tags.php?message=4#addtag');
+		wp_redirect("edit-tags.php?taxonomy=$taxonomy&amp;message=4#addtag");
 	}
 	exit;
 break;
@@ -65,7 +65,7 @@ case 'delete':
 
 	wp_delete_term( $tag_ID, $taxonomy);
 
-	$location = 'edit-tags.php';
+	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
 	if ( $referer = wp_get_referer() ) {
 		if ( false !== strpos($referer, 'edit-tags.php') )
 			$location = $referer;
@@ -88,7 +88,7 @@ case 'bulk-delete':
 		wp_delete_term( $tag_ID, $taxonomy);
 	}
 
-	$location = 'edit-tags.php';
+	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
 	if ( $referer = wp_get_referer() ) {
 		if ( false !== strpos($referer, 'edit-tags.php') )
 			$location = $referer;
@@ -120,7 +120,7 @@ case 'editedtag':
 
 	$ret = wp_update_term($tag_ID, $taxonomy, $_POST);
 
-	$location = 'edit-tags.php';
+	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
 	if ( $referer = wp_get_original_referer() ) {
 		if ( false !== strpos($referer, 'edit-tags.php') )
 			$location = $referer;
@@ -200,10 +200,13 @@ if ( empty($tags_per_page) || $tags_per_page < 1 )
 $tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
 $tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
 
-if ( !empty($_GET['s']) )
-	$total_terms = count( get_terms( $taxonomy, array( 'search' => trim(stripslashes($_GET['s'])), 'number' => 0, 'hide_empty' => 0 ) ) );
-else
+if ( !empty($_GET['s']) ) {
+	$searchterms = trim(stripslashes($_GET['s']));
+	$total_terms = count( get_terms( $taxonomy, array( 'search' => $searchterms, 'number' => 0, 'hide_empty' => 0 ) ) );
+} else {
+	$searchterms = '';
 	$total_terms = wp_count_terms($taxonomy);
+}
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
@@ -247,8 +250,6 @@ if ( $page_links )
 
 	<tbody id="the-list" class="list:tag">
 <?php
-
-$searchterms = isset( $_GET['s'] ) ? trim( $_GET['s'] ) : '';
 
 $count = tag_rows( $pagenum, $tags_per_page, $searchterms, $taxonomy );
 ?>
@@ -312,6 +313,13 @@ else
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 <?php } ?>
+<?php if ( is_taxonomy_hierarchical($taxonomy) ) { ?>
+<div class="form-field">
+	<label for="category_parent"><?php _e('Category Parent') ?></label>
+	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+	<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
+</div>
+<?php } ?>
 <div class="form-field">
 	<label for="description"><?php _e('Description') ?></label>
 	<textarea name="description" id="description" rows="5" cols="40"></textarea>
@@ -329,7 +337,7 @@ else
 </div><!-- /col-container -->
 </div><!-- /wrap -->
 
-<?php inline_edit_term_row('edit-tags'); ?>
+<?php inline_edit_term_row('edit-tags', $taxonomy); ?>
 
 <?php
 break;
