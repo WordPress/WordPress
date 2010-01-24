@@ -45,9 +45,6 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	add_filter( 'pre_option_blog_public', create_function( '$a', 'return 0;' ) );
 	add_action( 'login_head', 'noindex' );
 
-	// Print scripts
-	add_action( 'login_head', 'wp_print_scripts' );
-
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
 
@@ -55,10 +52,8 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
 
-	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) ) {
-		wp_enqueue_script( 'jquery-ui-effects' );
+	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
-	}
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -120,14 +115,14 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 			echo '<p class="message">' . apply_filters('login_messages', $messages) . "</p>\n";
 	}
 } // End of login_header()
-
 function wp_shake_js() {
 ?>
 <script type="text/javascript">
-jQuery( document ).ready(function(){
-	jQuery( '#h1' ).focus();
-	jQuery( '#loginform, #registerform, #lostpasswordform' ).effect('shake', {times: 3}, 40, function(){try{wp_attempt_focus();} catch(e){}});
-});
+addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+function s(id,pos){g(id).left=pos+'px';}
+function g(id){return document.getElementById(id).style;}
+function shake(id,a,d){c=a.shift();s(id,c);if(a.length>0){setTimeout(function(){shake(id,a,d);},d);}else{try{wp_attempt_focus();}catch(e){}}}
+addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.concat(p));var i=document.forms[0].id;g(i).position='relative';shake(i,p,20);});
 </script>
 <?php
 }
@@ -410,6 +405,7 @@ case 'retrievepassword' :
 
 <script type="text/javascript">
 try{document.getElementById('user_login').focus();}catch(e){}
+if(typeof wpOnload=='function')wpOnload();
 </script>
 </body>
 </html>
@@ -485,6 +481,7 @@ case 'register' :
 
 <script type="text/javascript">
 try{document.getElementById('user_login').focus();}catch(e){}
+if(typeof wpOnload=='function')wpOnload();
 </script>
 </body>
 </html>
@@ -628,6 +625,7 @@ d.focus();
 <?php if ( !$error ) { ?>
 wp_attempt_focus();
 <?php } ?>
+if(typeof wpOnload=='function')wpOnload();
 </script>
 </body>
 </html>
