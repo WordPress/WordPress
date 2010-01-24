@@ -226,12 +226,12 @@ if ( $user_posts ) {
 	if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user->ID ) )
 		$class = ' class="current"';
 	$status_links[] = "<li><a href='edit.php?author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
-	$allposts = '?all_posts=1';
+	$allposts = '&all_posts=1';
 }
 
 $total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
 $class = empty($class) && empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href='edit.php{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
+$status_links[] = "<li><a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 foreach ( get_post_stati(array(), 'objects') as $status ) {
 	$class = '';
