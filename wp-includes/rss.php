@@ -12,6 +12,11 @@
  * @subpackage MagpieRSS
  */
 
+/**
+ * Deprecated. Use SimplePie (class-simplepie.php) instead.
+ */
+_deprecated_file( basename( __FILE__ ), '3.0', WPINC . '/class-simplepie.php' );
+
 /*
  * Hook to use another RSS object instead of MagpieRSS
  */
