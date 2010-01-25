@@ -4,6 +4,10 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
+// @todo Create a delete blog cap.
+if ( ! current_user_can('manage_options') )
+	wp_die(__('You do not have sufficient permissions to delete this blog.'));
+
 $action = isset($_POST['action']) ? $_POST['action'] : 'splash';
 
 $title = __('Delete Blog');
