@@ -2504,7 +2504,7 @@ function wp_die( $message, $title = '', $args = array() ) {
  *
  * @since 3.0.0
  * @private
- * 
+ *
  * @param string $message Error message.
  * @param string $title Error title.
  * @param string|array $args Optional arguements to control behaviour.
