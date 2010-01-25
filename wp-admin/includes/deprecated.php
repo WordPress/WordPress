@@ -1,4 +1,12 @@
 <?php
+/**
+ * Deprecated admin functions from past WordPress versions. You shouldn't use these
+ * globals and functions and look for the alternatives instead. The functions
+ * and globals will be removed in a later version.
+ *
+ * @package WordPress
+ * @subpackage Deprecated
+ */
 
 /**
  * Calculates the new dimentions for a downsampled image.

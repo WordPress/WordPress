@@ -1397,9 +1397,14 @@ jQuery(document).ready(function($){
 <?php } ?>
 </div>
 
-<?php do_action('pre-upload-ui'); ?>
+<?php
+// Check quota for this blog if multisite
+if ( is_multisite() && !is_upload_space_available() )
+	wp_die( __('Sorry, you must delete files before you can upload any more.') );
 
-<?php if ( $flash ) : ?>
+do_action('pre-upload-ui');
+
+if ( $flash ) : ?>
 <script type="text/javascript">
 //<![CDATA[
 var swfu;
@@ -2229,4 +2234,3 @@ add_action('media_upload_file', 'media_upload_file');
 add_filter('media_upload_gallery', 'media_upload_gallery');
 
 add_filter('media_upload_library', 'media_upload_library');
-

@@ -55,7 +55,9 @@ require_once(ABSPATH . WPINC . '/registration.php');
 require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
 
 /** WordPress Multi-Site support API */
-if ( is_multisite() )
+if ( is_multisite() ) {
 	require_once(ABSPATH . 'wp-admin/includes/ms.php');
+	require_once(ABSPATH . 'wp-admin/includes/ms-deprecated.php');
+}
 
 ?>
