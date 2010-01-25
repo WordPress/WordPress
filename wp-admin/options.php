@@ -22,23 +22,45 @@ $parent_file = 'options-general.php';
 wp_reset_vars(array('action'));
 
 $whitelist_options = array(
-	'general' => array( 'blogname', 'blogdescription', 'admin_email', 'users_can_register', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'default_role', 'timezone_string' ),
+	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'timezone_string' ),
 	'discussion' => array( 'default_pingback_flag', 'default_ping_status', 'default_comment_status', 'comments_notify', 'moderation_notify', 'comment_moderation', 'require_name_email', 'comment_whitelist', 'comment_max_links', 'moderation_keys', 'blacklist_keys', 'show_avatars', 'avatar_rating', 'avatar_default', 'close_comments_for_old_posts', 'close_comments_days_old', 'thread_comments', 'thread_comments_depth', 'page_comments', 'comments_per_page', 'default_comments_page', 'comment_order', 'comment_registration' ),
 	'misc' => array( 'use_linksupdate', 'uploads_use_yearmonth_folders', 'upload_path', 'upload_url_path' ),
 	'media' => array( 'thumbnail_size_w', 'thumbnail_size_h', 'thumbnail_crop', 'medium_size_w', 'medium_size_h', 'large_size_w', 'large_size_h', 'image_default_size', 'image_default_align', 'image_default_link_type', 'embed_autourls', 'embed_size_w', 'embed_size_h' ),
 	'privacy' => array( 'blog_public' ),
 	'reading' => array( 'posts_per_page', 'posts_per_rss', 'rss_use_excerpt', 'blog_charset', 'show_on_front', 'page_on_front', 'page_for_posts' ),
-	'writing' => array( 'default_post_edit_rows', 'use_smilies', 'ping_sites', 'mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass', 'default_category', 'default_email_category', 'use_balanceTags', 'default_link_category', 'enable_app', 'enable_xmlrpc' ),
+	'writing' => array( 'default_post_edit_rows', 'use_smilies', 'default_category', 'default_email_category', 'use_balanceTags', 'default_link_category', 'enable_app', 'enable_xmlrpc' ),
 	'options' => array( '' ) );
-if ( !defined( 'WP_SITEURL' ) ) $whitelist_options['general'][] = 'siteurl';
-if ( !defined( 'WP_HOME' ) ) $whitelist_options['general'][] = 'home';
+
+$mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass');
+
+if ( !is_multisite() ) {
+	if ( !defined( 'WP_SITEURL' ) ) $whitelist_options['general'][] = 'siteurl';
+	if ( !defined( 'WP_HOME' ) ) $whitelist_options['general'][] = 'home';
+	$whitelist_options['general'][] = 'admin_email';
+	$whitelist_options['general'][] = 'users_can_register';
+	$whitelist_options['general'][] = 'default_role';
+
+	$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);
+	$whitelist_options['writing'][] = 'ping_sites';
+} else {
+	$whitelist_options['general'][] = 'new_admin_email';
+	$whitelist_options['general'][] = 'WPLANG';
+	$whitelist_options['general'][] = 'language';
+
+	$whitelist_options[ 'misc' ] = array();
+
+	if ( defined( 'POST_BY_EMAIL' ) )
+		$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);
+
+	$whitelist_options[ 'misc' ] = array();
+}
 
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
 if ( !current_user_can('manage_options') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
-if ( is_multisite() && is_super_admin() && $_GET[ 'adminhash' ] ) {
+if ( is_multisite() && is_super_admin() && isset($_GET[ 'adminhash' ]) && $_GET[ 'adminhash' ] ) {
 	$new_admin_details = get_option( 'adminhash' );
 	if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && $new_admin_details[ 'newemail' ] != '' ) {
 		update_option( "admin_email", $new_admin_details[ 'newemail' ] );

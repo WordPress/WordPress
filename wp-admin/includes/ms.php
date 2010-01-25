@@ -562,29 +562,6 @@ function redirect_user_to_blog() {
 }
 add_action( 'admin_page_access_denied', 'redirect_user_to_blog', 99 );
 
-function mu_options( $options ) {
-	if ( defined( 'POST_BY_EMAIL' ) ) {
-		$writing = array( 'ping_sites' );
-	} else {
-		$writing = array( 'ping_sites', 'mailserver_login', 'mailserver_pass', 'default_email_category', 'mailserver_port', 'mailserver_url' );
-	}
-	$removed = array(
-		'general' => array( 'siteurl', 'home', 'admin_email', 'users_can_register', 'default_role' ),
-		'reading' => array( 'gzipcompression' ),
-		'writing' => $writing,
-	);
-
-	$added = array( 'general' => array( 'new_admin_email', 'WPLANG', 'language' ) );
-
-	$options[ 'misc' ] = array();
-
-	$options = remove_option_whitelist( $removed, $options );
-	$options = add_option_whitelist( $added, $options );
-
-	return $options;
-}
-add_filter( 'whitelist_options', 'mu_options' );
-
 function check_import_new_users( $permission ) {
 	if ( !is_super_admin() )
 		return false;

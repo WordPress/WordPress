@@ -28,4 +28,12 @@ function wpmu_checkAvailableSpace() {
 		wp_die( __('Sorry, you must delete files before you can upload any more.') );
 }
 
+/**
+ * @deprecated 3.0
+ */
+function mu_options( $options ) {
+	_deprecated_function(__FUNCTION__, '3.0', '' );
+	return $options;
+}
+
 ?>

@@ -1064,13 +1064,13 @@ add_filter( 'whitelist_options', 'option_update_filter' );
  * @return unknown
  */
 function add_option_whitelist( $new_options, $options = '' ) {
-	if ( $options == '' ) {
+	if ( $options == '' )
 		global $whitelist_options;
-	} else {
+	else
 		$whitelist_options = $options;
-	}
-	foreach( $new_options as $page => $keys ) {
-		foreach( $keys as $key ) {
+
+	foreach ( $new_options as $page => $keys ) {
+		foreach ( $keys as $key ) {
 			if ( !isset($whitelist_options[ $page ]) || !is_array($whitelist_options[ $page ]) ) {
 				$whitelist_options[ $page ] = array();
 				$whitelist_options[ $page ][] = $key;
@@ -1081,6 +1081,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
 			}
 		}
 	}
+
 	return $whitelist_options;
 }
 
@@ -1094,13 +1095,13 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * @return unknown
  */
 function remove_option_whitelist( $del_options, $options = '' ) {
-	if ( $options == '' ) {
+	if ( $options == '' )
 		global $whitelist_options;
-	} else {
+	else
 		$whitelist_options = $options;
-	}
-	foreach( $del_options as $page => $keys ) {
-		foreach( $keys as $key ) {
+
+	foreach ( $del_options as $page => $keys ) {
+		foreach ( $keys as $key ) {
 			if ( isset($whitelist_options[ $page ]) && is_array($whitelist_options[ $page ]) ) {
 				$pos = array_search( $key, $whitelist_options[ $page ] );
 				if ( $pos !== false )
@@ -1108,6 +1109,7 @@ function remove_option_whitelist( $del_options, $options = '' ) {
 			}
 		}
 	}
+
 	return $whitelist_options;
 }
 
