@@ -94,7 +94,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
-		list($uwidth, $uheight) = wp_shrink_dimensions($metadata['width'], $metadata['height']);
+		list($uwidth, $uheight) = wp_constrain_dimensions($metadata['width'], $metadata['height'], 128, 96);
 		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		// Make the file path relative to the upload dir
@@ -169,30 +169,14 @@ function wp_load_image( $file ) {
  * Calculated the new dimentions for a downsampled image.
  *
  * @since 2.0.0
- * @see wp_shrink_dimensions()
+ * @see wp_constrain_dimensions()
  *
  * @param int $width Current width of the image
  * @param int $height Current height of the image
  * @return mixed Array(height,width) of shrunk dimensions.
  */
 function get_udims( $width, $height) {
-	return wp_shrink_dimensions( $width, $height );
-}
-
-/**
- * Calculates the new dimentions for a downsampled image.
- *
- * @since 2.0.0
- * @see wp_constrain_dimensions()
- *
- * @param int $width Current width of the image
- * @param int $height Current height of the image
- * @param int $wmax Maximum wanted width
- * @param int $hmax Maximum wanted height
- * @return mixed Array(height,width) of shrunk dimensions.
- */
-function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
-	return wp_constrain_dimensions( $width, $height, $wmax, $hmax );
+	return wp_constrain_dimensions( $width, $height, 128, 96 );
 }
 
 /**

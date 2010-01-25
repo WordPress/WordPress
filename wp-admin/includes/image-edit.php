@@ -453,7 +453,7 @@ function wp_restore_image($post_id) {
 		$meta['file'] = _wp_relative_upload_path( $restored_file );
 		$meta['width'] = $data['width'];
 		$meta['height'] = $data['height'];
-		list ( $uwidth, $uheight ) = wp_shrink_dimensions($meta['width'], $meta['height']);
+		list ( $uwidth, $uheight ) = wp_constrain_dimensions($meta['width'], $meta['height'], 128, 96);
 		$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
 	}
 
@@ -598,7 +598,7 @@ function wp_save_image($post_id) {
 		$meta['width'] = imagesx($img);
 		$meta['height'] = imagesy($img);
 
-		list ( $uwidth, $uheight ) = wp_shrink_dimensions($meta['width'], $meta['height']);
+		list ( $uwidth, $uheight ) = wp_constrain_dimensions($meta['width'], $meta['height'], 128, 96);
 		$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		if ( $success && ('nothumb' == $target || 'all' == $target) ) {

@@ -233,8 +233,7 @@ function get_image_tag($id, $alt, $title, $align, $size='medium') {
 /**
  * Calculates the new dimentions for a downsampled image.
  *
- * Same as {@link wp_shrink_dimensions()}, except the max parameters are
- * optional. If either width or height are empty, no constraint is applied on
+ * If either width or height are empty, no constraint is applied on
  * that dimension.
  *
  * @since 2.5.0
