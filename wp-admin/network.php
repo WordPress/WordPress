@@ -15,7 +15,7 @@ if ( ! is_super_admin() )
 	wp_die(__('You do not have sufficient permissions to manage options for this blog.'));
 
 $title = __('Network Settings');
-$parent_file = 'options-network.php';
+$parent_file = 'tools.php';
 
 add_contextual_help($current_screen, __('<a href="http://codex.wordpress.org/Settings_Network_SubPanel" target="_blank">Network Settings</a>'));
 
@@ -31,7 +31,7 @@ $dirs = array( substr( ABSPATH, 0, -1), ABSPATH . "wp-content" );
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form method="post" action="options-network.php">
+<form method="post" action="network.php">
 <?php
 function filestats( $err ) {
 ?>
