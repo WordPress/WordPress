@@ -1608,13 +1608,13 @@ function get_user_id_from_string( $string ) {
 
 	$user_id = 0;
 	if ( is_email( $string ) ) {
-		$user = get_user_by_email($string);
+		$user = get_user_by('email', $string);
 		if ( $user )
 			$user_id = $user->ID;
 	} elseif ( is_numeric( $string ) ) {
 		$user_id = $string;
 	} else {
-		$user = get_userdatabylogin($string);
+		$user = get_user_by('login', $string);
 		if ( $user )
 			$user_id = $user->ID;
 	}

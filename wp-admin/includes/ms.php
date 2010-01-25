@@ -1,8 +1,17 @@
 <?php
+
+/**
+ * Determine if uploaded file exceeds space quota.
+ *
+ * @since 3.0
+ *
+ * @param array $file $_FILES array for a given file.
+ * @return array $_FILES array with 'error' key set if file exceeds quota. 'error' is empty otherwise.
+ */
 function check_upload_size( $file ) {
-	if ( get_site_option( 'upload_space_check_disabled' ) ) {
+	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return $file;
-	}
+
 	if ( $file['error'] != '0' ) // there's already an error
 		return $file;
 
@@ -27,6 +36,15 @@ function check_upload_size( $file ) {
 }
 add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
 
+/**
+ * Delete a blog
+ *
+ * @since 3.0
+ *
+ * @param int $blog_id Blog ID
+ * @param bool $drop True if blog's table should be dropped.  Default is false.
+ * @return void
+ */
 function wpmu_delete_blog($blog_id, $drop = false) {
 	global $wpdb;
 
@@ -40,8 +58,10 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 	$users = get_users_of_blog($blog_id);
 
 	// Remove users from this blog.
-	if ( !empty($users) ) foreach ($users as $user) {
-		remove_user_from_blog($user->user_id, $blog_id);
+	if ( !empty($users) ) {
+		foreach ($users as $user) {
+			remove_user_from_blog($user->user_id, $blog_id);
+		}
 	}
 
 	update_blog_status( $blog_id, 'deleted', 1 );
@@ -61,13 +81,13 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 		$stack = array($dir);
 		$index = 0;
 
-		while ($index < count($stack)) {
+		while ( $index < count($stack) ) {
 			# Get indexed directory from stack
 			$dir = $stack[$index];
 
 			$dh = @ opendir($dir);
-			if ($dh) {
-				while (($file = @ readdir($dh)) !== false) {
+			if ( $dh ) {
+				while ( ($file = @ readdir($dh)) !== false ) {
 					if ($file == '.' or $file == '..')
 						continue;
 
@@ -81,7 +101,7 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 		}
 
 		$stack = array_reverse($stack);  // Last added dirs are deepest
-		foreach( (array) $stack as $dir) {
+		foreach( (array) $stack as $dir ) {
 			if ( $dir != $top_dir)
 			@rmdir($dir);
 		}
@@ -89,10 +109,9 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 	$wpdb->query( $wpdb->prepare("DELETE FROM {$wpdb->usermeta} WHERE meta_key = %s", 'wp_{$blog_id}_autosave_draft_ids') );
 	$blogs = get_site_option( "blog_list" );
 	if ( is_array( $blogs ) ) {
-		foreach( $blogs as $n => $blog ) {
-			if ( $blog[ 'blog_id' ] == $blog_id ) {
+		foreach ( $blogs as $n => $blog ) {
+			if ( $blog[ 'blog_id' ] == $blog_id )
 				unset( $blogs[ $n ] );
-			}
 		}
 		update_site_option( 'blog_list', $blogs );
 	}
@@ -152,9 +171,8 @@ function confirm_delete_users( $users ) {
 	foreach ( (array) $_POST['allusers'] as $key => $val ) {
 		if ( $val != '' && $val != '0' ) {
 			$user = new WP_User( $val );
-			if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) ) {
+			if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) )
 				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a site admnistrator.' ), $user->user_login ) );
-			}
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
 			if ( !empty( $blogs ) ) {
@@ -164,7 +182,7 @@ function confirm_delete_users( $users ) {
 						echo "<p><a href='http://{$details->domain}{$details->path}'>{$details->blogname}</a> ";
 						echo "<select name='blog[$val][{$key}]'>";
 						$out = '';
-						foreach( $blog_users as $user ) {
+						foreach ( $blog_users as $user ) {
 							if ( $user->user_id != $val )
 								$out .= "<option value='{$user->user_id}'>{$user->user_login}</option>";
 						}
@@ -264,9 +282,8 @@ function update_profile_email() {
 		if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
 			$user->ID = $current_user->ID;
 			$user->user_email = wp_specialchars( trim( $new_email[ 'newemail' ] ) );
-			if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) ) {
+			if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
 				$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
-			}
 			wp_update_user( get_object_vars( $user ) );
 			delete_option( $current_user->ID . '_new_email' );
 			wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
