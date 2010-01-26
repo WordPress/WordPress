@@ -19,6 +19,8 @@ if ( empty($taxonomy) )
 if ( !is_taxonomy($taxonomy) )
 	wp_die(__('Invalid taxonomy'));
 
+$tax = get_taxonomy($taxonomy);
+
 if ( empty($post_type) || !in_array( $post_type, get_post_types( array('_show' => true) ) ) )
 	$post_type = 'post';
 
@@ -39,7 +41,7 @@ case 'add-tag':
 
 	check_admin_referer('add-tag');
 
-	if ( !current_user_can('manage_categories') )
+	if ( !current_user_can($tax->edit_cap) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$ret = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST);
@@ -60,7 +62,7 @@ case 'delete':
 	$tag_ID = (int) $_GET['tag_ID'];
 	check_admin_referer('delete-tag_' .  $tag_ID);
 
-	if ( !current_user_can('manage_categories') )
+	if ( !current_user_can($tax->delete_cap) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	wp_delete_term( $tag_ID, $taxonomy);
@@ -80,7 +82,7 @@ break;
 case 'bulk-delete':
 	check_admin_referer('bulk-tags');
 
-	if ( !current_user_can('manage_categories') )
+	if ( !current_user_can($tax->delete_cap) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$tags = (array) $_GET['delete_tags'];
@@ -115,7 +117,7 @@ case 'editedtag':
 	$tag_ID = (int) $_POST['tag_ID'];
 	check_admin_referer('update-tag_' . $tag_ID);
 
-	if ( !current_user_can('manage_categories') )
+	if ( !current_user_can($tax->edit_cap) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$ret = wp_update_term($tag_ID, $taxonomy, $_POST);
@@ -142,10 +144,8 @@ if ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
 	 exit;
 }
 
-$can_manage = current_user_can('manage_categories');
-
 wp_enqueue_script('admin-tags');
-if ( $can_manage )
+if ( current_user_can($tax->edit_cap) )
 	wp_enqueue_script('inline-edit-tax');
 
 require_once ('admin-header.php');
@@ -249,10 +249,7 @@ if ( $page_links )
 	</tfoot>
 
 	<tbody id="the-list" class="list:tag">
-<?php
-
-$count = tag_rows( $pagenum, $tags_per_page, $searchterms, $taxonomy );
-?>
+<?php tag_rows( $pagenum, $tags_per_page, $searchterms, $taxonomy ); ?>
 	</tbody>
 </table>
 
@@ -284,15 +281,15 @@ if ( $page_links )
 <div class="tagcloud">
 <h3><?php _e('Popular Tags'); ?></h3>
 <?php
-if ( $can_manage )
+if ( current_user_can($tax->edit_cap) )
 	wp_tag_cloud(array('taxonomy' => $taxonomy, 'link' => 'edit'));
 else
 	wp_tag_cloud(array('taxonomy' => $taxonomy));
 ?>
 </div>
 
-<?php if ( $can_manage ) {
-	do_action('add_tag_form_pre'); ?>
+<?php if ( current_user_can($tax->edit_cap) ) {
+	do_action('add_tag_form_pre', $taxonomy); ?>
 
 <div class="form-wrap">
 <h3><?php _e('Add a New Tag'); ?></h3>
@@ -327,7 +324,7 @@ else
 </div>
 
 <p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
-<?php do_action('add_tag_form'); ?>
+<?php do_action('add_tag_form', $taxonomy); ?>
 </form></div>
 <?php } ?>
 

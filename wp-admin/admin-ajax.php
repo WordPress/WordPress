@@ -204,7 +204,7 @@ function _wp_ajax_add_hierarchical_term() {
 	$action = $_POST['action'];
 	$taxonomy = get_taxonomy(substr($action, 4));
 	check_ajax_referer( $action );
-	if ( !current_user_can( 'manage_categories' ) )
+	if ( !current_user_can( $taxonomy->manage_cap ) )
 		die('-1');
 	$names = explode(',', $_POST['new'.$taxonomy->name]);
 	$parent = isset($_POST['new'.$taxonomy->name.'_parent']) ? (int) $_POST['new'.$taxonomy->name.'_parent'] : 0;
@@ -329,10 +329,12 @@ case 'delete-cat' :
 case 'delete-tag' :
 	$tag_id = (int) $_POST['tag_ID'];
 	check_ajax_referer( "delete-tag_$tag_id" );
-	if ( !current_user_can( 'manage_categories' ) )
-		die('-1');
 
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
+	$tax = get_taxonomy($taxonomy);
+
+	if ( !current_user_can( $tax->delete_cap ) )
+		die('-1');
 
 	$tag = get_term( $tag_id, $taxonomy );
 	if ( !$tag || is_wp_error( $tag ) )
@@ -599,10 +601,13 @@ case 'add-link-cat' : // From Blogroll -> Categories
 	break;
 case 'add-tag' : // From Manage->Tags
 	check_ajax_referer( 'add-tag' );
-	if ( !current_user_can( 'manage_categories' ) )
-		die('-1');
 
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
+	$tax = get_taxonomy($taxonomy);
+
+	if ( !current_user_can( $tax->edit_cap ) )
+		die('-1');
+
 	$tag = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST );
 
 	if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
@@ -1175,7 +1180,12 @@ case 'inline-save':
 case 'inline-save-tax':
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
-	if ( ! current_user_can('manage_categories') )
+	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : false;
+	if ( ! $taxonomy )
+		die( __('Cheatin&#8217; uh?') );
+	$tax = get_taxonomy($taxonomy);
+		
+	if ( ! current_user_can( $tax->edit_cap ) )
 		die( __('Cheatin&#8217; uh?') );
 
 	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )

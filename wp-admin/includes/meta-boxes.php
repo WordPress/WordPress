@@ -239,6 +239,8 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
 function post_tags_meta_box($post, $box) {
 	$tax_name = esc_attr(substr($box['id'], 8));
 	$taxonomy = get_taxonomy($tax_name);
+	if ( !current_user_can($taxonomy->manage_cap) )
+		return;
 	$helps = isset($taxonomy->helps) ? esc_attr($taxonomy->helps) : __('Separate tags with commas.');
 ?>
 <div class="tagsdiv" id="<?php echo $tax_name; ?>">
@@ -275,6 +277,10 @@ function post_categories_meta_box( $post, $box ) {
 	else
 		$args = $box['args'];
  	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
+	$tax = get_taxonomy($taxonomy);
+
+	if ( !current_user_can($tax->manage_cap) )
+		return;
  	?>
  	<div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
  		<ul id="<?php echo $taxonomy; ?>-tabs" class="category-tabs">
@@ -294,7 +300,7 @@ function post_categories_meta_box( $post, $box ) {
 			</ul>
 		</div>
 
-    <?php if ( current_user_can('manage_categories') ) : ?>
+    <?php if ( current_user_can($tax->edit_cap) ) : ?>
  			<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
  				<h4><a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
  				<p id="<?php echo $taxonomy; ?>-add" class="category-add wp-hidden-child">

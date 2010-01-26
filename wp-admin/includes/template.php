@@ -211,7 +211,8 @@ function _cat_row( $category, $level, $name_override = false ) {
  */
 function inline_edit_term_row($type, $taxonomy) {
 
-	if ( ! current_user_can( 'manage_categories' ) )
+	$tax = get_taxonomy($taxonomy);
+	if ( ! current_user_can( $tax->edit_cap ) )
 		return;
 
 	$columns = get_column_headers($type);
@@ -678,16 +679,22 @@ function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 			$tagsel = 'category_name';
 		else
 			$tagsel = $taxonomy;
+
+		$tax = get_taxonomy($taxonomy);
+
 		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug'>$count</a>" : $count;
 
 		$pad = str_repeat( '&#8212; ', max(0, $level) );
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name );
 		$qe_data = get_term($tag->term_id, $taxonomy, object, 'edit');
 		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id";
+
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
+
 		$columns = get_column_headers('edit-tags');
 		$hidden = get_hidden_columns('edit-tags');
+		$default_term = get_option('default_' . $taxonomy);
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$class = "class=\"$column_name column-$column_name\"";
 
@@ -699,7 +706,7 @@ function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 
 			switch ($column_name) {
 				case 'cb':
-					if ( $tag->term_id != get_option('default_' . $taxonomy) )
+					if ( current_user_can($tax->delete_cap) && $tag->term_id != $default_term )
 						$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 					else
 						$out .= '<th scope="row" class="check-column">&nbsp;</th>';
@@ -707,9 +714,11 @@ function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 				case 'name':
 					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $name)) . '">' . $name . '</a></strong><br />';
 					$actions = array();
-					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
-					if ( $tag->term_id != get_option('default_' . $taxonomy) )
+					if ( current_user_can($tax->edit_cap) ) {
+						$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+						$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
+					}
+					if ( current_user_can($tax->delete_cap) && $tag->term_id != $default_term )
 						$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "'>" . __('Delete') . "</a>";
 
 					$actions = apply_filters('tag_row_actions', $actions, $tag);
@@ -746,7 +755,7 @@ function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 			}
 		}
 
-		$out .= '</tr>';
+		$out .= "</tr>\n";
 
 		return $out;
 }
@@ -795,7 +804,6 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
 			$out .= _tag_row( $term, 0, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
 	}
 
-	// filter and send to screen
 	echo $out;
 	return $count;
 }
@@ -1135,7 +1143,7 @@ function inline_edit_row( $screen ) {
 	?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 
 	<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
-		<h4><?php echo $bulk ? ( __( 'Bulk Edit' ) ) : __( 'Quick Edit' ); ?></h4>
+		<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
 
 
 <?php if ( $bulk ) : ?>
