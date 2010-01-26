@@ -1887,13 +1887,6 @@ function is_user_spammy( $username = 0 ) {
 	return false;
 }
 
-function login_spam_check( $user, $password ) {
-	if ( is_user_spammy( $user->ID ) )
-		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: your account has been marked as a spammer.'));
-	return $user;
-}
-add_action( 'wp_authenticate_user', 'login_spam_check', 10, 2 );
-
 function update_blog_public( $old_value, $value ) {
 	global $wpdb;
 	do_action('update_blog_public');

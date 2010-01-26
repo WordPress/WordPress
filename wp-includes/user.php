@@ -83,20 +83,20 @@ function wp_authenticate_username_password($user, $username, $password) {
 		return $error;
 	}
 
-	$userdata = get_userdatabylogin($username);
+	$userdata = get_user_by('login', $username);
 
-	if ( !$userdata ) {
+	if ( !$userdata )
 		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), site_url('wp-login.php?action=lostpassword', 'login')));
-	}
+
+	if ( is_multisite() && (1 == $userdata->spam) )
+		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Your account has been marked as a spammer.'));
 
 	$userdata = apply_filters('wp_authenticate_user', $userdata, $password);
-	if ( is_wp_error($userdata) ) {
+	if ( is_wp_error($userdata) )
 		return $userdata;
-	}
 
-	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) ) {
+	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) )
 		return new WP_Error('incorrect_password', sprintf(__('<strong>ERROR</strong>: Incorrect password. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), site_url('wp-login.php?action=lostpassword', 'login')));
-	}
 
 	$user =  new WP_User($userdata->ID);
 	return $user;
