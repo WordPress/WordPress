@@ -1626,12 +1626,6 @@ function get_most_recent_post_of_user( $user_id ) {
 }
 
 /* Misc functions */
-function fix_upload_details( $uploads ) {
-	$uploads['url'] = str_replace( UPLOADS, "files", $uploads['url'] );
-	$uploads['baseurl'] = str_replace( UPLOADS, "files", $uploads['baseurl'] );
-	return $uploads;
-}
-
 function get_dirsize( $directory ) {
 	$dirsize = get_transient( 'dirsize_cache' );
 	if ( is_array( $dirsize ) && isset( $dirsize[ $directory ][ 'size' ] ) )

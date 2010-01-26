@@ -36,7 +36,6 @@ add_action ( 'publish_post', 'wpmu_update_blogs_date' );
 add_filter ( 'wp_upload_bits', 'upload_is_file_too_big' );
 add_filter ( 'import_upload_size_limit', 'fix_import_form_size' );
 add_filter ( 'upload_mimes', 'check_upload_mimes' );
-add_filter ( 'upload_dir', 'fix_upload_details' );
 
 // Mail
 add_filter ( 'wp_mail_from', 'wordpressmu_wp_mail_from' );
