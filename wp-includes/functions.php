@@ -2062,6 +2062,9 @@ function wp_upload_dir( $time = null ) {
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
+	if ( is_multisite() && defined( 'BLOGUPLOADDIR' ) )
+		$dir = untrailingslashit(BLOGUPLOADDIR);
+
 	$bdir = $dir;
 	$burl = $url;
 

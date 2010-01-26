@@ -1998,17 +1998,6 @@ function lowercase_username( $username, $raw_username, $strict ) {
 }
 add_filter( 'sanitize_user', 'lowercase_username', 10, 3 );
 
-function mu_upload_dir( $uploads ) {
-	$dir = $uploads[ 'basedir' ];
-	if ( defined( 'BLOGUPLOADDIR' ) )
-		$dir = constant( 'BLOGUPLOADDIR' );
-	$dir = untrailingslashit( $dir ) . $uploads[ 'subdir' ];
-	$uploads[ 'path' ] = $dir;
-
-	return $uploads;
-}
-add_filter( 'upload_dir', 'mu_upload_dir' );
-
 function users_can_register_signup_filter() {
 	$registration = get_site_option('registration');
 	if ( $registration == 'all' || $registration == 'user' )
