@@ -19,8 +19,7 @@ function create_initial_taxonomies() {
 												 	'update_count_callback' => '_update_post_term_count',
 													'label' => __('Categories'),
 													'query_var' => false,
-													'rewrite' => false,
-													'edit_cap' => 'no_priv'
+													'rewrite' => false
 												) ) ;
 
 	register_taxonomy( 'post_tag', 'post', array(
