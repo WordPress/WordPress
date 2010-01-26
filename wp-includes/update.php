@@ -112,7 +112,7 @@ function wp_update_plugins() {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	$plugins = get_plugins();
-	$active  = get_option( 'active_plugins' );
+	$active  = get_option( 'active_plugins', array() );
 	$current = get_site_transient( 'update_plugins' );
 	if ( ! is_object($current) )
 		$current = new stdClass;
@@ -147,7 +147,7 @@ function wp_update_plugins() {
 	$current->last_checked = time();
 	set_site_transient( 'update_plugins', $current );
 
-	$to_send = (object)compact('plugins', 'active');
+	$to_send = (object) compact('plugins', 'active');
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),

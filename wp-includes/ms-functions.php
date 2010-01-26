@@ -725,11 +725,6 @@ function get_blog_post( $blog_id, $post_id ) {
 	return $post;
 }
 
-// deprecated, see clean_post_cache()
-function clear_global_post_cache( $post_id ) {
-	return;
-}
-
 function add_user_to_blog( $blog_id, $user_id, $role ) {
 	switch_to_blog($blog_id);
 
@@ -1985,13 +1980,6 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
 
 	return false;
 }
-
-function fix_active_plugins( $value ) {
-	if ( false == is_array( $value ) )
-		$value = array();
-	return $value;
-}
-add_filter( "option_active_plugins", "fix_active_plugins" );
 
 if ( !function_exists('rss_gc') ) :
 function rss_gc() {

@@ -258,8 +258,8 @@ function get_plugins($plugin_folder = '') {
  * @param string $plugin Base plugin path from plugins directory.
  * @return bool True, if in the active plugins list. False, not in the list.
  */
-function is_plugin_active($plugin) {
-	return in_array( $plugin, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+function is_plugin_active( $plugin ) {
+	return in_array( $plugin, apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) ) );
 }
 
 /**
@@ -286,9 +286,9 @@ function is_plugin_active($plugin) {
  * @param string $redirect Optional. URL to redirect to.
  * @return WP_Error|null WP_Error on invalid file or null on success.
  */
-function activate_plugin($plugin, $redirect = '') {
-	$current = get_option('active_plugins');
-	$plugin = plugin_basename(trim($plugin));
+function activate_plugin( $plugin, $redirect = '' ) {
+	$current = get_option( 'active_plugins', array() );
+	$plugin  = plugin_basename( trim( $plugin ) );
 
 	$valid = validate_plugin($plugin);
 	if ( is_wp_error($valid) )
@@ -322,13 +322,10 @@ function activate_plugin($plugin, $redirect = '') {
  * @param string|array $plugins Single plugin or list of plugins to deactivate.
  * @param bool $silent Optional, default is false. Prevent calling deactivate hook.
  */
-function deactivate_plugins($plugins, $silent= false) {
-	$current = get_option('active_plugins');
+function deactivate_plugins( $plugins, $silent = false ) {
+	$current = get_option( 'active_plugins', array() );
 
-	if ( !is_array($plugins) )
-		$plugins = array($plugins);
-
-	foreach ( $plugins as $plugin ) {
+	foreach ( (array) $plugins as $plugin ) {
 		$plugin = plugin_basename($plugin);
 		if ( ! is_plugin_active($plugin) )
 			continue;
@@ -475,26 +472,32 @@ function delete_plugins($plugins, $redirect = '' ) {
 	return true;
 }
 
+/**
+ * validate active plugins
+ * 
+ * validate all active plugins, deactivates invalid and 
+ * returns an array of deactived ones.
+ * 
+ * @since unknown
+ * @return array invalid plugins, plugin as key, error as value
+ */
 function validate_active_plugins() {
-	$check_plugins = apply_filters( 'active_plugins', get_option('active_plugins') );
+	$plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
 
-	// Sanity check.  If the active plugin list is not an array, make it an
-	// empty array.
-	if ( !is_array($check_plugins) ) {
+	// validate vartype: array
+	if ( !is_array( $plugins ) ) {
 		update_option('active_plugins', array());
 		return;
 	}
 
-	//Invalid is any plugin that is deactivated due to error.
 	$invalid = array();
 
-	// If a plugin file does not exist, remove it from the list of active
-	// plugins.
-	foreach ( $check_plugins as $check_plugin ) {
-		$result = validate_plugin($check_plugin);
+	// invalid plugins get deactivated
+	foreach ( $plugins as $plugin ) {
+		$result = validate_plugin( $plugin );
 		if ( is_wp_error( $result ) ) {
-			$invalid[$check_plugin] = $result;
-			deactivate_plugins( $check_plugin, true);
+			$invalid[$plugin] = $result;
+			deactivate_plugins( $plugin, true );
 		}
 	}
 	return $invalid;

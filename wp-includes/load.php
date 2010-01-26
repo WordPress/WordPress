@@ -404,7 +404,7 @@ function wp_plugins_to_load() {
 	if ( get_option( 'hack_file' ) && file_exists( ABSPATH . 'my-hacks.php' ) )
 			$plugins[] = ABSPATH . 'my-hacks.php';
 
-	$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
+	$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
 	if ( !is_array( $active_plugins ) || defined( 'WP_INSTALLING' ) )
 		return $plugins;
 	foreach ( $active_plugins as $plugin ) {

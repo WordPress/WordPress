@@ -113,7 +113,7 @@ if ( !empty($action) ) {
 
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 			require_once( 'admin-header.php' );
-			
+
 			$url = 'plugins.php?action=upgrade-selected&amp;plugins=' . urlencode( join( ',', $plugins ) );
 			$title = __( 'Upgrade Plugins' );
 			$nonce = 'bulk-manage-plugins';
@@ -283,9 +283,9 @@ add_contextual_help($current_screen, $help);
 
 if ( is_multisite() && is_super_admin() ) {
 	$menu_perms = get_site_option('menu_items', array());
-	if ( !$menu_perms['plugins'] ) {
+	if ( empty($menu_perms['plugins']) )
 		add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
-	}
+	unset($menu_perms);
 }
 
 $title = __('Manage Plugins');

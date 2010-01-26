@@ -110,4 +110,11 @@ function get_user_details( $username ) {
 	return get_user_by('login', $username);
 }
 
+/**
+ * @deprecated 3.0
+ */
+function clear_global_post_cache( $post_id ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'clean_post_cache' );
+}
+
 ?>
