@@ -89,6 +89,12 @@ else
 if ( !is_multisite() ) {
 	$errors = edit_user($user_id);
 } else {
+	$user = get_userdata( $user_id );
+
+	// Update the email address in signups, if present.
+	if ( $user->user_login && isset( $_POST[ 'email' ] ) && is_email( $_POST[ 'email' ] ) && $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $user->user_login ) ) )
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $_POST[ 'email' ], $user_login ) );
+
 	// WPMU must delete the user from the current blog if WP added him after editing.
 	$delete_role = false;
 	$blog_prefix = $wpdb->get_blog_prefix();

@@ -1161,15 +1161,6 @@ function blogs_page_init() {
 }
 add_action('admin_menu', 'blogs_page_init');
 
-function update_signup_email_from_profile( $user_id ) {
-	global $wpdb;
-	$user_login = $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->users} WHERE ID = %d", $user_id ) );
-	if ( $user_login && is_email( $_POST[ 'email' ] ) && $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $user_login ) ) ) {
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $_POST[ 'email' ], $user_login ) );
-	}
-}
-add_action( 'edit_user_profile_update', 'update_signup_email_from_profile' );
-
 function stripslashes_from_options( $blog_id ) {
 	global $wpdb;
 
