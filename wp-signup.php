@@ -22,7 +22,12 @@ function signuppageheaders() {
 	echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
-if ( $current_blog->domain . $current_blog->path != $current_site->domain . $current_site->path ) {
+if ( !is_multisite() ) {
+	wp_redirect( get_option( 'siteurl' ) . "/wp-login.php?action=register" );
+	die();
+}
+
+if ( !is_main_site() ) {
 	wp_redirect( "http://" . $current_site->domain . $current_site->path . "wp-signup.php" );
 	die();
 }
