@@ -82,7 +82,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 		$permalink_structure = $_POST['permalink_structure'];
 		if (! empty($permalink_structure) )
 			$permalink_structure = preg_replace('#/+#', '/', '/' . $_POST['permalink_structure']);
-		if ( is_multisite() && !is_subdomain_install()  && $permalink_structure != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) {
+		if ( is_multisite() && !is_subdomain_install()  && $permalink_structure != '' && is_main_site() ) {
 			$permalink_structure = '/blog' . $permalink_structure;
 		}
 		$wp_rewrite->set_permalink_structure($permalink_structure);
@@ -92,7 +92,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 		$category_base = $_POST['category_base'];
 		if (! empty($category_base) )
 			$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
-		if ( is_multisite() && !is_subdomain_install() && $category_base != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) {
+		if ( is_multisite() && !is_subdomain_install() && $category_base != '' && is_main_site() ) {
 			$category_base = '/blog' . $category_base;
 		}
 		$wp_rewrite->set_category_base($category_base);
@@ -102,7 +102,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 		$tag_base = $_POST['tag_base'];
 		if (! empty($tag_base) )
 			$tag_base = preg_replace('#/+#', '/', '/' . $_POST['tag_base']);
-		if ( is_multisite() && !is_subdomain_install() && $tag_base != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) {
+		if ( is_multisite() && !is_subdomain_install() && $tag_base != '' && is_main_site() ) {
 			$tag_base = '/blog' . $tag_base;
 		}
 		$wp_rewrite->set_tag_base($tag_base);
@@ -203,7 +203,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<?php if ( is_multisite() && !is_subdomain_install() && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) { echo "/blog"; $permalink_structure = str_replace( "/blog", "", $permalink_structure ); }?>
+			<?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $permalink_structure = preg_replace( "|/?blog|", "", $permalink_structure ); }?>
 			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo esc_attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
@@ -219,11 +219,11 @@ $structures = array(
 <table class="form-table">
 	<tr>
 		<th><label for="category_base"><?php /* translators: prefix for category permalinks */ _e('Category base'); ?></label></th>
-		<td><?php if ( is_multisite() && !is_subdomain_install() && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) { echo "/blog"; $category_base = str_replace( "/blog", "", $category_base ); }?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
+		<td><?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $category_base = preg_replace( "|^/?blog|", "", $category_base ); }?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
-		<td><?php if ( is_multisite() && !is_subdomain_install() && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path ) { echo "/blog"; $tag_base = str_replace( "/blog", "", $tag_base ); }?> <input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
+		<td><?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $tag_base = preg_replace( "|/?blog|", "", $tag_base ); }?> <input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>
