@@ -93,12 +93,6 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	return false;
 }
 
-// @todo Use get_user_by() and deprecate.
-function get_user_details( $username ) {
-	global $wpdb;
-	return $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_login = %s", $username) );
-}
-
 function is_main_blog() {
 	global $current_blog, $current_site;
 	if ( $current_blog->domain == $current_site->domain && $current_blog->path == $current_site->path )

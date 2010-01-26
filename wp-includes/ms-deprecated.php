@@ -101,4 +101,13 @@ function get_current_user_id() {
 	return $current_user->ID;
 }
 
+/**
+ * @deprecated 3.0
+ */
+function get_user_details( $username ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'get_user_by()' );
+
+	return get_user_by('login', $username);
+}
+
 ?>
