@@ -161,6 +161,7 @@ if ( is_multisite() ) {
 		require_once( $file );
 		die();
 	}
+	unset($file);
 	ms_network_cookies();
 }
 
@@ -248,6 +249,7 @@ $locale = get_locale();
 $locale_file = WP_LANG_DIR . "/$locale.php";
 if ( is_readable( $locale_file ) )
 	require_once( $locale_file );
+unset($locale_file);
 
 // Pull in locale data after loading text domain.
 require_once( ABSPATH . WPINC . '/locale.php' );
