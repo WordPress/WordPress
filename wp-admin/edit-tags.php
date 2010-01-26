@@ -9,8 +9,6 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$title = __('Tags');
-
 wp_reset_vars( array('action', 'tag', 'taxonomy', 'post_type') );
 
 if ( empty($taxonomy) )
@@ -20,6 +18,8 @@ if ( !is_taxonomy($taxonomy) )
 	wp_die(__('Invalid taxonomy'));
 
 $tax = get_taxonomy($taxonomy);
+
+$title = $tax->label;
 
 if ( empty($post_type) || !in_array( $post_type, get_post_types( array('_show' => true) ) ) )
 	$post_type = 'post';
