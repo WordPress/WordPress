@@ -614,7 +614,7 @@ setTimeout( function(){ try{
 <?php if ( $user_login || $interim_login ) { ?>
 d = document.getElementById('user_pass');
 <?php } else { ?>
-d = document.getElementById('user_login');	
+d = document.getElementById('user_login');
 <?php } ?>
 d.value = '';
 d.focus();

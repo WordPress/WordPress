@@ -151,7 +151,7 @@ function get_allowed_themes() {
 			unset( $themes[ $key ] );
 	}
 	reset( $themes );
-	
+
 	return $themes;
 }
 

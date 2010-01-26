@@ -474,10 +474,10 @@ function delete_plugins($plugins, $redirect = '' ) {
 
 /**
  * validate active plugins
- * 
- * validate all active plugins, deactivates invalid and 
+ *
+ * validate all active plugins, deactivates invalid and
  * returns an array of deactived ones.
- * 
+ *
  * @since unknown
  * @return array invalid plugins, plugin as key, error as value
  */

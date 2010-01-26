@@ -625,7 +625,7 @@ case 'add-tag' : // From Manage->Tags
 			$tag_full_name = $_tag->name . ' &#8212; ' . $tag_full_name;
 			$level++;
 		}
-		$tag_full_name = esc_attr($tag_full_name);	
+		$tag_full_name = esc_attr($tag_full_name);
 	}
 	echo _tag_row( $tag, $level, $tag_full_name, $taxonomy );
 	exit;
@@ -1184,7 +1184,7 @@ case 'inline-save-tax':
 	if ( ! $taxonomy )
 		die( __('Cheatin&#8217; uh?') );
 	$tax = get_taxonomy($taxonomy);
-		
+
 	if ( ! current_user_can( $tax->edit_cap ) )
 		die( __('Cheatin&#8217; uh?') );
 

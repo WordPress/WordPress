@@ -40,7 +40,7 @@ function get_comment_author( $comment_ID = 0 ) {
  *
  * @since 0.71
  * @uses apply_filters() Calls 'comment_author' on comment author before displaying
- * 
+ *
  * @param int $comment_ID The ID of the comment for which to print the author. Optional.
  */
 function comment_author( $comment_ID = 0 ) {
@@ -856,7 +856,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	if ( empty($file) )
 		$file = '/comments.php';
-	
+
 	$req = get_option('require_name_email');
 
 	/**
@@ -1448,39 +1448,39 @@ function wp_list_comments($args = array(), $comments = null ) {
  * a filter of the form comments_form_field_$name where $name is the key used
  * in the array of fields.
  *
- * @since 3.0 
+ * @since 3.0
  * @param array $args Options for strings, fields etc in the form
  * @param mixed $post_id Post ID to generate the form for, uses the current post if null
  * @return void
  */
 function comment_form( $args = array(), $post_id = null ) {
 	global $user_identity, $id;
-		
+
 	if ( null === $post_id )
 		$post_id = $id;
 	else
 		$id = $post_id;
-	
+
 	$commenter = wp_get_current_commenter();
-	
+
 	$req = get_option( 'require_name_email' );
 	$aria_req = ( $req ? " aria-required='true'" : '' );
 	$req_str  = ( $req ? __( ' (required)' ) : '' );
-	$defaults = array( 'fields' => apply_filters( 'comment_form_default_fields', array( 'author' => '<p><input type="text" name="author" id="author" value="' . esc_attr( $commenter['comment_author'] ) . '" size="22" tabindex="1"' . $aria_req . ' /> <label for="author"><small>' . __( 'Name' ) . $req_str . '</small></label></p>', 
-																					    'email'  => '<p><input type="text" name="email" id="email" value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="22" tabindex="2"' . $aria_req . ' /> <label for="email"><small>' . __( 'Mail (will not be published)' ) . $req_str . '</small></label></p>', 
+	$defaults = array( 'fields' => apply_filters( 'comment_form_default_fields', array( 'author' => '<p><input type="text" name="author" id="author" value="' . esc_attr( $commenter['comment_author'] ) . '" size="22" tabindex="1"' . $aria_req . ' /> <label for="author"><small>' . __( 'Name' ) . $req_str . '</small></label></p>',
+																					    'email'  => '<p><input type="text" name="email" id="email" value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="22" tabindex="2"' . $aria_req . ' /> <label for="email"><small>' . __( 'Mail (will not be published)' ) . $req_str . '</small></label></p>',
 																					    'url'    => '<p><input type="text" name="url" id="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="22" tabindex="3" /> <label for="url"><small>' . __( 'Website' ) . '</small></label></p>' ) ),
-						'comment_field' => '<p><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea></p>', 
-						'must_log_in' => '<p>' .  sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>', 
-						'logged_in_as' => '<p>' . sprintf( __( 'Logged in as <a href="%s">%s</a>. <a href="%s" title="Log out of this account">Log out &raquo;</a></p>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ), 
-						'id_form' => 'commentform', 
-						'id_submit' => 'submit', 
-						'title_reply' => __( 'Leave a Reply' ), 
-						'title_reply_to' => __( 'Leave a Reply to %s'), 
-						'cancel_reply_link' => '', 
-						'label_submit' => __( 'Submit Comment' ), 
+						'comment_field' => '<p><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea></p>',
+						'must_log_in' => '<p>' .  sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
+						'logged_in_as' => '<p>' . sprintf( __( 'Logged in as <a href="%s">%s</a>. <a href="%s" title="Log out of this account">Log out &raquo;</a></p>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ),
+						'id_form' => 'commentform',
+						'id_submit' => 'submit',
+						'title_reply' => __( 'Leave a Reply' ),
+						'title_reply_to' => __( 'Leave a Reply to %s'),
+						'cancel_reply_link' => '',
+						'label_submit' => __( 'Submit Comment' ),
 				);
 	$args = wp_parse_args( $args, apply_filters( 'comment_form_defaults', $defaults ) );
-	
+
 	?>
 		<?php if ( comments_open() ) : ?>
 			<?php do_action( 'comment_form_before' ); ?>

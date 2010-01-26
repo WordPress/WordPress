@@ -126,7 +126,7 @@ endswitch;
 
 if ( !$redirect ) {
 	if ( empty($post->post_type) ) // Empty post_type means either malformed object found, or no valid parent was found.
-		$redirect = 'edit.php';	
+		$redirect = 'edit.php';
 	elseif ( !post_type_supports($post->post_type, 'revisions') )
 		$redirect = 'edit.php?post_type=' . $post->post_type;
 }

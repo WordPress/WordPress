@@ -673,7 +673,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
  */
 function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 		$count = number_format_i18n( $tag->count );
-		if ( 'post_tag' == $taxonomy ) 
+		if ( 'post_tag' == $taxonomy )
 			$tagsel = 'tag';
 		elseif ( 'category' == $taxonomy )
 			$tagsel = 'category_name';

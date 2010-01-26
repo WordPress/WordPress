@@ -42,7 +42,7 @@ function filestats( $err ) {
 <?php
 	clearstatcache();
 	$files = array( "htaccess.dist", ".htaccess" );
-	
+
 	$indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
 	foreach ( (array) $files as $val ) {
 		$stats = @stat( $val );
@@ -104,7 +104,7 @@ function step1() {
 	?>
 	<h2><?php esc_html_e('Installing Network of WordPress Sites'); ?></h2>
 	<p><?php _e('I will help you enable the features for creating a network of sites by asking you a few questions so that you can create configuration files and make a directory to store all your uploaded files.'); ?></p>
-	
+
 	<h2><?php esc_html_e('What do I need?'); ?></h2>
 	<ul>
 		<li><?php _e( 'Access to your server to change directory permissions. This can be done through ssh or ftp for example.' ); ?></li>
@@ -113,7 +113,7 @@ function step1() {
 	</ul>
 	<?php
 	$mod_rewrite_msg = "\n<p>" . __( "If the <code>mod_rewrite</code> module is disabled ask your administrator to enable that module, or look at the <a href='http://httpd.apache.org/docs/mod/mod_rewrite.html'>Apache documentation</a> or <a href='http://www.google.com/search?q=apache+mod_rewrite'>elsewhere</a> for help setting it up." ) . '</p>';
-	
+
 	if ( function_exists( 'apache_get_modules' ) ) {
 		$modules = apache_get_modules();
 		if ( ! in_array( 'mod_rewrite', $modules ) )
@@ -150,34 +150,34 @@ function printstep1form( $rewrite_enabled = false ) {
 		<?php if ( isset( $nowww ) ) { ?>
 		<h3><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code>%2$s</code> but any links will not have the "www" prefix.' ), $nowww, $hostname ); ?></h3>
 		<?php } ?>
-		<table class="form-table">  
-			<tr> 
-				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th> 
+		<table class="form-table">
+			<tr>
+				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
 					<p><?php printf( __( 'This will be the Internet address of your site: <strong><em>%s</em></strong>.' ), $hostname ); ?></p>
 					<input type='hidden' name='basedomain' value='<?php echo esc_attr( $hostname ); ?>' />
 					<p><?php _e( 'Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.' ); ?></p>
-				</td> 
+				</td>
 			</tr>
 		</table>
 
 		<h2><?php esc_html_e( 'Site Details' ); ?></h2>
-		<table class="form-table">  
-			<tr> 
-				<th scope='row'><?php esc_html_e( 'Site&nbsp;Title' ); ?></th> 
+		<table class="form-table">
+			<tr>
+				<th scope='row'><?php esc_html_e( 'Site&nbsp;Title' ); ?></th>
 				<td>
 					<input name='weblog_title' type='text' size='45' value='<?php echo esc_attr( $weblog_title ); ?>' />
 					<br /><?php _e( 'What would you like to call your site?' ); ?>
-				</td> 
-			</tr> 
-			<tr> 
-				<th scope='row'><?php esc_html_e( 'Email' ); ?></th> 
+				</td>
+			</tr>
+			<tr>
+				<th scope='row'><?php esc_html_e( 'Email' ); ?></th>
 				<td>
-					<input name='email' type='text' size='45' value='<?php echo esc_attr( $email ); ?>' /> 
+					<input name='email' type='text' size='45' value='<?php echo esc_attr( $email ); ?>' />
 					<br /><?php _e( 'Your email address.' ); ?>
-				</td> 
-			</tr> 
-		</table> 
+				</td>
+			</tr>
+		</table>
 		<p class='submit'><input class="button" name='submit' type='submit' value='<?php esc_attr_e( 'Proceed' ); ?>' /></p>
 	<?php
 }
@@ -271,11 +271,11 @@ function get_clean_basedomain() {
 	return $domain;
 }
 
-$action = isset($_POST[ 'action' ]) ? $_POST[ 'action' ] : null; 
+$action = isset($_POST[ 'action' ]) ? $_POST[ 'action' ] : null;
 switch($action) {
 	case "step2":
 		check_admin_referer( 'install-network-1' );
-		
+
 		// Install!
 		$base = stripslashes( dirname( dirname($_SERVER["SCRIPT_NAME"]) ) );
 		if( $base != "/")

@@ -34,7 +34,7 @@ function plugins_api($action, $args = null) {
 	if ( !isset($args->per_page) )
 		$args->per_page = 24;
 
-	// Allows a plugin to override the WordPress.org API entirely. 
+	// Allows a plugin to override the WordPress.org API entirely.
 	// Use the filter 'plugins_api_result' to mearly add results.
 	// Please ensure that a object is returned from the following filters.
 	$args = apply_filters('plugins_api_args', $args, $action);
