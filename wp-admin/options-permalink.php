@@ -203,7 +203,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $permalink_structure = preg_replace( "|/?blog|", "", $permalink_structure ); }?>
+			<?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $permalink_structure = preg_replace( "|^/?blog|", "", $permalink_structure ); }?>
 			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo esc_attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
@@ -223,7 +223,7 @@ $structures = array(
 	</tr>
 	<tr>
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
-		<td><?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $tag_base = preg_replace( "|/?blog|", "", $tag_base ); }?> <input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
+		<td><?php if ( is_multisite() && !is_subdomain_install() && is_main_site() ) { echo "/blog"; $tag_base = preg_replace( "|^/?blog|", "", $tag_base ); }?> <input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>
