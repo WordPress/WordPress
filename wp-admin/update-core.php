@@ -351,21 +351,21 @@ function no_update_actions($actions) {
 }
 
 function do_plugin_upgrade() {
-	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-
-	if ( isset($_GET['plugins']) ) {
-		$plugins = explode(',', $_GET['plugins']);
-	} elseif ( isset($_POST['checked']) ) {
+	if ( isset( $_GET['plugins'] ) ) {
+		$plugins = explode( ',', $_GET['plugins'] );
+	} elseif ( isset( $_POST['checked'] ) ) {
 		$plugins = (array) $_POST['checked'];
 	} else {
 		// Nothing to do.
 		return;
 	}
-	$url = 'update-core.php?action=do-plugin-upgrade&amp;plugins=' . urlencode(join(',', $plugins));
-	$title = __('Upgrade Plugins');
+
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$url = 'update-core.php?action=do-plugin-upgrade&amp;plugins=' . urlencode( implode( ',', $plugins ) );
+	$title = __( 'Upgrade Plugins' );
 	$nonce = 'upgrade-core';
-	$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact('title', 'nonce', 'url', 'plugin') ) );
-	$upgrader->bulk_upgrade($plugins);
+	$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url' ) ) );
+	$upgrader->bulk_upgrade( $plugins );
 }
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
