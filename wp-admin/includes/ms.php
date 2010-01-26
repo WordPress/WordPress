@@ -266,15 +266,6 @@ All at ###SITENAME###
 }
 add_action('update_option_new_admin_email', 'update_option_new_admin_email', 10, 2);
 
-function profile_page_email_warning_ob_start() {
-	ob_start( 'profile_page_email_warning_ob_content' );
-}
-
-function profile_page_email_warning_ob_content( $content ) {
-	$content = str_replace( ' class="regular-text" /> Required.</td>', ' class="regular-text" /> Required. (You will be sent an email to confirm the change)</td>', $content );
-	return $content;
-}
-
 function update_profile_email() {
 	global $current_user, $wpdb;
 	if ( isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
@@ -1079,7 +1070,6 @@ add_action ( 'myblogs_allblogs_options', 'choose_primary_blog' );
 
 if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) ) {
 	add_action( 'admin_init', 'update_profile_email' );
-	add_action( 'admin_init', 'profile_page_email_warning_ob_start' );
 }
 
 function blogs_listing_post() {
