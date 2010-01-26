@@ -5,18 +5,6 @@
  * @package WordPress
  */
 
-function load_muplugin_textdomain($domain, $path = false) {
-	$locale = get_locale();
-	if ( empty($locale) )
-		$locale = 'en_US';
-
-	if ( false === $path )
-		$path = WPMU_PLUGIN_DIR;
-
-	$mofile = WPMU_PLUGIN_DIR . "/$domain-$locale.mo";
-	load_textdomain($domain, $mofile);
-}
-
 // @todo use update_blog_details
 function wpmu_update_blogs_date() {
 	global $wpdb;

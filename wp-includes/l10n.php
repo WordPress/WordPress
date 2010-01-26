@@ -383,6 +383,28 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
 }
 
 /**
+ * Load the translated strings for a plugin residing in the mu-plugins dir.
+ *
+ * @since 3.0
+ *
+ * @param string $domain Unique identifier for retrieving translated strings
+ */
+function load_muplugin_textdomain($domain, $path = false) {
+	$locale = get_locale();
+	if ( empty($locale) )
+		$locale = 'en_US';
+
+	/* @todo $path is not used.  Was it ever used and was it expected to be an arbitrary absolute dir?
+	 * Ideally, it should be relative to WPMU_PLUGIN_DUR.
+	if ( false === $path )
+		$path = WPMU_PLUGIN_DIR;
+	*/
+
+	$mofile = WPMU_PLUGIN_DIR . "/$domain-$locale.mo";
+	load_textdomain($domain, $mofile);
+}
+
+/**
  * Loads the theme's translated strings.
  *
  * If the current locale exists as a .mo file in the theme's root directory, it
