@@ -193,30 +193,28 @@ function wp_install_defaults($user_id) {
 	$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => 1, 'object_id' => 1) );
 
 	// Default comment
+	$first_comment_author = __('Mr WordPress');
+	$first_comment_url = 'http://wordpress.org/';
+	$first_comment = __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
-		$first_comment_author = get_site_option( 'first_comment_author' );
-		$first_comment_url = get_site_option( 'first_comment_url' );
-		$first_comment = get_site_option( 'first_comment' );
-	} else {
-		$first_comment_author = __('Mr WordPress');
-		$first_comment_url = 'http://wordpress.org/';
-		$first_comment = __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
-	}	
+		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
+		$first_comment_url = get_site_option( 'first_comment_url', 'http://' . $current_site->domain . $current_site->path );
+		$first_comment = get_site_option( 'first_comment', $first_comment );
+	}
 	$wpdb->insert( $wpdb->comments, array(
 								'comment_post_ID' => 1,
 								'comment_author' => $first_comment_author,
 								'comment_author_email' => '',
-								'comment_author_url' => 'http://wordpress.org/',
+								'comment_author_url' => $first_comment_url,
 								'comment_date' => $now,
 								'comment_date_gmt' => $now_gmt,
 								'comment_content' => $first_comment
 								));
 
 	// First Page
-	if ( is_multisite() && get_site_option( 'first_page' ) )
-		$first_page = get_site_option( 'first_page' );
-	else
-		$first_page = __('This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.');
+	$first_page = __('This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.');
+	if ( is_multisite() )
+		$first_page = get_site_option( 'first_page', $first_page );
 	$first_post_guid = get_option('home') . '/?page_id=2';
 	$wpdb->insert( $wpdb->posts, array(
 								'post_author' => $user_id,

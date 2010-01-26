@@ -1981,39 +1981,6 @@ Thanks!
 }
 add_filter( 'site_option_welcome_user_email', 'welcome_user_msg_filter' );
 
-function first_page_filter( $text ) {
-	if ( !$text )
-		return __( "This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress." );
-
-	return $text;
-}
-add_filter( 'site_option_first_page', 'first_page_filter' );
-
-function first_comment_filter( $text ) {
-	if ( !$text )
-		return __( "This is an example of a WordPress comment, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many comments like this one or sub-comments as you like and manage all of your content inside of WordPress." );
-
-	return $text;
-}
-add_filter( 'site_option_first_comment', 'first_comment_filter' );
-
-function first_comment_author_filter( $text ) {
-	if ( !$text )
-		return __( "Mr WordPress" );
-
-	return $text;
-}
-add_filter( 'site_option_first_comment_author', 'first_comment_author_filter' );
-
-function first_comment_url_filter( $text ) {
-	global $current_site;
-	if ( !$text )
-		return 'http://' . $current_site->domain . $current_site->path;
-
-	return $text;
-}
-add_filter( 'site_option_first_comment_url', 'first_comment_url_filter' );
-
 function mu_filter_plugins_list( $active_plugins ) {
 	$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins' );
 

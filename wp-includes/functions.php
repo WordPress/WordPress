@@ -417,6 +417,8 @@ function wp_load_alloptions() {
 
 	if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
+	else
+		$alloptions = false;
 
 	if ( !$alloptions ) {
 		$suppress = $wpdb->suppress_errors();
@@ -429,6 +431,7 @@ function wp_load_alloptions() {
 			if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
 				wp_cache_add( 'alloptions', $alloptions, 'options' );
 	}
+
 	return $alloptions;
 }
 
