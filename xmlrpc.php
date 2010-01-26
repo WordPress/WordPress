@@ -452,9 +452,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[0];
 		$password = $args[1];
 
-		if ( !$user = $this->login($username, $password) ) {
+		if ( !$user = $this->login($username, $password) )
 			return $this->error;
-		}
+
 
 		do_action( 'xmlrpc_call', 'wp.getUsersBlogs' );
 
@@ -1546,6 +1546,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array
 	 */
 	function blogger_getUsersBlogs($args) {
+		if ( is_multisite() )
+			return _multisite_getUsersBlogs($args);
 
 		$this->escape($args);
 
@@ -1568,6 +1570,35 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		return array($struct);
+	}
+
+	/**
+	 * Private function for retrieving a users blogs for multisite setups
+	 *
+	 * @access protected
+	 */
+	function _multisite_getUsersBlogs($args) {
+		global $current_blog;
+		$domain = $current_blog->domain;
+		$path = $current_blog->path . 'xmlrpc.php';
+		$protocol = is_ssl() ? 'https' : 'http';
+
+		$rpc = new IXR_Client("$protocol://{$domain}{$path}");
+		$rpc->query('wp.getUsersBlogs', $args[1], $args[2]);
+		$blogs = $rpc->getResponse();
+
+		if ( isset($blogs['faultCode']) )
+			return new IXR_Error($blogs['faultCode'], $blogs['faultString']);
+
+		if ( $_SERVER['HTTP_HOST'] == $domain && $_SERVER['REQUEST_URI'] == $path ) {
+			return $blogs;
+		} else {
+			foreach ( (array) $blogs as $blog ) {
+				if ( strpos($blog['url'], $_SERVER['HTTP_HOST']) )
+					return array($blog);
+			}
+			return array();
+		}
 	}
 
 	/**
@@ -2106,7 +2137,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( $post_more )
 			$post_content = $post_content . "<!--more-->" . $post_more;
- 
+
 		$to_ping = $content_struct['mt_tb_ping_urls'];
 		if ( is_array($to_ping) )
 			$to_ping = implode(' ', $to_ping);

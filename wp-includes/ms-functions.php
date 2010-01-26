@@ -1789,38 +1789,6 @@ function wordpressmu_wp_mail_from( $email ) {
 	return $email;
 }
 
-/*
-XMLRPC getUsersBlogs() for a multiblog environment
-http://trac.mu.wordpress.org/attachment/ticket/551/xmlrpc-mu.php
-*/
-function wpmu_blogger_getUsersBlogs( $args ) {
-	global $current_blog;
-	$domain = $current_blog->domain;
-	$path = $current_blog->path . 'xmlrpc.php';
-
-	$rpc = new IXR_Client("http://{$domain}{$path}");
-	$rpc->query('wp.getUsersBlogs', $args[1], $args[2]);
-	$blogs = $rpc->getResponse();
-
-	if ( isset($blogs['faultCode']) )
-		return new IXR_Error($blogs['faultCode'], $blogs['faultString']);
-
-	if ( $_SERVER['HTTP_HOST'] == $domain && $_SERVER['REQUEST_URI'] == $path ) {
-		return $blogs;
-	} else {
-		foreach ( (array) $blogs as $blog ) {
-			if ( strpos($blog['url'], $_SERVER['HTTP_HOST']) )
-				return array($blog);
-		}
-		return array();
-	}
-}
-
-function attach_wpmu_xmlrpc( $methods ) {
-	$methods['blogger.getUsersBlogs'] = 'wpmu_blogger_getUsersBlogs';
-	return $methods;
-}
-
 function mu_locale( $locale ) {
 	if ( defined('WP_INSTALLING') == false ) {
 		$mu_locale = get_option('WPLANG');
