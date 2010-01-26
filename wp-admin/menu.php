@@ -52,6 +52,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu
 
 		$submenu['edit.php'][$i++] = array( esc_attr($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
 	}
+	unset($tax);
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'menu-media', 'div' );
 	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
@@ -113,7 +114,7 @@ if ( is_super_admin() || ( is_multisite() && isset($menu_perms['plugins']) && $m
 		if ( !is_multisite() )
 			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 }
-unset($menu_perms);
+unset($menu_perms, $update_plugins, $update_count);
 
 if ( current_user_can('edit_users') )
 	$menu[70] = array( __('Users'), 'edit_users', 'users.php', '', 'menu-top', 'menu-users', 'div' );
@@ -188,6 +189,7 @@ foreach ($menu as $menu_page) {
 
 	$admin_page_hooks[$menu_page[2]] = $hook_name;
 }
+unset($menu_page);
 
 $_wp_submenu_nopriv = array();
 $_wp_menu_nopriv = array();
@@ -200,11 +202,14 @@ foreach ( array( 'submenu' ) as $sub_loop ) {
 				$_wp_submenu_nopriv[$parent][$data[2]] = true;
 			}
 		}
+		unset($index, $data);
 
 		if ( empty(${$sub_loop}[$parent]) )
 			unset(${$sub_loop}[$parent]);
 	}
+	unset($sub, $parent);
 }
+unset($sub_loop);
 
 // Loop over the top-level menu.
 // Menus for which the original parent is not acessible due to lack of privs will have the next
@@ -226,12 +231,13 @@ foreach ( $menu as $id => $data ) {
 			$submenu[$new_parent][$index] = $submenu[$old_parent][$index];
 			unset($submenu[$old_parent][$index]);
 		}
-		unset($submenu[$old_parent]);
+		unset($submenu[$old_parent], $index);
 
 		if ( isset($_wp_submenu_nopriv[$old_parent]) )
 			$_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
 	}
 }
+unset($id, $data, $subs, $first_sub, $old_parent, $new_parent);
 
 do_action('admin_menu', '');
 
@@ -249,6 +255,7 @@ foreach ( $menu as $id => $data ) {
 		}
 	}
 }
+unset($id, $data);
 
 // Remove any duplicated seperators
 $seperator_found = false;
@@ -264,8 +271,7 @@ foreach ( $menu as $id => $data ) {
 		$seperator_found = false;
 	}
 }
-
-unset($id);
+unset($id, $data);
 
 function add_cssclass($add, $class) {
 	$class = empty($class) ? $add : $class .= ' ' . $add;
