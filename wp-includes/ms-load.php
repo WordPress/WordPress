@@ -21,7 +21,7 @@ $table_prefix = $wpdb->get_blog_prefix();
 
 // Fix empty PHP_SELF
 $PHP_SELF = $_SERVER['PHP_SELF'];
-if ( empty($PHP_SELF) || ( empty($PHP_SELF) && constant( 'VHOST' ) == 'no' && $current_blog->path != '/' ) )
+if ( empty($PHP_SELF) || ( empty($PHP_SELF) && !is_subdomain_install() && $current_blog->path != '/' ) )
 	$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace("/(\?.*)?$/",'',$_SERVER["REQUEST_URI"]);
 
 wp_cache_init(); // need to init cache again after blog_id is set
