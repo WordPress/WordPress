@@ -113,6 +113,7 @@ if ( is_super_admin() || ( is_multisite() && isset($menu_perms['plugins']) && $m
 		if ( !is_multisite() )
 			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 }
+unset($menu_perms);
 
 if ( current_user_can('edit_users') )
 	$menu[70] = array( __('Users'), 'edit_users', 'users.php', '', 'menu-top', 'menu-users', 'div' );
