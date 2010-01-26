@@ -42,7 +42,9 @@ if ( get_option('db_upgraded') ) {
 			require_once( ABSPATH . WPINC . '/http.php' );
 			$response = wp_remote_get( admin_url( 'upgrade.php?step=1' ), array( 'timeout' => 120, 'httpversion' => '1.1' ) );
 			do_action( 'after_mu_upgrade', $response );
+			unset($response);
 		}
+		unset($c);
 	}
 }
 
@@ -123,16 +125,16 @@ if ( isset($plugin_page) ) {
 
 		do_action($page_hook);
 	} else {
-		if ( validate_file($plugin_page) ) {
+		if ( validate_file($plugin_page) )
 			wp_die(__('Invalid plugin page'));
-		}
+
 
 		if ( !( file_exists(WP_PLUGIN_DIR . "/$plugin_page") && is_file(WP_PLUGIN_DIR . "/$plugin_page") ) && !( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") && is_file(WPMU_PLUGIN_DIR . "/$plugin_page") ) )
 			wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
 
 		do_action('load-' . $plugin_page);
 
-		if (! isset($_GET['noheader']))
+		if ( !isset($_GET['noheader']))
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		if ( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") )
@@ -156,12 +158,9 @@ if ( isset($plugin_page) ) {
 	}
 
 	// Allow plugins to define importers as well
-	if ( !isset($wp_importers) || !isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2]))
-	{
+	if ( !isset($wp_importers) || !isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2])) {
 		if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
-		{
 			wp_die(__('Cannot load importer.'));
-		}
 		include(ABSPATH . "wp-admin/import/$importer.php");
 	}
 

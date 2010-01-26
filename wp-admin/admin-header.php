@@ -53,9 +53,8 @@ do_action('admin_print_scripts');
 do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
-if ( get_user_setting('mfold') == 'f' ) {
+if ( get_user_setting('mfold') == 'f' )
 	$admin_body_class .= ' folded';
-}
 
 if ( $is_iphone ) { ?>
 <style type="text/css">.row-actions{visibility:visible;}</style>
@@ -84,6 +83,7 @@ if ( '' == $blog_name ) {
 	if ( $blog_name != $blog_name_excerpt )
 		$blog_name_excerpt = trim($blog_name_excerpt) . '&hellip;';
 	$blog_name = $blog_name_excerpt;
+	unset($blog_name_excerpt);
 }
 $title_class = '';
 if ( function_exists('mb_strlen') ) {
@@ -110,6 +110,8 @@ if ( function_exists('mb_strlen') ) {
 
 <div id="wpbody">
 <?php
+unset($title_class, $blog_name);
+
 require(ABSPATH . 'wp-admin/menu-header.php');
 
 $current_screen->parent_file = $parent_file;
@@ -123,6 +125,5 @@ screen_meta($current_screen);
 
 do_action('admin_notices');
 
-if ( $parent_file == 'options-general.php' ) {
+if ( $parent_file == 'options-general.php' )
 	require(ABSPATH . 'wp-admin/options-head.php');
-}
