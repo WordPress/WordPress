@@ -105,7 +105,7 @@ if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );
 
 $menu_perms = get_site_option('menu_items', array());
-if ( is_super_admin() || is_multisite() && $menu_perms['plugins'] ) {
+if ( is_super_admin() || ( is_multisite() && isset($menu_perms['plugins']) && $menu_perms['plugins'] ) ) {
 	$menu[65] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
 		$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
 		/* translators: add new plugin */
