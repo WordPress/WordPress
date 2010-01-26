@@ -91,4 +91,14 @@ text-align: center;
 }
 endif;
 
+/**
+ * @deprecated 3.0
+ */
+function get_current_user_id() {
+	_deprecated_function( __FUNCTION__, '3.0', '' );
+
+	global $current_user;
+	return $current_user->ID;
+}
+
 ?>

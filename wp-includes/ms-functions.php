@@ -249,12 +249,6 @@ function update_blog_details( $blog_id, $details = array() ) {
 	return true;
 }
 
-// @todo move to user.php
-function get_current_user_id() {
-	global $current_user;
-	return $current_user->ID;
-}
-
 /**
  * Retrieve option value based on setting name and blog_id.
  *
