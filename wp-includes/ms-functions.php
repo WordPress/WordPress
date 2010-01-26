@@ -81,13 +81,6 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	return false;
 }
 
-function is_main_blog() {
-	global $current_blog, $current_site;
-	if ( $current_blog->domain == $current_site->domain && $current_blog->path == $current_site->path )
-		return true;
-	return false;
-}
-
 function get_id_from_blogname( $name ) {
 	global $wpdb, $current_site;
 	$blog_id = wp_cache_get( "get_id_from_blogname_" . $name, 'blog-details' );
@@ -1819,7 +1812,7 @@ function signup_nonce_check( $result ) {
 
 function maybe_redirect_404() {
 	global $current_site;
-	if ( is_main_blog() && is_404() && defined( 'NOBLOGREDIRECT' ) && constant( 'NOBLOGREDIRECT' ) != '' ) {
+	if ( is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && constant( 'NOBLOGREDIRECT' ) != '' ) {
 		$destination = constant( 'NOBLOGREDIRECT' );
 		if ( $destination == '%siteurl%' )
 			$destination = $current_site->domain . $current_site->path;

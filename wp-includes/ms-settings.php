@@ -65,13 +65,13 @@ function wpmu_current_site() {
 		$current_site->path   = $path = PATH_CURRENT_SITE;
 		if ( defined( 'BLOGID_CURRENT_SITE' ) )
 			$current_site->blog_id = BLOGID_CURRENT_SITE;
-		if ( DOMAIN_CURRENT_SITE == $domain ) 
+		if ( DOMAIN_CURRENT_SITE == $domain )
 			$current_site->cookie_domain = $cookie_domain;
 		elseif ( substr( $current_site->domain, 0, 4 ) == 'www.' )
 			$current_site->cookie_domain = substr( $current_site->domain, 4 );
 		else
 			$current_site->cookie_domain = $current_site->domain;
-			
+
 		return $current_site;
 	}
 

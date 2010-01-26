@@ -725,7 +725,7 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 		return $data;
 	if ( !isset( $data[ 'post_name' ] ) || $data[ 'post_name' ] == '' )
 		return $data;
-	if ( !is_main_blog() )
+	if ( !is_main_site() )
 		return $data;
 
 	$post_name = $data[ 'post_name' ];
