@@ -1867,7 +1867,7 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 
 	}
 
-	clean_term_cache($terms);
+	clean_term_cache($terms, '', false);
 
 	return true;
 }
@@ -1917,8 +1917,9 @@ function clean_object_term_cache($object_ids, $object_type) {
  *
  * @param int|array $ids Single or list of Term IDs
  * @param string $taxonomy Can be empty and will assume tt_ids, else will use for context.
+ * @param bool $clean_taxonomy Whether to clean taxonomy wide caches (true), or just individual term object caches (false). Default is true.
  */
-function clean_term_cache($ids, $taxonomy = '') {
+function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	global $wpdb;
 	static $cleaned = array();
 
@@ -1951,9 +1952,15 @@ function clean_term_cache($ids, $taxonomy = '') {
 		if ( isset($cleaned[$taxonomy]) )
 			continue;
 		$cleaned[$taxonomy] = true;
-		wp_cache_delete('all_ids', $taxonomy);
-		wp_cache_delete('get', $taxonomy);
-		delete_transient("{$taxonomy}_children");
+
+		if ( $clean_taxonomy ) {
+			wp_cache_delete('all_ids', $taxonomy);
+			wp_cache_delete('get', $taxonomy);
+			delete_option("{$taxonomy}_children");
+			// Regenerate {$taxonomy}_children
+			_get_term_hierarchy($taxonomy);
+		}
+
 		do_action('clean_term_cache', $ids, $taxonomy);
 	}
 
@@ -2092,17 +2099,17 @@ function update_term_cache($terms, $taxonomy = '') {
 function _get_term_hierarchy($taxonomy) {
 	if ( !is_taxonomy_hierarchical($taxonomy) )
 		return array();
-	$children = get_transient("{$taxonomy}_children");
+	$children = get_option("{$taxonomy}_children");
+
 	if ( is_array($children) )
 		return $children;
-
 	$children = array();
 	$terms = get_terms($taxonomy, array('get' => 'all', 'orderby' => 'id', 'fields' => 'id=>parent'));
 	foreach ( $terms as $term_id => $parent ) {
 		if ( $parent > 0 )
 			$children[$parent][] = $term_id;
 	}
-	set_transient("{$taxonomy}_children", $children);
+	update_option("{$taxonomy}_children", $children);
 
 	return $children;
 }
