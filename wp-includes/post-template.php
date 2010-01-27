@@ -691,7 +691,8 @@ function wp_dropdown_pages($args = '') {
 	$defaults = array(
 		'depth' => 0, 'child_of' => 0,
 		'selected' => 0, 'echo' => 1,
-		'name' => 'page_id', 'show_option_none' => '', 'show_option_no_change' => '',
+		'name' => 'page_id', 'id' => '',
+		'show_option_none' => '', 'show_option_no_change' => '',
 		'option_none_value' => ''
 	);
 
@@ -701,9 +702,12 @@ function wp_dropdown_pages($args = '') {
 	$pages = get_pages($r);
 	$output = '';
 	$name = esc_attr($name);
+	// Back-compat with old system where both id and name were based on $name argument
+	if ( empty($id) )
+		$id = $name;
 
 	if ( ! empty($pages) ) {
-		$output = "<select name=\"$name\" id=\"$name\">\n";
+		$output = "<select name=\"$name\" id=\"$id\">\n";
 		if ( $show_option_no_change )
 			$output .= "\t<option value=\"-1\">$show_option_no_change</option>";
 		if ( $show_option_none )
