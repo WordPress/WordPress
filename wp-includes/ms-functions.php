@@ -899,23 +899,6 @@ function is_blog_user( $blog_id = 0 ) {
 	return false;
 }
 
-function validate_email( $email, $check_domain = true) {
-	if (ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.
-		'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.
-		'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $email))
-	{
-		if ($check_domain && function_exists('checkdnsrr')) {
-			list (, $domain)  = explode('@', $email);
-
-			if (checkdnsrr($domain.'.', 'MX') || checkdnsrr($domain.'.', 'A'))
-				return true;
-			return false;
-		}
-		return true;
-	}
-	return false;
-}
-
 function is_email_address_unsafe( $user_email ) {
 	$banned_names = get_site_option( "banned_email_domains" );
 	if ($banned_names && !is_array( $banned_names ))
@@ -981,9 +964,6 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 
 	if ( !is_email( $user_email ) )
 		$errors->add('user_email', __("Please enter a correct email address"));
-
-	if ( !validate_email( $user_email ) )
-		$errors->add('user_email', __("Please check your email address."));
 
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
 	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {

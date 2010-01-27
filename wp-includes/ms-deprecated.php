@@ -125,4 +125,11 @@ function is_main_blog() {
 	return is_main_site();
 }
 
+/**
+ * @deprecated 3.0
+ */
+function validate_email( $email, $check_domain = true) {
+	return is_email( $email, $check_domain );
+}
+
 ?>
