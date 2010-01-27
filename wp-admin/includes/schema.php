@@ -645,11 +645,17 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	else
 		$allowed_themes = array( $stylesheet => true );
 
+	if ( $network_id == 1 ) 
+		$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->site." ( id, domain, path ) VALUES ( NULL, %s, %s )", $domain, $path ) );
+	else 
+		$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->site." ( id, domain, path ) VALUES ( %d, %s, %s )", $network_id, $domain, $path ) );
+
+	$network_id = $wpdb->insert_id;
+
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'site_name', %s)", $network_id, $site_name ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_email', %s)", $network_id, $site_user->user_email ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_user_id', %d)", $network_id, $site_user->ID ) );
 	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'registration', 'none')", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->site." ( id, domain, path ) VALUES ( %d, %s, %s )", $network_id, $domain, $path ) );
 	if ( !is_multisite() ) {
 		$wpdb->query( "INSERT INTO " . $wpdb->sitecategories . " ( cat_ID, cat_name, category_nicename, last_updated ) VALUES (1, 'Uncategorized', 'uncategorized', NOW())" );
 		$wpdb->query( "INSERT INTO " . $wpdb->sitecategories . " ( cat_ID, cat_name, category_nicename, last_updated ) VALUES (2, 'Blogroll', 'blogroll', NOW())" );
