@@ -489,7 +489,7 @@ switch ( $_GET['action'] ) {
 		elseif ( empty($user['email']) )
 			wp_die( __('Missing email.') );
 
-		$password = generate_random_password();
+		$password = wp_generate_password();
 		$user_id = wpmu_create_user(wp_specialchars( strtolower( $user['username'] ) ), $password, wp_specialchars( $user['email'] ) );
 
 		if ( false == $user_id )
