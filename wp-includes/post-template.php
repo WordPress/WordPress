@@ -392,14 +392,12 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'error404';
 
 	if ( is_single() ) {
-		$wp_query->post = $wp_query->posts[0];
-		setup_postdata($wp_query->post);
-
-		$postID = $wp_query->post->ID;
+		$postID = $wp_query->get_queried_object_id();
+		
 		$classes[] = 'single postid-' . $postID;
 
 		if ( is_attachment() ) {
-			$mime_type = get_post_mime_type();
+			$mime_type = get_post_mime_type($postID);
 			$mime_prefix = array( 'application/', 'image/', 'text/', 'audio/', 'video/', 'music/' );
 			$classes[] = 'attachmentid-' . $postID;
 			$classes[] = 'attachment-' . str_replace($mime_prefix, '', $mime_type);
@@ -421,19 +419,18 @@ function get_body_class( $class = '' ) {
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
 
-		$wp_query->post = $wp_query->posts[0];
-		setup_postdata($wp_query->post);
+		$pageID = $wp_query->get_queried_object_id();
 
-		$pageID = $wp_query->post->ID;
+		$post = get_page($pageID);
 
 		$classes[] = 'page-id-' . $pageID;
 
-		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' LIMIT 1", $pageID) ) )
+		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' AND post_status = 'publish' LIMIT 1", $pageID) ) )
 			$classes[] = 'page-parent';
 
-		if ( $wp_query->post->post_parent ) {
+		if ( $post->post_parent ) {
 			$classes[] = 'page-child';
-			$classes[] = 'parent-pageid-' . $wp_query->post->post_parent;
+			$classes[] = 'parent-pageid-' . $post->post_parent;
 		}
 		if ( is_page_template() ) {
 			$classes[] = 'page-template';
