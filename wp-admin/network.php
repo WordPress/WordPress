@@ -150,6 +150,9 @@ function printstep1form( $rewrite_enabled = false ) {
 	$weblog_title = sprintf( __( '%s Sites' ), ucfirst( get_option( 'blogname' ) ) );
 	$email = get_option( 'admin_email' );
 	$hostname = get_clean_basedomain();
+	$invalid_host = false;
+	if ( 'localhost' == $hostname || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname, $match ) )
+		$invalid_host = true;
 	if ( substr( $hostname, 0, 4 ) == 'www.' )
 		$nowww = substr( $hostname, 4 );
 
@@ -174,9 +177,12 @@ function printstep1form( $rewrite_enabled = false ) {
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
+		<?php if ( !$invalid_host ) { ?>
 					<p><?php printf( __( 'This will be the Internet address of your site: <strong><em>%s</em></strong>.' ), $hostname ); ?></p>
 					<input type='hidden' name='basedomain' value='<?php echo esc_attr( $hostname ); ?>' />
+		<?php } else { ?>
 					<p><?php _e( 'Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.' ); ?></p>
+		<?php } ?>
 				</td>
 			</tr>
 		</table>
@@ -198,7 +204,9 @@ function printstep1form( $rewrite_enabled = false ) {
 				</td>
 			</tr>
 		</table>
+		<?php if ( !$invalid_host ) { ?>
 		<p class='submit'><input class="button" name='submit' type='submit' value='<?php esc_attr_e( 'Proceed' ); ?>' /></p>
+		<?php } ?>
 	<?php
 }
 
