@@ -31,6 +31,9 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	if ( isset($post_data['trackback_url']) )
 		$post_data['to_ping'] = $post_data['trackback_url'];
 
+	if ( !isset($post_data['user_ID']) )
+		$post_data['user_ID'] = $GLOBALS['user_ID'];
+
 	if (!empty ( $post_data['post_author_override'] ) ) {
 		$post_data['post_author'] = (int) $post_data['post_author_override'];
 	} else {
@@ -64,18 +67,24 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$post_data['post_status'] = 'draft';
 	if ( isset($post_data['saveasprivate']) && '' != $post_data['saveasprivate'] )
 		$post_data['post_status'] = 'private';
-	if ( isset($post_data['publish']) && ( '' != $post_data['publish'] ) && ( $post_data['post_status'] != 'private' ) )
+	if ( isset($post_data['publish']) && ( '' != $post_data['publish'] ) && ( !isset($post_data['post_status']) || $post_data['post_status'] != 'private' ) )
 		$post_data['post_status'] = 'publish';
 	if ( isset($post_data['advanced']) && '' != $post_data['advanced'] )
 		$post_data['post_status'] = 'draft';
 	if ( isset($post_data['pending']) && '' != $post_data['pending'] )
 		$post_data['post_status'] = 'pending';
 
-	$previous_status = get_post_field('post_status',  isset($post_data['ID']) ? $post_data['ID'] : $post_data['temp_ID']);
+	if ( isset( $post_data['ID'] ) )
+		$post_id = $post_data['ID'];
+	elseif ( isset( $post_data['temp_ID'] ) )
+		$post_id = $post_data['temp_ID'];
+	else
+		$post_id = false;
+	$previous_status = $post_id ? get_post_field( 'post_status', $post_id ) : false;
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( 'page' == $post_data['post_type'] ) {
+	if ( isset( $post_data['post_type'] ) && 'page' == $post_data['post_type'] ) {
 		$publish_cap = 'publish_pages';
 		$edit_cap = 'edit_published_pages';
 	} else {
@@ -447,14 +456,13 @@ function post_exists($title, $content = '', $date = '') {
 function wp_write_post() {
 	global $user_ID;
 
-	if ( 'page' == $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
 		if ( !current_user_can( 'edit_pages' ) )
 			return new WP_Error( 'edit_pages', __( 'You are not allowed to create pages on this blog.' ) );
 	} else {
 		if ( !current_user_can( 'edit_posts' ) )
 			return new WP_Error( 'edit_posts', __( 'You are not allowed to create posts or drafts on this blog.' ) );
 	}
-
 
 	// Check for autosave collisions
 	$temp_id = false;
