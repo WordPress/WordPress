@@ -129,6 +129,7 @@ function is_main_blog() {
  * @deprecated 3.0
  */
 function validate_email( $email, $check_domain = true) {
+	_deprecated_function( __FUNCTION__, '3.0', 'is_email()' );
 	return is_email( $email, $check_domain );
 }
 
