@@ -1245,15 +1245,20 @@ function wp_embed_defaults() {
 
 	$width = get_option('embed_size_w');
 
-	if ( !$width && !empty($theme_width) )
+	if ( empty($width) && !empty($theme_width) )
 		$width = $theme_width;
 
-	if ( !$width )
+	if ( empty($width) )
 		$width = 500;
 
+	$height = get_option('embed_size_h');
+
+	if ( empty($height) )
+		$height = 700;
+
 	return apply_filters( 'embed_defaults', array(
-		'width' => $width,
-		'height' => 700,
+		'width'  => $width,
+		'height' => $height,
 	) );
 }
 
