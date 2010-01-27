@@ -1747,15 +1747,6 @@ function upload_is_file_too_big( $upload ) {
 	return $upload;
 }
 
-function wordpressmu_authenticate_siteadmin( $user, $password = '' ) {
-	if ( is_super_admin( $user->user_login ) == false && ( $primary_blog = get_usermeta( $user->user_id, "primary_blog" ) ) ) {
-		$details = get_blog_details( $primary_blog );
-		if ( is_object( $details ) && $details->spam == 1 )
-			return new WP_Error('blog_suspended', __('Blog Suspended.'));
-	}
-	return $user;
-}
-
 function wordpressmu_wp_mail_from( $email ) {
 	if ( strpos( $email, 'wordpress@' ) !== false )
 		$email = get_option( 'admin_email' );
