@@ -776,18 +776,6 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
 }
 
 /**
- * @since 2.1
- * @deprecated 2.1
- * @deprecated Use wp_tiny_mce().
- * @see wp_tiny_mce()
- */
-function tinymce_include() {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_tiny_mce()' );
-
-	wp_tiny_mce();
-}
-
-/**
  * @since 1.2
  * @deprecated 2.1
  * @deprecated Use wp_list_authors()
@@ -1310,18 +1298,6 @@ function comments_rss() {
 function create_user($username, $password, $email) {
 	_deprecated_function( __FUNCTION__, '2.0', 'wp_create_user()' );
 	return wp_create_user($username, $password, $email);
-}
-
-/**
- * Unused Admin function.
- *
- * @since 2.0
- * @deprecated 2.5
- *
- */
-function documentation_link() {
-	_deprecated_function( __FUNCTION__, '2.5', '' );
-	return;
 }
 
 /**
