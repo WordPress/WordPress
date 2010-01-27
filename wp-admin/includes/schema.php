@@ -630,7 +630,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		die( 'You must provide a site name!' );
 
 	// check for network collision
-	$existing_network = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->site} WHERE id = %d", $network_id ) );
+	$existing_network = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) );
 	if ( $existing_network == $network_id )
 		die( 'That network already exists!' );
 
@@ -645,25 +645,25 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	else
 		$allowed_themes = array( $stylesheet => true );
 
-	if ( $network_id == 1 ) 
-		$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->site." ( id, domain, path ) VALUES ( NULL, %s, %s )", $domain, $path ) );
-	else 
-		$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->site." ( id, domain, path ) VALUES ( %d, %s, %s )", $network_id, $domain, $path ) );
-
-	$network_id = $wpdb->insert_id;
-
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'site_name', %s)", $network_id, $site_name ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_email', %s)", $network_id, $site_user->user_email ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'admin_user_id', %d)", $network_id, $site_user->ID ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'registration', 'none')", $network_id ) );
-	if ( !is_multisite() ) {
-		$wpdb->query( "INSERT INTO " . $wpdb->sitecategories . " ( cat_ID, cat_name, category_nicename, last_updated ) VALUES (1, 'Uncategorized', 'uncategorized', NOW())" );
-		$wpdb->query( "INSERT INTO " . $wpdb->sitecategories . " ( cat_ID, cat_name, category_nicename, last_updated ) VALUES (2, 'Blogroll', 'blogroll', NOW())" );
+	if ( 1 == $network_id ) {
+		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path ) );
+		$network_id = $wpdb->insert_id;
+	} else {
+		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path, 'network_id' => $network_id ) );
 	}
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'upload_filetypes', 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf' )", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'blog_upload_space', '10' )", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'fileupload_maxk', '1500' )", $network_id ) );
+
 	if ( !is_multisite() ) {
+
+		/* translators: Default category slug */
+		$cat_slug = sanitize_title( _x( 'Uncategorized', 'Default category slug' ) );
+
+		$wpdb->insert( $wpdb->sitecategories, array( 'site_id' => $network_id, 'cat_ID' => 1, 'cat_name' => __('Uncategorized'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
+
+		/* translators: Default link category slug */
+		$cat_slug = sanitize_title( _x( 'Blogroll', 'Default link category slug' ) );
+
+		$wpdb->insert( $wpdb->sitecategories, array( 'site_id' => $network_id, 'cat_ID' => 2, 'cat_name' => __('Blogroll'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
+
 		$site_admins = array( $site_user->user_login );
 		$users = get_users_of_blog();
 		if ( $users ) {
@@ -675,11 +675,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	} else {
 		$site_admins = get_site_option( 'site_admins' );
 	}
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'site_admins', '" . serialize( $site_admins ) . "' )", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'allowedthemes', '" . serialize( $allowed_themes ) . "' )", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'illegal_names', '" . serialize( array(  "www", "web", "root", "admin", "main", "invite", "administrator" ) ) . "' )", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'wpmu_upgrade_site', '{$wp_db_version}')", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'welcome_email', 'Dear User,
+
+	$welcome_email = __( 'Dear User,
 
 Your new SITE_NAME blog has been successfully set up at:
 BLOG_URL
@@ -692,17 +689,45 @@ Login Here: BLOG_URLwp-login.php
 We hope you enjoy your new blog.
 Thanks!
 
---The Team @ SITE_NAME')", $network_id ) );
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'first_post', 'Welcome to <a href=\"SITE_URL\">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' )", $network_id ) );
-	//@todo - network admins should have a method of editing the network siteurl (used for cookie hash)
-	$wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->sitemeta." (meta_id, site_id, meta_key, meta_value) VALUES (NULL, %d, 'siteurl', %s)", $network_id, get_option( 'siteurl' ) ) );
+--The Team @ SITE_NAME' );
+
+	$sitemeta = array(
+		'site_name' => $site_name,
+		'admin_email' => $site_user->user_email,
+		'admin_user_id' => $site_user->ID,
+		'registration' => 'none',
+		'upload_filetypes' => 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf',
+		'blog_upload_space' => 10,
+		'fileupload_maxk' => 1500,
+		'site_admins' => $site_admins,
+		'allowedthemes' => $allowed_themes,
+		'illegal_names' => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ),
+		'wpmu_upgrade_site' => $wp_db_version,
+		'welcome_email' => $welcome_email,
+		'first_post' => __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ),
+		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
+		'siteurl' => get_option( 'siteurl' )
+	);
+
+	$insert = '';
+	foreach ( $sitemeta as $meta_key => $meta_value ) {
+		$meta_key = $wpdb->escape( $meta_key );
+		if ( is_array( $meta_value ) )
+			$meta_value = serialize( $meta_value );
+		$meta_value = $wpdb->escape( $meta_value );
+		if ( !empty( $insert ) )
+			$insert .= ', ';
+		$insert .= "( $network_id, '$meta_key', '$meta_value')";
+	}
+	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
 	$current_site->domain = $domain;
 	$current_site->path = $base;
 	$current_site->site_name = ucfirst( $domain );
 
 	if ( !is_multisite() ) {
-		$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->blogs} (site_id, domain, path) VALUES (%s, %s, %s)", $network_id, $domain, $path ) );
+		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'domain' => $domain, 'path' => $path ) );
+
 		update_usermeta( $site_user->ID, 'source_domain', $domain );
 		update_usermeta( $site_user->ID, 'primary_blog', 1 );
 	}
@@ -726,11 +751,13 @@ Thanks!
 				$vhost_ok = true;
 		}
 		if ( !$vhost_ok ) {
-			$msg = "<h2>Warning! Wildcard DNS may not be configured correctly!</h2>";
-			$msg .= "<p>To use the subdomain feature of WordPress MU you must have a wildcard entry in your dns. The installer attempted to contact a random hostname ($hostname) on your domain but failed. It returned this error message:<br /> <strong>$errstr</strong></p><p>From the README.txt:</p>";
-			$msg .= "<p><blockquote> If you want to host blogs of the form http://blog.domain.tld/ where domain.tld is the domain name of your machine then you must add a wildcard record to your DNS records.<br />
-This usually means adding a '*' hostname record pointing at your webserver in your DNS configuration tool.  Matt has a more detailed <a href='http://ma.tt/2003/10/10/wildcard-dns-and-sub-domains/'>explanation</a> on his blog. If you still have problems, these <a href='http://mu.wordpress.org/forums/tags/wildcard'>forum messages</a> may help.</blockquote></p>";
-			$msg .= "<p>You can still use your site but any subdomain you create may not be accessible. This check is not foolproof so ignore if you know your dns is correct.</p>";
+			// @todo Update this to reflect the merge. Also: Multisite readme file, or remove the <blockquote> tags.
+			$msg = '<h2>' . esc_html__( 'Warning! Wildcard DNS may not be configured correctly!' ) . '</h2>';
+			$msg .= '<p>' . __( 'To use the subdomain feature of WordPress MU you must have a wildcard entry in your dns. The installer attempted to contact a random hostname ($hostname) on your domain but failed. It returned this error message:' ) . '<br />';
+			$msg .= '<br/><strong>' . $errstr . '</strong></p>';
+			$msg .= '<p>' . __( 'From the README.txt:' ) . '</p>';
+			$msg .= '<blockquote><p>' . __( "If you want to host blogs of the form http://blog.domain.tld/ where domain.tld is the domain name of your machine then you must add a wildcard record to your DNS records. This usually means adding a '*' hostname record pointing at your webserver in your DNS configuration tool.  Matt has a more detailed <a href='http://ma.tt/2003/10/10/wildcard-dns-and-sub-domains/'>explanation</a> on his blog. If you still have problems, these <a href='http://mu.wordpress.org/forums/tags/wildcard'>forum messages</a> may help." ) . '</p></blockquote>';
+			$msg .= '<p>' . __( 'You can still use your site but any subdomain you create may not be accessible. This check is not foolproof so ignore if you know your dns is correct.' ) . '</p>';
 		}
 	}
 	return $msg;

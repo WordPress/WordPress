@@ -1466,7 +1466,7 @@ function wpmu_welcome_notification($blog_id, $user_id, $password, $title, $meta 
 
 	$welcome_email = stripslashes( get_site_option( 'welcome_email' ) );
 	if ( $welcome_email == false )
-		$welcome_email = stripslashes( __( "Dear User,
+		$welcome_email = stripslashes( __( 'Dear User,
 
 Your new SITE_NAME blog has been successfully set up at:
 BLOG_URL
@@ -1476,11 +1476,10 @@ Username: USERNAME
 Password: PASSWORD
 Login Here: BLOG_URLwp-login.php
 
-We hope you enjoy your new weblog.
+We hope you enjoy your new blog.
 Thanks!
 
---The WordPress Team
-SITE_NAME" ) );
+--The Team @ SITE_NAME' ) );
 
 	$url = get_blogaddress_by_id($blog_id);
 	$user = new WP_User($user_id);
