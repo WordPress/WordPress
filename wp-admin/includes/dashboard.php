@@ -412,6 +412,7 @@ function wp_dashboard_quick_press() {
 		<p class="submit">
 			<input type="hidden" name="action" id="quickpost-action" value="post-quickpress-save" />
 			<input type="hidden" name="quickpress_post_ID" value="<?php echo (int) $post->ID; ?>" />
+			<input type="hidden" name="post_type" value="post" />
 			<?php wp_nonce_field('add-post'); ?>
 			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php esc_attr_e('Save Draft'); ?>" />
 			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
