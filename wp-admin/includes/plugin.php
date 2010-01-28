@@ -591,7 +591,7 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	$admin_page_hooks[$file] = sanitize_title( $menu_title );
 
 	$hookname = get_plugin_page_hookname( $file, '' );
-	if (!empty ( $function ) && !empty ( $hookname ))
+	if (!empty ( $function ) && !empty ( $hookname ) && current_user_can( $access_level ) )
 		add_action( $hookname, $function );
 
 	if ( empty($icon_url) ) {
