@@ -152,11 +152,8 @@ $PHP_SELF = $_SERVER['PHP_SELF'];
 if ( empty($PHP_SELF) || ( empty($PHP_SELF) && !is_subdomain_install() && $current_blog->path != '/' ) )
 	$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace("/(\?.*)?$/",'',$_SERVER["REQUEST_URI"]);
 
-wp_cache_init(); // need to init cache again after blog_id is set
-if ( function_exists('wp_cache_add_global_groups') ) { // need to add these again. Yes, it's an ugly hack
-	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss'));
-	wp_cache_add_non_persistent_groups(array( 'comment', 'counts', 'plugins' ));
-}
+// need to init cache again after blog_id is set
+wp_start_object_cache();
 
 ms_default_constants( 'uploads' );
 

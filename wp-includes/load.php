@@ -318,13 +318,15 @@ function wp_set_wpdb_vars() {
  * @since 3.0.0
  */
 function wp_start_object_cache() {
-	global $_wp_using_ext_object_cache;
-	if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-		require_once ( WP_CONTENT_DIR . '/object-cache.php' );
-		$_wp_using_ext_object_cache = true;
-	} else {
-		require_once ( ABSPATH . WPINC . '/cache.php' );
-		$_wp_using_ext_object_cache = false;
+	if ( ! function_exists( 'wp_cache_init' ) ) {
+		global $_wp_using_ext_object_cache;
+		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+			require_once ( WP_CONTENT_DIR . '/object-cache.php' );
+			$_wp_using_ext_object_cache = true;
+		} else {
+			require_once ( ABSPATH . WPINC . '/cache.php' );
+			$_wp_using_ext_object_cache = false;
+		}
 	}
 
 	wp_cache_init();
