@@ -1298,16 +1298,17 @@ function header_image() {
  * @uses Custom_Image_Header Sets up for $admin_header_callback for administration panel display.
  *
  * @param callback $header_callback Call on 'wp_head' action.
- * @param callback $admin_header_callback Call on administration panels.
+ * @param callback $admin_header_callback Call on custom header administration screen.
+ * @param callback $admin_image_div_callback Output a custom header image div on the custom header administration screen. Optional.
  */
-function add_custom_image_header($header_callback, $admin_header_callback) {
+function add_custom_image_header($header_callback, $admin_header_callback, $admin_image_div_callback = '') {
 	if ( ! empty($header_callback) )
 		add_action('wp_head', $header_callback);
 
 	if ( ! is_admin() )
 		return;
 	require_once(ABSPATH . 'wp-admin/custom-header.php');
-	$GLOBALS['custom_image_header'] =& new Custom_Image_Header($admin_header_callback);
+	$GLOBALS['custom_image_header'] =& new Custom_Image_Header($admin_header_callback, $admin_image_div_callback);
 	add_action('admin_menu', array(&$GLOBALS['custom_image_header'], 'init'));
 }
 

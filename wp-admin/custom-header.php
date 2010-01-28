@@ -25,14 +25,25 @@ class Custom_Image_Header {
 	var $admin_header_callback;
 
 	/**
+	 * Callback for header div.
+	 *
+	 * @var callback
+	 * @since unknown
+	 * @access private
+	 */
+	var $admin_image_div_callback;
+
+	/**
 	 * PHP4 Constructor - Register administration header callback.
 	 *
 	 * @since unknown
 	 * @param callback $admin_header_callback
+	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Image_Header
 	 */
-	function Custom_Image_Header($admin_header_callback) {
+	function Custom_Image_Header($admin_header_callback, $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
+		$this->admin_image_div_callback = $admin_image_div_callback;
 	}
 
 	/**
@@ -267,9 +278,9 @@ class Custom_Image_Header {
 	 * @since unknown
 	 */
 	function step_1() {
-		if ( $_GET['updated'] ) { ?>
+		if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
 <div id="message" class="updated">
-<p><?php _e('Header updated.') ?></p>
+<p><?php printf(__('Header updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
 </div>
 		<?php } ?>
 
@@ -277,11 +288,18 @@ class Custom_Image_Header {
 <?php screen_icon(); ?>
 <h2><?php _e('Your Header Image'); ?></h2>
 <p><?php _e('This is your header image. You can change the text color or upload and crop a new image.'); ?></p>
+<?php
 
+if ( $this->admin_image_div_callback ) {
+  call_user_func($this->admin_image_div_callback);
+} else {
+?>
 <div id="headimg" style="background-image: url(<?php esc_url(header_image()) ?>);">
 <h1><a onclick="return false;" href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>" id="name"><?php bloginfo('name'); ?></a></h1>
 <div id="desc"><?php bloginfo('description');?></div>
 </div>
+<?php } ?>
+
 <?php if ( !defined( 'NO_HEADER_TEXT' ) ) { ?>
 <form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
 <input type="button" class="button" value="<?php esc_attr_e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
@@ -455,14 +473,8 @@ class Custom_Image_Header {
 	 * @since unknown
 	 */
 	function finished() {
-		?>
-<div class="wrap">
-<h2><?php _e('Header complete!'); ?></h2>
-
-<p><?php _e('Visit your site and you should see the new header now.'); ?></p>
-
-</div>
-		<?php
+		$_GET['updated'] = 1;
+	  $this->step_1();
 	}
 
 	/**
