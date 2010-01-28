@@ -131,7 +131,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_author() && !empty($_GET['author']) && preg_match( '|^[0-9]+$|', $_GET['author'] ) ) {
 			$author = get_userdata(get_query_var('author'));
 			if ( false !== $author && $redirect_url = get_author_posts_url($author->ID, $author->user_nicename) )
-				$redirect['query'] = remove_query_arg('author', $redirect['author']);
+				$redirect['query'] = remove_query_arg('author', $redirect['query']);
 		}
 
 	// paging and feeds
