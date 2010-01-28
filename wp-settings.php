@@ -75,7 +75,7 @@ wp_start_object_cache();
 
 // Initialize multisite if enabled.
 if ( is_multisite() )
-	require( ABSPATH . WPINC . '/ms-load.php' );
+	require( ABSPATH . WPINC . '/ms-settings.php' );
 
 // Load early WordPress files.
 require( ABSPATH . WPINC . '/plugin.php' );
@@ -162,7 +162,7 @@ if ( is_multisite() ) {
 		die();
 	}
 	unset($file);
-	ms_network_cookies();
+	ms_default_constants( 'cookies' );
 }
 
 // Define constants after multisite is loaded. Cookie-related constants may be overridden in ms_network_cookies().

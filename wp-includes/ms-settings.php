@@ -1,24 +1,23 @@
 <?php
-
 /**
- * Whether a subdomain configuration is enabled
+ * Used to setup and fix common variables and include
+ * the Multisite procedural and class library.
  *
- * @since 3.0
+ * Allows for some configuration in wp-config.php (see ms-default-constants.php)
  *
- * @return bool True if subdomain configuration is enabled, false otherwise.
+ * @package WordPress
+ * @subpackage Multisite
  */
-function is_subdomain_install() {
-	if ( defined('VHOST') && VHOST == 'yes' )
-		return true;
 
-	return false;
-}
+/** Include Multisite initialization functions */
+require( ABSPATH . WPINC . '/ms-load.php' );
+require( ABSPATH . WPINC . '/ms-default-constants.php' );
+
+if ( defined( 'SUNRISE' ) )
+	include_once( WP_CONTENT_DIR . '/sunrise.php' );
 
 if ( isset( $current_site ) && isset( $current_blog ) )
 	return;
-
-// deprecated
-$wpmuBaseTablePrefix = $table_prefix;
 
 $domain = addslashes( $_SERVER['HTTP_HOST'] );
 if ( strpos( $domain, ':' ) ) {
@@ -44,99 +43,6 @@ else
 $path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $_SERVER['REQUEST_URI'] );
 $path = str_replace ( '/wp-admin/', '/', $path );
 $path = preg_replace( '|(/[a-z0-9-]+?/).*|', '$1', $path );
-
-function get_current_site_name( $current_site ) {
-	global $wpdb;
-	$current_site->site_name = wp_cache_get( $current_site->id . ':current_site_name', "site-options" );
-	if ( !$current_site->site_name ) {
-		$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
-		if ( $current_site->site_name == null )
-			$current_site->site_name = ucfirst( $current_site->domain );
-		wp_cache_set( $current_site->id . ':current_site_name', $current_site->site_name, 'site-options');
-	}
-	return $current_site;
-}
-
-function wpmu_current_site() {
-	global $wpdb, $current_site, $domain, $path, $sites, $cookie_domain;
-	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
-		$current_site->id = (defined( 'SITE_ID_CURRENT_SITE' ) ? constant('SITE_ID_CURRENT_SITE') : 1);
-		$current_site->domain = DOMAIN_CURRENT_SITE;
-		$current_site->path   = $path = PATH_CURRENT_SITE;
-		if ( defined( 'BLOGID_CURRENT_SITE' ) )
-			$current_site->blog_id = BLOGID_CURRENT_SITE;
-		if ( DOMAIN_CURRENT_SITE == $domain )
-			$current_site->cookie_domain = $cookie_domain;
-		elseif ( substr( $current_site->domain, 0, 4 ) == 'www.' )
-			$current_site->cookie_domain = substr( $current_site->domain, 4 );
-		else
-			$current_site->cookie_domain = $current_site->domain;
-
-		return $current_site;
-	}
-
-	$current_site = wp_cache_get( "current_site", "site-options" );
-	if ( $current_site )
-		return $current_site;
-
-	$wpdb->suppress_errors();
-	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
-	if ( count( $sites ) == 1 ) {
-		$current_site = $sites[0];
-		$path = $current_site->path;
-		$current_site->blog_id = $wpdb->get_var( "SELECT blog_id FROM {$wpdb->blogs} WHERE domain='{$current_site->domain}' AND path='{$current_site->path}'" );
-		$current_site = get_current_site_name( $current_site );
-		if ( substr( $current_site->domain, 0, 4 ) == 'www.' )
-			$current_site->cookie_domain = substr( $current_site->domain, 4 );
-		wp_cache_set( "current_site", $current_site, "site-options" );
-		return $current_site;
-	}
-	$path = substr( $_SERVER[ 'REQUEST_URI' ], 0, 1 + strpos( $_SERVER[ 'REQUEST_URI' ], '/', 1 ) );
-
-	if ( $domain == $cookie_domain )
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
-	else
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = %s ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
-	if ( $current_site == null ) {
-		if ( $domain == $cookie_domain )
-			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $domain ) );
-		else
-			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = '/' ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
-	}
-	if ( $current_site != null ) {
-		$path = $current_site->path;
-		$current_site->cookie_domain = $cookie_domain;
-		return $current_site;
-	} elseif ( is_subdomain_install() ) {
-		$sitedomain = substr( $domain, 1 + strpos( $domain, '.' ) );
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path) );
-		if ( $current_site != null ) {
-			$current_site->cookie_domain = $current_site->domain;
-			return $current_site;
-		}
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $sitedomain) );
-		if ( $current_site == null && defined( "WP_INSTALLING" ) == false ) {
-			if ( count( $sites ) == 1 ) {
-				$current_site = $sites[0];
-				die( "That blog does not exist. Please try <a href='http://{$current_site->domain}{$current_site->path}'>http://{$current_site->domain}{$current_site->path}</a>" );
-			} else {
-				die( "No WPMU site defined on this host. If you are the owner of this site, please check <a href='http://codex.wordpress.org/Debugging_WPMU'>Debugging WPMU</a> for further assistance." );
-			}
-		} else {
-			$path = '/';
-		}
-	} elseif ( defined( "WP_INSTALLING" ) == false ) {
-		if ( count( $sites ) == 1 ) {
-			$current_site = $sites[0];
-			die( "That blog does not exist. Please try <a href='http://{$current_site->domain}{$current_site->path}'>http://{$current_site->domain}{$current_site->path}</a>" );
-		} else {
-			die( "No WPMU site defined on this host. If you are the owner of this site, please check <a href='http://codex.wordpress.org/Debugging_WPMU'>Debugging WPMU</a> for further assistance." );
-		}
-	} else {
-		$path = '/';
-	}
-	return $current_site;
-}
 
 $current_site = wpmu_current_site();
 if ( !isset( $current_site->blog_id ) )
@@ -170,7 +76,8 @@ if ( is_subdomain_install() ) {
 	}
 }
 
-if ( defined( "WP_INSTALLING" ) == false && is_subdomain_install() && !is_object( $current_blog ) ) {
+if ( ! defined( 'WP_INSTALLING' ) && is_subdomain_install() && !is_object( $current_blog ) ) {
+
 	if ( defined( 'NOBLOGREDIRECT' ) ) {
 		$destination = constant( 'NOBLOGREDIRECT' );
 		if ( $destination == '%siteurl%' )
@@ -184,7 +91,7 @@ if ( defined( "WP_INSTALLING" ) == false && is_subdomain_install() && !is_object
 
 }
 
-if ( defined( "WP_INSTALLING" ) == false ) {
+if ( ! defined( 'WP_INSTALLING' ) ) {
 	if ( $current_site && $current_blog == null ) {
 		if ( $current_site->domain != $_SERVER[ 'HTTP_HOST' ] ) {
 			header( "Location: http://" . $current_site->domain . $current_site->path );
@@ -235,37 +142,22 @@ if ( '0' == $current_blog->public ) {
 	// This just means the blog shouldn't show up in google, etc. Only to registered members
 }
 
-function is_installed() {
-	global $wpdb, $domain, $path;
-	$base = stripslashes( $base );
-	if ( defined( "WP_INSTALLING" ) == false ) {
-		$check = $wpdb->get_results( "SELECT * FROM $wpdb->site" );
-		$msg = "If your blog does not display, please contact the owner of this site.<br /><br />If you are the owner of this site please check that MySQL is running properly and all tables are error free.<br /><br />";
-		if ( $check == false ) {
-			$msg .= "<strong>Database Tables Missing.</strong><br />Database tables are missing. This means that MySQL is either not running, WPMU was not installed properly, or someone deleted {$wpdb->site}. You really <em>should</em> look at your database now.<br />";
-		} else {
-			$msg .= '<strong>Could Not Find Blog!</strong><br />';
-			$msg .= "Searched for <em>" . $domain . $path . "</em> in " . DB_NAME . "::" . $wpdb->blogs . " table. Is that right?<br />";
-		}
-		$msg .= "<br />\n<h1>What do I do now?</h1>";
-		$msg .= "Read the <a target='_blank' href='http://codex.wordpress.org/Debugging_WPMU'>bug report</a> page. Some of the guidelines there may help you figure out what went wrong.<br />";
-		$msg .= "If you're still stuck with this message, then check that your database contains the following tables:<ul>
-			<li> $wpdb->blogs </li>
-			<li> $wpdb->users </li>
-			<li> $wpdb->usermeta </li>
-			<li> $wpdb->site </li>
-			<li> $wpdb->sitemeta </li>
-			<li> $wpdb->sitecategories </li>
-			</ul>";
-		$msg .= "If you suspect a problem please report it to the support forums but you must include the information asked for in the <a href='http://codex.wordpress.org/Debugging_WPMU'>WPMU bug reporting guidelines</a>!<br /><br />";
-		if ( is_file( 'release-info.txt' ) ) {
-			$msg .= 'Your bug report must include the following text: "';
-			$info = file( 'release-info.txt' );
-			$msg .= $info[ 4 ] . '"';
-		}
+$wpdb->blogid = $current_blog->blog_id;
+$wpdb->siteid = $current_blog->site_id;
+$wpdb->set_prefix($table_prefix); // set up blog tables
+$table_prefix = $wpdb->get_blog_prefix();
 
-		die( "<h1>Fatal Error</h1> " . $msg );
-	}
+// Fix empty PHP_SELF
+$PHP_SELF = $_SERVER['PHP_SELF'];
+if ( empty($PHP_SELF) || ( empty($PHP_SELF) && !is_subdomain_install() && $current_blog->path != '/' ) )
+	$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace("/(\?.*)?$/",'',$_SERVER["REQUEST_URI"]);
+
+wp_cache_init(); // need to init cache again after blog_id is set
+if ( function_exists('wp_cache_add_global_groups') ) { // need to add these again. Yes, it's an ugly hack
+	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss'));
+	wp_cache_add_non_persistent_groups(array( 'comment', 'counts', 'plugins' ));
 }
+
+ms_default_constants( 'uploads' );
 
 ?>
