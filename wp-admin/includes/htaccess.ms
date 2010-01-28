@@ -13,7 +13,7 @@ RewriteRule ^(.+)$ $1/ [R=301,L]
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule . - [L]
-RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-.*) $2 [L]
+RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
 RewriteRule . index.php [L]
 
