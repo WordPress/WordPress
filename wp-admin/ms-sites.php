@@ -76,13 +76,13 @@ switch ( $action ) {
 	// Edit blog
 	case "editblog":
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
-		$options = $wpdb->get_results( "SELECT * FROM {$blog_prefix}options WHERE option_name NOT LIKE '_transient_rss%' AND option_name NOT LIKE '%user_roles'", ARRAY_A );
-		$details = $wpdb->get_row( "SELECT * FROM {$wpdb->blogs} WHERE blog_id = '{$id}'", ARRAY_A );
+		$options = $wpdb->get_results( "SELECT * FROM {$blog_prefix}options WHERE option_name NOT LIKE '\_%' AND option_name NOT LIKE '%user_roles'" );
+		$details = get_blog_details($id);
 		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
 		?>
 		<div class="wrap">
 		<?php screen_icon(); ?>
-		<h2><?php _e('Edit Blog'); ?> - <a href='http://<?php echo $details['domain'].$details['path']; ?>'>http://<?php echo $details['domain'].$details['path']; ?></a></h2>
+		<h2><?php _e('Edit Blog'); ?> - <a href='http://<?php echo $details->domain . $details->path; ?>'>http://<?php echo $details->domain . $details->path; ?></a></h2>
 		<form method="post" action="ms-edit.php?action=updateblog">
 			<?php wp_nonce_field('editblog'); ?>
 			<input type="hidden" name="id" value="<?php echo esc_attr($id) ?>" />
@@ -93,54 +93,54 @@ switch ( $action ) {
 				<table class="form-table">
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Domain') ?></th>
-								<td>http://<input name="blog[domain]" type="text" id="domain" value="<?php echo $details['domain'] ?>" size="33" /></td>
+								<td>http://<input name="blog[domain]" type="text" id="domain" value="<?php echo $details->domain ?>" size="33" /></td>
 							</tr>
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Path') ?></th>
-								<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr($details['path']) ?>" size="40" style='margin-bottom:5px;' />
-								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if ( get_blog_option( $id, 'siteurl' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) || get_blog_option( $id, 'home' ) == preg_replace('|/+$|', '', 'http://' . $details['domain'] . $details['path']) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
+								<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr($details->path) ?>" size="40" style='margin-bottom:5px;' />
+								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if ( get_blog_option( $id, 'siteurl' ) == preg_replace('|/+$|', '', 'http://' . $details->domain . $details->path) || get_blog_option( $id, 'home' ) == preg_replace('|/+$|', '', 'http://' . $details->domain . $details->path) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e('Registered') ?></th>
-								<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr($details['registered']) ?>" size="40" /></td>
+								<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr($details->registered) ?>" size="40" /></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e('Last Updated') ?></th>
-								<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr($details['last_updated']) ?>" size="40" /></td>
+								<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr($details->last_updated) ?>" size="40" /></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e('Public') ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[public]' value='1' <?php if ( $details['public'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[public]' value='0' <?php if ( $details['public'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[public]' value='1' <?php if ( $details->public == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[public]' value='0' <?php if ( $details->public == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Archived' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[archived]' value='1' <?php if ( $details['archived'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[archived]' value='0' <?php if ( $details['archived'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[archived]' value='1' <?php if ( $details->archived == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[archived]' value='0' <?php if ( $details->archived == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Mature' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[mature]' value='1' <?php if ( $details['mature'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[mature]' value='0' <?php if ( $details['mature'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[mature]' value='1' <?php if ( $details->mature == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[mature]' value='0' <?php if ( $details->mature == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Spam' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[spam]' value='1' <?php if ( $details['spam'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[spam]' value='0' <?php if ( $details['spam'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[spam]' value='1' <?php if ( $details->spam == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[spam]' value='0' <?php if ( $details->spam == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e( 'Deleted' ); ?></th>
 								<td>
-									<input type='radio' style='width:20px;' name='blog[deleted]' value='1' <?php if ( $details['deleted'] == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
-									<input type='radio' style='width:20px;' name='blog[deleted]' value='0' <?php if ( $details['deleted'] == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
+									<input type='radio' style='width:20px;' name='blog[deleted]' value='1' <?php if ( $details->deleted == '1' ) echo 'checked="checked"'; ?> /> <?php _e('Yes') ?>
+									<input type='radio' style='width:20px;' name='blog[deleted]' value='0' <?php if ( $details->deleted == '0' ) echo 'checked="checked"'; ?> /> <?php _e('No') ?>
 								</td>
 							</tr>
 						</table>
@@ -153,31 +153,30 @@ switch ( $action ) {
 				<table class="form-table">
 							<?php
 							$editblog_default_role = 'subscriber';
-							foreach ( $options as $key => $val ) {
-								if ( $val['option_name'] == 'default_role' ) {
-									$editblog_default_role = $val['option_value'];
-								}
+							foreach ( $options as $option ) {
+								if ( $option->option_name == 'default_role' )
+									$editblog_default_role = $option->option_value;
 								$disabled = '';
-								if ( is_serialized($val['option_value']) ) {
-									if ( is_serialized_string($val['option_value']) ) {
-										$val['option_value'] = wp_specialchars(maybe_unserialize($val['option_value']), 'single');
+								if ( is_serialized($option->option_value) ) {
+									if ( is_serialized_string($option->option_value) ) {
+										$option->option_value = wp_specialchars(maybe_unserialize($option->option_value), 'single');
 									} else {
-										$val['option_value'] = "SERIALIZED DATA";
+										$option->option_value = "SERIALIZED DATA";
 										$disabled = ' disabled="disabled"';
 									}
 								}
-								if ( stristr($val['option_value'], "\r") || stristr($val['option_value'], "\n") || stristr($val['option_value'], "\r\n") ) {
+								if ( stristr($option->option_value, "\r") || stristr($option->option_value, "\n") || stristr($option->option_value, "\r\n") ) {
 								?>
 									<tr class="form-field">
-										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $val['option_name'] ) ) ?></th>
-										<td><textarea rows="5" cols="40" name="option[<?php echo $val['option_name'] ?>]" type="text" id="<?php echo $val['option_name'] ?>"<?php echo $disabled ?>><?php echo wp_specialchars( stripslashes( $val['option_value'] ), 1 ) ?></textarea></td>
+										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $option->option_name ) ) ?></th>
+										<td><textarea rows="5" cols="40" name="option[<?php echo esc_attr($option->option_name) ?>]" type="text" id="<?php echo esc_attr($option->option_name) ?>"<?php echo $disabled ?>><?php echo esc_html( $option->option_value ) ?></textarea></td>
 									</tr>
 								<?php
 								} else {
 								?>
 									<tr class="form-field">
-										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $val['option_name'] ) ) ?></th>
-										<td><input name="option[<?php echo $val['option_name'] ?>]" type="text" id="<?php echo $val['option_name'] ?>" value="<?php echo esc_attr( stripslashes( $val['option_value'] ), 1 ) ?>" size="40" <?php echo $disabled ?> /></td>
+										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $option->option_name ) ) ?></th>
+										<td><input name="option[<?php echo esc_attr($option->option_name) ?>]" type="text" id="<?php echo esc_attr($option->option_name) ?>" value="<?php echo esc_attr( $option->option_value ) ?>" size="40" <?php echo $disabled ?> /></td>
 									</tr>
 								<?php
 								}
@@ -194,17 +193,16 @@ switch ( $action ) {
 					$themes = get_themes();
 					$blog_allowed_themes = wpmu_get_blog_allowedthemes( $id );
 					$allowed_themes = get_site_option( "allowedthemes" );
-					if ( $allowed_themes == false ) {
+					if ( ! $allowed_themes )
 						$allowed_themes = array_keys( $themes );
-					}
 					$out = '';
-					foreach( $themes as $key => $theme ) {
+					foreach ( $themes as $key => $theme ) {
 						$theme_key = wp_specialchars( $theme['Stylesheet'] );
-						if ( isset($allowed_themes[$theme_key] ) == false ) {
+						if ( ! isset($allowed_themes[$theme_key] ) ) {
 							$checked = ( isset($blog_allowed_themes[ $theme_key ]) ) ? 'checked="checked"' : '';
 							$out .= '<tr class="form-field form-required">
-									<th title="'.htmlspecialchars( $theme["Description"] ).'" scope="row">'.$key.'</th>
-									<td><input name="theme['.$theme_key.']" type="checkbox" style="width:20px;" value="on" '.$checked.'/>' . __( 'Active' ) . '</td>
+									<th title="' . esc_attr( $theme["Description"] ).'" scope="row">' . esc_html($key) . '</th>
+									<td><input name="theme[' . esc_attr($theme_key) . ']" type="checkbox" style="width:20px;" value="on" '.$checked.'/>' . __( 'Active' ) . '</td>
 								</tr>';
 						}
 					}
@@ -212,10 +210,10 @@ switch ( $action ) {
 					if ( $out != '' ) {
 			?>
 			<div id="blogedit_blogthemes" class="postbox">
-			<h3 class='hndle'><span><?php _e('Blog Themes'); ?></span></h3>
+			<h3 class='hndle'><span><?php esc_html_e('Blog Themes'); ?></span></h3>
 			<div class="inside">
 				<table class="form-table">
-					<tr><th style="font-weight:bold;"><?php _e('Theme'); ?></th></tr>
+					<tr><th style="font-weight:bold;"><?php esc_html_e('Theme'); ?></th></tr>
 					<?php echo $out; ?>
 				</table>
 				<p class="submit" style="margin:-15px 0 -5px 230px;"><input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
@@ -241,7 +239,7 @@ switch ( $action ) {
 								?>
 								<td>
 									<select name="role[<?php echo $val->user_id ?>]" id="new_role"><?php
-										foreach( $editblog_roles as $role => $role_assoc ){
+										foreach ( $editblog_roles as $role => $role_assoc ){
 											$name = translate_with_context($role_assoc['name']);
 											$selected = ( $role == $existing_role ) ? 'selected="selected"' : '';
 											echo "<option {$selected} value=\"" . esc_attr($role) . "\">{$name}</option>";
@@ -250,10 +248,10 @@ switch ( $action ) {
 									</select>
 								</td>
 								<td>
-										<input type='text' name='user_password[<?php echo $val->user_id ?>]' />
+										<input type='text' name='user_password[<?php echo esc_attr($val->user_id) ?>]' />
 								</td>
 								<?php
-								echo '<td><input title="' . __('Click to remove user') . '" type="checkbox" name="blogusers[' . $val->user_id . ']" /></td>';
+								echo '<td><input title="' . __('Click to remove user') . '" type="checkbox" name="blogusers[' . esc_attr($val->user_id) . ']" /></td>';
 							} else {
 								echo "<td><strong>" . __ ('N/A') . "</strong></td><td><strong>" . __ ('N/A') . "</strong></td><td><strong>" . __('N/A') . "</strong></td>";
 							}
@@ -448,22 +446,35 @@ switch ( $action ) {
 			<?php
 			if ( $blog_list ) {
 				$bgcolor = $class = '';
-				$status_list = array( "archived" => "#fee", "spam" => "#faa", "deleted" => "#f55" );
+				$status_list = array( 'archived' => array( '#fee', __('Archived') ), 'spam' => array( '#faa', __('Spam') ), 'deleted' => array( '#f55', __('Deleted') ) );
 				foreach ( $blog_list as $blog ) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 					reset( $status_list );
 
-					$bgcolour = "";
+					$bgcolour = '';
+					$blog_states = array();
 					foreach ( $status_list as $status => $col ) {
 						if ( get_blog_status( $blog['blog_id'], $status ) == 1 ) {
-							$bgcolour = "style='background: $col'";
+							$bgcolour = "style='background: {$col[0]}'";
+							$blog_states[] = $col[1];
+						}
+					}
+					$blog_state = '';
+					if ( ! empty($blog_states) ) {
+						$state_count = count($blog_states);
+						$i = 0;
+						$blog_state .= ' - ';
+						foreach ( $blog_states as $state ) {
+							++$i;
+							( $i == $state_count ) ? $sep = '' : $sep = ', ';
+							$blog_state .= "<span class='post-state'>$state$sep</span>";
 						}
 					}
 					echo "<tr $bgcolour class='$class'>";
 
 					$blogname = ( is_subdomain_install() ) ? str_replace('.'.$current_site->domain, '', $blog['domain']) : $blog['path'];
 					foreach ( $posts_columns as $column_name=>$column_display_name ) {
-						switch($column_name) {
+						switch ( $column_name ) {
 							case 'id': ?>
 								<th scope="row" class="check-column">
 									<input type='checkbox' id='blog_<?php echo $blog['blog_id'] ?>' name='allblogs[]' value='<?php echo esc_attr($blog['blog_id']) ?>' />
@@ -476,36 +487,36 @@ switch ( $action ) {
 
 							case 'blogname': ?>
 								<td valign="top">
-									<a href="ms-sites.php?action=editblog&amp;id=<?php echo $blog['blog_id'] ?>" class="edit"><?php echo $blogname; ?></a>
+									<a href="ms-sites.php?action=editblog&amp;id=<?php echo $blog['blog_id'] ?>" class="edit"><?php echo $blogname; echo $blog_state?></a>
 									<br/>
 									<?php
-									$controlActions	= array();
-									$controlActions[]	= '<a href="ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
-									$controlActions[]	= "<a href='{$protocol}{$blog['domain']}{$blog['path']}wp-admin/' class='edit'>" . __('Backend') . '</a>';
+									$actions	= array();
+									$actions[]	= '<a href="ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
+									$actions[]	= "<a href='{$protocol}{$blog['domain']}{$blog['path']}wp-admin/' class='edit'>" . __('Backend') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
-										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
 									else
-										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the blog %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the blog %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "archived" ) == '1' )
-										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the blog %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the blog %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
 									else
-										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the blog %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the blog %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "spam" ) == '1' )
-										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the blog %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the blog %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
 									else
-										$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the blog %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the blog %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
 
-									$controlActions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the blog %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
+									$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the blog %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
 
-									$controlActions[]	= "<a href='http://{$blog['domain']}{$blog['path']}' rel='permalink'>" . __('Visit') . '</a>';
+									$actions[]	= "<a href='http://{$blog['domain']}{$blog['path']}' rel='permalink'>" . __('Visit') . '</a>';
 									?>
 
-									<?php if (count($controlActions)) : ?>
+									<?php if ( count($actions) ) : ?>
 									<div class="row-actions">
-										<?php echo implode(' | ', $controlActions); ?>
+										<?php echo implode(' | ', $actions); ?>
 									</div>
 									<?php endif; ?>
 								</td>
@@ -535,12 +546,10 @@ switch ( $action ) {
 											$blogusers = array_slice( $blogusers, 0, 5 );
 											$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . $protocol . $blog[ 'domain' ] . $blog[ 'path' ] . 'wp-admin/users.php">' . __( 'More' ) . '</a>';
 										}
-										foreach ( $blogusers as $key => $val ) {
+										foreach ( $blogusers as $key => $val )
 											echo '<a href="user-edit.php?user_id=' . $val->user_id . '">' . $val->user_login . '</a> ('.$val->user_email.')<br />';
-										}
-										if ( $blogusers_warning != '' ) {
+										if ( $blogusers_warning != '' )
 											echo '<strong>' . $blogusers_warning . '</strong><br />';
-										}
 									}
 									?>
 								</td>
