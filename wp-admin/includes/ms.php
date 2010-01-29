@@ -1018,15 +1018,6 @@ function check_wpmu_plugins_on_bulk_activate( $plugins ) {
 	}
 }
 
-function remove_edit_plugin_link( $action_links, $plugin_file, $plugin_data, $context ) {
-	foreach( $action_links as $t => $link ) {
-		if ( !strpos( $link, __( "Open this file in the Plugin Editor" ) ) )
-			$links[ $t ] = $link;
-	}
-	return $links;
-}
-add_filter( 'plugin_action_links', 'remove_edit_plugin_link', 10, 4 );
-
 function choose_primary_blog() {
 	global $current_user;
 	?>
