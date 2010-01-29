@@ -62,7 +62,7 @@ function wp_version_check() {
 	$body = trim( $response['body'] );
 	$body = str_replace(array("\r\n", "\r"), "\n", $body);
 	$new_options = array();
-	foreach( explode( "\n\n", $body ) as $entry) {
+	foreach ( explode( "\n\n", $body ) as $entry ) {
 		$returns = explode("\n", $entry);
 		$new_option = new stdClass();
 		$new_option->response = esc_attr( $returns[0] );
@@ -160,7 +160,7 @@ function wp_update_plugins() {
 	if ( is_wp_error( $raw_response ) )
 		return false;
 
-	if( 200 != $raw_response['response']['code'] )
+	if ( 200 != $raw_response['response']['code'] )
 		return false;
 
 	$response = unserialize( $raw_response['body'] );
@@ -189,10 +189,10 @@ function wp_update_plugins() {
 function wp_update_themes( ) {
 	global $wp_version;
 
-	if( defined( 'WP_INSTALLING' ) )
+	if ( defined( 'WP_INSTALLING' ) )
 		return false;
 
-	if( !function_exists( 'get_themes' ) )
+	if ( !function_exists( 'get_themes' ) )
 		require_once( ABSPATH . 'wp-includes/theme.php' );
 
 	$installed_themes = get_themes( );
@@ -208,13 +208,12 @@ function wp_update_themes( ) {
 	$themes = array();
 	$checked = array();
 	$themes['current_theme'] = (array) $current_theme;
-	foreach( (array) $installed_themes as $theme_title => $theme ) {
+	foreach ( (array) $installed_themes as $theme_title => $theme ) {
 		$themes[$theme['Stylesheet']] = array();
 		$checked[$theme['Stylesheet']] = $theme['Version'];
 
-		foreach( (array) $theme as $key => $value ) {
+		foreach ( (array) $theme as $key => $value )
 			$themes[$theme['Stylesheet']][$key] = $value;
-		}
 	}
 
 	$theme_changed = false;
@@ -234,7 +233,7 @@ function wp_update_themes( ) {
 		}
 	}
 
-	if( $time_not_changed && !$theme_changed )
+	if ( $time_not_changed && !$theme_changed )
 		return false;
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
@@ -251,14 +250,14 @@ function wp_update_themes( ) {
 
 	$raw_response = wp_remote_post( 'http://api.wordpress.org/themes/update-check/1.0/', $options );
 
-	if( is_wp_error( $raw_response ) )
+	if ( is_wp_error( $raw_response ) )
 		return false;
 
-	if( 200 != $raw_response['response']['code'] )
+	if ( 200 != $raw_response['response']['code'] )
 		return false;
 
 	$response = unserialize( $raw_response['body'] );
-	if( $response ) {
+	if ( $response ) {
 		$new_option->checked = $checked;
 		$new_option->response = $response;
 	}
@@ -307,7 +306,7 @@ function _maybe_update_plugins() {
  */
 function _maybe_update_themes( ) {
 	$current = get_site_transient( 'update_themes' );
-	if( isset( $current->last_checked ) && 43200 > ( time( ) - $current->last_checked ) )
+	if ( isset( $current->last_checked ) && 43200 > ( time( ) - $current->last_checked ) )
 		return;
 
 	wp_update_themes();
