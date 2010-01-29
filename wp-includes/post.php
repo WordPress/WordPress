@@ -685,7 +685,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * Optional $args contents:
  *
  * label - A descriptive name for the post type marked for translation. Defaults to $post_type.
- * public - Whether posts of this type should be shown in the admin UI. Defaults to true.
+ * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true.
  * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
