@@ -660,20 +660,6 @@ function secret_salt_warning() {
 }
 add_action( 'admin_notices', 'secret_salt_warning' );
 
-function profile_update_primary_blog() {
-	global $current_user;
-
-	$blogs = get_blogs_of_user( $current_user->id );
-	if ( isset( $blogs[ $_POST[ 'primary_blog' ] ] ) == false ) {
-		return false;
-	}
-
-	if ( isset( $_POST['primary_blog'] ) ) {
-		update_user_option( $current_user->id, 'primary_blog', (int) $_POST['primary_blog'], true );
-	}
-}
-add_action ( 'myblogs_update', 'profile_update_primary_blog' );
-
 function admin_notice_feed() {
 	global $current_user;
 	if ( substr( $_SERVER[ 'PHP_SELF' ], -19 ) != '/wp-admin/index.php' )
@@ -815,100 +801,10 @@ function choose_primary_blog() {
 	</table>
 	<?php
 }
-add_action ( 'myblogs_allblogs_options', 'choose_primary_blog' );
 
 if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) ) {
 	add_action( 'admin_init', 'update_profile_email' );
 }
-
-function blogs_listing_post() {
-	if ( !isset( $_POST[ 'action' ] ) ) {
-		return false;
-	}
-	switch( $_POST[ 'action' ] ) {
-		case "updateblogsettings":
-			do_action( 'myblogs_update' );
-		wp_redirect( admin_url( 'index.php?page=myblogs&updated=1' ) );
-		die();
-		break;
-	}
-}
-add_action( 'admin_init', 'blogs_listing_post' );
-
-function blogs_listing() {
-	global $current_user;
-
-	$blogs = get_blogs_of_user( $current_user->ID );
-	if ( !$blogs || ( is_array( $blogs ) && empty( $blogs ) ) ) {
-		wp_die( __( 'You must be a member of at least one blog to use this page.' ) );
-	}
-
-	if ( empty($title) )
-		$title = apply_filters( 'my_blogs_title', __( 'My Blogs' ) );
-	?>
-	<div class="wrap">
-	<?php if ( $_GET[ 'updated' ] ) { ?>
-		<div id="message" class="updated fade"><p><strong><?php _e( 'Your blog options have been updated.' ); ?></strong></p></div>
-	<?php } ?>
-	<?php screen_icon(); ?>
-	<h2><?php echo wp_specialchars( $title ); ?></h2>
-	<form id="myblogs" action="" method="post">
-	<?php
-	do_action( 'myblogs_allblogs_options' );
-	?><table class='widefat'> <?php
-	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
-	if ( $settings_html != '' ) {
-		echo "<tr><td valign='top'><h3>" . __( 'Global Settings' ) . "</h3></td><td>";
-		echo $settings_html;
-		echo "</td></tr>";
-	}
-	reset( $blogs );
-	$num = count( $blogs );
-	$cols = 1;
-	if ( $num >= 20 ) {
-		$cols = 4;
-	} elseif ( $num >= 10 ) {
-		$cols = 2;
-	}
-	$num_rows = ceil($num/$cols);
-	$split = 0;
-	for( $i = 1; $i <= $num_rows; $i++ ) {
-		$rows[] = array_slice( $blogs, $split, $cols );
-		$split = $split + $cols;
-	}
-
-	foreach( $rows as $row ) {
-		$c = $c == "alternate" ? "" : "alternate";
-		echo "<tr class='$c'>";
-		foreach( $row as $user_blog ) {
-			$t = $t == "border-right: 1px solid #ccc;" ? "" : "border-right: 1px solid #ccc;";
-			echo "<td valign='top' style='$t; width:50%'>";
-			echo "<h3>{$user_blog->blogname}</h3>";
-			echo "<p>" . apply_filters( "myblogs_blog_actions", "<a href='{$user_blog->siteurl}'>" . __( 'Visit' ) . "</a> | <a href='{$user_blog->siteurl}/wp-admin/'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
-			echo apply_filters( 'myblogs_options', '', $user_blog );
-			echo "</td>";
-		}
-		echo "</tr>";
-	}?>
-	</table>
-	<input type="hidden" name="action" value="updateblogsettings" />
-	<p>
-	 <input type="submit" class="button-primary" value="<?php _e('Update Options') ?>" name="submit" />
-	</p>
-	</form>
-	</div>
-	<?php
-}
-
-function blogs_page_init() {
-	global $current_user;
-	$all_blogs = get_blogs_of_user( $current_user->ID );
-	if ( $all_blogs != false && !empty( $all_blogs ) ) {
-		$title = apply_filters( 'my_blogs_title', __( 'My Blogs' ) );
-		add_submenu_page( 'index.php', $title, $title, 'read', 'myblogs', 'blogs_listing' );
-	}
-}
-add_action('admin_menu', 'blogs_page_init');
 
 function stripslashes_from_options( $blog_id ) {
 	global $wpdb;
