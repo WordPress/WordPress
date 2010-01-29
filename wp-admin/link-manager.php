@@ -43,9 +43,9 @@ if ( empty($order_by) )
 
 $title = __('Edit Links');
 $this_file = $parent_file = 'link-manager.php';
-include_once ("./admin-header.php");
+include_once ('./admin-header.php');
 
-if (!current_user_can('manage_links'))
+if ( ! current_user_can('manage_links') )
 	wp_die(__("You do not have sufficient permissions to edit the links for this blog."));
 
 switch ($order_by) {
@@ -73,7 +73,7 @@ switch ($order_by) {
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?> <a href="link-add.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'link'); ?></a> <?php
-if ( isset($_GET['s']) && $_GET['s'] )
+if ( !empty($_GET['s']) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( stripslashes($_GET['s']) ) ); ?>
 </h2>
 
