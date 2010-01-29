@@ -30,8 +30,6 @@ function ms_network_settings() {
 
 	if ( $current_site->site_name == false )
 		$current_site->site_name = ucfirst( $current_site->domain );
-
-	$wpdb->hide_errors();
 }
 
 function ms_network_plugins() {
@@ -66,8 +64,6 @@ function ms_network_plugins() {
 
 function ms_site_check() {
 	global $wpdb, $current_blog;
-
-	$wpdb->show_errors();
 
 	if ( '1' == $current_blog->deleted ) {
 			if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) ) {
@@ -129,7 +125,6 @@ function wpmu_current_site() {
 	if ( $current_site )
 		return $current_site;
 
-	$wpdb->suppress_errors();
 	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
 	if ( count( $sites ) == 1 ) {
 		$current_site = $sites[0];

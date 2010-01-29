@@ -115,8 +115,6 @@ if ( ! $blog_id ) {
     }
 }
 
-$wpdb->suppress_errors( false );
-
 $wpdb->blogid = $current_blog->blog_id;
 $wpdb->siteid = $current_blog->site_id;
 $wpdb->set_prefix( $table_prefix ); // set up blog tables
