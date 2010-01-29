@@ -263,6 +263,52 @@ function is_plugin_active( $plugin ) {
 }
 
 /**
+ * Check whether the plugin is active for the entire network.
+ *
+ * @since 3.0.0
+ *
+ * @param string $plugin Base plugin path from plugins directory.
+ * @return bool True, if active for the network, otherwise false.
+ */
+function is_plugin_active_for_network( $plugin ){
+	if ( !is_multisite() )
+		return false;
+
+	$plugins = get_site_option( 'active_sitewide_plugins');
+	if ( isset($plugins[$plugin]) )
+		return true;
+
+	return false;
+}
+
+/**
+ * Checks for "Site Wide Only: true" in the plugin header to see if this should
+ * be activated as a network wide MU plugin.
+ *
+ * @since 3.0.0
+ *
+ * @todo Use API for getting arbitrary plugin headers.
+ *
+ * @param $file Plugin to check
+ * $return bool True if plugin is network only, false otherwise.
+ */
+function is_network_only_plugin( $file ) {
+	/* Open the plugin file for reading to check if this is a ms-plugin. */
+	$fp = @fopen( WP_PLUGIN_DIR . '/' . $file, 'r' );
+
+	/* Pull only the first 8kiB of the file in. */
+	$plugin_data = @fread( $fp, 8192 );
+
+	/* PHP will close file handle, but we are good citizens. */
+	@fclose($fp);
+
+	if ( preg_match( '|Site Wide Only:(.*)true$|mi', $plugin_data ) )
+		return true;
+
+	return false;
+}
+
+/**
  * Attempts activation of plugin in a "sandbox" and redirects on success.
  *
  * A plugin that is already activated will not attempt to be activated again.
@@ -284,11 +330,18 @@ function is_plugin_active( $plugin ) {
  *
  * @param string $plugin Plugin path to main plugin file with plugin data.
  * @param string $redirect Optional. URL to redirect to.
+ * @param bool $network_wide Whether to enable the plugin for all sites in the network or just the current site.  Multisite only. Default is false.
  * @return WP_Error|null WP_Error on invalid file or null on success.
  */
-function activate_plugin( $plugin, $redirect = '' ) {
-	$current = get_option( 'active_plugins', array() );
+function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 	$plugin  = plugin_basename( trim( $plugin ) );
+
+	if ( is_multisite() && ( $network_wide || is_network_only_plugin($plugin) ) ) {
+		$network_wide = true;
+		$current = get_site_option( 'active_sitewide_plugins', array() );
+	} else {
+		$current = get_option( 'active_plugins', array() );
+	}
 
 	$valid = validate_plugin($plugin);
 	if ( is_wp_error($valid) )
@@ -299,10 +352,15 @@ function activate_plugin( $plugin, $redirect = '' ) {
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
 		@include(WP_PLUGIN_DIR . '/' . $plugin);
-		$current[] = $plugin;
-		sort($current);
 		do_action( 'activate_plugin', trim( $plugin) );
-		update_option('active_plugins', $current);
+		if ( $network_wide ) {
+			$current[$plugin] = time();
+			update_site_option( 'active_sitewide_plugins', $current );
+		} else {
+			$current[] = $plugin;
+			sort($current);
+			update_option('active_plugins', $current);
+		}
 		do_action( 'activate_' . trim( $plugin ) );
 		do_action( 'activated_plugin', trim( $plugin) );
 		ob_end_clean();
@@ -323,7 +381,9 @@ function activate_plugin( $plugin, $redirect = '' ) {
  * @param bool $silent Optional, default is false. Prevent calling deactivate hook.
  */
 function deactivate_plugins( $plugins, $silent = false ) {
+	$network_current = get_site_option( 'active_sitewide_plugins', array() );
 	$current = get_option( 'active_plugins', array() );
+	$do_blog = $do_network = false;
 
 	foreach ( (array) $plugins as $plugin ) {
 		$plugin = plugin_basename($plugin);
@@ -332,10 +392,18 @@ function deactivate_plugins( $plugins, $silent = false ) {
 		if ( ! $silent )
 			do_action( 'deactivate_plugin', trim( $plugin ) );
 
-		$key = array_search( $plugin, (array) $current );
+		if ( is_plugin_active_for_network($plugin) ) {
+			// Deactivate network wide
+			$do_network = true;
+			unset($network_current[$plugin]);
+		} else {
+			// Deactivate for this blog only
+			$do_blog = true;
+			$key = array_search( $plugin, (array) $current );
 
-		if ( false !== $key )
-			array_splice( $current, $key, 1 );
+			if ( false !== $key )
+				array_splice( $current, $key, 1 );
+		}
 
 		//Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
 		if ( ! $silent ) {
@@ -344,7 +412,10 @@ function deactivate_plugins( $plugins, $silent = false ) {
 		}
 	}
 
-	update_option('active_plugins', $current);
+	if ( $do_blog )
+		update_option('active_plugins', $current);
+	if ( $do_network )
+		update_site_option( 'active_sitewide_plugins', $network_current );
 }
 
 /**

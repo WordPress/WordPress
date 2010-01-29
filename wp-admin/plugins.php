@@ -27,7 +27,7 @@ $default_status = get_user_option('plugins_last_view');
 if ( empty($default_status) )
 	$default_status = 'all';
 $status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : $default_status;
-if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'search')) )
+if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'network', 'search')) )
 	$status = 'all';
 if ( $status != $default_status && 'search' != $status )
 	update_usermeta($current_user->ID, 'plugins_last_view', $status);
@@ -38,6 +38,10 @@ $page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
 $_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate', 'activate-multi', 'deactivate', 'deactivate-multi', '_error_nonce'), $_SERVER['REQUEST_URI']);
 
 if ( !empty($action) ) {
+	$network_wide = false;
+	if ( isset($_GET['networkwide']) && is_multisite() && is_super_admin() )
+		$network_wide = true;
+
 	switch ( $action ) {
 		case 'activate':
 			if ( ! current_user_can('activate_plugins') )
@@ -45,7 +49,7 @@ if ( !empty($action) ) {
 
 			check_admin_referer('activate-plugin_' . $plugin);
 
-			$result = activate_plugin($plugin, 'plugins.php?error=true&plugin=' . $plugin);
+			$result = activate_plugin($plugin, 'plugins.php?error=true&plugin=' . $plugin, $network_wide);
 			if ( is_wp_error( $result ) )
 				wp_die($result);
 
@@ -71,7 +75,7 @@ if ( !empty($action) ) {
 				exit;
 			}
 
-			activate_plugins($plugins, 'plugins.php?error=true');
+			activate_plugins($plugins, 'plugins.php?error=true', $network_wide);
 
 			$recent = (array)get_option('recently_activated');
 			foreach ( $plugins as $plugin => $time)
@@ -340,6 +344,7 @@ $inactive_plugins = array();
 $recent_plugins = array();
 $recently_activated = get_option('recently_activated', array());
 $upgrade_plugins = array();
+$network_plugins = array();
 
 set_transient( 'plugin_slugs', array_keys($all_plugins), 86400 );
 
@@ -353,12 +358,14 @@ $current = get_site_transient( 'update_plugins' );
 
 foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
-	//Translate, Apply Markup, Sanitize HTML
+	// Translate, Apply Markup, Sanitize HTML
 	$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
 	$all_plugins[ $plugin_file ] = $plugin_data;
 
-	//Filter into individual sections
-	if ( is_plugin_active($plugin_file) ) {
+	// Filter into individual sections
+	if ( is_plugin_active_for_network($plugin_file) && is_super_admin() ) {
+		$network_plugins[ $plugin_file ] = $plugin_data;
+	} elseif ( is_plugin_active($plugin_file) ) {
 		$active_plugins[ $plugin_file ] = $plugin_data;
 	} else {
 		if ( isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
@@ -378,6 +385,7 @@ $total_inactive_plugins = count($inactive_plugins);
 $total_active_plugins = count($active_plugins);
 $total_recent_plugins = count($recent_plugins);
 $total_upgrade_plugins = count($upgrade_plugins);
+$total_network_plugins = count($network_plugins);
 
 //Searching.
 if ( isset($_GET['s']) ) {
@@ -408,7 +416,7 @@ if ( empty($$plugin_array_name) && $status != 'all' ) {
 
 $plugins = &$$plugin_array_name;
 
-//Paging.
+// Paging.
 $total_this_page = "total_{$status}_plugins";
 $total_this_page = $$total_this_page;
 $plugins_per_page = (int) get_user_option( 'plugins_per_page' );
@@ -470,13 +478,25 @@ function print_plugins_table($plugins, $context = '') {
 	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
 		$actions = array();
 		$is_active = is_plugin_active($plugin_file);
+		$is_active_for_network = is_plugin_active_for_network($plugin_file);
 
-		if ( $is_active )
-			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
-		else
+		if ( $is_active_for_network && !is_super_admin() )
+			continue;
+
+		if ( $is_active ) {
+			if ( $is_active_for_network ) {
+				if ( is_super_admin() )
+					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Network Deactivate') . '</a>';
+			} else {
+				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
+			}
+		} else {
 			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
+			if ( is_multisite() && is_super_admin() )
+				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
+		}
 
-		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
+		if ( !is_multisite() && current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 			$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
 
 		if ( ! $is_active && current_user_can('delete_plugins') )
@@ -591,6 +611,10 @@ if ( ! empty($recent_plugins) ) {
 if ( ! empty($inactive_plugins) ) {
 	$class = ( 'inactive' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=inactive' $class>" . sprintf( _n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', $total_inactive_plugins ), number_format_i18n( $total_inactive_plugins ) ) . '</a>';
+}
+if ( ! empty($network_plugins) ) {
+	$class = ( 'network' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=network' $class>" . sprintf( _n( 'Network <span class="count">(%s)</span>', 'Network <span class="count">(%s)</span>', $total_network_plugins ), number_format_i18n( $total_network_plugins ) ) . '</a>';
 }
 if ( ! empty($upgrade_plugins) ) {
 	$class = ( 'upgrade' == $status ) ? ' class="current"' : '';
