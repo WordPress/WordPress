@@ -1752,18 +1752,6 @@ function wordpressmu_wp_mail_from( $email ) {
 	return $email;
 }
 
-function mu_locale( $locale ) {
-	if ( defined('WP_INSTALLING') == false ) {
-		$mu_locale = get_option('WPLANG');
-		if ( $mu_locale === false )
-			$mu_locale = get_site_option('WPLANG');
-
-		if ( $mu_locale !== false )
-			return $mu_locale;
-	}
-	return $locale;
-}
-
 function signup_nonce_fields() {
 	$id = mt_rand();
 	echo "<input type='hidden' name='signup_form_id' value='{$id}' />";

@@ -14,9 +14,6 @@ add_action ( 'wpmu_new_blog', 'newblog_notify_siteadmin', 10, 2 );
 // Register Nonce
 add_action ( 'signup_hidden_fields', 'signup_nonce_fields' );
 
-// Locale
-add_filter ( 'locale', 'mu_locale' );
-
 // Template
 add_action ( 'template_redirect', 'maybe_redirect_404' );
 add_filter ( 'allowed_redirect_hosts', 'redirect_this_site' );

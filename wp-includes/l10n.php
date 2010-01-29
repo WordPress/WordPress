@@ -35,6 +35,16 @@ function get_locale() {
 	if ( defined( 'WPLANG' ) )
 		$locale = WPLANG;
 
+	// If multisite, check options.
+	if ( is_multisite() && !defined('WP_INSTALLING') ) {
+		$ms_locale = get_option('WPLANG');
+		if ( $ms_locale === false )
+			$ms_locale = get_site_option('WPLANG');
+
+		if ( $ms_locale !== false )
+			$locale = $ms_locale;
+	}
+
 	if ( empty( $locale ) )
 		$locale = 'en_US';
 
