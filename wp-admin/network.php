@@ -178,10 +178,10 @@ function printstep1form( $rewrite_enabled = false ) {
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
 		<?php if ( !$invalid_host ) { ?>
-					<p><?php printf( __( 'This will be the Internet address of your site: <strong><em>%s</em></strong>.' ), $hostname ); ?></p>
+					<?php printf( __( 'This will be the Internet address of your site: <strong><em>%s</em></strong>.' ), $hostname ); ?>
 					<input type='hidden' name='basedomain' value='<?php echo esc_attr( $hostname ); ?>' />
 		<?php } else { ?>
-					<p><?php _e( 'Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.' ); ?></p>
+					<?php _e( 'Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.' ); ?>
 		<?php } ?>
 				</td>
 			</tr>
