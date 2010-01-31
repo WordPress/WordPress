@@ -113,8 +113,8 @@ wp_enqueue_script('password-strength-meter');
 
 require_once ('admin-header.php');
 
-if ( is_multisite() ) {
-	switch( $_GET[ 'update' ] ) {
+if ( isset($_GET[ 'update' ]) && is_multisite() ) {
+	switch ( $_GET[ 'update' ] ) {
 		case "newuserconfimation":
 			$messages[] = '<div id="message" class="updated fade"><p>' . __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.') . '</p></div>';
 			break;
