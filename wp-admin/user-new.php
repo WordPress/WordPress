@@ -39,9 +39,6 @@ Please click the following link to activate your user account:
 if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	check_admin_referer('add-user');
 
-	if ( ! current_user_can('create_users') )
-		wp_die(__('You can&#8217;t create users.'));
-
 	if ( !is_multisite() ) {
 		$user_id = add_user();
 
