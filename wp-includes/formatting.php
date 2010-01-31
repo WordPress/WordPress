@@ -2825,7 +2825,7 @@ function wp_strip_all_tags($string, $remove_breaks = false) {
  * check for invalid UTF-8,
  * Convert single < characters to entity,
  * strip all tags,
- * remove line breaks, tabs and extra whitre space,
+ * remove line breaks, tabs and extra white space,
  * strip octets.
  *
  * @since 2.9
