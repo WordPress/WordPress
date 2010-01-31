@@ -710,7 +710,19 @@ function get_archive_template() {
  * @return string
  */
 function get_author_template() {
-	return get_query_template('author');
+	$author_id = absint( get_query_var( 'author' ) );
+	$author = get_user_by( 'id', $author_id )->user_nicename;
+
+	$templates = array();
+
+	if ( $author )
+		$templates[] = "author-{$author}.php";
+	if ( $author_id )
+		$templates[] = "author-{$author_id}.php";
+	$templates[] = 'author.php';
+
+	$template = locate_template( $templates );
+	return apply_filters( 'author_template', $template );
 }
 
 /**
