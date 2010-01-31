@@ -51,13 +51,13 @@ if (isset($_GET['updated'])) {
 					update_site_option( 'registration', 'all' );
 				?>
 				<td>
-					<label><input name="registration" type="radio" id="registration1" value='none' <?php echo get_site_option('registration') == 'none' ? 'checked="checked"' : ''; ?> /> <?php _e('Disabled'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration2" value='all' <?php echo get_site_option('registration') == 'all' ? 'checked="checked"' : ''; ?> /> <?php _e('Enabled. Blogs and user accounts can be created.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration3" value='user' <?php echo get_site_option('registration') == 'user' ? 'checked="checked"' : ''; ?> /> <?php _e('Only user account can be created.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration4" value='blog' <?php echo get_site_option('registration') == 'blog' ? 'checked="checked"' : ''; ?> /> <?php _e('Only logged in users can create new blogs.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Disabled'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration2" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Enabled. Blogs and user accounts can be created.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration3" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('Only user account can be created.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration4" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Only logged in users can create new blogs.'); ?></label><br />
 					<p><?php _e('Disable or enable registration and who or what can be registered. (Default=all)'); ?></p>
 					<?php if ( is_subdomain_install() ) {
-						echo "<p>" . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non existant blog.') . "</p>";
+						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non existant blog.') . '</p>';
 					} ?>
 				</td>
 			</tr>
@@ -69,8 +69,8 @@ if (isset($_GET['updated'])) {
 					update_site_option( 'registrationnotification', 'yes' );
 				?>
 				<td>
-					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes' <?php echo get_site_option('registrationnotification') == 'yes' ? 'checked="checked"' : ''; ?> /> <?php _e('Yes'); ?><br />
-					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no' <?php echo get_site_option('registrationnotification') == 'no' ? 'checked="checked"' : ''; ?> /> <?php _e('No'); ?><br />
+					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes' <?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
+					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no' <?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
 					<?php _e('Send the site admin an email notification every time someone registers a blog or user account.') ?>
 				</td>
 			</tr>
@@ -79,8 +79,8 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><?php _e('Add New Users') ?></th>
 				<td>
 					<a name='addnewusers'></a>
-					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php echo get_site_option('add_new_users') == 1 ? 'checked="checked"' : ''; ?> /> <?php _e('Yes'); ?><br />
-					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php echo get_site_option('add_new_users') == 0 ? 'checked="checked"' : ''; ?> /> <?php _e('No'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users') ) ?> /> <?php _e('Yes'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), false) ?> /> <?php _e('No'); ?><br />
 					<?php _e('Allow blog administrators to add new users to their blog via the Users->Add New page.') ?>
 				</td>
 			</tr>
@@ -202,16 +202,16 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Upload media button') ?></th>
 				<?php $mu_media_buttons = get_site_option( 'mu_media_buttons', array() ); ?>
-				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1' <?php if ( $mu_media_buttons[ 'image' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Images' ); ?></label><br />
-				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1' <?php if ( $mu_media_buttons[ 'video' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Videos' ); ?></label><br />
-				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1' <?php if ( $mu_media_buttons[ 'audio' ] ) { echo 'checked=checked '; } ?>/> <?php _e( 'Music' ); ?></label><br />
+				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1' <?php checked( !empty($mu_media_buttons[ 'image' ]) ) ?>/> <?php _e( 'Images' ); ?></label><br />
+				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1' <?php checked( !empty($mu_media_buttons[ 'video' ]) ) ?>/> <?php _e( 'Videos' ); ?></label><br />
+				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1' <?php checked( !empty($mu_media_buttons[ 'audio' ]) ) ?>/> <?php _e( 'Music' ); ?></label><br />
 				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the "Upload File Types" below as well.' ); ?></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Blog upload space check') ?></th>
 				<td>
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php if ( !get_site_option( 'upload_space_check_disabled' ) ) { echo 'checked=checked '; } ?>/> <?php _e( 'Enabled' ); ?></label><br />
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php if ( get_site_option( 'upload_space_check_disabled' ) ) { echo 'checked=checked '; } ?>/> <?php _e( 'Disabled' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), false ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
 				<?php _e( 'By default there is a limit on the total size of files uploaded but it can be disabled here.' ); ?></td>
 			</tr>
 			<tr valign="top">
@@ -252,12 +252,13 @@ if (isset($_GET['updated'])) {
 		<h3><?php _e('Site Wide Settings <em>(These settings may be overridden by blog owners)</em>') ?></h3>
 		<table class="form-table">
 			<?php
+			$lang_files = array();
 			if ( is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) )
 				while( ( $lang_file = readdir( $dh ) ) !== false )
 					if ( substr( $lang_file, -3 ) == '.mo' )
 						$lang_files[] = $lang_file;
 			$lang = get_site_option('WPLANG');
-			if ( is_array($lang_files) && !empty($lang_files) ) {
+			if ( !empty($lang_files) ) {
 				?>
 				<tr valign="top">
 					<th width="33%"><?php _e('Default Language') ?></th>
@@ -272,7 +273,7 @@ if (isset($_GET['updated'])) {
 			?>
 		</table>
 
-		<h3><?php _e('Menus <em>(Enable or disable WP Backend Menus)</em>') ?></h3>
+		<h3><?php _e('Menus <em>(Enable or disable WordPress Backend Menus)</em>') ?></h3>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e("Menu"); ?></th>
@@ -280,10 +281,10 @@ if (isset($_GET['updated'])) {
 			</tr>
 			<a name='menu'></a>
 			<?php
-			$menu_perms = get_site_option( "menu_items" );
+			$menu_perms = get_site_option( 'menu_items' );
 			$menu_items = apply_filters( 'mu_menu_items', array('plugins' => __('Plugins')) );
 			foreach ( (array) $menu_items as $key => $val ) {
-				echo "<tr><th scope='row'>" . wp_specialchars($val) . "</th><td><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . (( $menu_perms[$key] == '1' ) ? ' checked="checked"' : '') . " /></td></tr>";
+				echo "<tr><th scope='row'>" . wp_specialchars($val) . "</th><td><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . checked($menu_perms[$key], '1', false) . " /></td></tr>";
 			}
 			?>
 		</table>
