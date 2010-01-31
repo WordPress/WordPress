@@ -657,15 +657,32 @@ function uninstall_plugin($plugin) {
 // Menu
 //
 
-function add_menu_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '', $position = NULL ) {
+/**
+ * Add a top level menu page
+ * 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ * @param string $icon_url The url to the icon to be used for this menu
+ * @param int $position The position in the menu order this one should appear
+ */
+function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = NULL ) {
 	global $menu, $admin_page_hooks, $_registered_pages;
 
-	$file = plugin_basename( $file );
+	$menu_slug = plugin_basename( $menu_slug );
 
-	$admin_page_hooks[$file] = sanitize_title( $menu_title );
+	$admin_page_hooks[$menu_slug] = sanitize_title( $menu_title );
 
-	$hookname = get_plugin_page_hookname( $file, '' );
-	if (!empty ( $function ) && !empty ( $hookname ) && current_user_can( $access_level ) )
+	$hookname = get_plugin_page_hookname( $menu_slug, '' );
+	if (!empty ( $function ) && !empty ( $hookname ) && current_user_can( $capability ) )
 		add_action( $hookname, $function );
 
 	if ( empty($icon_url) ) {
@@ -674,7 +691,7 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 		$icon_url = 'https://' . substr($icon_url, 7);
 	}
 
-	$new_menu = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
+	$new_menu = array ( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
 	if ( NULL === $position  ) {
 		$menu[] = $new_menu;
@@ -687,37 +704,85 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	return $hookname;
 }
 
-function add_object_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
+/**
+ * Add a top level menu page in the 'objects' section
+ * 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ * @param string $icon_url The url to the icon to be used for this menu
+ */
+function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
 	global $_wp_last_object_menu;
 
 	$_wp_last_object_menu++;
 
-	return add_menu_page($page_title, $menu_title, $access_level, $file, $function, $icon_url, $_wp_last_object_menu);
+	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $_wp_last_object_menu);
 }
 
-function add_utility_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
+/**
+ * Add a top level menu page in the 'utility' section
+ * 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ * @param string $icon_url The url to the icon to be used for this menu
+ */
+function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
 	global $_wp_last_utility_menu;
 
 	$_wp_last_utility_menu++;
 
-	return add_menu_page($page_title, $menu_title, $access_level, $file, $function, $icon_url, $_wp_last_utility_menu);
+	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $_wp_last_utility_menu);
 }
 
-function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $file, $function = '' ) {
+/**
+ * Add a sub menu page
+ * 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $parent_slug The slug name for the parent menu (or the file name of a standard WordPress admin page)
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	global $submenu;
 	global $menu;
 	global $_wp_real_parent_file;
 	global $_wp_submenu_nopriv;
 	global $_registered_pages;
 
-	$file = plugin_basename( $file );
+	$menu_slug = plugin_basename( $menu_slug );
+	$parent_slug = plugin_basename( $parent_slug);
 
-	$parent = plugin_basename( $parent);
-	if ( isset( $_wp_real_parent_file[$parent] ) )
-		$parent = $_wp_real_parent_file[$parent];
+	if ( isset( $_wp_real_parent_file[$parent_slug] ) )
+		$parent_slug = $_wp_real_parent_file[$parent_slug];
 
-	if ( !current_user_can( $access_level ) ) {
-		$_wp_submenu_nopriv[$parent][$file] = true;
+	if ( !current_user_can( $capability ) ) {
+		$_wp_submenu_nopriv[$parent_slug][$menu_slug] = true;
 		return false;
 	}
 
@@ -725,79 +790,218 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 	// as the first item in the submenu.  If the submenu file is the same as the
 	// parent file someone is trying to link back to the parent manually.  In
 	// this case, don't automatically add a link back to avoid duplication.
-	if (!isset( $submenu[$parent] ) && $file != $parent  ) {
+	if (!isset( $submenu[$parent_slug] ) && $menu_slug != $parent_slug  ) {
 		foreach ( (array)$menu as $parent_menu ) {
-			if ( $parent_menu[2] == $parent && current_user_can( $parent_menu[1] ) )
-				$submenu[$parent][] = $parent_menu;
+			if ( $parent_menu[2] == $parent_slug && current_user_can( $parent_menu[1] ) )
+				$submenu[$parent_slug][] = $parent_menu;
 		}
 	}
 
-	$submenu[$parent][] = array ( $menu_title, $access_level, $file, $page_title );
+	$submenu[$parent_slug][] = array ( $menu_title, $capability, $menu_slug, $page_title );
 
-	$hookname = get_plugin_page_hookname( $file, $parent);
+	$hookname = get_plugin_page_hookname( $menu_slug, $parent_slug);
 	if (!empty ( $function ) && !empty ( $hookname ))
 		add_action( $hookname, $function );
 
 	$_registered_pages[$hookname] = true;
 	// backwards-compatibility for plugins using add_management page.  See wp-admin/admin.php for redirect from edit.php to tools.php
-	if ( 'tools.php' == $parent )
-		$_registered_pages[get_plugin_page_hookname( $file, 'edit.php')] = true;
+	if ( 'tools.php' == $parent_slug )
+		$_registered_pages[get_plugin_page_hookname( $menu_slug, 'edit.php')] = true;
 
 	return $hookname;
 }
 
 /**
  * Add sub menu page to the tools main menu.
- *
- * @param string $page_title
- * @param unknown_type $menu_title
- * @param unknown_type $access_level
- * @param unknown_type $file
- * @param unknown_type $function
- * @return unknown
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
  */
-function add_management_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'tools.php', $page_title, $menu_title, $access_level, $file, $function );
+function add_management_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'tools.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_options_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'options-general.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the options main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'options-general.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_theme_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'themes.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the themes main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'themes.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_users_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+/**
+ * Add sub menu page to the Users/Profile main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	if ( current_user_can('edit_users') )
 		$parent = 'users.php';
 	else
 		$parent = 'profile.php';
-	return add_submenu_page( $parent, $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( $parent, $page_title, $menu_title, $capability, $menu_slug, $function );
+}
+/**
+ * Add sub menu page to the Dashboard main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'index.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_dashboard_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'index.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the posts main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'edit.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_posts_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'edit.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the media main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'upload.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_media_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'upload.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the links main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'link-manager.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_links_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'link-manager.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the pages main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'edit.php?post_type=page', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
-function add_pages_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'edit.php?post_type=page', $page_title, $menu_title, $access_level, $file, $function );
-}
-
-function add_comments_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $access_level, $file, $function );
+/**
+ * Add sub menu page to the comments main menu.
+* 
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ * 
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ * 
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 
 //
