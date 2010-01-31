@@ -793,7 +793,7 @@ function add_links_page( $page_title, $menu_title, $access_level, $file, $functi
 }
 
 function add_pages_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'edit-pages.php', $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( 'edit.php?post_type=page', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 function add_comments_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
