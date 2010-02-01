@@ -180,7 +180,7 @@ CREATE TABLE $wpdb->usermeta (
  * @uses $wp_db_version
  */
 function populate_options() {
-	global $wpdb, $wp_db_version;
+	global $wpdb, $wp_db_version, $current_site;
 
 	$guessurl = wp_guess_url();
 
@@ -196,7 +196,8 @@ function populate_options() {
 	$options = array(
 	'siteurl' => $guessurl,
 	'blogname' => __('My Blog'),
-	'blogdescription' => __('Just another WordPress weblog'),
+	/* translators: blog tagline */
+	'blogdescription' => __('Just another WordPress site'),
 	'users_can_register' => 0,
 	'admin_email' => 'you@example.com',
 	'start_of_week' => 1,
@@ -319,6 +320,7 @@ function populate_options() {
 
 	// 3.0 multisite
 	if ( is_multisite() ) {
+		/* translators: blog tagline */
 		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), $current_site->site_name );
 		$options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
 	}

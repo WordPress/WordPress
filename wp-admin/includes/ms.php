@@ -767,7 +767,8 @@ function choose_primary_blog() {
 	?>
 	<table class="form-table">
 	<tr>
-		<th scope="row"><?php _e('Primary Blog'); ?></th>
+	<?php /* translators: My sites label */ ?>
+		<th scope="row"><?php _e('Primary Site'); ?></th>
 		<td>
 		<?php
 		$all_blogs = get_blogs_of_user( $current_user->ID );

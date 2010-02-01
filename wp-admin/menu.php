@@ -33,9 +33,11 @@ if ( is_multisite() ) {
 
 if ( is_multisite() && is_super_admin() ) {
 	$menu[1] = array( '', 'read', 'separator0', '', 'wp-menu-separator' );
-	$menu[2] = array(__('Site Admin'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
+	/* translators: Network menu item */
+	$menu[2] = array(__('Network'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
 	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'super_admin', 'ms-admin.php' );
-	$submenu[ 'ms-admin.php' ][5] = array( __('Blogs'), 'super_admin', 'ms-sites.php' );
+	/* translators: Sites menu item */
+	$submenu[ 'ms-admin.php' ][5] = array( __('Sites'), 'super_admin', 'ms-sites.php' );
 	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'super_admin', 'ms-users.php' );
 	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'super_admin', 'ms-themes.php' );
 	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'super_admin', 'ms-options.php' );
