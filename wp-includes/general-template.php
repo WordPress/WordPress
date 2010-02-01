@@ -1256,37 +1256,66 @@ function the_date_xml() {
 }
 
 /**
- * Display or Retrieve the date the post was written.
+ * Display or Retrieve the date the current $post was written (once per date)
  *
  * Will only output the date if the current post's date is different from the
  * previous one output.
+
+ * i.e. Only one date listing will show per day worth of posts shown in the loop, even if the
+ * function is called several times for each post.
+ *
+ * HTML output can be filtered with 'the_date'.
+ * Date string output can be filtered with 'get_the_date'.
  *
  * @since 0.71
- *
+ * @uses get_the_date()
  * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
  * @param string $before Optional. Output before the date.
  * @param string $after Optional. Output after the date.
  * @param bool $echo Optional, default is display. Whether to echo the date or return it.
  * @return string|null Null if displaying, string if retrieving.
  */
-function the_date($d='', $before='', $after='', $echo = true) {
-	global $post, $day, $previousday;
+function the_date( $d = '', $before = '', $after = '', $echo = true ) {
+	global $day, $previousday;
 	$the_date = '';
 	if ( $day != $previousday ) {
 		$the_date .= $before;
-		if ( $d=='' )
-			$the_date .= mysql2date(get_option('date_format'), $post->post_date);
-		else
-			$the_date .= mysql2date($d, $post->post_date);
+		$the_date .= get_the_date( $d );
 		$the_date .= $after;
 		$previousday = $day;
 
-	$the_date = apply_filters('the_date', $the_date, $d, $before, $after);
-	if ( $echo )
-		echo $the_date;
-	else
-		return $the_date;
+		$the_date = apply_filters('the_date', $the_date, $d, $before, $after);
+
+		if ( $echo )
+			echo $the_date;
+		else
+			return $the_date;
 	}
+
+	return null;
+}
+
+/**
+ * Retrieve the date the current $post was written.
+ *
+ * Unlike the_date() this function will always return the date.
+ * Modify output with 'get_the_date' filter.
+ *
+ * @since 3.0.0
+ *
+ * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
+ * @return string|null Null if displaying, string if retrieving.
+ */
+function get_the_date( $d = '' ) {
+	global $post, $day;
+	$the_date = '';
+
+	if ( '' == $d )
+		$the_date .= mysql2date(get_option('date_format'), $post->post_date);
+	else
+		$the_date .= mysql2date($d, $post->post_date);
+
+	return apply_filters('get_the_date', $the_date, $d);
 }
 
 /**
