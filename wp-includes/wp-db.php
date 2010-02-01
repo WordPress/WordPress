@@ -367,7 +367,7 @@ class wpdb {
 	function __construct($dbuser, $dbpassword, $dbname, $dbhost) {
 		register_shutdown_function(array(&$this, "__destruct"));
 
-		if ( WP_DEBUG )
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG )
 			$this->show_errors();
 
 		if ( is_multisite() ) {
