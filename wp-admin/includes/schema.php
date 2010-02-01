@@ -657,12 +657,13 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		/* translators: Default category slug */
 		$cat_slug = sanitize_title( _x( 'Uncategorized', 'Default category slug' ) );
 
-		$wpdb->insert( $wpdb->sitecategories, array( 'site_id' => $network_id, 'cat_ID' => 1, 'cat_name' => __('Uncategorized'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
+		$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => 1, 'cat_name' => __('Uncategorized'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
 
 		/* translators: Default link category slug */
 		$cat_slug = sanitize_title( _x( 'Blogroll', 'Default link category slug' ) );
 
-		$wpdb->insert( $wpdb->sitecategories, array( 'site_id' => $network_id, 'cat_ID' => 2, 'cat_name' => __('Blogroll'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
+		$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => 2, 'cat_name' => __('Blogroll'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
+		$wpdb->query( "INSERT INTO $wpdb->sitecategories (cat_id, cat_name, category_nicename, last_updated) SELECT term_id, `name`, slug, NOW() FROM $wpdb->terms WHERE term_id > 2" );
 
 		$site_admins = array( $site_user->user_login );
 		$users = get_users_of_blog();
@@ -727,9 +728,9 @@ Thanks!
 
 	if ( !is_multisite() ) {
 		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'domain' => $domain, 'path' => $path ) );
-
+		$blog_id = $wpdb->insert_id;
 		update_usermeta( $site_user->ID, 'source_domain', $domain );
-		update_usermeta( $site_user->ID, 'primary_blog', 1 );
+		update_usermeta( $site_user->ID, 'primary_blog', $blog_id );
 	}
 
 	if ( $vhost == 'yes' )
