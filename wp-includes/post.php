@@ -16,20 +16,26 @@
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array(	'label' => __('Posts'),
+										'publicly_queryable' => true,
 										'exclude_from_search' => false,
 										'_builtin' => true,
 										'_edit_link' => 'post.php?post=%d',
 										'capability_type' => 'post',
 										'hierarchical' => false,
+										'rewrite' => false,
+										'query_var' => false,
 										'supports' => array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments', 'revisions')
 									) );
 
 	register_post_type( 'page', array(	'label' => __('Pages'),
+										'publicly_queryable' => true,
 										'exclude_from_search' => false,
 										'_builtin' => true,
 										'_edit_link' => 'post.php?post=%d',
 										'capability_type' => 'page',
 										'hierarchical' => true,
+										'rewrite' => false,
+										'query_var' => false,
 										'supports' => array('post-thumbnails', 'page-attributes', 'custom-fields', 'comments', 'revisions')
 									) );
 
@@ -38,7 +44,9 @@ function create_initial_post_types() {
 											'_builtin' => true,
 											'_edit_link' => 'media.php?attachment_id=%d',
 											'capability_type' => 'post',
-											'hierarchical' => false
+											'hierarchical' => false,
+											'rewrite' => false,
+											'query_var' => false,
 										) );
 
 	register_post_type( 'revision', array(	'label' => __('Revisions'),
@@ -46,7 +54,9 @@ function create_initial_post_types() {
 											'_builtin' => true,
 											'_edit_link' => 'revision.php?revision=%d',
 											'capability_type' => 'post',
-											'hierarchical' => false
+											'hierarchical' => false,
+											'rewrite' => false,
+											'query_var' => false,
 										) );
 
 	register_post_status( 'publish', array(	'label' => _x('Published', 'post'),
@@ -686,7 +696,8 @@ function get_post_types( $args = array(), $output = 'names' ) {
  *
  * label - A descriptive name for the post type marked for translation. Defaults to $post_type.
  * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
- * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true.
+ * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
+ * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
  * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
  * hierarchical - Whether the post type is hierarchical. Defaults to false.
@@ -701,18 +712,26 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * @param array|string $args See above description.
  */
 function register_post_type($post_type, $args = array()) {
-	global $wp_post_types;
+	global $wp_post_types, $wp_rewrite, $wp;
 
-	if (!is_array($wp_post_types))
+	if ( !is_array($wp_post_types) )
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'exclude_from_search' => true, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false, 'supports' => array());
+	$defaults = array('label' => false, 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array());
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
 	$post_type = sanitize_user($post_type, true);
 	$args->name = $post_type;
+
+	// If not set, default to the setting for public.
+	if ( null === $args->publicly_queryable )
+		$args->publicly_queryable = $args->public;
+
+	// If not set, default to true if not public, false if public.
+	if ( null === $args->exclude_from_search )
+		$args->exclude_from_search = !$args->public;
 
 	if ( false === $args->label )
 		$args->label = $post_type;
@@ -733,6 +752,24 @@ function register_post_type($post_type, $args = array()) {
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
 		unset($args->supports);
+	}
+
+	if ( false !== $args->query_var && !empty($wp) ) {
+		if ( true === $args->query_var )
+			$args->query_var = $post_type;
+		$args->query_var = sanitize_title_with_dashes($args->query_var);
+		$wp->add_query_var($args->query_var);
+	}
+
+	if ( false !== $args->rewrite && '' != get_option('permalink_structure') ) {
+		if ( !is_array($args->rewrite) )
+			$args->rewrite = array();
+		if ( !isset($args->rewrite['slug']) )
+			$args->rewrite['slug'] = $post_type;
+		if ( !isset($args->rewrite['with_front']) )
+			$args->rewrite['with_front'] = true;
+		$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+		$wp_rewrite->add_permastruct($post_type, "/{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front']);
 	}
 
 	$wp_post_types[$post_type] = $args;

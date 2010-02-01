@@ -104,8 +104,10 @@ function get_permalink($id = 0, $leavename = false) {
 
 	if ( $post->post_type == 'page' )
 		return get_page_link($post->ID, $leavename, $sample);
-	elseif ($post->post_type == 'attachment')
+	elseif ( $post->post_type == 'attachment' )
 		return get_attachment_link($post->ID);
+	elseif ( in_array($post->post_type, get_post_types( array('_builtin' => false) ) ) )
+		return get_post_link($post);
 
 	$permalink = get_option('permalink_structure');
 
@@ -157,6 +159,43 @@ function get_permalink($id = 0, $leavename = false) {
 		$permalink = home_url('?p=' . $post->ID);
 		return apply_filters('post_link', $permalink, $post, $leavename);
 	}
+}
+
+/**
+ * Retrieve the permalink for a post with a custom post type.
+ *
+ * @since 3.0.0
+ *
+ * @param int $id Optional. Post ID.
+ * @param bool $leavename Optional, defaults to false. Whether to keep post name.
+ * @param bool $sample Optional, defaults to false. Is it a sample permalink.
+ * @return string
+ */
+function get_post_link( $id = 0, $leavename = false, $sample = false  ) {
+	global $wp_rewrite;
+
+	$post = &get_post($id);
+
+	if ( is_wp_error( $post ) )
+		return $post;
+
+	$post_link = $wp_rewrite->get_extra_permastruct($post->post_type);
+
+	$slug = $post->post_name;
+
+	if ( !empty($post_link) && ( ( isset($post->post_status) && 'draft' != $post->post_status && 'pending' != $post->post_status ) || $sample ) ) {
+		$post_link = ( $leavename ) ? $post_link : str_replace("%$post->post_type%", $slug, $post_link);
+		$post_link = home_url( user_trailingslashit($post_link) );
+	} else {
+		$post_type = get_post_type_object($post->post_type);
+		if ( $post_type->query_var && ( isset($post->post_status) && 'draft' != $post->post_status && 'pending' != $post->post_status ) )
+			$post_link = "?$post_type->query_var=$slug";
+		else
+			$post_link = "?post_type=$post->post_type&p=$post->ID";
+		$post_link = home_url($post_link);
+	}
+
+	return apply_filters('post_type_link', $post_link, $id);
 }
 
 /**

@@ -26,7 +26,7 @@ class WP {
 	 * @access public
 	 * @var array
 	 */
-	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage');
+	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage', 'post_type');
 
 	/**
 	 * Private query variables.
@@ -144,7 +144,7 @@ class WP {
 		// Fetch the rewrite rules.
 		$rewrite = $wp_rewrite->wp_rewrite_rules();
 
-		if (! empty($rewrite)) {
+		if ( ! empty($rewrite) ) {
 			// If we match a rewrite rule, this will be cleared.
 			$error = '404';
 			$this->did_permalink = true;
@@ -203,12 +203,11 @@ class WP {
 
 				// If the requesting file is the anchor of the match, prepend it
 				// to the path info.
-				if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0) && ($req_uri != $request)) {
+				if ( (! empty($req_uri)) && (strpos($match, $req_uri) === 0) && ($req_uri != $request) )
 					$request_match = $req_uri . '/' . $request;
-				}
 
-				if (preg_match("#^$match#", $request_match, $matches) ||
-					preg_match("#^$match#", urldecode($request_match), $matches)) {
+				if ( preg_match("#^$match#", $request_match, $matches) ||
+					preg_match("#^$match#", urldecode($request_match), $matches) ) {
 					// Got a match.
 					$this->matched_rule = $match;
 
@@ -225,10 +224,10 @@ class WP {
 
 					// If we're processing a 404 request, clear the error var
 					// since we found something.
-					if (isset($_GET['error']))
+					if ( isset($_GET['error']) )
 						unset($_GET['error']);
 
-					if (isset($error))
+					if ( isset($error) )
 						unset($error);
 
 					break;
@@ -236,14 +235,14 @@ class WP {
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
-			if (empty($request) || $req_uri == $self || strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false) {
-				if (isset($_GET['error']))
+			if ( empty($request) || $req_uri == $self || strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false ) {
+				if ( isset($_GET['error']) )
 					unset($_GET['error']);
 
-				if (isset($error))
+				if ( isset($error) )
 					unset($error);
 
-				if (isset($perma_query_vars) && strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false)
+				if ( isset($perma_query_vars) && strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
 					unset($perma_query_vars);
 
 				$this->did_permalink = false;
@@ -256,17 +255,21 @@ class WP {
 			if ( $t->query_var )
 				$taxonomy_query_vars[$t->query_var] = $taxonomy;
 
-		for ($i=0; $i<count($this->public_query_vars); $i += 1) {
+		foreach ( $GLOBALS['wp_post_types'] as $post_type => $t )
+			if ( $t->query_var )
+				$post_type_query_vars[$t->query_var] = $post_type;
+
+		for ( $i = 0; $i < count($this->public_query_vars); $i += 1 ) {
 			$wpvar = $this->public_query_vars[$i];
-			if (isset($this->extra_query_vars[$wpvar]))
+			if ( isset($this->extra_query_vars[$wpvar]) )
 				$this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];
-			elseif (isset($GLOBALS[$wpvar]))
+			elseif ( isset($GLOBALS[$wpvar]) )
 				$this->query_vars[$wpvar] = $GLOBALS[$wpvar];
-			elseif (!empty($_POST[$wpvar]))
+			elseif ( !empty($_POST[$wpvar]) )
 				$this->query_vars[$wpvar] = $_POST[$wpvar];
-			elseif (!empty($_GET[$wpvar]))
+			elseif ( !empty($_GET[$wpvar]) )
 				$this->query_vars[$wpvar] = $_GET[$wpvar];
-			elseif (!empty($perma_query_vars[$wpvar]))
+			elseif ( !empty($perma_query_vars[$wpvar]) )
 				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
 
 			if ( !empty( $this->query_vars[$wpvar] ) ) {
@@ -274,14 +277,24 @@ class WP {
 				if ( in_array( $wpvar, $taxonomy_query_vars ) ) {
 					$this->query_vars['taxonomy'] = $taxonomy_query_vars[$wpvar];
 					$this->query_vars['term'] = $this->query_vars[$wpvar];
+				} elseif ( in_array( $wpvar, $post_type_query_vars ) ) {
+					$this->query_vars['post_type'] = $post_type_query_vars[$wpvar];
+					$this->query_vars['name'] = $this->query_vars[$wpvar];
 				}
 			}
 		}
 
+		// Limit publicly queried post_types to those that are publicly_queryable
+		if ( isset( $this->query_vars['post_type']) ) {
+			$queryable_post_types =  get_post_types( array('publicly_queryable' => true) );
+			if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types ) )
+				unset( $this->query_vars['post_type'] );
+		}
+
 		foreach ( (array) $this->private_query_vars as $var) {
-			if (isset($this->extra_query_vars[$var]))
+			if ( isset($this->extra_query_vars[$var]) )
 				$this->query_vars[$var] = $this->extra_query_vars[$var];
-			elseif (isset($GLOBALS[$var]) && '' != $GLOBALS[$var])
+			elseif ( isset($GLOBALS[$var]) && '' != $GLOBALS[$var] )
 				$this->query_vars[$var] = $GLOBALS[$var];
 		}
 
