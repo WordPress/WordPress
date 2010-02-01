@@ -7,15 +7,15 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once( 'admin.php' );
 
-if ( ! current_user_can('manage_options') )
-	wp_die(__('You do not have sufficient permissions to manage options for this blog.'));
+if ( ! current_user_can( 'manage_options' ) )
+	wp_die( __( 'You do not have sufficient permissions to manage options for this blog.' ) );
 
-$title = __('Reading Settings');
+$title = __( 'Reading Settings' );
 $parent_file = 'options-general.php';
 
-include('admin-header.php');
+include( 'admin-header.php' );
 ?>
 
 <div class="wrap">
@@ -23,31 +23,31 @@ include('admin-header.php');
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <form name="form1" method="post" action="options.php">
-<?php settings_fields('reading'); ?>
+<?php settings_fields( 'reading' ); ?>
 
 <table class="form-table">
 <?php if ( get_pages() ): ?>
 <tr valign="top">
-<th scope="row"><?php _e('Front page displays')?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Front page displays')?></span></legend>
+<th scope="row"><?php _e( 'Front page displays' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Front page displays' ); ?></span></legend>
 	<p><label>
-		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked('posts', get_option('show_on_front')); ?> />
-		<?php _e('Your latest posts'); ?>
+		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked( 'posts', get_option( 'show_on_front' ) ); ?> />
+		<?php _e( 'Your latest posts' ); ?>
 	</label>
 	</p>
 	<p><label>
-		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked('page', get_option('show_on_front')); ?> />
-		<?php printf(__('A <a href="%s">static page</a> (select below)'), 'edit-pages.php'); ?>
+		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked( 'page', get_option( 'show_on_front' ) ); ?> />
+		<?php printf( __( 'A <a href="%s">static page</a> (select below)' ), 'edit.php?post_type=page' ); ?>
 	</label>
 	</p>
 <ul>
-	<li><?php printf("<label for='page_on_front'>" . __('Front page: %s') . "</label>", wp_dropdown_pages( array( 'name' => 'page_on_front', 'echo' => 0, 'show_option_none' => __('&mdash; Select &mdash;'), 'selected' => get_option('page_on_front')  ) ) ); ?></li>
-	<li><?php printf("<label for='page_for_posts'>". __('Posts page: %s') . "</label>", wp_dropdown_pages( array( 'name' => 'page_for_posts','echo' => 0, 'show_option_none' => __('&mdash; Select &mdash;'), 'selected' => get_option('page_for_posts') ) ) ); ?></li>
+	<li><label for="page_on_front"><?php printf( __( 'Front page: %s' ), wp_dropdown_pages( array( 'name' => 'page_on_front', 'echo' => 0, 'show_option_none' => __( '&mdash; Select &mdash;' ), 'selected' => get_option( 'page_on_front' ) ) ) ); ?></label></li>
+	<li><label for="page_for_posts"><?php printf( __( 'Posts page: %s' ), wp_dropdown_pages( array( 'name' => 'page_for_posts', 'echo' => 0, 'show_option_none' => __( '&mdash; Select &mdash;' ), 'selected' => get_option( 'page_for_posts' ) ) ) ); ?></label></li>
 </ul>
-<?php if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') == get_option('page_on_front') ) : ?>
+<?php if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) == get_option( 'page_on_front' ) ) : ?>
 <div id="front-page-warning" class="updated">
 	<p>
-		<?php _e('<strong>Warning:</strong> these pages should not be the same!'); ?>
+		<?php _e( '<strong>Warning:</strong> these pages should not be the same!' ); ?>
 	</p>
 </div>
 <?php endif; ?>
@@ -55,36 +55,36 @@ include('admin-header.php');
 </tr>
 <?php endif; ?>
 <tr valign="top">
-<th scope="row"><label for="posts_per_page"><?php _e('Blog pages show at most') ?></label></th>
+<th scope="row"><label for="posts_per_page"><?php _e( 'Blog pages show at most' ); ?></label></th>
 <td>
-<input name="posts_per_page" type="text" id="posts_per_page" value="<?php form_option('posts_per_page'); ?>" class="small-text" /> <?php _e('posts') ?>
+<input name="posts_per_page" type="text" id="posts_per_page" value="<?php form_option( 'posts_per_page' ); ?>" class="small-text" /> <?php _e( 'posts' ); ?>
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="posts_per_rss"><?php _e('Syndication feeds show the most recent') ?></label></th>
-<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php form_option('posts_per_rss'); ?>" class="small-text" /> <?php _e('posts') ?></td>
+<th scope="row"><label for="posts_per_rss"><?php _e( 'Syndication feeds show the most recent' ); ?></label></th>
+<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'posts' ); ?></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('For each article in a feed, show') ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('For each article in a feed, show') ?> </span></legend>
-<p><label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_option('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
-<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_option('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label></p>
+<th scope="row"><?php _e( 'For each article in a feed, show' ); ?> </th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each article in a feed, show' ); ?> </span></legend>
+<p><label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
+<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label></p>
 </fieldset></td>
 </tr>
 
 <tr valign="top">
-<th scope="row"><label for="blog_charset"><?php _e('Encoding for pages and feeds') ?></label></th>
-<td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" class="regular-text" />
-<span class="description"><?php _e('The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your blog (UTF-8 is recommended, if you are adventurous there are some <a href="http://en.wikipedia.org/wiki/Character_set">other encodings</a>)') ?></span></td>
+<th scope="row"><label for="blog_charset"><?php _e( 'Encoding for pages and feeds' ); ?></label></th>
+<td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option( 'blog_charset' ); ?>" class="regular-text" />
+<span class="description"><?php _e( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your blog (UTF-8 is recommended, if you are adventurous there are some <a href="http://en.wikipedia.org/wiki/Character_set">other encodings</a>)' ); ?></span></td>
 </tr>
-<?php do_settings_fields('reading', 'default'); ?>
+<?php do_settings_fields( 'reading', 'default' ); ?>
 </table>
 
-<?php do_settings_sections('reading'); ?>
+<?php do_settings_sections( 'reading' ); ?>
 
 <p class="submit">
-	<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
+	<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes' ); ?>" />
 </p>
 </form>
 </div>
-<?php include('./admin-footer.php'); ?>
+<?php include( './admin-footer.php' ); ?>
