@@ -16,33 +16,29 @@ function ms_default_constants( $context ) {
 	switch( $context ) {
 		case 'uploads' :
 			global $wpdb;
+			/** @since 3.0.0 */
 			if ( !defined( 'UPLOADBLOGSDIR' ) )
 				define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
-		
+			/** @since 3.0.0 */
 			if ( !defined( 'UPLOADS' ) )
 				define( 'UPLOADS', UPLOADBLOGSDIR . "/{$wpdb->blogid}/files/" );
-		
+			/** @since 3.0.0 */
 			if ( !defined( 'BLOGUPLOADDIR' ) )
 				define( 'BLOGUPLOADDIR', WP_CONTENT_DIR . "/blogs.dir/{$wpdb->blogid}/files/" );
 			break;
 		case 'cookies' :
 			global $current_site;
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 1.2.0
 			 */
 			if ( !defined( 'COOKIEPATH' ) )
 					define( 'COOKIEPATH', $current_site->path );
-	
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 1.5.0
 			 */
 			if ( !defined( 'SITECOOKIEPATH' ) )
 					define( 'SITECOOKIEPATH', $current_site->path );
-	
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined( 'ADMIN_COOKIE_PATH' ) ) {
@@ -53,7 +49,6 @@ function ms_default_constants( $context ) {
 					}
 			}
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.0.0
 			 */
 			if ( !defined('COOKIE_DOMAIN') )

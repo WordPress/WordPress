@@ -64,7 +64,7 @@ if ( is_subdomain_install() ) {
 		$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
 	$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
 	if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
-		$path = $path . $blogname . '/';
+		$path .= $blogname . '/';
 	$current_blog = wp_cache_get( 'current_blog_' . $domain . $path, 'site-options' );
 	if ( ! $current_blog ) {
 		$current_blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $domain, $path ) );
@@ -81,14 +81,14 @@ if ( ! defined( 'WP_INSTALLING' ) && is_subdomain_install() && ! is_object( $cur
 	} else {
 		$destination = 'http://' . $current_site->domain . $current_site->path . 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
 	}
-	wp_redirect( $destination );
+	header( 'Location: ' . $destination );
 	die();
 }
 
 if ( ! defined( 'WP_INSTALLING' ) ) {
 	if ( $current_site && ! $current_blog ) {
 		if ( $current_site->domain != $_SERVER[ 'HTTP_HOST' ] ) {
-			wp_redirect( 'http://' . $current_site->domain . $current_site->path );
+			header( 'Location: http://' . $current_site->domain . $current_site->path );
 			exit;
 		}
 		$current_blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );

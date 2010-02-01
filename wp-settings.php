@@ -132,14 +132,8 @@ if ( is_multisite() ) {
 }
 
 // Define constants that rely on the API to obtain the default value.
-wp_default_constants( 'wp_included' );
-
-// Set up multisite if enabled.
-if ( is_multisite() )
-	ms_network_settings();
-
 // Define must-use plugin directory constants, which may be overridden in the sunrise.php drop-in.
-wp_default_constants( 'ms_network_settings_loaded' );
+wp_default_constants( 'wp_included' );
 
 // Load must-use plugins.
 foreach( wp_muplugins_to_load() as $mu_plugin )

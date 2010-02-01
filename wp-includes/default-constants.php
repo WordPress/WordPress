@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Defines constants and global variables that can be overridden, generally in wp-config.php.
  *
@@ -94,12 +93,10 @@ function wp_default_constants( $context ) {
 			 * Allows for the plugins directory to be moved from the default location.
 			 *
 			 * @since 2.1.0
+			 * @deprecated
 			 */
 			if ( !defined('PLUGINDIR') )
 				define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
-			break;
-
-		case 'ms_network_settings_loaded':
 
 			/**
 			 * Allows for the mu-plugins directory to be moved from the default location.
@@ -121,6 +118,7 @@ function wp_default_constants( $context ) {
 			 * Allows for the mu-plugins directory to be moved from the default location.
 			 *
 			 * @since 2.8.0
+			 * @deprecated
 			 */
 			if ( !defined( 'MUPLUGINDIR' ) )
 				define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH.  For back compat.
@@ -149,84 +147,72 @@ function wp_default_constants( $context ) {
 			$wp_default_secret_key = 'put your unique phrase here';
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.0.0
 			 */
 			if ( !defined('USER_COOKIE') )
 				define('USER_COOKIE', 'wordpressuser_' . COOKIEHASH);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.0.0
 			 */
 			if ( !defined('PASS_COOKIE') )
 				define('PASS_COOKIE', 'wordpresspass_' . COOKIEHASH);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.5.0
 			 */
 			if ( !defined('AUTH_COOKIE') )
 				define('AUTH_COOKIE', 'wordpress_' . COOKIEHASH);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined('SECURE_AUTH_COOKIE') )
 				define('SECURE_AUTH_COOKIE', 'wordpress_sec_' . COOKIEHASH);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined('LOGGED_IN_COOKIE') )
 				define('LOGGED_IN_COOKIE', 'wordpress_logged_in_' . COOKIEHASH);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.3.0
 			 */
 			if ( !defined('TEST_COOKIE') )
 				define('TEST_COOKIE', 'wordpress_test_cookie');
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 1.2.0
 			 */
 			if ( !defined('COOKIEPATH') )
 				define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('home') . '/' ) );
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 1.5.0
 			 */
 			if ( !defined('SITECOOKIEPATH') )
 				define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('siteurl') . '/' ) );
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined('ADMIN_COOKIE_PATH') )
 				define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin' );
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined('PLUGINS_COOKIE_PATH') )
 				define( 'PLUGINS_COOKIE_PATH', preg_replace('|https?://[^/]+|i', '', WP_PLUGIN_URL)  );
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.0.0
 			 */
 			if ( !defined('COOKIE_DOMAIN') )
 				define('COOKIE_DOMAIN', false);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined('FORCE_SSL_ADMIN') )
@@ -234,7 +220,6 @@ function wp_default_constants( $context ) {
 			force_ssl_admin(FORCE_SSL_ADMIN);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.6.0
 			 */
 			if ( !defined('FORCE_SSL_LOGIN') )
@@ -242,14 +227,12 @@ function wp_default_constants( $context ) {
 			force_ssl_login(FORCE_SSL_LOGIN);
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.5.0
 			 */
 			if ( !defined( 'AUTOSAVE_INTERVAL' ) )
 				define( 'AUTOSAVE_INTERVAL', 60 );
 
 			/**
-			 * It is possible to define this in wp-config.php
 			 * @since 2.9.0
 			 */
 			if ( !defined( 'EMPTY_TRASH_DAYS' ) )
