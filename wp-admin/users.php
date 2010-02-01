@@ -254,7 +254,7 @@ if ( ! empty($messages) ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); if ( !is_multisite() || get_site_option( 'add_new_users' ) ) { ?>  <a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'user'); ?></a><?php }
+<h2><?php echo esc_html( $title ); if ( current_user_can( 'create_users' ) ) { ?>  <a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'user'); ?></a><?php }
 if ( isset($_GET['usersearch']) && $_GET['usersearch'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $_GET['usersearch'] ) ); ?>
 </h2>
