@@ -133,6 +133,7 @@ class WP {
 
 		$this->query_vars = array();
 		$taxonomy_query_vars = array();
+		$post_type_query_vars = array();
 
 		if ( is_array($extra_query_vars) )
 			$this->extra_query_vars = & $extra_query_vars;
