@@ -85,7 +85,6 @@ if ( 0 == $post_ID ) {
 }
 
 $post_type_object = get_post_type_object($post_type);
-$post_type_cap = $post_type_object->capability_type;
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once('includes/meta-boxes.php');
@@ -128,7 +127,7 @@ if ( post_type_supports($post_type, 'comments') )
 if ( ('publish' == $post->post_status || 'private' == $post->post_status) && post_type_supports($post_type, 'comments') )
 	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', $post_type, 'normal', 'core');
 
-if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) )
+if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) )
 	add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', $post_type, 'normal', 'core');
 
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
@@ -192,7 +191,7 @@ $side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
 <div class="inside">
 <?php
 $sample_permalink_html = get_sample_permalink_html($post->ID);
-if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_' . $post_type_cap . 's' ) ) ) { ?>
+if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) ) { ?>
 	<div id="edit-slug-box">
 <?php
 	if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) :

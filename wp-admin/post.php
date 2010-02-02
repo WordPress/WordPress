@@ -25,7 +25,6 @@ else
 $post_ID = $post_id;
 $post = null;
 $post_type_object = null;
-$post_type_cap = null;
 $post_type = null;
 if ( $post_id ) {
 	$post = get_post($post_id);
@@ -35,7 +34,6 @@ if ( $post_id ) {
 			$post_type = $post->post_type;
 			$current_screen->post_type = $post->post_type;
 			$current_screen->id = $current_screen->post_type;
-			$post_type_cap = $post_type_object->capability_type;
 		}
 	}
 } elseif ( isset($_POST['post_type']) ) {
@@ -44,7 +42,6 @@ if ( $post_id ) {
 		$post_type = $post_type_object->name;
 		$current_screen->post_type = $post_type;
 		$current_screen->id = $current_screen->post_type;
-		$post_type_cap = $post_type_object->capability_type;
 	}
 }
 
@@ -233,7 +230,7 @@ case 'trash':
 
 	$post = & get_post($post_id);
 
-	if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+	if ( !current_user_can($post_type_object->delete_cap, $post_id) )
 		wp_die( __('You are not allowed to move this item to the trash.') );
 
 	if ( ! wp_trash_post($post_id) )
@@ -246,7 +243,7 @@ case 'trash':
 case 'untrash':
 	check_admin_referer('untrash-' . $post_type . '_' . $post_id);
 
-	if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+	if ( !current_user_can($post_type_object->delete_cap, $post_id) )
 		wp_die( __('You are not allowed to move this item out of the trash.') );
 
 	if ( ! wp_untrash_post($post_id) )
@@ -259,7 +256,7 @@ case 'untrash':
 case 'delete':
 	check_admin_referer('delete-' . $post_type . '_' . $post_id);
 
-	if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+	if ( !current_user_can($post_type_object->delete_cap, $post_id) )
 		wp_die( __('You are not allowed to delete this item.') );
 
 	$force = !EMPTY_TRASH_DAYS;

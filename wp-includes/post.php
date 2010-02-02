@@ -700,6 +700,12 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
  * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
+ * edit_cap - The capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
+ * edit_type_cap - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
+ * edit_others_cap - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
+ * edit_others_cap - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
+ * read_cap - The capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
+ * delete_cap - The capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
  * hierarchical - Whether the post type is hierarchical. Defaults to false.
  * supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
  *
@@ -736,15 +742,20 @@ function register_post_type($post_type, $args = array()) {
 	if ( false === $args->label )
 		$args->label = $post_type;
 
-	if ( empty($args->capability_type) ) {
-		$args->edit_cap = '';
-		$args->read_cap = '';
-		$args->delete_cap = '';
-	} else {
+	if ( empty($args->capability_type) )
+		$args->capability_type = 'post';
+	if ( empty($args->edit_cap) )
 		$args->edit_cap = 'edit_' . $args->capability_type;
+	if ( empty($args->edit_type_cap) )
+		$args->edit_type_cap = 'edit_' . $args->capability_type . 's';
+	if ( empty($args->edit_others_cap) )
+		$args->edit_others_cap = 'edit_others_' . $args->capability_type . 's';
+	if ( empty($args->publish_cap) )
+		$args->publish_cap = 'publish_' . $args->capability_type . 's';
+	if ( empty($args->read_cap) )
 		$args->read_cap = 'read_' . $args->capability_type;
+	if ( empty($args->delete_cap) )
 		$args->delete_cap = 'delete_' . $args->capability_type;
-	}
 
 	if ( !$args->_builtin && $args->public )
 		$args->_show = true;

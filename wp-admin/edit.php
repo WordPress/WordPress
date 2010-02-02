@@ -27,7 +27,6 @@ else
 $_GET['post_type'] = $post_type;
 
 $post_type_object = get_post_type_object($post_type);
-$post_type_cap = $post_type_object->capability_type;
 
 if ( 'post' != $post_type ) {
 	$parent_file = "edit.php?post_type=$post_type";
@@ -72,7 +71,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 		case 'trash':
 			$trashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
-				if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+				if ( !current_user_can($post_type_object->delete_cap, $post_id) )
 					wp_die( __('You are not allowed to move this item to the trash.') );
 
 				if ( !wp_trash_post($post_id) )
@@ -85,7 +84,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 		case 'untrash':
 			$untrashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
-				if ( !current_user_can('delete_' . $post_type_cap, $post_id) )
+				if ( !current_user_can($post_type_object->delete_cap, $post_id) )
 					wp_die( __('You are not allowed to restore this item from the trash.') );
 
 				if ( !wp_untrash_post($post_id) )
@@ -100,7 +99,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 			foreach( (array) $post_ids as $post_id ) {
 				$post_del = & get_post($post_id);
 
-				if ( !current_user_can('delete_' .  $post_type_cap, $post_id) )
+				if ( !current_user_can($post_type_object->delete_cap, $post_id) )
 					wp_die( __('You are not allowed to delete this item.') );
 
 				if ( $post_del->post_type == 'attachment' ) {
@@ -141,7 +140,7 @@ $title = sprintf(__('Edit %s'), $post_type_object->label);
 wp_enqueue_script('inline-edit-post');
 
 $user_posts = false;
-if ( !current_user_can('edit_others_' . $post_type_cap . 's') ) {
+if ( !current_user_can($post_type_object->edit_others_cap) ) {
 	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = '%s' AND post_status != 'trash' AND post_author = %d", $post_type, $current_user->ID) );
 	$user_posts = true;
 	if ( $user_posts_count && empty($_GET['post_status']) && empty($_GET['all_posts']) && empty($_GET['author']) )
@@ -341,7 +340,7 @@ if ( is_object_in_taxonomy($post_type, 'category') ) {
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 <?php }
 
-if ( $is_trash && current_user_can('edit_others_' . $post_type_cap .'s') ) { ?>
+if ( $is_trash && current_user_can($post_type_object->edit_others_cap) ) { ?>
 <input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
@@ -388,7 +387,7 @@ if ( $page_links )
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-<?php if ( $is_trash && current_user_can('edit_others_' . $post_type_cap . 's') ) { ?>
+<?php if ( $is_trash && current_user_can($post_type_object->edit_others_cap) ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <br class="clear" />
