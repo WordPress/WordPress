@@ -316,14 +316,15 @@ function wp_upgrade() {
 	pre_schema_upgrade();
 	make_db_current_silent();
 	upgrade_all();
+	if ( is_multisite() && is_main_site() )
+		upgrade_network();
 	wp_cache_flush();
 
 	if ( is_multisite() ) {
-		if ( $wpdb->get_row( "SELECT blog_id FROM {$wpdb->blog_versions} WHERE blog_id = '{$wpdb->blogid}'" ) ) {
+		if ( $wpdb->get_row( "SELECT blog_id FROM {$wpdb->blog_versions} WHERE blog_id = '{$wpdb->blogid}'" ) )
 			$wpdb->query( "UPDATE {$wpdb->blog_versions} SET db_version = '{$wp_db_version}' WHERE blog_id = '{$wpdb->blogid}'" );
-		} else {
+		else
 			$wpdb->query( "INSERT INTO {$wpdb->blog_versions} ( `blog_id` , `db_version` , `last_updated` ) VALUES ( '{$wpdb->blogid}', '{$wp_db_version}', NOW());" );
-		}
 	}
 }
 endif;
@@ -1061,10 +1062,33 @@ function upgrade_290() {
 /**
  * Execute changes made in WordPress 3.0.
  *
- * @since 3.0
+ * @since 3.0.0
  */
 function upgrade_300() {
 	populate_roles_300();
+}
+
+/**
+ * Execute network level changes
+ *
+ * @since 3.0.0
+ */
+function upgrade_network() {
+	// 2.8
+	if ( $wp_current_db_version < 11549 ) {
+		$wpmu_sitewide_plugins = get_site_option( 'wpmu_sitewide_plugins' );
+		$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins' );
+		if ( $wpmu_sitewide_plugins ) {
+			if ( !$active_sitewide_plugins )
+				$sitewide_plugins = (array) $wpmu_sitewide_plugins;
+			else
+				$sitewide_plugins = array_merge( (array) $active_sitewide_plugins, (array) $wpmu_sitewide_plugins );
+
+			update_site_option( 'active_sitewide_plugins', $sitewide_plugins );
+		}
+		update_site_option( 'wpmu_sitewide_plugins', '' );
+		update_site_option( 'deactivated_sitewide_plugins', '' );
+	}
 }
 
 // The functions we use to actually do stuff
