@@ -710,41 +710,6 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 }
 add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 );
 
-/**
- * @deprecated
- */
-function activate_sitewide_plugin() {
-	return false;
-}
-
-/**
- * @deprecated
- */
-function deactivate_sitewide_plugin( $plugin = false ) {
-	return;
-}
-
-/**
- * @deprecated is_network_only_plugin()
- */
-function is_wpmu_sitewide_plugin( $file ) {
-	return is_network_only_plugin( $file );
-}
-
-/**
- * @deprecated
- */
-function check_is_wpmu_plugin_on_activate() {
-	return;
-}
-
-/**
- * @deprecated
- */
-function check_wpmu_plugins_on_bulk_activate( $plugins ) {
-	return;
-}
-
 function choose_primary_blog() {
 	global $current_user;
 	?>

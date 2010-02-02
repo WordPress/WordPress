@@ -36,4 +36,25 @@ function mu_options( $options ) {
 	return $options;
 }
 
+/**
+ * @deprecated 3.0
+ */
+function activate_sitewide_plugin() {
+	return false;
+}
+
+/**
+ * @deprecated 3.0
+ */
+function deactivate_sitewide_plugin( $plugin = false ) {
+	return;
+}
+
+/**
+ * @deprecated 3.0 is_network_only_plugin()
+ */
+function is_wpmu_sitewide_plugin( $file ) {
+	return is_network_only_plugin( $file );
+}
+
 ?>
