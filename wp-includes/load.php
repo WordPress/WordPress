@@ -374,7 +374,7 @@ function wp_not_installed() {
  * @since 3.0.0
  * @return array Files to include
  */
-function wp_muplugins_to_load() {
+function wp_load_mu_plugins() {
 	$mu_plugins = array();
 	if ( !is_dir( WPMU_PLUGIN_DIR ) )
 		return $mu_plugins;
@@ -401,22 +401,32 @@ function wp_muplugins_to_load() {
  * @since 3.0.0
  * @return array Files to include
  */
-function wp_plugins_to_load() {
+function wp_load_plugins() {
 	$plugins = array();
 
 	// Check for hacks file if the option is enabled
 	if ( get_option( 'hack_file' ) && file_exists( ABSPATH . 'my-hacks.php' ) )
 			$plugins[] = ABSPATH . 'my-hacks.php';
 
-	$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
-	if ( !is_array( $active_plugins ) || defined( 'WP_INSTALLING' ) )
+	$active_plugins = (array) apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+
+	// Get active network plugins
+	if ( is_multisite() ) {
+		$active_sitewide_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+		if ( !empty($active_sitewide_plugins) ) {
+			$active_plugins = array_merge( $active_plugins, array_keys( $active_sitewide_plugins ) );
+			sort( $active_plugins );
+		}
+	}
+
+	if ( empty( $active_plugins ) || defined( 'WP_INSTALLING' ) )
 		return $plugins;
+
 	foreach ( $active_plugins as $plugin ) {
-		if ( validate_file( $plugin ) // $plugin must validate as file
-			|| '.php' != substr( $plugin, -4 ) // $plugin must end with '.php'
-			|| !file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
+		if ( ! validate_file( $plugin ) // $plugin must validate as file
+			&& '.php' == substr( $plugin, -4 ) // $plugin must end with '.php'
+			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
 			)
-			continue;
 		$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 	}
 	return $plugins;

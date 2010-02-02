@@ -136,16 +136,10 @@ if ( is_multisite() ) {
 wp_default_constants( 'wp_included' );
 
 // Load must-use plugins.
-foreach( wp_muplugins_to_load() as $mu_plugin )
+foreach ( wp_load_mu_plugins() as $mu_plugin ) {
 	include_once( $mu_plugin );
-unset( $mu_plugin );
-
-// Load network-wide plugins if multisite.
-if ( is_multisite() ) {
-	foreach ( ms_network_plugins() as $plugin_file )
-		include_once( $plugin_file );
-	unset( $plugin_file );
 }
+unset( $mu_plugin );
 
 do_action( 'muplugins_loaded' );
 
@@ -170,7 +164,7 @@ require( ABSPATH . WPINC . '/vars.php' );
 create_initial_taxonomies();
 
 // Load active plugins.
-foreach( wp_plugins_to_load() as $plugin )
+foreach ( wp_load_plugins() as $plugin )
 	include_once( $plugin );
 unset( $plugin );
 

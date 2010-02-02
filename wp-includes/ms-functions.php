@@ -1932,19 +1932,7 @@ Thanks!
 }
 add_filter( 'site_option_welcome_user_email', 'welcome_user_msg_filter' );
 
-function mu_filter_plugins_list( $active_plugins ) {
-	$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins' );
-
-	if ( !$active_sitewide_plugins )
-		return $active_plugins;
-
-	$plugins = array_merge( (array) $active_plugins, array_keys( (array) $active_sitewide_plugins ) );
-	sort( $plugins );
-	return $plugins;
-}
-add_filter( 'active_plugins', 'mu_filter_plugins_list' );
-
- /**
+/**
  * Whether to force SSL on content.
  *
  * @since 2.8.5
