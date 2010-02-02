@@ -65,6 +65,21 @@ function use_ssl_preference($user) {
 if ( is_multisite() && !defined( "EDIT_ANY_USER" ) && !is_super_admin() && $user_id != $current_user->ID )
 	wp_die( __( 'You do not have permission to edit this user.' ) );
 
+// Execute confirmed email change. See send_confirmation_on_profile_email().
+if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
+	$new_email = get_option( $current_user->ID . '_new_email' );
+	if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
+		$user->ID = $current_user->ID;
+		$user->user_email = wp_specialchars( trim( $new_email[ 'newemail' ] ) );
+		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
+			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
+		wp_update_user( get_object_vars( $user ) );
+		delete_option( $current_user->ID . '_new_email' );
+		wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
+		die();
+	}
+}
+
 switch ($action) {
 case 'switchposts':
 

@@ -266,23 +266,6 @@ All at ###SITENAME###
 }
 add_action('update_option_new_admin_email', 'update_option_new_admin_email', 10, 2);
 
-function update_profile_email() {
-	global $current_user, $wpdb;
-	if ( isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
-		$new_email = get_option( $current_user->ID . '_new_email' );
-		if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
-			$user->ID = $current_user->ID;
-			$user->user_email = wp_specialchars( trim( $new_email[ 'newemail' ] ) );
-			if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
-				$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
-			wp_update_user( get_object_vars( $user ) );
-			delete_option( $current_user->ID . '_new_email' );
-			wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
-			die();
-		}
-	}
-}
-
 function send_confirmation_on_profile_email() {
 	global $errors, $wpdb, $current_user, $current_site;
 	if ( ! is_object($errors) )
@@ -801,10 +784,6 @@ function choose_primary_blog() {
 	</tr>
 	</table>
 	<?php
-}
-
-if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) ) {
-	add_action( 'admin_init', 'update_profile_email' );
 }
 
 function stripslashes_from_options( $blog_id ) {
