@@ -82,6 +82,17 @@ require( ABSPATH . WPINC . '/plugin.php' );
 require( ABSPATH . WPINC . '/default-filters.php' );
 include_once( ABSPATH . WPINC . '/pomo/mo.php' );
 
+// internalize virtual content rewrite rule
+if ( is_multisite() && !defined( 'SHORTINIT' ) ) {
+	$media_base = $path . 'files/';
+	$base_len = strlen( $media_base );
+	if ( substr( $_SERVER[ 'REQUEST_URI' ], 0, $media_len ) == $media_base && $media_len < strlen( $_SERVER[ 'REQUEST_URI' ] ) ) {
+		define( 'MEDIA_FILE', substr( $_SERVER[ 'REQUEST_URI' ], $media_len ) );
+		require_once( WP_CONTENT_DIR . '/blogs.php' );
+		exit();
+	}
+	unset( $media_base, $media_len );
+}
 // Stop most of WordPress from being loaded if we just want the basics.
 if ( SHORTINIT )
 	return false;

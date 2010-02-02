@@ -1,6 +1,8 @@
 <?php
-define( 'SHORTINIT', true ); // this prevents most of WP from being loaded
-require_once( dirname( dirname( __FILE__) ) . '/wp-load.php' ); // absolute includes are faster
+if ( !defined( 'MEDIA_FILE' ) ) {
+	define( 'SHORTINIT', true ); // this prevents most of WP from being loaded
+	require_once( dirname( dirname( __FILE__) ) . '/wp-load.php' ); // absolute includes are faster
+}
 
 if ( $current_blog->archived == '1' || $current_blog->spam == '1' || $current_blog->deleted == '1' ) {
 	status_header( 404 );
@@ -64,8 +66,10 @@ function wp_check_filetype($filename, $mimes = null) {
 }
 endif;
 
-
-$file = BLOGUPLOADDIR . str_replace( '..', '', $_GET[ 'file' ] );
+if ( defined( 'MEDIA_FILE' ) )
+	$file = BLOGUPLOADDIR . str_replace( '..', '', MEDIA_FILE );
+else
+	$file = BLOGUPLOADDIR . str_replace( '..', '', $_GET[ 'file' ] );
 if ( !is_file( $file ) ) {
 	status_header( 404 );
 	die('404 &#8212; File not found.');
