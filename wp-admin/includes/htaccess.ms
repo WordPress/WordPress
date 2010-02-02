@@ -4,7 +4,7 @@ RewriteBase BASE/
 #uploaded files
 RewriteRule ^(.*/)?files/$ index.php [L]
 RewriteCond %{REQUEST_URI} !.*wp-content/plugins.*
-RewriteRule ^(.*/)?files/(.*) wp-content/blogs.php?file=$2 [L]
+RewriteRule ^(.*/)?files/(.*) wp-includes/blogs.php?file=$2 [L]
 
 # add a trailing slash to /wp-admin
 RewriteCond %{REQUEST_URI} ^.*/wp-admin$

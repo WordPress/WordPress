@@ -1,5 +1,5 @@
 <?php
-if ( !defined( 'MEDIA_FILE' ) ) {
+if ( !defined( 'SHORTINIT' ) ) {
 	define( 'SHORTINIT', true ); // this prevents most of WP from being loaded
 	require_once( dirname( dirname( __FILE__) ) . '/wp-load.php' ); // absolute includes are faster
 }
@@ -66,10 +66,7 @@ function wp_check_filetype($filename, $mimes = null) {
 }
 endif;
 
-if ( defined( 'MEDIA_FILE' ) )
-	$file = BLOGUPLOADDIR . str_replace( '..', '', MEDIA_FILE );
-else
-	$file = BLOGUPLOADDIR . str_replace( '..', '', $_GET[ 'file' ] );
+$file = BLOGUPLOADDIR . str_replace( '..', '', $_GET[ 'file' ] );
 if ( !is_file( $file ) ) {
 	status_header( 404 );
 	die('404 &#8212; File not found.');
