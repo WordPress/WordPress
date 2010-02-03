@@ -1419,24 +1419,6 @@ function install_blog($blog_id, $blog_title = '') {
 	update_option('admin_email', '');
 	$wpdb->update( $wpdb->options, array('option_value' => ''), array('option_name' => 'admin_email') );
 
-	// Default category
-	$wpdb->insert( $wpdb->terms, array('term_id' => 1, 'name' => __('Uncategorized'), 'slug' => sanitize_title(__('Uncategorized')), 'term_group' => 0) );
-	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => 1, 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1) );
-
-	// Default link category
-	$cat_name = __('Blogroll');
-	$cat_slug = sanitize_title($cat_name);
-
-	$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
-
-	if ( $blogroll_id == null ) {
-		$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
-		$blogroll_id = $wpdb->insert_id;
-	}
-	$wpdb->insert( $wpdb->terms, array('term_id' => $blogroll_id, 'name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
-	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $blogroll_id, 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 2) );
-	update_option('default_link_category', $blogroll_id);
-
 	// remove all perms
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE meta_key = %s", $table_prefix.'user_level') );
 	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE meta_key = %s", $table_prefix.'capabilities') );

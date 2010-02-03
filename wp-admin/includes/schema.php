@@ -656,16 +656,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 
 	if ( !is_multisite() ) {
 
-		/* translators: Default category slug */
-		$cat_slug = sanitize_title( _x( 'Uncategorized', 'Default category slug' ) );
-
-		$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => 1, 'cat_name' => __('Uncategorized'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
-
-		/* translators: Default link category slug */
-		$cat_slug = sanitize_title( _x( 'Blogroll', 'Default link category slug' ) );
-
-		$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => 2, 'cat_name' => __('Blogroll'), 'category_nicename' => $cat_slug, 'last_updated' => current_time( 'mysql', true ) ) );
-		$wpdb->query( "INSERT INTO $wpdb->sitecategories (cat_id, cat_name, category_nicename, last_updated) SELECT term_id, `name`, slug, NOW() FROM $wpdb->terms WHERE term_id > 2" );
+		$wpdb->query( "INSERT INTO $wpdb->sitecategories (cat_id, cat_name, category_nicename, last_updated) SELECT term_id, `name`, slug, NOW() FROM $wpdb->terms" );
 
 		$site_admins = array( $site_user->user_login );
 		$users = get_users_of_blog();

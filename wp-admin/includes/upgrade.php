@@ -103,16 +103,40 @@ function wp_install_defaults($user_id) {
 	/* translators: Default category slug */
 	$cat_slug = sanitize_title(_x('Uncategorized', 'Default category slug'));
 
-	$wpdb->insert( $wpdb->terms, array('name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
-	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => '1', 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
+	if ( is_multisite() ) {
+		$cat_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
+		if ( $cat_id == null ) {
+			$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
+			$cat_id = $wpdb->insert_id;
+		}
+		update_option('default_category', $cat_id);
+	} else {
+		$cat_id = 1;
+	}
+
+	$wpdb->insert( $wpdb->terms, array('term_id' => $cat_id, 'name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
+	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $cat_id, 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
+	$cat_tt_id = $wpdb->insert_id;
 
 	// Default link category
 	$cat_name = __('Blogroll');
 	/* translators: Default link category slug */
 	$cat_slug = sanitize_title(_x('Blogroll', 'Default link category slug'));
 
-	$wpdb->insert( $wpdb->terms, array('name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
-	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => '2', 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 7));
+	if ( is_multisite() ) {
+		$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
+		if ( $blogroll_id == null ) {
+			$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
+			$blogroll_id = $wpdb->insert_id;
+		}
+		update_option('default_link_category', $blogroll_id);
+	} else {
+		$blogroll_id = 2;
+	}
+
+	$wpdb->insert( $wpdb->terms, array('term_id' => $blogroll_id, 'name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
+	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $blogroll_id, 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 7));
+	$blogroll_tt_id = $wpdb->insert_id;
 
 	// Now drop in some default links
 	$default_links = array();
@@ -153,7 +177,7 @@ function wp_install_defaults($user_id) {
 
 	foreach ( $default_links as $link ) {
 		$wpdb->insert( $wpdb->links, $link);
-		$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => 2, 'object_id' => $wpdb->insert_id) );
+		$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $blogroll_tt_id, 'object_id' => $wpdb->insert_id) );
 	}
 
 	// First post
@@ -190,7 +214,7 @@ function wp_install_defaults($user_id) {
 								'pinged' => '',
 								'post_content_filtered' => ''
 								));
-	$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => 1, 'object_id' => 1) );
+	$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $cat_tt_id, 'object_id' => 1) );
 
 	// Default comment
 	$first_comment_author = __('Mr WordPress');
