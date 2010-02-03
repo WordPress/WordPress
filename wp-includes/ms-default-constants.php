@@ -54,6 +54,20 @@ function ms_default_constants( $context ) {
 			if ( !defined('COOKIE_DOMAIN') )
 					define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
 			break;
+		case 'ms-files' :
+			/**
+			 * Optional support for X-Sendfile header
+			 * @since 3.0.0
+			 */
+			if ( !defined( 'WPMU_SENDFILE' ) )
+				define( 'WPMU_SENDFILE', false );
+			/**
+			 * Optional support for X-Accel-Redirect header
+			 * @since 3.0.0
+			 */
+			if ( !defined( 'WPMU_ACCEL_REDIRECT' ) )
+				define( 'WPMU_ACCEL_REDIRECT', false );
+			break;
 	}
 }
 ?>

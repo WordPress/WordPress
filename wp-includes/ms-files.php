@@ -1,12 +1,22 @@
 <?php
-if ( !defined( 'SHORTINIT' ) ) {
-	define( 'SHORTINIT', true ); // this prevents most of WP from being loaded
-	require_once( dirname( dirname( __FILE__) ) . '/wp-load.php' ); // absolute includes are faster
-}
+/**
+ * Load mulitsite uploaded media
+ *
+ * @since 3.0.0
+ *
+ * @package WordPress
+ * @subpackage Multisite
+ */
+
+define( 'SHORTINIT', true );
+require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+ms_default_constants( 'ms-files' );
+
+error_reporting(0);
 
 if ( $current_blog->archived == '1' || $current_blog->spam == '1' || $current_blog->deleted == '1' ) {
 	status_header( 404 );
-	die('404 &#8212; File not found.');
+	die( '404 &#8212; File not found.' );
 }
 
 if ( !function_exists('wp_check_filetype') ) :
@@ -53,7 +63,7 @@ function wp_check_filetype($filename, $mimes = null) {
 	$type = false;
 	$ext = false;
 
-	foreach ( (array)$mimes as $ext_preg => $mime_match ) {
+	foreach ( (array) $mimes as $ext_preg => $mime_match ) {
 		$ext_preg = '!\.(' . $ext_preg . ')$!i';
 		if ( preg_match($ext_preg, $filename, $ext_matches) ) {
 			$type = $mime_match;
@@ -69,62 +79,59 @@ endif;
 $file = BLOGUPLOADDIR . str_replace( '..', '', $_GET[ 'file' ] );
 if ( !is_file( $file ) ) {
 	status_header( 404 );
-	die('404 &#8212; File not found.');
+	die( '404 &#8212; File not found.' );
 }
 
 $mime = wp_check_filetype( $_SERVER[ 'REQUEST_URI' ] );
-if( $mime[ 'type' ] === false && function_exists( 'mime_content_type' ) )
-		$mime[ 'type' ] = mime_content_type( $file );
+if( false === $mime[ 'type' ] && function_exists( 'mime_content_type' ) )
+	$mime[ 'type' ] = mime_content_type( $file );
 
-if( $mime[ 'type' ] != false ) {
+if( $mime[ 'type' ] )
 	$mimetype = $mime[ 'type' ];
-} else {
-	$ext = substr( $_SERVER[ 'REQUEST_URI' ], strrpos( $_SERVER[ 'REQUEST_URI' ], '.' ) + 1 );
-	$mimetype = "image/$ext";
-}
-@header( 'Content-type: ' . $mimetype ); // always send this
+else
+	$mimetype = 'image/' . substr( $_SERVER[ 'REQUEST_URI' ], strrpos( $_SERVER[ 'REQUEST_URI' ], '.' ) + 1 );
+
+header( 'Content-type: ' . $mimetype ); // always send this
 if ( false === strpos( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) )
-	@header( 'Content-Length: ' . filesize( $file ) );
+	header( 'Content-Length: ' . filesize( $file ) );
 
 // Optional support for X-Sendfile and X-Accel-Redirect
-if ( defined('WPMU_ACCEL_REDIRECT') && WPMU_ACCEL_REDIRECT ) {
-	@header( 'X-Accel-Redirect: ' . str_replace( WP_CONTENT_DIR, '', $file ) );
+if ( WPMU_ACCEL_REDIRECT ) {
+	header( 'X-Accel-Redirect: ' . str_replace( WP_CONTENT_DIR, '', $file ) );
 	exit;
-} elseif ( defined('WPMU_SENDFILE') && WPMU_SENDFILE ) {
-	@header( 'X-Sendfile: ' . $file );
+} elseif ( WPMU_SENDFILE ) {
+	header( 'X-Sendfile: ' . $file );
 	exit;
 }
 
-$last_modified = gmdate('D, d M Y H:i:s', filemtime( $file ));
-$etag = '"' . md5($last_modified) . '"';
-@header( "Last-Modified: $last_modified GMT" );
-@header( 'ETag: ' . $etag );
-@header( 'Expires: ' . gmdate('D, d M Y H:i:s', time() + 100000000) . ' GMT' );
+$last_modified = gmdate( 'D, d M Y H:i:s', filemtime( $file ) );
+$etag = '"' . md5( $last_modified ) . '"';
+header( "Last-Modified: $last_modified GMT" );
+header( 'ETag: ' . $etag );
+header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + 100000000 ) . ' GMT' );
 
 // Support for Conditional GET
-if (isset($_SERVER['HTTP_IF_NONE_MATCH']))
-	$client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
-else
-	$client_etag = false;
+$client_etag = isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ? stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) : false;
 
-if( !isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
+if( ! isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 	$_SERVER['HTTP_IF_MODIFIED_SINCE'] = false;
-$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+
+$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
 // If string is empty, return 0. If not, attempt to parse into a timestamp
-$client_modified_timestamp = $client_last_modified ? strtotime($client_last_modified) : 0;
+$client_modified_timestamp = $client_last_modified ? strtotime( $client_last_modified ) : 0;
 
 // Make a timestamp for our most recent modification...
 $modified_timestamp = strtotime($last_modified);
 
-if ( ($client_last_modified && $client_etag) ?
-	 (($client_modified_timestamp >= $modified_timestamp) && ($client_etag == $etag)) :
-	 (($client_modified_timestamp >= $modified_timestamp) || ($client_etag == $etag)) ) {
+if ( ( $client_last_modified && $client_etag )
+	? ( ( $client_modified_timestamp >= $modified_timestamp) && ( $client_etag == $etag ) )
+	: ( ( $client_modified_timestamp >= $modified_timestamp) || ( $client_etag == $etag ) )
+	) {
 	status_header( 304 );
 	exit;
 }
 
 // If we made it this far, just serve the file
-
 readfile( $file );
 
 ?>
