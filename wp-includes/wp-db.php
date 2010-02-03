@@ -1218,7 +1218,7 @@ class wpdb {
 	/**
 	 * Retrieve the name of the function that called wpdb.
 	 *
-	 * Requires PHP 4.3 and searches up the list of functions until it reaches
+	 * Searches up the list of functions until it reaches
 	 * the one that would most logically had called this method.
 	 *
 	 * @since 2.5.0
@@ -1226,10 +1226,6 @@ class wpdb {
 	 * @return string The name of the calling function
 	 */
 	function get_caller() {
-		// requires PHP 4.3+
-		if ( !is_callable('debug_backtrace') )
-			return '';
-
 		$bt = debug_backtrace();
 		$caller = array();
 
