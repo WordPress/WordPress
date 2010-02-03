@@ -439,7 +439,7 @@ function dashboard_quota() {
 		<tr class="first">
 			<td class="first b b-posts"><?php printf( __( '<a href="upload.php" title="Manage Uploads" class="musublink">%sMB</a>' ), $quota ); ?></td>
 			<td class="t posts"><?php _e('Space Allowed'); ?></td>
-			<td class="b b-comments"><?php printf( __( '<a href="upload.php" title="Manage Uploads" class="musublink">%1sMB (%2s%%)</a>' ), $used, $percentused ); ?>
+			<td class="b b-comments"><?php printf( __( '<a href="upload.php" title="Manage Uploads" class="musublink">%1sMB (%2s%%)</a>' ), $used, $percentused ); ?></td>
 			<td class="last t comments <?php echo $used_color;?>"><?php _e('Space Used');?></td>
 		</tr>
 	</table>
