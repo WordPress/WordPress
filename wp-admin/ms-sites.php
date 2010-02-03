@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
-$title = __('Blogs');
+$title = __('Sites');
 $parent_file = 'ms-admin.php';
 
 wp_enqueue_script( 'admin-forms' );
@@ -82,7 +82,7 @@ switch ( $action ) {
 		?>
 		<div class="wrap">
 		<?php screen_icon(); ?>
-		<h2><?php _e('Edit Blog'); ?> - <a href='http://<?php echo $details->domain . $details->path; ?>'>http://<?php echo $details->domain . $details->path; ?></a></h2>
+		<h2><?php _e('Edit Site'); ?> - <a href='http://<?php echo $details->domain . $details->path; ?>'>http://<?php echo $details->domain . $details->path; ?></a></h2>
 		<form method="post" action="ms-edit.php?action=updateblog">
 			<?php wp_nonce_field('editblog'); ?>
 			<input type="hidden" name="id" value="<?php echo esc_attr($id) ?>" />
@@ -372,7 +372,7 @@ switch ( $action ) {
 
 		<div class="wrap" style="position:relative;">
 		<?php screen_icon(); ?>
-		<h2><?php _e('Blogs') ?></h2>
+		<h2><?php _e('Sites') ?></h2>
 
 		<form action="ms-sites.php" method="get" id="ms-search">
 			<input type="hidden" name="action" value="blogs" />
@@ -592,13 +592,12 @@ switch ( $action ) {
 
 		<div class="wrap">
 			<a name="form-add-blog"></a>
-			<?php screen_icon(); ?>
-			<h2><?php _e('Add Blog') ?></h2>
+			<h2><?php _e('Add Site') ?></h2>
 			<form method="post" action="ms-edit.php?action=addblog">
 				<?php wp_nonce_field('add-blog') ?>
 				<table class="form-table">
 					<tr class="form-field form-required">
-						<th style="text-align:center;" scope='row'><?php _e('Blog Address') ?></th>
+						<th style="text-align:center;" scope='row'><?php _e('Site Address') ?></th>
 						<td>
 						<?php if ( is_subdomain_install() ) { ?>
 							<input name="blog[domain]" type="text" title="<?php _e('Domain') ?>"/>.<?php echo $current_site->domain;?>
@@ -610,7 +609,7 @@ switch ( $action ) {
 						</td>
 					</tr>
 					<tr class="form-field form-required">
-						<th style="text-align:center;" scope='row'><?php _e('Blog Title') ?></th>
+						<th style="text-align:center;" scope='row'><?php _e('Site Title') ?></th>
 						<td><input name="blog[title]" type="text" size="20" title="<?php _e('Title') ?>"/></td>
 					</tr>
 					<tr class="form-field form-required">
@@ -622,7 +621,7 @@ switch ( $action ) {
 					</tr>
 				</table>
 				<p class="submit">
-					<input class="button" type="submit" name="go" value="<?php esc_attr_e('Add Blog') ?>" /></p>
+					<input class="button" type="submit" name="go" value="<?php esc_attr_e('Add Site') ?>" /></p>
 			</form>
 		</div>
 		<?php

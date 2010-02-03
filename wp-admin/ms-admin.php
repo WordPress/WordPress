@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
-$title = __('Site Admin');
+$title = __('Network Admin');
 $parent_file = 'ms-admin.php';
 
 function index_css() {
@@ -25,7 +25,6 @@ $user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n(
 $blog_text = sprintf( _n( '%s blog', '%s blogs', $c_blogs ), number_format_i18n( $c_blogs ) );
 
 $sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
-$title = __( 'Site Admin' );
 ?>
 
 <div class="wrap">
@@ -33,7 +32,7 @@ $title = __( 'Site Admin' );
 	<h2><?php echo esc_html( $title ); ?></h2>
 
 	<ul class="subsubsub">
-	<li><a href="ms-sites.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Blog'); ?></strong></a> | </li>
+	<li><a href="ms-sites.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Site'); ?></strong></a> | </li>
 	<li><a href="ms-users.php#form-add-user" class="rbutton"><?php _e('Create a New User'); ?></a></li>
 	</ul>
 	<br clear='all' />
@@ -53,7 +52,7 @@ $title = __( 'Site Admin' );
 		<p>
 			<input type="hidden" name="action" value="blogs" />
 			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e("Search Blogs"); ?>" />
+			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e("Search Sites"); ?>" />
 		</p>
 	</form>
 
