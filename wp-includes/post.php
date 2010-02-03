@@ -708,6 +708,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * delete_cap - The capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
  * hierarchical - Whether the post type is hierarchical. Defaults to false.
  * supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
+ * register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
  *
  * @package WordPress
  * @subpackage Post
@@ -724,7 +725,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array());
+	$defaults = array('label' => false, 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -782,6 +783,9 @@ function register_post_type($post_type, $args = array()) {
 		$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 		$wp_rewrite->add_permastruct($post_type, "/{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front']);
 	}
+
+	if ( $args->register_meta_box_cb )
+		add_action('add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1);
 
 	$wp_post_types[$post_type] = $args;
 
