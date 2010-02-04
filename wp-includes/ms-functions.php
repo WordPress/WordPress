@@ -1608,10 +1608,8 @@ function recurse_dirsize( $directory ) {
 					$size += filesize($path);
 				} elseif (is_dir($path)) {
 					$handlesize = recurse_dirsize($path);
-					if ($handlesize >= 0)
+					if ($handlesize > 0)
 						$size += $handlesize;
-					else
-						return false;
 				}
 			}
 		}
