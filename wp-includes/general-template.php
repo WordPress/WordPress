@@ -1073,7 +1073,7 @@ function get_calendar($initial = true) {
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption');
-	echo '<table id="wp-calendar" summary="' . esc_attr__('Calendar') . '">
+	echo '<table id="wp-calendar">
 	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
@@ -1087,7 +1087,7 @@ function get_calendar($initial = true) {
 	foreach ( $myweek as $wd ) {
 		$day_name = (true == $initial) ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
 		$wd = esc_attr($wd);
-		echo "\n\t\t<th abbr=\"$wd\" scope=\"col\" title=\"$wd\">$day_name</th>";
+		echo "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
 	}
 
 	echo '
@@ -1098,7 +1098,7 @@ function get_calendar($initial = true) {
 	<tr>';
 
 	if ( $previous ) {
-		echo "\n\t\t".'<td abbr="' . $wp_locale->get_month($previous->month) . '" colspan="3" id="prev"><a href="' .
+		echo "\n\t\t".'<td colspan="3" id="prev"><a href="' .
 		get_month_link($previous->year, $previous->month) . '" title="' . sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($previous->month),
 			date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
 	} else {
@@ -1108,7 +1108,7 @@ function get_calendar($initial = true) {
 	echo "\n\t\t".'<td class="pad">&nbsp;</td>';
 
 	if ( $next ) {
-		echo "\n\t\t".'<td abbr="' . $wp_locale->get_month($next->month) . '" colspan="3" id="next"><a href="' .
+		echo "\n\t\t".'<td colspan="3" id="next"><a href="' .
 		get_month_link($next->year, $next->month) . '" title="' . esc_attr( sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($next->month) ,
 			date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
 	} else {
