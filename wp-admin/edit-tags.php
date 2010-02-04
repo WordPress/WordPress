@@ -289,7 +289,12 @@ else
 </div>
 
 <?php if ( current_user_can($tax->edit_cap) ) {
-	do_action('add_tag_form_pre', $taxonomy); ?>
+	if ( 'category' == $taxonomy )
+		do_action('add_category_form_pre', (object)array('parent' => 0) );
+	else
+		do_action('add_tag_form_pre', $taxonomy);
+	do_action('add_' . $taxonomy . '_form_pre', $taxonomy);
+?>
 
 <div class="form-wrap">
 <h3><?php _e('Add a New Tag'); ?></h3>
@@ -323,8 +328,22 @@ else
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
+<?php 
+if ( 'category' == $taxonomy ) 
+	do_action('add_category_form_fields');
+else
+	do_action('add_tag_form_fields', $taxonomy);
+do_action('add_' . $taxonomy . '_form_fields', $taxonomy);
+?>
+
 <p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
-<?php do_action('add_tag_form', $taxonomy); ?>
+<?php
+if ( 'category' == $taxonomy )
+	do_action('edit_category_form',	(object)array('parent' => 0) );
+else
+	do_action('add_tag_form', $taxonomy);
+do_action('add_' . $taxonomy . '_form', $taxonomy);
+?>
 </form></div>
 <?php } ?>
 

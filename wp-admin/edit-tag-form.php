@@ -19,7 +19,11 @@ if ( empty($tag_ID) ) { ?>
 	return;
 }
 
-do_action('edit_tag_form_pre', $tag); ?>
+if ( 'category' == $taxonomy )
+	do_action('edit_category_form_pre', $tag );
+else
+	do_action('edit_tag_form_pre', $tag);
+do_action('edit_' . $taxonomy . '_form_pre', $tag, $taxonomy);  ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -56,9 +60,21 @@ do_action('edit_tag_form_pre', $tag); ?>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo esc_html($tag->description); ?></textarea><br />
 			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
-		<?php do_action('edit_tag_form_fields', $tag); ?>
+		<?php
+		if ( 'category' == $taxonomy ) 
+			do_action('edit_category_form_fields', $tag);
+		else
+			do_action('edit_tag_form_fields', $tag);
+		do_action('edit_' . $taxonomy . '_form_fields', $tag, $taxonomy);
+		?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Tag'); ?>" /></p>
-<?php do_action('edit_tag_form', $tag); ?>
+<?php 
+if ( 'category' == $taxonomy ) 
+	do_action('edit_category_form_', $tag);
+else
+	do_action('edit_tag_form_', $tag);
+do_action('edit_' . $taxonomy . '_form', $tag, $taxonomy);
+?>
 </form>
 </div>
