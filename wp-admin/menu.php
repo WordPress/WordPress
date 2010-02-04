@@ -25,16 +25,9 @@
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 
-$menu[0] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top', 'menu-dashboard', 'div' );
-if ( is_multisite() ) {
-	$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
-	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
-}
-
 if ( is_multisite() && is_super_admin() ) {
-	$menu[1] = array( '', 'read', 'separator0', '', 'wp-menu-separator' );
 	/* translators: Network menu item */
-	$menu[2] = array(__('Network'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
+	$menu[0] = array(__('Network'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
 	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'super_admin', 'ms-admin.php' );
 	/* translators: Sites menu item */
 	$submenu[ 'ms-admin.php' ][5] = array( __('Sites'), 'super_admin', 'ms-sites.php' );
@@ -42,6 +35,14 @@ if ( is_multisite() && is_super_admin() ) {
 	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'super_admin', 'ms-themes.php' );
 	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'super_admin', 'ms-options.php' );
 	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'super_admin', 'ms-upgrade-site.php' );
+
+	$menu[1] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
+}
+
+$menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top', 'menu-dashboard', 'div' );
+if ( is_multisite() ) {
+	$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
+	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
 }
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
