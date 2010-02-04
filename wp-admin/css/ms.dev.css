@@ -58,3 +58,12 @@ form#wpmu-search {
 #dashboard_right_now td.b a.musublink {
 	font-size: 16px;
 }
+tr.site-deleted {
+	background:#f55;
+}
+tr.site-spammed {
+	background:#faa;
+}
+tr.site-archived {
+	background:#fee;
+}
