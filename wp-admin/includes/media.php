@@ -361,14 +361,27 @@ function media_buttons() {
 	$video_title = __('Add Video');
 	$audio_upload_iframe_src = apply_filters('audio_upload_iframe_src', "$media_upload_iframe_src&amp;type=audio");
 	$audio_title = __('Add Audio');
-	$out = <<<EOF
 
-	<a href="{$image_upload_iframe_src}&amp;TB_iframe=true" id="add_image" class="thickbox" title='$image_title' onclick="return false;"><img src='images/media-button-image.gif' alt='$image_title' /></a>
-	<a href="{$video_upload_iframe_src}&amp;TB_iframe=true" id="add_video" class="thickbox" title='$video_title' onclick="return false;"><img src='images/media-button-video.gif' alt='$video_title' /></a>
-	<a href="{$audio_upload_iframe_src}&amp;TB_iframe=true" id="add_audio" class="thickbox" title='$audio_title' onclick="return false;"><img src='images/media-button-music.gif' alt='$audio_title' /></a>
-	<a href="{$media_upload_iframe_src}&amp;TB_iframe=true" id="add_media" class="thickbox" title='$media_title' onclick="return false;"><img src='images/media-button-other.gif' alt='$media_title' /></a>
+	$do_image = $do_audio = $do_video = true;
+	if ( is_multisite() ) {
+		$media_buttons = get_site_option( 'mu_media_buttons' );
+		if ( empty($media_buttons['image']) )
+			$do_image = false;
+		if ( empty($media_buttons['audio']) )
+			$do_audio = false;
+		if ( empty($media_buttons['video']) )
+			$do_video = false;
+	}
+	$out = '';
 
-EOF;
+	if ( $do_image )
+		$out .= '<a href="{$image_upload_iframe_src}&amp;TB_iframe=true" id="add_image" class="thickbox" title="$image_title" onclick="return false;"><img src="images/media-button-image.gif" alt="$image_title" /></a>';
+	if ( $do_video )
+		$out .= '<a href="{$video_upload_iframe_src}&amp;TB_iframe=true" id="add_video" class="thickbox" title="$video_title" onclick="return false;"><img src="images/media-button-video.gif" alt="$video_title" /></a>';
+	if ( $do_audio )
+		$out .= '<a href="{$audio_upload_iframe_src}&amp;TB_iframe=true" id="add_audio" class="thickbox" title="$audio_title" onclick="return false;"><img src="images/media-button-music.gif" alt="$audio_title" /></a>';
+	$out .= '<a href="{$media_upload_iframe_src}&amp;TB_iframe=true" id="add_media" class="thickbox" title="$media_title" onclick="return false;"><img src="images/media-button-other.gif" alt="$media_title" /></a>';
+
 	printf($context, $out);
 }
 add_action( 'media_buttons', 'media_buttons' );
