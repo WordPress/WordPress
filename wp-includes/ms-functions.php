@@ -1758,11 +1758,6 @@ function maybe_redirect_404() {
 	}
 }
 
-function remove_tinymce_media_button( $buttons ) {
-	unset( $buttons[ array_search( 'media', $buttons ) ] );
-	return $buttons;
-}
-
 function maybe_add_existing_user_to_blog() {
 	if ( false === strpos( $_SERVER[ 'REQUEST_URI' ], '/newbloguser/' ) )
 		return false;
@@ -1823,7 +1818,7 @@ function update_blog_public( $old_value, $value ) {
 	update_blog_status( $wpdb->blogid, 'public', (int) $value );
 }
 add_action('update_option_blog_public', 'update_blog_public', 10, 2);
-	
+
 /* Redirect all hits to "dashboard" blog to wp-admin/ Dashboard. */
 function redirect_mu_dashboard() {
 	global $current_site, $current_blog;

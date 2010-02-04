@@ -19,7 +19,6 @@ add_action ( 'template_redirect', 'maybe_redirect_404' );
 add_filter ( 'allowed_redirect_hosts', 'redirect_this_site' );
 
 // Administration
-add_filter ( 'mce_buttons_2', 'remove_tinymce_media_button' );
 add_filter ( 'term_id_filter', 'global_terms', 10, 2 );
 add_action ( 'publish_post', 'update_posts_count' );
 add_action ( 'delete_post', 'wpmu_update_blogs_date' );
