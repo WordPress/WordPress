@@ -168,7 +168,8 @@ $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php';
 $_wp_real_parent_file['post-new.php'] = 'edit.php';
-$_wp_real_parent_file['page-new.php'] = 'edit-pages.php';
+$_wp_real_parent_file['edit-pages.php'] = 'edit.php?post_type=page';
+$_wp_real_parent_file['page-new.php'] = 'edit.php?post_type=page';
 $_wp_real_parent_file['wpmu-admin.php'] = 'ms-admin.php';
 
 do_action('_admin_menu');
