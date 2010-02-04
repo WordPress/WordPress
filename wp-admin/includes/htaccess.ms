@@ -17,10 +17,3 @@ RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
 RewriteRule . index.php [L]
 
-<IfModule mod_security.c>
-<Files async-upload.php>
-SecFilterEngine Off
-SecFilterScanPOST Off
-</Files>
-</IfModule>
-
