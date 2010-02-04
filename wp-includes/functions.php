@@ -1390,7 +1390,7 @@ function add_magic_quotes( $array ) {
 		if ( is_array( $v ) ) {
 			$array[$k] = add_magic_quotes( $v );
 		} else {
-			$array[$k] = esc_sql( $v );
+			$array[$k] = addslashes( $v );
 		}
 	}
 	return $array;
