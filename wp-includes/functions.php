@@ -3848,6 +3848,6 @@ function get_file_data( $file, $default_headers, $context = '' ) {
  * @since 2.9.0
  */
 function _search_terms_tidy($t) {
-	return trim($t, "\"\'\n\r ");
+	return trim($t, "\"'\n\r ");
 }
 ?>
