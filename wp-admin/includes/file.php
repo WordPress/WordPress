@@ -325,6 +325,9 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
 
+	if ( is_multisite() )
+		delete_transient( 'dirsize_cache' );
+
 	return apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ) );
 }
 

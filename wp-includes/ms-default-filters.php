@@ -4,7 +4,7 @@ add_filter ( 'wpmu_validate_user_signup', 'signup_nonce_check' );
 add_action ( 'init', 'maybe_add_existing_user_to_blog' );
 add_action ( 'wpmu_new_user', 'newuser_notify_siteadmin' );
 add_action ( 'wpmu_activate_user', 'add_new_user_to_blog', 10, 3 );
-add_action ( 'sanitize_user', 'strtolower_usernames', 10, 3 );
+add_action ( 'sanitize_user', 'strtolower' );
 
 // Blogs
 add_filter ( 'wpmu_validate_blog_signup', 'signup_nonce_check' );

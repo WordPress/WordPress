@@ -17,7 +17,7 @@ function wpmu_update_blogs_date() {
 
 function get_blogaddress_by_id( $blog_id ) {
 	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
-	return clean_url("http://" . $bloginfo->domain . $bloginfo->path);
+	return esc_url( 'http://' . $bloginfo->domain . $bloginfo->path );
 }
 
 function get_blogaddress_by_name( $blogname ) {
@@ -26,9 +26,9 @@ function get_blogaddress_by_name( $blogname ) {
 	if ( is_subdomain_install() ) {
 		if ( $blogname == 'main' )
 			$blogname = 'www';
-		return clean_url( "http://" . $blogname . "." . $current_site->domain . $current_site->path );
+		return esc_url( 'http://' . $blogname . '.' . $current_site->domain . $current_site->path );
 	} else {
-		return clean_url( "http://" . $current_site->domain . $current_site->path . $blogname . '/' );
+		return esc_url( 'http://' . $current_site->domain . $current_site->path . $blogname . '/' );
 	}
 }
 
@@ -38,16 +38,15 @@ function get_blogaddress_by_domain( $domain, $path ){
 	} else {
 		if ( $domain != $_SERVER['HTTP_HOST'] ) {
 			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
-			if ( $blogname != 'www.' ) {
-				$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path . $blogname . '/';
-			} else { // we're installing the main blog
-				$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
-			}
+			$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
+			// we're not installing the main blog
+			if ( $blogname != 'www.' )
+				$url .= $blogname . '/';
 		} else { // main blog
 			$url = 'http://' . $domain . $path;
 		}
 	}
-	return clean_url($url);
+	return esc_url( $url );
 }
 
 function get_sitestats() {
@@ -55,13 +54,13 @@ function get_sitestats() {
 
 	$stats['blogs'] = get_blog_count();
 
-	$count_ts = get_site_option( "get_user_count_ts" );
+	$count_ts = get_site_option( 'user_count_ts' );
 	if ( time() - $count_ts > 3600 ) {
-		$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users}" );
-		update_site_option( "user_count", $count );
-		update_site_option( "user_count_ts", time() );
+		$count = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->users" );
+		update_site_option( 'user_count', $count );
+		update_site_option( 'user_count_ts', time() );
 	} else {
-		$count = get_site_option( "user_count" );
+		$count = get_site_option( 'user_count' );
 	}
 	$stats['users'] = $count;
 	return $stats;
@@ -70,13 +69,13 @@ function get_sitestats() {
 function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	global $wpdb;
 
-	if ( $sitedomain == '' )
+	if ( ! $sitedomain )
 		$site_id = $wpdb->siteid;
 	else
-		$site_id = $wpdb->get_var( $wpdb->prepare("SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path) );
+		$site_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path ) );
 
-	if ( $site_id != false )
-		return $wpdb->get_results( $wpdb->prepare("SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id), ARRAY_A );
+	if ( $site_id )
+		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id ), ARRAY_A );
 
 	return false;
 }
@@ -119,34 +118,32 @@ function get_blog_details( $blog_id, $get_all = true ) {
 	$details = wp_cache_get( $blog_id . $all, 'blog-details' );
 
 	if ( $details ) {
-		if ( !is_object($details) && $details == -1 )
-			return false;
-		elseif ( !is_object($details) ) // Clear old pre-serialized objects. Cache clients do better with that.
-			wp_cache_delete( $blog_id . $all, 'blog-details' );
-		else
-			return $details;
+		if ( ! is_object( $details ) ) {
+			if ( $details == -1 )
+				return false;
+			else
+				// Clear old pre-serialized objects. Cache clients do better with that.
+				wp_cache_delete( $blog_id . $all, 'blog-details' );
+		}
+		return $details;
 	}
 
-	$details = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE blog_id = %d /* get_blog_details */", $blog_id) );
-	if ( !$details ) {
+	$details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE blog_id = %d", $blog_id ) );
+	if ( ! $details ) {
 		wp_cache_set( $blog_id . $all, -1, 'blog-details' );
 		return false;
 	}
 
-	if ( !$get_all ) {
+	if ( ! $get_all ) {
 		wp_cache_set( $blog_id . $all, $details, 'blog-details' );
 		return $details;
 	}
 
-	$wpdb->suppress_errors();
-	switch_to_blog( $blog_id );
-	$details->blogname		= get_option( 'blogname' );
-	$details->siteurl		= get_option( 'siteurl' );
-	$details->post_count	= get_option( 'post_count' );
-	restore_current_blog();
-	$wpdb->suppress_errors( false );
+	$details->blogname		= get_blog_option( $blog_id, 'blogname' );
+	$details->siteurl		= get_blog_option( $blog_id, 'siteurl' );
+	$details->post_count	= get_blog_option( $blog_id, 'post_count' );
 
-	$details = apply_filters('blog_details', $details);
+	$details = apply_filters( 'blog_details', $details );
 
 	wp_cache_set( $blog_id . $all, $details, 'blog-details' );
 
@@ -629,7 +626,7 @@ function get_most_active_blogs( $num = 10, $display = true ) {
 		if ( is_array( $most_active ) ) {
 			reset( $most_active );
 			foreach ( (array) $most_active as $key => $details ) {
-				$url = clean_url("http://" . $details['domain'] . $details['path']);
+				$url = esc_url("http://" . $details['domain'] . $details['path']);
 				echo "<li>" . $details['postcount'] . " <a href='$url'>$url</a></li>";
 			}
 		}
@@ -1151,15 +1148,15 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 	else
 		$activate_url = "http://{$domain}{$path}wp-activate.php?key=$key";
 
-	$activate_url = clean_url($activate_url);
+	$activate_url = esc_url($activate_url);
 	$admin_email = get_site_option( "admin_email" );
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf( apply_filters( 'wpmu_signup_blog_notification_email', __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your blog here:\n\n%s" ) ), $activate_url, clean_url( "http://{$domain}{$path}" ), $key );
+	$message = sprintf( apply_filters( 'wpmu_signup_blog_notification_email', __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your blog here:\n\n%s" ) ), $activate_url, esc_url( "http://{$domain}{$path}" ), $key );
 	// TODO: Don't hard code activation link.
-	$subject = sprintf( apply_filters( 'wpmu_signup_blog_notification_subject', __( '[%1s] Activate %2s' ) ), $from_name, clean_url( 'http://' . $domain . $path ) );
+	$subject = sprintf( apply_filters( 'wpmu_signup_blog_notification_subject', __( '[%1s] Activate %2s' ) ), $from_name, esc_url( 'http://' . $domain . $path ) );
 	wp_mail($user_email, $subject, $message, $message_headers);
 	return true;
 }
@@ -1326,7 +1323,7 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	if ( is_email($email) == false )
 		return false;
 
-	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
+	$options_site_url = esc_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
 
 	switch_to_blog( $blog_id );
 	$blogname = get_option( 'blogname' );
@@ -1357,7 +1354,7 @@ function newuser_notify_siteadmin( $user_id ) {
 
 	$user = new WP_User($user_id);
 
-	$options_site_url = clean_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
+	$options_site_url = esc_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
 	$msg = sprintf(__("New User: %1s
 Remote IP: %2s
 
@@ -1594,13 +1591,6 @@ function get_dirsize( $directory ) {
 	return $dirsize[ $directory ][ 'size' ];
 }
 
-function clear_dirsize_cache( $file = true ) {
-	delete_transient( 'dirsize_cache' );
-	return $file;
-}
-add_filter( 'wp_handle_upload', 'clear_dirsize_cache' );
-add_action( 'delete_attachment', 'clear_dirsize_cache' );
-
 function recurse_dirsize( $directory ) {
 	$size = 0;
 
@@ -1835,11 +1825,7 @@ function update_blog_public( $old_value, $value ) {
 	update_blog_status( $wpdb->blogid, 'public', (int) $value );
 }
 add_action('update_option_blog_public', 'update_blog_public', 10, 2);
-
-function strtolower_usernames( $username, $raw, $strict ) {
-	return strtolower( $username );
-}
-
+	
 /* Redirect all hits to "dashboard" blog to wp-admin/ Dashboard. */
 function redirect_mu_dashboard() {
 	global $current_site, $current_blog;
@@ -1854,12 +1840,10 @@ function redirect_mu_dashboard() {
 add_action( 'template_redirect', 'redirect_mu_dashboard' );
 
 function get_dashboard_blog() {
-	global $current_site;
+	if ( $blog = get_site_option( 'dashboard_blog' ) )
+		return get_blog_details( $blog );
 
-	if ( get_site_option( 'dashboard_blog' ) == false )
-		return get_blog_details( $current_site->blog_id );
-	else
-		return get_blog_details( get_site_option( 'dashboard_blog' ) );
+	return get_blog_details( $GLOBALS['current_site']->blog_id );
 }
 
 function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
@@ -1878,29 +1862,12 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
 	return false;
 }
 
-function retrieve_password_sitename( $title ) {
-	global $current_site;
-	return sprintf( __( '[%s] Password Reset' ), $current_site->site_name );
-}
-add_filter( 'retrieve_password_title', 'retrieve_password_sitename' );
-
-function reset_password_sitename( $title ) {
-	global $current_site;
-	return sprintf( __( '[%s] Your new password' ), $current_site->site_name );
-}
-add_filter( 'password_reset_title', 'reset_password_sitename' );
-
-function lowercase_username( $username, $raw_username, $strict ) {
-	return strtolower( $username );
-}
-add_filter( 'sanitize_user', 'lowercase_username', 10, 3 );
-
 function users_can_register_signup_filter() {
 	$registration = get_site_option('registration');
 	if ( $registration == 'all' || $registration == 'user' )
 		return true;
-	else
-		return false;
+
+	return false;
 }
 add_filter('option_users_can_register', 'users_can_register_signup_filter');
 
@@ -1949,7 +1916,7 @@ function force_ssl_content( $force = '' ) {
  *
  * @since 2.8.5
  **/
-function filter_SSL( $url) {
+function filter_SSL( $url ) {
 	if ( !is_string( $url ) )
 		return get_bloginfo( 'url' ); //return home blog url with proper scheme
 
