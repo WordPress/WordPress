@@ -252,19 +252,15 @@ if (isset($_GET['updated'])) {
 		<h3><?php _e('Site Wide Settings <em>(These settings may be overridden by blog owners)</em>') ?></h3>
 		<table class="form-table">
 			<?php
-			$lang_files = array();
-			if ( is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . LANGDIR ) )
-				while( ( $lang_file = readdir( $dh ) ) !== false )
-					if ( substr( $lang_file, -3 ) == '.mo' )
-						$lang_files[] = $lang_file;
+			$languages = get_available_languages();
 			$lang = get_site_option('WPLANG');
-			if ( !empty($lang_files) ) {
+			if ( !empty($languages) ) {
 				?>
 				<tr valign="top">
 					<th width="33%"><?php _e('Default Language') ?></th>
 					<td>
 						<select name="WPLANG" id="WPLANG">
-							<?php mu_dropdown_languages( $lang_files, get_site_option('WPLANG') ); ?>
+							<?php mu_dropdown_languages( $languages, get_site_option('WPLANG') ); ?>
 						</select>
 					</td>
 				</tr>

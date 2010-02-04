@@ -23,7 +23,7 @@ switch ( $_GET['action'] ) {
 		if ( empty( $_POST ) )
 			wp_die( __("You probably need to go back to the <a href='ms-options.php'>options page</a>") );
 
-		if ( isset($_POST['WPLANG']) )
+		if ( isset($_POST['WPLANG']) && ( '' === $_POST['WPLANG'] || in_array($_POST['WPLANG'], get_available_languages()) ) )
 			update_site_option( "WPLANG", $_POST['WPLANG'] );
 
 		if ( is_email( $_POST['admin_email'] ) )
