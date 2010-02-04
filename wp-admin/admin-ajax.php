@@ -312,20 +312,6 @@ case 'delete-comment' : // On success, die with time() instead of 1
 		_wp_ajax_delete_comment_response( $comment->comment_ID );
 	die( '0' );
 	break;
-case 'delete-cat' :
-	check_ajax_referer( "delete-category_$id" );
-	if ( !current_user_can( 'manage_categories' ) )
-		die('-1');
-
-	$cat = get_category( $id );
-	if ( !$cat || is_wp_error( $cat ) )
-		die('1');
-
-	if ( wp_delete_category( $id ) )
-		die('1');
-	else
-		die('0');
-	break;
 case 'delete-tag' :
 	$tag_id = (int) $_POST['tag_ID'];
 	check_ajax_referer( "delete-tag_$tag_id" );
@@ -509,59 +495,6 @@ case 'add-link-category' : // On the Fly
 			'position' => -1
 		) );
 	}
-	$x->send();
-	break;
-case 'add-cat' : // From Manage->Categories
-	check_ajax_referer( 'add-category' );
-	if ( !current_user_can( 'manage_categories' ) )
-		die('-1');
-
-	if ( '' === trim($_POST['cat_name']) ) {
-		$x = new WP_Ajax_Response( array(
-			'what' => 'cat',
-			'id' => new WP_Error( 'cat_name', __('You did not enter a category name.') )
-		) );
-		$x->send();
-	}
-
-	if ( is_term( trim( $_POST['cat_name'] ), $_POST['taxonomy'], $_POST['category_parent'] ) ) {
-		$x = new WP_Ajax_Response( array(
-			'what' => 'cat',
-			'id' => new WP_Error( 'cat_exists', __('The category you are trying to create already exists.'), array( 'form-field' => 'cat_name' ) ),
-		) );
-		$x->send();
-	}
-
-	$cat = wp_insert_category( $_POST, true );
-
-	if ( is_wp_error($cat) ) {
-		$x = new WP_Ajax_Response( array(
-			'what' => 'cat',
-			'id' => $cat
-		) );
-		$x->send();
-	}
-
-	if ( !$cat || (!$cat = get_term( $cat, $_POST['taxonomy'] ) ) )
-		die('0');
-
-	$level = 0;
-	$cat_full_name = $cat->name;
-	$_cat = $cat;
-	while ( $_cat->parent ) {
-		$_cat = get_category( $_cat->parent );
-		$cat_full_name = $_cat->name . ' &#8212; ' . $cat_full_name;
-		$level++;
-	}
-	$cat_full_name = esc_attr($cat_full_name);
-
-	$x = new WP_Ajax_Response( array(
-		'what' => 'cat',
-		'id' => $cat->term_id,
-		'position' => -1,
-		'data' => _cat_row( $cat, $level, $cat_full_name ),
-		'supplemental' => array('name' => $cat_full_name, 'show-link' => sprintf(__( 'Category <a href="#%s">%s</a> added' ), "cat-$cat->term_id", $cat_full_name))
-	) );
 	$x->send();
 	break;
 case 'add-link-cat' : // From Blogroll -> Categories
