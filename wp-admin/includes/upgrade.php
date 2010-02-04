@@ -1098,6 +1098,7 @@ function upgrade_300() {
  * @since 3.0.0
  */
 function upgrade_network() {
+	global $wp_current_db_version;
 	// 2.8
 	if ( $wp_current_db_version < 11549 ) {
 		$wpmu_sitewide_plugins = get_site_option( 'wpmu_sitewide_plugins' );
@@ -1110,8 +1111,8 @@ function upgrade_network() {
 
 			update_site_option( 'active_sitewide_plugins', $sitewide_plugins );
 		}
-		update_site_option( 'wpmu_sitewide_plugins', '' );
-		update_site_option( 'deactivated_sitewide_plugins', '' );
+		delete_site_option( 'wpmu_sitewide_plugins' );
+		delete_site_option( 'deactivated_sitewide_plugins' );
 	}
 }
 

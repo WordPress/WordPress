@@ -403,12 +403,7 @@ function wp_load_mu_plugins() {
  */
 function wp_load_plugins() {
 	$plugins = array();
-
-	// Check for hacks file if the option is enabled
-	if ( get_option( 'hack_file' ) && file_exists( ABSPATH . 'my-hacks.php' ) )
-			$plugins[] = ABSPATH . 'my-hacks.php';
-
-	$active_plugins = (array) apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+	$active_plugins = (array) get_option( 'active_plugins', array() );
 
 	// Get active network plugins
 	if ( is_multisite() ) {
@@ -417,6 +412,12 @@ function wp_load_plugins() {
 			$active_plugins = array_merge( $active_plugins, array_keys( $active_sitewide_plugins ) );
 			sort( $active_plugins );
 		}
+	}
+
+	// Check for hacks file if the option is enabled
+	if ( get_option( 'hack_file' ) && file_exists( ABSPATH . 'my-hacks.php' ) ) {
+		_deprecated_file( 'my-hacks.php', '1.5' );
+		array_unshift( $plugins, ABSPATH . 'my-hacks.php' );
 	}
 
 	if ( empty( $active_plugins ) || defined( 'WP_INSTALLING' ) )

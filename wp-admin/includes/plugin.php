@@ -259,7 +259,7 @@ function get_plugins($plugin_folder = '') {
  * @return bool True, if in the active plugins list. False, not in the list.
  */
 function is_plugin_active( $plugin ) {
-	return in_array( $plugin, apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) ) );
+	return in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) || is_plugin_active_for_network( $plugin );
 }
 
 /**
@@ -270,7 +270,7 @@ function is_plugin_active( $plugin ) {
  * @param string $plugin Base plugin path from plugins directory.
  * @return bool True, if active for the network, otherwise false.
  */
-function is_plugin_active_for_network( $plugin ){
+function is_plugin_active_for_network( $plugin ) {
 	if ( !is_multisite() )
 		return false;
 
@@ -553,7 +553,7 @@ function delete_plugins($plugins, $redirect = '' ) {
  * @return array invalid plugins, plugin as key, error as value
  */
 function validate_active_plugins() {
-	$plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+	$plugins = get_option( 'active_plugins', array() );
 	// validate vartype: array
 	if ( ! is_array( $plugins ) ) {
 		update_option( 'active_plugins', array() );
@@ -562,7 +562,7 @@ function validate_active_plugins() {
 
 	if ( is_multisite() && is_super_admin() ) {
 		$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-		$plugins = array_merge( (array) $plugins, $network_plugins );
+		$plugins = array_merge( $plugins, $network_plugins );
 	}
 
 	if ( empty( $plugins ) )
