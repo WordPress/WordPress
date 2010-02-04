@@ -33,8 +33,7 @@ switch ( $action ) {
 			echo "<ul>";
 			foreach ( (array) $blogs as $details ) {
 				if ( $details['spam'] == 0 && $details['deleted'] == 0 && $details['archived'] == 0 ) {
-					$blog_prefix = $wpdb->get_blog_prefix( $details[ 'blog_id' ] );
-					$siteurl = $wpdb->get_var( "SELECT option_value from {$blog_prefix}options WHERE option_name = 'siteurl'" );
+					$siteurl = get_blog_option( $details['blog_id'], 'siteurl' );
 					echo "<li>$siteurl</li>";
 					$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=1", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
 					if ( is_wp_error( $response ) )

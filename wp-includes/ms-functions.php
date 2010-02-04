@@ -272,7 +272,7 @@ function get_blog_option( $blog_id, $setting, $default = false ) {
 		return get_blog_option( $blog_id, 'siteurl' );
 
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
-		$value = preg_replace( '|/+$|', '', $value );
+		$value = untrailingslashit( $value );
 
 	if (! @unserialize( $value ) )
 		$value = stripslashes( $value );
