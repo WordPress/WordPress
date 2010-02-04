@@ -23,7 +23,8 @@ switch ( $_GET['action'] ) {
 		if ( empty( $_POST ) )
 			wp_die( __("You probably need to go back to the <a href='ms-options.php'>options page</a>") );
 
-		update_site_option( "WPLANG", $_POST['WPLANG'] );
+		if ( isset($_POST['WPLANG']) )
+			update_site_option( "WPLANG", $_POST['WPLANG'] );
 
 		if ( is_email( $_POST['admin_email'] ) )
 			update_site_option( "admin_email", $_POST['admin_email'] );
@@ -102,6 +103,8 @@ switch ( $_GET['action'] ) {
 		update_site_option( "dashboard_blog", $dashboard_blog_id );
 		$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'admin_notice_feed' );
 		foreach ( $options as $option_name ) {
+			if ( ! isset($_POST[ $option_name ]) )
+				continue;
 			$value = stripslashes_deep( $_POST[ $option_name ] );
 			update_site_option( $option_name, $value );
 		}
