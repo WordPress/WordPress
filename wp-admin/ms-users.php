@@ -156,23 +156,20 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 			</thead>
 			<tbody id="users" class="list:user user-list">
 			<?php if ($user_list) {
-				$bgcolor = '';
 				$class = '';
 				foreach ( (array) $user_list as $user) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 
-					$status_list = array( "spam" => "#faa", "deleted" => "#f55" );
+					$status_list = array( "spam" => "site-spammed", "deleted" => "site-deleted" );
 
-					$bgcolour = "";
 					foreach ( $status_list as $status => $col ) {
-						if ( $user[$status] ) {
-							$bgcolour = "style='background: $col'";
-						}
+						if ( $user[$status] )
+							$class = $col;
 					}
 
 					?>
 
-					<tr <?php echo $bgcolour; ?> class="<?php echo $class; ?>">
+					<tr class="<?php echo $class; ?>">
 					<?php
 					foreach( (array) $posts_columns as $column_name=>$column_display_name) :
 						switch($column_name) {

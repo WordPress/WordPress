@@ -445,17 +445,15 @@ switch ( $action ) {
 			<tbody id="the-list">
 			<?php
 			if ( $blog_list ) {
-				$bgcolor = $class = '';
-				$status_list = array( 'archived' => array( '#fee', __('Archived') ), 'spam' => array( '#faa', __('Spam') ), 'deleted' => array( '#f55', __('Deleted') ) );
+				$status_list = array( 'archived' => array( 'site-archived', __('Archived') ), 'spam' => array( 'site-spammed', __('Spam') ), 'deleted' => array( 'site-deleted', __('Deleted') ) );
 				foreach ( $blog_list as $blog ) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 					reset( $status_list );
 
-					$bgcolour = '';
 					$blog_states = array();
 					foreach ( $status_list as $status => $col ) {
 						if ( get_blog_status( $blog['blog_id'], $status ) == 1 ) {
-							$bgcolour = "style='background: {$col[0]}'";
+							$class = $col[0];
 							$blog_states[] = $col[1];
 						}
 					}
@@ -470,7 +468,7 @@ switch ( $action ) {
 							$blog_state .= "<span class='post-state'>$state$sep</span>";
 						}
 					}
-					echo "<tr $bgcolour class='$class'>";
+					echo "<tr class='$class'>";
 
 					$blogname = ( is_subdomain_install() ) ? str_replace('.'.$current_site->domain, '', $blog['domain']) : $blog['path'];
 					foreach ( $posts_columns as $column_name=>$column_display_name ) {
