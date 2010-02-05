@@ -1838,12 +1838,9 @@ function includes_url($path = '') {
  * @return string Content url link with optional path appended.
 */
 function content_url($path = '') {
-	$scheme = ( is_ssl() ? 'https' : 'http' );
 	$url = WP_CONTENT_URL;
-	if ( 0 === strpos($url, 'http') ) {
-		if ( is_ssl() )
-			$url = str_replace( 'http://', "{$scheme}://", $url );
-	}
+	if ( 0 === strpos($url, 'http') && is_ssl() )
+		$url = str_replace( 'http://', 'https://', $url );
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
@@ -1863,7 +1860,6 @@ function content_url($path = '') {
  * @return string Plugins url link with optional path appended.
 */
 function plugins_url($path = '', $plugin = '') {
-	$scheme = ( is_ssl() ? 'https' : 'http' );
 
 	$mu_plugin_dir = WPMU_PLUGIN_DIR;
 	foreach ( array('path', 'plugin', 'mu_plugin_dir') as $var ) {
@@ -1877,7 +1873,7 @@ function plugins_url($path = '', $plugin = '') {
 		$url = WP_PLUGIN_URL;
 
 	if ( 0 === strpos($url, 'http') && is_ssl() )
-		$url = str_replace( 'http://', "{$scheme}://", $url );
+		$url = str_replace( 'http://', 'https://', $url );
 
 	if ( !empty($plugin) && is_string($plugin) ) {
 		$folder = dirname(plugin_basename($plugin));
