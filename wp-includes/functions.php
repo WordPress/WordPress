@@ -3071,24 +3071,26 @@ function _deprecated_function( $function, $version, $replacement=null ) {
  * @access private
  *
  * @uses do_action() Calls 'deprecated_file_included' and passes the file name, what to use instead,
- *   and the version in which the file was deprecated.
+ *   the version in which the file was deprecated, and any message regarding the change.
  * @uses apply_filters() Calls 'deprecated_file_trigger_error' and expects boolean value of true to do
  *   trigger or false to not trigger error.
  *
  * @param string $file The file that was included
  * @param string $version The version of WordPress that deprecated the file
  * @param string $replacement Optional. The file that should have been included based on ABSPATH
+ * @param string $message Optional. A message regarding the change
  */
-function _deprecated_file( $file, $version, $replacement = null ) {
+function _deprecated_file( $file, $version, $replacement = null, $message = '' ) {
 
-	do_action( 'deprecated_file_included', $file, $replacement, $version );
+	do_action( 'deprecated_file_included', $file, $replacement, $version, $message );
 
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'deprecated_file_trigger_error', true ) ) {
+		$message = empty( $message ) ? '' : ' ' . $message;
 		if ( ! is_null( $replacement ) )
-			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $file, $version, $replacement ) );
+			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $file, $version, $replacement ) . $message );
 		else
-			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $file, $version ) );
+			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $file, $version ) . $message );
 	}
 }
 /**

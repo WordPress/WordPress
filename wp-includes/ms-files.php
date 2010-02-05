@@ -1,6 +1,6 @@
 <?php
 /**
- * Load mulitsite uploaded media
+ * Multisite upload handler.
  *
  * @since 3.0.0
  *
@@ -8,8 +8,11 @@
  * @subpackage Multisite
  */
 
-define( 'SHORTINIT', true );
-require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+if ( ! defined( 'SHORTINIT' ) ) {
+	define( 'SHORTINIT', true );
+	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
+}
+
 ms_default_constants( 'ms-files' );
 
 error_reporting(0);
