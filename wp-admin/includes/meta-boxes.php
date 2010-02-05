@@ -239,7 +239,7 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
 function post_tags_meta_box($post, $box) {
 	$tax_name = esc_attr(substr($box['id'], 8));
 	$taxonomy = get_taxonomy($tax_name);
-	if ( !current_user_can($taxonomy->manage_cap) )
+	if ( !current_user_can($taxonomy->manage_cap) ) // @todo: Display the terms, do not edit.
 		return;
 	$helps = isset($taxonomy->helps) ? esc_attr($taxonomy->helps) : __('Separate tags with commas.');
 ?>
@@ -279,8 +279,6 @@ function post_categories_meta_box( $post, $box ) {
  	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
 	$tax = get_taxonomy($taxonomy);
 
-	if ( !current_user_can($tax->manage_cap) )
-		return;
  	?>
  	<div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
  		<ul id="<?php echo $taxonomy; ?>-tabs" class="category-tabs">
@@ -296,7 +294,7 @@ function post_categories_meta_box( $post, $box ) {
 
 		<div id="<?php echo $taxonomy; ?>-all" class="tabs-panel">
 			<ul id="<?php echo $taxonomy; ?>checklist" class="list:<?php echo $taxonomy?> categorychecklist form-no-clear">
-				<?php wp_terms_checklist($post->ID, array('taxonomy'=>$taxonomy, 'popular_cats'=> $popular_ids)) ?>
+				<?php wp_terms_checklist($post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
 			</ul>
 		</div>
 

@@ -474,7 +474,7 @@ class Walker_Category_Checklist extends Walker {
 			$name = 'tax_input['.$taxonomy.']';
 
 		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
-		$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' . (in_array( $category->term_id, $selected_cats ) ? ' checked="checked"' : "" ) . '/> ' . esc_html( apply_filters('the_category', $category->name )) . '</label>';
+		$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' . (in_array( $category->term_id, $selected_cats ) ? ' checked="checked"' : "" ) . (!empty($args['disabled']) ? 'disabled="disabled"' : '') . '/> ' . esc_html( apply_filters('the_category', $category->name )) . '</label>';
 	}
 
 	function end_el(&$output, $category, $depth, $args) {
@@ -527,6 +527,9 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 	$descendants_and_self = (int) $descendants_and_self;
 
 	$args = array('taxonomy' => $taxonomy);
+
+	$tax = get_taxonomy($taxonomy);
+	$args['disabled'] = !current_user_can($tax->manage_cap);
 
 	if ( is_array( $selected_cats ) )
 		$args['selected_cats'] = $selected_cats;
@@ -588,6 +591,12 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 
 	$terms = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
 
+	$tax = get_taxonomy($taxonomy);
+	if ( ! current_user_can($tax->manage_cap) )
+		$disabled = 'disabled="disabled"';
+	else
+		$disabled = '';
+
 	$popular_ids = array();
 	foreach ( (array) $terms as $term ) {
 		$popular_ids[] = $term->term_id;
@@ -599,7 +608,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 
 		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit">
-			<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" />
+			<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" <?php echo $disabled ?>/>
 				<?php echo esc_html( apply_filters( 'the_category', $term->name ) ); ?>
 			</label>
 		</li>
