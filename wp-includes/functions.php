@@ -335,7 +335,9 @@ function get_option( $setting, $default = false ) {
 			return $default;
 	}
 
-	$alloptions = wp_load_alloptions();
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		$alloptions = wp_load_alloptions();
+	}
 
 	if ( isset( $alloptions[$setting] ) ) {
 		$value = $alloptions[$setting];
@@ -495,12 +497,14 @@ function update_option( $option_name, $newvalue ) {
 	$newvalue = maybe_serialize( $newvalue );
 
 	do_action( 'update_option', $option_name, $oldvalue, $newvalue );
-	$alloptions = wp_load_alloptions();
-	if ( isset( $alloptions[$option_name] ) ) {
-		$alloptions[$option_name] = $newvalue;
-		wp_cache_set( 'alloptions', $alloptions, 'options' );
-	} else {
-		wp_cache_set( $option_name, $newvalue, 'options' );
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		$alloptions = wp_load_alloptions();
+		if ( isset( $alloptions[$option_name] ) ) {
+			$alloptions[$option_name] = $newvalue;
+			wp_cache_set( 'alloptions', $alloptions, 'options' );
+		} else {
+			wp_cache_set( $option_name, $newvalue, 'options' );
+		}
 	}
 
 	$wpdb->update($wpdb->options, array('option_value' => $newvalue), array('option_name' => $option_name) );
@@ -560,12 +564,14 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 	$value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
 	do_action( 'add_option', $name, $value );
-	if ( 'yes' == $autoload ) {
-		$alloptions = wp_load_alloptions();
-		$alloptions[$name] = $value;
-		wp_cache_set( 'alloptions', $alloptions, 'options' );
-	} else {
-		wp_cache_set( $name, $value, 'options' );
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		if ( 'yes' == $autoload ) {
+			$alloptions = wp_load_alloptions();
+			$alloptions[$name] = $value;
+			wp_cache_set( 'alloptions', $alloptions, 'options' );
+		} else {
+			wp_cache_set( $name, $value, 'options' );
+		}
 	}
 
 	// This option exists now
@@ -606,14 +612,16 @@ function delete_option( $name ) {
 	do_action( 'delete_option', $name );
 	// expected_slashed ($name)
 	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name = '$name'" );
-	if ( 'yes' == $option->autoload ) {
-		$alloptions = wp_load_alloptions();
-		if ( isset( $alloptions[$name] ) ) {
-			unset( $alloptions[$name] );
-			wp_cache_set( 'alloptions', $alloptions, 'options' );
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		if ( 'yes' == $option->autoload ) {
+			$alloptions = wp_load_alloptions();
+			if ( isset( $alloptions[$name] ) ) {
+				unset( $alloptions[$name] );
+				wp_cache_set( 'alloptions', $alloptions, 'options' );
+			}
+		} else {
+			wp_cache_delete( $name, 'options' );
 		}
-	} else {
-		wp_cache_delete( $name, 'options' );
 	}
 	do_action( 'deleted_option', $name );
 	return true;
@@ -665,15 +673,17 @@ function get_transient($transient) {
 	if ( $_wp_using_ext_object_cache ) {
 		$value = wp_cache_get($transient, 'transient');
 	} else {
-		$transient_option = '_transient_' . esc_sql($transient);
-		// If option is not in alloptions, it is not autoloaded and thus has a timeout
-		$alloptions = wp_load_alloptions();
-		if ( !isset( $alloptions[$transient_option] ) ) {
-			$transient_timeout = '_transient_timeout_' . esc_sql($transient);
-			if ( get_option($transient_timeout) < time() ) {
-				delete_option($transient_option);
-				delete_option($transient_timeout);
-				return false;
+		if ( ! defined( 'WP_INSTALLING' ) ) {
+			$transient_option = '_transient_' . esc_sql($transient);
+			// If option is not in alloptions, it is not autoloaded and thus has a timeout
+			$alloptions = wp_load_alloptions();
+			if ( !isset( $alloptions[$transient_option] ) ) {
+				$transient_timeout = '_transient_timeout_' . esc_sql($transient);
+				if ( get_option($transient_timeout) < time() ) {
+					delete_option($transient_option);
+					delete_option($transient_timeout);
+					return false;
+				}
 			}
 		}
 
@@ -1742,7 +1752,9 @@ function is_blog_installed() {
 		return true;
 
 	$suppress = $wpdb->suppress_errors();
-	$alloptions = wp_load_alloptions();
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		$alloptions = wp_load_alloptions();
+	}
 	// If siteurl is not set to autoload, check it specifically
 	if ( !isset( $alloptions['siteurl'] ) )
 		$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
