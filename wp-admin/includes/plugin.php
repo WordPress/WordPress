@@ -302,7 +302,7 @@ function is_network_only_plugin( $file ) {
 	/* PHP will close file handle, but we are good citizens. */
 	@fclose($fp);
 
-	if ( preg_match( '|Site Wide Only:(.*)true$|mi', $plugin_data ) )
+	if ( preg_match( '/(Network|Site Wide) Only:(.*)true$/mi', $plugin_data ) )
 		return true;
 
 	return false;
