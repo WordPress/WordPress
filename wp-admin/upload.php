@@ -388,10 +388,10 @@ foreach ($arc_result as $arc_row) {
 			$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '">' . __('Edit') . '</a>';
 		if ( current_user_can('delete_post', $post->ID) )
 			if ( EMPTY_TRASH_DAYS && MEDIA_TRASH ) {
-				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID) . "'>" . __('Trash') . "</a>";
+				$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=trash&amp;post=$post->ID", 'trash-attachment_' . $post->ID) . "'>" . __('Trash') . "</a>";
 			} else {
 				$delete_ays = !MEDIA_TRASH ? " onclick='return showNotice.warn();'" : '';
-				$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
+				$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-attachment_' . $post->ID) . "'>" . __('Delete Permanently') . "</a>";
 			}
 		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		if ( current_user_can('edit_post', $post->ID) )
