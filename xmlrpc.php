@@ -469,7 +469,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$blog_id = $blog->userblog_id;
 			switch_to_blog($blog_id);
-			$is_admin = current_user_can('level_8');
+			$is_admin = current_user_can('manage_options');
 
 			$struct[] = array(
 				'isAdmin'		=> $is_admin,
