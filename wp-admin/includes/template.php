@@ -582,25 +582,25 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	global $post_ID;
 
 	if ( $post_ID )
-		$checked_categories = wp_get_object_terms($post_ID, 'category', array('fields'=>'ids'));
+		$checked_terms = wp_get_object_terms($post_ID, $taxonomy, array('fields'=>'ids'));
 	else
-		$checked_categories = array();
+		$checked_terms = array();
 
-	$categories = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
+	$terms = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
 
 	$popular_ids = array();
-	foreach ( (array) $categories as $category ) {
-		$popular_ids[] = $category->term_id;
+	foreach ( (array) $terms as $term ) {
+		$popular_ids[] = $term->term_id;
 		if ( !$echo ) // hack for AJAX use
 			continue;
-		$id = "popular-$taxonomy-$category->term_id";
-		$checked = in_array( $category->term_id, $checked_categories ) ? 'checked="checked"' : '';
+		$id = "popular-$taxonomy-$term->term_id";
+		$checked = in_array( $term->term_id, $checked_terms ) ? 'checked="checked"' : '';
 		?>
 
 		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit">
-			<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $category->term_id; ?>" />
-				<?php echo esc_html( apply_filters( 'the_category', $category->name ) ); ?>
+			<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" />
+				<?php echo esc_html( apply_filters( 'the_category', $term->name ) ); ?>
 			</label>
 		</li>
 
@@ -2699,7 +2699,7 @@ function meta_form() {
 ?>
 </select>
 <input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
-<a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
+<a href="#postcustomstuff" class="hide-if-no-js" onClick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
 <span id="enternew"><?php _e('Enter new'); ?></span>
 <span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span></a>
 <?php } else { ?>
@@ -3376,7 +3376,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" onclick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onClick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -3386,7 +3386,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
+			<input type="button" class="button alignleft" onClick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php esc_attr_e('Select'); ?>" />
 		</div>
 	</div>
