@@ -195,7 +195,7 @@ function get_post_link( $id = 0, $leavename = false, $sample = false  ) {
 		$post_link = home_url($post_link);
 	}
 
-	return apply_filters('post_type_link', $post_link, $id);
+	return apply_filters('post_type_link', $post_link, $id, $leavename);
 }
 
 /**
