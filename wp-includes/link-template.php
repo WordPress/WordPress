@@ -1865,20 +1865,23 @@ function content_url($path = '') {
 function plugins_url($path = '', $plugin = '') {
 	$scheme = ( is_ssl() ? 'https' : 'http' );
 
-	if ( $plugin !== '' && preg_match('#^' . preg_quote(WPMU_PLUGIN_DIR . DIRECTORY_SEPARATOR, '#') . '#', $plugin) ) {
-		$url = WPMU_PLUGIN_URL;
-	} else {
-		$url = WP_PLUGIN_URL;
+	$mu_plugin_dir = WPMU_PLUGIN_DIR;
+	foreach ( array('path', 'plugin', 'mu_plugin_dir') as $var ) {
+		$$var = str_replace('\\' ,'/', $$var); // sanitize for Win32 installs
+		$$var = preg_replace('|/+|', '/', $$var);
 	}
 
-	if ( 0 === strpos($url, 'http') ) {
-		if ( is_ssl() )
-			$url = str_replace( 'http://', "{$scheme}://", $url );
-	}
+	if ( !empty($plugin) && 0 === strpos($plugin, $mu_plugin_dir) )
+		$url = WPMU_PLUGIN_URL;
+	else
+		$url = WP_PLUGIN_URL;
+
+	if ( 0 === strpos($url, 'http') && is_ssl() )
+		$url = str_replace( 'http://', "{$scheme}://", $url );
 
 	if ( !empty($plugin) && is_string($plugin) ) {
 		$folder = dirname(plugin_basename($plugin));
-		if ('.' != $folder)
+		if ( '.' != $folder )
 			$url .= '/' . ltrim($folder, '/');
 	}
 
