@@ -395,14 +395,14 @@ function deactivate_plugins( $plugins, $silent = false ) {
 		if ( is_plugin_active_for_network($plugin) ) {
 			// Deactivate network wide
 			$do_network = true;
-			unset($network_current[$plugin]);
+			unset( $network_current[ $plugin ] );
 		} else {
 			// Deactivate for this blog only
-			$do_blog = true;
 			$key = array_search( $plugin, (array) $current );
-
-			if ( false !== $key )
+			if ( false !== $key ) {
+				$do_blog = true;
 				array_splice( $current, $key, 1 );
+			}
 		}
 
 		//Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
@@ -562,7 +562,7 @@ function validate_active_plugins() {
 
 	if ( is_multisite() && is_super_admin() ) {
 		$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-		$plugins = array_merge( $plugins, $network_plugins );
+		$plugins = array_merge( $plugins, array_keys( $network_plugins ) );
 	}
 
 	if ( empty( $plugins ) )

@@ -477,8 +477,8 @@ function print_plugins_table($plugins, $context = '') {
 	}
 	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
 		$actions = array();
-		$is_active = is_plugin_active($plugin_file);
 		$is_active_for_network = is_plugin_active_for_network($plugin_file);
+		$is_active = $is_active_for_network || is_plugin_active( $plugin_file );
 
 		if ( $is_active_for_network && !is_super_admin() )
 			continue;
