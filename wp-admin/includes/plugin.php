@@ -29,6 +29,9 @@
  *		located in the locale folder then Domain Path will be "/locale/" and
  *		must have the first slash. Defaults to the base folder the plugin is
  *		located in.
+ * Network: Optional. Specify "Network: true" to require that a plugin is activated
+ *		across all sites in an installation. This will prevent a plugin from being
+ *		activated on a single site when Multisite is enabled.
  *  * / # Remove the space to close comment
  * </code>
  *
@@ -43,6 +46,7 @@
  *		'PluginURI' - Plugin web site address.
  *		'TextDomain' - Plugin's text domain for localization.
  *		'DomainPath' - Plugin's relative directory path to .mo files.
+ *		'Network' - Boolean. Whether the plugin can only be activated network wide.
  *
  * Some users have issues with opening large files and manipulating the contents
  * for want is usually the first 1kiB or 2kiB. This function stops pulling in
@@ -75,10 +79,21 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 		'Author' => 'Author',
 		'AuthorURI' => 'Author URI',
 		'TextDomain' => 'Text Domain',
-		'DomainPath' => 'Domain Path'
-		);
+		'DomainPath' => 'Domain Path',
+		'Network' => 'Network',
+		// Site Wide Only is deprecated in favor of Network.
+		'_sitewide' => 'Site Wide Only',
+	);
 
 	$plugin_data = get_file_data( $plugin_file, $default_headers, 'plugin' );
+
+	// Site Wide Only is the old header for Network
+	if ( empty( $plugin_data['Network'] ) && ! empty( $plugin_data['_sitewide'] ) ) {
+		_deprecated_argument( __FUNCTION__, '3.0', sprintf( __( 'The <code>%1$s</code> plugin header is deprecated. Use <code>%2$s</code> instead.' ), 'Site Wide Only: true', 'Network: true' ) );
+		$plugin_data['Network'] = $plugin_data['_sitewide'];
+	}
+	$plugin_data['Network'] = ( 'true' == strtolower( $plugin_data['Network'] ) ) ? true : false;
+	unset( $plugin_data['_sitewide'] );
 
 	//For backward compatibility by default Title is the same as Name.
 	$plugin_data['Title'] = $plugin_data['Name'];
@@ -91,7 +106,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup = true, $translate = true) {
 
-	//Translate fields
+	//Translate fields30
 	if ( $translate && ! empty($plugin_data['TextDomain']) ) {
 		if ( ! empty( $plugin_data['DomainPath'] ) )
 			load_plugin_textdomain($plugin_data['TextDomain'], false, dirname($plugin_file). $plugin_data['DomainPath']);
@@ -282,29 +297,21 @@ function is_plugin_active_for_network( $plugin ) {
 }
 
 /**
- * Checks for "Site Wide Only: true" in the plugin header to see if this should
- * be activated as a network wide MU plugin.
+ * Checks for "Network: true" in the plugin header to see if this should
+ * be activated only as a network wide plugin. The plugin would also work
+ * when Multisite is not enabled.
+ *
+ * Checks for "Site Wide Only: true" for backwards compatibility.
  *
  * @since 3.0.0
- *
- * @todo Use API for getting arbitrary plugin headers.
  *
  * @param $file Plugin to check
  * $return bool True if plugin is network only, false otherwise.
  */
-function is_network_only_plugin( $file ) {
-	/* Open the plugin file for reading to check if this is a ms-plugin. */
-	$fp = @fopen( WP_PLUGIN_DIR . '/' . $file, 'r' );
-
-	/* Pull only the first 8kiB of the file in. */
-	$plugin_data = @fread( $fp, 8192 );
-
-	/* PHP will close file handle, but we are good citizens. */
-	@fclose($fp);
-
-	if ( preg_match( '/(Network|Site Wide Only):(.*)true$/mi', $plugin_data ) )
-		return true;
-
+function is_network_only_plugin( $plugin ) {
+	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	if ( $plugin_data )
+		return $plugin_data['Network'];
 	return false;
 }
 
