@@ -38,7 +38,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Site Admin Email') ?></th>
 				<td>
-					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo esc_attr( stripslashes( get_site_option('admin_email') ) ) ?>" size="45" />
+					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" size="45" />
 					<br />
 					<?php printf( __( 'Registration and support mails will come from this address. Make it generic like "support@%s"' ), $current_site->domain ); ?>
 				</td>

@@ -1732,32 +1732,59 @@ function get_shortcut_link() {
 }
 
 /**
- * Retrieve the home url.
+ * Retrieve the home url for the current site.
  *
  * Returns the 'home' option with the appropriate protocol,  'https' if
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
  * @package WordPress
- * @since 3.0
+ * @since 3.0.0
+ *
+ * @uses get_home_url()
  *
  * @param  string $path   (optional) Path relative to the home url.
  * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
  * @return string Home url link with optional path appended.
 */
 function home_url( $path = '', $scheme = null ) {
+	return get_home_url(null, $path, $scheme);
+}
+
+/**
+ * Retrieve the home url for a given site.
+ *
+ * Returns the 'home' option with the appropriate protocol,  'https' if
+ * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
+ * overridden.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param  int $blog_id   (optional) Blog ID. Defaults to current blog.
+ * @param  string $path   (optional) Path relative to the home url.
+ * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
+ * @return string Home url link with optional path appended.
+*/
+function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
 	$scheme      = is_ssl() && !is_admin() ? 'https' : 'http';
-	$url = str_replace( 'http://', "$scheme://", get_option('home') );
+
+	if ( empty($blog_id) || !is_multisite() )
+		$home = get_option('home');
+	else
+		$home = untrailingslashit(get_blogaddress_by_id($blog_id));
+
+	$url = str_replace( 'http://', "$scheme://", $home );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
 
-	return apply_filters( 'home_url', $url, $path, $orig_scheme );
+	return apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
 }
 
 /**
- * Retrieve the site url.
+ * Retrieve the site url for the current site.
  *
  * Returns the 'site_url' option with the appropriate protocol,  'https' if
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
@@ -1766,11 +1793,32 @@ function home_url( $path = '', $scheme = null ) {
  * @package WordPress
  * @since 2.6.0
  *
+ * @uses get_site_url()
+ *
  * @param string $path Optional. Path relative to the site url.
  * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
  * @return string Site url link with optional path appended.
 */
-function site_url($path = '', $scheme = null) {
+function site_url( $path = '', $scheme = null ) {
+	return get_site_url(null, $path, $scheme);
+}
+
+/**
+ * Retrieve the site url for a given site.
+ *
+ * Returns the 'site_url' option with the appropriate protocol,  'https' if
+ * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
+ * overridden.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param int $blog_id (optional) Blog ID. Defaults to current blog.
+ * @param string $path Optional. Path relative to the site url.
+ * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
+ * @return string Site url link with optional path appended.
+*/
+function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	// should the list of allowed schemes be maintained elsewhere?
 	$orig_scheme = $scheme;
 	if ( !in_array($scheme, array('http', 'https')) ) {
@@ -1784,16 +1832,21 @@ function site_url($path = '', $scheme = null) {
 			$scheme = ( is_ssl() ? 'https' : 'http' );
 	}
 
-	$url = str_replace( 'http://', "{$scheme}://", get_option('siteurl') );
+	if ( empty($blog_id) || !is_multisite() )
+		$url = get_option('siteurl');
+	else
+		$url = untrailingslashit(get_blogaddress_by_id($blog_id));
+
+	$url = str_replace( 'http://', "{$scheme}://", $url );
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	return apply_filters('site_url', $url, $path, $orig_scheme);
+	return apply_filters('site_url', $url, $path, $orig_scheme, $blog_id);
 }
 
 /**
- * Retrieve the url to the admin area.
+ * Retrieve the url to the admin area for the current site.
  *
  * @package WordPress
  * @since 2.6.0
@@ -1801,13 +1854,27 @@ function site_url($path = '', $scheme = null) {
  * @param string $path Optional path relative to the admin url
  * @return string Admin url link with optional path appended
 */
-function admin_url($path = '') {
-	$url = site_url('wp-admin/', 'admin');
+function admin_url( $path = '' ) {
+	return get_admin_url(null, $path);
+}
+
+/**
+ * Retrieve the url to the admin area for a given site.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param int $blog_id (optional) Blog ID. Defaults to current blog.
+ * @param string $path Optional path relative to the admin url
+ * @return string Admin url link with optional path appended
+*/
+function get_admin_url( $blog_id = null, $path = '' ) {
+	$url = get_site_url($blog_id, 'wp-admin/', 'admin');
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	return apply_filters('admin_url', $url, $path);
+	return apply_filters('admin_url', $url, $path, $blog_id);
 }
 
 /**

@@ -207,11 +207,12 @@ switch ( $_GET['action'] ) {
 		}
 
 		if ( $_POST['update_home_url'] == 'update' ) {
-			if ( get_option( 'siteurl' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
-				update_option( 'siteurl', 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] );
+			$blog_address = get_blogaddress_by_domain($_POST['blog']['domain'], $_POST['blog']['path']);
+			if ( get_option( 'siteurl' ) !=  $blog_address )
+				update_option( 'siteurl', $blog_address);
 
-			if ( get_option( 'home' ) != 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] )
-				update_option( 'home', 'http://' . $_POST['blog']['domain'] . $_POST['blog']['path'] );
+			if ( get_option( 'home' ) != $blog_address )
+				update_option( 'home', $blog_address );
 		}
 
 		$wp_rewrite->flush_rules();

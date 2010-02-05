@@ -82,7 +82,7 @@ switch ( $action ) {
 		?>
 		<div class="wrap">
 		<?php screen_icon(); ?>
-		<h2><?php _e('Edit Site'); ?> - <a href='http://<?php echo $details->domain . $details->path; ?>'>http://<?php echo $details->domain . $details->path; ?></a></h2>
+		<h2><?php _e('Edit Site'); ?> - <a href='<?php echo get_home_url($id); ?>'><?php echo get_home_url($id); ?></a></h2>
 		<form method="post" action="ms-edit.php?action=updateblog">
 			<?php wp_nonce_field('editblog'); ?>
 			<input type="hidden" name="id" value="<?php echo esc_attr($id) ?>" />
@@ -93,12 +93,12 @@ switch ( $action ) {
 				<table class="form-table">
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Domain') ?></th>
-								<td>http://<input name="blog[domain]" type="text" id="domain" value="<?php echo $details->domain ?>" size="33" /></td>
+								<td>http://<input name="blog[domain]" type="text" id="domain" value="<?php echo esc_attr($details->domain) ?>" size="33" /></td>
 							</tr>
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Path') ?></th>
 								<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr($details->path) ?>" size="40" style='margin-bottom:5px;' />
-								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if ( get_blog_option( $id, 'siteurl' ) == preg_replace('|/+$|', '', 'http://' . $details->domain . $details->path) || get_blog_option( $id, 'home' ) == preg_replace('|/+$|', '', 'http://' . $details->domain . $details->path) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
+								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if ( get_blog_option( $id, 'siteurl' ) == untrailingslashit( get_blogaddress_by_id($id) ) || get_blog_option( $id, 'home' ) == untrailingslashit( get_blogaddress_by_id($id) ) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e('Registered') ?></th>
@@ -446,6 +446,7 @@ switch ( $action ) {
 			<?php
 			if ( $blog_list ) {
 				$status_list = array( 'archived' => array( 'site-archived', __('Archived') ), 'spam' => array( 'site-spammed', __('Spam') ), 'deleted' => array( 'site-deleted', __('Deleted') ) );
+				$class = '';
 				foreach ( $blog_list as $blog ) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 					reset( $status_list );
@@ -490,7 +491,7 @@ switch ( $action ) {
 									<?php
 									$actions	= array();
 									$actions[]	= '<a href="ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
-									$actions[]	= "<a href='{$protocol}{$blog['domain']}{$blog['path']}wp-admin/' class='edit'>" . __('Backend') . '</a>';
+									$actions[]	= "<a href='" . get_admin_url($blog['blog_id']) . "' class='edit'>" . __('Backend') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
 										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
@@ -509,7 +510,7 @@ switch ( $action ) {
 
 									$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the blog %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
 
-									$actions[]	= "<a href='http://{$blog['domain']}{$blog['path']}' rel='permalink'>" . __('Visit') . '</a>';
+									$actions[]	= "<a href='" . get_home_url($blog['blog_id']) . "' rel='permalink'>" . __('Visit') . '</a>';
 									?>
 
 									<?php if ( count($actions) ) : ?>
@@ -542,7 +543,7 @@ switch ( $action ) {
 										$blogusers_warning = '';
 										if ( count( $blogusers ) > 5 ) {
 											$blogusers = array_slice( $blogusers, 0, 5 );
-											$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . $protocol . $blog[ 'domain' ] . $blog[ 'path' ] . 'wp-admin/users.php">' . __( 'More' ) . '</a>';
+											$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . get_admin_url($blog['blog_id'], 'users.php') . '">' . __( 'More' ) . '</a>';
 										}
 										foreach ( $blogusers as $key => $val )
 											echo '<a href="user-edit.php?user_id=' . $val->user_id . '">' . $val->user_login . '</a> ('.$val->user_email.')<br />';
