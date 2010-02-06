@@ -103,8 +103,7 @@ $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 
 $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top', 'menu-appearance', 'div' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
-	if ( !is_multisite() )
-		$submenu['themes.php'][10] = array(_x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
+	$submenu['themes.php'][10] = array(_x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
 	$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 
 $update_plugins = get_site_transient( 'update_plugins' );
@@ -118,8 +117,7 @@ if ( is_super_admin() || ( is_multisite() && isset($menu_perms['plugins']) && $m
 		$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
 		/* translators: add new plugin */
 		$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
-		if ( !is_multisite() )
-			$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
+		$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
 }
 unset($menu_perms, $update_plugins, $update_count);
 
