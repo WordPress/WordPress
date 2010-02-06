@@ -64,7 +64,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 		$random_password = wp_generate_password();
 		$message = __('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.');
 		$user_id = wp_create_user($user_name, $random_password, $user_email);
-		update_usermeta($user_id, 'default_password_nag', true);
+		update_user_option($user_id, 'default_password_nag', true, true);
 	} else {
 		$random_password = '';
 		$message =  __('User already exists.  Password inherited.');

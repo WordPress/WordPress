@@ -807,34 +807,33 @@ endif;
 add_action('admin_init', 'default_password_nag_handler');
 function default_password_nag_handler($errors = false) {
 	global $user_ID;
-	if ( ! get_usermeta($user_ID, 'default_password_nag') ) //Short circuit it.
+	if ( ! get_user_option('default_password_nag') ) //Short circuit it.
 		return;
 
 	//get_user_setting = JS saved UI setting. else no-js-falback code.
 	if ( 'hide' == get_user_setting('default_password_nag') || isset($_GET['default_password_nag']) && '0' == $_GET['default_password_nag'] ) {
 		delete_user_setting('default_password_nag');
-		update_usermeta($user_ID, 'default_password_nag', false);
+		update_user_option($user_ID, 'default_password_nag', false, true);
 	}
 }
 
 add_action('profile_update', 'default_password_nag_edit_user', 10, 2);
 function default_password_nag_edit_user($user_ID, $old_data) {
 	global $user_ID;
-	if ( ! get_usermeta($user_ID, 'default_password_nag') ) //Short circuit it.
+	if ( ! get_user_option('default_password_nag') ) //Short circuit it.
 		return;
 
 	$new_data = get_userdata($user_ID);
 
 	if ( $new_data->user_pass != $old_data->user_pass ) { //Remove the nag if the password has been changed.
 		delete_user_setting('default_password_nag');
-		update_usermeta($user_ID, 'default_password_nag', false);
+		update_user_option($user_ID, 'default_password_nag', false, true);
 	}
 }
 
 add_action('admin_notices', 'default_password_nag');
 function default_password_nag() {
-	global $user_ID;
-	if ( ! get_usermeta($user_ID, 'default_password_nag') )
+	if ( ! get_user_option('default_password_nag') ) //Short circuit it.
 		return;
 
 	echo '<div class="error default-password-nag"><p>';
