@@ -2100,20 +2100,10 @@ class WP_Query {
 				// @todo Use register_post_status() data to determine which states should be excluded.
 				$r_status[] = "$wpdb->posts.post_status <> 'trash'";
 			} else {
-				if ( in_array( 'draft'  , $q_status ) )
-					$r_status[] = "$wpdb->posts.post_status = 'draft'";
-				if ( in_array( 'pending', $q_status ) )
-					$r_status[] = "$wpdb->posts.post_status = 'pending'";
-				if ( in_array( 'future' , $q_status ) )
-					$r_status[] = "$wpdb->posts.post_status = 'future'";
-				if ( in_array( 'inherit' , $q_status ) )
-					$r_status[] = "$wpdb->posts.post_status = 'inherit'";
-				if ( in_array( 'private', $q_status ) )
-					$p_status[] = "$wpdb->posts.post_status = 'private'";
-				if ( in_array( 'publish', $q_status ) )
-					$r_status[] = "$wpdb->posts.post_status = 'publish'";
-				if ( in_array( 'trash', $q_status ) )
-					$r_status[] = "$wpdb->posts.post_status = 'trash'";
+				foreach ( get_post_stati() as $status ) {
+					if ( in_array( $status, $q_status ) )
+						$r_status[] = "$wpdb->posts.post_status = '$status'";
+				}
 			}
 
 			if ( empty($q['perm'] ) || 'readable' != $q['perm'] ) {
