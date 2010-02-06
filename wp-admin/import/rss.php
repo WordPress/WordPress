@@ -30,12 +30,6 @@ class RSS_Import {
 		echo '</div>';
 	}
 
-	function unhtmlentities($string) { // From php.net for < 4.3 compat
-		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-		$trans_tbl = array_flip($trans_tbl);
-		return strtr($string, $trans_tbl);
-	}
-
 	function greet() {
 		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from an RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.').'</p>';
@@ -87,7 +81,7 @@ class RSS_Import {
 
 			$cat_index = 0;
 			foreach ($categories as $category) {
-				$categories[$cat_index] = $wpdb->escape($this->unhtmlentities($category));
+				$categories[$cat_index] = $wpdb->escape( html_entity_decode( $category ) );
 				$cat_index++;
 			}
 
@@ -103,7 +97,7 @@ class RSS_Import {
 			if (!$post_content) {
 				// This is for feeds that put content in description
 				preg_match('|<description>(.*?)</description>|is', $post, $post_content);
-				$post_content = $wpdb->escape($this->unhtmlentities(trim($post_content[1])));
+				$post_content = $wpdb->escape( html_entity_decode( trim( $post_content[1] ) ) );
 			}
 
 			// Clean up content

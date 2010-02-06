@@ -43,12 +43,6 @@ class WP_Import {
 		echo '</div>';
 	}
 
-	function unhtmlentities($string) { // From php.net for < 4.3 compat
-		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-		$trans_tbl = array_flip($trans_tbl);
-		return strtr($string, $trans_tbl);
-	}
-
 	function greet() {
 		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this blog.').'</p>';
@@ -450,7 +444,7 @@ class WP_Import {
 
 		$tag_index = 0;
 		foreach ($tags as $tag) {
-			$tags[$tag_index] = $wpdb->escape($this->unhtmlentities(str_replace(array ('<![CDATA[', ']]>'), '', $tag)));
+			$tags[$tag_index] = $wpdb->escape( html_entity_decode( str_replace(array( '<![CDATA[', ']]>' ), '', $tag ) ) );
 			$tag_index++;
 		}
 
@@ -459,7 +453,7 @@ class WP_Import {
 
 		$cat_index = 0;
 		foreach ($categories as $category) {
-			$categories[$cat_index] = $wpdb->escape($this->unhtmlentities(str_replace(array ('<![CDATA[', ']]>'), '', $category)));
+			$categories[$cat_index] = $wpdb->escape( html_entity_decode( str_replace( array( '<![CDATA[', ']]>' ), '', $category ) ) );
 			$cat_index++;
 		}
 
