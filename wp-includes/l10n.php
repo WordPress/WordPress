@@ -501,7 +501,7 @@ function get_available_languages( $dir = null ) {
 
 	if ( is_dir( $dir ) && $dh = opendir( $dir ) ) {
 		while ( ( $lang_file = readdir( $dh ) ) !== false ) {
-			if ( substr( $lang_file, -3 ) == '.mo' )
+			if ( substr( $lang_file, -3 ) == '.mo' && ( false === strpos( $lang_file, 'continents-cities' ) ) )
 				$languages[] = basename($lang_file, '.mo');
 		}
 		closedir($dh);
