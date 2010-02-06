@@ -375,12 +375,12 @@ function media_buttons() {
 	$out = '';
 
 	if ( $do_image )
-		$out .= '<a href="{$image_upload_iframe_src}&amp;TB_iframe=true" id="add_image" class="thickbox" title="$image_title" onclick="return false;"><img src="images/media-button-image.gif" alt="$image_title" /></a>';
+		$out .= "<a href='{$image_upload_iframe_src}&amp;TB_iframe=true' id='add_image' class='thickbox' title='$image_title' onclick='return false;'><img src='images/media-button-image.gif' alt='$image_title' /></a>";
 	if ( $do_video )
-		$out .= '<a href="{$video_upload_iframe_src}&amp;TB_iframe=true" id="add_video" class="thickbox" title="$video_title" onclick="return false;"><img src="images/media-button-video.gif" alt="$video_title" /></a>';
+		$out .= "<a href='{$video_upload_iframe_src}&amp;TB_iframe=true' id='add_video' class='thickbox' title='$video_title' onclick='return false;'><img src='images/media-button-video.gif' alt='$video_title' /></a>";
 	if ( $do_audio )
-		$out .= '<a href="{$audio_upload_iframe_src}&amp;TB_iframe=true" id="add_audio" class="thickbox" title="$audio_title" onclick="return false;"><img src="images/media-button-music.gif" alt="$audio_title" /></a>';
-	$out .= '<a href="{$media_upload_iframe_src}&amp;TB_iframe=true" id="add_media" class="thickbox" title="$media_title" onclick="return false;"><img src="images/media-button-other.gif" alt="$media_title" /></a>';
+		$out .= "<a href='{$audio_upload_iframe_src}&amp;TB_iframe=true' id='add_audio' class='thickbox' title='$audio_title' onclick='return false;'><img src='images/media-button-music.gif' alt='$audio_title' /></a>";
+	$out .= "<a href='{$media_upload_iframe_src}&amp;TB_iframe=true' id='add_media' class='thickbox' title='$media_title' onclick='return false;'><img src='images/media-button-other.gif' alt='$media_title' /></a>";
 
 	printf($context, $out);
 }
