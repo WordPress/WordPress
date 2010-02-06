@@ -225,3 +225,6 @@ add_action( 'init',               '_show_post_preview'         );
 
 // Timezone
 add_filter( 'pre_option_gmt_offset','wp_timezone_override_offset' );
+
+// Admin Themes
+add_action('admin_init', 'register_admin_color_themes', 1);

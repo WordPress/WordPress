@@ -1996,6 +1996,15 @@ function wp_admin_css_color($key, $name, $url, $colors = array()) {
 }
 
 /**
+ * Registers the default Admin color themes
+ *
+ * @since 3.0.0
+ */
+function register_admin_color_themes() {
+	wp_admin_css_color('classic', __('Blue'), admin_url("css/colors-classic.css"), array('#073447', '#21759B', '#EAF3FA', '#BBD8E7'));
+	wp_admin_css_color('fresh', __('Gray'), admin_url("css/colors-fresh.css"), array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));}
+
+/**
  * Display the URL of a WordPress admin CSS file.
  *
  * @see WP_Styles::_css_href and its style_loader_src filter.
