@@ -88,6 +88,12 @@ function create_initial_post_types() {
 											'_builtin' => true,
 											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
 										) );
+
+	register_post_status( 'auto-draft', array(	'label' => _x('Auto-Draft', 'post'),
+											'exclude_from_search' => true,
+											'_builtin' => true,
+											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
+										) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
