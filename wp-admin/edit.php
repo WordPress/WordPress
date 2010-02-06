@@ -20,7 +20,7 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 	unset( $_redirect );
 }
 
-if ( isset($_GET['post_type']) && ( in_array( $_GET['post_type'], get_post_types( array('_show' => true ) ) ) || in_array( $_GET['post_type'], get_post_types( array('_builtin' => true ) ) ) ) )
+if ( isset($_GET['post_type']) && ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) ) )
 	$post_type = $_GET['post_type'];
 else
 	$post_type = 'post';

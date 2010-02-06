@@ -81,10 +81,10 @@ $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='c
 
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
-foreach ( (array) get_post_types( array('_show' => true) ) as $ptype ) {
+foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 	$_wp_last_object_menu++;
 	$ptype_obj = get_post_type_object($ptype);
-	$menu[$_wp_last_object_menu] = array(esc_attr($ptype_obj->label), 'edit_' . $ptype_obj->capability_type . 's', "edit.php?post_type=$ptype", '', 'menu-top', 'menu-posts', 'div');
+	$menu[$_wp_last_object_menu] = array(esc_attr($ptype_obj->label), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top', 'menu-posts', 'div');
 	$submenu["edit.php?post_type=$ptype"][5]  = array( __('Edit'), 'edit_posts',  "edit.php?post_type=$ptype");
 	/* translators: add new custom post type */
 	$submenu["edit.php?post_type=$ptype"][10]  = array( _x('Add New', 'post'), 'edit_posts', "post-new.php?post_type=$ptype" );

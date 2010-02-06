@@ -16,8 +16,8 @@
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array(	'label' => __('Posts'),
-										'publicly_queryable' => true,
-										'exclude_from_search' => false,
+										'public' => true,
+										'show_ui' => false,
 										'_builtin' => true,
 										'_edit_link' => 'post.php?post=%d',
 										'capability_type' => 'post',
@@ -28,8 +28,8 @@ function create_initial_post_types() {
 									) );
 
 	register_post_type( 'page', array(	'label' => __('Pages'),
-										'publicly_queryable' => true,
-										'exclude_from_search' => false,
+										'public' => true,
+										'show_ui' => false,
 										'_builtin' => true,
 										'_edit_link' => 'post.php?post=%d',
 										'capability_type' => 'page',
@@ -40,7 +40,8 @@ function create_initial_post_types() {
 									) );
 
 	register_post_type( 'attachment', array('label' => __('Media'),
-											'exclude_from_search' => false,
+											'public' => true,
+											'show_ui' => false,
 											'_builtin' => true,
 											'_edit_link' => 'media.php?attachment_id=%d',
 											'capability_type' => 'post',
@@ -50,7 +51,7 @@ function create_initial_post_types() {
 										) );
 
 	register_post_type( 'revision', array(	'label' => __('Revisions'),
-											'exclude_from_search' => true,
+											'public' => false,
 											'_builtin' => true,
 											'_edit_link' => 'revision.php?revision=%d',
 											'capability_type' => 'post',
@@ -704,6 +705,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
  * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
+ * show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
  * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
  * edit_cap - The capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
@@ -732,7 +734,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array() );
+	$defaults = array('label' => false, 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null );
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -742,6 +744,10 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to the setting for public.
 	if ( null === $args->publicly_queryable )
 		$args->publicly_queryable = $args->public;
+
+	// If not set, default to the setting for public.
+	if ( null === $args->show_ui )
+		$args->show_ui = $args->public;
 
 	// If not set, default to true if not public, false if public.
 	if ( null === $args->exclude_from_search )
@@ -764,9 +770,6 @@ function register_post_type($post_type, $args = array()) {
 		$args->read_cap = 'read_' . $args->capability_type;
 	if ( empty($args->delete_cap) )
 		$args->delete_cap = 'delete_' . $args->capability_type;
-
-	if ( !$args->_builtin && $args->public )
-		$args->_show = true;
 
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
