@@ -208,7 +208,7 @@ function retrieve_password() {
 	$message = apply_filters('retrieve_password_message', $message, $key);
 
 	if ( $message && !wp_mail($user_email, $title, $message) )
-		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
+		wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') );
 
 	return true;
 }
@@ -260,7 +260,7 @@ function reset_password($key, $login) {
 	$message = apply_filters('password_reset_message', $message, $new_pass);
 
 	if ( $message && !wp_mail($user->user_email, $title, $message) )
-  		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
+  		wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') );
 
 	wp_password_change_notification($user);
 
@@ -575,7 +575,6 @@ default:
 		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr(stripslashes($_POST['log'])) : '';
 ?>
 
-<?php if ( !isset($_GET['checkemail']) || !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 <form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post">
 	<p>
 		<label><?php _e('Username') ?><br />
@@ -597,12 +596,11 @@ default:
 		<input type="hidden" name="testcookie" value="1" />
 	</p>
 </form>
-<?php endif; ?>
 
 <?php if ( !$interim_login ) { ?>
 <p id="nav">
 <?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
-<?php elseif (get_option('users_can_register')) : ?>
+<?php elseif ( get_option('users_can_register') ) : ?>
 <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a> |
 <a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 <?php else : ?>
