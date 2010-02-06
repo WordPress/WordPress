@@ -232,7 +232,7 @@ $total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
 $class = empty($class) && empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
-foreach ( get_post_stati(array(), 'objects') as $status ) {
+foreach ( get_post_stati(array('show_in_admin_edit' => true), 'objects') as $status ) {
 	$class = '';
 
 	$status_name = $status->name;

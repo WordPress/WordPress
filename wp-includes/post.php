@@ -61,37 +61,37 @@ function create_initial_post_types() {
 										) );
 
 	register_post_status( 'publish', array(	'label' => _x('Published', 'post'),
-											'exclude_from_search' => false,
+											'public' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'future', array(	'label' => _x('Scheduled', 'post'),
-											'exclude_from_search' => false,
+											'public' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'draft', array(	'label' => _x('Draft', 'post'),
-											'exclude_from_search' => false,
+											'public' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'private', array(	'label' => _x('Private', 'post'),
-											'exclude_from_search' => false,
+											'public' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'trash', array(	'label' => _x('Trash', 'post'),
-											'exclude_from_search' => false,
+											'public' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'auto-draft', array(	'label' => _x('Auto-Draft', 'post'),
-											'exclude_from_search' => true,
+											'public' => false,
 											'_builtin' => true,
 											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
 										) );
@@ -521,21 +521,30 @@ function register_post_status($post_status, $args = array()) {
 		$wp_post_statuses = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => true, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, '_show' => false);
+	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'publicly_queryable' => null, 'show_in_admin_edit' => null);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
 	$post_status = sanitize_user($post_status, true);
 	$args->name = $post_status;
 
+	// If not set, default to the setting for public.
+	if ( null === $args->publicly_queryable )
+		$args->publicly_queryable = $args->public;
+
+	// If not set, default to true if not public, false if public.
+	if ( null === $args->exclude_from_search )
+		$args->exclude_from_search = !$args->public;
+
+	// If not set, default to the setting for public.
+	if ( null === $args->show_in_admin_edit )
+		$args->show_in_admin_edit = $args->public;
+
 	if ( false === $args->label )
 		$args->label = $post_status;
 
 	if ( false === $args->label_count )
 		$args->label_count = $args->label;
-
-	if ( !$args->_builtin && $args->public )
-		$args->_show = true;
 
 	$wp_post_statuses[$post_status] = $args;
 
