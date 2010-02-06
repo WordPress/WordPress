@@ -566,27 +566,36 @@ class WP_User_Search {
 	 *
 	 * @since unknown
 	 * @access private
-	 * @var unknown_type
+	 * @var string
 	 */
 	var $query_limit;
 
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 * @access private
-	 * @var unknown_type
+	 * @var string
 	 */
-	var $query_sort;
+	var $query_orderby;
 
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 * @access private
-	 * @var unknown_type
+	 * @var string
 	 */
-	var $query_from_where;
+	var $query_from;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 3.0
+	 * @access private
+	 * @var string
+	 */
+	var $query_where;
 
 	/**
 	 * {@internal Missing Description}}
@@ -657,8 +666,10 @@ class WP_User_Search {
 	function prepare_query() {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
+
 		$this->query_limit = $wpdb->prepare(" LIMIT %d, %d", $this->first_user, $this->users_per_page);
-		$this->query_sort = ' ORDER BY user_login';
+		$this->query_orderby = ' ORDER BY user_login';
+
 		$search_sql = '';
 		if ( $this->search_term ) {
 			$searches = array();
@@ -669,17 +680,19 @@ class WP_User_Search {
 			$search_sql .= ')';
 		}
 
-		$this->query_from_where = "FROM $wpdb->users";
-		if ( $this->role ) {
-			$this->query_from_where .= $wpdb->prepare(" INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
-		} elseif ( !is_multisite() ) {
-			$this->query_from_where .= " WHERE 1=1";
-		} else {
-			$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-			$this->query_from_where .= ", $wpdb->usermeta WHERE $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
-		}
-		$this->query_from_where .= " $search_sql";
+		$this->query_from = " FROM $wpdb->users";
+		$this->query_where = " WHERE 1=1 $search_sql";
 
+		if ( $this->role ) {
+			$this->query_from .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id";
+			$this->query_where .= $wpdb->prepare(" AND $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
+		} elseif ( is_multisite() ) {
+			$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+			$this->query_from .= ", $wpdb->usermeta";
+			$this->query_where .= " AND $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
+		}
+
+		do_action_ref_array( 'pre_user_search', array( &$this ) );
 	}
 
 	/**
@@ -692,10 +705,11 @@ class WP_User_Search {
 	 */
 	function query() {
 		global $wpdb;
-		$this->results = $wpdb->get_col('SELECT ID ' . $this->query_from_where . $this->query_sort . $this->query_limit);
+
+		$this->results = $wpdb->get_col("SELECT DISTINCT($wpdb->users.ID)" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
 
 		if ( $this->results )
-			$this->total_users_for_query = $wpdb->get_var('SELECT COUNT(ID) ' . $this->query_from_where); // no limit
+			$this->total_users_for_query = $wpdb->get_var("SELECT COUNT(DISTINCT($wpdb->users.ID))" . $this->query_from . $this->query_where); // no limit
 		else
 			$this->search_errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
 	}
