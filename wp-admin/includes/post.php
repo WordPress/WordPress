@@ -76,8 +76,6 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	if ( isset( $post_data['ID'] ) )
 		$post_id = $post_data['ID'];
-	elseif ( isset( $post_data['temp_ID'] ) )
-		$post_id = $post_data['temp_ID'];
 	else
 		$post_id = false;
 	$previous_status = $post_id ? get_post_field( 'post_status', $post_id ) : false;
@@ -336,7 +334,8 @@ function bulk_edit_posts( $post_data = null ) {
  *@param string A post type string, defaults to 'post'.
  * @return object stdClass object containing all the default post data as attributes
  */
-function get_default_post_to_edit( $post_type = 'post' ) {
+function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
+	global $wpdb;
 
 	$post_title = '';
 	if ( !empty( $_REQUEST['post_title'] ) )
@@ -350,26 +349,35 @@ function get_default_post_to_edit( $post_type = 'post' ) {
 	if ( !empty( $_REQUEST['excerpt'] ) )
 		$post_excerpt = esc_html( stripslashes( $_REQUEST['excerpt'] ));
 
-	$post->ID = 0;
+	if ( $create_in_db ) {
+		// Cleanup old auto-drafts more than 7 days old
+		$old_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_status = 'auto-draft' AND DATE_SUB( NOW(), INTERVAL 7 DAY ) > post_date" );
+		foreach ( (array) $old_posts as $delete )
+			wp_delete_post( $delete, true ); // Force delete
+		$post = get_post( wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) ) );
+	} else {
+		$post->ID = 0;
+		$post->post_author = '';
+		$post->post_date = '';
+		$post->post_date_gmt = '';
+		$post->post_password = '';
+		$post->post_type = $post_type;
+		$post->post_status = 'draft';
+		$post->to_ping = '';
+		$post->pinged = '';
+		$post->comment_status = get_option( 'default_comment_status' );
+		$post->ping_status = get_option( 'default_ping_status' );
+		$post->post_pingback = get_option( 'default_pingback_flag' );
+		$post->post_category = get_option( 'default_category' );
+		$post->page_template = 'default';
+		$post->post_parent = 0;
+		$post->menu_order = 0;
+	}
+
+	$post->post_content = apply_filters( 'default_content', $post_content );
+	$post->post_title   = apply_filters( 'default_title',   $post_title   );
+	$post->post_excerpt = apply_filters( 'default_excerpt', $post_excerpt );
 	$post->post_name = '';
-	$post->post_author = '';
-	$post->post_date = '';
-	$post->post_date_gmt = '';
-	$post->post_password = '';
-	$post->post_status = 'draft';
-	$post->post_type = $post_type;
-	$post->to_ping = '';
-	$post->pinged = '';
-	$post->comment_status = get_option( 'default_comment_status' );
-	$post->ping_status = get_option( 'default_ping_status' );
-	$post->post_pingback = get_option( 'default_pingback_flag' );
-	$post->post_category = get_option( 'default_category' );
-	$post->post_content = apply_filters( 'default_content', $post_content);
-	$post->post_title = apply_filters( 'default_title', $post_title );
-	$post->post_excerpt = apply_filters( 'default_excerpt', $post_excerpt);
-	$post->page_template = 'default';
-	$post->post_parent = 0;
-	$post->menu_order = 0;
 
 	return $post;
 }
@@ -465,6 +473,7 @@ function wp_write_post() {
 	}
 
 	// Check for autosave collisions
+	// Does this need to be updated? ~ Mark
 	$temp_id = false;
 	if ( isset($_POST['temp_ID']) ) {
 		$temp_id = (int) $_POST['temp_ID'];
@@ -473,7 +482,7 @@ function wp_write_post() {
 		foreach ( $draft_ids as $temp => $real )
 			if ( time() + $temp > 86400 ) // 1 day: $temp is equal to -1 * time( then )
 				unset($draft_ids[$temp]);
-
+	
 		if ( isset($draft_ids[$temp_id]) ) { // Edit, don't write
 			$_POST['post_ID'] = $draft_ids[$temp_id];
 			unset($_POST['temp_ID']);
@@ -513,6 +522,7 @@ function wp_write_post() {
 	add_meta( $post_ID );
 
 	// Reunite any orphaned attachments with their parent
+	// Does this need to be udpated? ~ Mark
 	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
 		$draft_ids = array();
 	if ( $draft_temp_id = (int) array_search( $post_ID, $draft_ids ) )

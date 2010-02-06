@@ -111,7 +111,7 @@ function get_permalink($id = 0, $leavename = false) {
 
 	$permalink = get_option('permalink_structure');
 
-	if ( '' != $permalink && !in_array($post->post_status, array('draft', 'pending')) ) {
+	if ( '' != $permalink && !in_array($post->post_status, array('draft', 'pending', 'auto-draft')) ) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';

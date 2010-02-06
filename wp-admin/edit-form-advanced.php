@@ -60,28 +60,29 @@ if ( isset($_GET['message']) ) {
 }
 
 $notice = false;
-if ( 0 == $post_ID ) {
-	$form_action = 'post';
-	$nonce_action = 'add-' . $post_type;
-	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
-	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='" . esc_attr($temp_ID) . "' />";
+$form_extra = '';
+if ( 'auto-draft' == $post->post_status ) {
+	if ( 'edit' == $action )
+		$post->post_title = '';
 	$autosave = false;
+	$form_extra .= "<input type='hidden' id='auto_draft' name='auto_draft' value='1' />";
 } else {
-	$form_action = 'editpost';
-	$nonce_action = 'update-' . $post_type . '_' . $post_ID;
-	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr($post_ID) . "' />";
 	$autosave = wp_get_post_autosave( $post_ID );
+}
 
-	// Detect if there exists an autosave newer than the post and if that autosave is different than the post
-	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
-		foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
-			if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
-				$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>' ), get_edit_post_link( $autosave->ID ) );
-				break;
-			}
+$form_action = 'editpost';
+$nonce_action = 'update-' . $post_type . '_' . $post_ID;
+$form_extra .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr($post_ID) . "' />";
+
+// Detect if there exists an autosave newer than the post and if that autosave is different than the post
+if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
+	foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
+		if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
+			$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>' ), get_edit_post_link( $autosave->ID ) );
+			break;
 		}
-		unset($autosave_field, $_autosave_field);
 	}
+	unset($autosave_field, $_autosave_field);
 }
 
 $post_type_object = get_post_type_object($post_type);
@@ -197,7 +198,7 @@ $sample_permalink_html = get_sample_permalink_html($post->ID);
 if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) ) { ?>
 	<div id="edit-slug-box">
 <?php
-	if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) :
+	if ( ! empty($post->ID) && ! empty($sample_permalink_html) && 'auto-draft' != $post->post_status ) :
 		echo $sample_permalink_html;
 endif; ?>
 	</div>
@@ -215,7 +216,7 @@ endif; ?>
 	<td class="autosave-info">
 	<span id="autosave">&nbsp;</span>
 <?php
-	if ( $post_ID ) {
+	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
 		if ( $last_id = get_post_meta($post_ID, '_edit_last', true) ) {
 			$last_user = get_userdata($last_id);

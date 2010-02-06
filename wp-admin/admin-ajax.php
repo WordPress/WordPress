@@ -887,57 +887,54 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 		$supplemental['session_expired'] = add_query_arg( 'interim-login', 1, wp_login_url() );
 
 	$id = $revision_id = 0;
-	if ( $_POST['post_ID'] < 0 ) {
+
+	$post_ID = (int) $_POST['post_ID'];
+	$_POST['ID'] = $post_ID;
+	$post = get_post($post_ID);
+	if ( 'auto-draft' == $post->post_status )
 		$_POST['post_status'] = 'draft';
-		$_POST['temp_ID'] = $_POST['post_ID'];
-		if ( $do_autosave ) {
-			$id = wp_write_post();
-			$data = $message;
-		}
-	} else {
-		$post_ID = (int) $_POST['post_ID'];
-		$_POST['ID'] = $post_ID;
-		$post = get_post($post_ID);
 
-		if ( $last = wp_check_post_lock( $post->ID ) ) {
-			$do_autosave = $do_lock = false;
+	if ( $last = wp_check_post_lock( $post->ID ) ) {
+		$do_autosave = $do_lock = false;
 
-			$last_user = get_userdata( $last );
-			$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
-			$data = new WP_Error( 'locked', sprintf(
-				$_POST['post_type'] == 'page' ? __( 'Autosave disabled: %s is currently editing this page.' ) : __( 'Autosave disabled: %s is currently editing this post.' ),
-				esc_html( $last_user_name )
-			) );
+		$last_user = get_userdata( $last );
+		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
+		$data = new WP_Error( 'locked', sprintf(
+			$_POST['post_type'] == 'page' ? __( 'Autosave disabled: %s is currently editing this page.' ) : __( 'Autosave disabled: %s is currently editing this post.' ),
+			esc_html( $last_user_name )
+		) );
 
-			$supplemental['disable_autosave'] = 'disable';
-		}
-
-		if ( 'page' == $post->post_type ) {
-			if ( !current_user_can('edit_page', $post_ID) )
-				die(__('You are not allowed to edit this page.'));
-		} else {
-			if ( !current_user_can('edit_post', $post_ID) )
-				die(__('You are not allowed to edit this post.'));
-		}
-
-		if ( $do_autosave ) {
-			// Drafts are just overwritten by autosave
-			if ( 'draft' == $post->post_status ) {
-				$id = edit_post();
-			} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
-				$revision_id = wp_create_post_autosave( $post->ID );
-				if ( is_wp_error($revision_id) )
-					$id = $revision_id;
-				else
-					$id = $post->ID;
-			}
-			$data = $message;
-		} else {
-			$id = $post->ID;
-		}
+		$supplemental['disable_autosave'] = 'disable';
 	}
 
-	if ( $do_lock && $id && is_numeric($id) )
+	if ( 'page' == $post->post_type ) {
+		if ( !current_user_can('edit_page', $post_ID) )
+			die(__('You are not allowed to edit this page.'));
+	} else {
+		if ( !current_user_can('edit_post', $post_ID) )
+			die(__('You are not allowed to edit this post.'));
+	}
+
+	if ( $do_autosave ) {
+		// Drafts and auto-drafts are just overwritten by autosave
+		if ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) {
+			$id = edit_post();
+		} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
+			$revision_id = wp_create_post_autosave( $post->ID );
+			if ( is_wp_error($revision_id) )
+				$id = $revision_id;
+			else
+				$id = $post->ID;
+		}
+		$data = $message;
+	} else {
+		if ( '1' == $_POST['auto_draft'] )
+			$id = 0; // This tells us it didn't actually save
+		else
+			$id = $post->ID;
+	}
+
+	if ( $do_lock && $_POST['auto_draft'] != '1' && $id && is_numeric($id) )
 		wp_set_post_lock( $id );
 
 	if ( $nonce_age == 2 ) {
@@ -961,18 +958,6 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	) );
 	$x->send();
 	break;
-case 'autosave-generate-nonces' :
-	check_ajax_referer( 'autosave', 'autosavenonce' );
-	$ID = (int) $_POST['post_ID'];
-	$post_type = $_POST['post_type'];
-	$post_type_object = get_post_type_object($post_type);
-	if ( !$post_type_object )
-		die('0');
-	if ( current_user_can( $post_type_object->edit_cap, $ID ) )
-		die( json_encode( array( 'updateNonce' => wp_create_nonce( "update-{$post_type}_{$ID}" ), 'deleteURL' => str_replace( '&amp;', '&', wp_nonce_url( admin_url( $post_type . '.php?action=trash&post=' . $ID ), "trash-{$post_type}_{$ID}" ) ) ) ) );
-	do_action('autosave_generate_nonces');
-	die('0');
-break;
 case 'closed-postboxes' :
 	check_ajax_referer( 'closedpostboxes', 'closedpostboxesnonce' );
 	$closed = isset( $_POST['closed'] ) ? $_POST['closed'] : '';

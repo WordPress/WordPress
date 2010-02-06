@@ -71,7 +71,11 @@ switch ( $post->post_status ) {
 		_e('Pending Review');
 		break;
 	case 'draft':
+	case 'auto-draft':
 		_e('Draft');
+		break;
+	case 'auto-draft':
+		_e('Unsaved');
 		break;
 }
 ?>
@@ -80,7 +84,7 @@ switch ( $post->post_status ) {
 <a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
 <div id="post-status-select" class="hide-if-js">
-<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr($post->post_status); ?>" />
+<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
 <select name='post_status' id='post_status' tabindex='4'>
 <?php if ( 'publish' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e('Published') ?></option>
@@ -90,7 +94,11 @@ switch ( $post->post_status ) {
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
 <?php endif; ?>
 <option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
+<?php if ( 'auto-draft' == $post->post_status ) : ?>
+<option<?php selected( $post->post_status, 'auto-draft' ); ?> value='draft'><?php _e('Draft') ?></option>
+<?php else : ?>
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Draft') ?></option>
+<?php endif; ?>
 </select>
  <a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
  <a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>

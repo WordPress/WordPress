@@ -1976,7 +1976,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	// Create a valid post name.  Drafts and pending posts are allowed to have an empty
 	// post name.
 	if ( !isset($post_name) || empty($post_name) ) {
-		if ( !in_array( $post_status, array( 'draft', 'pending' ) ) )
+		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
 			$post_name = sanitize_title($post_title);
 		else
 			$post_name = '';
@@ -1989,7 +1989,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$post_date = current_time('mysql');
 
 	if ( empty($post_date_gmt) || '0000-00-00 00:00:00' == $post_date_gmt ) {
-		if ( !in_array( $post_status, array( 'draft', 'pending' ) ) )
+		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
 			$post_date_gmt = get_gmt_from_date($post_date);
 		else
 			$post_date_gmt = '0000-00-00 00:00:00';
@@ -2089,7 +2089,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$where = array( 'ID' => $post_ID );
 	}
 
-	if ( empty($data['post_name']) && !in_array( $data['post_status'], array( 'draft', 'pending' ) ) ) {
+	if ( empty($data['post_name']) && !in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ) ) ) {
 		$data['post_name'] = sanitize_title($data['post_title'], $post_ID);
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 	}
@@ -2172,7 +2172,7 @@ function wp_update_post($postarr = array()) {
 		$post_cats = $post['post_category'];
 
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user
-	if ( in_array($post['post_status'], array('draft', 'pending')) && empty($postarr['edit_date']) &&
+	if ( in_array($post['post_status'], array('draft', 'pending', 'auto-draft')) && empty($postarr['edit_date']) &&
 			 ('0000-00-00 00:00:00' == $post['post_date_gmt']) )
 		$clear_date = true;
 	else
@@ -2276,7 +2276,7 @@ function check_and_publish_future_post($post_id) {
  * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_parent) {
-	if ( in_array( $post_status, array( 'draft', 'pending' ) ) )
+	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
 		return $slug;
 
 	global $wpdb, $wp_rewrite;
