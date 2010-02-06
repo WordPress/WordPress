@@ -100,6 +100,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_page() && !empty($_GET['page_id']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('page_id')) )
 				$redirect['query'] = remove_query_arg('page_id', $redirect['query']);
+		} elseif ( is_page() && isset($wp_query->queried_object) && 'page' == get_option('show_on_front') && $wp_query->queried_object->ID == get_option('page_on_front')  && ! $redirect_url ) {
+			$redirect_url = home_url('/');
 		} elseif ( !empty($_GET['m']) && ( is_year() || is_month() || is_day() ) ) {
 			$m = get_query_var('m');
 			switch ( strlen($m) ) {
@@ -134,7 +136,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg('author', $redirect['query']);
 		}
 
-	// paging and feeds
+		// paging and feeds
 		if ( get_query_var('paged') || is_feed() || get_query_var('cpage') ) {
 			if ( !$redirect_url )
 				$redirect_url = $requested_url;

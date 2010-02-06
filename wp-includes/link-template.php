@@ -234,7 +234,7 @@ function get_page_link( $id = false, $leavename = false, $sample = false ) {
 		$id = (int) $post->ID;
 
 	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
-		$link = home_url();
+		$link = home_url('/');
 	else
 		$link = _get_page_link( $id , $leavename, $sample );
 
