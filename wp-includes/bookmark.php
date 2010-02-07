@@ -325,6 +325,13 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	if ( in_array($field, $int_fields) )
 		$value = (int) $value;
 
+	// Fields which contain arrays of ints.
+	$array_int_fields = array( 'link_category' );
+	if ( in_array($field, $array_int_fields) ) {
+		$value = array_map( 'absint', $value);
+		return $value;
+	}
+
 	$yesno = array('link_visible');
 	if ( in_array($field, $yesno) )
 		$value = preg_replace('/[^YNyn]/', '', $value);
