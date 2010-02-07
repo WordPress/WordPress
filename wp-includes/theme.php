@@ -711,7 +711,8 @@ function get_archive_template() {
  */
 function get_author_template() {
 	$author_id = absint( get_query_var( 'author' ) );
-	$author = get_user_by( 'id', $author_id )->user_nicename;
+	$author = get_user_by( 'id', $author_id );
+	$author = $author->user_nicename;
 
 	$templates = array();
 
