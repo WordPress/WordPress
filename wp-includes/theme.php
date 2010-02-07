@@ -297,6 +297,8 @@ function get_themes() {
 			$title = $name;
 		}
 
+		$parent_template = $template;
+
 		if ( empty($template) ) {
 			if ( file_exists("$theme_root/$stylesheet/index.php") )
 				$template = $stylesheet;
@@ -319,7 +321,10 @@ function get_themes() {
 				if ( isset($theme_files[$template]) && file_exists( $theme_files[$template]['theme_root'] . "/$template/index.php" ) ) {
 					$template_directory = $theme_files[$template]['theme_root'] . "/$template";
 				} else {
-					$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
+					if ( empty( $parent_template) )
+						$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'), 'error' => 'no_template');
+					else
+						$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => sprintf( __('The parent theme is missing. Please install the "%s" parent theme.'),  $parent_template ), 'error' => 'no_parent', 'parent' => $parent_template );
 					continue;
 				}
 
