@@ -504,19 +504,8 @@ function unzip_file($file, $to) {
 	if ( ! $wp_filesystem || !is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
-	// Unzip uses a lot of memory, but not this much hopefully
+	// Unzip can use a lot of memory, but not this much hopefully
 	@ini_set('memory_limit', '256M');
-
-	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
-
-	$archive = new PclZip($file);
-
-	// Is the archive valid?
-	if ( false == ($archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING)) )
-		return new WP_Error('incompatible_archive', __('Incompatible Archive.'), $archive->errorInfo(true));
-
-	if ( 0 == count($archive_files) )
-		return new WP_Error('empty_archive', __('Empty archive.'));
 
 	$needed_dirs = array();
 	$to = trailingslashit($to);
@@ -529,7 +518,7 @@ function unzip_file($file, $to) {
 				continue;
 
 			$dir = implode('/', array_slice($path, 0, $i+1) );
-			if ( preg_match('!^[a-z]:$!i', $dir) ) // Skip it if it looks like a Windows Drive letter only.
+			if ( preg_match('!^[a-z]:$!i', $dir) ) // Skip it if it looks like a Windows Drive letter.
 				continue;
 
 			if ( ! $wp_filesystem->is_dir($dir) )
@@ -538,6 +527,67 @@ function unzip_file($file, $to) {
 				break; // A folder exists, therefor, we dont need the check the levels below this
 		}
 	}
+
+	if ( class_exists('ZipArchive') && apply_filters('unzip_file_use_ziparchive', true ) )
+		return _unzip_file_ziparchive($file, $to, $needed_dirs);
+	else
+		return _unzip_file_pclzip($file, $to, $needed_dirs);
+}
+
+function _unzip_file_ziparchive($file, $to, $needed_dirs = array()) {
+	global $wp_filesystem;
+
+	$z = new ZipArchive();
+	if ( ! $z->open($file) )
+		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
+
+	for ( $i = 0; $i < $z->numFiles; $i++ ) {
+		if ( ! $info = $z->statIndex($i) )
+			return new WP_Error('stat_failure', __('Could not retrieve file from archive.'));
+
+		if ( '/' == substr($info['name'], -1) ) // directory
+			$needed_dirs[] = $to . untrailingslashit($info['name']);
+		else
+			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
+	}
+	
+	$needed_dirs = array_unique($needed_dirs);
+	asort($needed_dirs);
+	
+	// Create those directories if need be:
+	foreach ( $needed_dirs as $_dir ) {
+		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
+			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
+	}
+	unset($needed_dirs);
+	
+	for ( $i = 0; $i < $z->numFiles; $i++ ) {
+		if ( ! $info = $z->statIndex($i) )
+			return new WP_Error('stat_failure', __('Could not retrieve file from archive.'));
+
+		if ( '/' == substr($info['name'], -1) ) // directory
+			continue;
+
+		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $z->getFromIndex($i), FS_CHMOD_FILE) )
+			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
+	}
+
+	return true;
+}
+
+function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
+	global $wp_filesystem;
+
+	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+
+	$archive = new PclZip($file);
+
+	// Is the archive valid?
+	if ( false == ($archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING)) )
+		return new WP_Error('incompatible_archive', __('Incompatible Archive.'), $archive->errorInfo(true));
+
+	if ( 0 == count($archive_files) )
+		return new WP_Error('empty_archive', __('Empty archive.'));
 
 	// Determine any children directories needed (From within the archive)
 	foreach ( $archive_files as $file )
@@ -551,6 +601,7 @@ function unzip_file($file, $to) {
 		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
 			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
 	}
+	unset($needed_dirs);
 
 	// Extract the files from the zip
 	foreach ( $archive_files as $file ) {
