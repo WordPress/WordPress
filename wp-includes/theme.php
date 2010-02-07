@@ -951,7 +951,7 @@ function get_attachment_template() {
 function get_comments_popup_template() {
 	$template = locate_template(array("comments-popup.php"));
 	if ('' == $template)
-		$template = get_theme_root() . '/default/comments-popup.php';
+		$template = get_theme_root() . '/' . WP_FALLBACK_THEME . '/comments-popup.php';
 
 	return apply_filters('comments_popup_template', $template);
 }
@@ -1160,15 +1160,13 @@ function validate_current_theme() {
 	if ( defined('WP_INSTALLING') || !apply_filters( 'validate_current_theme', true ) )
 		return true;
 
-	$fallback = 'twentyten';
-
-	if ( get_template() != $fallback && !file_exists(get_template_directory() . '/index.php') ) {
-		switch_theme($fallback, $fallback);
+	if ( get_template() != WP_FALLBACK_THEME && !file_exists(get_template_directory() . '/index.php') ) {
+		switch_theme( WP_FALLBACK_THEME, WP_FALLBACK_THEME );
 		return false;
 	}
 
-	if ( get_stylesheet() != $fallback && !file_exists(get_template_directory() . '/style.css') ) {
-		switch_theme($fallback, $fallback);
+	if ( get_stylesheet() != WP_FALLBACK_THEME && !file_exists(get_template_directory() . '/style.css') ) {
+		switch_theme( WP_FALLBACK_THEME, WP_FALLBACK_THEME );
 		return false;
 	}
 
