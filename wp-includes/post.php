@@ -1199,7 +1199,6 @@ function sanitize_post($post, $context = 'display') {
 			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
 		$post['filter'] = $context;
 	}
-
 	return $post;
 }
 
@@ -1234,6 +1233,13 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 	$int_fields = array('ID', 'post_parent', 'menu_order');
 	if ( in_array($field, $int_fields) )
 		$value = (int) $value;
+
+	// Fields which contain arrays of ints.
+	$array_int_fields = array( 'ancestors' );
+	if ( in_array($field, $array_int_fields) ) {
+		$value = array_map( 'absint', $value);
+		return $value;
+	}
 
 	if ( 'raw' == $context )
 		return $value;
