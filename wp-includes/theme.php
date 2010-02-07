@@ -1160,13 +1160,15 @@ function validate_current_theme() {
 	if ( defined('WP_INSTALLING') || !apply_filters( 'validate_current_theme', true ) )
 		return true;
 
-	if ( get_template() != 'default' && !file_exists(get_template_directory() . '/index.php') ) {
-		switch_theme('default', 'default');
+	$fallback = 'twentyten';
+
+	if ( get_template() != $fallback && !file_exists(get_template_directory() . '/index.php') ) {
+		switch_theme($fallback, $fallback);
 		return false;
 	}
 
-	if ( get_stylesheet() != 'default' && !file_exists(get_template_directory() . '/style.css') ) {
-		switch_theme('default', 'default');
+	if ( get_stylesheet() != $fallback && !file_exists(get_template_directory() . '/style.css') ) {
+		switch_theme($fallback, $fallback);
 		return false;
 	}
 
