@@ -96,8 +96,6 @@ function step2_htaccess() {
 	} else {
 		wp_die( sprintf( __( 'Sorry, I need to be able to read %s. Please check the permissions on this file.' ), $htaccess_sample ) );
 	}
-
-	//@todo: check for super-cache in use
 ?>
 			<li><p><?php _e( 'Replace the contents of your <code>.htaccess</code> with the following:' ); ?></p>
 				<textarea name="htaccess" cols="120" rows="20">
@@ -157,7 +155,16 @@ function printstep1form( $rewrite_enabled = false ) {
 		$nowww = substr( $hostname, 4 );
 
 	wp_nonce_field( 'install-network-1' );
-	?>
+	if ( network_domain_check() ) { ?>
+		<h2><?php esc_html_e( 'Existing Sites' ); ?></h2>
+		<p><?php _e( 'An existing WordPress Network was detected.' ); ?></p>
+		<p class="existing-network">
+			<label><input type='checkbox' name='existing_network' value='yes' /> <?php _e( 'Yes, keep the existing network of sites.' ); ?></label><br />
+		</p>
+
+<?php 	} else { ?>
+		<input type='hidden' name='existing_network' value='none' />
+<?php	} ?>
 		<input type='hidden' name='action' value='step2' />
 		<h2><?php esc_html_e( 'Site Addresses' ); ?></h2>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress install to use sub-domains or sub-directories. You cannot change this later.' ); ?></p>
@@ -208,6 +215,37 @@ function printstep1form( $rewrite_enabled = false ) {
 		<p class='submit'><input class="button" name='submit' type='submit' value='<?php esc_attr_e( 'Proceed' ); ?>' /></p>
 		<?php } ?>
 	<?php
+}
+
+/**
+ * Checks for active plugins & displays a notice to deactivate them.
+ *
+ * @since 3.0.0
+ */
+function step1_plugin_check() {
+	$active_plugins = get_option( 'active_plugins' );
+	if ( is_array( $active_plugins ) && !empty( $active_plugins ) ) {
+?>
+		<h2><?php esc_html_e( 'Enabling WordPress Sites' ); ?></h2>
+		<p><?php printf( __( 'Please <a href="%s">deactivate</a> your plugins before enabling WordPress Sites. Once WordPress Sites are enabled, you may reactivate your plugins.' ), admin_url( 'plugins.php' ) ); ?></p>
+<?php
+		return false;
+	}
+	return true;
+}
+
+/**
+ * Checks for existing network data/tables.
+ *
+ * @since 3.0.0
+ */
+function network_domain_check() {
+	global $wpdb;
+
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) == $wpdb->site )
+		return $wpdb->get_var( "SELECT domain FROM $wpdb->site ORDER BY id ASC LIMIT 1" );
+
+	return false;
 }
 
 /**
@@ -308,6 +346,11 @@ function step2_config() {
  */
 function get_clean_basedomain() {
 	global $wpdb;
+
+	$existing_domain = network_domain_check();
+	if ( $existing_domain )
+		return $existing_domain;
+
 	$domain = preg_replace( '|https?://|', '', get_option( 'siteurl' ) );
 	if ( strpos( $domain, '/' ) )
 		$domain = substr( $domain, 0, strpos( $domain, '/' ) );
@@ -320,24 +363,27 @@ switch( $action ) {
 	case 'step2':
 		check_admin_referer( 'install-network-1' );
 
-		// Install!
-		$base = stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) );
-		if ( $base != '/' )
-			$base .= '/';
+		if ( isset( $_POST[ 'existing_network' ] ) ) { 
+			// Install!
+			$base = stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) );
+			if ( $base != '/' )
+				$base .= '/';
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		// create network tables
-		$domain = get_clean_basedomain();
-		install_network();
-		populate_network( 1, $domain, sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
-		// create wp-config.php / htaccess
-		step2();
-	break;
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			// create network tables
+			$domain = get_clean_basedomain();
+			install_network();
+			if ( !network_domain_check() || $_POST[ 'existing_network' ] == 'none' )
+				populate_network( 1, $domain, sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
+			// create wp-config.php / htaccess
+			step2();
+			break;
+		}
 	default:
 		//@todo: give an informative screen instead
 		if ( is_multisite() ) {
 			_e( 'Network already enabled.' );
-		} else {
+		} elseif ( step1_plugin_check() ) {
 			$rewrite_enabled = step1();
 			printstep1form( $rewrite_enabled );
 		}
