@@ -154,17 +154,17 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				return false;
 		}
 
-		if ( ! $recursive || ! $this->is_dir($file) ) {
-			if ( ! function_exists('ftp_chmod') )
-				return @ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
-			return @ftp_chmod($this->link, $mode, $file);
+		// chmod any sub-objects if recursive.
+		if ( $recursive && $this->is_dir($file) ) {
+			$filelist = $this->dirlist($file);
+			foreach ( (array)$filelist as $filename => $filemeta )
+				$this->chmod($file . '/' . $filename, $mode, $recursive);
 		}
-		//Is a directory, and we want recursive
-		$filelist = $this->dirlist($file);
-		foreach ( $filelist as $filename ) {
-			$this->chmod($file . '/' . $filename, $mode, $recursive);
-		}
-		return true;
+
+		// chmod the file or directory
+		if ( ! function_exists('ftp_chmod') )
+			return @ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
+		return @ftp_chmod($this->link, $mode, $file);
 	}
 	function chown($file, $owner, $recursive = false ) {
 		return false;

@@ -135,7 +135,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		//Is a directory, and we want recursive
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
-		foreach ($filelist as $filename)
+		foreach ( (array)$filelist as $filename => $filemeta)
 			$this->chmod($file . $filename, $mode, $recursive);
 
 		return true;
