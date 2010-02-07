@@ -1743,7 +1743,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	if ( $id && ($id != $term_id) ) {
 		// If an empty slug was passed or the parent changed, reset the slug to something unique.
 		// Otherwise, bail.
-		if ( $empty_slug || ( $parent != $term->parent) )
+		if ( $empty_slug || ( $parent != $term['parent']) )
 			$slug = wp_unique_term_slug($slug, (object) $args);
 		else
 			return new WP_Error('duplicate_term_slug', sprintf(__('The slug &#8220;%s&#8221; is already in use by another term'), $slug));
