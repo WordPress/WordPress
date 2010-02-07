@@ -37,9 +37,12 @@ if ( is_multisite() && is_super_admin() ) {
 	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'super_admin', 'ms-upgrade-site.php' );
 
 	$menu[1] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
+
+	$menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top', 'menu-dashboard', 'div' );
+} else {
+	$menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top menu-top-first', 'menu-dashboard', 'div' );
 }
 
-$menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top', 'menu-dashboard', 'div' );
 if ( is_multisite() ) {
 	$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
 	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
