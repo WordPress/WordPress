@@ -224,7 +224,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function is_file($file) {
-		return $this->is_dir($file) ? false : true;
+		if ( $this->is_dir($file) )
+			return false;
+		if ( $this->exists($file) )
+			return true;
+		return false;
 	}
 
 	function is_dir($path) {
@@ -288,7 +292,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		}
 
 		$list = $this->ftp->dirlist($path);
-		if ( ! $list )
+		if ( empty($list) && !$this->exists($path) )
 			return false;
 
 		$ret = array();

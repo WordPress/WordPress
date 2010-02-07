@@ -160,8 +160,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		// chmod the file or directory
 		if ( ! function_exists('ftp_chmod') )
-			return @ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
-		return @ftp_chmod($this->link, $mode, $file);
+			return (bool)@ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
+		return (bool)@ftp_chmod($this->link, $mode, $file);
 	}
 	function chown($file, $owner, $recursive = false ) {
 		return false;
@@ -242,7 +242,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return false;
 	}
 	function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
-		if ( !ftp_mkdir($this->link, $path) )
+		if ( !@ftp_mkdir($this->link, $path) )
 			return false;
 		$this->chmod($path);
 		if ( $chown )
@@ -286,8 +286,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			if ( $lcount < 8 )
 				return '';
 			$b = array();
-			$b['isdir'] = $lucifer[0]{0} === "d";
-			$b['islink'] = $lucifer[0]{0} === "l";
+			$b['isdir'] = $lucifer[0]{0} === 'd';
+			$b['islink'] = $lucifer[0]{0} === 'l';
 			if ( $b['isdir'] )
 				$b['type'] = 'd';
 			elseif ( $b['islink'] )
@@ -334,7 +334,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		$list = @ftp_rawlist($this->link, '-a ' . $path, false);
 
-		if ( $list === false )
+		if ( empty($list) ) // Empty array = non-existant folder(real folder will show . at least
 			return false;
 
 		$dirlist = array();
@@ -354,9 +354,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 			$dirlist[ $entry['name'] ] = $entry;
 		}
-
-		if ( ! $dirlist )
-			return false;
 
 		$ret = array();
 		foreach ( (array)$dirlist as $struc ) {
