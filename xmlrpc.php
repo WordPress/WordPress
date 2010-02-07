@@ -1548,7 +1548,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function blogger_getUsersBlogs($args) {
 		if ( is_multisite() )
-			return _multisite_getUsersBlogs($args);
+			return $this->_multisite_getUsersBlogs($args);
 
 		$this->escape($args);
 
