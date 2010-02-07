@@ -116,9 +116,6 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	function chmod($file, $mode = false, $recursive = false) {
-		if ( ! $this->exists($file) )
-			return false;
-
 		if ( ! $mode ) {
 			if ( $this->is_file($file) )
 				$mode = FS_CHMOD_FILE;
@@ -128,9 +125,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 				return false;
 		}
 
-		if ( ! $recursive )
-			return @chmod($file, $mode);
-		if ( ! $this->is_dir($file) )
+		if ( ! $recursive || ! $this->is_dir($file) )
 			return @chmod($file, $mode);
 		//Is a directory, and we want recursive
 		$file = trailingslashit($file);
@@ -298,17 +293,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	function rmdir($path, $recursive = false) {
-		//Currently unused and untested, Use delete() instead.
-		if ( ! $recursive )
-			return @rmdir($path);
-		//recursive:
-		$filelist = $this->dirlist($path);
-		foreach ($filelist as $filename => $det) {
-			if ( '/' == substr($filename, -1, 1) )
-				$this->rmdir($path . '/' . $filename, $recursive);
-			@rmdir($filename);
-		}
-		return @rmdir($path);
+		return $this->delete($path, $recursive);
 	}
 
 	function dirlist($path, $include_hidden = true, $recursive = false) {

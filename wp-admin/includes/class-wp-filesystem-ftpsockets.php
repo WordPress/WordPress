@@ -154,7 +154,6 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function chmod($file, $mode = false, $recursive = false ) {
-
 		if ( ! $mode ) {
 			if ( $this->is_file($file) )
 				$mode = FS_CHMOD_FILE;
@@ -277,10 +276,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function rmdir($path, $recursive = false ) {
-		if ( ! $recursive )
-			return $this->ftp->rmdir($path);
-
-		return $this->ftp->mdel($path);
+		$this->delete($path, $recursive);
 	}
 
 	function dirlist($path = '.', $include_hidden = true, $recursive = false ) {
