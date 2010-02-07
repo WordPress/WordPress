@@ -547,11 +547,13 @@ function unzip_file($file, $to) {
  * @param array $needed_dirs A partial list of required folders needed to be created.
  * @return mixed WP_Error on failure, True on success
  */
-function _unzip_file_ziparchive($file, $to, $needed_dirs = array()) {
+function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 	global $wp_filesystem;
 
 	$z = new ZipArchive();
-	if ( true !== $z->open($file, ZIPARCHIVE::CHECKCONS) )
+
+	// PHP4-compat - php4 classes can't contain constants
+	if ( true !== $z->open($file, /* ZIPARCHIVE::CHECKCONS */ 4) )
 		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
