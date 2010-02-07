@@ -47,14 +47,6 @@ function inline_edit_term_row($type, $taxonomy) {
 			</label>
 <?php } ?>
 
-<?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
-			<label>
-				<span class="title"><?php _e( 'Parent' ); ?></span>
-				<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => 1, 'taxonomy' => $taxonomy, 'show_option_none' => __('None'))); ?>
-			</label>
-
-<?php endif; // $hierarchical ?>
-
 		</div></fieldset>
 
 <?php
