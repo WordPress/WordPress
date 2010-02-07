@@ -8,196 +8,6 @@
  * @subpackage Administration
  */
 
-// Ugly recursive category stuff.
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $parent
- * @param unknown_type $level
- * @param unknown_type $categories
- * @param unknown_type $page
- * @param unknown_type $per_page
- */
-function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20, $taxonomy = 'category' ) {
-
-	$count = 0;
-
-	if ( empty($categories) ) {
-
-		$args = array('hide_empty' => 0, 'taxonomy' => $taxonomy);
-		if ( !empty($_GET['s']) )
-			$args['search'] = $_GET['s'];
-
-		$categories = get_categories( $args );
-
-		if ( empty($categories) )
-			return false;
-	}
-
-	$children = _get_term_hierarchy($taxonomy);
-
-	echo _cat_rows( $parent, $level, $categories, $children, $page, $per_page, $count );
-
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $categories
- * @param unknown_type $count
- * @param unknown_type $parent
- * @param unknown_type $level
- * @param unknown_type $page
- * @param unknown_type $per_page
- * @return string the output of the table.
- */
-function _cat_rows( $parent = 0, $level = 0, $categories, &$children, $page = 1, $per_page = 20, &$count ) {
-
-	$start = ($page - 1) * $per_page;
-	$end = $start + $per_page;
-
-	$output = '';
-	foreach ( $categories as $key => $category ) {
-		if ( $count >= $end )
-			break;
-
-		if ( $category->parent != $parent && empty($_GET['s']) )
-			continue;
-
-		// If the page starts in a subtree, print the parents.
-		if ( $count == $start && $category->parent > 0 ) {
-
-			$my_parents = array();
-			$p = $category->parent;
-			while ( $p ) {
-				$my_parent = get_category( $p );
-				$my_parents[] = $my_parent;
-				if ( $my_parent->parent == 0 )
-					break;
-				$p = $my_parent->parent;
-			}
-
-			$num_parents = count($my_parents);
-			while( $my_parent = array_pop($my_parents) ) {
-				$output =  "\t" . _cat_row( $my_parent, $level - $num_parents );
-				$num_parents--;
-			}
-		}
-
-		if ( $count >= $start )
-			$output .= "\t" . _cat_row( $category, $level );
-
-		unset( $categories[ $key ] );
-
-		$count++;
-
-		if ( isset($children[$category->term_id]) )
-			$output .= _cat_rows( $category->term_id, $level + 1, $categories, $children, $page, $per_page, $count );
-	}
-
-	return $output;
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $category
- * @param unknown_type $level
- * @param unknown_type $name_override
- * @return unknown
- */
-function _cat_row( $category, $level, $name_override = false ) {
-	static $row_class = '';
-
-	$category = get_category( $category, OBJECT, 'display' );
-
-	$default_cat_id = (int) get_option( 'default_category' );
-	$pad = str_repeat( '&#8212; ', max(0, $level) );
-	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
-	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
-	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='$edit_link' title='" . esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $category->name)) . "'>" . esc_attr( $name ) . '</a><br />';
-		$actions = array();
-		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
-		if ( $default_cat_id != $category->term_id )
-			$actions['delete'] = "<a class='delete:the-list:cat-$category->term_id submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "'>" . __('Delete') . "</a>";
-		$actions = apply_filters('cat_row_actions', $actions, $category);
-		$action_count = count($actions);
-		$i = 0;
-		$edit .= '<div class="row-actions">';
-		foreach ( $actions as $action => $link ) {
-			++$i;
-			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-			$edit .= "<span class='$action'>$link$sep</span>";
-		}
-		$edit .= '</div>';
-	} else {
-		$edit = $name;
-	}
-
-	$row_class = 'alternate' == $row_class ? '' : 'alternate';
-	$qe_data = get_category_to_edit($category->term_id);
-
-	$category->count = number_format_i18n( $category->count );
-	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='cat-$category->term_id' class='iedit $row_class'>";
-
-	$columns = get_column_headers('categories');
-	$hidden = get_hidden_columns('categories');
-	foreach ( $columns as $column_name => $column_display_name ) {
-		$class = "class=\"$column_name column-$column_name\"";
-
-		$style = '';
-		if ( in_array($column_name, $hidden) )
-			$style = ' style="display:none;"';
-
-		$attributes = "$class$style";
-
-		switch ($column_name) {
-			case 'cb':
-				$output .= "<th scope='row' class='check-column'>";
-				if ( $default_cat_id != $category->term_id ) {
-					$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
-				} else {
-					$output .= "&nbsp;";
-				}
-				$output .= '</th>';
-				break;
-			case 'name':
-				$output .= "<td $attributes>$edit";
-				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
-				$output .= '<div class="name">' . $qe_data->name . '</div>';
-				$output .= '<div class="slug">' . apply_filters('editable_slug', $qe_data->slug) . '</div>';
-				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
-				break;
-			case 'description':
-				$output .= "<td $attributes>$category->description</td>";
-				break;
-			case 'slug':
-				$output .= "<td $attributes>" . apply_filters('editable_slug', $category->slug) . "</td>";
-				break;
-			case 'posts':
-				$attributes = 'class="posts column-posts num"' . $style;
-				$output .= "<td $attributes>$posts_count</td>\n";
-				break;
-			default:
-				$output .= "<td $attributes>";
-				$output .= apply_filters('manage_categories_custom_column', '', $column_name, $category->term_id);
-				$output .= "</td>";
-		}
-	}
-	$output .= '</tr>';
-
-	return $output;
-}
-
 /**
  * {@internal Missing Short Description}}
  *
@@ -2708,7 +2518,7 @@ function meta_form() {
 ?>
 </select>
 <input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
-<a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
+<a href="#postcustomstuff" class="hide-if-no-js" onClick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
 <span id="enternew"><?php _e('Enter new'); ?></span>
 <span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span></a>
 <?php } else { ?>
@@ -3385,7 +3195,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" onclick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onClick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -3395,7 +3205,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
+			<input type="button" class="button alignleft" onClick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php esc_attr_e('Select'); ?>" />
 		</div>
 	</div>
