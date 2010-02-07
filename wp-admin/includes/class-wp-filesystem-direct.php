@@ -196,11 +196,18 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function copy($source, $destination, $overwrite = false) {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
+
 		return copy($source, $destination);
 	}
 
 	function move($source, $destination, $overwrite = false) {
-		//Possible to use rename()?
+		if ( ! $overwrite && $this->exists($destination) )
+			return false;
+
+		// try using rename first.  if that fails (for example, source is read only) try copy 
+		if ( @rename($source, $destination) )
+			return true;
+
 		if ( $this->copy($source, $destination, $overwrite) && $this->exists($destination) ) {
 			$this->delete($source);
 			return true;
