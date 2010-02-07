@@ -673,8 +673,8 @@ function get_transient($transient) {
 	if ( $_wp_using_ext_object_cache ) {
 		$value = wp_cache_get($transient, 'transient');
 	} else {
+		$transient_option = '_transient_' . esc_sql($transient);
 		if ( ! defined( 'WP_INSTALLING' ) ) {
-			$transient_option = '_transient_' . esc_sql($transient);
 			// If option is not in alloptions, it is not autoloaded and thus has a timeout
 			$alloptions = wp_load_alloptions();
 			if ( !isset( $alloptions[$transient_option] ) ) {
