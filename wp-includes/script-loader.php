@@ -117,7 +117,7 @@ function wp_default_scripts( &$scripts ) {
 	// not used in core, replaced by Jcrop.js
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
-	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.4');
+	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.4.1');
 
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.7.1' );
 	$scripts->add_data( 'jquery-ui-core', 'group', 1 );
