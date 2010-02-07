@@ -538,12 +538,12 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array()) {
 	global $wp_filesystem;
 
 	$z = new ZipArchive();
-	if ( ! $z->open($file) )
+	if ( true !== $z->open($file, ZIPARCHIVE::CHECKCONS) )
 		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
-			return new WP_Error('stat_failure', __('Could not retrieve file from archive.'));
+			return new WP_Error('stat_failed', __('Could not retrieve file from archive.'));
 
 		if ( '/' == substr($info['name'], -1) ) // directory
 			$needed_dirs[] = $to . untrailingslashit($info['name']);
@@ -563,12 +563,16 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array()) {
 	
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
-			return new WP_Error('stat_failure', __('Could not retrieve file from archive.'));
+			return new WP_Error('stat_failed', __('Could not retrieve file from archive.'));
 
 		if ( '/' == substr($info['name'], -1) ) // directory
 			continue;
 
-		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $z->getFromIndex($i), FS_CHMOD_FILE) )
+		$contents = $z->getFromIndex($i);
+		if ( false === $contents )
+			return new WP_Error('extract_failed', __('Could not extract file from archive.'), $info['name']);
+
+		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE) )
 			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
 	}
 
