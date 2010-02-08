@@ -15,7 +15,7 @@
 
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e('Posted by ', 'twentyten'); ?></span>
-						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( __( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
+						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 						<span class="meta-sep"> <?php _e('on ', 'twentyten'); ?> </span>
 						<a href="<?php
 the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
@@ -36,7 +36,7 @@ the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><
 							<h2><?php _e('About ', 'twentyten'); ?><?php the_author(); ?></h2>
 <?php the_author_meta('description'); ?>
 							<div id="author-link">
-								<a href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( __( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php _e('View all posts by ', 'twentyten'); ?><?php the_author(); ?> &rarr;</a>
+								<a href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php _e('View all posts by ', 'twentyten'); ?><?php the_author(); ?> &rarr;</a>
 							</div><!-- #author-link	-->
 						</div><!-- #author-description	-->
 					</div><!-- .entry-author-info -->

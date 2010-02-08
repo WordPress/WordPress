@@ -74,17 +74,17 @@
 
 					<div id="form-section-author" class="form-section">
 						<div class="form-label"><label for="author"><?php _e('Name', 'twentyten') ?></label> <?php if ($req) _e('<span class="required">*</span>', 'twentyten') ?></div>
-						<div class="form-input"><input id="author" name="author" type="text" value="<?php echo $comment_author ?>" size="30" tabindex="3" /></div>
+						<div class="form-input"><input id="author" name="author" type="text" value="<?php echo esc_attr($comment_author) ?>" size="30" tabindex="3" /></div>
 					</div><!-- #form-section-author .form-section -->
 
 					<div id="form-section-email" class="form-section">
 						<div class="form-label"><label for="email"><?php _e('Email', 'twentyten') ?></label> <?php if ($req) _e('<span class="required">*</span>', 'twentyten') ?></div>
-						<div class="form-input"><input id="email" name="email" type="text" value="<?php echo $comment_author_email ?>" size="30" tabindex="4" /></div>
+						<div class="form-input"><input id="email" name="email" type="text" value="<?php echo esc_attr($comment_author_email) ?>" size="30" tabindex="4" /></div>
 					</div><!-- #form-section-email .form-section -->
 
 					<div id="form-section-url" class="form-section">
 						<div class="form-label"><label for="url"><?php _e('Website', 'twentyten') ?></label></div>
-						<div class="form-input"><input id="url" name="url" type="text" value="<?php echo $comment_author_url ?>" size="30" tabindex="5" /></div>
+						<div class="form-input"><input id="url" name="url" type="text" value="<?php echo esc_attr($comment_author_url) ?>" size="30" tabindex="5" /></div>
 					</div><!-- #form-section-url .form-section -->
 
 	<?php endif; // if ( $user_ID ) ?>
@@ -100,7 +100,7 @@
 
 					<?php do_action('comment_form', $post->ID); ?>
 
-					<div class="form-submit"><input id="submit" name="submit" type="submit" value="<?php _e('Post Comment', 'twentyten') ?>" tabindex="7" /><input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" /></div>
+					<div class="form-submit"><input id="submit" name="submit" type="submit" value="<?php esc_attr_e('Post Comment', 'twentyten') ?>" tabindex="7" /><input type="hidden" name="comment_post_ID" value="<?php echo esc_attr($id); ?>" /></div>
 
 <?php comment_id_fields(); ?>
 

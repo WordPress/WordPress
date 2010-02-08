@@ -5,7 +5,7 @@
 
 <?php the_post(); ?>
 
-				<h1 class="page-title author"><?php printf( __( 'Author Archives: <span class="vcard">%s</span>', 'twentyten' ), "<a class='url fn n' href='$authordata->user_url' title='$authordata->display_name' rel='me'>$authordata->display_name</a>" ) ?></h1>
+				<h1 class="page-title author"><?php printf( __( 'Author Archives: <span class="vcard">%s</span>', 'twentyten' ), "<a class='url fn n' href='$authordata->user_url' title='" . esc_attr($authordata->display_name) . "' rel='me'>" . esc_html($authordata->display_name) . "</a>" ) ?></h1>
 
 <?php if ( get_the_author_meta('description') ) : // If a user has filled out their decscription show a bio on their entries  ?>
 					<div id="entry-author-info">
@@ -31,7 +31,7 @@
 <?php while ( have_posts() ) : the_post(); ?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( __('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+					<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>

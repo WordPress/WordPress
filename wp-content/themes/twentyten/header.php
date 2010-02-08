@@ -20,8 +20,8 @@
 
 	<?php wp_head(); ?>
 
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url'); ?>" title="<?php printf( __( '%s latest posts', 'twentyten' ), wp_specialchars( get_bloginfo('name'), 1 ) ); ?>" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php printf( __( '%s latest comments', 'twentyten' ), wp_specialchars( get_bloginfo('name'), 1 ) ); ?>" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url'); ?>" title="<?php printf( esc_attr__( '%s latest posts', 'twentyten' ), wp_specialchars( get_bloginfo('name'), 1 ) ); ?>" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php printf( esc_attr__( '%s latest comments', 'twentyten' ), wp_specialchars( get_bloginfo('name'), 1 ) ); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 </head>
 
@@ -32,7 +32,7 @@
 		<div id="masthead">
 
 			<div id="branding">
-				<div id="site-title"><span><a href="<?php bloginfo( 'url' ) ?>/" title="<?php bloginfo( 'name' ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a></span></div>
+				<div id="site-title"><span><a href="<?php bloginfo( 'url' ) ?>/" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ) ?></a></span></div>
 				<div id="site-description"><?php bloginfo( 'description' ) ?></div>
 
 				<?php
@@ -45,7 +45,7 @@
 			</div><!-- #branding -->
 
 			<div id="access">
-				<div class="skip-link screen-reader-text"><a href="#content" title="<?php _e( 'Skip to content', 'twentyten' ) ?>"><?php _e( 'Skip to content', 'twentyten' ) ?></a></div>
+				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ) ?>"><?php _e( 'Skip to content', 'twentyten' ) ?></a></div>
 				<?php wp_page_menu( 'sort_column=menu_order' ); ?>
 			</div><!-- #access -->
 

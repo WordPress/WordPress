@@ -13,20 +13,20 @@
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
     <?php if ( in_category( 'Gallery' ) ) { ?>
     	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( __('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
 			<div class="entry-meta">
 				<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 				<a href="<?php
 the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
 				<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
-				<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( __( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
+				<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 			</div><!-- .entry-meta -->
 
 			<div class="entry-content">
 				<div class="gallery-thumb"><a class="size-thumbnail" href="<?php permalink_link() ?>"><?php $hilite = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_parent = '$post->ID' AND post_type = 'attachment' LIMIT 1" ); echo wp_get_attachment_image( $hilite, 'thumbnail' );?></a></div>
 
-				<p><em><?php printf( __('This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten'), 'href="' . get_permalink() . '" title="' . sprintf( __('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ) . '" rel="bookmark"', $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_parent = '$post->ID' AND post_type = 'attachment'" )); ?></em></p>
+				<p><em><?php printf( __('This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten'), 'href="' . get_permalink() . '" title="' . sprintf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ) . '" rel="bookmark"', $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_parent = '$post->ID' AND post_type = 'attachment'" )); ?></em></p>
 
 				<?php the_excerpt(''); ?>
 			</div><!-- .entry-content -->
@@ -36,7 +36,7 @@ the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><
 				    $category_id = get_cat_ID( 'Gallery' );
 				    $category_link = get_category_link( $category_id );
 				?>
-				<a href="<?php echo $category_link; ?>" title="<?php _e('View posts in the Gallery category', 'twentyten'); ?>"><?php _e('More Galleries', 'twentyten'); ?></a>
+				<a href="<?php echo $category_link; ?>" title="<?php esc_attr_e('View posts in the Gallery category', 'twentyten'); ?>"><?php _e('More Galleries', 'twentyten'); ?></a>
 
 				<span class="meta-sep"> | </span>
 
@@ -58,7 +58,7 @@ the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><
 				<a href="<?php
 the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
 				<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
-				<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( __( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
+				<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 				<span class="meta-sep"> | </span>
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ) ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), "<span class=\"meta-sep\">|</span>\n\t\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t\n" ) ?>
@@ -68,14 +68,14 @@ the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><
 
     <?php } else { ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( __('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
 			<div class="entry-meta">
 				<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 				<a href="<?php
 the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
 				<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
-				<span class="author vcard"><a class="url fn n"2 href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( __( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
+				<span class="author vcard"><a class="url fn n"2 href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 			</div><!-- .entry-meta -->
 
 			<div class="entry-content">

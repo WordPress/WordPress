@@ -49,9 +49,8 @@ if ( is_readable($locale_file) )
 
 // Get the page number
 function get_page_number() {
-	if ( get_query_var('paged') ) {
+	if ( get_query_var('paged') )
 		print ' | ' . __( 'Page ' , 'twentyten') . get_query_var('paged');
-	}
 } // end get_page_number
 
 
@@ -66,7 +65,7 @@ add_filter('excerpt_length', 'new_excerpt_length');
 
 // Make a nice read more link on excerpts
 function new_excerpt_more($more) {
-return '&nbsp;&hellip; <a href="'. get_permalink($post->ID) . '">' . 'Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>' . '</a>';
+	return '&nbsp;&hellip; <a href="'. get_permalink() . '">' . 'Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>' . '</a>';
 }
 add_filter('excerpt_more', 'new_excerpt_more');
 
@@ -124,8 +123,8 @@ function twentyten_comment($comment, $args, $depth) {
 
 function remove_gallery_css() {
 	return "<div class='gallery'>";
-	}
-	add_filter('gallery_style', 'remove_gallery_css');
+}
+add_filter('gallery_style', 'remove_gallery_css');
 
 
 
@@ -240,5 +239,3 @@ function theme_widgets_init() {
 
 // Add all the groovy widget areas
 add_action( 'init', 'theme_widgets_init' );
-
-
