@@ -168,6 +168,24 @@ switch($step) {
 	if ( !empty($wpdb->error) )
 		wp_die($wpdb->error->get_error_message());
 
+	require_once( ABSPATH . WPINC . '/plugin.php' );
+	require_once( ABSPATH . WPINC . '/http.php' );
+	wp_fix_server_vars();
+	/**#@+
+	 * @ignore
+	 */
+	function get_bloginfo() {
+		return 'http://' . $_SERVER['HTTP_HOST'] . str_replace( $_SERVER['PHP_SELF'], '/wp-admin/setup-config.php', '' );
+	}
+	/**#@-*/
+
+	$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/?salt=1' );
+	if ( is_wp_error( $secret_keys ) )
+		$secret_keys = false;
+	else
+		$secret_keys = explode( "\n", wp_remote_retrieve_body( $secret_keys ) );
+	$key = 0;
+
 	foreach ($configFile as $line_num => $line) {
 		switch (substr($line,0,16)) {
 			case "define('DB_NAME'":
@@ -184,6 +202,17 @@ switch($step) {
 				break;
 			case '$table_prefix  =':
 				$configFile[$line_num] = str_replace('wp_', $prefix, $line);
+				break;
+			case "define('AUTH_KEY":
+			case "define('SECURE_A":
+			case "define('LOGGED_I":
+			case "define('NONCE_KE":
+			case "define('AUTH_SAL":
+			case "define('SECURE_A":
+			case "define('LOGGED_I":
+			case "define('NONCE_SA":
+				if ( $secret_keys )
+					$configFile[$line_num] = str_replace('put your unique phrase here', substr( $secret_keys[$key++], 27, 64 ), $line );
 				break;
 		}
 	}
