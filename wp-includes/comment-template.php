@@ -1512,7 +1512,7 @@ function comment_form( $args = array(), $post_id = null ) {
 							<input name="submit" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" tabindex="<?php echo ( count( $args['fields'] ) + 2 ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
 							<?php comment_id_fields(); ?>
 						</p>
-						<?php do_action( 'comments_form', $post_id ); ?>
+						<?php do_action( 'comment_form', $post_id ); ?>
 					</form>
 				<?php endif; ?>
 			</div>
