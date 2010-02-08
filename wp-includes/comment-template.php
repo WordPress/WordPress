@@ -1465,19 +1465,34 @@ function comment_form( $args = array(), $post_id = null ) {
 
 	$req = get_option( 'require_name_email' );
 	$aria_req = ( $req ? " aria-required='true'" : '' );
-	$req_str  = ( $req ? __( ' (required)' ) : '' );
-	$defaults = array( 'fields' => apply_filters( 'comment_form_default_fields', array( 'author' => '<p><input type="text" name="author" id="author" value="' . esc_attr( $commenter['comment_author'] ) . '" size="22" tabindex="1"' . $aria_req . ' /> <label for="author"><small>' . __( 'Name' ) . $req_str . '</small></label></p>',
-																					    'email'  => '<p><input type="text" name="email" id="email" value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="22" tabindex="2"' . $aria_req . ' /> <label for="email"><small>' . __( 'Mail (will not be published)' ) . $req_str . '</small></label></p>',
-																					    'url'    => '<p><input type="text" name="url" id="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="22" tabindex="3" /> <label for="url"><small>' . __( 'Website' ) . '</small></label></p>' ) ),
-						'comment_field' => '<p><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea></p>',
+	$defaults = array( 'fields' => apply_filters( 'comment_form_default_fields', array( 'author' => '<div id="form-section-author" class="form-section">
+																										<div class="form-label"><label for="author">' . __( 'Name', 'twentyten' ) . '</label> ' . ( $req ? '<span class="required">*</span>' : '' ) . '</div>
+																										<div class="form-input"><input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" tabindex="1"' . $aria_req . ' /></div>
+																									</div><!-- #form-section-author .form-section -->',
+																							'email' => '<div id="form-section-email" class="form-section">
+																											<div class="form-label"><label for="email">' . __( 'Email', 'twentyten' ) . '</label> ' . ( $req ? '<span class="required">*</span>' : '' ) . '</div>
+																											<div class="form-input"><input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" tabindex="2"' . $aria_req . ' /></div>
+																										</div><!-- #form-section-email .form-section -->', 
+																							'url' => '<div id="form-section-url" class="form-section">
+																											<div class="form-label"><label for="url">' . __( 'Website', 'twentyten' ) . '</label></div>
+																											<div class="form-input"><input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" tabindex="3" /></div>
+																										</div><!-- #form-section-url .form-section -->' ) ),
+						'comment_field' => '<div id="form-section-comment" class="form-section">
+												<div class="form-label"><label for="comment">' . __( 'Comment', 'twentyten' ) . '</label></div>
+												<div class="form-textarea"><textarea id="comment" name="comment" cols="45" rows="8" tabindex="4" aria-required="true"></textarea></div>
+											</div><!-- #form-section-comment .form-section -->',
 						'must_log_in' => '<p>' .  sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
-						'logged_in_as' => '<p>' . sprintf( __( 'Logged in as <a href="%s">%s</a>. <a href="%s" title="Log out of this account">Log out &raquo;</a></p>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ),
+						'logged_in_as' => '<p>' . sprintf( __( 'Logged in as <a href="%s">%s</a>. <a href="%s" title="Log out of this account">Log out?</a></p>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ),
+						'comment_notes_before' => '<p id="comment-notes">' . __( 'Your email is <em>never</em> published nor shared.' ) . ( $req ? __( ' Required fields are marked <span class="required">*</span>' ) : '' ) . '</p>', 
+						'comment_notes_after' => '<div id="form-allowed-tags" class="form-section">
+													<p><span>' . __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:' ) . '</span> <code>' . allowed_tags() . '</code></p>
+												</div>',
 						'id_form' => 'commentform',
 						'id_submit' => 'submit',
 						'title_reply' => __( 'Leave a Reply' ),
 						'title_reply_to' => __( 'Leave a Reply to %s'),
-						'cancel_reply_link' => '',
-						'label_submit' => __( 'Submit Comment' ),
+						'cancel_reply_link' => __( 'Cancel reply' ),
+						'label_submit' => __( 'Post Comment' ),
 				);
 	$args = wp_parse_args( $args, apply_filters( 'comment_form_defaults', $defaults ) );
 
@@ -1485,10 +1500,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		<?php if ( comments_open() ) : ?>
 			<?php do_action( 'comment_form_before' ); ?>
 			<div id="respond">
-				<h3><?php comment_form_title( $args['title_reply'], $args['title_reply_to'] ); ?></h3>
-				<div class="cancel-comment-reply">
-					<small><?php cancel_comment_reply_link( $args['cancel_comment_reply_link'] ); ?></small>
-				</div>
+				<h3 id="reply-title"><?php comment_form_title( $args['title_reply'], $args['title_reply_to'] ); ?> <small><?php cancel_comment_reply_link( $args['cancel_reply_link'] ); ?></small></h3>
 				<?php if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) : ?>
 					<?php echo $args['must_log_in']; ?>
 					<?php do_action( 'comment_form_must_log_in_after' ); ?>
@@ -1499,6 +1511,7 @@ function comment_form( $args = array(), $post_id = null ) {
 							<?php echo apply_filters( 'comment_form_logged_in', $args['logged_in_as'], $commenter, $user_identity ); ?>
 							<?php do_action( 'comment_form_logged_in_after', $commenter, $user_identity ); ?>
 						<?php else : ?>
+							<?php echo $args['comment_notes_before']; ?>
 							<?php
 							do_action( 'comment_form_before_fields' );
 							foreach ( (array) $args['fields'] as $name => $field ) {
@@ -1508,10 +1521,11 @@ function comment_form( $args = array(), $post_id = null ) {
 							?>
 						<?php endif; ?>
 						<?php echo apply_filters( 'comment_form_field_comment', $args['comment_field'] ); ?>
-						<p>
+						<?php echo $args['comment_notes_after']; ?>
+						<div class="form-submit">
 							<input name="submit" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" tabindex="<?php echo ( count( $args['fields'] ) + 2 ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
 							<?php comment_id_fields(); ?>
-						</p>
+						</div>
 						<?php do_action( 'comment_form', $post_id ); ?>
 					</form>
 				<?php endif; ?>
