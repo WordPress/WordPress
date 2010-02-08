@@ -4,15 +4,13 @@
 	$req = get_option('require_name_email'); // Checks if fields are required.
 	if ( 'comments.php' == basename($_SERVER['SCRIPT_FILENAME']) )
 		die ( 'Please do not load this page directly. Thanks!' );
-	if ( ! empty($post->post_password) ) :
-		if ( $_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password ) :
+	if ( post_password_required() ) :
 ?>
 				<div class="nopassword"><?php _e('This post is password protected. Enter the password to view any comments.', 'twentyten') ?></div>
 			</div><!-- .comments -->
 <?php
 		return;
 	endif;
-endif;
 ?>
 
 <?php
