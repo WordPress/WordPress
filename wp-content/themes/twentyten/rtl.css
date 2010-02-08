@@ -1,12 +1,12 @@
-/*   
+/*
 Theme Name: Twenty Ten
 */
 
 
-/* -------------------------------------------------------------- 
-  
+/* --------------------------------------------------------------
+
    RTL Basics
-   
+
 -------------------------------------------------------------- */
 
 
@@ -39,8 +39,8 @@ DESCRIPTION: Two-column fixed layout with one sidebar right of content
 
 /* =Fonts
 -------------------------------------------------------------- */
-body, 
-input, 
+body,
+input,
 textarea,
 .page-title span {
 	font-family: Georgia, "Bitstream Charter", serif;
@@ -59,7 +59,7 @@ h3#reply-title,
 .comment-body thead th,
 .entry-content label,
 .entry-content tr th,
-.entry-content thead th, 
+.entry-content thead th,
 .entry-meta,
 .entry-title,
 .entry-utility,
@@ -139,8 +139,8 @@ blockquote {
 }
 
 #access .menu {
-    margin-right: 12px; 
-    margin-left: 0; 
+    margin-right: 12px;
+    margin-left: 0;
 }
 
 
@@ -149,21 +149,21 @@ blockquote {
 }
 
 #access ul ul {
-	left:auto; 
+	left:auto;
 	right:0;
 	float:right;
 }
 #access ul ul ul {
-	left:auto; 
-	right:100%; 
+	left:auto;
+	right:100%;
 }
 
 /* =Content
 -------------------------------------------------------------- */
 
-#content table { 
-	text-align: right; 
-	margin: 0 0 24px -1px; 
+#content table {
+	text-align: right;
+	margin: 0 0 24px -1px;
 }
 .entry-title,
 .entry-meta {
@@ -199,7 +199,7 @@ blockquote {
 	margin: 0 104px 0 0;
 }
 
-/* Gallery listing 
+/* Gallery listing
 -------------------------------------------------------------- */
 
 .category-gallery .gallery-thumb {
@@ -207,14 +207,14 @@ blockquote {
  	margin-left:20px;
 	margin-right:0;
 }
-#content .gallery .gallery-item { 
-	float: right; 
+#content .gallery .gallery-item {
+	float: right;
 }
 
 /* =Images
 -------------------------------------------------------------- */
 
-#content .gallery .gallery-caption { 
+#content .gallery .gallery-caption {
 	margin-right: 0;
 }
 

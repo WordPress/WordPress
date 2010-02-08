@@ -258,7 +258,7 @@ function wp_default_constants( $context ) {
 			 * @since 2.1.0
 			 */
 			define('STYLESHEETPATH', get_stylesheet_directory());
-			
+
 			/**
 			 * Slug of the fallback theme for this install.
 			 * Will be used as the fallback if the current theme doesn't exist.

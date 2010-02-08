@@ -393,7 +393,7 @@ function get_body_class( $class = '' ) {
 
 	if ( is_single() ) {
 		$postID = $wp_query->get_queried_object_id();
-		
+
 		$classes[] = 'single postid-' . $postID;
 
 		if ( is_attachment() ) {

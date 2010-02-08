@@ -565,17 +565,17 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		else
 			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
 	}
-	
+
 	$needed_dirs = array_unique($needed_dirs);
 	asort($needed_dirs);
-	
+
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
 		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
 			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
 	}
 	unset($needed_dirs);
-	
+
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
 			return new WP_Error('stat_failed', __('Could not retrieve file from archive.'));

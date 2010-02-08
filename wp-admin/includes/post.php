@@ -482,7 +482,7 @@ function wp_write_post() {
 		foreach ( $draft_ids as $temp => $real )
 			if ( time() + $temp > 86400 ) // 1 day: $temp is equal to -1 * time( then )
 				unset($draft_ids[$temp]);
-	
+
 		if ( isset($draft_ids[$temp_id]) ) { // Edit, don't write
 			$_POST['post_ID'] = $draft_ids[$temp_id];
 			unset($_POST['temp_ID']);

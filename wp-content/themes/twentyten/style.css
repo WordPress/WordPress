@@ -1,4 +1,4 @@
-/*   
+/*
 Theme Name: Twenty Ten
 Theme URI: http://wordpress.org/
 Description: The 2010 default theme for WordPress.
@@ -8,13 +8,13 @@ Tags: black, blue, white, two-columns, fixed-width, custom-header, theme-options
 */
 
 
-/* -------------------------------------------------------------- 
-  
+/* --------------------------------------------------------------
+
    Reset default browser CSS.
-   
+
    Based on work by Eric Meyer:
    http://meyerweb.com/eric/tools/css/reset/index.html
-   
+
 -------------------------------------------------------------- */
 
 html, body, div, span, applet, object, iframe,
@@ -35,7 +35,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 body {
 	line-height: 1;
 }
-h1,h2,h3,h4,h5,h6 { 
+h1,h2,h3,h4,h5,h6 {
 	font-weight: normal;
 	clear: both;
 }
@@ -92,8 +92,8 @@ DESCRIPTION: Two-column fixed layout with one sidebar right of content
 
 /* =Fonts
 -------------------------------------------------------------- */
-body, 
-input, 
+body,
+input,
 textarea,
 .page-title span,
 .pingback a.url {
@@ -113,7 +113,7 @@ h3#reply-title,
 .comment-body thead th,
 .entry-content label,
 .entry-content tr th,
-.entry-content thead th, 
+.entry-content thead th,
 .entry-meta,
 .entry-title,
 .entry-utility,
@@ -360,16 +360,16 @@ a:hover {
 }
 #access a {
 	display:block;
-	text-decoration:none; 
-	color:#aaa; 
+	text-decoration:none;
+	color:#aaa;
 	padding:0 10px;
-	line-height:38px; 
+	line-height:38px;
 }
 #access ul ul {
 	display:none;
 	position:absolute;
 	top:38px;
-	left:0; 
+	left:0;
 	float:left;
 	-webkit-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
@@ -377,19 +377,19 @@ a:hover {
 	z-index: 99999;
 }
 #access ul ul ul {
-	left:100%; 
-	top:0; 
+	left:100%;
+	top:0;
 }
 #access ul ul a {
-	background:#333; 
-	height:auto; 
-	line-height:1em; 
-	padding:10px; 
+	background:#333;
+	height:auto;
+	line-height:1em;
+	padding:10px;
 	width: 130px;
 }
-#access li:hover > a, 
+#access li:hover > a,
 #access ul ul :hover > a {
-	color:#fff; 
+	color:#fff;
 	background:#333;
 }
 #access ul li:hover > ul {
@@ -413,7 +413,7 @@ a:hover {
 #content textarea {
 	color: #444;
 	font-size: 16px;
-	line-height: 24px;	
+	line-height: 24px;
 }
 #content p,
 #content ul,
@@ -455,25 +455,25 @@ a:hover {
 	margin: 0 0 20px 0;
 	line-height: 1.5em;
 }
-#content table { 
-	border: 1px solid #e7e7e7; 
-	text-align: left; 
-	margin: 0 -1px 24px 0; 
-	width: 100%; 
-} 
-#content tr th, 
-#content thead th { 
-	color: #888; 
-	font-size: 12px; 
-	font-weight: bold; 
-	line-height: 18px; 
-	padding: 9px 24px; 
-} 
-#content tr td { 
-	border-top: 1px solid #e7e7e7; 
-	padding: 6px 24px; 
+#content table {
+	border: 1px solid #e7e7e7;
+	text-align: left;
+	margin: 0 -1px 24px 0;
+	width: 100%;
 }
-#content tr.odd td { 
+#content tr th,
+#content thead th {
+	color: #888;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 9px 24px;
+}
+#content tr td {
+	border-top: 1px solid #e7e7e7;
+	padding: 6px 24px;
+}
+#content tr.odd td {
 	background: #F2F7FC;
 }
 .hentry {
@@ -677,7 +677,7 @@ a:hover {
 /* Gallery listing
 -------------------------------------------------------------- */
 
-.category-gallery { 
+.category-gallery {
 	margin-bottom: 48px;
 }
 .category-gallery h2 {
@@ -767,7 +767,7 @@ img.alignleft, img.alignright, img.aligncenter {
 #content .wp-caption p.wp-caption-text {
 	margin: 0 0 4px;
 }
-#content .wp-smiley { 
+#content .wp-smiley {
 	margin:0;
 }
 #content .gallery {
@@ -874,7 +874,7 @@ h3#comments-title {
 #comments .comment-body ol {
 	margin-bottom: 18px;
 }
-#comments .comment-body p:last-child {	
+#comments .comment-body p:last-child {
 	margin-bottom: 6px;
 }
 #comments .comment-body blockquote p:last-child {
@@ -997,10 +997,10 @@ h3#reply-title {
 #form-allowed-tags {
 	color:#888;
 	font-size: 12px;
-	line-height: 18px;	
+	line-height: 18px;
 }
 #form-allowed-tags p {
-	margin:0;	
+	margin:0;
 }
 #form-allowed-tags span {
 }
@@ -1095,7 +1095,7 @@ h3#reply-title {
 }
 
 /* Footer widget areas */
-#footer-widget-area {	
+#footer-widget-area {
 }
 
 

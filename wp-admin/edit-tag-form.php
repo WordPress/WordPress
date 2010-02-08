@@ -61,7 +61,7 @@ do_action('edit_' . $taxonomy . '_form_pre', $tag, $taxonomy);  ?>
 			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
 		<?php
-		if ( 'category' == $taxonomy ) 
+		if ( 'category' == $taxonomy )
 			do_action('edit_category_form_fields', $tag);
 		else
 			do_action('edit_tag_form_fields', $tag);
@@ -69,8 +69,8 @@ do_action('edit_' . $taxonomy . '_form_pre', $tag, $taxonomy);  ?>
 		?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Tag'); ?>" /></p>
-<?php 
-if ( 'category' == $taxonomy ) 
+<?php
+if ( 'category' == $taxonomy )
 	do_action('edit_category_form_', $tag);
 else
 	do_action('edit_tag_form_', $tag);

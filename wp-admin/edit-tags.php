@@ -328,8 +328,8 @@ else
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
-<?php 
-if ( 'category' == $taxonomy ) 
+<?php
+if ( 'category' == $taxonomy )
 	do_action('add_category_form_fields');
 else
 	do_action('add_tag_form_fields', $taxonomy);

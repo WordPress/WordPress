@@ -3,7 +3,7 @@
 // Set the content width based on the Theme CSS
 $content_width = apply_filters('twentyten_content_width', 640 );
 
-// Your Changeable header business starts here 
+// Your Changeable header business starts here
 // No CSS, just IMG call
 define( 'HEADER_TEXTCOLOR', '');
 define( 'HEADER_IMAGE', '%s/images/header-1.jpg'); // %s is theme dir uri
@@ -95,7 +95,7 @@ function twentyten_comment($comment, $args, $depth) {
 		<div class="reply">
 			<?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
 		</div>
-	</div>	
+	</div>
 
 	<?php } else { ?>
 	<li class="post pingback">
@@ -178,62 +178,62 @@ function theme_widgets_init() {
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
-	
+
 	// Area 2
 	register_sidebar( array (
 		'name' => 'Secondary Widget Area',
-		'id' => 'secondary-widget-area', 
+		'id' => 'secondary-widget-area',
 		'description' => __('The secondary widget area' , 'twentyten'),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 		'after_widget' => "</li>",
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
-	
+
 	// Area 3
 	register_sidebar( array (
 		'name' => 'First Footer Widget Area',
-		'id' => 'first-footer-widget-area', 
+		'id' => 'first-footer-widget-area',
 		'description' => __('The first footer widget area' , 'twentyten'),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 		'after_widget' => "</li>",
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );  
+	) );
 
 	// Area 4
 	register_sidebar( array (
 		'name' => 'Second Footer Widget Area',
-		'id' => 'second-footer-widget-area', 
+		'id' => 'second-footer-widget-area',
 		'description' => __('The second footer widget area' , 'twentyten'),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 		'after_widget' => "</li>",
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );  
+	) );
 
 	// Area 5
 	register_sidebar( array (
 		'name' => 'Third Footer Widget Area',
-		'id' => 'third-footer-widget-area', 
+		'id' => 'third-footer-widget-area',
 		'description' => __('The third footer widget area' , 'twentyten'),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 		'after_widget' => "</li>",
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );  
+	) );
 
 	// Area 6
 	register_sidebar( array (
 		'name' => 'Fourth Footer Widget Area',
-		'id' => 'fourth-footer-widget-area', 
+		'id' => 'fourth-footer-widget-area',
 		'description' => __('The fourth footer widget area' , 'twentyten'),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 		'after_widget' => "</li>",
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );  
-  
+	) );
+
 } // end theme_widgets_init
 
 

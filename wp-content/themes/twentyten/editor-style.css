@@ -144,7 +144,7 @@ input,
 textarea {
 	color: #444;
 	font-size: 16px;
-	line-height: 24px;	
+	line-height: 24px;
 }
 p,
 ul,
@@ -205,26 +205,26 @@ h5 {
 h6 {
 	font-size: 0.9em;
 }
-table { 
-	border: 1px solid #e7e7e7 !important; 
-	text-align: left; 
-	margin: 0 -1px 24px 0; 
-	width: 100%; 
+table {
+	border: 1px solid #e7e7e7 !important;
+	text-align: left;
+	margin: 0 -1px 24px 0;
+	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
-} 
-tr th, 
+}
+tr th,
 thead th {
 	border: none !important;
-	color: #888; 
-	font-size: 12px; 
-	font-weight: bold; 
-	line-height: 18px; 
-	padding: 9px 24px; 
-} 
+	color: #888;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 9px 24px;
+}
 tr td {
 	border: none !important;
-	border-top: 1px solid #e7e7e7 !important; 
+	border-top: 1px solid #e7e7e7 !important;
 	padding: 6px 24px;
 }
 
@@ -269,7 +269,7 @@ img.alignleft, img.alignright, img.aligncenter {
 	-moz-border-radius: 0;
 	-khtml-border-radius: 0;
 	-webkit-border-radius: 0;
-	border-radius: 0;	
+	border-radius: 0;
 }
 .wp-caption img {
 	margin: 5px;
@@ -277,6 +277,6 @@ img.alignleft, img.alignright, img.aligncenter {
 .wp-caption p.wp-caption-text {
 	margin: 0 0 4px;
 }
-.wp-smiley { 
+.wp-smiley {
 	margin:0;
 }

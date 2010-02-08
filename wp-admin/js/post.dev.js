@@ -253,15 +253,15 @@ jQuery(document).ready( function($) {
 	}
 
 	// categories
-	$('.categorydiv').each(function(){ 
-		var this_id = $(this).attr('id'), noSyncChecks = false, syncChecks, catAddAfter, popularCats; 
-		var taxonomy_parts = this_id.split('-'); 
+	$('.categorydiv').each(function(){
+		var this_id = $(this).attr('id'), noSyncChecks = false, syncChecks, catAddAfter, popularCats;
+		var taxonomy_parts = this_id.split('-');
 		taxonomy_parts.shift();
 		var taxonomy = taxonomy_parts.join('-');
- 		var settingName = taxonomy+'_tab'; 
- 		if(taxonomy == 'category') 
- 			settingName = 'cats'; 
-	 			
+ 		var settingName = taxonomy+'_tab';
+ 		if(taxonomy == 'category')
+ 			settingName = 'cats';
+
 		// TODO: move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.dev.js
 		$('a', '#'+taxonomy+'-tabs').click(function(){
 			var t = $(this).attr('href');
@@ -274,25 +274,25 @@ jQuery(document).ready( function($) {
 				setUserSetting(settingName,'pop');
 			return false;
 		});
-		
+
 		if ( getUserSetting(settingName) )
 			$('a[href="#'+taxonomy+'-pop"]', '#'+taxonomy+'-tabs').click();
 
 		// Ajax Cat
-		$('#new'+taxonomy).one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } ); 
-		$('#'+taxonomy+'-add-submit').click(function(){$('#new'+taxonomy).focus();}); 
-		
-		syncChecks = function() { 
-				if ( noSyncChecks ) 
-					return; 
-				noSyncChecks = true; 
-				var th = jQuery(this), c = th.is(':checked'), id = th.val().toString(); 
-				$('#in-'+taxonomy+'-' + id + ', #in-'+taxonomy+'-category-' + id).attr( 'checked', c ); 
-				noSyncChecks = false; 
-			}; 
-			
-			
-		
+		$('#new'+taxonomy).one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
+		$('#'+taxonomy+'-add-submit').click(function(){$('#new'+taxonomy).focus();});
+
+		syncChecks = function() {
+				if ( noSyncChecks )
+					return;
+				noSyncChecks = true;
+				var th = jQuery(this), c = th.is(':checked'), id = th.val().toString();
+				$('#in-'+taxonomy+'-' + id + ', #in-'+taxonomy+'-category-' + id).attr( 'checked', c );
+				noSyncChecks = false;
+			};
+
+
+
 		catAddBefore = function( s ) {
 			if ( !$('#new'+taxonomy).val() )
 				return false;

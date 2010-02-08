@@ -363,7 +363,7 @@ switch( $action ) {
 	case 'step2':
 		check_admin_referer( 'install-network-1' );
 
-		if ( isset( $_POST[ 'existing_network' ] ) ) { 
+		if ( isset( $_POST[ 'existing_network' ] ) ) {
 			// Install!
 			$base = stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) );
 			if ( $base != '/' )

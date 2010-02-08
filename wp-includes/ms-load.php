@@ -144,7 +144,7 @@ function wpmu_current_site() {
 		$current_site->cookie_domain = $cookie_domain;
 		return $current_site;
 	}
-	
+
 	if ( is_subdomain_install() ) {
 		$sitedomain = substr( $domain, 1 + strpos( $domain, '.' ) );
 		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path) );
