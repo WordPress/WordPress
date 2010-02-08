@@ -26,7 +26,7 @@ if ( isset($_POST['action']) && $_POST['action'] == "deleteblog" && isset($_POST
 You recently clicked the 'Delete Blog' link on your blog and filled in a
 form on that page.
 If you really want to delete your blog, click the link below. You will not
-be asked to confirm again so only click this link if you are 100% certain:
+be asked to confirm again so only click this link if you are absolutely certain:
 URL_DELETE
 
 If you delete your blog, please consider opening a new blog here
