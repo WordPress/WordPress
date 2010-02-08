@@ -2549,28 +2549,27 @@ class WP_Query {
 	 * @return object
 	 */
 	function get_queried_object() {
-		if (isset($this->queried_object)) {
+		if ( isset($this->queried_object) )
 			return $this->queried_object;
-		}
 
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		if ($this->is_category) {
+		if ( $this->is_category ) {
 			$cat = $this->get('cat');
 			$category = &get_category($cat);
 			if ( is_wp_error( $category ) )
 				return NULL;
 			$this->queried_object = &$category;
 			$this->queried_object_id = (int) $cat;
-		} else if ($this->is_tag) {
+		} elseif ( $this->is_tag ) {
 			$tag_id = $this->get('tag_id');
 			$tag = &get_term($tag_id, 'post_tag');
 			if ( is_wp_error( $tag ) )
 				return NULL;
 			$this->queried_object = &$tag;
 			$this->queried_object_id = (int) $tag_id;
-		} else if ($this->is_tax) {
+		} elseif ( $this->is_tax ) {
 			$tax = $this->get('taxonomy');
 			$slug = $this->get('term');
 			$term = &get_terms($tax, array('slug'=>$slug));
@@ -2579,16 +2578,16 @@ class WP_Query {
 			$term = $term[0];
 			$this->queried_object = $term;
 			$this->queried_object_id = $term->term_id;
-		} else if ($this->is_posts_page) {
+		} elseif ( $this->is_posts_page ) {
 			$this->queried_object = & get_page(get_option('page_for_posts'));
 			$this->queried_object_id = (int) $this->queried_object->ID;
-		} else if ($this->is_single) {
+		} elseif ( $this->is_single ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
-		} else if ($this->is_page) {
+		} elseif ( $this->is_page ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
-		} else if ($this->is_author) {
+		} elseif ( $this->is_author ) {
 			$author_id = (int) $this->get('author');
 			$author = get_userdata($author_id);
 			$this->queried_object = $author;

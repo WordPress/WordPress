@@ -392,14 +392,17 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'error404';
 
 	if ( is_single() ) {
-		$postID = $wp_query->get_queried_object_id();
+		$post_id = $wp_query->get_queried_object_id();
+		$post = $wp_query->get_queried_object();
 
-		$classes[] = 'single postid-' . $postID;
+		$classes[] = 'single';
+		$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
+		$classes[] = 'postid-' . $post_id;
 
 		if ( is_attachment() ) {
-			$mime_type = get_post_mime_type($postID);
+			$mime_type = get_post_mime_type($post_id);
 			$mime_prefix = array( 'application/', 'image/', 'text/', 'audio/', 'video/', 'music/' );
-			$classes[] = 'attachmentid-' . $postID;
+			$classes[] = 'attachmentid-' . $post_id;
 			$classes[] = 'attachment-' . str_replace($mime_prefix, '', $mime_type);
 		}
 	} elseif ( is_archive() ) {
@@ -419,13 +422,13 @@ function get_body_class( $class = '' ) {
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
 
-		$pageID = $wp_query->get_queried_object_id();
+		$page_id = $wp_query->get_queried_object_id();
 
-		$post = get_page($pageID);
+		$post = get_page($page_id);
 
-		$classes[] = 'page-id-' . $pageID;
+		$classes[] = 'page-id-' . $page_id;
 
-		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' AND post_status = 'publish' LIMIT 1", $pageID) ) )
+		if ( $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' AND post_status = 'publish' LIMIT 1", $page_id) ) )
 			$classes[] = 'page-parent';
 
 		if ( $post->post_parent ) {
@@ -434,7 +437,7 @@ function get_body_class( $class = '' ) {
 		}
 		if ( is_page_template() ) {
 			$classes[] = 'page-template';
-			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_post_meta( $pageID, '_wp_page_template', true ) ), '' );
+			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_post_meta( $page_id, '_wp_page_template', true ) ), '' );
 		}
 	} elseif ( is_search() ) {
 		if ( !empty($wp_query->posts) )

@@ -860,7 +860,7 @@ function get_home_template() {
 function get_page_template() {
 	global $wp_query;
 
-	$id = (int) $wp_query->post->ID;
+	$id = (int) $wp_query->get_queried_object_id();
 	$template = get_post_meta($id, '_wp_page_template', true);
 	$pagename = get_query_var('pagename');
 
@@ -909,7 +909,11 @@ function get_search_template() {
  * @return string
  */
 function get_single_template() {
-	return get_query_template('single');
+	global $wp_query;
+
+	$object = $wp_query->get_queried_object();
+	$templates = array('single-' . $object->post_type . '.php', 'single.php');
+	return apply_filters('single_template', locate_template($templates));
 }
 
 /**
@@ -974,11 +978,11 @@ function get_comments_popup_template() {
  * @return string The template filename if one is located.
  */
 function locate_template($template_names, $load = false) {
-	if (!is_array($template_names))
+	if ( !is_array($template_names) )
 		return '';
 
 	$located = '';
-	foreach($template_names as $template_name) {
+	foreach ( $template_names as $template_name ) {
 		if ( file_exists(STYLESHEETPATH . '/' . $template_name)) {
 			$located = STYLESHEETPATH . '/' . $template_name;
 			break;
@@ -988,7 +992,7 @@ function locate_template($template_names, $load = false) {
 		}
 	}
 
-	if ($load && '' != $located)
+	if ( $load && '' != $located )
 		load_template($located);
 
 	return $located;
