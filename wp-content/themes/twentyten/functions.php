@@ -28,6 +28,7 @@ function twentyten_admin_header_style() {
 add_custom_image_header('', 'twentyten_admin_header_style');
 // and thus ends the changeable header business
 
+add_custom_background();
 
 // This theme needs post thumbnails
 add_theme_support( 'post-thumbnails' );

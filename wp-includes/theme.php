@@ -1335,6 +1335,80 @@ function add_custom_image_header($header_callback, $admin_header_callback, $admi
 }
 
 /**
+ * Retrieve background image for custom background.
+ *
+ * @since 3.0.0
+ *
+ * @return string
+ */
+function get_background_image() {
+	$default =  defined('BACKGROUND_IMAGE') ? BACKGROUND_IMAGE : '';
+
+	return get_theme_mod('background_image', $default);
+}
+
+/**
+ * Display background image path.
+ *
+ * @since 3.0.0
+ */
+function background_image() {
+	echo get_background_image();
+}
+
+/**
+ * Add callbacks for background image display.
+ *
+ * The parameter $header_callback callback will be required to display the
+ * content for the 'wp_head' action. The parameter $admin_header_callback
+ * callback will be added to Custom_Background class and that will be added
+ * to the 'admin_menu' action.
+ *
+ * @since 3.0.0
+ * @uses Custom_Background Sets up for $admin_header_callback for administration panel display.
+ *
+ * @param callback $header_callback Call on 'wp_head' action.
+ * @param callback $admin_header_callback Call on custom background administration screen.
+ * @param callback $admin_image_div_callback Output a custom background image div on the custom background administration screen. Optional.
+ */
+function add_custom_background($header_callback = '', $admin_header_callback = '', $admin_image_div_callback = '') {
+	if ( empty($header_callback) )
+		$header_callback = '_custom_background_cb';
+
+	add_action('wp_head', $header_callback);
+
+	if ( ! is_admin() )
+		return;
+	require_once(ABSPATH . 'wp-admin/custom-background.php');
+	$GLOBALS['custom_background'] =& new Custom_Background($admin_header_callback, $admin_image_div_callback);
+	add_action('admin_menu', array(&$GLOBALS['custom_background'], 'init'));
+}
+
+/**
+ * Default custom background callback.
+ *
+ * @since 3.0.0
+ * @see add_custom_background()
+ * @access protected
+ */
+function _custom_background_cb() {
+	$background = get_background_image();
+
+	if ( !$background )
+		return;
+
+	$repeat = get_theme_mod('background_repeat');
+	$repeat = $repeat ? '' : ' no-repeat';
+?>
+<style type="text/css">
+body {
+	background: url('<?php background_image(); ?>') fixed <?php echo $repeat ?>;
+}
+</style>
+<?php
+}
+
+/**
  * Allows a theme to register its support of a certain feature
  *
  * Must be called in the themes functions.php file to work.
