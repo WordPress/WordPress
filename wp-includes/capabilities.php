@@ -975,19 +975,24 @@ function map_meta_cap( $cap, $user_id ) {
 			$caps[] = 'read_private_pages';
 		break;
 	case 'unfiltered_upload':
-		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS == true && ( !is_multisite() || is_super_admin() )  )
+		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS && ( !is_multisite() || is_super_admin() )  )
 			$caps[] = $cap;
 		else
 			$caps[] = 'do_not_allow';
 		break;
+	case 'edit_plugins':
+	case 'edit_themes':
+		if ( defined('DISALLOW_FILE_EDIT') && DISALLOW_FILE_EDIT ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+		// Fall through if not DISALLOW_FILE_EDIT.
 	case 'unfiltered_html':
 	case 'update_plugins':
 	case 'delete_plugins':
 	case 'install_plugins':
-	case 'edit_plugins':
 	case 'update_themes':
 	case 'install_themes':
-	case 'edit_themes':
 	case 'update_core':
 	case 'delete_user':
 	case 'delete_users':
