@@ -164,7 +164,7 @@ if ( $iis7_permalinks ) {
 <?php
 $prefix = '';
 
-if ( ! got_mod_rewrite() && ! $iis7_permalinks )
+if ( ! is_multisite() && ! got_mod_rewrite() && ! $iis7_permalinks )
 	$prefix = '/index.php';
 
 $structures = array(
