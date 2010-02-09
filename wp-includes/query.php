@@ -1765,6 +1765,7 @@ class WP_Query {
 					$search .= " AND ($wpdb->posts.post_password = '') ";
 			}
 		}
+		$search = apply_filters('posts_search', $search, $this);
 
 		// Category stuff
 
