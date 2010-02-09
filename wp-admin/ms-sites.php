@@ -79,6 +79,7 @@ switch ( $action ) {
 		$options = $wpdb->get_results( "SELECT * FROM {$blog_prefix}options WHERE option_name NOT LIKE '\_%' AND option_name NOT LIKE '%user_roles'" );
 		$details = get_blog_details($id);
 		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
+		$is_main_site = is_main_site( $id );
 		?>
 		<div class="wrap">
 		<?php screen_icon(); ?>
@@ -93,12 +94,20 @@ switch ( $action ) {
 				<table class="form-table">
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Domain') ?></th>
+<?php if ( $is_main_site ) { ?>
+								<td>http://<?php echo esc_attr($details->domain) ?></td>
+<?php } else { ?>
 								<td>http://<input name="blog[domain]" type="text" id="domain" value="<?php echo esc_attr($details->domain) ?>" size="33" /></td>
+<?php } ?>
 							</tr>
 							<tr class="form-field form-required">
 								<th scope="row"><?php _e('Path') ?></th>
+<?php if ( $is_main_site ) { ?>
+								<td><?php echo esc_attr($details->path) ?></td>
+<?php } else { ?>
 								<td><input name="blog[path]" type="text" id="path" value="<?php echo esc_attr($details->path) ?>" size="40" style='margin-bottom:5px;' />
 								<br /><input type='checkbox' style='width:20px;' name='update_home_url' value='update' <?php if ( get_blog_option( $id, 'siteurl' ) == untrailingslashit( get_blogaddress_by_id($id) ) || get_blog_option( $id, 'home' ) == untrailingslashit( get_blogaddress_by_id($id) ) ) echo 'checked="checked"'; ?> /> <?php _e( "Update 'siteurl' and 'home' as well." ); ?></td>
+<?php } ?>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><?php _e('Registered') ?></th>
@@ -176,7 +185,11 @@ switch ( $action ) {
 								?>
 									<tr class="form-field">
 										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $option->option_name ) ) ?></th>
+<?php if ( $is_main_site && in_array( $option->option_name, array( 'siteurl', 'home' ) ) ) { ?>
+										<td><?php echo esc_attr( $option->option_value ) ?></td>
+<?php } else { ?>
 										<td><input name="option[<?php echo esc_attr($option->option_name) ?>]" type="text" id="<?php echo esc_attr($option->option_name) ?>" value="<?php echo esc_attr( $option->option_value ) ?>" size="40" <?php echo $disabled ?> /></td>
+<?php } ?>
 									</tr>
 								<?php
 								}
