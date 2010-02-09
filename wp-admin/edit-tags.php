@@ -290,10 +290,10 @@ else
 
 <?php if ( current_user_can($tax->edit_cap) ) {
 	if ( 'category' == $taxonomy )
-		do_action('add_category_form_pre', (object)array('parent' => 0) );
+		do_action('add_category_form_pre', (object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_pre_add_form
 	else
-		do_action('add_tag_form_pre', $taxonomy);
-	do_action('add_' . $taxonomy . '_form_pre', $taxonomy);
+		do_action('add_tag_form_pre', $taxonomy); // Back compat hook. Applies to all Taxonomies -not- categories
+	do_action($taxonomy . '_pre_add_form', $taxonomy);
 ?>
 
 <div class="form-wrap">
@@ -328,21 +328,19 @@ else
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
-<?php
-if ( 'category' == $taxonomy )
-	do_action('add_category_form_fields');
-else
+<?php 
+if ( ! is_taxonomy_hierarchical($taxonomy) ) 
 	do_action('add_tag_form_fields', $taxonomy);
-do_action('add_' . $taxonomy . '_form_fields', $taxonomy);
+do_action($taxonomy . '_add_form_fields', $taxonomy);
 ?>
 
 <p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
 <?php
 if ( 'category' == $taxonomy )
-	do_action('edit_category_form',	(object)array('parent' => 0) );
+	do_action('edit_category_form',	(object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_add_form
 else
-	do_action('add_tag_form', $taxonomy);
-do_action('add_' . $taxonomy . '_form', $taxonomy);
+	do_action('add_tag_form', $taxonomy); // Back compat hook. Applies to all Taxonomies -not- categories
+do_action($taxonomy . '_add_form', $taxonomy);
 ?>
 </form></div>
 <?php } ?>

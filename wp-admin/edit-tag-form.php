@@ -23,7 +23,7 @@ if ( 'category' == $taxonomy )
 	do_action('edit_category_form_pre', $tag );
 else
 	do_action('edit_tag_form_pre', $tag);
-do_action('edit_' . $taxonomy . '_form_pre', $tag, $taxonomy);  ?>
+do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -65,16 +65,16 @@ do_action('edit_' . $taxonomy . '_form_pre', $tag, $taxonomy);  ?>
 			do_action('edit_category_form_fields', $tag);
 		else
 			do_action('edit_tag_form_fields', $tag);
-		do_action('edit_' . $taxonomy . '_form_fields', $tag, $taxonomy);
+		do_action($taxonomy . '_edit_form_fields', $tag, $taxonomy);
 		?>
 	</table>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php esc_attr_e('Update Tag'); ?>" /></p>
 <?php
 if ( 'category' == $taxonomy )
-	do_action('edit_category_form_', $tag);
+	do_action('edit_category_form', $tag);
 else
-	do_action('edit_tag_form_', $tag);
-do_action('edit_' . $taxonomy . '_form', $tag, $taxonomy);
+	do_action('edit_tag_form', $tag);
+do_action($taxonomy . '_edit_form', $tag, $taxonomy);
 ?>
 </form>
 </div>
