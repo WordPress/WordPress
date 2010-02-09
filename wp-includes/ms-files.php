@@ -15,8 +15,6 @@ if ( ! defined( 'SHORTINIT' ) ) {
 
 ms_default_constants( 'ms-files' );
 
-error_reporting(0);
-
 if ( $current_blog->archived == '1' || $current_blog->spam == '1' || $current_blog->deleted == '1' ) {
 	status_header( 404 );
 	die( '404 &#8212; File not found.' );
