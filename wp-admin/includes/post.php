@@ -374,9 +374,9 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 		$post->menu_order = 0;
 	}
 
-	$post->post_content = apply_filters( 'default_content', $post_content );
-	$post->post_title   = apply_filters( 'default_title',   $post_title   );
-	$post->post_excerpt = apply_filters( 'default_excerpt', $post_excerpt );
+	$post->post_content = apply_filters( 'default_content', $post_content, $post );
+	$post->post_title   = apply_filters( 'default_title',   $post_title, $post   );
+	$post->post_excerpt = apply_filters( 'default_excerpt', $post_excerpt, $post );
 	$post->post_name = '';
 
 	return $post;
