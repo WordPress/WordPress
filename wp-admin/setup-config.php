@@ -212,7 +212,7 @@ switch($step) {
 			case "define('LOGGED_I":
 			case "define('NONCE_SA":
 				if ( $secret_keys )
-					$configFile[$line_num] = str_replace('put your unique phrase here', substr( $secret_keys[$key++], 27, 64 ), $line );
+					$configFile[$line_num] = str_replace('put your unique phrase here', substr( $secret_keys[$key++], 28, 64 ), $line );
 				break;
 		}
 	}
