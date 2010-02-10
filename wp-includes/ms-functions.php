@@ -310,11 +310,14 @@ function update_blog_option( $id, $key, $value, $refresh = true ) {
 	wp_cache_set( $id."-".$key."-blog_option", $value, 'site-options');
 }
 
-function switch_to_blog( $new_blog ) {
+function switch_to_blog( $new_blog, $validate = false ) {
 	global $wpdb, $table_prefix, $blog_id, $switched, $switched_stack, $wp_roles, $current_user, $wp_object_cache;
 
 	if ( empty($new_blog) )
 		$new_blog = $blog_id;
+
+	if ( $validate && ! get_blog_details( $new_blog ) )
+		return false;
 
 	if ( empty($switched_stack) )
 		$switched_stack = array();
