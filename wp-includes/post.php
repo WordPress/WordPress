@@ -86,12 +86,14 @@ function create_initial_post_types() {
 
 	register_post_status( 'trash', array(	'label' => _x('Trash', 'post'),
 											'public' => true,
+											'exclude_from_search' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'auto-draft', array(	'label' => _x('Auto-Draft', 'post'),
 											'public' => false,
+											'exclude_from_search' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
 										) );

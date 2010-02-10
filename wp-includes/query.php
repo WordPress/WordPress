@@ -2097,9 +2097,10 @@ class WP_Query {
 			$q_status = explode(',', $q['post_status']);
 			$r_status = array();
 			$p_status = array();
+			$e_status = array();
 			if ( $q['post_status'] == 'any' ) {
-				// @todo Use register_post_status() data to determine which states should be excluded.
-				$r_status[] = "$wpdb->posts.post_status <> 'trash'";
+				foreach ( get_post_stati( array('exclude_from_search' => true) ) as $status )
+					$e_status[] = "$wpdb->posts.post_status <> '$status'";
 			} else {
 				foreach ( get_post_stati() as $status ) {
 					if ( in_array( $status, $q_status ) ) {
@@ -2116,6 +2117,9 @@ class WP_Query {
 				unset($p_status);
 			}
 
+			if ( !empty($e_status) ) {
+				$statuswheres[] = "(" . join( ' AND ', $e_status ) . ")";
+			}
 			if ( !empty($r_status) ) {
 				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can("edit_others_{$post_type_cap}s") )
 					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $r_status ) . "))";
