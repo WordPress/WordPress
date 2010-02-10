@@ -2102,8 +2102,12 @@ class WP_Query {
 				$r_status[] = "$wpdb->posts.post_status <> 'trash'";
 			} else {
 				foreach ( get_post_stati() as $status ) {
-					if ( in_array( $status, $q_status ) )
-						$r_status[] = "$wpdb->posts.post_status = '$status'";
+					if ( in_array( $status, $q_status ) ) {
+						if ( 'private' == $status )
+							$p_status[] = "$wpdb->posts.post_status = '$status'";
+						else
+							$r_status[] = "$wpdb->posts.post_status = '$status'";
+					}
 				}
 			}
 

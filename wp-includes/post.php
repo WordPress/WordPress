@@ -711,7 +711,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * Optional $args contents:
  *
  * label - A descriptive name for the post type marked for translation. Defaults to $post_type.
- * description - A short descriptive summary of what the post type is. Defaults to blank. 
+ * description - A short descriptive summary of what the post type is. Defaults to blank.
  * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
  * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
