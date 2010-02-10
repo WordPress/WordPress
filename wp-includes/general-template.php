@@ -111,8 +111,9 @@ function get_sidebar( $name = null ) {
  * search. To give a few examples of what it can be used for.
  *
  * @since 2.7.0
+ * @param boolean $echo Default to echo and not return the form.
  */
-function get_search_form() {
+function get_search_form($echo = true) {
 	do_action( 'get_search_form' );
 
 	$search_form_template = locate_template(array('searchform.php'));
@@ -128,7 +129,10 @@ function get_search_form() {
 	</div>
 	</form>';
 
-	echo apply_filters('get_search_form', $form);
+	if ( $echo )
+		echo apply_filters('get_search_form', $form);
+	else
+		return apply_filters('get_search_form', $form);
 }
 
 /**
@@ -141,14 +145,18 @@ function get_search_form() {
  * @uses apply_filters() Calls 'loginout' hook on HTML link content.
  *
  * @param string $redirect Optional path to redirect to on login/logout.
+ * @param boolean $echo Default to echo and not return the link.
  */
-function wp_loginout($redirect = '') {
+function wp_loginout($redirect = '', $echo = true) {
 	if ( ! is_user_logged_in() )
 		$link = '<a href="' . esc_url( wp_login_url($redirect) ) . '">' . __('Log in') . '</a>';
 	else
 		$link = '<a href="' . esc_url( wp_logout_url($redirect) ) . '">' . __('Log out') . '</a>';
-
-	echo apply_filters('loginout', $link);
+	
+	if ( $echo )
+		echo apply_filters('loginout', $link);
+	else
+		return apply_filters('loginout', $link);
 }
 
 /**
@@ -280,8 +288,9 @@ function wp_lostpassword_url($redirect = '') {
  *
  * @param string $before Text to output before the link (defaults to <li>).
  * @param string $after Text to output after the link (defaults to </li>).
+ * @param boolean $echo Default to echo and not return the link.
  */
-function wp_register( $before = '<li>', $after = '</li>' ) {
+function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 
 	if ( ! is_user_logged_in() ) {
 		if ( get_option('users_can_register') )
@@ -291,8 +300,11 @@ function wp_register( $before = '<li>', $after = '</li>' ) {
 	} else {
 		$link = $before . '<a href="' . admin_url() . '">' . __('Site Admin') . '</a>' . $after;
 	}
-
-	echo apply_filters('register', $link);
+	
+	if ( $echo )
+		echo apply_filters('register', $link);
+	else
+		return apply_filters('register', $link);
 }
 
 /**
@@ -1001,16 +1013,19 @@ function calendar_week_mod($num) {
  * @since 1.0.0
  *
  * @param bool $initial Optional, default is true. Use initial calendar names.
+ * @param bool $echo Optional, default is true. Set to false for return.
  */
-function get_calendar($initial = true) {
+function get_calendar($initial = true, $echo = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	$cache = array();
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
-			echo $cache[ $key ];
-			return;
+		if ( is_array($cache) && isset( $cache[ $key ] ) ) {		
+			if ( $echo )
+				echo apply_filters( 'get_calendar',  $cache[$key] );
+			else
+				return apply_filters( 'get_calendar',  $cache[$key] );	
 		}
 	}
 
@@ -1027,7 +1042,6 @@ function get_calendar($initial = true) {
 		}
 	}
 
-	ob_start();
 	if ( isset($_GET['w']) )
 		$w = ''.intval($_GET['w']);
 
@@ -1073,7 +1087,7 @@ function get_calendar($initial = true) {
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption');
-	echo '<table id="wp-calendar">
+	$calendar_output .= '<table id="wp-calendar" summary="' . esc_attr__('Calendar') . '">
 	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
@@ -1087,10 +1101,10 @@ function get_calendar($initial = true) {
 	foreach ( $myweek as $wd ) {
 		$day_name = (true == $initial) ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
 		$wd = esc_attr($wd);
-		echo "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
+		$calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
 	}
-
-	echo '
+	
+	$calendar_output .= '
 	</tr>
 	</thead>
 
@@ -1098,24 +1112,20 @@ function get_calendar($initial = true) {
 	<tr>';
 
 	if ( $previous ) {
-		echo "\n\t\t".'<td colspan="3" id="prev"><a href="' .
-		get_month_link($previous->year, $previous->month) . '" title="' . sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($previous->month),
-			date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev"><a href="' . get_month_link($previous->year, $previous->month) . '" title="' . sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($previous->month), date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $wp_locale->get_month_abbrev($wp_locale->get_month($previous->month)) . '</a></td>';
 	} else {
-		echo "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
 	}
 
-	echo "\n\t\t".'<td class="pad">&nbsp;</td>';
+	$calendar_output .= "\n\t\t".'<td class="pad">&nbsp;</td>';
 
 	if ( $next ) {
-		echo "\n\t\t".'<td colspan="3" id="next"><a href="' .
-		get_month_link($next->year, $next->month) . '" title="' . esc_attr( sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($next->month) ,
-			date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="next"><a href="' . get_month_link($next->year, $next->month) . '" title="' . esc_attr( sprintf(__('View posts for %1$s %2$s'), $wp_locale->get_month($next->month), date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year))) ) . '">' . $wp_locale->get_month_abbrev($wp_locale->get_month($next->month)) . ' &raquo;</a></td>';
 	} else {
-		echo "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
+		$calendar_output .= "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
 	}
 
-	echo '
+	$calendar_output .= '
 	</tr>
 	</tfoot>
 
@@ -1167,24 +1177,24 @@ function get_calendar($initial = true) {
 	// See how much we should pad in the beginning
 	$pad = calendar_week_mod(date('w', $unixmonth)-$week_begins);
 	if ( 0 != $pad )
-		echo "\n\t\t".'<td colspan="'. esc_attr($pad) .'" class="pad">&nbsp;</td>';
+		$calendar_output .= "\n\t\t".'<td colspan="'. esc_attr($pad) .'" class="pad">&nbsp;</td>';
 
 	$daysinmonth = intval(date('t', $unixmonth));
 	for ( $day = 1; $day <= $daysinmonth; ++$day ) {
 		if ( isset($newrow) && $newrow )
-			echo "\n\t</tr>\n\t<tr>\n\t\t";
+			$calendar_output .= "\n\t</tr>\n\t<tr>\n\t\t";
 		$newrow = false;
 
 		if ( $day == gmdate('j', current_time('timestamp')) && $thismonth == gmdate('m', current_time('timestamp')) && $thisyear == gmdate('Y', current_time('timestamp')) )
-			echo '<td id="today">';
+			$calendar_output .= '<td id="today">';
 		else
-			echo '<td>';
+			$calendar_output .= '<td>';
 
 		if ( in_array($day, $daywithpost) ) // any posts today?
-				echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"" . esc_attr($ak_titles_for_day[$day]) . "\">$day</a>";
+				$calendar_output .= '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"" . esc_attr($ak_titles_for_day[$day]) . "\">$day</a>";
 		else
-			echo $day;
-		echo '</td>';
+			$calendar_output .= $day;
+		$calendar_output .= '</td>';
 
 		if ( 6 == calendar_week_mod(date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))-$week_begins) )
 			$newrow = true;
@@ -1192,15 +1202,18 @@ function get_calendar($initial = true) {
 
 	$pad = 7 - calendar_week_mod(date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))-$week_begins);
 	if ( $pad != 0 && $pad != 7 )
-		echo "\n\t\t".'<td class="pad" colspan="'. esc_attr($pad) .'">&nbsp;</td>';
+		$calendar_output .= "\n\t\t".'<td class="pad" colspan="'. esc_attr($pad) .'">&nbsp;</td>';
 
-	echo "\n\t</tr>\n\t</tbody>\n\t</table>";
+	$calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>";
 
-	$output = ob_get_contents();
-	ob_end_clean();
-	echo $output;
 	$cache[ $key ] = $output;
 	wp_cache_set( 'get_calendar', $cache, 'calendar' );
+
+	if ( $echo )
+		echo apply_filters( 'get_calendar',  $calendar_output );
+	else
+		return apply_filters( 'get_calendar',  $calendar_output );
+
 }
 
 /**
