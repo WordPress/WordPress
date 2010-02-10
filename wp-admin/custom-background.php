@@ -52,6 +52,9 @@ class Custom_Background {
 	 * @since unknown
 	 */
 	function init() {
+		if ( ! current_user_can('switch_themes') )
+			return;
+
 		$page = add_theme_page(__('Custom Background'), __('Custom Background'), 'switch_themes', 'custom-background', array(&$this, 'admin_page'));
 
 		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
@@ -83,6 +86,9 @@ class Custom_Background {
 	 * @since unknown
 	 */
 	function take_action() {
+		if ( ! current_user_can('switch_themes') )
+			return;
+
 		if ( isset($_POST['reset-background']) ) {
 			check_admin_referer('custom-background');
 			remove_theme_mods();
@@ -234,6 +240,8 @@ if ( get_background_image() ) :
 	 * @since unknown
 	 */
 	function admin_page() {
+		if ( ! current_user_can('switch_themes') )
+			wp_die(__('You do not have permission to customize the background.'));
 		$step = $this->step();
 		if ( 1 == $step )
 			$this->step_1();

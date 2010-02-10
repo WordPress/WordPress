@@ -52,7 +52,10 @@ class Custom_Image_Header {
 	 * @since unknown
 	 */
 	function init() {
-		$page = add_theme_page(__('Custom Header'), __('Custom Header'), 'edit_themes', 'custom-header', array(&$this, 'admin_page'));
+		if ( ! current_user_can('switch_themes') )
+			return;
+
+		$page = add_theme_page(__('Custom Header'), __('Custom Header'), 'switch_themes', 'custom-header', array(&$this, 'admin_page'));
 
 		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
 		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));
@@ -113,6 +116,9 @@ class Custom_Image_Header {
 	 * @since unknown
 	 */
 	function take_action() {
+		if ( ! current_user_can('switch_themes') )
+			return;
+
 		if ( isset( $_POST['textcolor'] ) ) {
 			check_admin_referer('custom-header');
 			if ( 'blank' == $_POST['textcolor'] ) {
@@ -483,6 +489,8 @@ if ( $this->admin_image_div_callback ) {
 	 * @since unknown
 	 */
 	function admin_page() {
+		if ( ! current_user_can('switch_themes') )
+			wp_die(__('You do not have permission to customize headers.'));
 		$step = $this->step();
 		if ( 1 == $step )
 			$this->step_1();
