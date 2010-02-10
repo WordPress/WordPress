@@ -21,7 +21,7 @@ $tax = get_taxonomy($taxonomy);
 
 $title = $tax->label;
 
-if ( empty($post_type) || !in_array( $post_type, get_post_types( array('_show' => true) ) ) )
+if ( empty($post_type) || !in_array( $post_type, get_post_types( array('show_ui' => true) ) ) )
 	$post_type = 'post';
 
 if ( 'post' != $post_type ) {
@@ -328,8 +328,8 @@ else
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
-<?php 
-if ( ! is_taxonomy_hierarchical($taxonomy) ) 
+<?php
+if ( ! is_taxonomy_hierarchical($taxonomy) )
 	do_action('add_tag_form_fields', $taxonomy);
 do_action($taxonomy . '_add_form_fields', $taxonomy);
 ?>
