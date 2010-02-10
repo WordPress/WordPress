@@ -711,6 +711,7 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * Optional $args contents:
  *
  * label - A descriptive name for the post type marked for translation. Defaults to $post_type.
+ * description - A short descriptive summary of what the post type is. Defaults to blank. 
  * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
  * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
@@ -743,7 +744,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null );
+	$defaults = array('label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null );
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
