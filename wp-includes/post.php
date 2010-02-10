@@ -801,7 +801,7 @@ function register_post_type($post_type, $args = array()) {
 		if ( !isset($args->rewrite['with_front']) )
 			$args->rewrite['with_front'] = true;
 		$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
-		$wp_rewrite->add_permastruct($post_type, "/{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front']);
+		$wp_rewrite->add_permastruct($post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front']);
 	}
 
 	if ( $args->register_meta_box_cb )
