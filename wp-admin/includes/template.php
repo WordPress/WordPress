@@ -3596,7 +3596,7 @@ function screen_layout($screen) {
 	$columns = array('dashboard' => 4, 'post' => 2, 'page' => 2, 'link' => 2);
 
 	// Add custom post types
-	foreach ( get_post_types( array('_show' => true) ) as $post_type )
+	foreach ( get_post_types( array('show_ui' => true) ) as $post_type )
 		$columns[$post_type] = 2;
 
 	$columns = apply_filters('screen_layout_columns', $columns, $screen->id, $screen);
