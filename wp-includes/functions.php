@@ -3463,13 +3463,17 @@ function get_site_transient($transient) {
 	if ( $_wp_using_ext_object_cache ) {
 		$value = wp_cache_get($transient, 'site-transient');
 	} else {
+		// Core transients that do not have a timeout. Listed here so querying timeouts can be avoided.
+		$no_timeout = array('update_core', 'update_plugins', 'update_themes');
 		$transient_option = '_site_transient_' . esc_sql($transient);
-		$transient_timeout = '_site_transient_timeout_' . esc_sql($transient);
-		$timeout = get_site_option($transient_timeout);
-		if ( false !== $timeout && $timeout < time() ) {
-			delete_site_option($transient_option);
-			delete_site_option($transient_timeout);
-			return false;
+		if ( !in_array($transient, $no_timeout) ) {
+			$transient_timeout = '_site_transient_timeout_' . esc_sql($transient);
+			$timeout = get_site_option($transient_timeout);
+			if ( false !== $timeout && $timeout < time() ) {
+				delete_site_option($transient_option);
+				delete_site_option($transient_timeout);
+				return false;
+			}
 		}
 
 		$value = get_site_option($transient_option);
