@@ -274,8 +274,8 @@ function wp_dashboard_right_now() {
 	$num = number_format_i18n( $num_cats );
 	$text = _n( 'Category', 'Categories', $num_cats );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$num = "<a href='categories.php'>$num</a>";
-		$text = "<a href='categories.php'>$text</a>";
+		$num = "<a href='edit-tags.php?taxonomy=category'>$num</a>";
+		$text = "<a href='edit-tags.php?taxonomy=category'>$text</a>";
 	}
 	echo '<td class="first b b-cats">' . $num . '</td>';
 	echo '<td class="t cats">' . $text . '</td>';
