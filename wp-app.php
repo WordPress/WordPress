@@ -1580,7 +1580,7 @@ EOD;
 			return false;
 
 		if ($match[3] == 'Z')
-			$match[3] == '+0000';
+			$match[3] = '+0000';
 
 		return strtotime($match[1] . " " . $match[2] . " " . $match[3]);
 	}

@@ -199,7 +199,7 @@ class WP_Object_Cache {
 	 * @access private
 	 * @since 2.0.0
 	 */
-	var $non_existant_objects = array ();
+	var $non_existent_objects = array ();
 
 	/**
 	 * The amount of times the cache data was already stored in the cache.
@@ -238,7 +238,7 @@ class WP_Object_Cache {
 		if (empty ($group))
 			$group = 'default';
 
-		if (false !== $this->get($id, $group, false))
+		if (false !== $this->get($id, $group))
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
@@ -252,7 +252,7 @@ class WP_Object_Cache {
 	 * by default.
 	 *
 	 * On success the group and the id will be added to the
-	 * $non_existant_objects property in the class.
+	 * $non_existent_objects property in the class.
 	 *
 	 * @since 2.0.0
 	 *
@@ -266,11 +266,11 @@ class WP_Object_Cache {
 		if (empty ($group))
 			$group = 'default';
 
-		if (!$force && false === $this->get($id, $group, false))
+		if (!$force && false === $this->get($id, $group))
 			return false;
 
 		unset ($this->cache[$group][$id]);
-		$this->non_existant_objects[$group][$id] = true;
+		$this->non_existent_objects[$group][$id] = true;
 		return true;
 	}
 
@@ -294,11 +294,11 @@ class WP_Object_Cache {
 	 * ID in the cache group. If the cache is hit (success) then the contents
 	 * are returned.
 	 *
-	 * On failure, the $non_existant_objects property is checked and if the
+	 * On failure, the $non_existent_objects property is checked and if the
 	 * cache group and ID exist in there the cache misses will not be
-	 * incremented. If not in the nonexistant objects property, then the cache
+	 * incremented. If not in the nonexistent objects property, then the cache
 	 * misses will be incremented and the cache group and ID will be added to
-	 * the nonexistant objects.
+	 * the nonexistent objects.
 	 *
 	 * @since 2.0.0
 	 *
@@ -319,10 +319,10 @@ class WP_Object_Cache {
 				return $this->cache[$group][$id];
 		}
 
-		if ( isset ($this->non_existant_objects[$group][$id]) )
+		if ( isset ($this->non_existent_objects[$group][$id]) )
 			return false;
 
-		$this->non_existant_objects[$group][$id] = true;
+		$this->non_existent_objects[$group][$id] = true;
 		$this->cache_misses += 1;
 		return false;
 	}
@@ -343,7 +343,7 @@ class WP_Object_Cache {
 		if (empty ($group))
 			$group = 'default';
 
-		if (false === $this->get($id, $group, false))
+		if (false === $this->get($id, $group))
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
@@ -381,8 +381,8 @@ class WP_Object_Cache {
 
 		$this->cache[$group][$id] = $data;
 
-		if(isset($this->non_existant_objects[$group][$id]))
-			unset ($this->non_existant_objects[$group][$id]);
+		if(isset($this->non_existent_objects[$group][$id]))
+			unset ($this->non_existent_objects[$group][$id]);
 
 		return true;
 	}
