@@ -1301,9 +1301,9 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('AUTH_KEY') && ('' != AUTH_KEY) && ( $wp_default_secret_key != AUTH_KEY) )
 			$secret_key = AUTH_KEY;
 
-		if ( defined('AUTH_SALT') ) {
+		if ( defined('AUTH_SALT') && ('' != AUTH_SALT) && ( $wp_default_secret_key != AUTH_SALT) ) {
 			$salt = AUTH_SALT;
-		} elseif ( defined('SECRET_SALT') ) {
+		} elseif ( defined('SECRET_SALT') && ('' != SECRET_SALT) && ( $wp_default_secret_key != SECRET_SALT) ) {
 			$salt = SECRET_SALT;
 		} else {
 			$salt = get_option('auth_salt');
@@ -1316,7 +1316,7 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('SECURE_AUTH_KEY') && ('' != SECURE_AUTH_KEY) && ( $wp_default_secret_key != SECURE_AUTH_KEY) )
 			$secret_key = SECURE_AUTH_KEY;
 
-		if ( defined('SECURE_AUTH_SALT') ) {
+		if ( defined('SECURE_AUTH_SALT') && ('' != SECURE_AUTH_SALT) && ( $wp_default_secret_key != SECURE_AUTH_SALT) ) {
 			$salt = SECURE_AUTH_SALT;
 		} else {
 			$salt = get_option('secure_auth_salt');
@@ -1329,7 +1329,7 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('LOGGED_IN_KEY') && ('' != LOGGED_IN_KEY) && ( $wp_default_secret_key != LOGGED_IN_KEY) )
 			$secret_key = LOGGED_IN_KEY;
 
-		if ( defined('LOGGED_IN_SALT') ) {
+		if ( defined('LOGGED_IN_SALT') && ('' != LOGGED_IN_SALT) && ( $wp_default_secret_key != LOGGED_IN_SALT) ) {
 			$salt = LOGGED_IN_SALT;
 		} else {
 			$salt = get_option('logged_in_salt');
@@ -1342,7 +1342,7 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('NONCE_KEY') && ('' != NONCE_KEY) && ( $wp_default_secret_key != NONCE_KEY) )
 			$secret_key = NONCE_KEY;
 
-		if ( defined('NONCE_SALT') ) {
+		if ( defined('NONCE_SALT') && ('' != NONCE_SALT) && ( $wp_default_secret_key != NONCE_SALT) ) {
 			$salt = NONCE_SALT;
 		} else {
 			$salt = get_option('nonce_salt');
