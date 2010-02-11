@@ -223,27 +223,24 @@ function wxr_term_description($t) {
  * @since unknown
  */
 function wxr_post_taxonomy() {
-	$categories = get_the_category();
-	$tags = get_the_tags();
+	global $post;
+
 	$the_list = '';
 	$filter = 'rss';
 
-	if ( !empty($categories) ) foreach ( (array) $categories as $category ) {
-		$cat_name = sanitize_term_field('name', $category->name, $category->term_id, 'category', $filter);
-		// for backwards compatibility
-		$the_list .= "\n\t\t<category><![CDATA[$cat_name]]></category>\n";
-		// forwards compatibility: use a unique identifier for each cat to avoid clashes
-		// http://trac.wordpress.org/ticket/5447
-		$the_list .= "\n\t\t<category domain=\"category\" nicename=\"{$category->slug}\"><![CDATA[$cat_name]]></category>\n";
-	}
-
-	if ( !empty($tags) ) foreach ( (array) $tags as $tag ) {
-		$tag_name = sanitize_term_field('name', $tag->name, $tag->term_id, 'post_tag', $filter);
-		$the_list .= "\n\t\t<category domain=\"tag\"><![CDATA[$tag_name]]></category>\n";
+	$taxonomies = get_object_taxonomies('post');
+	$terms = wp_get_post_terms($post->ID, $taxonomies);
+	foreach ( (array) $terms as $term ) {
+		$domain = ( 'post_tag' == $term->taxonomy ) ? 'tag' : $term->taxonomy;
+		$term_name = sanitize_term_field('name', $term->name, $term->term_id, $term->taxonomy, $filter);
+		// Back compat.
+		if ( 'category' == $term->taxonomy )
+			$the_list .= "\n\t\t<category><![CDATA[$term_name]]></category>\n";
+		elseif ( 'post_tag' == $term->taxonomy )
+			$the_list .= "\n\t\t<category domain=\"$domain\"><![CDATA[$term_name]]></category>\n";
 		// forwards compatibility as above
-		$the_list .= "\n\t\t<category domain=\"tag\" nicename=\"{$tag->slug}\"><![CDATA[$tag_name]]></category>\n";
+		$the_list .= "\n\t\t<category domain=\"$domain\" nicename=\"{$term->slug}\"><![CDATA[$term_name]]></category>\n";
 	}
-
 	echo $the_list;
 }
 
