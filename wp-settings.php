@@ -21,7 +21,7 @@ require( ABSPATH . WPINC . '/default-constants.php' );
 require( ABSPATH . WPINC . '/version.php' );
 
 // Set initial default constants including WP_MEMORY_LIMIT, WP_DEBUG, WP_CONTENT_DIR and WP_CACHE.
-wp_default_constants( 'init' );
+wp_initial_constants( );
 
 // Disable magic quotes at runtime. Magic quotes are added using wpdb later in wp-settings.php.
 set_magic_quotes_runtime( 0 );
@@ -133,7 +133,7 @@ if ( is_multisite() ) {
 
 // Define constants that rely on the API to obtain the default value.
 // Define must-use plugin directory constants, which may be overridden in the sunrise.php drop-in.
-wp_default_constants( 'wp_included' );
+wp_plugin_directory_constants( );
 
 // Load must-use plugins.
 foreach ( wp_load_mu_plugins() as $mu_plugin ) {
@@ -154,7 +154,10 @@ if ( is_multisite() ) {
 }
 
 // Define constants after multisite is loaded. Cookie-related constants may be overridden in ms_network_cookies().
-wp_default_constants( 'ms_loaded' );
+wp_cookie_constants( );
+
+// Define and enforce our SSL constants
+wp_ssl_constants( );
 
 // Create common globals.
 require( ABSPATH . WPINC . '/vars.php' );
@@ -180,8 +183,8 @@ if ( WP_CACHE && function_exists( 'wp_cache_postload' ) )
 
 do_action( 'plugins_loaded' );
 
-// Define WP_POST_REVISIONS if not already defined.
-wp_default_constants( 'plugins_loaded' );
+// Define constants which affect functionality if not already defined.
+wp_functionality_constants( );
 
 // Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
 wp_magic_quotes();
@@ -226,8 +229,8 @@ $wp_widget_factory =& new WP_Widget_Factory();
 
 do_action( 'setup_theme' );
 
-// Define the TEMPLATEPATH and STYLESHEETPATH constants.
-wp_default_constants( 'setup_theme' );
+// Define the template related constants.
+wp_templating_constants(  );
 
 // Load the default text localization domain.
 load_default_textdomain();
