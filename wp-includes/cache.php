@@ -149,8 +149,9 @@ function wp_cache_set($key, $data, $flag = '', $expire = 0) {
  * @param string|array $groups A group or an array of groups to add
  */
 function wp_cache_add_global_groups( $groups ) {
-	// Default cache doesn't persist so nothing to do here.
-	return;
+	global $wp_object_cache;
+
+	return $wp_object_cache->add_global_groups($groups);
 }
 
 /**
@@ -163,6 +164,20 @@ function wp_cache_add_global_groups( $groups ) {
 function wp_cache_add_non_persistent_groups( $groups ) {
 	// Default cache doesn't persist so nothing to do here.
 	return;
+}
+
+/**
+ * Reset internal cache keys and structures.  If the cache backend uses global blog or site IDs as part of its cache keys,
+ * this function instructs the backend to reset those keys and perform any cleanup since blog or site IDs have changed since cache init.
+ *
+ * @since 2.6.0
+ *
+ * @param string|array $groups A group or an array of groups to add
+ */
+function wp_cache_reset() {
+	global $wp_object_cache;
+
+	return $wp_object_cache->reset();
 }
 
 /**
@@ -220,6 +235,15 @@ class WP_Object_Cache {
 	var $cache_misses = 0;
 
 	/**
+	 * List of global groups
+	 *
+	 * @var array
+	 * @access protected
+	 * @since 3.0.0
+	 */
+	var $global_groups = array();
+
+	/**
 	 * Adds data to the cache if it doesn't already exist.
 	 *
 	 * @uses WP_Object_Cache::get Checks to see if the cache already has data.
@@ -234,14 +258,28 @@ class WP_Object_Cache {
 	 * @param int $expire When to expire the cache contents
 	 * @return bool False if cache ID and group already exists, true on success
 	 */
-	function add($id, $data, $group = 'default', $expire = '') {
-		if (empty ($group))
+	function add( $id, $data, $group = 'default', $expire = '' ) {
+		if ( empty ($group) )
 			$group = 'default';
 
 		if (false !== $this->get($id, $group))
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
+	}
+
+	/**
+	 * Sets the list of global groups.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $groups List of groups that are global.
+	 */
+	function add_global_groups( $groups ) {
+		$groups = (array) $groups;
+
+		$this->global_groups = array_merge($this->global_groups, $groups);
+		$this->global_groups = array_unique($this->global_groups);
 	}
 
 	/**
@@ -308,10 +346,10 @@ class WP_Object_Cache {
 	 *		contents on success
 	 */
 	function get($id, $group = 'default') {
-		if (empty ($group))
+		if ( empty ($group) )
 			$group = 'default';
 
-		if (isset ($this->cache[$group][$id])) {
+		if ( isset ($this->cache[$group][$id]) ) {
 			$this->cache_hits += 1;
 			if ( is_object($this->cache[$group][$id]) )
 				return wp_clone($this->cache[$group][$id]);
@@ -343,10 +381,23 @@ class WP_Object_Cache {
 		if (empty ($group))
 			$group = 'default';
 
-		if (false === $this->get($id, $group))
+		if ( false === $this->get($id, $group) )
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
+	}
+
+	/**
+	 * Reset keys
+	 *
+	 * @since 3.0.0
+	 */
+	function reset() {
+		// Clear out non-global caches since the blog ID has changed.
+		foreach ( array_keys($this->cache) as $group ) {
+			if ( !in_array($group, $this->global_groups) )
+				unset($this->cache[$group]);
+		}
 	}
 
 	/**
@@ -370,10 +421,10 @@ class WP_Object_Cache {
 	 * @return bool Always returns true
 	 */
 	function set($id, $data, $group = 'default', $expire = '') {
-		if (empty ($group))
+		if ( empty ($group) )
 			$group = 'default';
 
-		if (NULL === $data)
+		if ( NULL === $data )
 			$data = '';
 
 		if ( is_object($data) )
@@ -381,7 +432,7 @@ class WP_Object_Cache {
 
 		$this->cache[$group][$id] = $data;
 
-		if(isset($this->non_existent_objects[$group][$id]))
+		if ( isset($this->non_existent_objects[$group][$id]) )
 			unset ($this->non_existent_objects[$group][$id]);
 
 		return true;

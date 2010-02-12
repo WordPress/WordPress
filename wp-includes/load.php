@@ -318,7 +318,8 @@ function wp_set_wpdb_vars() {
  * @since 3.0.0
  */
 function wp_start_object_cache() {
-	if ( ! function_exists( 'wp_cache_init' ) ) {
+	$first_init = false;
+ 	if ( ! function_exists( 'wp_cache_init' ) ) {
 		global $_wp_using_ext_object_cache;
 		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
 			require_once ( WP_CONTENT_DIR . '/object-cache.php' );
@@ -327,9 +328,17 @@ function wp_start_object_cache() {
 			require_once ( ABSPATH . WPINC . '/cache.php' );
 			$_wp_using_ext_object_cache = false;
 		}
+		$first_init = true;
 	}
 
-	wp_cache_init();
+	// If cache supports reset, reset instead of init if already initialized.
+	// Reset signals to the cache that global IDs have changed and it may need to update keys
+	// and cleanup caches.
+	if ( !$first_init && function_exists('wp_cache_reset') )
+		wp_cache_reset();
+	else
+		wp_cache_init();
+
 	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
 		wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'rss' ) );
 		wp_cache_add_non_persistent_groups( array( 'comment', 'counts', 'plugins' ) );

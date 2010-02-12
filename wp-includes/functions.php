@@ -437,6 +437,29 @@ function wp_load_alloptions() {
 	return $alloptions;
 }
 
+function wp_load_core_site_options( $site_id = null ) {
+	global $wpdb, $_wp_using_ext_object_cache;
+
+	if ( !is_multisite() || $_wp_using_ext_object_cache || defined( 'WP_INSTALLING' ) )
+		return;
+
+	if ( empty($site_id) )
+		$site_id = $wpdb->siteid;
+
+	$core_options = array('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'dashboard_blog');
+
+	$core_options_in = "'" . implode("', '", $core_options) . "'";
+	$options = $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->sitemeta WHERE meta_key IN ($core_options_in) AND site_id = %d", $site_id) );
+
+	foreach ( $options as $option ) {
+		$key = $option->meta_key;
+		$cache_key = "{$site_id}:$key";
+		$option->meta_value = maybe_unserialize( $option->meta_value );
+
+		wp_cache_set( $cache_key, $option->meta_value, 'site-options' );
+	}
+}
+
 /**
  * Update the value of an option that was already added.
  *
@@ -3320,19 +3343,20 @@ function get_site_option( $key, $default = false, $use_cache = true ) {
 	if ( !is_multisite() ) {
 		$value = get_option($key, $default);
 	} else {
-		$cache_key = "{$wpdb->siteid}:$key";
+		$cache_key = "$wpdb->siteid:$key";
+		if ( $use_cache )
+			$value = wp_cache_get($cache_key, 'site-options');
 
-		if ( $use_cache == true && $value = wp_cache_get($cache_key, 'site-options') )
-			return $value;
+		if ( false === $value ) {
+			$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid) );
 
-		$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid) );
+			if ( is_null($value) )
+				$value = $default;
 
-		if ( is_null($value) )
-			$value = $default;
+			$value = maybe_unserialize( $value );
 
-		$value = maybe_unserialize( $value );
-
-		wp_cache_set( $cache_key, $value, 'site-options' );
+			wp_cache_set( $cache_key, $value, 'site-options' );
+		}
 	}
 
  	return apply_filters( 'site_option_' . $key, $value );

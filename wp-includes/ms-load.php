@@ -75,11 +75,14 @@ function ms_site_check() {
  */
 function get_current_site_name( $current_site ) {
 	global $wpdb;
-	$current_site->site_name = wp_cache_get( $current_site->id . ':current_site_name', "site-options" );
+	$current_site->site_name = wp_cache_get( $current_site->id . ':current_site_name', 'site-options' );
 	if ( ! $current_site->site_name ) {
-		$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
-		if ( ! $current_site->site_name )
-			$current_site->site_name = ucfirst( $current_site->domain );
+		$current_site->site_name = wp_cache_get( $current_site->id . ':site_name', 'site-options' );
+		if ( ! $current_site->site_name ) {
+			$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
+			if ( ! $current_site->site_name )
+				$current_site->site_name = ucfirst( $current_site->domain );
+		}
 		wp_cache_set( $current_site->id . ':current_site_name', $current_site->site_name, 'site-options' );
 	}
 	return $current_site;
@@ -107,6 +110,8 @@ function wpmu_current_site() {
 		else
 			$current_site->cookie_domain = $current_site->domain;
 
+		wp_load_core_site_options($current_site->id);
+
 		return $current_site;
 	}
 
@@ -116,6 +121,7 @@ function wpmu_current_site() {
 
 	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
 	if ( 1 == count( $sites ) ) {
+		wp_load_core_site_options($current_site->id);
 		$current_site = $sites[0];
 		$path = $current_site->path;
 		$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
