@@ -437,6 +437,15 @@ function wp_load_alloptions() {
 	return $alloptions;
 }
 
+/**
+ * Loads and caches certain often requested site options if is_multisite() and a peristent cache is not being used.
+ *
+ * @since 3.0.0
+ * @package WordPress
+ * @subpackage Option
+ *
+ * @param int $site_id Optional site ID for which to query the options. Defaults to the current site.
+ */
 function wp_load_core_site_options( $site_id = null ) {
 	global $wpdb, $_wp_using_ext_object_cache;
 
@@ -446,7 +455,7 @@ function wp_load_core_site_options( $site_id = null ) {
 	if ( empty($site_id) )
 		$site_id = $wpdb->siteid;
 
-	$core_options = array('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'dashboard_blog');
+	$core_options = array('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'dashboard_blog', 'can_compress_scripts');
 
 	$core_options_in = "'" . implode("', '", $core_options) . "'";
 	$options = $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->sitemeta WHERE meta_key IN ($core_options_in) AND site_id = %d", $site_id) );
