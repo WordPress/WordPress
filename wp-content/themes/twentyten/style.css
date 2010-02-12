@@ -1079,6 +1079,17 @@ h3#reply-title {
 #wp-calendar tfoot #next {
 	text-align: right;
 }
+.widget_rss a.rsswidget {
+	color: #000;
+}
+.widget_rss a.rsswidget:hover {
+	color: #FF4B33;
+}
+.widget_rss .widget-title img {
+	height: 11px;
+	width: 11px;
+}
+
 /* Main sidebars */
 #main .widget-area ul {
 	margin-left: 0;
