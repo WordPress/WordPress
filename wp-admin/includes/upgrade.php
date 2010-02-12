@@ -1099,6 +1099,8 @@ function upgrade_290() {
  */
 function upgrade_300() {
 	populate_roles_300();
+	if ( is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false ) 
+		add_site_option( 'siteurl', '' );
 }
 
 /**
