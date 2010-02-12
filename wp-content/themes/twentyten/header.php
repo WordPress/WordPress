@@ -12,7 +12,7 @@
 
 	<meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
-	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('stylesheet_directory'); ?>/print.css" />
 
