@@ -124,6 +124,6 @@ $table_prefix = $wpdb->get_blog_prefix();
 wp_start_object_cache();
 
 // Define upload directory constants
-ms_default_constants( 'uploads' );
+ms_upload_constants(  );
 
 ?>

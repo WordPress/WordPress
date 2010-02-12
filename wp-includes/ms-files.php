@@ -13,7 +13,7 @@ if ( ! defined( 'SHORTINIT' ) ) {
 	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 }
 
-ms_default_constants( 'ms-files' );
+ms_file_constants( );
 
 error_reporting( 0 );
 

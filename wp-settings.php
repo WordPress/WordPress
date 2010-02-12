@@ -150,7 +150,8 @@ if ( is_multisite() ) {
 		die();
 	}
 	unset($file);
-	ms_default_constants( 'cookies' );
+
+	ms_cookie_constants(  );
 }
 
 // Define constants after multisite is loaded. Cookie-related constants may be overridden in ms_network_cookies().

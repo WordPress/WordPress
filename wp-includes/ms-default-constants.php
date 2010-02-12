@@ -7,67 +7,82 @@
  */
 
 /**
- * Defines Multisite default constants.
+ * Defines Multisite upload constants.
  *
  * @since 3.0.0
- * @param $context
  */
-function ms_default_constants( $context ) {
-	switch( $context ) {
-		case 'uploads' :
-			global $wpdb;
-			/** @since 3.0.0 */
-			if ( !defined( 'UPLOADBLOGSDIR' ) )
-				define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
-			/** @since 3.0.0 */
-			if ( !defined( 'UPLOADS' ) )
-				define( 'UPLOADS', UPLOADBLOGSDIR . "/{$wpdb->blogid}/files/" );
-			/** @since 3.0.0 */
-			if ( !defined( 'BLOGUPLOADDIR' ) )
-				define( 'BLOGUPLOADDIR', WP_CONTENT_DIR . "/blogs.dir/{$wpdb->blogid}/files/" );
-			break;
-		case 'cookies' :
-			global $current_site;
-			/**
-			 * @since 1.2.0
-			 */
-			if ( !defined( 'COOKIEPATH' ) )
-					define( 'COOKIEPATH', $current_site->path );
-			/**
-			 * @since 1.5.0
-			 */
-			if ( !defined( 'SITECOOKIEPATH' ) )
-					define( 'SITECOOKIEPATH', $current_site->path );
-			/**
-			 * @since 2.6.0
-			 */
-			if ( !defined( 'ADMIN_COOKIE_PATH' ) ) {
-					if( !is_subdomain_install() ) {
-							define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH );
-					} else {
-							define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin' );
-					}
-			}
-			/**
-			 * @since 2.0.0
-			 */
-			if ( !defined('COOKIE_DOMAIN') )
-					define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
-			break;
-		case 'ms-files' :
-			/**
-			 * Optional support for X-Sendfile header
-			 * @since 3.0.0
-			 */
-			if ( !defined( 'WPMU_SENDFILE' ) )
-				define( 'WPMU_SENDFILE', false );
-			/**
-			 * Optional support for X-Accel-Redirect header
-			 * @since 3.0.0
-			 */
-			if ( !defined( 'WPMU_ACCEL_REDIRECT' ) )
-				define( 'WPMU_ACCEL_REDIRECT', false );
-			break;
+function ms_upload_constants(  ) {
+	global $wpdb;
+
+	/** @since 3.0.0 */
+	if ( !defined( 'UPLOADBLOGSDIR' ) )
+		define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
+
+	/** @since 3.0.0 */
+	if ( !defined( 'UPLOADS' ) )
+		define( 'UPLOADS', UPLOADBLOGSDIR . "/{$wpdb->blogid}/files/" );
+
+	/** @since 3.0.0 */
+	if ( !defined( 'BLOGUPLOADDIR' ) )
+		define( 'BLOGUPLOADDIR', WP_CONTENT_DIR . "/blogs.dir/{$wpdb->blogid}/files/" );
+}
+
+/**
+ * Defines Multisite cookie constants.
+ *
+ * @since 3.0.0
+ */
+function ms_cookie_constants(  ) {
+	global $current_site;
+	
+	/**
+	 * @since 1.2.0
+	 */
+	if ( !defined( 'COOKIEPATH' ) )
+		define( 'COOKIEPATH', $current_site->path );
+
+	/**
+	 * @since 1.5.0
+	 */
+	if ( !defined( 'SITECOOKIEPATH' ) )
+		define( 'SITECOOKIEPATH', $current_site->path );
+
+	/**
+	 * @since 2.6.0
+	 */
+	if ( !defined( 'ADMIN_COOKIE_PATH' ) ) {
+		if( !is_subdomain_install() ) {
+			define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH );
+		} else {
+			define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin' );
+		}
 	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	if ( !defined('COOKIE_DOMAIN') )
+		define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
+}
+
+/**
+ * Defines Multisite file constants.
+ *
+ * @since 3.0.0
+ */
+function ms_file_constants(  ) {
+	/**
+	 * Optional support for X-Sendfile header
+	 * @since 3.0.0
+	 */
+	if ( !defined( 'WPMU_SENDFILE' ) )
+		define( 'WPMU_SENDFILE', false );
+
+	/**
+	 * Optional support for X-Accel-Redirect header
+	 * @since 3.0.0
+	 */
+	if ( !defined( 'WPMU_ACCEL_REDIRECT' ) )
+		define( 'WPMU_ACCEL_REDIRECT', false );
 }
 ?>
