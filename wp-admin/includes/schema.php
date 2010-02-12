@@ -642,10 +642,11 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	// set up site tables
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
+	$allowed_themes = array( $stylesheet => true );
 	if ( $template != $stylesheet )
-		$allowed_themes = array( $template => true, $stylesheet => true );
-	else
-		$allowed_themes = array( $stylesheet => true );
+		$allowed_themes[ $template ] = true;
+	if ( WP_FALLBACK_THEME != $stylesheet && WP_FALLBACK_THEME != $template )
+		$allowed_themes[ WP_FALLBACK_THEME ] = true;
 
 	if ( 1 == $network_id ) {
 		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path ) );
