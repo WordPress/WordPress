@@ -136,7 +136,7 @@ if ( is_multisite() ) {
 wp_plugin_directory_constants( );
 
 // Load must-use plugins.
-foreach ( wp_load_mu_plugins() as $mu_plugin ) {
+foreach ( wp_get_mu_plugins() as $mu_plugin ) {
 	include_once( $mu_plugin );
 }
 unset( $mu_plugin );
@@ -167,7 +167,7 @@ require( ABSPATH . WPINC . '/vars.php' );
 create_initial_taxonomies();
 
 // Load active plugins.
-foreach ( wp_load_plugins() as $plugin )
+foreach ( wp_get_active_and_valid_plugins() as $plugin )
 	include_once( $plugin );
 unset( $plugin );
 

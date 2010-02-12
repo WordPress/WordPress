@@ -374,7 +374,7 @@ function wp_not_installed() {
  * @since 3.0.0
  * @return array Files to include
  */
-function wp_load_mu_plugins() {
+function wp_get_mu_plugins() {
 	$mu_plugins = array();
 	if ( !is_dir( WPMU_PLUGIN_DIR ) )
 		return $mu_plugins;
@@ -401,7 +401,7 @@ function wp_load_mu_plugins() {
  * @since 3.0.0
  * @return array Files to include
  */
-function wp_load_plugins() {
+function wp_get_active_and_valid_plugins() {
 	$plugins = array();
 	$active_plugins = (array) get_option( 'active_plugins', array() );
 
