@@ -152,7 +152,7 @@ function wp_loginout($redirect = '', $echo = true) {
 		$link = '<a href="' . esc_url( wp_login_url($redirect) ) . '">' . __('Log in') . '</a>';
 	else
 		$link = '<a href="' . esc_url( wp_logout_url($redirect) ) . '">' . __('Log out') . '</a>';
-	
+
 	if ( $echo )
 		echo apply_filters('loginout', $link);
 	else
@@ -300,7 +300,7 @@ function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 	} else {
 		$link = $before . '<a href="' . admin_url() . '">' . __('Site Admin') . '</a>' . $after;
 	}
-	
+
 	if ( $echo )
 		echo apply_filters('register', $link);
 	else
@@ -1021,11 +1021,11 @@ function get_calendar($initial = true, $echo = true) {
 	$cache = array();
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) ) {		
+		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			if ( $echo )
 				echo apply_filters( 'get_calendar',  $cache[$key] );
 			else
-				return apply_filters( 'get_calendar',  $cache[$key] );	
+				return apply_filters( 'get_calendar',  $cache[$key] );
 		}
 	}
 
@@ -1087,7 +1087,7 @@ function get_calendar($initial = true, $echo = true) {
 
 	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 	$calendar_caption = _x('%1$s %2$s', 'calendar caption');
-	$calendar_output .= '<table id="wp-calendar" summary="' . esc_attr__('Calendar') . '">
+	$calendar_output = '<table id="wp-calendar" summary="' . esc_attr__('Calendar') . '">
 	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
@@ -1103,7 +1103,7 @@ function get_calendar($initial = true, $echo = true) {
 		$wd = esc_attr($wd);
 		$calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
 	}
-	
+
 	$calendar_output .= '
 	</tr>
 	</thead>
@@ -1206,7 +1206,7 @@ function get_calendar($initial = true, $echo = true) {
 
 	$calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>";
 
-	$cache[ $key ] = $output;
+	$cache[ $key ] = $calendar_output;
 	wp_cache_set( 'get_calendar', $cache, 'calendar' );
 
 	if ( $echo )

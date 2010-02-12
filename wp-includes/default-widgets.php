@@ -472,9 +472,9 @@ class WP_Widget_Categories extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['count'] = $new_instance['count'] ? 1 : 0;
-		$instance['hierarchical'] = $new_instance['hierarchical'] ? 1 : 0;
-		$instance['dropdown'] = $new_instance['dropdown'] ? 1 : 0;
+		$instance['count'] = !empty($new_instance['count']) ? 1 : 0;
+		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
+		$instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
 
 		return $instance;
 	}
@@ -739,7 +739,7 @@ class WP_Widget_RSS extends WP_Widget {
 	}
 
 	function update($new_instance, $old_instance) {
-		$testurl = $new_instance['url'] != $old_instance['url'];
+		$testurl = ( isset($new_instance['url']) && ($new_instance['url'] != $old_instance['url']) );
 		return wp_widget_rss_process( $new_instance, $testurl );
 	}
 
@@ -939,9 +939,9 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 		$items = 10;
 	$url           = esc_url_raw(strip_tags( $widget_rss['url'] ));
 	$title         = trim(strip_tags( $widget_rss['title'] ));
-	$show_summary  = (int) $widget_rss['show_summary'];
-	$show_author   = (int) $widget_rss['show_author'];
-	$show_date     = (int) $widget_rss['show_date'];
+	$show_summary  = isset($widget_rss['show_summary']) ? (int) $widget_rss['show_summary'] : 0;
+	$show_author   = isset($widget_rss['show_author']) ? (int) $widget_rss['show_author'] :0;
+	$show_date     = isset($widget_rss['show_date']) ? (int) $widget_rss['show_date'] : 0;
 
 	if ( $check_feed ) {
 		$rss = fetch_feed($url);
