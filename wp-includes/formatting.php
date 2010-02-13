@@ -2138,7 +2138,7 @@ function wp_htmledit_pre($output) {
  * Checks and cleans a URL.
  *
  * A number of characters are removed from the URL. If the URL is for displaying
- * (the default behaviour) amperstands are also replaced. The 'esc_url' filter
+ * (the default behaviour) amperstands are also replaced. The 'clean_url' filter
  * is applied to the returned cleaned URL.
  *
  * @since 1.2.0
@@ -2149,7 +2149,7 @@ function wp_htmledit_pre($output) {
  * @param array $protocols Optional. An array of acceptable protocols.
  *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set.
  * @param string $context Optional. How the URL will be used. Default is 'display'.
- * @return string The cleaned $url after the 'cleaned_url' filter is applied.
+ * @return string The cleaned $url after the 'clean_url' filter is applied.
  */
 function clean_url( $url, $protocols = null, $context = 'display' ) {
 	$original_url = $url;
@@ -2228,18 +2228,18 @@ function esc_sql( $sql ) {
  * Checks and cleans a URL.
  *
  * A number of characters are removed from the URL. If the URL is for displaying
- * (the default behaviour) amperstands are also replaced. The 'esc_url' filter
+ * (the default behaviour) amperstands are also replaced. The 'clean_url' filter
  * is applied to the returned cleaned URL.
  *
  * @since 2.8.0
- * @uses esc_url()
+ * @uses clean_url()
  * @uses wp_kses_bad_protocol() To only permit protocols in the URL set
  *		via $protocols or the common ones set in the function.
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols Optional. An array of acceptable protocols.
  *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set.
- * @return string The cleaned $url after the 'cleaned_url' filter is applied.
+ * @return string The cleaned $url after the 'clean_url' filter is applied.
  */
 function esc_url( $url, $protocols = null ) {
 	return clean_url( $url, $protocols, 'display' );
@@ -2248,10 +2248,8 @@ function esc_url( $url, $protocols = null ) {
 /**
  * Performs esc_url() for database usage.
  *
- * @see esc_url()
- * @see esc_url()
- *
  * @since 2.8.0
+ * @uses clean_url()
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols An array of acceptable protocols.
