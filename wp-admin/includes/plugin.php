@@ -883,6 +883,25 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 }
 
 /**
+ * Add sub menu page to the plugins main menu.
+*
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ *
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ *
+ * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+ * @param string $menu_title The text to be used for the menu
+ * @param string $capability The capability required for this menu to be displayed to the user.
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param callback $function The function to be called to output the content for this page.
+ */
+function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
+	return add_submenu_page( 'plugins.php', $page_title, $menu_title, $capability, $menu_slug, $function );
+}
+
+/**
  * Add sub menu page to the Users/Profile main menu.
 *
  * This function takes a capability which will be used to determine whether
