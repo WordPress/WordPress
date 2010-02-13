@@ -18,8 +18,8 @@ if ( !is_super_admin() )
 	wp_die( __('You do not have permission to access this page.') );
 
 global $wpdb;
-$c_users = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->users}");
-$c_blogs = $wpdb->get_var("SELECT COUNT(blog_id) FROM {$wpdb->blogs}");
+$c_users = get_user_count();
+$c_blogs = get_blog_count();
 
 $user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
 $blog_text = sprintf( _n( '%s blog', '%s blogs', $c_blogs ), number_format_i18n( $c_blogs ) );
