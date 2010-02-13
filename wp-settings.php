@@ -59,7 +59,7 @@ if ( WP_CACHE )
 // Define WP_LANG_DIR if not set.
 wp_set_lang_dir();
 
-// Include early WordPress files.
+// Load early WordPress files.
 require( ABSPATH . WPINC . '/compat.php' );
 require( ABSPATH . WPINC . '/functions.php' );
 require( ABSPATH . WPINC . '/classes.php' );
@@ -73,16 +73,16 @@ wp_set_wpdb_vars();
 // Start the WordPress object cache, or an external object cache if the drop-in is present.
 wp_start_object_cache();
 
+// Load early WordPress files.
+require( ABSPATH . WPINC . '/plugin.php' );
+require( ABSPATH . WPINC . '/default-filters.php' );
+include_once( ABSPATH . WPINC . '/pomo/mo.php' );
+
 // Initialize multisite if enabled.
 if ( is_multisite() ) {
 	require( ABSPATH . WPINC . '/blogs.php' );
 	require( ABSPATH . WPINC . '/ms-settings.php' );
 }
-
-// Load early WordPress files.
-require( ABSPATH . WPINC . '/plugin.php' );
-require( ABSPATH . WPINC . '/default-filters.php' );
-include_once( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Stop most of WordPress from being loaded if we just want the basics.
 if ( SHORTINIT )

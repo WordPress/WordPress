@@ -48,7 +48,7 @@ if ( ! isset( $current_site->blog_id ) )
 if ( is_subdomain_install() ) {
 	$current_blog = wp_cache_get( 'current_blog_' . $domain, 'site-options' );
 	if ( !$current_blog ) {
-		$current_blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $domain ) );
+		$current_blog = get_blog_details( array('domain' => $domain), false );
 		if ( $current_blog )
 			wp_cache_set( 'current_blog_' . $domain, $current_blog, 'site-options' );
 	}
@@ -67,7 +67,7 @@ if ( is_subdomain_install() ) {
 		$path .= $blogname . '/';
 	$current_blog = wp_cache_get( 'current_blog_' . $domain . $path, 'site-options' );
 	if ( ! $current_blog ) {
-		$current_blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $domain, $path ) );
+		$current_blog = $current_blog = get_blog_details( array('domain' => $domain, 'path' => $path ), false );
 		if ( $current_blog )
 			wp_cache_set( 'current_blog_' . $domain . $path, $current_blog, 'site-options' );
 	}
@@ -91,7 +91,7 @@ if ( ! defined( 'WP_INSTALLING' ) ) {
 			header( 'Location: http://' . $current_site->domain . $current_site->path );
 			exit;
 		}
-		$current_blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
+		$current_blog = get_blog_details( array('domain' => $current_site->domain, 'path' => $current_site->path), false );
 	}
 	if ( ! $current_blog || ! $current_site )
 		is_installed();
