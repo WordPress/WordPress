@@ -3341,6 +3341,16 @@ function wp_suspend_cache_invalidation($suspend = true) {
 	return $current_suspend;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.8
+ *
+ * @param unknown_type $key
+ * @param unknown_type $default
+ * @param unknown_type $use_cache
+ * @return unknown
+ */
 function get_site_option( $key, $default = false, $use_cache = true ) {
 	global $wpdb;
 
@@ -3371,7 +3381,15 @@ function get_site_option( $key, $default = false, $use_cache = true ) {
  	return apply_filters( 'site_option_' . $key, $value );
 }
 
-// expects $key, $value not to be SQL escaped
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.8
+ *
+ * @param unknown_type $key not to be SQL escaped
+ * @param unknown_type $value not to be SQL escaped
+ * @return unknown
+ */
 function add_site_option( $key, $value ) {
 	global $wpdb;
 
@@ -3399,6 +3417,14 @@ function add_site_option( $key, $value ) {
 	return $result;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.9
+ *
+ * @param unknown_type $key
+ * @return unknown
+ */
 function delete_site_option( $key ) {
 	global $wpdb;
 
@@ -3423,7 +3449,15 @@ function delete_site_option( $key ) {
 	return $result;
 }
 
-// expects $key, $value not to be SQL escaped
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.8.0
+ *
+ * @param unknown_type $key not to be SQL escaped
+ * @param unknown_type $value not to be SQL escaped
+ * @return unknown
+ */
 function update_site_option( $key, $value ) {
 	global $wpdb;
 
@@ -3455,7 +3489,7 @@ function update_site_option( $key, $value ) {
 /**
  * Delete a site transient
  *
- * @since 2.890
+ * @since 2.9.0
  * @package WordPress
  * @subpackage Transient
  *
@@ -3577,6 +3611,10 @@ function is_main_site( $blog_id = '' ) {
  * gmt_offset modification for smart timezone handling
  *
  * Overrides the gmt_offset option if we have a timezone_string available
+ *
+ * @since 2.8
+ *
+ * @return unknown
  */
 function wp_timezone_override_offset() {
 	if ( !wp_timezone_supported() ) {
@@ -3596,6 +3634,10 @@ function wp_timezone_override_offset() {
 
 /**
  * Check for PHP timezone support
+ *
+ * @since 2.9
+ *
+ * @return unknown
  */
 function wp_timezone_supported() {
 	$support = false;
@@ -3610,6 +3652,15 @@ function wp_timezone_supported() {
 	return apply_filters( 'timezone_support', $support );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.9
+ *
+ * @param unknown_type $a
+ * @param unknown_type $b
+ * @return unknown
+ */
 function _wp_timezone_choice_usort_callback( $a, $b ) {
 	// Don't use translated versions of Etc
 	if ( 'Etc' === $a['continent'] && 'Etc' === $b['continent'] ) {
@@ -3651,8 +3702,10 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 /**
  * Gives a nicely formatted list of timezone strings // temporary! Not in final
  *
- * @param $selected_zone string Selected Zone
+ * @since 2.9
  *
+ * @param string $selected_zone Selected Zone
+ * @return string
  */
 function wp_timezone_choice( $selected_zone ) {
 	static $mo_loaded = false;
