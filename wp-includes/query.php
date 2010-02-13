@@ -2302,7 +2302,7 @@ class WP_Query {
 					// User must be logged in to view unpublished posts.
 					$this->posts = array();
 				} else {
-					if  (in_array($status, array('draft', 'pending')) ) {
+					if  (in_array($status, array('draft', 'pending', 'trash')) ) {
 						// User must have edit permissions on the draft to preview.
 						if (! current_user_can("edit_$post_type_cap", $this->posts[0]->ID)) {
 							$this->posts = array();
