@@ -23,7 +23,7 @@
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 						<a href="<?php
-		the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time(); ?></span></a>
+		the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
 						<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
 						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 					</div><!-- .entry-meta -->

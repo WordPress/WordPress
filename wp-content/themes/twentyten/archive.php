@@ -6,11 +6,11 @@
 <?php the_post(); ?>
 
 <?php if ( is_day() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_time() ) ?></h1>
+				<h1 class="page-title"><?php printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_date() ) ?></h1>
 <?php elseif ( is_month() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_time('F Y') ) ?></h1>
+				<h1 class="page-title"><?php printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date('F Y') ) ?></h1>
 <?php elseif ( is_year() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_time('Y') ) ?></h1>
+				<h1 class="page-title"><?php printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date('Y') ) ?></h1>
 <?php elseif ( isset($_GET['paged']) && !empty($_GET['paged']) ) : ?>
 				<h1 class="page-title"><?php _e( 'Blog Archives', 'twentyten' ) ?></h1>
 <?php endif; ?>
@@ -32,7 +32,7 @@
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 						<a href="<?php
-		the_permalink(); ?>" title="<?php echo esc_attr( get_the_time('Y-m-d\TH:i:sO') ); ?>" rel="bookmark"><span class="entry-date"><?php the_time(); ?></span></a>
+		the_permalink(); ?>" title="<?php echo esc_attr( get_the_time('Y-m-d\TH:i:sO') ); ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
 						<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
 						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 					</div><!-- .entry-meta -->
