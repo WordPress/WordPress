@@ -2300,9 +2300,9 @@ function htmlentities2($myHTML) {
 /**
  * Escape single quotes, htmlspecialchar " < > &, and fix line endings.
  *
- * Escapes text strings for echoing in JS, both inline (for example in onclick="...")
- * and inside <script> tag. Note that the strings have to be in single quotes.
- * The filter 'js_escape' is also applied here.
+ * Escapes text strings for echoing in JS. It is intended to be used for inline JS
+ * (in a tag attribute, for example onclick="..."). Note that the strings have to
+ * be in single quotes. The filter 'js_escape' is also applied here.
  *
  * @since 2.8.0
  *
