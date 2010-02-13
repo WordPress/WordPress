@@ -16,6 +16,7 @@
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array(	'label' => __('Posts'),
+										'singular_label' => __('Post'),
 										'public' => true,
 										'show_ui' => false,
 										'_builtin' => true,
@@ -28,6 +29,7 @@ function create_initial_post_types() {
 									) );
 
 	register_post_type( 'page', array(	'label' => __('Pages'),
+										'singular_label' => __('Page'),
 										'public' => true,
 										'show_ui' => false,
 										'_builtin' => true,
@@ -51,6 +53,7 @@ function create_initial_post_types() {
 										) );
 
 	register_post_type( 'revision', array(	'label' => __('Revisions'),
+											'singular_label' => __('Revision'),
 											'public' => false,
 											'_builtin' => true,
 											'_edit_link' => 'revision.php?revision=%d',
@@ -712,7 +715,8 @@ function get_post_types( $args = array(), $output = 'names' ) {
  *
  * Optional $args contents:
  *
- * label - A descriptive name for the post type marked for translation. Defaults to $post_type.
+ * label - A (plural) descriptive name for the post type marked for translation. Defaults to $post_type.
+ * singular_label - A (singular) descriptive name for the post type marked for translation. Defaults to $label.
  * description - A short descriptive summary of what the post type is. Defaults to blank.
  * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
@@ -746,7 +750,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null );
+	$defaults = array('label' => false, 'singular_label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null );
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -767,6 +771,9 @@ function register_post_type($post_type, $args = array()) {
 
 	if ( false === $args->label )
 		$args->label = $post_type;
+
+	if ( false === $args->singular_label )
+		$args->singular_label = $args->label;
 
 	if ( empty($args->capability_type) )
 		$args->capability_type = 'post';

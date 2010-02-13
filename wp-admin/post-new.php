@@ -24,7 +24,7 @@ if ( 'post' != $post_type ) {
 
 $post_type_object = get_post_type_object($post_type);
 
-$title = sprintf(__('Add New %s'), $post_type_object->label);
+$title = sprintf(__('Add New %s'), $post_type_object->singular_label);
 
 $editing = true;
 wp_enqueue_script('autosave');

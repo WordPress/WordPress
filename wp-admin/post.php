@@ -195,7 +195,7 @@ case 'edit':
 		wp_enqueue_script('autosave');
 	}
 
-	$title = sprintf(__('Edit %s'), $post_type_object->label);
+	$title = sprintf(__('Edit %s'), $post_type_object->singular_label);
 	$post = get_post_to_edit($post_id);
 
 	include('edit-form-advanced.php');
