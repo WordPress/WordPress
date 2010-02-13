@@ -250,17 +250,28 @@ function get_blog_option( $blog_id, $setting, $default = false ) {
 	$key = $blog_id."-".$setting."-blog_option";
 	$value = wp_cache_get( $key, "site-options" );
 	if ( $value == null ) {
-		$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$blog_prefix}options WHERE option_name = %s", $setting ) );
-		if ( is_object( $row ) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
-			$value = $row->option_value;
-			if ( $value == false )
+		if ( $blog_id == $wpdb->blogid ) {
+			$value = get_option( $setting, $default );
+			$notoptions = wp_cache_get( 'notoptions', 'options' );
+			if ( isset( $notoptions[$setting] ) )
+				wp_cache_set( $key, 'noop', 'site-options' );
+			elseif ( $value == false )
 				wp_cache_set( $key, 'falsevalue', 'site-options' );
 			else
 				wp_cache_set( $key, $value, 'site-options' );
-		} else { // option does not exist, so we must cache its non-existence
-			wp_cache_set( $key, 'noop', 'site-options' );
-			$value = $default;
+		} else {
+			$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$blog_prefix}options WHERE option_name = %s", $setting ) );
+			if ( is_object( $row ) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
+				$value = $row->option_value;
+				if ( $value == false )
+					wp_cache_set( $key, 'falsevalue', 'site-options' );
+				else
+					wp_cache_set( $key, $value, 'site-options' );
+			} else { // option does not exist, so we must cache its non-existence
+				wp_cache_set( $key, 'noop', 'site-options' );
+				$value = $default;
+			}
 		}
 	} elseif ( $value == 'noop' ) {
 		$value = $default;
