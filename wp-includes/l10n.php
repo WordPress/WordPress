@@ -77,21 +77,6 @@ function before_last_bar( $string ) {
 		return substr( $string, 0, $last_bar );
 }
 
-/**
- * Translates $text like translate(), but assumes that the text
- * contains a context after its last vertical bar.
- *
- * @since 2.5
- * @uses translate()
- *
- * @param string $text Text to translate
- * @param string $domain Domain to retrieve the translated text
- * @return string Translated text
- */
-function translate_with_context( $text, $domain = 'default' ) {
-	return before_last_bar( translate( $text, $domain ) );
-}
-
 function translate_with_gettext_context( $text, $context, $domain = 'default' ) {
 	$translations = &get_translations_for_domain( $domain );
 	return apply_filters( 'gettext_with_context', $translations->translate( $text, $context ), $text, $context, $domain );
@@ -192,16 +177,15 @@ function esc_html_e( $text, $domain = 'default' ) {
  * found in more than two places but with different translated context.
  *
  * By including the context in the pot file translators can translate the two
- * string differently
+ * string differently.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param string $text Text to translate
  * @param string $context Context information for the translators
  * @param string $domain Optional. Domain to retrieve the translated text
  * @return string Translated context string without pipe
  */
-
 function _x( $single, $context, $domain = 'default' ) {
 	return translate_with_gettext_context( $single, $context, $domain );
 }
@@ -212,12 +196,6 @@ function esc_attr_x( $single, $context, $domain = 'default' ) {
 
 function esc_html_x( $single, $context, $domain = 'default' ) {
 	return esc_html( translate_with_gettext_context( $single, $context, $domain ) );
-}
-
-function __ngettext() {
-	_deprecated_function( __FUNCTION__, '2.8', '_n()' );
-	$args = func_get_args();
-	return call_user_func_array('_n', $args);
 }
 
 /**
@@ -231,7 +209,7 @@ function __ngettext() {
  * to the 'ngettext' filter hook along with the same parameters. The expected
  * type will be a string.
  *
- * @since 1.2.0
+ * @since 2.8.0
  * @uses $l10n Gets list of domain translated string (gettext_reader) objects
  * @uses apply_filters() Calls 'ngettext' hook on domains text returned,
  *		along with $single, $plural, and $number parameters. Expected to return string.
@@ -259,16 +237,6 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
 	$translations = &get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number, $context );
 	return apply_filters( 'ngettext_with_context', $translation, $single, $plural, $number, $context, $domain );
-}
-
-/**
- * @deprecated Use _n_noop()
- */
-function __ngettext_noop() {
-	_deprecated_function( __FUNCTION__, '2.8', '_n_noop()' );
-	$args = func_get_args();
-	return call_user_func_array('_n_noop', $args);
-
 }
 
 /**
@@ -303,7 +271,6 @@ function _n_noop( $single, $plural ) {
 function _nx_noop( $single, $plural, $context ) {
 	return array( $single, $plural, $context );
 }
-
 
 /**
  * Loads a MO file into the domain $domain.

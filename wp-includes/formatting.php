@@ -1398,7 +1398,6 @@ function wp_rel_nofollow_callback( $matches ) {
 	return "<a $text rel=\"nofollow\">";
 }
 
-
 /**
  * Convert one smiley code to the icon graphic file equivalent.
  *
@@ -1428,7 +1427,6 @@ function translate_smiley($smiley) {
 
 	return " <img src='$srcurl' alt='$smiley_masked' class='wp-smiley' /> ";
 }
-
 
 /**
  * Convert text equivalent of smilies to images.
@@ -2226,7 +2224,6 @@ function esc_sql( $sql ) {
 	return $wpdb->escape( $sql );
 }
 
-
 /**
  * Checks and cleans a URL.
  *
@@ -2261,22 +2258,6 @@ function esc_url( $url, $protocols = null ) {
  * @return string The cleaned URL.
  */
 function esc_url_raw( $url, $protocols = null ) {
-	return clean_url( $url, $protocols, 'db' );
-}
-
-/**
- * Performs esc_url() for database or redirect usage.
- *
- * @see esc_url()
- * @deprecated 2.8.0
- *
- * @since 2.3.1
- *
- * @param string $url The URL to be cleaned.
- * @param array $protocols An array of acceptable protocols.
- * @return string The cleaned URL.
- */
-function sanitize_url( $url, $protocols = null ) {
 	return clean_url( $url, $protocols, 'db' );
 }
 
@@ -2318,23 +2299,6 @@ function esc_js( $text ) {
 }
 
 /**
- * Escape single quotes, specialchar double quotes, and fix line endings.
- *
- * The filter 'js_escape' is also applied by esc_js()
- *
- * @since 2.0.4
- *
- * @deprecated 2.8.0
- * @see esc_js()
- *
- * @param string $text The text to be escaped.
- * @return string Escaped text.
- */
-function js_escape( $text ) {
-	return esc_js( $text );
-}
-
-/**
  * Escaping for HTML blocks.
  *
  * @since 2.8.0
@@ -2349,20 +2313,6 @@ function esc_html( $text ) {
 }
 
 /**
- * Escaping for HTML blocks
- * @deprecated 2.8.0
- * @see esc_html()
- */
-function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
-	if ( func_num_args() > 1 ) { // Maintain backwards compat for people passing additional args
-		$args = func_get_args();
-		return call_user_func_array( '_wp_specialchars', $args );
-	} else {
-		return esc_html( $string );
-	}
-}
-
-/**
  * Escaping for HTML attributes.
  *
  * @since 2.8.0
@@ -2374,21 +2324,6 @@ function esc_attr( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
 	return apply_filters( 'attribute_escape', $safe_text, $text );
-}
-
-/**
- * Escaping for HTML attributes.
- *
- * @since 2.0.6
- *
- * @deprecated 2.8.0
- * @see esc_attr()
- *
- * @param string $text
- * @return string
- */
-function attribute_escape( $text ) {
-	return esc_attr( $text );
 }
 
 /**

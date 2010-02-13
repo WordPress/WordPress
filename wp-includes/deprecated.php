@@ -1862,7 +1862,26 @@ function make_url_footnote( $content ) {
  */
 function _c( $text, $domain = 'default' ) {
 	_deprecated_function( __FUNCTION__, '2.9', '_x()' );
-	return translate_with_context( $text, $domain );
+	return before_last_bar( translate( $text, $domain ) );
+}
+
+/**
+ * Translates $text like translate(), but assumes that the text
+ * contains a context after its last vertical bar.
+ *
+ * @since 2.5
+ * @uses translate()
+ * @deprecated 3.0.0
+ * @deprecated Use _x()
+ * @see _x()
+ *
+ * @param string $text Text to translate
+ * @param string $domain Domain to retrieve the translated text
+ * @return string Translated text
+ */
+function translate_with_context( $text, $domain = 'default' ) {
+	_deprecated_function( __FUNCTION__, '2.9', '_x()' );
+	return before_last_bar( translate( $text, $domain ) );
 }
 
 /**
@@ -1880,6 +1899,35 @@ function _c( $text, $domain = 'default' ) {
 function _nc( $single, $plural, $number, $domain = 'default' ) {
 	_deprecated_function( __FUNCTION__, '2.9', '_nx()' );
 	return before_last_bar( _n( $single, $plural, $number, $domain ) );
+}
+
+/**
+ * Retrieve the plural or single form based on the amount.
+ *
+ * @since 1.2.0
+ * @deprecated 2.8.0
+ * @deprecated Use _n()
+ * @see _n()
+ */
+function __ngettext() {
+	_deprecated_function( __FUNCTION__, '2.8', '_n()' );
+	$args = func_get_args();
+	return call_user_func_array('_n', $args);
+}
+
+/**
+ * Register plural strings in POT file, but don't translate them.
+ *
+ * @since 2.5
+ * @deprecated 2.8.0
+ * @deprecated Use _n_noop()
+ * @see _n_noop()
+ */
+function __ngettext_noop() {
+	_deprecated_function( __FUNCTION__, '2.8', '_n_noop()' );
+	$args = func_get_args();
+	return call_user_func_array('_n_noop', $args);
+
 }
 
 /**
@@ -2072,6 +2120,75 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmark()' );
 	return get_bookmark($bookmark_id, $output, $filter);
+}
+
+/**
+ * Performs esc_url() for database or redirect usage.
+ *
+ * @since 2.3.1
+ * @deprecated 2.8.0
+ * @deprecated Use esc_url_raw()
+ * @see esc_url_raw() 
+ *
+ * @param string $url The URL to be cleaned.
+ * @param array $protocols An array of acceptable protocols.
+ * @return string The cleaned URL.
+ */
+function sanitize_url( $url, $protocols = null ) {
+	_deprecated_function( __FUNCTION__, '2.8', 'esc_url_raw()' );
+	return clean_url( $url, $protocols, 'db' );
+}
+
+/**
+ * Escape single quotes, specialchar double quotes, and fix line endings.
+ *
+ * The filter 'js_escape' is also applied by esc_js()
+ *
+ * @since 2.0.4
+ * @deprecated 2.8.0
+ * @deprecated Use esc_js()
+ * @see esc_js()
+ *
+ * @param string $text The text to be escaped.
+ * @return string Escaped text.
+ */
+function js_escape( $text ) {
+	_deprecated_function( __FUNCTION__, '2.8', 'esc_js()' );
+	return esc_js( $text );
+}
+
+/**
+ * Escaping for HTML blocks.
+ *
+ * @deprecated 2.8.0
+ * @deprecated Use esc_html()
+ * @see esc_html()
+ */
+function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
+	_deprecated_function( __FUNCTION__, '2.8', 'esc_html()' );
+	if ( func_num_args() > 1 ) { // Maintain backwards compat for people passing additional args
+		$args = func_get_args();
+		return call_user_func_array( '_wp_specialchars', $args );
+	} else {
+		return esc_html( $string );
+	}
+}
+
+
+/**
+ * Escaping for HTML attributes.
+ *
+ * @since 2.0.6
+ * @deprecated 2.8.0
+ * @deprecated Use esc_attr()
+ * @see esc_attr()
+ *
+ * @param string $text
+ * @return string
+ */
+function attribute_escape( $text ) {
+	_deprecated_function( __FUNCTION__, '2.8', 'esc_attr()' );
+	return esc_attr( $text );
 }
 
 ?>
