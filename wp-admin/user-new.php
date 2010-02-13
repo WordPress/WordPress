@@ -27,7 +27,7 @@ If you do not want to join this blog please ignore
 this email. This invitation will expire in a few days.
 
 Please click the following link to activate your user account:
-%%s" ), get_bloginfo('name'), site_url(), wp_specialchars( $_REQUEST[ 'role' ] ) );
+%%s" ), get_bloginfo('name'), site_url(), esc_html( $_REQUEST[ 'role' ] ) );
 	}
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 
@@ -55,7 +55,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		$user_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE user_login = %s AND user_email = %s", $user_login, $_REQUEST[ 'email' ] ) );
 		if ( $user_details ) {
 			// Adding an existing user to this blog
-			$new_user_email = wp_specialchars(trim($_REQUEST['email']));
+			$new_user_email = esc_html(trim($_REQUEST['email']));
 			$redirect = 'user-new.php';
 			$username = $user_details->user_login;
 			$user_id = $user_details->ID;

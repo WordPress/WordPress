@@ -230,7 +230,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 	if ( !is_wp_error($errors) )
 		$errors = new WP_Error();
 	if ( isset( $_POST[ 'signup_for' ] ) )
-		$signup[ wp_specialchars( $_POST[ 'signup_for' ] ) ] = 'checked="checked"';
+		$signup[ esc_html( $_POST[ 'signup_for' ] ) ] = 'checked="checked"';
 	else
 		$signup[ 'blog' ] = 'checked="checked"';
 

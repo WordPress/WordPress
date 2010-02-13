@@ -385,8 +385,8 @@ switch ( $_GET['action'] ) {
 			$themes = get_themes();
 			reset( $themes );
 			foreach ( (array) $themes as $key => $theme ) {
-				if ( $_POST['theme'][ wp_specialchars( $theme['Stylesheet'] ) ] == 'enabled' )
-					$allowed_themes[ wp_specialchars( $theme['Stylesheet'] ) ] = true;
+				if ( $_POST['theme'][ esc_html( $theme['Stylesheet'] ) ] == 'enabled' )
+					$allowed_themes[ esc_html( $theme['Stylesheet'] ) ] = true;
 			}
 			update_site_option( 'allowedthemes', $allowed_themes );
 		}
@@ -413,12 +413,12 @@ switch ( $_GET['action'] ) {
 			</head>
 			<body id="error-page">
 				<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
-				<form action='ms-edit.php?action=<?php echo wp_specialchars( $_GET[ 'action2' ] ) ?>' method='post'>
-					<input type='hidden' name='action' value='<?php echo wp_specialchars( $_GET['action2'] ) ?>' />
-					<input type='hidden' name='id' value='<?php echo wp_specialchars( $id ); ?>' />
+				<form action='ms-edit.php?action=<?php echo esc_attr( $_GET[ 'action2' ] ) ?>' method='post'>
+					<input type='hidden' name='action' value='<?php echo esc_attr( $_GET['action2'] ) ?>' />
+					<input type='hidden' name='id' value='<?php echo esc_attr( $id ); ?>' />
 					<input type='hidden' name='ref' value='<?php echo $referrer; ?>' />
 					<?php wp_nonce_field( $_GET['action2'] ) ?>
-					<p><?php echo wp_specialchars( stripslashes($_GET['msg']) ); ?></p>
+					<p><?php echo esc_html( stripslashes($_GET['msg']) ); ?></p>
 					<p class="submit"><input class="button" type='submit' value='<?php _e("Confirm"); ?>' /></p>
 				</form>
 			</body>
@@ -499,7 +499,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __('Missing email.') );
 
 		$password = wp_generate_password();
-		$user_id = wpmu_create_user(wp_specialchars( strtolower( $user['username'] ) ), $password, wp_specialchars( $user['email'] ) );
+		$user_id = wpmu_create_user(wp_specialchars( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
 
 		if ( false == $user_id )
  			wp_die( __('Duplicated username or email address.') );

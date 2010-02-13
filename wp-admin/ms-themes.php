@@ -37,7 +37,7 @@ $allowed_themes = get_site_allowed_themes();
 			$class = '';
 			foreach ( (array) $themes as $key => $theme ) {
 				$total_theme_count++;
-				$theme_key = wp_specialchars($theme['Stylesheet']);
+				$theme_key = esc_html($theme['Stylesheet']);
 				$class = ('alt' == $class) ? '' : 'alt';
 				$class1 = $enabled = $disabled = '';
 

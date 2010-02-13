@@ -142,12 +142,12 @@ function get_allowed_themes() {
 	if ( is_array( $blog_allowed_themes ) )
 		$allowed_themes = array_merge( $allowed_themes, $blog_allowed_themes );
 
-	if ( isset( $allowed_themes[ wp_specialchars( $ct->stylesheet ) ] ) == false )
-		$allowed_themes[ wp_specialchars( $ct->stylesheet ) ] = true;
+	if ( isset( $allowed_themes[ esc_html( $ct->stylesheet ) ] ) == false )
+		$allowed_themes[ esc_html( $ct->stylesheet ) ] = true;
 
 	reset( $themes );
 	foreach ( $themes as $key => $theme ) {
-		if ( isset( $allowed_themes[ wp_specialchars( $theme[ 'Stylesheet' ] ) ] ) == false )
+		if ( isset( $allowed_themes[ esc_html( $theme[ 'Stylesheet' ] ) ] ) == false )
 			unset( $themes[ $key ] );
 	}
 	reset( $themes );

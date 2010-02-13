@@ -212,7 +212,7 @@ function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
 
 		if ( is_array( $blog_allowed_themes ) ) {
 			foreach( (array) $themes as $key => $theme ) {
-				$theme_key = wp_specialchars( $theme[ 'Stylesheet' ] );
+				$theme_key = esc_html( $theme[ 'Stylesheet' ] );
 				if ( isset( $blog_allowed_themes[ $key ] ) == true ) {
 					$blog_allowedthemes[ $theme_key ] = 1;
 				}
@@ -335,7 +335,7 @@ function get_site_allowed_themes() {
 			$allowed_themes = array();
 		} else {
 			foreach( (array) $themes as $key => $theme ) {
-				$theme_key = wp_specialchars( $theme[ 'Stylesheet' ] );
+				$theme_key = esc_html( $theme[ 'Stylesheet' ] );
 				if ( isset( $allowed_themes[ $key ] ) == true ) {
 					$allowedthemes[ $theme_key ] = 1;
 				}

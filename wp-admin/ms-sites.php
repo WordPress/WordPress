@@ -168,7 +168,7 @@ switch ( $action ) {
 								$disabled = '';
 								if ( is_serialized($option->option_value) ) {
 									if ( is_serialized_string($option->option_value) ) {
-										$option->option_value = wp_specialchars(maybe_unserialize($option->option_value), 'single');
+										$option->option_value = esc_html(maybe_unserialize($option->option_value), 'single');
 									} else {
 										$option->option_value = "SERIALIZED DATA";
 										$disabled = ' disabled="disabled"';
@@ -210,7 +210,7 @@ switch ( $action ) {
 						$allowed_themes = array_keys( $themes );
 					$out = '';
 					foreach ( $themes as $key => $theme ) {
-						$theme_key = wp_specialchars( $theme['Stylesheet'] );
+						$theme_key = esc_html( $theme['Stylesheet'] );
 						if ( ! isset($allowed_themes[$theme_key] ) ) {
 							$checked = ( isset($blog_allowed_themes[ $theme_key ]) ) ? 'checked="checked"' : '';
 							$out .= '<tr class="form-field form-required">
@@ -253,7 +253,7 @@ switch ( $action ) {
 								<td>
 									<select name="role[<?php echo $val->user_id ?>]" id="new_role"><?php
 										foreach ( $editblog_roles as $role => $role_assoc ){
-											$name = translate_with_context($role_assoc['name']);
+											$name = translate_user_role($role_assoc['name']);
 											$selected = ( $role == $existing_role ) ? 'selected="selected"' : '';
 											echo "<option {$selected} value=\"" . esc_attr($role) . "\">{$name}</option>";
 										}

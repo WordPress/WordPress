@@ -70,7 +70,7 @@ if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $c
 	$new_email = get_option( $current_user->ID . '_new_email' );
 	if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
 		$user->ID = $current_user->ID;
-		$user->user_email = wp_specialchars( trim( $new_email[ 'newemail' ] ) );
+		$user->user_email = esc_html( trim( $new_email[ 'newemail' ] ) );
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
 		wp_update_user( get_object_vars( $user ) );

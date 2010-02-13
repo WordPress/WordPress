@@ -246,7 +246,7 @@ function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
 function wp_update_link( $linkdata ) {
 	$link_id = (int) $linkdata['link_id'];
 
-	$link = get_link( $link_id, ARRAY_A );
+	$link = get_bookmark( $link_id, ARRAY_A );
 
 	// Escape data pulled from DB.
 	$link = add_magic_quotes( $link );

@@ -867,7 +867,7 @@ function wpmu_admin_do_redirect( $url = '' ) {
 	$url = wpmu_admin_redirect_add_updated_param( $url );
 	if ( isset( $_GET['redirect'] ) ) {
 		if ( substr( $_GET['redirect'], 0, 2 ) == 's_' )
-			$url .= "&action=blogs&s=". wp_specialchars( substr( $_GET['redirect'], 2 ) );
+			$url .= "&action=blogs&s=". esc_html( substr( $_GET['redirect'], 2 ) );
 	} elseif ( isset( $_POST['redirect'] ) ) {
 		$url = wpmu_admin_redirect_add_updated_param( $_POST['redirect'] );
 	}
@@ -1155,7 +1155,7 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 	$admin_email = get_site_option( "admin_email" );
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
-	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
+	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : esc_html( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf( apply_filters( 'wpmu_signup_blog_notification_email', __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your blog here:\n\n%s" ) ), $activate_url, esc_url( "http://{$domain}{$path}" ), $key );
 	// TODO: Don't hard code activation link.
@@ -1174,7 +1174,7 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
 	$admin_email = get_site_option( "admin_email" );
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
-	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
+	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : esc_html( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf( apply_filters( 'wpmu_signup_user_notification_email', __( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ) ), site_url( "wp-activate.php?key=$key" ), $key );
 	// TODO: Don't hard code activation link.
@@ -1478,7 +1478,7 @@ Thanks!
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
+	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : esc_html( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = $welcome_email;
 
@@ -1511,7 +1511,7 @@ function wpmu_welcome_user_notification($user_id, $password, $meta = '') {
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : wp_specialchars( get_site_option( "site_name" ) );
+	$from_name = get_site_option( "site_name" ) == '' ? 'WordPress' : esc_html( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = $welcome_email;
 
