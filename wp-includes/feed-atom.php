@@ -20,7 +20,6 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
 
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
-	<?php the_generator( 'atom' ); ?>
 
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('url') ?>" />
 	<id><?php bloginfo('atom_url'); ?></id>

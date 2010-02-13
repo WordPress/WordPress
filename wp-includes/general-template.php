@@ -2130,8 +2130,34 @@ function the_generator( $type ) {
  * @param string $type The type of generator to return - (html|xhtml|atom|rss2|rdf|comment|export).
  * @return string The HTML content for the generator.
  */
-function get_the_generator( $type ) {
-	switch ($type) {
+function get_the_generator( $type = '' ) {
+	if ( empty( $type ) ) {
+
+		$current_filter = current_filter();
+		if ( empty( $current_filter ) )
+			return;
+
+		switch ( $current_filter ) {
+			case 'rss2_head' :
+			case 'commentsrss2_head' :
+				$type = 'rss2';
+				break;
+			case 'rss_head' :
+			case 'opml_head' :
+				$type = 'comment';
+				break;
+			case 'rdf_header' :
+				$type = 'rdf';
+				break;
+			case 'atom_head' :
+			case 'comments_atom_head' :
+			case 'app_head' :
+				$type = 'atom';
+				break;
+		}
+	}
+
+	switch ( $type ) {
 		case 'html':
 			$gen = '<meta name="generator" content="WordPress ' . get_bloginfo( 'version' ) . '">';
 			break;

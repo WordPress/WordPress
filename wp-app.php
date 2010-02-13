@@ -1096,7 +1096,6 @@ EOD;
 <link rel="last" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($last_page) ?>" />
 <link rel="self" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($self_page) ?>" />
 <rights type="text">Copyright <?php echo date('Y'); ?></rights>
-<?php the_generator( 'atom' ); ?>
 <?php do_action('app_head'); ?>
 <?php if ( have_posts() ) {
 			while ( have_posts() ) {

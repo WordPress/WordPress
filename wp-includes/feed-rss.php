@@ -9,7 +9,6 @@ header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_opt
 $more = 1;
 
 echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
-<?php the_generator( 'comment' ); ?>
 <rss version="0.92">
 <channel>
 	<title><?php bloginfo_rss('name'); wp_title_rss(); ?></title>

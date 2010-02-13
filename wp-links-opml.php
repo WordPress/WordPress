@@ -26,11 +26,11 @@ if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 	$link_cat = intval($link_cat);
 }
 ?><?php echo '<?xml version="1.0"?'.">\n"; ?>
-<?php the_generator( 'comment' ); ?>
 <opml version="1.0">
 	<head>
 		<title>Links for <?php echo esc_attr(get_bloginfo('name', 'display').$cat_name); ?></title>
 		<dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
+		<?php do_action('opml_head'); ?>
 	</head>
 	<body>
 <?php
