@@ -139,6 +139,21 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg('author', $redirect['query']);
 		}
 
+		// redirect sub-terms of taxonomies to their correct urls
+		if ( is_category() || is_tax() ) {
+			if ( is_category() ) {
+				$taxonomy = 'category';
+				$slug = get_query_var('category_name');
+			} else {
+				$taxonomy = get_query_var('taxonomy');
+				$slug = get_query_var('term');
+			}
+			if ( $tax_url = get_term_link($slug, $taxonomy) ) {
+				$tax_url = parse_url($tax_url);
+				$redirect['path'] = $tax_url['path'];
+			}
+		}
+
 		// paging and feeds
 		if ( get_query_var('paged') || is_feed() || get_query_var('cpage') ) {
 			if ( !$redirect_url )
@@ -257,7 +272,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	// Strip multiple slashes out of the URL
 	if ( strpos($original['path'], '//') > -1 )
-		$redirect['path'] = preg_replace('|/+|', '/', $original['path']);
+		$redirect['path'] = preg_replace('|/+|', '/', $redirect['path']);
 
 	// Always trailing slash the Front Page URL
 	if ( trailingslashit( $redirect['path'] ) == trailingslashit( $user_home['path'] ) )
