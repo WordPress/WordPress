@@ -201,12 +201,12 @@ switch ( $_GET['action'] ) {
 			$c = 1;
 			$count = count( $_POST[ 'option' ] );
 			foreach ( (array) $_POST['option'] as $key => $val ) {
-				if ( $key === 0 )
+				if ( $key === 0 || is_array( $val ) )
 					continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options
 				if ( $c == $count )
-					update_option( $key, $val );
+					update_option( $key, stripslashes( $val ) );
 				else
-					update_option( $key, $val, false ); // no need to refresh blog details yet
+					update_option( $key, stripslashes( $val ), false ); // no need to refresh blog details yet
 				$c++;
 			}
 		}
