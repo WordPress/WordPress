@@ -633,6 +633,8 @@ unset( $status_links );
 ?>
 </ul>
 
+<?php if ( ! empty( $plugins ) ) { ?>
+
 <div class="tablenav">
 <?php
 if ( $page_links )
@@ -656,9 +658,13 @@ if ( $page_links )
 print_plugin_actions($status, "action2");
 ?>
 </div>
+<?php } elseif ( ! empty( $all_plugins ) ) { ?>
+<p><?php __( 'No plugins found.' ); ?></p>
+<?php } ?>
 </form>
 
 <?php if ( empty($all_plugins) ) : ?>
+<br class="clear" />
 <p><?php _e('You do not appear to have any plugins available at this time.') ?></p>
 <?php endif; ?>
 

@@ -192,12 +192,12 @@ if ( !empty($comment_type) && 'all' != $comment_type )
 	$link = add_query_arg( 'comment_type', $comment_type, $link );
 
 foreach ( $stati as $status => $label ) {
-	$class = '';
+	$class = ( $status == $comment_status ) ? ' class="current"' : '';
 
-	if ( $status == $comment_status )
-		$class = ' class="current"';
 	if ( !isset( $num_comments->$status ) )
 		$num_comments->$status = 10;
+	if ( empty( $num_comments->$status ) )
+		continue;
 	$link = add_query_arg( 'comment_status', $status, $link );
 	if ( $post_id )
 		$link = add_query_arg( 'p', absint( $post_id ), $link );
@@ -270,6 +270,7 @@ $page_links = paginate_links( array(
 
 <div class="tablenav">
 
+<?php if ( $comments ) { ?>
 <?php if ( $page_links ) : ?>
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 	number_format_i18n( $start + 1 ),
@@ -346,7 +347,6 @@ if ( ( 'spam' == $comment_status || 'trash' == $comment_status) && current_user_
 
 <div class="clear"></div>
 
-<?php if ( $comments ) { ?>
 <table class="widefat comments fixed" cellspacing="0">
 <thead>
 	<tr>
@@ -436,7 +436,7 @@ if ( $page_links )
 </form>
 
 <?php } else { ?>
-<p><?php _e('No results found.') ?></p>
+<p><?php _e('No comments found.') ?></p>
 </form>
 
 <?php } ?>

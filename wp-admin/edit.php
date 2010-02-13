@@ -399,9 +399,9 @@ if ( $page_links )
 <div class="clear"></div>
 <p><?php
 if ( isset($_GET['post_status']) && 'trash' == $_GET['post_status'] )
-	_e('No posts found in the trash');
+	_e( 'No posts found in the Trash.' );
 else
-	_e('No posts found');
+	_e( 'No posts found.' );
 ?></p>
 <?php } ?>
 

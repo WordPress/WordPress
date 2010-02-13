@@ -143,7 +143,8 @@ if ( isset($_GET['detached']) ) {
 	} else {
 		$start = ( (int) $_GET['paged'] - 1 ) * $media_per_page;
 		$orphans = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1 LIMIT %d, %d", $start, $media_per_page ) );
-		$page_links_total = ceil($wpdb->get_var( "SELECT FOUND_ROWS()" ) / $media_per_page);
+		$total_orphans = $wpdb->get_var( "SELECT FOUND_ROWS()" );
+		$page_links_total = ceil( $total_orphans / $media_per_page );
 	}
 
 	$post_mime_types = get_post_mime_types();
@@ -219,6 +220,8 @@ if ( !empty($message) ) { ?>
 $type_links = array();
 $_num_posts = (array) wp_count_attachments();
 $_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
+if ( !isset( $total_orphans ) )
+		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 foreach ( $matches as $type => $reals )
 	foreach ( $reals as $real )
@@ -234,11 +237,12 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 
 	if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
-
-	$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
+	if ( !empty( $num_posts[$mime_type] ) )
+		$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
 }
-$type_links[] = '<li><a href="upload.php?detached=1"' . ( isset($_GET['detached']) ? ' class="current"' : '' ) . '>' . __('Unattached') . '</a>';
-if ( EMPTY_TRASH_DAYS && ( MEDIA_TRASH || !empty($_num_posts['trash']) ) )
+$type_links[] = '<li><a href="upload.php?detached=1"' . ( isset($_GET['detached']) ? ' class="current"' : '' ) . '>' . sprintf( _nx( 'Unattached <span class="count">(%s)</span>', 'Unattached <span class="count">(%s)</span>', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</a>';
+
+if ( !empty($_num_posts['trash']) )
 	$type_links[] = '<li><a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
 
 echo implode( " |</li>\n", $type_links) . '</li>';
@@ -255,6 +259,7 @@ unset($type_links);
 </form>
 
 <form id="posts-filter" action="" method="get">
+<?php if ( have_posts() || isset( $orphans ) ) { ?>
 <div class="tablenav">
 <?php
 if ( ! isset($page_links_total) )
@@ -279,6 +284,7 @@ if ( $page_links ) : ?>
 <?php endif; ?>
 
 <div class="alignleft actions">
+<?php if ( ! isset( $orphans ) || ! empty( $orphans ) ) { ?>
 <select name="action" class="select-action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <?php if ( $is_trash ) { ?>
@@ -328,7 +334,11 @@ foreach ($arc_result as $arc_row) {
 
 <?php } // ! is_singular ?>
 
-<?php if ( isset($_GET['detached']) ) { ?>
+<?php
+
+} // ! empty( $orphans )
+
+if ( isset($_GET['detached']) ) { ?>
 	<input type="submit" id="find_detached" name="find_detached" value="<?php esc_attr_e('Scan for lost attachments'); ?>" class="button-secondary" />
 <?php } elseif ( isset($_GET['status']) && $_GET['status'] == 'trash' && current_user_can('edit_others_posts') ) { ?>
 	<input type="submit" id="delete_all" name="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
@@ -339,9 +349,11 @@ foreach ($arc_result as $arc_row) {
 <br class="clear" />
 </div>
 
+<?php } // have_posts() || !empty( $orphans ) ?>
+
 <div class="clear"></div>
 
-<?php if ( isset($orphans) ) { ?>
+<?php if ( ! empty( $orphans ) ) { ?>
 <table class="widefat" cellspacing="0">
 <thead>
 <tr>
@@ -365,7 +377,6 @@ foreach ($arc_result as $arc_row) {
 
 <tbody id="the-list" class="list:post">
 <?php
-	if ( $orphans ) {
 		foreach ( $orphans as $post ) {
 			$class = 'alternate' == $class ? '' : 'alternate';
 			$att_title = esc_html( _draft_or_post_title($post->ID) );
@@ -423,11 +434,7 @@ foreach ($arc_result as $arc_row) {
 		} ?>
 		<td class="date column-date"><?php echo $h_time ?></td>
 	</tr>
-<?php	}
-
-	} else { ?>
-	<tr><td colspan="5"><?php _e('No media attachments found.') ?></td></tr>
-<?php } ?>
+<?php	} ?>
 </tbody>
 </table>
 
@@ -442,6 +449,8 @@ foreach ($arc_result as $arc_row) {
 <div class="tablenav">
 
 <?php
+if ( have_posts() || ! empty( $orphans ) ) {
+
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links_text</div>";
 ?>
@@ -466,6 +475,7 @@ if ( $page_links )
 <?php } ?>
 </div>
 
+<?php } ?>
 <br class="clear" />
 </div>
 <?php find_posts_div(); ?>

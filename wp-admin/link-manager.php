@@ -99,6 +99,16 @@ if ( isset($_GET['deleted']) ) {
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
+<?php
+if ( 'all' == $cat_id )
+	$cat_id = '';
+$args = array( 'category' => $cat_id, 'hide_invisible' => 0, 'orderby' => $sqlorderby, 'hide_empty' => 0 );
+if ( ! empty( $_GET['s'] ) )
+	$args['search'] = $_GET['s'];
+$links = get_bookmarks( $args );
+if ( $links ) {
+?>
+
 <div class="alignleft actions">
 <select name="action">
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
@@ -135,13 +145,6 @@ echo $select_order;
 <div class="clear"></div>
 
 <?php
-if ( 'all' == $cat_id )
-	$cat_id = '';
-$args = array('category' => $cat_id, 'hide_invisible' => 0, 'orderby' => $sqlorderby, 'hide_empty' => 0);
-if ( !empty($_GET['s']) )
-	$args['search'] = $_GET['s'];
-$links = get_bookmarks( $args );
-if ( $links ) {
 	$link_columns = get_column_headers('link-manager');
 	$hidden = get_hidden_columns('link-manager');
 ?>
@@ -251,10 +254,6 @@ if ( $links ) {
 	</tbody>
 </table>
 
-<?php } else { ?>
-<p><?php _e('No links found.') ?></p>
-<?php } ?>
-
 <div class="tablenav">
 
 <div class="alignleft actions">
@@ -264,6 +263,10 @@ if ( $links ) {
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
+
+<?php } else { ?>
+<p><?php _e( 'No links found.' ) ?></p>
+<?php } ?>
 
 <br class="clear" />
 </div>
