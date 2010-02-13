@@ -196,11 +196,24 @@ $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
 
-$tags_per_page = (int) get_user_option( 'edit_tags_per_page' );
+if ( 'post_tag' == $taxonomy )
+	$tags_per_page = (int) get_user_option( 'edit_tags_per_page' );
+elseif ( 'category' == $taxonomy )
+	$tags_per_page = (int) get_user_option( 'categories_per_page' );
+else
+	$tags_per_page = (int) get_user_option( 'edit_' .  $taxonomy . '_per_page' );
+
 if ( empty($tags_per_page) || $tags_per_page < 1 )
 	$tags_per_page = 20;
-$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
-$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
+
+if ( 'post_tag' == $taxonomy ) {
+	$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
+	$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
+} elseif ( 'category' == $taxonomy ) { 
+	$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page ); // Old filter
+} else {
+	$tags_per_page = apply_filters( 'edit_' . $taxonomy . '_per_page', $tags_per_page );
+}
 
 if ( !empty($_GET['s']) ) {
 	$searchterms = trim(stripslashes($_GET['s']));

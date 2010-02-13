@@ -3638,11 +3638,14 @@ function screen_options($screen) {
 		case 'upload':
 			$per_page_label = __('Media items per page:');
 			break;
-		case 'categories':
-			$per_page_label = __('Categories per page:');
-			break;
 		case 'edit-tags':
-			$per_page_label = __('Tags per page:');
+			global $taxonomy, $tax;
+			if ( 'post_tag' == $taxonomy )
+				$per_page_label = __('Tags per page:');
+			elseif ( 'category' == $taxonomy )
+				$per_page_label = __('Categories per page:');
+			else
+				$per_page_label = sprintf(_x('%s per page:', '%s: plural taxonomy name'), $tax->label);
 			break;
 		case 'plugins':
 			$per_page_label = __('Plugins per page:');
@@ -3652,6 +3655,13 @@ function screen_options($screen) {
 	}
 
 	$option = str_replace( '-', '_', "{$screen->id}_per_page" );
+	if ( 'edit_tags_per_page' == $option ) {
+		if ( 'category' == $taxonomy )
+			$option = 'categories_per_page';
+		elseif ( 'post_tag' != $taxonomy )
+			$option = 'edit_' . $taxonomy . '_per_page';
+	}
+
 	$per_page = (int) get_user_option( $option );
 	if ( empty( $per_page ) || $per_page < 1 ) {
 		if ( 'plugins' == $screen->id )
@@ -3659,9 +3669,10 @@ function screen_options($screen) {
 		else
 			$per_page = 20;
 	}
+
 	if ( 'edit_comments_per_page' == $option )
 		$per_page = apply_filters( 'comments_per_page', $per_page, isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : 'all' );
-	elseif ( 'categories' == $option )
+	elseif ( 'categories_per_page' == $option )
 		$per_page = apply_filters( 'edit_categories_per_page', $per_page );
 	else
 		$per_page = apply_filters( $option, $per_page );
