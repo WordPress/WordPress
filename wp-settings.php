@@ -74,8 +74,10 @@ wp_set_wpdb_vars();
 wp_start_object_cache();
 
 // Initialize multisite if enabled.
-if ( is_multisite() )
+if ( is_multisite() ) {
+	require( ABSPATH . WPINC . '/blogs.php' );
 	require( ABSPATH . WPINC . '/ms-settings.php' );
+}
 
 // Load early WordPress files.
 require( ABSPATH . WPINC . '/plugin.php' );
