@@ -180,11 +180,13 @@ function get_cat_ID( $cat_name='General' ) {
  * @since 1.0.0
  *
  * @param int $cat_id Category ID
- * @return string Category name
+ * @return string Category name, or an empty string if category doesn't exist.
  */
 function get_cat_name( $cat_id ) {
 	$cat_id = (int) $cat_id;
 	$category = &get_category( $cat_id );
+	if ( ! $category || is_wp_error( $category ) )
+		return '';
 	return $category->name;
 }
 
