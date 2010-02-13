@@ -28,8 +28,14 @@ function wp_dashboard_setup() {
 	wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
 
 	// Recent Comments Widget
+	if ( !isset( $widget_options['dashboard_recent_comments'] ) || !isset( $widget_options['dashboard_recent_comments']['items'] ) ) {
+		$update = true;
+		$widget_options['dashboard_recent_comments'] = array(
+			'items' => 5,
+		);
+	}
 	$recent_comments_title = __( 'Recent Comments' );
-	wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments' );
+	wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments', 'wp_dashboard_recent_comments_control' );
 
 	// Incoming Links Widget
 	if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
@@ -482,10 +488,16 @@ function wp_dashboard_recent_comments() {
 	$comments = array();
 	$start = 0;
 
+	$widgets = get_option( 'dashboard_widget_options' );
+	if ( isset( $widgets['dashboard_recent_comments'] ) && isset( $widgets['dashboard_recent_comments']['items'] ) )
+		$total_items = (int) $widgets['dashboard_recent_comments']['items'];
+	else
+		$total_items = 5;
+
 	while ( count( $comments ) < 5 && $possible = $wpdb->get_results( "SELECT * FROM $wpdb->comments c LEFT JOIN $wpdb->posts p ON c.comment_post_ID = p.ID WHERE p.post_status != 'trash' ORDER BY c.comment_date_gmt DESC LIMIT $start, 50" ) ) {
 
 		foreach ( $possible as $comment ) {
-			if ( count( $comments ) >= 5 )
+			if ( count( $comments ) >= $total_items )
 				break;
 			if ( in_array( $comment->comment_approved, $allowed_states ) )
 				$comments[] = $comment;
@@ -613,6 +625,32 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			</div>
 		</div>
 <?php
+}
+
+/**
+ * The recent comments dashboard widget control.
+ *
+ * @since 3.0.0
+ */
+function wp_dashboard_recent_comments_control() {
+	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
+		$widget_options = array();
+
+	if ( !isset($widget_options['dashboard_recent_comments']) )
+		$widget_options['dashboard_recent_comments'] = array();
+
+	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-recent-comments']) ) {
+		$number = (int) stripslashes($_POST['widget-recent-comments']['items']);
+		if ( $number < 1 || $number > 15 )
+			$number = 5;
+		$widget_options['dashboard_recent_comments']['items'] = $number;
+		update_option( 'dashboard_widget_options', $widget_options );
+	}
+
+	$number = isset( $widget_options['dashboard_recent_comments']['items'] ) ? (int) $widget_options['dashboard_recent_comments']['items'] : '';
+
+	echo '<p><label for="comments-number">' . __('Number of comments to show:') . '</label>';
+	echo '<input id="comments-number" name="widget-recent-comments[items]" type="text" value="' . $number . '" size="3" /> <small>' . __( '(at most 15)' ) . '</p>';
 }
 
 function wp_dashboard_incoming_links() {
