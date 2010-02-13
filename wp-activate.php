@@ -18,6 +18,11 @@ if ( is_object( $wp_object_cache ) )
 
 do_action("activate_header");
 
+function do_activate_header() {
+	do_action("activate_wp_head");
+}
+add_action( 'wp_head', 'do_activate_header' );
+
 function wpmu_activate_stylesheet() {
 	?>
 	<style type="text/css">
