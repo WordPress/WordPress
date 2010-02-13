@@ -1131,25 +1131,6 @@ case 'inline-save-tax':
 		die(-1);
 
 	switch ($_POST['tax_type']) {
-		case 'cat' :
-			$data = array();
-			$data['cat_ID'] = $id;
-			$data['cat_name'] = $_POST['name'];
-			$data['category_nicename'] = $_POST['slug'];
-			if ( isset($_POST['parent']) && (int) $_POST['parent'] > 0 )
-				$data['category_parent'] = $_POST['parent'];
-
-			$cat = get_category($id, ARRAY_A);
-			$data['category_description'] = $cat['category_description'];
-
-			$updated = wp_update_category($data);
-
-			if ( $updated && !is_wp_error($updated) )
-				echo _cat_row( $updated, 0 );
-			else
-				die( __('Category not updated.') );
-
-			break;
 		case 'link-cat' :
 			$updated = wp_update_term($id, 'link_category', $_POST);
 
@@ -1168,12 +1149,17 @@ case 'inline-save-tax':
 			$updated = wp_update_term($id, $taxonomy, $_POST);
 			if ( $updated && !is_wp_error($updated) ) {
 				$tag = get_term( $updated['term_id'], $taxonomy );
-				if ( !$tag || is_wp_error( $tag ) )
-					die( __('Tag not updated.') );
+				if ( !$tag || is_wp_error( $tag ) ) {
+					if ( is_wp_error($tag) && $tag->get_error_message() )
+						die( $tag->get_error_message() );
+					die( __('Item not updated.') );
+				}
 
-				echo _tag_row($tag, 0, '', $taxonomy);
+				echo _tag_row($tag, 0, $taxonomy);
 			} else {
-				die( __('Tag not updated.') );
+				if ( is_wp_error($updated) && $updated->get_error_message() )
+					die( $updated->get_error_message() );
+				die( __('Item not updated.') );
 			}
 
 			break;
