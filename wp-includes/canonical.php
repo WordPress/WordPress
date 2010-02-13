@@ -271,7 +271,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	}
 
 	// Strip multiple slashes out of the URL
-	if ( strpos($original['path'], '//') > -1 )
+	if ( strpos($redirect['path'], '//') > -1 )
 		$redirect['path'] = preg_replace('|/+|', '/', $redirect['path']);
 
 	// Always trailing slash the Front Page URL
