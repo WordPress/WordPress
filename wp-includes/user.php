@@ -507,6 +507,7 @@ function setup_userdata($for_user_id = '') {
  * <li>selected - Which User ID is selected.</li>
  * <li>name - Default is 'user'. Name attribute of select element.</li>
  * <li>class - Class attribute of select element.</li>
+ * <li>blog - ID of blog (Multisite only). Defaults to ID of current blog.</li>
  * </ol>
  *
  * @since 2.3.0
@@ -516,13 +517,13 @@ function setup_userdata($for_user_id = '') {
  * @return string|null Null on display. String of HTML content on retrieve.
  */
 function wp_dropdown_users( $args = '' ) {
-	global $wpdb;
+	global $wpdb, $blog_id;
 	$defaults = array(
 		'show_option_all' => '', 'show_option_none' => '',
 		'orderby' => 'display_name', 'order' => 'ASC',
 		'include' => '', 'exclude' => '', 'multi' => 0,
 		'show' => 'display_name', 'echo' => 1,
-		'selected' => 0, 'name' => 'user', 'class' => ''
+		'selected' => 0, 'name' => 'user', 'class' => '', 'blog' => $blog_id,
 	);
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
@@ -530,7 +531,8 @@ function wp_dropdown_users( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$query = "SELECT * FROM $wpdb->users";
+	$blog_prefix = $wpdb->get_blog_prefix( $blog );
+	$query = "SELECT {$wpdb->users}.* FROM $wpdb->users, $wpdb->usermeta WHERE {$wpdb->users}.ID = {$wpdb->usermeta}.user_id AND meta_key = '{$blog_prefix}capabilities'";
 
 	$query_where = array();
 
@@ -547,7 +549,7 @@ function wp_dropdown_users( $args = '' ) {
 		$query_where[] = "ID NOT IN ($exclude)";
 
 	if ( $query_where )
-		$query .= " WHERE " . join(' AND', $query_where);
+		$query .= " AND " . join(' AND', $query_where);
 
 	$query .= " ORDER BY $orderby $order";
 
