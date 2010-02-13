@@ -2191,4 +2191,120 @@ function attribute_escape( $text ) {
 	return esc_attr( $text );
 }
 
+/**
+ * Register widget for sidebar with backwards compatibility.
+ *
+ * Allows $name to be an array that accepts either three elements to grab the
+ * first element and the third for the name or just uses the first element of
+ * the array for the name.
+ *
+ * Passes to {@link wp_register_sidebar_widget()} after argument list and
+ * backwards compatibility is complete.
+ *
+ * @since 2.2.0
+ * @deprecated 2.8.0
+ * @deprecated Use wp_register_sidebar_widget()
+ * @see wp_register_sidebar_widget()
+ *
+ * @param string|int $name Widget ID.
+ * @param callback $output_callback Run when widget is called.
+ * @param string $classname Classname widget option.
+ * @param mixed $params,... Widget parameters.
+ */
+function register_sidebar_widget($name, $output_callback, $classname = '') {
+	_deprecated_function( __FUNCTION__, '2.8', 'wp_register_sidebar_widget()' );
+	// Compat
+	if ( is_array($name) ) {
+		if ( count($name) == 3 )
+			$name = sprintf($name[0], $name[2]);
+		else
+			$name = $name[0];
+	}
+
+	$id = sanitize_title($name);
+	$options = array();
+	if ( !empty($classname) && is_string($classname) )
+		$options['classname'] = $classname;
+	$params = array_slice(func_get_args(), 2);
+	$args = array($id, $name, $output_callback, $options);
+	if ( !empty($params) )
+		$args = array_merge($args, $params);
+
+	call_user_func_array('wp_register_sidebar_widget', $args);
+}
+
+/**
+ * Alias of {@link wp_unregister_sidebar_widget()}.
+ *
+ * @since 2.2.0
+ * @deprecated 2.8.0
+ * @deprecated Use wp_unregister_sidebar_widget()
+ * @see wp_unregister_sidebar_widget()
+ *
+ * @param int|string $id Widget ID.
+ */
+function unregister_sidebar_widget($id) {
+	_deprecated_function( __FUNCTION__, '2.8', 'wp_unregister_sidebar_widget()' );
+	return wp_unregister_sidebar_widget($id);
+}
+
+/**
+ * Registers widget control callback for customizing options.
+ *
+ * Allows $name to be an array that accepts either three elements to grab the
+ * first element and the third for the name or just uses the first element of
+ * the array for the name.
+ *
+ * Passes to {@link wp_register_widget_control()} after the argument list has
+ * been compiled.
+ *
+ * @since 2.2.0
+ * @deprecated 2.8.0
+ * @deprecated Use wp_register_widget_control()
+ * @see wp_register_widget_control()
+ *
+ * @param int|string $name Sidebar ID.
+ * @param callback $control_callback Widget control callback to display and process form.
+ * @param int $width Widget width.
+ * @param int $height Widget height.
+ */
+function register_widget_control($name, $control_callback, $width = '', $height = '') {
+	_deprecated_function( __FUNCTION__, '2.8', 'wp_register_widget_control()' );
+	// Compat
+	if ( is_array($name) ) {
+		if ( count($name) == 3 )
+			$name = sprintf($name[0], $name[2]);
+		else
+			$name = $name[0];
+	}
+
+	$id = sanitize_title($name);
+	$options = array();
+	if ( !empty($width) )
+		$options['width'] = $width;
+	if ( !empty($height) )
+		$options['height'] = $height;
+	$params = array_slice(func_get_args(), 4);
+	$args = array($id, $name, $control_callback, $options);
+	if ( !empty($params) )
+		$args = array_merge($args, $params);
+
+	call_user_func_array('wp_register_widget_control', $args);
+}
+
+/**
+ * Alias of {@link wp_unregister_widget_control()}.
+ *
+ * @since 2.2.0
+ * @deprecated 2.8.0
+ * @deprecated Use wp_unregister_widget_control()
+ * @see wp_unregister_widget_control()
+ *
+ * @param int|string $id Widget ID.
+ */
+function unregister_widget_control($id) {
+	_deprecated_function( __FUNCTION__, '2.8', 'wp_unregister_widget_control()' );
+	return wp_unregister_widget_control($id);
+}
+
 ?>
