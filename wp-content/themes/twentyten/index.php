@@ -18,13 +18,13 @@
 			<div class="entry-meta">
 				<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 				<a href="<?php
-the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
+the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time(); ?></span></a>
 				<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
 				<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 			</div><!-- .entry-meta -->
 
 			<div class="entry-content">
-				<div class="gallery-thumb"><a class="size-thumbnail" href="<?php permalink_link() ?>"><?php
+				<div class="gallery-thumb"><a class="size-thumbnail" href="<?php the_permalink() ?>"><?php
 				$images =& get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999) );
 				$total_images = count($images);
 				$image = array_shift($images);
@@ -60,7 +60,7 @@ the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><
 			<div class="entry-utility">
 				<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 				<a href="<?php
-the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
+the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time(); ?></span></a>
 				<span class="meta-sep"> <?php _e('by ', 'twentyten'); ?> </span>
 				<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 				<span class="meta-sep"> | </span>

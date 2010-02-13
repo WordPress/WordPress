@@ -15,15 +15,16 @@
 						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 						<span class="meta-sep"> | </span>
 						<span class="meta-prep meta-prep-entry-date"><?php _e('Published ', 'twentyten'); ?></span>
-						<span class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO') ?>"><?php the_time( get_option( 'date_format' ) ); ?></abbr></span>
+						<span class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO') ?>"><?php the_time(); ?></abbr></span>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), "<span class=\"meta-sep\">|</span>\n\t\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t" ) ?>
 					</div><!-- .entry-meta -->
 
 					<div class="entry-content">
 						<div class="entry-attachment">
-<?php if ( wp_attachment_is_image( $post->ID ) ) : $att_image = wp_get_attachment_image_src( $post->ID,  array(640, 640)); ?>
-						<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><img src="<?php echo $att_image[0];?>" width="<?php echo $att_image[1];?>" height="<?php echo $att_image[2];?>"  class="attachment-medium" alt="<?php $post->post_excerpt; ?>" /></a>
-						</p>
+<?php if ( wp_attachment_is_image( $post->ID ) ) : ?>
+						<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
+							echo wp_get_attachment_image( $post->ID, array($content_width, $content_width) ); // max $content_width wide or high.
+						?></a></p>
 
 
 				<div id="nav-below" class="navigation">
@@ -31,7 +32,7 @@
 					<div class="nav-next"><?php next_image_link( false ); ?></div>
 				</div><!-- #nav-below -->
 <?php else : ?>
-						<a href="<?php echo wp_get_attachment_url($post->ID) ?>" title="<?php echo esc_attr( get_the_title($post->ID) ); ?>" rel="attachment"><?php echo basename($post->guid) ?></a>
+						<a href="<?php echo wp_get_attachment_url($post->ID) ?>" title="<?php echo esc_attr( get_the_title($post->ID) ); ?>" rel="attachment"><?php echo basename(get_permalink()) ?></a>
 <?php endif; ?>
 						</div>
 						<div class="entry-caption"><?php if ( !empty($post->post_excerpt) ) the_excerpt() ?></div>

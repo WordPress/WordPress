@@ -36,7 +36,7 @@
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e('Posted on ', 'twentyten'); ?></span>
 						<a href="<?php
-		the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time( get_option( 'date_format' ) ); ?></span></a>
+		the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><span class="entry-date"><?php the_time(); ?></span></a>
 					</div><!-- .entry-meta -->
 
 					<div class="entry-summary">
