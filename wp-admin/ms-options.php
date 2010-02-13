@@ -80,7 +80,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<a name='addnewusers'></a>
 					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users') ) ?> /> <?php _e('Yes'); ?><br />
-					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), false) ?> /> <?php _e('No'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0) ?> /> <?php _e('No'); ?><br />
 					<?php _e('Allow blog administrators to add new users to their blog via the Users->Add New page.') ?>
 				</td>
 			</tr>
@@ -210,7 +210,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Blog upload space check') ?></th>
 				<td>
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), false ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
 				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
 				<?php _e( 'By default there is a limit on the total size of files uploaded but it can be disabled here.' ); ?></td>
 			</tr>

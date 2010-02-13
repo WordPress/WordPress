@@ -102,6 +102,11 @@ switch ( $_GET['action'] ) {
 		}
 		update_site_option( "dashboard_blog", $dashboard_blog_id );
 		$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'admin_notice_feed' );
+		$checked_options = array('mu_media_buttons', 'menu_items');
+		foreach ( $checked_options as $option_name ) {
+			if ( ! isset($_POST[ $option_name ]) )
+				$_POST[ $option_name ] = array();
+		}
 		foreach ( $options as $option_name ) {
 			if ( ! isset($_POST[ $option_name ]) )
 				continue;
