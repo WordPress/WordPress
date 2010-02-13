@@ -482,7 +482,10 @@ function wp_link_category_checklist( $link_id = 0 ) {
  * @param unknown_type $class
  * @return unknown
  */
-function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
+function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
+		static $row_class = '';
+		$row_class = ($row_class == '' ? ' class="alternate"' : '');
+
 		$count = number_format_i18n( $tag->count );
 		if ( 'post_tag' == $taxonomy )
 			$tagsel = 'tag';
@@ -496,12 +499,13 @@ function _tag_row( $tag, $level, $class = '', $taxonomy = 'post_tag' ) {
 		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug'>$count</a>" : $count;
 
 		$pad = str_repeat( '&#8212; ', max(0, $level) );
-		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name );
+		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 		$qe_data = get_term($tag->term_id, $taxonomy, object, 'edit');
 		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id";
 
 		$out = '';
-		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
+		$out .= '<tr id="tag-' . $tag->term_id . '"' . $row_class . '>';
+
 
 		$columns = get_column_headers('edit-tags');
 		$hidden = get_hidden_columns('edit-tags');
@@ -607,12 +611,12 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
 		else
 			$children = _get_term_hierarchy($taxonomy);
 
-		// Some funky recursion to get the job done is contained within, Skip it for non-hierarchical taxonomies for performance sake
+		// Some funky recursion to get the job done(Paging & parents mainly) is contained within, Skip it for non-hierarchical taxonomies for performance sake
 		$out .= _term_rows($taxonomy, $terms, $children, $page, $pagesize, $count);
 	} else {
 		$terms = get_terms( $taxonomy, $args );
 		foreach( $terms as $term )
-			$out .= _tag_row( $term, 0, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
+			$out .= _tag_row( $term, 0, $taxonomy );
 	}
 
 	echo $out;
@@ -648,21 +652,20 @@ function _term_rows( $taxonomy, $terms, &$children, $page = 1, $per_page = 20, &
 			unset($parent_ids);
 
 			$num_parents = count($my_parents);
-			$count -= $num_parents; // Do not include parents in the per-page count, This is due to paging issues with unknown numbers of rows.
 			while ( $my_parent = array_pop($my_parents) ) {
-				$output .=  "\t" . _tag_row( $my_parent, $level - $num_parents, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
+				$output .=  "\t" . _tag_row( $my_parent, $level - $num_parents, $taxonomy );
 				$num_parents--;
 			}
 		}
 
 		if ( $count >= $start )
-			$output .= "\t" . _tag_row( $term, $level, ++$count % 2 ? ' class="alternate"' : '', $taxonomy );
-		else
-			++$count;
+			$output .= "\t" . _tag_row( $term, $level, $taxonomy );
+
+		++$count;
 
 		unset($terms[$key]);
 
-		if ( isset($children[$term->term_id]) )
+		if ( isset($children[$term->term_id]) && empty($_GET['s']) )
 			$output .= _term_rows( $taxonomy, $terms, $children, $page, $per_page, $count, $term->term_id, $level + 1 );
 	}
 

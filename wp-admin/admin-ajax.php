@@ -538,30 +538,51 @@ case 'add-tag' : // From Manage->Tags
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tax = get_taxonomy($taxonomy);
 
+	$x = new WP_Ajax_Response();
+
 	if ( !current_user_can( $tax->edit_cap ) )
 		die('-1');
 
 	$tag = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST );
 
 	if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
-		echo '<div class="error"><p>' . __('An error has occured. Please reload the page and try again.') . '</p></div>';
-		exit;
+		$message = __('An error has occured. Please reload the page and try again.');
+		if ( is_wp_error($tag) && $tag->get_error_message() )
+			$message = $tag->get_error_message();
+
+		$x->add( array(
+			'what' => 'taxonomy',
+			'data' => new WP_Error('error', $message )
+		) );
+		$x->send();
 	}
 
 	$level = 0;
 	$tag_full_name = false;
+	$tag_full_name = $tag->name;
 	if ( is_taxonomy_hierarchical($taxonomy) ) {
-		$tag_full_name = $tag->name;
 		$_tag = $tag;
-		while ( $_tag->parent ) {
+		while ( $_tag->parent  ) {
 			$_tag = get_term( $_tag->parent, $taxonomy );
 			$tag_full_name = $_tag->name . ' &#8212; ' . $tag_full_name;
 			$level++;
 		}
-		$tag_full_name = esc_attr($tag_full_name);
 	}
-	echo _tag_row( $tag, $level, $tag_full_name, $taxonomy );
-	exit;
+	if ( is_taxonomy_hierarchical($taxonomy) )
+		$noparents = _tag_row( $tag, $level, $taxonomy );
+	$tag->name = $tag_full_name;
+	$parents = _tag_row( $tag, 0, $taxonomy);
+
+	$x->add( array(
+		'what' => 'taxonomy',
+		'supplemental' => compact('parents', 'noparents')
+		) );
+	$x->add( array(
+		'what' => 'term',
+		'position' => $level,
+		'supplemental' => get_term( $tag->term_id, $taxonomy, ARRAY_A ) //Refetch as $tag has been contaminated by the full name.
+		) );
+	$x->send();
 	break;
 case 'get-tagcloud' :
 	if ( !current_user_can( 'edit_posts' ) )
