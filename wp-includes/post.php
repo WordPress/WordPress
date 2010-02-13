@@ -2292,7 +2292,7 @@ function check_and_publish_future_post($post_id) {
 
 
 /**
- * Given the desired slug and some post details computes a unique slug for the post.
+ * Computes a unique slug for the post, when given the desired slug and some post details.
  *
  * @global wpdb $wpdb
  * @global WP_Rewrite $wp_rewrite
@@ -2303,58 +2303,58 @@ function check_and_publish_future_post($post_id) {
  * @param integer $post_parent
  * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
-function wp_unique_post_slug($slug, $post_ID, $post_status, $post_type, $post_parent) {
+function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
 	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
 		return $slug;
 
 	global $wpdb, $wp_rewrite;
 
 	$feeds = $wp_rewrite->feeds;
-	if ( !is_array($feeds) )
+	if ( ! is_array( $feeds ) )
 		$feeds = array();
 
-	$hierarchical_post_types = apply_filters('hierarchical_post_types', array('page'));
+	$hierarchical_post_types = apply_filters( 'hierarchical_post_types', array( 'page' ) );
 	if ( 'attachment' == $post_type ) {
 		// Attachment slugs must be unique across all types.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
-		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID));
+		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_ID ) );
 
-		if ( $post_name_check || in_array($slug, $feeds) ) {
+		if ( $post_name_check || in_array( $slug, $feeds ) ) {
 			$suffix = 2;
 			do {
-				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
-				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_ID));
+				$alt_post_name = substr ($slug, 0, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$post_name_check = $wpdb->get_var( $wpdb->prepare($check_sql, $alt_post_name, $post_ID ) );
 				$suffix++;
-			} while ($post_name_check);
+			} while ( $post_name_check );
 			$slug = $alt_post_name;
 		}
-	} elseif ( in_array($post_type, $hierarchical_post_types) ) {
-		// Page slugs must be unique within their own trees.  Pages are in a
-		// separate namespace than posts so page slugs are allowed to overlap post slugs.
-		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode("', '", esc_sql($hierarchical_post_types)) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
-		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_ID, $post_parent));
+	} elseif ( in_array( $post_type, $hierarchical_post_types ) ) {
+		// Page slugs must be unique within their own trees. Pages are in a separate
+		// namespace than posts so page slugs are allowed to overlap post slugs.
+		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( '" . implode( "', '", esc_sql( $hierarchical_post_types ) ) . "' ) AND ID != %d AND post_parent = %d LIMIT 1";
+		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_ID, $post_parent ) );
 
-		if ( $post_name_check || in_array($slug, $feeds) ) {
+		if ( $post_name_check || in_array( $slug, $feeds ) ) {
 			$suffix = 2;
 			do {
-				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
-				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_ID, $post_parent));
+				$alt_post_name = substr( $slug, 0, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_ID, $post_parent ) );
 				$suffix++;
-			} while ($post_name_check);
+			} while ( $post_name_check );
 			$slug = $alt_post_name;
 		}
 	} else {
 		// Post slugs must be unique across all posts.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
-		$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $slug, $post_type, $post_ID));
+		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID ) );
 
-		if ( $post_name_check || in_array($slug, $wp_rewrite->feeds) ) {
+		if ( $post_name_check || in_array( $slug, $feeds ) ) {
 			$suffix = 2;
 			do {
-				$alt_post_name = substr($slug, 0, 200-(strlen($suffix)+1)). "-$suffix";
-				$post_name_check = $wpdb->get_var($wpdb->prepare($check_sql, $alt_post_name, $post_type, $post_ID));
+				$alt_post_name = substr( $slug, 0, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_ID ) );
 				$suffix++;
-			} while ($post_name_check);
+			} while ( $post_name_check );
 			$slug = $alt_post_name;
 		}
 	}
