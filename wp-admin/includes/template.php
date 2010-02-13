@@ -1219,7 +1219,7 @@ function get_inline_data($post) {
 	if ( ! current_user_can($post_type_object->edit_cap, $post->ID) )
 		return;
 
-	$title = esc_attr($post->post_title);
+	$title = esc_attr( get_the_title( $post->ID ) );
 
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
@@ -3322,8 +3322,7 @@ function favorite_actions( $screen = null ) {
  * @param int $id The post id. If not supplied the global $post is used.
  *
  */
-function _draft_or_post_title($post_id = 0)
-{
+function _draft_or_post_title($post_id = 0) {
 	$title = get_the_title($post_id);
 	if ( empty($title) )
 		$title = __('(no title)');
