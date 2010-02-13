@@ -27,7 +27,7 @@ $awaiting_mod = $awaiting_mod->moderated;
 
 if ( is_multisite() && is_super_admin() ) {
 	/* translators: Network menu item */
-	$menu[0] = array(__('Network'), '10', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
+	$menu[0] = array(__('Network'), 'super_admin', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
 	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'super_admin', 'ms-admin.php' );
 	/* translators: Sites menu item */
 	$submenu[ 'ms-admin.php' ][5] = array( __('Sites'), 'super_admin', 'ms-sites.php' );
