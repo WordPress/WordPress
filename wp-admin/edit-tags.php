@@ -150,12 +150,14 @@ if ( current_user_can($tax->edit_cap) )
 
 require_once ('admin-header.php');
 
-$messages[1] = __('Tag added.');
-$messages[2] = __('Tag deleted.');
-$messages[3] = __('Tag updated.');
-$messages[4] = __('Tag not added.');
-$messages[5] = __('Tag not updated.');
-$messages[6] = __('Tags deleted.'); ?>
+$messages[1] = __('Item added.');
+$messages[2] = __('Item deleted.');
+$messages[3] = __('Item updated.');
+$messages[4] = __('Item not added.');
+$messages[5] = __('Item not updated.');
+$messages[6] = __('Items deleted.');
+
+?>
 
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
@@ -174,9 +176,9 @@ endif; ?>
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <p class="search-box">
-	<label class="screen-reader-text" for="tag-search-input"><?php _e( 'Search Tags' ); ?>:</label>
+	<label class="screen-reader-text" for="tag-search-input"><?php printf(_x('Search %s', '%s: plural taxonomy name'), $tax->label); ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e( 'Search Tags' ); ?>" class="button" />
+	<input type="submit" value="<?php echo esc_attr( sprintf(_x('Search %s', '%s: plural taxonomy name'), $tax->label) ); ?>" class="button" />
 </p>
 </form>
 <br class="clear" />
@@ -234,17 +236,17 @@ if ( $page_links )
 </div>
 
 <div class="clear"></div>
-
+<?php $table_type = ('category' == $taxonomy ? 'categories' : 'edit-tags'); ?>
 <table class="widefat tag fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('edit-tags'); ?>
+<?php print_column_headers($table_type); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('edit-tags', false); ?>
+<?php print_column_headers($table_type, false); ?>
 	</tr>
 	</tfoot>
 
@@ -272,6 +274,15 @@ if ( $page_links )
 
 <br class="clear" />
 </form>
+
+<?php if ( 'category' == $taxonomy ) : ?>
+<div class="form-wrap"> 
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p> 
+<p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p> 
+</div> 
+<?php endif; ?>
+
+
 </div>
 </div><!-- /col-right -->
 
@@ -279,7 +290,7 @@ if ( $page_links )
 <div class="col-wrap">
 
 <div class="tagcloud">
-<h3><?php _e('Popular Tags'); ?></h3>
+<h3><?php printf(_x('Popular %s', '%s: plural taxonomy name'), $tax->label); ?></h3>
 <?php
 if ( current_user_can($tax->edit_cap) )
 	wp_tag_cloud(array('taxonomy' => $taxonomy, 'link' => 'edit'));
@@ -288,7 +299,8 @@ else
 ?>
 </div>
 
-<?php if ( current_user_can($tax->edit_cap) ) {
+<?php
+if ( current_user_can($tax->edit_cap) ) {
 	if ( 'category' == $taxonomy )
 		do_action('add_category_form_pre', (object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_pre_add_form
 	else
@@ -297,33 +309,35 @@ else
 ?>
 
 <div class="form-wrap">
-<h3><?php _e('Add a New Tag'); ?></h3>
+<h3><?php printf(_x('Add a New %s', '%s: singular taxonomy name'), $tax->singular_label); ?></h3>
 <form id="addtag" method="post" action="edit-tags.php" class="validate">
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <?php wp_nonce_field('add-tag'); ?>
 
 <div class="form-field form-required">
-	<label for="tag-name"><?php _e('Tag name') ?></label>
+	<label for="tag-name"><?php echo _x('Name', 'Taxonomy Name'); ?></label>
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
-	<p><?php _e('The name is how the tag appears on your site.'); ?></p>
+	<p><?php _e('The name is how it appears on your site.'); ?></p>
 </div>
-<?php if ( !is_multisite() ) { ?>
+<?php if ( !is_multisite() ) : ?>
 <div class="form-field">
-	<label for="slug"><?php _e('Tag slug') ?></label>
+	<label for="slug"><?php echo _x('Slug', 'Taxonomy Slug'); ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
-<?php } ?>
-<?php if ( is_taxonomy_hierarchical($taxonomy) ) { ?>
+<?php endif; // is_multisite() ?>
+<?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 <div class="form-field">
-	<label for="category_parent"><?php _e('Category Parent') ?></label>
+	<label for="parent"><?php echo _x('Parent', 'Taxonomy Parent'); ?></label>
 	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
-	<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
+	<?php if ( 'category' == $taxonomy ) : // @todo: Generic text for hierarchical taxonomies ?>
+		<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
+	<?php endif; ?>
 </div>
-<?php } ?>
+<?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field">
-	<label for="description"><?php _e('Description') ?></label>
+	<label for="description"><?php echo _x('Description', 'Taxonomy Description'); ?></label>
 	<textarea name="description" id="description" rows="5" cols="40"></textarea>
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
@@ -333,8 +347,7 @@ if ( ! is_taxonomy_hierarchical($taxonomy) )
 	do_action('add_tag_form_fields', $taxonomy);
 do_action($taxonomy . '_add_form_fields', $taxonomy);
 ?>
-
-<p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php esc_attr_e('Add Tag'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php echo esc_attr(sprintf(_x('Add %s', '%s: singular  taxonomy name'), $tax->singular_label)); ?>" /></p>
 <?php
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form',	(object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_add_form
