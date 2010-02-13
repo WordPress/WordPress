@@ -43,7 +43,7 @@ jQuery(document).ready( function($) {
 	quickPressLoad = function() {
 		var act = $('#quickpost-action'), t;
 		t = $('#quick-press').submit( function() {
-			$('#dashboard_quick_press h3').append( '<img src="images/wpspin_light.gif" style="margin: 0 6px 0 0; vertical-align: middle" />' );
+			$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'visible');
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').attr('disabled','disabled');
 
 			if ( 'post' == act.val() ) {
@@ -51,7 +51,7 @@ jQuery(document).ready( function($) {
 			}
 
 			$('#dashboard_quick_press div.inside').load( t.attr( 'action' ), t.serializeArray(), function() {
-				$('#dashboard_quick_press h3 img').remove();
+				$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'hidden');
 				$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').attr('disabled','');
 				$('#dashboard_quick_press ul').find('li').each( function() {
 					$('#dashboard_recent_drafts ul').prepend( this );

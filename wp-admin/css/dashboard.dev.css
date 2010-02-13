@@ -299,7 +299,12 @@ div.postbox div.inside {
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {
-	float: right;
+	float: none;
+}
+
+#dashboard-widgets #dashboard_quick_press form p.submit img.waiting {
+	vertical-align: middle;
+	visibility: hidden;
 }
 
 /* Recent Drafts */

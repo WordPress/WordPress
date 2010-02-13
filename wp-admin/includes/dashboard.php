@@ -422,11 +422,10 @@ function wp_dashboard_quick_press() {
 			<?php wp_nonce_field('add-post'); ?>
 			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php esc_attr_e('Save Draft'); ?>" />
 			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
-			<?php if ( current_user_can('publish_posts') ) { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php esc_attr_e('Publish'); ?>" />
-			<?php } else { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php esc_attr_e('Submit for Review'); ?>" />
-			<?php } ?>
+			<span id="publishing-action">
+				<img class="waiting" src="images/wpspin_light.gif" />
+				<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
+			</span>
 			<br class="clear" />
 		</p>
 
