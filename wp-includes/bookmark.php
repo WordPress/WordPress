@@ -80,21 +80,6 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
 }
 
 /**
- * Retrieve bookmark data based on ID.
- *
- * @since 2.0.0
- * @deprecated Use get_bookmark()
- * @see get_bookmark()
- *
- * @param int $bookmark_id ID of link
- * @param string $output Either OBJECT, ARRAY_N, or ARRAY_A
- * @return object|array
- */
-function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
-	return get_bookmark($bookmark_id, $output, $filter);
-}
-
-/**
  * Retrieves the list of bookmarks
  *
  * Attempts to retrieve from the cache first based on MD5 hash of arguments. If

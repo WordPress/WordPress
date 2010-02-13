@@ -1636,9 +1636,10 @@ endif;
 
 if ( !function_exists('wp_setcookie') ) :
 /**
- * Sets a cookie for a user who just logged in.
+ * Sets a cookie for a user who just logged in. This function is deprecated.
  *
  * @since 1.5
+ * @deprecated 2.5
  * @deprecated Use wp_set_auth_cookie()
  * @see wp_set_auth_cookie()
  *
@@ -1658,9 +1659,10 @@ endif;
 
 if ( !function_exists('wp_clearcookie') ) :
 /**
- * Clears the authentication cookie, logging the user out.
+ * Clears the authentication cookie, logging the user out. This function is deprecated.
  *
  * @since 1.5
+ * @deprecated 2.5
  * @deprecated Use wp_clear_auth_cookie()
  * @see wp_clear_auth_cookie()
  */
@@ -1672,25 +1674,26 @@ endif;
 
 if ( !function_exists('wp_get_cookie_login') ):
 /**
- * Gets the user cookie login.
+ * Gets the user cookie login. This function is deprecated.
  *
  * This function is deprecated and should no longer be extended as it won't be
  * used anywhere in WordPress. Also, plugins shouldn't use it either.
  *
  * @since 2.0.3
+ * @deprecated 2.5
  * @deprecated No alternative
  *
  * @return bool Always returns false
  */
 function wp_get_cookie_login() {
-	_deprecated_function( __FUNCTION__, '2.5', '' );
+	_deprecated_function( __FUNCTION__, '2.5' );
 	return false;
 }
 endif;
 
 if ( !function_exists('wp_login') ) :
 /**
- * Checks a users login information and logs them in if it checks out.
+ * Checks a users login information and logs them in if it checks out. This function is deprecated.
  *
  * Use the global $error to get the reason why the login failed. If the username
  * is blank, no error will be set, so assume blank username on that case.
@@ -1709,6 +1712,7 @@ if ( !function_exists('wp_login') ) :
  * @return bool False on login failure, true on successful check
  */
 function wp_login($username, $password, $deprecated = '') {
+	_deprecated_function( __FUNCTION__, '2.5', 'wp_signon()' ); 
 	global $error;
 
 	$user = wp_authenticate($username, $password);
