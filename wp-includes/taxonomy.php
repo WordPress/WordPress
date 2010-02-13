@@ -18,6 +18,7 @@ function create_initial_taxonomies() {
 	register_taxonomy( 'category', 'post', array(	'hierarchical' => true,
 												 	'update_count_callback' => '_update_post_term_count',
 													'label' => __('Categories'),
+													'singular_label' => __('Category'),
 													'query_var' => false,
 													'rewrite' => false
 												) ) ;
@@ -26,6 +27,7 @@ function create_initial_taxonomies() {
 												 	'hierarchical' => false,
 													'update_count_callback' => '_update_post_term_count',
 													'label' => __('Post Tags'),
+													'singular_label' => __('Post Tag'),
 													'query_var' => false,
 													'rewrite' => false
 												) ) ;
@@ -212,6 +214,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		if ( empty($args[$cap]) )
 			$args[$cap] = 'manage_categories';
 	}
+	
+	if ( empty($args['singular_label']) )
+		$args['singular_label'] = $args['label'];
 
 	$args['name'] = $taxonomy;
 	$args['object_type'] = (array) $object_type;
