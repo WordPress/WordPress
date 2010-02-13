@@ -255,6 +255,10 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect['path'] = trailingslashit($redirect['path']);
 	}
 
+	// Strip multiple slashes out of the URL
+	if ( strpos($original['path'], '//') > -1 )
+		$redirect['path'] = preg_replace('|/+|', '/', $original['path']);
+
 	// Always trailing slash the Front Page URL
 	if ( trailingslashit( $redirect['path'] ) == trailingslashit( $user_home['path'] ) )
 		$redirect['path'] = trailingslashit($redirect['path']);
