@@ -5,7 +5,7 @@
         if ( is_single() ) { single_post_title(); print ' | '; bloginfo('name'); }
         elseif ( is_home() || is_front_page() ) { bloginfo('name'); print ' | '; bloginfo('description'); get_page_number(); }
         elseif ( is_page() ) { single_post_title(''); print ' | '; bloginfo('name'); }
-        elseif ( is_search() ) { print 'Search results for ' . wp_specialchars($s); get_page_number(); print ' | '; bloginfo('name'); }
+        elseif ( is_search() ) { print 'Search results for ' . esc_html($s); get_page_number(); print ' | '; bloginfo('name'); }
         elseif ( is_404() ) { print 'Not Found | '; bloginfo('name'); }
         else { bloginfo('name'); wp_title('|'); get_page_number(); }
     ?></title>
@@ -20,8 +20,8 @@
 
 	<?php wp_head(); ?>
 
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url'); ?>" title="<?php printf( esc_attr__( '%s latest posts', 'twentyten' ), wp_specialchars( get_bloginfo('name'), 1 ) ); ?>" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php printf( esc_attr__( '%s latest comments', 'twentyten' ), wp_specialchars( get_bloginfo('name'), 1 ) ); ?>" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url'); ?>" title="<?php printf( esc_attr__( '%s latest posts', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php printf( esc_attr__( '%s latest comments', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 </head>
 

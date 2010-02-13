@@ -24,9 +24,13 @@ the_permalink(); ?>" title="<?php the_time('Y-m-d\TH:i:sO') ?>" rel="bookmark"><
 			</div><!-- .entry-meta -->
 
 			<div class="entry-content">
-				<div class="gallery-thumb"><a class="size-thumbnail" href="<?php permalink_link() ?>"><?php $hilite = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_parent = '$post->ID' AND post_type = 'attachment' LIMIT 1" ); echo wp_get_attachment_image( $hilite, 'thumbnail' );?></a></div>
-
-				<p><em><?php printf( __('This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten'), 'href="' . get_permalink() . '" title="' . sprintf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ) . '" rel="bookmark"', $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_parent = '$post->ID' AND post_type = 'attachment'" )); ?></em></p>
+				<div class="gallery-thumb"><a class="size-thumbnail" href="<?php permalink_link() ?>"><?php
+				$images =& get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999) );
+				$total_images = count($images);
+				$image = array_shift($images);
+				echo wp_get_attachment_image( $image->ID, 'thumbnail' );
+				?></a></div>
+				<p><em><?php printf( __('This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten'), 'href="' . get_permalink() . '" title="' . sprintf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ) . '" rel="bookmark"', $total_images ); ?></em></p>
 
 				<?php the_excerpt(''); ?>
 			</div><!-- .entry-content -->

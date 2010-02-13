@@ -5,7 +5,7 @@
 
 <?php the_post(); ?>
 
-				<p class="page-title"><a href="<?php echo get_permalink($post->post_parent) ?>" title="<?php printf( esc_attr__( 'Return to %s', 'twentyten' ), wp_specialchars( get_the_title($post->post_parent), 1 ) ) ?>" rel="gallery">&larr; <?php echo get_the_title($post->post_parent) ?></a></p>
+				<p class="page-title"><a href="<?php echo get_permalink($post->post_parent) ?>" title="<?php printf( esc_attr__( 'Return to %s', 'twentyten' ), esc_html( get_the_title($post->post_parent), 1 ) ) ?>" rel="gallery">&larr; <?php echo get_the_title($post->post_parent) ?></a></p>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<h2 class="entry-title"><?php the_title(); ?></h2>
@@ -21,8 +21,8 @@
 
 					<div class="entry-content">
 						<div class="entry-attachment">
-<?php if ( wp_attachment_is_image( $post->id ) ) : $att_image = wp_get_attachment_image_src( $post->id, array(640,640)); ?>
-						<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->id); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><img src="<?php echo $att_image[0];?>" width="<?php echo $att_image[1];?>" height="<?php echo $att_image[2];?>"  class="attachment-medium" alt="<?php $post->post_excerpt; ?>" /></a>
+<?php if ( wp_attachment_is_image( $post->ID ) ) : $att_image = wp_get_attachment_image_src( $post->ID,  array(640, 640)); ?>
+						<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><img src="<?php echo $att_image[0];?>" width="<?php echo $att_image[1];?>" height="<?php echo $att_image[2];?>"  class="attachment-medium" alt="<?php $post->post_excerpt; ?>" /></a>
 						</p>
 
 
@@ -47,7 +47,7 @@
 						get_the_tag_list( __( ' and tagged ', 'twentyten' ), ', ', '' ),
 						get_permalink(),
 						the_title_attribute('echo=0'),
-						comments_rss() ) ?>
+						get_post_comments_feed_link() ) ?>
 
 <?php if ( comments_open() && pings_open() ) : // Comments and trackbacks open ?>
 						<?php printf( __( '<a class="comment-link" href="#respond" title="Post a comment">Post a comment</a> or leave a trackback: <a class="trackback-link" href="%s" title="Trackback URL for your post" rel="trackback">Trackback URL</a>.', 'twentyten' ), get_trackback_url() ) ?>
