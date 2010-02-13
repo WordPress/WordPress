@@ -423,8 +423,8 @@ function wp_dashboard_quick_press() {
 			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php esc_attr_e('Save Draft'); ?>" />
 			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
 			<span id="publishing-action">
-				<img class="waiting" src="images/wpspin_light.gif" />
 				<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
+				<img class="waiting" src="images/wpspin_light.gif" />
 			</span>
 			<br class="clear" />
 		</p>

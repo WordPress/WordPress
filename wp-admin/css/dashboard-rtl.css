@@ -85,6 +85,9 @@
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {
 	float: left;
 }
+#dashboard-widgets #dashboard_quick_press form p.submit img.waiting {
+	margin: 4px 0 0 6px;
+}
 /* Recent Drafts */
 #dashboard_recent_drafts h4 abbr {
 	font-family: Tahoma, Arial;
