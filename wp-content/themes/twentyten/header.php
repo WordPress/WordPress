@@ -2,12 +2,19 @@
 <html <?php language_attributes(); ?>>
 <head>
     <title><?php
-        if ( is_single() ) { single_post_title(); print ' | '; bloginfo('name'); }
-        elseif ( is_home() || is_front_page() ) { bloginfo('name'); print ' | '; bloginfo('description'); get_page_number(); }
-        elseif ( is_page() ) { single_post_title(''); print ' | '; bloginfo('name'); }
-        elseif ( is_search() ) { print 'Search results for ' . esc_html($s); get_page_number(); print ' | '; bloginfo('name'); }
-        elseif ( is_404() ) { print 'Not Found | '; bloginfo('name'); }
-        else { bloginfo('name'); wp_title('|'); get_page_number(); }
+        if ( is_single() ) {
+			single_post_title(); echo ' | '; bloginfo('name');
+		} elseif ( is_home() || is_front_page() ) {
+			bloginfo('name'); echo ' | '; bloginfo('description'); get_page_number();
+		} elseif ( is_page() ) {
+			single_post_title(''); echo ' | '; bloginfo('name');
+		} elseif ( is_search() ) {
+			printf(__('Search results for "%s"', 'twentyten'), esc_html($s)); get_page_number(); echo ' | '; bloginfo('name'); 
+		} elseif ( is_404() ) {
+			_e('Not Found', 'twentyten'); echo ' | '; bloginfo('name');
+		} else {
+			wp_title(''); echo ' | '; bloginfo('name'); get_page_number();
+		}
     ?></title>
 
 	<meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />

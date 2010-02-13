@@ -46,22 +46,17 @@ $locale_file = TEMPLATEPATH . "/languages/$locale.php";
 if ( is_readable($locale_file) )
 	require_once($locale_file);
 
-
-
 // Get the page number
 function get_page_number() {
 	if ( get_query_var('paged') )
-		print ' | ' . __( 'Page ' , 'twentyten') . get_query_var('paged');
-} // end get_page_number
-
-
+		echo ' | ' . __( 'Page ' , 'twentyten') . get_query_var('paged');
+}
 
 // Control excerpt length
 function new_excerpt_length($length) {
 	return 40;
 }
 add_filter('excerpt_length', 'new_excerpt_length');
-
 
 
 // Make a nice read more link on excerpts
@@ -71,7 +66,6 @@ function new_excerpt_more($more) {
 add_filter('excerpt_more', 'new_excerpt_more');
 
 
-
 // Template for comments and pingbacks
 function twentyten_comment($comment, $args, $depth) {
 	$GLOBALS ['comment'] = $comment; ?>
@@ -79,7 +73,7 @@ function twentyten_comment($comment, $args, $depth) {
 	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
 		<div id="comment-<?php comment_ID(); ?>">
 		<div class="comment-author vcard">
-			<?php echo get_avatar($comment,$size='40'); ?>
+			<?php echo get_avatar($comment, 40); ?>
 
 			<?php printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_comment_author_link()) ?>
 		</div>
@@ -88,7 +82,7 @@ function twentyten_comment($comment, $args, $depth) {
 			<br />
 		<?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'  ','') ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'  ','') ?></div>
 
 		<div class="comment-body"><?php comment_text() ?></div>
 
@@ -103,31 +97,23 @@ function twentyten_comment($comment, $args, $depth) {
 	<?php }
 }
 
-
-
 // Make the Visual Editor styles match the theme's styles
-	add_filter('mce_css', 'my_editor_style');
-	function my_editor_style($url) {
-
-		if ( !empty($url) )
-			$url .= ',';
+function my_editor_style($url) {
+	if ( !empty($url) )
+		$url .= ',';
 
 	// Change the path here if using sub-directory
 	$url .= trailingslashit( get_stylesheet_directory_uri() ) . 'editor-style.css';
 
 	return $url;
 }
-
-
+add_filter('mce_css', 'my_editor_style');
 
 // Remove inline styles on gallery shortcode
-
 function remove_gallery_css() {
 	return "<div class='gallery'>";
 }
 add_filter('gallery_style', 'remove_gallery_css');
-
-
 
 // For category lists on category archives: Returns other categories except the current one (redundant)
 function cats_meow($glue) {
@@ -146,8 +132,6 @@ function cats_meow($glue) {
 	return trim(join( $glue, $cats ));
 } // end cats_meow
 
-
-
 // For tag lists on tag archives: Returns other tags except the current one (redundant)
 function tag_ur_it($glue) {
 	$current_tag = single_tag_title( '', '',  false );
@@ -164,7 +148,6 @@ function tag_ur_it($glue) {
 
 	return trim(join( $glue, $tags ));
 } // end tag_ur_it
-
 
 // Register widgetized areas
 function theme_widgets_init() {
@@ -235,8 +218,6 @@ function theme_widgets_init() {
 	) );
 
 } // end theme_widgets_init
-
-
 
 // Add all the groovy widget areas
 add_action( 'init', 'theme_widgets_init' );
