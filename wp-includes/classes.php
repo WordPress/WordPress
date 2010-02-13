@@ -1691,7 +1691,7 @@ class WP_MatchesMapRegex {
 	 */
 	function callback($matches) {
 		$index = intval(substr($matches[0], 9, -1));
-		return ( isset( $this->_matches[$index] ) ? $this->_matches[$index] : '' );
+		return ( isset( $this->_matches[$index] ) ? urlencode($this->_matches[$index]) : '' );
 	}
 
 }
