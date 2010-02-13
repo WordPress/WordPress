@@ -1436,6 +1436,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
+	elseif ( is_term($slug) ) // Provided slug issue.
+		return new WP_Error('term_slug_exists', __('A Term with the slug provided already exists.'));
 
 	$term_group = 0;
 	if ( $alias_of ) {
@@ -1452,7 +1454,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		}
 	}
 
-	if ( ! $term_id = is_term($slug) ) {
+	if ( ! $term_id = is_term($slug, $taxonomy) ) {
+		// Make sure the slug is unique accross all taxonomies.
+		$slug = wp_unique_term_slug($slug, (object) $args);
 		if ( !is_multisite() ) {
 			if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
 				return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
