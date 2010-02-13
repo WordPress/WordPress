@@ -2365,8 +2365,8 @@ class WP_Query {
 				foreach ( $stickies as $sticky_post ) {
 					if ( 'publish' != $sticky_post->post_status )
 						continue;
-						array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
-						$sticky_offset++;
+					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
+					$sticky_offset++;
 				}
 			}
 		}

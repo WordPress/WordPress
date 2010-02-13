@@ -1374,7 +1374,6 @@ function make_clickable($ret) {
  * @return string Converted content.
  */
 function wp_rel_nofollow( $text ) {
-	global $wpdb;
 	// This is a pre save filter, so text is already escaped.
 	$text = stripslashes($text);
 	$text = preg_replace_callback('|<a (.+?)>|i', 'wp_rel_nofollow_callback', $text);
@@ -2470,6 +2469,7 @@ function sanitize_option($option, $value) {
 		case 'comments_per_page':
 		case 'thread_comments_depth':
 		case 'users_can_register':
+		case 'start_of_week':
 			$value = absint( $value );
 			break;
 

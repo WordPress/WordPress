@@ -464,6 +464,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(true);
 
+		$results = array();
+
 		$all = count($plugins);
 		$i = 1;
 		foreach ( $plugins as $plugin ) {
