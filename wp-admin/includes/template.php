@@ -234,22 +234,6 @@ function __checked_selected_helper( $helper, $current, $echo, $type) {
  * {@internal Missing Short Description}}
  *
  * @since unknown
- * @deprecated Use {@link wp_link_category_checklist()}
- * @see wp_link_category_checklist()
- *
- * @param unknown_type $default
- * @param unknown_type $parent
- * @param unknown_type $popular_ids
- */
-function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
-	global $post_ID;
-	wp_category_checklist($post_ID);
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
  */
 class Walker_Category_Checklist extends Walker {
 	var $tree_type = 'category';
@@ -418,21 +402,6 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 		<?php
 	}
 	return $popular_ids;
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- * @deprecated Use {@link wp_link_category_checklist()}
- * @see wp_link_category_checklist()
- *
- * @param unknown_type $default
- */
-function dropdown_link_categories( $default = 0 ) {
-	global $link_id;
-
-	wp_link_category_checklist($link_id);
 }
 
 /**
@@ -2340,39 +2309,6 @@ function wp_comment_trashnotice() {
 	<div class="spam-undo-inside"><?php printf(__('Comment by %s marked as spam.'), '<strong></strong>'); ?> <span class="undo unspam"><a href="#"><?php _e('Undo'); ?></a></span></div>
 </div>
 <?php
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $currentcat
- * @param unknown_type $currentparent
- * @param unknown_type $parent
- * @param unknown_type $level
- * @param unknown_type $categories
- * @return unknown
- */
-function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
-	if (!$categories )
-		$categories = get_categories( array('hide_empty' => 0) );
-
-	if ( $categories ) {
-		foreach ( $categories as $category ) {
-			if ( $currentcat != $category->term_id && $parent == $category->parent) {
-				$pad = str_repeat( '&#8211; ', $level );
-				$category->name = esc_html( $category->name );
-				echo "\n\t<option value='$category->term_id'";
-				if ( $currentparent == $category->term_id )
-					echo " selected='selected'";
-				echo ">$pad$category->name</option>";
-				wp_dropdown_cats( $currentcat, $currentparent, $category->term_id, $level +1, $categories );
-			}
-		}
-	} else {
-		return false;
-	}
 }
 
 /**
