@@ -261,6 +261,8 @@ if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/function
 if ( file_exists( TEMPLATEPATH . '/functions.php' ) )
 	include( TEMPLATEPATH . '/functions.php' );
 
+do_action( 'themes_loaded' );
+
 // Load any template functions the theme supports.
 require_if_theme_supports( 'post-thumbnails', ABSPATH . WPINC . '/post-thumbnail-template.php' );
 
