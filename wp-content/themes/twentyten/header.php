@@ -27,8 +27,6 @@
 
 	<?php wp_head(); ?>
 
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo( 'rss2_url' ); ?>" title="<?php printf( esc_attr__( '%s latest posts', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo( 'comments_rss2_url' ); ?>" title="<?php printf( esc_attr__( '%s latest comments', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 </head>
 
