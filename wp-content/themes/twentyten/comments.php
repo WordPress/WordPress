@@ -28,7 +28,7 @@
 <?php endif; // check for comment navigation ?>
 
 			<ol class="commentlist">
-				<?php wp_list_comments( array('callback' => 'twentyten_comment') ); ?>
+				<?php wp_list_comments( array('callback' => 'twentyten_list_comment') ); ?>
 			</ol>
 
 <?php $total_pages = get_comment_pages_count(); if ( $total_pages > 1 ) : // are there comments to navigate through ?>

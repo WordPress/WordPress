@@ -21,19 +21,18 @@
 
 					<div class="entry-content">
 						<div class="entry-attachment">
-<?php if ( wp_attachment_is_image( $post->ID ) ) : ?>
-						<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
-							echo wp_get_attachment_image( $post->ID, array($content_width, $content_width) ); // max $content_width wide or high.
-						?></a></p>
+						<?php if ( wp_attachment_is_image() ) : ?>
+							<p class="attachment"><a href="<?php echo wp_get_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
+								echo wp_get_attachment_image( $post->ID, array($content_width, $content_width) ); // max $content_width wide or high.
+							?></a></p>
 
-
-				<div id="nav-below" class="navigation">
-					<div class="nav-previous"><?php previous_image_link( false ); ?></div>
-					<div class="nav-next"><?php next_image_link( false ); ?></div>
-				</div><!-- #nav-below -->
-<?php else : ?>
-						<a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo esc_attr( get_the_title($post->ID) ); ?>" rel="attachment"><?php echo basename(get_permalink()); ?></a>
-<?php endif; ?>
+							<div id="nav-below" class="navigation">
+								<div class="nav-previous"><?php previous_image_link( false ); ?></div>
+								<div class="nav-next"><?php next_image_link( false ); ?></div>
+							</div><!-- #nav-below -->
+						<?php else : ?>
+							<a href="<?php echo wp_get_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php echo basename(get_permalink()); ?></a>
+						<?php endif; ?>
 						</div>
 						<div class="entry-caption"><?php if ( !empty($post->post_excerpt) ) the_excerpt(); ?></div>
 

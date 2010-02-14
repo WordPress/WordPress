@@ -98,8 +98,9 @@ function twentyten_list_comment( $comment, $args, $depth ) {
 
 // Make the Visual Editor styles match the theme's styles
 function twentyten_my_editor_style( $url ) {
-		if ( !empty($url) )
-			$url .= ',';
+	if ( !empty($url) )
+		$url .= ',';
+
 	// Change the path here if using sub-directory
 	$url .= trailingslashit( get_stylesheet_directory_uri() ) . 'editor-style.css';
 
