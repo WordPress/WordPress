@@ -17,7 +17,7 @@
 
 <?php rewind_posts(); ?>
 
-<?php include 'loop.php'; ?>
+<?php get_generic_template( 'loop', 'archive' ); ?>
 
 			</div><!-- #content -->
 		</div><!-- #container -->

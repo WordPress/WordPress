@@ -94,6 +94,35 @@ function get_sidebar( $name = null ) {
 }
 
 /**
+ * Load a generic template.
+ *
+ * Includes the named template for a theme or if a name is specified then a
+ * specialised template will be included. If the theme contains no {slug}.php file
+ * then no template will be included.
+ *
+ * For the parameter, if the file is called "{slug}-special.php" then specify
+ * "special".
+ *
+ * @uses locate_template()
+ * @since 3.0.0
+ * @uses do_action() Calls 'get_generic_template_{$slug}' action.
+ *
+ * @param string $slug The slug name for the generic template.
+ * @param string $name The name of the specialised template.
+ */
+function get_generic_template( $slug, $name = null ) {
+	do_action( "get_generic_template_{$slug}", $name );
+
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "{$slug}-{$name}.php";
+
+	$templates[] = "{$slug}.php";
+
+	locate_template($templates, true);
+}
+
+/**
  * Display search form.
  *
  * Will first attempt to locate the searchform.php file in either the child or

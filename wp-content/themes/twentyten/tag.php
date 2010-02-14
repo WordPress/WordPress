@@ -9,7 +9,7 @@
 
 <?php rewind_posts(); ?>
 
-<?php include 'loop.php'; ?>
+<?php get_generic_template( 'loop', 'tag' ); ?>
 
 			</div><!-- #content -->
 		</div><!-- #container -->

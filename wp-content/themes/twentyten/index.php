@@ -4,7 +4,7 @@
 			<div id="content">
 
     <?php if ( have_posts() ) : 
-		include 'loop.php';
+		get_generic_template( 'loop', 'index' );
     else : ?>
 		<h2><?php _e( 'Not Found', 'twentyten' ); ?></h2>
 		<div class="entry-content">
