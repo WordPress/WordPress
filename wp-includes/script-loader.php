@@ -156,6 +156,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array('jquery'), '1.1-20090125');
 	$scripts->add_data( 'suggest', 'group', 1 );
 
+	$scripts->add( 'tabby', "/wp-includes/js/jquery/tabby$suffix.js", array('jquery'), '0.12');
+	$scripts->add_data( 'tabby', 'group', 1 );
+
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20m');
 	$scripts->add_data( 'schedule', 'group', 1 );
 

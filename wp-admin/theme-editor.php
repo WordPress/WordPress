@@ -18,6 +18,7 @@ $parent_file = 'themes.php';
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme', 'dir'));
 
 wp_admin_css( 'theme-editor' );
+wp_enqueue_script( 'tabby' );
 
 $themes = get_themes();
 
@@ -232,7 +233,7 @@ if ($allowed_files) :
 /* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template').submit(function(){ $('#scrollto').val( $('#newcontent').scrollTop() ); });
-	$('#newcontent').scrollTop( $('#scrollto').val() );
+	$('#newcontent').scrollTop( $('#scrollto').val() ).tabby();
 });
 /* ]]> */
 </script>
