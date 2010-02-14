@@ -3479,8 +3479,8 @@ function delete_site_option( $option ) {
 	if ( !is_multisite() ) {
 		$result = delete_option( $option );
 	} else {
-		$option = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
-		if ( is_null( $option ) || !$option->meta_id )
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
+		if ( is_null( $row ) || !$row->meta_id )
 			return false;
 		$cache_key = "{$wpdb->siteid}:$option";
 		wp_cache_delete( $cache_key, 'site-options' );
