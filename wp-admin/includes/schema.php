@@ -265,7 +265,7 @@ function populate_options() {
 	'upload_path' => '',
 
 	// 2.0.3
-	'secret' => wp_generate_password(64),
+	'secret' => wp_generate_password( 64, true, true ),
 
 	// 2.1
 	'blog_public' => '1',

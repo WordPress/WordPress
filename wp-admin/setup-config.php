@@ -189,7 +189,7 @@ switch($step) {
 		$secret_keys = array();
 		require_once( ABSPATH . WPINC . '/pluggable.php' );
 		for ( $i = 0; $i < 8; $i++ )
-			$secret_keys[] = wp_generate_password( 64 );
+			$secret_keys[] = wp_generate_password( 64, true, true );
 	} else {
 		$secret_keys = explode( "\n", wp_remote_retrieve_body( $secret_keys ) );
 		foreach ( $secret_keys as $k => $v )
