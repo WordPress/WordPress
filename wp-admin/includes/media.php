@@ -1382,7 +1382,7 @@ function media_upload_form( $errors = null ) {
 
 	// If Mac and mod_security, no Flash. :(
 	$flash = true;
-	if ( false !== strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mac') && apache_mod_loaded('mod_security') )
+	if ( false !== stripos($_SERVER['HTTP_USER_AGENT'], 'mac') && apache_mod_loaded('mod_security') )
 		$flash = false;
 
 	$flash = apply_filters('flash_uploader', $flash);

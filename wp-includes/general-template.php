@@ -1146,7 +1146,7 @@ function get_calendar($initial = true, $echo = true) {
 		$daywithpost = array();
 	}
 
-	if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'camino') !== false || strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'safari') !== false)
+	if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'camino') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false)
 		$ak_title_separator = "\n";
 	else
 		$ak_title_separator = ', ';

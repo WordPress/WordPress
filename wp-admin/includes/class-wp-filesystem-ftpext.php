@@ -258,7 +258,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	function parselisting($line) {
 		static $is_windows;
 		if ( is_null($is_windows) )
-			$is_windows = strpos( strtolower( ftp_systype($this->link) ), 'win') !== false;
+			$is_windows = stripos( ftp_systype($this->link), 'win') !== false;
 
 		if ( $is_windows && preg_match('/([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)/', $line, $lucifer) ) {
 			$b = array();

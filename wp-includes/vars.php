@@ -40,9 +40,9 @@ $is_lynx = $is_gecko = $is_winIE = $is_macIE = $is_opera = $is_NS4 = $is_safari 
 if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 	if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Lynx') !== false ) {
 		$is_lynx = true;
-	} elseif ( strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'chrome') !== false ) {
+	} elseif ( stripos($_SERVER['HTTP_USER_AGENT'], 'chrome') !== false ) {
 		$is_chrome = true;
-	} elseif ( strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'safari') !== false ) {
+	} elseif ( stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false ) {
 		$is_safari = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false ) {
 		$is_gecko = true;
@@ -57,7 +57,7 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 	}
 }
 
-if ( $is_safari && strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile') !== false )
+if ( $is_safari && stripos($_SERVER['HTTP_USER_AGENT'], 'mobile') !== false )
 	$is_iphone = true;
 
 $is_IE = ( $is_macIE || $is_winIE );

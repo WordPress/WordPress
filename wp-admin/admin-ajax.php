@@ -93,10 +93,10 @@ case 'wp-compression-test' :
 		 } elseif ( 2 == $_GET['test'] ) {
 			if ( !isset($_SERVER['HTTP_ACCEPT_ENCODING']) )
 				die('-1');
-			if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') && ! $force_gzip ) {
+			if ( false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate') && function_exists('gzdeflate') && ! $force_gzip ) {
 				header('Content-Encoding: deflate');
 				$out = gzdeflate( $test_str, 1 );
-			} elseif ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && function_exists('gzencode') ) {
+			} elseif ( false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && function_exists('gzencode') ) {
 				header('Content-Encoding: gzip');
 				$out = gzencode( $test_str, 1 );
 			} else {
