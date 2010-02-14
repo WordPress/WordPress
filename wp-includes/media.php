@@ -64,6 +64,8 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 	} elseif ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
 		$max_width = intval( $_wp_additional_image_sizes[$size]['width'] );
 		$max_height = intval( $_wp_additional_image_sizes[$size]['height'] );
+		if ( intval($content_width) > 0 && is_admin() ) // Only in admin. Assume that theme authors know what they're doing.
+			$max_width = min( intval($content_width), $max_width );
 	}
 	// $size == 'full' has no constraint
 	else {
