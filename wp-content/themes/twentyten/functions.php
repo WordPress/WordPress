@@ -126,7 +126,7 @@ function twentyten_tag_list() {
 }
 function twentyten_term_list($taxonomy, $glue = ', ', $text = '', $also_text = '') {
 	global $wp_query, $post;
-	$current_term = $wp_query->queried_object;
+	$current_term = $wp_query->get_queried_object();
 	$terms = wp_get_object_terms($post->ID, $taxonomy);
 	// If we're viewing a Taxonomy page.. 
 	if ( isset($current_term->taxonomy) && $taxonomy == $current_term->taxonomy ) {
