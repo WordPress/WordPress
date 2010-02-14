@@ -5,15 +5,15 @@
         if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo('name');
 		} elseif ( is_home() || is_front_page() ) {
-			bloginfo('name'); echo ' | '; bloginfo('description'); twentyten_get_page_number();
+			bloginfo('name'); echo ' | '; bloginfo('description'); twentyten_the_page_number();
 		} elseif ( is_page() ) {
 			single_post_title(''); echo ' | '; bloginfo('name');
 		} elseif ( is_search() ) {
-			printf(__('Search results for "%s"', 'twentyten'), esc_html($s)); twentyten_get_page_number(); echo ' | '; bloginfo('name'); 
+			printf(__('Search results for "%s"', 'twentyten'), esc_html($s)); twentyten_the_page_number(); echo ' | '; bloginfo('name'); 
 		} elseif ( is_404() ) {
 			_e('Not Found', 'twentyten'); echo ' | '; bloginfo('name');
 		} else {
-			wp_title(''); echo ' | '; bloginfo('name'); twentyten_get_page_number();
+			wp_title(''); echo ' | '; bloginfo('name'); twentyten_the_page_number();
 		}
     ?></title>
 
@@ -24,7 +24,9 @@
 	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('stylesheet_directory'); ?>/print.css" />
 
 	<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
+
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+
 	<?php wp_head(); ?>
 </head>
 
