@@ -289,31 +289,24 @@ function is_serialized_string( $data ) {
 }
 
 /**
- * Retrieve option value based on setting name.
+ * Retrieve option value based on name of option.
  *
  * If the option does not exist or does not have a value, then the return value
  * will be false. This is useful to check whether you need to install an option
  * and is commonly used during installation of plugin options and to test
  * whether upgrading is required.
  *
- * You can "short-circuit" the retrieval of the option from the database for
- * your plugin or core options that aren't protected. You can do so by hooking
- * into the 'pre_option_$option' with the $option being replaced by the option
- * name. You should not try to override special options, but you will not be
- * prevented from doing so.
- *
- * There is a second filter called 'option_$option' with the $option being
- * replaced with the option name. This gives the value as the only parameter.
- *
- * If the option was serialized, when the option was added and, or updated, then
- * it will be unserialized, when it is returned.
+ * If the option was serialized then it will be unserialized when it is returned.
  *
  * @since 1.5.0
  * @package WordPress
  * @subpackage Option
- * @uses apply_filters() Calls 'pre_option_$option' false to allow
- *		overwriting the option value in a plugin.
- * @uses apply_filters() Calls 'option_$option' with the option value.
+ * @uses apply_filters() Calls 'pre_option_$option' before checking the option.
+ * 	Any value other than false will "short-circuit" the retrieval of the option
+ *	and return the returned value. You should not try to override special options,
+ * 	but you will not be prevented from doing so.
+ * @uses apply_filters() Calls 'option_$option', after checking the option, with
+ * 	the option value.
  *
  * @param string $option Name of option to retrieve. Should already be SQL-escaped
  * @return mixed Value set for the option.
@@ -388,7 +381,7 @@ function get_option( $option, $default = false ) {
 function wp_protect_special_option( $option ) {
 	$protected = array( 'alloptions', 'notoptions' );
 	if ( in_array( $option, $protected ) )
-		die( sprintf( __( '%s is a protected WP option and may not be modified' ), esc_html( $option ) ) );
+		wp_die( sprintf( __( '%s is a protected WP option and may not be modified' ), esc_html( $option ) ) );
 }
 
 /**
@@ -402,7 +395,7 @@ function wp_protect_special_option( $option ) {
  * @param string $option Option name.
  */
 function form_option( $option ) {
-	echo esc_attr(get_option( $option ) );
+	echo esc_attr( get_option( $option ) );
 }
 
 /**
@@ -472,27 +465,21 @@ function wp_load_core_site_options( $site_id = null ) {
 /**
  * Update the value of an option that was already added.
  *
- * You do not need to serialize values, if the value needs to be serialize, then
+ * You do not need to serialize values. If the value needs to be serialized, then
  * it will be serialized before it is inserted into the database. Remember,
  * resources can not be serialized or added as an option.
  *
  * If the option does not exist, then the option will be added with the option
  * value, but you will not be able to set whether it is autoloaded. If you want
- * to set whether an option autoloaded, then you need to use the add_option().
- *
- * Before the option is updated, then the filter named
- * 'pre_update_option_$option', with the $option as the $option
- * parameter value, will be called. The hook should accept two parameters, the
- * first is the new value and the second is the old value.  Whatever is
- * returned will be used as the new value.
- *
- * After the value has been updated the action named 'update_option_$option'
- * will be called.  This action receives two parameters the first being the old
- * value and the second the new value.
+ * to set whether an option is autoloaded, then you need to use the add_option().
  *
  * @since 1.0.0
  * @package WordPress
  * @subpackage Option
+ *
+ * @uses apply_filters() Calls 'pre_update_option_$option' hook to allow overwriting the
+ * 	option value to be stored.
+ * @uses do_action() Calls 'update_option_$option' and 'updated_option' hooks on success.
  *
  * @param string $option Option name. Expected to not be SQL-escaped
  * @param mixed $newvalue Option value.
@@ -503,11 +490,9 @@ function update_option( $option, $newvalue ) {
 
 	wp_protect_special_option( $option );
 
-	$safe_option_name = esc_sql( $option );
+	$safe_option = esc_sql( $option );
 	$newvalue = sanitize_option( $option, $newvalue );
-
-	$oldvalue = get_option( $safe_option_name );
-
+	$oldvalue = get_option( $safe_option );
 	$newvalue = apply_filters( 'pre_update_option_' . $option, $newvalue, $oldvalue );
 
 	// If the new and old values are the same, no need to update.
@@ -550,24 +535,22 @@ function update_option( $option, $newvalue ) {
 /**
  * Add a new option.
  *
- * You do not need to serialize values, if the value needs to be serialize, then
+ * You do not need to serialize values. If the value needs to be serialized, then
  * it will be serialized before it is inserted into the database. Remember,
  * resources can not be serialized or added as an option.
  *
  * You can create options without values and then add values later. Does not
  * check whether the option has already been added, but does check that you
  * aren't adding a protected WordPress option. Care should be taken to not name
- * options, the same as the ones which are protected and to not add options
+ * options the same as the ones which are protected and to not add options
  * that were already added.
- *
- * The filter named 'add_option_$option', with the $optionname being
- * replaced with the option's name, will be called. The hook should accept two
- * parameters, the first is the option name, and the second is the value.
  *
  * @package WordPress
  * @subpackage Option
  * @since 1.0.0
  * @link http://alex.vort-x.net/blog/ Thanks Alex Stapleton
+ *
+ * @uses do_action() Calls 'add_option_$option' and 'added_option' hooks on success.
  *
  * @param string $option Name of option to add. Expects to NOT be SQL escaped.
  * @param mixed $value Optional. Option value, can be anything.
@@ -582,13 +565,13 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	global $wpdb;
 
 	wp_protect_special_option( $option );
-	$safe_name = esc_sql( $option );
+	$safe_option = esc_sql( $option );
 	$value = sanitize_option( $option, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( !is_array( $notoptions ) || !isset( $notoptions[$option] ) )
-		if ( false !== get_option( $safe_name ) )
+		if ( false !== get_option( $safe_option ) )
 			return;
 
 	$value = maybe_serialize( $value );
@@ -613,10 +596,12 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 
 	$result = $wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)", $option, $value, $autoload ) );
 
-	do_action( "add_option_{$option}", $option, $value );
-	do_action( 'added_option', $option, $value );
-
-	return $result;
+	if ( $result ) {
+		do_action( "add_option_{$option}", $option, $value );
+		do_action( 'added_option', $option, $value );
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -625,6 +610,9 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
  * @package WordPress
  * @subpackage Option
  * @since 1.2.0
+ *
+ * @uses do_action() Calls 'delete_option' hook before option is deleted.
+ * @uses do_action() Calls 'deleted_option' hook on success.
  *
  * @param string $option Name of option to remove.
  * @return bool True, if succeed. False, if failure.
@@ -653,8 +641,11 @@ function delete_option( $option ) {
 			wp_cache_delete( $option, 'options' );
 		}
 	}
-	do_action( 'deleted_option', $option );
-	return true;
+	if ( $result ) {
+		do_action( 'deleted_option', $option );
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -685,6 +676,12 @@ function delete_transient( $transient ) {
  *
  * If the transient does not exist or does not have a value, then the return value
  * will be false.
+ *
+ * @uses apply_filters() Calls 'pre_transient_$transient' hook before checking the transient.
+ * 	Any value other than false will "short-circuit" the retrieval of the transient
+ *	and return the returned value.
+ * @uses apply_filters() Calls 'transient_$option' hook, after checking the transient, with
+ * 	the transient value.
  *
  * @since 2.8.0
  * @package WordPress
@@ -733,6 +730,9 @@ function get_transient( $transient ) {
  * @since 2.8.0
  * @package WordPress
  * @subpackage Transient
+ *
+ * @uses apply_filters() Calls 'pre_set_transient_$transient' hook to allow overwriting the
+ * 	transient value to be stored.
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @param mixed $value Transient value.
@@ -3348,6 +3348,12 @@ function wp_suspend_cache_invalidation($suspend = true) {
  * @subpackage Option
  * @since 2.8.0
  *
+ * @uses apply_filters() Calls 'pre_site_option_$option' before checking the option.
+ * 	Any value other than false will "short-circuit" the retrieval of the option
+ *	and return the returned value.
+ * @uses apply_filters() Calls 'site_option_$option', after checking the  option, with
+ * 	the option value.
+ *
  * @param string $option Name of option to retrieve. Should already be SQL-escaped
  * @param mixed $default Optional value to return if option doesn't exist. Default false.
  * @param bool $use_cache Whether to use cache. Multisite only. Default true.
@@ -3391,6 +3397,10 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
  * @subpackage Option
  * @since 2.8.0
  *
+ * @uses apply_filters() Calls 'pre_add_site_option_$option' hook to allow overwriting the
+ * 	option value to be stored.
+ * @uses do_action() Calls 'add_site_option_$option' and 'add_site_option' hooks on success.
+ *
  * @param string $option Name of option to add. Expects to not be SQL escaped.
  * @param mixed $value Optional. Option value, can be anything.
  * @return bool False if option was not added and true if option was added.
@@ -3430,6 +3440,10 @@ function add_site_option( $option, $value ) {
  * @subpackage Option
  * @since 2.8.0
  *
+ * @uses do_action() Calls 'pre_delete_site_option_$option' hook before option is deleted.
+ * @uses do_action() Calls 'delete_site_option' and 'delete_site_option_$option'
+ * 	hooks on success.
+ *
  * @param string $option Name of option to remove. Expected to be SQL-escaped.
  * @return bool True, if succeed. False, if failure.
  */
@@ -3465,6 +3479,10 @@ function delete_site_option( $option ) {
  * @package WordPress
  * @subpackage Option
  *
+ * @uses apply_filters() Calls 'pre_update_site_option_$option' hook to allow overwriting the
+ * 	option value to be stored.
+ * @uses do_action() Calls 'update_site_option_$option' and 'update_site_option' hooks on success.
+ *
  * @param string $option Name of option. Expected to not be SQL-escaped
  * @param mixed $value Option value.
  * @return bool False if value was not updated and true if value was updated.
@@ -3492,9 +3510,12 @@ function update_site_option( $option, $value ) {
 		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $value ), array( 'site_id' => $wpdb->siteid, 'meta_key' => $option ) );
 	}
 
-	do_action( "update_site_option_{$option}", $option, $value );
-	do_action( "update_site_option", $option, $value );
-	return $result;
+	if ( $result ) {
+		do_action( "update_site_option_{$option}", $option, $value );
+		do_action( "update_site_option", $option, $value );
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -3529,6 +3550,12 @@ function delete_site_transient( $transient ) {
  * @since 2.9.0
  * @package WordPress
  * @subpackage Transient
+ *
+ * @uses apply_filters() Calls 'pre_site_transient_$transient' hook before checking the transient.
+ * 	Any value other than false will "short-circuit" the retrieval of the transient
+ *	and return the returned value.
+ * @uses apply_filters() Calls 'site_transient_$option' hook, after checking the transient, with
+ * 	the transient value.
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return mixed Value of transient
