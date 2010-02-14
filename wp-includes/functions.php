@@ -311,18 +311,18 @@ function is_serialized_string( $data ) {
  * @since 1.5.0
  * @package WordPress
  * @subpackage Option
- * @uses apply_filters() Calls 'pre_option_$optionname' false to allow
+ * @uses apply_filters() Calls 'pre_option_$option' false to allow
  *		overwriting the option value in a plugin.
- * @uses apply_filters() Calls 'option_$optionname' with the option name value.
+ * @uses apply_filters() Calls 'option_$option' with the option value.
  *
- * @param string $setting Name of option to retrieve. Should already be SQL-escaped
+ * @param string $option Name of option to retrieve. Should already be SQL-escaped
  * @return mixed Value set for the option.
  */
-function get_option( $setting, $default = false ) {
+function get_option( $option, $default = false ) {
 	global $wpdb;
 
 	// Allow plugins to short-circuit options.
-	$pre = apply_filters( 'pre_option_' . $setting, false );
+	$pre = apply_filters( 'pre_option_' . $option, false );
 	if ( false !== $pre )
 		return $pre;
 
@@ -331,7 +331,7 @@ function get_option( $setting, $default = false ) {
 		$notoptions = array();
 	} else {
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
-		if ( isset( $notoptions[$setting] ) )
+		if ( isset( $notoptions[$option] ) )
 			return $default;
 	}
 
@@ -339,24 +339,24 @@ function get_option( $setting, $default = false ) {
 		$alloptions = wp_load_alloptions();
 	}
 
-	if ( isset( $alloptions[$setting] ) ) {
-		$value = $alloptions[$setting];
+	if ( isset( $alloptions[$option] ) ) {
+		$value = $alloptions[$option];
 	} else {
-		$value = wp_cache_get( $setting, 'options' );
+		$value = wp_cache_get( $option, 'options' );
 
 		if ( false === $value ) {
 			if ( defined( 'WP_INSTALLING' ) )
 				$suppress = $wpdb->suppress_errors();
-			// expected_slashed ($setting)
-			$row = $wpdb->get_row( "SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1" );
+			// expected_slashed ($option)
+			$row = $wpdb->get_row( "SELECT option_value FROM $wpdb->options WHERE option_name = '$option' LIMIT 1" );
 			if ( defined( 'WP_INSTALLING' ) )
-				$wpdb->suppress_errors($suppress);
+				$wpdb->suppress_errors( $suppress );
 
 			if ( is_object( $row) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
 				$value = $row->option_value;
-				wp_cache_add( $setting, $value, 'options' );
+				wp_cache_add( $option, $value, 'options' );
 			} else { // option does not exist, so we must cache its non-existence
-				$notoptions[$setting] = true;
+				$notoptions[$option] = true;
 				wp_cache_set( 'notoptions', $notoptions, 'options' );
 				return $default;
 			}
@@ -364,13 +364,13 @@ function get_option( $setting, $default = false ) {
 	}
 
 	// If home is not set use siteurl.
-	if ( 'home' == $setting && '' == $value )
+	if ( 'home' == $option && '' == $value )
 		return get_option( 'siteurl' );
 
-	if ( in_array( $setting, array('siteurl', 'home', 'category_base', 'tag_base') ) )
+	if ( in_array( $option, array('siteurl', 'home', 'category_base', 'tag_base') ) )
 		$value = untrailingslashit( $value );
 
-	return apply_filters( 'option_' . $setting, maybe_unserialize( $value ) );
+	return apply_filters( 'option_' . $option, maybe_unserialize( $value ) );
 }
 
 /**
@@ -481,12 +481,12 @@ function wp_load_core_site_options( $site_id = null ) {
  * to set whether an option autoloaded, then you need to use the add_option().
  *
  * Before the option is updated, then the filter named
- * 'pre_update_option_$option_name', with the $option_name as the $option_name
+ * 'pre_update_option_$option', with the $option as the $option
  * parameter value, will be called. The hook should accept two parameters, the
  * first is the new value and the second is the old value.  Whatever is
  * returned will be used as the new value.
  *
- * After the value has been updated the action named 'update_option_$option_name'
+ * After the value has been updated the action named 'update_option_$option'
  * will be called.  This action receives two parameters the first being the old
  * value and the second the new value.
  *
@@ -494,56 +494,54 @@ function wp_load_core_site_options( $site_id = null ) {
  * @package WordPress
  * @subpackage Option
  *
- * @param string $option_name Option name. Expected to not be SQL-escaped
+ * @param string $option Option name. Expected to not be SQL-escaped
  * @param mixed $newvalue Option value.
  * @return bool False if value was not updated and true if value was updated.
  */
-function update_option( $option_name, $newvalue ) {
+function update_option( $option, $newvalue ) {
 	global $wpdb;
 
-	wp_protect_special_option( $option_name );
+	wp_protect_special_option( $option );
 
-	$safe_option_name = esc_sql( $option_name );
-	$newvalue = sanitize_option( $option_name, $newvalue );
+	$safe_option_name = esc_sql( $option );
+	$newvalue = sanitize_option( $option, $newvalue );
 
 	$oldvalue = get_option( $safe_option_name );
 
-	$newvalue = apply_filters( 'pre_update_option_' . $option_name, $newvalue, $oldvalue );
+	$newvalue = apply_filters( 'pre_update_option_' . $option, $newvalue, $oldvalue );
 
 	// If the new and old values are the same, no need to update.
 	if ( $newvalue === $oldvalue )
 		return false;
 
-	if ( false === $oldvalue ) {
-		add_option( $option_name, $newvalue );
-		return true;
-	}
+	if ( false === $oldvalue )
+		return add_option( $option, $newvalue );
 
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
-	if ( is_array( $notoptions ) && isset( $notoptions[$option_name] ) ) {
-		unset( $notoptions[$option_name] );
+	if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
+		unset( $notoptions[$option] );
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
 	$_newvalue = $newvalue;
 	$newvalue = maybe_serialize( $newvalue );
 
-	do_action( 'update_option', $option_name, $oldvalue, $newvalue );
+	do_action( 'update_option', $option, $oldvalue, $newvalue );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
-		if ( isset( $alloptions[$option_name] ) ) {
-			$alloptions[$option_name] = $newvalue;
+		if ( isset( $alloptions[$option] ) ) {
+			$alloptions[$option] = $newvalue;
 			wp_cache_set( 'alloptions', $alloptions, 'options' );
 		} else {
-			wp_cache_set( $option_name, $newvalue, 'options' );
+			wp_cache_set( $option, $newvalue, 'options' );
 		}
 	}
 
-	$wpdb->update($wpdb->options, array('option_value' => $newvalue), array('option_name' => $option_name) );
+	$result = $wpdb->update( $wpdb->options, array( 'option_value' => $newvalue ), array( 'option_name' => $option ) );
 
-	if ( $wpdb->rows_affected == 1 ) {
-		do_action( "update_option_{$option_name}", $oldvalue, $_newvalue );
-		do_action( 'updated_option', $option_name, $oldvalue, $_newvalue );
+	if ( $result ) {
+		do_action( "update_option_{$option}", $oldvalue, $_newvalue );
+		do_action( 'updated_option', $option, $oldvalue, $_newvalue );
 		return true;
 	}
 	return false;
@@ -562,7 +560,7 @@ function update_option( $option_name, $newvalue ) {
  * options, the same as the ones which are protected and to not add options
  * that were already added.
  *
- * The filter named 'add_option_$optionname', with the $optionname being
+ * The filter named 'add_option_$option', with the $optionname being
  * replaced with the option's name, will be called. The hook should accept two
  * parameters, the first is the option name, and the second is the value.
  *
@@ -571,91 +569,91 @@ function update_option( $option_name, $newvalue ) {
  * @since 1.0.0
  * @link http://alex.vort-x.net/blog/ Thanks Alex Stapleton
  *
- * @param string $name Option name to add. Expects to NOT be SQL escaped.
+ * @param string $option Name of option to add. Expects to NOT be SQL escaped.
  * @param mixed $value Optional. Option value, can be anything.
  * @param mixed $deprecated Optional. Description. Not used anymore.
  * @param bool $autoload Optional. Default is enabled. Whether to load the option when WordPress starts up.
  * @return null returns when finished.
  */
-function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
+function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.3' );
 
 	global $wpdb;
 
-	wp_protect_special_option( $name );
-	$safe_name = esc_sql( $name );
-	$value = sanitize_option( $name, $value );
+	wp_protect_special_option( $option );
+	$safe_name = esc_sql( $option );
+	$value = sanitize_option( $option, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
-	if ( !is_array( $notoptions ) || !isset( $notoptions[$name] ) )
+	if ( !is_array( $notoptions ) || !isset( $notoptions[$option] ) )
 		if ( false !== get_option( $safe_name ) )
 			return;
 
 	$value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
-	do_action( 'add_option', $name, $value );
+	do_action( 'add_option', $option, $value );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $autoload ) {
 			$alloptions = wp_load_alloptions();
-			$alloptions[$name] = $value;
+			$alloptions[$option] = $value;
 			wp_cache_set( 'alloptions', $alloptions, 'options' );
 		} else {
-			wp_cache_set( $name, $value, 'options' );
+			wp_cache_set( $option, $value, 'options' );
 		}
 	}
 
 	// This option exists now
 	$notoptions = wp_cache_get( 'notoptions', 'options' ); // yes, again... we need it to be fresh
-	if ( is_array( $notoptions ) && isset( $notoptions[$name] ) ) {
-		unset( $notoptions[$name] );
+	if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
+		unset( $notoptions[$option] );
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
-	$wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)", $name, $value, $autoload ) );
+	$result = $wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)", $option, $value, $autoload ) );
 
-	do_action( "add_option_{$name}", $name, $value );
-	do_action( 'added_option', $name, $value );
+	do_action( "add_option_{$option}", $option, $value );
+	do_action( 'added_option', $option, $value );
 
-	return;
+	return $result;
 }
 
 /**
- * Removes option by name and prevents removal of protected WordPress options.
+ * Removes option by name. Prevents removal of protected WordPress options.
  *
  * @package WordPress
  * @subpackage Option
  * @since 1.2.0
  *
- * @param string $name Option name to remove.
+ * @param string $option Name of option to remove.
  * @return bool True, if succeed. False, if failure.
  */
-function delete_option( $name ) {
+function delete_option( $option ) {
 	global $wpdb;
 
-	wp_protect_special_option( $name );
+	wp_protect_special_option( $option );
 
 	// Get the ID, if no ID then return
-	// expected_slashed ($name)
-	$option = $wpdb->get_row( "SELECT autoload FROM $wpdb->options WHERE option_name = '$name'" );
-	if ( is_null($option) )
+	// expected_slashed ($option)
+	$row = $wpdb->get_row( "SELECT autoload FROM $wpdb->options WHERE option_name = '$option'" );
+	if ( is_null( $row ) )
 		return false;
-	do_action( 'delete_option', $name );
-	// expected_slashed ($name)
-	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name = '$name'" );
+	do_action( 'delete_option', $option );
+	// expected_slashed ($option)
+	$result = $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name = '$option'" );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
-		if ( 'yes' == $option->autoload ) {
+		if ( 'yes' == $row->autoload ) {
 			$alloptions = wp_load_alloptions();
-			if ( isset( $alloptions[$name] ) ) {
-				unset( $alloptions[$name] );
+			if ( isset( $alloptions[$option] ) ) {
+				unset( $alloptions[$option] );
 				wp_cache_set( 'alloptions', $alloptions, 'options' );
 			}
 		} else {
-			wp_cache_delete( $name, 'options' );
+			wp_cache_delete( $option, 'options' );
 		}
 	}
-	do_action( 'deleted_option', $name );
+	do_action( 'deleted_option', $option );
 	return true;
 }
 
@@ -669,16 +667,16 @@ function delete_option( $name ) {
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return bool true if successful, false otherwise
  */
-function delete_transient($transient) {
-	global $_wp_using_ext_object_cache, $wpdb;
+function delete_transient( $transient ) {
+	global $_wp_using_ext_object_cache;
 
     do_action( 'delete_transient_' . $transient );
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_delete($transient, 'transient');
+		return wp_cache_delete( $transient, 'transient' );
 	} else {
-		$transient = '_transient_' . esc_sql($transient);
-		return delete_option($transient);
+		$transient = '_transient_' . esc_sql( $transient );
+		return delete_option( $transient );
 	}
 }
 
@@ -695,40 +693,41 @@ function delete_transient($transient) {
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return mixed Value of transient
  */
-function get_transient($transient) {
-	global $_wp_using_ext_object_cache, $wpdb;
+function get_transient( $transient ) {
+	global $_wp_using_ext_object_cache;
 
 	$pre = apply_filters( 'pre_transient_' . $transient, false );
 	if ( false !== $pre )
 		return $pre;
 
 	if ( $_wp_using_ext_object_cache ) {
-		$value = wp_cache_get($transient, 'transient');
+		$value = wp_cache_get( $transient, 'transient' );
 	} else {
-		$transient_option = '_transient_' . esc_sql($transient);
+		$safe_transient   = esc_sql( $transient );
+		$transient_option = '_transient_' . $safe_transient;
 		if ( ! defined( 'WP_INSTALLING' ) ) {
 			// If option is not in alloptions, it is not autoloaded and thus has a timeout
 			$alloptions = wp_load_alloptions();
 			if ( !isset( $alloptions[$transient_option] ) ) {
-				$transient_timeout = '_transient_timeout_' . esc_sql($transient);
-				if ( get_option($transient_timeout) < time() ) {
-					delete_option($transient_option);
-					delete_option($transient_timeout);
+				$transient_timeout = '_transient_timeout_' . $safe_transient;
+				if ( get_option( $transient_timeout ) < time() ) {
+					delete_option( $transient_option  );
+					delete_option( $transient_timeout );
 					return false;
 				}
 			}
 		}
 
-		$value = get_option($transient_option);
+		$value = get_option( $transient_option );
 	}
 
-	return apply_filters('transient_' . $transient, $value);
+	return apply_filters( 'transient_' . $transient, $value );
 }
 
 /**
  * Set/update the value of a transient
  *
- * You do not need to serialize values, if the value needs to be serialize, then
+ * You do not need to serialize values. If the value needs to be serialized, then
  * it will be serialized before it is set.
  *
  * @since 2.8.0
@@ -740,27 +739,27 @@ function get_transient($transient) {
  * @param int $expiration Time until expiration in seconds, default 0
  * @return bool False if value was not set and true if value was set.
  */
-function set_transient($transient, $value, $expiration = 0) {
-	global $_wp_using_ext_object_cache, $wpdb;
+function set_transient( $transient, $value, $expiration = 0 ) {
+	global $_wp_using_ext_object_cache;
 
     $value = apply_filters( 'pre_set_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_set($transient, $value, 'transient', $expiration);
+		return wp_cache_set( $transient, $value, 'transient', $expiration );
 	} else {
 		$transient_timeout = '_transient_timeout_' . $transient;
 		$transient = '_transient_' . $transient;
-		$safe_transient = esc_sql($transient);
+		$safe_transient = esc_sql( $transient );
 		if ( false === get_option( $safe_transient ) ) {
 			$autoload = 'yes';
-			if ( 0 != $expiration ) {
+			if ( $expiration ) {
 				$autoload = 'no';
 				add_option($transient_timeout, time() + $expiration, '', 'no');
 			}
 			return add_option($transient, $value, '', $autoload);
 		} else {
-			if ( 0 != $expiration )
-				update_option($transient_timeout, time() + $expiration);
+			if ( $expiration )
+				update_option( $transient_timeout, time() + $expiration );
 			return update_option($transient, $value);
 		}
 	}
@@ -3342,32 +3341,35 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve site option value based on name of option.
  *
- * @since 2.8
+ * @see get_option()
+ * @package WordPress
+ * @subpackage Option
+ * @since 2.8.0
  *
- * @param unknown_type $key
- * @param unknown_type $default
- * @param unknown_type $use_cache
- * @return unknown
+ * @param string $option Name of option to retrieve. Should already be SQL-escaped
+ * @param mixed $default Optional value to return if option doesn't exist. Default false.
+ * @param bool $use_cache Whether to use cache. Multisite only. Default true.
+ * @return mixed Value set for the option.
  */
-function get_site_option( $key, $default = false, $use_cache = true ) {
+function get_site_option( $option, $default = false, $use_cache = true ) {
 	global $wpdb;
 
 	// Allow plugins to short-circuit site options.
- 	$pre = apply_filters( 'pre_site_option_' . $key, false );
+ 	$pre = apply_filters( 'pre_site_option_' . $option, false );
  	if ( false !== $pre )
  		return $pre;
 
 	if ( !is_multisite() ) {
-		$value = get_option($key, $default);
+		$value = get_option($option, $default);
 	} else {
-		$cache_key = "$wpdb->siteid:$key";
+		$cache_key = "{$wpdb->siteid}:$option";
 		if ( $use_cache )
 			$value = wp_cache_get($cache_key, 'site-options');
 
 		if ( false === $value ) {
-			$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid) );
+			$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
 
 			if ( is_null($value) )
 				$value = $default;
@@ -3378,111 +3380,120 @@ function get_site_option( $key, $default = false, $use_cache = true ) {
 		}
 	}
 
- 	return apply_filters( 'site_option_' . $key, $value );
+ 	return apply_filters( 'site_option_' . $option, $value );
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Add a new site option.
  *
- * @since 2.8
- *
- * @param unknown_type $key not to be SQL escaped
- * @param unknown_type $value not to be SQL escaped
- * @return unknown
- */
-function add_site_option( $key, $value ) {
-	global $wpdb;
-
-	$value = apply_filters( 'pre_add_site_option_' . $key, $value );
-
-	if ( !is_multisite() ) {
-		$result =  add_option($key, $value);
-	} else {
-		$cache_key = "{$wpdb->siteid}:$key";
-
-		if ( $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid ) ) )
-			return update_site_option( $key, $value );
-
-		$value = sanitize_option( $key, $value );
-		wp_cache_set( $cache_key, $value, 'site-options');
-
-		$value = maybe_serialize($value);
-
-		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $key, 'meta_value' => $value) );
-	}
-
-	do_action( "add_site_option_{$key}", $key, $value );
-	do_action( "add_site_option", $key, $value );
-
-	return $result;
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since 2.9
- *
- * @param unknown_type $key
- * @return unknown
- */
-function delete_site_option( $key ) {
-	global $wpdb;
-
-	//wpmu_protect_special_option( $key ); @todo
-
-	do_action( 'pre_delete_site_option_' . $key );
-
-	if ( !is_multisite() ) {
-		$result = delete_option($key);
-	} else {
-		$option = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid ) );
-		if ( is_null( $option ) || !$option->meta_id )
-			return false;
-		$cache_key = "{$wpdb->siteid}:$key";
-		wp_cache_delete( $cache_key, 'site-options' );
-
-		$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid ) );
-	}
-
-	do_action( "delete_site_option_{$key}", $key );
-	do_action( "delete_site_option", $key );
-	return $result;
-}
-
-/**
- * {@internal Missing Short Description}}
- *
+ * @see add_option()
+ * @package WordPress
+ * @subpackage Option
  * @since 2.8.0
  *
- * @param unknown_type $key not to be SQL escaped
- * @param unknown_type $value not to be SQL escaped
- * @return unknown
+ * @param string $option Name of option to add. Expects to not be SQL escaped.
+ * @param mixed $value Optional. Option value, can be anything.
+ * @return bool False if option was not added and true if option was added.
  */
-function update_site_option( $key, $value ) {
+function add_site_option( $option, $value ) {
 	global $wpdb;
 
-	$oldvalue = get_site_option( $key );
-	$value = apply_filters( 'pre_update_site_option_' . $key, $value, $oldvalue );
-
-	if ( $value == $oldvalue )
-		return false;
+	$value = apply_filters( 'pre_add_site_option_' . $option, $value );
 
 	if ( !is_multisite() ) {
-		$result = update_option($key, $value);
+		$result = add_option( $option, $value );
 	} else {
-		$cache_key = "{$wpdb->siteid}:$key";
+		$cache_key = "{$wpdb->siteid}:$option";
 
-		if ( $value && !$wpdb->get_row( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $key, $wpdb->siteid) ) )
-			return add_site_option( $key, $value );
-		$value = sanitize_option( $key, $value );
+		if ( $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) ) )
+			return update_site_option( $option, $value );
+
+		$value = sanitize_option( $option, $value );
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
 		$value = maybe_serialize($value);
-		$result = $wpdb->update( $wpdb->sitemeta, array('meta_value' => $value), array('site_id' => $wpdb->siteid, 'meta_key' => $key) );
+
+		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $value ) );
 	}
 
-	do_action( "update_site_option_{$key}", $key, $value );
-	do_action( "update_site_option", $key, $value );
+	do_action( "add_site_option_{$option}", $option, $value );
+	do_action( "add_site_option", $option, $value );
+
+	return $result;
+}
+
+/**
+ * Removes site option by name.
+ *
+ * @see delete_option()
+ * @package WordPress
+ * @subpackage Option
+ * @since 2.8.0
+ *
+ * @param string $option Name of option to remove. Expected to be SQL-escaped.
+ * @return bool True, if succeed. False, if failure.
+ */
+function delete_site_option( $option ) {
+	global $wpdb;
+
+	// ms_protect_special_option( $option ); @todo
+
+	do_action( 'pre_delete_site_option_' . $option );
+
+	if ( !is_multisite() ) {
+		$result = delete_option( $option );
+	} else {
+		$option = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
+		if ( is_null( $option ) || !$option->meta_id )
+			return false;
+		$cache_key = "{$wpdb->siteid}:$option";
+		wp_cache_delete( $cache_key, 'site-options' );
+
+		$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
+	}
+
+	do_action( "delete_site_option_{$option}", $option );
+	do_action( "delete_site_option", $option );
+	return $result;
+}
+
+/**
+ * Update the value of a site option that was already added.
+ *
+ * @see update_option()
+ * @since 2.8.0
+ * @package WordPress
+ * @subpackage Option
+ *
+ * @param string $option Name of option. Expected to not be SQL-escaped
+ * @param mixed $value Option value.
+ * @return bool False if value was not updated and true if value was updated.
+ */
+function update_site_option( $option, $value ) {
+	global $wpdb;
+
+	$oldvalue = get_site_option( $option );
+	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $oldvalue );
+
+	if ( $value === $oldvalue )
+		return false;
+
+	if ( !is_multisite() ) {
+		$result = update_option( $option, $value );
+	} else {
+		$cache_key = "{$wpdb->siteid}:$option";
+
+		if ( $value && !$wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) ) )
+			return add_site_option( $option, $value );
+		$value = sanitize_option( $option, $value );
+		wp_cache_set( $cache_key, $value, 'site-options' );
+
+		$value = maybe_serialize( $value );
+		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $value ), array( 'site_id' => $wpdb->siteid, 'meta_key' => $option ) );
+	}
+
+	do_action( "update_site_option_{$option}", $option, $value );
+	do_action( "update_site_option", $option, $value );
 	return $result;
 }
 
@@ -3494,17 +3505,18 @@ function update_site_option( $key, $value ) {
  * @subpackage Transient
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped
- * @return bool true if successful, false otherwise
+ * @return bool True if successful, false otherwise
  */
-function delete_site_transient($transient) {
-	global $_wp_using_ext_object_cache, $wpdb;
+function delete_site_transient( $transient ) {
+	global $_wp_using_ext_object_cache;
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_delete($transient, 'site-transient');
+		$result = wp_cache_delete( $transient, 'site-transient' );
 	} else {
-		$transient = '_site_transient_' . esc_sql($transient);
-		return delete_site_option($transient);
+		$transient = '_site_transient_' . esc_sql( $transient );
+		$result = delete_site_option( $transient );
 	}
+	return $result;
 }
 
 /**
@@ -3513,6 +3525,7 @@ function delete_site_transient($transient) {
  * If the transient does not exist or does not have a value, then the return value
  * will be false.
  *
+ * @see get_transient()
  * @since 2.9.0
  * @package WordPress
  * @subpackage Transient
@@ -3520,33 +3533,33 @@ function delete_site_transient($transient) {
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return mixed Value of transient
  */
-function get_site_transient($transient) {
-	global $_wp_using_ext_object_cache, $wpdb;
+function get_site_transient( $transient ) {
+	global $_wp_using_ext_object_cache;
 
 	$pre = apply_filters( 'pre_site_transient_' . $transient, false );
 	if ( false !== $pre )
 		return $pre;
 
 	if ( $_wp_using_ext_object_cache ) {
-		$value = wp_cache_get($transient, 'site-transient');
+		$value = wp_cache_get( $transient, 'site-transient' );
 	} else {
 		// Core transients that do not have a timeout. Listed here so querying timeouts can be avoided.
 		$no_timeout = array('update_core', 'update_plugins', 'update_themes');
-		$transient_option = '_site_transient_' . esc_sql($transient);
-		if ( !in_array($transient, $no_timeout) ) {
-			$transient_timeout = '_site_transient_timeout_' . esc_sql($transient);
-			$timeout = get_site_option($transient_timeout);
+		$transient_option = '_site_transient_' . esc_sql( $transient );
+		if ( ! in_array( $transient, $no_timeout ) ) {
+			$transient_timeout = '_site_transient_timeout_' . esc_sql( $transient );
+			$timeout = get_site_option( $transient_timeout );
 			if ( false !== $timeout && $timeout < time() ) {
-				delete_site_option($transient_option);
-				delete_site_option($transient_timeout);
+				delete_site_option( $transient_option  );
+				delete_site_option( $transient_timeout );
 				return false;
 			}
 		}
 
-		$value = get_site_option($transient_option);
+		$value = get_site_option( $transient_option );
 	}
 
-	return apply_filters('site_transient_' . $transient, $value);
+	return apply_filters( 'site_transient_' . $transient, $value );
 }
 
 /**
@@ -3555,6 +3568,7 @@ function get_site_transient($transient) {
  * You do not need to serialize values, if the value needs to be serialize, then
  * it will be serialized before it is set.
  *
+ * @see set_transient()
  * @since 2.9.0
  * @package WordPress
  * @subpackage Transient
@@ -3564,25 +3578,26 @@ function get_site_transient($transient) {
  * @param int $expiration Time until expiration in seconds, default 0
  * @return bool False if value was not set and true if value was set.
  */
-function set_site_transient($transient, $value, $expiration = 0) {
-	global $_wp_using_ext_object_cache, $wpdb;
+function set_site_transient( $transient, $value, $expiration = 0 ) {
+	global $_wp_using_ext_object_cache;
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_set($transient, $value, 'site-transient', $expiration);
+		$result = wp_cache_set( $transient, $value, 'site-transient', $expiration );
 	} else {
 		$transient_timeout = '_site_transient_timeout_' . $transient;
 		$transient = '_site_transient_' . $transient;
-		$safe_transient = esc_sql($transient);
+		$safe_transient = esc_sql( $transient );
 		if ( false === get_site_option( $safe_transient ) ) {
-			if ( 0 != $expiration )
-				add_site_option($transient_timeout, time() + $expiration);
-			return add_site_option($transient, $value);
+			if ( $expiration )
+				add_site_option( $transient_timeout, time() + $expiration );
+			$result = add_site_option( $transient, $value );
 		} else {
-			if ( 0 != $expiration )
-				update_site_option($transient_timeout, time() + $expiration);
-			return update_site_option($transient, $value);
+			if ( $expiration )
+				update_site_option( $transient_timeout, time() + $expiration );
+			$result = update_site_option( $transient, $value );
 		}
 	}
+	return $result;
 }
 
 /**
