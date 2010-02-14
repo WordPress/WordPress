@@ -345,7 +345,8 @@ function get_option( $option, $default = false ) {
 			if ( defined( 'WP_INSTALLING' ) )
 				$wpdb->suppress_errors( $suppress );
 
-			if ( is_object( $row) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			if ( is_object( $row ) ) {
 				$value = $row->option_value;
 				wp_cache_add( $option, $value, 'options' );
 			} else { // option does not exist, so we must cache its non-existence
@@ -479,6 +480,7 @@ function wp_load_core_site_options( $site_id = null ) {
  *
  * @uses apply_filters() Calls 'pre_update_option_$option' hook to allow overwriting the
  * 	option value to be stored.
+ * @uses do_action() Calls 'update_option' hook before updating the option.
  * @uses do_action() Calls 'update_option_$option' and 'updated_option' hooks on success.
  *
  * @param string $option Option name. Expected to not be SQL-escaped
@@ -511,7 +513,7 @@ function update_option( $option, $newvalue ) {
 	$_newvalue = $newvalue;
 	$newvalue = maybe_serialize( $newvalue );
 
-	do_action( 'update_option', $option, $oldvalue, $newvalue );
+	do_action( 'update_option', $option, $oldvalue, $newvalue ); // $newvalue may be serialized.
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
@@ -550,6 +552,7 @@ function update_option( $option, $newvalue ) {
  * @since 1.0.0
  * @link http://alex.vort-x.net/blog/ Thanks Alex Stapleton
  *
+ * @uses do_action() Calls 'add_option' hook before adding the option.
  * @uses do_action() Calls 'add_option_$option' and 'added_option' hooks on success.
  *
  * @param string $option Name of option to add. Expects to NOT be SQL escaped.
@@ -608,14 +611,14 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
  * Removes option by name. Prevents removal of protected WordPress options.
  *
  * @package WordPress
- * @subpackage Option
+ * @subpackage Option 
  * @since 1.2.0
  *
  * @uses do_action() Calls 'delete_option' hook before option is deleted.
- * @uses do_action() Calls 'deleted_option' hook on success.
+ * @uses do_action() Calls 'deleted_option' and 'delete_option_$option' hooks on success.
  *
  * @param string $option Name of option to remove.
- * @return bool True, if succeed. False, if failure.
+ * @return bool True, if option is successfully deleted. False on failure.
  */
 function delete_option( $option ) {
 	global $wpdb;
@@ -642,6 +645,7 @@ function delete_option( $option ) {
 		}
 	}
 	if ( $result ) {
+		do_action( "delete_option_$option", $option );
 		do_action( 'deleted_option', $option );
 		return true;
 	}
@@ -655,20 +659,27 @@ function delete_option( $option ) {
  * @package WordPress
  * @subpackage Transient
  *
+ * @uses do_action() Calls 'delete_transient_$transient' hook before transient is deleted.
+ * @uses do_action() Calls 'deleted_transient' hook on success.
+ *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return bool true if successful, false otherwise
  */
 function delete_transient( $transient ) {
 	global $_wp_using_ext_object_cache;
 
-    do_action( 'delete_transient_' . $transient );
+    do_action( 'delete_transient_' . $transient, $transient );
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_delete( $transient, 'transient' );
+		$result = wp_cache_delete( $transient, 'transient' );
 	} else {
-		$transient = '_transient_' . esc_sql( $transient );
-		return delete_option( $transient );
+		$option = '_transient_' . esc_sql( $transient );
+		$result = delete_option( $option );
 	}
+
+	if ( $result )
+		do_action( 'deleted_transient', $transient );
+	return $result;
 }
 
 /**
@@ -733,6 +744,7 @@ function get_transient( $transient ) {
  *
  * @uses apply_filters() Calls 'pre_set_transient_$transient' hook to allow overwriting the
  * 	transient value to be stored.
+ * @uses do_action() Calls 'set_transient_$transient' and 'setted_transient' hooks on success.
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @param mixed $value Transient value.
@@ -745,7 +757,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
     $value = apply_filters( 'pre_set_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_set( $transient, $value, 'transient', $expiration );
+		$result = wp_cache_set( $transient, $value, 'transient', $expiration );
 	} else {
 		$transient_timeout = '_transient_timeout_' . $transient;
 		$transient = '_transient_' . $transient;
@@ -754,15 +766,20 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 			$autoload = 'yes';
 			if ( $expiration ) {
 				$autoload = 'no';
-				add_option($transient_timeout, time() + $expiration, '', 'no');
+				add_option( $transient_timeout, time() + $expiration, '', 'no' );
 			}
-			return add_option($transient, $value, '', $autoload);
+			$result = add_option( $transient, $value, '', $autoload );
 		} else {
 			if ( $expiration )
 				update_option( $transient_timeout, time() + $expiration );
-			return update_option($transient, $value);
+			$result = update_option( $transient, $value );
 		}
 	}
+	if ( $result ) {
+		do_action( 'set_transient_' . $transient );
+		do_action( 'setted_transient', $transient );
+	}
+	return $result;
 }
 
 /**
@@ -3466,9 +3483,12 @@ function delete_site_option( $option ) {
 		$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
 	}
 
-	do_action( "delete_site_option_{$option}", $option );
-	do_action( "delete_site_option", $option );
-	return $result;
+	if ( $result ) {
+		do_action( "delete_site_option_{$option}", $option );
+		do_action( "delete_site_option", $option );
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -3525,18 +3545,24 @@ function update_site_option( $option, $value ) {
  * @package WordPress
  * @subpackage Transient
  *
+ * @uses do_action() Calls 'delete_site_transient_$transient' hook before transient is deleted.
+ * @uses do_action() Calls 'deleted_site_transient' hook on success.
+ *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return bool True if successful, false otherwise
  */
 function delete_site_transient( $transient ) {
 	global $_wp_using_ext_object_cache;
 
+	do_action( 'delete_site_transient_' . $transient, $transient );
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_delete( $transient, 'site-transient' );
 	} else {
-		$transient = '_site_transient_' . esc_sql( $transient );
-		$result = delete_site_option( $transient );
+		$option = '_site_transient_' . esc_sql( $transient );
+		$result = delete_site_option( $option );
 	}
+	if ( $result )
+		do_action( 'deleted_site_transient', $transient );
 	return $result;
 }
 
@@ -3600,6 +3626,10 @@ function get_site_transient( $transient ) {
  * @package WordPress
  * @subpackage Transient
  *
+ * @uses apply_filters() Calls 'pre_set_site_transient_$transient' hook to allow overwriting the
+ * 	transient value to be stored.
+ * @uses do_action() Calls 'set_site_transient_$transient' and 'setted_site_transient' hooks on success.
+ *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @param mixed $value Transient value.
  * @param int $expiration Time until expiration in seconds, default 0
@@ -3607,6 +3637,8 @@ function get_site_transient( $transient ) {
  */
 function set_site_transient( $transient, $value, $expiration = 0 ) {
 	global $_wp_using_ext_object_cache;
+
+    $value = apply_filters( 'pre_set_site_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_set( $transient, $value, 'site-transient', $expiration );
@@ -3623,6 +3655,10 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 				update_site_option( $transient_timeout, time() + $expiration );
 			$result = update_site_option( $transient, $value );
 		}
+	}
+	if ( $result ) {
+		do_action( 'set_site_transient_' . $transient );
+		do_action( 'setted_site_transient', $transient );
 	}
 	return $result;
 }
