@@ -20,6 +20,9 @@ require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 /** Load WordPress Administration Upgrade API */
 require_once( dirname( __FILE__ ) . '/includes/upgrade.php' );
 
+/** Load wpdb */
+require_once(dirname(dirname(__FILE__)) . '/wp-includes/wp-db.php');
+
 $step = isset( $_GET['step'] ) ? $_GET['step'] : 0;
 
 /**
@@ -53,10 +56,18 @@ function display_header() {
  * @subpackage Installer
  */
 function display_setup_form( $error = null ) {
+	global $wpdb;
+	$user_table = ( $wpdb->get_var("SHOW TABLES LIKE '$wpdb->users'") != null ) ? true : false;
+
 	// Ensure that Blogs appear in search engines by default
 	$blog_public = 1;
 	if ( isset( $_POST ) && ! empty( $_POST ) )
 		$blog_public = isset( $_POST['blog_public'] );
+
+	$weblog_title = isset( $_POST['weblog_title'] ) ? trim( stripslashes( $_POST['weblog_title'] ) ) : '';
+	$user_name = isset($_POST['user_name']) ? trim( stripslashes( $_POST['user_name'] ) ) : 'admin';
+	$admin_password = isset($_POST['admin_password']) ? trim( stripslashes( $_POST['admin_password'] ) ) : '';
+	$admin_email  = isset( $_POST['admin_email']  ) ? trim( stripslashes( $_POST['admin_email'] ) ) : '';
 
 	if ( ! is_null( $error ) ) {
 ?>
@@ -66,11 +77,33 @@ function display_setup_form( $error = null ) {
 	<table class="form-table">
 		<tr>
 			<th scope="row"><label for="weblog_title"><?php _e( 'Blog Title' ); ?></label></th>
-			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo ( isset( $_POST['weblog_title'] ) ? esc_attr( $_POST['weblog_title'] ) : '' ); ?>" /></td>
+			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
 		</tr>
 		<tr>
+			<th scope="row"><label for="user_name"><?php _e('User Name'); ?></label></th>
+			<td>
+			<?php
+			if ( $user_table ) {
+				_e('User(s) already exists.');
+			} else {
+				?><input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( $user_name ); ?>" /><?php
+			} ?>
+			</td>
+		</tr>
+		<?php if ( ! $user_table ) : ?>
+		<tr>
+			<th scope="row"><label for="admin_password"><?php _e('Password'); ?></label></th>
+			<td>
+				<input name="admin_password" type="password" id="pass1" size="25" value="<?php  echo esc_attr( $admin_password ); ?>" />
+				<br /><?php _e('A password will be automatically generated for you if you leave this field blank.'); ?>
+				<br /><div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
+				<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+			</td>
+		</tr>
+		<?php endif; ?>
+		<tr>
 			<th scope="row"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></th>
-			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo ( isset( $_POST['admin_email'] ) ? esc_attr( $_POST['admin_email'] ) : '' ); ?>" /><br />
+			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php  echo esc_attr( $admin_email ); ?>" /><br />
 			<?php _e( 'Double-check your email address before continuing.' ); ?></td>
 		</tr>
 		<tr>
@@ -125,12 +158,18 @@ switch($step) {
 
 		display_header();
 		// Fill in the data we gathered
-		$weblog_title = isset( $_POST['weblog_title'] ) ? stripslashes( $_POST['weblog_title'] ) : '';
-		$admin_email  = isset( $_POST['admin_email']  ) ? stripslashes( $_POST['admin_email'] ) : '';
+		$weblog_title = isset( $_POST['weblog_title'] ) ? trim( stripslashes( $_POST['weblog_title'] ) ) : '';
+		$user_name = isset($_POST['user_name']) ? trim( stripslashes( $_POST['user_name'] ) ) : 'admin';
+		$admin_password = isset($_POST['admin_password']) ? trim( stripslashes( $_POST['admin_password'] ) ) : '';
+		$admin_email  = isset( $_POST['admin_email']  ) ?trim( stripslashes( $_POST['admin_email'] ) ) : '';
 		$public       = isset( $_POST['blog_public']  ) ? (int) $_POST['blog_public'] : 0;
 		// check e-mail address
 		$error = false;
-		if ( empty( $admin_email ) ) {
+		if ( empty( $user_name ) ) {
+			// TODO: poka-yoke
+			display_setup_form( __('you must provide a valid user name.') );
+			$error = true;
+		} else if ( empty( $admin_email ) ) {
 			// TODO: poka-yoke
 			display_setup_form( __( 'you must provide an e-mail address.' ) );
 			$error = true;
@@ -142,7 +181,7 @@ switch($step) {
 
 		if ( $error === false ) {
 			$wpdb->show_errors();
-			$result = wp_install( $weblog_title, 'admin', $admin_email, $public );
+			$result = wp_install($weblog_title, $user_name, $admin_email, $public, '', $admin_password);
 			extract( $result, EXTR_SKIP );
 ?>
 
@@ -153,13 +192,13 @@ switch($step) {
 <table class="form-table">
 	<tr>
 		<th><?php _e( 'Username' ); ?></th>
-		<td><code>admin</code></td>
+		<td><code><?php echo esc_html($user_name); ?></code></td>
 	</tr>
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
 		<td><?php
 		if ( ! empty( $password ) )
-			echo "<code>$password</code><br />";
+			echo '<code>'. esc_html($password) .'</code><br />';
 		echo "<p>$password_message</p>"; ?>
 		</td>
 	</tr>
@@ -173,5 +212,22 @@ switch($step) {
 }
 ?>
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
+<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="js/password-strength-meter.js"></script>
+<script type="text/javascript" src="js/user-profile.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+try{convertEntities(commonL10n);}catch(e){};
+var pwsL10n = {
+ empty: "Strength indicator",
+ short: "Very weak",
+ bad: "Weak",
+ good: "Medium",
+ strong: "Strong"
+};
+try{convertEntities(pwsL10n);}catch(e){};
+/* ]]> */
+</script>
 </body>
 </html>

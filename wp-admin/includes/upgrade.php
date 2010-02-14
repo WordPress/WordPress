@@ -31,9 +31,10 @@ if ( !function_exists('wp_install') ) :
  * @param string $user_email User's email.
  * @param bool $public Whether blog is public.
  * @param null $deprecated Optional. Not used.
+ * @param string $user_password Optional. User's chosen password. Will default to a random password.
  * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
  */
-function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '' ) {
+function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '' ) {
 	global $wp_rewrite;
 
 	if ( !empty( $deprecated ) )
@@ -60,13 +61,16 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 	// Create default user.  If the user already exists, the user tables are
 	// being shared among blogs.  Just set the role in that case.
 	$user_id = username_exists($user_name);
-	if ( !$user_id ) {
-		$random_password = wp_generate_password();
+	$user_password = trim($user_password);
+	if ( !$user_id && empty($user_password) ) {
+		$user_password = wp_generate_password();
 		$message = __('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.');
-		$user_id = wp_create_user($user_name, $random_password, $user_email);
-		update_user_option($user_id, 'default_password_nag', true, true);
+		$user_id = wp_create_user($user_name, $user_password, $user_email);
+		update_user_option($user_id, 'default_password_nag', true);
+	} else if ( !$user_id ) {
+		$message = __('<strong><em>Note that password</em></strong> carefully!');
+		$user_id = wp_create_user($user_name, $user_password, $user_email);
 	} else {
-		$random_password = '';
 		$message =  __('User already exists.  Password inherited.');
 	}
 
@@ -77,11 +81,11 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 
 	$wp_rewrite->flush_rules();
 
-	wp_new_blog_notification($blog_title, $guessurl, $user_id, $random_password);
+	wp_new_blog_notification($blog_title, $guessurl, $user_id, $user_password);
 
 	wp_cache_flush();
 
-	return array('url' => $guessurl, 'user_id' => $user_id, 'password' => $random_password, 'password_message' => $message);
+	return array('url' => $guessurl, 'user_id' => $user_id, 'password' => $user_password, 'password_message' => $message);
 }
 endif;
 

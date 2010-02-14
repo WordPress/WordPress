@@ -131,3 +131,35 @@ ul, ol { padding: 5px 5px 5px 22px; }
 }
 
 #error-page code { font-family: Consolas, Monaco, Courier, monospace; }
+
+#pass-strength-result {
+	background-color: #eee;
+	border-color: #ddd !important;
+	border-style: solid;
+	border-width: 1px;
+	float: left;
+	margin: 12px 5px 5px 1px;
+	padding: 5px;
+	text-align: center;
+	width: 200px;
+}
+
+#pass-strength-result.bad {
+	background-color: #ffb78c;
+	border-color: #ff853c !important;
+}
+
+#pass-strength-result.good {
+	background-color: #ffec8b;
+	border-color: #ffcc00 !important;
+}
+
+#pass-strength-result.short {
+	background-color: #ffa0a0;
+	border-color: #f04040 !important;
+}
+
+#pass-strength-result.strong {
+	background-color: #c3ff88;
+	border-color: #8dff1c !important;
+}
