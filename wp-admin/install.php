@@ -218,7 +218,6 @@ switch($step) {
 <script type="text/javascript" src="js/utils.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
-try{convertEntities(commonL10n);}catch(e){};
 var pwsL10n = {
  empty: "<?php echo esc_js( __( 'Strength indicator' ) ); ?>",
  short: "<?php echo esc_js( __( 'Very weak' ) ); ?>",
