@@ -1236,14 +1236,14 @@ function do_enclose( $content, $post_ID ) {
  *
  * @param string $url URL to fetch.
  * @param string|bool $file_path Optional. File path to write request to.
- * @param bool $deprecated Deprecated. Not used.
+ * @param int $red (private) The number of Redirects followed, Upon 5 being hit, returns false.
  * @return bool|string False on failure and string of headers if HEAD request.
  */
-function wp_get_http( $url, $file_path = false, $deprecated = false ) {
-	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '2.7' );
-
+function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	@set_time_limit( 60 );
+
+	if ( $red > 5 )
+		return false;
 
 	$options = array();
 	$options['redirection'] = 5;
@@ -1260,6 +1260,11 @@ function wp_get_http( $url, $file_path = false, $deprecated = false ) {
 
 	$headers = wp_remote_retrieve_headers( $response );
 	$headers['response'] = $response['response']['code'];
+
+	// WP_HTTP no longer follows redirects for HEAD requests.
+	if ( 'HEAD' == $options['method'] && in_array($headers['response'], array(301, 302)) && isset( $headers['location'] ) ) {
+		return wp_get_http( $headers['location'], $file_path, ++$red );
+	}
 
 	if ( false == $file_path )
 		return $headers;
