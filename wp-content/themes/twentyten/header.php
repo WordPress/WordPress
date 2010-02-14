@@ -39,14 +39,13 @@
 		<div id="masthead">
 
 			<div id="branding">
-				<div id="site-title"><span><a href="<?php echo home_url(); ?>/" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></div>
+				<div id="site-title"><span><a href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></div>
 				<div id="site-description"><?php bloginfo( 'description' ); ?></div>
 
 				<?php
-					global $post;
-					if ( is_singular() && has_post_thumbnail( $post->ID ) ) {
-						echo get_the_post_thumbnail( $post->ID, 'post-thumbnail' );
-					} else { ?>
+				if ( is_singular() && has_post_thumbnail( $post->ID ) ) {
+					echo get_the_post_thumbnail( $post->ID, 'post-thumbnail' );
+				} else { ?>
 					<img src="<?php header_image(); ?>" width="<?php echo HEADER_IMAGE_WIDTH; ?>" height="<?php echo HEADER_IMAGE_HEIGHT; ?>" alt="" />
 				<?php } ?>
 			</div><!-- #branding -->
