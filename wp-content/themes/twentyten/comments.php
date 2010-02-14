@@ -1,12 +1,12 @@
 			<div id="comments">
 <?php
 	// Do not delete these lines
-	$req = get_option('require_name_email'); // Checks if fields are required.
+	$req = get_option( 'require_name_email' ); // Checks if fields are required.
 	if ( 'comments.php' == basename($_SERVER['SCRIPT_FILENAME']) )
-		die ( 'Please do not load this page directly. Thanks!' );
+		die ( __( 'Please do not load this page directly. Thanks!', 'twentyten' ) );
 	if ( post_password_required() ) :
 ?>
-				<div class="nopassword"><?php _e('This post is password protected. Enter the password to view any comments.', 'twentyten') ?></div>
+				<div class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ); ?></div>
 			</div><!-- .comments -->
 <?php
 		return;
@@ -22,19 +22,19 @@
 
 <?php $total_pages = get_comment_pages_count(); if ( $total_pages > 1 ) : // are there comments to navigate through ?>
 			<div class="navigation">
-				<div class="nav-previous"><?php previous_comments_link( __('&larr; Older Comments', 'twentyten') ) ?></div>
-				<div class="nav-next"><?php next_comments_link( __('Newer Comments &rarr;', 'twentyten') ) ?></div>
+				<div class="nav-previous"><?php previous_comments_link( __('&larr; Older Comments', 'twentyten') ); ?></div>
+				<div class="nav-next"><?php next_comments_link( __('Newer Comments &rarr;', 'twentyten') ); ?></div>
 			</div>
 <?php endif; // check for comment navigation ?>
 
 			<ol class="commentlist">
-			<?php wp_list_comments( array('callback' => 'twentyten_comment') ); ?>
+				<?php wp_list_comments( array('callback' => 'twentyten_comment') ); ?>
 			</ol>
 
 <?php $total_pages = get_comment_pages_count(); if ( $total_pages > 1 ) : // are there comments to navigate through ?>
 			<div class="navigation">
-				<div class="nav-previous"><?php previous_comments_link( __('&larr; Older Comments', 'twentyten') ) ?></div>
-				<div class="nav-next"><?php next_comments_link( __('Newer Comments &rarr;', 'twentyten') ) ?></div>
+				<div class="nav-previous"><?php previous_comments_link( __('&larr; Older Comments', 'twentyten') ); ?></div>
+				<div class="nav-next"><?php next_comments_link( __('Newer Comments &rarr;', 'twentyten') ); ?></div>
 			</div>
 <?php endif; // check for comment navigation ?>
 

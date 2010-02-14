@@ -5,15 +5,15 @@
         if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo('name');
 		} elseif ( is_home() || is_front_page() ) {
-			bloginfo('name'); echo ' | '; bloginfo('description'); get_page_number();
+			bloginfo('name'); echo ' | '; bloginfo('description'); twentyten_get_page_number();
 		} elseif ( is_page() ) {
 			single_post_title(''); echo ' | '; bloginfo('name');
 		} elseif ( is_search() ) {
-			printf(__('Search results for "%s"', 'twentyten'), esc_html($s)); get_page_number(); echo ' | '; bloginfo('name'); 
+			printf(__('Search results for "%s"', 'twentyten'), esc_html($s)); twentyten_get_page_number(); echo ' | '; bloginfo('name'); 
 		} elseif ( is_404() ) {
 			_e('Not Found', 'twentyten'); echo ' | '; bloginfo('name');
 		} else {
-			wp_title(''); echo ' | '; bloginfo('name'); get_page_number();
+			wp_title(''); echo ' | '; bloginfo('name'); twentyten_get_page_number();
 		}
     ?></title>
 
@@ -27,9 +27,9 @@
 
 	<?php wp_head(); ?>
 
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url'); ?>" title="<?php printf( esc_attr__( '%s latest posts', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php printf( esc_attr__( '%s latest comments', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
-	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo( 'rss2_url' ); ?>" title="<?php printf( esc_attr__( '%s latest posts', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo( 'comments_rss2_url' ); ?>" title="<?php printf( esc_attr__( '%s latest comments', 'twentyten' ), esc_html( get_bloginfo('name') ) ); ?>" />
+	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 </head>
 
 <body <?php body_class(); ?>>
@@ -39,8 +39,8 @@
 		<div id="masthead">
 
 			<div id="branding">
-				<div id="site-title"><span><a href="<?php bloginfo( 'url' ) ?>/" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ) ?></a></span></div>
-				<div id="site-description"><?php bloginfo( 'description' ) ?></div>
+				<div id="site-title"><span><a href="<?php home_url(); ?>/" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></div>
+				<div id="site-description"><?php bloginfo( 'description' ); ?></div>
 
 				<?php
 					global $post;
@@ -52,7 +52,7 @@
 			</div><!-- #branding -->
 
 			<div id="access">
-				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ) ?>"><?php _e( 'Skip to content', 'twentyten' ) ?></a></div>
+				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
 				<?php wp_page_menu( 'sort_column=menu_order' ); ?>
 			</div><!-- #access -->
 
