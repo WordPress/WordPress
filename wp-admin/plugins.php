@@ -39,7 +39,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate',
 
 if ( !empty($action) ) {
 	$network_wide = false;
-	if ( isset($_GET['networkwide']) && is_multisite() && is_super_admin() )
+	if ( ( isset( $_GET['networkwide'] ) || 'network-activate-selected' == $action ) && is_multisite() && is_super_admin() )
 		$network_wide = true;
 
 	switch ( $action ) {
@@ -63,13 +63,14 @@ if ( !empty($action) ) {
 			exit;
 			break;
 		case 'activate-selected':
+		case 'network-activate-selected':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to activate plugins for this blog.'));
 
 			check_admin_referer('bulk-manage-plugins');
 
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
-			$plugins = array_filter($plugins, create_function('$plugin', 'return !is_plugin_active($plugin);') ); //Only activate plugins which are not already active.
+			$plugins = array_filter($plugins, create_function('$plugin', 'return !is_plugin_active($plugin);') ); // Only activate plugins which are not already active.
 			if ( empty($plugins) ) {
 				wp_redirect("plugins.php?plugin_status=$status&paged=$page");
 				exit;
@@ -563,6 +564,9 @@ function print_plugin_actions($context, $field_name = 'action' ) {
 			<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 	<?php if ( 'active' != $context ) : ?>
 			<option value="activate-selected"><?php _e('Activate'); ?></option>
+	<?php endif; ?>
+	<?php if ( is_multisite() && 'network' != $context ) : ?>
+			<option value="network-activate-selected"><?php _e('Network Activate'); ?></option>
 	<?php endif; ?>
 	<?php if ( 'inactive' != $context && 'recent' != $context ) : ?>
 			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>

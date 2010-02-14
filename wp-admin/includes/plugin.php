@@ -437,9 +437,10 @@ function deactivate_plugins( $plugins, $silent = false ) {
  *
  * @param string|array $plugins
  * @param string $redirect Redirect to page after successful activation.
+ * @param bool $network_wide Whether to enable the plugin for all sites in the network. 
  * @return bool|WP_Error True when finished or WP_Error if there were errors during a plugin activation.
  */
-function activate_plugins($plugins, $redirect = '') {
+function activate_plugins($plugins, $redirect = '', $network_wide) {
 	if ( !is_array($plugins) )
 		$plugins = array($plugins);
 
@@ -447,7 +448,7 @@ function activate_plugins($plugins, $redirect = '') {
 	foreach ( (array) $plugins as $plugin ) {
 		if ( !empty($redirect) )
 			$redirect = add_query_arg('plugin', $plugin, $redirect);
-		$result = activate_plugin($plugin, $redirect);
+		$result = activate_plugin($plugin, $redirect, $network_wide);
 		if ( is_wp_error($result) )
 			$errors[$plugin] = $result;
 	}
