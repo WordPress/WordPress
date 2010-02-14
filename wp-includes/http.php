@@ -748,7 +748,7 @@ class WP_Http_Fsockopen {
 			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] . ': ' . $arrHeaders['response']['message']);
 
 		// If location is found, then assume redirect and redirect to location.
-		if ( isset($arrHeaders['headers']['location']) ) {
+		if ( 'HEAD' != $r['method'] && isset($arrHeaders['headers']['location']) ) {
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request($arrHeaders['headers']['location'], $r);
 			} else {
@@ -915,8 +915,10 @@ class WP_Http_Fopen {
 		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
-		$use = true;
+		if ( isset($args['method']) && 'HEAD' == $args['method'] ) //This transport cannot make a HEAD request
+			return false;
 
+		$use = true;
 		//PHP does not verify SSL certs, We can only make a request via this transports if SSL Verification is turned off.
 		$is_ssl = isset($args['ssl']) && $args['ssl'];
 		if ( $is_ssl ) {
@@ -1010,6 +1012,7 @@ class WP_Http_Streams {
 				'max_redirects' => $r['redirection'] + 1, // See #11557
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $strHeaders,
+				'ignore_errors' => true, // Return non-200 requests. 
 				'timeout' => $r['timeout'],
 				'ssl' => array(
 						'verify_peer' => $ssl_verify,
@@ -1029,7 +1032,10 @@ class WP_Http_Streams {
 				$arrContext['http']['header'] .= $proxy->authentication_header() . "\r\n";
 		}
 
-		if ( ! is_null($r['body']) && ! empty($r['body'] ) )
+		if ( 'HEAD' == $r['method'] ) // Disable redirects for HEAD requests
+			$arrContext['http']['max_redirects'] = 1;
+
+		if ( ! empty($r['body'] ) )
 			$arrContext['http']['content'] = $r['body'];
 
 		$context = stream_context_create($arrContext);
@@ -1039,7 +1045,7 @@ class WP_Http_Streams {
 		else
 			$handle = fopen($url, 'r', false, $context);
 
-		if ( ! $handle)
+		if ( ! $handle )
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
 		$timeout = (int) floor( $r['timeout'] );
@@ -1189,6 +1195,9 @@ class WP_Http_ExtHTTP {
 				'verifyhost' => $ssl_verify
 			)
 		);
+
+		if ( HTTP_METH_HEAD == $r['method'] )
+			$options['redirect'] = 0; // Assumption: Docs seem to suggest that this means do not follow. Untested.
 
 		// The HTTP extensions offers really easy proxy support.
 		$proxy = new WP_HTTP_Proxy();
@@ -1358,7 +1367,8 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_HEADER, false );
 
 		// The option doesn't work with safe mode or when open_basedir is set.
-		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+		// Disable HEAD when making HEAD requests.
+		if ( !ini_get('safe_mode') && !ini_get('open_basedir') && 'HEAD' != $r['method'] )
 			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
 
 		if ( !empty( $r['headers'] ) ) {
