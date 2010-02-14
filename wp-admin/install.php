@@ -220,11 +220,11 @@ switch($step) {
 /* <![CDATA[ */
 try{convertEntities(commonL10n);}catch(e){};
 var pwsL10n = {
- empty: "Strength indicator",
- short: "Very weak",
- bad: "Weak",
- good: "Medium",
- strong: "Strong"
+ empty: "<?php echo esc_js( __( 'Strength indicator' ) ); ?>",
+ short: "<?php echo esc_js( __( 'Very weak' ) ); ?>",
+ bad: "<?php echo esc_js( __( 'Weak' ) ); ?>",
+ good: "<?php echo esc_js( __( 'Medium' ) ); ?>",
+ strong: "<?php echo esc_js( __( 'Strong' ) ); ?>"
 };
 try{convertEntities(pwsL10n);}catch(e){};
 /* ]]> */
