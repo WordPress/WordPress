@@ -61,8 +61,12 @@ function ms_cookie_constants(  ) {
 	/**
 	 * @since 2.0.0
 	 */
-	if ( !defined('COOKIE_DOMAIN') )
-		define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
+	if ( !defined('COOKIE_DOMAIN') ) {
+		if ( isset( $current_site->cookie_domain ) )
+			define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
+		else
+			define('COOKIE_DOMAIN', '.' . $current_site->domain);
+	}
 }
 
 /**
