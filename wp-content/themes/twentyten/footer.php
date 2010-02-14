@@ -6,7 +6,7 @@
 <?php get_sidebar( 'footer' ); ?>
 
 			<div id="site-info">
-				<a href="<?php home_url() ?>/" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+				<a href="<?php echo home_url() ?>/" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 			</div>
 
 			<div id="site-generator">
