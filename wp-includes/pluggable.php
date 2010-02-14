@@ -1495,12 +1495,16 @@ function wp_rand( $min = 0, $max = 0 ) {
 	// Reset $rnd_value after 14 uses
 	// 32(md5) + 40(sha1) + 40(sha1) / 8 = 14 random numbers from $rnd_value
 	if ( strlen($rnd_value) < 8 ) {
-		$seed = get_transient('random_seed');
+		if ( defined( 'WP_SETUP_CONFIG' ) )
+			static $seed = '';
+		else
+			$seed = get_transient('random_seed');
 		$rnd_value = md5( uniqid(microtime() . mt_rand(), true ) . $seed );
 		$rnd_value .= sha1($rnd_value);
 		$rnd_value .= sha1($rnd_value . $seed);
 		$seed = md5($seed . $rnd_value);
-		set_transient('random_seed', $seed);
+		if ( ! defined( 'WP_SETUP_CONFIG' ) )
+			set_transient('random_seed', $seed);
 	}
 
 	// Take the first 8 digits for our value

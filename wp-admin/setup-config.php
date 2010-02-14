@@ -17,6 +17,11 @@
 define('WP_INSTALLING', true);
 
 /**
+ * We are blissfully unaware of anything.
+ */
+define('WP_SETUP_CONFIG', true);
+
+/**
  * Disable error reporting
  *
  * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) for debugging
@@ -179,11 +184,17 @@ switch($step) {
 	}
 	/**#@-*/
 
-	$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/?salt=1' );
-	if ( is_wp_error( $secret_keys ) )
-		$secret_keys = false;
-	else
+	$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
+	if ( is_wp_error( $secret_keys ) ) {
+		$secret_keys = array();
+		require_once( ABSPATH . WPINC . '/pluggable.php' );
+		for ( $i = 0; $i < 8; $i++ )
+			$secret_keys[] = wp_generate_password( 64 );
+	} else {
 		$secret_keys = explode( "\n", wp_remote_retrieve_body( $secret_keys ) );
+		foreach ( $secret_keys as $k => $v )
+			$secret_keys[$k] = substr( $v, 28, 64 );
+	}
 	$key = 0;
 
 	foreach ($configFile as $line_num => $line) {
@@ -211,8 +222,7 @@ switch($step) {
 			case "define('SECURE_A":
 			case "define('LOGGED_I":
 			case "define('NONCE_SA":
-				if ( $secret_keys )
-					$configFile[$line_num] = str_replace('put your unique phrase here', substr( $secret_keys[$key++], 28, 64 ), $line );
+				$configFile[$line_num] = str_replace('put your unique phrase here', $secret_keys[$key++], $line );
 				break;
 		}
 	}
