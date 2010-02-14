@@ -14,7 +14,7 @@
 			<span class="meta-prep meta-prep-author"><?php _e( 'Posted on ', 'twentyten' ); ?></span>
 			<a href="<?php the_permalink(); ?>" title="<?php the_time(); ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
 			<span class="meta-sep"> <?php _e( 'by ', 'twentyten' ); ?> </span>
-			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
+			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( get_the_author_meta('ID') ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
 		</div><!-- .entry-meta -->
 
 		<div class="entry-content">
@@ -46,16 +46,22 @@
 
 <?php } elseif ( in_category( 'asides' ) ) { ?>
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<?php if ( is_archive() || is_search() ) : //Only display Excerpts for archives & search ?>
+		<div class="entry-summary">
+			<?php the_excerpt( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
+		</div><!-- .entry-summary -->
+<?php else : ?>
 		<div class="entry-content">
 			<?php the_content( __( 'Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
 		</div><!-- .entry-content -->
+<?php endif; ?>
 
 		<div class="entry-utility">
 			<span class="meta-prep meta-prep-author"><?php _e( 'Posted on ', 'twentyten' ); ?></span>
 			<a href="<?php the_permalink(); ?>" title="<?php the_time(); ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
 			<span class="meta-sep"> <?php _e( ' by ', 'twentyten' ); ?> </span>
-			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
-			<span class="meta-sep"><?php __( ' | ', 'twentyten' ); ?></span>
+			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( get_the_author_meta('ID') ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
+			<span class="meta-sep"><?php _e( ' | ', 'twentyten' ); ?></span>
 			<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 			<?php edit_post_link( __( 'Edit', 'twentyten' ), "<span class=\"meta-sep\">|</span>\n\t\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t\n" ); ?>
 		</div><!-- #entry-utility -->
@@ -71,7 +77,7 @@
 			<a href="<?php
 the_permalink(); ?>" title="<?php the_time(); ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
 			<span class="meta-sep"><?php _e( ' by ', 'twentyten' ); ?></span>
-			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
+			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( get_the_author_meta('ID') ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
 		</div><!-- .entry-meta -->
 
 <?php if ( is_archive() || is_search() ) : //Only display Excerpts for archives & search ?>
@@ -86,9 +92,13 @@ the_permalink(); ?>" title="<?php the_time(); ?>" rel="bookmark"><span class="en
 <?php endif; ?>
 
 		<div class="entry-utility">
-			<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php _e( 'Posted in ', 'twentyten' ); ?></span><?php echo get_the_category_list( ', ' ); ?></span>
-			<span class="meta-sep"><?php __( ' | ', 'twentyten' ); ?></span>
-			<?php the_tags( '<span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links">' . __('Tagged ', 'twentyten' ) . '</span>', ", ", "</span>\n\t\t\t\t\t\t<span class=\"meta-sep\">|</span>\n" ); ?>
+			<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php echo twentyten_cat_list(); ?></span></span>
+			<span class="meta-sep"><?php _e( ' | ', 'twentyten' ); ?></span>
+			<?php $tags_text = twentyten_tag_list(); ?>
+			<?php if ( !empty($tags_text) ) : ?>
+			<span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links"><?php echo $tags_text; ?></span></span>
+			<span class="meta-sep"><?php _e( ' | ', 'twentyten' ); ?></span>
+			<?php endif; //$tags_text ?>
 			<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 			<?php edit_post_link( __( 'Edit', 'twentyten' ), "<span class=\"meta-sep\">|</span>\n\t\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t\n" ); ?>
 		</div><!-- #entry-utility -->

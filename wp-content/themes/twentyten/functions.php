@@ -118,41 +118,37 @@ function twentyten_remove_gallery_css() {
 }
 add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
 
-
-// For category lists on category archives: Returns other categories except the current one (redundant)
-function cats_meow( $glue ) {
-	$current_cat = single_cat_title( '', false );
-	$separator = "\n";
-	$cats = explode( $separator, get_the_category_list($separator) );
-	foreach ( $cats as $i => $str ) {
-		if ( strstr( $str, ">$current_cat<" ) ) {
-			unset( $cats[$i] );
-			break;
+function twentyten_cat_list() {
+	return twentyten_term_list('category', ', ', __('Posted in %s', 'twentyten'), __('Also posted in %s', 'twentyten') );
+}
+function twentyten_tag_list() {
+	return twentyten_term_list('post_tag', ', ', __('Tagged %s', 'twentyten'), __('Also tagged %s', 'twentyten') );
+}
+function twentyten_term_list($taxonomy, $glue = ', ', $text = '', $also_text = '') {
+	global $wp_query, $post;
+	$current_term = $wp_query->queried_object;
+	$terms = wp_get_object_terms($post->ID, $taxonomy);
+	// If we're viewing a Taxonomy page.. 
+	if ( isset($current_term->taxonomy) && $taxonomy == $current_term->taxonomy ) {
+		// Remove the term from display.
+		foreach ( (array)$terms as $key => $term ) {
+			if ( $term->term_id == $current_term->term_id ) {
+				unset($terms[$key]);
+				break;
+			}
 		}
+		// Change to Also text as we've now removed something from the terms list.
+		$text = $also_text;
 	}
-	if ( empty($cats) )
-		return false;
-
-	return trim( join( $glue, $cats ) );
-} // end cats_meow
-
-
-// For tag lists on tag archives: Returns other tags except the current one (redundant)
-function tag_ur_it( $glue ) {
-	$current_tag = single_tag_title( '', '',  false );
-	$separator = "\n";
-	$tags = explode( $separator, get_the_tag_list( "", "$separator", "" ) );
-	foreach ( $tags as $i => $str ) {
-		if ( strstr( $str, ">$current_tag<" ) ) {
-			unset( $tags[$i] );
-			break;
-		}
+	$tlist = array();
+	$rel = 'category' == $taxonomy ? 'rel="category"' : 'rel="tag"';
+	foreach ( (array)$terms as $term ) {
+		$tlist[] = '<a href="' . get_term_link( $term, $taxonomy ) . '" title="' . esc_attr( sprintf( __( 'View all posts in %s', 'twentyten' ), $term->name ) ) . '" ' . $rel . '>' . $term->name . '</a>';
 	}
-	if ( empty($tags) )
-		return false;
-
-	return trim( join( $glue, $tags ) );
-} // end tag_ur_it
+	if ( !empty($tlist) )
+		return sprintf($text, join($glue, $tlist));
+	return '';
+}
 
 // Register widgetized areas
 function twentyten_widgets_init() {

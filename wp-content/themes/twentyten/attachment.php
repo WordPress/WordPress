@@ -12,7 +12,7 @@
 
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e( 'By ', 'twentyten' ); ?></span>
-						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( $authordata->ID, $authordata->user_nicename ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
+						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( get_the_author_meta('ID') ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
 						<span class="meta-sep"><?php _e( ' | ', 'twentyten' ); ?></span>
 						<span class="meta-prep meta-prep-entry-date"><?php _e( 'Published ', 'twentyten' ); ?></span>
 						<span class="entry-date"><abbr class="published" title="<?php the_time() ?>"><?php echo get_the_date(); ?></abbr></span>
