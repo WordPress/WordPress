@@ -90,7 +90,7 @@ if ( isset($_GET['find_detached']) ) {
 				if ( !wp_trash_post($post_id) )
 					wp_die( __('Error in moving to trash...') );
 			}
-			$location = add_query_arg( array( 'message' => 4, 'ids' => join(',', $post_ids) ), $location );
+			$location = add_query_arg( array( 'trashed' => count($post_ids), 'ids' => join(',', $post_ids) ), $location );
 			break;
 		case 'untrash':
 			foreach( (array) $post_ids as $post_id ) {
@@ -100,7 +100,7 @@ if ( isset($_GET['find_detached']) ) {
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from trash...') );
 			}
-			$location = add_query_arg('message', 5, $location);
+			$location = add_query_arg('untrashed', count($post_ids), $location);
 			break;
 		case 'delete':
 			foreach( (array) $post_ids as $post_id_del ) {
@@ -110,7 +110,7 @@ if ( isset($_GET['find_detached']) ) {
 				if ( !wp_delete_attachment($post_id_del) )
 					wp_die( __('Error in deleting...') );
 			}
-			$location = add_query_arg('message', 2, $location);
+			$location = add_query_arg('deleted', count($post_ids), $location);
 			break;
 	}
 
@@ -175,28 +175,29 @@ if ( isset($_GET['s']) && $_GET['s'] )
 <?php
 $message = '';
 if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
-	$_GET['message'] = '1';
+	$message = __('Media attachment updated.');
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 }
 
 if ( isset($_GET['attached']) && (int) $_GET['attached'] ) {
 	$attached = (int) $_GET['attached'];
-	$message = sprintf( _n('Reattached %d attachment', 'Reattached %d attachments', $attached), $attached );
+	$message = sprintf( _n('Reattached %d attachment.', 'Reattached %d attachments.', $attached), $attached );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('attached'), $_SERVER['REQUEST_URI']);
 }
 
 if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
-	$_GET['message'] = '2';
+	$message = sprintf( _n( 'Media attachment permanently deleted.', '%d media attachments permanently deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
 }
 
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
-	$_GET['message'] = '4';
+	$message = sprintf( _n( 'Media attachment moved to the trash.', '%d media attachments moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
+	$message .= ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('trashed'), $_SERVER['REQUEST_URI']);
 }
 
 if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
-	$_GET['message'] = '5';
+	$message = sprintf( _n( 'Media attachment restored from the trash.', '%d media attachments restored from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('untrashed'), $_SERVER['REQUEST_URI']);
 }
 
