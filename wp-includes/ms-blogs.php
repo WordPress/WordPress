@@ -4,7 +4,7 @@
  * Site/blog functions that work with the blogs table and related data.
  *
  * @package WordPress
- * @subpackage Site
+ * @subpackage Multisite
  * @since 3.0.0
  */
 

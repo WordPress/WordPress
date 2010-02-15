@@ -80,7 +80,7 @@ include_once( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Initialize multisite if enabled.
 if ( is_multisite() ) {
-	require( ABSPATH . WPINC . '/blogs.php' );
+	require( ABSPATH . WPINC . '/ms-blogs.php' );
 	require( ABSPATH . WPINC . '/ms-settings.php' );
 }
 
