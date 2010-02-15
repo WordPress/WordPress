@@ -137,7 +137,7 @@ switch($step) {
 		<tr>
 			<th scope="row"><label for="dbhost">Database Host</label></th>
 			<td><input name="dbhost" id="dbhost" type="text" size="25" value="localhost" /></td>
-			<td>99% chance you won't need to change this value.</td>
+			<td>You should be able to get this info from your web host, if <code>localhost</code> does not work.</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="prefix">Table Prefix</label></th>
