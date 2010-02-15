@@ -1059,6 +1059,7 @@ class wpdb {
 		else
 			return null;
 
+		$new_array = array();
 		if ( $output == OBJECT ) {
 			// Return an integer-keyed array of row objects
 			return $this->last_result;
@@ -1103,6 +1104,7 @@ class wpdb {
 		if ( $this->col_info ) {
 			if ( $col_offset == -1 ) {
 				$i = 0;
+				$new_array = array();
 				foreach( (array) $this->col_info as $col ) {
 					$new_array[$i] = $col->{$info_type};
 					$i++;
@@ -1173,8 +1175,7 @@ class wpdb {
 	 *
 	 * @return WP_Error
 	 */
-	function check_database_version()
-	{
+	function check_database_version() {
 		global $wp_version, $required_mysql_version;
 		// Make sure the server has the required MySQL version
 		if ( version_compare($this->db_version(), $required_mysql_version, '<') )
