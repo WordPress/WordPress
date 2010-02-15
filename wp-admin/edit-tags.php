@@ -302,17 +302,21 @@ if ( $page_links )
 <div id="col-left">
 <div class="col-wrap">
 
+<?php
+if ( current_user_can( $tax->edit_cap ) )
+	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false, 'link' => 'edit' ) );
+else
+	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
+
+if ( $tag_cloud ) :
+?>
 <div class="tagcloud">
 <h3><?php printf(_x('Popular %s', '%s: plural taxonomy name'), $tax->label); ?></h3>
-<?php
-if ( current_user_can($tax->edit_cap) )
-	wp_tag_cloud(array('taxonomy' => $taxonomy, 'link' => 'edit'));
-else
-	wp_tag_cloud(array('taxonomy' => $taxonomy));
-?>
+<?php echo $tag_cloud; unset( $tag_cloud ); ?>
 </div>
-
 <?php
+endif;
+
 if ( current_user_can($tax->edit_cap) ) {
 	if ( 'category' == $taxonomy )
 		do_action('add_category_form_pre', (object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_pre_add_form
