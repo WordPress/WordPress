@@ -432,9 +432,9 @@ function wp_default_styles( &$styles ) {
 	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20091227';
+	$colors_version = '20100215';
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100108' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100215' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20100108' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

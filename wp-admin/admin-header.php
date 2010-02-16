@@ -95,7 +95,7 @@ if ( function_exists('mb_strlen') ) {
 }
 ?>
 
-<img id="header-logo" src="../wp-includes/images/blank.gif" alt="" width="32" height="32" /> <h1 id="site-heading" <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit Site') ?>"><span id="site-title"><?php echo $blog_name ?></span> <em id="site-visit-button"><?php _e('Visit Site') ?></em></a></h1>
+<img id="header-logo" src="../wp-includes/images/blank.gif" alt="" width="32" height="32" /> <h1 id="site-heading" <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit Site') ?>"><span id="site-title"><?php echo $blog_name ?></span> <em id="site-visit-button" class="site-title-button"><?php _e('Visit Site') ?></em></a> <?php if ( ! get_option('blog_public') ) { ?><a href="options-privacy.php" title="<?php _e('Your blog is hidden from search engines') ?>"><em class="site-title-button"><?php _e('Privacy On') ?></em></a> <?php } ?></h1>
 
 <div id="wphead-info">
 <div id="user_info">

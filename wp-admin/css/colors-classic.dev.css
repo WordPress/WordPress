@@ -1596,19 +1596,19 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background: transparent url(../images/wp-logo-vs.gif) no-repeat scroll center center;
 }
 
-#wphead #site-visit-button {
+#wphead .site-title-button {
 	background-color: #3c6b95;
 	background-image: url(../images/visit-site-button-grad-vs.gif);
 	color: #b6d1e4;
 	text-shadow: #3f3f3f 0 -1px 0;
 }
 
-#wphead a:hover #site-visit-button {
+#wphead a:hover .site-title-button {
 	color: #fff;
 }
 
-#wphead a:focus #site-visit-button,
-#wphead a:active #site-visit-button {
+#wphead a:focus .site-title-button,
+#wphead a:active .site-title-button {
 	background-position: 0 -27px;
 }
 
