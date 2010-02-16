@@ -130,27 +130,32 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_year() && !empty($_GET['year']) ) {
 			if ( $redirect_url = get_year_link(get_query_var('year')) )
 				$redirect['query'] = remove_query_arg('year', $redirect['query']);
-		} elseif ( is_category() && !empty($_GET['cat']) && preg_match( '|^[0-9]+$|', $_GET['cat'] ) ) {
-			if ( $redirect_url = get_category_link(get_query_var('cat')) )
-				$redirect['query'] = remove_query_arg('cat', $redirect['query']);
 		} elseif ( is_author() && !empty($_GET['author']) && preg_match( '|^[0-9]+$|', $_GET['author'] ) ) {
 			$author = get_userdata(get_query_var('author'));
 			if ( false !== $author && $redirect_url = get_author_posts_url($author->ID, $author->user_nicename) )
 				$redirect['query'] = remove_query_arg('author', $redirect['query']);
 		}
 
-		// redirect sub-terms of taxonomies to their correct urls
-		if ( is_category() || is_tax() ) {
-			if ( is_category() ) {
-				$taxonomy = 'category';
-				$slug = get_query_var('category_name');
-			} else {
-				$taxonomy = get_query_var('taxonomy');
-				$slug = get_query_var('term');
-			}
-			if ( $tax_url = get_term_link($slug, $taxonomy) ) {
+		// Terms (Tags/categories)
+		if ( is_category() || is_tag() || is_tax() ) {
+			$obj = $wp_query->get_queried_object();
+			if ( !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) ) && !is_wp_error($tax_url) ) {
+
+				$redirect['query'] = remove_query_arg( array( 'category_name', 'tag', 'cat', 'tag_id', 'term', 'taxonomy'), $redirect['query']);
+				if ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
+					$tax = get_taxonomy( $obj->taxonomy );
+					if ( false !== $tax->query_var) 
+						$redirect['query'] = remove_query_arg($tax->query_var, $redirect['query']);
+				}
+
 				$tax_url = parse_url($tax_url);
-				$redirect['path'] = $tax_url['path'];
+				if ( ! empty($tax_url['query']) ) { // Custom taxonomies may only be accessable via ?taxonomy=..&term=..
+					parse_str($tax_url['query'], $query_vars);
+					$redirect['query'] = add_query_arg($query_vars, $redirect['query']);
+				} else { // Taxonomy is accessable via a "pretty-URL"
+					$redirect['path'] = $tax_url['path'];
+				}
+
 			}
 		}
 

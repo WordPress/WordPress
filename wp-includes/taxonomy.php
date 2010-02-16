@@ -2290,6 +2290,10 @@ function get_term_link( $term, $taxonomy ) {
 			$term = &get_term_by('slug', $term, $taxonomy);
 		}
 	}
+
+	if ( !is_object($term) )
+		$term = new WP_Error('invalid_term', __('Empty Term'));
+
 	if ( is_wp_error( $term ) )
 		return $term;
 
