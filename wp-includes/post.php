@@ -70,33 +70,38 @@ function create_initial_post_types() {
 										) );
 
 	register_post_status( 'future', array(	'label' => _x('Scheduled', 'post'),
-											'public' => true,
+											'protected' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'draft', array(	'label' => _x('Draft', 'post'),
-											'public' => true,
+											'protected' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')
 										) );
 
+	register_post_status( 'pending', array(	'label' => _x('Pending', 'post'),
+											'protected' => true,
+											'_builtin' => true,
+											'label_count' => _n_noop('Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>')
+										) );
+
 	register_post_status( 'private', array(	'label' => _x('Private', 'post'),
-											'public' => true,
+											'private' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'trash', array(	'label' => _x('Trash', 'post'),
-											'public' => true,
-											'exclude_from_search' => true,
+											'internal' => true,
+											'show_in_admin_status_list' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'auto-draft', array(	'label' => _x('Auto-Draft', 'post'),
-											'public' => false,
-											'exclude_from_search' => true,
+											'internal' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
 										) );
@@ -526,24 +531,42 @@ function register_post_status($post_status, $args = array()) {
 		$wp_post_statuses = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'publicly_queryable' => null, 'show_in_admin_edit' => null);
+	$defaults = array('label' => false, 'label_count' => false, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => null, 'internal' => null, 'protected' => null, 'private' => null, 'show_in_admin_all' => null, 'publicly_queryable' => null, 'show_in_admin_status_list' => null, 'show_in_admin_all_list' => null, 'single_view_cap' => null);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
 	$post_status = sanitize_user($post_status, true);
 	$args->name = $post_status;
 
-	// If not set, default to the setting for public.
+	if ( null === $args->public && null === $args->internal && null === $args->protected && null === $args->private )
+		$args->internal = true;
+
+	if ( null === $args->public  )
+		$args->public = false;
+
+	if ( null === $args->private  )
+		$args->private = false;
+
+	if ( null === $args->protected  )
+		$args->protected = false;
+
+	if ( null === $args->internal  )
+		$args->internal = false;
+
 	if ( null === $args->publicly_queryable )
 		$args->publicly_queryable = $args->public;
 
-	// If not set, default to true if not public, false if public.
 	if ( null === $args->exclude_from_search )
-		$args->exclude_from_search = !$args->public;
+		$args->exclude_from_search = $args->internal;
 
-	// If not set, default to the setting for public.
-	if ( null === $args->show_in_admin_edit )
-		$args->show_in_admin_edit = $args->public;
+	if ( null === $args->show_in_admin_all_list )
+		$args->show_in_admin_all_list = !$args->internal;
+
+	if ( null === $args->show_in_admin_status_list )
+			$args->show_in_admin_status_list = !$args->internal;
+
+	if ( null === $args->single_view_cap )
+		$args->single_view_cap = $args->public ? '' : 'edit';
 
 	if ( false === $args->label )
 		$args->label = $post_status;
@@ -591,14 +614,20 @@ function get_post_status_object( $post_status ) {
  * @param array|string $args An array of key => value arguments to match against the post statuses.
  *  Only post statuses having attributes that match all arguments are returned.
  * @param string $output The type of output to return, either post status 'names' or 'objects'. 'names' is the default.
+ * @param string $operator Whether the elements in $args should be logicallly 'or'ed or 'and'ed together. 'or' means only one element from the array needs to match. 'and' means all elements must match. The default is 'or'.
  * @return array A list of post type names or objects
  */
-function get_post_stati( $args = array(), $output = 'names' ) {
+function get_post_stati( $args = array(), $output = 'names', $operator = 'or' ) {
 	global $wp_post_statuses;
 
 	$do_names = false;
 	if ( 'names' == $output )
 		$do_names = true;
+
+	if ( 'and' == $operator )
+		$arg_count = count($args);
+	else
+		$arg_count = 0;
 
 	$post_statuses = array();
 	foreach ( (array) $wp_post_statuses as $post_status ) {
@@ -607,7 +636,9 @@ function get_post_stati( $args = array(), $output = 'names' ) {
 				$post_statuses[] = $post_status->name;
 			else
 				$post_statuses[] = $post_status;
-		} elseif ( array_intersect_assoc((array) $post_status, $args) ) {
+		} elseif ( $intersect = array_intersect_assoc((array) $post_status, $args) ) {
+			if ( $arg_count && ( $arg_count != count($intersect) ) )
+				continue;
 			if ( $do_names )
 				$post_statuses[] = $post_status->name;
 			else
@@ -787,6 +818,8 @@ function register_post_type($post_type, $args = array()) {
 		$args->publish_cap = 'publish_' . $args->capability_type . 's';
 	if ( empty($args->read_cap) )
 		$args->read_cap = 'read_' . $args->capability_type;
+	if ( empty($args->read_private_cap) )
+		$args->read_private_cap = 'read_private_' . $args->capability_type . 's';
 	if ( empty($args->delete_cap) )
 		$args->delete_cap = 'delete_' . $args->capability_type;
 

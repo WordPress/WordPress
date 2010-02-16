@@ -2061,9 +2061,9 @@ class WP_Query {
 				$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		}
 
-		if ( is_array($post_type) )
+		if ( is_array($post_type) ) {
 			$post_type_cap = 'multiple_post_type';
-		else {
+		} else {
 			$post_type_object = get_post_type_object ( $post_type );
 			if ( !empty($post_type_object) )
 				$post_type_cap = $post_type_object->capability_type;
@@ -2081,15 +2081,29 @@ class WP_Query {
 			$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $post_type) . "')";
 		} elseif ( ! empty( $post_type ) ) {
 			$where .= " AND $wpdb->posts.post_type = '$post_type'";
+			$post_type_object = get_post_type_object ( $post_type );
 		} elseif ( $this->is_attachment ) {
 			$where .= " AND $wpdb->posts.post_type = 'attachment'";
-			$post_type_cap = 'post';
+			$post_type_object = get_post_type_object ( 'attachment' );
 		} elseif ($this->is_page) {
 			$where .= " AND $wpdb->posts.post_type = 'page'";
-			$post_type_cap = 'page';
+			$post_type_object = get_post_type_object ( 'page' );
 		} else {
 			$where .= " AND $wpdb->posts.post_type = 'post'";
-			$post_type_cap = 'post';
+			$post_type_object = get_post_type_object ( 'post' );
+		}
+
+		if ( !empty($post_type_object) ) {
+			$post_type_cap = $post_type_object->capability_type;
+			$edit_cap = $post_type_object->edit_cap;
+			$read_cap = $post_type_object->read_cap;
+			$edit_others_cap = $post_type_object->edit_others_cap;
+			$read_private_cap = $post_type_object->read_private_cap;
+		} else {
+			$edit_cap = 'edit_' . $post_type_cap;
+			$read_cap = 'read_' . $post_type_cap;
+			$edit_others_cap = 'edit_others_' . $post_type_cap . 's';
+			$read_private_cap = 'read_private_' . $post_type_cap . 's';
 		}
 
 		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
@@ -2121,13 +2135,13 @@ class WP_Query {
 				$statuswheres[] = "(" . join( ' AND ', $e_status ) . ")";
 			}
 			if ( !empty($r_status) ) {
-				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can("edit_others_{$post_type_cap}s") )
+				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can($edit_others_cap) )
 					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $r_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $r_status ) . ")";
 			}
 			if ( !empty($p_status) ) {
-				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can("read_private_{$post_type_cap}s") )
+				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can($read_private_cap) )
 					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $p_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
@@ -2142,11 +2156,26 @@ class WP_Query {
 		} elseif ( !$this->is_singular ) {
 			$where .= " AND ($wpdb->posts.post_status = 'publish'";
 
-			if ( is_admin() )
-				$where .= " OR $wpdb->posts.post_status = 'future' OR $wpdb->posts.post_status = 'draft' OR $wpdb->posts.post_status = 'pending'";
+			// Add public states.
+			$public_states = get_post_stati( array('public' => true) );
+			foreach ( (array) $public_states as $state ) {
+				if ( 'publish' == $state ) // Publish is hard-coded above.
+					continue;
+				$where .= " OR $wpdb->posts.post_status = '$state'";
+			}
+
+			if ( is_admin() ) {
+				// Add protected states that should show in the admin all list.
+				$admin_all_states = get_post_stati( array('protected' => true, 'show_in_admin_all_list' => true), 'names', 'and' );
+				foreach ( (array) $admin_all_states as $state )
+					$where .= " OR $wpdb->posts.post_status = '$state'";
+			}
 
 			if ( is_user_logged_in() ) {
-				$where .= current_user_can( "read_private_{$post_type_cap}s" ) ? " OR $wpdb->posts.post_status = 'private'" : " OR $wpdb->posts.post_author = $user_ID AND $wpdb->posts.post_status = 'private'";
+				// Add private states that are limited to viewing by the author of a post or someone who has caps to read private states.
+				$private_states = get_post_stati( array('private' => true) );
+				foreach ( (array) $private_states as $state )
+					$where .= current_user_can( $read_private_cap ) ? " OR $wpdb->posts.post_status = '$state'" : " OR $wpdb->posts.post_author = $user_ID AND $wpdb->posts.post_status = '$state'";
 			}
 
 			$where .= ')';
@@ -2296,33 +2325,32 @@ class WP_Query {
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
 			$status = get_post_status($this->posts[0]);
+			$post_status_obj = get_post_status_object($status);
 			//$type = get_post_type($this->posts[0]);
-			if ( ('publish' != $status) ) {
+			if ( !$post_status_obj->public ) {
 				if ( ! is_user_logged_in() ) {
 					// User must be logged in to view unpublished posts.
 					$this->posts = array();
 				} else {
-					if  (in_array($status, array('draft', 'pending', 'trash')) ) {
+					if  ( $post_status_obj->protected ) {
 						// User must have edit permissions on the draft to preview.
-						if (! current_user_can("edit_$post_type_cap", $this->posts[0]->ID)) {
+						if (! current_user_can($edit_cap, $this->posts[0]->ID)) {
 							$this->posts = array();
 						} else {
 							$this->is_preview = true;
-							$this->posts[0]->post_date = current_time('mysql');
+							if ('future' != $status)
+								$this->posts[0]->post_date = current_time('mysql');
 						}
-					}  else if ('future' == $status) {
-						$this->is_preview = true;
-						if (!current_user_can("edit_$post_type_cap", $this->posts[0]->ID)) {
-							$this->posts = array ( );
-						}
-					} else {
-						if (! current_user_can("read_$post_type_cap", $this->posts[0]->ID))
+					} elseif ( $post_status_obj->private ) {
+						if ( ! current_user_can($read_cap, $this->posts[0]->ID) )
 							$this->posts = array();
+					} else {
+						$this->posts = array();
 					}
 				}
 			}
 
-			if ( $this->is_preview && current_user_can( "edit_{$post_type_cap}", $this->posts[0]->ID ) )
+			if ( $this->is_preview && current_user_can( $edit_cap, $this->posts[0]->ID ) )
 				$this->posts[0] = apply_filters('the_preview', $this->posts[0]);
 		}
 
