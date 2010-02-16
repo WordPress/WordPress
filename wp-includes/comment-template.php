@@ -512,10 +512,11 @@ function get_comment_link( $comment = null, $args = array() ) {
  *
  * @since 1.5.0
  *
+ * @param int $post_id Optional post id
  * @return string The link to the comments
  */
-function get_comments_link() {
-	return get_permalink() . '#comments';
+function get_comments_link($post_id = 0) {
+	return get_permalink($post_id) . '#comments';
 }
 
 /**
