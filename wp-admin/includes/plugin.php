@@ -358,7 +358,11 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 		if ( !empty($redirect) )
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
-		@include(WP_PLUGIN_DIR . '/' . $plugin);
+		include(WP_PLUGIN_DIR . '/' . $plugin);
+		if ( ob_get_length() > 0 ) {
+			$output = ob_get_clean();
+			return new WP_Error('unexpected_output', __('The plugin generated unexpected output.'), $output);
+		}
 		do_action( 'activate_plugin', trim( $plugin) );
 		if ( $network_wide ) {
 			$current[$plugin] = time();

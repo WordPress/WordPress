@@ -50,8 +50,15 @@ if ( !empty($action) ) {
 			check_admin_referer('activate-plugin_' . $plugin);
 
 			$result = activate_plugin($plugin, 'plugins.php?error=true&plugin=' . $plugin, $network_wide);
-			if ( is_wp_error( $result ) )
-				wp_die($result);
+			if ( is_wp_error( $result ) ) {
+				if ('unexpected_output' == $result->get_error_code()) {
+					$redirect = 'plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . $plugin;
+					wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
+					exit;
+				} else {
+					wp_die($result);
+				}
+			}
 
 			$recent = (array)get_option('recently_activated');
 			if ( isset($recent[ $plugin ]) ) {
@@ -140,10 +147,12 @@ if ( !empty($action) ) {
 			if ( is_wp_error($valid) )
 				wp_die($valid);
 
-			if ( defined('E_RECOVERABLE_ERROR') )
-				error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
-			else
-				error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING);
+			if ( ! WP_DEBUG ) {
+				if ( defined('E_RECOVERABLE_ERROR') )
+					error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
+				else
+					error_reporting(E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING);
+			}
 
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
 			include(WP_PLUGIN_DIR . '/' . $plugin);
@@ -157,7 +166,10 @@ if ( !empty($action) ) {
 			check_admin_referer('deactivate-plugin_' . $plugin);
 			deactivate_plugins($plugin);
 			update_option('recently_activated', array($plugin => time()) + (array)get_option('recently_activated'));
-			wp_redirect("plugins.php?deactivate=true&plugin_status=$status&paged=$page");
+			if (headers_sent())
+				echo "<meta http-equiv='refresh' content='" . esc_attr( "0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page" ) . "' />";
+			else
+				wp_redirect("plugins.php?deactivate=true&plugin_status=$status&paged=$page");
 			exit;
 			break;
 		case 'deactivate-selected':
@@ -302,8 +314,15 @@ if ( !empty($invalid) )
 		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), esc_html($plugin_file), $error->get_error_message()) . '</p></div>';
 ?>
 
-<?php if ( isset($_GET['error']) ) : ?>
-	<div id="message" class="updated"><p><?php _e('Plugin could not be activated because it triggered a <strong>fatal error</strong>.') ?></p>
+<?php if ( isset($_GET['error']) ) :
+
+	if (isset($_GET['charsout']))
+		$errmsg = sprintf(__('Plugin could not be activated because it generated %d characters of <strong>unexpected output</strong>.'), $_GET['charsout']);
+	else
+		$errmsg = __('Plugin could not be activated because it triggered a <strong>fatal error</strong>.');
+
+	?>
+	<div id="message" class="updated"><p><?php echo $errmsg; ?></p>
 	<?php
 		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin) ) { ?>
 	<iframe style="border:0" width="100%" height="70px" src="<?php echo admin_url('plugins.php?action=error_scrape&amp;plugin=' . esc_attr($plugin) . '&amp;_wpnonce=' . esc_attr($_GET['_error_nonce'])); ?>"></iframe>
