@@ -220,7 +220,7 @@ function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_st
  * notices, including one when a deprecated WordPress function, function argument,
  * or file is used. Deprecated code may be removed from a later version.
  *
- * It is strongly recommended that plugin and theme authors use WP_DEBUG for their
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG in their
  * development environments.
  *
  * When WP_DEBUG_DISPLAY is true, WordPress will force errors to be displayed.
