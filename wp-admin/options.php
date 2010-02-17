@@ -2,11 +2,14 @@
 /**
  * Options Management Administration Panel.
  *
- * Just allows for displaying of options.
+ * If accessed directly in a browser this page shows a list of all saved options
+ * along with editable fields for their values. Serialized data is not supported
+ * and there is no way to remove options via this page. It is not linked to from
+ * anywhere else in the admin.
  *
- * This isn't referenced or linked to, but will show all of the options and
- * allow editing. The issue is that serialized data is not supported to be
- * modified. Options can not be removed.
+ * This file is also the target of the forms in core and custom options pages
+ * that use the Settings API. In this case it saves the new option values
+ * and returns the user to their page of origin.
  *
  * @package WordPress
  * @subpackage Administration
@@ -76,6 +79,9 @@ if ( is_multisite() && is_super_admin() && isset($_GET[ 'adminhash' ]) && $_GET[
 
 switch($action) {
 
+/**
+ * If $_GET['action'] == 'update' we are saving settings sent from a settings page
+ */
 case 'update':
 	if ( isset($_POST[ 'option_page' ]) ) {
 		$option_page = $_POST[ 'option_page' ];
@@ -123,7 +129,18 @@ case 'update':
 		}
 	}
 
-	$goback = add_query_arg( 'updated', 'true', wp_get_referer() );
+	/**
+	 *  Handle settings errors and return to options page
+	 */
+	// If no settings errors were registered add a general 'updated' message.
+	if ( !count( get_settings_errors() ) )
+		add_settings_error('general', 'settings_updated', __('Settings saved.'), 'updated');
+	set_transient('settings_errors', get_settings_errors(), 30);
+
+	/**
+	 * Redirect back to the settings page that was submitted
+	 */
+	$goback = add_query_arg( 'updated', 'true',  wp_get_referer() );
 	wp_redirect( $goback );
 	break;
 

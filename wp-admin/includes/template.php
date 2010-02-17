@@ -2981,12 +2981,22 @@ function get_hidden_meta_boxes($screen) {
 /**
  * Add a new section to a settings page.
  *
+ * Part of the Settings API. Use this to define new settings sections for an admin page.
+ * Show settings sections in your admin page callback function with do_settings_sections().
+ * Add settings fields to your section with add_settings_field()
+ *
+ * The $callback argument should be the name of a function that echos out any
+ * content you want to show at the top of the settings section before the actual
+ * fields. It can output nothing if you want.
+ *
  * @since 2.7.0
  *
- * @param string $id String for use in the 'id' attribute of tags.
- * @param string $title Title of the section.
- * @param string $callback Function that fills the section with the desired content. The function should echo its output.
- * @param string $page The type of settings page on which to show the section (general, reading, writing, ...).
+ * @global $wp_settings_sections Storage array of all settings sections added to admin pages
+
+ * @param string $id Slug-name to identify the section. Used in the 'id' attribute of tags.
+ * @param string $title Formatted title of the section. Shown as the heading for the section. 
+ * @param string $callback Function that echo's out content for the section heading.
+ * @param string $page The slug-name of the settings page on which to show the section (general, reading, writing, ...).
  */
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
@@ -3002,15 +3012,25 @@ function add_settings_section($id, $title, $callback, $page) {
 }
 
 /**
- * Add a new field to a settings page.
+ * Add a new field to a section of a settings page
+ *
+ * Part of the Settings API. Use this to define a settings field that will show
+ * as part of a settings section inside a settings page. The fields are shown using
+ * do_settings_fields() in do_settings-sections()
+ *
+ * The $callback argument should be the name of a function that echoes out the
+ * html input tags for this setting field. Use get_option() to retrive existing
+ * values to show. 
  *
  * @since 2.7.0
  *
- * @param string $id String for use in the 'id' attribute of tags.
- * @param string $title Title of the field.
- * @param string $callback Function that fills the field with the desired content. The function should echo its output.
- * @param string $page The type of settings page on which to show the field (general, reading, writing, ...).
- * @param string $section The section of the settingss page in which to show the box (default, ...).
+ * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
+ *
+ * @param string $id Slug-name to identify the field. Used in the 'id' attribute of tags.
+ * @param string $title Formatted title of the field. Shown as the label for the field during output.
+ * @param string $callback Function that fills the field with the desired form inputs. The function should echo its output.
+ * @param string $page The slug-name of the settings page on which to show the section (general, reading, writing, ...).
+ * @param string $section The slug-name of the section of the settingss page in which to show the box (default, ...).
  * @param array $args Additional arguments
  */
 function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
@@ -3027,11 +3047,17 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Prints out all settings sections added to a particular settings page
  *
+ * Part of the Settings API. Use this in a settings page callback function
+ * to output all the sections and fields that were added to that $page with
+ * add_settings_section() and add_settings_field()
+ *
+ * @global $wp_settings_sections Storage array of all settings sections added to admin pages
+ * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
  * @since unknown
  *
- * @param unknown_type $page
+ * @param string $page The slug name of the page whos settings sections you want to output
  */
 function do_settings_sections($page) {
 	global $wp_settings_sections, $wp_settings_fields;
@@ -3051,12 +3077,18 @@ function do_settings_sections($page) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Print out the settings fields for a particular settings section
+ *
+ * Part of the Settings API. Use this in a settings page to output
+ * a specific section. Should normally be called by do_settings_sections()
+ * rather than directly.
+ *
+ * @global $wp_settings_fields Storage array of settings fields and their pages/sections
  *
  * @since unknown
  *
- * @param unknown_type $page
- * @param unknown_type $section
+ * @param string $page Slug title of the admin page who's settings fields you want to show.
+ * @param section $section Slug title of the settings section who's fields you want to show.
  */
 function do_settings_fields($page, $section) {
 	global $wp_settings_fields;
@@ -3075,6 +3107,131 @@ function do_settings_fields($page, $section) {
 		echo '</td>';
 		echo '</tr>';
 	}
+}
+
+/**
+ * Register a settings error to be displayed to the user
+ *
+ * Part of the Settings API. Use this to show messages to users about settings validation
+ * problems, missing settings or anything else.
+ *
+ * Settings errors should be added inside the $sanitize_callback function defined in
+ * register_setting() for a given setting to give feedback about the submission.
+ *
+ * By default messages will show immediately after the submission that generated the error.
+ * Additional calls to settings_errors() can be used to show errors even when the settings
+ * page is first accessed.
+ *
+ * @global array $wp_settings_errors Storage array of errors registered during this pageload
+ * 
+ * @param string $setting Slug title of the setting to which this error applies
+ * @param string $id Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
+ * @param string $message The formatted message text to display to the user (will be shown inside styled <div> and <p>)
+ * @param string $type The type of message it is, controls HTML class. Use 'error' or 'updated'.
+ */
+function add_settings_error( $setting, $id, $message, $type = 'error' ) {
+	global $wp_settings_errors;
+
+	if ( !isset($wp_settings_errors) )
+		$wp_settings_errors = array();
+
+	$new_error = array(
+		'setting' => $setting,
+		'title' => $title, // @todo $title not defined. Use $id instead?
+		'message' => $message,
+		'type' => $type
+	);
+	$wp_settings_errors[] = $new_error;
+}
+
+/**
+ * Fetch settings errors registered by add_settings_error()
+ *
+ * Checks the $wp_settings_errors array for any errors declared during the current
+ * pageload and returns them.
+ *
+ * If changes were just submitted ($_GET['updated']) and settings errors were saved 
+ * to the 'settings_errors' transient then those errors will be returned instead. This
+ * is used to pass errors back across pageloads.
+ *
+ * Use the $sanitize argument to manually re-sanitize the option before returning errors.
+ * This is useful if you have errors or notices you want to show even when the user
+ * hasn't submitted data (i.e. when they first load an options page, or in admin_notices action hook)
+ *
+ * @global array $wp_settings_errors Storage array of errors registered during this pageload
+ *
+ * @param string $setting Optional slug title of a specific setting who's errors you want.
+ * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
+ * @return array Array of settings errors
+ */
+function get_settings_errors( $setting = '', $sanitize = FALSE ) {
+	global $wp_settings_errors;
+
+	// If $sanitize is true, manually re-run the sanitizisation for this option
+	// This allows the $sanitize_callback from register_setting() to run, adding
+	// any settings errors you want to show by default.
+	if ( $sanitize )
+		sanitize_option( $setting, get_option($setting));
+
+	// If settings were passed back from options.php then use them
+	// Ignore transients if $sanitize is true, we dont' want the old values anyway
+	if ( isset($_GET['updated']) && $_GET['updated'] && get_transient('settings_errors') ) {
+		$settings_errors = get_transient('settings_errors');
+		delete_transient('settings_errors');
+	// Otherwise check global in case validation has been run on this pageload
+	} elseif ( count( $wp_settings_errors ) ) {
+		$settings_errors = $wp_settings_errors;
+	} else {
+		return;
+	}
+
+	// Filter the results to those of a specific setting if one was set
+	if ( $setting ) {
+		foreach ( (array) $settings_errors as $key => $details )
+			if ( $setting != $details['setting'] )
+				unset( $settings_errors[$key] );
+	}
+	return $settings_errors;
+}
+
+/**
+ * Display settings errors registered by add_settings_error()
+ *
+ * Part of the Settings API. Outputs a <div> for each error retrieved by get_settings_errors().
+ * 
+ * This is called automatically after a settings page based on the Settings API is submitted.
+ * Errors should be added during the validation callback function for a setting defined in register_setting()
+ *
+ * The $sanitize option is passed into get_settings_errors() and will re-run the setting sanitization
+ * on its current value.
+ *
+ * The $hide_on_update option will cause errors to only show when the settings page is first loaded.
+ * if the user has already saved new values it will be hidden to avoid repeating messages already
+ * shown in the default error reporting after submission. This is useful to show general errors like missing
+ * settings when the user arrives at the settings page.
+ *
+ * @param string $setting Optional slug title of a specific setting who's errors you want.
+ * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
+ * @param boolean $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
+ * @return <type>
+ */
+function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = FALSE ) {
+
+	if ($hide_on_update AND $_GET['updated']) return;
+	
+	$settings_errors = get_settings_errors( $setting, $sanitize );
+
+	if ( !is_array($settings_errors) ) return;
+
+	$output = '';
+	foreach ( $settings_errors as $key => $details ) {
+		$css_id = 'setting-error-' . $details['title'];
+		$css_class = $details['type'] . ' fade settings-error';
+		$output .= "<div id='$css_id' class='$css_class'> \n";
+		$output .= "<p><strong>{$details['message']}</strong></p>";
+		$output .= "</div> \n";
+	}
+	echo $output;
 }
 
 /**
