@@ -1231,7 +1231,7 @@ class wpdb {
 
 		$bt = array_reverse( $bt );
 		foreach ( (array) $bt as $call ) {
-			if ( @$call['class'] == __CLASS__ )
+			if ( isset( $call['class'] ) && __CLASS__ == $call['class'] )
 				continue;
 			$function = $call['function'];
 			if ( isset( $call['class'] ) )
