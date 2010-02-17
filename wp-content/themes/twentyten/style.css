@@ -62,7 +62,7 @@ a img { border: none; }
 
 
 /*
-LAYOUT: Two-Column (Right)
+LAYOUT: Two columns
 DESCRIPTION: Two-column fixed layout with one sidebar right of content
 */
 
@@ -86,6 +86,16 @@ DESCRIPTION: Two-column fixed layout with one sidebar right of content
 #footer {
 	clear: both;
 	width: 100%;
+}
+
+/*
+LAYOUT: One column, no sidebar
+DESCRIPTION: One centered column with no sidebar
+*/
+
+.onecolumn #content {
+	margin: 0 auto;
+	width: 640px;
 }
 
 
