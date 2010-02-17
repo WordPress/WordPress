@@ -114,7 +114,7 @@ h3#comments-title,
 h3#reply-title,
 #access .menu,
 #cancel-comment-reply-link,
-#form-allowed-tags,
+.form-allowed-tags,
 #site-info,
 #site-title,
 #wp-calendar,
@@ -127,7 +127,7 @@ h3#reply-title,
 .entry-meta,
 .entry-title,
 .entry-utility,
-.form-label,
+#respond label,
 .navigation,
 .page-title,
 .pingback p,
@@ -972,6 +972,12 @@ h3#comments-title {
 	overflow: hidden;
 	position: relative;
 }
+#respond p {
+	margin: 0;
+}
+#respond .comment-notes {
+	margin-bottom: 1em;
+}
 .children #respond {
 	margin: 0 48px 0 0;
 }
@@ -993,32 +999,41 @@ h3#reply-title {
 	color:#FF4B33;
 	font-weight:bold;
 }
-.form-section label {
+#respond label {
 	color: #888;
 	font-size: 12px;
 }
-.form-section input {
+#respond input {
 	margin:0 0 9px 0;
 	width:98%;
 }
-.form-section textarea {
+#respond textarea {
 	width:99%;
 }
-#form-allowed-tags {
-	color:#888;
+#respond dt,
+#respond dd {
+	color: #888;
 	font-size: 12px;
 	line-height: 18px;
 }
-#form-allowed-tags p {
-	margin:0;
-}
-#form-allowed-tags span {
-}
-#form-allowed-tags code {
+#respond dd code {
 	font-size: 11px;
 }
-.form-submit {
-	margin: 12px 0 24px 0;
+#respond .form-submit {
+	margin: 0 0 24px;
+}
+#respond .form-submit input {
+	width: auto;
+}
+#respond dl {
+	margin: 0 0 10px;
+}
+#respond dt {
+	 display: inline;
+	font-weight: normal;
+}
+#respond dd {
+	display: inline;
 }
 
 
