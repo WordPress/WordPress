@@ -7,7 +7,9 @@
 
 /**
  * Defines initial WordPress constants
- * 
+ *
+ * @see wp_debug_mode()
+ *
  * @since 3.0.0
  */
 function wp_initial_constants( ) {
@@ -43,11 +45,11 @@ function wp_initial_constants( ) {
 	if ( !defined('WP_DEBUG') )
 		define( 'WP_DEBUG', false );
 
-	// Add define('WP_DEBUG_DISPLAY', false); to wp-config.php to use the globally configured setting for display_errors and not force it to On
+	// Add define('WP_DEBUG_DISPLAY', false); to wp-config.php use the globally configured setting for display_errors and not force errors to be displayed.
 	if ( !defined('WP_DEBUG_DISPLAY') )
 		define( 'WP_DEBUG_DISPLAY', true );
 
-	// Add define('WP_DEBUG_LOG', true); to enable php debug logging to WP_CONTENT_DIR/debug.log
+	// Add define('WP_DEBUG_LOG', true); to enable error logging to wp-content/debug.log.
 	if ( !defined('WP_DEBUG_LOG') )
 		define('WP_DEBUG_LOG', false);
 

@@ -208,16 +208,28 @@ function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_st
 }
 
 /**
- * Sets PHP error handling.
+ * Sets PHP error handling and handles WordPress debug mode.
  *
- * Add <code>define('WP_DEBUG', true);</code> to wp-config.php to enable
- * the reporting of notices during development.
+ * Uses three constants: WP_DEBUG, WP_DEBUG_DISPLAY, and WP_DEBUG_LOG. All three can be
+ * defined in wp-config.php. Example: <code> define( 'WP_DEBUG', true ); </code>
  *
- * Add <code>define('WP_DEBUG_DISPLAY', false);</code> to wp-config.php to
- * disable the display of errors.
+ * WP_DEBUG_DISPLAY and WP_DEBUG_LOG perform no function unless WP_DEBUG is true.
+ * WP_DEBUG defaults defaults to false.
  *
- * Add <code>define('WP_DEBUG_LOG', true);</code> to wp-config.php to log
- * eerrors to debug.log in the wp-content directory.
+ * When WP_DEBUG is true, all PHP notices are reported. WordPress will also display
+ * notices, including one when a deprecated WordPress function, function argument,
+ * or file is used. Deprecated code may be removed from a later version.
+ *
+ * It is strongly recommended that plugin and theme authors use WP_DEBUG for their
+ * development environments.
+ *
+ * When WP_DEBUG_DISPLAY is true, WordPress will force errors to be displayed.
+ * WP_DEBUG_DISPLAY defaults to true. Defining it as false prevents WordPress from
+ * changing the global configuration setting. (Defining WP_DEBUG_DISPLAY as false
+ * will never force errors to be hidden.)
+ *
+ * When WP_DEBUG_LOG is true, errors will be logged to wp-content/debug.log.
+ * WP_DEBUG_LOG defaults to false.
  *
  * @access private
  * @since 3.0.0
