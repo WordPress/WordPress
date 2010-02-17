@@ -1,5 +1,6 @@
-/* =Fonts
--------------------------------------------------------------- */
+html .mceContentBody {
+	max-width:640px;
+}
 * {
 	font-family: Georgia, "Bitstream Charter", serif;
 	color: #444;
