@@ -15,6 +15,10 @@ define('DOING_AJAX', true);
 define('WP_ADMIN', true);
 
 require_once('../wp-load.php');
+
+if ( ! isset( $_REQUEST['action'] ) )
+	die('-1');
+
 require_once('includes/admin.php');
 @header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
@@ -22,22 +26,22 @@ do_action('admin_init');
 
 if ( ! is_user_logged_in() ) {
 
-	if ( $_POST['action'] == 'autosave' ) {
+	if ( isset( $_POST['action'] ) && $_POST['action'] == 'autosave' ) {
 		$id = isset($_POST['post_ID'])? (int) $_POST['post_ID'] : 0;
 
 		if ( ! $id )
 			die('-1');
 
 		$message = sprintf( __('<strong>ALERT: You are logged out!</strong> Could not save draft. <a href="%s" target="_blank">Please log in again.</a>'), wp_login_url() );
-			$x = new WP_Ajax_Response( array(
-				'what' => 'autosave',
-				'id' => $id,
-				'data' => $message
-			) );
-			$x->send();
+		$x = new WP_Ajax_Response( array(
+			'what' => 'autosave',
+			'id' => $id,
+			'data' => $message
+		) );
+		$x->send();
 	}
 
-	if ( !empty( $_REQUEST['action']) )
+	if ( !empty( $_REQUEST['action'] ) )
 		do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
 
 	die('-1');
