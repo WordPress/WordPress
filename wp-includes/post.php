@@ -2011,12 +2011,19 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 			return 0;
 	}
 
-	// Make sure we set a valid category
+	if ( empty($post_type) )
+		$post_type = 'post';
+
+	// Make sure we set a valid category.
 	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
-		$post_category = array(get_option('default_category'));
+		// 'post' requires at least one category.
+		if ( 'post' == $post_type )
+			$post_category = array( get_option('default_category') );
+		else
+			$post_category = array();
 	}
 
-	//Set the default tag list
+	// Set the default tag list
 	if ( !isset($tags_input) )
 		$tags_input = array();
 
@@ -2025,9 +2032,6 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	if ( empty($post_status) )
 		$post_status = 'draft';
-
-	if ( empty($post_type) )
-		$post_type = 'post';
 
 	$post_ID = 0;
 
@@ -2482,14 +2486,21 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
  */
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$post_ID = (int) $post_ID;
+	$post_type = get_post_type( $post_ID );
 	// If $post_categories isn't already an array, make it one:
-	if (!is_array($post_categories) || 0 == count($post_categories) || empty($post_categories))
-		$post_categories = array(get_option('default_category'));
-	else if ( 1 == count($post_categories) && '' == $post_categories[0] )
+	if ( !is_array($post_categories) || 0 == count($post_categories) || empty($post_categories) ) {
+		if ( 'post' == $post_type )
+			$post_categories = array( get_option('default_category') );
+		else
+			$post_categories = array();
+	} else if ( 1 == count($post_categories) && '' == $post_categories[0] ) {
 		return true;
+	}
 
-	$post_categories = array_map('intval', $post_categories);
-	$post_categories = array_unique($post_categories);
+	if ( !empty($post_categories) ) {
+		$post_categories = array_map('intval', $post_categories);
+		$post_categories = array_unique($post_categories);
+	}
 
 	return wp_set_object_terms($post_ID, $post_categories, 'category');
 }
