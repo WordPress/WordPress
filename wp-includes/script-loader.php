@@ -8,8 +8,7 @@
  * file.
  *
  * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
- * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and disables compression and concatenation,
- * define('STYLE_DEBUG', true); loads the development (non-minified) versions of all CSS and disables compression and concatenation,
+ * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation,
  * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation of scripts and CSS,
  * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
  * define('COMPRESS_CSS', false); disables compression of CSS,
@@ -427,7 +426,7 @@ function wp_default_styles( &$styles ) {
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/');
 
-	$suffix = defined('STYLE_DEBUG') && STYLE_DEBUG ? '.dev' : '';
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
 	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
@@ -547,7 +546,7 @@ function wp_style_loader_src( $src, $handle ) {
 		$parsed = parse_url( $src );
 		$url = $color->url;
 
-		if ( defined('STYLE_DEBUG') && STYLE_DEBUG )
+		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG )
 			$url = preg_replace('/.css$|.css(?=\?)/', '.dev.css', $url);
 
 		if ( isset($parsed['query']) && $parsed['query'] ) {
