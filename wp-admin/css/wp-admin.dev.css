@@ -902,7 +902,7 @@ div.comment-item:hover .row-actions {
 	padding: 12px 10px 5px;
 }
 
-#wphead .site-title-button {
+#wphead #site-visit-button {
 	background-repeat: repeat-x;
 	background-position: 0 0;
 	-moz-border-radius: 3px;
@@ -912,10 +912,14 @@ div.comment-item:hover .row-actions {
 	cursor: pointer; /* to keep IE happy */
 	display: -moz-inline-stack; /* to keep FF2 happy */
 	display: inline-block;
+	margin-left: 5px;
+}
+
+#wphead #site-visit-button,
+#wphead #privacy-on-link {
 	font-size: 50%;
 	font-style: normal;
 	line-height: 17px;
-	margin-left: 5px;
 	padding: 0 6px;
 	vertical-align: middle;
 }
@@ -923,7 +927,8 @@ div.comment-item:hover .row-actions {
 #wphead h1 a:hover {
 	text-decoration:none;
 }
-#wphead h1 a:hover #site-title {
+#wphead h1 a:hover #site-title,
+#wphead h1 a#privacy-on-link:hover {
 	text-decoration:underline;
 }
 
