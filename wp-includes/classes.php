@@ -1696,4 +1696,102 @@ class WP_MatchesMapRegex {
 
 }
 
+// A factory and constructor that upgrades stdClass "rows" to WordPress classes.
+class wp_row {
+	// Factory. Call statically to upgrade a stdClass object to its specialized class: $o = wp_row::get($row).
+	function get($row) {
+		if ( is_a($row, 'wp_row') || is_subclass_of($row, 'wp_row') )
+			return $row;
+
+		if ( is_array($row) )
+			$row = (object) $row;
+
+		$class = 'wp_row';
+		if ( isset($row->post_type) ) {
+			if ( class_exists("wp_" . $row->post_type) )
+				$class = "wp_" . $row->post_type;
+			else
+				$class = "wp_post";
+		} elseif ( isset($row->comment_type) ) {
+			if ( class_exists("wp_" . $row->comment_type) )
+				$class = "wp_" . $row->comment_type;
+			else
+				$class = "wp_comment";
+		}
+
+		if ( function_exists("apply_filters") ) {
+			$filtered_class = apply_filters("wp_row_class", $class, $row);
+			if ( class_exists($filtered_class) )
+				$class = $filtered_class;
+		}
+
+		return call_user_func(array($class, 'get'), $row);
+	}
+
+	function wp_row(&$row) {
+		return $this->__construct($row);
+	}
+
+	function __construct($row) {
+		if ( is_array($row) )
+			$row = (object) $row;
+
+		foreach ( (array) $row as $k => $v )
+			$this->$k = $row->$k;
+	}
+}
+
+class wp_post extends wp_row {
+	// Factory
+	function get($post) {
+		if ( $post = get_post($post) )
+			return new wp_post($post);
+		else
+			return new WP_Error(404, "Post not found.");
+	}
+
+	function id() { return $this->ID; }
+	function post_id() { return $this->ID; }
+	function type_id() { return 'post-' . $this->ID; }
+	function classes($class='') { return join( ' ', get_post_class( $class, $this->id() ) ); }
+
+	function permalink() { return get_permalink($this); }
+	function title() { return get_the_title($this); }
+	function date($format='') { return; }
+	function time($format='') { return get_the_time($format, $this); }
+	function author() { $authordata = get_userdata($this->post_author); return $authordata->display_name; }
+	function content() { return get_content($this); }
+}
+
+class wp_comment extends wp_row {
+	// Factory
+	function get($comment) {
+		if ( $comment = get_comment($comment) )
+			return new wp_comment($comment);
+		else
+			return new WP_Error(404, "Comment not found.");
+	}
+
+	function id() { return $this->comment_ID; }
+	function post_id() { return $this->comment_post_ID; }
+	function type_id() { return 'comment-' . $this->comment_ID; }
+	function classes($class='') { return join( ' ', get_comment_class( $class, $this->id() ) ); }
+
+	function permalink() { return get_comment_link($this); }
+	function title() { return sprintf(__("Comment on %s"), get_the_title($this->post_id())); }
+	function time($format='') { return mysql2date($format?$format:get_option('time_format'), $this->comment_date); }
+	function date($format='') { return date($format?$format:get_option('date_format'), $this->time('U')); }
+	function author() { return $this->comment_author; }
+	function excerpt() { return $this->comment_content; }
+	function content() { return get_comment_content($this); }
+}
+
+function is_post($object) {
+	return is_a('wp_post', $object);
+}
+
+function is_comment($object) {
+	return is_a('wp_comment', $object);
+}
+
 ?>
