@@ -949,7 +949,7 @@ function get_attachment_template() {
  *
  * Checks for comment popup template in current template, if it exists or in the
  * parent template. If it doesn't exist, then it retrieves the comment-popup.php
- * file from the default theme. The default theme must then exist for it to
+ * file from the WP_FALLBACK_THEME theme. The WP_FALLBACK_THEME theme must then exist for it to
  * work.
  *
  * @since 1.5.0

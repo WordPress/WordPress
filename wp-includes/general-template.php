@@ -11,7 +11,7 @@
  *
  * Includes the header template for a theme or if a name is specified then a
  * specialised header will be included. If the theme contains no header.php file
- * then the header from the default theme will be included.
+ * then the header from the WP_FALLBACK_THEME theme will be included.
  *
  * For the parameter, if the file is called "header-special.php" then specify
  * "special".
@@ -32,7 +32,7 @@ function get_header( $name = null ) {
 	$templates[] = "header.php";
 
 	if ('' == locate_template($templates, true))
-		load_template( get_theme_root() . '/default/header.php');
+		load_template( get_theme_root() . '/'. WP_FALLBACK_THEME. '/header.php');
 }
 
 /**
@@ -61,7 +61,7 @@ function get_footer( $name = null ) {
 	$templates[] = "footer.php";
 
 	if ('' == locate_template($templates, true))
-		load_template( get_theme_root() . '/default/footer.php');
+		load_template( get_theme_root() . '/' . WP_FALLBACK_THEME . '/footer.php');
 }
 
 /**
@@ -90,7 +90,7 @@ function get_sidebar( $name = null ) {
 	$templates[] = "sidebar.php";
 
 	if ('' == locate_template($templates, true))
-		load_template( get_theme_root() . '/default/sidebar.php');
+		load_template( get_theme_root() . '/' . WP_FALLBACK_THEME . '/sidebar.php');
 }
 
 /**
