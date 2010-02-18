@@ -1372,6 +1372,9 @@ function background_image() {
  * @param callback $admin_image_div_callback Output a custom background image div on the custom background administration screen. Optional.
  */
 function add_custom_background($header_callback = '', $admin_header_callback = '', $admin_image_div_callback = '') {
+	if ( isset($GLOBALS['custom_background']) )
+		return;
+
 	if ( empty($header_callback) )
 		$header_callback = '_custom_background_cb';
 
@@ -1397,19 +1400,19 @@ function _custom_background_cb() {
 	if ( !$background )
 		return;
 
-	$repeat = get_theme_mod('background_repeat');
+	$repeat = get_theme_mod('background_repeat', 'repeat');
 	if ( 'no-repeat' == $repeat )
 		$repeat = 'background-repeat: no-repeat;';
 	else
 		$repeat = 'background-repeat: repeat;';
-	$position = get_theme_mod('background_position');
+	$position = get_theme_mod('background_position', 'left');
 	if  ( 'center' == $position )
 		$position = 'background-position-x: center;';
 	elseif ( 'right' == $position )
 		$position = 'background-position-x: right;';
 	else
 		$position = 'background-position-x: left;';
-	$attachment = get_theme_mod('background_attachment');
+	$attachment = get_theme_mod('background_attachment', 'fixed');
 	if ( 'scroll' == $attachment )
 		$attachment = 'background-attachment: scroll;';
 	else

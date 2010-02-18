@@ -172,37 +172,37 @@ if ( $this->admin_image_div_callback ) {
 <tr>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Position' ); ?></span></legend>
 <label>
-<input name="background-position" type="radio" value="left" <?php checked('left', get_theme_mod('background_position')); ?> />
+<input name="background-position" type="radio" value="left" <?php checked('left', get_theme_mod('background_position', 'left')); ?> />
 <?php _e('Left') ?>
 </label>
 <label>
-<input name="background-position" type="radio" value="center" <?php checked('center', get_theme_mod('background_position')); ?> />
+<input name="background-position" type="radio" value="center" <?php checked('center', get_theme_mod('background_position', 'left')); ?> />
 <?php _e('Center') ?>
 </label>
 <label>
-<input name="background-position" type="radio" value="right" <?php checked('right', get_theme_mod('background_position')); ?> />
+<input name="background-position" type="radio" value="right" <?php checked('right', get_theme_mod('background_position', 'left')); ?> />
 <?php _e('Right') ?>
 </label>
 </fieldset></td>
 
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Repeat' ); ?></span></legend>
 <label>
-<input name="background-repeat" type="radio" value="no-repeat" <?php checked('no-repeat', get_theme_mod('background_repeat')); ?> />
+<input name="background-repeat" type="radio" value="no-repeat" <?php checked('no-repeat', get_theme_mod('background_repeat', 'repeat')); ?> />
 <?php _e('No repeat') ?>
 </label>
 <label>
-<input name="background-repeat" type="radio" value="repeat" <?php checked('repeat', get_theme_mod('background_repeat')); ?> />
+<input name="background-repeat" type="radio" value="repeat" <?php checked('repeat', get_theme_mod('background_repeat', 'repeat')); ?> />
 <?php _e('Tile') ?>
 </label>
 </fieldset></td>
 
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Attachment' ); ?></span></legend>
 <label>
-<input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment')); ?> />
+<input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'fixed')); ?> />
 <?php _e('Scroll') ?>
 </label>
 <label>
-<input name="background-attachment" type="radio" value="fixed" <?php checked('fixed', get_theme_mod('background_attachment')); ?> />
+<input name="background-attachment" type="radio" value="fixed" <?php checked('fixed', get_theme_mod('background_attachment', 'fixed')); ?> />
 <?php _e('Fixed') ?>
 </label>
 </fieldset></td>
