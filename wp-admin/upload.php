@@ -43,6 +43,7 @@ if ( isset($_GET['find_detached']) ) {
 			continue;
 
 		$attach[] = $att_id;
+		clean_attachment_cache($att_id);
 	}
 
 	if ( ! empty($attach) ) {

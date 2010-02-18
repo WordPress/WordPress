@@ -3906,6 +3906,41 @@ function update_postmeta_cache($post_ids) {
 	return update_meta_cache('post', $post_ids);
 }
 
+/**
+ * Will clean the attachment in the cache.
+ *
+ * Cleaning means delete from the cache. Optionaly will clean the term
+ * object cache associated with the attachment ID.
+ *
+ * This function will not run if $_wp_suspend_cache_invalidation is not empty. See
+ * wp_suspend_cache_invalidation().
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 3.0
+ *
+ * @uses do_action() Calls 'clean_attachment_cache' on $id.
+ *
+ * @param int $id The attachment ID in the cache to clean
+ * @param bool $clean_terms optional. Whether to clean terms cache
+ */
+function clean_attachment_cache($id, $clean_terms = false) {
+	global $_wp_suspend_cache_invalidation, $wpdb;
+
+	if ( !empty($_wp_suspend_cache_invalidation) )
+		return;
+
+	$id = (int) $id;
+
+	wp_cache_delete($id, 'posts');
+	wp_cache_delete($id, 'post_meta');
+
+	if ( $clean_terms )
+		clean_object_term_cache($id, 'attachment');
+
+	do_action('clean_attachment_cache', $id);
+}
+
 //
 // Hooks
 //
