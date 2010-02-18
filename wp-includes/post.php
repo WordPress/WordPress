@@ -1425,7 +1425,10 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$count = $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
 
-	$stats = array_fill_keys( get_post_stati(), 0);
+	$stats = array();
+	foreach ( get_post_stati() as $state )
+		$stats[$state] = 0;
+
 	foreach ( (array) $count as $row_num => $row )
 		$stats[$row['post_status']] = $row['num_posts'];
 
