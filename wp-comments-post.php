@@ -24,14 +24,18 @@ $status = $wpdb->get_row( $wpdb->prepare("SELECT post_status, comment_status FRO
 if ( empty($status->comment_status) ) {
 	do_action('comment_id_not_found', $comment_post_ID);
 	exit;
-} elseif ( !comments_open($comment_post_ID) ) {
+}
+
+$status_obj = get_post_status_object($status->post_status);
+
+if ( !comments_open($comment_post_ID) ) {
 	do_action('comment_closed', $comment_post_ID);
 	wp_die( __('Sorry, comments are closed for this item.') );
-} elseif ( in_array($status->post_status, array('draft', 'future', 'pending') ) ) {
-	do_action('comment_on_draft', $comment_post_ID);
-	exit;
 } elseif ( 'trash' == $status->post_status ) {
 	do_action('comment_on_trash', $comment_post_ID);
+	exit;
+} elseif ( !$status_obj->public ) {
+	do_action('comment_on_draft', $comment_post_ID);
 	exit;
 } elseif ( post_password_required($comment_post_ID) ) {
 	do_action('comment_on_password_protected', $comment_post_ID);
