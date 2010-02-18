@@ -176,6 +176,7 @@ unset( $plugin );
 
 // Load pluggable functions.
 require( ABSPATH . WPINC . '/pluggable.php' );
+require( ABSPATH . WPINC . '/pluggable-deprecated.php' );
 
 // Set internal encoding.
 wp_set_internal_encoding();
