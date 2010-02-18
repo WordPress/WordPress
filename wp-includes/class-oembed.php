@@ -38,10 +38,12 @@ class WP_oEmbed {
 		// Add to this list using the wp_oembed_add_provider() function (see it's PHPDoc for details).
 		$this->providers = apply_filters( 'oembed_providers', array(
 			'#http://(www\.)?youtube.com/watch.*#i'         => array( 'http://www.youtube.com/oembed',            true  ),
+			'http://youtu.be/*'                             => array( 'http://www.youtube.com/oembed',            false ),
 			'http://blip.tv/file/*'                         => array( 'http://blip.tv/oembed/',                   false ),
 			'#http://(www\.)?vimeo\.com/.*#i'               => array( 'http://www.vimeo.com/api/oembed.{format}', true  ),
 			'#http://(www\.)?dailymotion\.com/.*#i'         => array( 'http://www.dailymotion.com/api/oembed',    true  ),
 			'#http://(www\.)?flickr\.com/.*#i'              => array( 'http://www.flickr.com/services/oembed/',   true  ),
+			'#http://(.+)?smugmug\.com/.*#i'                => array( 'http://api.smugmug.com/services/oembed/',  true  ),
 			'#http://(www\.)?hulu\.com/watch/.*#i'          => array( 'http://www.hulu.com/api/oembed.{format}',  true  ),
 			'#http://(www\.)?viddler\.com/.*#i'             => array( 'http://lab.viddler.com/services/oembed/',  true  ),
 			'http://qik.com/*'                              => array( 'http://qik.com/api/oembed.{format}',       false ),
@@ -50,7 +52,7 @@ class WP_oEmbed {
 			'http://gi*.photobucket.com/groups/*'           => array( 'http://photobucket.com/oembed',            false ),
 			'#http://(www\.)?scribd\.com/.*#i'              => array( 'http://www.scribd.com/services/oembed',    true  ),
 			'http://wordpress.tv/*'                         => array( 'http://wordpress.tv/oembed/',              false ),
-			'#http://(answers|surveys)\.polldaddy.com/.*#i' => array( 'http://polldaddy.com/oembed/',             true ),
+			'#http://(answers|surveys)\.polldaddy.com/.*#i' => array( 'http://polldaddy.com/oembed/',             true  ),
 		) );
 
 		// Fix Scribd embeds. They contain new lines in the middle of the HTML which breaks wpautop().
