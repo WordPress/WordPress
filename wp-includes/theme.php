@@ -1404,11 +1404,11 @@ function _custom_background_cb() {
 		$repeat = 'background-repeat: repeat;';
 	$position = get_theme_mod('background_position');
 	if  ( 'center' == $position )
-		$position = 'background-position: center;';
+		$position = 'background-position-x: center;';
 	elseif ( 'right' == $position )
-		$position = 'background-position: right;';
+		$position = 'background-position-x: right;';
 	else
-		$position = 'background-position: left;';
+		$position = 'background-position-x: left;';
 	$attachment = get_theme_mod('background_attachment');
 	if ( 'scroll' == $attachment )
 		$attachment = 'background-attachment: scroll;';
