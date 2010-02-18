@@ -43,6 +43,9 @@ wp_fix_server_vars();
 // Check for the required PHP version and for the MySQL extension or a database drop-in.
 wp_check_php_mysql_versions();
 
+// Check if we have recieved a request due to missing favicon.ico 
+wp_favicon_request();
+
 // Check if we're in maintenance mode.
 wp_maintenance();
 
