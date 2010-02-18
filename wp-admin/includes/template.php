@@ -3125,11 +3125,11 @@ function do_settings_fields($page, $section) {
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  * 
  * @param string $setting Slug title of the setting to which this error applies
- * @param string $id Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
+ * @param string $code Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
  * @param string $message The formatted message text to display to the user (will be shown inside styled <div> and <p>)
  * @param string $type The type of message it is, controls HTML class. Use 'error' or 'updated'.
  */
-function add_settings_error( $setting, $id, $message, $type = 'error' ) {
+function add_settings_error( $setting, $code, $message, $type = 'error' ) {
 	global $wp_settings_errors;
 
 	if ( !isset($wp_settings_errors) )
@@ -3137,7 +3137,7 @@ function add_settings_error( $setting, $id, $message, $type = 'error' ) {
 
 	$new_error = array(
 		'setting' => $setting,
-		'title' => $title, // @todo $title not defined. Use $id instead?
+		'code' => $code,
 		'message' => $message,
 		'type' => $type
 	);
@@ -3225,7 +3225,7 @@ function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = F
 
 	$output = '';
 	foreach ( $settings_errors as $key => $details ) {
-		$css_id = 'setting-error-' . $details['title'];
+		$css_id = 'setting-error-' . $details['code'];
 		$css_class = $details['type'] . ' fade settings-error';
 		$output .= "<div id='$css_id' class='$css_class'> \n";
 		$output .= "<p><strong>{$details['message']}</strong></p>";
