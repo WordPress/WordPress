@@ -93,12 +93,29 @@ class Custom_Background {
 			check_admin_referer('custom-background');
 			remove_theme_mods();
 		}
-		if ( isset($_POST['repeat-background']) ) {
+		if ( isset($_POST['background-repeat']) ) {
 			check_admin_referer('custom-background');
-			$repeat = $_POST['repeat-background'] ? true: false;
+			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat')) )
+				$repeat = $_POST['background-repeat'];
+			else
+				$repeat = 'repeat';
 			set_theme_mod('background_repeat', $repeat);
-		} elseif ( isset($_POST['save-background-options']) ) {
-			set_theme_mod('background_repeat', false);
+		}
+		if ( isset($_POST['background-position']) ) {
+			check_admin_referer('custom-background');
+			if ( in_array($_POST['background-position'], array('center', 'right', 'left')) )
+				$position = $_POST['background-position'];
+			else
+				$position = 'left';
+			set_theme_mod('background_position', $position);
+		}
+		if ( isset($_POST['background-attachment']) ) {
+			check_admin_referer('custom-background');
+			if ( in_array($_POST['background-attachment'], array('fixed', 'scroll')) )
+				$attachment = $_POST['background-attachment'];
+			else
+				$attachment = 'fixed';
+			set_theme_mod('background_attachment', $attachment);
 		}
 		if ( isset($_POST['remove-background']) ) {
 			check_admin_referer('custom-background');
@@ -132,14 +149,75 @@ if ( $this->admin_image_div_callback ) {
   call_user_func($this->admin_image_div_callback);
 } else {
 ?>
-<div id="background-image">
-<img src="<?php background_image(); ?>" />
+<div id="custom-background-image">
+<img class="custom-background-image" src="<?php background_image(); ?>" />
 </div>
 <?php } ?>
 </div>
-<div class="wrap">
-<h2><?php _e('Upload New Background Image'); ?></h2><p><?php _e('Here you can upload a new background image.'); ?></p>
 
+<?php if ( get_background_image() ) : ?>
+<div class="wrap">
+
+<h2><?php _e('Change Display Options') ?></h2>
+<form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
+<table>
+<thead>
+<tr>
+<th scope="col"><?php _e( 'Position' ); ?></th>
+<th scope="col"><?php _e( 'Repeat' ); ?></th>
+<th scope="col"><?php _e( 'Attachment' ); ?></th>
+</tr>
+
+<tbody>
+<tr>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Position' ); ?></span></legend>
+<label>
+<input name="background-position" type="radio" value="left" <?php checked('left', get_theme_mod('background_position')); ?> />
+<?php _e('Left') ?>
+</label>
+<label>
+<input name="background-position" type="radio" value="center" <?php checked('center', get_theme_mod('background_position')); ?> />
+<?php _e('Center') ?>
+</label>
+<label>
+<input name="background-position" type="radio" value="right" <?php checked('right', get_theme_mod('background_position')); ?> />
+<?php _e('Right') ?>
+</label>
+</fieldset></td>
+
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Repeat' ); ?></span></legend>
+<label>
+<input name="background-repeat" type="radio" value="no-repeat" <?php checked('no-repeat', get_theme_mod('background_repeat')); ?> />
+<?php _e('No repeat') ?>
+</label>
+<label>
+<input name="background-repeat" type="radio" value="repeat" <?php checked('repeat', get_theme_mod('background_repeat')); ?> />
+<?php _e('Tile') ?>
+</label>
+</fieldset></td>
+
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Attachment' ); ?></span></legend>
+<label>
+<input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment')); ?> />
+<?php _e('Scroll') ?>
+</label>
+<label>
+<input name="background-attachment" type="radio" value="fixed" <?php checked('fixed', get_theme_mod('background_attachment')); ?> />
+<?php _e('Fixed') ?>
+</label>
+</fieldset></td>
+</tr>
+</tbody>
+</table>
+
+<?php wp_nonce_field('custom-background'); ?>
+<input type="submit" class="button" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" />
+</form>
+</div>
+<?php endif; ?>
+
+<div class="wrap">
+<h2><?php _e('Upload New Background Image'); ?></h2>
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>" style="margin: auto; width: 50%;">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
@@ -148,34 +226,9 @@ if ( $this->admin_image_div_callback ) {
 <input type="submit" value="<?php esc_attr_e('Upload'); ?>" />
 </p>
 </form>
-
 </div>
 
-<div class="wrap">
-
-<h2><?php _e('Change Display Options') ?></h2>
-<form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
-<label for="repeat-background">
-<p><input name="repeat-background" type="checkbox" id="repeat-background" value="1" <?php checked(true, get_theme_mod('background_repeat')); ?> />
-<?php _e('Tile the background.') ?></label></p>
-<?php wp_nonce_field('custom-background'); ?>
-<input type="submit" class="button" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" />
-</form>
-</div>
-
-<?php if ( get_theme_mod('background_image') ) : ?>
-<div class="wrap">
-<h2><?php _e('Reset Background Image'); ?></h2>
-<p><?php _e('This will restore the original background image. You will not be able to retrieve any customizations.') ?></p>
-<form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
-<?php wp_nonce_field('custom-background'); ?>
-<input type="submit" class="button" name="reset-background" value="<?php esc_attr_e('Restore Original Background'); ?>" />
-</form>
-</div>
-<?php endif;
-
-if ( get_background_image() ) :
-?>
+<?php if ( get_background_image() ) : ?>
 <div class="wrap">
 <h2><?php _e('Remove Background Image'); ?></h2>
 <p><?php _e('This will remove background image. You will not be able to retrieve any customizations.') ?></p>

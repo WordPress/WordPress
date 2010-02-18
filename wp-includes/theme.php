@@ -1398,11 +1398,29 @@ function _custom_background_cb() {
 		return;
 
 	$repeat = get_theme_mod('background_repeat');
-	$repeat = $repeat ? '' : ' no-repeat';
+	if ( 'no-repeat' == $repeat )
+		$repeat = 'background-repeat: no-repeat;';
+	else
+		$repeat = 'background-repeat: repeat;';
+	$position = get_theme_mod('background_position');
+	if  ( 'center' == $position )
+		$position = 'background-position: center;';
+	elseif ( 'right' == $position )
+		$position = 'background-position: right;';
+	else
+		$position = 'background-position: left;';
+	$attachment = get_theme_mod('background_attachment');
+	if ( 'scroll' == $attachment )
+		$attachment = 'background-attachment: scroll;';
+	else
+		$attachment = 'background-attachment: fixed;';
 ?>
 <style type="text/css">
 body {
-	background: url('<?php background_image(); ?>') fixed <?php echo $repeat ?>;
+	background-image:url('<?php background_image(); ?>');
+	<?php echo $repeat; ?>
+	<?php echo $position; ?>
+	<?php echo $attachment; ?>
 }
 </style>
 <?php
