@@ -118,28 +118,28 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.4.1');
 
-	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.7.1' );
+	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-core', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery-ui-core'), '1.7.1' );
+	$scripts->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery-ui-core'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-tabs', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-sortable', '/wp-includes/js/jquery/ui.sortable.js', array('jquery-ui-core'), '1.7.1' );
+	$scripts->add( 'jquery-ui-sortable', '/wp-includes/js/jquery/ui.sortable.js', array('jquery-ui-core'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-sortable', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-draggable', '/wp-includes/js/jquery/ui.draggable.js', array('jquery-ui-core'), '1.7.1' );
+	$scripts->add( 'jquery-ui-draggable', '/wp-includes/js/jquery/ui.draggable.js', array('jquery-ui-core'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-draggable', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-droppable', '/wp-includes/js/jquery/ui.droppable.js', array('jquery-ui-core'), '1.7.1' );
+	$scripts->add( 'jquery-ui-droppable', '/wp-includes/js/jquery/ui.droppable.js', array('jquery-ui-core'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-droppable', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-selectable', '/wp-includes/js/jquery/ui.selectable.js', array('jquery-ui-core'), '1.7.1' );
+	$scripts->add( 'jquery-ui-selectable', '/wp-includes/js/jquery/ui.selectable.js', array('jquery-ui-core'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-selectable', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-resizable', '/wp-includes/js/jquery/ui.resizable.js', array('jquery-ui-core'), '1.7.1' );
+	$scripts->add( 'jquery-ui-resizable', '/wp-includes/js/jquery/ui.resizable.js', array('jquery-ui-core'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-resizable', 'group', 1 );
 
-	$scripts->add( 'jquery-ui-dialog', '/wp-includes/js/jquery/ui.dialog.js', array('jquery-ui-resizable', 'jquery-ui-draggable'), '1.7.1' );
+	$scripts->add( 'jquery-ui-dialog', '/wp-includes/js/jquery/ui.dialog.js', array('jquery-ui-resizable', 'jquery-ui-draggable'), '1.7.2' );
 	$scripts->add_data( 'jquery-ui-dialog', 'group', 1 );
 
 	// deprecated, not used in core, most functionality is included in jQuery 1.3
