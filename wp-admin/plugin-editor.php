@@ -18,7 +18,6 @@ $parent_file = 'plugins.php';
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'plugin'));
 
 wp_admin_css( 'theme-editor' );
-wp_enqueue_script( 'tabby' );
 
 $plugins = get_plugins();
 
@@ -230,7 +229,7 @@ foreach ( $plugin_files as $plugin_file ) :
 /* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template').submit(function(){ $('#scrollto').val( $('#newcontent').scrollTop() ); });
-	$('#newcontent').scrollTop( $('#scrollto').val() ).tabby();
+	$('#newcontent').scrollTop( $('#scrollto').val() );
 });
 /* ]]> */
 </script>

@@ -60,7 +60,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20091212' );
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20100218' );
 	$scripts->add_data( 'common', 'group', 1 );
 	$scripts->localize( 'common', 'commonL10n', array(
 		'warnDelete' => __("You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."),
@@ -154,9 +154,6 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array('jquery'), '1.1-20090125');
 	$scripts->add_data( 'suggest', 'group', 1 );
-
-	$scripts->add( 'tabby', "/wp-includes/js/jquery/tabby$suffix.js", array('jquery'), '0.12');
-	$scripts->add_data( 'tabby', 'group', 1 );
 
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20m');
 	$scripts->add_data( 'schedule', 'group', 1 );

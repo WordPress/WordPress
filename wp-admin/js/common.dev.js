@@ -267,6 +267,28 @@ jQuery(document).ready( function($) {
 		$('div.default-password-nag').hide();
 		return false;
 	});
+
+	// tab in textareas
+	$('textarea#newcontent').keydown(function(e) {
+		if ( e.keyCode != 9 )
+			return true;
+
+		var el = e.target, selStart = el.selectionStart, selEnd = el.selectionEnd, val = el.value, scroll, sel;
+
+		e.stopPropagation();
+		e.preventDefault();
+
+		if ( document.selection ) {
+			el.focus();
+			sel = document.selection.createRange();
+			sel.text = '\t';
+		} else if ( selStart >= 0 ) {
+			scroll = this.scrollTop;
+			el.value = val.substring(0, selStart).concat('\t', val.substring(selEnd) );
+			el.selectionStart = el.selectionEnd = selStart + 1;
+			this.scrollTop = scroll;
+		}
+	});
 });
 
 jQuery(document).ready( function($){
