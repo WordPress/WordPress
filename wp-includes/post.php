@@ -1425,10 +1425,9 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$count = $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
 
-	$stats = array( 'publish' => 0, 'private' => 0, 'draft' => 0, 'pending' => 0, 'future' => 0, 'trash' => 0 );
-	foreach( (array) $count as $row_num => $row ) {
+	$stats = array_fill_keys( get_post_stati(), 0);
+	foreach ( (array) $count as $row_num => $row )
 		$stats[$row['post_status']] = $row['num_posts'];
-	}
 
 	$stats = (object) $stats;
 	wp_cache_set($cache_key, $stats, 'counts');

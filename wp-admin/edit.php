@@ -228,7 +228,12 @@ if ( $user_posts ) {
 	$allposts = '&all_posts=1';
 }
 
-$total_posts = array_sum( (array) $num_posts ) - $num_posts->trash;
+$total_posts = array_sum( (array) $num_posts );
+
+// Subtract post types that are not included in the admin all list.
+foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
+	$total_posts -= $num_posts->$state;
+
 $class = empty($class) && empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
