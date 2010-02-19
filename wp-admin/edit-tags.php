@@ -21,7 +21,7 @@ $tax = get_taxonomy($taxonomy);
 
 $title = $tax->label;
 
-if ( empty($post_type) || !in_array( $post_type, get_post_types( array('show_ui' => true) ) ) )
+if ( empty($post_type) || !in_array( $post_type, get_post_types( array('public' => true) ) ) )
 	$post_type = 'post';
 
 if ( 'post' != $post_type ) {
