@@ -81,7 +81,8 @@ CREATE TABLE $wpdb->comments (
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID),
   KEY comment_approved_date_gmt (comment_approved,comment_date_gmt),
-  KEY comment_date_gmt (comment_date_gmt)
+  KEY comment_date_gmt (comment_date_gmt),
+  KEY comment_parent (comment_parent)
 ) $charset_collate;
 CREATE TABLE $wpdb->links (
   link_id bigint(20) unsigned NOT NULL auto_increment,
