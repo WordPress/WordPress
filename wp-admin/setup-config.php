@@ -109,7 +109,7 @@ switch($step) {
 <p><strong>If for any reason this automatic file creation doesn't work, don't worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>. </strong></p>
 <p>In all likelihood, these items were supplied to you by your Web Host. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;</p>
 
-<p class="step"><a href="setup-config.php?step=1" class="button">Let&#8217;s go!</a></p>
+<p class="step"><a href="setup-config.php?step=1<?php if ( isset( $_GET['noapi'] ) ) echo '&amp;noapi'; ?>" class="button">Let&#8217;s go!</a></p>
 <?php
 	break;
 
@@ -145,6 +145,7 @@ switch($step) {
 			<td>If you want to run multiple WordPress installations in a single database, change this.</td>
 		</tr>
 	</table>
+	<?php if ( isset( $_GET['noapi'] ) ) { ?><input name="noapi" type="hidden" value="true" /><?php } ?>
 	<p class="step"><input name="submit" type="submit" value="Submit" class="button" /></p>
 </form>
 <?php
@@ -173,19 +174,23 @@ switch($step) {
 	if ( !empty($wpdb->error) )
 		wp_die($wpdb->error->get_error_message());
 
+	// Fetch or generate keys and salts.
+	$no_api = isset( $_POST['noapi'] );
 	require_once( ABSPATH . WPINC . '/plugin.php' );
-	require_once( ABSPATH . WPINC . '/http.php' );
-	wp_fix_server_vars();
-	/**#@+
-	 * @ignore
-	 */
-	function get_bloginfo() {
-		return 'http://' . $_SERVER['HTTP_HOST'] . str_replace( $_SERVER['PHP_SELF'], '/wp-admin/setup-config.php', '' );
+	if ( ! $no_api ) {
+		require_once( ABSPATH . WPINC . '/http.php' );
+		wp_fix_server_vars();
+		/**#@+
+		 * @ignore
+		 */
+		function get_bloginfo() {
+			return ( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . str_replace( $_SERVER['PHP_SELF'], '/wp-admin/setup-config.php', '' ) );
+		}
+		/**#@-*/
+		$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
 	}
-	/**#@-*/
 
-	$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
-	if ( is_wp_error( $secret_keys ) ) {
+	if ( $no_api || is_wp_error( $secret_keys ) ) {
 		$secret_keys = array();
 		require_once( ABSPATH . WPINC . '/pluggable.php' );
 		for ( $i = 0; $i < 8; $i++ )
