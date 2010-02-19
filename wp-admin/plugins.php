@@ -27,7 +27,7 @@ $default_status = get_user_option('plugins_last_view');
 if ( empty($default_status) )
 	$default_status = 'all';
 $status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : $default_status;
-if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'network', 'search')) )
+if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'network', 'mustuse', 'dropins', 'search')) )
 	$status = 'all';
 if ( $status != $default_status && 'search' != $status )
 	update_usermeta($current_user->ID, 'plugins_last_view', $status);
@@ -365,6 +365,8 @@ $recent_plugins = array();
 $recently_activated = get_option('recently_activated', array());
 $upgrade_plugins = array();
 $network_plugins = array();
+$mustuse_plugins = get_mu_plugins();
+$dropins_plugins = get_dropins();
 
 set_transient( 'plugin_slugs', array_keys($all_plugins), 86400 );
 
@@ -376,12 +378,16 @@ if ( $recently_activated != get_option('recently_activated') ) //If array change
 	update_option('recently_activated', $recently_activated);
 $current = get_site_transient( 'update_plugins' );
 
-foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
+foreach ( array( 'all_plugins', 'mustuse_plugins', 'dropins_plugins' ) as $plugin_array_name) {
+	foreach ( (array) $$plugin_array_name as $plugin_file => $plugin_data ) {
+		// Translate, Apply Markup, Sanitize HTML
+		$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
+		$$plugin_array_name[ $plugin_file ] = $plugin_data;
+	}
+}
+unset( $plugin_array_name );
 
-	// Translate, Apply Markup, Sanitize HTML
-	$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
-	$all_plugins[ $plugin_file ] = $plugin_data;
-
+foreach ( (array) $all_plugins as $plugin_file => $plugin_data) {
 	// Filter into individual sections
 	if ( is_plugin_active_for_network($plugin_file) && is_super_admin() ) {
 		$network_plugins[ $plugin_file ] = $plugin_data;
@@ -406,6 +412,8 @@ $total_active_plugins = count($active_plugins);
 $total_recent_plugins = count($recent_plugins);
 $total_upgrade_plugins = count($upgrade_plugins);
 $total_network_plugins = count($network_plugins);
+$total_mustuse_plugins = count($mustuse_plugins);
+$total_dropins_plugins = count($dropins_plugins);
 
 //Searching.
 if ( isset($_GET['s']) ) {
@@ -469,11 +477,12 @@ $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s
  */
 function print_plugins_table($plugins, $context = '') {
 	global $page;
+	$checkbox = ! in_array( $context, array( 'mustuse', 'dropins' ) ) ? '<input type="checkbox" />' : '';
 ?>
 <table class="widefat" cellspacing="0" id="<?php echo $context ?>-plugins-table">
 	<thead>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column check-column"><?php echo $checkbox; ?></th>
 		<th scope="col" class="manage-column"><?php _e('Plugin'); ?></th>
 		<th scope="col" class="manage-column"><?php _e('Description'); ?></th>
 	</tr>
@@ -481,7 +490,7 @@ function print_plugins_table($plugins, $context = '') {
 
 	<tfoot>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
+		<th scope="col" class="manage-column check-column"><?php echo $checkbox; ?></th>
 		<th scope="col" class="manage-column"><?php _e('Plugin'); ?></th>
 		<th scope="col" class="manage-column"><?php _e('Description'); ?></th>
 	</tr>
@@ -497,43 +506,72 @@ function print_plugins_table($plugins, $context = '') {
 	}
 	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
 		$actions = array();
-		$is_active_for_network = is_plugin_active_for_network($plugin_file);
-		$is_active = $is_active_for_network || is_plugin_active( $plugin_file );
-
-		if ( $is_active_for_network && !is_super_admin() )
-			continue;
-
-		if ( $is_active ) {
-			if ( $is_active_for_network ) {
-				if ( is_super_admin() )
-					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Network Deactivate') . '</a>';
+		if ( 'mustuse' == $context ) {
+			$is_active = true;
+		} elseif ( 'dropins' == $context ) {
+			$dropins = _get_dropins();
+			$plugin_name = $plugin_file;
+			if ( $plugin_file != $plugin_data['Name'] )
+				$plugin_name .= '<br/>' . $plugin_data['Name'];
+			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant
+				$is_active = true;
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
+			} elseif ( constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true
+				$is_active = true;
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
 			} else {
-				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
+				$is_active = false;
+				$description = '<strong>' . $dropins[ $plugin_file ][0] . ' <span class="attention">' . __('Inactive:') . '</span></strong> ' . sprintf( __( 'Requires <code>%s</code> in <code>wp-config.php</code>.' ), "define('" . $dropins[ $plugin_file ][1] . "', true);" ) . '</p>';
 			}
+			$description .= '<p>' . $plugin_data['Description'] . '</p>';
 		} else {
+			$is_active_for_network = is_plugin_active_for_network($plugin_file);
+			$is_active = $is_active_for_network || is_plugin_active( $plugin_file );
+			if ( $is_active_for_network && !is_super_admin() )
+				continue;
+
+			if ( $is_active ) {
+				if ( $is_active_for_network ) {
+					if ( is_super_admin() )
+						$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Network Deactivate') . '</a>';
+				} else {
+					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '">' . __('Deactivate') . '</a>';
+				}
+			} else {
+				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
+				if ( is_multisite() && is_super_admin() )
+					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
+			}
+
 			if ( is_multisite() && is_network_only_plugin( $plugin_file ) )
 				$actions[] = '<span title="' . __('This plugin can only be activated for all sites in a network') . '">' . __('Network Only') . '</span>';
 			else
 				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
 			if ( is_multisite() && is_super_admin() )
 				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
+
+			if ( !is_multisite() && current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
+				$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
+
+			if ( ! $is_active && current_user_can('delete_plugins') )
+				$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
+
 		}
-
-		if ( !is_multisite() && current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
-			$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
-
-		if ( ! $is_active && current_user_can('delete_plugins') )
-			$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 
 		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
-		$action_count = count($actions);
+
 		$class = $is_active ? 'active' : 'inactive';
+		$checkbox = in_array( $context, array( 'mustuse', 'dropins' ) ) ? '' : "<input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' />";
+		if ( 'dropins' != $context ) {
+			$description = '<p>' . $plugin_data['Description'] . '</p>';
+			$plugin_name = $plugin_data['Name'];
+		}
 		echo "
 	<tr class='$class'>
-		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data['Name']}</strong></td>
-		<td class='desc'><p>{$plugin_data['Description']}</p></td>
+		<th scope='row' class='check-column'>$checkbox</th>
+		<td class='plugin-title'><strong>$plugin_name</strong></td>
+		<td class='desc'>$description</td>
 	</tr>
 	<tr class='$class second'>
 		<td></td>
@@ -577,6 +615,8 @@ function print_plugins_table($plugins, $context = '') {
  * @param string $context
  */
 function print_plugin_actions($context, $field_name = 'action' ) {
+	if ( in_array( $context, array( 'mustuse', 'dropins' ) ) )
+		return;
 ?>
 	<div class="alignleft actions">
 		<select name="<?php echo $field_name; ?>">
@@ -642,6 +682,14 @@ if ( ! empty($network_plugins) ) {
 	$class = ( 'network' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=network' $class>" . sprintf( _n( 'Network <span class="count">(%s)</span>', 'Network <span class="count">(%s)</span>', $total_network_plugins ), number_format_i18n( $total_network_plugins ) ) . '</a>';
 }
+if ( ! empty($mustuse_plugins) ) {
+	$class = ( 'mustuse' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=mustuse' $class>" . sprintf( _n( 'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', $total_mustuse_plugins ), number_format_i18n( $total_mustuse_plugins ) ) . '</a>';
+}
+if ( ! empty($dropins_plugins) ) {
+	$class = ( 'dropins' == $status ) ? ' class="current"' : '';
+	$status_links[] = "<li><a href='plugins.php?plugin_status=dropins' $class>" . sprintf( _n( 'Drop-ins <span class="count">(%s)</span>', 'Drop-ins <span class="count">(%s)</span>', $total_dropins_plugins ), number_format_i18n( $total_dropins_plugins ) ) . '</a>';
+}
 if ( ! empty($upgrade_plugins) ) {
 	$class = ( 'upgrade' == $status ) ? ' class="current"' : '';
 	$status_links[] = "<li><a href='plugins.php?plugin_status=upgrade' $class>" . sprintf( _n( 'Upgrade Available <span class="count">(%s)</span>', 'Upgrade Available <span class="count">(%s)</span>', $total_upgrade_plugins ), number_format_i18n( $total_upgrade_plugins ) ) . '</a>';
@@ -656,8 +704,14 @@ unset( $status_links );
 ?>
 </ul>
 
-<?php if ( ! empty( $plugins ) ) { ?>
+<?php
+if ( 'mustuse' == $status )
+	echo '<div class="clear"><p>' . __( 'Files in the <code>wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
+elseif ( 'dropins' == $status )
+	echo '<div class="clear"><p>' . __( 'Drop-ins are advanced plugins in the <code>wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
 
+if ( !empty( $plugins ) && ( ! in_array( $status, array( 'mustuse', 'dropins' ) ) || $page_links ) ) :
+?>
 <div class="tablenav">
 <?php
 if ( $page_links )
@@ -668,10 +722,14 @@ print_plugin_actions($status);
 </div>
 <div class="clear"></div>
 <?php
-	if ( $total_this_page > $plugins_per_page )
-		$plugins = array_slice($plugins, $start, $plugins_per_page);
+endif;
 
-	print_plugins_table($plugins, $status);
+if ( $total_this_page > $plugins_per_page )
+	$plugins = array_slice($plugins, $start, $plugins_per_page);
+
+print_plugins_table($plugins, $status);
+
+if ( !empty( $plugins ) && ! in_array( $status, array( 'mustuse', 'dropins' ) ) || $page_links ) {
 ?>
 <div class="tablenav">
 <?php

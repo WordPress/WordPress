@@ -266,6 +266,122 @@ function get_plugins($plugin_folder = '') {
 }
 
 /**
+ * Check the mu-plugins directory and retrieve all mu-plugin files with any plugin data.
+ *
+ * WordPress only includes mu-plugin files in the base mu-plugins directory (wp-content/mu-plugins).
+ *
+ * @since 3.0.0
+ * @return array Key is the mu-plugin file path and the value is an array of the mu-plugin data.
+ */
+function get_mu_plugins() {
+	$wp_plugins = array();
+	// Files in wp-content/mu-plugins directory
+	$plugin_files = array();
+
+	if ( ! is_dir( WPMU_PLUGIN_DIR ) )
+		return $wp_plugins;
+	if ( $plugins_dir = @ opendir( WPMU_PLUGIN_DIR ) ) {
+		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
+			if ( substr( $file, -4 ) == '.php' )
+				$plugin_files[] = $file;
+		}
+	}
+
+	@closedir( $plugins_dir );
+
+	if ( !$plugins_dir || empty($plugin_files) )
+		return $wp_plugins;
+
+	foreach ( $plugin_files as $plugin_file ) {
+		if ( !is_readable( WPMU_PLUGIN_DIR . "/$plugin_file" ) )
+			continue;
+
+		$plugin_data = get_plugin_data( WPMU_PLUGIN_DIR . "/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
+
+		if ( empty ( $plugin_data['Name'] ) )
+			$plugin_data['Name'] = $plugin_file;
+
+		$wp_plugins[ $plugin_file ] = $plugin_data;
+	}
+
+	if ( isset( $wp_plugins['index.php'] ) && filesize( WPMU_PLUGIN_DIR . '/index.php') <= 30 ) // silence is golden
+		unset( $wp_plugins['index.php'] );
+
+	uasort( $wp_plugins, create_function( '$a, $b', 'return strnatcasecmp( $a["Name"], $b["Name"] );' ));
+
+	return $wp_plugins;
+}
+
+/**
+ * Check the wp-content directory and retrieve all drop-ins with any plugin data.
+ *
+ * @since 3.0.0
+ * @return array Key is the file path and the value is an array of the plugin data.
+ */
+function get_dropins() {
+	$dropins = array();
+	$plugin_files = array();
+
+	$_dropins = _get_dropins();
+
+	// These exist in the wp-content directory
+	if ( $plugins_dir = @ opendir( WP_CONTENT_DIR ) ) {
+		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
+			if ( isset( $_dropins[ $file ] ) )
+				$plugin_files[] = $file;
+			}
+	}
+
+	@closedir( $plugins_dir );
+
+	if ( !$plugins_dir || empty($plugin_files) )
+			return $dropins;
+
+	foreach ( $plugin_files as $plugin_file ) {
+			if ( !is_readable( WP_CONTENT_DIR . "/$plugin_file" ) )
+					continue;
+			$plugin_data = get_plugin_data( WP_CONTENT_DIR . "/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
+			if ( empty ( $plugin_data['Name'] ) )
+				$plugin_data['Name'] = $plugin_file;
+			$dropins[ $plugin_file ] = $plugin_data;
+	}
+
+	uksort( $dropins, create_function( '$a, $b', 'return strnatcasecmp( $a, $b );' ));
+
+	return $dropins;
+}
+
+/**
+ * Returns drop-ins that WordPress uses.
+ *
+ * Includes Multisite drop-ins only when is_multisite()
+ *
+ * @since 3.0.0
+ * @return array Key is file name. The value is an array, with the first value the
+ *	purpose of the drop-in and the second value the name of the constant that must be
+ *	true for the drop-in to be used, or true if no constant is required.
+ */
+function _get_dropins() {
+	$dropins = array(
+		'advanced-cache.php' => array( __( 'Advanced caching plugin.'       ), 'WP_CACHE' ), // WP_CACHE
+		'db.php'             => array( __( 'Custom database class.'         ), true ), // auto on load
+		'db-error.php'       => array( __( 'Custom database error message.' ), true ), // auto on error
+		'install.php'        => array( __( 'Custom install script.'         ), true ), // auto on install
+		'maintenance.php'    => array( __( 'Custom maintenance message.'    ), true ), // auto on maintenance
+		'object-cache.php'   => array( __( 'External object cache.'         ), true ), // auto on load
+	);
+
+	if ( is_multisite() ) {
+		$dropins['sunrise.php'       ] = array( __( 'Executed before Multisite is loaded.' ), 'SUNRISE' ); // SUNRISE
+		$dropins['blog-deleted.php'  ] = array( __( 'Custom blog deleted message.'   ), true ); // auto on deleted blog
+		$dropins['blog-inactive.php' ] = array( __( 'Custom blog inactive message.'  ), true ); // auto on inactive blog
+		$dropins['blog-suspended.php'] = array( __( 'Custom blog suspended message.' ), true ); // auto on archived or spammed blog
+	}
+
+	return $dropins;
+}
+
+/**
  * Check whether the plugin is active by checking the active_plugins list.
  *
  * @since 2.5.0
