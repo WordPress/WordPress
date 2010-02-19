@@ -1462,17 +1462,16 @@ if ( !function_exists('wp_generate_password') ) :
  *
  * @param int $length The length of password to generate
  * @param bool $special_chars Whether to include standard special characters. Default true.
- * @param bool $extra_special_chars Whether to include more special characters. Used
- *   when generating secret keys and salts. Default false.
+ * @param bool $extra_special_chars Whether to include other special characters. Used when
+ *   generating secret keys and salts. Default false.
  * @return string The random password
  **/
 function wp_generate_password( $length = 12, $special_chars = true, $extra_special_chars = false ) {
 	$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-	if ( $special_chars ) {
+	if ( $special_chars )
 		$chars .= '!@#$%^&*()';
-		if ( $extra_special_chars )
-			$chars .= '-_ []{}<>~`+=,.;:/?|';
-	}
+	if ( $extra_special_chars )
+		$chars .= '-_ []{}<>~`+=,.;:/?|';
 
 	$password = '';
 	for ( $i = 0; $i < $length; $i++ ) {
