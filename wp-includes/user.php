@@ -206,16 +206,14 @@ function user_pass_ok($user_login, $user_pass) {
 //
 
 /**
- * Retrieve user option that can be either global, user, or blog.
+ * Retrieve user option that can be either per Site or per Network.
  *
  * If the user ID is not given, then the current user will be used instead. If
  * the user ID is given, then the user data will be retrieved. The filter for
  * the result, will also pass the original option name and finally the user data
  * object as the third parameter.
  *
- * The option will first check for the non-global name, then the global name,
- * and if it still doesn't find it, it will try the blog option. The option can
- * either be modified or set by a plugin.
+ * The option will first check for the per site name and then the per Network name.
  *
  * @since 2.0.0
  * @uses $wpdb WordPress database object for queries.
