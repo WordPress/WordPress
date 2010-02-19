@@ -1582,8 +1582,10 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 		if ( $user )
 			$email = $user->user_email;
 	} elseif ( is_object($id_or_email) ) {
-		if ( isset($id_or_email->comment_type) && '' != $id_or_email->comment_type && 'comment' != $id_or_email->comment_type )
-			return false; // No avatar for pingbacks or trackbacks
+		// No avatar for pingbacks or trackbacks
+		$allowed_comment_types = apply_filters( 'get_avatar_comment_types', array( 'comment' ) );
+		if ( ! empty( $id_or_email->comment_type ) && ! in_array( $id_or_email->comment_type, (array) $allowed_comment_types ) )
+			return false;
 
 		if ( !empty($id_or_email->user_id) ) {
 			$id = (int) $id_or_email->user_id;
