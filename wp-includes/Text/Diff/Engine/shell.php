@@ -5,9 +5,7 @@
  * This class uses the Unix `diff` program via shell_exec to compute the
  * differences between the two input arrays.
  *
- * $Horde: framework/Text_Diff/Diff/Engine/shell.php,v 1.8 2008/01/04 10:07:50 jan Exp $
- *
- * Copyright 2007-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2007-2010 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.

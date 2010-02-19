@@ -1,9 +1,8 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff/Engine/native.php,v 1.10 2008/01/04 10:27:53 jan Exp $
+ * Class used internally by Text_Diff to actually compute the diffs.
  *
- * Class used internally by Text_Diff to actually compute the diffs. This
- * class is implemented using native PHP code.
+ * This class is implemented using native PHP code.
  *
  * The algorithm used here is mostly lifted from the perl module
  * Algorithm::Diff (version 1.06) by Ned Konz, which is available at:
@@ -19,7 +18,7 @@
  * Geoffrey T. Dairiki <dairiki@dairiki.org>. The original PHP version of this
  * code was written by him, and is used/adapted with his permission.
  *
- * Copyright 2004-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2004-2010 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.

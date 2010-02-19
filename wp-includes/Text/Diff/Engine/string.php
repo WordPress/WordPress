@@ -10,10 +10,8 @@
  * echo $renderer->render($diff);
  * </code>
  *
- * $Horde: framework/Text_Diff/Diff/Engine/string.php,v 1.7 2008/01/04 10:07:50 jan Exp $
- *
  * Copyright 2005 Örjan Persson <o@42mm.org>
- * Copyright 2005-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2005-2010 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -39,6 +37,19 @@ class Text_Diff_Engine_string {
      */
     function diff($diff, $mode = 'autodetect')
     {
+        // Detect line breaks.
+        $lnbr = "\n";
+        if (strpos($diff, "\r\n") !== false) {
+            $lnbr = "\r\n";
+        } elseif (strpos($diff, "\r") !== false) {
+            $lnbr = "\r";
+        }
+
+        // Make sure we have a line break at the EOF.
+        if (substr($diff, -strlen($lnbr)) != $lnbr) {
+            $diff .= $lnbr;
+        }
+
         if ($mode != 'autodetect' && $mode != 'context' && $mode != 'unified') {
             return PEAR::raiseError('Type of diff is unsupported');
         }
@@ -48,17 +59,20 @@ class Text_Diff_Engine_string {
             $unified = strpos($diff, '---');
             if ($context === $unified) {
                 return PEAR::raiseError('Type of diff could not be detected');
-            } elseif ($context === false || $context === false) {
+            } elseif ($context === false || $unified === false) {
                 $mode = $context !== false ? 'context' : 'unified';
             } else {
                 $mode = $context < $unified ? 'context' : 'unified';
             }
         }
 
-        // split by new line and remove the diff header
-        $diff = explode("\n", $diff);
-        array_shift($diff);
-        array_shift($diff);
+        // Split by new line and remove the diff header, if there is one.
+        $diff = explode($lnbr, $diff);
+        if (($mode == 'context' && strpos($diff[0], '***') === 0) ||
+            ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
+            array_shift($diff);
+            array_shift($diff);
+        }
 
         if ($mode == 'context') {
             return $this->parseContextDiff($diff);
