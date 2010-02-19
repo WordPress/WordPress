@@ -20,7 +20,10 @@ function create_initial_taxonomies() {
 													'label' => __('Categories'),
 													'singular_label' => __('Category'),
 													'query_var' => false,
-													'rewrite' => false
+													'rewrite' => false,
+													'public' => true,
+													'show_ui' => true,
+													'_builtin' => true
 												) ) ;
 
 	register_taxonomy( 'post_tag', 'post', array(
@@ -29,13 +32,19 @@ function create_initial_taxonomies() {
 													'label' => __('Post Tags'),
 													'singular_label' => __('Post Tag'),
 													'query_var' => false,
-													'rewrite' => false
+													'rewrite' => false,
+													'public' => true,
+													'show_ui' => true,
+													'_builtin' => true
 												) ) ;
 
 	register_taxonomy( 'link_category', 'link', array(	'hierarchical' => false,
 													  	'label' => __('Categories'),
 														'query_var' => false,
-														'rewrite' => false
+														'rewrite' => false,
+														'public' => false,
+														'show_ui' => false,
+														'_builtin' => true,
 													) ) ;
 }
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
@@ -189,7 +198,14 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	if ( ! is_array($wp_taxonomies) )
 		$wp_taxonomies = array();
 
-	$defaults = array('hierarchical' => false, 'update_count_callback' => '', 'rewrite' => true, 'query_var' => true);
+	$defaults = array(	'hierarchical' => false,
+						'update_count_callback' => '',
+						'rewrite' => true,
+						'query_var' => $taxonomy,
+						'public' => true,
+						'show_ui' => null,
+						'_builtin' => false
+						);
 	$args = wp_parse_args($args, $defaults);
 
 	if ( false !== $args['query_var'] && !empty($wp) ) {
@@ -209,6 +225,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=$term");
 		$wp_rewrite->add_permastruct($taxonomy, "/{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front']);
 	}
+
+	if ( is_null($args['show_ui']) )
+		$args['show_ui'] = $args['public'];
 
 	foreach ( array('manage_cap', 'edit_cap', 'delete_cap') as $cap ) {
 		if ( empty($args[$cap]) )

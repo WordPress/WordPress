@@ -57,7 +57,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
-		if ( ! in_array('post', (array) $tax->object_type, true) )
+		if ( ! $tax->show_ui || ! in_array('post', (array) $tax->object_type, true) )
 			continue;
 
 		$submenu['edit.php'][$i++] = array( esc_attr($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
@@ -94,7 +94,7 @@ foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
-		if ( ! in_array($ptype, (array) $tax->object_type, true) )
+		if ( ! $tax->show_ui || ! in_array($ptype, (array) $tax->object_type, true) )
 			continue;
 
 		$submenu["edit.php?post_type=$ptype"][$i++] = array( esc_attr($tax->label), 'manage_categories', "edit-tags.php?taxonomy=$tax->name&amp;post_type=$ptype" );
