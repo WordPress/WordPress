@@ -1,78 +1,12 @@
 <?php
 /**
  * Deprecated functions from past WordPress versions. You shouldn't use these
- * globals and functions and look for the alternatives instead. The functions
- * and globals will be removed in a later version.
+ * functions and look for the alternatives instead. The functions will be
+ * removed in a later version.
  *
  * @package WordPress
  * @subpackage Deprecated
  */
-
-/*
- * Deprecated global variables.
- */
-
-/**
- * The name of the Posts table
- * @global string $tableposts
- * @deprecated Use $wpdb->posts
- */
-$tableposts = $wpdb->posts;
-
-/**
- * The name of the Users table
- * @global string $tableusers
- * @deprecated Use $wpdb->users
- */
-$tableusers = $wpdb->users;
-
-/**
- * The name of the Categories table
- * @global string $tablecategories
- * @deprecated Use $wpdb->categories
- */
-$tablecategories = $wpdb->categories;
-
-/**
- * The name of the post to category table
- * @global string $tablepost2cat
- * @deprecated Use $wpdb->post2cat;
- */
-$tablepost2cat = $wpdb->post2cat;
-
-/**
- * The name of the comments table
- * @global string $tablecomments
- * @deprecated Use $wpdb->comments;
- */
-$tablecomments = $wpdb->comments;
-
-/**
- * The name of the links table
- * @global string $tablelinks
- * @deprecated Use $wpdb->links;
- */
-$tablelinks = $wpdb->links;
-
-/**
- * @global string $tablelinkcategories
- * @deprecated Not used anymore;
- */
-$tablelinkcategories = 'linkcategories_is_gone';
-
-/**
- * The name of the options table
- * @global string $tableoptions
- * @deprecated Use $wpdb->options;
- */
-$tableoptions = $wpdb->options;
-
-/**
- * The name of the postmeta table
- * @global string $tablepostmeta
- * @deprecated Use $wpdb->postmeta;
- */
-$tablepostmeta = $wpdb->postmeta;
 
 /*
  * Deprecated functions come here to die.

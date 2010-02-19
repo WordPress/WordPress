@@ -1827,12 +1827,13 @@ function is_blog_installed() {
 	$tables = $wpdb->get_col('SHOW TABLES');
 	$wpdb->suppress_errors( $suppress );
 
+	$wp_tables = $wpdb->tables( 'all', true );
 	// Loop over the WP tables.  If none exist, then scratch install is allowed.
 	// If one or more exist, suggest table repair since we got here because the options
 	// table could not be accessed.
-	foreach ($wpdb->tables as $table) {
+	foreach ( $wp_tables as $table ) {
 		// If one of the WP tables exist, then we are in an insane state.
-		if ( in_array($wpdb->prefix . $table, $tables) ) {
+		if ( in_array( $table, $tables ) ) {
 			// If visiting repair.php, return true and let it take over.
 			if ( defined('WP_REPAIRING') )
 				return true;

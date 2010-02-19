@@ -137,12 +137,6 @@ class wpdb {
 	var $ready = false;
 	var $blogid = 0;
 	var $siteid = 0;
-	var $blogs;
-	var $signups;
-	var $site;
-	var $sitemeta;
-	var $sitecategories;
-	var $global_tables = array('blogs', 'signups', 'site', 'sitemeta', 'users', 'usermeta', 'sitecategories', 'registration_log', 'blog_versions');
 
 	/**
 	 * WordPress Posts table
@@ -161,24 +155,6 @@ class wpdb {
 	 * @var string
 	 */
 	var $users;
-
-	/**
-	 * WordPress Categories table
-	 *
-	 * @since 1.5.0
-	 * @access public
-	 * @var string
-	 */
-	var $categories;
-
-	/**
-	 * WordPress Post to Category table
-	 *
-	 * @since 1.5.0
-	 * @access public
-	 * @var string
-	 */
-	var $post2cat;
 
 	/**
 	 * WordPress Comments table
@@ -262,27 +238,112 @@ class wpdb {
 	var $term_relationships;
 
 	/**
-	 * List of WordPress tables
+	 * List of WordPress per-blog tables
 	 *
 	 * @since {@internal Version Unknown}}
 	 * @access private
+	 * @see wpdb::tables()
 	 * @var array
 	 */
-	var $tables = array('posts', 'categories', 'post2cat', 'comments', 'links', 'link2cat', 'options',
-			'postmeta', 'terms', 'term_taxonomy', 'term_relationships', 'commentmeta');
+	var $tables = array( 'posts', 'comments', 'links', 'options', 'postmeta',
+		'terms', 'term_taxonomy', 'term_relationships', 'commentmeta' );
 
 	/**
 	 * List of deprecated WordPress tables
 	 *
 	 * @since 2.9.0
 	 * @access private
+	 * @see wpdb::tables()
 	 * @var array
 	 */
-	var $old_tables = array('categories', 'post2cat', 'link2cat');
-
+	var $old_tables = array( 'categories', 'post2cat', 'link2cat' );
 
 	/**
-	 * Format specifiers for DB columns. Columns not listed here default to %s.  Initialized in wp-settings.php.
+	 * Multisite Blogs table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $blogs;
+
+	/**
+	 * Multisite Signups table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $signups;
+
+	/**
+	 * Multisite Sites table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $site;
+
+	/**
+	 * Multisite Site Metadata table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $sitemeta;
+
+	/**
+	 * Multisite Sitewide Terms table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $sitecategories;
+
+	/**
+	 * Multisite Registration Log table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $registration_log;
+
+	/**
+	 * Multisite Blog Versions table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $blog_versions;
+
+	/**
+	 * List of Multisite global tables
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
+	 */
+	var $ms_tables = array( 'blogs', 'signups', 'site', 'sitemeta',
+		'sitecategories', 'registration_log', 'blog_versions' );
+
+	/**
+	 * List of WordPress global tables
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
+	 */
+	var $global_tables = array( 'users', 'usermeta' );
+
+	/**
+	 * Format specifiers for DB columns. Columns not listed here default to %s. Initialized in wp-settings.php.
 	 *
 	 * Keys are colmn names, values are format types: 'ID' => '%d'
 	 *
@@ -290,6 +351,7 @@ class wpdb {
 	 * @see wpdb:prepare()
 	 * @see wpdb:insert()
 	 * @see wpdb:update()
+	 * @see wp_set_wpdb_vars()
 	 * @access public
 	 * @var array
 	 */
@@ -439,7 +501,7 @@ class wpdb {
 	 * @param string $prefix Alphanumeric name for the new prefix.
 	 * @return string|WP_Error Old prefix or WP_Error on error
 	 */
-	function set_prefix($prefix) {
+	function set_prefix( $prefix ) {
 
 		if ( preg_match('|[^a-z0-9_]|i', $prefix) )
 			return new WP_Error('invalid_db_prefix', /*WP_I18N_DB_BAD_PREFIX*/'Invalid database prefix'/*/WP_I18N_DB_BAD_PREFIX*/);
@@ -452,15 +514,18 @@ class wpdb {
 		if ( isset( $this->base_prefix ) )
 			$old_prefix = $this->base_prefix;
 		$this->base_prefix = $prefix;
-		foreach ( $this->global_tables as $table )
+		foreach ( $this->tables( 'global' ) as $table )
 			$this->$table = $prefix . $table;
 
-		if ( defined('VHOST') && empty($this->blogid) )
+		if ( defined('VHOST') && empty( $this->blogid ) )
 			return $old_prefix;
 
 		$this->prefix = $this->get_blog_prefix( $this->blogid );
 
-		foreach ( (array) $this->tables as $table )
+		foreach ( (array) $this->tables( 'blog' ) as $table )
+			$this->$table = $this->prefix . $table;
+
+		foreach ( (array) $this->tables( 'old' ) as $table )
 			$this->$table = $this->prefix . $table;
 
 		if ( defined('CUSTOM_USER_TABLE') )
@@ -481,7 +546,10 @@ class wpdb {
 
 		$this->prefix = $this->get_blog_prefix( $this->blogid );
 
-		foreach ( $this->tables as $table )
+		foreach ( $this->tables( 'blog' ) as $table )
+			$this->$table = $this->prefix . $table;
+
+		foreach ( $this->tables( 'old' ) as $table )
 			$this->$table = $this->prefix . $table;
 
 		return $old_blog_id;
@@ -496,6 +564,49 @@ class wpdb {
 		} else {
 			return $this->base_prefix;
 		}
+	}
+
+	/**
+	 * Returns an array of WordPress tables.
+	 *
+	 * @since 3.0.0
+	 * @uses wpdb::tables
+	 * @uses wpdb::old_tables
+	 * @uses wpdb::global_tables
+	 * @uses is_multisite()
+	 *
+	 * @param string $scope Can be all, global, blog, or old tables. Default all.
+	 * 	All returns all global tables and the blog tables for the queried blog.
+	 * @param bool $prefix Whether to include the blog prefix. Default false.
+	 * @param int $blog_id The blog_id to prefix. Defaults to main blog.
+	 * @return array Table names.
+	 */
+	function tables( $scope = 'all', $prefix = false, $blog_id = 0 ) {
+		switch ( $scope ) {
+			case 'old' :
+				$tables = $this->old_tables;
+				break;
+			case 'blog' :
+				$tables = $this->tables;
+				break;
+			case 'global' :
+				$tables = array_merge( $this->global_tables, $this->ms_tables );
+				break;
+			case 'all' :
+				$tables = array_merge( $this->global_tables, $this->tables );
+				if ( is_multisite() )
+					$tables = array_merge( $tables, $this->ms_tables );
+				break;
+		}
+
+		if ( $prefix ) {
+			$prefix = $this->get_blog_prefix( $blog_id );
+			foreach ( $tables as &$table ) {
+				$table = $prefix . $table;
+			}
+		}
+
+		return $tables;
 	}
 
 	/**
