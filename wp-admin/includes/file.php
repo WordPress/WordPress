@@ -536,7 +536,6 @@ function unzip_file($file, $to) {
 			if ( 'incompatible_archive' != $result->get_error_code() )
 				return $result;
 		}
-		echo "fall through to pcl";
 	}
 	// Fall through to PclZip if ZipArchive is not available, or encountered an error opening the file.
 	return _unzip_file_pclzip($file, $to, $needed_dirs);
