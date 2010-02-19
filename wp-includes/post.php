@@ -2174,8 +2174,11 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		wp_set_post_tags( $post_ID, $tags_input );
 	// new-style support for all tag-like taxonomies
 	if ( !empty($tax_input) ) {
-		foreach ( $tax_input as $taxonomy => $tags )
-			wp_set_post_terms( $post_ID, $tags, $taxonomy );
+		foreach ( $tax_input as $taxonomy => $tags ) {
+			$taxonomy_obj = get_taxonomy($taxonomy);
+			if ( current_user_can($taxonomy_obj->manage_cap) )
+				wp_set_post_terms( $post_ID, $tags, $taxonomy );
+		}
 	}
 
 	$current_guid = get_post_field( 'guid', $post_ID );

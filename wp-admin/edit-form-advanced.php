@@ -97,9 +97,6 @@ foreach ( get_object_taxonomies($post_type) as $tax_name ) {
 	$taxonomy = get_taxonomy($tax_name);
 	$label = isset($taxonomy->label) ? esc_attr($taxonomy->label) : $tax_name;
 
-	if ( !current_user_can($taxonomy->manage_cap) )
-		continue;
-
 	if ( !is_taxonomy_hierarchical($tax_name) )
 		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', $post_type, 'side', 'core');
 	else
