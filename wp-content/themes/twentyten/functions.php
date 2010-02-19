@@ -39,7 +39,7 @@ function twentyten_init() {
 		require_once( $locale_file );
 }
 endif;
-add_action( 'themes_loaded', 'twentyten_init' );
+add_action( 'after_setup_theme', 'twentyten_init' );
 
 if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 function twentyten_admin_header_style() {
