@@ -619,10 +619,11 @@ function get_tag_feed_link($tag_id, $feed = '') {
  * @return string
  */
 function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
-	$tag = get_term($tag_id, $taxonomy);
-
-	if ( !current_user_can('manage_categories') )
+	$tax = get_taxonomy($taxonomy);
+	if ( !current_user_can($tax->edit_cap) )
 		return;
+	
+	$tag = get_term($tag_id, $taxonomy);
 
 	$location = admin_url('edit-tags.php?action=edit&amp;taxonomy=' . $taxonomy . '&amp;tag_ID=' . $tag->term_id);
 	return apply_filters( 'get_edit_tag_link', $location );
@@ -640,10 +641,11 @@ function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
  * @return string|null HTML content, if $echo is set to false.
  */
 function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
-	$tag = get_term($tag, 'post_tag');
-
-	if ( !current_user_can('manage_categories') )
+	$tax = get_taxonomy('post_tag');
+	if ( !current_user_can($tax->edit_cap) )
 		return;
+
+	$tag = get_term($tag, 'post_tag');
 
 	if ( empty($link) )
 		$link = __('Edit This');
