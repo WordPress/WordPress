@@ -1075,6 +1075,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array
 	 */
 	function wp_getComments($args) {
+		$raw_args = $args;
 		$this->escape($args);
 
 		$blog_id	= (int) $args[0];
@@ -1117,7 +1118,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		for ( $i = 0; $i < $num_comments; $i++ ) {
 			$comment = wp_xmlrpc_server::wp_getComment(array(
-				$blog_id, $username, $password, $comments[$i]->comment_ID,
+				$raw_args[0], $raw_args[1], $raw_args[2], $comments[$i]->comment_ID,
 			));
 			$comments_struct[] = $comment;
 		}
