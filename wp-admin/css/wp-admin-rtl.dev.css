@@ -211,6 +211,10 @@ td.available-theme {
 	margin-right: 0;
 	margin-left: 5px;
 }
+#footer,
+#footer a {
+	font-style: normal;
+}
 /* Post Screen */
 /* 1300 - 1500
 =================================== */
