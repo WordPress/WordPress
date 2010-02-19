@@ -528,10 +528,18 @@ function unzip_file($file, $to) {
 		}
 	}
 
-	if ( class_exists('ZipArchive') && apply_filters('unzip_file_use_ziparchive', true ) )
-		return _unzip_file_ziparchive($file, $to, $needed_dirs);
-	else
-		return _unzip_file_pclzip($file, $to, $needed_dirs);
+	if ( class_exists('ZipArchive') && apply_filters('unzip_file_use_ziparchive', true ) ) {
+		$result = _unzip_file_ziparchive($file, $to, $needed_dirs);
+		if ( true === $result ) {
+			return $result;
+		} elseif ( is_wp_error($result) ) {
+			if ( 'incompatible_archive' != $result->get_error_code() )
+				return $result;
+		}
+		echo "fall through to pcl";
+	}
+	// Fall through to PclZip if ZipArchive is not available, or encountered an error opening the file.
+	return _unzip_file_pclzip($file, $to, $needed_dirs);
 }
 
 /**
@@ -590,6 +598,8 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE) )
 			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
 	}
+
+	$z->close();
 
 	return true;
 }
