@@ -718,7 +718,7 @@ Thanks!
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
 	$current_site->domain = $domain;
-	$current_site->path = $base;
+	$current_site->path = $path;
 	$current_site->site_name = ucfirst( $domain );
 
 	if ( !is_multisite() ) {
