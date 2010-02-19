@@ -444,6 +444,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version);
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
+	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20100219' );
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20100108' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20091029' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20091118' );
