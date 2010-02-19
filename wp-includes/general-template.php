@@ -673,18 +673,15 @@ function single_post_title($prefix = '', $display = true) {
  */
 function single_cat_title($prefix = '', $display = true ) {
 	global $wp_query;
-	$cat = $wp_query->queried_object;
 
-	if ( is_tag() ) {
+	if ( is_tag() )
 		return single_tag_title($prefix, $display);
-	} elseif ( !empty($cat->name) ) {
-		$cat = $cat->name;
-	} else {
-		$cat = intval( get_query_var('cat') );
-		if ( !empty($cat) )
-			$cat = get_the_category_by_ID($cat);
-	}
-	$my_cat_name = apply_filters('single_cat_title', $cat);
+
+	if ( !is_category() )
+		return;
+
+	$cat = $wp_query->get_queried_object();
+	$my_cat_name = apply_filters('single_cat_title', $cat->name);
 	if ( !empty($my_cat_name) ) {
 		if ( $display )
 			echo $prefix . strip_tags($my_cat_name);
@@ -711,22 +708,14 @@ function single_cat_title($prefix = '', $display = true ) {
  * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_tag_title($prefix = '', $display = true ) {
+	global $wp_query;
 	if ( !is_tag() )
 		return;
 
-	global $wp_query;
-	$tag = $wp_query->queried_object;
-
-	if ( !empty($tag->name) ) {
-		$tag = sanitize_term($tag, 'post_tag', 'display');
-	} else {
-		$tag_id = intval( get_query_var('tag_id') );
-		if ( !empty($tag_id) ) {
-			$tag = &get_term($tag_id, 'post_tag', OBJECT, 'display');
-			if ( is_wp_error( $tag ) )
-				return false;
-		}
-	}
+	$tag = $wp_query->get_queried_object();;
+	
+	if ( ! $tag )
+		return;
 
 	$my_tag_name = apply_filters('single_tag_title', $tag->name);
 	if ( !empty($my_tag_name) ) {
