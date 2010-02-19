@@ -2,7 +2,7 @@
 /**
  * Class for a set of entries for translation and their associated headers
  *
- * @version $Id: translations.php 291 2009-10-21 05:46:08Z nbachiyski $
+ * @version $Id: translations.php 406 2010-02-07 11:10:24Z nbachiyski $
  * @package pomo
  * @subpackage translations
  */
@@ -104,7 +104,9 @@ class Translations {
 	 * @return void
 	 **/
 	function merge_with(&$other) {
-		$this->entries = array_merge($this->entries, $other->entries);
+		foreach( $other->entries as $entry ) {
+			$this->entries[$entry->key()] = $entry;
+		}
 	}
 }
 

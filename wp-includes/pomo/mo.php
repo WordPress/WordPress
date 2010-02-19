@@ -2,7 +2,7 @@
 /**
  * Class for working with MO files
  *
- * @version $Id: mo.php 293 2009-11-12 15:43:50Z nbachiyski $
+ * @version $Id: mo.php 406 2010-02-07 11:10:24Z nbachiyski $
  * @package pomo
  * @subpackage mo
  */
@@ -201,7 +201,7 @@ class MO extends Gettext_Translations {
 	 * 	0x00 as a plural translations separator
 	 */
 	function &make_entry($original, $translation) {
-		$entry = & new Translation_Entry();
+		$entry = new Translation_Entry();
 		// look for context
 		$parts = explode(chr(4), $original);
 		if (isset($parts[1])) {

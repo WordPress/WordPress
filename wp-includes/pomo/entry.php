@@ -2,7 +2,7 @@
 /**
  * Contains Translation_Entry class
  *
- * @version $Id: entry.php 351 2009-12-03 11:39:08Z nbachiyski $
+ * @version $Id: entry.php 406 2010-02-07 11:10:24Z nbachiyski $
  * @package pomo
  * @subpackage entry
  */

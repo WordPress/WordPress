@@ -2,7 +2,7 @@
 /**
  * Class for working with PO files
  *
- * @version $Id: po.php 283 2009-09-23 16:21:51Z nbachiyski $
+ * @version $Id: po.php 406 2010-02-07 11:10:24Z nbachiyski $
  * @package pomo
  * @subpackage po
  */
@@ -254,7 +254,7 @@ class PO extends Gettext_Translations {
 					return false;
 				}
 				// add comment
-				$this->add_comment_to_entry($entry, $line);
+				$this->add_comment_to_entry($entry, $line);;
 			} elseif (preg_match('/^msgctxt\s+(".*")/', $line, $m)) {
 				if ($is_final($context)) {
 					PO::read_line($f, 'put-back');

@@ -3,7 +3,7 @@
  * Classes, which help reading streams of data from files.
  * Based on the classes from Danilo Segan <danilo@kvota.net>
  *
- * @version $Id: streams.php 293 2009-11-12 15:43:50Z nbachiyski $
+ * @version $Id: streams.php 406 2010-02-07 11:10:24Z nbachiyski $
  * @package pomo
  * @subpackage streams
  */
