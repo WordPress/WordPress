@@ -29,7 +29,7 @@ case 'restore' :
 	if ( !$post = get_post( $revision->post_parent ) )
 		break;
 
-	if ( !constant('WP_POST_REVISIONS') && !wp_is_post_autosave( $revision ) ) // Revisions disabled and we're not looking at an autosave
+	if ( ! WP_POST_REVISIONS && !wp_is_post_autosave( $revision ) ) // Revisions disabled and we're not looking at an autosave
 		break;
 
 	check_admin_referer( "restore-post_$post->ID|$revision->ID" );
@@ -68,7 +68,7 @@ case 'diff' :
 	else
 		break; // Don't diff two unrelated revisions
 
-	if ( !constant('WP_POST_REVISIONS') ) { // Revisions disabled
+	if ( ! WP_POST_REVISIONS ) { // Revisions disabled
 		if (
 			// we're not looking at an autosave
 			( !wp_is_post_autosave( $left_revision ) && !wp_is_post_autosave( $right_revision ) )
@@ -106,7 +106,7 @@ default :
 	if ( !current_user_can( 'read_post', $revision->ID ) || !current_user_can( 'read_post', $post->ID ) )
 		break;
 
-	if ( !constant('WP_POST_REVISIONS') && !wp_is_post_autosave( $revision ) ) // Revisions disabled and we're not looking at an autosave
+	if ( ! WP_POST_REVISIONS && !wp_is_post_autosave( $revision ) ) // Revisions disabled and we're not looking at an autosave
 		break;
 
 	$post_type_object = get_post_type_object($post->post_type);
@@ -207,7 +207,7 @@ endif;
 <?php
 
 $args = array( 'format' => 'form-table', 'parent' => true, 'right' => $right, 'left' => $left );
-if ( !constant( 'WP_POST_REVISIONS' ) )
+if ( ! WP_POST_REVISIONS )
 	$args['type'] = 'autosave';
 
 wp_list_post_revisions( $post, $args );

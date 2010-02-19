@@ -98,7 +98,7 @@ function get_current_site_name( $current_site ) {
 function wpmu_current_site() {
 	global $wpdb, $current_site, $domain, $path, $sites, $cookie_domain;
 	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
-		$current_site->id = (defined( 'SITE_ID_CURRENT_SITE' ) ? constant('SITE_ID_CURRENT_SITE') : 1);
+		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
 		$current_site->domain = DOMAIN_CURRENT_SITE;
 		$current_site->path   = $path = PATH_CURRENT_SITE;
 		if ( defined( 'BLOGID_CURRENT_SITE' ) )

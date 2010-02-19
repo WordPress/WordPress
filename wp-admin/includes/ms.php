@@ -75,7 +75,7 @@ function wpmu_delete_blog($blog_id, $drop = false) {
 			$wpdb->query( "DROP TABLE IF EXISTS ". current( $drop_table ) ."" );
 		}
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->blogs WHERE blog_id = %d", $blog_id) );
-		$dir = apply_filters( 'wpmu_delete_blog_upload_dir', constant( "WP_CONTENT_DIR" ) . "/blogs.dir/{$blog_id}/files/", $blog_id );
+		$dir = apply_filters( 'wpmu_delete_blog_upload_dir', WP_CONTENT_DIR . "/blogs.dir/{$blog_id}/files/", $blog_id );
 		$dir = rtrim($dir, DIRECTORY_SEPARATOR);
 		$top_dir = $dir;
 		$stack = array($dir);

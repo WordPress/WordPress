@@ -345,7 +345,7 @@ class wpdb {
 	 * @param string $dbhost MySQL database host
 	 */
 	function wpdb($dbuser, $dbpassword, $dbname, $dbhost) {
-		if( defined( "WP_USE_MULTIPLE_DB" ) && CONSTANT( "WP_USE_MULTIPLE_DB" ) == true )
+		if( defined( 'WP_USE_MULTIPLE_DB' ) && WP_USE_MULTIPLE_DB )
 			$this->db_connect();
 		return $this->__construct($dbuser, $dbpassword, $dbname, $dbhost);
 	}
@@ -367,22 +367,21 @@ class wpdb {
 	function __construct($dbuser, $dbpassword, $dbname, $dbhost) {
 		register_shutdown_function(array(&$this, "__destruct"));
 
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+		if ( WP_DEBUG )
 			$this->show_errors();
 
 		if ( is_multisite() ) {
 			$this->charset = 'utf8';
-			if ( defined( 'DB_COLLATE' ) && constant( 'DB_COLLATE' ) != '' )
-				$this->collate = constant( 'DB_COLLATE' );
+			if ( defined( 'DB_COLLATE' ) && DB_COLLATE )
+				$this->collate = DB_COLLATE;
 			else
 				$this->collate = 'utf8_general_ci';
+		} elseif ( defined( 'DB_COLLATE' ) ) {
+			$this->collate = DB_COLLATE;
 		}
 
 		if ( defined('DB_CHARSET') )
 			$this->charset = DB_CHARSET;
-
-		if ( defined('DB_COLLATE') )
-			$this->collate = DB_COLLATE;
 
 		$this->dbuser = $dbuser;
 
@@ -666,7 +665,7 @@ class wpdb {
 		if ( is_multisite() ) {
 			$msg = "WordPress database error: [$str]\n{$this->last_query}\n";
 			if ( defined( 'ERRORLOGFILE' ) )
-				error_log( $msg, 3, CONSTANT( 'ERRORLOGFILE' ) );
+				error_log( $msg, 3, ERRORLOGFILE );
 			if ( defined( 'DIEONDBERROR' ) )
 				die( $msg );
 		} else {
@@ -807,7 +806,7 @@ class wpdb {
 		// use $this->dbh for read ops, and $this->dbhwrite for write ops
 		// use $this->dbhglobal for gloal table ops
 		unset( $dbh );
-		if( defined( "WP_USE_MULTIPLE_DB" ) && CONSTANT( "WP_USE_MULTIPLE_DB" ) == true ) {
+		if( defined( 'WP_USE_MULTIPLE_DB' ) && WP_USE_MULTIPLE_DB ) {
 			if( $this->blogs != '' && preg_match("/(" . $this->blogs . "|" . $this->users . "|" . $this->usermeta . "|" . $this->site . "|" . $this->sitemeta . "|" . $this->sitecategories . ")/i",$query) ) {
 				if( false == isset( $this->dbhglobal ) ) {
 					$this->db_connect( $query );

@@ -1259,11 +1259,11 @@ function __get_option($setting) {
 	global $wpdb;
 
 	if ( $setting == 'home' && defined( 'WP_HOME' ) ) {
-		return preg_replace( '|/+$|', '', constant( 'WP_HOME' ) );
+		return preg_replace( '|/+$|', '', WP_HOME );
 	}
 
 	if ( $setting == 'siteurl' && defined( 'WP_SITEURL' ) ) {
-		return preg_replace( '|/+$|', '', constant( 'WP_SITEURL' ) );
+		return preg_replace( '|/+$|', '', WP_SITEURL );
 	}
 
 	$option = $wpdb->get_var( $wpdb->prepare("SELECT option_value FROM $wpdb->options WHERE option_name = %s", $setting) );

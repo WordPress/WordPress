@@ -4169,7 +4169,7 @@ function wp_save_post_revision( $post_id ) {
 		return;
 
 	// WP_POST_REVISIONS = 0, false
-	if ( !constant('WP_POST_REVISIONS') )
+	if ( ! WP_POST_REVISIONS )
 		return;
 
 	if ( !$post = get_post( $post_id, ARRAY_A ) )
@@ -4448,7 +4448,7 @@ function wp_delete_post_revision( $revision_id ) {
  * @return array empty if no revisions
  */
 function wp_get_post_revisions( $post_id = 0, $args = null ) {
-	if ( !constant('WP_POST_REVISIONS') )
+	if ( ! WP_POST_REVISIONS )
 		return array();
 	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
 		return array();

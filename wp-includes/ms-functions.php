@@ -1274,8 +1274,7 @@ function signup_nonce_check( $result ) {
 
 function maybe_redirect_404() {
 	global $current_site;
-	if ( is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && constant( 'NOBLOGREDIRECT' ) != '' ) {
-		$destination = constant( 'NOBLOGREDIRECT' );
+	if ( is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && ( $destination = NOBLOGREDIRECT ) ) {
 		if ( $destination == '%siteurl%' )
 			$destination = $current_site->domain . $current_site->path;
 		wp_redirect( $destination );
