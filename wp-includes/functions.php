@@ -952,6 +952,8 @@ function get_all_user_settings() {
  * @subpackage Option
  * @since 2.8.0
  *
+ * @param unknown $all
+ * @return bool
  */
 function wp_set_all_user_settings($all) {
 	global $_updated_user_settings;
@@ -1588,7 +1590,7 @@ function get_status_header_desc( $code ) {
  *		parameters.
  *
  * @param int $header HTTP status code
- * @return null Does not return anything.
+ * @return unknown
  */
 function status_header( $header ) {
 	$text = get_status_header_desc( $header );
@@ -3027,6 +3029,7 @@ function absint( $maybeint ) {
  *
  * @since 2.5.0
  *
+ * @param string $url
  * @return bool Whether or not SSL access is available
  */
 function url_is_accessable_via_ssl($url)
@@ -3695,9 +3698,9 @@ function is_main_site( $blog_id = '' ) {
  *
  * Overrides the gmt_offset option if we have a timezone_string available
  *
- * @since 2.8
+ * @since 2.8.0
  *
- * @return unknown
+ * @return float|bool
  */
 function wp_timezone_override_offset() {
 	if ( !wp_timezone_supported() ) {
@@ -3718,9 +3721,9 @@ function wp_timezone_override_offset() {
 /**
  * Check for PHP timezone support
  *
- * @since 2.9
+ * @since 2.9.0
  *
- * @return unknown
+ * @return bool
  */
 function wp_timezone_supported() {
 	$support = false;
@@ -3738,11 +3741,11 @@ function wp_timezone_supported() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since 2.9
+ * @since 2.9.0
  *
  * @param unknown_type $a
  * @param unknown_type $b
- * @return unknown
+ * @return int
  */
 function _wp_timezone_choice_usort_callback( $a, $b ) {
 	// Don't use translated versions of Etc
@@ -3785,7 +3788,7 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 /**
  * Gives a nicely formatted list of timezone strings // temporary! Not in final
  *
- * @since 2.9
+ * @since 2.9.0
  *
  * @param string $selected_zone Selected Zone
  * @return string
@@ -3915,8 +3918,11 @@ function wp_timezone_choice( $selected_zone ) {
  * Strip close comment and close php tags from file headers used by WP
  * See http://core.trac.wordpress.org/ticket/8497
  *
- * @since 2.8
-**/
+ * @since 2.8.0
+ *
+ * @param string $str
+ * @return string
+ */
 function _cleanup_header_comment($str) {
 	return trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $str));
 }
@@ -3925,8 +3931,6 @@ function _cleanup_header_comment($str) {
  * Permanently deletes posts, pages, attachments, and comments which have been in the trash for EMPTY_TRASH_DAYS.
  *
  * @since 2.9.0
- *
- * @return void
  */
 function wp_scheduled_delete() {
 	global $wpdb;
@@ -4033,6 +4037,9 @@ function get_file_data( $file, $default_headers, $context = '' ) {
  *
  * @private
  * @since 2.9.0
+ *
+ * @param string $t
+ * @return string
  */
 function _search_terms_tidy($t) {
 	return trim($t, "\"'\n\r ");
