@@ -71,7 +71,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 				if ( $is_trash ) echo $thumb;
 				else {
 ?>
-				<a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>">
+				<a href="<?php echo get_edit_post_link( $post->ID, true ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>">
 					<?php echo $thumb; ?>
 				</a>
 
@@ -84,7 +84,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 
 	case 'media':
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( $is_trash ) echo $att_title; else { ?><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a><?php } ?></strong><br />
+		<td <?php echo $attributes ?>><strong><?php if ( $is_trash ) echo $att_title; else { ?><a href="<?php echo get_edit_post_link( $post->ID, true ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a><?php } ?></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<p>
 		<?php
