@@ -452,25 +452,29 @@ function wp_link_category_checklist( $link_id = 0 ) {
  * @return unknown
  */
 function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
+		global $post_type;
 		static $row_class = '';
 		$row_class = ($row_class == '' ? ' class="alternate"' : '');
 
 		$count = number_format_i18n( $tag->count );
-		if ( 'post_tag' == $taxonomy )
-			$tagsel = 'tag';
-		elseif ( 'category' == $taxonomy )
-			$tagsel = 'category_name';
-		else
-			$tagsel = $taxonomy;
-
 		$tax = get_taxonomy($taxonomy);
 
-		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug'>$count</a>" : $count;
+		if ( 'post_tag' == $taxonomy ) {
+			$tagsel = 'tag';
+		} elseif ( 'category' == $taxonomy ) {
+			$tagsel = 'category_name';
+		} elseif ( ! empty($tax->query_var) ) {
+			$tagsel = $tax->query_var;
+		} else {
+			$tagsel = $taxonomy;
+		}
+
+		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug&amp;post_type=$post_type'>$count</a>" : $count;
 
 		$pad = str_repeat( '&#8212; ', max(0, $level) );
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 		$qe_data = get_term($tag->term_id, $taxonomy, object, 'edit');
-		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id";
+		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;post_type=$post_type&amp;tag_ID=$tag->term_id";
 
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $row_class . '>';
@@ -586,6 +590,7 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
 		$terms = get_terms( $taxonomy, $args );
 		foreach( $terms as $term )
 			$out .= _tag_row( $term, 0, $taxonomy );
+		$count = $pagesize; // Only displaying a single page.
 	}
 
 	echo $out;
@@ -3283,7 +3288,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" onClick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onclick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -3293,7 +3298,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button alignleft" onClick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
+			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php esc_attr_e('Select'); ?>" />
 		</div>
 	</div>

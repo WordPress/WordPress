@@ -45,17 +45,33 @@ case 'add-tag':
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$ret = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST);
-	if ( $ret && !is_wp_error( $ret ) ) {
-		wp_redirect("edit-tags.php?taxonomy=$taxonomy&amp;message=1#addtag");
-	} else {
-		wp_redirect("edit-tags.php?taxonomy=$taxonomy&amp;message=4#addtag");
+	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
+	if ( 'post' != $post_type )
+		$location .= '&post_type=' . $post_type;
+
+	if ( $referer = wp_get_original_referer() ) {
+		if ( false !== strpos($referer, 'edit-tags.php') )
+			$location = $referer;
 	}
+
+	if ( $ret && !is_wp_error( $ret ) )
+		$location = add_query_arg('message', 1, $location);
+	else
+		$location = add_query_arg('message', 4, $location);
 	exit;
 break;
 
 case 'delete':
+	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
+	if ( 'post' != $post_type )
+		$location .= '&post_type=' . $post_type;
+	if ( $referer = wp_get_referer() ) {
+		if ( false !== strpos($referer, 'edit-tags.php') )
+			$location = $referer;
+	}
+
 	if ( !isset( $_GET['tag_ID'] ) ) {
-		wp_redirect("edit-tags.php?taxonomy=$taxonomy");
+		wp_redirect($location);
 		exit;
 	}
 
@@ -66,12 +82,6 @@ case 'delete':
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	wp_delete_term( $tag_ID, $taxonomy);
-
-	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
-	if ( $referer = wp_get_referer() ) {
-		if ( false !== strpos($referer, 'edit-tags.php') )
-			$location = $referer;
-	}
 
 	$location = add_query_arg('message', 2, $location);
 	wp_redirect($location);
@@ -91,6 +101,8 @@ case 'bulk-delete':
 	}
 
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
+	if ( 'post' != $post_type )
+		$location .= '&post_type=' . $post_type;
 	if ( $referer = wp_get_referer() ) {
 		if ( false !== strpos($referer, 'edit-tags.php') )
 			$location = $referer;
@@ -123,6 +135,9 @@ case 'editedtag':
 	$ret = wp_update_term($tag_ID, $taxonomy, $_POST);
 
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
+	if ( 'post' != $post_type )
+		$location .= '&post_type=' . $post_type;
+
 	if ( $referer = wp_get_original_referer() ) {
 		if ( false !== strpos($referer, 'edit-tags.php') )
 			$location = $referer;

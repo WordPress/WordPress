@@ -619,13 +619,14 @@ function get_tag_feed_link($tag_id, $feed = '') {
  * @return string
  */
 function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
+	global $post_type;
 	$tax = get_taxonomy($taxonomy);
 	if ( !current_user_can($tax->edit_cap) )
 		return;
-	
+
 	$tag = get_term($tag_id, $taxonomy);
 
-	$location = admin_url('edit-tags.php?action=edit&amp;taxonomy=' . $taxonomy . '&amp;tag_ID=' . $tag->term_id);
+	$location = admin_url('edit-tags.php?action=edit&amp;taxonomy=' . $taxonomy . '&amp;' . (!empty($post_type) ? 'post_type=' . $post_type .'&amp;' : '') .'tag_ID=' . $tag->term_id);
 	return apply_filters( 'get_edit_tag_link', $location );
 }
 
