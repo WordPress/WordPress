@@ -31,35 +31,40 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 
 	$okay = true;
 
+	$tables = array_merge( $wpdb->tables, is_multisite() ? $wpdb->global_tables : array( 'users', 'usermeta' ) );
+	$prefix = $wpdb->prefix;
+	if ( is_multisite() && ! defined('MULTISITE') ) // _1 to get MU-era main blog
+		$prefix .= '_1';
+
 	// Loop over the WP tables, checking and repairing as needed.
-	foreach ($wpdb->tables as $table) {
-		if ( in_array($table, $wpdb->old_tables) )
+	foreach ( $tables as $table ) {
+		if ( in_array( $table, $wpdb->old_tables ) )
 			continue;
 
-		$check = $wpdb->get_row("CHECK TABLE {$wpdb->prefix}$table");
+		$check = $wpdb->get_row("CHECK TABLE {$prefix}$table");
 		if ( 'OK' == $check->Msg_text ) {
-			echo "<p>The {$wpdb->prefix}$table table is okay.";
+			echo "<p>The {$prefix}$table table is okay.";
 		} else {
-			echo "<p>The {$wpdb->prefix}$table table is not okay. It is reporting the following error: <code>$check->Msg_text</code>.  WordPress will attempt to repair this table&hellip;";
-			$repair = $wpdb->get_row("REPAIR TABLE {$wpdb->prefix}$table");
+			echo "<p>The {$prefix}$table table is not okay. It is reporting the following error: <code>$check->Msg_text</code>.  WordPress will attempt to repair this table&hellip;";
+			$repair = $wpdb->get_row("REPAIR TABLE {$prefix}$table");
 			if ( 'OK' == $check->Msg_text ) {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully repaired the {$wpdb->prefix}$table table.";
+				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully repaired the {$prefix}$table table.";
 			} else {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to repair the {$wpdb->prefix}$table table. Error: $check->Msg_text<br />";
-				$problems["{$wpdb->prefix}$table"] = $check->Msg_text;
+				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to repair the {prefix}$table table. Error: $check->Msg_text<br />";
+				$problems["{$prefix}$table"] = $check->Msg_text;
 				$okay = false;
 			}
 		}
 		if ( $okay && $optimize ) {
-			$check = $wpdb->get_row("ANALYZE TABLE {$wpdb->prefix}$table");
+			$check = $wpdb->get_row("ANALYZE TABLE {$prefix}$table");
 			if ( 'Table is already up to date' == $check->Msg_text )  {
-				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;The {$wpdb->prefix}$table table is already optimized.";
+				echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;The {$prefix}$table table is already optimized.";
 			} else {
-				$check = $wpdb->get_row("OPTIMIZE TABLE {$wpdb->prefix}$table");
+				$check = $wpdb->get_row("OPTIMIZE TABLE {$prefix}$table");
 				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text )
-					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully optimized the {$wpdb->prefix}$table table.";
+					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Successfully optimized the {$prefix}$table table.";
 				else
-					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to optimize the {$wpdb->prefix}$table table. Error: $check->Msg_text";
+					echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;Failed to optimize the {$prefix}$table table. Error: $check->Msg_text";
 			}
 		}
 		echo '</p>';
