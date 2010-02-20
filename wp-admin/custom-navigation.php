@@ -155,8 +155,8 @@ function wp_custom_navigation() {
  			if (isset($_POST['anchortitle'.$k])) { $custom_anchor_title = stripslashes($_POST['anchortitle'.$k]); } else { $custom_anchor_title = $custom_title; }
  			if (isset($_POST['newwindow'.$k])) { $new_window = $_POST['newwindow'.$k]; } else { $new_window = 0; }
  			
-			$post = array( 'post_status' => 'menu-' . $linktype, 'post_type' => 'menu_item', 'post_author' => $user_ID,
-				'ping_status' => 0, 'post_parent' => $post_id, 'menu_order' => $position,
+			$post = array( 'post_status' => 'publish', 'post_type' => 'menu_item', 'post_author' => $user_ID,
+				'ping_status' => 0, 'post_parent' => $post_id, '`menu_order' => $position,
 				'guid' => $custom_linkurl, 'post_excerpt' => $custom_anchor_title, 'tax_input' => array( 'menu' => $menu_title ),
 				'post_content' => $custom_description, 'post_title' => $custom_title );
 			if ( $new_window )
@@ -166,17 +166,18 @@ function wp_custom_navigation() {
 
 			//New menu item
 	 		if ($db_id == 0) {
-				$post_id = wp_insert_post( $post );
+				$db_id = $post_id = wp_insert_post( $post );
 			} elseif ( isset( $menu_items[$db_id] ) ) {
 				foreach( $update_fields as $field ) {
 					if ( $post[$field] != $menu_items[$db_id]->$field ) {
 						$post['ID'] = $db_id;
-						wp_insert_post( $post );
+						wp_update_post( $post );
 						break;
 					}
 				}
 				unset( $menu_items[$db_id] );
 			}
+			update_post_meta($db_id, 'menu_type', $linktype);
 		}
 		if ( !empty( $menu_items ) ) {
 			foreach( array_keys( $menu_items ) as $menu_id ) {
