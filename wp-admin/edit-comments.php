@@ -141,15 +141,16 @@ if ( isset( $_GET['error'] ) ) {
 		echo '<div id="moderated" class="error"><p>' . $error_msg . '</p></div>';
 }
 
-if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) || isset($_GET['spammed']) || isset($_GET['unspammed']) ) {
+if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) || isset($_GET['spammed']) || isset($_GET['unspammed']) || isset($_GET['same']) ) {
 	$approved  = isset( $_GET['approved']  ) ? (int) $_GET['approved']  : 0;
 	$deleted   = isset( $_GET['deleted']   ) ? (int) $_GET['deleted']   : 0;
 	$trashed   = isset( $_GET['trashed']   ) ? (int) $_GET['trashed']   : 0;
 	$untrashed = isset( $_GET['untrashed'] ) ? (int) $_GET['untrashed'] : 0;
 	$spammed   = isset( $_GET['spammed']   ) ? (int) $_GET['spammed']   : 0;
 	$unspammed = isset( $_GET['unspammed'] ) ? (int) $_GET['unspammed'] : 0;
+	$same      = isset( $_GET['same'] )      ? (int) $_GET['same']      : 0;
 
-	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 ) {
+	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 || $same > 0 ) {
 		if ( $approved > 0 )
 			$messages[] = sprintf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
 
@@ -171,6 +172,20 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 
 		if ( $deleted > 0 )
 			$messages[] = sprintf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
+
+		if ( $same > 0 && $comment = get_comment( $same ) ) {
+			switch ( $comment->comment_approved ) {
+				case '1' :
+					$messages[] = __('This comment is already approved.') . ' <a href="' . esc_url( admin_url( "comment.php?action=editcomment&c=$same" ) ) . '">' . __( 'Edit comment' ) . '</a>';
+					break;
+				case 'trash' :
+					$messages[] = __( 'This comment is already in the Trash.' ) . ' <a href="' . esc_url( admin_url( 'edit-comments.php?comment_status=trash' ) ) . '"> ' . __( 'View Trash' ) . '</a>';
+					break;
+				case 'spam' :
+					$messages[] = __( 'This comment is already marked as spam.' ) . ' <a href="' . esc_url( admin_url( "comment.php?action=editcomment&c=$same" ) ) . '">' . __( 'Edit comment' ) . '</a>';
+					break;
+			}
+		}
 
 		echo '<div id="moderated" class="updated"><p>' . implode( "<br/>\n", $messages ) . '</p></div>';
 	}

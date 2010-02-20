@@ -83,6 +83,12 @@ case 'spam'    :
 		die();
 	}
 
+	// No need to re-approve/re-trash/re-spam a comment.
+	if ( $action == str_replace( '1', 'approve', $comment->comment_approved ) ) {
+		wp_redirect( admin_url( 'edit-comments.php?same=' . $comment_id ) );
+		die();
+ 	}
+
 	require_once('admin-header.php');
 
 	$formaction    = $action . 'comment';
@@ -116,8 +122,24 @@ switch ( $action ) {
 		$button      = __('Approve Comment');
 		break;
 }
-?>
 
+if ( $comment->comment_approved != '0' ) { // if not unapproved
+	$message = '';
+	switch ( $comment->comment_approved ) {
+		case '1' :
+			$message = __('This comment is currently approved.');
+			break;
+		case 'spam' :
+			$message  = __('This comment is currently marked as spam.');
+			break;
+		case 'trash' :
+			$message  = __('This comment is currently in the Trash.');
+			break;
+	}
+	if ( $message )
+		echo '<div class="updated"><p>' . $message . '</p></div>';
+}
+?>
 <p><strong><?php _e('Caution:'); ?></strong> <?php echo $caution_msg; ?></p>
 
 <table class="form-table comment-ays">
