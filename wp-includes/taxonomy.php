@@ -38,7 +38,7 @@ function create_initial_taxonomies() {
 													'_builtin' => true
 												) ) ;
 
-	register_taxonomy( 'menu', 'post', array(		'hierarchical' => false,
+	register_taxonomy( 'menu', 'menu_item', array(	'hierarchical' => false,
 													'query_var' => false,
 													'rewrite' => false,
 													'show_ui' => false,
