@@ -126,45 +126,53 @@ if ( isset($_GET['s']) && $_GET['s'] )
 </h2>
 
 <?php
+if ( isset( $_GET['error'] ) ) {
+	$error = (int) $_GET['error'];
+	$error_msg = '';
+	switch ( $error ) {
+		case 1 :
+			$error_msg = __( 'Oops, no comment with this ID.' );
+			break;
+		case 2 :
+			$error_msg = __( 'You are not allowed to edit comments on this post.' );
+			break;
+	}
+	if ( $error_msg )
+		echo '<div id="moderated" class="error"><p>' . $error_msg . '</p></div>';
+}
+
 if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed']) || isset($_GET['untrashed']) || isset($_GET['spammed']) || isset($_GET['unspammed']) ) {
-	$approved = isset($_GET['approved']) ? (int) $_GET['approved'] : 0;
-	$deleted = isset($_GET['deleted']) ? (int) $_GET['deleted'] : 0;
-	$trashed = isset($_GET['trashed']) ? (int) $_GET['trashed'] : 0;
-	$untrashed = isset($_GET['untrashed']) ? (int) $_GET['untrashed'] : 0;
-	$spammed = isset($_GET['spammed']) ? (int) $_GET['spammed'] : 0;
-	$unspammed = isset($_GET['unspammed']) ? (int) $_GET['unspammed'] : 0;
+	$approved  = isset( $_GET['approved']  ) ? (int) $_GET['approved']  : 0;
+	$deleted   = isset( $_GET['deleted']   ) ? (int) $_GET['deleted']   : 0;
+	$trashed   = isset( $_GET['trashed']   ) ? (int) $_GET['trashed']   : 0;
+	$untrashed = isset( $_GET['untrashed'] ) ? (int) $_GET['untrashed'] : 0;
+	$spammed   = isset( $_GET['spammed']   ) ? (int) $_GET['spammed']   : 0;
+	$unspammed = isset( $_GET['unspammed'] ) ? (int) $_GET['unspammed'] : 0;
 
 	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 ) {
-		echo '<div id="moderated" class="updated"><p>';
+		if ( $approved > 0 )
+			$messages[] = sprintf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
 
-		if ( $approved > 0 ) {
-			printf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
-			echo '<br />';
-		}
 		if ( $spammed > 0 ) {
-			printf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed );
 			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
-			echo ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
-		}
-		if ( $unspammed > 0 ) {
-			printf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
-			echo '<br />';
-		}
-		if ( $trashed > 0 ) {
-			printf( _n( '%s comment moved to the trash.', '%s comments moved to the trash.', $trashed ), $trashed );
-			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
-			echo ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
-		}
-		if ( $untrashed > 0 ) {
-			printf( _n( '%s comment restored from the trash', '%s comments restored from the trash', $untrashed ), $untrashed );
-			echo '<br />';
-		}
-		if ( $deleted > 0 ) {
-			printf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
-			echo '<br />';
+			$messages[] = sprintf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
 		}
 
-		echo '</p></div>';
+		if ( $unspammed > 0 )
+			$messages = sprintf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
+
+		if ( $trashed > 0 ) {
+			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
+			$messages[] = sprintf( _n( '%s comment moved to the trash.', '%s comments moved to the trash.', $trashed ), $trashed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
+		}
+
+		if ( $untrashed > 0 )
+			$messages[] = sprintf( _n( '%s comment restored from the trash', '%s comments restored from the trash', $untrashed ), $untrashed );
+
+		if ( $deleted > 0 )
+			$messages[] = sprintf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
+
+		echo '<div id="moderated" class="updated"><p>' . implode( "<br/>\n", $messages ) . '</p></div>';
 	}
 }
 ?>
