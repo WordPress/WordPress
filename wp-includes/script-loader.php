@@ -432,7 +432,7 @@ function wp_default_styles( &$styles ) {
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100217' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20100108' );
+	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20100219' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
