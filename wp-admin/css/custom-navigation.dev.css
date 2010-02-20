@@ -22,7 +22,7 @@
 #nav-container  { margin-top: -3px; }
 
 .sidebar-name  { background-color:#AAAAAA;
-background-image:url(../../../../../wp-admin/images/ed-bg.gif);
+background-image:url(../images/ed-bg.gif);
 border-color:#DFDFDF;
 text-shadow:0 1px 0 #FFFFFF;-moz-border-radius-topleft:8px;
 -moz-border-radius-topright:8px;
@@ -44,7 +44,7 @@ white-space:nowrap;
 }
 
 .sidebar-name-arrow {
-background:transparent url(../../../../../wp-admin/images/menu-bits.gif) no-repeat scroll left -109px;
+background:transparent url(../images/menu-bits.gif) no-repeat scroll left -109px;
 float:right;
 height:29px;
 width:26px;
@@ -71,7 +71,7 @@ display: block;
 float: right;
 margin: 10px 0 0 0;
 text-shadow:0 -1px 0 rgba(0, 0, 0, 0.3);
-background:#21759B url(../../../../../wp-admin/images/button-grad.png) repeat-x scroll left top;
+background:#21759B url(../images/button-grad.png) repeat-x scroll left top;
 border-color:#298CBA !important;
 color:#FFFFFF !important;
 font-weight:bold;
