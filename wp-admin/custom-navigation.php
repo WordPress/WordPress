@@ -13,11 +13,11 @@
 require_once('admin.php');
 
 wp_admin_css( 'custom-navigation' );
-wp_enqueue_script( 'custom-navigation-jquery' );
+wp_enqueue_script( 'jquery' );
 wp_enqueue_script( 'custom-navigation-ui-custom' );
 wp_enqueue_script( 'custom-navigation-dynamic-functions' );
 wp_enqueue_script( 'custom-navigation-default-items' );
-wp_enqueue_script( 'custom-navigation-autocomplete' );
+wp_enqueue_script( 'jquery-autocomplete' );
 wp_enqueue_script( 'custom-navigation-php-functions' );
 wp_enqueue_script( 'jquery-ui-dialog' );
 
@@ -27,17 +27,6 @@ require_once (ABSPATH . WPINC . '/custom-navigation.php');
 wp_custom_navigation();
 
 function wp_custom_nav_reset() {
-	
-	global $wpdb;
-	
-	$table_name = $wpdb->prefix . "custom_nav_records";	 	 
-	//DROP existing menu records
-	$wpdb->query("DELETE FROM ".$table_name);
-	
-	$table_name_menus = $wpdb->prefix . "custom_nav_menus";	 	 
-	//DELETE existing menus
-	$wpdb->query("DELETE FROM ".$table_name_menus);
-	
 	wp_custom_navigation_setup(true);
 		
 	return true;
@@ -410,24 +399,24 @@ function wp_custom_navigation() {
 					?>
 					
 					<script>
-  						$(document).ready(function(){
+  						jQuery(document).ready(function(){
 
 							//GET PHP pages
     						var dataposts = "<?php echo $page_name; ?>".split("|");
 						
 							//Set autocomplete
-							$("#page-search").autocomplete(dataposts);
+							jQuery("#page-search").autocomplete(dataposts);
 						
 							//Handle autocomplete result
-							$("#page-search").result(function(event, data, formatted) {
-    							$('#existing-pages').css('display','block');
-    							$("#existing-pages dt:contains('" + data + "')").css("display", "block");
+							jQuery("#page-search").result(function(event, data, formatted) {
+    							jQuery('#existing-pages').css('display','block');
+    							jQuery("#existing-pages dt:contains('" + data + "')").css("display", "block");
     						
-    							$('#show-pages').hide();
-    							$('#hide-pages').show();
+    							jQuery('#show-pages').hide();
+    							jQuery('#hide-pages').show();
     						
 							});
-							$('#existing-pages').css('display','none');
+							jQuery('#existing-pages').css('display','none');
  						});
   					</script>
 
@@ -499,24 +488,24 @@ function wp_custom_navigation() {
 					?>
 
 					<script>
-  						$(document).ready(function(){
+  						jQuery(document).ready(function(){
 
 							//GET PHP categories
     						var datacats = "<?php echo $cat_name; ?>".split("|");
 							
 							//Set autocomplete
-							$("#cat-search").autocomplete(datacats);
+							jQuery("#cat-search").autocomplete(datacats);
 						
 							//Handle autocomplete result
-							$("#cat-search").result(function(event, data, formatted) {
-    							$('#existing-categories').css('display','block');
-    							$("#existing-categories dt:contains('" + data + "')").css("display", "block");
+							jQuery("#cat-search").result(function(event, data, formatted) {
+    							jQuery('#existing-categories').css('display','block');
+    							jQuery("#existing-categories dt:contains('" + data + "')").css("display", "block");
     						   						
-    							$('#show-cats').hide();
-    							$('#hide-cats').show();
+    							jQuery('#show-cats').hide();
+    							jQuery('#hide-cats').show();
     						
 							});
-							$('#existing-categories').css('display','none');
+							jQuery('#existing-categories').css('display','none');
 					
  						});
   					</script>

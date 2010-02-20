@@ -164,6 +164,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), '20090102' );
 	$scripts->add_data( 'jquery-table-hotkeys', 'group', 1 );
 
+	$scripts->add( 'jquery-autocomplete', "/wp-includes/js/jquery/autocomplete$suffix.js", array('jquery'), '1.1' );
+	$scripts->add_data( 'jquery-autocomplete', 'group', 1 );
+
 	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20100108');
 	$scripts->add_data( 'thickbox', 'group', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
@@ -397,13 +400,8 @@ function wp_default_scripts( &$scripts ) {
 	
 	//Custom Navigation
 
-	$scripts->add( 'custom-navigation-jquery', '/wp-admin/js/custom-navigation-custom-jquery-1.3.2.js', false, '1.3.2' );
-		
-	$scripts->add( 'custom-navigation-ui-custom', '/wp-admin/js/custom-navigation-custom-jquery-ui-1.7.2.js', array('custom-navigation-jquery'), '1.7.2' );
+	$scripts->add( 'custom-navigation-ui-custom', '/wp-admin/js/custom-navigation-custom-jquery-ui-1.7.2.js', array('jquery'), '1.7.2' );
 	$scripts->add_data( 'custom-navigation-ui-custom', 'group', 1 );
-	
-	$scripts->add( 'custom-navigation-autocomplete', '/wp-admin/js/custom-navigation-custom-jquery-autocomplete.js', array('custom-navigation-jquery'), '1.0.0' );
-	$scripts->add_data( 'custom-navigation-autocomplete', 'group', 1 );
 	
 	$scripts->add( 'custom-navigation-default-items', '/wp-admin/js/custom-navigation-default-items.js', false, '1.0.0' );
 	$scripts->add( 'custom-navigation-dynamic-functions', '/wp-admin/js/custom-navigation-dynamic-functions.js', false, '1.0.0' );
