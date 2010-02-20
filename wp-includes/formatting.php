@@ -1208,11 +1208,8 @@ function untrailingslashit($string) {
  * @return string Returns a string escaped with slashes.
  */
 function addslashes_gpc($gpc) {
-	global $wpdb;
-
-	if (get_magic_quotes_gpc()) {
+	if ( get_magic_quotes_gpc() )
 		$gpc = stripslashes($gpc);
-	}
 
 	return esc_sql($gpc);
 }

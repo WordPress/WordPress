@@ -1051,8 +1051,6 @@ function get_current_site() {
 }
 
 function get_user_id_from_string( $string ) {
-	global $wpdb;
-
 	$user_id = 0;
 	if ( is_email( $string ) ) {
 		$user = get_user_by('email', $string);

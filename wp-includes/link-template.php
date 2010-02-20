@@ -1076,7 +1076,7 @@ function prev_post_rel_link($title = '%title', $in_same_cat = false, $excluded_c
  * @return object
  */
 function get_boundary_post($in_same_cat = false, $excluded_categories = '', $start = true) {
-	global $post, $wpdb;
+	global $post;
 
 	if ( empty($post) || !is_single() || is_attachment() )
 		return null;

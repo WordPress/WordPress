@@ -715,7 +715,6 @@ class RSSCache {
 	Output:		true on sucess
 \*=======================================================================*/
 	function set ($url, $rss) {
-		global $wpdb;
 		$cache_option = 'rss_' . $this->file_name( $url );
 
 		set_transient($cache_option, $rss, $this->MAX_AGE);

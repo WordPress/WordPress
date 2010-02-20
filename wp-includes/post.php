@@ -3930,7 +3930,7 @@ function update_postmeta_cache($post_ids) {
  * @param bool $clean_terms optional. Whether to clean terms cache
  */
 function clean_attachment_cache($id, $clean_terms = false) {
-	global $_wp_suspend_cache_invalidation, $wpdb;
+	global $_wp_suspend_cache_invalidation;
 
 	if ( !empty($_wp_suspend_cache_invalidation) )
 		return;

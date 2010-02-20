@@ -1442,15 +1442,12 @@ function remove_query_arg( $key, $query=false ) {
 /**
  * Walks the array while sanitizing the contents.
  *
- * @uses $wpdb Used to sanitize values
  * @since 0.71
  *
  * @param array $array Array to used to walk while sanitizing contents.
  * @return array Sanitized $array.
  */
 function add_magic_quotes( $array ) {
-	global $wpdb;
-
 	foreach ( (array) $array as $k => $v ) {
 		if ( is_array( $v ) ) {
 			$array[$k] = add_magic_quotes( $v );
