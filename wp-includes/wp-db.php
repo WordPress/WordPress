@@ -601,8 +601,8 @@ class wpdb {
 
 		if ( $prefix ) {
 			$prefix = $this->get_blog_prefix( $blog_id );
-			foreach ( $tables as &$table ) {
-				$table = $prefix . $table;
+			foreach ( $tables as $k => $table ) {
+				$tables[$k] = $prefix . $table;
 			}
 		}
 
