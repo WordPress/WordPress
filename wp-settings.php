@@ -57,7 +57,7 @@ wp_debug_mode();
 
 // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
 if ( WP_CACHE )
-	@include WP_CONTENT_DIR . '/advanced-cache.php';
+	@include( WP_CONTENT_DIR . '/advanced-cache.php' );
 
 // Define WP_LANG_DIR if not set.
 wp_set_lang_dir();
@@ -79,7 +79,7 @@ wp_start_object_cache();
 // Load early WordPress files.
 require( ABSPATH . WPINC . '/plugin.php' );
 require( ABSPATH . WPINC . '/default-filters.php' );
-include_once( ABSPATH . WPINC . '/pomo/mo.php' );
+require( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Initialize multisite if enabled.
 if ( is_multisite() ) {
@@ -92,7 +92,7 @@ if ( SHORTINIT )
 	return false;
 
 // Load the l18n library.
-require_once ( ABSPATH . WPINC . '/l10n.php' );
+require( ABSPATH . WPINC . '/l10n.php' );
 
 // Run the installer if WordPress is not installed.
 wp_not_installed();
@@ -131,9 +131,9 @@ require( ABSPATH . WPINC . '/widgets.php' );
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
-	require_once( ABSPATH . WPINC . '/ms-functions.php' );
-	require_once( ABSPATH . WPINC . '/ms-default-filters.php' );
-	require_once( ABSPATH . WPINC . '/ms-deprecated.php' );
+	require( ABSPATH . WPINC . '/ms-functions.php' );
+	require( ABSPATH . WPINC . '/ms-default-filters.php' );
+	require( ABSPATH . WPINC . '/ms-deprecated.php' );
 }
 
 // Define constants that rely on the API to obtain the default value.
@@ -151,7 +151,7 @@ do_action( 'muplugins_loaded' );
 // Check site status if multisite.
 if ( is_multisite() ) {
 	if ( true !== ( $file = ms_site_check() ) ) {
-		require_once( $file );
+		require( $file );
 		die();
 	}
 	unset($file);
@@ -246,11 +246,11 @@ load_default_textdomain();
 $locale = get_locale();
 $locale_file = WP_LANG_DIR . "/$locale.php";
 if ( is_readable( $locale_file ) )
-	require_once( $locale_file );
+	require( $locale_file );
 unset($locale_file);
 
 // Pull in locale data after loading text domain.
-require_once( ABSPATH . WPINC . '/locale.php' );
+require( ABSPATH . WPINC . '/locale.php' );
 
 /**
  * WordPress Locale object for loading locale domain date and various strings.
