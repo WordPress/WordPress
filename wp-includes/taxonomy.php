@@ -209,6 +209,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 						'query_var' => $taxonomy,
 						'public' => true,
 						'show_ui' => null,
+						'label' => null,
 						'_builtin' => false
 						);
 	$args = wp_parse_args($args, $defaults);
@@ -233,6 +234,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	if ( is_null($args['show_ui']) )
 		$args['show_ui'] = $args['public'];
+
+	if ( is_null($args['label'] ) )
+		$args['label'] = $taxonomy;
 
 	foreach ( array('manage_cap', 'edit_cap', 'delete_cap') as $cap ) {
 		if ( empty($args[$cap]) )
