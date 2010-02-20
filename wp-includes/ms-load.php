@@ -180,7 +180,6 @@ function wpmu_current_site() {
  *
  * Used when blog does not exist. Checks for a missing $wpdb->site table as well.
  *
- * @todo Merge with is_blog_installed(), dead_db(), wp_not_installed(), etc.
  * @access private
  * @since 3.0.0
  */

@@ -48,7 +48,7 @@ if ( ! isset( $current_site->blog_id ) )
 if ( is_subdomain_install() ) {
 	$current_blog = wp_cache_get( 'current_blog_' . $domain, 'site-options' );
 	if ( !$current_blog ) {
-		$current_blog = get_blog_details( array('domain' => $domain), false );
+		$current_blog = get_blog_details( array( 'domain' => $domain ), false );
 		if ( $current_blog )
 			wp_cache_set( 'current_blog_' . $domain, $current_blog, 'site-options' );
 	}
@@ -67,7 +67,7 @@ if ( is_subdomain_install() ) {
 		$path .= $blogname . '/';
 	$current_blog = wp_cache_get( 'current_blog_' . $domain . $path, 'site-options' );
 	if ( ! $current_blog ) {
-		$current_blog = $current_blog = get_blog_details( array('domain' => $domain, 'path' => $path ), false );
+		$current_blog = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
 		if ( $current_blog )
 			wp_cache_set( 'current_blog_' . $domain . $path, $current_blog, 'site-options' );
 	}
@@ -91,7 +91,7 @@ if ( ! defined( 'WP_INSTALLING' ) ) {
 			header( 'Location: http://' . $current_site->domain . $current_site->path );
 			exit;
 		}
-		$current_blog = get_blog_details( array('domain' => $current_site->domain, 'path' => $current_site->path), false );
+		$current_blog = get_blog_details( array( 'domain' => $current_site->domain, 'path' => $current_site->path ), false );
 	}
 	if ( ! $current_blog || ! $current_site )
 		ms_not_installed();
@@ -107,10 +107,10 @@ $site_id = $current_blog->site_id;
 $current_site = get_current_site_name( $current_site );
 
 if ( ! $blog_id ) {
-	if ( defined('WP_INSTALLING') ) {
+	if ( defined( 'WP_INSTALLING' ) ) {
 		$current_blog->blog_id = $blog_id = 1;
     } else {
-		$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? __( 'Database tables are missing.' ) : '';
+		$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . __( 'Database tables are missing.' ) : '';
 		wp_die( __( 'No blog by that name on this system.' ) . $msg );
     }
 }
@@ -124,6 +124,6 @@ $table_prefix = $wpdb->get_blog_prefix();
 wp_start_object_cache();
 
 // Define upload directory constants
-ms_upload_constants(  );
+ms_upload_constants();
 
 ?>
