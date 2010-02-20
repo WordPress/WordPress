@@ -13,14 +13,14 @@
 function wp_custom_navigation_get_menu_items( $menu_objects, $key = 'ID' ) {
 	$menu_items = array();
 	if ( !empty( $menu_objects ) && !empty( $key ) ) {
-		$args = array( 'orderby' => 'menu_order', 'post_type' => 'menu_item', 'post_status' => 'menu-category,menu-page,menu-custom' );
+		$args = array( 'orderby' => 'menu_order', 'post_type' => 'menu_item', 'post_status' => 'publish' );
 		if ( count( $menu_objects ) > 1 )
 			$args['include'] = implode( ',', $menu_objects );
 		else
 			$args['include'] = $menu_objects[0];
-		$posts = new WP_Query( $args );
-		if ( ! empty( $posts->posts ) ) {
-			foreach( $posts->posts as $post ) {
+		$posts = get_posts( $args );
+		if ( ! empty( $posts ) ) {
+			foreach ( $posts as $post ) {
 				$menu_items[ $post->$key ] = $post;
 			}
 		}
@@ -29,6 +29,7 @@ function wp_custom_navigation_get_menu_items( $menu_objects, $key = 'ID' ) {
 	}
 	return $menu_items;
 }
+
 function wp_custom_navigation_setup($override = false) {
 	
 	$nav_version = '1.1.0';

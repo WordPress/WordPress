@@ -45,22 +45,22 @@ function wp_custom_navigation() {
 	?>
 
 	<div class="wrap">
-	<div id="no-js"><h3>You do not have JavaScript enabled in your browser. Please enabled it to access the Custom Menu functionality.</h3></div>
+	<div id="no-js"><h3>You do not have JavaScript enabled in your browser. Please enable it to access the Custom Menu functionality.</h3></div>
 			
 	<?php
 	$messagesdiv = '';
 	$menu_id_in_edit = 0;
 	    
-	//Get the theme name
+	// Get the theme name
 	$themename =  get_current_theme();
 	    
-	//CHECK which menu is selected and if menu is in edit already
+	// Check which menu is selected and if menu is in edit already
 	if ( isset( $_POST['switch_menu'] ) )
 		$menu_selected_id = $_POST['menu_select'];
 	elseif ( isset( $_POST['menu_id_in_edit'] ) )
 		$menu_selected_id = $_POST['menu_id_in_edit'];
 	    
-	//Default Menu to show
+	// Default Menu to show
 	$custom_menus = get_terms( 'menu', array( 'hide_empty' => false ) );
  	if ( !empty( $custom_menus ) )
 		$menu_selected_id = $custom_menus[0]->term_id;
@@ -84,7 +84,8 @@ function wp_custom_navigation() {
 		$postCounter = $_POST['licount'];
 	else
 	    	$postCounter = 0;
-		
+
+	// Create a new menu. Menus are stored as terms in the 'menu' taxonomy.
 	if ( isset( $_POST['add_menu'] ) ) {
 	 	$insert_menu_name = $_POST['add_menu_name'];
 
@@ -106,21 +107,19 @@ function wp_custom_navigation() {
 	 	} else {
 	 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>Please enter a valid Menu name</p></div>';
 	 	}
-	 		
-			
 	}
 		
-	if (isset($_POST['reset_wp_menu'])) {	
+	if ( isset($_POST['reset_wp_menu']) ) {	
     		$success = wp_custom_nav_reset();
     		if ($success) {
-	    		//DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
- 			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been RESET!</p></div>';
- 			//GET reset menu id
-			$custom_menus = array();
-			$menu_selected_id = 0;
+	    		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
+				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been RESET!</p></div>';
+				// GET reset menu id
+				$custom_menus = array();
+				$menu_selected_id = 0;
 	    	} else {
-    			//DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename.'s Custom Menu could not be RESET. Please try again.</p></div>';
+    			// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
+				$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename.'s Custom Menu could not be RESET. Please try again.</p></div>';
 	    	}
 	} elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
 		$menu_objects = get_objects_in_term( $menu_selected_id, 'menu' );
@@ -285,7 +284,7 @@ function wp_custom_navigation() {
 						//DISPLAY SELECT OPTIONS
 						foreach( $custom_menus as $menu ) {
 							$menu_term = get_term( $menu, 'menu' );
-							if ( ( $menu_id_in_edit == $menu ) || ( $menu_selected_id == $menu ) )
+							if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) )
 								$selected_option = 'selected="selected"';
 							else
 								$selected_option = '';

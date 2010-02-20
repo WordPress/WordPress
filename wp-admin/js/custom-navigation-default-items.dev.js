@@ -12,7 +12,7 @@
 /*
  * Init Functions
 */
-$(function() 
+jQuery(function($)
 	{
 		//Makes dialog box
 		$("#dialog-confirm").dialog({
