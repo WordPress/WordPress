@@ -142,7 +142,12 @@ function wpmu_delete_user($id) {
 			}
 
 			// Clean links
-			$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->links WHERE link_owner = %d", $id) );
+			$link_ids = $wpdb->get_col( $wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_owner = %d", $id) );
+
+			if ( $link_ids ) {
+				foreach ( $link_ids as $link_id )
+					wp_delete_link($link_id);
+			}
 
 			restore_current_blog();
 		}
