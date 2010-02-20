@@ -65,7 +65,7 @@ function inline_edit_term_row($type, $taxonomy) {
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
 		<?php $update_text = ( 'post_tag' == $taxonomy ) ? __( 'Update Tag' ) : __( 'Update Category' ); ?>
 		<a accesskey="s" href="#inline-edit" title="<?php echo esc_attr( $update_text ); ?>" class="save button-primary alignright"><?php echo $update_text; ?></a>
-		<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
+		<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 		<span class="error" style="display:none;"></span>
 		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
 		<br class="clear" />
@@ -671,7 +671,7 @@ function wp_manage_posts_columns( $screen = '') {
 		$posts_columns['tags'] = __('Tags');
 	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
 	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($post_type) || post_type_supports($post_type, 'comments') ) )
-		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
+		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
 	$posts_columns['date'] = __('Date');
 	// @todo filter per type
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
@@ -697,7 +697,7 @@ function wp_manage_media_columns() {
 	//$posts_columns['tags'] = _x('Tags', 'column name');
 	/* translators: column name */
 	$posts_columns['parent'] = _x('Attached to', 'column name');
-	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
+	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
 	//$posts_columns['comments'] = __('Comments');
 	/* translators: column name */
 	$posts_columns['date'] = _x('Date', 'column name');
@@ -1165,7 +1165,7 @@ function inline_edit_row( $screen ) {
 			$update_text = __( 'Update' );
 			?>
 			<a accesskey="s" href="#inline-edit" title="<?php _e('Update'); ?>" class="button-primary save alignright"><?php echo esc_attr( $update_text ); ?></a>
-			<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
+			<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 		<?php } else {
 			$update_text = __( 'Update' );
 		?>
@@ -2276,7 +2276,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<a href="#comments-form" class="save button-primary alignright" tabindex="104">
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
-	<img class="waiting" style="display:none;" src="images/wpspin_light.gif" alt="" />
+	<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 	<span class="error" style="display:none;"></span>
 	<br class="clear" />
 	</p>
@@ -2611,7 +2611,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 function browse_happy() {
 	$getit = __( 'WordPress recommends a better browser' );
 	echo '
-		<div id="bh"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></div>
+		<div id="bh"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="' . esc_url( admin_url( 'images/browse-happy.gif' ) ) . '" alt="Browse Happy" /></a></div>
 ';
 }
 

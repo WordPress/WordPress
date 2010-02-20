@@ -412,7 +412,7 @@ switch ( $_GET['action'] ) {
 				<?php wp_admin_css( 'install', true ); ?>
 			</head>
 			<body id="error-page">
-				<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_url( admin_url( 'images/wordpress-logo.png' ) ); ?>" /></h1>
 				<form action='ms-edit.php?action=<?php echo esc_attr( $_GET[ 'action2' ] ) ?>' method='post'>
 					<input type='hidden' name='action' value='<?php echo esc_attr( $_GET['action2'] ) ?>' />
 					<input type='hidden' name='id' value='<?php echo esc_attr( $id ); ?>' />

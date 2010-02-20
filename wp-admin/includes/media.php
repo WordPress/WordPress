@@ -376,12 +376,12 @@ function media_buttons() {
 	$out = '';
 
 	if ( $do_image )
-		$out .= "<a href='{$image_upload_iframe_src}&amp;TB_iframe=true' id='add_image' class='thickbox' title='$image_title' onclick='return false;'><img src='images/media-button-image.gif' alt='$image_title' /></a>";
+		$out .= "<a href='{$image_upload_iframe_src}&amp;TB_iframe=true' id='add_image' class='thickbox' title='$image_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-image.gif' ) ) . "' alt='$image_title' /></a>";
 	if ( $do_video )
-		$out .= "<a href='{$video_upload_iframe_src}&amp;TB_iframe=true' id='add_video' class='thickbox' title='$video_title' onclick='return false;'><img src='images/media-button-video.gif' alt='$video_title' /></a>";
+		$out .= "<a href='{$video_upload_iframe_src}&amp;TB_iframe=true' id='add_video' class='thickbox' title='$video_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-video.gif' ) ) . "' alt='$video_title' /></a>";
 	if ( $do_audio )
-		$out .= "<a href='{$audio_upload_iframe_src}&amp;TB_iframe=true' id='add_audio' class='thickbox' title='$audio_title' onclick='return false;'><img src='images/media-button-music.gif' alt='$audio_title' /></a>";
-	$out .= "<a href='{$media_upload_iframe_src}&amp;TB_iframe=true' id='add_media' class='thickbox' title='$media_title' onclick='return false;'><img src='images/media-button-other.gif' alt='$media_title' /></a>";
+		$out .= "<a href='{$audio_upload_iframe_src}&amp;TB_iframe=true' id='add_audio' class='thickbox' title='$audio_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-music.gif' ) ) . "' alt='$audio_title' /></a>";
+	$out .= "<a href='{$media_upload_iframe_src}&amp;TB_iframe=true' id='add_media' class='thickbox' title='$media_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-other.gif' ) ) . "' alt='$media_title' /></a>";
 
 	printf($context, $out);
 }
@@ -1214,7 +1214,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$image_edit_button = '';
 	if ( gd_edit_image_support( $post->post_mime_type ) ) {
 		$nonce = wp_create_nonce( "image_editor-$post->ID" );
-		$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <img src='images/wpspin_light.gif' class='imgedit-wait-spin' alt='' />";
+		$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <img src='" . esc_url( admin_url( 'images/wpspin_light.gif' ) ) . "' class='imgedit-wait-spin' alt='' />";
 	}
 
 	$attachment_url = get_permalink( $attachment_id );
@@ -1631,7 +1631,7 @@ var addExtImage = {
 		document.getElementById('go_button').style.color = '#bbb';
 		if ( ! document.forms[0].src.value )
 			document.getElementById('status_img').innerHTML = '*';
-		else document.getElementById('status_img').innerHTML = '<img src="images/no.png" alt="" />';
+		else document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>" alt="" />';
 	},
 
 	updateImageData : function() {
@@ -1640,7 +1640,7 @@ var addExtImage = {
 		t.width = t.preloadImg.width;
 		t.height = t.preloadImg.height;
 		document.getElementById('go_button').style.color = '#333';
-		document.getElementById('status_img').innerHTML = '<img src="images/yes.png" alt="" />';
+		document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/yes.png' ) ); ?>" alt="" />';
 	},
 
 	getImageData : function() {
@@ -1650,7 +1650,7 @@ var addExtImage = {
 			t.resetImageData();
 			return false;
 		}
-		document.getElementById('status_img').innerHTML = '<img src="images/wpspin_light.gif" alt="" />';
+		document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />';
 		t.preloadImg = new Image();
 		t.preloadImg.onload = t.updateImageData;
 		t.preloadImg.onerror = t.resetImageData;
