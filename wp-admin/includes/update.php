@@ -130,9 +130,9 @@ function update_nag() {
 		return false;
 
 	if ( current_user_can('update_core') )
-		$msg = sprintf( __('WordPress %1$s is available! <a href="%2$s">Please update now</a>.'), $cur->current, 'update-core.php' );
+		$msg = sprintf( __('<a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> is available! <a href="%2$s">Please update now</a>.'), $cur->current, 'update-core.php' );
 	else
-		$msg = sprintf( __('WordPress %1$s is available! Please notify the site administrator.'), $cur->current );
+		$msg = sprintf( __('<a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> is available! Please notify the site administrator.'), $cur->current );
 
 	echo "<div id='update-nag'>$msg</div>";
 }
