@@ -22,7 +22,7 @@ class WP_Widget_Pages extends WP_Widget {
 	function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title']);
+		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title'], $instance, $this->id_base);
 		$sortby = empty( $instance['sortby'] ) ? 'menu_order' : $instance['sortby'];
 		$exclude = empty( $instance['exclude'] ) ? '' : $instance['exclude'];
 
@@ -178,7 +178,7 @@ class WP_Widget_Search extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', $instance['title']);
+		$title = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
 
 		echo $before_widget;
 		if ( $title )
@@ -223,7 +223,7 @@ class WP_Widget_Archives extends WP_Widget {
 		extract($args);
 		$c = $instance['count'] ? '1' : '0';
 		$d = $instance['dropdown'] ? '1' : '0';
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Archives') : $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Archives') : $instance['title'], $instance, $this->id_base);
 
 		echo $before_widget;
 		if ( $title )
@@ -286,7 +286,7 @@ class WP_Widget_Meta extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Meta') : $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Meta') : $instance['title'], $instance, $this->id_base);
 
 		echo $before_widget;
 		if ( $title )
@@ -334,7 +334,7 @@ class WP_Widget_Calendar extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title'], $instance, $this->id_base);
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
@@ -376,7 +376,7 @@ class WP_Widget_Text extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters( 'widget_title', empty($instance['title']) ? '' : $instance['title'], $instance );
+		$title = apply_filters( 'widget_title', empty($instance['title']) ? '' : $instance['title'], $instance, $this->id_base);
 		$text = apply_filters( 'widget_text', $instance['text'], $instance );
 		echo $before_widget;
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
@@ -426,7 +426,7 @@ class WP_Widget_Categories extends WP_Widget {
 	function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title']);
+		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base);
 		$c = $instance['count'] ? '1' : '0';
 		$h = $instance['hierarchical'] ? '1' : '0';
 		$d = $instance['dropdown'] ? '1' : '0';
@@ -534,7 +534,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		ob_start();
 		extract($args);
 
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Posts') : $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Posts') : $instance['title'], $instance, $this->id_base);
 		if ( !$number = (int) $instance['number'] )
 			$number = 10;
 		else if ( $number < 1 )
@@ -625,7 +625,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		global $wpdb, $comments, $comment;
 
 		extract($args, EXTR_SKIP);
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Comments') : $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Recent Comments') : $instance['title'], $instance, $this->id_base);
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
 		else if ( $number < 1 )
@@ -721,7 +721,7 @@ class WP_Widget_RSS extends WP_Widget {
 		if ( empty($title) )
 			$title = empty($desc) ? __('Unknown Feed') : $desc;
 
-		$title = apply_filters('widget_title', $title );
+		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
 		$url = esc_url(strip_tags($url));
 		$icon = includes_url('images/rss.png');
 		if ( $title )
@@ -976,7 +976,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Tags') : $instance['title']);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Tags') : $instance['title'], $instance, $this->id_base);
 
 		echo $before_widget;
 		if ( $title )
