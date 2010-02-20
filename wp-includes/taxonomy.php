@@ -38,6 +38,11 @@ function create_initial_taxonomies() {
 													'_builtin' => true
 												) ) ;
 
+	register_taxonomy( 'menu', 'post', array(	'hierarchical' => false,
+														'query_var' => false,
+														'rewrite' => false
+													) ) ;
+
 	register_taxonomy( 'link_category', 'link', array(	'hierarchical' => false,
 													  	'label' => __('Categories'),
 														'query_var' => false,

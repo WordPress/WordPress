@@ -63,6 +63,14 @@ function create_initial_post_types() {
 											'query_var' => false,
 										) );
 
+	register_post_type( 'menu_item', array(	'public' => false,
+											'show_ui' => false,
+											'_builtin' => true,
+											'capability_type' => 'post',
+											'hierarchical' => false,
+											'rewrite' => false,
+											'query_var' => false,
+										) );
 	register_post_status( 'publish', array(	'label' => _x('Published', 'post'),
 											'public' => true,
 											'_builtin' => true,
@@ -104,6 +112,18 @@ function create_initial_post_types() {
 											'internal' => true,
 											'_builtin' => true,
 											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
+										) );
+
+	register_post_status( 'menu-category', array(	'internal' => true,
+											'_builtin' => true
+										) );
+
+	register_post_status( 'menu-page', array(	'internal' => true,
+											'_builtin' => true
+										) );
+
+	register_post_status( 'menu-custom', array(	'internal' => true,
+											'_builtin' => true
 										) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority

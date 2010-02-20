@@ -2215,4 +2215,14 @@ function get_the_generator( $type = '' ) {
 	return apply_filters( "get_the_generator_{$type}", $gen, $type );
 }
 
+/**
+ * Outputs the Custom Navigation.
+ *
+ * @since 3.0.0
+ */
+function custom_nav($args = array()) {
+	require_once (ABSPATH . WPINC . '/custom-navigation-functions.php');
+	wp_custom_navigation_output($args);
+}
+
 ?>
