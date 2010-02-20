@@ -2221,7 +2221,7 @@ function get_the_generator( $type = '' ) {
  * @since 3.0.0
  */
 function custom_nav($args = array()) {
-	require_once (ABSPATH . WPINC . '/custom-navigation-functions.php');
+	require_once (ABSPATH . WPINC . '/custom-navigation.php');
 	wp_custom_navigation_output($args);
 }
 

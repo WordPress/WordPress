@@ -22,7 +22,7 @@ wp_enqueue_script( 'custom-navigation-php-functions' );
 wp_enqueue_script( 'jquery-ui-dialog' );
 
 require_once('admin-header.php');
-require_once (ABSPATH . WPINC . '/custom-navigation-functions.php');
+require_once (ABSPATH . WPINC . '/custom-navigation.php');
 
 wp_custom_navigation();
 
