@@ -306,7 +306,8 @@ function wp_iframe($content_func /* ... */) {
 wp_enqueue_style( 'global' );
 wp_enqueue_style( 'wp-admin' );
 wp_enqueue_style( 'colors' );
-if ( 0 === strpos( $content_func, 'media' ) )
+// Check callback name for 'media'
+if ( ( is_array( $content_func ) && ! empty( $content_func[1] ) && 0 === strpos( (string) $content_func[1], 'media' ) ) || 0 === strpos( $content_func, 'media' ) )
 	wp_enqueue_style( 'media' );
 wp_enqueue_style( 'ie' );
 ?>
