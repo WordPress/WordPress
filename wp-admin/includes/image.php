@@ -252,26 +252,68 @@ function wp_read_image_metadata( $file ) {
 	// as caption, description etc
 	if ( is_callable('iptcparse') ) {
 		getimagesize($file, $info);
+
 		if ( !empty($info['APP13']) ) {
 			$iptc = iptcparse($info['APP13']);
+
+			if ( ! empty($iptc['2#105'][0] ) ) // headline, "A brief synopsis of the caption."
+				$meta['title'] = utf8_encode( trim( $iptc['2#105'][0] ) );
+			elseif ( !empty($iptc['2#005'][0]) ) // title, "Many use the Title field to store the filename of the image, though the field may be used in many ways."
+				$meta['title'] = utf8_encode( trim( $iptc['2#005'][0] ) );
+
+			if ( !empty( $iptc['2#120'][0] ) ) { // description / legacy caption
+				$caption = utf8_encode( trim( $iptc['2#120'][0] ) );
+				if ( empty( $meta['title'] ) ) {
+					// Assume the title is stored in 2:120 if it's short.
+					if ( strlen( $caption ) < 80 )
+						$meta['title'] = $caption;
+					else
+						$meta['caption'] = $caption;
+				} elseif ( $caption != $meta['title'] ) {
+					$meta['caption'] = $caption;
+				}
+			}
+
 			if ( !empty($iptc['2#110'][0]) ) // credit
 				$meta['credit'] = utf8_encode(trim($iptc['2#110'][0]));
-			elseif ( !empty($iptc['2#080'][0]) ) // byline
+			elseif ( !empty($iptc['2#080'][0]) ) // creator / legacy byline
 				$meta['credit'] = utf8_encode(trim($iptc['2#080'][0]));
+
 			if ( !empty($iptc['2#055'][0]) and !empty($iptc['2#060'][0]) ) // created date and time
 				$meta['created_timestamp'] = strtotime($iptc['2#055'][0] . ' ' . $iptc['2#060'][0]);
-			if ( !empty($iptc['2#120'][0]) ) // caption
-				$meta['caption'] = utf8_encode(trim($iptc['2#120'][0]));
+
 			if ( !empty($iptc['2#116'][0]) ) // copyright
 				$meta['copyright'] = utf8_encode(trim($iptc['2#116'][0]));
-			if ( !empty($iptc['2#005'][0]) ) // title
-				$meta['title'] = utf8_encode(trim($iptc['2#005'][0]));
 		 }
 	}
 
 	// fetch additional info from exif if available
 	if ( is_callable('exif_read_data') && in_array($sourceImageType, apply_filters('wp_read_image_metadata_types', array(IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM)) ) ) {
 		$exif = @exif_read_data( $file );
+
+		if ( !empty( $exif['Title'] ) )
+			$meta['title'] = utf8_encode( trim( $exif['Title'] ) );
+
+		if ( ! empty( $exif['ImageDescription'] ) ) {
+			if ( empty($meta['title']) && strlen( $exif['ImageDescription'] ) < 80 ) {
+				// Assume the title is stored in ImageDescription
+				$meta['title'] = utf8_encode( trim( $exif['ImageDescription'] ) );
+				if ( ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) != $meta['title'] )
+					$meta['caption'] = utf8_encode( trim( $exif['COMPUTED']['UserComment'] ) );
+			} elseif ( trim( $exif['ImageDescription'] ) != $meta['title'] ) {
+				$meta['caption'] = utf8_encode( trim( $exif['ImageDescription'] ) );
+			}
+		} elseif ( ! empty( $exif['Comments'] ) && trim( $exif['Comments'] ) != $meta['title'] ) {
+			$meta['caption'] = utf8_encode( trim( $exif['Comments'] ) );
+		}
+
+		if ( ! empty( $exif['Artist'] ) )
+			$meta['credit'] = utf8_encode( trim( $exif['Artist'] ) );
+		elseif ( ! empty($exif['Author'] ) )
+			$meta['credit'] = utf8_encode( trim( $exif['Author'] ) );
+
+		if ( ! empty( $exif['Copyright'] ) )
+			$meta['copyright'] = utf8_encode( trim( $exif['Copyright'] ) );
 		if (!empty($exif['FNumber']))
 			$meta['aperture'] = round( wp_exif_frac2dec( $exif['FNumber'] ), 2 );
 		if (!empty($exif['Model']))

@@ -208,9 +208,9 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 
 	// use image exif/iptc data for title and caption defaults if possible
 	if ( $image_meta = @wp_read_image_metadata($file) ) {
-		if ( trim($image_meta['title']) )
+		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
 			$title = $image_meta['title'];
-		if ( trim($image_meta['caption']) )
+		if ( trim( $image_meta['caption'] ) )
 			$content = $image_meta['caption'];
 	}
 
@@ -259,9 +259,9 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 
 	// use image exif/iptc data for title and caption defaults if possible
 	if ( $image_meta = @wp_read_image_metadata($file) ) {
-		if ( trim($image_meta['title']) )
+		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
 			$title = $image_meta['title'];
-		if ( trim($image_meta['caption']) )
+		if ( trim( $image_meta['caption'] ) )
 			$content = $image_meta['caption'];
 	}
 
