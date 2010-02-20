@@ -623,7 +623,7 @@ function populate_roles_300() {
  * @param int $network_id id of network to populate
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $vhost = 'no' ) {
-	global $wpdb, $current_site, $wp_version, $wp_db_version, $wp_rewrite;
+	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
 
 	$msg = '';
 	//@todo: turn these checks into returned messages

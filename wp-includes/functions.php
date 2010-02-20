@@ -23,7 +23,6 @@
  * @return string Date formated by $dateformatstring or locale (if available).
  */
 function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
-	global $wp_locale;
 	$m = $mysqlstring;
 	if ( empty( $m ) )
 		return false;

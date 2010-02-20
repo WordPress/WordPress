@@ -1429,7 +1429,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	foreach ( get_post_stati() as $state )
 		$stats[$state] = 0;
 
-	foreach ( (array) $count as $row_num => $row )
+	foreach ( (array) $count as $row )
 		$stats[$row['post_status']] = $row['num_posts'];
 
 	$stats = (object) $stats;

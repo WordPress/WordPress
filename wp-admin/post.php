@@ -51,15 +51,6 @@ if ( $post_id ) {
  * @param int $post_id Optional. Post ID.
  */
 function redirect_post($post_id = '') {
-	global $action;
-
-	$referredby = '';
-	if ( !empty($_POST['referredby']) ) {
-		$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
-		$referredby = remove_query_arg('_wp_original_http_referer', $referredby);
-	}
-	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
-
 	if ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		if ( isset($_POST['saveasdraft']) )
 			$location = 'sidebar.php?a=c';

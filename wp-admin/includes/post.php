@@ -960,7 +960,7 @@ function wp_edit_attachments_query( $q = false ) {
 function postbox_classes( $id, $page ) {
 	if ( isset( $_GET['edit'] ) && $_GET['edit'] == $id )
 		return '';
-	$current_user = wp_get_current_user();
+
 	if ( $closed = get_user_option('closedpostboxes_'.$page ) ) {
 		if ( !is_array( $closed ) ) {
 			return '';

@@ -1835,7 +1835,7 @@ function media_upload_library_form($errors) {
 	$start = ( $_GET['paged'] - 1 ) * 10;
 	if ( $start < 1 )
 		$start = 0;
-	add_filter( 'post_limits', $limit_filter = create_function( '$a', "return 'LIMIT $start, 10';" ) );
+	add_filter( 'post_limits', create_function( '$a', "return 'LIMIT $start, 10';" ) );
 
 	list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 

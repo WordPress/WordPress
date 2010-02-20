@@ -366,8 +366,6 @@ function display_theme($theme, $actions = null, $show_details = true) {
  * @param int $totalpages Number of pages.
  */
 function display_themes($themes, $page = 1, $totalpages = 1) {
-	global $themes_allowedtags;
-
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 	?>

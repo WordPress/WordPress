@@ -687,8 +687,6 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 }
 
 function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
-	global $current_site;
-
 	if ( !apply_filters('wpmu_signup_user_notification', $user, $user_email, $key, $meta) )
 		return false;
 
@@ -780,8 +778,6 @@ function wpmu_create_user( $user_name, $password, $email) {
 	$user_id = wp_create_user( $user_name, $password, $email );
 	if ( is_wp_error($user_id) )
 		return false;
-
-	$user = new WP_User($user_id);
 
 	// Newly created users have no roles or caps until they are added to a blog.
 	update_user_option($user_id, 'capabilities', '');

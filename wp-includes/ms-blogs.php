@@ -230,7 +230,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	foreach ( array_intersect( array_keys( $details ), $fields ) as $field )
 		$update_details[$field] = $details[$field];
 
-	$result = $wpdb->update( $wpdb->blogs, $update_details, array('blog_id' => $blog_id) );
+	$wpdb->update( $wpdb->blogs, $update_details, array('blog_id' => $blog_id) );
 
 	// If spam status changed, issue actions.
 	if ( $details[ 'spam' ] != $current_details[ 'spam' ] ) {

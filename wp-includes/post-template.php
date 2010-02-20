@@ -179,7 +179,7 @@ function the_content($more_link_text = null, $stripteaser = 0) {
  * @return string
  */
 function get_the_content($more_link_text = null, $stripteaser = 0) {
-	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
+	global $id, $post, $more, $page, $pages, $multipage, $preview;
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more...)' );
@@ -367,7 +367,7 @@ function body_class( $class = '' ) {
  * @return array Array of classes.
  */
 function get_body_class( $class = '' ) {
-	global $wp_query, $wpdb, $current_user;
+	global $wp_query, $wpdb;
 
 	$classes = array();
 

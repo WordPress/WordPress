@@ -87,9 +87,6 @@ function delete_theme($template) {
 		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress theme directory.'));
 
 	$themes_dir = trailingslashit( $themes_dir );
-
-	$errors = array();
-
 	$theme_dir = trailingslashit($themes_dir . $template);
 	$deleted = $wp_filesystem->delete($theme_dir, true);
 

@@ -423,7 +423,6 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	global $wpdb;
 
 	$id = (int) $id;
-	$user = new WP_User($id);
 
 	// allow for transaction statement
 	do_action('delete_user', $id);

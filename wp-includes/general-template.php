@@ -1352,7 +1352,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
  * @return string|null Null if displaying, string if retrieving.
  */
 function get_the_date( $d = '' ) {
-	global $post, $day;
+	global $post;
 	$the_date = '';
 
 	if ( '' == $d )

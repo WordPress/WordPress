@@ -1677,7 +1677,7 @@ function previous_comments_link( $label = '' ) {
  * @return string Markup for pagination links.
 */
 function paginate_comments_links($args = array()) {
-	global $wp_query, $wp_rewrite;
+	global $wp_rewrite;
 
 	if ( !is_singular() || !get_option('page_comments') )
 		return;

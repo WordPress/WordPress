@@ -242,7 +242,7 @@ function reset_password($key, $login) {
 	do_action('password_reset', $user, $new_pass);
 
 	wp_set_password($new_pass, $user->ID);
-	update_user_option($user_ID, 'default_password_nag', true, true); //Set up the Password change nag.
+	update_user_option($user->ID, 'default_password_nag', true, true); //Set up the Password change nag.
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= site_url('wp-login.php', 'login') . "\r\n";

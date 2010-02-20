@@ -125,7 +125,6 @@ function wpmu_delete_user($id) {
 	global $wpdb;
 
 	$id = (int) $id;
-	$user = get_userdata($id);
 
 	do_action('wpmu_delete_user', $id);
 

@@ -869,7 +869,7 @@ class wpdb {
 		if (!$this->$dbhname ) {
 			$this->bail("
 <h1>Error establishing a database connection</h1>
-<p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>$dbhost</code>. This could mean your host's database server is down.</p>
+<p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>{$details['db_host']}</code>. This could mean your host's database server is down.</p>
 <ul>
 	<li>Are you sure you have the correct username and password?</li>
 	<li>Are you sure that you have typed the correct hostname?</li>

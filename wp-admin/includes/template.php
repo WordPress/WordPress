@@ -2111,7 +2111,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 					if ( 'spam' != $the_comment_status && 'trash' != $the_comment_status ) {
 						$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
 					} elseif ( 'spam' == $the_comment_status ) {
-						$actions['unspam'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:66cc66:unspam=1 vim-z vim-destructive'>" . __( 'Not Spam' ) . '</a>';
+						$actions['unspam'] = "<a href='$unspam_url' class='delete:the-comment-list:comment-$comment->comment_ID:66cc66:unspam=1 vim-z vim-destructive'>" . __( 'Not Spam' ) . '</a>';
 					} elseif ( 'trash' == $the_comment_status ) {
 						$actions['untrash'] = "<a href='$untrash_url' class='delete:the-comment-list:comment-$comment->comment_ID:66cc66:untrash=1 vim-z vim-destructive'>" . __( 'Restore' ) . '</a>';
 					}
@@ -2678,13 +2678,12 @@ function the_attachment_links( $id = false ) {
  * @param string $default slug for the role that should be already selected
  */
 function wp_dropdown_roles( $selected = false ) {
-	global $wp_roles;
 	$p = '';
 	$r = '';
 
 	$editable_roles = get_editable_roles();
 
-	foreach( $editable_roles as $role => $details ) {
+	foreach ( $editable_roles as $role => $details ) {
 		$name = translate_user_role($details['name'] );
 		if ( $selected == $role ) // Make default first in list
 			$p = "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
@@ -3288,7 +3287,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
-				<input type="button" onclick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onClick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -3298,7 +3297,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button alignleft" onclick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
+			<input type="button" class="button alignleft" onClick="findPosts.close();" value="<?php esc_attr_e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button-primary alignright" value="<?php esc_attr_e('Select'); ?>" />
 		</div>
 	</div>
@@ -3544,7 +3543,7 @@ function convert_to_screen( $screen ) {
 }
 
 function screen_meta($screen) {
-	global $wp_meta_boxes, $_wp_contextual_help, $post_type;
+	global $wp_meta_boxes, $_wp_contextual_help, $title;
 
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
@@ -3606,8 +3605,6 @@ function screen_meta($screen) {
 
 <?php
 	endif;
-
-	global $title;
 
 	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen);
 	?>

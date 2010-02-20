@@ -971,7 +971,7 @@ function comments_popup_script($width=400, $height=400, $file='') {
  * @return null Returns null on single posts and pages.
  */
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
-	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post;
+	global $id, $wpcommentspopupfile, $wpcommentsjavascript;
 
     if ( false === $zero ) $zero = __( 'No Comments' );
     if ( false === $one ) $one = __( '1 Comment' );
