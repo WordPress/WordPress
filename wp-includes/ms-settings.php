@@ -94,7 +94,7 @@ if ( ! defined( 'WP_INSTALLING' ) ) {
 		$current_blog = get_blog_details( array('domain' => $current_site->domain, 'path' => $current_site->path), false );
 	}
 	if ( ! $current_blog || ! $current_site )
-		is_installed();
+		ms_not_installed();
 }
 
 $blog_id = $current_blog->blog_id;

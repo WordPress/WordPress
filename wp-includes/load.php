@@ -381,18 +381,18 @@ function wp_start_object_cache() {
  */
 function wp_not_installed() {
 	if ( is_multisite() ) {
-		if ( !is_blog_installed() && !defined( 'WP_INSTALLING' ) )
+		if ( ! is_blog_installed() && ! defined( 'WP_INSTALLING' ) )
 			wp_die( __( 'The blog you have requested is not installed properly. Please contact the system administrator.' ) );
-	} elseif ( !is_blog_installed() && ( strpos( $_SERVER['PHP_SELF'], 'install.php' ) === false && !defined( 'WP_INSTALLING' ) ) ) {
+	} elseif ( ! is_blog_installed() && false === strpos( $_SERVER['PHP_SELF'], 'install.php' ) && !defined( 'WP_INSTALLING' ) ) {
 		if ( defined( 'WP_SITEURL' ) )
 			$link = WP_SITEURL . '/wp-admin/install.php';
-		elseif ( strpos( $_SERVER['PHP_SELF'], 'wp-admin' ) !== false )
+		elseif ( false !== strpos( $_SERVER['PHP_SELF'], 'wp-admin' ) )
 			$link = preg_replace( '|/wp-admin/?.*?$|', '/', $_SERVER['PHP_SELF'] ) . 'wp-admin/install.php';
 		else
 			$link = preg_replace( '|/[^/]+?$|', '/', $_SERVER['PHP_SELF'] ) . 'wp-admin/install.php';
-		require_once( ABSPATH . WPINC . '/kses.php' );
-		require_once( ABSPATH . WPINC . '/pluggable.php' );
-		require_once( ABSPATH . WPINC . '/formatting.php' );
+		require( ABSPATH . WPINC . '/kses.php' );
+		require( ABSPATH . WPINC . '/pluggable.php' );
+		require( ABSPATH . WPINC . '/formatting.php' );
 		wp_redirect( $link );
 		die();
 	}
@@ -559,7 +559,7 @@ function is_admin() {
 /**
  * Whether Multisite support is enabled
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @return bool True if multisite is enabled, false otherwise.
  */

@@ -176,19 +176,16 @@ function wpmu_current_site() {
 }
 
 /**
- * Displays a failure message when blog does not exist.
+ * Displays a failure message.
  *
- * Checks for a missing $wpdb->site table as well.
+ * Used when blog does not exist. Checks for a missing $wpdb->site table as well.
  *
  * @todo Merge with is_blog_installed(), dead_db(), wp_not_installed(), etc.
  * @access private
  * @since 3.0.0
  */
-function is_installed() {
+function ms_not_installed() {
 	global $wpdb, $domain, $path;
-	$base = stripslashes( $base );
-	if ( defined( 'WP_INSTALLING' ) )
-		return;
 
 	$msg = '<h1>' . esc_html__( 'Fatal Error' ) . '</h1>';
 	$msg  = '<p>' . __( 'If your blog does not display, please contact the owner of this site.' ) . '</p>';
