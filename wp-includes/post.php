@@ -63,14 +63,14 @@ function create_initial_post_types() {
 											'query_var' => false,
 										) );
 
-	register_post_type( 'menu_item', array(	'public' => false,
-											'show_ui' => false,
-											'_builtin' => true,
-											'capability_type' => 'post',
-											'hierarchical' => false,
-											'rewrite' => false,
-											'query_var' => false,
-										) );
+	register_post_type( 'nav_menu_item', array(	'public' => false,
+												'show_ui' => false,
+												'_builtin' => true,
+												'capability_type' => 'post',
+												'hierarchical' => false,
+												'rewrite' => false,
+												'query_var' => false,
+											) );
 
 	register_post_status( 'publish', array(	'label' => _x('Published', 'post'),
 											'public' => true,

@@ -13,7 +13,7 @@
 function wp_custom_navigation_get_menu_items( $menu_objects, $key = 'ID' ) {
 	$menu_items = array();
 	if ( !empty( $menu_objects ) && !empty( $key ) ) {
-		$args = array( 'orderby' => 'menu_order', 'post_type' => 'menu_item', 'post_status' => 'publish' );
+		$args = array( 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish' );
 		if ( count( $menu_objects ) > 1 )
 			$args['include'] = implode( ',', $menu_objects );
 		else
@@ -49,15 +49,15 @@ function wp_custom_navigation_setup($override = false) {
 	if(($nav_version_in_db <> $nav_version) || ($override))
 		update_option('wp_settings_custom_nav_version',$nav_version);
 
-	$custom_menus = get_terms( 'menu', array( 'hide_empty' => false ) );
+	$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
  	if ( !empty( $custom_menus ) ) {
 		foreach( $custom_menus as $menu ) {
-			$menu_objects = get_objects_in_term( $menu->term_id, 'menu' );
+			$menu_objects = get_objects_in_term( $menu->term_id, 'nav_menu' );
 			if ( !empty( $menu_objects ) ) {
 				foreach( $menu_objects as $item )
 					wp_delete_post( $item );
 			}
-			wp_delete_term( $menu->term_id, 'menu' );
+			wp_delete_term( $menu->term_id, 'nav_menu' );
 		}
 	}
 
@@ -101,35 +101,34 @@ function wp_custom_navigation_output($args = array()) {
 			extract($args);
 		}
 
-		$menu_objects = get_objects_in_term( $id, 'menu' );
+		$menu_objects = get_objects_in_term( $id, 'nav_menu' );
 		$menu_items = wp_custom_navigation_get_menu_items( $menu_objects, 'menu_order' );
 		//Override for menu descriptions
 		$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
-		if ($advanced_option_descriptions == 'no')
-		{
+		if ( $advanced_option_descriptions == 'no' )
 			$desc = 2;
-		}
 
 		$queried_id = 0;
 		global $wp_query;
 		if ( is_page() )
-			$queried_id = $wp_query->post->ID;
+			$queried_id = $wp_query->get_queried_object_id();
 		elseif ( is_category() )
-			$queried_id = $wp_query->query_vars['cat'];
-	    //DISPLAY Loop
-		foreach ($menu_items as $menu_item) {
-
-			//PREPARE Menu Data
-			//Page Menu Item
-			switch ( $menu_item->post_status ) {
-				case 'menu-page':
-					if ($menu_item->guid == '')
-						$link = get_permalink( $menu_item->post_parent );
+			$queried_id = $wp_query->get_queried_object_id();
+	    // Display Loop
+		foreach ( $menu_items as $menu_item ) {
+			$menu_type = get_post_meta($menu_item->ID, 'menu_type', true);
+			$object_id = get_post_meta($menu_item->ID, 'object_id', true);
+			
+			switch ( $menu_type ) {
+				// Page Menu Item
+				case 'page':
+					if ( $menu_item->guid == '' )
+						$link = get_permalink( $object_id );
 					else
 						$link = $menu_item->guid;
 
 					if ( $menu_item->post_title == '' )
-						$title = htmlentities( get_the_title( $menu_item->post_parent ) );
+						$title = htmlentities( get_the_title( $object_id ) );
 					else
 						$title = htmlentities( $menu_item->post_title );
 
@@ -139,28 +138,28 @@ function wp_custom_navigation_output($args = array()) {
 						$description = htmlentities( $menu_item->post_content );
 					$target = '';
 				break;
-			//Category Menu Item
-				case 'menu-category':
-					if ($menu_item->guid == '')
-						$link = get_category_link( $menu_item->post_parent );
+				// Category Menu Item
+				case 'category':
+					if ( $menu_item->guid == '' )
+						$link = get_category_link( $object_id );
 					else
 						$link = $menu_item->guid;
 
 					if ( $menu_item->post_title == '' ) {
-						$title_raw = get_categories( 'include='.$menu_item->post_parent );
+						$title_raw = get_categories( array('include' => $object_id) );
 						$title =  htmlentities($title_raw[0]->cat_name);
 					} else {
 						$title = htmlentities( $menu_item->post_title );
 					}
 
 					if ( $menu_item->post_content == '' )
-						$description = htmlentities( strip_tags( category_description( $menu_item->post_parent ) ) );
+						$description = htmlentities( strip_tags( category_description( $object_id ) ) );
 					else
 						$description = htmlentities( $menu_item->post_content );
 					$target = '';
 				break;
 				default:
-			//Custom Menu Item
+					// Custom Menu Item
 					$link = $menu_item->guid;
 					$title =  htmlentities( $menu_item->post_title );
 					$description = htmlentities( $menu_item->post_content );
@@ -192,16 +191,14 @@ function wp_custom_navigation_output($args = array()) {
 				}
 			}
 */
-			//List Items
+			// List Items
 			?><li id="menu-<?php echo $menu_item->ID; ?>" value="<?php echo $menu_item->ID; ?>" <?php echo $li_class; ?>><?php
 					//@todo: update front end to use post data
 					//FRONTEND Link
-					if ($type == "frontend")
-					{
+					if ( $type == 'frontend' ) {
 						?><a title="<?php echo $anchor_title; ?>" href="<?php echo $link; ?>" <?php echo $target; ?>><?php echo $before_title.$title.$after_title; ?><?php
 
-							if ( $advanced_option_descriptions == 'no' )
-							{
+							if ( $advanced_option_descriptions == 'no' ) {
 								// 2 widget override do NOT display descriptions
 								// 1 widget override display descriptions
 								// 0 widget override not set
@@ -213,14 +210,11 @@ function wp_custom_navigation_output($args = array()) {
 								{ }
 								else
 								{ }
-							}
-							else
-							{
+							} else {
 								// 2 widget override do NOT display descriptions
 								// 1 widget override display descriptions
 								// 0 widget override not set
-								if ($desc == 1)
-								{
+								if ( $desc == 1 ) {
 									?><span class="nav-description"><?php echo $description; ?></span><?php
 								}
 								elseif (($desc == 2) || ($desc == 0))
@@ -230,11 +224,9 @@ function wp_custom_navigation_output($args = array()) {
 							}
 
 						?></a><?php
-					}
-					//BACKEND draggable and droppable elements
-					elseif ($type == "backend")
-						$link_type = substr( $menu_item->post_status, 5 );
-					{
+					} elseif ( $type == 'backend' ) {
+						//BACKEND draggable and droppable elements
+						$link_type = $menu_type;
 						?>
 
 						<dl>

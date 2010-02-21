@@ -64,7 +64,7 @@ function wp_custom_navigation() {
 		$menu_selected_id = 0;
 
 	// Default Menu to show
-	$custom_menus = get_terms( 'menu', array( 'hide_empty' => false ) );
+	$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
  	if ( !empty( $custom_menus ) )
 		$menu_selected_id = $custom_menus[0]->term_id;
 
@@ -94,13 +94,13 @@ function wp_custom_navigation() {
 	 	$insert_menu_name = $_POST['add_menu_name'];
 
 	 	if ( $insert_menu_name != '' ) {
-			$existing_term = get_term_by( 'name', $insert_menu_name, 'menu' );
+			$existing_term = get_term_by( 'name', $insert_menu_name, 'nav_menu' );
 	 		if ( $existing_term ) {
-	 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . $insert_menu_name . ' Menu has already created - please try another name</p></div>';
+	 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . $existing_term->name . ' Menu has already created - please try another name</p></div>';
 	 		} else {
-				$term = wp_insert_term( $insert_menu_name, 'menu' );
+				$term = wp_insert_term( $insert_menu_name, 'nav_menu' );
 				if ( !is_wp_error($term) ) {
-					$term = get_term($term['term_id'], 'menu');
+					$term = get_term($term['term_id'], 'nav_menu');
 					$custom_menus[$term->term_id] = $term;
 	 				$menu_selected_id = $term->term_id;
 	 				$menu_id_in_edit = $menu_selected_id;
@@ -127,13 +127,13 @@ function wp_custom_navigation() {
 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename.'s Custom Menu could not be RESET. Please try again.</p></div>';
 	    }
 	} elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
-		$menu_objects = get_objects_in_term( $menu_selected_id, 'menu' );
+		$menu_objects = get_objects_in_term( $menu_selected_id, 'nav_menu' );
 		$menu_items = wp_custom_navigation_get_menu_items( $menu_objects );
 
 		// Loop through all POST variables
  		for ( $k = 1; $k <= $postCounter; $k++ ) {
  			if (isset($_POST['dbid'.$k])) { $db_id = $_POST['dbid'.$k]; } else { $db_id = 0; }
- 			if (isset($_POST['postmenu'.$k])) { $post_id = $_POST['postmenu'.$k]; } else { $post_id = 0; }
+ 			if (isset($_POST['postmenu'.$k])) { $object_id = $_POST['postmenu'.$k]; } else { $object_id = 0; }
 			//@todo implement heirarchy
 			if (isset($_POST['parent'.$k])) { $parent_id = $_POST['parent'.$k]; } else { $parent_id = 0; }
  			if (isset($_POST['title'.$k])) { $custom_title = $_POST['title'.$k]; } else { $custom_title = ''; }
@@ -146,9 +146,9 @@ function wp_custom_navigation() {
  			if (isset($_POST['anchortitle'.$k])) { $custom_anchor_title = $_POST['anchortitle'.$k]; } else { $custom_anchor_title = $custom_title; }
  			if (isset($_POST['newwindow'.$k])) { $new_window = $_POST['newwindow'.$k]; } else { $new_window = 0; }
 
-			$post = array( 'post_status' => 'publish', 'post_type' => 'menu_item', 'post_author' => $user_ID,
-				'ping_status' => 0, 'post_parent' => $post_id, 'menu_order' => $position,
-				'guid' => $custom_linkurl, 'post_excerpt' => $custom_anchor_title, 'tax_input' => array( 'menu' => $menu_title ),
+			$post = array( 'post_status' => 'publish', 'post_type' => 'nav_menu_item', 'post_author' => $user_ID,
+				'ping_status' => 0, 'post_parent' => 0, 'menu_order' => $position,
+				'guid' => $custom_linkurl, 'post_excerpt' => $custom_anchor_title, 'tax_input' => array( 'nav_menu' => $menu_title ),
 				'post_content' => $custom_description, 'post_title' => $custom_title );
 			if ( $new_window )
 				$post['post_content_filtered'] = '_blank';
@@ -157,13 +157,14 @@ function wp_custom_navigation() {
 
 			// New menu item
 	 		if ( $db_id == 0 ) {
-				$db_id = $post_id = wp_insert_post( $post );
+				$db_id = wp_insert_post( $post );
 			} elseif ( isset( $menu_items[$db_id] ) ) {
 				$post['ID'] = $db_id;
 				wp_update_post( $post );
 				unset( $menu_items[$db_id] );
 			}
 			update_post_meta($db_id, 'menu_type', $linktype);
+			update_post_meta($db_id, 'object_id', $object_id);
 		}
 		if ( !empty( $menu_items ) ) {
 			foreach ( array_keys( $menu_items ) as $menu_id ) {
@@ -280,8 +281,8 @@ function wp_custom_navigation() {
 						<?php
 
 						//DISPLAY SELECT OPTIONS
-						foreach( $custom_menus as $menu ) {
-							$menu_term = get_term( $menu, 'menu' );
+						foreach ( $custom_menus as $menu ) {
+							$menu_term = get_term( $menu, 'nav_menu' );
 							if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) )
 								$selected_option = 'selected="selected"';
 							else

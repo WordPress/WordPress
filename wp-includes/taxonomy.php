@@ -38,11 +38,11 @@ function create_initial_taxonomies() {
 													'_builtin' => true
 												) ) ;
 
-	register_taxonomy( 'menu', 'menu_item', array(	'hierarchical' => false,
-													'query_var' => false,
-													'rewrite' => false,
-													'show_ui' => false,
-											) ) ;
+	register_taxonomy( 'nav_menu', 'nav_menu_item', array(	'hierarchical' => false,
+														'query_var' => false,
+														'rewrite' => false,
+														'show_ui' => false,
+													) ) ;
 
 	register_taxonomy( 'link_category', 'link', array(	'hierarchical' => false,
 													  	'label' => __('Categories'),
