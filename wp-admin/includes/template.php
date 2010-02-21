@@ -469,8 +469,6 @@ function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
 			$tagsel = $taxonomy;
 		}
 
-		$count = ( $count > 0 ) ? "<a href='edit.php?$tagsel=$tag->slug&amp;post_type=$post_type'>$count</a>" : $count;
-
 		$pad = str_repeat( '&#8212; ', max(0, $level) );
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 		$qe_data = get_term($tag->term_id, $taxonomy, object, 'edit');
@@ -534,7 +532,7 @@ function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
 					break;
 				case 'posts':
 					$attributes = 'class="posts column-posts num"' . $style;
-					$out .= "<td $attributes>$count</td>";
+					$out .= "<td $attributes><a href='edit.php?$tagsel=$tag->slug&amp;post_type=$post_type'>$count</a></td>";
 					break;
 				default:
 					$out .= "<td $attributes>";
