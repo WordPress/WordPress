@@ -722,13 +722,17 @@ class WP_User {
 			$cap = $this->translate_level_to_cap( $cap );
 		}
 
-		// Multisite super admin has all caps by definition.
-		if ( is_multisite() && is_super_admin() )
-			return true;
-
 		$args = array_slice( func_get_args(), 1 );
 		$args = array_merge( array( $cap, $this->ID ), $args );
 		$caps = call_user_func_array( 'map_meta_cap', $args );
+
+		// Multisite super admin has all caps by definition, Unless specifically denied.
+		if ( is_multisite() && is_super_admin() ) {
+			if ( in_array('do_not_allow', $caps) )
+				return false;
+			return true;
+		}
+
 		// Must have ALL requested caps
 		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args );
 		foreach ( (array) $caps as $cap ) {
@@ -1026,9 +1030,6 @@ function map_meta_cap( $cap, $user_id ) {
  */
 function current_user_can( $capability ) {
 	$current_user = wp_get_current_user();
-
-    if ( is_multisite() && is_super_admin() )
-		return true;
 
 	if ( empty( $current_user ) )
 		return false;
