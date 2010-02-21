@@ -299,7 +299,7 @@ function populate_options() {
 	'image_default_align' => '',
 	'close_comments_for_old_posts' => 0,
 	'close_comments_days_old' => 14,
-	'thread_comments' => 0,
+	'thread_comments' => 1,
 	'thread_comments_depth' => 5,
 	'page_comments' => 1,
 	'comments_per_page' => 50,
