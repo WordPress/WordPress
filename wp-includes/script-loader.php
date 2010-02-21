@@ -397,16 +397,16 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 	}
-	
+
 	//Custom Navigation
 
 	$scripts->add( 'custom-navigation-ui-custom', '/wp-admin/js/custom-navigation-custom-jquery-ui-1.7.2.js', array('jquery'), '1.7.2' );
 	$scripts->add_data( 'custom-navigation-ui-custom', 'group', 1 );
-	
+
 	$scripts->add( 'custom-navigation-default-items', "/wp-admin/js/custom-navigation-default-items$suffix.js", false, '20100220' );
 	$scripts->add( 'custom-navigation-dynamic-functions', "/wp-admin/js/custom-navigation-dynamic-functions$suffix.js", false, '20100220' );
 	$scripts->add( 'custom-navigation-php-functions', "/wp-admin/js/custom-navigation-php-functions$suffix.js", false, '20100220' );
-	
+
 }
 
 /**
@@ -473,7 +473,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'custom-navigation', "/wp-admin/css/custom-navigation$suffix.css", array(), '20100215' );
-	
+
 	foreach ( $rtl_styles as $rtl_style )
 		$styles->add_data( $rtl_style, 'rtl', true );
 }

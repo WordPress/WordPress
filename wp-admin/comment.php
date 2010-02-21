@@ -249,7 +249,7 @@ case 'unapprovecomment' :
 			wp_set_comment_status( $comment_id, 'hold' );
 			$redir = add_query_arg( array( 'unapproved' => 1 ), $redir );
 			break;
-	}	
+	}
 
 	wp_redirect( $redir );
 	die;

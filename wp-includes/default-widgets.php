@@ -1009,10 +1009,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 	function WP_CustomNavWidget() {
 		$widget_ops = array('description' => 'Use this widget to add one of your Custom Navigation Menus as a widget.' );
-		parent::WP_Widget(false, __('Custom Navigation Menu'),$widget_ops);      
+		parent::WP_Widget(false, __('Custom Navigation Menu'),$widget_ops);
 	}
 
-	function widget($args, $instance) {  
+	function widget($args, $instance) {
 		$navmenu = $instance['navmenu'];
 		$navtitle = $instance['navtitle'];
 		$navdeveloper = strtolower($instance['navdeveloper']);
@@ -1022,21 +1022,21 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$navdivclass = $instance['navdivclass'];
 		$navulid = $instance['navulid'];
 		$navulclass = $instance['navulclass'];
-		
+
 		//Override for menu descriptions
 		$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
-		if ($advanced_option_descriptions == 'no') 
-		{  
+		if ($advanced_option_descriptions == 'no')
+		{
 			$navwidgetdescription = 2;
-		} 
+		}
 		else
 		{
 			$navwidgetdescription = $instance['navwidgetdescription'];
 		}
 		$menuexists = false;
-		
+
 		global $wpdb;
-		
+
 		//GET menu name
 		if ($navmenu > 0)
 		{
@@ -1046,108 +1046,108 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			$menuexists = true;
 		}
 		//Do nothing
-		else 
+		else
 		{
 			$menuexists = false;
 		}
 		?>
-		
-		<?php 
+
+		<?php
 			//DEVELOPER settings enabled
-			if ($navdeveloper == 'yes') 
-			{ 
+			if ($navdeveloper == 'yes')
+			{
 				//DISPLAY Custom DIV
-				if ($navdiv == 'yes') 
-				{ 
+				if ($navdiv == 'yes')
+				{
 					?>
 					<div id="<?php echo $navdivid;  ?>" class="<?php echo $navdivclass; ?>">
-					<?php 
+					<?php
 				}
 				//Do NOT display DIV
-				else 
+				else
 				{
-					
-				} 
-				
-			} 
+
+				}
+
+			}
 			//DISPLAY default DIV
-			else 
+			else
 			{
 				?>
 				<div class="widget">
-				<?php 
+				<?php
 			}
 		?>
-		
+
 			<h3><?php echo $navtitle; ?></h3>
-			<?php 
-			
-			if ($menuexists) 
+			<?php
+
+			if ($menuexists)
 			{
 				?>
-        		<?php 
-        		
+        		<?php
+
         		//DEVELOPER settings enabled
-				if ($navdeveloper == 'yes') 
-				{ 
+				if ($navdeveloper == 'yes')
+				{
 					//DISPLAY Custom UL
-					if ($navul == 'yes') 
-					{ 
+					if ($navul == 'yes')
+					{
 						?>
 						<ul id="<?php echo $navulid;  ?>" class="<?php echo $navulclass; ?>">
-						<?php 
+						<?php
 					}
 					//Do NOT display UL
-					else 
+					else
 					{
-						
-					} 
-					
-				} 
+
+					}
+
+				}
 				//DISPLAY default UL
-				else 
+				else
 				{
 					?>
 					<ul class="custom-nav">
-					<?php 
+					<?php
 				}
-        		
+
         		?>
-				
+
 						<?php
 							//DISPLAY custom navigation menu
 							if (get_option('wp_custom_nav_menu') == 'true') {
         						custom_nav('name='.$wp_custom_nav_menu_name.'&desc='.$navwidgetdescription);
-        					}				
+        					}
 						?>
-				
-				<?php 
-				
+
+				<?php
+
 					//DEVELOPER settings enabled
-					if ($navdeveloper == 'yes') 
-					{ 
+					if ($navdeveloper == 'yes')
+					{
 						//DISPLAY Custom UL
-						if ($navul == 'yes') 
-						{ 
+						if ($navul == 'yes')
+						{
 							?>
 							</ul>
-							<?php 
+							<?php
 						}
 						//Do NOT display UL
-						else 
+						else
 						{
-							
-						} 
-						
-					} 
+
+						}
+
+					}
 					//DISPLAY default UL
-					else 
+					else
 					{
 						?>
 						</ul>
-						<?php 
+						<?php
 					}
-					
+
 				?>
 			<?php
 			}
@@ -1156,41 +1156,41 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 				echo "You have not setup the custom navigation widget correctly, please check your settings in the backend.";
 			}
 			?>
-		<?php 
+		<?php
 			//DEVELOPER settings enabled
-			if ($navdeveloper == 'yes') 
-			{ 
+			if ($navdeveloper == 'yes')
+			{
 				//DISPLAY Custom DIV
-				if ($navdiv == 'yes') 
-				{ 
+				if ($navdiv == 'yes')
+				{
 					?>
 					</div>
-					<?php 
+					<?php
 				}
 				//Do NOT display DIV
-				else 
+				else
 				{
-					
-				} 
-				
-			} 
+
+				}
+
+			}
 			//DISPLAY default DIV
-			else 
+			else
 			{
 				?>
 				</div>
-				<?php 
+				<?php
 			}
 		?><!-- /#nav-container -->
-			
+
 			<?php
 	}
 
-	function update($new_instance, $old_instance) {                
+	function update($new_instance, $old_instance) {
 		return $new_instance;
 	}
 
-	function form($instance) {        
+	function form($instance) {
 		$navmenu = esc_attr($instance['navmenu']);
 		$navtitle = esc_attr($instance['navtitle']);
 		$navdeveloper = esc_attr($instance['navdeveloper']);
@@ -1201,25 +1201,25 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$navulid = esc_attr($instance['navulid']);
 		$navulclass = esc_attr($instance['navulclass']);
 		$navwidgetdescription = esc_attr($instance['navwidgetdescription']);
-				
+
 		global $wpdb;
-				
-		//GET Menu Items for SELECT OPTIONS 	
+
+		//GET Menu Items for SELECT OPTIONS
 		$table_name_custom_menus = $wpdb->prefix . "custom_nav_menus";
 		$custom_menu_records = $wpdb->get_results("SELECT id,menu_name FROM ".$table_name_custom_menus);
-		
+
 		//CHECK if menus exist
 		if ($custom_menu_records > 0)
 		{
-		
+
 			?>
-			
+
 			 <p>
 	            <label for="<?php echo $this->get_field_id('navmenu'); ?>"><?php _e('Select Menu:'); ?></label>
-				
+
 				<select id="<?php echo $this->get_field_id('navmenu'); ?>" name="<?php echo $this->get_field_name('navmenu'); ?>">
-					<?php 
-					
+					<?php
+
 					//DISPLAY SELECT OPTIONS
 					foreach ($custom_menu_records as $custom_menu_record)
 					{
@@ -1232,136 +1232,136 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 						?>
 						<option value="<?php echo $custom_menu_record->id; ?>" <?php echo $selected_option; ?>><?php echo $custom_menu_record->menu_name; ?></option>
 						<?php
-						
+
 					}
 					?>
 				</select>
-	
+
 			</p>
-			
+
 			<p>
-				
+
 		        <label for="<?php echo $this->get_field_id('navtitle'); ?>"><?php _e('Title:'); ?></label>
 		    	<input type="text" name="<?php echo $this->get_field_name('navtitle'); ?>" value="<?php echo $navtitle; ?>" class="widefat" id="<?php echo $this->get_field_id('navtitle'); ?>" />
 		    </p>
-		    
+
 	    	<p>
 			<?php
 			    $checked = strtolower($navdeveloper);
 			?>
-			
-			<label for="<?php echo $this->get_field_id('navdeveloper'); ?>"><?php _e('Advanced Options:'); ?></label><br />    	
+
+			<label for="<?php echo $this->get_field_id('navdeveloper'); ?>"><?php _e('Advanced Options:'); ?></label><br />
 			<span class="checkboxes">
 			   	<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navdeveloper'); ?>" name="<?php echo $this->get_field_name('navdeveloper'); ?>" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
 			    <label>No</label><input type="radio" id="<?php echo $this->get_field_name('navdeveloper'); ?>" name="<?php echo $this->get_field_name('navdeveloper'); ?>" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
 			</span><!-- /.checkboxes -->
-			
+
 			</p>
-		    
-		    <?php 
-		    
+
+		    <?php
+
 		    //DEVELOPER settings
 		    if ($checked == 'yes')
 		    {
 		    	?>
-		    	
+
 		    	<p>
 				<?php
 				    $checked = strtolower($navdiv);
 				?>
-				
-				<label for="<?php echo $this->get_field_id('navdiv'); ?>"><?php _e('Wrap in container DIV:'); ?></label><br />	
+
+				<label for="<?php echo $this->get_field_id('navdiv'); ?>"><?php _e('Wrap in container DIV:'); ?></label><br />
 				<span class="checkboxes">
 				   	<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navdiv'); ?>" name="<?php echo $this->get_field_name('navdiv'); ?>" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
 				    <label>No</label><input type="radio" id="<?php echo $this->get_field_name('navdiv'); ?>" name="<?php echo $this->get_field_name('navdiv'); ?>" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
 				</span><!-- /.checkboxes -->
-			
+
 			</p>
-			
+
 			<?php
-			
+
 			if ($checked == 'yes')
 			{
-			
+
 				?>
-				
+
 				<p>
-				
+
 		            <label for="<?php echo $this->get_field_id('navdivid'); ?>"><?php _e('DIV id:'); ?></label>
 		            <input type="text" name="<?php echo $this->get_field_name('navdivid'); ?>" value="<?php echo $navdivid; ?>" class="widefat" id="<?php echo $this->get_field_id('navdivid'); ?>" />
 		        </p>
 		        <p>
-				
+
 		            <label for="<?php echo $this->get_field_id('navdivclass'); ?>"><?php _e('DIV class:'); ?></label>
 		            <input type="text" name="<?php echo $this->get_field_name('navdivclass'); ?>" value="<?php echo $navdivclass; ?>" class="widefat" id="<?php echo $this->get_field_id('navdivclass'); ?>" />
 		        </p>
-				
+
 				<?php
-				
+
 			}
-			
+
 			?>
-			
+
 			<p>
 				<?php
 				    $checked = strtolower($navul);
 				?>
-				
-				<label for="<?php echo $this->get_field_id('navul'); ?>"><?php _e('Wrap in container UL:'); ?></label><br />    	
+
+				<label for="<?php echo $this->get_field_id('navul'); ?>"><?php _e('Wrap in container UL:'); ?></label><br />
 				<span class="checkboxes">
 				   	<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navul'); ?>" name="<?php echo $this->get_field_name('navul'); ?>" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
 				    <label>No</label><input type="radio" id="<?php echo $this->get_field_name('navul'); ?>" name="<?php echo $this->get_field_name('navul'); ?>" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
 				</span><!-- /.checkboxes -->
-			
+
 			</p>
-			
+
 			<?php
-		
+
 			if ($checked == 'yes')
 			{
-			
+
 				?>
-				
+
 				<p>
-				
+
 		            <label for="<?php echo $this->get_field_id('navulid'); ?>"><?php _e('UL id:'); ?></label>
 		            <input type="text" name="<?php echo $this->get_field_name('navulid'); ?>" value="<?php echo $navulid; ?>" class="widefat" id="<?php echo $this->get_field_id('navulid'); ?>" />
 		        </p>
 		        <p>
-				
+
 		            <label for="<?php echo $this->get_field_id('navulclass'); ?>"><?php _e('UL class:'); ?></label>
 		            <input type="text" name="<?php echo $this->get_field_name('navulclass'); ?>" value="<?php echo $navulclass; ?>" class="widefat" id="<?php echo $this->get_field_id('navulclass'); ?>" />
 		        </p>
-				
+
 				<?php
-				
+
 			}
-			
+
 			?>
 			<?php $advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options'); ?>
 			<p <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?>>
-			
+
 	           <?php
 				    $checked = strtolower($navwidgetdescription);
 				?>
-				
-				<label for="<?php echo $this->get_field_id('navwidgetdescription'); ?>"><?php _e('Show Top Level Descriptions:'); ?></label><br />    	
+
+				<label for="<?php echo $this->get_field_id('navwidgetdescription'); ?>"><?php _e('Show Top Level Descriptions:'); ?></label><br />
 				<span class="checkboxes">
 				   	<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navwidgetdescription'); ?>" name="<?php echo $this->get_field_name('navwidgetdescription'); ?>" value="1" <?php if ($checked=='1') { echo 'checked="checked"'; } ?> />
 				    <label>No</label><input type="radio" id="<?php echo $this->get_field_name('navwidgetdescription'); ?>" name="<?php echo $this->get_field_name('navwidgetdescription'); ?>" value="2" <?php if ($checked=='1') { } else { echo 'checked="checked"'; } ?> />
 				</span><!-- /.checkboxes -->
 	        </p>
-		    	<?php 
+		    	<?php
 		    }
 		    //Do nothing
-		    else 
+		    else
 		    {
-		    	
+
 		    }
-			
+
 		}
 		//Error message for menus not existing
-		else 
+		else
 		{
 			?>
 			<p>
@@ -1370,7 +1370,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			<?php
 		}
 	}
-	
+
 }
 
 /**
@@ -1408,9 +1408,9 @@ function wp_widgets_init() {
 	register_widget('WP_Widget_RSS');
 
 	register_widget('WP_Widget_Tag_Cloud');
-	
+
 	register_widget('WP_CustomNavWidget');
-	
+
 	do_action('widgets_init');
 }
 

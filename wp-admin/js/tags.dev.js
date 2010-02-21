@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
 			if ( ! res )
 				return;
 
-			var parent = form.find('select#parent').val();	
+			var parent = form.find('select#parent').val();
 
 			if ( parent > 0 && $('#tag-' + parent ).length > 0 ) // If the parent exists on this page, insert it below. Else insert it at the top of the list.
 				$('#the-list #tag-' + parent).after( res.responses[0].supplemental['noparents'] ); // As the parent exists, Insert the version with - - - prefixed

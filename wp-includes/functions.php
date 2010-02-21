@@ -610,7 +610,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
  * Removes option by name. Prevents removal of protected WordPress options.
  *
  * @package WordPress
- * @subpackage Option 
+ * @subpackage Option
  * @since 1.2.0
  *
  * @uses do_action() Calls 'delete_option' hook before option is deleted.

@@ -1,9 +1,9 @@
-/* 
+/*
  * More info at: http://phpjs.org
- * 
+ *
  * This is version: 3.08
  * php.js is copyright 2010 Kevin van Zonneveld.
- * 
+ *
  * Portions copyright Brett Zamir (http://brett-zamir.me), Kevin van Zonneveld
  * (http://kevin.vanzonneveld.net), Onno Marsman, Theriault, Michael White
  * (http://getsprink.com), Waldo Malqui Silva, Paulo Ricardo F. Santos, Jack,
@@ -84,10 +84,10 @@
  * taith, Matt Bradley, FremyCompany, T.J. Leahy, Greg Frazier, Valentina De
  * Rosa, Tod Gentille, Riddler (http://www.frontierwebdev.com/), Alexander M
  * Beedie
- * 
+ *
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -95,10 +95,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -106,7 +106,7 @@
  * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- */ 
+ */
 
 function get_html_translation_table (table, quote_style) {
     // http://kevin.vanzonneveld.net
@@ -128,11 +128,11 @@ function get_html_translation_table (table, quote_style) {
     // %          note: chooses to create the constants themselves.
     // *     example 1: get_html_translation_table('HTML_SPECIALCHARS');
     // *     returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
-    
+
     var entities = {}, hash_map = {}, decimal = 0, symbol = '';
     var constMappingTable = {}, constMappingQuoteStyle = {};
     var useTable = {}, useQuoteStyle = {};
-    
+
     // Translate arguments
     constMappingTable[0]      = 'HTML_SPECIALCHARS';
     constMappingTable[1]      = 'HTML_ENTITIES';
@@ -263,7 +263,7 @@ function get_html_translation_table (table, quote_style) {
         symbol = String.fromCharCode(decimal);
         hash_map[symbol] = entities[decimal];
     }
-    
+
     return hash_map;
 }
 
@@ -286,7 +286,7 @@ function htmlentities (string, quote_style) {
 
     var hash_map = {}, symbol = '', tmp_str = '', entity = '';
     tmp_str = string.toString();
-    
+
     if (false === (hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style))) {
         return false;
     }
@@ -295,6 +295,6 @@ function htmlentities (string, quote_style) {
         entity = hash_map[symbol];
         tmp_str = tmp_str.split(symbol).join(entity);
     }
-    
+
     return tmp_str;
 }

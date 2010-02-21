@@ -224,7 +224,7 @@ if ( empty($tags_per_page) || $tags_per_page < 1 )
 if ( 'post_tag' == $taxonomy ) {
 	$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
 	$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
-} elseif ( 'category' == $taxonomy ) { 
+} elseif ( 'category' == $taxonomy ) {
 	$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page ); // Old filter
 } else {
 	$tags_per_page = apply_filters( 'edit_' . $taxonomy . '_per_page', $tags_per_page );
@@ -304,10 +304,10 @@ if ( $page_links )
 </form>
 
 <?php if ( 'category' == $taxonomy ) : ?>
-<div class="form-wrap"> 
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p> 
-<p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p> 
-</div> 
+<div class="form-wrap">
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p>
+<p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p>
+</div>
 <?php endif; ?>
 
 

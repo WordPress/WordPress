@@ -14,7 +14,7 @@ elseif ( is_feed() ) :
 	do_feed();
 	return;
 elseif ( is_trackback() ) :
-	include( ABSPATH . 'wp-trackback.php' );	
+	include( ABSPATH . 'wp-trackback.php' );
 	return;
 endif;
 

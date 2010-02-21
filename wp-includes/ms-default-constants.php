@@ -34,7 +34,7 @@ function ms_upload_constants(  ) {
  */
 function ms_cookie_constants(  ) {
 	global $current_site;
-	
+
 	/**
 	 * @since 1.2.0
 	 */

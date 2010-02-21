@@ -1469,13 +1469,13 @@ function comment_form( $args = array(), $post_id = null ) {
 	$defaults = array( 'fields' => apply_filters( 'comment_form_default_fields', array( 'author' => '<p class="comment-form-author">' .
 																									'<label for="author">' . __( 'Name' ) . '</label> ' .
 																									( $req ? '<span class="required">*</span>' : '' ) .
-																									'<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" tabindex="1"' . $aria_req . ' />' . 
+																									'<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" tabindex="1"' . $aria_req . ' />' .
 																									'</p><!-- #form-section-author .form-section -->',
 																							'email' => '<p class="comment-form-email">' .
 																										'<label for="email">' . __( 'Email' ) . '</label> ' .
 																										( $req ? '<span class="required">*</span>' : '' ) .
 																										'<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" tabindex="2"' . $aria_req . ' />' .
-																										'</p><!-- #form-section-email .form-section -->', 
+																										'</p><!-- #form-section-email .form-section -->',
 																							'url' => '<p class="comment-form-url">' .
 																										'<label for="url">' . __( 'Website' ) . '</label>' .
 																										'<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" tabindex="3" />' .
@@ -1486,7 +1486,7 @@ function comment_form( $args = array(), $post_id = null ) {
 											'</p><!-- #form-section-comment .form-section -->',
 						'must_log_in' => '<p class="must-log-in">' .  sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
 						'logged_in_as' => '<p class="logged-in-as">' . sprintf( __( 'Logged in as <a href="%s">%s</a>. <a href="%s" title="Log out of this account">Log out?</a></p>' ), admin_url( 'profile.php' ), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ),
-						'comment_notes_before' => '<p class="comment-notes">' . __( 'Your email is <em>never</em> published nor shared.' ) . ( $req ? __( ' Required fields are marked <span class="required">*</span>' ) : '' ) . '</p>', 
+						'comment_notes_before' => '<p class="comment-notes">' . __( 'Your email is <em>never</em> published nor shared.' ) . ( $req ? __( ' Required fields are marked <span class="required">*</span>' ) : '' ) . '</p>',
 						'comment_notes_after' => '<dl class="form-allowed-tags"><dt>' . __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:' ) . '</dt> <dd><code>' . allowed_tags() . '</code></dd></dl>',
 						'id_form' => 'commentform',
 						'id_submit' => 'submit',

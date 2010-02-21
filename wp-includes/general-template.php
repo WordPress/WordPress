@@ -713,7 +713,7 @@ function single_tag_title($prefix = '', $display = true ) {
 		return;
 
 	$tag = $wp_query->get_queried_object();;
-	
+
 	if ( ! $tag )
 		return;
 

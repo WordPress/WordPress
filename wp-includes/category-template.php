@@ -364,12 +364,12 @@ function wp_dropdown_categories( $args = '' ) {
 		$output = "<select name='$name' id='$name' class='$class' $tab_index_attribute>\n";
 	else
 		$output = '';
-	
+
 	if ( empty($categories) && ! $r['hide_if_empty'] && !empty($show_option_none) ) {
 		$show_option_none = apply_filters( 'list_cats', $show_option_none );
 		$output .= "\t<option value='-1' selected='selected'>$show_option_none</option>\n";
 	}
-	
+
 	if ( ! empty( $categories ) ) {
 
 		if ( $show_option_all ) {

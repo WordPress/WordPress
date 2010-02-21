@@ -1012,7 +1012,7 @@ class WP_Http_Streams {
 				'max_redirects' => $r['redirection'] + 1, // See #11557
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $strHeaders,
-				'ignore_errors' => true, // Return non-200 requests. 
+				'ignore_errors' => true, // Return non-200 requests.
 				'timeout' => $r['timeout'],
 				'ssl' => array(
 						'verify_peer' => $ssl_verify,

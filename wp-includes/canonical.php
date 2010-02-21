@@ -144,7 +144,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg( array( 'category_name', 'tag', 'cat', 'tag_id', 'term', 'taxonomy'), $redirect['query']);
 				if ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
 					$tax = get_taxonomy( $obj->taxonomy );
-					if ( false !== $tax->query_var) 
+					if ( false !== $tax->query_var)
 						$redirect['query'] = remove_query_arg($tax->query_var, $redirect['query']);
 				}
 

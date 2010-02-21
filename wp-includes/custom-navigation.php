@@ -31,10 +31,10 @@ function wp_custom_navigation_get_menu_items( $menu_objects, $key = 'ID' ) {
 }
 
 function wp_custom_navigation_setup($override = false) {
-	
+
 	$nav_version = '1.1.0';
 	//Custom Navigation Menu Setup
-	
+
 	//Check for Upgrades
 	if (get_option('wp_settings_custom_nav_version') <> '') {
 		$nav_version_in_db = get_option('wp_settings_custom_nav_version');
@@ -42,11 +42,11 @@ function wp_custom_navigation_setup($override = false) {
 	else {
 		$nav_version_in_db = '0';
 	}
-	
+
 	//Override for menu descriptions
 	update_option('wp_settings_custom_nav_advanced_options','yes');
-			
-	if(($nav_version_in_db <> $nav_version) || ($override)) 
+
+	if(($nav_version_in_db <> $nav_version) || ($override))
 		update_option('wp_settings_custom_nav_version',$nav_version);
 
 	$custom_menus = get_terms( 'menu', array( 'hide_empty' => false ) );
@@ -84,20 +84,20 @@ function wp_custom_navigation_setup($override = false) {
 /*-----------------------------------------------------------------------------------*/
 
 function wp_custom_navigation_output($args = array()) {
-		
+
 		//DEFAULT ARGS
 		$type = 'frontend';
-		$name = 'Menu 1'; 
+		$name = 'Menu 1';
 		$id = 0;
 		$desc = 2;
 		$before_title = '';
 		$after_title = '';
-		
+
 		if (isset($args)) {
-		
-			if ( !is_array($args) ) 
+
+			if ( !is_array($args) )
 			parse_str( $args, $args );
-	
+
 			extract($args);
 		}
 
@@ -109,7 +109,7 @@ function wp_custom_navigation_output($args = array()) {
 		{
 			$desc = 2;
 		}
-		
+
 		$queried_id = 0;
 		global $wp_query;
 		if ( is_page() )
@@ -145,14 +145,14 @@ function wp_custom_navigation_output($args = array()) {
 						$link = get_category_link( $menu_item->post_parent );
 					else
 						$link = $menu_item->guid;
-				
+
 					if ( $menu_item->post_title == '' ) {
 						$title_raw = get_categories( 'include='.$menu_item->post_parent );
-						$title =  htmlentities($title_raw[0]->cat_name);	
+						$title =  htmlentities($title_raw[0]->cat_name);
 					} else {
 						$title = htmlentities( $menu_item->post_title );
 					}
-				
+
 					if ( $menu_item->post_content == '' )
 						$description = htmlentities( strip_tags( category_description( $menu_item->post_parent ) ) );
 					else
@@ -176,14 +176,14 @@ function wp_custom_navigation_output($args = array()) {
 			else {
 				$anchor_title = $title;
 			}
-			
+
 			if ($queried_id == $wp_custom_nav_menu_items->post_id) {
 				$li_class = 'class="current_page_item"';
 			}
 			else {
 				$li_class = '';
 			}
-			
+
 			if (isset($wp_custom_nav_menu_items->new_window)) {
 				if ($wp_custom_nav_menu_items->new_window > 0) {
 					$target = 'target="_blank"';
@@ -192,30 +192,30 @@ function wp_custom_navigation_output($args = array()) {
 					$target = '';
 				}
 			}
-*/			
+*/
 			//List Items
 			?><li id="menu-<?php echo $menu_item->ID; ?>" value="<?php echo $menu_item->ID; ?>" <?php echo $li_class; ?>><?php
 					//@todo: update front end to use post data
 					//FRONTEND Link
 					if ($type == "frontend")
-					{	        
-						?><a title="<?php echo $anchor_title; ?>" href="<?php echo $link; ?>" <?php echo $target; ?>><?php echo $before_title.$title.$after_title; ?><?php 
-						
-							if ( $advanced_option_descriptions == 'no' ) 
-							{ 
+					{
+						?><a title="<?php echo $anchor_title; ?>" href="<?php echo $link; ?>" <?php echo $target; ?>><?php echo $before_title.$title.$after_title; ?><?php
+
+							if ( $advanced_option_descriptions == 'no' )
+							{
 								// 2 widget override do NOT display descriptions
 								// 1 widget override display descriptions
 								// 0 widget override not set
 								if (($desc == 1) || ($desc == 0) )
 								{
 									?><span class="nav-description"><?php echo $description; ?></span><?php
-								} 
+								}
 								elseif ($desc == 2)
 								{ }
 								else
 								{ }
-							} 
-							else 
+							}
+							else
 							{
 								// 2 widget override do NOT display descriptions
 								// 1 widget override display descriptions
@@ -223,21 +223,21 @@ function wp_custom_navigation_output($args = array()) {
 								if ($desc == 1)
 								{
 									?><span class="nav-description"><?php echo $description; ?></span><?php
-								} 
+								}
 								elseif (($desc == 2) || ($desc == 0))
 								{ }
-								else 
+								else
 								{ }
 							}
-							
-						?></a><?php 
+
+						?></a><?php
 					}
 					//BACKEND draggable and droppable elements
 					elseif ($type == "backend")
 						$link_type = substr( $menu_item->post_status, 5 );
 					{
 						?>
-						
+
 						<dl>
 							<dt>
 								<span class="title"><?php echo $title; ?></span>
@@ -249,7 +249,7 @@ function wp_custom_navigation_output($args = array()) {
 								</span>
 							</dt>
 						</dl>
-						
+
 						<a><span class=""></span></a>
 						<input type="hidden" name="dbid<?php echo $menu_item->menu_order; ?>" id="dbid<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->ID; ?>" />
 						<input type="hidden" name="postmenu<?php echo $menu_item->menu_order; ?>" id="postmenu<?php echo $menu_item->menu_order; ?>" value="<?php echo $id; ?>" />
@@ -262,44 +262,44 @@ function wp_custom_navigation_output($args = array()) {
 						<input type="hidden" name="linktype<?php echo $menu_item->menu_order; ?>" id="linktype<?php echo $menu_item->menu_order; ?>" value="<?php echo $link_type; ?>" />
 						<input type="hidden" name="anchortitle<?php echo $menu_item->menu_order; ?>" id="anchortitle<?php echo $menu_item->menu_order; ?>" value="<?php echo esc_html( $menu_item->post_excerpt ); ?>" />
 						<input type="hidden" name="newwindow<?php echo $menu_item->menu_order; ?>" id="newwindow<?php echo $menu_item->menu_order; ?>" value="<?php echo ( '' == $menu_item->post_content_filtered ? '0' : '1' ); ?>" />
-						
-						<?php 
+
+						<?php
 					}
 
 					//@todo: implement menu heirarchy
 /*					//DISPLAY menu sub items
-					if ($wp_custom_nav_menu_items->parent_id == 0) 
+					if ($wp_custom_nav_menu_items->parent_id == 0)
 					{
 						//FRONTEND
-						if ($type == 'frontend') 
+						if ($type == 'frontend')
 						{
 							//Recursive function
 							$intj = wp_custom_navigation_sub_items($wp_custom_nav_menu_items->id,$wp_custom_nav_menu_items->link_type,$table_name,$type,$wp_custom_nav_menu_id);
 						}
 						//BACKEND
-						else 
+						else
 						{
 							//Recursive function
 							$intj = wp_custom_navigation_sub_items($wp_custom_nav_menu_items->id,$wp_custom_nav_menu_items->link_type,$table_name,$type,$id);
 						}
 					}
 */			?></li>
-			<?php 
+			<?php
 		}
 }
 //@todo: implement menu heirarchy
 //RECURSIVE Sub Menu Items
 function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,$menu_id = 0) {
-	
+
 	$parent_id = 0;
 	global $wpdb;
-	
+
 	//GET sub menu items
 	$wp_custom_nav_menu = $wpdb->get_results("SELECT id,post_id,parent_id,position,custom_title,custom_link,custom_description,menu_icon,link_type,custom_anchor_title,new_window FROM ".$table_name." WHERE parent_id = '".$post_id."' AND menu_id='".$menu_id."' ORDER BY position ASC");
-	
+
 	if (empty($wp_custom_nav_menu))
 	{
-	
+
 	}
 	else
 	{
@@ -317,26 +317,26 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 
 	    }
 	    //DISPLAY Loop
-		foreach ($wp_custom_nav_menu as $sub_item) 
+		foreach ($wp_custom_nav_menu as $sub_item)
 		{
 			//Figure out where the menu item sits
 			$counter=$sub_item->position;
-			
+
 			//Prepare Menu Data
 			//Category Menu Item
-			if ($sub_item->link_type == 'category') 
+			if ($sub_item->link_type == 'category')
 			{
-				
+
 				$parent_id = $sub_item->parent_id;
 				$post_id = $sub_item->post_id;
-				
+
 				if ($sub_item->custom_link == '') {
 					$link = get_category_link($sub_item->post_id);
 				}
 				else {
 					$link = $sub_item->custom_link;
 				}
-				
+
 				if ($sub_item->custom_title == '') {
 					$title_raw = get_categories('include='.$sub_item->post_id);
 					$title =  htmlentities($title_raw[0]->cat_name);
@@ -344,7 +344,7 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 				else {
 					$title = htmlentities($sub_item->custom_title);
 				}
-				
+
 				if ($sub_item->custom_description == '') {
 					$description = strip_tags(category_description($sub_item->post_id));
 				}
@@ -356,10 +356,10 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 			//Page Menu Item
 			elseif ($sub_item->link_type == 'page')
 			{
-				
+
 				$parent_id = $sub_item->parent_id;
 				$post_id = $sub_item->post_id;
-				
+
 				if ($sub_item->custom_link == '') {
 					$link = get_permalink($sub_item->post_id);
 				}
@@ -373,7 +373,7 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 				else {
 					$title = htmlentities($sub_item->custom_title);
 				}
-				
+
 				if ($sub_item->custom_description == '') {
 					$description = get_post_meta($sub_item->post_id, 'page-description', true);
 				}
@@ -381,7 +381,7 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 					$description = $sub_item->custom_description;
 				}
 				$target = '';
-				
+
 			}
 			//Custom Menu Item
 			else
@@ -399,7 +399,7 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 			else {
 				$li_class = '';
 			}
-			
+
 			//SET anchor title
 			if (isset($sub_item->custom_anchor_title)) {
 				$anchor_title = htmlentities($sub_item->custom_anchor_title);
@@ -407,19 +407,19 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 			else {
 				$anchor_title = $title;
 			}
-			
+
 			if (isset($sub_item->new_window)) {
 				if ($sub_item->new_window > 0) {
 					$target = 'target="_blank"';
 				}
 			}
-			
+
 			//List Items
-			?><li id="menu-<?php echo $counter; ?>" value="<?php echo $counter; ?>" <?php echo $li_class; ?>><?php 
+			?><li id="menu-<?php echo $counter; ?>" value="<?php echo $counter; ?>" <?php echo $li_class; ?>><?php
 						//FRONTEND
 						if ($output_type == "frontend")
 						{
-							?><a title="<?php echo $anchor_title; ?>" href="<?php echo $link; ?>" <?php echo $target; ?>><?php echo $title; ?></a><?php 
+							?><a title="<?php echo $anchor_title; ?>" href="<?php echo $link; ?>" <?php echo $target; ?>><?php echo $title; ?></a><?php
 						}
 						//BACKEND
 						elseif ($output_type == "backend")
@@ -430,7 +430,7 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 								<span class="title"><?php echo $title; ?></span>
 								<span class="controls">
 								<span class="type"><?php echo $sub_item->link_type; ?></span>
-								<a id="edit<?php echo $counter; ?>" onclick="edititem(<?php echo $counter; ?>)" value="<?php echo $counter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a> 
+								<a id="edit<?php echo $counter; ?>" onclick="edititem(<?php echo $counter; ?>)" value="<?php echo $counter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a>
 								<a id="remove<?php echo $counter; ?>" onclick="removeitem(<?php echo $counter; ?>)" value="<?php echo $counter; ?>"><img class="remove" alt="Remove from Custom Menu" title="Remove from Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-close.png" /></a>
 								<a id="view<?php echo $counter; ?>" target="_blank" href="<?php echo $link; ?>"><img alt="View Page" title="View Page" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-viewpage.png" /></a>
 								</span>
@@ -448,23 +448,23 @@ function wp_custom_navigation_sub_items($post_id,$type,$table_name,$output_type,
 							<input type="hidden" name="linktype<?php echo $counter; ?>" id="linktype<?php echo $counter; ?>" value="<?php echo $sub_item->link_type; ?>" />
 							<input type="hidden" name="anchortitle<?php echo $counter; ?>" id="anchortitle<?php echo $counter; ?>" value="<?php echo $anchor_title; ?>" />
 							<input type="hidden" name="newwindow<?php echo $counter; ?>" id="newwindow<?php echo $counter; ?>" value="<?php echo $sub_item->new_window; ?>" />
-							<?php 
+							<?php
 						}
-						
+
 						//Do recursion
-						wp_custom_navigation_sub_items($sub_item->id,$sub_item->link_type,$table_name,$output_type,$menu_id); 
+						wp_custom_navigation_sub_items($sub_item->id,$sub_item->link_type,$table_name,$output_type,$menu_id);
 			?></li>
-			<?php 
-	
-		} 
-	
+			<?php
+
+		}
+
 	?></ul>
-	<?php 
-	
-	} 
-	
+	<?php
+
+	}
+
 	return $parent_id;
- 
+
 }
 
 
@@ -485,19 +485,19 @@ function wp_custom_nav_get_pages($counter,$type) {
 			'exclude_tree' => '',
 			'number' => '',
 			'offset' => 0 );
-	
-	//GET all pages		
+
+	//GET all pages
 	$pages_array = get_pages($pages_args);
-	
+
 	$intCounter = $counter;
 	$parentli = $intCounter;
-	
+
 	if ($pages_array)
 	{
 		//DISPLAY Loop
 		foreach ($pages_array as $post)
 		{
-	
+
 			if ($post->post_parent == 0)
 			{
 				//Custom Menu
@@ -505,15 +505,15 @@ function wp_custom_nav_get_pages($counter,$type) {
 				{
 					$description = get_post_meta($post->ID, 'page-description', true);
 					?>
-					
+
 					<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
-				
+
 						<dl>
 						<dt>
 						<span class="title"><?php echo $post->post_title; ?></span>
 						<span class="controls">
 							<span class="type">page</span>
-							<a id="edit<?php echo $intCounter; ?>" onclick="edititem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a> 
+							<a id="edit<?php echo $intCounter; ?>" onclick="edititem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a>
 							<a id="remove<?php echo $intCounter; ?>" onclick="removeitem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>">
 								<img class="remove" alt="Remove from Custom Menu" title="Remove from Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-close.png" />
 							</a>
@@ -521,7 +521,7 @@ function wp_custom_nav_get_pages($counter,$type) {
 								<img alt="View Page" title="View Page" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-viewpage.png" />
 							</a>
 						</span>
-						
+
 						</dt>
 						</dl>
 						<a class="hide" href="<?php echo get_permalink($post->ID); ?>"><span class="title"><?php echo $post->post_title; ?></span>
@@ -536,26 +536,26 @@ function wp_custom_nav_get_pages($counter,$type) {
 						<input type="hidden" name="linktype<?php echo $intCounter; ?>" id="linktype<?php echo $intCounter; ?>" value="page" />
 						<input type="hidden" name="anchortitle<?php echo $intCounter; ?>" id="anchortitle<?php echo $intCounter; ?>" value="<?php echo htmlentities($post->post_title); ?>" />
 						<input type="hidden" name="newwindow<?php echo $intCounter; ?>" id="newwindow<?php echo $intCounter; ?>" value="0" />
-						
+
 						<?php $parentli = $post->ID; ?>
-						<?php $intCounter++; ?>			                
+						<?php $intCounter++; ?>
 						<?php
-						
+
 							//Recursive function
 							$intCounter = wp_custom_navigation_default_sub_items($post->ID, $intCounter, $parentli, 'pages', 'menu');
-						
+
 						?>
-					
+
 					</li>
-					
-					<?php 
-					
+
+					<?php
+
 				}
 				//Sidebar Menu
 				elseif ($type == 'default')
 				{
 					?>
-					 
+
 					 <li>
 				        <dl>
 				        <dt>
@@ -564,36 +564,36 @@ function wp_custom_nav_get_pages($counter,$type) {
 				        	$post_url = get_permalink($post->ID);
 				        	$post_id = $post->ID;
 				        	$post_parent_id = $post->post_parent;
-				        	
+
 							$description = htmlentities(get_post_meta($post_id, 'page-description', true));
-							
+
 				        ?>
 				        <?php $templatedir = get_bloginfo('url'); ?>
-				        
+
 				        <span class="title"><?php echo $post->post_title; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','Page','<?php echo $post_text; ?>','<?php echo $post_url; ?>','<?php echo $post_id; ?>','<?php echo $post_parent_id ?>','<?php echo $description; ?>')" name="<?php echo $post_text; ?>" value="<?php echo get_permalink($post->ID); ?>"><img alt="Add to Custom Menu" title="Add to Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-add.png" /></a></dt>
 				        </dl>
 				        <?php $parentli = $post->ID; ?>
-						<?php $intCounter++; ?>			    
+						<?php $intCounter++; ?>
 				        <?php
-						
+
 							//Recursive function
 							$intCounter = wp_custom_navigation_default_sub_items($post_id, $intCounter, $parentli, 'pages', 'default');
-						
+
 						 ?>
-					        
+
 					</li>
-	
-					<?php 
-				
+
+					<?php
+
 				}
 				else
 				{
-				
-				}	
-			} 
-		} 
+
+				}
+			}
+		}
 	}
-	else 
+	else
 	{
 		echo 'Not Found';
 	}
@@ -616,14 +616,14 @@ function wp_custom_nav_get_categories($counter, $type) {
 			'include'                  => '',
 			'number'                   => '',
 			'pad_counts'               => false );
-	
-	
-	
-	$intCounter = $counter;	
-	
-	//GET all categories	
+
+
+
+	$intCounter = $counter;
+
+	//GET all categories
 	$categories_array = get_categories($category_args);
-	
+
 	if ($categories_array)
 	{
 		//DISPLAY Loop
@@ -636,14 +636,14 @@ function wp_custom_nav_get_categories($counter, $type) {
 				if ($type == 'menu')
 				{
 					?>
-	    
+
 			    	<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
 			    		<dl>
 			            <dt>
 			            	<span class="title"><?php echo $cat_item->cat_name; ?></span>
 							<span class="controls">
 							<span class="type">category</span>
-							<a id="edit<?php echo $intCounter; ?>" onclick="edititem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a> 
+							<a id="edit<?php echo $intCounter; ?>" onclick="edititem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a>
 							<a id="remove<?php echo $intCounter; ?>" onclick="removeitem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>">
 								<img class="remove" alt="Remove from Custom Menu" title="Remove from Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-close.png" />
 							</a>
@@ -651,11 +651,11 @@ function wp_custom_nav_get_categories($counter, $type) {
 								<img alt="View Page" title="View Page" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-viewpage.png" />
 							</a>
 							</span>
-					
+
 			            </dt>
 			            </dl>
 			            <a class="hide" href="<?php echo get_category_link($cat_item->cat_ID); ?>"><span class="title"><?php echo $cat_item->cat_name; ?></span>
-			            <?php 
+			            <?php
 			            $use_cats_raw = get_option('wp_settings_custom_nav_descriptions');
 			   			$use_cats = strtolower($use_cats_raw);
 			   			if ($use_cats == 'yes') { ?>
@@ -672,19 +672,19 @@ function wp_custom_nav_get_categories($counter, $type) {
 						<input type="hidden" name="linktype<?php echo $intCounter; ?>" id="linktype<?php echo $intCounter; ?>" value="category" />
 						<input type="hidden" name="anchortitle<?php echo $intCounter; ?>" id="anchortitle<?php echo $intCounter; ?>" value="<?php echo htmlentities($cat_item->cat_name); ?>" />
 						<input type="hidden" name="newwindow<?php echo $intCounter; ?>" id="newwindow<?php echo $intCounter; ?>" value="0" />
-						
+
 			            <?php $parentli = $cat_item->cat_ID; ?>
-			            <?php $intCounter++; ?>			                
+			            <?php $intCounter++; ?>
 			           	<?php
-						
+
 							//Recursive function
 							$intCounter = wp_custom_navigation_default_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories','menu');
-							
+
 						?>
-			            
+
 			    	</li>
-			    	
-			    	<?php 
+
+			    	<?php
 			    }
 			    //Sidebar Menu
 			    elseif ($type == 'default')
@@ -704,24 +704,24 @@ function wp_custom_nav_get_categories($counter, $type) {
 						<span class="title"><?php echo $cat_item->cat_name; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','Category','<?php echo $post_text; ?>','<?php echo $post_url; ?>','<?php echo $post_id; ?>','<?php echo $post_parent_id ?>','<?php echo $description; ?>')" name="<?php echo $post_text; ?>" value="<?php echo $post_url;  ?>"><img alt="Add to Custom Menu" title="Add to Custom Menu"  src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-add.png" /></a> </dt>
 						</dl>
 						<?php $parentli = $cat_item->cat_ID; ?>
-			            <?php $intCounter++; ?>		
-						<?php 
+			            <?php $intCounter++; ?>
+						<?php
 							//Recursive function
 							$intCounter = wp_custom_navigation_default_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories','default');
 						?>
-						
+
 					</li>
-					
-					<?php 
-			    }	
-			} 
+
+					<?php
+			    }
+			}
 		}
 	}
-	else 
+	else
 	{
 		echo 'Not Found';
 	}
-	
+
 	return $intCounter;
 }
 
@@ -729,9 +729,9 @@ function wp_custom_nav_get_categories($counter, $type) {
 function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli, $type, $output_type) {
 
 	$counter = $intCounter;
-	
+
 	//Custom Menu
-	if ($output_type == 'menu') 
+	if ($output_type == 'menu')
 	{
 		$sub_args = array(
 		'child_of' => $childof,
@@ -739,43 +739,43 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 		'parent' => $childof);
 	}
 	//Sidebar Menu
-	elseif ($output_type == 'default') 
+	elseif ($output_type == 'default')
 	{
 		$sub_args = array(
 		'child_of' => $childof,
 		'hide_empty' => false,
 		'parent' => $childof);
 	}
-	else 
+	else
 	{
-		
+
 	}
-	
-	//Get Sub Category Items			
+
+	//Get Sub Category Items
 	if ($type == 'categories')
 	{
-		$sub_array = get_categories($sub_args);	
+		$sub_array = get_categories($sub_args);
 	}
 	//Get Sub Page Items
 	elseif ($type == 'pages')
 	{
 		$sub_array = get_pages($sub_args);
 	}
-	
-	
+
+
 	if ($sub_array)
 	{
 		?>
-		
+
 		<ul id="sub-custom-nav-<?php echo $type ?>">
-		
+
 		<?php
 		//DISPLAY Loop
 		foreach ($sub_array as $sub_item)
 		{
 			//Prepare Menu Data
 			//Category Menu Item
-			if ($type == 'categories') 
+			if ($type == 'categories')
 			{
 				$link = get_category_link($sub_item->cat_ID);
 				$title = htmlentities($sub_item->cat_name);
@@ -783,7 +783,7 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 				$itemid = $sub_item->cat_ID;
 				$linktype = 'category';
 				$appendtype = 'Category';
-				$description = htmlentities(strip_tags($sub_item->description));				
+				$description = htmlentities(strip_tags($sub_item->description));
 			}
 			//Page Menu Item
 			elseif ($type == 'pages')
@@ -797,13 +797,13 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 				$description = htmlentities(get_post_meta($itemid, 'page-description', true));
 			}
 			//Custom Menu Item
-			else 
+			else
 			{
 				$title = '';
 				$linktype = 'custom';
 				$appendtype= 'Custom';
 			}
-			
+
 			//Custom Menu
 			if ($output_type == 'menu')
 			{
@@ -814,7 +814,7 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 						<span class="title"><?php echo $title; ?></span>
 							<span class="controls">
 							<span class="type"><?php echo $linktype; ?></span>
-							<a id="edit<?php echo $counter; ?>" onclick="edititem(<?php echo $counter; ?>)" value="<?php echo $counter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a> 
+							<a id="edit<?php echo $counter; ?>" onclick="edititem(<?php echo $counter; ?>)" value="<?php echo $counter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a>
 								<a id="remove<?php echo $counter; ?>" onclick="removeitem(<?php echo $counter; ?>)" value="<?php echo $counter; ?>">
 									<img class="remove" alt="Remove from Custom Menu" title="Remove from Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-close.png" />
 								</a>
@@ -822,7 +822,7 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 									<img alt="View Page" title="View Page" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-viewpage.png" />
 								</a>
 						</span>
-			
+
 					</dt>
 					</dl>
 					<a class="hide" href="<?php echo $link; ?>"><?php echo $title; ?></a>
@@ -837,49 +837,49 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 					<input type="hidden" name="linktype<?php echo $counter; ?>" id="linktype<?php echo $counter; ?>" value="<?php echo $linktype; ?>" />
 					<input type="hidden" name="anchortitle<?php echo $counter; ?>" id="anchortitle<?php echo $counter; ?>" value="<?php echo $title; ?>" />
 					<input type="hidden" name="newwindow<?php echo $counter; ?>" id="newwindow<?php echo $counter; ?>" value="0" />
-					
+
 					<?php $counter++; ?>
-					<?php 
-						
+					<?php
+
 						//Do recursion
-						$counter = wp_custom_navigation_default_sub_items($parent_id, $counter, $parent_id, $type, 'menu'); 
-						
+						$counter = wp_custom_navigation_default_sub_items($parent_id, $counter, $parent_id, $type, 'menu');
+
 					?>
-					
+
 				</li>
-				<?php 
+				<?php
 			}
 			//Sidebar Menu
 			elseif ($output_type == 'default')
 			{
-					
+
 				?>
 				<li>
 					<dl>
 					<dt>
-					
+
 					<?php $templatedir = get_bloginfo('url'); ?>
 					<span class="title"><?php echo $title; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','<?php echo $appendtype; ?>','<?php echo $title; ?>','<?php echo $link; ?>','<?php echo $itemid; ?>','<?php echo $parent_id ?>','<?php echo $description; ?>')" name="<?php echo $title; ?>" value="<?php echo $link; ?>"><img alt="Add to Custom Menu" title="Add to Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-add.png" /></a> </dt>
 					</dl>
-					<?php 
-					
+					<?php
+
 						//Do recursion
 						$counter = wp_custom_navigation_default_sub_items($itemid, $counter, $parent_id, $type, 'default');
-						
+
 					?>
 				</li>
-					  
-				<?php 
+
+				<?php
 			}
-			
+
 		}
 		?>
-		
+
 		</ul>
-		
-	<?php 
+
+	<?php
 	}
-	
+
 	return $counter;
 
 }
@@ -891,19 +891,19 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 function get_children_menu_elements($childof, $intCounter, $parentli, $type, $menu_id, $table_name) {
 
 	$counter = $intCounter;
-	
+
 	global $wpdb;
-	
-	
-	
-	//Get Sub Category Items			
+
+
+
+	//Get Sub Category Items
 	if ($type == 'categories')
 	{
 		$sub_args = array(
 			'child_of' => $childof,
 			'hide_empty'  => false,
 			'parent' => $childof);
-		$sub_array = get_categories($sub_args);	
+		$sub_array = get_categories($sub_args);
 	}
 	//Get Sub Page Items
 	elseif ($type == 'pages')
@@ -911,14 +911,14 @@ function get_children_menu_elements($childof, $intCounter, $parentli, $type, $me
 		$sub_args = array(
 			'child_of' => $childof,
 			'parent' => $childof);
-	
+
 		$sub_array = get_pages($sub_args);
-		
+
 	}
 	else {
-	
+
 	}
-	
+
 	if ($sub_array)
 	{
 		//DISPLAY Loop
@@ -928,7 +928,7 @@ function get_children_menu_elements($childof, $intCounter, $parentli, $type, $me
 				$sub_item_parent = $sub_item->parent;
 			}
 			elseif (isset($sub_item->post_parent)) {
-				$sub_item_parent = $sub_item->post_parent; 
+				$sub_item_parent = $sub_item->post_parent;
 			}
 			else {
 			}
@@ -937,7 +937,7 @@ function get_children_menu_elements($childof, $intCounter, $parentli, $type, $me
 			{
 				//Prepare Menu Data
 				//Category Menu Item
-				if ($type == 'categories') 
+				if ($type == 'categories')
 				{
 					$link = get_category_link($sub_item->cat_ID);
 					$title = htmlentities($sub_item->cat_name);
@@ -957,13 +957,13 @@ function get_children_menu_elements($childof, $intCounter, $parentli, $type, $me
 					$appendtype= 'Page';
 				}
 				//Custom Menu Item
-				else 
+				else
 				{
 					$title = '';
 					$linktype = 'custom';
 					$appendtype= 'Custom';
 				}
-				
+
 				//CHECK for existing parent records
 				//echo $parent_id;
 				$wp_result = $wpdb->get_results("SELECT id FROM ".$table_name." WHERE post_id='".$parent_id."' AND link_type='".$linktype."' AND menu_id='".$menu_id."'");
@@ -973,17 +973,17 @@ function get_children_menu_elements($childof, $intCounter, $parentli, $type, $me
 				else {
 					//$parent_id = 0;
 				}
-				
+
 				//INSERT item
 				$insert = "INSERT INTO ".$table_name." (position,post_id,parent_id,custom_title,custom_link,custom_description,menu_icon,link_type,menu_id,custom_anchor_title) "."VALUES ('".$counter."','".$itemid."','".$parent_id."','".$title."','".$link."','','','".$linktype."','".$menu_id."','".$title."')";
 	  			$results = $wpdb->query( $insert );
-	 
+
 	  			$counter++;
 	  			$counter = get_children_menu_elements($itemid, $counter, $parent_id, $type, $menu_id, $table_name);
-			}	
+			}
 			//Do nothing
 			else {
-			
+
 			}
 		}
 	}
