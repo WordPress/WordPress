@@ -187,6 +187,15 @@ function is_taxonomy_hierarchical($taxonomy) {
  * query_var - false to prevent queries, or string to customize query var
  * (?$query_var=$term); default will use $taxonomy as query var.
  *
+ * public - If the taxonomy should be publically queryable; //@TODO not implemented.
+ * defaults to true.
+ *
+ * show_ui - If the WordPress UI admin tags UI should apply to this taxonomy;
+ * defaults to public.
+ *
+ * show_tagcloud - false to prevent the taxonomy being listed in the Tag Cloud Widget;
+ * defaults to show_ui which defalts to public.
+ *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3.0
@@ -211,6 +220,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 						'public' => true,
 						'show_ui' => null,
 						'label' => null,
+						'show_tagcloud' => null,
 						'_builtin' => false
 						);
 	$args = wp_parse_args($args, $defaults);
@@ -235,6 +245,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	if ( is_null($args['show_ui']) )
 		$args['show_ui'] = $args['public'];
+
+	if ( is_null($args['show_tagcloud']) )
+		$args['show_tagcloud'] = $args['show_ui'];
 
 	if ( is_null($args['label'] ) )
 		$args['label'] = $taxonomy;
