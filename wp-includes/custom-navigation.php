@@ -167,6 +167,8 @@ function wp_custom_navigation_output($args = array()) {
 					$target = 'target="_blank"';
 				break;
 			}
+
+			$li_class = '';
 /* @todo: update to use tax/post data
 
 			//SET anchor title
@@ -179,9 +181,6 @@ function wp_custom_navigation_output($args = array()) {
 
 			if ($queried_id == $wp_custom_nav_menu_items->post_id) {
 				$li_class = 'class="current_page_item"';
-			}
-			else {
-				$li_class = '';
 			}
 
 			if (isset($wp_custom_nav_menu_items->new_window)) {
