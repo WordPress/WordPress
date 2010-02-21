@@ -147,7 +147,7 @@ function wp_custom_navigation() {
  			if (isset($_POST['newwindow'.$k])) { $new_window = $_POST['newwindow'.$k]; } else { $new_window = 0; }
 
 			$post = array( 'post_status' => 'publish', 'post_type' => 'menu_item', 'post_author' => $user_ID,
-				'ping_status' => 0, 'post_parent' => $post_id, '`menu_order' => $position,
+				'ping_status' => 0, 'post_parent' => $post_id, 'menu_order' => $position,
 				'guid' => $custom_linkurl, 'post_excerpt' => $custom_anchor_title, 'tax_input' => array( 'menu' => $menu_title ),
 				'post_content' => $custom_description, 'post_title' => $custom_title );
 			if ( $new_window )
