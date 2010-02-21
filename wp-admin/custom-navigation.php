@@ -23,7 +23,6 @@ wp_enqueue_script( 'custom-navigation-default-items' );
 wp_enqueue_script( 'jquery-autocomplete' );
 wp_enqueue_script( 'custom-navigation-php-functions' );
 
-
 require_once('admin-header.php');
 require_once (ABSPATH . WPINC . '/custom-navigation.php');
 
@@ -35,7 +34,6 @@ function wp_custom_nav_reset() {
 	return true;
 
 }
-
 
 /*-----------------------------------------------------------------------------------*/
 /* Custom Navigation Admin Interface
@@ -55,13 +53,15 @@ function wp_custom_navigation() {
 	$menu_id_in_edit = 0;
 
 	// Get the theme name
-	$themename =  get_current_theme();
+	$themename = get_current_theme();
 
 	// Check which menu is selected and if menu is in edit already
 	if ( isset( $_POST['switch_menu'] ) )
-		$menu_selected_id = $_POST['menu_select'];
+		$menu_selected_id = (int) $_POST['menu_select'];
 	elseif ( isset( $_POST['menu_id_in_edit'] ) )
-		$menu_selected_id = $_POST['menu_id_in_edit'];
+		$menu_selected_id = (int) $_POST['menu_id_in_edit'];
+	else
+		$menu_selected_id = 0;
 
 	// Default Menu to show
 	$custom_menus = get_terms( 'menu', array( 'hide_empty' => false ) );
@@ -70,7 +70,7 @@ function wp_custom_navigation() {
 
 	$menu_title = '';
 	if ( $menu_selected_id > 0 ) {
-		foreach( $custom_menus as $menu ) {
+		foreach ( $custom_menus as $menu ) {
 			if ( $menu->term_id == $menu_selected_id ) {
 				$menu_title = $menu->name;
 				break;
@@ -79,14 +79,15 @@ function wp_custom_navigation() {
 	}
 
 	if ( isset( $_POST['set_wp_menu'] ) ) {
-	    	update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
+		// @todo validate set_wp_menu
+	    update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
 		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been updated!</p></div>';
 	}
 
 	if ( isset( $_POST['licount'] ) )
 		$postCounter = $_POST['licount'];
 	else
-	    	$postCounter = 0;
+	    $postCounter = 0;
 
 	// Create a new menu. Menus are stored as terms in the 'menu' taxonomy.
 	if ( isset( $_POST['add_menu'] ) ) {
@@ -102,7 +103,7 @@ function wp_custom_navigation() {
 					$custom_menus[$term['term_id']] = $term;
 	 				$menu_selected_id = $term['term_id'];
 	 				$menu_id_in_edit = $menu_selected_id;
-	 				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$insert_menu_name.' Menu has been created!</p></div>';
+	 				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$term['name'].' Menu has been created!</p></div>';
 
 					$postCounter = 0;
 	 			}
@@ -113,37 +114,35 @@ function wp_custom_navigation() {
 	}
 
 	if ( isset($_POST['reset_wp_menu']) ) {
-    		$success = wp_custom_nav_reset();
-    		if ($success) {
-	    		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been RESET!</p></div>';
-				// GET reset menu id
-				$custom_menus = array();
-				$menu_selected_id = 0;
-	    	} else {
-    			// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-				$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename.'s Custom Menu could not be RESET. Please try again.</p></div>';
-	    	}
+    	$success = wp_custom_nav_reset();
+    	if ( $success ) {
+	    	// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
+			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been RESET!</p></div>';
+			// GET reset menu id
+			$custom_menus = array();
+			$menu_selected_id = 0;
+	    } else {
+    		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
+			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename.'s Custom Menu could not be RESET. Please try again.</p></div>';
+	    }
 	} elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
 		$menu_objects = get_objects_in_term( $menu_selected_id, 'menu' );
 		$menu_items = wp_custom_navigation_get_menu_items( $menu_objects );
 
-		$update_fields = array( 'menu_order', 'guid', 'post_content', 'post_title', 'post_excerpt', 'post_content_filtered' );
-		//Loop through all POST variables
- 		for ($k = 1;$k<= $postCounter; $k++) {
-
+		// Loop through all POST variables
+ 		for ( $k = 1; $k <= $postCounter; $k++ ) {
  			if (isset($_POST['dbid'.$k])) { $db_id = $_POST['dbid'.$k]; } else { $db_id = 0; }
  			if (isset($_POST['postmenu'.$k])) { $post_id = $_POST['postmenu'.$k]; } else { $post_id = 0; }
-//@todo implement heirarchy
+			//@todo implement heirarchy
 			if (isset($_POST['parent'.$k])) { $parent_id = $_POST['parent'.$k]; } else { $parent_id = 0; }
- 			if (isset($_POST['title'.$k])) { $custom_title = stripslashes($_POST['title'.$k]); } else { $custom_title = ''; }
+ 			if (isset($_POST['title'.$k])) { $custom_title = $_POST['title'.$k]; } else { $custom_title = ''; }
  			if (isset($_POST['linkurl'.$k])) { $custom_linkurl = $_POST['linkurl'.$k]; } else { $custom_linkurl = ''; }
- 			if (isset($_POST['description'.$k])) { $custom_description = stripslashes($_POST['description'.$k]); } else { $custom_description = ''; }
-// doesn't seem to be used by UI
+ 			if (isset($_POST['description'.$k])) { $custom_description = $_POST['description'.$k]; } else { $custom_description = ''; }
+			// doesn't seem to be used by UI
 			if (isset($_POST['icon'.$k])) { $icon = $_POST['icon'.$k]; } else { $icon = 0; }
  			if (isset($_POST['position'.$k])) { $position = $_POST['position'.$k]; } else { $position = 0; }
  			if (isset($_POST['linktype'.$k])) { $linktype = $_POST['linktype'.$k]; } else { $linktype = 'custom'; }
- 			if (isset($_POST['anchortitle'.$k])) { $custom_anchor_title = stripslashes($_POST['anchortitle'.$k]); } else { $custom_anchor_title = $custom_title; }
+ 			if (isset($_POST['anchortitle'.$k])) { $custom_anchor_title = $_POST['anchortitle'.$k]; } else { $custom_anchor_title = $custom_title; }
  			if (isset($_POST['newwindow'.$k])) { $new_window = $_POST['newwindow'.$k]; } else { $new_window = 0; }
 
 			$post = array( 'post_status' => 'publish', 'post_type' => 'menu_item', 'post_author' => $user_ID,
@@ -155,27 +154,22 @@ function wp_custom_navigation() {
 			else
 				$post['post_content_filtered'] = '';
 
-			//New menu item
-	 		if ($db_id == 0) {
+			// New menu item
+	 		if ( $db_id == 0 ) {
 				$db_id = $post_id = wp_insert_post( $post );
 			} elseif ( isset( $menu_items[$db_id] ) ) {
-				foreach( $update_fields as $field ) {
-					if ( $post[$field] != $menu_items[$db_id]->$field ) {
-						$post['ID'] = $db_id;
-						wp_update_post( $post );
-						break;
-					}
-				}
+				$post['ID'] = $db_id;
+				wp_update_post( $post );
 				unset( $menu_items[$db_id] );
 			}
 			update_post_meta($db_id, 'menu_type', $linktype);
 		}
 		if ( !empty( $menu_items ) ) {
-			foreach( array_keys( $menu_items ) as $menu_id ) {
+			foreach ( array_keys( $menu_items ) as $menu_id ) {
 				wp_delete_post( $menu_id );
 			}
 		}
-		//DISPLAY SUCCESS MESSAGE IF POST CORRECT
+		// DISPLAY SUCCESS MESSAGE IF POST CORRECT
 		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been updated!</p></div>';
 	}
 
