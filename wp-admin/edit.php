@@ -339,8 +339,8 @@ if ( is_object_in_taxonomy($post_type, 'category') ) {
 	$dropdown_options = array('show_option_all' => __('View all categories'), 'hide_empty' => 0, 'hierarchical' => 1,
 		'show_count' => 0, 'orderby' => 'name', 'selected' => $cat);
 	wp_dropdown_categories($dropdown_options);
-	do_action('restrict_manage_posts');
 }
+do_action('restrict_manage_posts');
 ?>
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 <?php }
