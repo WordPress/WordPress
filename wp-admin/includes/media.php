@@ -422,7 +422,7 @@ function media_upload_form_handler() {
 
 		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
 
-		if ( isset($attachment['image_alt']) && !empty($attachment['image_alt']) ) {
+		if ( isset($attachment['image_alt']) ) {
 			$image_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
 			if ( $image_alt != stripslashes($attachment['image_alt']) ) {
 				$image_alt = wp_strip_all_tags( stripslashes($attachment['image_alt']), true );
