@@ -96,14 +96,15 @@ function wp_custom_navigation() {
 	 	if ( $insert_menu_name != '' ) {
 			$existing_term = get_term_by( 'name', $insert_menu_name, 'menu' );
 	 		if ( $existing_term ) {
-	 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$insert_menu_name.' Menu has already created - please try another name</p></div>';
+	 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . $insert_menu_name . ' Menu has already created - please try another name</p></div>';
 	 		} else {
 				$term = wp_insert_term( $insert_menu_name, 'menu' );
-				if ( $term ) {
-					$custom_menus[$term['term_id']] = $term;
-	 				$menu_selected_id = $term['term_id'];
+				if ( !is_wp_error($term) ) {
+					$term = get_term($term['term_id'], 'menu');
+					$custom_menus[$term->term_id] = $term;
+	 				$menu_selected_id = $term->term_id;
 	 				$menu_id_in_edit = $menu_selected_id;
-	 				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$term['name'].' Menu has been created!</p></div>';
+	 				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . $term->name . ' Menu has been created!</p></div>';
 
 					$postCounter = 0;
 	 			}
