@@ -53,6 +53,7 @@ class WP_oEmbed {
 			'#http://(www\.)?scribd\.com/.*#i'              => array( 'http://www.scribd.com/services/oembed',    true  ),
 			'http://wordpress.tv/*'                         => array( 'http://wordpress.tv/oembed/',              false ),
 			'#http://(answers|surveys)\.polldaddy.com/.*#i' => array( 'http://polldaddy.com/oembed/',             true  ),
+			'#http://(www\.)?funnyordie\.com/videos/.*#i'   => array( 'http://www.funnyordie.com/oembed',         true  ),
 		) );
 
 		// Fix Scribd embeds. They contain new lines in the middle of the HTML which breaks wpautop().
