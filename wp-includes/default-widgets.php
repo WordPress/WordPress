@@ -976,27 +976,56 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Tags') : $instance['title'], $instance, $this->id_base);
+		$current_taxonomy = $this->_get_current_taxonomy($instance);
+		if ( !empty($instance['title']) ) {
+			$title = $instance['title'];
+		} else {
+			if ( 'post_tag' == $current_taxonomy ) {
+				$title = __('Tags');
+			} else {
+				$tax = get_taxonomy($current_taxonomy);
+				$title = $tax->label;
+			}
+		}
+		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
 
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
 		echo '<div>';
-		wp_tag_cloud(apply_filters('widget_tag_cloud_args', array()));
+		wp_tag_cloud( apply_filters('widget_tag_cloud_args', array('taxonomy' => $current_taxonomy) ) );
 		echo "</div>\n";
 		echo $after_widget;
 	}
 
 	function update( $new_instance, $old_instance ) {
 		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
+		$instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
 		return $instance;
 	}
 
 	function form( $instance ) {
+		$current_taxonomy = $this->_get_current_taxonomy($instance);
 ?>
 	<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:') ?></label>
 	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php if (isset ( $instance['title'])) {echo esc_attr( $instance['title'] );} ?>" /></p>
-<?php
+	<p><label for="<?php echo $this->get_field_id('taxonomy'); ?>"><?php _e('Taxonomy:') ?></label>
+	<select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>">
+	<?php foreach ( get_object_taxonomies('post') as $taxonomy ) :
+				$tax = get_taxonomy($taxonomy);
+				if ( !$tax->show_tagcloud || empty($tax->label) )
+					continue;
+	?>
+		<option value="<?php echo esc_attr($taxonomy) ?>" <?php selected($taxonomy, $current_taxonomy) ?>><?php echo $tax->label ?></option>
+	<?php endforeach; ?>
+	</select></p><?php
+	}
+
+	function _get_current_taxonomy($instance) {
+		if ( !empty($instance['taxonomy']) && is_taxonomy($instance['taxonomy']) ) 
+			return $instance['taxonomy'];
+
+		return 'post_tag';
 	}
 }
 
