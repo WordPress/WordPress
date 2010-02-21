@@ -14,12 +14,15 @@ require_once('admin.php');
 
 wp_admin_css( 'custom-navigation' );
 wp_enqueue_script( 'jquery' );
-wp_enqueue_script( 'custom-navigation-ui-custom' );
+wp_enqueue_script( 'jquery-ui-draggable' );
+wp_enqueue_script( 'jquery-ui-droppable' );
+wp_enqueue_script( 'jquery-ui-sortable' );
+wp_enqueue_script( 'jquery-ui-dialog' );
 wp_enqueue_script( 'custom-navigation-dynamic-functions' );
 wp_enqueue_script( 'custom-navigation-default-items' );
 wp_enqueue_script( 'jquery-autocomplete' );
 wp_enqueue_script( 'custom-navigation-php-functions' );
-wp_enqueue_script( 'jquery-ui-dialog' );
+
 
 require_once('admin-header.php');
 require_once (ABSPATH . WPINC . '/custom-navigation.php');

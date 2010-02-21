@@ -396,17 +396,11 @@ function wp_default_scripts( &$scripts ) {
 			'done' => __( 'Done' )
 		) );
 
+		// Custom Navigation
+		$scripts->add( 'custom-navigation-default-items', "/wp-admin/js/custom-navigation-default-items$suffix.js", false, '20100220' );
+		$scripts->add( 'custom-navigation-dynamic-functions', "/wp-admin/js/custom-navigation-dynamic-functions$suffix.js", false, '20100220' );
+		$scripts->add( 'custom-navigation-php-functions', "/wp-admin/js/custom-navigation-php-functions$suffix.js", false, '20100220' );
 	}
-
-	//Custom Navigation
-
-	$scripts->add( 'custom-navigation-ui-custom', '/wp-admin/js/custom-navigation-custom-jquery-ui-1.7.2.js', array('jquery'), '1.7.2' );
-	$scripts->add_data( 'custom-navigation-ui-custom', 'group', 1 );
-
-	$scripts->add( 'custom-navigation-default-items', "/wp-admin/js/custom-navigation-default-items$suffix.js", false, '20100220' );
-	$scripts->add( 'custom-navigation-dynamic-functions', "/wp-admin/js/custom-navigation-dynamic-functions$suffix.js", false, '20100220' );
-	$scripts->add( 'custom-navigation-php-functions', "/wp-admin/js/custom-navigation-php-functions$suffix.js", false, '20100220' );
-
 }
 
 /**
