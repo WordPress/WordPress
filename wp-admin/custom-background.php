@@ -212,7 +212,7 @@ if ( get_background_image() ) : ?>
 <?php endif; ?>
 
 <h2><?php _e('Upload New Background Image'); ?></h2>
-<form enctype="multipart/form-data" id="uploadFrom" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-background') ?>
