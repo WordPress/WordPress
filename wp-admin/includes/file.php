@@ -227,7 +227,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  */
 function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// The default error handler.
-	if (! function_exists( 'wp_handle_upload_error' ) ) {
+	if ( ! function_exists( 'wp_handle_upload_error' ) ) {
 		function wp_handle_upload_error( &$file, $message ) {
 			return array( 'error'=>$message );
 		}
@@ -262,6 +262,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
 	$test_form = true;
 	$test_size = true;
+	$test_upload = true;
 
 	// If you override this, you must provide $ext and $type!!!!
 	$test_type = true;
@@ -273,19 +274,24 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// A correct form post will pass this test.
 	if ( $test_form && (!isset( $_POST['action'] ) || ($_POST['action'] != $action ) ) )
-		return $upload_error_handler( $file, __( 'Invalid form submission.' ));
+		return call_user_func($upload_error_handler, $file, __( 'Invalid form submission.' ));
 
 	// A successful upload will pass this test. It makes no sense to override this one.
 	if ( $file['error'] > 0 )
-		return $upload_error_handler( $file, $upload_error_strings[$file['error']] );
+		return call_user_func($upload_error_handler, $file, $upload_error_strings[$file['error']] );
 
 	// A non-empty file will pass this test.
-	if ( $test_size && !($file['size'] > 0 ) )
-		return $upload_error_handler( $file, __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.' ));
+	if ( $test_size && !($file['size'] > 0 ) ) {
+		if ( is_multisite() )
+			$error_msg = __( 'File is empty. Please upload something more substantial.' );
+		else
+			$error_msg = __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.' );
+		return call_user_func($upload_error_handler, $file, $error_msg);
+	}
 
 	// A properly uploaded file will pass this test. There should be no reason to override this one.
-	if (! @ is_uploaded_file( $file['tmp_name'] ) )
-		return $upload_error_handler( $file, __( 'Specified file failed upload test.' ));
+	if ( $test_upload && ! @ is_uploaded_file( $file['tmp_name'] ) )
+		return call_user_func($upload_error_handler, $file, __( 'Specified file failed upload test.' ));
 
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
 	if ( $test_type ) {
@@ -294,7 +300,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		extract( $wp_filetype );
 
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
-			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
+			return call_user_func($upload_error_handler, $file, __( 'File type does not meet security guidelines. Try another.' ));
 
 		if ( !$ext )
 			$ext = ltrim(strrchr($file['name'], '.'), '.');
@@ -307,15 +313,14 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
 	if ( ! ( ( $uploads = wp_upload_dir($time) ) && false === $uploads['error'] ) )
-		return $upload_error_handler( $file, $uploads['error'] );
+		return call_user_func($upload_error_handler, $file, $uploads['error'] ); 
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
 
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
-	if ( false === @ move_uploaded_file( $file['tmp_name'], $new_file ) ) {
+	if ( false === @ move_uploaded_file( $file['tmp_name'], $new_file ) )
 		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path'] ) );
-	}
 
 	// Set correct file permissions
 	$stat = stat( dirname( $new_file ));

@@ -177,13 +177,13 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
  *
  * @since unknown
  *
- * @param unknown_type $file_id
- * @param unknown_type $post_id
- * @param unknown_type $post_data
- * @return unknown
+ * @param string $file_id Index into the {@link $_FILES} array of the upload
+ * @param int $post_id The post ID the media is associated with
+ * @param array $post_data allows you to overwrite some of the attachment
+ * @param array $overrides allows you to override the {@link wp_handle_upload()} behavior
+ * @return int the ID of the attachment
  */
-function media_handle_upload($file_id, $post_id, $post_data = array()) {
-	$overrides = array('test_form'=>false);
+function media_handle_upload($file_id, $post_id, $post_data = array(), $overrides = array( 'test_form' => false )) {
 
 	$time = current_time('mysql');
 	if ( $post = get_post($post_id) ) {
@@ -461,6 +461,7 @@ function media_upload_form_handler() {
 
 		$html = $attachment['post_title'];
 		if ( !empty($attachment['url']) ) {
+			$rel = '';
 			if ( strpos($attachment['url'], 'attachment_id') || false !== strpos($attachment['url'], get_permalink($_POST['post_id'])) )
 				$rel = " rel='attachment wp-att-" . esc_attr($send_id)."'";
 			$html = "<a href='{$attachment['url']}'$rel>$html</a>";
