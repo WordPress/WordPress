@@ -439,6 +439,18 @@ function &get_translations_for_domain( $domain ) {
 }
 
 /**
+ * Whether there are translations for the domain
+ *
+ * @since 3.0.0
+ * @param string $domain
+ * @return bool Whether there are translations
+ */
+function is_textdomain_loaded( $domain ) {
+	global $l10n;
+	return isset( $l10n[$domain] );
+}
+
+/**
  * Translates role name. Since the role names are in the database and
  * not in the source there are dummy gettext calls to get them into the POT
  * file and this function properly translates them back.
