@@ -2011,6 +2011,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$post_type_object = get_post_type_object($post->post_type);
 	$user_can = current_user_can($post_type_object->edit_cap, $post->ID);
 
+	$comment_url = esc_url(get_comment_link($comment->comment_ID));
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
@@ -2028,7 +2029,6 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 
-		$comment_url = esc_url(get_comment_link($comment->comment_ID));
 		$approve_url = esc_url( "comment.php?action=approvecomment&p=$post->ID&c=$comment->comment_ID&$approve_nonce" );
 		$unapprove_url = esc_url( "comment.php?action=unapprovecomment&p=$post->ID&c=$comment->comment_ID&$approve_nonce" );
 		$spam_url = esc_url( "comment.php?action=spamcomment&p=$post->ID&c=$comment->comment_ID&$del_nonce" );
