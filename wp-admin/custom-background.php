@@ -89,12 +89,14 @@ class Custom_Background {
 		if ( ! current_user_can('switch_themes') )
 			return;
 
-		if ( isset($_POST['reset-background']) ) {
-			check_admin_referer('custom-background');
+		if ( empty($_POST) )
+			return;
+
+		check_admin_referer('custom-background');
+
+		if ( isset($_POST['reset-background']) )
 			remove_theme_mods();
-		}
 		if ( isset($_POST['background-repeat']) ) {
-			check_admin_referer('custom-background');
 			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat')) )
 				$repeat = $_POST['background-repeat'];
 			else
@@ -102,7 +104,6 @@ class Custom_Background {
 			set_theme_mod('background_repeat', $repeat);
 		}
 		if ( isset($_POST['background-position']) ) {
-			check_admin_referer('custom-background');
 			if ( in_array($_POST['background-position'], array('center', 'right', 'left')) )
 				$position = $_POST['background-position'];
 			else
@@ -110,17 +111,14 @@ class Custom_Background {
 			set_theme_mod('background_position', $position);
 		}
 		if ( isset($_POST['background-attachment']) ) {
-			check_admin_referer('custom-background');
 			if ( in_array($_POST['background-attachment'], array('fixed', 'scroll')) )
 				$attachment = $_POST['background-attachment'];
 			else
 				$attachment = 'fixed';
 			set_theme_mod('background_attachment', $attachment);
 		}
-		if ( isset($_POST['remove-background']) ) {
-			check_admin_referer('custom-background');
+		if ( isset($_POST['remove-background']) )
 			set_theme_mod('background_image', '');
-		}
 	}
 
 	/**
@@ -141,20 +139,19 @@ class Custom_Background {
 <?php if ( get_background_image() ) { ?>
 <p><?php _e('This is your current background image.'); ?></p>
 <?php
-} else { ?>
-<p><?php _e('There is currently no background image.'); ?></p> <?php
-}
-
-if ( $this->admin_image_div_callback ) {
-  call_user_func($this->admin_image_div_callback);
-} else {
+	if ( $this->admin_image_div_callback ) {
+		call_user_func($this->admin_image_div_callback);
+	} else {
 ?>
 <div id="custom-background-image">
 <img class="custom-background-image" src="<?php background_image(); ?>" />
 </div>
-<?php } ?>
+<?php }
+} else { ?>
+<p><?php _e('There is currently no background image.'); ?></p> <?php
+}
 
-<?php if ( get_background_image() ) : ?>
+if ( get_background_image() ) : ?>
 	
 <h2><?php _e('Change Display Options') ?></h2>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
@@ -226,7 +223,7 @@ if ( $this->admin_image_div_callback ) {
 
 <?php if ( get_background_image() ) : ?>
 <h2><?php _e('Remove Background Image'); ?></h2>
-<p><?php _e('This will remove background image. You will not be able to retrieve any customizations.') ?></p>
+<p><?php _e('This will remove the background image. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <?php wp_nonce_field('custom-background'); ?>
 <input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />
