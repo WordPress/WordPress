@@ -173,7 +173,7 @@ function wp_custom_navigation() {
 			}
 		}
 		// DISPLAY SUCCESS MESSAGE IF POST CORRECT
-		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename."'s Custom Menu has been updated!</p></div>";
+		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('The menu has been updated.') . '</p></div>';
 	}
 
  		//DISPLAY Custom Navigation
@@ -198,7 +198,7 @@ function wp_custom_navigation() {
 			<form onsubmit="updatepostdata()" action="custom-navigation.php" method="post"  enctype="multipart/form-data">
 
 			<input type="hidden" name="licount" id="licount" value="0" />
-			<input type="hidden" name="menu_id_in_edit" id="menu_id_in_edit" value="<?php echo $menu_selected_id; ?>" />
+			<input type="hidden" name="menu_id_in_edit" id="menu_id_in_edit" value="<?php echo esc_attr($menu_selected_id); ?>" />
 
 			<div class="sidebar-name">
 
@@ -261,11 +261,11 @@ function wp_custom_navigation() {
 			    		<label><?php _e('Disable'); ?></label><input type="radio" name="enable_wp_menu" value="false" <?php if ($checked=='true') { } else { echo 'checked="checked"'; } ?> />
 					</span><!-- /.checkboxes -->
 
-					<input id="set_wp_menu" type="submit" value="Set Menu" name="set_wp_menu" class="button" /><br />
+					<input id="set_wp_menu" type="submit" value="<?php esc_attr_e('Set Menu'); ?>" name="set_wp_menu" class="button" /><br />
 
 					<span>
 						<label><?php _e('Reset Menu to Default'); ?></label>
-						<input id="reset_wp_menu" type="submit" value="Reset" name="reset_wp_menu" class="button" onclick="return confirm('Are you sure you want to RESET the Custom Navigation Menu to its Default Settings?');" />
+						<input id="reset_wp_menu" type="submit" value="Reset" name="reset_wp_menu" class="button" onclick="return confirm('<?php _e('Are you sure you want to reset the menu to its default settings?'); ?>');" />
 					</span>
 
 					<div class="fix"></div>
@@ -289,7 +289,7 @@ function wp_custom_navigation() {
 							else
 								$selected_option = '';
 							?>
-							<option value="<?php echo $menu_term->term_id; ?>" <?php echo $selected_option; ?>><?php echo $menu_term->name; ?></option>
+							<option value="<?php echo esc_attr($menu_term->term_id); ?>" <?php echo $selected_option; ?>><?php echo $menu_term->name; ?></option>
 							<?php
 
 						}
@@ -390,7 +390,7 @@ function wp_custom_navigation() {
   						jQuery(document).ready(function(){
 
 							//GET PHP pages
-    						var dataposts = "<?php echo $page_name; ?>".split("|");
+    						var dataposts = "<?php echo esc_js($page_name); ?>".split("|");
 
 							//Set autocomplete
 							jQuery("#page-search").autocomplete(dataposts);
@@ -409,7 +409,7 @@ function wp_custom_navigation() {
   					</script>
 
 
-					<input type="text" onfocus="jQuery('#page-search').attr('value','');" id="page-search" value="Search Pages" />
+					<input type="text" onfocus="jQuery('#page-search').attr('value','');" id="page-search" value="<?php esc_attr_e('Search Pages'); ?>" />
 
 					<a id="show-pages" style="cursor:pointer;" onclick="jQuery('#existing-pages').css('display','block');jQuery('#page-search').attr('value','');jQuery('#existing-pages dt').css('display','block');jQuery('#show-pages').hide();jQuery('#hide-pages').show();">View All</a>
 					<a id="hide-pages" style="cursor:pointer;" onclick="jQuery('#existing-pages').css('display','none');jQuery('#page-search').attr('value','Search Pages');jQuery('#existing-pages dt').css('display','none');jQuery('#show-pages').show();jQuery('#hide-pages').hide();">Hide All</a>
@@ -466,7 +466,7 @@ function wp_custom_navigation() {
 							}
 				  		}
 				  	} else {
-						$cat_name = "No categories available";
+						$cat_name = __('No categories available');
 					}
 
 					?>
@@ -475,7 +475,7 @@ function wp_custom_navigation() {
   						jQuery(document).ready(function(){
 
 							//GET PHP categories
-    						var datacats = "<?php echo $cat_name; ?>".split("|");
+    						var datacats = "<?php echo esc_js($cat_name); ?>".split("|");
 
 							//Set autocomplete
 							jQuery("#cat-search").autocomplete(datacats);
@@ -528,10 +528,10 @@ function wp_custom_navigation() {
            			<?php $templatedir = get_bloginfo('url'); ?>
             		<input type="hidden" id="templatedir" value="<?php echo esc_attr($templatedir); ?>" />
             		<input id="custom_menu_item_name" type="text" value="Menu Item" onfocus="jQuery('#custom_menu_item_name').attr('value','');"  />
-            		<label>Menu Text</label><br />
-           			<input id="custom_menu_item_description" type="text" value="A description" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
+            		<label><?php _e('Menu Text'); ?></label><br />
+           			<input id="custom_menu_item_description" type="text" value="<?php esc_attr_e('A description'); ?>" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
            			<label <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> >Description</label>
-           			<a class="addtomenu" onclick="appendToList('<?php echo $templatedir; ?>','Custom','','','','0','');jQuery('#custom_menu_item_name').attr('value','Menu Item');jQuery('#custom_menu_item_description').attr('value','A description');">Add to menu</a>
+           			<a class="addtomenu" onclick="appendToList('<?php echo $templatedir; ?>','Custom','','','','0','');jQuery('#custom_menu_item_name').attr('value','Menu Item');jQuery('#custom_menu_item_description').attr('value','A description');"><?php _e('Add to menu'); ?></a>
 					<div class="fix"></div>
 				</div>
 			</div><!-- /.widgets-holder-wrap -->
@@ -545,7 +545,7 @@ function wp_custom_navigation() {
 		document.getElementById('no-js').style.display='none';
 	</script>
 
-	<div id="dialog-confirm" title="Edit Menu Item">
+	<div id="dialog-confirm" title="<?php esc_attr_e('Edit Menu Item'); ?>">
 		</label><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle">Menu Title</label><br />
 		<input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink">URL</label><br />
 		<input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle" >Link Title</label><br />
