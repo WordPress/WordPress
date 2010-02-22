@@ -1733,7 +1733,7 @@ class WP_Http_Cookie {
 				if ( empty($pair) ) //Handles the cookie ending in ; which results in a empty final pair
 					continue;
 
-				list( $key, $val ) = explode( '=', $pair );
+				list( $key, $val ) = strpos( $pair, '=' ) ? explode( '=', $pair ) : array( $pair, '' );
 				$key = strtolower( trim( $key ) );
 				if ( 'expires' == $key )
 					$val = strtotime( $val );
