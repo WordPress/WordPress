@@ -9,7 +9,7 @@ $parent_file = 'ms-admin.php';
 
 include('admin-header.php');
 
-if ( !is_super_admin() )
+if ( ! current_user_can( 'manage_network_options' ) )
     wp_die( __('You do not have permission to access this page.') );
 
 if (isset($_GET['updated'])) {

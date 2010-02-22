@@ -11,7 +11,7 @@ wp_enqueue_script( 'admin-forms' );
 
 require_once('admin-header.php');
 
-if ( !is_super_admin() )
+if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __('You do not have permission to access this page.') );
 
 if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {

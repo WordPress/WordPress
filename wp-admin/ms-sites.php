@@ -11,7 +11,7 @@ wp_enqueue_script( 'admin-forms' );
 
 require_once('admin-header.php');
 
-if ( !is_super_admin() )
+if ( ! current_user_can( 'manage_sites' ) )
 	wp_die( __('You do not have permission to access this page.') );
 
 $id = isset($_GET['id']) ? intval( $_GET['id'] ) : 0;

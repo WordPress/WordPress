@@ -4,9 +4,6 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
-if ( !is_super_admin() )
-	wp_die( __('You do not have permission to access this page.') );
-
 do_action('wpmuadminedit', '');
 
 if ( isset($_GET[ 'id' ]) )
@@ -20,6 +17,9 @@ if ( isset( $_POST['ref'] ) == false && !empty($_SERVER['HTTP_REFERER']) )
 switch ( $_GET['action'] ) {
 	case "siteoptions":
 		check_admin_referer('siteoptions');
+		if ( ! current_user_can( 'manage_network_options' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		if ( empty( $_POST ) )
 			wp_die( __("You probably need to go back to the <a href='ms-options.php'>options page</a>") );
 
@@ -137,6 +137,9 @@ switch ( $_GET['action'] ) {
 	case "addblog":
 		check_admin_referer('add-blog');
 
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		if ( is_array( $_POST[ 'blog' ] ) == false )
 			wp_die( "Can't create an empty blog." );
 		$blog = $_POST['blog'];
@@ -187,6 +190,9 @@ switch ( $_GET['action'] ) {
 
 	case "updateblog":
 		check_admin_referer('editblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		if ( empty( $_POST ) )
 			wp_die( __('You probably need to go back to the <a href="ms-sites.php">sites page</a>') );
 
@@ -288,6 +294,9 @@ switch ( $_GET['action'] ) {
 
 	case "deleteblog":
 		check_admin_referer('deleteblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		if ( $id != '0' && $id != $current_site->blog_id )
 			wpmu_delete_blog( $id, true );
 
@@ -297,6 +306,9 @@ switch ( $_GET['action'] ) {
 
 	case "allblogs":
 		check_admin_referer('allblogs');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		foreach ( (array) $_POST[ 'allblogs' ] as $key => $val ) {
 			if ( $val != '0' && $val != $current_site->blog_id ) {
 				if ( isset($_POST['allblog_delete']) ) {
@@ -320,6 +332,9 @@ switch ( $_GET['action'] ) {
 
 	case "archiveblog":
 		check_admin_referer('archiveblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		update_blog_status( $id, "archived", '1' );
 		do_action( "archive_blog", $id );
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'archive'), $_POST['ref'] ) );
@@ -328,6 +343,9 @@ switch ( $_GET['action'] ) {
 
 	case "unarchiveblog":
 		check_admin_referer('unarchiveblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		do_action( "unarchive_blog", $id );
 		update_blog_status( $id, "archived", '0' );
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'unarchive'), $_POST['ref'] ) );
@@ -336,6 +354,9 @@ switch ( $_GET['action'] ) {
 
 	case "activateblog":
 		check_admin_referer('activateblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		update_blog_status( $id, "deleted", '0' );
 		do_action( "activate_blog", $id );
 		wp_redirect( add_query_arg( "updated", array('updated' => 'true', 'action' => 'activate'), $_POST['ref'] ) );
@@ -344,6 +365,9 @@ switch ( $_GET['action'] ) {
 
 	case "deactivateblog":
 		check_admin_referer('deactivateblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		do_action( "deactivate_blog", $id );
 		update_blog_status( $id, "deleted", '1' );
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'deactivate'), $_POST['ref'] ) );
@@ -352,6 +376,9 @@ switch ( $_GET['action'] ) {
 
 	case "unspamblog":
 		check_admin_referer('unspamblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		update_blog_status( $id, "spam", '0' );
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'unspam'), $_POST['ref'] ) );
 		exit();
@@ -359,6 +386,9 @@ switch ( $_GET['action'] ) {
 
 	case "spamblog":
 		check_admin_referer('spamblog');
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		update_blog_status( $id, "spam", '1' );
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'spam'), $_POST['ref'] ) );
 		exit();
@@ -381,6 +411,9 @@ switch ( $_GET['action'] ) {
 
 	// Themes
     case "updatethemes":
+	if ( ! current_user_can( 'manage_network_themes' ) )
+		wp_die( __('You do not have permission to access this page.') );
+
     	if ( is_array( $_POST['theme'] ) ) {
 			$themes = get_themes();
 			reset( $themes );
@@ -438,6 +471,9 @@ switch ( $_GET['action'] ) {
 
 	case "allusers":
 		check_admin_referer('allusers');
+		if ( ! current_user_can( 'manage_network_users' ) )
+			wp_die( __('You do not have permission to access this page.') );
+
 		if ( isset($_POST['alluser_delete']) ) {
 			require_once('admin-header.php');
 			echo '<div class="wrap" style="position:relative;">';
@@ -487,6 +523,8 @@ switch ( $_GET['action'] ) {
 
 	case "adduser":
 		check_admin_referer('add-user');
+		if ( ! current_user_can( 'manage_network_users' ) )
+			wp_die( __('You do not have permission to access this page.') );
 
 		if ( is_array( $_POST[ 'user' ] ) == false )
 			wp_die( __( "Cannot create an empty user." ) );

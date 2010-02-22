@@ -14,7 +14,7 @@ add_action( 'admin_head', 'index_css' );
 
 require_once('admin-header.php');
 
-if ( !is_super_admin() )
+if ( ! current_user_can( 'manage_network' ) )
 	wp_die( __('You do not have permission to access this page.') );
 
 global $wpdb;

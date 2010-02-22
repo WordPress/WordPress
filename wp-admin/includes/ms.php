@@ -652,7 +652,7 @@ function site_admin_notice() {
 		return false;
 	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a site administrator.") . "</div>", $current_user->user_login);
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
-		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="ms-upgrade-site.php">Upgrade Site</a> page to update all your blogs.' ) . "</div>";
+		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="ms-upgrade-network.php">Upgrade Network</a> page to update all your blogs.' ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'site_admin_notice' );

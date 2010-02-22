@@ -27,14 +27,14 @@ $awaiting_mod = $awaiting_mod->moderated;
 
 if ( is_multisite() && is_super_admin() ) {
 	/* translators: Network menu item */
-	$menu[0] = array(__('Network'), 'super_admin', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
-	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'super_admin', 'ms-admin.php' );
+	$menu[0] = array(__('Network'), 'manage_network', 'ms-admin.php', '', 'menu-top menu-top-first', 'menu-site', 'div');
+	$submenu[ 'ms-admin.php' ][1] = array( __('Admin'), 'manage_network', 'ms-admin.php' );
 	/* translators: Sites menu item */
-	$submenu[ 'ms-admin.php' ][5] = array( __('Sites'), 'super_admin', 'ms-sites.php' );
-	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'super_admin', 'ms-users.php' );
-	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'super_admin', 'ms-themes.php' );
-	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'super_admin', 'ms-options.php' );
-	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'super_admin', 'ms-upgrade-site.php' );
+	$submenu[ 'ms-admin.php' ][5] = array( __('Sites'), 'manage_sites', 'ms-sites.php' );
+	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'manage_network_users', 'ms-users.php' );
+	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'manage_network_themes', 'ms-themes.php' );
+	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'manage_network_options', 'ms-options.php' );
+	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'manage_network', 'ms-upgrade-network.php' );
 
 	$menu[1] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
