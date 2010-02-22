@@ -3133,16 +3133,20 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	// export array as variables
 	extract($object, EXTR_SKIP);
 
-	// Make sure we set a valid category
-	if ( !isset($post_category) || 0 == count($post_category) || !is_array($post_category)) {
-		$post_category = array(get_option('default_category'));
-	}
-
 	if ( empty($post_author) )
 		$post_author = $user_ID;
 
 	$post_type = 'attachment';
 	$post_status = 'inherit';
+	
+	// Make sure we set a valid category.
+	if ( !isset($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
+		// 'post' requires at least one category.
+		if ( 'post' == $post_type )
+			$post_category = array( get_option('default_category') );
+		else
+			$post_category = array();
+	}	
 
 	// Are we updating or creating?
 	if ( !empty($ID) ) {
