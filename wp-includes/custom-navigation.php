@@ -116,11 +116,17 @@ function wp_custom_navigation_output($args = array()) {
 			$queried_id = $wp_query->get_queried_object_id();
 
 		$parent_stack = array();
+		$parent_menu_order = array();
 	    // Display Loop
 		foreach ( $menu_items as $menu_item ) {
 			$menu_type = get_post_meta($menu_item->ID, 'menu_type', true);
 			$object_id = get_post_meta($menu_item->ID, 'object_id', true);
-			
+			$parent_menu_order[ $menu_item->ID ] = $menu_item->menu_order;
+			if ( isset( $parent_menu_order[ $menu_item->post_parent ] ) )
+				$parent_item = $parent_menu_order[ $menu_item->post_parent ];
+			else
+				$parent_item = 0;
+
 			switch ( $menu_type ) {
 				// Page Menu Item
 				case 'page':
@@ -209,7 +215,11 @@ function wp_custom_navigation_output($args = array()) {
 <?						array_shift( $parent_stack );
 					}
 				}
-			} else { ?>
+			} else {
+				while ( count( $parent_stack ) > 1 ) { ?>
+			</li></ul>
+<?					array_shift( $parent_stack );
+				} ?>
 			</li>
 <?php				$parent_stack[0] = $menu_item->ID;
 			}
@@ -267,7 +277,7 @@ function wp_custom_navigation_output($args = array()) {
 						<a><span class=""></span></a>
 						<input type="hidden" name="dbid<?php echo $menu_item->menu_order; ?>" id="dbid<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->ID; ?>" />
 						<input type="hidden" name="postmenu<?php echo $menu_item->menu_order; ?>" id="postmenu<?php echo $menu_item->menu_order; ?>" value="<?php echo $id; ?>" />
-						<input type="hidden" name="parent<?php echo $menu_item->menu_order; ?>" id="parent<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->post_parent; ?>" />
+						<input type="hidden" name="parent<?php echo $menu_item->menu_order; ?>" id="parent<?php echo $menu_item->menu_order; ?>" value="<?php echo $parent_item; ?>" />
 						<input type="hidden" name="title<?php echo $menu_item->menu_order; ?>" id="title<?php echo $menu_item->menu_order; ?>" value="<?php echo $title; ?>" />
 						<input type="hidden" name="linkurl<?php echo $menu_item->menu_order; ?>" id="linkurl<?php echo $menu_item->menu_order; ?>" value="<?php echo $link; ?>" />
 						<input type="hidden" name="description<?php echo $menu_item->menu_order; ?>" id="description<?php echo $menu_item->menu_order; ?>" value="<?php echo $description; ?>" />
