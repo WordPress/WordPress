@@ -114,6 +114,8 @@ function wp_custom_navigation_output($args = array()) {
 			$queried_id = $wp_query->get_queried_object_id();
 		elseif ( is_category() )
 			$queried_id = $wp_query->get_queried_object_id();
+
+		$parent_stack = array();
 	    // Display Loop
 		foreach ( $menu_items as $menu_item ) {
 			$menu_type = get_post_meta($menu_item->ID, 'menu_type', true);
@@ -191,6 +193,27 @@ function wp_custom_navigation_output($args = array()) {
 				}
 			}
 */
+			// Indent children
+			if ( empty( $parent_stack ) ) {
+				array_unshift( $parent_stack, $menu_item->ID );
+			} elseif ( $menu_item->post_parent > 0 ) {
+				if ( $menu_item->post_parent == $parent_stack[0] ) { ?>
+			<ul>
+<?php					array_unshift( $parent_stack, $menu_item->ID );
+				} elseif ( count( $parent_stack ) > 1 && $menu_item->post_parent == $parent_stack[1] ) { ?>
+			</li>
+<?php					$parent_stack[0] = $menu_item->ID;
+				} elseif ( in_array( $menu_item->post_parent, $parent_stack ) ) {
+					while ( !empty( $parent_stack ) && $menu_item->post_parent != $parent_stack[0] ) { ?>
+			</li></ul>
+<?						array_shift( $parent_stack );
+					}
+				}
+			} else { ?>
+			</li>
+<?php				$parent_stack[0] = $menu_item->ID;
+			}
+
 			// List Items
 			?><li id="menu-<?php echo $menu_item->ID; ?>" value="<?php echo $menu_item->ID; ?>" <?php echo $li_class; ?>><?php
 					//@todo: update front end to use post data
@@ -256,27 +279,14 @@ function wp_custom_navigation_output($args = array()) {
 
 						<?php
 					}
-
-					//@todo: implement menu heirarchy
-/*					//DISPLAY menu sub items
-					if ($wp_custom_nav_menu_items->parent_id == 0)
-					{
-						//FRONTEND
-						if ($type == 'frontend')
-						{
-							//Recursive function
-							$intj = wp_custom_navigation_sub_items($wp_custom_nav_menu_items->id,$wp_custom_nav_menu_items->link_type,$table_name,$type,$wp_custom_nav_menu_id);
-						}
-						//BACKEND
-						else
-						{
-							//Recursive function
-							$intj = wp_custom_navigation_sub_items($wp_custom_nav_menu_items->id,$wp_custom_nav_menu_items->link_type,$table_name,$type,$id);
-						}
-					}
-*/			?></li>
-			<?php
 		}
+		while ( !empty( $parent_stack ) ) { ?>
+			</li></ul>
+<?			array_shift( $parent_stack );
+		} 
+		if ( !empty( $menu_items ) ) { ?>
+		</li>
+<?php		}
 }
 //@todo: implement menu heirarchy
 //RECURSIVE Sub Menu Items

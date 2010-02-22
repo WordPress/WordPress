@@ -134,7 +134,6 @@ function wp_custom_navigation() {
  		for ( $k = 1; $k <= $postCounter; $k++ ) {
  			if (isset($_POST['dbid'.$k])) { $db_id = $_POST['dbid'.$k]; } else { $db_id = 0; }
  			if (isset($_POST['postmenu'.$k])) { $object_id = $_POST['postmenu'.$k]; } else { $object_id = 0; }
-			//@todo implement heirarchy
 			if (isset($_POST['parent'.$k])) { $parent_id = $_POST['parent'.$k]; } else { $parent_id = 0; }
  			if (isset($_POST['title'.$k])) { $custom_title = $_POST['title'.$k]; } else { $custom_title = ''; }
  			if (isset($_POST['linkurl'.$k])) { $custom_linkurl = $_POST['linkurl'.$k]; } else { $custom_linkurl = ''; }
@@ -154,6 +153,8 @@ function wp_custom_navigation() {
 				$post['post_content_filtered'] = '_blank';
 			else
 				$post['post_content_filtered'] = '';
+			if ( $parent_id > 0 && isset( $_POST[ 'dbid' . $parent_id ] ) )
+				$post[ 'post_parent' ] = (int) $_POST[ 'dbid' . $parent_id ];
 
 			// New menu item
 	 		if ( $db_id == 0 ) {
