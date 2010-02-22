@@ -397,7 +397,7 @@ switch ( $_GET['action'] ) {
 	// Common
 	case "confirm":
 		$referrer = ( isset($_GET['ref']) ) ? stripslashes($_GET['ref']) : $_SERVER['HTTP_REFERER'];
-		$referrer = clean_url($referrer);
+		$referrer = esc_url($referrer);
 		if ( !headers_sent() ) {
 			nocache_headers();
 			header( 'Content-Type: text/html; charset=utf-8' );

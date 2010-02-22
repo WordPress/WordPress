@@ -261,7 +261,7 @@ Regards,
 All at ###SITENAME###
 ###SITEURL###"), $new_admin_email );
 
-	$content = str_replace('###ADMIN_URL###', clean_url(get_option( "siteurl" ).'/wp-admin/options.php?adminhash='.$hash), $content);
+	$content = str_replace('###ADMIN_URL###', esc_url(get_option( "siteurl" ).'/wp-admin/options.php?adminhash='.$hash), $content);
 	$content = str_replace('###EMAIL###', $value, $content);
 	$content = str_replace('###SITENAME###', get_site_option( 'site_name' ), $content);
 	$content = str_replace('###SITEURL###', 'http://' . $current_site->domain . $current_site->path, $content);
@@ -312,7 +312,7 @@ Regards,
 All at ###SITENAME###
 ###SITEURL###"), $new_user_email );
 
-		$content = str_replace('###ADMIN_URL###', clean_url(get_option( "siteurl" ).'/wp-admin/profile.php?newuseremail='.$hash), $content);
+		$content = str_replace('###ADMIN_URL###', esc_url(get_option( "siteurl" ).'/wp-admin/profile.php?newuseremail='.$hash), $content);
 		$content = str_replace('###EMAIL###', $_POST[ 'email' ], $content);
 		$content = str_replace('###SITENAME###', get_site_option( 'site_name' ), $content);
 		$content = str_replace('###SITEURL###', 'http://' . $current_site->domain . $current_site->path, $content);

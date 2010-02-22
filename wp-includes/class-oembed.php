@@ -215,7 +215,7 @@ class WP_oEmbed {
 					return false;
 
 				$title = ( !empty($data->title) ) ? $data->title : '';
-				$return = '<img src="' . esc_attr( clean_url( $data->url ) ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" />';
+				$return = '<img src="' . esc_url( $data->url ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" />';
 				break;
 
 			case 'video':
@@ -224,7 +224,7 @@ class WP_oEmbed {
 				break;
 
 			case 'link':
-				$return = ( !empty($data->title) ) ? '<a href="' . clean_url($url) . '">' . esc_html($data->title) . '</a>' : false;
+				$return = ( !empty($data->title) ) ? '<a href="' . esc_url($url) . '">' . esc_html($data->title) . '</a>' : false;
 				break;
 
 			default;

@@ -2070,7 +2070,7 @@ function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
  */
 function sanitize_url( $url, $protocols = null ) {
 	_deprecated_function( __FUNCTION__, '2.8', 'esc_url_raw()' );
-	return clean_url( $url, $protocols, 'db' );
+	return esc_url_raw( $url, $protocols );
 }
 
 /**
