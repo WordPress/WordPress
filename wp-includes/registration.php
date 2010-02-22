@@ -202,20 +202,20 @@ function wp_insert_user($userdata) {
 		$user_id = (int) $wpdb->insert_id;
 	}
 
-	update_usermeta( $user_id, 'first_name', $first_name);
-	update_usermeta( $user_id, 'last_name', $last_name);
-	update_usermeta( $user_id, 'nickname', $nickname );
-	update_usermeta( $user_id, 'description', $description );
-	update_usermeta( $user_id, 'rich_editing', $rich_editing);
-	update_usermeta( $user_id, 'comment_shortcuts', $comment_shortcuts);
-	update_usermeta( $user_id, 'admin_color', $admin_color);
-	update_usermeta( $user_id, 'use_ssl', $use_ssl);
+	update_user_meta( $user_id, 'first_name', $first_name);
+	update_user_meta( $user_id, 'last_name', $last_name);
+	update_user_meta( $user_id, 'nickname', $nickname );
+	update_user_meta( $user_id, 'description', $description );
+	update_user_meta( $user_id, 'rich_editing', $rich_editing);
+	update_user_meta( $user_id, 'comment_shortcuts', $comment_shortcuts);
+	update_user_meta( $user_id, 'admin_color', $admin_color);
+	update_user_meta( $user_id, 'use_ssl', $use_ssl);
 
 	foreach ( _wp_get_user_contactmethods() as $method => $name ) {
 		if ( empty($$method) )
 			$$method = '';
 
-		update_usermeta( $user_id, $method, $$method );
+		update_user_meta( $user_id, $method, $$method );
 	}
 
 	if ( isset($role) ) {

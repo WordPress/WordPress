@@ -567,7 +567,7 @@ class WP_User {
 	 */
 	function add_role( $role ) {
 		$this->caps[$role] = true;
-		update_usermeta( $this->ID, $this->cap_key, $this->caps );
+		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
 	}
@@ -584,7 +584,7 @@ class WP_User {
 		if ( empty( $this->roles[$role] ) || ( count( $this->roles ) <= 1 ) )
 			return;
 		unset( $this->caps[$role] );
-		update_usermeta( $this->ID, $this->cap_key, $this->caps );
+		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 	}
 
@@ -609,7 +609,7 @@ class WP_User {
 		} else {
 			$this->roles = false;
 		}
-		update_usermeta( $this->ID, $this->cap_key, $this->caps );
+		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
 		do_action( 'set_user_role', $this->ID, $role );
@@ -656,7 +656,7 @@ class WP_User {
 	function update_user_level_from_caps() {
 		global $wpdb;
 		$this->user_level = array_reduce( array_keys( $this->allcaps ), array( &$this, 'level_reduction' ), 0 );
-		update_usermeta( $this->ID, $wpdb->prefix . 'user_level', $this->user_level );
+		update_user_meta( $this->ID, $wpdb->prefix . 'user_level', $this->user_level );
 	}
 
 	/**
@@ -670,7 +670,7 @@ class WP_User {
 	 */
 	function add_cap( $cap, $grant = true ) {
 		$this->caps[$cap] = $grant;
-		update_usermeta( $this->ID, $this->cap_key, $this->caps );
+		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 	}
 
 	/**
@@ -685,7 +685,7 @@ class WP_User {
 		if ( empty( $this->caps[$cap] ) )
 			return;
 		unset( $this->caps[$cap] );
-		update_usermeta( $this->ID, $this->cap_key, $this->caps );
+		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 	}
 
 	/**
@@ -697,8 +697,8 @@ class WP_User {
 	function remove_all_caps() {
 		global $wpdb;
 		$this->caps = array();
-		update_usermeta( $this->ID, $this->cap_key, '' );
-		update_usermeta( $this->ID, $wpdb->prefix . 'user_level', '' );
+		update_user_meta( $this->ID, $this->cap_key, '' );
+		update_user_meta( $this->ID, $wpdb->prefix . 'user_level', '' );
 		$this->get_role_caps();
 	}
 

@@ -424,7 +424,7 @@ function set_screen_options() {
 				break;
 		}
 
-		update_usermeta($user->ID, $option, $value);
+		update_user_meta($user->ID, $option, $value);
 		wp_redirect( remove_query_arg( array('pagenum', 'apage', 'paged'), wp_get_referer() ) );
 		exit;
 	}

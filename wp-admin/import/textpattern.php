@@ -265,8 +265,8 @@ class Textpattern_Import {
 				if('2'  == $transperms[$privs]) { $user->set_role('contributor'); }
 				if('0'  == $transperms[$privs]) { $user->set_role('subscriber'); }
 
-				update_usermeta( $ret_id, 'wp_user_level', $transperms[$privs] );
-				update_usermeta( $ret_id, 'rich_editing', 'false');
+				update_user_meta( $ret_id, 'wp_user_level', $transperms[$privs] );
+				update_user_meta( $ret_id, 'rich_editing', 'false');
 			}// End foreach($users as $user)
 
 			// Store id translation array for future use

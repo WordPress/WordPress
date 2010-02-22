@@ -77,25 +77,25 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 	if ( empty( $blogs ) ) {
 		$details = get_dashboard_blog();
 		add_user_to_blog( $details->blog_id, $user_id, 'subscriber' );
-		update_usermeta( $user_id, 'primary_blog', $details->blog_id );
+		update_user_meta( $user_id, 'primary_blog', $details->blog_id );
 		wp_cache_delete( $user_id, 'users' );
 		return $details;
 	}
 
-	$primary_blog = get_usermeta( $user_id, "primary_blog" );
+	$primary_blog = get_user_meta( $user_id, "primary_blog" );
 	$details = get_dashboard_blog();
 	if ( $primary_blog ) {
 		$blogs = get_blogs_of_user( $user_id );
 		if ( isset( $blogs[ $primary_blog ] ) == false ) {
 			add_user_to_blog( $details->blog_id, $user_id, 'subscriber' );
-			update_usermeta( $user_id, 'primary_blog', $details->blog_id );
+			update_user_meta( $user_id, 'primary_blog', $details->blog_id );
 			wp_cache_delete( $user_id, 'users' );
 		} else {
 			$details = get_blog_details( $primary_blog );
 		}
 	} else {
 		add_user_to_blog( $details->blog_id, $user_id, 'subscriber' ); // Add subscriber permission for dashboard blog
-		update_usermeta( $user_id, 'primary_blog', $details->blog_id );
+		update_user_meta( $user_id, 'primary_blog', $details->blog_id );
 	}
 
 	if ( ( is_object( $details ) == false ) || ( is_object( $details ) && $details->archived == 1 || $details->spam == 1 || $details->deleted == 1 ) ) {
@@ -109,12 +109,12 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 				if ( is_object( $details ) && $details->archived == 0 && $details->spam == 0 && $details->deleted == 0 ) {
 					$ret = $blog;
 					$changed = false;
-					if ( get_usermeta( $user_id , 'primary_blog' ) != $blog_id ) {
-						update_usermeta( $user_id, 'primary_blog', $blog_id );
+					if ( get_user_meta( $user_id , 'primary_blog' ) != $blog_id ) {
+						update_user_meta( $user_id, 'primary_blog', $blog_id );
 						$changed = true;
 					}
-					if ( !get_usermeta($user_id , 'source_domain') ) {
-						update_usermeta( $user_id, 'source_domain', $blog->domain );
+					if ( !get_user_meta($user_id , 'source_domain') ) {
+						update_user_meta( $user_id, 'source_domain', $blog->domain );
 						$changed = true;
 					}
 					if ( $changed )
@@ -126,7 +126,7 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 			// Should never get here
 			$dashboard_blog = get_dashboard_blog();
 			add_user_to_blog( $dashboard_blog->blog_id, $user_id, 'subscriber' ); // Add subscriber permission for dashboard blog
-			update_usermeta( $user_id, 'primary_blog', $dashboard_blog->blog_id );
+			update_user_meta( $user_id, 'primary_blog', $dashboard_blog->blog_id );
 			return $dashboard_blog;
 		}
 		return $ret;
@@ -248,10 +248,10 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 	if ( empty($user) )
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 
-	if ( !get_usermeta($user_id, 'primary_blog') ) {
-		update_usermeta($user_id, 'primary_blog', $blog_id);
+	if ( !get_user_meta($user_id, 'primary_blog') ) {
+		update_user_meta($user_id, 'primary_blog', $blog_id);
 		$details = get_blog_details($blog_id);
-		update_usermeta($user_id, 'source_domain', $details->domain);
+		update_user_meta($user_id, 'source_domain', $details->domain);
 	}
 
 	$user->set_role($role);
@@ -270,7 +270,7 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 
 	// If being removed from the primary blog, set a new primary if the user is assigned
 	// to multiple blogs.
-	$primary_blog = get_usermeta($user_id, 'primary_blog');
+	$primary_blog = get_user_meta($user_id, 'primary_blog');
 	if ( $primary_blog == $blog_id ) {
 		$new_id = '';
 		$new_domain = '';
@@ -283,8 +283,8 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 			break;
 		}
 
-		update_usermeta($user_id, 'primary_blog', $new_id);
-		update_usermeta($user_id, 'source_domain', $new_domain);
+		update_user_meta($user_id, 'primary_blog', $new_id);
+		update_user_meta($user_id, 'source_domain', $new_domain);
 	}
 
 	// wp_revoke_user($user_id);
@@ -293,8 +293,8 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 
 	$blogs = get_blogs_of_user($user_id);
 	if ( count($blogs) == 0 ) {
-		update_usermeta($user_id, 'primary_blog', '');
-		update_usermeta($user_id, 'source_domain', '');
+		update_user_meta($user_id, 'primary_blog', '');
+		update_user_meta($user_id, 'source_domain', '');
 	}
 
 	if ( $reassign != '' ) {
@@ -826,8 +826,8 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 	add_option( 'WPLANG', get_site_option( 'WPLANG' ) );
 	update_option( 'blog_public', $meta['public'] );
 
-	if ( !is_super_admin() && get_usermeta( $user_id, 'primary_blog' ) == get_site_option( 'dashboard_blog', 1 ) )
-		update_usermeta( $user_id, 'primary_blog', $blog_id );
+	if ( !is_super_admin() && get_user_meta( $user_id, 'primary_blog' ) == get_site_option( 'dashboard_blog', 1 ) )
+		update_user_meta( $user_id, 'primary_blog', $blog_id );
 
 	restore_current_blog();
 	do_action( 'wpmu_new_blog', $blog_id, $user_id );
@@ -1306,7 +1306,7 @@ function add_new_user_to_blog( $user_id, $email, $meta ) {
 		$role = $meta[ 'new_role' ];
 		remove_user_from_blog($user_id, $current_site->blogid); // remove user from main blog.
 		add_user_to_blog( $blog_id, $user_id, $role );
-		update_usermeta( $user_id, 'primary_blog', $blog_id );
+		update_user_meta( $user_id, 'primary_blog', $blog_id );
 	}
 }
 

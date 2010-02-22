@@ -123,7 +123,7 @@ if ( !is_multisite() ) {
 	if ( !isset( $errors ) || ( isset( $errors ) && is_object( $errors ) && false == $errors->get_error_codes() ) )
 		$errors = edit_user($user_id);
 	if ( $delete_role ) // stops users being added to current blog when they are edited
-		update_usermeta( $user_id, $blog_prefix . 'capabilities' , '' );
+		update_user_meta( $user_id, $blog_prefix . 'capabilities' , '' );
 }
 
 if ( !is_wp_error( $errors ) ) {

@@ -30,7 +30,7 @@ $status = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : $defa
 if ( !in_array($status, array('all', 'active', 'inactive', 'recent', 'upgrade', 'network', 'mustuse', 'dropins', 'search')) )
 	$status = 'all';
 if ( $status != $default_status && 'search' != $status )
-	update_usermeta($current_user->ID, 'plugins_last_view', $status);
+	update_user_meta($current_user->ID, 'plugins_last_view', $status);
 
 $page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 1;
 

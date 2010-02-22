@@ -267,7 +267,7 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 	global $wpdb;
 	if ( !$global )
 		$option_name = $wpdb->prefix . $option_name;
-	return update_usermeta( $user_id, $option_name, $newvalue );
+	return update_user_meta( $user_id, $option_name, $newvalue );
 }
 
 /**

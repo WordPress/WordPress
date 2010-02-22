@@ -257,10 +257,10 @@ class Dotclear_Import {
 				else if (2  <= $wp_perms) { $user->set_role('contributor'); }
 				else                     { $user->set_role('subscriber'); }
 
-				update_usermeta( $ret_id, 'wp_user_level', $wp_perms);
-				update_usermeta( $ret_id, 'rich_editing', 'false');
-				update_usermeta( $ret_id, 'first_name', csc ($user_prenom));
-				update_usermeta( $ret_id, 'last_name', csc ($user_nom));
+				update_user_meta( $ret_id, 'wp_user_level', $wp_perms);
+				update_user_meta( $ret_id, 'rich_editing', 'false');
+				update_user_meta( $ret_id, 'first_name', csc ($user_prenom));
+				update_user_meta( $ret_id, 'last_name', csc ($user_nom));
 			}// End foreach($users as $user)
 
 			// Store id translation array for future use

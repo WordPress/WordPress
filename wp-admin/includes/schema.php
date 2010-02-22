@@ -721,8 +721,8 @@ Thanks!
 	if ( !is_multisite() ) {
 		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'domain' => $domain, 'path' => $path ) );
 		$blog_id = $wpdb->insert_id;
-		update_usermeta( $site_user->ID, 'source_domain', $domain );
-		update_usermeta( $site_user->ID, 'primary_blog', $blog_id );
+		update_user_meta( $site_user->ID, 'source_domain', $domain );
+		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
 	}
 
 	if ( $vhost == 'yes' )

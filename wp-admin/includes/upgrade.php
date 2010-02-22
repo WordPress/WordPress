@@ -671,23 +671,23 @@ function upgrade_160() {
 	$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
 	foreach ( $users as $user ) :
 		if ( !empty( $user->user_firstname ) )
-			update_usermeta( $user->ID, 'first_name', $wpdb->escape($user->user_firstname) );
+			update_user_meta( $user->ID, 'first_name', $wpdb->escape($user->user_firstname) );
 		if ( !empty( $user->user_lastname ) )
-			update_usermeta( $user->ID, 'last_name', $wpdb->escape($user->user_lastname) );
+			update_user_meta( $user->ID, 'last_name', $wpdb->escape($user->user_lastname) );
 		if ( !empty( $user->user_nickname ) )
-			update_usermeta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
+			update_user_meta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
 		if ( !empty( $user->user_level ) )
-			update_usermeta( $user->ID, $wpdb->prefix . 'user_level', $user->user_level );
+			update_user_meta( $user->ID, $wpdb->prefix . 'user_level', $user->user_level );
 		if ( !empty( $user->user_icq ) )
-			update_usermeta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
+			update_user_meta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_aim ) )
-			update_usermeta( $user->ID, 'aim', $wpdb->escape($user->user_aim) );
+			update_user_meta( $user->ID, 'aim', $wpdb->escape($user->user_aim) );
 		if ( !empty( $user->user_msn ) )
-			update_usermeta( $user->ID, 'msn', $wpdb->escape($user->user_msn) );
+			update_user_meta( $user->ID, 'msn', $wpdb->escape($user->user_msn) );
 		if ( !empty( $user->user_yim ) )
-			update_usermeta( $user->ID, 'yim', $wpdb->escape($user->user_icq) );
+			update_user_meta( $user->ID, 'yim', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_description ) )
-			update_usermeta( $user->ID, 'description', $wpdb->escape($user->user_description) );
+			update_user_meta( $user->ID, 'description', $wpdb->escape($user->user_description) );
 
 		if ( isset( $user->user_idmode ) ):
 			$idmode = $user->user_idmode;
@@ -702,11 +702,11 @@ function upgrade_160() {
 		endif;
 
 		// FIXME: RESET_CAPS is temporary code to reset roles and caps if flag is set.
-		$caps = get_usermeta( $user->ID, $wpdb->prefix . 'capabilities');
+		$caps = get_user_meta( $user->ID, $wpdb->prefix . 'capabilities');
 		if ( empty($caps) || defined('RESET_CAPS') ) {
-			$level = get_usermeta($user->ID, $wpdb->prefix . 'user_level');
+			$level = get_user_meta($user->ID, $wpdb->prefix . 'user_level');
 			$role = translate_level_to_role($level);
-			update_usermeta( $user->ID, $wpdb->prefix . 'capabilities', array($role => true) );
+			update_user_meta( $user->ID, $wpdb->prefix . 'capabilities', array($role => true) );
 		}
 
 	endforeach;

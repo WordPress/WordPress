@@ -96,7 +96,7 @@ switch ( $_GET['action'] ) {
 				foreach ( (array)$move_users as $user_id ) {
 					remove_user_from_blog($user_id, get_site_option( 'dashboard_blog' ) );
 					add_user_to_blog( $dashboard_blog_id, $user_id, get_site_option( 'default_user_role', 'subscriber' ) );
-					update_usermeta( $user_id, 'primary_blog', $dashboard_blog_id );
+					update_user_meta( $user_id, 'primary_blog', $dashboard_blog_id );
 				}
 			}
 		}
