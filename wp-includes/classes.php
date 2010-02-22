@@ -461,21 +461,22 @@ class WP {
  	}
 
  	/**
- 	 * Set the Headers for 404, if permalink is not found.
+ 	 * Set the Headers for 404, if nothing is found for requested URL.
 	 *
-	 * Issue a 404 if a permalink request doesn't match any posts.  Don't issue
-	 * a 404 if one was already issued, if the request was a search, or if the
-	 * request was a regular query string request rather than a permalink
-	 * request. Issues a 200, if not 404.
+	 * Issue a 404 if a request doesn't match any posts and doesn't match
+	 * any object (e.g. an existing-but-empty category, tag, author) and a 404 was not already
+	 * issued, and if the request was not a search or the homepage.
+	 *
+	 * Otherwise, issue a 200.
 	 *
 	 * @since 2.0.0
  	 */
 	function handle_404() {
 		global $wp_query;
 
-		if ( (0 == count($wp_query->posts)) && !is_404() && !is_robots() && !is_search() && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) && (false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
+		if ( ( 0 == count( $wp_query->posts ) ) && !is_404() && !is_search() && !is_home() ) {
 			// Don't 404 for these queries if they matched an object.
-			if ( ( is_tag() || is_category() || is_author() ) && $wp_query->get_queried_object() ) {
+			if ( ( is_tag() || is_category() || is_tax() || is_author() ) && $wp_query->get_queried_object() ) {
 				if ( !is_404() )
 					status_header( 200 );
 				return;
