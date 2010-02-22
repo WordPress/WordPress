@@ -208,7 +208,7 @@ function _wp_ajax_add_hierarchical_term() {
 	$action = $_POST['action'];
 	$taxonomy = get_taxonomy(substr($action, 4));
 	check_ajax_referer( $action );
-	if ( !current_user_can( $taxonomy->manage_cap ) )
+	if ( !current_user_can( $taxonomy->edit_cap ) )
 		die('-1');
 	$names = explode(',', $_POST['new'.$taxonomy->name]);
 	$parent = isset($_POST['new'.$taxonomy->name.'_parent']) ? (int) $_POST['new'.$taxonomy->name.'_parent'] : 0;

@@ -256,6 +256,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		if ( empty($args[$cap]) )
 			$args[$cap] = 'manage_categories';
 	}
+	if ( empty($args['assign_cap']) )
+		$args['assign_cap'] = 'edit_posts';
 
 	if ( empty($args['singular_label']) )
 		$args['singular_label'] = $args['label'];

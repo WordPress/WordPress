@@ -247,7 +247,7 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
 function post_tags_meta_box($post, $box) {
 	$tax_name = esc_attr(substr($box['id'], 8));
 	$taxonomy = get_taxonomy($tax_name);
-	if ( !current_user_can($taxonomy->manage_cap) ) // @todo: Display the terms, do not edit.
+	if ( !current_user_can($taxonomy->assign_cap) ) // @todo: Display the terms, do not edit.
 		return;
 	$helps = isset($taxonomy->helps) ? esc_attr($taxonomy->helps) : __('Separate tags with commas.');
 ?>

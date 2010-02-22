@@ -315,7 +315,7 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 	$args = array('taxonomy' => $taxonomy);
 
 	$tax = get_taxonomy($taxonomy);
-	$args['disabled'] = !current_user_can($tax->manage_cap);
+	$args['disabled'] = !current_user_can($tax->assign_cap);
 
 	if ( is_array( $selected_cats ) )
 		$args['selected_cats'] = $selected_cats;
@@ -378,7 +378,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	$terms = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
 
 	$tax = get_taxonomy($taxonomy);
-	if ( ! current_user_can($tax->manage_cap) )
+	if ( ! current_user_can($tax->assign_cap) )
 		$disabled = 'disabled="disabled"';
 	else
 		$disabled = '';

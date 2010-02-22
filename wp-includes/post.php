@@ -2185,7 +2185,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( !empty($tax_input) ) {
 		foreach ( $tax_input as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy($taxonomy);
-			if ( current_user_can($taxonomy_obj->manage_cap) )
+			if ( current_user_can($taxonomy_obj->assign_cap) )
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
 		}
 	}
