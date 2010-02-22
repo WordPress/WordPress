@@ -365,8 +365,13 @@ $recent_plugins = array();
 $recently_activated = get_option('recently_activated', array());
 $upgrade_plugins = array();
 $network_plugins = array();
-$mustuse_plugins = ( is_multisite() && is_super_admin() ) || ! is_multisite() ? get_mu_plugins() : array();
-$dropins_plugins = ( is_multisite() && is_super_admin() ) || ! is_multisite() ? get_dropins() : array();
+$mustuse_plugins = $dropins_plugins = array();
+if ( ! is_multisite() || ( is_multisite() && current_user_can('manage_network_plugins') ) ) {
+	if ( apply_filters( 'show_advanced_plugins', true, 'mustuse' ) )
+		$mustuse_plugins = get_mu_plugins();
+	if ( apply_filters( 'show_advanced_plugins', true, 'dropins' ) )
+		$dropins_plugins = get_dropins();
+}
 
 set_transient( 'plugin_slugs', array_keys($all_plugins), 86400 );
 
