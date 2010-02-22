@@ -273,7 +273,7 @@ function wp_custom_navigation_output($args = array()) {
 <?php					while ( !empty( $parent_stack ) && ($last_item || $menu_items[ $key + 1 ]->post_parent != $current_parent ) ) { ?>
 			</ul>
 		</li>
-<?						$current_parent = array_pop( $parent_stack );
+<?php					$current_parent = array_pop( $parent_stack );
 					} ?>
 <?php				} else {
 					array_push( $parent_stack, $current_parent );
