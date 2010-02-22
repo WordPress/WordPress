@@ -530,7 +530,7 @@ function wp_custom_navigation() {
             		<input id="custom_menu_item_name" type="text" value="Menu Item" onfocus="jQuery('#custom_menu_item_name').attr('value','');"  />
             		<label><?php _e('Menu Text'); ?></label><br />
            			<input id="custom_menu_item_description" type="text" value="<?php esc_attr_e('A description'); ?>" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
-           			<label <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> >Description</label>
+           			<label <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> ><?php _e('Description'); ?></label>
            			<a class="addtomenu" onclick="appendToList('<?php echo $templatedir; ?>','Custom','','','','0','');jQuery('#custom_menu_item_name').attr('value','Menu Item');jQuery('#custom_menu_item_description').attr('value','A description');"><?php _e('Add to menu'); ?></a>
 					<div class="fix"></div>
 				</div>
@@ -546,14 +546,14 @@ function wp_custom_navigation() {
 	</script>
 
 	<div id="dialog-confirm" title="<?php esc_attr_e('Edit Menu Item'); ?>">
-		</label><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle">Menu Title</label><br />
-		<input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink">URL</label><br />
-		<input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle" >Link Title</label><br />
+		</label><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle"><?php _e('Menu Title'); ?></label><br />
+		<input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink"><?php _e('URL'); ?></label><br />
+		<input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle"><?php _e('Link Title'); ?></label><br />
 		<select id="editnewwindow" name="editnewwindow">
-			<option value="1" >Yes</option>
-			<option value="0" >No</option>
-		</select><label class="editlabel" for="editnewwindow" >Open Link in a New Window</label>
-		<input id="editdescription" type="text" name="editdescription" value="" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> /><label class="editlabel" for="editdescription" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> >Description</label><br />
+			<option value="1"><?php _e('Yes'); ?></option>
+			<option value="0"><?php _e('No'); ?></option>
+		</select><label class="editlabel" for="editnewwindow"><?php _e('Open Link in a new window'); ?></label>
+		<input id="editdescription" type="text" name="editdescription" value="" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> /><label class="editlabel" for="editdescription" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> ><?php _e('Description'); ?></label><br />
 	</div>
 
 <?php
