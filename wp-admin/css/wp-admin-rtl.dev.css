@@ -560,8 +560,25 @@ ol {
 .clearlooks2 .mceTop .mceLeft {
 	width:100% !important;
 }
+
+/* Custom Background  */
+
+#custom-background table th, #custom-background table td {
+	text-align:right;
+	padding-right:0px;
+	padding-left:40px;
+}
+
+#custom-background table label {
+	padding-right:0;
+	padding-left:10px;
+}
+
+
+
 /* ltr
 =================================== */
 #author-email, #author-url, #rss-url-1, #edit-slug-box, #post_name, #trackback_url, #metakeyinput, #post_password, #slug, #category_nicename, #link_url, #link_image, #rss_uri, #menu_order, #email, #newcomment_author_url, #pages-exclude, #template textarea, #user_login, #url, #pass1, #pass2, #aim, #yim, #jabber, #siteurl, #home, #admin_email, #gmt_offset, #default_post_edit_rows, #mailserver_url, #mailserver_login, #mailserver_pass, #mailserver_port, #ping_sites, #posts_per_page, #posts_per_rss, #blog_charset, #close_comments_days_old, #comments_per_page, #comment_max_links, #moderation_keys, #blacklist_keys, #thumbnail_size_w, #thumbnail_size_h, #medium_size_w, #medium_size_h, #large_size_w, #large_size_h, #permalink_structure, #category_base, #tag_base, #upload_path, #upload_url_path, #rules {
 	direction: ltr;
 }
+

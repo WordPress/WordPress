@@ -3641,3 +3641,29 @@ span.imgedit-scale-warn {
 	border-right-style: solid;
 	border-right-width: 1px;
 }
+
+/* Custom Background  */
+
+div#custom-background h2 {
+	margin-top: 20px;
+}
+
+#custom-background table th, #custom-background table td {
+	text-align:left;
+	padding-right:40px;
+	padding-left:0;
+}
+
+#custom-background table label {
+	padding-right:10px;
+	width:80px;
+}
+
+div#custom-background-image img {
+	max-width: 400px;
+	max-height: 200px;
+}
+
+div#custom-background-image p.submit {
+	display: inline;
+}

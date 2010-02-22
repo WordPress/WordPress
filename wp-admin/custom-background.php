@@ -135,7 +135,7 @@ class Custom_Background {
 </div>
 		<?php } ?>
 
-<div class="wrap">
+<div class="wrap" id="custom-background">
 <?php screen_icon(); ?>
 <h2><?php _e('Custom Background'); ?></h2>
 <?php if ( get_background_image() ) { ?>
@@ -153,11 +153,9 @@ if ( $this->admin_image_div_callback ) {
 <img class="custom-background-image" src="<?php background_image(); ?>" />
 </div>
 <?php } ?>
-</div>
 
 <?php if ( get_background_image() ) : ?>
-<div class="wrap">
-
+	
 <h2><?php _e('Change Display Options') ?></h2>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <table>
@@ -211,14 +209,13 @@ if ( $this->admin_image_div_callback ) {
 </table>
 
 <?php wp_nonce_field('custom-background'); ?>
-<input type="submit" class="button" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" />
+<p class="submit"><input type="submit" class="button" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
 </form>
-</div>
+
 <?php endif; ?>
 
-<div class="wrap">
 <h2><?php _e('Upload New Background Image'); ?></h2>
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>" style="margin: auto; width: 50%;">
+<form enctype="multipart/form-data" id="uploadFrom" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-background') ?>
@@ -226,19 +223,18 @@ if ( $this->admin_image_div_callback ) {
 <input type="submit" value="<?php esc_attr_e('Upload'); ?>" />
 </p>
 </form>
-</div>
 
 <?php if ( get_background_image() ) : ?>
-<div class="wrap">
 <h2><?php _e('Remove Background Image'); ?></h2>
 <p><?php _e('This will remove background image. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <?php wp_nonce_field('custom-background'); ?>
 <input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />
 </form>
-</div>
-<?php endif;
 
+<?php endif; ?>
+</div>
+<?php
 	}
 
 	/**
