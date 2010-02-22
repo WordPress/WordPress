@@ -415,26 +415,24 @@ function wp_link_category_checklist( $link_id = 0 ) {
 	$default = 1;
 
 	if ( $link_id ) {
-		$checked_categories = wp_get_link_cats($link_id);
-
-		if ( count( $checked_categories ) == 0 ) {
-			// No selected categories, strange
+		$checked_categories = wp_get_link_cats( $link_id );
+		// No selected categories, strange
+		if ( ! count( $checked_categories ) )
 			$checked_categories[] = $default;
-		}
 	} else {
 		$checked_categories[] = $default;
 	}
 
-	$categories = get_terms('link_category', array('orderby' => 'count', 'hide_empty' => 0));
+	$categories = get_terms( 'link_category', array( 'orderby' => 'name', 'hide_empty' => 0 ) );
 
-	if ( empty($categories) )
+	if ( empty( $categories ) )
 		return;
 
 	foreach ( $categories as $category ) {
 		$cat_id = $category->term_id;
-		$name = esc_html( apply_filters('the_category', $category->name));
-		$checked = in_array( $cat_id, $checked_categories );
-		echo '<li id="link-category-', $cat_id, '"><label for="in-link-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="link_category[]" id="in-link-category-', $cat_id, '"', ($checked ? ' checked="checked"' : "" ), '/> ', $name, "</label></li>";
+		$name = esc_html( apply_filters( 'the_category', $category->name ) );
+		$checked = in_array( $cat_id, $checked_categories ) ? ' checked="checked"' : '';
+		echo '<li id="link-category-', $cat_id, '"><label for="in-link-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="link_category[]" id="in-link-category-', $cat_id, '"', $checked, '/> ', $name, "</label></li>";
 	}
 }
 
