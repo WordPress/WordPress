@@ -2074,6 +2074,31 @@ function sanitize_url( $url, $protocols = null ) {
 }
 
 /**
+ * Checks and cleans a URL.
+ *
+ * A number of characters are removed from the URL. If the URL is for displaying
+ * (the default behaviour) amperstands are also replaced. The 'clean_url' filter
+ * is applied to the returned cleaned URL.
+ *
+ * @since 1.2.0
+ * @deprecated 3.0.0
+ * @deprecated Use esc_url()
+ * @see Alias for esc_url()
+ *
+ * @param string $url The URL to be cleaned.
+ * @param array $protocols Optional. An array of acceptable protocols.
+ * @param string $context Optional. How the URL will be used. Default is 'display'.
+ * @return string The cleaned $url after the 'clean_url' filter is applied.
+ */
+function clean_url( $url, $protocols = null, $context = 'display' ) {
+	if ( $context == 'db' )
+		_deprecated_function( 'clean_url( $context = \'db\' )', '3.0', 'esc_url_raw()' );
+	else
+		_deprecated_function( __FUNCTION__, '3.0', 'esc_url()' );
+	return esc_url( $url, $protocols, $context );
+}
+
+/**
  * Escape single quotes, specialchar double quotes, and fix line endings.
  *
  * The filter 'js_escape' is also applied by esc_js()

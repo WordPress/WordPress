@@ -2132,53 +2132,6 @@ function wp_htmledit_pre($output) {
 }
 
 /**
- * Checks and cleans a URL.
- *
- * A number of characters are removed from the URL. If the URL is for displaying
- * (the default behaviour) amperstands are also replaced. The 'clean_url' filter
- * is applied to the returned cleaned URL.
- *
- * @since 1.2.0
- * @uses wp_kses_bad_protocol() To only permit protocols in the URL set
- *		via $protocols or the common ones set in the function.
- *
- * @param string $url The URL to be cleaned.
- * @param array $protocols Optional. An array of acceptable protocols.
- *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set.
- * @param string $context Optional. How the URL will be used. Default is 'display'.
- * @return string The cleaned $url after the 'clean_url' filter is applied.
- */
-function clean_url( $url, $protocols = null, $context = 'display' ) {
-	$original_url = $url;
-
-	if ('' == $url) return $url;
-	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
-	$strip = array('%0d', '%0a', '%0D', '%0A');
-	$url = _deep_replace($strip, $url);
-	$url = str_replace(';//', '://', $url);
-	/* If the URL doesn't appear to contain a scheme, we
-	 * presume it needs http:// appended (unless a relative
-	 * link starting with / or a php file).
-	 */
-	if ( strpos($url, ':') === false &&
-		substr( $url, 0, 1 ) != '/' && substr( $url, 0, 1 ) != '#' && !preg_match('/^[a-z0-9-]+?\.php/i', $url) )
-		$url = 'http://' . $url;
-
-	// Replace ampersands and single quotes only when displaying.
-	if ( 'display' == $context ) {
-		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
-		$url = str_replace( "'", '&#039;', $url );
-	}
-
-	if ( !is_array($protocols) )
-		$protocols = array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet');
-	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
-		return '';
-
-	return apply_filters('clean_url', $url, $original_url, $context);
-}
-
-/**
  * Perform a deep string replace operation to ensure the values in $search are no longer present
  *
  * Repeats the replacement operation until it no longer replaces anything so as to remove "nested" values
@@ -2229,31 +2182,57 @@ function esc_sql( $sql ) {
  * is applied to the returned cleaned URL.
  *
  * @since 2.8.0
- * @uses clean_url()
  * @uses wp_kses_bad_protocol() To only permit protocols in the URL set
  *		via $protocols or the common ones set in the function.
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols Optional. An array of acceptable protocols.
  *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set.
+ * @param string $_context Private. Use esc_url_raw() for database usage.
  * @return string The cleaned $url after the 'clean_url' filter is applied.
  */
-function esc_url( $url, $protocols = null ) {
-	return clean_url( $url, $protocols, 'display' );
+function esc_url( $url, $protocols = null, $_context = 'display' ) {
+	$original_url = $url;
+
+	if ('' == $url) return $url;
+	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
+	$strip = array('%0d', '%0a', '%0D', '%0A');
+	$url = _deep_replace($strip, $url);
+	$url = str_replace(';//', '://', $url);
+	/* If the URL doesn't appear to contain a scheme, we
+	 * presume it needs http:// appended (unless a relative
+	 * link starting with / or a php file).
+	 */
+	if ( strpos($url, ':') === false &&
+		substr( $url, 0, 1 ) != '/' && substr( $url, 0, 1 ) != '#' && !preg_match('/^[a-z0-9-]+?\.php/i', $url) )
+		$url = 'http://' . $url;
+
+	// Replace ampersands and single quotes only when displaying.
+	if ( 'display' == $_context ) {
+		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+		$url = str_replace( "'", '&#039;', $url );
+	}
+
+	if ( !is_array($protocols) )
+		$protocols = array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet');
+	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
+		return '';
+
+	return apply_filters('clean_url', $url, $original_url, $_context);
 }
 
 /**
  * Performs esc_url() for database usage.
  *
  * @since 2.8.0
- * @uses clean_url()
+ * @uses esc_url()
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols An array of acceptable protocols.
  * @return string The cleaned URL.
  */
 function esc_url_raw( $url, $protocols = null ) {
-	return clean_url( $url, $protocols, 'db' );
+	return esc_url( $url, $protocols, 'db' );
 }
 
 /**
