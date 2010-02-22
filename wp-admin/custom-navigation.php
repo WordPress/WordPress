@@ -46,7 +46,7 @@ function wp_custom_navigation() {
 	?>
 
 	<div class="wrap">
-	<div id="no-js"><h3>You do not have JavaScript enabled in your browser. Please enable it to access the Custom Menu functionality.</h3></div>
+	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Custom Menu functionality.'); ?></h3></div>
 
 	<?php
 	$messagesdiv = '';
@@ -81,7 +81,7 @@ function wp_custom_navigation() {
 	if ( isset( $_POST['set_wp_menu'] ) ) {
 		// @todo validate set_wp_menu
 	    update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
-		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename."'s Custom Menu has been updated!</p></div>";
+		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('Custom Menu has been updated!') . '</p></div>';
 	}
 
 	if ( isset( $_POST['licount'] ) )
@@ -96,7 +96,7 @@ function wp_custom_navigation() {
 	 	if ( $insert_menu_name != '' ) {
 			$existing_term = get_term_by( 'name', $insert_menu_name, 'nav_menu' );
 	 		if ( $existing_term ) {
-	 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . $existing_term->name . ' Menu has already created - please try another name</p></div>';
+	 			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . esc_html( sprintf( e__('A menu named "%s" already exists; please try another name.'), $existing_term->name ) ) . '</p></div>';
 	 		} else {
 				$term = wp_insert_term( $insert_menu_name, 'nav_menu' );
 				if ( !is_wp_error($term) ) {
@@ -104,13 +104,13 @@ function wp_custom_navigation() {
 					$custom_menus[$term->term_id] = $term;
 	 				$menu_selected_id = $term->term_id;
 	 				$menu_id_in_edit = $menu_selected_id;
-	 				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . $term->name . ' Menu has been created!</p></div>';
+	 				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . esc_html( sprintf( __('"%s" menu has been created!'), $term->name ) ) . '</p></div>';
 
 					$postCounter = 0;
 	 			}
 	 		}
 	 	} else {
-	 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>Please enter a valid Menu name</p></div>';
+	 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('Please enter a valid menu name.') . '</p></div>';
 	 	}
 	}
 
@@ -118,13 +118,13 @@ function wp_custom_navigation() {
     	$success = wp_custom_nav_reset();
     	if ( $success ) {
 	    	// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename."'s Custom Menu has been RESET!</p></div>";
+			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('The menu has been reset.') . '</p></div>';
 			// GET reset menu id
 			$custom_menus = array();
 			$menu_selected_id = 0;
 	    } else {
     		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename."'s Custom Menu could not be RESET. Please try again.</p></div>";
+			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('The menu could not be reset. Please try again.') . '</p></div>';
 	    }
 	} elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
 		$menu_objects = get_objects_in_term( $menu_selected_id, 'nav_menu' );
@@ -180,7 +180,7 @@ function wp_custom_navigation() {
  		?>
 		<div id="pages-left">
 			<div class="inside">
-			<h2 class="maintitle">Custom Navigation</h2>
+			<h2 class="maintitle"><?php esc_html_e('Custom Navigation') ?></h2>
 			<?php
 
 				//CHECK if custom menu has been enabled
@@ -189,7 +189,7 @@ function wp_custom_navigation() {
 
 				if ($checked == 'true') {
 				} else {
-					echo '<div id="message-enabled" class="error fade below-h2"><p><strong>The Custom Menu has not been Enabled yet. Please enable it in order to use it --------></strong></p></div>';
+					echo '<div id="message-enabled" class="error fade below-h2"><p><strong>' . __('The Custom Menu has not been Enabled yet. Please enable it in order to use it -------->') . '</strong></p></div>';
 				}
 
 
@@ -205,7 +205,7 @@ function wp_custom_navigation() {
 				<div class="sidebar-name-arrow">
 					<br/>
 				</div>
-				<h3><?php echo $menu_title; ?></h3>
+				<h3><?php echo esc_html($menu_title); ?></h3>
 
 			</div>
 
@@ -231,18 +231,18 @@ function wp_custom_navigation() {
 				updatepostdata();
 			</script>
 
-			<input id="save_bottom" name="save_bottom" type="submit" value="Save All Changes" /></p>
+			<input id="save_bottom" name="save_bottom" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" /></p>
 			</div><!-- /.inside -->
 		</div>
 
 		<div id="menu-right">
 
-			<h2 class="heading">Options</h2>
+			<h2 class="heading"><?php esc_html_e('Options'); ?></h2>
 
 			<div class="widgets-holder-wrap">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3>Setup Custom Menu</h3>
+					<h3><?php esc_html_e('Setup Custom Menu'); ?></h3>
 				</div>
 				<div class="widget-holder">
 
@@ -257,14 +257,14 @@ function wp_custom_navigation() {
 			    	?>
 
 			    	<span >
-			    		<label>Enable</label><input type="radio" name="enable_wp_menu" value="true" <?php if ($checked=='true') { echo 'checked="checked"'; } ?> />
-			    		<label>Disable</label><input type="radio" name="enable_wp_menu" value="false" <?php if ($checked=='true') { } else { echo 'checked="checked"'; } ?> />
+			    		<label><?php _e('Enable'); ?></label><input type="radio" name="enable_wp_menu" value="true" <?php if ($checked=='true') { echo 'checked="checked"'; } ?> />
+			    		<label><?php _e('Disable'); ?></label><input type="radio" name="enable_wp_menu" value="false" <?php if ($checked=='true') { } else { echo 'checked="checked"'; } ?> />
 					</span><!-- /.checkboxes -->
 
 					<input id="set_wp_menu" type="submit" value="Set Menu" name="set_wp_menu" class="button" /><br />
 
 					<span>
-						<label>Reset Menu to Default</label>
+						<label><?php _e('Reset Menu to Default'); ?></label>
 						<input id="reset_wp_menu" type="submit" value="Reset" name="reset_wp_menu" class="button" onclick="return confirm('Are you sure you want to RESET the Custom Navigation Menu to its Default Settings?');" />
 					</span>
 
@@ -275,7 +275,7 @@ function wp_custom_navigation() {
 			<div class="widgets-holder-wrap">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3>Menu Selector</h3>
+					<h3><?php esc_html_e('Menu Selector'); ?></h3>
 				</div>
 				<div class="widget-holder">
 					<select id="menu_select" name="menu_select">
@@ -296,9 +296,9 @@ function wp_custom_navigation() {
 						?>
 					</select>
 
-					<input id="switch_menu" type="submit" value="Switch" name="switch_menu" class="button" />
+					<input id="switch_menu" type="submit" value="<?php esc_attr_e('Switch'); ?>" name="switch_menu" class="button" />
 					<input id="add_menu_name" name="add_menu_name" type="text" value=""  />
-					<input id="add_menu" type="submit" value="Add Menu" name="add_menu" class="button" />
+					<input id="add_menu" type="submit" value="<?php esc_attr_e('Add Menu'); ?>" name="add_menu" class="button" />
 
 					<div class="fix"></div>
 				</div>
@@ -307,47 +307,40 @@ function wp_custom_navigation() {
 			<div class="widgets-holder-wrap" style="display:none;">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3>Top Level Menu Descriptions</h3>
+					<h3><?php esc_html_e('Top Level Menu Descriptions'); ?></h3>
 				</div>
 				<div class="widget-holder">
-					<span>Display Descriptions in Top Level Menu?</span>
+					<span><?php _e('Display Descriptions in Top Level Menu?'); ?></span>
 
 					<?php
 
 			    	//UPDATE and DISPLAY Menu Description Option
-			    	if (isset($_POST['menu-descriptions']))
-			    	{
+			    	if ( isset($_POST['menu-descriptions']) ) {
 
-						if (isset($_POST['switch_menu'])) {
+						if ( isset($_POST['switch_menu']) ) {
 
-						}
-						else {
+						} else {
 							$menu_options_to_edit = $_POST['menu_id_in_edit'];
 			    			update_option('wp_settings_custom_nav_'.$menu_options_to_edit.'_descriptions',$_POST['menu-descriptions']);
 						}
 
 			    	}
 
-			    	if ($menu_id_in_edit > 0)
-					{
+			    	if ( $menu_id_in_edit > 0 )
 						$checkedraw = get_option('wp_settings_custom_nav_'.$menu_id_in_edit.'_descriptions');
-					}
-					else {
+					else
 						$checkedraw = get_option('wp_settings_custom_nav_'.$menu_selected_id.'_descriptions');
-					}
 
 			    	$checked = strtolower($checkedraw);
 
-			    	if ($advanced_option_descriptions == 'no')
-			    	{
+			    	if ( $advanced_option_descriptions == 'no' )
 			    		$checked = 'no';
-			    	}
 
 			    	?>
 
 			    	<span class="checkboxes">
-			    		<label>Yes</label><input type="radio" name="menu-descriptions" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
-			    		<label>No</label><input type="radio" name="menu-descriptions" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
+			    		<label><?php _e('Yes'); ?></label><input type="radio" name="menu-descriptions" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
+			    		<label><?php _e('No'); ?></label><input type="radio" name="menu-descriptions" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
 					</span><!-- /.checkboxes -->
 			    	</form>
 					<div class="fix"></div>
@@ -357,7 +350,7 @@ function wp_custom_navigation() {
 			<div class="widgets-holder-wrap">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3>Add an Existing Page</h3>
+					<h3><?php esc_html_e('Add an Existing Page'); ?></h3>
 				</div>
 				<div class="widget-holder">
 
@@ -382,16 +375,12 @@ function wp_custom_navigation() {
 					$pages_array = get_pages($pages_args);
 					$page_name = '';
 					//CHECK if pages exist
-					if ($pages_array)
-					{
-						foreach ($pages_array as $post)
-						{
+					if ( $pages_array ) {
+						foreach ( $pages_array as $post ) {
 							//Add page name to
 							$page_name .= htmlentities($post->post_title).'|';
 						}
-					}
-					else
-					{
+					} else {
 						$page_name = "No pages available";
 					}
 
@@ -447,23 +436,22 @@ function wp_custom_navigation() {
 			<div class="widgets-holder-wrap">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3>Add an Existing Category</h3>
+					<h3><?php esc_html_e('Add an Existing Category'); ?></h3>
 				</div>
 				<div class="widget-holder">
 
 					<?php
 
-					//Custom GET categories query
+					// Custom GET categories query
+					// @todo Use API
 					$categories = $wpdb->get_results("SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = 'category' ORDER BY term_id ASC");
 					$cat_name = '';
 					//CHECK for results
-					if ($categories)
-					{
-						foreach($categories as $category)
-						{
+					if ( $categories ) {
+						foreach( $categories as $category ) {
 							$cat_id = $category->term_id;
 
-							$cat_args=array(
+							$cat_args = array(
 							 	'orderby' => 'name',
 							  	'include' => $cat_id,
 							  	'hierarchical' => 1,
@@ -472,15 +460,12 @@ function wp_custom_navigation() {
 
 				  			$category_names=get_categories($cat_args);
 
-							if (isset($category_names[0]->name))
-							{
-								//Add category name to data string
+							if ( isset($category_names[0]->name) ) {
+								// Add category name to data string
 								$cat_name .= htmlentities($category_names[0]->name).'|';
 							}
 				  		}
-				  	}
-				  	else
-					{
+				  	} else {
 						$cat_name = "No categories available";
 					}
 
@@ -509,8 +494,7 @@ function wp_custom_navigation() {
  						});
   					</script>
 
-
-					<input type="text" onfocus="jQuery('#cat-search').attr('value','');" id="cat-search" value="Search Categories" />
+					<input type="text" onfocus="jQuery('#cat-search').attr('value','');" id="cat-search" value="<?php esc_attr_e('Search Categories'); ?>" />
 
 					<a id="show-cats" style="cursor:pointer;" onclick="jQuery('#existing-categories').css('display','block');jQuery('#cat-search').attr('value','');jQuery('#existing-categories dt').css('display','block');jQuery('#show-cats').hide();jQuery('#hide-cats').show();">View All</a>
 					<a id="hide-cats" style="cursor:pointer;" onclick="jQuery('#existing-categories').css('display','none');jQuery('#cat-search').attr('value','Search Categories');jQuery('#existing-categories dt').css('display','none');jQuery('#show-cats').show();jQuery('#hide-cats').hide();">Hide All</a>
@@ -536,13 +520,13 @@ function wp_custom_navigation() {
 			<div class="widgets-holder-wrap">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3>Add a Custom Url</h3>
+					<h3><?php esc_html_e('Add a Custom Url'); ?></h3>
 				</div>
 				<div class="widget-holder">
 					<input id="custom_menu_item_url" type="text" value="http://"  />
-					<label>URL</label><br />
+					<label><?php _e('URL'); ?></label><br />
            			<?php $templatedir = get_bloginfo('url'); ?>
-            		<input type="hidden" id="templatedir" value="<?php echo $templatedir; ?>" />
+            		<input type="hidden" id="templatedir" value="<?php echo esc_attr($templatedir); ?>" />
             		<input id="custom_menu_item_name" type="text" value="Menu Item" onfocus="jQuery('#custom_menu_item_name').attr('value','');"  />
             		<label>Menu Text</label><br />
            			<input id="custom_menu_item_description" type="text" value="A description" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
