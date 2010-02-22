@@ -292,150 +292,82 @@ function get_users_of_blog( $id = '' ) {
 	return $users;
 }
 
-//
-// User meta functions
-//
-
 /**
- * Remove user meta data.
+ * Add meta data field to a user.
  *
- * @since 2.0.0
- * @uses $wpdb WordPress database object for queries.
+ * Post meta data is called "Custom Fields" on the Administration Panels.
  *
- * @param int $user_id User ID.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
- * @return bool True deletion completed and false if user_id is not a number.
+ * @since 3.0.0
+ * @uses add_metadata()
+ * @link http://codex.wordpress.org/Function_Reference/add_user_meta
+ *
+ * @param int $user_id Post ID.
+ * @param string $key Metadata name.
+ * @param mixed $value Metadata value.
+ * @param bool $unique Optional, default is false. Whether the same key should not be added.
+ * @return bool False for failure. True for success.
  */
-function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
-	global $wpdb;
-	if ( !is_numeric( $user_id ) )
-		return false;
-	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
-
-	if ( is_array($meta_value) || is_object($meta_value) )
-		$meta_value = serialize($meta_value);
-	$meta_value = trim( $meta_value );
-
-	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
-
-	if ( $cur && $cur->umeta_id )
-		do_action( 'delete_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
-
-	if ( ! empty($meta_value) )
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s AND meta_value = %s", $user_id, $meta_key, $meta_value) );
-	else
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
-
-	wp_cache_delete($user_id, 'users');
-
-	if ( $cur && $cur->umeta_id )
-		do_action( 'deleted_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
-
-	return true;
+function add_user_meta($user_id, $meta_key, $meta_value, $unique = false) {
+	return add_metadata('user', $user_id, $meta_key, $meta_value, $unique);
 }
 
 /**
- * Retrieve user metadata.
+ * Remove metadata matching criteria from a user.
  *
- * If $user_id is not a number, then the function will fail over with a 'false'
- * boolean return value. Other returned values depend on whether there is only
- * one item to be returned, which be that single item type. If there is more
- * than one metadata value, then it will be list of metadata values.
+ * You can match based on the key, or key and value. Removing based on key and
+ * value, will keep from removing duplicate metadata with the same key. It also
+ * allows removing all metadata matching key, if needed.
  *
- * @since 2.0.0
- * @uses $wpdb WordPress database object for queries.
+ * @since 3.0.0
+ * @uses delete_metadata()
+ * @link http://codex.wordpress.org/Function_Reference/delete_user_meta
  *
- * @param int $user_id User ID
- * @param string $meta_key Optional. Metadata key.
- * @return mixed
+ * @param int $user_id user ID
+ * @param string $meta_key Metadata name.
+ * @param mixed $meta_value Optional. Metadata value.
+ * @return bool False for failure. True for success.
  */
-function get_usermeta( $user_id, $meta_key = '') {
-	global $wpdb;
-	$user_id = (int) $user_id;
-
-	if ( !$user_id )
-		return false;
-
-	if ( !empty($meta_key) ) {
-		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
-		$user = wp_cache_get($user_id, 'users');
-		// Check the cached user object
-		if ( false !== $user && isset($user->$meta_key) )
-			$metas = array($user->$meta_key);
-		else
-			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
-	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user_id) );
-	}
-
-	if ( empty($metas) ) {
-		if ( empty($meta_key) )
-			return array();
-		else
-			return '';
-	}
-
-	$metas = array_map('maybe_unserialize', $metas);
-
-	if ( count($metas) == 1 )
-		return $metas[0];
-	else
-		return $metas;
+function delete_user_meta($user_id, $meta_key, $meta_value = '') {
+	return delete_metadata('user', $user_id, $meta_key, $meta_value);
 }
 
 /**
- * Update metadata of user.
+ * Retrieve user meta field for a user.
  *
- * There is no need to serialize values, they will be serialized if it is
- * needed. The metadata key can only be a string with underscores. All else will
- * be removed.
+ * @since 3.0.0
+ * @uses get_metadata()
+ * @link http://codex.wordpress.org/Function_Reference/get_user_meta
  *
- * Will remove the metadata, if the meta value is empty.
- *
- * @since 2.0.0
- * @uses $wpdb WordPress database object for queries
- *
- * @param int $user_id User ID
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
- * @return bool True on successful update, false on failure.
+ * @param int $user_id Post ID.
+ * @param string $key The meta key to retrieve.
+ * @param bool $single Whether to return a single value.
+ * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
+ *  is true.
  */
-function update_usermeta( $user_id, $meta_key, $meta_value ) {
-	global $wpdb;
-	if ( !is_numeric( $user_id ) )
-		return false;
-	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+function get_user_meta($user_id, $key, $single = false) {
+	return get_metadata('user', $user_id, $key, $single);
+}
 
-	/** @todo Might need fix because usermeta data is assumed to be already escaped */
-	if ( is_string($meta_value) )
-		$meta_value = stripslashes($meta_value);
-	$meta_value = maybe_serialize($meta_value);
-
-	if (empty($meta_value)) {
-		return delete_usermeta($user_id, $meta_key);
-	}
-
-	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
-
-	if ( $cur )
-		do_action( 'update_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
-
-	if ( !$cur )
-		$wpdb->insert($wpdb->usermeta, compact('user_id', 'meta_key', 'meta_value') );
-	else if ( $cur->meta_value != $meta_value )
-		$wpdb->update($wpdb->usermeta, compact('meta_value'), compact('user_id', 'meta_key') );
-	else
-		return false;
-
-	wp_cache_delete($user_id, 'users');
-
-	if ( !$cur )
-		do_action( 'added_usermeta', $wpdb->insert_id, $user_id, $meta_key, $meta_value );
-	else
-		do_action( 'updated_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
-
-	return true;
+/**
+ * Update user meta field based on user ID.
+ *
+ * Use the $prev_value parameter to differentiate between meta fields with the
+ * same key and user ID.
+ *
+ * If the meta field for the user does not exist, it will be added.
+ *
+ * @since 3.0
+ * @uses update_metadata
+ * @link http://codex.wordpress.org/Function_Reference/update_user_meta
+ *
+ * @param int $user_id Post ID.
+ * @param string $key Metadata key.
+ * @param mixed $value Metadata value.
+ * @param mixed $prev_value Optional. Previous value to check before removing.
+ * @return bool False on failure, true if success.
+ */
+function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
+	return update_metadata('user', $user_id, $meta_key, $meta_value, $prev_value);
 }
 
 //

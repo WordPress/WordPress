@@ -2266,4 +2266,66 @@ function unregister_widget_control($id) {
 	return wp_unregister_widget_control($id);
 }
 
-?>
+/**
+ * Remove user meta data.
+ *
+ * @since 2.0.0
+ * @deprecated 3.0.0
+ * @deprecated Use delete_user_meta()
+ * @see delete_user_meta()
+ *
+ * @param int $user_id User ID.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @return bool True deletion completed and false if user_id is not a number.
+ */
+function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'delete_user_meta()' );
+	return delete_user_meta( $user_id, $meta_key, $meta_value );
+}
+
+/**
+ * Retrieve user metadata.
+ *
+ * If $user_id is not a number, then the function will fail over with a 'false'
+ * boolean return value. Other returned values depend on whether there is only
+ * one item to be returned, which be that single item type. If there is more
+ * than one metadata value, then it will be list of metadata values.
+ *
+ * @since 2.0.0
+ * @deprecated 3.0.0
+ * @deprecated Use get_user_meta()
+ * @see get_user_meta()
+ *
+ * @param int $user_id User ID
+ * @param string $meta_key Optional. Metadata key.
+ * @return mixed
+ */
+function get_usermeta( $user_id, $meta_key = '') {
+	_deprecated_function( __FUNCTION__, '3.0', 'get_user_meta()' );
+	return get_user_meta( $user_id, $meta_key, false );
+}
+
+/**
+ * Update metadata of user.
+ *
+ * There is no need to serialize values, they will be serialized if it is
+ * needed. The metadata key can only be a string with underscores. All else will
+ * be removed.
+ *
+ * Will remove the metadata, if the meta value is empty.
+ *
+ * @since 2.0.0
+ * @deprecated 3.0.0
+ * @deprecated Use update_user_meta()
+ * @see update_user_meta()
+ *
+ * @param int $user_id User ID
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @return bool True on successful update, false on failure.
+ */
+function update_usermeta( $user_id, $meta_key, $meta_value ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'update_user_meta()' );
+	return update_user_meta( $user_id, $meta_key, $meta_value );
+}
