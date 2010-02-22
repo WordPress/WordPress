@@ -1288,7 +1288,8 @@ if ( !function_exists('wp_salt') ) :
  * @since 2.5
  * @link https://api.wordpress.org/secret-key/1.1/ Create a Secret Key for wp-config.php
  *
- * @return string Salt value from either 'SECRET_KEY' or 'secret' option
+ * @param string $scheme Authentication scheme
+ * @return string Salt value
  */
 function wp_salt($scheme = 'auth') {
 	global $wp_default_secret_key;

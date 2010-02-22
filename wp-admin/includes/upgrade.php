@@ -421,9 +421,6 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 7499 )
 		upgrade_250();
 
-	if ( $wp_current_db_version < 7796 )
-		upgrade_251();
-
 	if ( $wp_current_db_version < 7935 )
 		upgrade_252();
 
@@ -1009,18 +1006,6 @@ function upgrade_250() {
 		populate_roles_250();
 	}
 
-}
-
-/**
- * Execute changes made in WordPress 2.5.1.
- *
- * @since 2.5.1
- */
-function upgrade_251() {
-	global $wp_current_db_version;
-
-	// Make the secret longer
-	update_option('secret', wp_generate_password(64));
 }
 
 /**
