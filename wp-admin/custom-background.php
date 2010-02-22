@@ -152,7 +152,7 @@ class Custom_Background {
 }
 
 if ( get_background_image() ) : ?>
-	
+
 <h2><?php _e('Change Display Options') ?></h2>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <table>

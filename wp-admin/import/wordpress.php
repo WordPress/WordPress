@@ -188,7 +188,7 @@ class WP_Import {
 				if ( !$user_id ) {
 					$user_id = wp_create_user($new_author_name, wp_generate_password());
 				}
-				
+
 				if ( !is_wp_error( $user_id ) ) {
 					$this->author_ids[$in_author_name] = $user_id;
 				}
@@ -343,16 +343,16 @@ class WP_Import {
 			$tag_ID = wp_insert_term($tag_name, 'post_tag', $tagarr);
 		}
 	}
-	
+
 	function process_terms() {
 		global $wpdb, $wp_taxonomies;
-		
+
 		$custom_taxonomies = $wp_taxonomies;
 		// get rid of the standard taxonomies
 		unset( $custom_taxonomies['category'] );
 		unset( $custom_taxonomies['post_tag'] );
 		unset( $custom_taxonomies['link_category'] );
-		
+
 		$custom_taxonomies = array_keys( $custom_taxonomies );
 		$current_terms = (array) get_terms( $custom_taxonomies, array('get' => 'all') );
 		$taxonomies = array();
@@ -601,7 +601,7 @@ class WP_Import {
 			$value = stripslashes($value); // add_post_meta() will escape.
 			// get_post_meta would have done this but we read straight from the db on export so we could have a serialized string
 			$value = maybe_unserialize($value);
-			
+
 			$this->process_post_meta($post_id, $key, $value);
 
 		} }

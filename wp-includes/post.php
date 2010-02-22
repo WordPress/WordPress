@@ -3138,7 +3138,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	$post_type = 'attachment';
 	$post_status = 'inherit';
-	
+
 	// Make sure we set a valid category.
 	if ( !isset($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
 		// 'post' requires at least one category.

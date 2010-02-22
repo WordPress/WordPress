@@ -126,7 +126,7 @@ class Gettext_Translations extends Translations {
 		}
 		return call_user_func($this->_gettext_select_plural_form, $count);
 	}
-	
+
 	function nplurals_and_expression_from_header($header) {
 		if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches)) {
 			$nplurals = (int)$matches[1];
@@ -180,7 +180,7 @@ class Gettext_Translations extends Translations {
 		}
 		return rtrim($res, ';');
 	}
-	
+
 	function make_headers($translation) {
 		$headers = array();
 		// sometimes \ns are used instead of real new lines
@@ -193,7 +193,7 @@ class Gettext_Translations extends Translations {
 		}
 		return $headers;
 	}
-	
+
 	function set_header($header, $value) {
 		parent::set_header($header, $value);
 		if ('Plural-Forms' == $header) {
@@ -212,7 +212,7 @@ if ( !class_exists( 'NOOP_Translations' ) ):
 class NOOP_Translations {
 	var $entries = array();
 	var $headers = array();
-	
+
 	function add_entry($entry) {
 		return true;
 	}

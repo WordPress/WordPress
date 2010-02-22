@@ -3218,7 +3218,7 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
 function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = FALSE ) {
 
 	if ($hide_on_update AND $_GET['updated']) return;
-	
+
 	$settings_errors = get_settings_errors( $setting, $sanitize );
 
 	if ( !is_array($settings_errors) ) return;

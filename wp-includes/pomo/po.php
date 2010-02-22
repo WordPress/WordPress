@@ -18,7 +18,7 @@ ini_set('auto_detect_line_endings', 1);
  */
 if ( !class_exists( 'PO' ) ):
 class PO extends Gettext_Translations {
-	
+
 
 	/**
 	 * Exports headers to a PO entry
@@ -106,7 +106,7 @@ class PO extends Gettext_Translations {
 		$po = str_replace("$newline$quote$quote", '', $po);
 		return $po;
 	}
-	
+
 	/**
 	 * Gives back the original string from a PO-formatted string
 	 * 
@@ -217,7 +217,7 @@ class PO extends Gettext_Translations {
 		PO::read_line($f, 'clear');
 		return $res !== false;
 	}
-	
+
 	function read_entry($f, $lineno = 0) {
 		$entry = new Translation_Entry();
 		// where were we in the last step
@@ -322,7 +322,7 @@ class PO extends Gettext_Translations {
 		}
 		return array('entry' => $entry, 'lineno' => $lineno);
 	}
-	
+
 	function read_line($f, $action = 'read') {
 		static $last_line = '';
 		static $use_last_line = false;
@@ -339,7 +339,7 @@ class PO extends Gettext_Translations {
 		$use_last_line = false;
 		return $line;
 	}
-	
+
 	function add_comment_to_entry(&$entry, $po_comment_line) {
 		$first_two = substr($po_comment_line, 0, 2);
 		$comment = trim(substr($po_comment_line, 2));
@@ -353,7 +353,7 @@ class PO extends Gettext_Translations {
 			$entry->translator_comments = trim($entry->translator_comments . "\n" . $comment);
 		}
 	}
-	
+
 	function trim_quotes($s) {
 		if ( substr($s, 0, 1) == '"') $s = substr($s, 1);
 		if ( substr($s, -1, 1) == '"') $s = substr($s, 0, -1);

@@ -26,7 +26,7 @@ class MO extends Gettext_Translations {
 			return false;
 		return $this->import_from_reader($reader);
 	}
-	
+
 	function export_to_file($filename) {
 		$fh = fopen($filename, 'wb');
 		if ( !$fh ) return false;
@@ -43,7 +43,7 @@ class MO extends Gettext_Translations {
 		fwrite($fh, pack('V*', $magic, $revision, $total, $originals_lenghts_addr,
 			$translations_lenghts_addr, $size_of_hash, $hash_addr));
 		fseek($fh, $originals_lenghts_addr);
-		
+
 		// headers' msgid is an empty string
 		fwrite($fh, pack('VV', 0, $current_addr));
 		$current_addr++;
@@ -55,24 +55,24 @@ class MO extends Gettext_Translations {
 			fwrite($fh, pack('VV', $length, $current_addr));
 			$current_addr += $length + 1; // account for the NULL byte after
 		}
-		
+
 		$exported_headers = $this->export_headers();
 		fwrite($fh, pack('VV', strlen($exported_headers), $current_addr));
 		$current_addr += strlen($exported_headers) + 1;
 		$translations_table = $exported_headers . chr(0);
-		
+
 		foreach($entries as $entry) {
 			$translations_table .= $this->export_translations($entry) . chr(0);
 			$length = strlen($this->export_translations($entry));
 			fwrite($fh, pack('VV', $length, $current_addr));
 			$current_addr += $length + 1;
 		}
-		
+
 		fwrite($fh, $originals_table);
 		fwrite($fh, $translations_table);
 		fclose($fh);
 	}
-	
+
 	function export_original($entry) {
 		//TODO: warnings for control characters
 		$exported = $entry->singular;
@@ -80,12 +80,12 @@ class MO extends Gettext_Translations {
 		if (!is_null($entry->context)) $exported = $entry->context . chr(4) . $exported;
 		return $exported;
 	}
-	
+
 	function export_translations($entry) {
 		//TODO: warnings for control characters
 		return implode(chr(0), $entry->translations);
 	}
-	
+
 	function export_headers() {
 		$exported = '';
 		foreach($this->headers as $header => $value) {
