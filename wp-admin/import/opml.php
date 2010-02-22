@@ -17,10 +17,8 @@ class OPML_Import {
 
 	function dispatch() {
 		global $wpdb, $user_ID;
-$step = $_POST['step'];
-if (!$step) $step = 0;
-?>
-<?php
+$step = isset( $_POST['step'] ) ? $_POST['step'] : 0;
+
 switch ($step) {
 	case 0: {
 		include_once('admin-header.php');
@@ -39,7 +37,7 @@ switch ($step) {
 <p><?php _e('If a program or website you use allows you to export your links or subscriptions as OPML you may import them here.'); ?></p>
 <div style="width: 70%; margin: auto; height: 8em;">
 <input type="hidden" name="step" value="1" />
-<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo wp_max_upload_size(); ?>" />
 <div style="width: 48%;" class="alignleft">
 <h3><label for="opml_url"><?php _e('Specify an OPML URL:'); ?></label></h3>
 <input type="text" name="opml_url" id="opml_url" size="50" class="code" style="width: 90%;" value="http://" />
