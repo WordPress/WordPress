@@ -81,7 +81,7 @@ function wp_custom_navigation() {
 	if ( isset( $_POST['set_wp_menu'] ) ) {
 		// @todo validate set_wp_menu
 	    update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
-		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been updated!</p></div>';
+		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename."'s Custom Menu has been updated!</p></div>";
 	}
 
 	if ( isset( $_POST['licount'] ) )
@@ -118,13 +118,13 @@ function wp_custom_navigation() {
     	$success = wp_custom_nav_reset();
     	if ( $success ) {
 	    	// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been RESET!</p></div>';
+			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename."'s Custom Menu has been RESET!</p></div>";
 			// GET reset menu id
 			$custom_menus = array();
 			$menu_selected_id = 0;
 	    } else {
     		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename.'s Custom Menu could not be RESET. Please try again.</p></div>';
+			$messagesdiv = '<div id="message" class="error fade below-h2"><p>'.$themename."'s Custom Menu could not be RESET. Please try again.</p></div>";
 	    }
 	} elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
 		$menu_objects = get_objects_in_term( $menu_selected_id, 'nav_menu' );
@@ -173,7 +173,7 @@ function wp_custom_navigation() {
 			}
 		}
 		// DISPLAY SUCCESS MESSAGE IF POST CORRECT
-		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename.'s Custom Menu has been updated!</p></div>';
+		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>'.$themename."'s Custom Menu has been updated!</p></div>";
 	}
 
  		//DISPLAY Custom Navigation
