@@ -95,7 +95,7 @@ class wpdb {
 	 * @since 1.2
 	 * @var int
 	 */
-	var $num_rows = 0; 
+	var $num_rows = 0;
 
 	/**
 	 * Count of affected rows by previous query
@@ -363,17 +363,6 @@ class wpdb {
 	var $blog_versions;
 
 	/**
-	 * List of Multisite global tables
-	 *
-	 * @since 3.0.0
-	 * @access private
-	 * @see wpdb::tables()
-	 * @var array
-	 */
-	var $ms_tables = array( 'blogs', 'signups', 'site', 'sitemeta',
-		'sitecategories', 'registration_log', 'blog_versions' );
-
-	/**
 	 * List of WordPress global tables
 	 *
 	 * @since 3.0.0
@@ -384,8 +373,19 @@ class wpdb {
 	var $global_tables = array( 'users', 'usermeta' );
 
 	/**
+	 * List of Multisite global tables
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
+	 */
+	var $ms_global_tables = array( 'blogs', 'signups', 'site', 'sitemeta',
+		'sitecategories', 'registration_log', 'blog_versions' );
+
+	/**
 	 * Format specifiers for DB columns. Columns not listed here default to %s. Initialized during WP load.
-	 * 
+	 *
 	 * Keys are column names, values are format types: 'ID' => '%d'
 	 *
 	 * @since 2.8.0
@@ -533,9 +533,6 @@ class wpdb {
 	/**
 	 * Sets the table prefix for the WordPress tables.
 	 *
-	 * Also allows for the CUSTOM_USER_TABLE and CUSTOM_USER_META_TABLE to
-	 * override the WordPress users and usersmeta tables that would otherwise be determined by the $prefix.
-	 *
 	 * @since 2.5.0
 	 *
 	 * @param string $prefix Alphanumeric name for the new prefix.
@@ -551,25 +548,19 @@ class wpdb {
 		if ( isset( $this->base_prefix ) )
 			$old_prefix = $this->base_prefix;
 		$this->base_prefix = $prefix;
-		foreach ( $this->tables( 'global' ) as $table )
-			$this->$table = $prefix . $table;
+		foreach ( $this->tables( 'global' ) as $table => $prefixed_table )
+			$this->$table = $prefixed_table;
 
 		if ( defined( 'VHOST' ) && empty( $this->blogid ) )
 			return $old_prefix;
 
 		$this->prefix = $this->get_blog_prefix( $this->blogid );
 
-		foreach ( (array) $this->tables( 'blog' ) as $table )
-			$this->$table = $this->prefix . $table;
+		foreach ( (array) $this->tables( 'blog' ) as $table => $prefixed_table )
+			$this->$table = $prefixed_table;
 
-		foreach ( (array) $this->tables( 'old' ) as $table )
-			$this->$table = $this->prefix . $table;
-
-		if ( defined( 'CUSTOM_USER_TABLE' ) )
-			$this->users = CUSTOM_USER_TABLE;
-
-		if ( defined( 'CUSTOM_USER_META_TABLE' ) )
-			$this->usermeta = CUSTOM_USER_META_TABLE;
+		foreach ( (array) $this->tables( 'old' ) as $table => $prefixed_table )
+			$this->$table = $prefixed_table;
 
 		return $old_prefix;
 	}
@@ -582,7 +573,7 @@ class wpdb {
 	 * @param string $blog_id
 	 * @param string $site_id. Optional.
 	 * @return string previous blog id
-	 */	
+	 */
 	function set_blog_id( $blog_id, $site_id = '' ) {
 		if ( ! empty( $site_id ) )
 			$this->siteid = $site_id;
@@ -592,11 +583,11 @@ class wpdb {
 
 		$this->prefix = $this->get_blog_prefix( $this->blogid );
 
-		foreach ( $this->tables( 'blog' ) as $table )
-			$this->$table = $this->prefix . $table;
+		foreach ( $this->tables( 'blog' ) as $table => $prefixed_table )
+			$this->$table = $prefixed_table;
 
-		foreach ( $this->tables( 'old' ) as $table )
-			$this->$table = $this->prefix . $table;
+		foreach ( $this->tables( 'old' ) as $table => $prefixed_table )
+			$this->$table = $prefixed_table;
 
 		return $old_blog_id;
 	}
@@ -623,19 +614,26 @@ class wpdb {
 	/**
 	 * Returns an array of WordPress tables.
 	 *
+	 * Also allows for the CUSTOM_USER_TABLE and CUSTOM_USER_META_TABLE to
+	 * override the WordPress users and usersmeta tables that would otherwise
+	 * be determined by the prefix.
+	 *
 	 * @since 3.0.0
 	 * @uses wpdb::tables
 	 * @uses wpdb::old_tables
 	 * @uses wpdb::global_tables
+	 * @uses wpdb::ms_global_tables
 	 * @uses is_multisite()
 	 *
 	 * @param string $scope Can be all, global, blog, or old tables. Default all.
-	 * 	All returns all global tables and the blog tables for the queried blog.
-	 * @param bool $prefix Whether to include the blog prefix. Default false.
-	 * @param int $blog_id The blog_id to prefix. Defaults to main blog.
-	 * @return array Table names.
+	 * 	All returns the blog tables for the queried blog and all global tables.
+	 * @param bool $prefix Whether to include table prefixes. Default false. If blog
+	 *	prefix is requested, then the custom users and usermeta tables will be mapped.
+	 * @param int $blog_id The blog_id to prefix. Defaults to main blog. Used only when prefix is requested.
+	 * @return array Table names. When a prefix is requested, the key is the
+	 *	unprefixed table name.
 	 */
-	function tables( $scope = 'all', $prefix = false, $blog_id = 0 ) {
+	function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
 		switch ( $scope ) {
 			case 'old' :
 				$tables = $this->old_tables;
@@ -644,20 +642,34 @@ class wpdb {
 				$tables = $this->tables;
 				break;
 			case 'global' :
-				$tables = array_merge( $this->global_tables, $this->ms_tables );
+				$tables = $this->global_tables;
+				if ( is_multisite() )
+					$tables = array_merge( $tables, $this->ms_global_tables );
 				break;
 			case 'all' :
 				$tables = array_merge( $this->global_tables, $this->tables );
 				if ( is_multisite() )
-					$tables = array_merge( $tables, $this->ms_tables );
+					$tables = array_merge( $tables, $this->ms_global_tables );
 				break;
 		}
 
 		if ( $prefix ) {
 			$prefix = $this->get_blog_prefix( $blog_id );
+			$base_prefix = $this->base_prefix;
+			$global_tables = array_merge( $this->global_tables, $this->ms_global_tables );
 			foreach ( $tables as $k => $table ) {
-				$tables[$k] = $prefix . $table;
+				if ( in_array( $table, $global_tables ) )
+					$tables[ $table ] = $base_prefix . $table;
+				else
+					$tables[ $table ] = $prefix . $table;
+				unset( $tables[ $k ] );
 			}
+
+			if ( isset( $tables['users'] ) && defined( 'CUSTOM_USER_TABLE' ) )
+				$tables['users'] = CUSTOM_USER_TABLE;
+
+			if ( isset( $tables['usermeta'] ) && defined( 'CUSTOM_USER_META_TABLE' ) )
+				$tables['usermeta'] = CUSTOM_USER_META_TABLE;
 		}
 
 		return $tables;
@@ -785,12 +797,12 @@ class wpdb {
 	/**
 	 * Prepares a SQL query for safe execution.  Uses sprintf()-like syntax.
 	 *
-	 * The following directives can be used in the query format string: 
-	 *   %d (decimal number)  
+	 * The following directives can be used in the query format string:
+	 *   %d (decimal number)
 	 *   %s (string)
-	 *   %% (literal percentage sign - no argument needed) 
+	 *   %% (literal percentage sign - no argument needed)
 	 *
-	 * Both %d and %s are to be left unquoted in the query string and   
+	 * Both %d and %s are to be left unquoted in the query string and
 	 * they need an argument passed for them. Literals (%) as parts of
 	 * the query must be properly written as %%.
 	 *

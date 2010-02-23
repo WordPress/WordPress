@@ -31,7 +31,7 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 
 	$okay = true;
 
-	$tables = $wpdb->tables( 'all', true );
+	$tables = $wpdb->tables( 'all' );
 	// Loop over the WP tables, checking and repairing as needed.
 	foreach ( $tables as $table ) {
 		$check = $wpdb->get_row("CHECK TABLE $table");
