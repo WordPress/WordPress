@@ -315,6 +315,31 @@ function load_textdomain( $domain, $mofile ) {
 }
 
 /**
+ * Unloads translations for a domain
+ * 
+ * @since 3.0.0
+ * @param string $domain Textdomain to be unloaded
+ * @return bool Whether textdomain was unloaded
+ */
+function unload_textdomain( $domain ) {
+	global $l10n;
+
+	$plugin_override = apply_filters( 'override_unload_textdomain', false, $domain );
+
+	if ( $plugin_override )
+		return true;
+
+	do_action( 'unload_textdomain', $domain );
+
+	if ( isset( $l10n[$domain] ) ) {
+		unset( $l10n[$domain] );
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Loads default translated strings based on locale.
  *
  * Loads the .mo file in WP_LANG_DIR constant path from WordPress root. The
@@ -344,7 +369,7 @@ function load_default_textdomain() {
  * @param string $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR. This is the preferred argument to use. It takes precendence over $abs_rel_path
  */
 function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_path = false ) {
-	$locale = get_locale();
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 	if ( false !== $plugin_rel_path	) {
 		$path = WP_PLUGIN_DIR . '/' . trim( $plugin_rel_path, '/' );
@@ -366,19 +391,11 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
  *
  * @param string $domain Unique identifier for retrieving translated strings
  */
-function load_muplugin_textdomain($domain, $path = false) {
-	$locale = get_locale();
-	if ( empty($locale) )
-		$locale = 'en_US';
-
-	/* @todo $path is not used.  Was it ever used and was it expected to be an arbitrary absolute dir?
-	 * Ideally, it should be relative to WPMU_PLUGIN_DUR.
-	if ( false === $path )
-		$path = WPMU_PLUGIN_DIR;
-	*/
+function load_muplugin_textdomain( $domain, $path = false ) {
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 	$mofile = WPMU_PLUGIN_DIR . "/$domain-$locale.mo";
-	load_textdomain($domain, $mofile);
+	load_textdomain( $domain, $mofile );
 }
 
 /**
@@ -393,8 +410,8 @@ function load_muplugin_textdomain($domain, $path = false) {
  *
  * @param string $domain Unique identifier for retrieving translated strings
  */
-function load_theme_textdomain($domain, $path = false) {
-	$locale = get_locale();
+function load_theme_textdomain( $domain, $path = false ) {
+	$locale = apply_filters( 'theme_locale', get_locale(), $domain );
 
 	$path = ( empty( $path ) ) ? get_template_directory() : $path;
 
@@ -414,13 +431,13 @@ function load_theme_textdomain($domain, $path = false) {
  *
  * @param string $domain Unique identifier for retrieving translated strings
  */
-function load_child_theme_textdomain($domain, $path = false) {
-        $locale = get_locale();
+function load_child_theme_textdomain( $domain, $path = false ) {
+	$locale = apply_filters( 'theme_locale', get_locale(), $domain );
 
-        $path = ( empty( $path ) ) ? get_stylesheet_directory() : $path;
+	$path = ( empty( $path ) ) ? get_stylesheet_directory() : $path;
 
-        $mofile = "$path/$locale.mo";
-        return load_textdomain($domain, $mofile);
+	$mofile = "$path/$locale.mo";
+	return load_textdomain($domain, $mofile);
 }
 
 /**
