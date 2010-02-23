@@ -203,7 +203,7 @@ function output_menu_item($menu_item, $context, $args = array() ) {
 						</dl>
 						<?php if ( 'backend' == $context ) { ?>
 						<a><span class=""></span></a>
-						<php } else { ?>
+						<?php } else { ?>
 						<a class="hide" href="<?php echo $menu_item->link; ?>"><?php echo $menu_item->title; ?></a>
 						<?php } ?>
 						<input type="hidden" name="dbid<?php echo $menu_item->menu_order; ?>" id="dbid<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->ID; ?>" />
