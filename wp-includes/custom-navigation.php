@@ -40,14 +40,20 @@ function wp_custom_navigation_setup($override = false) {
 	$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
  	if ( !empty( $custom_menus ) ) {
 		foreach ( $custom_menus as $menu ) {
-			$menu_objects = get_objects_in_term( $menu->term_id, 'nav_menu' );
-			if ( !empty( $menu_objects ) ) {
-				foreach ( $menu_objects as $item ) {
-					wp_delete_post( $item );
-				}
-			}
-			wp_delete_term( $menu->term_id, 'nav_menu' );
+			wp_custom_navigation_delete_menu( $menu->term_id );
 		}
+	}
+}
+function wp_custom_navigation_delete_menu( $menu_term_id ) {
+	$term_id = (int) $menu_term_id;
+	if ( $term_id > 0 ) {
+		$menu_objects = get_objects_in_term( $term_id, 'nav_menu' );
+		if ( !empty( $menu_objects ) ) {
+			foreach ( $menu_objects as $item ) {
+				wp_delete_post( $item );
+			}
+		}
+		wp_delete_term( $term_id, 'nav_menu' );
 	}
 }
 
