@@ -227,11 +227,10 @@ function output_menu_item($menu_item, $context, $args = array() ) {
 		break;
 
 		case 'default':
+			$templatedir = get_bloginfo('url');
 ?>
 					<dl>
 					<dt>
-
-					<?php $templatedir = get_bloginfo('url'); ?>
 					<span class="title"><?php echo $menu_item->title; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','<?php echo $menu_item->append; ?>','<?php echo $menu_item->title; ?>','<?php echo $menu_item->link; ?>','<?php echo $menu_item->ID; ?>','<?php echo $menu_item->parent_item ?>','<?php echo $menu_item->description; ?>')" name="<?php echo $menu_item->title; ?>" value="<?php echo $menu_item->link; ?>"><img alt="<?php esc_attr_e('Add to Custom Menu'); ?>" title="<?php esc_attr_e('Add to Custom Menu'); ?>" src="<?php echo admin_url('images/ico-add.png'); ?>" /></a> </dt>
 					</dl>
 <?php
@@ -333,62 +332,34 @@ function wp_custom_nav_get_pages($counter, $type) {
 
 	// Display Loop
 	foreach ( $pages_array as $post ) {
-		if ($post->post_parent == 0) {
-			// Custom Menu
+		if ( $post->post_parent == 0 ) {
+			$post = setup_menu_item($post, 'page', $intCounter);
 			if ( $type == 'menu' ) {
-				$post = setup_menu_item($post, 'page', $intCounter);
 				?>
 
 				<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
-
-					<?php output_menu_item($post, 'menu', $intCounter); ?>
-
-					<?php $parentli = $post->ID; ?>
-					<?php $intCounter++; ?>
 					<?php
-
-						//Recursive function
+						output_menu_item($post, 'menu', $intCounter);
+						$parentli = $post->ID;
+						$intCounter++;
 						$intCounter = wp_custom_navigation_default_sub_items($post->ID, $intCounter, $parentli, 'pages', 'menu');
-
 					?>
-
 				</li>
 
 				<?php
-
 			} elseif ( $type == 'default' ) {
 				// Sidebar Menu
 				?>
-
 				 <li>
-					<dl>
-					<dt>
 					<?php
-						$post_text = htmlentities($post->post_title);
-						$post_url = get_permalink($post->ID);
-						$post_id = $post->ID;
-						$post_parent_id = $post->post_parent;
-
-						$description = htmlentities(get_post_meta($post_id, 'page-description', true));
-
-					?>
-					<?php $templatedir = get_bloginfo('url'); ?>
-
-					<span class="title"><?php echo $post->post_title; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','Page','<?php echo $post_text; ?>','<?php echo $post_url; ?>','<?php echo $post_id; ?>','<?php echo $post_parent_id ?>','<?php echo $description; ?>')" name="<?php echo $post_text; ?>" value="<?php echo get_permalink($post->ID); ?>"><img alt="Add to Custom Menu" title="Add to Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-add.png" /></a></dt>
-					</dl>
-					<?php $parentli = $post->ID; ?>
-					<?php $intCounter++; ?>
-					<?php
-
-						//Recursive function
-						$intCounter = wp_custom_navigation_default_sub_items($post_id, $intCounter, $parentli, 'pages', 'default');
-
+						output_menu_item($post, 'default');
+						$parentli = $post->ID;
+						$intCounter++;
+						$intCounter = wp_custom_navigation_default_sub_items($post->ID, $intCounter, $parentli, 'pages', 'default');
 					 ?>
-
 				</li>
 
 				<?php
-
 			}
 		}
 	}
@@ -418,7 +389,7 @@ function wp_custom_nav_get_categories($counter, $type) {
 	$categories_array = get_categories($category_args);
 
 	if ( !$categories_array ) {
-		echo 'Not Found';
+		_e('Not Found');
 		return $intCounter;
 	}
 
@@ -431,14 +402,11 @@ function wp_custom_nav_get_categories($counter, $type) {
 				?>
 
 				<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
-					<?php output_menu_item($cat_item, 'menu'); ?>
-					<?php $parentli = $cat_item->cat_ID; ?>
-					<?php $intCounter++; ?>
 					<?php
-
-						// Recursive function
-						$intCounter = wp_custom_navigation_default_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories','menu');
-
+						output_menu_item($cat_item, 'menu');
+						$parentli = $cat_item->cat_ID;
+						$intCounter++;
+						$intCounter = wp_custom_navigation_default_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories', 'menu');
 					?>
 
 				</li>
@@ -448,22 +416,10 @@ function wp_custom_nav_get_categories($counter, $type) {
 				// Sidebar Menu
 				?>
 				<li>
-					<dl>
-					<dt>
 					<?php
-					$post_text = htmlentities($cat_item->cat_name);
-					$post_url = get_category_link($cat_item->cat_ID);
-					$post_id = $cat_item->cat_ID;
-					$post_parent_id = $cat_item->parent;
-					$description = htmlentities(strip_tags($cat_item->description));
-					?>
-					<?php $templatedir = get_bloginfo('url'); ?>
-					<span class="title"><?php echo esc_html($cat_item->cat_name); ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','Category','<?php echo $post_text; ?>','<?php echo $post_url; ?>','<?php echo $post_id; ?>','<?php echo $post_parent_id ?>','<?php echo $description; ?>')" name="<?php echo $post_text; ?>" value="<?php echo $post_url;  ?>"><img alt="="<?php esc_attr_e('Add to Custom Menu'); ?>" title="="<?php esc_attr_e('Add to Custom Menu'); ?>"  src="<?php echo admin_url('images/ico-add.png'); ?>" /></a> </dt>
-					</dl>
-					<?php $parentli = $cat_item->cat_ID; ?>
-					<?php $intCounter++; ?>
-					<?php
-						// Recursive function
+						output_menu_item($cat_item, 'default');
+						$parentli = $cat_item->cat_ID;
+						$intCounter++;
 						$intCounter = wp_custom_navigation_default_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories', 'default');
 					?>
 
@@ -517,70 +473,32 @@ function wp_custom_navigation_default_sub_items($childof, $intCounter, $parentli
 		<?php
 		// Display Loop
 		foreach ( $sub_array as $sub_item ) {
-			// Prepare Menu Data
 			$sub_item = setup_menu_item($sub_item, $item_type, $counter);
 
-			if ( $type == 'categories' ) {
-				// Category Menu Item
-				$link = get_category_link($sub_item->cat_ID);
-				$title = htmlentities($sub_item->cat_name);
-				$parent_id = $sub_item->cat_ID;
-				$itemid = $sub_item->cat_ID;
-				$linktype = 'category';
-				$appendtype = 'Category';
-				$description = htmlentities(strip_tags($sub_item->description));
-			} elseif ( $type == 'pages' ) {
-				//Page Menu Item
-				$link = get_permalink($sub_item->ID);
-				$title = htmlentities($sub_item->post_title);
-				$parent_id = $sub_item->ID;
-				$linktype = 'page';
-				$itemid = $sub_item->ID;
-				$appendtype = 'Page';
-				$description = htmlentities(get_post_meta($itemid, 'page-description', true));
-			} else {
-				// Custom Menu Item
-				$title = '';
-				$linktype = 'custom';
-				$appendtype= 'Custom';
-			}
-
-			// Custom Menu
 			if ( $output_type == 'menu' ) {
 				?>
 				<li id="menu-<?php echo $counter; ?>" value="<?php echo $counter; ?>">
-					<?php output_menu_item($sub_item, 'menu'); ?>
-					<?php $counter++; ?>
 					<?php
-
-						// Do recursion
-						$counter = wp_custom_navigation_default_sub_items($parent_id, $counter, $parent_id, $type, 'menu');
-
+						output_menu_item($sub_item, 'menu');
+						$counter++;
+						$counter = wp_custom_navigation_default_sub_items($sub_item->ID, $counter, $sub_item->ID, $type, 'menu');
 					?>
 
 				</li>
 				<?php
-			} elseif ($output_type == 'default') {
+			} elseif ( $output_type == 'default' ) {
 				// Sidebar Menu
 				?>
 				<li>
-					<dl>
-					<dt>
-
-					<?php $templatedir = get_bloginfo('url'); ?>
-					<span class="title"><?php echo $title; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','<?php echo $appendtype; ?>','<?php echo $title; ?>','<?php echo $link; ?>','<?php echo $itemid; ?>','<?php echo $parent_id ?>','<?php echo $description; ?>')" name="<?php echo $title; ?>" value="<?php echo $link; ?>"><img alt="<?php esc_attr_e('Add to Custom Menu'); ?>" title="<?php esc_attr_e('Add to Custom Menu'); ?>" src="<?php echo admin_url('images/ico-add.png'); ?>" /></a> </dt>
-					</dl>
 					<?php
-
-						// Do recursion
-						$counter = wp_custom_navigation_default_sub_items($itemid, $counter, $parent_id, $type, 'default');
-
+						output_menu_item($sub_item, 'default');
+						//$counter++;
+						$counter = wp_custom_navigation_default_sub_items($sub_item->ID, $counter, $sub_item->ID, $type, 'default');
 					?>
 				</li>
 
 				<?php
 			}
-
 		}
 		?>
 
