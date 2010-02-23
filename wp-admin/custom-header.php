@@ -55,7 +55,7 @@ class Custom_Image_Header {
 		if ( ! current_user_can('switch_themes') )
 			return;
 
-		$page = add_theme_page(__('Custom Header'), __('Custom Header'), 'switch_themes', 'custom-header', array(&$this, 'admin_page'));
+		$page = add_theme_page(__('Header'), __('Header'), 'switch_themes', 'custom-header', array(&$this, 'admin_page'));
 
 		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
 		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));

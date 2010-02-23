@@ -55,7 +55,7 @@ class Custom_Background {
 		if ( ! current_user_can('switch_themes') )
 			return;
 
-		$page = add_theme_page(__('Custom Background'), __('Custom Background'), 'switch_themes', 'custom-background', array(&$this, 'admin_page'));
+		$page = add_theme_page(__('Background'), __('Background'), 'switch_themes', 'custom-background', array(&$this, 'admin_page'));
 
 		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
 		if ( $this->admin_header_callback )
