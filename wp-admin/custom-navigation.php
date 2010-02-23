@@ -37,18 +37,26 @@ function wp_reset_nav_menu() {
 
 $messagesdiv = '';
 $menu_id_in_edit = 0;
+$updated = false;
 
 // Check which menu is selected and if menu is in edit already
-if ( isset( $_POST['switch_menu'] ) )
+if ( isset( $_POST['switch_menu'] ) ) {
 	$menu_selected_id = (int) $_POST['menu_select'];
-elseif ( isset( $_POST['menu_id_in_edit'] ) )
+	$updated = true;
+} elseif ( isset( $_POST['menu_id_in_edit'] ) ) {
 	$menu_selected_id = (int) $_POST['menu_id_in_edit'];
-else
+} else {
 	$menu_selected_id = 0;
+}
 
+if ( isset( $_POST[ 'delete_menu' ] ) && $menu_selected_id > 0 ) {
+	wp_delete_nav_menu( $menu_selected_id );
+	$menu_selected_id = 0;
+	$updated = true;
+}
 // Default Menu to show
 $custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
-if ( !empty( $custom_menus ) )
+if ( ! $menu_selected_id && ! empty( $custom_menus ) )
 	$menu_selected_id = $custom_menus[0]->term_id;
 
 $menu_title = '';
@@ -64,6 +72,7 @@ if ( $menu_selected_id > 0 ) {
 if ( isset( $_POST['set_wp_menu'] ) ) {
 	// @todo validate set_wp_menu
 	update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
+	$updated = true;
 	$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('Menu has been updated!') . '</p></div>';
 }
 
@@ -73,7 +82,7 @@ else
 	$postCounter = 0;
 
 // Create a new menu. Menus are stored as terms in the 'menu' taxonomy.
-if ( isset( $_POST['add_menu'] ) ) {
+if ( isset( $_POST['add_menu'] ) && ! $updated ) {
 	$insert_menu_name = $_POST['add_menu_name'];
 
 	if ( $insert_menu_name != '' ) {
@@ -90,9 +99,10 @@ if ( isset( $_POST['add_menu'] ) ) {
 	} else {
 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('Please enter a valid menu name.') . '</p></div>';
 	}
+	$updated = true;
 }
 
-if ( isset($_POST['reset_wp_menu']) ) {
+if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 	$success = wp_reset_nav_menu();
 	if ( $success ) {
 		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
@@ -104,7 +114,7 @@ if ( isset($_POST['reset_wp_menu']) ) {
 		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('The menu could not be reset. Please try again.') . '</p></div>';
 	}
-} elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
+} elseif ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
 	$menu_items = wp_get_nav_menu_items( $menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 	$parent_menu_ids = array();
 
@@ -209,6 +219,7 @@ if ( isset($_POST['reset_wp_menu']) ) {
 			updatepostdata();
 		</script>
 
+		<input id="delete_menu" name="delete_menu" type="submit" value="<?php esc_attr_e('Delete This Menu'); ?>" />
 		<input id="save_bottom" name="save_bottom" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" /></p>
 		</div><!-- /.inside -->
 	</div>
