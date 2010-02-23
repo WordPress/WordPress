@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Custom Navigation
+ * WordPress Administration for Navigation Menus
  * Interface functions
  *
  * @author Jeffikus <pearce.jp@gmail.com>
@@ -46,7 +46,7 @@ function wp_custom_navigation() {
 	?>
 
 	<div class="wrap">
-	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Custom Menu functionality.'); ?></h3></div>
+	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></h3></div>
 
 	<?php
 	$messagesdiv = '';
@@ -81,7 +81,7 @@ function wp_custom_navigation() {
 	if ( isset( $_POST['set_wp_menu'] ) ) {
 		// @todo validate set_wp_menu
 	    update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
-		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('Custom Menu has been updated!') . '</p></div>';
+		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('Menu has been updated!') . '</p></div>';
 	}
 
 	if ( isset( $_POST['licount'] ) )
@@ -178,9 +178,10 @@ function wp_custom_navigation() {
 
  		// DISPLAY Custom Navigation
  		?>
+		<?php screen_icon(); ?>
+		<h2 class="maintitle"><?php esc_html_e('Menus') ?></h2>
 		<div id="pages-left">
 			<div class="inside">
-			<h2 class="maintitle"><?php esc_html_e('Custom Navigation') ?></h2>
 			<?php
 
 				// CHECK if custom menu has been enabled
@@ -188,7 +189,7 @@ function wp_custom_navigation() {
 			    $checked = strtolower($enabled_menu);
 
 				if ( $checked != 'true' )
-					echo '<div id="message-enabled" class="error fade below-h2"><p><strong>' . __('The Custom Menu has not been Enabled yet. Please enable it in order to use it -------->') . '</strong></p></div>';
+					echo '<div id="message-enabled" class="error fade below-h2"><p><strong>' . __('Menu editing has not been Enabled yet. Please enable it in order to use it -------->') . '</strong></p></div>';
 
 			?>
 			<?php echo $messagesdiv; ?>
@@ -233,13 +234,10 @@ function wp_custom_navigation() {
 		</div>
 
 		<div id="menu-right">
-
-			<h2 class="heading"><?php esc_html_e('Options'); ?></h2>
-
 			<div class="widgets-holder-wrap">
 				<div class="sidebar-name">
 					<div class="sidebar-name-arrow"></div>
-					<h3><?php esc_html_e('Setup Custom Menu'); ?></h3>
+					<h3><?php esc_html_e('Setup Menus'); ?></h3>
 				</div>
 				<div class="widget-holder">
 
