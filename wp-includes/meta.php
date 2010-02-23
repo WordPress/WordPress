@@ -32,6 +32,9 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	if ( !$meta_type || !$meta_key )
 		return false;
 
+	if ( !$object_id = absint($object_id) )
+		return false;
+
 	if ( ! $table = _get_meta_table($meta_type) )
 		return false;
 
@@ -83,6 +86,9 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  */
 function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '') {
 	if ( !$meta_type || !$meta_key )
+		return false;
+
+	if ( !$object_id = absint($object_id) )
 		return false;
 
 	if ( ! $table = _get_meta_table($meta_type) )
@@ -138,7 +144,10 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
  * @return bool True on successful delete, false on failure.
  */
 function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false) {
-	if ( !$meta_type || !$meta_key || (!$delete_all && ! (int)$object_id) )
+	if ( !$meta_type || !$meta_key )
+		return false;
+
+	if ( !$object_id = absint($object_id) && !$delete_all )
 		return false;
 
 	if ( ! $table = _get_meta_table($meta_type) )
@@ -193,6 +202,9 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
  */
 function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	if ( !$meta_type )
+		return false;
+
+	if ( !$object_id = absint($object_id) )
 		return false;
 
 	$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
