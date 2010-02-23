@@ -93,6 +93,7 @@ class wpdb {
 	 * Count of rows returned by previous query
 	 *
 	 * @since 1.2
+	 * @access private
 	 * @var int
 	 */
 	var $num_rows = 0;
@@ -101,6 +102,7 @@ class wpdb {
 	 * Count of affected rows by previous query
 	 *
 	 * @since 0.71
+	 * @access private
 	 * @var int
 	 */
 	var $rows_affected = 0;
@@ -118,7 +120,8 @@ class wpdb {
 	 * Results of the last query made
 	 *
 	 * @since {@internal Version Unknown}}
-	 * @var mixed
+	 * @access private
+	 * @var array|null
 	 */
 	var $last_result;
 
@@ -166,6 +169,7 @@ class wpdb {
 	 * {@internal Missing Description}}
 	 *
 	 * @since 3.0.0
+	 * @access public
 	 * @var int
 	 */
 	var $blogid = 0;
@@ -174,27 +178,54 @@ class wpdb {
 	 * {@internal Missing Description}}
 	 *
 	 * @since 3.0.0
+	 * @access public
 	 * @var int
 	 */
 	var $siteid = 0;
 
 	/**
-	 * WordPress Posts table
+	 * List of WordPress per-blog tables
 	 *
-	 * @since 1.5.0
-	 * @access public
-	 * @var string
+	 * @since {@internal Version Unknown}}
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
 	 */
-	var $posts;
+	var $tables = array( 'posts', 'comments', 'links', 'options', 'postmeta',
+		'terms', 'term_taxonomy', 'term_relationships', 'commentmeta' );
 
 	/**
-	 * WordPress Users table
+	 * List of deprecated WordPress tables
 	 *
-	 * @since 1.5.0
-	 * @access public
-	 * @var string
+	 * categories, post2cat, and link2cat were deprecated in 2.3.0, db version 5539
+	 *
+	 * @since 2.9.0
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
 	 */
-	var $users;
+	var $old_tables = array( 'categories', 'post2cat', 'link2cat' );
+
+	/**
+	 * List of WordPress global tables
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
+	 */
+	var $global_tables = array( 'users', 'usermeta' );
+
+	/**
+	 * List of Multisite global tables
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @see wpdb::tables()
+	 * @var array
+	 */
+	var $ms_global_tables = array( 'blogs', 'signups', 'site', 'sitemeta',
+		'sitecategories', 'registration_log', 'blog_versions' );
 
 	/**
 	 * WordPress Comments table
@@ -204,6 +235,15 @@ class wpdb {
 	 * @var string
 	 */
 	var $comments;
+
+	/**
+	 * WordPress Comment Metadata table
+	 *
+	 * @since 2.9.0
+	 * @access public
+	 * @var string
+	 */
+	var $commentmeta;
 
 	/**
 	 * WordPress Links table
@@ -233,22 +273,13 @@ class wpdb {
 	var $postmeta;
 
 	/**
-	 * WordPress Comment Metadata table
+	 * WordPress Posts table
 	 *
-	 * @since 2.9
+	 * @since 1.5.0
 	 * @access public
 	 * @var string
 	 */
-	var $commentmeta;
-
-	/**
-	 * WordPress User Metadata table
-	 *
-	 * @since 2.3.0
-	 * @access public
-	 * @var string
-	 */
-	var $usermeta;
+	var $posts;
 
 	/**
 	 * WordPress Terms table
@@ -260,15 +291,6 @@ class wpdb {
 	var $terms;
 
 	/**
-	 * WordPress Term Taxonomy table
-	 *
-	 * @since 2.3.0
-	 * @access public
-	 * @var string
-	 */
-	var $term_taxonomy;
-
-	/**
 	 * WordPress Term Relationships table
 	 *
 	 * @since 2.3.0
@@ -278,26 +300,35 @@ class wpdb {
 	var $term_relationships;
 
 	/**
-	 * List of WordPress per-blog tables
+	 * WordPress Term Taxonomy table
 	 *
-	 * @since {@internal Version Unknown}}
-	 * @access private
-	 * @see wpdb::tables()
-	 * @var array
+	 * @since 2.3.0
+	 * @access public
+	 * @var string
 	 */
-	var $tables = array( 'posts', 'comments', 'links', 'options', 'postmeta',
-		'terms', 'term_taxonomy', 'term_relationships', 'commentmeta' );
+	var $term_taxonomy;
+
+	/*
+	 * Global and Multisite tables
+	 */
 
 	/**
-	 * List of deprecated WordPress tables
+	 * WordPress User Metadata table
 	 *
-	 * @deprecated
-	 * @since 2.9.0
-	 * @access private
-	 * @see wpdb::tables()
-	 * @var array
+	 * @since 2.3.0
+	 * @access public
+	 * @var string
 	 */
-	var $old_tables = array( 'categories', 'post2cat', 'link2cat' );
+	var $usermeta;
+
+	/**
+	 * WordPress Users table
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 * @var string
+	 */
+	var $users;
 
 	/**
 	 * Multisite Blogs table
@@ -307,6 +338,24 @@ class wpdb {
 	 * @var string
 	 */
 	var $blogs;
+
+	/**
+	 * Multisite Blog Versions table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $blog_versions;
+
+	/**
+	 * Multisite Registration Log table
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	var $registration_log;
 
 	/**
 	 * Multisite Signups table
@@ -327,15 +376,6 @@ class wpdb {
 	var $site;
 
 	/**
-	 * Multisite Site Metadata table
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var string
-	 */
-	var $sitemeta;
-
-	/**
 	 * Multisite Sitewide Terms table
 	 *
 	 * @since 3.0.0
@@ -345,43 +385,13 @@ class wpdb {
 	var $sitecategories;
 
 	/**
-	 * Multisite Registration Log table
+	 * Multisite Site Metadata table
 	 *
 	 * @since 3.0.0
 	 * @access public
 	 * @var string
 	 */
-	var $registration_log;
-
-	/**
-	 * Multisite Blog Versions table
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var string
-	 */
-	var $blog_versions;
-
-	/**
-	 * List of WordPress global tables
-	 *
-	 * @since 3.0.0
-	 * @access private
-	 * @see wpdb::tables()
-	 * @var array
-	 */
-	var $global_tables = array( 'users', 'usermeta' );
-
-	/**
-	 * List of Multisite global tables
-	 *
-	 * @since 3.0.0
-	 * @access private
-	 * @see wpdb::tables()
-	 * @var array
-	 */
-	var $ms_global_tables = array( 'blogs', 'signups', 'site', 'sitemeta',
-		'sitecategories', 'registration_log', 'blog_versions' );
+	var $sitemeta;
 
 	/**
 	 * Format specifiers for DB columns. Columns not listed here default to %s. Initialized during WP load.
@@ -547,7 +557,9 @@ class wpdb {
 
 		if ( isset( $this->base_prefix ) )
 			$old_prefix = $this->base_prefix;
+
 		$this->base_prefix = $prefix;
+
 		foreach ( $this->tables( 'global' ) as $table => $prefixed_table )
 			$this->$table = $prefixed_table;
 
@@ -570,11 +582,11 @@ class wpdb {
 	 *
 	 * @since 3.0.0
 	 * @access public
-	 * @param string $blog_id
-	 * @param string $site_id. Optional.
+	 * @param int $blog_id
+	 * @param int $site_id Optional.
 	 * @return string previous blog id
 	 */
-	function set_blog_id( $blog_id, $site_id = '' ) {
+	function set_blog_id( $blog_id, $site_id = 0 ) {
 		if ( ! empty( $site_id ) )
 			$this->siteid = $site_id;
 
@@ -597,12 +609,12 @@ class wpdb {
 	 *
 	 * @uses is_multisite()
 	 * @since 3.0.0
-	 * @param int $blog_id. Optional.
+	 * @param int $blog_id Optional.
 	 * @return string Blog prefix.
 	 */
 	function get_blog_prefix( $blog_id = 0 ) {
 		if ( is_multisite() && $blog_id ) {
-			if ( defined('MULTISITE') && ( $blog_id == 0 || $blog_id == 1 ) )
+			if ( defined( 'MULTISITE' ) && ( 0 == $blog_id || 1 == $blog_id ) )
 				return $this->base_prefix;
 			else
 				return $this->base_prefix . $blog_id . '_';
@@ -619,16 +631,20 @@ class wpdb {
 	 * be determined by the prefix.
 	 *
 	 * @since 3.0.0
-	 * @uses wpdb::tables
-	 * @uses wpdb::old_tables
-	 * @uses wpdb::global_tables
-	 * @uses wpdb::ms_global_tables
+	 * @uses wpdb::$tables
+	 * @uses wpdb::$old_tables
+	 * @uses wpdb::$global_tables
+	 * @uses wpdb::$ms_global_tables
 	 * @uses is_multisite()
 	 *
-	 * @param string $scope Can be all, global, ms_global, blog, or old tables. Default all.
-	 * 	All returns the blog tables for the queried blog and all global tables.
+	 * @param string $scope Can be all, global, ms_global, blog, or old tables. Defaults to all.
+	 * 	'all' returns 'all' and 'global' tables. No old tables are returned.
+	 * 	'global' returns the global tables for the installation, returning multisite tables only if running multisite.
+	 * 	'ms_global' returns the multisite global tables, regardless if current installation is multisite.
+	 * 	'blog' returns the blog-level tables for the queried blog.
+	 * 	'old' returns tables which are deprecated.
 	 * @param bool $prefix Whether to include table prefixes. Default true. If blog
-	 *	prefix is requested, then the custom users and usermeta tables will be mapped.
+	 * 	prefix is requested, then the custom users and usermeta tables will be mapped.
 	 * @param int $blog_id The blog_id to prefix. Defaults to wpdb::blogid. Used only when prefix is requested.
 	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
@@ -658,14 +674,14 @@ class wpdb {
 		if ( $prefix ) {
 			if ( ! $blog_id )
 				$blog_id = $this->blogid;
-			$prefix = $this->get_blog_prefix( $blog_id );
+			$blog_prefix = $this->get_blog_prefix( $blog_id );
 			$base_prefix = $this->base_prefix;
 			$global_tables = array_merge( $this->global_tables, $this->ms_global_tables );
 			foreach ( $tables as $k => $table ) {
 				if ( in_array( $table, $global_tables ) )
 					$tables[ $table ] = $base_prefix . $table;
 				else
-					$tables[ $table ] = $prefix . $table;
+					$tables[ $table ] = $blog_prefix . $table;
 				unset( $tables[ $k ] );
 			}
 
@@ -709,8 +725,8 @@ class wpdb {
 	/**
 	 * Weak escape
 	 *
-	 * @see addslashes()
-	 * @since  unknown
+	 * @uses addslashes()
+	 * @since {@internal Version Unknown}}
 	 * @access private
 	 *
 	 * @param  string $string
@@ -723,8 +739,8 @@ class wpdb {
 	/**
 	 * Real escape
 	 *
-	 * @see mysql_real_escape_string()
-	 * @see addslashes()
+	 * @uses mysql_real_escape_string()
+	 * @uses addslashes()
 	 * @since 2.8
 	 * @access private
 	 *
@@ -739,9 +755,10 @@ class wpdb {
 	}
 
 	/**
-	 * Escape data.
+	 * Escape data. Works on arrays.
 	 *
-	 * @see esc_sql()
+     * @uses wpdb::_escape()
+     * @uses wpdb::_real_escape()
 	 * @since  2.8
 	 * @access private
 	 *
@@ -764,10 +781,11 @@ class wpdb {
 	}
 
 	/**
-	 * Escapes content for insertion into the database using addslashes(), for security
+	 * Escapes content for insertion into the database using addslashes(), for security.
+	 *
+	 * Works on arrays.
 	 *
 	 * @since 0.71
-	 *
 	 * @param  string|array $data to escape
 	 * @return string|array escaped as query safe string
 	 */
@@ -789,8 +807,8 @@ class wpdb {
 	/**
 	 * Escapes content by reference for insertion into the database, for security
 	 *
+	 * @uses wpdb::_real_escape()
 	 * @since 2.3.0
-	 *
 	 * @param  string $string to escape
 	 * @return void
 	 */
@@ -819,7 +837,8 @@ class wpdb {
 	 * Both %d and %s should be left unquoted in the query string.
 	 *
 	 * <code>
-	 * wpdb::prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d", "foo", 1337 )
+	 * wpdb::prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d", 'foo', 1337 )
+	 * wpdb::prepare( "SELECT DATE_FORMAT(`field`, '%%c') FROM `table` WHERE `column` = %s", 'foo' );
 	 * </code>
 	 *
 	 * @link http://php.net/sprintf Description of syntax.
@@ -837,6 +856,7 @@ class wpdb {
 	function prepare( $query = null ) { // ( $query, *$args )
 		if ( is_null( $query ) )
 			return;
+
 		$args = func_get_args();
 		array_shift( $args );
 		// If args were passed as an array (as in vsprintf), move them up
@@ -873,19 +893,11 @@ class wpdb {
 		else
 			$error_str = sprintf(/*WP_I18N_DB_QUERY_ERROR*/'WordPress database error %1$s for query %2$s'/*/WP_I18N_DB_QUERY_ERROR*/, $str, $this->last_query);
 
-		$log_error = true;
-		if ( ! function_exists('error_log') )
-			$log_error = false;
-
-		$log_file = @ini_get('error_log');
-		if ( !empty($log_file) && ('syslog' != $log_file) && !@is_writable($log_file) )
-			$log_error = false;
-
-		if ( $log_error )
-			@error_log($error_str, 0);
+		if ( function_exists('error_log') && $log_file = @ini_get('error_log') && ( 'syslog' == $log_file || is_writable( $log_file ) ) )
+			@error_log( $error_str, 0 );
 
 		// Is error output turned on or not..
-		if ( !$this->show_errors )
+		if ( ! $this->show_errors )
 			return false;
 
 		// If there is an error then take note of it
@@ -894,7 +906,7 @@ class wpdb {
 			if ( defined( 'ERRORLOGFILE' ) )
 				error_log( $msg, 3, ERRORLOGFILE );
 			if ( defined( 'DIEONDBERROR' ) )
-				die( $msg );
+				wp_die( $msg );
 		} else {
 			$str   = htmlspecialchars( $str, ENT_QUOTES );
 			$query = htmlspecialchars( $this->last_query, ENT_QUOTES );
@@ -1021,12 +1033,10 @@ class wpdb {
 		if ( ! $this->ready )
 			return false;
 
-		// filter the query, if filters are available
-		// NOTE: some queries are made before the plugins have been loaded, and thus cannot be filtered with this method
+		// some queries are made before the plugins have been loaded, and thus cannot be filtered with this method
 		if ( function_exists( 'apply_filters' ) )
 			$query = apply_filters( 'query', $query );
 
-		// initialize return
 		$return_val = 0;
 		$this->flush();
 
@@ -1065,9 +1075,9 @@ class wpdb {
 		}
 
 		$this->result = @mysql_query( $query, $dbh );
-		++$this->num_queries;
+		$this->num_queries++;
 
-		if ( defined('SAVEQUERIES') && SAVEQUERIES )
+		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
 			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
 
 		// If there is an error then take note of it..
@@ -1111,15 +1121,19 @@ class wpdb {
 	 * Insert a row into a table.
 	 *
 	 * <code>
+	 * wpdb::insert( 'table', array( 'column' => 'foo', 'field' => 'bar' ) )
 	 * wpdb::insert( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( '%s', '%d' ) )
 	 * </code>
 	 *
 	 * @since 2.5.0
 	 * @see wpdb::prepare()
+	 * @see wpdb::$field_types
+	 * @see wp_set_wpdb_vars()
 	 *
 	 * @param string $table table name
 	 * @param array $data Data to insert (in column => value pairs).  Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 * @param array|string $format (optional) An array of formats to be mapped to each of the value in $data.  If string, that format will be used for all of the values in $data.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $data will be treated as strings.
+	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data. If string, that format will be used for all of the values in $data.
+	 * 	A format is one of '%d', '%s' (decimal number, string). If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	function insert( $table, $data, $format = null ) {
@@ -1144,21 +1158,25 @@ class wpdb {
 	 * Update a row in the table
 	 *
 	 * <code>
+	 * wpdb::update( 'table', array( 'column' => 'foo', 'field' => 'bar' ), array( 'ID' => 1 ) )
 	 * wpdb::update( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( 'ID' => 1 ), array( '%s', '%d' ), array( '%d' ) )
 	 * </code>
 	 *
 	 * @since 2.5.0
 	 * @see wpdb::prepare()
+	 * @see wpdb::$field_types
+	 * @see wp_set_wpdb_vars()
 	 *
 	 * @param string $table table name
-	 * @param array $data Data to update (in column => value pairs).  Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 * @param array $where A named array of WHERE clauses (in column => value pairs).  Multiple clauses will be joined with ANDs.  Both $where columns and $where values should be "raw".
-	 * @param array|string $format (optional) An array of formats to be mapped to each of the values in $data.  If string, that format will be used for all of the values in $data.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $data will be treated as strings.
-	 * @param array|string $format_where (optional) An array of formats to be mapped to each of the values in $where.  If string, that format will be used for all of  the items in $where.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $where will be treated as strings.
+	 * @param array $data Data to update (in column => value pairs). Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 * @param array $where A named array of WHERE clauses (in column => value pairs). Multiple clauses will be joined with ANDs. Both $where columns and $where values should be "raw".
+	 * @param array|string $format Optional. An array of formats to be mapped to each of the values in $data. If string, that format will be used for all of the values in $data.
+	 * 	A format is one of '%d', '%s' (decimal number, string). If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
+	 * @param array|string $format_where Optional. An array of formats to be mapped to each of the values in $where. If string, that format will be used for all of the items in $where.  A format is one of '%d', '%s' (decimal number, string).  If omitted, all values in $where will be treated as strings.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	function update( $table, $data, $where, $format = null, $where_format = null ) {
-		if ( ! is_array( $where ) )
+		if ( ! is_array( $data ) || ! is_array( $where ) )
 			return false;
 
 		$formats = $format = (array) $format;
@@ -1197,10 +1215,10 @@ class wpdb {
 	 *
 	 * @since 0.71
 	 *
-	 * @param string|null $query Optional. SQL query. If null (default), uses the result from the previous query.
-	 * @param int $x (optional) Column of value to return.  Indexed from 0.
-	 * @param int $y (optional) Row of value to return.  Indexed from 0.
-	 * @return string|null Database query result, or null on failure
+	 * @param string|null $query Optional. SQL query. Defaults to null, use the result from the previous query.
+	 * @param int $x Optional. Column of value to return.  Indexed from 0.
+	 * @param int $y Optional. Row of value to return.  Indexed from 0.
+	 * @return string|null Database query result (as string), or null on failure
 	 */
 	function get_var( $query = null, $x = 0, $y = 0 ) {
 		$this->func_call = "\$db->get_var(\"$query\", $x, $y)";
@@ -1224,8 +1242,9 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string|null $query SQL query.
-	 * @param string $output (optional) one of ARRAY_A | ARRAY_N | OBJECT constants.  Return an associative array (column => value, ...), a numerically indexed array (0 => value, ...) or an object ( ->column = value ), respectively.
-	 * @param int $y (optional) Row to return.  Indexed from 0.
+	 * @param string $output Optional. one of ARRAY_A | ARRAY_N | OBJECT constants. Return an associative array (column => value, ...),
+	 * 	a numerically indexed array (0 => value, ...) or an object ( ->column = value ), respectively.
+	 * @param int $y Optional. Row to return. Indexed from 0.
 	 * @return mixed Database query result in format specifed by $output or null on failure
 	 */
 	function get_row( $query = null, $output = OBJECT, $y = 0 ) {
@@ -1258,7 +1277,7 @@ class wpdb {
 	 *
 	 * @since 0.71
 	 *
-	 * @param string|null $query Optional. SQL query. If null (default), use the result from the previous query.
+	 * @param string|null $query Optional. SQL query. Defaults to previous query.
 	 * @param int $x Optional. Column to return. Indexed from 0.
 	 * @return array Database query result. Array indexed from 0 by SQL result row number.
 	 */
@@ -1282,7 +1301,9 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string $query SQL query.
-	 * @param string $output (optional) ane of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.  With one of the first three, return an array of rows indexed from 0 by SQL result row number.  Each row is an associative array (column => value, ...), a numerically indexed array (0 => value, ...), or an object. ( ->column = value ), respectively.  With OBJECT_K, return an associative array of row objects keyed by the value of each row's first column's value.  Duplicate keys are discarded.
+	 * @param string $output Optional. Any of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants. With one of the first three, return an array of rows indexed from 0 by SQL result row number.
+	 * 	Each row is an associative array (column => value, ...), a numerically indexed array (0 => value, ...), or an object. ( ->column = value ), respectively.
+	 * 	With OBJECT_K, return an associative array of row objects keyed by the value of each row's first column's value.  Duplicate keys are discarded.
 	 * @return mixed Database query results
 	 */
 	function get_results( $query = null, $output = OBJECT ) {
@@ -1385,7 +1406,7 @@ class wpdb {
 	 * @since 1.5.0
 	 *
 	 * @param string $message The Error message
-	 * @param string $error_code (optional) A Computer readable string to identify the error.
+	 * @param string $error_code Optional. A Computer readable string to identify the error.
 	 * @return false|void
 	 */
 	function bail( $message, $error_code = '500' ) {
@@ -1436,7 +1457,6 @@ class wpdb {
 	 *
 	 * @param string $db_cap the feature
 	 * @param false|string|resource $dbh_or_table. Not implemented.
-	 * 	Which database to test. False = the currently selected database, string = the database containing the specified table, resource = the database corresponding to the specified mysql resource.
 	 * @return bool
 	 */
 	function has_cap( $db_cap ) {
@@ -1463,17 +1483,12 @@ class wpdb {
 	 * @return string The name of the calling function
 	 */
 	function get_caller() {
-		$bt = debug_backtrace();
+		$trace  = array_reverse( debug_backtrace() );
 		$caller = array();
 
-		$bt = array_reverse( $bt );
-		foreach ( (array) $bt as $call ) {
+		foreach ( $trace as $call ) {
 			if ( isset( $call['class'] ) && __CLASS__ == $call['class'] )
-				continue;
-			$function = $call['function'];
-			if ( isset( $call['class'] ) )
-				$function = $call['class'] . "->$function";
-			$caller[] = $function;
+				continue; // Filter out wpdb calls.
 		}
 		$caller = join( ', ', $caller );
 
@@ -1481,9 +1496,9 @@ class wpdb {
 	}
 
 	/**
-	 * The database version number
+	 * The database version number.
+	 *
 	 * @param false|string|resource $dbh_or_table. Not implemented.
-	 * 	Which database to test. False = the currently selected database, string = the database containing the specified table, resource = the database corresponding to the specified mysql resource.
 	 * @return false|string false on failure, version number on success
 	 */
 	function db_version() {
