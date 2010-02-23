@@ -2302,10 +2302,6 @@ class WP_Query {
 		if ( !$q['suppress_filters'] )
 			$this->posts = apply_filters('posts_results', $this->posts);
 
-		// Turn each row into a classed object, e.g. wp_post, wp_comment.
-		if ( is_array($this->posts) )
-			$this->posts = array_map(array('wp_row', 'get'), $this->posts);
-
 		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
 			$cjoin = apply_filters('comment_feed_join', '');
 			$cwhere = apply_filters('comment_feed_where', "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'");

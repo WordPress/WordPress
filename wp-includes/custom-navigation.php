@@ -203,7 +203,6 @@ function wp_custom_navigation_output( $args = array() ) {
 
 						?></a><?php
 					} elseif ( $type == 'backend' ) {
-						//BACKEND draggable and droppable elements
 						$link_type = $menu_type;
 						?>
 
