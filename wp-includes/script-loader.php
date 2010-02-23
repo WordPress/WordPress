@@ -433,6 +433,8 @@ function wp_default_styles( &$styles ) {
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
 	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
+	// Any rtl stylesheets that don't have a .dev version for ltr
+	$no_suffix = array( 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
 	$colors_version = '20100217';
@@ -468,8 +470,11 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
 	$styles->add( 'custom-navigation', "/wp-admin/css/custom-navigation$suffix.css", array(), '20100215' );
 
-	foreach ( $rtl_styles as $rtl_style )
+	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
+		if ( $suffix && ! in_array( $rtl_style, $no_suffix ) )
+			$styles->add_data( $rtl_style, 'suffix', $suffix );
+	}
 }
 
 /**
