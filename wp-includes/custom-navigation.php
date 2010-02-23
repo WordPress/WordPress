@@ -136,6 +136,7 @@ function setup_menu_item($menu_item, $type = 'item', $position = 0) {
 	if ( $menu_item->ID == $wp_query->get_queried_object_id() )
 		$menu_item->li_class = 'class="current_page_item"';
 
+	$menu_item->anchor_title = '';
 /* @todo: update to use tax/post data
 
 			//SET anchor title
@@ -163,7 +164,7 @@ function setup_menu_item($menu_item, $type = 'item', $position = 0) {
 	return $menu_item;
 }
 
-function output_menu_item($menu_item, $context) {
+function output_menu_item($menu_item, $context, $args = array() ) {
 	switch( $context ) {
 		case 'backend':
 		case 'menu':
@@ -197,6 +198,44 @@ function output_menu_item($menu_item, $context) {
 						<input type="hidden" name="newwindow<?php echo $menu_item->menu_order; ?>" id="newwindow<?php echo $menu_item->menu_order; ?>" value="<?php echo ( '' == $menu_item->post_content_filtered ? '0' : '1' ); ?>" />
 <?php
 		break;
+
+		case 'frontend':
+			// Override for menu descriptions
+			$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
+			if ( $advanced_option_descriptions == 'no' )
+				$args['desc'] = 2;
+?>
+			<a title="<?php echo $menu_item->anchor_title; ?>" href="<?php echo $menu_item->link; ?>" <?php echo $menu_item->target; ?>><?php echo $args['before_title'] . $menu_item->title . $args['after_title']; ?><?php
+
+							if ( $advanced_option_descriptions == 'no' ) {
+								// 2 widget override do NOT display descriptions
+								// 1 widget override display descriptions
+								// 0 widget override not set
+								if ( ($args['desc'] == 1) || ($args['desc'] == 0) ) {
+									?><span class="nav-description"><?php echo $menu_item->description; ?></span><?php
+								}
+							} else {
+								// 2 widget override do NOT display descriptions
+								// 1 widget override display descriptions
+								// 0 widget override not set
+								if ( $args['desc'] == 1 ) {
+									?><span class="nav-description"><?php echo $menu_item->description; ?></span><?php
+								}
+							}
+						?></a>
+<?php
+		break;
+
+		case 'default':
+?>
+					<dl>
+					<dt>
+
+					<?php $templatedir = get_bloginfo('url'); ?>
+					<span class="title"><?php echo $menu_item->title; ?></span> <a onclick="appendToList('<?php echo $templatedir; ?>','<?php echo $menu_item->append; ?>','<?php echo $menu_item->title; ?>','<?php echo $menu_item->link; ?>','<?php echo $menu_item->ID; ?>','<?php echo $menu_item->parent_item ?>','<?php echo $menu_item->description; ?>')" name="<?php echo $menu_item->title; ?>" value="<?php echo $menu_item->link; ?>"><img alt="<?php esc_attr_e('Add to Custom Menu'); ?>" title="<?php esc_attr_e('Add to Custom Menu'); ?>" src="<?php echo admin_url('images/ico-add.png'); ?>" /></a> </dt>
+					</dl>
+<?php
+		break;
 	}
 }
 
@@ -227,10 +266,6 @@ function wp_custom_navigation_output( $args = array() ) {
 
 		$menu_objects = get_objects_in_term( $id, 'nav_menu' );
 		$menu_items = wp_custom_navigation_get_menu_items( $menu_objects, 'menu_order' );
-		// Override for menu descriptions
-		$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
-		if ( $advanced_option_descriptions == 'no' )
-			$desc = 2;
 
 		$parent_stack = array();
 		$current_parent = 0;
@@ -245,31 +280,7 @@ function wp_custom_navigation_output( $args = array() ) {
 			$menu_item = setup_menu_item($menu_item);
 			// List Items
 			?><li id="menu-<?php echo $menu_item->ID; ?>" value="<?php echo $menu_item->ID; ?>" <?php echo $menu_item->li_class; ?>><?php
-					//@todo: update front end to use post data
-					//FRONTEND Link
-					if ( $type == 'frontend' ) {
-						?><a title="<?php echo $menu_item->anchor_title; ?>" href="<?php echo $menu_item->link; ?>" <?php echo $menu_item->target; ?>><?php echo $before_title.$menu_item->title.$after_title; ?><?php
-
-							if ( $advanced_option_descriptions == 'no' ) {
-								// 2 widget override do NOT display descriptions
-								// 1 widget override display descriptions
-								// 0 widget override not set
-								if ( ($desc == 1) || ($desc == 0) ) {
-									?><span class="nav-description"><?php echo $menu_item->description; ?></span><?php
-								}
-							} else {
-								// 2 widget override do NOT display descriptions
-								// 1 widget override display descriptions
-								// 0 widget override not set
-								if ( $desc == 1 ) {
-									?><span class="nav-description"><?php echo $menu_item->description; ?></span><?php
-								}
-							}
-
-						?></a><?php
-					} elseif ( $type == 'backend' ) {
-						output_menu_item($menu_item, 'backend');
-					}
+			output_menu_item($menu_item, $type, $args);
 			// Indent children
 			$last_item = ( count( $menu_items ) == $menu_item->menu_order );
 			if ( $last_item || $current_parent != $menu_items[ $key + 1 ]->post_parent ) {

@@ -1044,8 +1044,8 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
  class WP_CustomNavWidget extends WP_Widget {
 
 	function WP_CustomNavWidget() {
-		$widget_ops = array('description' => 'Use this widget to add one of your Custom Navigation Menus as a widget.' );
-		parent::WP_Widget(false, __('Custom Navigation Menu'),$widget_ops);
+		$widget_ops = array('description' => __('Use this widget to add one of your Custom Navigation Menus as a widget.') );
+		parent::WP_Widget(false, __('Custom Navigation Menu'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -1059,56 +1059,39 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$navulid = $instance['navulid'];
 		$navulclass = $instance['navulclass'];
 
-		//Override for menu descriptions
+		// Override for menu descriptions
 		$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
-		if ($advanced_option_descriptions == 'no')
-		{
+		if ( $advanced_option_descriptions == 'no' ) {
 			$navwidgetdescription = 2;
-		}
-		else
-		{
+		} else {
 			$navwidgetdescription = $instance['navwidgetdescription'];
 		}
 		$menuexists = false;
 
 		global $wpdb;
 
-		//GET menu name
-		if ($navmenu > 0)
-		{
-			$table_name_menus = $wpdb->prefix . "custom_nav_menus";
-			$wp_result = $wpdb->get_results("SELECT menu_name FROM ".$table_name_menus." WHERE id='".$navmenu."'");
-			$wp_custom_nav_menu_name = $wp_result[0]->menu_name;
+		// GET menu name
+		if ( $navmenu > 0 ) {
+			$custom_menu = get_term( (int) $nav_menu, 'nav_menu' );
+			$wp_custom_nav_menu_name = $custom_menu->name;
 			$menuexists = true;
-		}
-		//Do nothing
-		else
-		{
+		} else {
 			$menuexists = false;
 		}
 		?>
 
 		<?php
 			//DEVELOPER settings enabled
-			if ($navdeveloper == 'yes')
-			{
+			if ( $navdeveloper == 'yes' ) {
 				//DISPLAY Custom DIV
-				if ($navdiv == 'yes')
-				{
+				if ( $navdiv == 'yes' ) {
 					?>
 					<div id="<?php echo $navdivid;  ?>" class="<?php echo $navdivclass; ?>">
 					<?php
 				}
-				//Do NOT display DIV
-				else
-				{
-
-				}
-
 			}
 			//DISPLAY default DIV
-			else
-			{
+			else {
 				?>
 				<div class="widget">
 				<?php
@@ -1118,31 +1101,21 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			<h3><?php echo $navtitle; ?></h3>
 			<?php
 
-			if ($menuexists)
-			{
+			if ( $menuexists ) {
 				?>
         		<?php
 
         		//DEVELOPER settings enabled
-				if ($navdeveloper == 'yes')
-				{
+				if ( $navdeveloper == 'yes' ) {
 					//DISPLAY Custom UL
-					if ($navul == 'yes')
-					{
+					if ( $navul == 'yes' ) {
 						?>
 						<ul id="<?php echo $navulid;  ?>" class="<?php echo $navulclass; ?>">
 						<?php
 					}
-					//Do NOT display UL
-					else
-					{
-
-					}
-
 				}
 				//DISPLAY default UL
-				else
-				{
+				else {
 					?>
 					<ul class="custom-nav">
 					<?php
@@ -1152,33 +1125,23 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 						<?php
 							//DISPLAY custom navigation menu
-							if (get_option('wp_custom_nav_menu') == 'true') {
-        						custom_nav('name='.$wp_custom_nav_menu_name.'&desc='.$navwidgetdescription);
-        					}
+							if ( get_option('wp_custom_nav_menu') == 'true' )
+        						custom_nav( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription) );
 						?>
 
 				<?php
 
 					//DEVELOPER settings enabled
-					if ($navdeveloper == 'yes')
-					{
+					if ( $navdeveloper == 'yes' ) {
 						//DISPLAY Custom UL
-						if ($navul == 'yes')
-						{
+						if ( $navul == 'yes' ) {
 							?>
 							</ul>
 							<?php
 						}
-						//Do NOT display UL
-						else
-						{
-
-						}
-
 					}
 					//DISPLAY default UL
-					else
-					{
+					else {
 						?>
 						</ul>
 						<?php
@@ -1186,16 +1149,13 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 				?>
 			<?php
-			}
-			else
-			{
-				echo "You have not setup the custom navigation widget correctly, please check your settings in the backend.";
+			} else {
+				_e('You have not setup the custom navigation widget correctly, please check your settings in the backend.');
 			}
 			?>
 		<?php
 			//DEVELOPER settings enabled
-			if ($navdeveloper == 'yes')
-			{
+			if ($navdeveloper == 'yes') {
 				//DISPLAY Custom DIV
 				if ($navdiv == 'yes')
 				{
@@ -1240,14 +1200,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 		global $wpdb;
 
-		//GET Menu Items for SELECT OPTIONS
-		$table_name_custom_menus = $wpdb->prefix . "custom_nav_menus";
-		$custom_menu_records = $wpdb->get_results("SELECT id,menu_name FROM ".$table_name_custom_menus);
+		// Get menus
+		$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
 
-		//CHECK if menus exist
-		if ($custom_menu_records > 0)
-		{
-
+		if ( $custom_menus ) {
 			?>
 
 			 <p>
@@ -1257,16 +1213,14 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 					<?php
 
 					//DISPLAY SELECT OPTIONS
-					foreach ($custom_menu_records as $custom_menu_record)
-					{
-						if ($navmenu == $custom_menu_record->id) {
+					foreach ( $custom_menus as $menu ) {
+						if ( $navmenu == $menu->term_id) {
 							$selected_option = 'selected="selected"';
-						}
-						else {
+						} else {
 							$selected_option = '';
 						}
 						?>
-						<option value="<?php echo $custom_menu_record->id; ?>" <?php echo $selected_option; ?>><?php echo $custom_menu_record->menu_name; ?></option>
+						<option value="<?php echo $menu->term_id; ?>" <?php echo $selected_option; ?>><?php echo $menu->name; ?></option>
 						<?php
 
 					}
@@ -1276,7 +1230,6 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			</p>
 
 			<p>
-
 		        <label for="<?php echo $this->get_field_id('navtitle'); ?>"><?php _e('Title:'); ?></label>
 		    	<input type="text" name="<?php echo $this->get_field_name('navtitle'); ?>" value="<?php echo $navtitle; ?>" class="widefat" id="<?php echo $this->get_field_id('navtitle'); ?>" />
 		    </p>
@@ -1316,8 +1269,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 			<?php
 
-			if ($checked == 'yes')
-			{
+			if ( $checked == 'yes' ) {
 
 				?>
 
