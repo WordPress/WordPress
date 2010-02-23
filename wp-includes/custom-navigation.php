@@ -10,50 +10,71 @@
  * @subpackage Administration
  */
 
-function wp_custom_navigation_get_menu_items( $menu_objects, $key = 'ID' ) {
-	$menu_items = array();
-	if ( !empty( $menu_objects ) && !empty( $key ) ) {
-		$args = array( 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish' );
-		if ( count( $menu_objects ) > 1 )
-			$args['include'] = implode( ',', $menu_objects );
-		else
-			$args['include'] = $menu_objects[0];
-		$posts = get_posts( $args );
-		if ( ! empty( $posts ) ) {
-			foreach ( $posts as $post ) {
-				$menu_items[ $post->$key ] = $post;
-			}
-		}
-		unset( $posts );
-		ksort( $menu_items );
-	}
-	return $menu_items;
-}
-
 function wp_custom_navigation_setup($override = false) {
 	// Custom Navigation Menu Setup
 
 	// Override for menu descriptions
 	update_option('wp_settings_custom_nav_advanced_options', 'yes');
 
-	$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
- 	if ( !empty( $custom_menus ) ) {
-		foreach ( $custom_menus as $menu ) {
-			wp_custom_navigation_delete_menu( $menu->term_id );
+	$menus = wp_get_nav_menus();
+ 	if ( !empty( $menus ) ) {
+		foreach ( $menus as $menu ) {
+			wp_delete_nav_menu( $menu->term_id );
 		}
 	}
+
+	wp_create_nav_menu( __('Main') );
 }
 
-function wp_custom_navigation_delete_menu( $menu_term_id ) {
-	$term_id = (int) $menu_term_id;
-	if ( $term_id > 0 ) {
-		$menu_objects = get_objects_in_term( $term_id, 'nav_menu' );
-		if ( !empty( $menu_objects ) ) {
-			foreach ( $menu_objects as $item ) {
-				wp_delete_post( $item );
-			}
+function wp_delete_nav_menu( $menu_id ) {
+	$menu_id = (int) $menu_id;
+	if ( !$menu_id  )
+		return false;
+
+	$menu_objects = get_objects_in_term( $menu_id, 'nav_menu' );
+	if ( !empty( $menu_objects ) ) {
+		foreach ( $menu_objects as $item ) {
+			wp_delete_post( $item );
 		}
-		wp_delete_term( $term_id, 'nav_menu' );
+	}
+	wp_delete_term( $menu_id, 'nav_menu' );
+}
+
+function wp_create_nav_menu( $menu_name ) {
+	$menu_exists = get_term_by( 'name', $menu_name, 'nav_menu' );
+
+	if ( $menu_exists )
+		return WP_Error('menu_exists', sprintf( __('A menu named "%s" already exists; please try another name.'), $menu_exists->name ));
+
+	return wp_insert_term( $menu_name, 'nav_menu' );
+}
+
+function wp_get_nav_menus() {
+	return get_terms( 'nav_menu', array( 'hide_empty' => false ) );
+}
+
+function wp_get_nav_menu_items( $menu, $args = array() ) {
+	$items = get_objects_in_term( (int) $menu, 'nav_menu' );
+
+	$defaults = array( 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order' );
+	$args = wp_parse_args($args, $defaults);
+	if ( count( $items ) > 1 )	
+		$args['include'] = implode( ',', $items );
+	else
+		$args['include'] = $items[0];
+
+	$items = get_posts( $args );
+
+	if ( ARRAY_A == $args['output'] ) {
+		$output = array();
+		foreach ( $items as $item ) {
+			$output[$item->$args['output_key']] = $item;
+		}
+		unset($items);
+		ksort($output);
+		return $output;
+	} else {
+		return $items;
 	}
 }
 
@@ -263,14 +284,13 @@ function wp_custom_navigation_output( $args = array() ) {
 		$args = wp_parse_args($args, $defaults);
 		extract($args, EXTR_SKIP);
 
-		$menu_objects = get_objects_in_term( $id, 'nav_menu' );
-		$menu_items = wp_custom_navigation_get_menu_items( $menu_objects, 'menu_order' );
+		$menu_items = wp_get_nav_menu_items( $id );
 
 		$parent_stack = array();
 		$current_parent = 0;
 		$parent_menu_order = array();
 		// Setup parentage
-		foreach ( $menu_items as $key => $menu_item ) {
+		foreach ( $menu_items as $menu_item ) {
 			$parent_menu_order[ $menu_item->ID ] = $menu_item->menu_order;
 		}
 

@@ -29,7 +29,7 @@ wp_enqueue_script( 'custom-navigation-php-functions' );
 require_once('admin-header.php');
 require_once (ABSPATH . WPINC . '/custom-navigation.php');
 
-function wp_custom_nav_reset() {
+function wp_reset_nav_menu() {
 	wp_custom_navigation_setup(true);
 
 	return true;
@@ -77,20 +77,15 @@ if ( isset( $_POST['add_menu'] ) ) {
 	$insert_menu_name = $_POST['add_menu_name'];
 
 	if ( $insert_menu_name != '' ) {
-		$existing_term = get_term_by( 'name', $insert_menu_name, 'nav_menu' );
-		if ( $existing_term ) {
-			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . esc_html( sprintf( e__('A menu named "%s" already exists; please try another name.'), $existing_term->name ) ) . '</p></div>';
+		$menu = wp_create_nav_menu($insert_menu_name);
+		if ( is_wp_error($menu) ) {
+			$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . esc_html( $menu->get_error_message() ) . '</p></div>';
 		} else {
-			$term = wp_insert_term( $insert_menu_name, 'nav_menu' );
-			if ( !is_wp_error($term) ) {
-				$term = get_term($term['term_id'], 'nav_menu');
-				$custom_menus[$term->term_id] = $term;
-				$menu_selected_id = $term->term_id;
-				$menu_id_in_edit = $menu_selected_id;
-				$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . esc_html( sprintf( __('"%s" menu has been created!'), $term->name ) ) . '</p></div>';
-
-				$postCounter = 0;
-			}
+			$custom_menus[$menu->term_id] = $menu;
+			$menu_selected_id = $menu->term_id;
+			$menu_id_in_edit = $menu_selected_id;
+			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . esc_html( sprintf( __('"%s" menu has been created!'), $menu->name ) ) . '</p></div>';
+			$postCounter = 0;
 		}
 	} else {
 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('Please enter a valid menu name.') . '</p></div>';
@@ -98,7 +93,7 @@ if ( isset( $_POST['add_menu'] ) ) {
 }
 
 if ( isset($_POST['reset_wp_menu']) ) {
-	$success = wp_custom_nav_reset();
+	$success = wp_reset_nav_menu();
 	if ( $success ) {
 		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
 		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('The menu has been reset.') . '</p></div>';
@@ -110,8 +105,7 @@ if ( isset($_POST['reset_wp_menu']) ) {
 		$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('The menu could not be reset. Please try again.') . '</p></div>';
 	}
 } elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
-	$menu_objects = get_objects_in_term( $menu_selected_id, 'nav_menu' );
-	$menu_items = wp_custom_navigation_get_menu_items( $menu_objects );
+	$menu_items = wp_get_nav_menu_items( $menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 
 	// Loop through all POST variables
 	for ( $k = 1; $k <= $postCounter; $k++ ) {
