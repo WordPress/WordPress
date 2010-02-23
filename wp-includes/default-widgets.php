@@ -805,8 +805,15 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		if ( empty($title) )
 			$title = __('Untitled');
 
-		$desc = str_replace(array("\n", "\r"), ' ', esc_attr(strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
-		$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
+		$desc = str_replace( array("\n", "\r"), ' ', esc_attr( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option('blog_charset') ) ) ) );
+		$desc = wp_html_excerpt( $desc, 360 );
+
+		// Append ellipsis. Change existing [...] to [&hellip;].
+		if ( '[...]' == substr( $desc, -5 ) )
+			$desc = substr( $desc, 0, -5 ) . '[&hellip;]';
+		elseif ( '[&hellip;]' != substr( $desc, -10 ) )
+			$desc .= ' [&hellip;]';
+
 		$desc = esc_html( $desc );
 
 		if ( $show_summary ) {
