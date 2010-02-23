@@ -16,6 +16,10 @@ require_once( './admin.php' );
 if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this blog.' ) );
 
+// We need to create references to ms global tables to enable Network.
+foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
+	$wpdb->$table = $prefixed_table;
+
 $title = __( 'Network Settings' );
 $parent_file = 'tools.php';
 

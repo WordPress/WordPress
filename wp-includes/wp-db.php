@@ -625,13 +625,12 @@ class wpdb {
 	 * @uses wpdb::ms_global_tables
 	 * @uses is_multisite()
 	 *
-	 * @param string $scope Can be all, global, blog, or old tables. Default all.
+	 * @param string $scope Can be all, global, ms_global, blog, or old tables. Default all.
 	 * 	All returns the blog tables for the queried blog and all global tables.
 	 * @param bool $prefix Whether to include table prefixes. Default true. If blog
 	 *	prefix is requested, then the custom users and usermeta tables will be mapped.
 	 * @param int $blog_id The blog_id to prefix. Defaults to main blog. Used only when prefix is requested.
-	 * @return array Table names. When a prefix is requested, the key is the
-	 *	unprefixed table name.
+	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
 	function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
 		switch ( $scope ) {
@@ -640,6 +639,9 @@ class wpdb {
 				break;
 			case 'blog' :
 				$tables = $this->tables;
+				break;
+			case 'ms_global' :
+				$tables = $this->ms_global_tables;
 				break;
 			case 'global' :
 				$tables = $this->global_tables;
