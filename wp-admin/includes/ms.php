@@ -543,12 +543,12 @@ function redirect_user_to_blog() {
 
 	if ( !empty( $blogs ) ) {
 		foreach( $blogs as $blogid => $blog ) {
-			if ( $blogid != $dashboard_blog->blog_id && get_user_meta( $current_user->ID , 'primary_blog' ) == $dashboard_blog->blog_id ) {
+			if ( $blogid != $dashboard_blog->blog_id && get_user_meta( $current_user->ID , 'primary_blog', true ) == $dashboard_blog->blog_id ) {
 				update_user_meta( $current_user->ID, 'primary_blog', $blogid );
 				continue;
 			}
 		}
-		$blog = get_blog_details( get_user_meta( $current_user->ID , 'primary_blog' ) );
+		$blog = get_blog_details( get_user_meta( $current_user->ID, 'primary_blog', true ) );
 		$protocol = ( is_ssl() ? 'https://' : 'http://' );
 		wp_redirect( $protocol . $blog->domain . $blog->path . 'wp-admin/?c=' . $c ); // redirect and count to 5, "just in case"
 		exit;
@@ -690,7 +690,7 @@ function choose_primary_blog() {
 		<td>
 		<?php
 		$all_blogs = get_blogs_of_user( $current_user->ID );
-		$primary_blog = get_user_meta($current_user->ID, 'primary_blog');
+		$primary_blog = get_user_meta($current_user->ID, 'primary_blog', true);
 		if ( count( $all_blogs ) > 1 ) {
 			$found = false;
 			?>

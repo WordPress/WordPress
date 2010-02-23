@@ -704,7 +704,7 @@ function upgrade_160() {
 		// FIXME: RESET_CAPS is temporary code to reset roles and caps if flag is set.
 		$caps = get_user_meta( $user->ID, $wpdb->prefix . 'capabilities');
 		if ( empty($caps) || defined('RESET_CAPS') ) {
-			$level = get_user_meta($user->ID, $wpdb->prefix . 'user_level');
+			$level = get_user_meta($user->ID, $wpdb->prefix . 'user_level', true);
 			$role = translate_level_to_role($level);
 			update_user_meta( $user->ID, $wpdb->prefix . 'capabilities', array($role => true) );
 		}

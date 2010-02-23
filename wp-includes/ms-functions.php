@@ -82,7 +82,7 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 		return $details;
 	}
 
-	$primary_blog = get_user_meta( $user_id, "primary_blog" );
+	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	$details = get_dashboard_blog();
 	if ( $primary_blog ) {
 		$blogs = get_blogs_of_user( $user_id );
@@ -109,11 +109,11 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 				if ( is_object( $details ) && $details->archived == 0 && $details->spam == 0 && $details->deleted == 0 ) {
 					$ret = $blog;
 					$changed = false;
-					if ( get_user_meta( $user_id , 'primary_blog' ) != $blog_id ) {
+					if ( get_user_meta( $user_id , 'primary_blog', true ) != $blog_id ) {
 						update_user_meta( $user_id, 'primary_blog', $blog_id );
 						$changed = true;
 					}
-					if ( !get_user_meta($user_id , 'source_domain') ) {
+					if ( !get_user_meta($user_id , 'source_domain', true) ) {
 						update_user_meta( $user_id, 'source_domain', $blog->domain );
 						$changed = true;
 					}
@@ -248,7 +248,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 	if ( empty($user) )
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 
-	if ( !get_user_meta($user_id, 'primary_blog') ) {
+	if ( !get_user_meta($user_id, 'primary_blog', true) ) {
 		update_user_meta($user_id, 'primary_blog', $blog_id);
 		$details = get_blog_details($blog_id);
 		update_user_meta($user_id, 'source_domain', $details->domain);
@@ -270,7 +270,7 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 
 	// If being removed from the primary blog, set a new primary if the user is assigned
 	// to multiple blogs.
-	$primary_blog = get_user_meta($user_id, 'primary_blog');
+	$primary_blog = get_user_meta($user_id, 'primary_blog', true);
 	if ( $primary_blog == $blog_id ) {
 		$new_id = '';
 		$new_domain = '';
@@ -826,7 +826,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 	add_option( 'WPLANG', get_site_option( 'WPLANG' ) );
 	update_option( 'blog_public', $meta['public'] );
 
-	if ( !is_super_admin() && get_user_meta( $user_id, 'primary_blog' ) == get_site_option( 'dashboard_blog', 1 ) )
+	if ( !is_super_admin() && get_user_meta( $user_id, 'primary_blog', true ) == get_site_option( 'dashboard_blog', 1 ) )
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
 
 	restore_current_blog();
