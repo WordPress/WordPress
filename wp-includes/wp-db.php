@@ -627,7 +627,7 @@ class wpdb {
 	 *
 	 * @param string $scope Can be all, global, blog, or old tables. Default all.
 	 * 	All returns the blog tables for the queried blog and all global tables.
-	 * @param bool $prefix Whether to include table prefixes. Default false. If blog
+	 * @param bool $prefix Whether to include table prefixes. Default true. If blog
 	 *	prefix is requested, then the custom users and usermeta tables will be mapped.
 	 * @param int $blog_id The blog_id to prefix. Defaults to main blog. Used only when prefix is requested.
 	 * @return array Table names. When a prefix is requested, the key is the
