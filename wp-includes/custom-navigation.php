@@ -57,16 +57,27 @@ function wp_custom_navigation_delete_menu( $menu_term_id ) {
 	}
 }
 
-function setup_menu_item($menu_item) {
+function setup_menu_item($menu_item, $type = 'item', $position = 0) {
 	global $parent_menu_order;
 
-	$menu_item->type = get_post_meta($menu_item->ID, 'menu_type', true);
-	$menu_item->object_id = get_post_meta($menu_item->ID, 'object_id', true);
-	//$parent_menu_order[ $menu_item->ID ] = $menu_item->menu_order;
-	if ( isset( $parent_menu_order[ $menu_item->post_parent ] ) )
-		$menu_item->parent_item = $parent_menu_order[ $menu_item->post_parent ];
-	else
-		$menu_item->parent_item = 0;
+	if ( 'item' == $type ) {
+		$menu_item->type = get_post_meta($menu_item->ID, 'menu_type', true);
+		$menu_item->object_id = get_post_meta($menu_item->ID, 'object_id', true);
+		if ( isset( $parent_menu_order[ $menu_item->post_parent ] ) )
+			$menu_item->parent_item = $parent_menu_order[ $menu_item->post_parent ];
+		else
+			$menu_item->parent_item = 0;
+	} elseif ( 'category' == $type ) {
+		$menu_item->type = $type;
+		$menu_item->object_id = $menu_item->term_id;
+		$menu_item->parent_item = $menu_item->parent;
+		$menu_item->menu_order = $position;
+	} elseif ( 'page' == $type ) {
+		$menu_item->type = $type;
+		$menu_item->object_id = $menu_item->ID;
+		$menu_item->parent_item = $menu_item->post_parent;
+		$menu_item->menu_order = $position;
+	}
 
 	switch ( $menu_item->type ) {
 		// Page Menu Item
@@ -86,6 +97,7 @@ function setup_menu_item($menu_item) {
 			else
 				$menu_item->description = htmlentities( $menu_item->post_content );
 			$menu_item->target = '';
+			$menu_item->append = 'Page';
 		break;
 		// Category Menu Item
 		case 'category':
@@ -106,6 +118,7 @@ function setup_menu_item($menu_item) {
 			else
 				$menu_item->description = htmlentities( $menu_item->post_content );
 			$menu_item->target = '';
+			$menu_item->append = 'Category';
 		break;
 		default:
 			// Custom Menu Item
@@ -113,6 +126,7 @@ function setup_menu_item($menu_item) {
 			$menu_item->title =  htmlentities( $menu_item->post_title );
 			$menu_item->description = htmlentities( $menu_item->post_content );
 			$menu_item->target = 'target="_blank"';
+			$menu_item->append = 'Custom';
 		break;
 	}
 
@@ -146,6 +160,43 @@ function setup_menu_item($menu_item) {
 */
 
 	return $menu_item;
+}
+
+function output_menu_item($menu_item, $context) {
+	switch( $context ) {
+		case 'backend':
+		case 'menu':
+?>
+						<dl>
+							<dt>
+								<span class="title"><?php echo esc_html($menu_item->title); ?></span>
+								<span class="controls">
+								<span class="type"><?php echo esc_html($menu_item->type); ?></span>
+								<a id="edit<?php echo $menu_item->menu_order; ?>" onclick="edititem(<?php echo $menu_item->menu_order; ?>)" value="<?php echo $menu_item->menu_order; ?>"><img class="edit" alt="<?php esc_attr_e('Edit Menu Item'); ?>" title="<?php esc_attr_e('Edit Menu Item'); ?>" src="<?php echo admin_url('images/ico-edit.png'); ?>" /></a>
+								<a id="remove<?php echo $menu_item->menu_order; ?>" onclick="removeitem(<?php echo $menu_item->menu_order; ?>)" value="<?php echo $menu_item->menu_order; ?>"><img class="remove" alt="<?php esc_attr_e('Remove from Custom Menu'); ?>" title="<?php esc_attr_e('Remove from Custom Menu'); ?>" src="<?php echo admin_url('images/ico-close.png'); ?>" /></a>
+								<a id="view<?php echo $menu_item->menu_order; ?>" target="_blank" href="<?php echo $menu_item->link; ?>"><img alt="<?php esc_attr_e('View Page'); ?>" title="<?php esc_attr_e('View Page'); ?>" src="<?php echo admin_url('images/ico-viewpage.png'); ?>" /></a>
+								</span>
+							</dt>
+						</dl>
+						<?php if ( 'backend' == $context ) { ?>
+						<a><span class=""></span></a>
+						<php } else { ?>
+						<a class="hide" href="<?php echo $menu_item->link; ?>"><?php echo $menu_item->title; ?></a>
+						<?php } ?>
+						<input type="hidden" name="dbid<?php echo $menu_item->menu_order; ?>" id="dbid<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->ID; ?>" />
+						<input type="hidden" name="postmenu<?php echo $menu_item->menu_order; ?>" id="postmenu<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->ID; ?>" />
+						<input type="hidden" name="parent<?php echo $menu_item->menu_order; ?>" id="parent<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->parent_item; ?>" />
+						<input type="hidden" name="title<?php echo $menu_item->menu_order; ?>" id="title<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->title; ?>" />
+						<input type="hidden" name="linkurl<?php echo $menu_item->menu_order; ?>" id="linkurl<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->link; ?>" />
+						<input type="hidden" name="description<?php echo $menu_item->menu_order; ?>" id="description<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->description; ?>" />
+						<input type="hidden" name="icon<?php echo $menu_item->menu_order; ?>" id="icon<?php echo $menu_item->menu_order; ?>" value="0" />
+						<input type="hidden" name="position<?php echo $menu_item->menu_order; ?>" id="position<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->menu_order; ?>" />
+						<input type="hidden" name="linktype<?php echo $menu_item->menu_order; ?>" id="linktype<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->type; ?>" />
+						<input type="hidden" name="anchortitle<?php echo $menu_item->menu_order; ?>" id="anchortitle<?php echo $menu_item->menu_order; ?>" value="<?php echo esc_html( $menu_item->post_excerpt ); ?>" />
+						<input type="hidden" name="newwindow<?php echo $menu_item->menu_order; ?>" id="newwindow<?php echo $menu_item->menu_order; ?>" value="<?php echo ( '' == $menu_item->post_content_filtered ? '0' : '1' ); ?>" />
+<?php
+		break;
+	}
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -216,34 +267,7 @@ function wp_custom_navigation_output( $args = array() ) {
 
 						?></a><?php
 					} elseif ( $type == 'backend' ) {
-						?>
-
-						<dl>
-							<dt>
-								<span class="title"><?php echo $menu_item->title; ?></span>
-								<span class="controls">
-								<span class="type"><?php echo $menu_item->type; ?></span>
-								<a id="edit<?php echo $menu_item->menu_order; ?>" onclick="edititem(<?php echo $menu_item->menu_order; ?>)" value="<?php echo $menu_item->menu_order; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo admin_url('images/ico-edit.png'); ?>" /></a>
-								<a id="remove<?php echo $menu_item->menu_order; ?>" onclick="removeitem(<?php echo $menu_item->menu_order; ?>)" value="<?php echo $menu_item->menu_order; ?>"><img class="remove" alt="Remove from Custom Menu" title="Remove from Custom Menu" src="<?php echo admin_url('images/ico-close.png'); ?>" /></a>
-								<a id="view<?php echo $menu_item->menu_order; ?>" target="_blank" href="<?php echo $menu_item->link; ?>"><img alt="View Page" title="View Page" src="<?php echo admin_url('images/ico-viewpage.png'); ?>" /></a>
-								</span>
-							</dt>
-						</dl>
-
-						<a><span class=""></span></a>
-						<input type="hidden" name="dbid<?php echo $menu_item->menu_order; ?>" id="dbid<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->ID; ?>" />
-						<input type="hidden" name="postmenu<?php echo $menu_item->menu_order; ?>" id="postmenu<?php echo $menu_item->menu_order; ?>" value="<?php echo $id; ?>" />
-						<input type="hidden" name="parent<?php echo $menu_item->menu_order; ?>" id="parent<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->parent_item; ?>" />
-						<input type="hidden" name="title<?php echo $menu_item->menu_order; ?>" id="title<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->title; ?>" />
-						<input type="hidden" name="linkurl<?php echo $menu_item->menu_order; ?>" id="linkurl<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->link; ?>" />
-						<input type="hidden" name="description<?php echo $menu_item->menu_order; ?>" id="description<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->description; ?>" />
-						<input type="hidden" name="icon<?php echo $menu_item->menu_order; ?>" id="icon<?php echo $menu_item->menu_order; ?>" value="0" />
-						<input type="hidden" name="position<?php echo $menu_item->menu_order; ?>" id="position<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->menu_order; ?>" />
-						<input type="hidden" name="linktype<?php echo $menu_item->menu_order; ?>" id="linktype<?php echo $menu_item->menu_order; ?>" value="<?php echo $menu_item->type; ?>" />
-						<input type="hidden" name="anchortitle<?php echo $menu_item->menu_order; ?>" id="anchortitle<?php echo $menu_item->menu_order; ?>" value="<?php echo esc_html( $menu_item->post_excerpt ); ?>" />
-						<input type="hidden" name="newwindow<?php echo $menu_item->menu_order; ?>" id="newwindow<?php echo $menu_item->menu_order; ?>" value="<?php echo ( '' == $menu_item->post_content_filtered ? '0' : '1' ); ?>" />
-
-						<?php
+						output_menu_item($menu_item, 'backend');
 					}
 			// Indent children
 			$last_item = ( count( $menu_items ) == $menu_item->menu_order );
@@ -301,38 +325,12 @@ function wp_custom_nav_get_pages($counter, $type) {
 			// Custom Menu
 			if ( $type == 'menu' ) {
 				$description = get_post_meta($post->ID, 'page-description', true);
+				$post = setup_menu_item($post, 'page', $intCounter);
 				?>
 
 				<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
 
-					<dl>
-					<dt>
-					<span class="title"><?php echo $post->post_title; ?></span>
-					<span class="controls">
-						<span class="type">page</span>
-						<a id="edit<?php echo $intCounter; ?>" onclick="edititem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>"><img class="edit" alt="Edit Menu Item" title="Edit Menu Item" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-edit.png" /></a>
-						<a id="remove<?php echo $intCounter; ?>" onclick="removeitem(<?php echo $intCounter; ?>)" value="<?php echo $intCounter; ?>">
-							<img class="remove" alt="Remove from Custom Menu" title="Remove from Custom Menu" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-close.png" />
-						</a>
-						<a target="_blank" href="<?php echo get_permalink($post->ID); ?>">
-							<img alt="View Page" title="View Page" src="<?php echo get_bloginfo('url'); ?>/wp-admin/images/ico-viewpage.png" />
-						</a>
-					</span>
-
-					</dt>
-					</dl>
-					<a class="hide" href="<?php echo get_permalink($post->ID); ?>"><span class="title"><?php echo $post->post_title; ?></span>
-					</a>
-					<input type="hidden" name="postmenu<?php echo $intCounter; ?>" id="postmenu<?php echo $intCounter; ?>" value="<?php echo $post->ID; ?>" />
-					<input type="hidden" name="parent<?php echo $intCounter; ?>" id="parent<?php echo $intCounter; ?>" value="0" />
-					<input type="hidden" name="title<?php echo $intCounter; ?>" id="title<?php echo $intCounter; ?>" value="<?php echo htmlentities($post->post_title); ?>" />
-					<input type="hidden" name="linkurl<?php echo $intCounter; ?>" id="linkurl<?php echo $intCounter; ?>" value="<?php echo get_permalink($post->ID); ?>" />
-					<input type="hidden" name="description<?php echo $intCounter; ?>" id="description<?php echo $intCounter; ?>" value="<?php echo $description; ?>" />
-					<input type="hidden" name="icon<?php echo $intCounter; ?>" id="icon<?php echo $intCounter; ?>" value="0" />
-					<input type="hidden" name="position<?php echo $intCounter; ?>" id="position<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>" />
-					<input type="hidden" name="linktype<?php echo $intCounter; ?>" id="linktype<?php echo $intCounter; ?>" value="page" />
-					<input type="hidden" name="anchortitle<?php echo $intCounter; ?>" id="anchortitle<?php echo $intCounter; ?>" value="<?php echo htmlentities($post->post_title); ?>" />
-					<input type="hidden" name="newwindow<?php echo $intCounter; ?>" id="newwindow<?php echo $intCounter; ?>" value="0" />
+					<?php output_menu_item($post, 'menu', $intCounter); ?>
 
 					<?php $parentli = $post->ID; ?>
 					<?php $intCounter++; ?>
