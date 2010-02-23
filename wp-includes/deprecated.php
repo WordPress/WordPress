@@ -2281,7 +2281,31 @@ function unregister_widget_control($id) {
  */
 function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'delete_user_meta()' );
-	return delete_user_meta( $user_id, $meta_key, $meta_value );
+	global $wpdb;
+	if ( !is_numeric( $user_id ) )
+		return false;
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+	if ( is_array($meta_value) || is_object($meta_value) )
+		$meta_value = serialize($meta_value);
+	$meta_value = trim( $meta_value );
+
+	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
+
+	if ( $cur && $cur->umeta_id )
+		do_action( 'delete_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
+
+	if ( ! empty($meta_value) )
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s AND meta_value = %s", $user_id, $meta_key, $meta_value) );
+	else
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
+
+	wp_cache_delete($user_id, 'users');
+
+	if ( $cur && $cur->umeta_id )
+		do_action( 'deleted_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
+
+	return true;
 }
 
 /**
@@ -2301,9 +2325,39 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
  * @param string $meta_key Optional. Metadata key.
  * @return mixed
  */
-function get_usermeta( $user_id, $meta_key = '') {
+function get_usermeta( $user_id, $meta_key = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'get_user_meta()' );
-	return get_user_meta( $user_id, $meta_key, false );
+	global $wpdb;
+	$user_id = (int) $user_id;
+
+	if ( !$user_id )
+		return false;
+
+	if ( !empty($meta_key) ) {
+		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+		$user = wp_cache_get($user_id, 'users');
+		// Check the cached user object
+		if ( false !== $user && isset($user->$meta_key) )
+			$metas = array($user->$meta_key);
+		else
+			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
+	} else {
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user_id) );
+	}
+
+	if ( empty($metas) ) {
+		if ( empty($meta_key) )
+			return array();
+		else
+			return '';
+	}
+
+	$metas = array_map('maybe_unserialize', $metas);
+
+	if ( count($metas) == 1 )
+		return $metas[0];
+	else
+		return $metas;
 }
 
 /**
@@ -2327,5 +2381,38 @@ function get_usermeta( $user_id, $meta_key = '') {
  */
 function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'update_user_meta()' );
-	return update_user_meta( $user_id, $meta_key, $meta_value );
+	global $wpdb;
+	if ( !is_numeric( $user_id ) )
+		return false;
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+	/** @todo Might need fix because usermeta data is assumed to be already escaped */
+	if ( is_string($meta_value) )
+		$meta_value = stripslashes($meta_value);
+	$meta_value = maybe_serialize($meta_value);
+
+	if (empty($meta_value)) {
+		return delete_usermeta($user_id, $meta_key);
+	}
+
+	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
+
+	if ( $cur )
+		do_action( 'update_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
+
+	if ( !$cur )
+		$wpdb->insert($wpdb->usermeta, compact('user_id', 'meta_key', 'meta_value') );
+	else if ( $cur->meta_value != $meta_value )
+		$wpdb->update($wpdb->usermeta, compact('meta_value'), compact('user_id', 'meta_key') );
+	else
+		return false;
+
+	wp_cache_delete($user_id, 'users');
+
+	if ( !$cur )
+		do_action( 'added_usermeta', $wpdb->insert_id, $user_id, $meta_key, $meta_value );
+	else
+		do_action( 'updated_usermeta', $cur->umeta_id, $user_id, $meta_key, $meta_value );
+
+	return true;
 }

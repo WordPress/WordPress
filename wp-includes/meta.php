@@ -206,11 +206,10 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		return $meta_cache;
 
 	if ( isset($meta_cache[$meta_key]) ) {
-		if ( $single ) {
+		if ( $single )
 			return maybe_unserialize( $meta_cache[$meta_key][0] );
-		} else {
+		else
 			return array_map('maybe_unserialize', $meta_cache[$meta_key]);
-		}
 	}
 
 	if ($single)
