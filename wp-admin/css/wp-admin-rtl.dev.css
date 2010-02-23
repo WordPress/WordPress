@@ -25,7 +25,7 @@ td.available-theme {
 }
 #post-body .misc-pub-section {
 	border-right-width: 0;
-	border-left-width: 1;
+	border-left-width: 1px;
 	border-right-style: none;
 	border-left-style: solid;
 	float: right;
@@ -210,10 +210,6 @@ td.available-theme {
 #profile-page .form-table #rich_editing {
 	margin-right: 0;
 	margin-left: 5px;
-}
-#footer,
-#footer a {
-	font-style: normal;
 }
 /* Post Screen */
 /* 1300 - 1500
@@ -553,6 +549,7 @@ ol {
 
 .media-upload-form .align .field label {
 	padding: 0 22px 0 0;
+	margin: 0 0 0 1em;
 }
 
 /* TinyMCE
@@ -582,3 +579,10 @@ ol {
 	direction: ltr;
 }
 
+/* no italic
+=================================== */
+
+#quicktags #ed_em, #ed_reply_toolbar #ed_reply_em, .tablenav .displaying-num, #footer, #footer a, p.help, p.description, span.description, .form-wrap p, #side-sortables .comments-box thead th,
+#normal-sortables .comments-box thead th, .howto, .inline-edit-row fieldset span.title, .inline-edit-row fieldset span.checkbox-title, #utc-time, #local-time, form.upgrade .hint, p.install-help, .imgedit-help  {
+	font-style: normal;
+}
