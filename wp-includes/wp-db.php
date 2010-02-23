@@ -989,16 +989,16 @@ class wpdb {
 		$dbhname = "dbh" . $action;
 		$this->$dbhname = @mysql_connect( $details[ 'db_host' ], $details[ 'db_user' ], $details[ 'db_password' ] );
 		if (!$this->$dbhname ) {
-			$this->bail(/*WP_I18N_DB_CONNECT_DB*/"
+			$this->bail( sprintf( /*WP_I18N_DB_CONN_ERROR*/"
 <h1>Error establishing a database connection</h1>
-<p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>{$details['db_host']}</code>. This could mean your host's database server is down.</p>
+<p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>%s</code>. This could mean your host's database server is down.</p>
 <ul>
 	<li>Are you sure you have the correct username and password?</li>
 	<li>Are you sure that you have typed the correct hostname?</li>
 	<li>Are you sure that the database server is running?</li>
 </ul>
 <p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
-"/*/WP_I18N_DB_CONNECT_DB*/);
+"/*/WP_I18N_DB_CONN_ERROR*/, $details['db_host'] ), 'db_connect_fail' );
 		}
 		$this->select( $details[ 'db_name' ], $this->$dbhname );
 	}
