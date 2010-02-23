@@ -313,6 +313,7 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	$classes[] = 'post-' . $post->ID;
 	$classes[] = $post->post_type;
+	$classes[] = 'type-' . $post->post_type;
 
 	// sticky for Sticky Posts
 	if ( is_sticky($post->ID) && is_home())
