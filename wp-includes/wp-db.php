@@ -629,7 +629,7 @@ class wpdb {
 	 * 	All returns the blog tables for the queried blog and all global tables.
 	 * @param bool $prefix Whether to include table prefixes. Default true. If blog
 	 *	prefix is requested, then the custom users and usermeta tables will be mapped.
-	 * @param int $blog_id The blog_id to prefix. Defaults to main blog. Used only when prefix is requested.
+	 * @param int $blog_id The blog_id to prefix. Defaults to wpdb::blogid. Used only when prefix is requested.
 	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
 	function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
@@ -656,6 +656,8 @@ class wpdb {
 		}
 
 		if ( $prefix ) {
+			if ( ! $blog_id )
+				$blog_id = $this->blogid;
 			$prefix = $this->get_blog_prefix( $blog_id );
 			$base_prefix = $this->base_prefix;
 			$global_tables = array_merge( $this->global_tables, $this->ms_global_tables );
