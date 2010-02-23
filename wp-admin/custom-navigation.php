@@ -106,6 +106,7 @@ if ( isset($_POST['reset_wp_menu']) ) {
 	}
 } elseif ( $postCounter > 0 && $menu_selected_id > 0 ) {
 	$menu_items = wp_get_nav_menu_items( $menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
+	$parent_menu_ids = array();
 
 	// Loop through all POST variables
 	for ( $k = 1; $k <= $postCounter; $k++ ) {
@@ -130,8 +131,8 @@ if ( isset($_POST['reset_wp_menu']) ) {
 			$post['post_content_filtered'] = '_blank';
 		else
 			$post['post_content_filtered'] = '';
-		if ( $parent_id > 0 && isset( $_POST[ 'dbid' . $parent_id ] ) )
-			$post[ 'post_parent' ] = (int) $_POST[ 'dbid' . $parent_id ];
+		if ( $parent_id > 0 && isset( $parent_menu_ids[ $parent_id ] ) )
+			$post[ 'post_parent' ] = $parent_menu_ids[ $parent_id ];
 
 		// New menu item
 		if ( $db_id == 0 ) {
@@ -141,6 +142,8 @@ if ( isset($_POST['reset_wp_menu']) ) {
 			wp_update_post( $post );
 			unset( $menu_items[$db_id] );
 		}
+		$parent_menu_ids[ $k ] = $db_id;
+
 		update_post_meta($db_id, 'menu_type', $linktype);
 		update_post_meta($db_id, 'object_id', $object_id);
 	}
