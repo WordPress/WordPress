@@ -1591,6 +1591,8 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 	if ( ! $append )
 		$old_tt_ids =  wp_get_object_terms($object_id, $taxonomy, array('fields' => 'tt_ids', 'orderby' => 'none'));
+	else
+		$old_tt_ids = array();
 
 	$tt_ids = array();
 	$term_ids = array();
