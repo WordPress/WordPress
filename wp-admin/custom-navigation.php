@@ -176,22 +176,19 @@ function wp_custom_navigation() {
 		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('The menu has been updated.') . '</p></div>';
 	}
 
- 		//DISPLAY Custom Navigation
+ 		// DISPLAY Custom Navigation
  		?>
 		<div id="pages-left">
 			<div class="inside">
 			<h2 class="maintitle"><?php esc_html_e('Custom Navigation') ?></h2>
 			<?php
 
-				//CHECK if custom menu has been enabled
+				// CHECK if custom menu has been enabled
 				$enabled_menu = get_option('wp_custom_nav_menu');
 			    $checked = strtolower($enabled_menu);
 
-				if ($checked == 'true') {
-				} else {
+				if ( $checked != 'true' )
 					echo '<div id="message-enabled" class="error fade below-h2"><p><strong>' . __('The Custom Menu has not been Enabled yet. Please enable it in order to use it -------->') . '</strong></p></div>';
-				}
-
 
 			?>
 			<?php echo $messagesdiv; ?>
@@ -215,9 +212,9 @@ function wp_custom_navigation() {
 			<?php
 			//DISPLAY existing menu
 			if ( $menu_selected_id > 0 ) {
-				//SET output type
+				// SET output type
 				$output_type = "backend";
-				//MAIN OUTPUT FUNCTION
+				// MAIN OUTPUT FUNCTION
 				wp_custom_navigation_output( 'type='.$output_type.'&name='.$menu_title.'&id='.$menu_selected_id );
 			}
 			?>
@@ -248,7 +245,7 @@ function wp_custom_navigation() {
 
 					<?php
 
-			    	//SETUP Custom Menu
+			    	// Setup custom menu
 
 					$enabled_menu = get_option('wp_custom_nav_menu');
 
@@ -281,7 +278,7 @@ function wp_custom_navigation() {
 					<select id="menu_select" name="menu_select">
 						<?php
 
-						//DISPLAY SELECT OPTIONS
+						// Display select options
 						foreach ( $custom_menus as $menu ) {
 							$menu_term = get_term( $menu, 'nav_menu' );
 							if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) )
@@ -314,16 +311,12 @@ function wp_custom_navigation() {
 
 					<?php
 
-			    	//UPDATE and DISPLAY Menu Description Option
+			    	// UPDATE and DISPLAY Menu Description Option
 			    	if ( isset($_POST['menu-descriptions']) ) {
-
-						if ( isset($_POST['switch_menu']) ) {
-
-						} else {
+						if ( !isset($_POST['switch_menu']) ) {
 							$menu_options_to_edit = $_POST['menu_id_in_edit'];
 			    			update_option('wp_settings_custom_nav_'.$menu_options_to_edit.'_descriptions',$_POST['menu-descriptions']);
 						}
-
 			    	}
 
 			    	if ( $menu_id_in_edit > 0 )
@@ -381,7 +374,7 @@ function wp_custom_navigation() {
 							$page_name .= htmlentities($post->post_title).'|';
 						}
 					} else {
-						$page_name = "No pages available";
+						$page_name = __('No pages available');
 					}
 
 					?>
@@ -448,7 +441,7 @@ function wp_custom_navigation() {
 					$cat_name = '';
 					//CHECK for results
 					if ( $categories ) {
-						foreach( $categories as $category ) {
+						foreach ( $categories as $category ) {
 							$cat_id = $category->term_id;
 
 							$cat_args = array(
@@ -507,8 +500,8 @@ function wp_custom_navigation() {
 
 					<ul id="existing-categories" class="list">
             			<?php
-						 	//Get default Categories
-            				$intCounter = wp_custom_nav_get_categories($intCounter,'default');
+						 	// Get default Categories
+            				$intCounter = wp_custom_nav_get_categories($intCounter, 'default');
 						?>
        				</ul>
 
@@ -557,7 +550,6 @@ function wp_custom_navigation() {
 	</div>
 
 <?php
-
 }
 
 include("admin-footer.php");
