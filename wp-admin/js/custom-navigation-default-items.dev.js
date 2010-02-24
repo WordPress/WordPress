@@ -49,7 +49,7 @@ jQuery(function($)
 			}
 		});
 
-		$('#message').animate({ opacity: 1.0 },2000).fadeOut(300, function(){ $(this).remove();});
+		// $('#message').animate({ opacity: 1.0 },2000).fadeOut(300, function(){ $(this).remove();});
 
 		//Add dropzone
 	    $('#custom-nav li').prepend('<div class="dropzone"></div>');

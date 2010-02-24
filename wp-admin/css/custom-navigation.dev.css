@@ -48,7 +48,7 @@ height:29px;
 width:26px;
 }
 
-#menu-right { width: 285px; margin-right: 10px; margin-left: 20px; float:left; clear: right;}
+#menu-right { width: 285px; margin-top: 20px; margin-right: 10px; margin-left: 20px; float:left; clear: right;}
 h2.heading  { margin: 32px 0 10px 0; }
 
 .widgets-holder-wrap  { margin: 0 0 20px 0; }

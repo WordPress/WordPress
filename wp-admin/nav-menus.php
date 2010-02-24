@@ -153,10 +153,8 @@ if ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2 class="maintitle"><?php esc_html_e('Menus') ?></h2>
-	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
-	<div class="hide-if-no-js">
-	<div id="pages-left">
+<h2><?php esc_html_e('Menus') ?></h2>
+	<form onsubmit="updatepostdata()" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
 	<?php if ( ! empty( $custom_menus ) && count( $custom_menus ) > 1 ) { ?>
 		<ul class="subsubsub">
 <?php
@@ -164,16 +162,19 @@ if ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
 					$sep = end($custom_menus) == $menu ? '' : ' | ';
 					// $menu_term = get_term( $menu, 'nav_menu' );
 					if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) ) { ?>
-						<li><?php echo esc_html( $menu->name ) . $sep; ?></li>
+						<li><a href='nav-menus.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>' class="current"><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
 <?php				} else { ?>
-			<li><a href='nav-menus.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>'><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
+						<li><a href='nav-menus.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>'><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
 <?php				}
 				}
 ?>
 		</ul>
 		<div class="clear"></div>
 <?php } ?>
-		<form onsubmit="updatepostdata()" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
+
+	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
+	<div class="hide-if-no-js">
+	<div id="pages-left">
 		<div class="inside">
 		<?php if ( ! empty( $custom_menus ) ) : ?>
 		<?php echo $messagesdiv; ?>
