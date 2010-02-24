@@ -334,7 +334,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		$list = @ftp_rawlist($this->link, '-a ' . $path, false);
 
-		if ( empty($list) ) // Empty array = non-existant folder(real folder will show . at least
+		if ( empty($list) ) // Empty array = non-existent folder (real folder will show . at least)
 			return false;
 
 		$dirlist = array();
