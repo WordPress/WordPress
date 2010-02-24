@@ -548,7 +548,7 @@ class wpdb {
 	 * @param string $prefix Alphanumeric name for the new prefix.
 	 * @return string|WP_Error Old prefix or WP_Error on error
 	 */
-	function set_prefix( $prefix ) {
+	function set_prefix( $prefix, $set_table_names = true ) {
 
 		if ( preg_match( '|[^a-z0-9_]|i', $prefix ) )
 			return new WP_Error('invalid_db_prefix', /*WP_I18N_DB_BAD_PREFIX*/'Invalid database prefix'/*/WP_I18N_DB_BAD_PREFIX*/);
@@ -560,20 +560,21 @@ class wpdb {
 
 		$this->base_prefix = $prefix;
 
-		foreach ( $this->tables( 'global' ) as $table => $prefixed_table )
-			$this->$table = $prefixed_table;
+		if ( $set_table_names ) {
+			foreach ( $this->tables( 'global' ) as $table => $prefixed_table )
+				$this->$table = $prefixed_table;
 
-		if ( defined( 'VHOST' ) && empty( $this->blogid ) )
-			return $old_prefix;
+			if ( defined( 'VHOST' ) && empty( $this->blogid ) )
+				return $old_prefix;
 
-		$this->prefix = $this->get_blog_prefix( $this->blogid );
+			$this->prefix = $this->get_blog_prefix( $this->blogid );
 
-		foreach ( $this->tables( 'blog' ) as $table => $prefixed_table )
-			$this->$table = $prefixed_table;
+			foreach ( $this->tables( 'blog' ) as $table => $prefixed_table )
+				$this->$table = $prefixed_table;
 
-		foreach ( $this->tables( 'old' ) as $table => $prefixed_table )
-			$this->$table = $prefixed_table;
-
+			foreach ( $this->tables( 'old' ) as $table => $prefixed_table )
+				$this->$table = $prefixed_table;
+		}
 		return $old_prefix;
 	}
 
