@@ -180,7 +180,7 @@ function appendToList(templatedir,additemtype,itemtext,itemurl,itemid,itemparent
 		inputdescription = '';
 	}
 
-	var count=document.getElementById('custom-nav').getElementsByTagName('li').length;
+	var count=document.getElementById('custom-nav').getElementsByTagName('li').length + 1;
 
 	var randomnumber = count;
 
