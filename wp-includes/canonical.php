@@ -5,8 +5,6 @@
  * Based on "Permalink Redirect" from Scott Yang and "Enforce www. Preference"
  * by Mark Jaquith
  *
- * @author Scott Yang
- * @author Mark Jaquith
  * @package WordPress
  * @since 2.3.0
  */

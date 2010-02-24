@@ -200,7 +200,6 @@ function add_rewrite_endpoint($name, $places) {
  *
  * @access private
  * @since 2.6.0
- * @author Mark Jaquith
  *
  * @param string $base The taxonomy base that we're going to filter
  * @return string

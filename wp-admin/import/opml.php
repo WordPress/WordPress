@@ -2,8 +2,6 @@
 /**
  * Links Import Administration Panel.
  *
- * @copyright 2002 Mike Little <mike@zed1.com>
- * @author Mike Little <mike@zed1.com>
  * @package WordPress
  * @subpackage Administration
  */

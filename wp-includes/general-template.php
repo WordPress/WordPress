@@ -794,8 +794,6 @@ function single_month_title($prefix = '', $display = true ) {
  * three values for the format are not used, then custom format is assumed.
  *
  * @since 1.0.0
- * @author Orien
- * @link http://icecode.com/ link navigation hack by Orien
  *
  * @param string $url URL to archive.
  * @param string $text Archive text description.

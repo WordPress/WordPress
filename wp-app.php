@@ -2,8 +2,6 @@
 /**
  * Atom Publishing Protocol support for WordPress
  *
- * @author Original by Elias Torres <http://torrez.us/archives/2006/08/31/491/>
- * @author Modified by Dougal Campbell <http://dougal.gunters.org/>
  * @version 1.0.5-dc
  */
 

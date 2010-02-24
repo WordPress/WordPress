@@ -4,8 +4,6 @@
  *
  * @package WordPress
  * @subpackage Importer
- * @author Thomas Quinot
- * @link http://thomas.quinot.org/
  */
 
 /**

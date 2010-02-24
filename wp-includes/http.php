@@ -9,7 +9,6 @@
  * @package WordPress
  * @subpackage HTTP
  * @since 2.7.0
- * @author Jacob Santos <wordpress@santosj.name>
  */
 
 /**

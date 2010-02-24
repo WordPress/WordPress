@@ -1434,7 +1434,6 @@ body {
  *
  * Must be called in the themes functions.php file to work.
  *
- * @author Mark Jaquith
  * @since 2.9
  * @param string $feature the feature being added
  */
@@ -1450,7 +1449,6 @@ function add_theme_support( $feature ) {
 /**
  * Checks a theme's support for a given feature
  *
- * @author Mark Jaquith
  * @since 2.9
  * @param string $feature the feature being checked
  * @return boolean
@@ -1490,7 +1488,6 @@ function current_theme_supports( $feature ) {
 /**
  * Checks a theme's support for a given feature before loading the functions which implement it.
  *
- * @author Peter Westwood
  * @since 2.9
  * @param string $feature the feature being checked
  * @param string $include the file containing the functions that implement the feature

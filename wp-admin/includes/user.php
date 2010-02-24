@@ -484,7 +484,6 @@ if ( !class_exists('WP_User_Search') ) :
  * WordPress User Search class.
  *
  * @since unknown
- * @author Mark Jaquith
  */
 class WP_User_Search {
 

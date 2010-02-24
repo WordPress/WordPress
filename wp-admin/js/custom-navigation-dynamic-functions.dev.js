@@ -2,7 +2,6 @@
  * WordPress Administration Custom Navigation
  * Interface JS functions
  *
- * @author Jeffikus <pearce.jp@gmail.com>
  * @version 1.1.0
  *
  * @package WordPress

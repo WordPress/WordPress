@@ -1032,7 +1032,6 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
  * Output a list of all links, listed by category, using the settings in
  * $wpdb->linkcategories and output it as a nested HTML unordered list.
  *
- * @author Dougal
  * @since 1.0.1
  * @deprecated 2.1
  * @deprecated Use wp_list_bookmarks()
@@ -1075,9 +1074,6 @@ function get_links_list($order = 'name') {
 
 /**
  * Show the link to the links popup and the number of links.
- *
- * @author Fullo
- * @link http://sprite.csr.unibo.it/fullo/
  *
  * @since 0.71
  * @deprecated 2.1

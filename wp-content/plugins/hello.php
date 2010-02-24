@@ -1,7 +1,6 @@
 <?php
 /**
  * @package Hello_Dolly
- * @author Matt Mullenweg
  * @version 1.5.1
  */
 /*

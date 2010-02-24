@@ -9,7 +9,6 @@
  * @package WordPress
  * @subpackage HTTP
  * @since 2.7.0
- * @author Jacob Santos <wordpress@santosj.name>
  */
 
 /**
@@ -1641,7 +1640,6 @@ class WP_HTTP_Proxy {
  * @package WordPress
  * @subpackage HTTP
  * @since 2.8.0
- * @author Beau Lebens
  */
 class WP_Http_Cookie {
 

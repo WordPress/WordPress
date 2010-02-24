@@ -4,8 +4,6 @@
  *
  * @package WordPress
  * @subpackage Importer
- * @author Shayne Sweeney
- * @link http://www.theshayne.com/
  */
 
 /**
