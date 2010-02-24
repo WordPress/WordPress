@@ -864,7 +864,7 @@ class wpdb {
 			$args = $args[0];
 		$query = str_replace( "'%s'", '%s', $query ); // in case someone mistakenly already singlequoted it
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
-		$query = str_replace( '%s', "'%s'", $query ); // quote the strings
+		$query = preg_replace('|(?<!%)%s|', "'%s'", $query); // quote the strings, avoiding escaped strings like %%s
 		array_walk( $args, array( &$this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
 	}
