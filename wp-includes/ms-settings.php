@@ -115,9 +115,8 @@ if ( ! $blog_id ) {
     }
 }
 
-$wpdb->blogid = $current_blog->blog_id;
-$wpdb->siteid = $current_blog->site_id;
 $wpdb->set_prefix( $table_prefix ); // set up blog tables
+$wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
 $table_prefix = $wpdb->get_blog_prefix();
 
 // need to init cache again after blog_id is set
