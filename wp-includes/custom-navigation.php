@@ -56,26 +56,27 @@ function wp_get_nav_menus() {
 function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$items = get_objects_in_term( (int) $menu, 'nav_menu' );
 
-	$defaults = array( 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order' );
-	$args = wp_parse_args($args, $defaults);
-	if ( count( $items ) > 1 )	
-		$args['include'] = implode( ',', $items );
-	else
-		$args['include'] = $items[0];
+	if ( ! empty( $items ) ) {
+		$defaults = array( 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order' );
+		$args = wp_parse_args($args, $defaults);
+		if ( count( $items ) > 1 )	
+			$args['include'] = implode( ',', $items );
+		else
+			$args['include'] = $items[0];
 
-	$items = get_posts( $args );
+		$items = get_posts( $args );
 
-	if ( ARRAY_A == $args['output'] ) {
-		$output = array();
-		foreach ( $items as $item ) {
-			$output[$item->$args['output_key']] = $item;
+		if ( ARRAY_A == $args['output'] ) {
+			$output = array();
+			foreach ( $items as $item ) {
+				$output[$item->$args['output_key']] = $item;
+			}
+			unset($items);
+			ksort($output);
+			return $output;
 		}
-		unset($items);
-		ksort($output);
-		return $output;
-	} else {
-		return $items;
 	}
+	return $items;
 }
 
 function setup_menu_item($menu_item, $type = 'item', $position = 0) {
