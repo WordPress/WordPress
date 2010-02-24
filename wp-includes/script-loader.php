@@ -398,7 +398,7 @@ function wp_default_scripts( &$scripts ) {
 
 		// Custom Navigation
 		$scripts->add( 'custom-navigation-default-items', "/wp-admin/js/custom-navigation-default-items$suffix.js", false, '20100223' );
-		$scripts->add( 'custom-navigation-dynamic-functions', "/wp-admin/js/custom-navigation-dynamic-functions$suffix.js", false, '20100224' );
+		$scripts->add( 'custom-navigation-dynamic-functions', "/wp-admin/js/custom-navigation-dynamic-functions$suffix.js", false, '20100224b' );
 		$scripts->localize( 'custom-navigation-dynamic-functions', 'navMenuL10n', array(
 			'custom' => _x('Custom', 'menu nav item type'),
 			'page' => _x('Page', 'menu nav item type'),
