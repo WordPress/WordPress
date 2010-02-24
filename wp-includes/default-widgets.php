@@ -1037,15 +1037,15 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 }
 
 /**
- * Custom Navigation widget class
+ * Navigation Menu widget class
  *
  * @since 3.0.0
  */
- class WP_CustomNavWidget extends WP_Widget {
+ class WP_Nav_Menu_Widget extends WP_Widget {
 
-	function WP_CustomNavWidget() {
-		$widget_ops = array('description' => __('Use this widget to add one of your Custom Navigation Menus as a widget.') );
-		parent::WP_Widget(false, __('Custom Navigation Menu'), $widget_ops);
+	function WP_Nav_Menu_Widget() {
+		$widget_ops = array('description' => __('Use this widget to add one of your navigation menus as a widget.') );
+		parent::WP_Widget(false, __('Navigation Menu'), $widget_ops);
 	}
 
 	function widget($args, $instance) {
@@ -1387,7 +1387,7 @@ function wp_widgets_init() {
 
 	register_widget('WP_Widget_Tag_Cloud');
 
-	register_widget('WP_CustomNavWidget');
+	register_widget('WP_Nav_Menu_Widget');
 
 	do_action('widgets_init');
 }
