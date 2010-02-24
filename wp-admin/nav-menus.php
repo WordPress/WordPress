@@ -27,7 +27,7 @@ wp_enqueue_script( 'jquery-autocomplete' );
 wp_enqueue_script( 'custom-navigation-php-functions' );
 
 require_once('admin-header.php');
-require_once (ABSPATH . WPINC . '/custom-navigation.php');
+require_once(ABSPATH . 'wp-admin/includes/nav-menu.php');
 
 function wp_reset_nav_menu() {
 	wp_custom_navigation_setup(true);
@@ -171,8 +171,8 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2 class="maintitle"><?php esc_html_e('Menus') ?></h2>
-	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
-	<div class="hide-if-no-js">
+
+	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></h3></div>
 	<div id="pages-left">
 		<ul class="subsubsub">
 <?php		if ( ! empty( $custom_menus ) ) {
@@ -182,7 +182,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 					if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) ) { ?>
 						<li><?php echo esc_html( $menu->name ) . $sep; ?></li>
 <?php				} else { ?>
-			<li><a href='custom-navigation.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>'><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
+			<li><a href='nav-menus.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>'><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
 <?php				}
 				}
 			} else { ?>
@@ -200,7 +200,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 				echo '<div id="message-enabled" class="error fade below-h2"><p><strong>' . __('Menu editing has not been Enabled yet. Please enable it in order to use it -------->') . '</strong></p></div>';
 		?>
 		<?php echo $messagesdiv; ?>
-		<form onsubmit="updatepostdata()" action="custom-navigation.php" method="post"  enctype="multipart/form-data">
+		<form onsubmit="updatepostdata()" action="nav-menus.php" method="post"  enctype="multipart/form-data">
 
 		<input type="hidden" name="licount" id="licount" value="0" />
 		<input type="hidden" name="menu_id_in_edit" id="menu_id_in_edit" value="<?php echo esc_attr($menu_selected_id); ?>" />
@@ -223,7 +223,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 			// SET output type
 			$output_type = "backend";
 			// MAIN OUTPUT FUNCTION
-			wp_custom_navigation_output( 'type='.$output_type.'&name='.$menu_title.'&id='.$menu_selected_id );
+			wp_print_nav_menu( 'type='.$output_type.'&name='.$menu_title.'&id='.$menu_selected_id );
 		}
 		?>
 
@@ -382,7 +382,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 					<?php
 						$intCounter = 0;
 						//Get default Pages
-						$intCounter = wp_custom_nav_get_pages($intCounter,'default');
+						$intCounter = wp_nav_menu_get_pages($intCounter,'default');
 					?>
 				</ul>
 
@@ -462,7 +462,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 				<ul id="existing-categories" class="list">
 					<?php
 						// Get default Categories
-						$intCounter = wp_custom_nav_get_categories($intCounter, 'default');
+						$intCounter = wp_nav_menu_get_categories($intCounter, 'default');
 					?>
 				</ul>
 
@@ -489,11 +489,17 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 				<div class="fix"></div>
 			</div>
 		</div><!-- /.widgets-holder-wrap -->
-	</div><!-- /.hide-if-no-js -->
-	</div>
+
+   </div>
 </div>
 
-<div id="dialog-confirm" style="display:none;" title="<?php esc_attr_e('Edit Menu Item'); ?>">
+<script type="text/javascript">
+	document.getElementById('pages-left').style.display='block';
+	document.getElementById('menu-right').style.display='block';
+	document.getElementById('no-js').style.display='none';
+</script>
+
+<div id="dialog-confirm" title="<?php esc_attr_e('Edit Menu Item'); ?>">
 	</label><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle"><?php _e('Menu Title'); ?></label><br />
 	<input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink"><?php _e('URL'); ?></label><br />
 	<input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle"><?php _e('Link Title'); ?></label><br />

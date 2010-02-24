@@ -128,6 +128,8 @@ require( ABSPATH . WPINC . '/shortcodes.php' );
 require( ABSPATH . WPINC . '/media.php' );
 require( ABSPATH . WPINC . '/http.php' );
 require( ABSPATH . WPINC . '/widgets.php' );
+require( ABSPATH . WPINC . '/nav-menu.php' );
+require( ABSPATH . WPINC . '/nav-menu-template.php' );
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
