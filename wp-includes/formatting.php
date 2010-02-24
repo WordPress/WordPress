@@ -287,7 +287,7 @@ function seems_utf8($str) {
  * @param string $string The text which is to be encoded.
  * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
  * @param string $charset Optional. The character encoding of the string. Default is false.
- * @param boolean $double_encode Optional. Whether or not to encode existing html entities. Default is false.
+ * @param boolean $double_encode Optional. Whether to encode existing html entities. Default is false.
  * @return string The encoded text with HTML entities.
  */
 function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
@@ -1110,7 +1110,7 @@ function force_balance_tags( $text ) {
  * @since 0.71
  *
  * @param string $content The text about to be edited.
- * @param bool $richedit Whether or not the $content should pass through htmlspecialchars(). Default false.
+ * @param bool $richedit Whether the $content should pass through htmlspecialchars(). Default false.
  * @return string The text after the filter (and possibly htmlspecialchars()) has been run.
  */
 function format_to_edit($content, $richedit = false) {

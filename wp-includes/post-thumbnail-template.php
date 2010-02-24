@@ -15,7 +15,7 @@
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID.
- * @return bool Whether post has an image attached (true) or not (false).
+ * @return bool Whether post has an image attached.
  */
 function has_post_thumbnail( $post_id = NULL ) {
 	global $id;

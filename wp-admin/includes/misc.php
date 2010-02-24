@@ -128,7 +128,7 @@ function save_mod_rewrite_rules() {
 	$home_path = get_home_path();
 	$htaccess_file = $home_path.'.htaccess';
 
-	// If the file doesn't already exists check for write access to the directory and whether of not we have some rules.
+	// If the file doesn't already exists check for write access to the directory and whether we have some rules.
 	// else check for write access to the file.
 	if ((!file_exists($htaccess_file) && is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
 		if ( got_mod_rewrite() ) {
@@ -359,7 +359,7 @@ jQuery('#codepress-off').show();
 }
 
 /**
- * Determine whether to use CodePress or not.
+ * Determine whether to use CodePress.
  *
  * @since 2.8
 **/

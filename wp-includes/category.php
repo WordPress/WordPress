@@ -100,7 +100,7 @@ function &get_category( $category, $output = OBJECT, $filter = 'raw' ) {
  * @since 2.1.0
  *
  * @param string $category_path URL containing category slugs.
- * @param bool $full_match Optional. Whether should match full path or not.
+ * @param bool $full_match Optional. Whether full path should be matched.
  * @param string $output Optional. Constant OBJECT, ARRAY_A, or ARRAY_N
  * @return null|object|array Null on failure. Type is based on $output value.
  */

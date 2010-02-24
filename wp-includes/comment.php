@@ -526,7 +526,7 @@ function sanitize_comment_cookies() {
 }
 
 /**
- * Validates whether this comment is allowed to be made or not.
+ * Validates whether this comment is allowed to be made.
  *
  * @since 2.0.0
  * @uses $wpdb

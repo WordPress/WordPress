@@ -952,7 +952,7 @@ class wpdb {
 	 * @since 0.71
 	 * @see wpdb::show_errors()
 	 *
-	 * @return bool Whether showing of errors was active or not
+	 * @return bool Whether showing of errors was active
 	 */
 	function hide_errors() {
 		$show = $this->show_errors;
@@ -1427,7 +1427,7 @@ class wpdb {
 	}
 
 	/**
-	 * Whether or not MySQL database is at least the required minimum version.
+	 * Whether MySQL database is at least the required minimum version.
 	 *
 	 * @since 2.5.0
 	 * @uses $wp_version
@@ -1443,7 +1443,7 @@ class wpdb {
 	}
 
 	/**
-	 * Whether of not the database supports collation.
+	 * Whether the database supports collation.
 	 *
 	 * Called when WordPress is generating the table scheme.
 	 *

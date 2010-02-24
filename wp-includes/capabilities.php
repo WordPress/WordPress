@@ -272,7 +272,7 @@ class WP_Role {
 	 * PHP4 Constructor - Setup object properties.
 	 *
 	 * The list of capabilities, must have the key as the name of the capability
-	 * and the value a boolean of whether it is granted to the role or not.
+	 * and the value a boolean of whether it is granted to the role.
 	 *
 	 * @since 2.0.0
 	 * @access public

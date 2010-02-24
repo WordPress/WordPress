@@ -1316,7 +1316,7 @@ function wp_oembed_get( $url, $args = '' ) {
  *
  * @param string $format The format of URL that this provider can handle. You can use asterisks as wildcards.
  * @param string $provider The URL to the oEmbed provider.
- * @param boolean $regex Whether the $format parameter is in a regex format or not.
+ * @param boolean $regex Whether the $format parameter is in a regex format.
  */
 function wp_oembed_add_provider( $format, $provider, $regex = false ) {
 	require_once( 'class-oembed.php' );

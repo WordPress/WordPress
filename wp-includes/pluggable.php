@@ -405,7 +405,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	$phpmailer->ContentType = $content_type;
 
-	// Set whether it's plaintext or not, depending on $content_type
+	// Set whether it's plaintext, depending on $content_type
 	if ( $content_type == 'text/html' ) {
 		$phpmailer->IsHTML( true );
 	}
@@ -633,7 +633,7 @@ if ( !function_exists('wp_set_auth_cookie') ) :
  * @since 2.5
  *
  * @param int $user_id User ID
- * @param bool $remember Whether to remember the user or not
+ * @param bool $remember Whether to remember the user
  */
 function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	if ( $remember ) {

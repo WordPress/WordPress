@@ -168,7 +168,7 @@ function get_search_form($echo = true) {
  * Display the Log In/Out link.
  *
  * Displays a link, which allows the user to navigate to the Log In page to log in
- * or log out depending on whether or not they are currently logged in.
+ * or log out depending on whether they are currently logged in.
  *
  * @since 1.5.0
  * @uses apply_filters() Calls 'loginout' hook on HTML link content.
@@ -1436,9 +1436,9 @@ function get_the_time( $d = '', $post = null ) {
  * @since 2.0.0
  *
  * @param string $d Optional Either 'G', 'U', or php date format.
- * @param bool $gmt Optional, default is false. Whether of not to return the gmt time.
+ * @param bool $gmt Optional, default is false. Whether to return the gmt time.
  * @param int|object $post Optional post ID or object. Default is global $post object.
- * @param bool $translate Whether to translate the time string or not
+ * @param bool $translate Whether to translate the time string
  * @return string
  */
 function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) { // returns timestamp
@@ -1486,9 +1486,9 @@ function get_the_modified_time($d = '') {
  * @since 2.0.0
  *
  * @param string $d Optional, default is 'U'. Either 'G', 'U', or php date format.
- * @param bool $gmt Optional, default is false. Whether of not to return the gmt time.
+ * @param bool $gmt Optional, default is false. Whether to return the gmt time.
  * @param int|object $post Optional, default is global post object. A post_id or post object
- * @param bool $translate Optional, default is false. Whether to translate the result or not
+ * @param bool $translate Optional, default is false. Whether to translate the result
  * @return string Returns timestamp
  */
 function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
@@ -1699,7 +1699,7 @@ function noindex() {
  *
  * @since 2.1.0
  *
- * @return bool Whether of not TinyMCE exists.
+ * @return bool Whether TinyMCE exists.
  */
 function rich_edit_exists() {
 	global $wp_rich_edit_exists;
@@ -1709,7 +1709,7 @@ function rich_edit_exists() {
 }
 
 /**
- * Whether or not the user should have a WYSIWIG editor.
+ * Whether the user should have a WYSIWIG editor.
  *
  * Checks that the user requires a WYSIWIG editor and that the editor is
  * supported in the users browser.

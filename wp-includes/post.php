@@ -132,7 +132,7 @@ add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
  * @uses apply_filters() Calls 'get_attached_file' on file path and attachment ID.
  *
  * @param int $attachment_id Attachment ID.
- * @param bool $unfiltered Whether to apply filters or not.
+ * @param bool $unfiltered Whether to apply filters.
  * @return string The file path to the attached file.
  */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
@@ -1198,7 +1198,7 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
  * @since 2.7.0
  *
  * @param int $post_id Optional. Post ID.
- * @return bool Whether post is sticky (true) or not sticky (false).
+ * @return bool Whether post is sticky.
  */
 function is_sticky($post_id = null) {
 	global $id;

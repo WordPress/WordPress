@@ -83,7 +83,7 @@ function validate_username( $username ) {
  * 'first_name' - The user's first name.
  * 'last_name' - The user's last name.
  * 'description' - A string containing content about the user.
- * 'rich_editing' - A string for whether to enable the rich editor or not. False
+ * 'rich_editing' - A string for whether to enable the rich editor. False
  *		if not empty.
  * 'user_registered' - The date the user registered. Format is 'Y-m-d H:i:s'.
  * 'role' - A string used to set the user's role.

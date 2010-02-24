@@ -260,7 +260,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
  * @param int $user_id User ID
  * @param string $option_name User option name.
  * @param mixed $newvalue User option value.
- * @param bool $global Optional. Whether option name is blog specific or not.
+ * @param bool $global Optional. Whether option name is blog specific.
  * @return unknown
  */
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {

@@ -128,7 +128,7 @@ function get_taxonomy( $taxonomy ) {
  * @uses $wp_taxonomies
  *
  * @param string $taxonomy Name of taxonomy object
- * @return bool Whether the taxonomy exists or not.
+ * @return bool Whether the taxonomy exists.
  */
 function is_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;

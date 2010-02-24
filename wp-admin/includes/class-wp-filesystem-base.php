@@ -13,7 +13,7 @@
  */
 class WP_Filesystem_Base {
 	/**
-	 * Whether to display debug data for the connection or not.
+	 * Whether to display debug data for the connection.
 	 *
 	 * @since 2.5
 	 * @access public

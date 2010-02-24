@@ -1823,7 +1823,7 @@ function is_blog_installed() {
 	$tables = $wpdb->get_col('SHOW TABLES');
 	$wpdb->suppress_errors( $suppress );
 
-	$wp_tables = $wpdb->tables( 'all', true );
+	$wp_tables = $wpdb->tables( 'all' );
 	// Loop over the WP tables.  If none exist, then scratch install is allowed.
 	// If one or more exist, suggest table repair since we got here because the options
 	// table could not be accessed.
@@ -1995,7 +1995,7 @@ function wp_get_original_referer() {
  * @since 2.0.1
  *
  * @param string $target Full path to attempt to create.
- * @return bool Whether the path was created or not. True if path already exists.
+ * @return bool Whether the path was created. True if path already exists.
  */
 function wp_mkdir_p( $target ) {
 	// from php.net/mkdir user contributed notes
@@ -3028,7 +3028,7 @@ function absint( $maybeint ) {
  * @since 2.5.0
  *
  * @param string $url
- * @return bool Whether or not SSL access is available
+ * @return bool Whether SSL access is available
  */
 function url_is_accessable_via_ssl($url)
 {

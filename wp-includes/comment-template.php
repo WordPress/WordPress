@@ -931,7 +931,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
  *
  * @since 0.71
  * @global string $wpcommentspopupfile The URL to use for the popup window
- * @global int $wpcommentsjavascript Whether to use JavaScript or not. Set when function is called
+ * @global int $wpcommentsjavascript Whether to use JavaScript. Set when function is called
  *
  * @param int $width Optional. The width of the popup window
  * @param int $height Optional. The height of the popup window

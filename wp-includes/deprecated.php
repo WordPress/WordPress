@@ -1255,8 +1255,8 @@ function gzip_compression() {
  * @see get_comment()
  *
  * @param int $comment_ID The ID of the comment
- * @param int $no_cache Whether to use the cache or not (casted to bool)
- * @param bool $include_unapproved Whether to include unapproved comments or not
+ * @param int $no_cache Whether to use the cache (casted to bool)
+ * @param bool $include_unapproved Whether to include unapproved comments
  * @return array The comment data
  */
 function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) {
