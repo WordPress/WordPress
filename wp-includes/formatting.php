@@ -334,6 +334,12 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 	// Handle double encoding ourselves
 	if ( !$double_encode ) {
 		$string = wp_specialchars_decode( $string, $_quote_style );
+
+		/* Critical */
+		// The previous line decodes &amp;phrase; into &phrase;  We must guarantee that &phrase; is valid before proceeding.
+		$string = wp_kses_normalize_entities($string);
+
+		// Now proceed with custom double-encoding silliness
 		$string = preg_replace( '/&(#?x?[0-9a-z]+);/i', '|wp_entity|$1|/wp_entity|', $string );
 	}
 
