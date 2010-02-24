@@ -114,7 +114,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php do_settings_fields('writing', 'post_via_email'); ?>
 </table>
 <?php } ?>
-<?php if ( !is_multisite() ) { ?>
+<?php if ( !is_multisite() || ( defined( 'UPDATE_SERVICES' ) && UPDATE_SERVICES ) ) { ?>
 <h3><?php _e('Update Services') ?></h3>
 
 <?php if ( get_option('blog_public') ) : ?>
