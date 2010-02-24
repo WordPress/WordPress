@@ -568,10 +568,10 @@ class wpdb {
 
 		$this->prefix = $this->get_blog_prefix( $this->blogid );
 
-		foreach ( (array) $this->tables( 'blog' ) as $table => $prefixed_table )
+		foreach ( $this->tables( 'blog' ) as $table => $prefixed_table )
 			$this->$table = $prefixed_table;
 
-		foreach ( (array) $this->tables( 'old' ) as $table => $prefixed_table )
+		foreach ( $this->tables( 'old' ) as $table => $prefixed_table )
 			$this->$table = $prefixed_table;
 
 		return $old_prefix;
@@ -630,6 +630,14 @@ class wpdb {
 	 * override the WordPress users and usersmeta tables that would otherwise
 	 * be determined by the prefix.
 	 *
+	 * The scope argument can take one of the following:
+	 *
+	 * 'all' - returns 'all' and 'global' tables. No old tables are returned.
+	 * 'global' - returns the global tables for the installation, returning multisite tables only if running multisite.
+	 * 'ms_global' - returns the multisite global tables, regardless if current installation is multisite.
+	 * 'blog' - returns the blog-level tables for the queried blog.
+	 * 'old' - returns tables which are deprecated.
+	 *
 	 * @since 3.0.0
 	 * @uses wpdb::$tables
 	 * @uses wpdb::$old_tables
@@ -637,37 +645,35 @@ class wpdb {
 	 * @uses wpdb::$ms_global_tables
 	 * @uses is_multisite()
 	 *
-	 * @param string $scope Can be all, global, ms_global, blog, or old tables. Defaults to all.
-	 * 	'all' returns 'all' and 'global' tables. No old tables are returned.
-	 * 	'global' returns the global tables for the installation, returning multisite tables only if running multisite.
-	 * 	'ms_global' returns the multisite global tables, regardless if current installation is multisite.
-	 * 	'blog' returns the blog-level tables for the queried blog.
-	 * 	'old' returns tables which are deprecated.
-	 * @param bool $prefix Whether to include table prefixes. Default true. If blog
+	 * @param string $scope Optional. Can be all, global, ms_global, blog, or old tables. Defaults to all.
+	 * @param bool $prefix Optional. Whether to include table prefixes. Default true. If blog
 	 * 	prefix is requested, then the custom users and usermeta tables will be mapped.
-	 * @param int $blog_id The blog_id to prefix. Defaults to wpdb::blogid. Used only when prefix is requested.
+	 * @param int $blog_id Optional. The blog_id to prefix. Defaults to wpdb::blogid. Used only when prefix is requested.
 	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
 	function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
 		switch ( $scope ) {
-			case 'old' :
-				$tables = $this->old_tables;
-				break;
-			case 'blog' :
-				$tables = $this->tables;
-				break;
-			case 'ms_global' :
-				$tables = $this->ms_global_tables;
+			case 'all' :
+				$tables = array_merge( $this->global_tables, $this->tables );
+				if ( is_multisite() )
+					$tables = array_merge( $tables, $this->ms_global_tables );
 				break;
 			case 'global' :
 				$tables = $this->global_tables;
 				if ( is_multisite() )
 					$tables = array_merge( $tables, $this->ms_global_tables );
 				break;
-			case 'all' :
-				$tables = array_merge( $this->global_tables, $this->tables );
-				if ( is_multisite() )
-					$tables = array_merge( $tables, $this->ms_global_tables );
+			case 'ms_global' :
+				$tables = $this->ms_global_tables;
+				break;
+			case 'blog' :
+				$tables = $this->tables;
+				break;
+			case 'old' :
+				$tables = $this->old_tables;
+				break;
+			default :
+				return array();
 				break;
 		}
 
@@ -723,9 +729,9 @@ class wpdb {
 	}
 
 	/**
-	 * Weak escape
+	 * Weak escape, using addslashes()
 	 *
-	 * @uses addslashes()
+	 * @see addslashes()
 	 * @since {@internal Version Unknown}}
 	 * @access private
 	 *
@@ -737,10 +743,10 @@ class wpdb {
 	}
 
 	/**
-	 * Real escape
+	 * Real escape, using mysql_real_escape_string() or addslashes()
 	 *
-	 * @uses mysql_real_escape_string()
-	 * @uses addslashes()
+	 * @see mysql_real_escape_string()
+	 * @see addslashes()
 	 * @since 2.8
 	 * @access private
 	 *
@@ -786,7 +792,7 @@ class wpdb {
 	 * Works on arrays.
 	 *
 	 * @since 0.71
-	 * @param  string|array $data to escape
+	 * @param string|array $data to escape
 	 * @return string|array escaped as query safe string
 	 */
 	function escape( $data ) {
@@ -809,7 +815,7 @@ class wpdb {
 	 *
 	 * @uses wpdb::_real_escape()
 	 * @since 2.3.0
-	 * @param  string $string to escape
+	 * @param string $string to escape
 	 * @return void
 	 */
 	function escape_by_ref( &$string ) {
@@ -1456,7 +1462,6 @@ class wpdb {
 	 * @see   wpdb::db_version()
 	 *
 	 * @param string $db_cap the feature
-	 * @param false|string|resource $dbh_or_table. Not implemented.
 	 * @return bool
 	 */
 	function has_cap( $db_cap ) {
@@ -1489,16 +1494,15 @@ class wpdb {
 		foreach ( $trace as $call ) {
 			if ( isset( $call['class'] ) && __CLASS__ == $call['class'] )
 				continue; // Filter out wpdb calls.
+			$caller[] = isset( $call['class'] ) ? "{$call['class']}->{$call['function']}" : $call['function'];
 		}
-		$caller = join( ', ', $caller );
 
-		return $caller;
+		return join( ', ', $caller );
 	}
 
 	/**
 	 * The database version number.
 	 *
-	 * @param false|string|resource $dbh_or_table. Not implemented.
 	 * @return false|string false on failure, version number on success
 	 */
 	function db_version() {
