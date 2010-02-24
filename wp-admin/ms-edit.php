@@ -141,14 +141,14 @@ switch ( $_GET['action'] ) {
 			wp_die( __('You do not have permission to access this page.') );
 
 		if ( is_array( $_POST[ 'blog' ] ) == false )
-			wp_die( "Can't create an empty blog." );
+			wp_die( "Can't create an empty site." );
 		$blog = $_POST['blog'];
 		$domain = sanitize_user( str_replace( '/', '', $blog[ 'domain' ] ) );
 		$email = sanitize_email( $blog[ 'email' ] );
 		$title = $blog[ 'title' ];
 
 		if ( empty($domain) || empty($email) )
-			wp_die( __('Missing blog address or email address.') );
+			wp_die( __('Missing site address or email address.') );
 		if ( !is_email( $email ) )
 			wp_die( __('Invalid email address') );
 
@@ -178,8 +178,8 @@ switch ( $_GET['action'] ) {
 			$dashboard_blog = get_dashboard_blog();
 			if ( get_user_option( 'primary_blog', $user_id ) == $dashboard_blog->blog_id )
 				update_user_option( $user_id, 'primary_blog', $id, true );
-			$content_mail = sprintf( __( "New blog created by %1s\n\nAddress: http://%2s\nName: %3s"), $current_user->user_login , $newdomain.$path, stripslashes( $title ) );
-			wp_mail( get_site_option('admin_email'),  sprintf(__('[%s] New Blog Created'), $current_site->site_name), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
+			$content_mail = sprintf( __( "New site created by %1s\n\nAddress: http://%2s\nName: %3s"), $current_user->user_login , $newdomain.$path, stripslashes( $title ) );
+			wp_mail( get_site_option('admin_email'),  sprintf(__('[%s] New Site Created'), $current_site->site_name), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
 			wpmu_welcome_notification( $id, $user_id, $password, $title, array( "public" => 1 ) );
 			wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'add-blog'), $_SERVER['HTTP_REFERER'] ) );
 			exit();
@@ -439,7 +439,7 @@ switch ( $_GET['action'] ) {
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists('language_attributes') ) language_attributes(); ?>>
 			<head>
-				<title><?php _e("WordPress MU &rsaquo; Confirm your action"); ?></title>
+				<title><?php _e("WordPress &rsaquo; Confirm your action"); ?></title>
 
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 				<?php wp_admin_css( 'install', true ); ?>
@@ -498,7 +498,7 @@ switch ( $_GET['action'] ) {
 					continue;
 				$user = new WP_User( $val );
 				if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) )
-					wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a site admnistrator.' ), $user->user_login ) );
+					wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a network admnistrator.' ), $user->user_login ) );
 				if ( isset($_POST['alluser_spam']) ) {
 					$userfunction = 'all_spam';
 					$blogs = get_blogs_of_user( $val, true );

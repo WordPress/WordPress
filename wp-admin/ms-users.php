@@ -125,7 +125,7 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 		</div>
 
 		<?php if ( isset($_GET['s']) && $_GET['s'] != '' ) : ?>
-			<p><a href="ms-sites.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Blogs for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
+			<p><a href="ms-sites.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Sites for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
 		<?php endif; ?>
 
 		<?php
@@ -145,7 +145,7 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 			<tr>
 				<?php foreach( (array) $posts_columns as $column_id => $column_display_name) {
 					if ( $column_id == 'blogs' ) {
-						echo '<th scope="col">'.__('Blogs').'</th>';
+						echo '<th scope="col">'.__('Sites').'</th>';
 					} elseif ( $column_id == 'checkbox') {
 						echo '<th scope="col" class="check-column"><input type="checkbox" /></th>';
 					} else { ?>

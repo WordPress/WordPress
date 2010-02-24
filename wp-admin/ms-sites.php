@@ -23,43 +23,43 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 		<?php
 		switch ($_GET['action']) {
 			case 'all_notspam':
-				_e('Blogs mark as not spam !');
+				_e('Sites mark as not spam !');
 			break;
 			case 'all_spam':
-				_e('Blogs mark as spam !');
+				_e('Sites mark as spam !');
 			break;
 			case 'all_delete':
-				_e('Blogs deleted !');
+				_e('Sites deleted !');
 			break;
 			case 'delete':
-				_e('Blog deleted !');
+				_e('Site deleted !');
 			break;
 			case 'add-blog':
-				_e('Blog added !');
+				_e('Site added !');
 			break;
 			case 'archive':
-				_e('Blog archived !');
+				_e('Site archived !');
 			break;
 			case 'unarchive':
-				_e('Blog unarchived !');
+				_e('Site unarchived !');
 			break;
 			case 'activate':
-				_e('Blog activated !');
+				_e('Site activated !');
 			break;
 			case 'deactivate':
-				_e('Blog deactivated !');
+				_e('Site deactivated !');
 			break;
 			case 'unspam':
-				_e('Blog mark as not spam !');
+				_e('Site mark as not spam !');
 			break;
 			case 'spam':
-				_e('Blog mark as spam !');
+				_e('Site mark as spam !');
 			break;
 			case 'umature':
-				_e('Blog mark as not mature !');
+				_e('Site mark as not mature !');
 			break;
 			case 'mature':
-				_e('Blog mark as mature !');
+				_e('Site mark as mature !');
 			break;
 			default:
 				_e('Options saved !');
@@ -89,7 +89,7 @@ switch ( $action ) {
 			<input type="hidden" name="id" value="<?php echo esc_attr($id) ?>" />
 			<div class='metabox-holder' style='width:49%;float:left;'>
 			<div id="blogedit_bloginfo" class="postbox " >
-			<h3 class='hndle'><span><?php _e('Blog info (wp_blogs)'); ?></span></h3>
+			<h3 class='hndle'><span><?php _e('Site info (wp_blogs)'); ?></span></h3>
 			<div class="inside">
 				<table class="form-table">
 							<tr class="form-field form-required">
@@ -157,7 +157,7 @@ switch ( $action ) {
 			</div></div>
 
 			<div id="blogedit_blogoptions" class="postbox " >
-			<h3 class='hndle'><span><?php printf( __('Blog options (%soptions)'), $blog_prefix ); ?></span></h3>
+			<h3 class='hndle'><span><?php printf( __('Site options (%soptions)'), $blog_prefix ); ?></span></h3>
 			<div class="inside">
 				<table class="form-table">
 							<?php
@@ -223,7 +223,7 @@ switch ( $action ) {
 					if ( $out != '' ) {
 			?>
 			<div id="blogedit_blogthemes" class="postbox">
-			<h3 class='hndle'><span><?php esc_html_e('Blog Themes'); ?></span></h3>
+			<h3 class='hndle'><span><?php esc_html_e('Site Themes'); ?></span></h3>
 			<div class="inside">
 				<table class="form-table">
 					<tr><th style="font-weight:bold;"><?php esc_html_e('Theme'); ?></th></tr>
@@ -237,7 +237,7 @@ switch ( $action ) {
 					// Blog users
 					$blogusers = get_users_of_blog( $id );
 					if ( is_array( $blogusers ) ) {
-						echo '<div id="blogedit_blogusers" class="postbox"><h3 class="hndle"><span>' . __('Blog Users') . '</span></h3><div class="inside">';
+						echo '<div id="blogedit_blogusers" class="postbox"><h3 class="hndle"><span>' . __('Site Users') . '</span></h3><div class="inside">';
 						echo '<table class="form-table">';
 						echo "<tr><th>" . __('User') . "</th><th>" . __('Role') . "</th><th>" . __('Password') . "</th><th>" . __('Remove') . "</th></tr>";
 						reset($blogusers);
@@ -305,7 +305,7 @@ switch ( $action ) {
 			</div></div>
 
 			<div id="blogedit_miscoptions" class="postbox">
-			<h3 class='hndle'><span><?php _e('Misc Blog Actions') ?></span></h3>
+			<h3 class='hndle'><span><?php _e('Misc Site Actions') ?></span></h3>
 			<div class="inside">
 				<table class="form-table">
 						<?php do_action( 'wpmueditblogaction', $id ); ?>
@@ -507,21 +507,21 @@ switch ( $action ) {
 									$actions[]	= "<a href='" . get_admin_url($blog['blog_id']) . "' class='edit'>" . __('Backend') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "deleted" ) == '1' )
-										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the blog %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=activateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the site %s" ), $blogname ) ) . '">' . __('Activate') . '</a>';
 									else
-										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the blog %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;ref=' . urlencode( $_SERVER['REQUEST_URI'] ) . '&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the site %s" ), $blogname ) ) . '">' . __('Deactivate') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "archived" ) == '1' )
-										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the blog %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the site %s" ), $blogname ) ) . '">' . __('Unarchive') . '</a>';
 									else
-										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the blog %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the site %s" ), $blogname ) ) . '">' . __('Archive') . '</a>';
 
 									if ( get_blog_status( $blog['blog_id'], "spam" ) == '1' )
-										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the blog %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the site %s" ), $blogname ) ) . '">' . __('Not Spam') . '</a>';
 									else
-										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the blog %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
+										$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the site %s as spam" ), $blogname ) ) . '">' . __("Spam") . '</a>';
 
-									$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the blog %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
+									$actions[]	= '<a class="delete" href="ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the site %s" ), $blogname ) ) . '">' . __("Delete") . '</a>';
 
 									$actions[]	= "<a href='" . get_home_url($blog['blog_id']) . "' rel='permalink'>" . __('Visit') . '</a>';
 									?>

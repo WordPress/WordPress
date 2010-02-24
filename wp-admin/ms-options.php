@@ -21,13 +21,13 @@ if (isset($_GET['updated'])) {
 
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php _e('Site Options') ?></h2>
+	<h2><?php _e('Network Options') ?></h2>
 	<form method="post" action="ms-edit.php?action=siteoptions">
 		<?php wp_nonce_field( "siteoptions" ); ?>
-		<h3><?php _e('Operational Settings <em>(These settings cannot be modified by blog owners)</em>') ?></h3>
+		<h3><?php _e('Operational Settings <em>(These settings cannot be modified by site owners)</em>') ?></h3>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('Site Name') ?></th>
+				<th scope="row"><?php _e('Network Name') ?></th>
 				<td>
 					<input name="site_name" type="text" id="site_name" style="width: 95%" value="<?php echo esc_attr($current_site->site_name) ?>" size="45" />
 					<br />
@@ -36,7 +36,7 @@ if (isset($_GET['updated'])) {
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Site Admin Email') ?></th>
+				<th scope="row"><?php _e('Network Admin Email') ?></th>
 				<td>
 					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" size="45" />
 					<br />
@@ -52,12 +52,12 @@ if (isset($_GET['updated'])) {
 				?>
 				<td>
 					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Disabled'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration2" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Enabled. Blogs and user accounts can be created.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration2" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Enabled. Sites and user accounts can be created.'); ?></label><br />
 					<label><input name="registration" type="radio" id="registration3" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('Only user account can be created.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration4" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Only logged in users can create new blogs.'); ?></label><br />
-					<p><?php _e('Disable or enable registration and who or what can be registered. (Default=all)'); ?></p>
+					<label><input name="registration" type="radio" id="registration4" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Only logged in users can create new sites.'); ?></label><br />
+					<p><?php _e('Disable or enable registration and who or what can be registered. (Default=Disabled)'); ?></p>
 					<?php if ( is_subdomain_install() ) {
-						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non existant blog.') . '</p>';
+						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non existant site.') . '</p>';
 					} ?>
 				</td>
 			</tr>
@@ -71,7 +71,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes' <?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
 					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no' <?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
-					<?php _e('Send the site admin an email notification every time someone registers a blog or user account.') ?>
+					<?php _e('Send the network admin an email notification every time someone registers a site or user account.') ?>
 				</td>
 			</tr>
 
@@ -79,14 +79,14 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><?php _e('Add New Users') ?></th>
 				<td>
 					<a name='addnewusers'></a>
-					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users') ) ?> /> <?php _e('Yes'); ?><br />
-					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0) ?> /> <?php _e('No'); ?><br />
-					<?php _e('Allow blog administrators to add new users to their blog via the Users->Add New page.') ?>
+					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
+					<?php _e('Allow site administrators to add new users to their site via the Users->Add New page.') ?>
 				</td>
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Dashboard Blog') ?></th>
+				<th scope="row"><?php _e('Dashboard Site') ?></th>
 				<td>
 					<?php
 					if ( $dashboard_blog = get_site_option( 'dashboard_blog' ) ) {
@@ -98,7 +98,7 @@ if (isset($_GET['updated'])) {
 					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr($blogname); ?>" />
 					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr($blogname); ?>" size="30" />
 					<br />
-					<?php _e( "Blogname ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this blog as subscribers (or the user role defined below) if they don't have a blog. Leave blank for the main blog. 'Subscriber' users on old blog will be moved to the new blog if changed. New blog will be created if it does not exist." ); ?>
+					<?php _e( "Blogname ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this site as subscribers (or the user role defined below) if they don't have a site. Leave blank for the main site. 'Subscriber' users on old site will be moved to the new site if changed. New site will be created if it does not exist." ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -109,7 +109,7 @@ if (isset($_GET['updated'])) {
 					?>
 					</select>
 					<br />
-					<?php _e( "The default role for new users on the Dashboard blog. This should probably be 'Subscriber' or maybe 'Contributor'." ); ?>
+					<?php _e( "The default role for new users on the Dashboard site. This should probably be 'Subscriber' or maybe 'Contributor'." ); ?>
 				</td>
 			</tr>
 
@@ -118,7 +118,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input name="illegal_names" type="text" id="illegal_names" style="width: 95%" value="<?php echo esc_attr( implode( " ", get_site_option('illegal_names') ) ); ?>" size="45" />
 					<br />
-					<?php _e('Users are not allowed to register these blogs. Separate names by spaces.') ?>
+					<?php _e('Users are not allowed to register these sites. Separate names by spaces.') ?>
 				</td>
 			</tr>
 
@@ -129,7 +129,7 @@ if (isset($_GET['updated'])) {
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
 					<textarea name="limited_email_domains" id="limited_email_domains" cols='40' rows='5'><?php echo $limited_email_domains == '' ? '' : @implode( "\n", $limited_email_domains ); ?></textarea>
 					<br />
-					<?php _e('If you want to limit blog registrations to certain domains. One domain per line.') ?>
+					<?php _e('If you want to limit site registrations to certain domains. One domain per line.') ?>
 				</td>
 			</tr>
 
@@ -138,7 +138,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="banned_email_domains" id="banned_email_domains" cols='40' rows='5'><?php echo get_site_option('banned_email_domains') == '' ? '' : @implode( "\n", get_site_option('banned_email_domains') ); ?></textarea>
 					<br />
-					<?php _e('If you want to ban certain email domains from blog registrations. One domain per line.') ?>
+					<?php _e('If you want to ban certain email domains from site registrations. One domain per line.') ?>
 				</td>
 			</tr>
 
@@ -147,7 +147,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="welcome_email" id="welcome_email" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('welcome_email') ) ?></textarea>
 					<br />
-					<?php _e('The welcome email sent to new blog owners.') ?>
+					<?php _e('The welcome email sent to new site owners.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -163,7 +163,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="first_post" id="first_post" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_post') ) ?></textarea>
 					<br />
-					<?php _e('First post on a new blog.') ?>
+					<?php _e('First post on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -171,7 +171,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="first_page" id="first_page" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_page') ) ?></textarea>
 					<br />
-					<?php _e('First page on a new blog.') ?>
+					<?php _e('First page on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -179,7 +179,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="first_comment" id="first_comment" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_comment') ) ?></textarea>
 					<br />
-					<?php _e('First comment on a new blog.') ?>
+					<?php _e('First comment on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -187,7 +187,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input type="text" size='40' name="first_comment_author" id="first_comment_author" value="<?php echo get_site_option('first_comment_author') ?>" />
 					<br />
-					<?php _e('Author of first comment on a new blog.') ?>
+					<?php _e('Author of first comment on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -195,7 +195,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input type="text" size='40' name="first_comment_url" id="first_comment_url" value="<?php echo esc_attr(get_site_option('first_comment_url')) ?>" />
 					<br />
-					<?php _e('URL on first comment on a new blog.') ?>
+					<?php _e('URL on first comment on a new site.') ?>
 				</td>
 			</tr>
 
@@ -208,14 +208,14 @@ if (isset($_GET['updated'])) {
 				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the "Upload File Types" below as well.' ); ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Blog upload space check') ?></th>
+				<th scope="row"><?php _e('Site upload space check') ?></th>
 				<td>
 				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
 				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
 				<?php _e( 'By default there is a limit on the total size of files uploaded but it can be disabled here.' ); ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Blog upload space') ?></th>
+				<th scope="row"><?php _e('Site upload space') ?></th>
 				<td><input name="blog_upload_space" type="text" id="blog_upload_space" value="<?php echo esc_attr( get_site_option('blog_upload_space', 10) ) ?>" size="3" /> MB</td>
 			</tr>
 
@@ -231,25 +231,25 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
 				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
-				<?php _e( 'Display the latest post from this RSS or Atom feed on all blog dashboards. Leave blank to disable.' ); ?><br />
+				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
 				<?php if ( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
-					echo __( "A good one to use would be the feed from your main blog: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
+					echo __( "A good one to use would be the feed from your main site: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
 			</tr>
 		</table>
 
 		<h3><?php _e('Administration Settings') ?></h3>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('Site Admins') ?></th>
+				<th scope="row"><?php _e('Network Admins') ?></th>
 				<td>
 					<input name="site_admins" type="text" id="site_admins" style="width: 95%" value="<?php echo esc_attr( implode(' ', get_site_option( 'site_admins', array( 'admin' ) ) ) ) ?>" size="45" />
 					<br />
-					<?php _e('These users may login to the main blog and administer the site. Space separated list of usernames.') ?>
+					<?php _e('These users may login to the main site and administer the network. Space separated list of usernames.') ?>
 				</td>
 			</tr>
 		</table>
 
-		<h3><?php _e('Site Wide Settings <em>(These settings may be overridden by blog owners)</em>') ?></h3>
+		<h3><?php _e('Network Wide Settings <em>(These settings may be overridden by site owners)</em>') ?></h3>
 		<table class="form-table">
 			<?php
 			$languages = get_available_languages();
