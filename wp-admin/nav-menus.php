@@ -372,6 +372,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		</div><!-- /.widgets-holder-wrap -->
 	</div><!-- /.hide-if-no-js -->
 	</div>
+	</form>
 </div>
 
 <div id="dialog-confirm" style="display:none;" title="<?php esc_attr_e('Edit Menu Item'); ?>">
