@@ -1010,7 +1010,7 @@ function inline_edit_row( $screen ) {
 		</ul>
 	</div></fieldset>
 
-<?php endif; // !hierarchical && !$bulk ?>
+<?php endif; // is_object_in_taxonomy($screen->post_type, 'category') && !$bulk ?>
 
 	<fieldset class="inline-edit-col-right"><div class="inline-edit-col">
 
@@ -1052,14 +1052,16 @@ function inline_edit_row( $screen ) {
 			</select>
 		</label>
 
-<?php elseif ( !$bulk ) : // $is_page ?>
+<?php endif; // $post_type_object->hierarchical ?>
+
+<?php if ( is_object_in_taxonomy($screen->post_type, 'post_tag') && !$bulk ) : ?>
 
 		<label class="inline-edit-tags">
 			<span class="title"><?php _e( 'Tags' ); ?></span>
 			<textarea cols="22" rows="1" name="tags_input" class="tags_input"></textarea>
 		</label>
 
-<?php endif; // $is_page  ?>
+<?php endif; // is_object_in_taxonomy($screen->post_type, 'post_tag') && !$bulk  ?>
 
 <?php if ( $bulk ) : ?>
 
