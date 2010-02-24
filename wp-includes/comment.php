@@ -1382,9 +1382,7 @@ function wp_update_comment($commentarr) {
 		$comment_approved = 1;
 
 	$data = compact('comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt');
-	$wpdb->update($wpdb->comments, $data, compact('comment_ID'));
-
-	$rval = $wpdb->rows_affected;
+	$rval = $wpdb->update( $wpdb->comments, $data, compact( 'comment_ID' ) );
 
 	clean_comment_cache($comment_ID);
 	wp_update_comment_count($comment_post_ID);

@@ -3203,10 +3203,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
 
 		// Let's check that the remote site didn't already pingback this entry
-		$wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $post_ID, $pagelinkedfrom) );
-
-		if ( $wpdb->num_rows ) // We already have a Pingback from this URL
-	  		return new IXR_Error(48, __('The pingback has already been registered.'));
+		if ( $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $post_ID, $pagelinkedfrom) ) )
+			return new IXR_Error( 48, __( 'The pingback has already been registered.' ) );
 
 		// very stupid, but gives time to the 'from' server to publish !
 		sleep(1);
