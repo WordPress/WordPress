@@ -8,7 +8,37 @@
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
+	$defaults = array('id' => '', 'slug' => '', 'menu_class' => 'menu', 'format' => 'div');
+	$args = wp_parse_args($args, $defaults);
+	$args = (object) $args;
+
+	$menu = null;
+	if ( !empty($args->id) ) {
+		$menu = wp_get_nav_menu( $args->id );
+	} elseif ( !empty($args->slug) ) {
+		$menu = get_term_by('slug', $args->slug, 'nav_menu');
+	} else {
+		$menus = wp_get_nav_menus();
+		foreach ( $menus as $menu_maybe ) {
+			if ( wp_get_nav_menu_items($menu_maybe->term_id) ) {
+				$menu = $menu_maybe;
+				break;
+			}
+		}
+	}
+
+	if ( !$menu || is_wp_error($menu) )
+		return wp_page_menu( $args );
+
+	if ( 'div' == $args->format )
+		echo '<div class="' . esc_attr($args->menu_class) . '"><ul>';
+
+	$args->id = $menu->term_id;
+
 	wp_print_nav_menu($args);
+		
+	if ( 'div' == $args->format )
+		echo '</ul></div>';
 }
 
 function wp_print_nav_menu( $args = array() ) {

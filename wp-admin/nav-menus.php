@@ -30,7 +30,7 @@ require_once('admin-header.php');
 require_once(ABSPATH . 'wp-admin/includes/nav-menu.php');
 
 function wp_reset_nav_menu() {
-	wp_custom_navigation_setup(true);
+	wp_nav_menu_setup(true);
 
 	return true;
 }

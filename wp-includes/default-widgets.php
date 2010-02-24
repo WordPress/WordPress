@@ -1126,7 +1126,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 						<?php
 							//DISPLAY custom navigation menu
 							if ( get_option('wp_custom_nav_menu') == 'true' )
-        						wp_nav_menu( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription) );
+        						wp_nav_menu( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription, 'format' => 'widget') );
 						?>
 
 				<?php
