@@ -115,7 +115,7 @@ function updatepostdata()
      	jQuery(this).find('dl > dt > span > #remove' + j).attr('onClick', 'removeitem(' + i + ')');
      	jQuery(this).find('dl > dt > span > #remove' + j).attr('id','remove' + i);
 
-     	jQuery('#licount').attr('value',i);
+     	jQuery('#li-count').attr('value',i);
 
    });
 
@@ -142,16 +142,16 @@ function appendToList(templatedir,additemtype,itemtext,itemurl,itemid,itemparent
 	var inputdescription = '';
 	var inputicon = '';
 
-	if (additemtype == 'Custom')
+	if (additemtype == navMenuL10n.custom)
 	{
-		inputvaluevarname = document.getElementById('custom_menu_item_name').value;
-		inputvaluevarurl = document.getElementById('custom_menu_item_url').value;
+		inputvaluevarname = document.getElementById('custom-menu-item-name').value;
+		inputvaluevarurl = document.getElementById('custom-menu-item-url').value;
 		inputitemid = '';
 		inputparentid = '';
 		inputlinktype = 'custom';
-		inputdescription = document.getElementById('custom_menu_item_description').value;
+		inputdescription = '';
 	}
-	else if (additemtype == 'Page')
+	else if (additemtype == navMenuL10n.page)
 	{
 		inputvaluevarname = htmlentities(itemtext.toString());
 		inputvaluevarurl = itemurl.toString();
@@ -161,7 +161,7 @@ function appendToList(templatedir,additemtype,itemtext,itemurl,itemid,itemparent
 		inputdescription = htmlentities(itemdescription.toString());
 
 	}
-	else if (additemtype == 'Category')
+	else if (additemtype == navMenuL10n.category)
 	{
 		inputvaluevarname = htmlentities(itemtext.toString());
 		inputvaluevarurl = itemurl.toString();

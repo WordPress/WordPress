@@ -25,7 +25,7 @@ function wp_create_nav_menu( $menu_name ) {
 	$menu_exists = get_term_by( 'name', $menu_name, 'nav_menu' );
 
 	if ( $menu_exists )
-		return WP_Error('menu_exists', sprintf( __('A menu named "%s" already exists; please try another name.'), $menu_exists->name ));
+		return new WP_Error('menu_exists', sprintf( __('A menu named &#8220;%s&#8221; already exists; please try another name.'), esc_html( $menu_exists->name ) ) );
 
 	$menu = wp_insert_term( $menu_name, 'nav_menu' );
 	if ( is_wp_error($menu) )
@@ -97,16 +97,16 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 			$menu_item->link = get_page_link( $menu_item->object_id );
 
 			if ( $menu_item->post_title == '' )
-				$menu_item->title = htmlentities( get_the_title( $menu_item->object_id ) );
+				$menu_item->title = get_the_title( $menu_item->object_id );
 			else
-				$menu_item->title = htmlentities( $menu_item->post_title );
+				$menu_item->title = $menu_item->post_title;
 
 			if ( $menu_item->post_content == '' )
-				$menu_item->description = htmlentities( get_post_meta( $menu_item->ID, 'page-description', true ) );
+				$menu_item->description = get_post_meta( $menu_item->ID, 'page-description', true );
 			else
-				$menu_item->description = htmlentities( $menu_item->post_content );
+				$menu_item->description = $menu_item->post_content;
 			$menu_item->target = '';
-			$menu_item->append = 'Page';
+			$menu_item->append = _x('Page', 'menu nav item type');
 		break;
 		// Category Menu Item
 		case 'category':
@@ -114,25 +114,25 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 
 			if ( empty($menu_item->post_title) ) {
 				$title_raw = get_category( $menu_item->object_id );
-				$menu_item->title =  htmlentities($title_raw->cat_name);
+				$menu_item->title =  $title_raw->cat_name;
 			} else {
-				$menu_item->title = htmlentities( $menu_item->post_title );
+				$menu_item->title = $menu_item->post_title;
 			}
 
 			if ( empty($menu_item->post_content) )
-				$menu_item->description = htmlentities( strip_tags( category_description( $menu_item->object_id ) ) );
+				$menu_item->description = strip_tags( category_description( $menu_item->object_id ) );
 			else
-				$menu_item->description = htmlentities( $menu_item->post_content );
+				$menu_item->description = $menu_item->post_content;
 			$menu_item->target = '';
-			$menu_item->append = 'Category';
+			$menu_item->append = _x('Category', 'menu nav item type');
 		break;
 		default:
 			// Custom Menu Item
 			$menu_item->link = $menu_item->guid;
-			$menu_item->title =  htmlentities( $menu_item->post_title );
-			$menu_item->description = htmlentities( $menu_item->post_content );
+			$menu_item->title =  $menu_item->post_title;
+			$menu_item->description = $menu_item->post_content;
 			$menu_item->target = 'target="_blank"';
-			$menu_item->append = 'Custom';
+			$menu_item->append = _x('Custom', 'menu nav item type');
 		break;
 	}
 
@@ -146,7 +146,7 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 
 			//SET anchor title
 			if (isset($wp_custom_nav_menu_items->custom_anchor_title)) {
-				$anchor_title = htmlentities($wp_custom_nav_menu_items->custom_anchor_title);
+				$anchor_title = $wp_custom_nav_menu_items->custom_anchor_title;
 			}
 			else {
 				$anchor_title = $title;

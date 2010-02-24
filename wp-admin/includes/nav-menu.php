@@ -29,27 +29,27 @@ function wp_nav_menu_get_pages($counter, $type) {
 	//GET all pages
 	$pages_array = get_pages($pages_args);
 
-	$intCounter = $counter;
-	$parentli = $intCounter;
+	$items_counter = $counter;
+	$parentli = $items_counter;
 
 	if ( !$pages_array ) {
-		echo 'Not Found';
-		return $intCounter;
+		echo __('Not Found');
+		return $items_counter;
 	}
 
 	// Display Loop
 	foreach ( $pages_array as $post ) {
 		if ( $post->post_parent == 0 ) {
-			$post = wp_setup_nav_menu_item($post, 'page', $intCounter);
+			$post = wp_setup_nav_menu_item($post, 'page', $items_counter);
 			if ( $type == 'menu' ) {
 				?>
 
-				<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
+				<li id="menu-<?php echo $items_counter; ?>" value="<?php echo $items_counter; ?>">
 					<?php
-						wp_print_nav_menu_item($post, 'menu', $intCounter);
+						wp_print_nav_menu_item($post, 'menu', $items_counter);
 						$parentli = $post->ID;
-						$intCounter++;
-						$intCounter = wp_custom_navigation_default_sub_items($post->ID, $intCounter, $parentli, 'pages', 'menu');
+						$items_counter++;
+						$items_counter = wp_custom_navigation_default_sub_items($post->ID, $items_counter, $parentli, 'pages', 'menu');
 					?>
 				</li>
 
@@ -61,8 +61,8 @@ function wp_nav_menu_get_pages($counter, $type) {
 					<?php
 						wp_print_nav_menu_item($post, 'default');
 						$parentli = $post->ID;
-						$intCounter++;
-						$intCounter = wp_nav_menu_sub_items($post->ID, $intCounter, $parentli, 'pages', 'default');
+						$items_counter++;
+						$items_counter = wp_nav_menu_sub_items($post->ID, $items_counter, $parentli, 'pages', 'default');
 					 ?>
 				</li>
 
@@ -71,7 +71,7 @@ function wp_nav_menu_get_pages($counter, $type) {
 		}
 	}
 
-	return $intCounter;
+	return $items_counter;
 }
 
 // Outputs All Categories and Sub Items
@@ -90,30 +90,30 @@ function wp_nav_menu_get_categories($counter, $type) {
 			'number'                   => '',
 			'pad_counts'               => false );
 
-	$intCounter = $counter;
+	$items_counter = $counter;
 
 	// Get all categories
 	$categories_array = get_categories($category_args);
 
 	if ( !$categories_array ) {
 		_e('Not Found');
-		return $intCounter;
+		return $items_counter;
 	}
 
 	// Display Loop
 	foreach ( $categories_array as $cat_item ) {
 		if ( $cat_item->parent == 0 ) {
-			$cat_item = wp_setup_nav_menu_item($cat_item, 'category', $intCounter);
+			$cat_item = wp_setup_nav_menu_item($cat_item, 'category', $items_counter);
 			// Custom Menu
 			if ( $type == 'menu' ) {
 				?>
 
-				<li id="menu-<?php echo $intCounter; ?>" value="<?php echo $intCounter; ?>">
+				<li id="menu-<?php echo $items_counter; ?>" value="<?php echo $items_counter; ?>">
 					<?php
 						wp_print_nav_menu_item($cat_item, 'menu');
 						$parentli = $cat_item->cat_ID;
-						$intCounter++;
-						$intCounter = wp_nav_menu_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories', 'menu');
+						$items_counter++;
+						$items_counter = wp_nav_menu_sub_items($cat_item->cat_ID, $items_counter, $parentli, 'categories', 'menu');
 					?>
 
 				</li>
@@ -126,8 +126,8 @@ function wp_nav_menu_get_categories($counter, $type) {
 					<?php
 						wp_print_nav_menu_item($cat_item, 'default');
 						$parentli = $cat_item->cat_ID;
-						$intCounter++;
-						$intCounter = wp_nav_menu_sub_items($cat_item->cat_ID, $intCounter, $parentli, 'categories', 'default');
+						$items_counter++;
+						$items_counter = wp_nav_menu_sub_items($cat_item->cat_ID, $items_counter, $parentli, 'categories', 'default');
 					?>
 
 				</li>
@@ -137,13 +137,13 @@ function wp_nav_menu_get_categories($counter, $type) {
 		}
 	}
 
-	return $intCounter;
+	return $items_counter;
 }
 
 //RECURSIVE Sub Menu Items of default categories and pages
-function wp_nav_menu_sub_items($childof, $intCounter, $parentli, $type, $output_type) {
+function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $output_type) {
 
-	$counter = $intCounter;
+	$counter = $items_counter;
 
 	// Custom Menu
 	if ( $output_type == 'menu' ) {

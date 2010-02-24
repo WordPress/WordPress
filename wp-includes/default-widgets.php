@@ -1120,18 +1120,8 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 					<ul class="custom-nav">
 					<?php
 				}
-
-        		?>
-
-						<?php
-							//DISPLAY custom navigation menu
-							if ( get_option('wp_custom_nav_menu') == 'true' )
-        						wp_nav_menu( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription, 'format' => 'widget') );
-						?>
-
-				<?php
-
-					//DEVELOPER settings enabled
+				wp_nav_menu( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription, 'format' => 'widget') );
+				//DEVELOPER settings enabled
 					if ( $navdeveloper == 'yes' ) {
 						//DISPLAY Custom UL
 						if ( $navul == 'yes' ) {

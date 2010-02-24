@@ -161,6 +161,3 @@ img.remove, img.edit  { cursor: pointer; margin: 0 5px 0 0; }
 .ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .ui-widget-overlay { background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .60;filter:Alpha(Opacity=60); }
 .ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .60;filter:Alpha(Opacity=60); -moz-border-radius: 8px; -webkit-border-radius: 8px; }
-
-
-#reset_wp_menu { background:#c77 none !important;color:white!important;text-shadow:0 1px 0 #555 !important;}
