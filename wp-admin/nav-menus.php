@@ -70,13 +70,6 @@ if ( $menu_selected_id > 0 ) {
 	}
 }
 
-if ( isset( $_POST['set_wp_menu'] ) ) {
-	// @todo validate set_wp_menu
-	update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] );
-	$updated = true;
-	$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('Menu has been updated!') . '</p></div>';
-}
-
 if ( isset( $_POST['licount'] ) )
 	$postCounter = $_POST['licount'];
 else
@@ -84,6 +77,7 @@ else
 
 // Create a new menu. Menus are stored as terms in the 'menu' taxonomy.
 if ( isset( $_POST['add_menu'] ) && ! $updated ) {
+	update_option( 'wp_custom_nav_menu', $_POST['enable_wp_menu'] ); // Do we need this?
 	$insert_menu_name = $_POST['add_menu_name'];
 
 	if ( $insert_menu_name != '' ) {
@@ -94,6 +88,7 @@ if ( isset( $_POST['add_menu'] ) && ! $updated ) {
 			$custom_menus[$menu->term_id] = $menu;
 			$menu_selected_id = $menu->term_id;
 			$menu_id_in_edit = $menu_selected_id;
+			$menu_title = $menu->name;
 			$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . esc_html( sprintf( __('"%s" menu has been created!'), $menu->name ) ) . '</p></div>';
 			$postCounter = 0;
 		}
@@ -103,19 +98,7 @@ if ( isset( $_POST['add_menu'] ) && ! $updated ) {
 	$updated = true;
 }
 
-if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
-	$success = wp_reset_nav_menu();
-	if ( $success ) {
-		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-		$messagesdiv = '<div id="message" class="updated fade below-h2"><p>' . __('The menu has been reset.') . '</p></div>';
-		// GET reset menu id
-		$custom_menus = array();
-		$menu_selected_id = 0;
-	} else {
-		// DISPLAY SUCCESS MESSAGE IF Menu Reset Correctly
-		$messagesdiv = '<div id="message" class="error fade below-h2"><p>' . __('The menu could not be reset. Please try again.') . '</p></div>';
-	}
-} elseif ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
+if ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
 	$menu_items = wp_get_nav_menu_items( $menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 	$parent_menu_ids = array();
 
@@ -174,8 +157,9 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
 	<div class="hide-if-no-js">
 	<div id="pages-left">
+	<?php if ( ! empty( $custom_menus ) && count( $custom_menus ) > 1 ) { ?>
 		<ul class="subsubsub">
-<?php		if ( ! empty( $custom_menus ) ) {
+<?php
 				foreach ( $custom_menus as $menu ) {
 					$sep = end($custom_menus) == $menu ? '' : ' | ';
 					// $menu_term = get_term( $menu, 'nav_menu' );
@@ -185,28 +169,19 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 			<li><a href='nav-menus.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>'><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
 <?php				}
 				}
-			} else { ?>
-			<li><?php _e( 'Default' ); ?></li>
-<?php		} ?>
+?>
 		</ul>
 		<div class="clear"></div>
-		<div class="inside">
-		<?php
-			// CHECK if custom menu has been enabled
-			$enabled_menu = get_option('wp_custom_nav_menu');
-			$checked = strtolower($enabled_menu);
-
-			if ( $checked != 'true' )
-				echo '<div id="message-enabled" class="error fade below-h2"><p><strong>' . __('Menu editing has not been Enabled yet. Please enable it in order to use it -------->') . '</strong></p></div>';
-		?>
-		<?php echo $messagesdiv; ?>
+<?php } ?>
 		<form onsubmit="updatepostdata()" action="nav-menus.php" method="post"  enctype="multipart/form-data">
+		<div class="inside">
+		<?php if ( ! empty( $custom_menus ) ) : ?>
+		<?php echo $messagesdiv; ?>
 
 		<input type="hidden" name="licount" id="licount" value="0" />
 		<input type="hidden" name="menu_id_in_edit" id="menu_id_in_edit" value="<?php echo esc_attr($menu_selected_id); ?>" />
 
 		<div class="sidebar-name">
-
 			<div class="sidebar-name-arrow">
 				<br/>
 			</div>
@@ -235,8 +210,13 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 		<script type="text/javascript">
 			updatepostdata();
 		</script>
-		<!-- <input id="delete_menu" name="delete_menu" type="submit" value="<?php esc_attr_e('Delete This Menu'); ?>" /> -->
-		<input id="save_bottom" name="save_bottom" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" /></p>
+		<input id="save_bottom" name="save_bottom" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" />
+		<input id="delete_menu" name="delete_menu" type="submit" value="<?php esc_attr_e('Delete This Menu'); ?>" />
+		</p>
+
+	<?php else : ?>
+		<div class="updated below-h2"><p><?php _e( 'Add a menu to start editing!' ); ?></p></div>
+	<?php endif; ?>
 		</div><!-- /.inside -->
 	</div>
 
@@ -244,34 +224,17 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 		<div class="widgets-holder-wrap">
 			<div class="sidebar-name">
 				<div class="sidebar-name-arrow"></div>
-				<h3><?php esc_html_e('Setup Menus'); ?></h3>
+				<h3><?php esc_html_e('Add Menu'); ?></h3>
 			</div>
 			<div class="widget-holder">
 
-				<?php
-				// Setup custom menu
-				$enabled_menu = get_option('wp_custom_nav_menu');
-				$checked = strtolower($enabled_menu);
-				?>
-
-				<span >
-					<label><?php _e('Enable'); ?></label><input type="radio" name="enable_wp_menu" value="true" <?php if ($checked=='true') { echo 'checked="checked"'; } ?> />
-					<label><?php _e('Disable'); ?></label><input type="radio" name="enable_wp_menu" value="false" <?php if ($checked=='true') { } else { echo 'checked="checked"'; } ?> />
-				</span><!-- /.checkboxes -->
-
-				<input id="set_wp_menu" type="submit" value="<?php esc_attr_e('Set Menu'); ?>" name="set_wp_menu" class="button" /><br />
-
-				<span>
-					<label><?php _e('Reset Menu to Default'); ?></label>
-					<input id="reset_wp_menu" type="submit" value="Reset" name="reset_wp_menu" class="button" onclick="return confirm('<?php _e('Are you sure you want to reset the menu to its default settings?'); ?>');" />
-				</span>
-				<br /><br />
 				<span>
 				<input id="add_menu_name" name="add_menu_name" type="text" value=""  />
 				<input id="add_menu" type="submit" value="<?php esc_attr_e('Add Menu'); ?>" name="add_menu" class="button" />
 				</span>
 			</div>
 		</div><!-- /.widgets-holder-wrap -->
+<?php /* ?>
 		<?php $advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options'); ?>
 		<div class="widgets-holder-wrap" style="display:none;">
 			<div class="sidebar-name">
@@ -309,7 +272,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 				<div class="fix"></div>
 			</div>
 		</div><!-- /.widgets-holder-wrap -->
-
+<?php */ ?>
 		<div class="widgets-holder-wrap">
 			<div class="sidebar-name">
 				<div class="sidebar-name-arrow"></div>

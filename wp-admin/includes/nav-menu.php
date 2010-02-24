@@ -216,7 +216,7 @@ function wp_nav_menu_sub_items($childof, $intCounter, $parentli, $type, $output_
 
 	return $counter;
 }
-
+/*
 function wp_nav_menu_setup($override = false) {
 	// Custom Navigation Menu Setup
 
@@ -232,5 +232,5 @@ function wp_nav_menu_setup($override = false) {
 
 	wp_create_nav_menu( __('Main') );
 }
-
+/**/
 ?>
