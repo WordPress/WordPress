@@ -33,21 +33,26 @@ function removeitem(o)
 function edititem(o)
 {
 
-		itemTitle = jQuery('#title' + o).attr('value');
-		itemURL = jQuery('#linkurl' + o).attr('value');
-		itemAnchorTitle = jQuery('#anchortitle' + o).attr('value');
-		itemNewWindow = jQuery('#newwindow' + o).attr('value');
-		itemDesc = jQuery('#description' + o).attr('value');
+		itemTitle = jQuery('#title' + o).val();
+		itemURL = jQuery('#linkurl' + o).val();
+		itemAnchorTitle = jQuery('#anchortitle' + o).val();
+		itemNewWindow = jQuery('#newwindow' + o).val();
+		itemDesc = jQuery('#description' + o).val();
 
 		jQuery('#dialog-confirm').dialog( 'option' , 'itemID' , o )
 
 		jQuery('#dialog-confirm').dialog('open');
 
-		jQuery('#edittitle').attr('value', itemTitle);
-		jQuery('#editlink').attr('value', itemURL);
-		jQuery('#editanchortitle').attr('value', itemAnchorTitle);
+		jQuery('#edittitle').val( itemTitle );
+		if ( 'custom' == jQuery( '#linktype' + o ).val() ) {
+			jQuery( '#editlink-wrap' ).css( 'display', 'inline' );
+		} else {
+			jQuery( '#editlink-wrap' ).css( 'display', 'none' );
+		}
+		jQuery('#editlink').val( itemURL );
+		jQuery('#editanchortitle').val( itemAnchorTitle );
 		jQuery("#editnewwindow option[value='" + itemNewWindow  + "']").attr('selected', 'selected');
-		jQuery('#editdescription').attr('value', itemDesc);
+		jQuery('#editdescription').val( itemDesc );
 
 };
 

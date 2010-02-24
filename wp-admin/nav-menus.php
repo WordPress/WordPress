@@ -106,7 +106,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		$object_id = isset( $_POST['postmenu'.$k] )? $_POST['postmenu'.$k] : 0;
 		$parent_id = isset( $_POST['parent'.$k] )? $_POST['parent'.$k] : 0;
 		$custom_title = isset( $_POST['title'.$k] )?  $_POST['title'.$k] : '';
-		$custom_linkurl = isset( $_POST['linkurl'.$k] )? $_POST['linkurl'.$k] : '';
+		$custom_linkurl = ( isset( $_POST['linkurl'.$k] ) && 'custom' == $_POST['linktype'.$k] ) ? $_POST['linkurl'.$k] : '';
 		$custom_description = isset( $_POST['description'.$k] )? $_POST['description'.$k] : '';
 		// doesn't seem to be used by UI
 		$icon = isset( $_POST['icon'.$k] )? $_POST['icon'.$k] : 0;
@@ -376,14 +376,17 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 </div>
 
 <div id="dialog-confirm" style="display:none;" title="<?php esc_attr_e('Edit Menu Item'); ?>">
-	<input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle"><?php _e('Menu Title'); ?></label><br />
-	<input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink"><?php _e('URL'); ?></label><br />
-	<input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle"><?php _e('Link Title'); ?></label><br />
+	<span id="edittitle-wrap"><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle"><?php _e('Menu Title'); ?></label><br /></span>
+	<span id="editlink-wrap"><input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink"><?php _e('URL'); ?></label><br /></span>
+	<span id="editanchortitle-wrap"><input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle"><?php _e('Link Title'); ?></label><br /></span>
+	<span id="editnewwindow-wrap">
 	<select id="editnewwindow" name="editnewwindow">
 		<option value="1"><?php _e('Yes'); ?></option>
 		<option value="0"><?php _e('No'); ?></option>
 	</select><label class="editlabel" for="editnewwindow"><?php _e('Open Link in a new window'); ?></label>
-	<input id="editdescription" type="text" name="editdescription" value="" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> /><label class="editlabel" for="editdescription" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> ><?php _e('Description'); ?></label><br />
+	</span>
+	<span id="editdescription-wrap">
+	<input id="editdescription" type="text" name="editdescription" value="" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> /><label class="editlabel" for="editdescription" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> ><?php _e('Description'); ?></label><br /></span>
 </div>
 
 <?php
