@@ -173,7 +173,7 @@ if ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		</ul>
 		<div class="clear"></div>
 <?php } ?>
-		<form onsubmit="updatepostdata()" action="nav-menus.php" method="post"  enctype="multipart/form-data">
+		<form onsubmit="updatepostdata()" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
 		<div class="inside">
 		<?php if ( ! empty( $custom_menus ) ) : ?>
 		<?php echo $messagesdiv; ?>
@@ -195,10 +195,7 @@ if ( $postCounter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		<?php
 		//DISPLAY existing menu
 		if ( $menu_selected_id > 0 ) {
-			// SET output type
-			$output_type = "backend";
-			// MAIN OUTPUT FUNCTION
-			wp_print_nav_menu( 'type='.$output_type.'&name='.$menu_title.'&id='.$menu_selected_id );
+			wp_print_nav_menu( 'type=backend&name='.$menu_title.'&id='.$menu_selected_id );
 		}
 		?>
 

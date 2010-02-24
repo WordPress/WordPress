@@ -94,10 +94,7 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 	switch ( $menu_item->type ) {
 		// Page Menu Item
 		case 'page':
-			if ( $menu_item->guid == '' )
-				$menu_item->link = get_permalink( $menu_item->object_id );
-			else
-				$menu_item->link = $menu_item->guid;
+			$menu_item->link = get_page_link( $menu_item->object_id );
 
 			if ( $menu_item->post_title == '' )
 				$menu_item->title = htmlentities( get_the_title( $menu_item->object_id ) );
@@ -113,10 +110,7 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 		break;
 		// Category Menu Item
 		case 'category':
-			if ( empty($menu_item->guid) )
-				$menu_item->link = get_category_link( $menu_item->object_id );
-			else
-				$menu_item->link = $menu_item->guid;
+			$menu_item->link = get_category_link( $menu_item->object_id );
 
 			if ( empty($menu_item->post_title) ) {
 				$title_raw = get_category( $menu_item->object_id );
