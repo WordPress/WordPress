@@ -171,8 +171,8 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2 class="maintitle"><?php esc_html_e('Menus') ?></h2>
-
-	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></h3></div>
+	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
+	<div class="hide-if-no-js">
 	<div id="pages-left">
 		<ul class="subsubsub">
 <?php		if ( ! empty( $custom_menus ) ) {
@@ -489,17 +489,11 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 				<div class="fix"></div>
 			</div>
 		</div><!-- /.widgets-holder-wrap -->
-
-   </div>
+	</div><!-- /.hide-if-no-js -->
+	</div>
 </div>
 
-<script type="text/javascript">
-	document.getElementById('pages-left').style.display='block';
-	document.getElementById('menu-right').style.display='block';
-	document.getElementById('no-js').style.display='none';
-</script>
-
-<div id="dialog-confirm" title="<?php esc_attr_e('Edit Menu Item'); ?>">
+<div id="dialog-confirm" style="display:none;" title="<?php esc_attr_e('Edit Menu Item'); ?>">
 	</label><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle"><?php _e('Menu Title'); ?></label><br />
 	<input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink"><?php _e('URL'); ?></label><br />
 	<input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle"><?php _e('Link Title'); ?></label><br />
