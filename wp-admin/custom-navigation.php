@@ -40,11 +40,11 @@ $menu_id_in_edit = 0;
 $updated = false;
 
 // Check which menu is selected and if menu is in edit already
-if ( isset( $_POST['switch_menu'] ) ) {
-	$menu_selected_id = (int) $_POST['menu_select'];
+if ( isset( $_GET['edit_menu'] ) ) {
+	$menu_selected_id = (int) $_GET['edit_menu'];
 	$updated = true;
-} elseif ( isset( $_POST['menu_id_in_edit'] ) ) {
-	$menu_selected_id = (int) $_POST['menu_id_in_edit'];
+} elseif ( isset( $_POST[ 'menu_id_in_edit' ] ) ) {
+	$menu_selected_id = (int) $_POST[ 'menu_id_in_edit' ];
 } else {
 	$menu_selected_id = 0;
 }
@@ -173,6 +173,21 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 
 	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></h3></div>
 	<div id="pages-left">
+		<ul class="subsubsub">
+<?php			if ( ! empty( $custom_menus ) ) {
+				foreach ( $custom_menus as $menu ) {
+					$menu_term = get_term( $menu, 'nav_menu' );
+					if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) ) { ?>
+			<li><?php echo esc_html( $menu_term->name ); ?> |</li>
+<?php					} else { ?>
+			<li><a href='custom-navigation.php?edit_menu=<?php echo esc_attr($menu_term->term_id); ?>'><?php echo esc_html( $menu_term->name ); ?></a> |</li>
+<?php					}
+				}
+			} else { ?>
+			<li><?php _e( 'Default' ); ?></li>
+<?php			} ?>
+		</ul>
+		<div class="clear"></div>
 		<div class="inside">
 		<?php
 			// CHECK if custom menu has been enabled
@@ -249,38 +264,11 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 					<label><?php _e('Reset Menu to Default'); ?></label>
 					<input id="reset_wp_menu" type="submit" value="Reset" name="reset_wp_menu" class="button" onclick="return confirm('<?php _e('Are you sure you want to reset the menu to its default settings?'); ?>');" />
 				</span>
-
-				<div class="fix"></div>
-			</div>
-		</div><!-- /.widgets-holder-wrap -->
-
-		<div class="widgets-holder-wrap">
-			<div class="sidebar-name">
-				<div class="sidebar-name-arrow"></div>
-				<h3><?php esc_html_e('Menu Selector'); ?></h3>
-			</div>
-			<div class="widget-holder">
-				<select id="menu_select" name="menu_select">
-					<?php
-					// Display select options
-					foreach ( $custom_menus as $menu ) {
-						$menu_term = get_term( $menu, 'nav_menu' );
-						if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) )
-							$selected_option = 'selected="selected"';
-						else
-							$selected_option = '';
-						?>
-						<option value="<?php echo esc_attr($menu_term->term_id); ?>" <?php echo $selected_option; ?>><?php echo $menu_term->name; ?></option>
-						<?php
-					}
-					?>
-				</select>
-
-				<input id="switch_menu" type="submit" value="<?php esc_attr_e('Switch'); ?>" name="switch_menu" class="button" />
+				<br /><br />
+				<span>
 				<input id="add_menu_name" name="add_menu_name" type="text" value=""  />
 				<input id="add_menu" type="submit" value="<?php esc_attr_e('Add Menu'); ?>" name="add_menu" class="button" />
-
-				<div class="fix"></div>
+				</span>
 			</div>
 		</div><!-- /.widgets-holder-wrap -->
 		<?php $advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options'); ?>
