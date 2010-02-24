@@ -54,8 +54,9 @@ if ( isset( $_POST[ 'delete_menu' ] ) && $menu_selected_id > 0 ) {
 	$menu_selected_id = 0;
 	$updated = true;
 }
+
 // Default Menu to show
-$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
+$custom_menus = wp_get_nav_menus();
 if ( ! $menu_selected_id && ! empty( $custom_menus ) )
 	$menu_selected_id = $custom_menus[0]->term_id;
 
@@ -174,18 +175,19 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 	<div id="no-js"><h3><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></h3></div>
 	<div id="pages-left">
 		<ul class="subsubsub">
-<?php			if ( ! empty( $custom_menus ) ) {
+<?php		if ( ! empty( $custom_menus ) ) {
 				foreach ( $custom_menus as $menu ) {
-					$menu_term = get_term( $menu, 'nav_menu' );
+					$sep = end($custom_menus) == $menu ? '' : ' | ';
+					// $menu_term = get_term( $menu, 'nav_menu' );
 					if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) ) { ?>
-			<li><?php echo esc_html( $menu_term->name ); ?> |</li>
-<?php					} else { ?>
-			<li><a href='custom-navigation.php?edit_menu=<?php echo esc_attr($menu_term->term_id); ?>'><?php echo esc_html( $menu_term->name ); ?></a> |</li>
-<?php					}
+						<li><?php echo esc_html( $menu->name ) . $sep; ?></li>
+<?php				} else { ?>
+			<li><a href='custom-navigation.php?edit_menu=<?php echo esc_attr($menu->term_id); ?>'><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
+<?php				}
 				}
 			} else { ?>
 			<li><?php _e( 'Default' ); ?></li>
-<?php			} ?>
+<?php		} ?>
 		</ul>
 		<div class="clear"></div>
 		<div class="inside">
@@ -233,8 +235,7 @@ if ( isset($_POST['reset_wp_menu']) && ! $updated ) {
 		<script type="text/javascript">
 			updatepostdata();
 		</script>
-
-		<input id="delete_menu" name="delete_menu" type="submit" value="<?php esc_attr_e('Delete This Menu'); ?>" />
+		<!-- <input id="delete_menu" name="delete_menu" type="submit" value="<?php esc_attr_e('Delete This Menu'); ?>" /> -->
 		<input id="save_bottom" name="save_bottom" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" /></p>
 		</div><!-- /.inside -->
 	</div>

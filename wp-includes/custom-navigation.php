@@ -46,7 +46,11 @@ function wp_create_nav_menu( $menu_name ) {
 	if ( $menu_exists )
 		return WP_Error('menu_exists', sprintf( __('A menu named "%s" already exists; please try another name.'), $menu_exists->name ));
 
-	return wp_insert_term( $menu_name, 'nav_menu' );
+	$menu = wp_insert_term( $menu_name, 'nav_menu' );
+	if ( is_wp_error($menu) )
+		return $menu;
+
+	return get_term( $menu['term_id'], 'nav_menu');
 }
 
 function wp_get_nav_menu( $menu ) {
