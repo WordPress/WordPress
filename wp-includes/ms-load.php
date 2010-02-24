@@ -51,7 +51,7 @@ function ms_site_check() {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
-			wp_die( sprintf( __( 'This blog has not been activated yet. If you are having problems activating your blog, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
+			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
 	}
 
 	if ( $current_blog->archived == '1' || $current_blog->spam == '1' ) {
@@ -110,7 +110,7 @@ function wpmu_current_site() {
 		else
 			$current_site->cookie_domain = $current_site->domain;
 
-		wp_load_core_site_options($current_site->id);
+		wp_load_core_site_options( $current_site->id );
 
 		return $current_site;
 	}
@@ -121,8 +121,8 @@ function wpmu_current_site() {
 
 	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
 	if ( 1 == count( $sites ) ) {
-		wp_load_core_site_options($current_site->id);
 		$current_site = $sites[0];
+		wp_load_core_site_options( $current_site->id );
 		$path = $current_site->path;
 		$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
 		$current_site = get_current_site_name( $current_site );
@@ -187,12 +187,12 @@ function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
 	$msg = '<h1>' . esc_html__( 'Fatal Error' ) . '</h1>';
-	$msg  = '<p>' . __( 'If your blog does not display, please contact the owner of this site.' ) . '</p>';
-	$msg .= '<p>' . __( 'If you are the owner of this site please check that MySQL is running properly and all tables are error free.' ) . '</p>';
+	$msg  = '<p>' . __( 'If your site does not display, please contact the owner of this network.' ) . '</p>';
+	$msg .= '<p>' . __( 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' ) . '</p>';
 	if ( ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
 		$msg .= '<p>' . sprintf( __( '<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really <em>should</em> look at your database now.' ), $wpdb->site ) . '</p>';
 	else
-		$msg .= '<p>' . sprintf( __( '<strong>Could Not Find Blog!</strong> Searched for table <em>%1$s</em> in <code>%2$s</code>. Is that right?' ), $domain . $path, DB_NAME, $wpdb->blogs ) . '</p>';
+		$msg .= '<p>' . sprintf( __( '<strong>Could Not Find Site!</strong> Searched for table <em>%1$s</em> in <code>%2$s</code>. Is that right?' ), $domain . $path, DB_NAME, $wpdb->blogs ) . '</p>';
 	$msg .= '<h1>' . esc_html__( 'What do I do now?' ) . '</h1>';
 	// @todo Update WPMU codex link.
 	$msg .= '<p>' . __( 'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ) . '</p>';
