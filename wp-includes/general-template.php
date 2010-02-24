@@ -2216,11 +2216,13 @@ function get_the_generator( $type = '' ) {
 }
 
 /**
- * Outputs the Custom Navigation.
+ * Outputs a navigation menu.
  *
  * @since 3.0.0
+ *
+ * @param array $args Arguments
  */
-function custom_nav($args = array()) {
+function wp_nav_menu( $args = array() ) {
 	require_once (ABSPATH . WPINC . '/custom-navigation.php');
 	wp_custom_navigation_output($args);
 }

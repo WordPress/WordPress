@@ -49,6 +49,10 @@ function wp_create_nav_menu( $menu_name ) {
 	return wp_insert_term( $menu_name, 'nav_menu' );
 }
 
+function wp_get_nav_menu( $menu ) {
+	return get_term( (int) $menu, 'nav_menu');
+}
+
 function wp_get_nav_menus() {
 	return get_terms( 'nav_menu', array( 'hide_empty' => false ) );
 }
