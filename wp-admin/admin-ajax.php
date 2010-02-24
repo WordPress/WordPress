@@ -1112,7 +1112,7 @@ case 'inline-save':
 	if ( 'page' == $_POST['post_type'] ) {
 		$post[] = get_post($_POST['post_ID']);
 		page_rows($post);
-	} elseif ( 'post' == $_POST['post_type'] || in_array($_POST['post_type'], get_post_types( array('show_ui' => true) ) ) ) {
+	} elseif ( 'post' == $_POST['post_type'] || in_array($_POST['post_type'], get_post_types( array('public' => true) ) ) ) {
 		$mode = $_POST['post_view'];
 		$post[] = get_post($_POST['post_ID']);
 		post_rows($post);
