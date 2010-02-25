@@ -142,7 +142,7 @@ function get_pending_comments_num( $post_id ) {
 /**
  * Add avatars to relevant places in admin, or try to.
  *
- * @since unknown
+ * @since 2.5.0
  * @uses $comment
  *
  * @param string $name User name.
@@ -150,16 +150,7 @@ function get_pending_comments_num( $post_id ) {
  */
 function floated_admin_avatar( $name ) {
 	global $comment;
-
-	$id = $avatar = false;
-	if ( $comment->comment_author_email )
-		$id = $comment->comment_author_email;
-	if ( $comment->user_id )
-		$id = $comment->user_id;
-
-	if ( $id )
-		$avatar = get_avatar( $id, 32 );
-
+	$avatar = get_avatar( $comment, 32 );
 	return "$avatar $name";
 }
 
