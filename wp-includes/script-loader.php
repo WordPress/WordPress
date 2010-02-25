@@ -397,15 +397,15 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		// Custom Navigation
-		$scripts->add( 'custom-navigation-default-items', "/wp-admin/js/custom-navigation-default-items$suffix.js", false, '20100223' );
-		$scripts->add( 'custom-navigation-dynamic-functions', "/wp-admin/js/custom-navigation-dynamic-functions$suffix.js", false, '20100224b' );
-		$scripts->localize( 'custom-navigation-dynamic-functions', 'navMenuL10n', array(
+		$scripts->add( 'nav-menu-default-items', "/wp-admin/js/nav-menu-default-items$suffix.js", false, '20100223' );
+		$scripts->add( 'nav-menu-dynamic-functions', "/wp-admin/js/nav-menu-dynamic-functions$suffix.js", false, '20100224b' );
+		$scripts->localize( 'nav-menu-dynamic-functions', 'navMenuL10n', array(
 			'custom' => _x('Custom', 'menu nav item type'),
 			'page' => _x('Page', 'menu nav item type'),
 			'category' => _x('Category', 'menu nav item type')
 		) );
 		
-		$scripts->add( 'custom-navigation-php-functions', "/wp-admin/js/custom-navigation-php-functions$suffix.js", false, '20100220' );
+		$scripts->add( 'nav-menu-php-functions', "/wp-admin/js/nav-menu-php-functions$suffix.js", false, '20100220' );
 	}
 }
 
@@ -474,7 +474,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
-	$styles->add( 'custom-navigation', "/wp-admin/css/custom-navigation$suffix.css", array(), '20100225' );
+	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100225' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

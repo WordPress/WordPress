@@ -14,16 +14,16 @@ require_once('admin.php');
 if ( ! current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
 
-wp_admin_css( 'custom-navigation' );
+wp_admin_css( 'nav-menu' );
 wp_enqueue_script( 'jquery' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'jquery-ui-droppable' );
 wp_enqueue_script( 'jquery-ui-sortable' );
 wp_enqueue_script( 'jquery-ui-dialog' );
-wp_enqueue_script( 'custom-navigation-dynamic-functions' );
-wp_enqueue_script( 'custom-navigation-default-items' );
+wp_enqueue_script( 'nav-menu-dynamic-functions' );
+wp_enqueue_script( 'nav-menu-default-items' );
 wp_enqueue_script( 'jquery-autocomplete' );
-wp_enqueue_script( 'custom-navigation-php-functions' );
+wp_enqueue_script( 'nav-menu-php-functions' );
 
 require_once( 'admin-header.php' );
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
