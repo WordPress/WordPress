@@ -116,7 +116,7 @@ function wp_print_nav_menu_item($menu_item, $context, $args = array() ) {
 						<input type="hidden" name="position<?php echo esc_attr( $menu_item->menu_order ); ?>" id="position<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->menu_order ); ?>" />
 						<input type="hidden" name="linktype<?php echo esc_attr( $menu_item->menu_order ); ?>" id="linktype<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( get_post_meta( $menu_item->ID, 'menu_type', true ) ); ?>" />
 						<input type="hidden" name="anchortitle<?php echo esc_attr( $menu_item->menu_order ); ?>" id="anchortitle<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->post_excerpt ); ?>" />
-						<input type="hidden" name="newwindow<?php echo esc_attr( $menu_item->menu_order ); ?>" id="newwindow<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo ( '' == $menu_item->post_content_filtered ? '0' : '1' ); ?>" />
+						<input type="hidden" name="newwindow<?php echo esc_attr( $menu_item->menu_order ); ?>" id="newwindow<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo ( get_post_meta( $menu_item->ID, 'menu_new_window', true ) ? '1' : '0' ); ?>" />
 <?php
 		break;
 

@@ -74,6 +74,7 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 	if ( 'item' == $type ) {
 		$menu_item->type = get_post_meta($menu_item->ID, 'menu_type', true);
 		$menu_item->object_id = get_post_meta($menu_item->ID, 'object_id', true);
+		$menu_item->target = ( get_post_meta( $menu_item->ID, 'menu_new_window', true ) ) ? 'target="_blank"' : '';
 		if ( isset( $parent_menu_order[ $menu_item->post_parent ] ) )
 			$menu_item->parent_item = $parent_menu_order[ $menu_item->post_parent ];
 		else
@@ -92,8 +93,7 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 	}
 
 	switch ( $menu_item->type ) {
-		// Page Menu Item
-		case 'page':
+		case 'page' :
 			$menu_item->link = get_page_link( $menu_item->object_id );
 
 			if ( $menu_item->post_title == '' )
@@ -105,11 +105,9 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 				$menu_item->description = get_post_meta( $menu_item->ID, 'page-description', true );
 			else
 				$menu_item->description = $menu_item->post_content;
-			$menu_item->target = '';
 			$menu_item->append = _x('Page', 'menu nav item type');
-		break;
-		// Category Menu Item
-		case 'category':
+			break;
+		case 'category' :
 			$menu_item->link = get_category_link( $menu_item->object_id );
 
 			if ( empty($menu_item->post_title) ) {
@@ -123,17 +121,15 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 				$menu_item->description = strip_tags( category_description( $menu_item->object_id ) );
 			else
 				$menu_item->description = $menu_item->post_content;
-			$menu_item->target = '';
 			$menu_item->append = _x('Category', 'menu nav item type');
-		break;
-		default:
-			// Custom Menu Item
-			$menu_item->link = $menu_item->guid;
+			break;
+		case 'custom' :
+		default :
+			$menu_item->link = esc_url_raw( get_post_meta( $menu_item->ID, 'menu_link', true ) );
 			$menu_item->title =  $menu_item->post_title;
 			$menu_item->description = $menu_item->post_content;
-			$menu_item->target = 'target="_blank"';
 			$menu_item->append = _x('Custom', 'menu nav item type');
-		break;
+			break;
 	}
 
 	$menu_item->li_class = '';

@@ -117,14 +117,17 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 
 		$post = array( 'post_status' => 'publish', 'post_type' => 'nav_menu_item', 'post_author' => $user_ID,
 			'ping_status' => 0, 'post_parent' => 0, 'menu_order' => $position,
-			'guid' => $custom_linkurl, 'post_excerpt' => $custom_anchor_title, 'tax_input' => array( 'nav_menu' => $menu_title ),
+			'post_excerpt' => $custom_anchor_title, 'tax_input' => array( 'nav_menu' => $menu_title ),
 			'post_content' => $custom_description, 'post_title' => $custom_title );
 		if ( $new_window )
-			$post['post_content_filtered'] = '_blank';
+			update_post_meta( $db_id, 'menu_new_window', 1 );
 		else
-			$post['post_content_filtered'] = '';
+			update_post_meta( $db_id, 'menu_new_window', 0 );
 		if ( $parent_id > 0 && isset( $parent_menu_ids[$parent_id] ) )
 			$post['post_parent'] = $parent_menu_ids[$parent_id];
+
+		if ( $custom_linkurl )
+			update_post_meta( $db_id, 'menu_link', esc_url_raw( $custom_linkurl ) );
 
 		// New menu item
 		if ( $db_id == 0 ) {
