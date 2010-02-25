@@ -63,7 +63,7 @@ function wp_get_nav_menu( $menu ) {
 }
 
 function wp_get_nav_menus() {
-	return get_terms( 'nav_menu', array( 'hide_empty' => false ) );
+	return get_terms( 'nav_menu', array( 'hide_empty' => false, 'orderby' => 'id' ) );
 }
 
 function wp_get_nav_menu_items( $menu, $args = array() ) {
