@@ -1706,7 +1706,7 @@ function do_feed() {
 	$hook = 'do_feed_' . $feed;
 	if ( !has_action($hook) ) {
 		$message = sprintf( __( 'ERROR: %s is not a valid feed template.' ), esc_html($feed));
-		wp_die($message);
+		wp_die( $message, '', array( 'response' => 404 ) );
 	}
 
 	do_action( $hook, $wp_query->is_comment_feed );
