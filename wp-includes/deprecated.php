@@ -2412,3 +2412,15 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 
 	return true;
 }
+
+/**
+ * Enable automatic general feed link outputting.
+ *
+ * @since 2.8.0
+ * @deprecated 3.0.0
+ * @deprecated Use add_theme_support( 'automatic-feed-links' )
+ */
+function automatic_feed_links() {
+	_deprecated_function( __FUNCTION__, '3.0', "add_theme_support( 'automatic-feed-links' )" );
+	add_theme_support( 'automatic-feed-links' );
+}

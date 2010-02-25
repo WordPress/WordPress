@@ -6,7 +6,7 @@
 
 $content_width = 450;
 
-automatic_feed_links();
+add_theme_support( 'automatic-feed-links' );
 
 if ( function_exists('register_sidebar') ) {
 	register_sidebar(array(

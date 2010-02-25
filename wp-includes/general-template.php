@@ -1562,22 +1562,6 @@ function wp_footer() {
 }
 
 /**
- * Enable/disable automatic general feed link outputting.
- *
- * @since 2.8.0
- *
- * @param boolean $add Optional, default is true. Add or remove links. Defaults to true.
- */
-function automatic_feed_links( $add = true ) {
-	if ( $add )
-		add_action( 'wp_head', 'feed_links', 2 );
-	else {
-		remove_action( 'wp_head', 'feed_links', 2 );
-		remove_action( 'wp_head', 'feed_links_extra', 3 );
-	}
-}
-
-/**
  * Display the links to the general feeds.
  *
  * @since 2.8.0
@@ -1585,6 +1569,9 @@ function automatic_feed_links( $add = true ) {
  * @param array $args Optional arguments.
  */
 function feed_links( $args = array() ) {
+	if ( !current_theme_supports('automatic-feed-links') )
+		return;
+
 	$defaults = array(
 		/* translators: Separator between blog name and feed type in feed links */
 		'separator'	=> _x('&raquo;', 'feed link'),

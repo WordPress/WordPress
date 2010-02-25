@@ -168,8 +168,9 @@ add_filter( 'editable_slug',        'urldecode'                           );
 add_filter( 'atom_service_url','atom_service_url_filter' );
 
 // Actions
-add_action( 'wp_head',             'wp_enqueue_scripts',             1    );
-add_action( 'wp_head',             'feed_links_extra',               3    );
+add_action( 'wp_head',             'wp_enqueue_scripts',            1     );
+add_action( 'wp_head',             'feed_links',                    3     );
+add_action( 'wp_head',             'feed_links_extra',              3     );
 add_action( 'wp_head',             'rsd_link'                             );
 add_action( 'wp_head',             'wlwmanifest_link'                     );
 add_action( 'wp_head',             'index_rel_link'                       );
@@ -178,9 +179,9 @@ add_action( 'wp_head',             'start_post_rel_link',           10, 0 );
 add_action( 'wp_head',             'adjacent_posts_rel_link',       10, 0 );
 add_action( 'wp_head',             'locale_stylesheet'                    );
 add_action( 'publish_future_post', 'check_and_publish_future_post', 10, 1 );
-add_action( 'wp_head',             'noindex',                        1    );
-add_action( 'wp_head',             'wp_print_styles',                8    );
-add_action( 'wp_head',             'wp_print_head_scripts',          9    );
+add_action( 'wp_head',             'noindex',                       1     );
+add_action( 'wp_head',             'wp_print_styles',               8     );
+add_action( 'wp_head',             'wp_print_head_scripts',         9     );
 add_action( 'wp_head',             'wp_generator'                         );
 add_action( 'wp_head',             'rel_canonical'                        );
 add_action( 'wp_footer',           'wp_print_footer_scripts'              );

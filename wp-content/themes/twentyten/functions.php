@@ -2,7 +2,7 @@
 
 // Set the content width based on the Theme CSS
 if ( ! isset( $content_width ) )
-   $content_width = 640;
+	$content_width = 640;
 
 if ( ! function_exists( 'twentyten_init' ) ) :
 function twentyten_init() {
@@ -26,8 +26,8 @@ function twentyten_init() {
 	// so we want them to be 940 pixels wide by 198 pixels tall (larger images will be auto-cropped to fit)
 	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
 
-	// Add default posts and comments RSS feed links to head.
-	automatic_feed_links();
+	// Add default posts and comments RSS feed links to head
+	add_theme_support( 'automatic-feed-links' );
 
 	// Make theme available for translation
 	// Translations can be filed in the /languages/ directory
