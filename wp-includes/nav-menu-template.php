@@ -152,8 +152,7 @@ function wp_print_nav_menu_item($menu_item, $context, $args = array() ) {
 ?>
 					<dl>
 						<dt>
-							<span class="title"><?php echo $menu_item->title; ?></span>
-							<a onclick="appendToList('<?php echo esc_js( esc_url_raw( $template_dir ) ); ?>','<?php echo esc_js( $menu_item->append ); ?>','<?php echo esc_js( $menu_item->title ); ?>','<?php echo esc_js( $menu_item->link ); ?>','<?php echo esc_js( $menu_item->ID ); ?>','<?php echo esc_js( $menu_item->parent_item ); ?>','<?php echo esc_js( $menu_item->description ); ?>')" name="<?php echo esc_attr( $menu_item->title ); ?>" value="<?php echo esc_attr( $menu_item->link ); ?>"><img alt="<?php esc_attr_e('Add to Custom Menu'); ?>" title="<?php esc_attr_e('Add to Custom Menu'); ?>" src="<?php echo admin_url('images/ico-add.png'); ?>" /></a>
+							<a class="title" title="<?php esc_attr_e('Add to Custom Menu'); ?>" onclick="appendToList('<?php echo esc_js( esc_url_raw( $template_dir ) ); ?>','<?php echo esc_js( $menu_item->append ); ?>','<?php echo esc_js( $menu_item->title ); ?>','<?php echo esc_js( $menu_item->link ); ?>','<?php echo esc_js( $menu_item->ID ); ?>','<?php echo esc_js( $menu_item->parent_item ); ?>','<?php echo esc_js( $menu_item->description ); ?>')" name="<?php echo esc_attr( $menu_item->title ); ?>" value="<?php echo esc_attr( $menu_item->link ); ?>"><?php echo $menu_item->title; ?></a>
 						</dt>
 					</dl>
 <?php

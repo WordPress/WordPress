@@ -180,11 +180,35 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 						<h3 class="hndle"><?php esc_html_e('Add Menu'); ?></h3>
 						<div class="inside">
 							<span>
-								<input id="add-menu-name" name="add-menu-name" type="text" value=""  />
+								<input id="add-menu-name" name="add-menu-name" type="text" class="regular-text" value=""  />
 								<input id="add-menu" type="submit" value="<?php esc_attr_e('Add Menu'); ?>" name="add-menu" class="button" />
 							</span>
 						</div><!-- /.inside-->
 					</div><!--END #add-menu-->
+					
+					<div id="add-custom-link" class="postbox">
+						<div class="handlediv" title="Click to toggle"><br /></div>
+						<h3 class="hndle"><?php esc_html_e('Add a Custom Link'); ?></h3>
+						<div class="inside">
+							
+							<p class="howto"><label for="custom-menu-item-url"><input id="custom-menu-item-url" type="text" class="widefat code" value="http://" /><?php _e('URL'); ?></label></p>
+							
+							<?php $template_dir = get_bloginfo('url'); ?>
+							<input type="hidden" id="template-dir" value="<?php echo esc_attr($template_dir); ?>" />
+							
+							<p class="howto"><label for="custom-menu-item-name"><input id="custom-menu-item-name" type="text" class="widefat regular-text" value="<?php echo esc_attr( __('Menu Item') ); ?>" /><?php _e('Text'); ?></label></p>
+							
+							<label class="howto" for="custom_menu_item_description" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?>>
+								<input id="custom_menu_item_description" type="text" class="widefat regular-text" value="<?php esc_attr_e('A description'); ?>" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
+								<?php _e('Description'); ?>
+							</label>
+							
+							<?php if ( 'no' != $advanced_option_descriptions ) { echo '<br />'; } ?>
+							
+							<a class="addtomenu button" onclick="appendToList('<?php echo $template_dir; ?>','<?php echo esc_js( _x('Custom', 'menu nav item type') ); ?>','','','','0','');jQuery('#custom-menu-item-name').attr('value','<?php echo esc_js( __('Menu Item') ); ?>');jQuery('#custom_menu_item_description').attr('value','<?php echo esc_js( __('A description') ); ?>');"><?php _e('Add Link'); ?></a>
+							<br class="clear" />
+						</div><!-- /.inside-->
+					</div><!-- /#add-custom-link-->
 					
 					<div id="add-pages" class="postbox">
 						<div class="handlediv" title="Click to toggle"><br /></div>
@@ -229,7 +253,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 									jQuery('#existing-pages').css('display','none');
 								});
 							</script>
-							<input type="text" onfocus="jQuery('#page-search').attr('value','');" id="page-search" value="<?php esc_attr_e('Search Pages'); ?>" />
+							<input type="text" onfocus="jQuery('#page-search').attr('value','');" id="page-search" class="regular-text" value="<?php esc_attr_e('Search Pages'); ?>" />
 
 							<a id="show-pages" style="cursor:pointer;" onclick="jQuery('#existing-pages').css('display','block');jQuery('#page-search').attr('value','');jQuery('#existing-pages dt').css('display','block');jQuery('#show-pages').hide();jQuery('#hide-pages').show();"><?php _e('View All'); ?></a>
 							<a id="hide-pages" style="cursor:pointer;" onclick="jQuery('#existing-pages').css('display','none');jQuery('#page-search').attr('value','Search Pages');jQuery('#existing-pages dt').css('display','none');jQuery('#show-pages').show();jQuery('#hide-pages').hide();"><?php _e('Hide All'); ?></a>
@@ -237,11 +261,14 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							<script type="text/javascript">
 								jQuery('#hide-pages').hide();
 							</script>
-
-							<ul id="existing-pages" class="list">
-							<?php $items_counter = wp_nav_menu_get_pages( 0,'default' ); ?>
-							</ul>
-							<div class="fix"></div>
+							
+							
+							<div id="existing-pages" class="list-container">
+								<ul class="list">
+								<?php $items_counter = wp_nav_menu_get_pages( 0,'default' ); ?>
+								</ul>
+							</div><!-- /.list-container-->
+							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!--END #add-pages-->
 					
@@ -286,7 +313,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								});
 							</script>
 
-							<input type="text" onfocus="jQuery('#cat-search').attr('value','');" id="cat-search" value="<?php esc_attr_e('Search Categories'); ?>" />
+							<input type="text" onfocus="jQuery('#cat-search').attr('value','');" id="cat-search" class="regular-text" value="<?php esc_attr_e('Search Categories'); ?>" />
 
 							<a id="show-cats" style="cursor:pointer;" onclick="jQuery('#existing-categories').css('display','block');jQuery('#cat-search').attr('value','');jQuery('#existing-categories dt').css('display','block');jQuery('#show-cats').hide();jQuery('#hide-cats').show();"><?php _e('View All'); ?></a>
 							<a id="hide-cats" style="cursor:pointer;" onclick="jQuery('#existing-categories').css('display','none');jQuery('#cat-search').attr('value','Search Categories');jQuery('#existing-categories dt').css('display','none');jQuery('#show-cats').show();jQuery('#hide-cats').hide();"><?php _e('Hide All'); ?></a>
@@ -295,43 +322,14 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								jQuery('#hide-cats').hide();
 							</script>
 
-							<ul id="existing-categories" class="list">
-								<?php $items_counter = wp_nav_menu_get_categories( $items_counter, 'default' ); ?>
-							</ul>
-
-							<div class="fix"></div>
+							<div id="existing-categories" class="list-container">
+								<ul class="list">
+									<?php $items_counter = wp_nav_menu_get_categories( $items_counter, 'default' ); ?>
+								</ul>
+							</div><!-- /.list-container-->
+							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!--END #add-categories-->
-					
-					<div id="add-external-link" class="postbox">
-						<div class="handlediv" title="Click to toggle"><br /></div>
-						<h3 class="hndle"><?php esc_html_e('Add a Custom Link'); ?></h3>
-						<div class="inside">
-							
-							<label class="howto" for="custom-menu-item-url">
-								<input id="custom-menu-item-url" type="text" value="http://" />
-								<?php _e('URL'); ?>
-							</label><br />
-							
-							<?php $template_dir = get_bloginfo('url'); ?>
-							<input type="hidden" id="template-dir" value="<?php echo esc_attr($template_dir); ?>" />
-							<label class="howto" for="custom-menu-item-name">
-								<input id="custom-menu-item-name" type="text" value="<?php echo esc_attr( __('Menu Item') ); ?>" onfocus="jQuery('#custom-menu-item-name').attr('value','');"  />
-								<?php _e('Menu Text'); ?>
-							</label><br />
-							
-							<label class="howto" for="custom_menu_item_description" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?>>
-								<input id="custom_menu_item_description" type="text" value="<?php esc_attr_e('A description'); ?>" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
-								<?php _e('Description'); ?>
-							</label>
-							
-							<?php if ( 'no' != $advanced_option_descriptions ) { echo '<br />'; } ?>
-							
-							<a class="addtomenu button" onclick="appendToList('<?php echo $template_dir; ?>','<?php echo esc_js( _x('Custom', 'menu nav item type') ); ?>','','','','0','');jQuery('#custom-menu-item-name').attr('value','<?php echo esc_js( __('Menu Item') ); ?>');jQuery('#custom_menu_item_description').attr('value','<?php echo esc_js( __('A description') ); ?>');"><?php _e('Add to menu'); ?></a>
-							<div class="fix"></div>
-						</div><!-- /.inside-->
-					</div><!-- /#add-external-link-->
-					
 				</div><!-- /#side-sortables-->
 			</div><!-- /#menu-settings-column -->
 
