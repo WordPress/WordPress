@@ -96,7 +96,7 @@ function wp_print_nav_menu_item($menu_item, $context, $args = array() ) {
 								<span class="controls">
 								<span class="type"><?php echo esc_html($menu_item->type); ?></span>
 								<a id="edit<?php echo esc_attr( $menu_item->menu_order ); ?>" onclick="edititem(<?php echo esc_attr( $menu_item->menu_order ); ?>)" value="<?php echo esc_attr( $menu_item->menu_order ); ?>"><img class="edit" alt="<?php esc_attr_e('Edit Menu Item'); ?>" title="<?php esc_attr_e('Edit Menu Item'); ?>" src="<?php echo admin_url('images/ico-edit.png'); ?>" /></a>
-								<a id="remove<?php echo esc_attr( $menu_item->menu_order ); ?>" onclick="removeitem(<?php echo esc_attr( $menu_item->menu_order ); ?>)" value="<?php echo esc_attr( $menu_item->menu_order ); ?>"><img class="remove" alt="<?php esc_attr_e('Remove from Custom Menu'); ?>" title="<?php esc_attr_e('Remove from Custom Menu'); ?>" src="<?php echo admin_url('images/ico-close.png'); ?>" /></a>
+								<a id="remove<?php echo esc_attr( $menu_item->menu_order ); ?>" onclick="removeitem(<?php echo esc_attr( $menu_item->menu_order ); ?>)" value="<?php echo esc_attr( $menu_item->menu_order ); ?>"><img class="remove" alt="<?php esc_attr_e('Remove from Menu'); ?>" title="<?php esc_attr_e('Remove from Menu'); ?>" src="<?php echo admin_url('images/ico-close.png'); ?>" /></a>
 								<a id="view<?php echo esc_attr( $menu_item->menu_order ); ?>" target="_blank" href="<?php echo $menu_item->link; ?>"><img alt="<?php esc_attr_e('View Page'); ?>" title="<?php esc_attr_e('View Page'); ?>" src="<?php echo admin_url('images/ico-viewpage.png'); ?>" /></a>
 								</span>
 							</dt>
@@ -152,7 +152,7 @@ function wp_print_nav_menu_item($menu_item, $context, $args = array() ) {
 ?>
 					<dl>
 						<dt>
-							<a class="title" title="<?php esc_attr_e('Add to Custom Menu'); ?>" onclick="appendToList('<?php echo esc_js( esc_url_raw( $template_dir ) ); ?>','<?php echo esc_js( $menu_item->append ); ?>','<?php echo esc_js( $menu_item->title ); ?>','<?php echo esc_js( $menu_item->link ); ?>','<?php echo esc_js( $menu_item->ID ); ?>','<?php echo esc_js( $menu_item->parent_item ); ?>','<?php echo esc_js( $menu_item->description ); ?>')" name="<?php echo esc_attr( $menu_item->title ); ?>" value="<?php echo esc_attr( $menu_item->link ); ?>"><?php echo $menu_item->title; ?></a>
+							<a class="title" title="<?php esc_attr_e('Add to Menu'); ?>" onclick="appendToList('<?php echo esc_js( esc_url_raw( $template_dir ) ); ?>','<?php echo esc_js( $menu_item->append ); ?>','<?php echo esc_js( $menu_item->title ); ?>','<?php echo esc_js( $menu_item->link ); ?>','<?php echo esc_js( $menu_item->ID ); ?>','<?php echo esc_js( $menu_item->parent_item ); ?>','<?php echo esc_js( $menu_item->description ); ?>')" name="<?php echo esc_attr( $menu_item->title ); ?>" value="<?php echo esc_attr( $menu_item->link ); ?>"><?php echo $menu_item->title; ?></a>
 						</dt>
 					</dl>
 <?php
