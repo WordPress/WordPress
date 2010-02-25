@@ -8,7 +8,7 @@
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
-	$defaults = array('id' => '', 'slug' => '', 'menu_class' => 'menu', 'format' => 'div');
+	$defaults = array('id' => '', 'slug' => '', 'menu_class' => 'menu', 'format' => 'div', 'fallback_cb' => 'wp_page_menu');
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -28,7 +28,7 @@ function wp_nav_menu( $args = array() ) {
 	}
 
 	if ( !$menu || is_wp_error($menu) )
-		return wp_page_menu( $args );
+		return call_user_func($args->fallback_cb, $args );
 
 	if ( 'div' == $args->format )
 		echo '<div class="' . esc_attr($args->menu_class) . '"><ul>';
