@@ -169,7 +169,7 @@ add_filter( 'atom_service_url','atom_service_url_filter' );
 
 // Actions
 add_action( 'wp_head',             'wp_enqueue_scripts',            1     );
-add_action( 'wp_head',             'feed_links',                    3     );
+add_action( 'wp_head',             'feed_links',                    2     );
 add_action( 'wp_head',             'feed_links_extra',              3     );
 add_action( 'wp_head',             'rsd_link'                             );
 add_action( 'wp_head',             'wlwmanifest_link'                     );

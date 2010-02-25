@@ -2414,13 +2414,19 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 }
 
 /**
- * Enable automatic general feed link outputting.
+ * Enable/disable automatic general feed link outputting.
  *
  * @since 2.8.0
  * @deprecated 3.0.0
  * @deprecated Use add_theme_support( 'automatic-feed-links' )
+ *
+ * @param boolean $add Optional, default is true. Add or remove links. Defaults to true.
  */
-function automatic_feed_links() {
+function automatic_feed_links( $add = true ) {
 	_deprecated_function( __FUNCTION__, '3.0', "add_theme_support( 'automatic-feed-links' )" );
-	add_theme_support( 'automatic-feed-links' );
+
+	if ( $add )
+		add_theme_support( 'automatic-feed-links' );
+	else
+		remove_action( 'wp_head', 'feed_links_extra', 3 ); // Just do this yourself in 3.0+
 }
