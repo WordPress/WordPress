@@ -131,12 +131,14 @@ class Custom_Image_Header {
 					set_theme_mod('header_textcolor', $color);
 			}
 		}
+
 		if ( isset($_POST['resetheader']) ) {
 			check_admin_referer('custom-header');
 			remove_theme_mods();
 		}
 
 		if ( isset($_POST['default-header']) ) {
+			check_admin_referer('custom-header');
 			$this->process_default_headers();
 			if ( isset($this->default_headers[$_POST['default-header']]) )
 				set_theme_mod('header_image', esc_url($this->default_headers[$_POST['default-header']]['url']));
@@ -396,7 +398,7 @@ else:
 	echo '<form method="post" action="' . admin_url('themes.php?page=custom-header&amp;updated=true') . '">';
 	wp_nonce_field('custom-header');
 	$this->show_default_header_selector();
-	echo '<input type="submit" class="button" value="' . esc_attr__('Save Your Choice') . '"  />';
+	echo '<input type="submit" class="button" value="' . esc_attr__('Save Changes') . '"  />';
 	echo '</form>';
 	echo '</div>';
 endif;
@@ -419,10 +421,22 @@ endif;
 		<?php if ( get_theme_mod('header_image') || get_theme_mod('header_textcolor') ) : ?>
 <div class="wrap">
 <h2><?php _e('Reset Header Image and Color'); ?></h2>
-<p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
-<?php wp_nonce_field('custom-header'); ?>
+<?php
+wp_nonce_field('custom-header');
+if ( !empty($this->default_headers) ) {
+?>
+<p><?php _e('Use one of these cool headers.') ?></p>
+<?php
+	$this->show_default_header_selector();
+?>
+	<input type="submit" class="button" name="resetheader" value="<?php esc_attr_e('Save Changes'); ?>" />
+<?php
+} else {
+?>
+<p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
 <input type="submit" class="button" name="resetheader" value="<?php esc_attr_e('Restore Original Header'); ?>" />
+<?php } ?>
 </form>
 </div>
 		<?php endif;
