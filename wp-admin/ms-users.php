@@ -34,6 +34,12 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 			case 'add':
 				_e('User added !');
 			break;
+			case 'add_superadmin':
+				_e('Super admin added !');
+			break;
+			case 'remove_superadmin':
+				_e('Super admin removed !');
+			break;
 		}
 		?>
 	</p></div>
@@ -119,6 +125,8 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
 				<input type="submit" value="<?php esc_attr_e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
 				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Add to Super Admin list') ?>" name="add_superadmin" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Remove from Super Admin list') ?>" name="remove_superadmin" class="button-secondary" />
 				<?php wp_nonce_field( 'allusers' ); ?>
 				<br class="clear" />
 			</div>
@@ -157,6 +165,7 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 			<tbody id="users" class="list:user user-list">
 			<?php if ($user_list) {
 				$class = '';
+				$super_admins = get_site_option( 'site_admins' );
 				foreach ( (array) $user_list as $user) {
 					$class = ('alternate' == $class) ? '' : 'alternate';
 
@@ -185,7 +194,10 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 								//$delete	= esc_url( add_query_arg( 'wp_http_referer', urlencode( esc_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) );
 								?>
 								<td class="username column-username">
-									<?php echo $avatar; ?><strong><a href="<?php echo $edit; ?>" class="edit"><?php echo stripslashes($user['user_login']); ?></a></strong>
+									<?php echo $avatar; ?><strong><a href="<?php echo $edit; ?>" class="edit"><?php echo stripslashes($user['user_login']); ?></a><?php
+								if ( in_array( $user[ 'user_login' ], $super_admins ) ) 
+									echo ' - ' . __( 'Super admin' );
+?></strong>
 									<br/>
 									<div class="row-actions">
 										<span class="edit"><a href="<?php echo $edit; ?>">Edit</a></span>

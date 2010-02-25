@@ -114,20 +114,6 @@ switch ( $_GET['action'] ) {
 			update_site_option( $option_name, $value );
 		}
 
-		$site_admins = explode( ' ', str_replace( ",", " ", $_POST['site_admins'] ) );
-		if ( is_array( $site_admins ) ) {
-			$mainblog_id = $wpdb->get_var( "SELECT blog_id FROM {$wpdb->blogs} WHERE domain='{$current_site->domain}' AND path='{$current_site->path}'" );
-			if ( $mainblog_id ) {
-				reset( $site_admins );
-				foreach ( (array) $site_admins as $site_admin ) {
-					$uid = get_user_by('login', $site_admin);
-					if ( $uid )
-						add_user_to_blog( $mainblog_id, $uid->ID, 'administrator' );
-				}
-			}
-			update_site_option( 'site_admins' , $site_admins );
-		}
-
 		// Update more options here
 		do_action( 'update_wpmu_options' );
 
@@ -492,6 +478,38 @@ switch ( $_GET['action'] ) {
 					wpmu_delete_user( $id );
 
 			wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'all_delete'), 'ms-users.php' ) );
+		} elseif ( isset( $_POST[ 'add_superadmin' ] ) ) {
+			$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+			$mainblog_id = $wpdb->get_var( "SELECT blog_id FROM {$wpdb->blogs} WHERE domain='{$current_site->domain}' AND path='{$current_site->path}'" );
+			foreach ( (array) $_POST['allusers'] as $key => $val ) {
+				if ( $val == '' || $val == '0' )
+					continue;
+				$user = new WP_User( $val );
+				if ( in_array( $user->user_login, $super_admins ) )
+					continue;
+				if ( $mainblog_id )
+					add_user_to_blog( $mainblog_id, $user->ID, 'administrator' );
+				$super_admins[] = $user->user_login;
+			}
+			update_site_option( 'site_admins' , $super_admins );
+
+			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'add_superadmin' ), $_SERVER['HTTP_REFERER'] ) );
+		} elseif ( isset( $_POST[ 'remove_superadmin' ] ) ) {
+			$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+			foreach ( (array) $_POST['allusers'] as $key => $val ) {
+				if ( $val == '' || $val == '0' )
+					continue;
+				$user = new WP_User( $val );
+				foreach ( $super_admins as $key => $username ) {
+					if ( $username == $user->user_login ) {
+						unset( $super_admins[ $key ] );
+						break;
+					}
+				}
+			}
+			update_site_option( 'site_admins' , $super_admins );
+
+			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'remove_superadmin' ), $_SERVER['HTTP_REFERER'] ) );
 		} else {
 			foreach ( (array) $_POST['allusers'] as $key => $val ) {
 				if ( $val == '' || $val == '0' )

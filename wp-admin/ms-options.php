@@ -237,18 +237,6 @@ if (isset($_GET['updated'])) {
 			</tr>
 		</table>
 
-		<h3><?php _e('Administration Settings') ?></h3>
-		<table class="form-table">
-			<tr valign="top">
-				<th scope="row"><?php _e('Network Admins') ?></th>
-				<td>
-					<input name="site_admins" type="text" id="site_admins" style="width: 95%" value="<?php echo esc_attr( implode(' ', get_site_option( 'site_admins', array( 'admin' ) ) ) ) ?>" size="45" />
-					<br />
-					<?php _e('These users may login to the main site and administer the network. Space separated list of usernames.') ?>
-				</td>
-			</tr>
-		</table>
-
 		<h3><?php _e('Network Wide Settings <em>(These settings may be overridden by site owners)</em>') ?></h3>
 		<table class="form-table">
 			<?php
