@@ -39,4 +39,5 @@ add_action( 'phpmailer_init', 'fix_phpmailer_messageid' );
 
 // Disable somethings by default for multisite
 add_filter( 'enable_update_services_configuration', '__return_false' );
+add_filter( 'enable_post_by_email_configuration', '__return_false' );
 ?>

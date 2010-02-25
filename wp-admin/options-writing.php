@@ -81,7 +81,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category
 <?php do_settings_fields('writing', 'remote_publishing'); ?>
 </table>
 
-<?php if ( !is_multisite() || defined( 'POST_BY_EMAIL' ) ) { ?>
+<?php if ( apply_filters( 'enable_post_by_email_configuration', true ) ) { ?>
 <h3><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <kbd>%s</kbd>, <kbd>%s</kbd>, <kbd>%s</kbd>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
 
