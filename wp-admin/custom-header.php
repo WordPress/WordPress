@@ -33,6 +33,8 @@ class Custom_Image_Header {
 	 */
 	var $admin_image_div_callback;
 
+	var $default_headers = array();
+
 	/**
 	 * PHP4 Constructor - Register administration header callback.
 	 *
@@ -133,6 +135,74 @@ class Custom_Image_Header {
 			check_admin_referer('custom-header');
 			remove_theme_mods();
 		}
+
+		if ( isset($_POST['default-header']) ) {
+			$this->process_default_headers();
+			if ( isset($this->default_headers[$_POST['default-header']]) )
+				set_theme_mod('header_image', esc_url($this->default_headers[$_POST['default-header']]['url']));
+		}
+	}
+
+	/**
+	 * Process the default headers
+	 *
+	 *  @since 3.0.0
+	 */
+	function process_default_headers() {
+		global $_wp_default_headers;
+
+		if ( !empty($this->headers) )
+			return;
+
+		if ( !isset($_wp_default_headers) )
+			return;
+
+		$this->default_headers = $_wp_default_headers;
+		foreach ( array_keys($this->default_headers) as $header ) {
+			$this->default_headers[$header]['url'] =  sprintf( $this->default_headers[$header]['url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
+			$this->default_headers[$header]['thumbnail_url'] =  sprintf( $this->default_headers[$header]['thumbnail_url'], get_template_directory_uri(), get_stylesheet_directory_uri() );
+		}
+	}
+
+	/**
+	 * Display UI for selecting one of several default headers.
+	 *
+	 * @since 3.0.0
+	 */
+	function show_default_header_selector() {
+		echo '<table id="available-headers" cellspacing="0" cellpadding="0">';
+
+		$headers = array_keys($this->default_headers);
+		$table = array();
+		$rows = ceil(count($headers) / 3);
+		for ( $row = 1; $row <= $rows; $row++ ) {
+			for ( $col = 1; $col <= 3; $col++ ) {
+				$table[$row][$col] = array_shift($headers);
+			}
+		}
+
+		foreach ( $table as $row => $cols ) {
+			echo '<tr>';
+			foreach ( $cols as $col => $header_key ) {
+				if ( !$header_key )
+					continue;
+				$class = array('available-theme');
+				if ( $row == 1 ) $class[] = 'top';
+				if ( $col == 1 ) $class[] = 'left';
+				if ( $row == $rows ) $class[] = 'bottom';
+				if ( $col == 3 ) $class[] = 'right';
+				if ( !isset($this->headers[$header_key]))
+				echo '<td class="' . join(' ', $class) . '">';
+				$header_thumbnail = $this->default_headers[$header_key]['thumbnail_url'];
+				$header_url = $this->default_headers[$header_key]['url'];
+				$header_desc = $this->default_headers[$header_key]['description'];
+				echo '<label><input name="default-header" type="radio" value="' . esc_attr($header_key) . '" ' . checked($header_url, get_header_image(), false) . ' />';
+				echo '<img src="' . $header_thumbnail . '" alt="' . esc_attr($header_desc) .'" /></label>';
+				echo  '</td>';
+			}
+			echo '</tr>';
+		}
+		echo '</table>';
 	}
 
 	/**
@@ -284,6 +354,7 @@ class Custom_Image_Header {
 	 * @since unknown
 	 */
 	function step_1() {
+		$this->process_default_headers();
 		if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
 <div id="message" class="updated">
 <p><?php printf(__('Header updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
@@ -293,6 +364,9 @@ class Custom_Image_Header {
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php _e('Your Header Image'); ?></h2>
+<?php
+if ( get_theme_mod('header_image') || empty($this->default_headers) ) :
+?>
 <p><?php _e('This is your header image. You can change the text color or upload and crop a new image.'); ?></p>
 <?php
 
@@ -310,12 +384,23 @@ if ( $this->admin_image_div_callback ) {
 <form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
 <input type="button" class="button" value="<?php esc_attr_e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
 <input type="button" class="button" value="<?php esc_attr_e('Select a Text Color'); ?>" id="pickcolor" /><input type="button" class="button" value="<?php esc_attr_e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
-<?php wp_nonce_field('custom-header') ?>
+<?php wp_nonce_field('custom-header'); ?>
 <input type="hidden" name="textcolor" id="textcolor" value="#<?php esc_attr(header_textcolor()) ?>" /><input name="submit" type="submit" class="button" value="<?php esc_attr_e('Save Changes'); ?>" /></form>
 <?php } ?>
 
 <div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;display:none;"> </div>
 </div>
+<?php
+else:
+	echo '<p>' . __('Choose one of these cool headers, or upload your own image below.') . '</p>';
+	echo '<form method="post" action="' . admin_url('themes.php?page=custom-header&amp;updated=true') . '">';
+	wp_nonce_field('custom-header');
+	$this->show_default_header_selector();
+	echo '<input type="submit" class="button" value="' . esc_attr__('Save Your Choice') . '"  />';
+	echo '</form>';
+	echo '</div>';
+endif;
+?>
 <div class="wrap">
 <h2><?php _e('Upload New Header Image'); ?></h2><p><?php _e('Here you can upload a custom header image to be shown at the top of your blog instead of the default one. On the next screen you will be able to crop the image.'); ?></p>
 <p><?php printf(__('Images of exactly <strong>%1$d x %2$d pixels</strong> will be used as-is.'), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT); ?></p>

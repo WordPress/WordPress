@@ -1335,6 +1335,19 @@ function add_custom_image_header($header_callback, $admin_header_callback, $admi
 }
 
 /**
+ * Register a selection of default headers to be displayed by the custom header admin UI.
+ *
+ * @since 3.0.0
+ *
+ * @param array $headers Array of headers keyed by a string id.  The ids point to arrays containing 'url', 'thumbnail_url', and 'description' keys.
+ */
+function register_default_headers( $headers ) {
+	global $_wp_default_headers;
+
+	$_wp_default_headers = $headers;
+}
+
+/**
  * Retrieve background image for custom background.
  *
  * @since 3.0.0

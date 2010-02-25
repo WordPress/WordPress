@@ -9,13 +9,22 @@ function twentyten_init() {
 	// Your Changeable header business starts here
 	// No CSS, just IMG call
 	define( 'HEADER_TEXTCOLOR', '');
-	define( 'HEADER_IMAGE', '%s/images/header-1.jpg'); // %s is theme dir uri
+	define( 'HEADER_IMAGE', '%s/images/headers/forestfloor.jpg'); // %s is theme dir uri
 	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyten_header_image_width',  940 ) );
 	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyten_header_image_height',	198 ) );
 	define( 'NO_HEADER_TEXT', true );
 
 	add_custom_image_header( '', 'twentyten_admin_header_style' );
 	// and thus ends the changeable header business
+
+	register_default_headers( array('berries' => array('url' => '%s/images/headers/berries.jpg', 'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg', 'description' => __('Berries')),
+									'cherryblossom' => array( 'url' => '%s/images/headers/cherryblossoms.jpg', 'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg', 'description' => __('Cherry Blossoms')),
+									'concave' => array('url' => '%s/images/headers/concave.jpg', 'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg', 'description' => __('Concave')),
+									'fern' => array('url' => '%s/images/headers/fern.jpg', 'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg', 'description' => __('Fern')),
+									'forestfloor' => array('url' => '%s/images/headers/forestfloor.jpg', 'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg', 'description' => __('Forest Floor')),
+									'inkwell' => array('url' => '%s/images/headers/inkwell.jpg', 'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg', 'description' => __('Ink Well')),
+									'path' => array('url' => '%s/images/headers/path.jpg', 'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg', 'description' => __('Path')),
+									'sunset' => array('url' => '%s/images/headers/sunset.jpg', 'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg', 'description' => __('Sunset')) ) );
 
 	add_custom_background();
 
