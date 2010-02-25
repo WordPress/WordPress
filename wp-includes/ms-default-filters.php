@@ -36,4 +36,7 @@ add_filter ( 'wp_mail_from', 'wordpressmu_wp_mail_from' );
 
 
 add_action( "phpmailer_init", "fix_phpmailer_messageid" );
+
+// Disable somethings by default for multisite
+add_filter( 'enable_update_services_configuration', '__return_false' );
 ?>

@@ -4042,4 +4042,15 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 function _search_terms_tidy($t) {
 	return trim($t, "\"'\n\r ");
 }
+
+/**
+ * Returns false
+ *
+ * Useful for returning false to filters easily
+ * 
+ * @return bool false
+ */
+function __return_false() {
+	return false;
+}
 ?>
