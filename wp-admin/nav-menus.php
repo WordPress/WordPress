@@ -56,6 +56,12 @@ if ( isset( $_POST[ 'delete-menu' ] ) && $menu_selected_id > 0 ) {
 
 // Default Menu to show
 $custom_menus = wp_get_nav_menus();
+
+if ( empty($custom_menus)  && empty($_POST) ) {
+	wp_create_default_nav_menu();
+	$custom_menus = wp_get_nav_menus();
+}
+
 if ( ! $menu_selected_id && ! empty( $custom_menus ) )
 	$menu_selected_id = $custom_menus[0]->term_id;
 

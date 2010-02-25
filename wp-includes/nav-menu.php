@@ -21,17 +21,41 @@ function wp_delete_nav_menu( $menu_id ) {
 	wp_delete_term( $menu_id, 'nav_menu' );
 }
 
-function wp_create_nav_menu( $menu_name ) {
+function wp_create_nav_menu( $menu_name, $args = array() ) {
 	$menu_exists = get_term_by( 'name', $menu_name, 'nav_menu' );
 
 	if ( $menu_exists )
 		return new WP_Error('menu_exists', sprintf( __('A menu named &#8220;%s&#8221; already exists; please try another name.'), esc_html( $menu_exists->name ) ) );
 
-	$menu = wp_insert_term( $menu_name, 'nav_menu' );
+	if ( isset($args['slug']) )
+		$slug = $args['slug'];
+	else
+		$slug = $menu_name;
+
+	$menu = wp_insert_term( $menu_name, 'nav_menu', array('slug' => $slug) );
+
 	if ( is_wp_error($menu) )
 		return $menu;
 
 	return get_term( $menu['term_id'], 'nav_menu');
+}
+
+function wp_create_default_nav_menu() {
+	$menu = wp_create_nav_menu(__('Main'), array('slug' => 'main'));
+
+	if ( is_wp_error($menu) )
+		return;
+
+	$pages = get_pages( array('parent' => 0, 'number' => 15) );
+	$counter = 1;
+	foreach ( $pages as $page ) {
+		$item = array('post_status' => 'publish', 'post_type' => 'nav_menu_item', 'menu_order' => $counter, 'tax_input' => array( 'nav_menu' => $menu->name), 'post_title' => addslashes($page->post_title) );
+		$item_id = wp_insert_post($item, true);
+		update_post_meta( $item_id, 'menu_type', 'page' );
+		update_post_meta( $item_id, 'object_id', $page->ID );
+		update_post_meta( $item_id, 'menu_new_window', 0 );
+		$counter++;
+	}
 }
 
 function wp_get_nav_menu( $menu ) {
