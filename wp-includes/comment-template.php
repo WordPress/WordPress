@@ -1049,6 +1049,8 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 	extract($args, EXTR_SKIP);
 
 	$comment = get_comment($comment);
+	if ( empty($post) )
+		$post = $comment->comment_post_ID;
 	$post = get_post($post);
 
 	if ( !comments_open($post->ID) )
