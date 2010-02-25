@@ -31,6 +31,9 @@ function twentyten_init() {
 	// This theme needs post thumbnails
 	add_theme_support( 'post-thumbnails' );
 
+	// This theme uses wp_nav_menu()
+	add_theme_support( 'nav-menus' );
+
 	// We'll be using them for custom header images on posts and pages
 	// so we want them to be 940 pixels wide by 198 pixels tall (larger images will be auto-cropped to fit)
 	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );

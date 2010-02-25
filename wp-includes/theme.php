@@ -1327,6 +1327,8 @@ function add_custom_image_header($header_callback, $admin_header_callback, $admi
 	if ( ! empty($header_callback) )
 		add_action('wp_head', $header_callback);
 
+	add_theme_support( 'custom-header' );
+
 	if ( ! is_admin() )
 		return;
 	require_once(ABSPATH . 'wp-admin/custom-header.php');
@@ -1392,6 +1394,8 @@ function add_custom_background($header_callback = '', $admin_header_callback = '
 		$header_callback = '_custom_background_cb';
 
 	add_action('wp_head', $header_callback);
+
+	add_theme_support( 'custom-background' );
 
 	if ( ! is_admin() )
 		return;
