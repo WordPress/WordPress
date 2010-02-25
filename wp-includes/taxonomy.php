@@ -1480,7 +1480,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
-	elseif ( is_term($slug) ) // Provided slug issue.
+	elseif ( is_term($slug, $taxonomy) ) // Provided slug issue.
 		return new WP_Error('term_slug_exists', __('A Term with the slug provided already exists.'));
 
 	$term_group = 0;
