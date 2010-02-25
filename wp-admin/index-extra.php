@@ -13,6 +13,7 @@ require_once( 'admin.php' );
 require( 'includes/dashboard.php' );
 
 @header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
+send_nosniff_header();
 
 switch ( $_GET['jax'] ) {
 

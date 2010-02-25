@@ -649,4 +649,17 @@ function win_is_writable($path) {
         unlink($path);
     return true;
 }
+
+/**
+ * Send a HTTP header to disable content type sniffing in browsers which support it.
+ * 
+ * @link http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
+ * @link http://src.chromium.org/viewvc/chrome?view=rev&revision=6985
+ * 
+ * @since 3.0.0.
+ * @return none
+ */
+function send_nosniff_header() {
+	@header( 'X-Content-Type-Options: nosniff' ); 
+}
 ?>

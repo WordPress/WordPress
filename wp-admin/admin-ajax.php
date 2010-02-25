@@ -21,6 +21,7 @@ if ( ! isset( $_REQUEST['action'] ) )
 
 require_once('includes/admin.php');
 @header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+send_nosniff_header();
 
 do_action('admin_init');
 
