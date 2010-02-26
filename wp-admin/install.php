@@ -6,6 +6,14 @@
  * @subpackage Administration
  */
 
+// Sanity check.
+if ( false ) {
+?>
+<h1>Error: PHP is not running</h1>
+<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p><div style="display:none">
+<?php
+}
+
 /**
  * We are installing WordPress.
  *
