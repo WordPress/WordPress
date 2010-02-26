@@ -3447,12 +3447,12 @@ function add_site_option( $option, $value ) {
 
 		$_value = $value;
 		$value = maybe_serialize($value);
-
 		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $value ) );
+		$value = $_value;
 	}
 
-	do_action( "add_site_option_{$option}", $option, $_value );
-	do_action( "add_site_option", $option, $_value );
+	do_action( "add_site_option_{$option}", $option, $value );
+	do_action( "add_site_option", $option, $value );
 
 	return $result;
 }
