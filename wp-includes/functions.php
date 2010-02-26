@@ -576,6 +576,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		if ( false !== get_option( $safe_option ) )
 			return;
 
+	$_value = $value;
 	$value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
 	do_action( 'add_option', $option, $value );
@@ -599,8 +600,8 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	$result = $wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)", $option, $value, $autoload ) );
 
 	if ( $result ) {
-		do_action( "add_option_{$option}", $option, $value );
-		do_action( 'added_option', $option, $value );
+		do_action( "add_option_{$option}", $option, $_value );
+		do_action( 'added_option', $option, $_value );
 		return true;
 	}
 	return false;
@@ -3444,13 +3445,14 @@ function add_site_option( $option, $value ) {
 		$value = sanitize_option( $option, $value );
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
+		$_value = $value;
 		$value = maybe_serialize($value);
 
 		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $value ) );
 	}
 
-	do_action( "add_site_option_{$option}", $option, $value );
-	do_action( "add_site_option", $option, $value );
+	do_action( "add_site_option_{$option}", $option, $_value );
+	do_action( "add_site_option", $option, $_value );
 
 	return $result;
 }
@@ -3532,8 +3534,10 @@ function update_site_option( $option, $value ) {
 		$value = sanitize_option( $option, $value );
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
+		$_value = $value;
 		$value = maybe_serialize( $value );
 		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $value ), array( 'site_id' => $wpdb->siteid, 'meta_key' => $option ) );
+		$value = $_value;
 	}
 
 	if ( $result ) {
