@@ -172,9 +172,9 @@ showNotice = {
 jQuery(document).ready( function($) {
 	var lastClicked = false, checks, first, last, checked;
 
-	// Move .updated and .error alert boxes
+	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
 	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
-	$('div.updated, div.error').not('.below-h2').insertAfter( $('div.wrap h2:first') );
+	$('div.updated, div.error').not('.below-h2, .inline').insertAfter( $('div.wrap h2:first') );
 
 	// screen settings tab
 	$('#show-settings-link').click(function () {
