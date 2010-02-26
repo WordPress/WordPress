@@ -555,7 +555,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __('Missing email.') );
 
 		$password = wp_generate_password();
-		$user_id = wpmu_create_user(wp_specialchars( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
+		$user_id = wpmu_create_user(esc_html( strtolower( $user['username'] ) ), $password, esc_html( $user['email'] ) );
 
 		if ( false == $user_id )
  			wp_die( __('Duplicated username or email address.') );

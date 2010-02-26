@@ -83,11 +83,11 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 				$add_user_errors = $user_details[ 'errors' ];
 			} else {
 				$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
-				if ( isset( $_POST[ 'noconfirmation' ] ) && is_site_admin() ) {
+				if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin(get_current_user_id()) ) {
 					add_filter( 'wpmu_signup_user_notification', create_function('', '{return false;}') ); // Disable confirmation email
 				}
 				wpmu_signup_user( $new_user_login, $_REQUEST[ 'email' ], array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST[ 'role' ] ) );
-				if ( isset( $_POST[ 'noconfirmation' ] ) && is_site_admin() ) {
+				if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin(get_current_user_id()) ) {
 					$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $_REQUEST[ 'email' ] ) );
 					wpmu_activate_signup( $key );
 					$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );

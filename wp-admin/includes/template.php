@@ -2628,7 +2628,7 @@ function the_attachment_links( $id = false ) {
 	if ( $post->post_type != 'attachment' )
 		return false;
 
-	$icon = get_attachment_icon( $post->ID );
+	$icon = wp_get_attachment_image( $post->ID, 'thumbnail', true );
 	$attachment_data = wp_get_attachment_metadata( $id );
 	$thumb = isset( $attachment_data['thumb'] );
 ?>

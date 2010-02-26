@@ -292,7 +292,7 @@ switch ( $action ) {
 								<?php
 								reset( $editblog_roles );
 								foreach ( $editblog_roles as $role => $role_assoc ){
-									$name = translate_with_context($role_assoc['name']);
+									$name = translate_user_role( $role_assoc['name'] );
 									$selected = ( $role == $editblog_default_role ) ? 'selected="selected"' : '';
 									echo "<option {$selected} value=\"" . esc_attr($role) . "\">{$name}</option>";
 								}
