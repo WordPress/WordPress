@@ -35,10 +35,10 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 				_e('User added !');
 			break;
 			case 'add_superadmin':
-				_e('Super admin added !');
+				_e('Network admin added !');
 			break;
 			case 'remove_superadmin':
-				_e('Super admin removed !');
+				_e('Network admin removed !');
 			break;
 		}
 		?>
@@ -125,8 +125,8 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
 				<input type="submit" value="<?php esc_attr_e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
 				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Add to Super Admin list') ?>" name="add_superadmin" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Remove from Super Admin list') ?>" name="remove_superadmin" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Add Network Admins') ?>" name="add_superadmin" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e('Remove Network Admins') ?>" name="remove_superadmin" class="button-secondary" />
 				<?php wp_nonce_field( 'allusers' ); ?>
 				<br class="clear" />
 			</div>
