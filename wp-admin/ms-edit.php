@@ -496,10 +496,13 @@ switch ( $_GET['action'] ) {
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'add_superadmin' ), $_SERVER['HTTP_REFERER'] ) );
 		} elseif ( isset( $_POST[ 'remove_superadmin' ] ) ) {
 			$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+			$admin_email = get_site_option( 'admin_email' );
 			foreach ( (array) $_POST['allusers'] as $key => $val ) {
 				if ( $val == '' || $val == '0' )
 					continue;
 				$user = new WP_User( $val );
+				if ( $user->ID == $current_user->ID || $user->user_email == $admin_email )
+					continue;
 				foreach ( $super_admins as $key => $username ) {
 					if ( $username == $user->user_login ) {
 						unset( $super_admins[ $key ] );
