@@ -179,8 +179,7 @@ function wp_maintenance() {
 function timer_start() {
 	global $timestart;
 	$mtime = explode( ' ', microtime() );
-	$mtime = $mtime[1] + $mtime[0];
-	$timestart = $mtime;
+	$timestart = $mtime[1] + $mtime[0];
 	return true;
 }
 
@@ -211,10 +210,9 @@ function timer_start() {
 function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_stop(1), will echo $timetotal
 	global $timestart, $timeend;
 	$mtime = microtime();
-	$mtime = explode( ' ',$mtime );
-	$mtime = $mtime[1] + $mtime[0];
-	$timeend = $mtime;
-	$timetotal = $timeend-$timestart;
+	$mtime = explode( ' ', $mtime );
+	$timeend = $mtime[1] + $mtime[0];
+	$timetotal = $timeend - $timestart;
 	$r = ( function_exists( 'number_format_i18n' ) ) ? number_format_i18n( $timetotal, $precision ) : number_format( $timetotal, $precision );
 	if ( $display )
 		echo $r;
