@@ -46,6 +46,21 @@ function add_rewrite_tag($tagname, $regex) {
 }
 
 /**
+ * Add permalink structure.
+ *
+ * @see WP_Rewrite::add_permastruct()
+ * @since 3.0.0
+ *
+ * @param string $name Name for permalink structure.
+ * @param string $struct Permalink structure.
+ * @param bool $with_front Prepend front base to permalink structure.
+ */
+function add_permastruct( $name, $struct, $with_front = true ) {
+	global $wp_rewrite;
+	return $wp_rewrite->add_permastruct( $name, $struct, $with_front );
+}
+
+/**
  * Add a new feed type like /atom1/.
  *
  * @since 2.1.0
@@ -64,6 +79,20 @@ function add_feed($feedname, $function) {
 	remove_action($hook, $hook, 10, 1);
 	add_action($hook, $function, 10, 1);
 	return $hook;
+}
+
+/**
+ * Remove rewrite rules and then recreate rewrite rules.
+ *
+ * @see WP_Rewrite::flush_rules()
+ * @since 3.0.0
+ *
+ * @param bool $hard Whether to update .htaccess (hard flush) or just update
+ * 	rewrite_rules transient (soft flush). Default is true (hard).
+ */
+function flush_rewrite_rules( $hard = true ) {
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules( $hard );
 }
 
 /**
