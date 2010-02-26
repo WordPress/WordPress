@@ -20,7 +20,7 @@ define( 'EZSQL_VERSION', 'WP1.25' );
 define( 'OBJECT', 'OBJECT', true );
 
 /**
- * @since {@internal Version Unknown}}
+ * @since 2.5.0
  */
 define( 'OBJECT_K', 'OBJECT_K', false );
 
@@ -119,7 +119,7 @@ class wpdb {
 	/**
 	 * Results of the last query made
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 1.0.0
 	 * @access private
 	 * @var array|null
 	 */
@@ -186,7 +186,7 @@ class wpdb {
 	/**
 	 * List of WordPress per-blog tables
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.5.0
 	 * @access private
 	 * @see wpdb::tables()
 	 * @var array
@@ -266,7 +266,7 @@ class wpdb {
 	/**
 	 * WordPress Post Metadata table
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -470,6 +470,7 @@ class wpdb {
 	 * the actual setting up of the class properties and connection
 	 * to the database.
 	 *
+	 * @link http://core.trac.wordpress.org/ticket/3354
 	 * @since 2.0.8
 	 *
 	 * @param string $dbuser MySQL database user
@@ -533,6 +534,7 @@ class wpdb {
 	/**
 	 * PHP5 style destructor and will run when database object is destroyed.
 	 *
+	 * @see wpdb::__construct()
 	 * @since 2.0.8
 	 * @return bool true
 	 */
@@ -634,9 +636,9 @@ class wpdb {
 	 * The scope argument can take one of the following:
 	 *
 	 * 'all' - returns 'all' and 'global' tables. No old tables are returned.
+	 * 'blog' - returns the blog-level tables for the queried blog.
 	 * 'global' - returns the global tables for the installation, returning multisite tables only if running multisite.
 	 * 'ms_global' - returns the multisite global tables, regardless if current installation is multisite.
-	 * 'blog' - returns the blog-level tables for the queried blog.
 	 * 'old' - returns tables which are deprecated.
 	 *
 	 * @since 3.0.0
@@ -649,7 +651,7 @@ class wpdb {
 	 * @param string $scope Optional. Can be all, global, ms_global, blog, or old tables. Defaults to all.
 	 * @param bool $prefix Optional. Whether to include table prefixes. Default true. If blog
 	 * 	prefix is requested, then the custom users and usermeta tables will be mapped.
-	 * @param int $blog_id Optional. The blog_id to prefix. Defaults to wpdb::blogid. Used only when prefix is requested.
+	 * @param int $blog_id Optional. The blog_id to prefix. Defaults to wpdb::$blogid. Used only when prefix is requested.
 	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
 	function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
@@ -659,6 +661,9 @@ class wpdb {
 				if ( is_multisite() )
 					$tables = array_merge( $tables, $this->ms_global_tables );
 				break;
+			case 'blog' :
+				$tables = $this->tables;
+				break;
 			case 'global' :
 				$tables = $this->global_tables;
 				if ( is_multisite() )
@@ -666,9 +671,6 @@ class wpdb {
 				break;
 			case 'ms_global' :
 				$tables = $this->ms_global_tables;
-				break;
-			case 'blog' :
-				$tables = $this->tables;
 				break;
 			case 'old' :
 				$tables = $this->old_tables;
@@ -733,10 +735,10 @@ class wpdb {
 	 * Weak escape, using addslashes()
 	 *
 	 * @see addslashes()
-	 * @since {@internal Version Unknown}}
+	 * @since 2.8.0
 	 * @access private
 	 *
-	 * @param  string $string
+	 * @param string $string
 	 * @return string
 	 */
 	function _weak_escape( $string ) {
@@ -871,7 +873,7 @@ class wpdb {
 			$args = $args[0];
 		$query = str_replace( "'%s'", '%s', $query ); // in case someone mistakenly already singlequoted it
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
-		$query = preg_replace('|(?<!%)%s|', "'%s'", $query); // quote the strings, avoiding escaped strings like %%s
+		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); // quote the strings, avoiding escaped strings like %%s
 		array_walk( $args, array( &$this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
 	}
@@ -896,14 +898,17 @@ class wpdb {
 			return false;
 
 		if ( $caller = $this->get_caller() )
-			$error_str = sprintf(/*WP_I18N_DB_QUERY_ERROR_FULL*/'WordPress database error %1$s for query %2$s made by %3$s'/*/WP_I18N_DB_QUERY_ERROR_FULL*/, $str, $this->last_query, $caller);
+			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR_FULL*/'WordPress database error %1$s for query %2$s made by %3$s'/*/WP_I18N_DB_QUERY_ERROR_FULL*/, $str, $this->last_query, $caller );
 		else
-			$error_str = sprintf(/*WP_I18N_DB_QUERY_ERROR*/'WordPress database error %1$s for query %2$s'/*/WP_I18N_DB_QUERY_ERROR*/, $str, $this->last_query);
+			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR*/'WordPress database error %1$s for query %2$s'/*/WP_I18N_DB_QUERY_ERROR*/, $str, $this->last_query );
 
-		if ( function_exists('error_log') && $log_file = @ini_get('error_log') && ( 'syslog' == $log_file || is_writable( $log_file ) ) )
-			@error_log( $error_str, 0 );
+		if ( function_exists( 'error_log' )
+			&& $log_file = @ini_get( 'error_log' )
+			&& ( 'syslog' == $log_file || @is_writable( $log_file ) )
+			)
+			@error_log( $error_str );
 
-		// Is error output turned on or not..
+		// Are we showing errors?
 		if ( ! $this->show_errors )
 			return false;
 
