@@ -40,8 +40,11 @@ switch ( $_GET['action'] ) {
 		if ( $_POST['limited_email_domains'] != '' ) {
 			$limited_email_domains = str_replace( ' ', "\n", $_POST[ 'limited_email_domains' ] );
 			$limited_email_domains = split( "\n", stripslashes( $limited_email_domains ) );
+			$limited_email = array();
 			foreach ( (array) $limited_email_domains as $domain ) {
-				$limited_email[] = trim( $domain );
+					$domain = trim( $domain );
+				if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
+					$limited_email[] = trim( $domain );
 			}
 			update_site_option( "limited_email_domains", $limited_email );
 		} else {
@@ -50,8 +53,11 @@ switch ( $_GET['action'] ) {
 
 		if ( $_POST['banned_email_domains'] != '' ) {
 			$banned_email_domains = split( "\n", stripslashes( $_POST[ 'banned_email_domains' ] ) );
+			$banned = array();
 			foreach ( (array) $banned_email_domains as $domain ) {
-				$banned[] = trim( $domain );
+				$domain = trim( $domain );
+				if ( ! preg_match( '/(--|\.\.)/', $domain ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $domain ) )
+					$banned[] = trim( $domain );
 			}
 			update_site_option( "banned_email_domains", $banned );
 		} else {
