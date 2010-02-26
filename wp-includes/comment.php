@@ -531,6 +531,7 @@ function sanitize_comment_cookies() {
  * @since 2.0.0
  * @uses $wpdb
  * @uses apply_filters() Calls 'pre_comment_approved' hook on the type of comment
+ * @uses apply_filters() Calls 'comment_duplicate_trigger' hook on commentdata.
  * @uses do_action() Calls 'check_comment_flood' hook on $comment_author_IP, $comment_author_email, and $comment_date_gmt
  *
  * @param array $commentdata Contains information on the comment
@@ -547,6 +548,7 @@ function wp_allow_comment($commentdata) {
 		$dupe .= "OR comment_author_email = '$comment_author_email' ";
 	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
 	if ( $wpdb->get_var($dupe) ) {
+		do_action( 'comment_duplicate_trigger', $commentdata );
 		if ( defined('DOING_AJAX') )
 			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 
