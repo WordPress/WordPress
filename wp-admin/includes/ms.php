@@ -176,7 +176,7 @@ function confirm_delete_users( $users ) {
 		if ( $val != '' && $val != '0' ) {
 			$user = new WP_User( $val );
 			if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) )
-				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a site admnistrator.' ), $user->user_login ) );
+				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $user->user_login ) );
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
 			if ( !empty( $blogs ) ) {
@@ -248,7 +248,7 @@ function update_option_new_admin_email($old_value, $value) {
 	$content = apply_filters( 'new_admin_email_content', __("Dear user,
 
 You recently requested to have the administration email address on
-your blog changed.
+your site changed.
 If this is correct, please click on the following link to change it:
 ###ADMIN_URL###
 
@@ -461,8 +461,8 @@ function upload_space_setting( $id ) {
 
 	?>
 	<tr>
-		<th><?php _e('Blog Upload Space Quota'); ?></th>
-		<td><input type="text" size="3" name="option[blog_upload_space]" value="<?php echo $quota; ?>" /><?php _e('MB (Leave blank for site default)'); ?></td>
+		<th><?php _e('Site Upload Space Quota'); ?></th>
+		<td><input type="text" size="3" name="option[blog_upload_space]" value="<?php echo $quota; ?>" /><?php _e('MB (Leave blank for network default)'); ?></td>
 	</tr>
 	<?php
 }
@@ -523,7 +523,7 @@ function redirect_user_to_blog() {
 		$c = (int)$_GET[ 'c' ];
 
 	if ( $c >= 5 ) {
-		wp_die( __( "You don&#8217;t have permission to view this blog. Please contact the system administrator." ) );
+		wp_die( __( "You don&#8217;t have permission to view this site. Please contact the system administrator." ) );
 	}
 	$c ++;
 
@@ -650,9 +650,9 @@ function site_admin_notice() {
 	global $current_user, $wp_db_version;
 	if ( !is_super_admin() )
 		return false;
-	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a site administrator.") . "</div>", $current_user->user_login);
+	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a network administrator.") . "</div>", $current_user->user_login);
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
-		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="ms-upgrade-network.php">Upgrade Network</a> page to update all your blogs.' ) . "</div>";
+		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="ms-upgrade-network.php">Upgrade Network</a> page to update all your sites.' ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'site_admin_notice' );
