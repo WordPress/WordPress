@@ -224,10 +224,7 @@ class AtomServer {
 	function AtomServer() {
 
 		$this->script_name = array_pop(explode('/',$_SERVER['SCRIPT_NAME']));
-		$this->app_base = get_bloginfo('url') . '/' . $this->script_name . '/';
-		if ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) {
-			$this->app_base = preg_replace( '/^http:\/\//', 'https://', $this->app_base );
-		}
+		$this->app_base = home_url( $this->script_name . '/' );
 
 		$this->selectors = array(
 			'@/service$@' =>
