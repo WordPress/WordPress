@@ -28,6 +28,9 @@ function twentyten_init() {
 
 	add_custom_background();
 
+	// This theme styles the visual editor with editor-style.css to match the theme style.
+	add_editor_style();
+
 	// This theme needs post thumbnails
 	add_theme_support( 'post-thumbnails' );
 
@@ -133,20 +136,6 @@ function twentyten_comment( $comment, $args, $depth ) {
 	<?php endif;
 }
 endif;
-
-// Make the Visual Editor styles match the theme's styles
-if ( ! function_exists( 'twentyten_editor_style' ) ) :
-function twentyten_editor_style( $url ) {
-	if ( ! empty( $url ) )
-		$url .= ',';
-
-	// Change the path here if using sub-directory
-	$url .= trailingslashit( get_stylesheet_directory_uri() ) . 'editor-style.css';
-
-	return $url;
-}
-endif;
-add_filter( 'mce_css', 'twentyten_editor_style' );
 
 // Remove inline styles on gallery shortcode
 if ( ! function_exists( 'twentyten_remove_gallery_css' ) ) :

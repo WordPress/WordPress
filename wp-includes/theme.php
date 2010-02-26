@@ -1447,6 +1447,43 @@ body {
 }
 
 /**
+ * Add callback for a custom TinyMCE editor stylesheet.
+ *
+ * The parameter $stylesheet is the name of the stylesheet, relative to
+ * the theme root. It is optional and defaults to 'editor-style.css'.
+ *
+ * @since 3.0.0
+ *
+ * @param callback $stylesheet Name of stylesheet relative to theme root.
+ */
+function add_editor_style( $stylesheet = 'editor-style.css' ) {
+	if ( isset( $GLOBALS['editor_style'] ) )
+		return;
+
+	add_theme_support( 'editor-style' );
+
+	if ( ! is_admin() )
+		return;
+
+	$GLOBALS['editor_style'] = $stylesheet;
+	add_filter( 'mce_css', '_editor_style_cb' );
+}
+
+/**
+ * Callback for custom editor stylesheet.
+ *
+ * @since 3.0.0
+ * @see add_editor_style()
+ * @access protected
+ */
+function _editor_style_cb( $url ) {
+	global $editor_style;
+	if ( ! empty( $url ) )
+		$url .= ',';
+	return $url . get_stylesheet_directory_uri() . "/$editor_style";
+}
+
+/**
  * Allows a theme to register its support of a certain feature
  *
  * Must be called in the themes functions.php file to work.
