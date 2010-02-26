@@ -1447,30 +1447,43 @@ body {
 }
 
 /**
- * Add callback for a custom TinyMCE editor stylesheet.
+ * Add callback for custom TinyMCE editor stylesheets.
  *
  * The parameter $stylesheet is the name of the stylesheet, relative to
- * the theme root. It is optional and defaults to 'editor-style.css'.
+ * the theme root. It also accepts an array of stylesheets.
+ * It is optional and defaults to 'editor-style.css'.
  *
  * @since 3.0.0
  *
- * @param callback $stylesheet Name of stylesheet relative to theme root.
+ * @param mixed $stylesheet Optional. Stylesheet name or array thereof, relative to theme root.
+ * 	Defaults to 'editor-style.css'
  */
 function add_editor_style( $stylesheet = 'editor-style.css' ) {
-	if ( isset( $GLOBALS['editor_style'] ) )
-		return;
 
 	add_theme_support( 'editor-style' );
 
 	if ( ! is_admin() )
 		return;
 
-	$GLOBALS['editor_style'] = $stylesheet;
+	global $editor_style;
+	$editor_style = (array) $editor_style;
+	$stylesheet   = (array) $stylesheet;
+	foreach ( $stylesheet as $file ) {
+		if ( file_exists( get_stylesheet_directory() . "/$file" )
+			&& ( $uri = get_stylesheet_directory_uri() . "/$file" )
+			&& ! in_array( $uri, $editor_style ) )
+			$editor_style[] = $uri;
+		elseif ( TEMPLATEPATH !== STYLESHEETPATH
+			&& file_exists( get_template_directory() . "/$file" )
+			&& ( $uri = get_template_directory_uri() . "/$file" )
+			&& ! in_array( $uri, $editor_style ) )
+			$editor_style[] = $uri;
+	}
 	add_filter( 'mce_css', '_editor_style_cb' );
 }
 
 /**
- * Callback for custom editor stylesheet.
+ * Callback for custom editor stylesheet support.
  *
  * @since 3.0.0
  * @see add_editor_style()
@@ -1480,7 +1493,7 @@ function _editor_style_cb( $url ) {
 	global $editor_style;
 	if ( ! empty( $url ) )
 		$url .= ',';
-	return $url . get_stylesheet_directory_uri() . "/$editor_style";
+	return $url . implode( ',', $editor_style );
 }
 
 /**
