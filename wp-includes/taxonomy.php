@@ -1444,6 +1444,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  * @since 2.3.0
  * @uses $wpdb
  *
+ * @uses apply_filters() Calls 'pre_insert_term' hook with term and taxonomy as parameters.
  * @uses do_action() Calls 'create_term' hook with the term id and taxonomy id as parameters.
  * @uses do_action() Calls 'create_$taxonomy' hook with term id and taxonomy id as parameters.
  * @uses apply_filters() Calls 'term_id_filter' hook with term id and taxonomy id as parameters.
@@ -1460,6 +1461,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	if ( ! is_taxonomy($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
+
+	$term = apply_filters( 'pre_insert_term', $term, $taxonomy );
+		if ( is_wp_error( $term ) )
+			return $term;
 
 	if ( is_int($term) && 0 == $term )
 		return new WP_Error('invalid_term_id', __('Invalid term ID'));
