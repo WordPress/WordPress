@@ -983,8 +983,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	if ( empty( $comment_type ) ) $comment_type = 'comment';
 
 	if ('comment' == $comment_type) {
-		/* translators: 1: post id, 2: post title */
-		$notify_message  = sprintf( __('New comment on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
+		$notify_message  = sprintf( __('New comment on your post "%s"'),$post->post_title ) . "\r\n";
 		/* translators: 1: comment author, 2: author IP, 3: author domain */
 		$notify_message .= sprintf( __('Author : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 		$notify_message .= sprintf( __('E-mail : %s'), $comment->comment_author_email ) . "\r\n";
@@ -995,8 +994,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		/* translators: 1: blog name, 2: post title */
 		$subject = sprintf( __('[%1$s] Comment: "%2$s"'), $blogname, $post->post_title );
 	} elseif ('trackback' == $comment_type) {
-		/* translators: 1: post id, 2: post title */
-		$notify_message  = sprintf( __('New trackback on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
+		$notify_message  = sprintf( __('New trackback on your post "%s"'), $post->post_title ) . "\r\n";
 		/* translators: 1: website name, 2: author IP, 3: author domain */
 		$notify_message .= sprintf( __('Website: %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 		$notify_message .= sprintf( __('URL    : %s'), $comment->comment_author_url ) . "\r\n";
@@ -1005,8 +1003,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		/* translators: 1: blog name, 2: post title */
 		$subject = sprintf( __('[%1$s] Trackback: "%2$s"'), $blogname, $post->post_title );
 	} elseif ('pingback' == $comment_type) {
-		/* translators: 1: post id, 2: post title */
-		$notify_message  = sprintf( __('New pingback on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
+		$notify_message  = sprintf( __('New pingback on your post "%s"'), $post->post_title ) . "\r\n";
 		/* translators: 1: comment author, 2: author IP, 3: author domain */
 		$notify_message .= sprintf( __('Website: %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 		$notify_message .= sprintf( __('URL    : %s'), $comment->comment_author_url ) . "\r\n";
@@ -1079,21 +1076,21 @@ function wp_notify_moderator($comment_id) {
 	switch ($comment->comment_type)
 	{
 		case 'trackback':
-			$notify_message  = sprintf( __('A new trackback on the post #%1$s "%2$s" is waiting for your approval'), $post->ID, $post->post_title ) . "\r\n";
+			$notify_message  = sprintf( __('A new trackback on the post "%s" is waiting for your approval'), $post->post_title ) . "\r\n";
 			$notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
 			$notify_message .= sprintf( __('Website : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 			$notify_message .= sprintf( __('URL    : %s'), $comment->comment_author_url ) . "\r\n";
 			$notify_message .= __('Trackback excerpt: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
 			break;
 		case 'pingback':
-			$notify_message  = sprintf( __('A new pingback on the post #%1$s "%2$s" is waiting for your approval'), $post->ID, $post->post_title ) . "\r\n";
+			$notify_message  = sprintf( __('A new pingback on the post "%s" is waiting for your approval'), $post->post_title ) . "\r\n";
 			$notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
 			$notify_message .= sprintf( __('Website : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 			$notify_message .= sprintf( __('URL    : %s'), $comment->comment_author_url ) . "\r\n";
 			$notify_message .= __('Pingback excerpt: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
 			break;
 		default: //Comments
-			$notify_message  = sprintf( __('A new comment on the post #%1$s "%2$s" is waiting for your approval'), $post->ID, $post->post_title ) . "\r\n";
+			$notify_message  = sprintf( __('A new comment on the post "%s" is waiting for your approval'), $post->post_title ) . "\r\n";
 			$notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
 			$notify_message .= sprintf( __('Author : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 			$notify_message .= sprintf( __('E-mail : %s'), $comment->comment_author_email ) . "\r\n";
