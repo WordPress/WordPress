@@ -1006,7 +1006,7 @@ function get_the_password_form() {
  * Whether currently in a page template.
  *
  * This template tag allows you to determine if you are in a page template.
- * You can optional provide a template name and then the check will be
+ * You can optionally provide a template name and then the check will be
  * specific to that template.
  *
  * @since 2.5.0

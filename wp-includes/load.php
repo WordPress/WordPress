@@ -228,7 +228,7 @@ function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_st
  * defined in wp-config.php. Example: <code> define( 'WP_DEBUG', true ); </code>
  *
  * WP_DEBUG_DISPLAY and WP_DEBUG_LOG perform no function unless WP_DEBUG is true.
- * WP_DEBUG defaults defaults to false.
+ * WP_DEBUG defaults to false.
  *
  * When WP_DEBUG is true, all PHP notices are reported. WordPress will also display
  * notices, including one when a deprecated WordPress function, function argument,

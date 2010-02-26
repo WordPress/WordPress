@@ -167,7 +167,7 @@ function get_search_form($echo = true) {
 /**
  * Display the Log In/Out link.
  *
- * Displays a link, which allows the user to navigate to the Log In page to log in
+ * Displays a link, which allows users to navigate to the Log In page to log in
  * or log out depending on whether they are currently logged in.
  *
  * @since 1.5.0

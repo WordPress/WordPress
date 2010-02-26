@@ -143,7 +143,7 @@ foreach ( $offset_range as $offset ) {
 	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($time_format)); ?></span>
 <?php endif; ?>
 <br />
-<span class="description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
+<span class="description"><?php _e('Unfortunately, you have to manually update this for daylight saving time. Lame, we know, but will be fixed in the future.'); ?></span>
 </td>
 <?php
 else: // looks like we can do nice timezone selection!
@@ -185,7 +185,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 <?php if ($check_zone_info && $tzstring) : ?>
 	<?php
 	$now = localtime(time(),true);
-	if ($now['tm_isdst']) _e('This timezone is currently in daylight savings time.');
+	if ($now['tm_isdst']) _e('This timezone is currently in daylight saving time.');
 	else _e('This timezone is currently in standard time.');
 	?>
 	<br />
@@ -202,11 +202,11 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 		if ( isset($found) && $found === true ) {
 			echo ' ';
 			$message = $tr['isdst'] ?
-				__('Daylight savings time begins on: <code>%s</code>.') :
+				__('Daylight saving time begins on: <code>%s</code>.') :
 				__('Standard time begins  on: <code>%s</code>.');
 			printf( $message, date_i18n(get_option('date_format').' '.get_option('time_format'), $tr['ts'] ) );
 		} else {
-			_e('This timezone does not observe daylight savings time.');
+			_e('This timezone does not observe daylight saving time.');
 		}
 	}
 	?>

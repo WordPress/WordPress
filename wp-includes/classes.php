@@ -922,7 +922,7 @@ class Walker {
 
 		/*
 		 * need to display in hierarchical order
-		 * seperate elements into two buckets: top level and children elements
+		 * separate elements into two buckets: top level and children elements
 		 * children_elements is two dimensional array, eg.
 		 * children_elements[10][] contains all sub-elements whose parent is 10.
 		 */
@@ -1036,7 +1036,7 @@ class Walker {
 		}
 
 		/*
-		 * seperate elements into two buckets: top level and children elements
+		 * separate elements into two buckets: top level and children elements
 		 * children_elements is two dimensional array, eg.
 		 * children_elements[10][] contains all sub-elements whose parent is 10.
 		 */

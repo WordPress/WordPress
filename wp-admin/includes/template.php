@@ -1822,7 +1822,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	// Check if the user for this row is editable
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
 		// Set up the user editing link
-		// TODO: make profile/user-edit determination a seperate function
+		// TODO: make profile/user-edit determination a separate function
 		if ($current_user->ID == $user_object->ID) {
 			$edit_link = 'profile.php';
 		} else {
