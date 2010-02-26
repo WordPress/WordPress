@@ -213,7 +213,7 @@ function wp_default_scripts( &$scripts ) {
 			'upload_failed' => __('Upload failed.'),
 			'io_error' => __('IO error.'),
 			'security_error' => __('Security error.'),
-			'file_cancelled' => __('File cancelled.'),
+			'file_cancelled' => __('File canceled.'),
 			'upload_stopped' => __('Upload stopped.'),
 			'dismiss' => __('Dismiss'),
 			'crunching' => __('Crunching&hellip;'),
