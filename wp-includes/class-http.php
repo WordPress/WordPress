@@ -538,8 +538,8 @@ class WP_Http {
 	 * Those who are behind a proxy and want to prevent access to certain hosts may do so. This will
 	 * prevent plugins from working and core functionality, if you don't include api.wordpress.org.
 	 *
-	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL in your wp-config.php file
-	 * and this will only allow localhost and your blog to make requests. The constant
+	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL as true in your wp-config.php
+	 * file and this will only allow localhost and your blog to make requests. The constant
 	 * WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the
 	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow.
 	 *
@@ -551,7 +551,7 @@ class WP_Http {
 	 */
 	function block_request($uri) {
 		// We don't need to block requests, because nothing is blocked.
-		if ( ! defined('WP_HTTP_BLOCK_EXTERNAL') || ( defined('WP_HTTP_BLOCK_EXTERNAL') && WP_HTTP_BLOCK_EXTERNAL == false ) )
+		if ( ! defined( 'WP_HTTP_BLOCK_EXTERNAL' ) || ! WP_HTTP_BLOCK_EXTERNAL )
 			return false;
 
 		// parse_url() only handles http, https type URLs, and will emit E_WARNING on failure.
