@@ -673,8 +673,8 @@ function wp_manage_posts_columns( $screen = '') {
 	if ( 'page' == $post_type )
 		$posts_columns = apply_filters( 'manage_pages_columns', $posts_columns );
 	else
-		$post_columns = apply_filters( 'manage_posts_columns', $posts_columns, $post_type );
-	$post_columns = apply_filters( "manage_{$post_type}_posts_columns", $posts_columns );
+		$posts_columns = apply_filters( 'manage_posts_columns', $posts_columns, $post_type );
+	$posts_columns = apply_filters( "manage_{$post_type}_posts_columns", $posts_columns );
 
 	return $posts_columns;
 }
