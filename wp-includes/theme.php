@@ -1200,7 +1200,7 @@ function validate_current_theme() {
 function get_theme_mod($name, $default = false) {
 	$theme = get_current_theme();
 
-	$mods = get_option("mods_$theme");
+	$mods = get_option( esc_sql( "mods_$theme" ) );
 
 	if ( isset($mods[$name]) )
 		return apply_filters( "theme_mod_$name", $mods[$name] );
