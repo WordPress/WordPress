@@ -453,7 +453,10 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			break;
 		case 'text_direction':
 			global $wp_locale;
-			$output = $wp_locale->text_direction;
+			if ( isset( $wp_locale ) )
+				$output = $wp_locale->text_direction;
+			else
+				$output = 'ltr';
 			break;
 		case 'name':
 		default:

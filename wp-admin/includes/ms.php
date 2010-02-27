@@ -48,6 +48,7 @@ add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
 function wpmu_delete_blog($blog_id, $drop = false) {
 	global $wpdb;
 
+	$switched = false;
 	if ( $blog_id != $wpdb->blogid ) {
 		$switch = true;
 		switch_to_blog($blog_id);
