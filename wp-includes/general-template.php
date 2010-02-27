@@ -358,8 +358,8 @@ function wp_meta() {
  *
  * @param string $show What to display.
  */
-function bloginfo($show='') {
-	echo get_bloginfo($show, 'display');
+function bloginfo( $show='' ) {
+	echo get_bloginfo( $show, 'display' );
 }
 
 /**
@@ -397,7 +397,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			$output = home_url();
 			break;
 		case 'wpurl' :
-			$output = get_option('siteurl');
+			$output = site_url();
 			break;
 		case 'description':
 			$output = get_option('blogdescription');
