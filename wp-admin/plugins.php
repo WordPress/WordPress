@@ -222,14 +222,15 @@ if ( !empty($action) ) {
 				require_once('admin-header.php');
 				?>
 			<div class="wrap">
-				<h2><?php _e('Delete Plugin(s)'); ?></h2>
 				<?php
 					$files_to_delete = $plugin_info = array();
 					foreach ( (array) $plugins as $plugin ) {
 						if ( '.' == dirname($plugin) ) {
 							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
-							if ( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) )
+							if( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) ) {
 								$plugin_info[ $plugin ] = $data;
+								$plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
+							}
 						} else {
 							//Locate all the files in that folder:
 							$files = list_files( WP_PLUGIN_DIR . '/' . dirname($plugin) );
@@ -237,20 +238,40 @@ if ( !empty($action) ) {
 								$files_to_delete = array_merge($files_to_delete, $files);
 							}
 							//Get plugins list from that folder
-							if ( $folder_plugins = get_plugins( '/' . dirname($plugin)) )
-								$plugin_info = array_merge($plugin_info, $folder_plugins);
+							if ( $folder_plugins = get_plugins( '/' . dirname($plugin)) ) {
+								foreach( $folder_plugins as $plugin_file => $data ) {
+									$plugin_info[ $plugin_file ] = $data;
+									$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
+								}
+							}
 						}
 					}
+					screen_icon();
+					$plugins_to_delete = count( $plugin_info );
+					echo '<h2>' . _n( 'Delete Plugin', 'Delete Plugins', $plugins_to_delete ) . '</h2>';
 				?>
-				<p><?php _e('Deleting the selected plugins will remove the following plugin(s) and their files:'); ?></p>
+				<p><?php echo _n( 'Deleting the selected plugin will remove the following plugin and its files:', 'Deleting the selected plugins will remove the following plugins and their files:', $plugins_to_delete ); ?></p>
 					<ul class="ul-disc">
 						<?php
-						foreach ( $plugin_info as $plugin )
-							/* translators: 1: plugin name, 2: plugin author */
-							echo '<li>', sprintf(__('<strong>%1$s</strong> by <em>%2$s</em>'), $plugin['Name'], $plugin['Author']), '</li>';
+						$data_to_delete = false;
+						foreach ( $plugin_info as $plugin ) {
+							if ( $plugin['is_uninstallable'] ) {
+								/* translators: 1: plugin name, 2: plugin author */
+								echo '<li>', sprintf( __( '<strong>%1$s</strong> by <em>%2$s</em> (will also <strong>delete its data</strong>)' ), $plugin['Name'], $plugin['Author'] ), '</li>';
+								$data_to_delete = true;
+							} else {
+								/* translators: 1: plugin name, 2: plugin author */
+								echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), $plugin['Name'], $plugin['Author'] ), '</li>';
+							}
+						}
 						?>
 					</ul>
-				<p><?php _e('Are you sure you wish to delete these files?') ?></p>
+				<p><?php
+				if ( $data_to_delete )
+					_e('Are you sure you wish to delete these files and data?');
+				else
+					_e('Are you sure you wish to delete these files?');
+				?></p>
 				<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
 					<input type="hidden" name="verify-delete" value="1" />
 					<input type="hidden" name="action" value="delete-selected" />
@@ -259,7 +280,7 @@ if ( !empty($action) ) {
 							echo '<input type="hidden" name="checked[]" value="' . esc_attr($plugin) . '" />';
 					?>
 					<?php wp_nonce_field('bulk-manage-plugins') ?>
-					<input type="submit" name="submit" value="<?php esc_attr_e('Yes, Delete these files') ?>" class="button" />
+					<input type="submit" name="submit" value="<?php $data_to_delete ? esc_attr_e('Yes, Delete these files and data') : esc_attr_e('Yes, Delete these files') ?>" class="button" />
 				</form>
 				<form method="post" action="<?php echo esc_url(wp_get_referer()); ?>" style="display:inline;">
 					<input type="submit" name="submit" value="<?php esc_attr_e('No, Return me to the plugin list') ?>" class="button" />
