@@ -308,8 +308,13 @@ if ( $page_links )
 <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p>
 <p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p>
 </div>
-<?php endif; ?>
-
+<?php elseif ( 'post_tag' == $taxonomy ) : ?>
+<div class="form-wrap">
+<p><?php printf(__('Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>'), 'admin.php?import=wp-cat2tag&amp;step=3') ;?>.</p> 
+</div>
+<?php endif;
+do_action('after-' . $taxonomy . '-table', $taxonomy);
+?>
 
 </div>
 </div><!-- /col-right -->
