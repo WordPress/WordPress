@@ -344,7 +344,7 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	$classes = array_map('esc_attr', $classes);
 
-	return apply_filters('post_class', $classes, $class, $post_id);
+	return apply_filters('post_class', $classes, $class, $post->ID);
 }
 
 /**
