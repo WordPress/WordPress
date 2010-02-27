@@ -152,24 +152,23 @@ default:
 
 <div class="wrap">
 <?php screen_icon(); ?>
-  <h2><?php _e('All Settings'); ?></h2>
+  <h2><?php esc_html_e('All Settings'); ?></h2>
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('options-options') ?>
   <input type="hidden" name="action" value="update" />
   <input type='hidden' name='option_page' value='options' />
   <table class="form-table">
 <?php
-$options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
+$options = $wpdb->get_results( "SELECT * FROM $wpdb->options ORDER BY option_name" );
 
-foreach ( (array) $options as $option) :
+foreach ( (array) $options as $option ) :
 	$disabled = '';
-	$option->option_name = esc_attr($option->option_name);
 	if ( $option->option_name == '' )
 		continue;
-	if ( is_serialized($option->option_value) ) {
-		if ( is_serialized_string($option->option_value) ) {
+	if ( is_serialized( $option->option_value ) ) {
+		if ( is_serialized_string( $option->option_value ) ) {
 			// this is a serialized string, so we should display it
-			$value = maybe_unserialize($option->option_value);
+			$value = maybe_unserialize( $option->option_value );
 			$options_to_update[] = $option->option_name;
 			$class = 'all-options';
 		} else {
@@ -182,21 +181,21 @@ foreach ( (array) $options as $option) :
 		$options_to_update[] = $option->option_name;
 		$class = 'all-options';
 	}
+	$name = esc_attr( $option->option_name );
 	echo "
 <tr>
-	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
+	<th scope='row'><label for='$'>" . esc_html( $option->option_name ) . "</label></th>
 <td>";
-
-	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>" . esc_html($value) . "</textarea>";
-	else echo "<input class='regular-text $class' type='text' name='$option->option_name' id='$option->option_name' value='" . esc_attr($value) . "'$disabled />";
-
+	if ( strpos( $value, "\n" ) !== false )
+		echo "<textarea class='$class' name='$name' id='$name' cols='30' rows='5'>" . wp_htmledit_pre( $value ) . "</textarea>";
+	else
+		echo "<input class='regular-text $class' type='text' name='$name' id='$name' value='" . esc_attr( $value ) . "'$disabled />";
 	echo "</td>
 </tr>";
 endforeach;
 ?>
   </table>
-<?php $options_to_update = implode(',', $options_to_update); ?>
-<p class="submit"><input type="hidden" name="page_options" value="<?php echo esc_attr($options_to_update); ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes') ?>" class="button-primary" /></p>
+<p class="submit"><input type="hidden" name="page_options" value="<?php echo esc_attr( implode( ',', $options_to_update ) ); ?>" /><input type="submit" name="Update" value="<?php esc_attr_e( 'Save Changes' ); ?>" class="button-primary" /></p>
   </form>
 </div>
 
