@@ -574,7 +574,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	// If there is a post
 	if ( is_single() || ( is_home() && !is_front_page() ) || ( is_page() && !is_front_page() ) ) {
 		$post = $wp_query->get_queried_object();
-		$title = strip_tags( apply_filters( 'single_post_title', $post->post_title ) );
+		$title = apply_filters( 'single_post_title', $post->post_title );
 	}
 
 	// If there's a taxonomy
@@ -652,9 +652,9 @@ function single_post_title($prefix = '', $display = true) {
 	}
 	$title = apply_filters('single_post_title', $post->post_title, $post);
 	if ( $display )
-		echo $prefix . strip_tags($title);
+		echo $prefix . $title;
 	else
-		return strip_tags($title);
+		return $title;
 }
 
 /**
@@ -687,9 +687,9 @@ function single_cat_title($prefix = '', $display = true ) {
 	$my_cat_name = apply_filters('single_cat_title', $cat->name);
 	if ( !empty($my_cat_name) ) {
 		if ( $display )
-			echo $prefix . strip_tags($my_cat_name);
+			echo $prefix . $my_cat_name;
 		else
-			return strip_tags($my_cat_name);
+			return $my_cat_name;
 	}
 }
 
