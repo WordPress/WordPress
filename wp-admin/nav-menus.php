@@ -3,7 +3,7 @@
  * WordPress Administration for Navigation Menus
  * Interface functions
  *
- * @version 1.1.0
+ * @version 2.0.0
  *
  * @package WordPress
  * @subpackage Administration
@@ -11,6 +11,10 @@
 
 require_once('admin.php');
 
+/*
+TODO
+	Add caps: edit_menus, delete_menus
+*/
 if ( ! current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
 
@@ -24,6 +28,7 @@ wp_enqueue_script( 'nav-menu-dynamic-functions' );
 wp_enqueue_script( 'nav-menu-default-items' );
 wp_enqueue_script( 'jquery-autocomplete' );
 wp_enqueue_script( 'nav-menu-php-functions' );
+add_thickbox();
 
 require_once( 'admin-header.php' );
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
@@ -38,6 +43,9 @@ $menu_id_in_edit = 0;
 $updated = false;
 $advanced_option_descriptions = 'no';
 
+// Get all menu link items
+$available_links = new WP_Query( array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_key' => 'menu_type', 'meta_value' => 'custom' ) );
+
 // Check which menu is selected and if menu is in edit already
 if ( isset( $_GET['edit-menu'] ) ) {
 	$menu_selected_id = (int) $_GET['edit-menu'];
@@ -48,28 +56,39 @@ if ( isset( $_GET['edit-menu'] ) ) {
 	$menu_selected_id = 0;
 }
 
-if ( isset( $_POST[ 'delete-menu' ] ) && $menu_selected_id > 0 ) {
-	wp_delete_nav_menu( $menu_selected_id );
+// Delete a menu
+if ( isset($_GET['delete-menu']) && $_GET['delete-menu'] > 0 ) {
+	// if ( ! current_user_can('delete_menus') )
+	// 	wp_die( __( 'Cheatin&#8217; uh?' ));
+	
+	$menu_id = (int) $_GET['delete-menu'];
+	check_admin_referer( 'delete_menu-' . $menu_id );
+	
+	wp_delete_nav_menu( $menu_id );
+	$messages_div = '<div id="message" class="updated fade below-h2"><p>' . __('Menu successfully deleted.') . '</p></div>';
 	$menu_selected_id = 0;
 	$updated = true;
 }
 
 // Default Menu to show
-$custom_menus = wp_get_nav_menus();
+$menus = wp_get_nav_menus();
 
-if ( empty($custom_menus)  && empty($_POST) ) {
+if ( empty($menus) && empty($_POST) ) {
 	wp_create_default_nav_menu();
-	$custom_menus = wp_get_nav_menus();
+	$menus = wp_get_nav_menus();
 }
 
-if ( ! $menu_selected_id && ! empty( $custom_menus ) )
-	$menu_selected_id = $custom_menus[0]->term_id;
+if ( ! $menu_selected_id && ! empty($menus) )
+	$menu_selected_id = $menus[0]->term_id;
 
+// Get the name of the current Menu 
 $menu_title = '';
+$valid_menu = false;
 if ( $menu_selected_id > 0 ) {
-	foreach ( $custom_menus as $menu ) {
+	foreach ( $menus as $menu ) {
 		if ( $menu->term_id == $menu_selected_id ) {
 			$menu_title = $menu->name;
+			$valid_menu = true;
 			break;
 		}
 	}
@@ -81,15 +100,15 @@ else
 	$post_counter = 0;
 
 // Create a new menu. Menus are stored as terms in the 'menu' taxonomy.
-if ( isset( $_POST['add-menu'] ) && ! $updated ) {
-	$insert_menu_name = $_POST['add-menu-name'];
+if ( isset( $_POST['create-menu'] ) && ! $updated ) {
+	$insert_menu_name = $_POST['create-menu-name'];
 
 	if ( $insert_menu_name ) {
 		$menu = wp_create_nav_menu( $insert_menu_name );
 		if ( is_wp_error( $menu ) ) {
 			$messages_div = '<div id="message" class="error fade below-h2"><p>' . $menu->get_error_message() . '</p></div>';
 		} else {
-			$custom_menus[$menu->term_id] = $menu;
+			$menus[$menu->term_id] = $menu;
 			$menu_selected_id = $menu->term_id;
 			$menu_id_in_edit = $menu_selected_id;
 			$menu_title = $menu->name;
@@ -105,21 +124,21 @@ if ( isset( $_POST['add-menu'] ) && ! $updated ) {
 if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 	$menu_items = wp_get_nav_menu_items( $menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 	$parent_menu_ids = array();
-
+	
 	// Loop through all POST variables
 	for ( $k = 1; $k <= $post_counter; $k++ ) {
 		$db_id = isset( $_POST['dbid'.$k] )? $_POST['dbid'.$k] : 0;
 		$object_id = isset( $_POST['postmenu'.$k] )? $_POST['postmenu'.$k] : 0;
 		$parent_id = isset( $_POST['parent'.$k] )? $_POST['parent'.$k] : 0;
-		$custom_title = isset( $_POST['title'.$k] )?  $_POST['title'.$k] : '';
-		$custom_linkurl = ( isset( $_POST['linkurl'.$k] ) && 'custom' == $_POST['linktype'.$k] ) ? $_POST['linkurl'.$k] : '';
-		$custom_description = isset( $_POST['description'.$k] )? $_POST['description'.$k] : '';
+		$custom_title = isset( $_POST['item-title'.$k] )?  $_POST['item-title'.$k] : '';
+		$custom_linkurl = ( isset( $_POST['item-url'.$k] ) && 'custom' == $_POST['linktype'.$k] ) ? $_POST['item-url'.$k] : '';
+		$custom_description = isset( $_POST['item-description'.$k] )? $_POST['item-description'.$k] : '';
 		// doesn't seem to be used by UI
 		$icon = isset( $_POST['icon'.$k] )? $_POST['icon'.$k] : 0;
 		$position = isset( $_POST['position'.$k] )? $_POST['position'.$k] : 0;
 		$linktype = isset( $_POST['linktype'.$k] )? $_POST['linktype'.$k] : 'custom';
-		$custom_anchor_title  = isset( $_POST['anchortitle'.$k] )? $_POST['anchortitle'.$k] : $custom_title;
-		$new_window = isset( $_POST['newwindow'.$k] )? $_POST['newwindow'.$k] : 0;
+		$custom_anchor_title  = isset( $_POST['item-attr-title'.$k] )? $_POST['item-attr-title'.$k] : $custom_title;
+		$new_window = isset( $_POST['item-target'.$k] )? $_POST['item-target'.$k] : 0;
 
 		$post = array( 'post_status' => 'publish', 'post_type' => 'nav_menu_item', 'post_author' => $user_ID,
 			'ping_status' => 0, 'post_parent' => 0, 'menu_order' => $position,
@@ -128,7 +147,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 
 		if ( $parent_id > 0 && isset( $parent_menu_ids[$parent_id] ) )
 			$post['post_parent'] = $parent_menu_ids[$parent_id];
-
+		
 		// New menu item
 		if ( $db_id == 0 ) {
 			$db_id = wp_insert_post( $post );
@@ -160,17 +179,16 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php esc_html_e('Menus') ?></h2>
+	<h2><?php esc_html_e('Menus'); ?></h2>
 	<?php echo $messages_div; ?>
 	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
 	
-	
-	<form onsubmit="updatepostdata()" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
-		<?php if ( ! empty( $custom_menus ) && count( $custom_menus ) > 1 ) : ?>
+	<form onsubmit="wp_update_post_data();" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
+		<?php if ( !empty($menus) && count($menus) > 1 ) : ?>
 		<ul class="subsubsub">
 			<?php
-				foreach ( $custom_menus as $menu ) {
-					$sep = end( $custom_menus ) == $menu ? '' : ' | ';
+				foreach ( $menus as $menu ) {
+					$sep = end( $menus ) == $menu ? '' : ' | ';
 					if ( ( $menu_id_in_edit == $menu->term_id ) || ( $menu_selected_id == $menu->term_id ) ) { ?>
 						<li><a href='nav-menus.php?edit-menu=<?php echo esc_attr($menu->term_id); ?>' class="current"><?php echo esc_html( $menu->name ); ?></a><?php echo $sep; ?></li>
 			<?php	} else { ?>
@@ -181,67 +199,116 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		</ul>
 		<?php endif; ?>
 		
-		<div id="menus-container" class="metabox-holder has-right-sidebar">
+		<div id="menu-management" class="metabox-holder has-right-sidebar">
+			<div id="post-body">
+				<div id="post-body-content">
+					<div id="normal-sortables" class="meta-box-sortables ui-sortable">
+					<?php if ( $valid_menu and ! empty( $menus ) ) : ?>
+						<div id="menu-container" class="postbox">	
+							<h3 class="hndle"><?php echo esc_html( $menu_title ); ?></h3>
+							<div class="inside">
+								<input type="hidden" name="li-count" id="li-count" value="0" />
+								<input type="hidden" name="menu-id-in-edit" id="menu-id-in-edit" value="<?php echo esc_attr( $menu_selected_id ); ?>" />
+
+								<ul id="menu">
+								<?php
+								if ( $menu_selected_id > 0 ) {
+									wp_print_nav_menu( array( 'type' => 'backend', 'name' => $menu_title, 'id' => $menu_selected_id ) );
+								}
+								?>
+								</ul><!-- /#menu-->
+								
+								<div id="queue" class="hide">
+								</div><!--/#queue-->
+							</div><!-- /.inside -->
+						<!-- /#nav-menu-canvas .postbox-->
+						</div>
+						<p>
+							<script type="text/javascript">
+								wp_update_post_data();
+							</script>
+							<a class="submitdelete deletion" href="<?php echo wp_nonce_url( admin_url('nav-menus.php?delete-menu=' . $menu_selected_id), 'delete_menu-' . $menu_selected_id ); ?>"><?php _e('Delete Menu'); ?></a>
+							<input class="button-primary save" name="save_menu" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" />
+							<br class="clear" />
+						</p>
+					<?php endif; ?>
+					</div><!-- /#normal-sortables-->
+				</div><!-- /#post-body-content-->
+			</div><!--- /#post-body -->
 			<div id="menu-settings-column" class="inner-sidebar">
 				<div id="side-sortables" class="meta-box-sortables ui-sortable">
 					
-					<div id="add-menu" class="postbox">
-						<div class="handlediv" title="Click to toggle"><br /></div>
-						<h3 class="hndle"><?php esc_html_e('Add Menu'); ?></h3>
+					<div id="create-menu" class="postbox">
+						<h3 class="hndle"><?php esc_html_e('Create Menu'); ?></h3>
 						<div class="inside">
-							<span>
-								<input id="add-menu-name" name="add-menu-name" type="text" class="regular-text" value=""  />
-								<input id="add-menu" type="submit" value="<?php esc_attr_e('Add Menu'); ?>" name="add-menu" class="button" />
-							</span>
+							<p>
+								<input type="text" name="create-menu-name" id="create-menu-name" class="regular-text" value=""  />
+								<input type="submit" name="create-menu" id="create-menu" class="button" value="<?php esc_attr_e('Create Menu'); ?>" />
+							</p>
 						</div><!-- /.inside-->
-					</div><!--END #add-menu-->
+					</div><!--END #create-menu-->
 					
 					<div id="add-custom-link" class="postbox">
-						<div class="handlediv" title="Click to toggle"><br /></div>
 						<h3 class="hndle"><?php esc_html_e('Add a Custom Link'); ?></h3>
-						<div class="inside">
+						<div class="inside">							
+							<p id="menu-item-url-wrap">
+								<label class="howto" for="menu-item-url">
+									<span><?php _e('URL'); ?></span>
+									<input id="menu-item-url" name="menu-item-url" type="text" class="code" value="http://" />
+								</label>
+							</p>
+							<br class="clear" />
+							<p id="menu-item-name-wrap">
+								<label class="howto" for="custom-menu-item-name">
+									<span><?php _e('Text'); ?></span>
+									<input id="menu-item-name" type="text" class="regular-text" value="<?php echo esc_attr( __('Menu Item') ); ?>" />
+								</label>
+							</p>
 							
-							<p class="howto"><label for="custom-menu-item-url"><input id="custom-menu-item-url" type="text" class="widefat code" value="http://" /><?php _e('URL'); ?></label></p>
-							
-							<?php $template_dir = get_bloginfo('url'); ?>
-							<input type="hidden" id="template-dir" value="<?php echo esc_attr($template_dir); ?>" />
-							
-							<p class="howto"><label for="custom-menu-item-name"><input id="custom-menu-item-name" type="text" class="widefat regular-text" value="<?php echo esc_attr( __('Menu Item') ); ?>" /><?php _e('Text'); ?></label></p>
-							
-							<label class="howto" for="custom_menu_item_description" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?>>
-								<input id="custom_menu_item_description" type="text" class="widefat regular-text" value="<?php esc_attr_e('A description'); ?>" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> onfocus="jQuery('#custom_menu_item_description').attr('value','');" />
-								<?php _e('Description'); ?>
-							</label>
-							
-							<?php if ( 'no' != $advanced_option_descriptions ) { echo '<br />'; } ?>
-							
-							<a class="addtomenu button" onclick="appendToList('<?php echo $template_dir; ?>','<?php echo esc_js( _x('Custom', 'menu nav item type') ); ?>','','','','0','');jQuery('#custom-menu-item-name').attr('value','<?php echo esc_js( __('Menu Item') ); ?>');jQuery('#custom_menu_item_description').attr('value','<?php echo esc_js( __('A description') ); ?>');"><?php _e('Add Link'); ?></a>
+					<?php if ( $available_links->posts ) : ?>
+							<p class="button-controls">
+								<a class="show-all button"><?php _e('View All'); ?></a>
+								<a class="hide-all button"><?php _e('Hide All'); ?></a>
+							</p>
+							<div id="available-links" class="list-wrap">
+								<div class="list-container">
+									<ul class="list">
+									<?php
+									foreach ( $available_links->posts as $link ) :
+									$url = get_post_meta( $link->ID, 'menu_link' );
+									?>
+										<li>
+											<dl>
+												<dt>
+													<label class="item-title"><input type="checkbox" id="link-<?php echo esc_attr($link->ID); ?>" name="<?php echo esc_attr($link->post_title); ?>" value="<?php echo esc_attr($url[0]); ?>" /><?php echo esc_html($link->post_title); ?></label>
+												</dt>
+											</dl>
+										</li>
+									<?php
+									endforeach;
+									?>
+									</ul>
+								</div><!-- /.list-container-->
+							</div><!-- /#available-links-->
+					<?php endif; ?>
+							<p class="add-to-menu">
+								<a class="button"><?php _e('Add to Menu'); ?></a>
+							</p>
 							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!-- /#add-custom-link-->
 					
 					<div id="add-pages" class="postbox">
-						<div class="handlediv" title="Click to toggle"><br /></div>
 						<h3 class="hndle"><?php esc_html_e('Add an Existing Page'); ?></h3>
 						<div class="inside">
 							<?php
 								$pages_args = array(
-									'child_of' => 0,
-									'sort_order' => 'ASC',
-									'sort_column' => 'post_title',
-									'hierarchical' => 1,
-									'exclude' => '',
-									'include' => '',
-									'meta_key' => '',
-									'meta_value' => '',
-									'authors' => '',
-									'parent' => -1,
-									'exclude_tree' => '',
-									'number' => '',
-									'offset' => 0
+									'child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title', 'hierarchical' => 1,
+									'exclude' => '', 'include' => '', 'meta_key' => '', 'meta_value' => '', 'authors' => '',
+									'parent' => -1, 'exclude_tree' => '', 'number' => '', 'offset' => 0
 								);
 								$page_name = '';
-								$pages_array = get_pages($pages_args);
+								$pages_array = get_pages( $pages_args );
 								if ( $pages_array ) {
 									foreach ( $pages_array as $post ) {
 										$page_name .= $post->post_title . '|';
@@ -252,38 +319,43 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							?>
 							<script type="text/javascript" charset="<?php bloginfo('charset'); ?>">
 								jQuery(document).ready(function(){
-									var posts = "<?php echo esc_js( $page_name ); ?>".split("|");
-									jQuery("#page-search").autocomplete(posts);
-									jQuery("#page-search").result(function(event, data, formatted) {
-										jQuery('#existing-pages').css('display','block');
-										jQuery("#existing-pages dt:contains('" + data + "')").css("display", "block");
-										jQuery('#show-pages').hide();
-										jQuery('#hide-pages').show();
+									var posts = "<?php echo esc_js( $page_name ); ?>".split('|');
+									jQuery('#add-pages .quick-search').autocomplete(posts);
+									
+									
+									jQuery('#add-pages .quick-search').result(function(event, data, formatted) {
+										jQuery('#add-pages .list-wrap').css('display','block');
+										jQuery("#add-pages .list-wrap dt:contains('" + data + "')").css('display','block');
+										jQuery('#add-pages .show-all').hide();
+										jQuery('#add-pages .hide-all').show();
 									});
-									jQuery('#existing-pages').css('display','none');
 								});
 							</script>
-							<input type="text" onfocus="jQuery('#page-search').attr('value','');" id="page-search" class="regular-text" value="<?php esc_attr_e('Search Pages'); ?>" />
-
-							<a id="show-pages" style="cursor:pointer;" onclick="jQuery('#existing-pages').css('display','block');jQuery('#page-search').attr('value','');jQuery('#existing-pages dt').css('display','block');jQuery('#show-pages').hide();jQuery('#hide-pages').show();"><?php _e('View All'); ?></a>
-							<a id="hide-pages" style="cursor:pointer;" onclick="jQuery('#existing-pages').css('display','none');jQuery('#page-search').attr('value','Search Pages');jQuery('#existing-pages dt').css('display','none');jQuery('#show-pages').show();jQuery('#hide-pages').hide();"><?php _e('Hide All'); ?></a>
-
-							<script type="text/javascript">
-								jQuery('#hide-pages').hide();
-							</script>
+							<p>
+								<input type="text" class="quick-search regular-text" value="" />
+								<a class="quick-search-submit button"><?php _e('Search'); ?></a>
+							</p>
 							
+							<p class="button-controls">
+								<a class="show-all button"><?php _e('View All'); ?></a>
+								<a class="hide-all button"><?php _e('Hide All'); ?></a>
+							</p>
 							
-							<div id="existing-pages" class="list-container">
-								<ul class="list">
-								<?php $items_counter = wp_nav_menu_get_pages( 0,'default' ); ?>
-								</ul>
-							</div><!-- /.list-container-->
+							<div id="existing-pages" class="list-wrap">
+								<div class="list-container">
+									<ul class="list">
+									<?php $items_counter = wp_nav_menu_get_pages( 0, 'default' ); ?>
+									</ul>
+								</div><!-- /.list-container-->
+							</div><!-- /#existing-pages-->
+							<p class="add-to-menu enqueue">
+								<a class="button"><?php _e('Add to Menu'); ?></a>
+							</p>
 							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!--END #add-pages-->
 					
 					<div id="add-categories" class="postbox">
-						<div class="handlediv" title="Click to toggle"><br /></div>
 						<h3 class="hndle"><?php esc_html_e('Add an Existing Category'); ?></h3>
 						<div class="inside">
 							<?php
@@ -311,92 +383,85 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							?>
 							<script type="text/javascript" charset="<?php bloginfo('charset'); ?>">
 								jQuery(document).ready(function(){
-									var categories = "<?php echo esc_js($cat_name); ?>".split("|");
-									jQuery("#cat-search").autocomplete(categories);
-									jQuery("#cat-search").result(function(event, data, formatted) {
-										jQuery('#existing-categories').css('display','block');
-										jQuery("#existing-categories dt:contains('" + data + "')").css("display", "block");
-										jQuery('#show-cats').hide();
-										jQuery('#hide-cats').show();
+									var categories = "<?php echo esc_js($cat_name); ?>".split('|');
+									jQuery('#add-categories .quick-search').autocomplete(categories);
+									jQuery('#add-categories .quick-search').result(function(event, data, formatted) {
+										jQuery('#add-categories .list-wrap').css('display','block');
+										jQuery("#add-categories .list-wrap dt:contains('" + data + "')").css('display','block');
+										jQuery('#add-categories .show-all').hide();
+										jQuery('#add-categories .hide-all').show();
 									});
-									jQuery('#existing-categories').css('display','none');
 								});
 							</script>
-
-							<input type="text" onfocus="jQuery('#cat-search').attr('value','');" id="cat-search" class="regular-text" value="<?php esc_attr_e('Search Categories'); ?>" />
-
-							<a id="show-cats" style="cursor:pointer;" onclick="jQuery('#existing-categories').css('display','block');jQuery('#cat-search').attr('value','');jQuery('#existing-categories dt').css('display','block');jQuery('#show-cats').hide();jQuery('#hide-cats').show();"><?php _e('View All'); ?></a>
-							<a id="hide-cats" style="cursor:pointer;" onclick="jQuery('#existing-categories').css('display','none');jQuery('#cat-search').attr('value','Search Categories');jQuery('#existing-categories dt').css('display','none');jQuery('#show-cats').show();jQuery('#hide-cats').hide();"><?php _e('Hide All'); ?></a>
-
-							<script type="text/javascript">
-								jQuery('#hide-cats').hide();
-							</script>
-
-							<div id="existing-categories" class="list-container">
-								<ul class="list">
-									<?php $items_counter = wp_nav_menu_get_categories( $items_counter, 'default' ); ?>
-								</ul>
-							</div><!-- /.list-container-->
+							<p>
+								<input type="text" class="quick-search regular-text" value="" />
+								<a class="quick-search-submit button"><?php _e('Search'); ?></a>
+							</p>
+							
+							<p class="button-controls">
+								<a class="show-all button"><?php _e('View All'); ?></a>
+								<a class="hide-all button"><?php _e('Hide All'); ?></a>
+							</p>
+							
+							<div id="existing-categories" class="list-wrap">
+								<div class="list-container">
+									<ul class="list">
+										<?php $items_counter = wp_nav_menu_get_categories( $items_counter, 'default' ); ?>
+									</ul>
+								</div><!-- /.list-container-->
+							</div><!-- /#existing-categories-->
+							<p class="add-to-menu enqueue">
+								<a class="button"><?php _e('Add to Menu'); ?></a>
+							</p>
 							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!--END #add-categories-->
 				</div><!-- /#side-sortables-->
 			</div><!-- /#menu-settings-column -->
-
-			<div id="post-body">
-				<div id="post-body-content">
-					<div id="normal-sortables" class="meta-box-sortables ui-sortable">
-					
-					<?php if ( ! empty( $custom_menus ) ) : ?>
-						<div id="nav-container" class="postbox">	
-							<h3 class="hndle"><?php echo esc_html( $menu_title ); ?></h3>
-							<div class="inside">
-								<input type="hidden" name="li-count" id="li-count" value="0" />
-								<input type="hidden" name="menu-id-in-edit" id="menu-id-in-edit" value="<?php echo esc_attr( $menu_selected_id ); ?>" />
-
-								<ul id="custom-nav">
-								<?php
-								if ( $menu_selected_id > 0 ) {
-									wp_print_nav_menu( array( 'type' => 'backend', 'name' => $menu_title, 'id' => $menu_selected_id ) );
-								}
-								?>
-								</ul><!-- /#custom-nav-->
-							</div><!-- /.inside -->
-						<!-- /#nav-menu-canvas .postbox-->
-						</div>
-						<p class="submit">
-							<script type="text/javascript">
-								updatepostdata();
-							</script>
-							<input id="save_bottom" name="save_bottom" type="submit" value="<?php esc_attr_e('Save All Changes'); ?>" />
-							<input id="delete-menu" name="delete-menu" type="submit" value="<?php esc_attr_e('Delete This Menu'); ?>" />
-						</p>
-						
-					<?php else : ?>
-						<div class="updated"><p><?php _e( 'Add a menu to start editing!' ); ?></p></div>
-					<?php endif; ?>
-					</div><!-- /#normal-sortables-->
-				</div><!-- /#post-body-content-->
-			</div><!--- /#post-body -->
 			<br class="clear" />
 		</div><!-- /.metabox-holder has-right-sidebar-->
 	</form>
 </div><!-- /.wrap-->
 
-<div id="dialog-confirm" style="display:none;" title="<?php esc_attr_e('Edit Menu Item'); ?>">
-	<span id="edittitle-wrap"><input id="edittitle" type="text" name="edittitle" value="" /><label class="editlabel" for="edittitle"><?php _e('Menu Title'); ?></label><br /></span>
-	<span id="editlink-wrap"><input id="editlink" type="text" name="editlink" value="" /><label class="editlabel" for="editlink"><?php _e('URL'); ?></label><br /></span>
-	<span id="editanchortitle-wrap"><input id="editanchortitle" type="text" name="editanchortitle" value="" /><label class="editlabel" for="editanchortitle"><?php _e('Link Title'); ?></label><br /></span>
-	<span id="editnewwindow-wrap">
-	<select id="editnewwindow" name="editnewwindow">
-		<option value="1"><?php _e('Yes'); ?></option>
-		<option value="0"><?php _e('No'); ?></option>
-	</select><label class="editlabel" for="editnewwindow"><?php _e('Open Link in a new window'); ?></label>
-	</span>
-	<span id="editdescription-wrap">
-	<input id="editdescription" type="text" name="editdescription" value="" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> /><label class="editlabel" for="editdescription" <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?> ><?php _e('Description'); ?></label><br /></span>
-</div>
+<div id="menu-item-settings">
+	<p class="description">
+		<label for="edit-item-title">
+			<?php _e( 'Menu Title' ); ?><br />
+			<input type="text" id="edit-item-title" class="widefat" name="edit-item-title" value="" tabindex="1" />
+		</label>
+	</p>
+	<p class="description">
+		<label for="edit-item-url">
+			<?php _e( 'URL' ); ?><br />
+			<input type="text" id="edit-item-url" class="widefat code" name="edit-item-url" value="" tabindex="2" />
+		</label>
+	</p>
+	<p class="description">
+		<label for="edit-item-attr-title">
+			<?php _e( 'Attribute Title' ); ?><br />
+			<input type="text" id="edit-item-attr-title" class="widefat" name="edit-item-attr-title" value="" tabindex="3" />
+		</label>
+	</p>
+	<p class="description">
+		<label for="edit-item-target">
+			<?php _e( 'Open Link in a new window' ); ?><br />
+			<select id="edit-item-target" class="widefat" name="edit-item-target">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</select>
+		</label>
+	</p>
+	<p class="description">
+		<label for="edit-item-description">
+			<?php _e( 'Description' ); ?><br />
+			<textarea id="edit-item-description" class="widefat" rows="3" name="edit-item-description" tabindex="4" /></textarea>
+		</label>
+	</p>
+	<p>
+		<a id="cancel-save" class="submitdelete deletion"><?php _e('Cancel'); ?></a>
+		<a id="update-menu-item" class="save button-primary" tabindex="5"><?php _e('Save Changes'); ?></a>
+	</p>
+	<input type="hidden" id="edit-item-id" name="edit-item-id" value="" />
+</div><!-- /#menu-item-settings-->
 
-<?php
-
-include( 'admin-footer.php' );
+<?php include( 'admin-footer.php' ); ?>

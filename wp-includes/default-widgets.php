@@ -1045,7 +1045,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 	function WP_Nav_Menu_Widget() {
 		$widget_ops = array('description' => __('Use this widget to add one of your navigation menus as a widget.') );
-		parent::WP_Widget(false, __('Navigation Menu'), $widget_ops);
+		parent::WP_Widget( false, __('Navigation Menu'), $widget_ops );
 	}
 
 	function widget($args, $instance) {
@@ -1060,7 +1060,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$navulclass = $instance['navulclass'];
 
 		// Override for menu descriptions
-		$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
+		$advanced_option_descriptions = get_option('wp_settings_nav_menu_advanced_options');
 		if ( $advanced_option_descriptions == 'no' ) {
 			$navwidgetdescription = 2;
 		} else {
@@ -1104,19 +1104,19 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			} else {
 				// DISPLAY default UL
 				?>
-				<ul class="custom-nav">
+				<ul class="menu">
 				<?php
 			}
 			wp_nav_menu( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription, 'format' => 'widget') );
 			if ( $navdeveloper == 'yes' ) {
-				//DISPLAY Custom UL
+				// DISPLAY Custom UL
 				if ( $navul == 'yes' ) {
 					?>
 					</ul>
 					<?php
 				}
 			} else {
-				//DISPLAY default UL
+				// DISPLAY default UL
 				?>
 				</ul>
 				<?php
@@ -1257,7 +1257,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			</p>
 		<?php
 		}
-		$advanced_option_descriptions = get_option('wp_settings_custom_nav_advanced_options');
+		$advanced_option_descriptions = get_option('wp_settings_nav_menu_advanced_options');
 		?>
 		<p <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?>>
 		   <?php $checked = strtolower($navwidgetdescription); ?>

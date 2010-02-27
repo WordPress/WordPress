@@ -477,6 +477,26 @@ case 'dim-comment' : // On success, die with time() instead of 1
 	_wp_ajax_delete_comment_response( $comment->comment_ID );
 	die( '0' );
 	break;
+case 'add-menu-link':
+	if ( !current_user_can( 'manage_links' ) )
+		die('-1');
+	
+	$link_url = isset($_POST['link_url']) ? $_POST['link_url'] : false;	
+	$link_name = isset($_POST['link_name']) ? $_POST['link_name'] : false;
+	
+	if ( !$link_url || !$link_name )
+		die('-1');
+	
+	$post = array( 'post_type' => 'nav_menu_item', 'post_title' => $link_name, 'ping_status' => false, 'post_excerpt' => '', 'post_content' => '' );
+	$db_id = wp_insert_post( $post );
+
+	update_post_meta( $db_id, 'menu_type', 'custom' );
+	update_post_meta( $db_id, 'object_id', '' );
+	update_post_meta( $db_id, 'menu_new_window', 0 );
+	update_post_meta( $db_id, 'menu_link', esc_url_raw( $link_url ) );
+	
+	echo $db_id;
+	break;
 case 'add-link-category' : // On the Fly
 	check_ajax_referer( $action );
 	if ( !current_user_can( 'manage_categories' ) )

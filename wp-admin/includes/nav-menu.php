@@ -175,7 +175,7 @@ function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $outp
 
 	if ( $sub_array ) {
 		?>
-		<ul id="sub-custom-nav-<?php echo $type ?>">
+		<ul id="sub-menu-<?php echo $type ?>">
 
 		<?php
 		// Display Loop
@@ -221,7 +221,7 @@ function wp_nav_menu_setup($override = false) {
 	// Custom Navigation Menu Setup
 
 	// Override for menu descriptions
-	update_option('wp_settings_custom_nav_advanced_options', 'yes');
+	update_option('wp_settings_nav_menu_advanced_options', 'yes');
 
 	$menus = wp_get_nav_menus();
  	if ( !empty( $menus ) ) {

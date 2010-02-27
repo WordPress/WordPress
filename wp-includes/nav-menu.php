@@ -7,6 +7,7 @@
  * @since 3.0.0
  */
 
+// Deletes a nav menu
 function wp_delete_nav_menu( $menu_id ) {
 	$menu_id = (int) $menu_id;
 	if ( !$menu_id  )
@@ -21,11 +22,12 @@ function wp_delete_nav_menu( $menu_id ) {
 	wp_delete_term( $menu_id, 'nav_menu' );
 }
 
+// Creates a new nav menu
 function wp_create_nav_menu( $menu_name, $args = array() ) {
 	$menu_exists = get_term_by( 'name', $menu_name, 'nav_menu' );
 
 	if ( $menu_exists )
-		return new WP_Error('menu_exists', sprintf( __('A menu named &#8220;%s&#8221; already exists; please try another name.'), esc_html( $menu_exists->name ) ) );
+		return new WP_Error( 'menu_exists', sprintf( __('A menu named &#8220;%s&#8221; already exists; please try another name.'), esc_html( $menu_exists->name ) ) );
 
 	if ( isset($args['slug']) )
 		$slug = $args['slug'];
@@ -40,8 +42,9 @@ function wp_create_nav_menu( $menu_name, $args = array() ) {
 	return get_term( $menu['term_id'], 'nav_menu');
 }
 
+// Creates a default menu if none exists
 function wp_create_default_nav_menu() {
-	$menu = wp_create_nav_menu(__('Main'), array('slug' => 'main'));
+	$menu = wp_create_nav_menu( __('Menu 1'), array('slug' => 'menu-1') );
 
 	if ( is_wp_error($menu) )
 		return;
@@ -49,7 +52,7 @@ function wp_create_default_nav_menu() {
 	$pages = get_pages( array('parent' => 0, 'number' => 15) );
 	$counter = 1;
 	foreach ( $pages as $page ) {
-		$item = array('post_status' => 'publish', 'post_type' => 'nav_menu_item', 'menu_order' => $counter, 'tax_input' => array( 'nav_menu' => $menu->name), 'post_title' => addslashes($page->post_title) );
+		$item = array( 'post_status' => 'publish', 'post_type' => 'nav_menu_item', 'menu_order' => $counter, 'tax_input' => array( 'nav_menu' => $menu->name), 'post_title' => addslashes($page->post_title) );
 		$item_id = wp_insert_post($item, true);
 		update_post_meta( $item_id, 'menu_type', 'page' );
 		update_post_meta( $item_id, 'object_id', $page->ID );
@@ -58,14 +61,17 @@ function wp_create_default_nav_menu() {
 	}
 }
 
+// Get nav menu by id
 function wp_get_nav_menu( $menu ) {
-	return get_term( (int) $menu, 'nav_menu');
+	return get_term( (int) $menu, 'nav_menu' );
 }
 
+// Get all nav menus
 function wp_get_nav_menus() {
 	return get_terms( 'nav_menu', array( 'hide_empty' => false, 'orderby' => 'id' ) );
 }
 
+// Get the nav menu items
 function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$items = get_objects_in_term( (int) $menu, 'nav_menu' );
 
@@ -92,6 +98,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	return $items;
 }
 
+// wp_setup_nav_menu_item()
 function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 	global $parent_menu_order;
 
