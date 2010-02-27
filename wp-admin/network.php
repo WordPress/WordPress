@@ -101,7 +101,7 @@ function step2_htaccess() {
 		wp_die( sprintf( __( 'Sorry, I need to be able to read %s. Please check the permissions on this file.' ), $htaccess_sample ) );
 	}
 ?>
-			<li><p><?php _e( 'Replace the contents of your <code>.htaccess</code> with the following:' ); ?></p>
+			<li><p><?php printf( __( 'Replace the contents of your <code>%s.htaccess</code> with the following:' ), ABSPATH ); ?></p>
 				<textarea name="htaccess" cols="120" rows="20">
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 				</textarea>
@@ -262,7 +262,7 @@ function step2() {
 		<h2><?php esc_html_e( 'Enabling WordPress Sites' ); ?></h2>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites. <strong>Note:</strong> We recommend you make a backup copy of your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p>
 		<ol>
-			<li><?php _e( 'Create a <code>blogs.dir</code> directory in your <code>wp-content</code> directory. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ); ?></li>
+			<li><?php printf( __( 'Create a <code>%s/blogs.dir</code> directory. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR ); ?></li>
 <?php step2_config(); ?>
 <?php step2_htaccess(); ?>
 		</ol>
@@ -286,7 +286,7 @@ function step2_config() {
 
 	$wp_config_file = file( $config_sample );
 ?>
-			<li><p><?php _e( 'Replace the contents of your <code>wp-config.php</code> with the following:' ); ?></p>
+			<li><p><?php printf( __( 'Replace the contents of <code>%swp-config.php</code> with the following:' ), ABSPATH ); ?></p>
 				<textarea name="wp-config" cols="120" rows="20">
 <?php
 	foreach ( $wp_config_file as $line ) {
