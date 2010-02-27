@@ -280,12 +280,15 @@ function get_blog_option( $blog_id, $setting, $default = false ) {
 		if ( $blog_id == $wpdb->blogid ) {
 			$value = get_option( $setting, $default );
 			$notoptions = wp_cache_get( 'notoptions', 'options' );
-			if ( isset( $notoptions[$setting] ) )
+			if ( isset( $notoptions[$setting] ) ) {
 				wp_cache_set( $key, 'noop', 'site-options' );
-			elseif ( $value == false )
+				$value = $default;
+			} elseif ( $value == false ) {
 				wp_cache_set( $key, 'falsevalue', 'site-options' );
-			else
+			} else {
 				wp_cache_set( $key, $value, 'site-options' );
+			}
+			return apply_filters( 'blog_option_' . $setting, $value, $blog_id );
 		} else {
 			$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
 			$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$blog_prefix}options WHERE option_name = %s", $setting ) );

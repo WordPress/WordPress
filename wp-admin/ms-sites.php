@@ -242,6 +242,8 @@ switch ( $action ) {
 						echo "<tr><th>" . __('User') . "</th><th>" . __('Role') . "</th><th>" . __('Password') . "</th><th>" . __('Remove') . "</th></tr>";
 						reset($blogusers);
 						foreach ( (array) $blogusers as $key => $val ) {
+							if ( isset( $val->meta_value ) && ! $val->meta_value )
+								continue; 
 							$t = @unserialize( $val->meta_value );
 							if ( is_array( $t ) ) {
 								reset( $t );
