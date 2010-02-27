@@ -140,34 +140,6 @@ function wp_authenticate_cookie($user, $username, $password) {
 }
 
 /**
- * Retrieve user data based on field.
- *
- * Use get_profile() will make a database query to get the value of the table
- * column. The value might be cached using the query cache, but care should be
- * taken when using the function to not make a lot of queries for retrieving
- * user profile information.
- *
- * If the $user parameter is not used, then the user will be retrieved from a
- * cookie of the user. Therefore, if the cookie does not exist, then no value
- * might be returned. Sanity checking must be done to ensure that when using
- * get_profile() that empty/null/false values are handled and that something is
- * at least displayed.
- *
- * @since 1.5.0
- * @uses $wpdb WordPress database object to create queries.
- *
- * @param string $field User field to retrieve.
- * @param string $user Optional. User username.
- * @return string The value in the field.
- */
-function get_profile($field, $user = false) {
-	global $wpdb;
-	if ( !$user )
-		$user = esc_sql( $_COOKIE[USER_COOKIE] );
-	return $wpdb->get_var( $wpdb->prepare("SELECT $field FROM $wpdb->users WHERE user_login = %s", $user) );
-}
-
-/**
  * Number of posts user has written.
  *
  * @since 0.71

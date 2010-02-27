@@ -2430,3 +2430,20 @@ function automatic_feed_links( $add = true ) {
 	else
 		remove_action( 'wp_head', 'feed_links_extra', 3 ); // Just do this yourself in 3.0+
 }
+
+/**
+ * Retrieve user data based on field.
+ *
+ * @since 1.5.0
+ * @deprecated 3.0.0
+ * @deprecated Use get_the_author_meta()
+ * @see get_the_author_meta()
+ */
+function get_profile( $field, $user = false ) {
+	_deprecated_function(__FUNCTION__, '3.0', 'get_the_author_meta()' );
+	if ( $user ) {
+		$user = get_user_by( 'login', $user );
+		$user = $user->ID;
+	}
+	return get_the_author_meta( $field, $user );
+}
