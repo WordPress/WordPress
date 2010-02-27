@@ -372,7 +372,7 @@ function get_body_class( $class = '' ) {
 
 	$classes = array();
 
-	if ( 'rtl' == get_bloginfo('text_direction') )
+	if ( 'rtl' == get_bloginfo( 'text_direction' ) )
 		$classes[] = 'rtl';
 
 	if ( is_front_page() )
@@ -404,21 +404,21 @@ function get_body_class( $class = '' ) {
 			$mime_type = get_post_mime_type($post_id);
 			$mime_prefix = array( 'application/', 'image/', 'text/', 'audio/', 'video/', 'music/' );
 			$classes[] = 'attachmentid-' . $post_id;
-			$classes[] = 'attachment-' . str_replace($mime_prefix, '', $mime_type);
+			$classes[] = 'attachment-' . str_replace( $mime_prefix, '', $mime_type );
 		}
 	} elseif ( is_archive() ) {
 		if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
-			$classes[] = 'author-' . sanitize_html_class($author->user_nicename , $author->ID);
+			$classes[] = 'author-' . sanitize_html_class( $author->user_nicename , $author->ID );
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
-			$classes[] = 'category-' . sanitize_html_class($cat->slug, $cat->cat_ID);
+			$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->cat_ID );
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
-			$classes[] = 'tag-' . sanitize_html_class($tags->slug, $tags->term_id);
+			$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
 		}
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
@@ -441,7 +441,7 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_post_meta( $page_id, '_wp_page_template', true ) ), '' );
 		}
 	} elseif ( is_search() ) {
-		if ( !empty($wp_query->posts) )
+		if ( !empty( $wp_query->posts ) )
 			$classes[] = 'search-results';
 		else
 			$classes[] = 'search-no-results';
@@ -450,10 +450,10 @@ function get_body_class( $class = '' ) {
 	if ( is_user_logged_in() )
 		$classes[] = 'logged-in';
 
-	$page = $wp_query->get('page');
+	$page = $wp_query->get( 'page' );
 
 	if ( !$page || $page < 2)
-		$page = $wp_query->get('paged');
+		$page = $wp_query->get( 'paged' );
 
 	if ( $page && $page > 1 ) {
 		$classes[] = 'paged-' . $page;
@@ -474,15 +474,15 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'search-paged-' . $page;
 	}
 
-	if ( !empty($class) ) {
+	if ( !empty( $class ) ) {
 		if ( !is_array( $class ) )
-			$class = preg_split('#\s+#', $class);
-		$classes = array_merge($classes, $class);
+			$class = preg_split( '#\s+#', $class );
+		$classes = array_merge( $classes, $class );
 	}
 
-	$classes = array_map('esc_attr', $classes);
+	$classes = array_map( 'esc_attr', $classes );
 
-	return apply_filters('body_class', $classes, $class);
+	return apply_filters( 'body_class', $classes, $class );
 }
 
 /**

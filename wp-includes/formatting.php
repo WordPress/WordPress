@@ -842,20 +842,21 @@ function sanitize_sql_orderby( $orderby ){
  * @since 2.8.0
  *
  * @param string $class The classname to be sanitized
- * @param string $fallback The value to return if the sanitization end's up as an empty string.
+ * @param string $fallback Optional. The value to return if the sanitization end's up as an empty string.
+ * 	Defaults to an empty string.
  * @return string The sanitized value
  */
-function sanitize_html_class($class, $fallback){
+function sanitize_html_class( $class, $fallback = '' ) {
 	//Strip out any % encoded octets
 	$sanitized = preg_replace('|%[a-fA-F0-9][a-fA-F0-9]|', '', $class);
 
 	//Limit to A-Z,a-z,0-9,'-'
 	$sanitized = preg_replace('/[^A-Za-z0-9-]/', '', $sanitized);
 
-	if ('' == $sanitized)
+	if ( '' == $sanitized )
 		$sanitized = $fallback;
 
-	return apply_filters('sanitize_html_class',$sanitized, $class, $fallback);
+	return apply_filters( 'sanitize_html_class', $sanitized, $class, $fallback );
 }
 
 /**
