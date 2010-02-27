@@ -76,8 +76,9 @@ function edit_user( $user_id = 0 ) {
 
 	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) {
 		$new_role = sanitize_text_field( $_POST['role'] );
+		$potential_role = isset($wp_roles->role_objects[$new_role]) ? $wp_roles->role_objects[$new_role] : false;
 		// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
-		if( $user_id != $current_user->id || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ))
+		if ( $user_id != $current_user->id || ($potential_role && $potential_role->has_cap( 'edit_users' ) ) )
 			$user->role = $new_role;
 
 		// If the new role isn't editable by the logged-in user die with error
