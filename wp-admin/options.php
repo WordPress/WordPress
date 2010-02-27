@@ -184,7 +184,7 @@ foreach ( (array) $options as $option ) :
 	$name = esc_attr( $option->option_name );
 	echo "
 <tr>
-	<th scope='row'><label for='$'>" . esc_html( $option->option_name ) . "</label></th>
+	<th scope='row'><label for='$name'>" . esc_html( $option->option_name ) . "</label></th>
 <td>";
 	if ( strpos( $value, "\n" ) !== false )
 		echo "<textarea class='$class' name='$name' id='$name' cols='30' rows='5'>" . wp_htmledit_pre( $value ) . "</textarea>";
