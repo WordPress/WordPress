@@ -1305,7 +1305,7 @@ function post_preview() {
  * @param mixed $settings optional An array that can add to or overwrite the default TinyMCE settings.
  */
 function wp_tiny_mce( $teeny = false, $settings = false ) {
-	global $concatenate_scripts, $compress_scripts, $tinymce_version;
+	global $concatenate_scripts, $compress_scripts, $tinymce_version, $editor_styles;
 
 	if ( ! user_can_richedit() )
 		return;
@@ -1467,7 +1467,29 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		'plugins' => $plugins
 	);
 
-	$mce_css = trim(apply_filters('mce_css', ''), ' ,');
+	if ( ! empty( $editor_styles ) && is_array( $editor_styles ) ) {
+		$mce_css = array();
+		$style_uri = get_stylesheet_directory_uri();
+		if ( TEMPLATEPATH == STYLESHEETPATH ) {
+			foreach ( $editor_styles as $file )
+				$mce_css[] = "$style_uri/$file";
+		} else {
+			$style_dir    = get_stylesheet_directory();
+			$template_uri = get_template_directory_uri();
+			$template_dir = get_template_directory();
+			foreach ( $editor_styles as $file ) {
+				if ( file_exists( "$style_dir/$file" ) )
+					$mce_css[] = "$style_uri/$file";
+				if ( file_exists( "$template_dir/$file" ) )
+					$mce_css[] = "$template_uri/$file";
+			}
+		}
+		$mce_css = implode( ',', $mce_css );
+	} else {
+		$mce_css = '';
+	}
+
+	$mce_css = trim( apply_filters( 'mce_css', $mce_css ), ' ,' );
 
 	if ( ! empty($mce_css) )
 		$initArray['content_css'] = $mce_css;

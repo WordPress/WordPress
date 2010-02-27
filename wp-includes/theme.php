@@ -1465,35 +1465,10 @@ function add_editor_style( $stylesheet = 'editor-style.css' ) {
 	if ( ! is_admin() )
 		return;
 
-	global $editor_style;
-	$editor_style = (array) $editor_style;
-	$stylesheet   = (array) $stylesheet;
-	foreach ( $stylesheet as $file ) {
-		if ( file_exists( get_stylesheet_directory() . "/$file" )
-			&& ( $uri = get_stylesheet_directory_uri() . "/$file" )
-			&& ! in_array( $uri, $editor_style ) )
-			$editor_style[] = $uri;
-		elseif ( TEMPLATEPATH !== STYLESHEETPATH
-			&& file_exists( get_template_directory() . "/$file" )
-			&& ( $uri = get_template_directory_uri() . "/$file" )
-			&& ! in_array( $uri, $editor_style ) )
-			$editor_style[] = $uri;
-	}
-	add_filter( 'mce_css', '_editor_style_cb' );
-}
-
-/**
- * Callback for custom editor stylesheet support.
- *
- * @since 3.0.0
- * @see add_editor_style()
- * @access protected
- */
-function _editor_style_cb( $url ) {
-	global $editor_style;
-	if ( ! empty( $url ) )
-		$url .= ',';
-	return $url . implode( ',', $editor_style );
+	global $editor_styles;
+	$editor_styles = (array) $editor_styles;
+	$stylesheet    = (array) $stylesheet;
+	$editor_styles = array_merge( $editor_styles, $stylesheet );
 }
 
 /**
@@ -1520,7 +1495,6 @@ function add_theme_support( $feature ) {
  * @param string $feature the feature being checked
  * @return boolean
  */
-
 function current_theme_supports( $feature ) {
 	global $_wp_theme_features;
 
