@@ -19,7 +19,7 @@ $step = isset( $_POST['step'] ) ? $_POST['step'] : 0;
 
 switch ($step) {
 	case 0: {
-		include_once( ABSPATH . '/wp-admin/admin-header.php' );
+		include_once( ABSPATH . 'wp-admin/admin-header.php' );
 		if ( !current_user_can('manage_links') )
 			wp_die(__('Cheatin&#8217; uh?'));
 
@@ -71,7 +71,7 @@ foreach ($categories as $category) {
 	case 1: {
 		check_admin_referer('import-bookmarks');
 
-		include_once( ABSPATH . '/wp-admin/admin-header.php' );
+		include_once( ABSPATH . 'wp-admin/admin-header.php' );
 		if ( !current_user_can('manage_links') )
 			wp_die(__('Cheatin&#8217; uh?'));
 ?>
@@ -108,7 +108,7 @@ foreach ($categories as $category) {
 			}
 
 			/** Load OPML Parser */
-			include_once( ABSPATH . '/wp-admin/link-parse-opml.php' );
+			include_once( ABSPATH . 'wp-admin/link-parse-opml.php' );
 
 			$link_count = count($names);
 			for ( $i = 0; $i < $link_count; $i++ ) {
