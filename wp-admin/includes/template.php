@@ -669,8 +669,12 @@ function wp_manage_posts_columns( $screen = '') {
 	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($post_type) || post_type_supports($post_type, 'comments') ) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
 	$posts_columns['date'] = __('Date');
-	// @todo filter per type
-	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
+
+	if ( 'page' == $post_type )
+		$posts_columns = apply_filters( 'manage_pages_columns', $posts_columns );
+	else
+		$post_columns = apply_filters( 'manage_posts_columns', $posts_columns, $post_type );
+	$post_columns = apply_filters( "manage_{$post_type}_posts_columns", $posts_columns );
 
 	return $posts_columns;
 }
