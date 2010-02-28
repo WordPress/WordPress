@@ -219,7 +219,7 @@ switch ( $_GET['action'] ) {
 		}
 
 		// rewrite rules can't be flushed during switch to blog
-		update_option( 'rewrite_rules', '' );
+		delete_option( 'rewrite_rules' );
 
 		// update blogs table
 		$blog_data = stripslashes_deep($_POST[ 'blog' ]);
