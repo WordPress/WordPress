@@ -512,7 +512,7 @@ function update_option( $option, $newvalue ) {
 	$_newvalue = $newvalue;
 	$newvalue = maybe_serialize( $newvalue );
 
-	do_action( 'update_option', $option, $oldvalue, $newvalue ); // $newvalue may be serialized.
+	do_action( 'update_option', $option, $oldvalue, $_newvalue );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
@@ -579,7 +579,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	$_value = $value;
 	$value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
-	do_action( 'add_option', $option, $value );
+	do_action( 'add_option', $option, $_value );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $autoload ) {
 			$alloptions = wp_load_alloptions();
