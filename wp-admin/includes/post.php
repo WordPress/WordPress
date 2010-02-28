@@ -597,8 +597,7 @@ function add_meta( $post_ID ) {
 			return false;
 
 		wp_cache_delete($post_ID, 'post_meta');
-
-		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value ) VALUES (%s, %s, %s)", $post_ID, $metakey, $metavalue) );
+		$wpdb->insert( $wpdb->postmeta, array( 'post_id' => $post_ID, 'meta_key' => $metakey, 'meta_value' => $metavalue ) );
 		do_action( 'added_postmeta', $wpdb->insert_id, $post_ID, $metakey, $metavalue );
 
 		return $wpdb->insert_id;
@@ -690,14 +689,16 @@ function has_meta( $postid ) {
  * @since unknown
  *
  * @param unknown_type $meta_id
- * @param unknown_type $meta_key
- * @param unknown_type $meta_value
+ * @param unknown_type $meta_key Expect Slashed
+ * @param unknown_type $meta_value Expect Slashed
  * @return unknown
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
 	global $wpdb;
 
 	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
+
+	$meta_key = stripslashes($meta_key);
 
 	if ( in_array($meta_key, $protected) )
 		return false;

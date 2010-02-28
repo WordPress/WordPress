@@ -854,7 +854,7 @@ case 'add-meta' :
 			'position' => 1,
 			'supplemental' => array('postid' => $pid)
 		) );
-	} else {
+	} else { // Update?
 		$mid = (int) array_pop(array_keys($_POST['meta']));
 		$key = $_POST['meta'][$mid]['key'];
 		$value = $_POST['meta'][$mid]['value'];
@@ -862,7 +862,7 @@ case 'add-meta' :
 			die('0'); // if meta doesn't exist
 		if ( !current_user_can( 'edit_post', $meta->post_id ) )
 			die('-1');
-		if ( $meta->meta_value != stripslashes($value) ) {
+		if ( $meta->meta_value != stripslashes($value) || $meta->meta_key != stripslashes($key) ) {
 			if ( !$u = update_meta( $mid, $key, $value ) )
 				die('0'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
 		}
