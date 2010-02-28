@@ -188,7 +188,7 @@ class Custom_Image_Header {
 			foreach ( $cols as $col => $header_key ) {
 				if ( !$header_key )
 					continue;
-				$class = array('available-theme');
+				$class = array('available-header');
 				if ( $row == 1 ) $class[] = 'top';
 				if ( $col == 1 ) $class[] = 'left';
 				if ( $row == $rows ) $class[] = 'bottom';
