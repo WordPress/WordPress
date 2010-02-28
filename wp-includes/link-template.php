@@ -932,7 +932,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $previous = true) {
 	global $post, $wpdb;
 
-	if ( empty($post) || !is_single() || is_attachment() )
+	if ( empty( $post ) )
 		return null;
 
 	$current_post_date = $post->post_date;
