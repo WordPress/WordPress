@@ -1209,7 +1209,7 @@ class WP_Http_ExtHTTP {
 
 			if ( $proxy->use_authentication() ) {
 				$options['proxyauth'] = $proxy->authentication();
-				$options['proxyauthtype'] = HTTP_AUTH_BASIC;
+				$options['proxyauthtype'] = HTTP_AUTH_ANY;
 			}
 		}
 
@@ -1320,7 +1320,7 @@ class WP_Http_Curl {
 
 			if ( $proxy->use_authentication() ) {
 				if ( $isPHP5 )
-					curl_setopt( $handle, CURLOPT_PROXYAUTH, CURLAUTH_BASIC );
+					curl_setopt( $handle, CURLOPT_PROXYAUTH, CURLAUTH_ANY );
 
 				curl_setopt( $handle, CURLOPT_PROXYUSERPWD, $proxy->authentication() );
 			}
@@ -1463,6 +1463,9 @@ class WP_Http_Curl {
  * There are caveats to proxy support. It requires that defines be made in the wp-config.php file to
  * enable proxy support. There are also a few filters that plugins can hook into for some of the
  * constants.
+ *
+ * Please note that only BASIC authentication is supportted by most transports.
+ * cURL and the PHP HTTP Extension MAY support more methods(such as NTLM Authentication) depending on your environment.
  *
  * The constants are as follows:
  * <ol>
