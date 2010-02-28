@@ -209,7 +209,7 @@ switch ( $_GET['action'] ) {
 			}
 		}
 
-		if ( $_POST['update_home_url'] == 'update' ) {
+		if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
 			$blog_address = get_blogaddress_by_domain($_POST['blog']['domain'], $_POST['blog']['path']);
 			if ( get_option( 'siteurl' ) !=  $blog_address )
 				update_option( 'siteurl', $blog_address);
@@ -228,7 +228,7 @@ switch ( $_GET['action'] ) {
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
 
 		// user roles
-		if ( is_array( $_POST[ 'role' ] ) == true ) {
+		if ( isset( $_POST[ 'role' ] ) && is_array( $_POST[ 'role' ] ) == true ) {
 			$newroles = $_POST[ 'role' ];
 			reset( $newroles );
 			foreach ( (array) $newroles as $userid => $role ) {
@@ -241,14 +241,14 @@ switch ( $_GET['action'] ) {
 		}
 
 		// remove user
-		if ( isset($_POST[ 'blogusers' ]) && is_array( $_POST[ 'blogusers' ] ) ) {
+		if ( isset( $_POST[ 'blogusers' ] ) && is_array( $_POST[ 'blogusers' ] ) ) {
 			reset( $_POST[ 'blogusers' ] );
 			foreach ( (array) $_POST[ 'blogusers' ] as $key => $val )
 				remove_user_from_blog( $key, $id );
 		}
 
 		// change password
-		if ( is_array( $_POST[ 'user_password' ] ) ) {
+		if ( isset( $_POST[ 'user_password' ] ) && is_array( $_POST[ 'user_password' ] ) ) {
 			reset( $_POST[ 'user_password' ] );
 			$newroles = $_POST[ 'role' ];
 			foreach ( (array) $_POST[ 'user_password' ] as $userid => $pass ) {
@@ -270,7 +270,7 @@ switch ( $_GET['action'] ) {
 		}
 
 		// add user?
-		if ( $_POST[ 'newuser' ] != '' ) {
+		if ( isset( $_POST[ 'user_password' ] ) && !empty( $_POST[ 'newuser' ] ) ) {
 			$newuser = $_POST[ 'newuser' ];
 			$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
 			if ( $userid ) {
