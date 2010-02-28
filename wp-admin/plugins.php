@@ -232,12 +232,12 @@ if ( !empty($action) ) {
 								$plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
 							}
 						} else {
-							//Locate all the files in that folder:
+							// Locate all the files in that folder
 							$files = list_files( WP_PLUGIN_DIR . '/' . dirname($plugin) );
 							if ( $files ) {
 								$files_to_delete = array_merge($files_to_delete, $files);
 							}
-							//Get plugins list from that folder
+							// Get plugins list from that folder
 							if ( $folder_plugins = get_plugins( '/' . dirname($plugin)) ) {
 								foreach( $folder_plugins as $plugin_file => $data ) {
 									$plugin_info[ $plugin_file ] = $data;
@@ -250,7 +250,7 @@ if ( !empty($action) ) {
 					$plugins_to_delete = count( $plugin_info );
 					echo '<h2>' . _n( 'Delete Plugin', 'Delete Plugins', $plugins_to_delete ) . '</h2>';
 				?>
-				<p><?php echo _n( 'Deleting the selected plugin will remove the following plugin and its files:', 'Deleting the selected plugins will remove the following plugins and their files:', $plugins_to_delete ); ?></p>
+				<p><?php echo _n( 'You are about to remove the following plugin:', 'You are about to remove the following plugins:', $plugins_to_delete ); ?></p>
 					<ul class="ul-disc">
 						<?php
 						$data_to_delete = false;
