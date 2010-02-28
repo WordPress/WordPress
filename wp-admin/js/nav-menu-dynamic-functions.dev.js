@@ -24,43 +24,21 @@ function wp_update_links_list(e) {
 }
 
 /**
- * Removes a menu item from current menu
- *
- * @param int o - the id of the menu li to remove.
- */
-function wp_remove_menu_item( o ) {
-	var todelete = document.getElementById('menu-' + o);
-	
-	if ( todelete ) {
-		// Give some feedback to the user
-		jQuery( todelete ).find('dt').each(function(){
-			jQuery(this).animate( { backgroundColor: '#FF3333' }, { duration: 'normal', complete: function() { jQuery(this).parent().parent().remove() } } );
-		});
-		
-		wp_update_post_data();
-	}
-};
-
-/**
  * Populate the thickbox window with the selected menu items
  *
  * @param int o - the id of the menu li to edit.
  */
 function wp_edit_menu_item( id ) {
-	console.log('wp_edit_menu_item');
-	
+	var itemType = jQuery('#item-type' + id).val();
 	var itemTitle = jQuery('#item-title' + id).val();
 	var itemURL = jQuery('#item-url' + id).val();
 	var itemAttrTitle = jQuery('#item-attr-title' + id).val();
 	var itemTarget = jQuery('#item-target' + id).val();
 	var itemDesc = jQuery('#item-description' + id).val();
 	
-	console.log(id);
-	console.log(itemTitle);
-	console.log(itemURL);
-	console.log(itemAttrTitle);
-	console.log(itemTarget);
-	console.log(itemDesc);
+	// Disable the ability to edit the url for page and category items
+	if ( 'page' == itemType || 'category' == itemType )
+		jQuery( '#edit-item-url' ).attr('disabled', 'disabled' );
 	
 	// Populate the fields for thickbox
 	jQuery( '#edit-item-id' ).val(id);
@@ -83,13 +61,6 @@ function wp_update_menu_item() {
 	var itemTarget = jQuery('#edit-item-target').val();
 	var itemDesc = jQuery('#edit-item-description').val();
 	
-	console.log(id);
-	console.log(itemTitle);
-	console.log(itemURL);
-	console.log(itemAttrTitle);
-	console.log(itemTarget);
-	console.log(itemDesc);
-	
 	// update menu item settings	
 	jQuery('#menu-' + id).find('.item-title:first').html(itemTitle);
 	jQuery('#item-title' + id).val(itemTitle);
@@ -100,29 +71,47 @@ function wp_update_menu_item() {
 }
 
 /**
+ * Removes a menu item from current menu
+ *
+ * @param int o - the id of the menu li to remove.
+ */
+function wp_remove_menu_item( o ) {
+	var todelete = document.getElementById('menu-' + o);
+	
+	if ( todelete ) {
+		// Give some feedback to the user
+		jQuery( todelete ).find('dt').each(function(){
+			jQuery(this).animate( { backgroundColor: '#FF3333' }, { duration: 'normal', complete: function() { jQuery(this).parent().parent().remove() } } );
+		});
+		
+		wp_update_post_data();
+	}
+};
+
+/**
  * Prepares menu items for POST
  */
 function wp_update_post_data() {
 	var i = 0;
 	
-	 jQuery('#menu li').each(function(i) {
+	 jQuery('.menu li').each(function(i) {
 		i = i + 1;
      	var j = jQuery(this).attr('value');
 
-     	jQuery(this).find('#position' + j).attr('value', i);
+     	jQuery(this).find('#item-position' + j).attr('value', i);
      	jQuery(this).attr('id','menu-' + i);
      	jQuery(this).attr('value', i);
 
-     	jQuery(this).find('#dbid' + j).attr('name','dbid' + i);
-     	jQuery(this).find('#dbid' + j).attr('id','dbid' + i);
+     	jQuery(this).find('#item-dbid' + j).attr('name','item-dbid' + i);
+     	jQuery(this).find('#item-dbid' + j).attr('id','item-dbid' + i);
 
-		jQuery(this).find('#postmenu' + j).attr('name','postmenu' + i);
-     	jQuery(this).find('#postmenu' + j).attr('id','postmenu' + i);
+		jQuery(this).find('#item-postmenu' + j).attr('name','item-postmenu' + i);
+     	jQuery(this).find('#item-postmenu' + j).attr('id','item-postmenu' + i);
 
-     	var p = jQuery(this).find('#parent' + j).parent().parent().parent().attr('value');
+     	var p = jQuery(this).find('#item-parent' + j).parent().parent().parent().attr('value');
 
-		jQuery(this).find('#parent' + j).attr('name','parent' + i);
-		jQuery(this).find('#parent' + j).attr('id','parent' + i);
+		jQuery(this).find('#item-parent' + j).attr('name','item-parent' + i);
+		jQuery(this).find('#item-parent' + j).attr('id','item-parent' + i);
 		
 		if (p) {
 			// Do nothing
@@ -131,7 +120,7 @@ function wp_update_post_data() {
 			p = 0;
 		}
 
-		jQuery(this).find('#parent' + j).attr('value', p);
+		jQuery(this).find('#item-parent' + j).attr('value', p);
 
 		jQuery(this).find('#item-title' + j).attr('name','item-title' + i);
 		jQuery(this).find('#item-title' + j).attr('id','item-title' + i);
@@ -148,11 +137,11 @@ function wp_update_post_data() {
 		jQuery(this).find('#item-target' + j).attr('name','item-target' + i);
 		jQuery(this).find('#item-target' + j).attr('id','item-target' + i);
 
-		jQuery(this).find('#position' + j).attr('name', 'position' + i);
-		jQuery(this).find('#position' + j).attr('id', 'position' + i);
+		jQuery(this).find('#item-position' + j).attr('name', 'item-position' + i);
+		jQuery(this).find('#item-position' + j).attr('id', 'item-position' + i);
 
-		jQuery(this).find('#linktype' + j).attr('name', 'linktype' + i);
-		jQuery(this).find('#linktype' + j).attr('id', 'linktype' + i);
+		jQuery(this).find('#item-type' + j).attr('name', 'item-type' + i);
+		jQuery(this).find('#item-type' + j).attr('id', 'item-type' + i);
 
 		jQuery('#li-count').attr( 'value', i );
    });
@@ -169,29 +158,19 @@ function wp_update_post_data() {
  * @param int itemparentid - default 0.
  * @param string itemdescription - the description of the menu item.
  */
-function wp_add_item_to_menu( additemtype, itemtext, itemurl, itemid, itemparentid, itemdescription ) {
-	var inputvaluevarname = '';
-	var inputvaluevarurl = '';
-	var inputitemid = '';
-	var inputparentid= '';
-	var inputdescription = '';
+function wp_add_item_to_menu( item_type, item_title, item_url, item_id, item_parent_id, item_description ) {
 	var randomnumber = wp_get_unique_menu_id();
-
-	inputvaluevarname = htmlentities(itemtext.toString());
-	inputvaluevarurl = itemurl.toString();
-	inputitemid = itemid;
-	inputparentid = itemparentid;
-	inputlinktype = 'custom';
-	inputdescription = htmlentities(itemdescription.toString());
 	
 	// Adds the item in the queue
-	jQuery('#menu').append('<li id="menu-' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + inputvaluevarname + '</span><span class="item-controls"><span class="item-type">' + additemtype + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl><a class="hide" href="' + inputvaluevarurl + '">' + inputvaluevarname + '</a><input type="hidden" name="postmenu' + randomnumber + '" id="postmenu' + randomnumber + '" value="' + inputitemid + '" /><input type="hidden" name="parent' + randomnumber + '" id="parent' + randomnumber + '" value="' + inputparentid + '" /><input type="hidden" name="item-title' + randomnumber + '" id="item-title' + randomnumber + '" value="' + inputvaluevarname + '" /><input type="hidden" name="item-url' + randomnumber + '" id="item-url' + randomnumber + '" value="' + inputvaluevarurl + '" /><input type="hidden" name="item-description' + randomnumber + '" id="item-description' + randomnumber + '" value="' + inputdescription + '" /><input type="hidden" name="position' + randomnumber + '" id="position' + randomnumber + '" value="' + randomnumber + '" /><input type="hidden" name="linktype' + randomnumber + '" id="linktype' + randomnumber + '" value="' + inputlinktype + '" /><input type="hidden" name="item-attr-title' + randomnumber + '" id="item-attr-title' + randomnumber + '" value="' + inputvaluevarname + '" /><input type="hidden" name="item-target' + randomnumber + '" id="item-target' + randomnumber + '" value="0" /></li>');
+	jQuery('.menu').append('<li id="menu-' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + item_title + '</span><span class="item-controls"><span class="item-type">' + item_type + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl><input type="hidden" name="item-postmenu' + randomnumber + '" id="item-postmenu' + randomnumber + '" value="' + item_id + '" /><input type="hidden" name="item-parent' + randomnumber + '" id="item-parent' + randomnumber + '" value="' + item_parent_id + '" /><input type="hidden" name="item-title' + randomnumber + '" id="item-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-url' + randomnumber + '" id="item-url' + randomnumber + '" value="' + item_url + '" /><input type="hidden" name="item-description' + randomnumber + '" id="item-description' + randomnumber + '" value="' + item_description + '" /><input type="hidden" name="item-position' + randomnumber + '" id="item-position' + randomnumber + '" value="' + randomnumber + '" /><input type="hidden" name="item-type' + randomnumber + '" id="item-type' + randomnumber + '" value="' + item_type + '" /><input type="hidden" name="item-attr-title' + randomnumber + '" id="item-attr-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-target' + randomnumber + '" id="item-target' + randomnumber + '" value="0" /></li>');
 	
 	// Give some feedback to the user
-	jQuery( '#menu #menu-' + randomnumber + ' dt:first' ).animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
+	jQuery( '.menu #menu-' + randomnumber + ' dt:first' ).animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
 	
 	// Enable drag-n-drop
 	wp_drag_and_drop();
+	
+	wp_update_post_data();
 	
 	// Reload thickbox
 	tb_init('a.thickbox, area.thickbox, input.thickbox');
@@ -200,55 +179,26 @@ function wp_add_item_to_menu( additemtype, itemtext, itemurl, itemid, itemparent
 /*
  * Queues items in perperation for appendToList
  *
- * @param string id - The menu item's id
- * @param string additemtype - Page, Category, or Custom.
- * @param string itemtext - menu text.
- * @param string itemurl - url of the menu.
- * @param int itemid - menu id.
- * @param int itemparentid - default 0.
- * @param string itemdescription - the description of the menu item.
+ * @param string type - Page, Category, or Custom.
+ * @param string link - menu text.
+ * @param string url - url of the menu.
+ * @param int id - menu id.
+ * @param int parent_id - default 0.
+ * @param string description - the description of the menu item.
 */
-function wp_update_queue( additemtype, itemtext, itemurl, itemid, itemparentid, itemdescription ) {
-	var inputvaluevarname = '';
-	var inputvaluevarurl = '';
-	var inputitemid = '';
-	var inputparentid= '';
-	var inputdescription = '';
+function wp_update_queue( e, item_type, item_title, item_url, item_id, item_parent_id, item_description ) {
 	var randomnumber = wp_get_unique_menu_id();
-
-	if ( additemtype == navMenuL10n.page ) {
-		inputvaluevarname = htmlentities(itemtext.toString());
-		inputvaluevarurl = itemurl.toString();
-		inputitemid = itemid.toString();
-		inputparentid = '0';
-		inputlinktype = 'page';
-		inputdescription = htmlentities(itemdescription.toString());
-
-	} else if ( additemtype == navMenuL10n.category ) {
-		inputvaluevarname = htmlentities(itemtext.toString());
-		inputvaluevarurl = itemurl.toString();
-		inputitemid = itemid.toString();
-		inputparentid = '0';
-		inputlinktype = 'category';
-		inputdescription = htmlentities(itemdescription.toString());
-	}
-			
-	// Adds or removes the item from the queue
-	if ( jQuery(menu_item_id = '#menu-item-' + inputitemid).attr('checked') ) {
-		
+	var menu_item_id = jQuery(e).attr('id');
+	
+	if ( jQuery(e).attr('checked') ) {
 		// Add menu item to the queue
-		jQuery('#queue').append('<li id="menu-' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + inputvaluevarname + '</span><span class="item-controls"><span class="item-type">' + additemtype + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl><a class="hide" href="' + inputvaluevarurl + '">' + inputvaluevarname + '</a><input type="hidden" name="postmenu' + randomnumber + '" id="postmenu' + randomnumber + '" value="' + inputitemid + '" /><input type="hidden" name="parent' + randomnumber + '" id="parent' + randomnumber + '" value="' + inputparentid + '" /><input type="hidden" name="item-title' + randomnumber + '" id="item-title' + randomnumber + '" value="' + inputvaluevarname + '" /><input type="hidden" name="item-url' + randomnumber + '" id="item-url' + randomnumber + '" value="' + inputvaluevarurl + '" /><input type="hidden" name="item-description' + randomnumber + '" id="item-description' + randomnumber + '" value="' + inputdescription + '" /><input type="hidden" name="position' + randomnumber + '" id="position' + randomnumber + '" value="' + randomnumber + '" /><input type="hidden" name="linktype' + randomnumber + '" id="linktype' + randomnumber + '" value="' + inputlinktype + '" /><input type="hidden" name="item-attr-title' + randomnumber + '" id="item-attr-title' + randomnumber + '" value="' + inputvaluevarname + '" /><input type="hidden" name="item-target' + randomnumber + '" id="item-target' + randomnumber + '" value="0" /></li>');
+		jQuery('#queue').append('<li id="menu-' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + item_title + '</span><span class="item-controls"><span class="item-type">' + item_type + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl><input type="hidden" name="item-postmenu' + randomnumber + '" id="item-postmenu' + randomnumber + '" value="' + item_id + '" /><input type="hidden" name="item-parent' + randomnumber + '" id="item-parent' + randomnumber + '" value="' + item_parent_id + '" /><input type="hidden" name="item-title' + randomnumber + '" id="item-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-url' + randomnumber + '" id="item-url' + randomnumber + '" value="' + item_url + '" /><input type="hidden" name="item-description' + randomnumber + '" id="item-description' + randomnumber + '" value="' + item_description + '" /><input type="hidden" name="item-position' + randomnumber + '" id="item-position' + randomnumber + '" value="' + randomnumber + '" /><input type="hidden" name="item-type' + randomnumber + '" id="item-type' + randomnumber + '" value="' + item_type + '" /><input type="hidden" name="item-attr-title' + randomnumber + '" id="item-attr-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-target' + randomnumber + '" id="item-target' + randomnumber + '" value="0" /><input type="hidden" name="item-id' + randomnumber + '" id="item-id' + randomnumber + '" value="'+ menu_item_id +'" /></li>');
+		
 	} else {
-		
-		// Get the item in the queue
-		for ( var i = 0; i < jQuery('#queue li input[name^="postmenu"]').length; i++ ) {
-			if ( itemid == jQuery('#queue li input[name^="postmenu"]')[i].value ) {
-				var menu_queue_id = jQuery('#queue li input[name^="postmenu"]')[i].name.substring( 8, jQuery('#queue li input[name^="postmenu"]')[i].name.length );
-			};
+		// Remove the item from the queue
+		if ( menu_item_id == jQuery('#queue li input[name^="item-id"]' ).val() ) {
+			jQuery('#queue li input[name^="item-id"]' ).parent().remove()
 		};
-		
-		// Removes the item from the queue
-		jQuery('#queue li#menu-' + menu_queue_id).remove();
 	};
 };
 
@@ -265,7 +215,7 @@ function wp_add_queued_items_to_menu( button ) {
 	jQuery('#queue').empty();
 		
 	// Appends HTML to the menu
-	jQuery('#menu').append( items );
+	jQuery('.menu').append( items );
 
 	// Give some feedback to the user
 	jQuery(items).each(function(){
@@ -288,18 +238,25 @@ function wp_add_queued_items_to_menu( button ) {
  * Allow the items in the Menu to be dragged and dropped.
  */
 function wp_drag_and_drop() {
+	// Make sure all li's have dropzones
+	jQuery('.menu li').each(function(){
+		if ( !jQuery(this).children('.dropzone').attr('class') ) {
+			jQuery(this).prepend('<div class="dropzone"></div>');
+		};
+	});
+
 	// make menu item draggable
-	jQuery('#menu li').draggable({
+	jQuery('.menu li').draggable({
 		handle: ' > dl',
 		opacity: .8,
 		addClasses: false,
 		helper: 'clone',
-		zIndex: 100
+		zIndex: 100,
 	});
 
 	// make menu item droppable
-	jQuery('#menu li dl, #menu li .dropzone').droppable({
-		accept: '#menu li',
+	jQuery('.menu li dl, .menu li .dropzone').droppable({
+		accept: '.menu li',
 		tolerance: 'pointer',
 		drop: function(e, ui) {
 			var li = jQuery(this).parent();
@@ -307,7 +264,7 @@ function wp_drag_and_drop() {
 			
 			// Append UL to first child
 			if ( child && li.children('ul').length == 0 ) {
-				li.append( '<ul/>' );
+				li.append( '<ul class="sub-menu" />' );
 			}
 			// Make it draggable
 			if ( child ) {
@@ -322,18 +279,18 @@ function wp_drag_and_drop() {
 			var droppablevalue = li.attr('value');
 			
 			li.find('#menu-' + draggablevalue).find('#parent' + draggablevalue).val(droppablevalue);
-			jQuery(this).parent().find("dt").removeAttr('style');
-			jQuery(this).parent().find("div:first").removeAttr('style');
+			jQuery(this).parent().find('dt').removeAttr('style');
+			jQuery(this).parent().find('div:first').removeAttr('style');
 
 		},
 		over: function() {
 	    		// Add child
 	    		if ( jQuery(this).attr('class') == 'dropzone ui-droppable' ) {
-	    			jQuery(this).parent().find("div:first").css('background', 'none').css('height', '50px');
+	    			jQuery(this).parent().find('div:first').css('background', 'none').css('height', '50px');
 	    		}
 	    		// Add above
 	    		else if ( jQuery(this).attr('class') == 'ui-droppable' ) {
-	    			jQuery(this).parent().find("dt:first").css('background', '#d8d8d8');
+	    			jQuery(this).parent().find('dt:first').css('background', '#d8d8d8');
 	    		} else {
 					// do nothing
 	    		}
@@ -341,8 +298,8 @@ function wp_drag_and_drop() {
 
 	       	},
 	    	out: function() {
-	        	jQuery(this).parent().find("dt").removeAttr('style');
-	        	jQuery(this).parent().find("div:first").removeAttr('style');
+	        	jQuery(this).parent().find('dt').removeAttr('style');
+	        	jQuery(this).parent().find('div:first').removeAttr('style');
 	        	jQuery(this).filter('.dropzone').css({ borderColor: '' });
 	    	}
 		}
@@ -353,7 +310,7 @@ function wp_drag_and_drop() {
  * Gets a unique number based on how many items are in the menu
  */
 function wp_get_unique_menu_id() {
-	var count = document.getElementById('menu').getElementsByTagName('li').length + 1;
+	var count = jQuery('.menu li').length + 1;
 	var randomnumber = count;
 	var validatetest = 0;
 

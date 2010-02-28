@@ -22,7 +22,7 @@
 .button-controls { float: left; }
 .add-to-menu { float: right; }
 
-/* CSS for switching the columns *//*
+/* CSS for switching the main columns *//*
 #menu-settings-column { clear: none; float: left; }
 #menu-management #post-body { float: right; margin-left: -340px; margin-right: 0px; }
 #menu-management #post-body-content { margin-left: 300px; margin-right: 0px; }
@@ -48,8 +48,7 @@
 .postbox p.submit { margin-bottom: 0; }
 
 /* Listings */
-.list li { margin: 0; }
-.list dt { display: none; margin: 0; overflow: hidden; margin-bottom: 5px; }
+.list li { display: none; margin: 0; margin-bottom: 5px; }
 
 .list li .item-title { cursor: pointer; display: block; }
 .list li .item-title input { margin-right: 3px; margin-top: -3px; }
@@ -66,16 +65,16 @@
 /* Menu */
 #menu-container .inside { padding-bottom: 10px; }
 
-#menu ul { width: 100%; }
-#menu li { margin: 0; }
-#menu li dl dt { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border-top-left-radius: 6px; border-top-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; border: 1px solid #E6E6E6;position: relative; padding-left:10px; background-color: #f1f1f1; height: 35px; line-height: 35px; }
-#menu li dl dt:hover { cursor: move; }
+.menu ul { width: 100%; }
+.menu li { margin: 0; }
+.menu li dl dt { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border-top-left-radius: 6px; border-top-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; border: 1px solid #E6E6E6;position: relative; padding-left:10px; background-color: #f1f1f1; height: 35px; line-height: 35px; }
+.menu li dl dt:hover { cursor: move; }
 
-#menu li .item-title { background: url(../images/ico-arrow.png) no-repeat 4px 5px; background-position: center left; padding-left: 15px; }
-#menu li ul li { margin-left: 20px; opacity: .7;}
-#menu li ul li ul li { opacity: .9;}
-#menu li ul li ul li ul li { opacity: .9;}
-#menu li ul li ul li ul li ul li { opacity: .95; }
+.menu li .item-title { background: url(../images/ico-arrow.png) no-repeat 4px 5px; background-position: center left; padding-left: 15px; }
+.menu li ul li { margin-left: 20px; opacity: .7;}
+.menu li ul li ul li { opacity: .9;}
+.menu li ul li ul li ul li { opacity: .9;}
+.menu li ul li ul li ul li ul li { opacity: .95; }
 
 /* Drag and Drop */
 .dropzone { height: 7px; margin: 3px 0 3px 0; }

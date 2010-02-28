@@ -1,16 +1,72 @@
 <?php
 
-/*-----------------------------------------------------------------------------------*/
-/* Custom Navigation Functions */
-/* wp_custom_navigation_output() displays the menu in the back/frontend
-/* wp_custom_nav_get_pages()
-/* wp_custom_nav_get_categories()
-/* wp_custom_navigation_default_sub_items() is a recursive sub menu item function
-/*-----------------------------------------------------------------------------------*/
+/**
+ * Displays a list of links and thier sub items.
+ *
+ * @since 3.0.0
+ *
+ * @param string $counter 
+ * @param string $context 
+ */
+function wp_nav_menu_get_custom_links( $counter, $context ) {
+	$available_links = new WP_Query(  );
+	
+	$args = array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_value' => 'custom' );
+	$link_objects = new WP_Query( $args );
+	
+	$items_counter = $counter;
 
-// Outputs All Pages and Sub Items
-function wp_nav_menu_get_pages($counter, $type) {
+	if ( !$link_objects->posts ) {
+		_e('Not Found');
+		return $items_counter;
+	}
+	
+	// Display Loop
+	foreach ( $link_objects->posts as $item ) {
+		if ( 0 == $item->parent ) {
+			$item = wp_setup_nav_menu_item( $item, 'item', $items_counter );
+			
+			switch ( $context ) {
+				case 'menu':
+					?>
+					<li id="menu-<?php echo $items_counter; ?>" value="<?php echo $items_counter; ?>">
+						<?php
+							echo wp_get_nav_menu_item( $item, 'menu' );
+							$parentli = $item->ID;
+							$items_counter++;
+							$items_counter = wp_nav_menu_sub_items( $item->ID, $items_counter, $parentli, 'categories', 'menu' );
+						?>
+					</li>
+					<?php
+					break;
+				
+				case 'default':
+					?>
+					<li>
+						<?php
+							echo wp_get_nav_menu_item( $item, 'default' );
+							$parentli = $item->ID;
+							$items_counter++;
+							$items_counter = wp_nav_menu_sub_items( $item->ID, $items_counter, $parentli, 'categories', 'default' );
+						?>
+					</li>
+					<?php
+					break;
+			}
+		}
+	}
+	return $items_counter;
+}
 
+/**
+ * Displays a list of pages and thier sub items.
+ *
+ * @since 3.0.0
+ *
+ * @param string $counter 
+ * @param string $context 
+ */
+function wp_nav_menu_get_pages( $counter, $context ) {
 	$pages_args = array(
 		    'child_of' => 0,
 			'sort_order' => 'ASC',
@@ -26,8 +82,8 @@ function wp_nav_menu_get_pages($counter, $type) {
 			'number' => '',
 			'offset' => 0 );
 
-	//GET all pages
-	$pages_array = get_pages($pages_args);
+	// Get all pages
+	$pages_array = get_pages( $pages_args );
 
 	$items_counter = $counter;
 	$parentli = $items_counter;
@@ -40,43 +96,45 @@ function wp_nav_menu_get_pages($counter, $type) {
 	// Display Loop
 	foreach ( $pages_array as $post ) {
 		if ( $post->post_parent == 0 ) {
-			$post = wp_setup_nav_menu_item($post, 'page', $items_counter);
-			if ( $type == 'menu' ) {
+			$post = wp_setup_nav_menu_item( $post, 'page', $items_counter );
+			if ( $context == 'menu' ) {
 				?>
-
 				<li id="menu-<?php echo $items_counter; ?>" value="<?php echo $items_counter; ?>">
 					<?php
-						wp_print_nav_menu_item($post, 'menu', $items_counter);
+						echo wp_get_nav_menu_item( $post, 'menu', $items_counter );
 						$parentli = $post->ID;
 						$items_counter++;
-						$items_counter = wp_custom_navigation_default_sub_items($post->ID, $items_counter, $parentli, 'pages', 'menu');
+						$items_counter = wp_nav_menu_sub_items( $post->ID, $items_counter, $parentli, 'pages', 'menu' );
 					?>
 				</li>
-
 				<?php
-			} elseif ( $type == 'default' ) {
+			} elseif ( $context == 'default' ) {
 				// Sidebar Menu
 				?>
 				 <li>
 					<?php
-						wp_print_nav_menu_item($post, 'default');
+						echo wp_get_nav_menu_item( $post, 'default' );
 						$parentli = $post->ID;
 						$items_counter++;
-						$items_counter = wp_nav_menu_sub_items($post->ID, $items_counter, $parentli, 'pages', 'default');
+						$items_counter = wp_nav_menu_sub_items( $post->ID, $items_counter, $parentli, 'pages', 'default' );
 					 ?>
 				</li>
-
 				<?php
 			}
 		}
 	}
-
 	return $items_counter;
 }
 
-// Outputs All Categories and Sub Items
-function wp_nav_menu_get_categories($counter, $type) {
-
+/**
+ * Displays a list of categories and thier sub items.
+ *
+ * @since 3.0.0
+ *
+ * @param string $counter 
+ * @param string $context 
+ */
+function wp_nav_menu_get_categories( $counter, $context ) {
 	$category_args = array(
 			'type'                     => 'post',
 			'child_of'                 => 0,
@@ -93,7 +151,7 @@ function wp_nav_menu_get_categories($counter, $type) {
 	$items_counter = $counter;
 
 	// Get all categories
-	$categories_array = get_categories($category_args);
+	$categories_array = get_categories( $category_args );
 
 	if ( !$categories_array ) {
 		_e('Not Found');
@@ -103,46 +161,49 @@ function wp_nav_menu_get_categories($counter, $type) {
 	// Display Loop
 	foreach ( $categories_array as $cat_item ) {
 		if ( $cat_item->parent == 0 ) {
-			$cat_item = wp_setup_nav_menu_item($cat_item, 'category', $items_counter);
+			$cat_item = wp_setup_nav_menu_item( $cat_item, 'category', $items_counter );
 			// Custom Menu
-			if ( $type == 'menu' ) {
+			if ( $context == 'menu' ) {
 				?>
-
 				<li id="menu-<?php echo $items_counter; ?>" value="<?php echo $items_counter; ?>">
 					<?php
-						wp_print_nav_menu_item($cat_item, 'menu');
+						echo wp_get_nav_menu_item($cat_item, 'menu');
 						$parentli = $cat_item->cat_ID;
 						$items_counter++;
-						$items_counter = wp_nav_menu_sub_items($cat_item->cat_ID, $items_counter, $parentli, 'categories', 'menu');
+						$items_counter = wp_nav_menu_sub_items( $cat_item->cat_ID, $items_counter, $parentli, 'categories', 'menu' );
 					?>
-
 				</li>
-
 				<?php
-			} elseif ( $type == 'default' ) {
+			} elseif ( $context == 'default' ) {
 				// Sidebar Menu
 				?>
 				<li>
 					<?php
-						wp_print_nav_menu_item($cat_item, 'default');
+						echo wp_get_nav_menu_item( $cat_item, 'default' );
 						$parentli = $cat_item->cat_ID;
 						$items_counter++;
-						$items_counter = wp_nav_menu_sub_items($cat_item->cat_ID, $items_counter, $parentli, 'categories', 'default');
+						$items_counter = wp_nav_menu_sub_items( $cat_item->cat_ID, $items_counter, $parentli, 'categories', 'default' );
 					?>
-
 				</li>
-
 				<?php
 			}
 		}
 	}
-
 	return $items_counter;
 }
 
-//RECURSIVE Sub Menu Items of default categories and pages
-function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $output_type) {
-
+/**
+ * Recursive function that gets sub menu items.
+ *
+ * @since 3.0.0
+ *
+ * @param string $childof 
+ * @param string $items_counter 
+ * @param string $parentli 
+ * @param string $context 
+ * @param string $output_type 
+ */
+function wp_nav_menu_sub_items( $childof, $items_counter, $parentli, $context, $output_type ) {
 	$counter = $items_counter;
 
 	// Custom Menu
@@ -159,11 +220,11 @@ function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $outp
 		'parent' => $childof);
 	}
 
-	if ( $type == 'categories' ) {
+	if ( $context == 'categories' ) {
 		// Get Sub Category Items
 		$item_type = 'category';
 		$sub_array = get_categories($sub_args);
-	} elseif ($type == 'pages') {
+	} elseif ($context == 'pages') {
 		// Get Sub Page Items
 		$item_type = 'page';
 		$sub_array = get_pages($sub_args);
@@ -172,25 +233,21 @@ function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $outp
 		$sub_array = array();
 	}
 
-
 	if ( $sub_array ) {
 		?>
-		<ul id="sub-menu-<?php echo $type ?>">
-
+		<ul id="sub-menu-<?php echo $context ?>">
 		<?php
 		// Display Loop
 		foreach ( $sub_array as $sub_item ) {
-			$sub_item = wp_setup_nav_menu_item($sub_item, $item_type, $counter);
-
+			$sub_item = wp_setup_nav_menu_item( $sub_item, $item_type, $counter );
 			if ( $output_type == 'menu' ) {
 				?>
 				<li id="menu-<?php echo $counter; ?>" value="<?php echo $counter; ?>">
 					<?php
-						wp_print_nav_menu_item($sub_item, 'menu');
+						echo wp_get_nav_menu_item( $sub_item, 'menu' );
 						$counter++;
-						$counter = wp_nav_menu_sub_items($sub_item->ID, $counter, $sub_item->ID, $type, 'menu');
+						$counter = wp_nav_menu_sub_items( $sub_item->ID, $counter, $sub_item->ID, $context, 'menu' );
 					?>
-
 				</li>
 				<?php
 			} elseif ( $output_type == 'default' ) {
@@ -198,9 +255,9 @@ function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $outp
 				?>
 				<li>
 					<?php
-						wp_print_nav_menu_item($sub_item, 'default');
+						echo wp_get_nav_menu_item( $sub_item, 'default' );
 						//$counter++;
-						$counter = wp_nav_menu_sub_items($sub_item->ID, $counter, $sub_item->ID, $type, 'default');
+						$counter = wp_nav_menu_sub_items( $sub_item->ID, $counter, $sub_item->ID, $context, 'default' );
 					?>
 				</li>
 
@@ -208,29 +265,9 @@ function wp_nav_menu_sub_items($childof, $items_counter, $parentli, $type, $outp
 			}
 		}
 		?>
-
 		</ul>
-
 	<?php
 	}
-
 	return $counter;
 }
-/*
-function wp_nav_menu_setup($override = false) {
-	// Custom Navigation Menu Setup
-
-	// Override for menu descriptions
-	update_option('wp_settings_nav_menu_advanced_options', 'yes');
-
-	$menus = wp_get_nav_menus();
- 	if ( !empty( $menus ) ) {
-		foreach ( $menus as $menu ) {
-			wp_delete_nav_menu( $menu->term_id );
-		}
-	}
-
-	wp_create_nav_menu( __('Main') );
-}
-/**/
 ?>

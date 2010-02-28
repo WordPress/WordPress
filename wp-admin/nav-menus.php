@@ -43,9 +43,6 @@ $menu_id_in_edit = 0;
 $updated = false;
 $advanced_option_descriptions = 'no';
 
-// Get all menu link items
-$available_links = new WP_Query( array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_key' => 'menu_type', 'meta_value' => 'custom' ) );
-
 // Check which menu is selected and if menu is in edit already
 if ( isset( $_GET['edit-menu'] ) ) {
 	$menu_selected_id = (int) $_GET['edit-menu'];
@@ -127,16 +124,16 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 	
 	// Loop through all POST variables
 	for ( $k = 1; $k <= $post_counter; $k++ ) {
-		$db_id = isset( $_POST['dbid'.$k] )? $_POST['dbid'.$k] : 0;
-		$object_id = isset( $_POST['postmenu'.$k] )? $_POST['postmenu'.$k] : 0;
-		$parent_id = isset( $_POST['parent'.$k] )? $_POST['parent'.$k] : 0;
+		$db_id = isset( $_POST['item-dbid'.$k] )? $_POST['item-dbid'.$k] : 0;
+		$object_id = isset( $_POST['item-postmenu'.$k] )? $_POST['item-postmenu'.$k] : 0;
+		$parent_id = isset( $_POST['item-parent'.$k] )? $_POST['item-parent'.$k] : 0;
 		$custom_title = isset( $_POST['item-title'.$k] )?  $_POST['item-title'.$k] : '';
 		$custom_linkurl = ( isset( $_POST['item-url'.$k] ) && 'custom' == $_POST['linktype'.$k] ) ? $_POST['item-url'.$k] : '';
 		$custom_description = isset( $_POST['item-description'.$k] )? $_POST['item-description'.$k] : '';
+		
 		// doesn't seem to be used by UI
-		$icon = isset( $_POST['icon'.$k] )? $_POST['icon'.$k] : 0;
-		$position = isset( $_POST['position'.$k] )? $_POST['position'.$k] : 0;
-		$linktype = isset( $_POST['linktype'.$k] )? $_POST['linktype'.$k] : 'custom';
+		$position = isset( $_POST['item-position'.$k] )? $_POST['item-position'.$k] : 0;
+		$linktype = isset( $_POST['item-type'.$k] )? $_POST['item-type'.$k] : 'custom';
 		$custom_anchor_title  = isset( $_POST['item-attr-title'.$k] )? $_POST['item-attr-title'.$k] : $custom_title;
 		$new_window = isset( $_POST['item-target'.$k] )? $_POST['item-target'.$k] : 0;
 
@@ -209,14 +206,10 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							<div class="inside">
 								<input type="hidden" name="li-count" id="li-count" value="0" />
 								<input type="hidden" name="menu-id-in-edit" id="menu-id-in-edit" value="<?php echo esc_attr( $menu_selected_id ); ?>" />
-
-								<ul id="menu">
 								<?php
-								if ( $menu_selected_id > 0 ) {
-									wp_print_nav_menu( array( 'type' => 'backend', 'name' => $menu_title, 'id' => $menu_selected_id ) );
-								}
+								if ( $menu_selected_id > 0 )
+									echo wp_get_nav_menu( array( 'type' => 'backend', 'menu' => $menu_selected_id, 'ul_class' => 'menu' ) );
 								?>
-								</ul><!-- /#menu-->
 								
 								<div id="queue" class="hide">
 								</div><!--/#queue-->
@@ -265,7 +258,6 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								</label>
 							</p>
 							
-					<?php if ( $available_links->posts ) : ?>
 							<p class="button-controls">
 								<a class="show-all button"><?php _e('View All'); ?></a>
 								<a class="hide-all button"><?php _e('Hide All'); ?></a>
@@ -273,24 +265,10 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							<div id="available-links" class="list-wrap">
 								<div class="list-container">
 									<ul class="list">
-									<?php
-									foreach ( $available_links->posts as $link ) :
-									$url = get_post_meta( $link->ID, 'menu_link' );
-									?>
-										<li>
-											<dl>
-												<dt>
-													<label class="item-title"><input type="checkbox" id="link-<?php echo esc_attr($link->ID); ?>" name="<?php echo esc_attr($link->post_title); ?>" value="<?php echo esc_attr($url[0]); ?>" /><?php echo esc_html($link->post_title); ?></label>
-												</dt>
-											</dl>
-										</li>
-									<?php
-									endforeach;
-									?>
+									<?php $items_counter = wp_nav_menu_get_custom_links( 0, 'default' ); ?>
 									</ul>
 								</div><!-- /.list-container-->
 							</div><!-- /#available-links-->
-					<?php endif; ?>
 							<p class="add-to-menu">
 								<a class="button"><?php _e('Add to Menu'); ?></a>
 							</p>
@@ -325,7 +303,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 									
 									jQuery('#add-pages .quick-search').result(function(event, data, formatted) {
 										jQuery('#add-pages .list-wrap').css('display','block');
-										jQuery("#add-pages .list-wrap dt:contains('" + data + "')").css('display','block');
+										jQuery("#add-pages .list-wrap li:contains('" + data + "')").css('display','block');
 										jQuery('#add-pages .show-all').hide();
 										jQuery('#add-pages .hide-all').show();
 									});
@@ -344,7 +322,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							<div id="existing-pages" class="list-wrap">
 								<div class="list-container">
 									<ul class="list">
-									<?php $items_counter = wp_nav_menu_get_pages( 0, 'default' ); ?>
+									<?php $items_counter = wp_nav_menu_get_pages( $items_counter, 'default' ); ?>
 									</ul>
 								</div><!-- /.list-container-->
 							</div><!-- /#existing-pages-->
@@ -387,7 +365,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 									jQuery('#add-categories .quick-search').autocomplete(categories);
 									jQuery('#add-categories .quick-search').result(function(event, data, formatted) {
 										jQuery('#add-categories .list-wrap').css('display','block');
-										jQuery("#add-categories .list-wrap dt:contains('" + data + "')").css('display','block');
+										jQuery("#add-categories .list-wrap li:contains('" + data + "')").css('display','block');
 										jQuery('#add-categories .show-all').hide();
 										jQuery('#add-categories .hide-all').show();
 									});

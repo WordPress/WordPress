@@ -1044,231 +1044,62 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
  class WP_Nav_Menu_Widget extends WP_Widget {
 
 	function WP_Nav_Menu_Widget() {
-		$widget_ops = array('description' => __('Use this widget to add one of your navigation menus as a widget.') );
-		parent::WP_Widget( false, __('Navigation Menu'), $widget_ops );
+		$widget_ops = array( 'description' => __('Use this widget to add one of your navigation menus as a widget.') );
+		parent::WP_Widget( 'nav_menu', __('Navigation Menu'), $widget_ops );
 	}
-
+	
 	function widget($args, $instance) {
-		$navmenu = $instance['navmenu'];
-		$navtitle = $instance['navtitle'];
-		$navdeveloper = strtolower($instance['navdeveloper']);
-		$navdiv = strtolower($instance['navdiv']);
-		$navul = strtolower($instance['navul']);
-		$navdivid = $instance['navdivid'];
-		$navdivclass = $instance['navdivclass'];
-		$navulid = $instance['navulid'];
-		$navulclass = $instance['navulclass'];
-
-		// Override for menu descriptions
-		$advanced_option_descriptions = get_option('wp_settings_nav_menu_advanced_options');
-		if ( $advanced_option_descriptions == 'no' ) {
-			$navwidgetdescription = 2;
-		} else {
-			$navwidgetdescription = $instance['navwidgetdescription'];
-		}
-
 		// Get menu
-		if ( $navmenu > 0 ) {
-			$custom_menu = get_term( (int) $nav_menu, 'nav_menu' );
-			$wp_custom_nav_menu_name = $custom_menu->name;
-			$menuexists = true;
-		} else {
-			$menuexists = false;
-		}
-
-		if ( $navdeveloper == 'yes' ) {
-			// DISPLAY Custom DIV
-			if ( $navdiv == 'yes' ) {
-			?>
-				<div id="<?php echo $navdivid;  ?>" class="<?php echo $navdivclass; ?>">
-			<?php
-				}
-			} else {
-				//DISPLAY default DIV
-				?>
-				<div class="widget">
-				<?php
-			}
-		?>
-
-		<h3><?php echo $navtitle; ?></h3>
-		<?php
-		if ( $menuexists ) {
-			if ( $navdeveloper == 'yes' ) {
-				//DISPLAY Custom UL
-				if ( $navul == 'yes' ) {
-					?>
-					<ul id="<?php echo $navulid;  ?>" class="<?php echo $navulclass; ?>">
-					<?php
-				}
-			} else {
-				// DISPLAY default UL
-				?>
-				<ul class="menu">
-				<?php
-			}
-			wp_nav_menu( array('id' => $navmenu, 'name' => $wp_custom_nav_menu_name, 'desc' => $navwidgetdescription, 'format' => 'widget') );
-			if ( $navdeveloper == 'yes' ) {
-				// DISPLAY Custom UL
-				if ( $navul == 'yes' ) {
-					?>
-					</ul>
-					<?php
-				}
-			} else {
-				// DISPLAY default UL
-				?>
-				</ul>
-				<?php
-			}
-		} else {
-			_e('You have not setup the custom navigation widget correctly, please check your settings in the backend.');
-		}
-
-		//DEVELOPER settings enabled
-		if ($navdeveloper == 'yes') {
-			// DISPLAY Custom DIV
-			if ( $navdiv == 'yes' ) {
-				?>
-				</div>
-				<?php
-			}
-		} else {
-			// DISPLAY default DIV
-			?>
-			</div>
-			<?php
-		}
-		?><!-- /#nav-container -->
-		<?php
+		$nav_menu = wp_get_nav_menu_object( $instance['nav_menu'] );
+		
+		if ( !$nav_menu )
+			return;		
+		
+		echo $args['before_widget'];
+		
+		if ( isset($instance['title']) )
+			echo $args['before_title'] . $instance['title'] . $args['after_title'];
+		
+		wp_nav_menu( array( 'menu' => $nav_menu ) );
+		
+		echo $args['after_widget'];
 	}
 
-	function update($new_instance, $old_instance) {
-		return $new_instance;
+	function update( $new_instance, $old_instance ) {
+		$instance['title'] = strip_tags( stripslashes($new_instance['title']) );
+		$instance['nav_menu'] = (int) $new_instance['nav_menu'];
+		return $instance;
 	}
 
-	function form($instance) {
-		$navmenu = esc_attr($instance['navmenu']);
-		$navtitle = esc_attr($instance['navtitle']);
-		$navdeveloper = esc_attr($instance['navdeveloper']);
-		$navdiv = esc_attr($instance['navdiv']);
-		$navul = esc_attr($instance['navul']);
-		$navdivid = esc_attr($instance['navdivid']);
-		$navdivclass = esc_attr($instance['navdivclass']);
-		$navulid = esc_attr($instance['navulid']);
-		$navulclass = esc_attr($instance['navulclass']);
-		$navwidgetdescription = esc_attr($instance['navwidgetdescription']);
-
-		global $wpdb;
-
+	function form( $instance ) {
+		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
+		
 		// Get menus
-		$custom_menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
-
-		if ( !$custom_menus) {
-		?>
-			<p>
-		    	<label><?php printf(__('No menus have been created yet.  <a href="%s">Creat some</a>.'), admin_url('nav-menus.php')); ?></label>
-			</p>
-		<?php
+		$menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
+		
+		// If no menus exists, direct the user to go and create some.
+		if ( !$menus ) {
+			echo '<p>'. sprintf( __('No menus have been created yet. <a href="%s">Creat some</a>.'), admin_url('nav-menus.php') ) .'</p>';
 			return;
 		}
 		?>
-
 		<p>
-			<label for="<?php echo $this->get_field_id('navmenu'); ?>"><?php _e('Select Menu:'); ?></label>
-
-			<select id="<?php echo $this->get_field_id('navmenu'); ?>" name="<?php echo $this->get_field_name('navmenu'); ?>">
-				<?php
-				foreach ( $custom_menus as $menu ) {
-					if ( $navmenu == $menu->term_id )
-						$selected_option = 'selected="selected"';
-					else
-						$selected_option = '';
-					?>
-					<option value="<?php echo $menu->term_id; ?>" <?php echo $selected_option; ?>><?php echo $menu->name; ?></option>
-					<?php
-				}
-				?>
+			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:') ?></label>
+			<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title; ?>" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('nav_menu'); ?>"><?php _e('Select Menu:'); ?></label>
+			<select id="<?php echo $this->get_field_id('nav_menu'); ?>" name="<?php echo $this->get_field_name('nav_menu'); ?>">
+		<?php
+			foreach ( $menus as $menu ) {
+				$selected = $nav_menu == $menu->term_id ? ' selected="selected"' : '';
+				echo '<option'. $selected .' value="'. $menu->term_id .'">'. $menu->name .'</option>';
+			}
+		?>
 			</select>
 		</p>
-
-		<p>
-			<label for="<?php echo $this->get_field_id('navtitle'); ?>"><?php _e('Title:'); ?></label>
-			<input type="text" name="<?php echo $this->get_field_name('navtitle'); ?>" value="<?php echo $navtitle; ?>" class="widefat" id="<?php echo $this->get_field_id('navtitle'); ?>" />
-		</p>
-
-		<?php $checked = strtolower($navdeveloper); ?>
-		<p>
-			<label for="<?php echo $this->get_field_id('navdeveloper'); ?>"><?php _e('Advanced Options:'); ?></label><br />
-			<span class="checkboxes">
-				<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navdeveloper'); ?>" name="<?php echo $this->get_field_name('navdeveloper'); ?>" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
-				<label>No</label><input type="radio" id="<?php echo $this->get_field_name('navdeveloper'); ?>" name="<?php echo $this->get_field_name('navdeveloper'); ?>" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
-			</span><!-- /.checkboxes -->
-		</p>
-
 		<?php
-		// Advanced settings
-		if ( $checked == 'yes' ) :
-		?>
-		<p>
-		<?php $checked = strtolower($navdiv); ?>
-			<label for="<?php echo $this->get_field_id('navdiv'); ?>"><?php _e('Wrap in container DIV:'); ?></label><br />
-			<span class="checkboxes">
-				<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navdiv'); ?>" name="<?php echo $this->get_field_name('navdiv'); ?>" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
-				<label>No</label><input type="radio" id="<?php echo $this->get_field_name('navdiv'); ?>" name="<?php echo $this->get_field_name('navdiv'); ?>" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
-			</span><!-- /.checkboxes -->
-		</p>
-		<?php
-		if ( $checked == 'yes' ) {
-		?>
-
-			<p>
-				<label for="<?php echo $this->get_field_id('navdivid'); ?>"><?php _e('DIV id:'); ?></label>
-				<input type="text" name="<?php echo $this->get_field_name('navdivid'); ?>" value="<?php echo $navdivid; ?>" class="widefat" id="<?php echo $this->get_field_id('navdivid'); ?>" />
-			</p>
-			<p>
-				<label for="<?php echo $this->get_field_id('navdivclass'); ?>"><?php _e('DIV class:'); ?></label>
-				<input type="text" name="<?php echo $this->get_field_name('navdivclass'); ?>" value="<?php echo $navdivclass; ?>" class="widefat" id="<?php echo $this->get_field_id('navdivclass'); ?>" />
-			</p>
-		<?php
-		}
-		
-		$checked = strtolower($navul);
-		?>
-
-		<p>
-			<label for="<?php echo $this->get_field_id('navul'); ?>"><?php _e('Wrap in container UL:'); ?></label><br />
-			<span class="checkboxes">
-				<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navul'); ?>" name="<?php echo $this->get_field_name('navul'); ?>" value="yes" <?php if ($checked=='yes') { echo 'checked="checked"'; } ?> />
-				<label>No</label><input type="radio" id="<?php echo $this->get_field_name('navul'); ?>" name="<?php echo $this->get_field_name('navul'); ?>" value="no" <?php if ($checked=='yes') { } else { echo 'checked="checked"'; } ?> />
-			</span><!-- /.checkboxes -->
-		</p>
-
-		<?php
-		if ( $checked == 'yes' ) {
-		?>
-			<p>
-				<label for="<?php echo $this->get_field_id('navulid'); ?>"><?php _e('UL id:'); ?></label>
-				<input type="text" name="<?php echo $this->get_field_name('navulid'); ?>" value="<?php echo $navulid; ?>" class="widefat" id="<?php echo $this->get_field_id('navulid'); ?>" />
-			</p>
-			<p>
-				<label for="<?php echo $this->get_field_id('navulclass'); ?>"><?php _e('UL class:'); ?></label>
-				<input type="text" name="<?php echo $this->get_field_name('navulclass'); ?>" value="<?php echo $navulclass; ?>" class="widefat" id="<?php echo $this->get_field_id('navulclass'); ?>" />
-			</p>
-		<?php
-		}
-		$advanced_option_descriptions = get_option('wp_settings_nav_menu_advanced_options');
-		?>
-		<p <?php if ($advanced_option_descriptions == 'no') { ?>style="display:none;"<?php } ?>>
-		   <?php $checked = strtolower($navwidgetdescription); ?>
-			<label for="<?php echo $this->get_field_id('navwidgetdescription'); ?>"><?php _e('Show Top Level Descriptions:'); ?></label><br />
-			<span class="checkboxes">
-				<label>Yes</label><input type="radio" id="<?php echo $this->get_field_name('navwidgetdescription'); ?>" name="<?php echo $this->get_field_name('navwidgetdescription'); ?>" value="1" <?php if ($checked=='1') { echo 'checked="checked"'; } ?> />
-				<label>No</label><input type="radio" id="<?php echo $this->get_field_name('navwidgetdescription'); ?>" name="<?php echo $this->get_field_name('navwidgetdescription'); ?>" value="2" <?php if ($checked=='1') { } else { echo 'checked="checked"'; } ?> />
-			</span><!-- /.checkboxes -->
-		</p>
-		<?php
-		endif;
 	}
 }
 

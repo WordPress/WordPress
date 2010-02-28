@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Outputs a navigation menu.
+ * Displays a navigation menu.
  *
  * Optional $args contents:
  *
@@ -10,29 +9,33 @@
  * menu_class - CSS class to use for the div container of the menu list. Defaults to 'menu'.
  * format - Whether to format the ul. Defaults to 'div'.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
+ * before_link - Output text before the link.
+ * after_link - Output text after the link.
+ * before_title - Output text before the link text.
+ * before_title - Output text after the link text.
+ * echo - Whether to echo the menu or return it. Defaults to echo.
  *
  * TODO:
  * show_home - If you set this argument, then it will display the link to the home page. The show_home argument really just needs to be set to the value of the text of the link.
- * link_before - Text before show_home argument text.
- * link_after - Text after show_home argument text.
- * echo - Whether to echo the menu or return it. Defaults to echo.
  *
  * @since 3.0.0
  *
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
-	$defaults = array( 'id' => '', 'slug' => '', 'menu_class' => 'menu', 'format' => 'div', 'fallback_cb' => 'wp_page_menu', 'echo' => true, 'link_before' => '', 'link_after' => '' );
+	$defaults = array( 'menu' => '', 'menu_class' => 'menu', 'format' => 'div', 'echo' => true,
+	'fallback_cb' => 'wp_page_menu', 'link_before' => '', 'link_after' => '', 'before_link' => '', 'after_link' => '', );
+	
 	$args = wp_parse_args( $args, $defaults );
+	$args = apply_filters( 'wp_nav_menu_args', $args );
 	$args = (object) $args;
 	
-	// Get the menu
-	$menu = null;
-	if ( !empty($args->id) ) {
-		$menu = wp_get_nav_menu( $args->id );
-	} elseif ( !empty($args->slug) ) {
-		$menu = get_term_by( 'slug', $args->slug, 'nav_menu' );
-	} else {
+	// Get the nav menu
+	$menu = wp_get_nav_menu_object( $args->menu );
+		
+	// If we couldn't find a menu based off the name, id or slug,
+	// get the first menu that has items.
+	if ( !$menu ) {
 		$menus = wp_get_nav_menus();
 		foreach ( $menus as $menu_maybe ) {
 			if ( wp_get_nav_menu_items($menu_maybe->term_id) ) {
@@ -42,137 +45,157 @@ function wp_nav_menu( $args = array() ) {
 		}
 	}
 	
-	// If the menu doesn't exists, call the fallback_cb
-	if ( !$menu || is_wp_error($menu) )
-		return call_user_func($args->fallback_cb, $args );
-
+	$args->menu = $menu->term_id;
+	$nav_menu = '';
+	
 	if ( 'div' == $args->format )
-		echo '<div class="' . esc_attr($args->menu_class) . '"><ul>';
-
-	$args->id = $menu->term_id;
-
-	wp_print_nav_menu($args);
-		
+		$nav_menu .= '<div id="menu-'. $menu->slug .'" class="' . esc_attr($args->menu_class) . '">';
+	
+	$nav_menu .= wp_get_nav_menu( $args );
+	
 	if ( 'div' == $args->format )
-		echo '</ul></div>';
+		$nav_menu .= '</div>';
+	
+	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu );
+	
+	return $args->echo ? print $nav_menu : $nav_menu;
 }
 
-function wp_print_nav_menu( $args = array() ) {
-		// Defaults
-		$defaults = array( 'type' => 'frontend', 'name' => 'Menu 1', 'id' => 0, 'desc' => 2, 'before_title' => '', 'after_title' => '');
-
-		$args = wp_parse_args($args, $defaults);
-		extract($args, EXTR_SKIP);
-
-		$menu_items = wp_get_nav_menu_items( $id );
-
-		$parent_stack = array();
-		$current_parent = 0;
-		$parent_menu_order = array();
-		// Setup parentage
-		foreach ( $menu_items as $menu_item ) {
-			$parent_menu_order[ $menu_item->ID ] = $menu_item->menu_order;
-		}
-
-	    // Display Loop
-		foreach ( $menu_items as $key => $menu_item ) {
-			$menu_item = wp_setup_nav_menu_item($menu_item);
-			// List Items
-			?><li id="menu-<?php echo $menu_item->ID; ?>" value="<?php echo $menu_item->ID; ?>" <?php echo $menu_item->li_class; ?>><?php
-			wp_print_nav_menu_item($menu_item, $type, $args);
-			// Indent children
-			$last_item = ( count( $menu_items ) == $menu_item->menu_order );
-			if ( $last_item || $current_parent != $menu_items[ $key + 1 ]->post_parent ) {
-				if ( $last_item || in_array( $menu_items[ $key + 1 ]->post_parent, $parent_stack ) ) { ?>
-		</li>
-<?php					while ( !empty( $parent_stack ) && ($last_item || $menu_items[ $key + 1 ]->post_parent != $current_parent ) ) { ?>
-			</ul>
-		</li>
-<?php					$current_parent = array_pop( $parent_stack );
-					} ?>
-<?php				} else {
-					array_push( $parent_stack, $current_parent );
-					$current_parent = $menu_item->ID; ?>
-			<ul>
-<?php				}
-			} else { ?>
-		</li>
-<?php		}
+/**
+ * Returns a Navigation Menu.
+ *
+ * See wp_nav_menu() for args.
+ *
+ * @since 3.0.0
+ *
+ * @param array $args Arguments
+ * @return mixed $output False if menu doesn't exists, else, returns the menu.
+ **/
+function wp_get_nav_menu( $args = array() ) {
+	$defaults = array( 'menu' => '', 'menu_class' => 'menu', 'ul_class' => '', 'format' => 'div', 'type' => 'frontend',
+	'fallback_cb' => '', 'link_before' => '', 'link_after' => '', 'before_link' => '', 'after_link' => '', );
+	
+	$args = wp_parse_args( $args, $defaults );
+	$args = apply_filters( 'wp_get_nav_menu_args', $args );
+	$args = (object) $args;
+	
+	$menu = wp_get_nav_menu_object( $args->menu );
+	
+	// If no menu was found, call the fallback_cb
+	if ( !$menu || is_wp_error($menu) ) {
+		if ( function_exists($args->fallback_cb) )
+			return call_user_func( $args->fallback_cb, $args );
 	}
+	
+	$menu_items = wp_get_nav_menu_items( $menu->term_id );
+	$nav_menu = '';
+	$parent_stack = array();
+	$current_parent = 0;
+	$parent_menu_order = array();
+	
+	// Setup parentage
+	foreach ( $menu_items as $menu_item )
+		$parent_menu_order[ $menu_item->ID ] = $menu_item->menu_order;
+	
+	$ul_class = isset($args->ul_class) ? ' class="'. $args->ul_class .'"' : '';
+	$nav_menu .= '<ul'. $ul_class .'>';
+	
+	// Display Loop
+	foreach ( $menu_items as $key => $menu_item ) :
+		// Setup the $menu_item variables
+		$menu_item = wp_setup_nav_menu_item( $menu_item );
+		
+		$maybe_value = 'frontend' == $args->type ? '' : ' value="'. $menu_item->ID .'"';
+		$classes = 'frontend' == $args->type ? 'class="menu-item-'. $menu_item->type . $menu_item->li_class .'"' : '';
+		
+		$nav_menu .= '<li id="menu-item-'. $menu_item->ID .'"'. $maybe_value . $classes .'>';
+		$nav_menu .= wp_get_nav_menu_item( $menu_item, $args->type, $args );
+		
+		// Indent children
+		$last_item = ( count( $menu_items ) == $menu_item->menu_order );
+		if ( $last_item || $current_parent != $menu_items[ $key + 1 ]->post_parent ) {
+			if ( $last_item || in_array( $menu_items[ $key + 1 ]->post_parent, $parent_stack ) ) {
+				$nav_menu .= '</li>';
+				while ( !empty( $parent_stack ) && ($last_item || $menu_items[ $key + 1 ]->post_parent != $current_parent ) ) {
+					$nav_menu .= '</ul></li>';
+					$current_parent = array_pop( $parent_stack );
+				}
+			} else {
+				array_push( $parent_stack, $current_parent );
+				$current_parent = $menu_item->ID;
+				$nav_menu .= '<ul>';
+			}
+		} else {
+			$nav_menu .= '</li>';
+		}
+		
+	endforeach;
+	
+	$nav_menu .= '</ul>';
+	
+	return apply_filters( 'wp_get_nav_menu', $nav_menu );
 }
 
-function wp_print_nav_menu_item( $menu_item, $context, $args = array() ) {
+/**
+ * Returns a menu item.
+ *
+ * @since 3.0.0
+ *
+ * @param object $menu_item The menu item
+ * @param string $context frontend|backend|default
+ * @param array $args See wp_get_nav_menu().
+ **/
+function wp_get_nav_menu_item( $menu_item, $context, $args = array() ) {
+	$item = '';
 	switch ( $context ) {
-		case 'backend':
-		case 'menu':
-?>
-						<dl>
-							<dt>
-								<span class="item-title"><?php echo esc_html($menu_item->title); ?></span>
-								<span class="item-controls">
-									<span class="item-type"><?php echo esc_html($menu_item->type); ?></span>
-									<a class="item-edit thickbox" id="edit<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->menu_order ); ?>" title="<?php _e('Edit Menu Item'); ?>" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings"><?php _e('Edit'); ?></a> |
-									<a class="item-delete" id="delete<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->menu_order ); ?>"><?php _e('Delete'); ?></a>
-								</span>
-							</dt>
-						</dl>
-						<?php if ( 'backend' == $context ) { ?>
-						<a><span class=""></span></a>
-						<?php } else { ?>
-						<a class="hide" href="<?php echo $menu_item->link; ?>"><?php echo esc_html( $menu_item->title ); ?></a>
-						<?php } ?>
-						<input type="hidden" name="dbid<?php echo esc_attr( $menu_item->menu_order ); ?>" id="dbid<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->ID ); ?>" />
-						<input type="hidden" name="postmenu<?php echo esc_attr( $menu_item->menu_order ); ?>" id="postmenu<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( get_post_meta( $menu_item->ID, 'object_id', true ) ); ?>" />
-						<input type="hidden" name="parent<?php echo esc_attr( $menu_item->menu_order ); ?>" id="parent<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->parent_item ); ?>" />
-						<input type="hidden" name="icon<?php echo esc_attr( $menu_item->menu_order ); ?>" id="icon<?php echo esc_attr( $menu_item->menu_order ); ?>" value="0" />
-						<input type="hidden" name="position<?php echo esc_attr( $menu_item->menu_order ); ?>" id="position<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->menu_order ); ?>" />
-						<input type="hidden" name="linktype<?php echo esc_attr( $menu_item->menu_order ); ?>" id="linktype<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( get_post_meta( $menu_item->ID, 'menu_type', true ) ); ?>" />
-						<input type="hidden" name="item-title<?php echo esc_attr( $menu_item->menu_order ); ?>" id="item-title<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->title ); ?>" />
-						<input type="hidden" name="item-url<?php echo esc_attr( $menu_item->menu_order ); ?>" id="item-url<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->link ); ?>" />
-						<input type="hidden" name="item-description<?php echo esc_attr( $menu_item->menu_order ); ?>" id="item-description<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->description ); ?>" />
-						<input type="hidden" name="item-attr-title<?php echo esc_attr( $menu_item->menu_order ); ?>" id="item-attr-title<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo esc_attr( $menu_item->post_excerpt ); ?>" />
-						<input type="hidden" name="item-target<?php echo esc_attr( $menu_item->menu_order ); ?>" id="item-target<?php echo esc_attr( $menu_item->menu_order ); ?>" value="<?php echo ( get_post_meta( $menu_item->ID, 'menu_new_window', true ) ? '1' : '0' ); ?>" />
-<?php
-		break;
-
 		case 'frontend':
-			// Override for menu descriptions
-			$advanced_option_descriptions = get_option('wp_settings_nav_menu_advanced_options');
-			if ( $advanced_option_descriptions == 'no' )
-				$args['desc'] = 2;
-?>
-			<a title="<?php echo esc_attr( $menu_item->anchor_title ); ?>" href="<?php echo esc_url( $menu_item->link ); ?>" <?php echo $menu_item->target; ?>><?php echo $args['before_title'] . esc_html( $menu_item->title ) . $args['after_title']; ?><?php
-
-							if ( $advanced_option_descriptions == 'no' ) {
-								// 2 widget override do NOT display descriptions
-								// 1 widget override display descriptions
-								// 0 widget override not set
-								if ( ($args['desc'] == 1) || ($args['desc'] == 0) ) {
-									?><span class="nav-description"><?php echo $menu_item->description; ?></span><?php
-								}
-							} else {
-								// 2 widget override do NOT display descriptions
-								// 1 widget override display descriptions
-								// 0 widget override not set
-								if ( $args['desc'] == 1 ) {
-									?><span class="nav-description"><?php echo $menu_item->description; ?></span><?php
-								}
-							}
-						?></a>
-<?php
-		break;
-
+			$attr_title = ( isset($menu_item->anchor_title) && '' != $menu_item->anchor_title ) ? ' title="'. esc_attr($menu_item->anchor_title) .'"' : '';
+			$href = isset($menu_item->link) ? ' href="'. esc_url($menu_item->link) .'"' : '';
+			
+			$item .= '<a'. $attr_title . $href . $menu_item->target .'>';
+			$item .= $args->before_link . esc_html( $menu_item->title ) . $args->after_link;
+			$item .= '</a>';
+			
+			break;
+		
+		case 'backend':
+			$item .= '<dl><dt>';
+			$item .= '<span class="item-title">'. esc_html($menu_item->title) .'</span>';
+			$item .= '<span class="item-controls">';
+			$item .= '<span class="item-type">'. esc_html($menu_item->type) .'</span>';
+			
+			// Actions
+			$item .= '<a class="item-edit thickbox" id="edit'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->menu_order ) .'" title="'. __('Edit Menu Item') .'" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">'. __('Edit') .'</a> | ';
+			$item .= '<a class="item-delete" id="delete'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->menu_order ) .'">'. __('Delete') .'</a>';
+			
+			$item .= '</dt></dl>';
+			
+			// Menu Item Settings
+			$item .= '<input type="hidden" id="item-dbid'. esc_attr( $menu_item->menu_order ) .'" name="item-dbid'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->ID ) .'" />';
+			$item .= '<input type="hidden" id="item-postmenu'. esc_attr( $menu_item->menu_order ) .'" name="item-postmenu'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( get_post_meta( $menu_item->ID, 'object_id', true ) ) .'" />';
+			$item .= '<input type="hidden" id="item-parent'. esc_attr( $menu_item->menu_order ) .'" name="item-parent'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->parent_item ) .'" />';
+			$item .= '<input type="hidden" id="item-position'. esc_attr( $menu_item->menu_order ) .'" name="item-position'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->menu_order ) .'" />';
+			$item .= '<input type="hidden" id="item-type'. esc_attr( $menu_item->menu_order ) .'" name="item-type'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( get_post_meta( $menu_item->ID, 'menu_type', true ) ) .'" />';
+			$item .= '<input type="hidden" id="item-title'. esc_attr( $menu_item->menu_order ) .'" name="item-title'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->title ) .'" />';
+			$item .= '<input type="hidden" id="item-url'. esc_attr( $menu_item->menu_order ) .'" name="item-url'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->link ) .'" />';
+			$item .= '<input type="hidden" id="item-description'. esc_attr( $menu_item->menu_order ) .'" name="item-description'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->description ) .'" />';
+			$item .= '<input type="hidden" id="item-attr-title'. esc_attr( $menu_item->menu_order ) .'" name="item-attr-title'. esc_attr( $menu_item->menu_order ) .'" value="'.esc_attr( $menu_item->post_excerpt )  .'" />';
+			$item .= '<input type="hidden" id="item-target'. esc_attr( $menu_item->menu_order ) .'" name="item-target'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( get_post_meta( $menu_item->ID, 'menu_new_window', true ) ? '1' : '0' ) .'" />';
+			break;
+			
 		case 'default':
 			$menu_id = 'menu-item-' . $menu_item->ID;
-?>
-					<dl>
-						<dt>
-							<label class="item-title"><input type="checkbox" id="<?php echo esc_attr($menu_id); ?>" onclick="wp_update_queue('<?php echo esc_js( $menu_item->append ); ?>','<?php echo esc_js( $menu_item->title ); ?>','<?php echo esc_js( $menu_item->link ); ?>','<?php echo esc_js( $menu_item->ID ); ?>','<?php echo esc_js( $menu_item->parent_item ); ?>','<?php echo esc_js( $menu_item->description ); ?>')" name="<?php echo esc_attr( $menu_item->title ); ?>" value="<?php echo esc_attr( $menu_item->link ); ?>" /><?php echo $menu_item->title; ?></label>
-						</dt>
-					</dl>
-<?php
-		break;
+			$item .= '<label class="item-title"><input type="checkbox" id="'. esc_attr($menu_id) .'" name="'. esc_attr( $menu_item->title ) .'" value="'. esc_attr( $menu_item->link ) .'" />'. $menu_item->title .'</label>';
+			
+			// Menu Item Settings
+			$item .= '<input type="hidden" class="item-type" value="'. esc_attr( $menu_item->append ) .'" />';
+			$item .= '<input type="hidden" class="item-title" value="'. esc_attr( $menu_item->title ) .'" />';
+			$item .= '<input type="hidden" class="item-url" value="'. esc_attr( $menu_item->link ) .'" />';
+			$item .= '<input type="hidden" class="item-dbid" value="'. esc_attr( $menu_item->ID ) .'" />';
+			$item .= '<input type="hidden" class="item-parent" value="'. esc_attr( $menu_item->parent_item ) .'" />';
+			$item .= '<input type="hidden" class="item-description" value="'. esc_attr( $menu_item->description ) .'" />';
+			break;
 	}
+	return apply_filters( 'wp_get_nav_menu_item', $item );
 }
-
 ?>

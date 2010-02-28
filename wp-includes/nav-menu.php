@@ -7,22 +7,65 @@
  * @since 3.0.0
  */
 
-// Deletes a nav menu
-function wp_delete_nav_menu( $menu_id ) {
-	$menu_id = (int) $menu_id;
-	if ( !$menu_id  )
-		return false;
-
-	$menu_objects = get_objects_in_term( $menu_id, 'nav_menu' );
-	if ( !empty( $menu_objects ) ) {
-		foreach ( $menu_objects as $item ) {
-			wp_delete_post( $item );
-		}
-	}
-	wp_delete_term( $menu_id, 'nav_menu' );
+/**
+ * Returns a Navigation Menu object
+ *
+ * @since 3.0.0
+ *
+ * @param string $menu Menu id
+ * @return mixed $menu|false
+ */
+function wp_get_nav_menu_object( $menu ) {
+	return is_nav_menu( $menu );
 }
 
-// Creates a new nav menu
+/**
+ * Check if Menu exists.
+ *
+ * Returns the menu object, or false if the term doesn't exist.
+ *
+ * @since 3.0.0
+ *
+ * @param int|string $menu The menu to check
+ * @return mixed Menu Object, if exists.
+ */
+function is_nav_menu( $menu ) {
+	if ( $menu ) {
+		$menu = get_term( $menu, 'nav_menu' );
+	} elseif ( !$menu ) {
+		$menu = get_term_by( 'slug', $menu, 'nav_menu' );
+	} elseif( !$menu ) {
+		$menu = get_term_by( 'name', $menu, 'nav_menu' );
+	} else {
+		$menu = false;
+	}
+		
+	return $menu;
+}
+
+/**
+ * Returns all Navigation Menu objects.
+ *
+ * @since 3.0.0
+ *
+ * @return array menu objects
+ */
+function wp_get_nav_menus() {
+	return get_terms( 'nav_menu', array( 'hide_empty' => false, 'orderby' => 'id' ) );
+}
+
+/**
+ * Creates a navigation menu.
+ *
+ * Optional args:
+ * slug - the url friendly version of the nav menu.
+ *
+ * @since 3.0.0
+ *
+ * @param string $menu_name Menu Name
+ * @param string $args Optional.
+ * @return mixed Menu object|WP_Error
+ */
 function wp_create_nav_menu( $menu_name, $args = array() ) {
 	$menu_exists = get_term_by( 'name', $menu_name, 'nav_menu' );
 
@@ -39,10 +82,39 @@ function wp_create_nav_menu( $menu_name, $args = array() ) {
 	if ( is_wp_error($menu) )
 		return $menu;
 
-	return get_term( $menu['term_id'], 'nav_menu');
+	return get_term( $menu['term_id'], 'nav_menu') ;
 }
 
-// Creates a default menu if none exists
+/**
+ * Deletes a navigation menu.
+ *
+ * @since 3.0.0
+ *
+ * @param string $menu name|id|slug
+ * @return bool true on success, else false.
+ */
+function wp_delete_nav_menu( $menu ) {
+	$menu = wp_get_nav_menu_object( $menu );
+	if ( !$menu  )
+		return false;
+
+	$menu_objects = get_objects_in_term( $menu->term_id, 'nav_menu' );
+	if ( !empty( $menu_objects ) ) {
+		foreach ( $menu_objects as $item ) {
+			wp_delete_post( $item );
+		}
+	}
+	wp_delete_term( $menu_id, 'nav_menu' );
+}
+
+/**
+ * Creates a nav menu named 'Menu 1'.
+ *
+ * This function is called if the user doesn't have any nav menus.
+ * It grabs the first 14 pages, and creates a new default menu.
+ *
+ * @since 3.0.0
+ */
 function wp_create_default_nav_menu() {
 	$menu = wp_create_nav_menu( __('Menu 1'), array('slug' => 'menu-1') );
 
@@ -61,23 +133,26 @@ function wp_create_default_nav_menu() {
 	}
 }
 
-// Get nav menu by id
-function wp_get_nav_menu( $menu ) {
-	return get_term( (int) $menu, 'nav_menu' );
-}
-
-// Get all nav menus
-function wp_get_nav_menus() {
-	return get_terms( 'nav_menu', array( 'hide_empty' => false, 'orderby' => 'id' ) );
-}
-
-// Get the nav menu items
+/**
+ * Returns the menu items of a navigation menu.
+ *
+ * @since 3.0.0
+ *
+ * @param string $menu menu name, id, or slug
+ * @param string $args 
+ * @return mixed $items array of menu items, else false.
+ */
 function wp_get_nav_menu_items( $menu, $args = array() ) {
-	$items = get_objects_in_term( (int) $menu, 'nav_menu' );
+	$menu = wp_get_nav_menu_object( $menu );
+	
+	if ( !$menu )
+		return false;
+	
+	$items = get_objects_in_term( $menu->term_id, 'nav_menu' );
 
 	if ( ! empty( $items ) ) {
 		$defaults = array( 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order' );
-		$args = wp_parse_args($args, $defaults);
+		$args = wp_parse_args( $args, $defaults );
 		if ( count( $items ) > 1 )	
 			$args['include'] = implode( ',', $items );
 		else
@@ -90,21 +165,30 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 			foreach ( $items as $item ) {
 				$output[$item->$args['output_key']] = $item;
 			}
-			unset($items);
-			ksort($output);
+			unset( $items );
+			ksort( $output );
 			return $output;
 		}
 	}
 	return $items;
 }
 
-// wp_setup_nav_menu_item()
-function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
+/**
+ * Returns a menu item with all it's nessecary data populated.
+ *
+ * @since 3.0.0
+ *
+ * @param string $menu_item Menu item.
+ * @param string $type item|category|page.
+ * @param string $position position of the menu item.
+ * @return $menu_item
+ */
+function wp_setup_nav_menu_item( $menu_item, $type = 'item', $position = 0 ) {
 	global $parent_menu_order;
 
 	if ( 'item' == $type ) {
-		$menu_item->type = get_post_meta($menu_item->ID, 'menu_type', true);
-		$menu_item->object_id = get_post_meta($menu_item->ID, 'object_id', true);
+		$menu_item->type = get_post_meta( $menu_item->ID, 'menu_type', true );
+		$menu_item->object_id = get_post_meta( $menu_item->ID, 'object_id', true );
 		$menu_item->target = ( get_post_meta( $menu_item->ID, 'menu_new_window', true ) ) ? 'target="_blank"' : '';
 		if ( isset( $parent_menu_order[ $menu_item->post_parent ] ) )
 			$menu_item->parent_item = $parent_menu_order[ $menu_item->post_parent ];
@@ -165,8 +249,9 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 
 	$menu_item->li_class = '';
 	global $wp_query;
-	if ( $menu_item->ID == $wp_query->get_queried_object_id() )
-		$menu_item->li_class = 'class="current_page_item"';
+	
+	if ( $menu_item->object_id == $wp_query->get_queried_object_id() )
+		$menu_item->li_class = ' current_page_item';
 
 	$menu_item->anchor_title = '';
 /* @todo: update to use tax/post data
@@ -195,5 +280,4 @@ function wp_setup_nav_menu_item($menu_item, $type = 'item', $position = 0) {
 
 	return $menu_item;
 }
-
 ?>
