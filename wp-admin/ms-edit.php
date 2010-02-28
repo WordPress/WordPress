@@ -471,6 +471,7 @@ switch ( $_GET['action'] ) {
 			echo '<div class="wrap" style="position:relative;">';
 			confirm_delete_users( $_POST['allusers'] );
 			echo '</div>';
+            require_once('admin-footer.php');
 		} elseif ( isset( $_POST[ 'alluser_transfer_delete' ] ) ) {
 			if ( is_array( $_POST[ 'blog' ] ) && !empty( $_POST[ 'blog' ] ) ) {
 				foreach ( $_POST[ 'blog' ] as $id => $users ) {

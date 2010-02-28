@@ -165,22 +165,34 @@ function wpmu_delete_user($id) {
 }
 
 function confirm_delete_users( $users ) {
+	global $current_user;
 	if ( !is_array( $users ) )
 		return false;
-
-	echo '<p>' . __( 'Transfer posts before deleting users:' ) . '</p>';
-
-	echo '<form action="ms-edit.php?action=allusers" method="post">';
-	echo '<input type="hidden" name="alluser_transfer_delete" />';
+        
+    screen_icon('tools');
+    ?>
+	<h2><?php esc_html_e('Users'); ?></h2>
+	<p><?php _e( 'Transfer posts before deleting users:' ); ?></p>
+	<form action="ms-edit.php?action=allusers" method="post">
+	<input type="hidden" name="alluser_transfer_delete" />
+    <?php
 	wp_nonce_field( 'allusers' );
+	$site_admins = get_site_option( 'site_admins', array( 'admin' ) );
+	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
+
 	foreach ( (array) $_POST['allusers'] as $key => $val ) {
 		if ( $val != '' && $val != '0' ) {
+			$allusers[] = $val;
 			$user = new WP_User( $val );
-			if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) )
+            
+			if ( in_array( $user->user_login, $site_admins ) )
 				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $user->user_login ) );
+                
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
+            
 			if ( !empty( $blogs ) ) {
+				echo '<p><strong>' . sprintf( __( 'Blogs from %s:' ), $user->user_login ) . '</strong></p>';
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users_of_blog( $details->userblog_id );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
@@ -188,11 +200,11 @@ function confirm_delete_users( $users ) {
 						echo "<select name='blog[$val][{$key}]'>";
 						$out = '';
 						foreach ( $blog_users as $user ) {
-							if ( $user->user_id != $val )
+							if ( $user->user_id != $val && !in_array( $val, $allusers ) )
 								$out .= "<option value='{$user->user_id}'>{$user->user_login}</option>";
 						}
 						if ( $out == '' )
-							$out = "<option value='1'>admin</option>";
+							$out = $admin_out;
 						echo $out;
 						echo "</select>\n";
 					}
@@ -200,8 +212,11 @@ function confirm_delete_users( $users ) {
 			}
 		}
 	}
-	echo "<br /><input type='submit' value='" . __( 'Delete user and transfer posts' ) . "' />";
-	echo "</form>";
+	?>
+    <br class="clear" />
+    <input type="submit" class="button-secondary delete" value="<?php _e( 'Delete user and transfer posts' ); ?> " />
+	</form>
+    <?php
 	return true;
 }
 
