@@ -45,8 +45,13 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 	if ( 1 == get_option('comment_moderation') )
 		return false; // If moderation is set to manual
 
-	if ( get_option( 'comment_max_links' ) && preg_match_all( '/<a [^>]*href/i', apply_filters( 'comment_text', $comment ), $out) >= get_option( 'comment_max_links' ) )
-		return false; // Check # of external links
+	// Check # of external links
+	if ( $max_links = get_option( 'comment_max_links' ) ) {
+		$num_links = preg_match_all( '/<a [^>]*href/i', apply_filters( 'comment_text', $comment ), $out );
+		$num_links = apply_filters( 'comment_max_links_url', $num_links, $url ); // provide for counting of $url as a link
+		if ( $num_links >= $max_links )
+			return false;
+	}
 
 	$mod_keys = trim(get_option('moderation_keys'));
 	if ( !empty($mod_keys) ) {
