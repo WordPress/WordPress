@@ -2056,16 +2056,18 @@ class WP_Query {
 			if ( !empty($q['meta_key']) ) {
 				$allowed_keys[] = $q['meta_key'];
 				$allowed_keys[] = 'meta_value';
+				$allowed_keys[] = 'meta_value_num';
 			}
 			$q['orderby'] = urldecode($q['orderby']);
 			$q['orderby'] = addslashes_gpc($q['orderby']);
-			$orderby_array = explode(' ',$q['orderby']);
-			if ( empty($orderby_array) )
-				$orderby_array[] = $q['orderby'];
+			$orderby_array = explode(' ', $q['orderby']);
 			$q['orderby'] = '';
-			for ($i = 0; $i < count($orderby_array); $i++) {
+
+			foreach ( $orderby_array as $i => $orderby ) {
 				// Only allow certain values for safety
-				$orderby = $orderby_array[$i];
+				if ( ! in_array($orderby, $allowed_keys) )
+					continue;
+
 				switch ($orderby) {
 					case 'menu_order':
 						break;
@@ -2079,15 +2081,19 @@ class WP_Query {
 					case 'meta_value':
 						$orderby = "$wpdb->postmeta.meta_value";
 						break;
+					case 'meta_value_num':
+						$orderby = "$wpdb->postmeta.meta_value+0";
+						break;
 					case 'comment_count':
 						$orderby = "$wpdb->posts.comment_count";
 						break;
 					default:
 						$orderby = "$wpdb->posts.post_" . $orderby;
 				}
-				if ( in_array($orderby_array[$i], $allowed_keys) )
-					$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
+
+				$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
 			}
+
 			// append ASC or DESC at the end
 			if ( !empty($q['orderby']))
 				$q['orderby'] .= " {$q['order']}";
@@ -2644,7 +2650,7 @@ class WP_Query {
 		} elseif ( $this->is_tax ) {
 			$tax = $this->get('taxonomy');
 			$slug = $this->get('term');
-			$term = &get_terms($tax, array('slug'=>$slug));
+			$term = &get_terms($tax, array( 'slug' => $slug ) );
 			if ( is_wp_error($term) || empty($term) )
 				return NULL;
 			$term = $term[0];
@@ -2656,7 +2662,7 @@ class WP_Query {
 		} elseif ( $this->is_single ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
-		} elseif ( $this->is_page ) {
+		} elseif ( $this->is_page && !is_null($this->post) ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
 		} elseif ( $this->is_author ) {
