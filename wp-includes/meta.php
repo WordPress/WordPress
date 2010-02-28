@@ -147,7 +147,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	if ( !$meta_type || !$meta_key )
 		return false;
 
-	if ( !$object_id = absint($object_id) && !$delete_all )
+	if ( (!$object_id = absint($object_id)) && !$delete_all )
 		return false;
 
 	if ( ! $table = _get_meta_table($meta_type) )
