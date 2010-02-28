@@ -1464,8 +1464,8 @@ class WP_Http_Curl {
  * enable proxy support. There are also a few filters that plugins can hook into for some of the
  * constants.
  *
- * Please note that only BASIC authentication is supportted by most transports.
- * cURL and the PHP HTTP Extension MAY support more methods(such as NTLM Authentication) depending on your environment.
+ * Please note that only BASIC authentication is supported by most transports.
+ * cURL and the PHP HTTP Extension MAY support more methods (such as NTLM authentication) depending on your environment.
  *
  * The constants are as follows:
  * <ol>
