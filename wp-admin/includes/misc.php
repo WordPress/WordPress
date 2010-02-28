@@ -662,4 +662,32 @@ function win_is_writable($path) {
 function send_nosniff_header() {
 	@header( 'X-Content-Type-Options: nosniff' ); 
 }
+/**
+ * Display the default admin color scheme picker (Used in user-edit.php)
+ *
+ * @since 3.0
+ */
+function admin_color_scheme_picker() {
+	global $_wp_admin_css_colors, $user_id; ?>
+<fieldset><legend class="screen-reader-text"><span><?php _e('Admin Color Scheme')?></span></legend>
+<?php
+$current_color = get_user_option('admin_color', $user_id);
+if ( empty($current_color) )
+	$current_color = 'fresh';
+foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
+<div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo esc_attr($color) ?>" class="tog" <?php checked($color, $current_color); ?> />
+	<table class="color-palette">
+	<tr>
+	<?php foreach ( $color_info->colors as $html_color ): ?>
+	<td style="background-color: <?php echo $html_color ?>" title="<?php echo $color ?>">&nbsp;</td>
+	<?php endforeach; ?>
+	</tr>
+	</table>
+
+	<label for="admin_color_<?php echo $color; ?>"><?php echo $color_info->name ?></label>
+</div>
+	<?php endforeach; ?>
+</fieldset>
+<?php
+}
 ?>

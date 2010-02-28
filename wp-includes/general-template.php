@@ -2029,11 +2029,11 @@ function wp_admin_css_color($key, $name, $url, $colors = array()) {
 }
 
 /**
- * Registers the default Admin color themes
+ * Registers the default Admin color schemes
  *
  * @since 3.0.0
  */
-function register_admin_color_themes() {
+function register_admin_color_schemes() {
 	wp_admin_css_color('classic', __('Blue'), admin_url("css/colors-classic.css"), array('#073447', '#21759B', '#EAF3FA', '#BBD8E7'));
 	wp_admin_css_color('fresh', __('Gray'), admin_url("css/colors-fresh.css"), array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));}
 
