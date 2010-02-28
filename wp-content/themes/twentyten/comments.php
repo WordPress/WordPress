@@ -1,8 +1,3 @@
-<?php
-	// Do not delete these lines
-	if ( ! defined('ABSPATH') )
-		die ( __( 'Please do not load this page directly. Thanks!', 'twentyten' ) );
-?>
 			<div id="comments">
 <?php if ( post_password_required() ) : ?>
 				<div class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ); ?></div>
@@ -17,7 +12,11 @@
 ?>
 
 <?php if ( have_comments() ) : ?>
-			<h3 id="comments-title"><?php comments_number( __('No Responses to', 'twentyten'), __('One Response to', 'twentyten'), __('% Responses to', 'twentyten') );?>  <em><?php the_title(); ?></em></h3>
+			<h3 id="comments-title"><?php comments_number( 
+				sprintf(__('No Responses to %s', 'twentyten'), '<em>' . get_the_title() . '</em>'),
+				sprintf(__('One Response to %s', 'twentyten'), '<em>' . get_the_title() . '</em>'),
+				sprintf(__('%% Responses to %s', 'twentyten'), '<em>' . get_the_title() . '</em>')
+			); ?> </h3>
 
 <?php if ( get_comment_pages_count() > 1 ) : // are there comments to navigate through ?>
 			<div class="navigation">

@@ -42,12 +42,22 @@
 <?php endif; ?>
 
 					<div class="entry-utility">
-					<?php printf( __( 'This entry was posted in %1$s%2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>. Follow any comments here with the <a href="%5$s" title="Comments RSS to %4$s" rel="alternate" type="application/rss+xml">RSS feed for this post</a>.', 'twentyten' ),
-						get_the_category_list(', '),
-						get_the_tag_list( __( ' and tagged ', 'twentyten' ), ', ', '' ),
-						get_permalink(),
-						the_title_attribute('echo=0'),
-						get_post_comments_feed_link() ); ?>
+					<?php
+						$tag_list = get_the_tag_list();
+						if ( '' != $tag_list ) {
+							$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>. Follow any comments here with the <a href="%5$s" title="Comments RSS to %4$s" rel="alternate" type="application/rss+xml">RSS feed for this post</a>.', 'twentyten' );
+						} else {
+							$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>. Follow any comments here with the <a href="%5$s" title="Comments RSS to %4$s" rel="alternate" type="application/rss+xml">RSS feed for this post</a>.', 'twentyten' );
+						}
+						printf( 
+							$utility_text,
+							get_the_category_list(', '),
+							$tag_list,
+							get_permalink(),
+							the_title_attribute('echo=0'),
+							get_post_comments_feed_link() 
+						); 
+					?>
 
 <?php edit_post_link( __( 'Edit', 'twentyten' ), "\n\t\t\t\t\t<span class=\"edit-link\">", "</span>" ); ?>
 					</div><!-- .entry-utility -->

@@ -5,7 +5,9 @@
 
 <?php the_post(); ?>
 
-				<h1 class="page-title"><?php _e( 'Tag Archives: ', 'twentyten' ); ?><span><?php single_tag_title(); ?></span></h1>
+				<h1 class="page-title"><?php 
+					printf(__( 'Tag Archives: %s', 'twentyten' ), '<span>' . single_tag_title('', false) . '</span>');
+				?></h1>
 
 <?php rewind_posts(); ?>
 

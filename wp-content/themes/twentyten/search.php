@@ -4,7 +4,7 @@
 			<div id="content">
 
 <?php if ( have_posts() ) : ?>
-				<h1 class="page-title"><?php _e( 'Search Results for: ', 'twentyten' ); ?><span><?php the_search_query(); ?></span></h1>
+				<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentyten' ), '<span>' . get_search_query() . '</span>'); ?></h1>
 	<?php get_generic_template( 'loop', 'search' ); ?>
 <?php else : ?>
 				<div id="post-0" class="post no-results not-found">

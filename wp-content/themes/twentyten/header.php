@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-    <title><?php
-        if ( is_single() ) {
+	<title><?php
+		if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo('name');
 		} elseif ( is_home() || is_front_page() ) {
 			bloginfo('name'); echo ' | '; bloginfo('description'); twentyten_the_page_number();
@@ -15,7 +15,7 @@
 		} else {
 			wp_title(''); echo ' | '; bloginfo('name'); twentyten_the_page_number();
 		}
-    ?></title>
+	?></title>
 
 	<meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
