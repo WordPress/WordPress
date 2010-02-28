@@ -1480,11 +1480,18 @@ class WP_Query {
 				(
 				 	empty($this->query) ||
 					!empty($qv['preview']) ||
-					!empty($qv['cpage'])
+					!empty($qv['cpage']) ||
+					!empty($qv['page']) ||
+					!empty($qv['paged'])
 				) ) {
 			$this->is_page = true;
 			$this->is_home = false;
 			$qv['page_id'] = get_option('page_on_front');
+			// Correct <!--nextpage--> for page_on_front
+			if ( !empty($qv['paged']) ) {
+				$qv['page'] = $qv['paged'];
+				unset($qv['paged']);
+			}
 		}
 
 		if ( '' != $qv['pagename'] ) {

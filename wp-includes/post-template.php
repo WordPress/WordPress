@@ -587,7 +587,9 @@ function wp_link_pages($args = '') {
 						$output .= '<a href="' . get_permalink() . '">';
 					} else {
 						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
+							$output .= '<a href="' . add_query_arg('page', $i, get_permalink()) . '">';
+						elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit('page/' . $i, 'single_paged'). '">';
 						else
 							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
 					}
@@ -606,24 +608,30 @@ function wp_link_pages($args = '') {
 				$i = $page - 1;
 				if ( $i && $more ) {
 					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">' . $link_before. $previouspagelink . $link_after . '</a>';
+						$output .= '<a href="' . get_permalink() . '">';
 					} else {
 						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $link_before. $previouspagelink . $link_after . '</a>';
+							$output .= '<a href="' . add_query_arg('page', $i, get_permalink()) . '">';
+						elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit('page/' . $i, 'single_paged'). '">';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $link_before. $previouspagelink . $link_after . '</a>';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
 					}
+					$output .= $link_before. $previouspagelink . $link_after . '</a>';
 				}
 				$i = $page + 1;
 				if ( $i <= $numpages && $more ) {
 					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">' . $link_before. $nextpagelink . $link_after . '</a>';
+						$output .= '<a href="' . get_permalink() . '">';
 					} else {
 						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $link_before. $nextpagelink . $link_after . '</a>';
+							$output .= '<a href="' . add_query_arg('page', $i, get_permalink()) . '">';
+						elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit('page/' . $i, 'single_paged'). '">';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $link_before. $nextpagelink . $link_after . '</a>';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
 					}
+					$output .= $link_before. $nextpagelink . $link_after . '</a>';
 				}
 				$output .= $after;
 			}
