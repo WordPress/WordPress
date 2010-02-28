@@ -288,7 +288,8 @@ function wp_templating_constants( ) {
 	 * Will be used as the fallback if the current theme doesn't exist.
 	 * @since 3.0.0
 	 */
-	define( 'WP_FALLBACK_THEME', 'twentyten' );
+	if ( !defined('WP_FALLBACK_THEME') )
+		define( 'WP_FALLBACK_THEME', 'twentyten' );
 }
 
 ?>
