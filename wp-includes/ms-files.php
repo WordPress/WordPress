@@ -8,12 +8,10 @@
  * @subpackage Multisite
  */
 
-if ( ! defined( 'SHORTINIT' ) ) {
-	define( 'SHORTINIT', true );
-	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
-}
+define( 'SHORTINIT', true );
+require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 
-ms_file_constants( );
+ms_file_constants();
 
 error_reporting( 0 );
 

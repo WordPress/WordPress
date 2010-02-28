@@ -771,14 +771,22 @@ function stripslashes_from_options( $blog_id ) {
 add_action( 'wpmu_upgrade_site', 'stripslashes_from_options' );
 
 function show_post_thumbnail_warning() {
-	if ( false == is_super_admin() ) {
+	if ( ! is_super_admin() )
 		return;
-	}
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );
 	if ( empty($mu_media_buttons[ 'image' ]) && current_theme_supports( 'post-thumbnails' ) ) {
 		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports post thumbnails. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), admin_url( 'ms-options.php' ) ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'show_post_thumbnail_warning' );
+
+function ms_deprecated_blogs_file() {
+	if ( ! is_super_admin() )
+		return;
+	if ( ! file_exists( WP_CONTENT_DIR . '/blogs.php' ) )
+		return;
+	echo '<div id="update-nag">' . sprintf( __( 'The <code>%1$s</code> file is deprecated. Please remove it and update your server rewrite rules to use <code>%2$s</code> instead.' ), 'wp-content/blogs.php', 'wp-includes/ms-files.php' ) . '</div>';
+}
+add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
 
 ?>
