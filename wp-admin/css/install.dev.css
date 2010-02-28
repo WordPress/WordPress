@@ -4,7 +4,7 @@ body {
 	background: #fff;
 	color: #333;
 	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-	margin: 2em auto 0 auto;
+	margin: 2em auto;
 	width: 700px;
 	padding: 1em 2em;
 	-moz-border-radius: 11px;
@@ -30,7 +30,7 @@ h1 {
 
 h2 { font-size: 16px; }
 
-p, li {
+p, li, dd, dt {
 	padding-bottom: 2px;
 	font-size: 12px;
 	line-height: 18px;
@@ -38,9 +38,22 @@ p, li {
 
 code { font-size: 13px; }
 
-ul, ol { padding: 5px 5px 5px 22px; }
+ul, ol, dl { padding: 5px 5px 5px 22px; }
 
-#logo { margin: 6px 0 14px 0; border-bottom: none;}
+a img {
+	border:0
+}
+
+abbr {
+	border: 0;
+	font-variant: normal;
+}
+
+#logo {
+	margin: 6px 0 14px 0;
+	border-bottom: none;
+	text-align:center
+} 
 
 .step {
 	margin: 20px 0 15px;
