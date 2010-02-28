@@ -246,9 +246,10 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 	global $wpdb;
 
 	$user = new WP_User( $user_id );
+	$post_type_obj = get_post_type_object($post_type);
 
-	if ( ! $user->has_cap("edit_others_{$post_type}s") ) {
-		if ( $user->has_cap("edit_{$post_type}s") || $exclude_zeros == false )
+	if ( ! $user->has_cap($post_type_obj->edit_others_cap) ) {
+		if ( $user->has_cap($post_type_obj->edit_cap) || $exclude_zeros == false )
 			return array($user->id);
 		else
 			return array();
