@@ -277,7 +277,22 @@ register_shutdown_function( 'shutdown_action_hook' );
 // Set up current user.
 $wp->init();
 
-// Everything is loaded and initialized.
+/**
+ * Most of WP is loaded at this stage, and the user is authenticated. WP continues
+ * to load on the init hook that follows (e.g. widgets), and many plugins instantiate
+ * themselves on it for all sorts of reasons (e.g. they need a user, a taxonomy, etc.).
+ *
+ * If you wish to plug an action once WP is loaded, use the wp_loaded hook below.
+ */
 do_action( 'init' );
 
+/**
+ * The purpose of this hook is to fire actions once WP, all plugins, and the theme,
+ * are fully loaded and instantiated.
+ *
+ * AJAX requests should use wp-ajax.php and wp-admin/admin-ajax.php instead.
+ * 
+ * @since 3.0
+ */
+do_action('wp_loaded');
 ?>
