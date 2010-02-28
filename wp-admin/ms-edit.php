@@ -218,7 +218,8 @@ switch ( $_GET['action'] ) {
 				update_option( 'home', $blog_address );
 		}
 
-		$wp_rewrite->flush_rules();
+		// rewrite rules can't be flushed during switch to blog
+		update_option( 'rewrite_rules', '' );
 
 		// update blogs table
 		$blog_data = stripslashes_deep($_POST[ 'blog' ]);
