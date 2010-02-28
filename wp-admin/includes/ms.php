@@ -180,19 +180,18 @@ function confirm_delete_users( $users ) {
 	$site_admins = get_site_option( 'site_admins', array( 'admin' ) );
 	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
 
-	foreach ( (array) $_POST['allusers'] as $key => $val ) {
+	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
 		if ( $val != '' && $val != '0' ) {
-			$allusers[] = $val;
-			$user = new WP_User( $val );
+			$delete_user = new WP_User( $val );
             
-			if ( in_array( $user->user_login, $site_admins ) )
-				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $user->user_login ) );
+			if ( in_array( $delete_user->user_login, $site_admins ) )
+				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $delete_user->user_login ) );
                 
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
             
 			if ( !empty( $blogs ) ) {
-				echo '<p><strong>' . sprintf( __( 'Blogs from %s:' ), $user->user_login ) . '</strong></p>';
+				echo '<p><strong>' . sprintf( __( 'Sites from %s:' ), $delete_user->user_login ) . '</strong></p>';
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users_of_blog( $details->userblog_id );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
@@ -200,7 +199,7 @@ function confirm_delete_users( $users ) {
 						echo "<select name='blog[$val][{$key}]'>";
 						$out = '';
 						foreach ( $blog_users as $user ) {
-							if ( $user->user_id != $val && !in_array( $val, $allusers ) )
+							if ( $user->user_id != $val && !in_array( $user->user_id, $allusers ) )
 								$out .= "<option value='{$user->user_id}'>{$user->user_login}</option>";
 						}
 						if ( $out == '' )
