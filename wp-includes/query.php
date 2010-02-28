@@ -221,24 +221,43 @@ function is_tag( $slug = '' ) {
 }
 
 /**
- * Whether the current page query has the given taxonomy slug or contains taxonomy.
+ * Whether the current query is for the given taxonomy and/or term.
+ *
+ * If no taxonomy argument is set, returns true if any taxonomy is queried.
+ * If the taxonomy argument is passed but no term argument, returns true 
+ *    if the taxonomy or taxonomies in the argument are being queried.
+ * If both taxonomy and term arguments are passed, returns true 
+ *    if the current query is for a term contained in the terms argument
+ *    which has a taxonomy contained in the taxonomy argument.
  *
  * @since 2.5.0
  * @uses $wp_query
  *
- * @param string|array $slug Optional. Slug or slugs to check in current query.
+ * @param string|array $taxonomy Optional. Taxonomy slug or slugs to check in current query.
+ * @param int|array|string $term. Optional. A single or array of, The term's ID, Name or Slug
  * @return bool
  */
-function is_tax( $slug = '' ) {
-	global $wp_query;
+function is_tax( $taxonomy = '', $term = '' ) {
+	global $wp_query, $wp_taxonomies;
 
-	if ( !$wp_query->is_tax )
+	$queried_object = $wp_query->get_queried_object();
+	$tax_array = array_intersect(array_keys($wp_taxonomies), (array) $taxonomy);
+	$term_array = (array) $term;
+
+	if ( ! ( $wp_query->is_tax || $wp_query->is_category || $wp_query->is_tag ) )
 		return false;
 
-	if ( empty($slug) )
+	if ( empty( $taxonomy ) )
 		return true;
 
-	return in_array( get_query_var('taxonomy'), (array) $slug );
+	if ( empty( $term ) ) // Only a Taxonomy provided
+		return isset($queried_object->taxonomy) && count( $tax_array ) && in_array($queried_object->taxonomy, $tax_array);
+
+	return isset($queried_object->term_id) && 
+			count(array_intersect(
+				array($queried_object->term_id, $queried_object->name, $queried_object->slug), 
+				$term_array
+			));
 }
 
 /**
