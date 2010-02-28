@@ -97,11 +97,22 @@ if ( function_exists('mb_strlen') ) {
 
 <img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="32" height="32" /> <h1 id="site-heading" <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php esc_attr_e('Visit Site') ?>"><span id="site-title"><?php echo $blog_name ?></span> <em id="site-visit-button"><?php _e('Visit Site') ?></em></a><?php if ( ! get_option('blog_public') ) { ?> <a id="privacy-on-link" href="options-privacy.php" title="<?php esc_attr_e('Your blog is hidden from search engines') ?>"><?php _e('Privacy On') ?></a><?php } ?></h1>
 
+<?php do_action('in_admin_header'); ?>
+
 <div id="wphead-info">
 <div id="user_info">
-<p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?>
-<?php if ( ! $is_opera ) { ?><span class="turbo-nag hidden"> | <a href="tools.php"><?php _e('Turbo') ?></a></span><?php } ?> |
-<a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
+<p><?php
+$links = array();
+$links[5] = sprintf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity);
+if ( ! $is_opera )
+	$links[10] = '<span class="turbo-nag hidden"> | <a href="tools.php">' . __('Turbo') . '</a></span>';
+$links[15] = '| <a href="' . wp_logout_url() . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a>';
+
+$links = apply_filters('admin_user_info_links', $links, $current_user);
+ksort($links);
+
+echo implode(' ', $links);
+?></p>
 </div>
 
 <?php favorite_actions($current_screen); ?>
