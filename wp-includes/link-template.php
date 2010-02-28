@@ -656,6 +656,35 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
 }
 
 /**
+* Retrieve permalink for search.
+*
+* @since  3.0.0
+* @param string $query Optional. The query string to use. If empty the current query is used.
+* @return string
+*/
+function get_search_link( $query = '' ) {
+	global $wp_rewrite;
+
+	if ( empty($query) )
+		$search = get_search_query();
+	else
+		$search = stripslashes($query);
+
+	$permastruct = $wp_rewrite->get_search_permastruct();
+
+	if ( empty( $permastruct ) ) {
+		$link = home_url('?s=' . urlencode($search) );
+	} else {
+		$search = urlencode($search);
+		$search = str_replace('%2F', '/', $search); // %2F(/) is not valid within a URL, send it unencoded.
+		$link = str_replace( '%search%', $search, $permastruct );
+		$link = home_url( user_trailingslashit( $link, 'search' ) );
+	}
+
+	return apply_filters( 'search_link', $link, $search );
+}
+
+/**
  * Retrieve the permalink for the feed of the search results.
  *
  * @since 2.5.0
@@ -665,17 +694,22 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  * @return string
  */
 function get_search_feed_link($search_query = '', $feed = '') {
-	if ( empty($search_query) )
-		$search = esc_attr( urlencode(get_search_query()) );
-	else
-		$search = esc_attr( urlencode(stripslashes($search_query)) );
+	global $wp_rewrite;
+	$link = get_search_link($search_query);
 
 	if ( empty($feed) )
 		$feed = get_default_feed();
 
-	$link = home_url("?s=$search&amp;feed=$feed");
+	$permastruct = $wp_rewrite->get_search_permastruct();
 
-	$link = apply_filters('search_feed_link', $link);
+	if ( empty($permastruct) ) {
+		$link = add_query_arg('feed', $feed, $link);
+	} else {
+		$link = trailingslashit($link);
+		$link .= "feed/$feed/";
+	}
+
+	$link = apply_filters('search_feed_link', $link, $feed, 'posts');
 
 	return $link;
 }
@@ -690,17 +724,21 @@ function get_search_feed_link($search_query = '', $feed = '') {
  * @return string
  */
 function get_search_comments_feed_link($search_query = '', $feed = '') {
-	if ( empty($search_query) )
-		$search = esc_attr( urlencode(get_search_query()) );
-	else
-		$search = esc_attr( urlencode(stripslashes($search_query)) );
+	global $wp_rewrite;
 
 	if ( empty($feed) )
 		$feed = get_default_feed();
 
-	$link = home_url("?s=$search&amp;feed=comments-$feed");
+	$link = get_search_feed_link($search_query, $feed);
 
-	$link = apply_filters('search_feed_link', $link);
+	$permastruct = $wp_rewrite->get_search_permastruct();
+
+	if ( empty($permastruct) )
+		$link = add_query_arg('feed', 'comments-' . $feed, $link);
+	else
+		$link = add_query_arg('withcomments', 1, $link);
+
+	$link = apply_filters('search_feed_link', $link, $feed, 'comments');
 
 	return $link;
 }
