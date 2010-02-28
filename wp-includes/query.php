@@ -244,7 +244,7 @@ function is_tax( $taxonomy = '', $term = '' ) {
 	$tax_array = array_intersect(array_keys($wp_taxonomies), (array) $taxonomy);
 	$term_array = (array) $term;
 
-	if ( ! ( $wp_query->is_tax || $wp_query->is_category || $wp_query->is_tag ) )
+	if ( !$wp_query->is_tax )
 		return false;
 
 	if ( empty( $taxonomy ) )
