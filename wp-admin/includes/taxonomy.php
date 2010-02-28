@@ -80,12 +80,12 @@ function wp_create_categories($categories, $post_id = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Deletes one existing category.
  *
- * @since unknown
+ * @since 2.0.0
  *
- * @param unknown_type $cat_ID
- * @return unknown
+ * @param int $cat_ID
+ * @return mixed Returns true if completes delete action; false if term doesnt exist; Zero on attempted deletion of default Category; WP_Error object is also a possibility.
  */
 function wp_delete_category($cat_ID) {
 	$cat_ID = (int) $cat_ID;
@@ -99,13 +99,13 @@ function wp_delete_category($cat_ID) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Updates an existing Category or creates a new Category.
  *
- * @since unknown
+ * @since 2.0.0
  *
- * @param unknown_type $catarr
- * @param unknown_type $wp_error
- * @return unknown
+ * @param mixed $catarr See defaults below. Set 'cat_ID' to a non-zero value to update an existing category. The 'taxonomy' key was added in 3.0.0.
+ * @param bool $wp_error Optional, since 2.5.0. Set this to true if the caller handles WP_Error return values.
+ * @return int|object The ID number of the new or updated Category on success.  Zero or a WP_Error on failure, depending on param $wp_error.
  */
 function wp_insert_category($catarr, $wp_error = false) {
 	$cat_defaults = array('cat_ID' => 0, 'taxonomy' => 'category', 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
@@ -157,12 +157,15 @@ function wp_insert_category($catarr, $wp_error = false) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Aliases wp_insert_category() with minimal args.
  *
- * @since unknown
+ * If you want to update only some fields of an existing category, call this
+ * function with only the new values set inside $catarr.
  *
- * @param unknown_type $catarr
- * @return unknown
+ * @since 2.0.0
+ *
+ * @param array $catarr The 'cat_ID' value is required.  All other keys are optional.
+ * @return int|bool The ID number of the new or updated Category on success. Zero or FALSE on failure.
  */
 function wp_update_category($catarr) {
 	$cat_ID = (int) $catarr['cat_ID'];
