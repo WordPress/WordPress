@@ -871,15 +871,28 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	$selects = array();
-	if ( 'all' == $fields )
-		$selects = array('t.*', 'tt.*');
-	else if ( 'ids' == $fields || 'id=>parent' == $fields )
-		$selects = array('t.term_id', 'tt.parent', 'tt.count');
-	else if ( 'names' == $fields )
-		$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
+	switch ( $fields ) {
+ 		case 'all':
+ 			$selects = array('t.*', 'tt.*');
+ 			break;
+ 		case 'ids':
+		case 'id=>parent':
+ 			$selects = array('t.term_id', 'tt.parent', 'tt.count');
+ 			break;
+ 		case 'names':
+ 			$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
+ 			break;
+ 		case 'count':
+ 			$selects = array('COUNT(*)');
+ 	}
     $select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $limit";
+
+	if ( 'count' == $fields ) {
+		$term_count = $wpdb->get_var($query);
+		return $term_count;
+	}
 
 	$terms = $wpdb->get_results($query);
 	if ( 'all' == $fields ) {
@@ -1130,32 +1143,32 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 /**
  * Count how many terms are in Taxonomy.
  *
- * Default $args is 'ignore_empty' which can be <code>'ignore_empty=true'</code>
- * or <code>array('ignore_empty' => true);</code>.
+ * Default $args is 'hide_empty' which can be 'hide_empty=true' or array('hide_empty' => true).
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @uses get_terms()
  * @uses wp_parse_args() Turns strings into arrays and merges defaults into an array.
  *
  * @param string $taxonomy Taxonomy name
- * @param array|string $args Overwrite defaults
+ * @param array|string $args Overwrite defaults. See get_terms()
  * @return int How many terms are in $taxonomy
  */
 function wp_count_terms( $taxonomy, $args = array() ) {
-	global $wpdb;
-
-	$defaults = array('ignore_empty' => false);
+	$defaults = array('hide_empty' => false);
 	$args = wp_parse_args($args, $defaults);
-	extract($args, EXTR_SKIP);
 
-	$where = '';
-	if ( $ignore_empty )
-		$where = 'AND count > 0';
+	// backwards compatibility
+	if ( isset($args['ignore_empty']) ) {
+		$args['hide_empty'] = $args['ignore_empty'];
+		unset($args['ignore_empty']);
+	}
 
-	return $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->term_taxonomy WHERE taxonomy = %s $where", $taxonomy) );
+	$args['fields'] = 'count';
+
+	return get_terms($taxonomy, $args);
 }
 
 /**

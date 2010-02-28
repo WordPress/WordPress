@@ -230,20 +230,14 @@ if ( 'post_tag' == $taxonomy ) {
 	$tags_per_page = apply_filters( 'edit_' . $taxonomy . '_per_page', $tags_per_page );
 }
 
-if ( !empty($_GET['s']) ) {
-	$searchterms = trim(stripslashes($_GET['s']));
-	$total_terms = count( get_terms( $taxonomy, array( 'search' => $searchterms, 'number' => 0, 'hide_empty' => 0 ) ) );
-} else {
-	$searchterms = '';
-	$total_terms = wp_count_terms($taxonomy);
-}
+$searchterms = !empty($_GET['s']) ? trim(stripslashes($_GET['s'])) : '';
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
-	'total' => ceil($total_terms / $tags_per_page),
+	'total' => ceil(wp_count_terms($taxonomy, array('search' => $searchterms)) / $tags_per_page),
 	'current' => $pagenum
 ));
 
