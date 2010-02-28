@@ -640,17 +640,17 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
  * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_post_title($prefix = '', $display = true) {
-	global $wpdb, $post;
-	if ( ! $post ) {
-		$p = get_query_var('p');
-		$name = get_query_var('name');
-		if ( intval($p) || '' != $name ) {
-			if ( !$p )
-				$p = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s", $name));
-			$post = & get_post($p);
-		}
-	}
-	$title = apply_filters('single_post_title', $post->post_title, $post);
+	global $wp_query, $post;
+
+	if ( ! $post )
+		$_post = $wp_query->get_queried_object();
+	else
+		$_post = $post;
+
+	if ( !isset($_post->post_title) )
+		return;
+
+	$title = apply_filters('single_post_title', $_post->post_title, $_post);
 	if ( $display )
 		echo $prefix . $title;
 	else
