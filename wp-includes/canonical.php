@@ -132,18 +132,27 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			$author = get_userdata(get_query_var('author'));
 			if ( false !== $author && $redirect_url = get_author_posts_url($author->ID, $author->user_nicename) )
 				$redirect['query'] = remove_query_arg('author', $redirect['query']);
-		}
+		} elseif ( is_category() || is_tag() || is_tax() ) { // Terms (Tags/categories)
 
-		// Terms (Tags/categories)
-		if ( is_category() || is_tag() || is_tax() ) {
+			$term_count = 0;
+			foreach ( array('category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in',
+			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and') as $key )
+				$term_count += count($wp_query->query_vars[$key]);
+
 			$obj = $wp_query->get_queried_object();
-			if ( !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) ) && !is_wp_error($tax_url) ) {
 
-				$redirect['query'] = remove_query_arg( array( 'category_name', 'tag', 'cat', 'tag_id', 'term', 'taxonomy'), $redirect['query']);
-				if ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
+			if ( $term_count > 1 && !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) ) && !is_wp_error($tax_url) ) {
+
+				if ( is_category() ) {
+					$redirect['query'] = remove_query_arg( array( 'category_name', 'category', 'cat'), $redirect['query']);
+				} elseif ( is_tag() ) {
+					$redirect['query'] = remove_query_arg( array( 'tag', 'tag_id'), $redirect['query']);
+				} elseif ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
 					$tax = get_taxonomy( $obj->taxonomy );
 					if ( false !== $tax->query_var)
 						$redirect['query'] = remove_query_arg($tax->query_var, $redirect['query']);
+					else
+						$redirect['query'] = remove_query_arg( array( 'term', 'taxonomy'), $redirect['query']);
 				}
 
 				$tax_url = parse_url($tax_url);
