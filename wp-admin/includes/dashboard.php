@@ -212,8 +212,8 @@ function wp_dashboard_right_now() {
 
 	$num_comm = wp_count_comments( );
 
-	echo "\n\t".'<p class="sub">' . __('At a Glance') . '</p>';
-	echo "\n\t".'<div class="table">'."\n\t".'<table>';
+	echo "\n\t".'<div class="table table_content">'."\n\t".'<table>';
+	echo "\n\t".'<p class="sub">' . __('Content') . '</p>';
 	echo "\n\t".'<tr class="first">';
 
 	// Posts
@@ -225,6 +225,8 @@ function wp_dashboard_right_now() {
 	}
 	echo '<td class="first b b-posts">' . $num . '</td>';
 	echo '<td class="t posts">' . $text . '</td>';
+
+	echo '</tr><tr>';
 	/* TODO: Show status breakdown on hover
 	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
 		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( _n( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
@@ -242,18 +244,6 @@ function wp_dashboard_right_now() {
 	}
 	*/
 
-	// Total Comments
-	$num = '<span class="total-count">' . number_format_i18n($num_comm->total_comments) . '</span>';
-	$text = _n( 'Comment', 'Comments', $num_comm->total_comments );
-	if ( current_user_can( 'moderate_comments' ) ) {
-		$num = "<a href='edit-comments.php'>$num</a>";
-		$text = "<a href='edit-comments.php'>$text</a>";
-	}
-	echo '<td class="b b-comments">' . $num . '</td>';
-	echo '<td class="last t comments">' . $text . '</td>';
-
-	echo '</tr><tr>';
-
 	// Pages
 	$num = number_format_i18n( $num_pages->publish );
 	$text = _n( 'Page', 'Pages', $num_pages->publish );
@@ -263,6 +253,46 @@ function wp_dashboard_right_now() {
 	}
 	echo '<td class="first b b_pages">' . $num . '</td>';
 	echo '<td class="t pages">' . $text . '</td>';
+
+	echo '</tr><tr>';
+
+	// Categories
+	$num = number_format_i18n( $num_cats );
+	$text = _n( 'Category', 'Categories', $num_cats );
+	if ( current_user_can( 'manage_categories' ) ) {
+		$num = "<a href='edit-tags.php?taxonomy=category'>$num</a>";
+		$text = "<a href='edit-tags.php?taxonomy=category'>$text</a>";
+	}
+	echo '<td class="first b b-cats">' . $num . '</td>';
+	echo '<td class="t cats">' . $text . '</td>';
+
+	echo '</tr><tr>';
+
+	// Tags
+	$num = number_format_i18n( $num_tags );
+	$text = _n( 'Tag', 'Tags', $num_tags );
+	if ( current_user_can( 'manage_categories' ) ) {
+		$num = "<a href='edit-tags.php'>$num</a>";
+		$text = "<a href='edit-tags.php'>$text</a>";
+	}
+	echo '<td class="first b b-tags">' . $num . '</td>';
+	echo '<td class="t tags">' . $text . '</td>';
+
+	echo "</tr>";
+	echo "\n\t</table>\n\t</div>";
+
+
+	echo "\n\t".'<div class="table table_discussion">'."\n\t".'<table>';
+	echo "\n\t".'<p class="sub">' . __('Discussion') . '</p>';
+	echo "\n\t".'<tr class="first">';
+
+	// Total Comments
+	$num = '<span class="total-count">' . number_format_i18n($num_comm->total_comments) . '</span>';
+	$text = _n( 'Comment', 'Comments', $num_comm->total_comments );
+	echo '<td class="b b-comments"><a href="edit-comments.php">' . $num . '</a></td>';
+	echo '<td class="last t comments"><a href="edit-comments.php">' . $text . '</a></td>';
+
+	echo '</tr><tr>';
 
 	// Approved Comments
 	$num = '<span class="approved-count">' . number_format_i18n($num_comm->approved) . '</span>';
@@ -276,16 +306,6 @@ function wp_dashboard_right_now() {
 
 	echo "</tr>\n\t<tr>";
 
-	// Categories
-	$num = number_format_i18n( $num_cats );
-	$text = _n( 'Category', 'Categories', $num_cats );
-	if ( current_user_can( 'manage_categories' ) ) {
-		$num = "<a href='edit-tags.php?taxonomy=category'>$num</a>";
-		$text = "<a href='edit-tags.php?taxonomy=category'>$text</a>";
-	}
-	echo '<td class="first b b-cats">' . $num . '</td>';
-	echo '<td class="t cats">' . $text . '</td>';
-
 	// Pending Comments
 	$num = '<span class="pending-count">' . number_format_i18n($num_comm->moderated) . '</span>';
 	$text = _n( 'Pending', 'Pending', $num_comm->moderated );
@@ -297,16 +317,6 @@ function wp_dashboard_right_now() {
 	echo '<td class="last t">' . $text . '</td>';
 
 	echo "</tr>\n\t<tr>";
-
-	// Tags
-	$num = number_format_i18n( $num_tags );
-	$text = _n( 'Tag', 'Tags', $num_tags );
-	if ( current_user_can( 'manage_categories' ) ) {
-		$num = "<a href='edit-tags.php'>$num</a>";
-		$text = "<a href='edit-tags.php'>$text</a>";
-	}
-	echo '<td class="first b b-tags">' . $num . '</td>';
-	echo '<td class="t tags">' . $text . '</td>';
 
 	// Spam Comments
 	$num = number_format_i18n($num_comm->spam);

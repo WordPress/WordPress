@@ -91,6 +91,7 @@ div.postbox div.inside {
 
 #dashboard_right_now .inside {
 	font-size: 12px;
+	padding-top: 20px;
 }
 
 #dashboard_right_now p.sub {
@@ -99,18 +100,30 @@ div.postbox div.inside {
 	padding: 5px 10px 15px;
 	color: #777;
 	font-size: 13px;
+	position: absolute;
+	top: -17px;
+	left: 15px;
 }
 
 #dashboard_right_now .table {
+	margin: 0 -9px;
+	padding: 0 10px;
 	background: #f9f9f9;
 	border-top: #ececec 1px solid;
 	border-bottom: #ececec 1px solid;
-	margin: 0 -9px 10px;
-	padding: 0 10px;
+	position: relative;
 }
 
-#dashboard_right_now table {
-	width: 100%;
+#dashboard_right_now .table_content {
+	float: left;
+	border-right: #ececec 1px solid;
+	width: 45%;
+}
+
+#dashboard_right_now .table_discussion {
+	float: right;
+	border-left: #ececec 1px solid;
+	width: 45%;
 }
 
 #dashboard_right_now table  td {
@@ -128,6 +141,7 @@ div.postbox div.inside {
 	text-align: right;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 14px;
+	width: 1%;
 }
 
 #dashboard_right_now td.b a {
@@ -149,11 +163,6 @@ div.postbox div.inside {
 	white-space: nowrap;
 }
 
-#dashboard_right_now td.first,
-#dashboard_right_now td.last {
-	width: 1%;
-}
-
 #dashboard_right_now .spam {
 	color: red;
 }
@@ -168,6 +177,7 @@ div.postbox div.inside {
 
 #dashboard_right_now .versions {
 	padding: 6px 10px 12px;
+	clear: left;
 }
 
 #dashboard_right_now .versions .b {
@@ -397,4 +407,3 @@ a.rsswidget {
 	overflow: hidden;
 	word-wrap: break-word;
 }
-
