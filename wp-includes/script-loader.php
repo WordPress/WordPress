@@ -263,7 +263,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20090514' );
+		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20100301' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20091129' );
