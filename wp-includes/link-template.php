@@ -2015,4 +2015,24 @@ function rel_canonical() {
 	echo "<link rel='canonical' href='$link' />\n";
 }
 
+/**
+ * Prints the ajax url on the front end
+ *
+ * @since 3.0
+ **/
+function _wp_ajaxurl() {
+	echo '<script type="text/javascript">',
+			"var ajaxurl = '", esc_js(site_url('wp-ajax.php')), "';",
+		"</script>\n";
+}
+
+/**
+ * Hooks _wp_ajaxurl() to wp_head
+ *
+ * @since 3.0
+ **/
+function wp_ajaxurl() {
+	add_action('wp_head', '_wp_ajaxurl', 1);
+}
+
 ?>
