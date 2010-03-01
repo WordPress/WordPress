@@ -392,7 +392,12 @@ if ( isset($_GET['detached']) ) { ?>
 <?php	} ?></td>
 
 		<td class="media column-media"><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
-		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
+		<?php
+		if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
+			echo wp_specialchars( strtoupper( $matches[1] ) );
+		else
+			echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );  
+		?>
 
 		<div class="row-actions">
 		<?php
