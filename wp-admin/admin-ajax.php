@@ -620,8 +620,10 @@ case 'get-tagcloud' :
 
 	$tags = get_terms( $taxonomy, array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
 
-	if ( empty( $tags ) )
-		die( __('No tags found!') );
+	if ( empty( $tags ) ) {
+		$tax = get_taxonomy( $taxonomy );
+		die( isset( $tax->no_tagcloud ) ? $tax->no_tagcloud : __('No tags found!') );
+	}
 
 	if ( is_wp_error($tags) )
 		die($tags->get_error_message());
