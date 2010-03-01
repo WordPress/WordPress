@@ -309,7 +309,6 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				<th scope="col" class="num"><?php _e('Version'); ?></th>
 				<th scope="col" class="num"><?php _e('Rating'); ?></th>
 				<th scope="col" class="desc"><?php _e('Description'); ?></th>
-				<th scope="col" class="action-links"><?php _e('Actions'); ?></th>
 			</tr>
 		</thead>
 
@@ -319,7 +318,6 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				<th scope="col" class="num"><?php _e('Version'); ?></th>
 				<th scope="col" class="num"><?php _e('Rating'); ?></th>
 				<th scope="col" class="desc"><?php _e('Description'); ?></th>
-				<th scope="col" class="action-links"><?php _e('Actions'); ?></th>
 			</tr>
 		</tfoot>
 
@@ -354,18 +352,19 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 				$author = wp_kses($author, $plugins_allowedtags);
 
-				if ( isset($plugin['homepage']) )
-					$title = '<a target="_blank" href="' . esc_attr($plugin['homepage']) . '">' . $title . '</a>';
-
 				$action_links = array();
 				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox onclick" title="' .
-									esc_attr($name) . '">' . __('Install') . '</a>';
+									esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install') . '</a>';
+				if ( isset( $plugin['homepage'] ) )
+					$action_links[] = '<a target="_blank" href="' . esc_attr( $plugin['homepage'] ) . '" title="' . esc_attr( sprintf( __( 'More information on %s' ), $name ) ) . '">' . __('Info') . '</a>';
 
 				$action_links = apply_filters('plugin_install_action_links', $action_links, $plugin);
 			?>
 			<tr>
-				<td class="name"><?php echo $title; ?></td>
+				<td class="name"><strong><?php echo $title; ?></strong>
+					<div class="action-links"><?php if ( !empty($action_links) ) echo implode(' | ', $action_links); ?></div>
+				</td>
 				<td class="vers"><?php echo $version; ?></td>
 				<td class="vers">
 					<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings']), number_format_i18n($plugin['num_ratings'])) ?>">
@@ -378,7 +377,6 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 					</div>
 				</td>
 				<td class="desc"><?php echo $description, $author; ?></td>
-				<td class="action-links"><?php if ( !empty($action_links) )	echo implode(' | ', $action_links); ?></td>
 			</tr>
 			<?php
 			}
