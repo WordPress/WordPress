@@ -911,6 +911,20 @@ function inline_edit_row( $screen ) {
 	$post = get_default_post_to_edit( $screen->post_type );
 	$post_type_object = get_post_type_object( $screen->post_type );
 
+	$taxonomy_names = get_object_taxonomies( $screen->post_type );
+	$hierarchical_taxonomies = array();
+	$flat_taxonomies = array();
+	foreach ( $taxonomy_names as $taxonomy_name ) {
+		$taxonomy = get_taxonomy( $taxonomy_name);
+		
+		if( !$taxonomy->show_ui ) continue;
+		
+		if( $taxonomy->hierarchical )
+			$hierarchical_taxonomies[] = $taxonomy;
+		else 
+			$flat_taxonomies[] = $taxonomy;
+	}
+	
 	$columns = wp_manage_posts_columns($screen);
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($screen) ) );
 	$col_count = count($columns) - count($hidden);
@@ -1002,19 +1016,25 @@ function inline_edit_row( $screen ) {
 
 	</div></fieldset>
 
-<?php if ( is_object_in_taxonomy($screen->post_type, 'category') && !$bulk ) : ?>
+<?php if ( count($hierarchical_taxonomies) && !$bulk ) : ?>
 
 	<fieldset class="inline-edit-col-center inline-edit-categories"><div class="inline-edit-col">
-		<span class="title inline-edit-categories-label"><?php _e( 'Categories' ); ?>
+	
+<?php foreach ( $hierarchical_taxonomies as $taxonomy ) : ?>
+
+		<span class="title inline-edit-categories-label"><?php echo esc_html($taxonomy->label) ?>
 			<span class="catshow"><?php _e('[more]'); ?></span>
 			<span class="cathide" style="display:none;"><?php _e('[less]'); ?></span>
 		</span>
-		<ul class="cat-checklist">
-			<?php wp_category_checklist(); ?>
+		<ul class="cat-checklist <?php echo esc_attr($taxonomy->name)?>-checklist">
+			<?php wp_terms_checklist(null, array('taxonomy' => $taxonomy->name)) ?>
 		</ul>
+
+<?php endforeach; //$hierarchical_taxonomies as $taxonomy ?>
+
 	</div></fieldset>
 
-<?php endif; // is_object_in_taxonomy($screen->post_type, 'category') && !$bulk ?>
+<?php endif; // count($hierarchical_taxonomies) && !$bulk ?>
 
 	<fieldset class="inline-edit-col-right"><div class="inline-edit-col">
 
@@ -1058,14 +1078,18 @@ function inline_edit_row( $screen ) {
 
 <?php endif; // $post_type_object->hierarchical ?>
 
-<?php if ( is_object_in_taxonomy($screen->post_type, 'post_tag') && !$bulk ) : ?>
+<?php if ( count($flat_taxonomies) && !$bulk ) : ?>
+
+<?php foreach ( $flat_taxonomies as $taxonomy ) : ?>
 
 		<label class="inline-edit-tags">
-			<span class="title"><?php _e( 'Tags' ); ?></span>
-			<textarea cols="22" rows="1" name="tags_input" class="tags_input"></textarea>
+			<span class="title"><?php echo esc_html($taxonomy->label) ?></span>
+			<textarea cols="22" rows="1" name="tax_input[<?php echo esc_attr($taxonomy->name)?>]" class="tax_input_<?php echo esc_attr($taxonomy->name)?>"></textarea>
 		</label>
 
-<?php endif; // is_object_in_taxonomy($screen->post_type, 'post_tag') && !$bulk  ?>
+<?php endforeach; //$flat_taxonomies as $taxonomy ?>
+
+<?php endif; // count($flat_taxonomies) && !$bulk  ?>
 
 <?php if ( $bulk ) : ?>
 
@@ -1225,13 +1249,17 @@ function get_inline_data($post) {
 	if ( $post_type_object->hierarchical )
 		echo '<div class="menu_order">' . $post->menu_order . '</div>';
 
-	if ( is_object_in_taxonomy($post->post_type, 'post_tag') )
-		echo '<div class="tags_input">' . esc_html( str_replace( ',', ', ', get_tags_to_edit($post->ID) ) ) . '</div>';
+	$taxonomy_names = get_object_taxonomies( $post->post_type );
+	foreach ( $taxonomy_names as $taxonomy_name) {
+		$taxonomy = get_taxonomy( $taxonomy_name );
 
-	if ( is_object_in_taxonomy($post->post_type, 'post_tag') )
-		echo '<div class="post_category">' . implode( ',', wp_get_post_categories( $post->ID ) ) . '</div>';
+		if ( $taxonomy->hierarchical && $taxonomy->show_ui )
+				echo '<div class="post_category" id="'.$taxonomy_name.'_'.$post->ID.'">' . implode( ',', wp_get_object_terms( $post->ID, $taxonomy_name, array('fields'=>'ids')) ) . '</div>';
+		elseif ( $taxonomy->show_ui )
+			echo '<div class="tags_input" id="'.$taxonomy_name.'_'.$post->ID.'">' . esc_html( str_replace( ',', ', ', get_terms_to_edit($post->ID, $taxonomy_name) ) ) . '</div>';
+	}
 
-	if ( $post->post_type == 'post' )
+	if ( !$post_type_object->hierarchical )
 		echo '<div class="sticky">' . (is_sticky($post->ID) ? 'sticky' : '') . '</div>';
 
 	echo '</div>';

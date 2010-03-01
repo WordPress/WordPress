@@ -254,7 +254,7 @@ function bulk_edit_posts( $post_data = null ) {
 
 	$post_IDs = array_map( 'intval', (array) $post_data['post'] );
 
-	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private', 'tags_input', 'post_category', 'sticky' );
+	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private', 'tax_input', 'post_category', 'sticky' );
 	foreach ( $reset as $field ) {
 		if ( isset($post_data[$field]) && ( '' == $post_data[$field] || -1 == $post_data[$field] ) )
 			unset($post_data[$field]);
@@ -266,10 +266,20 @@ function bulk_edit_posts( $post_data = null ) {
 		else
 			unset($post_data['post_category']);
 	}
-
-	if ( isset($post_data['tags_input']) ) {
-		$new_tags = preg_replace( '/\s*,\s*/', ',', rtrim( trim($post_data['tags_input']), ' ,' ) );
-		$new_tags = explode(',', $new_tags);
+	
+	$tax_input = array();
+	if ( isset($post_data['tax_input'])) {
+		foreach ( $post_data['tax_input'] as $tax_name => $terms ) {
+			if ( empty($terms) )
+				continue;
+			$taxonomy = get_taxonomy( $tax_name );
+			if ( $taxonomy->hierarchical )
+				$tax_input[$tax_name] = array_map( 'absint', $terms );			
+			else {
+				$tax_input[$tax_name] = preg_replace( '/\s*,\s*/', ',', rtrim( trim($terms), ' ,' ) );
+				$tax_input[$tax_name] = explode(',', $tax_input[$tax_name]);
+			}
+		}
 	}
 
 	if ( isset($post_data['post_parent']) && ($parent = (int) $post_data['post_parent']) ) {
@@ -300,15 +310,23 @@ function bulk_edit_posts( $post_data = null ) {
 			$locked[] = $post_ID;
 			continue;
 		}
-
-		if ( isset($new_cats) ) {
+		
+		$tax_names = get_object_taxonomies( get_post($post_ID) );
+		
+		if ( isset($new_cats) && in_array( 'category', $tax_names ) ) {
 			$cats = (array) wp_get_post_categories($post_ID);
 			$post_data['post_category'] = array_unique( array_merge($cats, $new_cats) );
 		}
-
-		if ( isset($new_tags) ) {
-			$tags = wp_get_post_tags($post_ID, array('fields' => 'names'));
-			$post_data['tags_input'] = array_unique( array_merge($tags, $new_tags) );
+		
+		foreach ( $tax_names as $tax_name ) {
+			if( isset( $tax_input[$tax_name])  ) {
+				$taxonomy = get_taxonomy( $tax_name );
+				if( $taxonomy->hierarchical )
+					$terms = (array) wp_get_object_terms( $post_ID, $tax_name, array('fields' => 'ids') );
+				else
+					$terms = (array) wp_get_object_terms( $post_ID, $tax_name, array('fields' => 'names') );
+				$post_data['tax_input'][$tax_name] = array_merge( $terms, $tax_input[$tax_name] );
+			}
 		}
 
 		$post_data['ID'] = $post_ID;

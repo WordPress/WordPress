@@ -36,17 +36,13 @@ inlineEditPost = {
 			$('#inline-edit label.inline-edit-tags').clone()
 		);
 
-		// categories expandable?
+		// hiearchical taxonomies expandable?
 		$('span.catshow').click(function() {
-			$('.inline-editor ul.cat-checklist').addClass("cat-hover");
-			$('.inline-editor span.cathide').show();
-			$(this).hide();
+			$(this).hide().next().show().parent().next().addClass("cat-hover");
 		});
 
 		$('span.cathide').click(function() {
-			$('.inline-editor ul.cat-checklist').removeClass("cat-hover");
-			$('.inline-editor span.catshow').show();
-			$(this).hide();
+			$(this).hide().prev().show().parent().next().removeClass("cat-hover");
 		});
 
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
@@ -118,7 +114,6 @@ inlineEditPost = {
 
 		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password'];
 		if ( t.type == 'page' ) fields.push('post_parent', 'menu_order', 'page_template');
-		if ( t.type == 'post' ) fields.push('tags_input');
 
 		// add the new blank row
 		editRow = $('#inline-edit').clone(true);
@@ -146,9 +141,24 @@ inlineEditPost = {
 		if ( $('.sticky', rowData).text() == 'sticky' )
 			$('input[name="sticky"]', editRow).attr("checked", "checked");
 
-		// categories
-		if ( cats = $('.post_category', rowData).text() )
-			$('ul.cat-checklist :checkbox', editRow).val(cats.split(','));
+		// hierarchical taxonomies
+		$('.post_category', rowData).each(function(){
+			if( term_ids = $(this).text() )
+			{
+				taxname = $(this).attr('id').replace('_'+id, '');
+				$('ul.'+taxname+'-checklist :checkbox', editRow).val(term_ids.split(','));
+			}
+		});
+		//flat taxonomies
+		$('.tags_input', rowData).each(function(){
+			if( terms = $(this).text() )
+			{
+				taxname = $(this).attr('id').replace('_'+id, '');
+				$('textarea.tax_input_'+taxname, editRow).val(terms);
+				$('textarea.tax_input_'+taxname, editRow).suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+			}
+		});
+		
 
 		// handle the post status
 		status = $('._status', rowData).text();
@@ -179,12 +189,6 @@ inlineEditPost = {
 
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
 		$('.ptitle', editRow).focus();
-
-		// enable autocomplete for tags
-		if ( t.type == 'post' ) {
-			tax = 'post_tag';
-			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
-		}
 
 		return false;
 	},
