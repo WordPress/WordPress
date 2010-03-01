@@ -640,7 +640,7 @@ function wp_dashboard_recent_comments_control() {
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-recent-comments']) ) {
 		$number = (int) stripslashes($_POST['widget-recent-comments']['items']);
-		if ( $number < 1 || $number > 15 )
+		if ( $number < 1 || $number > 30 )
 			$number = 5;
 		$widget_options['dashboard_recent_comments']['items'] = $number;
 		update_option( 'dashboard_widget_options', $widget_options );
@@ -649,7 +649,7 @@ function wp_dashboard_recent_comments_control() {
 	$number = isset( $widget_options['dashboard_recent_comments']['items'] ) ? (int) $widget_options['dashboard_recent_comments']['items'] : '';
 
 	echo '<p><label for="comments-number">' . __('Number of comments to show:') . '</label>';
-	echo '<input id="comments-number" name="widget-recent-comments[items]" type="text" value="' . $number . '" size="3" /> <small>' . __( '(at most 15)' ) . '</small></p>';
+	echo '<input id="comments-number" name="widget-recent-comments[items]" type="text" value="' . $number . '" size="3" /> <small>' . __( '(at most 30)' ) . '</small></p>';
 }
 
 function wp_dashboard_incoming_links() {
