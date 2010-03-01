@@ -1,6 +1,6 @@
 <?php
 /**
- * Turbo Administration Panel.
+ * Tools Administration Panel.
  *
  * @package WordPress
  * @subpackage Administration
@@ -19,10 +19,10 @@ require_once('admin-header.php');
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<div class="tool-box">
 <?php
 if ( ! $is_opera ) {
 ?>
+<div class="tool-box">
 	<div id="gears-msg1">
 	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Speed up WordPress'); ?></h3>
 	<p><?php _e('WordPress now has support for Gears, which adds new features to your web browser.'); ?><br />
@@ -72,10 +72,8 @@ if ( ! $is_opera ) {
 	<p><strong><?php _e('Note: Do not enable Gears if this is a public or shared computer!'); ?></strong></p>
 	</div>
 	<script type="text/javascript">wpGears.message();</script>
-<?php } else {
-	_e('Turbo is not available for your browser.');
-} ?>
 </div>
+<?php } ?>
 
 <?php if ( current_user_can('edit_posts') ) : ?>
 <div class="tool-box">
