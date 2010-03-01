@@ -134,7 +134,7 @@ function theme_update_available( $theme ) {
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php } ?></h2>
+<h2><a href="themes.php" class="menu-tabs"><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?></a> <a href="theme-install.php" class="menu-tabs menu-tab-inactive"><?php echo esc_html_x('Install Themes', 'theme'); ?></a><?php } ?></h2>
 
 <h3><?php _e('Current Theme'); ?></h3>
 <div id="current-theme">

@@ -3667,3 +3667,34 @@ div#custom-background-image img {
 div#custom-background-image p.submit {
 	display: inline;
 }
+
+/* Tab Interface */
+
+.menu-tabs {
+	border-width: 1px 1px 2px;
+	border-style: solid;
+	border-color: #ccc #ccc #f9f9f9;
+	color: #464646;
+	padding: 4px 20px 6px;
+	text-decoration: none;
+	background-color: #fafafa;
+	margin: 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-khtml-border-top-left-radius: 5px;
+	-khtml-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.themes-php .wrap h2, .theme-install-php .wrap h2 {
+	border-bottom: 1px solid #ccc;
+}
+
+.menu-tab-inactive {
+	border-width: 1px 1px 0;
+	background-color: #fafafa;
+	color: #c1c1c1;
+	margin: 0 6px 0 0;
+}

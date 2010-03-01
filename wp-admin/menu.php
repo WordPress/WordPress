@@ -107,7 +107,6 @@ $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top', 'menu-appearance', 'div' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(_x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
-	$submenu['themes.php'][15] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 	$submenu['themes.php'][20] = array(__('Menus'), 'switch_themes', 'nav-menus.php');
 
 $update_plugins = get_site_transient( 'update_plugins' );
