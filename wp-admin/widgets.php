@@ -343,6 +343,8 @@ require_once( 'admin-header.php' ); ?>
 <div id="message" class="error"><p><?php echo $errors[$_GET['error']]; ?></p></div>
 <?php } ?>
 
+<?php do_action( 'widgets_admin_page' ); ?>
+
 <div class="widget-liquid-left">
 <div id="widgets-left">
 	<div id="available-widgets" class="widgets-holder-wrap">
