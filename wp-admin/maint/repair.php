@@ -31,8 +31,9 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 
 	$okay = true;
 
-	$tables = $wpdb->tables( 'all' );
-	// Loop over the WP tables, checking and repairing as needed.
+	$tables = $wpdb->tables();
+	$tables = array_merge( $tables, (array) apply_filters( 'tables_to_repair', array() ) ); // Return tables with table prefixes.
+	// Loop over the tables, checking and repairing as needed.
 	foreach ( $tables as $table ) {
 		$check = $wpdb->get_row("CHECK TABLE $table");
 		if ( 'OK' == $check->Msg_text ) {
