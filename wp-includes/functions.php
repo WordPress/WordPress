@@ -4048,10 +4048,23 @@ function _search_terms_tidy($t) {
 }
 
 /**
+ * Returns true
+ *
+ * Useful for returning true to filters easily
+ *
+ * @see __return_false()
+ * @return bool true
+ */
+function __return_true() {
+	return true;
+}
+
+/**
  * Returns false
  *
  * Useful for returning false to filters easily
- * 
+ *
+ * @see __return_true()
  * @return bool false
  */
 function __return_false() {
