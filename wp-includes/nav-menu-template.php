@@ -29,7 +29,7 @@ function wp_nav_menu( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_nav_menu_args', $args );
 	$args = (object) $args;
-	
+
 	// Get the nav menu
 	$menu = wp_get_nav_menu_object( $args->menu );
 		
@@ -44,21 +44,29 @@ function wp_nav_menu( $args = array() ) {
 			}
 		}
 	}
-	
-	$args->menu = $menu->term_id;
+
+	if ( $menu )
+		$args->menu = $menu->term_id;
 	$nav_menu = '';
-	
-	if ( 'div' == $args->format )
-		$nav_menu .= '<div id="menu-'. $menu->slug .'" class="' . esc_attr($args->menu_class) . '">';
-	
+
+	if ( 'div' == $args->format ) {
+		if ( $menu )
+			$nav_menu .= '<div id="menu-' . $menu->slug . '" class="' . esc_attr($args->menu_class) . '">';
+		else
+			$nav_menu .= '<div id="menu-default">';
+	}
+
 	$nav_menu .= wp_get_nav_menu( $args );
-	
+
 	if ( 'div' == $args->format )
 		$nav_menu .= '</div>';
-	
+
 	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu );
-	
-	return $args->echo ? print $nav_menu : $nav_menu;
+
+	if ( $args->echo )
+		echo $nav_menu;
+	else
+		return $nav_menu;
 }
 
 /**
@@ -83,8 +91,10 @@ function wp_get_nav_menu( $args = array() ) {
 	
 	// If no menu was found, call the fallback_cb
 	if ( !$menu || is_wp_error($menu) ) {
-		if ( function_exists($args->fallback_cb) )
-			return call_user_func( $args->fallback_cb, $args );
+		if ( function_exists($args->fallback_cb) ) {
+			$_args = array_merge( (array)$args, array('echo' => false) );
+			return call_user_func( $args->fallback_cb, $_args );
+		}
 	}
 	
 	$menu_items = wp_get_nav_menu_items( $menu->term_id );
