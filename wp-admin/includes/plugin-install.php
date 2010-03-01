@@ -356,10 +356,8 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox onclick" title="' .
 									esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install') . '</a>';
-				if ( isset( $plugin['homepage'] ) )
-					$action_links[] = '<a target="_blank" href="' . esc_attr( $plugin['homepage'] ) . '" title="' . esc_attr( sprintf( __( 'More information on %s' ), $name ) ) . '">' . __('Info') . '</a>';
 
-				$action_links = apply_filters('plugin_install_action_links', $action_links, $plugin);
+				$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
 			?>
 			<tr>
 				<td class="name"><strong><?php echo $title; ?></strong>
