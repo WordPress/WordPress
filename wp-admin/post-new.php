@@ -9,10 +9,12 @@
 /** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 
-if ( isset($_GET['post_type']) && ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) ) )
+if ( !isset($_GET['post_type']) )
+	$post_type = 'post';
+elseif ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) )
 	$post_type = $_GET['post_type'];
 else
-	$post_type = 'post';
+	wp_die( __('Invalid post type') );
 
 if ( 'post' != $post_type ) {
 	$parent_file = "edit.php?post_type=$post_type";

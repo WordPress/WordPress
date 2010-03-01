@@ -20,10 +20,12 @@ if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['pag
 	unset( $_redirect );
 }
 
-if ( isset($_GET['post_type']) && ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) ) )
+if ( !isset($_GET['post_type']) )
+	$post_type = 'post';
+elseif ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) )
 	$post_type = $_GET['post_type'];
 else
-	$post_type = 'post';
+	wp_die( __('Invalid post type') );
 $_GET['post_type'] = $post_type;
 
 $post_type_object = get_post_type_object($post_type);
