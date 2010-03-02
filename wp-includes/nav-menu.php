@@ -30,17 +30,22 @@ function wp_get_nav_menu_object( $menu ) {
  * @return mixed Menu Object, if exists.
  */
 function is_nav_menu( $menu ) {
-	if ( $menu ) {
-		$menu = get_term( $menu, 'nav_menu' );
-	} elseif ( !$menu ) {
-		$menu = get_term_by( 'slug', $menu, 'nav_menu' );
-	} elseif( !$menu ) {
-		$menu = get_term_by( 'name', $menu, 'nav_menu' );
-	} else {
-		$menu = false;
+	if ( !$menu )
+		return false;
+
+	$menu_obj = get_term( $menu, 'nav_menu' );
+
+	if ( !$menu_obj )
+		$menu_obj = get_term_by( 'slug', $menu, 'nav_menu' );
+
+	if ( !$menu_obj )
+		$menu_obj = get_term_by( 'name', $menu, 'nav_menu' );
+
+	if ( !$menu_obj ) {
+		$menu_obj = false;
 	}
-		
-	return $menu;
+
+	return $menu_obj;
 }
 
 /**
