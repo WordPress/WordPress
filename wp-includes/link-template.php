@@ -100,7 +100,8 @@ function get_permalink($id = 0, $leavename = false) {
 		$sample = false;
 	}
 
-	if ( empty($post->ID) ) return false;
+	if ( empty($post->ID) )
+		return false;
 
 	if ( $post->post_type == 'page' )
 		return get_page_link($post->ID, $leavename, $sample);
@@ -110,6 +111,8 @@ function get_permalink($id = 0, $leavename = false) {
 		return get_post_permalink($post);
 
 	$permalink = get_option('permalink_structure');
+
+	$permalink = apply_filters('pre_post_link', $permalink, $post, $leavename);
 
 	if ( '' != $permalink && !in_array($post->post_status, array('draft', 'pending', 'auto-draft')) ) {
 		$unixtime = strtotime($post->post_date);
@@ -154,11 +157,10 @@ function get_permalink($id = 0, $leavename = false) {
 		);
 		$permalink = home_url( str_replace($rewritecode, $rewritereplace, $permalink) );
 		$permalink = user_trailingslashit($permalink, 'single');
-		return apply_filters('post_link', $permalink, $post, $leavename);
 	} else { // if they're not using the fancy permalink option
 		$permalink = home_url('?p=' . $post->ID);
-		return apply_filters('post_link', $permalink, $post, $leavename);
 	}
+	return apply_filters('post_link', $permalink, $post, $leavename);
 }
 
 /**
