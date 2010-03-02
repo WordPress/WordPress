@@ -269,14 +269,15 @@ jQuery(document).ready( function($) {
 	});
 
 	// tab in textareas
-	$('textarea#newcontent').keydown(function(e) {
+	$('#newcontent').keydown(function(e) {
 		if ( e.keyCode != 9 )
 			return true;
 
 		var el = e.target, selStart = el.selectionStart, selEnd = el.selectionEnd, val = el.value, scroll, sel;
 
-		e.stopPropagation();
-		e.preventDefault();
+		try {
+			this.lastKey = 9; // not a standard DOM property, lastKey is to help stop Opera tab event.  See blur handler below.
+		} catch(err) {}
 
 		if ( document.selection ) {
 			el.focus();
@@ -288,6 +289,16 @@ jQuery(document).ready( function($) {
 			el.selectionStart = el.selectionEnd = selStart + 1;
 			this.scrollTop = scroll;
 		}
+		
+		if ( e.stopPropagation )
+			e.stopPropagation();
+		if ( e.preventDefault )
+			e.preventDefault();
+	});
+	
+	$('#newcontent').blur(function(e) {
+		if ( this.lastKey && 9 == this.lastKey )
+			this.focus();
 	});
 });
 
