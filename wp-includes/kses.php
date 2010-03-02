@@ -538,7 +538,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 	# Is there a closing XHTML slash at the end of the attributes?
 
 	$xhtml_slash = '';
-	if (preg_match('%\s/\s*$%', $attr))
+	if (preg_match('%\s*/\s*$%', $attr))
 		$xhtml_slash = ' /';
 
 	# Are any attributes allowed at all for this element?
@@ -664,7 +664,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 
 			case 2 : # attribute value, a URL after href= for instance
 
-				if (preg_match('/^"([^"]*)"(\s+|$)/', $attr, $match))
+				if (preg_match('%^"([^"]*)"(\s+|/?$)%', $attr, $match))
 					# "value"
 					{
 					$thisval = $match[1];
@@ -680,7 +680,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					break;
 				}
 
-				if (preg_match("/^'([^']*)'(\s+|$)/", $attr, $match))
+				if (preg_match("%^'([^']*)'(\s+|/?$)%", $attr, $match))
 					# 'value'
 					{
 					$thisval = $match[1];
@@ -696,7 +696,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					break;
 				}
 
-				if (preg_match("%^([^\s\"']+)(\s+|$)%", $attr, $match))
+				if (preg_match("%^([^\s\"']+)(\s+|/?$)%", $attr, $match))
 					# value
 					{
 					$thisval = $match[1];
