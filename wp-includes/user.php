@@ -203,7 +203,6 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '3.0' );
 
-	$option = preg_replace('|[^a-z0-9_]|i', '', $option);
 	if ( empty($user) )
 		$user = wp_get_current_user();
 	else
@@ -237,6 +236,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
  */
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
 	global $wpdb;
+
 	if ( !$global )
 		$option_name = $wpdb->prefix . $option_name;
 	return update_user_meta( $user_id, $option_name, $newvalue );

@@ -228,17 +228,9 @@ WPRemoveThumbnail = function(){
 })(jQuery);
 
 jQuery(document).ready( function($) {
-	var stamp, visibility, sticky = '', post = 'post' == pagenow || 'post-new' == pagenow, page = 'page' == pagenow || 'page-new' == pagenow;
+	var stamp, visibility, sticky = '';
 
-	// postboxes
-	if ( post ) {
-		type = 'post';
-		if ( typenow )
-			type = typenow;
-		postboxes.add_postbox_toggles(type);
-	} else if ( page ) {
-		postboxes.add_postbox_toggles('page');
-	}
+	postboxes.add_postbox_toggles(pagenow);
 
 	// multi-taxonomies
 	if ( $('#tagsdiv-post_tag').length ) {
