@@ -292,6 +292,9 @@ sup {
 sub {
 	top: .5ex;
 }
+input[type="text"], textarea {
+	padding: 0 0 0 3px;
+}
 a:link {
 	color:#0066CC;
 }
@@ -1036,7 +1039,6 @@ h3#reply-title {
 #respond dd {
 	display: inline;
 }
-
 
 
 /* =Widget Areas
