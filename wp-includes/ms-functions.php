@@ -49,8 +49,13 @@ function get_blogs_of_user( $id, $all = false ) {
 		return false;
 
 	$blogs = $match = array();
+	$prefix_length = strlen($wpdb->base_prefix);
 	foreach ( (array) $user as $key => $value ) {
-		if ( false !== strpos( $key, '_capabilities') && ( strlen( $wpdb->base_prefix ) == 0 || 0 === strpos( $key, $wpdb->base_prefix ) ) && preg_match( '/' . $wpdb->base_prefix . '((\d+)_)?capabilities/', $key, $match ) ) {
+		if ( $prefix_length && substr($key, 0, $prefix_length) != $wpdb->base_prefix )
+			continue;
+		if ( substr($key, -12, 12) != 'capabilities' )
+			continue;
+		if ( preg_match( '/^' . $wpdb->base_prefix . '((\d+)_)?capabilities$/', $key, $match ) ) {
 			if ( count( $match ) > 2 )
 				$blog_id = $match[ 2 ];
 			else
