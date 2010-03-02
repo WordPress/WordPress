@@ -996,6 +996,7 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_plugins':
 	case 'install_plugins':
 	case 'update_themes':
+	case 'delete_themes':
 	case 'install_themes':
 	case 'update_core':
 	case 'delete_user':
