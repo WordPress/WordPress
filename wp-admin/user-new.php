@@ -84,7 +84,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 			} else {
 				$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
 				if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
-					add_filter( 'wpmu_signup_user_notification', create_function('', '{return false;}') ); // Disable confirmation email
+					add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
 				}
 				wpmu_signup_user( $new_user_login, $_REQUEST[ 'email' ], array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST[ 'role' ] ) );
 				if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
