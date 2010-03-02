@@ -35,6 +35,7 @@ $whitelist_options = array(
 	'options' => array( '' ) );
 
 $mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass');
+$uploads_options = array('uploads_use_yearmonth_folders', 'upload_path', 'upload_url_path');
 
 if ( !is_multisite() ) {
 	if ( !defined( 'WP_SITEURL' ) ) $whitelist_options['general'][] = 'siteurl';
@@ -45,6 +46,8 @@ if ( !is_multisite() ) {
 
 	$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);
 	$whitelist_options['writing'][] = 'ping_sites';
+
+	$whitelist_options['media'] = array_merge($whitelist_options['media'], $uploads_options);
 } else {
 	$whitelist_options['general'][] = 'new_admin_email';
 	$whitelist_options['general'][] = 'WPLANG';

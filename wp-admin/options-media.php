@@ -90,6 +90,7 @@ include('admin-header.php');
 <?php do_settings_fields('media', 'embeds'); ?>
 </table>
 
+<?php if ( !is_multisite() ) : ?>
 <h3><?php _e('Uploading Files'); ?></h3>
 <table class="form-table">
 <tr valign="top">
@@ -117,6 +118,7 @@ include('admin-header.php');
 
 <?php do_settings_fields('media', 'uploads'); ?>
 </table>
+<?php endif; ?>
 
 <?php do_settings_sections('media'); ?>
 
