@@ -139,8 +139,8 @@ endif;
 
 // Remove inline styles on gallery shortcode
 if ( ! function_exists( 'twentyten_remove_gallery_css' ) ) :
-function twentyten_remove_gallery_css() {
-	return "\t\t<div class='gallery'>\n\t\t";
+function twentyten_remove_gallery_css( $css ) {
+	return preg_replace( "#<style type='text/css'>(.*?)</style>#s", '', $css );
 }
 endif;
 add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
