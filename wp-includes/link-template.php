@@ -398,6 +398,19 @@ function get_day_link($year, $month, $day) {
 }
 
 /**
+ * Display the permalink for the feed type.
+ *
+ * @since 3.0.0
+ *
+ * @param string $anchor The link's anchor text.
+ * @param string $feed Optional, defaults to default feed. Feed type.
+ */
+function the_feed_link( $anchor, $feed = '' ) {
+	$link = '<a href="' . esc_url( get_feed_link( $feed ) ) . '">' . $anchor . '</a>';
+	echo apply_filters( 'the_feed_link', $link, $feed );
+}
+
+/**
  * Retrieve the permalink for the feed type.
  *
  * @since 1.5.0
