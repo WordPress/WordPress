@@ -70,7 +70,7 @@
 .menu li dl dt { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; border-top-left-radius: 6px; border-top-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; border: 1px solid #E6E6E6;position: relative; padding-left:10px; background-color: #f1f1f1; height: 35px; line-height: 35px; }
 .menu li dl dt:hover { cursor: move; }
 
-.menu li .item-title { background: url(../images/ico-arrow.png) no-repeat 4px 5px; background-position: center left; padding-left: 15px; }
+.menu li .item-title { }
 .menu li ul li { margin-left: 20px; opacity: .7;}
 .menu li ul li ul li { opacity: .9;}
 .menu li ul li ul li ul li { opacity: .9;}
