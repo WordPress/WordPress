@@ -1619,9 +1619,9 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 		$host = 'https://secure.gravatar.com';
 	} else {
 		if ( !empty($email) )
-			$host = sprintf( "http://w%d.gravatar.com", ( hexdec( $email_hash{0} ) % 2 ) );
+			$host = sprintf( "http://%d.gravatar.com", ( hexdec( $email_hash{0} ) % 2 ) );
 		else
-			$host = 'http://www.gravatar.com';
+			$host = 'http://0.gravatar.com';
 	}
 
 	if ( 'mystery' == $default )
