@@ -23,7 +23,7 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('stylesheet_directory'); ?>/print.css" />
 
-	<?php if( strstr( $_SERVER['HTTP_USER_AGENT'], 'iPhone' ) || strstr( $_SERVER['HTTP_USER_AGENT'], 'iPod' ) || strstr( $_SERVER['HTTP_USER_AGENT'], 'iPad' ) ) : ?>
+	<?php if ( preg_match( '/Apple.*Mobile.*Safari/i', $_SERVER['HTTP_USER_AGENT'] ) ) : ?>
 		<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_directory'); ?>/mobile-webkit.css" />
 	<?php endif; ?>
 	
