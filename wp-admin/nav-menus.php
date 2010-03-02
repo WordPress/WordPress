@@ -259,8 +259,8 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							</p>
 							
 							<p class="button-controls">
-								<a class="show-all button"><?php _e('View All'); ?></a>
-								<a class="hide-all button"><?php _e('Hide All'); ?></a>
+								<a class="show-all"><?php _e('View All'); ?></a>
+								<a class="hide-all"><?php _e('Hide All'); ?></a>
 							</p>
 							<div id="available-links" class="list-wrap">
 								<div class="list-container">
@@ -315,8 +315,8 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							</p>
 							
 							<p class="button-controls">
-								<a class="show-all button"><?php _e('View All'); ?></a>
-								<a class="hide-all button"><?php _e('Hide All'); ?></a>
+								<a class="show-all"><?php _e('View All'); ?></a>
+								<a class="hide-all"><?php _e('Hide All'); ?></a>
 							</p>
 							
 							<div id="existing-pages" class="list-wrap">
@@ -377,8 +377,8 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							</p>
 							
 							<p class="button-controls">
-								<a class="show-all button"><?php _e('View All'); ?></a>
-								<a class="hide-all button"><?php _e('Hide All'); ?></a>
+								<a class="show-all"><?php _e('View All'); ?></a>
+								<a class="hide-all"><?php _e('Hide All'); ?></a>
 							</p>
 							
 							<div id="existing-categories" class="list-wrap">
