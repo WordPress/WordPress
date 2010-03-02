@@ -1,7 +1,7 @@
 /* Mobile Safari ( iPad, iPhone and iPod Touch )
 -------------------------------------------------------------- */
 
-#access, .entry-meta, .navigation, pre {
+pre {
 	-webkit-text-size-adjust: 140%;
 }
 
@@ -9,6 +9,6 @@ code {
 	-webkit-text-size-adjust: 160%;
 }
 
-.widget-area {
+#access, .entry-meta, .entry-utility, .navigation, .widget-area {
 	-webkit-text-size-adjust: 120%;
 }
