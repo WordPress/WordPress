@@ -314,8 +314,9 @@ function category_description( $category = 0 ) {
  *     'echo' (bool|int) default is 1 - Whether to display or retrieve content.
  *     'depth' (int) - The max depth.
  *     'tab_index' (int) - Tab index for select element.
- *     'name' (string) - The name attribute value for selected element.
- *     'class' (string) - The class attribute value for selected element.
+ *     'name' (string) - The name attribute value for select element.
+ *     'id' (string) - The ID attribute value for select element. Defaults to name if omitted.
+ *     'class' (string) - The class attribute value for select element.
  *     'selected' (int) - Which category ID is selected.
  *
  * The 'hierarchical' argument, which is disabled by default, will override the
@@ -336,9 +337,10 @@ function wp_dropdown_categories( $args = '' ) {
 		'hide_empty' => 1, 'child_of' => 0,
 		'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0,
-		'name' => 'cat', 'class' => 'postform',
-		'depth' => 0, 'tab_index' => 0,
-		'taxonomy' => 'category', 'hide_if_empty' => false
+		'name' => 'cat', 'id' => '',
+		'class' => 'postform', 'depth' => 0,
+		'tab_index' => 0, 'taxonomy' => 'category',
+		'hide_if_empty' => false
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
@@ -357,11 +359,12 @@ function wp_dropdown_categories( $args = '' ) {
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
 	$categories = get_terms( $taxonomy, $r );
-	$name = esc_attr($name);
-	$class = esc_attr($class);
+	$name = esc_attr( $name );
+	$class = esc_attr( $class );
+	$id = $id ? esc_attr( $id ) : $name;
 
 	if ( ! $r['hide_if_empty'] || ! empty($categories) )
-		$output = "<select name='$name' id='$name' class='$class' $tab_index_attribute>\n";
+		$output = "<select name='$name' id='$id' class='$class' $tab_index_attribute>\n";
 	else
 		$output = '';
 

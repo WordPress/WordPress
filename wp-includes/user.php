@@ -403,11 +403,12 @@ function setup_userdata($for_user_id = '') {
  * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
  * <li>include - User IDs to include.</li>
  * <li>exclude - User IDs to exclude.</li>
- * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element.</li>
+ * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element. A 'true' value is overridden when id argument is set.</li>
  * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentesis</li>
  * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
  * <li>selected - Which User ID is selected.</li>
  * <li>name - Default is 'user'. Name attribute of select element.</li>
+ * <li>id - Default is the value of the 'name' parameter. ID attribute of select element.</li>
  * <li>class - Class attribute of select element.</li>
  * <li>blog_id - ID of blog (Multisite only). Defaults to ID of current blog.</li>
  * </ol>
@@ -426,6 +427,7 @@ function wp_dropdown_users( $args = '' ) {
 		'include' => '', 'exclude' => '', 'multi' => 0,
 		'show' => 'display_name', 'echo' => 1,
 		'selected' => 0, 'name' => 'user', 'class' => '', 'blog_id' => $GLOBALS['blog_id'],
+		'id' => '',
 	);
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
@@ -459,9 +461,13 @@ function wp_dropdown_users( $args = '' ) {
 
 	$output = '';
 	if ( !empty($users) ) {
-		$id = $multi ? "" : "id='$name'";
+		$name = esc_attr( $name );
+		if ( $multi && ! $id )
+			$id = '';
+		else
+			$id = $id ? " id='" . esc_attr( $id ) . "'" : "id='$name'";
 
-		$output = "<select name='$name' $id class='$class'>\n";
+		$output = "<select name='{$name}'{$id} class='$class'>\n";
 
 		if ( $show_option_all )
 			$output .= "\t<option value='0'>$show_option_all</option>\n";
