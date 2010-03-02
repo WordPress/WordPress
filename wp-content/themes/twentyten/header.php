@@ -23,6 +23,10 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('stylesheet_directory'); ?>/print.css" />
 
+	<?php if( strstr( $_SERVER['HTTP_USER_AGENT'], 'iPhone' ) || strstr( $_SERVER['HTTP_USER_AGENT'], 'iPod' ) || strstr( $_SERVER['HTTP_USER_AGENT'], 'iPad' ) ) : ?>
+		<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_directory'); ?>/mobile-webkit.css" />
+	<?php endif; ?>
+	
 	<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
 
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
