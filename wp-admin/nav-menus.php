@@ -57,10 +57,10 @@ if ( isset( $_GET['edit-menu'] ) ) {
 if ( isset($_GET['delete-menu']) && $_GET['delete-menu'] > 0 ) {
 	// if ( ! current_user_can('delete_menus') )
 	// 	wp_die( __( 'Cheatin&#8217; uh?' ));
-	
+
 	$menu_id = (int) $_GET['delete-menu'];
 	check_admin_referer( 'delete_menu-' . $menu_id );
-	
+
 	wp_delete_nav_menu( $menu_id );
 	$messages_div = '<div id="message" class="updated fade below-h2"><p>' . __('Menu successfully deleted.') . '</p></div>';
 	$menu_selected_id = 0;
@@ -78,7 +78,7 @@ if ( empty($menus) && empty($_POST) ) {
 if ( ! $menu_selected_id && ! empty($menus) )
 	$menu_selected_id = $menus[0]->term_id;
 
-// Get the name of the current Menu 
+// Get the name of the current Menu
 $menu_title = '';
 $valid_menu = false;
 if ( $menu_selected_id > 0 ) {
@@ -121,7 +121,7 @@ if ( isset( $_POST['create-menu'] ) && ! $updated ) {
 if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 	$menu_items = wp_get_nav_menu_items( $menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 	$parent_menu_ids = array();
-	
+
 	// Loop through all POST variables
 	for ( $k = 1; $k <= $post_counter; $k++ ) {
 		$db_id = isset( $_POST['item-dbid'.$k] )? $_POST['item-dbid'.$k] : 0;
@@ -130,7 +130,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		$custom_title = isset( $_POST['item-title'.$k] )?  $_POST['item-title'.$k] : '';
 		$custom_linkurl = ( isset( $_POST['item-url'.$k] ) && 'custom' == $_POST['linktype'.$k] ) ? $_POST['item-url'.$k] : '';
 		$custom_description = isset( $_POST['item-description'.$k] )? $_POST['item-description'.$k] : '';
-		
+
 		// doesn't seem to be used by UI
 		$position = isset( $_POST['item-position'.$k] )? $_POST['item-position'.$k] : 0;
 		$linktype = isset( $_POST['item-type'.$k] )? $_POST['item-type'.$k] : 'custom';
@@ -144,7 +144,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 
 		if ( $parent_id > 0 && isset( $parent_menu_ids[$parent_id] ) )
 			$post['post_parent'] = $parent_menu_ids[$parent_id];
-		
+
 		// New menu item
 		if ( $db_id == 0 ) {
 			$db_id = wp_insert_post( $post );
@@ -179,7 +179,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 	<h2><?php esc_html_e('Menus'); ?></h2>
 	<?php echo $messages_div; ?>
 	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
-	
+
 	<form onsubmit="wp_update_post_data();" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
 		<?php if ( !empty($menus) && count($menus) > 1 ) : ?>
 		<ul class="subsubsub">
@@ -195,13 +195,13 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 			?>
 		</ul>
 		<?php endif; ?>
-		
+
 		<div id="menu-management" class="metabox-holder has-right-sidebar">
 			<div id="post-body">
 				<div id="post-body-content">
 					<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 					<?php if ( $valid_menu and ! empty( $menus ) ) : ?>
-						<div id="menu-container" class="postbox">	
+						<div id="menu-container" class="postbox">
 							<h3 class="hndle"><?php echo esc_html( $menu_title ); ?></h3>
 							<div class="inside">
 								<input type="hidden" name="li-count" id="li-count" value="0" />
@@ -210,7 +210,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								if ( $menu_selected_id > 0 )
 									echo wp_get_nav_menu( array( 'type' => 'backend', 'menu' => $menu_selected_id, 'ul_class' => 'menu' ) );
 								?>
-								
+
 								<div id="queue" class="hide">
 								</div><!--/#queue-->
 							</div><!-- /.inside -->
@@ -230,7 +230,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 			</div><!--- /#post-body -->
 			<div id="menu-settings-column" class="inner-sidebar">
 				<div id="side-sortables" class="meta-box-sortables ui-sortable">
-					
+
 					<div id="create-menu" class="postbox">
 						<h3 class="hndle"><?php esc_html_e('Create Menu'); ?></h3>
 						<div class="inside">
@@ -240,10 +240,10 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							</p>
 						</div><!-- /.inside-->
 					</div><!--END #create-menu-->
-					
+
 					<div id="add-custom-link" class="postbox">
 						<h3 class="hndle"><?php esc_html_e('Add a Custom Link'); ?></h3>
-						<div class="inside">							
+						<div class="inside">
 							<p id="menu-item-url-wrap">
 								<label class="howto" for="menu-item-url">
 									<span><?php _e('URL'); ?></span>
@@ -257,7 +257,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 									<input id="menu-item-name" type="text" class="regular-text" value="<?php echo esc_attr( __('Menu Item') ); ?>" />
 								</label>
 							</p>
-							
+
 							<p class="button-controls">
 								<a class="show-all"><?php _e('View All'); ?></a>
 								<a class="hide-all"><?php _e('Hide All'); ?></a>
@@ -275,7 +275,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!-- /#add-custom-link-->
-					
+
 					<div id="add-pages" class="postbox">
 						<h3 class="hndle"><?php esc_html_e('Add an Existing Page'); ?></h3>
 						<div class="inside">
@@ -299,8 +299,8 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								jQuery(document).ready(function(){
 									var posts = "<?php echo esc_js( $page_name ); ?>".split('|');
 									jQuery('#add-pages .quick-search').autocomplete(posts);
-									
-									
+
+
 									jQuery('#add-pages .quick-search').result(function(event, data, formatted) {
 										jQuery('#add-pages .list-wrap').css('display','block');
 										jQuery("#add-pages .list-wrap li:contains('" + data + "')").css('display','block');
@@ -313,12 +313,12 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								<input type="text" class="quick-search regular-text" value="" />
 								<a class="quick-search-submit button"><?php _e('Search'); ?></a>
 							</p>
-							
+
 							<p class="button-controls">
 								<a class="show-all"><?php _e('View All'); ?></a>
 								<a class="hide-all"><?php _e('Hide All'); ?></a>
 							</p>
-							
+
 							<div id="existing-pages" class="list-wrap">
 								<div class="list-container">
 									<ul class="list">
@@ -332,7 +332,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 							<br class="clear" />
 						</div><!-- /.inside-->
 					</div><!--END #add-pages-->
-					
+
 					<div id="add-categories" class="postbox">
 						<h3 class="hndle"><?php esc_html_e('Add an Existing Category'); ?></h3>
 						<div class="inside">
@@ -375,12 +375,12 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 								<input type="text" class="quick-search regular-text" value="" />
 								<a class="quick-search-submit button"><?php _e('Search'); ?></a>
 							</p>
-							
+
 							<p class="button-controls">
 								<a class="show-all"><?php _e('View All'); ?></a>
 								<a class="hide-all"><?php _e('Hide All'); ?></a>
 							</p>
-							
+
 							<div id="existing-categories" class="list-wrap">
 								<div class="list-container">
 									<ul class="list">
