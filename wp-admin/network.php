@@ -1,6 +1,6 @@
 <?php
 /**
- * Network settings administration panel.
+ * Network installation administration panel.
  *
  * A multi-step process allowing the user to enable a network of WordPress sites.
  *
@@ -14,13 +14,18 @@
 require_once( './admin.php' );
 
 if ( ! is_super_admin() )
-	wp_die( __( 'You do not have sufficient permissions to manage options for this blog.' ) );
+	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
+
+if ( is_multisite() )
+	wp_die( __( 'The Network feature is already enabled.' ) );
+
+include( ABSPATH . 'wp-admin/includes/network.php' );
 
 // We need to create references to ms global tables to enable Network.
 foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
 	$wpdb->$table = $prefixed_table;
 
-$title = __( 'Network Settings' );
+$title = __( 'Create a Network of WordPress Sites' );
 $parent_file = 'tools.php';
 
 add_contextual_help( $current_screen, __( '<a href="http://codex.wordpress.org/Settings_Network_SubPanel" target="_blank">Network Settings</a>') );
@@ -36,251 +41,142 @@ $dirs = array( substr( ABSPATH, 0, -1 ), ABSPATH . 'wp-content' );
 <form method="post" action="network.php">
 <?php
 /**
- * Prints summary of server statistics in preparation for setting up a network.
+ * Prints step 1 for Network installation process.
+ *
+ * @todo Realistically, step 1 should be a welcome screen explaining what a Network is and such. Navigating to Tools > Network
+ * 	should not be a sudden "Welcome to a new install process! Fill this out and click here."
  *
  * @since 3.0.0
  */
-function filestats( $err ) {
-?>
-	<h2><?php esc_html_e( 'Server Summary' ); ?></h2>
-	<p><?php _e( 'If you post a message to the WordPress support forum at <a target="_blank" href="http://wordpress.org/support/">http://wordpress.org/support/</a> then copy and paste the following information into your message:' ); ?></p>
-	<blockquote style="background: #eee; border: 1px solid #333; padding: 5px;">
-	<br /><strong><?php printf( __( 'ERROR: %s' ), $err ); ?></strong><br />
-<?php
-	clearstatcache();
-	$files = array( 'htaccess.dist', '.htaccess' );
+function ms_network_step1() {
 
-	$indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
-	foreach ( (array) $files as $val ) {
-		$stats = @stat( $val );
-		if ( $stats ) {
-?>
-			<h2><?php echo esc_html( $val ); ?></h2>
-			<?php echo $indent . sprintf( __( 'uid/gid: %1$s/%2$s' ), $stats['uid'], $stats['gid'] ); ?><br />
-			<?php echo $indent . sprintf( __( 'size: %s' ), $stats['size'] ); ?><br/>
-			<?php echo $indent . sprintf( __( 'perms: %s' ), substr( sprintf( '%o', fileperms( $val ) ), -4 ) ); ?><br/>
-			<?php echo $indent . sprintf( __( 'readable: %s' ), is_readable( $val ) ? __( 'yes' ) : __( 'no' ) ); ?><br/>
-			<?php echo $indent . sprintf( __( 'writeable: %s' ), is_writeable( $val ) ? __( 'yes' ) : __( 'no' ) ); ?><br/>
-<?php
-		} elseif ( ! file_exists( $val ) ) {
-?>
-			<h2><?php echo esc_html( $val ); ?></h2>
-			<?php echo $indent . sprintf( __( 'FILE NOT FOUND: %s' ), $val ); ?><br/>
-<?php
-		}
+	$active_plugins = get_option( 'active_plugins' );
+	if ( ! empty( $active_plugins ) ) {
+		printf( '<p>' . __( 'Please <a href="%s">deactivate</a> your plugins before enabling the Network feature. Once the network is created, you may reactivate your plugins.' ) . '</p>', admin_url( 'plugins.php' ) );
+		include( './admin-footer.php' );
+		die();
 	}
-	echo "</blockquote>";
-}
 
-/**
- * Prints .htaccess component of step 2 for network settings.
- *
- * @since 3.0.0
- */
-function step2_htaccess() {
-	global $base;
-
-	// remove ending slash from $base and $url
-	$htaccess = '';
-	if ( substr( $base, -1 ) == '/' )
-		$base = substr( $base, 0, -1 );
-
-	$htaccess_sample = ABSPATH . 'wp-admin/includes/htaccess.ms';
-	if ( ! file_exists( $htaccess_sample ) )
-		wp_die( sprintf( __( 'Sorry, I need a %s to work from. Please re-upload this file to your WordPress installation.' ), $htaccess_sample ) );
-
-	$htaccess_file = file( $htaccess_sample );
-	$fp = @fopen( $htaccess_sample, "r" );
-	if ( $fp ) {
-		while ( ! feof( $fp ) ) {
-			$htaccess .= fgets( $fp, 4096 );
-		}
-		fclose( $fp );
-		$htaccess_file = str_replace( "BASE", $base, $htaccess );
-	} else {
-		wp_die( sprintf( __( 'Sorry, I need to be able to read %s. Please check the permissions on this file.' ), $htaccess_sample ) );
-	}
-?>
-			<li><p><?php printf( __( 'Replace the contents of your <code>%s.htaccess</code> with the following:' ), ABSPATH ); ?></p>
-				<textarea name="htaccess" cols="120" rows="20">
-<?php echo wp_htmledit_pre( $htaccess_file ); ?>
-				</textarea>
-			</li>
-<?php
-}
-
-/**
- * Prints part of step 1 for network settings and checks for mod_rewrite.
- *
- * @since 3.0.0
- * @return bool Whether mod_rewrite is enabled.
- */
-function step1() {
-	$rewrite_enabled = false;
-	?>
-	<h2><?php esc_html_e( 'Installing Network of WordPress Sites' ); ?></h2>
-	<p><?php _e( 'I will help you enable the features for creating a network of sites by asking you a few questions so that you can create configuration files and make a directory to store all your uploaded files.' ); ?></p>
-
-	<h2><?php esc_html_e( 'What do I need?' ); ?></h2>
-	<ul>
-		<li><?php _e( 'Access to your server to change directory permissions. This can be done through ssh or ftp for example.' ); ?></li>
-		<li><?php _e( 'A valid email where your password and administrative emails will be sent.' ); ?></li>
-		<li><?php _e( "Wildcard dns records if you're going to use the virtual host (sub-domain) functionality. Check the <a href='http://trac.mu.wordpress.org/browser/trunk/README.txt'>README</a> for further details." ); ?></li>
-	</ul>
-	<?php
-	$mod_rewrite_msg = "\n<p>" . __( 'If the <code>mod_rewrite</code> module is disabled ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p>';
-
-	if ( function_exists( 'apache_get_modules' ) ) {
-		$modules = apache_get_modules();
-		if ( ! in_array( 'mod_rewrite', $modules ) )
-			echo '<p>' . __( '<strong>Warning!</strong> It looks like mod_rewrite is not installed.' ) . '</p>' . $mod_rewrite_msg;
-		else
-			$rewrite_enabled = true;
-	} else {
-		echo '<p>' . __( 'Please make sure <code>mod_rewrite</code> is installed as it will be activated at the end of this install.' ) . '</p>' . $mod_rewrite_msg;
-	}
-	return $rewrite_enabled;
-}
-
-/**
- * Prints most of step 1 for network settings.
- *
- * @since 3.0.0
- * @param bool $rewrite_enabled Whether mod_rewrite is enabled. Default false.
- */
-function printstep1form( $rewrite_enabled = false ) {
-	$weblog_title = sprintf( __( '%s Sites' ), ucfirst( get_option( 'blogname' ) ) );
-	$email = get_option( 'admin_email' );
 	$hostname = get_clean_basedomain();
-	$invalid_host = false;
-	if ( 'localhost' == $hostname || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname, $match ) )
-		$invalid_host = true;
-	if ( substr( $hostname, 0, 4 ) == 'www.' )
-		$nowww = substr( $hostname, 4 );
+	if ( 'localhost' == $hostname || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) {
+		echo '<p><strong>' . __('You cannot install a network of sites with your server address.' ) . '</strong></p>';
+		echo '<p>' . __('You cannot use an IP address such as <code>127.0.0.1</code> or a single-word hostname like <code>localhost</code>.' ) . '</p>';
+		if ( 'localhost' == $hostname )
+			echo '<p>' . __('Consider using <code>localhost.localdomain</code>.') . '</p>';
+		include( './admin-footer.php' );
+		die();
+	}
+
+	?>
+	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
+	<p><?php _e( "Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. We'll create configuration files in the next step." ); ?></p>
+	<?php
+
+	if ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
+		$rewrite_enabled = true;
+	} else {
+		$rewrite_enabled = false;
+		if ( got_mod_rewrite() ) // dangerous assumptions
+			echo '<p>' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this install.' ) . '</p>';
+		else
+			echo '<p>' . __( '<strong>Warning!</strong> It looks like Apache <code>mod_rewrite</code> module is not installed.' ) . '</p>';
+		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p>';
+	}
 
 	wp_nonce_field( 'install-network-1' );
 	if ( network_domain_check() ) { ?>
 		<h2><?php esc_html_e( 'Existing Sites' ); ?></h2>
 		<p><?php _e( 'An existing WordPress Network was detected.' ); ?></p>
 		<p class="existing-network">
-			<label><input type='checkbox' name='existing_network' value='yes' /> <?php _e( 'Yes, keep the existing network of sites.' ); ?></label><br />
+			<label><input type='checkbox' name='existing_network' value='1' /> <?php _e( 'Yes, keep the existing network of sites.' ); ?></label><br />
 		</p>
 
 <?php 	} else { ?>
-		<input type='hidden' name='existing_network' value='none' />
+		<input type='hidden' name='existing_network' value='0' />
 <?php	} ?>
 		<input type='hidden' name='action' value='step2' />
-		<h2><?php esc_html_e( 'Site Addresses' ); ?></h2>
-		<p><?php _e( 'Please choose whether you would like sites in your WordPress install to use sub-domains or sub-directories. You cannot change this later.' ); ?></p>
+		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
+	
+		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
+		<p><?php _e( "You will need a wildcard DNS record if you're going to use the virtual host (sub-domain) functionality." ); ?></p>
+		<?php /* @todo: Link to an MS readme? */ ?>
 		<?php if ( ! $rewrite_enabled ) { ?>
 		<p><?php _e( '<strong>Note</strong> It looks like <code>mod_rewrite</code> is not installed.' ); ?></p>
 		<?php } ?>
-		<p class="blog-address">
-			<label><input type='radio' name='vhost' value='yes'<?php if ( $rewrite_enabled ) echo ' checked="checked"'; ?> /> <?php _e( 'Sub-domains (like <code>blog1.example.com</code>)' ); ?></label><br />
-			<label><input type='radio' name='vhost' value='no'<?php if ( ! $rewrite_enabled ) echo ' checked="checked"'; ?> /> <?php _e( 'Sub-directories (like <code>example.com/blog1</code>)' ); ?></label>
-		</p>
+		<table class="form-table">
+			<tr>
+				<th><label><input type='radio' name='vhost' value='yes'<?php checked( $rewrite_enabled ); ?> /> Sub-domains</label></th>
+				<td><?php _e('like <code>blog1.example.com</code> and <code>blog2.example.com</code>'); ?></td>
+			</tr>
+			<tr>
+				<th><label><input type='radio' name='vhost' value='no'<?php checked( ! $rewrite_enabled ); ?> /> Sub-directories</label></th>
+				<td><?php _e('like <code>example.com/blog1</code> and <code>example.com/blog2</code>'); ?></td>
+			</tr>
+		</table>
 
-		<h2><?php esc_html_e( 'Server Address' ); ?></h2>
-		<?php if ( isset( $nowww ) ) { ?>
-		<h3><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code>%2$s</code> but any links will not have the "www" prefix.' ), $nowww, $hostname ); ?></h3>
-		<?php } ?>
+		<?php
+		$is_www = ( substr( $hostname, 0, 4 ) == 'www.' );
+		if ( $is_www ) :
+		?>
+		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
+		<p><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code>%2$s</code> but any links will not have the "www" prefix.' ), substr( $hostname, 4 ), $hostname ); ?></h3>
 		<table class="form-table">
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
-		<?php if ( !$invalid_host ) { ?>
-					<?php printf( __( 'This will be the Internet address of your site: <strong><em>%s</em></strong>.' ), $hostname ); ?>
+					<?php printf( __( 'The Internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
 					<input type='hidden' name='basedomain' value='<?php echo esc_attr( $hostname ); ?>' />
-		<?php } else { ?>
-					<?php _e( 'Do not use an IP address (like 127.0.0.1) or a single word hostname like <q>localhost</q> as your server address.' ); ?>
-		<?php } ?>
 				</td>
 			</tr>
 		</table>
+		<?php endif; ?>
 
-		<h2><?php esc_html_e( 'Site Details' ); ?></h2>
+		<h3><?php esc_html_e( 'Network Details' ); ?></h3>
 		<table class="form-table">
+		<?php if ( ! $is_www ) : ?>
 			<tr>
-				<th scope='row'><?php esc_html_e( 'Site&nbsp;Title' ); ?></th>
+				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
-					<input name='weblog_title' type='text' size='45' value='<?php echo esc_attr( $weblog_title ); ?>' />
-					<br /><?php _e( 'What would you like to call your site?' ); ?>
+					<?php printf( __( 'The Internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
+				</td>
+			</tr>
+		<?php endif; ?>
+			<tr>
+				<th scope='row'><?php esc_html_e( 'Network Title' ); ?></th>
+				<td>
+					<input name='weblog_title' type='text' size='45' value='<?php echo esc_attr( sprintf( __('%s Sites'), get_option( 'blogname' ) ) ); ?>' />
+					<br /><?php _e( 'What would you like to call your network?' ); ?>
 				</td>
 			</tr>
 			<tr>
-				<th scope='row'><?php esc_html_e( 'Email' ); ?></th>
+				<th scope='row'><?php esc_html_e( 'Admin E-mail Address' ); ?></th>
 				<td>
-					<input name='email' type='text' size='45' value='<?php echo esc_attr( $email ); ?>' />
+					<input name='email' type='text' size='45' value='<?php echo esc_attr( get_option( 'admin_email' ) ); ?>' />
 					<br /><?php _e( 'Your email address.' ); ?>
 				</td>
 			</tr>
 		</table>
-		<?php if ( !$invalid_host ) { ?>
-		<p class='submit'><input class="button" name='submit' type='submit' value='<?php esc_attr_e( 'Proceed' ); ?>' /></p>
-		<?php } ?>
-	<?php
+		<p class='submit'><input class="button-primary" name='submit' type='submit' value='<?php esc_attr_e( 'Install' ); ?>' /></p>
+		<?php
 }
 
 /**
- * Checks for active plugins & displays a notice to deactivate them.
+ * Prints step 2 for Network installation process.
  *
  * @since 3.0.0
  */
-function step1_plugin_check() {
-	$active_plugins = get_option( 'active_plugins' );
-	if ( is_array( $active_plugins ) && !empty( $active_plugins ) ) {
+function ms_network_step2() {
+	global $base, $wpdb;
 ?>
-		<h2><?php esc_html_e( 'Enabling WordPress Sites' ); ?></h2>
-		<p><?php printf( __( 'Please <a href="%s">deactivate</a> your plugins before enabling WordPress Sites. Once WordPress Sites are enabled, you may reactivate your plugins.' ), admin_url( 'plugins.php' ) ); ?></p>
-<?php
-		return false;
-	}
-	return true;
-}
-
-/**
- * Checks for existing network data/tables.
- *
- * @since 3.0.0
- */
-function network_domain_check() {
-	global $wpdb;
-
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) == $wpdb->site )
-		return $wpdb->get_var( "SELECT domain FROM $wpdb->site ORDER BY id ASC LIMIT 1" );
-
-	return false;
-}
-
-/**
- * Prints step 2 for network settings.
- *
- * @since 3.0.0
- */
-function step2() {
-?>
-		<h2><?php esc_html_e( 'Enabling WordPress Sites' ); ?></h2>
+		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites. <strong>Note:</strong> We recommend you make a backup copy of your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p>
 		<ol>
 			<li><?php printf( __( 'Create a <code>%s/blogs.dir</code> directory. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR ); ?></li>
-<?php step2_config(); ?>
-<?php step2_htaccess(); ?>
-		</ol>
 <?php
-}
-
-/**
- * Prints configuration file component of step 2 for network settings.
- *
- * @since 3.0.0
- */
-function step2_config() {
-	global $base, $wpdb, $vhost;
-
 	$vhost   = stripslashes( $_POST['vhost' ] );
 	$prefix  = $wpdb->base_prefix;
 
-	$config_sample = ABSPATH . 'wp-admin/includes/wp-config.ms';
+	$config_sample = ABSPATH . 'wp-admin/includes/ms-config-sample.php';
 	if ( ! file_exists( $config_sample ) )
 		wp_die( sprintf( __( 'Sorry, I need a <code>%s</code> to work from. Please re-upload this file to your WordPress installation.' ), $config_sample ) );
 
@@ -341,57 +237,58 @@ function step2_config() {
 				</textarea>
 			</li>
 <?php
+
+	// remove ending slash from $base and $url
+	$htaccess = '';
+	if ( substr( $base, -1 ) == '/' )
+		$base = substr( $base, 0, -1 );
+
+	$htaccess_sample = ABSPATH . 'wp-admin/includes/htaccess.ms';
+	if ( ! file_exists( $htaccess_sample ) )
+		wp_die( sprintf( __( 'Sorry, I need a %s to work from. Please re-upload this file to your WordPress installation.' ), $htaccess_sample ) );
+
+	$htaccess_file = file( $htaccess_sample );
+	$fp = @fopen( $htaccess_sample, "r" );
+	if ( $fp ) {
+		while ( ! feof( $fp ) ) {
+			$htaccess .= fgets( $fp, 4096 );
+		}
+		fclose( $fp );
+		$htaccess_file = str_replace( "BASE", $base, $htaccess );
+	} else {
+		wp_die( sprintf( __( 'Sorry, I need to be able to read %s. Please check the permissions on this file.' ), $htaccess_sample ) );
+	}
+?>
+			<li><p><?php printf( __( 'Replace the contents of your <code>%s.htaccess</code> with the following:' ), ABSPATH ); ?></p>
+				<textarea name="htaccess" cols="120" rows="20">
+<?php echo wp_htmledit_pre( $htaccess_file ); ?>
+				</textarea>
+			</li>
+		</ol>
+<?php
 }
 
-/**
- * Gets base domain of network.
- *
- * @since 3.0.0
- */
-function get_clean_basedomain() {
-	global $wpdb;
+$action = isset( $_POST['action'] ) ? $_POST['action'] : null;
 
-	$existing_domain = network_domain_check();
-	if ( $existing_domain )
-		return $existing_domain;
-
-	$domain = preg_replace( '|https?://|', '', get_option( 'siteurl' ) );
-	if ( strpos( $domain, '/' ) )
-		$domain = substr( $domain, 0, strpos( $domain, '/' ) );
-	return $domain;
-}
-
-$action = isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : null;
-
-switch( $action ) {
+switch ( $action ) {
 	case 'step2':
 		check_admin_referer( 'install-network-1' );
 
-		if ( isset( $_POST[ 'existing_network' ] ) ) {
-			// Install!
-			$base = stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) );
-			if ( $base != '/' )
-				$base .= '/';
+		// Install!
+		$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
 
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			// create network tables
-			$domain = get_clean_basedomain();
-			install_network();
-			if ( !network_domain_check() || $_POST[ 'existing_network' ] == 'none' )
-				populate_network( 1, $domain, sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
-			// create wp-config.php / htaccess
-			step2();
-			break;
-		}
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		// create network tables
+		install_network();
+		if ( !network_domain_check() || $_POST['existing_network'] == '0' )
+			populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
+		// create wp-config.php / htaccess
+		ms_network_step2();
+		break;
+
 	default:
-		//@todo: give an informative screen instead
-		if ( is_multisite() ) {
-			_e( 'Network already enabled.' );
-		} elseif ( step1_plugin_check() ) {
-			$rewrite_enabled = step1();
-			printstep1form( $rewrite_enabled );
-		}
-	break;
+		ms_network_step1();
+		break;
 }
 ?>
 </form>

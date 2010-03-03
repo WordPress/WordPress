@@ -29,7 +29,7 @@ echo apply_filters( 'admin_footer_text', '<span id="footer-thankyou">' . __('Tha
 <?php
 do_action('admin_footer', '');
 do_action('admin_print_footer_scripts');
-do_action("admin_footer-$hook_suffix");
+do_action("admin_footer-" . $GLOBALS['hook_suffix']);
 
 // get_site_option() won't exist when auto upgrading from <= 2.7
 if ( function_exists('get_site_option') ) {

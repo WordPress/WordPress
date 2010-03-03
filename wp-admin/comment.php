@@ -35,7 +35,6 @@ if ( isset( $_GET['dt'] ) ) {
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
  */
 function comment_footer_die( $msg ) {
-	global $hook_suffix;
 	echo "<div class='wrap'><p>$msg</p></div>";
 	include('admin-footer.php');
 	die;
