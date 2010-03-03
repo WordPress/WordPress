@@ -31,8 +31,6 @@ $parent_file = 'tools.php';
 add_contextual_help( $current_screen, __( '<a href="http://codex.wordpress.org/Settings_Network_SubPanel" target="_blank">Network Settings</a>') );
 
 include( './admin-header.php' );
-
-$dirs = array( substr( ABSPATH, 0, -1 ), ABSPATH . 'wp-content' );
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -48,7 +46,7 @@ $dirs = array( substr( ABSPATH, 0, -1 ), ABSPATH . 'wp-content' );
  *
  * @since 3.0.0
  */
-function ms_network_step1() {
+function network_step1() {
 
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
@@ -69,9 +67,10 @@ function ms_network_step1() {
 
 	?>
 	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
-	<p><?php _e( "Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. We'll create configuration files in the next step." ); ?></p>
+	<p><?php _e( "Fill in the information below and you'll be on your way to creating a network of WordPress sites. We'll create configuration files in the next step." ); ?></p>
 	<?php
 
+	// @todo IIS...
 	if ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
 		$rewrite_enabled = true;
 	} else {
@@ -165,7 +164,7 @@ function ms_network_step1() {
  *
  * @since 3.0.0
  */
-function ms_network_step2() {
+function network_step2() {
 	global $base, $wpdb;
 ?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
@@ -176,7 +175,7 @@ function ms_network_step2() {
 	$vhost   = stripslashes( $_POST['vhost' ] );
 	$prefix  = $wpdb->base_prefix;
 
-	$config_sample = ABSPATH . 'wp-admin/includes/ms-config-sample.php';
+	$config_sample = ABSPATH . 'wp-admin/includes/wp-config.ms';
 	if ( ! file_exists( $config_sample ) )
 		wp_die( sprintf( __( 'Sorry, I need a <code>%s</code> to work from. Please re-upload this file to your WordPress installation.' ), $config_sample ) );
 
@@ -262,7 +261,7 @@ function ms_network_step2() {
 			<li><p><?php printf( __( 'Replace the contents of your <code>%s.htaccess</code> with the following:' ), ABSPATH ); ?></p>
 				<textarea name="htaccess" cols="120" rows="20">
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
-				</textarea>
+</textarea>
 			</li>
 		</ol>
 <?php
@@ -283,11 +282,11 @@ switch ( $action ) {
 		if ( !network_domain_check() || $_POST['existing_network'] == '0' )
 			populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
 		// create wp-config.php / htaccess
-		ms_network_step2();
+		network_step2();
 		break;
 
 	default:
-		ms_network_step1();
+		network_step1();
 		break;
 }
 ?>
