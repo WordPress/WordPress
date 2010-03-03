@@ -1357,7 +1357,7 @@ function register_default_headers( $headers ) {
  * @return string
  */
 function get_background_image() {
-	$default =  defined('BACKGROUND_IMAGE') ? BACKGROUND_IMAGE : '';
+	$default = defined('BACKGROUND_IMAGE') ? BACKGROUND_IMAGE : '';
 
 	return get_theme_mod('background_image', $default);
 }
@@ -1369,6 +1369,29 @@ function get_background_image() {
  */
 function background_image() {
 	echo get_background_image();
+}
+
+/**
+ * Retrieve value for custom background color.
+ *
+ * @since 3.0.0
+ * @uses BACKGROUND_COLOR
+ *
+ * @return string
+ */
+function get_background_color() {
+	$default = defined('BACKGROUND_COLOR') ? BACKGROUND_COLOR : '';
+
+	return get_theme_mod('background_color', $default);
+}
+
+/**
+ * Display background color value.
+ *
+ * @since 3.0.0
+ */
+function background_color() {
+	echo get_background_color();
 }
 
 /**
@@ -1437,7 +1460,8 @@ function _custom_background_cb() {
 ?>
 <style type="text/css">
 body {
-	background-image:url('<?php background_image(); ?>');
+	background-color: #<?php background_color(); ?>;
+	background-image: url('<?php background_image(); ?>');
 	<?php echo $repeat; ?>
 	<?php echo $position; ?>
 	<?php echo $attachment; ?>

@@ -57,7 +57,10 @@ class Custom_Background {
 
 		$page = add_theme_page(__('Background'), __('Background'), 'switch_themes', 'custom-background', array(&$this, 'admin_page'));
 
-		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
+		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
+		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));
+		add_action("admin_head-$page", array(&$this, 'js'), 50);
+		add_action("admin_head-$page", array(&$this, 'take_action'), 49);
 		if ( $this->admin_header_callback )
 			add_action("admin_head-$page", $this->admin_header_callback, 51);
 	}
@@ -78,6 +81,30 @@ class Custom_Background {
 			$step = 1;
 
 		return $step;
+	}
+
+	/**
+	 * Setup the enqueue for the JavaScript files.
+	 *
+	 * @since unknown
+	 */
+	function js_includes() {
+		$step = $this->step();
+
+		if ( 1 == $step )
+			wp_enqueue_script('farbtastic');
+	}
+
+	/**
+	 * Setup the enqueue for the CSS files
+	 *
+	 * @since unknown
+	 */
+	function css_includes() {
+		$step = $this->step();
+
+		if ( 1 == $step )
+			wp_enqueue_style('farbtastic');
 	}
 
 	/**
@@ -119,6 +146,70 @@ class Custom_Background {
 		}
 		if ( isset($_POST['remove-background']) )
 			set_theme_mod('background_image', '');
+		if ( isset( $_POST['background-color'] ) ) {
+			$color = preg_replace('/[^0-9a-fA-F]/', '', $_POST['background-color']);
+			if ( strlen($color) == 6 || strlen($color) == 3 )
+				set_theme_mod('background_color', $color);
+			else
+				set_theme_mod('background_color', '');
+		}
+	}
+
+	/**
+	 * Execute Javascript depending on step.
+	 *
+	 * @since unknown
+	 */
+	function js() {
+		$step = $this->step();
+		if ( 1 == $step )
+			$this->js_1();
+	}
+
+	/**
+	 * Display Javascript based on Step 1.
+	 *
+	 * @since unknown
+	 */
+	function js_1() { ?>
+<script type="text/javascript">
+	var buttons = ['#pickcolor'],
+		farbtastic;
+
+	function pickColor(color) {
+		jQuery('#background-color').val(color);
+		farbtastic.setColor(color);
+	}
+
+	jQuery(document).ready(function() {
+		jQuery('#pickcolor').click(function() {
+			jQuery('#colorPickerDiv').show();
+		});
+
+		farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) { pickColor(color); });
+		pickColor('#<?php background_color(); ?>');
+	});
+
+	jQuery(document).mousedown(function(){
+		hide_picker(); // Make the picker disappear if you click outside its div element
+	});
+
+	function hide_picker(what) {
+		var update = false;
+		jQuery('#colorPickerDiv').each(function(){
+			var id = jQuery(this).attr('id');
+			if (id == what) {
+				return;
+			}
+			var display = jQuery(this).css('display');
+			if (display == 'block') {
+				jQuery(this).fadeOut(2);
+			}
+		});
+	}
+
+</script>
+<?php
 	}
 
 	/**
@@ -143,7 +234,7 @@ class Custom_Background {
 		call_user_func($this->admin_image_div_callback);
 	} else {
 ?>
-<div id="custom-background-image">
+<div id="custom-background-image" style="background-color: #<?php background_color(); ?>;">
 <img class="custom-background-image" src="<?php background_image(); ?>" />
 </div>
 <?php }
@@ -161,6 +252,7 @@ if ( get_background_image() ) : ?>
 <th scope="col"><?php _e( 'Position' ); ?></th>
 <th scope="col"><?php _e( 'Repeat' ); ?></th>
 <th scope="col"><?php _e( 'Attachment' ); ?></th>
+<th scope="col"><?php _e( 'Color' ); ?></th>
 </tr>
 
 <tbody>
@@ -200,6 +292,13 @@ if ( get_background_image() ) : ?>
 <input name="background-attachment" type="radio" value="fixed" <?php checked('fixed', get_theme_mod('background_attachment', 'fixed')); ?> />
 <?php _e('Fixed') ?>
 </label>
+</fieldset></td>
+
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Color' ); ?></span></legend>
+<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr(get_background_color()) ?>" />
+<input type="button" class="button" value="<?php esc_attr_e('Select a Color'); ?>" id="pickcolor" />
+
+<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 </fieldset></td>
 </tr>
 </tbody>
