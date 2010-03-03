@@ -807,10 +807,11 @@ function get_filesystem_method($args = array(), $context = false) {
  * @param string $type the chosen Filesystem method in use
  * @param boolean $error if the current request has failed to connect
  * @param string $context The directory which is needed access to, The write-test will be performed on  this directory by get_filesystem_method()
+ * @param string $extra_fields Extra POST fields which should be checked for to be included in the post.
  * @return boolean False on failure. True on success.
  */
-function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false) {
-	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error, $context);
+function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null) {
+	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields );
 	if ( '' !== $req_cred )
 		return $req_cred;
 
@@ -819,6 +820,9 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 
 	if ( 'direct' == $type )
 		return true;
+
+	if ( is_null( $extra_fields ) )
+		$extra_fields = array( 'version', 'locale' );
 
 	$credentials = get_option('ftp_credentials', array( 'hostname' => '', 'username' => ''));
 
@@ -954,12 +958,12 @@ jQuery(function($){
 </tr>
 </table>
 
-<?php if ( isset( $_POST['version'] ) ) : ?>
-<input type="hidden" name="version" value="<?php echo esc_attr(stripslashes($_POST['version'])) ?>" />
-<?php endif; ?>
-<?php if ( isset( $_POST['locale'] ) ) : ?>
-<input type="hidden" name="locale" value="<?php echo esc_attr(stripslashes($_POST['locale'])) ?>" />
-<?php endif; ?>
+<?php
+foreach ( (array) $extra_fields as $field ) {
+	if ( isset( $_POST[ $field ] ) )
+		echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( stripslashes( $_POST[ $field ] ) ) . '" />';
+}
+?>
 <p class="submit">
 <input id="upgrade" name="upgrade" type="submit" class="button" value="<?php esc_attr_e('Proceed'); ?>" />
 </p>
