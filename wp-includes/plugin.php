@@ -222,7 +222,7 @@ function remove_all_filters($tag, $priority = false) {
 	global $wp_filter, $merged_filters;
 
 	if( isset($wp_filter[$tag]) ) {
-		if( false !== $priority && isset($$wp_filter[$tag][$priority]) )
+		if( false !== $priority && isset($wp_filter[$tag][$priority]) )
 			unset($wp_filter[$tag][$priority]);
 		else
 			unset($wp_filter[$tag]);
