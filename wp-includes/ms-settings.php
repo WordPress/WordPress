@@ -110,7 +110,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			$current_blog->blog_id = $blog_id = 1;
 		} else {
 			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . __( 'Database tables are missing.' ) : '';
-			wp_die( __( 'No blog by that name on this system.' ) . $msg );
+			wp_die( 'No blog by that name on this system.' . $msg );
 		}
 	}
 }
