@@ -23,22 +23,43 @@ define('WXR_VERSION', '1.0');
  *
  * @param unknown_type $author
  */
-function export_wp($author='') {
+function export_wp($author='', $category='', $post_type='', $status='', $start_date='', $end_date='') {
 global $wpdb, $post_ids, $post, $wp_taxonomies;
 
 do_action('export_wp');
 
-$filename = 'wordpress.' . date('Y-m-d') . '.xml';
+if(strlen($start_date) > 4 && strlen($end_date) > 4) {
+	$filename = 'wordpress.' . $start_date . '.' . $end_date . '.xml';
+} else {
+	$filename = 'wordpress.' . date('Y-m-d') . '.xml';
+}
 
 header('Content-Description: File Transfer');
 header("Content-Disposition: attachment; filename=$filename");
 header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 
-$where = '';
-if ( $author and $author != 'all' ) {
-	$author_id = (int) $author;
-	$where = $wpdb->prepare(" WHERE post_author = %d ", $author_id);
-}
+if ( $post_type and $post_type != 'all' ) { 
+		$where = $wpdb->prepare("WHERE post_type = %s ", $post_type); 
+} else { 
+		$where = "WHERE post_type != 'revision' "; 
+} 
+if ( $author and $author != 'all' ) { 
+		$author_id = (int) $author; 
+		$where .= $wpdb->prepare("AND post_author = %d ", $author_id); 
+} 
+if ( $start_date and $start_date != 'all' ) { 
+		$where .= $wpdb->prepare("AND post_date >= %s ", $start_date); 
+} 
+if ( $end_date and $end_date != 'all' ) { 
+		$where .= $wpdb->prepare("AND post_date < %s ", $end_date); 
+} 
+if ( $category and $category != 'all' ) { 
+		$taxomony_id = (int) $category; 
+		$where .= $wpdb->prepare("AND ID IN (SELECT object_id FROM {$wpdb->term_relationships} " . "WHERE term_taxonomy_id = %d) ", $taxomony_id); 
+} 
+if ( $status and $status != 'all' ) { 
+		$where .= $wpdb->prepare("AND post_status = %s ", $status); 
+} 
 
 // grab a snapshot of post IDs, just in case it changes during the export
 $post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
@@ -300,9 +321,6 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 			$where = "WHERE ID IN (".join(',', $next_posts).")";
 			$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 				foreach ($posts as $post) {
-			// Don't export revisions.  They bloat the export.
-			if ( 'revision' == $post->post_type )
-				continue;
 			setup_postdata($post);
 
 			$is_sticky = 0;
