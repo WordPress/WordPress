@@ -1178,3 +1178,24 @@ img#wpstats {
 	display:block;
 	margin: 0 auto 10px;
 }
+
+
+
+/* Mobile Safari ( iPad, iPhone and iPod Touch )
+-------------------------------------------------------------- */
+
+pre {
+	-webkit-text-size-adjust: 140%;
+}
+
+code {
+	-webkit-text-size-adjust: 160%;
+}
+
+#access, .entry-meta, .entry-utility, .widget_search label, .navigation, .widget-area {
+	-webkit-text-size-adjust: 120%;
+}
+
+#site-description {
+	-webkit-text-size-adjust: none;
+}
