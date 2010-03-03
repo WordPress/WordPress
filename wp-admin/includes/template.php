@@ -1824,16 +1824,17 @@ function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Generate HTML for a single row on the users.php admin panel.
  *
- * @since unknown
+ * @since 2.1.0
  *
- * @param unknown_type $user_object
- * @param unknown_type $style
- * @param unknown_type $role
- * @return unknown
+ * @param object $user_object
+ * @param string $style Optional. Attributes added to the TR element.  Must be sanitized.
+ * @param string $role Key for the $wp_roles array.
+ * @param int $numposts Optional. Post count to display for this user.  Defaults to zero, as in, a new user has made zero posts.
+ * @return string
  */
-function user_row( $user_object, $style = '', $role = '' ) {
+function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 	global $wp_roles;
 
 	$current_user = wp_get_current_user();
@@ -1849,7 +1850,6 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$short_url = substr( $short_url, 0, -1 );
 	if ( strlen( $short_url ) > 35 )
 		$short_url = substr( $short_url, 0, 32 ).'...';
-	$numposts = get_usernumposts( $user_object->ID );
 	$checkbox = '';
 	// Check if the user for this row is editable
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {

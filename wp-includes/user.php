@@ -148,11 +148,46 @@ function wp_authenticate_cookie($user, $username, $password) {
  * @param int $userid User ID.
  * @return int Amount of posts user has written.
  */
-function get_usernumposts($userid) {
+function count_user_posts($userid) {
 	global $wpdb;
-	$userid = (int) $userid;
-	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = %d AND post_type = 'post' AND ", $userid) . get_private_posts_cap_sql('post'));
+
+	$where = get_posts_by_author_sql('post', TRUE, $userid);
+
+	$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );
+
 	return apply_filters('get_usernumposts', $count, $userid);
+}
+
+/**
+ * Number of posts written by a list of users.
+ *
+ * @since 3.0.0
+ * @param array $userid User ID number list.
+ * @return array Amount of posts each user has written.
+ */
+function count_many_users_posts($users) {
+	global $wpdb;
+	
+	if (0 == count($users))
+		return array();
+	    
+	$userlist = implode(',', $users);
+	$where = get_posts_by_author_sql('post');
+
+	$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
+
+	$count = array();
+	foreach($result as $row) {
+		$count[$row[0]] = $row[1];
+	}
+
+	foreach($users as $id) {
+		$id = (string) $id;
+		if (!isset($count[$id]))
+			$count[$id] = 0;
+	}
+
+	return $count;
 }
 
 /**
@@ -342,6 +377,79 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
 	return update_metadata('user', $user_id, $meta_key, $meta_value, $prev_value);
 }
 
+/**
+ * Count number of users who have each of the user roles.
+ *
+ * Assumes there are neither duplicated nor orphaned capabilities meta_values.
+ * Assumes role names are unique phrases.  Same assumption made by WP_User_Search::prepare_query()
+ * Using $strategy = 'time' this is CPU-intensive and should handle around 10^7 users.
+ * Using $strategy = 'memory' this is memory-intensive and should handle around 10^5 users, but see WP Bug #12257.
+ *
+ * @since 3.0.0
+ * @param string $strategy 'time' or 'memory'
+ * @return array Includes a grand total and an array of counts indexed by role strings.
+ */
+function count_users($strategy = 'time') {
+	global $wpdb, $blog_id, $wp_roles;
+
+	// Initialize
+	$id = (int) $blog_id;
+	$blog_prefix = $wpdb->get_blog_prefix($id);
+	$result = array();
+
+	if ('time' == $strategy) {
+		$avail_roles = $wp_roles->get_names();
+
+		// Build a CPU-intensive query that will return concise information.
+		$select_count = array();
+		foreach ( $avail_roles as $this_role => $name ) {
+			$select_count[] = "COUNT(NULLIF(`meta_value` LIKE '%" . like_escape($this_role) . "%', FALSE))";
+		}
+		$select_count = implode(', ', $select_count);
+
+		// Add the meta_value index to the selection list, then run the query.
+		$row = $wpdb->get_row( "SELECT $select_count, COUNT(*) FROM $wpdb->usermeta WHERE meta_key = '{$blog_prefix}capabilities'", ARRAY_N );
+
+		// Run the previous loop again to associate results with role names.
+		$col = 0;
+		$role_counts = array();
+		foreach ( $avail_roles as $this_role => $name ) {
+			$count = (int) $row[$col++];
+			if ($count > 0) {
+				$role_counts[$this_role] = $count;
+			}
+		}
+
+		// Get the meta_value index from the end of the result set.
+		$total_users = (int) $row[$col];
+
+		$result['total_users'] = $total_users;
+		$result['avail_roles'] =& $role_counts;
+	} else {
+		$avail_roles = array();
+
+		$users_of_blog = $wpdb->get_col( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = '{$blog_prefix}capabilities'" );
+
+		foreach ( $users_of_blog as $caps_meta ) {
+			$b_roles = unserialize($caps_meta);
+			if ( is_array($b_roles) ) {
+				foreach ( $b_roles as $b_role => $val ) {
+					if ( isset($avail_roles[$b_role]) ) {
+						$avail_roles[$b_role]++;
+					} else {
+						$avail_roles[$b_role] = 1;
+					}
+				}
+			}
+		}
+
+		$result['total_users'] = count( $users_of_blog );
+		$result['avail_roles'] =& $avail_roles;
+	}
+
+	return $result;
+}
+
 //
 // Private helper functions
 //
@@ -498,8 +606,8 @@ function wp_dropdown_users( $args = '' ) {
  *
  * The finished user data is cached, but the cache is not used to fill in the
  * user data for the given object. Once the function has been used, the cache
- * should be used to retrieve user data. The purpose seems then to be to ensure
- * that the data in the object is always fresh.
+ * should be used to retrieve user data. The intention is if the current data
+ * had been cached already, there would be no need to call this function.
  *
  * @access private
  * @since 2.5.0
@@ -508,17 +616,54 @@ function wp_dropdown_users( $args = '' ) {
  * @param object $user The user data object.
  */
 function _fill_user( &$user ) {
+	$metavalues = get_user_metavalues(array($user->ID));
+	_fill_single_user($user, $metavalues[$user->ID]);
+}
+
+/**
+ * Perform the query to get the $metavalues array(s) needed by _fill_user and _fill_many_users
+ *
+ * @since 3.0.0
+ * @param array $ids User ID numbers list.
+ * @return array of arrays. The array is indexed by user_id, containing $metavalues object arrays.
+ */
+function get_user_metavalues($ids) {
 	global $wpdb;
 
+	$clean = array_map('intval', $ids);
+	if ( 0 == count($clean) )
+		return $objects;
+
+	$list = implode(',', $clean);
+
 	$show = $wpdb->hide_errors();
-	$metavalues = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user->ID));
+	$metavalues = $wpdb->get_results("SELECT user_id, meta_key, meta_value FROM $wpdb->usermeta WHERE user_id IN ($list)");
 	$wpdb->show_errors($show);
 
-	if ( $metavalues ) {
-		foreach ( (array) $metavalues as $meta ) {
-			$value = maybe_unserialize($meta->meta_value);
-			$user->{$meta->meta_key} = $value;
-		}
+	$objects = array();
+	foreach($clean as $id) {
+		$objects[$id] = array();
+	}
+	foreach($metavalues as $meta_object) {
+		$objects[$meta_object->user_id][] = $meta_object;
+	}
+
+	return $objects;
+}
+
+/**
+ * Unserialize user metadata, fill $user object, then cache everything.
+ *
+ * @since 3.0.0
+ * @param object $user The User object.
+ * @param array $metavalues An array of objects provided by get_user_metavalues()
+ */
+function _fill_single_user( &$user, &$metavalues ) {
+	global $wpdb;
+
+	foreach ( $metavalues as $meta ) {
+		$value = maybe_unserialize($meta->meta_value);
+		$user->{$meta->meta_key} = $value;
 	}
 
 	$level = $wpdb->prefix . 'user_level';
@@ -533,10 +678,29 @@ function _fill_user( &$user ) {
 	if ( isset($user->description) )
 		$user->user_description = $user->description;
 
-	wp_cache_add($user->ID, $user, 'users');
-	wp_cache_add($user->user_login, $user->ID, 'userlogins');
-	wp_cache_add($user->user_email, $user->ID, 'useremail');
-	wp_cache_add($user->user_nicename, $user->ID, 'userslugs');
+	update_user_caches($user);
+}
+
+/**
+ * Take an array of user objects, fill them with metas, and cache them.
+ *
+ * @since 3.0.0
+ * @param array $users User objects
+ * @param array $metas User metavalues objects
+ */
+function _fill_many_users( &$users ) {
+	$ids = array();
+	foreach($users as $user_object) {
+		$ids[] = $user_object->ID;
+	}
+
+    $metas = get_user_metavalues($ids);
+
+	foreach($users as $user_object) {
+		if (isset($metas[$user_object->ID])) {
+	        _fill_single_user($user_object, $metas[$user_object->ID]);
+		}
+	}
 }
 
 /**
@@ -656,12 +820,25 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 }
 
 /**
+ * Update all user caches
+ *
+ * @since 3.0.0
+ *
+ * @param object $user User object to be cached
+ */
+function update_user_caches(&$user) {
+	wp_cache_add($user->ID, $user, 'users');
+	wp_cache_add($user->user_login, $user->ID, 'userlogins');
+	wp_cache_add($user->user_email, $user->ID, 'useremail');
+	wp_cache_add($user->user_nicename, $user->ID, 'userslugs');
+}
+
+/**
  * Clean all user caches
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $id User ID
- * @return void
  */
 function clean_user_cache($id) {
 	$user = new WP_User($id);

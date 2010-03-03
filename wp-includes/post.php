@@ -3652,8 +3652,22 @@ function wp_check_for_changed_slugs($post_id) {
  * @return string SQL code that can be added to a where clause.
  */
 function get_private_posts_cap_sql($post_type) {
-	global $user_ID;
-	$cap = '';
+	return get_posts_by_author_sql($post_type, FALSE);
+}
+
+/**
+ * Retrieve the post SQL based on capability, author, and type.
+ *
+ * See above for full description.
+ *
+ * @since 3.0.0
+ * @param string $post_type currently only supports 'post' or 'page'.
+ * @param bool $full Optional.  Returns a full WHERE statement instead of just an 'andalso' term.
+ * @param int $post_author Optional.  Query posts having a single author ID.
+ * @return string SQL WHERE code that can be added to a query.
+ */
+function get_posts_by_author_sql($post_type, $full = TRUE, $post_author = NULL) {
+	global $user_ID, $wpdb;
 
 	// Private posts
 	if ($post_type == 'post') {
@@ -3663,24 +3677,40 @@ function get_private_posts_cap_sql($post_type) {
 		$cap = 'read_private_pages';
 	// Dunno what it is, maybe plugins have their own post type?
 	} else {
+		$cap = '';
 		$cap = apply_filters('pub_priv_sql_capability', $cap);
 
 		if (empty($cap)) {
 			// We don't know what it is, filters don't change anything,
 			// so set the SQL up to return nothing.
-			return '1 = 0';
+			return ' 1 = 0 ';
 		}
 	}
 
-	$sql = '(post_status = \'publish\'';
+	if ($full) {
+		if (is_null($post_author)) {
+			$sql = $wpdb->prepare('WHERE post_type = %s AND ', $post_type);
+		} else {
+			$sql = $wpdb->prepare('WHERE post_author = %d AND post_type = %s AND ', $post_author, $post_type);
+		}
+	} else {
+		$sql = '';
+	}
+
+	$sql .= "(post_status = 'publish'";
 
 	if (current_user_can($cap)) {
 		// Does the user have the capability to view private posts? Guess so.
-		$sql .= ' OR post_status = \'private\'';
+		$sql .= " OR post_status = 'private'";
 	} elseif (is_user_logged_in()) {
 		// Users can view their own private posts.
-		$sql .= ' OR post_status = \'private\' AND post_author = \'' . $user_ID . '\'';
-	}
+		$id = (int) $user_ID;
+		if (is_null($post_author) || !$full) {
+			$sql .= " OR post_status = 'private' AND post_author = $id";
+		} elseif ($id == (int)$post_author) {
+			$sql .= " OR post_status = 'private'";
+		} // else none
+	} // else none
 
 	$sql .= ')';
 

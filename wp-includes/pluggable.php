@@ -139,6 +139,38 @@ function get_userdata( $user_id ) {
 }
 endif;
 
+if ( !function_exists('cache_users') ) :
+/**
+ * Retrieve info for user lists to prevent multiple queries by get_userdata()
+ *
+ * @since 3.0.0
+ *
+ * @param array $users User ID numbers list
+ */
+function cache_users( $users ) {
+	global $wpdb;
+
+	$clean = array();
+	foreach($users as $id) {
+		$id = (int) $id;
+		if (wp_cache_get($id, 'users')) {
+			// seems to be cached already
+		} else {
+			$clean[] = $id;
+		}
+	}
+
+	if ( 0 == count($clean) )
+		return;
+
+	$list = implode(',', $clean);
+
+	$results = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE ID IN ($list)");
+    
+	_fill_many_users($results);
+}
+endif;
+
 if ( !function_exists('get_user_by') ) :
 /**
  * Retrieve user info by a given field

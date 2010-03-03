@@ -208,8 +208,14 @@ default:
 	$userspage = isset($_GET['userspage']) ? $_GET['userspage'] : null;
 	$role = isset($_GET['role']) ? $_GET['role'] : null;
 
-	// Query the users
+	// Query the user IDs for this page
 	$wp_user_search = new WP_User_Search($usersearch, $userspage, $role);
+
+	// Query the post counts for this page
+	$post_counts = count_many_users_posts($wp_user_search->get_results());
+
+	// Query the users for this page
+	cache_users($wp_user_search->get_results());
 
 	$messages = array();
 	if ( isset($_GET['update']) ) :
@@ -263,22 +269,14 @@ if ( isset($_GET['usersearch']) && $_GET['usersearch'] )
 <form id="list-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
-$role_links = array();
-$avail_roles = array();
-$users_of_blog = get_users_of_blog();
-$total_users = count( $users_of_blog );
-foreach ( (array) $users_of_blog as $b_user ) {
-	$b_roles = unserialize($b_user->meta_value);
-	foreach ( (array) $b_roles as $b_role => $val ) {
-		if ( !isset($avail_roles[$b_role]) )
-			$avail_roles[$b_role] = 0;
-		$avail_roles[$b_role]++;
-	}
-}
+$users_of_blog = count_users();
+$total_users = $users_of_blog['total_users'];
+$avail_roles =& $users_of_blog['avail_roles'];
 unset($users_of_blog);
 
 $current_role = false;
 $class = empty($role) ? ' class="current"' : '';
+$role_links = array();
 $role_links[] = "<li><a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
 foreach ( $wp_roles->get_names() as $this_role => $name ) {
 	if ( !isset($avail_roles[$this_role]) )
@@ -372,7 +370,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	$role = array_shift($roles);
 
 	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
-	echo "\n\t" . user_row($user_object, $style, $role);
+	echo "\n\t", user_row($user_object, $style, $role, $post_counts[(string)$userid]);
 }
 ?>
 </tbody>

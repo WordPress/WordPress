@@ -151,12 +151,12 @@ function the_author_link() {
  *
  * @since 1.5
  * @uses $post The current post in the Loop's DB object.
- * @uses get_usernumposts()
+ * @uses count_user_posts()
  * @return int The number of posts by the author.
  */
 function get_the_author_posts() {
 	global $post;
-	return get_usernumposts($post->post_author);
+	return count_user_posts($post->post_author);
 }
 
 /**
