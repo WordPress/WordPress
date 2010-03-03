@@ -903,7 +903,7 @@ class wpdb {
 			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR*/'WordPress database error %1$s for query %2$s'/*/WP_I18N_DB_QUERY_ERROR*/, $str, $this->last_query );
 
 		if ( function_exists( 'error_log' )
-			&& $log_file = @ini_get( 'error_log' )
+			&& ( $log_file = @ini_get( 'error_log' ) )
 			&& ( 'syslog' == $log_file || @is_writable( $log_file ) )
 			)
 			@error_log( $error_str );
