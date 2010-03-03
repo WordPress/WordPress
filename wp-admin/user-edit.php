@@ -61,8 +61,8 @@ function use_ssl_preference($user) {
 }
 
 
-// Only allow site admins to edit every user.
-if ( is_multisite() && !defined( "EDIT_ANY_USER" ) && !is_super_admin() && $user_id != $current_user->ID )
+// Only allow super admins on multisite to edit every user.
+if ( is_multisite() && ! is_super_admin() && $user_id != $current_user->ID && apply_filters( 'enable_edit_any_user_configuration', true ) )
 	wp_die( __( 'You do not have permission to edit this user.' ) );
 
 // Execute confirmed email change. See send_confirmation_on_profile_email().
