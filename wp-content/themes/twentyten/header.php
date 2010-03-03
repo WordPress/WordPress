@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+	<meta charset="<?php bloginfo('charset'); ?>" />
+
     <title><?php
         if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo('name');
@@ -16,8 +18,6 @@
 			wp_title(''); echo ' | '; bloginfo('name'); twentyten_the_page_number();
 		}
     ?></title>
-
-	<meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
