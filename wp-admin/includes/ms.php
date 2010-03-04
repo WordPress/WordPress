@@ -665,10 +665,8 @@ function site_admin_notice() {
 	global $current_user, $wp_db_version;
 	if ( !is_super_admin() )
 		return false;
-	printf("<div id='update-nag'>" . __("Hi %s! You're logged in as a network administrator.") . "</div>", $current_user->user_login);
-	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
+	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
 		echo "<div id='update-nag'>" . __( 'Thank you for Upgrading! Please visit the <a href="ms-upgrade-network.php">Upgrade Network</a> page to update all your sites.' ) . "</div>";
-	}
 }
 add_action( 'admin_notices', 'site_admin_notice' );
 
