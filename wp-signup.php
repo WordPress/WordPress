@@ -8,7 +8,7 @@ add_action( 'wp_head', 'signuppageheaders' ) ;
 require( 'wp-blog-header.php' );
 require_once( ABSPATH . WPINC . '/registration.php' );
 
-if ( is_array( get_site_option( 'illegal_names' )) && $_GET[ 'new' ] != '' && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {
+if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {
 	wp_redirect( "http://{$current_site->domain}{$current_site->path}" );
 	die();
 }
@@ -233,6 +233,9 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 		$signup[ esc_html( $_POST[ 'signup_for' ] ) ] = 'checked="checked"';
 	else
 		$signup[ 'blog' ] = 'checked="checked"';
+		
+	//TODO - This doesn't seem to do anything do we really need it?
+	$signup['user'] = isset( $signup['user'] ) ? $signup['user'] : '';
 
 	// allow definition of default variables
 	$filtered_results = apply_filters('signup_user_init', array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors ));
@@ -393,7 +396,8 @@ if ( $active_signup == "none" ) {
 	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode($proto . $_SERVER['HTTP_HOST'] . '/wp-signup.php' ));
 	echo sprintf( __( "You must first <a href=\"%s\">login</a>, and then you can create a new site."), $login_url );
 } else {
-	switch ($_POST['stage']) {
+	$stage = isset( $_POST['stage'] ) ?  $_POST['stage'] : 'default';
+	switch ( $stage ) {
 		case 'validate-user-signup' :
 			if ( $active_signup == 'all' || $_POST[ 'signup_for' ] == 'blog' && $active_signup == 'blog' || $_POST[ 'signup_for' ] == 'user' && $active_signup == 'user' )
 				validate_user_signup();
@@ -409,8 +413,9 @@ if ( $active_signup == "none" ) {
 		case 'gimmeanotherblog':
 			validate_another_blog_signup();
 			break;
+		case 'default':
 		default :
-			$user_email = $_POST[ 'user_email' ];
+			$user_email = isset( $_POST[ 'user_email' ] ) ? $_POST[ 'user_email' ] : '';
 			do_action( "preprocess_signup_form" ); // populate the form from invites, elsewhere?
 			if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) )
 				signup_another_blog($newblogname);
