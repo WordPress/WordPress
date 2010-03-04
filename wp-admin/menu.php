@@ -43,13 +43,14 @@ if ( is_multisite() && is_super_admin() ) {
 	$menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top menu-top-first', 'menu-dashboard', 'div' );
 }
 
+if ( is_multisite() || is_super_admin() )
+	$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
+
+if ( is_multisite() )
+	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
+
 if ( is_super_admin() )
 	$submenu[ 'index.php' ][10] = array( __('Updates'), 'install_plugins',  'update-core.php');
-
-if ( is_multisite() ) {
-	$submenu[ 'index.php' ][0] = array( __('Dashboard'), 'read', 'index.php' );
-	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
-}
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
