@@ -109,7 +109,7 @@ function wp_delete_nav_menu( $menu ) {
 			wp_delete_post( $item );
 		}
 	}
-	wp_delete_term( $menu_id, 'nav_menu' );
+	wp_delete_term( $menu->term_id, 'nav_menu' );
 }
 
 /**
