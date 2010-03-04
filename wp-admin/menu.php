@@ -154,7 +154,7 @@ $menu[75] = array( __('Tools'), 'read', 'tools.php', '', 'menu-top', 'menu-tools
 		$submenu['tools.php'][20] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
 	if ( is_multisite() && ($current_blog->domain . $current_blog->path != $current_site->domain . $current_site->path) )
 		$submenu['tools.php'][25] = array( __('Delete Blog'), 'manage_options', 'ms-delete-site.php' );
-	if ( !is_multisite() && is_super_admin() )
+	if ( !is_multisite() && is_super_admin() && defined('WP_ENABLE_MULTISITE') )
 		$submenu['tools.php'][50] = array(__('Network'), 'manage_options', 'network.php');
 
 $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top', 'menu-settings', 'div' );
