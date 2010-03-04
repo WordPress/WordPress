@@ -72,17 +72,26 @@ wp_enqueue_script( 'jquery-color' );
 
 $editing = false;
 
-if (isset($_GET['page'])) {
+if ( isset($_GET['page']) ) {
 	$plugin_page = stripslashes($_GET['page']);
 	$plugin_page = plugin_basename($plugin_page);
 }
+
+if ( isset($_GET['post_type']) )
+	$typenow = sanitize_user($_GET['post_type'], true);
+else
+	$typenow = '';
 
 require(ABSPATH . 'wp-admin/menu.php');
 
 do_action('admin_init');
 
-if (isset($plugin_page) ) {
-	if ( ! $page_hook = get_plugin_page_hook($plugin_page, $pagenow) ) {
+if ( isset($plugin_page) ) {
+	if ( !empty($typenow) )
+		$the_parent = $pagenow . '?post_type=' . $typenow;
+	else
+		$the_parent = $pagenow;
+	if ( ! $page_hook = get_plugin_page_hook($plugin_page, $the_parent) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 		// backwards compatibility for plugins using add_management_page
 		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'tools.php') ) {
@@ -95,6 +104,7 @@ if (isset($plugin_page) ) {
 			exit;
 		}
 	}
+	unset($the_parent);
 }
 
 $hook_suffix = '';
@@ -104,12 +114,6 @@ else if ( isset($plugin_page) )
 	$hook_suffix = $plugin_page;
 else if ( isset($pagenow) )
 	$hook_suffix = $pagenow;
-
-if ( isset($_GET['post_type']) )
-	$typenow = $_GET['post_type'];
-else
-	$typenow = '';
-// @todo validate typenow against post types.
 
 set_current_screen();
 

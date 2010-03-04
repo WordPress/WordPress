@@ -177,15 +177,31 @@ do_action('_admin_menu');
 
 // Create list of page plugin hook names.
 foreach ($menu as $menu_page) {
-	$hook_name = sanitize_title(basename($menu_page[2], '.php'));
+	if ( false !== $pos = strpos($menu_page[2], '?') ) {
+		// Handle post_type=post|page|foo pages.
+		$hook_name = substr($menu_page[2], 0, $pos);
+		$hook_args = substr($menu_page[2], $pos + 1);
+		wp_parse_str($hook_args, $hook_args);
+		// Set the hook name to be the post type.
+		if ( isset($hook_args['post_type']) )
+			$hook_name = $hook_args['post_type'];
+		else
+			$hook_name = basename($hook_name, '.php');
+		unset($hook_args);
+	} else {
+		$hook_name = basename($menu_page[2], '.php');
+	}
+	$hook_name = sanitize_title($hook_name);
 
 	// ensure we're backwards compatible
 	$compat = array(
 		'index' => 'dashboard',
 		'edit' => 'posts',
+		'post' => 'posts',
 		'upload' => 'media',
 		'link-manager' => 'links',
 		'edit-pages' => 'pages',
+		'page' => 'pages',
 		'edit-comments' => 'comments',
 		'options-general' => 'settings',
 		'themes' => 'appearance',

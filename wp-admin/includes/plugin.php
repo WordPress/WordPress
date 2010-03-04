@@ -817,6 +817,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 	$admin_page_hooks[$menu_slug] = sanitize_title( $menu_title );
 
 	$hookname = get_plugin_page_hookname( $menu_slug, '' );
+
 	if (!empty ( $function ) && !empty ( $hookname ) && current_user_can( $capability ) )
 		add_action( $hookname, $function );
 
@@ -1167,6 +1168,7 @@ function get_admin_page_parent( $parent = '' ) {
 	global $menu;
 	global $submenu;
 	global $pagenow;
+	global $typenow;
 	global $plugin_page;
 	global $_wp_real_parent_file;
 	global $_wp_menu_nopriv;
@@ -1215,7 +1217,10 @@ function get_admin_page_parent( $parent = '' ) {
 		foreach ( $submenu[$parent] as $submenu_array ) {
 			if ( isset( $_wp_real_parent_file[$parent] ) )
 				$parent = $_wp_real_parent_file[$parent];
-			if ( $submenu_array[2] == $pagenow && ( empty($parent_file) || false === strpos($parent_file, '?') ) ) {
+			if ( !empty($typenow) && ($submenu_array[2] == "$pagenow?post_type=$typenow") ) {
+				$parent_file = $parent;
+				return $parent;
+			} elseif ( $submenu_array[2] == $pagenow && empty($typenow) && ( empty($parent_file) || false === strpos($parent_file, '?') ) ) {
 				$parent_file = $parent;
 				return $parent;
 			} else
@@ -1326,6 +1331,7 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 		$page_type = $admin_page_hooks[$parent];
 	}
 
+
 	$plugin_name = preg_replace( '!\.php!', '', $plugin_page );
 
 	return $page_type.'_page_'.$plugin_name;
@@ -1350,6 +1356,7 @@ function user_can_access_admin_page() {
 			return false;
 
 		$hookname = get_plugin_page_hookname($plugin_page, $parent);
+
 		if ( !isset($_registered_pages[$hookname]) )
 			return false;
 	}

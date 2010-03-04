@@ -33,7 +33,7 @@ get_admin_page_parent();
  * @param bool $submenu_as_parent
  */
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
-	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow;
+	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow, $typenow;
 
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
@@ -47,7 +47,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		if ( !empty($submenu[$item[2]]) )
 			$class[] = 'wp-has-submenu';
 
-		if ( ( $parent_file && $item[2] == $parent_file ) || ( false === strpos($parent_file, '?') && strcmp($self, $item[2]) == 0 ) ) {
+		if ( ( $parent_file && $item[2] == $parent_file ) || ( false === strpos($parent_file, '?') && $self == $item[2] ) ) {
 			if ( !empty($submenu[$item[2]]) )
 				$class[] = 'wp-has-current-submenu wp-menu-open';
 			else
@@ -112,15 +112,22 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				}
 
 				$menu_file = $item[2];
+
 				if ( false !== $pos = strpos($menu_file, '?') )
 					$menu_file = substr($menu_file, 0, $pos);
+
+				// Handle current for post_type=post|page|foo pages, which won't match $self.
+				if ( !empty($typenow) )
+					$self_type = $self . '?post_type=' . $typenow;
+				else
+					$self_type = 'nothing';
 
 				if ( isset($submenu_file) ) {
 					if ( $submenu_file == $sub_item[2] )
 						$class[] = 'current';
 				// If plugin_page is set the parent must either match the current page or not physically exist.
 				// This allows plugin pages with the same hook to exist under different parents.
-				} else if ( (isset($plugin_page) && $plugin_page == $sub_item[2] && (!file_exists($menu_file) || ($item[2] == $self))) || (!isset($plugin_page) && $self == $sub_item[2]) ) {
+				} else if ( (isset($plugin_page) && $plugin_page == $sub_item[2] && (!file_exists($menu_file) || ($item[2] == $self) || ($item[2] == $self_type))) || (!isset($plugin_page) && $self == $sub_item[2]) ) {
 					$class[] = 'current';
 				}
 
@@ -133,14 +140,11 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 				if ( ( ('index.php' != $sub_item[2]) && file_exists(WP_PLUGIN_DIR . "/$sub_file") ) || ! empty($menu_hook) ) {
 					// If admin.php is the current page or if the parent exists as a file in the plugins or admin dir
-
-					$parent_exists = (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/$menu_file") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($menu_file);
-					if ( $parent_exists )
-						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
-					elseif ( 'admin.php' == $pagenow || !$parent_exists )
-						echo "<li$class><a href='admin.php?page={$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
+					if ( (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/$menu_file") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}")) || file_exists($menu_file) )
+						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), $item[2] );
 					else
-						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
+						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), 'admin.php' );
+					echo "<li$class><a href='$sub_item_url'$class$tabindex>{$sub_item[0]}</a></li>";
 				} else {
 					echo "<li$class><a href='{$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
 				}

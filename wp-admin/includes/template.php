@@ -3947,8 +3947,6 @@ function set_current_screen( $id =  '' ) {
 			$typenow = 'post';
 		$current_screen->id = $typenow;
 		$current_screen->post_type = $typenow;
-	} else {
-		$typenow = '';
 	}
 
 	$current_screen = apply_filters('current_screen', $current_screen);
