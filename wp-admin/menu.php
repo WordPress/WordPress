@@ -108,12 +108,11 @@ $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(__('Menus'), 'switch_themes', 'nav-menus.php');
 
-// Add 'Add New Themes' and 'Editor' to the bottom of the Appearence menu.
+// Add 'Editor' to the bottom of the Appearence menu.
 add_action('admin_menu', '_add_themes_utility_last', 101);
 function _add_themes_utility_last() {
 	global $submenu;
 	$submenu['themes.php'][] = array(_x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
-	$submenu['themes.php'][] = array(__('Add New Themes'), 'install_themes', 'theme-install.php');
 }
 
 $update_plugins = get_site_transient( 'update_plugins' );
