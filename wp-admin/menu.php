@@ -34,7 +34,7 @@ if ( is_multisite() && is_super_admin() ) {
 	$submenu[ 'ms-admin.php' ][10] = array( __('Users'), 'manage_network_users', 'ms-users.php' );
 	$submenu[ 'ms-admin.php' ][20] = array( __('Themes'), 'manage_network_themes', 'ms-themes.php' );
 	$submenu[ 'ms-admin.php' ][25] = array( __('Options'), 'manage_network_options', 'ms-options.php' );
-	$submenu[ 'ms-admin.php' ][30] = array( __('Upgrade'), 'manage_network', 'ms-upgrade-network.php' );
+	$submenu[ 'ms-admin.php' ][30] = array( __('Update'), 'manage_network', 'ms-upgrade-network.php' );
 
 	$menu[1] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 

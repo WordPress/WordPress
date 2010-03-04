@@ -19,30 +19,30 @@ function list_core_update( $update ) {
 	$current = false;
 	if ( !isset($update->response) || 'latest' == $update->response )
 		$current = true;
-	$submit = __('Upgrade Automatically');
+	$submit = __('Update Automatically');
 	$form_action = 'update-core.php?action=do-core-upgrade';
 	$php_version    = phpversion();
 	$mysql_version  = $wpdb->db_version();
 	$show_buttons = true;
 	if ( 'development' == $update->response ) {
-		$message = __('You are using a development version of WordPress.  You can upgrade to the latest nightly build automatically or download the nightly build and install it manually:');
+		$message = __('You are using a development version of WordPress.  You can update to the latest nightly build automatically or download the nightly build and install it manually:');
 		$download = __('Download nightly build');
 	} else {
 		if ( $current ) {
-			$message = sprintf(__('You have the latest version of WordPress. You do not need to upgrade. However, if you want to re-install version %s, you can do so automatically or download the package and re-install manually:'), $version_string);
+			$message = sprintf(__('You have the latest version of WordPress. You do not need to update. However, if you want to re-install version %s, you can do so automatically or download the package and re-install manually:'), $version_string);
 			$submit = __('Re-install Automatically');
 			$form_action = 'update-core.php?action=do-core-reinstall';
 		} else {
 			$php_compat     = version_compare( $php_version, $update->php_version, '>=' );
 			$mysql_compat   = version_compare( $mysql_version, $update->mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
 			if ( !$mysql_compat && !$php_compat )
-				$message = sprintf( __('You cannot upgrade because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $update->current, $update->php_version, $update->mysql_version, $php_version, $mysql_version );
+				$message = sprintf( __('You cannot update because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $update->current, $update->php_version, $update->mysql_version, $php_version, $mysql_version );
 			elseif ( !$php_compat )
-				$message = sprintf( __('You cannot upgrade because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s.'), $update->current, $update->php_version, $php_version );
+				$message = sprintf( __('You cannot update because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s.'), $update->current, $update->php_version, $php_version );
 			elseif ( !$mysql_compat )
-				$message = sprintf( __('You cannot upgrade because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s.'), $update->current, $update->mysql_version, $mysql_version );
+				$message = sprintf( __('You cannot update because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s.'), $update->current, $update->mysql_version, $mysql_version );
 			else
-				$message = 	sprintf(__('You can upgrade to <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> automatically or download the package and install it manually:'), $version_string);
+				$message = 	sprintf(__('You can update to <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> automatically or download the package and install it manually:'), $version_string);
 			if ( !$mysql_compat || !$php_compat )
 				$show_buttons = false;
 		}
@@ -127,15 +127,15 @@ function core_upgrade_preamble() {
 
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
 		echo '<h3>';
-		_e('You have the latest version of WordPress. You do not need to upgrade');
+		_e('You have the latest version of WordPress. You do not need to update');
 		echo '</h3>';
 	} else {
 		echo '<div class="updated"><p>';
-		_e('<strong>Important:</strong> before upgrading, please <a href="http://codex.wordpress.org/WordPress_Backups">backup your database and files</a>.');
+		_e('<strong>Important:</strong> before updating, please <a href="http://codex.wordpress.org/WordPress_Backups">backup your database and files</a>.');
 		echo '</p></div>';
 
 		echo '<h3 class="response">';
-		_e( 'There is a new version of WordPress available for upgrade' );
+		_e( 'There is a new version of WordPress available for update' );
 		echo '</h3>';
 	}
 
@@ -175,10 +175,10 @@ function list_plugin_updates() {
 		$core_update_version = $core_updates[0]->current;
 	?>
 <h3><?php _e('Plugins'); ?></h3>
-<p><?php _e('The following plugins have new versions available. Check the ones you want to upgrade and then click "Upgrade Plugins".'); ?></p>
+<p><?php _e('The following plugins have new versions available. Check the ones you want to update and then click "Update Plugins".'); ?></p>
 <form method="post" action="<?php echo $form_action; ?>" name="upgrade-plugins" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
-<p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Upgrade Plugins'); ?>" name="upgrade" /></p>
+<p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
 <table class="widefat" cellspacing="0" id="update-plugins-table">
 	<thead>
 	<tr>
@@ -224,13 +224,13 @@ function list_plugin_updates() {
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
-		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You are running version %1$s. Upgrade to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . $upgrade_notice . "</td>
+		<td class='plugin-title'><strong>{$plugin_data->Name}</strong>" . sprintf(__('You are running version %1$s. Update to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . $compat . $upgrade_notice . "</td>
 	</tr>";
 	}
 ?>
 	</tbody>
 </table>
-<p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e('Upgrade Plugins'); ?>" name="upgrade" /></p>
+<p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
 </form>
 <?php
 }
@@ -302,7 +302,7 @@ function do_core_upgrade( $reinstall = false ) {
 ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php _e('Upgrade WordPress'); ?></h2>
+	<h2><?php _e('Update WordPress'); ?></h2>
 <?php
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
@@ -321,7 +321,7 @@ function do_core_upgrade( $reinstall = false ) {
 		if ('up_to_date' != $result->get_error_code() )
 			show_message( __('Installation Failed') );
 	} else {
-		show_message( __('WordPress upgraded successfully') );
+		show_message( __('WordPress updated successfully') );
 		show_message( '<strong>' . __('Actions:') . '</strong> <a href="' . esc_url( admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
 	}
 	echo '</div>';

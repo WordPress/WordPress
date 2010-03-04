@@ -6,7 +6,7 @@ if ( !is_multisite() )
 
 require_once( ABSPATH . WPINC . '/http.php' );
 
-$title = __('Upgrade Network');
+$title = __('Update Network');
 $parent_file = 'ms-admin.php';
 require_once('admin-header.php');
 
@@ -15,7 +15,7 @@ if ( ! current_user_can( 'manage_network' ) )
 
 echo '<div class="wrap">';
 screen_icon();
-echo '<h2>'.__('Upgrade Network').'</h2>';
+echo '<h2>'.__('Update Network').'</h2>';
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'show';
 
@@ -37,7 +37,7 @@ switch ( $action ) {
 					echo "<li>$siteurl</li>";
 					$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=1", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
 					if ( is_wp_error( $response ) )
-						wp_die( "<strong>Warning!</strong> Problem upgrading {$siteurl}. Your server may not be able to connect to blogs running on it.<br /> Error message: <em>" . $response->get_error_message() ."</em>" );
+						wp_die( "<strong>Warning!</strong> Problem updating {$siteurl}. Your server may not be able to connect to sites running on it.<br /> Error message: <em>" . $response->get_error_message() ."</em>" );
 					do_action( 'after_mu_upgrade', $response );
 					do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 				}
@@ -58,8 +58,8 @@ switch ( $action ) {
 	break;
 	case 'show':
 	default:
-		?><p><?php _e("You can upgrade all the sites on your network through this page. It works by calling the upgrade script of each site automatically. Hit the link below to upgrade."); ?></p>
-		<p><a class="button" href="ms-upgrade-network.php?action=upgrade"><?php _e("Upgrade Network"); ?></a></p><?php
+		?><p><?php _e("You can update all the sites on your network through this page. It works by calling the update script of each site automatically. Hit the link below to update."); ?></p>
+		<p><a class="button" href="ms-upgrade-network.php?action=upgrade"><?php _e("Update Network"); ?></a></p><?php
 		do_action( 'wpmu_upgrade_page' );
 	break;
 }
