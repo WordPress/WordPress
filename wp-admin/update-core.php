@@ -116,8 +116,8 @@ function core_upgrade_preamble() {
 	$updates = get_core_updates();
 ?>
 	<div class="wrap">
-	<?php screen_icon(); ?>
-	<h2><?php _e('Upgrade WordPress'); ?></h2>
+	<?php screen_icon('tools'); ?>
+	<h2><?php _e('WordPress Updates'); ?></h2>
 <?php
 	if ( $upgrade_error ) {
 		echo '<div class="error"><p>';
