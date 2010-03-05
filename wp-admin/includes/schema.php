@@ -701,7 +701,8 @@ Thanks!
 		'first_post' => __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ),
 		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
 		'siteurl' => get_option( 'siteurl' ),
-		'add_new_users' => '0'
+		'add_new_users' => '0',
+		'upload_space_check_disabled' => '0'
 	);
 
 	$insert = '';
