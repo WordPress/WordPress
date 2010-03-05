@@ -1780,6 +1780,12 @@ class WP_Rewrite {
 				$rules .= "</configuration>";
 			}
 		} else {
+			$siteurl = get_option( 'siteurl' );
+			$siteurl_len = strlen( $siteurl );
+			if ( defined( 'WP_CONTENT_URL' ) && substr( WP_CONTENT_URL, 0, $siteurl_len ) == $siteurl && strlen( WP_CONTENT_URL ) > $siteurl_len ) 
+				$content_path = substr( WP_CONTENT_URL, $siteurl_len + 1 );
+			else
+				$content_path = 'wp-content'; 
 			$rules = '<rule name="wordpress - strip index.php" stopProcessing="false">
 					<match url="^index.php/(.*)$" />
 						<action type="Rewrite" url="{R:1}" />
@@ -1791,9 +1797,9 @@ class WP_Rewrite {
 					<rule name="wordpress - 2" stopProcessing="true">
 						<match url="^(.*/)?files/(.*)" />
 						<conditions>
-							<add input="{REQUEST_URI}" negate="true" pattern=".*wp-content/plugins.*"/>
+							<add input="{REQUEST_URI}" negate="true" pattern=".*' . $content_path . '/plugins.*"/>
 						</conditions>
-						<action type="Rewrite" url="wp-content/blogs.php?file={R:2}" appendQueryString="false" />
+						<action type="Rewrite" url="wp-includes/ms-files.php?file={R:2}" appendQueryString="false" />
 					</rule>
 					<rule name="wordpress - 3" stopProcessing="true">
 						<match url="^(.+)$" />
