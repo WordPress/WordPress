@@ -49,8 +49,22 @@ if ( is_multisite() || is_super_admin() ) {
 	if ( is_multisite() )
 		$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
 	
-	if ( is_super_admin() )
-		$submenu[ 'index.php' ][10] = array( __('Updates'), 'install_plugins',  'update-core.php');
+	if ( is_super_admin() ) {
+		$update_count = 0;
+		$update_plugins = get_site_transient( 'update_plugins' );
+		if ( !empty($update_plugins->response) )
+			$update_count += count( $update_plugins->response );
+		$update_themes = get_site_transient( 'update_themes' );
+		if ( !empty($update_themes->response) )
+			$update_count += count( $update_themes->response );
+		$update_wordpress = get_core_updates( array('dismissed' => false) );
+		if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array(/*'development',*/ 'latest') ) ) // @TODO: Do we count Development installs as having an update available?
+			$update_count++;
+
+		unset($update_plugins, $update_themes, $update_wordpress);
+
+		$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'install_plugins',  'update-core.php');
+	}
 }
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
