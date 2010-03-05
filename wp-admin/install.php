@@ -100,11 +100,14 @@ function display_setup_form( $error = null ) {
 		</tr>
 		<?php if ( ! $user_table ) : ?>
 		<tr>
-			<th scope="row"><label for="admin_password"><?php _e('Password'); ?></label></th>
+			<th scope="row">
+				<p><label for="admin_password"><?php _e('Password'); ?></label></p>
+				<p><label for="admin_password2"><?php _e('Re-enter Password'); ?></label></p></th>
 			<td>
-				<input name="admin_password" type="password" id="pass1" size="25" value="<?php  echo esc_attr( $admin_password ); ?>" />
-				<br /><?php _e('A password will be automatically generated for you if you leave this field blank.'); ?>
-				<br /><div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
+				<p><input name="admin_password" type="password" id="pass1" size="25" value="" /></p>
+				<p><input name="admin_password2" type="password" id="pass2" size="25" value="" /></p>
+				<p><?php _e('A password will be automatically generated for you if you leave this field blank.'); ?></p>
+				<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
 				<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 			</td>
 		</tr>
@@ -169,6 +172,7 @@ switch($step) {
 		$weblog_title = isset( $_POST['weblog_title'] ) ? trim( stripslashes( $_POST['weblog_title'] ) ) : '';
 		$user_name = isset($_POST['user_name']) ? trim( stripslashes( $_POST['user_name'] ) ) : 'admin';
 		$admin_password = isset($_POST['admin_password']) ? trim( stripslashes( $_POST['admin_password'] ) ) : '';
+		$admin_password_check = isset($_POST['admin_password2']) ? trim( stripslashes( $_POST['admin_password2'] ) ) : '';
 		$admin_email  = isset( $_POST['admin_email']  ) ?trim( stripslashes( $_POST['admin_email'] ) ) : '';
 		$public       = isset( $_POST['blog_public']  ) ? (int) $_POST['blog_public'] : 0;
 		// check e-mail address
@@ -176,6 +180,10 @@ switch($step) {
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke
 			display_setup_form( __('you must provide a valid user name.') );
+			$error = true;
+		} elseif ( $admin_password != $admin_password_check ) {
+			// TODO: poka-yoke
+			display_setup_form( __( 'your passwords do not match. Please try again' ) );
 			$error = true;
 		} else if ( empty( $admin_email ) ) {
 			// TODO: poka-yoke
@@ -205,7 +213,7 @@ switch($step) {
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
 		<td><?php
-		if ( ! empty( $password ) )
+		if ( ! empty( $password ) && empty($admin_password_check) )
 			echo '<code>'. esc_html($password) .'</code><br />';
 		echo "<p>$password_message</p>"; ?>
 		</td>
