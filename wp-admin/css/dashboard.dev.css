@@ -108,26 +108,22 @@ div.postbox div.inside {
 #dashboard_right_now .table {
 	margin: 0 -9px;
 	padding: 0 10px;
-	background: #f9f9f9;
-	border-top: #ececec 1px solid;
-	border-bottom: #ececec 1px solid;
 	position: relative;
 }
 
 #dashboard_right_now .table_content {
 	float: left;
-	border-right: #ececec 1px solid;
+	border-top: #ececec 1px solid;
 	width: 45%;
 }
 
 #dashboard_right_now .table_discussion {
 	float: right;
-	border-left: #ececec 1px solid;
+	border-top: #ececec 1px solid;
 	width: 45%;
 }
 
-#dashboard_right_now table  td {
-	border-top: #ececec 1px solid;
+#dashboard_right_now table td {
 	padding: 3px 0;
 	white-space: nowrap;
 }
