@@ -163,7 +163,7 @@ $check_zone_info = true;
 if ( false !== strpos($tzstring,'Etc/GMT') )
 	$tzstring = '';
 
-if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
+if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	$check_zone_info = false;
 	if ( 0 == $current_offset )
 		$tzstring = 'UTC+0';
@@ -182,7 +182,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 </select>
 
     <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n($timezone_format, false, 'gmt')); ?></span>
-<?php if (get_option('timezone_string')) : ?>
+<?php if ( get_option('timezone_string') ) : ?>
 	<span id="local-time"><?php printf(__('Local time is <code>%1$s</code>'), date_i18n($timezone_format)); ?></span>
 <?php endif; ?>
 <br />
@@ -191,27 +191,30 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 <br />
 <span>
 	<?php
-	$now = localtime(time(),true);
-	if ($now['tm_isdst']) _e('This timezone is currently in daylight saving time.');
-	else _e('This timezone is currently in standard time.');
+	$now = localtime(time(), true);
+	if ( $now['tm_isdst'] )
+		_e('This timezone is currently in daylight saving time.');
+	else
+		_e('This timezone is currently in standard time.');
 	?>
 	<br />
 	<?php
-	if (function_exists('timezone_transitions_get')) {
-		$dateTimeZoneSelected = new DateTimeZone($tzstring);
-		foreach (timezone_transitions_get($dateTimeZoneSelected) as $tr) {
-			if ($tr['ts'] > time()) {
+	if ( function_exists('timezone_transitions_get') ) {
+		$found = false;
+		$date_time_zone_selected = new DateTimeZone($tzstring);
+		foreach ( timezone_transitions_get($date_time_zone_selected) as $tr) {
+			if ( $tr['ts'] > time() ) {
 			    $found = true;
 				break;
 			}
 		}
 
-		if ( isset($found) && $found === true ) {
+		if ( $found ) {
 			echo ' ';
 			$message = $tr['isdst'] ?
 				__('Daylight saving time begins on: <code>%s</code>.') :
 				__('Standard time begins  on: <code>%s</code>.');
-			printf( $message, date_i18n(get_option('date_format').' '.get_option('time_format'), $tr['ts'] ) );
+			printf( $message, date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $tr['ts'] ) );
 		} else {
 			_e('This timezone does not observe daylight saving time.');
 		}
@@ -236,13 +239,13 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 		'd/m/Y',
 	) );
 
-	$custom = TRUE;
+	$custom = true;
 
 	foreach ( $date_formats as $format ) {
 		echo "\t<label title='" . esc_attr($format) . "'><input type='radio' name='date_format' value='" . esc_attr($format) . "'";
 		if ( get_option('date_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
-			$custom = FALSE;
+			$custom = false;
 		}
 		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
 	}
@@ -268,13 +271,13 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 		'H:i',
 	) );
 
-	$custom = TRUE;
+	$custom = true;
 
 	foreach ( $time_formats as $format ) {
 		echo "\t<label title='" . esc_attr($format) . "'><input type='radio' name='time_format' value='" . esc_attr($format) . "'";
 		if ( get_option('time_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
-			$custom = FALSE;
+			$custom = false;
 		}
 		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
 	}
