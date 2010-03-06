@@ -56,6 +56,34 @@ function create_initial_taxonomies() {
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
 /**
+ * Get a list of registered taxonomy objects.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @since 3.0.0
+ * @uses $wp_taxonomies
+ * @see register_taxonomy
+ *
+ * @param array $args An array of key => value arguments to match against the taxonomies.
+ *  Only taxonomies having attributes that match all arguments are returned.
+ * @param string $output The type of output to return, either taxonomy 'names' or 'objects'. 'names' is the default.
+ * @return array A list of taxonomy names or objects
+ */
+function get_taxonomies( $args = array(), $output = 'names' ) {
+	global $wp_taxonomies;
+
+	$taxonomies = array();
+	foreach ( (array) $wp_taxonomies as $taxname => $taxobj )
+		if ( empty($args) || array_intersect_assoc((array) $taxobj, $args) )
+			$taxonomies[$taxname] = $taxobj;
+
+	if ( 'names' == $output )
+		return array_keys($taxonomies);
+
+	return $taxonomies;
+}
+
+/**
  * Return all of the taxonomy names that are of $object_type.
  *
  * It appears that this function can be used to find all of the names inside of
