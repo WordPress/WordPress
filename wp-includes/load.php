@@ -20,12 +20,12 @@ function wp_unregister_GLOBALS() {
 		die( /*WP_I18N_GLOBALS_OVERWRITE*/'GLOBALS overwrite attempt detected'/*/WP_I18N_GLOBALS_OVERWRITE*/ );
 
 	// Variables that shouldn't be unset
-	$noUnset = array( 'GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix' );
+	$no_unset = array( 'GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix' );
 
 	$input = array_merge( $_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset( $_SESSION ) && is_array( $_SESSION ) ? $_SESSION : array() );
 	foreach ( $input as $k => $v )
-		if ( !in_array( $k, $noUnset ) && isset( $GLOBALS[$k] ) ) {
-			$GLOBALS[$k] = NULL;
+		if ( !in_array( $k, $no_unset ) && isset( $GLOBALS[$k] ) ) {
+			$GLOBALS[$k] = null;
 			unset( $GLOBALS[$k] );
 		}
 }
