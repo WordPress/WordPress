@@ -152,7 +152,7 @@ function core_upgrade_preamble() {
 	dismissed_updates();
 
 	list_plugin_updates();
-	//list_theme_updates();
+	list_theme_updates();
 	do_action('core_upgrade_preamble');
 	echo '</div>';
 }
@@ -239,34 +239,46 @@ function list_theme_updates() {
 	$themes = get_theme_updates();
 	if ( empty($themes) )
 		return;
+
+	$form_action = 'update-core.php?action=do-theme-upgrade';
+
 ?>
 <h3><?php _e('Themes'); ?></h3>
+<p><?php _e('The following themes have new versions available. Check the ones you want to update and then click "Update Themes".'); ?></p>
+<p><?php _e('<strong>Please Note:</strong> Any customizations you have made to the Themes files will be lost. Please consider using <a href="%s">Child Themes</a> for modifications.'); ?></p>
+<form method="post" action="<?php echo $form_action; ?>" name="upgrade-themes" class="upgrade">
+<?php wp_nonce_field('upgrade-core'); ?>
+<p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
 <table class="widefat" cellspacing="0" id="update-themes-table">
 	<thead>
 	<tr>
 		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
-		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+		<th scope="col" class="manage-column"><?php _e('Theme'); ?></th>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
 		<th scope="col" class="manage-column check-column"><input type="checkbox" /></th>
-		<th scope="col" class="manage-column"><?php _e('Name'); ?></th>
+		<th scope="col" class="manage-column"><?php _e('Theme'); ?></th>
 	</tr>
 	</tfoot>
 	<tbody class="plugins">
 <?php
 	foreach ( (array) $themes as $stylesheet => $theme_data) {
+		$screenshot = $theme_data->{'Theme Root URI'} . '/' . $stylesheet . '/' . $theme_data->Screenshot;
+		
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($stylesheet) . "' /></th>
-		<td class='plugin-title'><strong>{$theme_data->Name}</strong></td>
+		<td class='plugin-title'><img src='$screenshot' width='64' height='64' style='float:left; padding: 5px' /><strong>{$theme_data->Name}</strong>" .  sprintf(__('You are running version %1$s. Update to %2$s.'), $theme_data->Version, $theme_data->update['new_version']) . "</td>
 	</tr>";
 	}
 ?>
 	</tbody>
 </table>
+<p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
+</form>
 <?php
 }
 
@@ -393,7 +405,7 @@ if ( 'upgrade-core' == $action ) {
 	} elseif ( isset( $_POST['checked'] ) ) {
 		$plugins = (array) $_POST['checked'];
 	} else {
-		wp_redirect('plugins.php');
+		wp_redirect('update-core.php');
 		exit;
 	}
 
@@ -406,6 +418,30 @@ if ( 'upgrade-core' == $action ) {
 	echo '<div class="wrap">';
 	screen_icon('plugins');
 	echo '<h2>' . esc_html__('Update Plugins') . '</h2>';
+	echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
+	echo '</div>';
+} elseif ( 'do-theme-upgrade' == $action ) {
+	check_admin_referer('upgrade-core');
+
+	if ( isset( $_GET['themes'] ) ) {
+		$themes = explode( ',', $_GET['themes'] );
+	} elseif ( isset( $_POST['checked'] ) ) {
+		$themes = (array) $_POST['checked'];
+	} else {
+		wp_redirect('update-core.php');
+		exit;
+	}
+
+	$url = 'update.php?action=update-selected-themes&themes=' . urlencode(implode(',', $themes));
+	$url = wp_nonce_url($url, 'bulk-update-themes');
+
+	$title = __('Update Themes');
+
+	require_once('admin-header.php');
+	echo '<div class="wrap">';
+	screen_icon('themes');
+	echo '<h2>' . esc_html__('Update Themes') . '</h2>';
+	echo "<p>@TODO: Sorry, This part of the functionality hasnt been written yet.</p>";
 	echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
 	echo '</div>';
 }
