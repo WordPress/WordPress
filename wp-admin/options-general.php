@@ -187,9 +187,9 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists
 <?php endif; ?>
 <br />
 <span class="description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
+<?php if ($check_zone_info && $tzstring) : ?>
 <br />
 <span>
-<?php if ($check_zone_info && $tzstring) : ?>
 	<?php
 	$now = localtime(time(),true);
 	if ($now['tm_isdst']) _e('This timezone is currently in daylight saving time.');
