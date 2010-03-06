@@ -58,7 +58,7 @@ if ( is_multisite() || is_super_admin() ) {
 		if ( !empty($update_themes->response) )
 			$update_count += count( $update_themes->response );
 		$update_wordpress = get_core_updates( array('dismissed' => false) );
-		if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array(/*'development',*/ 'latest') ) ) // @TODO: Do we count Development installs as having an update available?
+		if ( !empty($update_wordpress) && !in_array( $update_wordpress[0]->response, array('development', 'latest') ) )
 			$update_count++;
 
 		unset($update_plugins, $update_themes, $update_wordpress);
