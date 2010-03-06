@@ -3767,6 +3767,12 @@ function screen_options($screen) {
 		case 'edit-pages':
 			$per_page_label = __('Pages per page:');
 			break;
+		case 'ms-sites':
+			$per_page_label = __('Sites per page:');
+			break;
+		case 'ms-users':
+			$per_page_label = __('Users per page:');
+			break;
 		case 'edit-comments':
 			$per_page_label = __('Comments per page:');
 			break;

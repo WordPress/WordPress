@@ -221,6 +221,9 @@ switch ( $_GET['action'] ) {
 		// rewrite rules can't be flushed during switch to blog
 		delete_option( 'rewrite_rules' );
 
+		// update blogs count
+		delete_site_transient( "blog_count" );
+
 		// update blogs table
 		$blog_data = stripslashes_deep($_POST[ 'blog' ]);
 		update_blog_details($id, $blog_data);
@@ -292,35 +295,52 @@ switch ( $_GET['action'] ) {
 
 		if ( $id != '0' && $id != $current_site->blog_id )
 			wpmu_delete_blog( $id, true );
-
+	
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'delete'), $_POST[ 'ref' ] ) );
 		exit();
 	break;
 
 	case "allblogs":
-		check_admin_referer('allblogs');
+		if ( isset($_POST['doaction']) || isset($_POST['doaction2']) ) {
+			check_admin_referer('bulk-sites');
+
 		if ( ! current_user_can( 'manage_sites' ) )
 			wp_die( __('You do not have permission to access this page.') );
 
+		if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
+			$doaction = $doaction = ($_POST['action'] != -1) ? $_POST['action'] : $_POST['action2'];
+
+
 		foreach ( (array) $_POST[ 'allblogs' ] as $key => $val ) {
 			if ( $val != '0' && $val != $current_site->blog_id ) {
-				if ( isset($_POST['allblog_delete']) ) {
-					$blogfunction = 'all_delete';
-					wpmu_delete_blog( $val, true );
-				} elseif ( isset($_POST['allblog_spam']) ) {
-					$blogfunction = 'all_spam';
-					update_blog_status( $val, "spam", '1', 0 );
-					set_time_limit(60);
-				} elseif ( isset($_POST['allblog_notspam']) ) {
-					$blogfunction = 'all_notspam';
-					update_blog_status( $val, "spam", '0', 0 );
-					set_time_limit(60);
+				switch ( $doaction ) {
+					case 'delete':
+						$blogfunction = 'all_delete';
+						wpmu_delete_blog( $val, true );
+						break;
+					case 'spam':
+						$blogfunction = 'all_spam';
+						update_blog_status( $val, "spam", '1', 0 );
+						set_time_limit(60);
+						break;
+					case 'notspam':
+						$blogfunction = 'all_notspam';
+						update_blog_status( $val, "spam", '0', 0 );
+						set_time_limit(60);
+						break;
 				}
-			}
-		}
+			} else {
+				wp_die( __('You are not allowed to change one of this sites.') );
+				exit();
+			}; 
+		}; 
 
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => $blogfunction), $_SERVER['HTTP_REFERER'] ) );
 		exit();
+
+		} else {
+			wp_redirect( admin_url("ms-sites.php") );
+		}
 	break;
 
 	case "archiveblog":
@@ -397,7 +417,6 @@ switch ( $_GET['action'] ) {
 	case "unmature":
 		update_blog_status( $id, 'mature', '0' );
 		do_action( 'unmature_blog', $id );
-
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'umature'), $_POST['ref'] ) );
 		exit();
 	break;
