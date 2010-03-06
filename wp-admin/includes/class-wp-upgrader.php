@@ -297,6 +297,7 @@ class WP_Upgrader {
 		$download = $this->download_package( $package );
 		if ( is_wp_error($download) ) {
 			$this->skin->error($download);
+			$this->skin->after();
 			return $download;
 		}
 
@@ -304,6 +305,7 @@ class WP_Upgrader {
 		$working_dir = $this->unpack_package( $download );
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
+			$this->skin->after();
 			return $working_dir;
 		}
 
@@ -409,6 +411,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$current = get_site_transient( 'update_plugins' );
 		if ( !isset( $current->response[ $plugin ] ) ) {
+			$this->skin->before();
 			$this->skin->set_result(false);
 			$this->skin->error('up_to_date');
 			$this->skin->after();
@@ -466,15 +469,15 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$results = array();
 
-		$all = count($plugins);
-		$i = 1;
+		$this->plugin_count = count($plugins);
+		$this->plugin_current = 0;
 		foreach ( $plugins as $plugin ) {
-
-			$this->show_before = sprintf( '<h4>' . __('Updating plugin %1$d of %2$d&#8230;') . '</h4>', $i, $all );
-			$i++;
+			$this->plugin_current++;
+			$this->skin->plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, true);
 
 			if ( !isset( $current->response[ $plugin ] ) ) {
 				$this->skin->set_result(false);
+				$this->skin->before();
 				$this->skin->error('up_to_date');
 				$this->skin->after();
 				$results[$plugin] = false;
@@ -502,7 +505,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			// Prevent credentials auth screen from displaying multiple times
 			if ( false === $result )
 				break;
-		}
+		} //end foreach $plugins
 		$this->maintenance_mode(false);
 		$this->skin->footer();
 
@@ -645,6 +648,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		// Is an update available?
 		$current = get_site_transient( 'update_themes' );
 		if ( !isset( $current->response[ $theme ] ) ) {
+			$this->skin->before();
 			$this->skin->set_result(false);
 			$this->skin->error('up_to_date');
 			$this->skin->after();
@@ -910,9 +914,6 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	function after() {
-		if ( $this->upgrader->bulk )
-			return;
-
 		$this->plugin = $this->upgrader->plugin_info();
 		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
 			show_message(__('Reactivating the plugin&#8230;'));
@@ -939,6 +940,103 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			$this->upgrader->show_before = '';
 		}
 	}
+}
+
+/**
+ * Plugin Upgrader Skin for WordPress Plugin Upgrades.
+ *
+ * @package WordPress
+ * @subpackage Upgrader
+ * @since 3.0
+ */
+class Bulk_Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
+	var $in_loop = false;
+	var $error = false;
+
+	function Plugin_Upgrader_Skin($args = array()) {
+		return $this->__construct($args);
+	}
+
+	function __construct($args = array()) {
+		$defaults = array( 'url' => '', 'nonce' => '' );
+		$args = wp_parse_args($args, $defaults);
+
+		parent::__construct($args);
+	}
+	
+	function feedback($string) {
+		if ( isset( $this->upgrader->strings[$string] ) )
+			$string = $this->upgrader->strings[$string];
+
+		if ( strpos($string, '%') !== false ) {
+			$args = func_get_args();
+			$args = array_splice($args, 1);
+			if ( !empty($args) )
+				$string = vsprintf($string, $args);
+		}
+		if ( empty($string) )
+			return;
+		if ( $this->in_loop )
+			echo "$string<br />\n";
+		else
+			echo "<p>$string</p>\n";
+	}
+
+	function header() {
+		// Nothing, This will be displayed within a iframe.
+	}
+
+	function footer() {
+		// Nothing, This will be displayed within a iframe.
+	}
+	function error($error) {
+		if ( is_string($error) && isset( $this->upgrader->strings[$error] ) )
+			$this->error = $this->upgrader->strings[$error];
+		
+		if ( is_wp_error($error) && $error->get_error_code() ) {
+			foreach ( $error->get_error_messages() as $emessage ) {
+				if ( $error->get_error_data() )
+					$messages[] = $emessage . ' ' . $error->get_error_data();
+				else
+					$messages[] = $emessage;
+			}
+			$this->error = implode(', ', $messages);
+		}
+	}
+
+	function before() {
+		$this->in_loop = true;
+		printf( '<h4>' . __('Updating Plugin %1$s (%2$d/%3$d)') . '</h4>',  $this->plugin_info['Title'], $this->upgrader->plugin_current, $this->upgrader->plugin_count);
+		echo '<div class="update-messages" style="display:none" id="progress-' . esc_attr($this->upgrader->plugin_current) . '"><p>';
+		$this->flush_output();
+	}
+
+	function after() {
+		echo '</p></div>';
+		if ( $this->error || ! $this->result ) {
+			if ( $this->error )
+				echo '<div class="error"><p>' . sprintf(__('An error occured while updating %1$s: <strong>%2$s</strong>.'), $this->plugin_info['Title'], $this->error) . '</p></div>';
+			else
+				echo '<div class="error"><p>' . sprintf(__('The update of %1$s failed.'), $this->plugin_info['Title']) . '</p></div>';
+			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->plugin_current) . '\').show();</script>';
+		}
+		if ( !empty($this->result) && !is_wp_error($this->result) ) {
+			echo '<div class="updated"><p>' . sprintf(__('%1$s updated successfully. <a onclick="%2$s" href="#">See Details</a>.'), $this->plugin_info['Title'], 'jQuery(\'#progress-' . esc_js($this->upgrader->plugin_current) . '\').toggle(); return false;') . '</p></div>';
+		}
+		$this->reset();
+		$this->flush_output();
+	}
+
+	function reset() {
+		$this->in_loop = false;
+		$this->error = false;
+	}
+
+	function flush_output() {
+		wp_ob_end_flush_all();
+		flush();
+	}
+
 }
 
 /**

@@ -351,24 +351,6 @@ function no_update_actions($actions) {
 	return '';
 }
 
-function do_plugin_upgrade() {
-	if ( isset( $_GET['plugins'] ) ) {
-		$plugins = explode( ',', $_GET['plugins'] );
-	} elseif ( isset( $_POST['checked'] ) ) {
-		$plugins = (array) $_POST['checked'];
-	} else {
-		// Nothing to do.
-		return;
-	}
-
-	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$url = 'update-core.php?action=do-plugin-upgrade&amp;plugins=' . urlencode( implode( ',', $plugins ) );
-	$title = __( 'Upgrade Plugins' );
-	$nonce = 'upgrade-core';
-	$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url' ) ) );
-	$upgrader->bulk_upgrade( $plugins );
-}
-
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
 
 $upgrade_error = false;
@@ -386,23 +368,46 @@ if ( 'upgrade-core' == $action ) {
 	core_upgrade_preamble();
 } elseif ( 'do-core-upgrade' == $action || 'do-core-reinstall' == $action ) {
 	check_admin_referer('upgrade-core');
+
 	// do the (un)dismiss actions before headers,
 	// so that they can redirect
 	if ( isset( $_POST['dismiss'] ) )
 		do_dismiss_core_update();
 	elseif ( isset( $_POST['undismiss'] ) )
-	do_undismiss_core_update();
+		do_undismiss_core_update();
+
 	require_once('admin-header.php');
 	if ( 'do-core-reinstall' == $action )
 		$reinstall = true;
 	else
 		$reinstall = false;
+
 	if ( isset( $_POST['upgrade'] ) )
 		do_core_upgrade($reinstall);
+
 } elseif ( 'do-plugin-upgrade' == $action ) {
 	check_admin_referer('upgrade-core');
+
+	if ( isset( $_GET['plugins'] ) ) {
+		$plugins = explode( ',', $_GET['plugins'] );
+	} elseif ( isset( $_POST['checked'] ) ) {
+		$plugins = (array) $_POST['checked'];
+	} else {
+		wp_redirect('plugins.php');
+		exit;
+	}
+
+	$url = 'update.php?action=update-selected&plugins=' . urlencode(implode(',', $plugins));
+	$url = wp_nonce_url($url, 'bulk-update-plugins');
+
+	$title = __('Update Plugins');
+
 	require_once('admin-header.php');
-	do_plugin_upgrade();
+	echo '<div class="wrap">';
+	screen_icon('plugins');
+	echo '<h2>' . esc_html__('Update Plugins') . '</h2>';
+	echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
+	echo '</div>';
 }
 
 include('admin-footer.php');

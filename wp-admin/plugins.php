@@ -96,44 +96,31 @@ if ( !empty($action) ) {
 			exit;
 			break;
 		case 'update-selected' :
-			if ( ! current_user_can( 'update_plugins' ) )
-				wp_die( __( 'You do not have sufficient permissions to update plugins for this blog.' ) );
-
+		
 			check_admin_referer( 'bulk-manage-plugins' );
-
+			
 			if ( isset( $_GET['plugins'] ) )
 				$plugins = explode( ',', $_GET['plugins'] );
 			elseif ( isset( $_POST['checked'] ) )
 				$plugins = (array) $_POST['checked'];
 			else
-				break;
-
-			if ( empty( $plugins ) )
-				break;
-
-			// We'll be passing all checked plugins as long as at least one is out of date.
-			$_plugins = $plugins;
-			$current = get_site_transient( 'update_plugins' );
-			foreach ( $_plugins as $k => $v ) {
-				if ( ! isset( $current->response[ $v ] ) )
-					unset( $_plugins[ $k ] );
-			}
-			unset( $current );
-			// If all checked plugins are up to date
-			if ( empty( $_plugins ) )
-				break;
-
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-			require_once( 'admin-header.php' );
-
-			$url = 'plugins.php?action=upgrade-selected&amp;plugins=' . urlencode( join( ',', $plugins ) );
+				$plugins = array();
+			
 			$title = __( 'Upgrade Plugins' );
-			$nonce = 'bulk-manage-plugins';
 			$parent_file = 'plugins.php';
 
-			$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url' ) ) );
-			$upgrader->bulk_upgrade( $plugins );
+			require_once( 'admin-header.php' );
+			
+			echo '<div class="wrap">';
+			screen_icon();
+			echo '<h2>' . esc_html( $title ) . '</h2>';
 
+
+			$url = 'update.php?action=update-selected&amp;plugins=' . urlencode( join(',', $plugins) );
+			$url = wp_nonce_url($url, 'bulk-update-plugins');
+
+			echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
+			echo '</div>';
 			require_once( 'admin-footer.php' );
 			exit;
 			break;

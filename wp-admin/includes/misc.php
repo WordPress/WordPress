@@ -271,6 +271,8 @@ function show_message($message) {
 			$message = $message->get_error_message();
 	}
 	echo "<p>$message</p>\n";
+	wp_ob_end_flush_all();
+	flush();
 }
 
 function wp_doc_link_parse( $content ) {

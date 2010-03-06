@@ -16,7 +16,35 @@ if ( isset($_GET['action']) ) {
 	$theme = isset($_REQUEST['theme']) ? urldecode($_REQUEST['theme']) : '';
 	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 
-	if ( 'upgrade-plugin' == $action ) {
+	if ( 'update-selected' == $action ) {
+		if ( ! current_user_can( 'update_plugins' ) )
+			wp_die( __( 'You do not have sufficient permissions to update plugins for this blog.' ) );
+
+		check_admin_referer( 'bulk-update-plugins' );
+
+		if ( isset( $_GET['plugins'] ) )
+			$plugins = explode( ',', stripslashes($_GET['plugins']) );
+		elseif ( isset( $_POST['checked'] ) )
+			$plugins = (array) $_POST['checked'];
+		else
+			$plugins = array();
+
+		$plugins = array_map('urldecode', $plugins);
+
+		$url = 'update.php?action=update-selected&amp;plugins=' . urlencode(implode(',', $plugins));
+		$nonce = 'bulk-update-plugins';
+
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+		wp_enqueue_script('jquery');
+		iframe_header();
+
+		$upgrader = new Plugin_Upgrader( new Bulk_Plugin_Upgrader_Skin( compact( 'nonce', 'url' ) ) );
+		$upgrader->bulk_upgrade( $plugins );
+
+		iframe_footer();
+		exit;
+			
+	} elseif ( 'upgrade-plugin' == $action ) {
 		if ( ! current_user_can('update_plugins') )
 			wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));
 
