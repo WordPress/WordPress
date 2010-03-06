@@ -48,9 +48,7 @@ function wp_fix_server_vars() {
 		// IIS Isapi_Rewrite
 		else if ( isset( $_SERVER['HTTP_X_REWRITE_URL'] ) ) {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
-		}
-		else
-		{
+		} else {
 			// Use ORIG_PATH_INFO if there is no PATH_INFO
 			if ( !isset( $_SERVER['PATH_INFO'] ) && isset( $_SERVER['ORIG_PATH_INFO'] ) )
 				$_SERVER['PATH_INFO'] = $_SERVER['ORIG_PATH_INFO'];
@@ -81,7 +79,7 @@ function wp_fix_server_vars() {
 	// Fix empty PHP_SELF
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 	if ( empty( $PHP_SELF ) )
-		$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace( "/(\?.*)?$/",'',$_SERVER["REQUEST_URI"] );
+		$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace( '/(\?.*)?$/', '', $_SERVER["REQUEST_URI"] );
 }
 
 /**
@@ -111,11 +109,11 @@ function wp_check_php_mysql_versions() {
  * @since 3.0.0
  */
 function wp_favicon_request() {
-        if ( '/favicon.ico' == $_SERVER['REQUEST_URI'] ) {
-                header('Content-Type: image/vnd.microsoft.icon');
-                header('Content-Length: 0');
-                exit;
-        }
+	if ( '/favicon.ico' == $_SERVER['REQUEST_URI'] ) {
+		header('Content-Type: image/vnd.microsoft.icon');
+		header('Content-Length: 0');
+		exit;
+	}
 }
 
 /**
@@ -532,9 +530,9 @@ function shutdown_action_hook() {
  */
 function wp_clone( $object ) {
 	static $can_clone;
-	if ( !isset( $can_clone ) ) {
+	if ( !isset( $can_clone ) )
 		$can_clone = version_compare( phpversion(), '5.0', '>=' );
-	}
+
 	return $can_clone ? clone( $object ) : $object;
 }
 
