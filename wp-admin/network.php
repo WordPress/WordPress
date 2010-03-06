@@ -84,8 +84,8 @@ function network_step1() {
 
 	wp_nonce_field( 'install-network-1' );
 	if ( network_domain_check() ) { ?>
-		<h2><?php esc_html_e( 'Existing Sites' ); ?></h2>
-		<p><?php _e( 'An existing WordPress Network was detected.' ); ?></p>
+		<h3><?php esc_html_e( 'Existing Network' ); ?></h3>
+		<div class="updated inline"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'An existing network was detected.' ); ?></p></div>
 		<p class="existing-network">
 			<label><input type='checkbox' name='existing_network' value='1' /> <?php _e( 'Yes, keep the existing network of sites.' ); ?></label><br />
 		</p>
