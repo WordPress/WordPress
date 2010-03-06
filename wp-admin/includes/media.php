@@ -1474,7 +1474,7 @@ SWFUpload.onload = function() {
 	<div>
 	<?php _e( 'Choose files to upload' ); ?>
 	<div id="flash-browse-button"></div>
-	<span><input id="cancel-upload" disabled="disabled" onClick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+	<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
 	</div>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
@@ -2034,11 +2034,11 @@ function type_url_form_image() {
 			<td class="field">
 				<input name="align" id="align-none" value="none" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'none' ? ' checked="checked"' : '').' />
 				<label for="align-none" class="align image-align-none-label">' . __('None') . '</label>
-				<input name="align" id="align-left" value="left" onClick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'left' ? ' checked="checked"' : '').' />
+				<input name="align" id="align-left" value="left" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'left' ? ' checked="checked"' : '').' />
 				<label for="align-left" class="align image-align-left-label">' . __('Left') . '</label>
-				<input name="align" id="align-center" value="center" onClick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'center' ? ' checked="checked"' : '').' />
+				<input name="align" id="align-center" value="center" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'center' ? ' checked="checked"' : '').' />
 				<label for="align-center" class="align image-align-center-label">' . __('Center') . '</label>
-				<input name="align" id="align-right" value="right" onClick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'right' ? ' checked="checked"' : '').' />
+				<input name="align" id="align-right" value="right" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'right' ? ' checked="checked"' : '').' />
 				<label for="align-right" class="align image-align-right-label">' . __('Right') . '</label>
 			</td>
 		</tr>
@@ -2049,15 +2049,15 @@ function type_url_form_image() {
 			</th>
 			<td class="field"><input id="url" name="url" value="" type="text" /><br />
 
-			<button type="button" class="button" value="" onClick="document.forms[0].url.value=null">' . __('None') . '</button>
-			<button type="button" class="button" value="" onClick="document.forms[0].url.value=document.forms[0].src.value">' . __('Link to image') . '</button>
+			<button type="button" class="button" value="" onclick="document.forms[0].url.value=null">' . __('None') . '</button>
+			<button type="button" class="button" value="" onclick="document.forms[0].url.value=document.forms[0].src.value">' . __('Link to image') . '</button>
 			<p class="help">' . __('Enter a link URL or click above for presets.') . '</p></td>
 		</tr>
 
 		<tr>
 			<td></td>
 			<td>
-				<input type="button" class="button" id="go_button" style="color:#bbb;" onClick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
 	</tbody></table>
