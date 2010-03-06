@@ -89,7 +89,6 @@ function network_step1() {
 		<p class="existing-network">
 			<label><input type='checkbox' name='existing_network' value='1' /> <?php _e( 'Yes, keep the existing network of sites.' ); ?></label><br />
 		</p>
-
 <?php 	} else { ?>
 		<input type='hidden' name='existing_network' value='0' />
 <?php	} ?>
@@ -105,11 +104,11 @@ function network_step1() {
 		<table class="form-table">
 			<tr>
 				<th><label><input type='radio' name='vhost' value='yes'<?php checked( $rewrite_enabled ); ?> /> Sub-domains</label></th>
-				<td><?php _e('like <code>blog1.example.com</code> and <code>blog2.example.com</code>'); ?></td>
+				<td><?php _e('like <code>site1.example.com</code> and <code>site2.example.com</code>'); ?></td>
 			</tr>
 			<tr>
 				<th><label><input type='radio' name='vhost' value='no'<?php checked( ! $rewrite_enabled ); ?> /> Sub-directories</label></th>
-				<td><?php _e('like <code>example.com/blog1</code> and <code>example.com/blog2</code>'); ?></td>
+				<td><?php _e('like <code>example.com/site1</code> and <code>example.com/site2</code>'); ?></td>
 			</tr>
 		</table>
 
@@ -168,101 +167,48 @@ function network_step2() {
 	global $base, $wpdb;
 ?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
-		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites. <strong>Note:</strong> We recommend you make a backup copy of your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p>
+		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
+		<div class="updated inline"><p><?php _e( '<strong>Caution:</strong> We recommend you backup your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p></div>
 		<ol>
-			<li><?php printf( __( 'Create a <code>%s/blogs.dir</code> directory. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR ); ?></li>
-<?php
-	$vhost   = stripslashes( $_POST['vhost' ] );
-	$prefix  = $wpdb->base_prefix;
-
-	$config_sample = ABSPATH . 'wp-admin/includes/wp-config.ms';
-	if ( ! file_exists( $config_sample ) )
-		wp_die( sprintf( __( 'Sorry, I need a <code>%s</code> to work from. Please re-upload this file to your WordPress installation.' ), $config_sample ) );
-
-	$wp_config_file = file( $config_sample );
-?>
-			<li><p><?php printf( __( 'Replace the contents of <code>%swp-config.php</code> with the following:' ), ABSPATH ); ?></p>
-				<textarea name="wp-config" cols="120" rows="20">
-<?php
-	foreach ( $wp_config_file as $line ) {
-		switch ( trim( substr( $line, 0, 16 ) ) ) {
-			case "define('DB_NAME'":
-				$output = str_replace( "wordpress", DB_NAME, $line );
-				break;
-			case "define('DB_USER'":
-				$output = str_replace( "username", DB_USER, $line );
-				break;
-			case "define('DB_PASSW":
-				$output = str_replace( "password", DB_PASSWORD, $line );
-				break;
-			case "define('DB_HOST'":
-				$output = str_replace( "localhost", DB_HOST, $line );
-				break;
-			case "define('VHOST',":
-				$output = str_replace( "VHOSTSETTING", $vhost, $line );
-				break;
-			case '$table_prefix  =':
-				$output = str_replace( 'wp_', $prefix, $line );
-				break;
-			case '$base = \'BASE\';':
-				$output = str_replace( 'BASE', $base, $line );
-				break;
-			case "define('DOMAIN_C":
-				$domain = get_clean_basedomain();
-				$output = str_replace( "current_site_domain", $domain, $line );
-				break;
-			case "define('PATH_CUR":
-				$output = str_replace( "current_site_path", $base, $line );
-				break;
-			case "define('AUTH_KEY":
-			case "define('AUTH_SAL":
-			case "define('LOGGED_I":
-			case "define('SECURE_A":
-			case "define('NONCE_KE":
-				$constant = substr( $line, 8, strpos( $line, "'", 9 ) - 8 );
-				if ( defined( $constant ) )
-					$hash = constant( $constant );
-				else
-					$hash = md5( mt_rand() ) . md5( mt_rand() );
-				$output = str_replace( 'put your unique phrase here', $hash, $line );
-				break;
-			default:
-				$output = $line;
-				break;
-		}
-		echo $output;
-	}
-?>
-				</textarea>
-			</li>
+			<li><p><?php printf( __( 'Create a <code>blogs.dir</code> directory in <code>%s</code>. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR ); ?></p></li>
+			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code>:' ), ABSPATH ); ?></p>
+				<textarea class="code" readonly="readonly" cols="100" rows="7">
+define( 'MULTISITE', true );
+define( 'VHOST', '<?php echo 'yes' == stripslashes( $_POST['vhost'] ) ? 'yes' : 'no'; ?>' );
+$base = '<?php echo $base; ?>';
+define( 'DOMAIN_CURRENT_SITE', '<?php echo get_clean_basedomain(); ?>' );
+define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
+define( 'SITE_ID_CURRENT_SITE', 1 );
+define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea></li>
 <?php
 
 	// remove ending slash from $base and $url
 	$htaccess = '';
-	if ( substr( $base, -1 ) == '/' )
-		$base = substr( $base, 0, -1 );
+	$base = rtrim( $base, '/' );
 
-	$htaccess_sample = ABSPATH . 'wp-admin/includes/htaccess.ms';
-	if ( ! file_exists( $htaccess_sample ) )
-		wp_die( sprintf( __( 'Sorry, I need a %s to work from. Please re-upload this file to your WordPress installation.' ), $htaccess_sample ) );
+	$htaccess_file = 'RewriteEngine On
+RewriteBase ' . $base . '/
 
-	$htaccess_file = file( $htaccess_sample );
-	$fp = @fopen( $htaccess_sample, "r" );
-	if ( $fp ) {
-		while ( ! feof( $fp ) ) {
-			$htaccess .= fgets( $fp, 4096 );
-		}
-		fclose( $fp );
-		$htaccess_file = str_replace( "BASE", $base, $htaccess );
-	} else {
-		wp_die( sprintf( __( 'Sorry, I need to be able to read %s. Please check the permissions on this file.' ), $htaccess_sample ) );
-	}
+#uploaded files
+RewriteRule ^(.*/)?files/$ index.php [L]
+RewriteCond %{REQUEST_URI} !.*wp-content/plugins.*
+RewriteRule ^(.*/)?files/(.*) wp-includes/ms-files.php?file=$2 [L]
+
+# add a trailing slash to /wp-admin
+RewriteCond %{REQUEST_URI} ^.*/wp-admin$
+RewriteRule ^(.+)$ $1/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule . - [L]
+RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
+RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
+RewriteRule . index.php [L]';
 ?>
-			<li><p><?php printf( __( 'Replace the contents of your <code>%s.htaccess</code> with the following:' ), ABSPATH ); ?></p>
-				<textarea name="htaccess" cols="120" rows="20">
+			<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
+				<textarea class="code" readonly="readonly" cols="100" rows="18">
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
-</textarea>
-			</li>
+</textarea></li>
 		</ol>
 <?php
 }
@@ -279,7 +225,7 @@ switch ( $action ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		// create network tables
 		install_network();
-		if ( !network_domain_check() || $_POST['existing_network'] == '0' )
+		if ( !network_domain_check() || isset( $_POST['existing_network'] ) && $_POST['existing_network'] == '0' )
 			populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
 		// create wp-config.php / htaccess
 		network_step2();

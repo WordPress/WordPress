@@ -101,7 +101,9 @@ function wpmu_current_site() {
 		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
 		$current_site->domain = DOMAIN_CURRENT_SITE;
 		$current_site->path   = $path = PATH_CURRENT_SITE;
-		if ( defined( 'BLOGID_CURRENT_SITE' ) )
+		if ( defined( 'BLOG_ID_CURRENT_SITE' ) )
+			$current_site->blog_id = BLOG_ID_CURRENT_SITE;
+		elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) // deprecated.
 			$current_site->blog_id = BLOGID_CURRENT_SITE;
 		if ( DOMAIN_CURRENT_SITE == $domain )
 			$current_site->cookie_domain = $cookie_domain;
