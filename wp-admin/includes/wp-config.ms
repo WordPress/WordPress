@@ -77,10 +77,6 @@ $table_prefix  = 'wp_';
  */
 define ('WPLANG', '');
 
-// double check $base
-if( $base == 'BASE' )
-	die( 'Problem in wp-config.php - $base is set to BASE when it should be the path like "/" or "/blogs/"! Please fix it!' );
-
 // uncomment this to enable WP_CONTENT_DIR/sunrise.php support
 //define( 'SUNRISE', 'on' );
 
