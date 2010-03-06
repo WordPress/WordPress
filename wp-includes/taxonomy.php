@@ -233,14 +233,12 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	}
 
 	if ( false !== $args['rewrite'] && '' != get_option('permalink_structure') ) {
-		if ( !is_array($args['rewrite']) )
-			$args['rewrite'] = array();
-		if ( !isset($args['rewrite']['slug']) )
-			$args['rewrite']['slug'] = sanitize_title_with_dashes($taxonomy);
-		if ( !isset($args['rewrite']['with_front']) )
-			$args['rewrite']['with_front'] = true;
-		$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=$term");
-		$wp_rewrite->add_permastruct($taxonomy, "/{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front']);
+		$args['rewrite'] = wp_parse_args($args['rewrite'], array( 
+			'slug' => sanitize_title_with_dashes($taxonomy), 
+			'with_front' => true, 
+		)); 
+		$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term="); 
+		$wp_rewrite->add_permastruct($taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front']); 
 	}
 
 	if ( is_null($args['show_ui']) )
