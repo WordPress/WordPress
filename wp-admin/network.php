@@ -179,7 +179,38 @@ $base = '<?php echo $base; ?>';
 define( 'DOMAIN_CURRENT_SITE', '<?php echo get_clean_basedomain(); ?>' );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
 define( 'SITE_ID_CURRENT_SITE', 1 );
-define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea></li>
+define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
+<?php
+	$keys_salts = array( 'AUTH_KEY' => '', 'SECURE_AUTH_KEY' => '', 'LOGGED_IN_KEY' => '', 'NONCE_KEY' => '', 'AUTH_SALT' => '', 'SECURE_AUTH_SALT' => '', 'LOGGED_IN_SALT' => '', 'NONCE_SALT' => '' );
+	foreach ( $keys_salts as $c => $v ) {
+		if ( defined( $c ) )
+			unset( $keys_salts[ $c ] );
+	}
+	if ( ! empty( $keys_salts ) ) {
+		$from_api = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
+		if ( is_wp_error( $from_api ) ) {
+			foreach ( $keys_salts as $c => $v ) {
+				$keys_salts[ $c ] = wp_generate_password( 64, true, true );
+			}
+		} else {
+			$from_api = explode( "\n", wp_remote_retrieve_body( $from_api ) );
+			foreach ( $keys_salts as $c => $v ) {
+				$keys_salts[ $c ] = substr( array_shift( $from_api ), 28, 64 );
+			}
+		}
+		$num_keys_salts = count( $keys_salts );
+?>
+	<p><?php
+		echo _n( 'This unique authentication key is also missing from your <code>wp-config.php</code> file.', 'These unique authentication keys are also missing from your <code>wp-config.php</code> file.', $num_keys_salts ); ?> <?php _e( 'To make your installation more secure, you should also add:' ) ?></p>
+	<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>"><?php
+	foreach ( $keys_salts as $c => $v ) {
+		echo "\ndefine( '$c', '$v' );";
+	}
+?></textarea>
+<?php	
+	}
+?>
+</li>
 <?php
 
 	// remove ending slash from $base and $url
@@ -210,6 +241,7 @@ RewriteRule . index.php [L]';
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 </textarea></li>
 		</ol>
+		<p>Once you complete these steps, your network is enabled and configured. <a href="<?php echo esc_url( admin_url() ); ?>">Return to Dashboard</a></p>
 <?php
 }
 
