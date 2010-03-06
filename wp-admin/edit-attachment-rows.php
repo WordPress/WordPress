@@ -87,7 +87,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		<td <?php echo $attributes ?>><strong><?php if ( $is_trash ) echo $att_title; else { ?><a href="<?php echo get_edit_post_link( $post->ID, true ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a><?php } ?></strong><br />
 		<?php
 		if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
-			echo wp_specialchars( strtoupper( $matches[1] ) );
+			echo esc_html( strtoupper( $matches[1] ) );
 		else
 			echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );
 		?>
