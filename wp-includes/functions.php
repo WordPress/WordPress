@@ -3736,6 +3736,7 @@ function wp_timezone_override_offset() {
 function wp_timezone_supported() {
 	$support = false;
 	if (
+		function_exists( 'date_create' ) &&
 		function_exists( 'date_default_timezone_set' ) &&
 		function_exists( 'timezone_identifiers_list' ) &&
 		function_exists( 'timezone_open' ) &&
