@@ -2650,7 +2650,7 @@ class WP_Query {
 		} elseif ( $this->is_tax ) {
 			$tax = $this->get('taxonomy');
 			$slug = $this->get('term');
-			$term = &get_terms($tax, array( 'slug' => $slug ) );
+			$term = &get_terms($tax, array( 'slug' => $slug, 'hide_empty' => false ) );
 			if ( is_wp_error($term) || empty($term) )
 				return NULL;
 			$term = $term[0];
