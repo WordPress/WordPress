@@ -3668,6 +3668,18 @@ div#custom-background-image p.submit {
 	display: inline;
 }
 
+/* Custom Header */
+
+table#available-headers td {
+	padding: 0 20px 10px 0;
+}
+table#available-headers label input {
+	margin-right: 8px;
+}
+table#available-headers label img {
+	vertical-align: middle;
+}
+
 /* Tab Interface */
 
 .menu-tabs {
