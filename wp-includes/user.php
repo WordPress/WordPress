@@ -167,24 +167,26 @@ function count_user_posts($userid) {
  */
 function count_many_users_posts($users) {
 	global $wpdb;
-	
-	if (0 == count($users))
-		return array();
-	    
-	$userlist = implode(',', $users);
-	$where = get_posts_by_author_sql('post');
+
+	$count = array();
+	if ( ! count( $users ) )
+		return $count;
+
+	$userlist = implode( ',', $users );
+	$where = get_posts_by_author_sql( 'post' );
 
 	$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
 
-	$count = array();
-	foreach($result as $row) {
-		$count[$row[0]] = $row[1];
+	if ( ! $result )
+		return $count;
+
+	foreach ( $result as $row ) {
+		$count[ $row[0] ] = $row[1];
 	}
 
-	foreach($users as $id) {
-		$id = (string) $id;
-		if (!isset($count[$id]))
-			$count[$id] = 0;
+	foreach ( $users as $id ) {
+		if ( ! isset( $count[ $id ] ) )
+			$count[ $id ] = 0;
 	}
 
 	return $count;
