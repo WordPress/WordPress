@@ -1061,10 +1061,25 @@ function upgrade_270() {
  * @since 2.8.0
  */
 function upgrade_280() {
-	global $wp_current_db_version;
+	global $wp_current_db_version, $wpdb;
 
 	if ( $wp_current_db_version < 10360 )
 		populate_roles_280();
+	if ( is_multisite() ) {
+		$start = 0;
+		while( $rows = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options ORDER BY option_id LIMIT $start, 20" ) ) {
+			foreach( $rows as $row ) {
+				$value = $row->option_value;
+				if ( !@unserialize( $value ) )
+					$value = stripslashes( $value );
+				if ( $value !== $row->option_value ) {
+					update_option( $row->option_name, $value );
+				}
+			}
+			$start += 20;
+		}
+		refresh_blog_details( $wpdb->blogid );
+	}
 }
 
 /**
@@ -1105,7 +1120,7 @@ function upgrade_300() {
  * @since 3.0.0
  */
 function upgrade_network() {
-	global $wp_current_db_version;
+	global $wp_current_db_version, $wpdb;
 	// 2.8
 	if ( $wp_current_db_version < 11549 ) {
 		$wpmu_sitewide_plugins = get_site_option( 'wpmu_sitewide_plugins' );
@@ -1120,6 +1135,19 @@ function upgrade_network() {
 		}
 		delete_site_option( 'wpmu_sitewide_plugins' );
 		delete_site_option( 'deactivated_sitewide_plugins' );
+
+		$start = 0;
+		while( $rows = $wpdb->get_results( "SELECT meta_key, meta_value FROM {$wpdb->sitemeta} ORDER BY meta_id LIMIT $start, 20" ) ) {
+			foreach( $rows as $row ) {
+				$value = $row->meta_value;
+				if ( !@unserialize( $value ) )
+					$value = stripslashes( $value );
+				if ( $value !== $row->meta_value ) {
+					update_site_option( $row->meta_key, $value );
+				}
+			}
+			$start += 20;
+		}
 	}
 }
 

@@ -734,40 +734,6 @@ function choose_primary_blog() {
 	<?php
 }
 
-function stripslashes_from_options( $blog_id ) {
-	global $wpdb;
-
-	if ( $blog_id == 1 ) { // check site_options too
-		$start = 0;
-		while( $rows = $wpdb->get_results( "SELECT meta_key, meta_value FROM {$wpdb->sitemeta} ORDER BY meta_id LIMIT $start, 20" ) ) {
-			foreach( $rows as $row ) {
-				$value = $row->meta_value;
-				if ( !@unserialize( $value ) )
-					$value = stripslashes( $value );
-				if ( $value !== $row->meta_value ) {
-					update_site_option( $row->meta_key, $value );
-				}
-			}
-			$start += 20;
-		}
-	}
-	$start = 0;
-	$options_table = $wpdb->get_blog_prefix( $blog_id ) . "options";
-	while( $rows = $wpdb->get_results( "SELECT option_name, option_value FROM $options_table ORDER BY option_id LIMIT $start, 20" ) ) {
-		foreach( $rows as $row ) {
-			$value = $row->option_value;
-			if ( !@unserialize( $value ) )
-				$value = stripslashes( $value );
-			if ( $value !== $row->option_value ) {
-				update_blog_option( $blog_id, $row->option_name, $value );
-			}
-		}
-		$start += 20;
-	}
-	refresh_blog_details( $blog_id );
-}
-add_action( 'wpmu_upgrade_site', 'stripslashes_from_options' );
-
 function show_post_thumbnail_warning() {
 	if ( ! is_super_admin() )
 		return;
