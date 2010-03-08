@@ -726,6 +726,10 @@ Thanks!
 		$blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
 		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
+		if ( !$upload_path = get_option( 'upload_path' ) ) {
+			$upload_path = substr( WP_CONTENT_DIR, strlen( ABSPATH ) ) . '/uploads';
+			update_option( 'upload_path', $upload_path );
+		}
 	}
 
 	if ( $vhost == 'yes' )

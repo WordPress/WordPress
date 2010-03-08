@@ -2131,7 +2131,7 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined('UPLOADS') ) {
+	if ( defined('UPLOADS') && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
