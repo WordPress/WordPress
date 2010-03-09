@@ -22,7 +22,16 @@ $title = __('Settings');
 $this_file = 'options.php';
 $parent_file = 'options-general.php';
 
-wp_reset_vars(array('action'));
+wp_reset_vars(array('action', 'option_page'));
+
+if ( empty($option_page) ) // This is for back compat and will eventually be removed.
+	$option_page = 'options';
+
+if ( !current_user_can('manage_options') )
+	wp_die(__('Cheatin&#8217; uh?'));
+	
+if ( is_multisite() && !is_super_admin() && 'update' != $action )
+	wp_die(__('Cheatin&#8217; uh?'));
 
 $whitelist_options = array(
 	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'timezone_string' ),
@@ -38,8 +47,11 @@ $mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', '
 $uploads_options = array('uploads_use_yearmonth_folders', 'upload_path', 'upload_url_path');
 
 if ( !is_multisite() ) {
-	if ( !defined( 'WP_SITEURL' ) ) $whitelist_options['general'][] = 'siteurl';
-	if ( !defined( 'WP_HOME' ) ) $whitelist_options['general'][] = 'home';
+	if ( !defined( 'WP_SITEURL' ) )
+		$whitelist_options['general'][] = 'siteurl';
+	if ( !defined( 'WP_HOME' ) )
+		$whitelist_options['general'][] = 'home';
+
 	$whitelist_options['general'][] = 'admin_email';
 	$whitelist_options['general'][] = 'users_can_register';
 	$whitelist_options['general'][] = 'default_role';
@@ -55,7 +67,7 @@ if ( !is_multisite() ) {
 
 	$whitelist_options[ 'misc' ] = array();
 
-	if ( defined( 'POST_BY_EMAIL' ) )
+	if ( apply_filters( 'enable_post_by_email_configuration', true ) )
 		$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);
 
 	$whitelist_options[ 'misc' ] = array();
@@ -63,48 +75,35 @@ if ( !is_multisite() ) {
 
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
-if ( !current_user_can('manage_options') )
-	wp_die(__('Cheatin&#8217; uh?'));
-
-if ( is_multisite() && is_super_admin() && isset($_GET[ 'adminhash' ]) && $_GET[ 'adminhash' ] ) {
+if ( is_multisite() && is_super_admin() && !empty($_GET[ 'adminhash' ]) ) {
 	$new_admin_details = get_option( 'adminhash' );
-	if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && $new_admin_details[ 'newemail' ] != '' ) {
-		update_option( "admin_email", $new_admin_details[ 'newemail' ] );
-		delete_option( "adminhash" );
-		delete_option( "new_admin_email" );
-		wp_redirect( get_option( "siteurl" ) . "/wp-admin/options-general.php?updated=true" );
-		exit;
-	} else {
-		wp_redirect( get_option( "siteurl" ) . "/wp-admin/options-general.php?updated=false" );
-		exit;
+	$redirect = admin_url('options-general.php?updated=false');
+	if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && !empty($new_admin_details[ 'newemail' ]) ) {
+		update_option( 'admin_email', $new_admin_details[ 'newemail' ] );
+		delete_option( 'adminhash' );
+		delete_option( 'new_admin_email' );
+		$redirect = admin_url('options-general.php?updated=true');
 	}
+	wp_redirect( $redirect);
+	exit;
 }
-
-switch($action) {
 
 /**
  * If $_GET['action'] == 'update' we are saving settings sent from a settings page
  */
-case 'update':
-	if ( isset($_POST[ 'option_page' ]) ) {
-		$option_page = $_POST[ 'option_page' ];
-		check_admin_referer( $option_page . '-options' );
-	} else {
-		// This is for back compat and will eventually be removed.
-		$option_page = 'options';
+if ( 'update' == $action ) {
+	if ( 'options' == $option_page && !isset($_POST['option_page']) ) // This is for back compat and will eventually be removed.
 		check_admin_referer( 'update-options' );
-	}
+	else
+		check_admin_referer( $option_page . '-options' );
 
 	if ( !isset( $whitelist_options[ $option_page ] ) )
 		wp_die( __( 'Error: options page not found.' ) );
 
-	if ( 'options' == $option_page ) {
+	if ( 'options' == $option_page )
 		$options = explode(',', stripslashes( $_POST[ 'page_options' ] ));
-		if ( !is_super_admin() )
-			wp_die( __( 'Not allowed here' ) );
-	} else {
+	else
 		$options = $whitelist_options[ $option_page ];
-	}
 
 	// Handle custom date/time formats
 	if ( 'general' == $option_page ) {
@@ -126,7 +125,8 @@ case 'update':
 			$value = null;
 			if ( isset($_POST[$option]) )
 				$value = $_POST[$option];
-			if ( !is_array($value) ) $value = trim($value);
+			if ( !is_array($value) )
+				$value = trim($value);
 			$value = stripslashes_deep($value);
 			update_option($option, $value);
 		}
@@ -145,13 +145,10 @@ case 'update':
 	 */
 	$goback = add_query_arg( 'updated', 'true',  wp_get_referer() );
 	wp_redirect( $goback );
-	break;
+	exit;
+}
 
-default:
-	if ( !is_super_admin() )
-		wp_die( __( 'Not admin' ) );
-
-	include('admin-header.php'); ?>
+include('admin-header.php'); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -205,7 +202,4 @@ endforeach;
 
 <?php
 include('admin-footer.php');
-break;
-} // end switch
-
 ?>
