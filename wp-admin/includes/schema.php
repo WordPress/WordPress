@@ -299,7 +299,7 @@ function populate_options() {
 	'close_comments_days_old' => 14,
 	'thread_comments' => 1,
 	'thread_comments_depth' => 5,
-	'page_comments' => 1,
+	'page_comments' => 0,
 	'comments_per_page' => 50,
 	'default_comments_page' => 'newest',
 	'comment_order' => 'asc',
