@@ -68,6 +68,7 @@ function inline_edit_term_row($type, $taxonomy) {
 		<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 		<span class="error" style="display:none;"></span>
 		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
+		<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $tax->name ); ?>" />
 		<br class="clear" />
 	</p>
 	</td></tr>
