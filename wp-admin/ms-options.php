@@ -24,7 +24,7 @@ if (isset($_GET['updated'])) {
 	<h2><?php _e('Network Options') ?></h2>
 	<form method="post" action="ms-edit.php?action=siteoptions">
 		<?php wp_nonce_field( "siteoptions" ); ?>
-		<h3><?php _e('Operational Settings <em>(These settings cannot be modified by site owners)</em>') ?></h3>
+		<h3><?php _e('Operational Settings'); ?></h3>
 		<table class="form-table">
 			<tr valign="top">
 				<th scope="row"><?php _e('Network Name') ?></th>
@@ -61,30 +61,9 @@ if (isset($_GET['updated'])) {
 					} ?>
 				</td>
 			</tr>
-
-			<tr valign="top">
-				<th scope="row"><?php _e('Registration notification') ?></th>
-				<?php
-				if ( !get_site_option('registrationnotification') )
-					update_site_option( 'registrationnotification', 'yes' );
-				?>
-				<td>
-					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes' <?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
-					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no' <?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
-					<?php _e('Send the network admin an email notification every time someone registers a site or user account.') ?>
-				</td>
-			</tr>
-
-			<tr valign="top">
-				<th scope="row"><?php _e('Add New Users') ?></th>
-				<td>
-					<a name='addnewusers'></a>
-					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
-					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
-					<?php _e('Allow site administrators to add new users to their site via the Users->Add New page.') ?>
-				</td>
-			</tr>
-
+		</table>
+		<h3><?php _e('Dashboard Settings'); ?></h3>
+		<table class="form-table">
 			<tr valign="top">
 				<th scope="row"><?php _e('Dashboard Site') ?></th>
 				<td>
@@ -110,6 +89,38 @@ if (isset($_GET['updated'])) {
 					</select>
 					<br />
 					<?php _e( "The default role for new users on the Dashboard site. This should probably be 'Subscriber' or maybe 'Contributor'." ); ?>
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
+				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
+				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
+				<?php if ( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
+					echo __( "A good one to use would be the feed from your main site: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
+			</tr>
+		</table>
+		<h3><?php _e('Registration Settings'); ?></h3>
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row"><?php _e('Registration notification') ?></th>
+				<?php
+				if ( !get_site_option('registrationnotification') )
+					update_site_option( 'registrationnotification', 'yes' );
+				?>
+				<td>
+					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes' <?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
+					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no' <?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
+					<?php _e('Send the network admin an email notification every time someone registers a site or user account.') ?>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row"><?php _e('Add New Users') ?></th>
+				<td>
+					<a name='addnewusers'></a>
+					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
+					<?php _e('Allow site administrators to add new users to their site via the Users->Add New page.') ?>
 				</td>
 			</tr>
 
@@ -141,6 +152,10 @@ if (isset($_GET['updated'])) {
 					<?php _e('If you want to ban certain email domains from site registrations. One domain per line.') ?>
 				</td>
 			</tr>
+
+		</table>
+		<h3><?php _e('New Site Settings'); ?></h3>
+		<table class="form-table">
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Welcome Email') ?></th>
@@ -198,7 +213,9 @@ if (isset($_GET['updated'])) {
 					<?php _e('URL on first comment on a new site.') ?>
 				</td>
 			</tr>
-
+		</table>
+		<h3><?php _e('Upload Settings'); ?></h3>
+		<table class="form-table">
 			<tr valign="top">
 				<th scope="row"><?php _e('Upload media button') ?></th>
 				<?php $mu_media_buttons = get_site_option( 'mu_media_buttons', array() ); ?>
@@ -221,56 +238,52 @@ if (isset($_GET['updated'])) {
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Upload File Types') ?></th>
-				<td><input name="upload_filetypes" type="text" id="upload_filetypes" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
+				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Max upload file size') ?></th>
 				<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo esc_attr( get_site_option('fileupload_maxk', 300) ) ?>" size="5" /> KB</td>
 			</tr>
-			<tr valign="top">
-				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
-				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
-				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
-				<?php if ( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
-					echo __( "A good one to use would be the feed from your main site: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
-			</tr>
 		</table>
 
-		<h3><?php _e('Network Wide Settings <em>(These settings may be overridden by site owners)</em>') ?></h3>
+<?php
+		$languages = get_available_languages();
+		$lang = get_site_option('WPLANG');
+		if ( ! empty( $languages ) ) {
+?>
+		<h3><?php _e('Network Wide Settings'); ?></h3>
+		<div class="updated inline"><p><strong><?php _e( 'Notice:' ); ?></strong> <?php _e( 'These settings may be overridden by site owners.' ); ?></p></div>
 		<table class="form-table">
 			<?php
-			$languages = get_available_languages();
-			$lang = get_site_option('WPLANG');
-			if ( !empty($languages) ) {
 				?>
 				<tr valign="top">
-					<th width="33%"><?php _e('Default Language') ?></th>
+					<th><?php _e('Default Language') ?></th>
 					<td>
 						<select name="WPLANG" id="WPLANG">
 							<?php mu_dropdown_languages( $languages, get_site_option('WPLANG') ); ?>
 						</select>
 					</td>
 				</tr>
-				<?php
-			} // languages
-			?>
 		</table>
+<?php
+		} // languages
+?>
 
-		<h3><?php _e('Menus <em>(Enable or disable WordPress Backend Menus)</em>') ?></h3>
-		<table class="form-table">
-			<tr>
-				<th scope="row"><?php _e("Menu"); ?></th>
-				<th scope="row"><?php _e("Enabled"); ?></th>
-			</tr>
-			<a name='menu'></a>
+		<h3><?php _e('Menu Settings'); ?></h3>
+		<table id="menu" class="form-table">
+			<tr valign="top">
+				<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
+				<td>
 			<?php
 			$menu_perms = get_site_option( 'menu_items' );
-			$menu_items = apply_filters( 'mu_menu_items', array('plugins' => __('Plugins')) );
+			$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
 			foreach ( (array) $menu_items as $key => $val ) {
-				echo "<tr><th scope='row'>" . esc_html($val) . "</th><td><input type='checkbox' name='menu_items[" . $key . "]' value='1'" .  ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . " /></td></tr>";
+				echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" .  ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . " /> " . esc_html( $val ) . "</label><br/>";
 			}
 			?>
+				</td>
+			</tr>
 		</table>
 
 		<?php do_action( 'wpmu_options' ); // Add more options here ?>
