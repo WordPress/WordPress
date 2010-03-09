@@ -11,7 +11,7 @@
 
 // $base sanity check.
 if ( 'BASE' == $base )
-	die( 'Configuration error in <code>wp-config.php<code>. <code>$base</code> is set to "BASE" when it should be the path like "/" or "/blogs/".' );
+	die( 'Configuration error in <code>wp-config.php</code>. <code>$base</code> is set to "BASE" when it should be the path like "/" or "/blogs/".' );
 
 /** Include Multisite initialization functions */
 require( ABSPATH . WPINC . '/ms-load.php' );

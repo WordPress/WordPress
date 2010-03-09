@@ -182,20 +182,22 @@ function wpmu_current_site() {
  *
  * Used when blog does not exist. Checks for a missing $wpdb->site table as well.
  *
+ * @todo update for 3.0, pare down, and i18n
+ *
  * @access private
  * @since 3.0.0
  */
 function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
-	$msg = '<h1>' . esc_html( 'Fatal Error' ) . '</h1>';
-	$msg  = '<p>' . 'If your site does not display, please contact the owner of this network.' . '</p>';
+	$msg = '<h1>' . 'Fatal Error' . '</h1>';
+	$msg .= '<p>' . 'If your site does not display, please contact the owner of this network.' . '</p>';
 	$msg .= '<p>' . 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' . '</p>';
 	if ( ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
 		$msg .= '<p>' . sprintf( '<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really <em>should</em> look at your database now.', $wpdb->site ) . '</p>';
 	else
 		$msg .= '<p>' . sprintf( '<strong>Could Not Find Site!</strong> Searched for table <em>%1$s</em> in <code>%2$s</code>. Is that right?', $domain . $path, DB_NAME, $wpdb->blogs ) . '</p>';
-	$msg .= '<h1>' . esc_html( 'What do I do now?' ) . '</h1>';
+	$msg .= '<h1>' . 'What do I do now?' . '</h1>';
 	// @todo Update WPMU codex link.
 	$msg .= '<p>' . 'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' . '</p>';
 	$msg .= '<p>' . "If you're still stuck with this message, then check that your database contains the following tables:" . '</p><ul>';
@@ -204,14 +206,7 @@ function ms_not_installed() {
 	}
 	$msg .= '</ul>';
 	// @todo Update WPMU codex link and support instructions.
-	$msg = '<p>' . 'If you suspect a problem please report it to the support forums but you must include the information asked for in the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">WPMU bug reporting guidelines</a>! ' . '</p>';
-
-	// @todo This file no longer exists post-merge.
-	if ( is_file( 'release-info.txt' ) ) {
-		$msg .= '<p>' . 'Your bug report must include the following text:' . '</p>';
-		$info = file( 'release-info.txt' );
-		$msg .= $info[ 4 ] . '"';
-	}
+	$msg .= '<p>' . 'If you suspect a problem please report it to the support forums but you must include the information asked for in the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">WPMU bug reporting guidelines</a>! ' . '</p>';
 
 	die( $msg );
 }

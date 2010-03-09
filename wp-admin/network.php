@@ -56,11 +56,9 @@ function network_step1() {
 	}
 
 	$hostname = get_clean_basedomain();
-	if ( 'localhost' == $hostname || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) {
+	if ( preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) {
 		echo '<p><strong>' . __('You cannot install a network of sites with your server address.' ) . '</strong></p>';
-		echo '<p>' . __('You cannot use an IP address such as <code>127.0.0.1</code> or a single-word hostname like <code>localhost</code>.' ) . '</p>';
-		if ( 'localhost' == $hostname )
-			echo '<p>' . __('Consider using <code>localhost.localdomain</code>.') . '</p>';
+		echo '<p>' . __('You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
 		include( './admin-footer.php' );
 		die();
 	}
@@ -93,8 +91,8 @@ function network_step1() {
 		<input type='hidden' name='existing_network' value='0' />
 <?php	} ?>
 		<input type='hidden' name='action' value='step2' />
+<?php	if ( 'localhost' != $hostname ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
-	
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
 		<p><?php _e( "You will need a wildcard DNS record if you're going to use the virtual host (sub-domain) functionality." ); ?></p>
 		<?php /* @todo: Link to an MS readme? */ ?>
@@ -113,6 +111,8 @@ function network_step1() {
 		</table>
 
 		<?php
+		endif;
+
 		$is_www = ( substr( $hostname, 0, 4 ) == 'www.' );
 		if ( $is_www ) :
 		?>
@@ -131,6 +131,12 @@ function network_step1() {
 
 		<h3><?php esc_html_e( 'Network Details' ); ?></h3>
 		<table class="form-table">
+		<?php if ( 'localhost' == $hostname ) : ?>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
+				<td><?php _e('Because you are using <code>localhost</code>, the sites in your WordPress network must use sub-directories. Consider using <code>localhost.localdomain</code> if you wish to use sub-domains.'); ?></td>
+			</tr>
+		<?php endif; ?>
 		<?php if ( ! $is_www ) : ?>
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
@@ -174,7 +180,7 @@ function network_step2() {
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code>:' ), ABSPATH ); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
 define( 'MULTISITE', true );
-define( 'VHOST', '<?php echo 'yes' == stripslashes( $_POST['vhost'] ) ? 'yes' : 'no'; ?>' );
+define( 'VHOST', '<?php echo ( ! empty( $_POST['vhost'] ) && 'yes' == stripslashes( $_POST['vhost'] ) ) ? 'yes' : 'no'; ?>' );
 $base = '<?php echo $base; ?>';
 define( 'DOMAIN_CURRENT_SITE', '<?php echo get_clean_basedomain(); ?>' );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
@@ -257,8 +263,10 @@ switch ( $action ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		// create network tables
 		install_network();
+		$hostname = get_clean_basedomain();
+		$vhost = 'localhost' == $hostname ? false : (bool) $_POST['vhost'];
 		if ( !network_domain_check() || isset( $_POST['existing_network'] ) && $_POST['existing_network'] == '0' )
-			populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $_POST['vhost'] );
+			populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $vhost );
 		// create wp-config.php / htaccess
 		network_step2();
 		break;
