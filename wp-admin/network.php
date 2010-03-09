@@ -81,17 +81,8 @@ function network_step1() {
 	}
 
 	wp_nonce_field( 'install-network-1' );
-	if ( network_domain_check() ) { ?>
-		<h3><?php esc_html_e( 'Existing Network' ); ?></h3>
-		<div class="updated inline"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'An existing network was detected.' ); ?></p></div>
-		<p class="existing-network">
-			<label><input type='checkbox' name='existing_network' value='1' /> <?php _e( 'Yes, keep the existing network of sites.' ); ?></label><br />
-		</p>
-<?php 	} else { ?>
-		<input type='hidden' name='existing_network' value='0' />
-<?php	} ?>
-		<input type='hidden' name='action' value='step2' />
-<?php	if ( 'localhost' != $hostname ) : ?>
+
+	if ( 'localhost' != $hostname ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
 		<p><?php _e( "You will need a wildcard DNS record if you're going to use the virtual host (sub-domain) functionality." ); ?></p>
@@ -110,8 +101,8 @@ function network_step1() {
 			</tr>
 		</table>
 
-		<?php
-		endif;
+<?php
+	endif;
 
 		$is_www = ( substr( $hostname, 0, 4 ) == 'www.' );
 		if ( $is_www ) :
@@ -171,7 +162,10 @@ function network_step1() {
  */
 function network_step2() {
 	global $base, $wpdb;
-?>
+	if ( ! $_POST ) : ?>
+	<div class="error"><p><strong><?php _e('Warning:'); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
+	<p><?php _e( 'Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.' ); ?></p>
+<?php endif; ?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php _e( '<strong>Caution:</strong> We recommend you backup your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p></div>
@@ -251,29 +245,25 @@ RewriteRule . index.php [L]';
 <?php
 }
 
-$action = isset( $_POST['action'] ) ? $_POST['action'] : null;
+if ( $_POST ) {
+	check_admin_referer( 'install-network-1' );
 
-switch ( $action ) {
-	case 'step2':
-		check_admin_referer( 'install-network-1' );
+	// Install!
+	$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
 
-		// Install!
-		$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		// create network tables
-		install_network();
-		$hostname = get_clean_basedomain();
-		$vhost = 'localhost' == $hostname ? false : (bool) $_POST['vhost'];
-		if ( !network_domain_check() || isset( $_POST['existing_network'] ) && $_POST['existing_network'] == '0' )
-			populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $vhost );
-		// create wp-config.php / htaccess
-		network_step2();
-		break;
-
-	default:
-		network_step1();
-		break;
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	// create network tables
+	install_network();
+	$hostname = get_clean_basedomain();
+	$vhost = 'localhost' == $hostname ? false : (bool) $_POST['vhost'];
+	if ( ! network_domain_check() )
+		populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $vhost );
+	// create wp-config.php / htaccess
+	network_step2();
+} elseif ( network_domain_check() ) {
+	network_step2();
+} else {
+	network_step1();
 }
 ?>
 </form>
