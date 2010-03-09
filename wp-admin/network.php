@@ -16,9 +16,6 @@ require_once( './admin.php' );
 if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
-if ( is_multisite() )
-	wp_die( __( 'The Network feature is already enabled.' ) );
-
 include( ABSPATH . 'wp-admin/includes/network.php' );
 
 // We need to create references to ms global tables to enable Network.
@@ -171,13 +168,19 @@ function network_step1() {
  */
 function network_step2() {
 	global $base, $wpdb;
-	if ( ! $_POST ) : ?>
+	if ( ! $_POST ) :
+		if ( is_multisite() ) : ?>
+	<div class="updated"><p><strong><?php _e( 'Notice: The Network feature is already enabled.' ); ?></strong> <?php _e( 'The original configuration steps are shown here for reference.' ); ?></p></div>
+<?php	else : ?>
 	<div class="error"><p><strong><?php _e('Warning:'); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
 	<p><?php _e( 'Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.' ); ?></p>
-<?php endif; ?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php _e( '<strong>Caution:</strong> We recommend you backup your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p></div>
+<?php
+		endif;
+	endif;
+?>
 		<ol>
 			<li><p><?php printf( __( 'Create a <code>blogs.dir</code> directory in <code>%s</code>. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR ); ?></p></li>
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code>:' ), ABSPATH ); ?></p>
@@ -250,8 +253,10 @@ RewriteRule . index.php [L]';
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 </textarea></li>
 		</ol>
+<?php if ( !is_multisite() ) { ?>
 		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured.') ); ?> <a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Return to Dashboard' ); ?></a></p>
 <?php
+	}
 }
 
 if ( $_POST ) {
@@ -269,7 +274,7 @@ if ( $_POST ) {
 		populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $vhost );
 	// create wp-config.php / htaccess
 	network_step2();
-} elseif ( network_domain_check() ) {
+} elseif ( is_multisite() || network_domain_check() ) {
 	network_step2();
 } else {
 	network_step1();
