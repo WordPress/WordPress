@@ -54,6 +54,8 @@ function wpmu_signup_stylesheet() {
 
 add_action( 'wp_head', 'wpmu_signup_stylesheet' );
 get_header();
+
+do_action( 'before_signup_form' );
 ?>
 <div id="content" class="widecolumn">
 <div class="mu_register">
@@ -442,5 +444,6 @@ if ( $active_signup == "none" ) {
 ?>
 </div>
 </div>
+<?php do_action( 'after_signup_form' ); ?>
 
 <?php get_footer(); ?>
