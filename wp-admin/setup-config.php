@@ -177,6 +177,8 @@ switch($step) {
 	// Fetch or generate keys and salts.
 	$no_api = isset( $_POST['noapi'] );
 	require_once( ABSPATH . WPINC . '/plugin.php' );
+	require_once( ABSPATH . WPINC . '/l10n.php' );
+	require_once( ABSPATH . WPINC . '/pomo/translations.php' );
 	if ( ! $no_api ) {
 		require_once( ABSPATH . WPINC . '/http.php' );
 		wp_fix_server_vars();
