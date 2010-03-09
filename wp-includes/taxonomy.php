@@ -1856,7 +1856,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	do_action( 'edited_terms', $term_id );
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id) );
-	do_action( 'edit_term_taxonomy', $tt_id );
+	do_action( 'edit_term_taxonomy', $tt_id, $taxonomy );
 	$wpdb->update( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent' ), array( 'term_taxonomy_id' => $tt_id ) );
 	do_action( 'edited_term_taxonomy', $tt_id );
 
@@ -1954,14 +1954,14 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 
 	$taxonomy = get_taxonomy($taxonomy);
 	if ( !empty($taxonomy->update_count_callback) ) {
-		call_user_func($taxonomy->update_count_callback, $terms);
+		call_user_func($taxonomy->update_count_callback, $terms, $taxonomy);
 	} else {
 		// Default count updater
 		foreach ( (array) $terms as $term) {
 			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term) );
-			do_action( 'edit_term_taxonomy', $term );
+			do_action( 'edit_term_taxonomy', $term, $taxonomy );
 			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
-			do_action( 'edited_term_taxonomy', $term );
+			do_action( 'edited_term_taxonomy', $term, $taxonomy );
 		}
 
 	}
@@ -2336,7 +2336,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
 //
 
 /**
- * Will update term count based on posts.
+ * Will update term count based on object types of the current taxonomy.
  *
  * Private function for the default callback for post_tag and category
  * taxonomies.
@@ -2348,15 +2348,19 @@ function _pad_term_counts(&$terms, $taxonomy) {
  * @uses $wpdb
  *
  * @param array $terms List of Term taxonomy IDs
+ * @param object $taxonomy Current taxonomy object of terms
  */
-function _update_post_term_count( $terms ) {
+function _update_post_term_count( $terms, $taxonomy ) {
 	global $wpdb;
 
+	$object_types = is_array($taxonomy->object_type) ? $taxonomy->object_type : array($taxonomy->object_type);
+	$object_types = esc_sql($object_types);
+
 	foreach ( (array) $terms as $term ) {
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type = 'post' AND term_taxonomy_id = %d", $term ) );
-		do_action( 'edit_term_taxonomy', $term );
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types) . "') AND term_taxonomy_id = %d", $term ) );
+		do_action( 'edit_term_taxonomy', $term, $taxonomy );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
-		do_action( 'edited_term_taxonomy', $term );
+		do_action( 'edited_term_taxonomy', $term, $taxonomy );
 	}
 }
 
