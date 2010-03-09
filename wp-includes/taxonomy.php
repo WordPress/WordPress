@@ -1858,7 +1858,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id) );
 	do_action( 'edit_term_taxonomy', $tt_id, $taxonomy );
 	$wpdb->update( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent' ), array( 'term_taxonomy_id' => $tt_id ) );
-	do_action( 'edited_term_taxonomy', $tt_id );
+	do_action( 'edited_term_taxonomy', $tt_id, $taxonomy );
 
 	do_action("edit_term", $term_id, $tt_id, $taxonomy);
 	do_action("edit_$taxonomy", $term_id, $tt_id);
