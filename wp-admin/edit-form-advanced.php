@@ -192,6 +192,10 @@ $side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
 <div class="inside">
 <?php
 $sample_permalink_html = get_sample_permalink_html($post->ID);
+$shortlink = wp_get_shortlink($post->ID, 'post');
+if ( !empty($shortlink) )
+    $sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
+
 if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) ) { ?>
 	<div id="edit-slug-box">
 <?php

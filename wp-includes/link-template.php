@@ -2050,4 +2050,83 @@ function wp_ajaxurl() {
 	add_action('wp_head', '_wp_ajaxurl', 1);
 }
 
+/**
+ * Return a shortlink for a post, page, attachment, or blog.
+ *
+ * Shortlinks are not supported by default. A plugin is required to get shortlink support.
+ * This function exists to provide a shortlink tag that all themes and plugins can target.  A plugin must hook in to
+ * provide the actual shortlinks.  Plugins can short circuit this function via the pre_get_shortlink filter or filter the output
+ * via the get_shortlink filter.
+ *
+ * @since 3.0.0.
+ * 
+ * @param int $id A post or blog id.  Default is 0, which means the current post or blog.
+ * @param string $contex Whether the id is a 'blog' id, 'post' id, or 'media' id.  If 'post', the post_type of the post is consulted.  If 'query', the current query is consulted to determine the id and context. Default is 'post'.
+ * @param bool $allow_slugs Whether to allow post slugs in the shortlink. It is up to the plugin how and whether to honor this.
+ * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks are not enabled.
+ */
+function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
+	// Allow plugins to short-circuit this function.
+	$shortlink = apply_filters('pre_get_shortlink', false, $id, $context, $allow_slugs);
+	if ( false !== $shortlink )
+		return $shortlink;
+
+	global $wp_query;
+	$post_id = 0;
+	if ( 'query' == $context && is_single() )
+		$post_id = $wp_query->get_queried_object_id();
+	elseif ( 'post' == $context )
+		$post_id = $id;
+
+	$shortlink = '';
+
+	// Return p= link for posts.
+	if ( !empty($post_id) ) {
+		$post = get_post($post_id);
+		if ( isset($post->post_type) && 'post' == $post->post_type )
+			$shortlink = home_url('?p=' . $post->ID);
+	}
+
+	return apply_filters('get_shortlink', $shortlink, $id, $context, $allow_slugs);
+}
+
+/**
+ *  Inject rel=sortlink into head if a shortlink is defined for the current page.
+ *
+ *  Attached to the wp_head action.
+ *
+ * @since 3.0.0
+ *
+ * @uses wp_get_shortlink()
+ */
+function wp_shortlink_wp_head() {
+	$shortlink = wp_get_shortlink(0, 'query');
+
+	if ( empty($shortlink) )
+		return;
+
+	echo '<link rel="shortlink" href="' . $shortlink . '" />';
+}
+
+/**
+ * Send a Link: rel=shortlink header if a shortlink is defined for the current page.
+ *
+ * Attached to the wp action.
+ *
+ * @since 3.0.0
+ *
+ * @uses wp_get_shortlink()
+ */
+function wp_shortlink_header() {
+    if ( headers_sent() )
+		return;
+
+	$shortlink = wp_get_shortlink(0, 'query');
+
+	if ( empty($shortlink) )
+		return;
+
+	header('Link: <' . $shortlink . '>; rel=shortlink');
+}
+
 ?>
