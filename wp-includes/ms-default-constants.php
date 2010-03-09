@@ -15,16 +15,17 @@ function ms_upload_constants(  ) {
 	global $wpdb;
 
 	/** @since 3.0.0 */
+	// Base uploads dir relative to ABSPATH
 	if ( !defined( 'UPLOADBLOGSDIR' ) )
 		define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
 
 	/** @since 3.0.0 */
-	if ( !defined( 'UPLOADS' ) )
+	if ( !defined( 'UPLOADS' ) ) {
+		// Uploads dir relative to ABSPATH
 		define( 'UPLOADS', UPLOADBLOGSDIR . "/{$wpdb->blogid}/files/" );
-
-	/** @since 3.0.0 */
-	if ( !defined( 'BLOGUPLOADDIR' ) )
-		define( 'BLOGUPLOADDIR', WP_CONTENT_DIR . "/blogs.dir/{$wpdb->blogid}/files/" );
+		if ( 'wp-content/blogs.dir' == UPLOADBLOGSDIR )
+			define( 'BLOGUPLOADDIR', WP_CONTENT_DIR . "/blogs.dir/{$wpdb->blogid}/files/" );
+	}
 }
 
 /**
