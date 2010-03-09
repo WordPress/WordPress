@@ -53,15 +53,21 @@ function network_step1() {
 
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
-		printf( '<p>' . __( 'Please <a href="%s">deactivate</a> your plugins before enabling the Network feature. Once the network is created, you may reactivate your plugins.' ) . '</p>', admin_url( 'plugins.php' ) );
+		echo '<div class="updated"><p><strong>' . __('Warning:') . '</strong> ' . sprintf( __( 'Please <a href="%s">deactivate</a> your plugins before enabling the Network feature.' ), admin_url( 'plugins.php' ) ) . '</p></div><p>' . __(' Once the network is created, you may reactivate your plugins.' ) . '</p>';
 		include( './admin-footer.php' );
 		die();
 	}
 
 	$hostname = get_clean_basedomain();
-	if ( preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) {
-		echo '<p><strong>' . __('You cannot install a network of sites with your server address.' ) . '</strong></p>';
-		echo '<p>' . __('You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
+	$has_ports = strstr( $hostname, ':' );
+	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) )
+		|| ( $no_ip = preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) ) {
+		echo '<div class="error"><p><strong>' . __( 'Error:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</strong></p></div>';
+		if ( $no_ip )
+			echo '<p>' . __('You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
+		else
+			echo '<p>' . sprintf( __('You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
+		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		include( './admin-footer.php' );
 		die();
 	}
@@ -244,7 +250,7 @@ RewriteRule . index.php [L]';
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 </textarea></li>
 		</ol>
-		<p>Once you complete these steps, your network is enabled and configured. <a href="<?php echo esc_url( admin_url() ); ?>">Return to Dashboard</a></p>
+		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured.') ); ?> <a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Return to Dashboard' ); ?></a></p>
 <?php
 }
 
