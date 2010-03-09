@@ -135,14 +135,18 @@ switch ( $_GET['action'] ) {
 		if ( is_array( $_POST[ 'blog' ] ) == false )
 			wp_die( "Can't create an empty site." );
 		$blog = $_POST['blog'];
-		$domain = sanitize_user( str_replace( '/', '', $blog[ 'domain' ] ) );
+		$domain = '';
+		if ( ! preg_match( '/(--)/', $blog[ 'domain' ] ) && preg_match( '|^([a-zA-Z0-9-])+$|', $blog[ 'domain' ] ) )
+			$domain = strtolower( $blog[ 'domain' ] );
 		$email = sanitize_email( $blog[ 'email' ] );
 		$title = $blog[ 'title' ];
 
-		if ( empty($domain) || empty($email) )
-			wp_die( __('Missing site address or email address.') );
+		if ( empty( $domain ) )
+			wp_die( __( 'Missing or invalid site address.' ) );
+		if ( empty( $email ) )
+			wp_die( __( 'Missing email address.' ) );
 		if ( !is_email( $email ) )
-			wp_die( __('Invalid email address') );
+			wp_die( __( 'Invalid email address' ) );
 
 		if ( is_subdomain_install() ) {
 			$newdomain = $domain.".".$current_site->domain;
