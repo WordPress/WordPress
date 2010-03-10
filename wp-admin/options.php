@@ -120,7 +120,18 @@ if ( 'update' == $action ) {
 	}
 
 	if ( $options ) {
+		if ( is_array( $whitelist_options[ $option_page ] ) ) {
+			$registered = $whitelist_options[ $option_page ];
+			$whitelist_check = true;
+		} else {
+			$whitelist_check = false;
+			_deprecated_argument( 'options.php', '2.6', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
+		}
 		foreach ( $options as $option ) {
+			if ( $whitelist_check && !in_array( $option, $registered ) ) {
+				_deprecated_argument( 'options.php', '2.6', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
+				$whitelist_check = false;
+			}
 			$option = trim($option);
 			$value = null;
 			if ( isset($_POST[$option]) )
