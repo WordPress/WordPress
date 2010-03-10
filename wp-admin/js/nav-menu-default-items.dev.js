@@ -83,8 +83,8 @@ jQuery(document).ready(function($){
 		var item_type = jQuery(this).parent().siblings('.item-type').val();
 		var item_title = jQuery(this).parent().siblings('.item-title').val();
 		var item_url = jQuery(this).parent().siblings('.item-url').val();
-		var item_id = jQuery(this).parent().siblings('.item-id').val();
-		var item_parent_id = jQuery(this).parent().siblings('.item-parent-id').val();
+		var item_id = jQuery(this).parent().siblings('.item-dbid').val();
+		var item_parent_id = jQuery(this).parent().siblings('.item-parent').val();
 		var item_description = jQuery(this).parent().siblings('.item-description').val();
 		
 		return wp_update_queue( $(this), item_type, item_title, item_url, item_id, item_parent_id, item_description );
