@@ -16,6 +16,7 @@ define('DOING_AJAX', true);
 require_once('wp-load.php');
 
 @header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+send_nosniff_header();
 
 do_action('ajax_init');
 
