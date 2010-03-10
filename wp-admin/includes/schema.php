@@ -620,7 +620,7 @@ function populate_roles_300() {
  *
  * @param int $network_id id of network to populate
  */
-function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $vhost = 'no' ) {
+function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
 	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
 
 	$msg = '';
@@ -732,25 +732,25 @@ Thanks!
 		}
 	}
 
-	if ( $vhost == 'yes' )
+	if ( $subdomain_install )
 		update_option( 'permalink_structure', '/%year%/%monthnum%/%day%/%postname%/');
 	else
 		update_option( 'permalink_structure', '/blog/%year%/%monthnum%/%day%/%postname%/');
 
 	$wp_rewrite->flush_rules();
 
-	if ( $vhost == 'yes' ) {
+	if ( $subdomain_install ) {
 		$vhost_ok = false;
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!
 		$page = wp_remote_get( 'http://' . $hostname, array( 'timeout' => 5, 'httpversion' => '1.1' ) );
-		if ( is_object( $page ) && is_wp_error( $page ) ) {
+		if ( is_wp_error( $page ) ) {
 			foreach ( $page->get_error_messages() as $err ) {
 				$errstr = $err;
 			}
 		} elseif( $page[ 'response' ][ 'code' ] == 200 ) {
 				$vhost_ok = true;
 		}
-		if ( !$vhost_ok ) {
+		if ( ! $vhost_ok ) {
 			// @todo Update this to reflect the merge. Also: Multisite readme file, or remove the <blockquote> tags.
 			$msg = '<h2>' . esc_html__( 'Warning! Wildcard DNS may not be configured correctly!' ) . '</h2>';
 			$msg .= '<p>' . __( 'To use the subdomain feature of WordPress MU you must have a wildcard entry in your dns. The installer attempted to contact a random hostname ($hostname) on your domain but failed. It returned this error message:' ) . '<br />';

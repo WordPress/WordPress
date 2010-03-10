@@ -98,11 +98,11 @@ function network_step1() {
 		<?php } ?>
 		<table class="form-table">
 			<tr>
-				<th><label><input type='radio' name='vhost' value='yes'<?php checked( $rewrite_enabled ); ?> /> Sub-domains</label></th>
+				<th><label><input type='radio' name='subdomain_install' value='1'<?php checked( $rewrite_enabled ); ?> /> Sub-domains</label></th>
 				<td><?php _e('like <code>site1.example.com</code> and <code>site2.example.com</code>'); ?></td>
 			</tr>
 			<tr>
-				<th><label><input type='radio' name='vhost' value='no'<?php checked( ! $rewrite_enabled ); ?> /> Sub-directories</label></th>
+				<th><label><input type='radio' name='subdomain_install' value='0'<?php checked( ! $rewrite_enabled ); ?> /> Sub-directories</label></th>
 				<td><?php _e('like <code>example.com/site1</code> and <code>example.com/site2</code>'); ?></td>
 			</tr>
 		</table>
@@ -168,25 +168,31 @@ function network_step1() {
  */
 function network_step2() {
 	global $base, $wpdb;
-	if ( ! $_POST ) :
-		if ( is_multisite() ) : ?>
+	if ( $_POST ) {
+		$vhost = (bool) $_POST['subdomain_install'];
+	} else {
+		if ( is_multisite() ) {
+			$vhost = is_subdomain_install();
+?>
 	<div class="updated"><p><strong><?php _e( 'Notice: The Network feature is already enabled.' ); ?></strong> <?php _e( 'The original configuration steps are shown here for reference.' ); ?></p></div>
-<?php	else : ?>
+<?php	} else {
+			$vhost = false; // @todo.
+?>
 	<div class="error"><p><strong><?php _e('Warning:'); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
 	<p><?php _e( 'Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.' ); ?></p>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php _e( '<strong>Caution:</strong> We recommend you backup your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p></div>
 <?php
-		endif;
-	endif;
+		}
+	}
 ?>
 		<ol>
 			<li><p><?php printf( __( 'Create a <code>blogs.dir</code> directory in <code>%s</code>. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR ); ?></p></li>
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code>:' ), ABSPATH ); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
 define( 'MULTISITE', true );
-define( 'VHOST', '<?php echo ( ! empty( $_POST['vhost'] ) && 'yes' == stripslashes( $_POST['vhost'] ) ) ? 'yes' : 'no'; ?>' );
+define( 'VHOST', '<?php echo $vhost ? 'yes' : 'no'; ?>' );
 $base = '<?php echo $base; ?>';
 define( 'DOMAIN_CURRENT_SITE', '<?php echo get_clean_basedomain(); ?>' );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
@@ -259,19 +265,18 @@ RewriteRule . index.php [L]';
 	}
 }
 
+$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
+
 if ( $_POST ) {
 	check_admin_referer( 'install-network-1' );
-
-	// Install!
-	$base = trailingslashit( stripslashes( dirname( dirname( $_SERVER['SCRIPT_NAME'] ) ) ) );
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	// create network tables
 	install_network();
 	$hostname = get_clean_basedomain();
-	$vhost = 'localhost' == $hostname ? false : (bool) $_POST['vhost'];
+	$subdomain_install = 'localhost' == $hostname ? false : (bool) $_POST['subdomain_install'];
 	if ( ! network_domain_check() )
-		populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $vhost );
+		populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $subdomain_install );
 	// create wp-config.php / htaccess
 	network_step2();
 } elseif ( is_multisite() || network_domain_check() ) {
