@@ -179,8 +179,8 @@ $menu[75] = array( __('Tools'), 'read', 'tools.php', '', 'menu-top', 'menu-tools
 	$submenu['tools.php'][5] = array( __('Tools'), 'read', 'tools.php' );
 	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
 	$submenu['tools.php'][15] = array( __('Export'), 'import', 'export.php' );
-	if ( is_multisite() && ($current_blog->domain . $current_blog->path != $current_site->domain . $current_site->path) )
-		$submenu['tools.php'][25] = array( __('Delete Blog'), 'manage_options', 'ms-delete-site.php' );
+	if ( is_multisite() && !is_main_site() )
+		$submenu['tools.php'][25] = array( __('Delete Site'), 'manage_options', 'ms-delete-site.php' );
 	if ( is_super_admin() && defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE )
 		$submenu['tools.php'][50] = array(__('Network'), 'manage_options', 'network.php');
 
