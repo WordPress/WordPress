@@ -168,23 +168,29 @@ function network_step1() {
  */
 function network_step2() {
 	global $base, $wpdb;
+	$hostname = get_clean_basedomain();
 	if ( $_POST ) {
-		$vhost = (bool) $_POST['subdomain_install'];
+		$vhost = 'localhost' == $hostname ? false : (bool) $_POST['subdomain_install'];
 	} else {
 		if ( is_multisite() ) {
 			$vhost = is_subdomain_install();
 ?>
 	<div class="updated"><p><strong><?php _e( 'Notice: The Network feature is already enabled.' ); ?></strong> <?php _e( 'The original configuration steps are shown here for reference.' ); ?></p></div>
 <?php	} else {
-			$vhost = false; // @todo.
+			$vhost = (bool) $wpdb->get_var( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = 1 AND meta_key = 'subdomain_install'" );
 ?>
 	<div class="error"><p><strong><?php _e('Warning:'); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
 	<p><?php _e( 'Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.' ); ?></p>
+<?php
+		}
+	}
+
+	if ( $_POST || ! is_multisite() ) {
+?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php _e( '<strong>Caution:</strong> We recommend you backup your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p></div>
 <?php
-		}
 	}
 ?>
 		<ol>
@@ -194,7 +200,7 @@ function network_step2() {
 define( 'MULTISITE', true );
 define( 'VHOST', '<?php echo $vhost ? 'yes' : 'no'; ?>' );
 $base = '<?php echo $base; ?>';
-define( 'DOMAIN_CURRENT_SITE', '<?php echo get_clean_basedomain(); ?>' );
+define( 'DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>' );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
