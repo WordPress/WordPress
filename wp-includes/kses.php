@@ -996,8 +996,8 @@ function wp_kses_normalize_entities($string) {
 	# Change back the allowed entities in our entity whitelist
 
 	$string = preg_replace_callback('/&amp;([A-Za-z]{2,8});/', 'wp_kses_named_entities', $string);
-	$string = preg_replace_callback('/&amp;#0*([0-9]{1,5});/', 'wp_kses_normalize_entities2', $string);
-	$string = preg_replace_callback('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', 'wp_kses_normalize_entities3', $string);
+	$string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $string);
+	$string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $string);
 
 	return $string;
 }
@@ -1040,7 +1040,14 @@ function wp_kses_normalize_entities2($matches) {
 		return '';
 
 	$i = $matches[1];
-	return ( ( ! valid_unicode($i) ) || ($i > 65535) ? "&amp;#$i;" : "&#$i;" );
+	if (valid_unicode($i)) {
+		$i = str_pad(ltrim($i,'0'), 3, '0', STR_PAD_LEFT);
+		$i = "&#$i;";
+	} else {
+		$i = "&amp;#$i;";
+	}
+
+	return $i;
 }
 
 /**
@@ -1055,11 +1062,11 @@ function wp_kses_normalize_entities2($matches) {
  * @return string Correctly encoded entity
  */
 function wp_kses_normalize_entities3($matches) {
-	if ( empty($matches[2]) )
+	if ( empty($matches[1]) )
 		return '';
 
-	$hexchars = $matches[2];
-	return ( ( ! valid_unicode(hexdec($hexchars)) ) ? "&amp;#x$hexchars;" : "&#x$hexchars;" );
+	$hexchars = $matches[1];
+	return ( ( ! valid_unicode(hexdec($hexchars)) ) ? "&amp;#x$hexchars;" : '&#x'.ltrim($hexchars,'0').';' );
 }
 
 /**
