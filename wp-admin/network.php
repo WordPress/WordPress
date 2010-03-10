@@ -16,11 +16,37 @@ require_once( './admin.php' );
 if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
-include( ABSPATH . 'wp-admin/includes/network.php' );
-
 // We need to create references to ms global tables to enable Network.
 foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
 	$wpdb->$table = $prefixed_table;
+
+/**
+ * Check for existing network data/tables.
+ *
+ * @since 3.0.0
+ */
+function network_domain_check() {
+	global $wpdb;
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
+		return $wpdb->get_var( "SELECT domain FROM $wpdb->site ORDER BY id ASC LIMIT 1" );
+	return false;
+}
+
+/**
+ * Get base domain of network.
+ *
+ * @since 3.0.0
+ */
+function get_clean_basedomain() {
+	global $wpdb;
+	$existing_domain = network_domain_check();
+	if ( $existing_domain )
+		return $existing_domain;
+	$domain = preg_replace( '|https?://|', '', get_option( 'siteurl' ) );
+	if ( strpos( $domain, '/' ) )
+		$domain = substr( $domain, 0, strpos( $domain, '/' ) );
+	return $domain;
+}
 
 if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALLOW_MULTISITE ) )
 	wp_die( __( 'You must define the <code>WP_ALLOW_MULTISITE</code> constant as true in your wp-config.php file to allow creation of a Network.' ) );
