@@ -353,12 +353,16 @@ if ( $is_trash && current_user_can($post_type_object->edit_others_cap) ) { ?>
 </div>
 
 <?php if ( $page_links ) { ?>
-<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
-	number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
-	number_format_i18n( min( $pagenum * $per_page, $wp_query->found_posts ) ),
-	number_format_i18n( $wp_query->found_posts ),
-	$page_links
-); echo $page_links_text; ?></div>
+<div class="tablenav-pages"><?php
+	$count_posts = $post_type_object->hierarchical ? $wp_query->post_count : $wp_query->found_posts;
+	$page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
+						number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
+						number_format_i18n( min( $pagenum * $per_page, $count_posts ) ),
+						number_format_i18n( $count_posts ),
+						$page_links
+						);
+	echo $page_links_text;
+	?></div>
 <?php } ?>
 
 <div class="view-switch">
