@@ -334,7 +334,7 @@ switch ( $_GET['action'] ) {
 						break;
 				}
 			} else {
-				wp_die( __('You are not allowed to change one of this sites.') );
+				wp_die( __('You are not allowed to change one of these sites.') );
 				exit();
 			}; 
 		}; 
