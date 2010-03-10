@@ -2053,9 +2053,9 @@ function wp_ajaxurl() {
 /**
  * Return a shortlink for a post, page, attachment, or blog.
  *
- * Shortlinks are not supported by default. A plugin is required to get shortlink support.
  * This function exists to provide a shortlink tag that all themes and plugins can target.  A plugin must hook in to
- * provide the actual shortlinks.  Plugins can short circuit this function via the pre_get_shortlink filter or filter the output
+ * provide the actual shortlinks.  Default shortlink support is limited to providing ?p= style links for posts.
+ * Plugins can short circuit this function via the pre_get_shortlink filter or filter the output
  * via the get_shortlink filter.
  *
  * @since 3.0.0.
@@ -2126,7 +2126,7 @@ function wp_shortlink_header() {
 	if ( empty($shortlink) )
 		return;
 
-	header('Link: <' . $shortlink . '>; rel=shortlink');
+	header('Link: <' . $shortlink . '>; rel=shortlink', false);
 }
 
 ?>
