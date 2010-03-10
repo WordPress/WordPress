@@ -48,14 +48,14 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><?php _e('Allow new registrations') ?></th>
 				<?php
 				if ( !get_site_option('registration') )
-					update_site_option( 'registration', 'all' );
+					update_site_option( 'registration', 'none' );
 				?>
 				<td>
-					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Disabled'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration2" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Enabled. Sites and user accounts can be created.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration3" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('Only user account can be created.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration4" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Only logged in users can create new sites.'); ?></label><br />
-					<p><?php _e('Disable or enable registration and who or what can be registered. (Default=Disabled)'); ?></p>
+					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Registration is disabled.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration2" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('User accounts may be registered.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration3" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Logged in users may register new sites.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration4" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Both sites and user accounts can be registered.'); ?></label><br />
+					<p><?php _e('Disable or enable registration and who or what can be registered. (Default = disabled)'); ?></p>
 					<?php if ( is_subdomain_install() ) {
 						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non-existent site.') . '</p>';
 					} ?>
