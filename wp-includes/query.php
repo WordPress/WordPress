@@ -1672,6 +1672,12 @@ class WP_Query {
 			$q['page'] = absint($q['page']);
 		}
 
+		// If true, forcibly turns off SQL_CALC_FOUND_ROWS even when limits are present.
+		if ( isset($q['no_found_rows']) )
+			$q['no_found_rows'] = (bool) $q['no_found_rows'];
+		else
+			$q['no_found_rows'] = false;
+
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
 			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
@@ -2331,7 +2337,7 @@ class WP_Query {
 		if ( !empty( $orderby ) )
 			$orderby = 'ORDER BY ' . $orderby;
 		$found_rows = '';
-		if ( !empty($limits) )
+		if ( !$q['no_found_rows'] && !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 
 		$this->request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
@@ -2356,7 +2362,7 @@ class WP_Query {
 			$this->comment_count = count($this->comments);
 		}
 
-		if ( !empty($limits) ) {
+		if ( !$q['no_found_rows'] && !empty($limits) ) {
 			$found_posts_query = apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()' );
 			$this->found_posts = $wpdb->get_var( $found_posts_query );
 			$this->found_posts = apply_filters( 'found_posts', $this->found_posts );
