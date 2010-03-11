@@ -268,7 +268,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
  * @param int $user_id User ID
  * @param string $option_name User option name.
  * @param mixed $newvalue User option value.
- * @param bool $global Optional. Whether option name is blog specific.
+ * @param bool $global Optional. Whether option name is global or blog specific. Default false (blog specific).
  * @return unknown
  */
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
@@ -277,6 +277,29 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 	if ( !$global )
 		$option_name = $wpdb->prefix . $option_name;
 	return update_user_meta( $user_id, $option_name, $newvalue );
+}
+
+/**
+ * Delete user option with global blog capability.
+ *
+ * User options are just like user metadata except that they have support for
+ * global blog options. If the 'global' parameter is false, which it is by default
+ * it will prepend the WordPress table prefix to the option name.
+ *
+ * @since 3.0.0
+ * @uses $wpdb WordPress database object for queries
+ *
+ * @param int $user_id User ID
+ * @param string $option_name User option name.
+ * @param bool $global Optional. Whether option name is global or blog specific. Default false (blog specific).
+ * @return unknown
+ */
+function delete_user_option( $user_id, $option_name, $global = false ) {
+	global $wpdb;
+
+	if ( !$global )
+		$option_name = $wpdb->prefix . $option_name;
+	return delete_user_meta( $user_id, $option_name );
 }
 
 /**
