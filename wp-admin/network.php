@@ -16,6 +16,9 @@ require_once( './admin.php' );
 if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
+if ( is_multisite() && ! defined( 'MULTISITE' ) )
+	wp_die( __('The Network creation panel is not for WordPress MU networks.') );
+
 // We need to create references to ms global tables to enable Network.
 foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
 	$wpdb->$table = $prefixed_table;
@@ -286,7 +289,7 @@ RewriteBase ' . $base . '
 RewriteRule ^index\.php$ - [L]
 
 # uploaded files
-RewriteRule ^' . ( $vhost ? '([_0-9a-zA-Z-]+/)?' : '' ) . 'files/(.+) wp-includes/ms-files.php?file=$2 [L]' . "\n";
+RewriteRule ^' . ( $vhost ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $vhost ? 1 : 2 ) . ' [L]' . "\n";
 
 if ( ! $vhost )
 	$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
