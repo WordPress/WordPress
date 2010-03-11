@@ -943,9 +943,11 @@ jQuery(function($){
 <th scope="row"><?php _e('Connection Type') ?></th>
 <td>
 <fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>
-<?php foreach ( $types as $name => $text ) : ?>
+<?php
+	$disabled = disabled( (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH), true, false );
+	foreach ( $types as $name => $text ) : ?>
 	<label for="<?php echo esc_attr($name) ?>">
-		<input type="radio" name="connection_type" id="<?php echo esc_attr($name) ?>" value="<?php echo esc_attr($name) ?>"<?php checked($name, $connection_type); disabled( $disabled, (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH) ); ?> />
+		<input type="radio" name="connection_type" id="<?php echo esc_attr($name) ?>" value="<?php echo esc_attr($name) ?>"<?php checked($name, $connection_type); echo $disabled; ?> />
 		<?php echo $text ?>
 	</label>
 	<?php endforeach; ?>
