@@ -9,8 +9,18 @@
 // Sanity check.
 if ( false ) {
 ?>
-<h1>Error: PHP is not running</h1>
-<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p><div style="display:none">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Error: PHP is not running</title>
+</head>
+<body>
+	<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+	<h2>Error: PHP is not running</h2>
+	<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
+</body>
+</html>
 <?php
 }
 
