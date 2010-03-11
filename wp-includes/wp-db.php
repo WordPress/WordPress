@@ -445,6 +445,15 @@ class wpdb {
 	var $dbuser;
 
 	/**
+	 * A textual description of the last query/get_row/get_var call
+	 *
+	 * @since unknown
+	 * @access public
+	 * @var string
+	 */
+	var $func_call;
+
+	/**
 	 * Connects to the database server and selects a database
 	 *
 	 * PHP4 compatibility layer for calling the PHP5 constructor.
@@ -1387,20 +1396,19 @@ class wpdb {
 		} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
 			// Return an integer-keyed array of...
 			if ( $this->last_result ) {
-				$i = 0;
 				foreach( (array) $this->last_result as $row ) {
 					if ( $output == ARRAY_N ) {
 						// ...integer-keyed row arrays
-						$new_array[$i] = array_values( get_object_vars( $row ) );
+						$new_array[] = array_values( get_object_vars( $row ) );
 					} else {
 						// ...column name-keyed row arrays
-						$new_array[$i] = get_object_vars( $row );
+						$new_array[] = get_object_vars( $row );
 					}
-					++$i;
 				}
-				return $new_array;
 			}
+			return $new_array;
 		}
+		return null;
 	}
 
 	/**
