@@ -619,25 +619,29 @@ function populate_roles_300() {
  * @since 3.0
  *
  * @param int $network_id id of network to populate
+ * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,
+ * 	so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
 	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
 
-	$msg = '';
-	//@todo: turn these checks into returned messages
-	if ( $domain == '' )
-		die( 'You must provide a domain name!' );
-	if ( $site_name == '' )
-		die( 'You must provide a site name!' );
+	$errors = new WP_Error();
+	if ( '' == $domain )
+		$errors->add( 'empty_domain', __( 'You must provide a domain name.' ) );
+	if ( '' == $site_name )
+		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 
 	// check for network collision
-	$existing_network = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) );
-	if ( $existing_network == $network_id )
-		die( 'That network already exists!' );
+	if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) )
+		$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 
 	$site_user = get_user_by_email( $email );
-	if ( !$site_user )
-		die( 'You must provide an email address!' );
+	if ( ! is_email( $email ) )
+		$errors->add( 'invalid_email', __( 'You must provide a valid e-mail address.' ) );
+
+	if ( $errors->get_error_code() )
+		return $errors;
+
 	// set up site tables
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
@@ -742,26 +746,27 @@ Thanks!
 
 	if ( $subdomain_install ) {
 		$vhost_ok = false;
+		$errstr = '';
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!
 		$page = wp_remote_get( 'http://' . $hostname, array( 'timeout' => 5, 'httpversion' => '1.1' ) );
-		if ( is_wp_error( $page ) ) {
-			foreach ( $page->get_error_messages() as $err ) {
-				$errstr = $err;
-			}
-		} elseif( $page[ 'response' ][ 'code' ] == 200 ) {
+		if ( is_wp_error( $page ) )
+			$errstr = $page->get_error_message();
+		elseif ( 200 == $page['response']['code'] )
 				$vhost_ok = true;
-		}
+
 		if ( ! $vhost_ok ) {
-			// @todo Update this to reflect the merge. Also: Multisite readme file, or remove the <blockquote> tags.
-			$msg = '<h2>' . esc_html__( 'Warning! Wildcard DNS may not be configured correctly!' ) . '</h2>';
-			$msg .= '<p>' . __( 'To use the subdomain feature of WordPress MU you must have a wildcard entry in your dns. The installer attempted to contact a random hostname ($hostname) on your domain but failed. It returned this error message:' ) . '<br />';
-			$msg .= '<br/><strong>' . $errstr . '</strong></p>';
-			$msg .= '<p>' . __( 'From the README.txt:' ) . '</p>';
-			$msg .= '<blockquote><p>' . __( "If you want to host blogs of the form http://blog.domain.tld/ where domain.tld is the domain name of your machine then you must add a wildcard record to your DNS records. This usually means adding a '*' hostname record pointing at your webserver in your DNS configuration tool.  Matt has a more detailed <a href='http://ma.tt/2003/10/10/wildcard-dns-and-sub-domains/'>explanation</a> on his blog. If you still have problems, these <a href='http://mu.wordpress.org/forums/tags/wildcard'>forum messages</a> may help." ) . '</p></blockquote>';
-			$msg .= '<p>' . __( 'You can still use your site but any subdomain you create may not be accessible. This check is not foolproof so ignore if you know your dns is correct.' ) . '</p>';
+			$msg = '<p><strong>' . __( 'Warning! Wildcard DNS may not be configured correctly!' ) . '</strong></p>';
+			$msg .= '<p>' . sprintf( __( 'To use a subdomain configuration, you must have a wildcard entry in your DNS. The installer attempted to contact a random hostname (<code>%1$s</code>) on your domain.' ), $hostname );
+			if ( ! empty ( $errstr ) )
+				$msg .= ' ' . sprintf( __( 'This resulted in an error message: %s' ), $errstr );
+			$msg .= '</p>';
+			$msg .= '<p>' . __( 'If you want to host sites in the form of <code>http://site1.example.com</code> then you must add a wildcard record to your DNS records. This usually means adding a <code>*</code> hostname record pointing at your web server in your DNS configuration tool.' ) . '</p>';
+			$msg .= '<p>' . __( 'You can still use your site but any subdomain you create may not be accessible. If you know your DNS is correct, ignore this message.' ) . '</p>';
+			return new WP_Error( 'no_wildcard_dns', $msg );
 		}
 	}
-	return $msg;
+
+	return true;
 }
 
 ?>

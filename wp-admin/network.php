@@ -62,7 +62,7 @@ include( './admin-header.php' );
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form method="post" action="network.php">
+<form method="post">
 <?php
 /**
  * Prints step 1 for Network installation process.
@@ -72,7 +72,7 @@ include( './admin-header.php' );
  *
  * @since 3.0.0
  */
-function network_step1() {
+function network_step1( $errors = false ) {
 
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
@@ -95,16 +95,31 @@ function network_step1() {
 		die();
 	}
 
+	wp_nonce_field( 'install-network-1' );
+
+	$error_codes = array();
+	if ( is_wp_error( $errors ) ) {
+		echo '<div class="error"><p><strong>' . __( 'ERROR: The network could not be created.' ) . '</strong></p>';
+		foreach ( $errors->get_error_messages() as $error )
+			echo "<p>$error</p>";
+		echo '</div>';
+		$error_codes = $errors->get_error_codes();
+	}
+
+	$site_name = ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) ? $_POST['sitename'] : sprintf( _x('%s Sites', 'Default network name' ), get_option( 'blogname' ) );
+	$admin_email = ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) ? $_POST['email'] : get_option( 'admin_email' );
 	?>
 	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
 	<p><?php _e( "Fill in the information below and you'll be on your way to creating a network of WordPress sites. We'll create configuration files in the next step." ); ?></p>
 	<?php
 
 	// @todo IIS...
-	if ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
-		$rewrite_enabled = true;
+	if ( ! empty( $_POST['subdomain_install'] ) ) {
+		$subdomain_install = (bool) $_POST['subdomain_install'];
+	} elseif ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
+		$subdomain_install = true;
 	} else {
-		$rewrite_enabled = false;
+		$subdomain_install = false;
 		if ( got_mod_rewrite() ) // dangerous assumptions
 			echo '<p>' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this install.' ) . '</p>';
 		else
@@ -112,23 +127,21 @@ function network_step1() {
 		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p>';
 	}
 
-	wp_nonce_field( 'install-network-1' );
-
 	if ( 'localhost' != $hostname ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
 		<p><?php _e( "You will need a wildcard DNS record if you're going to use the virtual host (sub-domain) functionality." ); ?></p>
 		<?php /* @todo: Link to an MS readme? */ ?>
-		<?php if ( ! $rewrite_enabled ) { ?>
+		<?php if ( ! $subdomain_install ) { ?>
 		<p><?php _e( '<strong>Note</strong> It looks like <code>mod_rewrite</code> is not installed.' ); ?></p>
 		<?php } ?>
 		<table class="form-table">
 			<tr>
-				<th><label><input type='radio' name='subdomain_install' value='1'<?php checked( $rewrite_enabled ); ?> /> Sub-domains</label></th>
+				<th><label><input type='radio' name='subdomain_install' value='1'<?php checked( $subdomain_install ); ?> /> Sub-domains</label></th>
 				<td><?php _e('like <code>site1.example.com</code> and <code>site2.example.com</code>'); ?></td>
 			</tr>
 			<tr>
-				<th><label><input type='radio' name='subdomain_install' value='0'<?php checked( ! $rewrite_enabled ); ?> /> Sub-directories</label></th>
+				<th><label><input type='radio' name='subdomain_install' value='0'<?php checked( ! $subdomain_install ); ?> /> Sub-directories</label></th>
 				<td><?php _e('like <code>example.com/site1</code> and <code>example.com/site2</code>'); ?></td>
 			</tr>
 		</table>
@@ -136,7 +149,7 @@ function network_step1() {
 <?php
 	endif;
 
-		$is_www = ( substr( $hostname, 0, 4 ) == 'www.' );
+		$is_www = ( 0 === strpos( $hostname, 'www.' ) );
 		if ( $is_www ) :
 		?>
 		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
@@ -146,7 +159,6 @@ function network_step1() {
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
 					<?php printf( __( 'The Internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
-					<input type='hidden' name='basedomain' value='<?php echo esc_attr( $hostname ); ?>' />
 				</td>
 			</tr>
 		</table>
@@ -171,14 +183,14 @@ function network_step1() {
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Network Title' ); ?></th>
 				<td>
-					<input name='weblog_title' type='text' size='45' value='<?php echo esc_attr( sprintf( __('%s Sites'), get_option( 'blogname' ) ) ); ?>' />
+					<input name='sitename' type='text' size='45' value='<?php echo esc_attr( $site_name ); ?>' />
 					<br /><?php _e( 'What would you like to call your network?' ); ?>
 				</td>
 			</tr>
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Admin E-mail Address' ); ?></th>
 				<td>
-					<input name='email' type='text' size='45' value='<?php echo esc_attr( get_option( 'admin_email' ) ); ?>' />
+					<input name='email' type='text' size='45' value='<?php echo esc_attr( $admin_email ); ?>' />
 					<br /><?php _e( 'Your email address.' ); ?>
 				</td>
 			</tr>
@@ -192,9 +204,14 @@ function network_step1() {
  *
  * @since 3.0.0
  */
-function network_step2() {
+function network_step2( $errors = false ) {
 	global $base, $wpdb;
 	$hostname = get_clean_basedomain();
+
+	// Wildcard DNS message.
+	if ( is_wp_error( $errors ) )
+		echo '<div class="error">' . $errors->get_error_message() . '</div>';
+
 	if ( $_POST ) {
 		$vhost = 'localhost' == $hostname ? false : (bool) $_POST['subdomain_install'];
 	} else {
@@ -263,14 +280,11 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 </li>
 <?php
 
-	// remove ending slash from $base and $url
-	$htaccess = '';
-	$base = rtrim( $base, '/' );
+// @todo custom content dir
+$htaccess_file = 'RewriteEngine On
+RewriteBase ' . $base . '
 
-	$htaccess_file = 'RewriteEngine On
-RewriteBase ' . $base . '/
-
-#uploaded files
+# uploaded files
 RewriteRule ^(.*/)?files/$ index.php [L]
 RewriteCond %{REQUEST_URI} !.*wp-content/plugins.*
 RewriteRule ^(.*/)?files/(.*) wp-includes/ms-files.php?file=$2 [L]
@@ -307,10 +321,19 @@ if ( $_POST ) {
 	install_network();
 	$hostname = get_clean_basedomain();
 	$subdomain_install = 'localhost' == $hostname ? false : (bool) $_POST['subdomain_install'];
-	if ( ! network_domain_check() )
-		populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['weblog_title'], $base, $subdomain_install );
-	// create wp-config.php / htaccess
-	network_step2();
+	if ( ! network_domain_check() ) {
+		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['sitename'], $base, $subdomain_install );
+		if ( is_wp_error( $result ) ) {
+			if ( 1 == count( $result->get_error_codes() ) && 'no_wildcard_dns' == $result->get_error_code() )
+				network_step2( $result );
+			else
+				network_step1( $result );
+		} else {
+			network_step2();
+		}
+	} else {
+		network_step2();
+	}
 } elseif ( is_multisite() || network_domain_check() ) {
 	network_step2();
 } else {
