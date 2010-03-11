@@ -307,7 +307,7 @@ function is_serialized_string( $data ) {
  * @uses apply_filters() Calls 'option_$option', after checking the option, with
  * 	the option value.
  *
- * @param string $option Name of option to retrieve. Should already be SQL-escaped
+ * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
  * @return mixed Value set for the option.
  */
 function get_option( $option, $default = false ) {
@@ -339,8 +339,7 @@ function get_option( $option, $default = false ) {
 		if ( false === $value ) {
 			if ( defined( 'WP_INSTALLING' ) )
 				$suppress = $wpdb->suppress_errors();
-			// expected_slashed ($option)
-			$row = $wpdb->get_row( "SELECT option_value FROM $wpdb->options WHERE option_name = '$option' LIMIT 1" );
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = '%s' LIMIT 1", $option ) );
 			if ( defined( 'WP_INSTALLING' ) )
 				$wpdb->suppress_errors( $suppress );
 
@@ -482,8 +481,8 @@ function wp_load_core_site_options( $site_id = null ) {
  * @uses do_action() Calls 'update_option' hook before updating the option.
  * @uses do_action() Calls 'update_option_$option' and 'updated_option' hooks on success.
  *
- * @param string $option Option name. Expected to not be SQL-escaped
- * @param mixed $newvalue Option value.
+ * @param string $option Option name. Expected to not be SQL-escaped.
+ * @param mixed $newvalue Option value. Expected to not be SQL-escaped.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_option( $option, $newvalue ) {
@@ -491,9 +490,8 @@ function update_option( $option, $newvalue ) {
 
 	wp_protect_special_option( $option );
 
-	$safe_option = esc_sql( $option );
 	$newvalue = sanitize_option( $option, $newvalue );
-	$oldvalue = get_option( $safe_option );
+	$oldvalue = get_option( $option );
 	$newvalue = apply_filters( 'pre_update_option_' . $option, $newvalue, $oldvalue );
 
 	// If the new and old values are the same, no need to update.
@@ -516,10 +514,10 @@ function update_option( $option, $newvalue ) {
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
-			$alloptions[$option] = $newvalue;
-			wp_cache_set( 'alloptions', $alloptions, 'options' );
+			$alloptions[$option] = $_newvalue;
+			wp_cache_set( 'alloptions', $_alloptions, 'options' );
 		} else {
-			wp_cache_set( $option, $newvalue, 'options' );
+			wp_cache_set( $option, $_newvalue, 'options' );
 		}
 	}
 
@@ -554,8 +552,8 @@ function update_option( $option, $newvalue ) {
  * @uses do_action() Calls 'add_option' hook before adding the option.
  * @uses do_action() Calls 'add_option_$option' and 'added_option' hooks on success.
  *
- * @param string $option Name of option to add. Expects to NOT be SQL escaped.
- * @param mixed $value Optional. Option value, can be anything.
+ * @param string $option Name of option to add. Expected to not be SQL-escaped.
+ * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
  * @param mixed $deprecated Optional. Description. Not used anymore.
  * @param bool $autoload Optional. Default is enabled. Whether to load the option when WordPress starts up.
  * @return null returns when finished.
@@ -567,13 +565,12 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	global $wpdb;
 
 	wp_protect_special_option( $option );
-	$safe_option = esc_sql( $option );
 	$value = sanitize_option( $option, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( !is_array( $notoptions ) || !isset( $notoptions[$option] ) )
-		if ( false !== get_option( $safe_option ) )
+		if ( false !== get_option( $option ) )
 			return;
 
 	$_value = $value;
@@ -617,7 +614,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
  * @uses do_action() Calls 'delete_option' hook before option is deleted.
  * @uses do_action() Calls 'deleted_option' and 'delete_option_$option' hooks on success.
  *
- * @param string $option Name of option to remove.
+ * @param string $option Name of option to remove. Expected to not be SQL-escaped.
  * @return bool True, if option is successfully deleted. False on failure.
  */
 function delete_option( $option ) {
@@ -626,13 +623,11 @@ function delete_option( $option ) {
 	wp_protect_special_option( $option );
 
 	// Get the ID, if no ID then return
-	// expected_slashed ($option)
-	$row = $wpdb->get_row( "SELECT autoload FROM $wpdb->options WHERE option_name = '$option'" );
+	$row = $wpdb->get_row( $wpdb->prepare( "SELECT autoload FROM $wpdb->options WHERE option_name = '%s'", $option ) );
 	if ( is_null( $row ) )
 		return false;
 	do_action( 'delete_option', $option );
-	// expected_slashed ($option)
-	$result = $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name = '$option'" );
+	$result = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name = '%s'", $option) );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $row->autoload ) {
 			$alloptions = wp_load_alloptions();
@@ -662,7 +657,7 @@ function delete_option( $option ) {
  * @uses do_action() Calls 'delete_transient_$transient' hook before transient is deleted.
  * @uses do_action() Calls 'deleted_transient' hook on success.
  *
- * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @param string $transient Transient name. Expected to not be SQL-escaped.
  * @return bool true if successful, false otherwise
  */
 function delete_transient( $transient ) {
@@ -673,7 +668,7 @@ function delete_transient( $transient ) {
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_delete( $transient, 'transient' );
 	} else {
-		$option = '_transient_' . esc_sql( $transient );
+		$option = '_transient_' . $transient;
 		$result = delete_option( $option );
 	}
 
@@ -711,13 +706,12 @@ function get_transient( $transient ) {
 	if ( $_wp_using_ext_object_cache ) {
 		$value = wp_cache_get( $transient, 'transient' );
 	} else {
-		$safe_transient   = esc_sql( $transient );
-		$transient_option = '_transient_' . $safe_transient;
+		$transient_option = '_transient_' . $transient;
 		if ( ! defined( 'WP_INSTALLING' ) ) {
 			// If option is not in alloptions, it is not autoloaded and thus has a timeout
 			$alloptions = wp_load_alloptions();
 			if ( !isset( $alloptions[$transient_option] ) ) {
-				$transient_timeout = '_transient_timeout_' . $safe_transient;
+				$transient_timeout = '_transient_timeout_' . $transient;
 				if ( get_option( $transient_timeout ) < time() ) {
 					delete_option( $transient_option  );
 					delete_option( $transient_timeout );
@@ -746,8 +740,8 @@ function get_transient( $transient ) {
  * 	transient value to be stored.
  * @uses do_action() Calls 'set_transient_$transient' and 'setted_transient' hooks on success.
  *
- * @param string $transient Transient name. Expected to not be SQL-escaped
- * @param mixed $value Transient value.
+ * @param string $transient Transient name. Expected to not be SQL-escaped.
+ * @param mixed $value Transient value. Expected to not be SQL-escaped.
  * @param int $expiration Time until expiration in seconds, default 0
  * @return bool False if value was not set and true if value was set.
  */
@@ -761,8 +755,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	} else {
 		$transient_timeout = '_transient_timeout_' . $transient;
 		$transient = '_transient_' . $transient;
-		$safe_transient = esc_sql( $transient );
-		if ( false === get_option( $safe_transient ) ) {
+		if ( false === get_option( $transient ) ) {
 			$autoload = 'yes';
 			if ( $expiration ) {
 				$autoload = 'no';
@@ -1000,10 +993,7 @@ function delete_all_user_settings() {
  * @return mixed A scalar data
  */
 function maybe_serialize( $data ) {
-	if ( is_array( $data ) || is_object( $data ) )
-		return serialize( $data );
-
-	if ( is_serialized( $data ) )
+	if ( !is_scalar( $data ) )
 		return serialize( $data );
 
 	return $data;
@@ -3384,7 +3374,7 @@ function wp_suspend_cache_invalidation($suspend = true) {
  * @uses apply_filters() Calls 'site_option_$option', after checking the  option, with
  * 	the option value.
  *
- * @param string $option Name of option to retrieve. Should already be SQL-escaped
+ * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
  * @param mixed $default Optional value to return if option doesn't exist. Default false.
  * @param bool $use_cache Whether to use cache. Multisite only. Default true.
  * @return mixed Value set for the option.
@@ -3431,8 +3421,8 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
  * 	option value to be stored.
  * @uses do_action() Calls 'add_site_option_$option' and 'add_site_option' hooks on success.
  *
- * @param string $option Name of option to add. Expects to not be SQL escaped.
- * @param mixed $value Optional. Option value, can be anything.
+ * @param string $option Name of option to add. Expected to not be SQL-escaped.
+ * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
  * @return bool False if option was not added and true if option was added.
  */
 function add_site_option( $option, $value ) {
@@ -3475,7 +3465,7 @@ function add_site_option( $option, $value ) {
  * @uses do_action() Calls 'delete_site_option' and 'delete_site_option_$option'
  * 	hooks on success.
  *
- * @param string $option Name of option to remove. Expected to be SQL-escaped.
+ * @param string $option Name of option to remove. Expected to not be SQL-escaped.
  * @return bool True, if succeed. False, if failure.
  */
 function delete_site_option( $option ) {
@@ -3517,8 +3507,8 @@ function delete_site_option( $option ) {
  * 	option value to be stored.
  * @uses do_action() Calls 'update_site_option_$option' and 'update_site_option' hooks on success.
  *
- * @param string $option Name of option. Expected to not be SQL-escaped
- * @param mixed $value Option value.
+ * @param string $option Name of option. Expected to not be SQL-escaped.
+ * @param mixed $value Option value. Expected to not be SQL-escaped.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_site_option( $option, $value ) {
@@ -3564,7 +3554,7 @@ function update_site_option( $option, $value ) {
  * @uses do_action() Calls 'delete_site_transient_$transient' hook before transient is deleted.
  * @uses do_action() Calls 'deleted_site_transient' hook on success.
  *
- * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @param string $transient Transient name. Expected to not be SQL-escaped.
  * @return bool True if successful, false otherwise
  */
 function delete_site_transient( $transient ) {
@@ -3574,7 +3564,7 @@ function delete_site_transient( $transient ) {
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_delete( $transient, 'site-transient' );
 	} else {
-		$option = '_site_transient_' . esc_sql( $transient );
+		$option = '_site_transient_' . $transient;
 		$result = delete_site_option( $option );
 	}
 	if ( $result )
@@ -3599,7 +3589,7 @@ function delete_site_transient( $transient ) {
  * @uses apply_filters() Calls 'site_transient_$option' hook, after checking the transient, with
  * 	the transient value.
  *
- * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @param string $transient Transient name. Expected to not be SQL-escaped.
  * @return mixed Value of transient
  */
 function get_site_transient( $transient ) {
@@ -3614,9 +3604,9 @@ function get_site_transient( $transient ) {
 	} else {
 		// Core transients that do not have a timeout. Listed here so querying timeouts can be avoided.
 		$no_timeout = array('update_core', 'update_plugins', 'update_themes');
-		$transient_option = '_site_transient_' . esc_sql( $transient );
+		$transient_option = '_site_transient_' . $transient;
 		if ( ! in_array( $transient, $no_timeout ) ) {
-			$transient_timeout = '_site_transient_timeout_' . esc_sql( $transient );
+			$transient_timeout = '_site_transient_timeout_' . $transient;
 			$timeout = get_site_option( $transient_timeout );
 			if ( false !== $timeout && $timeout < time() ) {
 				delete_site_option( $transient_option  );
@@ -3646,8 +3636,8 @@ function get_site_transient( $transient ) {
  * 	transient value to be stored.
  * @uses do_action() Calls 'set_site_transient_$transient' and 'setted_site_transient' hooks on success.
  *
- * @param string $transient Transient name. Expected to not be SQL-escaped
- * @param mixed $value Transient value.
+ * @param string $transient Transient name. Expected to not be SQL-escaped.
+ * @param mixed $value Transient value. Expected to not be SQL-escaped.
  * @param int $expiration Time until expiration in seconds, default 0
  * @return bool False if value was not set and true if value was set.
  */
@@ -3661,8 +3651,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	} else {
 		$transient_timeout = '_site_transient_timeout_' . $transient;
 		$transient = '_site_transient_' . $transient;
-		$safe_transient = esc_sql( $transient );
-		if ( false === get_site_option( $safe_transient ) ) {
+		if ( false === get_site_option( $transient ) ) {
 			if ( $expiration )
 				add_site_option( $transient_timeout, time() + $expiration );
 			$result = add_site_option( $transient, $value );

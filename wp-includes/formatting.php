@@ -2441,8 +2441,7 @@ function sanitize_option($option, $value) {
 
 		case 'siteurl':
 		case 'home':
-			$value = stripslashes($value);
-			$value = esc_url($value);
+			$value = esc_url_raw($value);
 			break;
 		default :
 			$value = apply_filters("sanitize_option_{$option}", $value, $option);
