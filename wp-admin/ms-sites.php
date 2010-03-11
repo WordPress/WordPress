@@ -585,7 +585,7 @@ switch ( $action ) {
 								<th scope="row" class="check-column">
 									<input type='checkbox' id='blog_<?php echo $blog['blog_id'] ?>' name='allblogs[]' value='<?php echo esc_attr($blog['blog_id']) ?>' />
 								</th>
-								<th scope="row">
+								<th valign="top" scope="row">
 									<?php echo $blog['blog_id'] ?>
 								</th>
 							<?php
@@ -593,10 +593,10 @@ switch ( $action ) {
 
 							case 'blogname': ?>
 								<td class="column-title">
-									<a href="ms-sites.php?action=editblog&amp;id=<?php echo $blog['blog_id'] ?>" class="edit"><?php echo $blogname; echo $blog_state?></a>
+									<a href="ms-sites.php?action=editblog&amp;id=<?php echo $blog['blog_id'] ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 									<?php
 									if ( 'list' != $mode )
-										echo '<p>' . get_blog_option( $blog['blog_id'], 'blogname' ) . '- <em>' . get_blog_option( $blog['blog_id'], 'blogdescription ' ) . '</em></p>';
+										echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s', '%1$s: site name. %2$s: site tagline.' ), get_blog_option( $blog['blog_id'], 'blogname' ), get_blog_option( $blog['blog_id'], 'blogdescription ' ) ) . '</em></p>';
 
 									$actions	= array();
 									$actions[]	= '<a href="ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] . '" class="edit">' . __('Edit') . '</a>';
