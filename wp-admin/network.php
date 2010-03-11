@@ -283,6 +283,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 // Construct an htaccess file.
 $htaccess_file = 'RewriteEngine On
 RewriteBase ' . $base . '
+RewriteRule ^index\.php$ - [L]
 
 # uploaded files
 RewriteRule ^' . ( $vhost ? '([_0-9a-zA-Z-]+/)?' : '' ) . 'files/(.+) wp-includes/ms-files.php?file=$2 [L]' . "\n";
@@ -303,7 +304,7 @@ $htaccess_file .= "\nRewriteRule . index.php [L]";
 
 ?>
 			<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-				<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $vhost ? 10 : 15; ?>">
+				<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $vhost ? 11 : 16; ?>">
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 </textarea></li>
 		</ol>
