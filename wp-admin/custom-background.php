@@ -227,15 +227,21 @@ class Custom_Background {
 <div class="wrap" id="custom-background">
 <?php screen_icon(); ?>
 <h2><?php _e('Custom Background'); ?></h2>
-<?php if ( get_background_image() ) { ?>
-<p><?php _e('This is your current background image.'); ?></p>
+<?php if ( get_background_image() || get_background_color() ) { ?>
+<p><?php _e('This is your current background.'); ?></p>
 <?php
 	if ( $this->admin_image_div_callback ) {
 		call_user_func($this->admin_image_div_callback);
 	} else {
+		if ( $bgcolor = get_background_color() )
+			$bgcolor = ' style="background-color: #' . $bgcolor . ';"';
+		else
+			$bgcolor = '';
 ?>
-<div id="custom-background-image" style="background-color: #<?php background_color(); ?>;">
+<div id="custom-background-image"<?php echo $bgcolor; ?>>
+<?php if ( get_background_image() ) { ?>
 <img class="custom-background-image" src="<?php background_image(); ?>" />
+<?php } ?>
 </div>
 <?php }
 } else { ?>

@@ -1436,8 +1436,8 @@ function add_custom_background($header_callback = '', $admin_header_callback = '
  */
 function _custom_background_cb() {
 	$background = get_background_image();
-
-	if ( !$background )
+	$color = get_background_color();
+	if ( !$background && !$color )
 		return;
 
 	$repeat = get_theme_mod('background_repeat', 'repeat');
@@ -1457,11 +1457,26 @@ function _custom_background_cb() {
 		$attachment = 'background-attachment: scroll;';
 	else
 		$attachment = 'background-attachment: fixed;';
+
+	if ( !empty($background ) )
+		$image = "background-image: url('$background');";
+	else
+		$image = '';
+
+	if ( !empty($background ) )
+		$image = "background-image: url('$background');";
+	else
+		$image = '';
+
+	if ( !empty($color) )
+		$color = "background-color: #$color;";
+	else
+		$color = '';
 ?>
 <style type="text/css">
 body {
-	background-color: #<?php background_color(); ?>;
-	background-image: url('<?php background_image(); ?>');
+	<?php echo $image; ?>
+	<?php echo $color; ?>
 	<?php echo $repeat; ?>
 	<?php echo $position; ?>
 	<?php echo $attachment; ?>
