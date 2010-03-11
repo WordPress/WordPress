@@ -423,7 +423,7 @@ switch ( $action ) {
 		if ( empty($_GET['blogstatus']) || $_GET['blogstatus'] == 'all' )
 				$status_class = ' class="current"';
 
-		$status_links[] = "<li><a href='ms-sites.php?blogstatus=all'$status_class>" . sprintf( __( 'All <span class="count">(%s)</span>' ), number_format_i18n( $count->all ) ) . '</a>';
+		$status_links[] = "<li><a href='ms-sites.php?blogstatus=all'$status_class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $count, 'sites' ), number_format_i18n( $count ) ) . '</a>';
 
 		foreach ( $status_list as $status => $col ) {
 			$status_class = '';
