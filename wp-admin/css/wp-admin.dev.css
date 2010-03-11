@@ -3659,11 +3659,6 @@ div#custom-background h2 {
 	width:80px;
 }
 
-#custom-background-image {
-	max-width: 400px;
-	max-height: 200px;
-}
-
 div#custom-background-image img {
 	max-width: 400px;
 	max-height: 200px;
