@@ -984,6 +984,15 @@ function wp_validate_redirect($location, $default = '') {
 	$test = ( $cut = strpos($location, '?') ) ? substr( $location, 0, $cut ) : $location;
 
 	$lp  = parse_url($test);
+
+	// Give up if malformed URL
+	if ( false === $lp )
+		return $default;
+
+	// Allow only http and https schemes. No data:, etc.
+	if ( isset($lp['scheme']) && !('http' == $lp['scheme'] || 'https' == $lp['scheme']) )
+		return $default;
+
 	$wpp = parse_url(home_url());
 
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
