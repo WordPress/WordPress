@@ -515,7 +515,7 @@ function update_option( $option, $newvalue ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
 			$alloptions[$option] = $_newvalue;
-			wp_cache_set( 'alloptions', $_alloptions, 'options' );
+			wp_cache_set( 'alloptions', $alloptions, 'options' );
 		} else {
 			wp_cache_set( $option, $_newvalue, 'options' );
 		}
