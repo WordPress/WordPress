@@ -172,61 +172,6 @@ function link_cat_row( $category, $name_override = false ) {
 	return $output;
 }
 
-/**
- * Outputs the html checked attribute.
- *
- * Compares the first two arguments and if identical marks as checked
- *
- * @since 1.0
- *
- * @param any $checked One of the values to compare
- * @param any $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
- */
-function checked( $checked, $current = true, $echo = true) {
-	return __checked_selected_helper( $checked, $current, $echo, 'checked' );
-}
-
-/**
- * Outputs the html selected attribute.
- *
- * Compares the first two arguments and if identical marks as selected
- *
- * @since 1.0
- *
- * @param any selected One of the values to compare
- * @param any $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
- */
-function selected( $selected, $current = true, $echo = true) {
-	return __checked_selected_helper( $selected, $current, $echo, 'selected' );
-}
-
-/**
- * Private helper function for checked and selected.
- *
- * Compares the first two arguments and if identical marks as $type
- *
- * @since 2.8
- * @access private
- *
- * @param any $helper One of the values to compare
- * @param any $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
- * @param string $type The type of checked|selected we are doing.
- */
-function __checked_selected_helper( $helper, $current, $echo, $type) {
-	if ( (string) $helper === (string) $current)
-		$result = " $type='$type'";
-	else
-		$result = '';
-
-	if ($echo)
-		echo $result;
-
-	return $result;
-}
-
 //
 // Category Checklists
 //
