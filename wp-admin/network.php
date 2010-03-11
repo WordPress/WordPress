@@ -21,9 +21,10 @@ foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
 	$wpdb->$table = $prefixed_table;
 
 /**
- * Check for existing network data/tables.
+ * Check for an existing network.
  *
  * @since 3.0.0
+ * @return Whether a network exists.
  */
 function network_domain_check() {
 	global $wpdb;
@@ -36,15 +37,14 @@ function network_domain_check() {
  * Get base domain of network.
  *
  * @since 3.0.0
+ * @return string Base domain.
  */
 function get_clean_basedomain() {
-	global $wpdb;
-	$existing_domain = network_domain_check();
-	if ( $existing_domain )
+	if ( $existing_domain = network_domain_check() )
 		return $existing_domain;
 	$domain = preg_replace( '|https?://|', '', get_option( 'siteurl' ) );
-	if ( strpos( $domain, '/' ) )
-		$domain = substr( $domain, 0, strpos( $domain, '/' ) );
+	if ( $slash = strpos( $domain, '/' ) )
+		$domain = substr( $domain, 0, $slash );
 	return $domain;
 }
 
@@ -280,29 +280,30 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 ?>
 </li>
 <?php
-
-// @todo custom content dir
+// Construct an htaccess file.
 $htaccess_file = 'RewriteEngine On
 RewriteBase ' . $base . '
 
 # uploaded files
-RewriteRule ^(.*/)?files/$ index.php [L]
-RewriteCond %{REQUEST_URI} !.*wp-content/plugins.*
-RewriteRule ^(.*/)?files/(.*) wp-includes/ms-files.php?file=$2 [L]
+RewriteRule ^' . ( $vhost ? '([_0-9a-zA-Z-]+/)?' : '' ) . 'files/(.+) wp-includes/ms-files.php?file=$2 [L]' . "\n";
 
-# add a trailing slash to /wp-admin
-RewriteCond %{REQUEST_URI} ^.*/wp-admin$
-RewriteRule ^(.+)$ $1/ [R=301,L]
+if ( ! $vhost )
+	$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
 
-RewriteCond %{REQUEST_FILENAME} -f [OR]
+$htaccess_file .= "\n" . 'RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule . - [L]
-RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
-RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
-RewriteRule . index.php [L]';
+RewriteRule ^ - [L]';
+
+// @todo custom content dir.
+if ( ! $vhost )
+	$htaccess_file .= "\n" . 'RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
+RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]';
+
+$htaccess_file .= "\nRewriteRule . index.php [L]";
+
 ?>
 			<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-				<textarea class="code" readonly="readonly" cols="100" rows="18">
+				<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $vhost ? 10 : 15; ?>">
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 </textarea></li>
 		</ol>
