@@ -1683,7 +1683,7 @@ class WP_Rewrite {
 		$rules = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
-		$rules .= "RewriteRule ^index\.php$ - [L]"; // Prevent -f checks on index.php.
+		$rules .= "RewriteRule ^index\.php$ - [L]\n"; // Prevent -f checks on index.php.
 
 		//add in the rules that don't redirect to WP's index.php (and thus shouldn't be handled by WP at all)
 		foreach ( (array) $this->non_wp_rules as $match => $query) {
