@@ -768,13 +768,11 @@ class WP_User {
 	 */
 	function for_blog( $blog_id = '' ) {
 		global $wpdb;
-		if ( !empty($blog_id) ) {
-			$cap_key = $wpdb->get_blog_prefix( $blog_id );
-			$cap_key. 'capabilities';
-		} else {
+		if ( ! empty( $blog_id ) )
+			$cap_key = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
+		else
 			$cap_key = '';
-		}
-		$this->_init_caps($cap_key);
+		$this->_init_caps( $cap_key );
 	}
 }
 
