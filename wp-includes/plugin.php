@@ -321,7 +321,7 @@ function do_action($tag, $arg = '') {
 	}
 
 	$args = array();
-	if ( is_array($arg) && 1 == count($arg) && is_object($arg[0]) ) // array(&$this)
+	if ( is_array($arg) && 1 == count($arg) && isset($arg[0]) && is_object($arg[0]) ) // array(&$this)
 		$args[] =& $arg[0];
 	else
 		$args[] = $arg;
