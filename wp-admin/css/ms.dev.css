@@ -41,12 +41,12 @@ form#wpmu-search {
 }
 
 /* Site Admin Menu */
-#adminmenu #menu-site div.wp-menu-image {
-	background: transparent url("../images/site-admin.png") no-repeat scroll 0px -33px;
+#adminmenu .menu-icon-site div.wp-menu-image {
+	background: transparent url('../images/site-admin.png') no-repeat scroll 0px -33px;
 }
 
-#adminmenu #menu-site:hover div.wp-menu-image {
-	background: transparent url("../images/site-admin.png") no-repeat scroll 0px -1px;
+#adminmenu .menu-icon-site:hover div.wp-menu-image {
+	background: transparent url('../images/site-admin.png') no-repeat scroll 0px -1px;
 }
 
 /* Dashboard: MU Specific Data */
