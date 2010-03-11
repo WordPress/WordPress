@@ -173,7 +173,7 @@ include('admin-header.php'); ?>
 $options = $wpdb->get_results( "SELECT * FROM $wpdb->options ORDER BY option_name" );
 
 foreach ( (array) $options as $option ) :
-	$disabled = '';
+	$disabled = false;
 	if ( $option->option_name == '' )
 		continue;
 	if ( is_serialized( $option->option_value ) ) {
@@ -184,7 +184,7 @@ foreach ( (array) $options as $option ) :
 			$class = 'all-options';
 		} else {
 			$value = 'SERIALIZED DATA';
-			$disabled = ' disabled="disabled"';
+			$disabled = true;
 			$class = 'all-options disabled';
 		}
 	} else {
@@ -200,7 +200,7 @@ foreach ( (array) $options as $option ) :
 	if ( strpos( $value, "\n" ) !== false )
 		echo "<textarea class='$class' name='$name' id='$name' cols='30' rows='5'>" . wp_htmledit_pre( $value ) . "</textarea>";
 	else
-		echo "<input class='regular-text $class' type='text' name='$name' id='$name' value='" . esc_attr( $value ) . "'$disabled />";
+		echo "<input class='regular-text $class' type='text' name='$name' id='$name' value='" . esc_attr( $value ) . "'" . disabled( $disabled, true, false ) . " />";
 	echo "</td>
 </tr>";
 endforeach;

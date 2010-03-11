@@ -165,20 +165,20 @@ switch ( $action ) {
 							foreach ( $options as $option ) {
 								if ( $option->option_name == 'default_role' )
 									$editblog_default_role = $option->option_value;
-								$disabled = '';
+								$disabled = false;
 								if ( is_serialized($option->option_value) ) {
 									if ( is_serialized_string($option->option_value) ) {
 										$option->option_value = esc_html(maybe_unserialize($option->option_value), 'single');
 									} else {
 										$option->option_value = "SERIALIZED DATA";
-										$disabled = ' disabled="disabled"';
+										$disabled = true;
 									}
 								}
 								if ( stristr($option->option_value, "\r") || stristr($option->option_value, "\n") || stristr($option->option_value, "\r\n") ) {
 								?>
 									<tr class="form-field">
 										<th scope="row"><?php echo ucwords( str_replace( "_", " ", $option->option_name ) ) ?></th>
-										<td><textarea rows="5" cols="40" name="option[<?php echo esc_attr($option->option_name) ?>]" id="<?php echo esc_attr($option->option_name) ?>"<?php echo $disabled ?>><?php echo esc_html( $option->option_value ) ?></textarea></td>
+										<td><textarea rows="5" cols="40" name="option[<?php echo esc_attr($option->option_name) ?>]" id="<?php echo esc_attr($option->option_name) ?>"<?php disabled( $disabled ) ?>><?php echo esc_html( $option->option_value ) ?></textarea></td>
 									</tr>
 								<?php
 								} else {
@@ -188,7 +188,7 @@ switch ( $action ) {
 <?php if ( $is_main_site && in_array( $option->option_name, array( 'siteurl', 'home' ) ) ) { ?>
 										<td><?php echo esc_attr( $option->option_value ) ?></td>
 <?php } else { ?>
-										<td><input name="option[<?php echo esc_attr($option->option_name) ?>]" type="text" id="<?php echo esc_attr($option->option_name) ?>" value="<?php echo esc_attr( $option->option_value ) ?>" size="40" <?php echo $disabled ?> /></td>
+										<td><input name="option[<?php echo esc_attr($option->option_name) ?>]" type="text" id="<?php echo esc_attr($option->option_name) ?>" value="<?php echo esc_attr( $option->option_value ) ?>" size="40" <?php disabled( $disabled ) ?> /></td>
 <?php } ?>
 									</tr>
 								<?php

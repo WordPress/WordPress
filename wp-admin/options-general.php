@@ -75,11 +75,11 @@ include('./admin-header.php');
 <?php if ( !is_multisite() ) { ?>
 <tr valign="top">
 <th scope="row"><label for="siteurl"><?php _e('WordPress address (URL)') ?></label></th>
-<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /></td>
+<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>"<?php $disabled = disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( $disabled ) echo ' disabled' ?>" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="home"><?php _e('Blog address (URL)') ?></label></th>
-<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" class="regular-text code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> />
+<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>"<?php $disabled = disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( $disabled ) echo ' disabled' ?>" />
 <span class="description"><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
 </tr>
 <tr valign="top">

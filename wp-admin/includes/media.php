@@ -858,7 +858,7 @@ function image_size_input_fields( $post, $check = '' ) {
 				$checked = " checked='checked'";
 			}
 
-			$html = "<div class='image-size-item'><input type='radio' " . ( $enabled ? '' : "disabled='disabled' " ) . "name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'$checked />";
+			$html = "<div class='image-size-item'><input type='radio' " . disabled( $enabled, false, false ) . "name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'$checked />";
 
 			$html .= "<label for='{$css_id}'>$label</label>";
 			// only show the dimensions if that choice is available
