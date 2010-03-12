@@ -2081,7 +2081,7 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 	$shortlink = '';
 
 	// Return p= link for posts.
-	if ( !empty($post_id) ) {
+	if ( !empty($post_id) && '' != get_option('permalink_structure') ) {
 		$post = get_post($post_id);
 		if ( isset($post->post_type) && 'post' == $post->post_type )
 			$shortlink = home_url('?p=' . $post->ID);
@@ -2105,7 +2105,7 @@ function wp_shortlink_wp_head() {
 	if ( empty($shortlink) )
 		return;
 
-	echo '<link rel="shortlink" href="' . $shortlink . '" />';
+	echo "<link rel='shortlink' href='" . $shortlink . "' />\n";
 }
 
 /**
@@ -2127,6 +2127,35 @@ function wp_shortlink_header() {
 		return;
 
 	header('Link: <' . $shortlink . '>; rel=shortlink', false);
+}
+
+/**
+ * Display the Short Link for a Post
+ *
+ * Must be called from inside "The Loop"
+ *
+ * Call like the_shortlink(__('Shortlinkage FTW'))
+ *
+ * @since 3.0.0
+ *
+ * @param string $text Optional The link text or HTML to be displayed.  Defaults to 'This is the short link.'
+ * @param string $title Optional The tooltip for the link.  Must be sanitized.  Defaults to the sanitized post title.
+ * @param string $before Optional HTML to display before the link.
+ * @param string $before Optional HTML to display after the link.
+ */
+function the_shortlink($text = '', $title = '', $before = '', $after = '') {
+	global $post;
+
+	if ( empty($text) )
+		$text = __('This is the short link.');
+
+	if ( empty($title) )
+		$title = the_title_attribute( array('echo' => FALSE) );
+
+	$shortlink = wp_get_shortlink($post->ID);
+
+	if ( !empty($shortlink) )
+		echo "$before<a rel='shortlink' href='$shortlink' title='$title'>$text</a>$after";
 }
 
 ?>
