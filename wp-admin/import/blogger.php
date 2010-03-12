@@ -162,7 +162,7 @@ class Blogger_Import {
 					if ( $tag['tag'] == 'TITLE' ) {
 						$blog['title'] = $tag['value'];
 					} elseif ( $tag['tag'] == 'SUMMARY' ) {
-						$blog['summary'] == $tag['value'];
+						$blog['summary'] = $tag['value'];
 					} elseif ( $tag['tag'] == 'LINK' ) {
 						if ( $tag['attributes']['REL'] == 'alternate' && $tag['attributes']['TYPE'] == 'text/html' ) {
 							$parts = parse_url( $tag['attributes']['HREF'] );
