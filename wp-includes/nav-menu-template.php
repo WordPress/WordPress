@@ -198,7 +198,7 @@ function wp_get_nav_menu_item( $menu_item, $context, $args = array() ) {
 			$item .= '<label class="item-title"><input type="checkbox" id="'. esc_attr($menu_id) .'" name="'. esc_attr( $menu_item->title ) .'" value="'. esc_attr( $menu_item->link ) .'" />'. $menu_item->title .'</label>';
 			
 			// Menu Item Settings
-			$item .= '<input type="hidden" class="item-type" value="'. esc_attr( $menu_item->append ) .'" />';
+			$item .= '<input type="hidden" class="item-type" value="'. esc_attr( $menu_item->type ) .'" />';
 			$item .= '<input type="hidden" class="item-title" value="'. esc_attr( $menu_item->title ) .'" />';
 			$item .= '<input type="hidden" class="item-url" value="'. esc_attr( $menu_item->link ) .'" />';
 			$item .= '<input type="hidden" class="item-dbid" value="'. esc_attr( $menu_item->ID ) .'" />';

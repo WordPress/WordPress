@@ -76,10 +76,10 @@ jQuery(document).ready(function($){
 		$(this).hide();
 		$(this).siblings('.show-all').show();
 	});
-	
+
 	// Add menu item to queue
 	$('.list input').click(function(){
-		
+
 		var item_type = jQuery(this).parent().siblings('.item-type').val();
 		var item_title = jQuery(this).parent().siblings('.item-title').val();
 		var item_url = jQuery(this).parent().siblings('.item-url').val();
@@ -89,12 +89,12 @@ jQuery(document).ready(function($){
 		
 		return wp_update_queue( $(this), item_type, item_title, item_url, item_id, item_parent_id, item_description );
 	});
-	
+
 	// Add queued menu items into the menu
 	$('.enqueue a').click(function(){
 		return wp_add_queued_items_to_menu(this);
 	});
-	
+
 	// Create the link, add it to the menu + available links section
 	$('#add-custom-link .add-to-menu a').click(function(){
 		var link_url = $(this).offsetParent().find('#menu-item-url').val();
@@ -105,26 +105,8 @@ jQuery(document).ready(function($){
 		// Don't save the link if it was left with it's default settings
 		if ( 'http://' == link_url || 'Menu Item' == link_name )
 			return;
-		
-		// Parameters to send off
-		params = {
-			action: 'add-menu-link',
-			link_url: link_url,
-			link_name: link_name,
-		};
-		
-		// save the link
-		$.post( ajaxurl, params, function(response) {
-			if ( null == response || '-1' == response )
-				return false;
-			
-			params.link_id = response;
-			
-			// add it to the available links section
-			// wp_update_links_list( params );
-			
-			// and update the Menu with the new link
-			wp_add_item_to_menu( 'Custom', params.link_name, params.link_url, params.link_id, 0, '' );
-		}, 'json');
+
+		// and update the Menu with the new link
+		wp_add_item_to_menu( 'custom', link_name, link_url, 0, 0, '' );
 	});
 });

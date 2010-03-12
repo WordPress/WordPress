@@ -128,7 +128,7 @@ if ( $post_counter > 0 && $menu_selected_id > 0 && ! $updated ) {
 		$object_id = isset( $_POST['item-postmenu'.$k] )? $_POST['item-postmenu'.$k] : 0;
 		$parent_id = isset( $_POST['item-parent'.$k] )? $_POST['item-parent'.$k] : 0;
 		$custom_title = isset( $_POST['item-title'.$k] )?  $_POST['item-title'.$k] : '';
-		$custom_linkurl = ( isset( $_POST['item-url'.$k] ) && 'custom' == $_POST['linktype'.$k] ) ? $_POST['item-url'.$k] : '';
+		$custom_linkurl = ( isset( $_POST['item-url'.$k] ) && 'custom' == $_POST['item-type'.$k] ) ? $_POST['item-url'.$k] : '';
 		$custom_description = isset( $_POST['item-description'.$k] )? $_POST['item-description'.$k] : '';
 
 		// doesn't seem to be used by UI
