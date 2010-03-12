@@ -20,63 +20,6 @@ if ( $current_blog->archived == '1' || $current_blog->spam == '1' || $current_bl
 	die( '404 &#8212; File not found.' );
 }
 
-if ( !function_exists('wp_check_filetype') ) :
-function wp_check_filetype($filename, $mimes = null) {
-	// Accepted MIME types are set here as PCRE unless provided.
-	$mimes = is_array($mimes) ? $mimes : array (
-		'jpg|jpeg|jpe' => 'image/jpeg',
-		'gif' => 'image/gif',
-		'png' => 'image/png',
-		'bmp' => 'image/bmp',
-		'tif|tiff' => 'image/tiff',
-		'ico' => 'image/x-icon',
-		'asf|asx|wax|wmv|wmx' => 'video/asf',
-		'avi' => 'video/avi',
-		'mov|qt' => 'video/quicktime',
-		'mpeg|mpg|mpe' => 'video/mpeg',
-		'txt|c|cc|h' => 'text/plain',
-		'rtx' => 'text/richtext',
-		'css' => 'text/css',
-		'htm|html' => 'text/html',
-		'mp3|mp4' => 'audio/mpeg',
-		'ra|ram' => 'audio/x-realaudio',
-		'wav' => 'audio/wav',
-		'ogg' => 'audio/ogg',
-		'mid|midi' => 'audio/midi',
-		'wma' => 'audio/wma',
-		'rtf' => 'application/rtf',
-		'js' => 'application/javascript',
-		'pdf' => 'application/pdf',
-		'doc' => 'application/msword',
-		'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
-		'wri' => 'application/vnd.ms-write',
-		'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
-		'mdb' => 'application/vnd.ms-access',
-		'mpp' => 'application/vnd.ms-project',
-		'swf' => 'application/x-shockwave-flash',
-		'class' => 'application/java',
-		'tar' => 'application/x-tar',
-		'zip' => 'application/zip',
-		'gz|gzip' => 'application/x-gzip',
-		'exe' => 'application/x-msdownload'
-	);
-
-	$type = false;
-	$ext = false;
-
-	foreach ( (array) $mimes as $ext_preg => $mime_match ) {
-		$ext_preg = '!\.(' . $ext_preg . ')$!i';
-		if ( preg_match($ext_preg, $filename, $ext_matches) ) {
-			$type = $mime_match;
-			$ext = $ext_matches[1];
-			break;
-		}
-	}
-
-	return compact('ext', 'type');
-}
-endif;
-
 $file = BLOGUPLOADDIR . str_replace( '..', '', $_GET[ 'file' ] );
 if ( !is_file( $file ) ) {
 	status_header( 404 );
