@@ -29,32 +29,32 @@ switch ( $action ) {
 		}
 
 		$blogs = $wpdb->get_results( "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' AND spam = '0' AND deleted = '0' AND archived = '0' ORDER BY registered DESC LIMIT {$n}, 5", ARRAY_A );
-		if ( is_array( $blogs ) ) {
-			echo "<ul>";
-			foreach ( (array) $blogs as $details ) {
-				if ( $details['spam'] == 0 && $details['deleted'] == 0 && $details['archived'] == 0 ) {
-					$siteurl = get_blog_option( $details['blog_id'], 'siteurl' );
-					echo "<li>$siteurl</li>";
-					$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=1", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
-					if ( is_wp_error( $response ) )
-						wp_die( "<strong>Warning!</strong> Problem updating {$siteurl}. Your server may not be able to connect to sites running on it.<br /> Error message: <em>" . $response->get_error_message() ."</em>" );
-					do_action( 'after_mu_upgrade', $response );
-					do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
-				}
-			}
-			echo "</ul>";
-			?><p><?php _e("If your browser doesn't start loading the next page automatically click this link:"); ?> <a class="button" href="ms-upgrade-network.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
-			<script type='text/javascript'>
-			<!--
-			function nextpage() {
-				location.href = "ms-upgrade-network.php?action=upgrade&n=<?php echo ($n + 5) ?>";
-			}
-			setTimeout( "nextpage()", 250 );
-			//-->
-			</script><?php
-		} else {
-			echo '<p>'.__('All Done!').'</p>';
+		if ( empty( $blogs ) ) {
+			echo '<p>' . __( 'All done!' ) . '</p>';
+			break;
 		}
+		echo "<ul>";
+		foreach ( (array) $blogs as $details ) {
+			if ( $details['spam'] == 0 && $details['deleted'] == 0 && $details['archived'] == 0 ) {
+				$siteurl = get_blog_option( $details['blog_id'], 'siteurl' );
+				echo "<li>$siteurl</li>";
+				$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=1", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
+				if ( is_wp_error( $response ) )
+					wp_die( "<strong>Warning!</strong> Problem updating {$siteurl}. Your server may not be able to connect to sites running on it.<br /> Error message: <em>" . $response->get_error_message() ."</em>" );
+				do_action( 'after_mu_upgrade', $response );
+				do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
+			}
+		}
+		echo "</ul>";
+		?><p><?php _e("If your browser doesn't start loading the next page automatically click this link:"); ?> <a class="button" href="ms-upgrade-network.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
+		<script type='text/javascript'>
+		<!--
+		function nextpage() {
+			location.href = "ms-upgrade-network.php?action=upgrade&n=<?php echo ($n + 5) ?>";
+		}
+		setTimeout( "nextpage()", 250 );
+		//-->
+		</script><?php
 	break;
 	case 'show':
 	default:
