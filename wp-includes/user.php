@@ -169,17 +169,13 @@ function count_many_users_posts($users) {
 	global $wpdb;
 
 	$count = array();
-	if ( ! count( $users ) )
+	if ( ! is_array($users) || empty( $users ) )
 		return $count;
 
 	$userlist = implode( ',', $users );
 	$where = get_posts_by_author_sql( 'post' );
 
 	$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
-
-	if ( ! $result )
-		return $count;
-
 	foreach ( $result as $row ) {
 		$count[ $row[0] ] = $row[1];
 	}
