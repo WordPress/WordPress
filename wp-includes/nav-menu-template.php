@@ -114,10 +114,10 @@ function wp_get_nav_menu( $args = array() ) {
 	foreach ( $menu_items as $key => $menu_item ) :
 		// Setup the $menu_item variables
 		$menu_item = wp_setup_nav_menu_item( $menu_item );
-		
+
 		$maybe_value = 'frontend' == $args->type ? '' : ' value="'. $menu_item->ID .'"';
-		$classes = 'frontend' == $args->type ? 'class="menu-item-'. $menu_item->type . $menu_item->li_class .'"' : '';
-		
+		$classes = 'frontend' == $args->type ? ' class="menu-item-'. $menu_item->type . $menu_item->li_class .'"' : '';
+
 		$nav_menu .= '<li id="menu-item-'. $menu_item->ID .'"'. $maybe_value . $classes .'>';
 		$nav_menu .= wp_get_nav_menu_item( $menu_item, $args->type, $args );
 		
@@ -138,7 +138,7 @@ function wp_get_nav_menu( $args = array() ) {
 		} else {
 			$nav_menu .= '</li>';
 		}
-		
+
 	endforeach;
 	
 	$nav_menu .= '</ul>';
