@@ -2665,7 +2665,7 @@ class WP_Query {
 		} elseif ( $this->is_posts_page ) {
 			$this->queried_object = & get_page(get_option('page_for_posts'));
 			$this->queried_object_id = (int) $this->queried_object->ID;
-		} elseif ( $this->is_single ) {
+		} elseif ( $this->is_single && !is_null($this->post) ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
 		} elseif ( $this->is_page && !is_null($this->post) ) {
