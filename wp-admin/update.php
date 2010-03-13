@@ -42,7 +42,6 @@ if ( isset($_GET['action']) ) {
 		$upgrader->bulk_upgrade( $plugins );
 
 		iframe_footer();
-		exit;
 			
 	} elseif ( 'upgrade-plugin' == $action ) {
 		if ( ! current_user_can('update_plugins') )
@@ -163,7 +162,32 @@ if ( isset($_GET['action']) ) {
 		$upgrader->upgrade($theme);
 
 		include('admin-footer.php');
+	} elseif ( 'update-selected-themes' == $action ) {
+		if ( ! current_user_can( 'update_themes' ) )
+			wp_die( __( 'You do not have sufficient permissions to update themes for this blog.' ) );
 
+		check_admin_referer( 'bulk-update-themes' );
+
+		if ( isset( $_GET['themes'] ) )
+			$themes = explode( ',', stripslashes($_GET['themes']) );
+		elseif ( isset( $_POST['checked'] ) )
+			$themes = (array) $_POST['checked'];
+		else
+			$themes = array();
+
+		$themes = array_map('urldecode', $themes);
+
+		$url = 'update.php?action=update-selected-themes&amp;themess=' . urlencode(implode(',', $themes));
+		$nonce = 'bulk-update-themes';
+
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+		wp_enqueue_script('jquery');
+		iframe_header();
+
+		$upgrader = new Theme_Upgrader( new Bulk_Theme_Upgrader_Skin( compact( 'nonce', 'url' ) ) );
+		$upgrader->bulk_upgrade( $themes );
+
+		iframe_footer();
 	} elseif ( 'install-theme' == $action ) {
 
 		if ( ! current_user_can('install_themes') )

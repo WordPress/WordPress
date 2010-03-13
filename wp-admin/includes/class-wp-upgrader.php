@@ -469,10 +469,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$results = array();
 
-		$this->plugin_count = count($plugins);
-		$this->plugin_current = 0;
+		$this->update_count = count($plugins);
+		$this->update_current = 0;
 		foreach ( $plugins as $plugin ) {
-			$this->plugin_current++;
+			$this->update_current++;
 			$this->skin->plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, true);
 
 			if ( !isset( $current->response[ $plugin ] ) ) {
@@ -682,6 +682,82 @@ class Theme_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
+	function bulk_upgrade($themes) {
+
+		$this->init();
+		$this->bulk = true;
+		$this->upgrade_strings();
+
+		$current = get_site_transient( 'update_themes' );
+
+		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
+		add_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
+		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
+
+		$this->skin->header();
+
+		// Connect to the Filesystem first.
+		$res = $this->fs_connect( array(WP_CONTENT_DIR) );
+		if ( ! $res ) {
+			$this->skin->footer();
+			return false;
+		}
+
+		$this->maintenance_mode(true);
+
+		$results = array();
+
+		$this->update_count = count($themes);
+		$this->update_current = 0;
+		foreach ( $themes as $theme ) {
+			$this->update_current++;
+
+			if ( !isset( $current->response[ $theme ] ) ) {
+				$this->skin->set_result(false);
+				$this->skin->before();
+				$this->skin->error('up_to_date');
+				$this->skin->after();
+				$results[$theme] = false;
+				continue;
+			}
+
+			$this->skin->theme_info = $this->theme_info($theme);
+
+			// Get the URL to the zip file
+			$r = $current->response[ $theme ];
+
+			$options = array(
+							'package' => $r['package'],
+							'destination' => WP_CONTENT_DIR . '/themes',
+							'clear_destination' => true,
+							'clear_working' => true,
+							'hook_extra' => array(
+												'theme' => $theme
+												)
+							);
+
+			$result = $this->run($options);
+
+			$results[$theme] = $this->result;
+
+			// Prevent credentials auth screen from displaying multiple times
+			if ( false === $result )
+				break;
+		} //end foreach $plugins
+		$this->maintenance_mode(false);
+		$this->skin->footer();
+
+		// Cleanup our hooks, incase something else does a upgrade on this connection.
+		remove_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
+		remove_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
+		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
+
+		// Force refresh of theme update information
+		delete_site_transient('update_themes');
+
+		return $results;
+	}
+
 	function current_before($return, $theme) {
 
 		if ( is_wp_error($return) )
@@ -692,7 +768,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( $theme != get_stylesheet() ) //If not current
 			return $return;
 		//Change to maintainence mode now.
-		$this->maintenance_mode(true);
+		if ( ! $this->bulk )
+			$this->maintenance_mode(true);
 
 		return $return;
 	}
@@ -714,7 +791,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		}
 
 		//Time to remove maintainence mode
-		$this->maintenance_mode(false);
+		if ( ! $this->bulk )
+			$this->maintenance_mode(false);
 		return $return;
 	}
 
@@ -733,10 +811,15 @@ class Theme_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
-	function theme_info() {
-		if ( empty($this->result['destination_name']) )
-			return false;
-		return get_theme_data(WP_CONTENT_DIR . '/themes/' . $this->result['destination_name'] . '/style.css');
+	function theme_info($theme = null) {
+
+		if ( empty($theme) ) {
+			if ( !empty($this->result['destination_name']) )
+				$theme = $this->result['destination_name'];
+			else
+				return false;
+		}
+		return get_theme_data(WP_CONTENT_DIR . '/themes/' . $theme . '/style.css');
 	}
 
 }
@@ -826,7 +909,12 @@ class WP_Upgrader_Skin {
 	function set_upgrader(&$upgrader) {
 		if ( is_object($upgrader) )
 			$this->upgrader =& $upgrader;
+		$this->add_strings();
 	}
+
+	function add_strings() {
+	}
+
 	function set_result($result) {
 		$this->result = $result;
 	}
@@ -949,11 +1037,11 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
  * @subpackage Upgrader
  * @since 3.0
  */
-class Bulk_Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
+class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	var $in_loop = false;
 	var $error = false;
 
-	function Plugin_Upgrader_Skin($args = array()) {
+	function Bulk_Upgrader_Skin($args = array()) {
 		return $this->__construct($args);
 	}
 
@@ -963,7 +1051,13 @@ class Bulk_Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		parent::__construct($args);
 	}
-	
+
+	function add_strings() {
+		$this->upgrader->strings['skin_update_failed_error'] = __('An error occured while updating %1$s: <strong>%2$s</strong>.');
+		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
+		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully. <a onclick="%2$s" href="#">See Details</a>.');
+	}
+
 	function feedback($string) {
 		if ( isset( $this->upgrader->strings[$string] ) )
 			$string = $this->upgrader->strings[$string];
@@ -1004,24 +1098,25 @@ class Bulk_Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		}
 	}
 
-	function before() {
+	function before($title = '') {
 		$this->in_loop = true;
-		printf( '<h4>' . __('Updating Plugin %1$s (%2$d/%3$d)') . '</h4>',  $this->plugin_info['Title'], $this->upgrader->plugin_current, $this->upgrader->plugin_count);
-		echo '<div class="update-messages" style="display:none" id="progress-' . esc_attr($this->upgrader->plugin_current) . '"><p>';
+		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . '</h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
+		echo '<div class="update-messages" style="display:none" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
 		$this->flush_output();
 	}
 
-	function after() {
+	function after($title = '') {
 		echo '</p></div>';
 		if ( $this->error || ! $this->result ) {
 			if ( $this->error )
-				echo '<div class="error"><p>' . sprintf(__('An error occured while updating %1$s: <strong>%2$s</strong>.'), $this->plugin_info['Title'], $this->error) . '</p></div>';
+				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title, $this->error) . '</p></div>';
 			else
-				echo '<div class="error"><p>' . sprintf(__('The update of %1$s failed.'), $this->plugin_info['Title']) . '</p></div>';
-			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->plugin_current) . '\').show();</script>';
+				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title) . '</p></div>';
+
+			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
 		}
 		if ( !empty($this->result) && !is_wp_error($this->result) ) {
-			echo '<div class="updated"><p>' . sprintf(__('%1$s updated successfully. <a onclick="%2$s" href="#">See Details</a>.'), $this->plugin_info['Title'], 'jQuery(\'#progress-' . esc_js($this->upgrader->plugin_current) . '\').toggle(); return false;') . '</p></div>';
+			echo '<div class="updated"><p>' . sprintf($this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').toggle(); return false;') . '</p></div>';
 		}
 		$this->reset();
 		$this->flush_output();
@@ -1036,7 +1131,46 @@ class Bulk_Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		wp_ob_end_flush_all();
 		flush();
 	}
+}
 
+class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
+	var $plugin_info = array(); // Plugin_Upgrader::bulk() will fill this in.
+	function Plugin_Upgrader_Skin($args = array()) {
+		parent::__construct($args);
+	}
+
+	function add_strings() {
+		parent::add_strings();
+		$this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
+	}
+
+	function before() {
+		parent::before($this->plugin_info['Title']);
+	}
+
+	function after() {
+		parent::after($this->plugin_info['Title']);
+	}
+}
+
+class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
+	var $theme_info = array(); // Theme_Upgrader::bulk() will fill this in.
+	function Theme_Upgrader_Skin($args = array()) {
+		parent::__construct($args);
+	}
+
+	function add_strings() {
+		parent::add_strings();
+		$this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
+	}
+
+	function before() {
+		parent::before($this->theme_info['Name']);
+	}
+
+	function after() {
+		parent::after($this->theme_info['Name']);
+	}
 }
 
 /**

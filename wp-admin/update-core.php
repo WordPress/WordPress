@@ -441,7 +441,6 @@ if ( 'upgrade-core' == $action ) {
 	echo '<div class="wrap">';
 	screen_icon('themes');
 	echo '<h2>' . esc_html__('Update Themes') . '</h2>';
-	echo "<p>@TODO: Sorry, This part of the functionality hasnt been written yet.</p>";
 	echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
 	echo '</div>';
 }
