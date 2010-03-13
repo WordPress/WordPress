@@ -58,6 +58,7 @@ case 'add-tag':
 		$location = add_query_arg('message', 1, $location);
 	else
 		$location = add_query_arg('message', 4, $location);
+	wp_redirect($location);
 	exit;
 break;
 
