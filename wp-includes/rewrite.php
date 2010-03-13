@@ -1439,6 +1439,16 @@ class WP_Rewrite {
 						$page = true;
 				}
 
+				if ( ! $post ) {
+					// For custom post types, we need to add on endpoints as well.
+					foreach ( get_post_types( array('_builtin' => false ) ) as $ptype ) {
+						if ( strpos($struct, "%$ptype%") !== false ) {
+							$post = true;
+							$page = false;
+						}
+					}
+				}
+
 				//if we're creating rules for a permalink, do all the endpoints like attachments etc
 				if ($post) {
 					$post = true;
