@@ -371,7 +371,7 @@ if ( 'do-plugin-upgrade' == $action && !isset($_GET['plugins']) && !isset($_POST
 	$action = 'upgrade-core';
 }
 
-$title = __('Upgrade WordPress');
+$title = __('WordPress Updates');
 $parent_file = 'tools.php';
 
 if ( 'upgrade-core' == $action ) {
