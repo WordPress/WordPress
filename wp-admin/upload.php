@@ -162,8 +162,6 @@ $is_trash = ( isset($_GET['status']) && $_GET['status'] == 'trash' );
 
 wp_enqueue_script('media');
 require_once('admin-header.php');
-
-do_action('restrict_manage_posts');
 ?>
 
 <div class="wrap">
@@ -331,6 +329,8 @@ foreach ($arc_result as $arc_row) {
 ?>
 </select>
 <?php endif; // month_count ?>
+
+<?php do_action('restrict_manage_posts'); ?>
 
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 
