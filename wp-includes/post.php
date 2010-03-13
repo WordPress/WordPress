@@ -2902,13 +2902,23 @@ function &get_pages($args = '') {
 		'exclude' => '', 'include' => '',
 		'meta_key' => '', 'meta_value' => '',
 		'authors' => '', 'parent' => -1, 'exclude_tree' => '',
-		'number' => '', 'offset' => 0
+		'number' => '', 'offset' => 0,
+		'post_type' => 'page', 'post_status' => 'publish',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 	$number = (int) $number;
 	$offset = (int) $offset;
+	
+	// Make sure the post type is hierarchical
+	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
+	if ( !in_array( $post_type, $hierarchical_post_types ) )
+		return false;
+	
+	// Make sure we have a valid post status
+	if ( !in_array($post_status, get_post_stati()) )
+		return false;
 
 	$cache = array();
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
@@ -3001,8 +3011,10 @@ function &get_pages($args = '') {
 
 	if ( $parent >= 0 )
 		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent);
+		
+	$where_post_type = $wpdb->prepare( "post_type = '%s' AND post_status = '%s'", $post_type, $post_status );
 
-	$query = "SELECT * FROM $wpdb->posts $join WHERE (post_type = 'page' AND post_status = 'publish') $where ";
+	$query = "SELECT * FROM $wpdb->posts $join WHERE ($where_post_type) $where ";
 	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
 
