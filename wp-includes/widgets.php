@@ -481,7 +481,6 @@ function register_sidebars($number = 1, $args = array()) {
 	if ( is_string($args) )
 		parse_str($args, $args);
 
-	$n = count($wp_registered_sidebars);
 	for ( $i = 1; $i <= $number; $i++ ) {
 		$_args = $args;
 
@@ -491,14 +490,16 @@ function register_sidebars($number = 1, $args = array()) {
 			$_args['name'] = isset($args['name']) ? $args['name'] : __('Sidebar');
 
 		// Custom specified ID's are suffixed if they exist already.
-		// Automatically generated sidebar names need to be suffixed regardless.
+		// Automatically generated sidebar names need to be suffixed regardless starting at -0
 		if ( isset($args['id']) ) {
 			$_args['id'] = $args['id'];
+			$n = 2; // Start at -2 for conflicting custom ID's
 			while ( isset($wp_registered_sidebars[$_args['id']]) )
 				$_args['id'] = $args['id'] . '-' . $n++;
 		} else {
+			$n = count($wp_registered_sidebars);
 			do {
-				$_args['id'] = 'sidebar-' . $n++;
+				$_args['id'] = 'sidebar-' . ++$n;
 			} while ( isset($wp_registered_sidebars[$_args['id']]) );
 		}
 		register_sidebar($_args);
