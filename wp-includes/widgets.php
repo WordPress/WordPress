@@ -489,17 +489,12 @@ function register_sidebars($number = 1, $args = array()) {
 		else
 			$_args['name'] = isset($args['name']) ? $args['name'] : __('Sidebar');
 
-		if ( isset($args['id']) ) {
-			$_args['id'] = $args['id'];
-			if ( $number > 1 ) // Ensure that for multiple additions, the ID is unique (even if specified). Append -xx for > 1 sidebars.
-				$_args['id'] .= '-' . $i;
-		} else {
-			$n = count($wp_registered_sidebars);
-			do {
-				$n++;
-				$_args['id'] = "sidebar-$n";
-			} while ( isset($wp_registered_sidebars[$_args['id']]) );
-		}
+		$id = isset($args['id']) ? $args['id'] : 'sidebar';
+		$_args['id'] = $id;
+
+		$n = count($wp_registered_sidebars);
+		while ( isset($wp_registered_sidebars[$_args['id']]) )
+			$_args['id'] = $id . '-' . $n++;
 
 		register_sidebar($_args);
 	}
