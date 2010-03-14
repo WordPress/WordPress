@@ -135,6 +135,10 @@ abbr {
 	padding: 2px;
 }
 
+.form-table th p {
+	font-weight: normal;
+}
+
 #error-page { margin-top: 50px; }
 
 #error-page p {
@@ -150,8 +154,7 @@ abbr {
 	border-color: #ddd !important;
 	border-style: solid;
 	border-width: 1px;
-	float: left;
-	margin: 12px 5px 5px 1px;
+	margin: 5px 5px 5px 1px;
 	padding: 5px;
 	text-align: center;
 	width: 200px;

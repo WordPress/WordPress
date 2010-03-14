@@ -111,21 +111,21 @@ function display_setup_form( $error = null ) {
 		<?php if ( ! $user_table ) : ?>
 		<tr>
 			<th scope="row">
-				<p><label for="admin_password"><?php _e('Password'); ?></label></p>
-				<p><label for="admin_password2"><?php _e('Re-enter Password'); ?></label></p></th>
+				<label for="admin_password"><?php _e('Password, twice'); ?></label>
+				<p><?php _e('A password will be automatically generated for you if you leave this blank.'); ?></p>
+			</th>
 			<td>
-				<p><input name="admin_password" type="password" id="pass1" size="25" value="" /></p>
+				<input name="admin_password" type="password" id="pass1" size="25" value="" />
 				<p><input name="admin_password2" type="password" id="pass2" size="25" value="" /></p>
-				<p><?php _e('A password will be automatically generated for you if you leave this field blank.'); ?></p>
 				<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-				<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+				<p><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 			</td>
 		</tr>
 		<?php endif; ?>
 		<tr>
 			<th scope="row"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></th>
-			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php  echo esc_attr( $admin_email ); ?>" /><br />
-			<?php _e( 'Double-check your email address before continuing.' ); ?></td>
+			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
+			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<tr>
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow my blog to appear in search engines like Google and Technorati.' ); ?></label></td>
