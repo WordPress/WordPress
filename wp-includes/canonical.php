@@ -362,7 +362,9 @@ function redirect_guess_404_permalink() {
 
 	$where = $wpdb->prepare("post_name LIKE %s", get_query_var('name') . '%');
 
-	// if any of year, monthnum, or day are set, use them to refine the query
+	// if any of post_type, year, monthnum, or day are set, use them to refine the query
+	if ( get_query_var('post_type') )
+		$where .= $wpdb->prepare(" AND post_type = %s", get_query_var('post_type'));
 	if ( get_query_var('year') )
 		$where .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var('year'));
 	if ( get_query_var('monthnum') )
