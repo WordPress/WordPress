@@ -461,7 +461,8 @@ function unregister_widget($widget_class) {
  * The default for the name is "Sidebar #", with '#' being replaced with the
  * number the sidebar is currently when greater than one. If first sidebar, the
  * name will be just "Sidebar". The default for id is "sidebar-" followed by the
- * number the sidebar creation is currently at.
+ * number the sidebar creation is currently at. If the id is provided, and mutliple
+ * sidebars are being defined, the id will have "-2" appended, and so on.
  *
  * @since 2.2.0
  *
@@ -480,23 +481,24 @@ function register_sidebars($number = 1, $args = array()) {
 	if ( is_string($args) )
 		parse_str($args, $args);
 
-	for ( $i=1; $i <= $number; $i++ ) {
+	for ( $i = 1; $i <= $number; $i++ ) {
 		$_args = $args;
 
-		if ( $number > 1 ) {
+		if ( $number > 1 )
 			$_args['name'] = isset($args['name']) ? sprintf($args['name'], $i) : sprintf(__('Sidebar %d'), $i);
-		} else {
+		else
 			$_args['name'] = isset($args['name']) ? $args['name'] : __('Sidebar');
-		}
 
-		if (isset($args['id'])) {
+		if ( isset($args['id']) ) {
 			$_args['id'] = $args['id'];
+			if ( $number > 1 ) // Ensure that for multiple additions, the ID is unique (even if specified). Append -xx for > 1 sidebars.
+				$_args['id'] .= '-' . $i;
 		} else {
 			$n = count($wp_registered_sidebars);
 			do {
 				$n++;
 				$_args['id'] = "sidebar-$n";
-			} while (isset($wp_registered_sidebars[$_args['id']]));
+			} while ( isset($wp_registered_sidebars[$_args['id']]) );
 		}
 
 		register_sidebar($_args);
