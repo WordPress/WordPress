@@ -110,7 +110,7 @@ if ( 'update' == $action ) {
 	if ( 'options' == $option_page )
 		$options = explode(',', stripslashes( $_POST[ 'page_options' ] ));
 		if( is_multisite() && !is_super_admin() )
-			wp_die( __( 'Not allowed here' ) );
+			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
 	else
 		$options = $whitelist_options[ $option_page ];
 
