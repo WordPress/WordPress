@@ -75,17 +75,24 @@ if ( !is_multisite() ) {
 
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
-if ( is_multisite() && is_super_admin() && !empty($_GET[ 'adminhash' ]) ) {
-	$new_admin_details = get_option( 'adminhash' );
-	$redirect = admin_url('options-general.php?updated=false');
-	if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && !empty($new_admin_details[ 'newemail' ]) ) {
-		update_option( 'admin_email', $new_admin_details[ 'newemail' ] );
+if ( is_multisite() && is_super_admin() ) {
+	if ( ! empty($_GET[ 'adminhash' ] ) ) {
+		$new_admin_details = get_option( 'adminhash' );
+		$redirect = 'options-general.php?updated=false';
+		if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && !empty($new_admin_details[ 'newemail' ]) ) {
+			update_option( 'admin_email', $new_admin_details[ 'newemail' ] );
+			delete_option( 'adminhash' );
+			delete_option( 'new_admin_email' );
+			$redirect = 'options-general.php?updated=true';
+		}
+		wp_redirect( admin_url( $redirect ) );
+		exit;
+	} elseif ( ! empty( $_GET['dismiss'] ) && 'new_admin_email' == $_GET['dismiss'] ) {
 		delete_option( 'adminhash' );
 		delete_option( 'new_admin_email' );
-		$redirect = admin_url('options-general.php?updated=true');
+		wp_redirect( admin_url( 'options-general.php?updated=true' ) );
+		exit;
 	}
-	wp_redirect( $redirect);
-	exit;
 }
 
 /**
