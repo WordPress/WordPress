@@ -25,7 +25,7 @@ function create_initial_post_types() {
 										'hierarchical' => false,
 										'rewrite' => false,
 										'query_var' => false,
-										'supports' => array('post-thumbnails', 'excerpts', 'trackbacks', 'custom-fields', 'comments', 'revisions')
+										'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions')
 									) );
 
 	register_post_type( 'page', array(	'label' => __('Pages'),
@@ -38,7 +38,7 @@ function create_initial_post_types() {
 										'hierarchical' => true,
 										'rewrite' => false,
 										'query_var' => false,
-										'supports' => array('post-thumbnails', 'page-attributes', 'custom-fields', 'comments', 'revisions')
+										'supports' => array('title', 'editor', 'author', 'thumbnail', 'page-attributes', 'custom-fields', 'comments', 'revisions')
 									) );
 
 	register_post_type( 'attachment', array('label' => __('Media'),
@@ -835,6 +835,9 @@ function register_post_type($post_type, $args = array()) {
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
 		unset($args->supports);
+	} else {
+		// Add default features
+		add_post_type_support($post_type, array('title', 'editor'));
 	}
 
 	if ( false !== $args->query_var && !empty($wp) ) {
@@ -884,6 +887,23 @@ function add_post_type_support( $post_type, $feature ) {
 		else
 			$_wp_post_type_features[$post_type][$feature] = array_slice( func_get_args(), 2 );
 	}
+}
+
+/**
+ * Remove support for a feature from a post type.
+ *
+ * @since 3.0
+ * @param string $post_type The post type for which to remove the feature
+ * @param string $feature The feature being removed
+ */
+function remove_post_type_support( $post_type, $feature ) {
+	global $_wp_post_type_features;
+
+	if ( !isset($_wp_post_type_features[$post_type]) )
+		return;
+
+	if ( isset($_wp_post_type_features[$post_type][$feature]) )
+		unset($_wp_post_type_features[$post_type][$feature]);
 }
 
 /**

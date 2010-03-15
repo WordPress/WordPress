@@ -106,10 +106,10 @@ foreach ( get_object_taxonomies($post_type) as $tax_name ) {
 if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', __('Attributes'), 'page_attributes_meta_box', $post_type, 'side', 'core');
 
-if ( current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports($post_type, 'post-thumbnails') )
+if ( current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports($post_type, 'thumbnail') )
 	add_meta_box('postimagediv', __('Post Thumbnail'), 'post_thumbnail_meta_box', $post_type, 'side', 'low');
 
-if ( post_type_supports($post_type, 'excerpts') )
+if ( post_type_supports($post_type, 'excerpt') )
 	add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', $post_type, 'normal', 'core');
 
 if ( post_type_supports($post_type, 'trackbacks') )
@@ -128,11 +128,13 @@ if ( ('publish' == $post->post_status || 'private' == $post->post_status) && pos
 if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) )
 	add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', $post_type, 'normal', 'core');
 
-$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
-if ( $post->post_author && !in_array($post->post_author, $authors) )
-	$authors[] = $post->post_author;
-if ( $authors && count( $authors ) > 1 )
-	add_meta_box('authordiv', __('Author'), 'post_author_meta_box', $post_type, 'normal', 'core');
+if ( post_type_supports($post_type, 'author') ) {
+	$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+	if ( $post->post_author && !in_array($post->post_author, $authors) )
+		$authors[] = $post->post_author;
+	if ( $authors && count( $authors ) > 1 )
+		add_meta_box('authordiv', __('Author'), 'post_author_meta_box', $post_type, 'normal', 'core');
+}
 
 if ( post_type_supports($post_type, 'revisions') && 0 < $post_ID && wp_get_post_revisions( $post_ID ) )
 	add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', $post_type, 'normal', 'core');
@@ -184,6 +186,7 @@ $side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
 
 <div id="post-body">
 <div id="post-body-content">
+<?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
 	<label class="screen-reader-text" for="title"><?php _e('Title') ?></label>
@@ -198,16 +201,19 @@ if ( !empty($shortlink) )
 
 if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) ) { ?>
 	<div id="edit-slug-box">
-<?php
-	if ( ! empty($post->ID) && ! empty($sample_permalink_html) && 'auto-draft' != $post->post_status ) :
-		echo $sample_permalink_html;
-endif; ?>
+	<?php
+		if ( ! empty($post->ID) && ! empty($sample_permalink_html) && 'auto-draft' != $post->post_status )
+			echo $sample_permalink_html;
+	?>
 	</div>
 <?php
-} ?>
+}
+?>
 </div>
 </div>
+<?php } ?>
 
+<?php if ( post_type_supports($post_type, 'editor') ) { ?>
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
 
 <?php the_editor($post->post_content); ?>
@@ -239,6 +245,7 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 </div>
 
 <?php
+}
 
 do_meta_boxes($post_type, 'normal', $post);
 
