@@ -43,24 +43,6 @@ if (isset($_GET['updated'])) {
 					<?php printf( __( 'Registration and support mails will come from this address. Make it generic like "support@%s"' ), $current_site->domain ); ?>
 				</td>
 			</tr>
-
-			<tr valign="top">
-				<th scope="row"><?php _e('Allow new registrations') ?></th>
-				<?php
-				if ( !get_site_option('registration') )
-					update_site_option( 'registration', 'none' );
-				?>
-				<td>
-					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Registration is disabled.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration2" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('User accounts may be registered.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration3" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Logged in users may register new sites.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration4" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Both sites and user accounts can be registered.'); ?></label><br />
-					<p><?php _e('Disable or enable registration and who or what can be registered. (Default = disabled)'); ?></p>
-					<?php if ( is_subdomain_install() ) {
-						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non-existent site.') . '</p>';
-					} ?>
-				</td>
-			</tr>
 		</table>
 		<h3><?php _e('Dashboard Settings'); ?></h3>
 		<table class="form-table">
@@ -101,6 +83,24 @@ if (isset($_GET['updated'])) {
 		</table>
 		<h3><?php _e('Registration Settings'); ?></h3>
 		<table class="form-table">
+			<tr valign="top">
+				<th scope="row"><?php _e('Allow new registrations') ?></th>
+				<?php
+				if ( !get_site_option('registration') )
+					update_site_option( 'registration', 'none' );
+				?>
+				<td>
+					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Registration is disabled.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration2" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('User accounts may be registered.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration3" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Logged in users may register new sites.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration4" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Both sites and user accounts can be registered.'); ?></label><br />
+					<p><?php _e('Disable or enable registration and who or what can be registered. (Default = disabled)'); ?></p>
+					<?php if ( is_subdomain_install() ) {
+						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non-existent site.') . '</p>';
+					} ?>
+				</td>
+			</tr>
+
 			<tr valign="top">
 				<th scope="row"><?php _e('Registration notification') ?></th>
 				<?php
