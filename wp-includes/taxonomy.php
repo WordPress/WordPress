@@ -160,7 +160,7 @@ function get_taxonomy( $taxonomy ) {
  */
 function is_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
-
+		
 	return isset($wp_taxonomies[$taxonomy]);
 }
 

@@ -152,7 +152,7 @@ code {
 -------------------------------------------------------------- */
 
 /* The main theme structure */
-#access .menu,
+#access .menu-header,
 #colophon,
 #branding,
 #main,
@@ -360,15 +360,15 @@ a:hover {
 	display:block;
 	float:left;
 }
-#access .menu {
+#access .menu-header {
 	font-size: 13px;
 	margin-left: 12px;
 }
-#access .menu ul {
+#access .menu-header ul {
 	list-style: none;
 	margin: 0;
 }
-#access .menu li {
+#access .menu-header li {
 	float:left;
 	position: relative;
 }

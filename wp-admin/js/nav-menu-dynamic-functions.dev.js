@@ -8,66 +8,75 @@
  * @subpackage Administration
  */
 
-/**
- * Adds a link to the available links section
- *
- * @param object e - An object recieved via ajax
- */
-function wp_update_links_list(e) {
-	var link = '<li><dl><dt><label class="item-title"><input type="checkbox" id="link-'+ e.link_id +'" name="'+ e.link_name +'" value="'+ e.link_url +'" />'+ e.link_name +'</label></dt></dl></li>';
-		
-	// Prepend the link to the available links section
-	jQuery('#available-links .list').prepend( link );
-	
-	// Give feedback to the user
-	jQuery('#available-links .list #link-' + e.link_id).parent().animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
+function wp_nav_menu_autocomplete( id ) {
+	jQuery('#add-'+ id +' .quick-search').autocomplete(jQuery( '#add-'+ id +' .autocomplete' ).val().split('|'));
+
+	jQuery('#add-'+ id +' .quick-search').result(function(event, data, formatted) {
+		jQuery('#add-'+ id +' .list-wrap').css( 'display', 'block' );
+		jQuery("#add-"+ id +" .list-wrap li:contains('" + data + "')").css( 'display', 'block' );
+		jQuery('#add-'+ id +' .show-all').hide();
+		jQuery('#add-'+ id +' .hide-all').show();
+	});
 }
 
 /**
  * Populate the thickbox window with the selected menu items
  *
- * @param int o - the id of the menu li to edit.
+ * @param int id - the id of the menu li to edit.
  */
 function wp_edit_menu_item( id ) {
-	var itemType = jQuery('#item-type' + id).val();
-	var itemTitle = jQuery('#item-title' + id).val();
-	var itemURL = jQuery('#item-url' + id).val();
-	var itemAttrTitle = jQuery('#item-attr-title' + id).val();
-	var itemTarget = jQuery('#item-target' + id).val();
-	var itemDesc = jQuery('#item-description' + id).val();
+	var item_type = jQuery('#menu-item-type' + id).val();
+	var item_title = jQuery('#menu-item-title' + id).val();
+	var item_link = jQuery('#menu-item-url' + id).val();
+	var item_attr_title = jQuery('#menu-item-attr-title' + id).val();
+	var item_target = jQuery('#menu-item-target' + id).val();
+	var item_description = jQuery('#menu-item-description' + id).val();
+	var item_classes = jQuery('#menu-item-classes' + id).val();
+	var item_xfn = jQuery('#menu-item-xfn' + id).val();
 	
-	// Disable the ability to edit the url for page and category items
-	if ( 'page' == itemType || 'category' == itemType )
-		jQuery( '#edit-item-url' ).attr('disabled', 'disabled' );
+	// Only allow custom links to be editable.
+	if ( 'custom' != item_type )
+		jQuery( '#edit-menu-item-url' ).attr('disabled', 'disabled' );
 	
 	// Populate the fields for thickbox
-	jQuery( '#edit-item-id' ).val(id);
-	jQuery( '#edit-item-title' ).val(itemTitle);
-	jQuery( '#edit-item-url' ).val(itemURL);
-	jQuery( '#edit-item-attr-title' ).val(itemAttrTitle);
-	jQuery( '#edit-item-target' ).val(itemTarget);
-	jQuery( "#edit-item-target option[value='" + itemTarget  + "']" ).attr('selected', 'selected');
-	jQuery( '#edit-item-description' ).val(itemDesc);
+	jQuery( '#edit-menu-item-id' ).val(id);
+	jQuery( '#edit-menu-item-title' ).val(item_title);
+	jQuery( '#edit-menu-item-url' ).val(item_link);
+	jQuery( '#edit-menu-item-attr-title' ).val(item_attr_title);
+	jQuery( '#edit-menu-item-target' ).val(item_target);
+	jQuery( "#edit-menu-item-target option[value='" + item_target  + "']" ).attr('selected', 'selected');
+	jQuery( '#edit-menu-item-description' ).val(item_description);
+	jQuery( '#edit-menu-item-classes' ).val(item_classes);
+	jQuery( '#edit-menu-item-xfn' ).val(item_xfn);
+	
+	// focus
+	jQuery( '#edit-menu-item-title' ).focus();
 };
 
 /**
  * Update the values for the menu item being editing
  */
 function wp_update_menu_item() {
-	var id = jQuery('#edit-item-id').val();
-	var itemTitle = jQuery('#edit-item-title').val();
-	var itemURL = jQuery('#edit-item-url').val();
-	var itemAttrTitle = jQuery('#edit-item-attr-title').val();
-	var itemTarget = jQuery('#edit-item-target').val();
-	var itemDesc = jQuery('#edit-item-description').val();
+	var id = jQuery('#edit-menu-item-id').val();
+	var item_title = jQuery('#edit-menu-item-title').val();
+	var item_link = jQuery('#edit-menu-item-url').val();
+	var item_attr_title = jQuery('#edit-menu-item-attr-title').val();
+	var item_target = jQuery('#edit-menu-item-target').val();
+	var item_description = jQuery('#edit-menu-item-description').val();
+	var item_classes = jQuery('#edit-menu-item-classes').val();
+	var item_xfn = jQuery('#edit-menu-item-xfn').val();
 	
-	// update menu item settings	
-	jQuery('#menu-' + id).find('.item-title:first').html(itemTitle);
-	jQuery('#item-title' + id).val(itemTitle);
-	jQuery('#item-url' + id).val(itemURL);
-	jQuery('#item-attr-title' + id).val(itemAttrTitle);
-	jQuery('#item-target' + id).val(itemTarget);
-	jQuery('#item-description' + id).val(itemDesc);
+	// update menu item settings
+	jQuery('.menu #menu-item' + id).find('span.item-title').html(item_title);
+	jQuery('.menu #menu-item-title' + id).val(item_title);
+	jQuery('.menu #menu-item-url' + id).val(item_link);
+	jQuery('.menu #menu-item-attr-title' + id).val(item_attr_title);
+	jQuery('.menu #menu-item-target' + id).val(item_target);
+	jQuery('.menu #menu-item-description' + id).val(item_description);
+	jQuery('.menu #menu-item-classes' + id).val(item_classes);
+	jQuery('.menu #menu-item-xfn' + id).val(item_xfn);
+	
+	jQuery('.menu #menu-item' + id + ' dt:first').animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
 }
 
 /**
@@ -76,166 +85,100 @@ function wp_update_menu_item() {
  * @param int o - the id of the menu li to remove.
  */
 function wp_remove_menu_item( o ) {
-	var todelete = document.getElementById('menu-' + o);
+	var todelete = document.getElementById('menu-item' + o);
 	
 	if ( todelete ) {
 		// Give some feedback to the user
 		jQuery( todelete ).find('dt').each(function(){
 			jQuery(this).animate( { backgroundColor: '#FF3333' }, { duration: 'normal', complete: function() { jQuery(this).parent().parent().remove() } } );
 		});
-		
-		wp_update_post_data();
 	}
-};
-
-/**
- * Prepares menu items for POST
- */
-function wp_update_post_data() {
-	var i = 0;
-	
-	 jQuery('.menu li').each(function(i) {
-		i = i + 1;
-     	var j = jQuery(this).attr('value');
-
-     	jQuery(this).find('#item-position' + j).attr('value', i);
-     	jQuery(this).attr('id','menu-' + i);
-     	jQuery(this).attr('value', i);
-
-     	jQuery(this).find('#item-dbid' + j).attr('name','item-dbid' + i);
-     	jQuery(this).find('#item-dbid' + j).attr('id','item-dbid' + i);
-
-		jQuery(this).find('#item-postmenu' + j).attr('name','item-postmenu' + i);
-     	jQuery(this).find('#item-postmenu' + j).attr('id','item-postmenu' + i);
-
-     	var p = jQuery(this).find('#item-parent' + j).parent().parent().parent().attr('value');
-
-		jQuery(this).find('#item-parent' + j).attr('name','item-parent' + i);
-		jQuery(this).find('#item-parent' + j).attr('id','item-parent' + i);
-		
-		if (p) {
-			// Do nothing
-		} else {
-			// reset p to be top level
-			p = 0;
-		}
-
-		jQuery(this).find('#item-parent' + j).attr('value', p);
-
-		jQuery(this).find('#item-title' + j).attr('name','item-title' + i);
-		jQuery(this).find('#item-title' + j).attr('id','item-title' + i);
-
-		jQuery(this).find('#item-url' + j).attr('name','item-url' + i);
-		jQuery(this).find('#item-url' + j).attr('id','item-url' + i);
-
-		jQuery(this).find('#item-description' + j).attr('name','item-description' + i);
-		jQuery(this).find('#item-description' + j).attr('id','item-description' + i);
-
-		jQuery(this).find('#item-attr-title' + j).attr('name','item-attr-title' + i);
-		jQuery(this).find('#item-attr-title' + j).attr('id','item-attr-title' + i);
-
-		jQuery(this).find('#item-target' + j).attr('name','item-target' + i);
-		jQuery(this).find('#item-target' + j).attr('id','item-target' + i);
-
-		jQuery(this).find('#item-position' + j).attr('name', 'item-position' + i);
-		jQuery(this).find('#item-position' + j).attr('id', 'item-position' + i);
-
-		jQuery(this).find('#item-type' + j).attr('name', 'item-type' + i);
-		jQuery(this).find('#item-type' + j).attr('id', 'item-type' + i);
-
-		jQuery('#li-count').attr( 'value', i );
-   });
 };
 
 /**
  * Adds the item to the menu
  *
- * @param string id - The menu item's id
- * @param string additemtype - Page, Category, or Custom.
- * @param string itemtext - menu text.
- * @param string itemurl - url of the menu.
- * @param int itemid - menu id.
- * @param int itemparentid - default 0.
- * @param string itemdescription - the description of the menu item.
+ * @param string item_db_id - The menu item's db id.
+ * @param string item_object_id - The menu item's object id.
+ * @param string item_type - The menu item's object type.
+ * @param string item_append - The menu item's nice name.
+ * @param string item_parent_id - The menu item's parent id.
+ * @param string item_title - The menu item title.
+ * @param string item_url - The menu item url
+ * @param string item_description - The menu item description.
+ * @param string item_attr_title - The title attribute.
+ * @param string item_target - The target attribute.
+ * @param string item_classes - Optional. Additional CSS classes for the menu item
+ * @param string item_xfn - Optional. The rel attribute.
  */
-function wp_add_item_to_menu( item_type, item_title, item_url, item_id, item_parent_id, item_description ) {
+function wp_add_item_to_menu( item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn ) {
 	var randomnumber = wp_get_unique_menu_id();
+	var hidden = wp_get_hidden_inputs( randomnumber, item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn );
 	
 	// Adds the item in the queue
-	jQuery('.menu').append('<li id="menu-' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + item_title + '</span><span class="item-controls"><span class="item-type">' + item_type + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl><input type="hidden" name="item-postmenu' + randomnumber + '" id="item-postmenu' + randomnumber + '" value="' + item_id + '" /><input type="hidden" name="item-parent' + randomnumber + '" id="item-parent' + randomnumber + '" value="' + item_parent_id + '" /><input type="hidden" name="item-title' + randomnumber + '" id="item-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-url' + randomnumber + '" id="item-url' + randomnumber + '" value="' + item_url + '" /><input type="hidden" name="item-description' + randomnumber + '" id="item-description' + randomnumber + '" value="' + item_description + '" /><input type="hidden" name="item-position' + randomnumber + '" id="item-position' + randomnumber + '" value="' + randomnumber + '" /><input type="hidden" name="item-type' + randomnumber + '" id="item-type' + randomnumber + '" value="' + item_type + '" /><input type="hidden" name="item-attr-title' + randomnumber + '" id="item-attr-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-target' + randomnumber + '" id="item-target' + randomnumber + '" value="0" /></li>');
+	jQuery('.menu').append('<li id="menu-item' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + item_title + '</span><span class="item-controls"><span class="item-type">' + item_append + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=540&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl>' + hidden + '</li>');
 	
 	// Give some feedback to the user
-	jQuery( '.menu #menu-' + randomnumber + ' dt:first' ).animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
+	jQuery( '.menu #menu-item' + randomnumber + ' dt:first' ).animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
 	
 	// Enable drag-n-drop
 	wp_drag_and_drop();
 	
-	wp_update_post_data();
-	
 	// Reload thickbox
 	tb_init('a.thickbox, area.thickbox, input.thickbox');
-};
-
-/*
- * Queues items in perperation for appendToList
- *
- * @param string type - Page, Category, or Custom.
- * @param string link - menu text.
- * @param string url - url of the menu.
- * @param int id - menu id.
- * @param int parent_id - default 0.
- * @param string description - the description of the menu item.
-*/
-function wp_update_queue( e, item_type, item_title, item_url, item_id, item_parent_id, item_description ) {
-	var randomnumber = wp_get_unique_menu_id();
-	var menu_item_id = jQuery(e).attr('id');
-	
-	if ( jQuery(e).attr('checked') ) {
-		// Add menu item to the queue
-		jQuery('#queue').append('<li id="menu-' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + item_title + '</span><span class="item-controls"><span class="item-type">' + item_type + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=380&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl><input type="hidden" name="item-postmenu' + randomnumber + '" id="item-postmenu' + randomnumber + '" value="' + item_id + '" /><input type="hidden" name="item-parent' + randomnumber + '" id="item-parent' + randomnumber + '" value="' + item_parent_id + '" /><input type="hidden" name="item-title' + randomnumber + '" id="item-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-url' + randomnumber + '" id="item-url' + randomnumber + '" value="' + item_url + '" /><input type="hidden" name="item-description' + randomnumber + '" id="item-description' + randomnumber + '" value="' + item_description + '" /><input type="hidden" name="item-position' + randomnumber + '" id="item-position' + randomnumber + '" value="' + randomnumber + '" /><input type="hidden" name="item-type' + randomnumber + '" id="item-type' + randomnumber + '" value="' + item_type + '" /><input type="hidden" name="item-attr-title' + randomnumber + '" id="item-attr-title' + randomnumber + '" value="' + item_title + '" /><input type="hidden" name="item-target' + randomnumber + '" id="item-target' + randomnumber + '" value="0" /><input type="hidden" name="item-id' + randomnumber + '" id="item-id' + randomnumber + '" value="'+ menu_item_id +'" /></li>');
-		
-	} else {
-		// Remove the item from the queue
-		if ( menu_item_id == jQuery('#queue li input[name^="item-id"]' ).val() ) {
-			jQuery('#queue li input[name^="item-id"]' ).parent().remove()
-		};
-	};
 };
 
 /**
  * Grabs items from the queue and adds them to the menu.
  *
- * @param string button - a reference of the button that was clicked
+ * @param string button - a reference to the button that was clicked
  */
-function wp_add_queued_items_to_menu( button ) {	
-	// Grab items in queue
-	var items = jQuery('#queue').children();
+function wp_add_checked_items_to_menu( button ) {
+	// Grab checked items
+	var items = jQuery(button).siblings('.list-wrap').find(':checked');
 	
-	// Empty Queue
-	jQuery('#queue').empty();
-		
-	// Appends HTML to the menu
-	jQuery('.menu').append( items );
-
-	// Give some feedback to the user
+	// If nothing was checked, cancel
+	if ( 0 == items.length )
+		return false;
+	
+	// Loop through each item, grab it's hidden data and add it to the menu.
 	jQuery(items).each(function(){
-		jQuery(this).find('dt').animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
+		var item_type = jQuery(this).parent().siblings('.menu-item-type').val();
+		
+		if ( 'custom' == item_type ) {
+			var item_attr_title = jQuery(this).parent().siblings('.menu-item-attr-title').val();
+			var item_target = jQuery(this).parent().siblings('.menu-item-target').val();
+			var item_classes = jQuery(this).parent().siblings('.menu-item-classes').val();
+			var item_xfn = jQuery(this).parent().siblings('.menu-item-xfn').val();
+		} else {
+			var item_attr_title = '';
+			var item_target = '_none';
+			var item_classes = '';
+			var item_xfn = '';
+		};
+		
+		var item_db_id = jQuery(this).parent().siblings('.menu-item-db-id').val();
+		var item_object_id = jQuery(this).parent().siblings('.menu-item-object-id').val();
+		var item_append = jQuery(this).parent().siblings('.menu-item-append').val();
+		var item_parent_id = jQuery(this).parent().siblings('.menu-item-parent-id').val();
+		var item_title = jQuery(this).parent().siblings('.menu-item-title').val();
+		var item_url = jQuery(this).parent().siblings('.menu-item-url').val();
+		var item_description = jQuery(this).parent().siblings('.menu-item-description').val();
+		
+		if ( undefined == item_description ) {
+			item_description = '';
+		};
+		
+		// Add the menu item to the menu
+		wp_add_item_to_menu( item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn );
+		
+		// uncheck the menu item in the list
+		jQuery(this).attr( 'checked', false );
 	});
-	
-	// Uncheck the checkboxes in the list
-	jQuery(button).offsetParent().find('.list-container input').attr('checked', false);
-	
-	wp_update_post_data();
-	
-	// Enable drag-n-drop
-	wp_drag_and_drop();
-	
-	// Reload thickbox
-	tb_init('a.thickbox, area.thickbox, input.thickbox');
 };
 
 /**
- * Allow the items in the Menu to be dragged and dropped.
+ * Makes the menu items drag and droppable.
  */
 function wp_drag_and_drop() {
 	// Make sure all li's have dropzones
@@ -251,7 +194,7 @@ function wp_drag_and_drop() {
 		opacity: .8,
 		addClasses: false,
 		helper: 'clone',
-		zIndex: 100,
+		zIndex: 100
 	});
 
 	// make menu item droppable
@@ -307,6 +250,49 @@ function wp_drag_and_drop() {
 }
 
 /**
+ * Prepares menu items for POST.
+ */
+function wp_update_post_data() {
+	var i = 0;
+	
+	 jQuery('.menu li').each(function(i) {
+		i = i + 1;
+     	var j = jQuery(this).attr('value');
+
+     	jQuery(this).find('#menu-item-position' + j).attr('value', i);
+     	jQuery(this).attr('id','menu-item' + i);
+     	jQuery(this).attr('value', i);
+		
+     	jQuery(this).find('#menu-item-db-id' + j).attr('id','menu-item-db-id' + i);
+     	jQuery(this).find('#menu-item-object-id' + j).attr('id','menu-item-object-id' + i);
+		jQuery(this).find('#menu-item-append' + j).attr('id', 'menu-item-append' + i);
+		jQuery(this).find('#menu-item-type' + j).attr('id', 'menu-item-type' + i);
+		jQuery(this).find('#menu-item-position' + j).attr('id', 'menu-item-position' + i);
+
+     	var p = jQuery(this).find('#menu-item-parent-id' + j).parent().parent().parent().attr('value');
+		jQuery(this).find('#menu-item-parent-id' + j).attr('id','menu-item-parent-id' + i);
+		if (p) {
+			// Do nothing
+		} else {
+			// reset p to be top level
+			p = 0;
+		}
+		jQuery(this).find('#menu-item-parent-id' + j).attr('value', p);
+		
+		jQuery(this).find('#menu-item-title' + j).attr('id','menu-item-title' + i);
+		jQuery(this).find('#menu-item-url' + j).attr('id','menu-item-url' + i);
+		jQuery(this).find('#menu-item-description' + j).attr('id','menu-item-description' + i);
+		jQuery(this).find('#menu-item-classes' + j).attr('id','menu-item-classes' + i);
+		jQuery(this).find('#menu-item-xfn' + j).attr('id','menu-item-xfn' + i);
+		jQuery(this).find('#menu-item-description' + j).attr('id','menu-item-description' + i);
+		jQuery(this).find('#menu-item-attr-title' + j).attr('id','menu-item-attr-title' + i);
+		jQuery(this).find('#menu-item-target' + j).attr('id','menu-item-target' + i);
+		
+		jQuery('#li-count').attr( 'value', i );
+   });
+};
+
+/**
  * Gets a unique number based on how many items are in the menu
  */
 function wp_get_unique_menu_id() {
@@ -331,4 +317,40 @@ function wp_get_unique_menu_id() {
 		}
 	}
 	return randomnumber;
+}
+
+/**
+ * Returns all the nessecary hidden inputs for each menu item.
+ * 
+ * @param string item_db_id - The menu item's db id.
+ * @param string item_object_id - The menu item's object id.
+ * @param string item_type - The menu item's object type.
+ * @param string item_append - The menu item's nice name.
+ * @param string item_parent_id - The menu item's parent id.
+ * @param string item_title - The menu item title.
+ * @param string item_url - The menu item url
+ * @param string item_description - The menu item description.
+ * @param string item_attr_title - The title attribute.
+ * @param string item_target - The target attribute.
+ * @param string item_classes - Optional. Additional CSS classes for the menu item
+ * @param string item_xfn - Optional. The rel attribute.
+ */
+function wp_get_hidden_inputs( randomnumber, item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn ) {
+	var hidden = '';
+	
+	hidden += '<input type="hidden" name="menu-item-db-id[]" id="menu-item-db-id' + randomnumber + '" value="' + item_db_id + '" />';
+	hidden += '<input type="hidden" name="menu-item-object-id[]" id="menu-item-object-id' + randomnumber + '" value="' + item_object_id + '" />';
+	hidden += '<input type="hidden" name="menu-item-type[]" id="menu-item-type' + randomnumber + '" value="' + item_type + '" />';
+	hidden += '<input type="hidden" name="menu-item-append[]" id="menu-item-append' + randomnumber + '" value="' + item_append + '" />';
+	hidden += '<input type="hidden" name="menu-item-parent-id[]" id="menu-item-parent-id' + randomnumber + '" value="' + item_parent_id + '" />';
+	hidden += '<input type="hidden" name="menu-item-position[]" id="menu-item-position' + randomnumber + '" value="' + randomnumber + '" />';
+	hidden += '<input type="hidden" name="menu-item-title[]" id="menu-item-title' + randomnumber + '" value="' + item_title + '" />';
+	hidden += '<input type="hidden" name="menu-item-attr-title[]" id="menu-item-attr-title' + randomnumber + '" value="' + item_attr_title + '" />';
+	hidden += '<input type="hidden" name="menu-item-url[]" id="menu-item-url' + randomnumber + '" value="' + item_url + '" />';
+	hidden += '<input type="hidden" name="menu-item-target[]" id="menu-item-target' + randomnumber + '" value="' + item_target + '" />';
+	hidden += '<input type="hidden" name="menu-item-description[]" id="menu-item-description' + randomnumber + '" value="' + item_description + '" />';
+	hidden += '<input type="hidden" name="menu-item-classes[]" id="menu-item-classes' + randomnumber + '" value="' + item_classes + '" />';
+	hidden += '<input type="hidden" name="menu-item-xfn[]" id="menu-item-xfn' + randomnumber + '" value="' + item_xfn + '" />';
+	
+	return hidden;
 }

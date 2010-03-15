@@ -49,17 +49,6 @@ function is_nav_menu( $menu ) {
 }
 
 /**
- * Returns all Navigation Menu objects.
- *
- * @since 3.0.0
- *
- * @return array menu objects
- */
-function wp_get_nav_menus() {
-	return get_terms( 'nav_menu', array( 'hide_empty' => false, 'orderby' => 'id' ) );
-}
-
-/**
  * Creates a navigation menu.
  *
  * Optional args:
@@ -113,33 +102,18 @@ function wp_delete_nav_menu( $menu ) {
 }
 
 /**
- * Creates a nav menu named 'Menu 1'.
- *
- * This function is called if the user doesn't have any nav menus.
- * It grabs the first 14 pages, and creates a new default menu.
+ * Returns all Navigation Menu objects.
  *
  * @since 3.0.0
+ *
+ * @return array menu objects
  */
-function wp_create_default_nav_menu() {
-	$menu = wp_create_nav_menu( __('Menu 1'), array('slug' => 'menu-1') );
-
-	if ( is_wp_error($menu) )
-		return;
-
-	$pages = get_pages( array('parent' => 0, 'number' => 15) );
-	$counter = 1;
-	foreach ( $pages as $page ) {
-		$item = array( 'post_status' => 'publish', 'post_type' => 'nav_menu_item', 'menu_order' => $counter, 'tax_input' => array( 'nav_menu' => $menu->name), 'post_title' => addslashes($page->post_title) );
-		$item_id = wp_insert_post($item, true);
-		update_post_meta( $item_id, 'menu_type', 'page' );
-		update_post_meta( $item_id, 'object_id', $page->ID );
-		update_post_meta( $item_id, 'menu_new_window', 0 );
-		$counter++;
-	}
+function wp_get_nav_menus() {
+	return get_terms( 'nav_menu', array( 'hide_empty' => false, 'orderby' => 'id' ) );
 }
 
 /**
- * Returns the menu items of a navigation menu.
+ * Returns all menu items of a navigation menu.
  *
  * @since 3.0.0
  *
@@ -179,110 +153,91 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 }
 
 /**
- * Returns a menu item with all it's nessecary data populated.
+ * Adds all the nav menu properties to the $menu_item.
  *
  * @since 3.0.0
  *
- * @param string $menu_item Menu item.
- * @param string $type item|category|page.
- * @param string $position position of the menu item.
- * @return $menu_item
+ * @param string $menu_item The menu item to modify
+ * @param string $menu_item_type The menu item type (template, custom, post_type, taxonomy).
+ * @param string $menu_item_object Optional. The menu item object type (post type or taxonomy).
+ * @return object $menu_item The modtified menu item.
  */
-function wp_setup_nav_menu_item( $menu_item, $type = 'item', $position = 0 ) {
-	global $parent_menu_order;
-
-	if ( 'item' == $type ) {
-		$menu_item->type = get_post_meta( $menu_item->ID, 'menu_type', true );
-		$menu_item->object_id = get_post_meta( $menu_item->ID, 'object_id', true );
-		$menu_item->target = ( get_post_meta( $menu_item->ID, 'menu_new_window', true ) ) ? 'target="_blank"' : '';
-		if ( isset( $parent_menu_order[ $menu_item->post_parent ] ) )
-			$menu_item->parent_item = $parent_menu_order[ $menu_item->post_parent ];
-		else
-			$menu_item->parent_item = 0;
-	} elseif ( 'category' == $type ) {
-		$menu_item->type = $type;
-		$menu_item->object_id = $menu_item->term_id;
-		$menu_item->ID = $menu_item->term_id;
-		$menu_item->parent_item = $menu_item->parent;
-		$menu_item->menu_order = $position;
-	} elseif ( 'page' == $type ) {
-		$menu_item->type = $type;
-		$menu_item->object_id = $menu_item->ID;
-		$menu_item->parent_item = $menu_item->post_parent;
-		$menu_item->menu_order = $position;
-	}
-
-	switch ( $menu_item->type ) {
-		case 'page' :
-			$menu_item->link = get_page_link( $menu_item->object_id );
-
-			if ( $menu_item->post_title == '' )
-				$menu_item->title = get_the_title( $menu_item->object_id );
-			else
-				$menu_item->title = $menu_item->post_title;
-
-			if ( $menu_item->post_content == '' )
-				$menu_item->description = get_post_meta( $menu_item->ID, 'page-description', true );
-			else
-				$menu_item->description = $menu_item->post_content;
-			$menu_item->append = _x('Page', 'menu nav item type');
-			break;
-		case 'category' :
-			$menu_item->link = get_category_link( $menu_item->object_id );
-
-			if ( empty($menu_item->post_title) ) {
-				$title_raw = get_category( $menu_item->object_id );
-				$menu_item->title =  $title_raw->cat_name;
-			} else {
-				$menu_item->title = $menu_item->post_title;
-			}
-
-			if ( empty($menu_item->post_content) )
-				$menu_item->description = strip_tags( category_description( $menu_item->object_id ) );
-			else
-				$menu_item->description = $menu_item->post_content;
-			$menu_item->append = _x('Category', 'menu nav item type');
-			break;
-		case 'custom' :
-		default :
-			$menu_item->link = esc_url_raw( get_post_meta( $menu_item->ID, 'menu_link', true ) );
-			$menu_item->title =  $menu_item->post_title;
-			$menu_item->description = $menu_item->post_content;
-			$menu_item->append = _x('Custom', 'menu nav item type');
-			break;
-	}
-
-	$menu_item->li_class = '';
+function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_object = '' ) {
 	global $wp_query;
 	
-	if ( $menu_item->object_id == $wp_query->get_queried_object_id() )
-		$menu_item->li_class = ' current_page_item';
+	switch ( $menu_item_type ) {
+		case 'frontend':
+			$menu_item->db_id = (int) $menu_item->ID;
+			$menu_item->object_id = get_post_meta( $menu_item->ID, 'menu_item_object_id', true );
+			$menu_item->parent_id = (int) $menu_item->post_parent;
+			$menu_item->type = get_post_meta( $menu_item->ID, 'menu_item_type', true );
+			$menu_item->append = _x( get_post_meta( $menu_item->ID, 'menu_item_append', true ), 'nav menu item type' );
+			
+			$menu_item->title = $menu_item->post_title;
+			$menu_item->url = get_post_meta( $menu_item->ID, 'menu_item_url', true );
+			$menu_item->target = get_post_meta( $menu_item->ID, 'menu_item_target', true );
+			
+			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
+			$menu_item->description = strip_tags( $menu_item->post_content );
+			
+			$menu_item->classes = get_post_meta( $menu_item->ID, 'menu_item_classes', true );;
+			$menu_item->xfn = get_post_meta( $menu_item->ID, 'menu_item_xfn', true );
+			$menu_item->li_class = ( $menu_item->object_id == $wp_query->get_queried_object_id() ) ? ' current_page_item' : '';
+			break;
+			
+		case 'custom':
+			$menu_item->db_id = (int) $menu_item->ID;
+			$menu_item->object_id = (int) $menu_item->ID;
+			$menu_item->parent_id = (int) $menu_item->post_parent;
+			$menu_item->type = 'custom'; //$menu_item_type
+			$menu_item->append = _x( 'Custom', 'nav menu item type' );
+			
+			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
+			$menu_item->description = strip_tags( $menu_item->post_content );
 
-	$menu_item->anchor_title = '';
-/* @todo: update to use tax/post data
+			$menu_item->title = $menu_item->post_title;
+			$menu_item->url = get_post_meta( $menu_item->ID, 'menu_item_url', true );
+			$menu_item->target = get_post_meta( $menu_item->ID, 'menu_item_target', true );
+			break;
+			
+		case 'post_type':
+			$menu_item->db_id = 0;
+			$menu_item->object_id = (int) $menu_item->ID;
+			$menu_item->parent_id = (int) $menu_item->post_parent;
+			$menu_item->type = $menu_item_type;
+			
+			$object = get_post_type_object( $menu_item_object );
+			$menu_item->append = _x( $object->singular_label, 'nav menu item type' );
 
-			//SET anchor title
-			if (isset($wp_custom_nav_menu_items->custom_anchor_title)) {
-				$anchor_title = $wp_custom_nav_menu_items->custom_anchor_title;
-			}
-			else {
-				$anchor_title = $title;
-			}
+			$menu_item->title = $menu_item->post_title;
+			$menu_item->url = get_post_permalink( $menu_item->ID );
+			$menu_item->target = '_none';
+			
+			$menu_item->attr_title = '';
+			$menu_item->description = strip_tags( $menu_item->post_content );
+			break;
+			
+		case 'taxonomy':
+			$menu_item->ID = $menu_item->term_id;
+			$menu_item->db_id = 0;
+			$menu_item->object_id = (int) $menu_item->term_id;
+			$menu_item->parent_id = (int) $menu_item->parent;
+			$menu_item->type = $menu_item_type;
+			
+			$object = get_taxonomy( $menu_item_object );
+			$menu_item->append = _x( $object->singular_label, 'nav menu item type' );
 
-			if ($queried_id == $wp_custom_nav_menu_items->post_id) {
-				$li_class = 'class="current_page_item"';
-			}
-
-			if (isset($wp_custom_nav_menu_items->new_window)) {
-				if ($wp_custom_nav_menu_items->new_window > 0) {
-					$target = 'target="_blank"';
-				}
-				else {
-					$target = '';
-				}
-			}
-*/
-
+			$menu_item->title = $menu_item->name;
+			$menu_item->url = get_term_link( $menu_item, $menu_item_object );
+			$menu_item->target = '_none';
+			$menu_item->attr_title = '';
+			$menu_item->description = strip_tags( $menu_item->description );
+			break;
+	}
+	
+	$menu_item->classes = get_post_meta( $menu_item->ID, 'menu_item_classes', true );
+	$menu_item->xfn = get_post_meta( $menu_item->ID, 'menu_item_xfn', true );
+	
 	return $menu_item;
 }
 ?>

@@ -43,7 +43,7 @@
 
 			<div id="access">
 				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
-				<?php wp_nav_menu( 'sort_column=menu_order' ); ?>
+				<?php wp_nav_menu( 'sort_column=menu_order&container_class=menu-header' ); ?>
 			</div><!-- #access -->
 		</div><!-- #masthead -->
 	</div><!-- #header -->

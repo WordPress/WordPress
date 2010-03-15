@@ -14,19 +14,16 @@
 
 /* Button Primary Actions */
 #menu-container .submit { margin: 0px 0px 10px; padding: 0px; }
-.submitdelete { color: #ff0000; text-decoration: underline; font-size: 11px; float: left; margin-top: 5px; }
-.submitdelete:hover { background-color: #FF0000; color: #fff; }
-.save { float: right; }
+
+.submitdelete { font-size: 11px; }
+#cancel-save { color: #ff0000; text-decoration: underline; font-size: 11px; margin-left: 20px; margin-top: 5px; }
+#cancel-save:hover { background-color: #FF0000; color: #fff; }
 
 /* Button Secondary Actions */
 .button-controls { float: left; }
 .add-to-menu { float: right; }
 
-/* CSS for switching the main columns *//*
-#menu-settings-column { clear: none; float: left; }
-#menu-management #post-body { float: right; margin-left: -340px; margin-right: 0px; }
-#menu-management #post-body-content { margin-left: 300px; margin-right: 0px; }
-*/
+#manage-menu .inside { padding: 0px 0px; }
 
 /* Create Menu */
 #create-menu-name { width: 159px; }
@@ -36,7 +33,8 @@
 #available-links dt { display: block; }
 #add-custom-link .howto { font-size: 11px; }
 #add-custom-link label span { display: block; float: left; margin-top: 5px; padding-right: 5px; }
-#menu-item-url, #menu-item-name { float: right; width: 220px; }
+.menu-item-textbox { float: right; width: 220px; }
+.howto span { margin-top: 4px; display: block; float: left; }
 
 /* Pages/Categories */
 .show-all, .hide-all { cursor: pointer; }
@@ -50,17 +48,17 @@
 /* Listings */
 .list li { display: none; margin: 0; margin-bottom: 5px; }
 
-.list li .item-title { cursor: pointer; display: block; }
-.list li .item-title input { margin-right: 3px; margin-top: -3px; }
+.list li .menu-item-title { cursor: pointer; display: block; }
+.list li .menu-item-title input { margin-right: 3px; margin-top: -3px; }
 
-.list li ul li .item-title  { margin-left: 14px; }
-.list li ul li ul li .item-title  { margin-left: 28px; }
-.list li ul li ul li ul li .item-title  { margin-left: 42px; }
-.list li ul li ul li ul li ul li .item-title  { margin-left: 56px; }
-.list li ul li ul li ul li ul li ul li .item-title  { margin-left: 70px; }
-.list li ul li ul li ul li ul li ul li ul li .item-title  { margin-left: 84px; }
-.list li ul li ul li ul li ul li ul li ul li ul li .item-title  { margin-left: 98px; }
-.list li ul li ul li ul li ul li ul li ul li ul li ul li .item-title  { margin-left: 112px; }
+.list li ul li .menu-item-title  { margin-left: 14px; }
+.list li ul li ul li .menu-item-title  { margin-left: 28px; }
+.list li ul li ul li ul li .menu-item-title  { margin-left: 42px; }
+.list li ul li ul li ul li ul li .menu-item-title  { margin-left: 56px; }
+.list li ul li ul li ul li ul li ul li .menu-item-title  { margin-left: 70px; }
+.list li ul li ul li ul li ul li ul li ul li .menu-item-title  { margin-left: 84px; }
+.list li ul li ul li ul li ul li ul li ul li ul li .menu-item-title  { margin-left: 98px; }
+.list li ul li ul li ul li ul li ul li ul li ul li ul li .menu-item-title  { margin-left: 112px; }
 
 /* Menu */
 #menu-container .inside { padding-bottom: 10px; }
@@ -71,9 +69,9 @@
 .menu li dl dt:hover { cursor: move; }
 
 .menu li .item-title { }
-.menu li ul li { margin-left: 20px; opacity: .7;}
-.menu li ul li ul li { opacity: .9;}
-.menu li ul li ul li ul li { opacity: .9;}
+.menu li ul li { margin-left: 20px; opacity: .7; }
+.menu li ul li ul li { opacity: .9; }
+.menu li ul li ul li ul li { opacity: .9; }
 .menu li ul li ul li ul li ul li { opacity: .95; }
 
 /* Drag and Drop */
@@ -85,7 +83,7 @@
 .item-controls { font-size: 11px; position: absolute; right: 15px; top: -1px; }
 .item-controls a { text-decoration: none; }
 .item-controls a:hover { cursor: pointer; }
-.item-controls .item-delete:hover { color: #ff0000; }
+.item-controls .menu-item-delete:hover { color: #ff0000; }
 
 /* Thickbox */
 #menu-item-settings { display: none; }
@@ -95,6 +93,3 @@
 #update-menu-item:hover,
 #update-menu-item:active,
 #update-menu-item:focus { color: #eaf2fa !important; border-color: #13455b !important; }
-
-/* Misc */
-.hide { display: none; }
