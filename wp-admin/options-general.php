@@ -191,6 +191,8 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <br />
 <span>
 	<?php
+	// Set TZ so localtime works.
+	date_default_timezone_set($tzstring);
 	$now = localtime(time(), true);
 	if ( $now['tm_isdst'] )
 		_e('This timezone is currently in daylight saving time.');
@@ -202,8 +204,10 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	if ( function_exists('timezone_transitions_get') ) {
 		$found = false;
 		$date_time_zone_selected = new DateTimeZone($tzstring);
+		$tz_offset = timezone_offset_get($date_time_zone_selected, date_create());
+		$right_now = time();
 		foreach ( timezone_transitions_get($date_time_zone_selected) as $tr) {
-			if ( $tr['ts'] > time() ) {
+			if ( $tr['ts'] > $right_now ) {
 			    $found = true;
 				break;
 			}
@@ -214,11 +218,14 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 			$message = $tr['isdst'] ?
 				__('Daylight saving time begins on: <code>%s</code>.') :
 				__('Standard time begins  on: <code>%s</code>.');
-			printf( $message, date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $tr['ts'] ) );
+			// Add the difference between the current offset and the new offset to ts to get the correct transition time from date_i18n().
+			printf( $message, date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $tr['ts'] + ($tz_offset - $tr['offset']) ) );
 		} else {
 			_e('This timezone does not observe daylight saving time.');
 		}
 	}
+	// Set back to UTC.
+	date_default_timezone_set('UTC');
 	?>
 	</span>
 <?php endif; ?>
