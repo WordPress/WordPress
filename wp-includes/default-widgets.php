@@ -1080,7 +1080,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		
 		// If no menus exists, direct the user to go and create some.
 		if ( !$menus ) {
-			echo '<p>'. sprintf( __('No menus have been created yet. <a href="%s">Creat some</a>.'), admin_url('nav-menus.php') ) .'</p>';
+			echo '<p>'. sprintf( __('No menus have been created yet. <a href="%s">Create some</a>.'), admin_url('nav-menus.php') ) .'</p>';
 			return;
 		}
 		?>
