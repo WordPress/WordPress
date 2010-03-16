@@ -43,6 +43,14 @@ if (isset($_GET['updated'])) {
 					<?php printf( __( 'Registration and support mails will come from this address. Make it generic like "support@%s"' ), $current_site->domain ); ?>
 				</td>
 			</tr>
+
+			<tr valign="top">
+				<th scope="row"><?php _e('Global Terms') ?></th>
+				<td>
+				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='1' <?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
+				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='0' <?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
+				<?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></td>
+			</tr>
 		</table>
 		<h3><?php _e('Dashboard Settings'); ?></h3>
 		<table class="form-table">

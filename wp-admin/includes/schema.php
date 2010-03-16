@@ -709,6 +709,10 @@ Thanks!
 		'upload_space_check_disabled' => '0',
 		'subdomain_install' => intval( $subdomain_install ),
 	);
+	if ( is_multisite() )
+		$sitemeta[ 'global_terms_enabled' ] = get_site_option( 'global_terms_enabled', '0' );
+	else
+		$sitemeta[ 'global_terms_enabled' ] = '0';
 
 	$insert = '';
 	foreach ( $sitemeta as $meta_key => $meta_value ) {

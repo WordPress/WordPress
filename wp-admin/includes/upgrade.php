@@ -1149,6 +1149,9 @@ function upgrade_network() {
 			$start += 20;
 		}
 	}
+	// 3.0
+	if ( $wp_current_db_version < 13576 )
+		update_site_option( 'global_terms_enabled', '1' );
 }
 
 // The functions we use to actually do stuff
