@@ -197,7 +197,7 @@ if ( !$nav_menu_selected_title && $nav_menu_selected_title = is_nav_menu( $nav_m
 // The user has no menus.
 if ( !is_nav_menu( $nav_menu_selected_id ) ) {
 	if ( current_theme_supports('nav-menus') ) {
-		$messages_div = '<div id="message" class="updated"><p>' . __('You haven\'t setup any menus yet. Create a new menu.') . '</p></div>';
+		$messages_div = '<div id="message" class="updated"><p>' . __('You do not have any menus. Create a new menu.') . '</p></div>';
 	} else {
 		$messages_div = '<div id="message" class="error"><p>' . __('The current theme does not support menus.') . '</p></div>';
 	}
