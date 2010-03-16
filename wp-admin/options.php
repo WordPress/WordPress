@@ -107,12 +107,13 @@ if ( 'update' == $action ) {
 	if ( !isset( $whitelist_options[ $option_page ] ) )
 		wp_die( __( 'Error: options page not found.' ) );
 
-	if ( 'options' == $option_page )
-		$options = explode(',', stripslashes( $_POST[ 'page_options' ] ));
-		if( is_multisite() && !is_super_admin() )
+	if ( 'options' == $option_page ) {
+		if ( is_multisite() && ! is_super_admin() )
 			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
-	else
+		$options = explode( ',', stripslashes( $_POST[ 'page_options' ] ) );
+	} else {
 		$options = $whitelist_options[ $option_page ];
+	}
 
 	// Handle custom date/time formats
 	if ( 'general' == $option_page ) {
@@ -134,11 +135,11 @@ if ( 'update' == $action ) {
 			$whitelist_check = true;
 		} else {
 			$whitelist_check = false;
-			_deprecated_argument( 'options.php', '2.6', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
+			_deprecated_argument( 'options.php', '2.7', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
 		}
 		foreach ( $options as $option ) {
 			if ( $whitelist_check && !in_array( $option, $registered ) ) {
-				_deprecated_argument( 'options.php', '2.6', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
+				_deprecated_argument( 'options.php', '2.7', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
 				$whitelist_check = false;
 			}
 			$option = trim($option);
