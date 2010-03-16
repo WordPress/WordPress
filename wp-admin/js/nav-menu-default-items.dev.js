@@ -93,6 +93,6 @@ jQuery(document).ready(function($){
 		var link_name = jQuery(e.currentTarget).parent().parent().find('#custom-menu-item-name').val();
 		
 		// Add link to menu
-		wp_add_item_to_menu( 0, '', 'custom', navMenuL10n.custom, 0, link_name, link_url, '', '', '_none', '', '' );
+		wp_add_item_to_menu( 0, '', 'custom', navMenuL10n.custom, 0, link_name, link_url, '', '', '_self', '', '' );
 	});
 });

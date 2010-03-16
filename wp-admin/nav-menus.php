@@ -107,7 +107,6 @@ switch ( $action ) {
 			
 			// Loop through all POST variables
 			for ( $k = 0; $k < $update_nav_items; $k++ ) {
-				
 				$menu_item_db_id 		= isset( $_POST['menu-item-db-id'][$k] )		? $_POST['menu-item-db-id'][$k] 	: 0;
 				$menu_item_object_id 	= isset( $_POST['menu-item-object-id'][$k] ) 	? $_POST['menu-item-object-id'][$k] : 0;
 				$menu_item_parent_id 	= isset( $_POST['menu-item-parent-id'][$k] ) 	? $_POST['menu-item-parent-id'][$k] : 0;
@@ -143,12 +142,14 @@ switch ( $action ) {
 				}
 				$parent_menu_ids[$k] = $menu_item_db_id;
 				
+				// @todo sanitize type append and ID.
 				update_post_meta( $menu_item_db_id, 'menu_item_type', $menu_item_type );
 				update_post_meta( $menu_item_db_id, 'menu_item_append', $menu_item_append );
 				update_post_meta( $menu_item_db_id, 'menu_item_object_id', $menu_item_object_id );
-				update_post_meta( $menu_item_db_id, 'menu_item_target', esc_attr($menu_item_target) );
-				update_post_meta( $menu_item_db_id, 'menu_item_classes', esc_attr($menu_item_classes) );
-				update_post_meta( $menu_item_db_id, 'menu_item_xfn', esc_attr($menu_item_xfn) );
+				update_post_meta( $menu_item_db_id, 'menu_item_target', sanitize_key($menu_item_target) );
+				// @todo handle sanitizing multiple classes separated by whitespace.
+				update_post_meta( $menu_item_db_id, 'menu_item_classes', sanitize_html_class($menu_item_classes) );
+				update_post_meta( $menu_item_db_id, 'menu_item_xfn', sanitize_html_class($menu_item_xfn) );
 				
 				// @todo: only save custom link urls.
 				update_post_meta( $menu_item_db_id, 'menu_item_url', esc_url_raw( $menu_item_url ) );
@@ -288,8 +289,8 @@ require_once( 'admin-header.php' );
 		<label for="edit-menu-item-target">
 			<?php _e( 'Link Target' ); ?><br />
 			<select id="edit-menu-item-target" class="widefat" name="edit-menu-item-target" tabindex="4">
-				<option value="_self">Same window or tab</option>
-				<option value="_blank">New window or tab</option>
+				<option value="_self"><?php _e('Same window or tab'); ?></option>
+				<option value="_blank"><?php _e('New window or tab'); ?></option>
 			</select>
 		</label>
 	</p>
@@ -309,7 +310,7 @@ require_once( 'admin-header.php' );
 		<label for="edit-menu-item-description">
 			<?php _e( 'Description (optional)' ); ?><br />
 			<textarea id="edit-menu-item-description" class="widefat" rows="3" name="edit-menu-item-description" tabindex="7" /></textarea>
-			<span class="description">The description will be displayed in the menu if the current theme supports it.</span>
+			<span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
 		</label>
 	</p>
 	<p>

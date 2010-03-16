@@ -152,7 +152,7 @@ function wp_add_checked_items_to_menu( button ) {
 			var item_xfn = jQuery(this).parent().siblings('.menu-item-xfn').val();
 		} else {
 			var item_attr_title = '';
-			var item_target = '_none';
+			var item_target = '_self';
 			var item_classes = '';
 			var item_xfn = '';
 		};
