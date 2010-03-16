@@ -751,6 +751,31 @@ function sanitize_user( $username, $strict = false ) {
 }
 
 /**
+ * Sanitize a string key.
+ *
+ * Keys are used as internal identifiers. They should be lowercase ASCII.  Dashes and underscores are allowed.
+ *
+ * @since 3.0.0
+ * 
+ * @param string $key String key
+ * @return string Sanitized key
+ */
+function sanitize_key( $key ) {
+	$raw_key = $key;
+	$key = wp_strip_all_tags($key);
+	// Kill octets
+	$key = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $key);
+	$key = preg_replace('/&.+?;/', '', $key); // Kill entities
+
+	$key = preg_replace('|[^a-z0-9 _.\-@]|i', '', $key);
+
+	// Consolidate contiguous whitespace
+	$key = preg_replace('|\s+|', ' ', $key);
+
+	return apply_filters('sanitize_key', $key, $raw_key);
+}
+
+/**
  * Sanitizes title or use fallback title.
  *
  * Specifically, HTML and PHP tags are stripped. Further actions can be added
