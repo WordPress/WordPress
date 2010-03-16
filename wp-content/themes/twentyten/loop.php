@@ -1,7 +1,7 @@
 <?php if ( $wp_query->max_num_pages > 1 ) : ?>
 	<div id="nav-above" class="navigation">
-		<div class="nav-previous"><?php next_posts_link(__( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' )); ?></div>
-		<div class="nav-next"><?php previous_posts_link(__( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' )); ?></div>
+		<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
+		<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
 	</div><!-- #nav-above -->
 <?php endif; ?>
 
@@ -18,15 +18,15 @@
 <?php while ( have_posts() ) : the_post(); ?>
 	<?php if ( in_category( 'Gallery' ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
 			<div class="entry-meta">
 				<?php
-					printf(__( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten'),
+					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten' ),
 						get_permalink(),
 						esc_attr( get_the_time() ),
 						get_the_date(),
-						get_author_posts_url( get_the_author_meta('ID') ),
+						get_author_posts_url( get_the_author_meta( 'ID' ) ),
 						sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
 						get_the_author()
 					);
@@ -36,14 +36,14 @@
 			<div class="entry-content">
 				<div class="gallery-thumb">
 					<a class="size-thumbnail" href="<?php the_permalink(); ?>"><?php
-					$images = get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999) );
-					$total_images = count($images);
-					$image = array_shift($images);
+					$images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
+					$total_images = count( $images );
+					$image = array_shift( $images );
 					echo wp_get_attachment_image( $image->ID, 'thumbnail' );
 					?></a>
 				</div>
-				<p><em><?php printf( __('This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten'), 
-						'href="' . get_permalink() . '" title="' . sprintf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ) . '" rel="bookmark"', 
+				<p><em><?php printf( __( 'This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten' ), 
+						'href="' . get_permalink() . '" title="' . sprintf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) . '" rel="bookmark"', 
 						$total_images 
 					); ?></em></p>
 
@@ -55,7 +55,7 @@
 					$category_id = get_cat_ID( 'Gallery' );
 					$category_link = get_category_link( $category_id );
 				?>
-				<a href="<?php echo $category_link; ?>" title="<?php esc_attr_e('View posts in the Gallery category', 'twentyten'); ?>"><?php _e('More Galleries', 'twentyten'); ?></a>
+				<a href="<?php echo $category_link; ?>" title="<?php esc_attr_e( 'View posts in the Gallery category', 'twentyten' ); ?>"><?php _e( 'More Galleries', 'twentyten' ); ?></a>
 				<span class="meta-sep"> | </span>
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), "<span class=\"meta-sep\">|</span>\n\t\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t\n" ); ?>
@@ -77,11 +77,11 @@
 
 			<div class="entry-utility">
 				<?php
-					printf(__( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten'),
+					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten' ),
 						get_permalink(),
 						esc_attr( get_the_time() ),
 						get_the_date(),
-						get_author_posts_url( get_the_author_meta('ID') ),
+						get_author_posts_url( get_the_author_meta( 'ID' ) ),
 						sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
 						get_the_author()
 					);
@@ -95,15 +95,15 @@
 
 	<?php else : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__('Permalink to %s', 'twentyten'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
 			<div class="entry-meta">
 				<?php
-					printf(__( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten'),
+					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten' ),
 						get_permalink(),
 						esc_attr( get_the_time() ),
 						get_the_date(),
-						get_author_posts_url( get_the_author_meta('ID') ),
+						get_author_posts_url( get_the_author_meta( 'ID' ) ),
 						sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
 						get_the_author()
 					);
@@ -125,7 +125,7 @@
 				<span class="cat-links"><span class="entry-utility-prep entry-utility-prep-cat-links"><?php echo twentyten_cat_list(); ?></span></span>
 				<span class="meta-sep"> | </span>
 				<?php $tags_text = twentyten_tag_list(); ?>
-				<?php if ( !empty($tags_text) ) : ?>
+				<?php if ( ! empty( $tags_text ) ) : ?>
 				<span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links"><?php echo $tags_text; ?></span></span>
 				<span class="meta-sep"> | </span>
 				<?php endif; //$tags_text ?>
@@ -141,7 +141,7 @@
 
 <?php if (  $wp_query->max_num_pages > 1 ) : ?>
 				<div id="nav-below" class="navigation">
-					<div class="nav-previous"><?php next_posts_link(__( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' )); ?></div>
-					<div class="nav-next"><?php previous_posts_link(__( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' )); ?></div>
+					<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
+					<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
 				</div><!-- #nav-below -->
 <?php endif; ?>

@@ -8,8 +8,8 @@ if ( ! function_exists( 'twentyten_init' ) ) :
 function twentyten_init() {
 	// Your Changeable header business starts here
 	// No CSS, just IMG call
-	define( 'HEADER_TEXTCOLOR', '');
-	define( 'HEADER_IMAGE', '%s/images/headers/forestfloor.jpg'); // %s is theme dir uri
+	define( 'HEADER_TEXTCOLOR', '' );
+	define( 'HEADER_IMAGE', '%s/images/headers/forestfloor.jpg' ); // %s is theme dir uri
 	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyten_header_image_width',  940 ) );
 	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyten_header_image_height',	198 ) );
 	define( 'NO_HEADER_TEXT', true );
@@ -17,14 +17,48 @@ function twentyten_init() {
 	add_custom_image_header( '', 'twentyten_admin_header_style' );
 	// and thus ends the changeable header business
 
-	register_default_headers( array('berries' => array('url' => '%s/images/headers/berries.jpg', 'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg', 'description' => __('Berries')),
-									'cherryblossom' => array( 'url' => '%s/images/headers/cherryblossoms.jpg', 'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg', 'description' => __('Cherry Blossoms')),
-									'concave' => array('url' => '%s/images/headers/concave.jpg', 'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg', 'description' => __('Concave')),
-									'fern' => array('url' => '%s/images/headers/fern.jpg', 'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg', 'description' => __('Fern')),
-									'forestfloor' => array('url' => '%s/images/headers/forestfloor.jpg', 'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg', 'description' => __('Forest Floor')),
-									'inkwell' => array('url' => '%s/images/headers/inkwell.jpg', 'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg', 'description' => __('Ink Well')),
-									'path' => array('url' => '%s/images/headers/path.jpg', 'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg', 'description' => __('Path')),
-									'sunset' => array('url' => '%s/images/headers/sunset.jpg', 'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg', 'description' => __('Sunset')) ) );
+	register_default_headers( array (
+		'berries' => array (
+			'url' => '%s/images/headers/berries.jpg',
+			'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg',
+			'description' => __( 'Berries' )
+		),
+		'cherryblossom' => array (
+			'url' => '%s/images/headers/cherryblossoms.jpg',
+			'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg',
+			'description' => __( 'Cherry Blossoms' )
+		),
+		'concave' => array (
+			'url' => '%s/images/headers/concave.jpg',
+			'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg',
+			'description' => __( 'Concave' )
+		),
+		'fern' => array (
+			'url' => '%s/images/headers/fern.jpg',
+			'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg',
+			'description' => __( 'Fern' )
+		),
+		'forestfloor' => array (
+			'url' => '%s/images/headers/forestfloor.jpg',
+			'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg',
+			'description' => __( 'Forest Floor' )
+		),
+		'inkwell' => array (
+			'url' => '%s/images/headers/inkwell.jpg',
+			'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg',
+			'description' => __( 'Ink Well' )
+		),
+		'path' => array (
+			'url' => '%s/images/headers/path.jpg',
+			'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg',
+			'description' => __( 'Path' )
+		),
+		'sunset' => array (
+			'url' => '%s/images/headers/sunset.jpg',
+			'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg',
+			'description' => __( 'Sunset' )
+		)
+	) );
 
 	add_custom_background();
 
@@ -75,8 +109,8 @@ endif;
 // Get the page number
 if ( ! function_exists( 'twentyten_get_page_number' ) ) :
 function twentyten_get_page_number() {
-	if ( get_query_var('paged') )
-		return ' | ' . __( 'Page ' , 'twentyten') . get_query_var('paged');
+	if ( get_query_var( 'paged' ) )
+		return ' | ' . __( 'Page ' , 'twentyten' ) . get_query_var( 'paged' );
 }
 endif;
 
@@ -98,7 +132,7 @@ add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
 // Make a nice read more link on excerpts
 if ( ! function_exists( 'twentyten_excerpt_more' ) ) :
-function twentyten_excerpt_more($more) {
+function twentyten_excerpt_more( $more ) {
 	return '&nbsp;&hellip; <a href="'. get_permalink() . '">' . 'Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>' . '</a>';
 }
 endif;
@@ -121,7 +155,7 @@ function twentyten_comment( $comment, $args, $depth ) {
 			<br />
 		<?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php printf( __( '%1$s at %2$s' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ),'  ','' ); ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php printf( __( '%1$s at %2$s' ), get_comment_date(), get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ),'  ','' ); ?></div>
 
 		<div class="comment-body"><?php comment_text(); ?></div>
 
@@ -147,27 +181,27 @@ add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
 
 if ( ! function_exists( 'twentyten_cat_list' ) ) :
 function twentyten_cat_list() {
-	return twentyten_term_list('category', ', ', __('Posted in %s', 'twentyten'), __('Also posted in %s', 'twentyten') );
+	return twentyten_term_list( 'category', ', ', __( 'Posted in %s', 'twentyten' ), __( 'Also posted in %s', 'twentyten' ) );
 }
 endif;
 
 if ( ! function_exists( 'twentyten_tag_list' ) ) :
 function twentyten_tag_list() {
-	return twentyten_term_list('post_tag', ', ', __('Tagged %s', 'twentyten'), __('Also tagged %s', 'twentyten') );
+	return twentyten_term_list( 'post_tag', ', ', __( 'Tagged %s', 'twentyten' ), __( 'Also tagged %s', 'twentyten' ) );
 }
 endif;
 
 if ( ! function_exists( 'twentyten_term_list' ) ) :
-function twentyten_term_list($taxonomy, $glue = ', ', $text = '', $also_text = '') {
+function twentyten_term_list( $taxonomy, $glue = ', ', $text = '', $also_text = '' ) {
 	global $wp_query, $post;
 	$current_term = $wp_query->get_queried_object();
-	$terms = wp_get_object_terms($post->ID, $taxonomy);
+	$terms = wp_get_object_terms( $post->ID, $taxonomy );
 	// If we're viewing a Taxonomy page.. 
-	if ( isset($current_term->taxonomy) && $taxonomy == $current_term->taxonomy ) {
+	if ( isset( $current_term->taxonomy ) && $taxonomy == $current_term->taxonomy ) {
 		// Remove the term from display.
-		foreach ( (array)$terms as $key => $term ) {
+		foreach ( (array) $terms as $key => $term ) {
 			if ( $term->term_id == $current_term->term_id ) {
-				unset($terms[$key]);
+				unset( $terms[$key] );
 				break;
 			}
 		}
@@ -176,11 +210,11 @@ function twentyten_term_list($taxonomy, $glue = ', ', $text = '', $also_text = '
 	}
 	$tlist = array();
 	$rel = 'category' == $taxonomy ? 'rel="category"' : 'rel="tag"';
-	foreach ( (array)$terms as $term ) {
+	foreach ( (array) $terms as $term ) {
 		$tlist[] = '<a href="' . get_term_link( $term, $taxonomy ) . '" title="' . esc_attr( sprintf( __( 'View all posts in %s', 'twentyten' ), $term->name ) ) . '" ' . $rel . '>' . $term->name . '</a>';
 	}
-	if ( !empty($tlist) )
-		return sprintf($text, join($glue, $tlist));
+	if ( ! empty( $tlist ) )
+		return sprintf( $text, join( $glue, $tlist ) );
 	return '';
 }
 endif;

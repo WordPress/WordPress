@@ -13,26 +13,26 @@
 
 <?php if ( have_comments() ) : ?>
 			<h3 id="comments-title"><?php comments_number( 
-				sprintf(__('No Responses to %s', 'twentyten'), '<em>' . get_the_title() . '</em>'),
-				sprintf(__('One Response to %s', 'twentyten'), '<em>' . get_the_title() . '</em>'),
-				sprintf(__('%% Responses to %s', 'twentyten'), '<em>' . get_the_title() . '</em>')
+				sprintf( __( 'No Responses to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' ),
+				sprintf( __( 'One Response to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' ),
+				sprintf( __( '%% Responses to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' )
 			); ?> </h3>
 
 <?php if ( get_comment_pages_count() > 1 ) : // are there comments to navigate through ?>
 			<div class="navigation">
-				<div class="nav-previous"><?php previous_comments_link( __('&larr; Older Comments', 'twentyten') ); ?></div>
-				<div class="nav-next"><?php next_comments_link( __('Newer Comments &rarr;', 'twentyten') ); ?></div>
+				<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'twentyten' ) ); ?></div>
+				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'twentyten' ) ); ?></div>
 			</div>
 <?php endif; // check for comment navigation ?>
 
 			<ol class="commentlist">
-				<?php wp_list_comments( array('callback' => 'twentyten_comment') ); ?>
+				<?php wp_list_comments( array( 'callback' => 'twentyten_comment' ) ); ?>
 			</ol>
 
 <?php if ( get_comment_pages_count() > 1 ) : // are there comments to navigate through ?>
 			<div class="navigation">
-				<div class="nav-previous"><?php previous_comments_link( __('&larr; Older Comments', 'twentyten') ); ?></div>
-				<div class="nav-next"><?php next_comments_link( __('Newer Comments &rarr;', 'twentyten') ); ?></div>
+				<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'twentyten' ) ); ?></div>
+				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'twentyten' ) ); ?></div>
 			</div>
 <?php endif; // check for comment navigation ?>
 
@@ -42,7 +42,7 @@
 
 <?php else : // if comments are closed ?>
 
-		<p class="nocomments"><?php _e('Comments are closed.', 'twentyten'); ?></p>
+		<p class="nocomments"><?php _e( 'Comments are closed.', 'twentyten' ); ?></p>
 
 <?php endif; ?>
 <?php endif; ?>
