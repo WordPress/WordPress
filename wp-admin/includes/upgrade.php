@@ -110,7 +110,7 @@ function wp_install_defaults($user_id) {
 	/* translators: Default category slug */
 	$cat_slug = sanitize_title(_x('Uncategorized', 'Default category slug'));
 
-	if ( is_multisite() ) {
+	if ( global_terms_enabled() ) {
 		$cat_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
 		if ( $cat_id == null ) {
 			$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
@@ -130,7 +130,7 @@ function wp_install_defaults($user_id) {
 	/* translators: Default link category slug */
 	$cat_slug = sanitize_title(_x('Blogroll', 'Default link category slug'));
 
-	if ( is_multisite() ) {
+	if ( global_terms_enabled() ) {
 		$blogroll_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
 		if ( $blogroll_id == null ) {
 			$wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
@@ -1917,15 +1917,6 @@ CREATE TABLE $wpdb->sitemeta (
   KEY meta_key (meta_key),
   KEY site_id (site_id)
 ) $charset_collate;
-CREATE TABLE $wpdb->sitecategories (
-  cat_ID bigint(20) NOT NULL auto_increment,
-  cat_name varchar(55) NOT NULL default '',
-  category_nicename varchar(200) NOT NULL default '',
-  last_updated timestamp NOT NULL,
-  PRIMARY KEY  (cat_ID),
-  KEY category_nicename (category_nicename),
-  KEY last_updated (last_updated)
-) $charset_collate;
 CREATE TABLE $wpdb->signups (
   domain varchar(200) NOT NULL default '',
   path varchar(100) NOT NULL default '',
@@ -1939,6 +1930,31 @@ CREATE TABLE $wpdb->signups (
   meta longtext,
   KEY activation_key (activation_key),
   KEY domain (domain)
+) $charset_collate;
+";
+// now create tables
+	dbDelta( $ms_queries );
+}
+endif;
+
+/**
+ * Install global terms.
+ *
+ * @since 3.0
+ *
+ */
+if ( !function_exists( 'install_global_terms' ) ) :
+function install_global_terms() {
+	global $wpdb, $charset_collate;
+	$ms_queries = "
+CREATE TABLE $wpdb->sitecategories (
+  cat_ID bigint(20) NOT NULL auto_increment,
+  cat_name varchar(55) NOT NULL default '',
+  category_nicename varchar(200) NOT NULL default '',
+  last_updated timestamp NOT NULL,
+  PRIMARY KEY  (cat_ID),
+  KEY category_nicename (category_nicename),
+  KEY last_updated (last_updated)
 ) $charset_collate;
 ";
 // now create tables

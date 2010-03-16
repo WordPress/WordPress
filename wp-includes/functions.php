@@ -447,7 +447,7 @@ function wp_load_core_site_options( $site_id = null ) {
 	if ( empty($site_id) )
 		$site_id = $wpdb->siteid;
 
-	$core_options = array('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'dashboard_blog', 'can_compress_scripts');
+	$core_options = array('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'dashboard_blog', 'can_compress_scripts', 'global_terms_enabled' );
 
 	$core_options_in = "'" . implode("', '", $core_options) . "'";
 	$options = $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->sitemeta WHERE meta_key IN ($core_options_in) AND site_id = %d", $site_id) );
@@ -3688,6 +3688,22 @@ function is_main_site( $blog_id = '' ) {
 		$blog_id = $current_blog->blog_id;
 
 	return $blog_id == $current_site->blog_id;
+}
+
+/**
+ * are global terms enabled
+ *
+ *
+ * @since 3.0.0
+ * @package WordPress
+ *
+ * @return bool True if multisite and global terms enabled
+ */
+function global_terms_enabled() {
+	if ( is_multisite() && '1' == get_site_option( 'global_terms_enabled' ) )
+		return true;
+
+	return false;
 }
 
 /**

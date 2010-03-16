@@ -520,7 +520,7 @@ function format_code_lang( $code = '' ) {
 }
 
 function sync_category_tag_slugs( $term, $taxonomy ) {
-	if ( $taxonomy == 'category' || $taxonomy == 'post_tag' ) {
+	if ( global_terms_enabled() && ( $taxonomy == 'category' || $taxonomy == 'post_tag' ) ) {
 		if ( is_object( $term ) ) {
 			$term->slug = sanitize_title( $term->name );
 		} else {

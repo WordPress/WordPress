@@ -659,9 +659,6 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	}
 
 	if ( !is_multisite() ) {
-
-		$wpdb->query( "INSERT INTO $wpdb->sitecategories (cat_id, cat_name, category_nicename, last_updated) SELECT term_id, `name`, slug, NOW() FROM $wpdb->terms" );
-
 		$site_admins = array( $site_user->user_login );
 		$users = get_users_of_blog();
 		if ( $users ) {
@@ -708,11 +705,8 @@ Thanks!
 		'add_new_users' => '0',
 		'upload_space_check_disabled' => '0',
 		'subdomain_install' => intval( $subdomain_install ),
+		'global_terms_enabled' => global_terms_enabled() ? '1' : '0'
 	);
-	if ( is_multisite() )
-		$sitemeta[ 'global_terms_enabled' ] = get_site_option( 'global_terms_enabled', '0' );
-	else
-		$sitemeta[ 'global_terms_enabled' ] = '0';
 
 	$insert = '';
 	foreach ( $sitemeta as $meta_key => $meta_value ) {

@@ -1210,6 +1210,9 @@ function fix_import_form_size( $size ) {
 function global_terms( $term_id, $deprecated = '' ) {
 	global $wpdb;
 
+	if ( !global_terms_enabled() )
+		return $term_id;
+
 	$term_id = intval( $term_id );
 	$c = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->terms WHERE term_id = %d", $term_id ) );
 

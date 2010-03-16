@@ -37,7 +37,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 			<td><input name="name" id="name" type="text" value="<?php if ( isset( $tag->name ) ) echo esc_attr($tag->name); ?>" size="40" aria-required="true" />
 			<p class="description"><?php _e('The name is how it appears on your site.'); ?></p></td>
 		</tr>
-<?php if ( !is_multisite() ) { ?>
+<?php if ( !global_terms_enabled() ) { ?>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php echo _x('Slug', 'Taxonomy Slug'); ?></label></th>
 			<td><input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo esc_attr(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
