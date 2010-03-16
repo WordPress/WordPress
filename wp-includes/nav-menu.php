@@ -210,7 +210,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->append = _x( $object->singular_label, 'nav menu item type' );
 
 			$menu_item->title = $menu_item->post_title;
-			$menu_item->url = get_post_permalink( $menu_item->ID );
+			$menu_item->url = get_permalink( $menu_item->ID );
 			$menu_item->target = '_none';
 			
 			$menu_item->attr_title = '';

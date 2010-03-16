@@ -149,7 +149,7 @@ function wp_nav_menu_item_link_metabox() {
  * @param string $post_type The post type object.
  */
 function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
-	$args = array( 'post_type' => $post_type['args']->name, );
+	$args = array( 'post_type' => $post_type['args']->name, 'post_status' => 'publish' );
 	
 	if ( 'attachment' == $post_type['args']->name )
 		$args['post_status'] = 'any';
