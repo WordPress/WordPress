@@ -16,8 +16,11 @@ function wp_nav_menu_post_type_metaboxes() {
 	
 	if ( !$post_types )
 		return false;
-	
-	foreach ( $post_types as $post_type ) {		
+
+	$allowed_types = apply_filters('post_types_allowed_in_menus', array('page'));
+	foreach ( $post_types as $post_type ) {
+		if ( !in_array($post_type->name, $allowed_types) )
+			continue;
 		$id = sanitize_title_with_dashes( $post_type->label );
 		
 		// delete_transient( "nav_menu_items_{$post_type->name}" );
@@ -37,9 +40,13 @@ function wp_nav_menu_taxonomy_metaboxes() {
 	
 	if ( !$taxonomies )
 		return false;
-	
+
+	$allowed_types = apply_filters('taxonomies_allowed_in_menus', array('category'));
 	foreach ( $taxonomies as $tax ) {
+		if ( !in_array($tax->name, $allowed_types) )
+			continue;
 		$id = sanitize_title_with_dashes( $tax->label );
+
 		
 		// delete_transient( "nav_menu_items_{$tax->name}" );
 		// delete_transient( "nav_menu_sub_items_{$tax->name}" );
