@@ -171,7 +171,8 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->object_id = get_post_meta( $menu_item->ID, 'menu_item_object_id', true );
 			$menu_item->parent_id = (int) $menu_item->post_parent;
 			$menu_item->type = get_post_meta( $menu_item->ID, 'menu_item_type', true );
-			$menu_item->append = _x( get_post_meta( $menu_item->ID, 'menu_item_append', true ), 'nav menu item type' );
+
+			$menu_item->append = get_post_meta( $menu_item->ID, 'menu_item_append', true );
 			
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_post_meta( $menu_item->ID, 'menu_item_url', true );
@@ -190,7 +191,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->object_id = (int) $menu_item->ID;
 			$menu_item->parent_id = (int) $menu_item->post_parent;
 			$menu_item->type = 'custom'; //$menu_item_type
-			$menu_item->append = _x( 'Custom', 'nav menu item type' );
+			$menu_item->append = 'custom';
 			
 			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
 			$menu_item->description = strip_tags( $menu_item->post_content );
@@ -207,7 +208,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->type = $menu_item_type;
 			
 			$object = get_post_type_object( $menu_item_object );
-			$menu_item->append = _x( $object->singular_label, 'nav menu item type' );
+			$menu_item->append = $object->name;
 
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_permalink( $menu_item->ID );
@@ -225,7 +226,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->type = $menu_item_type;
 			
 			$object = get_taxonomy( $menu_item_object );
-			$menu_item->append = _x( $object->singular_label, 'nav menu item type' );
+			$menu_item->append = $object->name;
 
 			$menu_item->title = $menu_item->name;
 			$menu_item->url = get_term_link( $menu_item, $menu_item_object );
@@ -234,7 +235,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->description = strip_tags( $menu_item->description );
 			break;
 	}
-	
+
 	$menu_item->classes = get_post_meta( $menu_item->ID, 'menu_item_classes', true );
 	$menu_item->xfn = get_post_meta( $menu_item->ID, 'menu_item_xfn', true );
 	

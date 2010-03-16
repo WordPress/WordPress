@@ -116,7 +116,7 @@ function wp_get_nav_menu( $args = array() ) {
 		// Setup the $menu_item variables
 		$menu_item = wp_setup_nav_menu_item( $menu_item, 'frontend' );
 
-		$type = sanitize_title_with_dashes( $menu_item->append );
+		$type = $menu_item->append;
 		$maybe_value = 'frontend' == $args->context ? '' : ' value="'. $menu_item->ID .'"';
 		$classes = 'frontend' == $args->context ? ' class="menu-item-type-'. $type . $menu_item->li_class .'"' : '';
 		

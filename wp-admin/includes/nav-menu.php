@@ -21,8 +21,8 @@ function wp_nav_menu_post_type_metaboxes() {
 	foreach ( $post_types as $post_type ) {
 		if ( !in_array($post_type->name, $allowed_types) )
 			continue;
-		$id = sanitize_title_with_dashes( $post_type->label );
-		
+		$id = $post_type->name;
+
 		// delete_transient( "nav_menu_items_{$post_type->name}" );
 		// delete_transient( "nav_menu_sub_items_{$post_type->name}" );
 		
@@ -37,7 +37,7 @@ function wp_nav_menu_post_type_metaboxes() {
  */
 function wp_nav_menu_taxonomy_metaboxes() {
 	$taxonomies = get_taxonomies( array( 'show_ui' => true ), 'object' );
-	
+
 	if ( !$taxonomies )
 		return false;
 
@@ -45,12 +45,11 @@ function wp_nav_menu_taxonomy_metaboxes() {
 	foreach ( $taxonomies as $tax ) {
 		if ( !in_array($tax->name, $allowed_types) )
 			continue;
-		$id = sanitize_title_with_dashes( $tax->label );
+		$id = $tax->name;
 
-		
 		// delete_transient( "nav_menu_items_{$tax->name}" );
 		// delete_transient( "nav_menu_sub_items_{$tax->name}" );
-		
+
 		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $tax->singular_label ), 'wp_nav_menu_item_taxonomy_metabox', 'menus', 'side', 'default', $tax );
 	}
 }
@@ -182,7 +181,7 @@ function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 		}
 	}
 	
-	$id = sanitize_title_with_dashes( $post_type['args']->label );
+	$id = $post_type['args']->name;
 	?>
 	<p class="quick-search-wrap">
 		<input type="text" class="quick-search regular-text" value="" />
@@ -197,14 +196,14 @@ function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 	<div id="existing-<?php echo esc_attr( $id ); ?>" class="list-wrap">
 		<div class="list-container">
 			<ul class="list">
-				<?php echo isset( $error ) ? $error : wp_nav_menu_get_items( $query->posts, 'post_type', $post_type['args']->name ); ?>
+				<?php echo isset( $error ) ? $error : wp_nav_menu_get_items( $query->posts, 'post_type', $id ); ?>
 			</ul>
 		</div><!-- /.list-container-->
 	</div><!-- /#existing-categories-->
 	<p class="add-to-menu">
 		<a class="button-secondary"><?php _e('Add to Menu'); ?></a>
 	</p>
-	<input type="hidden" class="autocomplete" name="autocomplete-<?php echo esc_attr( $post_type['args']->name ); ?>-names" value="<?php echo esc_js( $pt_names ); ?>" />
+	<input type="hidden" class="autocomplete" name="autocomplete-<?php echo esc_attr( $id ); ?>-names" value="<?php echo esc_js( $pt_names ); ?>" />
 	<br class="clear" />
 	<script type="text/javascript" charset="utf-8">
 		// <![CDATA[
@@ -252,7 +251,7 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 		}
 	}
 	
-	$id = sanitize_title_with_dashes( $taxonomy['args']->label );
+	$id = $taxonomy['args']->name;
 	?>
 	<p class="quick-search-wrap">
 		<input type="text" class="quick-search regular-text" value="" />
@@ -267,14 +266,14 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 	<div id="existing-<?php echo esc_attr( $id ); ?>" class="list-wrap">
 		<div class="list-container">
 			<ul class="list">
-				<?php echo isset( $error ) ? $error : wp_nav_menu_get_items( $terms, 'taxonomy', $taxonomy['args']->name ); ?>
+				<?php echo isset( $error ) ? $error : wp_nav_menu_get_items( $terms, 'taxonomy', $id ); ?>
 			</ul>
 		</div><!-- /.list-container-->
 	</div><!-- /#existing-categories-->
 	<p class="add-to-menu">
 		<a class="button-secondary"><?php _e('Add to Menu'); ?></a>
 	</p>
-	<input type="hidden" class="autocomplete" name="autocomplete-<?php echo esc_attr($taxonomy['args']->name); ?>-names" value="<?php echo esc_js( $term_names ); ?>" />
+	<input type="hidden" class="autocomplete" name="autocomplete-<?php echo esc_attr($id); ?>-names" value="<?php echo esc_js( $term_names ); ?>" />
 	<br class="clear" />
 	<script type="text/javascript" charset="utf-8">
 		// <![CDATA[
