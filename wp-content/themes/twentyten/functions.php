@@ -21,42 +21,42 @@ function twentyten_init() {
 		'berries' => array (
 			'url' => '%s/images/headers/berries.jpg',
 			'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg',
-			'description' => __( 'Berries' )
+			'description' => __( 'Berries', 'twentyten' )
 		),
 		'cherryblossom' => array (
 			'url' => '%s/images/headers/cherryblossoms.jpg',
 			'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg',
-			'description' => __( 'Cherry Blossoms' )
+			'description' => __( 'Cherry Blossoms', 'twentyten' )
 		),
 		'concave' => array (
 			'url' => '%s/images/headers/concave.jpg',
 			'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg',
-			'description' => __( 'Concave' )
+			'description' => __( 'Concave', 'twentyten' )
 		),
 		'fern' => array (
 			'url' => '%s/images/headers/fern.jpg',
 			'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg',
-			'description' => __( 'Fern' )
+			'description' => __( 'Fern', 'twentyten' )
 		),
 		'forestfloor' => array (
 			'url' => '%s/images/headers/forestfloor.jpg',
 			'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg',
-			'description' => __( 'Forest Floor' )
+			'description' => __( 'Forest Floor', 'twentyten' )
 		),
 		'inkwell' => array (
 			'url' => '%s/images/headers/inkwell.jpg',
 			'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg',
-			'description' => __( 'Ink Well' )
+			'description' => __( 'Inkwell', 'twentyten' )
 		),
 		'path' => array (
 			'url' => '%s/images/headers/path.jpg',
 			'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg',
-			'description' => __( 'Path' )
+			'description' => __( 'Path', 'twentyten' )
 		),
 		'sunset' => array (
 			'url' => '%s/images/headers/sunset.jpg',
 			'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg',
-			'description' => __( 'Sunset' )
+			'description' => __( 'Sunset', 'twentyten' )
 		)
 	) );
 
@@ -133,7 +133,7 @@ add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 // Make a nice read more link on excerpts
 if ( ! function_exists( 'twentyten_excerpt_more' ) ) :
 function twentyten_excerpt_more( $more ) {
-	return '&nbsp;&hellip; <a href="'. get_permalink() . '">' . 'Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>' . '</a>';
+	return '&nbsp;&hellip; <a href="'. get_permalink() . '">' . __('Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>', 'twentyten') . '</a>';
 }
 endif;
 add_filter( 'excerpt_more', 'twentyten_excerpt_more' );
@@ -148,14 +148,14 @@ function twentyten_comment( $comment, $args, $depth ) {
 		<div id="comment-<?php comment_ID(); ?>">
 		<div class="comment-author vcard">
 			<?php echo get_avatar( $comment, 40 ); ?>
-			<?php printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>' ), get_comment_author_link() ); ?>
+			<?php printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>', 'twentyten' ), get_comment_author_link() ); ?>
 		</div>
 		<?php if ( $comment->comment_approved == '0' ) : ?>
 			<em><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
 			<br />
 		<?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php printf( __( '%1$s at %2$s' ), get_comment_date(), get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ),'  ','' ); ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ),'  ','' ); ?></div>
 
 		<div class="comment-body"><?php comment_text(); ?></div>
 
