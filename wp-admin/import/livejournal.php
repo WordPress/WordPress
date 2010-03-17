@@ -184,7 +184,7 @@ class LJ_API_Import {
 			<input type="hidden" name="step" value="<?php echo esc_attr( get_option( 'ljapi_step' ) ) ?>" />
 			<p><?php _e( 'It looks like you attempted to import your LiveJournal posts previously and got interrupted.' ) ?></p>
 			<p class="submit">
-				<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Continue previous import' ) ?>" />
+				<input type="submit" class="button" value="<?php esc_attr_e( 'Continue previous import' ) ?>" />
 			</p>
 			<p class="submitbox"><a href="<?php echo esc_url($_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . esc_attr( $_SERVER['REQUEST_URI'] )) ?>" class="deletion submitdelete"><?php _e( 'Cancel &amp; start a new import' ) ?></a></p>
 			<p>
@@ -223,7 +223,7 @@ class LJ_API_Import {
 			<p><?php _e( "<strong>WARNING:</strong> This can take a really long time if you have a lot of entries in your LiveJournal, or a lot of comments. Ideally, you should only start this process if you can leave your computer alone while it finishes the import." ) ?></p>
 
 			<p class="submit">
-				<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Connect to LiveJournal and Import' ) ?>" />
+				<input type="submit" class="button" value="<?php esc_attr_e( 'Connect to LiveJournal and Import' ) ?>" />
 			</p>
 
 			<p><?php _e( '<strong>NOTE:</strong> If the import process is interrupted for <em>any</em> reason, come back to this page and it will continue from where it stopped automatically.' ) ?></p>
@@ -762,6 +762,9 @@ class LJ_API_Import {
 	// Check form inputs and start importing posts
 	function step1() {
 		global $verified;
+
+		do_action( 'import_start' );
+
 		set_time_limit( 0 );
 		update_option( 'ljapi_step', 1 );
 		if ( !$this->ixr ) $this->ixr = new IXR_Client( $this->ixr_url, false, 80, 30 );
@@ -821,7 +824,7 @@ class LJ_API_Import {
 			<form action="admin.php?import=livejournal" method="post" id="ljapi-auto-repost">
 			<?php wp_nonce_field( 'lj-api-import' ) ?>
 			<input type="hidden" name="step" id="step" value="1" />
-			<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Import the next batch' ) ?>" /> <span id="auto-message"></span></p>
+			<p><input type="submit" class="button" value="<?php esc_attr_e( 'Import the next batch' ) ?>" /> <span id="auto-message"></span></p>
 			</form>
 			<?php $this->auto_ajax( 'ljapi-auto-repost', 'auto-message', 0 ); ?>
 		<?php
@@ -835,6 +838,8 @@ class LJ_API_Import {
 
 	// Download comments to local XML
 	function step2() {
+		do_action( 'import_start' );
+
 		set_time_limit( 0 );
 		update_option( 'ljapi_step', 2 );
 		$this->username = get_option( 'ljapi_username' );
@@ -871,7 +876,7 @@ class LJ_API_Import {
 			<p><strong><?php printf( __( 'Imported comment batch %d of <strong>approximately</strong> %d' ), get_option( 'ljapi_comment_batch' ), $batch ) ?></strong></p>
 			<?php wp_nonce_field( 'lj-api-import' ) ?>
 			<input type="hidden" name="step" id="step" value="2" />
-			<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Import the next batch' ) ?>" /> <span id="auto-message"></span></p>
+			<p><input type="submit" class="button" value="<?php esc_attr_e( 'Import the next batch' ) ?>" /> <span id="auto-message"></span></p>
 			</form>
 			<?php $this->auto_ajax( 'ljapi-auto-repost', 'auto-message', 0 ); ?>
 		<?php
@@ -886,6 +891,9 @@ class LJ_API_Import {
 	// Re-thread comments already in the DB
 	function step3() {
 		global $wpdb;
+
+		do_action( 'import_start' );
+
 		set_time_limit( 0 );
 		update_option( 'ljapi_step', 3 );
 
@@ -947,7 +955,7 @@ class LJ_API_Import {
 		$str .= wp_nonce_field( 'lj-api-import', '_wpnonce', true, false );
 		$str .= wp_referer_field( false );
 		$str .= '<input type="hidden" name="step" id="step" value="' . esc_attr($next_step) . '" />';
-		$str .= '<p><input type="submit" class="button-primary" value="' . esc_attr( $label ) . '" /> <span id="auto-message"></span></p>';
+		$str .= '<p><input type="submit" class="button" value="' . esc_attr( $label ) . '" /> <span id="auto-message"></span></p>';
 		$str .= '</form>';
 
 		return $str;
@@ -1000,6 +1008,7 @@ class LJ_API_Import {
 						str = '<?php _e( "Processing next batch." ) ?> <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="processing" align="top" />';
 						jQuery( '#<?php echo $msg ?>' ).html( str );
 						jQuery('#ljapi-status').load(ajaxurl, {'action':'lj-importer',
+																'import':'livejournal',
 																'step':jQuery('#step').val(),
 																'_wpnonce':'<?php echo wp_create_nonce( 'lj-api-import' ) ?>',
 																'_wp_http_referer':'<?php echo $_SERVER['REQUEST_URI'] ?>'});
@@ -1042,6 +1051,8 @@ class LJ_API_Import {
 		$wpdb->update( $wpdb->comments,
 						array( 'comment_karma' => 0, 'comment_agent' => 'WP LJ Importer', 'comment_type' => '' ),
 						array( 'comment_type' => 'livejournal' ) );
+
+		do_action( 'import_end' );
 	}
 
 	function LJ_API_Import() {
