@@ -168,7 +168,7 @@ class WP_Import {
 
 		// this will populate $this->author_ids with a list of author_names => user_ids
 
-		foreach ( $_POST['author_in'] as $i => $in_author_name ) {
+		foreach ( (array) $_POST['author_in'] as $i => $in_author_name ) {
 
 			if ( !empty($_POST['user_select'][$i]) ) {
 				// an existing user was selected in the dropdown list
@@ -319,6 +319,7 @@ class WP_Import {
 
 			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name', 'category_description');
 
+			print "<em>" . __( "Importing category $cat_name" ) . "</em><br />\n";
 			$cat_ID = wp_insert_category($catarr);
 		}
 	}
@@ -340,6 +341,7 @@ class WP_Import {
 
 			$tagarr = compact('slug', 'description');
 
+			print "<em>" . __( "Importing tag $tag_name" ) . "</em><br />\n";
 			$tag_ID = wp_insert_term($tag_name, 'post_tag', $tagarr);
 		}
 	}
@@ -377,6 +379,7 @@ class WP_Import {
 
 			$termarr = compact('slug', 'description');
 
+			print "<em>" . __( "Importing $term_name" ) . "</em><br />\n";
 			$term_ID = wp_insert_term($term_name, $this->get_tag( $c, 'wp:term_taxonomy' ), $termarr);
 		}
 	}
@@ -494,7 +497,7 @@ class WP_Import {
 					return $post_id;
 			}
 			else {
-				printf(__('Importing post <em>%s</em>...'), stripslashes($post_title));
+				printf(__('Importing post <em>%s</em>...') . "\n", stripslashes($post_title));
 				$comment_post_ID = $post_id = wp_insert_post($postdata);
 				if ( $post_id && $is_sticky == 1 )
 					stick_post( $post_id );
@@ -636,6 +639,12 @@ class WP_Import {
 				print '('.size_format(filesize($upload['file'])).')';
 			}
 
+			if ( 0 == filesize( $upload['file'] ) ) {
+				print __( "Zero length file, deleting" ) . "\n";
+				unlink( $upload['file'] );
+				return;
+			}
+
 			if ( $info = wp_check_filetype($upload['file']) ) {
 				$postdata['post_mime_type'] = $info['type'];
 			}
@@ -665,7 +674,9 @@ class WP_Import {
 		}
 	}
 
-	function fetch_remote_file($post, $url) {
+	function fetch_remote_file( $post, $url ) { 
+		add_filter( 'http_request_timeout', array( &$this, 'bump_request_timeout' ) );
+
 		$upload = wp_upload_dir($post['post_date']);
 
 		// extract the file name and extension from the url
@@ -705,12 +716,23 @@ class WP_Import {
 
 		// keep track of the old and new urls so we can substitute them later
 		$this->url_remap[$url] = $upload['url'];
+		$this->url_remap[$post['guid']] = $upload['url'];
 		// if the remote url is redirected somewhere else, keep track of the destination too
 		if ( $headers['x-final-location'] != $url )
 			$this->url_remap[$headers['x-final-location']] = $upload['url'];
 
 		return $upload;
 
+	}
+
+	/**
+	 * Bump up the request timeout for http requests
+	 *
+	 * @param int $val
+	 * @return int
+	 */
+	public function bump_request_timeout( $val ) {
+		return 60;
 	}
 
 	// sort by strlen, longest string first
