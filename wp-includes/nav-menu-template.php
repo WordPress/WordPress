@@ -192,7 +192,18 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 			$output .= '<dl><dt>';
 			$output .= '<span class="item-title">'. esc_html($menu_item->title) .'</span>';
 			$output .= '<span class="item-controls">';
-			$output .= '<span class="item-type">'. esc_html($menu_item->append) .'</span>';
+			if ( 'custom' == $menu_item->type ) {
+				$label = __('Custom');
+			} elseif ( 'post_type' == $menu_item->type ) {
+				$type_obj = get_post_type_object($menu_item->append);
+				$label = $type_obj->singular_label;
+			} elseif ( 'taxonomy' == $menu_item->type ) {
+				$taxonomy = get_taxonomy($menu_item->append);
+				$label = $taxonomy->singular_label;
+			} else {
+				$label = $menu_item->append;
+			}
+			$output .= '<span class="item-type">'. esc_html($label) .'</span>';
 			
 			// Actions
 			$output .= '<a class="item-edit thickbox" id="edit'. esc_attr( $menu_item->menu_order ) .'" value="'. esc_attr( $menu_item->menu_order ) .'" title="'. __('Edit Menu Item') .'" href="#TB_inline?height=540&width=300&inlineId=menu-item-settings">'. __('Edit') .'</a> | ';
