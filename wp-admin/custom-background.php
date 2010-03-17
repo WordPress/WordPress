@@ -47,7 +47,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Setup the hooks for the Custom Background admin page.
+	 * Set up the hooks for the Custom Background admin page.
 	 *
 	 * @since unknown
 	 */
@@ -84,7 +84,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Setup the enqueue for the JavaScript files.
+	 * Set up the enqueue for the JavaScript files.
 	 *
 	 * @since unknown
 	 */
@@ -96,7 +96,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Setup the enqueue for the CSS files
+	 * Set up the enqueue for the CSS files
 	 *
 	 * @since unknown
 	 */

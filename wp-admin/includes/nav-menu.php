@@ -313,7 +313,7 @@ function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $cont
 			$menu_item->post_parent = 0;
 		
 		if ( 0 == $menu_item->post_parent ) {
-			// Setup the menu item
+			// Set up the menu item
 			$menu_item = wp_setup_nav_menu_item( $menu_item, $object_type, $object );			
 			$attributes = ( 'backend' == $context ) ? ' id="menu-item-'. $i .'" value="'. $i .'"' : '';
 			
@@ -371,7 +371,7 @@ function wp_get_nav_menu_sub_items( $childof, $object_type, $object = null, $con
 	if ( !empty($sub_menu_items) && !is_wp_error($sub_menu_items) ) {
 		$output .= '<ul class="sub-menu menu-item-type-'. $object_type .'">';
 		foreach ( $sub_menu_items as $menu_item ) {
-			// Setup the menu item
+			// Set up the menu item
 			$menu_item = wp_setup_nav_menu_item( $menu_item, $object_type, $object );
 			$attributes = ( 'backend' == $context ) ? ' id="menu-item-'. $i .'" value="'. $i .'"' : '';
 

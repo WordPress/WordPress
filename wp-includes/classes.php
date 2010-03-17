@@ -409,7 +409,7 @@ class WP {
 	}
 
 	/**
-	 * Setup the WordPress Globals.
+	 * Set up the WordPress Globals.
 	 *
 	 * The query_vars property will be extracted to the GLOBALS. So care should
 	 * be taken when naming global variables that might interfere with the
@@ -440,7 +440,7 @@ class WP {
 	}
 
 	/**
-	 * Setup the current user.
+	 * Set up the current user.
 	 *
 	 * @since 2.0.0
 	 */
@@ -449,7 +449,7 @@ class WP {
 	}
 
 	/**
-	 * Setup the Loop based on the query variables.
+	 * Set up the Loop based on the query variables.
 	 *
 	 * @uses WP::$query_vars
 	 * @since 2.0.0

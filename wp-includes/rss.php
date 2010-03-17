@@ -67,7 +67,7 @@ class MagpieRSS {
 		$this->parser = $parser;
 
 		# pass in parser, and a reference to this object
-		# setup handlers
+		# set up handlers
 		#
 		xml_set_object( $this->parser, $this );
 		xml_set_element_handler($this->parser,
@@ -461,7 +461,7 @@ function fetch_rss ($url) {
 
 		// else attempt a conditional get
 
-		// setup headers
+		// set up headers
 		if ( $cache_status == 'STALE' ) {
 			$rss = $cache->get( $url );
 			if ( isset($rss->etag) and $rss->last_modified ) {
@@ -611,7 +611,7 @@ function _response_to_rss ($resp) {
 }
 
 /**
- * Setup constants with default values, unless user overrides.
+ * Set up constants with default values, unless user overrides.
  *
  * @since unknown
  * @package External

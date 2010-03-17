@@ -50,12 +50,12 @@ class WP_Http {
 	}
 
 	/**
-	 * PHP5 style Constructor - Setup available transport if not available.
+	 * PHP5 style Constructor - Set up available transport if not available.
 	 *
 	 * PHP4 does not have the 'self' keyword and since WordPress supports PHP4,
 	 * the class needs to be used for the static call.
 	 *
-	 * The transport are setup to save time. This should only be called once, so
+	 * The transport are set up to save time. This should only be called once, so
 	 * the overhead should be fine.
 	 *
 	 * @since 2.7.0
@@ -650,7 +650,7 @@ class WP_Http_Fsockopen {
 		}
 
 		//fsockopen has issues with 'localhost' with IPv6 with certain versions of PHP, It attempts to connect to ::1,
-		// which fails when the server is not setup for it. For compatibility, always connect to the IPv4 address.
+		// which fails when the server is not set up for it. For compatibility, always connect to the IPv4 address.
 		if ( 'localhost' == strtolower($fsockopen_host) )
 			$fsockopen_host = '127.0.0.1';
 

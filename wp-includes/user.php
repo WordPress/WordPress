@@ -476,7 +476,7 @@ function count_users($strategy = 'time') {
 //
 
 /**
- * Setup global user vars.
+ * Set up global user vars.
  *
  * Used by set_current_user() for back compat. Might be deprecated in the
  * future.
@@ -491,7 +491,7 @@ function count_users($strategy = 'time') {
  * @global string $user_pass_md5 MD5 of the user's password
  * @global string $user_identity The display name of the user
  *
- * @param int $for_user_id Optional. User ID to setup global data.
+ * @param int $for_user_id Optional. User ID to set up global data.
  */
 function setup_userdata($for_user_id = '') {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;

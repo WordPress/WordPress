@@ -37,7 +37,7 @@ require( ABSPATH . WPINC . '/class.wp-styles.php' );
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
 /**
- * Setup WordPress scripts to load by default for Administration Panels.
+ * Set up WordPress scripts to load by default for Administration Panels.
  *
  * Localizes a few of the scripts.
  * $scripts->add_data( 'script-handle', 'group', 1 ); queues the script for the footer

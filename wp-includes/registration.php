@@ -314,7 +314,7 @@ function wp_create_user($username, $password, $email = '') {
 
 
 /**
- * Setup the default contact methods
+ * Set up the default contact methods
  *
  * @access private
  * @since

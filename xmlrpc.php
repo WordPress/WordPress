@@ -369,7 +369,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Setup blog options property.
+	 * Set up blog options property.
 	 *
 	 * Passes property through 'xmlrpc_blog_options' filter.
 	 *

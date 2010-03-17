@@ -49,7 +49,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Setup the hooks for the Custom Header admin page.
+	 * Set up the hooks for the Custom Header admin page.
 	 *
 	 * @since unknown
 	 */
@@ -85,7 +85,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Setup the enqueue for the JavaScript files.
+	 * Set up the enqueue for the JavaScript files.
 	 *
 	 * @since unknown
 	 */
@@ -99,7 +99,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Setup the enqueue for the CSS files
+	 * Set up the enqueue for the CSS files
 	 *
 	 * @since 2.7
 	 */

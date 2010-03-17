@@ -85,7 +85,7 @@ class WP_Roles {
 	}
 
 	/**
-	 * Setup the object properties.
+	 * Set up the object properties.
 	 *
 	 * The role key is set to the current prefix for the $wpdb object with
 	 * 'user_roles' appended. If the $wp_user_roles global is set, then it will
@@ -269,7 +269,7 @@ class WP_Role {
 	var $capabilities;
 
 	/**
-	 * PHP4 Constructor - Setup object properties.
+	 * PHP4 Constructor - Set up object properties.
 	 *
 	 * The list of capabilities, must have the key as the name of the capability
 	 * and the value a boolean of whether it is granted to the role.
@@ -500,7 +500,7 @@ class WP_User {
 	}
 
 	/**
-	 * Setup capability object properties.
+	 * Set up capability object properties.
 	 *
 	 * Will set the value for the 'cap_key' property to current database table
 	 * prefix, followed by 'capabilities'. Will then check to see if the

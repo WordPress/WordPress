@@ -1,6 +1,6 @@
 <?php
 /**
- * Used to setup and fix common variables and include
+ * Used to set up and fix common variables and include
  * the WordPress procedural and class library.
  *
  * Allows for some configuration in wp-config.php (see default-constants.php)

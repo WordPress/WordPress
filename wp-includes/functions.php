@@ -1475,7 +1475,7 @@ function wp_remote_fopen( $uri ) {
 }
 
 /**
- * Setup the WordPress query.
+ * Set up the WordPress query.
  *
  * @since 2.0.0
  *

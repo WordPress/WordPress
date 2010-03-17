@@ -34,7 +34,7 @@ function wptexturize($text) {
 	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$stop = count($textarr);
 
-	// No need to setup these variables more than once
+	// No need to set up these variables more than once
 	if (!$static_setup) {
 		/* translators: opening curly quote */
 		$opening_quote = _x('&#8220;', 'opening curly quote');

@@ -113,7 +113,7 @@ function wp_get_nav_menu( $args = array() ) {
 	}
 	
 	foreach ( $menu_items as $key => $menu_item ) {
-		// Setup the $menu_item variables
+		// Set up the $menu_item variables
 		$menu_item = wp_setup_nav_menu_item( $menu_item, 'frontend' );
 
 		$type = $menu_item->append;

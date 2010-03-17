@@ -45,7 +45,7 @@ function set_query_var($var, $value) {
 }
 
 /**
- * Setup The Loop with query parameters.
+ * Set up The Loop with query parameters.
  *
  * This will override the current WordPress Loop and shouldn't be used more than
  * once. This must not be used within the WordPress Loop.
@@ -63,11 +63,11 @@ function &query_posts($query) {
 }
 
 /**
- * Destroy the previous query and setup a new query.
+ * Destroy the previous query and set up a new query.
  *
  * This should be used after {@link query_posts()} and before another {@link
  * query_posts()}. This will remove obscure bugs that occur when the previous
- * wp_query object is not destroyed properly before another is setup.
+ * wp_query object is not destroyed properly before another is set up.
  *
  * @since 2.3.0
  * @uses $wp_query
@@ -2466,7 +2466,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Setup the next post and iterate current post index.
+	 * Set up the next post and iterate current post index.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -2760,7 +2760,7 @@ function wp_old_slug_redirect () {
 }
 
 /**
- * Setup global post data.
+ * Set up global post data.
  *
  * @since 1.5.0
  *
