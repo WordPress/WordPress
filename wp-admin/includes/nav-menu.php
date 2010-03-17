@@ -98,7 +98,7 @@ function wp_nav_menu_create_metabox() { ?>
  * @since 3.0.0
  */
 function wp_nav_menu_item_link_metabox() {
-	$args = array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_value' => 'custom' );	
+	$args = array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_value' => 'custom', 'showposts' => -1 );
 	
 	// @todo transient caching of these results with proper invalidation on updating links
 	$query = new WP_Query( $args );
@@ -145,7 +145,7 @@ function wp_nav_menu_item_link_metabox() {
  * @param string $post_type The post type object.
  */
 function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
-	$args = array( 'post_type' => $post_type['args']->name, 'post_status' => 'publish' );
+	$args = array( 'post_type' => $post_type['args']->name, 'post_status' => 'publish', 'showposts' => -1 );
 	
 	if ( 'attachment' == $post_type['args']->name )
 		$args['post_status'] = 'any';
