@@ -86,8 +86,8 @@ function wp_nav_menu_manage_menu_metabox( $object, $menu ) { ?>
  */
 function wp_nav_menu_create_metabox() { ?>
 	<p>
-		<input type="text" name="create-menu-name" id="create-menu-name" class="regular-text" value=""  />
-		<input type="submit" name="create-menu" id="create-menu" class="button" value="<?php esc_attr_e('Create Menu'); ?>" />
+		<input type="text" name="create-menu-name" id="create-menu-name" class="regular-text" value="<?php esc_attr_e( 'Menu name' ); ?>"  />
+		<input type="submit" name="create-menu-button" id="create-menu-button" class="button" value="<?php esc_attr_e('Create Menu'); ?>" />
 	</p>
 	<?php
 }

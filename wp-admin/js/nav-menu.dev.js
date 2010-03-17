@@ -386,6 +386,39 @@ jQuery(document).ready(function($){
 		return wp_update_post_data();
 	});
 
+	// Handle some return keypresses
+	$('#create-menu-name').keypress(function(e){
+		if ( 13 == e.keyCode ) {
+			$('#create-menu-button').click();
+			return false;
+		}
+	});
+
+	$('#custom-menu-item-url, #custom-menu-item-name').keypress(function(e){
+		if ( 13 == e.keyCode ) {
+			$('#add-custom-links a.button').click();
+			return false;
+		}
+	}).focus(function(){
+		if ( $(this).val() == $(this).attr('defaultValue') && $(this).attr('id') != 'custom-menu-item-url' ) {
+			$(this).val('');
+		}
+	}).blur(function(){
+		if ( $(this).val() == '' ) {
+			$(this).val($(this).attr('defaultValue'));
+		}
+	});
+
+	$('#create-menu-name').focus(function(){
+		if ( $(this).val() == $(this).attr('defaultValue') ) {
+			$(this).val('');
+		}
+	}).blur(function(){
+		if ( $(this).val() == '' ) {
+			$(this).val($(this).attr('defaultValue'));
+		}
+	});
+
 	// close postboxes that should be closed
 	$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
@@ -446,11 +479,12 @@ jQuery(document).ready(function($){
 
 	// Create a new link then add it to the menu
 	$('#add-custom-links .add-to-menu a').click(function(e){
-		var link_url = jQuery(e.currentTarget).parent().parent().find('#custom-menu-item-url').val();
-		var link_name = jQuery(e.currentTarget).parent().parent().find('#custom-menu-item-name').val();
-
 		// Add link to menu
-		wp_add_item_to_menu( 0, '', 'custom', navMenuL10n.custom, 0, link_name, link_url, '', '', '_self', '', '' );
+		if ( $('#custom-menu-item-url').val() == $('#custom-menu-item-url').attr('defaultValue') )
+			return; // Do not allow "http://" submissions to go through
+		wp_add_item_to_menu( 0, '', 'custom', navMenuL10n.custom, 0, $('#custom-menu-item-name').val(), $('#custom-menu-item-url').val(), '', '', '_self', '', '' );
+		$('#custom-menu-item-name').val($('#custom-menu-item-name').attr('defaultValue'));
+		$('#custom-menu-item-url' ).val($('#custom-menu-item-url' ).attr('defaultValue')).focus();
 	});
 });
 
