@@ -145,11 +145,11 @@ function edit_post( $post_data = null ) {
 
 	$post_ID = (int) $post_data['post_ID'];
 
-	if ( 'page' == $post_data['post_type'] ) {
-		if ( !current_user_can( 'edit_page', $post_ID ) )
+	$ptype = get_post_type_object($post_data['post_type']);
+	if ( !current_user_can( $ptype->edit_cap, $post_ID ) ) {
+		if ( 'page' == $post_data['post_type'] )
 			wp_die( __('You are not allowed to edit this page.' ));
-	} else {
-		if ( !current_user_can( 'edit_post', $post_ID ) )
+		else
 			wp_die( __('You are not allowed to edit this post.' ));
 	}
 
@@ -236,12 +236,16 @@ function bulk_edit_posts( $post_data = null ) {
 	if ( empty($post_data) )
 		$post_data = &$_POST;
 
-	if ( isset($post_data['post_type']) && 'page' == $post_data['post_type'] ) {
-		if ( ! current_user_can( 'edit_pages' ) )
-			wp_die( __('You are not allowed to edit pages.') );
-	} else {
-		if ( ! current_user_can( 'edit_posts' ) )
-			wp_die( __('You are not allowed to edit posts.') );
+	if ( isset($post_data['post_type']) )
+		$ptype = get_post_type_object($post_data['post_type']);
+	else
+		$ptype = get_post_type_object('post');
+
+	if ( !current_user_can( $ptype->edit_type_cap, $post_ID ) ) {
+		if ( 'page' == $ptype->name )
+			wp_die( __('You are not allowed to edit pages.'));
+		else
+			wp_die( __('You are not allowed to edit posts.'));
 	}
 
 	if ( -1 == $post_data['_status'] ) {
@@ -482,11 +486,16 @@ function post_exists($title, $content = '', $date = '') {
 function wp_write_post() {
 	global $user_ID;
 
-	if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
-		if ( !current_user_can( 'edit_pages' ) )
+
+	if ( isset($_POST['post_type']) )
+		$ptype = get_post_type_object($_POST['post_type']);
+	else
+		$ptype = get_post_type_object('post');
+
+	if ( !current_user_can( $ptype->edit_type_cap, $post_ID ) ) {
+		if ( 'page' == $ptype->name )
 			return new WP_Error( 'edit_pages', __( 'You are not allowed to create pages on this blog.' ) );
-	} else {
-		if ( !current_user_can( 'edit_posts' ) )
+		else
 			return new WP_Error( 'edit_posts', __( 'You are not allowed to create posts or drafts on this blog.' ) );
 	}
 
