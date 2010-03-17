@@ -23,9 +23,6 @@ function wp_nav_menu_post_type_metaboxes() {
 			continue;
 		$id = $post_type->name;
 
-		// delete_transient( "nav_menu_items_{$post_type->name}" );
-		// delete_transient( "nav_menu_sub_items_{$post_type->name}" );
-		
 		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $post_type->singular_label ), 'wp_nav_menu_item_post_type_metabox', 'menus', 'side', 'default', $post_type );
 	}
 }
@@ -46,9 +43,6 @@ function wp_nav_menu_taxonomy_metaboxes() {
 		if ( !in_array($tax->name, $allowed_types) )
 			continue;
 		$id = $tax->name;
-
-		// delete_transient( "nav_menu_items_{$tax->name}" );
-		// delete_transient( "nav_menu_sub_items_{$tax->name}" );
 
 		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $tax->singular_label ), 'wp_nav_menu_item_taxonomy_metabox', 'menus', 'side', 'default', $tax );
 	}
@@ -106,12 +100,8 @@ function wp_nav_menu_create_metabox() { ?>
 function wp_nav_menu_item_link_metabox() {
 	$args = array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_value' => 'custom' );	
 	
-	// Cache the query for a day. @todo: Make sure to flush transient when links are updated.
-	$query = get_transient( 'menu_item_query_custom_links' );
-	if ( false == $query ) {
-		$query = new WP_Query( $args );
-		set_transient( 'menu_item_query_custom_links', $query, 86400 );
-	}
+	// @todo transient caching of these results with proper invalidation on updating links
+	$query = new WP_Query( $args );
 	
 	?>
 	<p id="menu-item-url-wrap">
@@ -160,12 +150,8 @@ function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 	if ( 'attachment' == $post_type['args']->name )
 		$args['post_status'] = 'any';
 	
-	// Cache the query for a day. @todo: Make sure to flush transient when objects are updated.
-	$query = get_transient( "nav_menu_items_{$post_type['args']->name}" );
-	if ( false == $query ) {
-		$query = new WP_Query( $args );
-		set_transient( "nav_menu_items_{$post_type['args']->name}", $query, 86400 );
-	}
+	// @todo transient caching of these results with proper invalidation on updating of a post of this type
+	$query = new WP_Query( $args );
 	
 	if ( !$query->posts )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $post_type['args']->label ) .'</li>';
@@ -229,13 +215,9 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 		'hide_empty' => false, 'include_last_update_time' => false, 'hierarchical' => 1, 'exclude' => '',
 		'include' => '', 'number' => '', 'pad_counts' => false
 	);
-	
-	// Cache the query for a day. @todo: Make sure to flush transient when terms are updated.
-	$terms = get_transient( "nav_menu_items_{$taxonomy['args']->name}" );
-	if ( false == $terms ) {
-		$terms = get_terms( $taxonomy['args']->name, $args );
-		set_transient( "nav_menu_items_{$taxonomy['args']->name}", $terms, 86400 );
-	}
+
+	// @todo transient caching of these results with proper invalidation on updating of a tax of this type
+	$terms = get_terms( $taxonomy['args']->name, $args );
 	
 	if ( !$terms )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $taxonomy['args']->label ) .'</li>';
