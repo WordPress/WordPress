@@ -42,6 +42,7 @@ function create_initial_taxonomies() {
 														'query_var' => false,
 														'rewrite' => false,
 														'show_ui' => false,
+														'_builtin' => true,
 													) ) ;
 
 	register_taxonomy( 'link_category', 'link', array(	'hierarchical' => false,
