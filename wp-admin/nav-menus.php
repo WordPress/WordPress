@@ -27,9 +27,7 @@ wp_enqueue_script( 'jquery-ui-sortable' );
 wp_enqueue_script( 'jquery-autocomplete' );
 
 // Nav Menu functions
-wp_enqueue_script( 'nav-menu-dynamic-functions' );
-wp_enqueue_script( 'nav-menu-default-items' );
-wp_enqueue_script( 'nav-menu-php-functions' );
+wp_enqueue_script( 'nav-menu' );
 
 // Metaboxes
 wp_enqueue_script( 'common' );

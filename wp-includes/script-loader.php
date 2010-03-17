@@ -397,9 +397,8 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		// Custom Navigation
-		$scripts->add( 'nav-menu-default-items', "/wp-admin/js/nav-menu-default-items$suffix.js", false, '20100315' );
-		$scripts->add( 'nav-menu-dynamic-functions', "/wp-admin/js/nav-menu-dynamic-functions$suffix.js", false, '20100315' );
-		$scripts->localize( 'nav-menu-dynamic-functions', 'navMenuL10n', array(
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100315' );
+		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
 			'custom' => _x('Custom', 'menu nav item type'),
 			'page' => _x('Page', 'menu nav item type'),
 			'category' => _x('Category', 'menu nav item type'),
@@ -407,8 +406,6 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => _x('Edit', 'menu item edit text'),
 			'warnDelete' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
 		) );
-		
-		$scripts->add( 'nav-menu-php-functions', "/wp-admin/js/nav-menu-php-functions$suffix.js", false, '20100220' );
 	}
 }
 
