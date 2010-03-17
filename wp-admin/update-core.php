@@ -267,7 +267,7 @@ function list_theme_updates() {
 <?php
 	foreach ( (array) $themes as $stylesheet => $theme_data) {
 		$screenshot = $theme_data->{'Theme Root URI'} . '/' . $stylesheet . '/' . $theme_data->Screenshot;
-		
+
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($stylesheet) . "' /></th>

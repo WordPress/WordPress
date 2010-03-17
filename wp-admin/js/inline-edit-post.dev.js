@@ -158,7 +158,7 @@ inlineEditPost = {
 				$('textarea.tax_input_'+taxname, editRow).suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
 			}
 		});
-		
+
 
 		// handle the post status
 		status = $('._status', rowData).text();

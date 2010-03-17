@@ -49,7 +49,7 @@ require_once ('admin-header.php');
 
 $months = "";
 for ( $i = 1; $i < 13; $i++ ) {
-	$months .= "\t\t\t<option value=\"" . zeroise($i, 2) . '">' . 
+	$months .= "\t\t\t<option value=\"" . zeroise($i, 2) . '">' .
 		$wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) . "</option>\n";
 } ?>
 

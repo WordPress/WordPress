@@ -243,7 +243,7 @@ switch ( $action ) {
 						reset($blogusers);
 						foreach ( (array) $blogusers as $key => $val ) {
 							if ( isset( $val->meta_value ) && ! $val->meta_value )
-								continue; 
+								continue;
 							$t = @unserialize( $val->meta_value );
 							if ( is_array( $t ) ) {
 								reset( $t );
@@ -337,7 +337,7 @@ switch ( $action ) {
 		$per_page = apply_filters( 'ms_sites_per_page', $per_page );
 
 		$s = isset($_GET['s']) ? stripslashes( trim( $_GET[ 's' ] ) ) : '';
-		$like_s = esc_sql( like_escape( $s ) ); 
+		$like_s = esc_sql( like_escape( $s ) );
 
 		$query = "SELECT * FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' ";
 
@@ -419,7 +419,7 @@ switch ( $action ) {
 		$status_links = array();
 		$status_class = '';
 		$count = get_blog_count();
-		
+
 		if ( empty($_GET['blogstatus']) || $_GET['blogstatus'] == 'all' )
 				$status_class = ' class="current"';
 
@@ -474,12 +474,12 @@ switch ( $action ) {
 		<?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 		number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
 		number_format_i18n( min( $pagenum * $per_page, $num_pages ) ),
-		number_format_i18n( $num_pages ), 
+		number_format_i18n( $num_pages ),
 		$page_links
 		); echo $page_links_text; ?>
 		</div>
 		<?php } ?>
-		
+
 		<div class="view-switch">
 			<a href="<?php echo esc_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> id="view-switch-list" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e('List View') ?>" alt="<?php _e('List View') ?>" /></a>
 			<a href="<?php echo esc_url(add_query_arg('mode', 'excerpt', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> id="view-switch-excerpt" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e('Excerpt View') ?>" alt="<?php _e('Excerpt View') ?>" /></a>
@@ -487,7 +487,7 @@ switch ( $action ) {
 
 		</div>
 
-		<div class="clear"></div> 
+		<div class="clear"></div>
 
 		<?php
 		// define the columns to display, the syntax is 'internal name' => 'display name'
@@ -539,14 +539,14 @@ switch ( $action ) {
 					$order2 = '';
 					if ( $order_by == $column_id )
 						$order2 = ($order == 'DESC') ? 'ASC' : 'DESC';
-						
+
 					$column_link .= esc_url(add_query_arg( array('order' => $order2, 'paged' => $pagenum, 'sortby' => $column_id ), remove_query_arg( array('action', 'updated'), $_SERVER['REQUEST_URI'] ) ) );
 					$column_link .= "'>{$column_display_name}</a>";
 					$col_url = ($column_id == 'users' || $column_id == 'plugins') ? $column_display_name : $column_link;
 				?>
 				<th scope="col">
 					<?php echo $col_url ?>
-				</th> 
+				</th>
 				<?php } ?>
 				</tr>
 			</tfoot>
@@ -639,7 +639,7 @@ switch ( $action ) {
 									else
 										$date = 'Y/m/d \<\b\r \/\> g:i:s a';
 									echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __("Never") : mysql2date( __( $date ), $blog['last_updated'] ); ?>
-								</td> 
+								</td>
 							<?php
 							break;
 						case 'registered': ?>

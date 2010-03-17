@@ -235,7 +235,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 		$signup[ esc_html( $_POST[ 'signup_for' ] ) ] = 'checked="checked"';
 	else
 		$signup[ 'blog' ] = 'checked="checked"';
-		
+
 	//TODO - This doesn't seem to do anything do we really need it?
 	$signup['user'] = isset( $signup['user'] ) ? $signup['user'] : '';
 

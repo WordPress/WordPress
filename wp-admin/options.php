@@ -29,7 +29,7 @@ if ( empty($option_page) ) // This is for back compat and will eventually be rem
 
 if ( !current_user_can('manage_options') )
 	wp_die(__('Cheatin&#8217; uh?'));
-	
+
 if ( is_multisite() && !is_super_admin() && 'update' != $action )
 	wp_die(__('Cheatin&#8217; uh?'));
 

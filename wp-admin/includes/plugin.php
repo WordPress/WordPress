@@ -557,7 +557,7 @@ function deactivate_plugins( $plugins, $silent = false ) {
  *
  * @param string|array $plugins
  * @param string $redirect Redirect to page after successful activation.
- * @param bool $network_wide Whether to enable the plugin for all sites in the network. 
+ * @param bool $network_wide Whether to enable the plugin for all sites in the network.
  * @return bool|WP_Error True when finished or WP_Error if there were errors during a plugin activation.
  */
 function activate_plugins($plugins, $redirect = '', $network_wide) {

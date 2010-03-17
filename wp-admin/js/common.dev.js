@@ -289,13 +289,13 @@ jQuery(document).ready( function($) {
 			el.selectionStart = el.selectionEnd = selStart + 1;
 			this.scrollTop = scroll;
 		}
-		
+
 		if ( e.stopPropagation )
 			e.stopPropagation();
 		if ( e.preventDefault )
 			e.preventDefault();
 	});
-	
+
 	$('#newcontent').blur(function(e) {
 		if ( this.lastKey && 9 == this.lastKey )
 			this.focus();

@@ -168,7 +168,7 @@ function confirm_delete_users( $users ) {
 	global $current_user;
 	if ( !is_array( $users ) )
 		return false;
-        
+
     screen_icon('tools');
     ?>
 	<h2><?php esc_html_e('Users'); ?></h2>
@@ -183,13 +183,13 @@ function confirm_delete_users( $users ) {
 	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
 		if ( $val != '' && $val != '0' ) {
 			$delete_user = new WP_User( $val );
-            
+
 			if ( in_array( $delete_user->user_login, $site_admins ) )
 				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $delete_user->user_login ) );
-                
+
 			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
 			$blogs = get_blogs_of_user( $val, true );
-            
+
 			if ( !empty( $blogs ) ) {
 				echo '<p><strong>' . sprintf( __( 'Sites from %s:' ), $delete_user->user_login ) . '</strong></p>';
 				foreach ( (array) $blogs as $key => $details ) {

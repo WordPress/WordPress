@@ -316,7 +316,7 @@ function load_textdomain( $domain, $mofile ) {
 
 /**
  * Unloads translations for a domain
- * 
+ *
  * @since 3.0.0
  * @param string $domain Textdomain to be unloaded
  * @return bool Whether textdomain was unloaded

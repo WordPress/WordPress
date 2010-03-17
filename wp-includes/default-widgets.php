@@ -1029,7 +1029,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	function _get_current_taxonomy($instance) {
-		if ( !empty($instance['taxonomy']) && is_taxonomy($instance['taxonomy']) ) 
+		if ( !empty($instance['taxonomy']) && is_taxonomy($instance['taxonomy']) )
 			return $instance['taxonomy'];
 
 		return 'post_tag';
@@ -1047,21 +1047,21 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$widget_ops = array( 'description' => __('Use this widget to add one of your navigation menus as a widget.') );
 		parent::WP_Widget( 'nav_menu', __('Navigation Menu'), $widget_ops );
 	}
-	
+
 	function widget($args, $instance) {
 		// Get menu
 		$nav_menu = wp_get_nav_menu_object( $instance['nav_menu'] );
-		
+
 		if ( !$nav_menu )
-			return;		
-		
+			return;
+
 		echo $args['before_widget'];
-		
+
 		if ( isset($instance['title']) )
 			echo $args['before_title'] . $instance['title'] . $args['after_title'];
-		
+
 		wp_nav_menu( array( 'menu' => $nav_menu ) );
-		
+
 		echo $args['after_widget'];
 	}
 
@@ -1074,10 +1074,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	function form( $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
 		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
-		
+
 		// Get menus
 		$menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
-		
+
 		// If no menus exists, direct the user to go and create some.
 		if ( !$menus ) {
 			echo '<p>'. sprintf( __('No menus have been created yet. <a href="%s">Create some</a>.'), admin_url('nav-menus.php') ) .'</p>';

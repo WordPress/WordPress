@@ -862,15 +862,15 @@ function inline_edit_row( $screen ) {
 	$flat_taxonomies = array();
 	foreach ( $taxonomy_names as $taxonomy_name ) {
 		$taxonomy = get_taxonomy( $taxonomy_name);
-		
+
 		if( !$taxonomy->show_ui ) continue;
-		
+
 		if( $taxonomy->hierarchical )
 			$hierarchical_taxonomies[] = $taxonomy;
-		else 
+		else
 			$flat_taxonomies[] = $taxonomy;
 	}
-	
+
 	$columns = wp_manage_posts_columns($screen);
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($screen) ) );
 	$col_count = count($columns) - count($hidden);
@@ -965,7 +965,7 @@ function inline_edit_row( $screen ) {
 <?php if ( count($hierarchical_taxonomies) && !$bulk ) : ?>
 
 	<fieldset class="inline-edit-col-center inline-edit-categories"><div class="inline-edit-col">
-	
+
 <?php foreach ( $hierarchical_taxonomies as $taxonomy ) : ?>
 
 		<span class="title inline-edit-categories-label"><?php echo esc_html($taxonomy->label) ?>
@@ -2973,7 +2973,7 @@ function get_hidden_meta_boxes($screen) {
  * @global $wp_settings_sections Storage array of all settings sections added to admin pages
 
  * @param string $id Slug-name to identify the section. Used in the 'id' attribute of tags.
- * @param string $title Formatted title of the section. Shown as the heading for the section. 
+ * @param string $title Formatted title of the section. Shown as the heading for the section.
  * @param string $callback Function that echo's out content for the section heading.
  * @param string $page The slug-name of the settings page on which to show the section (general, reading, writing, ...).
  */
@@ -2999,7 +2999,7 @@ function add_settings_section($id, $title, $callback, $page) {
  *
  * The $callback argument should be the name of a function that echoes out the
  * html input tags for this setting field. Use get_option() to retrive existing
- * values to show. 
+ * values to show.
  *
  * @since 2.7.0
  *
@@ -3102,7 +3102,7 @@ function do_settings_fields($page, $section) {
  * page is first accessed.
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
- * 
+ *
  * @param string $setting Slug title of the setting to which this error applies
  * @param string $code Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
  * @param string $message The formatted message text to display to the user (will be shown inside styled <div> and <p>)
@@ -3129,7 +3129,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  * Checks the $wp_settings_errors array for any errors declared during the current
  * pageload and returns them.
  *
- * If changes were just submitted ($_GET['updated']) and settings errors were saved 
+ * If changes were just submitted ($_GET['updated']) and settings errors were saved
  * to the 'settings_errors' transient then those errors will be returned instead. This
  * is used to pass errors back across pageloads.
  *
@@ -3177,7 +3177,7 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
  * Display settings errors registered by add_settings_error()
  *
  * Part of the Settings API. Outputs a <div> for each error retrieved by get_settings_errors().
- * 
+ *
  * This is called automatically after a settings page based on the Settings API is submitted.
  * Errors should be added during the validation callback function for a setting defined in register_setting()
  *
@@ -3300,12 +3300,12 @@ function the_post_password() {
  */
 function favorite_actions( $screen = null ) {
 	global $post_type_object;
-	
+
 	$default_action = false;
-	
+
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
-		
+
 	if ( isset($post_type_object) ) {
 		switch ( $screen->id ) {
 			case $post_type_object->name:
@@ -3316,7 +3316,7 @@ function favorite_actions( $screen = null ) {
 				break;
 		}
 	}
-	
+
 	if ( !$default_action ) {
 		switch ( $screen->id ) {
 			case 'upload':

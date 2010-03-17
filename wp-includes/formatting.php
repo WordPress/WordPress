@@ -756,7 +756,7 @@ function sanitize_user( $username, $strict = false ) {
  * Keys are used as internal identifiers. They should be lowercase ASCII.  Dashes and underscores are allowed.
  *
  * @since 3.0.0
- * 
+ *
  * @param string $key String key
  * @return string Sanitized key
  */

@@ -305,7 +305,7 @@ switch ( $_GET['action'] ) {
 
 		if ( $id != '0' && $id != $current_site->blog_id )
 			wpmu_delete_blog( $id, true );
-	
+
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => 'delete'), $_POST[ 'ref' ] ) );
 		exit();
 	break;
@@ -342,8 +342,8 @@ switch ( $_GET['action'] ) {
 			} else {
 				wp_die( __('You are not allowed to change one of these sites.') );
 				exit();
-			}; 
-		}; 
+			};
+		};
 
 		wp_redirect( add_query_arg( array('updated' => 'true', 'action' => $blogfunction), $_SERVER['HTTP_REFERER'] ) );
 		exit();

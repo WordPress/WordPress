@@ -90,13 +90,13 @@ endif;
 $cats = get_taxonomy('category');
 $tags = get_taxonomy('post_tag');
 
-if ( current_user_can($cats->manage_cap) || current_user_can($tags->manage_cap) ) : ?> 
-<div class="tool-box"> 
+if ( current_user_can($cats->manage_cap) || current_user_can($tags->manage_cap) ) : ?>
+<div class="tool-box">
     <h3 class="title"><?php _e('Category&#47;Tag Conversion') ?></h3>
-    <p><?php printf(__('Use this to convert <a href="%s">categories to tags</a>, or <a href="%s">tags to categories</a>.'), 'admin.php?import=wp-cat2tag', 'admin.php?import=wp-cat2tag&amp;step=3'); ?></p> 
-</div> 
+    <p><?php printf(__('Use this to convert <a href="%s">categories to tags</a>, or <a href="%s">tags to categories</a>.'), 'admin.php?import=wp-cat2tag', 'admin.php?import=wp-cat2tag&amp;step=3'); ?></p>
+</div>
 <?php
-endif; 
+endif;
 
 do_action( 'tool_box' );
 ?>

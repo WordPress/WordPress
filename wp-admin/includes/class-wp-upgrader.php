@@ -1086,7 +1086,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	function error($error) {
 		if ( is_string($error) && isset( $this->upgrader->strings[$error] ) )
 			$this->error = $this->upgrader->strings[$error];
-		
+
 		if ( is_wp_error($error) && $error->get_error_code() ) {
 			foreach ( $error->get_error_messages() as $emessage ) {
 				if ( $error->get_error_data() )

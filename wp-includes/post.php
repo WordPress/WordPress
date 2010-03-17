@@ -2930,12 +2930,12 @@ function &get_pages($args = '') {
 	extract( $r, EXTR_SKIP );
 	$number = (int) $number;
 	$offset = (int) $offset;
-	
+
 	// Make sure the post type is hierarchical
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
 	if ( !in_array( $post_type, $hierarchical_post_types ) )
 		return false;
-	
+
 	// Make sure we have a valid post status
 	if ( !in_array($post_status, get_post_stati()) )
 		return false;
@@ -3031,7 +3031,7 @@ function &get_pages($args = '') {
 
 	if ( $parent >= 0 )
 		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent);
-		
+
 	$where_post_type = $wpdb->prepare( "post_type = '%s' AND post_status = '%s'", $post_type, $post_status );
 
 	$query = "SELECT * FROM $wpdb->posts $join WHERE ($where_post_type) $where ";
@@ -3178,7 +3178,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 			$post_category = array( get_option('default_category') );
 		else
 			$post_category = array();
-	}	
+	}
 
 	// Are we updating or creating?
 	if ( !empty($ID) ) {
@@ -3814,7 +3814,7 @@ function get_lastpostmodified($timezone = 'server') {
 	$lastpostmodified = wp_cache_get( "lastpostmodified:$timezone", 'timeinfo' );
 	if ( $lastpostmodified )
 		return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
-	
+
 	switch ( strtolower($timezone) ) {
 		case 'gmt':
 			$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_modified_gmt DESC LIMIT 1");
@@ -3826,13 +3826,13 @@ function get_lastpostmodified($timezone = 'server') {
 			$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_modified_gmt DESC LIMIT 1");
 			break;
 	}
-	
+
 	$lastpostdate = get_lastpostdate($timezone);
 	if ( $lastpostdate > $lastpostmodified )
 		$lastpostmodified = $lastpostdate;
 
-	if ( $lastpostmodified ) 
-		wp_cache_set( "lastpostmodified:$timezone", $lastpostmodified, 'timeinfo' ); 
+	if ( $lastpostmodified )
+		wp_cache_set( "lastpostmodified:$timezone", $lastpostmodified, 'timeinfo' );
 
 	return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
 }

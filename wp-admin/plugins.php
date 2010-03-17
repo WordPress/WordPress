@@ -96,21 +96,21 @@ if ( !empty($action) ) {
 			exit;
 			break;
 		case 'update-selected' :
-		
+
 			check_admin_referer( 'bulk-manage-plugins' );
-			
+
 			if ( isset( $_GET['plugins'] ) )
 				$plugins = explode( ',', $_GET['plugins'] );
 			elseif ( isset( $_POST['checked'] ) )
 				$plugins = (array) $_POST['checked'];
 			else
 				$plugins = array();
-			
+
 			$title = __( 'Upgrade Plugins' );
 			$parent_file = 'plugins.php';
 
 			require_once( 'admin-header.php' );
-			
+
 			echo '<div class="wrap">';
 			screen_icon();
 			echo '<h2>' . esc_html( $title ) . '</h2>';

@@ -224,9 +224,9 @@ function is_tag( $slug = '' ) {
  * Whether the current query is for the given taxonomy and/or term.
  *
  * If no taxonomy argument is set, returns true if any taxonomy is queried.
- * If the taxonomy argument is passed but no term argument, returns true 
+ * If the taxonomy argument is passed but no term argument, returns true
  *    if the taxonomy or taxonomies in the argument are being queried.
- * If both taxonomy and term arguments are passed, returns true 
+ * If both taxonomy and term arguments are passed, returns true
  *    if the current query is for a term contained in the terms argument
  *    which has a taxonomy contained in the taxonomy argument.
  *
@@ -253,9 +253,9 @@ function is_tax( $taxonomy = '', $term = '' ) {
 	if ( empty( $term ) ) // Only a Taxonomy provided
 		return isset($queried_object->taxonomy) && count( $tax_array ) && in_array($queried_object->taxonomy, $tax_array);
 
-	return isset($queried_object->term_id) && 
+	return isset($queried_object->term_id) &&
 			count(array_intersect(
-				array($queried_object->term_id, $queried_object->name, $queried_object->slug), 
+				array($queried_object->term_id, $queried_object->name, $queried_object->slug),
 				$term_array
 			));
 }

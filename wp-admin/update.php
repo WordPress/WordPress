@@ -42,7 +42,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader->bulk_upgrade( $plugins );
 
 		iframe_footer();
-			
+
 	} elseif ( 'upgrade-plugin' == $action ) {
 		if ( ! current_user_can('update_plugins') )
 			wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));

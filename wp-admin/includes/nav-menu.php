@@ -13,7 +13,7 @@ wp_nav_menu_taxonomy_metaboxes();
  */
 function wp_nav_menu_post_type_metaboxes() {
 	$post_types = get_post_types( array( 'public' => true ), 'object' );
-	
+
 	if ( !$post_types )
 		return false;
 
@@ -99,10 +99,10 @@ function wp_nav_menu_create_metabox() { ?>
  */
 function wp_nav_menu_item_link_metabox() {
 	$args = array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_value' => 'custom', 'showposts' => -1 );
-	
+
 	// @todo transient caching of these results with proper invalidation on updating links
 	$query = new WP_Query( $args );
-	
+
 	?>
 	<p id="menu-item-url-wrap">
 		<label class="howto" for="menu-item-url">
@@ -117,7 +117,7 @@ function wp_nav_menu_item_link_metabox() {
 			<input id="custom-menu-item-name" name="custom-menu-item-name" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( __('Menu Item') ); ?>" />
 		</label>
 	</p>
-	
+
 	<p class="button-controls">
 		<a class="show-all"><?php _e('View All'); ?></a>
 		<a class="hide-all"><?php _e('Hide All'); ?></a>
@@ -146,16 +146,16 @@ function wp_nav_menu_item_link_metabox() {
  */
 function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 	$args = array( 'post_type' => $post_type['args']->name, 'post_status' => 'publish', 'showposts' => -1 );
-	
+
 	if ( 'attachment' == $post_type['args']->name )
 		$args['post_status'] = 'any';
-	
+
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
 	$query = new WP_Query( $args );
-	
+
 	if ( !$query->posts )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $post_type['args']->label ) .'</li>';
-	
+
 	$pt_names = '';
 	if ( is_array($query->posts) ) {
 		foreach ( $query->posts as $post ) {
@@ -166,19 +166,19 @@ function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 			}
 		}
 	}
-	
+
 	$id = $post_type['args']->name;
 	?>
 	<p class="quick-search-wrap">
 		<input type="text" class="quick-search regular-text" value="" />
 		<a class="quick-search-submit button-secondary"><?php _e('Search'); ?></a>
 	</p>
-	
+
 	<p class="button-controls">
 		<a class="show-all"><?php _e('View All'); ?></a>
 		<a class="hide-all"><?php _e('Hide All'); ?></a>
 	</p>
-	
+
 	<div id="existing-<?php echo esc_attr( $id ); ?>" class="list-wrap">
 		<div class="list-container">
 			<ul class="list">
@@ -218,10 +218,10 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 
 	// @todo transient caching of these results with proper invalidation on updating of a tax of this type
 	$terms = get_terms( $taxonomy['args']->name, $args );
-	
+
 	if ( !$terms )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $taxonomy['args']->label ) .'</li>';
-	
+
 	$term_names = '';
 	if ( is_array($terms) ) {
 		foreach ( $terms as $term ) {
@@ -232,19 +232,19 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 			}
 		}
 	}
-	
+
 	$id = $taxonomy['args']->name;
 	?>
 	<p class="quick-search-wrap">
 		<input type="text" class="quick-search regular-text" value="" />
 		<a class="quick-search-submit button-secondary"><?php _e('Search'); ?></a>
 	</p>
-	
+
 	<p class="button-controls">
 		<a class="show-all"><?php _e('View All'); ?></a>
 		<a class="hide-all"><?php _e('Hide All'); ?></a>
 	</p>
-	
+
 	<div id="existing-<?php echo esc_attr( $id ); ?>" class="list-wrap">
 		<div class="list-container">
 			<ul class="list">
@@ -281,7 +281,7 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $context = 'frontend' ) {
 	if ( !$menu_items )
 		return __( 'Not Found' );
-		
+
 	$output = '';
 	$i = 1;
 	foreach ( $menu_items as $menu_item ) {
@@ -289,16 +289,16 @@ function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $cont
 		// so we don't have to duplicate this entire function.
 		if ( !isset($menu_item->post_parent) )
 			$menu_item->post_parent = $menu_item->parent;
-		
+
 		// Cleanest way to get all attachements
 		if ( 'attachment' == $object )
 			$menu_item->post_parent = 0;
-		
+
 		if ( 0 == $menu_item->post_parent ) {
 			// Set up the menu item
-			$menu_item = wp_setup_nav_menu_item( $menu_item, $object_type, $object );			
+			$menu_item = wp_setup_nav_menu_item( $menu_item, $object_type, $object );
 			$attributes = ( 'backend' == $context ) ? ' id="menu-item-'. $i .'" value="'. $i .'"' : '';
-			
+
 			$output .= '<li'. $attributes .'>';
 			$output .= wp_get_nav_menu_item( $menu_item, $object_type, $object );
 			$output .= wp_get_nav_menu_sub_items( $menu_item->ID, $object_type, $object, $context );
@@ -307,7 +307,7 @@ function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $cont
 			++$i;
 		}
 	}
-	
+
 	return $output;
 }
 
@@ -323,7 +323,7 @@ function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $cont
  */
 function wp_get_nav_menu_sub_items( $childof, $object_type, $object = null, $context = 'frontend' ) {
 	$args = array( 'child_of' => $childof, 'parent' => $childof, 'hide_empty' => false, );
-	
+
 	switch ( $object_type ) {
 		case 'post_type':
 			$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
@@ -334,7 +334,7 @@ function wp_get_nav_menu_sub_items( $childof, $object_type, $object = null, $con
 				$sub_menu_items = array();
 			}
 			break;
-			
+
 		case 'taxonomy':
 			if ( is_taxonomy_hierarchical( $object ) ) {
 				$sub_menu_items = get_terms( $object, $args );
@@ -342,12 +342,12 @@ function wp_get_nav_menu_sub_items( $childof, $object_type, $object = null, $con
 				$sub_menu_items = array();
 			}
 			break;
-		
+
 		default:
 			$sub_menu_items = array();
 			break;
 	}
-	
+
 	$output = '';
 	$i = 1;
 	if ( !empty($sub_menu_items) && !is_wp_error($sub_menu_items) ) {

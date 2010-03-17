@@ -2059,7 +2059,7 @@ function wp_ajaxurl() {
  * via the get_shortlink filter.
  *
  * @since 3.0.0.
- * 
+ *
  * @param int $id A post or blog id.  Default is 0, which means the current post or blog.
  * @param string $contex Whether the id is a 'blog' id, 'post' id, or 'media' id.  If 'post', the post_type of the post is consulted.  If 'query', the current query is consulted to determine the id and context. Default is 'post'.
  * @param bool $allow_slugs Whether to allow post slugs in the shortlink. It is up to the plugin how and whether to honor this.

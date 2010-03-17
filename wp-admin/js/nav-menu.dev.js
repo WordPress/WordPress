@@ -33,11 +33,11 @@ function wp_edit_menu_item( id ) {
 	var item_description = jQuery('#menu-item-description' + id).val();
 	var item_classes = jQuery('#menu-item-classes' + id).val();
 	var item_xfn = jQuery('#menu-item-xfn' + id).val();
-	
+
 	// Only allow custom links to be editable.
 	if ( 'custom' != item_type )
 		jQuery( '#edit-menu-item-url' ).attr('disabled', 'disabled' );
-	
+
 	// Populate the fields for thickbox
 	jQuery( '#edit-menu-item-id' ).val(id);
 	jQuery( '#edit-menu-item-title' ).val(item_title);
@@ -48,7 +48,7 @@ function wp_edit_menu_item( id ) {
 	jQuery( '#edit-menu-item-description' ).val(item_description);
 	jQuery( '#edit-menu-item-classes' ).val(item_classes);
 	jQuery( '#edit-menu-item-xfn' ).val(item_xfn);
-	
+
 	// focus
 	jQuery( '#edit-menu-item-title' ).focus();
 };
@@ -65,7 +65,7 @@ function wp_update_menu_item() {
 	var item_description = jQuery('#edit-menu-item-description').val();
 	var item_classes = jQuery('#edit-menu-item-classes').val();
 	var item_xfn = jQuery('#edit-menu-item-xfn').val();
-	
+
 	// update menu item settings
 	jQuery('.menu #menu-item' + id).find('span.item-title').html(item_title);
 	jQuery('.menu #menu-item-title' + id).val(item_title);
@@ -75,7 +75,7 @@ function wp_update_menu_item() {
 	jQuery('.menu #menu-item-description' + id).val(item_description);
 	jQuery('.menu #menu-item-classes' + id).val(item_classes);
 	jQuery('.menu #menu-item-xfn' + id).val(item_xfn);
-	
+
 	jQuery('.menu #menu-item' + id + ' dt:first').animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
 }
 
@@ -86,7 +86,7 @@ function wp_update_menu_item() {
  */
 function wp_remove_menu_item( o ) {
 	var todelete = document.getElementById('menu-item' + o);
-	
+
 	if ( todelete ) {
 		// Give some feedback to the user
 		jQuery( todelete ).find('dt').each(function(){
@@ -114,16 +114,16 @@ function wp_remove_menu_item( o ) {
 function wp_add_item_to_menu( item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn ) {
 	var randomnumber = wp_get_unique_menu_id();
 	var hidden = wp_get_hidden_inputs( randomnumber, item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn );
-	
+
 	// Adds the item in the queue
 	jQuery('.menu').append('<li id="menu-item' + randomnumber + '" value="' + randomnumber + '"><div class="dropzone ui-droppable"></div><dl class="ui-droppable"><dt><span class="item-title">' + item_title + '</span><span class="item-controls"><span class="item-type">' + item_append + '</span><a class="item-edit thickbox" id="edit' + randomnumber + '" value="' + randomnumber +'" onClick="wp_edit_menu_item('+ randomnumber +')" title="' + navMenuL10n.thickbox + '" href="#TB_inline?height=540&width=300&inlineId=menu-item-settings">' + navMenuL10n.edit + '</a> | <a class="item-delete" id="delete' + randomnumber + '" value="' + randomnumber +'">Delete</a></span></dt></dl>' + hidden + '</li>');
-	
+
 	// Give some feedback to the user
 	jQuery( '.menu #menu-item' + randomnumber + ' dt:first' ).animate( { backgroundColor: '#FFFF33' }, { duration: 'normal', complete: function() { jQuery(this).css( 'backgroundColor', '' ); }});
-	
+
 	// Enable drag-n-drop
 	wp_drag_and_drop();
-	
+
 	// Reload thickbox
 	tb_init('a.thickbox, area.thickbox, input.thickbox');
 };
@@ -136,15 +136,15 @@ function wp_add_item_to_menu( item_db_id, item_object_id, item_type, item_append
 function wp_add_checked_items_to_menu( button ) {
 	// Grab checked items
 	var items = jQuery(button).siblings('.list-wrap').find(':checked');
-	
+
 	// If nothing was checked, cancel
 	if ( 0 == items.length )
 		return false;
-	
+
 	// Loop through each item, grab it's hidden data and add it to the menu.
 	jQuery(items).each(function(){
 		var item_type = jQuery(this).parent().siblings('.menu-item-type').val();
-		
+
 		if ( 'custom' == item_type ) {
 			var item_attr_title = jQuery(this).parent().siblings('.menu-item-attr-title').val();
 			var item_target = jQuery(this).parent().siblings('.menu-item-target').val();
@@ -156,7 +156,7 @@ function wp_add_checked_items_to_menu( button ) {
 			var item_classes = '';
 			var item_xfn = '';
 		};
-		
+
 		var item_db_id = jQuery(this).parent().siblings('.menu-item-db-id').val();
 		var item_object_id = jQuery(this).parent().siblings('.menu-item-object-id').val();
 		var item_append = jQuery(this).parent().siblings('.menu-item-append').val();
@@ -164,14 +164,14 @@ function wp_add_checked_items_to_menu( button ) {
 		var item_title = jQuery(this).parent().siblings('.menu-item-title').val();
 		var item_url = jQuery(this).parent().siblings('.menu-item-url').val();
 		var item_description = jQuery(this).parent().siblings('.menu-item-description').val();
-		
+
 		if ( undefined == item_description ) {
 			item_description = '';
 		};
-		
+
 		// Add the menu item to the menu
 		wp_add_item_to_menu( item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn );
-		
+
 		// uncheck the menu item in the list
 		jQuery(this).attr( 'checked', false );
 	});
@@ -204,7 +204,7 @@ function wp_drag_and_drop() {
 		drop: function(e, ui) {
 			var li = jQuery(this).parent();
 			var child = !jQuery(this).hasClass('dropzone');
-			
+
 			// Append UL to first child
 			if ( child && li.children('ul').length == 0 ) {
 				li.append( '<ul class="sub-menu" />' );
@@ -220,7 +220,7 @@ function wp_drag_and_drop() {
 
 			var draggablevalue = ui.draggable.attr('value');
 			var droppablevalue = li.attr('value');
-			
+
 			li.find('#menu-' + draggablevalue).find('#parent' + draggablevalue).val(droppablevalue);
 			jQuery(this).parent().find('dt').removeAttr('style');
 			jQuery(this).parent().find('div:first').removeAttr('style');
@@ -254,7 +254,7 @@ function wp_drag_and_drop() {
  */
 function wp_update_post_data() {
 	var i = 0;
-	
+
 	 jQuery('.menu li').each(function(i) {
 		i = i + 1;
      	var j = jQuery(this).attr('value');
@@ -262,7 +262,7 @@ function wp_update_post_data() {
      	jQuery(this).find('#menu-item-position' + j).attr('value', i);
      	jQuery(this).attr('id','menu-item' + i);
      	jQuery(this).attr('value', i);
-		
+
      	jQuery(this).find('#menu-item-db-id' + j).attr('id','menu-item-db-id' + i);
      	jQuery(this).find('#menu-item-object-id' + j).attr('id','menu-item-object-id' + i);
 		jQuery(this).find('#menu-item-append' + j).attr('id', 'menu-item-append' + i);
@@ -278,7 +278,7 @@ function wp_update_post_data() {
 			p = 0;
 		}
 		jQuery(this).find('#menu-item-parent-id' + j).attr('value', p);
-		
+
 		jQuery(this).find('#menu-item-title' + j).attr('id','menu-item-title' + i);
 		jQuery(this).find('#menu-item-url' + j).attr('id','menu-item-url' + i);
 		jQuery(this).find('#menu-item-description' + j).attr('id','menu-item-description' + i);
@@ -287,7 +287,7 @@ function wp_update_post_data() {
 		jQuery(this).find('#menu-item-description' + j).attr('id','menu-item-description' + i);
 		jQuery(this).find('#menu-item-attr-title' + j).attr('id','menu-item-attr-title' + i);
 		jQuery(this).find('#menu-item-target' + j).attr('id','menu-item-target' + i);
-		
+
 		jQuery('#li-count').attr( 'value', i );
    });
 };
@@ -321,7 +321,7 @@ function wp_get_unique_menu_id() {
 
 /**
  * Returns all the nessecary hidden inputs for each menu item.
- * 
+ *
  * @param string item_db_id - The menu item's db id.
  * @param string item_object_id - The menu item's object id.
  * @param string item_type - The menu item's object type.
@@ -337,7 +337,7 @@ function wp_get_unique_menu_id() {
  */
 function wp_get_hidden_inputs( randomnumber, item_db_id, item_object_id, item_type, item_append, item_parent_id, item_title, item_url, item_description, item_attr_title, item_target, item_classes, item_xfn ) {
 	var hidden = '';
-	
+
 	hidden += '<input type="hidden" name="menu-item-db-id[]" id="menu-item-db-id' + randomnumber + '" value="' + item_db_id + '" />';
 	hidden += '<input type="hidden" name="menu-item-object-id[]" id="menu-item-object-id' + randomnumber + '" value="' + item_object_id + '" />';
 	hidden += '<input type="hidden" name="menu-item-type[]" id="menu-item-type' + randomnumber + '" value="' + item_type + '" />';
@@ -351,7 +351,7 @@ function wp_get_hidden_inputs( randomnumber, item_db_id, item_object_id, item_ty
 	hidden += '<input type="hidden" name="menu-item-description[]" id="menu-item-description' + randomnumber + '" value="' + item_description + '" />';
 	hidden += '<input type="hidden" name="menu-item-classes[]" id="menu-item-classes' + randomnumber + '" value="' + item_classes + '" />';
 	hidden += '<input type="hidden" name="menu-item-xfn[]" id="menu-item-xfn' + randomnumber + '" value="' + item_xfn + '" />';
-	
+
 	return hidden;
 }
 
@@ -369,9 +369,9 @@ function wp_get_hidden_inputs( randomnumber, item_db_id, item_object_id, item_ty
  * Init Functions
  */
 jQuery(document).ready(function($){
-	
+
 	wp_drag_and_drop();
-	
+
 	// Delete AYS
 	$('#update-nav-menu .deletion').click(function(){
 		if ( confirm( navMenuL10n.warnDelete ) ) {
@@ -380,49 +380,49 @@ jQuery(document).ready(function($){
 			return false;
 		};
 	});
-	
+
 	// Handle Save Button Clicks
 	$('#save_menu').click(function(){
 		return wp_update_post_data();
 	});
-	
+
 	// close postboxes that should be closed
 	$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-	
+
 	// postboxes setup
 	postboxes.add_postbox_toggles('menus');
-	
+
 	// Clear the quick search textbox
 	$('.quick-search').click(function(){
 		$(this).attr( 'value', '' );
 	});
-	
+
 	// Quick Search submit
 	$('.quick-search-submit').click(function(){
 		$(this).siblings('.quick-search').search();
 	});
-	
+
 	// Edit menu item
 	$('#menu-container .item-edit').click(function(){
 		return wp_edit_menu_item( $(this).attr('value') );
 	});
-	
+
 	// Delete menu item
 	$('#menu-container .item-delete').live( 'click', function(e){
 		return wp_remove_menu_item( $(this).attr('value') );
 	});
-	
+
 	// Update menu item settings (thickbox)
 	$('#update-menu-item').click(function(){
 		wp_update_menu_item();
 		return tb_remove();
 	});
-	
+
 	// Close thickbox
 	$('#cancel-save').click(function(){
 		return tb_remove();
 	});
-	
+
 	// Show All Button
 	$('.show-all').click(function(e){
 		jQuery(e.currentTarget).parent().siblings('.list-wrap').css( 'display', 'block' );
@@ -430,7 +430,7 @@ jQuery(document).ready(function($){
 		jQuery(e.currentTarget).hide();
 		jQuery(e.currentTarget).siblings('.hide-all').show();
 	});
-	
+
 	// Hide All Button
 	$('.hide-all').click(function(e){
 		jQuery(e.currentTarget).parent().siblings('.list-wrap').css( 'display', 'none' );
@@ -448,7 +448,7 @@ jQuery(document).ready(function($){
 	$('#add-custom-links .add-to-menu a').click(function(e){
 		var link_url = jQuery(e.currentTarget).parent().parent().find('#custom-menu-item-url').val();
 		var link_name = jQuery(e.currentTarget).parent().parent().find('#custom-menu-item-name').val();
-		
+
 		// Add link to menu
 		wp_add_item_to_menu( 0, '', 'custom', navMenuL10n.custom, 0, link_name, link_url, '', '', '_self', '', '' );
 	});

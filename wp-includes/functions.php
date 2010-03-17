@@ -1825,7 +1825,7 @@ function is_blog_installed() {
 			if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE == $table )
 				continue;
 			if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE == $table )
-				continue;				
+				continue;
 
 			// If visiting repair.php, return true and let it take over.
 			if ( defined('WP_REPAIRING') )

@@ -265,8 +265,8 @@ function wp_install_defaults($user_id) {
 								'post_content_filtered' => ''
 								));
 
-	// Setup default widgets for default theme. 
-	update_option( 'widget_search', array ( 2 => array ( 'title' => '' ), '_multiwidget' => 1 ) ); 
+	// Setup default widgets for default theme.
+	update_option( 'widget_search', array ( 2 => array ( 'title' => '' ), '_multiwidget' => 1 ) );
 	update_option( 'widget_recent-posts', array ( 2 => array ( 'title' => '', 'number' => 5 ), '_multiwidget' => 1 ) );
 	update_option( 'widget_recent-comments', array ( 2 => array ( 'title' => '', 'number' => 5 ), '_multiwidget' => 1 ) );
 	update_option( 'widget_archives', array ( 2 => array ( 'title' => '', 'count' => 0, 'dropdown' => 0 ), '_multiwidget' => 1 ) );
@@ -1109,7 +1109,7 @@ function upgrade_300() {
 
 	if ( $wp_current_db_version < 12751 ) {
 		populate_roles_300();
-		if ( is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false ) 
+		if ( is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )
 			add_site_option( 'siteurl', '' );
 	}
 }

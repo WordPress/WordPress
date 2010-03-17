@@ -278,7 +278,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 		echo "\ndefine( '$c', '$v' );";
 	}
 ?></textarea>
-<?php	
+<?php
 	}
 ?>
 </li>

@@ -270,7 +270,7 @@ function bulk_edit_posts( $post_data = null ) {
 		else
 			unset($post_data['post_category']);
 	}
-	
+
 	$tax_input = array();
 	if ( isset($post_data['tax_input'])) {
 		foreach ( $post_data['tax_input'] as $tax_name => $terms ) {
@@ -278,7 +278,7 @@ function bulk_edit_posts( $post_data = null ) {
 				continue;
 			$taxonomy = get_taxonomy( $tax_name );
 			if ( $taxonomy->hierarchical )
-				$tax_input[$tax_name] = array_map( 'absint', $terms );			
+				$tax_input[$tax_name] = array_map( 'absint', $terms );
 			else {
 				$tax_input[$tax_name] = preg_replace( '/\s*,\s*/', ',', rtrim( trim($terms), ' ,' ) );
 				$tax_input[$tax_name] = explode(',', $tax_input[$tax_name]);
@@ -314,14 +314,14 @@ function bulk_edit_posts( $post_data = null ) {
 			$locked[] = $post_ID;
 			continue;
 		}
-		
+
 		$tax_names = get_object_taxonomies( get_post($post_ID) );
-		
+
 		if ( isset($new_cats) && in_array( 'category', $tax_names ) ) {
 			$cats = (array) wp_get_post_categories($post_ID);
 			$post_data['post_category'] = array_unique( array_merge($cats, $new_cats) );
 		}
-		
+
 		foreach ( $tax_names as $tax_name ) {
 			if( isset( $tax_input[$tax_name])  ) {
 				$taxonomy = get_taxonomy( $tax_name );

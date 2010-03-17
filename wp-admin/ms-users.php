@@ -195,7 +195,7 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 								?>
 								<td class="username column-username">
 									<?php echo $avatar; ?><strong><a href="<?php echo $edit; ?>" class="edit"><?php echo stripslashes($user['user_login']); ?></a><?php
-								if ( in_array( $user[ 'user_login' ], $super_admins ) ) 
+								if ( in_array( $user[ 'user_login' ], $super_admins ) )
 									echo ' - ' . __( 'Super admin' );
 ?></strong>
 									<br/>

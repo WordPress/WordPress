@@ -313,7 +313,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
 	if ( ! ( ( $uploads = wp_upload_dir($time) ) && false === $uploads['error'] ) )
-		return call_user_func($upload_error_handler, $file, $uploads['error'] ); 
+		return call_user_func($upload_error_handler, $file, $uploads['error'] );
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
 

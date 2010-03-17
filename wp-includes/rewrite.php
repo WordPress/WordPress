@@ -1780,10 +1780,10 @@ class WP_Rewrite {
 		} else {
 			$siteurl = get_option( 'siteurl' );
 			$siteurl_len = strlen( $siteurl );
-			if ( substr( WP_CONTENT_URL, 0, $siteurl_len ) == $siteurl && strlen( WP_CONTENT_URL ) > $siteurl_len ) 
+			if ( substr( WP_CONTENT_URL, 0, $siteurl_len ) == $siteurl && strlen( WP_CONTENT_URL ) > $siteurl_len )
 				$content_path = substr( WP_CONTENT_URL, $siteurl_len + 1 );
 			else
-				$content_path = 'wp-content'; 
+				$content_path = 'wp-content';
 			$rules = '<rule name="wordpress - strip index.php" stopProcessing="false">
 					<match url="^index.php/(.*)$" />
 						<action type="Rewrite" url="{R:1}" />

@@ -38,28 +38,28 @@ header('Content-Description: File Transfer');
 header("Content-Disposition: attachment; filename=$filename");
 header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 
-if ( $post_type and $post_type != 'all' ) { 
-		$where = $wpdb->prepare("WHERE post_type = %s ", $post_type); 
-} else { 
-		$where = "WHERE post_type != 'revision' "; 
-} 
-if ( $author and $author != 'all' ) { 
-		$author_id = (int) $author; 
-		$where .= $wpdb->prepare("AND post_author = %d ", $author_id); 
-} 
-if ( $start_date and $start_date != 'all' ) { 
-		$where .= $wpdb->prepare("AND post_date >= %s ", $start_date); 
-} 
-if ( $end_date and $end_date != 'all' ) { 
-		$where .= $wpdb->prepare("AND post_date < %s ", $end_date); 
-} 
-if ( $category and $category != 'all' ) { 
-		$taxomony_id = (int) $category; 
-		$where .= $wpdb->prepare("AND ID IN (SELECT object_id FROM {$wpdb->term_relationships} " . "WHERE term_taxonomy_id = %d) ", $taxomony_id); 
-} 
-if ( $status and $status != 'all' ) { 
-		$where .= $wpdb->prepare("AND post_status = %s ", $status); 
-} 
+if ( $post_type and $post_type != 'all' ) {
+		$where = $wpdb->prepare("WHERE post_type = %s ", $post_type);
+} else {
+		$where = "WHERE post_type != 'revision' ";
+}
+if ( $author and $author != 'all' ) {
+		$author_id = (int) $author;
+		$where .= $wpdb->prepare("AND post_author = %d ", $author_id);
+}
+if ( $start_date and $start_date != 'all' ) {
+		$where .= $wpdb->prepare("AND post_date >= %s ", $start_date);
+}
+if ( $end_date and $end_date != 'all' ) {
+		$where .= $wpdb->prepare("AND post_date < %s ", $end_date);
+}
+if ( $category and $category != 'all' ) {
+		$taxomony_id = (int) $category;
+		$where .= $wpdb->prepare("AND ID IN (SELECT object_id FROM {$wpdb->term_relationships} " . "WHERE term_taxonomy_id = %d) ", $taxomony_id);
+}
+if ( $status and $status != 'all' ) {
+		$where .= $wpdb->prepare("AND post_status = %s ", $status);
+}
 
 // grab a snapshot of post IDs, just in case it changes during the export
 $post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");

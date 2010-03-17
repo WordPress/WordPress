@@ -396,7 +396,7 @@ if ( isset($_GET['detached']) ) { ?>
 		if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
 			echo esc_html( strtoupper( $matches[1] ) );
 		else
-			echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );  
+			echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );
 		?>
 
 		<div class="row-actions">
