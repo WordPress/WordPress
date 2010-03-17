@@ -86,10 +86,7 @@ switch ( $action ) {
 				}
 				unset($add_nav_menu);
 			}
-		}
-		
-		// Update menu name
-		if ( isset($_POST['menu-name']) ) {
+		} elseif ( isset($_POST['menu-name']) ) {
 			$old_nav_menu = get_term( $nav_menu_selected_id, 'nav_menu', ARRAY_A );
 			$args = array( 'name' => $_POST['menu-name'], 'slug' => null, 'description' => $old_nav_menu['description'], 'parent' => $old_nav_menu['parent'], );
 			$new_nav_menu = wp_update_term( $nav_menu_selected_id, 'nav_menu', $args );
