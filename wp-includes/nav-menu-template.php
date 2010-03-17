@@ -45,7 +45,7 @@ function wp_nav_menu( $args = array() ) {
 		}
 	}
 
-	if ( !is_wp_error($menu) )
+	if ( !is_wp_error($menu) && $menu)
 		$args->menu = $menu->term_id;
 	$nav_menu = '';
 
