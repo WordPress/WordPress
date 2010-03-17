@@ -284,12 +284,20 @@ function wp_templating_constants( ) {
 	define('STYLESHEETPATH', get_stylesheet_directory());
 
 	/**
+	 * Slug of the default theme for this install.
+	 * Used as the default theme when installing new sites.
+	 * @since 3.0.0
+	 */
+	if ( !defined('WP_DEFAULT_THEME') )
+		define( 'WP_DEFAULT_THEME', 'twentyten' );
+
+	/**
 	 * Slug of the fallback theme for this install.
 	 * Will be used as the fallback if the current theme doesn't exist.
 	 * @since 3.0.0
 	 */
 	if ( !defined('WP_FALLBACK_THEME') )
-		define( 'WP_FALLBACK_THEME', 'twentyten' );
+		define( 'WP_FALLBACK_THEME', WP_DEFAULT_THEME );
 }
 
 ?>
