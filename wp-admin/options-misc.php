@@ -27,14 +27,6 @@ include('admin-header.php');
 <?php settings_fields('misc'); ?>
 
 <table class="form-table">
-<tr>
-<th scope="row" class="th-full">
-<label for="use_linksupdate">
-<input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1"<?php checked('1', get_option('use_linksupdate')); ?> />
-<?php _e('Track links&#8217; update times') ?>
-</label>
-</th>
-</tr>
 <?php do_settings_fields('misc', 'default'); ?>
 </table>
 
