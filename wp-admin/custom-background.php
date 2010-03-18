@@ -218,16 +218,17 @@ class Custom_Background {
 	 * @since unknown
 	 */
 	function step_1() {
-		if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
-<div id="message" class="updated">
-<p><?php printf(__('Background updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
-</div>
-		<?php } ?>
-
+?>
 <div class="wrap" id="custom-background">
 <?php screen_icon(); ?>
 <h2><?php _e('Custom Background'); ?></h2>
-<?php if ( get_background_image() || get_background_color() ) { ?>
+<?php if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
+<div id="message" class="updated">
+<p><?php printf(__('Background updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
+</div>
+<?php }
+
+if ( get_background_image() || get_background_color() ) { ?>
 <p><?php _e('This is your current background.'); ?></p>
 <?php
 	if ( $this->admin_image_div_callback ) {
@@ -250,7 +251,7 @@ class Custom_Background {
 
 if ( get_background_image() ) : ?>
 
-<h2><?php _e('Change Display Options') ?></h2>
+<h3><?php _e('Change Display Options') ?></h3>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <table>
 <thead>
@@ -316,7 +317,7 @@ if ( get_background_image() ) : ?>
 
 <?php endif; ?>
 
-<h2><?php _e('Upload New Background Image'); ?></h2>
+<h3><?php _e('Upload New Background Image'); ?></h3>
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
@@ -327,7 +328,7 @@ if ( get_background_image() ) : ?>
 </form>
 
 <?php if ( get_background_image() ) : ?>
-<h2><?php _e('Remove Background Image'); ?></h2>
+<h3><?php _e('Remove Background Image'); ?></h3>
 <p><?php _e('This will remove the background image. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <?php wp_nonce_field('custom-background'); ?>

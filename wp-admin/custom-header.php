@@ -357,16 +357,19 @@ class Custom_Image_Header {
 	 */
 	function step_1() {
 		$this->process_default_headers();
-		if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
-<div id="message" class="updated">
-<p><?php printf(__('Header updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
-</div>
-		<?php } ?>
+ ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php _e('Your Header Image'); ?></h2>
+
 <?php
+if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
+<div id="message" class="updated">
+<p><?php printf(__('Header updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
+</div>
+<?php }
+
 if ( get_theme_mod('header_image') || empty($this->default_headers) ) :
 ?>
 <p><?php _e('This is your header image. You can change the text color or upload and crop a new image.'); ?></p>
@@ -404,7 +407,7 @@ else:
 endif;
 ?>
 <div class="wrap">
-<h2><?php _e('Upload New Header Image'); ?></h2><p><?php _e('Here you can upload a custom header image to be shown at the top of your blog instead of the default one. On the next screen you will be able to crop the image.'); ?> <?php printf(__('Images of exactly <strong>%1$d x %2$d pixels</strong> will be used as-is.'), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT); ?></p>
+<h3><?php _e('Upload New Header Image'); ?></h3><p><?php _e('Here you can upload a custom header image to be shown at the top of your blog instead of the default one. On the next screen you will be able to crop the image.'); ?> <?php printf(__('Images of exactly <strong>%1$d x %2$d pixels</strong> will be used as-is.'), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT); ?></p>
 
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
@@ -419,7 +422,7 @@ endif;
 
 		<?php if ( get_theme_mod('header_image') || get_theme_mod('header_textcolor') ) : ?>
 <div class="wrap">
-<h2><?php _e('Reset Header Image and Color'); ?></h2>
+<h3><?php _e('Reset Header Image and Color'); ?></h3>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <?php
 wp_nonce_field('custom-header');
