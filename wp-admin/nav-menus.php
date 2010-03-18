@@ -103,20 +103,19 @@ switch ( $action ) {
 
 				// Loop through all POST variables
 				for ( $k = 0; $k < $update_nav_items; $k++ ) {
-					$menu_item_db_id 		= isset( $_POST['menu-item-db-id'][$k] )		? $_POST['menu-item-db-id'][$k] 	: 0;
-					$menu_item_object_id 	= isset( $_POST['menu-item-object-id'][$k] ) 	? $_POST['menu-item-object-id'][$k] : 0;
-					$menu_item_parent_id 	= isset( $_POST['menu-item-parent-id'][$k] ) 	? $_POST['menu-item-parent-id'][$k] : 0;
-					$menu_item_position 	= isset( $_POST['menu-item-position'][$k] ) 	? $_POST['menu-item-position'][$k] 	: 0;
-					$menu_item_type 		= isset( $_POST['menu-item-type'][$k] )	 		? $_POST['menu-item-type'][$k] 		: 'custom';
-					$menu_item_append 		= isset( $_POST['menu-item-append'][$k] )	 	? $_POST['menu-item-append'][$k]	: 'custom';
-
-					$menu_item_title 		= isset( $_POST['menu-item-title'][$k] ) 		? $_POST['menu-item-title'][$k] 	: '';
-					$menu_item_url 			= isset( $_POST['menu-item-url'][$k] ) 			? $_POST['menu-item-url'][$k] 		: '';
-					$menu_item_description 	= isset( $_POST['menu-item-description'][$k] ) 	? $_POST['menu-item-description'][$k]: '';
-					$menu_item_attr_title  	= isset( $_POST['menu-item-attr-title'][$k] ) 	? $_POST['menu-item-attr-title'][$k] : '';
-					$menu_item_target 		= isset( $_POST['menu-item-target'][$k] ) 		? $_POST['menu-item-target'][$k] 	: 0;
-					$menu_item_classes 		= isset( $_POST['menu-item-classes'][$k] ) 		? $_POST['menu-item-classes'][$k] 	: '';
-					$menu_item_xfn	 		= isset( $_POST['menu-item-xfn'][$k] )	 		? $_POST['menu-item-xfn'][$k] 		: '';
+					$menu_item_db_id       = isset( $_POST['menu-item-db-id'][$k] )       ? $_POST['menu-item-db-id'][$k]       : 0;
+					$menu_item_object_id   = isset( $_POST['menu-item-object-id'][$k] )   ? $_POST['menu-item-object-id'][$k]   : 0;
+					$menu_item_parent_id   = isset( $_POST['menu-item-parent-id'][$k] )   ? $_POST['menu-item-parent-id'][$k]   : 0;
+					$menu_item_position    = isset( $_POST['menu-item-position'][$k] )    ? $_POST['menu-item-position'][$k]    : 0;
+					$menu_item_type        = isset( $_POST['menu-item-type'][$k] )        ? $_POST['menu-item-type'][$k]        : 'custom';
+					$menu_item_append      = isset( $_POST['menu-item-append'][$k] )      ? $_POST['menu-item-append'][$k]      : 'custom';
+					$menu_item_title       = isset( $_POST['menu-item-title'][$k] )       ? $_POST['menu-item-title'][$k]       : '';
+					$menu_item_url         = isset( $_POST['menu-item-url'][$k] )         ? $_POST['menu-item-url'][$k]         : '';
+					$menu_item_description = isset( $_POST['menu-item-description'][$k] ) ? $_POST['menu-item-description'][$k] : '';
+					$menu_item_attr_title  = isset( $_POST['menu-item-attr-title'][$k] )  ? $_POST['menu-item-attr-title'][$k]  : '';
+					$menu_item_target      = isset( $_POST['menu-item-target'][$k] )      ? $_POST['menu-item-target'][$k]      : 0;
+					$menu_item_classes     = isset( $_POST['menu-item-classes'][$k] )     ? $_POST['menu-item-classes'][$k]     : '';
+					$menu_item_xfn         = isset( $_POST['menu-item-xfn'][$k] )         ? $_POST['menu-item-xfn'][$k]         : '';
 
 					// Menu item title can't be blank
 					if ( '' == $menu_item_title )
