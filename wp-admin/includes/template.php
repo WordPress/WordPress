@@ -2980,8 +2980,10 @@ function get_hidden_meta_boxes($screen) {
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
 
-	if ( 'misc' == $page )
+	if ( 'misc' == $page ) {
+		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
 		$page = 'general';
+	}
 
 	if ( !isset($wp_settings_sections) )
 		$wp_settings_sections = array();
@@ -3018,8 +3020,10 @@ function add_settings_section($id, $title, $callback, $page) {
 function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
 	global $wp_settings_fields;
 
-	if ( 'misc' == $page )
+	if ( 'misc' == $page ) {
+		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
 		$page = 'general';
+	}
 
 	if ( !isset($wp_settings_fields) )
 		$wp_settings_fields = array();
