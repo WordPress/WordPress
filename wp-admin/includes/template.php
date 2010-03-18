@@ -2980,6 +2980,9 @@ function get_hidden_meta_boxes($screen) {
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
 
+	if ( 'misc' == $page )
+		$page = 'general';
+
 	if ( !isset($wp_settings_sections) )
 		$wp_settings_sections = array();
 	if ( !isset($wp_settings_sections[$page]) )
@@ -3014,6 +3017,9 @@ function add_settings_section($id, $title, $callback, $page) {
  */
 function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
 	global $wp_settings_fields;
+
+	if ( 'misc' == $page )
+		$page = 'general';
 
 	if ( !isset($wp_settings_fields) )
 		$wp_settings_fields = array();

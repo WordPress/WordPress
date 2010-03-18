@@ -1452,6 +1452,10 @@ function unregister_setting($option_group, $option_name, $sanitize_callback = ''
  */
 function add_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
 	global $new_whitelist_options;
+
+	if ( 'misc' == $option_group )
+		$option_group = 'general';
+
 	$new_whitelist_options[ $option_group ][] = $option_name;
 	if ( $sanitize_callback != '' )
 		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
@@ -1468,6 +1472,10 @@ function add_option_update_handler($option_group, $option_name, $sanitize_callba
  */
 function remove_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
 	global $new_whitelist_options;
+
+	if ( 'misc' == $option_group )
+		$option_group = 'general';
+
 	$pos = array_search( $option_name, (array) $new_whitelist_options );
 	if ( $pos !== false )
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
