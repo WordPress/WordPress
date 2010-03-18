@@ -609,7 +609,7 @@ function wp_manage_posts_columns( $screen = '') {
 	$posts_columns['author'] = __('Author');
 	if ( empty($post_type) || is_object_in_taxonomy($post_type, 'category') )
 		$posts_columns['categories'] = __('Categories');
-	if ( empty($post_type) || is_object_in_taxonomy($post_type, 'category') )
+	if ( empty($post_type) || is_object_in_taxonomy($post_type, 'post_tag') )
 		$posts_columns['tags'] = __('Tags');
 	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
 	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($post_type) || post_type_supports($post_type, 'comments') ) )
