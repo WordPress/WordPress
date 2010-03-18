@@ -42,8 +42,11 @@ function &get_categories( $args = '' ) {
 
 	$taxonomy = apply_filters( 'get_categories_taxonomy', $args['taxonomy'], $args );
 
-	if ( isset($args['type']) && 'link' == $args['type'] ) //Back compat
+	// Back compat
+	if ( isset($args['type']) && 'link' == $args['type'] ) {
+		_deprecated_argument( __FUNCTION__, '3.0', '' );
 		$taxonomy = $args['taxonomy'] = 'link_category';
+	}
 
 	$categories = (array) get_terms( $taxonomy, $args );
 

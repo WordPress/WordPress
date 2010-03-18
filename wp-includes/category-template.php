@@ -318,6 +318,7 @@ function category_description( $category = 0 ) {
  *     'id' (string) - The ID attribute value for select element. Defaults to name if omitted.
  *     'class' (string) - The class attribute value for select element.
  *     'selected' (int) - Which category ID is selected.
+ *     'taxonomy' (string) - The name of the taxonomy to retrieve. Defaults to category.
  *
  * The 'hierarchical' argument, which is disabled by default, will override the
  * depth argument, unless it is true. When the argument is false, it will
@@ -344,6 +345,12 @@ function wp_dropdown_categories( $args = '' ) {
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
+
+	// Back compat.
+	if ( isset( $args['type'] ) && 'link' == $args['type'] ) {
+		_deprecated_argument( __FUNCTION__, '3.0', '' );
+		$args['taxonomy'] = 'link_category';
+	}
 
 	$r = wp_parse_args( $args, $defaults );
 
