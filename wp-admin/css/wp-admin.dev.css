@@ -3644,10 +3644,6 @@ span.imgedit-scale-warn {
 
 /* Custom Background  */
 
-div#custom-background h2 {
-	margin-top: 20px;
-}
-
 #custom-background table th, #custom-background table td {
 	text-align:left;
 	padding-right:40px;
