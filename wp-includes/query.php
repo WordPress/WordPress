@@ -1806,7 +1806,7 @@ class WP_Query {
 					$search .= " AND ($wpdb->posts.post_password = '') ";
 			}
 		}
-		$search = apply_filters('posts_search', $search, $this);
+		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Category stuff
 
@@ -2243,8 +2243,8 @@ class WP_Query {
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
 		if ( !$q['suppress_filters'] ) {
-			$where = apply_filters('posts_where', $where);
-			$join = apply_filters('posts_join', $join);
+			$where = apply_filters_ref_array('posts_where', array( $where, &$this ) );
+			$join = apply_filters_ref_array('posts_join', array( $join, &$this ) );
 		}
 
 		// Paging
@@ -2278,11 +2278,11 @@ class WP_Query {
 			}
 
 			if ( !$q['suppress_filters'] ) {
-				$cjoin = apply_filters('comment_feed_join', $cjoin);
-				$cwhere = apply_filters('comment_feed_where', $cwhere);
-				$cgroupby = apply_filters('comment_feed_groupby', $cgroupby);
-				$corderby = apply_filters('comment_feed_orderby', 'comment_date_gmt DESC');
-				$climits = apply_filters('comment_feed_limits', 'LIMIT ' . get_option('posts_per_rss'));
+				$cjoin = apply_filters_ref_array('comment_feed_join', array( $cjoin, &$this ) );
+				$cwhere = apply_filters_ref_array('comment_feed_where', array( $cwhere, &$this ) );
+				$cgroupby = apply_filters_ref_array('comment_feed_groupby', array( $cgroupby, &$this ) );
+				$corderby = apply_filters_ref_array('comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
+				$climits = apply_filters_ref_array('comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
 			}
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
@@ -2308,14 +2308,13 @@ class WP_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		if ( !$q['suppress_filters'] ) {
-			$where = apply_filters('posts_where_paged', $where);
-			$groupby = apply_filters('posts_groupby', $groupby);
-			$join = apply_filters('posts_join_paged', $join);
-			$orderby = apply_filters('posts_orderby', $orderby);
-			$distinct = apply_filters('posts_distinct', $distinct);
-			$limits = apply_filters( 'post_limits', $limits );
-
-			$fields = apply_filters('posts_fields', $fields);
+			$where		= apply_filters_ref_array( 'posts_where_paged',	array( $where, &$this ) );
+			$groupby	= apply_filters_ref_array( 'posts_groupby',		array( $groupby, &$this ) );
+			$join		= apply_filters_ref_array( 'posts_join_paged',	array( $join, &$this ) );
+			$orderby	= apply_filters_ref_array( 'posts_orderby',		array( $orderby, &$this ) );
+			$distinct	= apply_filters_ref_array( 'posts_distinct',	array( $distinct, &$this ) );
+			$limits		= apply_filters_ref_array( 'post_limits',		array( $limits, &$this ) );
+			$fields		= apply_filters_ref_array( 'posts_fields',		array( $fields, &$this ) );
 		}
 
 		// Announce current selection parameters.  For use by caching plugins.
@@ -2323,13 +2322,13 @@ class WP_Query {
 
 		// Filter again for the benefit of caching plugins.  Regular plugins should use the hooks above.
 		if ( !$q['suppress_filters'] ) {
-			$where = apply_filters('posts_where_request', $where);
-			$groupby = apply_filters('posts_groupby_request', $groupby);
-			$join = apply_filters('posts_join_request', $join);
-			$orderby = apply_filters('posts_orderby_request', $orderby);
-			$distinct = apply_filters('posts_distinct_request', $distinct);
-			$fields = apply_filters('posts_fields_request', $fields);
-			$limits = apply_filters( 'post_limits_request', $limits );
+			$where		= apply_filters_ref_array( 'posts_where_request',	array( $where, &$this ) );
+			$groupby	= apply_filters_ref_array( 'posts_groupby_request',		array( $groupby, &$this ) );
+			$join		= apply_filters_ref_array( 'posts_join_request',	array( $join, &$this ) );
+			$orderby	= apply_filters_ref_array( 'posts_orderby_request',		array( $orderby, &$this ) );
+			$distinct	= apply_filters_ref_array( 'posts_distinct_request',	array( $distinct, &$this ) );
+			$fields		= apply_filters_ref_array( 'posts_fields_request',		array( $fields, &$this ) );
+			$limits		= apply_filters_ref_array( 'post_limits_request',		array( $limits, &$this ) );
 		}
 
 		if ( ! empty($groupby) )
@@ -2342,30 +2341,30 @@ class WP_Query {
 
 		$this->request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 		if ( !$q['suppress_filters'] )
-			$this->request = apply_filters('posts_request', $this->request);
+			$this->request = apply_filters_ref_array('posts_request', array( $this->request, &$this ) );
 
 		$this->posts = $wpdb->get_results($this->request);
 		// Raw results filter.  Prior to status checks.
 		if ( !$q['suppress_filters'] )
-			$this->posts = apply_filters('posts_results', $this->posts);
+			$this->posts = apply_filters_ref_array('posts_results', array( $this->posts, &$this ) );
 
 		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
-			$cjoin = apply_filters('comment_feed_join', '');
-			$cwhere = apply_filters('comment_feed_where', "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'");
-			$cgroupby = apply_filters('comment_feed_groupby', '');
+			$cjoin = apply_filters_ref_array('comment_feed_join', array( '', &$this ) );
+			$cwhere = apply_filters_ref_array('comment_feed_where', array( "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'", &$this ) );
+			$cgroupby = apply_filters_ref_array('comment_feed_groupby', array( '', &$this ) );
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
-			$corderby = apply_filters('comment_feed_orderby', 'comment_date_gmt DESC');
+			$corderby = apply_filters_ref_array('comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
-			$climits = apply_filters('comment_feed_limits', 'LIMIT ' . get_option('posts_per_rss'));
+			$climits = apply_filters_ref_array('comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
 			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits";
 			$this->comments = $wpdb->get_results($comments_request);
 			$this->comment_count = count($this->comments);
 		}
 
 		if ( !$q['no_found_rows'] && !empty($limits) ) {
-			$found_posts_query = apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()' );
+			$found_posts_query = apply_filters_ref_array( 'found_posts_query', array( 'SELECT FOUND_ROWS()', &$this ) );
 			$this->found_posts = $wpdb->get_var( $found_posts_query );
-			$this->found_posts = apply_filters( 'found_posts', $this->found_posts );
+			$this->found_posts = apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
 			$this->max_num_pages = ceil($this->found_posts / $q['posts_per_page']);
 		}
 
@@ -2398,7 +2397,7 @@ class WP_Query {
 			}
 
 			if ( $this->is_preview && current_user_can( $edit_cap, $this->posts[0]->ID ) )
-				$this->posts[0] = apply_filters('the_preview', $this->posts[0]);
+				$this->posts[0] = apply_filters_ref_array('the_preview', array( $this->posts[0], &$this ));
 		}
 
 		// Put sticky posts at the top of the posts array
@@ -2447,7 +2446,7 @@ class WP_Query {
 		}
 
 		if ( !$q['suppress_filters'] )
-			$this->posts = apply_filters('the_posts', $this->posts);
+			$this->posts = apply_filters_ref_array('the_posts', array( $this->posts, &$this ) );
 
 		$this->post_count = count($this->posts);
 
