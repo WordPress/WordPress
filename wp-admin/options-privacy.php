@@ -9,8 +9,8 @@
 /** Load WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( ! current_user_can('manage_options') )
-	wp_die(__('You do not have sufficient permissions to manage options for this blog.'));
+if ( ! current_user_can( 'manage_options' ) )
+	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
 $title = __('Privacy Settings');
 $parent_file = 'options-general.php';
@@ -27,12 +27,12 @@ include('./admin-header.php');
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php _e('Blog Visibility') ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e('Blog Visibility') ?> </span></legend>
-<p><input id="blog-public" type="radio" name="blog_public" value="1" <?php checked('1', get_option('blog_public')); ?> />
-<label for="blog-public"><?php _e('I would like my blog to be visible to everyone, including search engines (like Google, Bing, Technorati) and archivers');?></label></p>
-<p><input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked('0', get_option('blog_public')); ?> />
-<label for="blog-norobots"><?php _e('I would like to block search engines, but allow normal visitors'); ?></label></p>
+<th scope="row"><?php _e('Site Visibility') ?> </th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Site Visibility') ?> </span></legend>
+<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked('1', get_option('blog_public')); ?> />
+<label for="blog-public"><?php _e('I would like my site to be visible to everyone, including search engines (like Google, Bing, Technorati) and archivers');?></label><br/>
+<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked('0', get_option('blog_public')); ?> />
+<label for="blog-norobots"><?php _e('I would like to block search engines, but allow normal visitors'); ?></label>
 <?php do_action('blog_privacy_selector'); ?>
 </fieldset></td>
 </tr>

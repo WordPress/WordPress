@@ -9,8 +9,8 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-if ( ! current_user_can('manage_options') )
-	wp_die(__('You do not have sufficient permissions to manage options for this blog.'));
+if ( ! current_user_can( 'manage_options' ) )
+	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
 $title = __('Media Settings');
 $parent_file = 'options-general.php';

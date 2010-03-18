@@ -9,8 +9,8 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( ! current_user_can('manage_options') )
-	wp_die(__('You do not have sufficient permissions to manage options for this blog.'));
+if ( ! current_user_can( 'manage_options' ) )
+	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
 $title = __('General Settings');
 $parent_file = 'options-general.php';
@@ -64,13 +64,13 @@ include('./admin-header.php');
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><label for="blogname"><?php _e('Blog Title') ?></label></th>
+<th scope="row"><label for="blogname"><?php _e('Site Title') ?></label></th>
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" class="regular-text" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription"  value="<?php form_option('blogdescription'); ?>" class="regular-text" />
-<span class="description"><?php _e('In a few words, explain what this blog is about.') ?></span></td>
+<span class="description"><?php _e('In a few words, explain what this site is about.') ?></span></td>
 </tr>
 <?php if ( !is_multisite() ) { ?>
 <tr valign="top">
@@ -78,9 +78,9 @@ include('./admin-header.php');
 <td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) echo ' disabled' ?>" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="home"><?php _e('Blog address (URL)') ?></label></th>
+<th scope="row"><label for="home"><?php _e('Site address (URL)') ?></label></th>
 <td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
-<span class="description"><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
+<span class="description"><?php _e('Enter the address here if you want your site homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="admin_email"><?php _e('E-mail address') ?> </label></th>
@@ -322,7 +322,7 @@ if ( is_multisite() && is_dir( ABSPATH . LANGDIR ) && $dh = opendir( ABSPATH . L
 if ( !empty($lang_files) ) {
 ?>
 	<tr valign="top">
-		<th width="33%" scope="row"><?php _e('Blog language:') ?></th>
+		<th width="33%" scope="row"><?php _e('Site language:') ?></th>
 		<td>
 			<select name="WPLANG" id="WPLANG">
 				<?php mu_dropdown_languages( $lang_files, get_option('WPLANG') ); ?>

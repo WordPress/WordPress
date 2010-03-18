@@ -9,8 +9,8 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-if ( ! current_user_can('activate_plugins') )
-	wp_die(__('You do not have sufficient permissions to manage plugins for this blog.'));
+if ( ! current_user_can( 'activate_plugins' ) )
+	wp_die( __( 'You do not have sufficient permissions to manage plugins for this blog.' ) );
 
 if ( isset($_POST['clear-recent-list']) )
 	$action = 'clear-recent-list';
