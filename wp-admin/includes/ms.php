@@ -617,7 +617,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 function secret_salt_warning() {
 	if ( !is_super_admin() )
 		return;
-	$secret_keys = array( 'NONCE_KEY', 'AUTH_KEY', 'AUTH_SALT', 'LOGGED_IN_KEY', 'LOGGED_IN_SALT', 'SECURE_AUTH_KEY', 'SECURE_AUTH_SALT' );
+	$secret_keys = array( 'NONCE_KEY', 'NONCE_SALT', 'AUTH_KEY', 'AUTH_SALT', 'LOGGED_IN_KEY', 'LOGGED_IN_SALT', 'SECURE_AUTH_KEY', 'SECURE_AUTH_SALT' );
 	$out = '';
 	foreach( $secret_keys as $key ) {
 		if ( !defined( $key ) )
