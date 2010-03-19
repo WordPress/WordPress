@@ -16,6 +16,10 @@
 function current_theme_info() {
 	$themes = get_themes();
 	$current_theme = get_current_theme();
+	if ( ! isset( $themes[$current_theme] ) ) {
+		delete_option( 'current_theme' );
+		$current_theme = get_current_theme();
+	}
 	$ct->name = $current_theme;
 	$ct->title = $themes[$current_theme]['Title'];
 	$ct->version = $themes[$current_theme]['Version'];
