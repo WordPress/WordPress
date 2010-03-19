@@ -179,11 +179,23 @@ class Custom_Background {
 	function pickColor(color) {
 		jQuery('#background-color').val(color);
 		farbtastic.setColor(color);
+		jQuery('#custom-background-image').css('background-color', color);
 	}
 
 	jQuery(document).ready(function() {
 		jQuery('#pickcolor').click(function() {
 			jQuery('#colorPickerDiv').show();
+		});
+		jQuery('#background-color').keyup(function() {
+			var _hex = jQuery('#background-color').val();
+			var hex = _hex;
+			if ( hex[0] != '#' )
+				hex = '#' + hex;
+			hex = hex.replace(/[^#a-fA-F0-9]+/, '');
+			if ( hex != _hex )
+				jQuery('#background-color').val(hex);
+			if ( hex.length == 4 || hex.length == 7 )
+				pickColor( hex );
 		});
 
 		farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) { pickColor(color); });
