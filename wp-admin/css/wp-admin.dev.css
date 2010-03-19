@@ -3654,14 +3654,14 @@ span.imgedit-scale-warn {
 	padding-right:10px;
 	width:80px;
 }
+div#custom-background-image {
+	min-height: 100px;
+	border: 1px solid #000;
+}
 
 div#custom-background-image img {
 	max-width: 400px;
 	max-height: 200px;
-}
-
-div#custom-background-image p.submit {
-	display: inline;
 }
 
 /* Custom Header */
