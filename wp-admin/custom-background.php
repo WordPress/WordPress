@@ -89,10 +89,7 @@ class Custom_Background {
 	 * @since unknown
 	 */
 	function js_includes() {
-		$step = $this->step();
-
-		if ( 1 == $step )
-			wp_enqueue_script('farbtastic');
+		wp_enqueue_script('farbtastic');
 	}
 
 	/**
@@ -101,10 +98,7 @@ class Custom_Background {
 	 * @since unknown
 	 */
 	function css_includes() {
-		$step = $this->step();
-
-		if ( 1 == $step )
-			wp_enqueue_style('farbtastic');
+		wp_enqueue_style('farbtastic');
 	}
 
 	/**
@@ -153,6 +147,8 @@ class Custom_Background {
 			else
 				set_theme_mod('background_color', '');
 		}
+
+		$this->updated = true;
 	}
 
 	/**
@@ -161,9 +157,7 @@ class Custom_Background {
 	 * @since unknown
 	 */
 	function js() {
-		$step = $this->step();
-		if ( 1 == $step )
-			$this->js_1();
+		$this->js_1();
 	}
 
 	/**
@@ -234,13 +228,11 @@ class Custom_Background {
 <div class="wrap" id="custom-background">
 <?php screen_icon(); ?>
 <h2><?php _e('Custom Background'); ?></h2>
-<?php if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
+<?php if ( !empty($this->updated) ) { ?>
 <div id="message" class="updated">
 <p><?php printf(__('Background updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
 </div>
-<?php }
-
-if ( get_background_image() || get_background_color() ) { ?>
+<?php } ?>
 <p><?php _e('This is your current background.'); ?></p>
 <?php
 	if ( $this->admin_image_div_callback ) {
@@ -256,13 +248,7 @@ if ( get_background_image() || get_background_color() ) { ?>
 <img class="custom-background-image" src="<?php background_image(); ?>" />
 <?php } ?>
 </div>
-<?php }
-} else { ?>
-<p><?php _e('There is currently no background image.'); ?></p> <?php
-}
-
-if ( get_background_image() ) : ?>
-
+<?php } ?>
 <h3><?php _e('Change Display Options') ?></h3>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
 <table>
@@ -327,8 +313,6 @@ if ( get_background_image() ) : ?>
 <p class="submit"><input type="submit" class="button" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
 </form>
 
-<?php endif; ?>
-
 <h3><?php _e('Upload New Background Image'); ?></h3>
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
@@ -363,7 +347,7 @@ if ( get_background_image() ) : ?>
 		$file = wp_handle_upload($_FILES['import'], $overrides);
 
 		if ( isset($file['error']) )
-			die( $file['error'] );
+			wp_die( $file['error'] );
 
 		$url = $file['url'];
 		$type = $file['type'];
@@ -372,10 +356,11 @@ if ( get_background_image() ) : ?>
 
 		// Construct the object array
 		$object = array(
-		'post_title' => $filename,
-		'post_content' => $url,
-		'post_mime_type' => $type,
-		'guid' => $url);
+			'post_title' => $filename,
+			'post_content' => $url,
+			'post_mime_type' => $type,
+			'guid' => $url
+		);
 
 		// Save the data
 		$id = wp_insert_attachment($object, $file);
@@ -385,6 +370,7 @@ if ( get_background_image() ) : ?>
 
 		set_theme_mod('background_image', esc_url($url));
 		do_action('wp_create_file_in_uploads', $file, $id); // For replication
+		$this->updated = true;
 		return $this->finished();
 	}
 
@@ -394,8 +380,7 @@ if ( get_background_image() ) : ?>
 	 * @since unknown
 	 */
 	function finished() {
-		$_GET['updated'] = 1;
-	  $this->step_1();
+		$this->step_1();
 	}
 
 	/**
