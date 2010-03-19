@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( !is_multisite() )
 	wp_die( __('Multisite support is not enabled.') );
 
-$title = __('Options');
+$title = __('Network Options');
 $parent_file = 'ms-admin.php';
 
 include('admin-header.php');
@@ -40,7 +40,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" size="45" />
 					<br />
-					<?php printf( __( 'Registration and support mails will come from this address. Make it generic like "support@%s"' ), $current_site->domain ); ?>
+					<?php printf( __( 'Registration and support emails will come from this address. An address such as "support@%s" is recommended.' ), $current_site->domain ); ?>
 				</td>
 			</tr>
 
@@ -67,7 +67,7 @@ if (isset($_GET['updated'])) {
 					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr($blogname); ?>" />
 					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr($blogname); ?>" size="30" />
 					<br />
-					<?php _e( "Blogname ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this site as subscribers (or the user role defined below) if they don't have a site. Leave blank for the main site. 'Subscriber' users on old site will be moved to the new site if changed. New site will be created if it does not exist." ); ?>
+					<?php _e( "Blogname ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this site as subscribers (or the user role defined below) if they don't have a site. Leave blank for the main site. 'Subscriber' users on old site will be moved to the new site if changed. The new site will be created if it does not exist." ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -78,7 +78,7 @@ if (isset($_GET['updated'])) {
 					?>
 					</select>
 					<br />
-					<?php _e( "The default role for new users on the Dashboard site. This should probably be 'Subscriber' or maybe 'Contributor'." ); ?>
+					<?php _e( "The default role for new users on the Dashboard site. 'Subscriber' or 'Contributor' roles are recommended." ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -128,7 +128,7 @@ if (isset($_GET['updated'])) {
 					<a name='addnewusers'></a>
 					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
 					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
-					<?php _e('Allow site administrators to add new users to their site via the Users->Add New page.') ?>
+					<?php _e('Allow site administrators to add new users to their site via the "Users->Add New" page.') ?>
 				</td>
 			</tr>
 
@@ -148,7 +148,7 @@ if (isset($_GET['updated'])) {
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
 					<textarea name="limited_email_domains" id="limited_email_domains" cols='40' rows='5'><?php echo $limited_email_domains == '' ? '' : @implode( "\n", $limited_email_domains ); ?></textarea>
 					<br />
-					<?php _e('If you want to limit site registrations to certain domains. One domain per line.') ?>
+					<?php _e('If you want to limit site registrations to certain domains. Enter one domain per line.') ?>
 				</td>
 			</tr>
 
@@ -157,7 +157,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="banned_email_domains" id="banned_email_domains" cols='40' rows='5'><?php echo get_site_option('banned_email_domains') == '' ? '' : @implode( "\n", get_site_option('banned_email_domains') ); ?></textarea>
 					<br />
-					<?php _e('If you want to ban certain email domains from site registrations. One domain per line.') ?>
+					<?php _e('If you want to ban domains from site registrations. Enter one domain per line.') ?>
 				</td>
 			</tr>
 
@@ -186,7 +186,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="first_post" id="first_post" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_post') ) ?></textarea>
 					<br />
-					<?php _e('First post on a new site.') ?>
+					<?php _e('The first post on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -194,7 +194,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="first_page" id="first_page" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_page') ) ?></textarea>
 					<br />
-					<?php _e('First page on a new site.') ?>
+					<?php _e('The first page on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -202,7 +202,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="first_comment" id="first_comment" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_comment') ) ?></textarea>
 					<br />
-					<?php _e('First comment on a new site.') ?>
+					<?php _e('The first comment on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -210,7 +210,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input type="text" size='40' name="first_comment_author" id="first_comment_author" value="<?php echo get_site_option('first_comment_author') ?>" />
 					<br />
-					<?php _e('Author of first comment on a new site.') ?>
+					<?php _e('The author of the first comment on a new site.') ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -218,7 +218,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<input type="text" size='40' name="first_comment_url" id="first_comment_url" value="<?php echo esc_attr(get_site_option('first_comment_url')) ?>" />
 					<br />
-					<?php _e('URL on first comment on a new site.') ?>
+					<?php _e('The URL for the first comment on a new site.') ?>
 				</td>
 			</tr>
 		</table>

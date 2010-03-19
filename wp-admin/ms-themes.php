@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 
-$title = __('WordPress &rsaquo; Admin &rsaquo; Themes');
+$title = __('Network Themes');
 $parent_file = 'ms-admin.php';
 require_once('admin-header.php');
 
@@ -20,8 +20,8 @@ $allowed_themes = get_site_allowed_themes();
 <div class="wrap">
 	<form action='ms-edit.php?action=updatethemes' method='post'>
 		<?php screen_icon(); ?>
-		<h2><?php _e('Site Themes') ?></h2>
-		<p><?php _e('Disable themes site-wide. You can enable themes on a site by site basis.') ?></p>
+		<h2><?php _e('Network Themes') ?></h2>
+		<p><?php _e('Disable themes network-wide. You can enable themes on a site by site basis.') ?></p>
 		<table class="widefat">
 			<thead>
 				<tr>
