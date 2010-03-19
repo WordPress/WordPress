@@ -54,14 +54,14 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$class[] = 'current';
 		}
 
-		if ( isset($item[4]) && ! empty($item[4]) )
+		if ( ! empty($item[4]) )
 			$class[] = $item[4];
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$tabindex = ' tabindex="1"';
-		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
+		$id = ! empty($item[5]) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
 		$img = '';
-		if ( isset($item[6]) && ! empty($item[6]) ) {
+		if ( ! empty($item[6]) ) {
 			if ( 'div' === $item[6] )
 				$img = '<br />';
 			else

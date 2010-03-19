@@ -966,7 +966,7 @@ function is_dynamic_sidebar() {
 function is_active_sidebar( $index ) {
 	$index = ( is_int($index) ) ? "sidebar-$index" : sanitize_title($index);
 	$sidebars_widgets = wp_get_sidebars_widgets();
-	if ( isset($sidebars_widgets[$index]) && !empty($sidebars_widgets[$index]) )
+	if ( !empty($sidebars_widgets[$index]) )
 		return true;
 
 	return false;

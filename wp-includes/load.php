@@ -62,7 +62,7 @@ function wp_fix_server_vars() {
 			}
 
 			// Append the query string if it exists and isn't null
-			if ( isset( $_SERVER['QUERY_STRING'] ) && !empty( $_SERVER['QUERY_STRING'] ) ) {
+			if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
 				$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 			}
 		}

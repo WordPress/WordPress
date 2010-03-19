@@ -40,7 +40,7 @@ if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 		wp_redirect($location);
 		exit();
 	}
-} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+} elseif ( ! empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }

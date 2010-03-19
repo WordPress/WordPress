@@ -1243,9 +1243,8 @@ function get_admin_page_title() {
 	global $pagenow;
 	global $plugin_page;
 
-	if ( isset( $title ) && !empty ( $title ) ) {
+	if ( ! empty ( $title ) )
 		return $title;
-	}
 
 	$hook = get_plugin_page_hook( $plugin_page, $pagenow );
 
@@ -1290,7 +1289,7 @@ function get_admin_page_title() {
 				}
 			}
 		}
-		if ( !isset($title) || empty ( $title ) ) {
+		if ( empty ( $title ) ) {
 			foreach ( $menu as $menu_array ) {
 				if ( isset( $plugin_page ) &&
 					($plugin_page == $menu_array[2] ) &&

@@ -73,7 +73,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		else
 			$this->options['hostname'] = $opt['hostname'];
 
-		if ( isset($opt['base']) && ! empty($opt['base']) )
+		if ( ! empty($opt['base']) )
 			$this->wp_base = $opt['base'];
 
 		// Check if the options provided are OK.

@@ -95,7 +95,7 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 
 	wp_redirect( $redirect_to );
 	exit;
-} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+} elseif ( ! empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
@@ -107,7 +107,7 @@ else
 
 require_once('admin-header.php');
 
-$mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : esc_attr($_GET['mode']);
+$mode = ( empty($_GET['mode']) ) ? 'detail' : esc_attr($_GET['mode']);
 
 $comment_status = isset($_REQUEST['comment_status']) ? $_REQUEST['comment_status'] : 'all';
 if ( !in_array($comment_status, array('all', 'moderated', 'approved', 'spam', 'trash')) )

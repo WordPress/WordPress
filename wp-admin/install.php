@@ -79,7 +79,7 @@ function display_setup_form( $error = null ) {
 
 	// Ensure that Blogs appear in search engines by default
 	$blog_public = 1;
-	if ( isset( $_POST ) && ! empty( $_POST ) )
+	if ( ! empty( $_POST ) )
 		$blog_public = isset( $_POST['blog_public'] );
 
 	$weblog_title = isset( $_POST['weblog_title'] ) ? trim( stripslashes( $_POST['weblog_title'] ) ) : '';

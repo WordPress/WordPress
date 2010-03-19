@@ -951,7 +951,7 @@ function wp_kses_bad_protocol_once2($matches) {
 	global $_kses_allowed_protocols;
 
 	if ( is_array($matches) ) {
-		if ( ! isset($matches[1]) || empty($matches[1]) )
+		if ( empty($matches[1]) )
 			return '';
 
 		$string = $matches[1];

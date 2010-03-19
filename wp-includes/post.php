@@ -2078,7 +2078,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	// Create a valid post name.  Drafts and pending posts are allowed to have an empty
 	// post name.
-	if ( !isset($post_name) || empty($post_name) ) {
+	if ( empty($post_name) ) {
 		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
 			$post_name = sanitize_title($post_title);
 		else
