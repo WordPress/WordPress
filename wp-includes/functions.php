@@ -3829,13 +3829,13 @@ function wp_timezone_choice( $selected_zone ) {
 
 		// This determines what gets set and translated - we don't translate Etc/* strings here, they are done later
 		$exists = array(
-			0 => ( isset( $zone[0] ) && $zone[0] ) ? true : false,
-			1 => ( isset( $zone[1] ) && $zone[1] ) ? true : false,
-			2 => ( isset( $zone[2] ) && $zone[2] ) ? true : false
+			0 => ( isset( $zone[0] ) && $zone[0] ),
+			1 => ( isset( $zone[1] ) && $zone[1] ),
+			2 => ( isset( $zone[2] ) && $zone[2] ),
 		);
-		$exists[3] = ( $exists[0] && 'Etc' !== $zone[0] ) ? true : false;
-		$exists[4] = ( $exists[1] && $exists[3] ) ? true : false;
-		$exists[5] = ( $exists[2] && $exists[3] ) ? true : false;
+		$exists[3] = ( $exists[0] && 'Etc' !== $zone[0] );
+		$exists[4] = ( $exists[1] && $exists[3] );
+		$exists[5] = ( $exists[2] && $exists[3] );
 
 		$zonen[] = array(
 			'continent'   => ( $exists[0] ? $zone[0] : '' ),

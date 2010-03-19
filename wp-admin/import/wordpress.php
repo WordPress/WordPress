@@ -866,7 +866,7 @@ class WP_Import {
 				break;
 			case 2:
 				check_admin_referer('import-wordpress');
-				$fetch_attachments = (!empty($_POST['attachments'])) ? true : false;
+				$fetch_attachments = ! empty( $_POST['attachments'] );
 				$result = $this->import( $_GET['id'], $fetch_attachments);
 				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();

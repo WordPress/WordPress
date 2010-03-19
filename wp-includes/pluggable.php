@@ -684,7 +684,7 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	}
 
 	if ( '' === $secure )
-		$secure = is_ssl() ? true : false;
+		$secure = is_ssl();
 
 	if ( $secure ) {
 		$auth_cookie_name = SECURE_AUTH_COOKIE;
@@ -777,10 +777,7 @@ if ( !function_exists('auth_redirect') ) :
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
 
-	if ( is_ssl() || force_ssl_admin() )
-		$secure = true;
-	else
-		$secure = false;
+	$secure = ( is_ssl() || force_ssl_admin() );
 
 	// If https is required and request is http, redirect
 	if ( $secure && !is_ssl() && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {

@@ -412,7 +412,7 @@ EOD;
 				array_push($post_category, $cat->term_id);
 		}
 
-		$publish = (isset($entry->draft) && trim($entry->draft) == 'yes') ? false : true;
+		$publish = ! ( isset( $entry->draft ) && 'yes' == trim( $entry->draft ) );
 
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
 
@@ -505,7 +505,7 @@ EOD;
 		if ( !current_user_can('edit_post', $entry['ID']) )
 			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 
-		$publish = (isset($parsed->draft) && trim($parsed->draft) == 'yes') ? false : true;
+		$publish = ! ( isset($parsed->draft) && 'yes' == trim($parsed->draft) );
 		$post_status = ($publish) ? 'publish' : 'draft';
 
 		extract($entry);

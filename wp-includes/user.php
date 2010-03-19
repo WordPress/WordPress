@@ -41,7 +41,7 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 	do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
 
 	if ( '' === $secure_cookie )
-		$secure_cookie = is_ssl() ? true : false;
+		$secure_cookie = is_ssl();
 
 	global $auth_secure_cookie; // XXX ugly hack to pass this to wp_authenticate_cookie
 	$auth_secure_cookie = $secure_cookie;

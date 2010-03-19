@@ -563,7 +563,7 @@ function upgrade_110() {
 	// Check if we already set the GMT fields (if we did, then
 	// MAX(post_date_gmt) can't be '0000-00-00 00:00:00'
 	// <michel_v> I just slapped myself silly for not thinking about it earlier
-	$got_gmt_fields = ($wpdb->get_var("SELECT MAX(post_date_gmt) FROM $wpdb->posts") == '0000-00-00 00:00:00') ? false : true;
+	$got_gmt_fields = ! ($wpdb->get_var("SELECT MAX(post_date_gmt) FROM $wpdb->posts") == '0000-00-00 00:00:00');
 
 	if (!$got_gmt_fields) {
 

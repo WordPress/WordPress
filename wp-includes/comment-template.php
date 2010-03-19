@@ -1418,7 +1418,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 		if ( empty($overridden_cpage) ) {
 			$r['page'] = get_query_var('cpage');
 		} else {
-			$threaded = ( -1 == $r['max_depth'] ) ? false : true;
+			$threaded = ( -1 != $r['max_depth'] );
 			$r['page'] = ( 'newest' == get_option('default_comments_page') ) ? get_comment_pages_count($_comments, $r['per_page'], $threaded) : 1;
 			set_query_var( 'cpage', $r['page'] );
 		}
@@ -1429,7 +1429,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 		$r['page'] = 1;
 
 	if ( null === $r['reverse_top_level'] )
-		$r['reverse_top_level'] = ( 'desc' == get_option('comment_order') ) ? TRUE : FALSE;
+		$r['reverse_top_level'] = ( 'desc' == get_option('comment_order') );
 
 	extract( $r, EXTR_SKIP );
 

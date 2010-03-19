@@ -1457,7 +1457,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		$mce_buttons_4 = apply_filters('mce_buttons_4', array());
 		$mce_buttons_4 = implode($mce_buttons_4, ',');
 	}
-	$no_captions = ( apply_filters( 'disable_captions', '' ) ) ? true : false;
+	$no_captions = (bool) apply_filters( 'disable_captions', '' );
 
 	// TinyMCE init settings
 	$initArray = array (
