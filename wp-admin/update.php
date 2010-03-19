@@ -205,7 +205,7 @@ if ( isset($_GET['action']) ) {
 		wp_enqueue_script('theme-preview');
 		$title = __('Install Themes');
 		$parent_file = 'themes.php';
-		$submenu_file = 'theme-install.php';
+		$submenu_file = 'themes.php';
 		require_once('admin-header.php');
 
 		$title = sprintf( __('Installing Theme: %s'), $api->name . ' ' . $api->version );

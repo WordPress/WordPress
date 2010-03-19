@@ -455,8 +455,11 @@ function install_theme_information() {
 	// Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
 		$api->sections[$section_name] = wp_kses($content, $themes_allowedtags);
-	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
-		$api->$key = wp_kses($api->$key, $themes_allowedtags);
+
+	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key ) {
+		if ( isset($api->$key) )
+			$api->$key = wp_kses($api->$key, $themes_allowedtags);
+	}
 
 	iframe_header( __('Theme Install') );
 
