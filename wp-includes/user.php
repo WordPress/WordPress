@@ -142,7 +142,7 @@ function wp_authenticate_cookie($user, $username, $password) {
 /**
  * Number of posts user has written.
  *
- * @since 0.71
+ * @since 3.0.0
  * @uses $wpdb WordPress database object for queries.
  *
  * @param int $userid User ID.

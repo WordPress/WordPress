@@ -2440,10 +2440,23 @@ function automatic_feed_links( $add = true ) {
  * @see get_the_author_meta()
  */
 function get_profile( $field, $user = false ) {
-	_deprecated_function(__FUNCTION__, '3.0', 'get_the_author_meta()' );
+	_deprecated_function( __FUNCTION__, '3.0', 'get_the_author_meta()' );
 	if ( $user ) {
 		$user = get_user_by( 'login', $user );
 		$user = $user->ID;
 	}
 	return get_the_author_meta( $field, $user );
+}
+
+/**
+ * Number of posts user has written.
+ *
+ * @since 0.71
+ * @deprecated 3.0.0
+ * @deprecated Use count_user_posts()
+ * @see count_user_posts()
+ */
+function get_usernumposts( $userid ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'count_user_posts()' );
+	return count_user_posts( $userid );
 }
