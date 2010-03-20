@@ -164,6 +164,11 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				}
 
 			}
+		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false ) {
+			$category = get_term_by('slug', get_query_var('category_name'), 'category');
+			$post_terms = wp_get_object_terms($wp_query->get_queried_object_id(), 'category');
+			if ( ! in_array($category, $post_terms) )
+				$redirect_url = get_permalink($wp_query->get_queried_object_id());
 		}
 
 		// paging and feeds
