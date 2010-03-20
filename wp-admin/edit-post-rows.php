@@ -10,7 +10,7 @@
 if ( !defined('ABSPATH') )
 	die('-1');
 ?>
-<table class="widefat <?php echo $post_type == 'page' ? 'page' : 'post'; ?> fixed" cellspacing="0">
+<table class="widefat <?php echo $post_type_object->hierarchical ? 'page' : 'post'; ?> fixed" cellspacing="0">
 	<thead>
 	<tr>
 <?php print_column_headers( $current_screen ); ?>
