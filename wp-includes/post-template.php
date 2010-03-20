@@ -1190,7 +1190,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	<div class="alignleft">
 		<input type="submit" class="button-secondary" value="<?php esc_attr_e( 'Compare Revisions' ); ?>" />
 		<input type="hidden" name="action" value="diff" />
-		<input type="hidden" name="post_type" value="<?php echo esc_attr($GLOBALS['post_type']); ?>" />
+		<input type="hidden" name="post_type" value="<?php echo esc_attr($post->post_type); ?>" />
 	</div>
 </div>
 
