@@ -406,6 +406,18 @@ function post_comment_status_meta_box($post) {
 <?php
 }
 
+/** 
+ * Displa comments for post table header
+ * 
+ * @since 3.0
+ * 
+ * @param $result table header rows
+ * @return 
+ */ 
+function post_comment_meta_box_thead($result) { 
+	unset($result['cb'], $result['response']);
+	return $result; 
+} 
 
 /**
  * Display comments for post.
@@ -425,13 +437,12 @@ function post_comment_meta_box($post) {
 	}
 
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
+	add_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead', 8, 1);
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
 <thead><tr>
-    <th scope="col" class="column-author"><?php _e('Author') ?></th>
-    <th scope="col" class="column-comment">
-<?php /* translators: field name in comment form */ echo _x('Comment', 'noun'); ?></th>
+	<?php print_column_headers('edit-comments'); ?> 
 </tr></thead>
 <tbody id="the-comment-list" class="list:comment"></tbody>
 </table>
@@ -442,6 +453,7 @@ function post_comment_meta_box($post) {
 		<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 <?php
 	}
+	remove_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead'); 
 	wp_comment_trashnotice();
 }
 
