@@ -511,18 +511,20 @@ function post_revisions_meta_box($post) {
  *
  * @param object $post
  */
-function page_attributes_meta_box($post){
+function page_attributes_meta_box($post) {
 ?>
 <h5><?php _e('Parent') ?></h5>
 <label class="screen-reader-text" for="parent_id"><?php _e('Page Parent') ?></label>
 <?php wp_dropdown_pages(array('exclude_tree' => $post->ID, 'selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('Main Page (no parent)'), 'sort_column'=> 'menu_order, post_title')); ?>
 <p><?php _e('You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 <?php
-	if ( 0 != count( get_page_templates() ) ) { ?>
+	if ( 0 != count( get_page_templates() ) ) {
+		$template = !empty($post->page_template) ? $post->page_template : false;
+		?>
 <h5><?php _e('Template') ?></h5>
 <label class="screen-reader-text" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <option value='default'><?php _e('Default Template'); ?></option>
-<?php page_template_dropdown($post->page_template); ?>
+<?php page_template_dropdown($template); ?>
 </select>
 <p><?php _e('Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them above.'); ?></p>
 <?php
