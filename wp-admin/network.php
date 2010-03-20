@@ -117,28 +117,25 @@ function network_step1( $errors = false ) {
 	<p><?php _e( "Fill in the information below and you'll be on your way to creating a network of WordPress sites. We'll create configuration files in the next step." ); ?></p>
 	<?php
 
-	// @todo IIS...
-	if ( ! empty( $_POST['subdomain_install'] ) ) {
+	// @todo IIS and ! $is_apache
+	if ( isset( $_POST['subdomain_install'] ) ) {
 		$subdomain_install = (bool) $_POST['subdomain_install'];
 	} elseif ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
 		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
 		if ( got_mod_rewrite() ) // dangerous assumptions
-			echo '<p>' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this install.' ) . '</p>';
+			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this install.' ) . '</p>';
 		else
-			echo '<p>' . __( '<strong>Warning!</strong> It looks like Apache <code>mod_rewrite</code> module is not installed.' ) . '</p>';
-		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p>';
+			echo '<div class="error inline"><p><strong>' . __( 'Warning!' ) . '</strong> ' . __( 'It looks like the Apache <code>mod_rewrite</code> module is not installed.' ) . '</p>';
+		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled, ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p></div>';
 	}
 
 	if ( 'localhost' != $hostname ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
 		<p><?php _e( "You will need a wildcard DNS record if you're going to use the virtual host (sub-domain) functionality." ); ?></p>
-		<?php /* @todo: Link to an MS readme? */ ?>
-		<?php if ( ! $subdomain_install ) { ?>
-		<p><?php _e( '<strong>Note</strong> It looks like <code>mod_rewrite</code> is not installed.' ); ?></p>
-		<?php } ?>
+		<?php // @todo: Link to an MS readme? ?>
 		<table class="form-table">
 			<tr>
 				<th><label><input type='radio' name='subdomain_install' value='1'<?php checked( $subdomain_install ); ?> /> Sub-domains</label></th>
