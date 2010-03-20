@@ -854,7 +854,10 @@ function register_post_type($post_type, $args = array()) {
 			$args->rewrite['slug'] = $post_type;
 		if ( !isset($args->rewrite['with_front']) )
 			$args->rewrite['with_front'] = true;
-		$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+		if ( $args->hierarchical )
+			$wp_rewrite->add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+		else
+			$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 		$wp_rewrite->add_permastruct($post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front'], $args->permalink_epmask);
 	}
 
@@ -2749,7 +2752,7 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A.
  * @return mixed Null when complete.
  */
-function get_page_by_path($page_path, $output = OBJECT) {
+function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	global $wpdb;
 	$page_path = rawurlencode(urldecode($page_path));
 	$page_path = str_replace('%2F', '/', $page_path);
@@ -2761,21 +2764,21 @@ function get_page_by_path($page_path, $output = OBJECT) {
 	foreach( (array) $page_paths as $pathdir)
 		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 
-	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = %s AND (post_type = 'page' OR post_type = 'attachment')", $leaf_path ));
+	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = %s AND (post_type = %s OR post_type = 'attachment')", $leaf_path, $post_type ));
 
 	if ( empty($pages) )
 		return null;
 
-	foreach ($pages as $page) {
+	foreach ( $pages as $page ) {
 		$path = '/' . $leaf_path;
 		$curpage = $page;
-		while ($curpage->post_parent != 0) {
-			$curpage = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = %d and post_type='page'", $curpage->post_parent ));
+		while ( $curpage->post_parent != 0 ) {
+			$curpage = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = %d and post_type = %s", $curpage->post_parent, $post_type ));
 			$path = '/' . $curpage->post_name . $path;
 		}
 
 		if ( $path == $full_path )
-			return get_page($page->ID, $output);
+			return get_page($page->ID, $output, $post_type);
 	}
 
 	return null;

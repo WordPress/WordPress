@@ -187,11 +187,16 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 
 	$draft_or_pending = 'draft' == $post->post_status || 'pending' == $post->post_status;
 
+	$post_type = get_post_type_object($post->post_type);
+
 	if ( !empty($post_link) && ( ( isset($post->post_status) && !$draft_or_pending ) || $sample ) ) {
-		$post_link = ( $leavename ) ? $post_link : str_replace("%$post->post_type%", $slug, $post_link);
+		if ( ! $leavename ) {
+			if ( $post_type->hierarchical )
+				$slug = get_page_uri($id);
+			$post_link = str_replace("%$post->post_type%", $slug, $post_link);
+		}
 		$post_link = home_url( user_trailingslashit($post_link) );
 	} else {
-		$post_type = get_post_type_object($post->post_type);
 		if ( $post_type->query_var && ( isset($post->post_status) && !$draft_or_pending ) )
 			$post_link = add_query_arg($post_type->query_var, $slug, '');
 		else
@@ -295,9 +300,8 @@ function get_attachment_link($id = false) {
 
 	$link = false;
 
-	if (! $id) {
+	if ( ! $id)
 		$id = (int) $post->ID;
-	}
 
 	$object = get_post($id);
 	if ( $wp_rewrite->using_permalinks() && ($object->post_parent > 0) && ($object->post_parent != $id) ) {
@@ -306,17 +310,18 @@ function get_attachment_link($id = false) {
 			$parentlink = _get_page_link( $object->post_parent ); // Ignores page_on_front
 		else
 			$parentlink = get_permalink( $object->post_parent );
+
 		if ( is_numeric($object->post_name) || false !== strpos(get_option('permalink_structure'), '%category%') )
 			$name = 'attachment/' . $object->post_name; // <permalink>/<int>/ is paged so we use the explicit attachment marker
 		else
 			$name = $object->post_name;
-		if (strpos($parentlink, '?') === false)
+
+		if ( strpos($parentlink, '?') === false )
 			$link = user_trailingslashit( trailingslashit($parentlink) . $name );
 	}
 
-	if (! $link ) {
+	if ( ! $link )
 		$link = trailingslashit(get_bloginfo('url')) . "?attachment_id=$id";
-	}
 
 	return apply_filters('attachment_link', $link, $id);
 }

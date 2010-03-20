@@ -1436,8 +1436,9 @@ class WP_Rewrite {
 					// For custom post types, we need to add on endpoints as well.
 					foreach ( get_post_types( array('_builtin' => false ) ) as $ptype ) {
 						if ( strpos($struct, "%$ptype%") !== false ) {
+							$ptype = get_post_type_object($ptype);
 							$post = true;
-							$page = false;
+							$page = $ptype->hierarchical; // This is for page style attachment url's
 							break;
 						}
 					}

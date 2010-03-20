@@ -1712,10 +1712,35 @@ class WP_Query {
 		if ( $q['day'] )
 			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
 
-		if ('' != $q['name']) {
+		if ( !empty($q['post_type']) && !empty($q[ $q['post_type'] ]) ) {
+			$q[ $q['post_type'] ] = str_replace('%2F', '/', urlencode(urldecode($q[ $q['post_type'] ])));
+			$post_type_object = get_post_type_object($q['post_type']);
+			if ( ! $post_type_object->hierarchical || strpos($q[ $q['post_type'] ], '/') === false) { 
+				$q['name'] = $q[ $q['post_type'] ] = sanitize_title($q[ $q['post_type'] ]);
+				$where .= " AND $wpdb->posts.post_name = '" . $q[ $q['post_type'] ] . "'";			
+			} else {
+				// Hierarchical post type, need to look deeper to see if its an attachment or this post_type
+				if ( isset($this->queried_object_id) ) {
+					$reqpage = $this->queried_object_id;
+				} else {
+					$reqpage = get_page_by_path($q[ $q['post_type'] ], OBJECT, $q['post_type']);
+					if ( !empty($reqpage) )
+						$reqpage = $reqpage->ID;
+					else
+						$reqpage = 0;
+				}
+				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
+				$reqpage_obj = get_page($reqpage);
+				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
+					$this->is_attachment = true;
+					$q['attachment_id'] = $reqpage;
+					$post_type = $q['post_type'] = 'attachment';
+				}
+			}
+		} elseif ( '' != $q['name'] ) {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
-		} else if ('' != $q['pagename']) {
+		} elseif ( '' != $q['pagename'] ) {
 			if ( isset($this->queried_object_id) )
 				$reqpage = $this->queried_object_id;
 			else {
@@ -1727,7 +1752,7 @@ class WP_Query {
 			}
 
 			$page_for_posts = get_option('page_for_posts');
-			if  ( ('page' != get_option('show_on_front') ) ||  empty($page_for_posts) || ( $reqpage != $page_for_posts ) ) {
+			if  ( ('page' != get_option('show_on_front') ) || empty($page_for_posts) || ( $reqpage != $page_for_posts ) ) {
 				$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
 				$page_paths = '/' . trim($q['pagename'], '/');
 				$q['pagename'] = sanitize_title(basename($page_paths));
