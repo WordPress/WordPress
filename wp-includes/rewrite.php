@@ -54,9 +54,9 @@ function add_rewrite_tag($tagname, $regex) {
  * @param string $struct Permalink structure.
  * @param bool $with_front Prepend front base to permalink structure.
  */
-function add_permastruct( $name, $struct, $with_front = true ) {
+function add_permastruct( $name, $struct, $with_front = true, $ep_mask = EP_NONE ) {
 	global $wp_rewrite;
-	return $wp_rewrite->add_permastruct( $name, $struct, $with_front );
+	return $wp_rewrite->add_permastruct( $name, $struct, $with_front, $ep_mask );
 }
 
 /**
@@ -1083,7 +1083,7 @@ class WP_Rewrite {
 			return false;
 
 		if ( isset($this->extra_permastructs[$name]) )
-			return $this->extra_permastructs[$name];
+			return $this->extra_permastructs[$name][0];
 
 		return false;
 	}
@@ -1359,6 +1359,8 @@ class WP_Rewrite {
 				case '%day%':
 					$ep_mask_specific = EP_DAY;
 					break;
+				default:
+					$ep_mask_specific = EP_NONE;
 			}
 
 			//create query for /page/xx
@@ -1611,8 +1613,12 @@ class WP_Rewrite {
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
 		// Extra permastructs
-		foreach ( $this->extra_permastructs as $permastruct )
-			$this->extra_rules_top = array_merge($this->extra_rules_top, $this->generate_rewrite_rules($permastruct, EP_NONE));
+		foreach ( $this->extra_permastructs as $permastruct ) {
+			if ( is_array($permastruct) )
+				$this->extra_rules_top = array_merge($this->extra_rules_top, $this->generate_rewrite_rules($permastruct[0], $permastruct[1]));
+			else
+				$this->extra_rules_top = array_merge($this->extra_rules_top, $this->generate_rewrite_rules($permastruct, EP_NONE));
+		}
 
 		// Put them together.
 		if ( $this->use_verbose_page_rules )
@@ -1906,10 +1912,10 @@ class WP_Rewrite {
 	 * @param string $struct Permalink structure.
 	 * @param bool $with_front Prepend front base to permalink structure.
 	 */
-	function add_permastruct($name, $struct, $with_front = true) {
+	function add_permastruct($name, $struct, $with_front = true, $ep_mask = EP_NONE) {
 		if ( $with_front )
 			$struct = $this->front . $struct;
-		$this->extra_permastructs[$name] = $struct;
+		$this->extra_permastructs[$name] = array($struct, $ep_mask);
 	}
 
 	/**
