@@ -171,9 +171,9 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			if ( !$redirect_url )
 				$redirect_url = $requested_url;
 			$paged_redirect = @parse_url($redirect_url);
-			while ( preg_match( '#/page/[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/(comments/?)?(feed|rss|rdf|atom|rss2)(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/comment-page-[0-9]+(/+)?$#', $paged_redirect['path'] ) ) {
+			while ( preg_match( '#/page/?[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/(comments/?)?(feed|rss|rdf|atom|rss2)(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/comment-page-[0-9]+(/+)?$#', $paged_redirect['path'] ) ) {
 				// Strip off paging and feed
-				$paged_redirect['path'] = preg_replace('#/page/[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing paging
+				$paged_redirect['path'] = preg_replace('#/page/?[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing paging
 				$paged_redirect['path'] = preg_replace('#/(comments/?)?(feed|rss2?|rdf|atom)(/+|$)#', '/', $paged_redirect['path']); // strip off feed endings
 				$paged_redirect['path'] = preg_replace('#/comment-page-[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing comment paging
 			}
