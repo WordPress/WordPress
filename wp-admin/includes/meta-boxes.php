@@ -14,8 +14,7 @@ function post_submit_meta_box($post) {
 
 	$post_type = $post->post_type;
 	$post_type_object = get_post_type_object($post_type);
-	$type_cap = $post_type_object->capability_type;
-	$can_publish = current_user_can("publish_${type_cap}s");
+	$can_publish = current_user_can($post_type_object->publish_cap);
 ?>
 <div class="submitbox" id="submitpost">
 
@@ -194,7 +193,7 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <?php do_action('post_submitbox_start'); ?>
 <div id="delete-action">
 <?php
-if ( current_user_can( "delete_${type_cap}", $post->ID ) ) {
+if ( current_user_can( "delete_post", $post->ID ) ) {
 	if ( !EMPTY_TRASH_DAYS ) {
 		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'delete', 'post' => $post->ID) ), "delete-${post_type}_{$post->ID}" );
 		$delete_text = __('Delete Permanently');
@@ -407,7 +406,7 @@ function post_comment_status_meta_box($post) {
 }
 
 /** 
- * Displa comments for post table header
+ * Display comments for post table header
  * 
  * @since 3.0
  * 

@@ -863,9 +863,10 @@ function inline_edit_row( $screen ) {
 	foreach ( $taxonomy_names as $taxonomy_name ) {
 		$taxonomy = get_taxonomy( $taxonomy_name);
 
-		if( !$taxonomy->show_ui ) continue;
+		if ( !$taxonomy->show_ui )
+			continue;
 
-		if( $taxonomy->hierarchical )
+		if ( $taxonomy->hierarchical )
 			$hierarchical_taxonomies[] = $taxonomy;
 		else
 			$flat_taxonomies[] = $taxonomy;
@@ -875,7 +876,6 @@ function inline_edit_row( $screen ) {
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($screen) ) );
 	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
-	// @todo use capability_type
 	$can_publish = current_user_can($post_type_object->publish_cap);
 	$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
 
@@ -1561,11 +1561,11 @@ foreach ( $posts_columns as $column_name => $column_display_name ) {
 		}
 		if ( current_user_can($post_type_object->delete_cap, $page->ID) ) {
 			if ( $post->post_status == 'trash' )
-				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=untrash&amp;post=$page->ID", 'untrash-page_' . $page->ID) . "'>" . __('Restore') . "</a>";
+				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=untrash&amp;post=$page->ID", 'untrash-' . $post->post_type . '_' . $page->ID) . "'>" . __('Restore') . "</a>";
 			elseif ( EMPTY_TRASH_DAYS )
 				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr(__('Move this page to the Trash')) . "' href='" . get_delete_post_link($page->ID) . "'>" . __('Trash') . "</a>";
 			if ( $post->post_status == 'trash' || !EMPTY_TRASH_DAYS )
-				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
+				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=delete&amp;post=$page->ID", 'delete-' . $post->post_type . '_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
 			if ( current_user_can($post_type_object->edit_cap, $page->ID) )
