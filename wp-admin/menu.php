@@ -141,8 +141,8 @@ $menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 // Add 'Editor' to the bottom of the Appearence menu.
 add_action('admin_menu', '_add_themes_utility_last', 101);
 function _add_themes_utility_last() {
-	global $submenu;
-	$submenu['themes.php'][] = array(_x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
+	// Must use API on the admin_menu hook, direct modification is only possible on/before the _admin_menu hook
+	add_submenu_page('themes.php', _x('Editor', 'theme editor'), _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php');
 }
 
 $update_plugins = get_site_transient( 'update_plugins' );
