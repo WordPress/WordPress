@@ -406,6 +406,11 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => _x('Edit', 'menu item edit text'),
 			'warnDelete' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
 		) );
+
+		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array('farbtastic'), '20100321' );
+		$scripts->add_data( 'custom-background', 'group', 1 );
+		// See wp_just_in_time_script_localization() for translation data for this object
+
 	}
 }
 
@@ -509,7 +514,7 @@ function wp_prototype_before_jquery( $js_array ) {
 }
 
 /**
- * Load localized script just in time for MCE.
+ * Load localized data on print rather than initialization.
  *
  * These localizations require information that may not be loaded even by init.
  *
@@ -525,6 +530,10 @@ function wp_just_in_time_script_localization() {
 		'savingText' => __('Saving Draft&#8230;'),
 		'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
 		'l10n_print_after' => 'try{convertEntities(autosaveL10n);}catch(e){};'
+	) );
+
+	wp_localize_script( 'custom-background', 'customBackgroundL10n', array(
+		'backgroundcolor' => '#' . get_background_color(),
 	) );
 }
 

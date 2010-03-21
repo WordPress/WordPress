@@ -1,15 +1,15 @@
 <?php
 /**
- * The custom background image script.
+ * The custom background script.
  *
  * @package WordPress
  * @subpackage Administration
  */
 
 /**
- * The custom background image class.
+ * The custom background class.
  *
- * @since unknown
+ * @since 3.0
  * @package WordPress
  * @subpackage Administration
  */
@@ -28,7 +28,7 @@ class Custom_Background {
 	 * Callback for header div.
 	 *
 	 * @var callback
-	 * @since unknown
+	 * @since 3.0
 	 * @access private
 	 */
 	var $admin_image_div_callback;
@@ -36,7 +36,7 @@ class Custom_Background {
 	/**
 	 * PHP4 Constructor - Register administration header callback.
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 * @param callback $admin_header_callback
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Background
@@ -49,7 +49,7 @@ class Custom_Background {
 	/**
 	 * Set up the hooks for the Custom Background admin page.
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 */
 	function init() {
 		if ( ! current_user_can('switch_themes') )
@@ -57,66 +57,46 @@ class Custom_Background {
 
 		$page = add_theme_page(__('Background'), __('Background'), 'switch_themes', 'custom-background', array(&$this, 'admin_page'));
 
-		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
-		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));
-		add_action("admin_head-$page", array(&$this, 'js'), 50);
-		add_action("admin_head-$page", array(&$this, 'take_action'), 49);
+		add_action("load-$page", array(&$this, 'admin_load'));
+		add_action("load-$page", array(&$this, 'take_action'), 49);
+		add_action("load-$page", array(&$this, 'handle_upload'), 49);
+
 		if ( $this->admin_header_callback )
 			add_action("admin_head-$page", $this->admin_header_callback, 51);
 	}
 
 	/**
-	 * Get the current step.
+	 * Set up the enqueue for the CSS & JavaScript files.
 	 *
-	 * @since unknown
-	 *
-	 * @return int Current step
+	 * @since 3.0
 	 */
-	function step() {
-		if ( ! isset( $_GET['step'] ) )
-			return 1;
-
-		$step = (int) $_GET['step'];
-		if ( $step < 1 || 3 < $step )
-			$step = 1;
-
-		return $step;
-	}
-
-	/**
-	 * Set up the enqueue for the JavaScript files.
-	 *
-	 * @since unknown
-	 */
-	function js_includes() {
-		wp_enqueue_script('farbtastic');
-	}
-
-	/**
-	 * Set up the enqueue for the CSS files
-	 *
-	 * @since unknown
-	 */
-	function css_includes() {
+	function admin_load() {
+		wp_enqueue_script('custom-background');
 		wp_enqueue_style('farbtastic');
 	}
 
 	/**
 	 * Execute custom background modification.
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 */
 	function take_action() {
-		if ( ! current_user_can('switch_themes') )
-			return;
 
 		if ( empty($_POST) )
 			return;
 
 		check_admin_referer('custom-background');
 
-		if ( isset($_POST['reset-background']) )
+		// @TODO: No UI entry point for this:
+		if ( isset($_POST['reset-background']) ) {
 			remove_theme_mods();
+			return;
+		}
+		if ( isset($_POST['remove-background']) ) {
+			// @TODO: Uploaded files are not removed here.
+			set_theme_mod('background_image', '');
+		}
+
 		if ( isset($_POST['background-repeat']) ) {
 			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat')) )
 				$repeat = $_POST['background-repeat'];
@@ -138,9 +118,7 @@ class Custom_Background {
 				$attachment = 'fixed';
 			set_theme_mod('background_attachment', $attachment);
 		}
-		if ( isset($_POST['remove-background']) )
-			set_theme_mod('background_image', '');
-		if ( isset( $_POST['background-color'] ) ) {
+		if ( isset($_POST['background-color']) ) {
 			$color = preg_replace('/[^0-9a-fA-F]/', '', $_POST['background-color']);
 			if ( strlen($color) == 6 || strlen($color) == 3 )
 				set_theme_mod('background_color', $color);
@@ -152,78 +130,11 @@ class Custom_Background {
 	}
 
 	/**
-	 * Execute Javascript depending on step.
+	 * Display the custom background page.
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 */
-	function js() {
-		$this->js_1();
-	}
-
-	/**
-	 * Display Javascript based on Step 1.
-	 *
-	 * @since unknown
-	 */
-	function js_1() { ?>
-<script type="text/javascript">
-	var buttons = ['#pickcolor'],
-		farbtastic;
-
-	function pickColor(color) {
-		jQuery('#background-color').val(color);
-		farbtastic.setColor(color);
-		jQuery('#custom-background-image').css('background-color', color);
-	}
-
-	jQuery(document).ready(function() {
-		jQuery('#pickcolor').click(function() {
-			jQuery('#colorPickerDiv').show();
-		});
-		jQuery('#background-color').keyup(function() {
-			var _hex = jQuery('#background-color').val();
-			var hex = _hex;
-			if ( hex[0] != '#' )
-				hex = '#' + hex;
-			hex = hex.replace(/[^#a-fA-F0-9]+/, '');
-			if ( hex != _hex )
-				jQuery('#background-color').val(hex);
-			if ( hex.length == 4 || hex.length == 7 )
-				pickColor( hex );
-		});
-
-		farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) { pickColor(color); });
-		pickColor('#<?php background_color(); ?>');
-	});
-
-	jQuery(document).mousedown(function(){
-		hide_picker(); // Make the picker disappear if you click outside its div element
-	});
-
-	function hide_picker(what) {
-		var update = false;
-		jQuery('#colorPickerDiv').each(function(){
-			var id = jQuery(this).attr('id');
-			if (id == what) {
-				return;
-			}
-			var display = jQuery(this).css('display');
-			if (display == 'block') {
-				jQuery(this).fadeOut(2);
-			}
-		});
-	}
-
-</script>
-<?php
-	}
-
-	/**
-	 * Display first step of custom background image page.
-	 *
-	 * @since unknown
-	 */
-	function step_1() {
+	function admin_page() {
 ?>
 <div class="wrap" id="custom-background">
 <?php screen_icon(); ?>
@@ -239,18 +150,20 @@ class Custom_Background {
 		call_user_func($this->admin_image_div_callback);
 	} else {
 		if ( $bgcolor = get_background_color() )
-			$bgcolor = ' style="background-color: #' . $bgcolor . ';"';
-		else
-			$bgcolor = '';
+			$bgcolor = 'background-color: #' . $bgcolor . ';';
+
+		if ( $align = get_theme_mod('background_position', 'left') )
+			$align = "text-align: $align;";		 
 ?>
-<div id="custom-background-image"<?php echo $bgcolor; ?>>
+<div id="custom-background-image"  style="<?php echo $bgcolor, $align ?>">
 <?php if ( get_background_image() ) { ?>
 <img class="custom-background-image" src="<?php background_image(); ?>" />
 <?php } ?>
+<br class="clear" />
 </div>
 <?php } ?>
 <h3><?php _e('Change Display Options') ?></h3>
-<form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
+<form method="post" action="">
 <table>
 <thead>
 <tr>
@@ -314,7 +227,7 @@ class Custom_Background {
 </form>
 
 <h3><?php _e('Upload New Background Image'); ?></h3>
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo esc_attr(add_query_arg('step', 2)) ?>">
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-background') ?>
@@ -326,22 +239,26 @@ class Custom_Background {
 <?php if ( get_background_image() ) : ?>
 <h3><?php _e('Remove Background Image'); ?></h3>
 <p><?php _e('This will remove the background image. You will not be able to retrieve any customizations.') ?></p>
-<form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)) ?>">
+<form method="post" action="">
 <?php wp_nonce_field('custom-background'); ?>
 <input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />
 </form>
-
 <?php endif; ?>
+
 </div>
 <?php
 	}
 
 	/**
-	 * Display second step of custom background image page.
+	 * Handle a Image upload for the background image.
 	 *
-	 * @since unknown
+	 * @since 3.0
 	 */
-	function step_2() {
+	function handle_upload() {
+
+		if ( empty($_FILES) )
+			return;
+
 		check_admin_referer('custom-background');
 		$overrides = array('test_form' => false);
 		$file = wp_handle_upload($_FILES['import'], $overrides);
@@ -371,31 +288,6 @@ class Custom_Background {
 		set_theme_mod('background_image', esc_url($url));
 		do_action('wp_create_file_in_uploads', $file, $id); // For replication
 		$this->updated = true;
-		return $this->finished();
-	}
-
-	/**
-	 * Display last step of custom header image page.
-	 *
-	 * @since unknown
-	 */
-	function finished() {
-		$this->step_1();
-	}
-
-	/**
-	 * Display the page based on the current step.
-	 *
-	 * @since unknown
-	 */
-	function admin_page() {
-		if ( ! current_user_can('switch_themes') )
-			wp_die(__('You do not have permission to customize the background.'));
-		$step = $this->step();
-		if ( 1 == $step )
-			$this->step_1();
-		elseif ( 2 == $step )
-			$this->step_2();
 	}
 
 }
