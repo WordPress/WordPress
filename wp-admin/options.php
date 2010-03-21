@@ -104,7 +104,7 @@ if ( 'update' == $action ) {
 	if ( !isset( $whitelist_options[ $option_page ] ) )
 		wp_die( __( 'Error: options page not found.' ) );
 
-	if ( 'options' == $option_page ) {
+	if ( $unregistered = ( 'options' == $option_page ) ) {
 		if ( is_multisite() && ! is_super_admin() )
 			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
 		$options = explode( ',', stripslashes( $_POST[ 'page_options' ] ) );
@@ -127,18 +127,10 @@ if ( 'update' == $action ) {
 	}
 
 	if ( $options ) {
-		if ( is_array( $whitelist_options[ $option_page ] ) ) {
-			$registered = $whitelist_options[ $option_page ];
-			$whitelist_check = true;
-		} else {
-			$whitelist_check = false;
-			_deprecated_argument( 'options.php', '2.7', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
-		}
 		foreach ( $options as $option ) {
-			if ( $whitelist_check && !in_array( $option, $registered ) ) {
-				_deprecated_argument( 'options.php', '2.7', __( 'Unregistered settings are deprecated. Register your theme/plugin settings.' ) );
-				$whitelist_check = false;
-			}
+			if ( $unregistered )
+				_deprecated_argument( 'options.php', '2.7', sprintf( __( 'The "%1$s" setting is unregistered. Unregistered settings are deprecated. See http://codex.wordpress.org/Settings_API' ), $option, $option_page ) );
+
 			$option = trim($option);
 			$value = null;
 			if ( isset($_POST[$option]) )
