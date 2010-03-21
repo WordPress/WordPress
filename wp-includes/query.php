@@ -94,7 +94,7 @@ function wp_reset_query() {
  *
  * @return bool True if page is archive.
  */
-function is_archive () {
+function is_archive() {
 	global $wp_query;
 
 	return $wp_query->is_archive;
@@ -108,7 +108,7 @@ function is_archive () {
  *
  * @return bool True if page is attachment.
  */
-function is_attachment () {
+function is_attachment() {
 	global $wp_query;
 
 	return $wp_query->is_attachment;
@@ -268,7 +268,7 @@ function is_tax( $taxonomy = '', $term = '' ) {
  *
  * @return bool
  */
-function is_comments_popup () {
+function is_comments_popup() {
 	global $wp_query;
 
 	return $wp_query->is_comments_popup;
@@ -282,7 +282,7 @@ function is_comments_popup () {
  *
  * @return bool
  */
-function is_date () {
+function is_date() {
 	global $wp_query;
 
 	return $wp_query->is_date;
@@ -296,7 +296,7 @@ function is_date () {
  *
  * @return bool
  */
-function is_day () {
+function is_day() {
 	global $wp_query;
 
 	return $wp_query->is_day;
@@ -310,7 +310,7 @@ function is_day () {
  *
  * @return bool
  */
-function is_feed () {
+function is_feed() {
 	global $wp_query;
 
 	return $wp_query->is_feed;
@@ -324,7 +324,7 @@ function is_feed () {
  *
  * @return bool
  */
-function is_comment_feed () {
+function is_comment_feed() {
 	global $wp_query;
 
 	return $wp_query->is_comment_feed;
@@ -339,7 +339,7 @@ function is_comment_feed () {
  *
  * @return bool True, if front of site.
  */
-function is_front_page () {
+function is_front_page() {
 	// most likely case
 	if ( 'posts' == get_option('show_on_front') && is_home() )
 		return true;
@@ -361,7 +361,7 @@ function is_front_page () {
  *
  * @return bool True if blog view homepage.
  */
-function is_home () {
+function is_home() {
 	global $wp_query;
 
 	return $wp_query->is_home;
@@ -375,7 +375,7 @@ function is_home () {
  *
  * @return bool
  */
-function is_month () {
+function is_month() {
 	global $wp_query;
 
 	return $wp_query->is_month;
@@ -429,7 +429,7 @@ function is_page ($page = '') {
  *
  * @return bool
  */
-function is_paged () {
+function is_paged() {
 	global $wp_query;
 
 	return $wp_query->is_paged;
@@ -491,7 +491,7 @@ function is_robots() {
  *
  * @return bool
  */
-function is_search () {
+function is_search() {
 	global $wp_query;
 
 	return $wp_query->is_search;
@@ -512,7 +512,7 @@ function is_search () {
  * @param mixed $post Either post or list of posts to test against.
  * @return bool
  */
-function is_single ($post = '') {
+function is_single($post = '') {
 	global $wp_query;
 
 	if ( !$wp_query->is_single )
@@ -557,7 +557,7 @@ function is_singular() {
  *
  * @return bool
  */
-function is_time () {
+function is_time() {
 	global $wp_query;
 
 	return $wp_query->is_time;
@@ -571,7 +571,7 @@ function is_time () {
  *
  * @return bool
  */
-function is_trackback () {
+function is_trackback() {
 	global $wp_query;
 
 	return $wp_query->is_trackback;
@@ -585,7 +585,7 @@ function is_trackback () {
  *
  * @return bool
  */
-function is_year () {
+function is_year() {
 	global $wp_query;
 
 	return $wp_query->is_year;
@@ -599,7 +599,7 @@ function is_year () {
  *
  * @return bool True, if nothing is found matching WordPress Query.
  */
-function is_404 () {
+function is_404() {
 	global $wp_query;
 
 	return $wp_query->is_404;
@@ -1134,7 +1134,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 */
-	function init () {
+	function init() {
 		unset($this->posts);
 		unset($this->query);
 		$this->query_vars = array();
@@ -1227,7 +1227,7 @@ class WP_Query {
 	 *
 	 * @param string|array $query
 	 */
-	function parse_query ($query) {
+	function parse_query($query) {
 		if ( !empty($query) || !isset($this->query) ) {
 			$this->init();
 			if ( is_array($query) )
@@ -1996,23 +1996,29 @@ class WP_Query {
 			if ( '' != $q['taxonomy'] ) {
 				$taxonomy = $q['taxonomy'];
 				$tt[$taxonomy] = $q['term'];
-				$terms = get_terms($q['taxonomy'], array('slug'=>$q['term']));
 			} else {
 				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
 					if ( $t->query_var && '' != $q[$t->query_var] ) {
-						$terms = get_terms($taxonomy, array('slug'=>$q[$t->query_var]));
-						if ( !is_wp_error($terms) )
-							break;
+						$tt[$taxonomy] = $q[$t->query_var];
+						break;
 					}
 				}
 			}
+
+			$terms = get_terms($taxonomy, array('slug' => $tt[$taxonomy], 'hide_empty' => !is_taxonomy_hierarchical($taxonomy)));
+
 			if ( is_wp_error($terms) || empty($terms) ) {
 				$whichcat = " AND 0 ";
 			} else {
-				foreach ( $terms as $term )
+				foreach ( $terms as $term ) {
 					$term_ids[] = $term->term_id;
+					if ( is_taxonomy_hierarchical($taxonomy) ) {
+						$children = get_term_children($term->term_id, $taxonomy);
+						$term_ids = array_merge($term_ids, $children);
+					}
+				}
 				$post_ids = get_objects_in_term($term_ids, $taxonomy);
-				if ( !is_wp_error($post_ids) && count($post_ids) ) {
+				if ( !is_wp_error($post_ids) && !empty($post_ids) ) {
 					$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
 					$post_type = 'any';
 					$q['post_status'] = 'publish';
@@ -2734,7 +2740,7 @@ class WP_Query {
 	 * @param string $query URL query string.
 	 * @return WP_Query
 	 */
-	function WP_Query ($query = '') {
+	function WP_Query($query = '') {
 		if (! empty($query)) {
 			$this->query($query);
 		}
@@ -2752,7 +2758,7 @@ class WP_Query {
  *
  * @return null If no link is found, null is returned.
  */
-function wp_old_slug_redirect () {
+function wp_old_slug_redirect() {
 	global $wp_query;
 	if ( is_404() && '' != $wp_query->query_vars['name'] ) :
 		global $wpdb;
@@ -2826,5 +2832,4 @@ function setup_postdata($post) {
 
 	return true;
 }
-
 ?>
