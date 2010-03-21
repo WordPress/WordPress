@@ -92,19 +92,22 @@ if ( is_multisite() && is_super_admin() ) {
 	}
 }
 
-/**
+/*
  * If $_GET['action'] == 'update' we are saving settings sent from a settings page
  */
 if ( 'update' == $action ) {
-	if ( 'options' == $option_page && !isset($_POST['option_page']) ) // This is for back compat and will eventually be removed.
+	if ( 'options' == $option_page && !isset( $_POST['option_page'] ) ) { // This is for back compat and will eventually be removed.
+		$unregistered = true;
 		check_admin_referer( 'update-options' );
-	else
+	} else {
+		$unregistered = false;
 		check_admin_referer( $option_page . '-options' );
+	}
 
 	if ( !isset( $whitelist_options[ $option_page ] ) )
 		wp_die( __( 'Error: options page not found.' ) );
 
-	if ( $unregistered = ( 'options' == $option_page ) ) {
+	if ( 'options' == $option_page ) {
 		if ( is_multisite() && ! is_super_admin() )
 			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
 		$options = explode( ',', stripslashes( $_POST[ 'page_options' ] ) );
