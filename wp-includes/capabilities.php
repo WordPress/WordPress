@@ -581,11 +581,12 @@ class WP_User {
 	 * @param string $role Role name.
 	 */
 	function remove_role( $role ) {
-		if ( empty( $this->roles[$role] ) || ( count( $this->roles ) <= 1 ) )
+		if ( !in_array($role, $this->roles) )
 			return;
 		unset( $this->caps[$role] );
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
+		$this->update_user_level_from_caps();
 	}
 
 	/**
