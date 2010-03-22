@@ -125,4 +125,41 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
 	}
 }
 
+/**
+ * Register a setting and its sanitization callback
+ *
+ * @since 2.7.0
+ * @deprecated 3.0.0
+ * @deprecated Use register_setting()
+ * @see register_setting()
+ *
+ * @param string $option_group A settings group name.  Should correspond to a whitelisted option key name.
+ * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
+ * @param string $option_name The name of an option to sanitize and save.
+ * @param unknown_type $sanitize_callback A callback function that sanitizes the option's value.
+ * @return unknown
+ */
+function add_option_update_handler( $option_group, $option_name, $sanitize_callback = '' ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'register_setting()' );
+	return register_setting( $option_group, $option_name, $sanitize_callback );
+}
+
+/**
+ * Unregister a setting
+ *
+ * @since 2.7.0
+ * @deprecated 3.0.0
+ * @deprecated Use unregister_setting()
+ * @see unregister_setting()
+ *
+ * @param unknown_type $option_group
+ * @param unknown_type $option_name
+ * @param unknown_type $sanitize_callback
+ * @return unknown
+ */
+function remove_option_update_handler( $option_group, $option_name, $sanitize_callback = '' ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'unregister_setting()' );
+	return unregister_setting( $option_group, $option_name, $sanitize_callback );
+}
+
 ?>

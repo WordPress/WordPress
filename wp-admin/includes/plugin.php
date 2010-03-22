@@ -1422,10 +1422,17 @@ function user_can_access_admin_page() {
  * @param unknown_type $sanitize_callback A callback function that sanitizes the option's value.
  * @return unknown
  */
-function register_setting($option_group, $option_name, $sanitize_callback = '') {
-	if ( 'misc' == $option_group )
+function register_setting( $option_group, $option_name, $sanitize_callback = '' ) {
+	global $new_whitelist_options;
+
+	if ( 'misc' == $option_group ) {
 		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
-	return add_option_update_handler($option_group, $option_name, $sanitize_callback);
+		$option_group = 'general';
+	}
+
+	$new_whitelist_options[ $option_group ][] = $option_name;
+	if ( $sanitize_callback != '' )
+		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
 }
 
 /**
@@ -1438,44 +1445,13 @@ function register_setting($option_group, $option_name, $sanitize_callback = '') 
  * @param unknown_type $sanitize_callback
  * @return unknown
  */
-function unregister_setting($option_group, $option_name, $sanitize_callback = '') {
-	return remove_option_update_handler($option_group, $option_name, $sanitize_callback);
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $option_group
- * @param unknown_type $option_name
- * @param unknown_type $sanitize_callback
- */
-function add_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
+function unregister_setting( $option_group, $option_name, $sanitize_callback = '' ) {
 	global $new_whitelist_options;
 
-	if ( 'misc' == $option_group )
+	if ( 'misc' == $option_group ) {
+		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
 		$option_group = 'general';
-
-	$new_whitelist_options[ $option_group ][] = $option_name;
-	if ( $sanitize_callback != '' )
-		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $option_group
- * @param unknown_type $option_name
- * @param unknown_type $sanitize_callback
- */
-function remove_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
-	global $new_whitelist_options;
-
-	if ( 'misc' == $option_group )
-		$option_group = 'general';
+	}
 
 	$pos = array_search( $option_name, (array) $new_whitelist_options );
 	if ( $pos !== false )
@@ -1572,17 +1548,6 @@ function settings_fields($option_group) {
 	echo "<input type='hidden' name='option_page' value='" . esc_attr($option_group) . "' />";
 	echo '<input type="hidden" name="action" value="update" />';
 	wp_nonce_field("$option_group-options");
-}
-
-/**
- * Outputs the notice message for multisite regarding activation of plugin page.
- *
- * @since 3.0
- * @return none
- */
-function _admin_notice_multisite_activate_plugins_page() {
-	$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="ms-options.php#menu">' . __( 'Activate' ) . '</a>' );
-	echo "<div class='error'><p>$message</p></div>";
 }
 
 ?>
