@@ -634,7 +634,7 @@ add_action( 'admin_notices', 'secret_salt_warning' );
 
 function admin_notice_feed() {
 	global $current_user, $current_screen;
-	if ( $current_screen->id != 'index' )
+	if ( $current_screen->id != 'dashboard' )
 		return;
 
 	if ( !empty( $_GET[ 'feed_dismiss' ] ) )
