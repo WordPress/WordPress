@@ -232,16 +232,12 @@ if (isset($_GET['updated'])) {
 				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1' <?php checked( !empty($mu_media_buttons[ 'audio' ]) ) ?>/> <?php _e( 'Music' ); ?></label><br />
 				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the "Upload File Types" below as well.' ); ?></td>
 			</tr>
-			<tr valign="top">
-				<th scope="row"><?php _e('Site upload space check') ?></th>
-				<td>
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
-				<?php _e( 'By default there is a limit on the total size of files uploaded but it can be disabled here.' ); ?></td>
-			</tr>
+
 			<tr valign="top">
 				<th scope="row"><?php _e('Site upload space') ?></th>
-				<td><input name="blog_upload_space" type="text" id="blog_upload_space" value="<?php echo esc_attr( get_site_option('blog_upload_space', 10) ) ?>" size="3" /> MB</td>
+				<td>
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '<input name="blog_upload_space" type="text" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 10) ) . '" size="3" />' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br /></td>
 			</tr>
 
 			<tr valign="top">
