@@ -29,7 +29,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Network Name') ?></th>
 				<td>
-					<input name="site_name" type="text" id="site_name" style="width: 95%" value="<?php echo esc_attr($current_site->site_name) ?>" size="45" />
+					<input name="site_name" type="text" id="site_name" class="regular-text" value="<?php echo esc_attr($current_site->site_name) ?>" />
 					<br />
 					<?php _e('What you would like to call this website.') ?>
 				</td>
@@ -38,7 +38,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Network Admin Email') ?></th>
 				<td>
-					<input name="admin_email" type="text" id="admin_email" style="width: 95%" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" size="45" />
+					<input name="admin_email" type="text" id="admin_email" class="regular-text" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" />
 					<br />
 					<?php printf( __( 'Registration and support emails will come from this address. An address such as "support@%s" is recommended.' ), $current_site->domain ); ?>
 				</td>
@@ -47,8 +47,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Global Terms') ?></th>
 				<td>
-				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='1' <?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
-				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='0' <?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
+				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='1'<?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
+				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='0'<?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
 				<?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></td>
 			</tr>
 		</table>
@@ -65,9 +65,9 @@ if (isset($_GET['updated'])) {
 						$blogname = '';
 					}?>
 					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr($blogname); ?>" />
-					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr($blogname); ?>" size="30" />
+					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr($blogname); ?>" class="regular-text" />
 					<br />
-					<?php _e( "Blogname ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this site as subscribers (or the user role defined below) if they don't have a site. Leave blank for the main site. 'Subscriber' users on old site will be moved to the new site if changed. The new site will be created if it does not exist." ); ?>
+					<?php _e( "Site path ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this site as the user role defined below if they don't have a site. Leave blank for the main site. Users with the subscriber role on old site will be moved to the new site if changed. The new site will be created if it does not exist." ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -83,7 +83,7 @@ if (isset($_GET['updated'])) {
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
-				<td><input name="admin_notice_feed" style="width: 95%" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
+				<td><input name="admin_notice_feed" class="large-text" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
 				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
 				<?php if ( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
 					echo __( "A good one to use would be the feed from your main site: " ) . 'http://' . $current_site->domain . $current_site->path . 'feed/'; ?></td>
@@ -98,13 +98,13 @@ if (isset($_GET['updated'])) {
 					update_site_option( 'registration', 'none' );
 				?>
 				<td>
-					<label><input name="registration" type="radio" id="registration1" value='none' <?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Registration is disabled.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration2" value='user' <?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('User accounts may be registered.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration3" value='blog' <?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Logged in users may register new sites.'); ?></label><br />
-					<label><input name="registration" type="radio" id="registration4" value='all' <?php  checked( get_site_option('registration'), 'all') ?> /> <?php _e('Both sites and user accounts can be registered.'); ?></label><br />
-					<p><?php _e('Disable or enable registration and who or what can be registered. (Default = disabled)'); ?></p>
+					<label><input name="registration" type="radio" id="registration1" value='none'<?php checked( get_site_option('registration'), 'none') ?> /> <?php _e('Registration is disabled.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration2" value='user'<?php checked( get_site_option('registration'), 'user') ?> /> <?php _e('User accounts may be registered.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration3" value='blog'<?php checked( get_site_option('registration'), 'blog') ?> /> <?php _e('Logged in users may register new sites.'); ?></label><br />
+					<label><input name="registration" type="radio" id="registration4" value='all'<?php checked( get_site_option('registration'), 'all') ?> /> <?php _e('Both sites and user accounts can be registered.'); ?></label><br />
+					<p><?php _e('Disable or enable registration and who or what can be registered. (Default is disabled.)'); ?></p>
 					<?php if ( is_subdomain_install() ) {
-						echo '<p>' . __('If registration is disabled, please set "NOBLOGREDIRECT" in wp-config.php to a url you will redirect visitors to if they visit a non-existent site.') . '</p>';
+						echo '<p>' . __('If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a url you will redirect visitors to if they visit a non-existent site.') . '</p>';
 					} ?>
 				</td>
 			</tr>
@@ -116,8 +116,8 @@ if (isset($_GET['updated'])) {
 					update_site_option( 'registrationnotification', 'yes' );
 				?>
 				<td>
-					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes' <?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
-					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no' <?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
+					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes'<?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
+					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no'<?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
 					<?php _e('Send the network admin an email notification every time someone registers a site or user account.') ?>
 				</td>
 			</tr>
@@ -126,8 +126,8 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><?php _e('Add New Users') ?></th>
 				<td>
 					<a name='addnewusers'></a>
-					<input name="add_new_users" type="radio" id="add_new_users1" value='1' <?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
-					<input name="add_new_users" type="radio" id="add_new_users2" value='0' <?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users1" value='1'<?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
+					<input name="add_new_users" type="radio" id="add_new_users2" value='0'<?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
 					<?php _e('Allow site administrators to add new users to their site via the "Users->Add New" page.') ?>
 				</td>
 			</tr>
@@ -135,7 +135,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Banned Names') ?></th>
 				<td>
-					<input name="illegal_names" type="text" id="illegal_names" style="width: 95%" value="<?php echo esc_attr( implode( " ", get_site_option('illegal_names') ) ); ?>" size="45" />
+					<input name="illegal_names" type="text" id="illegal_names" class="large-text" value="<?php echo esc_attr( implode( " ", get_site_option('illegal_names') ) ); ?>" size="45" />
 					<br />
 					<?php _e('Users are not allowed to register these sites. Separate names by spaces.') ?>
 				</td>
@@ -146,7 +146,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<?php $limited_email_domains = get_site_option('limited_email_domains');
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
-					<textarea name="limited_email_domains" id="limited_email_domains" cols='40' rows='5'><?php echo $limited_email_domains == '' ? '' : @implode( "\n", $limited_email_domains ); ?></textarea>
+					<textarea name="limited_email_domains" id="limited_email_domains" cols='45' rows='5'><?php echo wp_htmledit_pre( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
 					<br />
 					<?php _e('If you want to limit site registrations to certain domains. Enter one domain per line.') ?>
 				</td>
@@ -155,7 +155,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Banned Email Domains') ?></th>
 				<td>
-					<textarea name="banned_email_domains" id="banned_email_domains" cols='40' rows='5'><?php echo get_site_option('banned_email_domains') == '' ? '' : @implode( "\n", get_site_option('banned_email_domains') ); ?></textarea>
+					<textarea name="banned_email_domains" id="banned_email_domains" cols='45' rows='5'><?php echo wp_htmledit_pre( get_site_option('banned_email_domains') == '' ? '' : implode( "\n", (array) get_site_option('banned_email_domains') ) ); ?></textarea>
 					<br />
 					<?php _e('If you want to ban domains from site registrations. Enter one domain per line.') ?>
 				</td>
@@ -168,7 +168,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Welcome Email') ?></th>
 				<td>
-					<textarea name="welcome_email" id="welcome_email" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('welcome_email') ) ?></textarea>
+					<textarea name="welcome_email" id="welcome_email" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('welcome_email') ) ?></textarea>
 					<br />
 					<?php _e('The welcome email sent to new site owners.') ?>
 				</td>
@@ -176,7 +176,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Welcome User Email') ?></th>
 				<td>
-			    		<textarea name="welcome_user_email" id="welcome_user_email" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('welcome_user_email') ) ?></textarea>
+			    		<textarea name="welcome_user_email" id="welcome_user_email" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('welcome_user_email') ) ?></textarea>
 					<br />
 					<?php _e('The welcome email sent to new users.') ?>
 				</td>
@@ -184,7 +184,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('First Post') ?></th>
 				<td>
-					<textarea name="first_post" id="first_post" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_post') ) ?></textarea>
+					<textarea name="first_post" id="first_post" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('first_post') ) ?></textarea>
 					<br />
 					<?php _e('The first post on a new site.') ?>
 				</td>
@@ -192,7 +192,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('First Page') ?></th>
 				<td>
-					<textarea name="first_page" id="first_page" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_page') ) ?></textarea>
+					<textarea name="first_page" id="first_page" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('first_page') ) ?></textarea>
 					<br />
 					<?php _e('The first page on a new site.') ?>
 				</td>
@@ -200,7 +200,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('First Comment') ?></th>
 				<td>
-					<textarea name="first_comment" id="first_comment" rows='5' cols='45' style="width: 95%"><?php echo stripslashes( get_site_option('first_comment') ) ?></textarea>
+					<textarea name="first_comment" id="first_comment" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('first_comment') ) ?></textarea>
 					<br />
 					<?php _e('The first comment on a new site.') ?>
 				</td>
@@ -227,21 +227,21 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Upload media button') ?></th>
 				<?php $mu_media_buttons = get_site_option( 'mu_media_buttons', array() ); ?>
-				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1' <?php checked( !empty($mu_media_buttons[ 'image' ]) ) ?>/> <?php _e( 'Images' ); ?></label><br />
-				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1' <?php checked( !empty($mu_media_buttons[ 'video' ]) ) ?>/> <?php _e( 'Videos' ); ?></label><br />
-				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1' <?php checked( !empty($mu_media_buttons[ 'audio' ]) ) ?>/> <?php _e( 'Music' ); ?></label><br />
-				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the "Upload File Types" below as well.' ); ?></td>
+				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1'<?php checked( !empty($mu_media_buttons[ 'image' ]) ) ?>/> <?php _e( 'Images' ); ?></label><br />
+				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1'<?php checked( !empty($mu_media_buttons[ 'video' ]) ) ?>/> <?php _e( 'Videos' ); ?></label><br />
+				<label><input type='checkbox' id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value='1'<?php checked( !empty($mu_media_buttons[ 'audio' ]) ) ?>/> <?php _e( 'Music' ); ?></label><br />
+				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the allowed upload file types below as well.' ); ?></td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Site upload space') ?></th>
 				<td>
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0' <?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '<input name="blog_upload_space" type="text" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 10) ) . '" size="3" />' ); ?></label><br />
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1' <?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br /></td>
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0'<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '<input name="blog_upload_space" type="text" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 10) ) . '" size="3" />' ); ?></label><br />
+				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1'<?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br /></td>
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Upload File Types') ?></th>
+				<th scope="row"><?php _e('Upload file types') ?></th>
 				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
 			</tr>
 
@@ -253,8 +253,8 @@ if (isset($_GET['updated'])) {
 
 <?php
 		$languages = get_available_languages();
-		$lang = get_site_option('WPLANG');
 		if ( ! empty( $languages ) ) {
+			$lang = get_site_option('WPLANG');
 ?>
 		<h3><?php _e('Network Wide Settings'); ?></h3>
 		<div class="updated inline"><p><strong><?php _e( 'Notice:' ); ?></strong> <?php _e( 'These settings may be overridden by site owners.' ); ?></p></div>
@@ -292,8 +292,7 @@ if (isset($_GET['updated'])) {
 
 		<?php do_action( 'wpmu_options' ); // Add more options here ?>
 
-		<p class="submit">
-			<input type="submit" name="Submit" value="<?php esc_attr_e('Update Options') ?>" /></p>
+		<p class="submit"><input type="submit" class="button-primary" name="Submit" value="<?php esc_attr_e('Save Changes') ?>" /></p>
 	</form>
 </div>
 

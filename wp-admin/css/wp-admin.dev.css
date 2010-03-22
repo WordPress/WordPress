@@ -1352,6 +1352,7 @@ strong .post-com-count {
 	width: 10px;
 }
 
+input.large-text,
 textarea.large-text {
 	width: 99%;
 }
