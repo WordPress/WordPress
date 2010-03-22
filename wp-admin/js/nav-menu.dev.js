@@ -196,6 +196,16 @@ var wpNavMenu;
 					var li = $(this).parent();
 					var child = !$(this).hasClass('dropzone');
 
+					var parent_id = li.children('input[name=menu-item-object-id[]]').val(); 
+					var child_id = ui.draggable.children('input[name=menu-item-object-id[]]').val(); 
+ 
+					// An item cannot be a child of itself. Use a custom link for the effect.
+					if ( parent_id == child_id ) {
+						ui.draggable.find('dt').animate( { backgroundColor: '#FF3333' }, { duration: 'normal', complete: function() { $(this).css( 'backgroundColor', '' ) } } );
+						$(this).parent().find('dt').removeAttr('style');
+						return;
+					};
+ 
 					// Append UL to first child
 					if ( child && li.children('ul').length == 0 ) {
 						li.append( '<ul class="sub-menu" />' );
