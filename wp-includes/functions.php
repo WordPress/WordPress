@@ -1831,7 +1831,7 @@ function is_blog_installed() {
 			if ( defined('WP_REPAIRING') )
 				return true;
 			// Die with a DB error.
-			$wpdb->error = __('One or more database tables are unavailable.  The database may need to be <a href="maint/repair.php?referrer=is_blog_installed">repaired</a>.');
+			$wpdb->error = sprintf( /*WP_I18N_NO_TABLES*/'One or more database tables are unavailable.  The database may need to be <a href="%s">repaired</a>.'/*/WP_I18N_NO_TABLES*/, 'maint/repair.php?referrer=is_blog_installed' );
 			dead_db();
 		}
 	}
@@ -4082,4 +4082,3 @@ function __return_true() {
 function __return_false() {
 	return false;
 }
-?>

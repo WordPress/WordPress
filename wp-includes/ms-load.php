@@ -43,7 +43,7 @@ function ms_site_check() {
 			return WP_CONTENT_DIR . '/blog-deleted.php';
 		} else {
 			header( 'HTTP/1.1 410 Gone' );
-			wp_die( __( 'This user has elected to delete their account and the content is no longer available.' ) );
+			wp_die( /*WP_I18N_USER_DELETED_BLOG*/'This user has elected to delete their account and the content is no longer available.'/*/WP_I18N_USER_DELETED_BLOG*/ );
 		}
 	}
 
@@ -51,7 +51,7 @@ function ms_site_check() {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
-			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
+			wp_die( sprintf( /*WP_I18N_BLOG_NOT_ACTIVATED*/'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.'/*/WP_I18N_BLOG_NOT_ACTIVATED*/, str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
 	}
 
 	if ( $current_blog->archived == '1' || $current_blog->spam == '1' ) {
@@ -59,7 +59,7 @@ function ms_site_check() {
 			return WP_CONTENT_DIR . '/blog-suspended.php';
 		} else {
 			header( 'HTTP/1.1 410 Gone' );
-			wp_die( __( 'This blog has been archived or suspended.' ) );
+			wp_die( /*WP_I18N_ARCHIVED*/'This blog has been archived or suspended.'/*/WP_I18N_ARCHIVED*/ );
 		}
 	}
 
@@ -172,9 +172,9 @@ function wpmu_current_site() {
 	// Still no dice.
 	// @todo Update or remove WPMU codex link.
 	if ( 1 == count( $sites ) )
-		wp_die( sprintf( 'That blog does not exist. Please try <a href="%s">%s</a>.', $sites[0]->domain . $sites[0]->path ) );
+		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'That blog does not exist. Please try <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
 	else
-		wp_die( 'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_WPMU">Debugging WPMU</a> for further assistance.' );
+		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_WPMU">Debugging WPMU</a> for further assistance.'/*/WP_I18N_NO_SITE_DEFINED*/ );
 }
 
 /**
@@ -190,25 +190,23 @@ function wpmu_current_site() {
 function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
-	$msg = '<h1>' . 'Fatal Error' . '</h1>';
-	$msg .= '<p>' . 'If your site does not display, please contact the owner of this network.' . '</p>';
-	$msg .= '<p>' . 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' . '</p>';
-	if ( ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
-		$msg .= '<p>' . sprintf( '<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really <em>should</em> look at your database now.', $wpdb->site ) . '</p>';
+	$msg = '<h1>' . /*WP_I18N_FATAL_ERROR*/'Fatal Error'/*/WP_I18N_FATAL_ERROR*/ . '</h1>';
+	$msg .= '<p>' . /*WP_I18N_CONTACT_OWNER*/'If your site does not display, please contact the owner of this network.'/*/WP_I18N_CONTACT_OWNER*/ . '</p>';
+	$msg .= '<p>' . /*WP_I18N_CHECK_MYSQL*/'If you are the owner of this network please check that MySQL is running properly and all tables are error free.'/*/WP_I18N_CHECK_MYSQL*/ . '</p>';
+	if ( !$wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
+		$msg .= '<p>' . sprintf( /*WP_I18N_TABLES_MISSING_LONG*/'<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really <em>should</em> look at your database now.'/*/WP_I18N_TABLES_MISSING_LONG*/, $wpdb->site ) . '</p>';
 	else
-		$msg .= '<p>' . sprintf( '<strong>Could Not Find Site!</strong> Searched for table <em>%1$s</em> in <code>%2$s</code>. Is that right?', $domain . $path, DB_NAME, $wpdb->blogs ) . '</p>';
-	$msg .= '<h1>' . 'What do I do now?' . '</h1>';
+		$msg .= '<p>' . sprintf( /*WP_I18N_NO_SITE_FOUND*/'<strong>Could Not Find Site!</strong> Searched for table <em>%1$s</em> in <code>%2$s</code>. Is that right?'/*/WP_I18N_NO_SITE_FOUND*/, $domain . $path, DB_NAME, $wpdb->blogs ) . '</p>';
+	$msg .= '<h1>' . /*WP_I18N_WHAT_DO_I_DO*/'What do I do now?'/*WP_I18N_WHAT_DO_I_DO*/ . '</h1>';
 	// @todo Update WPMU codex link.
-	$msg .= '<p>' . 'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' . '</p>';
-	$msg .= '<p>' . "If you're still stuck with this message, then check that your database contains the following tables:" . '</p><ul>';
+	$msg .= '<p>' . /*WP_I18N_RTFM*/'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.'/*/WP_I18N_RTFM*/ . '</p>';
+	$msg .= '<p>' . /*WP_I18N_STUCK*/"If you're still stuck with this message, then check that your database contains the following tables:"/*/WP_I18N_STUCK*/ . '</p><ul>';
 	foreach ( $wpdb->global_tables as $table ) {
 		$msg .= '<li>' . $wpdb->prefix . $table . '</li>';
 	}
 	$msg .= '</ul>';
 	// @todo Update WPMU codex link and support instructions.
-	$msg .= '<p>' . 'If you suspect a problem please report it to the support forums but you must include the information asked for in the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">WPMU bug reporting guidelines</a>! ' . '</p>';
+	$msg .= '<p>' . /*WP_I18N_MS_FORUMS*/'If you suspect a problem please report it to the support forums but you must include the information asked for in the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">WPMU bug reporting guidelines</a>!'/*/WP_I18N_MS_FORUMS*/ . '</p>';
 
 	die( $msg );
 }
-
-?>

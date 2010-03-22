@@ -11,7 +11,7 @@
 
 // $base sanity check.
 if ( 'BASE' == $base )
-	die( 'Configuration error in <code>wp-config.php</code>. <code>$base</code> is set to "BASE" when it should be the path like "/" or "/blogs/".' );
+	die( /*WP_I18N_BASE_ERROR*/'Configuration error in <code>wp-config.php</code>. <code>$base</code> is set to "BASE" when it should be the path like "/" or "/blogs/".'/*/WP_I18N_BASE_ERROR*/ );
 
 /** Include Multisite initialization functions */
 require( ABSPATH . WPINC . '/ms-load.php' );
@@ -31,7 +31,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			$domain = substr( $domain, 0, -4 );
 			$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 		} else {
-			wp_die( 'Multisite only works without the port number in the URL.' );
+			wp_die( /*WP_I18N_NO_PORT_NUMBER*/'Multisite only works without the port number in the URL.'/*/WP_I18N_NO_PORT_NUMBER*/ );
 		}
 	}
 
@@ -113,8 +113,8 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		if ( defined( 'WP_INSTALLING' ) ) {
 			$current_blog->blog_id = $blog_id = 1;
 		} else {
-			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . __( 'Database tables are missing.' ) : '';
-			wp_die( 'No blog by that name on this system.' . $msg );
+			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . /*WP_I18N_TABLES_MISSING*/'Database tables are missing.'/*/WP_I18N_TABLES_MISSING*/ : '';
+			wp_die( /*WP_I18N_NO_BLOG*/'No blog by that name on this system.'/*/WP_I18N_NO_BLOG*/ . $msg );
 		}
 	}
 }
@@ -127,5 +127,3 @@ wp_start_object_cache();
 
 // Define upload directory constants
 ms_upload_constants();
-
-?>
