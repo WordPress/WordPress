@@ -27,7 +27,7 @@ if (isset($_GET['updated'])) {
 		<h3><?php _e('Operational Settings'); ?></h3>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('Network Name') ?></th>
+				<th scope="row"><label for="site_name"><?php _e('Network Name') ?></label></th>
 				<td>
 					<input name="site_name" type="text" id="site_name" class="regular-text" value="<?php echo esc_attr($current_site->site_name) ?>" />
 					<br />
@@ -36,26 +36,25 @@ if (isset($_GET['updated'])) {
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Network Admin Email') ?></th>
+				<th scope="row"><label for="admin_email"><?php _e('Network Admin Email') ?></label></th>
 				<td>
 					<input name="admin_email" type="text" id="admin_email" class="regular-text" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" />
 					<br />
-					<?php printf( __( 'Registration and support emails will come from this address. An address such as "support@%s" is recommended.' ), $current_site->domain ); ?>
+					<?php printf( __( 'Registration and support emails will come from this address. An address such as <code>support@%s</code> is recommended.' ), $current_site->domain ); ?>
 				</td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><?php _e('Global Terms') ?></th>
 				<td>
-				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='1'<?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Enabled' ); ?></label><br />
-				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='0'<?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label><br />
-				<?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></td>
+				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='1'<?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></label><br />
+				<label><input type='radio' id="global_terms_enabled" name="global_terms_enabled" value='0'<?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label></td>
 			</tr>
 		</table>
 		<h3><?php _e('Dashboard Settings'); ?></h3>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('Dashboard Site') ?></th>
+				<th scope="row"><label for="dashboard_blog"><?php _e('Dashboard Site') ?></label></th>
 				<td>
 					<?php
 					if ( $dashboard_blog = get_site_option( 'dashboard_blog' ) ) {
@@ -71,9 +70,9 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Dashboard User Default Role') ?></th>
+				<th scope="row"><label for="default_user_role"><?php _e('Dashboard User Default Role') ?></label></th>
 				<td>
-					<select name="default_user_role" id="role"><?php
+					<select name="default_user_role" id="default_user_role"><?php
 					wp_dropdown_roles( get_site_option( 'default_user_role', 'subscriber' ) );
 					?>
 					</select>
@@ -82,7 +81,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Admin Notice Feed') ?></th>
+				<th scope="row"><label for="admin_notice_feed"><?php _e('Admin Notice Feed') ?></label></th>
 				<td><input name="admin_notice_feed" class="large-text" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
 				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
 				<?php if ( get_site_option( 'admin_notice_feed' ) != 'http://' . $current_site->domain . $current_site->path . 'feed/' )
@@ -116,24 +115,19 @@ if (isset($_GET['updated'])) {
 					update_site_option( 'registrationnotification', 'yes' );
 				?>
 				<td>
-					<input name="registrationnotification" type="radio" id="registrationnotification1" value='yes'<?php checked( get_site_option('registrationnotification'), 'yes') ?> /> <?php _e('Yes'); ?><br />
-					<input name="registrationnotification" type="radio" id="registrationnotification2" value='no'<?php checked( get_site_option('registrationnotification'), 'no') ?> /> <?php _e('No'); ?><br />
-					<?php _e('Send the network admin an email notification every time someone registers a site or user account.') ?>
+					<label><input name="registrationnotification" type="checkbox" id="registrationnotification" value='yes'<?php checked( get_site_option('registrationnotification'), 'yes' ) ?> /> <?php _e('Send the network admin an email notification every time someone registers a site or user account.') ?></label>
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr valign="top" id="addnewusers">
 				<th scope="row"><?php _e('Add New Users') ?></th>
 				<td>
-					<a name='addnewusers'></a>
-					<input name="add_new_users" type="radio" id="add_new_users1" value='1'<?php checked( get_site_option('add_new_users'), 1 ) ?> /> <?php _e('Yes'); ?><br />
-					<input name="add_new_users" type="radio" id="add_new_users2" value='0'<?php checked( get_site_option('add_new_users'), 0 ) ?> /> <?php _e('No'); ?><br />
-					<?php _e('Allow site administrators to add new users to their site via the "Users->Add New" page.') ?>
+					<label><input name="add_new_users" type="checkbox" id="add_new_users" value='1'<?php checked( get_site_option('add_new_users') ) ?> /> <?php _e('Allow site administrators to add new users to their site via the "Users->Add New" page.'); ?></label>
 				</td>
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Banned Names') ?></th>
+				<th scope="row"><label for="illegal_names"><?php _e('Banned Names') ?></label></th>
 				<td>
 					<input name="illegal_names" type="text" id="illegal_names" class="large-text" value="<?php echo esc_attr( implode( " ", get_site_option('illegal_names') ) ); ?>" size="45" />
 					<br />
@@ -142,7 +136,7 @@ if (isset($_GET['updated'])) {
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Limited Email Registrations') ?></th>
+				<th scope="row"><label for="limited_email_domains"><?php _e('Limited Email Registrations') ?></label></th>
 				<td>
 					<?php $limited_email_domains = get_site_option('limited_email_domains');
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
@@ -153,7 +147,7 @@ if (isset($_GET['updated'])) {
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Banned Email Domains') ?></th>
+				<th scope="row"><label for="banned_email_domains"><?php _e('Banned Email Domains') ?></label></th>
 				<td>
 					<textarea name="banned_email_domains" id="banned_email_domains" cols='45' rows='5'><?php echo wp_htmledit_pre( get_site_option('banned_email_domains') == '' ? '' : implode( "\n", (array) get_site_option('banned_email_domains') ) ); ?></textarea>
 					<br />
@@ -166,7 +160,7 @@ if (isset($_GET['updated'])) {
 		<table class="form-table">
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Welcome Email') ?></th>
+				<th scope="row"><label for="welcome_email"><?php _e('Welcome Email') ?></label></th>
 				<td>
 					<textarea name="welcome_email" id="welcome_email" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('welcome_email') ) ?></textarea>
 					<br />
@@ -174,7 +168,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Welcome User Email') ?></th>
+				<th scope="row"><label for="welcome_user_email"><?php _e('Welcome User Email') ?></label></th>
 				<td>
 			    		<textarea name="welcome_user_email" id="welcome_user_email" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('welcome_user_email') ) ?></textarea>
 					<br />
@@ -182,7 +176,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('First Post') ?></th>
+				<th scope="row"><label for="first_post"><?php _e('First Post') ?></label></th>
 				<td>
 					<textarea name="first_post" id="first_post" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('first_post') ) ?></textarea>
 					<br />
@@ -190,7 +184,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('First Page') ?></th>
+				<th scope="row"><label for="first_page"><?php _e('First Page') ?></label></th>
 				<td>
 					<textarea name="first_page" id="first_page" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('first_page') ) ?></textarea>
 					<br />
@@ -198,7 +192,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('First Comment') ?></th>
+				<th scope="row"><label for="first_comment"><?php _e('First Comment') ?></label></th>
 				<td>
 					<textarea name="first_comment" id="first_comment" rows='5' cols='45' class="large-text"><?php echo stripslashes( get_site_option('first_comment') ) ?></textarea>
 					<br />
@@ -206,7 +200,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('First Comment Author') ?></th>
+				<th scope="row"><label for="first_comment_author"><?php _e('First Comment Author') ?></label></th>
 				<td>
 					<input type="text" size='40' name="first_comment_author" id="first_comment_author" value="<?php echo get_site_option('first_comment_author') ?>" />
 					<br />
@@ -214,7 +208,7 @@ if (isset($_GET['updated'])) {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('First Comment URL') ?></th>
+				<th scope="row"><label for="first_comment_url"><?php _e('First Comment URL') ?></label></th>
 				<td>
 					<input type="text" size='40' name="first_comment_url" id="first_comment_url" value="<?php echo esc_attr(get_site_option('first_comment_url')) ?>" />
 					<br />
@@ -225,7 +219,7 @@ if (isset($_GET['updated'])) {
 		<h3><?php _e('Upload Settings'); ?></h3>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('Upload media button') ?></th>
+				<th scope="row"><?php _e('Media upload buttons') ?></th>
 				<?php $mu_media_buttons = get_site_option( 'mu_media_buttons', array() ); ?>
 				<td><label><input type='checkbox' id="mu_media_buttons_image" name="mu_media_buttons[image]" value='1'<?php checked( !empty($mu_media_buttons[ 'image' ]) ) ?>/> <?php _e( 'Images' ); ?></label><br />
 				<label><input type='checkbox' id="mu_media_buttons_video" name="mu_media_buttons[video]" value='1'<?php checked( !empty($mu_media_buttons[ 'video' ]) ) ?>/> <?php _e( 'Videos' ); ?></label><br />
@@ -236,18 +230,17 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e('Site upload space') ?></th>
 				<td>
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0'<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '<input name="blog_upload_space" type="text" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 10) ) . '" size="3" />' ); ?></label><br />
-				<label><input type='radio' id="upload_space_check_disabled" name="upload_space_check_disabled" value='1'<?php checked( get_site_option( 'upload_space_check_disabled' ) ) ?>/> <?php _e( 'Disabled' ); ?></label><br /></td>
+				<label><input type='checkbox' id="upload_space_check_disabled" name="upload_space_check_disabled" value='0'<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '<input name="blog_upload_space" type="text" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 10) ) . '" size="3" />' ); ?></label><br />
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Upload file types') ?></th>
+				<th scope="row"><label for="upload_filetypes"><?php _e('Upload file types') ?></label></th>
 				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
 			</tr>
 
 			<tr valign="top">
-				<th scope="row"><?php _e('Max upload file size') ?></th>
-				<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo esc_attr( get_site_option('fileupload_maxk', 300) ) ?>" size="5" /> KB</td>
+				<th scope="row"><label for="fileupload_maxk"><?php _e('Max upload file size') ?></label></th>
+				<td><?php printf( _x( '%s KB', 'File size in kilobytes' ), '<input name="fileupload_maxk" type="text" id="fileupload_maxk" value="' . esc_attr( get_site_option('fileupload_maxk', 300 ) ) . '" size="5" />' ); ?></td>
 			</tr>
 		</table>
 
@@ -262,7 +255,7 @@ if (isset($_GET['updated'])) {
 			<?php
 				?>
 				<tr valign="top">
-					<th><?php _e('Default Language') ?></th>
+					<th><label for="WPLANG"><?php _e('Default Language') ?></label></th>
 					<td>
 						<select name="WPLANG" id="WPLANG">
 							<?php mu_dropdown_languages( $languages, get_site_option('WPLANG') ); ?>
