@@ -1105,12 +1105,25 @@ function upgrade_290() {
  * @since 3.0.0
  */
 function upgrade_300() {
-	global $wp_current_db_version;
+	global $wp_current_db_version, $wpdb;
 
 	if ( $wp_current_db_version < 12751 ) {
 		populate_roles_300();
 		if ( is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )
 			add_site_option( 'siteurl', '' );
+	}
+
+	// 3.0-alpha nav menu postmeta changes. can be removed before release
+	if ( $wp_current_db_version >= 13226 && $wp_current_db_version < 13802 ) {
+		// remove old nav menu post meta keys
+		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key IN( 'menu_type', 'object_id', 'menu_new_window', 'menu_link', '_menu_item_append', 'menu_item_append' )" );
+		// update nav menu post meta keys to underscore prefixes
+		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_type' ), array( 'meta_key' => 'menu_item_type' ) );
+		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_object_id' ), array( 'meta_key' => 'menu_item_object_id' ) );
+		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_target' ), array( 'meta_key' => 'menu_item_target' ) );
+		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_classes' ), array( 'meta_key' => 'menu_item_classes' ) );
+		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_xfn' ), array( 'meta_key' => 'menu_item_xfn' ) );
+		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_url' ), array( 'meta_key' => 'menu_item_url' ) );
 	}
 }
 

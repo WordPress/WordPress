@@ -39,6 +39,8 @@ function create_initial_taxonomies() {
 												) ) ;
 
 	register_taxonomy( 'nav_menu', 'nav_menu_item', array(	'hierarchical' => false,
+														'label' => __('Navigation Menus'),
+														'singular_label' => __('Navigation Menu'),
 														'query_var' => false,
 														'rewrite' => false,
 														'show_ui' => false,

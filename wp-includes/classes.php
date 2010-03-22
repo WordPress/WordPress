@@ -934,7 +934,7 @@ class Walker {
 			else
 				$children_elements[ $e->$parent_field ][] = $e;
 		}
-
+		
 		/*
 		 * when none of the elements is top level
 		 * assume the first one must be root of the sub elements
@@ -1121,6 +1121,102 @@ class Walker {
 			unset( $children_elements[$id] );
 
 	}
+}
+
+/**
+ * Create HTML list of nav menu items.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ * @uses Walker
+ */
+class Walker_Nav_Menu extends Walker {
+	/**
+	 * @see Walker::$tree_type
+	 * @since 3.0.0
+	 * @var string
+	 */
+	var $tree_type = array( 'post_type', 'taxonomy', 'custom' );
+
+	/**
+	 * @see Walker::$db_fields
+	 * @since 3.0.0
+	 * @todo Decouple this.
+	 * @var array
+	 */
+	var $db_fields = array( 'parent' => 'post_parent', 'id' => 'object_id' );
+
+	/**
+	 * @see Walker::start_lvl()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int $depth Depth of page. Used for padding.
+	 */
+	function start_lvl(&$output, $depth) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "\n$indent<ul class=\"sub-menu\">\n";
+	}
+
+	/**
+	 * @see Walker::end_lvl()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int $depth Depth of page. Used for padding.
+	 */
+	function end_lvl(&$output, $depth) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "$indent</ul>\n";
+	}
+
+	/**
+	 * @see Walker::start_el()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Menu item data object.
+	 * @param int $depth Depth of menu item. Used for padding.
+	 * @param int $current_page Menu item ID.
+	 * @param array $args
+	 */
+	function start_el(&$output, $item, $depth, $args) {
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+		
+		if ( 'frontend' == $args->context ) {
+			global $wp_query;
+			
+			$css_class = array( 'menu-item', 'menu-item-type-'. $item->type, $item->classes );
+			
+			if ( 'custom' != $item->object )
+				$css_class[] = 'menu-item-object-'. $item->object;
+			
+			if ( $item->object_id == $wp_query->get_queried_object_id() )
+				$css_class[] = 'current-menu-item';
+			
+			// @todo add classes for parent/child relationships
+
+			$css_class = join( ' ', apply_filters('nav_menu_css_class', $css_class, $item) );
+		}
+			
+		$maybe_value = ( 'backend' == $args->context ) ? ' value="'. $item->ID .'"' : '';
+		$maybe_classes = ( 'frontend' == $args->context ) ? ' class="'. $css_class .'"' : '';
+		
+		$output .= $indent . '<li id="menu-item-'. $item->ID .'"'. $maybe_value . $maybe_classes .'>' . wp_get_nav_menu_item( $item, $args->context, $args );
+	}
+
+	/**
+	 * @see Walker::end_el()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Page data object. Not used.
+	 * @param int $depth Depth of page. Not Used.
+	 */
+	function end_el(&$output, $item, $depth) {
+		$output .= "</li>\n";
+	}
+
 }
 
 /**

@@ -1,10 +1,46 @@
 <?php
+/**
+ * Register nav menu metaboxes
+ *
+ * @since 3.0.0
+ **/
+function wp_nav_menu_metaboxes_setup() {
+	add_meta_box( 'add-custom-links', __('Add Custom Links'), 'wp_nav_menu_item_link_metabox', 'nav-menus', 'side', 'default' );
+	wp_nav_menu_post_type_metaboxes();
+	wp_nav_menu_taxonomy_metaboxes();
+}
 
-/* Register Metaboxes */
-add_meta_box( 'create-menu', __('Create Menu'), 'wp_nav_menu_create_metabox', 'menus', 'side', 'core' );
-add_meta_box( 'add-custom-links', __('Add Custom Links'), 'wp_nav_menu_item_link_metabox', 'menus', 'side', 'default' );
-wp_nav_menu_post_type_metaboxes();
-wp_nav_menu_taxonomy_metaboxes();
+/**
+ * Limit the amount of meta boxes to just links, pages and cats for first time users.
+ *
+ * @since 3.0.0
+ **/
+function wp_initial_nav_menu_meta_boxes() {
+	global $wp_meta_boxes;
+	
+	if ( !get_user_option( 'meta-box-hidden_nav-menus' ) && is_array($wp_meta_boxes) ) {
+		
+		$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
+		$hidden_meta_boxes = array();
+		
+		foreach ( array_keys($wp_meta_boxes['nav-menus']) as $context ) {
+			foreach ( array_keys($wp_meta_boxes['nav-menus'][$context]) as $priority ) {
+				foreach ( $wp_meta_boxes['nav-menus'][$context][$priority] as $box ) {
+					if ( in_array( $box['id'], $initial_meta_boxes ) ) {
+						unset( $box['id'] );
+					} else {
+						$hidden_meta_boxes[] = $box['id'];
+					}
+				}
+			}
+		}
+		$user = wp_get_current_user();
+		update_user_meta( $user->ID, 'meta-box-hidden_nav-menus', $hidden_meta_boxes );
+		
+		// returns all the hidden metaboxes to the js function: wpNavMenu.initial_meta_boxes()
+		return join( ',', $hidden_meta_boxes );
+	}
+}
 
 /**
  * Creates metaboxes for any post type menu item.
@@ -15,15 +51,11 @@ function wp_nav_menu_post_type_metaboxes() {
 	$post_types = get_post_types( array( 'public' => true ), 'object' );
 
 	if ( !$post_types )
-		return false;
+		return;
 
-	$allowed_types = apply_filters('post_types_allowed_in_menus', array('page'));
 	foreach ( $post_types as $post_type ) {
-		if ( !in_array($post_type->name, $allowed_types) )
-			continue;
 		$id = $post_type->name;
-
-		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $post_type->singular_label ), 'wp_nav_menu_item_post_type_metabox', 'menus', 'side', 'default', $post_type );
+		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $post_type->singular_label ), 'wp_nav_menu_item_post_type_metabox', 'nav-menus', 'side', 'default', $post_type );
 	}
 }
 
@@ -36,15 +68,12 @@ function wp_nav_menu_taxonomy_metaboxes() {
 	$taxonomies = get_taxonomies( array( 'show_ui' => true ), 'object' );
 
 	if ( !$taxonomies )
-		return false;
+		return;
 
-	$allowed_types = apply_filters('taxonomies_allowed_in_menus', array('category'));
 	foreach ( $taxonomies as $tax ) {
-		if ( !in_array($tax->name, $allowed_types) )
-			continue;
 		$id = $tax->name;
 
-		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $tax->singular_label ), 'wp_nav_menu_item_taxonomy_metabox', 'menus', 'side', 'default', $tax );
+		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $tax->singular_label ), 'wp_nav_menu_item_taxonomy_metabox', 'nav-menus', 'side', 'default', $tax );
 	}
 }
 
@@ -98,11 +127,11 @@ function wp_nav_menu_create_metabox() { ?>
  * @since 3.0.0
  */
 function wp_nav_menu_item_link_metabox() {
-	$args = array( 'post_status' => 'any', 'post_type' => 'nav_menu_item', 'meta_value' => 'custom', 'showposts' => -1 );
+	// @note: hacky query, see #12660
+	$args = array( 'post_type' => 'nav_menu_item', 'post_status' => 'any', 'meta_key' => '_menu_item_type', 'numberposts' => -1, 'orderby' => 'title', );
 
 	// @todo transient caching of these results with proper invalidation on updating links
-	$query = new WP_Query( $args );
-
+	$links = get_posts( $args );
 	?>
 	<p id="menu-item-url-wrap">
 		<label class="howto" for="menu-item-url">
@@ -110,7 +139,6 @@ function wp_nav_menu_item_link_metabox() {
 			<input id="custom-menu-item-url" name="custom-menu-item-url" type="text" class="code menu-item-textbox" value="http://" />
 		</label>
 	</p>
-	<br class="clear" />
 	<p id="menu-item-name-wrap">
 		<label class="howto" for="custom-menu-item-name">
 			<span><?php _e('Text'); ?></span>
@@ -119,19 +147,22 @@ function wp_nav_menu_item_link_metabox() {
 	</p>
 
 	<p class="button-controls">
-		<a class="show-all"><?php _e('View All'); ?></a>
-		<a class="hide-all"><?php _e('Hide All'); ?></a>
+		<span class="lists-controls">
+			<a class="show-all"><?php _e('View All'); ?></a>
+			<a class="hide-all"><?php _e('Hide All'); ?></a>
+		</span>
+		
+		<span class="add-to-menu">
+			<a class="button"><?php _e('Add to Menu'); ?></a>
+		</span>
 	</p>
 	<div id="available-links" class="list-wrap">
 		<div class="list-container">
 			<ul class="list">
-				<?php echo wp_nav_menu_get_items( $query->posts, 'custom' ); ?>
+				<?php echo wp_nav_menu_get_items( $links, 'custom', 'custom' ); ?>
 			</ul>
 		</div><!-- /.list-container-->
 	</div><!-- /#available-links-->
-	<p class="add-to-menu">
-		<a class="button"><?php _e('Add to Menu'); ?></a>
-	</p>
 	<div class="clear"></div>
 	<?php
 }
@@ -145,24 +176,19 @@ function wp_nav_menu_item_link_metabox() {
  * @param string $post_type The post type object.
  */
 function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
-	$args = array( 'post_type' => $post_type['args']->name, 'post_status' => 'publish', 'showposts' => -1 );
-
-	if ( 'attachment' == $post_type['args']->name )
-		$args['post_status'] = 'any';
+	$args = array( 'post_type' => $post_type['args']->name, 'numberposts' => -1, 'orderby' => 'title', );
 
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
-	$query = new WP_Query( $args );
+	$posts = get_posts( $args );
 
-	if ( !$query->posts )
+	if ( !$posts )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $post_type['args']->label ) .'</li>';
 
 	$pt_names = '';
-	if ( is_array($query->posts) ) {
-		foreach ( $query->posts as $post ) {
+	if ( is_array($posts) ) {
+		foreach ( $posts as $post ) {
 			if ( $post->post_title ) {
 				$pt_names .= htmlentities( $post->post_title ) .'|';
-			} else {
-				$pt_names = sprintf( __('No %s exists'), $post_type['args']->label );
 			}
 		}
 	}
@@ -175,26 +201,29 @@ function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 	</p>
 
 	<p class="button-controls">
-		<a class="show-all"><?php _e('View All'); ?></a>
-		<a class="hide-all"><?php _e('Hide All'); ?></a>
+		<span class="lists-controls">
+			<a class="show-all"><?php _e('View All'); ?></a>
+			<a class="hide-all"><?php _e('Hide All'); ?></a>
+		</span>
+		
+		<span class="add-to-menu">
+			<a class="button"><?php _e('Add to Menu'); ?></a>
+		</span>
 	</p>
 
 	<div id="existing-<?php echo esc_attr( $id ); ?>" class="list-wrap">
 		<div class="list-container">
 			<ul class="list">
-				<?php echo isset( $error ) ? $error : wp_nav_menu_get_items( $query->posts, 'post_type', $id ); ?>
+				<?php echo isset( $error ) ? $error : wp_nav_menu_get_items( $posts, 'post_type', $id ); ?>
 			</ul>
 		</div><!-- /.list-container-->
 	</div><!-- /#existing-categories-->
-	<p class="add-to-menu">
-		<a class="button-secondary"><?php _e('Add to Menu'); ?></a>
-	</p>
 	<input type="hidden" class="autocomplete" name="autocomplete-<?php echo esc_attr( $id ); ?>-names" value="<?php echo esc_js( $pt_names ); ?>" />
 	<br class="clear" />
 	<script type="text/javascript" charset="utf-8">
 		// <![CDATA[
 		jQuery(document).ready(function(){
-			wp_nav_menu_autocomplete('<?php echo esc_attr($id); ?>');
+			wpNavMenu.autocomplete('<?php echo esc_attr($id); ?>');
 		});
 		// ]]>
 	</script>
@@ -227,8 +256,6 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 		foreach ( $terms as $term ) {
 			if ( $term->name ) {
 				$term_names .= htmlentities( $term->name ) .'|';
-			} else {
-				$term_names = sprintf( __('No %s exists'), $taxonomy['args']->label );
 			}
 		}
 	}
@@ -241,8 +268,14 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 	</p>
 
 	<p class="button-controls">
-		<a class="show-all"><?php _e('View All'); ?></a>
-		<a class="hide-all"><?php _e('Hide All'); ?></a>
+		<span class="lists-controls">
+			<a class="show-all"><?php _e('View All'); ?></a>
+			<a class="hide-all"><?php _e('Hide All'); ?></a>
+		</span>
+		
+		<span class="add-to-menu">
+			<a class="button"><?php _e('Add to Menu'); ?></a>
+		</span>
 	</p>
 
 	<div id="existing-<?php echo esc_attr( $id ); ?>" class="list-wrap">
@@ -252,15 +285,12 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 			</ul>
 		</div><!-- /.list-container-->
 	</div><!-- /#existing-categories-->
-	<p class="add-to-menu">
-		<a class="button-secondary"><?php _e('Add to Menu'); ?></a>
-	</p>
 	<input type="hidden" class="autocomplete" name="autocomplete-<?php echo esc_attr($id); ?>-names" value="<?php echo esc_js( $term_names ); ?>" />
 	<br class="clear" />
 	<script type="text/javascript" charset="utf-8">
 		// <![CDATA[
 		jQuery(document).ready(function(){
-			wp_nav_menu_autocomplete('<?php echo esc_attr($id); ?>');
+			wpNavMenu.autocomplete('<?php echo esc_attr($id); ?>');
 		});
 		// ]]>
 	</script>
@@ -290,15 +320,20 @@ function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $cont
 		if ( !isset($menu_item->post_parent) )
 			$menu_item->post_parent = $menu_item->parent;
 
-		// Cleanest way to get all attachements
-		if ( 'attachment' == $object )
+		// Get all attachements and links
+		if ( in_array($object, array( 'attachment', 'custom' )) )
 			$menu_item->post_parent = 0;
 
 		if ( 0 == $menu_item->post_parent ) {
 			// Set up the menu item
 			$menu_item = wp_setup_nav_menu_item( $menu_item, $object_type, $object );
+			
+			// No blank titles
+			if ( empty($menu_item->title) )
+				continue;
+			
 			$attributes = ( 'backend' == $context ) ? ' id="menu-item-'. $i .'" value="'. $i .'"' : '';
-
+			
 			$output .= '<li'. $attributes .'>';
 			$output .= wp_get_nav_menu_item( $menu_item, $object_type, $object );
 			$output .= wp_get_nav_menu_sub_items( $menu_item->ID, $object_type, $object, $context );

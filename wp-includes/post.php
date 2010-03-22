@@ -63,7 +63,9 @@ function create_initial_post_types() {
 											'query_var' => false,
 										) );
 
-	register_post_type( 'nav_menu_item', array(	'public' => false,
+	register_post_type( 'nav_menu_item', array(	'label' => __('Navigation Menu Items'),
+												'singular_label' => __('Navigation Menu Item'),
+												'public' => false,
 												'show_ui' => false,
 												'_builtin' => true,
 												'capability_type' => 'post',

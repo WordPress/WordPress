@@ -397,11 +397,9 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		// Custom Navigation
-		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100317b' );
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100322' );
 		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
 			'custom' => _x('Custom', 'menu nav item type'),
-			'page' => _x('Page', 'menu nav item type'),
-			'category' => _x('Category', 'menu nav item type'),
 			'thickbox' => _x('Edit Menu Item', 'Thickbox Title'),
 			'edit' => _x('Edit', 'menu item edit text'),
 			'warnDelete' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
@@ -410,7 +408,6 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array('farbtastic'), '20100321' );
 		$scripts->add_data( 'custom-background', 'group', 1 );
 		// See wp_just_in_time_script_localization() for translation data for this object
-
 	}
 }
 
