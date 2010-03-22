@@ -289,8 +289,12 @@ function wp_dashboard_right_now() {
 	// Total Comments
 	$num = '<span class="total-count">' . number_format_i18n($num_comm->total_comments) . '</span>';
 	$text = _n( 'Comment', 'Comments', $num_comm->total_comments );
-	echo '<td class="b b-comments"><a href="edit-comments.php">' . $num . '</a></td>';
-	echo '<td class="last t comments"><a href="edit-comments.php">' . $text . '</a></td>';
+	if ( current_user_can( 'moderate_comments' ) ) {
+		$num = '<a href="edit-comments.php">' . $num . '</a>';
+		$text = '<a href="edit-comments.php">' . $text . '</a>';
+	}
+	echo '<td class="b b-comments">' . $num . '</td>';
+	echo '<td class="last t comments">' . $text . '</td>';
 
 	echo '</tr><tr>';
 
