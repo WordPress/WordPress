@@ -240,8 +240,6 @@ class MT_Import {
 	}
 
 	function save_post(&$post, &$comments, &$pings) {
-		// Reset the counter
-		set_time_limit(30);
 		$post = get_object_vars($post);
 		$post = add_magic_quotes($post);
 		$post = (object) $post;
@@ -496,6 +494,7 @@ class MT_Import {
 				break;
 			case 2:
 				check_admin_referer('import-mt');
+				set_time_limit(0);
 				$result = $this->import();
 				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();
