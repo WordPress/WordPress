@@ -74,7 +74,7 @@ switch ( $action ) {
 
 		// Add Menu
 		if ( isset($_POST['create-menu-button']) ) {
-			if ( current_theme_supports('nav-menus') ) {
+			if ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) {
 				$add_nav_menu = esc_html( $_POST['create-menu-name'] );
 
 				if ( $add_nav_menu ) {
@@ -214,15 +214,21 @@ add_meta_box( 'create-menu', __('Create Menu'), 'wp_nav_menu_create_metabox', 'n
 // The user has no menus.
 if ( !is_nav_menu( $nav_menu_selected_id ) ) {
 	$messages_div = '<div id="message" class="updated"><p>' . __('You do not have any menus. Create a new menu.') . '</p></div>';
-	
+
 // The theme supports menus
 } elseif ( current_theme_supports('nav-menus') ) {
-	
 	// Register nav menu metaboxes
 	add_meta_box( 'manage-menu', __( 'Menu Settings' ), 'wp_nav_menu_manage_menu_metabox', 'nav-menus', 'side', 'high', array( $nav_menu_selected_id, $nav_menu_selected_title ) );
 	wp_nav_menu_metaboxes_setup();
 
-// The theme does not support menus
+// The theme does not support menus but supports widgets
+} elseif ( current_theme_supports('widgets') ) {
+	// Register nav menu metaboxes
+	add_meta_box( 'manage-menu', __( 'Menu Settings' ), 'wp_nav_menu_manage_menu_metabox', 'nav-menus', 'side', 'high', array( $nav_menu_selected_id, $nav_menu_selected_title ) );
+	wp_nav_menu_metaboxes_setup();
+	$messages_div = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Navigation Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
+
+// The theme supports neither menus nor widgets.
 } else {
 	remove_meta_box( 'create-menu', 'nav-menus', 'side' );
 	$messages_div = '<div id="message" class="error"><p>' . __('The current theme does not support menus.') . '</p></div>';
@@ -237,7 +243,7 @@ require_once( 'admin-header.php' );
 	<?php echo $messages_div; ?>
 	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
 
-	<?php if ( !empty($nav_menus) && count($nav_menus) > 1 && current_theme_supports('nav-menus') ) : ?>
+	<?php if ( !empty($nav_menus) && count($nav_menus) > 1 && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
 	<ul class="subsubsub">
 		<?php
 			foreach ( $nav_menus as $_nav_menu ) {
@@ -263,7 +269,7 @@ require_once( 'admin-header.php' );
 			<input type="hidden" id="hidden-metaboxes" value="<?php echo wp_initial_nav_menu_meta_boxes(); ?>" />
 			<div id="post-body">
 				<div id="post-body-content">
-					<?php if ( is_nav_menu($nav_menu_selected_id) && current_theme_supports('nav-menus') ) : ?>
+					<?php if ( is_nav_menu($nav_menu_selected_id) && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
 						<div id="menu-container" class="postbox">
 							<h3 class="hndle"><?php echo esc_html( $nav_menu_selected_title ); ?></h3>
 							<div class="inside">

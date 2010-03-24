@@ -562,6 +562,8 @@ function register_sidebar($args = array()) {
 
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
+	add_theme_support('widgets');
+
 	return $sidebar['id'];
 }
 
