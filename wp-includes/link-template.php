@@ -1915,10 +1915,11 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
  * @since 2.6.0
  *
  * @param string $path Optional path relative to the admin url
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended
 */
-function admin_url( $path = '' ) {
-	return get_admin_url(null, $path);
+function admin_url( $path = '', $scheme = 'admin' ) {
+	return get_admin_url(null, $path, $scheme);
 }
 
 /**
@@ -1929,10 +1930,11 @@ function admin_url( $path = '' ) {
  *
  * @param int $blog_id (optional) Blog ID. Defaults to current blog.
  * @param string $path Optional path relative to the admin url
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended
 */
-function get_admin_url( $blog_id = null, $path = '' ) {
-	$url = get_site_url($blog_id, 'wp-admin/', 'admin');
+function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
+	$url = get_site_url($blog_id, 'wp-admin/', $scheme);
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
