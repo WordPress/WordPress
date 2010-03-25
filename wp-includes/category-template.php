@@ -868,7 +868,8 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
 		$taxonomy = $term->taxonomy;
 		$term = $term->term_id;
 	}
-	return get_term_field( 'description', $term, $taxonomy );
+	$description = get_term_field( 'description', $term, $taxonomy );
+	return is_wp_error( $description ) ? '' : $description;
 }
 
 /**
