@@ -16,8 +16,13 @@
 <?php endif; ?>
 
 <?php rewind_posts(); ?>
-
-<?php get_generic_template( 'loop', 'archive' ); ?>
+<?php
+	/* Run the loop for the archives page to output the posts.
+	 * If you want to overload this in a child theme then include a file
+	 * called loop-archives.php and that will be used instead.
+	 */
+	 get_template_part( 'loop', 'archive' );
+?>
 
 			</div><!-- #content -->
 		</div><!-- #container -->

@@ -21,8 +21,13 @@
 
 <?php rewind_posts(); ?>
 
-<?php get_generic_template( 'loop', 'author' ); ?>
-
+<?php
+	/* Run the loop for the author archive page to output the authors posts
+	 * If you want to overload this in a child theme then include a file
+	 * called loop-author.php and that will be used instead.
+	 */
+	 get_template_part( 'loop', 'author' );
+?>
 			</div><!-- #content -->
 		</div><!-- #container -->
 
