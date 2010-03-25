@@ -94,10 +94,13 @@ function get_sidebar( $name = null ) {
 }
 
 /**
- * Load a generic template.
+ * Load a template part into a template
  *
- * Includes the named template for a theme or if a name is specified then a
- * specialised template will be included. If the theme contains no {slug}.php file
+ * Makes it easy for a theme to reuse sections of code in a easy to overload way
+ * for child themes.
+ *
+ * Includes the named template part for a theme or if a name is specified then a
+ * specialised part will be included. If the theme contains no {slug}.php file
  * then no template will be included.
  *
  * For the parameter, if the file is called "{slug}-special.php" then specify
@@ -105,13 +108,13 @@ function get_sidebar( $name = null ) {
  *
  * @uses locate_template()
  * @since 3.0.0
- * @uses do_action() Calls 'get_generic_template_{$slug}' action.
+ * @uses do_action() Calls 'get_template_part{$slug}' action.
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template.
  */
-function get_generic_template( $slug, $name = null ) {
-	do_action( "get_generic_template_{$slug}", $name );
+function get_template_part( $slug, $name = null ) {
+	do_action( "get_template_part{$slug}", $name );
 
 	$templates = array();
 	if ( isset($name) )
