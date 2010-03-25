@@ -139,11 +139,11 @@ function network_step1( $errors = false ) {
 		<table class="form-table">
 			<tr>
 				<th><label><input type='radio' name='subdomain_install' value='1'<?php checked( $subdomain_install ); ?> /> Sub-domains</label></th>
-				<td><?php _e('like <code>site1.example.com</code> and <code>site2.example.com</code>'); ?></td>
+				<td><?php printf( _x( 'like <code>site1.%1$s</code> and <code>site2.%1$s</code>', 'subdomain examples' ), $hostname ); ?></td>
 			</tr>
 			<tr>
 				<th><label><input type='radio' name='subdomain_install' value='0'<?php checked( ! $subdomain_install ); ?> /> Sub-directories</label></th>
-				<td><?php _e('like <code>example.com/site1</code> and <code>example.com/site2</code>'); ?></td>
+				<td><?php printf( _x( 'like <code>%1$s/site1</code> and <code>%1$s/site2</code>', 'subdirectory examples' ), $hostname ); ?></td>
 			</tr>
 		</table>
 
