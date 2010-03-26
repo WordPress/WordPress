@@ -2038,26 +2038,6 @@ function rel_canonical() {
 }
 
 /**
- * Prints the ajax url on the front end
- *
- * @since 3.0.0
- **/
-function _wp_ajaxurl() {
-	echo '<script type="text/javascript">',
-			"var ajaxurl = '", esc_js(site_url('wp-ajax.php')), "';",
-		"</script>\n";
-}
-
-/**
- * Hooks _wp_ajaxurl() to wp_head
- *
- * @since 3.0.0
- **/
-function wp_ajaxurl() {
-	add_action('wp_head', '_wp_ajaxurl', 1);
-}
-
-/**
  * Return a shortlink for a post, page, attachment, or blog.
  *
  * This function exists to provide a shortlink tag that all themes and plugins can target.  A plugin must hook in to

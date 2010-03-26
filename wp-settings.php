@@ -289,7 +289,10 @@ do_action( 'init' );
 /**
  * This hook is fired once WP, all plugins, and the theme are fully loaded and instantiated.
  *
- * AJAX requests should use wp-ajax.php and wp-admin/admin-ajax.php instead.
+ * AJAX requests should use wp-admin/admin-ajax.php. admin-ajax.php can handle requests for
+ * users not logged in.
+ *
+ * @link http://codex.wordpress.org/AJAX_in_Plugins
  *
  * @since 3.0.0
  */

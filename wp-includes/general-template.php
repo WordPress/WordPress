@@ -718,7 +718,7 @@ function single_tag_title($prefix = '', $display = true ) {
 	if ( !is_tag() )
 		return;
 
-	$tag = $wp_query->get_queried_object();;
+	$tag = $wp_query->get_queried_object();
 
 	if ( ! $tag )
 		return;
