@@ -427,6 +427,10 @@ td.action-links, th.action-links {
 	margin-right: 0;
 	margin-left: 5px;
 }
+#replysubmit img.waiting,
+.inline-edit-save img.waiting {
+	float: left;
+}
 /* 2500 - 2700
 =================================== */
 #bulk-titles div a {
