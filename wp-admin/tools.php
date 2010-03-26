@@ -25,7 +25,7 @@ if ( ! $is_opera ) {
 <div class="tool-box">
 	<div id="gears-msg1">
 	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Speed up WordPress'); ?></h3>
-	<p><?php _e('WordPress now has support for Gears, which adds new features to your web browser.'); ?><br />
+	<p><?php _e('WordPress has support for Gears, which adds new features to your web browser.'); ?><br />
 	<a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a></p>
 	<p><?php _e('After you install and enable Gears, most of WordPress&#8217; images, scripts, and CSS files will be stored locally on your computer. This speeds up page load time.'); ?></p>
 	<p><strong><?php _e('Don&#8217;t install on a public or shared computer.'); ?></strong></p>
