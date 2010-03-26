@@ -113,8 +113,6 @@ if ( function_exists('mb_strlen') ) {
 <p><?php
 $links = array();
 $links[5] = sprintf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity);
-if ( ! $is_opera )
-	$links[10] = '<span class="turbo-nag hidden"> | <a href="tools.php">' . __('Turbo') . '</a></span>';
 $links[15] = '| <a href="' . wp_logout_url() . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a>';
 
 $links = apply_filters('admin_user_info_links', $links, $current_user);

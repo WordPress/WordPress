@@ -301,23 +301,3 @@ jQuery(document).ready( function($) {
 			this.focus();
 	});
 });
-
-jQuery(document).ready( function($){
-	var turboNag = $('span.turbo-nag', '#user_info');
-
-	if ( !turboNag.length || ('undefined' != typeof(google) && google.gears) )
-		return;
-
-	if ( 'undefined' != typeof GearsFactory ) {
-		return;
-	} else {
-		try {
-			if ( ( 'undefined' != typeof window.ActiveXObject && ActiveXObject('Gears.Factory') ) ||
-				( 'undefined' != typeof navigator.mimeTypes && navigator.mimeTypes['application/x-googlegears'] ) ) {
-					return;
-			}
-		} catch(e){}
-	}
-
-	turboNag.show();
-});
