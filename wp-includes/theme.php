@@ -1526,7 +1526,7 @@ function add_editor_style( $stylesheet = 'editor-style.css' ) {
  *
  * Must be called in the themes functions.php file to work.
  *
- * @since 2.9
+ * @since 2.9.0
  * @param string $feature the feature being added
  */
 function add_theme_support( $feature ) {
@@ -1541,7 +1541,7 @@ function add_theme_support( $feature ) {
 /**
  * Checks a theme's support for a given feature
  *
- * @since 2.9
+ * @since 2.9.0
  * @param string $feature the feature being checked
  * @return boolean
  */
@@ -1579,7 +1579,7 @@ function current_theme_supports( $feature ) {
 /**
  * Checks a theme's support for a given feature before loading the functions which implement it.
  *
- * @since 2.9
+ * @since 2.9.0
  * @param string $feature the feature being checked
  * @param string $include the file containing the functions that implement the feature
  */

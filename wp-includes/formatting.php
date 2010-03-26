@@ -2770,7 +2770,7 @@ function wp_strip_all_tags($string, $remove_breaks = false) {
  * remove line breaks, tabs and extra white space,
  * strip octets.
  *
- * @since 2.9
+ * @since 2.9.0
  *
  * @param string $str
  * @return string

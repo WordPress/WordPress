@@ -175,7 +175,7 @@ function update_attached_file( $attachment_id, $file ) {
  *
  * The path is relative to the current upload dir.
  *
- * @since 2.9
+ * @since 2.9.0
  * @uses apply_filters() Calls '_wp_relative_upload_path' on file path.
  *
  * @param string $path Full path to the file

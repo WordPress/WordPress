@@ -427,7 +427,7 @@ function get_comment_count( $post_id = 0 ) {
 /**
  * Add meta data field to a comment.
  *
- * @since 2.9
+ * @since 2.9.0
  * @uses add_metadata
  * @link http://codex.wordpress.org/Function_Reference/add_comment_meta
  *
@@ -448,7 +448,7 @@ function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) 
  * value, will keep from removing duplicate metadata with the same key. It also
  * allows removing all metadata matching key, if needed.
  *
- * @since 2.9
+ * @since 2.9.0
  * @uses delete_metadata
  * @link http://codex.wordpress.org/Function_Reference/delete_comment_meta
  *
@@ -464,7 +464,7 @@ function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
 /**
  * Retrieve comment meta field for a comment.
  *
- * @since 2.9
+ * @since 2.9.0
  * @uses get_metadata
  * @link http://codex.wordpress.org/Function_Reference/get_comment_meta
  *
@@ -486,7 +486,7 @@ function get_comment_meta($comment_id, $key, $single = false) {
  *
  * If the meta field for the comment does not exist, it will be added.
  *
- * @since 2.9
+ * @since 2.9.0
  * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_comment_meta
  *

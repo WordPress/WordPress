@@ -2887,7 +2887,7 @@ function wp_parse_id_list($list) {
  * Checks to make sure that the embeds library hasn't already been loaded. If
  * it hasn't, then it will load the embeds library.
  *
- * @since 2.9
+ * @since 2.9.0
  */
 function wp_maybe_load_embeds() {
 	if ( ! apply_filters('load_default_embeds', true) )
