@@ -12,7 +12,7 @@
 ?>
 
 <?php if ( have_comments() ) : ?>
-			<h3 id="comments-title"><?php comments_number( 
+			<h3 id="comments-title"><?php comments_number(
 				sprintf( __( 'No Responses to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' ),
 				sprintf( __( 'One Response to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' ),
 				sprintf( __( '%% Responses to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' )

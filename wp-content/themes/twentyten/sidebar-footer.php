@@ -1,9 +1,9 @@
 <?php
-	if ( 
+	if (
 		is_active_sidebar( 'first-footer-widget-area' )  ||
 		is_active_sidebar( 'second-footer-widget-area' ) ||
 		is_active_sidebar( 'third-footer-widget-area' )  ||
-		is_active_sidebar( 'fourth-footer-widget-area' ) 
+		is_active_sidebar( 'fourth-footer-widget-area' )
 	) :
 ?>
 			<div id="footer-widget-area">

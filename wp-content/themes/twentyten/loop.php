@@ -42,9 +42,9 @@
 					echo wp_get_attachment_image( $image->ID, 'thumbnail' );
 					?></a>
 				</div>
-				<p><em><?php printf( __( 'This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten' ), 
-						'href="' . get_permalink() . '" title="' . sprintf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) . '" rel="bookmark"', 
-						$total_images 
+				<p><em><?php printf( __( 'This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten' ),
+						'href="' . get_permalink() . '" title="' . sprintf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) . '" rel="bookmark"',
+						$total_images
 					); ?></em></p>
 
 				<?php the_excerpt( '' ); ?>

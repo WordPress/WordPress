@@ -563,7 +563,7 @@ class WP_Import {
 		$comments = $comments[1];
 		$num_comments = 0;
 		$inserted_comments = array();
-		if ( $comments) { 
+		if ( $comments) {
 			foreach ($comments as $comment) {
 				$comment_id	= $this->get_tag( $comment, 'wp:comment_id');
 				$newcomments[$comment_id]['comment_post_ID']      = $comment_post_ID;
@@ -674,7 +674,7 @@ class WP_Import {
 		}
 	}
 
-	function fetch_remote_file( $post, $url ) { 
+	function fetch_remote_file( $post, $url ) {
 		add_filter( 'http_request_timeout', array( &$this, 'bump_request_timeout' ) );
 
 		$upload = wp_upload_dir($post['post_date']);

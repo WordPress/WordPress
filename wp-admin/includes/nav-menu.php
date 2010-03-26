@@ -17,12 +17,12 @@ function wp_nav_menu_metaboxes_setup() {
  **/
 function wp_initial_nav_menu_meta_boxes() {
 	global $wp_meta_boxes;
-	
+
 	if ( !get_user_option( 'meta-box-hidden_nav-menus' ) && is_array($wp_meta_boxes) ) {
-		
+
 		$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
 		$hidden_meta_boxes = array();
-		
+
 		foreach ( array_keys($wp_meta_boxes['nav-menus']) as $context ) {
 			foreach ( array_keys($wp_meta_boxes['nav-menus'][$context]) as $priority ) {
 				foreach ( $wp_meta_boxes['nav-menus'][$context][$priority] as $box ) {
@@ -36,7 +36,7 @@ function wp_initial_nav_menu_meta_boxes() {
 		}
 		$user = wp_get_current_user();
 		update_user_meta( $user->ID, 'meta-box-hidden_nav-menus', $hidden_meta_boxes );
-		
+
 		// returns all the hidden metaboxes to the js function: wpNavMenu.initial_meta_boxes()
 		return join( ',', $hidden_meta_boxes );
 	}
@@ -151,7 +151,7 @@ function wp_nav_menu_item_link_metabox() {
 			<a class="show-all"><?php _e('View All'); ?></a>
 			<a class="hide-all"><?php _e('Hide All'); ?></a>
 		</span>
-		
+
 		<span class="add-to-menu">
 			<a class="button"><?php _e('Add to Menu'); ?></a>
 		</span>
@@ -205,7 +205,7 @@ function wp_nav_menu_item_post_type_metabox( $object, $post_type ) {
 			<a class="show-all"><?php _e('View All'); ?></a>
 			<a class="hide-all"><?php _e('Hide All'); ?></a>
 		</span>
-		
+
 		<span class="add-to-menu">
 			<a class="button"><?php _e('Add to Menu'); ?></a>
 		</span>
@@ -272,7 +272,7 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 			<a class="show-all"><?php _e('View All'); ?></a>
 			<a class="hide-all"><?php _e('Hide All'); ?></a>
 		</span>
-		
+
 		<span class="add-to-menu">
 			<a class="button"><?php _e('Add to Menu'); ?></a>
 		</span>
@@ -327,13 +327,13 @@ function wp_nav_menu_get_items( $menu_items, $object_type, $object = null, $cont
 		if ( 0 == $menu_item->post_parent ) {
 			// Set up the menu item
 			$menu_item = wp_setup_nav_menu_item( $menu_item, $object_type, $object );
-			
+
 			// No blank titles
 			if ( empty($menu_item->title) )
 				continue;
-			
+
 			$attributes = ( 'backend' == $context ) ? ' id="menu-item-'. $i .'" value="'. $i .'"' : '';
-			
+
 			$output .= '<li'. $attributes .'>';
 			$output .= wp_get_nav_menu_item( $menu_item, $object_type, $object );
 			$output .= wp_get_nav_menu_sub_items( $menu_item->ID, $object_type, $object, $context );

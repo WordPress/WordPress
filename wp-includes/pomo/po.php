@@ -109,7 +109,7 @@ class PO extends Gettext_Translations {
 
 	/**
 	 * Gives back the original string from a PO-formatted string
-	 * 
+	 *
 	 * @static
 	 * @param string $string PO-formatted string
 	 * @return string enascaped string
@@ -139,7 +139,7 @@ class PO extends Gettext_Translations {
 	}
 
 	/**
-	 * Inserts $with in the beginning of every new line of $string and 
+	 * Inserts $with in the beginning of every new line of $string and
 	 * returns the modified string
 	 *
 	 * @static
@@ -254,7 +254,7 @@ class PO extends Gettext_Translations {
 					return false;
 				}
 				// add comment
-				$this->add_comment_to_entry($entry, $line);;
+				$this->add_comment_to_entry($entry, $line);
 			} elseif (preg_match('/^msgctxt\s+(".*")/', $line, $m)) {
 				if ($is_final($context)) {
 					PO::read_line($f, 'put-back');

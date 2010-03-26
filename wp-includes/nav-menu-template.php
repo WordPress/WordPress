@@ -50,7 +50,7 @@ function wp_nav_menu( $args = array() ) {
 
 	if ( 'div' == $args->container ) {
 		$class = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : '';
-		
+
 		if ( is_nav_menu($menu) ) {
 			$nav_menu .= '<div id="menu-' . $menu->slug . '"'. $class .'>';
 		} else {
@@ -62,7 +62,7 @@ function wp_nav_menu( $args = array() ) {
 
 	if ( 'div' == $args->container )
 		$nav_menu .= '</div>';
-	
+
 	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu, $args );
 
 	if ( $args->echo )
@@ -84,22 +84,22 @@ function wp_nav_menu( $args = array() ) {
 function wp_get_nav_menu( $args = array() ) {
 	$defaults = array( 'menu' => '', 'menu_class' => 'menu', 'context' => 'frontend', 'depth' => 0,
 	'fallback_cb' => '', 'walker' => '', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '', );
-	
+
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_get_nav_menu_args', $args );
 	$args = (object) $args;
-	
+
 	// Variable setup
 	$nav_menu = '';
 	$items = '';
-	
+
 	// Get the menu object
 	$menu = wp_get_nav_menu_object( $args->menu );
-	
+
 	// If the menu exists, get it's items.
 	if ( $menu && !is_wp_error($menu) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, $args->context );
-	
+
 	// If no menu was found or if the menu has no items, call the fallback_cb
 	if ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) ) ) {
 		if ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) {
@@ -107,17 +107,17 @@ function wp_get_nav_menu( $args = array() ) {
 			return call_user_func( $args->fallback_cb, $_args );
 		}
 	}
-		
+
 	// Set up the $menu_item variables
 	foreach ( (array) $menu_items as $key => $menu_item )
 		$menu_items[$menu_item->menu_order] = wp_setup_nav_menu_item( $menu_item, 'frontend' );
-	
+
 	$items .= walk_nav_menu_tree( $menu_items, $args->depth, $args );
-	
+
 	// CSS class
 	$ul_class = $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
 	$nav_menu .= '<ul'. $ul_class .'>';
-	
+
 	// Allow plugins to hook into the menu to add their own <li>'s
 	if ( 'frontend' == $args->context ) {
 		$items = apply_filters( 'wp_nav_menu_items', $items, $args );
@@ -126,9 +126,9 @@ function wp_get_nav_menu( $args = array() ) {
 	} else {
 		$nav_menu .= $items;
 	}
-	
+
 	$nav_menu .= '</ul>';
-	
+
 	return apply_filters( 'wp_get_nav_menu', $nav_menu );
 }
 
@@ -150,27 +150,27 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 			$attributes .= ( isset($menu_item->target) && '' != $menu_item->target ) ? ' target="'. esc_attr($menu_item->target) .'"' : '';
 			$attributes .= ( isset($menu_item->xfn) && '' != $menu_item->xfn ) ? ' rel="'. esc_attr($menu_item->xfn) .'"' : '';
 			$attributes .= ( isset($menu_item->url) && '' != $menu_item->url ) ? ' href="'. esc_attr($menu_item->url) .'"' : '';
-			
+
 			$output .= esc_html( $args->before );
 			$output .= '<a'. $attributes .'>';
 			$output .= esc_html( $args->link_before . apply_filters('the_title', $menu_item->title) . $args->link_after );
 			$output .= '</a>';
 			$output .= esc_html( $args->after );
-			
+
 			break;
-		
+
 		case 'backend':
 			$output .= '<dl><dt>';
 			$output .= '<span class="item-title">'. esc_html( $menu_item->title ) .'</span>';
 			$output .= '<span class="item-controls">';
 			$output .= '<span class="item-type">'. esc_html( $menu_item->append ) .'</span>';
-			
+
 			// Actions
 			$output .= '<a class="item-edit thickbox" id="edit-'. esc_attr( $menu_item->ID ) .'" value="'. esc_attr( $menu_item->ID ) .'" title="'. __('Edit Menu Item') .'" href="#TB_inline?height=540&width=300&inlineId=menu-item-settings">'. __('Edit') .'</a> | ';
 			$output .= '<a class="item-delete" id="delete-'. esc_attr( $menu_item->ID ) .'" value="'. esc_attr( $menu_item->ID ) .'">'. __('Delete') .'</a>';
-			
+
 			$output .= '</span></dt></dl>';
-			
+
 			// Menu Item Settings
 			$output .= '<input type="hidden" name="menu-item-db-id[]" value="'. esc_attr( $menu_item->ID ) .'" />';
 			$output .= '<input type="hidden" name="menu-item-object-id[]" value="'. esc_attr( $menu_item->object_id ) .'" />';
@@ -186,12 +186,12 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 			$output .= '<input type="hidden" name="menu-item-attr-title[]" value="'.esc_attr( $menu_item->post_excerpt )  .'" />';
 			$output .= '<input type="hidden" name="menu-item-target[]" value="'. esc_attr( $menu_item->target ) .'" />';
 			break;
-		
+
 		case 'custom':
 		case 'taxonomy':
 		case 'post_type':
 			$output .= '<label class="menu-item-title"><input type="checkbox" id="'. esc_attr( 'menu-item-' . $menu_item->object_id ) .'" value="'. esc_attr( $menu_item->url ) .'" />'. $menu_item->title .'</label>';
-			
+
 			// Menu item hidden fields
 			$output .= '<input type="hidden" class="menu-item-db-id" value="0" />';
 			$output .= '<input type="hidden" class="menu-item-object-id" value="'. esc_attr( $menu_item->object_id ) .'" />';
@@ -209,7 +209,7 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 			$output .= '<input type="hidden" class="menu-item-xfn" value="'. esc_attr( $menu_item->xfn ) .'" />';
 			break;
 	}
-	
+
 	return $output;
 }
 ?>

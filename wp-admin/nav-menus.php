@@ -58,7 +58,7 @@ switch ( $action ) {
 
 		if ( is_nav_menu($nav_menu_selected_id) ) {
 			$delete_nav_menu = wp_delete_nav_menu( $nav_menu_selected_id );
-			
+
 			if ( is_wp_error($delete_nav_menu) ) {
 				$messages_div = '<div id="message" class="error"><p>' . $delete_nav_menu->get_error_message() . '</p></div>';
 			} else {
@@ -93,30 +93,30 @@ switch ( $action ) {
 				unset( $add_nav_menu );
 			}
 		} else {
-			
+
 			// @todo wrap this into wp_update_nav_menu_object();
 			if ( isset($_POST['menu-name']) ) {
 				$old_nav_menu = get_term( $nav_menu_selected_id, 'nav_menu', ARRAY_A );
 				$args = array( 'name' => $_POST['menu-name'], 'slug' => null, 'description' => $old_nav_menu['description'], 'parent' => $old_nav_menu['parent'], );
 				$new_nav_menu = wp_update_term( $nav_menu_selected_id, 'nav_menu', $args );
 			}
-			
+
 			// Update menu items
-			
+
 			// @todo: wrap update logic into wp_update_nav_menu();
 			$update_count = isset( $_POST['li-count'] ) ? (int) $_POST['li-count'] : 0;
 			$update_nav_menu = is_nav_menu( $nav_menu_selected_id );
 
 			if ( !is_wp_error($update_nav_menu) ) {
 				$menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
-				
+
 				// Loop through all POST variables
 				for ( $k = 0; $k < $update_count; $k++ ) {
-					
+
 					// Menu item title can't be blank
 					if ( '' == $_POST['menu-item-title'][$k] )
 						continue;
-					
+
 					$menu_item_db_id       = isset( $_POST['menu-item-db-id'][$k] )       ? $_POST['menu-item-db-id'][$k]       : 0;
 					$menu_item_object_id   = isset( $_POST['menu-item-object-id'][$k] )   ? $_POST['menu-item-object-id'][$k]   : 0;
 					$menu_item_object      = isset( $_POST['menu-item-object'][$k] )      ? $_POST['menu-item-object'][$k]      : '';
@@ -140,11 +140,11 @@ switch ( $action ) {
 						'post_parent' => $menu_item_parent_id, 'menu_order' => $menu_item_position,
 						'post_content' => $menu_item_description,
 					);
-					
+
 					// New menu item
 					if ( $menu_item_db_id == 0 ) {
 						$menu_item_db_id = wp_insert_post( $post );
-					
+
 					// Update existing menu item
 					} elseif ( isset($menu_items[$menu_item_db_id]) || ( 'custom' == $menu_item_type && 0 != $menu_item_db_id ) ) {
 						$post['ID'] = $menu_item_db_id;
@@ -170,9 +170,9 @@ switch ( $action ) {
 						wp_delete_post( $menu_item_id );
 					}
 				}
-				
+
 				do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
-				
+
 				$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been updated.'), $update_nav_menu->name ) . '</p></div>';
 				unset( $update_nav_menu, $update_count, $menu_items );
 			}

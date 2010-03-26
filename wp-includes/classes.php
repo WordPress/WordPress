@@ -934,7 +934,7 @@ class Walker {
 			else
 				$children_elements[ $e->$parent_field ][] = $e;
 		}
-		
+
 		/*
 		 * when none of the elements is top level
 		 * assume the first one must be root of the sub elements
@@ -1182,26 +1182,26 @@ class Walker_Nav_Menu extends Walker {
 	 */
 	function start_el(&$output, $item, $depth, $args) {
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-		
+
 		if ( 'frontend' == $args->context ) {
 			global $wp_query;
-			
+
 			$css_class = array( 'menu-item', 'menu-item-type-'. $item->type, $item->classes );
-			
+
 			if ( 'custom' != $item->object )
 				$css_class[] = 'menu-item-object-'. $item->object;
-			
+
 			if ( $item->object_id == $wp_query->get_queried_object_id() )
 				$css_class[] = 'current-menu-item';
-			
+
 			// @todo add classes for parent/child relationships
 
 			$css_class = join( ' ', apply_filters('nav_menu_css_class', $css_class, $item) );
 		}
-			
+
 		$maybe_value = ( 'backend' == $args->context ) ? ' value="'. $item->ID .'"' : '';
 		$maybe_classes = ( 'frontend' == $args->context ) ? ' class="'. $css_class .'"' : '';
-		
+
 		$output .= $indent . '<li id="menu-item-'. $item->ID .'"'. $maybe_value . $maybe_classes .'>' . wp_get_nav_menu_item( $item, $args->context, $args );
 	}
 

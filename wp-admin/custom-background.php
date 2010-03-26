@@ -153,7 +153,7 @@ class Custom_Background {
 			$bgcolor = 'background-color: #' . $bgcolor . ';';
 
 		if ( $align = get_theme_mod('background_position', 'left') )
-			$align = "text-align: $align;";		 
+			$align = "text-align: $align;";
 ?>
 <div id="custom-background-image"  style="<?php echo $bgcolor, $align ?>">
 <?php if ( get_background_image() ) { ?>

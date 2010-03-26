@@ -1715,9 +1715,9 @@ class WP_Query {
 		if ( !empty($q['post_type']) && !empty($q[ $q['post_type'] ]) ) {
 			$q[ $q['post_type'] ] = str_replace('%2F', '/', urlencode(urldecode($q[ $q['post_type'] ])));
 			$post_type_object = get_post_type_object($q['post_type']);
-			if ( ! $post_type_object->hierarchical || strpos($q[ $q['post_type'] ], '/') === false) { 
+			if ( ! $post_type_object->hierarchical || strpos($q[ $q['post_type'] ], '/') === false) {
 				$q['name'] = $q[ $q['post_type'] ] = sanitize_title($q[ $q['post_type'] ]);
-				$where .= " AND $wpdb->posts.post_name = '" . $q[ $q['post_type'] ] . "'";			
+				$where .= " AND $wpdb->posts.post_name = '" . $q[ $q['post_type'] ] . "'";
 			} else {
 				// Hierarchical post type, need to look deeper to see if its an attachment or this post_type
 				if ( isset($this->queried_object_id) ) {
