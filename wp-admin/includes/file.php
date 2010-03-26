@@ -392,7 +392,7 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 		return $upload_error_handler( $file, __( 'Invalid form submission.' ));
 
 	// A successful upload will pass this test. It makes no sense to override this one.
-	if ( $file['error'] > 0 )
+	if ( ! empty( $file['error'] ) )
 		return $upload_error_handler( $file, $upload_error_strings[$file['error']] );
 
 	// A non-empty file will pass this test.
