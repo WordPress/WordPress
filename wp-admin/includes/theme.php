@@ -120,7 +120,7 @@ function get_broken_themes() {
 /**
  * Get the allowed themes for the current blog.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @uses get_themes()
  * @uses current_theme_info()

@@ -1858,7 +1858,7 @@ function pre_schema_upgrade() {
 /**
  * Install Network.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  */
 if ( !function_exists( 'install_network' ) ) :
@@ -1954,7 +1954,7 @@ endif;
 /**
  * Install global terms.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  */
 if ( !function_exists( 'install_global_terms' ) ) :

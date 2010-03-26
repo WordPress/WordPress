@@ -600,7 +600,7 @@ function populate_roles_280() {
 /**
  * Create and modify WordPress roles for WordPress 3.0.
  *
- * @since 3.0
+ * @since 3.0.0
  */
 function populate_roles_300() {
 	$role =& get_role( 'administrator' );
@@ -615,7 +615,7 @@ function populate_roles_300() {
 /**
  * populate network settings
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $network_id id of network to populate
  * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,

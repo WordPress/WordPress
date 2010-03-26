@@ -763,7 +763,7 @@ class WP_User {
 	/**
 	 * Set the blog to operate on. Defaults to the current blog.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 *
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 */
@@ -1153,7 +1153,7 @@ function remove_role( $role ) {
 /**
  * Determine if user is a site admin.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $user_id (Optional) The ID of a user. Defaults to the current user.
  * @return bool True if the user is a site admin.

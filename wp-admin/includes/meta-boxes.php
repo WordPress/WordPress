@@ -408,7 +408,7 @@ function post_comment_status_meta_box($post) {
 /** 
  * Display comments for post table header
  * 
- * @since 3.0
+ * @since 3.0.0
  * 
  * @param $result table header rows
  * @return 

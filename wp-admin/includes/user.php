@@ -573,7 +573,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @access private
 	 * @var string
 	 */
@@ -582,7 +582,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @access private
 	 * @var string
 	 */
@@ -591,7 +591,7 @@ class WP_User_Search {
 	/**
 	 * {@internal Missing Description}}
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @access private
 	 * @var string
 	 */

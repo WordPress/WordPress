@@ -1035,7 +1035,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
  *
  * @package WordPress
  * @subpackage Upgrader
- * @since 3.0
+ * @since 3.0.0
  */
 class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	var $in_loop = false;

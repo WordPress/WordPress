@@ -550,7 +550,7 @@ function unzip_file($file, $to) {
  * This function should not be called directly, use unzip_file instead. Attempts to unzip an archive using the ZipArchive class.
  * Assumes that WP_Filesystem() has already been called and set up.
  *
- * @since 3.0
+ * @since 3.0.0
  * @see unzip_file
  * @access private
  *
@@ -612,7 +612,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
  * This function should not be called directly, use unzip_file instead. Attempts to unzip an archive using the PclZip library.
  * Assumes that WP_Filesystem() has already been called and set up.
  *
- * @since 3.0
+ * @since 3.0.0
  * @see unzip_file
  * @access private
  *

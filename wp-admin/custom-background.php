@@ -9,7 +9,7 @@
 /**
  * The custom background class.
  *
- * @since 3.0
+ * @since 3.0.0
  * @package WordPress
  * @subpackage Administration
  */
@@ -28,7 +28,7 @@ class Custom_Background {
 	 * Callback for header div.
 	 *
 	 * @var callback
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @access private
 	 */
 	var $admin_image_div_callback;
@@ -36,7 +36,7 @@ class Custom_Background {
 	/**
 	 * PHP4 Constructor - Register administration header callback.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @param callback $admin_header_callback
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Background
@@ -49,7 +49,7 @@ class Custom_Background {
 	/**
 	 * Set up the hooks for the Custom Background admin page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function init() {
 		if ( ! current_user_can('switch_themes') )
@@ -68,7 +68,7 @@ class Custom_Background {
 	/**
 	 * Set up the enqueue for the CSS & JavaScript files.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function admin_load() {
 		wp_enqueue_script('custom-background');
@@ -78,7 +78,7 @@ class Custom_Background {
 	/**
 	 * Execute custom background modification.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function take_action() {
 
@@ -132,7 +132,7 @@ class Custom_Background {
 	/**
 	 * Display the custom background page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function admin_page() {
 ?>
@@ -252,7 +252,7 @@ class Custom_Background {
 	/**
 	 * Handle a Image upload for the background image.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function handle_upload() {
 

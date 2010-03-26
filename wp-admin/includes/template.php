@@ -3879,7 +3879,7 @@ function compression_test() {
 /**
  * Set the current screen object
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @uses $current_screen
  *

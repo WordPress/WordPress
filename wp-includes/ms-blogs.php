@@ -73,7 +73,7 @@ function get_id_from_blogname( $name ) {
 /**
  * Retrieve the details for a blog from the blogs table and blog options.
  *
- * @since 3.0
+ * @since 3.0.0
  * @param int|string|array $fields A blog ID, a blog name, or an array of fields to query against.
  * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
  * @return object Blog details.
@@ -183,7 +183,7 @@ function get_blog_details( $fields, $get_all = true ) {
 /**
  * Clear the blog details cache.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $blog_id Blog ID
  */
@@ -201,7 +201,7 @@ function refresh_blog_details( $blog_id ) {
 /**
  * Update the details for a blog. Updates the blogs table for a given blog id.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $blog_id Blog ID
  * @param array $details Array of details keyed by blogs table field names.
@@ -477,7 +477,7 @@ function update_archived( $id, $archived ) {
 /**
  * Update a blog details field.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $blog_id BLog ID
  * @param string $pref A field name

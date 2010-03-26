@@ -9,7 +9,7 @@
 /**
  * The custom header image class.
  *
- * @since 3.0
+ * @since 3.0.0
  * @package WordPress
  * @subpackage Administration
  */
@@ -19,7 +19,7 @@ class Custom_Image_Header {
 	 * Callback for administration header.
 	 *
 	 * @var callback
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @access private
 	 */
 	var $admin_header_callback;
@@ -28,7 +28,7 @@ class Custom_Image_Header {
 	 * Callback for header div.
 	 *
 	 * @var callback
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @access private
 	 */
 	var $admin_image_div_callback;
@@ -38,7 +38,7 @@ class Custom_Image_Header {
 	/**
 	 * PHP4 Constructor - Register administration header callback.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 * @param callback $admin_header_callback
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Image_Header
@@ -51,7 +51,7 @@ class Custom_Image_Header {
 	/**
 	 * Set up the hooks for the Custom Header admin page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function init() {
 		if ( ! current_user_can('switch_themes') )
@@ -69,7 +69,7 @@ class Custom_Image_Header {
 	/**
 	 * Get the current step.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 *
 	 * @return int Current step
 	 */
@@ -87,7 +87,7 @@ class Custom_Image_Header {
 	/**
 	 * Set up the enqueue for the JavaScript files.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function js_includes() {
 		$step = $this->step();
@@ -115,7 +115,7 @@ class Custom_Image_Header {
 	/**
 	 * Execute custom header modification.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function take_action() {
 		if ( ! current_user_can('switch_themes') )
@@ -210,7 +210,7 @@ class Custom_Image_Header {
 	/**
 	 * Execute Javascript depending on step.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function js() {
 		$step = $this->step();
@@ -223,7 +223,7 @@ class Custom_Image_Header {
 	/**
 	 * Display Javascript based on Step 1.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function js_1() { ?>
 <script type="text/javascript">
@@ -301,7 +301,7 @@ class Custom_Image_Header {
 	/**
 	 * Display Javascript based on Step 2.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function js_2() { ?>
 <script type="text/javascript">
@@ -353,7 +353,7 @@ class Custom_Image_Header {
 	/**
 	 * Display first step of custom header image page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function step_1() {
 		$this->process_default_headers();
@@ -448,7 +448,7 @@ if ( !empty($this->default_headers) ) {
 	/**
 	 * Display second step of custom header image page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function step_2() {
 		check_admin_referer('custom-header');
@@ -528,7 +528,7 @@ if ( !empty($this->default_headers) ) {
 	/**
 	 * Display third step of custom header image page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function step_3() {
 		check_admin_referer('custom-header');
@@ -577,7 +577,7 @@ if ( !empty($this->default_headers) ) {
 	/**
 	 * Display last step of custom header image page.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function finished() {
 		$_GET['updated'] = 1;
@@ -587,7 +587,7 @@ if ( !empty($this->default_headers) ) {
 	/**
 	 * Display the page based on the current step.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	function admin_page() {
 		if ( ! current_user_can('switch_themes') )

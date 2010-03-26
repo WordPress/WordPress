@@ -2040,7 +2040,7 @@ function rel_canonical() {
 /**
  * Prints the ajax url on the front end
  *
- * @since 3.0
+ * @since 3.0.0
  **/
 function _wp_ajaxurl() {
 	echo '<script type="text/javascript">',
@@ -2051,7 +2051,7 @@ function _wp_ajaxurl() {
 /**
  * Hooks _wp_ajaxurl() to wp_head
  *
- * @since 3.0
+ * @since 3.0.0
  **/
 function wp_ajaxurl() {
 	add_action('wp_head', '_wp_ajaxurl', 1);

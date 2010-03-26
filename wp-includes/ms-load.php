@@ -11,7 +11,7 @@
 /**
  * Whether a subdomain configuration is enabled.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @return bool True if subdomain configuration is enabled, false otherwise.
  */

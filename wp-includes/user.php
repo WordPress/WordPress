@@ -384,7 +384,7 @@ function get_user_meta($user_id, $key, $single = false) {
  *
  * If the meta field for the user does not exist, it will be added.
  *
- * @since 3.0
+ * @since 3.0.0
  * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_user_meta
  *

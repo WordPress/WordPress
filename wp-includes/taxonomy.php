@@ -304,7 +304,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  *
  * @package WordPress
  * @subpackage Taxonomy
- * @since 3.0
+ * @since 3.0.0
  * @uses $wp_taxonomies Modifies taxonomy object
  *
  * @param string $taxonomy Name of taxonomy object
@@ -2566,7 +2566,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 /**
  * Determine if the given object type is associated with the given taxonomy.
  *
- * @since 3.0
+ * @since 3.0.0
  * @uses get_object_taxonomies()
  *
  * @param string $object_type Object type string

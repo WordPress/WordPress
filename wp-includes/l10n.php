@@ -387,7 +387,7 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
 /**
  * Load the translated strings for a plugin residing in the mu-plugins dir.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param string $domain Unique identifier for retrieving translated strings
  */

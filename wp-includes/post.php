@@ -529,7 +529,7 @@ function get_page_statuses( ) {
  *
  * @package WordPress
  * @subpackage Post
- * @since 3.0
+ * @since 3.0.0
  * @uses $wp_post_statuses Inserts new post status object into the list
  *
  * @param string $post_status Name of the post status.
@@ -595,7 +595,7 @@ function register_post_status($post_status, $args = array()) {
  *
  * @package WordPress
  * @subpackage Post
- * @since 3.0
+ * @since 3.0.0
  * @uses $wp_post_statuses
  * @see register_post_status
  * @see get_post_statuses
@@ -617,7 +617,7 @@ function get_post_status_object( $post_status ) {
  *
  * @package WordPress
  * @subpackage Post
- * @since 3.0
+ * @since 3.0.0
  * @uses $wp_post_statuses
  * @see register_post_status
  * @see get_post_status_object
@@ -690,7 +690,7 @@ function get_post_type($post = false) {
  *
  * @package WordPress
  * @subpackage Post
- * @since 3.0
+ * @since 3.0.0
  * @uses $wp_post_types
  * @see register_post_type
  * @see get_post_types
@@ -878,7 +878,7 @@ function register_post_type($post_type, $args = array()) {
 /**
  * Register support of certain features for a post type.
  *
- * @since 3.0
+ * @since 3.0.0
  * @param string $post_type The post type for which to add the feature
  * @param string|array $feature the feature being added, can be an array of feature strings or a single string
  */
@@ -897,7 +897,7 @@ function add_post_type_support( $post_type, $feature ) {
 /**
  * Remove support for a feature from a post type.
  *
- * @since 3.0
+ * @since 3.0.0
  * @param string $post_type The post type for which to remove the feature
  * @param string $feature The feature being removed
  */
@@ -914,7 +914,7 @@ function remove_post_type_support( $post_type, $feature ) {
 /**
  * Checks a post type's support for a given feature
  *
- * @since 3.0
+ * @since 3.0.0
  * @param string $post_type The post type being checked
  * @param string $feature the feature being checked
  * @return boolean
@@ -4006,7 +4006,7 @@ function update_postmeta_cache($post_ids) {
  *
  * @package WordPress
  * @subpackage Cache
- * @since 3.0
+ * @since 3.0.0
  *
  * @uses do_action() Calls 'clean_attachment_cache' on $id.
  *

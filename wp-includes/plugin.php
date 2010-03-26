@@ -181,7 +181,7 @@ function apply_filters($tag, $value) {
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 3.0
+ * @since 3.0.0
  * @global array $wp_filter Stores all of the filters
  * @global array $merged_filters Merges the filter hooks using this function.
  * @global array $wp_current_filter stores the list of current filters with the current one last
