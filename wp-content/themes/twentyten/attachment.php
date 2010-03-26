@@ -46,7 +46,7 @@
 						<div class="entry-caption"><?php if ( ! empty( $post->post_excerpt ) ) the_excerpt(); ?></div>
 
 <?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' )  ); ?>
-<?php wp_link_pages( 'before=<div class="page-link">' . __( 'Pages:', 'twentyten' ) . '&after=</div>' ); ?>
+<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'twentyten' ), 'after' => '</div>' ) ); ?>
 
 					</div><!-- .entry-content -->
 
