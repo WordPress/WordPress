@@ -686,6 +686,17 @@ function get_query_template($type) {
 }
 
 /**
+ * Retrieve path of index template in current or parent template.
+ *
+ * @since 3.0.0
+ *
+ * @return string
+ */
+function get_index_template() {
+	return get_query_template('index');
+}
+
+/**
  * Retrieve path of 404 template in current or parent template.
  *
  * @since 1.5.0

@@ -35,8 +35,8 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	elseif ( is_archive()        && $template = get_archive_template()        ) :
 	elseif ( is_comments_popup() && $template = get_comments_popup_template() ) :
 	elseif ( is_paged()          && $template = get_paged_template()          ) :
-	elseif ( file_exists( TEMPLATEPATH . '/index.php' ) ) :
-		$template = TEMPLATEPATH . '/index.php';
+	else :
+		$template = get_index_template();
 	endif;
 	if ( $template = apply_filters( 'template_include', $template ) )
 		include( $template );
