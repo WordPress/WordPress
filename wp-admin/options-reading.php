@@ -62,7 +62,7 @@ include( 'admin-header.php' );
 </tr>
 <tr valign="top">
 <th scope="row"><label for="posts_per_rss"><?php _e( 'Syndication feeds show the most recent' ); ?></label></th>
-<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'posts' ); ?></td>
+<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'items' ); ?></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e( 'For each article in a feed, show' ); ?> </th>
