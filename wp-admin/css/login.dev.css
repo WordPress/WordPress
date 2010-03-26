@@ -1,8 +1,7 @@
 * { margin: 0; padding: 0; }
 
 body {
-	border-top-width: 30px;
-	border-top-style: solid;
+	padding-top: 30px;
 	font: 11px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
@@ -83,7 +82,7 @@ h1 a {
 
 #backtoblog a {
 	position: absolute;
-	top: 7px;
+	top: 8px;
 	left: 15px;
 	text-decoration: none;
 }

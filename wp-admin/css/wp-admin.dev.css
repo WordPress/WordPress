@@ -874,6 +874,8 @@ div.comment-item:hover .row-actions {
 
 #wphead {
 	height: 46px;
+	border-bottom: 1px;
+	border-style: solid;
 }
 
 #wphead a,
@@ -902,20 +904,6 @@ div.comment-item:hover .row-actions {
 	padding: 12px 10px 5px;
 }
 
-#wphead #site-visit-button {
-	background-repeat: repeat-x;
-	background-position: 0 0;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	border-radius: 3px;
-	cursor: pointer; /* to keep IE happy */
-	display: -moz-inline-stack; /* to keep FF2 happy */
-	display: inline-block;
-	margin-left: 5px;
-}
-
-#wphead #site-visit-button,
 #wphead #privacy-on-link {
 	font-size: 50%;
 	font-style: normal;
@@ -1269,6 +1257,8 @@ strong .post-com-count {
 /* Admin Footer */
 #footer {
 	margin-top: -45px;
+	border-top: 1px;
+	border-style: solid;
 }
 
 #footer,
@@ -3127,8 +3117,7 @@ button.dismiss {
 	-khtml-border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
+	border-bottom: none;
 }
 
 #utc-time, #local-time {

@@ -104,7 +104,7 @@ if ( function_exists('mb_strlen') ) {
 }
 ?>
 
-<img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="32" height="32" /> <h1 id="site-heading" <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php esc_attr_e('Visit Site') ?>"><span id="site-title"><?php echo $blog_name ?></span> <em id="site-visit-button"><?php _e('Visit Site') ?></em></a><?php if ( current_user_can('manage_options') && ! get_option('blog_public') ) { ?> <a id="privacy-on-link" href="options-privacy.php" title="<?php esc_attr_e('Your site is asking search engines not to index its content') ?>"><?php _e('Search Engines Blocked') ?></a><?php } ?></h1>
+<img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="32" height="32" /> <h1 id="site-heading" <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php esc_attr_e('Visit Site') ?>"><span id="site-title"><?php echo $blog_name ?></span></a><?php if ( current_user_can('manage_options') && ! get_option('blog_public') ) { ?> <a id="privacy-on-link" href="options-privacy.php" title="<?php esc_attr_e('Your site is asking search engines not to index its content') ?>"><?php _e('Search Engines Blocked') ?></a><?php } ?></h1>
 
 <?php do_action('in_admin_header'); ?>
 

@@ -123,7 +123,6 @@ textarea.disabled {
 	background-color: #ccc;
 }
 /* #upload-menu li a.upload-tab-link, */
-.login #backtoblog a:hover,
 #plugin-information .action-button a,
 #plugin-information .action-button a:hover,
 #plugin-information .action-button a:visited {
@@ -577,10 +576,10 @@ input.readonly, textarea.readonly {
 	color: #d54e21 !important;
 }
 
-#footer,
-#footer-upgrade {
-	background: #464646;
-	color: #999;
+#footer {
+	background: url(../images/admin-header-footer.png) top left repeat-x;
+	border-color: #d4d4d4;
+	color: #777;
 }
 
 #media-items,
@@ -699,19 +698,20 @@ table.widefat span.spam a,
 }
 
 .login #backtoblog a {
-	color: #ccc;
+	color: #464646;
 }
 
 #wphead {
-	background-color: #464646;
+	background: url(../images/admin-header-footer.png) top left repeat-x;
+	border-color: #fff;
 }
 
 body.login {
-	border-top-color: #464646;
+	background: url(../images/login-header.png) top left repeat-x;
 }
 
 #wphead h1 a {
-	color: #fff;
+	color: #464646;
 }
 
 #user_info {
@@ -722,13 +722,13 @@ body.login {
 #user_info a:visited,
 #footer a:link,
 #footer a:visited {
-	color: #ccc;
+	color: #222;
 	text-decoration: none;
 }
 
 #user_info a:hover,
 #footer a:hover {
-	color: #fff;
+	color: #000;
 	text-decoration: underline !important;
 }
 
@@ -1479,14 +1479,13 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #favorite-first {
-	background: #797979 url(../images/fav.png) repeat-x left center;
-	border-color: #777 !important;
-	border-bottom-color: #666 !important;
+	border-color: #cfcfcf;
+	background-color: #fff;
 }
 
 #favorite-inside {
-	border-color: #797979;
-	background-color: #797979;
+	border-color: #cfcfcf;
+	background-color: #fff;
 }
 
 #favorite-toggle {
@@ -1494,19 +1493,15 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #favorite-actions a {
-	color: #ddd;
+	color: #6d6d6d;
 }
 
 #favorite-actions a:hover {
-	color: #fff;
+	color: #464646;
 }
 
 #favorite-inside a:hover {
 	text-decoration: underline;
-}
-
-#favorite-actions .slide-down {
-	border-bottom-color: #626262;
 }
 
 #screen-meta a.show-settings {
@@ -1583,22 +1578,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #header-logo {
 	background: transparent url(../images/wp-logo.gif) no-repeat scroll center center;
-}
-
-#wphead #site-visit-button {
-	background-color: #585858;
-	background-image: url(../images/visit-site-button-grad.gif);
-	color: #aaa;
-	text-shadow: #3F3F3F 0 -1px 0;
-}
-
-#wphead a:hover #site-visit-button {
-	color: #fff;
-}
-
-#wphead a:focus #site-visit-button,
-#wphead a:active #site-visit-button {
-	background-position:0 -27px;
 }
 
 .popular-tags,
