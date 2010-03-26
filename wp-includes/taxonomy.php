@@ -351,38 +351,38 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
  * @uses $wpdb
  * @uses wp_parse_args() Creates an array from string $args.
  *
- * @param string|array $terms String of term or array of string values of terms that will be used
+ * @param int|array $term_ids Term id or array of term ids of terms that will be used
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
  * @param array|string $args Change the order of the object_ids, either ASC or DESC
  * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success
  *	the array can be empty meaning that there are no $object_ids found or it will return the $object_ids found.
  */
-function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
+function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	global $wpdb;
 
-	if ( !is_array( $terms) )
-		$terms = array($terms);
+	if ( ! is_array( $term_ids ) )
+		$term_ids = array( $term_ids );
 
-	if ( !is_array($taxonomies) )
-		$taxonomies = array($taxonomies);
+	if ( ! is_array( $taxonomies ) )
+		$taxonomies = array( $taxonomies );
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		if ( ! is_taxonomy($taxonomy) )
-			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+		if ( ! is_taxonomy( $taxonomy ) )
+			return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
 	}
 
-	$defaults = array('order' => 'ASC');
+	$defaults = array( 'order' => 'ASC' );
 	$args = wp_parse_args( $args, $defaults );
-	extract($args, EXTR_SKIP);
+	extract( $args, EXTR_SKIP );
 
-	$order = ( 'desc' == strtolower($order) ) ? 'DESC' : 'ASC';
+	$order = ( 'desc' == strtolower( $order ) ) ? 'DESC' : 'ASC';
 
-	$terms = array_map('intval', $terms);
+	$term_ids = array_map('intval', $term_ids );
 
-	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
-	$terms = "'" . implode("', '", $terms) . "'";
+	$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
+	$term_ids = "'" . implode( "', '", $term_ids ) . "'";
 
-	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($terms) ORDER BY tr.object_id $order");
+	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order");
 
 	if ( ! $object_ids )
 		return array();
