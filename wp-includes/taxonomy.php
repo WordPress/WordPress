@@ -1719,6 +1719,9 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 function wp_unique_term_slug($slug, $term) {
 	global $wpdb;
 
+	if ( ! is_term( $slug ) )
+		return $slug;
+
 	// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
 	// by incorporating parent slugs.
 	if ( is_taxonomy_hierarchical($term->taxonomy) && !empty($term->parent) ) {
