@@ -1712,31 +1712,49 @@ class WP_Query {
 		if ( $q['day'] )
 			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
 
-		if ( !empty($q['post_type']) && !empty($q[ $q['post_type'] ]) ) {
-			$q[ $q['post_type'] ] = str_replace('%2F', '/', urlencode(urldecode($q[ $q['post_type'] ])));
-			$post_type_object = get_post_type_object($q['post_type']);
-			if ( ! $post_type_object->hierarchical || strpos($q[ $q['post_type'] ], '/') === false) {
-				$q['name'] = $q[ $q['post_type'] ] = sanitize_title($q[ $q['post_type'] ]);
-				$where .= " AND $wpdb->posts.post_name = '" . $q[ $q['post_type'] ] . "'";
-			} else {
-				// Hierarchical post type, need to look deeper to see if its an attachment or this post_type
-				if ( isset($this->queried_object_id) ) {
-					$reqpage = $this->queried_object_id;
+		if ( !empty($q['post_type']) ) {
+			$_pt = is_array($q['post_type']) ? $q['post_type'] : array($q['post_type']);
+			foreach ( $_pt as $_post_type ) {
+				if ( empty($q[ $_post_type ]) )
+					continue;
+
+				$q[ $_post_type ] = str_replace('%2F', '/', urlencode(urldecode($q[ $_post_type ])));
+				$post_type_object = get_post_type_object($_post_type);
+				if ( ! $post_type_object->hierarchical || strpos($q[ $_post_type ], '/') === false) {
+					$q['name'] = $q[ $_post_type ] = sanitize_title($q[ $_post_type ]);
+					$_names[] = $q[ $_post_type ];
 				} else {
-					$reqpage = get_page_by_path($q[ $q['post_type'] ], OBJECT, $q['post_type']);
-					if ( !empty($reqpage) )
-						$reqpage = $reqpage->ID;
-					else
-						$reqpage = 0;
+					// Hierarchical post type, need to look deeper to see if its an attachment or this post_type
+					if ( isset($this->queried_object_id) ) {
+						$reqpage = $this->queried_object_id;
+					} else {
+						$reqpage = get_page_by_path($q[ $_post_type ], OBJECT, $_post_type);
+						if ( !empty($reqpage) )
+							$reqpage = $reqpage->ID;
+						else
+							$reqpage = 0;
+					}
+					$_ids[] = $reqpage;
+					$reqpage_obj = get_page($reqpage);
+					if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
+						$this->is_attachment = true;
+						$q['attachment_id'] = $reqpage;
+						$post_type = $q['post_type'] = 'attachment';
+					}
 				}
-				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
-				$reqpage_obj = get_page($reqpage);
-				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
-					$this->is_attachment = true;
-					$q['attachment_id'] = $reqpage;
-					$post_type = $q['post_type'] = 'attachment';
+			} //end foreach
+
+			if ( !empty($_names) || !empty($_ids) ) {
+				$where .= ' AND (1=0';
+				if ( !empty($_names) )
+					$where .= " OR $wpdb->posts.post_name IN('" . implode("', '", $_names) . "')";
+				if ( !empty($_ids) ) {
+					$_ids = array_map('absint', $_ids);
+					$where .= " OR $wpdb->posts.ID IN(" . implode(',', $_ids) . ")";
 				}
+				$where .= ')';
 			}
+			unset($_ids, $_names, $_pt, $_post_type);
 		} elseif ( '' != $q['name'] ) {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
@@ -2373,7 +2391,7 @@ class WP_Query {
 		$this->request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 		if ( !$q['suppress_filters'] )
 			$this->request = apply_filters_ref_array('posts_request', array( $this->request, &$this ) );
-
+var_Dump($this->request);
 		$this->posts = $wpdb->get_results($this->request);
 		// Raw results filter.  Prior to status checks.
 		if ( !$q['suppress_filters'] )
