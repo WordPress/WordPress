@@ -608,7 +608,7 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
  * @param object $link
  */
 function link_categories_meta_box($link) { ?>
-<ul id="category-tabs">
+<ul id="category-tabs" class="category-tabs">
 	<li class="tabs"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
 	<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
 </ul>
