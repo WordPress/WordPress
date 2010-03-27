@@ -2391,7 +2391,7 @@ class WP_Query {
 		$this->request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 		if ( !$q['suppress_filters'] )
 			$this->request = apply_filters_ref_array('posts_request', array( $this->request, &$this ) );
-var_Dump($this->request);
+
 		$this->posts = $wpdb->get_results($this->request);
 		// Raw results filter.  Prior to status checks.
 		if ( !$q['suppress_filters'] )
