@@ -9,17 +9,6 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-if ( !current_user_can('edit_posts') )
-	wp_die(__('Cheatin&#8217; uh?'));
-
-// Back-compat for viewing comments of an entry
-if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['page_id'] ) ) ) {
-	wp_redirect( admin_url('edit-comments.php?p=' . $_redirect ) );
-	exit;
-} else {
-	unset( $_redirect );
-}
-
 if ( !isset($_GET['post_type']) )
 	$post_type = 'post';
 elseif ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) )
@@ -29,6 +18,17 @@ else
 $_GET['post_type'] = $post_type;
 
 $post_type_object = get_post_type_object($post_type);
+
+if ( !current_user_can($post_type_object->edit_type_cap) )
+	wp_die(__('Cheatin&#8217; uh?'));
+
+// Back-compat for viewing comments of an entry
+if ( $_redirect = intval( max( @$_GET['p'], @$_GET['attachment_id'], @$_GET['page_id'] ) ) ) {
+	wp_redirect( admin_url('edit-comments.php?p=' . $_redirect ) );
+	exit;
+} else {
+	unset( $_redirect );
+}
 
 if ( 'post' != $post_type ) {
 	$parent_file = "edit.php?post_type=$post_type";

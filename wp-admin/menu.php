@@ -118,9 +118,9 @@ foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 	$ptype_obj = get_post_type_object($ptype);
 
 	$menu[$_wp_last_object_menu] = array(esc_attr($ptype_obj->label), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-posts', 'menu-' . sanitize_html_class($ptype), 'div');
-	$submenu["edit.php?post_type=$ptype"][5]  = array( __('Edit'), 'edit_posts',  "edit.php?post_type=$ptype");
+	$submenu["edit.php?post_type=$ptype"][5]  = array( __('Edit'), $ptype_obj->edit_type_cap,  "edit.php?post_type=$ptype");
 	/* translators: add new custom post type */
-	$submenu["edit.php?post_type=$ptype"][10]  = array( _x('Add New', 'post'), 'edit_posts', "post-new.php?post_type=$ptype" );
+	$submenu["edit.php?post_type=$ptype"][10]  = array( _x('Add New', 'post'), $ptype_obj->edit_type_cap, "post-new.php?post_type=$ptype" );
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
