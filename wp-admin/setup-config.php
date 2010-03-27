@@ -209,13 +209,13 @@ switch($step) {
 	foreach ($configFile as $line_num => $line) {
 		switch (substr($line,0,16)) {
 			case "define('DB_NAME'":
-				$configFile[$line_num] = str_replace("putyourdbnamehere", $dbname, $line);
+				$configFile[$line_num] = str_replace("database_name_here", $dbname, $line);
 				break;
 			case "define('DB_USER'":
-				$configFile[$line_num] = str_replace("'usernamehere'", "'$uname'", $line);
+				$configFile[$line_num] = str_replace("'username_here'", "'$uname'", $line);
 				break;
 			case "define('DB_PASSW":
-				$configFile[$line_num] = str_replace("'yourpasswordhere'", "'$passwrd'", $line);
+				$configFile[$line_num] = str_replace("'password_here'", "'$passwrd'", $line);
 				break;
 			case "define('DB_HOST'":
 				$configFile[$line_num] = str_replace("localhost", $dbhost, $line);
