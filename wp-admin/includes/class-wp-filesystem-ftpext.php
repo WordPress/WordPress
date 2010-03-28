@@ -332,7 +332,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$limit_file = false;
 		}
 
-		$pwd = @ftp_pwd();
+		$pwd = @ftp_pwd($this->link);
 		$chdir = @ftp_chdir($this->link, $path);
 		$list = @ftp_rawlist($this->link, '-a', false);
 		@ftp_chdir($this->link, $pwd);
