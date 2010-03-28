@@ -36,7 +36,7 @@ p, li, dd, dt {
 	line-height: 18px;
 }
 
-code { font-size: 13px; }
+code, .code { font-size: 13px; }
 
 ul, ol, dl { padding: 5px 5px 5px 22px; }
 
@@ -93,6 +93,14 @@ abbr {
 	background: #eee url(../images/white-grad-active.png) repeat-x scroll left top;
 }
 
+textarea {
+	border: 1px solid #bbb;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
 .form-table {
 	border-collapse: collapse;
 	margin-top: 1em;
@@ -147,7 +155,7 @@ abbr {
 	margin: 25px 0 20px;
 }
 
-#error-page code { font-family: Consolas, Monaco, Courier, monospace; }
+#error-page code, .code { font-family: Consolas, Monaco, Courier, monospace; }
 
 #pass-strength-result {
 	background-color: #eee;

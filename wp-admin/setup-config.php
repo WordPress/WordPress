@@ -245,7 +245,7 @@ switch($step) {
 ?>
 <p>Sorry, but I can't write the <code>wp-config.php</code> file.</p>
 <p>You can create the <code>wp-config.php</code> manually and paste the following text into it.</p>
-<textarea cols="90" rows="15"><?php
+<textarea cols="98" rows="15" class="code"><?php
 		foreach( $configFile as $line ) {
 			echo htmlentities($line, ENT_COMPAT, 'UTF-8');
 		}
