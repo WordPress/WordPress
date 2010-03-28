@@ -318,6 +318,10 @@ function get_option( $option, $default = false ) {
 	if ( false !== $pre )
 		return $pre;
 
+	$option = trim($option);
+	if ( empty($option) )
+		return false;
+
 	// prevent non-existent options from triggering multiple queries
 	if ( defined( 'WP_INSTALLING' ) && is_multisite() ) {
 		$notoptions = array();
@@ -488,6 +492,10 @@ function wp_load_core_site_options( $site_id = null ) {
 function update_option( $option, $newvalue ) {
 	global $wpdb;
 
+	$option = trim($option);
+	if ( empty($option) )
+		return false;
+
 	wp_protect_special_option( $option );
 
 	$newvalue = sanitize_option( $option, $newvalue );
@@ -559,10 +567,14 @@ function update_option( $option, $newvalue ) {
  * @return null returns when finished.
  */
 function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
+	global $wpdb;
+
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.3' );
 
-	global $wpdb;
+	$option = trim($option);
+	if ( empty($option) )
+		return false;
 
 	wp_protect_special_option( $option );
 	$value = sanitize_option( $option, $value );
