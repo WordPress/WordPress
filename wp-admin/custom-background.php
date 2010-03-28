@@ -98,7 +98,7 @@ class Custom_Background {
 		}
 
 		if ( isset($_POST['background-repeat']) ) {
-			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat')) )
+			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat', 'repeat-x', 'repeat-y')) )
 				$repeat = $_POST['background-repeat'];
 			else
 				$repeat = 'repeat';
@@ -149,15 +149,23 @@ class Custom_Background {
 	if ( $this->admin_image_div_callback ) {
 		call_user_func($this->admin_image_div_callback);
 	} else {
-		if ( $bgcolor = get_background_color() )
-			$bgcolor = 'background-color: #' . $bgcolor . ';';
-
-		if ( $align = get_theme_mod('background_position', 'left') )
-			$align = "text-align: $align;";
 ?>
-<div id="custom-background-image"  style="<?php echo $bgcolor, $align ?>">
+
+<style type="text/css"> 
+#custom-background-image {
+	background-color: #<?php echo get_background_color()?>;
+	<?php if ( get_background_image() ) { ?>
+	background: url(<?php echo get_theme_mod('background_image_thumb', ''); ?>);
+	background-repeat: <?php echo get_theme_mod('background_repeat', 'no-repeat'); ?>;
+	background-position: top <?php echo get_theme_mod('background_position', 'left'); ?>;
+	background-attachment: <?php echo get_theme_mod('background_position', 'fixed'); ?>;
+	<?php } ?>
+}
+</style> 
+<div id="custom-background-image">
 <?php if ( get_background_image() ) { ?>
-<img class="custom-background-image" src="<?php background_image(); ?>" />
+<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" /><br />
+<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" />
 <?php } ?>
 <br class="clear" />
 </div>
@@ -192,12 +200,12 @@ class Custom_Background {
 
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Repeat' ); ?></span></legend>
 <label>
-<input name="background-repeat" type="radio" value="no-repeat" <?php checked('no-repeat', get_theme_mod('background_repeat', 'repeat')); ?> />
-<?php _e('No repeat') ?>
-</label>
-<label>
-<input name="background-repeat" type="radio" value="repeat" <?php checked('repeat', get_theme_mod('background_repeat', 'repeat')); ?> />
-<?php _e('Tile') ?>
+<select name="background-repeat">
+	<option value="no-repeat" <?php selected('no-repeat', get_theme_mod('background_repeat', 'repeat')); ?> ><?php _e('No repeat'); ?></option>
+	<option value="repeat" <?php selected('repeat', get_theme_mod('background_repeat', 'repeat')); ?>><?php _e('Tile'); ?></option>
+	<option value="repeat-x" <?php selected('repeat-x', get_theme_mod('background_repeat', 'repeat')); ?>><?php _e('Tile Horizontally'); ?></option>
+	<option value="repeat-y" <?php selected('repeat-y', get_theme_mod('background_repeat', 'repeat')); ?>><?php _e('Tile Vertically'); ?></option>
+</select>
 </label>
 </fieldset></td>
 
@@ -286,6 +294,10 @@ class Custom_Background {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 
 		set_theme_mod('background_image', esc_url($url));
+
+		$thumbnail = wp_get_attachment_image_src( $id, 'thumbnail' );
+		set_theme_mod('background_image_thumb', esc_url( $thumbnail[0] ) );
+
 		do_action('wp_create_file_in_uploads', $file, $id); // For replication
 		$this->updated = true;
 	}

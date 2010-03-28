@@ -1451,28 +1451,35 @@ function _custom_background_cb() {
 	if ( !$background && !$color )
 		return;
 
-	$repeat = get_theme_mod('background_repeat', 'repeat');
-	if ( 'no-repeat' == $repeat )
-		$repeat = 'background-repeat: no-repeat;';
-	else
-		$repeat = 'background-repeat: repeat;';
-	$position = get_theme_mod('background_position', 'left');
-	if  ( 'center' == $position )
-		$position = 'background-position: top center;';
-	elseif ( 'right' == $position )
-		$position = 'background-position: top right;';
-	else
-		$position = 'background-position: top left;';
-	$attachment = get_theme_mod('background_attachment', 'fixed');
-	if ( 'scroll' == $attachment )
+	switch ( get_theme_mod('background_repeat', 'repeat') ) {
+		case 'no-repeat':
+			$repeat = 'background-repeat: no-repeat;';
+			break;
+		case 'repeat-x':
+			$repeat = 'background-repeat: repeat-x;';
+			break;
+		case 'repeat-y':
+			$repeat = 'background-repeat: repeat-y;';
+			break;
+		default:
+			$repeat = 'background-repeat: repeat;';
+	}
+
+	switch ( get_theme_mod('background_position', 'left') ) {
+		case 'center':
+			$position = 'background-position: top center;';
+			break;
+		case 'right':
+			$position = 'background-position: top right;';
+			break;
+		default:
+			$position = 'background-position: top left;';
+	}
+
+	if ( 'scroll' == get_theme_mod('background_attachment', 'fixed') )
 		$attachment = 'background-attachment: scroll;';
 	else
 		$attachment = 'background-attachment: fixed;';
-
-	if ( !empty($background ) )
-		$image = "background-image: url('$background');";
-	else
-		$image = '';
 
 	if ( !empty($background ) )
 		$image = "background-image: url('$background');";

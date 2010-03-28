@@ -22,9 +22,12 @@ jQuery(document).ready(function() {
 			pickColor( hex );
 	});
 	jQuery('input[name="background-position"]').change(function() {
-		jQuery('#custom-background-image').css('text-align', jQuery(this).val());
+		jQuery('#custom-background-image').css('background-position', 'top '+jQuery(this).val());
 	});
-
+	jQuery('select[name="background-repeat"]').change(function() {
+		jQuery('#custom-background-image').css('background-repeat', jQuery(this).val());
+	});
+	
 	farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) {
 		pickColor(color);
 	});
