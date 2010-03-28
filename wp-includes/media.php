@@ -371,7 +371,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 	imagecopyresampled( $newimage, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
 	// convert from full colors to index colors, like original PNG.
-	if ( IMAGETYPE_PNG == $orig_type && !imageistruecolor( $image ) )
+	if ( IMAGETYPE_PNG == $orig_type && function_exists('imageistruecolor') && !imageistruecolor( $image ) )
 		imagetruecolortopalette( $newimage, false, imagecolorstotal( $image ) );
 
 	// we don't need the original in memory anymore
