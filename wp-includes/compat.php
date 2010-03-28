@@ -138,7 +138,7 @@ if ( !function_exists('json_encode') ) {
 }
 
 if ( !function_exists('json_decode') ) {
-	function json_decode( $string ) {
+	function json_decode( $string, $assoc_array = false ) {
 		global $wp_json;
 
 		if ( !is_a($wp_json, 'Services_JSON') ) {
@@ -146,7 +146,10 @@ if ( !function_exists('json_decode') ) {
 			$wp_json = new Services_JSON();
 		}
 
-		return $wp_json->decode( $string );
+		$res = $wp_json->decode( $string );
+		if ( $assoc_array )
+			$res = get_object_vars( $res );
+		return $res;
 	}
 }
 
