@@ -41,6 +41,8 @@ tagBox = {
 		if ( !thetags.length )
 			return;
 
+		var disabled = thetags.attr('disabled');
+
 		current_tags = thetags.val().split(',');
 		tagchecklist.empty();
 
@@ -50,9 +52,13 @@ tagBox = {
 			val = $.trim(val);
 			if ( !val.match(/^\s+$/) && '' != val ) {
 				button_id = id + '-check-num-' + key;
-	 			txt = '<span><a id="' + button_id + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
+				if ( disabled )
+		 			txt = '<span>' + val + '</span> ';
+				else
+		 			txt = '<span><a id="' + button_id + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
 	 			tagchecklist.append(txt);
-	 			$( '#' + button_id ).click( function(){ tagBox.parseTags(this); });
+				if ( ! disabled )
+		 			$( '#' + button_id ).click( function(){ tagBox.parseTags(this); });
 			}
 		});
 	},
