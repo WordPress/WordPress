@@ -144,6 +144,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), $item[2] );
 					else
 						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), 'admin.php' );
+					$sub_item_url = esc_url($sub_item_url);
 					echo "<li$class><a href='$sub_item_url'$class$tabindex>{$sub_item[0]}</a></li>";
 				} else {
 					echo "<li$class><a href='{$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
