@@ -392,8 +392,9 @@ class WP_Http {
 	 * @return array Array with 'headers' and 'body' keys.
 	 */
 	function processResponse($strResponse) {
-		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
-		return array('headers' => $theHeaders, 'body' => $theBody);
+		$res = explode("\r\n\r\n", $strResponse, 2);
+		
+		return array('headers' => isset($res[0]) ? $res[0] : array(), 'body' => isset($res[1]) ? $res[1] : '');
 	}
 
 	/**
@@ -426,7 +427,7 @@ class WP_Http {
 		// If a redirection has taken place, The headers for each page request may have been passed.
 		// In this case, determine the final HTTP header and parse from there.
 		for ( $i = count($headers)-1; $i >= 0; $i-- ) {
-			if ( false === strpos($headers[$i], ':') ) {
+			if ( !empty($headers[$i]) && false === strpos($headers[$i], ':') ) {
 				$headers = array_splice($headers, $i);
 				break;
 			}
@@ -439,9 +440,7 @@ class WP_Http {
 				continue;
 
 			if ( false === strpos($tempheader, ':') ) {
-				list( , $iResponseCode, $strResponseMsg) = explode(' ', $tempheader, 3);
-				$response['code'] = $iResponseCode;
-				$response['message'] = $strResponseMsg;
+				list( , $response['code'], $response['message']) = explode(' ', $tempheader, 3);
 				continue;
 			}
 
@@ -1228,7 +1227,11 @@ class WP_Http_ExtHTTP {
 		if ( ! $r['blocking'] )
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 
-		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
+		$headers_body = WP_HTTP::processResponse($strResponse);
+		$theHeaders = $headers_body['headers'];
+		$theBody = $headers_body['body'];
+		unset($headers_body);
+
 		$theHeaders = WP_Http::processHeaders($theHeaders);
 
 		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] ) {
