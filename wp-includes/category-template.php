@@ -448,44 +448,53 @@ function wp_dropdown_categories( $args = '' ) {
  */
 function wp_list_categories( $args = '' ) {
 	$defaults = array(
-		'show_option_all' => '', 'orderby' => 'name',
-		'order' => 'ASC', 'show_last_update' => 0,
-		'style' => 'list', 'show_count' => 0,
-		'hide_empty' => 1, 'use_desc_for_title' => 1,
-		'child_of' => 0, 'feed' => '', 'feed_type' => '',
-		'feed_image' => '', 'exclude' => '', 'exclude_tree' => '', 'current_category' => 0,
+		'show_option_all' => '', 'show_option_none' => __('No categories'),
+		'orderby' => 'name', 'order' => 'ASC',
+		'show_last_update' => 0, 'style' => 'list',
+		'show_count' => 0, 'hide_empty' => 1,
+		'use_desc_for_title' => 1, 'child_of' => 0,
+		'feed' => '', 'feed_type' => '',
+		'feed_image' => '', 'exclude' => '',
+		'exclude_tree' => '', 'current_category' => 0,
 		'hierarchical' => true, 'title_li' => __( 'Categories' ),
-		'echo' => 1, 'depth' => 0
+		'echo' => 1, 'depth' => 0,
+		'taxonomy' => 'category'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 
-	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] ) {
+	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] )
 		$r['pad_counts'] = true;
-	}
 
-	if ( isset( $r['show_date'] ) ) {
+	if ( isset( $r['show_date'] ) )
 		$r['include_last_update_time'] = $r['show_date'];
-	}
 
 	if ( true == $r['hierarchical'] ) {
 		$r['exclude_tree'] = $r['exclude'];
 		$r['exclude'] = '';
 	}
+	
+	if ( !isset( $r['class'] ) )
+		$r['class'] = ( 'category' == $r['taxonomy'] ) ? 'categories' : $r['taxonomy'];
 
 	extract( $r );
+
+	if ( !is_taxonomy($taxonomy) )
+		return false;
 
 	$categories = get_categories( $r );
 
 	$output = '';
 	if ( $title_li && 'list' == $style )
-			$output = '<li class="categories">' . $r['title_li'] . '<ul>';
+			$output = '<li class="' . $class . '">' . $title_li . '<ul>';
 
 	if ( empty( $categories ) ) {
-		if ( 'list' == $style )
-			$output .= '<li>' . __( "No categories" ) . '</li>';
-		else
-			$output .= __( "No categories" );
+		if ( ! empty( $show_option_none ) ) {
+			if ( 'list' == $style )
+				$output .= '<li>' . $show_option_none . '</li>';
+			else
+				$output .= $show_option_none;
+		}
 	} else {
 		global $wp_query;
 
@@ -495,7 +504,7 @@ function wp_list_categories( $args = '' ) {
 			else
 				$output .= '<a href="' .  get_bloginfo( 'url' )  . '">' . $show_option_all . '</a>';
 
-		if ( empty( $r['current_category'] ) && is_category() )
+		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() ) )
 			$r['current_category'] = $wp_query->get_queried_object_id();
 
 		if ( $hierarchical )

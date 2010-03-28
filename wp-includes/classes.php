@@ -1438,7 +1438,7 @@ class Walker_Category extends Walker {
 
 		$cat_name = esc_attr( $category->name);
 		$cat_name = apply_filters( 'list_cats', $cat_name, $category );
-		$link = '<a href="' . get_category_link( $category->term_id ) . '" ';
+		$link = '<a href="' . get_term_link( $category, $category->taxonomy ) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->description) )
 			$link .= 'title="' . sprintf(__( 'View all posts filed under %s' ), $cat_name) . '"';
 		else
