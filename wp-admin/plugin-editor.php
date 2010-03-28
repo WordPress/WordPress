@@ -56,6 +56,9 @@ case 'update':
 		if ( is_plugin_active($file) || isset($_POST['phperror']) ) {
 			if ( is_plugin_active($file) )
 				deactivate_plugins($file, true);
+
+			update_option('recently_activated', array($file => time()) + (array)get_option('recently_activated'));
+
 			wp_redirect(add_query_arg('_wpnonce', wp_create_nonce('edit-plugin-test_' . $file), "plugin-editor.php?file=$file&liveupdate=1&scrollto=$scrollto"));
 			exit;
 		}
