@@ -231,7 +231,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					jQuery("#TB_window").css({display:"block"});
 				}else if(url.indexOf('TB_iframe') != -1){
 					tb_position();
-					if($.browser.safari){//safari needs help because it will not fire iframe onload
+					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
 						jQuery("#TB_load").remove();
 						jQuery("#TB_window").css({display:"block"});
 					}
