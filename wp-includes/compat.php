@@ -148,8 +148,13 @@ if ( !function_exists('json_decode') ) {
 
 		$res = $wp_json->decode( $string );
 		if ( $assoc_array )
-			$res = get_object_vars( $res );
+			$res = _json_decode_object_helper( $res );
 		return $res;
+	}
+	function _json_decode_object_helper($data) {
+		if ( is_object($data) )
+			$data = get_object_vars($data);
+		return is_array($data) ? array_map(__FUNCTION__, $data) : $data;
 	}
 }
 
