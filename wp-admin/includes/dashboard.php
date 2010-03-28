@@ -279,6 +279,7 @@ function wp_dashboard_right_now() {
 	echo '<td class="t tags">' . $text . '</td>';
 
 	echo "</tr>";
+	do_action('right_now_content_table_end');
 	echo "\n\t</table>\n\t</div>";
 
 
@@ -334,6 +335,7 @@ function wp_dashboard_right_now() {
 
 	echo "</tr>";
 	do_action('right_now_table_end');
+	do_action('right_now_discussion_table_end');
 	echo "\n\t</table>\n\t</div>";
 
 	echo "\n\t".'<div class="versions">';
