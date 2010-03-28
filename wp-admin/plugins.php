@@ -399,7 +399,7 @@ foreach ( array( 'all_plugins', 'mustuse_plugins', 'dropins_plugins' ) as $plugi
 	foreach ( (array) $$plugin_array_name as $plugin_file => $plugin_data ) {
 		// Translate, Apply Markup, Sanitize HTML
 		$plugin_data = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
-		$$plugin_array_name[ $plugin_file ] = $plugin_data;
+		${$plugin_array_name}[ $plugin_file ] = $plugin_data;
 	}
 }
 unset( $plugin_array_name );
