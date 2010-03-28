@@ -354,8 +354,8 @@ if ( current_user_can($tax->edit_cap) ) {
 </div>
 <?php if ( !is_multisite() ) : ?>
 <div class="form-field">
-	<label for="slug"><?php echo _x('Slug', 'Taxonomy Slug'); ?></label>
-	<input name="slug" id="slug" type="text" value="" size="40" />
+	<label for="tag-slug"><?php echo _x('Slug', 'Taxonomy Slug'); ?></label>
+	<input name="slug" id="tag-slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 <?php endif; // is_multisite() ?>
@@ -369,8 +369,8 @@ if ( current_user_can($tax->edit_cap) ) {
 </div>
 <?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field">
-	<label for="description"><?php echo _x('Description', 'Taxonomy Description'); ?></label>
-	<textarea name="description" id="description" rows="5" cols="40"></textarea>
+	<label for="tag-description"><?php echo _x('Description', 'Taxonomy Description'); ?></label>
+	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
