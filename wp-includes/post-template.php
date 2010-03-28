@@ -655,12 +655,14 @@ function wp_link_pages($args = '') {
  * @since 1.5.0
  *
  * @param string $key Meta data key name.
- * @return string|array Array of values or single value, if only one element exists.
+ * @return bool|string|array Array of values or single value, if only one element exists. False will be returned if key does not exist.
  */
 function post_custom( $key = '' ) {
 	$custom = get_post_custom();
 
-	if ( 1 == count($custom[$key]) )
+	if ( !isset( $custom[$key] ) )
+		return false;
+	elseif ( 1 == count($custom[$key]) )
 		return $custom[$key][0];
 	else
 		return $custom[$key];
