@@ -540,7 +540,7 @@ endif;
  * @param array $headers Optional. Headers to send to the URL.
  * @return Snoopy style response
  */
-function _fetch_remote_file ($url, $headers = "" ) {
+function _fetch_remote_file($url, $headers = "" ) {
 	$resp = wp_remote_request($url, array('headers' => $headers, 'timeout' => MAGPIE_FETCH_TIME_OUT));
 	if ( is_wp_error($resp) ) {
 		$error = array_shift($resp->errors);
@@ -551,10 +551,23 @@ function _fetch_remote_file ($url, $headers = "" ) {
 		$resp->error = $error[0] . "\n"; //\n = Snoopy compatibility
 		return $resp;
 	}
+
+	// Snoopy returns headers unprocessed.
+	// Also note, WP_HTTP lowercases all keys, Snoopy did not.
+	$return_headers = array();
+	foreach ( $resp['headers'] as $key => $value ) {
+		if ( !is_array($value) ) {
+			$return_headers[] = "$key: $value";
+		} else {
+			foreach ( $value as $v )
+				$return_headers[] = "$key: $v";
+		}
+	}
+
 	$response = new stdClass;
 	$response->status = $resp['response']['code'];
 	$response->response_code = $resp['response']['code'];
-	$response->headers = $resp['headers'];
+	$response->headers = $return_headers;
 	$response->results = $resp['body'];
 
 	return $response;
@@ -587,11 +600,11 @@ function _response_to_rss ($resp) {
 				$val = "";
 			}
 
-			if ( $field == 'ETag' ) {
+			if ( $field == 'etag' ) {
 				$rss->etag = $val;
 			}
 
-			if ( $field == 'Last-Modified' ) {
+			if ( $field == 'last-modified' ) {
 				$rss->last_modified = $val;
 			}
 		}
