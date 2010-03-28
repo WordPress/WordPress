@@ -1011,9 +1011,11 @@ function postbox_classes( $id, $page ) {
  */
 function get_sample_permalink($id, $title = null, $name = null) {
 	$post = &get_post($id);
-	if ( !$post->ID ) {
+	if ( !$post->ID )
 		return array('', '');
-	}
+
+	$ptype = get_post_type_object($post->post_type);
+
 	$original_status = $post->post_status;
 	$original_date = $post->post_date;
 	$original_name = $post->post_name;
@@ -1029,22 +1031,24 @@ function get_sample_permalink($id, $title = null, $name = null) {
 
 	// If the user wants to set a new name -- override the current one
 	// Note: if empty name is supplied -- use the title instead, see #6072
-	if ( !is_null($name) ) {
+	if ( !is_null($name) )
 		$post->post_name = sanitize_title($name ? $name : $title, $post->ID);
-	}
 
 	$post->filter = 'sample';
 
 	$permalink = get_permalink($post, true);
 
+	if ( $ptype->query_var ) // Replace custom post_type Token with generic pagename token for ease of use.
+		$permalink = str_replace('%' . $ptype->query_var . '%', '%pagename%', $permalink);
+
 	// Handle page hierarchy
-	if ( 'page' == $post->post_type ) {
+	if ( $ptype->hierarchical ) {
 		$uri = get_page_uri($post->ID);
 		$uri = untrailingslashit($uri);
 		$uri = strrev( stristr( strrev( $uri ), '/' ) );
 		$uri = untrailingslashit($uri);
 		if ( !empty($uri) )
-			$uri .='/';
+			$uri .= '/';
 		$permalink = str_replace('%pagename%', "${uri}%pagename%", $permalink);
 	}
 
@@ -1074,7 +1078,14 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
 	if ( 'publish' == $post->post_status ) {
-		$view_post = 'post' == $post->post_type ? __('View Post') : __('View Page');
+		if ( 'post' == $post->post_type ) {
+			$view_post = __('View Post');
+		} elseif ( 'page' == $post->post_type ) {
+			$view_post = __('View Page');
+		} else {
+			$ptype = get_post_type_object($post->post_type);
+			$view_post = sprintf(__('View %s'), $ptype->singular_label);
+		}
 		$title = __('Click to edit this part of the permalink');
 	} else {
 		$title = __('Temporary permalink. Click to edit this part.');
