@@ -450,7 +450,9 @@ class WP_Http {
 			if ( !empty( $value ) ) {
 				$key = strtolower( $key );
 				if ( isset( $newheaders[$key] ) ) {
-					$newheaders[$key] = array( $newheaders[$key], trim( $value ) );
+					if ( !is_array($newheaders[$key]) )
+						$newheaders[$key] = array($newheaders[$key]);
+					$newheaders[$key][] = trim( $value );
 				} else {
 					$newheaders[$key] = trim( $value );
 				}
