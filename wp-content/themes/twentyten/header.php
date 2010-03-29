@@ -2,8 +2,9 @@
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-    <title><?php
-        if ( is_single() ) {
+	<title><?php
+	// Returns the title based on the type of page being viewed
+		if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo( 'name' );
 		} elseif ( is_home() || is_front_page() ) {
 			bloginfo( 'name' ); echo ' | '; bloginfo( 'description' ); twentyten_the_page_number();
@@ -16,10 +17,9 @@
 		} else {
 			wp_title( '' ); echo ' | '; bloginfo( 'name' ); twentyten_the_page_number();
 		}
-    ?></title>
+	?></title>
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo( 'stylesheet_directory' ); ?>/print.css" />
 	<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<?php wp_head(); ?>

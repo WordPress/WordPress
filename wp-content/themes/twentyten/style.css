@@ -1199,3 +1199,92 @@ code {
 #site-description {
 	-webkit-text-size-adjust: none;
 }
+
+
+
+/* =Print Style
+-------------------------------------------------------------- */
+
+@media print {
+	body {
+		background:none !important;
+	}
+	#wrapper {
+		float: none !important;
+		clear: both !important;
+		display: block !important;
+		position: relative !important;
+	}
+	#header {
+		border-bottom: 4pt solid #000;
+		padding-bottom: 18pt;
+	}
+	#site-title, #site-description {
+		float: none;
+		margin: 0;
+	}
+	#site-title {
+		font-size: 13pt;
+	}
+	.entry-content {
+		font-size: 14pt;
+		line-height: 1.6em;
+	}
+	.entry-title {
+		font-size: 21pt;
+		line-height: 1.4em;
+	}
+	#access,
+	#branding img,
+	#respond,
+	.comment-edit-link,
+	.edit-link,
+	.navigation,
+	.page-link,
+	.widget-area {
+		display: none !important;
+	}
+	#branding img.wp-post-image {
+		display: block !important;
+	margin-left: -104pt;
+	margin-top: 20pt;
+	border: none;
+	margin-bottom: -24pt;
+	}
+	#container, #header, #footer {
+		margin: 0 0 0 24%;
+		width: 70%;
+	}
+	#content {
+		margin: 24pt 0 0;
+	}
+	.wp-caption p {
+		font-size: 11pt;
+	}
+	#site-info,
+	#site-generator {
+		float: none;
+		width: auto;
+	}
+	#colophon {
+		width: auto;
+	}
+	img#wpstats {
+		display:none
+	}
+	#site-generator a {
+		padding: 0;
+	margin: 0;
+	}
+	#entry-author-info {
+		border: 1px solid #e7e7e7;
+	}
+	#main {
+		margin: 0;
+		width: auto;
+		padding: 0;
+	}
+	.home .sticky {
+		border: none;
+	}
+}
