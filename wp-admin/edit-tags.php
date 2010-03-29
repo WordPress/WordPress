@@ -116,7 +116,7 @@ case 'bulk-delete':
 break;
 
 case 'edit':
-	$title = __('Edit Tag');
+	$title = sprintf(_x('Edit %s', '%s: singular taxonomy name'), $tax->singular_label);
 
 	require_once ('admin-header.php');
 	$tag_ID = (int) $_GET['tag_ID'];
