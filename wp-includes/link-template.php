@@ -2034,6 +2034,7 @@ function plugins_url($path = '', $plugin = '') {
  * @return string Site url link with optional path appended.
 */
 function network_site_url( $path = '', $scheme = null ) {
+	global $current_site;
 	$orig_scheme = $scheme;
 	if ( !in_array($scheme, array('http', 'https')) ) {
 		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
@@ -2051,7 +2052,7 @@ function network_site_url( $path = '', $scheme = null ) {
 	$url = str_replace( 'http://', "{$scheme}://", $url );
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
-		$url .= '/' . ltrim($path, '/');
+		$url .= ltrim($path, '/');
 
 	return apply_filters('network_site_url', $url, $path, $orig_scheme);
 }
@@ -2071,15 +2072,16 @@ function network_site_url( $path = '', $scheme = null ) {
  * @return string Home url link with optional path appended.
 */
 function network_home_url( $path = '', $scheme = null ) {
+	global $current_site;
 	$orig_scheme = $scheme;
 	$scheme      = is_ssl() && !is_admin() ? 'https' : 'http';
 
 	$url = 'http://' . $current_site->domain . $current_site->path;
 
-	$url = str_replace( 'http://', "$scheme://", $home );
+	$url = str_replace( 'http://', "$scheme://", $url );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
-		$url .= '/' . ltrim( $path, '/' );
+		$url .= ltrim( $path, '/' );
 
 	return apply_filters( 'network_home_url', $url, $path, $orig_scheme);
 }
@@ -2095,7 +2097,7 @@ function network_home_url( $path = '', $scheme = null ) {
  * @return string Admin url link with optional path appended
 */
 function network_admin_url( $path = '', $scheme = 'admin' ) {
-	$url = network_site_url($blog_id, 'wp-admin/', $scheme);
+	$url = network_site_url('wp-admin/', $scheme);
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
