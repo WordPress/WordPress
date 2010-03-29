@@ -1546,6 +1546,20 @@ function add_theme_support( $feature ) {
 }
 
 /**
+ * Allows a theme to de-register its support of a certain feature
+ *
+ * Must be called in the themes functions.php file to work.
+ *
+ * @since 3.0.0
+ * @param string $feature the feature being added
+ */
+function remove_theme_support( $feature ) {
+	global $_wp_theme_features;
+
+	unset($_wp_theme_features[$feature]);
+}
+
+/**
  * Checks a theme's support for a given feature
  *
  * @since 2.9.0
