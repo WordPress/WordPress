@@ -462,8 +462,8 @@ function media_upload_form_handler() {
 		$html = $attachment['post_title'];
 		if ( !empty($attachment['url']) ) {
 			$rel = '';
-			if ( strpos($attachment['url'], 'attachment_id') || false !== strpos($attachment['url'], get_permalink($_POST['post_id'])) )
-				$rel = " rel='attachment wp-att-" . esc_attr($send_id)."'";
+			if ( strpos($attachment['url'], 'attachment_id') || get_attachment_link($send_id) == $attachment['url'] )
+				$rel = " rel='attachment wp-att-" . esc_attr($send_id) . "'";
 			$html = "<a href='{$attachment['url']}'$rel>$html</a>";
 		}
 
