@@ -368,9 +368,10 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	$user_object = new WP_User($userid);
 	$roles = $user_object->roles;
 	$role = array_shift($roles);
-
-	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
-	echo "\n\t", user_row( $user_object, $style, $role, $post_counts[ $userid ] );
+	if ( is_multisite() && ! empty($role) ) {
+		$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
+		echo "\n\t", user_row( $user_object, $style, $role, $post_counts[ $userid ] );
+	}
 }
 ?>
 </tbody>
