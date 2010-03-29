@@ -2020,6 +2020,90 @@ function plugins_url($path = '', $plugin = '') {
 }
 
 /**
+ * Retrieve the site url for the current network.
+ *
+ * Returns the site url with the appropriate protocol,  'https' if
+ * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
+ * overridden.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param string $path Optional. Path relative to the site url.
+ * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
+ * @return string Site url link with optional path appended.
+*/
+function network_site_url( $path = '', $scheme = null ) {
+	$orig_scheme = $scheme;
+	if ( !in_array($scheme, array('http', 'https')) ) {
+		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
+			$scheme = 'https';
+		elseif ( ('login' == $scheme) && ( force_ssl_admin() ) )
+			$scheme = 'https';
+		elseif ( ('admin' == $scheme) && force_ssl_admin() )
+			$scheme = 'https';
+		else
+			$scheme = ( is_ssl() ? 'https' : 'http' );
+	}
+
+	$url = 'http://' . $current_site->domain . $current_site->path;
+
+	$url = str_replace( 'http://', "{$scheme}://", $url );
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= '/' . ltrim($path, '/');
+
+	return apply_filters('network_site_url', $url, $path, $orig_scheme);
+}
+
+/**
+ * Retrieve the home url for the current network.
+ *
+ * Returns the home url with the appropriate protocol,  'https' if
+ * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
+ * overridden.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param  string $path   (optional) Path relative to the home url.
+ * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
+ * @return string Home url link with optional path appended.
+*/
+function network_home_url( $path = '', $scheme = null ) {
+	$orig_scheme = $scheme;
+	$scheme      = is_ssl() && !is_admin() ? 'https' : 'http';
+
+	$url = 'http://' . $current_site->domain . $current_site->path;
+
+	$url = str_replace( 'http://', "$scheme://", $home );
+
+	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+		$url .= '/' . ltrim( $path, '/' );
+
+	return apply_filters( 'network_home_url', $url, $path, $orig_scheme);
+}
+
+/**
+ * Retrieve the url to the admin area for the network.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param string $path Optional path relative to the admin url
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @return string Admin url link with optional path appended
+*/
+function network_admin_url( $path = '', $scheme = 'admin' ) {
+	$url = network_site_url($blog_id, 'wp-admin/', $scheme);
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= ltrim($path, '/');
+
+	return apply_filters('network_admin_url', $url, $path);
+}
+
+/**
  * Output rel=canonical for singular queries
  *
  * @package WordPress
