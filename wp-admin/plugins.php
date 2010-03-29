@@ -560,16 +560,17 @@ function print_plugins_table($plugins, $context = '') {
 					$actions[] = '<span title="' . __('This plugin can only be activated for all sites in a network') . '">' . __('Network Only') . '</span>';
 				else
 					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
+
 				if ( is_multisite() && is_super_admin() )
 					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
 
-				if ( !is_multisite() && current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
-					$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
-
-				if ( ! $is_active && current_user_can('delete_plugins') )
+				if ( current_user_can('delete_plugins') )
 					$actions[] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
-			}
-		}
+			} // end if $is_active
+
+			if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
+				$actions[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
+		} // end if $context
 
 		$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 		$actions = apply_filters( "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
