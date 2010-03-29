@@ -1,3 +1,18 @@
+<?php
+/**
+ * The template used to display all pages
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the wordpress construct of pages
+ * and that other 'pages' on your wordpress site will use a
+ * different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 <?php get_header(); ?>
 
 		<div id="container">

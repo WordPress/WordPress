@@ -1,3 +1,13 @@
+<?php
+/**
+ * The template used to display Category Archive pages
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 <?php get_header(); ?>
 
 		<div id="container">
@@ -13,7 +23,7 @@
 				 * If you want to overload this in a child theme then include a file
 				 * called loop-category.php and that will be used instead.
 				 */
-				 get_template_part( 'loop', 'category' );
+				get_template_part( 'loop', 'category' );
 				?>
 
 			</div><!-- #content -->

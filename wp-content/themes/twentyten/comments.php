@@ -1,3 +1,18 @@
+<?php
+/**
+ * The template used to display Comments
+ *
+ * The area of the page that contains both current comments
+ * and the comment form.  The actual display of comments is
+ * handled by a callback to twentyten_comment which is
+ * located in the functions.php file
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 			<div id="comments">
 <?php if ( post_password_required() ) : ?>
 				<div class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ); ?></div>

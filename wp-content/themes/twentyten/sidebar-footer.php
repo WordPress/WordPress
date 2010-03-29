@@ -1,4 +1,14 @@
 <?php
+/**
+ * The Footer widget areas
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
+<?php
 	if (
 		is_active_sidebar( 'first-footer-widget-area' )  ||
 		is_active_sidebar( 'second-footer-widget-area' ) ||

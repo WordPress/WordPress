@@ -1,3 +1,13 @@
+<?php
+/**
+ * The Template used to display all single posts
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 <?php get_header(); ?>
 
 		<div id="container">

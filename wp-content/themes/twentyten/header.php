@@ -1,3 +1,15 @@
+<?php
+/**
+ * The Header for our theme.
+ *
+ * Displays all of the <head> section and everything up till <div id="main">
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>

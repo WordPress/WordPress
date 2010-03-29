@@ -1,10 +1,17 @@
-
 <?php
-/*
-Template Name: One column, no sidebar
-Description: A template with no sidebar
-*/
-get_header(); ?>
+/**
+ * Template Name: One column, no sidebar
+ *
+ * A custom page template without sidebar.
+ * Selectable from a dropdown menu on the edit page screen.
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
+<?php get_header(); ?>
 
 		<div id="container" class="onecolumn">
 			<div id="content">

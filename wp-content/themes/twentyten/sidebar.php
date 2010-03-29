@@ -1,3 +1,13 @@
+<?php
+/**
+ * The Sidebar containing the primary and secondary widget areas
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 		<div id="primary" class="widget-area">
 			<ul class="xoxo">
 <?php if ( ! dynamic_sidebar( 'primary-widget-area' ) ) : // begin primary widget area ?>

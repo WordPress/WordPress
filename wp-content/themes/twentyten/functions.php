@@ -1,21 +1,80 @@
 <?php
+/**
+ * TwentyTen functions and definitions
+ *
+ * Sets up the theme and provides some helper functions used
+ * in other parts of the theme.  All functions are pluggable
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
 
-// Set the content width based on the Theme CSS
+/**
+ * Set the content width based on the Theme CSS.  Can be overriden
+ *
+ * Used in attachment.php to set the width of images.  Should
+ * be equal to the width set for .onecolumn #content in style.css
+ */
 if ( ! isset( $content_width ) )
 	$content_width = 640;
 
 if ( ! function_exists( 'twentyten_init' ) ) :
+/**
+ * Set up defaults for our theme.
+ *
+ * Sets up theme defaults and tells wordpress that this is a
+ * theme that will take advantage of Post Thumbnails, Custom
+ * Background, Nav Menus and automatic feed links.  To
+ * override any of the settings in a child theme, create your
+ * own twentyten_init function
+ *
+ * @uses add_theme_support()
+ */
 function twentyten_init() {
+	// This theme allows users to set a custom background
+	add_custom_background();
+
+	// This theme styles the visual editor with editor-style.css to match the theme style.
+	add_editor_style();
+
+	// This theme needs post thumbnails
+	add_theme_support( 'post-thumbnails' );
+
+	// This theme uses wp_nav_menu()
+	add_theme_support( 'nav-menus' );
+
+	// We'll be using them for custom header images on posts and pages
+	// so we want them to be 940 pixels wide by 198 pixels tall (larger images will be auto-cropped to fit)
+	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
+
+	// Add default posts and comments RSS feed links to head
+	add_theme_support( 'automatic-feed-links' );
+
+	// Make theme available for translation
+	// Translations can be filed in the /languages/ directory
+	load_theme_textdomain( 'twentyten', TEMPLATEPATH . '/languages' );
+
+	$locale = get_locale();
+	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
+	if ( is_readable( $locale_file ) )
+		require_once( $locale_file );
+
 	// Your Changeable header business starts here
 	// No CSS, just IMG call
 	define( 'HEADER_TEXTCOLOR', '' );
 	define( 'HEADER_IMAGE', '%s/images/headers/forestfloor.jpg' ); // %s is theme dir uri
+
+	// Add a filter to twentyten_header_image_width and twentyten_header_image_height to change these values
 	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyten_header_image_width',  940 ) );
 	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyten_header_image_height',	198 ) );
+
 	define( 'NO_HEADER_TEXT', true );
 
 	add_custom_image_header( '', 'twentyten_admin_header_style' );
 	// and thus ends the changeable header business
+
+	// Default custom headers.  %s is a placeholder for the theme template directory
 
 	register_default_headers( array (
 		'berries' => array (
@@ -59,38 +118,14 @@ function twentyten_init() {
 			'description' => __( 'Sunset', 'twentyten' )
 		)
 	) );
-
-	add_custom_background();
-
-	// This theme styles the visual editor with editor-style.css to match the theme style.
-	add_editor_style();
-
-	// This theme needs post thumbnails
-	add_theme_support( 'post-thumbnails' );
-
-	// This theme uses wp_nav_menu()
-	add_theme_support( 'nav-menus' );
-
-	// We'll be using them for custom header images on posts and pages
-	// so we want them to be 940 pixels wide by 198 pixels tall (larger images will be auto-cropped to fit)
-	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
-
-	// Add default posts and comments RSS feed links to head
-	add_theme_support( 'automatic-feed-links' );
-
-	// Make theme available for translation
-	// Translations can be filed in the /languages/ directory
-	load_theme_textdomain( 'twentyten', TEMPLATEPATH . '/languages' );
-
-	$locale = get_locale();
-	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
-	if ( is_readable( $locale_file ) )
-		require_once( $locale_file );
 }
 endif;
 add_action( 'after_setup_theme', 'twentyten_init' );
 
 if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
+/**
+ * Callback to style the header image inside the admin
+ */
 function twentyten_admin_header_style() {
 ?>
 <style type="text/css">
@@ -106,41 +141,66 @@ function twentyten_admin_header_style() {
 }
 endif;
 
-// Get the page number
 if ( ! function_exists( 'twentyten_get_page_number' ) ) :
+/**
+ * Returns the page number currently being browsed
+ *
+ * Returns a vertical bar followed by page and the page
+ * number.  Is pluggable
+ *
+ * @retun string
+ */
 function twentyten_get_page_number() {
 	if ( get_query_var( 'paged' ) )
 		return ' | ' . __( 'Page ' , 'twentyten' ) . get_query_var( 'paged' );
 }
 endif;
 
-// Echo the page number
 if ( ! function_exists( 'twentyten_the_page_number' ) ) :
+/**
+ * Echos the page number being browsed
+ *
+ * @uses twentyten_get_page_number
+ *
+ */
 function twentyten_the_page_number() {
 	echo twentyten_get_page_number();
 }
 endif;
 
-// Control excerpt length
 if ( ! function_exists( 'twentyten_excerpt_length' ) ) :
+/**
+ * Sets the excerpt length to 40 charachters.  Is pluggable
+ *
+ * @return int
+ */
 function twentyten_excerpt_length( $length ) {
 	return 40;
 }
 endif;
 add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
-
-// Make a nice read more link on excerpts
 if ( ! function_exists( 'twentyten_excerpt_more' ) ) :
+/**
+ * Sets the read more link for excerpts to something pretty
+ *
+ * @return string
+ *
+ */
 function twentyten_excerpt_more( $more ) {
 	return '&nbsp;&hellip; <a href="'. get_permalink() . '">' . __('Continue&nbsp;reading&nbsp;<span class="meta-nav">&rarr;</span>', 'twentyten') . '</a>';
 }
 endif;
 add_filter( 'excerpt_more', 'twentyten_excerpt_more' );
 
-
-// Template for comments and pingbacks
 if ( ! function_exists( 'twentyten_comment' ) ) :
+/**
+ * Template for comments and pingbacks
+ *
+ * Used as a callback by wp_list_comments for displaying the
+ * comments.  Is pluggable
+ *
+ */
 function twentyten_comment( $comment, $args, $depth ) {
 	$GLOBALS ['comment'] = $comment; ?>
 	<?php if ( '' == $comment->comment_type ) : ?>
@@ -171,8 +231,12 @@ function twentyten_comment( $comment, $args, $depth ) {
 }
 endif;
 
-// Remove inline styles on gallery shortcode
 if ( ! function_exists( 'twentyten_remove_gallery_css' ) ) :
+/**
+ * Remove inline styles on gallery shortcode
+ *
+ * @return string
+ */
 function twentyten_remove_gallery_css( $css ) {
 	return preg_replace( "#<style type='text/css'>(.*?)</style>#s", '', $css );
 }
@@ -180,18 +244,48 @@ endif;
 add_filter( 'gallery_style', 'twentyten_remove_gallery_css' );
 
 if ( ! function_exists( 'twentyten_cat_list' ) ) :
+/**
+ * Returns the list of categories
+ *
+ * Returns the list of categories based on if we are or are
+ * not browsing a category archive page.
+ *
+ * @uses twentyten_term_list
+ *
+ * @return string
+ */
 function twentyten_cat_list() {
 	return twentyten_term_list( 'category', ', ', __( 'Posted in %s', 'twentyten' ), __( 'Also posted in %s', 'twentyten' ) );
 }
 endif;
 
 if ( ! function_exists( 'twentyten_tag_list' ) ) :
+/**
+ * Returns the list of tags
+ *
+ * Returns the list of tags based on if we are or are not
+ * browsing a tag archive page
+ *
+ * @uses twentyten_term_list
+ *
+ * @return string
+ */
 function twentyten_tag_list() {
 	return twentyten_term_list( 'post_tag', ', ', __( 'Tagged %s', 'twentyten' ), __( 'Also tagged %s', 'twentyten' ) );
 }
 endif;
 
 if ( ! function_exists( 'twentyten_term_list' ) ) :
+/**
+ * Returns the list of taxonomy items in multiple ways
+ *
+ * Returns the list of taxonomy items differently based on
+ * if we are browsing a term archive page or a different
+ * type of page.  If browsing a term archive page and the
+ * post has no other taxonomied terms, it returns empty
+ *
+ * @return string
+ */
 function twentyten_term_list( $taxonomy, $glue = ', ', $text = '', $also_text = '' ) {
 	global $wp_query, $post;
 	$current_term = $wp_query->get_queried_object();
@@ -219,8 +313,12 @@ function twentyten_term_list( $taxonomy, $glue = ', ', $text = '', $also_text = 
 }
 endif;
 
-// Register widgetized areas
 if ( ! function_exists( 'twentyten_widgets_init' ) ) :
+/**
+ * Register widgetized areas
+ *
+ * @uses register_sidebar
+ */
 function twentyten_widgets_init() {
 	// Area 1
 	register_sidebar( array (

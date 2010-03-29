@@ -1,3 +1,19 @@
+<?php
+/**
+ * The loop that displays posts
+ *
+ * The loop displays the posts and the post content.  See
+ * http://codex.wordpress.org/The_Loop to understand it and
+ * http://codex.wordpress.org/Template_Tags to understand
+ * the tags used in it.
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
+<?php /* Display navigation to next/previous pages when applicable  */ ?>
 <?php if ( $wp_query->max_num_pages > 1 ) : ?>
 	<div id="nav-above" class="navigation">
 		<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>
@@ -5,6 +21,7 @@
 	</div><!-- #nav-above -->
 <?php endif; ?>
 
+<?php /* If there are no posts to display, such as an empty archive page  */ ?>
 <?php if ( ! have_posts() ) : ?>
 	<div id="post-0" class="post error404 not-found">
 		<h1 class="entry-title"><?php _e( 'Not Found', 'twentyten' ); ?></h1>
@@ -15,7 +32,10 @@
 	</div><!-- #post-0 -->
 <?php endif; ?>
 
+<?php /* Start the Loop  */ ?>
 <?php while ( have_posts() ) : the_post(); ?>
+
+<?php /* How to Display posts in the Gallery Category  */ ?>
 	<?php if ( in_category( 'Gallery' ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
@@ -62,7 +82,7 @@
 			</div><!-- #entry-utility -->
 		</div>
 
-
+<?php /* How to display posts in the asides category */ ?>
 	<?php elseif ( in_category( 'asides' ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php if ( is_archive() || is_search() ) : //Only display Excerpts for archives & search ?>
@@ -92,7 +112,7 @@
 			</div><!-- #entry-utility -->
 		</div><!-- #post-<?php the_ID(); ?> -->
 
-
+<?php /* How to display all other posts  */ ?>
 	<?php else : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
@@ -139,6 +159,7 @@
 	<?php endif; // if different categories queried ?>
 <?php endwhile; ?>
 
+<?php /* Display navigation to next/previous pages when applicable  */ ?>
 <?php if (  $wp_query->max_num_pages > 1 ) : ?>
 				<div id="nav-below" class="navigation">
 					<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyten' ) ); ?></div>

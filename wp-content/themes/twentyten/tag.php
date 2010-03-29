@@ -1,3 +1,13 @@
+<?php
+/**
+ * The template used to display Tag Archive pages
+ *
+ * @package WordPress
+ * @subpackage Twenty Ten
+ * @since 3.0.0
+ */
+?>
+
 <?php get_header(); ?>
 
 		<div id="container">
