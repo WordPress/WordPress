@@ -674,9 +674,9 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 
 	// Send email with activation link.
 	if ( !is_subdomain_install() || $current_site->id != 1 )
-		$activate_url = "http://" . $current_site->domain . $current_site->path . "wp-activate.php?key=$key";
+		$activate_url = network_site_url("wp-activate.php?key=$key");
 	else
-		$activate_url = "http://{$domain}{$path}wp-activate.php?key=$key";
+		$activate_url = "http://{$domain}{$path}wp-activate.php?key=$key"; // @todo use *_url() API
 
 	$activate_url = esc_url($activate_url);
 	$admin_email = get_site_option( "admin_email" );
@@ -841,7 +841,6 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 }
 
 function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
-	global $current_site;
 	if ( get_site_option( 'registrationnotification' ) != 'yes' )
 		return false;
 
@@ -849,11 +848,11 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	if ( is_email($email) == false )
 		return false;
 
-	$options_site_url = esc_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
+	$options_site_url = esc_url(network_admin_url('ms-options.php'));
 
 	switch_to_blog( $blog_id );
 	$blogname = get_option( 'blogname' );
-	$siteurl = get_option( 'siteurl' );
+	$siteurl = site_url();
 	restore_current_blog();
 
 	$msg = sprintf( __( "New Blog: %1s
@@ -868,8 +867,6 @@ Disable these notifications: %4s"), $blogname, $siteurl, $_SERVER['REMOTE_ADDR']
 }
 
 function newuser_notify_siteadmin( $user_id ) {
-	global $current_site;
-
 	if ( get_site_option( 'registrationnotification' ) != 'yes' )
 		return false;
 
@@ -880,7 +877,7 @@ function newuser_notify_siteadmin( $user_id ) {
 
 	$user = new WP_User($user_id);
 
-	$options_site_url = esc_url("http://{$current_site->domain}{$current_site->path}wp-admin/ms-options.php");
+	$options_site_url = esc_url(network_admin_url('ms-options.php'));
 	$msg = sprintf(__("New User: %1s
 Remote IP: %2s
 
@@ -1278,7 +1275,7 @@ function maybe_redirect_404() {
 	global $current_site;
 	if ( is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && ( $destination = NOBLOGREDIRECT ) ) {
 		if ( $destination == '%siteurl%' )
-			$destination = $current_site->domain . $current_site->path;
+			$destination = network_home_url();
 		wp_redirect( $destination );
 		exit();
 	}

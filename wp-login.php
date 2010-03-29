@@ -85,7 +85,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 <?php   if ( !is_multisite() ) { ?>
 <div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><?php bloginfo('name'); ?></a></h1>
 <?php   } else { ?>
-<div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://' . $current_site->domain . $current_site->path ); ?>" title="<?php echo apply_filters('login_headertitle', $current_site->site_name ); ?>"><span class="hide"><?php bloginfo('name'); ?></span></a></h1>
+<div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', network_home_url() ); ?>" title="<?php echo apply_filters('login_headertitle', $current_site->site_name ); ?>"><span class="hide"><?php bloginfo('name'); ?></span></a></h1>
 <?php   }
 
 	$message = apply_filters('login_message', $message);
@@ -184,16 +184,10 @@ function retrieve_password() {
 		$wpdb->update($wpdb->users, array('user_activation_key' => $key), array('user_login' => $user_login));
 	}
 	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
-        if ( !is_multisite() )
-        	$message .= get_option('siteurl') . "\r\n\r\n";
-        else
-            	$message .= 'http://' . trailingslashit( $current_site->domain . $current_site->path ) . "\r\n\r\n";
+	$message .= network_site_url() . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
-        if ( !is_multisite() )
-        	$message .= site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . "\r\n";
-        else
-        	$message .= 'http://' . trailingslashit( $current_site->domain . $current_site->path ) . "wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login) . "\r\n";
+	$message .= network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . "\r\n";
 
 	if ( is_multisite() )
 		$blogname = $GLOBALS['current_site']->site_name;

@@ -2037,6 +2037,10 @@ function plugins_url($path = '', $plugin = '') {
 */
 function network_site_url( $path = '', $scheme = null ) {
 	global $current_site;
+
+	if ( !is_multisite() )
+		return site_url($path, $scheme);
+
 	$orig_scheme = $scheme;
 	if ( !in_array($scheme, array('http', 'https')) ) {
 		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
@@ -2075,6 +2079,10 @@ function network_site_url( $path = '', $scheme = null ) {
 */
 function network_home_url( $path = '', $scheme = null ) {
 	global $current_site;
+
+	if ( !is_multisite() )
+		return home_url($path, $scheme);
+
 	$orig_scheme = $scheme;
 
 	if ( !in_array($scheme, array('http', 'https')) )

@@ -43,7 +43,7 @@ get_header();
 	<?php if ( empty($_GET['key']) && empty($_POST['key']) ) { ?>
 
 		<h2><?php _e('Activation Key Required') ?></h2>
-		<form name="activateform" id="activateform" method="post" action="<?php echo 'http://' . $current_site->domain . $current_site->path ?>wp-activate.php">
+		<form name="activateform" id="activateform" method="post" action="<?php echo network_site_url('wp-activate.php'); ?>">
 			<p>
 			    <label for="key"><?php _e('Activation Key:') ?></label>
 			    <br /><input type="text" name="key" id="key" value="" size="50" />
@@ -64,9 +64,9 @@ get_header();
 				<h2><?php _e('Your account is now active!'); ?></h2>
 				<?php
 			    if ( $signup->domain . $signup->path == '' ) {
-			    	printf(__('<p class="lead-in">Your account has been activated. You may now <a href="%1$s">login</a> to the site using your chosen username of "%2$s".  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.</p>'), 'http://' . $current_site->domain . $current_site->path . 'wp-login.php', $signup->user_login, $signup->user_email, 'http://' . $current_site->domain . $current_site->path . 'wp-login.php?action=lostpassword');
+			    	printf(__('<p class="lead-in">Your account has been activated. You may now <a href="%1$s">login</a> to the site using your chosen username of "%2$s".  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.</p>'), network_site_url('wp-login.php', 'login'), $signup->user_login, $signup->user_email, network_site_url('wp-login.php?action=lostpassword', 'login'));
 			    } else {
-			    	printf(__('<p class="lead-in">Your site at <a href="%1$s">%2$s</a> is active. You may now login to your site using your chosen username of "%3$s".  Please check your email inbox at %4$s for your password and login instructions.  If you do not receive an email, please check your junk or spam folder.  If you still do not receive an email within an hour, you can <a href="%5$s">reset your password</a>.</p>'), 'http://' . $signup->domain, $signup->domain, $signup->user_login, $signup->user_email, 'http://' . $current_site->domain . $current_site->path . 'wp-login.php?action=lostpassword');
+			    	printf(__('<p class="lead-in">Your site at <a href="%1$s">%2$s</a> is active. You may now login to your site using your chosen username of "%3$s".  Please check your email inbox at %4$s for your password and login instructions.  If you do not receive an email, please check your junk or spam folder.  If you still do not receive an email within an hour, you can <a href="%5$s">reset your password</a>.</p>'), 'http://' . $signup->domain, $signup->domain, $signup->user_login, $signup->user_email, network_site_url('wp-login.php?action=lostpassword'));
 			    }
 			} else {
 				?>
@@ -86,10 +86,10 @@ get_header();
 				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $password; ?></p>
 			</div>
 
-			<?php if ( $url != 'http://' . $current_site->domain . $current_site->path ) : ?>
+			<?php if ( $url != network_home_url('', 'http') ) : ?>
 				<p class="view"><?php printf(__('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Login</a>'), $url, $url . 'wp-login.php' ); ?></p>
 			<?php else: ?>
-				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.' ), 'http://' . $current_site->domain . $current_site->path . 'wp-login.php', 'http://' . $current_site->domain . $current_site->path ); ?></p>
+				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.' ), network_site_url('wp-login.php', 'login'), network_home_url() ); ?></p>
 			<?php endif;
 		}
 	}

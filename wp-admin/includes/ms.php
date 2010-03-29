@@ -249,7 +249,6 @@ function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
 }
 
 function update_option_new_admin_email($old_value, $value) {
-	global $current_site;
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
 		return;
 
@@ -276,17 +275,17 @@ Regards,
 All at ###SITENAME###
 ###SITEURL###"), $new_admin_email );
 
-	$content = str_replace('###ADMIN_URL###', esc_url(get_option( "siteurl" ).'/wp-admin/options.php?adminhash='.$hash), $content);
+	$content = str_replace('###ADMIN_URL###', esc_url(admin_url('options.php?adminhash='.$hash)), $content);
 	$content = str_replace('###EMAIL###', $value, $content);
 	$content = str_replace('###SITENAME###', get_site_option( 'site_name' ), $content);
-	$content = str_replace('###SITEURL###', 'http://' . $current_site->domain . $current_site->path, $content);
+	$content = str_replace('###SITEURL###', network_home_url(), $content);
 
 	wp_mail( $value, sprintf(__('[%s] New Admin Email Address'), get_option('blogname')), $content );
 }
 add_action('update_option_new_admin_email', 'update_option_new_admin_email', 10, 2);
 
 function send_confirmation_on_profile_email() {
-	global $errors, $wpdb, $current_user, $current_site;
+	global $errors, $wpdb, $current_user;
 	if ( ! is_object($errors) )
 		$errors = new WP_Error();
 
@@ -327,10 +326,10 @@ Regards,
 All at ###SITENAME###
 ###SITEURL###"), $new_user_email );
 
-		$content = str_replace('###ADMIN_URL###', esc_url(get_option( "siteurl" ).'/wp-admin/profile.php?newuseremail='.$hash), $content);
+		$content = str_replace('###ADMIN_URL###', esc_url(admin_url('profile.php?newuseremail='.$hash)), $content);
 		$content = str_replace('###EMAIL###', $_POST[ 'email' ], $content);
 		$content = str_replace('###SITENAME###', get_site_option( 'site_name' ), $content);
-		$content = str_replace('###SITEURL###', 'http://' . $current_site->domain . $current_site->path, $content);
+		$content = str_replace('###SITEURL###', network_home_url(), $content);
 
 		wp_mail( $_POST[ 'email' ], sprintf(__('[%s] New Email Address'), get_option('blogname')), $content );
 		$_POST[ 'email' ] = $current_user->user_email;
@@ -534,7 +533,7 @@ function sync_category_tag_slugs( $term, $taxonomy ) {
 add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
 function redirect_user_to_blog() {
-	global $current_user, $current_site;
+	global $current_user;
 	$c = 0;
 	if ( isset( $_GET[ 'c' ] ) )
 		$c = (int)$_GET[ 'c' ];
@@ -547,8 +546,7 @@ function redirect_user_to_blog() {
 	$blog = get_active_blog_for_user( $current_user->ID );
 	$dashboard_blog = get_dashboard_blog();
 	if ( is_object( $blog ) ) {
-		$protocol = ( is_ssl() ? 'https://' : 'http://' );
-		wp_redirect( $protocol . $blog->domain . $blog->path . 'wp-admin/?c=' . $c ); // redirect and count to 5, "just in case"
+		wp_redirect( get_admin_url($blog->blog_id, '?c=' . $c) ); // redirect and count to 5, "just in case"
 		exit;
 	}
 
