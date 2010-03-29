@@ -990,6 +990,10 @@ function wp_validate_redirect($location, $default = '') {
 	if ( isset($lp['scheme']) && !('http' == $lp['scheme'] || 'https' == $lp['scheme']) )
 		return $default;
 
+	// Reject if scheme is set but host is not. This catches urls like https:host.com for which parse_url does not set the host field.
+	if ( isset($lp['scheme'])  && !isset($lp['host']) )
+		return $default;
+
 	$wpp = parse_url(home_url());
 
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
