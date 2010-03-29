@@ -1831,7 +1831,9 @@ function home_url( $path = '', $scheme = null ) {
 */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
-	$scheme      = is_ssl() && !is_admin() ? 'https' : 'http';
+
+	if ( !in_array($scheme, array('http', 'https')) )
+		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
 	if ( empty($blog_id) || !is_multisite() )
 		$home = get_option('home');
@@ -2074,7 +2076,9 @@ function network_site_url( $path = '', $scheme = null ) {
 function network_home_url( $path = '', $scheme = null ) {
 	global $current_site;
 	$orig_scheme = $scheme;
-	$scheme      = is_ssl() && !is_admin() ? 'https' : 'http';
+
+	if ( !in_array($scheme, array('http', 'https')) )
+		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
 	$url = 'http://' . $current_site->domain . $current_site->path;
 
