@@ -711,7 +711,7 @@ function choose_primary_blog() {
 				<?php foreach( (array) $all_blogs as $blog ) {
 					if ( $primary_blog == $blog->userblog_id )
 						$found = true;
-					?><option value='<?php echo $blog->userblog_id ?>'<?php if ( $primary_blog == $blog->userblog_id ) echo ' selected="selected"' ?>>http://<?php echo $blog->domain.$blog->path ?></option><?php
+					?><option value='<?php echo $blog->userblog_id ?>'<?php if ( $primary_blog == $blog->userblog_id ) echo ' selected="selected"' ?>><?php echo get_home_url($blog->userblog_id) ?></option><?php
 				} ?>
 			</select>
 			<?php

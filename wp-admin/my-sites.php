@@ -68,7 +68,7 @@ if ( $updated ) { ?>
 			$t = $t == 'border-right: 1px solid #ccc;' ? '' : 'border-right: 1px solid #ccc;';
 			echo "<td valign='top' style='$t; width:50%'>";
 			echo "<h3>{$user_blog->blogname}</h3>";
-			echo "<p>" . apply_filters( "myblogs_blog_actions", "<a href='{$user_blog->siteurl}'>" . __( 'Visit' ) . "</a> | <a href='{$user_blog->siteurl}/wp-admin/'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
+			echo "<p>" . apply_filters( "myblogs_blog_actions", "<a href='" . get_home_url($user_blog->userblog_id) . "'>" . __( 'Visit' ) . "</a> | <a href='" . get_admin_url($user_blog->userblog_id) . "'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
 			echo apply_filters( 'myblogs_options', '', $user_blog );
 			echo "</td>";
 		}
