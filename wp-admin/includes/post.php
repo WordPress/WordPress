@@ -241,7 +241,7 @@ function bulk_edit_posts( $post_data = null ) {
 	else
 		$ptype = get_post_type_object('post');
 
-	if ( !current_user_can( $ptype->edit_type_cap, $post_ID ) ) {
+	if ( !current_user_can( $ptype->edit_type_cap ) ) {
 		if ( 'page' == $ptype->name )
 			wp_die( __('You are not allowed to edit pages.'));
 		else
@@ -492,7 +492,7 @@ function wp_write_post() {
 	else
 		$ptype = get_post_type_object('post');
 
-	if ( !current_user_can( $ptype->edit_type_cap, $post_ID ) ) {
+	if ( !current_user_can( $ptype->edit_type_cap ) ) {
 		if ( 'page' == $ptype->name )
 			return new WP_Error( 'edit_pages', __( 'You are not allowed to create pages on this blog.' ) );
 		else
