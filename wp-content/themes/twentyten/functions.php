@@ -199,8 +199,9 @@ if ( ! function_exists( 'twentyten_the_page_number' ) ) :
  * @since 3.0.0
  */
 function twentyten_the_page_number() {
-	if ( get_query_var( 'paged' ) )
-		echo ' | ' . __( 'Page ' , 'twentyten' ) . get_query_var( 'paged' );
+	global $paged; // Contains page number.
+	if ( $paged >= 2 )
+		echo ' | ' . sprintf( __( 'Page %s' , 'twentyten' ), $paged );
 }
 endif;
 
