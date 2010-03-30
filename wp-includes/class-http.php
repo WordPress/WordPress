@@ -1736,6 +1736,7 @@ class WP_Http_Cookie {
 
 			// Set everything else as a property
 			foreach ( $pairs as $pair ) {
+				$pair = rtrim($pair);
 				if ( empty($pair) ) //Handles the cookie ending in ; which results in a empty final pair
 					continue;
 
