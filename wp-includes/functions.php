@@ -1775,13 +1775,17 @@ function do_robots() {
 
 	do_action( 'do_robotstxt' );
 
-	if ( '0' == get_option( 'blog_public' ) ) {
-		echo "User-agent: *\n";
-		echo "Disallow: /\n";
+	$output = '';
+	$public = get_option( 'blog_public' );
+	if ( '0' ==  $public ) {
+		$output .= "User-agent: *\n";
+		$output .= "Disallow: /\n";
 	} else {
-		echo "User-agent: *\n";
-		echo "Disallow:\n";
+		$output .= "User-agent: *\n";
+		$output .= "Disallow:\n";
 	}
+
+	echo apply_filters('robots_txt', $output, $public);
 }
 
 /**
