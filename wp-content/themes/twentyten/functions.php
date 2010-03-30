@@ -17,13 +17,20 @@
  *
  * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
  * to a filter or action hook. The hook can be removed by using remove_action() or
- * remove_filter() and you can attach your own function to the hook. For example:
+ * remove_filter() and you can attach your own function to the hook.
+ *
+ * In this example, since both hooks are attached using the default priority (10), the first
+ * one attached (which would be the child theme) will run. We can remove the parent theme's
+ * hook only after it is attached, which means we need to wait until setting up the child theme:
  *
  * <code>
- * remove_action( 'after_setup_theme', 'twentyten_setup' );
  * add_action( 'after_setup_theme', 'my_child_theme_setup' );
  * function my_child_theme_setup() {
- *  ...
+ *     // We are replacing twentyten_setup() with my_child_theme_setup()
+ *     remove_action( 'after_setup_theme', 'twentyten_setup' );
+ *     // We are providing our own filter for excerpt_length (or using the unfiltered value)
+ *     remove_filter( 'excerpt_length', 'twentyten_excerpt_length' );
+ *     ...
  * }
  * </code>
  *
