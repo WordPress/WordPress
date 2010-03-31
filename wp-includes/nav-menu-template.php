@@ -1,5 +1,13 @@
 <?php
 /**
+ * Navigation Menu template functions
+ *
+ * @package WordPress
+ * @subpackage Nav_Menus
+ * @since 3.0.0
+ */
+
+/**
  * Displays a navigation menu.
  *
  * Optional $args contents:

@@ -3,7 +3,7 @@
  * Navigation Menu functions
  *
  * @package WordPress
- * @subpackage Navigation Menus
+ * @subpackage Nav_Menus
  * @since 3.0.0
  */
 
