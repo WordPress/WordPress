@@ -195,8 +195,6 @@ function apply_filters_ref_array($tag, $args) {
 
 	$wp_current_filter[] = $tag;
 
-	$value = $args[0];
-
 	// Do 'all' actions first
 	if ( isset($wp_filter['all']) ) {
 		$all_args = func_get_args();
@@ -205,7 +203,7 @@ function apply_filters_ref_array($tag, $args) {
 
 	if ( !isset($wp_filter[$tag]) ) {
 		array_pop($wp_current_filter);
-		return $value;
+		return $args[0];
 	}
 
 	// Sort
@@ -219,13 +217,13 @@ function apply_filters_ref_array($tag, $args) {
 	do {
 		foreach( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
-				$value = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+				$args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
 	} while ( next($wp_filter[$tag]) !== false );
 
 	array_pop( $wp_current_filter );
 
-	return $value;
+	return $args[0];
 }
 
 /**
