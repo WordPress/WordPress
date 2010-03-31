@@ -2012,6 +2012,7 @@ input#link_url {
 	margin: 0;
 }
 
+.inline-editor ul.cat-checklist ul,
 .categorydiv ul.categorychecklist ul,
 #linkcategorydiv ul.categorychecklist ul {
 	margin-left: 18px;
