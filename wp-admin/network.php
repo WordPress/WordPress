@@ -54,6 +54,9 @@ function get_clean_basedomain() {
 if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALLOW_MULTISITE ) )
 	wp_die( __( 'You must define the <code>WP_ALLOW_MULTISITE</code> constant as true in your wp-config.php file to allow creation of a Network.' ) );
 
+if ( get_option( 'siteurl' ) != get_option( 'home' ) )
+	wp_die( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network.' ) );
+
 $title = __( 'Create a Network of WordPress Sites' );
 $parent_file = 'tools.php';
 
