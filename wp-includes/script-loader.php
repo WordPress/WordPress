@@ -251,7 +251,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 		$scripts->add_data( 'admin-custom-fields', 'group', 1 );
 
-		$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20090102' );
+		$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20100331' );
 		$scripts->add_data( 'password-strength-meter', 'group', 1 );
 		$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
 			'empty' => __('Strength indicator'),
@@ -260,6 +260,7 @@ function wp_default_scripts( &$scripts ) {
 			/* translators: password strength */
 			'good' => _x('Medium', 'password strength'),
 			'strong' => __('Strong'),
+			'mismatch' => __('Mismatch'),
 			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 		) );
 

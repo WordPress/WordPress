@@ -249,7 +249,8 @@ var pwsL10n = {
  short: "<?php echo esc_js( __( 'Very weak' ) ); ?>",
  bad: "<?php echo esc_js( __( 'Weak' ) ); ?>",
  good: "<?php echo esc_js( __( 'Medium' ) ); ?>",
- strong: "<?php echo esc_js( __( 'Strong' ) ); ?>"
+ strong: "<?php echo esc_js( __( 'Strong' ) ); ?>",
+ mismatch: "<?php echo esc_js( __( 'Mismatch' ) ); ?>"
 };
 try{convertEntities(pwsL10n);}catch(e){};
 /* ]]> */
