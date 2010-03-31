@@ -195,13 +195,13 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <?php
 if ( current_user_can( "delete_post", $post->ID ) ) {
 	if ( !EMPTY_TRASH_DAYS ) {
-		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'delete', 'post' => $post->ID) ), "delete-${post_type}_{$post->ID}" );
+		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'delete', 'post' => $post->ID), admin_url( 'post.php' ) ), "delete-${post_type}_{$post->ID}" );
 		$delete_text = __('Delete Permanently');
 	} else {
-		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'trash', 'post' => $post->ID) ), "trash-${post_type}_{$post->ID}" );
+		$delete_url = wp_nonce_url( add_query_arg( array('action' => 'trash', 'post' => $post->ID), admin_url( 'post.php' ) ), "trash-${post_type}_{$post->ID}" );
 		$delete_text = __('Move to Trash');
 	} ?>
-<a class="submitdelete deletion<?php if ( 'edit' != $action ) { echo " hidden"; } ?>" href="<?php echo $delete_url; ?>"><?php echo $delete_text; ?></a><?php
+<a class="submitdelete deletion" href="<?php echo $delete_url; ?>"><?php echo $delete_text; ?></a><?php
 } ?>
 </div>
 
