@@ -1531,7 +1531,9 @@ function add_editor_style( $stylesheet = 'editor-style.css' ) {
 /**
  * Allows a theme to register its support of a certain feature
  *
- * Must be called in the themes functions.php file to work.
+ * Must be called in the theme's functions.php file to work.
+ * If attached to a hook, it must be after_setup_theme.
+ * The init hook may be too late for some features.
  *
  * @since 2.9.0
  * @param string $feature the feature being added
@@ -1548,15 +1550,25 @@ function add_theme_support( $feature ) {
 /**
  * Allows a theme to de-register its support of a certain feature
  *
- * Must be called in the themes functions.php file to work.
+ * Should be called in the theme's functions.php file. Generally would
+ * be used for child themes to override support from the parent theme.
  *
  * @since 3.0.0
+ * @see add_theme_support()
  * @param string $feature the feature being added
+ * @return bool Whether feature was removed.
  */
 function remove_theme_support( $feature ) {
+	// Blacklist: for internal registrations not used directly by themes.
+	if ( in_array( $feature, array( 'custom-background', 'custom-header', 'editor-style', 'widgets' ) ) )
+		return false;
+
 	global $_wp_theme_features;
 
-	unset($_wp_theme_features[$feature]);
+	if ( ! isset( $_wp_theme_features[$feature] ) )
+		return false;
+	unset( $_wp_theme_features[$feature] );
+	return true;
 }
 
 /**
