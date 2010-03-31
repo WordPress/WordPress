@@ -2751,7 +2751,8 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
  * @uses $wpdb
  *
  * @param string $page_path Page path
- * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A.
+ * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
+ * @param string $post_type Optional. Post type. Default page.
  * @return mixed Null when complete.
  */
 function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
@@ -2793,12 +2794,13 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
  * @uses $wpdb
  *
  * @param string $page_title Page title
- * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A.
+ * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
+ * @param string $post_type Optional. Post type. Default page.
  * @return mixed
  */
-function get_page_by_title($page_title, $output = OBJECT) {
+function get_page_by_title($page_title, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
-	$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type='page'", $page_title ));
+	$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type= %s", $page_title, $post_type ) );
 	if ( $page )
 		return get_page($page, $output);
 
