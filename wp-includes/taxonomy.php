@@ -206,7 +206,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  *
  * Optional $args contents:
  *
- * hierarachical - has some defined purpose at other parts of the API and is a
+ * hierarchical - has some defined purpose at other parts of the API and is a
  * boolean value.
  *
  * update_count_callback - works much like a hook, in that it will be called
@@ -2199,7 +2199,7 @@ function update_term_cache($terms, $taxonomy = '') {
  *	 option. That is the name of the taxonomy, immediately followed by '_children'.
  *
  * @param string $taxonomy Taxonomy Name
- * @return array Empty if $taxonomy isn't hierarachical or returns children as Term IDs.
+ * @return array Empty if $taxonomy isn't hierarchical or returns children as Term IDs.
  */
 function _get_term_hierarchy($taxonomy) {
 	if ( !is_taxonomy_hierarchical($taxonomy) )
