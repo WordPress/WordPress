@@ -680,8 +680,11 @@ function delete_transient( $transient ) {
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_delete( $transient, 'transient' );
 	} else {
+		$option_timeout = '_transient_timeout_' . $transient;
 		$option = '_transient_' . $transient;
 		$result = delete_option( $option );
+		if ( $result )
+			delete_option( $option_timeout );
 	}
 
 	if ( $result )
@@ -3581,8 +3584,11 @@ function delete_site_transient( $transient ) {
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_delete( $transient, 'site-transient' );
 	} else {
+		$option_timeout = '_site_transient_timeout_' . $transient;
 		$option = '_site_transient_' . $transient;
 		$result = delete_site_option( $option );
+		if ( $result )
+			delete_site_option( $option_timeout );
 	}
 	if ( $result )
 		do_action( 'deleted_site_transient', $transient );
