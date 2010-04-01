@@ -354,8 +354,27 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 				$action_links = array();
 				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox onclick" title="' .
-									esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install') . '</a>';
+									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
+									esc_attr( sprintf( __( 'Information about %s' ), $name ) ) . '">' . __('More Information') . '</a>';
+
+				if ( current_user_can('install_plugins') || current_user_can('update_plugins') ) {
+					$status = install_plugin_install_status($plugin);
+
+					switch ( $status['status'] ) {
+						case 'install':
+							if ( $url )
+								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install Now') . '</a>';
+							break;
+						case 'update_available':
+							if ( $url )
+								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to %s' ), $status['version'] ) ) . '">' . sprintf(__('Update to version %s'), $status['version']) . '</a>';
+							break;
+						case 'latest_installed':
+						case 'newer_installed':
+							$action_links[] = '<span>' . __('This plugin is already installed') . '</span>';
+							break;
+					}
+				}
 
 				$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
 			?>
@@ -392,6 +411,67 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 }
 
 add_action('install_plugins_pre_plugin-information', 'install_plugin_information');
+
+/**
+ * Determine the status we can perform on a plugin.
+ *
+ * @since 3.0.0
+ */
+function install_plugin_install_status($api, $loop = false) {
+	// this function is called recursivly, $loop prevents futhur loops.
+	if ( is_array($api) )
+		$api = (object) $api;
+
+	//Default to a "new" plugin
+	$status = 'install';
+	$url = false;
+
+	//Check to see if this plugin is known to be installed, and has an update awaiting it.
+	$update_plugins = get_site_transient('update_plugins');
+	if ( is_object( $update_plugins ) ) {
+		foreach ( (array)$update_plugins->response as $file => $plugin ) {
+			if ( $plugin->slug === $api->slug ) {
+				$status = 'update_available';
+				$update_file = $file;
+				$version = $plugin->new_version;
+				if ( current_user_can('update_plugins') )
+					$url = wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=' . $update_file), 'upgrade-plugin_' . $update_file);
+				break;
+			}
+		}
+	}
+
+	if ( 'install' == $status ) {
+		if ( is_dir( WP_PLUGIN_DIR  . '/' . $api->slug ) ) {
+			$installed_plugin = get_plugins('/' . $api->slug);
+			if ( empty($installed_plugin) ) {
+				if ( current_user_can('install_plugins') )
+					$url = wp_nonce_url(admin_url('update.php?action=install-plugin&plugin=' . $api->slug), 'install-plugin_' . $api->slug);
+			} else {
+				$key = array_shift( $key = array_keys($installed_plugin) ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
+				if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '=') ){
+					$status = 'latest_installed';
+				} elseif ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '<') ) {
+					$status = 'newer_installed';
+					$version = $installed_plugin[ $key ]['Version'];
+				} else {
+					//If the above update check failed, Then that probably means that the update checker has out-of-date information, force a refresh
+					if ( ! $loop ) {
+						delete_site_transient('update_plugins');
+						wp_update_plugins();
+						return install_plugin_install_status($api, true);
+					}
+				}
+			}
+		} else {
+			// "install" & no directory with that slug
+			if ( current_user_can('install_plugins') )
+				$url = wp_nonce_url(admin_url('update.php?action=install-plugin&plugin=' . $api->slug), 'install-plugin_' . $api->slug);
+		}
+	}
+
+	return compact('status', 'url', 'version');
+}
 
 /**
  * Display plugin information in dialog box form.
@@ -440,63 +520,27 @@ function install_plugin_information() {
 	echo "</div>\n";
 	?>
 	<div class="alignright fyi">
-		<?php if ( ! empty($api->download_link) ) : ?>
+		<?php if ( ! empty($api->download_link) && ( current_user_can('install_plugins') || current_user_can('update_plugins') ) ) : ?>
 		<p class="action-button">
 		<?php
-			//Default to a "new" plugin
-			$type = 'install';
-			//Check to see if this plugin is known to be installed, and has an update awaiting it.
-			$update_plugins = get_site_transient('update_plugins');
-			if ( is_object( $update_plugins ) ) {
-				foreach ( (array)$update_plugins->response as $file => $plugin ) {
-					if ( $plugin->slug === $api->slug ) {
-						$type = 'update_available';
-						$update_file = $file;
-						break;
-					}
-				}
-			}
-			if ( 'install' == $type && is_dir( WP_PLUGIN_DIR  . '/' . $api->slug ) ) {
-				$installed_plugin = get_plugins('/' . $api->slug);
-				if ( ! empty($installed_plugin) ) {
-					$key = array_shift( $key = array_keys($installed_plugin) ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
-					if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '=') ){
-						$type = 'latest_installed';
-					} elseif ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '<') ) {
-						$type = 'newer_installed';
-						$newer_version = $installed_plugin[ $key ]['Version'];
-					} else {
-						//If the above update check failed, Then that probably means that the update checker has out-of-date information, force a refresh
-						delete_site_transient('update_plugins');
-						$update_file = $api->slug . '/' . $key; //This code branch only deals with a plugin which is in a folder the same name as its slug, Doesnt support plugins which have 'non-standard' names
-						$type = 'update_available';
-					}
-				}
-			}
-
-			switch ( $type ) :
-				default:
-				case 'install':
-					if ( current_user_can('install_plugins') ) :
-				?><a href="<?php echo wp_nonce_url(admin_url('update.php?action=install-plugin&plugin=' . $api->slug), 'install-plugin_' . $api->slug) ?>" target="_parent"><?php _e('Install Now') ?></a><?php
-					endif;
+		$status = install_plugin_install_status($api);
+		switch ( $status['status'] ) {
+			case 'install':
+				if ( $url )
+					echo '<a href="' . $status['url'] . '" target="_parent">' . __('Install Now') . '</a>';
 				break;
-				case 'update_available':
-					if ( current_user_can('update_plugins') ) :
-						?><a href="<?php echo wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=' . $update_file), 'upgrade-plugin_' . $update_file) ?>" target="_parent"><?php _e('Install Update Now') ?></a><?php
-					endif;
+			case 'update_available':
+				if ( $url )
+					echo '<a href="' . $status['url'] . '" target="_parent">' . __('Install Update Now') .'</a>';
 				break;
-				case 'newer_installed':
-					if ( current_user_can('install_plugins') || current_user_can('update_plugins') ) :
-					?><a><?php printf(__('Newer Version (%s) Installed'), $newer_version) ?></a><?php
-					endif;
+			case 'newer_installed':
+				echo '<a>' . sprintf(__('Newer Version (%s) Installed'), $status['version']) . '</a>';
 				break;
-				case 'latest_installed':
-					if ( current_user_can('install_plugins') || current_user_can('update_plugins') ) :
-					?><a><?php _e('Latest Version Installed') ?></a><?php
-					endif;
+			case 'latest_installed':
+				echo '<a>' . __('Latest Version Installed') . '</a>';
 				break;
-			endswitch; ?>
+		}
+		?>
 		</p>
 		<?php endif; ?>
 		<h2 class="mainheader"><?php /* translators: For Your Information */ _e('FYI') ?></h2>
