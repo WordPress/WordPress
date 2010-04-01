@@ -648,7 +648,7 @@ function get_theme_root( $stylesheet_or_template = false ) {
 function get_theme_root_uri( $stylesheet_or_template = false ) {
 	$theme_roots = get_theme_roots();
 
-	if ( $theme_roots[$stylesheet_or_template] )
+	if ( isset( $theme_roots[$stylesheet_or_template] ) && $theme_roots[$stylesheet_or_template] )
 		$theme_root_uri = content_url( $theme_roots[$stylesheet_or_template] );
 	else
 		$theme_root_uri = content_url( 'themes' );
