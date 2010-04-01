@@ -1037,7 +1037,7 @@ function force_balance_tags( $text ) {
 	# WP bug fix for LOVE <3 (and other situations with '<' before a number)
 	$text = preg_replace('#<([0-9]{1})#', '&lt;$1', $text);
 
-	while (preg_match("/<(\/?\w*)\s*([^>]*)>/",$text,$regex)) {
+	while (preg_match("/<(\/?[\w:]*)\s*([^>]*)>/",$text,$regex)) {
 		$newtext .= $tagqueue;
 
 		$i = strpos($text,$regex[0]);
