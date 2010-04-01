@@ -362,11 +362,11 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 					switch ( $status['status'] ) {
 						case 'install':
-							if ( $url )
+							if ( $status['url'] )
 								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install Now') . '</a>';
 							break;
 						case 'update_available':
-							if ( $url )
+							if ( $status['url'] )
 								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to %s' ), $status['version'] ) ) . '">' . sprintf(__('Update to version %s'), $status['version']) . '</a>';
 							break;
 						case 'latest_installed':
@@ -526,11 +526,11 @@ function install_plugin_information() {
 		$status = install_plugin_install_status($api);
 		switch ( $status['status'] ) {
 			case 'install':
-				if ( $url )
+				if ( $status['url'] )
 					echo '<a href="' . $status['url'] . '" target="_parent">' . __('Install Now') . '</a>';
 				break;
 			case 'update_available':
-				if ( $url )
+				if ( $status['url'] )
 					echo '<a href="' . $status['url'] . '" target="_parent">' . __('Install Update Now') .'</a>';
 				break;
 			case 'newer_installed':
