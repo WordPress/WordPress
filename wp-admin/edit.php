@@ -262,9 +262,9 @@ endif;
 </ul>
 
 <p class="search-box">
-	<label class="screen-reader-text" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
+	<label class="screen-reader-text" for="post-search-input"><?php printf( __( 'Search %s' ), $post_type_object->label ); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e( 'Search Posts' ); ?>" class="button" />
+	<input type="submit" value="<?php echo esc_attr( sprintf( __( 'Search %s' ), $post_type_object->label ) ); ?>" class="button" />
 </p>
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_GET['post_status']) ? esc_attr($_GET['post_status']) : 'all'; ?>" />
@@ -410,9 +410,9 @@ if ( $page_links )
 <div class="clear"></div>
 <p><?php
 if ( isset($_GET['post_status']) && 'trash' == $_GET['post_status'] )
-	_e( 'No posts found in the Trash.' );
+	printf( __( 'No %s found in the Trash.' ), $post_type_object->label );
 else
-	_e( 'No posts found.' );
+	printf( __( 'No %s found.' ), $post_type_object->label );
 ?></p>
 <?php } ?>
 
