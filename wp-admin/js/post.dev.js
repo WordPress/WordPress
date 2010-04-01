@@ -541,7 +541,7 @@ jQuery(document).ready( function($) {
 	// permalink
 	if ( $('#edit-slug-box').length ) {
 		editPermalink = function(post_id) {
-			var i, c = 0, e = $('#editable-post-name'), revert_e = e.html(), real_slug = $('#post_name'), revert_slug = real_slug.html(), b = $('#edit-slug-buttons'), revert_b = b.html(), full = $('#editable-post-name-full').html();
+			var i, c = 0, e = $('#editable-post-name'), revert_e = e.html(), real_slug = $('#post_name'), revert_slug = real_slug.val(), b = $('#edit-slug-buttons'), revert_b = b.html(), full = $('#editable-post-name-full').html();
 
 			$('#view-post-btn').hide();
 			b.html('<a href="#" class="save button">'+postL10n.ok+'</a> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
