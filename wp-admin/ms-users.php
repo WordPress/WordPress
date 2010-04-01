@@ -1,67 +1,71 @@
 <?php
-require_once('admin.php');
+require_once( './admin.php' );
 
 if ( !is_multisite() )
-	wp_die( __('Multisite support is not enabled.') );
+	wp_die( __( 'Multisite support is not enabled.' ) );
 
-$title = __('Users');
+$title = __( 'Users' );
 $parent_file = 'ms-admin.php';
 
 wp_enqueue_script( 'admin-forms' );
 
-require_once('admin-header.php');
+require_once( './admin-header.php' );
 
 if ( ! current_user_can( 'manage_network_users' ) )
-	wp_die( __('You do not have permission to access this page.') );
+	wp_die( __( 'You do not have permission to access this page.' ) );
 
-if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
+if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['action'] ) ) {
 	?>
 	<div id="message" class="updated fade"><p>
 		<?php
-		switch ($_GET['action']) {
+		switch ( $_GET['action'] ) {
 			case 'delete':
-				_e('User deleted !');
+				_e( 'User deleted.' );
 			break;
 			case 'all_spam':
-				_e('Users marked as spam !');
+				_e( 'Users marked as spam.' );
 			break;
 			case 'all_notspam':
-				_e('Users marked as not spam !');
+				_e( 'Users marked as not spam.' );
 			break;
 			case 'all_delete':
-				_e('Users deleted !');
+				_e( 'Users deleted.' );
 			break;
 			case 'add':
-				_e('User added !');
+				_e( 'User added.' );
 			break;
 			case 'add_superadmin':
-				_e('Network admin added !');
+				_e( 'Network admin added.' );
 			break;
 			case 'remove_superadmin':
-				_e('Network admin removed !');
+				_e( 'Network admin removed.' );
 			break;
 		}
 		?>
 	</p></div>
 	<?php
 }
-?>
 
-<div class="wrap" style="position:relative;">
-	<?php
-	$apage = isset( $_GET['apage'] ) ? intval( $_GET['apage'] ) : 1;
-	$num = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : 15;
-	$s = isset($_GET[ 's' ]) ? esc_attr( trim( $_GET[ 's' ] ) ) : '';
+	$pagenum = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
+	if ( empty( $pagenum ) )
+		$pagenum = 1;
+
+	$per_page = (int) get_user_option( 'ms_users_per_page' );
+	if ( empty( $per_page ) || $per_page < 1 )
+		$per_page = 15;
+
+	$per_page = apply_filters( 'ms_users_per_page', $per_page );
+
+	$s = isset( $_GET['s'] ) ? stripslashes( trim( $_GET[ 's' ] ) ) : '';
+	$like_s = esc_sql( like_escape( $s ) );
 
 	$query = "SELECT * FROM {$wpdb->users}";
 
-	if ( !empty( $s ) ) {
-		$search = '%' . trim( $s ) . '%';
-		$query .= " WHERE user_login LIKE '$search' OR user_email LIKE '$search'";
+	if ( !empty( $like_s ) ) {
+		$query .= " WHERE user_login LIKE '%$like_s%' OR user_email LIKE '%$like_s%'";
 	}
 
 	$order_by = isset( $_GET['sortby'] ) ? $_GET['sortby'] : 'id';
-
 	if ( $order_by == 'email' ) {
 		$query .= ' ORDER BY user_email ';
 	} elseif ( $order_by == 'login' ) {
@@ -75,101 +79,131 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 		$query .= ' ORDER BY ID ';
 	}
 
-	$order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
-	$order = ( 'DESC' == $order ) ? 'DESC' : 'ASC';
+	$order = ( isset( $_GET['order'] ) && 'DESC' == $_GET['order'] ) ? 'DESC' : 'ASC';
 	$query .= $order;
 
-	if ( !empty( $s ) )
-		$total = $wpdb->get_var( str_replace('SELECT *', 'SELECT COUNT(ID)', $query) );
-	else
-		$total = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users}");
+	$total = $wpdb->get_var( str_replace( 'SELECT *', 'SELECT COUNT(ID)', $query ) );
 
-	$query .= " LIMIT " . intval( ( $apage - 1 ) * $num) . ", " . intval( $num );
+	$query .= " LIMIT " . intval( ( $pagenum - 1 ) * $per_page) . ", " . intval( $per_page );
 
 	$user_list = $wpdb->get_results( $query, ARRAY_A );
 
-	// Pagination
-	$user_navigation = paginate_links( array(
-		'total' => ceil($total / $num),
-		'current' => $apage,
-		'base' => add_query_arg( 'apage', '%#%' ),
-		'format' => ''
+	$num_pages = ceil( $total / $per_page );
+	$page_links = paginate_links( array(
+		'base' => add_query_arg( 'paged', '%#%' ),
+		'format' => '',
+		'prev_text' => __( '&laquo;' ),
+		'next_text' => __( '&raquo;' ),
+		'total' => $num_pages,
+		'current' => $pagenum
 	));
 
-	if ( $user_navigation ) {
-		$user_navigation = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
-			number_format_i18n( ( $apage - 1 ) * $num + 1 ),
-			number_format_i18n( min( $apage * $num, $total ) ),
-			number_format_i18n( $total ),
-			$user_navigation
-		);
-	}
+	if ( empty( $_GET['mode'] ) )
+		$mode = 'list';
+	else
+		$mode = esc_attr( $_GET['mode'] );
 
 	?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php esc_html_e("Users"); ?></h2>
+	<h2><?php esc_html_e( 'Users' ); ?>
+	<a href="#form-add-user" class="button add-new-h2"><?php echo esc_html_x( 'Add New' , 'users'); ?></a>
+	<?php
+	if ( isset( $_GET['s'] ) && $_GET['s'] )
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
+	?>
+	</h2>
+
 	<form action="ms-users.php" method="get" class="search-form">
 		<p class="search-box">
-		<input type="text" name="s" value="<?php if ( isset($_GET['s']) ) esc_attr( stripslashes( $s ) ); ?>" class="search-input" id="user-search-input" />
-		<input type="submit" id="post-query-submit" value="<?php esc_attr_e('Search Users') ?>" class="button" />
+		<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" class="search-input" id="user-search-input" />
+		<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Search Users' ) ?>" class="button" />
 		</p>
 	</form>
-	</div>
 
 	<form id="form-user-list" action='ms-edit.php?action=allusers' method='post'>
+		<input type="hidden" name="mode" value="<?php echo esc_attr( $mode ); ?>" />
 		<div class="tablenav">
-			<?php if ( $user_navigation ) echo "<div class='tablenav-pages'>$user_navigation</div>"; ?>
-
 			<div class="alignleft actions">
-				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
-				<input type="submit" value="<?php esc_attr_e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Add Network Admins') ?>" name="add_superadmin" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Remove Network Admins') ?>" name="remove_superadmin" class="button-secondary" />
-				<?php wp_nonce_field( 'allusers' ); ?>
-				<br class="clear" />
+				<select name="action">
+					<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
+					<option value="delete"><?php _e( 'Delete' ); ?></option>
+					<option value="spam"><?php _e( 'Mark as Spammers' ); ?></option>
+					<option value="notspam"><?php _e( 'Not Spam' ); ?></option>
+					<option value="superadmin"><?php _e( 'Add Super Admins' ); ?></option>
+					<option value="notsuperadmin"><?php _e( 'Remove Super Admins' ); ?></option>
+				</select>
+				<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction" id="doaction" class="button-secondary action" />
+				<?php wp_nonce_field( 'bulk-ms-users' ); ?>
+			</div>
+
+			<?php if ( $page_links ) { ?>
+			<div class="tablenav-pages">
+			<?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
+			number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
+			number_format_i18n( min( $pagenum * $per_page, $num_pages ) ),
+			number_format_i18n( $num_pages ),
+			$page_links
+			); echo $page_links_text; ?>
+			</div>
+			<?php } ?>
+
+			<div class="view-switch">
+				<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> id="view-switch-list" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e( 'List View' ) ?>" alt="<?php _e( 'List View' ) ?>" /></a>
+				<a href="<?php echo esc_url( add_query_arg( 'mode', 'excerpt', $_SERVER['REQUEST_URI'] ) ) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> id="view-switch-excerpt" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e( 'Excerpt View' ) ?>" alt="<?php _e( 'Excerpt View' ) ?>" /></a>
 			</div>
 		</div>
-
-		<?php if ( isset($_GET['s']) && $_GET['s'] != '' ) : ?>
-			<p><a href="ms-sites.php?action=blogs&amp;s=<?php echo urlencode( stripslashes( $s ) ); ?>&blog_name=Search+blogs+by+name"><?php _e('Search Sites for') ?> <strong><?php echo stripslashes( $s ) ?></strong></a></p>
-		<?php endif; ?>
+		<div class="clear"></div>
 
 		<?php
 		// define the columns to display, the syntax is 'internal name' => 'display name'
-		$posts_columns = array(
-			'checkbox'	 => '',
-			'login'      => __('Username'),
-			'name'       => __('Name'),
-			'email'      => __('E-mail'),
-			'registered' => __('Registered'),
-			'blogs'      => ''
+		$users_columns = array(
+			'id'           => __( 'ID' ),
+			'login'      => __( 'Username' ),
+			'name'       => __( 'Name' ),
+			'email'      => __( 'E-mail' ),
+			'registered' => __( 'Registered' ),
+			'blogs'      => __( 'Sites' )
 		);
-		$posts_columns = apply_filters('wpmu_users_columns', $posts_columns);
+		$users_columns = apply_filters( 'wpmu_users_columns', $users_columns );
 		?>
-		<table class="widefat" cellspacing="0">
+		<table class="widefat">
 			<thead>
 			<tr>
-				<?php foreach( (array) $posts_columns as $column_id => $column_display_name) {
-					if ( $column_id == 'blogs' ) {
-						echo '<th scope="col">'.__('Sites').'</th>';
-					} elseif ( $column_id == 'checkbox') {
-						echo '<th scope="col" class="check-column"><input type="checkbox" /></th>';
-					} else { ?>
-						<th scope="col"><a href="ms-users.php?sortby=<?php echo $column_id ?>&amp;<?php if ( $order_by == $column_id ) { if ( $order == 'DESC' ) { echo "order=ASC&amp;" ; } else { echo "order=DESC&amp;"; } } ?>apage=<?php echo $apage ?>"><?php echo $column_display_name; ?></a></th>
-					<?php } ?>
-				<?php } ?>
+				<th class="manage-column column-cb check-column" id="cb" scope="col">
+					<input type="checkbox" />
+				</th>
+				<?php
+				$col_url = '';
+				foreach($users_columns as $column_id => $column_display_name) {
+					$column_link = "<a href='";
+					$order2 = '';
+					if ( $order_by == $column_id )
+						$order2 = ( $order == 'DESC' ) ? 'ASC' : 'DESC';
+
+					$column_link .= esc_url( add_query_arg( array( 'order' => $order2, 'paged' => $pagenum, 'sortby' => $column_id ), remove_query_arg( array( 'action', 'updated' ), $_SERVER['REQUEST_URI'] ) ) );
+					$column_link .= "'>{$column_display_name}</a>";
+					$col_url .= '<th scope="col">' . ( $column_id == 'blogs' ? $column_display_name : $column_link ) . '</th>';
+				}
+				echo $col_url; ?>
 			</tr>
 			</thead>
-			<tbody id="users" class="list:user user-list">
-			<?php if ($user_list) {
+			<tfoot>
+			<tr>
+				<th class="manage-column column-cb check-column" id="cb" scope="col">
+					<input type="checkbox" />
+				</th>
+				<?php echo $col_url; ?>
+			</tr>
+			</tfoot>
+			<tbody id="the-user-list" class="list:user">
+			<?php if ( $user_list ) {
 				$class = '';
 				$super_admins = get_site_option( 'site_admins' );
-				foreach ( (array) $user_list as $user) {
-					$class = ('alternate' == $class) ? '' : 'alternate';
+				foreach ( (array) $user_list as $user ) {
+					$class = ( 'alternate' == $class ) ? '' : 'alternate';
 
-					$status_list = array( "spam" => "site-spammed", "deleted" => "site-deleted" );
+					$status_list = array( 'spam' => 'site-spammed', 'deleted' => 'site-deleted' );
 
 					foreach ( $status_list as $status => $col ) {
 						if ( $user[$status] )
@@ -177,31 +211,34 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 					}
 
 					?>
-
 					<tr class="<?php echo $class; ?>">
 					<?php
-					foreach( (array) $posts_columns as $column_name=>$column_display_name) :
-						switch($column_name) {
-							case 'checkbox': ?>
-								<th scope="row" class="check-column"><input type='checkbox' id='user_<?php echo $user['ID'] ?>' name='allusers[]' value='<?php echo esc_attr($user['ID']) ?>' /></th>
+					foreach( (array) $users_columns as $column_name=>$column_display_name ) :
+						switch( $column_name ) {
+							case 'id': ?>
+								<th scope="row" class="check-column">
+									<input type="checkbox" id="blog_<?php echo $user['ID'] ?>" name="allusers[]" value="<?php echo esc_attr( $user['ID'] ) ?>" />
+								</th>
+								<th valign="top" scope="row">
+									<?php echo $user['ID'] ?>
+								</th>
 							<?php
 							break;
 
 							case 'login':
 								$avatar	= get_avatar( $user['user_email'], 32 );
-								$edit	= esc_url( add_query_arg( 'wp_http_referer', urlencode( esc_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=".$user['ID'] ) );
-								// @todo Make delete link work like delete button with transfering users (in ms-edit.php)
-								//$delete	= esc_url( add_query_arg( 'wp_http_referer', urlencode( esc_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) );
 								?>
 								<td class="username column-username">
-									<?php echo $avatar; ?><strong><a href="<?php echo $edit; ?>" class="edit"><?php echo stripslashes($user['user_login']); ?></a><?php
-								if ( in_array( $user[ 'user_login' ], $super_admins ) )
-									echo ' - ' . __( 'Super admin' );
-?></strong>
+									<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user['ID'] ) ); ?>" class="edit"><?php echo stripslashes( $user['user_login'] ); ?></a><?php
+									if ( in_array( $user['user_login'], $super_admins ) )
+										echo ' - ' . __( 'Super admin' );
+									?></strong>
 									<br/>
 									<div class="row-actions">
-										<span class="edit"><a href="<?php echo $edit; ?>">Edit</a></span>
-										<?php /*<span class="delete"><a href="<?php echo $delete; ?>" class="delete">Delete</a></span> */ ?>
+										<span class="edit"><a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user['ID'] ) ); ?>"><?php _e( 'Edit'); ?></a></span>
+										<?php if ( ! in_array( $user['user_login'], $super_admins ) ) { ?>
+										| <span class="delete"><a href="<?php echo $delete	= esc_url( admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
+										<?php } ?>
 									</div>
 								</td>
 							<?php
@@ -217,8 +254,13 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 							<?php
 							break;
 
-							case 'registered': ?>
-								<td><?php echo mysql2date(__('Y-m-d \<\b\r \/\> g:i a'), $user['user_registered']); ?></td>
+							case 'registered': 
+								if ( 'list' == $mode )
+									$date = 'Y/m/d';
+								else
+									$date = 'Y/m/d \<\b\r \/\> g:i:s a';
+							?>
+								<td><?php echo mysql2date( __( $date ), $user['user_registered'] ); ?></td>
 							<?php
 							break;
 
@@ -229,19 +271,19 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 									<?php
 									if ( is_array( $blogs ) ) {
 										foreach ( (array) $blogs as $key => $val ) {
-											$path	= ($val->path == '/') ? '' : $val->path;
-											echo '<a href="ms-sites.php?action=editblog&amp;id=' . $val->userblog_id . '">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+											$path	= ( $val->path == '/' ) ? '' : $val->path;
+											echo '<a href="'. esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id  ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 											echo ' <small class="row-actions">';
 
 											// Edit
-											echo '<a href="ms-sites.php?action=editblog&amp;id=' . $val->userblog_id . '">' . __('Edit') . '</a> | ';
+											echo '<a href="'. esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id  ) ) .'">' . __( 'Edit' ) . '</a> | ';
 
 											// View
 											echo '<a ';
 											if ( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
-												echo 'style="background-color: #f66" ';
-											echo 'target="_new" href="http://'.$val->domain . $val->path.'">' . __('View') . '</a>';
-
+												echo 'style="background-color: #faa" ';
+											echo 'href="' .  esc_url( get_home_url( $val->userblog_id ) )  . '">' . __( 'View' ) . '</a>';
+											
 											echo '</small><br />';
 										}
 									}
@@ -251,7 +293,7 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 							break;
 
 							default: ?>
-								<td><?php do_action('manage_users_custom_column', $column_name, $user['ID']); ?></td>
+								<td><?php do_action( 'manage_users_custom_column', $column_name, $user['ID'] ); ?></td>
 							<?php
 							break;
 						}
@@ -262,8 +304,8 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 				}
 			} else {
 			?>
-				<tr style='background-color: <?php echo $bgcolor; ?>'>
-					<td colspan="<?php echo (int) count($posts_columns); ?>"><?php _e('No users found.') ?></td>
+				<tr>
+					<td colspan="<?php echo (int) count($users_columns); ?>"><?php _e( 'No users found.' ) ?></td>
 				</tr>
 				<?php
 			} // end if ($users)
@@ -272,45 +314,52 @@ if ( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
 		</table>
 
 		<div class="tablenav">
-			<?php if ( $user_navigation ) echo "<div class='tablenav-pages'>$user_navigation</div>"; ?>
+			<?php
+			if ( $page_links )
+				echo "<div class='tablenav-pages'>$page_links_text</div>";
+			?>
 
-			<div class="alignleft">
-				<input type="submit" value="<?php esc_attr_e('Delete') ?>" name="alluser_delete" class="button-secondary delete" />
-				<input type="submit" value="<?php esc_attr_e('Mark as Spammers') ?>" name="alluser_spam" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Not Spam') ?>" name="alluser_notspam" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Add Network Admins') ?>" name="add_superadmin" class="button-secondary" />
-				<input type="submit" value="<?php esc_attr_e('Remove Network Admins') ?>" name="remove_superadmin" class="button-secondary" />
-				<?php wp_nonce_field( 'allusers' ); ?>
-				<br class="clear" />
+			<div class="alignleft actions">
+				<select name="action2">
+					<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
+					<option value="delete"><?php _e( 'Delete' ); ?></option>
+					<option value="spam"><?php _e( 'Mark as Spammers' ); ?></option>
+					<option value="notspam"><?php _e( 'Not Spam' ); ?></option>
+					<option value="superadmin"><?php _e( 'Add Super Admins' ); ?></option>
+					<option value="notsuperadmin"><?php _e( 'Remove Super Admins' ); ?></option>
+				</select>
+				<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 			</div>
+			<br class="clear" />
 		</div>
-	</form>
-</div>
+
+		</form>
+		</div>
 
 <?php
-if ( apply_filters('show_adduser_fields', true) ) :
+if ( apply_filters( 'show_adduser_fields', true ) ) :
 ?>
 <div class="wrap">
-	<h2><?php _e('Add user') ?></h2>
-	<form action="ms-edit.php?action=adduser" method="post">
+	<h2><?php _e( 'Add user' ) ?></h2>
+	<form action="ms-edit.php?action=adduser" method="post" id="form-add-user">
 	<table class="form-table">
 		<tr class="form-field form-required">
-			<th scope='row'><?php _e('Username') ?></th>
-			<td><input type="text" name="user[username]" /></td>
+			<th scope="row"><?php _e( 'Username' ) ?></th>
+			<td><input type="text" class="regular-text" name="user[username]" /></td>
 		</tr>
 		<tr class="form-field form-required">
-			<th scope='row'><?php _e('Email') ?></th>
-			<td><input type="text" name="user[email]" /></td>
+			<th scope="row"><?php _e( 'Email' ) ?></th>
+			<td><input type="text" class="regular-text" name="user[email]" /></td>
 		</tr>
 		<tr class="form-field">
-			<td colspan='2'><?php _e('Username and password will be mailed to the above email address.') ?></td>
+			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
 		</tr>
 	</table>
 	<p class="submit">
-		<?php wp_nonce_field('add-user') ?>
-		<input class="button" type="submit" name="Add user" value="<?php esc_attr_e('Add user') ?>" /></p>
+		<?php wp_nonce_field( 'add-user' ) ?>
+		<input class="button" type="submit" value="<?php esc_attr_e( 'Add user' ) ?>" /></p>
 	</form>
 </div>
 <?php endif; ?>
 
-<?php include('admin-footer.php'); ?>
+<?php include( './admin-footer.php' ); ?>
