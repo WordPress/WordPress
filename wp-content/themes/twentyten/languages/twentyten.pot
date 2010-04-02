@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-04-02 04:21+0000\n"
+"POT-Creation-Date: 2010-04-02 08:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,119 +188,119 @@ msgstr ""
 msgid "WordPress"
 msgstr ""
 
-#: functions.php:131
+#: functions.php:128
 msgid "Berries"
 msgstr ""
 
-#: functions.php:136
+#: functions.php:133
 msgid "Cherry Blossoms"
 msgstr ""
 
-#: functions.php:141
+#: functions.php:138
 msgid "Concave"
 msgstr ""
 
-#: functions.php:146
+#: functions.php:143
 msgid "Fern"
 msgstr ""
 
-#: functions.php:151
+#: functions.php:148
 msgid "Forest Floor"
 msgstr ""
 
-#: functions.php:156
+#: functions.php:153
 msgid "Inkwell"
 msgstr ""
 
-#: functions.php:161
+#: functions.php:158
 msgid "Path"
 msgstr ""
 
-#: functions.php:166
+#: functions.php:163
 msgid "Sunset"
 msgstr ""
 
-#: functions.php:206
+#: functions.php:203
 #, php-format
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:233 loop.php:94 loop.php:139
+#: functions.php:230 loop.php:94 loop.php:139
 msgid "Continue&nbsp;reading&nbsp;<span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:267
+#: functions.php:264
 #, php-format
 msgid "<cite class=\"fn\">%s</cite> <span class=\"says\">says:</span>"
 msgstr ""
 
-#: functions.php:270
+#: functions.php:267
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:274
+#: functions.php:271
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:274
+#: functions.php:271
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:285
+#: functions.php:282
 msgid "Pingback: "
 msgstr ""
 
-#: functions.php:285
+#: functions.php:282
 msgid "edit"
 msgstr ""
 
-#: functions.php:302
+#: functions.php:299
 #, php-format
 msgid "Posted in %s"
 msgstr ""
 
-#: functions.php:302
+#: functions.php:299
 #, php-format
 msgid "Also posted in %s"
 msgstr ""
 
-#: functions.php:318
+#: functions.php:315
 #, php-format
 msgid "Tagged %s"
 msgstr ""
 
-#: functions.php:318
+#: functions.php:315
 #, php-format
 msgid "Also tagged %s"
 msgstr ""
 
-#: functions.php:353
+#: functions.php:350
 #, php-format
 msgid "View all posts in %s"
 msgstr ""
 
-#: functions.php:373
+#: functions.php:370
 msgid "The primary widget area"
 msgstr ""
 
-#: functions.php:384
+#: functions.php:381
 msgid "The secondary widget area"
 msgstr ""
 
-#: functions.php:395
+#: functions.php:392
 msgid "The first footer widget area"
 msgstr ""
 
-#: functions.php:406
+#: functions.php:403
 msgid "The second footer widget area"
 msgstr ""
 
-#: functions.php:417
+#: functions.php:414
 msgid "The third footer widget area"
 msgstr ""
 
-#: functions.php:428
+#: functions.php:425
 msgid "The fourth footer widget area"
 msgstr ""
 
