@@ -1275,7 +1275,7 @@ function wp_new_comment( $commentdata ) {
 		$post = &get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
 
 		if ( get_option('comments_notify') && $commentdata['comment_approved'] && ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) )
-			wp_notify_postauthor($comment_ID, $commentdata['comment_type']);
+			wp_notify_postauthor($comment_ID, empty( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '' );
 	}
 
 	return $comment_ID;
