@@ -2209,7 +2209,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		$name = '';
 
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
-	if ( $unique_filename_callback && function_exists( $unique_filename_callback ) ) {
+	if ( $unique_filename_callback && is_callable( $unique_filename_callback ) ) {
 		$filename = $unique_filename_callback( $dir, $name );
 	} else {
 		$number = '';
