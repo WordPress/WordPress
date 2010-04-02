@@ -1809,9 +1809,13 @@ function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 		$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
 
 		// Set up the hover actions for this user
+		$del_cap_type = 'remove';
+		if ( !is_multisite() && current_user_can('delete_users') )
+			$del_cap_type = 'delete';
+
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-		if ( $current_user->ID != $user_object->ID )
+		if ( $current_user->ID != $user_object->ID && current_user_can( $del_cap_type . '_user', $user_object->ID ) )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . "</a>";
 		$actions = apply_filters('user_row_actions', $actions, $user_object);
 		$action_count = count($actions);
