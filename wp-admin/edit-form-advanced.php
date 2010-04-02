@@ -113,7 +113,7 @@ if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', __('Attributes'), 'page_attributes_meta_box', $post_type, 'side', 'core');
 
 if ( current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports($post_type, 'thumbnail') )
-	add_meta_box('postimagediv', sprintf( __('%s Thumbnail'), $post_type_object->singular_label ), 'post_thumbnail_meta_box', $post_type, 'side', 'low');
+	add_meta_box('postimagediv', __('Featured Image'), 'post_thumbnail_meta_box', $post_type, 'side', 'low');
 
 if ( post_type_supports($post_type, 'excerpt') )
 	add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', $post_type, 'normal', 'core');
