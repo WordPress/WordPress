@@ -355,7 +355,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				$action_links = array();
 				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
-									esc_attr( sprintf( __( 'Information about %s' ), $name ) ) . '">' . __('More Information') . '</a>';
+									esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '">' . __('Details') . '</a>';
 
 				if ( current_user_can('install_plugins') || current_user_can('update_plugins') ) {
 					$status = install_plugin_install_status($plugin);
@@ -367,11 +367,11 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 							break;
 						case 'update_available':
 							if ( $status['url'] )
-								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to %s' ), $status['version'] ) ) . '">' . sprintf(__('Update to version %s'), $status['version']) . '</a>';
+								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to version %s' ), $status['version'] ) ) . '">' . sprintf( __('Update Now'), $status['version'] ) . '</a>';
 							break;
 						case 'latest_installed':
 						case 'newer_installed':
-							$action_links[] = '<span>' . __('This plugin is already installed') . '</span>';
+							$action_links[] = '<span title="' . esc_attr__( 'This plugin is already installed and is up to date' ) . ' ">' . __('Installed') . '</span>';
 							break;
 					}
 				}
