@@ -67,9 +67,6 @@ function get_clean_basedomain() {
 if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALLOW_MULTISITE ) )
 	wp_die( __( 'You must define the <code>WP_ALLOW_MULTISITE</code> constant as true in your wp-config.php file to allow creation of a Network.' ) );
 
-if ( get_option( 'siteurl' ) != get_option( 'home' ) )
-	wp_die( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network.' ) );
-
 $title = __( 'Create a Network of WordPress Sites' );
 $parent_file = 'tools.php';
 
@@ -93,6 +90,12 @@ include( './admin-header.php' );
  * @since 3.0.0
  */
 function network_step1( $errors = false ) {
+
+	if ( get_option( 'siteurl' ) != get_option( 'home' ) ) {
+		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . sprintf( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network. See <a href="%s">General Settings</a>.' ), esc_url( admin_url( 'options-general.php' ) ) ) . '</strong></p></div>';
+		include ('./admin-footer.php' );
+		die();
+	}
 
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
