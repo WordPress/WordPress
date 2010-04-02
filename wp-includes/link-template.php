@@ -1459,9 +1459,8 @@ function next_posts( $max_page = 0, $echo = true ) {
 function get_next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
 	global $paged, $wp_query;
 
-	if ( !$max_page ) {
+	if ( !$max_page )
 		$max_page = $wp_query->max_num_pages;
-	}
 
 	if ( !$paged )
 		$paged = 1;
@@ -1470,7 +1469,7 @@ function get_next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
 
 	if ( !is_single() && ( empty($paged) || $nextpage <= $max_page) ) {
 		$attr = apply_filters( 'next_posts_link_attributes', '' );
-		return '<a href="' . next_posts( $max_page, false ) . "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+		return '<a href="' . next_posts( $max_page, false ) . "\" $attr>" . preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label) . '</a>';
 	}
 }
 
@@ -1585,7 +1584,7 @@ function get_posts_nav_link( $args = array() ) {
 
 		if ( $max_num_pages > 1 ) {
 			$return = get_previous_posts_link($args['prelabel']);
-			$return .= preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $args['sep']);
+			$return .= preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $args['sep']);
 			$return .= get_next_posts_link($args['nxtlabel']);
 		}
 	}
@@ -1674,7 +1673,7 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
 	if ( empty($label) )
 		$label = __('Newer Comments &raquo;');
 
-	return '<a href="' . esc_url( get_comments_pagenum_link( $nextpage, $max_page ) ) . '" ' . apply_filters( 'next_comments_link_attributes', '' ) . '>'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+	return '<a href="' . esc_url( get_comments_pagenum_link( $nextpage, $max_page ) ) . '" ' . apply_filters( 'next_comments_link_attributes', '' ) . '>'. preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label) .'</a>';
 }
 
 /**
@@ -1711,7 +1710,7 @@ function get_previous_comments_link( $label = '' ) {
 	if ( empty($label) )
 		$label = __('&laquo; Older Comments');
 
-	return '<a href="' . esc_url( get_comments_pagenum_link( $prevpage ) ) . '" ' . apply_filters( 'previous_comments_link_attributes', '' ) . '>' . preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+	return '<a href="' . esc_url( get_comments_pagenum_link( $prevpage ) ) . '" ' . apply_filters( 'previous_comments_link_attributes', '' ) . '>' . preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label) .'</a>';
 }
 
 /**
