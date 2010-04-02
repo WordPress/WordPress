@@ -1352,12 +1352,36 @@ function add_custom_image_header($header_callback, $admin_header_callback, $admi
  *
  * @since 3.0.0
  *
- * @param array $headers Array of headers keyed by a string id.  The ids point to arrays containing 'url', 'thumbnail_url', and 'description' keys.
+ * @param array $headers Array of headers keyed by a string id. The ids point to arrays containing 'url', 'thumbnail_url', and 'description' keys.
  */
 function register_default_headers( $headers ) {
 	global $_wp_default_headers;
 
-	$_wp_default_headers = $headers;
+	$_wp_default_headers = array_merge( (array) $_wp_default_headers, (array) $headers );
+}
+
+/**
+ * Unregister default headers.
+ *
+ * This function must be called after register_default_headers() has already added the
+ * header you want to remove.
+ *
+ * @see register_default_headers()
+ * @since 3.0.0
+ *
+ * @param string|array The header string id (key of array) to remove, or an array thereof.
+ * @return True on success, false on failure.
+ */
+function unregister_default_headers( $header ) {
+	global $_wp_default_headers;
+	if ( is_array( $header ) ) {
+		array_map( 'unregister_default_headers', $header );
+	} elseif ( isset( $_wp_default_headers[ $header ] ) ) {
+		unset( $_wp_default_headers[ $header ] );
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /**
