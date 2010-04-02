@@ -1312,11 +1312,6 @@ class Walker_Comment extends Walker {
 				$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
 			}
 			unset( $children_elements[ $id ] );
-		} elseif ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
-			// this elseif block is the only change from Walker::display_element()
-			foreach( $children_elements[ $id ] as $child )
-				$this->display_element( $child, $children_elements, $max_depth, $depth, $args, $output );
-			unset( $children_elements[ $id ] );
 		}
 
 		if ( isset($newlevel) && $newlevel ){
@@ -1328,6 +1323,14 @@ class Walker_Comment extends Walker {
 		//end this element
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array(&$this, 'end_el'), $cb_args);
+
+		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
+			// this if block is the only change from Walker::display_element()
+			foreach ( $children_elements[ $id ]  as $child )
+				$this->display_element( $child, $children_elements, $max_depth, $depth, $args, $output );
+			unset( $children_elements[ $id ] );
+		}
+
 	}
 
 	/**
