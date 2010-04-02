@@ -1267,9 +1267,10 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * This function operates the same as Walker::display_element(), with one small change.
-	 * Instead of elements being moved to the end of the listing when their threading reaches
-	 * $max_depth, the children are displayed inline.
+	 * This function is designed to enhance Walker::display_element() to
+	 * display children of higher nesting levels than selected inline on
+	 * the highest depth level displayed. This prevents them being orphaned
+	 * at the end of the comment list.
 	 * 
 	 * Example: max_depth = 2, with 5 levels of nested content.
 	 * 1
@@ -1289,45 +1290,16 @@ class Walker_Comment extends Walker {
 			return;
 
 		$id_field = $this->db_fields['id'];
-
-		//display this element
-		if ( is_array( $args[0] ) )
-			$args[0]['has_children'] = ! empty( $children_elements[$element->$id_field] );
-		$cb_args = array_merge( array(&$output, $element, $depth), $args);
-		call_user_func_array(array(&$this, 'start_el'), $cb_args);
-
 		$id = $element->$id_field;
 
-		// descend only when the depth is right and there are childrens for this element
-		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) {
+		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 
-			foreach( $children_elements[ $id ] as $child ){
-
-				if ( !isset($newlevel) ) {
-					$newlevel = true;
-					//start the child delimiter
-					$cb_args = array_merge( array(&$output, $depth), $args);
-					call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-				}
-				$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
-			}
-			unset( $children_elements[ $id ] );
-		}
-
-		if ( isset($newlevel) && $newlevel ){
-			//end the child delimiter
-			$cb_args = array_merge( array(&$output, $depth), $args);
-			call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
-		}
-
-		//end this element
-		$cb_args = array_merge( array(&$output, $element, $depth), $args);
-		call_user_func_array(array(&$this, 'end_el'), $cb_args);
-
+		// If we're at the max depth, and the current element still has children, loop over those and display them at this level
+		// This is to prevent them being orphaned to the end of the list.
 		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
-			// this if block is the only change from Walker::display_element()
-			foreach ( $children_elements[ $id ]  as $child )
+			foreach ( $children_elements[ $id ] as $child )
 				$this->display_element( $child, $children_elements, $max_depth, $depth, $args, $output );
+
 			unset( $children_elements[ $id ] );
 		}
 
