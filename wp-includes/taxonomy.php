@@ -294,6 +294,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$args['name'] = $taxonomy;
 	$args['object_type'] = (array) $object_type;
 	$wp_taxonomies[$taxonomy] = (object) $args;
+
+	// register callback handling for metabox
+ 	add_filter('wp_ajax_add-'.$taxonomy, '_wp_ajax_add_hierarchical_term');
 }
 
 /**
