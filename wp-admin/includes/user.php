@@ -688,7 +688,7 @@ class WP_User_Search {
 			$this->query_from .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id";
 			$this->query_where .= $wpdb->prepare(" AND $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
 		} elseif ( is_multisite() ) {
-			$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+			$level_key = $wpdb->prefix . 'capabilities'; // wpmu site admins don't have user_levels
 			$this->query_from .= ", $wpdb->usermeta";
 			$this->query_where .= " AND $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
 		}
