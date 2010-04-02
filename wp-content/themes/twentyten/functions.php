@@ -53,6 +53,7 @@ if ( ! isset( $content_width ) )
 /** Tell WordPress to run twentyten_setup() when the 'after_setup_theme' hook is run. */
 add_action( 'after_setup_theme', 'twentyten_setup' );
 
+if ( ! function_exists('twentyten_setup') ):
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -60,8 +61,8 @@ add_action( 'after_setup_theme', 'twentyten_setup' );
  * before the init hook. The init hook is too late for some features, such as indicating
  * support post thumbnails.
  *
- * To override twentyten_setup() in a child theme, remove the action hook and add your own
- * function tied to the after_setup_theme hook.
+ * To override twentyten_setup() in a child theme, add your own twentyten_setup to your child theme's
+ * functions.php file.
  *
  * @uses add_theme_support() To add support for post thumbnails, navigation menus, and automatic feed links.
  * @uses add_custom_background() To add support for a custom background.
@@ -166,6 +167,7 @@ function twentyten_setup() {
 		)
 	) );
 }
+endif;
 
 if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 /**
