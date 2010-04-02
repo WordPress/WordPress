@@ -207,7 +207,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 		$i = 0;
 		foreach ( $categories as $category ) {
 			if ( 0 < $i )
-				$thelist .= $separator . ' ';
+				$thelist .= $separator;
 			switch ( strtolower( $parents ) ) {
 				case 'multiple':
 					if ( $category->parent )
