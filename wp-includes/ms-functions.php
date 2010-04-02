@@ -1205,31 +1205,55 @@ function fix_import_form_size( $size ) {
  * @return int An ID from the global terms table mapped from $term_id.
  */
 function global_terms( $term_id, $deprecated = '' ) {
-	global $wpdb;
+	global $wpdb, $global_terms_recurse;
 
 	if ( !global_terms_enabled() )
 		return $term_id;
+
+	// prevent a race condition
+	if ( !isset( $global_terms_recurse ) ) {
+		$recurse_start = true;
+		$global_terms_recurse = 1;
+	} elseif ( 10 < $global_terms_recurse++ ) {
+		return $term_id;
+		$recurse_start = false;
+	}
 
 	$term_id = intval( $term_id );
 	$c = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->terms WHERE term_id = %d", $term_id ) );
 
 	$global_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM $wpdb->sitecategories WHERE category_nicename = %s", $c->slug ) );
 	if ( $global_id == null ) {
-		$wpdb->insert( $wpdb->sitecategories, array('cat_name' => $c->name, 'category_nicename' => $c->slug) );
-		$global_id = $wpdb->insert_id;
+		$used_global_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM $wpdb->sitecategories WHERE cat_ID = %d", $c->term_id ) );
+		if ( null == $used_global_id ) {
+			$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => $term_id, 'cat_name' => $c->name, 'category_nicename' => $c->slug ) );
+			$global_id = $wpdb->insert_id;
+		} else {
+			$max_global_id = $wpdb->get_var( "SELECT MAX(cat_ID) FROM $wpdb->sitecategories" );
+			$max_global_id += mt_rand( 100, 400 );
+			$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => $global_id, 'cat_name' => $c->name, 'category_nicename' => $c->slug ) );
+			$global_id = $wpdb->insert_id;
+		}
+	} elseif ( $global_id != $term_id ) {
+		$local_id = $wpdb->get_row( $wpdb->prepare( "SELECT term_id FROM $wpdb->terms WHERE term_id = %d", $global_id ) );
+		if ( null != $local_id )
+			$local_id = global_terms( $local_id );
+			if ( 10 < $global_terms_recurse )
+				$global_id = $term_id;
 	}
 
-	if ( $global_id == $term_id )
-		return $global_id;
+	if ( $global_id != $term_id ) {
+		if ( get_option( 'default_category' ) == $term_id )
+			update_option( 'default_category', $global_id );
 
-	if ( get_option( 'default_category' ) == $term_id )
-		update_option( 'default_category', $global_id );
+		$wpdb->update( $wpdb->terms, array('term_id' => $global_id), array('term_id' => $term_id) );
+		$wpdb->update( $wpdb->term_taxonomy, array('term_id' => $global_id), array('term_id' => $term_id) );
+		$wpdb->update( $wpdb->term_taxonomy, array('parent' => $global_id), array('parent' => $term_id) );
 
-	$wpdb->update( $wpdb->terms, array('term_id' => $global_id), array('term_id' => $term_id) );
-	$wpdb->update( $wpdb->term_taxonomy, array('term_id' => $global_id), array('term_id' => $term_id) );
-	$wpdb->update( $wpdb->term_taxonomy, array('parent' => $global_id), array('parent' => $term_id) );
-
-	clean_term_cache($term_id);
+		clean_term_cache($term_id);
+	}
+	if( $recurse_start )
+		unset( $global_terms_recurse );
 
 	return $global_id;
 }
