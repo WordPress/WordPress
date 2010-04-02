@@ -34,12 +34,6 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 			case 'add':
 				_e( 'User added.' );
 			break;
-			case 'add_superadmin':
-				_e( 'Network admin added.' );
-			break;
-			case 'remove_superadmin':
-				_e( 'Network admin removed.' );
-			break;
 		}
 		?>
 	</p></div>
@@ -128,10 +122,8 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 				<select name="action">
 					<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
 					<option value="delete"><?php _e( 'Delete' ); ?></option>
-					<option value="spam"><?php _e( 'Mark as Spammers' ); ?></option>
+					<option value="spam"><?php _e( 'Mark as Spam' ); ?></option>
 					<option value="notspam"><?php _e( 'Not Spam' ); ?></option>
-					<option value="superadmin"><?php _e( 'Add Super Admins' ); ?></option>
-					<option value="notsuperadmin"><?php _e( 'Remove Super Admins' ); ?></option>
 				</select>
 				<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction" id="doaction" class="button-secondary action" />
 				<?php wp_nonce_field( 'bulk-ms-users' ); ?>
@@ -227,15 +219,16 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 
 							case 'login':
 								$avatar	= get_avatar( $user['user_email'], 32 );
+								$edit_link = ( $current_user->ID == $user['ID'] ) ? 'profile.php' : 'user-edit.php?user_id=' . $user['ID'];
 								?>
 								<td class="username column-username">
-									<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user['ID'] ) ); ?>" class="edit"><?php echo stripslashes( $user['user_login'] ); ?></a><?php
+									<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user['user_login'] ); ?></a><?php
 									if ( in_array( $user['user_login'], $super_admins ) )
 										echo ' - ' . __( 'Super admin' );
 									?></strong>
 									<br/>
 									<div class="row-actions">
-										<span class="edit"><a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user['ID'] ) ); ?>"><?php _e( 'Edit'); ?></a></span>
+										<span class="edit"><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>"><?php _e( 'Edit' ); ?></a></span>
 										<?php if ( ! in_array( $user['user_login'], $super_admins ) ) { ?>
 										| <span class="delete"><a href="<?php echo $delete	= esc_url( admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
 										<?php } ?>
@@ -323,10 +316,8 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 				<select name="action2">
 					<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
 					<option value="delete"><?php _e( 'Delete' ); ?></option>
-					<option value="spam"><?php _e( 'Mark as Spammers' ); ?></option>
+					<option value="spam"><?php _e( 'Mark as Spam' ); ?></option>
 					<option value="notspam"><?php _e( 'Not Spam' ); ?></option>
-					<option value="superadmin"><?php _e( 'Add Super Admins' ); ?></option>
-					<option value="notsuperadmin"><?php _e( 'Remove Super Admins' ); ?></option>
 				</select>
 				<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 			</div>

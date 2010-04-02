@@ -524,7 +524,7 @@ switch ( $_GET['action'] ) {
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
 
 			foreach ( (array) $_POST['allusers'] as $key => $val ) {
-				if ( $val != '' || $val != '0' ) {
+				if ( !empty( $val ) ) {
 					switch ( $doaction ) {
 						case 'delete':
 							$title = __( 'Users' ); 
@@ -539,34 +539,12 @@ switch ( $_GET['action'] ) {
 
 						case 'superadmin':
 							$userfunction = 'add_superadmin';
-							$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
-
-							$user = new WP_User( $val );
-							if ( ! in_array( $user->user_login, $super_admins ) ) {
-								if ( $current_site->blog_id )
-									add_user_to_blog( $current_site->blog_id, $user->ID, 'administrator' );
-
-								$super_admins[] = $user->user_login;
-								update_site_option( 'site_admins' , $super_admins );
-							}
+							grant_super_admin( $val );
 						break;
 
 						case 'notsuperadmin':
 							$userfunction = 'remove_superadmin';
-							$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
-							$admin_email = get_site_option( 'admin_email' );
-							
-							$user = new WP_User( $val );
-							if ( $user->ID != $current_user->ID || $user->user_email != $admin_email ) {
-								foreach ( $super_admins as $key => $username ) {
-									if ( $username == $user->user_login ) {
-										unset( $super_admins[$key] );
-										break;
-									}
-								}
-							}
-
-							update_site_option( 'site_admins' , $super_admins );
+							revoke_super_admin( $val );
 						break;
 
 						case 'spam':

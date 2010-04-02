@@ -793,4 +793,42 @@ function _admin_notice_multisite_activate_plugins_page() {
 	echo "<div class='error'><p>$message</p></div>";
 }
 
+/**
+ * Grants super admin privileges.
+ *
+ * @since 3.0.0
+ * @param $user_id
+ */
+function grant_super_admin( $user_id ) {
+	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+
+	$user = new WP_User( $user_id );
+	if ( ! in_array( $user->user_login, $super_admins ) ) {
+		$super_admins[] = $user->user_login;
+		update_site_option( 'site_admins' , $super_admins );
+	}
+}
+
+/**
+ * Revokes super admin privileges.
+ *
+ * @since 3.0.0
+ * @param $user_id
+ */
+function revoke_super_admin( $user_id ) {
+	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+	$admin_email = get_site_option( 'admin_email' );
+	
+	$user = new WP_User( $user_id );
+	if ( $user->ID != $current_user->ID || $user->user_email != $admin_email ) {
+		foreach ( $super_admins as $key => $username ) {
+			if ( $username == $user->user_login ) {
+				unset( $super_admins[$key] );
+				break;
+			}
+		}
+	}
+
+	update_site_option( 'site_admins' , $super_admins );
+}
 ?>

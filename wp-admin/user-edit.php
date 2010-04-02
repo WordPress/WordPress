@@ -9,8 +9,19 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-if ( !defined('IS_PROFILE_PAGE') )
-	define('IS_PROFILE_PAGE', false);
+wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer'));
+
+$user_id = (int) $user_id;
+$current_user = wp_get_current_user();
+if ( ! defined( 'IS_PROFILE_PAGE' ) )
+	define( 'IS_PROFILE_PAGE', ( $user_id == $current_user->ID ) );
+
+if ( ! $user_id && IS_PROFILE_PAGE )
+	$user_id = $current_user->ID;
+elseif ( ! $user_id && ! IS_PROFILE_PAGE )
+	wp_die(__( 'Invalid user ID.' ) );
+elseif ( ! get_userdata( $user_id ) )
+	wp_die( __('Invalid user ID.') );
 
 wp_enqueue_script('user-profile');
 wp_enqueue_script('password-strength-meter');
@@ -22,22 +33,7 @@ else
 	$submenu_file = 'profile.php';
 $parent_file = 'users.php';
 
-wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer'));
-
 $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashes($wp_http_referer));
-
-$user_id = (int) $user_id;
-
-if ( !$user_id ) {
-	if ( IS_PROFILE_PAGE ) {
-		$current_user = wp_get_current_user();
-		$user_id = $current_user->ID;
-	} else {
-		wp_die(__('Invalid user ID.'));
-	}
-} elseif ( !get_userdata($user_id) ) {
-	wp_die( __('Invalid user ID.') );
-}
 
 $all_post_caps = array('posts', 'pages');
 $user_can_edit = false;
@@ -123,7 +119,10 @@ if ( !is_multisite() ) {
 	if ( !isset( $errors ) || ( isset( $errors ) && is_object( $errors ) && false == $errors->get_error_codes() ) )
 		$errors = edit_user($user_id);
 	if ( $delete_role ) // stops users being added to current blog when they are edited
-		update_user_meta( $user_id, $blog_prefix . 'capabilities' , '' );
+		delete_user_meta( $user_id, $blog_prefix . 'capabilities' );
+
+	if ( is_multisite() && is_super_admin() && !IS_PROFILE_PAGE )
+		empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
 }
 
 if ( !is_wp_error( $errors ) ) {
@@ -142,6 +141,9 @@ if ( !current_user_can('edit_user', $user_id) )
 include ('admin-header.php');
 ?>
 
+<?php if ( !IS_PROFILE_PAGE && is_super_admin( $profileuser->ID ) ) { ?>
+	<div class="updated"><p><strong><?php _e('Important:'); ?></strong> <?php _e('This user has super admin privileges.'); ?></p></div>
+<?php } ?>
 <?php if ( isset($_GET['updated']) ) : ?>
 <div id="message" class="updated">
 	<p><strong><?php _e('User updated.') ?></strong></p>
@@ -165,7 +167,7 @@ include ('admin-header.php');
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form id="your-profile" action="<?php if ( IS_PROFILE_PAGE ) { echo admin_url('profile.php'); } else { echo admin_url('user-edit.php'); } ?>" method="post">
+<form id="your-profile" action="<?php echo esc_url( admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url($wp_http_referer); ?>" />
@@ -232,7 +234,11 @@ if ( $user_role )
 else
 	echo '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 ?>
-</select></td></tr>
+</select>
+<?php if ( is_multisite() && is_super_admin() ) { ?>
+<p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.'); ?></label></p>
+<?php } ?>
+</td></tr>
 <?php endif; //!IS_PROFILE_PAGE ?>
 
 <tr>
@@ -331,11 +337,10 @@ if ( $show_password_fields ) :
 </table>
 
 <?php
-	if ( IS_PROFILE_PAGE ) {
-		do_action('show_user_profile', $profileuser);
-	} else {
-		do_action('edit_user_profile', $profileuser);
-	}
+	if ( IS_PROFILE_PAGE )
+		do_action( 'show_user_profile', $profileuser );
+	else
+		do_action( 'edit_user_profile', $profileuser );
 ?>
 
 <?php if ( count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true, $profileuser) ) { ?>
