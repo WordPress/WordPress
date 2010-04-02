@@ -240,6 +240,7 @@ require_once( 'admin-header.php' );
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php esc_html_e('Menus'); ?></h2>
+	<?php /* OMGWTFBBQ */ ?><div class="error"><p><strong><?php _e('Beta Testers:') ?></strong> <?php _e('This feature is still under construction. You can try it out, but expect it to change in layout and functionality in the second beta release.'); ?></p></div>
 	<?php echo $messages_div; ?>
 	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
 
