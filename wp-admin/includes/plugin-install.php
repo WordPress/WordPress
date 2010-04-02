@@ -363,7 +363,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 					switch ( $status['status'] ) {
 						case 'install':
 							if ( $status['url'] )
-								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install Now') . '</a>';
+								$action_links[] = '<a class="install-now" href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install Now') . '</a>';
 							break;
 						case 'update_available':
 							if ( $status['url'] )

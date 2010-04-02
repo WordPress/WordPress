@@ -362,10 +362,11 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery' ), '20090520' );
+		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery' ), '20100402' );
 		$scripts->add_data( 'plugin-install', 'group', 1 );
 		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(
 			'plugin_information' => __('Plugin Information:'),
+			'ays' => __('Are you sure you want to install this plugin?'),
 			'l10n_print_after' => 'try{convertEntities(plugininstallL10n);}catch(e){};'
 		) );
 

@@ -38,4 +38,8 @@ jQuery(document).ready(function($) {
 		$('#section-' + tab).show();
 		return false;
 	});
+
+	$('#install-plugins .action-links .install-now').click( function() {
+		return confirm( plugininstallL10n.ays );
+	});
 });
