@@ -624,8 +624,10 @@ class wpdb {
 	 * @param int $blog_id Optional.
 	 * @return string Blog prefix.
 	 */
-	function get_blog_prefix( $blog_id = 0 ) {
-		if ( is_multisite() && $blog_id ) {
+	function get_blog_prefix( $blog_id = -1 ) {
+		if ( is_multisite() ) {
+			if ( $blog_id < 0 )
+				$blog_id = $this->blogid;
 			if ( defined( 'MULTISITE' ) && ( 0 == $blog_id || 1 == $blog_id ) )
 				return $this->base_prefix;
 			else
