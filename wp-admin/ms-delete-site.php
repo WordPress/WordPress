@@ -17,8 +17,6 @@ if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' )
 	}
 }
 
-$action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
-
 $title = __( 'Delete Site' );
 $parent_file = 'tools.php';
 require_once( './admin-header.php' );

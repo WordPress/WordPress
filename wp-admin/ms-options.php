@@ -1,16 +1,16 @@
 <?php
 require_once( './admin.php' );
 
-if ( !is_multisite() )
+if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
+
+if ( ! current_user_can( 'manage_network_options' ) )
+    wp_die( __( 'You do not have permission to access this page.' ) );
 
 $title = __( 'Network Options' );
 $parent_file = 'ms-admin.php';
 
 include( './admin-header.php' );
-
-if ( ! current_user_can( 'manage_network_options' ) )
-    wp_die( __( 'You do not have permission to access this page.' ) );
 
 if (isset($_GET['updated'])) {
 	?>

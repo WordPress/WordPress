@@ -4,15 +4,15 @@ require_once( './admin.php' );
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
+if ( ! current_user_can( 'manage_network_users' ) )
+	wp_die( __( 'You do not have permission to access this page.' ) );
+
 $title = __( 'Users' );
 $parent_file = 'ms-admin.php';
 
 wp_enqueue_script( 'admin-forms' );
 
 require_once( './admin-header.php' );
-
-if ( ! current_user_can( 'manage_network_users' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
 
 if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['action'] ) ) {
 	?>
@@ -26,7 +26,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 				_e( 'Users marked as spam.' );
 			break;
 			case 'all_notspam':
-				_e( 'Users marked as not spam.' );
+				_e( 'Users removed from spam.' );
 			break;
 			case 'all_delete':
 				_e( 'Users deleted.' );

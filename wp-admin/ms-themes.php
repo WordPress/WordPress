@@ -1,12 +1,12 @@
 <?php
 require_once( './admin.php' );
 
+if ( ! current_user_can( 'manage_network_themes' ) )
+	wp_die( __( 'You do not have permission to access this page.' ) );
+
 $title = __( 'Network Themes' );
 $parent_file = 'ms-admin.php';
 require_once( './admin-header.php' );
-
-if ( ! current_user_can( 'manage_network_themes' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
 
 if ( isset( $_GET['updated'] ) ) {
 	?>
