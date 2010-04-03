@@ -143,7 +143,7 @@ wp_enqueue_script('inline-edit-post');
 
 $user_posts = false;
 if ( !current_user_can($post_type_object->edit_others_cap) ) {
-	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = '%s' AND post_status != 'trash' AND post_author = %d", $post_type, $current_user->ID) );
+	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = '%s' AND post_status NOT IN ('trash', 'auto-draft') AND post_author = %d", $post_type, $current_user->ID) );
 	$user_posts = true;
 	if ( $user_posts_count && empty($_GET['post_status']) && empty($_GET['all_posts']) && empty($_GET['author']) )
 		$_GET['author'] = $current_user->ID;
@@ -226,7 +226,7 @@ $allposts = '';
 if ( $user_posts ) {
 	if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user->ID ) )
 		$class = ' class="current"';
-	$status_links[] = "<li><a href='edit.php?author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
+	$status_links[] = "<li><a href='edit.php?post_type=$post_type&author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
 	$allposts = '&all_posts=1';
 }
 
