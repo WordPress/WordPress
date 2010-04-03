@@ -600,6 +600,8 @@ jQuery(document).ready( function($) {
 		makeSlugeditClickable();
 	}
 
+	if ( $('#title').val() == '' )
+		$('#title').siblings('#title-prompt-text').css('visibility', '');
 	$('#title-prompt-text').click(function(){
 		$(this).css('visibility', 'hidden').siblings('#title').focus();
 	});

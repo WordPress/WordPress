@@ -45,6 +45,7 @@ $messages['page'] = array(
 	__('Page updated.'),
 	isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	sprintf( __('Page published. <a href="%s">View page</a>'), get_permalink($post_ID) ),
+	__('Page saved.'),
 	sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ),
 	sprintf( __('Page scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), get_permalink($post_ID) ),
 	sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) )
@@ -192,7 +193,7 @@ $side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
-	<label class="hide-if-no-js" id="title-prompt-text" for="title"><?php _e('Enter title here') ?></label>
+	<label class="hide-if-no-js" style="visibility:hidden" id="title-prompt-text" for="title"><?php _e('Enter title here') ?></label>
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">
