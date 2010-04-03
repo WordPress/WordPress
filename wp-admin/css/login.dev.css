@@ -3,6 +3,7 @@
 body {
 	padding-top: 30px;
 	font: 11px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	background: url(../images/login-header.png) top left repeat-x;
 }
 
 form {

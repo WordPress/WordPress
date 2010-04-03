@@ -705,10 +705,6 @@ table.widefat span.spam a,
 	background: url(../images/admin-header-footer.png) top left repeat-x;
 }
 
-body.login {
-	background: url(../images/login-header.png) top left repeat-x;
-}
-
 #wphead h1 a {
 	color: #464646;
 }
