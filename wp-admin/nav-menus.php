@@ -128,7 +128,7 @@ switch ( $action ) {
 					$menu_item_url         = isset( $_POST['menu-item-url'][$k] )         ? $_POST['menu-item-url'][$k]         : '';
 					$menu_item_description = isset( $_POST['menu-item-description'][$k] ) ? $_POST['menu-item-description'][$k] : '';
 					$menu_item_attr_title  = isset( $_POST['menu-item-attr-title'][$k] )  ? $_POST['menu-item-attr-title'][$k]  : '';
-					$menu_item_target      = isset( $_POST['menu-item-target'][$k] )      ? $_POST['menu-item-target'][$k]      : '_self';
+					$menu_item_target      = isset( $_POST['menu-item-target'][$k] )      ? $_POST['menu-item-target'][$k]      : '';
 					$menu_item_classes     = isset( $_POST['menu-item-classes'][$k] )     ? $_POST['menu-item-classes'][$k]     : '';
 					$menu_item_xfn         = isset( $_POST['menu-item-xfn'][$k] )         ? $_POST['menu-item-xfn'][$k]         : '';
 
@@ -314,7 +314,7 @@ require_once( 'admin-header.php' );
 		<label for="edit-menu-item-target">
 			<?php _e( 'Link Target' ); ?><br />
 			<select id="edit-menu-item-target" class="widefat" name="edit-menu-item-target" tabindex="4">
-				<option value="_self"><?php _e('Same window or tab'); ?></option>
+				<option value=""><?php _e('Same window or tab'); ?></option>
 				<option value="_blank"><?php _e('New window or tab'); ?></option>
 			</select>
 		</label>

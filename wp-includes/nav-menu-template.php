@@ -154,10 +154,10 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 	$output = '';
 	switch ( $context ) {
 		case 'frontend':
-			$attributes  = ( isset($menu_item->attr_title) && '' != $menu_item->attr_title ) ? ' title="'. esc_attr($menu_item->attr_title) .'"' : '';
-			$attributes .= ( isset($menu_item->target) && '' != $menu_item->target ) ? ' target="'. esc_attr($menu_item->target) .'"' : '';
-			$attributes .= ( isset($menu_item->xfn) && '' != $menu_item->xfn ) ? ' rel="'. esc_attr($menu_item->xfn) .'"' : '';
-			$attributes .= ( isset($menu_item->url) && '' != $menu_item->url ) ? ' href="'. esc_attr($menu_item->url) .'"' : '';
+			$attributes  = ! empty( $menu_item->attr_title ) ? ' title="'  . esc_attr( $menu_item->attr_title ) .'"' : '';
+			$attributes .= ! empty( $menu_item->target )     ? ' target="' . esc_attr( $menu_item->target     ) .'"' : '';
+			$attributes .= ! empty( $menu_item->xfn )        ? ' rel="'    . esc_attr( $menu_item->xfn        ) .'"' : '';
+			$attributes .= ! empty( $menu_item->url )        ? ' href="'   . esc_attr( $menu_item->url        ) .'"' : '';
 
 			$output .= esc_html( $args->before );
 			$output .= '<a'. $attributes .'>';

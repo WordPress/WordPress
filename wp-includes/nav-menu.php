@@ -250,7 +250,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_permalink( $menu_item->ID );
-			$menu_item->target = '_self';
+			$menu_item->target = '';
 
 			$menu_item->attr_title = '';
 			$menu_item->description = strip_tags( $menu_item->post_content );
@@ -271,7 +271,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 
 			$menu_item->title = $menu_item->name;
 			$menu_item->url = get_term_link( $menu_item, $menu_item_object );
-			$menu_item->target = '_self';
+			$menu_item->target = '';
 			$menu_item->attr_title = '';
 			$menu_item->description = strip_tags( $menu_item->description );
 			$menu_item->classes = '';

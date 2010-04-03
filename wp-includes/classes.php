@@ -1196,7 +1196,7 @@ class Walker_Nav_Menu extends Walker {
 
 			// @todo add classes for parent/child relationships
 
-			$css_class = join( ' ', apply_filters('nav_menu_css_class', $css_class, $item) );
+			$css_class = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $css_class ), $item ) );
 		}
 
 		$maybe_value = ( 'backend' == $args->context ) ? ' value="'. $item->ID .'"' : '';

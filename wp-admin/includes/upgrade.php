@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 12751 )
+	if ( $wp_current_db_version < 13974 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1114,25 +1114,21 @@ function upgrade_300() {
 			add_site_option( 'siteurl', '' );
 	}
 
-	// 3.0-alpha nav menu postmeta changes. can be removed before release
-	if ( $wp_current_db_version >= 13226 && $wp_current_db_version < 13802 ) {
-		// remove old nav menu post meta keys
-		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key IN( 'menu_type', 'object_id', 'menu_new_window', 'menu_link', '_menu_item_append', 'menu_item_append' )" );
-		// update nav menu post meta keys to underscore prefixes
-		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_type' ), array( 'meta_key' => 'menu_item_type' ) );
-		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_object_id' ), array( 'meta_key' => 'menu_item_object_id' ) );
-		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_target' ), array( 'meta_key' => 'menu_item_target' ) );
-		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_classes' ), array( 'meta_key' => 'menu_item_classes' ) );
-		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_xfn' ), array( 'meta_key' => 'menu_item_xfn' ) );
-		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_url' ), array( 'meta_key' => 'menu_item_url' ) );
-	}
+	// 3.0-alpha nav menu postmeta changes. can be removed before release. // r13802
+	if ( $wp_current_db_version >= 13226 && $wp_current_db_version < 13974 )
+		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key IN( 'menu_type', 'object_id', 'menu_new_window', 'menu_link', '_menu_item_append', 'menu_item_append', 'menu_item_type', 'menu_item_object_id', 'menu_item_target', 'menu_item_classes', 'menu_item_xfn', 'menu_item_url' )" );
 
-	// 3.0-beta1 remove_user primitive->meta cap. can be removed before release
-	if ( $wp_current_db_version >= 12751 && $wp_current_db_version < 12751 ) {
+	// 3.0-beta1 remove_user primitive->meta cap. can be removed before release. r13956
+	if ( $wp_current_db_version >= 12751 && $wp_current_db_version < 13974 ) {
 		$role =& get_role( 'administrator' );
 		if ( ! empty( $role ) )
 			$role->remove_cap( 'remove_user' );
 	}
+
+	// 3.0-beta1 nav menu postmeta changes. can be removed before release. r13974
+	if ( $wp_current_db_version >= 13802 && $wp_current_db_version < 13974 )
+		$wpdb->update( $wpdb->postmeta, array( 'meta_value' => '' ), array( 'meta_key' => '_menu_item_target', 'meta_value' => '_self' ) );
+
 }
 
 /**

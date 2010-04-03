@@ -1416,7 +1416,7 @@ case 'save-custom-link':
 	update_post_meta( $link_id, '_menu_item_type', 'custom' );
 	update_post_meta( $link_id, '_menu_item_object_id', (int) $link_id );
 	update_post_meta( $link_id, '_menu_item_object', 'custom' );
-	update_post_meta( $link_id, '_menu_item_target', '_self' );
+	update_post_meta( $link_id, '_menu_item_target', '' );
 	update_post_meta( $link_id, '_menu_item_classes', '' );
 	update_post_meta( $link_id, '_menu_item_xfn', '' );
 	update_post_meta( $link_id, '_menu_item_url', $link_url );

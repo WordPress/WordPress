@@ -151,7 +151,7 @@ var wpNavMenu;
 				if ( '-1' == link_id )
 					return;
 
-				wpNavMenu.add_to_menu( link_id, link_id, 'custom', 'custom', navMenuL10n.custom, 0, link_name, link_url, '', '', '_self', '', '' );
+				wpNavMenu.add_to_menu( link_id, link_id, 'custom', 'custom', navMenuL10n.custom, 0, link_name, link_url, '', '', '', '', '' );
 			}, 'json');
 		},
 		
@@ -429,7 +429,7 @@ var wpNavMenu;
 					var item_xfn = $(this).parent().siblings('.menu-item-xfn').val();
 				} else {
 					var item_attr_title = '';
-					var item_target = '_self';
+					var item_target = '';
 					var item_classes = '';
 					var item_xfn = '';
 				};
