@@ -250,7 +250,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 	$post_type_obj = get_post_type_object($post_type);
 
 	if ( ! $user->has_cap($post_type_obj->edit_others_cap) ) {
-		if ( $user->has_cap($post_type_obj->edit_cap) || $exclude_zeros == false )
+		if ( $user->has_cap($post_type_obj->edit_type_cap) || ! $exclude_zeros )
 			return array($user->id);
 		else
 			return array();
