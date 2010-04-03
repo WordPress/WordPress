@@ -118,41 +118,23 @@ switch ( $action ) {
 							<th scope="row"><?php _e('Last Updated') ?></th>
 							<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr( $details->last_updated ) ?>" size="40" /></td>
 						</tr>
+						<?php
+						if ( $is_main_site )
+							$checked_fields = array( 'public' => __( 'Public' ) );
+						else
+							$checked_fields = array(
+								'public'   => __('Public'),
+								'archived' => __('Archived'),
+								'spam'     => __('Spam'),
+								'deleted'  => __('Deleted'),
+								'mature'  => __('Mature'),
+							);
+
+						foreach ( $checked_fields as $field_key => $field_label ) {
+						?>
 						<tr class="form-field">
-							<th scope="row"><?php _e('Public') ?></th>
-							<td>
-								<label><input type="radio" style="width:20px;" name="blog[public]" value="1" <?php checked( $details->public, 1 ); ?> /> <?php _e( 'Yes' ) ?></label>
-								<label><input type="radio" style="width:20px;" name="blog[public]" value="0" <?php checked( $details->public, 0 ); ?> /> <?php _e( 'No' ) ?></label>
-							</td>
-						</tr>
-						<?php if ( ! $is_main_site ) { ?>
-						<tr class="form-field">
-							<th scope="row"><?php _e( 'Archived' ); ?></th>
-							<td>
-								<label><input type="radio" style="width:20px;" name="blog[archived]" value="1" <?php checked( $details->archived, 1 ); ?> /> <?php _e( 'Yes' ) ?></label>
-								<label><input type="radio" style="width:20px;" name="blog[archived]" value="0" <?php checked( $details->archived, 0 ); ?> /> <?php _e( 'No' ) ?></label>
-							</td>
-						</tr>
-						<tr class="form-field">
-							<th scope="row"><?php _e( 'Spam' ); ?></th>
-							<td>
-								<label><input type="radio" style="width:20px;" name="blog[spam]" value="1" <?php checked( $details->spam, 1 ); ?> /> <?php _e( 'Yes' ) ?></label>
-								<label><input type="radio" style="width:20px;" name="blog[spam]" value="0" <?php checked( $details->spam, 0 ); ?> /> <?php _e( 'No' ) ?></label>
-							</td>
-						</tr>
-						<tr class="form-field">
-							<th scope="row"><?php _e( 'Deleted' ); ?></th>
-							<td>
-								<label><input type="radio" style="width:20px;" name="blog[deleted]" value="1" <?php checked( $details->deleted, 1 ); ?> /> <?php _e( 'Yes' ) ?></label>
-								<label><input type="radio" style="width:20px;" name="blog[deleted]" value="0" <?php checked( $details->deleted, 0 ); ?> /> <?php _e( 'No' ) ?></label>
-							</td>
-						</tr>
-						<tr class="form-field">
-							<th scope="row"><?php _e( 'Mature' ); ?></th>
-							<td>
-								<label><input type="radio" style="width:20px;" name="blog[mature]" value="1" <?php checked( $details->mature, 1 ); ?> /> <?php _e( 'Yes' ) ?></label>
-								<label><input type="radio" style="width:20px;" name="blog[mature]" value="0" <?php checked( $details->mature, 0); ?> /> <?php _e( 'No' ) ?></label>
-							</td>
+							<th scope="row"><label for="blog_<?php echo $field_key; ?>"><?php echo $field_label; ?></label></th>
+							<td><input type="checkbox" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>" value="<?php echo $details->$field_key; ?>"<?php checked( $details->$field_key ); ?> /></td>
 						</tr>
 						<?php } ?>
 					</table>
@@ -691,9 +673,8 @@ switch ( $action ) {
 		</form>
 		</div>
 
-		<div class="wrap">
-			<a name="form-add-site"></a>
-			<h2><?php _e( 'Add Site' ) ?></h2>
+		<div id="form-add-site" class="wrap">
+			<h3><?php _e( 'Add Site' ) ?></h3>
 			<form method="post" action="ms-edit.php?action=addblog">
 				<?php wp_nonce_field( 'add-blog' ) ?>
 				<table class="form-table">

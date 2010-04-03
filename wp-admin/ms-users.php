@@ -330,9 +330,9 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 <?php
 if ( apply_filters( 'show_adduser_fields', true ) ) :
 ?>
-<div class="wrap">
-	<h2><?php _e( 'Add user' ) ?></h2>
-	<form action="ms-edit.php?action=adduser" method="post" id="form-add-user">
+<div class="wrap" id="form-add-user">
+	<h3><?php _e( 'Add User' ) ?></h3>
+	<form action="ms-edit.php?action=adduser" method="post">
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Username' ) ?></th>

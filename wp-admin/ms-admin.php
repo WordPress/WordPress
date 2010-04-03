@@ -1,23 +1,17 @@
 <?php
-require_once('admin.php');
+require_once( './admin.php' );
 
 if ( !is_multisite() )
-	wp_die( __('Multisite support is not enabled.') );
-
-$title = __('Network Admin');
-$parent_file = 'ms-admin.php';
-
-function index_css() {
-	wp_admin_css( 'css/dashboard' );
-}
-add_action( 'admin_head', 'index_css' );
-
-require_once('admin-header.php');
+	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_network' ) )
-	wp_die( __('You do not have permission to access this page.') );
+	wp_die( __( 'You do not have permission to access this page.' ) );
 
-global $wpdb;
+$title = __( 'Network Admin' );
+$parent_file = 'ms-admin.php';
+
+require_once( './admin-header.php' );
+
 $c_users = get_user_count();
 $c_blogs = get_blog_count();
 
@@ -32,19 +26,19 @@ $sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 	<h2><?php echo esc_html( $title ); ?></h2>
 
 	<ul class="subsubsub">
-	<li><a href="ms-sites.php#form-add-blog" class="rbutton"><strong><?php _e('Create a New Site'); ?></strong></a> | </li>
-	<li><a href="ms-users.php#form-add-user" class="rbutton"><?php _e('Create a New User'); ?></a></li>
+	<li><a href="ms-sites.php#form-add-site"><?php _e( 'Create a New Site' ); ?></a> |</li>
+	<li><a href="ms-users.php#form-add-user"><?php _e( 'Create a New User' ); ?></a></li>
 	</ul>
-	<br clear='all' />
+	<br class="clear" />
 
 	<p class="youhave"><?php echo $sentence; ?></p>
-	<?php do_action('wpmuadminresult', ''); ?>
+	<?php do_action( 'wpmuadminresult', '' ); ?>
 
 	<form name="searchform" action="ms-users.php" method="get">
 		<p>
 			<input type="hidden" name="action" value="users" />
 			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="submit" value="<?php esc_attr_e("Search Users"); ?>" />
+			<input class="button" type="submit" name="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" />
 		</p>
 	</form>
 
@@ -52,13 +46,12 @@ $sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 		<p>
 			<input type="hidden" name="action" value="blogs" />
 			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e("Search Sites"); ?>" />
+			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e( 'Search Sites' ); ?>" />
 		</p>
 	</form>
 
 	<?php do_action( 'mu_rightnow_end' ); ?>
 	<?php do_action( 'mu_activity_box_end' ); ?>
-	</div><!-- rightnow -->
 </div>
 
-<?php include('admin-footer.php'); ?>
+<?php include( './admin-footer.php' ); ?>
