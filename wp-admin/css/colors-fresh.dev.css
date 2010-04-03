@@ -1474,12 +1474,12 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #favorite-first {
-	border-color: #cfcfcf;
-	background-color: #fff;
+	border-color: #ccc;
+	background: url(../images/fav-top.png) top left repeat-x;
 }
 
 #favorite-inside {
-	border-color: #cfcfcf;
+	border-color: #ccc;
 	background-color: #fff;
 }
 
@@ -1488,11 +1488,11 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 #favorite-actions a {
-	color: #6d6d6d;
+	color: #464646;
 }
 
 #favorite-actions a:hover {
-	color: #464646;
+	color: #000;
 }
 
 #favorite-inside a:hover {

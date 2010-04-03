@@ -3084,7 +3084,7 @@ button.dismiss {
 
 #favorite-inside {
 	margin: 0 0 0 0px;
-	padding: 0 1px 6px 1px;
+	padding: 2px 1px;
 	border-width: 1px;
 	border-style: solid;
 	position: absolute;
