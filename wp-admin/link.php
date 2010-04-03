@@ -67,9 +67,11 @@ switch ($action) {
 	case 'add' :
 		check_admin_referer('add-bookmark');
 
-		add_link();
+		$redir = wp_get_referer();
+		if ( add_link() )
+			$redir = add_query_arg( 'added', 'true', $redir );
 
-		wp_redirect( wp_get_referer() . '?added=true' );
+		wp_redirect( $redir );
 		exit;
 		break;
 
