@@ -430,3 +430,12 @@ function twentyten_widgets_init() {
 	) );
 }
 add_action( 'init', 'twentyten_widgets_init' );
+
+/**
+ * Removes the default styles that are packaged with the Recent Comments widget.
+ */
+function twentyten_remove_recent_comments_style() {
+	global $wp_widget_factory;
+	remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
+}
+add_action( 'widgets_init', 'twentyten_remove_recent_comments_style' );
