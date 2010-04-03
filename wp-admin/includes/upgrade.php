@@ -1126,6 +1126,13 @@ function upgrade_300() {
 		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_xfn' ), array( 'meta_key' => 'menu_item_xfn' ) );
 		$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_menu_item_url' ), array( 'meta_key' => 'menu_item_url' ) );
 	}
+
+	// 3.0-beta1 remove_user primitive->meta cap. can be removed before release
+	if ( $wp_current_db_version >= 12751 && $wp_current_db_version < 12751 ) {
+		$role =& get_role( 'administrator' );
+		if ( ! empty( $role ) )
+			$role->remove_cap( 'remove_user' );
+	}
 }
 
 /**

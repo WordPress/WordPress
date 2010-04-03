@@ -796,6 +796,9 @@ function map_meta_cap( $cap, $user_id ) {
 	$caps = array();
 
 	switch ( $cap ) {
+	case 'remove_user':
+		$caps[] = 'remove_users';
+		break;
 	case 'delete_user':
 		$caps[] = 'delete_users';
 		break;

@@ -15,9 +15,13 @@ require_once( ABSPATH . WPINC . '/registration.php');
 if ( !current_user_can('edit_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
-$del_cap_type = 'remove';
-if ( !is_multisite() && current_user_can('delete_users') )
-	$del_cap_type = 'delete';
+if ( ! is_multisite() && current_user_can('delete_users') ) {
+	$del_cap_user = 'delete_user';
+	$del_cap_users = 'delete_users';
+} else {
+	$del_cap_user = 'remove_user';
+	$del_cap_users = 'remove_users';
+}
 
 $title = __('Users');
 $parent_file = 'users.php';
@@ -85,16 +89,16 @@ case 'dodelete':
 		exit();
 	}
 
-	if ( !current_user_can($del_cap_type . '_users') )
-		wp_die(__('You can&#8217;t delete users.'));
+	if ( ! current_user_can($del_cap_users ) )
+		wp_die(__('You can&#8217;t remove users.'));
 
 	$userids = $_REQUEST['users'];
 	$update = 'del';
 	$delete_count = 0;
 
 	foreach ( (array) $userids as $id) {
-		if ( ! current_user_can($del_cap_type . '_user', $id) )
-			wp_die(__('You can&#8217;t delete that user.'));
+		if ( ! current_user_can( $del_cap_user, $id ) )
+			wp_die(__( 'You can&#8217;t remove that user.' ) );
 
 		if ( $id == $current_user->ID ) {
 			$update = 'err_admin_del';
@@ -132,8 +136,8 @@ case 'delete':
 		exit();
 	}
 
-	if ( !current_user_can($del_cap_type . '_users') )
-		$errors = new WP_Error('edit_users', __('You can&#8217;t delete users.'));
+	if ( ! current_user_can( $del_cap_users ) )
+		$errors = new WP_Error( 'edit_users', __( 'You can&#8217;t delete users.' ) );
 
 	if ( empty($_REQUEST['users']) )
 		$userids = array(intval($_REQUEST['user']));
