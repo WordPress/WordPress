@@ -30,7 +30,7 @@ function add_user() {
 			if ( $user_id != $current_user->id || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ) ) {
 				// If the new role isn't editable by the logged-in user die with error
 				$editable_roles = get_editable_roles();
-				if ( !$editable_roles[$new_role] )
+				if ( empty( $editable_roles[$new_role] ) )
 					wp_die(__('You can&#8217;t give users that role.'));
 
 				$user = new WP_User( $user_id );
@@ -84,7 +84,7 @@ function edit_user( $user_id = 0 ) {
 
 		// If the new role isn't editable by the logged-in user die with error
 		$editable_roles = get_editable_roles();
-		if ( !$editable_roles[$new_role] )
+		if ( ! empty( $new_role ) && empty( $editable_roles[$new_role] ) )
 			wp_die(__('You can&#8217;t give users that role.'));
 	}
 

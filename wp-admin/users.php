@@ -57,7 +57,7 @@ case 'promote':
 	}
 
 	$editable_roles = get_editable_roles();
-	if ( !$editable_roles[$_REQUEST['new_role']] )
+	if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
 		wp_die(__('You can&#8217;t give users that role.'));
 
 	$userids = $_REQUEST['users'];
