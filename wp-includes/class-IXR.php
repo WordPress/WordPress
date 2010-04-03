@@ -356,7 +356,7 @@ EOD;
             $args = $args[0];
         }
         // Are we dealing with a function or a method?
-        if (substr($method, 0, 5) == 'this:') {
+        if ( is_string( $method ) && substr($method, 0, 5) == 'this:' ) {
             // It's a class method - check it exists
             $method = substr($method, 5);
             if (!method_exists($this, $method)) {
