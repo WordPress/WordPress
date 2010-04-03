@@ -192,7 +192,7 @@ $side_meta_boxes = do_meta_boxes($post_type, 'side', $post);
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
-	<label class="screen-reader-text" for="title"><?php _e('Title') ?></label>
+	<label class="hide-if-no-js" id="title-prompt-text" for="title"><?php _e('Enter title here') ?></label>
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">

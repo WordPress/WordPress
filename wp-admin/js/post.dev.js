@@ -599,4 +599,17 @@ jQuery(document).ready( function($) {
 		}
 		makeSlugeditClickable();
 	}
+
+	$('#title-prompt-text').click(function(){
+		$(this).css('visibility', 'hidden').siblings('#title').focus();
+	});
+	$('#title').blur(function(){
+		if (this.value == '')
+			$(this).siblings('#title-prompt-text').css('visibility', '');
+	}).focus(function(){
+		$(this).siblings('#title-prompt-text').css('visibility', 'hidden');
+	}).keydown(function(e){
+		$(this).siblings('#title-prompt-text').css('visibility', 'hidden');
+		$(this).unbind(e);
+	});
 });

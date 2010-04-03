@@ -1765,6 +1765,7 @@ div.inside {
 }
 
 #titlediv {
+	position: relative;
 	margin-bottom: 20px;
 }
 #titlediv label { cursor: text; }
@@ -1790,6 +1791,13 @@ div.inside {
 	font-size: 1.7em;
 	width: 100%;
 	outline: none;
+}
+
+#titlediv #title-prompt-text {
+	color: #bbb;
+	position: absolute;
+	font-size: 1.7em;
+	padding: 8px;
 }
 
 #poststuff .inside-submitbox,
