@@ -29,7 +29,7 @@ include( 'admin-header.php' );
 <?php if ( get_pages() ): ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Front page displays' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Front page displays' ); ?></span></legend>
+<td id="front-static-pages"><fieldset><legend class="screen-reader-text"><span><?php _e( 'Front page displays' ); ?></span></legend>
 	<p><label>
 		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked( 'posts', get_option( 'show_on_front' ) ); ?> />
 		<?php _e( 'Your latest posts' ); ?>
@@ -45,11 +45,7 @@ include( 'admin-header.php' );
 	<li><label for="page_for_posts"><?php printf( __( 'Posts page: %s' ), wp_dropdown_pages( array( 'name' => 'page_for_posts', 'echo' => 0, 'show_option_none' => __( '&mdash; Select &mdash;' ), 'selected' => get_option( 'page_for_posts' ) ) ) ); ?></label></li>
 </ul>
 <?php if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) == get_option( 'page_on_front' ) ) : ?>
-<div id="front-page-warning" class="updated">
-	<p>
-		<?php _e( '<strong>Warning:</strong> these pages should not be the same!' ); ?>
-	</p>
-</div>
+<div id="front-page-warning" class="error inline"><p><?php _e( '<strong>Warning:</strong> these pages should not be the same!' ); ?></p></div>
 <?php endif; ?>
 </fieldset></td>
 </tr>

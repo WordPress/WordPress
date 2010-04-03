@@ -2020,6 +2020,8 @@ input#link_url {
 	margin: 0;
 }
 
+#front-page-warning,
+#front-static-pages ul,
 .inline-editor ul.cat-checklist ul,
 .categorydiv ul.categorychecklist ul,
 #linkcategorydiv ul.categorychecklist ul {
