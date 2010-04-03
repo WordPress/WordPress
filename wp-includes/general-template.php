@@ -156,7 +156,7 @@ function get_search_form($echo = true) {
 
 	$form = '<form role="search" method="get" id="searchform" action="' . home_url() . '/" >
 	<div><label class="screen-reader-text" for="s">' . __('Search for:') . '</label>
-	<input type="text" value="' . esc_attr(apply_filters('the_search_query', get_search_query())) . '" name="s" id="s" />
+	<input type="text" value="' . get_search_query() . '" name="s" id="s" />
 	<input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" />
 	</div>
 	</form>';
@@ -1642,7 +1642,7 @@ function feed_links_extra( $args = array() ) {
 		$title = esc_attr(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_the_author_meta( 'display_name', $author_id ) ));
 		$href = get_author_feed_link( $author_id );
 	} elseif ( is_search() ) {
-		$title = esc_attr(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query() ));
+		$title = esc_attr(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query( false ) ));
 		$href = get_search_feed_link();
 	}
 
@@ -1825,12 +1825,21 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 /**
  * Retrieve the contents of the search WordPress query variable.
  *
- * @since 2.3.0
+ * The search query string is passed through {@link esc_attr()}
+ * to ensure that it is safe for placing in an html attribute.
  *
+ * @since 2.3.0
+ * @uses esc_attr()
+ *
+ * @param bool $escaped Whether the result is escaped. Default true.
+ * 	Only use when you are later escaping it. Do not use unescaped.
  * @return string
  */
-function get_search_query() {
-	return apply_filters( 'get_search_query', get_query_var( 's' ) );
+function get_search_query( $escaped = true ) {
+	$query = apply_filters( 'get_search_query', get_query_var( 's' ) );
+	if ( $escaped )
+		$query = esc_attr( $query );
+	return $query;
 }
 
 /**
@@ -1839,11 +1848,11 @@ function get_search_query() {
  * The search query string is passed through {@link esc_attr()}
  * to ensure that it is safe for placing in an html attribute.
  *
- * @uses attr
+ * @uses esc_attr()
  * @since 2.1.0
  */
 function the_search_query() {
-	echo esc_attr( apply_filters( 'the_search_query', get_search_query() ) );
+	echo esc_attr( apply_filters( 'the_search_query', get_search_query( false ) ) );
 }
 
 /**

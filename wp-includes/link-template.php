@@ -686,7 +686,7 @@ function get_search_link( $query = '' ) {
 	global $wp_rewrite;
 
 	if ( empty($query) )
-		$search = get_search_query();
+		$search = get_search_query( false );
 	else
 		$search = stripslashes($query);
 
