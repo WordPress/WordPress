@@ -577,7 +577,7 @@ input.readonly, textarea.readonly {
 }
 
 #footer {
-	background: url(../images/admin-header-footer.png) top left repeat-x;
+	background: #eee;
 	border-color: #d4d4d4;
 	color: #777;
 }
