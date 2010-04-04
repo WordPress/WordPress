@@ -274,7 +274,8 @@ function wp_default_scripts( &$scripts ) {
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last'])
 		) );
 
-		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", false, '3517m' );
+		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array('jquery'), '20100403' );
+		$scripts->add_data( 'xfn', 'group', 1 );
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), '20091012' );
 		$scripts->add_data( 'postbox', 'group', 1 );
