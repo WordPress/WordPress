@@ -1592,18 +1592,22 @@ function wp_post_mime_type_where($post_mime_types) {
 }
 
 /**
- * Removes a post, attachment, or page.
+ * Trashes or deletes a post or page.
  *
- * When the post and page goes, everything that is tied to it is deleted also.
+ * When the post and page is permanently deleted, everything that is tied to it is deleted also.
  * This includes comments, post meta fields, and terms associated with the post.
+ *
+ * The post or page is moved to trash instead of permanently deleted unless trash is
+ * disabled, item is already in the trash, or $force_delete is true.
  *
  * @since 1.0.0
  * @uses do_action() on 'delete_post' before deletion unless post type is 'attachment'.
  * @uses do_action() on 'deleted_post' after deletion unless post type is 'attachment'.
  * @uses wp_delete_attachment() if post type is 'attachment'.
+ * @uses wp_trash_post() if item should be trashed.
  *
  * @param int $postid Post ID.
- * @param bool $force_delete Whether to bypass trash and force deletion
+ * @param bool $force_delete Whether to bypass trash and force deletion. Defaults to false.
  * @return mixed False on failure
  */
 function wp_delete_post( $postid = 0, $force_delete = false ) {
@@ -1612,7 +1616,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	if ( !$post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $postid)) )
 		return $post;
 
-	if ( !$force_delete && ( $post->post_type == 'post' || $post->post_type == 'page') && get_post_status( $postid ) != 'trash' && EMPTY_TRASH_DAYS > 0 )
+	if ( !$force_delete && ( $post->post_type == 'post' || $post->post_type == 'page') && get_post_status( $postid ) != 'trash' && EMPTY_TRASH_DAYS )
 			return wp_trash_post($postid);
 
 	if ( $post->post_type == 'attachment' )
@@ -1698,16 +1702,19 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 /**
  * Moves a post or page to the Trash
  *
+ * If trash is disabled, the post or page is permanently deleted.
+ *
  * @since 2.9.0
  * @uses do_action() on 'trash_post' before trashing
  * @uses do_action() on 'trashed_post' after trashing
+ * @uses wp_delete_post() if trash is disabled
  *
  * @param int $postid Post ID.
  * @return mixed False on failure
  */
 function wp_trash_post($post_id = 0) {
-	if ( EMPTY_TRASH_DAYS == 0 )
-		return wp_delete_post($post_id);
+	if ( !EMPTY_TRASH_DAYS )
+		return wp_delete_post($post_id, true);
 
 	if ( !$post = wp_get_single_post($post_id, ARRAY_A) )
 		return $post;
@@ -3296,18 +3303,21 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 }
 
 /**
- * Delete an attachment.
+ * Trashes or deletes an attachment.
  *
- * Will remove the file also, when the attachment is removed. Removes all post
- * meta fields, taxonomy, comments, etc associated with the attachment (except
- * the main post).
+ * When an attachment is permanently deleted, the file will also be removed.
+ * Deletion removes all post meta fields, taxonomy, comments, etc. associated
+ * with the attachment (except the main post).
+ *
+ * The attachment is moved to the trash instead of permanently deleted unless trash
+ * for media is disabled, item is already in the trash, or $force_delete is true.
  *
  * @since 2.0.0
  * @uses $wpdb
  * @uses do_action() Calls 'delete_attachment' hook on Attachment ID.
  *
  * @param int $postid Attachment ID.
- * @param bool $force_delete Whether to bypass trash and force deletion
+ * @param bool $force_delete Whether to bypass trash and force deletion. Defaults to false.
  * @return mixed False on failure. Post data on success.
  */
 function wp_delete_attachment( $post_id, $force_delete = false ) {

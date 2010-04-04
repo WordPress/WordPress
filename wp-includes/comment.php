@@ -856,7 +856,10 @@ function wp_count_comments( $post_id = 0 ) {
 }
 
 /**
- * Removes comment ID and maybe updates post comment count.
+ * Trashes or deletes a comment.
+ *
+ * The comment is moved to trash instead of permanently deleted unless trash is
+ * disabled, item is already in the trash, or $force_delete is true.
  *
  * The post comment count will be updated if the comment was approved and has a
  * post ID available.
@@ -869,14 +872,15 @@ function wp_count_comments( $post_id = 0 ) {
  * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param int $comment_id Comment ID
+ * @param bool $force_delete Whether to bypass trash and force deletion. Default is false.
  * @return bool False if delete comment query failure, true on success.
  */
-function wp_delete_comment($comment_id) {
+function wp_delete_comment($comment_id, $force_delete = false) {
 	global $wpdb;
 	if (!$comment = get_comment($comment_id))
 		return false;
 
-	if (wp_get_comment_status($comment_id) != 'trash' && wp_get_comment_status($comment_id) != 'spam' && EMPTY_TRASH_DAYS > 0)
+	if ( !$force_delete && EMPTY_TRASH_DAYS && !in_array( wp_get_comment_status($comment_id), array( 'trash', 'spam' ) ) )
 		return wp_trash_comment($comment_id);
 
 	do_action('delete_comment', $comment_id);
@@ -915,16 +919,19 @@ function wp_delete_comment($comment_id) {
 /**
  * Moves a comment to the Trash
  *
+ * If trash is disabled, comment is permanently deleted.
+ *
  * @since 2.9.0
  * @uses do_action() on 'trash_comment' before trashing
  * @uses do_action() on 'trashed_comment' after trashing
+ * @uses wp_delete_comment() if trash is disabled
  *
  * @param int $comment_id Comment ID.
  * @return mixed False on failure
  */
 function wp_trash_comment($comment_id) {
-	if ( EMPTY_TRASH_DAYS == 0 )
-		return wp_delete_comment($comment_id);
+	if ( !EMPTY_TRASH_DAYS )
+		return wp_delete_comment($comment_id, true);
 
 	if ( !$comment = get_comment($comment_id) )
 		return false;
