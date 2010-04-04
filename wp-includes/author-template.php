@@ -345,10 +345,8 @@ function wp_list_authors($args = '') {
 
 		}
 
-		if ( !($posts == 0 && $hide_empty) && 'list' == $style )
-			$return .= $link . '</li>';
-		else if ( ! $hide_empty )
-			$return .= $link . ', ';
+		if ( $posts || ! $hide_empty )
+			$return .= $link . ( ( 'list' == $style ) ? '</li>' : ', ' );
 	}
 
 	$return = trim($return, ', ');
