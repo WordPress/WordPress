@@ -878,6 +878,13 @@ function register_post_type($post_type, $args = array()) {
 /**
  * Register support of certain features for a post type.
  *
+ * All features are directly associated with a functional area of the edit screen, such as the
+ * editor or a meta box: 'title', 'editor', 'comments', 'revisions', 'trackbacks', 'author',
+ * 'excerpt', 'page-attributes', 'thumbnail', and 'custom-fields'.
+ *
+ * Additionally, the 'revisions' feature dictates whether the post type will store revisions,
+ * and the 'comments' feature dicates whether the comments count will show on the edit screen.
+ *
  * @since 3.0.0
  * @param string $post_type The post type for which to add the feature
  * @param string|array $feature the feature being added, can be an array of feature strings or a single string
