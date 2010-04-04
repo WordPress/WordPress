@@ -165,36 +165,63 @@ class WP_oEmbed {
 	function fetch( $provider, $url, $args = '' ) {
 		$args = wp_parse_args( $args, wp_embed_defaults() );
 
-		$provider = add_query_arg( 'format', 'json', $provider ); // JSON is easier to deal with than XML
-
 		$provider = add_query_arg( 'maxwidth', $args['width'], $provider );
 		$provider = add_query_arg( 'maxheight', $args['height'], $provider );
 		$provider = add_query_arg( 'url', urlencode($url), $provider );
-
-		if ( !$result = wp_remote_retrieve_body( wp_remote_get( $provider ) ) )
-			return false;
-
-		$result = trim( $result );
-
-		// JSON?
-		// Example content: http://vimeo.com/api/oembed.json?url=http%3A%2F%2Fvimeo.com%2F240975
-		if ( $data = json_decode($result) ) {
-			return $data;
+		
+		foreach( array( 'json', 'xml' ) as $format ) {
+			$result = $this->_fetch_with_format( $provider, $format );
+			if ( is_wp_error( $result ) && 'not-implemented' == $result->get_error_code() )
+				continue;
+			return ( $result && ! is_wp_error( $result ) ) ? $result : false;
 		}
+		return false;
+	}
 
-		// Must be XML. Only parse it if PHP5 is installed. (PHP4 isn't worth the trouble.)
-		// Example content: http://vimeo.com/api/oembed.xml?url=http%3A%2F%2Fvimeo.com%2F240975
-		elseif ( function_exists('simplexml_load_string') ) {
+	/**
+	 * Fetches result from an oEmbed provider for a specific format and complete provider URL
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @param string $provider_url_with_args URL to the provider with full arguments list (url, maxheight, etc.)
+	 * @param string $format Format to use
+	 * @return bool|object False on failure, otherwise the result in the form of an object.
+	 */
+	function _fetch_with_format( $provider_url_with_args, $format ) {
+		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
+		$response = wp_remote_get( $provider_url_with_args );
+		if ( 501 == wp_remote_retrieve_response_code( $response ) )
+			return new WP_Error( 'not-implemented' );
+		if ( ! $body = wp_remote_retrieve_body( $response ) )
+			return false;
+		$parse_method = "_parse_$format";
+		return $this->$parse_method( $body );
+	}
+
+	/**
+	 * Parses a json response body.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 */
+	function _parse_json( $response_body ) {
+		return ( ( $data = json_decode( trim( $response_body ) ) ) && is_object( $data ) ) ? $data : false;
+	}
+
+	/**
+	 * Parses an XML response body.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 */
+	function _parse_xml( $response_body ) {
+		if ( function_exists('simplexml_load_string') ) {
 			$errors = libxml_use_internal_errors( 'true' );
-
-			$data = simplexml_load_string( $result );
-
+			$data = simplexml_load_string( $response_body );
 			libxml_use_internal_errors( $errors );
-
-			if ( is_object($data) )
+			if ( is_object( $data ) )
 				return $data;
 		}
-
 		return false;
 	}
 
