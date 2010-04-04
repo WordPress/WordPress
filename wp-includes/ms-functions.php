@@ -3,6 +3,8 @@
  * Multi-site WordPress API
  *
  * @package WordPress
+ * @subpackage Multisite
+ * @since 3.0.0
  */
 
 function get_sitestats() {

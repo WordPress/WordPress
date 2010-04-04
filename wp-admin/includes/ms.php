@@ -1,4 +1,11 @@
 <?php
+/**
+ * Multisite administration functions.
+ *
+ * @package WordPress
+ * @subpackage Multisite
+ * @since 3.0.0
+ */
 
 /**
  * Determine if uploaded file exceeds space quota.

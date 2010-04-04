@@ -1,4 +1,12 @@
 <?php
+/**
+ * My Sites dashboard.
+ *
+ * @package WordPress
+ * @subpackage Multisite
+ * @since 3.0.0
+ */
+
 require_once( './admin.php' );
 
 if ( !is_multisite() )

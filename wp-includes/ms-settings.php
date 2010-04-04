@@ -7,6 +7,7 @@
  *
  * @package WordPress
  * @subpackage Multisite
+ * @since 3.0.0
  */
 
 // $base sanity check.

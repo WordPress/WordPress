@@ -1,8 +1,19 @@
 <?php
+/**
+ * Action handler for Multisite administration panels.
+ *
+ * @package WordPress
+ * @subpackage Multisite
+ * @since 3.0.0
+ */
+
 require_once( './admin.php' );
 
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
+
+if ( empty( $_GET['action'] ) )
+	wp_redirect( admin_url( 'ms-admin.php' ) );
 
 do_action( 'wpmuadminedit' , '');
 

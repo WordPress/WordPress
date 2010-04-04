@@ -1,4 +1,12 @@
 <?php
+/**
+ * Multisite network settings administration panel.
+ *
+ * @package WordPress
+ * @subpackage Multisite
+ * @since 3.0.0
+ */
+
 require_once( './admin.php' );
 
 if ( ! is_multisite() )

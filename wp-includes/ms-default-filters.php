@@ -10,6 +10,7 @@
  * @package WordPress
  * @subpackage Multisite
  * @see default-filters.php
+ * @since 3.0.0
  */
 
 // Users

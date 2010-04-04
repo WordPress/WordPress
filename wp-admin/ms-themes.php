@@ -1,4 +1,12 @@
 <?php
+/**
+ * Multisite themes administration panel.
+ *
+ * @package WordPress
+ * @subpackage Multisite
+ * @since 3.0.0
+ */
+
 require_once( './admin.php' );
 
 if ( ! current_user_can( 'manage_network_themes' ) )

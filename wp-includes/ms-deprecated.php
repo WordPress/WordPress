@@ -6,6 +6,7 @@
  *
  * @package WordPress
  * @subpackage Deprecated
+ * @since 3.0.0
  */
 
 /*
