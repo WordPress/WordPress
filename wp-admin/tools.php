@@ -10,7 +10,6 @@
 require_once('admin.php');
 
 $title = __('Tools');
-wp_enqueue_script( 'wp-gears' );
 
 require_once('admin-header.php');
 
@@ -18,62 +17,6 @@ require_once('admin-header.php');
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
-
-<?php
-if ( ! $is_opera ) {
-?>
-<div class="tool-box">
-	<div id="gears-msg1">
-	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Speed up WordPress'); ?></h3>
-	<p><?php _e('WordPress has support for Gears, which adds new features to your web browser.'); ?><br />
-	<a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a></p>
-	<p><?php _e('After you install and enable Gears, most of WordPress&#8217; images, scripts, and CSS files will be stored locally on your computer. This speeds up page load time.'); ?></p>
-	<p><strong><?php _e('Don&#8217;t install on a public or shared computer.'); ?></strong></p>
-	<div class="buttons"><button onclick="window.location = 'http://gears.google.com/?action=install&amp;return=<?php echo urlencode( admin_url() ); ?>';" class="button"><?php _e('Install Now'); ?></button></div>
-	</div>
-
-	<div id="gears-msg2" style="display:none;">
-	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
-	<p><?php _e('Gears is installed on this computer, but is not enabled for use with WordPress.'); ?></p>
-	<p><?php _e('To enable it click the button below.'); ?></p>
-	<p><strong><?php _e('Note: Do not enable Gears if this is a public or shared computer!'); ?></strong></p>
-	<div class="buttons"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button></div>
-	</div>
-
-	<div id="gears-msg3" style="display:none;">
-	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
-	<p><?php
-
-	if ( $is_chrome )
-		_e('Gears is installed and enabled on this computer. You can disable it from the Under the Hood tab in Chrome&#8217;s Options menu.');
-	elseif ( $is_safari )
-		_e('Gears is installed and enabled on this computer. You can disable it from the Safari menu.');
-	else
-		_e('Gears is installed and enabled on this computer. You can disable it from your browser&#8217;s Tools menu.');
-
-	?></p>
-	<p><?php _e('If there are any errors try disabling Gears, reloading the page, and re-enabling Gears.'); ?></p>
-	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
-	</div>
-
-	<div id="gears-msg4" style="display:none;">
-	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
-	<p><?php _e('Your browser&#8217;s settings do not permit this website to use Google Gears.'); ?></p>
-	<p><?php
-
-	if ( $is_chrome )
-	 	_e('To allow it, change the Gears settings in your browser&#8217;s Options, Under the Hood menu and reload this page.');
-	elseif ( $is_safari )
-	 	_e('To allow it, change the Gears settings in the Safari menu and reload this page.');
-	else
-		_e('To allow it, change the Gears settings in your browser&#8217;s Tools menu and reload this page.');
-
-	?></p>
-	<p><strong><?php _e('Note: Do not enable Gears if this is a public or shared computer!'); ?></strong></p>
-	</div>
-	<script type="text/javascript">wpGears.message();</script>
-</div>
-<?php } ?>
 
 <?php if ( current_user_can('edit_posts') ) : ?>
 <div class="tool-box">

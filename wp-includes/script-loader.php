@@ -336,13 +336,6 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(wordCountL10n);}catch(e){};'
 		));
 
-		$scripts->add( 'wp-gears', "/wp-admin/js/wp-gears$suffix.js", false, '20090717' );
-		$scripts->localize( 'wp-gears', 'wpGearsL10n', array(
-			'updateCompleted' => __('Update completed.'),
-			'error' => __('Error:'),
-			'l10n_print_after' => 'try{convertEntities(wpGearsL10n);}catch(e){};'
-		));
-
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20090319' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
