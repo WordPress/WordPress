@@ -1664,8 +1664,8 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
 	if ( ! empty($comment_ids) ) {
 		do_action( 'delete_comment', $comment_ids );
-		$in_comment_ids = "'" . implode("', '", $comment_ids) . "'";
-		$wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_ID IN($in_comment_ids)" );
+		foreach ( $comment_ids as $comment_id )
+			wp_delete_comment( $comment_id, true );
 		do_action( 'deleted_comment', $comment_ids );
 	}
 
@@ -3350,10 +3350,10 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND meta_value = %d", $post_id ));
 
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
-	if ( ! empty($comment_ids) ) {
+	if ( ! empty( $comment_ids ) ) {
 		do_action( 'delete_comment', $comment_ids );
-		$in_comment_ids = "'" . implode("', '", $comment_ids) . "'";
-		$wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_ID IN($in_comment_ids)" );
+		foreach ( $comment_ids as $comment_id )
+			wp_delete_comment( $comment_id, true );
 		do_action( 'deleted_comment', $comment_ids );
 	}
 
