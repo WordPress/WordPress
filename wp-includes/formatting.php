@@ -955,42 +955,6 @@ function convert_chars($content, $deprecated = '') {
 }
 
 /**
- * Callback used to change %uXXXX to &#YYY; syntax
- *
- * @since 2.8?
- *
- * @param array $matches Single Match
- * @return string An HTML entity
- */
-function funky_javascript_callback($matches) {
-	return "&#".base_convert($matches[1],16,10).";";
-}
-
-/**
- * Fixes javascript bugs in browsers.
- *
- * Converts unicode characters to HTML numbered entities.
- *
- * @since 1.5.0
- * @uses $is_macIE
- * @uses $is_winIE
- *
- * @param string $text Text to be made safe.
- * @return string Fixed text.
- */
-function funky_javascript_fix($text) {
-	// Fixes for browsers' javascript bugs
-	global $is_macIE, $is_winIE;
-
-	if ( $is_winIE || $is_macIE )
-		$text =  preg_replace_callback("/\%u([0-9A-F]{4,4})/",
-					       "funky_javascript_callback",
-					       $text);
-
-	return $text;
-}
-
-/**
  * Will only balance the tags if forced to and the option is set to balance tags.
  *
  * The option 'use_balanceTags' is used for whether the tags will be balanced.
