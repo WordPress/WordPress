@@ -78,34 +78,34 @@ $iis7_permalinks = iis7_supports_permalinks();
 if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	check_admin_referer('update-permalink');
 
-	if ( isset($_POST['permalink_structure']) ) {
+	if ( isset( $_POST['permalink_structure'] ) ) {
 		$permalink_structure = $_POST['permalink_structure'];
-		if (! empty($permalink_structure) )
-			$permalink_structure = preg_replace('#/+#', '/', '/' . $_POST['permalink_structure']);
-		if ( is_multisite() && !is_subdomain_install()  && $permalink_structure != '' && is_main_site() ) {
-			$permalink_structure = '/blog' . $permalink_structure;
+		if ( ! empty( $permalink_structure ) ) {
+			$permalink_structure = preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
+			if ( is_multisite() && ! is_subdomain_install() && is_main_site() )
+				$permalink_structure = '/blog' . $permalink_structure;
 		}
-		$wp_rewrite->set_permalink_structure($permalink_structure);
+		$wp_rewrite->set_permalink_structure( $permalink_structure );
 	}
 
-	if ( isset($_POST['category_base']) ) {
+	if ( isset( $_POST['category_base'] ) ) {
 		$category_base = $_POST['category_base'];
-		if (! empty($category_base) )
-			$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
-		if ( is_multisite() && !is_subdomain_install() && $category_base != '' && is_main_site() ) {
-			$category_base = '/blog' . $category_base;
+		if (! empty( $category_base ) ) {
+			$category_base = preg_replace('#/+#', '/', '/' . str_replace( '#', '', $category_base ) );
+			if ( is_multisite() && ! is_subdomain_install() && is_main_site() )
+				$category_base = '/blog' . $category_base;
 		}
-		$wp_rewrite->set_category_base($category_base);
+		$wp_rewrite->set_category_base( $category_base );
 	}
 
-	if ( isset($_POST['tag_base']) ) {
+	if ( isset( $_POST['tag_base'] ) ) {
 		$tag_base = $_POST['tag_base'];
-		if (! empty($tag_base) )
-			$tag_base = preg_replace('#/+#', '/', '/' . $_POST['tag_base']);
-		if ( is_multisite() && !is_subdomain_install() && $tag_base != '' && is_main_site() ) {
-			$tag_base = '/blog' . $tag_base;
+		if ( ! empty( $tag_base ) ) {
+			$tag_base = preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
+			if ( is_multisite() && ! is_subdomain_install() && is_main_site() )
+				$tag_base = '/blog' . $tag_base;
 		}
-		$wp_rewrite->set_tag_base($tag_base);
+		$wp_rewrite->set_tag_base( $tag_base );
 	}
 }
 
