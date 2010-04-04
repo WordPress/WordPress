@@ -151,7 +151,7 @@ foreach ( $offset_range as $offset ) {
 	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n($time_format)); ?></span>
 <?php endif; ?>
 <br />
-<span class="description"><?php _e('Unfortunately, you have to manually update this for daylight saving time. Lame, we know, but will be fixed in the future.'); ?></span>
+<span class="description"><?php _e('Unfortunately, you have to manually update this for daylight saving time. The PHP Date/Time library is not supported by your web host.'); ?></span>
 </td>
 <?php
 else: // looks like we can do nice timezone selection!
