@@ -2182,14 +2182,15 @@ function wp_htmledit_pre($output) {
  * @param string $subject
  * @return string The processed string
  */
-function _deep_replace($search, $subject){
+function _deep_replace( $search, $subject ) {
 	$found = true;
-	while($found) {
+	$subject = (string) $subject;
+	while ( $found ) {
 		$found = false;
-		foreach( (array) $search as $val ) {
-			while(strpos($subject, $val) !== false) {
+		foreach ( (array) $search as $val ) {
+			while ( strpos( $subject, $val ) !== false ) {
 				$found = true;
-				$subject = str_replace($val, '', $subject);
+				$subject = str_replace( $val, '', $subject );
 			}
 		}
 	}
