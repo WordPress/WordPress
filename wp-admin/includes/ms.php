@@ -807,6 +807,11 @@ function _admin_notice_multisite_activate_plugins_page() {
  * @param $user_id
  */
 function grant_super_admin( $user_id ) {
+	global $current_user;
+
+	if ( $current_user->ID == $user_id || !current_user_can( 'manage_network_options' ) )
+		return;
+
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = new WP_User( $user_id );
@@ -823,7 +828,15 @@ function grant_super_admin( $user_id ) {
  * @param $user_id
  */
 function revoke_super_admin( $user_id ) {
+	global $current_user;
+
+	if ( $current_user->ID == $user_id || !current_user_can( 'manage_network_options' ) )
+		return;
+
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+	if ( count( $super_admins ) < 2 )
+		return;
+
 	$admin_email = get_site_option( 'admin_email' );
 	
 	$user = new WP_User( $user_id );
