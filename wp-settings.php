@@ -85,6 +85,8 @@ require( ABSPATH . WPINC . '/pomo/mo.php' );
 if ( is_multisite() ) {
 	require( ABSPATH . WPINC . '/ms-blogs.php' );
 	require( ABSPATH . WPINC . '/ms-settings.php' );
+} elseif ( ! defined( 'MULTISITE' ) ) {
+	define( 'MULTISITE', false );
 }
 
 // Stop most of WordPress from being loaded if we just want the basics.
