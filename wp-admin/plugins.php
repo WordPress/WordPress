@@ -39,7 +39,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate',
 
 if ( !empty($action) ) {
 	$network_wide = false;
-	if ( ( isset( $_GET['networkwide'] ) || 'network-activate-selected' == $action ) && is_multisite() && is_super_admin() )
+	if ( ( isset( $_GET['networkwide'] ) || 'network-activate-selected' == $action ) && is_multisite() && current_user_can( 'manage_network_plugins' ) )
 		$network_wide = true;
 
 	switch ( $action ) {
@@ -378,7 +378,7 @@ $recently_activated = get_option('recently_activated', array());
 $upgrade_plugins = array();
 $network_plugins = array();
 $mustuse_plugins = $dropins_plugins = array();
-if ( ! is_multisite() || ( is_multisite() && current_user_can('manage_network_plugins') ) ) {
+if ( ! is_multisite() || current_user_can('manage_network_plugins') ) {
 	if ( apply_filters( 'show_advanced_plugins', true, 'mustuse' ) )
 		$mustuse_plugins = get_mu_plugins();
 	if ( apply_filters( 'show_advanced_plugins', true, 'dropins' ) )
@@ -406,9 +406,11 @@ unset( $plugin_array_name );
 
 foreach ( (array) $all_plugins as $plugin_file => $plugin_data) {
 	// Filter into individual sections
-	if ( is_plugin_active_for_network($plugin_file) ) {
-		if ( is_super_admin() )
-			$network_plugins[ $plugin_file ] = $plugin_data;
+	if ( is_multisite() && is_network_only_plugin( $plugin_file ) && !current_user_can( 'manage_network_plugins' ) ) {
+		unset( $all_plugins[ $plugin_file ] );
+		continue;
+	} elseif ( is_plugin_active_for_network($plugin_file) ) {
+		$network_plugins[ $plugin_file ] = $plugin_data;
 	} elseif ( is_plugin_active($plugin_file) ) {
 		$active_plugins[ $plugin_file ] = $plugin_data;
 	} else {
@@ -569,7 +571,7 @@ function print_plugins_table($plugins, $context = '') {
 				else
 					$actions['activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
 
-				if ( is_multisite() && is_super_admin() )
+				if ( is_multisite() && current_user_can( 'manage_network_plugins' ) )
 					$actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
 
 				if ( current_user_can('delete_plugins') )
