@@ -43,12 +43,27 @@ function wp_version_check() {
 		$mysql_version = preg_replace('/[^0-9.].*/', '', $wpdb->db_version());
 	else
 		$mysql_version = 'N/A';
+
+	$num_blogs = 1;
+	$wp_install = home_url( '/' );
+	$multisite_enabled = 0;
+	$user_count = count_users( );
+	if ( is_multisite( ) ) {
+		$num_blogs = get_blog_count( );
+		$wp_install = network_site_url( );
+		$multisite_enabled = 1;
+	}
+
 	$local_package = isset( $wp_local_package )? $wp_local_package : '';
-	$url = "http://api.wordpress.org/core/version-check/1.4/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
+	$url = "http://api.wordpress.org/core/version-check/1.5/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package&blogs=$num_blogs&users={$user_count['total_users']}&multisite_enabled=$multisite_enabled";
 
 	$options = array(
-		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
+		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3 ),
+		'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url( '/' ),
+		'headers' => array(
+			'wp_install' => $wp_install,
+			'wp_blog' => home_url( '/' )
+		)
 	);
 
 	$response = wp_remote_get($url, $options);
