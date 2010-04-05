@@ -477,7 +477,7 @@ function dashboard_quota() {
 	<div class="table table_content musubtable">
 	<table>
 		<tr class="first">
-			<td class="first b b-posts"><?php printf( __( '<a href="' . esc_url( admin_url( 'upload.php' ) ) . '" title="Manage Uploads" class="musublink">%sMB</a>' ), $quota ); ?></td>
+			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), $quota ); ?></td>
 			<td class="t posts"><?php _e( 'Space Allowed' ); ?></td>
 		</tr>
 	</table>
@@ -485,7 +485,7 @@ function dashboard_quota() {
 	<div class="table table_discussion musubtable">
 	<table>
 		<tr class="first">
-			<td class="b b-comments"><?php printf( __( '<a href="' . esc_url( admin_url( 'upload.php' ) ) . '" title="Manage Uploads" class="musublink">%1sMB (%2$s%%)</a>' ), $used, $percentused ); ?></td>
+			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
 			<td class="last t comments <?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
 		</tr>
 	</table>
@@ -775,7 +775,7 @@ function show_post_thumbnail_warning() {
 		return;
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );
 	if ( empty($mu_media_buttons['image']) && current_theme_supports( 'post-thumbnails' ) ) {
-		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports post thumbnails. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), esc_url( admin_url( 'ms-options.php' ) ) ) . "</div>";
+		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports Featured Images. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), esc_url( admin_url( 'ms-options.php' ) ) ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'show_post_thumbnail_warning' );
