@@ -44,19 +44,18 @@
 			<div id="branding">
 				<?php if ( is_home() || is_front_page() ) { ?>
 					<h1 id="site-title"><span><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></h1>
-				<?php } else { ?>	
+				<?php } else { ?>
 					<div id="site-title"><span><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></div>
 				<?php } ?>
 				
 				<div id="site-description"><?php bloginfo( 'description' ); ?></div>
 
 				<?php
-					// Retrieve the dimensions of the current post thumbnail -- no teensy header images for us!
-					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail');
-					list($src, $width, $height) = $image;
-					
 					// Check if this is a post or page, if it has a thumbnail, and if it's a big one
-					if ( is_singular() && has_post_thumbnail( $post->ID ) && $width >= HEADER_IMAGE_WIDTH ) :		
+					if ( 	is_singular() &&
+							has_post_thumbnail( $post->ID ) &&
+							( /* $src, $width, $height */ $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail') ) &&
+							$image[1] >= HEADER_IMAGE_WIDTH ) :
 						// Houston, we have a new header image!
 						echo get_the_post_thumbnail( $post->ID, 'post-thumbnail' );
 					else : ?>
