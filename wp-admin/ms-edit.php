@@ -77,8 +77,8 @@ switch ( $_GET['action'] ) {
 		if ( trim( $_POST['dashboard_blog'] ) == '' ) {
 			$_POST['dashboard_blog'] = $current_site->blog_id;
 			$dashboard_blog_id = $current_site->blog_id;
-		} else {
-			$dashboard_blog = untrailingslashit( sanitize_user( str_replace( '.', '', str_replace( $current_site->domain . $current_site->path, '', $_POST['dashboard_blog'] ) ) ) );
+		} elseif ( ! preg_match( '/(--|\.)/', $_POST['dashboard_blog'] ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $_POST['dashboard_blog'] ) ) {
+			$dashboard_blog = $_POST['dashboard_blog'];
 			$blog_details = get_blog_details( $dashboard_blog );
 			if ( false === $blog_details ) {
 				if ( is_numeric( $dashboard_blog ) )
