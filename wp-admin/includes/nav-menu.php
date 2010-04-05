@@ -88,7 +88,7 @@ function wp_nav_menu_manage_menu_metabox( $object, $menu ) { ?>
 			<div class="misc-pub-section misc-pub-section-last">
 				<label class="howto" for="menu-name">
 					<span><?php _e('Name'); ?></span>
-					<input id="menu-name" name="menu-name" type="text" class="regular-text menu-item-textbox" value="<?php esc_attr_e( $menu['args'][1] ); ?>" />
+					<input id="menu-name" name="menu-name" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( $menu['args'][1] ); ?>" />
 					<br class="clear" />
 				</label>
 			</div><!--END .misc-pub-section misc-pub-section-last-->
