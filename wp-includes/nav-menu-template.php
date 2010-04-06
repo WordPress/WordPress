@@ -159,11 +159,11 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 			$attributes .= ! empty( $menu_item->xfn )        ? ' rel="'    . esc_attr( $menu_item->xfn        ) .'"' : '';
 			$attributes .= ! empty( $menu_item->url )        ? ' href="'   . esc_attr( $menu_item->url        ) .'"' : '';
 
-			$output .= esc_html( $args->before );
+			$output .= $args->before;
 			$output .= '<a'. $attributes .'>';
-			$output .= esc_html( $args->link_before . apply_filters('the_title', $menu_item->title) . $args->link_after );
+			$output .= $args->link_before . apply_filters('the_title', $menu_item->title) . $args->link_after;
 			$output .= '</a>';
-			$output .= esc_html( $args->after );
+			$output .= $args->after;
 
 			break;
 
