@@ -430,28 +430,6 @@ switch ( $_GET['action'] ) {
 		exit();
 	break;
 
-	case 'matureblog':
-		check_admin_referer( 'matureblog' );
-		if ( ! current_user_can( 'manage_sites' ) )
-			wp_die( __( 'You do not have permission to access this page.' ) );
-
-		update_blog_status( $id, 'mature', '1' );
-		do_action( 'mature_blog', $id );
-		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'mature' ), wp_get_referer() ) );
-		exit();
-	break;
-
-	case 'unmatureblog':
-		check_admin_referer( 'unmatureblog' );
-		if ( ! current_user_can( 'manage_sites' ) )
-			wp_die( __( 'You do not have permission to access this page.' ) );
-
-		update_blog_status( $id, 'mature', '0' );
-		do_action( 'unmature_blog', $id );
-		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unmature' ), wp_get_referer() ) );
-		exit();
-	break;
-
 	// Themes
     case 'updatethemes':
 	if ( ! current_user_can( 'manage_network_themes' ) )

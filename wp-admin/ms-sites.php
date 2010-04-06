@@ -62,12 +62,6 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 			case 'spam':
 				_e( 'Site marked as spam.' );
 			break;
-			case 'unmature':
-				_e( 'Site marked as not mature.' );
-			break;
-			case 'mature':
-				_e( 'Site marked as mature.' );
-			break;
 			default:
 				_e( 'Settings saved.' );
 			break;
