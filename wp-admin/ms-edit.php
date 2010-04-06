@@ -548,16 +548,6 @@ switch ( $_GET['action'] ) {
 				            exit();
        					break;
 
-						case 'superadmin':
-							$userfunction = 'add_superadmin';
-							grant_super_admin( $val );
-						break;
-
-						case 'notsuperadmin':
-							$userfunction = 'remove_superadmin';
-							revoke_super_admin( $val );
-						break;
-
 						case 'spam':
 							$user = new WP_User( $val );
 							if ( in_array( $user->user_login, get_site_option( 'site_admins', array( 'admin' ) ) ) )
