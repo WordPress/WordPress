@@ -182,7 +182,7 @@ add_action( 'wp_head',             'wlwmanifest_link'                     );
 add_action( 'wp_head',             'index_rel_link'                       );
 add_action( 'wp_head',             'parent_post_rel_link',          10, 0 );
 add_action( 'wp_head',             'start_post_rel_link',           10, 0 );
-add_action( 'wp_head',             'adjacent_posts_rel_link',       10, 0 );
+add_action( 'wp_head',             'adjacent_posts_rel_link_wp_head', 10, 0 );
 add_action( 'wp_head',             'locale_stylesheet'                    );
 add_action( 'publish_future_post', 'check_and_publish_future_post', 10, 1 );
 add_action( 'wp_head',             'noindex',                       1     );

@@ -1095,6 +1095,19 @@ function adjacent_posts_rel_link($title = '%title', $in_same_cat = false, $exclu
 }
 
 /**
+ * Display relational links for the posts adjacent to the current post for single post pages.
+ *
+ * This is meant to be attached to actions like 'wp_head'.  Do not call this directly in plugins or theme templates.
+ * @since 3.0.0
+ *
+ */
+function adjacent_posts_rel_link_wp_head() {
+	if ( !is_singular() || is_attachment() )
+		return;
+	adjacent_posts_rel_link();
+}
+
+/**
  * Display relational link for the next post adjacent to the current post.
  *
  * @since 2.8.0
