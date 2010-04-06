@@ -764,6 +764,8 @@ function get_post_types( $args = array(), $output = 'names' ) {
  * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
  * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
  * show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
+ * menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
+ * menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
  * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
  * edit_cap - The capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
@@ -792,7 +794,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'singular_label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null, 'permalink_epmask' => EP_NONE );
+	$defaults = array('label' => false, 'singular_label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null, 'permalink_epmask' => EP_NONE );
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 

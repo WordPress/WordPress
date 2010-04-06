@@ -116,8 +116,10 @@ $_wp_last_object_menu = 25; // The index of the last top-level menu in the objec
 foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 	$_wp_last_object_menu++;
 	$ptype_obj = get_post_type_object($ptype);
-
-	$menu[$_wp_last_object_menu] = array(esc_attr($ptype_obj->label), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-posts', 'menu-' . sanitize_html_class($ptype), 'div');
+	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : $_wp_last_object_menu;
+	$menu_icon = is_string($ptype_obj->menu_icon) ? esc_url($ptype_obj->menu_icon) : 'div';
+	
+	$menu[$ptype_menu_position] = array(esc_attr($ptype_obj->label), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-posts', 'menu-' . sanitize_html_class($ptype), $menu_icon);
 	$submenu["edit.php?post_type=$ptype"][5]  = array( __('Edit'), $ptype_obj->edit_type_cap,  "edit.php?post_type=$ptype");
 	/* translators: add new custom post type */
 	$submenu["edit.php?post_type=$ptype"][10]  = array( _x('Add New', 'post'), $ptype_obj->edit_type_cap, "post-new.php?post_type=$ptype" );
