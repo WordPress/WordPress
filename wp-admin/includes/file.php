@@ -149,21 +149,29 @@ function list_files( $folder = '', $levels = 100 ) {
  * @return string Writable temporary directory
  */
 function get_temp_dir() {
+	static $temp;
 	if ( defined('WP_TEMP_DIR') )
 		return trailingslashit(WP_TEMP_DIR);
+
+	if ( $temp )
+		return trailingslashit($temp);
 
 	$temp = WP_CONTENT_DIR . '/';
 	if ( is_dir($temp) && is_writable($temp) )
 		return $temp;
 
-	if  ( function_exists('sys_get_temp_dir') )
-		return trailingslashit(sys_get_temp_dir());
+	if  ( function_exists('sys_get_temp_dir') ) {
+		$temp = sys_get_temp_dir();
+		if ( is_writable($temp) )
+			return trailingslashit($temp);
+	}
 
 	$temp = ini_get('upload_tmp_dir');
-	if ( is_dir($temp) ) // always writable
+	if ( is_dir($temp) && is_writable($temp) )
 		return trailingslashit($temp);
 
-	return '/tmp/';
+	$temp = '/tmp/';
+	return $temp;
 }
 
 /**
@@ -179,7 +187,7 @@ function get_temp_dir() {
  * @param string $dir (optional) Directory to store the file in
  * @return string a writable filename
  */
-function wp_tempnam($filename = '', $dir = ''){
+function wp_tempnam($filename = '', $dir = '') {
 	if ( empty($dir) )
 		$dir = get_temp_dir();
 	$filename = basename($filename);
@@ -603,7 +611,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 			return new WP_Error('extract_failed', __('Could not extract file from archive.'), $info['name']);
 
 		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE) )
-			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
+			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $info['filename']);
 	}
 
 	$z->close();

@@ -92,7 +92,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		if ( empty($type) )
 			$type = FTP_BINARY;
 
-		$temp = tmpfile();
+		$tempfile = wp_tempnam($file);
+		$temp = fopen($tempfile, 'w+');
+
 		if ( ! $temp )
 			return false;
 
@@ -106,6 +108,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$contents .= fread($temp, 8192);
 
 		fclose($temp);
+		unlink($tempfile);
 		return $contents;
 	}
 	function get_contents_array($file) {
@@ -113,7 +116,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	function put_contents($file, $contents, $mode = false ) {
-		$temp = tmpfile();
+		$tempfile = wp_tempnam($file);
+		$temp = fopen($tempfile, 'w+');
 		if ( ! $temp )
 			return false;
 
@@ -124,6 +128,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		$ret = @ftp_fput($this->link, $file, $temp, $type);
 
 		fclose($temp);
+		unlink($tempfile);
 
 		$this->chmod($file, $mode);
 
