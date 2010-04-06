@@ -177,7 +177,7 @@ if ( isset($_GET['action']) ) {
 
 		$themes = array_map('urldecode', $themes);
 
-		$url = 'update.php?action=update-selected-themes&amp;themess=' . urlencode(implode(',', $themes));
+		$url = 'update.php?action=update-selected-themes&amp;themes=' . urlencode(implode(',', $themes));
 		$nonce = 'bulk-update-themes';
 
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
