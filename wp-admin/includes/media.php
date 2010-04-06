@@ -351,18 +351,6 @@ if ( is_string($content_func) )
  * @since unknown
  */
 function media_buttons() {
-	global $post_ID, $temp_ID;
-	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
-	$media_upload_iframe_src = "media-upload.php?post_id=$uploading_iframe_ID";
-	$media_title = __('Add Media');
-	$image_upload_iframe_src = apply_filters('image_upload_iframe_src', "$media_upload_iframe_src&amp;type=image");
-	$image_title = __('Add an Image');
-	$video_upload_iframe_src = apply_filters('video_upload_iframe_src', "$media_upload_iframe_src&amp;type=video");
-	$video_title = __('Add Video');
-	$audio_upload_iframe_src = apply_filters('audio_upload_iframe_src', "$media_upload_iframe_src&amp;type=audio");
-	$audio_title = __('Add Audio');
-
 	$do_image = $do_audio = $do_video = true;
 	if ( is_multisite() ) {
 		$media_buttons = get_site_option( 'mu_media_buttons' );
@@ -376,16 +364,35 @@ function media_buttons() {
 	$out = '';
 
 	if ( $do_image )
-		$out .= "<a href='{$image_upload_iframe_src}&amp;TB_iframe=true' id='add_image' class='thickbox' title='$image_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-image.gif' ) ) . "' alt='$image_title' /></a>";
+		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif', 'image');
 	if ( $do_video )
-		$out .= "<a href='{$video_upload_iframe_src}&amp;TB_iframe=true' id='add_video' class='thickbox' title='$video_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-video.gif' ) ) . "' alt='$video_title' /></a>";
+		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif', 'video');
 	if ( $do_audio )
-		$out .= "<a href='{$audio_upload_iframe_src}&amp;TB_iframe=true' id='add_audio' class='thickbox' title='$audio_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-music.gif' ) ) . "' alt='$audio_title' /></a>";
-	$out .= "<a href='{$media_upload_iframe_src}&amp;TB_iframe=true' id='add_media' class='thickbox' title='$media_title' onclick='return false;'><img src='" . esc_url( admin_url( 'images/media-button-other.gif' ) ) . "' alt='$media_title' /></a>";
+		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif', 'audio');
+
+	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif', 'media');
+
+	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
 	printf($context, $out);
 }
 add_action( 'media_buttons', 'media_buttons' );
+
+function _media_button($title, $icon, $type) {
+	return "<a href='" . get_upload_iframe_src($type) . "' id='add_$type' class='thickbox' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' /></a>";
+}
+
+function get_upload_iframe_src($type) {
+	global $post_ID, $temp_ID;
+	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
+	$upload_iframe_src = add_query_arg('post_id', $uploading_iframe_ID, 'media-upload.php');
+
+	if ( 'media' != $type )
+		$upload_iframe_src = add_query_arg('type', $type, $upload_iframe_src);
+	$upload_iframe_src = apply_filters($type . '_upload_iframe_src', $upload_iframe_src);
+
+	return add_query_arg('TB_iframe', true, $upload_iframe_src);
+}
 
 /**
  * {@internal Missing Short Description}}

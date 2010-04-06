@@ -167,7 +167,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-autocomplete', "/wp-includes/js/jquery/autocomplete$suffix.js", array('jquery'), '1.1' );
 	$scripts->add_data( 'jquery-autocomplete', 'group', 1 );
 
-	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20100108');
+	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20104104');
 	$scripts->add_data( 'thickbox', 'group', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
 			'next' => __('Next &gt;'),
