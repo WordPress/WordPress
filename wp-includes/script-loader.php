@@ -167,7 +167,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-autocomplete', "/wp-includes/js/jquery/autocomplete$suffix.js", array('jquery'), '1.1' );
 	$scripts->add_data( 'jquery-autocomplete', 'group', 1 );
 
-	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20104104');
+	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20100407');
 	$scripts->add_data( 'thickbox', 'group', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
 			'next' => __('Next &gt;'),
@@ -337,7 +337,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(wordCountL10n);}catch(e){};'
 		));
 
-		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20090319' );
+		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20091202' );
@@ -356,7 +356,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery' ), '20100402' );
+		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'thickbox' ), '20100407' );
 		$scripts->add_data( 'plugin-install', 'group', 1 );
 		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(
 			'plugin_information' => __('Plugin Information:'),

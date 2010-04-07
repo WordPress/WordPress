@@ -23,14 +23,16 @@ jQuery(document).ready(function(){
 
 //add thickbox to href & area elements that have a class of .thickbox
 function tb_init(domChunk){
-	jQuery(domChunk).live('click', function(){
+	jQuery(domChunk).live('click', tb_click);
+}
+
+function tb_click(){
 	var t = this.title || this.name || null;
 	var a = this.href || this.alt;
 	var g = this.rel || false;
 	tb_show(t,a,g);
 	this.blur();
 	return false;
-	});
 }
 
 function tb_show(caption, url, imageGroup) {//function called when the user clicks on a thickbox link
