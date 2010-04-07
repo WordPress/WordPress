@@ -895,7 +895,10 @@ function inline_edit_row( $screen ) {
 		<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
 
 
-<?php if ( $bulk ) : ?>
+<?php
+
+if ( post_type_supports( $screen->post_type, 'title' ) ) : 
+	if ( $bulk ) : ?>
 		<div id="bulk-title-div">
 			<div id="bulk-titles"></div>
 		</div>
@@ -907,16 +910,15 @@ function inline_edit_row( $screen ) {
 			<span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="" /></span>
 		</label>
 
-<?php endif; // $bulk ?>
-
-
-<?php if ( !$bulk ) : ?>
-
 		<label>
 			<span class="title"><?php _e( 'Slug' ); ?></span>
 			<span class="input-text-wrap"><input type="text" name="post_name" value="" /></span>
 		</label>
 
+<?php endif; // $bulk
+endif; // post_type_supports title ?>
+
+<?php if ( !$bulk ) : ?>
 		<label><span class="title"><?php _e( 'Date' ); ?></span></label>
 		<div class="inline-edit-date">
 			<?php touch_time(1, 1, 4, 1); ?>
@@ -925,6 +927,7 @@ function inline_edit_row( $screen ) {
 
 <?php endif; // $bulk
 
+	if ( post_type_supports( $screen->post_type, 'author' ) ) :
 		$authors = get_editable_user_ids( $current_user->id, true, $screen->post_type ); // TODO: ROLE SYSTEM
 		$authors_dropdown = '';
 		if ( $authors && count( $authors ) > 1 ) :
@@ -939,7 +942,11 @@ function inline_edit_row( $screen ) {
 		endif; // authors
 ?>
 
-<?php if ( !$bulk ) : echo $authors_dropdown; ?>
+<?php if ( !$bulk ) echo $authors_dropdown;
+endif; // post_type_supports author
+
+if ( !$bulk ) :
+?>
 
 		<div class="inline-edit-group">
 			<label class="alignleft">
@@ -986,7 +993,7 @@ function inline_edit_row( $screen ) {
 	<fieldset class="inline-edit-col-right"><div class="inline-edit-col">
 
 <?php
-	if ( $bulk )
+	if ( post_type_supports( $screen->post_type, 'author' ) && $bulk )
 		echo $authors_dropdown;
 ?>
 
@@ -1003,7 +1010,8 @@ function inline_edit_row( $screen ) {
 ?>
 		</label>
 
-<?php	if ( !$bulk ) : ?>
+<?php if ( post_type_supports( $screen->post_type, 'page-attributes' ) ) :
+		if ( !$bulk ) : ?>
 
 		<label>
 			<span class="title"><?php _e( 'Order' ); ?></span>
@@ -1023,7 +1031,9 @@ function inline_edit_row( $screen ) {
 			</select>
 		</label>
 
-<?php endif; // $post_type_object->hierarchical ?>
+<?php 
+	endif; // post_type_supports page-attributes
+endif; // $post_type_object->hierarchical ?>
 
 <?php if ( count($flat_taxonomies) && !$bulk ) : ?>
 
@@ -1038,9 +1048,11 @@ function inline_edit_row( $screen ) {
 
 <?php endif; // count($flat_taxonomies) && !$bulk  ?>
 
-<?php if ( $bulk ) : ?>
+<?php if ( post_type_supports( $screen->post_type, 'comments' ) || post_type_supports( $screen->post_type, 'trackbacks' ) ) :
+	if ( $bulk ) : ?>
 
 		<div class="inline-edit-group">
+	<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 		<label class="alignleft">
 			<span class="title"><?php _e( 'Comments' ); ?></span>
 			<select name="comment_status">
@@ -1049,7 +1061,7 @@ function inline_edit_row( $screen ) {
 				<option value="closed"><?php _e('Do not allow'); ?></option>
 			</select>
 		</label>
-
+	<?php endif; if ( post_type_supports( $screen->post_type, 'trackbacks' ) ) : ?>
 		<label class="alignright">
 			<span class="title"><?php _e( 'Pings' ); ?></span>
 			<select name="ping_status">
@@ -1058,24 +1070,27 @@ function inline_edit_row( $screen ) {
 				<option value="closed"><?php _e('Do not allow'); ?></option>
 			</select>
 		</label>
+	<?php endif; ?>
 		</div>
 
 <?php else : // $bulk ?>
 
 		<div class="inline-edit-group">
+		<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 			<label class="alignleft">
 				<input type="checkbox" name="comment_status" value="open" />
 				<span class="checkbox-title"><?php _e( 'Allow Comments' ); ?></span>
 			</label>
-
+		<?php endif; if ( post_type_supports( $screen->post_type, 'trackbacks' ) ) : ?>
 			<label class="alignleft">
 				<input type="checkbox" name="ping_status" value="open" />
 				<span class="checkbox-title"><?php _e( 'Allow Pings' ); ?></span>
 			</label>
+		<?php endif; ?>
 		</div>
 
-<?php endif; // $bulk ?>
-
+<?php endif; // $bulk
+endif; // post_type_supports comments or pings ?>
 
 		<div class="inline-edit-group">
 			<label class="inline-edit-status alignleft">
