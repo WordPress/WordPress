@@ -3803,10 +3803,6 @@ function screen_icon($screen = '') {
 		else
 			$name = $screen->base;
 
-		// @todo Remove this once we have a site admin icon
-		if ( 'ms-admin' == $screen->parent_base )
-			$name = 'tools';
-
 		if ( 'edit' == $name && isset($screen->post_type) && 'page' == $screen->post_type )
 			$name = 'edit-pages';
 	}

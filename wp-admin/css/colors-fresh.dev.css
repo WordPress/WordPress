@@ -1235,6 +1235,15 @@ table.widefat .spam a:hover,
 #adminmenu .menu-icon-settings.wp-has-current-submenu div.wp-menu-image {
 	background: transparent url('../images/menu.png') no-repeat scroll -241px -1px;
 }
+
+#adminmenu .menu-icon-site div.wp-menu-image {
+	background: transparent url('../images/menu.png') no-repeat scroll -361px -33px;
+}
+
+#adminmenu .menu-icon-site:hover div.wp-menu-image,
+#adminmenu .menu-icon-site.wp-has-current-submenu div.wp-menu-image {
+	background: transparent url('../images/menu.png') no-repeat scroll -361px -1px;
+}
 /* end menu */
 
 
@@ -1553,6 +1562,10 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #icon-options-general {
 	background: transparent url(../images/icons32.png) no-repeat -492px -5px;
+}
+
+#icon-ms-admin {
+	background: transparent url(../images/icons32.png) no-repeat -659px -5px;
 }
 
 .view-switch #view-switch-list {
