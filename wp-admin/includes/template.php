@@ -844,7 +844,7 @@ function get_hidden_columns($screen) {
  *
  * @since 2.7
  *
- * @param string $type 'post' or 'page'
+ * @param string $screen
  */
 function inline_edit_row( $screen ) {
 	global $current_user, $mode;
@@ -1143,7 +1143,7 @@ endif; // post_type_supports comments or pings ?>
 	foreach ( $columns as $column_name => $column_display_name ) {
 		if ( isset( $core_columns[$column_name] ) )
 			continue;
-		do_action( $bulk ? 'bulk_edit_custom_box' : 'quick_edit_custom_box', $column_name, $type);
+		do_action( $bulk ? 'bulk_edit_custom_box' : 'quick_edit_custom_box', $column_name, $screen->post_type );
 	}
 ?>
 	<p class="submit inline-edit-save">
