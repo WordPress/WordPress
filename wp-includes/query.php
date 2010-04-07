@@ -1712,7 +1712,7 @@ class WP_Query {
 		if ( $q['day'] )
 			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
 
-		if ( !empty($q['post_type']) ) {
+		if ( !empty($q['post_type']) && 'any' != $q['post_type'] ) {
 			$_pt = is_array($q['post_type']) ? $q['post_type'] : array($q['post_type']);
 			foreach ( $_pt as $_post_type ) {
 				if ( empty($q[ $_post_type ]) )
