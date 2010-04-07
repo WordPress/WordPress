@@ -178,7 +178,7 @@ function walk_nav_menu_tree( $items, $depth, $r ) {
 	$walker = ( empty($r->walker) ) ? new Walker_Nav_Menu : $r->walker;
 	$args = array( $items, $depth, $r );
 
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+	return call_user_func_array( array(&$walker, 'walk'), $args );
 }
 
 /**
@@ -202,17 +202,19 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			if ( 'post_type' == $menu_item->type ) {
 				$object = get_post_type_object( $menu_item->object );
 				$menu_item->append = $object->singular_label;
+				$menu_item->url = get_permalink( $menu_item->object_id );
 
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
 				$menu_item->append = $object->singular_label;
+				$menu_item->url = get_term_link( (int) $menu_item->object_id, $menu_item->object );
 
 			} else {
 				$menu_item->append = __('Custom');
+				$menu_item->url = get_post_meta( $menu_item->ID, '_menu_item_url', true );
 			}
 
 			$menu_item->title = $menu_item->post_title;
-			$menu_item->url = get_post_meta( $menu_item->ID, '_menu_item_url', true );
 			$menu_item->target = get_post_meta( $menu_item->ID, '_menu_item_target', true );
 
 			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
@@ -221,7 +223,7 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->classes = get_post_meta( $menu_item->ID, '_menu_item_classes', true );
 			$menu_item->xfn = get_post_meta( $menu_item->ID, '_menu_item_xfn', true );
 			break;
-
+		
 		case 'custom':
 			$menu_item->db_id = 0;
 			$menu_item->object_id = (int) $menu_item->ID;
@@ -235,8 +237,8 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_post_meta( $menu_item->ID, '_menu_item_url', true );
 			$menu_item->target = get_post_meta( $menu_item->ID, '_menu_item_target', true );
-			$menu_item->classes = '';
-			$menu_item->xfn = '';
+			$menu_item->classes = get_post_meta( $menu_item->ID, '_menu_item_target', true );
+			$menu_item->xfn = get_post_meta( $menu_item->ID, '_menu_item_xfn', true );
 			break;
 
 		case 'post_type':
@@ -273,11 +275,12 @@ function wp_setup_nav_menu_item( $menu_item, $menu_item_type = null, $menu_item_
 			$menu_item->url = get_term_link( $menu_item, $menu_item_object );
 			$menu_item->target = '';
 			$menu_item->attr_title = '';
-			$menu_item->description = strip_tags( $menu_item->description );
+			$menu_item->description = '';
 			$menu_item->classes = '';
 			$menu_item->xfn = '';
 			break;
 	}
-	return $menu_item;
+	
+	return apply_filters( 'wp_setup_nav_menu_item', $menu_item, $menu_item_type, $menu_item_object );
 }
 ?>

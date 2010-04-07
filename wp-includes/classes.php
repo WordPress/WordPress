@@ -1178,7 +1178,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param object $item Menu item data object.
 	 * @param int $depth Depth of menu item. Used for padding.
 	 * @param int $current_page Menu item ID.
-	 * @param array $args
+	 * @param object $args
 	 */
 	function start_el(&$output, $item, $depth, $args) {
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
@@ -1217,7 +1217,6 @@ class Walker_Nav_Menu extends Walker {
 	function end_el(&$output, $item, $depth) {
 		$output .= "</li>\n";
 	}
-
 }
 
 /**

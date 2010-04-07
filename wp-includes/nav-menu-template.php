@@ -22,7 +22,8 @@
  * link_before - Text before the link.
  * link_after - Text after the link.
  * echo - Whether to echo the menu or return it. Defaults to echo.
- * show_home - If you set this argument, then it will display the link to the home page. The show_home argument really just needs to be set to the value of the text of the link.
+ *
+ * @todo show_home - If you set this argument, then it will display the link to the home page. The show_home argument really just needs to be set to the value of the text of the link.
  *
  * @since 3.0.0
  *
@@ -31,7 +32,7 @@
 function wp_nav_menu( $args = array() ) {
 	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'menu_class' => 'menu', 'echo' => true,
 	'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
-	'depth' => 0, 'walker' => '' );
+	'depth' => 0, 'walker' => '', 'context' => 'frontend' );
 
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_nav_menu_args', $args );
@@ -51,69 +52,25 @@ function wp_nav_menu( $args = array() ) {
 			}
 		}
 	}
-
-	if ( $menu && ! is_wp_error( $menu ) )
-		$args->menu = $menu->term_id;
-	$nav_menu = '';
-
-	if ( 'div' == $args->container ) {
-		$class = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : '';
-
-		if ( is_nav_menu($menu) ) {
-			$nav_menu .= '<div id="menu-' . $menu->slug . '"'. $class .'>';
-		} else {
-			$nav_menu .= '<div'. $class .'>';
-		}
-	}
-
-	$nav_menu .= wp_get_nav_menu( $args );
-
-	if ( 'div' == $args->container )
-		$nav_menu .= '</div>';
-
-	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu, $args );
-
-	if ( $args->echo )
-		echo $nav_menu;
-	else
-		return $nav_menu;
-}
-
-/**
- * Returns a Navigation Menu.
- *
- * See wp_nav_menu() for args.
- *
- * @since 3.0.0
- *
- * @param array $args Arguments
- * @return mixed $output False if menu doesn't exists, else, returns the menu.
- **/
-function wp_get_nav_menu( $args = array() ) {
-	$defaults = array( 'menu' => '', 'menu_class' => 'menu', 'context' => 'frontend', 'depth' => 0,
-	'fallback_cb' => '', 'walker' => '', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '', );
-
-	$args = wp_parse_args( $args, $defaults );
-	$args = apply_filters( 'wp_get_nav_menu_args', $args );
-	$args = (object) $args;
-
-	// Variable setup
-	$nav_menu = '';
-	$items = '';
-
-	// Get the menu object
-	$menu = wp_get_nav_menu_object( $args->menu );
-
+	
 	// If the menu exists, get it's items.
 	if ( $menu && !is_wp_error($menu) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, $args->context );
 
 	// If no menu was found or if the menu has no items, call the fallback_cb
 	if ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) ) ) {
-		if ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) {
-			$_args = array_merge( (array) $args, array('echo' => false) );
-			return call_user_func( $args->fallback_cb, $_args );
+		if ( 'frontend' == $args->context && ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) ) {
+			return call_user_func( $args->fallback_cb, (array) $args );
 		}
+	}
+	
+	$nav_menu = '';
+	$items = '';
+	$container_allowedtags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'p', 'nav' ) );
+
+	if ( in_array( $args->container, $container_allowedtags ) ) {
+		$class = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : ' class="menu-'. $menu->slug .'-container"';
+		$nav_menu .= '<'. $args->container . $class .'>';
 	}
 
 	// Set up the $menu_item variables
@@ -122,9 +79,11 @@ function wp_get_nav_menu( $args = array() ) {
 
 	$items .= walk_nav_menu_tree( $menu_items, $args->depth, $args );
 
-	// CSS class
-	$ul_class = $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
-	$nav_menu .= '<ul'. $ul_class .'>';
+	// Attributes	
+	$attributes  = ' id="menu-' . $menu->slug . '"';
+	$attributes .= $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
+	
+	$nav_menu .= '<ul'. $attributes .'>';
 
 	// Allow plugins to hook into the menu to add their own <li>'s
 	if ( 'frontend' == $args->context ) {
@@ -137,7 +96,15 @@ function wp_get_nav_menu( $args = array() ) {
 
 	$nav_menu .= '</ul>';
 
-	return apply_filters( 'wp_get_nav_menu', $nav_menu );
+	if ( in_array( $args->container, $container_allowedtags ) )
+		$nav_menu .= '</'. $args->container .'>';
+
+	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu, $args );
+
+	if ( $args->echo )
+		echo $nav_menu;
+	else
+		return $nav_menu;
 }
 
 /**
@@ -161,7 +128,7 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 
 			$output .= $args->before;
 			$output .= '<a'. $attributes .'>';
-			$output .= $args->link_before . apply_filters('the_title', $menu_item->title) . $args->link_after;
+			$output .= $args->link_before . apply_filters( 'the_title', $menu_item->title ) . $args->link_after;
 			$output .= '</a>';
 			$output .= $args->after;
 
@@ -218,6 +185,6 @@ function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array(
 			break;
 	}
 
-	return $output;
+	return apply_filters( 'wp_get_nav_menu_item', $output, $context, $args );
 }
 ?>

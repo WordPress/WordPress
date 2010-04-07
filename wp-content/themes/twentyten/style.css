@@ -113,6 +113,7 @@ textarea,
 h3#comments-title,
 h3#reply-title,
 #access .menu,
+#access div.menu ul,
 #cancel-comment-reply-link,
 .form-allowed-tags,
 #site-info,
@@ -153,6 +154,7 @@ code {
 
 /* The main theme structure */
 #access .menu-header,
+div.menu,
 #colophon,
 #branding,
 #main,
@@ -360,15 +362,15 @@ a:hover {
 	display:block;
 	float:left;
 }
-#access .menu-header {
+#access .menu-header, div.menu {
 	font-size: 13px;
 	margin-left: 12px;
 }
-#access .menu-header ul {
+#access .menu-header ul, div.menu ul {
 	list-style: none;
 	margin: 0;
 }
-#access .menu-header li {
+#access .menu-header li, div.menu li {
 	float:left;
 	position: relative;
 }

@@ -55,7 +55,7 @@ function wp_nav_menu_post_type_metaboxes() {
 
 	foreach ( $post_types as $post_type ) {
 		$id = $post_type->name;
-		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $post_type->singular_label ), 'wp_nav_menu_item_post_type_metabox', 'nav-menus', 'side', 'default', $post_type );
+		add_meta_box( "add-{$id}", sprintf( __('Add %s'), $post_type->label ), 'wp_nav_menu_item_post_type_metabox', 'nav-menus', 'side', 'default', $post_type );
 	}
 }
 
@@ -72,8 +72,7 @@ function wp_nav_menu_taxonomy_metaboxes() {
 
 	foreach ( $taxonomies as $tax ) {
 		$id = $tax->name;
-
-		add_meta_box( "add-{$id}", sprintf( __('Add an Existing %s'), $tax->singular_label ), 'wp_nav_menu_item_taxonomy_metabox', 'nav-menus', 'side', 'default', $tax );
+		add_meta_box( "add-{$id}", sprintf( __('Add %s'), $tax->label ), 'wp_nav_menu_item_taxonomy_metabox', 'nav-menus', 'side', 'default', $tax );
 	}
 }
 

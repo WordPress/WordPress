@@ -274,7 +274,7 @@ require_once( 'admin-header.php' );
 						<div id="menu-container" class="postbox">
 							<h3 class="hndle"><?php echo esc_html( $nav_menu_selected_title ); ?></h3>
 							<div class="inside">
-								<?php echo wp_get_nav_menu( array( 'context' => 'backend', 'menu' => $nav_menu_selected_id ) ); ?>
+								<?php wp_nav_menu( array( 'menu' => $nav_menu_selected_id, 'context' => 'backend' ) ); ?>
 							</div><!-- /.inside -->
 						<!-- /#nav-menu-canvas .postbox-->
 						</div>
