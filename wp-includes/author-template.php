@@ -128,6 +128,23 @@ function the_author_meta($field = '', $user_id = false) {
 }
 
 /**
+ * Retrieve either author's link or author's name.
+ *
+ * If the author has a home page set, return an HTML link, otherwise just return the
+ * author's name.
+ *
+ * @uses get_the_author_meta()
+ * @uses get_the_author()
+ */
+function get_the_author_link() {
+	if ( get_the_author_meta('url') ) {
+		return '<a href="' . get_the_author_meta('url') . '" title="' . esc_attr( sprintf(__("Visit %s&#8217;s website"), get_the_author()) ) . '" rel="external">' . get_the_author() . '</a>';
+	} else {
+		return get_the_author();
+	}
+}
+
+/**
  * Display either author's link or author's name.
  *
  * If the author has a home page set, echo an HTML link, otherwise just echo the
@@ -135,15 +152,10 @@ function the_author_meta($field = '', $user_id = false) {
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_link
  * @since 2.1
- * @uses get_the_author_meta()
- * @uses the_author()
+ * @uses get_the_author_link()
  */
 function the_author_link() {
-	if ( get_the_author_meta('url') ) {
-		echo '<a href="' . get_the_author_meta('url') . '" title="' . esc_attr( sprintf(__("Visit %s&#8217;s website"), get_the_author()) ) . '" rel="external">' . get_the_author() . '</a>';
-	} else {
-		the_author();
-	}
+	echo get_the_author_link();
 }
 
 /**
