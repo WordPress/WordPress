@@ -883,11 +883,12 @@ function inline_edit_row( $screen ) {
 
 <form method="get" action=""><table style="display: none"><tbody id="inlineedit">
 	<?php
+	$hclass = count( $hierarchical_taxonomies ) ? 'post' : 'page';
 	$bulk = 0;
 	while ( $bulk < 2 ) { ?>
 
-	<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$screen->post_type ";
-		echo $bulk ? "bulk-edit-row bulk-edit-row-$screen->post_type" : "quick-edit-row quick-edit-row-$screen->post_type";
+	<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$hclass inline-edit-$screen->post_type ";
+		echo $bulk ? "bulk-edit-row bulk-edit-row-$hclass bulk-edit-$screen->post_type" : "quick-edit-row quick-edit-row-$hclass inline-edit-$screen->post_type";
 	?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 
 	<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
