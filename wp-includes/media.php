@@ -990,6 +990,9 @@ class WP_Embed {
 		// Hack to get the [embed] shortcode to run before wpautop()
 		add_filter( 'the_content', array(&$this, 'run_shortcode'), 8 );
 
+		// Shortcode placeholder for strip_shortcodes()
+		add_shortcode( 'embed', '__return_false' );
+
 		// Attempts to embed all URLs in a post
 		if ( get_option('embed_autourls') )
 			add_filter( 'the_content', array(&$this, 'autoembed'), 8 );
