@@ -19,8 +19,8 @@ function create_initial_post_types() {
 										'singular_label' => __('Post'),
 										'public' => true,
 										'show_ui' => false,
-										'_builtin' => true,
-										'_edit_link' => 'post.php?post=%d',
+										'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
+										'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 										'capability_type' => 'post',
 										'hierarchical' => false,
 										'rewrite' => false,
@@ -32,8 +32,8 @@ function create_initial_post_types() {
 										'singular_label' => __('Page'),
 										'public' => true,
 										'show_ui' => false,
-										'_builtin' => true,
-										'_edit_link' => 'post.php?post=%d',
+										'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
+										'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 										'capability_type' => 'page',
 										'hierarchical' => true,
 										'rewrite' => false,
@@ -44,8 +44,8 @@ function create_initial_post_types() {
 	register_post_type( 'attachment', array('label' => __('Media'),
 											'public' => true,
 											'show_ui' => false,
-											'_builtin' => true,
-											'_edit_link' => 'media.php?attachment_id=%d',
+											'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
+											'_edit_link' => 'media.php?attachment_id=%d', /* internal use only. don't use this when registering your own post type. */
 											'capability_type' => 'post',
 											'hierarchical' => false,
 											'rewrite' => false,
@@ -55,8 +55,8 @@ function create_initial_post_types() {
 	register_post_type( 'revision', array(	'label' => __('Revisions'),
 											'singular_label' => __('Revision'),
 											'public' => false,
-											'_builtin' => true,
-											'_edit_link' => 'revision.php?revision=%d',
+											'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
+											'_edit_link' => 'revision.php?revision=%d', /* internal use only. don't use this when registering your own post type. */
 											'capability_type' => 'post',
 											'hierarchical' => false,
 											'rewrite' => false,
@@ -67,7 +67,7 @@ function create_initial_post_types() {
 												'singular_label' => __('Navigation Menu Item'),
 												'public' => false,
 												'show_ui' => false,
-												'_builtin' => true,
+												'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 												'capability_type' => 'post',
 												'hierarchical' => false,
 												'rewrite' => false,
@@ -76,44 +76,44 @@ function create_initial_post_types() {
 
 	register_post_status( 'publish', array(	'label' => _x('Published', 'post'),
 											'public' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'future', array(	'label' => _x('Scheduled', 'post'),
 											'protected' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'draft', array(	'label' => _x('Draft', 'post'),
 											'protected' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'pending', array(	'label' => _x('Pending', 'post'),
 											'protected' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'private', array(	'label' => _x('Private', 'post'),
 											'private' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'trash', array(	'label' => _x('Trash', 'post'),
 											'internal' => true,
 											'show_in_admin_status_list' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
 										) );
 
 	register_post_status( 'auto-draft', array(	'label' => _x('Auto-Draft', 'post'),
 											'internal' => true,
-											'_builtin' => true,
+											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
 										) );
 }
