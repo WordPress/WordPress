@@ -809,10 +809,7 @@ function _admin_notice_multisite_activate_plugins_page() {
  * @param $user_id
  */
 function grant_super_admin( $user_id ) {
-	global $current_user;
-
-	if ( $current_user->ID == $user_id || !current_user_can( 'manage_network_options' ) )
-		return;
+	do_action( 'grant_super_admin', $user_id );
 
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
@@ -820,6 +817,7 @@ function grant_super_admin( $user_id ) {
 	if ( ! in_array( $user->user_login, $super_admins ) ) {
 		$super_admins[] = $user->user_login;
 		update_site_option( 'site_admins' , $super_admins );
+		do_action( 'granted_super_admin', $user_id );
 	}
 }
 
@@ -830,22 +828,16 @@ function grant_super_admin( $user_id ) {
  * @param $user_id
  */
 function revoke_super_admin( $user_id ) {
-	global $current_user;
-
-	if ( $current_user->ID == $user_id || !current_user_can( 'manage_network_options' ) )
-		return;
-
-	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
-	if ( count( $super_admins ) < 2 )
-		return;
+	do_action( 'revoke_super_admin', $user_id );
 
 	$admin_email = get_site_option( 'admin_email' );
-	
+
 	$user = new WP_User( $user_id );
-	if ( $user->ID != $current_user->ID || $user->user_email != $admin_email ) {
+	if ( $user->user_email != $admin_email ) {
 		foreach ( $super_admins as $key => $username ) {
 			if ( $username == $user->user_login ) {
 				unset( $super_admins[$key] );
+				do_action( 'revoked_super_admin', $user_id );
 				break;
 			}
 		}
