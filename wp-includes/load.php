@@ -568,10 +568,10 @@ function is_admin() {
  * @return bool True if multisite is enabled, false otherwise.
  */
 function is_multisite() {
-	if ( defined( 'MULTISITE' ) && ! MULTISITE )
-		return false;
+	if ( defined( 'MULTISITE' ) )
+		return MULTISITE;
 
-	if ( ( defined( 'MULTISITE' ) && MULTISITE ) || defined( 'VHOST' ) || defined( 'SUNRISE' ) )
+	if ( defined( 'VHOST' ) || defined( 'SUNRISE' ) )
 		return true;
 
 	return false;
