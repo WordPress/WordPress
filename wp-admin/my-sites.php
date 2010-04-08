@@ -40,7 +40,7 @@ $parent_file = 'index.php';
 require_once( './admin-header.php' );
 
 if ( $updated ) { ?>
-	<div id="message" class="updated fade"><p><strong><?php _e( 'Settings saved.' ); ?></strong></p></div>
+	<div id="message" class="updated"><p><strong><?php _e( 'Settings saved.' ); ?></strong></p></div>
 <?php } ?>
 
 <div class="wrap">

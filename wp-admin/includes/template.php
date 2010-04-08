@@ -3235,7 +3235,7 @@ function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = F
 	$output = '';
 	foreach ( $settings_errors as $key => $details ) {
 		$css_id = 'setting-error-' . $details['code'];
-		$css_class = $details['type'] . ' fade settings-error';
+		$css_class = $details['type'] . ' settings-error';
 		$output .= "<div id='$css_id' class='$css_class'> \n";
 		$output .= "<p><strong>{$details['message']}</strong></p>";
 		$output .= "</div> \n";

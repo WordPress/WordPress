@@ -22,7 +22,7 @@ include( './admin-header.php' );
 
 if (isset($_GET['updated'])) {
 	?>
-	<div id="message" class="updated fade"><p><?php _e( 'Options saved.' ) ?></p></div>
+	<div id="message" class="updated"><p><?php _e( 'Options saved.' ) ?></p></div>
 	<?php
 }
 ?>

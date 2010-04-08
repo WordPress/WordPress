@@ -113,16 +113,16 @@ require_once ('admin-header.php');
 if ( isset($_GET[ 'update' ]) && is_multisite() ) {
 	switch ( $_GET[ 'update' ] ) {
 		case "newuserconfimation":
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.') . '</p></div>';
 			break;
 		case "add":
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('Invitation email sent to user. A confirmation link must be clicked for them to be added to your blog.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('Invitation email sent to user. A confirmation link must be clicked for them to be added to your blog.') . '</p></div>';
 			break;
 		case "addnoconfirmation":
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('User has been added to your blog.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('User has been added to your blog.') . '</p></div>';
 			break;
 		case "addexisting":
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('That user is already a member of this blog.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated"><p>' . __('That user is already a member of this blog.') . '</p></div>';
 			break;
 	}
 }

@@ -24,7 +24,7 @@ require_once( './admin-header.php' );
 
 if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['action'] ) ) {
 	?>
-	<div id="message" class="updated fade"><p>
+	<div id="message" class="updated"><p>
 		<?php
 		switch ( $_GET['action'] ) {
 			case 'delete':

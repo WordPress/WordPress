@@ -44,7 +44,7 @@ wp_enqueue_script( 'theme-preview' );
 
 require_once('admin-header.php');
 if ( is_multisite() && current_user_can('edit_themes') ) {
-	?><div id="message0" class="updated fade"><p><?php _e('Administrator: new themes must be activated in the <a href="ms-themes.php">Themes Admin</a> page before they appear here.'); ?></p></div><?php
+	?><div id="message0" class="updated"><p><?php _e('Administrator: new themes must be activated in the <a href="ms-themes.php">Themes Admin</a> page before they appear here.'); ?></p></div><?php
 }
 ?>
 
