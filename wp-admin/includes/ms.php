@@ -673,8 +673,10 @@ function admin_notice_feed() {
 	if ( $current_screen->id != 'dashboard' )
 		return;
 
-	if ( !empty( $_GET['feed_dismiss'] ) )
+	if ( !empty( $_GET['feed_dismiss'] ) ) {
 		update_user_option( $current_user->id, 'admin_feed_dismiss', $_GET['feed_dismiss'], true );
+		return;
+	}
 
 	$url = get_site_option( 'admin_notice_feed' );
 	if ( empty( $url ) )
@@ -690,7 +692,7 @@ function admin_notice_feed() {
 		$content = $content ? wp_html_excerpt( $content, 200 ) . ' &hellip; ' : '';
 		$link = esc_url( strip_tags( $item->get_link() ) );
 		$msg .= "<p>" . $content . "<a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $title ) . "'>" . __( 'Dismiss' ) . "</a></p>";
-		echo "<div class='updated fade'>$msg</div>";
+		echo "<div class='updated'>$msg</div>";
 	} elseif ( is_super_admin() ) {
 		printf( '<div id="update-nag">' . __( 'Your feed at %s is empty.' ) . '</div>', esc_html( $url ) );
 	}
