@@ -124,8 +124,12 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
-<?php do_meta_boxes('comment', 'normal', $comment); ?>
+<?php
+do_action('add_meta_boxes', 'comment', $comment);
+do_action('add_meta_boxes_comment', $comment);
 
+do_meta_boxes('comment', 'normal', $comment);
+?>
 <input type="hidden" name="c" value="<?php echo esc_attr($comment->comment_ID) ?>" />
 <input type="hidden" name="p" value="<?php echo esc_attr($comment->comment_post_ID) ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />

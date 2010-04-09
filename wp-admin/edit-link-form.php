@@ -30,6 +30,9 @@ add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'nor
 add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', 'link', 'normal', 'core');
 add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core');
 
+do_action('add_meta_boxes', 'link', $link);
+do_action('add_meta_boxes_link', $link);
+
 do_action('do_meta_boxes', 'link', 'normal', $link);
 do_action('do_meta_boxes', 'link', 'advanced', $link);
 do_action('do_meta_boxes', 'link', 'side', $link);
