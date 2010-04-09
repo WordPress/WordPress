@@ -818,7 +818,9 @@ function grant_super_admin( $user_id ) {
 		$super_admins[] = $user->user_login;
 		update_site_option( 'site_admins' , $super_admins );
 		do_action( 'granted_super_admin', $user_id );
+		return true;
 	}
+	return false;
 }
 
 /**
@@ -830,19 +832,16 @@ function grant_super_admin( $user_id ) {
 function revoke_super_admin( $user_id ) {
 	do_action( 'revoke_super_admin', $user_id );
 
-	$admin_email = get_site_option( 'admin_email' );
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
-
 	$user = new WP_User( $user_id );
-	if ( $user->user_email != $admin_email ) {
-		foreach ( $super_admins as $key => $username ) {
-			if ( $username == $user->user_login ) {
-				unset( $super_admins[$key] );
-				update_site_option( 'site_admins' , $super_admins );
-				do_action( 'revoked_super_admin', $user_id );
-				break;
-			}
+	if ( $user->user_email != get_site_option( 'admin_email' ) ) {
+		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
+			unset( $super_admins[$key] );
+			update_site_option( 'site_admins', $super_admins );
+			do_action( 'revoked_super_admin', $user_id );
+			return true;
 		}
 	}
+	return false;
 }
 ?>
