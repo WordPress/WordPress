@@ -892,6 +892,8 @@ function register_post_type($post_type, $args = array()) {
 
 	$wp_post_types[$post_type] = $args;
 
+	add_action( 'future_' . $post_type, '_future_post_hook', 5, 2 );
+
 	foreach ( $args->taxonomies as $taxonomy ) {
 		register_taxonomy_for_object_type( $taxonomy, $post_type );
 	}
