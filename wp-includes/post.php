@@ -661,6 +661,28 @@ function get_post_stati( $args = array(), $output = 'names', $operator = 'or' ) 
 }
 
 /**
+ * Whether the post type is hierarchical.
+ *
+ * A false return value might also mean that the post type does not exist.
+ *
+ * @since 3.0.0
+ * @see get_post_type_object
+ *
+ * @param string|int|object $post Post type name, post id, or a post object.
+ * @return bool true if post type is hierarchical, else false.
+ */
+function is_post_type_hierarchical( $post = false ) {
+	if ( is_string($post) && $is_post_type = get_post_type_object($post) )
+		return $is_post_type->hierarchical;
+	
+	$ptype = get_post( $post );
+	if ( $ptype && $is_post_type = get_post_type_object($ptype->post_type) )
+		return $is_post_type->hierarchical;
+		
+	return false;
+}
+
+/**
  * Retrieve the post type of the current post or of a given post.
  *
  * @since 2.1.0
