@@ -257,7 +257,12 @@ foreach ( $cols as $col => $theme_name ) {
 <?php } // end foreach $table ?>
 </table>
 <?php } else { ?>
-<p><?php _e('You only have one theme installed at the moment so there is nothing to show you here.  Maybe you should download some more to try out.'); ?></p>
+<p><?php
+	if ( current_user_can('install_themes') )
+		_e('You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org theme repository at any time: just click on the <em><a href="theme-install.php">Install Themes</a></em> tab above.');
+	else
+		printf(__('Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.'), get_site_option('site_name'));
+	?></p>
 <?php } // end if $theme_total?>
 <br class="clear" />
 
