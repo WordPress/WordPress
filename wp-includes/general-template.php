@@ -114,7 +114,7 @@ function get_sidebar( $name = null ) {
  * @param string $name The name of the specialised template.
  */
 function get_template_part( $slug, $name = null ) {
-	do_action( "get_template_part{$slug}", $name );
+	do_action( "get_template_part_{$slug}", $slug, $name );
 
 	$templates = array();
 	if ( isset($name) )
