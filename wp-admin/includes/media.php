@@ -1120,6 +1120,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
  * @return string
  */
 function get_media_items( $post_id, $errors ) {
+	$attachments = array();
 	if ( $post_id ) {
 		$post = get_post($post_id);
 		if ( $post && $post->post_type == 'attachment' )
