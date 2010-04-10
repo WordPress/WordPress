@@ -22,17 +22,17 @@ define( 'OBJECT', 'OBJECT', true );
 /**
  * @since 2.5.0
  */
-define( 'OBJECT_K', 'OBJECT_K', false );
+define( 'OBJECT_K', 'OBJECT_K' );
 
 /**
  * @since 0.71
  */
-define( 'ARRAY_A', 'ARRAY_A', false );
+define( 'ARRAY_A', 'ARRAY_A' );
 
 /**
  * @since 0.71
  */
-define( 'ARRAY_N', 'ARRAY_N', false );
+define( 'ARRAY_N', 'ARRAY_N' );
 
 /**
  * WordPress Database Access Abstraction Object
@@ -578,7 +578,7 @@ class wpdb {
 			if ( defined( 'VHOST' ) && empty( $this->blogid ) )
 				return $old_prefix;
 
-			$this->prefix = $this->get_blog_prefix( $this->blogid );
+			$this->prefix = $this->get_blog_prefix();
 
 			foreach ( $this->tables( 'blog' ) as $table => $prefixed_table )
 				$this->$table = $prefixed_table;
@@ -605,7 +605,7 @@ class wpdb {
 		$old_blog_id  = $this->blogid;
 		$this->blogid = $blog_id;
 
-		$this->prefix = $this->get_blog_prefix( $this->blogid );
+		$this->prefix = $this->get_blog_prefix();
 
 		foreach ( $this->tables( 'blog' ) as $table => $prefixed_table )
 			$this->$table = $prefixed_table;
@@ -624,9 +624,9 @@ class wpdb {
 	 * @param int $blog_id Optional.
 	 * @return string Blog prefix.
 	 */
-	function get_blog_prefix( $blog_id = -1 ) {
+	function get_blog_prefix( $blog_id = null ) {
 		if ( is_multisite() ) {
-			if ( $blog_id < 0 )
+			if ( null === $blog_id )
 				$blog_id = $this->blogid;
 			if ( defined( 'MULTISITE' ) && ( 0 == $blog_id || 1 == $blog_id ) )
 				return $this->base_prefix;
@@ -837,16 +837,15 @@ class wpdb {
 	}
 
 	/**
-	 * Prepares a SQL query for safe execution.  Uses sprintf()-like syntax.
+	 * Prepares a SQL query for safe execution. Uses sprintf()-like syntax.
 	 *
 	 * The following directives can be used in the query format string:
 	 *   %d (decimal number)
 	 *   %s (string)
 	 *   %% (literal percentage sign - no argument needed)
 	 *
-	 * Both %d and %s are to be left unquoted in the query string and
-	 * they need an argument passed for them. Literals (%) as parts of
-	 * the query must be properly written as %%.
+	 * Both %d and %s are to be left unquoted in the query string and they need an argument passed for them.
+	 * Literals (%) as parts of the query must be properly written as %%.
 	 *
 	 * This function only supports a small subset of the sprintf syntax; it only supports %d (decimal number), %s (string).
 	 * Does not support sign, padding, alignment, width or precision specifiers.
@@ -1355,7 +1354,7 @@ class wpdb {
 
 		$new_array = array();
 		// Extract the column values
-		for ( $i=0; $i < count( $this->last_result ); $i++ ) {
+		for ( $i = 0, $j = count( $this->last_result ); $i < $j; $i++ ) {
 			$new_array[$i] = $this->get_var( null, $x, $i );
 		}
 		return $new_array;
@@ -1391,7 +1390,7 @@ class wpdb {
 			// (Duplicates are discarded)
 			foreach ( $this->last_result as $row ) {
 				$key = array_shift( get_object_vars( $row ) );
-				if ( !isset( $new_array[ $key ] ) )
+				if ( ! isset( $new_array[ $key ] ) )
 					$new_array[ $key ] = $row;
 			}
 			return $new_array;
@@ -1425,7 +1424,7 @@ class wpdb {
 	function get_col_info( $info_type = 'name', $col_offset = -1 ) {
 		if ( $this->col_info ) {
 			if ( $col_offset == -1 ) {
-				$i         = 0;
+				$i = 0;
 				$new_array = array();
 				foreach( (array) $this->col_info as $col ) {
 					$new_array[$i] = $col->{$info_type};
@@ -1571,12 +1570,12 @@ class wpdb {
 	}
 }
 
-if ( ! isset($wpdb) ) {
+if ( ! isset( $wpdb ) ) {
 	/**
 	 * WordPress Database Object, if it isn't set already in wp-content/db.php
 	 * @global object $wpdb Creates a new wpdb object based on wp-config.php Constants for the database
 	 * @since 0.71
 	 */
-	$wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
+	$wpdb = new wpdb( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );
 }
 ?>
