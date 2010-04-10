@@ -114,11 +114,15 @@ $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='c
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
 foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
-	$_wp_last_object_menu++;
 	$ptype_obj = get_post_type_object($ptype);
-	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : $_wp_last_object_menu;
+	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : ++$_wp_last_object_menu; // If we're to use $_wp_last_object_menu, increment it first.
 	$menu_icon = is_string($ptype_obj->menu_icon) ? esc_url($ptype_obj->menu_icon) : 'div';
-	
+
+	// if $ptype_menu_position is already populated or will be populated by a hard-coded value below, increment the position.
+	$core_menu_positions = array(59, 60, 65, 70, 75, 80, 85, 99);
+	while ( isset($menu[$ptype_menu_position]) || in_array($ptype_menu_position, $core_menu_positions) )
+		$ptype_menu_position++;
+
 	$menu[$ptype_menu_position] = array(esc_attr($ptype_obj->label), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-posts', 'menu-' . sanitize_html_class($ptype), $menu_icon);
 	$submenu["edit.php?post_type=$ptype"][5]  = array( __('Edit'), $ptype_obj->edit_type_cap,  "edit.php?post_type=$ptype");
 	/* translators: add new custom post type */
@@ -411,7 +415,7 @@ if ( apply_filters('custom_menu_order', false) ) {
 
 $menu = add_menu_classes($menu);
 
-if (! user_can_access_admin_page()) {
+if ( !user_can_access_admin_page() ) {
 	do_action('admin_page_access_denied');
 	wp_die( __('You do not have sufficient permissions to access this page.') );
 }
