@@ -247,7 +247,7 @@ function wp_nav_menu_item_taxonomy_metabox( $object, $taxonomy ) {
 	// @todo transient caching of these results with proper invalidation on updating of a tax of this type
 	$terms = get_terms( $taxonomy['args']->name, $args );
 
-	if ( !$terms )
+	if ( !$terms || is_wp_error($terms) )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $taxonomy['args']->label ) .'</li>';
 
 	$term_names = '';
