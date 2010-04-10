@@ -63,7 +63,7 @@ function inline_edit_term_row($type, $taxonomy) {
 
 	<p class="inline-edit-save submit">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
-		<?php $update_text = ( 'post_tag' == $taxonomy ) ? __( 'Update Tag' ) : __( 'Update Category' ); ?>
+		<?php $update_text = sprintf( __('Update %s'), $tax->singular_label ); ?>
 		<a accesskey="s" href="#inline-edit" title="<?php echo esc_attr( $update_text ); ?>" class="save button-primary alignright"><?php echo $update_text; ?></a>
 		<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 		<span class="error" style="display:none;"></span>

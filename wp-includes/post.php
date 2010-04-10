@@ -674,11 +674,11 @@ function get_post_stati( $args = array(), $output = 'names', $operator = 'or' ) 
 function is_post_type_hierarchical( $post = false ) {
 	if ( is_string($post) && $is_post_type = get_post_type_object($post) )
 		return $is_post_type->hierarchical;
-	
+
 	$ptype = get_post( $post );
 	if ( $ptype && $is_post_type = get_post_type_object($ptype->post_type) )
 		return $is_post_type->hierarchical;
-		
+
 	return false;
 }
 
