@@ -264,12 +264,14 @@ autosave = function() {
 		post_data["excerpt"] = jQuery("#excerpt").val();
 	if ( jQuery("#post_author").size() )
 		post_data["post_author"] = jQuery("#post_author").val();
+	if ( jQuery("#parent_id").val() ) 
+		post_data["parent_id"] = jQuery("#parent_id").val(); 
 	post_data["user_ID"] = jQuery("#user-id").val();
 	if ( jQuery('#auto_draft').val() == '1' )
 		post_data["auto_draft"] = '1';
 
 	if ( doAutoSave ) {
-		autosaveLast = jQuery("#title").val()+jQuery("#content").val();
+		autosaveLast = jQuery("#title").val() + jQuery("#content").val();
 	} else {
 		post_data['autosave'] = 0;
 	}
