@@ -2,7 +2,8 @@
 /**
  * Simple and uniform HTTP request API.
  *
- * Will eventually replace and standardize the WordPress HTTP requests made.
+ * Standardizes the HTTP requests for WordPress. Handles cookies, gzip encoding and decoding, chunk
+ * decoding, if HTTP 1.1 and various other difficult HTTP protocol implementations.
  *
  * @link http://trac.wordpress.org/ticket/4779 HTTP API Proposal
  *
@@ -14,12 +15,9 @@
 /**
  * WordPress HTTP Class for managing HTTP Transports and making HTTP requests.
  *
- * This class is called for the functionality of making HTTP requests and should replace Snoopy
- * functionality, eventually. There is no available functionality to add HTTP transport
- * implementations, since most of the HTTP transports are added and available for use.
- *
- * The exception is that cURL is not available as a transport and lacking an implementation. It will
- * be added later and should be a patch on the WordPress Trac.
+ * This class is called for the functionality of making HTTP requests and replaces Snoopy
+ * functionality. There is no available functionality to add HTTP transport implementations, since
+ * most of the HTTP transports are added and available for use.
  *
  * There are no properties, because none are needed and for performance reasons. Some of the
  * functions are static and while they do have some overhead over functions in PHP4, the purpose is
@@ -52,11 +50,10 @@ class WP_Http {
 	/**
 	 * PHP5 style Constructor - Set up available transport if not available.
 	 *
-	 * PHP4 does not have the 'self' keyword and since WordPress supports PHP4,
-	 * the class needs to be used for the static call.
-	 *
-	 * The transport are set up to save time. This should only be called once, so
-	 * the overhead should be fine.
+	 * PHP4 does not have the 'self' keyword and since WordPress supports PHP4, the class needs to
+	 * be used for the static call. The transport are set up to save time and will only be created
+	 * once. This class can be created many times without having to go through the step of finding
+	 * which transports are available.
 	 *
 	 * @since 2.7.0
 	 * @return WP_Http
@@ -69,20 +66,18 @@ class WP_Http {
 	/**
 	 * Tests the WordPress HTTP objects for an object to use and returns it.
 	 *
-	 * Tests all of the objects and returns the object that passes. Also caches
-	 * that object to be used later.
+	 * Tests all of the objects and returns the object that passes. Also caches that object to be
+	 * used later.
 	 *
-	 * The order for the GET/HEAD requests are HTTP Extension, cURL, Streams, Fopen,
-	 * and finally Fsockopen. fsockopen() is used last, because it has the most
-	 * overhead in its implementation. There isn't any real way around it, since
-	 * redirects have to be supported, much the same way the other transports
-	 * also handle redirects.
+	 * The order for the GET/HEAD requests are HTTP Extension, cURL, Streams, Fopen, and finally
+	 * Fsockopen. fsockopen() is used last, because it has the most overhead in its implementation.
+	 * There isn't any real way around it, since redirects have to be supported, much the same way
+	 * the other transports also handle redirects.
 	 *
-	 * There are currently issues with "localhost" not resolving correctly with
-	 * DNS. This may cause an error "failed to open stream: A connection attempt
-	 * failed because the connected party did not properly respond after a
-	 * period of time, or established connection failed because connected host
-	 * has failed to respond."
+	 * There are currently issues with "localhost" not resolving correctly with DNS. This may cause
+	 * an error "failed to open stream: A connection attempt failed because the connected party did
+	 * not properly respond after a period of time, or established connection failed because [the]
+	 * connected host has failed to respond."
 	 *
 	 * @since 2.7.0
 	 * @access private
