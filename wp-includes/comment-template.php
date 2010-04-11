@@ -1133,6 +1133,8 @@ function cancel_comment_reply_link($text = '') {
 /**
  * Retrieve hidden input HTML for replying to comments.
  *
+ * @since 3.0.0
+ *
  * @return string Hidden input HTML for replying to comments
  */
 function get_comment_id_fields() {
