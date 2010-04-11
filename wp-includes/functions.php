@@ -1008,7 +1008,10 @@ function delete_all_user_settings() {
  * @return mixed A scalar data
  */
 function maybe_serialize( $data ) {
-	if ( !is_scalar( $data ) )
+	if ( is_array( $data ) || is_object( $data ) )
+		return serialize( $data );
+
+	if ( is_serialized( $data ) )
 		return serialize( $data );
 
 	return $data;
