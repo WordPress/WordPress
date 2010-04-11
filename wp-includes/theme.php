@@ -986,9 +986,10 @@ function get_comments_popup_template() {
  *
  * @param array $template_names Array of template files to search for in priority order.
  * @param bool $load If true the template file will be loaded if it is found.
+ * @param bool $require_once Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
-function locate_template($template_names, $load = false) {
+function locate_template($template_names, $load = false, $require_once = true ) {
 	if ( !is_array($template_names) )
 		return '';
 
@@ -1004,13 +1005,13 @@ function locate_template($template_names, $load = false) {
 	}
 
 	if ( $load && '' != $located )
-		load_template($located);
+		load_template( $located, $require_once );
 
 	return $located;
 }
 
 /**
- * Require once the template file with WordPress environment.
+ * Require the template file with WordPress environment.
  *
  * The globals are set up for the template file to ensure that the WordPress
  * environment is available from within the function. The query variables are
@@ -1019,14 +1020,18 @@ function locate_template($template_names, $load = false) {
  * @since 1.5.0
  *
  * @param string $_template_file Path to template file.
+ * @param bool $require_once Whether to require_once or require. Default true.
  */
-function load_template($_template_file) {
+function load_template( $_template_file, $require_once = true ) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
-	if ( is_array($wp_query->query_vars) )
-		extract($wp_query->query_vars, EXTR_SKIP);
+	if ( is_array( $wp_query->query_vars ) )
+		extract( $wp_query->query_vars, EXTR_SKIP );
 
-	require_once($_template_file);
+	if ( $require_once )
+		require_once( $_template_file );
+	else
+		require( $_template_file );
 }
 
 /**

@@ -103,6 +103,9 @@ function get_sidebar( $name = null ) {
  * specialised part will be included. If the theme contains no {slug}.php file
  * then no template will be included.
  *
+ * The template is included using require, not require_once, so you may include the
+ * same template part multiple times.
+ *
  * For the parameter, if the file is called "{slug}-special.php" then specify
  * "special".
  *
@@ -122,7 +125,7 @@ function get_template_part( $slug, $name = null ) {
 
 	$templates[] = "{$slug}.php";
 
-	locate_template($templates, true);
+	locate_template($templates, true, false);
 }
 
 /**
