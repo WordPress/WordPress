@@ -1712,57 +1712,49 @@ class WP_Query {
 		if ( $q['day'] )
 			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
 
+		// If we've got a post_type AND its not "any" post_type.
 		if ( !empty($q['post_type']) && 'any' != $q['post_type'] ) {
-			$_pt = is_array($q['post_type']) ? $q['post_type'] : array($q['post_type']);
-			foreach ( $_pt as $_post_type ) {
-				if ( empty($q[ $_post_type ]) )
+			foreach ( (array)$q['post_type'] as $_post_type ) {
+				$ptype_obj = get_post_type_object($_post_type);
+				if ( !$ptype_obj || !$ptype_obj->query_var || empty($q[ $ptype_obj->query_var ]) )
 					continue;
 
-				$q[ $_post_type ] = str_replace('%2F', '/', urlencode(urldecode($q[ $_post_type ])));
-				$post_type_object = get_post_type_object($_post_type);
-				if ( ! $post_type_object->hierarchical || strpos($q[ $_post_type ], '/') === false) {
-					$q['name'] = $q[ $_post_type ] = sanitize_title($q[ $_post_type ]);
-					$_names[] = $q[ $_post_type ];
+				if ( ! $ptype_obj->hierarchical || strpos($q[ $ptype_obj->query_var ], '/') === false) {
+					// Non-hierarchical post_types & parent-level-hierarchical post_types can directly use 'name'
+					$q['name'] = $q[ $ptype_obj->query_var ];
 				} else {
-					// Hierarchical post type, need to look deeper to see if its an attachment or this post_type
-					if ( isset($this->queried_object_id) ) {
-						$reqpage = $this->queried_object_id;
-					} else {
-						$reqpage = get_page_by_path($q[ $_post_type ], OBJECT, $_post_type);
-						if ( !empty($reqpage) )
-							$reqpage = $reqpage->ID;
-						else
-							$reqpage = 0;
-					}
-					$_ids[] = $reqpage;
-					$reqpage_obj = get_page($reqpage);
-					if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
-						$this->is_attachment = true;
-						$q['attachment_id'] = $reqpage;
-						$post_type = $q['post_type'] = 'attachment';
-					}
+					// Hierarchical post_types will operate through the 
+					$q['pagename'] = $q[ $ptype_obj->query_var ];
+					$q['name'] = '';
 				}
-			} //end foreach
 
-			if ( !empty($_names) || !empty($_ids) ) {
-				$where .= ' AND (1=0';
-				if ( !empty($_names) )
-					$where .= " OR $wpdb->posts.post_name IN('" . implode("', '", $_names) . "')";
-				if ( !empty($_ids) ) {
-					$_ids = array_map('absint', $_ids);
-					$where .= " OR $wpdb->posts.ID IN(" . implode(',', $_ids) . ")";
-				}
-				$where .= ')';
-			}
-			unset($_ids, $_names, $_pt, $_post_type);
-		} elseif ( '' != $q['name'] ) {
+				// Only one request for a slug is possible, this is why name & pagename are overwritten above.
+				break;
+			} //end foreach
+			unset($ptype_obj);
+		}
+
+		if ( '' != $q['name'] ) {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
 		} elseif ( '' != $q['pagename'] ) {
-			if ( isset($this->queried_object_id) )
+			if ( isset($this->queried_object_id) ) {
 				$reqpage = $this->queried_object_id;
-			else {
-				$reqpage = get_page_by_path($q['pagename']);
+			} else {
+				if ( 'page' != $q['post_type'] ) {
+					foreach ( (array)$q['post_type'] as $_post_type ) {
+						$ptype_obj = get_post_type_object($_post_type);
+						if ( !$ptype_obj || !$ptype_obj->hierarchical )
+							continue;
+
+						$reqpage = get_page_by_path($q['pagename'], OBJECT, $_post_type);
+						if ( $reqpage )
+							break;
+					}
+					unset($ptype_obj);
+				} else {
+					$reqpage = get_page_by_path($q['pagename']);
+				}
 				if ( !empty($reqpage) )
 					$reqpage = $reqpage->ID;
 				else
@@ -1779,6 +1771,7 @@ class WP_Query {
 				$reqpage_obj = get_page($reqpage);
 				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
+					$post_type = $q['post_type'] = 'attachment';
 					$this->is_page = true;
 					$q['attachment_id'] = $reqpage;
 				}
