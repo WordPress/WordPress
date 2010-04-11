@@ -1,4 +1,3 @@
-
 body {
 	font: 13px "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	color: #333;
@@ -321,7 +320,6 @@ h3.tb {
 	font-family: Verdana,Arial,Helvetica,sans-serif;
 	font-size: 13px;
 	margin: 1px;
-	padding: 3px;
 }
 
 .category-add select {
@@ -359,7 +357,10 @@ h3.tb {
 	height: 140px;
 	overflow: auto;
 }
-
+#taxonomy-category #category-tabs .tabs {
+	background: none;
+	margin-bottom: 10px;
+}
 ul.categorychecklist li {
 	margin: 0;
 	padding: 0;

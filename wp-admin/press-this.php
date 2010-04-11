@@ -480,30 +480,45 @@ var photostorage = false;
 				</div>
 			</div>
 
-			<div id="categorydiv" class="stuffbox">
-				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>">
-					<br/>
-				</div>
-				<h3><?php _e('Categories') ?></h3>
+			<?php $tax = get_taxonomy( 'category' ); ?>
+			<div id="categorydiv" class="postbox">
+				<div class="handlediv" title="<?php _e( 'Click to toggle' ); ?>"><br /></div>
+				<h3 class="hndle"><?php _e('Categories') ?></h3>
 				<div class="inside">
+				<div id="taxonomy-category" class="categorydiv">
+				
+					<ul id="category-tabs" class="category-tabs">
+						<li class="tabs"><a href="#category-all" tabindex="3"><?php printf( __( 'All %s' ), $tax->label ); ?></a><span class="hide-if-no-js"> | </span><a class="hide-if-no-js" href="#category-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
+					</ul>
 
-					<div id="categories-all" class="tabs-panel">
-
-						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-							<?php wp_category_checklist($post_ID, false) ?>
+					<div id="category-pop" class="tabs-panel" style="display: none;">
+						<ul id="categorychecklist-pop" class="categorychecklist form-no-clear" >
+							<?php $popular_ids = wp_popular_terms_checklist( 'category' ); ?>
 						</ul>
 					</div>
 
-					<div id="category-adder" class="wp-hidden-children">
-						<a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a>
-						<p id="category-add" class="wp-hidden-child">
-							<label class="screen-reader-text" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
-							<label class="screen-reader-text" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
-							<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php esc_attr_e( 'Add' ); ?>" tabindex="3" />
-							<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
-							<span id="category-ajax-response"></span>
-						</p>
+					<div id="category-all" class="tabs-panel">
+						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+							<?php wp_terms_checklist($post_ID, array( 'taxonomy' => 'category', 'popular_cats' => $popular_ids ) ) ?>
+						</ul>
 					</div>
+
+					<?php if ( !current_user_can($tax->assign_cap) ) : ?>
+					<p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
+					<?php endif; ?>
+					<?php if ( current_user_can($tax->edit_cap) ) : ?>
+						<div id="category-adder" class="wp-hidden-children">
+							<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php printf( __( '+ Add New %s' ), $tax->singular_label ); ?></a></h4>
+							<p id="category-add" class="category-add wp-hidden-child">
+								<label class="screen-reader-text" for="newcategory"><?php printf( __( 'Add New %s' ), $tax->singular_label ); ?></label><input type="text" name="newcategory" id="newcategory" class="form-required form-input-tip" value="<?php echo esc_attr( sprintf( 'New %s Name', $tax->singular_label ) ); ?>" tabindex="3" aria-required="true"/>
+								<label class="screen-reader-text" for="newcategory_parent"><?php printf( __('Parent %s'), $tax->singular_label ); ?>:</label><?php wp_dropdown_categories( array( 'taxonomy' => 'category', 'hide_empty' => 0, 'name' => 'newcategory_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => sprintf( __('&mdash; Parent %s &mdash;'), $tax->singular_label ), 'tab_index' => 3 ) ); ?>
+								<input type="button" id="category-add-submit" class="add:categorychecklist:category-add button category-add-sumbit" value="<?php esc_attr_e( 'Add' ); ?>" tabindex="3" />
+								<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
+								<span id="category-ajax-response"></span>
+							</p>
+						</div>
+					<?php endif; ?>
+				</div>
 				</div>
 			</div>
 
