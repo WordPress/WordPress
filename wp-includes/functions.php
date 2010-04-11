@@ -2328,7 +2328,7 @@ function wp_ext2type( $ext ) {
 		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf', 'rtf' ),
 		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsb',  'xlsm' ),
 		'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp',  'swf' ),
-		'text'        => array( 'asc', 'txt', 'csv' ),
+		'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
 		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz',  'zip' ),
 		'code'        => array( 'css', 'html', 'php',  'js' ),
 	));
@@ -2393,6 +2393,7 @@ function get_allowed_mime_types() {
 		'mpeg|mpg|mpe' => 'video/mpeg',
 		'txt|asc|c|cc|h' => 'text/plain',
 		'csv' => 'text/csv',
+		'tsv' => 'text/tab-separated-values',
 		'rtx' => 'text/richtext',
 		'css' => 'text/css',
 		'htm|html' => 'text/html',
