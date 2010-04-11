@@ -988,10 +988,12 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	break;
 case 'closed-postboxes' :
 	check_ajax_referer( 'closedpostboxes', 'closedpostboxesnonce' );
-	$closed = isset( $_POST['closed'] ) ? $_POST['closed'] : '';
-	$closed = explode( ',', $_POST['closed'] );
-	$hidden = isset( $_POST['hidden'] ) ? $_POST['hidden'] : '';
-	$hidden = explode( ',', $_POST['hidden'] );
+	$closed = isset( $_POST['closed'] ) ? explode( ',', $_POST['closed']) : array();
+	$closed = array_filter($closed);
+
+	$hidden = isset( $_POST['hidden'] ) ? explode( ',', $_POST['hidden']) : array();
+	$hidden = array_filter($hidden);
+
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( !preg_match( '/^[a-z_-]+$/', $page ) )

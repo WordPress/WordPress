@@ -2967,12 +2967,11 @@ function get_hidden_meta_boxes($screen) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	$hidden = (array) get_user_option( "meta-box-hidden_$screen->id" );
+	$hidden = get_user_option( "meta-box-hidden_$screen->id" );
 
 	// Hide slug boxes by default
-	if ( empty($hidden[0]) ) {
+	if ( !is_array($hidden) )
 		$hidden = array('slugdiv');
-	}
 
 	return $hidden;
 }
