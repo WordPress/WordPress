@@ -687,22 +687,21 @@ function is_post_type_hierarchical( $post = false ) {
  *
  * @since 2.1.0
  *
- * @uses $wpdb
- * @uses $posts The Loop post global
+ * @uses $post The Loop current post global
  *
- * @param mixed $post Optional. Post object or post ID.
+ * @param mixed $the_post Optional. Post object or post ID.
  * @return bool|string post type or false on failure.
  */
-function get_post_type($post = false) {
-	global $posts;
+function get_post_type($the_post = false) {
+	global $post;
 
-	if ( false === $post )
-		$post = $posts[0];
-	elseif ( (int) $post )
-		$post = get_post($post, OBJECT);
+	if ( false === $the_post )
+		$the_post = $post;
+	elseif ( is_numeric($the_post) )
+		$the_post = get_post($the_post);
 
-	if ( is_object($post) )
-		return $post->post_type;
+	if ( is_object($the_post) )
+		return $the_post->post_type;
 
 	return false;
 }
