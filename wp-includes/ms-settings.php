@@ -12,7 +12,7 @@
 
 // $base sanity check.
 if ( 'BASE' == $base )
-	die( /*WP_I18N_BASE_ERROR*/'Configuration error in <code>wp-config.php</code>. <code>$base</code> is set to "BASE" when it should be the path like "/" or "/blogs/".'/*/WP_I18N_BASE_ERROR*/ );
+	die( /*WP_I18N_BASE_ERROR*/'Configuration error in <code>wp-config.php</code>. <code>$base</code> is set to <code>BASE</code> when it should be like <code>/</code> or <code>/blogs/</code>.'/*/WP_I18N_BASE_ERROR*/ );
 
 /** Include Multisite initialization functions */
 require( ABSPATH . WPINC . '/ms-load.php' );

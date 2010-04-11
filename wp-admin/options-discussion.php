@@ -52,7 +52,7 @@ include('admin-header.php');
 <label for="comment_registration">
 <input name="comment_registration" type="checkbox" id="comment_registration" value="1" <?php checked('1', get_option('comment_registration')); ?> />
 <?php _e('Users must be registered and logged in to comment') ?>
-<?php if ( !get_option( 'users_can_register' ) && is_multisite() ) _e( ' (Signup has been disabled. Only members of this site can comment)' ); ?>
+<?php if ( !get_option( 'users_can_register' ) && is_multisite() ) _e( ' (Signup has been disabled. Only members of this site can comment.)' ); ?>
 </label>
 <br />
 
@@ -160,7 +160,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <th scope="row"><?php _e('Avatar Display') ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Avatar Display') ?></span></legend>
 <?php
-	$yesorno = array(0 => __("Don&#8217;t show Avatars"), 1 => __('Show Avatars'));
+	$yesorno = array( 0 => __( 'Don&#8217;t show Avatars' ), 1 => __( 'Show Avatars' ) );
 	foreach ( $yesorno as $key => $value) {
 		$selected = (get_option('show_avatars') == $key) ? 'checked="checked"' : '';
 		echo "\n\t<label><input type='radio' name='show_avatars' value='" . esc_attr($key) . "' $selected/> $value</label><br />";

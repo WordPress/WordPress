@@ -395,7 +395,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 	switch( $show ) {
 		case 'home' : // DEPRECATED
 		case 'siteurl' : // DEPRECATED
-			_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The \'%1$s\' option is deprecated for the family of bloginfo() functions. Use the \'%2$s\' option instead.'), $show, 'url' ) );
+			_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The <code>%1$s</code> option is deprecated for the family of <code>bloginfo()</code> functions. Use the <code>%2$s</code> option instead.'), $show, 'url' ) );
 		case 'url' :
 			$output = home_url();
 			break;

@@ -174,7 +174,7 @@ function wpmu_current_site() {
 	if ( 1 == count( $sites ) )
 		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'That blog does not exist. Please try <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
 	else
-		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_WPMU">Debugging WPMU</a> for further assistance.'/*/WP_I18N_NO_SITE_DEFINED*/ );
+		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_WPMU">Debugging WPMU</a> for help.'/*/WP_I18N_NO_SITE_DEFINED*/ );
 }
 
 /**
@@ -200,7 +200,7 @@ function ms_not_installed() {
 	$msg .= '<h1>' . /*WP_I18N_WHAT_DO_I_DO*/'What do I do now?'/*WP_I18N_WHAT_DO_I_DO*/ . '</h1>';
 	// @todo Update WPMU codex link.
 	$msg .= '<p>' . /*WP_I18N_RTFM*/'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_WPMU">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.'/*/WP_I18N_RTFM*/ . '</p>';
-	$msg .= '<p>' . /*WP_I18N_STUCK*/"If you're still stuck with this message, then check that your database contains the following tables:"/*/WP_I18N_STUCK*/ . '</p><ul>';
+	$msg .= '<p>' . /*WP_I18N_STUCK*/'If you&#8217;re still stuck with this message, then check that your database contains the following tables:'/*/WP_I18N_STUCK*/ . '</p><ul>';
 	foreach ( $wpdb->global_tables as $table ) {
 		$msg .= '<li>' . $wpdb->prefix . $table . '</li>';
 	}

@@ -17,7 +17,7 @@ if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
 if ( is_multisite() && ! defined( 'MULTISITE' ) )
-	wp_die( __('The Network creation panel is not for WordPress MU networks.') );
+	wp_die( __( 'The Network creation panel is not for WordPress MU networks.' ) );
 
 // We need to create references to ms global tables to enable Network.
 foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
@@ -110,9 +110,9 @@ function network_step1( $errors = false ) {
 		|| ( $no_ip = preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) ) {
 		echo '<div class="error"><p><strong>' . __( 'Error:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</strong></p></div>';
 		if ( $no_ip )
-			echo '<p>' . __('You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
+			echo '<p>' . __( 'You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
 		else
-			echo '<p>' . sprintf( __('You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
+			echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
 		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		include( './admin-footer.php' );
 		die();
@@ -133,7 +133,7 @@ function network_step1( $errors = false ) {
 	$admin_email = ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) ? $_POST['email'] : get_option( 'admin_email' );
 	?>
 	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
-	<p><?php _e( "Fill in the information below and you'll be on your way to creating a network of WordPress sites. We'll create configuration files in the next step." ); ?></p>
+	<p><?php _e( 'Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. We will create configuration files in the next step.' ); ?></p>
 	<?php
 
 	// @todo IIS and ! $is_apache
@@ -144,7 +144,7 @@ function network_step1( $errors = false ) {
 	} else {
 		$subdomain_install = false;
 		if ( got_mod_rewrite() ) // dangerous assumptions
-			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this install.' ) . '</p>';
+			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this installation.' ) . '</p>';
 		else
 			echo '<div class="error inline"><p><strong>' . __( 'Warning!' ) . '</strong> ' . __( 'It looks like the Apache <code>mod_rewrite</code> module is not installed.' ) . '</p>';
 		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled, ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p></div>';
@@ -153,7 +153,7 @@ function network_step1( $errors = false ) {
 	if ( allow_subdomain_install() ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
-		<p><?php _e( "You will need a wildcard DNS record if you're going to use the virtual host (sub-domain) functionality." ); ?></p>
+		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
 		<?php // @todo: Link to an MS readme? ?>
 		<table class="form-table">
 			<tr>
@@ -173,12 +173,12 @@ function network_step1( $errors = false ) {
 		if ( $is_www ) :
 		?>
 		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
-		<p><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the "www" prefix with an address like <code>%2$s</code> but any links will not have the "www" prefix.' ), substr( $hostname, 4 ), $hostname ); ?></h3>
+		<p><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the <code>www</code> prefix with an address like <code>%2$s</code> but any links will not have the <code>www</code> prefix.' ), substr( $hostname, 4 ), $hostname ); ?></h3>
 		<table class="form-table">
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
-					<?php printf( __( 'The Internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
+					<?php printf( __( 'The internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
 				</td>
 			</tr>
 		</table>
@@ -189,19 +189,19 @@ function network_step1( $errors = false ) {
 		<?php if ( 'localhost' == $hostname ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
-				<td><?php _e('Because you are using <code>localhost</code>, the sites in your WordPress network must use sub-directories. Consider using <code>localhost.localdomain</code> if you wish to use sub-domains.'); ?></td>
+				<td><?php _e( 'Because you are using <code>localhost</code>, the sites in your WordPress network must use sub-directories. Consider using <code>localhost.localdomain</code> if you wish to use sub-domains.' ); ?></td>
 			</tr>
 		<?php elseif ( !allow_subdomain_install() ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
-				<td><?php _e('Because your install is in a directory, the sites in your WordPress network must use sub-directories.'); ?></td>
+				<td><?php _e( 'Because your install is in a directory, the sites in your WordPress network must use sub-directories.' ); ?></td>
 			</tr>
 		<?php endif; ?>
 		<?php if ( ! $is_www ) : ?>
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
-					<?php printf( __( 'The Internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
+					<?php printf( __( 'The internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
 				</td>
 			</tr>
 		<?php endif; ?>

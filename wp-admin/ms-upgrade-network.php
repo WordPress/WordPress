@@ -10,20 +10,20 @@
 require_once('admin.php');
 
 if ( !is_multisite() )
-	wp_die( __('Multisite support is not enabled.') );
+	wp_die( __( 'Multisite support is not enabled.' ) );
 
 require_once( ABSPATH . WPINC . '/http.php' );
 
-$title = __('Update Network');
+$title = __( 'Update Network' );
 $parent_file = 'ms-admin.php';
 require_once('admin-header.php');
 
 if ( ! current_user_can( 'manage_network' ) )
-	wp_die( __('You do not have permission to access this page.') );
+	wp_die( __( 'You do not have permission to access this page.' ) );
 
 echo '<div class="wrap">';
 screen_icon();
-echo '<h2>'.__('Update Network').'</h2>';
+echo '<h2>' . __( 'Update Network' ) . '</h2>';
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'show';
 
@@ -54,7 +54,7 @@ switch ( $action ) {
 			}
 		}
 		echo "</ul>";
-		?><p><?php _e("If your browser doesn't start loading the next page automatically click this link:"); ?> <a class="button" href="ms-upgrade-network.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
+		?><p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:' ); ?> <a class="button" href="ms-upgrade-network.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
 		<script type='text/javascript'>
 		<!--
 		function nextpage() {
@@ -66,7 +66,7 @@ switch ( $action ) {
 	break;
 	case 'show':
 	default:
-		?><p><?php _e("You can update all the sites on your network through this page. It works by calling the update script of each site automatically. Hit the link below to update."); ?></p>
+		?><p><?php _e( 'You can update all the sites on your network through this page. It works by calling the update script of each site automatically. Hit the link below to update.' ); ?></p>
 		<p><a class="button" href="ms-upgrade-network.php?action=upgrade"><?php _e("Update Network"); ?></a></p><?php
 		do_action( 'wpmu_upgrade_page' );
 	break;

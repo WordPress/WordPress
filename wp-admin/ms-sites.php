@@ -128,10 +128,10 @@ switch ( $action ) {
 							$checked_fields = array( 'public' => __( 'Public' ) );
 						else
 							$checked_fields = array(
-								'public'   => __('Public'),
-								'archived' => __('Archived'),
-								'spam'     => __('Spam'),
-								'deleted'  => __('Deleted'),
+								'public'   => __( 'Public' ),
+								'archived' => __( 'Archived' ),
+								'spam'     => __( 'Spam' ),
+								'deleted'  => __( 'Deleted' ),
 							);
 						$checked_fields['mature'] = __( 'Mature' );
 						foreach ( $checked_fields as $field_key => $field_label ) {
@@ -274,7 +274,7 @@ switch ( $action ) {
 				<div id="blogedit_blogadduser" class="postbox">
 				<h3 class="hndle"><span><?php _e( 'Add a new user' ); ?></span></h3>
 				<div class="inside">
-					<p class="description"><?php _e( 'Enter the username of an existing user and hit "Update Options" to add the user.' ) ?></p>
+					<p class="description"><?php _e( 'Enter the username of an existing user and hit &#8220;Update Options&#8221; to add the user.' ) ?></p>
 					<table class="form-table">
 							<tr>
 								<th scope="row"><?php _e( 'User&nbsp;Login:' ) ?></th>
@@ -551,21 +551,21 @@ switch ( $action ) {
 									$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url($blog['blog_id']) ) . "' class='edit'>" . __( 'Backend' ) . '</a></span>';
 									if ( $current_site->blog_id != $blog['blog_id'] ) {
 										if ( get_blog_status( $blog['blog_id'], 'deleted' ) == '1' )
-											$actions['activate']	= '<span class="activate"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to activate the site %s" ), $blogname ) ) ) ) . '">' . __( 'Activate' ) . '</a></span>';
+											$actions['activate']	= '<span class="activate"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to activate the site %s' ), $blogname ) ) ) ) . '">' . __( 'Activate' ) . '</a></span>';
 										else
-											$actions['deactivate']	= '<span class="activate"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to deactivate the site %s" ), $blogname ) ) ) ) . '">' . __( 'Deactivate' ) . '</a></span>';
+											$actions['deactivate']	= '<span class="activate"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to deactivate the site %s' ), $blogname ) ) ) ) . '">' . __( 'Deactivate' ) . '</a></span>';
 
 										if ( get_blog_status( $blog['blog_id'], 'archived' ) == '1' )
-											$actions['unarchive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unarchive the site %s." ), $blogname ) ) ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
+											$actions['unarchive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unarchive the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
 										else
-											$actions['archive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to archive the site %s." ), $blogname ) ) ) ) . '">' . __( 'Archive' ) . '</a></span>';
+											$actions['archive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Archive' ) . '</a></span>';
 
 										if ( get_blog_status( $blog['blog_id'], 'spam' ) == '1' )
-											$actions['unspam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to unspam the site %s." ), $blogname ) ) ) ) . '">' . __( 'Not Spam' ) . '</a></span>';
+											$actions['unspam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Not Spam' ) . '</a></span>';
 										else
-											$actions['spam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to mark the site %s as spam." ), $blogname ) ) ) ) . '">' . __( 'Spam' ) . '</a></span>';
+											$actions['spam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ) ) . '">' . __( 'Spam' ) . '</a></span>';
 
-										$actions['delete']	= '<span class="delete"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( "You are about to delete the site %s." ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
+										$actions['delete']	= '<span class="delete"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
 									}
 
 									$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a>';

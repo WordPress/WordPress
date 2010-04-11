@@ -147,7 +147,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( is_array( $_POST['blog'] ) == false )
-			wp_die(  __( "Can't create an empty site." ) );
+			wp_die(  __( 'Can&#8217;t create an empty site.' ) );
 		$blog = $_POST['blog'];
 		$domain = '';
 		if ( ! preg_match( '/(--)/', $blog['domain'] ) && preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) )

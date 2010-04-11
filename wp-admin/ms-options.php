@@ -74,7 +74,7 @@ if (isset($_GET['updated'])) {
 					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr( $blogname ); ?>" />
 					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr( $blogname ); ?>" class="regular-text" />
 					<br />
-					<?php _e( "Site path ('dashboard', 'control', 'manager', etc) or blog id.<br />New users are added to this site as the user role defined below if they don't have a site. Leave blank for the main site. Users with the subscriber role on old site will be moved to the new site if changed. The new site will be created if it does not exist." ); ?>
+					<?php _e( 'Site path (&#8220;dashboard&#8221;, &#8220;control&#8221;, &#8220;manager&#8221;, etc.) or blog ID.<br />New users are added to this site as the user role defined below if they don&#8217;t have a site. Leave blank for the main site. Users with the subscriber role on old site will be moved to the new site if changed. The new site will be created if it does not exist.' ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -85,7 +85,7 @@ if (isset($_GET['updated'])) {
 					?>
 					</select>
 					<br />
-					<?php _e( "The default role for new users on the Dashboard site. 'Subscriber' or 'Contributor' roles are recommended." ); ?>
+					<?php _e( 'The default role for new users on the Dashboard site. &#8220;Subscriber&#8221; or &#8220;Contributor&#8221; roles are recommended.' ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -113,7 +113,7 @@ if (isset($_GET['updated'])) {
 					<label><input name="registration" type="radio" id="registration4" value="all"<?php checked( $reg, 'all') ?> /> <?php _e( 'Both sites and user accounts can be registered.' ); ?></label><br />
 					<p><?php _e( 'Disable or enable registration and who or what can be registered. (Default is disabled.)' ); ?></p>
 					<?php if ( is_subdomain_install() ) {
-						echo '<p>' . __( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a url you will redirect visitors to if they visit a non-existent site.' ) . '</p>';
+						echo '<p>' . __( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a URL you will redirect visitors to if they visit a non-existent site.' ) . '</p>';
 					} ?>
 				</td>
 			</tr>
@@ -152,7 +152,7 @@ if (isset($_GET['updated'])) {
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
 					<textarea name="limited_email_domains" id="limited_email_domains" cols="45" rows="5"><?php echo wp_htmledit_pre( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
 					<br />
-					<?php _e( 'If you want to limit site registrations to certain domains. Enter one domain per line.' ) ?>
+					<?php _e( 'If you want to limit site registrations to certain domains. One domain per line.' ) ?>
 				</td>
 			</tr>
 
@@ -161,7 +161,7 @@ if (isset($_GET['updated'])) {
 				<td>
 					<textarea name="banned_email_domains" id="banned_email_domains" cols="45" rows="5"><?php echo wp_htmledit_pre( get_site_option( 'banned_email_domains' ) == '' ? '' : implode( "\n", (array) get_site_option( 'banned_email_domains' ) ) ); ?></textarea>
 					<br />
-					<?php _e('If you want to ban domains from site registrations. Enter one domain per line.') ?>
+					<?php _e( 'If you want to ban domains from site registrations. One domain per line.' ) ?>
 				</td>
 			</tr>
 
@@ -234,7 +234,7 @@ if (isset($_GET['updated'])) {
 				<td><label><input type="checkbox" id="mu_media_buttons_image" name="mu_media_buttons[image]" value="1"<?php checked( ! empty( $mu_media_buttons['image'] ) ) ?>/> <?php _e( 'Images' ); ?></label><br />
 				<label><input type="checkbox" id="mu_media_buttons_video" name="mu_media_buttons[video]" value="1"<?php checked( ! empty( $mu_media_buttons['video'] ) ) ?>/> <?php _e( 'Videos' ); ?></label><br />
 				<label><input type="checkbox" id="mu_media_buttons_audio" name="mu_media_buttons[audio]" value="1"<?php checked( ! empty( $mu_media_buttons['audio'] ) ) ?>/> <?php _e( 'Music' ); ?></label><br />
-				<?php _e( 'The media upload buttons to display on the "Write Post" page. Make sure you update the allowed upload file types below as well.' ); ?></td>
+				<?php _e( 'The media upload buttons to display on the &#8220;Write Post&#8221; page. Make sure you update the allowed upload file types below as well.' ); ?></td>
 			</tr>
 
 			<tr valign="top">

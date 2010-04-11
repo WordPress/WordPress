@@ -36,7 +36,7 @@ class MT_Import {
 		$this->header();
 ?>
 <div class="narrow">
-<p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or TypePad entries into WordPress. To begin, either choose a file to upload and click &#8220;Upload file and import&#8221;, or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click "Import mt-export.txt"'); ?></p>
+<p><?php _e( 'Howdy! We are about to begin importing all of your Movable Type or TypePad entries into WordPress. To begin, either choose a file to upload and click &#8220;Upload file and import&#8221;, or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click &#8220;Import mt-export.txt&#8221;.' ); ?></p>
 
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
 <form method="post" action="<?php echo esc_attr(add_query_arg('step', 1)); ?>" class="import-upload-form">

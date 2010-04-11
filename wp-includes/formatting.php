@@ -2360,7 +2360,7 @@ function sanitize_option($option, $value) {
 		case 'admin_email':
 			$value = sanitize_email($value);
 			if ( !$value && function_exists('add_settings_error') )
-				add_settings_error('admin_email', 'invalid_admin_email', __('The E-Mail Address submitted was not in the right format. Please enter a valid Email Address'));
+				add_settings_error('admin_email', 'invalid_admin_email', __('The email address submitted was not in the right format. Please enter a valid email address.'));
 			break;
 
 		case 'thumbnail_size_w':

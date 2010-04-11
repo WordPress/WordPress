@@ -83,7 +83,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 			print $current_site->domain . $current_site->path . __( 'sitename' );
 		else
 			print __( 'domain.' ) . $current_site->domain . $current_site->path;
-		echo '.</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)' ) . '</p>';
+		echo '.</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 	}
 
 	// Blog Title
@@ -130,17 +130,17 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
 	echo '<input name="user_name" type="text" id="user_name" value="'. esc_attr($user_name) .'" maxlength="50" /><br />';
-	_e('(Must be at least 4 characters, letters and numbers only.)');
+	_e( '(Must be at least 4 characters, letters and numbers only.)' );
 	?>
 
-	<label for="user_email"><?php _e('Email&nbsp;Address:') ?></label>
+	<label for="user_email"><?php _e( 'Email&nbsp;Address:' ) ?></label>
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php } ?>
 	<input name="user_email" type="text" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
-		echo '<p class="error">'.$errmsg.'</p>';
+		echo '<p class="error">' . $errmsg . '</p>';
 	}
 	do_action( 'signup_extra_fields', $errors );
 }
@@ -162,19 +162,19 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	$blog_title = $filtered_results['blog_title'];
 	$errors = $filtered_results['errors'];
 
-	echo '<h2>' . sprintf( __('Get <em>another</em> %s site in seconds'), $current_site->site_name ) . '</h2>';
+	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), $current_site->site_name ) . '</h2>';
 
 	if ( $errors->get_error_code() ) {
-		echo "<p>" . __('There was a problem, please correct the form below and try again.') . "</p>";
+		echo '<p>' . __( 'There was a problem, please correct the form below and try again.' ) . '</p>';
 	}
 	?>
-	<p><?php printf(__("Welcome back, %s. By filling out the form below, you can <strong>add another site to your account</strong>. There is no limit to the number of sites you can have, so create to your heart's content, but write responsibly."), $current_user->display_name) ?></p>
+	<p><?php printf( __( 'Welcome back, %s. By filling out the form below, you can <strong>add another site to your account</strong>. There is no limit to the number of sites you can have, so create to your heart&#8217;s content, but write responsibly!' ), $current_user->display_name ) ?></p>
 
 	<?php
 	$blogs = get_blogs_of_user($current_user->ID);
 	if ( !empty($blogs) ) { ?>
 		<p>
-			<?php _e('Sites you are already a member of:') ?>
+			<?php _e( 'Sites you are already a member of:' ) ?>
 			<ul>
 				<?php foreach ( $blogs as $blog ) {
 					echo "<li><a href='http://" . $blog->domain . $blog->path . "'>" . $blog->domain . $blog->path . "</a></li>";
@@ -183,12 +183,12 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 		</p>
 	<?php } ?>
 
-	<p><?php _e("If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!") ?></p>
+	<p><?php _e( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!' ) ?></p>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php do_action( "signup_hidden_fields" ); ?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
-		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Create Site') ?>" /></p>
+		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Create Site' ) ?>" /></p>
 	</form>
 	<?php
 }
@@ -208,8 +208,8 @@ function validate_another_blog_signup() {
 	}
 
 	$public = (int) $_POST['blog_public'];
-	$meta = apply_filters('signup_create_blog_meta', array ('lang_id' => 1, 'public' => $public)); // deprecated
-	$meta = apply_filters( "add_signup_meta", $meta );
+	$meta = apply_filters( 'signup_create_blog_meta', array( 'lang_id' => 1, 'public' => $public ) ); // deprecated
+	$meta = apply_filters( 'add_signup_meta', $meta );
 
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->id, $meta, $wpdb->siteid );
 	confirm_another_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
@@ -218,12 +218,12 @@ function validate_another_blog_signup() {
 
 function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = '') {
 	?>
-	<h2><?php printf(__('The site %s is yours.'), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
+	<h2><?php printf( __( 'The site %s is yours.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 	<p>
-		<?php printf(__('<a href="http://%1$s">http://%2$s</a> is your new site.  <a href="%3$s">Login</a> as "%4$s" using your existing password.'), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name) ?>
+		<?php printf( __( '<a href="http://%1$s">http://%2$s</a> is your new site.  <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name ) ?>
 	</p>
 	<?php
-	do_action('signup_finished');
+	do_action( 'signup_finished' );
 }
 
 function signup_user($user_name = '', $user_email = '', $errors = '') {
@@ -247,7 +247,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 
 	?>
 
-	<h2><?php printf( __('Get your own %s account in seconds'), $current_site->site_name ) ?></h2>
+	<h2><?php printf( __( 'Get your own %s account in seconds' ), $current_site->site_name ) ?></h2>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php do_action( "signup_hidden_fields" ); ?>
@@ -294,12 +294,12 @@ function validate_user_signup() {
 
 function confirm_user_signup($user_name, $user_email) {
 	?>
-	<h2><?php printf(__('%s is your new username'), $user_name) ?></h2>
-	<p><?php _e('But, before you can start using your new username, <strong>you must activate it</strong>.') ?></p>
-	<p><?php printf(__('Check your inbox at <strong>%1$s</strong> and click the link given.'),  $user_email) ?></p>
-	<p><?php _e('If you do not activate your username within two days, you will have to sign up again.'); ?></p>
+	<h2><?php printf( __( '%s is your new username' ), $user_name) ?></h2>
+	<p><?php _e( 'But, before you can start using your new username, <strong>you must activate it</strong>.' ) ?></p>
+	<p><?php printf(__( 'Check your inbox at <strong>%1$s</strong> and click the link given.' ),  $user_email) ?></p>
+	<p><?php _e( 'If you do not activate your username within two days, you will have to sign up again.' ); ?></p>
 	<?php
-	do_action('signup_finished');
+	do_action( 'signup_finished' );
 }
 
 function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_title = '', $errors = '') {
@@ -357,22 +357,22 @@ function validate_blog_signup() {
 
 function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta) {
 	?>
-	<h2><?php printf(__('Congratulations! Your new site, %s, is almost ready.'), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
+	<h2><?php printf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 
-	<p><?php _e('But, before you can start using your site, <strong>you must activate it</strong>.') ?></p>
-	<p><?php printf(__('Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.'),  $user_email) ?></p>
-	<p><?php _e('If you do not activate your site within two days, you will have to sign up again.'); ?></p>
-	<h2><?php _e('Still waiting for your email?'); ?></h2>
+	<p><?php _e( 'But, before you can start using your site, <strong>you must activate it</strong>.' ) ?></p>
+	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.' ),  $user_email) ?></p>
+	<p><?php _e( 'If you do not activate your site within two days, you will have to sign up again.' ); ?></p>
+	<h2><?php _e( 'Still waiting for your email?' ); ?></h2>
 	<p>
-		<?php _e("If you haven't received your email yet, there are a number of things you can do:") ?>
+		<?php _e( 'If you haven&#8217;t received your email yet, there are a number of things you can do:' ) ?>
 		<ul id="noemail-tips">
-			<li><p><strong><?php _e('Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.') ?></strong></p></li>
-			<li><p><?php _e('Check the junk email or spam folder of your email client.  Sometime emails wind up there by mistake.') ?></p></li>
-			<li><?php printf(__("Have you entered your email correctly?  We think it's %s but if you've entered it incorrectly, you won't receive it."), $user_email) ?></li>
+			<li><p><strong><?php _e( 'Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.' ) ?></strong></p></li>
+			<li><p><?php _e( 'Check the junk or spam folder of your email client.  Sometime emails wind up there by mistake.' ) ?></p></li>
+			<li><?php printf( __( 'Have you entered your email correctly?  We think it&#8217;s %s but if you have entered it incorrectly, you will not receive it.' ), $user_email ) ?></li>
 		</ul>
 	</p>
 	<?php
-	do_action('signup_finished');
+	do_action( 'signup_finished' );
 }
 
 // Main
@@ -383,20 +383,20 @@ if ( !$active_signup )
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 
 if ( is_super_admin() )
-	echo '<div class="mu_alert">' . sprintf( __( "Greetings Site Administrator! You are currently allowing '%s' registrations. To change or disable registration go to your <a href='wp-admin/ms-options.php'>Options page</a>." ), $active_signup ) . '</div>';
+	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="wp-admin/ms-options.php">Options page</a>.' ), $active_signup ) . '</div>';
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
 $current_user = wp_get_current_user();
 if ( $active_signup == "none" ) {
-	_e( "Registration has been disabled." );
+	_e( 'Registration has been disabled.' );
 } elseif ( $active_signup == 'blog' && !is_user_logged_in() ) {
 	if ( is_ssl() )
 		$proto = 'https://';
 	else
 		$proto = 'http://';
 	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode($proto . $_SERVER['HTTP_HOST'] . '/wp-signup.php' ));
-	echo sprintf( __( "You must first <a href=\"%s\">login</a>, and then you can create a new site."), $login_url );
+	echo sprintf( __( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ), $login_url );
 } else {
 	$stage = isset( $_POST['stage'] ) ?  $_POST['stage'] : 'default';
 	switch ( $stage ) {
@@ -404,13 +404,13 @@ if ( $active_signup == "none" ) {
 			if ( $active_signup == 'all' || $_POST[ 'signup_for' ] == 'blog' && $active_signup == 'blog' || $_POST[ 'signup_for' ] == 'user' && $active_signup == 'user' )
 				validate_user_signup();
 			else
-				_e( "User registration has been disabled." );
+				_e( 'User registration has been disabled.' );
 		break;
 		case 'validate-blog-signup':
 			if ( $active_signup == 'all' || $active_signup == 'blog' )
 				validate_blog_signup();
 			else
-				_e( "Site registration has been disabled." );
+				_e( 'Site registration has been disabled.' );
 			break;
 		case 'gimmeanotherblog':
 			validate_another_blog_signup();
@@ -424,9 +424,9 @@ if ( $active_signup == "none" ) {
 			elseif ( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )
 				signup_user( $newblogname, $user_email );
 			elseif ( is_user_logged_in() == false && ( $active_signup == 'blog' ) )
-				_e( "I'm sorry. We're not accepting new registrations at this time." );
+				_e( 'We are sorry. We are not accepting new registrations at this time.' );
 			else
-				_e( "You're logged in already. No need to register again!" );
+				_e( 'You are logged in already. No need to register again!' );
 
 			if ($newblogname) {
 				if ( !is_subdomain_install() )
@@ -434,9 +434,9 @@ if ( $active_signup == "none" ) {
 				else
 					$newblog = 'http://' . $newblogname . '.' . $current_site->domain . $current_site->path;
 				if ( $active_signup == 'blog' || $active_signup == 'all' )
-					printf(__("<p><em>The site you were looking for, <strong>%s</strong> doesn't exist but you can create it now!</em></p>"), $newblog );
+					printf( __( '<p><em>The site you were looking for, <strong>%s</strong> does not exist, but you can create it now!</em></p>' ), $newblog );
 				else
-					printf(__("<p><em>The site you were looking for, <strong>%s</strong> doesn't exist.</em></p>"), $newblog );
+					printf( __( '<p><em>The site you were looking for, <strong>%s</strong>, does not exist.</em></p>' ), $newblog );
 			}
 			break;
 	}

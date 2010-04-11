@@ -322,14 +322,14 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 
 	// Check if the domain has been used already. We should return an error message.
 	if ( domain_exists($domain, $path, $site_id) )
-		return __('error: Blog URL already taken.');
+		return __( 'Error: Blog URL already taken.' );
 
 	// Need to backup wpdb table names, and create a new wp_blogs entry for new blog.
 	// Need to get blog_id from wp_blogs, and create new table names.
 	// Must restore table names at the end of function.
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
-		return __('error: problem creating blog entry');
+		return __( 'Error: problem creating blog entry.' );
 
 	switch_to_blog($blog_id);
 	install_blog($blog_id);
@@ -483,7 +483,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add('user_name',  __("Username must be at least 4 characters"));
 
 	if ( strpos( " " . $user_name, "_" ) != false )
-		$errors->add('user_name', __("Sorry, usernames may not contain the character '_'!"));
+		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character &#8220;_&#8221;!' ) );
 
 	// all numeric?
 	$match = array();
@@ -568,11 +568,11 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$errors->add('blogname',  __("Blog name must be at least 4 characters"));
 
 	if ( strpos( " " . $blogname, "_" ) != false )
-		$errors->add('blogname', __("Sorry, blog names may not contain the character '_'!"));
+		$errors->add( 'blogname', __( 'Sorry, blog names may not contain the character &#8220;_&#8221;!' ) );
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
 	if ( !is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_site->blog_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) )
-		$errors->add( 'blogname', __( "Sorry, you may not use that blog name" ) );
+		$errors->add( 'blogname', __( 'Sorry, you may not use that blog name.' ) );
 
 	// all numeric?
 	$match = array();
@@ -1153,7 +1153,7 @@ function upload_is_user_over_quota( $echo = true ) {
 
 	if ( ($spaceAllowed-$size) < 0 ) {
 		if ( $echo )
-			_e( "Sorry, you have used your space allocation. Please delete some files to upload more files." ); //No space left
+			_e( 'Sorry, you have used your space allocation. Please delete some files to upload more files.' ); // No space left
 		return true;
 	} else {
 		return false;

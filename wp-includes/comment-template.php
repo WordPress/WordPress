@@ -728,7 +728,7 @@ function get_trackback_url() {
  */
 function trackback_url( $deprecated_echo = true ) {
 	if ( $deprecated_echo !== true )
-		_deprecated_argument( __FUNCTION__, '2.5', __('Use get_trackback_url() instead if you do not want the value echoed.') );
+		_deprecated_argument( __FUNCTION__, '2.5', __('Use <code>get_trackback_url()</code> instead if you do not want the value echoed.') );
 	if ( $deprecated_echo )
 		echo get_trackback_url();
 	else

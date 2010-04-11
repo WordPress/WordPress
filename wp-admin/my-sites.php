@@ -31,7 +31,7 @@ if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
 		update_user_option( $current_user->id, 'primary_blog', (int) $_POST['primary_blog'], true );
 		$updated = true;
 	} else {
-		wp_die( __( "The primary site, which you have choosen, doesn't exists." ) );	
+		wp_die( __( 'The primary site you chose does not exist.' ) );	
 	}
 }
 
@@ -56,9 +56,9 @@ if ( $updated ) { ?>
 	<?php
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
 	if ( $settings_html != '' ) {
-		echo "<tr><td valign='top'><h3>" . __( 'Global Settings' ) . "</h3></td><td>";
+		echo '<tr><td valign="top"><h3>' . __( 'Global Settings' ) . '</h3></td><td>';
 		echo $settings_html;
-		echo "</td></tr>";
+		echo '</td></tr>';
 	}
 	reset( $blogs );
 	$num = count( $blogs );

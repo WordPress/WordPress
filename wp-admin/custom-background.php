@@ -246,7 +246,7 @@ class Custom_Background {
 
 <?php if ( get_background_image() ) : ?>
 <h3><?php _e('Remove Background Image'); ?></h3>
-<p><?php _e('This will remove the background image. You will not be able to retrieve any customizations.') ?></p>
+<p><?php _e('This will remove the background image. You will not be able to restore any customizations.') ?></p>
 <form method="post" action="">
 <?php wp_nonce_field('custom-background'); ?>
 <input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />

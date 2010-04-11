@@ -11,7 +11,7 @@ if ( !defined('ABSPATH') )
 	die('-1');
 
 if ( empty($tag_ID) ) { ?>
-	<div id="message" class="updated"><p><strong><?php _e('An item was not selected for editing.'); ?></strong></p></div>
+	<div id="message" class="updated"><p><strong><?php _e( 'You did not select an item for editing.' ); ?></strong></p></div>
 <?php
 	return;
 }
