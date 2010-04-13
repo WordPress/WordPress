@@ -39,9 +39,11 @@
 	<?php if ( in_category( 'Gallery' ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+
 			<div class="entry-meta">
 				<?php
-					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><abbr title="%1$s"><span class="entry-date">%2$s</span></abbr> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%3$s" title="%4$s">%5$s</a></span>', 'twentyten' ),
+					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten' ),
+						get_permalink(),
 						esc_attr( get_the_time() ),
 						get_the_date(),
 						get_author_posts_url( get_the_author_meta( 'ID' ) ),
@@ -95,7 +97,8 @@
 
 			<div class="entry-utility">
 				<?php
-					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><abbr title="%1$s"><span class="entry-date">%2$s</span></abbr> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%3$s" title="%4$s">%5$s</a></span>', 'twentyten' ),
+					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten' ),
+						get_permalink(),
 						esc_attr( get_the_time() ),
 						get_the_date(),
 						get_author_posts_url( get_the_author_meta( 'ID' ) ),
@@ -116,7 +119,8 @@
 
 			<div class="entry-meta">
 				<?php
-					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><abbr title="%1$s"><span class="entry-date">%2$s</span></abbr> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%3$s" title="%4$s">%5$s</a></span>', 'twentyten' ),
+					printf( __( '<span class="meta-prep meta-prep-author">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s">%6$s</a></span>', 'twentyten' ),
+						get_permalink(),
 						esc_attr( get_the_time() ),
 						get_the_date(),
 						get_author_posts_url( get_the_author_meta( 'ID' ) ),
