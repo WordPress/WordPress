@@ -1634,8 +1634,12 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		if ( !strlen(trim($term)) )
 			continue;
 
-		if ( !$term_info = is_term($term, $taxonomy) )
+		if ( !$term_info = is_term($term, $taxonomy) ) {
+			// Skip if a non-existent term ID is passed.
+			if ( is_int($term) )
+				continue;
 			$term_info = wp_insert_term($term, $taxonomy);
+		}
 		if ( is_wp_error($term_info) )
 			return $term_info;
 		$term_ids[] = $term_info['term_id'];
