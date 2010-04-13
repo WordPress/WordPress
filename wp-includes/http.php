@@ -22,9 +22,6 @@
 function &_wp_http_get_object() {
 	static $http;
 
-	if ( ! class_exists('WP_Http') )
-		require( ABSPATH . WPINC . '/class-http.php' );
-
 	if ( is_null($http) )
 		$http = new WP_Http();
 
