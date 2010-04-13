@@ -125,13 +125,16 @@ function get_blog_details( $fields, $get_all = true ) {
 
 	if ( $details ) {
 		if ( ! is_object( $details ) ) {
-			if ( $details == -1 )
+			if ( $details == -1 ) {
 				return false;
-			else
+			} else {
 				// Clear old pre-serialized objects. Cache clients do better with that.
 				wp_cache_delete( $blog_id . $all, 'blog-details' );
+				unset($details);
+			}
+		} else {
+			return $details;
 		}
-		return $details;
 	}
 
 	// Try the other cache.
@@ -142,18 +145,21 @@ function get_blog_details( $fields, $get_all = true ) {
 		// If short was requested and full cache is set, we can return.
 		if ( $details ) {
 			if ( ! is_object( $details ) ) {
-				if ( $details == -1 )
+				if ( $details == -1 ) {
 					return false;
-				else
+				} else {
 					// Clear old pre-serialized objects. Cache clients do better with that.
-					wp_cache_delete( $blog_id . $all, 'blog-details' );
+					wp_cache_delete( $blog_id, 'blog-details' );
+					unset($details);
+				}
+			} else {
+				return $details;
 			}
-			return $details;
 		}
 	}
 
-	if ( !$details ) {
-		$details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE blog_id = %d", $blog_id ) );
+	if ( empty($details) ) {
+		$details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE blog_id = %d /* get_blog_details */", $blog_id ) );
 		if ( ! $details ) {
 			// Set the full cache.
 			wp_cache_set( $blog_id, -1, 'blog-details' );
