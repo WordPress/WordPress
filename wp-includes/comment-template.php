@@ -890,7 +890,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	elseif ( file_exists( TEMPLATEPATH . $file ) )
 		require( TEMPLATEPATH .  $file );
 	else
-		require( get_theme_root() . '/default/comments.php');
+		require( get_theme_root() . '/'.WP_FALLBACK_THEME.'/comments.php');
 }
 
 /**
