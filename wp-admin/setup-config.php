@@ -185,6 +185,7 @@ switch($step) {
 	require_once( ABSPATH . WPINC . '/l10n.php' );
 	require_once( ABSPATH . WPINC . '/pomo/translations.php' );
 	if ( ! $no_api ) {
+		require_once( ABSPATH . WPINC . '/class-http.php' );
 		require_once( ABSPATH . WPINC . '/http.php' );
 		wp_fix_server_vars();
 		/**#@+
