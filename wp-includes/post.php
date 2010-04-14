@@ -116,6 +116,12 @@ function create_initial_post_types() {
 											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
 										) );
+
+	register_post_status( 'inherit', array(	'label' => _x('Inherit', 'post'),
+											'internal' => true,
+											'_builtin' => true, /* internal use only. */
+											'label_count' => _n_noop('Inherit <span class="count">(%s)</span>', 'Inherit <span class="count">(%s)</span>')
+										) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
