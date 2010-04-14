@@ -1,4 +1,4 @@
-# Translation of the WordPress theme Twenty Ten 0.7 by the WordPress team.
+# Translation of the WordPress theme Twenty Ten 0.9 by the WordPress team.
 # Copyright (C) 2010 the WordPress team
 # This file is distributed under the same license as the Twenty Ten package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 0.7\n"
+"Project-Id-Version: Twenty Ten 0.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-04-05 04:21+0000\n"
+"POT-Creation-Date: 2010-04-14 00:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,8 +57,8 @@ msgid ""
 "vcard\"><a class=\"url fn n\" href=\"%1$s\" title=\"%2$s\">%3$s</a></span>"
 msgstr ""
 
-#: attachment.php:27 loop.php:50 loop.php:105 loop.php:127 single.php:28
-#: single.php:48
+#: attachment.php:27 loop.php:50 loop.php:105 loop.php:127 single.php:30
+#: single.php:47
 #, php-format
 msgid "View all posts by %s"
 msgstr ""
@@ -71,7 +71,7 @@ msgid ""
 msgstr ""
 
 #: attachment.php:38 attachment.php:90 loop.php:81 loop.php:111 loop.php:153
-#: onecolumn-page.php:26 page.php:33 single.php:31 single.php:72
+#: onecolumn-page.php:26 page.php:33 single.php:71
 msgid "Edit"
 msgstr ""
 
@@ -80,11 +80,11 @@ msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: attachment.php:59 loop.php:140 onecolumn-page.php:25 page.php:32
-#: single.php:36
+#: single.php:35
 msgid "Pages:"
 msgstr ""
 
-#: attachment.php:67 single.php:58
+#: attachment.php:67 single.php:57
 #, php-format
 msgid ""
 "This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
@@ -93,7 +93,7 @@ msgid ""
 "\"alternate\" type=\"application/rss+xml\">RSS feed for this post</a>."
 msgstr ""
 
-#: attachment.php:69 single.php:60
+#: attachment.php:69 single.php:59
 #, php-format
 msgid ""
 "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
@@ -394,18 +394,18 @@ msgid "Meta"
 msgstr ""
 
 #: single.php:27
-msgid "Posted by "
+msgid "Posted on "
 msgstr ""
 
 #: single.php:29
-msgid " on "
+msgid " by "
 msgstr ""
 
-#: single.php:45
+#: single.php:44
 msgid "About "
 msgstr ""
 
-#: single.php:48
+#: single.php:47
 msgid "View all posts by "
 msgstr ""
 
