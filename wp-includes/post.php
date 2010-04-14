@@ -468,14 +468,17 @@ function get_post_mime_type($ID = '') {
 function get_post_status($ID = '') {
 	$post = get_post($ID);
 
-	if ( is_object($post) ) {
-		if ( ('attachment' == $post->post_type) && $post->post_parent && ($post->ID != $post->post_parent) )
-			return get_post_status($post->post_parent);
-		else
-			return $post->post_status;
-	}
+	if ( !is_object($post) )
+		return false;
 
-	return false;
+	// Unattached attachments are assumed to be published.
+	if ( ('attachment' == $post->post_type) && ('inherit' == $post->post_status) && ( 0 == $post->post_parent) )
+		return 'publish';
+
+	if ( ('attachment' == $post->post_type) && $post->post_parent && ($post->ID != $post->post_parent) )
+		return get_post_status($post->post_parent);
+
+	return $post->post_status;
 }
 
 /**
