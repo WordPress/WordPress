@@ -3917,6 +3917,12 @@ function set_current_screen( $id =  '' ) {
 
 	$current_screen = (object) $current_screen;
 
+	// Map index to dashboard
+	if ( 'index' == $current_screen->base )
+		$current_screen->base = 'dashboard';
+	if ( 'index' == $current_screen->id )
+		$current_screen->id = 'dashboard';
+
 	if ( 'edit' == $current_screen->id ) {
 		if ( empty($typenow) )
 			$typenow = 'post';
