@@ -279,7 +279,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return false;
 		}
 
-		set_current_user( $user->ID );
+		wp_set_current_user( $user->ID );
 		return $user;
 	}
 

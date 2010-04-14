@@ -15,6 +15,27 @@
  * Deprecated functions come here to die.
  */
 
+if ( !function_exists('set_current_user') ) :
+/**
+ * Changes the current user by ID or name.
+ *
+ * Set $id to null and specify a name if you do not know a user's ID.
+ *
+ * @since 2.0.1
+ * @see wp_set_current_user() An alias of wp_set_current_user()
+ * @deprecated 3.0.0
+ * @deprecated Use wp_set_current_user()
+ *
+ * @param int|null $id User ID.
+ * @param string $name Optional. The user's username
+ * @return object returns wp_set_current_user()
+ */
+function set_current_user($id, $name = '') {
+	_deprecated_function( __FUNCTION__, '3.0', 'wp_set_current_user()' );
+	return wp_set_current_user($id, $name);
+}
+endif;
+
 if ( !function_exists('wp_setcookie') ) :
 /**
  * Sets a cookie for a user who just logged in. This function is deprecated.

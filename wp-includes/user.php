@@ -478,8 +478,7 @@ function count_users($strategy = 'time') {
 /**
  * Set up global user vars.
  *
- * Used by set_current_user() for back compat. Might be deprecated in the
- * future.
+ * Used by wp_set_current_user() for back compat. Might be deprecated in the future.
  *
  * @since 2.0.4
  * @global string $userdata User description.
