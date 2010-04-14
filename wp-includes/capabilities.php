@@ -993,7 +993,6 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 		// Fall through if not DISALLOW_FILE_EDIT.
-	case 'unfiltered_html':
 	case 'update_plugins':
 	case 'delete_plugins':
 	case 'install_plugins':
@@ -1001,6 +1000,14 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_themes':
 	case 'install_themes':
 	case 'update_core':
+		// Disallow anything that creates, deletes, or edits core, plugin, or theme files.
+		// Files in uploads are excepted.
+		if ( defined('DISALLOW_FILE_MODS') && DISALLOW_FILE_MODS ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+		// Fall through if not DISALLOW_FILE_MODS.
+	case 'unfiltered_html':
 	case 'delete_user':
 	case 'delete_users':
 		// If multisite these caps are allowed only for super admins.
