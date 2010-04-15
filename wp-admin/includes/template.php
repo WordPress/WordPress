@@ -3641,7 +3641,7 @@ function screen_meta($screen) {
 	$default_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
 	$contextual_help .= apply_filters('default_contextual_help', $default_help);
 	$contextual_help .= "</div>\n";
-	echo apply_filters('contextual_help', $contextual_help, $screen);
+	echo apply_filters('contextual_help', $contextual_help, $screen->id, $screen);
 	?>
 	</div>
 
