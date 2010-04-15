@@ -418,7 +418,12 @@ function count_users($strategy = 'time') {
 	$blog_prefix = $wpdb->get_blog_prefix($id);
 	$result = array();
 
-	if ('time' == $strategy) {
+	if ( 'time' == $strategy ) {
+		global $wp_roles;
+
+		if ( ! isset( $wp_roles ) )
+			$wp_roles = new WP_Roles();
+
 		$avail_roles = $wp_roles->get_names();
 
 		// Build a CPU-intensive query that will return concise information.
