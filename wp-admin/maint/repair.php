@@ -32,6 +32,9 @@ if ( !defined('WP_ALLOW_REPAIR') ) {
 	$okay = true;
 
 	$tables = $wpdb->tables();
+	// Sitecategories may not exist if global terms are disabled.
+	if ( is_multisite() && ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->sitecategories'" ) )
+		unset( $tables['sitecategories'] );
 	$tables = array_merge( $tables, (array) apply_filters( 'tables_to_repair', array() ) ); // Return tables with table prefixes.
 	// Loop over the tables, checking and repairing as needed.
 	foreach ( $tables as $table ) {
