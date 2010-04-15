@@ -182,8 +182,8 @@ if ( current_user_can('edit_users') ) {
 	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
 }
 
-$menu[75] = array( __('Tools'), 'read', 'tools.php', '', 'menu-top menu-icon-tools', 'menu-tools', 'div' );
-	$submenu['tools.php'][5] = array( __('Tools'), 'read', 'tools.php' );
+$menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-icon-tools', 'menu-tools', 'div' );
+	$submenu['tools.php'][5] = array( __('Tools'), 'edit_posts', 'tools.php' );
 	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
 	$submenu['tools.php'][15] = array( __('Export'), 'import', 'export.php' );
 	if ( is_multisite() && !is_main_site() )
