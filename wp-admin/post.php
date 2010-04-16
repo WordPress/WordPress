@@ -170,15 +170,6 @@ case 'edit':
 		$submenu_file = "edit.php?post_type=$post_type";
 	}
 
-	wp_enqueue_script('post');
-	if ( user_can_richedit() )
-		wp_enqueue_script('editor');
-	add_thickbox();
-	wp_enqueue_script('media-upload');
-	wp_enqueue_script('word-count');
-	wp_enqueue_script( 'admin-comments' );
-	enqueue_comment_hotkeys_js();
-
 	if ( $last = wp_check_post_lock( $post->ID ) ) {
 		add_action('admin_notices', '_admin_notice_post_locked' );
 	} else {
@@ -188,6 +179,11 @@ case 'edit':
 
 	$title = sprintf(__('Edit %s'), $post_type_object->singular_label);
 	$post = get_post_to_edit($post_id);
+
+	if ( post_type_supports($post_type, 'comments') ) {
+		wp_enqueue_script('admin-comments');
+		enqueue_comment_hotkeys_js();
+	}
 
 	include('edit-form-advanced.php');
 
