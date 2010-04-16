@@ -821,28 +821,21 @@ function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
 /**
  * Retrieve delete posts link for post.
  *
- * Can be used within the WordPress loop or outside of it. Can be used with
- * pages, posts, attachments, and revisions.
+ * Can be used within the WordPress loop or outside of it, with any post type.
  *
  * @since 2.9.0
  *
  * @param int $id Optional. Post ID.
- * @param string $context Optional, default to display. How to write the '&', defaults to '&amp;'.
+ * @param string $deprecated Not used.
+ * @param bool $force_delete Whether to bypass trash and force deletion. Default is false.
  * @return string
  */
-function get_delete_post_link($id = 0, $context = 'display') {
+function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false ) {
+	if ( ! empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '3.0.0' );
+
 	if ( !$post = &get_post( $id ) )
 		return;
-
-	if ( 'display' == $context )
-		$action = 'action=trash&amp;';
-	else
-		$action = 'action=trash&';
-
-	if ( 'display' == $context )
-		$action = '&amp;action=trash';
-	else
-		$action = '&action=trash';
 
 	$post_type_object = get_post_type_object( $post->post_type );
 	if ( !$post_type_object )
@@ -851,7 +844,11 @@ function get_delete_post_link($id = 0, $context = 'display') {
 	if ( !current_user_can( $post_type_object->delete_cap, $post->ID ) )
 		return;
 
-	return apply_filters( 'get_delete_post_link', wp_nonce_url( admin_url( sprintf($post_type_object->_edit_link . $action, $post->ID) ),  "trash-{$post->post_type}_" . $post->ID), $post->ID, $context );
+	$action = ( $force_delete || !EMPTY_TRASH_DAYS ) ? 'delete' : 'trash';
+
+	$delete_link = add_query_arg( 'action', $action, admin_url( sprintf( $post_type_object->_edit_link, $post->ID ) ) );
+
+	return apply_filters( 'get_delete_post_link', wp_nonce_url( $delete_link, "$action-{$post->post_type}_{$post->ID}" ), $post->ID, $force_delete );
 }
 
 /**
