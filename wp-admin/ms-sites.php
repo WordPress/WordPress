@@ -125,12 +125,11 @@ switch ( $action ) {
 							<td>
 						<?php
 						$checked_fields = array( 'public' => __( 'Public' ) );
-						if ( ! $is_main_site )
-							$checked_fields = array(
-								'archived' => __( 'Archived' ),
-								'spam'     => __( 'Spam' ),
-								'deleted'  => __( 'Deleted' ),
-							);
+						if ( ! $is_main_site ) {
+							$checked_fields['archived'] = __( 'Archived' );
+							$checked_fields['spam']     = __( 'Spam' );
+							$checked_fields['deleted']  = __( 'Deleted' );
+						}
 						$checked_fields['mature'] = __( 'Mature' );
 						foreach ( $checked_fields as $field_key => $field_label ) {
 						?>
