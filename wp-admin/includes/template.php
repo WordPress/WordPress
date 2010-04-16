@@ -2967,7 +2967,7 @@ function get_hidden_meta_boxes($screen) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	$hidden = get_user_option( "meta-box-hidden_$screen->id" );
+	$hidden = get_user_option( "metaboxhidden_$screen->id" );
 
 	// Hide slug boxes by default
 	if ( !is_array($hidden) )

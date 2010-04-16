@@ -1007,7 +1007,7 @@ case 'closed-postboxes' :
 
 	if ( is_array($hidden) ) {
 		$hidden = array_diff( $hidden, array('submitdiv', 'linksubmitdiv', 'manage-menu', 'create-menu') ); // postboxes that are always shown
-		update_user_option($user->ID, "meta-box-hidden_$page", $hidden, true);
+		update_user_option($user->ID, "metaboxhidden_$page", $hidden, true);
 	}
 
 	die('1');
