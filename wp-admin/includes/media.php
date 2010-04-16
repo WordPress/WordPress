@@ -1161,7 +1161,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	else
 		$thumb_url = false;
 
-	$default_args = array( 'errors' => null, 'send' => true, 'delete' => true, 'toggle' => true, 'show_title' => true );
+	$default_args = array( 'errors' => null, 'send' => post_type_supports(get_post_type($_GET['post_id']), 'editor'), 'delete' => true, 'toggle' => true, 'show_title' => true );
 	$args = wp_parse_args( $args, $default_args );
 	extract( $args, EXTR_SKIP );
 
@@ -1992,7 +1992,6 @@ jQuery(function($){
  * @return unknown
  */
 function type_url_form_image() {
-
 	if ( !apply_filters( 'disable_captions', '' ) ) {
 		$caption = '
 		<tr>
@@ -2061,13 +2060,7 @@ function type_url_form_image() {
 			<button type="button" class="button" value="" onclick="document.forms[0].url.value=document.forms[0].src.value">' . __('Link to image') . '</button>
 			<p class="help">' . __('Enter a link URL or click above for presets.') . '</p></td>
 		</tr>
-
-		<tr>
-			<td></td>
-			<td>
-				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
-			</td>
-		</tr>
+	' . _insert_into_post_button('image') . '
 	</tbody></table>
 ';
 
@@ -2098,12 +2091,7 @@ function type_url_form_audio() {
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Still Alive by Jonathan Coulton&#8221;') . '</td></tr>
-		<tr>
-			<td></td>
-			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
-			</td>
-		</tr>
+	' . _insert_into_post_button('audio') . '
 	</tbody></table>
 ';
 }
@@ -2133,12 +2121,7 @@ function type_url_form_video() {
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8220;') . '</td></tr>
-		<tr>
-			<td></td>
-			<td>
-				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
-			</td>
-		</tr>
+	' . _insert_into_post_button('video') . '
 	</tbody></table>
 ';
 }
@@ -2168,14 +2151,34 @@ function type_url_form_file() {
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</td></tr>
+	' . _insert_into_post_button('file') . '
+	</tbody></table>
+';
+}
+
+
+function _insert_into_post_button($type) {
+	if ( !post_type_supports(get_post_type($_GET['post_id']), 'editor') )
+		return '';
+	
+	if ( 'image' == $type )
+	return '
+		<tr>
+			<td></td>
+			<td>
+				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
+			</td>
+		</tr>		
+	';
+
+	return '
 		<tr>
 			<td></td>
 			<td>
 				<input type="submit" class="button" name="insertonlybutton" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
 		</tr>
-	</tbody></table>
-';
+	';
 }
 
 /**

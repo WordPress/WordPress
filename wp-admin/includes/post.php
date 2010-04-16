@@ -1144,7 +1144,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
 	global $content_width, $_wp_additional_image_sizes;
 
-	$set_thumbnail_link = '<p class="hide-if-no-js"><a href="' . get_upload_iframe_src('image') . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . get_upload_iframe_src('image') . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
 	$content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image' ));
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
