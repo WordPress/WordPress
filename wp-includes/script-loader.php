@@ -441,7 +441,7 @@ function wp_default_styles( &$styles ) {
 	$no_suffix = array( 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20100406';
+	$colors_version = '20100415';
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100411' );
 

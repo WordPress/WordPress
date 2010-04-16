@@ -380,10 +380,6 @@ div.dashboard-widget-submit input:hover,
 	border-color: #dfdfdf;
 }
 
-#dashboard_right_now .table {
-	background: #faf9f7 !important;
-}
-
 #side-sortables .category-tabs .tabs a {
 	color: #333;
 }
