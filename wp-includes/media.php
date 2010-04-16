@@ -376,7 +376,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
  * @param string $suffix Optional. File Suffix.
  * @param string $dest_path Optional. New image file path.
  * @param int $jpeg_quality Optional, default is 90. Image quality percentage.
- * @return mixed WP_Error on failure. String with new destination path. Array of dimensions from {@link image_resize_dimensions()}
+ * @return mixed WP_Error on failure. String with new destination path.
  */
 function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {
 
@@ -391,7 +391,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 
 	$dims = image_resize_dimensions($orig_w, $orig_h, $max_w, $max_h, $crop);
 	if ( !$dims )
-		return $dims;
+		return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
 	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
 
 	$newimage = wp_imagecreatetruecolor( $dst_w, $dst_h );
