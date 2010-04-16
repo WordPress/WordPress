@@ -1197,7 +1197,9 @@ function do_enclose( $content, $post_ID ) {
 
 	foreach ( (array) $post_links_temp[0] as $link_test ) {
 		if ( !in_array( $link_test, $pung ) ) { // If we haven't pung it already
-			$test = parse_url( $link_test );
+			$test = @parse_url( $link_test );
+			if ( false === $test )
+				continue;
 			if ( isset( $test['query'] ) )
 				$post_links[] = $link_test;
 			elseif ( $test['path'] != '/' && $test['path'] != '' )
@@ -1215,13 +1217,15 @@ function do_enclose( $content, $post_ID ) {
 
 				// Check to see if we can figure out the mime type from
 				// the extension
-				$url_parts = parse_url( $url );
-				$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
-				if ( !empty( $extension ) ) {
-					foreach ( get_allowed_mime_types( ) as $exts => $mime ) {
-						if ( preg_match( '!^(' . $exts . ')$!i', $extension ) ) {
-							$type = $mime;
-							break;
+				$url_parts = @parse_url( $url );
+				if ( false !== $url_parts ) {
+					$extension = pathinfo( $url_parts['path'], PATHINFO_EXTENSION );
+					if ( !empty( $extension ) ) {
+						foreach ( get_allowed_mime_types( ) as $exts => $mime ) {
+							if ( preg_match( '!^(' . $exts . ')$!i', $extension ) ) {
+								$type = $mime;
+								break;
+							}
 						}
 					}
 				}
