@@ -168,7 +168,7 @@ if ( !is_multisite() ) {
 	echo '<p>' . __( 'That person will be sent an email asking them to click a link confirming the invite. New users will then be sent an email with a randomly generated password and a login link.' ) . '</p>';
 }
 ?>
-<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users: validate">
+<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users: validate"<?php do_action('user_new_form_tag');?>>
 <?php wp_nonce_field('add-user') ?>
 <?php
 //Load up the passed data, else set to a default.

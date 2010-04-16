@@ -164,7 +164,7 @@ require_once('admin-header.php');
 <?php if ( $message ) : ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
-<form name="post" action="post.php" method="post" id="post">
+<form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr($form_action) ?>" />
