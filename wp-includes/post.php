@@ -631,42 +631,18 @@ function get_post_status_object( $post_status ) {
  * @see register_post_status
  * @see get_post_status_object
  *
- * @param array|string $args An array of key => value arguments to match against the post statuses.
- *  Only post statuses having attributes that match all arguments are returned.
+ * @param array|string $args An array of key => value arguments to match against the post status objects.
  * @param string $output The type of output to return, either post status 'names' or 'objects'. 'names' is the default.
- * @param string $operator Whether the elements in $args should be logicallly 'or'ed or 'and'ed together. 'or' means only one element from the array needs to match. 'and' means all elements must match. The default is 'or'.
+ * @param string $operator The logical operation to perform. 'or' means only one element 
+ *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
  * @return array A list of post type names or objects
  */
-function get_post_stati( $args = array(), $output = 'names', $operator = 'or' ) {
+function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
 
-	$do_names = false;
-	if ( 'names' == $output )
-		$do_names = true;
+	$field = ('names' == $output) ? 'name' : false;
 
-	if ( 'and' == $operator )
-		$arg_count = count($args);
-	else
-		$arg_count = 0;
-
-	$post_statuses = array();
-	foreach ( (array) $wp_post_statuses as $post_status ) {
-		if ( empty($args) ) {
-			if ( $do_names )
-				$post_statuses[] = $post_status->name;
-			else
-				$post_statuses[] = $post_status;
-		} elseif ( $intersect = array_intersect_assoc((array) $post_status, $args) ) {
-			if ( $arg_count && ( $arg_count != count($intersect) ) )
-				continue;
-			if ( $do_names )
-				$post_statuses[] = $post_status->name;
-			else
-				$post_statuses[] = $post_status;
-		}
-	}
-
-	return $post_statuses;
+	return wp_filter_object_list($wp_post_statuses, $args, $operator, $field);
 }
 
 /**
@@ -701,7 +677,7 @@ function is_post_type_hierarchical( $post = false ) {
  * @param mixed $the_post Optional. Post object or post ID.
  * @return bool|string post type or false on failure.
  */
-function get_post_type($the_post = false) {
+function get_post_type( $the_post = false ) {
 	global $post;
 
 	if ( false === $the_post )
@@ -745,36 +721,19 @@ function get_post_type_object( $post_type ) {
  * @since 2.9.0
  * @uses $wp_post_types
  * @see register_post_type
- * @see get_post_types
  *
- * @param array|string $args An array of key => value arguments to match against the post types.
- *  Only post types having attributes that match all arguments are returned.
+ * @param array|string $args An array of key => value arguments to match against the post type objects.
  * @param string $output The type of output to return, either post type 'names' or 'objects'. 'names' is the default.
+ * @param string $operator The logical operation to perform. 'or' means only one element 
+ *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
  * @return array A list of post type names or objects
  */
-function get_post_types( $args = array(), $output = 'names' ) {
+function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_types;
 
-	$do_names = false;
-	if ( 'names' == $output )
-		$do_names = true;
+	$field = ('names' == $output) ? 'name' : false;
 
-	$post_types = array();
-	foreach ( (array) $wp_post_types as $post_type ) {
-		if ( empty($args) ) {
-			if ( $do_names )
-				$post_types[] = $post_type->name;
-			else
-				$post_types[] = $post_type;
-		} elseif ( array_intersect_assoc((array) $post_type, $args) ) {
-			if ( $do_names )
-				$post_types[] = $post_type->name;
-			else
-				$post_types[] = $post_type;
-		}
-	}
-
-	return $post_types;
+	return wp_filter_object_list($wp_post_types, $args, $operator, $field);
 }
 
 /**

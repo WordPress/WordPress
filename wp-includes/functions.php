@@ -2901,11 +2901,46 @@ function wp_parse_args( $args, $defaults = '' ) {
  * @param array|string $list
  * @return array Sanitized array of IDs
  */
-function wp_parse_id_list($list) {
+function wp_parse_id_list( $list ) {
 	if ( !is_array($list) )
 		$list = preg_split('/[\s,]+/', $list);
 
 	return array_unique(array_map('absint', $list));
+}
+
+/**
+ * Filters a list of objects, based on a set of key => value arguments
+ *
+ * @since 3.0.0
+ *
+ * @param array $list An array of objects to filter
+ * @param array $args An array of key => value arguments to match against each object
+ * @param string $operator The logical operation to perform. 'or' means only one element 
+ *	from the array needs to match; 'and' means all elements must match. The default is 'and'.
+ * @param bool|string $field A field from the object to place instead of the entire object
+ * @return array A list of objects or object fields
+ */
+function wp_filter_object_list( $list, $args = array(), $operator = 'and', $field = false ) {
+	if ( !is_array($list) )
+		return array();
+
+	if ( empty($args) )
+		$args = array();
+
+	if ( empty($args) && !$field )
+		return $list;	// nothing to do
+
+	$count = count($args);
+
+	$filtered = array();
+
+	foreach ( $list as $key => $obj ) {
+		$matched = count(array_intersect_assoc(get_object_vars($obj), $args));
+		if ( ('and' == $operator && $matched == $count) || ('or' == $operator && $matched <= $count) )
+			$filtered[$key] = $field ? $obj->$field : $obj;
+	}
+
+	return $filtered;
 }
 
 /**
