@@ -3421,7 +3421,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 		if ( $use_cache )
 			$value = wp_cache_get($cache_key, 'site-options');
 
-		if ( false === $value ) {
+		if ( !isset($value) || (false === $value) ) {
 			$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
 
 			if ( is_null($value) )
