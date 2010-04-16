@@ -186,6 +186,7 @@ if ( current_user_can('edit_users') ) {
 } else {
 	$_wp_real_parent_file['users.php'] = 'profile.php';
 	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
+	$submenu['profile.php'][10] = array(__('Add New User'), 'create_users', 'user-new.php');
 }
 
 $menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-icon-tools', 'menu-tools', 'div' );

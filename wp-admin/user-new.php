@@ -45,9 +45,13 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		if ( is_wp_error( $user_id ) ) {
 			$add_user_errors = $user_id;
 		} else {
-			$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
-			$redirect = 'users.php?usersearch='. urlencode($new_user_login) . '&update=add';
-			wp_redirect( $redirect . '#user-' . $user_id );
+			if ( current_user_can('edit_users') ) {
+				$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
+				$redirect = 'users.php?usersearch='. urlencode($new_user_login) . '&update=add' . '#user-' . $user_id;
+			} else {
+				$redirect = add_query_arg( 'update', 'add', 'user-new.php' );
+			}
+			wp_redirect( $redirect );
 			die();
 		}
 	} else {
@@ -110,20 +114,26 @@ wp_enqueue_script('password-strength-meter');
 
 require_once ('admin-header.php');
 
-if ( isset($_GET[ 'update' ]) && is_multisite() ) {
-	switch ( $_GET[ 'update' ] ) {
-		case "newuserconfimation":
-			$messages[] = '<div id="message" class="updated"><p>' . __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.') . '</p></div>';
-			break;
-		case "add":
-			$messages[] = '<div id="message" class="updated"><p>' . __('Invitation email sent to user. A confirmation link must be clicked for them to be added to your blog.') . '</p></div>';
-			break;
-		case "addnoconfirmation":
-			$messages[] = '<div id="message" class="updated"><p>' . __('User has been added to your blog.') . '</p></div>';
-			break;
-		case "addexisting":
-			$messages[] = '<div id="message" class="updated"><p>' . __('That user is already a member of this blog.') . '</p></div>';
-			break;
+if ( isset($_GET['update']) ) {
+	$messages = array();
+	if ( is_multisite() ) {
+		switch ( $_GET['update'] ) {
+			case "newuserconfimation":
+				$messages[] = __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.');
+				break;
+			case "add":
+				$messages[] = __('Invitation email sent to user. A confirmation link must be clicked for them to be added to your site.');
+				break;
+			case "addnoconfirmation":
+				$messages[] = __('User has been added to your site.');
+				break;
+			case "addexisting":
+				$messages[] = __('That user is already a member of this site.');
+				break;
+		}
+	} else {
+		if ( 'add' == $_GET['update'] )
+			$messages[] = __('User added.');
 	}
 }
 ?>
@@ -142,9 +152,9 @@ if ( isset($_GET[ 'update' ]) && is_multisite() ) {
 	</div>
 <?php endif;
 
-if ( ! empty($messages) ) {
+if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
-		echo $msg;
+		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 } ?>
 
 <?php if ( isset($add_user_errors) && is_wp_error( $add_user_errors ) ) : ?>
