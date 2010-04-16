@@ -1003,11 +1003,11 @@ case 'closed-postboxes' :
 		die('-1');
 
 	if ( is_array($closed) )
-		update_user_option($user->ID, "closedpostboxes_$page", $closed);
+		update_user_option($user->ID, "closedpostboxes_$page", $closed, true);
 
 	if ( is_array($hidden) ) {
 		$hidden = array_diff( $hidden, array('submitdiv', 'linksubmitdiv', 'manage-menu', 'create-menu') ); // postboxes that are always shown
-		update_user_option($user->ID, "meta-box-hidden_$page", $hidden);
+		update_user_option($user->ID, "meta-box-hidden_$page", $hidden, true);
 	}
 
 	die('1');
