@@ -9,7 +9,7 @@
 
 require_once( './admin.php' );
 
-if ( !is_multisite() )
+if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_sites' ) )
@@ -124,11 +124,9 @@ switch ( $action ) {
 							<th scope="row"><?php _e( 'Site Settings' ); ?></th>
 							<td>
 						<?php
-						if ( $is_main_site )
-							$checked_fields = array( 'public' => __( 'Public' ) );
-						else
+						$checked_fields = array( 'public' => __( 'Public' ) );
+						if ( ! $is_main_site )
 							$checked_fields = array(
-								'public'   => __( 'Public' ),
 								'archived' => __( 'Archived' ),
 								'spam'     => __( 'Spam' ),
 								'deleted'  => __( 'Deleted' ),
@@ -136,7 +134,7 @@ switch ( $action ) {
 						$checked_fields['mature'] = __( 'Mature' );
 						foreach ( $checked_fields as $field_key => $field_label ) {
 						?>
-								<input type="checkbox" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>" value="<?php echo $details->$field_key; ?>"<?php checked( $details->$field_key ); ?> />
+								<input type="checkbox" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>" value="1"<?php checked( $details->$field_key ); ?> />
 								<label for="blog_<?php echo $field_key; ?>"><?php echo $field_label; ?></label><br/>
 						<?php } ?>
 							</td>
