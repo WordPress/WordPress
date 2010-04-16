@@ -1010,11 +1010,11 @@ h3#reply-title {
 	font-size: 12px;
 }
 #respond input {
-	margin:0 0 9px 0;
+	margin:0 0 9px;
 	width:98%;
 }
 #respond textarea {
-	width:99%;
+	width:98%;
 }
 #respond dt,
 #respond dd {
