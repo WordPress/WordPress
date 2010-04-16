@@ -79,7 +79,7 @@ if ( is_multisite() || is_super_admin() ) {
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
-$menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu-top menu-icon-posts', 'menu-posts', 'div' );
+$menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu-top menu-icon-post', 'menu-posts', 'div' );
 	$submenu['edit.php'][5]  = array( __('Edit'), 'edit_posts', 'edit.php' );
 	/* translators: add new post */
 	$submenu['edit.php'][10]  = array( _x('Add New', 'post'), 'edit_posts', 'post-new.php' );
@@ -104,7 +104,7 @@ $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-to
 	$submenu['link-manager.php'][10] = array( _x('Add New', 'link'), 'manage_links', 'link-add.php' );
 	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
-$menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'menu-top menu-icon-pages', 'menu-pages', 'div' );
+$menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'menu-top menu-icon-page', 'menu-pages', 'div' );
 	$submenu['edit.php?post_type=page'][5] = array( __('Edit'), 'edit_pages', 'edit.php?post_type=page' );
 	/* translators: add new page */
 	$submenu['edit.php?post_type=page'][10] = array( _x('Add New', 'page'), 'edit_pages', 'post-new.php?post_type=page' );
@@ -114,16 +114,22 @@ $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='c
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
 foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
-	$ptype_obj = get_post_type_object($ptype);
-	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : ++$_wp_last_object_menu; // If we're to use $_wp_last_object_menu, increment it first.
-	$menu_icon = is_string($ptype_obj->menu_icon) ? esc_url($ptype_obj->menu_icon) : 'div';
+	$ptype_obj = get_post_type_object( $ptype );
+	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : $_wp_last_object_menu++; // If we're to use $_wp_last_object_menu, increment it first.
+	if ( is_string( $ptype_obj->menu_icon ) ) {
+		$menu_icon   = esc_url( $ptype_obj->menu_icon );
+		$ptype_class = sanitize_html_class( $ptype );
+	} else {
+		$menu_icon   = 'div';
+		$ptype_class = 'post';
+	}
 
 	// if $ptype_menu_position is already populated or will be populated by a hard-coded value below, increment the position.
 	$core_menu_positions = array(59, 60, 65, 70, 75, 80, 85, 99);
 	while ( isset($menu[$ptype_menu_position]) || in_array($ptype_menu_position, $core_menu_positions) )
 		$ptype_menu_position++;
 
-	$menu[$ptype_menu_position] = array(esc_attr($ptype_obj->label), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-posts', 'menu-' . sanitize_html_class($ptype), $menu_icon);
+	$menu[$ptype_menu_position] = array( esc_attr( $ptype_obj->label ), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-' . $ptype_class, 'menu-' . $ptype_class, $menu_icon );
 	$submenu["edit.php?post_type=$ptype"][5]  = array( __('Edit'), $ptype_obj->edit_type_cap,  "edit.php?post_type=$ptype");
 	/* translators: add new custom post type */
 	$submenu["edit.php?post_type=$ptype"][10]  = array( _x('Add New', 'post'), $ptype_obj->edit_type_cap, "post-new.php?post_type=$ptype" );

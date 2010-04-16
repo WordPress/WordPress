@@ -1145,12 +1145,12 @@ table.widefat .spam a:hover,
 	background: transparent url('../images/menu.png') no-repeat scroll -61px -1px;
 }
 
-#adminmenu .menu-icon-posts div.wp-menu-image {
+#adminmenu .menu-icon-post div.wp-menu-image {
 	background: transparent url('../images/menu.png') no-repeat scroll -272px -33px;
 }
 
-#adminmenu .menu-icon-posts:hover div.wp-menu-image,
-#adminmenu .menu-icon-posts.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-post:hover div.wp-menu-image,
+#adminmenu .menu-icon-post.wp-has-current-submenu div.wp-menu-image {
 	background: transparent url('../images/menu.png') no-repeat scroll -272px -1px;
 }
 
@@ -1172,12 +1172,12 @@ table.widefat .spam a:hover,
 	background: transparent url('../images/menu.png') no-repeat scroll -91px -1px;
 }
 
-#adminmenu .menu-icon-pages div.wp-menu-image {
+#adminmenu .menu-icon-page div.wp-menu-image {
 	background: transparent url('../images/menu.png') no-repeat scroll -151px -33px;
 }
 
-#adminmenu .menu-icon-pages:hover div.wp-menu-image,
-#adminmenu .menu-icon-pages.wp-has-current-submenu div.wp-menu-image {
+#adminmenu .menu-icon-page:hover div.wp-menu-image,
+#adminmenu .menu-icon-page.wp-has-current-submenu div.wp-menu-image {
 	background: transparent url('../images/menu.png') no-repeat scroll -151px -1px;
 }
 
