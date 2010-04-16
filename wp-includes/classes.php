@@ -1298,7 +1298,7 @@ class Walker_Page extends Walker {
 
 		$css_class = implode(' ', apply_filters('page_css_class', $css_class, $page));
 
-		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . esc_attr(apply_filters('the_title', $page->post_title)) . '">' . $link_before . apply_filters('the_title', $page->post_title) . $link_after . '</a>';
+		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . esc_attr( wp_strip_all_tags( apply_filters( 'the_title', $page->post_title ) ) ) . '">' . $link_before . apply_filters( 'the_title', $page->post_title ) . $link_after . '</a>';
 
 		if ( !empty($show_date) ) {
 			if ( 'modified' == $show_date )
