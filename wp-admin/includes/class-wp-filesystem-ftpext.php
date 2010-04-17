@@ -338,7 +338,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		$pwd = @ftp_pwd($this->link);
-		$chdir = @ftp_chdir($this->link, $path);
+		if ( ! @ftp_chdir($this->link, $path) ) // Cant change to folder = folder doesnt exist
+			return false;
 		$list = @ftp_rawlist($this->link, '-a', false);
 		@ftp_chdir($this->link, $pwd);
 
