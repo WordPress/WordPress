@@ -3464,6 +3464,7 @@ function _admin_search_query() {
  *
  */
 function iframe_header( $title = '', $limit_styles = false ) {
+global $hook_suffix;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
@@ -3485,9 +3486,22 @@ function tb_close(){var win=window.dialogArguments||opener||parent||top;win.tb_r
 do_action('admin_print_styles');
 do_action('admin_print_scripts');
 do_action('admin_head');
+
+$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
+if ( get_user_setting('mfold') == 'f' )
+	$admin_body_class .= ' folded';
 ?>
 </head>
-<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>>
+<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>  class="wp-admin no-js<?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
+<script type="text/javascript">
+//<![CDATA[
+(function(){
+var c = document.body.className;
+c = c.replace(/no-js/, 'js');
+document.body.className = c;
+})();
+//]]>
+</script>
 <?php
 }
 
