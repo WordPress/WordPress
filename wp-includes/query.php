@@ -2031,9 +2031,13 @@ class WP_Query {
 				$post_ids = get_objects_in_term($term_ids, $taxonomy);
 				if ( !is_wp_error($post_ids) && !empty($post_ids) ) {
 					$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
-					$post_type = 'any';
+					if ( '' === $post_type ) {
+						$post_type = 'any';
+						$post_status_join = true;
+					} elseif ( in_array('attachment', (array)$post_type) ) {
+						$post_status_join = true;
+					}
 					$q['post_status'] = 'publish';
-					$post_status_join = true;
 				} else {
 					$whichcat = " AND 0 ";
 				}
@@ -2292,9 +2296,8 @@ class WP_Query {
 		// Paging
 		if ( empty($q['nopaging']) && !$this->is_singular ) {
 			$page = absint($q['paged']);
-			if (empty($page)) {
+			if ( empty($page) )
 				$page = 1;
-			}
 
 			if ( empty($q['offset']) ) {
 				$pgstrt = '';
