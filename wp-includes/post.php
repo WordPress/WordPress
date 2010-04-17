@@ -119,6 +119,7 @@ function create_initial_post_types() {
 
 	register_post_status( 'inherit', array(	'label' => _x('Inherit', 'post'),
 											'internal' => true,
+											'exclude_from_search' => false,
 											'_builtin' => true, /* internal use only. */
 											'label_count' => _n_noop('Inherit <span class="count">(%s)</span>', 'Inherit <span class="count">(%s)</span>')
 										) );
@@ -1007,7 +1008,7 @@ function get_posts($args = null) {
 	if ( ! empty($r['category']) )
 		$r['cat'] = $r['category'];
 	if ( ! empty($r['include']) ) {
-		$incposts = preg_split('/[\s,]+/',$r['include']);
+		$incposts = preg_split('/[\s,]+/', $r['include']);
 		$r['posts_per_page'] = count($incposts);  // only the number of posts included
 		$r['post__in'] = $incposts;
 	} elseif ( ! empty($r['exclude']) )
