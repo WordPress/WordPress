@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 13974 )
+	if ( $wp_current_db_version < 14138 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
