@@ -2510,8 +2510,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 
 	// Hierarchical taxonomies must always pass IDs rather than names so that children with the same
 	// names but different parents aren't confused.
-	$taxonomy_obj = get_taxonomy( $taxonomy );
-	if ( $taxonomy_obj->hierarchical ) {
+	if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 		$tags = array_map( 'intval', $tags );
 		$tags = array_unique( $tags );
 	}

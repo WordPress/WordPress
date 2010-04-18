@@ -268,8 +268,7 @@ function bulk_edit_posts( $post_data = null ) {
 		foreach ( $post_data['tax_input'] as $tax_name => $terms ) {
 			if ( empty($terms) )
 				continue;
-			$taxonomy = get_taxonomy( $tax_name );
-			if ( $taxonomy->hierarchical )
+			if ( is_taxonomy_hierarchical( $tax_name ) )
 				$tax_input[$tax_name] = array_map( 'absint', $terms );
 			else {
 				$tax_input[$tax_name] = preg_replace( '/\s*,\s*/', ',', rtrim( trim($terms), ' ,' ) );
@@ -316,8 +315,7 @@ function bulk_edit_posts( $post_data = null ) {
 
 		foreach ( $tax_names as $tax_name ) {
 			if( isset( $tax_input[$tax_name])  ) {
-				$taxonomy = get_taxonomy( $tax_name );
-				if( $taxonomy->hierarchical )
+				if ( is_taxonomy_hierarchical( $tax_name ) )
 					$terms = (array) wp_get_object_terms( $post_ID, $tax_name, array('fields' => 'ids') );
 				else
 					$terms = (array) wp_get_object_terms( $post_ID, $tax_name, array('fields' => 'names') );
@@ -861,7 +859,6 @@ function wp_edit_posts_query( $q = false ) {
 		$post_type = $q['post_type'];
 	else
 		$post_type = 'post';
-	$post_type_object = get_post_type_object($post_type);
 
 	$avail_post_stati = get_available_post_statuses($post_type);
 
@@ -891,7 +888,7 @@ function wp_edit_posts_query( $q = false ) {
 	$query = compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page');
 
 	// Hierarchical types require special args.
-	if ( $post_type_object->hierarchical ) {
+	if ( is_post_type_hierarchical( $post_type ) ) {
 		$query['orderby'] = 'menu_order title';
 		$query['order'] = 'asc';
 		$query['posts_per_page'] = -1;
