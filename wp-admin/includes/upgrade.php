@@ -1114,6 +1114,12 @@ function upgrade_300() {
 			add_site_option( 'siteurl', '' );
 	}
 
+	// #11866 (Convert the taxonomy children cache into a transient) - Remove old cache.
+	if ( $wp_current_db_version < 14138 ) {
+		foreach ( get_taxonomies( array('hierarchical' => true) )  as $taxonomy )
+			delete_option($taxonomy . '_children');
+	}
+
 	// 3.0-alpha nav menu postmeta changes. can be removed before release. // r13802
 	if ( $wp_current_db_version >= 13226 && $wp_current_db_version < 13974 )
 		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key IN( 'menu_type', 'object_id', 'menu_new_window', 'menu_link', '_menu_item_append', 'menu_item_append', 'menu_item_type', 'menu_item_object_id', 'menu_item_target', 'menu_item_classes', 'menu_item_xfn', 'menu_item_url' )" );
