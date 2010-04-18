@@ -531,7 +531,7 @@ function print_plugins_table($plugins, $context = '') {
 			'network_only' => '', 'activate' => '',
 			'network_activate' => '',
 			'edit' => '',
-			'plugin_delete' => '',
+			'delete' => '',
 		);
 
 		if ( 'mustuse' == $context ) {
@@ -575,7 +575,7 @@ function print_plugins_table($plugins, $context = '') {
 					$actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" class="edit">' . __('Network Activate') . '</a>';
 
 				if ( current_user_can('delete_plugins') )
-					$actions['plugin_delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
+					$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page, 'bulk-manage-plugins') . '" title="' . __('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 			} // end if $is_active
 
 			if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
