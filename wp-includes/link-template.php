@@ -471,7 +471,12 @@ function get_post_comments_feed_link($post_id = '', $feed = '') {
 		$feed = get_default_feed();
 
 	if ( '' != get_option('permalink_structure') ) {
-		$url = trailingslashit( get_permalink($post_id) ) . 'feed';
+		if ( 'page' == get_option('show_on_front') && $post_id == get_option('page_on_front') )
+			$url = _get_page_link( $post_id );
+		else
+			$url = get_permalink($post_id);
+
+		$url = trailingslashit($url) . 'feed';
 		if ( $feed != get_default_feed() )
 			$url .= "/$feed";
 		$url = user_trailingslashit($url, 'single_feed');
