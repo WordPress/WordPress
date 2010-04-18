@@ -160,7 +160,7 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 		}
 
 		if ( $unspammed > 0 )
-			$messages = sprintf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
+			$messages[] = sprintf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
 
 		if ( $trashed > 0 ) {
 			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
