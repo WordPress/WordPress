@@ -1249,8 +1249,6 @@ function post_rows( $posts = array() ) {
 		$post_ids[] = $a_post->ID;
 
 	$comment_pending_count = get_pending_comments_num($post_ids);
-	if ( empty($comment_pending_count) )
-		$comment_pending_count = array();
 
 	foreach ( $posts as $post ) {
 		if ( empty($comment_pending_count[$post->ID]) )
