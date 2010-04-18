@@ -69,6 +69,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 		$toggle = '<div class="wp-menu-toggle"><br /></div>';
 
+		$title = wptexturize($item[0]);
+
 		echo "\n\t<li$class$id>";
 
 		if ( false !== strpos($class, 'wp-menu-separator') ) {
@@ -81,9 +83,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$menu_file = substr($menu_file, 0, $pos);
 			if ( ( ('index.php' != $submenu[$item[2]][0][2]) && file_exists(WP_PLUGIN_DIR . "/$menu_file") ) || !empty($menu_hook)) {
 				$admin_is_parent = true;
-				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu[$item[2]][0][2]}'>$img</a></div>$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>{$item[0]}</a>";
+				echo "<div class='wp-menu-image'><a href='admin.php?page={$submenu[$item[2]][0][2]}'>$img</a></div>$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
 			} else {
-				echo "\n\t<div class='wp-menu-image'><a href='{$submenu[$item[2]][0][2]}'>$img</a></div>$toggle<a href='{$submenu[$item[2]][0][2]}'$class$tabindex>{$item[0]}</a>";
+				echo "\n\t<div class='wp-menu-image'><a href='{$submenu[$item[2]][0][2]}'>$img</a></div>$toggle<a href='{$submenu[$item[2]][0][2]}'$class$tabindex>$title</a>";
 			}
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
@@ -138,6 +140,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				if ( false !== $pos = strpos($sub_file, '?') )
 					$sub_file = substr($sub_file, 0, $pos);
 
+				$title = wptexturize($sub_item[0]);
+
 				if ( ( ('index.php' != $sub_item[2]) && file_exists(WP_PLUGIN_DIR . "/$sub_file") ) || ! empty($menu_hook) ) {
 					// If admin.php is the current page or if the parent exists as a file in the plugins or admin dir
 					if ( (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/$menu_file") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}")) || file_exists($menu_file) )
@@ -145,9 +149,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					else
 						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), 'admin.php' );
 					$sub_item_url = esc_url($sub_item_url);
-					echo "<li$class><a href='$sub_item_url'$class$tabindex>{$sub_item[0]}</a></li>";
+					echo "<li$class><a href='$sub_item_url'$class$tabindex>$title</a></li>";
 				} else {
-					echo "<li$class><a href='{$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
+					echo "<li$class><a href='{$sub_item[2]}'$class$tabindex>$title</a></li>";
 				}
 			}
 			echo "</ul></div>";

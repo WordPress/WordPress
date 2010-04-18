@@ -179,7 +179,7 @@ else
 
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
-	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
+	$submenu['users.php'][5] = array(__('Authors & Users'), 'edit_users', 'users.php');
 	$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
 
 	$submenu['users.php'][15] = array(__('Your Profile'), 'read', 'profile.php');

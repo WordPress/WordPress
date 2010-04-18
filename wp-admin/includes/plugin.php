@@ -818,22 +818,20 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	$hookname = get_plugin_page_hookname( $menu_slug, '' );
 
-	if (!empty ( $function ) && !empty ( $hookname ) && current_user_can( $capability ) )
+	if ( !empty( $function ) && !empty( $hookname ) && current_user_can( $capability ) )
 		add_action( $hookname, $function );
 
-	if ( empty($icon_url) ) {
+	if ( empty($icon_url) )
 		$icon_url = esc_url( admin_url( 'images/generic.png' ) );
-	} elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') ) {
+	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
 		$icon_url = 'https://' . substr($icon_url, 7);
-	}
 
-	$new_menu = array ( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
+	$new_menu = array( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
-	if ( NULL === $position  ) {
+	if ( null === $position  )
 		$menu[] = $new_menu;
-	} else {
+	else
 		$menu[$position] = $new_menu;
-	}
 
 	$_registered_pages[$hookname] = true;
 
