@@ -1030,8 +1030,8 @@ function get_sample_permalink($id, $title = null, $name = null) {
 
 	$permalink = get_permalink($post, true);
 
-	if ( $ptype->query_var ) // Replace custom post_type Token with generic pagename token for ease of use.
-		$permalink = str_replace('%' . $ptype->query_var . '%', '%pagename%', $permalink);
+	// Replace custom post_type Token with generic pagename token for ease of use.
+	$permalink = str_replace("%$post->post_type%", '%pagename%', $permalink);
 
 	// Handle page hierarchy
 	if ( $ptype->hierarchical ) {
