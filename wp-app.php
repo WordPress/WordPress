@@ -224,7 +224,7 @@ class AtomServer {
 	function AtomServer() {
 
 		$this->script_name = array_pop(explode('/',$_SERVER['SCRIPT_NAME']));
-		$this->app_base = home_url( $this->script_name . '/' );
+		$this->app_base = site_url( $this->script_name . '/' );
 
 		$this->selectors = array(
 			'@/service$@' =>
