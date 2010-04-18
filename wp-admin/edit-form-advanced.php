@@ -185,12 +185,17 @@ require_once('./admin-header.php');
 <input type="hidden" id="post_author" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
 <input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr($post_type) ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo esc_attr($post->post_status) ?>" />
-<input name="referredby" type="hidden" id="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />
+<input type="hidden" id="referredby" name="referredby" value="<?php echo esc_url(stripslashes(wp_get_referer())); ?>" />
 <?php
 if ( 'draft' != $post->post_status )
 	wp_original_referer_field(true, 'previous');
 
-echo $form_extra ?>
+echo $form_extra;
+
+wp_nonce_field( 'autosave', 'autosavenonce', false );
+wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+?>
 
 <div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
 <div id="side-info-column" class="inner-sidebar">
@@ -227,6 +232,9 @@ if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object-
 }
 ?>
 </div>
+<?php
+wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
+?>
 </div>
 <?php } ?>
 
@@ -253,12 +261,6 @@ if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object-
 	</td>
 </tr></tbody></table>
 
-<?php
-wp_nonce_field( 'autosave', 'autosavenonce', false );
-wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-wp_nonce_field( 'getpermalink', 'getpermalinknonce', false );
-wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
-wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 </div>
 
 <?php
