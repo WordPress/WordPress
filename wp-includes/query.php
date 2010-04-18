@@ -2462,7 +2462,7 @@ class WP_Query {
 					$sticky_offset++;
 					// Remove post from sticky posts array
 					$offset = array_search($sticky_post->ID, $sticky_posts);
-					array_splice($sticky_posts, $offset, 1);
+					unset( $sticky_posts[$offset] );
 				}
 			}
 
