@@ -534,17 +534,12 @@ function register_sidebars($number = 1, $args = array()) {
  *
  * @since 2.2.0
  * @uses $wp_registered_sidebars Stores the new sidebar in this array by sidebar ID.
- * @uses parse_str() Converts a string to an array to be used in the rest of the function.
- * @usedby register_sidebars()
  *
  * @param string|array $args Builds Sidebar based off of 'name' and 'id' values
  * @return string The sidebar id that was added.
  */
 function register_sidebar($args = array()) {
 	global $wp_registered_sidebars;
-
-	if ( is_string($args) )
-		parse_str($args, $args);
 
 	$i = count($wp_registered_sidebars) + 1;
 
@@ -558,7 +553,7 @@ function register_sidebar($args = array()) {
 		'after_title' => "</h2>\n",
 	);
 
-	$sidebar = array_merge($defaults, (array) $args);
+	$sidebar = wp_parse_args( $args, $defaults );
 
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
