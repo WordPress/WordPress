@@ -1027,12 +1027,12 @@ function get_sample_permalink($id, $title = null, $name = null) {
 		$post->post_name = sanitize_title($post->post_name ? $post->post_name : $post->post_title, $post->ID);
 	}
 
-	$post->post_name = wp_unique_post_slug($post->post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent);
-
 	// If the user wants to set a new name -- override the current one
 	// Note: if empty name is supplied -- use the title instead, see #6072
 	if ( !is_null($name) )
 		$post->post_name = sanitize_title($name ? $name : $title, $post->ID);
+
+	$post->post_name = wp_unique_post_slug($post->post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent);
 
 	$post->filter = 'sample';
 

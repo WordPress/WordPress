@@ -271,11 +271,11 @@ function _get_page_link( $id = false, $leavename = false, $sample = false ) {
 	else
 		$post = &get_post($id);
 
-	$pagestruct = $wp_rewrite->get_page_permastruct();
+	$link = $wp_rewrite->get_page_permastruct();
 
-	if ( '' != $pagestruct && ( ( isset($post->post_status) && 'draft' != $post->post_status && 'pending' != $post->post_status ) || $sample ) ) {
-		$link = get_page_uri($id);
-		$link = ( $leavename ) ? $pagestruct : str_replace('%pagename%', $link, $pagestruct);
+	if ( '' != $link && ( ( isset($post->post_status) && 'draft' != $post->post_status && 'pending' != $post->post_status ) || $sample ) ) {
+		if ( ! $leavename )
+			$link = str_replace('%pagename%', get_page_uri($id), $link);
 		$link = home_url($link);
 		$link = user_trailingslashit($link, 'page');
 	} else {

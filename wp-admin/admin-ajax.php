@@ -1058,7 +1058,7 @@ case 'sample-permalink':
 	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
 	$title = isset($_POST['new_title'])? $_POST['new_title'] : '';
-	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : '';
+	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : null;
 	die(get_sample_permalink_html($post_id, $title, $slug));
 break;
 case 'inline-save':
