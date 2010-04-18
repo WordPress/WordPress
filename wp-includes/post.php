@@ -669,6 +669,21 @@ function is_post_type_hierarchical( $post = false ) {
 }
 
 /**
+ * Checks if a post type is registered, can also check if the current or specified post is of a post type.
+ *
+ * @since 3.0.0
+ * @uses get_post_type()
+ *
+ * @param string|array $types Type or types to check. Defaults to all post types.
+ * @param int $id Post ID. Defaults to current ID.
+ * @return bool
+ */
+function is_post_type( $types = false, $id = false ) {
+	$types = ( $types === false ) ? get_post_types() : (array) $types;
+	return in_array( get_post_type( $id ), $types );
+}
+
+/**
  * Retrieve the post type of the current post or of a given post.
  *
  * @since 2.1.0
