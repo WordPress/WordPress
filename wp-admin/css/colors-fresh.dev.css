@@ -490,9 +490,7 @@ a,
 }
 
 /* Because we don't want visited on these links */
-body.press-this .tabs a,
 body.press-this .tabs a:hover {
-	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;
 	color: #d54e21;

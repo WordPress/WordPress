@@ -488,7 +488,8 @@ var photostorage = false;
 				<div id="taxonomy-category" class="categorydiv">
 				
 					<ul id="category-tabs" class="category-tabs">
-						<li class="tabs"><a href="#category-all" tabindex="3"><?php printf( __( 'All %s' ), $tax->label ); ?></a><span class="hide-if-no-js"> | </span><a class="hide-if-no-js" href="#category-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
+						<li class="tabs"><a href="#category-all" tabindex="3"><?php printf( __( 'All %s' ), $tax->label ); ?></a></li>
+						<li class="hide-if-no-js"><a href="#category-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
 					</ul>
 
 					<div id="category-pop" class="tabs-panel" style="display: none;">

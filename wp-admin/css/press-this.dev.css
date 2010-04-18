@@ -114,7 +114,7 @@ div.zerosize {
 }
 
 #tagsdiv-post_tag h3,
-.categorydiv h3 {
+#categorydiv h3 {
 	cursor: pointer;
 }
 
@@ -145,6 +145,7 @@ h3.tb {
 	border-radius: 6px;
 }
 
+.postbox:hover .handlediv,
 .stuffbox:hover .handlediv {
 	background: transparent url(../images/menu-bits-vs.gif) no-repeat scroll left -111px;
 }
@@ -307,28 +308,22 @@ h3.tb {
 	display: none;
 }
 
-.category-adder {
-	padding: 4px 0;
-}
-
-.category-adder h4 {
-	margin: 0 0 8px;
-}
+/* Categories */
 
 .category-add input {
 	width: 94%;
-	font-family: Verdana,Arial,Helvetica,sans-serif;
-	font-size: 13px;
+	font-family: "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+	font-size: 12px;
 	margin: 1px;
 }
-
+	
 .category-add select {
-	width: 70%;
+	width: 100%;
 	-x-system-font: none;
 	border-style: solid;
 	border-width: 1px;
 	font-family: "Lucida Grande","Bitstream Vera Sans",Verdana,Arial,sans-serif;
-	font-size: 12px;
+	font-size: 11px;
 	height: 2em;
 	line-height: 20px;
 	padding: 2px;
@@ -336,12 +331,28 @@ h3.tb {
 	vertical-align: top;
 }
 
-.category-add input,
-.category-add-sumbit {
+.category-add input.category-add-sumbit {
 	width: auto;
 }
 
-/* Categories */
+.categorydiv div.tabs-panel,
+#linkcategorydiv div.tabs-panel {
+	height: 100px;
+	overflow: auto;
+	padding: 0.5em 0.9em;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.category-tabs li {
+	display: inline;
+	padding-right: 8px;
+}
+
+.category-tabs a {
+	text-decoration: none;
+}
+
 .categorydiv ul,
 #linkcategorydiv ul {
 	list-style: none;
@@ -349,22 +360,42 @@ h3.tb {
 	margin: 0;
 }
 
-.categorydiv ul.categorychecklist ul {
+.inline-editor ul.cat-checklist ul,
+.categorydiv ul.categorychecklist ul,
+#linkcategorydiv ul.categorychecklist ul {
 	margin-left: 18px;
 }
 
-.categorydiv div.tabs-panel {
-	height: 140px;
-	overflow: auto;
-}
-#taxonomy-category #category-tabs .tabs {
-	background: none;
-	margin-bottom: 10px;
-}
 ul.categorychecklist li {
 	margin: 0;
 	padding: 0;
 	line-height: 19px;
+}
+
+.categorydiv .tabs-panel {
+	border-width: 3px;
+	border-style: solid;
+}
+
+ul.category-tabs {
+	margin-top: 12px;
+	margin-bottom: 6px;
+}
+
+ul.category-tabs li.tabs {
+	border-style: solid solid none;
+	border-width: 1px 1px 0;
+}
+
+ul.category-tabs li {
+	padding: 5px 8px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 /* Tags */

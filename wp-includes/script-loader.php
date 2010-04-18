@@ -441,7 +441,7 @@ function wp_default_styles( &$styles ) {
 	$no_suffix = array( 'farbtastic' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20100416';
+	$colors_version = '20100418';
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100411' );
 
@@ -464,7 +464,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20100301' );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20100313' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20090625' );
-	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20100411' );
+	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20100418' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
 	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20100403' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20100402' );
