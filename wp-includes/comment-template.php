@@ -432,7 +432,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
  * @param int $comment_ID The ID of the comment for which to print the excerpt. Optional.
  */
 function comment_excerpt( $comment_ID = 0 ) {
-	echo apply_filters('comment_excerpt', get_comment_excerpt() );
+	echo apply_filters('comment_excerpt', get_comment_excerpt($comment_ID) );
 }
 
 /**
