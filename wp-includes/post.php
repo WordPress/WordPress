@@ -994,8 +994,8 @@ function get_posts($args = null) {
 	$defaults = array(
 		'numberposts' => 5, 'offset' => 0,
 		'category' => 0, 'orderby' => 'post_date',
-		'order' => 'DESC', 'include' => '',
-		'exclude' => '', 'meta_key' => '',
+		'order' => 'DESC', 'include' => array(),
+		'exclude' => array(), 'meta_key' => '',
 		'meta_value' =>'', 'post_type' => 'post',
 		'suppress_filters' => true
 	);
@@ -1008,11 +1008,11 @@ function get_posts($args = null) {
 	if ( ! empty($r['category']) )
 		$r['cat'] = $r['category'];
 	if ( ! empty($r['include']) ) {
-		$incposts = preg_split('/[\s,]+/', $r['include']);
+		$incposts = wp_parse_id_list( $r['include'] );
 		$r['posts_per_page'] = count($incposts);  // only the number of posts included
 		$r['post__in'] = $incposts;
 	} elseif ( ! empty($r['exclude']) )
-		$r['post__not_in'] = preg_split('/[\s,]+/',$r['exclude']);
+		$r['post__not_in'] = wp_parse_id_list( $r['exclude'] );
 
 	$r['caller_get_posts'] = true;
 
@@ -2934,7 +2934,7 @@ function &get_pages($args = '') {
 	$defaults = array(
 		'child_of' => 0, 'sort_order' => 'ASC',
 		'sort_column' => 'post_title', 'hierarchical' => 1,
-		'exclude' => '', 'include' => '',
+		'exclude' => array(), 'include' => array(),
 		'meta_key' => '', 'meta_value' => '',
 		'authors' => '', 'parent' => -1, 'exclude_tree' => '',
 		'number' => '', 'offset' => 0,
@@ -2975,8 +2975,8 @@ function &get_pages($args = '') {
 		$meta_key = '';
 		$meta_value = '';
 		$hierarchical = false;
-		$incpages = preg_split('/[\s,]+/',$include);
-		if ( count($incpages) ) {
+		$incpages = wp_parse_id_list( $include );
+		if ( ! empty( $incpages ) ) {
 			foreach ( $incpages as $incpage ) {
 				if (empty($inclusions))
 					$inclusions = $wpdb->prepare(' AND ( ID = %d ', $incpage);
@@ -2990,8 +2990,8 @@ function &get_pages($args = '') {
 
 	$exclusions = '';
 	if ( !empty($exclude) ) {
-		$expages = preg_split('/[\s,]+/',$exclude);
-		if ( count($expages) ) {
+		$expages = wp_parse_id_list( $exclude );
+		if ( ! empty( $expages ) ) {
 			foreach ( $expages as $expage ) {
 				if (empty($exclusions))
 					$exclusions = $wpdb->prepare(' AND ( ID <> %d ', $expage);
@@ -3007,7 +3007,7 @@ function &get_pages($args = '') {
 	if (!empty($authors)) {
 		$post_authors = preg_split('/[\s,]+/',$authors);
 
-		if ( count($post_authors) ) {
+		if ( ! empty( $post_authors ) ) {
 			foreach ( $post_authors as $post_author ) {
 				//Do we have an author id or an author login?
 				if ( 0 == intval($post_author) ) {
