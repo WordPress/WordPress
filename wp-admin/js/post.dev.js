@@ -362,8 +362,8 @@ jQuery(document).ready( function($) {
 		}
 
 		function updateText() {
-			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
-				optPublish = $('option[value=publish]', postStatus), aa = $('#aa').val(),
+			var attemptedDate, originalDate, currentDate, publishOn, page = 'page' == pagenow || 'page-new' == pagenow,
+				postStatus = $('#post_status'),	optPublish = $('option[value=publish]', postStatus), aa = $('#aa').val(),
 				mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val();
 
 			attemptedDate = new Date( aa, mm - 1, jj, hh, mn );
