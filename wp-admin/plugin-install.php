@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( ! current_user_can('install_plugins') )
 	wp_die(__('You do not have sufficient permissions to install plugins on this blog.'));
@@ -54,7 +54,7 @@ do_action('install_plugins_pre_' . $tab); //Used to override the general interfa
 
 add_contextual_help($current_screen, plugins_search_help());
 
-include('admin-header.php');
+include('./admin-header.php');
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -75,4 +75,4 @@ foreach ( (array)$tabs as $action => $text ) {
 	<?php do_action('install_plugins_' . $tab, $paged); ?>
 </div>
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');

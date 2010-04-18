@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( !current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -42,7 +42,7 @@ add_contextual_help($current_screen, $help);
 add_thickbox();
 wp_enqueue_script( 'theme-preview' );
 
-require_once('admin-header.php');
+require_once('./admin-header.php');
 if ( is_multisite() && current_user_can('edit_themes') ) {
 	?><div id="message0" class="updated"><p><?php _e('Administrator: new themes must be activated in the <a href="ms-themes.php">Themes Admin</a> page before they appear here.'); ?></p></div><?php
 }
@@ -313,4 +313,4 @@ if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 ?>
 </div>
 
-<?php require('admin-footer.php'); ?>
+<?php require('./admin-footer.php'); ?>

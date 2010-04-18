@@ -102,7 +102,7 @@ if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql
 $post_type_object = get_post_type_object($post_type);
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
-require_once('includes/meta-boxes.php');
+require_once('./includes/meta-boxes.php');
 
 add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', $post_type, 'side', 'core');
 
@@ -165,7 +165,7 @@ do_action('do_meta_boxes', $post_type, 'side', $post);
 
 add_contextual_help($current_screen, drag_drop_help());
 
-require_once('admin-header.php');
+require_once('./admin-header.php');
 ?>
 
 <div class="wrap">

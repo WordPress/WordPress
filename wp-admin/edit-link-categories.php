@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 // Handle bulk actions
 if ( isset($_GET['action']) && isset($_GET['delete']) ) {
@@ -227,4 +227,4 @@ if ( $page_links )
 </div><!-- /wrap -->
 
 <?php inline_edit_term_row('edit-link-categories', 'link_category'); ?>
-<?php include('admin-footer.php'); ?>
+<?php include('./admin-footer.php'); ?>

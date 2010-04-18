@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( ! current_user_can( 'activate_plugins' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage plugins for this site.' ) );
@@ -109,7 +109,7 @@ if ( !empty($action) ) {
 			$title = __( 'Upgrade Plugins' );
 			$parent_file = 'plugins.php';
 
-			require_once( 'admin-header.php' );
+			require_once( './admin-header.php' );
 
 			echo '<div class="wrap">';
 			screen_icon();
@@ -121,7 +121,7 @@ if ( !empty($action) ) {
 
 			echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
 			echo '</div>';
-			require_once( 'admin-footer.php' );
+			require_once( './admin-footer.php' );
 			exit;
 			break;
 		case 'error_scrape':
@@ -206,7 +206,7 @@ if ( !empty($action) ) {
 
 			if ( ! isset($_REQUEST['verify-delete']) ) {
 				wp_enqueue_script('jquery');
-				require_once('admin-header.php');
+				require_once('./admin-header.php');
 				?>
 			<div class="wrap">
 				<?php
@@ -284,7 +284,7 @@ if ( !empty($action) ) {
 				</div>
 			</div>
 				<?php
-				require_once('admin-footer.php');
+				require_once('./admin-footer.php');
 				exit;
 			} //Endif verify-delete
 			$delete_result = delete_plugins($plugins);
@@ -318,7 +318,7 @@ if ( is_multisite() && is_super_admin() ) {
 }
 
 $title = __('Manage Plugins');
-require_once('admin-header.php');
+require_once('./admin-header.php');
 
 $invalid = validate_active_plugins();
 if ( !empty($invalid) )
@@ -776,5 +776,5 @@ print_plugin_actions($status, "action2");
 </div>
 
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');
 ?>

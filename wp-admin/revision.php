@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 wp_enqueue_script('list-revisions');
 
@@ -49,7 +49,7 @@ case 'diff' :
 	// If we're comparing a revision to itself, redirect to the 'view' page for that revision or the edit page for that post
 	if ( $left_revision->ID == $right_revision->ID ) {
 		$redirect = get_edit_post_link( $left_revision->ID );
-		include( 'js/revisions-js.php' );
+		include( './js/revisions-js.php' );
 		break;
 	}
 
@@ -142,7 +142,7 @@ if ( !empty($post->post_type) && 'post' != $post->post_type )
 else
 	$parent_file = $submenu_file = 'edit.php';
 
-require_once( 'admin-header.php' );
+require_once( './admin-header.php' );
 
 ?>
 
@@ -218,4 +218,4 @@ wp_list_post_revisions( $post, $args );
 
 <?php
 
-require_once( 'admin-footer.php' );
+require_once( './admin-footer.php' );

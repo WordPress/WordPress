@@ -16,7 +16,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 $title = __('Settings');
 $this_file = 'options.php';
@@ -161,7 +161,7 @@ if ( 'update' == $action ) {
 	exit;
 }
 
-include('admin-header.php'); ?>
+include('./admin-header.php'); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -214,5 +214,5 @@ endforeach;
 
 
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');
 ?>

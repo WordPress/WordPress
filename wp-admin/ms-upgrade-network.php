@@ -74,4 +74,4 @@ switch ( $action ) {
 ?>
 </div>
 
-<?php include('admin-footer.php'); ?>
+<?php include('./admin-footer.php'); ?>

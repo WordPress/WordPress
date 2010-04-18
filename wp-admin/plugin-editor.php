@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( !current_user_can('edit_plugins') )
 	wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
@@ -102,7 +102,7 @@ default:
 		}
 	}
 
-	require_once('admin-header.php');
+	require_once('./admin-header.php');
 
 	update_recently_edited(WP_PLUGIN_DIR . '/' . $file);
 
@@ -239,4 +239,4 @@ jQuery(document).ready(function($){
 <?php
 	break;
 }
-include("admin-footer.php");
+include("./admin-footer.php");

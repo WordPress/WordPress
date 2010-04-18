@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -70,7 +70,7 @@ window.onload = blurry;
 }
 add_filter('admin_head', 'add_js');
 
-include('admin-header.php');
+include('./admin-header.php');
 
 $home_path = get_home_path();
 $iis7_permalinks = iis7_supports_permalinks();

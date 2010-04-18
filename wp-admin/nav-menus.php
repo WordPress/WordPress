@@ -10,7 +10,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( 'admin.php' );
+require_once( './admin.php' );
 
 // Load all the nav menu interface functions
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
@@ -235,7 +235,7 @@ if ( !is_nav_menu( $nav_menu_selected_id ) ) {
 }
 
 // Get the admin header
-require_once( 'admin-header.php' );
+require_once( './admin-header.php' );
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
@@ -345,4 +345,4 @@ require_once( 'admin-header.php' );
 	<input type="hidden" id="edit-menu-item-id" name="edit-item-id" value="" />
 </div><!-- /#menu-item-settings-->
 
-<?php include( 'admin-footer.php' ); ?>
+<?php include( './admin-footer.php' ); ?>

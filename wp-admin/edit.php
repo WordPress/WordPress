@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( !isset($_GET['post_type']) )
 	$post_type = 'post';
@@ -156,7 +156,7 @@ if ( $post_type_object->hierarchical )
 else
 	$num_pages = $wp_query->max_num_pages;
 
-require_once('admin-header.php');
+require_once('./admin-header.php');
 
 if ( empty($_GET['mode']) )
 	$mode = 'list';
@@ -375,7 +375,7 @@ if ( $is_trash && current_user_can($post_type_object->edit_others_cap) ) { ?>
 
 <div class="clear"></div>
 
-<?php include( 'edit-post-rows.php' ); ?>
+<?php include( './edit-post-rows.php' ); ?>
 
 <div class="tablenav">
 
@@ -425,4 +425,4 @@ else
 </div>
 
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');

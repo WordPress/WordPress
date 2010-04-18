@@ -10,7 +10,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 wp_reset_vars(array('action', 'cat'));
 
@@ -67,8 +67,8 @@ case 'edit':
 	require_once ('admin-header.php');
 	$cat_ID = (int) $_GET['cat_ID'];
 	$category = get_term_to_edit($cat_ID, 'link_category');
-	include('edit-link-category-form.php');
-	include('admin-footer.php');
+	include('./edit-link-category-form.php');
+	include('./admin-footer.php');
 	exit;
 break;
 

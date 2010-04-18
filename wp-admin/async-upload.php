@@ -21,7 +21,7 @@ elseif ( empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
 if ( empty($_COOKIE[LOGGED_IN_COOKIE]) && !empty($_REQUEST['logged_in_cookie']) )
 	$_COOKIE[LOGGED_IN_COOKIE] = $_REQUEST['logged_in_cookie'];
 unset($current_user);
-require_once('admin.php');
+require_once('./admin.php');
 
 header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
 

@@ -10,7 +10,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
@@ -56,7 +56,7 @@ if ( isset($_GET['inline']) ) {
 
 	$title = __('Upload New Media');
 	$parent_file = 'upload.php';
-	require_once('admin-header.php'); ?>
+	require_once('./admin-header.php'); ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
@@ -86,7 +86,7 @@ if ( isset($_GET['inline']) ) {
 	</div>
 
 <?php
-	include('admin-footer.php');
+	include('./admin-footer.php');
 
 } else {
 

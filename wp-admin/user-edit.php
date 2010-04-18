@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer'));
 
@@ -374,5 +374,5 @@ if ( $show_password_fields ) :
 break;
 }
 
-include('admin-footer.php');
+include('./admin-footer.php');
 ?>

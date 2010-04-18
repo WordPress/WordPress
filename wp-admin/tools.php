@@ -7,11 +7,11 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 $title = __('Tools');
 
-require_once('admin-header.php');
+require_once('./admin-header.php');
 
 ?>
 <div class="wrap">
@@ -45,5 +45,5 @@ do_action( 'tool_box' );
 ?>
 </div>
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');
 ?>

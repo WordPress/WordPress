@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 $parent_file = 'edit-comments.php';
 $submenu_file = 'edit-comments.php';
@@ -36,7 +36,7 @@ if ( isset( $_GET['dt'] ) ) {
  */
 function comment_footer_die( $msg ) {
 	echo "<div class='wrap'><p>$msg</p></div>";
-	include('admin-footer.php');
+	include('./admin-footer.php');
 	die;
 }
 
@@ -46,7 +46,7 @@ case 'editcomment' :
 	$title = __('Edit Comment');
 
 	wp_enqueue_script('comment');
-	require_once('admin-header.php');
+	require_once('./admin-header.php');
 
 	$comment_id = absint( $_GET['c'] );
 
@@ -61,7 +61,7 @@ case 'editcomment' :
 
 	$comment = get_comment_to_edit( $comment_id );
 
-	include('edit-form-comment.php');
+	include('./edit-form-comment.php');
 
 	break;
 
@@ -88,7 +88,7 @@ case 'spam'    :
 		die();
  	}
 
-	require_once('admin-header.php');
+	require_once('./admin-header.php');
 
 	$formaction    = $action . 'comment';
 	$nonce_action  = 'approve' == $action ? 'approve-comment_' : 'delete-comment_';
@@ -276,6 +276,6 @@ default:
 
 } // end switch
 
-include('admin-footer.php');
+include('./admin-footer.php');
 
 ?>

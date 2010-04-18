@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 $parent_file = 'upload.php';
 $submenu_file = 'upload.php';
@@ -67,7 +67,7 @@ case 'edit' :
 	wp_enqueue_script('image-edit');
 	wp_enqueue_style('imgareaselect');
 
-	require( 'admin-header.php' );
+	require( './admin-header.php' );
 
 	$parent_file = 'upload.php';
 	$message = '';
@@ -114,7 +114,7 @@ case 'edit' :
 
 <?php
 
-	require( 'admin-footer.php' );
+	require( './admin-footer.php' );
 
 	exit;
 

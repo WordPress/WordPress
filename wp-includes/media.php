@@ -1332,7 +1332,7 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
  * @return string The original URL on failure or the embed HTML on success.
  */
 function wp_oembed_get( $url, $args = '' ) {
-	require_once( 'class-oembed.php' );
+	require_once( './class-oembed.php' );
 	$oembed = _wp_oembed_get_object();
 	return $oembed->get_html( $url, $args );
 }
@@ -1350,7 +1350,7 @@ function wp_oembed_get( $url, $args = '' ) {
  * @param boolean $regex Whether the $format parameter is in a regex format.
  */
 function wp_oembed_add_provider( $format, $provider, $regex = false ) {
-	require_once( 'class-oembed.php' );
+	require_once( './class-oembed.php' );
 	$oembed = _wp_oembed_get_object();
 	$oembed->providers[$format] = array( $provider, $regex );
 }

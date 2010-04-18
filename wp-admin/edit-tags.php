@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 wp_reset_vars( array('action', 'tag', 'taxonomy', 'post_type') );
 
@@ -122,7 +122,7 @@ case 'edit':
 	$tag_ID = (int) $_GET['tag_ID'];
 
 	$tag = get_term($tag_ID, $taxonomy, OBJECT, 'edit');
-	include('edit-tag-form.php');
+	include('./edit-tag-form.php');
 
 break;
 
@@ -402,6 +402,6 @@ do_action($taxonomy . '_add_form', $taxonomy);
 break;
 }
 
-include('admin-footer.php');
+include('./admin-footer.php');
 
 ?>

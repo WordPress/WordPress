@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 /** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
@@ -206,7 +206,7 @@ default:
 		exit;
 	}
 
-	include('admin-header.php');
+	include('./admin-header.php');
 
 	$usersearch = isset($_GET['usersearch']) ? $_GET['usersearch'] : null;
 	$userspage = isset($_GET['userspage']) ? $_GET['userspage'] : null;
@@ -421,5 +421,5 @@ break;
 
 } // end of the $doaction switch
 
-include('admin-footer.php');
+include('./admin-footer.php');
 ?>

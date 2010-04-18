@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( !current_user_can('edit_themes') )
 	wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
@@ -79,7 +79,7 @@ break;
 
 default:
 
-	require_once('admin-header.php');
+	require_once('./admin-header.php');
 
 	update_recently_edited($file);
 
@@ -240,4 +240,4 @@ jQuery(document).ready(function($){
 break;
 }
 
-include("admin-footer.php");
+include("./admin-footer.php");

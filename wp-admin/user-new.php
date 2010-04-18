@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( !current_user_can('create_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
@@ -255,5 +255,5 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 
 </div>
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');
 ?>

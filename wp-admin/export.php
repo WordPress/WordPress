@@ -13,7 +13,7 @@ if ( !current_user_can('edit_files') )
 	wp_die(__('You do not have sufficient permissions to export the content of this blog.'));
 
 /** Load WordPress export API */
-require_once('includes/export.php');
+require_once('./includes/export.php');
 $title = __('Export');
 
 if ( isset( $_GET['download'] ) ) {

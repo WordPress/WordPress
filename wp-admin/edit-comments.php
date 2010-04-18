@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( !current_user_can('edit_posts') )
 	wp_die(__('Cheatin&#8217; uh?'));
@@ -105,7 +105,7 @@ if ( $post_id )
 else
 	$title = __('Edit Comments');
 
-require_once('admin-header.php');
+require_once('./admin-header.php');
 
 $mode = ( empty($_GET['mode']) ) ? 'detail' : esc_attr($_GET['mode']);
 
@@ -468,4 +468,4 @@ if ( $page_links )
 <?php
 wp_comment_reply('-1', true, 'detail');
 wp_comment_trashnotice();
-include('admin-footer.php'); ?>
+include('./admin-footer.php'); ?>

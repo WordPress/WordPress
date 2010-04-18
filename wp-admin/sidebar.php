@@ -13,7 +13,7 @@
 $mode = 'sidebar';
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 if ( ! current_user_can('edit_posts') )
 	wp_die(__('Cheatin&#8217; uh?'));

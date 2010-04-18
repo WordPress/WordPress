@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 
 /** Load WordPress dashboard API */
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
@@ -26,7 +26,7 @@ $parent_file = 'index.php';
 
 add_contextual_help($current_screen, '<p>' . __('The modules on this screen can be arranged in several columns. You can select the number of columns from the Screen Options tab.') . "</p>\n" . drag_drop_help() );
 
-require_once('admin-header.php');
+require_once('./admin-header.php');
 
 $today = current_time('mysql', 1);
 ?>

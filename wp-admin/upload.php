@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('admin.php');
+require_once('./admin.php');
 wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 
@@ -161,7 +161,7 @@ if ( isset($_GET['detached']) ) {
 $is_trash = ( isset($_GET['status']) && $_GET['status'] == 'trash' );
 
 wp_enqueue_script('media');
-require_once('admin-header.php');
+require_once('./admin-header.php');
 ?>
 
 <div class="wrap">
@@ -448,7 +448,7 @@ if ( isset($_GET['detached']) ) { ?>
 <?php
 
 } else {
-	include( 'edit-attachment-rows.php' );
+	include( './edit-attachment-rows.php' );
 } ?>
 
 <div id="ajax-response"></div>
@@ -492,4 +492,4 @@ if ( $page_links )
 </div>
 
 <?php
-include('admin-footer.php');
+include('./admin-footer.php');

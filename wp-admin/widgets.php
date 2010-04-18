@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( 'admin.php' );
+require_once( './admin.php' );
 
 /** WordPress Administration Widgets API */
 require_once(ABSPATH . 'wp-admin/includes/widgets.php');
@@ -128,7 +128,7 @@ retrieve_widgets();
 
 if ( count($wp_registered_sidebars) == 1 ) {
 	// If only "wp_inactive_widgets" is defined the theme has no sidebars, die.
-	require_once( 'admin-header.php' );
+	require_once( './admin-header.php' );
 ?>
 
 	<div class="wrap">
@@ -141,7 +141,7 @@ if ( count($wp_registered_sidebars) == 1 ) {
 	</div>
 
 <?php
-	require_once( 'admin-footer.php' );
+	require_once( './admin-footer.php' );
 	exit;
 }
 
@@ -252,7 +252,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	$width = ' style="width:' . max($control['width'], 350) . 'px"';
 	$key = isset($_GET['key']) ? (int) $_GET['key'] : 0;
 
-	require_once( 'admin-header.php' ); ?>
+	require_once( './admin-header.php' ); ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
@@ -317,7 +317,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	</div>
 	</div>
 <?php
-	require_once( 'admin-footer.php' );
+	require_once( './admin-footer.php' );
 	exit;
 }
 
@@ -330,7 +330,7 @@ $errors = array(
 	__('Error in displaying the widget settings form.')
 );
 
-require_once( 'admin-header.php' ); ?>
+require_once( './admin-header.php' ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -403,4 +403,4 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 
 <?php
 do_action( 'sidebar_admin_page' );
-require_once( 'admin-footer.php' );
+require_once( './admin-footer.php' );
