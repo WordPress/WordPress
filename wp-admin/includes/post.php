@@ -44,16 +44,15 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		}
 	}
 
+	$ptype = get_post_type_object( $post_data['post_type'] );
 	if ( isset($post_data['user_ID']) && ($post_data['post_author'] != $post_data['user_ID']) ) {
-		if ( 'page' == $post_data['post_type'] ) {
-			if ( !current_user_can( 'edit_others_pages' ) ) {
+		if ( !current_user_can( $ptype->edit_others_cap ) ) {
+			if ( 'page' == $post_data['post_type'] ) {
 				return new WP_Error( 'edit_others_pages', $update ?
 					__( 'You are not allowed to edit pages as this user.' ) :
 					__( 'You are not allowed to create pages as this user.' )
 				);
-			}
-		} else {
-			if ( !current_user_can( 'edit_others_posts' ) ) {
+			} else {
 				return new WP_Error( 'edit_others_posts', $update ?
 					__( 'You are not allowed to edit posts as this user.' ) :
 					__( 'You are not allowed to post as this user.' )
@@ -82,15 +81,8 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( isset( $post_data['post_type'] ) && 'page' == $post_data['post_type'] ) {
-		$publish_cap = 'publish_pages';
-		$edit_cap = 'edit_published_pages';
-	} else {
-		$publish_cap = 'publish_posts';
-		$edit_cap = 'edit_published_posts';
-	}
-	if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( $publish_cap )) )
-		if ( $previous_status != 'publish' || !current_user_can( $edit_cap ) )
+	if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( $ptype->publish_cap )) )
+		if ( $previous_status != 'publish' || !current_user_can( 'edit_post', $post_id ) )
 			$post_data['post_status'] = 'pending';
 
 	if ( ! isset($post_data['post_status']) )
