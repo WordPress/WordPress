@@ -56,7 +56,7 @@ function wptexturize($text) {
 		$static_characters = array_merge(array('---', ' -- ', '--', ' - ', 'xn&#8211;', '...', '``', '\'\'', ' (tm)'), $cockney);
 		$static_replacements = array_merge(array('&#8212;', ' &#8212; ', '&#8211;', ' &#8211; ', 'xn--', '&#8230;', $opening_quote, $closing_quote, ' &#8482;'), $cockneyreplace);
  
-		$dynamic_characters = array('/\'(\d\d(?:&#8217;|\')?s)/', '/\'(\d+)/', '/(\s|\A|[([{<]|")\'/', '/(\d+)"/', '/(\d+)\'/', '/(\S)\'([^\'\s])/', '/(\s|\A|[([{<])"(?!\s)/', '/"(\s|\S|\Z)/', '/\'([\s.]|\Z)/', '/(\d+)x(\d+)/');
+		$dynamic_characters = array('/\'(\d\d(?:&#8217;|\')?s)/', '/\'(\d+)/', '/(\s|\A|[([{<]|")\'/', '/(\d+)"/', '/(\d+)\'/', '/(\S)\'([^\'\s])/', '/(\s|\A|[([{<])"(?!\s)/', '/"(\s|\S|\Z)/', '/\'([\s.]|\Z)/', '/\b(\d+)x(\d+)\b/');
 		$dynamic_replacements = array('&#8217;$1','&#8217;$1', '$1&#8216;', '$1&#8243;', '$1&#8242;', '$1&#8217;$2', '$1' . $opening_quote . '$2', $closing_quote . '$1', '&#8217;$1', '$1&#215;$2');
 
 		$static_setup = true;
