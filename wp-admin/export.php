@@ -87,11 +87,9 @@ for ( $i = 1; $i < 13; $i++ ) {
 <select name="author" id="author">
 <option value="all" selected="selected"><?php _e('All Authors'); ?></option>
 <?php
-$authors = $wpdb->get_col( "SELECT post_author FROM $wpdb->posts GROUP BY post_author" );
-foreach ( $authors as $id ) {
-	$o = get_userdata( $id );
-	echo "<option value='{$o->ID}'>{$o->display_name}</option>\n";
-}
+$authors = $wpdb->get_results( "SELECT DISTINCT u.id, u.display_name FROM $wpdb->users u INNER JOIN $wpdb->posts p ON u.id = p.post_author ORDER BY u.display_name" );
+foreach ( (array) $authors as $author )
+       echo "<option value='{$author->id}'>{$author->display_name}</option>\n";
 ?>
 </select>
 </td>
