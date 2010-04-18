@@ -875,6 +875,12 @@ function get_page_template() {
 	$template = get_post_meta($id, '_wp_page_template', true);
 	$pagename = get_query_var('pagename');
 
+	if ( !$pagename && $id > 0 ) {
+		// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
+		$post = $wp_query->get_queried_object();
+		$pagename = $post->post_name;
+	}
+
 	if ( 'default' == $template )
 		$template = '';
 
