@@ -1591,7 +1591,7 @@ class WP_HTTP_Proxy {
 	 * @return string
 	 */
 	function authentication_header() {
-		return 'Proxy-Authentication: Basic ' . base64_encode( $this->authentication() );
+		return 'Proxy-Authorization: Basic ' . base64_encode( $this->authentication() );
 	}
 
 	/**
