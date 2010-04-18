@@ -1242,6 +1242,7 @@ function get_admin_page_title() {
 	global $submenu;
 	global $pagenow;
 	global $plugin_page;
+	global $typenow;
 
 	if ( ! empty ( $title ) )
 		return $title;
@@ -1267,11 +1268,17 @@ function get_admin_page_title() {
 			}
 		}
 	} else {
-		foreach (array_keys( $submenu ) as $parent) {
+		foreach ( array_keys( $submenu ) as $parent ) {
 			foreach ( $submenu[$parent] as $submenu_array ) {
 				if ( isset( $plugin_page ) &&
-					($plugin_page == $submenu_array[2] ) &&
-					(($parent == $pagenow ) || ($parent == $plugin_page ) || ($plugin_page == $hook ) || (($pagenow == 'admin.php' ) && ($parent1 != $submenu_array[2] ) ) )
+					( $plugin_page == $submenu_array[2] ) &&
+					(
+						( $parent == $pagenow ) ||
+						( $parent == $plugin_page ) ||
+						( $plugin_page == $hook ) ||
+						( $pagenow == 'admin.php' && $parent1 != $submenu_array[2] ) ||
+						( !empty($typenow) && $parent == $pagenow . '?post_type=' . $typenow)
+					)
 					) {
 						$title = $submenu_array[3];
 						return $submenu_array[3];
@@ -1292,9 +1299,9 @@ function get_admin_page_title() {
 		if ( empty ( $title ) ) {
 			foreach ( $menu as $menu_array ) {
 				if ( isset( $plugin_page ) &&
-					($plugin_page == $menu_array[2] ) &&
-					($pagenow == 'admin.php' ) &&
-					($parent1 == $menu_array[2] ) )
+					( $plugin_page == $menu_array[2] ) &&
+					( $pagenow == 'admin.php' ) &&
+					( $parent1 == $menu_array[2] ) )
 					{
 						$title = $menu_array[3];
 						return $menu_array[3];
@@ -1330,10 +1337,9 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 		$page_type = $admin_page_hooks[$parent];
 	}
 
-
 	$plugin_name = preg_replace( '!\.php!', '', $plugin_page );
 
-	return $page_type.'_page_'.$plugin_name;
+	return $page_type . '_page_' . $plugin_name;
 }
 
 function user_can_access_admin_page() {
