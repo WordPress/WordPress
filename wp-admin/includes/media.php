@@ -1161,14 +1161,14 @@ function get_media_item( $attachment_id, $args = null ) {
 	else
 		$thumb_url = false;
 
-	$default_args = array( 'errors' => null, 'send' => post_type_supports(get_post_type($_GET['post_id']), 'editor'), 'delete' => true, 'toggle' => true, 'show_title' => true );
+	$post = get_post( $attachment_id );
+
+	$default_args = array( 'errors' => null, 'send' => post_type_supports(get_post_type($post->post_parent), 'editor'), 'delete' => true, 'toggle' => true, 'show_title' => true );
 	$args = wp_parse_args( $args, $default_args );
 	extract( $args, EXTR_SKIP );
 
 	$toggle_on  = __( 'Show' );
 	$toggle_off = __( 'Hide' );
-
-	$post = get_post( $attachment_id );
 
 	$filename = basename( $post->guid );
 	$title = esc_attr( $post->post_title );
