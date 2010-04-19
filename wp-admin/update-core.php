@@ -244,7 +244,7 @@ function list_theme_updates() {
 
 ?>
 <h3><?php _e( 'Themes' ); ?></h3>
-<p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221.' ); ?></p>
+<p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.' ); ?></p>
 <p><?php printf( __('<strong>Please Note:</strong> Any customizations you have made to the Themes files will be lost. Please consider using <a href="%s">child themes</a> for modifications.'), _x('http://codex.wordpress.org/Child_Themes', 'Link used in suggestion to use child themes in GUU') ); ?></p>
 <form method="post" action="<?php echo $form_action; ?>" name="upgrade-themes" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
