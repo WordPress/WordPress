@@ -908,6 +908,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$data = '';
 	/* translators: draft saved date format, see http://php.net/date */
 	$draft_saved_date_format = __('g:i:s a');
+	/* translators: %s: date and time */
 	$message = sprintf( __('Draft saved at %s.'), date_i18n( $draft_saved_date_format ) );
 
 	$supplemental = array();
