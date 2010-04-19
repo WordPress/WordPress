@@ -63,11 +63,13 @@ get_header();
 				?>
 				<h2><?php _e('Your account is now active!'); ?></h2>
 				<?php
-			    if ( $signup->domain . $signup->path == '' ) {
-			    	printf(__('<p class="lead-in">Your account has been activated. You may now <a href="%1$s">login</a> to the site using your chosen username of &#8220;%2$s&#8221;.  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.</p>'), network_site_url('wp-login.php', 'login'), $signup->user_login, $signup->user_email, network_site_url('wp-login.php?action=lostpassword', 'login'));
-			    } else {
-			    	printf(__('<p class="lead-in">Your site at <a href="%1$s">%2$s</a> is active. You may now log in to your site using your chosen username of &#8220;%3$s&#8221;.  Please check your email inbox at %4$s for your password and login instructions.  If you do not receive an email, please check your junk or spam folder.  If you still do not receive an email within an hour, you can <a href="%5$s">reset your password</a>.</p>'), 'http://' . $signup->domain, $signup->domain, $signup->user_login, $signup->user_email, network_site_url('wp-login.php?action=lostpassword'));
-			    }
+				echo '<p class="lead-in">';
+				if ( $signup->domain . $signup->path == '' ) {
+					printf( __('Your account has been activated. You may now <a href="%1$s">login</a> to the site using your chosen username of &#8220;%2$s&#8221;.  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.'), network_site_url( 'wp-login.php', 'login' ), $signup->user_login, $signup->user_email, network_site_url( 'wp-login.php?action=lostpassword', 'login' ) );
+				} else {
+					printf( __('Your site at <a href="%1$s">%2$s</a> is active. You may now log in to your site using your chosen username of &#8220;%3$s&#8221;.  Please check your email inbox at %4$s for your password and login instructions.  If you do not receive an email, please check your junk or spam folder.  If you still do not receive an email within an hour, you can <a href="%5$s">reset your password</a>.'), 'http://' . $signup->domain, $signup->domain, $signup->user_login, $signup->user_email, network_site_url( 'wp-login.php?action=lostpassword' ) );
+				}
+				echo '</p>';
 			} else {
 				?>
 				<h2><?php _e('An error occurred during the activation'); ?></h2>
@@ -87,13 +89,16 @@ get_header();
 			</div>
 
 			<?php if ( $url != network_home_url('', 'http') ) : ?>
-				<p class="view"><?php printf(__('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Login</a>'), $url, $url . 'wp-login.php' ); ?></p>
+				<p class="view"><?php printf( __('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Login</a>'), $url, $url . 'wp-login.php' ); ?></p>
 			<?php else: ?>
-				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.' ), network_site_url('wp-login.php', 'login'), network_home_url() ); ?></p>
+				<p class="view"><?php printf( __('Your account is now activated. <a href="%1$s">Login</a> or go back to the <a href="%2$s">homepage</a>.' ), network_site_url('wp-login.php', 'login'), network_home_url() ); ?></p>
 			<?php endif;
 		}
 	}
 	?>
 </div>
-
+<script type="text/javascript">
+	var key_input = document.getElementById('key');
+	key_input && key_input.focus();
+</script>
 <?php get_footer(); ?>
