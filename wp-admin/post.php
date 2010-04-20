@@ -218,10 +218,10 @@ case 'trash':
 	$post = & get_post($post_id);
 
 	if ( !current_user_can($post_type_object->delete_cap, $post_id) )
-		wp_die( __('You are not allowed to move this item to the trash.') );
+		wp_die( __('You are not allowed to move this item to the Trash.') );
 
 	if ( ! wp_trash_post($post_id) )
-		wp_die( __('Error in moving to trash...') );
+		wp_die( __('Error in moving to Trash.') );
 
 	wp_redirect( add_query_arg( array('trashed' => 1, 'ids' => $post_id), $sendback ) );
 	exit();
@@ -231,10 +231,10 @@ case 'untrash':
 	check_admin_referer('untrash-' . $post_type . '_' . $post_id);
 
 	if ( !current_user_can($post_type_object->delete_cap, $post_id) )
-		wp_die( __('You are not allowed to move this item out of the trash.') );
+		wp_die( __('You are not allowed to move this item out of the Trash.') );
 
 	if ( ! wp_untrash_post($post_id) )
-		wp_die( __('Error in restoring from trash...') );
+		wp_die( __('Error in restoring from Trash.') );
 
 	wp_redirect( add_query_arg('untrashed', 1, $sendback) );
 	exit();
@@ -250,10 +250,10 @@ case 'delete':
 	if ( $post->post_type == 'attachment' ) {
 		$force = ( $force || !MEDIA_TRASH );
 		if ( ! wp_delete_attachment($post_id, $force) )
-			wp_die( __('Error in deleting...') );
+			wp_die( __('Error in deleting.') );
 	} else {
 		if ( !wp_delete_post($post_id, $force) )
-			wp_die( __('Error in deleting...') );
+			wp_die( __('Error in deleting.') );
 	}
 
 	wp_redirect( add_query_arg('deleted', 1, $sendback) );

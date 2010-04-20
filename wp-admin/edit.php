@@ -74,10 +74,10 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 			$trashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can($post_type_object->delete_cap, $post_id) )
-					wp_die( __('You are not allowed to move this item to the trash.') );
+					wp_die( __('You are not allowed to move this item to the Trash.') );
 
 				if ( !wp_trash_post($post_id) )
-					wp_die( __('Error in moving to trash...') );
+					wp_die( __('Error in moving to Trash.') );
 
 				$trashed++;
 			}
@@ -87,10 +87,10 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 			$untrashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can($post_type_object->delete_cap, $post_id) )
-					wp_die( __('You are not allowed to restore this item from the trash.') );
+					wp_die( __('You are not allowed to restore this item from the Trash.') );
 
 				if ( !wp_untrash_post($post_id) )
-					wp_die( __('Error in restoring from trash...') );
+					wp_die( __('Error in restoring from Trash.') );
 
 				$untrashed++;
 			}
@@ -204,7 +204,7 @@ if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 }
 
 if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
-	printf( _n( 'Item restored from the trash.', '%s items restored from the trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
+	printf( _n( 'Item restored from the Trash.', '%s items restored from the Trash.', $_GET['untrashed'] ), number_format_i18n( $_GET['untrashed'] ) );
 	unset($_GET['undeleted']);
 }
 
@@ -262,9 +262,9 @@ endif;
 </ul>
 
 <p class="search-box">
-	<label class="screen-reader-text" for="post-search-input"><?php printf( __( 'Search %s' ), $post_type_object->label ); ?>:</label>
+	<label class="screen-reader-text" for="post-search-input"><?php printf( _x('Search %s', '%s: post type name'), $post_type_object->label ); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php echo esc_attr( sprintf( __( 'Search %s' ), $post_type_object->label ) ); ?>" class="button" />
+	<input type="submit" value="<?php echo esc_attr( sprintf( _x('Search %s', '%s: post type name'), $post_type_object->label ) ); ?>" class="button" />
 </p>
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_GET['post_status']) ? esc_attr($_GET['post_status']) : 'all'; ?>" />
