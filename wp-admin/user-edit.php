@@ -373,6 +373,12 @@ if ( $show_password_fields ) :
 <?php
 break;
 }
-
+?>
+<script type="text/javascript" charset="utf-8">
+	if (window.location.hash == '#password') {
+		document.getElementById('pass1').focus();
+	}
+</script>
+<?php
 include('./admin-footer.php');
 ?>
