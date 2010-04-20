@@ -3776,10 +3776,10 @@ function screen_options($screen) {
 
 	$option = str_replace( '-', '_', "{$screen->id}_per_page" );
 	if ( 'edit_tags_per_page' == $option ) {
-		if ( 'category' == $taxonomy )
+		if ( 'category' == $tax->name )
 			$option = 'categories_per_page';
-		elseif ( 'post_tag' != $taxonomy )
-			$option = 'edit_' . $taxonomy . '_per_page';
+		elseif ( 'post_tag' != $tax->name )
+			$option = 'edit_' . $tax->name . '_per_page';
 	}
 
 	$per_page = (int) get_user_option( $option );
