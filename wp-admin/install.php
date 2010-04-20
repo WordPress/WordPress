@@ -98,7 +98,7 @@ function display_setup_form( $error = null ) {
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><label for="user_name"><?php _e('User Name'); ?></label></th>
+			<th scope="row"><label for="user_name"><?php _e('Username'); ?></label></th>
 			<td>
 			<?php
 			if ( $user_table ) {
@@ -189,7 +189,7 @@ switch($step) {
 		$error = false;
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke
-			display_setup_form( __('you must provide a valid user name.') );
+			display_setup_form( __('you must provide a valid username.') );
 			$error = true;
 		} elseif ( $admin_password != $admin_password_check ) {
 			// TODO: poka-yoke
