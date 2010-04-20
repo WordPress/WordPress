@@ -71,7 +71,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 		$email_password = true;
 	} else if ( !$user_id ) {
 		// Password has been provided
-		$message = __('<em>Your chosen password.</em>');
+		$message = '<em>'.__('Your chosen password.').'</em>';
 		$user_id = wp_create_user($user_name, $user_password, $user_email);
 	} else {
 		$message =  __('User already exists. Password inherited.');
