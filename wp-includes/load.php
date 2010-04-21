@@ -359,6 +359,11 @@ function wp_start_object_cache() {
 			$_wp_using_ext_object_cache = false;
 		}
 		$first_init = true;
+	} else if ( !$_wp_using_ext_object_cache && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+		// Sometimes advanced-cache.php can load object-cache.php before it is loaded here.
+		// This breaks the function_exists check above and can result in $_wp_using_ext_object_cache
+		// being set incorrectly.  Double check if an external cache exists.
+		$_wp_using_ext_object_cache = true;
 	}
 
 	// If cache supports reset, reset instead of init if already initialized.
