@@ -609,6 +609,7 @@ function populate_roles_300() {
 		$role->add_cap( 'update_core' );
 		$role->add_cap( 'remove_users' );
 		$role->add_cap( 'add_users' );
+		$role->add_cap( 'promote_users' );
 		$role->add_cap( 'edit_theme_options' );
 	}
 }

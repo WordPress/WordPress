@@ -15,14 +15,6 @@ require_once( ABSPATH . WPINC . '/registration.php');
 if ( !current_user_can('edit_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
-if ( ! is_multisite() && current_user_can('delete_users') ) {
-	$del_cap_user = 'delete_user';
-	$del_cap_users = 'delete_users';
-} else {
-	$del_cap_user = 'remove_user';
-	$del_cap_users = 'remove_users';
-}
-
 $title = __('Users');
 $parent_file = 'users.php';
 
@@ -66,7 +58,7 @@ case 'promote':
 		if ( ! current_user_can('edit_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have edit_users caps
-		if ( $id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('edit_users') ) {
+		if ( $id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('promote_users') ) {
 			$update = 'err_admin_role';
 			continue;
 		}
@@ -81,6 +73,8 @@ case 'promote':
 break;
 
 case 'dodelete':
+	if ( is_multisite() )
+		wp_die( __('User deletion is not allowed from this screen.') );
 
 	check_admin_referer('delete-users');
 
@@ -89,16 +83,16 @@ case 'dodelete':
 		exit();
 	}
 
-	if ( ! current_user_can($del_cap_users ) )
-		wp_die(__('You can&#8217;t remove users.'));
+	if ( ! current_user_can( 'delete_users' ) )
+		wp_die(__('You can&#8217;t delete users.'));
 
 	$userids = $_REQUEST['users'];
 	$update = 'del';
 	$delete_count = 0;
 
 	foreach ( (array) $userids as $id) {
-		if ( ! current_user_can( $del_cap_user, $id ) )
-			wp_die(__( 'You can&#8217;t remove that user.' ) );
+		if ( ! current_user_can( 'delete_user', $id ) )
+			wp_die(__( 'You can&#8217;t delete that user.' ) );
 
 		if ( $id == $current_user->ID ) {
 			$update = 'err_admin_del';
@@ -106,16 +100,11 @@ case 'dodelete':
 		}
 		switch ( $_REQUEST['delete_option'] ) {
 		case 'delete':
-			if ( !is_multisite() && current_user_can('delete_user', $id) )
+			if ( current_user_can('delete_user', $id) )
 				wp_delete_user($id);
-			else
-				remove_user_from_blog($id, $blog_id); // WPMU only remove user from blog
-			break;
 		case 'reassign':
-			if ( !is_multisite() && current_user_can('delete_user', $id) )
+			if ( current_user_can('delete_user', $id) )
 				wp_delete_user($id, $_REQUEST['reassign_user']);
-			else
-				remove_user_from_blog($id, $blog_id, $_REQUEST['reassign_user']);
 			break;
 		}
 		++$delete_count;
@@ -128,7 +117,6 @@ case 'dodelete':
 break;
 
 case 'delete':
-
 	check_admin_referer('bulk-users');
 
 	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
@@ -136,7 +124,7 @@ case 'delete':
 		exit();
 	}
 
-	if ( ! current_user_can( $del_cap_users ) )
+	if ( ! current_user_can( 'delete_users' ) )
 		$errors = new WP_Error( 'edit_users', __( 'You can&#8217;t delete users.' ) );
 
 	if ( empty($_REQUEST['users']) )
@@ -167,6 +155,7 @@ case 'delete':
 			$go_delete = true;
 		}
 	}
+	// @todo Delete is always for !is_multisite(). Use API.
 	if ( !is_multisite() ) {
 		$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY user_login");
 	} else {
@@ -192,6 +181,94 @@ case 'delete':
 	<p class="submit"><input type="submit" name="submit" value="<?php esc_attr_e('Confirm Deletion'); ?>" class="button-secondary" /></p>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
+<?php endif; ?>
+</div>
+</form>
+<?php
+
+break;
+
+case 'doremove':
+	check_admin_referer('remove-users');
+
+	if ( empty($_REQUEST['users']) ) {
+		wp_redirect($redirect);
+		exit;
+	}
+
+	if ( !current_user_can('remove_users')  )
+		die(__('You can&#8217;t remove users.'));
+
+	$userids = $_REQUEST['users'];
+
+	$update = 'remove';
+ 	foreach ( $userids as $id ) {
+		$id = (int) $id;
+		if ( $id == $current_user->id && !is_super_admin() ) {
+			$update = 'err_admin_remove';
+			continue;
+		}
+		if ( !current_user_can('delete_user', $id) ) {
+			$update = 'err_admin_remove';
+			continue;
+		}
+		remove_user_from_blog($id, $blog_id);
+	}
+
+	$redirect = add_query_arg( array('update' => $update), $redirect);
+	wp_redirect($redirect);
+	exit;
+
+break;
+
+case 'remove':
+
+	check_admin_referer('bulk-users');
+
+	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
+		wp_redirect($redirect);
+		exit();
+	}
+
+	if ( !current_user_can('remove_users') )
+		$error = new WP_Error('edit_users', __('You can&#8217;t remove users.'));
+
+	if ( empty($_REQUEST['users']) )
+		$userids = array(intval($_REQUEST['user']));
+	else
+		$userids = $_REQUEST['users'];
+
+	include ('admin-header.php');
+?>
+<form action="" method="post" name="updateusers" id="updateusers">
+<?php wp_nonce_field('remove-users') ?>
+<?php echo $referer; ?>
+
+<div class="wrap">
+<?php screen_icon(); ?>
+<h2><?php _e('Remove Users from Blog'); ?></h2>
+<p><?php _e('You have specified these users for removal:'); ?></p>
+<ul>
+<?php
+	$go_remove = false;
+ 	foreach ( $userids as $id ) {
+		$id = (int) $id;
+ 		$user = new WP_User($id);
+		if ( $id == $current_user->id && !is_super_admin() ) {
+			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
+		} elseif ( !current_user_can('remove_user', $id) ) {
+			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>You don\'t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
+		} else {
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
+			$go_remove = true;
+		}
+ 	}
+ 	?>
+<?php if ( $go_remove ) : ?>
+		<input type="hidden" name="action" value="doremove" />
+		<p class="submit"><input type="submit" name="submit" value="<?php esc_attr_e('Confirm Removal'); ?>" class="button-secondary" /></p>
+<?php else : ?>
+	<p><?php _e('There are no valid users selected for removal.'); ?></p>
 <?php endif; ?>
 </div>
 </form>
@@ -242,6 +319,13 @@ default:
 		case 'err_admin_del':
 			$messages[] = '<div id="message" class="error"><p>' . __('You can&#8217;t delete the current user.') . '</p></div>';
 			$messages[] = '<div id="message" class="updated"><p>' . __('Other users have been deleted.') . '</p></div>';
+			break;
+		case 'remove':
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('User removed from this blog.') . '</p></div>';
+			break;
+		case 'err_admin_remove':
+			$messages[] = '<div id="message" class="error"><p>' . __("You can't remove the current user.") . '</p></div>';
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other users have been removed.') . '</p></div>';
 			break;
 		}
 	endif; ?>
@@ -323,7 +407,11 @@ unset($role_links);
 <div class="alignleft actions">
 <select name="action">
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
+<?php if ( !is_multisite() && current_user_can('delete_users') ) { ?>
 <option value="delete"><?php _e('Delete'); ?></option>
+<?php } else { ?>
+<option value="remove"><?php _e('Remove'); ?></option>
+<?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <label class="screen-reader-text" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option><?php wp_dropdown_roles(); ?></select>
@@ -392,8 +480,11 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <div class="alignleft actions">
 <select name="action2">
 <option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
+<?php if ( !is_multisite() && current_user_can('delete_users') ) { ?>
 <option value="delete"><?php _e('Delete'); ?></option>
-</select>
+<?php } else { ?>
+<option value="remove"><?php _e('Remove'); ?></option>
+<?php } ?></select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 

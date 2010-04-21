@@ -802,6 +802,9 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_user':
 		$caps[] = 'delete_users';
 		break;
+	case 'promote_user':
+		$caps[] = 'promote_users';
+		break;
 	case 'edit_user':
 		if ( !isset( $args[0] ) || $user_id != $args[0] ) {
 			$caps[] = 'edit_users';
