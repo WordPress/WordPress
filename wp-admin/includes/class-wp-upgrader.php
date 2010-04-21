@@ -48,6 +48,7 @@ class WP_Upgrader {
 		$this->strings['fs_no_content_dir'] = __('Unable to locate WordPress Content directory (wp-content).');
 		$this->strings['fs_no_plugins_dir'] = __('Unable to locate WordPress Plugin directory.');
 		$this->strings['fs_no_themes_dir'] = __('Unable to locate WordPress Theme directory.');
+		/* translators: %s: directory name */
 		$this->strings['fs_no_folder'] = __('Unable to locate needed folder (%s).');
 
 		$this->strings['download_failed'] = __('Download failed.');
@@ -1055,7 +1056,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	function add_strings() {
 		$this->upgrader->strings['skin_update_failed_error'] = __('An error occured while updating %1$s: <strong>%2$s</strong>.');
 		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
-		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully. <a onclick="%2$s" href="#" class="hide-if-no-js"><span>Show Details</span><span class="hidden">Hide Details</span>.</a>');
+		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully.').' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>'.__('Show Details').'</span><span class="hidden">'.__('Hide Details').'</span>.</a>';
 	}
 
 	function feedback($string) {
@@ -1109,7 +1110,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		echo '</p></div>';
 		if ( $this->error || ! $this->result ) {
 			if ( $this->error )
-				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title, $this->error) . '</p></div>';
+				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed_error'], $title, $this->error) . '</p></div>';
 			else
 				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title) . '</p></div>';
 
