@@ -1176,13 +1176,13 @@ function switch_theme($template, $stylesheet) {
 /**
  * Checks that current theme files 'index.php' and 'style.css' exists.
  *
- * Does not check the 'default' theme. The 'default' theme should always exist
- * or should have another theme renamed to that template name and directory
- * path. Will switch theme to default if current theme does not validate.
+ * Does not check the fallback theme. The fallback theme should always exist.
+ * Will switch theme to the fallback theme if current theme does not validate.
  * You can use the 'validate_current_theme' filter to return FALSE to
  * disable this functionality.
  *
  * @since 1.5.0
+ * @see WP_FALLBACK_THEME
  *
  * @return bool
  */
