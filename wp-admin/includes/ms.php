@@ -30,9 +30,9 @@ function check_upload_size( $file ) {
 	$space_left = $space_allowed - $space_used;
 	$file_size = filesize( $file['tmp_name'] );
 	if ( $space_left < $file_size )
-		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s Kb needed.' ), number_format( ($file_size - $space_left) /1024 ) );
+		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ($file_size - $space_left) /1024 ) );
 	if ( $file_size > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
-		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s Kb in size.'), get_site_option( 'fileupload_maxk', 1500 ) );
+		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s KB in size.'), get_site_option( 'fileupload_maxk', 1500 ) );
 	if ( upload_is_user_over_quota( false ) ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
@@ -447,8 +447,10 @@ function display_space_usage() {
 
 	if ( $space > 1000 ) {
 		$space = number_format( $space / 1024 );
+		/* translators: Gigabytes */
 		$space .= __( 'GB' );
 	} else {
+		/* translators: Megabytes */		
 		$space .= __( 'MB' );
 	}
 	?>
