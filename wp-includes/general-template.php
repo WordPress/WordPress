@@ -1061,10 +1061,12 @@ function get_calendar($initial = true, $echo = true) {
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
-			if ( $echo )
+			if ( $echo ) {
 				echo apply_filters( 'get_calendar',  $cache[$key] );
-			else
+				return;
+			} else {
 				return apply_filters( 'get_calendar',  $cache[$key] );
+			}
 		}
 	}
 
