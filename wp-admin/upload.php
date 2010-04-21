@@ -146,6 +146,8 @@ if ( isset($_GET['detached']) ) {
 		$orphans = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1 LIMIT %d, %d", $start, $media_per_page ) );
 		$total_orphans = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$page_links_total = ceil( $total_orphans / $media_per_page );
+		$wp_query->found_posts = $total_orphans;
+		$wp_query->query_vars['posts_per_page'] = $media_per_page;
 	}
 
 	$post_mime_types = get_post_mime_types();
