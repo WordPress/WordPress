@@ -17,6 +17,9 @@
  * menu_class - CSS class to use for the div container of the menu list. Defaults to 'menu'.
  * format - Whether to format the ul. Defaults to 'div'.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
+ * container - Type of container tag. Avalible options div, p, or nav. Defaults to 'div'. 
+ * container_class - Chooses a class for the container.
+ * container_id - Chooses an id for the container.
  * before - Text before the link text.
  * after - Text after the link text.
  * link_before - Text before the link.
@@ -30,7 +33,7 @@
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
-	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'menu_class' => 'menu', 'echo' => true,
+	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 'echo' => true,
 	'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
 	'depth' => 0, 'walker' => '', 'context' => 'frontend' );
 
@@ -70,7 +73,8 @@ function wp_nav_menu( $args = array() ) {
 
 	if ( in_array( $args->container, $container_allowedtags ) ) {
 		$class = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : ' class="menu-'. $menu->slug .'-container"';
-		$nav_menu .= '<'. $args->container . $class .'>';
+		$container_id = $args->container_id ? ' id="' . esc_attr($args->container_id) . '"' : '' ;
+		$nav_menu .= '<'. $args->container . $class . $container_id .'>';
 	}
 
 	// Set up the $menu_item variables
