@@ -178,14 +178,6 @@ class WP_Locale {
 		// Numbers formatting
 		// See http://php.net/number_format
 
-		/* translators: $decimals argument for http://php.net/number_format, default is 0 */
-		$trans = __('number_format_decimals');
-		$this->number_format['decimals'] = ('number_format_decimals' == $trans) ? 0 : $trans;
-
-		/* translators: $dec_point argument for http://php.net/number_format, default is . */
-		$trans = __('number_format_decimal_point');
-		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
-
 		/* translators: $thousands_sep argument for http://php.net/number_format, default is , */
 		$trans = __('number_format_thousands_sep');
 		$this->number_format['thousands_sep'] = ('number_format_thousands_sep' == $trans) ? ',' : $trans;

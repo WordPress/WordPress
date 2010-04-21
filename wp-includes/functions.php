@@ -126,23 +126,20 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 }
 
 /**
- * Convert number to format based on the locale.
+ * Convert integer number to format based on the locale.
  *
  * @since 2.3.0
  *
- * @param mixed $number The number to convert based on locale.
- * @param int $decimals Precision of the number of decimal places.
+ * @param int $number The number to convert based on locale.
+ * @param int $decimals Precision of the number of decimal places. Deprectated.
  * @return string Converted number in string format.
  */
 function number_format_i18n( $number, $decimals = null ) {
 	global $wp_locale;
-	// let the user override the precision only
-	$decimals = ( is_null( $decimals ) ) ? $wp_locale->number_format['decimals'] : intval( $decimals );
-
-	$num = number_format( $number, $decimals, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
-
-	// let the user translate digits from latin to localized language
-	return apply_filters( 'number_format_i18n', $num );
+	$number = (int)$number;
+	if ( !is_null( $decimals ) ) _deprecated_argument( __FUNCTION__, '3.0' );
+	$formatted = number_format( $number, 0, null, $wp_locale->number_format['thousands_sep'] );
+	return apply_filters( 'number_format_i18n', $formatted );
 }
 
 /**
@@ -163,7 +160,7 @@ function number_format_i18n( $number, $decimals = null ) {
  * @since 2.3.0
  *
  * @param int|string $bytes Number of bytes. Note max integer size for integers.
- * @param int $decimals Precision of number of decimal places.
+ * @param int $decimals Precision of number of decimal places. Deprecated.
  * @return bool|string False on failure. Number string on success.
  */
 function size_format( $bytes, $decimals = null ) {
@@ -175,10 +172,10 @@ function size_format( $bytes, $decimals = null ) {
 		'kB' => 1024,           // pow( 1024, 1)
 		'B ' => 1,              // pow( 1024, 0)
 	);
-
+	if ( !is_null( $decimals ) ) _deprecated_argument( __FUNCTION__, '3.0' );
 	foreach ( $quant as $unit => $mag )
 		if ( doubleval($bytes) >= $mag )
-			return number_format_i18n( $bytes / $mag, $decimals ) . ' ' . $unit;
+			return number_format_i18n( round( $bytes / $mag ) ) . ' ' . $unit;
 
 	return false;
 }
