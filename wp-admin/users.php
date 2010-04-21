@@ -55,9 +55,9 @@ case 'promote':
 	$userids = $_REQUEST['users'];
 	$update = 'promote';
 	foreach ( $userids as $id ) {
-		if ( ! current_user_can('edit_user', $id) )
+		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
-		// The new role of the current user must also have edit_users caps
+		// The new role of the current user must also have promote_users caps
 		if ( $id == $current_user->ID && !$wp_roles->role_objects[$_REQUEST['new_role']]->has_cap('promote_users') ) {
 			$update = 'err_admin_role';
 			continue;
@@ -117,6 +117,9 @@ case 'dodelete':
 break;
 
 case 'delete':
+	if ( is_multisite() )
+		wp_die( __('User deletion is not allowed from this screen.') );
+
 	check_admin_referer('bulk-users');
 
 	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
