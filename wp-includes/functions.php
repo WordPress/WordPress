@@ -131,14 +131,13 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
  * @since 2.3.0
  *
  * @param int $number The number to convert based on locale.
- * @param int $decimals Precision of the number of decimal places. Deprectated.
+ * @param int $decimals Precision of the number of decimal places.
  * @return string Converted number in string format.
  */
-function number_format_i18n( $number, $decimals = null ) {
+function number_format_i18n( $number, $decimals = 0 ) {
 	global $wp_locale;
 	$number = (int)$number;
-	if ( !is_null( $decimals ) ) _deprecated_argument( __FUNCTION__, '3.0' );
-	$formatted = number_format( $number, 0, null, $wp_locale->number_format['thousands_sep'] );
+	$formatted = number_format( $number, absint( $decimals ), $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
 	return apply_filters( 'number_format_i18n', $formatted );
 }
 
@@ -163,7 +162,7 @@ function number_format_i18n( $number, $decimals = null ) {
  * @param int $decimals Precision of number of decimal places. Deprecated.
  * @return bool|string False on failure. Number string on success.
  */
-function size_format( $bytes, $decimals = null ) {
+function size_format( $bytes, $decimals = 0 ) {
 	$quant = array(
 		// ========================= Origin ====
 		'TB' => 1099511627776,  // pow( 1024, 4)
@@ -172,10 +171,9 @@ function size_format( $bytes, $decimals = null ) {
 		'kB' => 1024,           // pow( 1024, 1)
 		'B ' => 1,              // pow( 1024, 0)
 	);
-	if ( !is_null( $decimals ) ) _deprecated_argument( __FUNCTION__, '3.0' );
 	foreach ( $quant as $unit => $mag )
 		if ( doubleval($bytes) >= $mag )
-			return number_format_i18n( round( $bytes / $mag ) ) . ' ' . $unit;
+			return number_format_i18n( $bytes / $mag, $decimals ) . ' ' . $unit;
 
 	return false;
 }
