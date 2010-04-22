@@ -13,6 +13,11 @@
 #dashboard_right_now p.sub, #dashboard-widgets h4, #dashboard_quick_press h4, a.rsswidget, #dashboard_plugins h4, #dashboard_plugins h5, #dashboard_recent_comments .comment-meta .approve {
 	font-family: Tahoma, Arial;
 }
+#dashboard_right_now p.sub  {
+	font-style:normal;
+	left:auto;
+	right:15px;
+}
 #dashboard_right_now td.b {
 	padding-right: 0;
 	padding-left: 6px;
@@ -22,6 +27,15 @@
 #dashboard_right_now .t {
 	padding-right: 0;
 	padding-left: 12px;
+}
+#dashboard_right_now .table_content {
+	float:right;
+}
+#dashboard_right_now .table_discussion {
+	float:left;
+}
+#dashboard_right_now .versions {
+	clear:right;
 }
 #dashboard_right_now .versions a {
 	font-family: Tahoma, Arial;

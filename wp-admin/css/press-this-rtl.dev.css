@@ -68,7 +68,9 @@ h3.tb {
 	font-family: Tahoma, Arial;
 }
 
-#categorydiv ul.categorychecklist ul {
+.inline-editor ul.cat-checklist ul,
+.categorydiv ul.categorychecklist ul,
+#linkcategorydiv ul.categorychecklist ul {
 	margin-left: 0;
 	margin-right: 18px;
 }
