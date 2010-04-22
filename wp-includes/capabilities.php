@@ -806,9 +806,16 @@ function map_meta_cap( $cap, $user_id ) {
 		$caps[] = 'promote_users';
 		break;
 	case 'edit_user':
-		if ( !isset( $args[0] ) || $user_id != $args[0] ) {
-			$caps[] = 'edit_users';
-		}
+		// Allow user to edit itself
+		if ( isset( $args[0] ) && $user_id == $args[0] )
+			break;
+		// Fall through
+	case 'edit_users':
+		// If multisite these caps are allowed only for super admins.
+		if ( is_multisite() && !is_super_admin() )
+			$caps[] = 'do_not_allow';
+		else
+			$caps[] = $cap;
 		break;
 	case 'delete_post':
 		$author_data = get_userdata( $user_id );

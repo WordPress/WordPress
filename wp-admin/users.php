@@ -12,7 +12,7 @@ require_once('./admin.php');
 /** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
 
-if ( !current_user_can('edit_users') )
+if ( !current_user_can('list_users') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
 $title = __('Users');

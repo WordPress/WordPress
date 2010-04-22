@@ -172,14 +172,14 @@ if ( is_super_admin() || ( is_multisite() && isset($menu_perms['plugins']) && $m
 }
 unset($menu_perms, $update_plugins, $update_count);
 
-if ( current_user_can('edit_users') )
-	$menu[70] = array( __('Users'), 'edit_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div' );
+if ( current_user_can('list_users') )
+	$menu[70] = array( __('Users'), 'list_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div' );
 else
 	$menu[70] = array( __('Profile'), 'read', 'profile.php', '', 'menu-top menu-icon-users', 'menu-users', 'div' );
 
-if ( current_user_can('edit_users') ) {
+if ( current_user_can('list_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
-	$submenu['users.php'][5] = array(__('Authors & Users'), 'edit_users', 'users.php');
+	$submenu['users.php'][5] = array(__('Authors & Users'), 'list_users', 'users.php');
 	$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
 
 	$submenu['users.php'][15] = array(__('Your Profile'), 'read', 'profile.php');

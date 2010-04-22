@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 14138 )
+	if ( $wp_current_db_version < 14139 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1108,14 +1108,14 @@ function upgrade_290() {
 function upgrade_300() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version < 12751 ) {
+	if ( $wp_current_db_version < 14139 ) {
 		populate_roles_300();
 		if ( is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )
 			add_site_option( 'siteurl', '' );
 	}
 
 	// #11866 (Convert the taxonomy children cache into a transient) - Remove old cache.
-	if ( $wp_current_db_version < 14138 ) {
+	if ( $wp_current_db_version < 14139 ) {
 		foreach ( get_taxonomies( array('hierarchical' => true) )  as $taxonomy )
 			delete_option($taxonomy . '_children');
 	}
