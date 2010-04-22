@@ -1812,7 +1812,7 @@ function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 		$short_url = substr( $short_url, 0, 32 ).'...';
 	$checkbox = '';
 	// Check if the user for this row is editable
-	if ( current_user_can( 'list_users', $user_object->ID ) ) {
+	if ( current_user_can( 'list_users' ) ) {
 		// Set up the user editing link
 		// TODO: make profile/user-edit determination a separate function
 		if ($current_user->ID == $user_object->ID) {
@@ -1825,8 +1825,13 @@ function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 		// Set up the hover actions for this user
 		$actions = array();
 
-		if ( current_user_can('edit_user',  $user_object->ID) )
+		if ( current_user_can('edit_user',  $user_object->ID) ) {
+			$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
 			$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		} else {
+			$edit = "<strong>$user_object->user_login</strong><br />";
+		}
+
 		if ( !is_multisite() && $current_user->ID != $user_object->ID && current_user_can('delete_user', $user_object->ID) )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . "</a>";
 		if ( is_multisite() && $current_user->ID != $user_object->ID && current_user_can('remove_user', $user_object->ID) )
