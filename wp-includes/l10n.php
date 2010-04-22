@@ -390,12 +390,13 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
  * @since 3.0.0
  *
  * @param string $domain Unique identifier for retrieving translated strings
+ * @param strings $mu_plugin_rel_path Relative to WPMU_PLUGIN_DIR directory in which
+ * the MO file resides. Defaults is empty string.
  */
-function load_muplugin_textdomain( $domain, $path = false ) {
+function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-	$mofile = WPMU_PLUGIN_DIR . "/$domain-$locale.mo";
-	load_textdomain( $domain, $mofile );
+	$path = WPMU_PLUGIN_DIR . '/' . ltrim( $mu_plugin_rel_path, '/' );
+	load_textdomain( $domain, trailingslashit( $path ) . "$domain-$locale.mo" );
 }
 
 /**
