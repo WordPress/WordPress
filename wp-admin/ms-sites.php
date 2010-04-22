@@ -423,8 +423,8 @@ switch ( $action ) {
 		<div class="tablenav-pages">
 		<?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 		number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
-		number_format_i18n( min( $pagenum * $per_page, $num_pages ) ),
-		number_format_i18n( $num_pages ),
+		number_format_i18n( min( $pagenum * $per_page, $total ) ),
+		number_format_i18n( $total ),
 		$page_links
 		); echo $page_links_text; ?>
 		</div>
