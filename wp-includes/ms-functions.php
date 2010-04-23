@@ -1163,8 +1163,8 @@ function upload_is_user_over_quota( $echo = true ) {
 function check_upload_mimes( $mimes ) {
 	$site_exts = explode( " ", get_site_option( "upload_filetypes" ) );
 	foreach ( $site_exts as $ext ) {
-		foreach ( $mimes as $ext_pattern => $mime )
-			if ( $ext != '' && strpos( $ext_pattern, $ext ) !== false ) {
+		foreach ( $mimes as $ext_pattern => $mime ) {
+			if ( $ext != '' && strpos( $ext_pattern, $ext ) !== false )
 				$site_mimes[$ext_pattern] = $mime;
 		}
 	}
