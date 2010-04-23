@@ -2204,7 +2204,7 @@ function wp_shortlink_wp_head() {
 	if ( empty( $shortlink ) )
 		return;
 
-	echo "<link rel='shortlink' href='" . esc_attr( $shortlink ) . "' />\n";
+	echo "<link rel='shortlink' href='" . esc_url_raw( $shortlink ) . "' />\n";
 }
 
 /**
@@ -2254,7 +2254,7 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
 	$shortlink = wp_get_shortlink( $post->ID );
 
 	if ( !empty( $shortlink ) ) {
-		$link = '<a rel="shortlink" href="' . esc_attr( $shortlink ) . '" title="' . $title . '">' . $text . '</a>';
+		$link = '<a rel="shortlink" href="' . esc_url( $shortlink ) . '" title="' . $title . '">' . $text . '</a>';
 		$link = apply_filters( 'the_shortlink', $link, $shortlink, $text, $title );
 		echo $before, $link, $after;
 	}
