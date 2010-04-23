@@ -2019,7 +2019,7 @@ function wp_mkdir_p( $target ) {
 	$target = str_replace( '//', '/', $target );
 
 	// safe mode fails with a trailing slash under certain PHP versions.
-	$target = untrailingslashit($target);
+	$target = rtrim($target, '/'); // Use rtrim() instead of untrailingslashit to avoid formatting.php dependency.
 	if ( empty($target) )
 		$target = '/';
 
