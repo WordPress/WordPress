@@ -8,13 +8,7 @@ Tags: black, blue, white, two-columns, fixed-width, custom-header, theme-options
 */
 
 
-/* --------------------------------------------------------------
-
-   Reset default browser CSS.
-
-   Based on work by Eric Meyer:
-   http://meyerweb.com/eric/tools/css/reset/index.html
-
+/* Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
 -------------------------------------------------------------- */
 
 html, body, div, span, applet, object, iframe,
@@ -35,7 +29,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 body {
 	line-height: 1;
 }
-h1,h2,h3,h4,h5,h6 {
+h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 	clear: both;
 }
@@ -139,11 +133,9 @@ input[type=submit]
 {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
-
 pre {
 	font-family: "Courier 10 Pitch", Courier, monospace;
 }
-
 code {
 	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 }
@@ -200,7 +192,9 @@ div.menu,
 body {
 	background: #f1f1f1;
 }
-body, input, textarea {
+body,
+input,
+textarea {
 	color: #666;
 	font-size: 12px;
 	line-height: 18px;
@@ -234,7 +228,10 @@ ol ol ol {
 ol ol ol ol {
 	list-style:lower-alpha;
 }
-ul ul, ol ol, ul ol, ol ul {
+ul ul,
+ol ol,
+ul ol,
+ol ul {
 	margin-bottom:0;
 }
 dl {
@@ -249,7 +246,9 @@ dd {
 strong {
 	font-weight: bold;
 }
-cite, em, i {
+cite,
+em,
+i {
 	font-style: italic;
 }
 big {
@@ -295,7 +294,8 @@ sup {
 sub {
 	top: .5ex;
 }
-input[type="text"], textarea {
+input[type="text"],
+textarea {
 	padding: 2px;
 	background: #f9f9f9;
 	border: 1px solid #ccc;
@@ -368,15 +368,18 @@ a:hover {
 	display:block;
 	float:left;
 }
-#access .menu-header, div.menu {
+#access .menu-header,
+div.menu {
 	font-size: 13px;
 	margin-left: 12px;
 }
-#access .menu-header ul, div.menu ul {
+#access .menu-header ul,
+div.menu ul {
 	list-style: none;
 	margin: 0;
 }
-#access .menu-header li, div.menu li {
+#access .menu-header li,
+div.menu li {
 	float:left;
 	position: relative;
 }
@@ -523,11 +526,13 @@ a:hover {
 	font-style: italic;
 	font-weight: normal;
 }
-.page-title a:link, .page-title a:visited {
+.page-title a:link,
+.page-title a:visited {
 	color:#888;
 	text-decoration: none;
 }
-.page-title a:active, .page-title a:hover {
+.page-title a:active,
+.page-title a:hover {
 	color: #FF4B33;
 }
 .entry-title,
@@ -542,21 +547,25 @@ a:hover {
 	font-weight: bold;
 	margin-bottom: 0;
 }
-.entry-title a:link, .entry-title a:visited {
+.entry-title a:link,
+.entry-title a:visited {
 	color:#000;
 	text-decoration: none;
 }
-.entry-title a:active, .entry-title a:hover {
+.entry-title a:active,
+.entry-title a:hover {
 	color: #FF4B33;
 }
 .entry-meta {
 	color: #888;
 	font-size: 12px;
 }
-.entry-meta abbr, .entry-utility abbr {
+.entry-meta abbr,
+.entry-utility abbr {
 	border: none;
 }
-.entry-meta abbr:hover, .entry-utility abbr:hover {
+.entry-meta abbr:hover,
+.entry-utility abbr:hover {
 	border-bottom: 1px dotted #666;
 }
 .entry-content,
@@ -665,10 +674,12 @@ a:hover {
 	line-height: 18px;
 	clear: both;
 }
-.entry-meta a, .entry-utility a {
+.entry-meta a,
+.entry-utility a {
 	color: #888;
 }
-.entry-meta a:hover, .entry-utility a:hover {
+.entry-meta a:hover,
+.entry-utility a:hover {
 	color: #FF4B33;
 }
 #content .video-player {
@@ -771,7 +782,9 @@ img.aligncenter {
 	margin-left: auto;
 	margin-right: auto;
 }
-img.alignleft, img.alignright, img.aligncenter {
+img.alignleft, 
+img.alignright, 
+img.aligncenter {
 	margin-bottom: 12px;
 }
 #content .wp-caption {
@@ -833,7 +846,8 @@ img.alignleft, img.alignright, img.aligncenter {
 	overflow: hidden;
 	color: #888;
 }
-.navigation a:link, .navigation a:visited {
+.navigation a:link,
+.navigation a:visited {
 	color: #888;
 	text-decoration: none;
 }
@@ -872,7 +886,8 @@ img.alignleft, img.alignright, img.aligncenter {
 #comments .navigation {
 	padding: 0 0 18px 0;
 }
-h3#comments-title, h3#reply-title {
+h3#comments-title,
+h3#reply-title {
 	color: #000;
 	font-weight: bold;
 	font-size: 20px;
@@ -928,7 +943,8 @@ h3#comments-title {
 	font-size: 12px;
 	margin: 0 0 18px 0;
 }
-.comment-meta a:link, .comment-meta a:visited {
+.comment-meta a:link,
+.comment-meta a:visited {
 	color: #888;
 	text-decoration: none;
 }
@@ -944,10 +960,12 @@ h3#comments-title {
 	font-size: 12px;
 	padding: 0 0 24px 0;
 }
-.reply a, a.comment-edit-link {
+.reply a,
+a.comment-edit-link {
 	color: #888;
 }
-.reply a:hover, a.comment-edit-link:hover {
+.reply a:hover,
+a.comment-edit-link:hover {
 	color: #FF4B33;
 }
 .commentlist .children {
@@ -1089,10 +1107,12 @@ h3#reply-title {
 	color: #222;
 	font-weight: bold;
 }
-.widget-area a:link, .widget-area a:visited {
+.widget-area a:link,
+.widget-area a:visited {
 	text-decoration: none;
 }
-.widget-area a:active, .widget-area a:hover {
+.widget-area a:active,
+.widget-area a:hover {
 	text-decoration: underline;
 }
 #wp_tag_cloud div {
@@ -1208,15 +1228,17 @@ img#wpstats {
 pre {
 	-webkit-text-size-adjust: 140%;
 }
-
 code {
 	-webkit-text-size-adjust: 160%;
 }
-
-#access, .entry-meta, .entry-utility, .widget_search label, .navigation, .widget-area {
+#access,
+.entry-meta,
+.entry-utility,
+.widget_search label,
+.navigation,
+.widget-area {
 	-webkit-text-size-adjust: 120%;
 }
-
 #site-description {
 	-webkit-text-size-adjust: none;
 }
@@ -1240,7 +1262,8 @@ code {
 		border-bottom: 4pt solid #000;
 		padding-bottom: 18pt;
 	}
-	#site-title, #site-description {
+	#site-title,
+	#site-description {
 		float: none;
 		margin: 0;
 		padding:0;
@@ -1266,7 +1289,9 @@ code {
 	.widget-area {
 		display: none !important;
 	}
-	#container, #header, #footer {
+	#container,
+	#header,
+	#footer {
 		width: 100%;
 		margin: 0;
 	}
