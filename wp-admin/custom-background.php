@@ -143,14 +143,18 @@ class Custom_Background {
 <div id="message" class="updated">
 <p><?php printf(__('Background updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
 </div>
-<?php } ?>
-<p><?php _e('This is your current background.'); ?></p>
-<?php
+<?php }
+
 	if ( $this->admin_image_div_callback ) {
 		call_user_func($this->admin_image_div_callback);
 	} else {
 ?>
-
+<h3><?php _e('Background Image'); ?></h3>
+<table class="form-table">
+<tbody>
+<tr valign="top">
+<th scope="row"><?php _e('Current Image'); ?></th>
+<td>
 <style type="text/css"> 
 #custom-background-image {
 	background-color: #<?php echo get_background_color()?>;
@@ -170,20 +174,51 @@ class Custom_Background {
 <br class="clear" />
 </div>
 <?php } ?>
-<h3><?php _e('Change Display Options') ?></h3>
+</td>
+</tr>
+<?php if ( get_background_image() ) : ?>
+<tr valign="top">
+<th scope="row"><?php _e('Remove Image'); ?></th>
+<td><p><?php _e('This will remove the background image. You will not be able to restore any customizations.') ?></p>
 <form method="post" action="">
-<table>
-<thead>
-<tr>
-<th scope="col"><?php _e( 'Position' ); ?></th>
-<th scope="col"><?php _e( 'Repeat' ); ?></th>
-<th scope="col"><?php _e( 'Attachment' ); ?></th>
-<th scope="col"><?php _e( 'Color' ); ?></th>
+<?php wp_nonce_field('custom-background'); ?>
+<input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />
+</form>
+</td>
+</tr>
+<?php endif; ?>
+
+<tr valign="top">
+<th scope="row"><?php _e('Upload Image'); ?></th>
+<td><form enctype="multipart/form-data" id="uploadForm" method="POST" action="">
+<label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
+<input type="hidden" name="action" value="save" />
+<?php wp_nonce_field('custom-background') ?>
+<p class="submit">
+<input type="submit" value="<?php esc_attr_e('Upload'); ?>" />
+</p>
+</form>
+</td>
+</tbody>
+</table>
+
+<h3><?php _e('Display Options') ?></h3>
+<form method="post" action="">
+<table class="form-table">
+<tbody>
+<tr valign="top">
+<th scope="row"><?php _e( 'Background Color' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Color' ); ?></span></legend>
+<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr(get_background_color()) ?>" />
+<input type="button" class="button" value="<?php esc_attr_e('Select a Color'); ?>" id="pickcolor" />
+
+<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
+</fieldset></td>
 </tr>
 
-<tbody>
-<tr>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Position' ); ?></span></legend>
+<tr valign="top">
+<th scope="row"><?php _e( 'Background Position' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Position' ); ?></span></legend>
 <label>
 <input name="background-position" type="radio" value="left" <?php checked('left', get_theme_mod('background_position', 'left')); ?> />
 <?php _e('Left') ?>
@@ -197,7 +232,10 @@ class Custom_Background {
 <?php _e('Right') ?>
 </label>
 </fieldset></td>
+</tr>
 
+<tr valign="top">
+<th scope="row"><?php _e( 'Repeat' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Repeat' ); ?></span></legend>
 <label>
 <select name="background-repeat">
@@ -208,7 +246,10 @@ class Custom_Background {
 </select>
 </label>
 </fieldset></td>
+</tr>
 
+<tr valign="top">
+<th scope="row"><?php _e( 'Attachment' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Attachment' ); ?></span></legend>
 <label>
 <input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'fixed')); ?> />
@@ -219,39 +260,14 @@ class Custom_Background {
 <?php _e('Fixed') ?>
 </label>
 </fieldset></td>
-
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Color' ); ?></span></legend>
-<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr(get_background_color()) ?>" />
-<input type="button" class="button" value="<?php esc_attr_e('Select a Color'); ?>" id="pickcolor" />
-
-<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
-</fieldset></td>
 </tr>
+
 </tbody>
 </table>
 
 <?php wp_nonce_field('custom-background'); ?>
-<p class="submit"><input type="submit" class="button" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
 </form>
-
-<h3><?php _e('Upload New Background Image'); ?></h3>
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="">
-<label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
-<input type="hidden" name="action" value="save" />
-<?php wp_nonce_field('custom-background') ?>
-<p class="submit">
-<input type="submit" value="<?php esc_attr_e('Upload'); ?>" />
-</p>
-</form>
-
-<?php if ( get_background_image() ) : ?>
-<h3><?php _e('Remove Background Image'); ?></h3>
-<p><?php _e('This will remove the background image. You will not be able to restore any customizations.') ?></p>
-<form method="post" action="">
-<?php wp_nonce_field('custom-background'); ?>
-<input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />
-</form>
-<?php endif; ?>
 
 </div>
 <?php
