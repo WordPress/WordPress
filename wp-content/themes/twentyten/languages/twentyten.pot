@@ -1,4 +1,4 @@
-# Translation of the WordPress theme Twenty Ten 0.9 by the WordPress team.
+# Translation of the WordPress theme Twenty Ten 1.0 by the WordPress team.
 # Copyright (C) 2010 the WordPress team
 # This file is distributed under the same license as the Twenty Ten package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 0.9\n"
+"Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-04-14 00:21+0000\n"
+"POT-Creation-Date: 2010-04-23 20:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
