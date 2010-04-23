@@ -41,7 +41,7 @@ function ms_site_check() {
 	// Allow short-circuiting
 	$check = apply_filters('ms_site_check', null);
 	if ( null !== $check )
-		return;
+		return true;
 
 	// Allow super admins to see blocked sites
 	if ( is_super_admin() )
