@@ -171,7 +171,24 @@ $_old_files = array(
 'wp-images/wpminilogo.png',
 'wp.php',
 'wp-includes/gettext.php',
-'wp-includes/streams.php'
+'wp-includes/streams.php',
+// 3.0
+'wp-admin/categories.php',
+'wp-admin/edit-category-form.php',
+'wp-admin/edit-page-form.php',
+'wp-admin/edit-pages.php',
+'wp-admin/images/wp-logo.gif',
+'wp-admin/js/wp-gears.dev.js',
+'wp-admin/js/wp-gears.js',
+'wp-admin/options-misc.php',
+'wp-admin/page-new.php',
+'wp-admin/page.php',
+'wp-admin/rtl.css',
+'wp-admin/rtl.dev.css',
+'wp-admin/update-links.php',
+'wp-admin/wp-admin.css',
+'wp-admin/wp-admin.dev.css',
+'wp-includes/js/scriptaculous/prototype.js',
 );
 
 /**
