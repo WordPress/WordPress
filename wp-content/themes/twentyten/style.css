@@ -892,6 +892,10 @@ h3#comments-title {
 	padding: 0 0 0 56px;
 	position: relative;
 }
+.commentlist li.comment:last-child {
+	border-bottom:none;
+	margin-bottom:0;
+}
 #comments .comment-body ul,
 #comments .comment-body ol {
 	margin-bottom: 18px;
@@ -984,6 +988,8 @@ input[type=submit] {
 	color: #333;
 }
 #respond {
+	margin-top: 24px;
+	border-top: 1px solid #e7e7e7;
 	overflow: hidden;
 	position: relative;
 }
