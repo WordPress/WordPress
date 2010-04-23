@@ -258,6 +258,8 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
  * global blog options. If the 'global' parameter is false, which it is by default
  * it will prepend the WordPress table prefix to the option name.
  *
+ * Deletes the user option if $newvalue is empty.
+ *
  * @since 2.0.0
  * @uses $wpdb WordPress database object for queries
  *
@@ -272,6 +274,12 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 
 	if ( !$global )
 		$option_name = $wpdb->prefix . $option_name;
+
+	// For backward compatibility.  See differences between update_user_meta() and deprecated update_user_meta().
+	// http://core.trac.wordpress.org/ticket/13088
+	if ( is_null( $newvalue ) || is_scalar( $newvalue ) && empty( $newvalue ) )
+		return delete_user_meta( $user_id, $option_name );
+
 	return update_user_meta( $user_id, $option_name, $newvalue );
 }
 

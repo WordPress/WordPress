@@ -786,8 +786,8 @@ function wpmu_create_user( $user_name, $password, $email) {
 		return false;
 
 	// Newly created users have no roles or caps until they are added to a blog.
-	update_user_option($user_id, 'capabilities', '');
-	update_user_option($user_id, 'user_level', '');
+	delete_user_option( $user_id, 'capabilities' );
+	delete_user_option( $user_id, 'user_level' );
 
 	do_action( 'wpmu_new_user', $user_id );
 
