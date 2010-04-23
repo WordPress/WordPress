@@ -3,7 +3,7 @@ Theme Name: Twenty Ten
 Theme URI: http://wordpress.org/
 Description: The 2010 default theme for WordPress.
 Author: the WordPress team
-Version: 0.9
+Version: 1.0
 Tags: black, blue, white, two-columns, fixed-width, custom-header, theme-options, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
 */
 
@@ -134,7 +134,8 @@ h3#reply-title,
 .pingback p,
 .reply,
 .widget_search label,
-.widget-title
+.widget-title,
+input[type=submit]
 {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
@@ -295,7 +296,12 @@ sub {
 	top: .5ex;
 }
 input[type="text"], textarea {
-	padding: 0 0 0 3px;
+	padding: 2px;
+	background: #f9f9f9;
+	border: 1px solid #ccc;
+	box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
 }
 a:link {
 	color:#0066CC;
@@ -387,9 +393,9 @@ a:hover {
 	top:38px;
 	left:0;
 	float:left;
-	-webkit-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
 	box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
 	z-index: 99999;
 }
 #access ul ul ul {
@@ -974,6 +980,9 @@ h3#comments-title {
 
 
 /* Comments form */
+input[type=submit] {
+	color: #333;
+}
 #respond {
 	overflow: hidden;
 	position: relative;
@@ -983,6 +992,9 @@ h3#comments-title {
 }
 #respond .comment-notes {
 	margin-bottom: 1em;
+}
+.form-allowed-tags {
+	line-height: 1em;
 }
 .children #respond {
 	margin: 0 48px 0 0;
@@ -1030,6 +1042,7 @@ h3#reply-title {
 }
 #respond .form-submit input {
 	width: auto;
+	font-size: 14px;
 }
 #respond dl {
 	margin: 0 0 10px;
@@ -1224,6 +1237,8 @@ code {
 	#site-title, #site-description {
 		float: none;
 		margin: 0;
+		padding:0;
+		line-height: 1.4em;
 	}
 	#site-title {
 		font-size: 13pt;
@@ -1234,7 +1249,6 @@ code {
 	}
 	.entry-title {
 		font-size: 21pt;
-		line-height: 1.4em;
 	}
 	#access,
 	#branding img,
@@ -1246,16 +1260,9 @@ code {
 	.widget-area {
 		display: none !important;
 	}
-	#branding img.wp-post-image {
-		display: block !important;
-	margin-left: -104pt;
-	margin-top: 20pt;
-	border: none;
-	margin-bottom: -24pt;
-	}
 	#container, #header, #footer {
-		margin: 0 0 0 24%;
-		width: 70%;
+		width: 100%;
+		margin: 0;
 	}
 	#content {
 		margin: 24pt 0 0;
@@ -1282,9 +1289,7 @@ code {
 		border: 1px solid #e7e7e7;
 	}
 	#main {
-		margin: 0;
-		width: auto;
-		padding: 0;
+		display:inline;
 	}
 	.home .sticky {
 		border: none;
