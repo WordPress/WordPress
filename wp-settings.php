@@ -153,16 +153,8 @@ unset( $mu_plugin );
 
 do_action( 'muplugins_loaded' );
 
-// Check site status if multisite.
-if ( is_multisite() ) {
-	if ( true !== ( $file = ms_site_check() ) ) {
-		require( $file );
-		die();
-	}
-	unset($file);
-
+if ( is_multisite() )
 	ms_cookie_constants(  );
-}
 
 // Define constants after multisite is loaded. Cookie-related constants may be overridden in ms_network_cookies().
 wp_cookie_constants( );
@@ -289,6 +281,15 @@ $wp->init();
  * If you wish to plug an action once WP is loaded, use the wp_loaded hook below.
  */
 do_action( 'init' );
+
+// Check site status
+if ( is_multisite() ) {
+	if ( true !== ( $file = ms_site_check() ) ) {
+		require( $file );
+		die();
+	}
+	unset($file);
+}
 
 /**
  * This hook is fired once WP, all plugins, and the theme are fully loaded and instantiated.

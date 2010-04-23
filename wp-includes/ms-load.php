@@ -38,6 +38,15 @@ function is_subdomain_install() {
 function ms_site_check() {
 	global $wpdb, $current_blog;
 
+	// Allow short-circuiting
+	$check = apply_filters('ms_site_check', null);
+	if ( null !== $check )
+		return;
+
+	// Allow super admins to see blocked sites
+	if ( is_super_admin() )
+		return true;
+
 	if ( '1' == $current_blog->deleted ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) ) {
 			return WP_CONTENT_DIR . '/blog-deleted.php';
