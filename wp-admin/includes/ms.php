@@ -187,7 +187,7 @@ function confirm_delete_users( $users ) {
 	<input type="hidden" name="dodelete" />
     <?php
 	wp_nonce_field( 'ms-users-delete' );
-	$site_admins = get_site_option( 'site_admins', array( 'admin' ) );
+	$site_admins = get_super_admins();
 	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
 
 	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
@@ -811,8 +811,15 @@ function _admin_notice_multisite_activate_plugins_page() {
  * @param $user_id
  */
 function grant_super_admin( $user_id ) {
+	global $super_admins;
+
+	// If global super_admins override is defined, there is nothing to do here.
+	if ( isset($super_admins) )
+		return false;
+
 	do_action( 'grant_super_admin', $user_id );
 
+	// Directly fetch site_admins instead of using get_super_admins()
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = new WP_User( $user_id );
@@ -832,9 +839,17 @@ function grant_super_admin( $user_id ) {
  * @param $user_id
  */
 function revoke_super_admin( $user_id ) {
+	global $super_admins;
+
+	// If global super_admins override is defined, there is nothing to do here.
+	if ( isset($super_admins) )
+		return false;
+
 	do_action( 'revoke_super_admin', $user_id );
 
+	// Directly fetch site_admins instead of using get_super_admins()
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+
 	$user = new WP_User( $user_id );
 	if ( $user->user_email != get_site_option( 'admin_email' ) ) {
 		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {

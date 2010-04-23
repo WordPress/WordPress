@@ -1171,6 +1171,24 @@ function remove_role( $role ) {
 }
 
 /**
+ * Retrieve a list of super admins.
+ *
+ * @since 3.0.0
+ * 
+ * @uses $super_admins Super admins global variable, if set.
+ * 
+ * @return array List of super admin logins
+ */
+function get_super_admins() {
+	global $super_admins;
+
+	if ( isset($super_admins) )
+		return $super_admins;
+	else
+		return get_site_option( 'site_admins', array('admin') );
+}
+
+/**
  * Determine if user is a site admin.
  *
  * @since 3.0.0
@@ -1190,8 +1208,8 @@ function is_super_admin( $user_id = false ) {
 	$user = new WP_User($user_id);
 
 	if ( is_multisite() ) {
-		$site_admins = get_site_option( 'site_admins', array('admin') );
-		if ( is_array( $site_admins ) && in_array( $user->user_login, $site_admins ) )
+		$super_admins = get_super_admins();
+		if ( is_array( $super_admins ) && in_array( $user->user_login, $super_admins ) )
 			return true;
 	} else {
 		if ( $user->has_cap('delete_users') )

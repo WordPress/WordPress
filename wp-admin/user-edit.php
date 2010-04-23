@@ -121,7 +121,7 @@ if ( !is_multisite() ) {
 	if ( $delete_role ) // stops users being added to current blog when they are edited
 		delete_user_meta( $user_id, $blog_prefix . 'capabilities' );
 
-	if ( is_multisite() && !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
+	if ( is_multisite() && !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
 		empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
 }
 
@@ -235,7 +235,7 @@ else
 	echo '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 ?>
 </select>
-<?php if ( is_multisite() && current_user_can( 'manage_network_options' ) ) { ?>
+<?php if ( is_multisite() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
 <p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.'); ?></label></p>
 <?php } ?>
 </td></tr>

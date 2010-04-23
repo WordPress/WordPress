@@ -199,7 +199,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 			<tbody id="the-user-list" class="list:user">
 			<?php if ( $user_list ) {
 				$class = '';
-				$super_admins = get_site_option( 'site_admins' );
+				$super_admins = get_super_admins();
 				foreach ( (array) $user_list as $user ) {
 					$class = ( 'alternate' == $class ) ? '' : 'alternate';
 
