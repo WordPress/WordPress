@@ -1259,7 +1259,7 @@ code {
 		position: relative !important;
 	}
 	#header {
-		border-bottom: 4pt solid #000;
+		border-bottom: 1pt solid #000;
 		padding-bottom: 18pt;
 	}
 	#site-title,
@@ -1295,7 +1295,9 @@ code {
 		width: 100%;
 		margin: 0;
 	}
-	#content {
+	#content,
+	.onecolumn #content {
+		width: 100%;
 		margin: 24pt 0 0;
 	}
 	.wp-caption p {
