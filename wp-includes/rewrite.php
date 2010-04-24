@@ -1399,7 +1399,7 @@ class WP_Rewrite {
 				$rewrite = array_merge($rewrite, array($pagematch => $pagequery));
 
 			//only on pages with comments add ../comment-page-xx/
-			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask || EP_NONE & $ep_mask )
+			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask )
 				$rewrite = array_merge($rewrite, array($commentmatch => $commentquery));
 			else if ( EP_ROOT & $ep_mask && get_option('page_on_front') )
 				$rewrite = array_merge($rewrite, array($rootcommentmatch => $rootcommentquery));
