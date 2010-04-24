@@ -3491,11 +3491,9 @@ do_action('admin_print_scripts');
 do_action('admin_head');
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
-if ( get_user_setting('mfold') == 'f' )
-	$admin_body_class .= ' folded';
 ?>
 </head>
-<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>  class="wp-admin no-js<?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
+<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>  class="no-js <?php echo $admin_body_class; ?>">
 <script type="text/javascript">
 //<![CDATA[
 (function(){
