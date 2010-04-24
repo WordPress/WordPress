@@ -188,6 +188,8 @@ function edit_post( $post_data = null ) {
 
 	add_meta( $post_ID );
 
+	update_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
+
 	wp_update_post( $post_data );
 
 	// Reunite any orphaned attachments with their parent
@@ -537,6 +539,8 @@ function wp_write_post() {
 		return 0;
 
 	add_meta( $post_ID );
+
+	add_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
 
 	// Reunite any orphaned attachments with their parent
 	// Does this need to be udpated? ~ Mark
@@ -1194,10 +1198,7 @@ function wp_set_post_lock( $post_id ) {
 
 	$now = time();
 
-	if ( !add_post_meta( $post->ID, '_edit_lock', $now, true ) )
-		update_post_meta( $post->ID, '_edit_lock', $now );
-	if ( !add_post_meta( $post->ID, '_edit_last', $current_user->ID, true ) )
-		update_post_meta( $post->ID, '_edit_last', $current_user->ID );
+	update_post_meta( $post->ID, '_edit_lock', $now );	
 }
 
 /**
