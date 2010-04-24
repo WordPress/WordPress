@@ -337,7 +337,7 @@ function get_option( $option, $default = false ) {
 		if ( false === $value ) {
 			if ( defined( 'WP_INSTALLING' ) )
 				$suppress = $wpdb->suppress_errors();
-			$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = '%s' LIMIT 1", $option ) );
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 			if ( defined( 'WP_INSTALLING' ) )
 				$wpdb->suppress_errors( $suppress );
 
@@ -629,11 +629,11 @@ function delete_option( $option ) {
 	wp_protect_special_option( $option );
 
 	// Get the ID, if no ID then return
-	$row = $wpdb->get_row( $wpdb->prepare( "SELECT autoload FROM $wpdb->options WHERE option_name = '%s'", $option ) );
+	$row = $wpdb->get_row( $wpdb->prepare( "SELECT autoload FROM $wpdb->options WHERE option_name = %s", $option ) );
 	if ( is_null( $row ) )
 		return false;
 	do_action( 'delete_option', $option );
-	$result = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name = '%s'", $option) );
+	$result = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name = %s", $option) );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $row->autoload ) {
 			$alloptions = wp_load_alloptions();
