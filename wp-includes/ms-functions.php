@@ -252,7 +252,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 
 	$user = new WP_User($user_id);
 
-	if ( empty($user) )
+	if ( empty($user) || !$user->ID )
 		return new WP_Error('user_does_not_exist', __('That user does not exist.'));
 
 	if ( !get_user_meta($user_id, 'primary_blog', true) ) {
@@ -1317,16 +1317,21 @@ function maybe_add_existing_user_to_blog() {
 		$key = array_pop( $parts );
 
 	$details = get_option( 'new_user_' . $key );
-	add_existing_user_to_blog( $details );
-	delete_option( 'new_user_' . $key );
-	wp_die( sprintf(__('You have been added to this blog. Please visit the <a href="%s">homepage</a> or <a href="%s">login</a> using your username and password.'), site_url(), admin_url() ) );
+	if ( !empty( $details ) )
+		delete_option( 'new_user_' . $key );
+
+	if ( empty( $details ) || is_wp_error( add_existing_user_to_blog( $details ) ) )
+		wp_die( sprintf(__('An error occurred adding you to this site. Back to the <a href="%s">homepage</a>.'), site_url() ) );
+	
+	wp_die( sprintf(__('You have been added to this site. Please visit the <a href="%s">homepage</a> or <a href="%s">login</a> using your username and password.'), site_url(), admin_url() ), __('Success') );
 }
 
 function add_existing_user_to_blog( $details = false ) {
 	if ( is_array( $details ) ) {
-		add_user_to_blog( '', $details[ 'user_id' ], $details[ 'role' ] );
-		do_action( 'added_existing_user', $details[ 'user_id' ] );
+		$result = add_user_to_blog( '', $details[ 'user_id' ], $details[ 'role' ] );
+		do_action( 'added_existing_user', $details[ 'user_id' ], $result );
 	}
+	return $result;
 }
 
 function add_new_user_to_blog( $user_id, $email, $meta ) {
