@@ -1135,6 +1135,10 @@ function upgrade_300() {
 	if ( $wp_current_db_version >= 13802 && $wp_current_db_version < 13974 )
 		$wpdb->update( $wpdb->postmeta, array( 'meta_value' => '' ), array( 'meta_key' => '_menu_item_target', 'meta_value' => '_self' ) );
 
+	// 3.0-beta metabox changes. can be removed before release. // r13551
+	if ( $wp_current_db_version >= 13309 && $wp_current_db_version < 14139 )
+		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%meta-box-hidden%' OR option_name LIKE '%closedpostboxes%'" );
+
 }
 
 /**
