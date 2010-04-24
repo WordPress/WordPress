@@ -840,6 +840,10 @@ case 'add-meta' :
 		$mid = (int) array_pop(array_keys($_POST['meta']));
 		$key = $_POST['meta'][$mid]['key'];
 		$value = $_POST['meta'][$mid]['value'];
+		if ( '' == trim($key) )
+			die(__('Please provide a custom field name.'));
+		if ( '' == trim($value) )
+			die(__('Please provide a custom field value.'));
 		if ( !$meta = get_post_meta_by_id( $mid ) )
 			die('0'); // if meta doesn't exist
 		if ( !current_user_can( 'edit_post', $meta->post_id ) )
