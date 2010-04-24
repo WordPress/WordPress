@@ -504,6 +504,7 @@ textarea.all-options, input.all-options {
 	line-height: 150%;
 	border: 0 none;
 	outline: none;
+	resize: vertical;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-khtml-box-sizing: border-box;
