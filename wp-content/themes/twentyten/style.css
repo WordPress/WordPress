@@ -907,7 +907,7 @@ h3#comments-title {
 	padding: 0 0 0 56px;
 	position: relative;
 }
-.commentlist li.comment:last-child {
+.commentlist li:last-child {
 	border-bottom:none;
 	margin-bottom:0;
 }
