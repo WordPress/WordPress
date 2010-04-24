@@ -2465,6 +2465,10 @@ class WP_Query {
 				}
 			}
 
+			// If any posts have been excluded specifically, Ignore those that are sticky.
+			if ( !empty($sticky_posts) && !empty($q['post__not_in']) )
+				$sticky_posts = array_diff($sticky_posts, $q['post__not_in']);
+
 			// Fetch sticky posts that weren't in the query results
 			if ( !empty($sticky_posts) ) {
 				$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
@@ -2478,10 +2482,11 @@ class WP_Query {
 					}
 					$stickies_where = "AND $wpdb->posts.post_type IN ('" . $post_types . "')";
 				}
+
 				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in) $stickies_where" );
-				/** @todo Make sure post is published or viewable by the current user */
 				foreach ( $stickies as $sticky_post ) {
-					if ( 'publish' != $sticky_post->post_status )
+					// Ignore sticky posts the current user cannot read or are not published.
+					if ( !current_user_can('read_post', $sticky_post->ID) || 'publish' != $sticky_post->post_status ) 
 						continue;
 					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
 					$sticky_offset++;
