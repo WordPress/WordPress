@@ -1259,8 +1259,11 @@ code {
 		position: relative !important;
 	}
 	#header {
-		border-bottom: 1pt solid #000;
+		border-bottom: 2pt solid #000;
 		padding-bottom: 18pt;
+	}
+	#colophon {
+		border-top: 2pt solid #000;
 	}
 	#site-title,
 	#site-description {
