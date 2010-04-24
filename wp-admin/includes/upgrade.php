@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 14139 )
+	if ( $wp_current_db_version < 14217 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1136,7 +1136,7 @@ function upgrade_300() {
 		$wpdb->update( $wpdb->postmeta, array( 'meta_value' => '' ), array( 'meta_key' => '_menu_item_target', 'meta_value' => '_self' ) );
 
 	// 3.0-beta metabox changes. can be removed before release. // r13551
-	if ( ( !is_multisite() || is_main_site() ) && $wp_current_db_version >= 13309 && $wp_current_db_version < 14139 )
+	if ( ( !is_multisite() || is_main_site() ) && $wp_current_db_version >= 13309 && $wp_current_db_version < 14217 )
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '{$wpdb->base_prefix}%meta-box-hidden%' OR meta_key LIKE '{$wpdb->base_prefix}%closedpostboxes%'" );
 
 }
