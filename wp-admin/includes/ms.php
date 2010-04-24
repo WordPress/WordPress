@@ -77,6 +77,9 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	update_blog_status( $blog_id, 'deleted', 1 );
 
 	if ( $drop ) {
+		if ( substr( $blog_prefix, -1 ) == '_' )
+			$blog_prefix =  substr( $blog_prefix, 0, -1 ) . '\_';
+
 		$drop_tables = $wpdb->get_results( "SHOW TABLES LIKE '{$blog_prefix}%'", ARRAY_A );
 		$drop_tables = apply_filters( 'wpmu_drop_tables', $drop_tables );
 
