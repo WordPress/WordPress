@@ -1731,7 +1731,10 @@ function wp_unique_term_slug($slug, $term) {
 			$parent_term = get_term($the_parent, $term->taxonomy);
 			if ( is_wp_error($parent_term) || empty($parent_term) )
 				break;
-				$slug .= '-' . $parent_term->slug;
+			$slug .= '-' . $parent_term->slug;
+			if ( ! is_term( $slug ) )
+				return $slug;
+
 			if ( empty($parent_term->parent) )
 				break;
 			$the_parent = $parent_term->parent;
