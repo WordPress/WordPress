@@ -43,11 +43,11 @@ function plugins_api($action, $args = null) {
 	if ( false === $res ) {
 		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array( 'timeout' => 15, 'body' => array('action' => $action, 'request' => serialize($args))) );
 		if ( is_wp_error($request) ) {
-			$res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occurred during the API request.</p> <p><a href="?" onclick="document.location.reload(); return false;">Try again</a>'), $request->get_error_message() );
+			$res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occurred during the API request.'), $request->get_error_message() );
 		} else {
 			$res = unserialize($request['body']);
 			if ( false === $res )
-				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred'), $request['body']);
+				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred.'), $request['body']);
 		}
 	} elseif ( !is_wp_error($res) ) {
 		$res->external = true;
@@ -139,16 +139,20 @@ function install_dashboard() {
 
 	$api_tags = install_popular_tags();
 
-	//Set up the tags in a way which can be interprated by wp_generate_tag_cloud()
-	$tags = array();
-	foreach ( (array)$api_tags as $tag )
-		$tags[ $tag['name'] ] = (object) array(
-								'link' => esc_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
-								'name' => $tag['name'],
-								'id' => sanitize_title_with_dashes($tag['name']),
-								'count' => $tag['count'] );
 	echo '<p class="popular-tags">';
-	echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
+	if ( is_wp_error($api_tags) ) {
+		echo $api_tags->get_error_message();
+	} else {
+		//Set up the tags in a way which can be interprated by wp_generate_tag_cloud()
+		$tags = array();
+		foreach ( (array)$api_tags as $tag )
+			$tags[ $tag['name'] ] = (object) array(
+									'link' => esc_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
+									'name' => $tag['name'],
+									'id' => sanitize_title_with_dashes($tag['name']),
+									'count' => $tag['count'] );
+		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
+	}
 	echo '</p><br class="clear" />';
 }
 
@@ -185,7 +189,7 @@ function install_featured($page = 1) {
 	$args = array('browse' => 'featured', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	if ( is_wp_error($api) )
-		wp_die($api);
+		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 
@@ -201,7 +205,7 @@ function install_popular($page = 1) {
 	$args = array('browse' => 'popular', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	if ( is_wp_error($api) )
-		wp_die($api);
+		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 
@@ -237,7 +241,7 @@ function install_new($page = 1) {
 	$args = array('browse' => 'new', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	if ( is_wp_error($api) )
-		wp_die($api);
+		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 add_action('install_plugins_updated', 'install_updated', 10, 1);
@@ -254,7 +258,7 @@ function install_updated($page = 1) {
 	$args = array('browse' => 'updated', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	if ( is_wp_error($api) )
-		wp_die($api);
+		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 
