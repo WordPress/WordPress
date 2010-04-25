@@ -572,9 +572,8 @@ case 'add-tag' : // From Manage->Tags
 			$tag_full_name = $_tag->name . ' &#8212; ' . $tag_full_name;
 			$level++;
 		}
-	}
-	if ( is_taxonomy_hierarchical($taxonomy) )
 		$noparents = _tag_row( $tag, $level, $taxonomy );
+	}
 	$tag->name = $tag_full_name;
 	$parents = _tag_row( $tag, 0, $taxonomy);
 
