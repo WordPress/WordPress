@@ -2605,18 +2605,6 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
  * {@internal Missing Short Description}}
  *
  * @since unknown
- */
-function browse_happy() {
-	$getit = __( 'WordPress recommends a better browser' );
-	echo '
-		<div id="bh"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="' . esc_url( admin_url( 'images/browse-happy.gif' ) ) . '" alt="Browse Happy" /></a></div>
-';
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
  *
  * @param unknown_type $id
  * @return unknown
