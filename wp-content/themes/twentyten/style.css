@@ -354,6 +354,7 @@ a:hover {
 	clear: both;
 	border-top: 4px solid #000;
 	display: block;
+	border-bottom: 1px solid #000;
 }
 
 
