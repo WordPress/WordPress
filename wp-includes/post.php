@@ -2190,7 +2190,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	$data = stripslashes_deep( $data );
 	$where = array( 'ID' => $post_ID );
 
-	if ($update) {
+	if ( $update ) {
 		do_action( 'pre_post_update', $post_ID );
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error )
@@ -2229,13 +2229,19 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	// old-style tags_input
 	if ( isset( $tags_input ) )
 		wp_set_post_tags( $post_ID, $tags_input );
-	// new-style support for all tag-like taxonomies
-	if ( !empty($tax_input) ) {
-		foreach ( $tax_input as $taxonomy => $tags ) {
-			$taxonomy_obj = get_taxonomy($taxonomy);
-			if ( current_user_can($taxonomy_obj->assign_cap) )
-				wp_set_post_terms( $post_ID, $tags, $taxonomy );
-		}
+	// new-style support for all taxonomies
+	$tax_names = get_object_taxonomies( get_post($post_ID) ); 
+	foreach ( (array)$tax_names as $taxonomy ) {
+		if ( 'category' == $taxonomy ) // Handled seperately.
+			continue;
+		$taxonomy_obj = get_taxonomy($taxonomy);
+		if ( !current_user_can($taxonomy_obj->assign_cap) )
+			continue;
+		if ( !$taxonomy_obj->show_ui )
+			continue;
+
+		$tags = isset($tax_input[$taxonomy]) ? $tax_input[$taxonomy] : array();
+		wp_set_post_terms( $post_ID, $tags, $taxonomy );
 	}
 
 	$current_guid = get_post_field( 'guid', $post_ID );
@@ -2265,7 +2271,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	wp_transition_post_status($data['post_status'], $previous_status, $post);
 
-	if ( $update)
+	if ( $update )
 		do_action('edit_post', $post_ID, $post);
 
 	do_action('save_post', $post_ID, $post);
@@ -2320,7 +2326,7 @@ function wp_update_post($postarr = array()) {
 		$postarr['post_date_gmt'] = '';
 	}
 
-	if ($postarr['post_type'] == 'attachment')
+	if ( $postarr['post_type'] == 'attachment' )
 		return wp_insert_attachment($postarr);
 
 	return wp_insert_post($postarr);
