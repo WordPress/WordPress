@@ -2196,7 +2196,8 @@ function esc_sql( $sql ) {
 function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	$original_url = $url;
 
-	if ('' == $url) return $url;
+	if ( '' == $url )
+		return $url;
 	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
 	$strip = array('%0d', '%0a', '%0D', '%0A');
 	$url = _deep_replace($strip, $url);
@@ -2356,11 +2357,14 @@ function wp_make_link_relative( $link ) {
  */
 function sanitize_option($option, $value) {
 
-	switch ($option) {
+	switch ( $option ) {
 		case 'admin_email':
 			$value = sanitize_email($value);
-			if ( !$value && function_exists('add_settings_error') )
-				add_settings_error('admin_email', 'invalid_admin_email', __('The email address submitted was not in the right format. Please enter a valid email address.'));
+			if ( !is_email($value) ) {
+				$value = get_option( $option ); // Resets option to stored value in the case of failed sanitization
+				if ( function_exists('add_settings_error') )
+					add_settings_error('admin_email', 'invalid_admin_email', __('The email address entered did not appear to be a valid email address. Please enter a valid email address.'));
+			}
 			break;
 
 		case 'thumbnail_size_w':
@@ -2394,8 +2398,10 @@ function sanitize_option($option, $value) {
 		case 'posts_per_page':
 		case 'posts_per_rss':
 			$value = (int) $value;
-			if ( empty($value) ) $value = 1;
-			if ( $value < -1 ) $value = abs($value);
+			if ( empty($value) )
+				$value = 1;
+			if ( $value < -1 )
+				$value = abs($value);
 			break;
 
 		case 'default_ping_status':
@@ -2435,9 +2441,25 @@ function sanitize_option($option, $value) {
 			break;
 
 		case 'siteurl':
-		case 'home':
-			$value = esc_url_raw($value);
+			if ( (bool)preg_match( '#http(s?)://(.+)#i', $value) ) {
+				$value = esc_url_raw($value);
+			} else {
+				$value = get_option( $option ); // Resets option to stored value in the case of failed sanitization
+				if ( function_exists('add_settings_error') )
+					add_settings_error('siteurl', 'invalid_siteurl', __('The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL.'));
+			}
 			break;
+
+		case 'home':
+			if ( (bool)preg_match( '#http(s?)://(.+)#i', $value) ) {
+				$value = esc_url_raw($value);
+			} else {
+				$value = get_option( $option ); // Resets option to stored value in the case of failed sanitization
+				if ( function_exists('add_settings_error') )
+					add_settings_error('home', 'invalid_home', __('The Site address you entered did not appear to be a valid URL. Please enter a valid URL.'));
+			}
+			break;
+
 		default :
 			$value = apply_filters("sanitize_option_{$option}", $value, $option);
 			break;
