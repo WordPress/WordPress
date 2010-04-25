@@ -1029,7 +1029,7 @@ case 'hidden-columns' :
 		die('-1');
 
 	if ( is_array($hidden) )
-		update_user_option($user->ID, "manage-$page-columns-hidden", $hidden);
+		update_user_option($user->ID, "manage{$page}columnshidden", $hidden, true);
 
 	die('1');
 	break;
@@ -1046,10 +1046,10 @@ case 'meta-box-order':
 		die('-1');
 
 	if ( $order )
-		update_user_option($user->ID, "meta-box-order_$page", $order);
+		update_user_option($user->ID, "meta-box-order_$page", $order, true);
 
 	if ( $page_columns )
-		update_user_option($user->ID, "screen_layout_$page", $page_columns);
+		update_user_option($user->ID, "screen_layout_$page", $page_columns, true);
 
 	die('1');
 	break;

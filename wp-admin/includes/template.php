@@ -834,7 +834,7 @@ function get_hidden_columns($screen) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	return (array) get_user_option( 'manage-' . $screen->id. '-columns-hidden' );
+	return (array) get_user_option( 'manage' . $screen->id. 'columnshidden' );
 }
 
 /**
