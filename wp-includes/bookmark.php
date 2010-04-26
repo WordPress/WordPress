@@ -309,25 +309,25 @@ function sanitize_bookmark($bookmark, $context = 'display') {
  * @return mixed The filtered value
  */
 function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
-	$int_fields = array('link_id', 'link_rating');
-	if ( in_array($field, $int_fields) )
+	switch ( $field ) {
+	case 'link_id' : // ints
+	case 'link_rating' :
 		$value = (int) $value;
-
-	// Fields which contain arrays of ints.
-	$array_int_fields = array( 'link_category' );
-	if ( in_array($field, $array_int_fields) ) {
-		$value = array_map( 'absint', $value);
+		break;
+	case 'link_category' : // array( ints )
+		$value = array_map('absint', (array) $value);
+		// We return here so that the categories aren't filtered.
+		// The 'link_category' filter is for the name of a link category, not an array of a link's link categories
 		return $value;
-	}
-
-	$yesno = array('link_visible');
-	if ( in_array($field, $yesno) )
+		break;
+	case 'link_visible' : // bool stored as Y|N
 		$value = preg_replace('/[^YNyn]/', '', $value);
-
-	if ( 'link_target' == $field ) {
+		break;
+	case 'link_target' : // "enum"
 		$targets = array('_top', '_blank');
 		if ( ! in_array($value, $targets) )
 			$value = '';
+		break;
 	}
 
 	if ( 'raw' == $context )
@@ -347,12 +347,12 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	} else {
 		// Use display filters by default.
 		$value = apply_filters($field, $value, $bookmark_id, $context);
-	}
 
-	if ( 'attribute' == $context )
-		$value = esc_attr($value);
-	else if ( 'js' == $context )
-		$value = esc_js($value);
+		if ( 'attribute' == $context )
+			$value = esc_attr($value);
+		else if ( 'js' == $context )
+			$value = esc_js($value);
+	}
 
 	return $value;
 }
