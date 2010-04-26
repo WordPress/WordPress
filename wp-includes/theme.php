@@ -1560,6 +1560,11 @@ function add_editor_style( $stylesheet = 'editor-style.css' ) {
 	global $editor_styles;
 	$editor_styles = (array) $editor_styles;
 	$stylesheet    = (array) $stylesheet;
+	if ('rtl' == get_bloginfo('text_direction') ) {
+		$rtl_stylesheet = str_replace('.css', '-rtl.css', $stylesheet[0]);
+		$stylesheet[] = $rtl_stylesheet;
+	}
+
 	$editor_styles = array_merge( $editor_styles, $stylesheet );
 }
 
