@@ -273,12 +273,10 @@ function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
 }
 
 function update_option_new_admin_email( $old_value, $value ) {
-	error_log(var_export($value, true));
 	$email = get_option( 'admin_email' );
-	error_log(var_export($email, true));
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
 		return;
-error_log('here');
+
 	$hash = md5( $value. time() .mt_rand() );
 	$new_admin_email = array(
 		'hash' => $hash,
