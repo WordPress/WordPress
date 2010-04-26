@@ -1018,6 +1018,12 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 		// Fall through if not DISALLOW_FILE_MODS.
 	case 'unfiltered_html':
+		// Disallow unfiltered_html for all users, even admins and super admins.
+		if ( defined('DISALLOW_UNFILTERED_HTML') && DISALLOW_UNFILTERED_HTML ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+		// Fall through if not DISALLOW_UNFILTERED_HTML
 	case 'delete_user':
 	case 'delete_users':
 		// If multisite these caps are allowed only for super admins.
