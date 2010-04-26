@@ -273,9 +273,12 @@ function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
 }
 
 function update_option_new_admin_email( $old_value, $value ) {
+	error_log(var_export($value, true));
+	$email = get_option( 'admin_email' );
+	error_log(var_export($email, true));
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
 		return;
-
+error_log('here');
 	$hash = md5( $value. time() .mt_rand() );
 	$new_admin_email = array(
 		'hash' => $hash,
@@ -307,6 +310,7 @@ All at ###SITENAME###
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), get_option( 'blogname' ) ), $content );
 }
 add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
+add_action( 'add_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
 
 function send_confirmation_on_profile_email() {
 	global $errors, $wpdb, $current_user;
