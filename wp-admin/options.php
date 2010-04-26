@@ -30,6 +30,27 @@ if ( empty($option_page) ) // This is for back compat and will eventually be rem
 if ( !current_user_can('manage_options') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
+// Handle admin email change requests
+if ( is_multisite() ) {
+	if ( ! empty($_GET[ 'adminhash' ] ) ) {
+		$new_admin_details = get_option( 'adminhash' );
+		$redirect = 'options-general.php?updated=false';
+		if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && !empty($new_admin_details[ 'newemail' ]) ) {
+			update_option( 'admin_email', $new_admin_details[ 'newemail' ] );
+			delete_option( 'adminhash' );
+			delete_option( 'new_admin_email' );
+			$redirect = 'options-general.php?updated=true';
+		}
+		wp_redirect( admin_url( $redirect ) );
+		exit;
+	} elseif ( ! empty( $_GET['dismiss'] ) && 'new_admin_email' == $_GET['dismiss'] ) {
+		delete_option( 'adminhash' );
+		delete_option( 'new_admin_email' );
+		wp_redirect( admin_url( 'options-general.php?updated=true' ) );
+		exit;
+	}
+}
+
 if ( is_multisite() && !is_super_admin() && 'update' != $action )
 	wp_die(__('Cheatin&#8217; uh?'));
 
@@ -71,26 +92,6 @@ if ( !is_multisite() ) {
 }
 
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
-
-if ( is_multisite() && is_super_admin() ) {
-	if ( ! empty($_GET[ 'adminhash' ] ) ) {
-		$new_admin_details = get_option( 'adminhash' );
-		$redirect = 'options-general.php?updated=false';
-		if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && !empty($new_admin_details[ 'newemail' ]) ) {
-			update_option( 'admin_email', $new_admin_details[ 'newemail' ] );
-			delete_option( 'adminhash' );
-			delete_option( 'new_admin_email' );
-			$redirect = 'options-general.php?updated=true';
-		}
-		wp_redirect( admin_url( $redirect ) );
-		exit;
-	} elseif ( ! empty( $_GET['dismiss'] ) && 'new_admin_email' == $_GET['dismiss'] ) {
-		delete_option( 'adminhash' );
-		delete_option( 'new_admin_email' );
-		wp_redirect( admin_url( 'options-general.php?updated=true' ) );
-		exit;
-	}
-}
 
 /*
  * If $_GET['action'] == 'update' we are saving settings sent from a settings page
