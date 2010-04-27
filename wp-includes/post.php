@@ -111,17 +111,15 @@ function create_initial_post_types() {
 											'label_count' => _n_noop('Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>')
 										) );
 
-	register_post_status( 'auto-draft', array(	'label' => _x('Auto-Draft', 'post'),
+	register_post_status( 'auto-draft', array(	'label' => 'auto-draft',
 											'internal' => true,
 											'_builtin' => true, /* internal use only. */
-											'label_count' => _n_noop('Auto-Draft <span class="count">(%s)</span>', 'Auto-Drafts <span class="count">(%s)</span>')
 										) );
 
-	register_post_status( 'inherit', array(	'label' => _x('Inherit', 'post'),
+	register_post_status( 'inherit', array(	'label' => 'inherit',
 											'internal' => true,
 											'exclude_from_search' => false,
 											'_builtin' => true, /* internal use only. */
-											'label_count' => _n_noop('Inherit <span class="count">(%s)</span>', 'Inherit <span class="count">(%s)</span>')
 										) );
 }
 add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
@@ -593,7 +591,7 @@ function register_post_status($post_status, $args = array()) {
 		$args->label = $post_status;
 
 	if ( false === $args->label_count )
-		$args->label_count = $args->label;
+		$args->label_count = array( $args->label, $args->label );
 
 	$wp_post_statuses[$post_status] = $args;
 
