@@ -148,12 +148,17 @@ form.processing .add-to-menu {
 	-moz-border-radius: 6px; 
 	border: 1px solid #E6E6E6; 
 	clear:both;
-	cursor: move;
 	position: relative; 
 	padding-left: 10px; 
 	background-color: #f1f1f1; 
 	height: 35px; 
 	line-height: 35px;
+}
+.js .menu li dl dt {
+	cursor: move;
+}
+.no-js .menu li dl {
+	margin-top: 13px;
 }
 .menu li dl dt:hover {
 }
