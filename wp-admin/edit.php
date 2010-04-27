@@ -98,7 +98,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 	}
 
 	if ( isset($_GET['action']) )
-		$sendback = remove_query_arg( array('action', 'action2', 'cat', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view', 'post_type'), $sendback );
+		$sendback = remove_query_arg( array('action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view', 'post_type'), $sendback );
 
 	wp_redirect($sendback);
 	exit();
