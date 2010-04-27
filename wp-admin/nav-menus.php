@@ -421,7 +421,13 @@ require_once( 'admin-header.php' );
 								}
 								?>
 								</ul>
-							<?php endif; ?>
+							<?php elseif ( empty($nav_menu_selected_id) ):
+								echo '<p>' . __('To create your first custom menu, give it a name above, then choose items like pages, categories or custom links from the left column to add to this menu.') . '</p>';
+								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want, and click each item to reveal additional configuration options.') . '</p>';
+								echo '<p>' . __('When you are finished building your custom menu, make sure you click the Save Menu button above.') . '</p>';
+								echo '<p>' . __('You can create multiple menus. You can also display custom menus using the new "Custom Menu" widget.') . '</p>';
+								echo '<p>' . __('For more information on this feature, see the <a href="codex link">Custom Menus</a> article in the Codex.') . '</p>';
+							endif; ?>
 							<br class="clear" />
 						</div><!-- /#post-body-content-->
 					</div><!--- /#post-body -->
