@@ -153,14 +153,7 @@ include ('admin-header.php');
 </div>
 <?php endif; ?>
 <?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
-<div class="error">
-	<ul>
-	<?php
-	foreach( $errors->get_error_messages() as $message )
-		echo "<li>$message</li>";
-	?>
-	</ul>
-</div>
+<div class="error"><p><?php echo implode( "</p>\n<p>", $errors->get_error_messages() ); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap" id="profile-page">

@@ -855,9 +855,9 @@ function default_password_nag() {
 	echo '<p>';
 	echo '<strong>' . __('Notice:') . '</strong> ';
 	_e('You&rsquo;re using the auto-generated password for your account. Would you like to change it to something you&rsquo;ll remember easier?');
-	echo '<br /><br />';
-	printf( '<a href="%s">'.__('Yes, take me to my profile page').'</a> | ', admin_url('profile.php') . '#password' );
-	printf( '<a href="%s" id="default-password-nag-no">'.__('No thanks, do not remind me again').'</a>', '?default_password_nag=0' );
+	echo '</p><p>';
+	printf( '<a href="%s">' . __('Yes, take me to my profile page') . '</a> | ', admin_url('profile.php') . '#password' );
+	printf( '<a href="%s" id="default-password-nag-no">' . __('No thanks, do not remind me again') . '</a>', '?default_password_nag=0' );
 	echo '</p></div>';
 }
 
