@@ -10,7 +10,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( 'admin.php' );
 
 // Load all the nav menu interface functions
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
@@ -37,9 +37,6 @@ wp_enqueue_script( 'common' );
 wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script( 'postbox' );
 
-// Thickbox
-add_thickbox();
-
 // Container for any messages displayed to the user
 $messages_div = '';
 
@@ -53,10 +50,133 @@ $nav_menu_selected_id = isset( $_REQUEST['menu'] ) ? (int) $_REQUEST['menu'] : 0
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
 
 switch ( $action ) {
+	case 'add-menu-item':
+		if ( current_user_can( 'switch_themes' ) ) {
+			check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
+			if ( isset( $_REQUEST['menu-item'] ) ) {
+				wp_save_nav_menu_item( $nav_menu_selected_id, $_REQUEST['menu-item'] );
+			}
+		}
+		break;
+	case 'move-down-menu-item' :
+		// moving down a menu item is the same as moving up the next in order
+		check_admin_referer( 'move-menu_item' );
+		$menu_item_id = (int) $_REQUEST['menu-item'];
+		$next_item_id = 0;
+		if ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) {
+			$menus = isset( $_REQUEST['menu'] ) ? array( (int) $_REQUEST['menu'] ) : wp_get_object_terms( $menu_item_id, 'nav_menu', array( 'fields' => 'ids' ) );
+			if ( ! is_wp_error( $menus ) ) {
+				foreach( (array) $menus as $menu_id ) {
+					$move_down_ordered_menu_items = (array) wp_get_nav_menu_items( $menu_id );
+					while ( $next = array_shift( $move_down_ordered_menu_items ) ) {
+						if ( isset( $next->ID ) && $next->ID == $menu_item_id ) {
+							break;
+						}
+					}
+
+					if ( $following = array_shift( $move_down_ordered_menu_items ) ) {
+						$next_item_id = (int) $following->ID;
+					}
+				}
+			}
+		}
+		// fall through to next case
+	case 'move-up-menu-item' :
+		check_admin_referer( 'move-menu_item' );
+		$menu_item_id = empty( $next_item_id ) ? (int) $_REQUEST['menu-item'] : $next_item_id;
+		if ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) {
+			$menus = isset( $_REQUEST['menu'] ) ? array( (int) $_REQUEST['menu'] ) : wp_get_object_terms( $menu_item_id, 'nav_menu', array( 'fields' => 'ids' ) );
+			if ( ! is_wp_error( $menus ) ) {
+				foreach( (array) $menus as $menu_id ) {
+					$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
+					$menu_item_data = get_post( $menu_item_id , ARRAY_A );
+
+					// setup the data we need in one pass through the array of menu items
+					$dbids_to_orders = array();
+					$orders_to_dbids = array();
+					$objectids_to_dbids = array();
+					$dbids_to_objectids = array();
+					foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
+						if ( isset( $ordered_menu_item_object->ID ) ) {
+							if ( isset( $ordered_menu_item_object->menu_order ) ) {
+								$dbids_to_orders[$ordered_menu_item_object->ID] = $ordered_menu_item_object->menu_order;
+								$orders_to_dbids[$ordered_menu_item_object->menu_order] = $ordered_menu_item_object->ID;
+							}
+
+							$possible_object_id = (int) get_post_meta( $ordered_menu_item_object->ID, '_menu_item_object_id', true );
+							if ( ! empty( $possible_object_id ) ) {
+								$dbids_to_objectids[$ordered_menu_item_object->ID] = $possible_object_id;
+								$objectids_to_dbids[$possible_object_id] = $ordered_menu_item_object->ID;
+							} 
+						}
+					}
+
+
+					// if this menu item is not first
+					if ( ! empty( $dbids_to_orders[$menu_item_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ) {
+						
+						// if this menu item is a child of the previous
+						if ( 
+							! empty( $menu_item_data['post_parent'] ) && 
+							isset( $objectids_to_dbids[$menu_item_data['post_parent']] ) &&
+							isset( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) &&
+							( $objectids_to_dbids[$menu_item_data['post_parent']] == $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] )
+						) {
+
+							$parent_db_id = $objectids_to_dbids[$menu_item_data['post_parent']];
+							$parent_data = get_post( $parent_db_id, ARRAY_A );
+
+							if ( ! is_wp_error( $parent_data ) ) {
+								
+								// if there is something before the parent, make menu item a child of the parent's parent
+								if ( ! empty( $dbids_to_orders[$parent_db_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] ) ) {
+									$menu_item_data['post_parent'] = $parent_data['post_parent'];
+
+								// else there isn't something before the parent
+								} else {
+									$menu_item_data['post_parent'] = 0;
+								}
+								
+								// set former parent's [menu_order] to that of menu-item's
+								$parent_data['menu_order'] = $parent_data['menu_order'] + 1;
+
+								// set menu-item's [menu_order] to that of former parent
+								$menu_item_data['menu_order'] = $menu_item_data['menu_order'] - 1;
+								
+								// save changes
+								wp_update_post($menu_item_data);
+								wp_update_post($parent_data);
+							}
+
+						// else this menu item is not a child of the previous
+						} elseif ( isset($dbids_to_objectids[$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1]] ) ) {
+							// just make it a child of the previous; keep the order
+							$menu_item_data['post_parent'] = (int) $dbids_to_objectids[$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1]];
+							wp_update_post($menu_item_data);
+						}
+					}
+				}
+			}
+		}
+		break;
+
+	case 'delete-menu-item':
+		$menu_item_id = (int) $_REQUEST['menu-item'];
+
+		check_admin_referer( 'delete-menu_item_' . $menu_item_id );
+
+
+		if ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) {
+			if ( wp_delete_post( $menu_item_id, true ) ) {
+				
+				$messages_div = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
+			}
+		}
+		break;
 	case 'delete':
 		check_admin_referer( 'delete-nav_menu-' . $nav_menu_selected_id );
 
-		if ( is_nav_menu($nav_menu_selected_id) ) {
+		if ( is_nav_menu( $nav_menu_selected_id ) ) {
 			$delete_nav_menu = wp_delete_nav_menu( $nav_menu_selected_id );
 
 			if ( is_wp_error($delete_nav_menu) ) {
@@ -70,98 +190,73 @@ switch ( $action ) {
 		break;
 
 	case 'update':
-		check_admin_referer( 'update-nav_menu' );
+		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
 		// Add Menu
-		if ( isset($_POST['create-menu-button']) ) {
+		if ( 0 == $nav_menu_selected_id ) {
 			if ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) {
-				$add_nav_menu = esc_html( $_POST['create-menu-name'] );
+				$new_menu_title = esc_html( $_POST['menu-name'] );
 
-				if ( $add_nav_menu ) {
-					$add_nav_menu = wp_create_nav_menu( $add_nav_menu );
+				if ( $new_menu_title ) {
+					$_nav_menu_selected_id = wp_update_nav_menu_object( 0, array('menu-name' => $new_menu_title) );
 
-					if ( is_wp_error( $add_nav_menu ) ) {
-						$messages_div = '<div id="message" class="error"><p>' . $add_nav_menu->get_error_message() . '</p></div>';
+					if ( is_wp_error( $_nav_menu_selected_id ) ) {
+						$messages_div = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
 					} else {
-						$nav_menu_selected_id = $add_nav_menu->term_id;
-						$nav_menu_selected_title = $add_nav_menu->name;
-						$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been successfully created.'), $add_nav_menu->name ) . '</p></div>';
+						$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
+						$nav_menu_selected_id = $_nav_menu_selected_id;
+						$nav_menu_selected_title = $_menu_object->name;
+						$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been successfully created.'), $nav_menu_selected_title ) . '</p></div>';
 					}
 				} else {
 					$messages_div = '<div id="message" class="error"><p>' . __('Please enter a valid menu name.') . '</p></div>';
 				}
-				unset( $add_nav_menu );
 			}
+
+		// update existing menu
 		} else {
 
-			// @todo wrap this into wp_update_nav_menu_object();
-			if ( isset($_POST['menu-name']) ) {
-				$old_nav_menu = get_term( $nav_menu_selected_id, 'nav_menu', ARRAY_A );
-				$args = array( 'name' => $_POST['menu-name'], 'slug' => null, 'description' => $old_nav_menu['description'], 'parent' => $old_nav_menu['parent'], );
-				$new_nav_menu = wp_update_term( $nav_menu_selected_id, 'nav_menu', $args );
+			$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
+
+			if ( ! is_wp_error( $_menu_object ) ) {
+				wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) );
+				$nav_menu_selected_title = $_menu_object->name;
 			}
 
 			// Update menu items
 
-			// @todo: wrap update logic into wp_update_nav_menu();
-			$update_count = isset( $_POST['li-count'] ) ? (int) $_POST['li-count'] : 0;
-			$update_nav_menu = is_nav_menu( $nav_menu_selected_id );
-
-			if ( !is_wp_error($update_nav_menu) ) {
+			if ( ! is_wp_error( $_menu_object ) ) {
 				$menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 
-				// Loop through all POST variables
-				for ( $k = 0; $k < $update_count; $k++ ) {
+				// Loop through all the menu items' POST variables
+				foreach( (array) $_POST['menu-item-db-id'] as $_key => $k ) {
 
 					// Menu item title can't be blank
-					if ( '' == $_POST['menu-item-title'][$k] )
+					if ( '' == $_POST['menu-item-title'][$_key] )
 						continue;
-
-					$menu_item_db_id       = isset( $_POST['menu-item-db-id'][$k] )       ? $_POST['menu-item-db-id'][$k]       : 0;
-					$menu_item_object_id   = isset( $_POST['menu-item-object-id'][$k] )   ? $_POST['menu-item-object-id'][$k]   : 0;
-					$menu_item_object      = isset( $_POST['menu-item-object'][$k] )      ? $_POST['menu-item-object'][$k]      : '';
-					$menu_item_parent_id   = isset( $_POST['menu-item-parent-id'][$k] )   ? $_POST['menu-item-parent-id'][$k]   : 0;
-					$menu_item_position    = isset( $_POST['menu-item-position'][$k] )    ? $_POST['menu-item-position'][$k]    : 0;
-					$menu_item_type        = isset( $_POST['menu-item-type'][$k] )        ? $_POST['menu-item-type'][$k]        : 'custom';
-					$menu_item_append      = isset( $_POST['menu-item-append'][$k] )      ? $_POST['menu-item-append'][$k]      : 'custom';
-					$menu_item_title       = isset( $_POST['menu-item-title'][$k] )       ? $_POST['menu-item-title'][$k]       : '';
-					$menu_item_url         = isset( $_POST['menu-item-url'][$k] )         ? $_POST['menu-item-url'][$k]         : '';
-					$menu_item_description = isset( $_POST['menu-item-description'][$k] ) ? $_POST['menu-item-description'][$k] : '';
-					$menu_item_attr_title  = isset( $_POST['menu-item-attr-title'][$k] )  ? $_POST['menu-item-attr-title'][$k]  : '';
-					$menu_item_target      = isset( $_POST['menu-item-target'][$k] )      ? $_POST['menu-item-target'][$k]      : '';
-					$menu_item_classes     = isset( $_POST['menu-item-classes'][$k] )     ? $_POST['menu-item-classes'][$k]     : '';
-					$menu_item_xfn         = isset( $_POST['menu-item-xfn'][$k] )         ? $_POST['menu-item-xfn'][$k]         : '';
-
-					// Populate the menu item object
-					$post = array(
-						'post_status' => 'publish', 'post_type' => 'nav_menu_item', 'ping_status' => 0,
-						'post_author' => $user_ID, 'tax_input' => array( 'nav_menu' => $update_nav_menu->name ),
-						'post_title' => $menu_item_title, 'post_excerpt' => $menu_item_attr_title,
-						'post_parent' => $menu_item_parent_id, 'menu_order' => $menu_item_position,
-						'post_content' => $menu_item_description,
+	
+					$args = array(
+						'menu-item-db-id' => $_POST['menu-item-db-id'][$_key],
+						'menu-item-object-id' => $_POST['menu-item-object-id'][$_key],
+						'menu-item-object' => $_POST['menu-item-object'][$_key],
+						'menu-item-parent-id' => $_POST['menu-item-parent-id'][$_key],
+						'menu-item-position' => $_POST['menu-item-position'][$_key],
+						'menu-item-type' => $_POST['menu-item-type'][$_key],
+						'menu-item-append' => $_POST['menu-item-append'][$_key],
+						'menu-item-title' => $_POST['menu-item-title'][$_key],
+						'menu-item-url' => $_POST['menu-item-url'][$_key],
+						'menu-item-description' => $_POST['menu-item-description'][$_key],
+						'menu-item-attr-title' => $_POST['menu-item-attr-title'][$_key],
+						'menu-item-target' => $_POST['menu-item-target'][$_key],
+						'menu-item-classes' => $_POST['menu-item-classes'][$_key],
+						'menu-item-xfn' => $_POST['menu-item-xfn'][$_key],
 					);
 
-					// New menu item
-					if ( $menu_item_db_id == 0 ) {
-						$menu_item_db_id = wp_insert_post( $post );
+					$menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][$_key] != $_key ? 0 : $_key ), $args );
 
-					// Update existing menu item
-					} elseif ( isset($menu_items[$menu_item_db_id]) || ( 'custom' == $menu_item_type && 0 != $menu_item_db_id ) ) {
-						$post['ID'] = $menu_item_db_id;
-						wp_update_post( $post );
+					if ( ! is_wp_error( $menu_item_db_id ) && isset( $menu_items[$menu_item_db_id] ) ) {
 						unset( $menu_items[$menu_item_db_id] );
 					}
-
-					update_post_meta( $menu_item_db_id, '_menu_item_type', sanitize_key($menu_item_type) );
-					update_post_meta( $menu_item_db_id, '_menu_item_object_id', (int) $menu_item_object_id );
-					update_post_meta( $menu_item_db_id, '_menu_item_object', sanitize_key($menu_item_object) );
-					update_post_meta( $menu_item_db_id, '_menu_item_target', sanitize_key($menu_item_target) );
-					// @todo handle sanitizing multiple classes separated by whitespace.
-					update_post_meta( $menu_item_db_id, '_menu_item_classes', sanitize_html_class($menu_item_classes) );
-					update_post_meta( $menu_item_db_id, '_menu_item_xfn', sanitize_html_class($menu_item_xfn) );
-
-					// @todo: only save custom link urls.
-					update_post_meta( $menu_item_db_id, '_menu_item_url', esc_url_raw($menu_item_url) );
 				}
 
 				// Remove menu items from the menu that weren't in $_POST
@@ -173,8 +268,8 @@ switch ( $action ) {
 
 				do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
 
-				$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been updated.'), $update_nav_menu->name ) . '</p></div>';
-				unset( $update_nav_menu, $update_count, $menu_items );
+				$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been updated.'), $nav_menu_selected_title ) . '</p></div>';
+				unset( $menu_items );
 			}
 		}
 		break;
@@ -184,48 +279,40 @@ switch ( $action ) {
 $nav_menus = wp_get_nav_menus();
 
 // Get recently edited nav menu
-$recently_edited = get_user_option( 'nav_menu_recently_edited' );
+$recently_edited = (int) get_user_option( 'nav_menu_recently_edited' );
 
 // If there was no recently edited menu, and $nav_menu_selected_id is a nav menu, update recently edited menu.
-if ( !$recently_edited && is_nav_menu($nav_menu_selected_id) ) {
+if ( !$recently_edited && is_nav_menu( $nav_menu_selected_id ) ) {
 	$recently_edited = $nav_menu_selected_id;
 
-// Else if $nav_menu_selected_id is not a menu, but $recently_edited is, grab that one.
-} elseif ( 0 == $nav_menu_selected_id && is_nav_menu($recently_edited) ) {
+// Else if $nav_menu_selected_id is not a menu and not requesting that we create a new menu, but $recently_edited is a menu, grab that one.
+} elseif ( 0 == $nav_menu_selected_id && ! isset( $_REQUEST['menu'] ) && is_nav_menu( $recently_edited ) ) {
 	$nav_menu_selected_id = $recently_edited;
 
 // Else try to grab the first menu from the menus list
-} elseif ( 0 == $nav_menu_selected_id && ! empty($nav_menus) ) {
+} elseif ( 0 == $nav_menu_selected_id && ! isset( $_REQUEST['menu'] ) && ! empty($nav_menus) ) {
 	$nav_menu_selected_id = $nav_menus[0]->term_id;
 }
 
 // Update the user's setting
-if ( $nav_menu_selected_id != $recently_edited && is_nav_menu($nav_menu_selected_id) )
+if ( $nav_menu_selected_id != $recently_edited && is_nav_menu( $nav_menu_selected_id ) )
 	update_user_meta( $current_user->ID, 'nav_menu_recently_edited', $nav_menu_selected_id );
 
-// If there's a menu, get it's name.
-if ( !$nav_menu_selected_title && $nav_menu_selected_title = is_nav_menu( $nav_menu_selected_id ) ) {
-	$nav_menu_selected_title = $nav_menu_selected_title->name;
+// If there's a menu, get its name.
+if ( ! $nav_menu_selected_title && is_nav_menu( $nav_menu_selected_id ) ) {
+	$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
+	$nav_menu_selected_title = ! is_wp_error( $_menu_object ) ? $_menu_object->name : '';
 }
 
-// Create Menu Metabox
-add_meta_box( 'create-menu', __('Create Menu'), 'wp_nav_menu_create_metabox', 'nav-menus', 'side', 'core' );
-
-// The user has no menus.
-if ( !is_nav_menu( $nav_menu_selected_id ) ) {
-	$messages_div = '<div id="message" class="updated"><p>' . __('You do not have any menus. Create a new menu.') . '</p></div>';
-
 // The theme supports menus
-} elseif ( current_theme_supports('nav-menus') ) {
+if ( current_theme_supports('nav-menus') ) {
 	// Register nav menu metaboxes
-	add_meta_box( 'manage-menu', __( 'Menu Settings' ), 'wp_nav_menu_manage_menu_metabox', 'nav-menus', 'side', 'high', array( $nav_menu_selected_id, $nav_menu_selected_title ) );
-	wp_nav_menu_metaboxes_setup();
+	wp_nav_menu_meta_boxes_setup();
 
 // The theme does not support menus but supports widgets
 } elseif ( current_theme_supports('widgets') ) {
 	// Register nav menu metaboxes
-	add_meta_box( 'manage-menu', __( 'Menu Settings' ), 'wp_nav_menu_manage_menu_metabox', 'nav-menus', 'side', 'high', array( $nav_menu_selected_id, $nav_menu_selected_title ) );
-	wp_nav_menu_metaboxes_setup();
+	wp_nav_menu_meta_boxes_setup();
 	$messages_div = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Navigation Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 
 // The theme supports neither menus nor widgets.
@@ -235,114 +322,113 @@ if ( !is_nav_menu( $nav_menu_selected_id ) ) {
 }
 
 // Get the admin header
-require_once( './admin-header.php' );
+require_once( 'admin-header.php' );
 ?>
-<div class="wrap">
+<div class="wrap nav-edit-wrap">
 	<?php screen_icon(); ?>
 	<h2><?php esc_html_e('Menus'); ?></h2>
-	<?php /* OMGWTFBBQ */ ?><div class="error"><p><strong><?php _e('Beta Testers:') ?></strong> <?php _e('This feature is still under construction. You can try it out, but expect it to change in layout and functionality in the second beta release.'); ?></p></div>
 	<?php echo $messages_div; ?>
-	<div class="hide-if-js error"><p><?php _e('You do not have JavaScript enabled in your browser. Please enable it to access the Menus functionality.'); ?></p></div>
+	
+	<?php if ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) : ?>
+	<div id="menu-settings-column" class="metabox-holder">
 
-	<?php if ( !empty($nav_menus) && count($nav_menus) > 1 && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
-	<ul class="subsubsub">
-		<?php
-			foreach ( $nav_menus as $_nav_menu ) {
-				$sep = end( $nav_menus ) == $_nav_menu ? '' : ' | ';
+		<form id="nav-menu-meta" action="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-menu-meta" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="menu" id="nav-menu-meta-object-id" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
+			<input type="hidden" name="action" value="add-menu-item" />
+			<?php wp_nonce_field( 'add-menu_item', 'menu-settings-column-nonce' ); ?>
+			<?php do_meta_boxes( 'nav-menus', 'side', null ); ?>
+		</form>
 
-				if ( $nav_menu_selected_id == $_nav_menu->term_id )
-					echo '<li><a href="'. admin_url( 'nav-menus.php?action=edit&amp;menu=' . esc_attr($_nav_menu->term_id) ) .'" class="current">'. esc_html( $_nav_menu->name ) .'</a>'. $sep .'</li>';
-				else
-					echo '<li><a href="'. admin_url( 'nav-menus.php?action=edit&amp;menu=' . esc_attr($_nav_menu->term_id) ) .'">'. esc_html( $_nav_menu->name ) .'</a>'. $sep .'</li>';
-			}
-		?>
-	</ul>
-	<?php endif; ?>
+	</div><!-- /#menu-settings-column -->
+	
+	<div id="menu-management" class="">
+		<h2>
+			<?php 
+			foreach( (array) $nav_menus as $_nav_menu ) :
+				
+				?>
+				<a href="<?php 
+					echo add_query_arg(
+						array(
+							'action' => 'edit',
+							'menu' => $_nav_menu->term_id,
+						),
+						admin_url( 'nav-menus.php' )
+					);
+				?>" class="menu-tabs<?php 
+					if ( $nav_menu_selected_id != $_nav_menu->term_id ) 
+						echo ' menu-tab-inactive';
+				?>"><?php echo esc_html( $_nav_menu->name ); ?></a>
 
-	<div id="menu-management" class="metabox-holder has-right-sidebar">
-		<form id="update-nav-menu" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
-			<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-			<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
-			<?php wp_nonce_field( 'update-nav_menu' ); ?>
-			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="li-count" id="li-count" value="-1" />
-			<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-			<input type="hidden" id="hidden-metaboxes" value="<?php echo wp_initial_nav_menu_meta_boxes(); ?>" />
-			<div id="post-body">
-				<div id="post-body-content">
-					<?php if ( is_nav_menu($nav_menu_selected_id) && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
-						<div id="menu-container" class="postbox">
-							<h3 class="hndle"><?php echo esc_html( $nav_menu_selected_title ); ?></h3>
-							<div class="inside">
-								<?php wp_nav_menu( array( 'menu' => $nav_menu_selected_id, 'context' => 'backend' ) ); ?>
-							</div><!-- /.inside -->
-						<!-- /#nav-menu-canvas .postbox-->
-						</div>
-					<?php endif; ?>
-				</div><!-- /#post-body-content-->
-			</div><!--- /#post-body -->
-			<div id="menu-settings-column" class="inner-sidebar">
+				<?php
+			endforeach;
+			?>
+			<a href="<?php 
+				echo add_query_arg(
+					array(
+						'action' => 'edit',
+						'menu' => 0,
+					),
+					admin_url( 'nav-menus.php' )
+				);
+			?>" class="menu-tabs menu-add-new<?php 
+				if ( 0 != $nav_menu_selected_id ) 
+					echo ' menu-tab-inactive';
+			?>"><?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?></a>
+		</h2>
+		<div class="menu-edit">
+			<form id="update-nav-menu" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
+				<div id="submitpost" class="submitbox">
+					<div id="minor-publishing">
+						<div class="misc-pub-section misc-pub-section-last">
+							<label class="howto" for="menu-name">
+								<span><?php _e('Name'); ?></span>
+								<input id="menu-name" name="menu-name" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
+								<br class="clear" />
+							</label>
+						</div><!--END .misc-pub-section misc-pub-section-last-->
+						<br class="clear" />
+					</div><!--END #misc-publishing-actions-->
+					<div id="major-publishing-actions">
 
-				<?php do_meta_boxes( 'nav-menus', 'side', null ); ?>
+						<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
+						<div id="delete-action">
+							<a class="submitdelete deletion menu-delete" href="<?php echo wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ); ?>"><?php _e('Delete Menu'); ?></a>
+						</div><!--END #delete-action-->
+						<?php endif; ?>
 
-			</div><!-- /#menu-settings-column -->
-		</form><!--/#update-nav-menu-->
-		<br class="clear" />
-	</div><!-- /.metabox-holder has-right-sidebar-->
+						<div id="publishing-action">
+							<input class="button-primary" name="save_menu" type="submit" value="<?php esc_attr_e('Save Menu'); ?>" />
+						</div><!--END #publishing-action-->
+						<br class="clear" />
+					</div><!--END #major-publishing-actions-->
+				</div><!--END #submitpost .submitbox-->
+				<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+				<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+				<?php wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' ); ?>
+				<input type="hidden" name="action" value="update" />
+				<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
+				<input type="hidden" id="hidden-metaboxes" value="<?php echo wp_initial_nav_menu_meta_boxes(); ?>" />
+				<div id="post-body">
+					<div id="post-body-content">
+						<?php if ( is_nav_menu( $nav_menu_selected_id ) && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
+							<ul class="menu" id="menu-to-edit">
+							<?php 
+							$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  ); 
+							if ( ! is_wp_error( $edit_markup ) ) {
+								echo $edit_markup;
+							}
+							?>
+							</ul>
+						<?php endif; ?>
+						<br class="clear" />
+					</div><!-- /#post-body-content-->
+				</div><!--- /#post-body -->
+			</form><!--/#update-nav-menu-->
+		</div><!-- /.menu-edit -->
+	</div><!-- /#menu-management -->
+	<?php endif; // if menus supported in current theme ?>
 </div><!-- /.wrap-->
 
-<div id="menu-item-settings">
-	<p class="description">
-		<label for="edit-menu-item-title">
-			<?php _e( 'Menu Title' ); ?><br />
-			<input type="text" id="edit-menu-item-title" class="widefat" name="edit-menu-item-title" value="" tabindex="1" />
-		</label>
-	</p>
-	<p class="description">
-		<label for="edit-menu-item-url">
-			<?php _e( 'URL' ); ?><br />
-			<input type="text" id="edit-menu-item-url" class="widefat code" name="edit-menu-item-url" value="" tabindex="2" />
-		</label>
-	</p>
-	<p class="description">
-		<label for="edit-menu-item-attr-title">
-			<?php _e( 'Title Attribute' ); ?><br />
-			<input type="text" id="edit-menu-item-attr-title" class="widefat" name="edit-menu-item-attr-title" value="" tabindex="3" />
-		</label>
-	</p>
-	<p class="description">
-		<label for="edit-menu-item-target">
-			<?php _e( 'Link Target' ); ?><br />
-			<select id="edit-menu-item-target" class="widefat" name="edit-menu-item-target" tabindex="4">
-				<option value=""><?php _e('Same window or tab'); ?></option>
-				<option value="_blank"><?php _e('New window or tab'); ?></option>
-			</select>
-		</label>
-	</p>
-	<p class="description">
-		<label for="edit-menu-item-classes">
-			<?php _e( 'CSS Classes (optional)' ); ?><br />
-			<input type="text" id="edit-menu-item-classes" class="widefat code" name="edit-menu-item-classes" value="" tabindex="5" />
-		</label>
-	</p>
-	<p class="description">
-		<label for="edit-menu-item-xfn">
-			<?php _e( 'Link Relationship (XFN) (optional)' ); ?><br />
-			<input type="text" id="edit-menu-item-xfn" class="widefat code" name="edit-menu-item-xfn" value="" tabindex="6" />
-		</label>
-	</p>
-	<p class="description">
-		<label for="edit-menu-item-description">
-			<?php _e( 'Description (optional)' ); ?><br />
-			<textarea id="edit-menu-item-description" class="widefat" rows="3" name="edit-menu-item-description" tabindex="7" /></textarea>
-			<span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
-		</label>
-	</p>
-	<p>
-		<a id="update-menu-item" class="save button-primary" tabindex="8"><?php _e('Save Changes'); ?></a>
-		<a id="cancel-save" class="submitdelete deletion" tabindex="9"><?php _e('Cancel'); ?></a>
-	</p>
-	<input type="hidden" id="edit-menu-item-id" name="edit-item-id" value="" />
-</div><!-- /#menu-item-settings-->
 
-<?php include( './admin-footer.php' ); ?>
+<?php include( 'admin-footer.php' ); ?>

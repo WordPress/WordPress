@@ -110,11 +110,13 @@ div.dashboard-widget-submit {
 }
 
 div.tabs-panel,
-ul.category-tabs li.tabs {
+ul.category-tabs li.tabs,
+ul.add-menu-item-tabs li.tabs {
 	border-color: #dfdfdf;
 }
 
-ul.category-tabs li.tabs {
+ul.category-tabs li.tabs,
+ul.add-menu-item-tabs li.tabs {
 	background-color: #f1f1f1;
 }
 
@@ -379,7 +381,8 @@ div.dashboard-widget-submit input:hover,
 	border-color: #dfdfdf;
 }
 
-#side-sortables .category-tabs .tabs a {
+#side-sortables .category-tabs .tabs a,
+#side-sortables .add-menu-item-tabs .tabs a {
 	color: #333;
 }
 
@@ -490,7 +493,9 @@ a,
 }
 
 /* Because we don't want visited on these links */
+body.press-this .tabs a,
 body.press-this .tabs a:hover {
+	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;
 	color: #d54e21;
@@ -1460,7 +1465,8 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background-color: #f5f5f5;
 }
 
-#post-body ul.category-tabs li.tabs a {
+#post-body ul.category-tabs li.tabs a,
+#post-body ul.add-menu-item-tabs li.tabs a {
 	color: #333;
 }
 

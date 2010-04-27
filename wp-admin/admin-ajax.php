@@ -126,10 +126,20 @@ case 'imgedit-preview' :
 	check_ajax_referer( "image_editor-$post_id" );
 
 	include_once( ABSPATH . 'wp-admin/includes/image-edit.php' );
-	if ( !stream_preview_image($post_id) )
+	if ( ! stream_preview_image($post_id) )
 		die('-1');
 
 	die();
+	break;
+case 'menu-quick-search':
+	if ( ! current_user_can( 'switch_themes' ) )
+		die('-1');
+	
+	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
+
+	_wp_ajax_menu_quick_search( $_REQUEST );
+
+	exit;
 	break;
 case 'oembed-cache' :
 	$return = ( $wp_embed->cache_oembed( $_GET['post'] ) ) ? '1' : '0';
@@ -382,6 +392,17 @@ case 'delete-link' :
 		die('1');
 
 	if ( wp_delete_link( $id ) )
+		die('1');
+	else
+		die('0');
+	break;
+case 'delete-menu-item' :
+	$menu_item_id = (int) $_POST['menu-item'];
+	check_admin_referer( 'delete-menu_item_' . $menu_item_id );
+	if ( ! current_user_can( 'switch_themes' ) ) 
+		die('-1');
+
+	if ( 'nav_menu_item' == get_post_type( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
 		die('1');
 	else
 		die('0');
@@ -795,6 +816,40 @@ case 'edit-comment' :
 
 	$x->send();
 	break;
+case 'add-menu-item' :
+	if ( ! current_user_can( 'switch_themes' ) )
+		die('-1');
+
+	check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
+
+	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
+
+	$menu_id = (int) $_POST['menu'];
+	if ( isset( $_POST['menu-item'] ) ) {
+		$item_ids = wp_save_nav_menu_item( $menu_id, $_POST['menu-item'] );
+	} else {
+		$item_ids = array();
+	}
+	
+	foreach ( (array) $item_ids as $menu_item_id ) {
+		$menu_obj = get_post( $menu_item_id );
+		if ( ! empty( $menu_obj->ID ) ) {
+			$menu_items[] = wp_setup_nav_menu_item( $menu_obj );
+		}
+	}
+
+	if ( ! empty( $menu_items ) ) {
+		$args = array(
+			'after' => '',
+			'before' => '',
+			'context' => 'backend',
+			'link_after' => '',
+			'link_before' => '',
+			'walker' => new Walker_Nav_Menu_Edit, 
+		);
+		echo walk_nav_menu_tree( $menu_items, 0, (object) $args );
+	}
+	break;
 case 'add-meta' :
 	check_ajax_referer( 'add-meta' );
 	$c = 0;
@@ -1032,6 +1087,16 @@ case 'hidden-columns' :
 		update_user_option($user->ID, "manage{$page}columnshidden", $hidden, true);
 
 	die('1');
+	break;
+case 'menu-quick-search':
+	if ( ! current_user_can( 'switch_themes' ) )
+		die('-1');
+	
+	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
+
+	_wp_ajax_menu_quick_search( $_REQUEST );
+
+	exit;
 	break;
 case 'meta-box-order':
 	check_ajax_referer( 'meta-box-order' );

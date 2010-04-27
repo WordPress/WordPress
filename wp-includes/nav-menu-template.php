@@ -8,6 +8,160 @@
  */
 
 /**
+ * Create HTML list of nav menu items.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ * @uses Walker
+ */
+class Walker_Nav_Menu extends Walker {
+	/**
+	 * @see Walker::$tree_type
+	 * @since 3.0.0
+	 * @var string
+	 */
+	var $tree_type = array( 'post_type', 'taxonomy', 'custom' );
+
+	/**
+	 * @see Walker::$db_fields
+	 * @since 3.0.0
+	 * @todo Decouple this.
+	 * @var array
+	 */
+	var $db_fields = array( 'parent' => 'post_parent', 'id' => 'object_id' );
+
+	/**
+	 * @see Walker::start_lvl()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int $depth Depth of page. Used for padding.
+	 */
+	function start_lvl(&$output, $depth) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "\n$indent<ul class=\"sub-menu\">\n";
+	}
+
+	/**
+	 * @see Walker::end_lvl()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int $depth Depth of page. Used for padding.
+	 */
+	function end_lvl(&$output, $depth) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "$indent</ul>\n";
+	}
+
+	/**
+	 * @see Walker::start_el()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Menu item data object.
+	 * @param int $depth Depth of menu item. Used for padding.
+	 * @param int $current_page Menu item ID.
+	 * @param object $args
+	 */
+	function start_el(&$output, $item, $depth, $args) {
+		global $wp_query;
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+		$classes = $value = '';
+
+		$classes = array( 'menu-item', 'menu-item-type-'. $item->type, $item->classes );
+
+		if ( 'custom' != $item->object )
+			$classes[] = 'menu-item-object-'. $item->object;
+
+		if ( $item->object_id == $wp_query->get_queried_object_id() )
+			$classes[] = 'current-menu-item';
+
+		// @todo add classes for parent/child relationships
+
+		$classes = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
+		$classes = ' class="' . esc_attr( $classes ) . '"';
+
+		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $classes .'>';
+		
+		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
+		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
+		$attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
+		$attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
+
+		$item_output = $args->before;
+		$item_output .= '<a'. $attributes .'>';
+		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title ) . $args->link_after;
+		$item_output .= '</a>';
+		$item_output .= $args->after;
+	
+		$output .= apply_filters( 'wp_get_nav_menu_item', $item_output, $args );
+	}
+
+	/**
+	 * @see Walker::end_el()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Page data object. Not used.
+	 * @param int $depth Depth of page. Not Used.
+	 */
+	function end_el(&$output, $item, $depth) {
+		$output .= "</li>\n";
+	}
+}
+
+/**
+ * Create HTML list of nav menu input items.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ * @uses Walker_Nav_Menu
+ */
+class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
+
+	/**
+	 * @see Walker::start_el()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Menu item data object.
+	 * @param int $depth Depth of menu item. Used for padding.
+	 * @param int $current_page Menu item ID.
+	 * @param object $args
+	 */
+	function start_el(&$output, $item, $depth, $args) {
+		static $_placeholder;
+		$_placeholder = 0 > $_placeholder ? $_placeholder - 1 : -1;
+		$possible_object_id = isset( $item->post_type ) && 'nav_menu_item' == $item->post_type ? $item->object_id : $_placeholder;
+		$possible_db_id = ( ! empty( $item->ID ) ) && ( 0 < $possible_object_id ) ? (int) $item->ID : 0;
+
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+		$output .= $indent . '<li>';
+		$output .= '<label class="menu-item-title">';
+		$output .= '<input type="checkbox" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" />';
+		$output .= $item->title .'</label>';
+
+		// Menu item hidden fields
+		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';
+		$output .= '<input type="hidden" class="menu-item-object" name="menu-item[' . $possible_object_id . '][menu-item-object]" value="'. esc_attr( $item->object ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-parent-id" name="menu-item[' . $possible_object_id . '][menu-item-parent-id]" value="'. esc_attr( $item->post_parent ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-type" name="menu-item[' . $possible_object_id . '][menu-item-type]" value="'. esc_attr( $item->type ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-append" name="menu-item[' . $possible_object_id . '][menu-item-append]" value="'. esc_attr( $item->append ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-title" name="menu-item[' . $possible_object_id . '][menu-item-title]" value="'. esc_attr( $item->title ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-url" name="menu-item[' . $possible_object_id . '][menu-item-url]" value="'. esc_attr( $item->url ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-append" name="menu-item[' . $possible_object_id . '][menu-item-append]" value="'. esc_attr( $item->append ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-target" name="menu-item[' . $possible_object_id . '][menu-item-target]" value="'. esc_attr( $item->target ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-attr_title" name="menu-item[' . $possible_object_id . '][menu-item-attr_title]" value="'. esc_attr( $item->attr_title ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-description" name="menu-item[' . $possible_object_id . '][menu-item-description]" value="'. esc_attr( $item->description ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="'. esc_attr( $item->classes ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="'. esc_attr( $item->xfn ) .'" />';
+	}
+}
+
+/**
  * Displays a navigation menu.
  *
  * Optional $args contents:
@@ -17,9 +171,6 @@
  * menu_class - CSS class to use for the div container of the menu list. Defaults to 'menu'.
  * format - Whether to format the ul. Defaults to 'div'.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
- * container - Type of container tag. Avalible options div, p, or nav. Defaults to 'div'. 
- * container_class - Chooses a class for the container.
- * container_id - Chooses an id for the container.
  * before - Text before the link text.
  * after - Text after the link text.
  * link_before - Text before the link.
@@ -33,7 +184,7 @@
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
-	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 'echo' => true,
+	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'menu_class' => 'menu', 'echo' => true,
 	'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
 	'depth' => 0, 'walker' => '', 'context' => 'frontend' );
 
@@ -46,7 +197,7 @@ function wp_nav_menu( $args = array() ) {
 
 	// If we couldn't find a menu based off the name, id or slug,
 	// get the first menu that has items.
-	if ( !$menu ) {
+	if ( ! $menu ) {
 		$menus = wp_get_nav_menus();
 		foreach ( $menus as $menu_maybe ) {
 			if ( wp_get_nav_menu_items($menu_maybe->term_id) ) {
@@ -56,9 +207,9 @@ function wp_nav_menu( $args = array() ) {
 		}
 	}
 	
-	// If the menu exists, get it's items.
-	if ( $menu && !is_wp_error($menu) )
-		$menu_items = wp_get_nav_menu_items( $menu->term_id, $args->context );
+	// If the menu exists, get its items.
+	if ( $menu && ! is_wp_error($menu) )
+		$menu_items = wp_get_nav_menu_items( $menu->term_id );
 
 	// If no menu was found or if the menu has no items, call the fallback_cb
 	if ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) ) ) {
@@ -73,15 +224,15 @@ function wp_nav_menu( $args = array() ) {
 
 	if ( in_array( $args->container, $container_allowedtags ) ) {
 		$class = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : ' class="menu-'. $menu->slug .'-container"';
-		$container_id = $args->container_id ? ' id="' . esc_attr($args->container_id) . '"' : '' ;
-		$nav_menu .= '<'. $args->container . $class . $container_id .'>';
+		$nav_menu .= '<'. $args->container . $class .'>';
 	}
 
 	// Set up the $menu_item variables
+	$sorted_menu_items = array();
 	foreach ( (array) $menu_items as $key => $menu_item )
-		$menu_items[$menu_item->menu_order] = wp_setup_nav_menu_item( $menu_item, 'frontend' );
+		$sorted_menu_items[$menu_item->menu_order] = wp_setup_nav_menu_item( $menu_item );
 
-	$items .= walk_nav_menu_tree( $menu_items, $args->depth, $args );
+	$items .= walk_nav_menu_tree( $sorted_menu_items, $args->depth, $args );
 
 	// Attributes	
 	$attributes  = ' id="menu-' . $menu->slug . '"';
@@ -112,83 +263,17 @@ function wp_nav_menu( $args = array() ) {
 }
 
 /**
- * Returns the menu item formatted based on it's context.
+ * Retrieve the HTML list content for nav menu items.
  *
- * @since 3.0.0
- *
- * @param string $menu_item The menu item to format.
- * @param string $context The context to which the menu item will be formatted to.
- * @param string $args Optional. Args used for the 'template' context.
- * @return string $output The menu formatted menu item.
+ * @uses Walker_Nav_Menu to create HTML list content.
+ * @since 2.1.0
+ * @see Walker::walk() for parameters and return description.
  */
-function wp_get_nav_menu_item( $menu_item, $context = 'frontend', $args = array() ) {
-	$output = '';
-	switch ( $context ) {
-		case 'frontend':
-			$attributes  = ! empty( $menu_item->attr_title ) ? ' title="'  . esc_attr( $menu_item->attr_title ) .'"' : '';
-			$attributes .= ! empty( $menu_item->target )     ? ' target="' . esc_attr( $menu_item->target     ) .'"' : '';
-			$attributes .= ! empty( $menu_item->xfn )        ? ' rel="'    . esc_attr( $menu_item->xfn        ) .'"' : '';
-			$attributes .= ! empty( $menu_item->url )        ? ' href="'   . esc_attr( $menu_item->url        ) .'"' : '';
+function walk_nav_menu_tree( $items, $depth, $r ) {
+	$walker = ( empty($r->walker) ) ? new Walker_Nav_Menu : $r->walker;
+	$args = array( $items, $depth, $r );
 
-			$output .= $args->before;
-			$output .= '<a'. $attributes .'>';
-			$output .= $args->link_before . apply_filters( 'the_title', $menu_item->title ) . $args->link_after;
-			$output .= '</a>';
-			$output .= $args->after;
-
-			break;
-
-		case 'backend':
-			$output .= '<dl><dt>';
-			$output .= '<span class="item-title">'. esc_html( $menu_item->title ) .'</span>';
-			$output .= '<span class="item-controls">';
-			$output .= '<span class="item-type">'. esc_html( $menu_item->append ) .'</span>';
-
-			// Actions
-			$output .= '<a class="item-edit thickbox" id="edit-'. esc_attr( $menu_item->ID ) .'" value="'. esc_attr( $menu_item->ID ) .'" title="'. __('Edit Menu Item') .'" href="#TB_inline?height=540&width=300&inlineId=menu-item-settings">'. __('Edit') .'</a> | ';
-			$output .= '<a class="item-delete" id="delete-'. esc_attr( $menu_item->ID ) .'" value="'. esc_attr( $menu_item->ID ) .'">'. __('Delete') .'</a>';
-
-			$output .= '</span></dt></dl>';
-
-			// Menu Item Settings
-			$output .= '<input type="hidden" name="menu-item-db-id[]" value="'. esc_attr( $menu_item->ID ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-object-id[]" value="'. esc_attr( $menu_item->object_id ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-object[]" value="'. esc_attr( $menu_item->object ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-parent-id[]" value="'. esc_attr( $menu_item->post_parent ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-position[]" value="'. esc_attr( $menu_item->menu_order ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-type[]" value="'. esc_attr( $menu_item->type ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-title[]" value="'. esc_attr( $menu_item->title ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-url[]" value="'. esc_attr( $menu_item->url ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-description[]" value="'. esc_attr( $menu_item->description ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-classes[]" value="'. esc_attr( $menu_item->classes ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-xfn[]" value="'. esc_attr( $menu_item->xfn ) .'" />';
-			$output .= '<input type="hidden" name="menu-item-attr-title[]" value="'.esc_attr( $menu_item->post_excerpt )  .'" />';
-			$output .= '<input type="hidden" name="menu-item-target[]" value="'. esc_attr( $menu_item->target ) .'" />';
-			break;
-
-		case 'custom':
-		case 'taxonomy':
-		case 'post_type':
-			$output .= '<label class="menu-item-title"><input type="checkbox" id="'. esc_attr( 'menu-item-' . $menu_item->object_id ) .'" value="'. esc_attr( $menu_item->url ) .'" />'. $menu_item->title .'</label>';
-
-			// Menu item hidden fields
-			$output .= '<input type="hidden" class="menu-item-db-id" value="0" />';
-			$output .= '<input type="hidden" class="menu-item-object-id" value="'. esc_attr( $menu_item->object_id ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-object" value="'. esc_attr( $menu_item->object ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-parent-id" value="'. esc_attr( $menu_item->post_parent ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-type" value="'. esc_attr( $menu_item->type ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-append" value="'. esc_attr( $menu_item->append ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-title" value="'. esc_attr( $menu_item->title ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-url" value="'. esc_attr( $menu_item->url ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-append" value="'. esc_attr( $menu_item->append ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-target" value="'. esc_attr( $menu_item->target ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-attr_title" value="'. esc_attr( $menu_item->attr_title ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-description" value="'. esc_attr( $menu_item->description ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-classes" value="'. esc_attr( $menu_item->classes ) .'" />';
-			$output .= '<input type="hidden" class="menu-item-xfn" value="'. esc_attr( $menu_item->xfn ) .'" />';
-			break;
-	}
-
-	return apply_filters( 'wp_get_nav_menu_item', $output, $context, $args );
+	return call_user_func_array( array(&$walker, 'walk'), $args );
 }
+
 ?>

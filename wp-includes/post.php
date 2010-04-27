@@ -2190,7 +2190,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	$data = stripslashes_deep( $data );
 	$where = array( 'ID' => $post_ID );
 
-	if ($update) {
+	if ( $update ) {
 		do_action( 'pre_post_update', $post_ID );
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error )
@@ -2265,7 +2265,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	wp_transition_post_status($data['post_status'], $previous_status, $post);
 
-	if ( $update)
+	if ( $update )
 		do_action('edit_post', $post_ID, $post);
 
 	do_action('save_post', $post_ID, $post);
