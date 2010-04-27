@@ -186,7 +186,7 @@ switch ( $_GET['action'] ) {
 		$wpdb->show_errors();
 		if ( !is_wp_error( $id ) ) {
 			$dashboard_blog = get_dashboard_blog();
-			if ( get_user_option( 'primary_blog', $user_id ) == $dashboard_blog->blog_id )
+			if ( !is_super_admin( $user_id ) && get_user_option( 'primary_blog', $user_id ) == $dashboard_blog->blog_id )
 				update_user_option( $user_id, 'primary_blog', $id, true );
 			$content_mail = sprintf( __( "New site created by %1s\n\nAddress: http://%2s\nName: %3s"), $current_user->user_login , $newdomain . $path, stripslashes( $title ) );
 			wp_mail( get_site_option('admin_email'),  sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
