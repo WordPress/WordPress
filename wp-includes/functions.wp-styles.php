@@ -93,7 +93,7 @@ function wp_deregister_style( $handle ) {
  *  if a version number is available and makes sense for the stylesheet.
  * @param string $media The media for which this stylesheet has been defined.
  */
-function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false, $media = false ) {
+function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
