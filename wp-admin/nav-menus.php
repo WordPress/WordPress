@@ -341,92 +341,94 @@ require_once( 'admin-header.php' );
 
 	</div><!-- /#menu-settings-column -->
 	
-	<div id="menu-management" class="">
-		<h2>
-			<?php 
-			foreach( (array) $nav_menus as $_nav_menu ) :
+	<div id="menu-management-liquid">
+		<div id="menu-management" class="">
+			<h2>
+				<?php 
+				foreach( (array) $nav_menus as $_nav_menu ) :
 				
+					?>
+					<a href="<?php 
+						echo add_query_arg(
+							array(
+								'action' => 'edit',
+								'menu' => $_nav_menu->term_id,
+							),
+							admin_url( 'nav-menus.php' )
+						);
+					?>" class="menu-tabs<?php 
+						if ( $nav_menu_selected_id != $_nav_menu->term_id ) 
+							echo ' menu-tab-inactive';
+					?>"><?php echo esc_html( $_nav_menu->name ); ?></a>
+
+					<?php
+				endforeach;
 				?>
 				<a href="<?php 
 					echo add_query_arg(
 						array(
 							'action' => 'edit',
-							'menu' => $_nav_menu->term_id,
+							'menu' => 0,
 						),
 						admin_url( 'nav-menus.php' )
 					);
-				?>" class="menu-tabs<?php 
-					if ( $nav_menu_selected_id != $_nav_menu->term_id ) 
+				?>" class="menu-tabs menu-add-new<?php 
+					if ( 0 != $nav_menu_selected_id ) 
 						echo ' menu-tab-inactive';
-				?>"><?php echo esc_html( $_nav_menu->name ); ?></a>
+				?>"><?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?></a>
+			</h2>
+			<div class="menu-edit">
+				<form id="update-nav-menu" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
+					<div id="submitpost" class="submitbox">
+						<div id="minor-publishing">
+							<div class="misc-pub-section misc-pub-section-last">
+								<label class="howto" for="menu-name">
+									<span><?php _e('Name'); ?></span>
+									<input id="menu-name" name="menu-name" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
+									<br class="clear" />
+								</label>
+							</div><!--END .misc-pub-section misc-pub-section-last-->
+							<br class="clear" />
+						</div><!--END #misc-publishing-actions-->
+						<div id="major-publishing-actions">
 
-				<?php
-			endforeach;
-			?>
-			<a href="<?php 
-				echo add_query_arg(
-					array(
-						'action' => 'edit',
-						'menu' => 0,
-					),
-					admin_url( 'nav-menus.php' )
-				);
-			?>" class="menu-tabs menu-add-new<?php 
-				if ( 0 != $nav_menu_selected_id ) 
-					echo ' menu-tab-inactive';
-			?>"><?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?></a>
-		</h2>
-		<div class="menu-edit">
-			<form id="update-nav-menu" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">
-				<div id="submitpost" class="submitbox">
-					<div id="minor-publishing">
-						<div class="misc-pub-section misc-pub-section-last">
-							<label class="howto" for="menu-name">
-								<span><?php _e('Name'); ?></span>
-								<input id="menu-name" name="menu-name" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
-								<br class="clear" />
-							</label>
-						</div><!--END .misc-pub-section misc-pub-section-last-->
-						<br class="clear" />
-					</div><!--END #misc-publishing-actions-->
-					<div id="major-publishing-actions">
+							<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
+							<div id="delete-action">
+								<a class="submitdelete deletion menu-delete" href="<?php echo wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ); ?>"><?php _e('Delete Menu'); ?></a>
+							</div><!--END #delete-action-->
+							<?php endif; ?>
 
-						<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
-						<div id="delete-action">
-							<a class="submitdelete deletion menu-delete" href="<?php echo wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ); ?>"><?php _e('Delete Menu'); ?></a>
-						</div><!--END #delete-action-->
-						<?php endif; ?>
-
-						<div id="publishing-action">
-							<input class="button-primary" name="save_menu" type="submit" value="<?php esc_attr_e('Save Menu'); ?>" />
-						</div><!--END #publishing-action-->
-						<br class="clear" />
-					</div><!--END #major-publishing-actions-->
-				</div><!--END #submitpost .submitbox-->
-				<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-				<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
-				<?php wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' ); ?>
-				<input type="hidden" name="action" value="update" />
-				<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-				<input type="hidden" id="hidden-metaboxes" value="<?php echo wp_initial_nav_menu_meta_boxes(); ?>" />
-				<div id="post-body">
-					<div id="post-body-content">
-						<?php if ( is_nav_menu( $nav_menu_selected_id ) && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
-							<ul class="menu" id="menu-to-edit">
-							<?php 
-							$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  ); 
-							if ( ! is_wp_error( $edit_markup ) ) {
-								echo $edit_markup;
-							}
-							?>
-							</ul>
-						<?php endif; ?>
-						<br class="clear" />
-					</div><!-- /#post-body-content-->
-				</div><!--- /#post-body -->
-			</form><!--/#update-nav-menu-->
-		</div><!-- /.menu-edit -->
-	</div><!-- /#menu-management -->
+							<div id="publishing-action">
+								<input class="button-primary" name="save_menu" type="submit" value="<?php esc_attr_e('Save Menu'); ?>" />
+							</div><!--END #publishing-action-->
+							<br class="clear" />
+						</div><!--END #major-publishing-actions-->
+					</div><!--END #submitpost .submitbox-->
+					<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+					<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+					<?php wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' ); ?>
+					<input type="hidden" name="action" value="update" />
+					<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
+					<input type="hidden" id="hidden-metaboxes" value="<?php echo wp_initial_nav_menu_meta_boxes(); ?>" />
+					<div id="post-body">
+						<div id="post-body-content">
+							<?php if ( is_nav_menu( $nav_menu_selected_id ) && ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) ) : ?>
+								<ul class="menu" id="menu-to-edit">
+								<?php 
+								$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  ); 
+								if ( ! is_wp_error( $edit_markup ) ) {
+									echo $edit_markup;
+								}
+								?>
+								</ul>
+							<?php endif; ?>
+							<br class="clear" />
+						</div><!-- /#post-body-content-->
+					</div><!--- /#post-body -->
+				</form><!--/#update-nav-menu-->
+			</div><!-- /.menu-edit -->
+		</div><!-- /#menu-management -->
+	</div><!-- /#menu-management-liquid -->
 	<?php endif; // if menus supported in current theme ?>
 </div><!-- /.wrap-->
 

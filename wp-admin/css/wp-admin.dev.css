@@ -2003,6 +2003,15 @@ input#link_url {
 	border-width: 1px;
 }
 
+.nav-menus-php .categorydiv div.tabs-panel,
+.nav-menus-php .customlinkdiv div.tabs-panel,
+.nav-menus-php .posttypediv div.tabs-panel,
+.nav-menus-php .taxonomydiv div.tabs-panel,
+.nav-menus-php #linkcategorydiv div.tabs-panel {
+	height: auto;
+	max-height: 205px;
+}
+
 div.tabs-panel-active {
 	display:block;	
 }

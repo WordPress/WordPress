@@ -22,10 +22,19 @@
 	padding:0 10px;
 }
 
+#menu-settings-column .handlediv {
+	background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
+}
+
 /* Menu Container */
-#menu-management { 
-	float:left;
-	margin-left:15px;
+#menu-management-liquid { 
+	float:right;
+	margin-left:-300px;
+	width: 100%;
+}
+#menu-management {
+	margin-left:300px;
+	max-width: 600px;
 }
 	#menu-management .menu-edit {
 		background-color:#fff;
