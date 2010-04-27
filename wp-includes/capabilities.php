@@ -782,8 +782,8 @@ class WP_User {
  *
  * This does not actually compare whether the user ID has the actual capability,
  * just what the capability or capabilities are. Meta capability list value can
- * be 'delete_user', 'edit_user', 'delete_post', 'delete_page', 'edit_post',
- * 'edit_page', 'read_post', or 'read_page'.
+ * be 'delete_user', 'edit_user', 'remove_user', 'promote_user', 'delete_post',
+ * 'delete_page', 'edit_post', 'edit_page', 'read_post', or 'read_page'.
  *
  * @since 2.0.0
  *
@@ -815,7 +815,7 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( is_multisite() && !is_super_admin() )
 			$caps[] = 'do_not_allow';
 		else
-			$caps[] = $cap;
+			$caps[] = 'edit_users'; // Explicit due to primitive fall through
 		break;
 	case 'delete_post':
 		$author_data = get_userdata( $user_id );
