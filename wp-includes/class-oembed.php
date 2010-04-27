@@ -56,7 +56,7 @@ class WP_oEmbed {
 			'#http://(www\.)?funnyordie\.com/videos/.*#i'   => array( 'http://www.funnyordie.com/oembed',         true  ),
 		) );
 
-		// Fix Scribd and Viddler embeds. They contain new lines in the middle of the HTML which breaks wpautop().
+		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
 		add_filter( 'oembed_dataparse', array(&$this, '_strip_newlines'), 10, 3 );
 	}
 
@@ -263,7 +263,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Strip new lines from the HTML if it's a Scribd or Viddler embed.
+	 * Strip any new lines from the HTML.
 	 *
 	 * @access private
 	 * @param string $html Existing HTML.
@@ -272,7 +272,7 @@ class WP_oEmbed {
 	 * @return string Possibly modified $html
 	 */
 	function _strip_newlines( $html, $data, $url ) {
-		if ( preg_match( '#http://(www\.)?scribd.com/.*#i', $url ) || preg_match( '#http://(www\.)?viddler\.com/.*#i', $url ) )
+		if ( false !== strpos( "\n", $html ) )
 			$html = str_replace( array( "\r\n", "\n" ), '', $html );
 
 		return $html;
