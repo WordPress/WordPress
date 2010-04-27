@@ -1758,14 +1758,14 @@ jQuery(function($){
 	</th>
 	<td class="field">
 		<select id="columns" name="columns">
-			<option value="2"><?php _e('2'); ?></option>
-			<option value="3" selected="selected"><?php _e('3'); ?></option>
-			<option value="4"><?php _e('4'); ?></option>
-			<option value="5"><?php _e('5'); ?></option>
-			<option value="6"><?php _e('6'); ?></option>
-			<option value="7"><?php _e('7'); ?></option>
-			<option value="8"><?php _e('8'); ?></option>
-			<option value="9"><?php _e('9'); ?></option>
+			<option value="2">2</option>
+			<option value="3" selected="selected">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
 		</select>
 	</td>
 	</tr>
