@@ -193,6 +193,9 @@ switch($step) {
 			// TODO: poka-yoke
 			display_setup_form( __('you must provide a valid username.') );
 			$error = true;
+		} elseif ( $user_name != sanitize_user( $user_name, true ) ) {
+			display_setup_form( __('the username you provided has invalid characters.') );
+			$error = true;
 		} elseif ( $admin_password != $admin_password_check ) {
 			// TODO: poka-yoke
 			display_setup_form( __( 'your passwords do not match. Please try again' ) );
