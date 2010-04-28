@@ -111,6 +111,28 @@ var WPNavMenuHandler = function () {
 		}
 	},
 
+	/**
+	 * Get the parent element with the matching class, but go no higher than the form.
+	 *
+	 * @param DOM-element el The descendant element up from which we'll be searching
+	 * @param string parentClass The class name of the desired parent element.
+	 * @return DOM-element The parent element.
+	 */
+	getParentWrapper = function( el, parentClass ) {
+		var form = document.getElementById('nav-menu-meta'),
+		i;
+
+		while ( 
+			el.parentNode &&
+			( ! el.className || -1 == el.className.indexOf(parentClass) ) &&
+			el.parentNode != form
+		) {
+			el = el.parentNode;
+		}
+
+		return el;
+	},
+
 	makeDroppable = function(el) {
 		var that = this;
 
@@ -426,7 +448,8 @@ var WPNavMenuHandler = function () {
 		 * @param object e The event object.
 		 */
 		eventSubmitMetaForm : function(thisForm, e) {
-			var inputs = thisForm.getElementsByTagName('input'),
+			var ancestor,
+			inputs = thisForm.getElementsByTagName('input'),
 			i = inputs.length,
 			j,
 			listItemData,
@@ -436,7 +459,6 @@ var WPNavMenuHandler = function () {
 			processMethod = function(){},
 			re = new RegExp('menu-item\\[(\[^\\]\]*)');
 
-			thisForm.className = thisForm.className + ' processing',
 			that = this;
 
 			params['action'] = '';
@@ -464,6 +486,7 @@ var WPNavMenuHandler = function () {
 						params['menu-item[' + listItemDBID + '][' + j + ']'] = listItemData[j];
 					}
 
+					ancestor = getParentWrapper(inputs[i], 'inside');
 					inputs[i].checked = false;
 
 				// we're submitting a search term
@@ -473,6 +496,7 @@ var WPNavMenuHandler = function () {
 					inputs[i].className &&
 					-1 != inputs[i].className.search(/quick-search\b[^-]/)
 				) {
+					ancestor = getParentWrapper(inputs[i], 'inside');
 					params['action'] = 'menu-quick-search';
 					params['q'] = inputs[i].value;
 					params['response-format'] = 'markup';
@@ -480,12 +504,16 @@ var WPNavMenuHandler = function () {
 					processMethod = that.processQuickSearchQueryResponse;
 				}
 			}
+
+			if ( ancestor )
+				ancestor.className = ancestor.className + ' processing',
+
 			params['menu'] = thisForm.elements['menu'].value;
 			params['menu-settings-column-nonce'] = thisForm.elements['menu-settings-column-nonce'].value;
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				processMethod.call(that, menuMarkup, params);	
-				thisForm.className = thisForm.className.replace(/processing/g, '');
+				ancestor.className = ancestor.className.replace(/processing/g, '');
 			});
 
 			return false;
@@ -592,6 +620,7 @@ var WPNavMenuHandler = function () {
 			if ( items[0] && req.object_type ) {
 				resultList = document.getElementById(req.object_type + '-search-checklist');
 				if ( resultList ) {
+					resultList.innerHTML = '';
 					resultList.appendChild(items[0]);
 				}
 			} else if ( req.type ) {
@@ -599,6 +628,7 @@ var WPNavMenuHandler = function () {
 				if ( matched && matched[1] ) {
 					resultList = document.getElementById(matched[1] + '-search-checklist');
 					if ( resultList ) {
+						resultList.innerHTML = '';
 						i = items.length;
 						while( i-- ) {
 							resultList.appendChild(items[i]);

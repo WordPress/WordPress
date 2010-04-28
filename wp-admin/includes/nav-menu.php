@@ -260,7 +260,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
  * @since 3.0.0
  **/
 function wp_nav_menu_meta_boxes_setup() {
-	add_meta_box( 'add-custom-links', __('Add Custom Links'), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
+	add_meta_box( 'add-custom-links', __('Custom Links'), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
 	wp_nav_menu_post_type_meta_boxes();
 	wp_nav_menu_taxonomy_meta_boxes();
 }
@@ -310,7 +310,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 
 	foreach ( $post_types as $post_type ) {
 		$id = $post_type->name;
-		add_meta_box( "add-{$id}", sprintf( __('Add %s'), $post_type->label ), 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', 'default', $post_type );
+		add_meta_box( "add-{$id}", $post_type->label, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', 'default', $post_type );
 	}
 }
 
@@ -327,7 +327,7 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 
 	foreach ( $taxonomies as $tax ) {
 		$id = $tax->name;
-		add_meta_box( "add-{$id}", sprintf( __('Add %s'), $tax->label ), 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
+		add_meta_box( "add-{$id}", $tax->label, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
 	}
 }
 
@@ -486,7 +486,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	if ( !$posts )
 		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $post_type['args']->label ) .'</li>';
 
-	$current_tab = 'search';
+	$current_tab = 'all';
 	if ( isset( $_REQUEST[$post_type_name . '-tab'] ) && in_array( $_REQUEST[$post_type_name . '-tab'], array('all', 'search') ) ) {
 		$current_tab = $_REQUEST[$post_type_name . '-tab'];
 	}
@@ -507,8 +507,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	?>
 	<div id="posttype-<?php echo $post_type_name; ?>" class="posttypediv">
 		<ul id="posttype-<?php echo $post_type_name; ?>-tabs" class="posttype-tabs add-menu-item-tabs">
-			<li <?php echo ( 'search' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="menu-tab-link" href="<?php echo add_query_arg($post_type_name . '-tab', 'search', remove_query_arg($removed_args)); ?>#tabs-panel-posttype-<?php echo $post_type_name; ?>-search"><?php _e('Search'); ?></a></li>
 			<li <?php echo ( 'all' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="menu-tab-link" href="<?php echo add_query_arg($post_type_name . '-tab', 'all', remove_query_arg($removed_args)); ?>#<?php echo $post_type_name; ?>-all"><?php _e('View All'); ?></a></li>
+			<li <?php echo ( 'search' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="menu-tab-link" href="<?php echo add_query_arg($post_type_name . '-tab', 'search', remove_query_arg($removed_args)); ?>#tabs-panel-posttype-<?php echo $post_type_name; ?>-search"><?php _e('Search'); ?></a></li>
 		</ul>
 
 		<div class="tabs-panel <?php 
