@@ -763,33 +763,33 @@ div.menu li {
 	max-width: 640px;
 	vertical-align: baseline;
 }
-.alignleft,
-img.alignleft {
+#content .alignleft,
+#content img.alignleft {
 	display: inline;
 	float: left;
 	margin-right: 24px;
 	margin-top: 4px;
 }
-.alignright,
-img.alignright {
+#content .alignright,
+#content img.alignright {
 	display: inline;
 	float: right;
 	margin-left: 24px;
 	margin-top: 4px;
 }
-.aligncenter,
-img.aligncenter {
+#content .aligncenter,
+#content img.aligncenter {
 	clear: both;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
-img.alignleft, 
-img.alignright, 
-img.aligncenter {
+#content img.alignleft, 
+#content img.alignright, 
+#content img.aligncenter {
 	margin-bottom: 12px;
 }
-img.alignnone {
+#content img.alignnone {
 	margin-bottom: 24px;
 }
 #content .wp-caption {
