@@ -305,12 +305,15 @@ function wp_initial_nav_menu_meta_boxes() {
 function wp_nav_menu_post_type_meta_boxes() {
 	$post_types = get_post_types( array( 'public' => true ), 'object' );
 
-	if ( !$post_types )
+	if ( ! $post_types )
 		return;
 
 	foreach ( $post_types as $post_type ) {
-		$id = $post_type->name;
-		add_meta_box( "add-{$id}", $post_type->label, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', 'default', $post_type );
+		$post_type = apply_filters( 'nav_menu_meta_box_object', $post_type );
+		if ( $post_type ) {
+			$id = $post_type->name;
+			add_meta_box( "add-{$id}", $post_type->label, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', 'default', $post_type );
+		}
 	}
 }
 
@@ -326,8 +329,11 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 		return;
 
 	foreach ( $taxonomies as $tax ) {
-		$id = $tax->name;
-		add_meta_box( "add-{$id}", $tax->label, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
+		$tax = apply_filters( 'nav_menu_meta_box_object', $tax );
+		if ( $tax ) {
+			$id = $tax->name;
+			add_meta_box( "add-{$id}", $tax->label, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
+		}
 	}
 }
 
@@ -337,8 +343,8 @@ function wp_nav_menu_taxonomy_meta_boxes() {
  * @since 3.0.0
  */
 function wp_nav_menu_item_link_meta_box() {
-	static $_placeholder;
-	$_placeholder = 0 > $_placeholder ? $_placeholder - 1 : -1;
+	global $_nav_menu_placeholder;
+	$_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
 
 	// @note: hacky query, see #12660
 	$args = array( 'post_type' => 'nav_menu_item', 'post_status' => 'any', 'meta_key' => '_menu_item_type', 'numberposts' => -1, 'orderby' => 'title', );
@@ -364,37 +370,25 @@ function wp_nav_menu_item_link_meta_box() {
 	<div class="customlinkdiv">
 		<ul id="customlink-tabs" class="customlink-tabs add-menu-item-tabs">
 			<li <?php echo ( 'create' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="menu-tab-link" href="<?php echo add_query_arg('customlink-tab', 'create', remove_query_arg($removed_args)); ?>#tabs-panel-create-custom"><?php _e('Create New'); ?></a></li>
-			<li <?php echo ( 'all' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="menu-tab-link" href="<?php echo add_query_arg('customlink-tab', 'all', remove_query_arg($removed_args)); ?>#tabs-panel-all-custom"><?php _e('View All'); ?></a></li>
 		</ul>
 
 		<div class="tabs-panel <?php 
 			echo ( 'create' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
 		?>" id="tabs-panel-create-custom">
-			<input type="hidden" value="custom" name="menu-item[<?php echo $_placeholder; ?>][menu-item-type]" />
+			<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
 			<p id="menu-item-url-wrap">
 				<label class="howto" for="custom-menu-item-url">
 					<span><?php _e('URL'); ?></span>
-					<input id="custom-menu-item-url" name="menu-item[<?php echo $_placeholder; ?>][menu-item-url]" type="text" class="code menu-item-textbox" value="http://" />
+					<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text" class="code menu-item-textbox" value="http://" />
 				</label>
 			</p>
 
 			<p id="menu-item-name-wrap">
 				<label class="howto" for="custom-menu-item-name">
 					<span><?php _e('Text'); ?></span>
-					<input id="custom-menu-item-name" name="menu-item[<?php echo $_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( __('Menu Item') ); ?>" />
+					<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox" value="<?php echo esc_attr( __('Menu Item') ); ?>" />
 				</label>
 			</p>
-		</div><!-- /.tabs-panel -->
-
-		<div class="tabs-panel <?php 
-			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
-		?>" id="tabs-panel-all-custom">
-			<ul id="customlinkchecklist" class="list:customlink customlinkchecklist form-no-clear">
-				<?php
-				$args['walker'] = new Walker_Nav_Menu_Checklist;
-				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $links), 0, (object) $args );
-				?>
-			</ul>
 		</div><!-- /.tabs-panel -->
 
 		<p class="button-controls">
@@ -432,6 +426,9 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		'post_type' => $post_type_name, 
 		'suppress_filters' => true, 
 	);
+
+	if ( isset( $post_type['args']->_default_query ) )
+		$args = array_merge($args, (array) $post_type['args']->_default_query );
 
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
 	$get_posts = new WP_Query;
@@ -810,6 +807,48 @@ function wp_save_nav_menu_item( $menu_id = 0, $menu_data = array() ) {
 }
 
 /**
+ * Adds custom arguments to some of the meta box object types.
+ *
+ * @since 3.0.0
+ * 
+ * @access private
+ *
+ * @param object $object The post type or taxonomy meta-object.
+ * @return object The post type of taxonomy object.
+ */
+function _wp_nav_menu_meta_box_object( $object = null ) {
+	if ( isset( $object->name ) ) {
+		// don't show media meta box
+		if ( 'attachment' == $object->name )
+			return false;
+	
+		// pages should show most recent
+		if ( 'page' == $object->name ) {
+			$object->_default_query = array(
+				'orderby' => 'post_date',
+				'order' => 'DESC',
+				'post_status' => 'publish',
+			);
+
+		// posts should show only published items
+		} elseif ( 'post' == $object->name ) {
+			$object->_default_query = array(
+				'post_status' => 'publish',
+			);
+
+		// cats should be in reverse chronological order
+		} elseif ( 'category' == $object->name ) {
+			$object->_default_query = array(
+				'orderby' => 'id',
+				'order' => 'DESC',
+			);
+		}
+	}
+	
+	return $object;
+}
+
+/**
  * Returns the menu item formatted to edit.
  *
  * @since 3.0.0
@@ -818,8 +857,6 @@ function wp_save_nav_menu_item( $menu_id = 0, $menu_data = array() ) {
  * @return string|WP_Error $output The menu formatted to edit or error object on failure.
  */
 function wp_get_nav_menu_to_edit( $menu_item_id = 0 ) {
-	static $_placeholder;
-	
 	$menu = wp_get_nav_menu_object( $menu_item_id );
 	
 	// If the menu exists, get its items.

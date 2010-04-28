@@ -132,10 +132,12 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 	 * @param object $args
 	 */
 	function start_el(&$output, $item, $depth, $args) {
-		static $_placeholder;
-		$_placeholder = 0 > $_placeholder ? $_placeholder - 1 : -1;
-		$possible_object_id = isset( $item->post_type ) && 'nav_menu_item' == $item->post_type ? $item->object_id : $_placeholder;
+		global $_nav_menu_placeholder;
+
+		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;
+		$possible_object_id = isset( $item->post_type ) && 'nav_menu_item' == $item->post_type ? $item->object_id : $_nav_menu_placeholder;
 		$possible_db_id = ( ! empty( $item->ID ) ) && ( 0 < $possible_object_id ) ? (int) $item->ID : 0;
+		$possible_parent_id = ( ! empty( $item->ID ) ) && ( 0 < $possible_object_id ) ? (int) $item->post_parent : 0;
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
@@ -147,7 +149,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 		// Menu item hidden fields
 		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';
 		$output .= '<input type="hidden" class="menu-item-object" name="menu-item[' . $possible_object_id . '][menu-item-object]" value="'. esc_attr( $item->object ) .'" />';
-		$output .= '<input type="hidden" class="menu-item-parent-id" name="menu-item[' . $possible_object_id . '][menu-item-parent-id]" value="'. esc_attr( $item->post_parent ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-parent-id" name="menu-item[' . $possible_object_id . '][menu-item-parent-id]" value="'. $possible_parent_id .'" />';
 		$output .= '<input type="hidden" class="menu-item-type" name="menu-item[' . $possible_object_id . '][menu-item-type]" value="'. esc_attr( $item->type ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-append" name="menu-item[' . $possible_object_id . '][menu-item-append]" value="'. esc_attr( $item->append ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-title" name="menu-item[' . $possible_object_id . '][menu-item-title]" value="'. esc_attr( $item->title ) .'" />';

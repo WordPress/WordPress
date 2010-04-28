@@ -159,8 +159,16 @@ var WPNavMenuHandler = function () {
 		if ( ! list )
 			return;
 
-		var menuListItems = list.getElementsByTagName('li'),
+		var dummyListItem = document.getElementById(list.id + '-dummy-list-item'),
+		menuListItems = list.getElementsByTagName('li'),
 		i = menuListItems.length;
+
+		if ( ! dummyListItem ) {
+			dummyListItem = document.createElement('li');
+			dummyListItem.id = list.id + '-dummy-list-item';
+			list.appendChild(dummyListItem);
+			this.setupListItemDragAndDrop(dummyListItem);
+		}
 		
 		while ( i-- )
 			this.setupListItemDragAndDrop(menuListItems[i]);
@@ -234,19 +242,23 @@ var WPNavMenuHandler = function () {
 		attachTabsPanelListeners : function() {
 			$('#menu-settings-column').bind('click', function(e) {
 				if ( e.target && e.target.className && -1 != e.target.className.indexOf('menu-tab-link') ) {
-					var i = e.target.parentNode,
-					activePanel,
+					var activePanel,
 					panelIdMatch = /#(.*)$/.exec(e.target.href),
-					tabPanels;
-					while ( ! i.className || -1 == i.className.indexOf('inside') ) {
-						i = i.parentNode;
-					}
-					$('.tabs-panel', i).each(function() {
+					tabPanels,
+					wrapper = getParentWrapper(e.target, 'inside'),
+					inputs = wrapper ? wrapper.getElementsByTagName('input') : [],
+					i = inputs.length;
+
+					// upon changing tabs, we want to uncheck all checkboxes
+					while( i-- ) 
+						inputs[i].checked = false;
+
+					$('.tabs-panel', wrapper).each(function() {
 						if ( this.className )
 							this.className = this.className.replace('tabs-panel-active', 'tabs-panel-inactive');
 					});
 
-					$('.tabs', i).each(function() {
+					$('.tabs', wrapper).each(function() {
 						this.className = this.className.replace('tabs', '');
 					});
 
@@ -396,7 +408,7 @@ var WPNavMenuHandler = function () {
 					if ( that != currentDropzone || ( ! activeHovering && that.className && -1 != that.className.indexOf('sortable-placeholder') ) ) {
 						that.className = that.className.replace(/sortable-placeholder/g, '');
 					}
-				}, 500);
+				}, 800);
 			})(dropEl);
 		},
 
@@ -563,6 +575,7 @@ var WPNavMenuHandler = function () {
 			if ( ! req )
 				req = {};
 			var dropZone,
+			dummyListItem = document.getElementById(menuList.id + '-dummy-list-item'),
 			i,
 			listElements,
 			wrap = document.createElement('ul');
@@ -572,8 +585,13 @@ var WPNavMenuHandler = function () {
 			i = listElements.length;
 			while ( i-- ) {
 				this.setupListItemDragAndDrop(listElements[i]);
-				menuList.appendChild(listElements[i]);
+				if ( dummyListItem )
+					menuList.insertBefore(listElements[i], dummyListItem);
+				else
+					menuList.appendChild(listElements[i]);
 			}
+
+			this.recalculateSortOrder(menuList);
 
 			/* set custom link form back to defaults */
 			if ( customLinkNameInput && customLinkURLInput ) { 

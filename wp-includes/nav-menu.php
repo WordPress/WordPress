@@ -50,7 +50,12 @@ function is_nav_menu( $menu ) {
 	
 	$menu_obj = wp_get_nav_menu_object( $menu );
 
-	if ( $menu_obj && ! is_wp_error( $menu_obj ) && ! empty( $menu_obj->term_id ) ) 
+	if ( 
+		$menu_obj && 
+		! is_wp_error( $menu_obj ) && 
+		! empty( $menu_obj->taxonomy ) &&
+		'nav_menu' == $menu_obj->taxonomy
+	) 
 		return true;
 	
 	return false;
@@ -143,7 +148,7 @@ function wp_delete_nav_menu( $menu ) {
  *
  * @param int $menu_id The ID of the menu
  * @param array $menu_data The array of menu data.
- * @return int The menu's ID.
+ * @return int|error object The menu's ID or WP_Error object.
  */
 function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	$menu_id = (int) $menu_id;
@@ -151,11 +156,13 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	$_menu = wp_get_nav_menu_object( $menu_id );
 
 	// menu doesn't already exist
-	if ( ! $_menu || is_wp_error( $_menu ) ) {
+	if ( ! $_menu || is_wp_error( $_menu ) )
 		$_menu = wp_create_nav_menu( $menu_data['menu-name'] );
-	}
 
-	if ( $_menu && isset( $_menu->term_id ) && ! is_wp_error( $_menu ) ) {
+	if ( is_wp_error( $_menu ) )
+		return $_menu;
+
+	if ( $_menu && isset( $_menu->term_id ) ) {
 		$args = array( 
 			'description' => ( isset( $menu_data['description'] ) ? $menu_data['description'] : '' ), 
 			'name' => ( isset( $menu_data['menu-name'] ) ? $menu_data['menu-name'] : '' ), 
@@ -167,9 +174,10 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 
 		$update_response = wp_update_term( $menu_id, 'nav_menu', $args );
 
-		if ( ! is_wp_error( $update_response ) ) {
+		if ( ! is_wp_error( $update_response ) )
 			return $menu_id;
-		}
+		else
+			return $update_response;
 	} else {
 		return 0;
 	}
@@ -237,6 +245,32 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		}
 	}
 	
+	if ( 'custom' != $args['menu-item-type'] ) {
+		/* if non-custom menu item, then:
+			* use original object's URL
+			* blank default title to sync with original object's
+		*/
+
+		$args['menu-item-url'] = '';
+
+		$original_title = '';
+		if ( 'taxonomy' == $args['menu-item-type'] ) {
+			$original_title = get_term_field( 'name', $args['menu-item-object-id'], $args['menu-item-object'], 'raw' );
+		} elseif ( 'post_type' == $args['menu-item-type'] ) {
+			$original_object = get_post( $args['menu-item-object-id'] );
+			$original_title = $original_object->post_title;
+		}
+
+		if ( empty( $args['menu-item-title'] ) || $args['menu-item-title'] == $original_title ) {
+			$args['menu-item-title'] = '';
+
+			// hack to get wp to create a post object when too many properties are empty
+			if ( empty( $args['menu-item-description'] ) ) {
+				$args['menu-item-description'] = ' ';
+			}
+		}
+	}
+
 	// Populate the menu item object
 	$post = array(
 		'menu_order' => $args['menu-item-position'],
@@ -363,6 +397,12 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 		$items = get_posts( $args );
 
+		if ( is_wp_error( $items ) || ! is_array( $items ) ) {
+			return false;
+		}
+
+		$items = array_map( 'wp_setup_nav_menu_item', $items );
+
 		if ( ARRAY_A == $args['output'] ) {
 			$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
 			usort($items, '_sort_nav_menu_items');
@@ -410,18 +450,25 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				$object = get_post_type_object( $menu_item->object );
 				$menu_item->append = $object->singular_label;
 				$menu_item->url = get_permalink( $menu_item->object_id );
+			
+				$original_object = get_post( $menu_item->object_id );
+				$original_title = $original_object->post_title;
+				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
 				$menu_item->append = $object->singular_label;
 				$menu_item->url = get_term_link( (int) $menu_item->object_id, $menu_item->object );
 
+				$original_title = get_term_field( 'name', $menu_item->object_id, $menu_item->object, 'raw' );
+				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
+
 			} else {
 				$menu_item->append = __('Custom');
+				$menu_item->title = $menu_item->post_title;
 				$menu_item->url = get_post_meta( $menu_item->ID, '_menu_item_url', true );
 			}
 			
-			$menu_item->title = $menu_item->post_title;
 			$menu_item->target = get_post_meta( $menu_item->ID, '_menu_item_target', true );
 
 			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
