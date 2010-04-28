@@ -120,24 +120,26 @@ switch ( $action ) {
 							<th scope="row"><?php _e('Last Updated') ?></th>
 							<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr( $details->last_updated ) ?>" size="40" /></td>
 						</tr>
-						<tr>
-							<th scope="row"><?php _e( 'Site Settings' ); ?></th>
-							<td>
 						<?php
-						$checked_fields = array( 'public' => __( 'Public' ) );
+						$radio_fields = array( 'public' => __( 'Public' ) );
 						if ( ! $is_main_site ) {
-							$checked_fields['archived'] = __( 'Archived' );
-							$checked_fields['spam']     = __( 'Spam' );
-							$checked_fields['deleted']  = __( 'Deleted' );
+							$radio_fields['archived'] = __( 'Archived' );
+							$radio_fields['spam']     = __( 'Spam' );
+							$radio_fields['deleted']  = __( 'Deleted' );
 						}
-						$checked_fields['mature'] = __( 'Mature' );
-						foreach ( $checked_fields as $field_key => $field_label ) {
+						$radio_fields['mature'] = __( 'Mature' );
+						foreach ( $radio_fields as $field_key => $field_label ) {
 						?>
-								<input type="checkbox" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>" value="1"<?php checked( $details->$field_key ); ?> />
-								<label for="blog_<?php echo $field_key; ?>"><?php echo $field_label; ?></label><br/>
-						<?php } ?>
+						<tr>
+							<th scope="row"><?php echo $field_label; ?></th>
+							<td>
+								<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php $field_key; ?>_1" value="1"<?php checked( $details->$field_key, 1 ); ?> />
+								<label for="blog_<?php echo $field_key; ?>_1"><?php _e('Yes'); ?></label>
+								<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php $field_key; ?>_0" value="0"<?php checked( $details->$field_key, 0 ); ?> />
+								<label for="blog_<?php echo $field_key; ?>"><?php _e('No'); ?></label>
 							</td>
 						</tr>
+						<?php } ?>
 					</table>
 					<p class="submit" style="text-align:center;"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Update Options' ) ?>" /></p>
 				</div>

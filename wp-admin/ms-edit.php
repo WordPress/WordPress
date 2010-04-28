@@ -248,9 +248,6 @@ switch ( $_GET['action'] ) {
 
 		// update blogs table
 		$blog_data = stripslashes_deep( $_POST['blog'] );
-		$blog_data_checkboxes = array( 'public', 'archived', 'spam', 'mature', 'deleted' );
-		foreach ( $blog_data_checkboxes as $c )
-			$blog_data[ $c ] = ! empty( $_POST['blog'][ $c ] );
 		update_blog_details( $id, $blog_data );
 
 		// get blog prefix
