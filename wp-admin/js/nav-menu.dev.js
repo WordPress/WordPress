@@ -614,6 +614,7 @@ var WPNavMenuHandler = function () {
 			i,
 			items,
 			matched,
+			message,
 			newID,
 			pattern = new RegExp('menu-item\\[(\[^\\]\]*)'),
 			resultList;
@@ -642,12 +643,17 @@ var WPNavMenuHandler = function () {
 					resultList.appendChild(items[0]);
 				}
 			} else if ( req.type ) {
-				matched = /quick-search-posttype-([a-zA-Z_-]*)/.exec(req.type);
-				if ( matched && matched[1] ) {
-					resultList = document.getElementById(matched[1] + '-search-checklist');
+				matched = /quick-search-(posttype|taxonomy)-([a-zA-Z_-]*)/.exec(req.type);
+				if ( matched && matched[2] ) {
+					resultList = document.getElementById(matched[2] + '-search-checklist');
 					if ( resultList ) {
 						resultList.innerHTML = '';
 						i = items.length;
+						if ( ! i ) {
+							message = document.createElement('li');
+							message.appendChild(document.createTextNode(navMenuL10n.noResultsFound));
+							resultList.appendChild(message);
+						}
 						while( i-- ) {
 							resultList.appendChild(items[i]);
 						}

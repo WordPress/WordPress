@@ -216,6 +216,8 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				'post_type' => $matches[2],
 				's' => $query,
 			));
+			if ( ! have_posts() )
+					echo '-1';
 			while ( have_posts() ) {
 				the_post();
 				if ( 'markup' == $response_format ) {
@@ -236,6 +238,8 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				'name__like' => $query,
 				'number' => 10,
 			));
+			if ( empty( $terms ) || is_wp_error( $terms ) )
+				echo '-1';
 			foreach( (array) $terms as $term ) {
 				if ( 'markup' == $response_format ) {
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( $term ) ), 0, (object) $args );
@@ -531,6 +535,10 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				$args['walker'] = new Walker_Nav_Menu_Checklist;
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $search_results), 0, (object) $args );
 				?>
+			<?php elseif ( is_wp_error( $search_results ) ) : ?>
+				<li><?php echo $search_results->get_error_message(); ?></li>
+			<?php elseif ( ! empty( $searched ) ) : ?>
+				<li><?php _e('No results found.'); ?></li>
 			<?php endif; ?>
 			</ul>
 		</div><!-- /.tabs-panel -->
@@ -698,6 +706,10 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 				$args['walker'] = $walker;
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $search_results), 0, (object) $args );
 				?>
+			<?php elseif ( is_wp_error( $search_results ) ) : ?>
+				<li><?php echo $search_results->get_error_message(); ?></li>
+			<?php elseif ( ! empty( $searched ) ) : ?>
+				<li><?php _e('No results found.'); ?></li>
 			<?php endif; ?>
 			</ul>
 		</div><!-- /.tabs-panel -->

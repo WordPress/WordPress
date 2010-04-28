@@ -89,7 +89,7 @@ function wp_create_nav_menu( $menu_name, $args = array() ) {
 	$menu_exists = get_term_by( 'name', $menu_name, 'nav_menu' );
 
 	if ( $menu_exists )
-		return new WP_Error( 'menu_exists', sprintf( __('A menu named <strong>%s</strong> already exists; please try another name.'), esc_html( $menu_exists->name ) ) );
+		return new WP_Error( 'menu_exists', sprintf( __('The menu name <strong>%s</strong> conflicts with another menu name. Please try another.'), esc_html( $menu_name ) ) );
 
 	if ( isset($args['slug']) )
 		$slug = $args['slug'];
@@ -171,6 +171,17 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		);
 	
 		$menu_id = (int) $_menu->term_id;
+
+		// double-check that we're not changing a menu to the name of another
+		$_possible_existing = get_term_by( 'name', $menu_data['menu-name'], 'nav_menu' ); 
+		if ( 
+			$_possible_existing && 
+			! is_wp_error( $_possible_existing ) && 
+			isset( $_possible_existing->term_id ) &&
+			$_possible_existing->term_id != $menu_id 
+		) {
+			return new WP_Error( 'menu_exists', sprintf( __('The menu name <strong>%s</strong> conflicts with another menu name. Please try another.'), esc_html( $menu_data['menu-name'] ) ) );
+		}
 
 		$update_response = wp_update_term( $menu_id, 'nav_menu', $args );
 

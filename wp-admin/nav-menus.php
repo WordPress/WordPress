@@ -219,8 +219,14 @@ switch ( $action ) {
 			$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
 
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$_menu_object = wp_get_nav_menu_object( wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) ) );
-				$nav_menu_selected_title = $_menu_object->name;
+				$_nav_menu_selected_id = wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) );
+				if ( is_wp_error( $_nav_menu_selected_id ) ) {
+					$_menu_object = $_nav_menu_selected_id;
+					$messages_div = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+				} else {
+					$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
+					$nav_menu_selected_title = $_menu_object->name;
+				}
 			}
 
 			// Update menu items
@@ -229,33 +235,35 @@ switch ( $action ) {
 				$menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
 
 				// Loop through all the menu items' POST variables
-				foreach( (array) $_POST['menu-item-db-id'] as $_key => $k ) {
+				if ( ! empty( $_POST['menu-item-db-id'] ) ) {
+					foreach( (array) $_POST['menu-item-db-id'] as $_key => $k ) {
 
-					// Menu item title can't be blank
-					if ( '' == $_POST['menu-item-title'][$_key] )
-						continue;
-	
-					$args = array(
-						'menu-item-db-id' => $_POST['menu-item-db-id'][$_key],
-						'menu-item-object-id' => $_POST['menu-item-object-id'][$_key],
-						'menu-item-object' => $_POST['menu-item-object'][$_key],
-						'menu-item-parent-id' => $_POST['menu-item-parent-id'][$_key],
-						'menu-item-position' => $_POST['menu-item-position'][$_key],
-						'menu-item-type' => $_POST['menu-item-type'][$_key],
-						'menu-item-append' => $_POST['menu-item-append'][$_key],
-						'menu-item-title' => $_POST['menu-item-title'][$_key],
-						'menu-item-url' => $_POST['menu-item-url'][$_key],
-						'menu-item-description' => $_POST['menu-item-description'][$_key],
-						'menu-item-attr-title' => $_POST['menu-item-attr-title'][$_key],
-						'menu-item-target' => $_POST['menu-item-target'][$_key],
-						'menu-item-classes' => $_POST['menu-item-classes'][$_key],
-						'menu-item-xfn' => $_POST['menu-item-xfn'][$_key],
-					);
+						// Menu item title can't be blank
+						if ( '' == $_POST['menu-item-title'][$_key] )
+							continue;
+		
+						$args = array(
+							'menu-item-db-id' => $_POST['menu-item-db-id'][$_key],
+							'menu-item-object-id' => $_POST['menu-item-object-id'][$_key],
+							'menu-item-object' => $_POST['menu-item-object'][$_key],
+							'menu-item-parent-id' => $_POST['menu-item-parent-id'][$_key],
+							'menu-item-position' => $_POST['menu-item-position'][$_key],
+							'menu-item-type' => $_POST['menu-item-type'][$_key],
+							'menu-item-append' => $_POST['menu-item-append'][$_key],
+							'menu-item-title' => $_POST['menu-item-title'][$_key],
+							'menu-item-url' => $_POST['menu-item-url'][$_key],
+							'menu-item-description' => $_POST['menu-item-description'][$_key],
+							'menu-item-attr-title' => $_POST['menu-item-attr-title'][$_key],
+							'menu-item-target' => $_POST['menu-item-target'][$_key],
+							'menu-item-classes' => $_POST['menu-item-classes'][$_key],
+							'menu-item-xfn' => $_POST['menu-item-xfn'][$_key],
+						);
 
-					$menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][$_key] != $_key ? 0 : $_key ), $args );
+						$menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][$_key] != $_key ? 0 : $_key ), $args );
 
-					if ( ! is_wp_error( $menu_item_db_id ) && isset( $menu_items[$menu_item_db_id] ) ) {
-						unset( $menu_items[$menu_item_db_id] );
+						if ( ! is_wp_error( $menu_item_db_id ) && isset( $menu_items[$menu_item_db_id] ) ) {
+							unset( $menu_items[$menu_item_db_id] );
+						}
 					}
 				}
 
