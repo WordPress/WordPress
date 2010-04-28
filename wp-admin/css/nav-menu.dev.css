@@ -8,10 +8,6 @@
  * @subpackage Administration
  */
 
-.nav-edit-wrap {
-	clear:both;
-}
-
 #menu-settings-column {
 	display:block;
 	float:left;

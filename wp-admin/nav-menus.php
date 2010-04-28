@@ -326,7 +326,7 @@ if ( current_theme_supports('nav-menus') ) {
 // Get the admin header
 require_once( 'admin-header.php' );
 ?>
-<div class="wrap nav-edit-wrap">
+<div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php esc_html_e('Menus'); ?></h2>
 	<?php echo $messages_div; ?>
