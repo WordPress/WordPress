@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-04-23 20:21+0000\n"
+"POT-Creation-Date: 2010-04-28 20:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: 404.php:17 header.php:28 loop.php:27
+#: 404.php:17 header.php:31 loop.php:27
 msgid "Not Found"
 msgstr ""
 
@@ -304,12 +304,12 @@ msgstr ""
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: header.php:26
+#: header.php:29
 #, php-format
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: header.php:67
+#: header.php:70
 msgid "Skip to content"
 msgstr ""
 
