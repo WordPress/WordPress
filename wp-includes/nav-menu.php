@@ -244,7 +244,6 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'post_content' => $args['menu-item-description'],
 		'post_excerpt' => $args['menu-item-attr-title'],
 		'post_parent' => $args['menu-item-parent-id'], 
-		'post_status' => 'publish', 
 		'post_title' => $args['menu-item-title'], 
 		'post_type' => 'nav_menu_item', 
 		'tax_input' => array( 'nav_menu' => $menu->name ),
@@ -253,11 +252,13 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	// New menu item
 	if ( 0 == $menu_item_db_id ) {
 		$post['ID'] = 0;
+		$post['post_status'] = 'draft';
 		$menu_item_db_id = wp_insert_post( $post );
 
 	// Update existing menu item
 	} else {
 		$post['ID'] = $menu_item_db_id;
+		$post['post_status'] = 'publish';
 		wp_update_post( $post );
 	}
 
