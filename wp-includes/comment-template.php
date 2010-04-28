@@ -1515,11 +1515,10 @@ function comment_form( $args = array(), $post_id = null ) {
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
 		'cancel_reply_link'    => __( 'Cancel reply' ),
 		'label_submit'         => __( 'Post Comment' ),
-		'echo'                 => true,
 	);
 
 	$args = wp_parse_args( $args, apply_filters( 'comment_form_defaults', $defaults ) );
-	ob_start();
+
 	?>
 		<?php if ( comments_open() ) : ?>
 			<?php do_action( 'comment_form_before' ); ?>
@@ -1557,12 +1556,8 @@ function comment_form( $args = array(), $post_id = null ) {
 			<?php do_action( 'comment_form_after' ); ?>
 		<?php else : ?>
 			<?php do_action( 'comment_form_comments_closed' ); ?>
-		<?php endif;
-	$form = apply_filters( 'comment_form_output', ob_get_clean(), $args );
-	if ( $args['echo'] )
-		echo $form;
-	else
-		return $form;
+		<?php endif; ?>
+	<?php
 }
 
 ?>
