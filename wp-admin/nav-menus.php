@@ -63,7 +63,7 @@ switch ( $action ) {
 		check_admin_referer( 'move-menu_item' );
 		$menu_item_id = (int) $_REQUEST['menu-item'];
 		$next_item_id = 0;
-		if ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) {
+		if ( is_nav_menu_item( $menu_item_id ) ) {
 			$menus = isset( $_REQUEST['menu'] ) ? array( (int) $_REQUEST['menu'] ) : wp_get_object_terms( $menu_item_id, 'nav_menu', array( 'fields' => 'ids' ) );
 			if ( ! is_wp_error( $menus ) ) {
 				foreach( (array) $menus as $menu_id ) {
@@ -84,7 +84,7 @@ switch ( $action ) {
 	case 'move-up-menu-item' :
 		check_admin_referer( 'move-menu_item' );
 		$menu_item_id = empty( $next_item_id ) ? (int) $_REQUEST['menu-item'] : $next_item_id;
-		if ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) {
+		if ( is_nav_menu_item( $menu_item_id ) ) {
 			$menus = isset( $_REQUEST['menu'] ) ? array( (int) $_REQUEST['menu'] ) : wp_get_object_terms( $menu_item_id, 'nav_menu', array( 'fields' => 'ids' ) );
 			if ( ! is_wp_error( $menus ) ) {
 				foreach( (array) $menus as $menu_id ) {
@@ -166,7 +166,7 @@ switch ( $action ) {
 		check_admin_referer( 'delete-menu_item_' . $menu_item_id );
 
 
-		if ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) {
+		if ( is_nav_menu_item( $menu_item_id ) ) {
 			if ( wp_delete_post( $menu_item_id, true ) ) {
 				
 				$messages_div = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
@@ -260,9 +260,11 @@ switch ( $action ) {
 				}
 
 				// Remove menu items from the menu that weren't in $_POST
-				if ( !empty( $menu_items ) ) {
+				if ( ! empty( $menu_items ) ) {
 					foreach ( array_keys( $menu_items ) as $menu_item_id ) {
-						wp_delete_post( $menu_item_id );
+						if ( is_nav_menu_item( $menu_item_id ) ) {
+							wp_delete_post( $menu_item_id );
+						}
 					}
 				}
 

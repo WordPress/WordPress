@@ -35,9 +35,9 @@ function wp_get_nav_menu_object( $menu ) {
 }
 
 /**
- * Check if navigation menu exists.
+ * Check if the given ID is a nav menu.
  *
- * Returns the menu object, or false if the term doesn't exist.
+ * Returns true if it is; false otherwise.
  *
  * @since 3.0.0
  *
@@ -54,6 +54,18 @@ function is_nav_menu( $menu ) {
 		return true;
 	
 	return false;
+}
+
+/**
+ * Determine whether the given ID is a nav menu item.
+ *
+ * @since 3.0.0
+ *
+ * @param int $menu_item_id The ID of the potential nav menu item.
+ * @return bool Whether the given ID is that of a nav menu item.
+ */
+function is_nav_menu_item( $menu_item_id = 0 ) {
+	return ( ! is_wp_error( $menu_item_id ) && ( 'nav_menu_item' == get_post_type( $menu_item_id ) ) );
 }
 
 /**
@@ -178,6 +190,11 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	$menu_id = (int) $menu_id;
 	$menu_item_db_id = (int) $menu_item_db_id;
 
+	// make sure that we don't convert non-nav_menu_item objects into nav_menu_item objects
+	if ( ! empty( $menu_item_db_id ) && ! is_nav_menu_item( $menu_item_db_id ) ) {
+		return new WP_Error('update_nav_menu_item_failed', __('The given object ID is not that of a menu item.'));
+	}
+
 	$menu = wp_get_nav_menu_object( $menu_id );
 
 	if ( ! $menu || is_wp_error( $menu ) ) {
@@ -235,6 +252,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	// New menu item
 	if ( 0 == $menu_item_db_id ) {
+		$post['ID'] = 0;
 		$menu_item_db_id = wp_insert_post( $post );
 
 	// Update existing menu item

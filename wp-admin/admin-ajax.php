@@ -402,7 +402,7 @@ case 'delete-menu-item' :
 	if ( ! current_user_can( 'switch_themes' ) ) 
 		die('-1');
 
-	if ( 'nav_menu_item' == get_post_type( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
+	if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
 		die('1');
 	else
 		die('0');
@@ -1466,33 +1466,7 @@ case 'set-post-thumbnail':
 		}
 	}
 	die( '0' );
-case 'save-custom-link':
-	if ( ! current_user_can('manage_links') )
-		die('-1');
-
-	$link_name = isset( $_POST['link_name'] ) ? esc_html($_POST['link_name']) : null;
-	$link_url = isset( $_POST['link_url'] ) ? esc_url_raw($_POST['link_url']) : null;
-
-	if ( !$link_name || !$link_url )
-		die('-1');
-
-	$post = array(
-		'post_status' => 'draft', 'post_type' => 'nav_menu_item', 'ping_status' => 0,
-		'post_author' => $user_ID, 'post_title' => $link_name, 'post_excerpt' => '',
-		'post_parent' => 0, 'menu_order' => 0, 'post_content' => '',
-	);
-
-	$link_id = wp_insert_post( $post );
-
-	update_post_meta( $link_id, '_menu_item_type', 'custom' );
-	update_post_meta( $link_id, '_menu_item_object_id', (int) $link_id );
-	update_post_meta( $link_id, '_menu_item_object', 'custom' );
-	update_post_meta( $link_id, '_menu_item_target', '' );
-	update_post_meta( $link_id, '_menu_item_classes', '' );
-	update_post_meta( $link_id, '_menu_item_xfn', '' );
-	update_post_meta( $link_id, '_menu_item_url', $link_url );
-
-	die( json_encode($link_id) );
+	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');
