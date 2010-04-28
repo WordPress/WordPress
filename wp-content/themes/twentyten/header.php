@@ -19,7 +19,10 @@
 		if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo( 'name' );
 		} elseif ( is_home() || is_front_page() ) {
-			bloginfo( 'name' ); echo ' | '; bloginfo( 'description' ); twentyten_the_page_number();
+			bloginfo( 'name' ); 
+			if( get_bloginfo( 'description' ) ) 
+				echo ' | ' . bloginfo( 'description' ); 
+			twentyten_the_page_number();
 		} elseif ( is_page() ) {
 			single_post_title( '' ); echo ' | '; bloginfo( 'name' );
 		} elseif ( is_search() ) {
