@@ -104,7 +104,9 @@ function display_setup_form( $error = null ) {
 			if ( $user_table ) {
 				_e('User(s) already exists.');
 			} else {
-				?><input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( $user_name ); ?>" /><?php
+				?><input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
+				<p><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods and the @ symbol.' ); ?></p>
+			<?php
 			} ?>
 			</td>
 		</tr>
@@ -218,7 +220,7 @@ switch($step) {
 <table class="form-table">
 	<tr>
 		<th><?php _e( 'Username' ); ?></th>
-		<td><code><?php echo esc_html($user_name); ?></code></td>
+		<td><code><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></code></td>
 	</tr>
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
