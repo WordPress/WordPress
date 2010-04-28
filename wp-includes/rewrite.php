@@ -1564,10 +1564,11 @@ class WP_Rewrite {
 		if ( empty($this->permalink_structure) )
 			return $rewrite;
 
-		// robots.txt
-		$robots_rewrite = array('robots\.txt$' => $this->index . '?robots=1');
-
-		//Default Feed rules - These are require to allow for the direct access files to work with permalink structure starting with %category%
+		// robots.txt -only if installed at the root
+		$home_path = parse_url( home_url() );
+		$robots_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'robots\.txt$' => $this->index . '?robots=1' ) : array();
+			
+		// Default Feed rules - These are require to allow for the direct access files to work with permalink structure starting with %category%
 		$default_feeds = array(	'.*wp-atom.php$'	=>	$this->index . '?feed=atom',
 								'.*wp-rdf.php$'		=>	$this->index . '?feed=rdf',
 								'.*wp-rss.php$'		=>	$this->index . '?feed=rss',
