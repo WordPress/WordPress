@@ -219,7 +219,7 @@ switch ( $action ) {
 			$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
 
 			if ( ! is_wp_error( $_menu_object ) ) {
-				wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) );
+				$_menu_object = wp_get_nav_menu_object( wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) ) );
 				$nav_menu_selected_title = $_menu_object->name;
 			}
 
