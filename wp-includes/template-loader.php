@@ -23,6 +23,7 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	if     ( is_404()            && $template = get_404_template()            ) :
 	elseif ( is_search()         && $template = get_search_template()         ) :
 	elseif ( is_tax()            && $template = get_taxonomy_template()       ) :
+	elseif ( is_front_page()     && $template = get_front_page_template()     ) :
 	elseif ( is_home()           && $template = get_home_template()           ) :
 	elseif ( is_attachment()     && $template = get_attachment_template()     ) :
 		remove_filter('the_content', 'prepend_attachment');

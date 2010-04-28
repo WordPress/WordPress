@@ -844,7 +844,9 @@ function get_date_template() {
 
 /**
  * Retrieve path of home template in current or parent template.
- *
+ * 
+ * This is the template used for the page containing the blog posts
+ * 
  * Attempts to locate 'home.php' first before falling back to 'index.php'.
  *
  * @since 1.5.0
@@ -855,6 +857,22 @@ function get_date_template() {
 function get_home_template() {
 	$template = locate_template(array('home.php', 'index.php'));
 	return apply_filters('home_template', $template);
+}
+
+/**
+ * Retrieve path of front-page template in current or parent template.
+ *
+ * Looks for 'front-page.php'.
+ *
+ * @since 3.0.0
+ * @uses apply_filters() Calls 'front_page_template' on file path of template.
+ *
+ * @return string
+ */
+function get_front_page_template() {
+	global $wp_query;
+
+	return apply_filters( 'front_page_template', locate_template( array('front-page.php') ) );
 }
 
 /**
@@ -1001,6 +1019,8 @@ function locate_template($template_names, $load = false, $require_once = true ) 
 
 	$located = '';
 	foreach ( $template_names as $template_name ) {
+		if ( !$template_name )
+			continue;
 		if ( file_exists(STYLESHEETPATH . '/' . $template_name)) {
 			$located = STYLESHEETPATH . '/' . $template_name;
 			break;
