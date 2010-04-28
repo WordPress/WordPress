@@ -824,7 +824,7 @@ function wp_get_nav_menu_to_edit( $menu_item_id = 0 ) {
 	
 	// If the menu exists, get its items.
 	if ( is_nav_menu( $menu ) ) {
-		$menu_items = wp_get_nav_menu_items( $menu->term_id );
+		$menu_items = wp_get_nav_menu_items( $menu->term_id, array('post_status' => 'any') );
 
 		$walker = new Walker_Nav_Menu_Edit; 
 
