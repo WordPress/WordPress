@@ -761,7 +761,6 @@ div.menu li {
 #content img {
 	margin: 0;
 	max-width: 640px;
-	vertical-align: baseline;
 }
 #content .alignleft,
 #content img.alignleft {
@@ -788,9 +787,6 @@ div.menu li {
 #content img.alignright, 
 #content img.aligncenter {
 	margin-bottom: 12px;
-}
-#content img.alignnone {
-	margin-bottom: 24px;
 }
 #content .wp-caption {
 	background: #f1f1f1;
