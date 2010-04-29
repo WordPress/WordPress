@@ -189,7 +189,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	wp_cache_delete($object_id, $meta_type . '_meta');
 	// users cache stores usermeta that must be cleared.
 	if ( 'user' == $meta_type )
-		wp_cache_delete($object_id, 'users');
+		clean_user_cache($object_id);
 
 	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $meta_value );
 
