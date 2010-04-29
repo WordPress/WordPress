@@ -236,15 +236,19 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '3.0' );
 
-	if ( empty($user) )
+	if ( empty($user) ) {
 		$user = wp_get_current_user();
-	else
+		// Keys used as object vars cannot have dashes.
+		$key = str_replace('-', '_', $option);
+	} else {
 		$user = get_userdata($user);
+		$key = $option;
+	}
 
-	if ( isset( $user->{$wpdb->prefix . $option} ) ) // Blog specific
-		$result = $user->{$wpdb->prefix . $option};
-	elseif ( isset( $user->{$option} ) ) // User specific and cross-blog
-		$result = $user->{$option};
+	if ( isset( $user->{$wpdb->prefix . $key} ) ) // Blog specific
+		$result = $user->{$wpdb->prefix . $key};
+	elseif ( isset( $user->{$key} ) ) // User specific and cross-blog
+		$result = $user->{$key};
 	else
 		$result = false;
 
@@ -696,7 +700,9 @@ function _fill_single_user( &$user, &$metavalues ) {
 
 	foreach ( $metavalues as $meta ) {
 		$value = maybe_unserialize($meta->meta_value);
-		$user->{$meta->meta_key} = $value;
+		// Keys used as object vars cannot have dashes.
+		$key = str_replace('-', '_', $meta->meta_key);
+		$user->{$key} = $value;
 	}
 
 	$level = $wpdb->prefix . 'user_level';
