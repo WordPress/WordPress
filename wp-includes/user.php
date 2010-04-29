@@ -874,7 +874,16 @@ function update_user_caches(&$user) {
  * @param int $id User ID
  */
 function clean_user_cache($id) {
+	global $current_user;
+
 	$user = new WP_User($id);
+
+	// If the current user changed, reset the current_user global.Œ
+	if ( isset($current_user) && $current_user->ID == $id ) {
+		$current_user->ID = -1; // Force wp_set_current_user to reset.
+		error_log(" Resetting current user ");
+		wp_set_current_user($id);
+	}
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');

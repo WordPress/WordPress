@@ -61,7 +61,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	wp_cache_delete($object_id, $meta_type . '_meta');
 	// users cache stores usermeta that must be cleared.
 	if ( 'user' == $meta_type )
-		wp_cache_delete($object_id, 'users');
+		clean_user_cache($object_id);
 
 	do_action( "added_{$meta_type}_meta", $wpdb->insert_id, $object_id, $meta_key, $meta_value );
 
@@ -124,7 +124,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	wp_cache_delete($object_id, $meta_type . '_meta');
 	// users cache stores usermeta that must be cleared.
 	if ( 'user' == $meta_type )
-		wp_cache_delete($object_id, 'users');
+		clean_user_cache($object_id);
 
 	do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $meta_value );
 
