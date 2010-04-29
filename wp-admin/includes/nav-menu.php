@@ -323,7 +323,7 @@ function wp_initial_nav_menu_meta_boxes() {
 
 	if ( get_user_option( 'metaboxhidden_nav-menus' ) || ! is_array($wp_meta_boxes) )
 		return;
-	
+
 	$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
 	$hidden_meta_boxes = array();
 
@@ -338,9 +338,9 @@ function wp_initial_nav_menu_meta_boxes() {
 			}
 		}
 	}
+
 	$user = wp_get_current_user();
 	update_user_option( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes, true );
-	$option = get_user_option( 'metaboxhidden_nav-menus', $user->ID);
 }
 
 /**
