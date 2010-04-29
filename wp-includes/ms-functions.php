@@ -456,17 +456,20 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 
 	$errors = new WP_Error();
 
+	$orig_username = $user_name;
 	$user_name = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
+	$maybe = array();
+	preg_match( '/[a-z0-9]+/', $user_name, $maybe );
+
+	if ( $user_name != $orig_username || $user_name != $maybe[0] ) {
+		$errors->add( 'user_name', __( "Only the lowercase letters a-z and numbers allowed" ) );
+		$user_name = $orig_username;
+	}
+
 	$user_email = sanitize_email( $user_email );
 
 	if ( empty( $user_name ) )
 	   	$errors->add('user_name', __('Please enter a username'));
-
-	$maybe = array();
-	preg_match( '/[a-z0-9]+/', $user_name, $maybe );
-
-	if ( $user_name != $maybe[0] )
-		$errors->add('user_name', __('Only lowercase letters and numbers allowed'));
 
 	$illegal_names = get_site_option( 'illegal_names' );
 	if ( is_array( $illegal_names ) == false ) {
@@ -535,7 +538,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 			$errors->add('user_email', __('That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing.'));
 	}
 
-	$result = array('user_name' => $user_name, 'user_email' => $user_email,	'errors' => $errors);
+	$result = array('user_name' => $user_name, 'orig_username' => $orig_username, 'user_email' => $user_email, 'errors' => $errors);
 
 	return apply_filters('wpmu_validate_user_signup', $result);
 }
