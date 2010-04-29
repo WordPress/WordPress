@@ -111,28 +111,6 @@ var WPNavMenuHandler = function () {
 		}
 	},
 
-	/**
-	 * Get the parent element with the matching class, but go no higher than the form.
-	 *
-	 * @param DOM-element el The descendant element up from which we'll be searching
-	 * @param string parentClass The class name of the desired parent element.
-	 * @return DOM-element The parent element.
-	 */
-	getParentWrapper = function( el, parentClass ) {
-		var form = document.getElementById('nav-menu-meta'),
-		i;
-
-		while ( 
-			el.parentNode &&
-			( ! el.className || -1 == el.className.indexOf(parentClass) ) &&
-			el.parentNode != form
-		) {
-			el = el.parentNode;
-		}
-
-		return el;
-	},
-
 	makeDroppable = function(el) {
 		var that = this;
 
@@ -189,7 +167,30 @@ var WPNavMenuHandler = function () {
 			// init drag and drop
 			setupListItemsDragAndDrop.call(this, menuList); 
 
+			this.initToggles();
+		},
+		
+		initToggles : function() {
+			// init postboxes
 			postboxes.add_postbox_toggles('nav-menus');
+			
+			// adjust columns functions for menus UI
+			columns.useCheckboxesForHidden();
+			columns.checked = function(field) {
+				$('.field-' + field).removeClass('hidden-field');
+			}
+			columns.unchecked = function(field) {
+				$('.field-' + field).addClass('hidden-field');
+			}
+			// hide fields
+			this.hideAdvancedMenuItemFields();
+		},
+		
+		hideAdvancedMenuItemFields : function(container) {
+			container = container || '.menu';
+			$('.hide-column-tog').not(':checked').each(function(){
+				$(container).find('.field-' + $(this).val() ).addClass('hidden-field');
+			});
 		},
 		
 		attachMenuEditListeners : function() {
@@ -202,6 +203,8 @@ var WPNavMenuHandler = function () {
 						return that.eventOnClickMenuDelete(e.target);
 					} else if ( -1 != e.target.className.indexOf('item-delete') ) {
 						return that.eventOnClickMenuItemDelete(e.target);
+					} else if ( -1 != e.target.className.indexOf('item-close') ) {
+						return that.eventOnClickCloseLink(e.target);
 					}
 				}
 			});
@@ -211,23 +214,23 @@ var WPNavMenuHandler = function () {
 			if ( ! formEL )
 				return;
 
-			var that = this;
-
-			// set default value for custom link name
-			customLinkNameInput = document.getElementById('custom-menu-item-name');
-			customLinkURLInput = document.getElementById('custom-menu-item-url');
-
-			if ( customLinkNameInput ) {
-				customLinkNameDefault = 'undefined' != typeof customLinkNameInput.defaultValue ? customLinkNameInput.defaultValue : customLinkNameInput.getAttribute('value');
-				customLinkURLDefault = 'undefined' != typeof customLinkURLInput.defaultValue ? customLinkURLInput.defaultValue : customLinkURLInput.getAttribute('value');
-				$(customLinkNameInput).bind('focus', function(e) {
-					this.value = customLinkNameDefault == this.value ? '' : this.value;
-				});
-				
-				$(customLinkNameInput).bind('blur', function(e) {
-					this.value = '' == this.value ? customLinkNameDefault : this.value;
-				});
-			}
+			var that = this, lwd = 'label-with-default-title';
+			
+			$('.'+lwd).each(function(){
+				var $t = $(this), title = $t.attr('title'), val = $t.val();
+				$t.data(lwd, title);
+				if( '' == val ) $t.val(title);
+				else if ( title == val ) return;
+				else $t.removeClass(lwd);
+			}).focus(function(){
+				var $t = $(this);
+				if( $t.val() == $t.data(lwd) )
+					$t.val('').removeClass(lwd);
+			}).blur(function(){
+				var $t = $(this);
+				if( '' == $t.val() )
+					$t.val( $t.data(lwd) ).addClass(lwd);
+			});
 
 			// auto-suggest for the quick-search boxes
 			$('input.quick-search').each(function(i, el) {
@@ -241,7 +244,7 @@ var WPNavMenuHandler = function () {
 
 		attachTabsPanelListeners : function() {
 			$('#menu-settings-column').bind('click', function(e) {
-				if ( e.target && e.target.className && -1 != e.target.className.indexOf('menu-tab-link') ) {
+				if ( e.target && e.target.className && -1 != e.target.className.indexOf('nav-tab-link') ) {
 					var activePanel,
 					panelIdMatch = /#(.*)$/.exec(e.target.href),
 					tabPanels,
@@ -330,16 +333,27 @@ var WPNavMenuHandler = function () {
 			var activeEdit,
 			matchedSection = /#(.*)$/.exec(clickedEl.href);
 			if ( matchedSection && matchedSection[1] ) {
-				activeEdit = document.getElementById(matchedSection[1]);
-				if ( activeEdit ) {
-					if ( -1 != activeEdit.className.indexOf('menu-item-edit-inactive') ) {
-						activeEdit.className = activeEdit.className.replace('menu-item-edit-inactive', 'menu-item-edit-active');
-					} else { 
-						activeEdit.className = activeEdit.className.replace('menu-item-edit-active', 'menu-item-edit-inactive');
+				activeEdit = $('#'+matchedSection[1]);
+				if( 0 != activeEdit.length ) {
+					if( activeEdit.hasClass('menu-item-edit-inactive') ) {
+						activeEdit.slideDown('fast')
+							.siblings('dl').andSelf()
+							.removeClass('menu-item-edit-inactive')
+							.addClass('menu-item-edit-active');
+					} else {
+						activeEdit.slideUp('fast')
+							.siblings('dl').andSelf()
+							.removeClass('menu-item-edit-active')
+							.addClass('menu-item-edit-inactive');
 					}
 					return false;
 				}
 			}
+		},
+		
+		eventOnClickCloseLink : function(clickedEl) {
+			$(clickedEl).closest('.menu-item-settings').siblings('dl').find('.item-edit').click();
+			return false;
 		},
 		
 		eventOnClickMenuDelete : function(clickedEl) {
@@ -460,8 +474,7 @@ var WPNavMenuHandler = function () {
 		 * @param object e The event object.
 		 */
 		eventSubmitMetaForm : function(thisForm, e) {
-			var ancestor,
-			inputs = thisForm.getElementsByTagName('input'),
+			var inputs = thisForm.getElementsByTagName('input'),
 			i = inputs.length,
 			j,
 			listItemData,
@@ -471,6 +484,7 @@ var WPNavMenuHandler = function () {
 			processMethod = function(){},
 			re = new RegExp('menu-item\\[(\[^\\]\]*)');
 
+			thisForm.className = thisForm.className + ' processing',
 			that = this;
 
 			params['action'] = '';
@@ -498,7 +512,6 @@ var WPNavMenuHandler = function () {
 						params['menu-item[' + listItemDBID + '][' + j + ']'] = listItemData[j];
 					}
 
-					ancestor = getParentWrapper(inputs[i], 'inside');
 					inputs[i].checked = false;
 
 				// we're submitting a search term
@@ -508,7 +521,6 @@ var WPNavMenuHandler = function () {
 					inputs[i].className &&
 					-1 != inputs[i].className.search(/quick-search\b[^-]/)
 				) {
-					ancestor = getParentWrapper(inputs[i], 'inside');
 					params['action'] = 'menu-quick-search';
 					params['q'] = inputs[i].value;
 					params['response-format'] = 'markup';
@@ -516,16 +528,12 @@ var WPNavMenuHandler = function () {
 					processMethod = that.processQuickSearchQueryResponse;
 				}
 			}
-
-			if ( ancestor )
-				ancestor.className = ancestor.className + ' processing',
-
 			params['menu'] = thisForm.elements['menu'].value;
 			params['menu-settings-column-nonce'] = thisForm.elements['menu-settings-column-nonce'].value;
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				processMethod.call(that, menuMarkup, params);	
-				ancestor.className = ancestor.className.replace(/processing/g, '');
+				thisForm.className = thisForm.className.replace(/processing/g, '');
 			});
 
 			return false;
@@ -592,12 +600,11 @@ var WPNavMenuHandler = function () {
 			}
 
 			this.recalculateSortOrder(menuList);
+			this.hideAdvancedMenuItemFields(menuList);
 
 			/* set custom link form back to defaults */
-			if ( customLinkNameInput && customLinkURLInput ) { 
-				customLinkNameInput.value = customLinkNameDefault;
-				customLinkURLInput.value = customLinkURLDefault; 
-			}
+			$('#custom-menu-item-name').val('').blur();
+			$('#custom-menu-item-url').val('http://');
 		},
 
 		/**
@@ -639,7 +646,6 @@ var WPNavMenuHandler = function () {
 			if ( items[0] && req.object_type ) {
 				resultList = document.getElementById(req.object_type + '-search-checklist');
 				if ( resultList ) {
-					resultList.innerHTML = '';
 					resultList.appendChild(items[0]);
 				}
 			} else if ( req.type ) {
@@ -647,7 +653,6 @@ var WPNavMenuHandler = function () {
 				if ( matched && matched[2] ) {
 					resultList = document.getElementById(matched[2] + '-search-checklist');
 					if ( resultList ) {
-						resultList.innerHTML = '';
 						i = items.length;
 						if ( ! i ) {
 							message = document.createElement('li');

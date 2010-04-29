@@ -123,26 +123,48 @@ $(document).ready(function(){ adminMenu.init(); });
 // show/hide/save table columns
 columns = {
 	init : function() {
+		var that = this;
 		$('.hide-column-tog', '#adv-settings').click( function() {
-			var column = $(this).val();
-			if ( $(this).attr('checked') )
-				$('.column-' + column).show();
+			var $t = $(this), column = $t.val();
+			if ( $t.attr('checked') )
+				that.checked(column);
 			else
-				$('.column-' + column).hide();
+				that.unchecked(column);
 
-			columns.save_manage_columns_state();
+			columns.saveManageColumnsState();
 		});
 	},
 
-	save_manage_columns_state : function() {
-		var hidden = $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+	saveManageColumnsState : function() {
+		var hidden = this.hidden();
 		$.post(ajaxurl, {
 			action: 'hidden-columns',
 			hidden: hidden,
 			screenoptionnonce: $('#screenoptionnonce').val(),
 			page: pagenow
 		});
-	}
+	},
+	
+	checked : function(column) {
+		$('.column-' + column).show();
+	},
+	
+	unchecked : function(column) {
+		$('.column-' + column).hide();
+	},
+	
+	hidden : function() {
+		return $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+	},
+	
+	useCheckboxesForHidden : function() {
+		this.hidden = function(){
+			return $('.hide-column-tog').not(':checked').map(function() {
+				var id = this.id;
+				return id.substring( id, id.length - 5 );
+			}).get().join(',');
+		};
+	},
 }
 
 $(document).ready(function(){columns.init();});
