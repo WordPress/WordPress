@@ -268,8 +268,17 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		if ( 'taxonomy' == $args['menu-item-type'] ) {
 			$original_title = get_term_field( 'name', $args['menu-item-object-id'], $args['menu-item-object'], 'raw' );
 		} elseif ( 'post_type' == $args['menu-item-type'] ) {
+
 			$original_object = get_post( $args['menu-item-object-id'] );
 			$original_title = $original_object->post_title;
+
+			if ( 'trash' == get_post_status( $args['menu-item-object-id'] ) ) {
+				$post_type_object = get_post_type_object( $args['menu-item-object'] );
+				if ( isset( $post_type_object->singular_label ) )
+					return new WP_Error('update_nav_menu_item_failed', sprintf(__('The menu item "%1$s" belongs to a %2$s that is in the trash, so it cannot be updated.'), $args['menu-item-title'], $post_type_object->singular_label ) );
+				else
+					return new WP_Error('update_nav_menu_item_failed', sprintf(__('The menu item "%1$s" belongs to something that is in the trash, so it cannot be updated.'), $args['menu-item-title'] ) );
+			}
 		}
 
 		if ( empty( $args['menu-item-title'] ) || $args['menu-item-title'] == $original_title ) {
@@ -528,4 +537,120 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 	return apply_filters( 'wp_setup_nav_menu_item', $menu_item );
 }
+
+/**
+ * Get the menu items associated with a particular object.
+ *
+ * @since 3.0.0
+ * 
+ * @param int $object_id The ID of the original object.
+ * @param string $object_type The type of object, such as "taxonomy" or "post_type."
+ * @return array The array of menu item IDs; empty array if none;
+ */
+function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_type' ) {
+	$object_id = (int) $object_id;
+	$menu_item_ids = array();
+
+	$query = new WP_Query;
+	$menu_items = $query->query(
+		array(
+			'meta_key' => '_menu_item_object_id',
+			'meta_value' => $object_id,
+			'post_status' => 'any',
+			'post_type' => 'nav_menu_item',
+			'showposts' => -1,
+		)
+	);
+	foreach( (array) $menu_items as $menu_item ) {
+		if ( isset( $menu_item->ID ) && is_nav_menu_item( $menu_item->ID ) ) {
+			if ( get_post_meta($menu_item->ID, '_menu_item_type', true) != $object_type )
+				continue;
+
+			$menu_item_ids[] = (int) $menu_item->ID;
+		}
+	}
+
+	return array_unique( $menu_item_ids );
+}
+
+/**
+ * Callback for handling a menu item when its original object is trashed.
+ *
+ * @since 3.0.0
+ * @access private
+ *
+ * @param int $object_id The ID of the original object being trashed.
+ *
+ */
+function _wp_trash_menu_item( $object_id = 0 ) {
+	$object_id = (int) $object_id;
+
+	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id );
+
+	foreach( (array) $menu_item_ids as $menu_item_id ) {
+		$menu_item = get_post( $menu_item_id, ARRAY_A );
+		$menu_item['post_status'] = 'draft';
+		wp_insert_post($menu_item);
+	}
+}
+
+/**
+ * Callback for handling a menu item when its original object is un-trashed.
+ *
+ * @since 3.0.0
+ * @access private
+ *
+ * @param int $object_id The ID of the original object being untrashed.
+ *
+ */
+function _wp_untrash_menu_item( $object_id = 0 ) {
+	$object_id = (int) $object_id;
+
+	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id );
+
+	foreach( (array) $menu_item_ids as $menu_item_id ) {
+		$menu_item = get_post( $menu_item_id, ARRAY_A );
+		$menu_item['post_status'] = 'publish';
+		wp_insert_post($menu_item);
+	}
+}
+
+/**
+ * Callback for handling a menu item when its original object is deleted.
+ *
+ * @since 3.0.0
+ * @access private
+ *
+ * @param int $object_id The ID of the original object being trashed.
+ *
+ */
+function _wp_delete_post_menu_item( $object_id = 0 ) {
+	$object_id = (int) $object_id;
+
+	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'post_type' );
+
+	foreach( (array) $menu_item_ids as $menu_item_id ) {
+		wp_delete_post( $menu_item_id, true );
+	}
+}
+
+/**
+ * Callback for handling a menu item when its original object is deleted.
+ *
+ * @since 3.0.0
+ * @access private
+ *
+ * @param int $object_id The ID of the original object being trashed.
+ *
+ */
+function _wp_delete_tax_menu_item( $object_id = 0 ) {
+	$object_id = (int) $object_id;
+
+	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'taxonomy' );
+
+	foreach( (array) $menu_item_ids as $menu_item_id ) {
+		wp_delete_post( $menu_item_id, true );
+	}
+}
+
 ?>

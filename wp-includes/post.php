@@ -2167,7 +2167,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		} elseif ( !empty($post_parent) ) {
 			$parent_post = get_post($post_parent);
 			// Check for circular dependency
-			if ( $parent_post->post_parent == $post_ID )
+			if ( isset( $parent_post->post_parent ) && $parent_post->post_parent == $post_ID )
 				$post_parent = 0;
 		}
 	}

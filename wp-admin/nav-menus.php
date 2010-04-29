@@ -38,7 +38,7 @@ wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script( 'postbox' );
 
 // Container for any messages displayed to the user
-$messages_div = '';
+$messages = array();
 
 // Container that stores the name of the active menu
 $nav_menu_selected_title = '';
@@ -169,7 +169,7 @@ switch ( $action ) {
 		if ( is_nav_menu_item( $menu_item_id ) ) {
 			if ( wp_delete_post( $menu_item_id, true ) ) {
 				
-				$messages_div = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
+				$messages[] = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
 			}
 		}
 		break;
@@ -180,9 +180,9 @@ switch ( $action ) {
 			$delete_nav_menu = wp_delete_nav_menu( $nav_menu_selected_id );
 
 			if ( is_wp_error($delete_nav_menu) ) {
-				$messages_div = '<div id="message" class="error"><p>' . $delete_nav_menu->get_error_message() . '</p></div>';
+				$messages[] = '<div id="message" class="error"><p>' . $delete_nav_menu->get_error_message() . '</p></div>';
 			} else {
-				$messages_div = '<div id="message" class="updated"><p>' . __('The menu has been successfully deleted.') . '</p></div>';
+				$messages[] = '<div id="message" class="updated"><p>' . __('The menu has been successfully deleted.') . '</p></div>';
 				$nav_menu_selected_id = 0; // Reset the selected menu
 			}
 			unset( $delete_nav_menu );
@@ -201,15 +201,15 @@ switch ( $action ) {
 					$_nav_menu_selected_id = wp_update_nav_menu_object( 0, array('menu-name' => $new_menu_title) );
 
 					if ( is_wp_error( $_nav_menu_selected_id ) ) {
-						$messages_div = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+						$messages[] = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
 					} else {
 						$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 						$nav_menu_selected_id = $_nav_menu_selected_id;
 						$nav_menu_selected_title = $_menu_object->name;
-						$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been successfully created.'), $nav_menu_selected_title ) . '</p></div>';
+						$messages[] = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been successfully created.'), $nav_menu_selected_title ) . '</p></div>';
 					}
 				} else {
-					$messages_div = '<div id="message" class="error"><p>' . __('Please enter a valid menu name.') . '</p></div>';
+					$messages[] = '<div id="message" class="error"><p>' . __('Please enter a valid menu name.') . '</p></div>';
 				}
 			}
 
@@ -222,7 +222,7 @@ switch ( $action ) {
 				$_nav_menu_selected_id = wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) );
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
 					$_menu_object = $_nav_menu_selected_id;
-					$messages_div = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+					$messages[] = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
 				} else {
 					$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_title = $_menu_object->name;
@@ -248,9 +248,10 @@ switch ( $action ) {
 
 						$menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][$_key] != $_key ? 0 : $_key ), $args );
 
-						if ( ! is_wp_error( $menu_item_db_id ) && isset( $menu_items[$menu_item_db_id] ) ) {
+						if ( is_wp_error( $menu_item_db_id ) ) 
+							$messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
+						elseif ( isset( $menu_items[$menu_item_db_id] ) )
 							unset( $menu_items[$menu_item_db_id] );
-						}
 					}
 				}
 
@@ -265,7 +266,7 @@ switch ( $action ) {
 
 				do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
 
-				$messages_div = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been updated.'), $nav_menu_selected_title ) . '</p></div>';
+				$messages[] = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been updated.'), $nav_menu_selected_title ) . '</p></div>';
 				unset( $menu_items );
 			}
 		}
@@ -310,12 +311,12 @@ if ( current_theme_supports('nav-menus') ) {
 } elseif ( current_theme_supports('widgets') ) {
 	// Set up nav menu
 	wp_nav_menu_setup();
-	$messages_div = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Navigation Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
+	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Navigation Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 
 // The theme supports neither menus nor widgets.
 } else {
 	remove_meta_box( 'create-menu', 'nav-menus', 'side' );
-	$messages_div = '<div id="message" class="error"><p>' . __('The current theme does not support menus.') . '</p></div>';
+	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not support menus.') . '</p></div>';
 }
 
 // Get the admin header
@@ -324,7 +325,11 @@ require_once( 'admin-header.php' );
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php esc_html_e('Menus'); ?></h2>
-	<?php echo $messages_div; ?>
+	<?php 
+	foreach( $messages as $message ) :
+		echo $message . "\n"; 
+	endforeach;
+	?>
 	
 	<?php if ( current_theme_supports('nav-menus') || current_theme_supports('widgets') ) : ?>
 	<div id="nav-menus-frame">

@@ -808,7 +808,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
  *
  * @param int $menu_id The menu ID for which to save this item.
  * @param array $menu_data The unsanitized posted menu item data.
- * @return array The database IDs of the items saved.
+ * @return array The database IDs of the items saved
  */
 function wp_save_nav_menu_item( $menu_id = 0, $menu_data = array() ) {
 	$menu_id = (int) $menu_id;

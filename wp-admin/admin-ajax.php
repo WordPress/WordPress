@@ -827,6 +827,8 @@ case 'add-menu-item' :
 	$menu_id = (int) $_POST['menu'];
 	if ( isset( $_POST['menu-item'] ) ) {
 		$item_ids = wp_save_nav_menu_item( $menu_id, $_POST['menu-item'] );
+		if ( is_wp_error( $item_ids ) ) 
+			die('-1');
 	} else {
 		$item_ids = array();
 	}
