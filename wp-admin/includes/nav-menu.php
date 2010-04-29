@@ -416,13 +416,7 @@ function wp_nav_menu_item_link_meta_box() {
 
 	?>
 	<div class="customlinkdiv">
-		<ul id="customlink-tabs" class="customlink-tabs add-menu-item-tabs">
-			<li <?php echo ( 'create' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo add_query_arg('customlink-tab', 'create', remove_query_arg($removed_args)); ?>#tabs-panel-create-custom"><?php _e('Create New'); ?></a></li>
-		</ul>
 
-		<div class="tabs-panel <?php 
-			echo ( 'create' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
-		?>" id="tabs-panel-create-custom">
 			<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
 			<p id="menu-item-url-wrap">
 				<label class="howto" for="custom-menu-item-url">
@@ -437,7 +431,6 @@ function wp_nav_menu_item_link_meta_box() {
 					<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox label-with-default-title" title="<?php esc_attr_e('Menu Item'); ?>" />
 				</label>
 			</p>
-		</div><!-- /.tabs-panel -->
 
 		<p class="button-controls">
 			<span class="add-to-menu">

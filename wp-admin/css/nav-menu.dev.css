@@ -127,9 +127,12 @@
 #menu-management .inside { padding: 0 10px; }
 
 /* Add Menu Item Boxes */
-.tabs-panel .howto input {
+.postbox .howto input {
 	width: 180px;
 	float: right;
+}
+.customlinkdiv .howto input {
+	width: 210px;
 }
 
 /* Button Primary Actions */
