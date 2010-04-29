@@ -149,7 +149,7 @@
 }
 
 .postbox img.waiting {
-	display: none
+	display: none;
 	vertical-align: middle;
 }
 form.processing .postbox img.waiting {
