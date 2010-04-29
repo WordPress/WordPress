@@ -238,9 +238,10 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 
 	if ( empty($user) ) {
 		$user = wp_get_current_user();
-	} else {
-		$user = get_userdata($user);
+		$user = $user->ID;
 	}
+
+	$user = get_userdata($user);
 
 	// Keys used as object vars cannot have dashes.
 	$key = str_replace('-', '_', $option);
