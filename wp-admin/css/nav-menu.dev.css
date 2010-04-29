@@ -78,6 +78,10 @@
 		-khtml-border-bottom-right-radius: 6px;
 		border-bottom-right-radius: 6px;
 	}
+	
+	.post-body-plain {
+		padding: 10px 10px 0 0;
+	}
 
 	#menu-management .menu-add-new abbr {
 		font-weight:bold;
