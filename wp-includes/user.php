@@ -238,12 +238,12 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 
 	if ( empty($user) ) {
 		$user = wp_get_current_user();
-		// Keys used as object vars cannot have dashes.
-		$key = str_replace('-', '_', $option);
 	} else {
 		$user = get_userdata($user);
-		$key = $option;
 	}
+
+	// Keys used as object vars cannot have dashes.
+	$key = str_replace('-', '_', $option);
 
 	if ( isset( $user->{$wpdb->prefix . $key} ) ) // Blog specific
 		$result = $user->{$wpdb->prefix . $key};
