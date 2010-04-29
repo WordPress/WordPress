@@ -481,12 +481,15 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
 	$get_posts = new WP_Query;
 	$posts = $get_posts->query( $args );
+	$count_posts = (int) @count( $posts );
+	if ( ! $count_posts ) {
+		echo '<p>' . __( 'No items.' ) . '</p>';
+		return;
+	}
 
 	$post_type_object = get_post_type_object($post_type_name);
 
 	$num_pages = $get_posts->max_num_pages;
-
-	$count_posts = (int) @count( $posts );
 
 	if ( isset( $get_posts->found_posts ) && ( $get_posts->found_posts > $count_posts ) ) {
 		// somewhat like display_page_row(), let's make sure ancestors show up on paged display
@@ -645,11 +648,15 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
  */
 function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 	$taxonomy_name = $taxonomy['args']->name;
+	if ( ! $term_count = wp_count_terms( $taxonomy_name ) ) {
+		echo '<p>' . __( 'No items.' ) . '</p>';
+		return;
+	}
 	// paginate browsing for large numbers of objects
 	$per_page = 50;
 	$pagenum = isset( $_REQUEST[$taxonomy_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
 	$offset = 0 < $pagenum ? $per_page * ( $pagenum - 1 ) : 0;
-	
+
 	$args = array(
 		'child_of' => 0, 
 		'exclude' => '',
@@ -664,7 +671,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		'pad_counts' => false,
 	);
 
-	$num_pages = ceil( wp_count_terms($taxonomy_name) / $per_page );
+	$num_pages = ceil( $term_count / $per_page );
 
 	$page_links = paginate_links( array(
 		'base' => add_query_arg( 
