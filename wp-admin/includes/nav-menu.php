@@ -321,28 +321,26 @@ function wp_nav_menu_setup() {
 function wp_initial_nav_menu_meta_boxes() {
 	global $wp_meta_boxes;
 
-	if ( !get_user_option( 'meta-box-hidden_nav-menus' ) && is_array($wp_meta_boxes) ) {
+	if ( get_user_option( 'metaboxhidden_nav-menus' ) || ! is_array($wp_meta_boxes) )
+		return;
+	
+	$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
+	$hidden_meta_boxes = array();
 
-		$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
-		$hidden_meta_boxes = array();
-
-		foreach ( array_keys($wp_meta_boxes['nav-menus']) as $context ) {
-			foreach ( array_keys($wp_meta_boxes['nav-menus'][$context]) as $priority ) {
-				foreach ( $wp_meta_boxes['nav-menus'][$context][$priority] as $box ) {
-					if ( in_array( $box['id'], $initial_meta_boxes ) ) {
-						unset( $box['id'] );
-					} else {
-						$hidden_meta_boxes[] = $box['id'];
-					}
+	foreach ( array_keys($wp_meta_boxes['nav-menus']) as $context ) {
+		foreach ( array_keys($wp_meta_boxes['nav-menus'][$context]) as $priority ) {
+			foreach ( $wp_meta_boxes['nav-menus'][$context][$priority] as $box ) {
+				if ( in_array( $box['id'], $initial_meta_boxes ) ) {
+					unset( $box['id'] );
+				} else {
+					$hidden_meta_boxes[] = $box['id'];
 				}
 			}
 		}
-		$user = wp_get_current_user();
-		update_user_option( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes, true );
-
-		// returns all the hidden metaboxes to the js function: wpNavMenu.initial_meta_boxes()
-		return join( ',', $hidden_meta_boxes );
 	}
+	$user = wp_get_current_user();
+	update_user_option( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes, true );
+	$option = get_user_option( 'metaboxhidden_nav-menus', $user->ID);
 }
 
 /**

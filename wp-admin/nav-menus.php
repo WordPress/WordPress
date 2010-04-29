@@ -319,6 +319,8 @@ if ( current_theme_supports('nav-menus') ) {
 	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not support menus.') . '</p></div>';
 }
 
+wp_initial_nav_menu_meta_boxes();
+
 // Get the admin header
 require_once( 'admin-header.php' );
 ?>
@@ -403,7 +405,6 @@ require_once( 'admin-header.php' );
 						<?php wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' ); ?>
 						<input type="hidden" name="action" value="update" />
 						<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-						<input type="hidden" id="hidden-metaboxes" value="<?php echo wp_initial_nav_menu_meta_boxes(); ?>" />
 					</div><!--END #nav-menu-header-->
 					<div id="post-body">
 						<div id="post-body-content">
