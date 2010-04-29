@@ -338,7 +338,7 @@ function wp_initial_nav_menu_meta_boxes() {
 			}
 		}
 		$user = wp_get_current_user();
-		update_user_meta( $user->ID, 'meta-box-hidden_nav-menus', $hidden_meta_boxes );
+		update_user_option( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes, true );
 
 		// returns all the hidden metaboxes to the js function: wpNavMenu.initial_meta_boxes()
 		return join( ',', $hidden_meta_boxes );
