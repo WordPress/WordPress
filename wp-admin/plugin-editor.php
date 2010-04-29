@@ -10,7 +10,7 @@
 require_once('./admin.php');
 
 if ( !current_user_can('edit_plugins') )
-	wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
+	wp_die( __('You do not have sufficient permissions to edit plugins for this site.') );
 
 $title = __("Edit Plugins");
 $parent_file = 'plugins.php';
@@ -20,6 +20,9 @@ wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'f
 wp_admin_css( 'theme-editor' );
 
 $plugins = get_plugins();
+
+if( empty($plugins) )
+	wp_die( __('There are no plugins installed on this site.') );
 
 if ( isset($_REQUEST['file']) )
 	$plugin = stripslashes($_REQUEST['file']);
