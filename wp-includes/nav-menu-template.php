@@ -143,7 +143,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 
 		$output .= $indent . '<li>';
 		$output .= '<label class="menu-item-title">';
-		$output .= '<input type="checkbox" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" />';
+		$output .= '<input type="checkbox" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
 		$output .= $item->title .'</label>';
 
 		// Menu item hidden fields

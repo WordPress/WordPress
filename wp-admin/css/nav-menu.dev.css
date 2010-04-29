@@ -148,14 +148,12 @@
 	float: right;
 }
 
-form.processing .add-to-menu {
-	background: url("../images/wpspin_light.gif") no-repeat top center;
-	display:block;
-	height:20px;
-	overflow:hidden;
-	text-align:left;
-	text-indent:-999em;
-	width:20px;
+.postbox img.waiting {
+	display: none
+	vertical-align: middle;
+}
+form.processing .postbox img.waiting {
+	display: inline;
 }
 
 .button-controls { margin: 10px 0; }
