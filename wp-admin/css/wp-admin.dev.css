@@ -494,6 +494,10 @@ textarea.all-options, input.all-options {
 	padding-top: 10px;
 }
 
+.nav-menus-php #wpbody-content .metabox-holder {
+	padding-top: 24px;
+}
+
 #content {
 	margin: 0;
 	width: 100%;
@@ -3720,15 +3724,19 @@ table#available-headers label img {
 
 /* Tab Interface */
 
-.menu-tabs {
-	border-width: 1px 1px 2px;
+.nav-tab {
 	border-style: solid;
 	border-color: #ccc #ccc #f9f9f9;
-	color: #464646;
-	padding: 4px 20px 6px;
+	border-width: 1px 1px 0;
+	color: #c1c1c1;
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
+	font-size: 12px;
+	line-height: 16px;
+	display: inline-block;
+	padding: 4px 14px 6px;
 	text-decoration: none;
 	background-color: #fafafa;
-	margin: 0 6px 0 0;
+	margin: 0 6px -1px 0;
 	-moz-border-radius: 5px 5px 0 0;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
@@ -3738,12 +3746,17 @@ table#available-headers label img {
 	border-top-right-radius: 5px;
 }
 
-.themes-php .wrap h2, .theme-install-php .wrap h2 {
-	border-bottom: 1px solid #ccc;
+.nav-tab-active {
+	border-width: 1px;
+	color: #464646;
 }
 
-.menu-tab-inactive {
-	border-width: 1px 1px 0;
-	background-color: #fafafa;
-	color: #c1c1c1;
+.themes-php .wrap h2, .theme-install-php .wrap h2 {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 0;
+}
+
+h2 .nav-tab {
+	padding: 4px 20px 6px;
+	font: italic normal normal 24px/35px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }

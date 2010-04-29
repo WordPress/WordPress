@@ -3582,33 +3582,40 @@ function screen_meta($screen) {
 	if ( !isset($_wp_contextual_help) )
 		$_wp_contextual_help = array();
 
-	$settings = '';
+	$settings = apply_filters('screen_settings', '', $screen);
 
 	switch ( $screen->id ) {
 		case 'widgets':
 			$settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
-			$show_screen = true;
 			break;
 	}
+	if( $settings )
+		$show_screen = true;
 ?>
 <div id="screen-meta">
 <?php
 	if ( $show_screen ) :
+		$default_text = __('Show on screen');
 ?>
 <div id="screen-options-wrap" class="hidden">
 	<form id="adv-settings" action="" method="post">
-	<h5><?php _e('Show on screen') ?></h5>
-	<div class="metabox-prefs">
-<?php
-	if ( !meta_box_prefs($screen) && isset($column_screens) ) {
-		manage_columns_prefs($screen);
-	}
-?>
-	<br class="clear" />
-	</div>
-<?php echo screen_layout($screen); ?>
-<?php echo $screen_options; ?>
-<?php echo $settings; ?>
+	<?php if ( isset($wp_meta_boxes[$screen->id]) ) : ?>
+		<h5><?php echo apply_filters('meta_box_prefs_header', $default_text); ?></h5>
+		<div class="metabox-prefs">
+			<?php meta_box_prefs($screen); ?>
+			<br class="clear" />
+		</div>
+		<?php endif;
+		if ( isset($column_screens) ) : ?>
+		<h5><?php echo apply_filters('columns_prefs_header', $default_text); ?></h5>
+		<div class="metabox-prefs">
+			<?php manage_columns_prefs($screen); ?>
+			<br class="clear" />
+		</div>
+	<?php endif;
+	echo screen_layout($screen);
+	echo $screen_options;
+	echo $settings; ?>
 <div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
 </form>
 </div>
