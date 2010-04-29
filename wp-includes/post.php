@@ -3982,8 +3982,9 @@ function clean_page_cache($id) {
  * @uses update_postmeta_cache()
  *
  * @param array $posts Array of Post objects
+ * @param string $post_type The post type of the posts in $posts
  */
-function update_post_caches(&$posts) {
+function update_post_caches(&$posts, $post_type = 'post') {
 	// No point in doing all this work if we didn't match any posts.
 	if ( !$posts )
 		return;
@@ -3991,11 +3992,14 @@ function update_post_caches(&$posts) {
 	update_post_cache($posts);
 
 	$post_ids = array();
+	foreach ( $posts as $post )
+		$post_ids[] = $post->ID;
 
-	for ($i = 0; $i < count($posts); $i++)
-		$post_ids[] = $posts[$i]->ID;
+	if ( empty($post_type) )
+		$post_type = 'post';
 
-	update_object_term_cache($post_ids, 'post');
+	if ( !is_array($post_type) && 'any' != $post_type )
+		update_object_term_cache($post_ids, $post_type);
 
 	update_postmeta_cache($post_ids);
 }

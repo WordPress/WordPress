@@ -1626,6 +1626,9 @@ class WP_Query {
 		if ( !isset($q['suppress_filters']) )
 			$q['suppress_filters'] = false;
 
+		if ( !isset($q['cache_results']) )
+			$q['cache_results'] = true;
+
 		if ( !isset($q['post_type']) ) {
 			if ( $this->is_search )
 				$q['post_type'] = 'any';
@@ -2504,7 +2507,8 @@ class WP_Query {
 			$this->posts[$i] = sanitize_post($this->posts[$i], 'raw');
 		}
 
-		update_post_caches($this->posts);
+		if ( $q['cache_results'] )
+			update_post_caches($this->posts, $post_type);
 
 		if ($this->post_count > 0) {
 			$this->post = $this->posts[0];
