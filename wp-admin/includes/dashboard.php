@@ -69,7 +69,7 @@ function wp_dashboard_setup() {
 		$widget_options['dashboard_primary'] = array(
 			'link' => apply_filters( 'dashboard_primary_link',  __( 'http://wordpress.org/development/' ) ),
 			'url' => apply_filters( 'dashboard_primary_feed',  __( 'http://wordpress.org/development/feed/' ) ),
-			'title' => apply_filters( 'dashboard_primary_title', __( 'WordPress Development Blog' ) ),
+			'title' => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
 			'items' => 2,
 			'show_summary' => 1,
 			'show_author' => 0,
