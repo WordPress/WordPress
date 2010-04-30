@@ -244,7 +244,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	$user = get_userdata($user);
 
 	// Keys used as object vars cannot have dashes.
-	$key = str_replace('-', '_', $option);
+	$key = str_replace('-', '', $option);
 
 	if ( isset( $user->{$wpdb->prefix . $key} ) ) // Blog specific
 		$result = $user->{$wpdb->prefix . $key};
@@ -702,7 +702,7 @@ function _fill_single_user( &$user, &$metavalues ) {
 	foreach ( $metavalues as $meta ) {
 		$value = maybe_unserialize($meta->meta_value);
 		// Keys used as object vars cannot have dashes.
-		$key = str_replace('-', '_', $meta->meta_key);
+		$key = str_replace('-', '', $meta->meta_key);
 		$user->{$key} = $value;
 	}
 
@@ -881,15 +881,7 @@ function update_user_caches(&$user) {
  * @param int $id User ID
  */
 function clean_user_cache($id) {
-	global $current_user;
-
 	$user = new WP_User($id);
-
-	// If the current user changed, reset the current_user global.Œ
-	if ( isset($current_user) && $current_user->ID == $id ) {
-		$current_user->ID = -1; // Force wp_set_current_user to reset.
-		wp_set_current_user($id);
-	}
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
