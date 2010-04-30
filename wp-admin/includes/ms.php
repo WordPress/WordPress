@@ -660,15 +660,16 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 function secret_salt_warning() {
 	if ( !is_super_admin() )
 		return;
-	$secret_keys = array( 'NONCE_KEY', 'NONCE_SALT', 'AUTH_KEY', 'AUTH_SALT', 'LOGGED_IN_KEY', 'LOGGED_IN_SALT', 'SECURE_AUTH_KEY', 'SECURE_AUTH_SALT' );
+	$secret_keys = array( 'AUTH_KEY', 'SECURE_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' );
 	$out = '';
 	foreach( $secret_keys as $key ) {
-		if ( !defined( $key ) )
-			$out .= "define( '$key', '" . wp_generate_password() . wp_generate_password() . "' );<br />";
+		if ( ! defined( $key ) )
+			$out .= "define( '$key', '" . esc_html( wp_generate_password( 64, true, true ) ) . "' );<br />";
 	}
 	if ( $out != '' ) {
-		$msg = sprintf( __( 'Warning! WordPress encrypts user cookies, but you must add the following lines to <strong>%swp-config.php</strong> for it to be more secure.<br />Please add the code before the line, <code>/* That\'s all, stop editing! Happy blogging. */</code>' ), ABSPATH );
-		$msg .= "<blockquote>$out</blockquote>";
+		$msg  = __( 'Warning! WordPress encrypts user cookies, but you must add the following lines to <strong>wp-config.php</strong> for it to be more secure.' );
+		$msg .= '<br/>' . __( "Before the line <code>/* That's all, stop editing! Happy blogging. */</code> please add this code:" );
+		$msg .= "<br/><br/><code>$out</code>";
 
 		echo "<div id='update-nag'>$msg</div>";
 	}
