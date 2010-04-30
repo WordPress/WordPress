@@ -366,7 +366,7 @@ add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 function new_user_email_admin_notice() {
 	global $current_user;
 	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET['updated'] ) && $email = get_option( $current_user->ID . '_new_email' ) )
-		echo "<div id='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
+		echo "<div class='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
 }
 add_action( 'admin_notices', 'new_user_email_admin_notice' );
 
@@ -671,7 +671,7 @@ function secret_salt_warning() {
 		$msg .= '<br/>' . __( "Before the line <code>/* That's all, stop editing! Happy blogging. */</code> please add this code:" );
 		$msg .= "<br/><br/><code>$out</code>";
 
-		echo "<div id='update-nag'>$msg</div>";
+		echo "<div class='update-nag'>$msg</div>";
 	}
 }
 add_action( 'admin_notices', 'secret_salt_warning' );
@@ -702,7 +702,7 @@ function admin_notice_feed() {
 		$msg .= "<p>" . $content . "<a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $title ) . "'>" . __( 'Dismiss' ) . "</a></p>";
 		echo "<div class='updated'>$msg</div>";
 	} elseif ( is_super_admin() ) {
-		printf( '<div id="update-nag">' . __( 'Your feed at %s is empty.' ) . '</div>', esc_html( $url ) );
+		printf( '<div class="update-nag">' . __( 'Your feed at %s is empty.' ) . '</div>', esc_html( $url ) );
 	}
 }
 add_action( 'admin_notices', 'admin_notice_feed' );
@@ -712,7 +712,7 @@ function site_admin_notice() {
 	if ( !is_super_admin() )
 		return false;
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
-		echo "<div id='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), esc_url( admin_url( 'ms-upgrade-network.php' ) ) ) . "</div>";
+		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), esc_url( admin_url( 'ms-upgrade-network.php' ) ) ) . "</div>";
 }
 add_action( 'admin_notices', 'site_admin_notice' );
 
@@ -785,7 +785,7 @@ function show_post_thumbnail_warning() {
 		return;
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );
 	if ( empty($mu_media_buttons['image']) && current_theme_supports( 'post-thumbnails' ) ) {
-		echo "<div id='update-nag'>" . sprintf( __( "Warning! The current theme supports Featured Images. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), esc_url( admin_url( 'ms-options.php' ) ) ) . "</div>";
+		echo "<div class='update-nag'>" . sprintf( __( "Warning! The current theme supports Featured Images. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), esc_url( admin_url( 'ms-options.php' ) ) ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'show_post_thumbnail_warning' );
@@ -795,7 +795,7 @@ function ms_deprecated_blogs_file() {
 		return;
 	if ( ! file_exists( WP_CONTENT_DIR . '/blogs.php' ) )
 		return;
-	echo '<div id="update-nag">' . sprintf( __( 'The <code>%1$s</code> file is deprecated. Please remove it and update your server rewrite rules to use <code>%2$s</code> instead.' ), 'wp-content/blogs.php', 'wp-includes/ms-files.php' ) . '</div>';
+	echo '<div class="update-nag">' . sprintf( __( 'The <code>%1$s</code> file is deprecated. Please remove it and update your server rewrite rules to use <code>%2$s</code> instead.' ), 'wp-content/blogs.php', 'wp-includes/ms-files.php' ) . '</div>';
 }
 add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
 

@@ -695,7 +695,7 @@ table.widefat span.spam a,
 	background: url(../images/xit.gif) no-repeat -10px 0;
 }
 
-#update-nag {
+#update-nag, .update-nag {
 	background-color: #FFFBCC;
 	border-color: #E6DB55;
 	color: #555;
