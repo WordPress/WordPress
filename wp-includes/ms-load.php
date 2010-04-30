@@ -68,7 +68,7 @@ function ms_site_check() {
 			return WP_CONTENT_DIR . '/blog-suspended.php';
 		} else {
 			header( 'HTTP/1.1 410 Gone' );
-			wp_die( /*WP_I18N_ARCHIVED*/'This blog has been archived or suspended.'/*/WP_I18N_ARCHIVED*/ );
+			wp_die( /*WP_I18N_ARCHIVED*/'This site has been archived or suspended.'/*/WP_I18N_ARCHIVED*/ );
 		}
 	}
 
@@ -181,7 +181,7 @@ function wpmu_current_site() {
 	// Still no dice.
 	// @todo Update or remove WPMU codex link.
 	if ( 1 == count( $sites ) )
-		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'That blog does not exist. Please try <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
+		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'That site does not exist. Please try <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
 	else
 		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_WPMU">Debugging WPMU</a> for help.'/*/WP_I18N_NO_SITE_DEFINED*/ );
 }

@@ -82,7 +82,7 @@ switch ( $_GET['action'] ) {
 			$blog_details = get_blog_details( $dashboard_blog );
 			if ( false === $blog_details ) {
 				if ( is_numeric( $dashboard_blog ) )
-					wp_die( __( 'Dashboard blog_id must be a blog that already exists' ) );
+					wp_die( __( 'A dashboard site referenced by ID must already exist' ) );
 				if ( is_subdomain_install() ) {
 					$domain = $dashboard_blog . '.' . $current_site->domain;
 					$path = $current_site->path;
@@ -98,7 +98,7 @@ switch ( $_GET['action'] ) {
 			}
 		}
 		if ( is_wp_error( $dashboard_blog_id ) )
-			wp_die( __( 'Problem creating dashboard blog: ' ) . $dashboard_blog_id->get_error_message() );
+			wp_die( __( 'Problem creating dashboard site: ' ) . $dashboard_blog_id->get_error_message() );
 		if ( $_POST['dashboard_blog_orig'] != $_POST['dashboard_blog'] ) {
 			$users = get_users_of_blog( get_site_option( 'dashboard_blog' ) );
 			$move_users = array();

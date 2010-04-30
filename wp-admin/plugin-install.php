@@ -10,7 +10,7 @@
 require_once('./admin.php');
 
 if ( ! current_user_can('install_plugins') )
-	wp_die(__('You do not have sufficient permissions to install plugins on this blog.'));
+	wp_die(__('You do not have sufficient permissions to install plugins on this site.'));
 
 include(ABSPATH . 'wp-admin/includes/plugin-install.php');
 

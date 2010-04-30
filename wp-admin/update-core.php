@@ -10,7 +10,7 @@
 require_once('./admin.php');
 
 if ( ! current_user_can('update_plugins') )
-	wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));
+	wp_die(__('You do not have sufficient permissions to update plugins for this site.'));
 
 function list_core_update( $update ) {
 	global $wp_local_package, $wpdb;

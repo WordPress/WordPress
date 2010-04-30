@@ -10,7 +10,7 @@
 require_once ('admin.php');
 
 if ( !current_user_can('edit_files') )
-	wp_die(__('You do not have sufficient permissions to export the content of this blog.'));
+	wp_die(__('You do not have sufficient permissions to export the content of this site.'));
 
 /** Load WordPress export API */
 require_once('./includes/export.php');
@@ -59,7 +59,7 @@ for ( $i = 1; $i < 13; $i++ ) {
 
 <p><?php _e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
-<p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>
+<p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress site to import this site.'); ?></p>
 <form action="" method="get">
 <h3><?php _e('Options'); ?></h3>
 

@@ -15,7 +15,7 @@ if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 	$doaction = $_GET['action'] ? $_GET['action'] : $_GET['action2'];
 
 	if ( ! current_user_can('manage_links') )
-		wp_die( __('You do not have sufficient permissions to edit the links for this blog.') );
+		wp_die( __('You do not have sufficient permissions to edit the links for this site.') );
 
 	if ( 'delete' == $doaction ) {
 		$bulklinks = (array) $_GET['linkcheck'];
@@ -46,7 +46,7 @@ $this_file = $parent_file = 'link-manager.php';
 include_once ('./admin-header.php');
 
 if ( ! current_user_can('manage_links') )
-	wp_die(__("You do not have sufficient permissions to edit the links for this blog."));
+	wp_die(__("You do not have sufficient permissions to edit the links for this site."));
 
 switch ($order_by) {
 	case 'order_id' :

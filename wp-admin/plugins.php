@@ -45,7 +45,7 @@ if ( !empty($action) ) {
 	switch ( $action ) {
 		case 'activate':
 			if ( ! current_user_can('activate_plugins') )
-				wp_die(__('You do not have sufficient permissions to activate plugins for this blog.'));
+				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
 
 			check_admin_referer('activate-plugin_' . $plugin);
 
@@ -72,7 +72,7 @@ if ( !empty($action) ) {
 		case 'activate-selected':
 		case 'network-activate-selected':
 			if ( ! current_user_can('activate_plugins') )
-				wp_die(__('You do not have sufficient permissions to activate plugins for this blog.'));
+				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
 
 			check_admin_referer('bulk-manage-plugins');
 
@@ -126,7 +126,7 @@ if ( !empty($action) ) {
 			break;
 		case 'error_scrape':
 			if ( ! current_user_can('activate_plugins') )
-				wp_die(__('You do not have sufficient permissions to activate plugins for this blog.'));
+				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
 
 			check_admin_referer('plugin-activation-error_' . $plugin);
 
@@ -152,7 +152,7 @@ if ( !empty($action) ) {
 			break;
 		case 'deactivate':
 			if ( ! current_user_can('activate_plugins') )
-				wp_die(__('You do not have sufficient permissions to deactivate plugins for this blog.'));
+				wp_die(__('You do not have sufficient permissions to deactivate plugins for this site.'));
 
 			check_admin_referer('deactivate-plugin_' . $plugin);
 			deactivate_plugins($plugin);
@@ -165,7 +165,7 @@ if ( !empty($action) ) {
 			break;
 		case 'deactivate-selected':
 			if ( ! current_user_can('activate_plugins') )
-				wp_die(__('You do not have sufficient permissions to deactivate plugins for this blog.'));
+				wp_die(__('You do not have sufficient permissions to deactivate plugins for this site.'));
 
 			check_admin_referer('bulk-manage-plugins');
 
@@ -188,7 +188,7 @@ if ( !empty($action) ) {
 			break;
 		case 'delete-selected':
 			if ( ! current_user_can('delete_plugins') )
-				wp_die(__('You do not have sufficient permissions to delete plugins for this blog.'));
+				wp_die(__('You do not have sufficient permissions to delete plugins for this site.'));
 
 			check_admin_referer('bulk-manage-plugins');
 

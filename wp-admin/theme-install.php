@@ -10,7 +10,7 @@
 require_once('./admin.php');
 
 if ( ! current_user_can('install_themes') )
-	wp_die(__('You do not have sufficient permissions to install themes on this blog.'));
+	wp_die(__('You do not have sufficient permissions to install themes on this site.'));
 
 include(ABSPATH . 'wp-admin/includes/theme-install.php');
 

@@ -10,7 +10,7 @@
 require_once('./admin.php');
 
 if ( ! current_user_can('manage_links') )
-	wp_die(__('You do not have sufficient permissions to add links to this blog.'));
+	wp_die(__('You do not have sufficient permissions to add links to this site.'));
 
 $title = __('Add New Link');
 $parent_file = 'link-manager.php';

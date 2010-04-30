@@ -11,7 +11,7 @@ if ( !defined('ABSPATH') )
 	die('-1');
 
 if ( !current_user_can('manage_categories') )
-	wp_die(__('You do not have sufficient permissions to edit link categories for this blog.'));
+	wp_die(__('You do not have sufficient permissions to edit link categories for this site.'));
 
 /**
  * @var object

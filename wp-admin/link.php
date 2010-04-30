@@ -15,7 +15,7 @@ require_once ('admin.php');
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
 if ( ! current_user_can('manage_links') )
-	wp_die( __('You do not have sufficient permissions to edit the links for this blog.') );
+	wp_die( __('You do not have sufficient permissions to edit the links for this site.') );
 
 if ( !empty($_POST['deletebookmarks']) )
 	$action = 'deletebookmarks';
