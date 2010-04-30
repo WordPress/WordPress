@@ -365,7 +365,7 @@ endif;
 function twentyten_widgets_init() {
 	// Area 1
 	register_sidebar( array (
-		'name' => 'Primary Widget Area',
+		'name' => __( 'Primary Widget Area' , 'twentyten' ),
 		'id' => 'primary-widget-area',
 		'description' => __( 'The primary widget area' , 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
@@ -376,7 +376,7 @@ function twentyten_widgets_init() {
 
 	// Area 2
 	register_sidebar( array (
-		'name' => 'Secondary Widget Area',
+		'name' => __( 'Secondary Widget Area' , 'twentyten' ),
 		'id' => 'secondary-widget-area',
 		'description' => __( 'The secondary widget area' , 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
@@ -387,7 +387,7 @@ function twentyten_widgets_init() {
 
 	// Area 3
 	register_sidebar( array (
-		'name' => 'First Footer Widget Area',
+		'name' => __( 'First Footer Widget Area' , 'twentyten' ),
 		'id' => 'first-footer-widget-area',
 		'description' => __( 'The first footer widget area' , 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
@@ -398,7 +398,7 @@ function twentyten_widgets_init() {
 
 	// Area 4
 	register_sidebar( array (
-		'name' => 'Second Footer Widget Area',
+		'name' => __( 'Second Footer Widget Area' , 'twentyten' ),
 		'id' => 'second-footer-widget-area',
 		'description' => __( 'The second footer widget area' , 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
@@ -409,7 +409,7 @@ function twentyten_widgets_init() {
 
 	// Area 5
 	register_sidebar( array (
-		'name' => 'Third Footer Widget Area',
+		'name' => __( 'Third Footer Widget Area' , 'twentyten' ),
 		'id' => 'third-footer-widget-area',
 		'description' => __( 'The third footer widget area' , 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
@@ -420,7 +420,7 @@ function twentyten_widgets_init() {
 
 	// Area 6
 	register_sidebar( array (
-		'name' => 'Fourth Footer Widget Area',
+		'name' => __( 'Fourth Footer Widget Area' , 'twentyten' ),
 		'id' => 'fourth-footer-widget-area',
 		'description' => __( 'The fourth footer widget area' , 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
