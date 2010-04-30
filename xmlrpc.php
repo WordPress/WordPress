@@ -246,7 +246,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function login_pass_ok($user_login, $user_pass) {
 		if ( !get_option( 'enable_xmlrpc' ) ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this blog.  An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
+			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.  An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
 			return false;
 		}
 
@@ -268,7 +268,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function login($username, $password) {
 		if ( !get_option( 'enable_xmlrpc' ) ) {
-			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this blog.  An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
+			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.  An admin user can enable them at %s'),  admin_url('options-writing.php') ) );
 			return false;
 		}
 
@@ -391,7 +391,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'value'			=> $wp_version
 			),
 			'blog_url'			=> array(
-				'desc'			=> __( 'Blog URL' ),
+				'desc'			=> __( 'Site URL' ),
 				'readonly'		=> true,
 				'option'		=> 'siteurl'
 			),
@@ -403,12 +403,12 @@ class wp_xmlrpc_server extends IXR_Server {
 				'option'		=> 'gmt_offset'
 			),
 			'blog_title'		=> array(
-				'desc'			=> __( 'Blog Title' ),
+				'desc'			=> __( 'Site Title' ),
 				'readonly'		=> false,
 				'option'			=> 'blogname'
 			),
 			'blog_tagline'		=> array(
-				'desc'			=> __( 'Blog Tagline' ),
+				'desc'			=> __( 'Site Tagline' ),
 				'readonly'		=> false,
 				'option'		=> 'blogdescription'
 			),
@@ -830,7 +830,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can("edit_posts") )
-			return(new IXR_Error(401, __("Sorry, you cannot edit posts on this blog.")));
+			return(new IXR_Error(401, __("Sorry, you cannot edit posts on this site.")));
 
 		do_action('xmlrpc_call', 'wp.getAuthors');
 
@@ -865,7 +865,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this blog in order to view tags.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this site in order to view tags.' ) );
 
 		do_action( 'xmlrpc_call', 'wp.getKeywords' );
 
@@ -988,7 +988,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts to this blog in order to view categories.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts to this site in order to view categories.' ) );
 
 		do_action('xmlrpc_call', 'wp.suggestCategories');
 
@@ -1024,7 +1024,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.getComment');
 
@@ -1146,7 +1146,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.deleteComment');
 
@@ -1177,7 +1177,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.editComment');
 
@@ -1327,7 +1327,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.getCommentStatusList');
 
@@ -1386,7 +1386,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPostStatusList');
 
@@ -1412,7 +1412,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPageStatusList');
 
@@ -1438,7 +1438,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_pages' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
 
 		$templates = get_page_templates( );
 		$templates['Default'] = 'default';
@@ -1624,7 +1624,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 401, __( 'Sorry, you do not have access to user data on this blog.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you do not have access to user data on this site.' ) );
 
 		do_action('xmlrpc_call', 'blogger.getUserInfo');
 
@@ -1842,7 +1842,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
 		if ( !current_user_can($cap) )
-			return new IXR_Error(401, __('Sorry, you are not allowed to post on this blog.'));
+			return new IXR_Error(401, __('Sorry, you are not allowed to post on this site.'));
 
 		$post_status = ($publish) ? 'publish' : 'draft';
 
@@ -1989,13 +1989,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'metaWeblog.newPost');
 
 		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
-		$error_message = __( 'Sorry, you are not allowed to publish posts on this blog.' );
+		$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
 		$post_type = 'post';
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
 				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
-				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
+				$error_message = __( 'Sorry, you are not allowed to publish pages on this site.' );
 				$post_type = 'page';
 				if ( !empty( $content_struct['wp_page_template'] ) )
 					$page_template = $content_struct['wp_page_template'];
@@ -2264,13 +2264,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'metaWeblog.editPost');
 
 		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
-		$error_message = __( 'Sorry, you are not allowed to publish posts on this blog.' );
+		$error_message = __( 'Sorry, you are not allowed to publish posts on this site.' );
 		$post_type = 'post';
 		$page_template = '';
 		if ( !empty( $content_struct['post_type'] ) ) {
 			if ( $content_struct['post_type'] == 'page' ) {
 				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
-				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
+				$error_message = __( 'Sorry, you are not allowed to publish pages on this site.' );
 				$post_type = 'page';
 				if ( !empty( $content_struct['wp_page_template'] ) )
 					$page_template = $content_struct['wp_page_template'];
@@ -2720,7 +2720,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this blog in order to view categories.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this site in order to view categories.' ) );
 
 		do_action('xmlrpc_call', 'metaWeblog.getCategories');
 
@@ -2908,7 +2908,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this blog in order to view categories.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this site in order to view categories.' ) );
 
 		do_action('xmlrpc_call', 'mt.getCategoryList');
 

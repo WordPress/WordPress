@@ -373,9 +373,9 @@ function _get_dropins() {
 
 	if ( is_multisite() ) {
 		$dropins['sunrise.php'       ] = array( __( 'Executed before Multisite is loaded.' ), 'SUNRISE' ); // SUNRISE
-		$dropins['blog-deleted.php'  ] = array( __( 'Custom blog deleted message.'   ), true ); // auto on deleted blog
-		$dropins['blog-inactive.php' ] = array( __( 'Custom blog inactive message.'  ), true ); // auto on inactive blog
-		$dropins['blog-suspended.php'] = array( __( 'Custom blog suspended message.' ), true ); // auto on archived or spammed blog
+		$dropins['blog-deleted.php'  ] = array( __( 'Custom site deleted message.'   ), true ); // auto on deleted blog
+		$dropins['blog-inactive.php' ] = array( __( 'Custom site inactive message.'  ), true ); // auto on inactive blog
+		$dropins['blog-suspended.php'] = array( __( 'Custom site suspended message.' ), true ); // auto on archived or spammed blog
 	}
 
 	return $dropins;

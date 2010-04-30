@@ -32,7 +32,7 @@ Please click the following link to activate your user account:
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 
 	function admin_created_user_subject( $text ) {
-		return "[" . get_bloginfo('name') . "] Your blog invite";
+		return "[" . get_bloginfo('name') . "] Your site invite";
 	}
 }
 
@@ -174,7 +174,7 @@ if ( !is_multisite() ) {
 	else
 		echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), admin_url('options-general.php#users_can_register')) . '</p>';
 } else {
-	echo '<p>' . __( 'You can add new users to your blog in two ways:' ) . '<ol><li> ' . __( 'Enter the username and email address of an existing user on this site.' ) . '</li><li> ' . __( 'Enter the username and the email address of a person who is not already a member of this site. Choose the username carefully, it cannot be changed.' ) . '</li></ol></p>';
+	echo '<p>' . __( 'You can add new users to your site in two ways:' ) . '<ol><li> ' . __( 'Enter the username and email address of an existing user on this site.' ) . '</li><li> ' . __( 'Enter the username and the email address of a person who is not already a member of this site. Choose the username carefully, it cannot be changed.' ) . '</li></ol></p>';
 	echo '<p>' . __( 'That person will be sent an email asking them to click a link confirming the invite. New users will then be sent an email with a randomly generated password and a login link.' ) . '</p>';
 }
 ?>

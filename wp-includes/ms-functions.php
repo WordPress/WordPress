@@ -322,14 +322,14 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 
 	// Check if the domain has been used already. We should return an error message.
 	if ( domain_exists($domain, $path, $site_id) )
-		return __( 'Error: Blog URL already taken.' );
+		return __( 'Error: Site URL already taken.' );
 
 	// Need to backup wpdb table names, and create a new wp_blogs entry for new blog.
 	// Need to get blog_id from wp_blogs, and create new table names.
 	// Must restore table names at the end of function.
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
-		return __( 'Error: problem creating blog entry.' );
+		return __( 'Error: problem creating site entry.' );
 
 	switch_to_blog($blog_id);
 	install_blog($blog_id);
@@ -557,7 +557,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	}
 
 	if ( empty( $blogname ) )
-		$errors->add('blogname', __('Please enter a blog name'));
+		$errors->add('blogname', __('Please enter a site name'));
 
 	$maybe = array();
 	preg_match( '/[a-z0-9]+/', $blogname, $maybe );
@@ -568,27 +568,27 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$errors->add('blogname',  __('That name is not allowed'));
 
 	if ( strlen( $blogname ) < 4 && !is_super_admin() )
-		$errors->add('blogname',  __('Blog name must be at least 4 characters'));
+		$errors->add('blogname',  __('Site name must be at least 4 characters'));
 
 	if ( strpos( ' ' . $blogname, '_' ) != false )
-		$errors->add( 'blogname', __( 'Sorry, blog names may not contain the character &#8220;_&#8221;!' ) );
+		$errors->add( 'blogname', __( 'Sorry, site names may not contain the character &#8220;_&#8221;!' ) );
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
 	if ( !is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_site->blog_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) )
-		$errors->add( 'blogname', __( 'Sorry, you may not use that blog name.' ) );
+		$errors->add( 'blogname', __( 'Sorry, you may not use that site name.' ) );
 
 	// all numeric?
 	$match = array();
 	preg_match( '/[0-9]*/', $blogname, $match );
 	if ( $match[0] == $blogname )
-		$errors->add('blogname', __('Sorry, blog names must have letters too!'));
+		$errors->add('blogname', __('Sorry, site names must have letters too!'));
 
 	$blogname = apply_filters( 'newblogname', $blogname );
 
 	$blog_title = stripslashes(  $blog_title );
 
 	if ( empty( $blog_title ) )
-		$errors->add('blog_title', __('Please enter a blog title'));
+		$errors->add('blog_title', __('Please enter a site title'));
 
 	// Check if the domain/path has been used already.
 	if ( is_subdomain_install() ) {
@@ -599,11 +599,11 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$path = $base.$blogname.'/';
 	}
 	if ( domain_exists($mydomain, $path) )
-		$errors->add('blogname', __('Sorry, that blog already exists!'));
+		$errors->add('blogname', __('Sorry, that site already exists!'));
 
 	if ( username_exists( $blogname ) ) {
 		if ( is_object( $user ) == false || ( is_object($user) && ( $user->user_login != $blogname ) ) )
-			$errors->add( 'blogname', __( 'Sorry, that blog is reserved!' ) );
+			$errors->add( 'blogname', __( 'Sorry, that site is reserved!' ) );
 	}
 
 	// Has someone already signed up for this domain?
@@ -614,7 +614,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		if ( $diff > 172800 )
 			$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->signups WHERE domain = %s AND path = %s", $mydomain, $path) );
 		else
-			$errors->add('blogname', __('That blog is currently reserved but may be available in a couple days.'));
+			$errors->add('blogname', __('That site is currently reserved but may be available in a couple days.'));
 	}
 
 	$result = array('domain' => $mydomain, 'path' => $path, 'blogname' => $blogname, 'blog_title' => $blog_title, 'errors' => $errors);
@@ -688,7 +688,7 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf( apply_filters( 'wpmu_signup_blog_notification_email', __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your blog here:\n\n%s" ) ), $activate_url, esc_url( "http://{$domain}{$path}" ), $key );
+	$message = sprintf( apply_filters( 'wpmu_signup_blog_notification_email', __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" ) ), $activate_url, esc_url( "http://{$domain}{$path}" ), $key );
 	// TODO: Don't hard code activation link.
 	$subject = sprintf( apply_filters( 'wpmu_signup_blog_notification_subject', __( '[%1s] Activate %2s' ) ), $from_name, esc_url( 'http://' . $domain . $path ) );
 	wp_mail($user_email, $subject, $message, $message_headers);
@@ -721,7 +721,7 @@ function wpmu_activate_signup($key) {
 		return new WP_Error('invalid_key', __('Invalid activation key.'));
 
 	if ( $signup->active )
-		return new WP_Error('already_active', __('The blog is already active.'), $signup);
+		return new WP_Error('already_active', __('The site is already active.'), $signup);
 
 	$meta = unserialize($signup->meta);
 	$user_login = $wpdb->escape($signup->user_login);
@@ -811,13 +811,13 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 
 	// Check if the domain has been used already. We should return an error message.
 	if ( domain_exists($domain, $path, $site_id) )
-		return new WP_Error('blog_taken', __('Blog already exists.'));
+		return new WP_Error('blog_taken', __('Site already exists.'));
 
 	if ( !defined('WP_INSTALLING') )
 		define( 'WP_INSTALLING', true );
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
-		return new WP_Error('insert_blog', __('Could not create blog.'));
+		return new WP_Error('insert_blog', __('Could not create site.'));
 
 	switch_to_blog($blog_id);
 	install_blog($blog_id, $title);
@@ -859,14 +859,14 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	$siteurl = site_url();
 	restore_current_blog();
 
-	$msg = sprintf( __( 'New Blog: %1s
+	$msg = sprintf( __( 'New Site: %1s
 URL: %2s
 Remote IP: %3s
 
 Disable these notifications: %4s' ), $blogname, $siteurl, $_SERVER['REMOTE_ADDR'], $options_site_url);
 	$msg = apply_filters( 'newblog_notify_siteadmin', $msg );
 
-	wp_mail( $email, sprintf( __( 'New Blog Registration: %s' ), $siteurl ), $msg );
+	wp_mail( $email, sprintf( __( 'New Site Registration: %s' ), $siteurl ), $msg );
 	return true;
 }
 
@@ -1009,7 +1009,7 @@ Thanks!
 	if ( empty( $current_site->site_name ) )
 		$current_site->site_name = 'WordPress MU';
 
-	$subject = apply_filters( 'update_welcome_subject', sprintf(__('New %1$s Blog: %2$s'), $current_site->site_name, stripslashes( $title ) ) );
+	$subject = apply_filters( 'update_welcome_subject', sprintf(__('New %1$s Site: %2$s'), $current_site->site_name, stripslashes( $title ) ) );
 	wp_mail($user->user_email, $subject, $message, $message_headers);
 	return true;
 }

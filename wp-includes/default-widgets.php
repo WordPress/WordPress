@@ -172,7 +172,7 @@ class WP_Widget_Links extends WP_Widget {
 class WP_Widget_Search extends WP_Widget {
 
 	function WP_Widget_Search() {
-		$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your blog") );
+		$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your site") );
 		$this->WP_Widget('search', __('Search'), $widget_ops);
 	}
 
@@ -215,7 +215,7 @@ class WP_Widget_Search extends WP_Widget {
 class WP_Widget_Archives extends WP_Widget {
 
 	function WP_Widget_Archives() {
-		$widget_ops = array('classname' => 'widget_archive', 'description' => __( 'A monthly archive of your blog&#8217;s posts') );
+		$widget_ops = array('classname' => 'widget_archive', 'description' => __( 'A monthly archive of your site&#8217;s posts') );
 		$this->WP_Widget('archives', __('Archives'), $widget_ops);
 	}
 
@@ -328,7 +328,7 @@ class WP_Widget_Meta extends WP_Widget {
 class WP_Widget_Calendar extends WP_Widget {
 
 	function WP_Widget_Calendar() {
-		$widget_ops = array('classname' => 'widget_calendar', 'description' => __( 'A calendar of your blog&#8217;s posts') );
+		$widget_ops = array('classname' => 'widget_calendar', 'description' => __( 'A calendar of your site&#8217;s posts') );
 		$this->WP_Widget('calendar', __('Calendar'), $widget_ops);
 	}
 
@@ -511,7 +511,7 @@ class WP_Widget_Categories extends WP_Widget {
 class WP_Widget_Recent_Posts extends WP_Widget {
 
 	function WP_Widget_Recent_Posts() {
-		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
+		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your site") );
 		$this->WP_Widget('recent-posts', __('Recent Posts'), $widget_ops);
 		$this->alt_option_name = 'widget_recent_entries';
 

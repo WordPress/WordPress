@@ -97,7 +97,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 		if ( !is_super_admin( $userdata->ID ) && isset($userdata->primary_blog) ) {
 			$details = get_blog_details( $userdata->primary_blog );
 			if ( is_object( $details ) && $details->spam == 1 )
-				return new WP_Error('blog_suspended', __('Blog Suspended.'));
+				return new WP_Error('blog_suspended', __('Site Suspended.'));
 		}
 	}
 

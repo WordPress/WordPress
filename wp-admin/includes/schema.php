@@ -197,7 +197,7 @@ function populate_options() {
 
 	$options = array(
 	'siteurl' => $guessurl,
-	'blogname' => __('My Blog'),
+	'blogname' => __('My Site'),
 	/* translators: blog tagline */
 	'blogdescription' => __('Just another WordPress site'),
 	'users_can_register' => 0,

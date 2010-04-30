@@ -48,7 +48,7 @@ class Blogger_Import {
 		$next_url = get_option('siteurl') . '/wp-admin/index.php?import=blogger&amp;noheader=true';
 		$auth_url = "https://www.google.com/accounts/AuthSubRequest";
 		$title = __('Import Blogger');
-		$welcome = __('Howdy! This importer allows you to import posts and comments from your Blogger account into your WordPress blog.');
+		$welcome = __('Howdy! This importer allows you to import posts and comments from your Blogger account into your WordPress site.');
 		$prereqs = __('To use this importer, you must have a Google account and an upgraded (New, was Beta) blog hosted on blogspot.com or a custom domain (not FTP).');
 		$stepone = __('The first thing you need to do is tell Blogger to let WordPress access your account. You will be sent back here after providing authorization.');
 		$auth = esc_attr__('Authorize');

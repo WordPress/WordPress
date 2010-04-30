@@ -32,7 +32,7 @@ class RSS_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This importer allows you to extract posts from an RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.').'</p>';
+		echo '<p>'.__('Howdy! This importer allows you to extract posts from an RSS 2.0 file into your WordPress site. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.').'</p>';
 		wp_import_upload_form("admin.php?import=rss&amp;step=1");
 		echo '</div>';
 	}

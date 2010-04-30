@@ -311,7 +311,7 @@ function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
 	$user = new WP_User($user_id);
 	$email = $user->user_email;
 	$name = $user->user_login;
-	$message = sprintf(__("Your new WordPress blog has been successfully set up at:
+	$message = sprintf(__("Your new WordPress site has been successfully set up at:
 
 %1\$s
 
@@ -326,7 +326,7 @@ We hope you enjoy your new blog. Thanks!
 http://wordpress.org/
 "), $blog_url, $name, $password);
 
-	@wp_mail($email, __('New WordPress Blog'), $message);
+	@wp_mail($email, __('New WordPress Site'), $message);
 }
 endif;
 

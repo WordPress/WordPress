@@ -486,9 +486,9 @@ function wp_write_post() {
 
 	if ( !current_user_can( $ptype->edit_type_cap ) ) {
 		if ( 'page' == $ptype->name )
-			return new WP_Error( 'edit_pages', __( 'You are not allowed to create pages on this blog.' ) );
+			return new WP_Error( 'edit_pages', __( 'You are not allowed to create pages on this site.' ) );
 		else
-			return new WP_Error( 'edit_posts', __( 'You are not allowed to create posts or drafts on this blog.' ) );
+			return new WP_Error( 'edit_posts', __( 'You are not allowed to create posts or drafts on this site.' ) );
 	}
 
 	// Check for autosave collisions

@@ -249,7 +249,7 @@ case 'remove':
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php _e('Remove Users from Blog'); ?></h2>
+<h2><?php _e('Remove Users from Site'); ?></h2>
 <p><?php _e('You have specified these users for removal:'); ?></p>
 <ul>
 <?php
@@ -324,7 +324,7 @@ default:
 			$messages[] = '<div id="message" class="updated"><p>' . __('Other users have been deleted.') . '</p></div>';
 			break;
 		case 'remove':
-			$messages[] = '<div id="message" class="updated fade"><p>' . __('User removed from this blog.') . '</p></div>';
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('User removed from this site.') . '</p></div>';
 			break;
 		case 'err_admin_remove':
 			$messages[] = '<div id="message" class="error"><p>' . __("You can't remove the current user.") . '</p></div>';

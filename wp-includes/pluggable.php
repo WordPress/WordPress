@@ -1197,7 +1197,7 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-	$message  = sprintf(__('New user registration on your blog %s:'), $blogname) . "\r\n\r\n";
+	$message  = sprintf(__('New user registration on your site %s:'), $blogname) . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
 

@@ -284,7 +284,7 @@ class AtomServer {
 
 		// check to see if AtomPub is enabled
 		if ( !get_option( 'enable_app' ) )
-			$this->forbidden( sprintf( __( 'AtomPub services are disabled on this blog.  An admin user can enable them at %s' ), admin_url('options-writing.php') ) );
+			$this->forbidden( sprintf( __( 'AtomPub services are disabled on this site.  An admin user can enable them at %s' ), admin_url('options-writing.php') ) );
 
 		// dispatch
 		foreach ( $this->selectors as $regex => $funcs ) {
@@ -321,7 +321,7 @@ class AtomServer {
 		log_app('function','get_service()');
 
 		if ( !current_user_can( 'edit_posts' ) )
-			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
+			$this->auth_required( __( 'Sorry, you do not have the right to access this site.' ) );
 
 		$entries_url = esc_attr($this->get_entries_url());
 		$categories_url = esc_attr($this->get_categories_url());
@@ -362,7 +362,7 @@ EOD;
 		log_app('function','get_categories_xml()');
 
 		if ( !current_user_can( 'edit_posts' ) )
-			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
+			$this->auth_required( __( 'Sorry, you do not have the right to access this site.' ) );
 
 		$home = esc_attr(get_bloginfo_rss('url'));
 

@@ -100,7 +100,7 @@ class Dotclear_Import {
 
 	function greet()
 	{
-		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a DotClear database into your blog.  Mileage may vary.').'</p>';
+		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a DotClear database into your WordPress site.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your DotClear Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=dotclear&amp;step=1" method="post">';
 		wp_nonce_field('import-dotclear');

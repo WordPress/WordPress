@@ -647,7 +647,7 @@ switch ( $action ) {
 				}
 			} else { ?>
 				<tr>
-					<td colspan="<?php echo (int) count( $sites_columns ); ?>"><?php _e( 'No blogs found.' ) ?></td>
+					<td colspan="<?php echo (int) count( $sites_columns ); ?>"><?php _e( 'No sites found.' ) ?></td>
 				</tr>
 			<?php
 			} // end if ($blogs)

@@ -223,9 +223,9 @@ wp_dropdown_roles($user_role);
 
 // print the 'no role' option. Make it selected if the user has no role yet.
 if ( $user_role )
-	echo '<option value="">' . __('&mdash; No role for this blog &mdash;') . '</option>';
+	echo '<option value="">' . __('&mdash; No role for this site &mdash;') . '</option>';
 else
-	echo '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
+	echo '<option value="" selected="selected">' . __('&mdash; No role for this site &mdash;') . '</option>';
 ?>
 </select>
 <?php if ( is_multisite() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
