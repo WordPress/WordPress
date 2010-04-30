@@ -1072,7 +1072,7 @@ function wp_get_sidebars_widgets($deprecated = true) {
 		}
 	}
 
-	if ( isset($sidebars_widgets['array_version']) )
+	if ( is_array( $sidebars_widgets ) && isset($sidebars_widgets['array_version']) )
 		unset($sidebars_widgets['array_version']);
 
 	$sidebars_widgets = apply_filters('sidebars_widgets', $sidebars_widgets);
