@@ -223,6 +223,12 @@ form.processing .postbox img.waiting {
 	font-weight:bold;
 	overflow: hidden;
 }
+	.menu li.deleting dl dt {
+		background-color:#f66;
+		background-image: none;
+		text-shadow: 0 0 0 #ccc;
+	}
+
 .menu li dl.menu-item-edit-inactive dt {
 	border-radius: 6px;
 	-webkit-border-radius: 6px; 
@@ -243,11 +249,6 @@ form.processing .postbox img.waiting {
 }
 .no-js .menu li dl {
 	margin-top: 13px;
-}
-.menu li dl dt:hover {
-}
-.menu li.deleting dl dt {
-	background-color:#faa;
 }
 
 .menu li .item-title { 
