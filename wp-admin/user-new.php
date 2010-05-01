@@ -23,7 +23,7 @@ if ( is_multisite() ) {
 		return sprintf( __( "Hi,
 You've been invited to join '%s' at
 %s as a %s.
-If you do not want to join this blog please ignore
+If you do not want to join this site please ignore
 this email. This invitation will expire in a few days.
 
 Please click the following link to activate your user account:

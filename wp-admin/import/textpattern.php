@@ -64,7 +64,7 @@ class Textpattern_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Textpattern 4.0.2+ into this blog.').'</p>';
+		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Textpattern 4.0.2+ into this site.').'</p>';
 		echo '<p>'.__('This has not been tested on previous versions of Textpattern.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Textpattern Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=textpattern&amp;step=1" method="post">';

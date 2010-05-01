@@ -974,7 +974,7 @@ function wpmu_welcome_notification($blog_id, $user_id, $password, $title, $meta 
 	if ( $welcome_email == false )
 		$welcome_email = stripslashes( __( 'Dear User,
 
-Your new SITE_NAME blog has been successfully set up at:
+Your new SITE_NAME site has been successfully set up at:
 BLOG_URL
 
 You can log in to the administrator account with the following information:
@@ -982,7 +982,7 @@ Username: USERNAME
 Password: PASSWORD
 Login Here: BLOG_URLwp-login.php
 
-We hope you enjoy your new blog.
+We hope you enjoy your new site.
 Thanks!
 
 --The Team @ SITE_NAME' ) );

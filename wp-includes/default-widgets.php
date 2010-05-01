@@ -15,7 +15,7 @@
 class WP_Widget_Pages extends WP_Widget {
 
 	function WP_Widget_Pages() {
-		$widget_ops = array('classname' => 'widget_pages', 'description' => __( 'Your blog&#8217;s WordPress Pages') );
+		$widget_ops = array('classname' => 'widget_pages', 'description' => __( 'Your site&#8217;s WordPress Pages') );
 		$this->WP_Widget('pages', __('Pages'), $widget_ops);
 	}
 
