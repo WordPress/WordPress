@@ -445,10 +445,7 @@ function display_space_usage() {
 	$space = get_space_allowed();
 	$used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
 
-	if ( $used > $space )
-		$percentused = '100';
-	else
-		$percentused = ( $used / $space ) * 100;
+	$percentused = ( $used / $space ) * 100;
 
 	if ( $space > 1000 ) {
 		$space = number_format( $space / 1024 );
@@ -459,7 +456,7 @@ function display_space_usage() {
 		$space .= __( 'MB' );
 	}
 	?>
-	<strong><?php printf( __( 'Used: %1s%% of %2s' ), number_format( $percentused ), $space );?></strong>
+	<strong><?php printf( __( 'Used: %1s%% of %2s' ), number_format( $percentused ), $space ); ?></strong>
 	<?php
 }
 
