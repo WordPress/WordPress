@@ -812,7 +812,7 @@ td.media-icon img {
 	padding: 5px 0;
 	font-size: 12px;
 	text-align: center;
-	margin: 0 6px;
+	margin: 0 15px;
 	border-width: 1px;
 	border-style: solid;
 	border-top-width: 0;
@@ -2530,7 +2530,7 @@ fieldset {
 }
 
 #screen-meta-links {
-	margin: 0 9px 0 0;
+	margin: 0 18px 0 0;
 }
 
 #screen-meta .screen-reader-text {
