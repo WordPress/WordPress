@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-04-29 08:21+0000\n"
+"POT-Creation-Date: 2010-05-01 00:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -280,24 +280,48 @@ msgstr ""
 msgid "View all posts in %s"
 msgstr ""
 
+#: functions.php:368
+msgid "Primary Widget Area"
+msgstr ""
+
 #: functions.php:370
 msgid "The primary widget area"
+msgstr ""
+
+#: functions.php:379
+msgid "Secondary Widget Area"
 msgstr ""
 
 #: functions.php:381
 msgid "The secondary widget area"
 msgstr ""
 
+#: functions.php:390
+msgid "First Footer Widget Area"
+msgstr ""
+
 #: functions.php:392
 msgid "The first footer widget area"
+msgstr ""
+
+#: functions.php:401
+msgid "Second Footer Widget Area"
 msgstr ""
 
 #: functions.php:403
 msgid "The second footer widget area"
 msgstr ""
 
+#: functions.php:412
+msgid "Third Footer Widget Area"
+msgstr ""
+
 #: functions.php:414
 msgid "The third footer widget area"
+msgstr ""
+
+#: functions.php:423
+msgid "Fourth Footer Widget Area"
 msgstr ""
 
 #: functions.php:425
