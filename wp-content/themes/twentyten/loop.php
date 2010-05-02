@@ -36,7 +36,7 @@
 <?php while ( have_posts() ) : the_post(); ?>
 
 <?php /* How to Display posts in the Gallery Category  */ ?>
-	<?php if ( in_category( 'Gallery' ) ) : ?>
+	<?php if ( in_category( _x('gallery', 'gallery category slug', 'twentyten') ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
@@ -83,7 +83,7 @@
 		</div>
 
 <?php /* How to display posts in the asides category */ ?>
-	<?php elseif ( in_category( 'asides' ) ) : ?>
+	<?php elseif ( in_category( _x('asides', 'asides category slug', 'twentyten') ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php if ( is_archive() || is_search() ) : //Only display Excerpts for archives & search ?>
 			<div class="entry-summary">
