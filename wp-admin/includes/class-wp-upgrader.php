@@ -986,6 +986,7 @@ class WP_Upgrader_Skin {
 class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	var $plugin = '';
 	var $plugin_active = false;
+	var $plugin_network_active = false;
 
 	function Plugin_Upgrader_Skin($args = array()) {
 		return $this->__construct($args);
@@ -997,7 +998,8 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		$this->plugin = $args['plugin'];
 
-		$this->plugin_active = is_plugin_active($this->plugin);
+		$this->plugin_active = is_plugin_active( $this->plugin );
+		$this->plugin_network_active = is_plugin_active_for_network( $this->plugin );
 
 		parent::__construct($args);
 	}
@@ -1006,7 +1008,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->plugin = $this->upgrader->plugin_info();
 		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
 			show_message(__('Reactivating the plugin&#8230;'));
-			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
+			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}
 
 		$update_actions =  array(
