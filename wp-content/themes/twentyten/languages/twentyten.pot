@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-01 00:21+0000\n"
+"POT-Creation-Date: 2010-05-02 20:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -403,10 +403,6 @@ msgstr ""
 msgid ""
 "Sorry, but nothing matched your search criteria. Please try again with some "
 "different keywords."
-msgstr ""
-
-#: searchform.php:16 searchform.php:18
-msgid "Search"
 msgstr ""
 
 #: sidebar.php:19
