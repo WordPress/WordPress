@@ -1475,15 +1475,9 @@ class WP_Query {
 
 		// Correct is_* for page_on_front and page_for_posts
 		if (	$this->is_home &&
-				'page' == get_option('show_on_front') &&
-				get_option('page_on_front') &&
-				(
-				 	empty($this->query) ||
-					!empty($qv['preview']) ||
-					!empty($qv['cpage']) ||
-					!empty($qv['page']) ||
-					!empty($qv['paged'])
-				) ) {
+				'page' == get_option('show_on_front') && get_option('page_on_front') &&
+				( empty($query) || !array_diff( array_keys($this->query), array('preview', 'page', 'paged', 'cpage') ) )
+				) {
 			$this->is_page = true;
 			$this->is_home = false;
 			$qv['page_id'] = get_option('page_on_front');
