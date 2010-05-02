@@ -389,7 +389,7 @@ require_once( 'admin-header.php' );
 								</label>
 							
 								<div class="publishing-action">
-									<input class="button-primary" name="save_menu" type="submit" value="<?php esc_attr_e('Save Menu'); ?>" />
+									<input class="button-primary" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
 								</div><!--END .publishing-action-->
 							
 								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
@@ -419,9 +419,9 @@ require_once( 'admin-header.php' );
 								</ul>
 							<?php elseif ( empty($nav_menu_selected_id) ):
 								echo '<div class="post-body-plain">';
-								echo '<p>' . __('To create a custom menu, give it a name above, then choose items like pages, categories or custom links from the left column to add to this menu.') . '</p>';
-								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want, and click each item to reveal additional configuration options.') . '</p>';
-								echo '<p>' . __('When you are finished building your custom menu, make sure you click the Save Menu button above.') . '</p>';
+								echo '<p>' . __('To create a custom menu, give it a name above and click Create Menu. Then choose items like pages, categories or custom links from the left column to add to this menu.') . '</p>';
+								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want. You can also click each item to reveal additional configuration options.') . '</p>';
+								echo '<p>' . __('When you have finished building your custom menu, make sure you click the Save Menu button.') . '</p>';
 								echo '<p>' . __('You can create multiple menus. You can also display custom menus using the new "Custom Menu" widget.') . '</p>';
 								echo '<p>' . sprintf( __('For more information on this feature, see the <a href="%s">Custom Menus</a> article in the Codex.'), _x('http://codex.wordpress.org/Custom_Menus', 'Custom Menus codex page') ) . '</p>';
 								echo '</div>';
