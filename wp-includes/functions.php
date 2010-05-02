@@ -3763,10 +3763,13 @@ function is_main_site( $blog_id = '' ) {
  * @return bool True if multisite and global terms enabled
  */
 function global_terms_enabled() {
-	if ( is_multisite() && '1' == get_site_option( 'global_terms_enabled' ) )
-		return true;
+	if ( ! is_multisite() )
+		return false;
 
-	return false;
+	static $global_terms = null;
+	if ( is_null( $global_terms ) )
+		$global_terms = (bool) get_site_option( 'global_terms_enabled' );
+	return $global_terms;
 }
 
 /**
