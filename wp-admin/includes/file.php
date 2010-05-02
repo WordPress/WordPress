@@ -503,7 +503,7 @@ function download_url( $url ) {
 
 /**
  * Unzip's a specified ZIP file to a location on the Filesystem via the WordPress Filesystem Abstraction.
- * Assumes that WP_Filesystem() has already been called and set up.
+ * Assumes that WP_Filesystem() has already been called and set up. Does not extract a root-level __MACOSX directory, if present.
  *
  * Attempts to increase the PHP Memory limit to 256M before uncompressing,
  * However, The most memory required shouldn't be much larger than the Archive itself.
@@ -584,6 +584,9 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		if ( ! $info = $z->statIndex($i) )
 			return new WP_Error('stat_failed', __('Could not retrieve file from archive.'));
 
+		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Skip the OS X-created __MACOSX directory
+			continue;
+
 		if ( '/' == substr($info['name'], -1) ) // directory
 			$needed_dirs[] = $to . untrailingslashit($info['name']);
 		else
@@ -606,6 +609,9 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 		if ( '/' == substr($info['name'], -1) ) // directory
 			continue;
+
+		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Don't extract the OS X-created __MACOSX directory files
+			continue; 
 
 		$contents = $z->getFromIndex($i);
 		if ( false === $contents )
@@ -648,8 +654,12 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 		return new WP_Error('empty_archive', __('Empty archive.'));
 
 	// Determine any children directories needed (From within the archive)
-	foreach ( $archive_files as $file )
+	foreach ( $archive_files as $file ) {
+		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Skip the OS X-created __MACOSX directory 
+			continue;
+	
 		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname($file['filename']) );
+	}
 
 	$needed_dirs = array_unique($needed_dirs);
 	asort($needed_dirs);
@@ -664,6 +674,9 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	// Extract the files from the zip
 	foreach ( $archive_files as $file ) {
 		if ( $file['folder'] )
+			continue;
+
+		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Don't extract the OS X-created __MACOSX directory files
 			continue;
 
 		if ( ! $wp_filesystem->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
