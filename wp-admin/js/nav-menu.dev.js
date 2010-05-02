@@ -251,7 +251,7 @@ var WPNavMenuHandler = function () {
 					var activePanel,
 					panelIdMatch = /#(.*)$/.exec(e.target.href),
 					tabPanels,
-					wrapper = getParentWrapper(e.target, 'inside'),
+					wrapper = $(e.target).parents('.inside').first()[0],
 					inputs = wrapper ? wrapper.getElementsByTagName('input') : [],
 					i = inputs.length;
 
