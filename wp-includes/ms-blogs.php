@@ -106,9 +106,9 @@ function get_blog_details( $fields, $get_all = true ) {
 			$blog = wp_cache_get($key, 'blog-lookup');
 			if ( false !== $blog )
 				return $blog;
-			if ( substr( $domain, 0, 4 ) == 'www.' ) {
-				$nowww = substr( $domain, 4 );
-				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain IN (%s,%s) ORDER BY CHAR_LENGTH(domain) DESC", $nowww, $fields['domain'], $fields['path'] ) );
+			if ( substr( $fields['domain'], 0, 4 ) == 'www.' ) {
+				$nowww = substr( $fields['domain'], 4 );
+				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain IN (%s,%s) ORDER BY CHAR_LENGTH(domain) DESC", $nowww, $fields['domain'] ) );
 			} else {
 				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $fields['domain'] ) );
 			}
