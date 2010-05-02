@@ -8,17 +8,11 @@
  * @subpackage Administration
  */
 
-var WPNavMenuHandler = function () {
-	var $ = jQuery,
-	activeHovering = false,
-	currentDropzone = null,
+var WPNavMenuHandler = function ($) {
+	var autoCompleteData = {},
 	
-	customLinkNameInput,
-	customLinkURLInput,
-	customLinkNameDefault,
-	customLinkURLDefault,
-
-	autoCompleteData = {},
+	menuItemDepthPerLevel = 30, // Do not use directly. Use depthToPx and pxToDepth instead.
+	globalMaxDepth = 11,
 
 	formatAutocompleteResponse = function( resultRow, pos, total, queryTerm ) {
 		if ( resultRow && resultRow[0] ) {
@@ -80,83 +74,85 @@ var WPNavMenuHandler = function () {
 
 		return itemData;
 	},
+	
+	recalculateMenuItemPositions = function() {
+		menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
+	},
+	
+	depthToPx = function(depth) {
+		return depth * menuItemDepthPerLevel;
+	},
+	
+	pxToDepth = function(px) {
+		return Math.floor(px / menuItemDepthPerLevel);
+	},
 
-	getParentMenuItemDBId = function() {
-		var allInputs = this.getElementsByTagName('input'),
-		i = allInputs.length,
-		j,
-		parentEl,
-		parentInputs;
-
-		while( i-- ) {
-			if ( -1 != allInputs[i].name.indexOf('menu-item-parent-id[' + parseInt(this.id.replace('menu-item-', ''), 10) + ']') ) {
-				/*  This LI element is not in a submenu */
-				if ( ! this.parentNode.className || -1 == this.parentNode.className.indexOf('sub-menu') ) {
-					allInputs[i].value = 0;
-
-				/* This LI is in a submenu, so need to get the parent's object ID (which is different from the parent's DB ID, the ID in its attributes) */
-				} else if ( 'LI' == this.parentNode.parentNode.nodeName && -1 != this.parentNode.parentNode.id.indexOf('menu-item-') )  {
-					 parentEl = this.parentNode.parentNode;
-					 parentInputs = parentEl.getElementsByTagName('input');
-					 j = parentInputs.length;
-					 while ( j-- ) {
-						if ( parentInputs[j].name && -1 != parentInputs[j].name.indexOf('menu-item-object-id[' + parseInt(parentEl.id.replace('menu-item-', ''), 10) + ']') ) {
-							allInputs[i].value = parseInt(parentInputs[j].value, 10);
-							break;
-						}
-					 }
+	menuList;
+	
+	// jQuery extensions
+	$.fn.extend({
+		menuItemDepth : function() {
+			return pxToDepth( this.eq(0).css('margin-left').slice(0, -2) );
+		},
+		updateDepthClass : function(current, prev) {
+			return this.each(function(){
+				var t = $(this);
+				prev = prev || t.menuItemDepth();
+				$(this).removeClass('menu-item-depth-'+ prev )
+					.addClass('menu-item-depth-'+ current );
+			});
+		},
+		shiftDepthClass : function(change) {
+			return this.each(function(){
+				var t = $(this),
+					depth = t.menuItemDepth();
+				$(this).removeClass('menu-item-depth-'+ depth )
+					.addClass('menu-item-depth-'+ (depth + change) );
+			});
+		},
+		childMenuItems : function() {
+			var result = $();
+			this.each(function(){
+				var t = $(this), depth = t.menuItemDepth(), next = t.next();
+				while( next.length && next.menuItemDepth() > depth ) {
+					result = result.add( next );
+					next = next.next();
 				}
-				break;
-			}
-		}
-	},
+			});
+			return result;
+		},
+		updateParentMenuItemDBId : function() {
+			return this.each(function(){
+				var item = $(this),
+					input = item.find('.menu-item-data-parent-id'),
+					depth = item.menuItemDepth(),
+					parent = item.prev();
 
-	makeDroppable = function(el) {
-		var that = this;
-
-		$(el).droppable({
-			accept: '.menu li',
-			tolerance: 'pointer',
-			drop: function(e, ui) {
-				that.eventOnDrop(ui.draggable[0], this, ui, e);
-			},
-
-			over: function(e,ui) {
-				that.eventOnDragOver(ui.draggable[0], this, ui, e);
-			},
-
-			out: function(e, ui) {
-				that.eventOnDragOut(ui.draggable[0], this, ui, e);
-			}
-		});
-	},
-
-	menuList,
-
-	setupListItemsDragAndDrop = function(list) {
-		if ( ! list )
-			return;
-
-		var dummyListItem = document.getElementById(list.id + '-dummy-list-item'),
-		menuListItems = list.getElementsByTagName('li'),
-		i = menuListItems.length;
-
-		if ( ! dummyListItem ) {
-			dummyListItem = document.createElement('li');
-			dummyListItem.id = list.id + '-dummy-list-item';
-			list.appendChild(dummyListItem);
-			this.setupListItemDragAndDrop(dummyListItem);
-		}
-		
-		while ( i-- )
-			this.setupListItemDragAndDrop(menuListItems[i]);
-	};
+				if( depth == 0 ) { // Item is on the top level, has no parent
+					input.val(0);
+				} else { // Find the parent item, and retrieve its object id.
+					while( parent.menuItemDepth() != depth - 1 ) {
+						parent = parent.prev();
+					}
+					input.val( parent.find('.menu-item-data-object-id').val() );
+				}
+			});
+		},
+		hideAdvancedMenuItemFields : function() {
+			return this.each(function(){
+				var that = $(this);
+				$('.hide-column-tog').not(':checked').each(function(){
+					that.find('.field-' + $(this).val() ).addClass('hidden-field');
+				});
+			});
+		},
+	});
 
 	return {
 		
 		// Functions that run on init.
 		init : function() {
-			menuList = document.getElementById('menu-to-edit');
+			menuList = $('#menu-to-edit');
 			
 			this.attachMenuEditListeners();
 
@@ -164,8 +160,8 @@ var WPNavMenuHandler = function () {
 			
 			this.attachTabsPanelListeners();
 			
-			// init drag and drop
-			setupListItemsDragAndDrop.call(this, menuList); 
+			if( menuList.length ) // If no menu, we're in the + tab.
+				this.initSortables();
 
 			this.initToggles();
 		},
@@ -183,14 +179,106 @@ var WPNavMenuHandler = function () {
 				$('.field-' + field).addClass('hidden-field');
 			}
 			// hide fields
-			this.hideAdvancedMenuItemFields();
+			menuList.hideAdvancedMenuItemFields();
 		},
 		
-		hideAdvancedMenuItemFields : function(container) {
-			container = container || '.menu';
-			$('.hide-column-tog').not(':checked').each(function(){
-				$(container).find('.field-' + $(this).val() ).addClass('hidden-field');
+		initSortables : function() {
+			var currentDepth = 0, originalDepth, minDepth, maxDepth,
+				menuLeft = menuList.offset().left;
+			
+			menuList.sortable({
+				handle: ' > dl',
+				placeholder: 'sortable-placeholder',
+				start: function(e, ui) {
+					var next, height, width, parent, children, maxChildDepth,
+						transport = ui.item.children('.menu-item-transport');
+					
+					// Set depths
+					originalDepth = ui.item.menuItemDepth();
+					updateCurrentDepth(ui, originalDepth);
+					
+					// Attach child elements to parent
+					// Skip the placeholder
+					parent = ( ui.item.next()[0] == ui.placeholder[0] ) ? ui.item.next() : ui.item;
+					children = parent.childMenuItems();
+					transport.append( children );
+
+					// Now that the element is complete, we can update...
+					updateDepthRange(ui);
+					
+					// Update the height of the placeholder to match the moving item.
+					height = transport.outerHeight();
+					// If there are children, account for distance between top of children and parent
+					height += ( height > 0 ) ? (ui.placeholder.css('margin-top').slice(0, -2) * 1) : 0;
+					height += ui.item.outerHeight();
+					height -= 2; // Subtract 2 for borders
+					ui.placeholder.height(height);
+					
+					// Update the width of the placeholder to match the moving item.
+					maxChildDepth = originalDepth;
+					children.each(function(){
+						var depth = $(this).menuItemDepth();
+						maxChildDepth = (depth > maxChildDepth) ? depth : maxChildDepth;
+					});
+					width = ui.item.find('dl dt').outerWidth(); // Get original width
+					width += depthToPx(maxChildDepth - originalDepth); // Account for children
+					width -= 2; // Subtract 2 for borders
+					ui.placeholder.width(width);
+				},
+				stop: function(e, ui) {
+					var children, depthChange = currentDepth - originalDepth;
+					
+					// Return child elements to the list
+					children = ui.item.children('.menu-item-transport').children().insertAfter(ui.item);
+					
+					// Update depth classes
+					if( depthChange != 0 ) {
+						ui.item.updateDepthClass( currentDepth );
+						children.shiftDepthClass( depthChange );
+					}
+					// Finally, update the item/menu data.
+					ui.item.updateParentMenuItemDBId();
+					recalculateMenuItemPositions();
+				},
+				change: function(e, ui) {
+					// Make sure the placeholder is inside the menu.
+					// Otherwise fix it, or we're in trouble.
+					if( ! ui.placeholder.parent().hasClass('menu') )
+						ui.placeholder.appendTo(menuList);
+						
+					updateDepthRange(ui);
+				},
+				sort: function(e, ui) {
+					var depth = pxToDepth(ui.item.offset().left - menuLeft);
+					// Check and correct if depth is not within range.
+					if ( depth < minDepth ) depth = minDepth;
+					else if ( depth > maxDepth ) depth = maxDepth;
+					
+					if( depth != currentDepth )
+						updateCurrentDepth(ui, depth);
+				}
 			});
+			
+			function updateDepthRange(ui) {
+				var prev = ui.placeholder.prev(),
+					next = ui.placeholder.next(), depth;
+					
+				// Make sure we don't select the moving item.
+				if( prev[0] == ui.item[0] ) prev = prev.prev();	
+				if( next[0] == ui.item[0] ) next = next.next();
+				
+				minDepth = (next.length) ? next.menuItemDepth() : 0;
+				
+				if( prev.length )
+					maxDepth = ( (depth = prev.menuItemDepth() + 1) > globalMaxDepth ) ? globalMaxDepth : depth;
+				else
+					maxDepth = 0;
+			}
+			
+			function updateCurrentDepth(ui, depth) {
+				ui.placeholder.updateDepthClass( depth, currentDepth );
+				currentDepth = depth;
+			}
 		},
 		
 		attachMenuEditListeners : function() {
@@ -209,29 +297,42 @@ var WPNavMenuHandler = function () {
 				}
 			});
 		},
+		
+		/**
+		 * An interface for managing default values for input elements
+		 * that is both JS and accessibility-friendly.
+		 *
+		 * Input elements that add the class 'input-with-default-title'
+		 * will have their values set to the provided HTML title when empty.
+		 */
+		setupInputWithDefaultTitle : function() {
+			var name = 'input-with-default-title';
+			
+			$('.' + name).each( function(){
+				var $t = $(this), title = $t.attr('title'), val = $t.val();
+				$t.data( name, title );
+				
+				if( '' == val ) $t.val( title );
+				else if ( title == val ) return;
+				else $t.removeClass( name );
+			}).focus( function(){
+				var $t = $(this);
+				if( $t.val() == $t.data(name) )
+					$t.val('').removeClass( name );
+			}).blur( function(){
+				var $t = $(this);
+				if( '' == $t.val() )
+					$t.val( $t.data(name) ).addClass( name );
+			});
+		},
 
 		attachMenuMetaListeners : function(formEL) {
 			if ( ! formEL )
 				return;
 
-			var that = this, lwd = 'label-with-default-title';
+			var that = this;
+			this.setupInputWithDefaultTitle();
 			
-			$('.'+lwd).each(function(){
-				var $t = $(this), title = $t.attr('title'), val = $t.val();
-				$t.data(lwd, title);
-				if( '' == val ) $t.val(title);
-				else if ( title == val ) return;
-				else $t.removeClass(lwd);
-			}).focus(function(){
-				var $t = $(this);
-				if( $t.val() == $t.data(lwd) )
-					$t.val('').removeClass(lwd);
-			}).blur(function(){
-				var $t = $(this);
-				if( '' == $t.val() )
-					$t.val( $t.data(lwd) ).addClass(lwd);
-			});
-
 			// auto-suggest for the quick-search boxes
 			$('input.quick-search').each(function(i, el) {
 				that.setupQuickSearchEventListeners(el); 
@@ -239,9 +340,6 @@ var WPNavMenuHandler = function () {
 			
 			$(formEL).bind('submit', function(e) {
 				return that.eventSubmitMetaForm.call(that, this, e);
-			});
-			$(formEL).find('input:submit').click(function() {
-				$(this).siblings('img.waiting').show();
 			});
 		},
 
@@ -286,19 +384,6 @@ var WPNavMenuHandler = function () {
 					}
 				}
 			});
-		},
-
-		setupListItemDragAndDrop : function(el) {
-			var defLists = el.getElementsByTagName('dl'),
-			dropZone = this.makeListItemDropzone(el),
-			i = defLists.length;
-
-			makeDroppable.call(this, dropZone);
-			this.makeListItemDraggable(el);
-
-			while( i-- ) {
-				makeDroppable.call(this, defLists[i]);
-			}
 		},
 
 		/**
@@ -399,78 +484,6 @@ var WPNavMenuHandler = function () {
 		},
 
 		/**
-		 * Callback for the drag over action when dragging a list item.
-		 *
-		 * @param object draggedEl The DOM element being dragged
-		 * @param object dropEl The DOM element on top of which we're dropping.
-		 */
-		eventOnDragOver : function(draggedEl, dropEl) {
-			activeHovering = true;
-			currentDropzone = dropEl;
-			dropEl.className += ' sortable-placeholder';
-		},
-
-		/**
-		 * Callback for the drag out action when dragging a list item.
-		 *
-		 * @param object draggedEl The DOM element being dragged
-		 * @param object dropEl The DOM element on top of which we're dropping.
-		 */
-		eventOnDragOut : function(draggedEl, dropEl) {
-			activeHovering = false;
-
-			/* delay the disappearance of the droppable area so it doesn't flicker in and out */
-			(function(that) {
-				setTimeout(function() {
-					if ( that != currentDropzone || ( ! activeHovering && that.className && -1 != that.className.indexOf('sortable-placeholder') ) ) {
-						that.className = that.className.replace(/sortable-placeholder/g, '');
-					}
-				}, 800);
-			})(dropEl);
-		},
-
-		/**
-		 * Callback for the drop action when dragging and dropping a list item.
-		 *
-		 * @param object draggedEl The DOM element being dragged (and now dropped)
-		 * @param object dropEl The DOM element on top of which we're dropping.
-		 */
-		eventOnDrop : function(draggedEl, dropEl) {
-			var dropIntoSublist = !! ( -1 == dropEl.className.indexOf('dropzone') ),
-			subLists = dropEl.parentNode.getElementsByTagName('ul'),
-			hasSublist = false,
-			i = subLists.length,
-			subList;
-
-			activeHovering = false;
-			
-			dropEl.className = dropEl.className.replace(/sortable-placeholder/g, '');
-
-			if ( dropIntoSublist ) {
-				while ( i-- ) {
-					if ( subLists[i] && 1 != subLists[i].className.indexOf('sub-menu') ) {
-						hasSublist = true;
-						subList = subLists[i];
-					}
-				}
-
-				if ( ! hasSublist ) {
-					subList = document.createElement('ul');
-					subList.className = 'sub-menu';
-					dropEl.parentNode.appendChild(subList);
-				}
-
-				subList.appendChild(draggedEl);
-			} else {
-				dropEl.parentNode.parentNode.insertBefore(draggedEl, dropEl.parentNode);
-			}
-
-			this.recalculateSortOrder(menuList);
-
-			getParentMenuItemDBId.call(draggedEl); 
-		},
-
-		/**
 		 * Callback for the meta form submit action listener.
 		 *
 		 * @param object thisForm The submitted form.
@@ -487,6 +500,7 @@ var WPNavMenuHandler = function () {
 			processMethod = function(){},
 			re = new RegExp('menu-item\\[(\[^\\]\]*)');
 
+			thisForm.className = thisForm.className + ' processing',
 			that = this;
 			params['action'] = '';
 
@@ -534,44 +548,10 @@ var WPNavMenuHandler = function () {
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				processMethod.call(that, menuMarkup, params);	
-				$(thisForm).find('img.waiting').hide();
+				thisForm.className = thisForm.className.replace(/processing/g, '');
 			});
 
 			return false;
-		},
-
-		makeListItemDraggable : function(el) {
-			// make menu item draggable
-			$(el).draggable({
-				handle: ' > dl',
-				opacity: .8,
-				addClasses: false,
-				helper: 'clone',
-				zIndex: 100
-			});
-		},
-
-		/**
-		 * Add the child element that acts as the dropzone for drag-n-drop.
-		 * 
-		 * @param object el The parent object to which we'll prepend the dropzone.
-		 * @return object The dropzone DOM element.
-		 */
-		makeListItemDropzone : function(el) {
-			if ( ! el )
-				return false;
-			var divs = el.getElementsByTagName('div'),
-			i = divs.length,
-			dropZone = document.createElement('div');
-
-			while( i-- ) {
-				if ( divs[i].className && -1 != divs[i].className.indexOf('dropzone') && ( el == divs[i].parentNode ) ) 
-					return divs[i];
-			}
-
-			dropZone.className = 'dropzone';
-			el.insertBefore(dropZone, el.firstChild);
-			return dropZone;
 		},
 
 		/**
@@ -581,27 +561,7 @@ var WPNavMenuHandler = function () {
 		 * @param object req The request arguments.
 		 */
 		processAddMenuItemResponse : function( menuMarkup, req ) {
-			if ( ! req )
-				req = {};
-			var dropZone,
-			dummyListItem = document.getElementById(menuList.id + '-dummy-list-item'),
-			i,
-			listElements,
-			wrap = document.createElement('ul');
-
-			wrap.innerHTML = menuMarkup;
-			listElements = wrap.getElementsByTagName('li');
-			i = listElements.length;
-			while ( i-- ) {
-				this.setupListItemDragAndDrop(listElements[i]);
-				if ( dummyListItem )
-					menuList.insertBefore(listElements[i], dummyListItem);
-				else
-					menuList.appendChild(listElements[i]);
-			}
-
-			this.recalculateSortOrder(menuList);
-			this.hideAdvancedMenuItemFields(menuList);
+			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( menuList );
 
 			/* set custom link form back to defaults */
 			$('#custom-menu-item-name').val('').blur();
@@ -668,46 +628,20 @@ var WPNavMenuHandler = function () {
 			}
 		},
 
-		recalculateSortOrder : function(parentEl) {
-			var allInputs = parentEl.getElementsByTagName('input'),
-			i,
-			j = 0;
-
-			for( i = 0; i < allInputs.length; i++ ) {
-				if ( allInputs[i].name && -1 != allInputs[i].name.indexOf('menu-item-position') ) {
-					allInputs[i].value = ++j;
-				}
-			}
-		},
-
 		removeMenuItem : function(el) {
-			if ( ! el ) 
-				return false;
-
-			var subMenus = el.getElementsByTagName('ul'),
-			subs,
-			i;
-
-			if ( subMenus[0] ) {
-				subs = subMenus[0].getElementsByTagName('li');
-				for ( i = 0; i < subs.length; i++ ) {
-					if ( subs[i].id && -1 != subs[i].id.indexOf('menu-item-') && subs[i].parentNode == subMenus[0] ) {
-						el.parentNode.insertBefore(subs[i], el);
-					}
-				}
-			}
-
-			el.className += ' deleting';
-			$(el).fadeOut( 350 , function() {
-				this.parentNode.removeChild(this);	
-			});
+			el = $(el)
+			var children = el.childMenuItems();
 			
-			this.recalculateSortOrder(menuList);
+			el.addClass('deleting').fadeOut( 350 , function() {
+				el.remove();
+				children.shiftDepthClass(-1).updateParentMenuItemDBId();
+				recalculateMenuItemPositions();
+			});
 		}
 	}
 }
 
-var wpNavMenu = new WPNavMenuHandler();
+var wpNavMenu = new WPNavMenuHandler(jQuery);
 
 jQuery(function() {
 	wpNavMenu.init();

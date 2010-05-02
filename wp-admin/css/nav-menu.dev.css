@@ -79,6 +79,10 @@
 		border-bottom-right-radius: 6px;
 	}
 	
+	#post-body-content {
+		position: relative;
+	}
+	
 	.post-body-plain {
 		padding: 10px 10px 0 0;
 	}
@@ -119,7 +123,7 @@
 		padding-right: 10px;
 	}
 	
-	.js .label-with-default-title {
+	.js .input-with-default-title {
 		color: #aaa;
 		font-style: italic;
 	}
@@ -203,12 +207,13 @@ form.processing .postbox img.waiting {
 .menu ul.sub-menu {
 }
 .menu li { 
-	margin: 0;
+	margin-bottom: 0;
 }
 .menu li dl {
 	clear:both;
 	line-height:1.5em;
 	position:relative;
+	margin-top: 13px;
 }
 .menu li dl dt {
 	background: url("../images/gray-grad.png") repeat-x scroll left top #DFDFDF;
@@ -223,12 +228,6 @@ form.processing .postbox img.waiting {
 	font-weight:bold;
 	overflow: hidden;
 }
-	.menu li.deleting dl dt {
-		background-color:#f66;
-		background-image: none;
-		text-shadow: 0 0 0 #ccc;
-	}
-
 .menu li dl.menu-item-edit-inactive dt {
 	border-radius: 6px;
 	-webkit-border-radius: 6px; 
@@ -247,8 +246,10 @@ form.processing .postbox img.waiting {
 .js .menu li dl dt {
 	cursor: move;
 }
-.no-js .menu li dl {
-	margin-top: 13px;
+.menu li dl dt:hover {
+}
+.menu li.deleting dl dt {
+	background-color:#faa;
 }
 
 .menu li .item-title { 
@@ -258,25 +259,45 @@ form.processing .postbox img.waiting {
 	margin-right:13em;
 }
 
-.menu li .sortable-placeholder {
-	width: 430px;
+/* Sortables */
+li.menu-item.ui-sortable-helper dl {
+	margin-top: 0;
 }
-.menu li div.sortable-placeholder {
-	background: #f5f5f5;
-	border: 1px dashed #bbb;
-	margin: 10px 0;
-	padding-top:40px;
-}
-
-.menu li dl.sortable-placeholder {
-	background: #f5f5f5;
-	padding-bottom:40px;
+	li.menu-item.ui-sortable-helper .menu-item-transport dl {
+		margin-top: 13px;
+	}
+.menu .sortable-placeholder {
+	height: 35px;
+	width: 410px;
+	margin-top: 13px;
 }
 
-.menu li li { margin-left: 20px; }
+/* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
+.menu-item-depth-0 { margin-left: 0px; }
+.menu-item-depth-1 { margin-left: 30px; }
+.menu-item-depth-2 { margin-left: 60px; }
+.menu-item-depth-3 { margin-left: 90px; }
+.menu-item-depth-4 { margin-left: 120px; }
+.menu-item-depth-5 { margin-left: 150px; }
+.menu-item-depth-6 { margin-left: 180px; }
+.menu-item-depth-7 { margin-left: 210px; }
+.menu-item-depth-8 { margin-left: 240px; }
+.menu-item-depth-9 { margin-left: 270px; }
+.menu-item-depth-10 { margin-left: 300px; }
+.menu-item-depth-11 { margin-left: 330px; }
 
-/* Drag and Drop */
-.dropzone { height: 7px; margin: 3px 0 3px 0; }
+.menu-item-depth-0 .menu-item-transport { margin-left: 0px; }
+.menu-item-depth-1 .menu-item-transport { margin-left: -30px; }
+.menu-item-depth-2 .menu-item-transport { margin-left: -60px; }
+.menu-item-depth-3 .menu-item-transport { margin-left: -90px; }
+.menu-item-depth-4 .menu-item-transport { margin-left: -120px; }
+.menu-item-depth-5 .menu-item-transport { margin-left: -150px; }
+.menu-item-depth-6 .menu-item-transport { margin-left: -180px; }
+.menu-item-depth-7 .menu-item-transport { margin-left: -210px; }
+.menu-item-depth-8 .menu-item-transport { margin-left: -240px; }
+.menu-item-depth-9 .menu-item-transport { margin-left: -270px; }
+.menu-item-depth-10 .menu-item-transport { margin-left: -300px; }
+.menu-item-depth-11 .menu-item-transport { margin-left: -330px; }
 
 /* Menu item controls */
 .item-type { text-transform: uppercase; font-size: 11px; color: #999999; padding-right: 10px; }

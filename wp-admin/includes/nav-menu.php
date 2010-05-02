@@ -8,7 +8,24 @@
  * @uses Walker_Nav_Menu
  */
 class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
-
+	/**
+	 * @see Walker_Nav_Menu::start_lvl()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference.
+	 * @param int $depth Depth of page.
+	 */
+	function start_lvl(&$output, $depth) {}
+	
+	/**
+	 * @see Walker_Nav_Menu::end_lvl()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference.
+	 * @param int $depth Depth of page.
+	 */
+	function end_lvl(&$output, $depth) {}
+	
 	/**
 	 * @see Walker::start_el()
 	 * @since 3.0.0
@@ -41,7 +58,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 			$original_title = $original_object->post_title;
 		}
 		?>
-		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item-<?php echo strtolower(esc_attr( $item->append )); ?>">
+		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo strtolower(esc_attr( $item->append )); ?>">
 			<dl class="<?php 
 				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
 					echo 'menu-item-edit-active';
@@ -166,14 +183,15 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 					<input class="button-primary save-menu-item" name="save_menu_item" type="submit" value="<?php esc_attr_e('Save Menu Item'); ?>" />
 				</span>
 				
-				<input type="hidden" name="menu-item-append[<?php echo $item_id; ?>]" value="<?php echo $item->append; ?>" />
-				<input type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
-				<input type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
-				<input type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
-				<input type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_parent ); ?>" />
-				<input type="hidden" class="menu-item-position" name="menu-item-position[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
-				<input type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
-			</div><!-- .menu-item-settings-->
+				<input class="menu-item-data-append" type="hidden" name="menu-item-append[<?php echo $item_id; ?>]" value="<?php echo $item->append; ?>" />
+				<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
+				<input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
+				<input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
+				<input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_parent ); ?>" />
+				<input class="menu-item-data-position" type="hidden" class="menu-item-position" name="menu-item-position[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
+				<input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
+			</div><!-- .menu-item-settings-->	
+			<ul class="menu-item-transport"></ul>
 		<?php
 		$output .= ob_get_clean();
 	}
@@ -426,7 +444,7 @@ function wp_nav_menu_item_link_meta_box() {
 			<p id="menu-item-name-wrap">
 				<label class="howto" for="custom-menu-item-name">
 					<span><?php _e('Text'); ?></span>
-					<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox label-with-default-title" title="<?php esc_attr_e('Menu Item'); ?>" />
+					<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Menu Item'); ?>" />
 				</label>
 			</p>
 
