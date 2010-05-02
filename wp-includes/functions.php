@@ -637,7 +637,7 @@ function delete_option( $option ) {
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $row->autoload ) {
 			$alloptions = wp_load_alloptions();
-			if ( isset( $alloptions[$option] ) ) {
+			if ( is_array( $alloptions ) && isset( $alloptions[$option] ) ) {
 				unset( $alloptions[$option] );
 				wp_cache_set( 'alloptions', $alloptions, 'options' );
 			}
