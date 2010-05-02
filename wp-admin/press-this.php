@@ -399,7 +399,7 @@ var photostorage = false;
 					jQuery('#waiting').hide();
 					jQuery('#extra-fields').show();
 				}
-				jQuery('#extra-fields').before('<div id="waiting"><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" /> <?php echo esc_js( __( 'Loading...' ) ); ?></div>');
+				jQuery('#extra-fields').before('<div id="waiting"><img src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" /> <?php echo esc_js( __( 'Loading...' ) ); ?></div>');
 
 				if(photostorage == false) {
 					jQuery.ajax({
@@ -475,7 +475,7 @@ var photostorage = false;
 						<?php } else { ?>
 							<br /><br /><input class="button-primary" type="submit" name="review" value="<?php esc_attr_e('Submit for Review') ?>" id="review" />
 						<?php } ?>
-						<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="saving" style="display:none;" />
+						<img src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" id="saving" style="display:none;" />
 					</p>
 				</div>
 			</div>
@@ -563,11 +563,11 @@ var photostorage = false;
 
 				<li id="photo_button">
 					Add: <?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
-<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif' ) ); ?>"/></a>
+<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo admin_url( 'images/media-button-image.gif' ); ?>"/></a>
 					<?php } ?>
 				</li>
 				<li id="video_button">
-					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif' ) ); ?>"/></a>
+					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo admin_url( 'images/media-button-video.gif' ); ?>"/></a>
 				</li>
 				<?php if ( user_can_richedit() ) { ?>
 				<li id="switcher">

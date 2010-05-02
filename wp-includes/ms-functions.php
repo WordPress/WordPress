@@ -852,7 +852,7 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	if ( is_email($email) == false )
 		return false;
 
-	$options_site_url = esc_url(network_admin_url('ms-options.php'));
+	$options_site_url = network_admin_url('ms-options.php');
 
 	switch_to_blog( $blog_id );
 	$blogname = get_option( 'blogname' );
@@ -881,7 +881,7 @@ function newuser_notify_siteadmin( $user_id ) {
 
 	$user = new WP_User($user_id);
 
-	$options_site_url = esc_url(network_admin_url('ms-options.php'));
+	$options_site_url = network_admin_url('ms-options.php');
 	$msg = sprintf(__('New User: %1s
 Remote IP: %2s
 

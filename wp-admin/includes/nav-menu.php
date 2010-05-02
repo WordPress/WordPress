@@ -450,7 +450,7 @@ function wp_nav_menu_item_link_meta_box() {
 
 		<p class="button-controls">
 			<span class="add-to-menu">
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<img class="waiting" src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" />
 				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" />
 			</span>
 		</p>
@@ -639,7 +639,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			</span>
 
 			<span class="add-to-menu">
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<img class="waiting" src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" />
 				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-post-type-menu-item" />
 			</span>
 		</p>
@@ -807,7 +807,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			</span>
 
 			<span class="add-to-menu">
-				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<img class="waiting" src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" />
 				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-taxonomy-menu-item" />
 			</span>
 		</p>

@@ -65,7 +65,7 @@ function inline_edit_term_row($type, $taxonomy) {
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
 		<?php $update_text = sprintf( __('Update %s'), $tax->singular_label ); ?>
 		<a accesskey="s" href="#inline-edit" title="<?php echo esc_attr( $update_text ); ?>" class="save button-primary alignright"><?php echo $update_text; ?></a>
-		<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+		<img class="waiting" style="display:none;" src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" />
 		<span class="error" style="display:none;"></span>
 		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
 		<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $tax->name ); ?>" />
@@ -613,7 +613,7 @@ function wp_manage_posts_columns( $screen = '') {
 		$posts_columns['tags'] = __('Tags');
 	$post_status = !empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
 	if ( !in_array( $post_status, array('pending', 'draft', 'future') ) && ( empty($post_type) || post_type_supports($post_type, 'comments') ) )
-		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
+		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . admin_url( 'images/comment-grey-bubble.png' ) . '" /></div>';
 	$posts_columns['date'] = __('Date');
 
 	if ( 'page' == $post_type )
@@ -643,7 +643,7 @@ function wp_manage_media_columns() {
 	//$posts_columns['tags'] = _x('Tags', 'column name');
 	/* translators: column name */
 	$posts_columns['parent'] = _x('Attached to', 'column name');
-	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . esc_url( admin_url( 'images/comment-grey-bubble.png' ) ) . '" /></div>';
+	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="' . admin_url( 'images/comment-grey-bubble.png' ) . '" /></div>';
 	//$posts_columns['comments'] = __('Comments');
 	/* translators: column name */
 	$posts_columns['date'] = _x('Date', 'column name');
@@ -1153,7 +1153,7 @@ endif; // post_type_supports comments or pings ?>
 			$update_text = __( 'Update' );
 			?>
 			<a accesskey="s" href="#inline-edit" title="<?php _e('Update'); ?>" class="button-primary save alignright"><?php echo esc_attr( $update_text ); ?></a>
-			<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+			<img class="waiting" style="display:none;" src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" />
 		<?php } else {
 			$update_text = __( 'Update' );
 		?>
@@ -1818,7 +1818,7 @@ function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 		if ($current_user->ID == $user_object->ID) {
 			$edit_link = 'profile.php';
 		} else {
-			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( esc_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
+			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user_object->ID" ) );
 		}
 		$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
 
@@ -2012,7 +2012,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$post_type_object = get_post_type_object($post->post_type);
 	$user_can = current_user_can($post_type_object->edit_cap, $post->ID);
 
-	$comment_url = esc_url(get_comment_link($comment->comment_ID));
+	$comment_url = get_comment_link($comment->comment_ID);
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
@@ -2068,7 +2068,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 
 				if ( $comment->comment_parent ) {
 					$parent = get_comment( $comment->comment_parent );
-					$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
+					$parent_link = get_comment_link( $comment->comment_parent );
 					$name = apply_filters( 'get_comment_author', $parent->comment_author ); // there's no API function for this
 					printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
 				}
@@ -2275,7 +2275,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<a href="#comments-form" class="save button-primary alignright" tabindex="104">
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
-	<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+	<img class="waiting" style="display:none;" src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" />
 	<span class="error" style="display:none;"></span>
 	<br class="clear" />
 	</p>

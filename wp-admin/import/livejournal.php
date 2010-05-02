@@ -976,7 +976,7 @@ class LJ_API_Import {
 				if ( next_counter <= 0 ) {
 					if ( jQuery( '#<?php echo $id ?>' ).length ) {
 						jQuery( "#<?php echo $id ?> input[type='submit']" ).hide();
-						str = '<?php _e( "Continuing&#8230;" ) ?> <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="processing" align="top" />';
+						str = '<?php _e( "Continuing&#8230;" ) ?> <img src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" id="processing" align="top" />';
 						jQuery( '#<?php echo $msg ?>' ).html( str );
 						jQuery( '#<?php echo $id ?>' ).submit();
 						return;
@@ -1005,7 +1005,7 @@ class LJ_API_Import {
 					if ( jQuery( '#<?php echo $id ?>' ).length ) {
 						jQuery( "#<?php echo $id ?> input[type='submit']" ).hide();
 						jQuery.ajaxSetup({'timeout':3600000});
-						str = '<?php _e( "Processing next batch." ) ?> <img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" id="processing" align="top" />';
+						str = '<?php _e( "Processing next batch." ) ?> <img src="<?php echo admin_url( 'images/wpspin_light.gif' ); ?>" alt="" id="processing" align="top" />';
 						jQuery( '#<?php echo $msg ?>' ).html( str );
 						jQuery('#ljapi-status').load(ajaxurl, {'action':'lj-importer',
 																'import':'livejournal',

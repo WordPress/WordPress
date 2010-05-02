@@ -29,7 +29,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( empty( $_POST ) )
-			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">options page</a>.', esc_url( admin_url( 'ms-options.php' ) ) ) ) );
+			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">options page</a>.', admin_url( 'ms-options.php' ) ) ) );
 
 		if ( isset($_POST['WPLANG']) && ( '' === $_POST['WPLANG'] || in_array( $_POST['WPLANG'], get_available_languages() ) ) )
 			update_site_option( 'WPLANG', $_POST['WPLANG'] );
@@ -204,7 +204,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( empty( $_POST ) )
-			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">sites page</a>', esc_url( admin_url( 'ms-sites.php' ) ) ) ) );
+			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">sites page</a>', admin_url( 'ms-sites.php' ) ) ) );
 
 		switch_to_blog( $id );
 
@@ -466,7 +466,7 @@ switch ( $_GET['action'] ) {
 				<?php wp_admin_css( 'install', true ); ?>
 			</head>
 			<body id="error-page">
-				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png' ) ); ?>" /></h1>
+				<h1 id="logo"><img alt="WordPress" src="<?php echo admin_url( 'images/wordpress-logo.png' ); ?>" /></h1>
 				<form action="ms-edit.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />

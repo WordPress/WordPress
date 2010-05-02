@@ -83,7 +83,7 @@ if ( $updated ) { ?>
 			$s = $i == 3 ? '' : 'border-right: 1px solid #ccc;';
 			echo "<td valign='top' style='$s'>";
 			echo "<h3>{$user_blog->blogname}</h3>";
-			echo "<p>" . apply_filters( 'myblogs_blog_actions', "<a href='" . esc_url( get_home_url( $user_blog->userblog_id ) ). "'>" . __( 'Visit' ) . "</a> | <a href='" . esc_url( get_admin_url( $user_blog->userblog_id ) ) . "'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
+			echo "<p>" . apply_filters( 'myblogs_blog_actions', "<a href='" . get_home_url( $user_blog->userblog_id ). "'>" . __( 'Visit' ) . "</a> | <a href='" . get_admin_url( $user_blog->userblog_id ) . "'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
 			echo apply_filters( 'myblogs_options', '', $user_blog );
 			echo "</td>";
 			$i++;

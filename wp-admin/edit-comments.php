@@ -156,7 +156,7 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 
 		if ( $spammed > 0 ) {
 			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
-			$messages[] = sprintf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
+			$messages[] = sprintf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed ) . ' <a href="' . wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", "bulk-comments" ) . '">' . __('Undo') . '</a><br />';
 		}
 
 		if ( $unspammed > 0 )
@@ -164,7 +164,7 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 
 		if ( $trashed > 0 ) {
 			$ids = isset($_GET['ids']) ? $_GET['ids'] : 0;
-			$messages[] = sprintf( _n( '%s comment moved to the Trash.', '%s comments moved to the Trash.', $trashed ), $trashed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
+			$messages[] = sprintf( _n( '%s comment moved to the Trash.', '%s comments moved to the Trash.', $trashed ), $trashed ) . ' <a href="' . wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", "bulk-comments" ) . '">' . __('Undo') . '</a><br />';
 		}
 
 		if ( $untrashed > 0 )
@@ -176,13 +176,13 @@ if ( isset($_GET['approved']) || isset($_GET['deleted']) || isset($_GET['trashed
 		if ( $same > 0 && $comment = get_comment( $same ) ) {
 			switch ( $comment->comment_approved ) {
 				case '1' :
-					$messages[] = __('This comment is already approved.') . ' <a href="' . esc_url( admin_url( "comment.php?action=editcomment&c=$same" ) ) . '">' . __( 'Edit comment' ) . '</a>';
+					$messages[] = __('This comment is already approved.') . ' <a href="' . admin_url( "comment.php?action=editcomment&c=$same" ) . '">' . __( 'Edit comment' ) . '</a>';
 					break;
 				case 'trash' :
-					$messages[] = __( 'This comment is already in the Trash.' ) . ' <a href="' . esc_url( admin_url( 'edit-comments.php?comment_status=trash' ) ) . '"> ' . __( 'View Trash' ) . '</a>';
+					$messages[] = __( 'This comment is already in the Trash.' ) . ' <a href="' . admin_url( 'edit-comments.php?comment_status=trash' ) . '"> ' . __( 'View Trash' ) . '</a>';
 					break;
 				case 'spam' :
-					$messages[] = __( 'This comment is already marked as spam.' ) . ' <a href="' . esc_url( admin_url( "comment.php?action=editcomment&c=$same" ) ) . '">' . __( 'Edit comment' ) . '</a>';
+					$messages[] = __( 'This comment is already marked as spam.' ) . ' <a href="' . admin_url( "comment.php?action=editcomment&c=$same" ) . '">' . __( 'Edit comment' ) . '</a>';
 					break;
 			}
 		}
