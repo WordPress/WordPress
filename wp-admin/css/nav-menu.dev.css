@@ -156,9 +156,6 @@
 	display: none;
 	vertical-align: middle;
 }
-form.processing .postbox img.waiting {
-	display: inline;
-}
 
 .button-controls { margin: 10px 0; }
 .show-all, .hide-all { cursor: pointer; }

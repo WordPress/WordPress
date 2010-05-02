@@ -341,6 +341,9 @@ var WPNavMenuHandler = function ($) {
 			$(formEL).bind('submit', function(e) {
 				return that.eventSubmitMetaForm.call(that, this, e);
 			});
+			$(formEL).find('input:submit').click(function() { 
+				$(this).siblings('img.waiting').show(); 
+			});
 		},
 
 		attachTabsPanelListeners : function() {
@@ -500,7 +503,6 @@ var WPNavMenuHandler = function ($) {
 			processMethod = function(){},
 			re = new RegExp('menu-item\\[(\[^\\]\]*)');
 
-			thisForm.className = thisForm.className + ' processing',
 			that = this;
 			params['action'] = '';
 
@@ -548,7 +550,7 @@ var WPNavMenuHandler = function ($) {
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				processMethod.call(that, menuMarkup, params);	
-				thisForm.className = thisForm.className.replace(/processing/g, '');
+				$(thisForm).find('img.waiting').hide();
 			});
 
 			return false;
