@@ -347,6 +347,21 @@ require_once( 'admin-header.php' );
 	</div><!-- /#menu-settings-column -->
 	<div id="menu-management-liquid">
 		<div id="menu-management">
+			<div id="select-nav-menu-container" class="hide-if-js">
+				<form id="select-nav-menu">
+					<strong><label for="select-nav-menu"><?php esc_html_e( 'Select Menu: ' ); ?></label></strong>
+					<select id="select-nav-menu" name="menu">
+						<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
+							<option value="<?php echo esc_attr($_nav_menu->term_id) ?>" <?php selected($nav_menu_selected_id, $_nav_menu->term_id); ?>>
+								<?php echo esc_html( $_nav_menu->name ); ?>
+							</option>
+						<?php endforeach; ?>
+						<option value="0"><?php esc_html_e('Add New Menu'); ?></option>
+					</select>
+					<input type="hidden" name="action" value="edit" />
+					<input class="button-secondary" name="select_menu" type="submit" value="<?php esc_attr_e('Select'); ?>" />
+				</form>
+			</div>
 			<div class="nav-tabs">
 				<?php 
 				foreach( (array) $nav_menus as $_nav_menu ) :
@@ -362,6 +377,8 @@ require_once( 'admin-header.php' );
 					?>" class="nav-tab<?php 
 						if ( $nav_menu_selected_id == $_nav_menu->term_id ) 
 							echo ' nav-tab-active';
+						else
+							echo ' hide-if-no-js';
 					?>"><?php echo esc_html( $_nav_menu->name ); ?></a><?php
 				endforeach;
 				?><a href="<?php 

@@ -12,13 +12,17 @@
 	margin-left: 300px;
 }
 
-#menu-settings-column {
+#wpbody-content #menu-settings-column {
 	display:block;
 	width:281px;
 	margin-left: -300px;
 	clear: both;
 	float: left;
+	padding-top: 24px;
 }
+	.no-js #wpbody-content #menu-settings-column {
+		padding-top: 31px;
+	}
 
 #menu-settings-column .inside {
 	padding:0 10px;
@@ -93,6 +97,7 @@
 	
 	#menu-management .nav-tabs {
 		padding-left: 30px;
+		clear: both;
 	}
 
 	#menu-management .nav-tab {
@@ -106,6 +111,16 @@
 		border-color:#ccc;
 		border-bottom-color: #ececec;
 	}
+	
+	#select-nav-menu-container {
+		text-align: right;
+		padding: 0 10px 3px 10px;
+		margin-bottom: 5px;
+	}	
+		#select-nav-menu {
+			width: 100px;
+			display: inline;
+		}
 	
 	#menu-management #major-publishing-actions #delete-action {
 		float: right;
