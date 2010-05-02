@@ -89,7 +89,12 @@ function get_blog_details( $fields, $get_all = true ) {
 			$blog = wp_cache_get($key, 'blog-lookup');
 			if ( false !== $blog )
 				return $blog;
-			$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $fields['domain'], $fields['path'] ) );
+			if ( substr( $domain, 0, 4 ) == 'www.' ) {
+				$nowww = substr( $domain, 4 );
+				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain IN (%s,%s) AND path = %s ORDER BY CHAR_LENGTH(domain) DESC", $nowww, $fields['domain'], $fields['path'] ) );
+			} else {
+				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $fields['domain'], $fields['path'] ) );
+			}
 			if ( $blog ) {
 				wp_cache_set($blog->blog_id . 'short', $blog, 'blog-details');
 				$blog_id = $blog->blog_id;
@@ -101,7 +106,12 @@ function get_blog_details( $fields, $get_all = true ) {
 			$blog = wp_cache_get($key, 'blog-lookup');
 			if ( false !== $blog )
 				return $blog;
-			$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $fields['domain'] ) );
+			if ( substr( $domain, 0, 4 ) == 'www.' ) {
+				$nowww = substr( $domain, 4 );
+				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain IN (%s,%s) ORDER BY CHAR_LENGTH(domain) DESC", $nowww, $fields['domain'], $fields['path'] ) );
+			} else {
+				$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $fields['domain'] ) );
+			}
 			if ( $blog ) {
 				wp_cache_set($blog->blog_id . 'short', $blog, 'blog-details');
 				$blog_id = $blog->blog_id;
