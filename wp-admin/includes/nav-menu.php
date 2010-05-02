@@ -443,7 +443,7 @@ function wp_nav_menu_item_link_meta_box() {
 
 			<p id="menu-item-name-wrap">
 				<label class="howto" for="custom-menu-item-name">
-					<span><?php _e('Text'); ?></span>
+					<span><?php _e('Label'); ?></span>
 					<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Menu Item'); ?>" />
 				</label>
 			</p>
@@ -626,7 +626,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 
 		<p class="button-controls">
-			<span class="lists-controls">
+			<span class="list-controls">
 				<a href="<?php 
 					echo add_query_arg(
 						array(
@@ -794,7 +794,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		</div><!-- /.tabs-panel -->
 
 		<p class="button-controls">
-			<span class="lists-controls">
+			<span class="list-controls">
 				<a href="<?php 
 					echo add_query_arg(
 						array(

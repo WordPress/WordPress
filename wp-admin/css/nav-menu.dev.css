@@ -147,7 +147,7 @@
 #cancel-save:hover { background-color: #FF0000; color: #fff; }
 
 /* Button Secondary Actions */
-.list-controls { float: left; }
+.list-controls { float: left; margin-top: 5px; }
 .add-to-menu { 
 	float: right;
 }
