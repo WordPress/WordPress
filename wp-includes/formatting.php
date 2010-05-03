@@ -735,19 +735,20 @@ function sanitize_file_name( $filename ) {
  */
 function sanitize_user( $username, $strict = false ) {
 	$raw_username = $username;
-	$username = wp_strip_all_tags($username);
+	$username = wp_strip_all_tags( $username );
+	$username = remove_accents( $username );
 	// Kill octets
-	$username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
-	$username = preg_replace('/&.+?;/', '', $username); // Kill entities
+	$username = preg_replace( '|%([a-fA-F0-9][a-fA-F0-9])|', '', $username );
+	$username = preg_replace( '/&.+?;/', '', $username ); // Kill entities
 
 	// If strict, reduce to ASCII for max portability.
 	if ( $strict )
-		$username = preg_replace('|[^a-z0-9 _.\-@]|i', '', $username);
+		$username = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $username );
 
 	// Consolidate contiguous whitespace
-	$username = preg_replace('|\s+|', ' ', $username);
+	$username = preg_replace( '|\s+|', ' ', $username );
 
-	return apply_filters('sanitize_user', $username, $raw_username, $strict);
+	return apply_filters( 'sanitize_user', $username, $raw_username, $strict );
 }
 
 /**

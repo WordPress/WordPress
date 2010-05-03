@@ -158,8 +158,8 @@ function edit_user( $user_id = 0 ) {
 	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;
 
-	if ( !$update && !validate_username( $user->user_login ) )
-		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid. Please enter a valid username.' ));
+	if ( !$update && isset( $_POST['user_login'] ) && !validate_username( $_POST['user_login'] ) )
+		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.' ));
 
 	if ( !$update && username_exists( $user->user_login ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ));
