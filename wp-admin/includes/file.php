@@ -641,7 +641,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 			continue;
 
 		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Don't extract the OS X-created __MACOSX directory files
-			continue; 
+			continue;
 
 		$contents = $z->getFromIndex($i);
 		if ( false === $contents )
@@ -685,9 +685,9 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 
 	// Determine any children directories needed (From within the archive)
 	foreach ( $archive_files as $file ) {
-		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Skip the OS X-created __MACOSX directory 
+		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
-	
+
 		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname($file['filename']) );
 	}
 

@@ -134,7 +134,7 @@ case 'imgedit-preview' :
 case 'menu-quick-search':
 	if ( ! current_user_can( 'switch_themes' ) )
 		die('-1');
-	
+
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
 	_wp_ajax_menu_quick_search( $_REQUEST );
@@ -399,7 +399,7 @@ case 'delete-link' :
 case 'delete-menu-item' :
 	$menu_item_id = (int) $_POST['menu-item'];
 	check_admin_referer( 'delete-menu_item_' . $menu_item_id );
-	if ( ! current_user_can( 'switch_themes' ) ) 
+	if ( ! current_user_can( 'switch_themes' ) )
 		die('-1');
 
 	if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
@@ -827,12 +827,12 @@ case 'add-menu-item' :
 	$menu_id = (int) $_POST['menu'];
 	if ( isset( $_POST['menu-item'] ) ) {
 		$item_ids = wp_save_nav_menu_item( $menu_id, $_POST['menu-item'] );
-		if ( is_wp_error( $item_ids ) ) 
+		if ( is_wp_error( $item_ids ) )
 			die('-1');
 	} else {
 		$item_ids = array();
 	}
-	
+
 	foreach ( (array) $item_ids as $menu_item_id ) {
 		$menu_obj = get_post( $menu_item_id );
 		if ( ! empty( $menu_obj->ID ) ) {
@@ -847,7 +847,7 @@ case 'add-menu-item' :
 			'context' => 'backend',
 			'link_after' => '',
 			'link_before' => '',
-			'walker' => new Walker_Nav_Menu_Edit, 
+			'walker' => new Walker_Nav_Menu_Edit,
 		);
 		echo walk_nav_menu_tree( $menu_items, 0, (object) $args );
 	}
@@ -1093,7 +1093,7 @@ case 'hidden-columns' :
 case 'menu-quick-search':
 	if ( ! current_user_can( 'switch_themes' ) )
 		die('-1');
-	
+
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
 	_wp_ajax_menu_quick_search( $_REQUEST );

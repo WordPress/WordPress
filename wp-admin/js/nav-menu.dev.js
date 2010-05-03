@@ -10,7 +10,7 @@
 
 var WPNavMenuHandler = function ($) {
 	var autoCompleteData = {},
-	
+
 	menuItemDepthPerLevel = 30, // Do not use directly. Use depthToPx and pxToDepth instead.
 	globalMaxDepth = 11,
 
@@ -32,9 +32,9 @@ var WPNavMenuHandler = function ($) {
 				return data.post_title;
 		}
 	},
-	
+
 	getListDataFromID = function(menuItemID, parentEl) {
-		if ( ! menuItemID ) 
+		if ( ! menuItemID )
 			return false;
 		parentEl = parentEl || document;
 		var fields = [
@@ -62,10 +62,10 @@ var WPNavMenuHandler = function ($) {
 		while ( i-- ) {
 			j = fields.length;
 			while ( j-- ) {
-				if ( 
+				if (
 					inputs[i] &&
 					inputs[i].name &&
-					'menu-item[' + menuItemID + '][' + fields[j] + ']' == inputs[i].name 
+					'menu-item[' + menuItemID + '][' + fields[j] + ']' == inputs[i].name
 				) {
 					itemData[fields[j]] = inputs[i].value;
 				}
@@ -74,21 +74,21 @@ var WPNavMenuHandler = function ($) {
 
 		return itemData;
 	},
-	
+
 	recalculateMenuItemPositions = function() {
 		menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
 	},
-	
+
 	depthToPx = function(depth) {
 		return depth * menuItemDepthPerLevel;
 	},
-	
+
 	pxToDepth = function(px) {
 		return Math.floor(px / menuItemDepthPerLevel);
 	},
 
 	menuList;
-	
+
 	// jQuery extensions
 	$.fn.extend({
 		menuItemDepth : function() {
@@ -149,29 +149,29 @@ var WPNavMenuHandler = function ($) {
 	});
 
 	return {
-		
+
 		// Functions that run on init.
 		init : function() {
 			menuList = $('#menu-to-edit');
-			
+
 			this.attachMenuEditListeners();
 
 			this.attachMenuMetaListeners(document.getElementById('nav-menu-meta'));
-			
+
 			this.attachTabsPanelListeners();
-			
+
 			if( menuList.length ) // If no menu, we're in the + tab.
 				this.initSortables();
 
 			this.initToggles();
-			
+
 			this.initTabManager();
 		},
-		
+
 		initToggles : function() {
 			// init postboxes
 			postboxes.add_postbox_toggles('nav-menus');
-			
+
 			// adjust columns functions for menus UI
 			columns.useCheckboxesForHidden();
 			columns.checked = function(field) {
@@ -183,22 +183,22 @@ var WPNavMenuHandler = function ($) {
 			// hide fields
 			menuList.hideAdvancedMenuItemFields();
 		},
-		
+
 		initSortables : function() {
 			var currentDepth = 0, originalDepth, minDepth, maxDepth,
 				menuLeft = menuList.offset().left;
-			
+
 			menuList.sortable({
 				handle: ' > dl',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
 					var next, height, width, parent, children, maxChildDepth,
 						transport = ui.item.children('.menu-item-transport');
-					
+
 					// Set depths
 					originalDepth = ui.item.menuItemDepth();
 					updateCurrentDepth(ui, originalDepth);
-					
+
 					// Attach child elements to parent
 					// Skip the placeholder
 					parent = ( ui.item.next()[0] == ui.placeholder[0] ) ? ui.item.next() : ui.item;
@@ -207,7 +207,7 @@ var WPNavMenuHandler = function ($) {
 
 					// Now that the element is complete, we can update...
 					updateDepthRange(ui);
-					
+
 					// Update the height of the placeholder to match the moving item.
 					height = transport.outerHeight();
 					// If there are children, account for distance between top of children and parent
@@ -215,7 +215,7 @@ var WPNavMenuHandler = function ($) {
 					height += ui.item.outerHeight();
 					height -= 2; // Subtract 2 for borders
 					ui.placeholder.height(height);
-					
+
 					// Update the width of the placeholder to match the moving item.
 					maxChildDepth = originalDepth;
 					children.each(function(){
@@ -229,10 +229,10 @@ var WPNavMenuHandler = function ($) {
 				},
 				stop: function(e, ui) {
 					var children, depthChange = currentDepth - originalDepth;
-					
+
 					// Return child elements to the list
 					children = ui.item.children('.menu-item-transport').children().insertAfter(ui.item);
-					
+
 					// Update depth classes
 					if( depthChange != 0 ) {
 						ui.item.updateDepthClass( currentDepth );
@@ -247,7 +247,7 @@ var WPNavMenuHandler = function ($) {
 					// Otherwise fix it, or we're in trouble.
 					if( ! ui.placeholder.parent().hasClass('menu') )
 						ui.placeholder.appendTo(menuList);
-						
+
 					updateDepthRange(ui);
 				},
 				sort: function(e, ui) {
@@ -255,34 +255,34 @@ var WPNavMenuHandler = function ($) {
 					// Check and correct if depth is not within range.
 					if ( depth < minDepth ) depth = minDepth;
 					else if ( depth > maxDepth ) depth = maxDepth;
-					
+
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
 				}
 			});
-			
+
 			function updateDepthRange(ui) {
 				var prev = ui.placeholder.prev(),
 					next = ui.placeholder.next(), depth;
-					
+
 				// Make sure we don't select the moving item.
-				if( prev[0] == ui.item[0] ) prev = prev.prev();	
+				if( prev[0] == ui.item[0] ) prev = prev.prev();
 				if( next[0] == ui.item[0] ) next = next.next();
-				
+
 				minDepth = (next.length) ? next.menuItemDepth() : 0;
-				
+
 				if( prev.length )
 					maxDepth = ( (depth = prev.menuItemDepth() + 1) > globalMaxDepth ) ? globalMaxDepth : depth;
 				else
 					maxDepth = 0;
 			}
-			
+
 			function updateCurrentDepth(ui, depth) {
 				ui.placeholder.updateDepthClass( depth, currentDepth );
 				currentDepth = depth;
 			}
 		},
-		
+
 		attachMenuEditListeners : function() {
 			var that = this;
 			$('#update-nav-menu').bind('click', function(e) {
@@ -299,7 +299,7 @@ var WPNavMenuHandler = function ($) {
 				}
 			});
 		},
-		
+
 		/**
 		 * An interface for managing default values for input elements
 		 * that is both JS and accessibility-friendly.
@@ -309,11 +309,11 @@ var WPNavMenuHandler = function ($) {
 		 */
 		setupInputWithDefaultTitle : function() {
 			var name = 'input-with-default-title';
-			
+
 			$('.' + name).each( function(){
 				var $t = $(this), title = $t.attr('title'), val = $t.val();
 				$t.data( name, title );
-				
+
 				if( '' == val ) $t.val( title );
 				else if ( title == val ) return;
 				else $t.removeClass( name );
@@ -334,17 +334,17 @@ var WPNavMenuHandler = function ($) {
 
 			var that = this;
 			this.setupInputWithDefaultTitle();
-			
+
 			// auto-suggest for the quick-search boxes
 			$('input.quick-search').each(function(i, el) {
-				that.setupQuickSearchEventListeners(el); 
+				that.setupQuickSearchEventListeners(el);
 			});
-			
+
 			$(formEL).bind('submit', function(e) {
 				return that.eventSubmitMetaForm.call(that, this, e);
 			});
-			$(formEL).find('input:submit').click(function() { 
-				$(this).siblings('img.waiting').show(); 
+			$(formEL).find('input:submit').click(function() {
+				$(this).siblings('img.waiting').show();
 			});
 		},
 
@@ -359,7 +359,7 @@ var WPNavMenuHandler = function ($) {
 					i = inputs.length;
 
 					// upon changing tabs, we want to uncheck all checkboxes
-					while( i-- ) 
+					while( i-- )
 						inputs[i].checked = false;
 
 					$('.tabs-panel', wrapper).each(function() {
@@ -379,7 +379,7 @@ var WPNavMenuHandler = function ($) {
 							activePanel.className = activePanel.className.replace('tabs-panel-inactive', 'tabs-panel-active');
 						}
 					}
-					
+
 					return false;
 				} else if ( e.target && e.target.className && -1 != e.target.className.indexOf('select-all') ) {
 					var selectAreaMatch = /#(.*)$/.exec(e.target.href);
@@ -390,7 +390,7 @@ var WPNavMenuHandler = function ($) {
 				}
 			});
 		},
-		
+
 		initTabManager : function() {
 			var fixed = $('.nav-tabs-wrapper'),
 				fluid = fixed.children('.nav-tabs'),
@@ -400,13 +400,13 @@ var WPNavMenuHandler = function ($) {
 				fixedRight, fixedLeft,
 				arrowLeft, arrowRight
 				resizing = false;
-			
+
 			function resetMenuTabs() {
 				fixedLeft = fixed.offset().left;
 				fixedRight = fixedLeft + fixed.width();
 				active.makeTabVisible();
 			}
-			
+
 			$.fn.extend({
 				makeTabVisible : function() {
 					var t = this.eq(0), left, right;
@@ -426,43 +426,43 @@ var WPNavMenuHandler = function ($) {
 					return ( right <= fixedRight && left >= fixedLeft ) ? true : false;
 				}
 			});
-			
+
 			// Find the width of all tabs
 			tabs.each(function(){
 				tabsWidth += $(this).outerWidth(true);
 			});
-			
+
 			// Check if we need the tab manager
 			if( tabsWidth <= fixed.width()
 				- fluid.css('padding-left').slice(0,-2)
 				- fluid.css('padding-right').slice(0,-2) )
 				return;
-			
+
 			// Set up right margin for overflow, unset padding
 			fluid.css({
 				'margin-right'  : (-1 * tabsWidth) + 'px',
 				'padding' : 0,
 			});
-			
+
 			// Build tab navigation
 			arrowLeft = $('<div class="nav-tabs-arrow nav-tabs-arrow-left"><a>&laquo;</a></div>');
 			arrowRight = $('<div class="nav-tabs-arrow nav-tabs-arrow-right"><a>&raquo;</a></div>');
 			// Attach to the document
 			fixed.wrap('<div class="nav-tabs-nav"/>').parent().prepend( arrowLeft ).append( arrowRight );
-			
+
 			// Set the menu tabs
 			resetMenuTabs();
 			// Make sure the tabs reset on resize
 			$(window).resize(function() {
 				if( resizing ) return;
 				resizing = true;
-				setTimeout(function(){ 
+				setTimeout(function(){
 					resetMenuTabs();
 					resizing = false;
 				}, 1000);
 			});
-			
-			// Build arrow functions			
+
+			// Build arrow functions
 			$.each([{
 					arrow : arrowLeft,
 					next : "next",
@@ -501,23 +501,23 @@ var WPNavMenuHandler = function ($) {
 		 */
 		setupQuickSearchEventListeners : function(el) {
 			var that = this;
-			$(el).autocomplete( ajaxurl + '?action=menu-quick-search&type=' + el.name, 
-				{ 
-					delay: 500, 
+			$(el).autocomplete( ajaxurl + '?action=menu-quick-search&type=' + el.name,
+				{
+					delay: 500,
 					formatItem: formatAutocompleteResponse,
 					formatResult: formatAutocompleteResult,
-					minchars: 2, 
-					multiple: false 
+					minchars: 2,
+					multiple: false
 				}
 			).bind('blur', function(e) {
 				var changedData = autoCompleteData[this.value],
 				inputEl = this;
 				if ( changedData ) {
-					$.post( 
+					$.post(
 						ajaxurl + '?action=menu-quick-search&type=get-post-item&response-format=markup',
 						changedData,
 						function(r) {
-							that.processQuickSearchQueryResponse.call(that, r, changedData); 
+							that.processQuickSearchQueryResponse.call(that, r, changedData);
 							autoCompleteData[inputEl.value] = false;
 						}
 					);
@@ -546,12 +546,12 @@ var WPNavMenuHandler = function ($) {
 				}
 			}
 		},
-		
+
 		eventOnClickCloseLink : function(clickedEl) {
 			$(clickedEl).closest('.menu-item-settings').siblings('dl').find('.item-edit').click();
 			return false;
 		},
-		
+
 		eventOnClickMenuDelete : function(clickedEl) {
 			// Delete warning AYS
 			if ( confirm( navMenuL10n.warnDeleteMenu ) ) {
@@ -570,7 +570,7 @@ var WPNavMenuHandler = function ($) {
 			if ( confirm( navMenuL10n.warnDeleteMenuItem ) ) {
 				matchedSection = /_wpnonce=([a-zA-Z0-9]*)$/.exec(clickedEl.href);
 				if ( matchedSection && matchedSection[1] ) {
-					itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);	
+					itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
 					$.post(
 						ajaxurl,
 						{
@@ -583,7 +583,7 @@ var WPNavMenuHandler = function ($) {
 								that.removeMenuItem(document.getElementById('menu-item-' + itemID));
 						}
 					);
-					return false;	
+					return false;
 				}
 				return true;
 			} else {
@@ -629,7 +629,7 @@ var WPNavMenuHandler = function ($) {
 					listItemDBIDMatch = re.exec(inputs[i].name);
 					listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
 					listItemData = getListDataFromID(listItemDBID);
-					
+
 					for ( j in listItemData ) {
 						params['menu-item[' + listItemDBID + '][' + j + ']'] = listItemData[j];
 					}
@@ -654,7 +654,7 @@ var WPNavMenuHandler = function ($) {
 			params['menu-settings-column-nonce'] = thisForm.elements['menu-settings-column-nonce'].value;
 
 			$.post( ajaxurl, params, function(menuMarkup) {
-				processMethod.call(that, menuMarkup, params);	
+				processMethod.call(that, menuMarkup, params);
 				$(thisForm).find('img.waiting').hide();
 			});
 
@@ -677,7 +677,7 @@ var WPNavMenuHandler = function ($) {
 
 		/**
 		 * Process the quick search response into a search result
-		 * 
+		 *
 		 * @param string resp The server response to the query.
 		 * @param object req The request arguments.
 		 */
@@ -708,7 +708,7 @@ var WPNavMenuHandler = function ($) {
 			}
 
 			wrap.innerHTML = resp;
-			
+
 			items = wrap.getElementsByTagName('li');
 
 			if ( items[0] && req.object_type ) {
@@ -738,7 +738,7 @@ var WPNavMenuHandler = function ($) {
 		removeMenuItem : function(el) {
 			el = $(el)
 			var children = el.childMenuItems();
-			
+
 			el.addClass('deleting').fadeOut( 350 , function() {
 				el.remove();
 				children.shiftDepthClass(-1).updateParentMenuItemDBId();

@@ -248,7 +248,7 @@ function post_tags_meta_box($post, $box) {
 	$help_hint  = isset( $taxonomy->help_hint  ) ? $taxonomy->help_hint         : __('Add new tag');
 	$help_nojs  = isset( $taxonomy->help_nojs  ) ? $taxonomy->help_nojs         : __('Add or remove tags');
 	$help_cloud = isset( $taxonomy->help_cloud ) ? $taxonomy->help_cloud        : __('Choose from the most used tags in %s');
-	
+
 	$disabled = !current_user_can($taxonomy->assign_cap) ? 'disabled="disabled"' : '';
 ?>
 <div class="tagsdiv" id="<?php echo $tax_name; ?>">

@@ -391,7 +391,7 @@ class WP_Http {
 	 */
 	function processResponse($strResponse) {
 		$res = explode("\r\n\r\n", $strResponse, 2);
-		
+
 		return array('headers' => isset($res[0]) ? $res[0] : array(), 'body' => isset($res[1]) ? $res[1] : '');
 	}
 

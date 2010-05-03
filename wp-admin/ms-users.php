@@ -255,7 +255,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 							<?php
 							break;
 
-							case 'registered': 
+							case 'registered':
 								if ( 'list' == $mode )
 									$date = 'Y/m/d';
 								else
@@ -284,7 +284,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 											if ( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
 												echo 'style="background-color: #faa" ';
 											echo 'href="' .  esc_url( get_home_url( $val->userblog_id ) )  . '">' . __( 'View' ) . '</a>';
-											
+
 											echo '</small><br />';
 										}
 									}

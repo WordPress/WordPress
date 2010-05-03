@@ -1180,9 +1180,9 @@ function remove_role( $role ) {
  * Retrieve a list of super admins.
  *
  * @since 3.0.0
- * 
+ *
  * @uses $super_admins Super admins global variable, if set.
- * 
+ *
  * @return array List of super admin logins
  */
 function get_super_admins() {

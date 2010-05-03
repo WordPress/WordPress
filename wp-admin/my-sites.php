@@ -31,7 +31,7 @@ if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
 		update_user_option( $current_user->id, 'primary_blog', (int) $_POST['primary_blog'], true );
 		$updated = true;
 	} else {
-		wp_die( __( 'The primary site you chose does not exist.' ) );	
+		wp_die( __( 'The primary site you chose does not exist.' ) );
 	}
 }
 

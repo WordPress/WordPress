@@ -452,7 +452,7 @@ function display_space_usage() {
 		/* translators: Gigabytes */
 		$space .= __( 'GB' );
 	} else {
-		/* translators: Megabytes */		
+		/* translators: Megabytes */
 		$space .= __( 'MB' );
 	}
 	?>
@@ -546,7 +546,7 @@ function refresh_user_details( $id ) {
 
 function format_code_lang( $code = '' ) {
 	$code = strtolower( substr( $code, 0, 2 ) );
-	$lang_codes = array( 
+	$lang_codes = array(
 		'aa' => 'Afar', 'ab' => 'Abkhazian', 'af' => 'Afrikaans', 'ak' => 'Akan', 'sq' => 'Albanian', 'am' => 'Amharic', 'ar' => 'Arabic', 'an' => 'Aragonese', 'hy' => 'Armenian', 'as' => 'Assamese', 'av' => 'Avaric', 'ae' => 'Avestan', 'ay' => 'Aymara', 'az' => 'Azerbaijani', 'ba' => 'Bashkir', 'bm' => 'Bambara', 'eu' => 'Basque', 'be' => 'Belarusian', 'bn' => 'Bengali',
 		'bh' => 'Bihari', 'bi' => 'Bislama', 'bs' => 'Bosnian', 'br' => 'Breton', 'bg' => 'Bulgarian', 'my' => 'Burmese', 'ca' => 'Catalan; Valencian', 'ch' => 'Chamorro', 'ce' => 'Chechen', 'zh' => 'Chinese', 'cu' => 'Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic', 'cv' => 'Chuvash', 'kw' => 'Cornish', 'co' => 'Corsican', 'cr' => 'Cree',
 		'cs' => 'Czech', 'da' => 'Danish', 'dv' => 'Divehi; Dhivehi; Maldivian', 'nl' => 'Dutch; Flemish', 'dz' => 'Dzongkha', 'en' => 'English', 'eo' => 'Esperanto', 'et' => 'Estonian', 'ee' => 'Ewe', 'fo' => 'Faroese', 'fj' => 'Fijjian', 'fi' => 'Finnish', 'fr' => 'French', 'fy' => 'Western Frisian', 'ff' => 'Fulah', 'ka' => 'Georgian', 'de' => 'German', 'gd' => 'Gaelic; Scottish Gaelic',
@@ -630,7 +630,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 
 		if ( $code_lang == 'en_US' ) { // American English
 			$flag = true;
-			$ae = __( 'American English' ); 
+			$ae = __( 'American English' );
 			$output[$ae] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang ) . '> ' . $ae . '</option>';
 		} elseif ( $code_lang == 'en_GB' ) { // British English
 			$flag = true;

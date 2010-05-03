@@ -84,7 +84,7 @@ class Walker_Nav_Menu extends Walker {
 		$classes = ' class="' . esc_attr( $classes ) . '"';
 
 		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $classes .'>';
-		
+
 		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
 		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
 		$attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
@@ -95,7 +95,7 @@ class Walker_Nav_Menu extends Walker {
 		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title ) . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
-	
+
 		$output .= apply_filters( 'wp_get_nav_menu_item', $item_output, $args );
 	}
 
@@ -208,7 +208,7 @@ function wp_nav_menu( $args = array() ) {
 			}
 		}
 	}
-	
+
 	// If the menu exists, get its items.
 	if ( $menu && ! is_wp_error($menu) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id );
@@ -219,7 +219,7 @@ function wp_nav_menu( $args = array() ) {
 			return call_user_func( $args->fallback_cb, (array) $args );
 		}
 	}
-	
+
 	$nav_menu = '';
 	$items = '';
 	$container_allowedtags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'p', 'nav' ) );
@@ -236,10 +236,10 @@ function wp_nav_menu( $args = array() ) {
 
 	$items .= walk_nav_menu_tree( $sorted_menu_items, $args->depth, $args );
 
-	// Attributes	
+	// Attributes
 	$attributes  = ' id="menu-' . $menu->slug . '"';
 	$attributes .= $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
-	
+
 	$nav_menu .= '<ul'. $attributes .'>';
 
 	// Allow plugins to hook into the menu to add their own <li>'s

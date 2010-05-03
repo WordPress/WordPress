@@ -154,7 +154,7 @@ class Custom_Background {
 <tr valign="top">
 <th scope="row"><?php _e('Current Image'); ?></th>
 <td>
-<style type="text/css"> 
+<style type="text/css">
 #custom-background-image {
 	background-color: #<?php echo get_background_color()?>;
 	<?php if ( get_background_image() ) { ?>
@@ -164,7 +164,7 @@ class Custom_Background {
 	background-attachment: <?php echo get_theme_mod('background_position', 'fixed'); ?>;
 	<?php } ?>
 }
-</style> 
+</style>
 <div id="custom-background-image">
 <?php if ( get_background_image() ) { ?>
 <img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" /><br />

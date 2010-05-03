@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
 	jQuery('select[name="background-repeat"]').change(function() {
 		jQuery('#custom-background-image').css('background-repeat', jQuery(this).val());
 	});
-	
+
 	farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) {
 		pickColor(color);
 	});

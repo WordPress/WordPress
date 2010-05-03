@@ -92,7 +92,7 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><label for="admin_notice_feed"><?php _e( 'Admin Notice Feed' ) ?></label></th>
 				<td><input name="admin_notice_feed" class="large-text" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
 				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
-				
+
 				<?php if ( get_site_option( 'admin_notice_feed' ) != get_home_url( $current_site->id, 'feed/' ) )
 					echo __( 'A good one to use would be the feed from your main site: ' ) . esc_url( get_home_url( $current_site->id, 'feed/' ) ) ?></td>
 			</tr>

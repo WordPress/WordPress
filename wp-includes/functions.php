@@ -2912,7 +2912,7 @@ function wp_parse_id_list( $list ) {
  *
  * @param array $list An array of objects to filter
  * @param array $args An array of key => value arguments to match against each object
- * @param string $operator The logical operation to perform. 'or' means only one element 
+ * @param string $operator The logical operation to perform. 'or' means only one element
  *	from the array needs to match; 'and' means all elements must match. The default is 'and'.
  * @param bool|string $field A field from the object to place instead of the entire object
  * @return array A list of objects or object fields

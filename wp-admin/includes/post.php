@@ -1198,7 +1198,7 @@ function wp_set_post_lock( $post_id ) {
 
 	$now = time();
 
-	update_post_meta( $post->ID, '_edit_lock', $now );	
+	update_post_meta( $post->ID, '_edit_lock', $now );
 }
 
 /**

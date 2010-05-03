@@ -50,7 +50,7 @@ jQuery(document).ready(function($) {
 
 		$('#TB_iframeContent').width('100%');
 		thickDims();
-		
+
 		return false;
 	} );
 

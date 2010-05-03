@@ -486,7 +486,7 @@ var photostorage = false;
 				<h3 class="hndle"><?php _e('Categories') ?></h3>
 				<div class="inside">
 				<div id="taxonomy-category" class="categorydiv">
-				
+
 					<ul id="category-tabs" class="category-tabs">
 						<li class="tabs"><a href="#category-all" tabindex="3"><?php printf( __( 'All %s' ), $tax->label ); ?></a></li>
 						<li class="hide-if-no-js"><a href="#category-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>

@@ -16,7 +16,7 @@
  * @return mixed $menu|false Or WP_Error
  */
 function wp_get_nav_menu_object( $menu ) {
-	if ( ! $menu ) 
+	if ( ! $menu )
 		return false;
 
 	$menu_obj = get_term( $menu, 'nav_menu' );
@@ -47,17 +47,17 @@ function wp_get_nav_menu_object( $menu ) {
 function is_nav_menu( $menu ) {
 	if ( ! $menu )
 		return false;
-	
+
 	$menu_obj = wp_get_nav_menu_object( $menu );
 
-	if ( 
-		$menu_obj && 
-		! is_wp_error( $menu_obj ) && 
+	if (
+		$menu_obj &&
+		! is_wp_error( $menu_obj ) &&
 		! empty( $menu_obj->taxonomy ) &&
 		'nav_menu' == $menu_obj->taxonomy
-	) 
+	)
 		return true;
-	
+
 	return false;
 }
 
@@ -163,22 +163,22 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		return $_menu;
 
 	if ( $_menu && isset( $_menu->term_id ) ) {
-		$args = array( 
-			'description' => ( isset( $menu_data['description'] ) ? $menu_data['description'] : '' ), 
-			'name' => ( isset( $menu_data['menu-name'] ) ? $menu_data['menu-name'] : '' ), 
-			'parent' => ( isset( $menu_data['parent'] ) ? (int) $menu_data['parent'] : 0 ), 
-			'slug' => null, 
+		$args = array(
+			'description' => ( isset( $menu_data['description'] ) ? $menu_data['description'] : '' ),
+			'name' => ( isset( $menu_data['menu-name'] ) ? $menu_data['menu-name'] : '' ),
+			'parent' => ( isset( $menu_data['parent'] ) ? (int) $menu_data['parent'] : 0 ),
+			'slug' => null,
 		);
-	
+
 		$menu_id = (int) $_menu->term_id;
 
 		// double-check that we're not changing a menu to the name of another
-		$_possible_existing = get_term_by( 'name', $menu_data['menu-name'], 'nav_menu' ); 
-		if ( 
-			$_possible_existing && 
-			! is_wp_error( $_possible_existing ) && 
+		$_possible_existing = get_term_by( 'name', $menu_data['menu-name'], 'nav_menu' );
+		if (
+			$_possible_existing &&
+			! is_wp_error( $_possible_existing ) &&
 			isset( $_possible_existing->term_id ) &&
-			$_possible_existing->term_id != $menu_id 
+			$_possible_existing->term_id != $menu_id
 		) {
 			return new WP_Error( 'menu_exists', sprintf( __('The menu name <strong>%s</strong> conflicts with another menu name. Please try another.'), esc_html( $menu_data['menu-name'] ) ) );
 		}
@@ -255,7 +255,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			$args['menu-item-position'] = $count;
 		}
 	}
-	
+
 	if ( 'custom' != $args['menu-item-type'] ) {
 		/* if non-custom menu item, then:
 			* use original object's URL
@@ -297,9 +297,9 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'ping_status' => 0,
 		'post_content' => $args['menu-item-description'],
 		'post_excerpt' => $args['menu-item-attr-title'],
-		'post_parent' => $args['menu-item-parent-id'], 
-		'post_title' => $args['menu-item-title'], 
-		'post_type' => 'nav_menu_item', 
+		'post_parent' => $args['menu-item-parent-id'],
+		'post_title' => $args['menu-item-title'],
+		'post_type' => 'nav_menu_item',
 		'tax_input' => array( 'nav_menu' => $menu->name ),
 	);
 
@@ -376,10 +376,10 @@ function _sort_nav_menu_items($a, $b) {
 		$_b = (int) $b->$_menu_item_sort_prop;
 
 		if ( $a->$_menu_item_sort_prop == $b->$_menu_item_sort_prop ) {
-			return 0;	
-		} elseif ( 
-			( $_a == $a->$_menu_item_sort_prop ) && 
-			( $_b == $b->$_menu_item_sort_prop ) 
+			return 0;
+		} elseif (
+			( $_a == $a->$_menu_item_sort_prop ) &&
+			( $_b == $b->$_menu_item_sort_prop )
 		) {
 			return $_a < $_b ? -1 : 1;
 		} else {
@@ -404,7 +404,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 	if ( ! $menu )
 		return false;
-	
+
 	$items = get_objects_in_term( $menu->term_id, 'nav_menu' );
 
 	if ( ! empty( $items ) ) {
@@ -448,7 +448,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
  * - url:		The URL to which this menu item points.
  * - title:		The title of this menu item.
  * - target: 		The target attribute of the link element for this menu item.
- * - attr_title:	The title attribute of the link element for this menu item.	 
+ * - attr_title:	The title attribute of the link element for this menu item.
  * - classes:		The class attribute value for the link element of this menu item.
  * - xfn:		The XFN relationship expressed in the link of this menu item.
  * - description:	The description of this menu item.
@@ -465,12 +465,12 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->object_id = get_post_meta( $menu_item->ID, '_menu_item_object_id', true );
 			$menu_item->object = get_post_meta( $menu_item->ID, '_menu_item_object', true );
 			$menu_item->type = get_post_meta( $menu_item->ID, '_menu_item_type', true );
-			
+
 			if ( 'post_type' == $menu_item->type ) {
 				$object = get_post_type_object( $menu_item->object );
 				$menu_item->append = $object->singular_label;
 				$menu_item->url = get_permalink( $menu_item->object_id );
-			
+
 				$original_object = get_post( $menu_item->object_id );
 				$original_title = $original_object->post_title;
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
@@ -488,7 +488,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				$menu_item->title = $menu_item->post_title;
 				$menu_item->url = get_post_meta( $menu_item->ID, '_menu_item_url', true );
 			}
-			
+
 			$menu_item->target = get_post_meta( $menu_item->ID, '_menu_item_target', true );
 
 			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
@@ -542,7 +542,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
  * Get the menu items associated with a particular object.
  *
  * @since 3.0.0
- * 
+ *
  * @param int $object_id The ID of the original object.
  * @param string $object_type The type of object, such as "taxonomy" or "post_type."
  * @return array The array of menu item IDs; empty array if none;

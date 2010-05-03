@@ -69,7 +69,7 @@ add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
  *
  * @param array $args An array of key => value arguments to match against the taxonomy objects.
  * @param string $output The type of output to return, either taxonomy 'names' or 'objects'. 'names' is the default.
- * @param string $operator The logical operation to perform. 'or' means only one element 
+ * @param string $operator The logical operation to perform. 'or' means only one element
  *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
  * @return array A list of taxonomy names or objects
  */
@@ -1571,7 +1571,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	// Seems unreachable, However, Is used in the case that a term name is provided, which sanitizes to an empty string.
-	if ( empty($slug) ) { 
+	if ( empty($slug) ) {
 		$slug = sanitize_title($slug, $term_id);
 		do_action( 'edit_terms', $term_id );
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );

@@ -1719,7 +1719,7 @@ class WP_Query {
 					// Non-hierarchical post_types & parent-level-hierarchical post_types can directly use 'name'
 					$q['name'] = $q[ $ptype_obj->query_var ];
 				} else {
-					// Hierarchical post_types will operate through the 
+					// Hierarchical post_types will operate through the
 					$q['pagename'] = $q[ $ptype_obj->query_var ];
 					$q['name'] = '';
 				}
@@ -2482,7 +2482,7 @@ class WP_Query {
 				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in) $stickies_where" );
 				foreach ( $stickies as $sticky_post ) {
 					// Ignore sticky posts the current user cannot read or are not published.
-					if ( 'publish' != $sticky_post->post_status ) 
+					if ( 'publish' != $sticky_post->post_status )
 						continue;
 					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
 					$sticky_offset++;

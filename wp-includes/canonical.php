@@ -86,7 +86,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$id = max( get_query_var('p'), get_query_var('page_id'), get_query_var('attachment_id'));
 		if ( $id && $redirect_url = get_permalink($id) )
 			$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
-	
+
 		if ( ! $redirect_url )
 			$redirect_url = redirect_guess_404_permalink();
 

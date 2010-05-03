@@ -15,7 +15,7 @@ if ( !is_multisite() )
 // @todo Create a delete blog cap.
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die(__( 'You do not have sufficient permissions to delete this site.'));
-	
+
 if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' ) != false ) {
 	if ( get_option( 'delete_blog_hash' ) == $_GET['h'] ) {
 		wpmu_delete_blog( $wpdb->blogid );

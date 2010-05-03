@@ -897,7 +897,7 @@ function inline_edit_row( $screen ) {
 
 <?php
 
-if ( post_type_supports( $screen->post_type, 'title' ) ) : 
+if ( post_type_supports( $screen->post_type, 'title' ) ) :
 	if ( $bulk ) : ?>
 		<div id="bulk-title-div">
 			<div id="bulk-titles"></div>
@@ -1031,7 +1031,7 @@ if ( !$bulk ) :
 			</select>
 		</label>
 
-<?php 
+<?php
 	endif; // post_type_supports page-attributes
 endif; // $post_type_object->hierarchical ?>
 

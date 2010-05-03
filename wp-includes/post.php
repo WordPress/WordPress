@@ -632,7 +632,7 @@ function get_post_status_object( $post_status ) {
  *
  * @param array|string $args An array of key => value arguments to match against the post status objects.
  * @param string $output The type of output to return, either post status 'names' or 'objects'. 'names' is the default.
- * @param string $operator The logical operation to perform. 'or' means only one element 
+ * @param string $operator The logical operation to perform. 'or' means only one element
  *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
  * @return array A list of post type names or objects
  */
@@ -738,7 +738,7 @@ function get_post_type_object( $post_type ) {
  *
  * @param array|string $args An array of key => value arguments to match against the post type objects.
  * @param string $output The type of output to return, either post type 'names' or 'objects'. 'names' is the default.
- * @param string $operator The logical operation to perform. 'or' means only one element 
+ * @param string $operator The logical operation to perform. 'or' means only one element
  *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
  * @return array A list of post type names or objects
  */

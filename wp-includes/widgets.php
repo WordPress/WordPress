@@ -558,9 +558,9 @@ function register_sidebar($args = array()) {
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
 	add_theme_support('widgets');
-	
+
 	do_action( 'register_sidebar', $sidebar );
-	
+
 	return $sidebar['id'];
 }
 
@@ -690,7 +690,7 @@ function wp_sidebar_description( $id ) {
  */
 function wp_unregister_sidebar_widget($id) {
 	do_action( 'wp_unregister_sidebar_widget', $id );
-	
+
 	wp_register_sidebar_widget($id, '', '');
 	wp_unregister_widget_control($id);
 }
@@ -884,7 +884,7 @@ function dynamic_sidebar($index = 1) {
 		$params = apply_filters( 'dynamic_sidebar_params', $params );
 
 		$callback = $wp_registered_widgets[$id]['callback'];
-		
+
 		do_action( 'dynamic_sidebar', $wp_registered_widgets[$id] );
 
 		if ( is_callable($callback) ) {

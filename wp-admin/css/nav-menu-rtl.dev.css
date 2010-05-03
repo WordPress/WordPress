@@ -1,14 +1,14 @@
-.howto span { 
-	float: right; 
+.howto span {
+	float: right;
 }
-.menu-item-textbox { 
-	float: left; 
+.menu-item-textbox {
+	float: left;
 }
-.add-to-menu { 
-	float: left; 
+.add-to-menu {
+	float: left;
 }
 .menu-item-title input[type="checkbox"] {
-	margin-left: 3px; 
+	margin-left: 3px;
 }
 .menu li dl dt {
 	padding-left: 0;
@@ -16,17 +16,17 @@
 }
 .menu li ul li {
 	margin-left: 0;
-	margin-right: 20px; 
+	margin-right: 20px;
 }
-.menu li .item-title { 
+.menu li .item-title {
 	margin-right: 0;
-	margin-left: 18em; 
+	margin-left: 18em;
 }
-.item-controls { 
+.item-controls {
 	right: auto;
-	left: 15px; 
+	left: 15px;
 }
 .item-type {
 	padding-right: 0;
-	padding-left: 10px; 
+	padding-left: 10px;
 }

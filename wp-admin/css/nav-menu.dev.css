@@ -55,12 +55,12 @@ body {
 	#menu-management .menu-edit {
 		margin-bottom: 20px;
 	}
-	
+
 	#nav-menu-header, #post-body {
 		border-color: #ccc;
 		border-style: solid;
 	}
-	
+
 	#nav-menu-header {
 		background: url("../images/gray-grad.png") repeat-x scroll left top #dfdfdf;
 		border-width: 1px 1px 0 1px;
@@ -73,7 +73,7 @@ body {
 		-khtml-border-top-right-radius: 6px;
 		border-top-right-radius: 6px;
 	}
-	
+
 	#post-body {
 		background: #fff;
 		padding:0 0 10px 10px;
@@ -87,11 +87,11 @@ body {
 		-khtml-border-bottom-right-radius: 6px;
 		border-bottom-right-radius: 6px;
 	}
-	
+
 	#post-body-content {
 		position: relative;
 	}
-	
+
 	.post-body-plain {
 		padding: 10px 10px 0 0;
 	}
@@ -99,9 +99,9 @@ body {
 	#menu-management .menu-add-new abbr {
 		font-weight:bold;
 	}
-	
+
 /* Menu Tabs */
-	
+
 #menu-management .nav-tabs-nav {
 	margin: 0 20px;
 }
@@ -162,12 +162,12 @@ body {
 	text-align: right;
 	padding: 0 10px 3px 10px;
 	margin-bottom: 5px;
-}	
+}
 	#select-nav-menu {
 		width: 100px;
 		display: inline;
 	}
-	
+
 /* Menu Toolbar */
 #menu-management #major-publishing-actions #delete-action {
 	float: right;
@@ -184,7 +184,7 @@ body {
 #wpbody .open-label span {
 	padding-right: 10px;
 }
-	
+
 	.js .input-with-default-title {
 		color: #aaa;
 		font-style: italic;
@@ -210,7 +210,7 @@ body {
 
 /* Button Secondary Actions */
 .list-controls { float: left; margin-top: 5px; }
-.add-to-menu { 
+.add-to-menu {
 	float: right;
 }
 
@@ -265,7 +265,7 @@ body {
 .menu ul { width: 100%; }
 .menu ul.sub-menu {
 }
-.menu li { 
+.menu li {
 	margin-bottom: 0;
 }
 .menu li dl {
@@ -276,12 +276,12 @@ body {
 }
 .menu li dl dt {
 	background: url("../images/gray-grad.png") repeat-x scroll left top #DFDFDF;
-	border: 1px solid #E6E6E6; 
+	border: 1px solid #E6E6E6;
 	clear:both;
-	position: relative; 
+	position: relative;
 	padding-left: 10px;
 	height: auto;
-	width: 400px; 
+	width: 400px;
 	line-height: 35px;
 	text-shadow: 0 1px 0 #FFFFFF;
 	font-weight:bold;
@@ -289,7 +289,7 @@ body {
 }
 .menu li dl.menu-item-edit-inactive dt {
 	border-radius: 6px;
-	-webkit-border-radius: 6px; 
+	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 }
@@ -311,7 +311,7 @@ body {
 	background-color:#faa;
 }
 
-.menu li .item-title { 
+.menu li .item-title {
 	padding: 7px 0;
 	line-height: 20px;
 	display:block;
@@ -424,9 +424,9 @@ body.js .item-order {
 	font-size: 11px;
 	color: #777;
 	font-style: italic;
-	border: 1px solid #dfdfdf;	
+	border: 1px solid #dfdfdf;
 	border-radius: 6px;
-	-webkit-border-radius: 6px; 
+	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 }

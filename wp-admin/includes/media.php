@@ -2160,7 +2160,7 @@ function type_url_form_file() {
 function _insert_into_post_button($type) {
 	if ( !post_type_supports(get_post_type($_GET['post_id']), 'editor') )
 		return '';
-	
+
 	if ( 'image' == $type )
 	return '
 		<tr>
@@ -2168,7 +2168,7 @@ function _insert_into_post_button($type) {
 			<td>
 				<input type="button" class="button" id="go_button" style="color:#bbb;" onclick="addExtImage.insert()" value="' . esc_attr__('Insert into Post') . '" />
 			</td>
-		</tr>		
+		</tr>
 	';
 
 	return '

@@ -329,7 +329,7 @@ switch ( $_GET['action'] ) {
 
 			if ( ! current_user_can( 'manage_sites' ) )
 				wp_die( __( 'You do not have permission to access this page.' ) );
-	
+
 			if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
 
@@ -454,7 +454,7 @@ switch ( $_GET['action'] ) {
 			nocache_headers();
 			header( 'Content-Type: text/html; charset=utf-8' );
 		}
-		if ( $current_site->blog_id == $id )	
+		if ( $current_site->blog_id == $id )
 			wp_die( __( 'You are not allowed to change the current site.' ) );
 		?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -489,8 +489,8 @@ switch ( $_GET['action'] ) {
 
 		if ( $id != '0' && $id != '1' ) {
 			$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle with arrays
-			$title = __( 'Users' ); 
-			$parent_file = 'ms-admin.php'; 
+			$title = __( 'Users' );
+			$parent_file = 'ms-admin.php';
 			require_once( 'admin-header.php' );
 			echo '<div class="wrap">';
 			confirm_delete_users( $_POST['allusers'] );
@@ -498,7 +498,7 @@ switch ( $_GET['action'] ) {
             require_once( 'admin-footer.php' );
             exit();
 		} else {
-			wp_redirect( admin_url( 'ms-users.php' ) );	
+			wp_redirect( admin_url( 'ms-users.php' ) );
 		}
 	break;
 
@@ -516,8 +516,8 @@ switch ( $_GET['action'] ) {
 				if ( !empty( $val ) ) {
 					switch ( $doaction ) {
 						case 'delete':
-							$title = __( 'Users' ); 
-							$parent_file = 'ms-admin.php'; 
+							$title = __( 'Users' );
+							$parent_file = 'ms-admin.php';
 							require_once( 'admin-header.php' );
 							echo '<div class="wrap">';
 							confirm_delete_users( $_POST['allusers'] );
@@ -543,13 +543,13 @@ switch ( $_GET['action'] ) {
 						case 'notspam':
 							$userfunction = 'all_notspam';
 							$blogs = get_blogs_of_user( $val, true );
-							foreach ( (array) $blogs as $key => $details ) 
+							foreach ( (array) $blogs as $key => $details )
 								update_blog_status( $details->userblog_id, 'spam', '0' );
 
 							update_user_status( $val, 'spam', '0', 1 );
 						break;
-					}		
-				}			
+					}
+				}
 			}
 
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
@@ -578,7 +578,7 @@ switch ( $_GET['action'] ) {
 		if ( is_array( $_POST['user'] ) && ! empty( $_POST['user'] ) )
 			foreach( $_POST['user'] as $id ) {
 				wpmu_delete_user( $id );
-				$i++;	
+				$i++;
 			}
 
 		if ( $i == 1 )

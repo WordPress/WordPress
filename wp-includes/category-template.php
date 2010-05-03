@@ -473,7 +473,7 @@ function wp_list_categories( $args = '' ) {
 		$r['exclude_tree'] = $r['exclude'];
 		$r['exclude'] = '';
 	}
-	
+
 	if ( !isset( $r['class'] ) )
 		$r['class'] = ( 'category' == $r['taxonomy'] ) ? 'categories' : $r['taxonomy'];
 

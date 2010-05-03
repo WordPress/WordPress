@@ -1257,7 +1257,7 @@ class Walker_Comment extends Walker {
 	 * display children of higher nesting levels than selected inline on
 	 * the highest depth level displayed. This prevents them being orphaned
 	 * at the end of the comment list.
-	 * 
+	 *
 	 * Example: max_depth = 2, with 5 levels of nested content.
 	 * 1
 	 *  1.1
