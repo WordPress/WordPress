@@ -2160,8 +2160,9 @@ class WP_Query {
 		}
 
 		$exclude_post_types = '';
-		foreach ( get_post_types( array('exclude_from_search' => true) ) as $_wp_post_type )
-			$exclude_post_types .= $wpdb->prepare(" AND $wpdb->posts.post_type != %s", $_wp_post_type);
+		$in_search_post_types = get_post_types( array('exclude_from_search' => false) );
+		if ( ! empty( $in_search_post_types ) )
+			$exclude_post_types .= $wpdb->prepare(" AND $wpdb->posts.post_type IN ('" . join("', '", $in_search_post_types ) . "')");
 
 		if ( 'any' == $post_type ) {
 			$where .= $exclude_post_types;
