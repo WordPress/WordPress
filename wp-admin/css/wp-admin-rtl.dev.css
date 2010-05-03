@@ -572,6 +572,29 @@ ol {
 	width:100% !important;
 }
 
+/* tag hints */
+.taghint {
+	margin: 14px 8px -17px 0;
+}
+
+#poststuff .tagsdiv .howto {
+	margin: 0 8px 6px 0;
+}
+
+#broken-themes {
+	text-align: right;
+}
+
+.describe .del-link {
+	padding-right: 5px;
+	padding-left: 0;
+}
+
+.comment-ays th {
+	border-left-style: solid;
+	border-left-width: 1px;
+}
+
 /* Custom Background  */
 
 #custom-background table th, #custom-background table td {
