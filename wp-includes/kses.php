@@ -56,6 +56,22 @@ if ( ! CUSTOM_TAGS ) {
 			'title' => array ()),
 		'acronym' => array(
 			'title' => array ()),
+		'article' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
+		'aside' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'b' => array(),
 		'big' => array(),
 		'blockquote' => array(
@@ -93,6 +109,15 @@ if ( ! CUSTOM_TAGS ) {
 		'del' => array(
 			'datetime' => array ()),
 		'dd' => array(),
+		'details' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'open' => array (),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'div' => array(
 			'align' => array (),
 			'class' => array (),
@@ -104,10 +129,34 @@ if ( ! CUSTOM_TAGS ) {
 		'dt' => array(),
 		'em' => array(),
 		'fieldset' => array(),
+		'figure' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
+		'figcaption' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'font' => array(
 			'color' => array (),
 			'face' => array (),
 			'size' => array ()),
+		'footer' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'form' => array(
 			'action' => array (),
 			'accept' => array (),
@@ -146,6 +195,22 @@ if ( ! CUSTOM_TAGS ) {
 			'class' => array (),
 			'id'    => array (),
 			'style' => array ()),
+		'header' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
+		'hgroup' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'hr' => array (
 			'align' => array (),
 			'class' => array (),
@@ -176,6 +241,18 @@ if ( ! CUSTOM_TAGS ) {
 		'li' => array (
 			'align' => array (),
 			'class' => array ()),
+		'menu' => array (
+			'class' => array (),
+			'style' => array (),
+			'type' => array ()),
+		'nav' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'p' => array(
 			'class' => array (),
 			'align' => array (),
@@ -197,9 +274,25 @@ if ( ! CUSTOM_TAGS ) {
 			'style' => array (),
 			'title' => array (),
 			'xml:lang' => array()),
+		'section' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'strike' => array(),
 		'strong' => array(),
 		'sub' => array(),
+		'summary' => array(
+			'align' => array (),
+			'class' => array (),
+			'dir' => array (),
+			'lang' => array(),
+			'style' => array (),
+			'xml:lang' => array(),
+		),
 		'sup' => array(),
 		'table' => array(
 			'align' => array (),
