@@ -26,7 +26,7 @@ define('WP_SETUP_CONFIG', true);
  *
  * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) for debugging
  */
-error_reporting(E_ALL &~ E_DEPRECATED);
+error_reporting(0);
 
 /**#@+
  * These three defines are required to allow us to use require_wp_db() to load
