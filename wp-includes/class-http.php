@@ -89,7 +89,7 @@ class WP_Http {
 		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test($args) ) {
+			/* if ( true === WP_Http_ExtHttp::test($args) ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
 			} else if ( true === WP_Http_Curl::test($args) ) {
@@ -101,7 +101,7 @@ class WP_Http {
 			} else if ( true === WP_Http_Fopen::test($args) ) {
 				$working_transport['fopen'] = new WP_Http_Fopen();
 				$blocking_transport[] = &$working_transport['fopen'];
-			} else if ( true === WP_Http_Fsockopen::test($args) ) {
+			} else */ if ( true === WP_Http_Fsockopen::test($args) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}

@@ -316,6 +316,9 @@ function get_option( $option, $default = false ) {
 	if ( empty($option) )
 		return false;
 
+	if ( defined( 'WP_SETUP_CONFIG' ) )
+		return false;
+
 	// prevent non-existent options from triggering multiple queries
 	if ( defined( 'WP_INSTALLING' ) && is_multisite() ) {
 		$notoptions = array();
