@@ -784,11 +784,6 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !$post = &get_post( $id ) )
 		return;
 
-	if ( 'display' == $context )
-		$action = '&amp;action=edit';
-	else
-		$action = '&action=edit';
-
 	$post_type_object = get_post_type_object( $post->post_type );
 	if ( !$post_type_object )
 		return;
@@ -796,7 +791,14 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !current_user_can( $post_type_object->edit_cap, $post->ID ) )
 		return;
 
-	return apply_filters( 'get_edit_post_link', admin_url( sprintf($post_type_object->_edit_link . $action, $post->ID) ), $post->ID, $context );
+	$url = admin_url( sprintf($post_type_object->_edit_link, $post->ID) );
+
+	if ( 'display' == $context )
+		$url .= '&amp;action=edit';
+	else
+		$url .= '&action=edit';	
+
+	return apply_filters( 'get_edit_post_link', $url , $post->ID, $context );
 }
 
 /**
