@@ -399,11 +399,28 @@ function is_upload_space_available() {
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return true;
 
-	$space_allowed = get_space_allowed();
+	if ( !( $space_allowed = get_upload_space_available() ) )
+		return false;
+
+	return true;
+}
+
+function upload_size_limit_filter( $size ) {
+	return min( $size, get_upload_space_available() );
+}
+/**
+ * Determines if there is any upload space left in the current blog's quota.
+ *
+ * @return int of upload space available in bytes
+ */
+function get_upload_space_available() {
+	$space_allowed = get_space_allowed() * 1024 * 1024;
+	if ( get_site_option( 'upload_space_check_disabled' ) )
+		return $space_allowed;
 
 	$dir_name = trailingslashit( BLOGUPLOADDIR );
 	if ( !( is_dir( $dir_name) && is_readable( $dir_name ) ) )
-		return true;
+		return $space_allowed;
 
   	$dir = dir( $dir_name );
    	$size = 0;
@@ -418,12 +435,11 @@ function is_upload_space_available() {
 		}
 	}
 	$dir->close();
-	$size = $size / 1024 / 1024;
 
 	if ( ( $space_allowed - $size ) <= 0 )
-		return false;
+		return 0;
 
-	return true;
+	return $space_allowed - $size;
 }
 
 /**
