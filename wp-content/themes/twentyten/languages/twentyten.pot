@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-02 20:21+0000\n"
+"POT-Creation-Date: 2010-05-03 00:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -351,6 +351,11 @@ msgid ""
 "searching will help find a related post."
 msgstr ""
 
+#: loop.php:39
+msgctxt "gallery category slug"
+msgid "gallery"
+msgstr ""
+
 #: loop.php:41 loop.php:66 loop.php:118
 #, php-format
 msgid "Permalink to %s"
@@ -388,6 +393,11 @@ msgstr ""
 
 #: loop.php:80 loop.php:110 loop.php:152
 msgid "% Comments"
+msgstr ""
+
+#: loop.php:86
+msgctxt "asides category slug"
+msgid "asides"
 msgstr ""
 
 #: search.php:17
