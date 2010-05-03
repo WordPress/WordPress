@@ -2908,11 +2908,12 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  *
  * @since 1.5.0
  *
- * @param int $page_id Page ID.
+ * @param mixed $page Page object or page ID.
  * @return string Page URI.
  */
-function get_page_uri($page_id) {
-	$page = get_page($page_id);
+function get_page_uri($page) {
+	if ( ! is_object($page) )
+		$page = get_page($page);
 	$uri = $page->post_name;
 
 	// A page cannot be it's own parent.

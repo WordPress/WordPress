@@ -1036,7 +1036,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 
 	// Handle page hierarchy
 	if ( $ptype->hierarchical ) {
-		$uri = get_page_uri($post->ID);
+		$uri = get_page_uri($post);
 		$uri = untrailingslashit($uri);
 		$uri = strrev( stristr( strrev( $uri ), '/' ) );
 		$uri = untrailingslashit($uri);
