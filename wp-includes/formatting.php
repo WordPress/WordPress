@@ -2214,7 +2214,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	}
 
 	if ( !is_array($protocols) )
-		$protocols = array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet');
+		$protocols = array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn');
 	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
 		return '';
 

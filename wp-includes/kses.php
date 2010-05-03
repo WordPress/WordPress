@@ -480,9 +480,9 @@ if ( ! CUSTOM_TAGS ) {
  * call this function.
  *
  * The default allowed protocols are 'http', 'https', 'ftp', 'mailto', 'news',
- * 'irc', 'gopher', 'nntp', 'feed', and finally 'telnet. This covers all common
- * link protocols, except for 'javascript' which should not be allowed for
- * untrusted users.
+ * 'irc', 'gopher', 'nntp', 'feed', 'telnet, 'mms', 'rtsp' and 'svn'. This
+ * covers all common link protocols, except for 'javascript' which should not
+ * be allowed for untrusted users.
  *
  * @since 1.0.0
  *
@@ -491,7 +491,8 @@ if ( ! CUSTOM_TAGS ) {
  * @param array $allowed_protocols Optional. Allowed protocol in links.
  * @return string Filtered content with only allowed HTML elements
  */
-function wp_kses($string, $allowed_html, $allowed_protocols = array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet')) {
+function wp_kses($string, $allowed_html, $allowed_protocols = array ()) {
+	$allowed_protocols = wp_parse_args( $allowed_protocols, apply_filters('kses_allowed_protocols', array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn') ));
 	$string = wp_kses_no_null($string);
 	$string = wp_kses_js_entities($string);
 	$string = wp_kses_normalize_entities($string);
