@@ -409,9 +409,10 @@ var WPNavMenuHandler = function ($) {
 			
 			$.fn.extend({
 				makeTabVisible : function() {
-					var t = this.eq(0),
-						left = t.offset().left,
-						right = left + t.outerWidth();
+					var t = this.eq(0), left, right;
+					if( ! t.length ) return;
+					left = t.offset().left;
+					right = left + t.outerWidth();
 					if( right > fixedRight )
 						fluid.animate({ 'margin-left' :  "+=" + (fixedRight - right) + 'px', }, 'fast');
 					else if ( left < fixedLeft )
