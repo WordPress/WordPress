@@ -60,7 +60,6 @@ if ( is_multisite() && current_user_can('edit_themes') ) {
 <div id="message3" class="updated"><p><?php _e('Theme deleted.') ?></p></div>
 <?php endif; ?>
 <?php
-_check_theme_deprecated_files();
 $themes = get_allowed_themes();
 $ct = current_theme_info();
 unset($themes[$ct->name]);
