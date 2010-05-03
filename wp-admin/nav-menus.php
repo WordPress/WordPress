@@ -362,6 +362,7 @@ require_once( 'admin-header.php' );
 					<input class="button-secondary" name="select_menu" type="submit" value="<?php esc_attr_e('Select'); ?>" />
 				</form>
 			</div>
+			<div class="nav-tabs-wrapper">
 			<div class="nav-tabs">
 				<?php 
 				foreach( (array) $nav_menus as $_nav_menu ) :
@@ -393,6 +394,7 @@ require_once( 'admin-header.php' );
 					if ( 0 == $nav_menu_selected_id ) 
 						echo ' nav-tab-active';
 				?>"><?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?></a>
+			</div>
 			</div>
 			<div class="menu-edit">
 				<form id="update-nav-menu" action="<?php echo admin_url( 'nav-menus.php' ); ?>" method="post" enctype="multipart/form-data">

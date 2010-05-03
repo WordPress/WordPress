@@ -8,6 +8,11 @@
  * @subpackage Administration
  */
 
+html,
+body {
+	min-width: 950px;
+}
+
 #nav-menus-frame {
 	margin-left: 300px;
 }
@@ -95,48 +100,90 @@
 		font-weight:bold;
 	}
 	
-	#menu-management .nav-tabs {
-		padding-left: 30px;
-		clear: both;
+/* Menu Tabs */
+	
+#menu-management .nav-tabs-nav {
+	margin: 0 20px;
+}
+
+#menu-management .nav-tabs-arrow {
+	width: 10px;
+	padding: 0 5px 4px;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	line-height: 22px;
+	font-size: 18px;
+	text-shadow: 0 1px 0 #fff;
+}
+	#menu-management .nav-tabs-arrow a { color: #C1C1C1; }
+	#menu-management .nav-tabs-arrow a:hover { color: #D54E21; }
+	#menu-management .nav-tabs-arrow a:active { color: #464646; }
+	#menu-management .nav-tabs-arrow-left {
+		left: 0;
+	}
+	#menu-management .nav-tabs-arrow-right {
+		right: 0;
+		text-align: right;
 	}
 
-	#menu-management .nav-tab {
-		background: #f4f4f4;
-		font-weight: bold;
-		border-color: #dfdfdf;
+
+#menu-management .nav-tabs-wrapper {
+	width: 100%;
+	height: 28px;
+	margin-bottom: -1px;
+	overflow: hidden;
+}
+
+.no-js #menu-management .nav-tabs {
+	padding-left: 30px;
+	clear: both;
+}
+.js #menu-management .nav-tabs {
+	float: left;
+	margin-left: 0px;
+	margin-right: -400px;
+}
+
+#menu-management .nav-tab {
+	margin-bottom: 0;
+	background: #f4f4f4;
+	font-weight: bold;
+	border-color: #dfdfdf;
+}
+
+#menu-management .nav-tab-active {
+	background: #ececec;
+	border-color:#ccc;
+	border-bottom-color: #ececec;
+}
+
+#select-nav-menu-container {
+	text-align: right;
+	padding: 0 10px 3px 10px;
+	margin-bottom: 5px;
+}	
+	#select-nav-menu {
+		width: 100px;
+		display: inline;
 	}
 	
-	#menu-management .nav-tab-active {
-		background: #ececec;
-		border-color:#ccc;
-		border-bottom-color: #ececec;
-	}
-	
-	#select-nav-menu-container {
-		text-align: right;
-		padding: 0 10px 3px 10px;
-		margin-bottom: 5px;
-	}	
-		#select-nav-menu {
-			width: 100px;
-			display: inline;
-		}
-	
-	#menu-management #major-publishing-actions #delete-action {
-		float: right;
-		margin-right: 10px;
-	}
-	
-	#menu-name-label {
-		margin-top: -2px;
-	}
-	
-	#wpbody .open-label {
-		display: inline-block;
-	}
-	#wpbody .open-label span {
-		padding-right: 10px;
-	}
+/* Menu Toolbar */
+#menu-management #major-publishing-actions #delete-action {
+	float: right;
+	margin-right: 10px;
+}
+
+#menu-name-label {
+	margin-top: -2px;
+}
+
+#wpbody .open-label {
+	display: inline-block;
+}
+#wpbody .open-label span {
+	padding-right: 10px;
+}
 	
 	.js .input-with-default-title {
 		color: #aaa;
@@ -455,5 +502,5 @@ body.js .item-order {
 
 
 /* Clearfix */
-.menu-item-settings:after, .button-controls:after, #menu-item-url-wrap:after, #menu-item-name-wrap:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-.menu-item-settings, .button-controls, #menu-item-url-wrap, #menu-item-name-wrap { display: block; }
+#nav-menus-frame:after, .menu-item-settings:after, .button-controls:after, #menu-item-url-wrap:after, #menu-item-name-wrap:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+#nav-menus-frame, .menu-item-settings, .button-controls, #menu-item-url-wrap, #menu-item-name-wrap { display: block; }

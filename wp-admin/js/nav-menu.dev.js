@@ -164,6 +164,8 @@ var WPNavMenuHandler = function ($) {
 				this.initSortables();
 
 			this.initToggles();
+			
+			this.initTabManager();
 		},
 		
 		initToggles : function() {
@@ -386,6 +388,97 @@ var WPNavMenuHandler = function ($) {
 						return false;
 					}
 				}
+			});
+		},
+		
+		initTabManager : function() {
+			var fixed = $('.nav-tabs-wrapper'),
+				fluid = fixed.children('.nav-tabs'),
+				active = fluid.children('.nav-tab-active'),
+				tabs = fluid.children('.nav-tab'),
+				tabsWidth = 0,
+				fixedRight, fixedLeft,
+				arrowLeft, arrowRight
+				resizing = false;
+			
+			function resetMenuTabs() {
+				fixedLeft = fixed.offset().left;
+				fixedRight = fixedLeft + fixed.width();
+				active.makeTabVisible();
+			}
+			
+			$.fn.extend({
+				makeTabVisible : function() {
+					var t = this.eq(0),
+						left = t.offset().left,
+						right = left + t.outerWidth();
+					if( right > fixedRight )
+						fluid.animate({ 'margin-left' :  "+=" + (fixedRight - right) + 'px', }, 'fast');
+					else if ( left < fixedLeft )
+						fluid.animate({ 'margin-left' :  "-=" + (left - fixedLeft) + 'px', }, 'fast');
+					return t;
+				},
+				isTabVisible : function() {
+					var t = this.eq(0),
+						left = t.offset().left,
+						right = left + t.outerWidth();
+					return ( right <= fixedRight && left >= fixedLeft ) ? true : false;
+				}
+			});
+			
+			// Build tab navigation
+			arrowLeft = $('<div class="nav-tabs-arrow nav-tabs-arrow-left"><a>&laquo;</a></div>');
+			arrowRight = $('<div class="nav-tabs-arrow nav-tabs-arrow-right"><a>&raquo;</a></div>');
+			// Attach to the document
+			fixed.wrap('<div class="nav-tabs-nav"/>').parent().prepend( arrowLeft ).append( arrowRight );
+			
+			// Set up right margin
+			tabs.each(function(){
+				tabsWidth += $(this).outerWidth(true);
+			});
+			fluid.css('margin-right', (-1 * tabsWidth) + 'px');
+			
+			// Set the menu tabs
+			resetMenuTabs();
+			// Make sure the tabs reset on resize
+			$(window).resize(function() {
+				if( resizing ) return;
+				resizing = true;
+				setTimeout(function(){ 
+					resetMenuTabs();
+					resizing = false;
+				}, 1000);
+			});
+			
+			// Build arrow functions			
+			$.each([{
+					arrow : arrowLeft,
+					next : "next",
+					last : "first",
+					operator : "+=",
+				},{
+					arrow : arrowRight,
+					next : "prev",
+					last : "last",
+					operator : "-=",
+				}], function(){
+				var that = this;
+				this.arrow.mousedown(function(){
+					var last = tabs[that.last](),
+						fn = function() {
+							if( ! last.isTabVisible() )
+								fluid.animate({ 'margin-left' :  that.operator + '90px', }, 300, "linear", fn);
+						};
+						fn();
+				}).mouseup(function(){
+					var tab, next;
+					fluid.stop(true);
+					tab = tabs[that.last]();
+					while( (next = tab[that.next]()) && next.length && ! next.isTabVisible() ) {
+						tab = next;
+					}
+					tab.makeTabVisible();
+				});
 			});
 		},
 
