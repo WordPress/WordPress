@@ -68,7 +68,6 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 		do_action($taxonomy . '_edit_form_fields', $tag, $taxonomy);
 		?>
 	</table>
-<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr( sprintf(_x('Update %s', '%s: singular taxonomy name'), $tax->singular_label)); ?>" /></p>
 <?php
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form', $tag);
@@ -76,5 +75,6 @@ else
 	do_action('edit_tag_form', $tag);
 do_action($taxonomy . '_edit_form', $tag, $taxonomy);
 ?>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr( sprintf(_x('Update %s', '%s: singular taxonomy name'), $tax->singular_label)); ?>" /></p>
 </form>
 </div>
