@@ -1216,6 +1216,9 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
 							);
 
+		if ( is_multisite() && current_user_can( 'manage_network_plugins' ) )
+			$install_actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" target="_parent">' . __('Network Activate') . '</a>'; 
+
 		if ( $this->type == 'web' )
 			$install_actions['plugins_page'] = '<a href="' . admin_url('plugin-install.php') . '" title="' . esc_attr__('Return to Plugin Installer') . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
 		else
