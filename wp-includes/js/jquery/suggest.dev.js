@@ -120,7 +120,7 @@
 			if ( options.multiple ) {
 				multipleSepPos = q.lastIndexOf(options.multipleSep);
 				if ( multipleSepPos != -1 ) {
-					q = q.substr(multipleSepPos + options.multipleSep.length);
+					q = $.trim(q.substr(multipleSepPos + options.multipleSep.length));
 				}
 			}
 			if (q.length >= options.minchars) {
