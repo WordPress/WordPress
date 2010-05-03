@@ -241,4 +241,46 @@ function _check_theme_deprecated_files() {
 	<?php endif;
 }
 
+/**
+ * Check if there is an update for a theme available.
+ *
+ * Will display link, if there is an update available.
+ *
+ * @since 2.7.0
+ *
+ * @param object $theme Theme data object.
+ * @return bool False if no valid info was passed.
+ */
+function theme_update_available( $theme ) {
+	static $themes_update;
+
+	if ( !current_user_can('update_themes' ) )
+		return;
+
+	if ( !isset($themes_update) )
+		$themes_update = get_site_transient('update_themes');
+
+	if ( is_object($theme) && isset($theme->stylesheet) )
+		$stylesheet = $theme->stylesheet;
+	elseif ( is_array($theme) && isset($theme['Stylesheet']) )
+		$stylesheet = $theme['Stylesheet'];
+	else
+		return false; //No valid info passed.
+
+	if ( isset($themes_update->response[ $stylesheet ]) ) {
+		$update = $themes_update->response[ $stylesheet ];
+		$theme_name = is_object($theme) ? $theme->name : (is_array($theme) ? $theme['Name'] : '');
+		$details_url = add_query_arg(array('TB_iframe' => 'true', 'width' => 1024, 'height' => 800), $update['url']); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
+		$update_url = wp_nonce_url('update.php?action=upgrade-theme&amp;theme=' . urlencode($stylesheet), 'upgrade-theme_' . $stylesheet);
+		$update_onclick = 'onclick="if ( confirm(\'' . esc_js( __("Upgrading this theme will lose any customizations you have made.  'Cancel' to stop, 'OK' to upgrade.") ) . '\') ) {return true;}return false;"';
+
+		if ( ! current_user_can('update_themes') )
+			printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
+		else if ( empty($update['package']) )
+			printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> <em>automatic upgrade unavailable for this theme</em>.') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
+		else
+			printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s" %5$s>upgrade automatically</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version'], $update_url, $update_onclick );
+	}
+}
+
 ?>
