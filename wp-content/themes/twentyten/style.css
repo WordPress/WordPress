@@ -92,6 +92,15 @@ DESCRIPTION: One centered column with no sidebar
 	width: 640px;
 }
 
+/*
+LAYOUT: Full width, no sidebar
+DESCRIPTION: Full width content with no sidebar; used for attachment pages
+*/
+
+.single-attachment #content {
+	margin: 0 auto;
+	width: 900px;
+}
 
 
 /* =Fonts
@@ -762,6 +771,9 @@ div.menu li {
 	margin: 0;
 	max-width: 640px;
 }
+.single-attachment #content img {
+	max-width: 900px;
+}
 #content .alignleft,
 #content img.alignleft {
 	display: inline;
@@ -811,7 +823,7 @@ div.menu li {
 }
 #content .gallery .gallery-item {
 	float: left;
-	margin-top: 10px;
+	margin-top: 0;
 	text-align: center;
 	width: 33%;
 }
@@ -819,18 +831,15 @@ div.menu li {
 	border: 2px solid #cfcfcf;
 }
 #content .gallery .gallery-caption {
-	margin-left: 0;
+	color: #888;
+	font-size: 12px;
+	margin: 0 0 12px;
 }
 #content .gallery dl {
 	margin: 0;
 }
 #content .gallery img {
 	border: 10px solid #f1f1f1;
-}
-#content .gallery-caption {
-	color: #888;
-	font-size: 12px;
-	margin:-24px 0 24px 0;
 }
 #content .gallery br+br {
 	display: none;

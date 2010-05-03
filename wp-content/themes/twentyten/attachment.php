@@ -34,6 +34,14 @@
 								esc_attr( get_the_time() ),
 								get_the_date()
 							);
+							if ( wp_attachment_is_image() ) {
+								$size = getimagesize( wp_get_attachment_url() );
+								printf( __( ' at <a href="%1$s" title="Link to full-size image">%2$s &times; %3$s</a>', 'twentyten'),
+									wp_get_attachment_url(),
+									$size[0],
+									$size[1]
+								);
+							}							
 						?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-meta -->
@@ -41,8 +49,9 @@
 					<div class="entry-content">
 						<div class="entry-attachment">
 <?php if ( wp_attachment_is_image() ) : ?>
-						<p class="attachment"><a href="<?php echo wp_get_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
-							echo wp_get_attachment_image( $post->ID, array( $content_width, $content_width ) ); // max $content_width wide or high.
+						<p class="attachment"><a href="<?php echo twentyten_get_next_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
+							$attachment_size = apply_filters( 'twentyten_attachment_size',  900 );
+							echo wp_get_attachment_image( $post->ID, array( $attachment_size, 9999 ) ); // filterable image width with, essentially, no limit for image height.
 						?></a></p>
 
 						<div id="nav-below" class="navigation">
@@ -64,9 +73,9 @@
 					<?php
 						$tag_list = get_the_tag_list();
 						if ( '' != $tag_list ) {
-							$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>. Follow any comments here with the <a href="%5$s" title="Comments RSS to %4$s" rel="alternate" type="application/rss+xml">RSS feed for this post</a>.', 'twentyten' );
+							$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 						} else {
-							$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>. Follow any comments here with the <a href="%5$s" title="Comments RSS to %4$s" rel="alternate" type="application/rss+xml">RSS feed for this post</a>.', 'twentyten' );
+							$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 						}
 						printf(
 							$utility_text,
@@ -96,5 +105,4 @@
 			</div><!-- #content -->
 		</div><!-- #container -->
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

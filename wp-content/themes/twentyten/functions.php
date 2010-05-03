@@ -284,77 +284,6 @@ function twentyten_comment( $comment, $args, $depth ) {
 }
 endif;
 
-if ( ! function_exists( 'twentyten_cat_list' ) ) :
-/**
- * Returns the list of categories
- *
- * Returns the list of categories based on if we are or are
- * not browsing a category archive page.
- *
- * @uses twentyten_term_list
- *
- * @return string
- */
-function twentyten_cat_list() {
-	return twentyten_term_list( 'category', ', ', __( 'Posted in %s', 'twentyten' ), __( 'Also posted in %s', 'twentyten' ) );
-}
-endif;
-
-if ( ! function_exists( 'twentyten_tag_list' ) ) :
-/**
- * Returns the list of tags
- *
- * Returns the list of tags based on if we are or are not
- * browsing a tag archive page
- *
- * @uses twentyten_term_list
- *
- * @return string
- */
-function twentyten_tag_list() {
-	return twentyten_term_list( 'post_tag', ', ', __( 'Tagged %s', 'twentyten' ), __( 'Also tagged %s', 'twentyten' ) );
-}
-endif;
-
-
-if ( ! function_exists( 'twentyten_term_list' ) ) :
-/**
- * Returns the list of taxonomy items in multiple ways
- *
- * Returns the list of taxonomy items differently based on
- * if we are browsing a term archive page or a different
- * type of page.  If browsing a term archive page and the
- * post has no other taxonomied terms, it returns empty
- *
- * @return string
- */
-function twentyten_term_list( $taxonomy, $glue = ', ', $text = '', $also_text = '' ) {
-	global $wp_query, $post;
-	$current_term = $wp_query->get_queried_object();
-	$terms = wp_get_object_terms( $post->ID, $taxonomy );
-	// If we're viewing a Taxonomy page..
-	if ( isset( $current_term->taxonomy ) && $taxonomy == $current_term->taxonomy ) {
-		// Remove the term from display.
-		foreach ( (array) $terms as $key => $term ) {
-			if ( $term->term_id == $current_term->term_id ) {
-				unset( $terms[$key] );
-				break;
-			}
-		}
-		// Change to Also text as we've now removed something from the terms list.
-		$text = $also_text;
-	}
-	$tlist = array();
-	$rel = 'category' == $taxonomy ? 'rel="category"' : 'rel="tag"';
-	foreach ( (array) $terms as $term ) {
-		$tlist[] = '<a href="' . get_term_link( $term, $taxonomy ) . '" title="' . esc_attr( sprintf( __( 'View all posts in %s', 'twentyten' ), $term->name ) ) . '" ' . $rel . '>' . $term->name . '</a>';
-	}
-	if ( ! empty( $tlist ) )
-		return sprintf( $text, join( $glue, $tlist ) );
-	return '';
-}
-endif;
-
 /**
  * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
  *
@@ -439,3 +368,24 @@ function twentyten_remove_recent_comments_style() {
 	remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
 }
 add_action( 'widgets_init', 'twentyten_remove_recent_comments_style' );
+
+/**
+ * Get the URL of the next image in a gallery for attachment pages
+ */
+function twentyten_get_next_attachment_url() {
+	global $post;
+	$post = get_post($post);
+	$attachments = array_values(get_children( array('post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID') ));
+ 
+	foreach ( $attachments as $k => $attachment )
+		if ( $attachment->ID == $post->ID )
+			break;
+
+		$k = $k + 1;
+  
+		if ( isset($attachments[$k]) ) {
+			return get_attachment_link($attachments[$k]->ID);		
+		} else {
+			return get_permalink($post->post_parent);
+		}
+}
