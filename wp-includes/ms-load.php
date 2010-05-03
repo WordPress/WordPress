@@ -199,7 +199,8 @@ function wpmu_current_site() {
 function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
-	$msg  = '<h1>' . /*WP_I18N_FATAL_ERROR*/'Error establishing database connection'/*/WP_I18N_FATAL_ERROR*/ . '</h1>';
+	$title = /*WP_I18N_FATAL_ERROR*/'Error establishing database connection'/*/WP_I18N_FATAL_ERROR*/;
+	$msg  = '<h1>' . $title . '</h1>';
 	if ( ! is_admin() )
 		die( $msg );
 	$msg .= '<p>' . /*WP_I18N_CONTACT_OWNER*/'If your site does not display, please contact the owner of this network.'/*/WP_I18N_CONTACT_OWNER*/ . '';
@@ -220,3 +221,5 @@ function ms_not_installed() {
 
 	wp_die( $msg, $title );
 }
+
+?>
