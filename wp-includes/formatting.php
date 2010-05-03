@@ -1465,10 +1465,13 @@ function convert_smilies($text) {
  * @since 0.71
  *
  * @param string $email Email address to verify.
- * @param boolean $check_dns Whether to check the DNS for the domain using checkdnsrr().
+ * @param boolean $deprecated. Deprecated.
  * @return string|bool Either false or the valid email address.
  */
-function is_email( $email, $check_dns = false ) {
+function is_email( $email, $deprecated = false ) {
+	if ( ! empty( $deprecated ) )
+		_deprecated_argument( __FUNCTION__, '3.0' );
+
 	// Test for the minimum length the email can be
 	if ( strlen( $email ) < 3 ) {
 		return apply_filters( 'is_email', false, $email, 'email_too_short' );
@@ -1518,12 +1521,6 @@ function is_email( $email, $check_dns = false ) {
 		if ( !preg_match('/^[a-z0-9-]+$/i', $sub ) ) {
 			return apply_filters( 'is_email', false, $email, 'sub_invalid_chars' );
 		}
-	}
-
-	// DNS
-	// Check the domain has a valid MX and A resource record
-	if ( $check_dns && function_exists( 'checkdnsrr' ) && !( checkdnsrr( $domain . '.', 'MX' ) || checkdnsrr( $domain . '.', 'A' ) ) ) {
-		return apply_filters( 'is_email', false, $email, 'dns_no_rr' );
 	}
 
 	// Congratulations your email made it!
