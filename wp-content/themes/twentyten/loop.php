@@ -85,7 +85,7 @@
 <?php /* How to display posts in the asides category */ ?>
 	<?php elseif ( in_category( _x('asides', 'asides category slug', 'twentyten') ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php if ( is_archive() || is_search() ) : //Only display Excerpts for archives & search ?>
+	<?php if ( is_archive() || is_search() ) : // Only display Excerpts for archives & search ?>
 			<div class="entry-summary">
 				<?php the_excerpt( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
 			</div><!-- .entry-summary -->
@@ -130,7 +130,7 @@
 				?>
 			</div><!-- .entry-meta -->
 
-	<?php if ( is_archive() || is_search() ) : //Only display Excerpts for archives & search ?>
+	<?php if ( is_archive() || is_search() ) : // Only display Excerpts for archives & search ?>
 			<div class="entry-summary">
 				<?php the_excerpt( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
 			</div><!-- .entry-summary -->
