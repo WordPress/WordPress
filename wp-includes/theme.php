@@ -983,9 +983,7 @@ function get_attachment_template() {
  * Retrieve path of comment popup template in current or parent template.
  *
  * Checks for comment popup template in current template, if it exists or in the
- * parent template. If it doesn't exist, then it retrieves the comment-popup.php
- * file from the WP_FALLBACK_THEME theme. The WP_FALLBACK_THEME theme must then exist for it to
- * work.
+ * parent template.
  *
  * @since 1.5.0
  * @uses apply_filters() Calls 'comments_popup_template' filter on path.
@@ -994,8 +992,10 @@ function get_attachment_template() {
  */
 function get_comments_popup_template() {
 	$template = locate_template(array("comments-popup.php"));
+
+	// Backward compat code will be removed in a future release
 	if ('' == $template)
-		$template = get_theme_root() . '/' . WP_FALLBACK_THEME . '/comments-popup.php';
+		$template = WPINC . '/theme-compat/comments-popup.php';
 
 	return apply_filters('comments_popup_template', $template);
 }

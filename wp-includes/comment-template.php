@@ -889,8 +889,8 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		require( $include );
 	elseif ( file_exists( TEMPLATEPATH . $file ) )
 		require( TEMPLATEPATH .  $file );
-	else
-		require( get_theme_root() . '/'.WP_FALLBACK_THEME.'/comments.php');
+	else // Backward compat code will be removed in a future release
+		require( WPINC . '/theme-compat/comments.php');
 }
 
 /**

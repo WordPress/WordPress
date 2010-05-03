@@ -10,8 +10,7 @@
  * Load header template.
  *
  * Includes the header template for a theme or if a name is specified then a
- * specialised header will be included. If the theme contains no header.php file
- * then the header from the WP_FALLBACK_THEME theme will be included.
+ * specialised header will be included.
  *
  * For the parameter, if the file is called "header-special.php" then specify
  * "special".
@@ -31,16 +30,16 @@ function get_header( $name = null ) {
 
 	$templates[] = "header.php";
 
+	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
-		load_template( get_theme_root() . '/'. WP_FALLBACK_THEME. '/header.php');
+		load_template( WPINC . '/theme-compat/header.php');
 }
 
 /**
  * Load footer template.
  *
  * Includes the footer template for a theme or if a name is specified then a
- * specialised footer will be included. If the theme contains no footer.php file
- * then the footer from the default theme will be included.
+ * specialised footer will be included.
  *
  * For the parameter, if the file is called "footer-special.php" then specify
  * "special".
@@ -60,16 +59,16 @@ function get_footer( $name = null ) {
 
 	$templates[] = "footer.php";
 
+	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
-		load_template( get_theme_root() . '/' . WP_FALLBACK_THEME . '/footer.php');
+		load_template( WPINC . '/theme-compat/footer.php');
 }
 
 /**
  * Load sidebar template.
  *
  * Includes the sidebar template for a theme or if a name is specified then a
- * specialised sidebar will be included. If the theme contains no sidebar.php
- * file then the sidebar from the default theme will be included.
+ * specialised sidebar will be included.
  *
  * For the parameter, if the file is called "sidebar-special.php" then specify
  * "special".
@@ -89,8 +88,9 @@ function get_sidebar( $name = null ) {
 
 	$templates[] = "sidebar.php";
 
+	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
-		load_template( get_theme_root() . '/' . WP_FALLBACK_THEME . '/sidebar.php');
+		load_template( WPINC . '/theme-compat/sidebar.php');
 }
 
 /**
