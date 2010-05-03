@@ -420,6 +420,36 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 
 		extract( $wp_filetype );
 
+		// If the file claims to be an image, validate it's extension
+		if ( function_exists('getimagesize') && !empty( $type ) && 'image/' == substr( $type, 0, 6 ) && is_uploaded_file( $file['tmp_name'] ) ) {
+			// Attempt to figure out what type of image it really is
+			$imgstats = @getimagesize( $file['tmp_name'] );
+
+			// If getimagesize() knows what kind of image it really is and if the real MIME doesn't match the claimed MIME
+			if ( !empty($imgstats['mime']) && $imgstats['mime'] != $type ) {
+				// This is a simplified array of MIMEs that getimagesize() can detect and their extensions
+				$mime_to_ext = apply_filters( 'getimagesize_mimes_to_exts', array(
+					'image/jpeg' => 'jpg',
+					'image/png'  => 'png',
+					'image/gif'  => 'gif',
+					'image/bmp'  => 'bmp',
+					'image/tiff' => 'tif',
+				) );
+
+				// Replace whatever's after the last period in the filename with the correct extension
+				if ( !empty($mime_to_ext[$imgstats['mime']]) ) {
+					$filename_parts = explode( '.', $file['name'] );
+					array_pop( $filename_parts );
+					$filename_parts[] = $mime_to_ext[$imgstats['mime']];
+					$file['name'] = implode( '.', $filename_parts );
+
+					// Re-validate the extension / MIME
+					$wp_filetype = wp_check_filetype( $file['name'], $mimes );
+					extract( $wp_filetype );
+				}
+			}
+		}
+
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
 			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
 
