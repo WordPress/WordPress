@@ -246,15 +246,6 @@ body {
 .list li .menu-item-title { cursor: pointer; display: block; }
 .list li .menu-item-title input { margin-right: 3px; margin-top: -3px; }
 
-.list li li .menu-item-title  { margin-left: 14px; }
-.list li li li .menu-item-title  { margin-left: 28px; }
-.list li li li li .menu-item-title  { margin-left: 42px; }
-.list li li li li li .menu-item-title  { margin-left: 56px; }
-.list li li li li li li .menu-item-title  { margin-left: 70px; }
-.list li li li li li li li .menu-item-title  { margin-left: 84px; }
-.list li li li li li li li li .menu-item-title  { margin-left: 98px; }
-.list li li li li li li li li li .menu-item-title  { margin-left: 112px; }
-
 /* Nav Menu */
 #menu-container .inside { padding-bottom: 10px; }
 
