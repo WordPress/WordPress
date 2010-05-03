@@ -344,7 +344,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	if ( is_multisite() )
 		delete_transient( 'dirsize_cache' );
 
-	return apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ) );
+	return apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ), 'upload' );
 }
 
 /**
@@ -484,7 +484,7 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
 
-	$return = apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ) );
+	$return = apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ), 'sideload' );
 
 	return $return;
 }
