@@ -220,6 +220,10 @@ function wp_nav_menu( $args = array() ) {
 		}
 	}
 
+	// If no fallback function was specified and the menu doesn't exists, bail.
+	if ( !$menu || is_wp_error($menu) )
+		return false;
+
 	$nav_menu = '';
 	$items = '';
 	$container_allowedtags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'p', 'nav' ) );
