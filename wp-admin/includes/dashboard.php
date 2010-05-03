@@ -328,7 +328,7 @@ function wp_dashboard_right_now() {
 
 	// Spam Comments
 	$num = number_format_i18n($num_comm->spam);
-	$text = _n( 'Spam', 'Spam', $num_comm->spam );
+	$text = _nx( 'Spam', 'Spam', $num_comm->spam, 'comment' );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php?comment_status=spam'><span class='spam-count'>$num</span></a>";
 		$text = "<a class='spam' href='edit-comments.php?comment_status=spam'>$text</a>";

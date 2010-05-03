@@ -113,7 +113,7 @@ switch ( $action ) {
 							<?php } ?>
 						</tr>
 						<tr class="form-field">
-							<th scope="row"><?php _e( 'Registered') ?></th>
+							<th scope="row"><?php echo _x( 'Registered', 'site' ) ?></th>
 							<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr( $details->registered ) ?>" size="40" /></td>
 						</tr>
 						<tr class="form-field">
@@ -124,7 +124,7 @@ switch ( $action ) {
 						$radio_fields = array( 'public' => __( 'Public' ) );
 						if ( ! $is_main_site ) {
 							$radio_fields['archived'] = __( 'Archived' );
-							$radio_fields['spam']     = __( 'Spam' );
+							$radio_fields['spam']     = _x( 'Spam', 'site' );
 							$radio_fields['deleted']  = __( 'Deleted' );
 						}
 						$radio_fields['mature'] = __( 'Mature' );
@@ -414,8 +414,8 @@ switch ( $action ) {
 			<select name="action">
 				<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
 				<option value="delete"><?php _e( 'Delete' ); ?></option>
-				<option value="spam"><?php _e( 'Mark as Spam' ); ?></option>
-				<option value="notspam"><?php _e( 'Not Spam' ); ?></option>
+				<option value="spam"><?php echo _x( 'Mark as Spam', 'site' ); ?></option>
+				<option value="notspam"><?php echo _x( 'Not Spam', 'site' ); ?></option>
 			</select>
 			<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction" id="doaction" class="button-secondary action" />
 			<?php wp_nonce_field( 'bulk-ms-sites' ); ?>
@@ -448,7 +448,7 @@ switch ( $action ) {
 			'id'           => __( 'ID' ),
 			'blogname'     => $blogname_columns,
 			'lastupdated'  => __( 'Last Updated'),
-			'registered'   => __( 'Registered' ),
+			'registered'   => _x( 'Registered', 'site' ),
 			'users'        => __( 'Users' )
 		);
 
@@ -489,7 +489,7 @@ switch ( $action ) {
 			</tfoot>
 			<tbody id="the-site-list" class="list:site">
 			<?php
-			$status_list = array( 'archived' => array( 'site-archived', __( 'Archived' ) ), 'spam' => array( 'site-spammed', __( 'Spam' ) ), 'deleted' => array( 'site-deleted', __( 'Deleted' ) ), 'mature' => array( 'site-mature', __( 'Mature' ) ) );
+			$status_list = array( 'archived' => array( 'site-archived', __( 'Archived' ) ), 'spam' => array( 'site-spammed', _x( 'Spam', 'site' ) ), 'deleted' => array( 'site-deleted', __( 'Deleted' ) ), 'mature' => array( 'site-mature', __( 'Mature' ) ) );
 			if ( $blog_list ) {
 				$class = '';
 				foreach ( $blog_list as $blog ) {
@@ -534,7 +534,7 @@ switch ( $action ) {
 									<a href="<?php echo esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 									<?php
 									if ( 'list' != $mode )
-										echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s', '%1$s: site name. %2$s: site tagline.' ), get_blog_option( $blog['blog_id'], 'blogname' ), get_blog_option( $blog['blog_id'], 'blogdescription ' ) ) . '</em></p>';
+										echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s</em>', '%1$s: site name. %2$s: site tagline.' ), get_blog_option( $blog['blog_id'], 'blogname' ), get_blog_option( $blog['blog_id'], 'blogdescription ' ) ) . '</p>';
 
 									// Preordered.
 									$actions = array(
@@ -557,12 +557,12 @@ switch ( $action ) {
 										if ( get_blog_status( $blog['blog_id'], 'archived' ) == '1' )
 											$actions['unarchive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unarchive the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
 										else
-											$actions['archive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Archive' ) . '</a></span>';
+											$actions['archive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ) ) . '">' . _x( 'Archive', 'verb; site' ) . '</a></span>';
 
 										if ( get_blog_status( $blog['blog_id'], 'spam' ) == '1' )
-											$actions['unspam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Not Spam' ) . '</a></span>';
+											$actions['unspam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ) ) . '">' . _x( 'Not Spam', 'site' ) . '</a></span>';
 										else
-											$actions['spam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ) ) . '">' . __( 'Spam' ) . '</a></span>';
+											$actions['spam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ) ) . '">' . _x( 'Spam', 'site' ) . '</a></span>';
 
 										$actions['delete']	= '<span class="delete"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
 									}
@@ -665,8 +665,8 @@ switch ( $action ) {
 			<select name="action2">
 				<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
 				<option value="delete"><?php _e( 'Delete' ); ?></option>
-				<option value="spam"><?php _e( 'Mark as Spam' ); ?></option>
-				<option value="notspam"><?php _e( 'Not Spam' ); ?></option>
+				<option value="spam"><?php echo _x( 'Mark as Spam', 'site' ); ?></option>
+				<option value="notspam"><?php echo _x( 'Not Spam', 'site' ); ?></option>
 			</select>
 			<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 			</div>
