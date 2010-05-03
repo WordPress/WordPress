@@ -27,11 +27,12 @@
 ?>
 
 <?php if ( have_comments() ) : ?>
-			<h3 id="comments-title"><?php comments_number(
-				sprintf( __( 'No Responses to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' ),
-				sprintf( __( 'One Response to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' ),
-				sprintf( __( '%% Responses to %s', 'twentyten' ), '<em>' . get_the_title() . '</em>' )
-			); ?></h3>
+			<h3 id="comments-title">
+<?php
+    printf( _n('One Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'twentyten'),
+        number_format_i18n( get_comments_number() ), '<em>' . get_the_title() . '</em>' );
+?>
+            </h3>
 
 <?php if ( get_comment_pages_count() > 1 ) : // are there comments to navigate through ?>
 			<div class="navigation">
