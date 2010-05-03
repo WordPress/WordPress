@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-03 00:21+0000\n"
+"POT-Creation-Date: 2010-05-03 04:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: 404.php:17 header.php:31 loop.php:27
 msgid "Not Found"
@@ -148,30 +149,22 @@ msgid ""
 "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:31
-#, php-format
-msgid "No Responses to %s"
-msgstr ""
-
 #: comments.php:32
 #, php-format
-msgid "One Response to %s"
-msgstr ""
+msgid "One Response to %2$s"
+msgid_plural "%1$s Responses to %2$s"
+msgstr[0] ""
+msgstr[1] ""
 
-#: comments.php:33
-#, php-format
-msgid "%% Responses to %s"
-msgstr ""
-
-#: comments.php:38 comments.php:49
+#: comments.php:39 comments.php:50
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:39 comments.php:50
+#: comments.php:40 comments.php:51
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:60
+#: comments.php:61
 msgid "Comments are closed."
 msgstr ""
 
