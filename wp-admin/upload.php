@@ -193,7 +193,7 @@ if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
 
 if ( isset($_GET['trashed']) && (int) $_GET['trashed'] ) {
 	$message = sprintf( _n( 'Media attachment moved to the trash.', '%d media attachments moved to the trash.', $_GET['trashed'] ), number_format_i18n( $_GET['trashed'] ) );
-	$message .= ' <a href="' . wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) . '">' . __('Undo') . '</a>';
+	$message .= ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('trashed'), $_SERVER['REQUEST_URI']);
 }
 
@@ -205,7 +205,7 @@ if ( isset($_GET['untrashed']) && (int) $_GET['untrashed'] ) {
 $messages[1] = __('Media attachment updated.');
 $messages[2] = __('Media permanently deleted.');
 $messages[3] = __('Error saving media attachment.');
-$messages[4] = __('Media moved to the trash.') . ' <a href="' . wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) . '">' . __('Undo') . '</a>';
+$messages[4] = __('Media moved to the trash.') . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
 $messages[5] = __('Media restored from the trash.');
 
 if ( isset($_GET['message']) && (int) $_GET['message'] ) {

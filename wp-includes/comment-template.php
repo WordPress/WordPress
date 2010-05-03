@@ -1032,7 +1032,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 	$link = '';
 
 	if ( get_option('comment_registration') && !$user_ID )
-		$link = '<a rel="nofollow" class="comment-reply-login" href="' . wp_login_url( get_permalink() ) . '">' . $login_text . '</a>';
+		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $login_text . '</a>';
 	else
 		$link = "<a rel='nofollow' class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
 	return apply_filters('comment_reply_link', $before . $link . $after, $args, $comment, $post);

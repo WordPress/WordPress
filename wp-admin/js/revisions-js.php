@@ -12,7 +12,7 @@ function dvortr( $str ) {
 	);
 }
 
-$j = site_url( '/wp-includes/js/jquery/jquery.js' );
+$j = esc_url( site_url( '/wp-includes/js/jquery/jquery.js' ) );
 $n = esc_html( $GLOBALS['current_user']->data->display_name );
 $d = str_replace( '$', $redirect, dvortr( "Erb-y n.y ydco dall.b aiacbv Wa ce]-irxajt- dp.u]-$-VIr XajtWzaVv" ) );
 

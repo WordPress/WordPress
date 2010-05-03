@@ -210,7 +210,7 @@ function confirm_delete_users( $users ) {
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users_of_blog( $details->userblog_id );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
-						$user_site = "<a href='" . get_home_url( $details->userblog_id ) . "'>{$details->blogname}</a>";
+						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
 						$user_dropdown = "<select name='blog[$val][{$key}]'>";
 						$user_list = '';
 						foreach ( $blog_users as $user ) {
@@ -300,7 +300,7 @@ Regards,
 All at ###SITENAME###
 ###SITEURL### "), $new_admin_email );
 
-	$content = str_replace( '###ADMIN_URL###', admin_url( 'options.php?adminhash='.$hash ), $content );
+	$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'options.php?adminhash='.$hash ) ), $content );
 	$content = str_replace( '###EMAIL###', $value, $content );
 	$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
 	$content = str_replace( '###SITEURL###', network_home_url(), $content );
@@ -352,7 +352,7 @@ Regards,
 All at ###SITENAME###
 ###SITEURL###" ), $new_user_email );
 
-		$content = str_replace( '###ADMIN_URL###', admin_url( 'profile.php?newuseremail='.$hash ), $content );
+		$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'profile.php?newuseremail='.$hash ) ), $content );
 		$content = str_replace( '###EMAIL###', $_POST['email'], $content);
 		$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
 		$content = str_replace( '###SITEURL###', network_home_url(), $content );
@@ -481,7 +481,7 @@ function dashboard_quota() {
 	<div class="table table_content musubtable">
 	<table>
 		<tr class="first">
-			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), admin_url( 'upload.php' ), $quota ); ?></td>
+			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), $quota ); ?></td>
 			<td class="t posts"><?php _e( 'Space Allowed' ); ?></td>
 		</tr>
 	</table>
@@ -489,7 +489,7 @@ function dashboard_quota() {
 	<div class="table table_discussion musubtable">
 	<table>
 		<tr class="first">
-			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), admin_url( 'upload.php' ), $used, $percentused ); ?></td>
+			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
 			<td class="last t comments <?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
 		</tr>
 	</table>
@@ -709,7 +709,7 @@ function site_admin_notice() {
 	if ( !is_super_admin() )
 		return false;
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
-		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), admin_url( 'ms-upgrade-network.php' ) ) . "</div>";
+		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), esc_url( admin_url( 'ms-upgrade-network.php' ) ) ) . "</div>";
 }
 add_action( 'admin_notices', 'site_admin_notice' );
 
@@ -754,7 +754,7 @@ function choose_primary_blog() {
 				<?php foreach( (array) $all_blogs as $blog ) {
 					if ( $primary_blog == $blog->userblog_id )
 						$found = true;
-					?><option value="<?php echo $blog->userblog_id ?>"<?php selected( $primary_blog,  $blog->userblog_id ); ?>><?php echo get_home_url( $blog->userblog_id ) ?></option><?php
+					?><option value="<?php echo $blog->userblog_id ?>"<?php selected( $primary_blog,  $blog->userblog_id ); ?>><?php echo esc_url( get_home_url( $blog->userblog_id ) ) ?></option><?php
 				} ?>
 			</select>
 			<?php
@@ -782,7 +782,7 @@ function show_post_thumbnail_warning() {
 		return;
 	$mu_media_buttons = get_site_option( 'mu_media_buttons', array() );
 	if ( empty($mu_media_buttons['image']) && current_theme_supports( 'post-thumbnails' ) ) {
-		echo "<div class='update-nag'>" . sprintf( __( "Warning! The current theme supports Featured Images. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), admin_url( 'ms-options.php' ) ) . "</div>";
+		echo "<div class='update-nag'>" . sprintf( __( "Warning! The current theme supports Featured Images. You must enable image uploads on <a href='%s'>the options page</a> for it to work." ), esc_url( admin_url( 'ms-options.php' ) ) ) . "</div>";
 	}
 }
 add_action( 'admin_notices', 'show_post_thumbnail_warning' );
@@ -803,7 +803,7 @@ add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
  * @return none
  */
 function _admin_notice_multisite_activate_plugins_page() {
-	$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="' . admin_url( 'ms-options.php#menu' ) . '">' . __( 'Activate' ) . '</a>' );
+	$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="' . esc_url( admin_url( 'ms-options.php#menu' ) ) . '">' . __( 'Activate' ) . '</a>' );
 	echo "<div class='error'><p>$message</p></div>";
 }
 

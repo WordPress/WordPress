@@ -147,7 +147,7 @@ function install_dashboard() {
 		$tags = array();
 		foreach ( (array)$api_tags as $tag )
 			$tags[ $tag['name'] ] = (object) array(
-									'link' => admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])),
+									'link' => esc_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
 									'name' => $tag['name'],
 									'id' => sanitize_title_with_dashes($tag['name']),
 									'count' => $tag['count'] );

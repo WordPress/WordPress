@@ -26,7 +26,7 @@ $themes = get_themes();
 $allowed_themes = get_site_allowed_themes();
 ?>
 <div class="wrap">
-	<form action="<?php echo admin_url( 'ms-edit.php?action=updatethemes' ); ?>" method="post">
+	<form action="<?php echo esc_url( admin_url( 'ms-edit.php?action=updatethemes' ) ); ?>" method="post">
 		<?php screen_icon(); ?>
 		<h2><?php _e( 'Network Themes' ) ?></h2>
 		<p><?php _e( 'Disable themes network-wide. You can enable themes on a site-by-site basis.' ) ?></p>

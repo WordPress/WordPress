@@ -37,7 +37,7 @@ if ( isset( $_POST['action'] ) && $_POST['action'] == 'deleteblog' && isset( $_P
 	$hash = wp_generate_password( 20, false );
 	update_option( 'delete_blog_hash', $hash );
 
-	$url_delete = admin_url( 'ms-delete-site.php?h=' . $hash );
+	$url_delete = esc_url( admin_url( 'ms-delete-site.php?h=' . $hash ) );
 
 	$content = apply_filters( 'delete_site_email_content', __( "Dear User,
 You recently clicked the 'Delete Site' link on your site and filled in a

@@ -784,6 +784,11 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !$post = &get_post( $id ) )
 		return;
 
+	if ( 'display' == $context )
+		$action = '&amp;action=edit';
+	else
+		$action = '&action=edit';
+
 	$post_type_object = get_post_type_object( $post->post_type );
 	if ( !$post_type_object )
 		return;
@@ -791,14 +796,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !current_user_can( $post_type_object->edit_cap, $post->ID ) )
 		return;
 
-	$url = admin_url( sprintf($post_type_object->_edit_link, $post->ID) );
-
-	if ( 'display' == $context )
-		$url .= '&amp;action=edit';
-	else
-		$url .= '&action=edit';	
-
-	return apply_filters( 'get_edit_post_link', $url , $post->ID, $context );
+	return apply_filters( 'get_edit_post_link', admin_url( sprintf($post_type_object->_edit_link . $action, $post->ID) ), $post->ID, $context );
 }
 
 /**
@@ -1826,8 +1824,8 @@ function get_shortcut_link() {
  * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
  * @return string Home url link with optional path appended.
 */
-function home_url( $path = '', $scheme = null, $esc_url = true ) {
-	return get_home_url(null, $path, $scheme, $esc_url);
+function home_url( $path = '', $scheme = null ) {
+	return get_home_url(null, $path, $scheme);
 }
 
 /**
@@ -1845,7 +1843,7 @@ function home_url( $path = '', $scheme = null, $esc_url = true ) {
  * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
  * @return string Home url link with optional path appended.
 */
-function get_home_url( $blog_id = null, $path = '', $scheme = null, $esc_url = true ) {
+function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
 
 	if ( !in_array($scheme, array('http', 'https')) )
@@ -1861,12 +1859,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null, $esc_url = t
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
 
-	$url = apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
 }
 
 /**
@@ -1885,8 +1878,8 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null, $esc_url = t
  * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
  * @return string Site url link with optional path appended.
 */
-function site_url( $path = '', $scheme = null, $esc_url = true ) {
-	return get_site_url(null, $path, $scheme, $esc_url);
+function site_url( $path = '', $scheme = null ) {
+	return get_site_url(null, $path, $scheme);
 }
 
 /**
@@ -1904,7 +1897,7 @@ function site_url( $path = '', $scheme = null, $esc_url = true ) {
  * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
  * @return string Site url link with optional path appended.
 */
-function get_site_url( $blog_id = null, $path = '', $scheme = null, $esc_url = true ) {
+function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	// should the list of allowed schemes be maintained elsewhere?
 	$orig_scheme = $scheme;
 	if ( !in_array($scheme, array('http', 'https')) ) {
@@ -1928,12 +1921,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null, $esc_url = t
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	$url = apply_filters('site_url', $url, $path, $orig_scheme, $blog_id);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters('site_url', $url, $path, $orig_scheme, $blog_id);
 }
 
 /**
@@ -1946,8 +1934,8 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null, $esc_url = t
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended
 */
-function admin_url( $path = '', $scheme = 'admin', $esc_url = true ) {
-	return get_admin_url(null, $path, $scheme, $esc_url);
+function admin_url( $path = '', $scheme = 'admin' ) {
+	return get_admin_url(null, $path, $scheme);
 }
 
 /**
@@ -1961,18 +1949,13 @@ function admin_url( $path = '', $scheme = 'admin', $esc_url = true ) {
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended
 */
-function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin', $esc_url = true ) {
+function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 	$url = get_site_url($blog_id, 'wp-admin/', $scheme);
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	$url = apply_filters('admin_url', $url, $path, $blog_id);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters('admin_url', $url, $path, $blog_id);
 }
 
 /**
@@ -1984,18 +1967,13 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin', $esc_url
  * @param string $path Optional. Path relative to the includes url.
  * @return string Includes url link with optional path appended.
 */
-function includes_url($path = '', $esc_url = true) {
+function includes_url($path = '') {
 	$url = site_url() . '/' . WPINC . '/';
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	$url = apply_filters('includes_url', $url, $path);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters('includes_url', $url, $path);
 }
 
 /**
@@ -2007,7 +1985,7 @@ function includes_url($path = '', $esc_url = true) {
  * @param string $path Optional. Path relative to the content url.
  * @return string Content url link with optional path appended.
 */
-function content_url($path = '', $esc_url = true) {
+function content_url($path = '') {
 	$url = WP_CONTENT_URL;
 	if ( 0 === strpos($url, 'http') && is_ssl() )
 		$url = str_replace( 'http://', 'https://', $url );
@@ -2015,12 +1993,7 @@ function content_url($path = '', $esc_url = true) {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	$url = apply_filters('content_url', $url, $path);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters('content_url', $url, $path);
 }
 
 /**
@@ -2034,7 +2007,7 @@ function content_url($path = '', $esc_url = true) {
  * @param string $plugin Optional. The plugin file that you want to be relative to - i.e. pass in __FILE__
  * @return string Plugins url link with optional path appended.
 */
-function plugins_url($path = '', $plugin = '', $esc_url = true) {
+function plugins_url($path = '', $plugin = '') {
 
 	$mu_plugin_dir = WPMU_PLUGIN_DIR;
 	foreach ( array('path', 'plugin', 'mu_plugin_dir') as $var ) {
@@ -2059,13 +2032,7 @@ function plugins_url($path = '', $plugin = '', $esc_url = true) {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	$url = apply_filters('plugins_url', $url, $path, $plugin);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
-
+	return apply_filters('plugins_url', $url, $path, $plugin);
 }
 
 /**
@@ -2082,7 +2049,7 @@ function plugins_url($path = '', $plugin = '', $esc_url = true) {
  * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
  * @return string Site url link with optional path appended.
 */
-function network_site_url( $path = '', $scheme = null, $esc_url = true ) {
+function network_site_url( $path = '', $scheme = null ) {
 	global $current_site;
 
 	if ( !is_multisite() )
@@ -2107,12 +2074,7 @@ function network_site_url( $path = '', $scheme = null, $esc_url = true ) {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	$url = apply_filters('network_site_url', $url, $path, $orig_scheme);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters('network_site_url', $url, $path, $orig_scheme);
 }
 
 /**
@@ -2129,7 +2091,7 @@ function network_site_url( $path = '', $scheme = null, $esc_url = true ) {
  * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http','https'
  * @return string Home url link with optional path appended.
 */
-function network_home_url( $path = '', $scheme = null, $esc_url = true ) {
+function network_home_url( $path = '', $scheme = null ) {
 	global $current_site;
 
 	if ( !is_multisite() )
@@ -2147,12 +2109,7 @@ function network_home_url( $path = '', $scheme = null, $esc_url = true ) {
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= ltrim( $path, '/' );
 
-	$url = apply_filters( 'network_home_url', $url, $path, $orig_scheme);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters( 'network_home_url', $url, $path, $orig_scheme);
 }
 
 /**
@@ -2165,18 +2122,13 @@ function network_home_url( $path = '', $scheme = null, $esc_url = true ) {
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended
 */
-function network_admin_url( $path = '', $scheme = 'admin', $esc_url = true ) {
+function network_admin_url( $path = '', $scheme = 'admin' ) {
 	$url = network_site_url('wp-admin/', $scheme);
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
 
-	$url = apply_filters('network_admin_url', $url, $path);
-
-	if ( $esc_url )
-		$url = esc_url($url);
-
-	return $url;
+	return apply_filters('network_admin_url', $url, $path);
 }
 
 /**

@@ -149,8 +149,8 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 			<?php } ?>
 
 			<div class="view-switch">
-				<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> id="view-switch-list" src="<?php echo includes_url( 'images/blank.gif' ); ?>" width="20" height="20" title="<?php _e( 'List View' ) ?>" alt="<?php _e( 'List View' ) ?>" /></a>
-				<a href="<?php echo esc_url( add_query_arg( 'mode', 'excerpt', $_SERVER['REQUEST_URI'] ) ) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> id="view-switch-excerpt" src="<?php echo includes_url( 'images/blank.gif' ); ?>" width="20" height="20" title="<?php _e( 'Excerpt View' ) ?>" alt="<?php _e( 'Excerpt View' ) ?>" /></a>
+				<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> id="view-switch-list" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e( 'List View' ) ?>" alt="<?php _e( 'List View' ) ?>" /></a>
+				<a href="<?php echo esc_url( add_query_arg( 'mode', 'excerpt', $_SERVER['REQUEST_URI'] ) ) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> id="view-switch-excerpt" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e( 'Excerpt View' ) ?>" alt="<?php _e( 'Excerpt View' ) ?>" /></a>
 			</div>
 		</div>
 		<div class="clear"></div>
@@ -230,15 +230,15 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 								$edit_link = ( $current_user->ID == $user['ID'] ) ? 'profile.php' : 'user-edit.php?user_id=' . $user['ID'];
 								?>
 								<td class="username column-username">
-									<?php echo $avatar; ?><strong><a href="<?php echo admin_url( $edit_link ); ?>" class="edit"><?php echo stripslashes( $user['user_login'] ); ?></a><?php
+									<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user['user_login'] ); ?></a><?php
 									if ( in_array( $user['user_login'], $super_admins ) )
 										echo ' - ' . __( 'Super admin' );
 									?></strong>
 									<br/>
 									<div class="row-actions">
-										<span class="edit"><a href="<?php echo admin_url( $edit_link ); ?>"><?php _e( 'Edit' ); ?></a></span>
+										<span class="edit"><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>"><?php _e( 'Edit' ); ?></a></span>
 										<?php if ( ! in_array( $user['user_login'], $super_admins ) ) { ?>
-										| <span class="delete"><a href="<?php echo $delete	= admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
+										| <span class="delete"><a href="<?php echo $delete	= esc_url( admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
 										<?php } ?>
 									</div>
 								</td>
@@ -273,17 +273,17 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 									if ( is_array( $blogs ) ) {
 										foreach ( (array) $blogs as $key => $val ) {
 											$path	= ( $val->path == '/' ) ? '' : $val->path;
-											echo '<a href="'. admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+											echo '<a href="'. esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id  ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 											echo ' <small class="row-actions">';
 
 											// Edit
-											echo '<a href="'. admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id ) .'">' . __( 'Edit' ) . '</a> | ';
+											echo '<a href="'. esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id  ) ) .'">' . __( 'Edit' ) . '</a> | ';
 
 											// View
 											echo '<a ';
 											if ( get_blog_status( $val->userblog_id, 'spam' ) == 1 )
 												echo 'style="background-color: #faa" ';
-											echo 'href="' .  get_home_url( $val->userblog_id ) . '">' . __( 'View' ) . '</a>';
+											echo 'href="' .  esc_url( get_home_url( $val->userblog_id ) )  . '">' . __( 'View' ) . '</a>';
 											
 											echo '</small><br />';
 										}

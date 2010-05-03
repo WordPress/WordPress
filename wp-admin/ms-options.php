@@ -94,7 +94,7 @@ if (isset($_GET['updated'])) {
 				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
 				
 				<?php if ( get_site_option( 'admin_notice_feed' ) != get_home_url( $current_site->id, 'feed/' ) )
-					echo __( 'A good one to use would be the feed from your main site: ' ) . get_home_url( $current_site->id, 'feed/' ); ?></td>
+					echo __( 'A good one to use would be the feed from your main site: ' ) . esc_url( get_home_url( $current_site->id, 'feed/' ) ) ?></td>
 			</tr>
 		</table>
 		<h3><?php _e( 'Registration Settings' ); ?></h3>

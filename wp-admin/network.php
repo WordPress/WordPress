@@ -92,7 +92,7 @@ include( './admin-header.php' );
 function network_step1( $errors = false ) {
 
 	if ( get_option( 'siteurl' ) != get_option( 'home' ) ) {
-		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . sprintf( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network. See <a href="%s">General Settings</a>.' ), admin_url( 'options-general.php' ) ) . '</strong></p></div>';
+		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . sprintf( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network. See <a href="%s">General Settings</a>.' ), esc_url( admin_url( 'options-general.php' ) ) ) . '</strong></p></div>';
 		include ('./admin-footer.php' );
 		die();
 	}
@@ -113,7 +113,7 @@ function network_step1( $errors = false ) {
 			echo '<p>' . __( 'You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
 		else
 			echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
-		echo '<a href="' . admin_url() . '">' . __( 'Return to Dashboard' ) . '</a>';
+		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		include( './admin-footer.php' );
 		die();
 	}
@@ -333,7 +333,7 @@ $htaccess_file .= "\nRewriteRule . index.php [L]";
 </textarea></li>
 		</ol>
 <?php if ( !is_multisite() ) { ?>
-		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured.') ); ?> <a href="<?php echo admin_url(); ?>"><?php _e( 'Return to Dashboard' ); ?></a></p>
+		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured.') ); ?> <a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Return to Dashboard' ); ?></a></p>
 <?php
 	}
 }
