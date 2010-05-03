@@ -71,7 +71,7 @@ function &get_manifest() {
 		array('images/white-grad.png'),
 		array('images/white-grad-active.png'),
 		array('images/wordpress-logo.png'),
-		array('images/wp-logo.gif'),
+		array('images/wp-logo.png'),
 		array('images/xit.gif'),
 		array('images/yes.png'),
 		array('../wp-includes/images/crystal/archive.png'),
