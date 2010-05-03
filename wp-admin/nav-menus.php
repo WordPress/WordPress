@@ -302,6 +302,13 @@ if ( ! $nav_menu_selected_title && is_nav_menu( $nav_menu_selected_id ) ) {
 	$nav_menu_selected_title = ! is_wp_error( $_menu_object ) ? $_menu_object->name : '';
 }
 
+// Generate truncated menu names
+foreach( (array) $nav_menus as $_nav_menu ) {
+	$_nav_menu->truncated_name = trim( wp_html_excerpt( $_nav_menu->name, 40 ) );
+	if ( $_nav_menu->truncated_name != $_nav_menu->name )
+		$_nav_menu->truncated_name .= '&hellip;';
+}
+
 // The theme supports menus
 if ( current_theme_supports('nav-menus') ) {
 	// Set up nav menu
@@ -353,7 +360,7 @@ require_once( 'admin-header.php' );
 					<select id="select-nav-menu" name="menu">
 						<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
 							<option value="<?php echo esc_attr($_nav_menu->term_id) ?>" <?php selected($nav_menu_selected_id, $_nav_menu->term_id); ?>>
-								<?php echo esc_html( $_nav_menu->name ); ?>
+								<?php echo esc_html( $_nav_menu->truncated_name ); ?>
 							</option>
 						<?php endforeach; ?>
 						<option value="0"><?php esc_html_e('Add New Menu'); ?></option>
@@ -380,7 +387,7 @@ require_once( 'admin-header.php' );
 							echo ' nav-tab-active';
 						else
 							echo ' hide-if-no-js';
-					?>"><?php echo esc_html( $_nav_menu->name ); ?></a><?php
+					?>"><?php echo esc_html( $_nav_menu->truncated_name ); ?></a><?php
 				endforeach;
 				?><a href="<?php
 					echo add_query_arg(
