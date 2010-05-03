@@ -229,7 +229,7 @@ function _check_theme_deprecated_files() {
 		$files[] = 'sidebar.php';
 	
 	// Only notify if both are missing as you can use one or the other	
-	if ( ! ( $comment = locate_template( array( 'comments.php' ) ) ) && ! ( $comment_popup = locate_template( array( 'comments-popup.php' ) ) ) ) {
+	if ( ! locate_template( array( 'comments.php' ) ) && ! locate_template( array( 'comments-popup.php' ) ) ) {
 		$files[] = 'comments.php';
 		$files[] = 'comments-popup.php';
 	}	
