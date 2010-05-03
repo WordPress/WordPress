@@ -2601,7 +2601,7 @@ function wp_die( $message, $title = '', $args = array() ) {
  * site then you can overload using the wp_die_handler filter in wp_die
  *
  * @since 3.0.0
- * @private
+ * @access private
  *
  * @param string $message Error message.
  * @param string $title Error title.
@@ -4114,7 +4114,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 /*
  * Used internally to tidy up the search terms
  *
- * @private
+ * @access private
  * @since 2.9.0
  *
  * @param string $t

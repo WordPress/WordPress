@@ -198,7 +198,7 @@ function get_page_templates() {
  * Tidies a filename for url display by the theme editor.
  *
  * @since 2.9.0
- * @private
+ * @access private
  *
  * @param string $fullpath Full path to the theme file
  * @param string $containingfolder Path of the theme parent folder
@@ -213,7 +213,9 @@ function _get_template_edit_filename($fullpath, $containingfolder) {
  * 
  * Check to see if the current theme has all the required templates available
  * from itself or its parent
- * 
+ 
+ * @since 3.0
+ * @access private
  * @return nothing
  */
 function _check_theme_deprecated_files() {
