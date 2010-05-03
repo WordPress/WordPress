@@ -29,11 +29,13 @@ $allowed_themes = get_site_allowed_themes();
 	<form action="<?php echo esc_url( admin_url( 'ms-edit.php?action=updatethemes' ) ); ?>" method="post">
 		<?php screen_icon(); ?>
 		<h2><?php _e( 'Network Themes' ) ?></h2>
-		<p><?php _e( 'Disable themes network-wide. You can enable themes on a site-by-site basis.' ) ?></p>
+		<p><?php _e( 'Themes must be enabled for your network before they will be available to individual sites.' ) ?></p>
+		<p class="submit">
+			<input type="submit" value="<?php _e( 'Apply Changes' ) ?>" /></p>
 		<table class="widefat">
 			<thead>
 				<tr>
-					<th style="width:15%;text-align:center;"><?php _e( 'Active' ) ?></th>
+					<th style="width:15%;"><?php _e( 'Enable' ) ?></th>
 					<th style="width:25%;"><?php _e( 'Theme' ) ?></th>
 					<th style="width:10%;"><?php _e( 'Version' ) ?></th>
 					<th style="width:60%;"><?php _e( 'Description' ) ?></th>
@@ -59,7 +61,7 @@ $allowed_themes = get_site_allowed_themes();
 				}
 				?>
 				<tr valign="top" class="<?php echo $class, $class1; ?>">
-					<td style="text-align:center;">
+					<td>
 						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="enabled_<?php echo $theme_key ?>" value="enabled" <?php checked( $enabled ) ?> /> <?php _e( 'Yes' ) ?></label>
 						&nbsp;&nbsp;&nbsp;
 						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="disabled_<?php echo $theme_key ?>" value="disabled" <?php checked( $disabled ) ?> /> <?php _e( 'No' ) ?></label>
@@ -73,14 +75,14 @@ $allowed_themes = get_site_allowed_themes();
 		</table>
 
 		<p class="submit">
-			<input type="submit" value="<?php _e( 'Update Themes' ) ?>" /></p>
+			<input type="submit" value="<?php _e( 'Apply Changes' ) ?>" /></p>
 	</form>
 
 	<h3><?php _e( 'Total' )?></h3>
 	<p>
 		<?php printf( __( 'Themes Installed: %d' ), $total_theme_count); ?>
 		<br />
-		<?php printf( __( 'Themes Activated: %d' ), $activated_themes_count); ?>
+		<?php printf( __( 'Themes Enabled: %d' ), $activated_themes_count); ?>
 	</p>
 </div>
 
