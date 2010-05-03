@@ -2071,6 +2071,9 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( empty($post_type) )
 		$post_type = 'post';
 
+	if ( !empty($post_category) )
+		$post_category = array_filter($post_category); // Filter out empty terms
+
 	// Make sure we set a valid category.
 	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
 		// 'post' requires at least one category.
@@ -2225,12 +2228,16 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	wp_set_post_categories( $post_ID, $post_category );
 	// old-style tags_input
-	if ( isset( $tags_input ) )
+	if ( isset( $tags_input ) ) {
+		$tags_input = array_filter($tags_input);
 		wp_set_post_tags( $post_ID, $tags_input );
-	// new-style support for all tag-like taxonomies
+	}
+	// new-style support for all custom taxonomies
 	if ( !empty($tax_input) ) {
 		foreach ( $tax_input as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy($taxonomy);
+			if ( is_array($tags) ) // array = hierarchical, string = non-hierarchical.
+				$tags = array_filter($tags);
 			if ( current_user_can($taxonomy_obj->assign_cap) )
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
 		}
@@ -2784,8 +2791,8 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$leaf_path  = sanitize_title(basename($page_paths));
 	$page_paths = explode('/', $page_paths);
 	$full_path = '';
-	foreach( (array) $page_paths as $pathdir)
-		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+	foreach ( (array) $page_paths as $pathdir )
+		$full_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
 
 	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = %s AND (post_type = %s OR post_type = 'attachment')", $leaf_path, $post_type ));
 
@@ -3668,7 +3675,7 @@ function wp_mime_type_icon( $mime = 0 ) {
  * @return int Same as $post_id
  */
 function wp_check_for_changed_slugs($post_id) {
-	if ( !isset($_POST['wp-old-slug']) || !strlen($_POST['wp-old-slug']) )
+	if ( empty($_POST['wp-old-slug']) )
 		return $post_id;
 
 	$post = &get_post($post_id);
