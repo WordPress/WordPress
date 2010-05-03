@@ -491,20 +491,13 @@ function translate_user_role( $name ) {
  * @return array Array of language codes or an empty array if no languages are present.  Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
-	$languages = array();
-
-	if ( empty($dir) )
-		$dir = WP_LANG_DIR;
-
-	if ( is_dir( $dir ) && $dh = opendir( $dir ) ) {
-		while ( ( $lang_file = readdir( $dh ) ) !== false ) {
-			if ( substr( $lang_file, -3 ) == '.mo' && ( false === strpos( $lang_file, 'continents-cities' ) ) )
-				$languages[] = basename($lang_file, '.mo');
+	$languages = array();	
+		
+	foreach( glob( ( is_null( $dir) ? WP_LANG_DIR : $dir ) . '/*.mo' ) as $lang_file ) {
+		if ( false === strpos( $lang_file, 'continents-cities' ) ) {
+			$languages[] = basename($lang_file, '.mo');
 		}
-		closedir($dh);
 	}
-
+	
 	return $languages;
 }
-
-?>
