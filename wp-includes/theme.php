@@ -1580,7 +1580,7 @@ function add_editor_style( $stylesheet = 'editor-style.css' ) {
 	global $editor_styles;
 	$editor_styles = (array) $editor_styles;
 	$stylesheet    = (array) $stylesheet;
-	if ('rtl' == get_bloginfo('text_direction') ) {
+	if ( is_rtl() ) {
 		$rtl_stylesheet = str_replace('.css', '-rtl.css', $stylesheet[0]);
 		$stylesheet[] = $rtl_stylesheet;
 	}

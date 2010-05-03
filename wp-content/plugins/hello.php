@@ -62,7 +62,7 @@ add_action('admin_footer', 'hello_dolly');
 // We need some CSS to position the paragraph
 function dolly_css() {
 	// This makes sure that the posinioning is also good for right-to-left languages
-	$x = ( 'rtl' == get_bloginfo( 'text_direction' ) ) ? 'left' : 'right';
+	$x = ( is_rtl() ) ? 'left' : 'right';
 
 	echo "
 	<style type='text/css'>

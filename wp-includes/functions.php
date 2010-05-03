@@ -2605,8 +2605,6 @@ function wp_die( $message, $title = '', $args = array() ) {
  * @param string|array $args Optional arguements to control behaviour.
  */
 function _default_wp_die_handler( $message, $title = '', $args = array() ) {
-	global $wp_locale;
-
 	$defaults = array( 'response' => 500 );
 	$r = wp_parse_args($args, $defaults);
 
@@ -2661,7 +2659,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	$text_direction = 'ltr';
 	if ( isset($r['text_direction']) && 'rtl' == $r['text_direction'] )
 		$text_direction = 'rtl';
-	elseif ( isset($wp_locale ) && 'rtl' == $wp_locale->text_direction )
+	elseif ( function_exists( 'is_rtl' ) && is_rtl() )
 		$text_direction = 'rtl';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -2743,9 +2741,7 @@ function _config_wp_siteurl( $url = '' ) {
  * @return array Direction set for 'rtl', if needed by locale.
  */
 function _mce_set_direction( $input ) {
-	global $wp_locale;
-
-	if ( 'rtl' == $wp_locale->text_direction ) {
+	if ( is_rtl() ) {
 		$input['directionality'] = 'rtl';
 		$input['plugins'] .= ',directionality';
 		$input['theme_advanced_buttons1'] .= ',ltr';

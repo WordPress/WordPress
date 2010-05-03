@@ -372,7 +372,7 @@ function get_body_class( $class = '' ) {
 
 	$classes = array();
 
-	if ( 'rtl' == get_bloginfo( 'text_direction' ) )
+	if ( is_rtl() )
 		$classes[] = 'rtl';
 
 	if ( is_front_page() )

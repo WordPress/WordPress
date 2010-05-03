@@ -398,7 +398,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 	switch( $show ) {
 		case 'home' : // DEPRECATED
 		case 'siteurl' : // DEPRECATED
-			_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The <code>%1$s</code> option is deprecated for the family of <code>bloginfo()</code> functions. Use the <code>%2$s</code> option instead.'), $show, 'url' ) );
+			_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The <code>%s</code> option is deprecated for the family of <code>bloginfo()</code> functions.' ), $show ) . ' ' . sprintf( __( 'Use the <code>%s</code> option instead.' ), 'url'  ) );
 		case 'url' :
 			$output = home_url();
 			break;
@@ -458,11 +458,8 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			$output = str_replace('_', '-', $output);
 			break;
 		case 'text_direction':
-			global $wp_locale;
-			if ( isset( $wp_locale ) )
-				$output = $wp_locale->text_direction;
-			else
-				$output = 'ltr';
+			//_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The <code>%s</code> option is deprecated for the family of <code>bloginfo()</code> functions.' ), $show ) . ' ' . sprintf( __( 'Use the <code>%s</code> function instead.' ), 'is_rtl()'  ) );
+			return function_exists( 'is_rtl' ) ? is_rtl() : 'ltr';
 			break;
 		case 'name':
 		default:
@@ -1874,8 +1871,8 @@ function language_attributes($doctype = 'html') {
 	$attributes = array();
 	$output = '';
 
-	if ( $dir = get_bloginfo('text_direction') )
-		$attributes[] = "dir=\"$dir\"";
+	if ( function_exists( 'is_rtl' ) )
+		$attributes[] = 'dir="' . ( is_rtl() ? 'rtl' : 'ltr' ) . '"';
 
 	if ( $lang = get_bloginfo('language') ) {
 		if ( get_option('html_type') == 'text/html' || $doctype == 'html' )
@@ -2112,7 +2109,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	}
 
 	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $file ) . "' type='text/css' />\n", $file );
-	if ( 'rtl' == get_bloginfo( 'text_direction' ) )
+	if ( is_rtl() )
 		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( "$file-rtl" ) . "' type='text/css' />\n", "$file-rtl" );
 }
 

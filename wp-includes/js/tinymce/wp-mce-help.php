@@ -128,7 +128,7 @@ wp_admin_css( 'wp-admin', true );
 		border-bottom: 0px;
 	}
 </style>
-<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
+<?php if ( is_rtl() ) : ?>
 <style type="text/css">
 	#wphead, #tabs {
 		padding-left: auto;
