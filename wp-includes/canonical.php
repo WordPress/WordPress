@@ -81,7 +81,15 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	// These tests give us a WP-generated permalink
 	if ( is_404() ) {
-		$redirect_url = redirect_guess_404_permalink();
+
+		// Redirect ?page_id, ?p=, ?attachment_id= to their respective url's
+		$id = max( get_query_var('p'), get_query_var('page_id'), get_query_var('attachment_id'));
+		if ( $id && $redirect_url = get_permalink($id) )
+			$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
+	
+		if ( ! $redirect_url )
+			$redirect_url = redirect_guess_404_permalink();
+
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
 		if ( is_attachment() && !empty($_GET['attachment_id']) && ! $redirect_url ) {
