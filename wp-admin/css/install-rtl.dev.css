@@ -14,3 +14,6 @@ ul, ol { padding: 5px 22px 5px 5px; }
 .form-table th {
 	text-align: right;
 }
+#user_login, #admin_email, #pass1, #pass2 {
+	direction:ltr;
+}
