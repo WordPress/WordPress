@@ -262,7 +262,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				's' => $query,
 			));
 			if ( ! have_posts() )
-					echo '-1';
+				return;
 			while ( have_posts() ) {
 				the_post();
 				if ( 'markup' == $response_format ) {
@@ -284,7 +284,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				'number' => 10,
 			));
 			if ( empty( $terms ) || is_wp_error( $terms ) )
-				echo '-1';
+				return;
 			foreach( (array) $terms as $term ) {
 				if ( 'markup' == $response_format ) {
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( $term ) ), 0, (object) $args );
