@@ -102,6 +102,7 @@ case 'dodelete':
 		case 'delete':
 			if ( current_user_can('delete_user', $id) )
 				wp_delete_user($id);
+			break;
 		case 'reassign':
 			if ( current_user_can('delete_user', $id) )
 				wp_delete_user($id, $_REQUEST['reassign_user']);
