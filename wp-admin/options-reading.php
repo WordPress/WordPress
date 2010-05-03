@@ -25,8 +25,11 @@ include( './admin-header.php' );
 <form name="form1" method="post" action="options.php">
 <?php settings_fields( 'reading' ); ?>
 
+<?php if ( ! get_pages() ) : ?>
+<input name="show_on_front" type="hidden" value="posts" />
 <table class="form-table">
-<?php if ( get_pages() ): ?>
+<?php else : ?>
+<table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e( 'Front page displays' ); ?></th>
 <td id="front-static-pages"><fieldset><legend class="screen-reader-text"><span><?php _e( 'Front page displays' ); ?></span></legend>
