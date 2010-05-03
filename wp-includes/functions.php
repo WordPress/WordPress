@@ -3454,9 +3454,12 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 			$value = wp_cache_get($cache_key, 'site-options');
 
 		if ( !isset($value) || (false === $value) ) {
-			$value = $wpdb->get_var( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
+			$row = $wpdb->get_row( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
 
-			if ( is_null($value) )
+			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			if ( is_object( $row ) )
+				$value = $row->meta_value;
+			else
 				$value = $default;
 
 			$value = maybe_unserialize( $value );
