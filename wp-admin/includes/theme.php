@@ -208,4 +208,35 @@ function _get_template_edit_filename($fullpath, $containingfolder) {
 	return str_replace(dirname(dirname( $containingfolder )) , '', $fullpath);
 }
 
+/**
+ * Check the current theme for reliance on deprecated theme compatibility
+ * 
+ * Check to see if the current theme has all the required templates available
+ * from itself or its parent
+ * 
+ * @return nothing
+ */
+function _check_theme_deprecated_files() {
+	$files = array( );
+	
+	if ( ! locate_template( array( 'header.php' ) ) )
+		$files[] = 'header.php';
+	if ( ! locate_template( array( 'footer.php' ) ) )
+		$files[] = 'footer.php';
+	if ( ! locate_template( array( 'sidebar.php' ) ) )
+		$files[] = 'sidebar.php';
+	
+	// Only notify if both are missing as you can use one or the other	
+	if ( ! ( $comment = locate_template( array( 'comments.php' ) ) ) && ! ( $comment_popup = locate_template( array( 'comments-popup.php' ) ) ) ) {
+		$files[] = 'comments.php';
+		$files[] = 'comments-popup.php';
+	}	
+		
+	if ( ! empty( $files ) ) : ?>
+		<div id="deprecated-files-message" class="error"><p>
+			<?php echo sprintf( __('The current theme is incomplete as it is missing %1$s. Please update your theme to include these files as you are currently relying on deprecated behaviour.'), implode( $files, ', ') ); ?>
+		</p></div>
+	<?php endif;
+}
+
 ?>
