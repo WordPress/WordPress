@@ -44,7 +44,7 @@ function network_domain_check() {
  */
 function allow_subdomain_install() {
 	$domain = preg_replace( '|https?://[^/]|', '', get_option( 'siteurl' ) );
-	if( false !== strpos( $domain, '/' ) || 'localhost' == $_SERVER[ 'HTTP_HOST' ] )
+	if( false !== strpos( $domain, '/' ) || 'localhost' == $domain || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $domain ) )
 		return false;
 
 	return true;
@@ -106,8 +106,7 @@ function network_step1( $errors = false ) {
 
 	$hostname = get_clean_basedomain();
 	$has_ports = strstr( $hostname, ':' );
-	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) )
-		|| ( $no_ip = preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $hostname ) ) ) {
+	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) ) ) {
 		echo '<div class="error"><p><strong>' . __( 'Error:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</strong></p></div>';
 		if ( $no_ip )
 			echo '<p>' . __( 'You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
