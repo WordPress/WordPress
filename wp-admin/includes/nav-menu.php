@@ -179,7 +179,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 							remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
 						),
 						'delete-menu_item_' . $item_id
-					); ?>"><?php _e('Remove'); ?></a> | <a class="item-close submitclose" id="close-<?php echo $item_id; ?>" href=""><?php _e('Close'); ?></a>
+					); ?>"><?php _e('Remove'); ?></a> | <a class="item-close submitclose" id="close-<?php echo $item_id; ?>" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e('Close'); ?></a>
 					<input class="button-primary save-menu-item" name="save_menu_item" type="submit" value="<?php esc_attr_e('Save Menu Item'); ?>" />
 				</span>
 
