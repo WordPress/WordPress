@@ -2070,9 +2070,9 @@ class WP_Query {
 			if ( strpos($q['author_name'], '/') !== false ) {
 				$q['author_name'] = explode('/', $q['author_name']);
 				if ( $q['author_name'][ count($q['author_name'])-1 ] ) {
-					$q['author_name'] = $q['author_name'][count($q['author_name'])-1]; #no trailing slash
+					$q['author_name'] = $q['author_name'][count($q['author_name'])-1]; // no trailing slash
 				} else {
-					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; #there was a trailling slash
+					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; // there was a trailling slash
 				}
 			}
 			$q['author_name'] = sanitize_title($q['author_name']);
