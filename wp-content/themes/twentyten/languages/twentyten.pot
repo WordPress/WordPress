@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-03 04:21+0000\n"
+"POT-Creation-Date: 2010-05-03 20:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,39 +71,41 @@ msgid ""
 "\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span>"
 msgstr ""
 
-#: attachment.php:38 attachment.php:90 loop.php:81 loop.php:111 loop.php:153
-#: onecolumn-page.php:26 page.php:33 single.php:71
+#: attachment.php:39
+#, php-format
+msgid ""
+" at <a href=\"%1$s\" title=\"Link to full-size image\">%2$s &times; %3$s</a>"
+msgstr ""
+
+#: attachment.php:46 attachment.php:99 loop.php:81 loop.php:111 loop.php:149
+#: onecolumn-page.php:26 page.php:33 single.php:70
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:58 loop.php:90 loop.php:135
+#: attachment.php:67 loop.php:90 loop.php:135
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: attachment.php:59 loop.php:140 onecolumn-page.php:25 page.php:32
+#: attachment.php:68 loop.php:140 onecolumn-page.php:25 page.php:32
 #: single.php:35
 msgid "Pages:"
 msgstr ""
 
-#: attachment.php:67 single.php:57
+#: attachment.php:76 single.php:57
 #, php-format
 msgid ""
 "This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
-"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>. Follow any "
-"comments here with the <a href=\"%5$s\" title=\"Comments RSS to %4$s\" rel="
-"\"alternate\" type=\"application/rss+xml\">RSS feed for this post</a>."
+"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: attachment.php:69 single.php:59
+#: attachment.php:78 single.php:59
 #, php-format
 msgid ""
 "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
-"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>. Follow any comments "
-"here with the <a href=\"%5$s\" title=\"Comments RSS to %4$s\" rel=\"alternate"
-"\" type=\"application/rss+xml\">RSS feed for this post</a>."
+"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: attachment.php:82
+#: attachment.php:91
 #, php-format
 msgid ""
 "<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
@@ -111,7 +113,7 @@ msgid ""
 "title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
 msgstr ""
 
-#: attachment.php:84
+#: attachment.php:93
 #, php-format
 msgid ""
 "Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
@@ -119,13 +121,13 @@ msgid ""
 "\">Trackback URL</a>."
 msgstr ""
 
-#: attachment.php:86
+#: attachment.php:95
 msgid ""
 "Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
 "\" title=\"Post a comment\">post a comment</a>."
 msgstr ""
 
-#: attachment.php:88
+#: attachment.php:97
 msgid "Both comments and trackbacks are currently closed."
 msgstr ""
 
@@ -248,76 +250,51 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: functions.php:299
-#, php-format
-msgid "Posted in %s"
-msgstr ""
-
-#: functions.php:299
-#, php-format
-msgid "Also posted in %s"
-msgstr ""
-
-#: functions.php:315
-#, php-format
-msgid "Tagged %s"
-msgstr ""
-
-#: functions.php:315
-#, php-format
-msgid "Also tagged %s"
-msgstr ""
-
-#: functions.php:350
-#, php-format
-msgid "View all posts in %s"
-msgstr ""
-
-#: functions.php:368
+#: functions.php:297
 msgid "Primary Widget Area"
 msgstr ""
 
-#: functions.php:370
+#: functions.php:299
 msgid "The primary widget area"
 msgstr ""
 
-#: functions.php:379
+#: functions.php:308
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:381
+#: functions.php:310
 msgid "The secondary widget area"
 msgstr ""
 
-#: functions.php:390
+#: functions.php:319
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: functions.php:392
+#: functions.php:321
 msgid "The first footer widget area"
 msgstr ""
 
-#: functions.php:401
+#: functions.php:330
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: functions.php:403
+#: functions.php:332
 msgid "The second footer widget area"
 msgstr ""
 
-#: functions.php:412
+#: functions.php:341
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: functions.php:414
+#: functions.php:343
 msgid "The third footer widget area"
 msgstr ""
 
-#: functions.php:423
+#: functions.php:352
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: functions.php:425
+#: functions.php:354
 msgid "The fourth footer widget area"
 msgstr ""
 
@@ -330,11 +307,11 @@ msgstr ""
 msgid "Skip to content"
 msgstr ""
 
-#: loop.php:19 loop.php:165
+#: loop.php:19 loop.php:161
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: loop.php:20 loop.php:166
+#: loop.php:20 loop.php:162
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -376,21 +353,29 @@ msgstr ""
 msgid "More Galleries"
 msgstr ""
 
-#: loop.php:80 loop.php:110 loop.php:152
+#: loop.php:80 loop.php:110 loop.php:148
 msgid "Leave a comment"
 msgstr ""
 
-#: loop.php:80 loop.php:110 loop.php:152
+#: loop.php:80 loop.php:110 loop.php:148
 msgid "1 Comment"
 msgstr ""
 
-#: loop.php:80 loop.php:110 loop.php:152
+#: loop.php:80 loop.php:110 loop.php:148
 msgid "% Comments"
 msgstr ""
 
 #: loop.php:86
 msgctxt "asides category slug"
 msgid "asides"
+msgstr ""
+
+#: loop.php:145
+msgid "Posted in "
+msgstr ""
+
+#: loop.php:147
+msgid "Tagged "
 msgstr ""
 
 #: search.php:17
@@ -416,12 +401,12 @@ msgstr ""
 msgid "Meta"
 msgstr ""
 
-#: single.php:19 single.php:76
+#: single.php:19 single.php:75
 msgctxt "Previous post link"
 msgid "&larr;"
 msgstr ""
 
-#: single.php:20 single.php:77
+#: single.php:20 single.php:76
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr ""
