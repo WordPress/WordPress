@@ -327,9 +327,14 @@ td.available-theme {
 #side-sortables .add-menu-item-tabs li {
 	padding-left: 8px;
 }
+#front-page-warning,
+#front-static-pages ul,
+.inline-editor ul.cat-checklist ul,
 .categorydiv ul.categorychecklist ul,
+.customlinkdiv ul.categorychecklist ul,
+.posttypediv ul.categorychecklist ul,
 .taxonomydiv ul.categorychecklist ul,
-#linkcategorydiv ul.categorychecklist ul {
+#linkcategorydiv ul.categorychecklist ul{
 	margin-left: 0;
 	margin-right: 18px;
 }
@@ -412,7 +417,7 @@ td.action-links, th.action-links {
 }
 /* show/hide settings */
 #screen-meta-links {
-	margin: 0 0 0 9px;
+	margin: 0 0 0 18px;
 }
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
@@ -580,7 +585,14 @@ ol {
 	padding-left:10px;
 }
 
-
+/* Custom Header */
+table#available-headers td {
+	padding: 0 0 10px 20px;
+}
+table#available-headers label input {
+	margin-right: 0;
+	margin-left: 8px;
+}
 
 /* ltr
 =================================== */
