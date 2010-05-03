@@ -87,7 +87,6 @@ class Custom_Background {
 
 		check_admin_referer('custom-background');
 
-		// @TODO: No UI entry point for this:
 		if ( isset($_POST['reset-background']) ) {
 			remove_theme_mods();
 			return;
@@ -188,6 +187,18 @@ class Custom_Background {
 </tr>
 <?php endif; ?>
 
+<?php if ( defined( 'BACKGROUND_IMAGE' ) ) : // Show only if a default background image exists ?>
+<tr valign="top">
+<th scope="row"><?php _e('Restore Original Image'); ?></th>
+<td><p><?php _e('This will restore the original background image. You will not be able to restore any customizations.') ?></p>
+<form method="post" action="">
+<?php wp_nonce_field('custom-background'); ?>
+<input type="submit" class="button" name="reset-background" value="<?php esc_attr_e('Restore Original Image'); ?>" />
+</form>
+</td>
+</tr>
+</form>
+<?php endif; ?>
 <tr valign="top">
 <th scope="row"><?php _e('Upload Image'); ?></th>
 <td><form enctype="multipart/form-data" id="uploadForm" method="POST" action="">
