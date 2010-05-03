@@ -426,17 +426,28 @@ var WPNavMenuHandler = function ($) {
 				}
 			});
 			
+			// Find the width of all tabs
+			tabs.each(function(){
+				tabsWidth += $(this).outerWidth(true);
+			});
+			
+			// Check if we need the tab manager
+			if( tabsWidth <= fixed.width()
+				- fluid.css('padding-left').slice(0,-2)
+				- fluid.css('padding-right').slice(0,-2) )
+				return;
+			
+			// Set up right margin for overflow, unset padding
+			fluid.css({
+				'margin-right'  : (-1 * tabsWidth) + 'px',
+				'padding' : 0,
+			});
+			
 			// Build tab navigation
 			arrowLeft = $('<div class="nav-tabs-arrow nav-tabs-arrow-left"><a>&laquo;</a></div>');
 			arrowRight = $('<div class="nav-tabs-arrow nav-tabs-arrow-right"><a>&raquo;</a></div>');
 			// Attach to the document
 			fixed.wrap('<div class="nav-tabs-nav"/>').parent().prepend( arrowLeft ).append( arrowRight );
-			
-			// Set up right margin
-			tabs.each(function(){
-				tabsWidth += $(this).outerWidth(true);
-			});
-			fluid.css('margin-right', (-1 * tabsWidth) + 'px');
 			
 			// Set the menu tabs
 			resetMenuTabs();

@@ -135,9 +135,9 @@ body {
 	overflow: hidden;
 }
 
-.no-js #menu-management .nav-tabs {
+#menu-management .nav-tabs {
 	padding-left: 30px;
-	clear: both;
+	padding-right: 10px;
 }
 .js #menu-management .nav-tabs {
 	float: left;
