@@ -23,7 +23,6 @@ function &get_manifest() {
 		array('images/align-right.png'),
 		array('images/archive-link.png'),
 		array('images/blue-grad.png'),
-		array('images/browse-happy.gif'),
 		array('images/bubble_bg.gif'),
 		array('images/bubble_bg-rtl.gif'),
 		array('images/button-grad.png'),
