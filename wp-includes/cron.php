@@ -224,7 +224,7 @@ function spawn_cron( $local_time = 0 ) {
 		while ( @ob_end_flush() );
 		flush();
 
-		@include_once(ABSPATH . 'wp-cron.php');
+		WP_DEBUG ? include_once( ABSPATH . 'wp-cron.php' ) : @include_once( ABSPATH . 'wp-cron.php' );
 		return;
 	}
 
