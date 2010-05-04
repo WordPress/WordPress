@@ -2159,7 +2159,11 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		if ( $update )
 			$comment_status = 'closed';
 		else
-			$comment_status = get_option('default_comment_status');
+			if ( 'page' == $post_type ) {
+				$comment_status = get_option( 'default_comment_status_page' );
+			} else {
+				$comment_status = get_option( 'default_comment_status' );
+			}
 	}
 	if ( empty($ping_status) )
 		$ping_status = get_option('default_ping_status');
