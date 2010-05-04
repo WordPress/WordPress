@@ -61,99 +61,165 @@ switch ( $action ) {
 	case 'move-down-menu-item' :
 		// moving down a menu item is the same as moving up the next in order
 		check_admin_referer( 'move-menu_item' );
-		$menu_item_id = (int) $_REQUEST['menu-item'];
-		$next_item_id = 0;
+		$menu_item_id = isset( $_REQUEST['menu-item'] ) ? (int) $_REQUEST['menu-item'] : 0;
 		if ( is_nav_menu_item( $menu_item_id ) ) {
 			$menus = isset( $_REQUEST['menu'] ) ? array( (int) $_REQUEST['menu'] ) : wp_get_object_terms( $menu_item_id, 'nav_menu', array( 'fields' => 'ids' ) );
-			if ( ! is_wp_error( $menus ) ) {
-				foreach( (array) $menus as $menu_id ) {
-					$move_down_ordered_menu_items = (array) wp_get_nav_menu_items( $menu_id );
-					while ( $next = array_shift( $move_down_ordered_menu_items ) ) {
-						if ( isset( $next->ID ) && $next->ID == $menu_item_id ) {
-							break;
+			if ( ! is_wp_error( $menus ) && ! empty( $menus[0] ) ) {
+				$menu_id = (int) $menus[0];
+				$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
+				$menu_item_data = (array) wp_setup_nav_menu_item( get_post( $menu_item_id ) );
+
+				// setup the data we need in one pass through the array of menu items
+				$dbids_to_orders = array();
+				$orders_to_dbids = array();
+				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
+					if ( isset( $ordered_menu_item_object->ID ) ) {
+						if ( isset( $ordered_menu_item_object->menu_order ) ) {
+							$dbids_to_orders[$ordered_menu_item_object->ID] = $ordered_menu_item_object->menu_order;
+							$orders_to_dbids[$ordered_menu_item_object->menu_order] = $ordered_menu_item_object->ID;
 						}
 					}
+				}
 
-					if ( $following = array_shift( $move_down_ordered_menu_items ) ) {
-						$next_item_id = (int) $following->ID;
+				// get next in order
+				if ( 
+					isset( $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1] )
+				) {
+					$next_item_id = $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1];
+					$next_item_data = (array) wp_setup_nav_menu_item( get_post( $next_item_id ) );
+
+					// if not siblings of same parent, bubble menu item up but keep order
+					if ( 
+						! empty( $menu_item_data['menu_item_parent'] ) &&
+						(
+							empty( $next_item_data['menu_item_parent'] ) ||
+							$next_item_data['menu_item_parent'] != $menu_item_data['menu_item_parent']
+						)
+					) {
+
+						$parent_db_id = in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids ) ? (int) $menu_item_data['menu_item_parent'] : 0;
+	
+						$parent_object = wp_setup_nav_menu_item( get_post( $parent_db_id ) );
+
+						if ( ! is_wp_error( $parent_object ) ) {
+							$parent_data = (array) $parent_object;
+							$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];	
+							update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+
+						}
+
+					// make menu item a child of its next sibling
+					} else {
+						$next_item_data['menu_order'] = $next_item_data['menu_order'] - 1;
+						$menu_item_data['menu_order'] = $menu_item_data['menu_order'] + 1;
+
+						$menu_item_data['menu_item_parent'] = $next_item_data['ID'];	
+						update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+						
+						wp_update_post($menu_item_data);
+						wp_update_post($next_item_data);
 					}
+					
+
+				// the item is last but still has a parent, so bubble up
+				} elseif ( 
+					! empty( $menu_item_data['menu_item_parent'] ) &&
+					in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids )
+				) {
+					$menu_item_data['menu_item_parent'] = (int) get_post_meta( $menu_item_data['menu_item_parent'], '_menu_item_menu_item_parent', true);
+					update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 				}
 			}
 		}
-		// fall through to next case
+
+		break;
 	case 'move-up-menu-item' :
 		check_admin_referer( 'move-menu_item' );
-		$menu_item_id = empty( $next_item_id ) ? (int) $_REQUEST['menu-item'] : $next_item_id;
+		$menu_item_id = isset( $_REQUEST['menu-item'] ) ? (int) $_REQUEST['menu-item'] : 0;
 		if ( is_nav_menu_item( $menu_item_id ) ) {
 			$menus = isset( $_REQUEST['menu'] ) ? array( (int) $_REQUEST['menu'] ) : wp_get_object_terms( $menu_item_id, 'nav_menu', array( 'fields' => 'ids' ) );
-			if ( ! is_wp_error( $menus ) ) {
-				foreach( (array) $menus as $menu_id ) {
-					$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
-					$menu_item_data = get_post( $menu_item_id , ARRAY_A );
+			if ( ! is_wp_error( $menus ) && ! empty( $menus[0] ) ) {
+				$menu_id = (int) $menus[0];
+				$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
+				$menu_item_data = (array) wp_setup_nav_menu_item( get_post( $menu_item_id ) );
 
-					// setup the data we need in one pass through the array of menu items
-					$dbids_to_orders = array();
-					$orders_to_dbids = array();
-					$objectids_to_dbids = array();
-					$dbids_to_objectids = array();
-					foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
-						if ( isset( $ordered_menu_item_object->ID ) ) {
-							if ( isset( $ordered_menu_item_object->menu_order ) ) {
-								$dbids_to_orders[$ordered_menu_item_object->ID] = $ordered_menu_item_object->menu_order;
-								$orders_to_dbids[$ordered_menu_item_object->menu_order] = $ordered_menu_item_object->ID;
-							}
-
-							$possible_object_id = (int) get_post_meta( $ordered_menu_item_object->ID, '_menu_item_object_id', true );
-							if ( ! empty( $possible_object_id ) ) {
-								$dbids_to_objectids[$ordered_menu_item_object->ID] = $possible_object_id;
-								$objectids_to_dbids[$possible_object_id] = $ordered_menu_item_object->ID;
-							}
+				// setup the data we need in one pass through the array of menu items
+				$dbids_to_orders = array();
+				$orders_to_dbids = array();
+				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
+					if ( isset( $ordered_menu_item_object->ID ) ) {
+						if ( isset( $ordered_menu_item_object->menu_order ) ) {
+							$dbids_to_orders[$ordered_menu_item_object->ID] = $ordered_menu_item_object->menu_order;
+							$orders_to_dbids[$ordered_menu_item_object->menu_order] = $ordered_menu_item_object->ID;
 						}
 					}
+				}
 
 
-					// if this menu item is not first
-					if ( ! empty( $dbids_to_orders[$menu_item_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ) {
+				// if this menu item is not first
+				if ( ! empty( $dbids_to_orders[$menu_item_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ) {
 
-						// if this menu item is a child of the previous
-						if (
-							! empty( $menu_item_data['post_parent'] ) &&
-							isset( $objectids_to_dbids[$menu_item_data['post_parent']] ) &&
-							isset( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) &&
-							( $objectids_to_dbids[$menu_item_data['post_parent']] == $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] )
-						) {
+					// if this menu item is a child of the previous
+					if (
+						! empty( $menu_item_data['menu_item_parent'] ) &&
+						in_array( $menu_item_data['menu_item_parent'], array_keys( $dbids_to_orders ) ) &&
+						isset( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) &&
+						( $menu_item_data['menu_item_parent'] == $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] )
+					) {
+						$parent_db_id = in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids ) ? (int) $menu_item_data['menu_item_parent'] : 0;
+						$parent_object = wp_setup_nav_menu_item( get_post( $parent_db_id ) );
 
-							$parent_db_id = $objectids_to_dbids[$menu_item_data['post_parent']];
-							$parent_data = get_post( $parent_db_id, ARRAY_A );
+						if ( ! is_wp_error( $parent_object ) ) {
+							$parent_data = (array) $parent_object;
 
-							if ( ! is_wp_error( $parent_data ) ) {
+							// if there is something before the parent and parent a child of it, make menu item a child also of it
+							if ( 
+								! empty( $dbids_to_orders[$parent_db_id] ) && 
+								! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] ) &&
+								! empty( $parent_data['menu_item_parent'] )
+							) {
+								$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];
 
-								// if there is something before the parent, make menu item a child of the parent's parent
-								if ( ! empty( $dbids_to_orders[$parent_db_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] ) ) {
-									$menu_item_data['post_parent'] = $parent_data['post_parent'];
+							// else if there is something before parent and parent not a child of it, make menu item a child of that something's parent
+							} elseif ( 
+								! empty( $dbids_to_orders[$parent_db_id] ) && 
+								! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] )
+							) {
+								$_possible_parent_id = (int) get_post_meta( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1], '_menu_item_menu_item_parent', true);
+								if ( in_array( $_possible_parent_id, array_keys( $dbids_to_orders ) ) )
+									$menu_item_data['menu_item_parent'] = $_possible_parent_id;
+								else
+									$menu_item_data['menu_item_parent'] = 0;
 
-								// else there isn't something before the parent
-								} else {
-									$menu_item_data['post_parent'] = 0;
-								}
-
-								// set former parent's [menu_order] to that of menu-item's
-								$parent_data['menu_order'] = $parent_data['menu_order'] + 1;
-
-								// set menu-item's [menu_order] to that of former parent
-								$menu_item_data['menu_order'] = $menu_item_data['menu_order'] - 1;
-
-								// save changes
-								wp_update_post($menu_item_data);
-								wp_update_post($parent_data);
+							// else there isn't something before the parent
+							} else {
+								$menu_item_data['menu_item_parent'] = 0;
 							}
 
-						// else this menu item is not a child of the previous
-						} elseif ( isset($dbids_to_objectids[$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1]] ) ) {
-							// just make it a child of the previous; keep the order
-							$menu_item_data['post_parent'] = (int) $dbids_to_objectids[$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1]];
+							// set former parent's [menu_order] to that of menu-item's
+							$parent_data['menu_order'] = $parent_data['menu_order'] + 1;
+
+							// set menu-item's [menu_order] to that of former parent
+							$menu_item_data['menu_order'] = $menu_item_data['menu_order'] - 1;
+
+							// save changes
+							update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 							wp_update_post($menu_item_data);
+							wp_update_post($parent_data);
 						}
+
+					// else this menu item is not a child of the previous
+					} elseif ( 
+						empty( $menu_item_data['menu_order'] ) ||
+						empty( $menu_item_data['menu_item_parent'] ) ||
+						! in_array( $menu_item_data['menu_item_parent'], array_keys( $dbids_to_orders ) ) ||
+						empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ||
+						$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] != $menu_item_data['menu_item_parent']	
+					) {
+						// just make it a child of the previous; keep the order
+						$menu_item_data['menu_item_parent'] = (int) $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1];
+						update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+						wp_update_post($menu_item_data);
 					}
 				}
 			}

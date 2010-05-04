@@ -15,7 +15,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 	 * @param string $output Passed by reference.
 	 * @param int $depth Depth of page.
 	 */
-	function start_lvl(&$output, $depth) {}
+	function start_lvl(&$output) {}
 
 	/**
 	 * @see Walker_Nav_Menu::end_lvl()
@@ -24,7 +24,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 	 * @param string $output Passed by reference.
 	 * @param int $depth Depth of page.
 	 */
-	function end_lvl(&$output, $depth) {}
+	function end_lvl(&$output) {
+	}
 
 	/**
 	 * @see Walker::start_el()
@@ -79,7 +80,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 										),
 										remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
 									),
-									'move-item'
+									'move-menu_item'
 								);
 							?>" class="item-move-up"><abbr title="<?php esc_attr_e('Move up'); ?>">&#8593;</abbr></a>
 							|
@@ -92,7 +93,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 										),
 										remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
 									),
-									'move-item'
+									'move-menu_item'
 								);
 							?>" class="item-move-down"><abbr title="<?php esc_attr_e('Move down'); ?>">&#8595;</abbr></a>
 						</span>
@@ -187,7 +188,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
 				<input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
 				<input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
-				<input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_parent ); ?>" />
+				<input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_item_parent ); ?>" />
 				<input class="menu-item-data-position" type="hidden" class="menu-item-position" name="menu-item-position[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
 				<input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
 			</div><!-- .menu-item-settings-->
