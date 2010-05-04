@@ -21,6 +21,9 @@ require( ABSPATH . WPINC . '/ms-default-constants.php' );
 if ( defined( 'SUNRISE' ) )
 	include_once( WP_CONTENT_DIR . '/sunrise.php' );
 
+/** Check for and define SUBDOMAIN_INSTALL and the deprecated VHOST constant. */
+ms_subdomain_constants();
+
 if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 
 	$domain = addslashes( $_SERVER['HTTP_HOST'] );

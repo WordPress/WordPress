@@ -575,7 +575,7 @@ class wpdb {
 			foreach ( $this->tables( 'global' ) as $table => $prefixed_table )
 				$this->$table = $prefixed_table;
 
-			if ( defined( 'VHOST' ) && empty( $this->blogid ) )
+			if ( is_multisite() && empty( $this->blogid ) )
 				return $old_prefix;
 
 			$this->prefix = $this->get_blog_prefix();

@@ -16,6 +16,9 @@
  * @return bool True if subdomain configuration is enabled, false otherwise.
  */
 function is_subdomain_install() {
+	if ( defined('SUBDOMAIN_INSTALL') )
+		return SUBDOMAIN_INSTALL;
+
 	if ( defined('VHOST') && VHOST == 'yes' )
 		return true;
 

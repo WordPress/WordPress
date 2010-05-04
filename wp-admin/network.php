@@ -40,7 +40,7 @@ function network_domain_check() {
  * Allow subdomain install
  *
  * @since 3.0.0
- * @return bool - whether subdomain install is allowed
+ * @return bool Whether subdomain install is allowed
  */
 function allow_subdomain_install() {
 	$domain = preg_replace( '|https?://[^/]|', '', get_option( 'siteurl' ) );
@@ -237,14 +237,14 @@ function network_step2( $errors = false ) {
 		echo '<div class="error">' . $errors->get_error_message() . '</div>';
 
 	if ( $_POST ) {
-		$vhost = !allow_subdomain_install() ? false : (bool) $_POST['subdomain_install'];
+		$subdomain_install = allow_subdomain_install() ? ! empty( $_POST['subdomain_install'] ) : false;
 	} else {
 		if ( is_multisite() ) {
-			$vhost = is_subdomain_install();
+			$subdomain_install = is_subdomain_install();
 ?>
 	<div class="updated"><p><strong><?php _e( 'Notice: The Network feature is already enabled.' ); ?></strong> <?php _e( 'The original configuration steps are shown here for reference.' ); ?></p></div>
 <?php	} else {
-			$vhost = (bool) $wpdb->get_var( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = 1 AND meta_key = 'subdomain_install'" );
+			$subdomain_install = (bool) $wpdb->get_var( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = 1 AND meta_key = 'subdomain_install'" );
 ?>
 	<div class="error"><p><strong><?php _e('Warning:'); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
 	<p><?php _e( 'Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.' ); ?></p>
@@ -265,7 +265,7 @@ function network_step2( $errors = false ) {
 			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), ABSPATH ); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
 define( 'MULTISITE', true );
-define( 'VHOST', '<?php echo $vhost ? 'yes' : 'no'; ?>' );
+define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
 $base = '<?php echo $base; ?>';
 define( 'DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>' );
 define( 'PATH_CURRENT_SITE', '<?php echo $base; ?>' );
@@ -309,9 +309,9 @@ RewriteBase ' . $base . '
 RewriteRule ^index\.php$ - [L]
 
 # uploaded files
-RewriteRule ^' . ( $vhost ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $vhost ? 1 : 2 ) . ' [L]' . "\n";
+RewriteRule ^' . ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
 
-if ( ! $vhost )
+if ( ! $subdomain_install )
 	$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
 
 $htaccess_file .= "\n" . 'RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -319,7 +319,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]';
 
 // @todo custom content dir.
-if ( ! $vhost )
+if ( ! $subdomain_install )
 	$htaccess_file .= "\n" . 'RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]';
 
@@ -327,7 +327,7 @@ $htaccess_file .= "\nRewriteRule . index.php [L]";
 
 ?>
 			<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-				<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $vhost ? 11 : 16; ?>">
+				<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>">
 <?php echo wp_htmledit_pre( $htaccess_file ); ?>
 </textarea></li>
 		</ol>
