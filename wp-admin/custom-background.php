@@ -140,7 +140,7 @@ class Custom_Background {
 <h2><?php _e('Custom Background'); ?></h2>
 <?php if ( !empty($this->updated) ) { ?>
 <div id="message" class="updated">
-<p><?php printf(__('Background updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
+<p><?php printf( __( 'Background updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) ); ?></p>
 </div>
 <?php }
 

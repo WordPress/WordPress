@@ -373,7 +373,7 @@ class Custom_Image_Header {
 <?php
 if ( isset($_GET['updated']) && $_GET['updated'] ) { ?>
 <div id="message" class="updated">
-<p><?php printf(__('Header updated. <a href="%s">Visit your site</a> to see how it looks.'), home_url()); ?></p>
+<p><?php printf( __( 'Header updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) ); ?></p>
 </div>
 <?php }
 

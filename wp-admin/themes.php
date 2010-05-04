@@ -54,7 +54,7 @@ if ( is_multisite() && current_user_can('edit_themes') ) {
 		if ( isset($wp_registered_sidebars) && count( (array) $wp_registered_sidebars ) ) { ?>
 <div id="message2" class="updated"><p><?php printf( __('New theme activated. This theme supports widgets, please visit the <a href="%s">widgets settings</a> screen to configure them.'), admin_url( 'widgets.php' ) ); ?></p></div><?php
 		} else { ?>
-<div id="message2" class="updated"><p><?php printf( __('New theme activated. <a href="%s">Visit site</a>'), home_url( '/ ' ) ); ?></p></div><?php
+<div id="message2" class="updated"><p><?php printf( __( 'New theme activated. <a href="%s">Visit site</a>' ), home_url( '/' ) ); ?></p></div><?php
 		}
 	elseif ( isset($_GET['deleted']) ) : ?>
 <div id="message3" class="updated"><p><?php _e('Theme deleted.') ?></p></div>
