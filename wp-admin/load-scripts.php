@@ -80,6 +80,11 @@ function admin_url() {}
 /**
  * @ignore
  */
+function home_url() {}
+
+/**
+ * @ignore
+ */
 function wp_guess_url() {}
 
 function get_file($path) {
