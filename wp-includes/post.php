@@ -2567,12 +2567,12 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$post_ID = (int) $post_ID;
 	$post_type = get_post_type( $post_ID );
 	// If $post_categories isn't already an array, make it one:
-	if ( !is_array($post_categories) || 0 == count($post_categories) || empty($post_categories) ) {
+	if ( !is_array($post_categories) || empty($post_categories) ) {
 		if ( 'post' == $post_type )
 			$post_categories = array( get_option('default_category') );
 		else
 			$post_categories = array();
-	} else if ( 1 == count($post_categories) && '' == $post_categories[0] ) {
+	} else if ( 1 == count($post_categories) && '' == reset($post_categories) ) {
 		return true;
 	}
 
