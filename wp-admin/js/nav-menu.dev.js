@@ -146,6 +146,27 @@ var WPNavMenuHandler = function ($) {
 				});
 			});
 		},
+		selectItem : function() {
+			return this.each(function(){
+				$(this).addClass('selected-menu-item')
+					.next().children('input').attr('checked','checked');
+			});
+		},
+		deselectItem : function() {
+			return this.each(function(){
+				$(this).removeClass('selected-menu-item')
+					.next().children('input').removeAttr('checked');
+			});
+		},
+		toggleItem : function() {
+			return this.each(function(){
+				var t = $(this);
+				if( t.hasClass('selected-menu-item') )
+					t.deselectItem();
+				else
+					t.selectItem();
+			});
+		}
 	});
 
 	return {
@@ -309,30 +330,6 @@ var WPNavMenuHandler = function ($) {
 		},
 		
 		initAddMenuItemDraggables : function() {
-			$.fn.extend({
-				checkItem : function() {
-					return this.each(function(){
-						$(this).addClass('selected-menu-item')
-							.next().children('input').attr('checked','checked');
-					});
-				},
-				uncheckItem : function() {
-					return this.each(function(){
-						$(this).removeClass('selected-menu-item')
-							.next().children('input').removeAttr('checked');
-					});
-				},
-				toggleItem : function() {
-					return this.each(function(){
-						var t = $(this);
-						if( t.hasClass('selected-menu-item') )
-							t.uncheckItem();
-						else
-							t.checkItem();
-					});
-				}
-			});
-			
 			var menuItems = $('.potential-menu-item');
 			menuItems.click(function(e){
 				$(this).toggleItem();
@@ -348,7 +345,7 @@ var WPNavMenuHandler = function ($) {
 						items;
 					
 					// Make sure the item we're dragging is selected.
-					item.checkItem();
+					item.selectItem();
 					// Set us to be the ajax target
 					targetList = target.children('.menu-item-transport');
 					// Get all checked elements and assemble selected items.
@@ -375,7 +372,7 @@ var WPNavMenuHandler = function ($) {
 				stop: function(e, ui) {
 					// Reset the targetList and unselect the menu items
 					targetList = menuList;
-					menuItems.filter('.selected-menu-item').uncheckItem();
+					menuItems.filter('.selected-menu-item').deselectItem();
 				}
 			});
 		},
@@ -553,9 +550,13 @@ var WPNavMenuHandler = function ($) {
 
 					return false;
 				} else if ( e.target && e.target.className && -1 != e.target.className.indexOf('select-all') ) {
-					var selectAreaMatch = /#(.*)$/.exec(e.target.href);
+					var selectAreaMatch = /#(.*)$/.exec(e.target.href), items;
 					if ( selectAreaMatch && selectAreaMatch[1] ) {
-						$('#' + selectAreaMatch[1] + ' .tabs-panel-active input[type=checkbox]').attr('checked', 'checked');
+						items = $('#' + selectAreaMatch[1] + ' .tabs-panel-active .potential-menu-item');
+						if( items.length === items.filter('.selected-menu-item').length )
+							items.deselectItem();
+						else
+							items.selectItem();
 						return false;
 					}
 				}
