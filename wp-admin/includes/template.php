@@ -2876,9 +2876,8 @@ function do_meta_boxes($page, $context, $object) {
 						continue;
 					$i++;
 					$style = '';
-					if ( in_array($box['id'], $hidden) )
-						$style = 'style="display:none;"';
-					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '" ' . $style . '>' . "\n";
+					$hidden_class = in_array($box['id'], $hidden) ? ' hide-if-js' : '';
+					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>' . "\n";
 					echo '<div class="handlediv" title="' . __('Click to toggle') . '"><br /></div>';
 					echo "<h3 class='hndle'><span>{$box['title']}</span></h3>\n";
 					echo '<div class="inside">' . "\n";
