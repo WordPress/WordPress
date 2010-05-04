@@ -2228,10 +2228,9 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	wp_set_post_categories( $post_ID, $post_category );
 	// old-style tags_input
-	if ( isset( $tags_input ) ) {
-		$tags_input = array_filter($tags_input);
+	if ( isset( $tags_input ) )
 		wp_set_post_tags( $post_ID, $tags_input );
-	}
+
 	// new-style support for all custom taxonomies
 	if ( !empty($tax_input) ) {
 		foreach ( $tax_input as $taxonomy => $tags ) {
