@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-03 20:21+0000\n"
+"POT-Creation-Date: 2010-05-04 08:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,8 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:67 loop.php:90 loop.php:135
+#: attachment.php:67 functions.php:230 loop.php:90 loop.php:94 loop.php:135
+#: loop.php:139
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -170,17 +171,13 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: footer.php:26
-#, php-format
-msgid "Proudly powered by <span id=\"generator-link\">%s</span>."
-msgstr ""
-
-#: footer.php:26
+#: footer.php:27
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:26
-msgid "WordPress"
+#: footer.php:27
+#, php-format
+msgid "Proudly powered by %s."
 msgstr ""
 
 #: functions.php:128
@@ -220,10 +217,6 @@ msgstr ""
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:230 loop.php:94 loop.php:139
-msgid "Continue&nbsp;reading&nbsp;<span class=\"meta-nav\">&rarr;</span>"
-msgstr ""
-
 #: functions.php:264
 #, php-format
 msgid "<cite class=\"fn\">%s</cite> <span class=\"says\">says:</span>"
@@ -238,16 +231,12 @@ msgstr ""
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:271
+#: functions.php:271 functions.php:282
 msgid "(Edit)"
 msgstr ""
 
 #: functions.php:282
-msgid "Pingback: "
-msgstr ""
-
-#: functions.php:282
-msgid "edit"
+msgid "Pingback:"
 msgstr ""
 
 #: functions.php:297
