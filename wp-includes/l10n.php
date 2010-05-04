@@ -493,7 +493,7 @@ function translate_user_role( $name ) {
 function get_available_languages( $dir = null ) {
 	$languages = array();	
 		
-	foreach( glob( ( is_null( $dir) ? WP_LANG_DIR : $dir ) . '/*.mo' ) as $lang_file ) {
+	foreach( (array)glob( ( is_null( $dir) ? WP_LANG_DIR : $dir ) . '/*.mo' ) as $lang_file ) {
 		if ( false === strpos( $lang_file, 'continents-cities' ) ) {
 			$languages[] = basename($lang_file, '.mo');
 		}
