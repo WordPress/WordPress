@@ -321,7 +321,7 @@ function get_attachment_link($id = false) {
 	}
 
 	if ( ! $link )
-		$link = trailingslashit(get_bloginfo('url')) . "?attachment_id=$id";
+		$link = home_url( "/?attachment_id=$id" );
 
 	return apply_filters('attachment_link', $link, $id);
 }
