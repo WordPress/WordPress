@@ -251,7 +251,7 @@ class WP_Http {
 		$r['ssl'] = $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl';
 
 		// Determine if this request is to OUR install of WordPress
-		$homeURL = parse_url( home_url() );
+		$homeURL = parse_url( get_bloginfo('url') );
 		$r['local'] = $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'];
 		unset($homeURL);
 
