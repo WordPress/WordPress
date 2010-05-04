@@ -393,6 +393,7 @@ function get_site_allowed_themes() {
 /**
  * Determines if there is any upload space left in the current blog's quota.
  *
+ * @since 3.0.0
  * @return bool True if space is available, false otherwise.
  */
 function is_upload_space_available() {
@@ -405,6 +406,9 @@ function is_upload_space_available() {
 	return true;
 }
 
+/*
+ * @since 3.0.0
+ */
 function upload_size_limit_filter( $size ) {
 	return min( $size, get_upload_space_available() );
 }
