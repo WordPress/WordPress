@@ -134,7 +134,7 @@ var WPNavMenuHandler = function ($) {
 					while( parent.menuItemDepth() != depth - 1 ) {
 						parent = parent.prev();
 					}
-					input.val( parent.find('.menu-item-data-object-id').val() );
+					input.val( parent.find('.menu-item-data-db-id').val() );
 				}
 			});
 		},
