@@ -395,6 +395,8 @@ function wp_default_scripts( &$scripts ) {
 		// Custom Navigation
 		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100504' );
 		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
+			'home' => _x('Home', 'nav menu home label'),
+			'homeurl' => home_url('/'),
 			'custom' => _x('Custom', 'menu nav item type'),
 			'thickbox' => _x('Edit Menu Item', 'Thickbox Title'),
 			'edit' => _x('Edit', 'menu item edit text'),

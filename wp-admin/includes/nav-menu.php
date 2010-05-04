@@ -314,19 +314,16 @@ function wp_nav_menu_setup() {
 	wp_nav_menu_post_type_meta_boxes();
 	wp_nav_menu_taxonomy_meta_boxes();
 
-
 	// Register advanced menu items (columns)
 	add_filter( 'manage_nav-menus_columns', 'wp_nav_menu_manage_columns');
 
 	add_filter( 'columns_prefs_header', create_function( '', "return __('Show advanced menu properties');" ));
 
-
-
 	// If first time editing, disable advanced items by default.
 	if( false === get_user_option( 'managenav-menuscolumnshidden' ) ) {
 		$user = wp_get_current_user();
-		update_user_option($user->ID, "managenav-menuscolumnshidden",
-			array ( 0 => 'link-target', 1 => 'css-classes', 2 => 'xfn', 3 => 'description', ),
+		update_user_option($user->ID, 'managenav-menuscolumnshidden',
+			array( 0 => 'link-target', 1 => 'css-classes', 2 => 'xfn', 3 => 'description', ),
 			true);
 	}
 }
@@ -449,6 +446,9 @@ function wp_nav_menu_item_link_meta_box() {
 			</p>
 
 		<p class="button-controls">
+			<span class="list-controls">
+				<a href="#" class="select-all add-home-link"><?php _e('Add Home Link'); ?></a>
+			</span>
 			<span class="add-to-menu">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" />

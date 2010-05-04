@@ -182,6 +182,8 @@ var WPNavMenuHandler = function ($) {
 
 			this.attachTabsPanelListeners();
 
+			this.attachHomeLinkListener();
+
 			if( menuList.length ) // If no menu, we're in the + tab.
 				this.initSortables();
 
@@ -190,6 +192,8 @@ var WPNavMenuHandler = function ($) {
 			this.initTabManager();
 			
 			this.initAddMenuItemDraggables();
+			
+			this.checkForEmptyMenu();
 		},
 
 		initToggles : function() {
@@ -349,7 +353,7 @@ var WPNavMenuHandler = function ($) {
 					// Set us to be the ajax target
 					targetList = target.children('.menu-item-transport');
 					// Get all checked elements and assemble selected items.
-					items = menuItems.filter('.selected-menu-item').children().not( ui.helper ).clone();
+					items = li.parents('.tabs-panel').find('.selected-menu-item').children().not( ui.helper ).clone();
 					ui.helper.children('.additional-menu-items').append( items );
 					// This class tells the sortables to treat it as a new item.
 					ui.helper.addClass('new-menu-item');
@@ -372,7 +376,7 @@ var WPNavMenuHandler = function ($) {
 				stop: function(e, ui) {
 					// Reset the targetList and unselect the menu items
 					targetList = menuList;
-					menuItems.filter('.selected-menu-item').deselectItem();
+					$(e.target).parents('.tabs-panel').find('.selected-menu-item').deselectItem();
 				}
 			});
 		},
@@ -478,9 +482,10 @@ var WPNavMenuHandler = function ($) {
 			});
 		},
 		
-		addCustomLink : function() {
-			var url = $('#custom-menu-item-url').val(),
-			label = $('#custom-menu-item-name').val(),
+		addCustomLink : function(url, label, addToTop) {
+			var url = url || $('#custom-menu-item-url').val(),
+			label = label || $('#custom-menu-item-name').val(),
+			addToTop = addToTop || false,
 			menu = $('#menu').val(),
 			nonce = $('#menu-settings-column-nonce').val(),
 			params = {},
@@ -506,13 +511,29 @@ var WPNavMenuHandler = function ($) {
 				}
 			};
 			
-			processMethod = that.eventAddMenuItem;
-			
+			processMethod = addToTop ? that.addMenuItemToTop : that.addMenuItemToBottom;
+
 			$.post( ajaxurl, params, function(menuMarkup) {
 				processMethod.call(that, menuMarkup, params);
 				
 				// Remove the ajax spinner
 				$('.customlinkdiv img.waiting').hide();
+
+				// Reset the form
+				wpNavMenu.resetCustomLinkForm();
+			});
+		},
+		
+		resetCustomLinkForm : function() {
+			// set custom link form back to defaults
+			$('#custom-menu-item-name').val('').blur();
+			$('#custom-menu-item-url').val('http://');
+		},
+		
+		attachHomeLinkListener : function() {
+			$('.add-home-link', '.customlinkdiv').click(function(e) {
+				wpNavMenu.addCustomLink( navMenuL10n.homeurl, navMenuL10n.home, true);
+				return false;
 			});
 		},
 
@@ -726,11 +747,10 @@ var WPNavMenuHandler = function ($) {
 
 		eventOnClickMenuDelete : function(clickedEl) {
 			// Delete warning AYS
-			if ( confirm( navMenuL10n.warnDeleteMenu ) ) {
+			if ( confirm( navMenuL10n.warnDeleteMenu ) )
 				return true;
-			} else {
+			else
 				return false;
-			}
 		},
 
 		eventOnClickMenuItemDelete : function(clickedEl) {
@@ -768,16 +788,17 @@ var WPNavMenuHandler = function ($) {
 		 *
 		 * @param string id The id of the metabox
 		 */
-		addItemsToMenu : function(id) {
+		addItemsToMenu : function(id, addToTop) {
 			var items = $( '.tabs-panel-active .categorychecklist li input:checked', '#' + id),
 			menu = $('#menu').val(),
 			nonce = $('#menu-settings-column-nonce').val(),
 			params = {},
 			that = this,
+			addToTop = addToTop || false,
 			processMethod = function(){},
 			re = new RegExp('menu-item\\[(\[^\\]\]*)');
 			
-			processMethod = that.eventAddMenuItem;
+			processMethod = addToTop ? that.addMenuItemToTop : that.addMenuItemToBottom;
 			
 			// If no items are checked, bail.
 			if ( !items.length )
@@ -806,7 +827,7 @@ var WPNavMenuHandler = function ($) {
 				});
 
 				// Uncheck the item
-				$(this).attr('checked', false);
+				$(this).parent().prev().deselectItem();
 			});
 
 			// Remove the ajax spinner
@@ -819,8 +840,12 @@ var WPNavMenuHandler = function ($) {
 		 * @param string menuMarkup The text server response of menu item markup.
 		 * @param object req The request arguments.
 		 */
-		eventAddMenuItem : function( menuMarkup, req ) {
+		addMenuItemToBottom : function( menuMarkup, req ) {
 			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( targetList );
+		},
+		
+		addMenuItemToTop : function( menuMarkup, req ) {
+			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( targetList );
 		},
 
 		/**
@@ -886,11 +911,20 @@ var WPNavMenuHandler = function ($) {
 		removeMenuItem : function(el) {
 			el = $(el)
 			var children = el.childMenuItems();
+			var that = this;
 
 			el.addClass('deleting').fadeOut( 350 , function() {
 				el.remove();
 				children.shiftDepthClass(-1).updateParentMenuItemDBId();
 				recalculateMenuItemPositions();
+				that.checkForEmptyMenu();
+			});
+		},
+		
+		checkForEmptyMenu : function() {
+			if( menuList.children().length ) return;
+			menuList.height(80).one('sortstop', function(){
+				$(this).height('auto');
 			});
 		}
 	}

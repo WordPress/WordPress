@@ -313,6 +313,10 @@ body {
 	padding-top:1em;
 }
 
+#menu-to-edit {
+	padding: 1em 0;
+}
+
 .menu ul { width: 100%; }
 .menu ul.sub-menu {
 }
