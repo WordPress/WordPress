@@ -15,46 +15,49 @@
  * Creates the initial taxonomies when 'init' action is fired.
  */
 function create_initial_taxonomies() {
-	register_taxonomy( 'category', 'post', array(	'hierarchical' => true,
-												 	'update_count_callback' => '_update_post_term_count',
-													'label' => __('Categories'),
-													'singular_label' => __('Category'),
-													'query_var' => false,
-													'rewrite' => false,
-													'public' => true,
-													'show_ui' => true,
-													'_builtin' => true
-												) ) ;
+	register_taxonomy( 'category', 'post', array(
+		'hierarchical' => true,
+	 	'update_count_callback' => '_update_post_term_count',
+		'label' => __( 'Categories' ),
+		'singular_label' => __( 'Category' ),
+		'query_var' => false,
+		'rewrite' => false,
+		'public' => true,
+		'show_ui' => true,
+		'_builtin' => true,
+	) ) ;
 
 	register_taxonomy( 'post_tag', 'post', array(
-												 	'hierarchical' => false,
-													'update_count_callback' => '_update_post_term_count',
-													'label' => __('Post Tags'),
-													'singular_label' => __('Post Tag'),
-													'query_var' => false,
-													'rewrite' => false,
-													'public' => true,
-													'show_ui' => true,
-													'_builtin' => true
-												) ) ;
+	 	'hierarchical' => false,
+		'update_count_callback' => '_update_post_term_count',
+		'label' => __( 'Post Tags' ),
+		'singular_label' => __( 'Post Tag' ),
+		'query_var' => false,
+		'rewrite' => false,
+		'public' => true,
+		'show_ui' => true,
+		'_builtin' => true,
+	) );
 
-	register_taxonomy( 'nav_menu', 'nav_menu_item', array(	'hierarchical' => false,
-														'label' => __('Navigation Menus'),
-														'singular_label' => __('Navigation Menu'),
-														'query_var' => false,
-														'rewrite' => false,
-														'show_ui' => false,
-														'_builtin' => true,
-													) ) ;
+	register_taxonomy( 'nav_menu', 'nav_menu_item', array(
+		'hierarchical' => false,
+		'label' => __( 'Navigation Menus' ),
+		'singular_label' => __( 'Navigation Menu' ),
+		'query_var' => false,
+		'rewrite' => false,
+		'show_ui' => false,
+		'_builtin' => true,
+	) ) ;
 
-	register_taxonomy( 'link_category', 'link', array(	'hierarchical' => false,
-													  	'label' => __('Categories'),
-														'query_var' => false,
-														'rewrite' => false,
-														'public' => false,
-														'show_ui' => false,
-														'_builtin' => true,
-													) ) ;
+	register_taxonomy( 'link_category', 'link', array(
+		'hierarchical' => false,
+	  	'label' => __( 'Categories' ),
+		'query_var' => false,
+		'rewrite' => false,
+		'public' => false,
+		'show_ui' => false,
+		'_builtin' => true,
+	) ) ;
 }
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
