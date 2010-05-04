@@ -44,7 +44,6 @@ add_action( 'publish_post', 'wpmu_update_blogs_date' );
 add_filter( 'wp_upload_bits', 'upload_is_file_too_big' );
 add_filter( 'import_upload_size_limit', 'fix_import_form_size' );
 add_filter( 'upload_mimes', 'check_upload_mimes' );
-add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
 add_filter( 'upload_size_limit', 'upload_size_limit_filter' );
 
 // Mail
