@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The main template file
  *
@@ -13,7 +12,6 @@
  * @subpackage Twenty Ten
  * @since 3.0.0
  */
- 
 ?>
  
 <?php get_header(); ?>

@@ -26,7 +26,7 @@
 					<div class="entry-meta">
 						<span class="meta-prep meta-prep-author"><?php _e( 'Posted on ', 'twentyten' ); ?></span>
 						<a href="<?php the_permalink(); ?>" title="<?php the_time(); ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
-						<span class="meta-sep"><?php _e( ' by ', 'twentyten' ); ?> </span>
+						<span class="meta-sep"><?php _e( ' by ', 'twentyten' ); ?></span>
 						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
 					</div><!-- .entry-meta -->
 
@@ -39,14 +39,14 @@
 					<div id="entry-author-info">
 						<div id="author-avatar">
 							<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) ); ?>
-						</div><!-- #author-avatar 	-->
+						</div><!-- #author-avatar -->
 						<div id="author-description">
 							<h2><?php _e( 'About ', 'twentyten' ); ?><?php the_author(); ?></h2>
 							<?php the_author_meta( 'description' ); ?>
 							<div id="author-link">
 								<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php _e( 'View all posts by ', 'twentyten' ); ?><?php the_author(); ?> &rarr;</a>
 							</div><!-- #author-link	-->
-						</div><!-- #author-description	-->
+						</div><!-- #author-description -->
 					</div><!-- .entry-author-info -->
 <?php endif; ?>
 

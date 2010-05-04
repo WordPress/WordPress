@@ -96,7 +96,7 @@
 <?php elseif ( ! comments_open() && ! pings_open() ) : // Comments and trackbacks closed ?>
 						<?php _e( 'Both comments and trackbacks are currently closed.', 'twentyten' ); ?>
 <?php endif; ?>
-<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
+<?php edit_post_link( __( 'Edit', 'twentyten' ), ' <span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
 				</div><!-- #post-<?php the_ID(); ?> -->
 
