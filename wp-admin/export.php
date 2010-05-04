@@ -18,40 +18,38 @@ $title = __('Export');
 
 if ( isset( $_GET['download'] ) ) {
 		$author = isset($_GET['author']) ? $_GET['author'] : 'all';
-		$category = isset($_GET['category']) ? $_GET['category'] : 'all';
+		$taxonomy = array();
+		foreach ( get_taxonomies( array( 'show_ui' => true ) ) as $tax )
+			$taxonomy[ $tax ] = ! empty( $_GET['taxonomy'][ $tax ] ) ? $_GET['taxonomy'][ $tax ] : 'all';
 		$post_type = isset($_GET['post_type']) ? stripslashes_deep($_GET['post_type']) : 'all';
 		$status = isset($_GET['status']) ? stripslashes_deep($_GET['status']) : 'all';
 		$mm_start = isset($_GET['mm_start']) ? $_GET['mm_start'] : 'all';
 		$mm_end = isset($_GET['mm_end']) ? $_GET['mm_end'] : 'all';
-		$aa_start = isset($_GET['aa_start']) ? intval($_GET['aa_start']) : 0;
-		$aa_end = isset($_GET['aa_end']) ? intval($_GET['aa_end']) : 0;
-		if($mm_start != 'all' && $aa_start > 0) {
-			$start_date = sprintf( "%04d-%02d-%02d", $aa_start, $mm_start, 1 );
+		if( $mm_start != 'all' ) {
+			$start_date = sprintf( "%04d-%02d-%02d", substr( $mm_start, 0, 4 ), substr( $mm_start, 5, 2 ), 1 );
 		} else {
 			$start_date = 'all';
 		}
-		if($mm_end != 'all' && $aa_end > 0) {
-			if($mm_end == 12) {
-				$mm_end = 1;
-				$aa_end++;
-			} else {
-				$mm_end++;
-			}
-			$end_date = sprintf( "%04d-%02d-%02d", $aa_end, $mm_end, 1 );
+		if( $mm_end != 'all' ) {
+			$end_date = sprintf( "%04d-%02d-%02d", substr( $mm_end, 0, 4 ), substr( $mm_end, 5, 2 ), 1 );
 		} else {
 			$end_date = 'all';
 		}
-	export_wp( $author, $category, $post_type, $status, $start_date, $end_date );
+
+	export_wp( array( 'author' => $author, 'taxonomy' => $taxonomy, 'post_type' => $post_type, 'post_status' => $status, 'start_date' => $start_date, 'end_date' => $end_date ) );
 	die();
 }
 
 require_once ('admin-header.php');
 
-$months = "";
-for ( $i = 1; $i < 13; $i++ ) {
-	$months .= "\t\t\t<option value=\"" . zeroise($i, 2) . '">' .
-		$wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) . "</option>\n";
-} ?>
+$dateoptions = '';
+if ( $monthyears = $wpdb->get_results( "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC " ) ) {
+	foreach ( $monthyears as $monthyear ) {
+		$dateoptions .= "\t<option value=\"" . $monthyear->year . '-' . zeroise( $monthyear->month, 2 ) . '">' . $wp_locale->get_month( $monthyear->month ) . ' ' . $monthyear->year . "</option>\n";
+	}
+}
+
+?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -66,19 +64,16 @@ for ( $i = 1; $i < 13; $i++ ) {
 <table class="form-table">
 <tr>
 <th><label for="mm_start"><?php _e('Restrict Date'); ?></label></th>
-<td><strong><?php _e('Start:'); ?></strong> <?php _e('Month'); ?>&nbsp;
+<td><strong><?php _e('Start:'); ?></strong> 
 <select name="mm_start" id="mm_start">
-<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo $months; ?>
-</select>&nbsp;<?php _e('Year'); ?>&nbsp;
-<input type="text" id="aa_start" name="aa_start" value="" size="4" maxlength="5" />
-</td>
-<td><strong><?php _e('End:'); ?></strong> <?php _e('Month'); ?>&nbsp;
+	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
+<?php echo ($dateoptions); ?>
+</select> <br/>
+<strong><?php _e('End:'); ?></strong> 
 <select name="mm_end" id="mm_end">
-<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo $months; ?>
-</select>&nbsp;<?php _e('Year'); ?>&nbsp;
-<input type="text" id="aa_end" name="aa_end" value="" size="4" maxlength="5" />
+	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
+<?php echo $dateoptions; ?>
+</select>
 </td>
 </tr>
 <tr>
@@ -87,36 +82,33 @@ for ( $i = 1; $i < 13; $i++ ) {
 <select name="author" id="author">
 <option value="all" selected="selected"><?php _e('All Authors'); ?></option>
 <?php
-$authors = $wpdb->get_results( "SELECT DISTINCT u.id, u.display_name FROM $wpdb->users u INNER JOIN $wpdb->posts p ON u.id = p.post_author ORDER BY u.display_name" );
-foreach ( (array) $authors as $author )
-       echo "<option value='{$author->id}'>{$author->display_name}</option>\n";
-?>
-</select>
-</td>
-</tr>
-<tr>
-<th><label for="category"><?php _e('Restrict Category'); ?></label></th>
-<td>
-<select name="category" id="category">
-<option value="all" selected="selected"><?php _e('All Categories'); ?></option>
-<?php
-$categories = (array) get_categories('get=all');
-if($categories) {
-	foreach ( $categories as $cat ) {
-		echo "<option value='{$cat->term_taxonomy_id}'>{$cat->name}</option>\n";
-	}
+$authors = $wpdb->get_results( "SELECT DISTINCT u.id, u.display_name FROM $wpdb->users u INNER JOIN $wpdb->posts p WHERE u.id = p.post_author ORDER BY u.display_name" );
+foreach ( (array) $authors as $author ) {
+	echo "<option value='{$author->id}'>{$author->display_name}</option>\n";
 }
 ?>
 </select>
 </td>
 </tr>
 <tr>
+<th><?php _e('Restrict Taxonomies'); ?></th>
+<td>
+<?php foreach ( get_taxonomies( array( 'show_ui' => true ), 'objects' ) as $tax_obj ) {
+	$term_dropdown = wp_dropdown_categories( array( 'taxonomy' => $tax_obj->name, 'hide_if_empty' => true, 'show_option_all' => __( 'All Terms' ), 'name' => 'taxonomy[' . $tax_obj->name . ']', 'id' => 'taxonomy-' . $tax_obj->name, 'class' => '', 'echo' => false ) );
+	if ( $term_dropdown )
+		echo '<label for="taxonomy-' . $tax_obj->name . '">' . $tax_obj->label . '</label>: ' . $term_dropdown . '<br/>';
+}
+?>
+</td>
+</tr>
+<tr>
 <th><label for="post_type"><?php _e('Restrict Content'); ?></label></th>
 <td>
 <select name="post_type" id="post_type">
-<option value="all" selected="selected"><?php _e('All Content'); ?></option>
-<option value="page"><?php _e('Pages'); ?></option>
-<option value="post"><?php _e('Posts'); ?></option>
+	<option value="all" selected="selected"><?php _e('All Content'); ?></option>
+	<?php foreach ( get_post_types( array( 'public' => true, 'can_export' => true ), 'objects' ) as $post_type_obj ) { ?>
+		<option value="<?php echo $post_type_obj->name; ?>"><?php echo $post_type_obj->label; ?></option>
+	<?php } ?>
 </select>
 </td>
 </tr>
@@ -124,11 +116,10 @@ if($categories) {
 <th><label for="status"><?php _e('Restrict Status'); ?></label></th>
 <td>
 <select name="status" id="status">
-<option value="all" selected="selected"><?php _e('All Statuses'); ?></option>
-<option value="draft"><?php _e('Draft'); ?></option>
-<option value="private"><?php _e('Privately published'); ?></option>
-<option value="publish"><?php _e('Published'); ?></option>
-<option value="future"><?php _e('Scheduled'); ?></option>
+	<option value="all" selected="selected"><?php _e('All Statuses'); ?></option>
+<?php foreach ( get_post_stati( array( 'internal' => false ), 'objects' ) as $post_status_obj ) { ?>
+	<option value="<?php echo $post_status_obj->name; ?>"><?php echo $post_status_obj->label; ?></option>
+<?php } ?>
 </select>
 </td>
 </tr>
