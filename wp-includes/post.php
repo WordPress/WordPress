@@ -53,6 +53,7 @@ function create_initial_post_types() {
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
+		'can_export' => false,
 	) );
 
 	register_post_type( 'revision', array(
@@ -810,7 +811,7 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'singular_label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null, 'permalink_epmask' => EP_PERMALINK );
+	$defaults = array('label' => false, 'singular_label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null, 'permalink_epmask' => EP_PERMALINK, 'can_export' => true );
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
