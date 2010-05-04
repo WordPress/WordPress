@@ -1335,10 +1335,10 @@ function wp_salt($scheme = 'auth') {
 		} elseif ( defined('SECRET_SALT') && ('' != SECRET_SALT) && ( $wp_default_secret_key != SECRET_SALT) ) {
 			$salt = SECRET_SALT;
 		} else {
-			$salt = get_option('auth_salt');
+			$salt = get_site_option('auth_salt');
 			if ( empty($salt) ) {
 				$salt = wp_generate_password( 64, true, true );
-				update_option('auth_salt', $salt);
+				update_site_option('auth_salt', $salt);
 			}
 		}
 	} elseif ( 'secure_auth' == $scheme ) {
@@ -1348,10 +1348,10 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('SECURE_AUTH_SALT') && ('' != SECURE_AUTH_SALT) && ( $wp_default_secret_key != SECURE_AUTH_SALT) ) {
 			$salt = SECURE_AUTH_SALT;
 		} else {
-			$salt = get_option('secure_auth_salt');
+			$salt = get_site_option('secure_auth_salt');
 			if ( empty($salt) ) {
 				$salt = wp_generate_password( 64, true, true );
-				update_option('secure_auth_salt', $salt);
+				update_site_option('secure_auth_salt', $salt);
 			}
 		}
 	} elseif ( 'logged_in' == $scheme ) {
@@ -1361,10 +1361,10 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('LOGGED_IN_SALT') && ('' != LOGGED_IN_SALT) && ( $wp_default_secret_key != LOGGED_IN_SALT) ) {
 			$salt = LOGGED_IN_SALT;
 		} else {
-			$salt = get_option('logged_in_salt');
+			$salt = get_site_option('logged_in_salt');
 			if ( empty($salt) ) {
 				$salt = wp_generate_password( 64, true, true );
-				update_option('logged_in_salt', $salt);
+				update_site_option('logged_in_salt', $salt);
 			}
 		}
 	} elseif ( 'nonce' == $scheme ) {
@@ -1374,10 +1374,10 @@ function wp_salt($scheme = 'auth') {
 		if ( defined('NONCE_SALT') && ('' != NONCE_SALT) && ( $wp_default_secret_key != NONCE_SALT) ) {
 			$salt = NONCE_SALT;
 		} else {
-			$salt = get_option('nonce_salt');
+			$salt = get_site_option('nonce_salt');
 			if ( empty($salt) ) {
 				$salt = wp_generate_password( 64, true, true );
-				update_option('nonce_salt', $salt);
+				update_site_option('nonce_salt', $salt);
 			}
 		}
 	} else {
