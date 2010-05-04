@@ -72,11 +72,16 @@ class Walker_Nav_Menu extends Walker {
 
 		$classes = array( 'menu-item', 'menu-item-type-'. $item->type, $item->classes );
 
-		if ( 'custom' != $item->object )
+		if ( 'custom' == $item->object ) {
+			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$item_url = strpos( $item->url, '#' ) ? substr( $item->url, 0, strpos( $item->url, '#' ) ) : $item->url;
+			if ( $item_url == $current_url )
+				$classes[] = 'current-menu-item';
+		} else {
 			$classes[] = 'menu-item-object-'. $item->object;
-
-		if ( $item->object_id == $wp_query->get_queried_object_id() )
-			$classes[] = 'current-menu-item';
+			if ( $item->object_id == $wp_query->get_queried_object_id() )
+				$classes[] = 'current-menu-item';
+		}
 
 		// @todo add classes for parent/child relationships
 
