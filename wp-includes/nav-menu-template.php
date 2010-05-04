@@ -142,9 +142,17 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
 		$output .= $indent . '<li>';
-		$output .= '<label class="menu-item-title">';
-		$output .= '<input type="checkbox" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
-		$output .= $item->title .'</label>';
+		$output .= '<ul class="potential-menu-item hide-if-no-js"><li><div>';
+		$output .= '<span class="item-title">' . esc_html( $item->title ) . '</span>';
+		$output .= '<span class="item-controls">';
+		$output .= '<span class="item-type">' . esc_html( $item->append ) . '</span>';
+		$output .= '<span class="item-edit">';
+		$output .= '<img class="waiting" src="' . esc_url( admin_url( 'images/wpspin_light.gif' ) ) . '" />';
+		$output .= '</span></span>';
+		$output .= '</div><ul class="additional-menu-items"></ul><ul class="menu-item-transport"></ul></li></ul>';
+		$output .= '<label class="menu-item-title hide-if-js">';
+		$output .= '<input type="checkbox" class="menu-item-checkbox" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
+		$output .= esc_html( $item->title ) .'</label>';
 
 		// Menu item hidden fields
 		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';

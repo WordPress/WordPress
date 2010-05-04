@@ -59,13 +59,13 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 		}
 		?>
 		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo strtolower(esc_attr( $item->append )); ?>">
-			<dl class="<?php
+			<dl class="menu-item-bar <?php
 				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
 					echo 'menu-item-edit-active';
 				else
 					echo 'menu-item-edit-inactive';
 			?>">
-				<dt>
+				<dt class="menu-item-handle">
 					<span class="item-title"><?php echo esc_html( $item->title ); ?></span>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->append ); ?></span>
@@ -601,7 +601,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		</div><!-- /.tabs-panel -->
 
 
-		<div id="<?php echo $post_type_name; ?>-all" class="tabs-panel <?php
+		<div id="<?php echo $post_type_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
 			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
 		?>">
 			<div class="add-menu-item-pagelinks">
@@ -664,7 +664,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		return;
 	}
 	// paginate browsing for large numbers of objects
-	$per_page = 50;
+	$per_page = 13;
 	$pagenum = isset( $_REQUEST[$taxonomy_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
 	$offset = 0 < $pagenum ? $per_page * ( $pagenum - 1 ) : 0;
 
@@ -776,7 +776,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			</ul>
 		</div><!-- /.tabs-panel -->
 
-		<div id="tabs-panel-<?php echo $taxonomy_name; ?>-all" class="tabs-panel <?php
+		<div id="tabs-panel-<?php echo $taxonomy_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
 			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
 		?>">
 			<div class="add-menu-item-pagelinks">
