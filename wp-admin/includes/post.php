@@ -1073,7 +1073,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	global $wpdb;
 	$post = &get_post($id);
-	$orig_permalink = sanitize_title($post->post_title);
+
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
 	if ( 'publish' == $post->post_status ) {
@@ -1113,18 +1113,6 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 			$post_name_abridged = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
 		} else {
 			$post_name_abridged = $post_name;
-		}
-	}
-
-	if ( $orig_permalink != $post_name_abridged && !$post->post_name ) {
-		//check if post is trashed
-		$orig_ID = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_status='trash';",$orig_permalink));
-		if ( $orig_ID ) {
-			?>
-			<div id="message" class="error">
-				<?php echo sprintf( __('There was a permalink conflict with an item in the trash. <a href="$1%s">View Trash</a>'), 'edit.php?post_status=trash&amp;post_type='.$post->post_type ); ?>
-			</div>
-			<?php
 		}
 	}
 
