@@ -393,7 +393,7 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		// Custom Navigation
-		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100504' );
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100505' );
 		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
 			'home' => _x('Home', 'nav menu home label'),
 			'homeurl' => home_url('/'),

@@ -87,7 +87,7 @@ var WPNavMenuHandler = function ($) {
 		return Math.floor(px / menuItemDepthPerLevel);
 	},
 
-	menuList, targetList;
+	menuList, targetList, api;
 
 	// jQuery extensions
 	$.fn.extend({
@@ -166,10 +166,50 @@ var WPNavMenuHandler = function ($) {
 				else
 					t.selectItem();
 			});
-		}
+		},
+		/**
+		 * Adds selected menu items to the menu.
+		 *
+		 * @param jQuery metabox The metabox jQuery object.
+		 */
+		addSelectedToMenu : function(processMethod) {
+			return this.each(function() {
+				var t = $(this),
+					checked = t.find('.tabs-panel-active .categorychecklist li input:checked'),
+					re = new RegExp('menu-item\\[(\[^\\]\]*)');
+			
+				processMethod = processMethod || api.addMenuItemToBottom;
+			
+				// If no items are checked, bail.
+				if ( !checked.length )
+					return false;
+			
+				// Show the ajax spinner
+				t.find('img.waiting').show();
+
+				// Retrieve menu item data
+				$(checked).each(function(){
+					var checkbox = $(this),
+						item = checkbox.parent().prev();
+					listItemDBIDMatch = re.exec( checkbox.attr('name') );
+					listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
+					listItemData = getListDataFromID(listItemDBID);
+
+					menuItem = {};
+					menuItem[listItemDBID] = listItemData;
+
+					api.addItemToMenu(menuItem, processMethod, function(){
+						item.deselectItem();
+					});
+				});
+
+				// Remove the ajax spinner
+				t.find('img.waiting').hide();
+			});
+		},
 	});
 
-	return {
+	return api = {
 
 		// Functions that run on init.
 		init : function() {
@@ -177,8 +217,10 @@ var WPNavMenuHandler = function ($) {
 			targetList = menuList;
 
 			this.attachMenuEditListeners();
-
-			this.attachMenuMetaListeners(document.getElementById('nav-menu-meta'));
+			
+			this.setupInputWithDefaultTitle();
+			this.attachAddMenuItemListeners();
+			this.attachQuickSearchListeners();
 
 			this.attachTabsPanelListeners();
 
@@ -422,38 +464,39 @@ var WPNavMenuHandler = function ($) {
 			}).blur( function(){
 				var $t = $(this);
 				if( '' == $t.val() )
-					$t.val( $t.data(name) ).addClass( name );
+					$t.addClass( name ).val( $t.data(name) );
 			});
 		},
 
-		attachMenuMetaListeners : function(formEL) {
-			if ( ! formEL )
-				return;
-
-			var that = this;
-			this.setupInputWithDefaultTitle();
-
+		attachAddMenuItemListeners : function() {
+			var form = $('#nav-menu-meta');
+			
+			form.find('.add-to-menu input').click(function(){
+				$(this).trigger('wp-add-menu-item', [api.addMenuItemToBottom]);
+				return false;
+			});
+			form.find('.customlinkdiv').bind('wp-add-menu-item', function(e, processMethod) {
+				api.addCustomLink( processMethod );
+			});
+			form.find('.posttypediv, .taxonomydiv').bind('wp-add-menu-item', function(e, processMethod) {
+				$(this).addSelectedToMenu( processMethod );
+			});	
+		},
+		
+		attachQuickSearchListeners : function() {
+			var that = this,
+				form = $('#nav-menu-meta');
+				
 			// auto-suggest for the quick-search boxes
 			$('input.quick-search').each(function(i, el) {
 				that.setupQuickSearchEventListeners(el);
 			});
-
-			// If a "Add to Menu" button was clicked, submit that metabox ajax style.
-			$(formEL).click(function(e) {
-				// based on the input, call that function
-				var divcontainer = $(e.target).parent().parent().parent();
-			
-				if ( $(e.target).is('input') && $(e.target).hasClass('button-secondary') && !$(e.target).hasClass('quick-search-submit') ) {
-					if ( $(divcontainer).hasClass('customlinkdiv') ) {
-						that.addCustomLink();
-					} else if ( $(divcontainer).hasClass('posttypediv') || $(divcontainer).hasClass('taxonomydiv') ) {
-						that.addItemsToMenu( $(divcontainer).attr('id') );
-					};
-					return false;
-				} else if ( $(e.target).is('input') && $(e.target).hasClass('quick-search-submit') ) {
-					that.quickSearch( $(divcontainer).attr('id') );
-					return false;
-				};
+			form.find('.quick-search-submit').click(function() {
+				$(this).trigger('wp-quick-search');
+				return false;
+			});
+			form.find('.inside').children().bind('wp-quick-search', function() {
+				that.quickSearch( $(this).attr('id') );
 			});
 		},
 		
@@ -482,57 +525,76 @@ var WPNavMenuHandler = function ($) {
 			});
 		},
 		
-		addCustomLink : function(url, label, addToTop) {
-			var url = url || $('#custom-menu-item-url').val(),
-			label = label || $('#custom-menu-item-name').val(),
-			addToTop = addToTop || false,
-			menu = $('#menu').val(),
-			nonce = $('#menu-settings-column-nonce').val(),
-			params = {},
-			that = this,
-			processMethod = function(){};
+		addCustomLink : function( processMethod ) {
+			var url = $('#custom-menu-item-url').val(),
+				label = $('#custom-menu-item-name').val();
+				
+			processMethod = processMethod || api.addMenuItemToBottom;
 			
 			if ( '' == url || 'http://' == url )
 				return false;
 			
 			// Show the ajax spinner
 			$('.customlinkdiv img.waiting').show();
+			this.addLinkToMenu( url, label, processMethod, function() {
+				// Remove the ajax spinner
+				$('.customlinkdiv img.waiting').hide();
+				// Set custom link form back to defaults
+				$('#custom-menu-item-name').val('').blur();
+				$('#custom-menu-item-url').val('http://');
+			});
+		},
+		
+		addLinkToMenu : function(url, label, processMethod, callback) {
+			processMethod = processMethod || api.addMenuItemToBottom;
+			callback = callback || function(){};
+			
+			api.addItemToMenu({
+				'-1': {
+					'menu-item-type': 'custom',
+					'menu-item-url': url,
+					'menu-item-title': label
+				}
+			}, processMethod, callback);
+		},
+		
+		addItemToMenu : function(menuItem, processMethod, callback) {
+			var menu = $('#menu').val(),
+				nonce = $('#menu-settings-column-nonce').val();
+				
+			processMethod = processMethod || function(){};
+			callback = callback || function(){};
 			
 			params = {
 				'action': 'add-menu-item',
 				'menu': menu,
 				'menu-settings-column-nonce': nonce,
-				'menu-item': {
-					'-1': {
-						'menu-item-type': 'custom',
-						'menu-item-url': url,
-						'menu-item-title': label
-					}
-				}
+				'menu-item': menuItem,
 			};
 			
-			processMethod = addToTop ? that.addMenuItemToTop : that.addMenuItemToBottom;
-
 			$.post( ajaxurl, params, function(menuMarkup) {
-				processMethod.call(that, menuMarkup, params);
-				
-				// Remove the ajax spinner
-				$('.customlinkdiv img.waiting').hide();
-
-				// Reset the form
-				wpNavMenu.resetCustomLinkForm();
+				processMethod(menuMarkup, params);
+				callback();
 			});
 		},
+
+		/**
+		 * Process the add menu item request response into menu list item.
+		 *
+		 * @param string menuMarkup The text server response of menu item markup.
+		 * @param object req The request arguments.
+		 */
+		addMenuItemToBottom : function( menuMarkup, req ) {
+			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( targetList );
+		},
 		
-		resetCustomLinkForm : function() {
-			// set custom link form back to defaults
-			$('#custom-menu-item-name').val('').blur();
-			$('#custom-menu-item-url').val('http://');
+		addMenuItemToTop : function( menuMarkup, req ) {
+			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( targetList );
 		},
 		
 		attachHomeLinkListener : function() {
 			$('.add-home-link', '.customlinkdiv').click(function(e) {
-				wpNavMenu.addCustomLink( navMenuL10n.homeurl, navMenuL10n.home, true);
+				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop, recalculateMenuItemPositions );
 				return false;
 			});
 		},
@@ -781,71 +843,6 @@ var WPNavMenuHandler = function ($) {
 			} else {
 				return false;
 			}
-		},
-
-		/**
-		 * Adds menu items to the menu.
-		 *
-		 * @param string id The id of the metabox
-		 */
-		addItemsToMenu : function(id, addToTop) {
-			var items = $( '.tabs-panel-active .categorychecklist li input:checked', '#' + id),
-			menu = $('#menu').val(),
-			nonce = $('#menu-settings-column-nonce').val(),
-			params = {},
-			that = this,
-			addToTop = addToTop || false,
-			processMethod = function(){},
-			re = new RegExp('menu-item\\[(\[^\\]\]*)');
-			
-			processMethod = addToTop ? that.addMenuItemToTop : that.addMenuItemToBottom;
-			
-			// If no items are checked, bail.
-			if ( !items.length )
-				return false;
-			
-			// Show the ajax spinner
-			$('#' + id + ' img.waiting').show();
-
-			// do stuff
-			$(items).each(function(){
-				listItemDBIDMatch = re.exec( $(this).attr('name') );
-				listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
-				listItemData = getListDataFromID(listItemDBID);
-
-				params = {
-					'action': 'add-menu-item',
-					'menu': menu,
-					'menu-settings-column-nonce': nonce,
-					'menu-item': {}
-				};
-
-				params['menu-item'][listItemDBID] = listItemData;
-
-				$.post( ajaxurl, params, function(menuMarkup) {
-					processMethod.call(that, menuMarkup, params);
-				});
-
-				// Uncheck the item
-				$(this).parent().prev().deselectItem();
-			});
-
-			// Remove the ajax spinner
-			$('#' + id + ' img.waiting').hide();
-		},
-
-		/**
-		 * Process the add menu item request response into menu list item.
-		 *
-		 * @param string menuMarkup The text server response of menu item markup.
-		 * @param object req The request arguments.
-		 */
-		addMenuItemToBottom : function( menuMarkup, req ) {
-			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( targetList );
-		},
-		
-		addMenuItemToTop : function( menuMarkup, req ) {
-			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( targetList );
 		},
 
 		/**
