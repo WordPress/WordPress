@@ -8,7 +8,7 @@
  * @subpackage Administration
  */
 
-var WPNavMenuHandler = function ($) {
+var wpNavMenu, WPNavMenuHandler = function ($) {
 	var autoCompleteData = {},
 
 	menuItemDepthPerLevel = 30, // Do not use directly. Use depthToPx and pxToDepth instead.
@@ -56,8 +56,7 @@ var WPNavMenuHandler = function ($) {
 		itemData = {},
 		inputs = parentEl.getElementsByTagName('input'),
 		i = inputs.length,
-		j,
-		menuID = document.getElementById('nav-menu-meta-object-id').value;
+		j;
 
 		while ( i-- ) {
 			j = fields.length;
@@ -263,7 +262,7 @@ var WPNavMenuHandler = function ($) {
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
-					var next, height, width, parent, children, maxChildDepth;
+					var height, width, parent, children, maxChildDepth;
 
 					transport = ui.item.children('.menu-item-transport');
 					// Check if the item is in the menu, or new
@@ -601,12 +600,12 @@ var WPNavMenuHandler = function ($) {
 
 		attachTabsPanelListeners : function() {
 			$('#menu-settings-column').bind('click', function(e) {
+				var selectAreaMatch, activePanel, panelIdMatch, wrapper, inputs, i;
+				
 				if ( e.target && e.target.className && -1 != e.target.className.indexOf('nav-tab-link') ) {
-					var activePanel,
-					panelIdMatch = /#(.*)$/.exec(e.target.href),
-					tabPanels,
-					wrapper = $(e.target).parents('.inside').first()[0],
-					inputs = wrapper ? wrapper.getElementsByTagName('input') : [],
+					panelIdMatch = /#(.*)$/.exec(e.target.href);
+					wrapper = $(e.target).parents('.inside').first()[0];
+					inputs = wrapper ? wrapper.getElementsByTagName('input') : [];
 					i = inputs.length;
 
 					// upon changing tabs, we want to uncheck all checkboxes
@@ -633,7 +632,7 @@ var WPNavMenuHandler = function ($) {
 
 					return false;
 				} else if ( e.target && e.target.className && -1 != e.target.className.indexOf('select-all') ) {
-					var selectAreaMatch = /#(.*)$/.exec(e.target.href), items;
+					selectAreaMatch = /#(.*)$/.exec(e.target.href), items;
 					if ( selectAreaMatch && selectAreaMatch[1] ) {
 						items = $('#' + selectAreaMatch[1] + ' .tabs-panel-active .potential-menu-item');
 						if( items.length === items.filter('.selected-menu-item').length )
@@ -907,8 +906,8 @@ var WPNavMenuHandler = function ($) {
 
 		removeMenuItem : function(el) {
 			el = $(el)
-			var children = el.childMenuItems();
-			var that = this;
+			var children = el.childMenuItems(),
+				that = this;
 
 			el.addClass('deleting').fadeOut( 350 , function() {
 				el.remove();
@@ -927,7 +926,7 @@ var WPNavMenuHandler = function ($) {
 	}
 }
 
-var wpNavMenu = new WPNavMenuHandler(jQuery);
+wpNavMenu = new WPNavMenuHandler(jQuery);
 
 jQuery(function() {
 	wpNavMenu.init();
