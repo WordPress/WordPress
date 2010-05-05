@@ -1122,7 +1122,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		if ( $orig_ID ) {
 			?>
 			<div id="message" class="error">
-				<?php _e('There was a permalink conflict with an item in the trash. <a href="edit.php?post_status=trash&amp;post_type='.$post->post_type.'">View Trash</a>'); ?>
+				<?php echo sprintf( __('There was a permalink conflict with an item in the trash. <a href="$1%s">View Trash</a>'), 'edit.php?post_status=trash&amp;post_type='.$post->post_type ); ?>
 			</div>
 			<?php
 		}
