@@ -88,126 +88,6 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 
 	menuList, targetList, api;
 
-	// jQuery extensions
-	$.fn.extend({
-		menuItemDepth : function() {
-			return pxToDepth( this.eq(0).css('margin-left').slice(0, -2) );
-		},
-		updateDepthClass : function(current, prev) {
-			return this.each(function(){
-				var t = $(this);
-				prev = prev || t.menuItemDepth();
-				$(this).removeClass('menu-item-depth-'+ prev )
-					.addClass('menu-item-depth-'+ current );
-			});
-		},
-		shiftDepthClass : function(change) {
-			return this.each(function(){
-				var t = $(this),
-					depth = t.menuItemDepth();
-				$(this).removeClass('menu-item-depth-'+ depth )
-					.addClass('menu-item-depth-'+ (depth + change) );
-			});
-		},
-		childMenuItems : function() {
-			var result = $();
-			this.each(function(){
-				var t = $(this), depth = t.menuItemDepth(), next = t.next();
-				while( next.length && next.menuItemDepth() > depth ) {
-					result = result.add( next );
-					next = next.next();
-				}
-			});
-			return result;
-		},
-		updateParentMenuItemDBId : function() {
-			return this.each(function(){
-				var item = $(this),
-					input = item.find('.menu-item-data-parent-id'),
-					depth = item.menuItemDepth(),
-					parent = item.prev();
-
-				if( depth == 0 ) { // Item is on the top level, has no parent
-					input.val(0);
-				} else { // Find the parent item, and retrieve its object id.
-					while( parent.menuItemDepth() != depth - 1 ) {
-						parent = parent.prev();
-					}
-					input.val( parent.find('.menu-item-data-db-id').val() );
-				}
-			});
-		},
-		hideAdvancedMenuItemFields : function() {
-			return this.each(function(){
-				var that = $(this);
-				$('.hide-column-tog').not(':checked').each(function(){
-					that.find('.field-' + $(this).val() ).addClass('hidden-field');
-				});
-			});
-		},
-		selectItem : function() {
-			return this.each(function(){
-				$(this).addClass('selected-menu-item')
-					.next().children('input').attr('checked','checked');
-			});
-		},
-		deselectItem : function() {
-			return this.each(function(){
-				$(this).removeClass('selected-menu-item')
-					.next().children('input').removeAttr('checked');
-			});
-		},
-		toggleItem : function() {
-			return this.each(function(){
-				var t = $(this);
-				if( t.hasClass('selected-menu-item') )
-					t.deselectItem();
-				else
-					t.selectItem();
-			});
-		},
-		/**
-		 * Adds selected menu items to the menu.
-		 *
-		 * @param jQuery metabox The metabox jQuery object.
-		 */
-		addSelectedToMenu : function(processMethod) {
-			return this.each(function() {
-				var t = $(this),
-					checked = t.find('.tabs-panel-active .categorychecklist li input:checked'),
-					re = new RegExp('menu-item\\[(\[^\\]\]*)');
-		
-				processMethod = processMethod || api.addMenuItemToBottom;
-		
-				// If no items are checked, bail.
-				if ( !checked.length )
-					return false;
-		
-				// Show the ajax spinner
-				t.find('img.waiting').show();
-
-				// Retrieve menu item data
-				$(checked).each(function(){
-					var checkbox = $(this),
-						item = checkbox.parent().prev();
-					listItemDBIDMatch = re.exec( checkbox.attr('name') );
-					listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
-					listItemData = getListDataFromID(listItemDBID);
-
-					menuItem = {};
-					menuItem[listItemDBID] = listItemData;
-
-					api.addItemToMenu(menuItem, processMethod, function(){
-						item.deselectItem();
-					});
-				});
-
-				// Remove the ajax spinner
-				t.find('img.waiting').hide();
-			});
-		},
-	});
-
 	return api = {
 
 		// Functions that run on init.
@@ -215,6 +95,8 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 			menuList = $('#menu-to-edit');
 			targetList = menuList;
 
+			this.jQueryExtensions();
+			
 			this.attachMenuEditListeners();
 		
 			this.setupInputWithDefaultTitle();
@@ -235,6 +117,122 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 			this.initAddMenuItemDraggables();
 		
 			this.checkForEmptyMenu();
+		},
+		
+		jQueryExtensions : function() {
+			// jQuery extensions
+			$.fn.extend({
+				menuItemDepth : function() {
+					return pxToDepth( this.eq(0).css('margin-left').slice(0, -2) );
+				},
+				updateDepthClass : function(current, prev) {
+					return this.each(function(){
+						var t = $(this);
+						prev = prev || t.menuItemDepth();
+						$(this).removeClass('menu-item-depth-'+ prev )
+							.addClass('menu-item-depth-'+ current );
+					});
+				},
+				shiftDepthClass : function(change) {
+					return this.each(function(){
+						var t = $(this),
+							depth = t.menuItemDepth();
+						$(this).removeClass('menu-item-depth-'+ depth )
+							.addClass('menu-item-depth-'+ (depth + change) );
+					});
+				},
+				childMenuItems : function() {
+					var result = $();
+					this.each(function(){
+						var t = $(this), depth = t.menuItemDepth(), next = t.next();
+						while( next.length && next.menuItemDepth() > depth ) {
+							result = result.add( next );
+							next = next.next();
+						}
+					});
+					return result;
+				},
+				updateParentMenuItemDBId : function() {
+					return this.each(function(){
+						var item = $(this),
+							input = item.find('.menu-item-data-parent-id'),
+							depth = item.menuItemDepth(),
+							parent = item.prev();
+
+						if( depth == 0 ) { // Item is on the top level, has no parent
+							input.val(0);
+						} else { // Find the parent item, and retrieve its object id.
+							while( parent.menuItemDepth() != depth - 1 ) {
+								parent = parent.prev();
+							}
+							input.val( parent.find('.menu-item-data-db-id').val() );
+						}
+					});
+				},
+				hideAdvancedMenuItemFields : function() {
+					return this.each(function(){
+						var that = $(this);
+						$('.hide-column-tog').not(':checked').each(function(){
+							that.find('.field-' + $(this).val() ).addClass('hidden-field');
+						});
+					});
+				},
+				selectItem : function() {
+					return this.each(function(){
+						$(this).addClass('selected-menu-item')
+							.next().children('input').attr('checked','checked');
+					});
+				},
+				deselectItem : function() {
+					return this.each(function(){
+						$(this).removeClass('selected-menu-item')
+							.next().children('input').removeAttr('checked');
+					});
+				},
+				toggleItem : function() {
+					return this.each(function(){
+						var t = $(this);
+						if( t.hasClass('selected-menu-item') )
+							t.deselectItem();
+						else
+							t.selectItem();
+					});
+				},
+				/**
+				 * Adds selected menu items to the menu.
+				 *
+				 * @param jQuery metabox The metabox jQuery object.
+				 */
+				addSelectedToMenu : function(processMethod) {
+					return this.each(function() {
+						var t = $(this), menuItems = {},
+							checkboxes = t.find('.tabs-panel-active .categorychecklist li input:checked'),
+							re = new RegExp('menu-item\\[(\[^\\]\]*)');
+
+						processMethod = processMethod || api.addMenuItemToBottom;
+
+						// If no items are checked, bail.
+						if ( !checkboxes.length )
+							return false;
+
+						// Show the ajax spinner
+						t.find('img.waiting').show();
+
+						// Retrieve menu item data
+						$(checkboxes).each(function(){
+							var listItemDBIDMatch = re.exec( $(this).attr('name') ),
+								listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
+							menuItems[listItemDBID] = getListDataFromID(listItemDBID);
+						});
+						// Add the items
+						api.addItemToMenu(menuItems, processMethod, function(){
+							// Deselect the items and hide the ajax spinner
+							checkboxes.parent().prev().deselectItem();
+							t.find('img.waiting').hide();
+						});
+					});
+				},
+			});
 		},
 
 		initToggles : function() {
