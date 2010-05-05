@@ -195,8 +195,7 @@ td.available-theme {
 	margin-left: 5px;
 }
 /* Tables used on comment.php and option/setting pages */
-.form-table th,
-#wpbody-content .describe th {
+.form-table th {
 	text-align: right;
 }
 .form-table input.tog {
@@ -561,10 +560,65 @@ ol {
 	padding-right: 0;
 }
 
+/* Media library */
+#wpbody-content .describe th {
+	text-align: right;
+}
+
+.describe .media-item-info .A1B1 {
+	padding: 0 0 8px 15px;
+}
+
+.media-upload-form td label {
+	margin-left: 6px;
+	margin-right: 2px;
+}
+
 .media-upload-form .align .field label {
 	padding: 0 22px 0 0;
 	margin: 0 0 0 1em;
 }
+
+.media-upload-form tr.image-size label {
+	margin: 0 3px 0 0 ;
+}
+
+#wpbody-content .describe p.help {
+	padding: 0 5px 0 0 ;
+}
+
+.describe-toggle-on,
+.describe-toggle-off {
+	float: left;
+	margin-left: 20px;
+	margin-right: 0;
+}
+
+.media-item .pinkynail {
+	float: right;
+}
+
+.crunching {
+	text-align: left;
+	margin-left: 5px;
+	margin-right: 0;
+}
+
+button.dismiss {
+	right: auto;
+	left: 5px;
+}
+
+.file-error {
+	float: right;
+}
+
+.bar {
+	border-left-width: 3px;
+	border-left-style: solid;
+	border-right: none;
+}
+
 
 /* TinyMCE
 =================================== */
