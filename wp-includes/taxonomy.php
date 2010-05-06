@@ -101,9 +101,10 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
  * @uses $wp_taxonomies
  *
  * @param array|string|object $object Name of the type of taxonomy object, or an object (row from posts)
+ * @param string $output The type of output to return, either taxonomy 'names' or 'objects'. 'names' is the default.
  * @return array The names of all taxonomy of $object_type.
  */
-function get_object_taxonomies($object) {
+function get_object_taxonomies($object, $output = 'names') {
 	global $wp_taxonomies;
 
 	if ( is_object($object) ) {
@@ -115,9 +116,9 @@ function get_object_taxonomies($object) {
 	$object = (array) $object;
 
 	$taxonomies = array();
-	foreach ( (array) $wp_taxonomies as $taxonomy ) {
-		if ( array_intersect($object, (array) $taxonomy->object_type) )
-			$taxonomies[] = $taxonomy->name;
+	foreach ( (array) $wp_taxonomies as $tax_name => $tax_obj ) {
+		if ( array_intersect($object, (array) $tax_obj->object_type) )
+			$taxonomies[$tax_name] = ('names' == $output) ? $tax_name : $tax_obj;
 	}
 
 	return $taxonomies;
