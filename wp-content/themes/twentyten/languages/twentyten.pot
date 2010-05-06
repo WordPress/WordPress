@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-04 08:21+0000\n"
+"POT-Creation-Date: 2010-05-06 04:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:67 functions.php:230 loop.php:90 loop.php:94 loop.php:135
+#: attachment.php:67 functions.php:246 loop.php:90 loop.php:94 loop.php:135
 #: loop.php:139
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
@@ -217,73 +217,73 @@ msgstr ""
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:264
+#: functions.php:280
 #, php-format
 msgid "<cite class=\"fn\">%s</cite> <span class=\"says\">says:</span>"
 msgstr ""
 
-#: functions.php:267
+#: functions.php:283
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:271
+#: functions.php:287
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:271 functions.php:282
+#: functions.php:287 functions.php:298
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:282
+#: functions.php:298
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:297
+#: functions.php:313
 msgid "Primary Widget Area"
 msgstr ""
 
-#: functions.php:299
+#: functions.php:315
 msgid "The primary widget area"
 msgstr ""
 
-#: functions.php:308
+#: functions.php:324
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:310
+#: functions.php:326
 msgid "The secondary widget area"
 msgstr ""
 
-#: functions.php:319
+#: functions.php:335
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: functions.php:321
+#: functions.php:337
 msgid "The first footer widget area"
 msgstr ""
 
-#: functions.php:330
+#: functions.php:346
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: functions.php:332
+#: functions.php:348
 msgid "The second footer widget area"
 msgstr ""
 
-#: functions.php:341
+#: functions.php:357
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: functions.php:343
+#: functions.php:359
 msgid "The third footer widget area"
 msgstr ""
 
-#: functions.php:352
+#: functions.php:368
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: functions.php:354
+#: functions.php:370
 msgid "The fourth footer widget area"
 msgstr ""
 
