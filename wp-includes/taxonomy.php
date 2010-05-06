@@ -117,8 +117,12 @@ function get_object_taxonomies($object, $output = 'names') {
 
 	$taxonomies = array();
 	foreach ( (array) $wp_taxonomies as $tax_name => $tax_obj ) {
-		if ( array_intersect($object, (array) $tax_obj->object_type) )
-			$taxonomies[$tax_name] = ('names' == $output) ? $tax_name : $tax_obj;
+		if ( array_intersect($object, (array) $tax_obj->object_type) ) {
+			if ( 'names' == $output )
+				$taxonomies[] = $tax_name;
+			else
+				$taxonomies[ $tax_name ] = $tax_obj;
+		}
 	}
 
 	return $taxonomies;
