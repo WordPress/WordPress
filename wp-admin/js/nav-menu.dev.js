@@ -208,7 +208,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 							t.find('img.waiting').hide();
 						});
 					});
-				},
+				}
 			});
 		},
 
@@ -476,7 +476,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 				'action': 'add-menu-item',
 				'menu': menu,
 				'menu-settings-column-nonce': nonce,
-				'menu-item': menuItem,
+				'menu-item': menuItem
 			};
 		
 			$.post( ajaxurl, params, function(menuMarkup) {
@@ -560,7 +560,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 				tabs = fluid.children('.nav-tab'),
 				tabsWidth = 0,
 				fixedRight, fixedLeft,
-				arrowLeft, arrowRight
+				arrowLeft, arrowRight,
 				resizing = false;
 
 			function resetMenuTabs() {
@@ -576,9 +576,9 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 					left = t.offset().left;
 					right = left + t.outerWidth();
 					if( right > fixedRight )
-						fluid.animate({ 'margin-left' :  "+=" + (fixedRight - right) + 'px', }, 'fast');
+						fluid.animate({ 'margin-left' :  "+=" + (fixedRight - right) + 'px' }, 'fast');
 					else if ( left < fixedLeft )
-						fluid.animate({ 'margin-left' :  "-=" + (left - fixedLeft) + 'px', }, 'fast');
+						fluid.animate({ 'margin-left' :  "-=" + (left - fixedLeft) + 'px' }, 'fast');
 					return t;
 				},
 				isTabVisible : function() {
@@ -603,7 +603,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 			// Set up right margin for overflow, unset padding
 			fluid.css({
 				'margin-right'  : (-1 * tabsWidth) + 'px',
-				'padding' : 0,
+				'padding' : 0
 			});
 
 			// Build tab navigation
@@ -629,19 +629,19 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 					arrow : arrowLeft,
 					next : "next",
 					last : "first",
-					operator : "+=",
+					operator : "+="
 				},{
 					arrow : arrowRight,
 					next : "prev",
 					last : "last",
-					operator : "-=",
+					operator : "-="
 				}], function(){
 				var that = this;
 				this.arrow.mousedown(function(){
 					var last = tabs[that.last](),
 						fn = function() {
 							if( ! last.isTabVisible() )
-								fluid.animate({ 'margin-left' :  that.operator + '90px', }, 300, "linear", fn);
+								fluid.animate({ 'margin-left' :  that.operator + '90px' }, 300, "linear", fn);
 						};
 						fn();
 				}).mouseup(function(){
