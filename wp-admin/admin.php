@@ -84,6 +84,9 @@ else
 
 require(ABSPATH . 'wp-admin/menu.php');
 
+if ( current_user_can( 'manage_options' ) )
+	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
+
 do_action('admin_init');
 
 if ( isset($plugin_page) ) {
