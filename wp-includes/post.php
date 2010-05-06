@@ -1573,9 +1573,10 @@ function wp_match_mime_types($wildcard_mime_types, $real_mime_types) {
  * @since 2.5.0
  *
  * @param string|array $mime_types List of mime types or comma separated string of mime types.
+ * @param string $table_alias Optional. Specify a table alias, if needed. 
  * @return string The SQL AND clause for mime searching.
  */
-function wp_post_mime_type_where($post_mime_types) {
+function wp_post_mime_type_where($post_mime_types, $table_alias = '') {
 	$where = '';
 	$wildcards = array('', '%', '%/%');
 	if ( is_string($post_mime_types) )
@@ -1603,9 +1604,9 @@ function wp_post_mime_type_where($post_mime_types) {
 			return '';
 
 		if ( false !== strpos($mime_pattern, '%') )
-			$wheres[] = "post_mime_type LIKE '$mime_pattern'";
+			$wheres[] = empty($table_alias) ? "post_mime_type LIKE '$mime_pattern'" : "$table_alias.post_mime_type LIKE '$mime_pattern'";
 		else
-			$wheres[] = "post_mime_type = '$mime_pattern'";
+			$wheres[] = empty($table_alias) ? "post_mime_type = '$mime_pattern'" : "$table_alias.post_mime_type = '$mime_pattern'";
 	}
 	if ( !empty($wheres) )
 		$where = ' AND (' . join(' OR ', $wheres) . ') ';

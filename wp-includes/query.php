@@ -2026,13 +2026,14 @@ class WP_Query {
 				$post_ids = get_objects_in_term($term_ids, $taxonomy);
 				if ( !is_wp_error($post_ids) && !empty($post_ids) ) {
 					$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
-					if ( '' === $post_type ) {
+					if ( empty($post_type) ) {
 						$post_type = 'any';
 						$post_status_join = true;
 					} elseif ( in_array('attachment', (array)$post_type) ) {
 						$post_status_join = true;
 					}
-					$q['post_status'] = 'publish';
+					if ( empty($q['post_status']) )
+						$q['post_status'] = 'publish';
 				} else {
 					$whichcat = " AND 0 ";
 				}
@@ -2083,8 +2084,10 @@ class WP_Query {
 
 		// MIME-Type stuff for attachment browsing
 
-		if ( isset($q['post_mime_type']) && '' != $q['post_mime_type'] )
-			$whichmimetype = wp_post_mime_type_where($q['post_mime_type']);
+		if ( isset($q['post_mime_type']) && '' != $q['post_mime_type'] ) {
+			$table_alias = $post_status_join ? $wpdb->posts : '';
+			$whichmimetype = wp_post_mime_type_where($q['post_mime_type'], $table_alias);
+		}
 
 		$where .= $search . $whichcat . $whichauthor . $whichmimetype;
 
