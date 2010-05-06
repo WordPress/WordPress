@@ -8,92 +8,26 @@
  * @subpackage Administration
  */
 
-var wpNavMenu, WPNavMenuHandler = function ($) {
-	var autoCompleteData = {},
+var wpNavMenu;
 
-	menuItemDepthPerLevel = 30, // Do not use directly. Use depthToPx and pxToDepth instead.
-	globalMaxDepth = 11,
-
-	formatAutocompleteResponse = function( resultRow, pos, total, queryTerm ) {
-		if ( resultRow && resultRow[0] ) {
-			var data = $.parseJSON(resultRow[0]);
-			if ( data.post_title ) {
-				if ( data.ID && data.post_type )
-					autoCompleteData[data.post_title] = {ID: data.ID, object_type: data.post_type};
-				return data.post_title;
-			}
-		}
-	},
-
-	formatAutocompleteResult = function( resultRow, pos, total, queryTerm ) {
-		if ( resultRow && resultRow[0] ) {
-			var data = $.parseJSON(resultRow[0]);
-			if ( data.post_title )
-				return data.post_title;
-		}
-	},
-
-	getListDataFromID = function(menuItemID, parentEl) {
-		if ( ! menuItemID )
-			return false;
-		parentEl = parentEl || document;
-		var fields = [
-			'menu-item-db-id',
-			'menu-item-object-id',
-			'menu-item-object',
-			'menu-item-parent-id',
-			'menu-item-position',
-			'menu-item-type',
-			'menu-item-append',
-			'menu-item-title',
-			'menu-item-url',
-			'menu-item-description',
-			'menu-item-attr-title',
-			'menu-item-target',
-			'menu-item-classes',
-			'menu-item-xfn'
-		],
-		itemData = {},
-		inputs = parentEl.getElementsByTagName('input'),
-		i = inputs.length,
-		j;
-
-		while ( i-- ) {
-			j = fields.length;
-			while ( j-- ) {
-				if (
-					inputs[i] &&
-					inputs[i].name &&
-					'menu-item[' + menuItemID + '][' + fields[j] + ']' == inputs[i].name
-				) {
-					itemData[fields[j]] = inputs[i].value;
-				}
-			}
-		}
-
-		return itemData;
-	},
-
-	recalculateMenuItemPositions = function() {
-		menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
-	},
-
-	depthToPx = function(depth) {
-		return depth * menuItemDepthPerLevel;
-	},
-
-	pxToDepth = function(px) {
-		return Math.floor(px / menuItemDepthPerLevel);
-	},
-
-	menuList, targetList, api;
-
-	return api = {
+(function($) {
+	
+	var api = wpNavMenu = {
+		
+		options : {
+			menuItemDepthPerLevel : 30, // Do not use directly. Use depthToPx and pxToDepth instead.
+			globalMaxDepth : 11
+		},
+		
+		menuList : undefined,	// Set in init.
+		targetList : undefined, // Set in init.
+		
+		autoCompleteData : {},
 
 		// Functions that run on init.
 		init : function() {
-			menuList = $('#menu-to-edit');
-			targetList = menuList;
+			api.menuList = $('#menu-to-edit');
+			api.targetList = api.menuList;
 
 			this.jQueryExtensions();
 			
@@ -107,7 +41,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 
 			this.attachHomeLinkListener();
 
-			if( menuList.length ) // If no menu, we're in the + tab.
+			if( api.menuList.length ) // If no menu, we're in the + tab.
 				this.initSortables();
 
 			this.initToggles();
@@ -121,7 +55,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 			// jQuery extensions
 			$.fn.extend({
 				menuItemDepth : function() {
-					return pxToDepth( this.eq(0).css('margin-left').slice(0, -2) );
+					return api.pxToDepth( this.eq(0).css('margin-left').slice(0, -2) );
 				},
 				updateDepthClass : function(current, prev) {
 					return this.each(function(){
@@ -199,7 +133,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 						$(checkboxes).each(function(){
 							var listItemDBIDMatch = re.exec( $(this).attr('name') ),
 								listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
-							menuItems[listItemDBID] = getListDataFromID(listItemDBID);
+							menuItems[listItemDBID] = api.getListDataFromID(listItemDBID);
 						});
 						// Add the items
 						api.addItemToMenu(menuItems, processMethod, function(){
@@ -225,15 +159,15 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 				$('.field-' + field).addClass('hidden-field');
 			}
 			// hide fields
-			menuList.hideAdvancedMenuItemFields();
+			api.menuList.hideAdvancedMenuItemFields();
 		},
 
 		initSortables : function() {
 			var currentDepth = 0, originalDepth, minDepth, maxDepth,
-				menuLeft = menuList.offset().left,
+				menuLeft = api.menuList.offset().left,
 				newItem, transport;
 
-			menuList.sortable({
+			api.menuList.sortable({
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
@@ -269,7 +203,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 						maxChildDepth = (depth > maxChildDepth) ? depth : maxChildDepth;
 					});
 					width = ui.helper.find('.menu-item-handle').outerWidth(); // Get original width
-					width += depthToPx(maxChildDepth - originalDepth); // Account for children
+					width += api.depthToPx(maxChildDepth - originalDepth); // Account for children
 					width -= 2; // Subtract 2 for borders
 					ui.placeholder.width(width);
 				},
@@ -287,25 +221,25 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 					// Update the item data.
 					ui.item.updateParentMenuItemDBId();
 					// Update positions
-					recalculateMenuItemPositions();
+					api.recalculateMenuItemPositions();
 				},
 				change: function(e, ui) {
 					// Make sure the placeholder is inside the menu.
 					// Otherwise fix it, or we're in trouble.
 					if( ! ui.placeholder.parent().hasClass('menu') )
-						ui.placeholder.appendTo(menuList);
+						ui.placeholder.appendTo(api.menuList);
 
 					updateDepthRange(ui);
 				},
 				sort: function(e, ui) {
-					var depth = pxToDepth(ui.helper.offset().left - menuLeft);
+					var depth = api.pxToDepth(ui.helper.offset().left - menuLeft);
 					// Check and correct if depth is not within range.
 					if ( depth < minDepth ) depth = minDepth;
 					else if ( depth > maxDepth ) depth = maxDepth;
 
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
-				},
+				}
 			});
 
 			function updateDepthRange(ui) {
@@ -319,7 +253,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 				minDepth = (next.length) ? next.menuItemDepth() : 0;
 
 				if( prev.length )
-					maxDepth = ( (depth = prev.menuItemDepth() + 1) > globalMaxDepth ) ? globalMaxDepth : depth;
+					maxDepth = ( (depth = prev.menuItemDepth() + 1) > api.options.globalMaxDepth ) ? api.options.globalMaxDepth : depth;
 				else
 					maxDepth = 0;
 			}
@@ -492,16 +426,16 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 		 * @param object req The request arguments.
 		 */
 		addMenuItemToBottom : function( menuMarkup, req ) {
-			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( targetList );
+			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( api.targetList );
 		},
 	
 		addMenuItemToTop : function( menuMarkup, req ) {
-			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( targetList );
+			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( api.targetList );
 		},
 	
 		attachHomeLinkListener : function() {
 			$('.add-home-link', '.customlinkdiv').click(function(e) {
-				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop, recalculateMenuItemPositions );
+				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop, api.recalculateMenuItemPositions );
 				return false;
 			});
 		},
@@ -666,13 +600,13 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 			$(el).autocomplete( ajaxurl + '?action=menu-quick-search&type=' + el.name,
 				{
 					delay: 500,
-					formatItem: formatAutocompleteResponse,
-					formatResult: formatAutocompleteResult,
+					formatItem: api.formatAutocompleteResponse,
+					formatResult: api.formatAutocompleteResult,
 					minchars: 2,
 					multiple: false
 				}
 			).bind('blur', function(e) {
-				var changedData = autoCompleteData[this.value],
+				var changedData = api.autoCompleteData[this.value],
 				inputEl = this;
 				if ( changedData ) {
 					$.post(
@@ -680,7 +614,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 						changedData,
 						function(r) {
 							that.processQuickSearchQueryResponse.call(that, r, changedData);
-							autoCompleteData[inputEl.value] = false;
+							api.autoCompleteData[inputEl.value] = false;
 						}
 					);
 				}
@@ -820,22 +754,92 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 			el.addClass('deleting').fadeOut( 350 , function() {
 				el.remove();
 				children.shiftDepthClass(-1).updateParentMenuItemDBId();
-				recalculateMenuItemPositions();
+				api.recalculateMenuItemPositions();
 				that.checkForEmptyMenu();
 			});
 		},
 	
 		checkForEmptyMenu : function() {
-			if( menuList.children().length ) return;
-			menuList.height(80).one('sortstop', function(){
+			if( api.menuList.children().length ) return;
+			api.menuList.height(80).one('sortstop', function(){
 				$(this).height('auto');
 			});
+		},
+		
+		formatAutocompleteResponse : function( resultRow, pos, total, queryTerm ) {
+			if ( resultRow && resultRow[0] ) {
+				var data = $.parseJSON(resultRow[0]);
+				if ( data.post_title ) {
+					if ( data.ID && data.post_type )
+						api.autoCompleteData[data.post_title] = {ID: data.ID, object_type: data.post_type};
+					return data.post_title;
+				}
+			}
+		},
+
+		formatAutocompleteResult : function( resultRow, pos, total, queryTerm ) {
+			if ( resultRow && resultRow[0] ) {
+				var data = $.parseJSON(resultRow[0]);
+				if ( data.post_title )
+					return data.post_title;
+			}
+		},
+
+		getListDataFromID : function(menuItemID, parentEl) {
+			if ( ! menuItemID )
+				return false;
+			parentEl = parentEl || document;
+			var fields = [
+				'menu-item-db-id',
+				'menu-item-object-id',
+				'menu-item-object',
+				'menu-item-parent-id',
+				'menu-item-position',
+				'menu-item-type',
+				'menu-item-append',
+				'menu-item-title',
+				'menu-item-url',
+				'menu-item-description',
+				'menu-item-attr-title',
+				'menu-item-target',
+				'menu-item-classes',
+				'menu-item-xfn'
+			],
+			itemData = {},
+			inputs = parentEl.getElementsByTagName('input'),
+			i = inputs.length,
+			j;
+
+			while ( i-- ) {
+				j = fields.length;
+				while ( j-- ) {
+					if (
+						inputs[i] &&
+						inputs[i].name &&
+						'menu-item[' + menuItemID + '][' + fields[j] + ']' == inputs[i].name
+					) {
+						itemData[fields[j]] = inputs[i].value;
+					}
+				}
+			}
+
+			return itemData;
+		},
+
+		recalculateMenuItemPositions : function() {
+			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
+		},
+
+		depthToPx : function(depth) {
+			return depth * api.options.menuItemDepthPerLevel;
+		},
+
+		pxToDepth : function(px) {
+			return Math.floor(px / api.options.menuItemDepthPerLevel);
 		}
-	}
-}
 
-wpNavMenu = new WPNavMenuHandler(jQuery);
+	};
 
-jQuery(function() {
-	wpNavMenu.init();
-});
+	$(document).ready(function(){ wpNavMenu.init(); });
+
+})(jQuery);
