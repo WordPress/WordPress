@@ -1207,13 +1207,13 @@ function switch_theme($template, $stylesheet) {
 /**
  * Checks that current theme files 'index.php' and 'style.css' exists.
  *
- * Does not check the fallback theme. The fallback theme should always exist.
+ * Does not check the default theme, which is the fallback and should always exist.
  * Will switch theme to the fallback theme if current theme does not validate.
  * You can use the 'validate_current_theme' filter to return FALSE to
  * disable this functionality.
  *
  * @since 1.5.0
- * @see WP_FALLBACK_THEME
+ * @see WP_DEFAULT_THEME
  *
  * @return bool
  */
@@ -1222,13 +1222,13 @@ function validate_current_theme() {
 	if ( defined('WP_INSTALLING') || !apply_filters( 'validate_current_theme', true ) )
 		return true;
 
-	if ( get_template() != WP_FALLBACK_THEME && !file_exists(get_template_directory() . '/index.php') ) {
-		switch_theme( WP_FALLBACK_THEME, WP_FALLBACK_THEME );
+	if ( get_template() != WP_DEFAULT_THEME && !file_exists(get_template_directory() . '/index.php') ) {
+		switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
 		return false;
 	}
 
-	if ( get_stylesheet() != WP_FALLBACK_THEME && !file_exists(get_template_directory() . '/style.css') ) {
-		switch_theme( WP_FALLBACK_THEME, WP_FALLBACK_THEME );
+	if ( get_stylesheet() != WP_DEFAULT_THEME && !file_exists(get_template_directory() . '/style.css') ) {
+		switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
 		return false;
 	}
 

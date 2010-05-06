@@ -651,8 +651,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	$allowed_themes = array( $stylesheet => true );
 	if ( $template != $stylesheet )
 		$allowed_themes[ $template ] = true;
-	if ( WP_FALLBACK_THEME != $stylesheet && WP_FALLBACK_THEME != $template )
-		$allowed_themes[ WP_FALLBACK_THEME ] = true;
+	if ( WP_DEFAULT_THEME != $stylesheet && WP_DEFAULT_THEME != $template )
+		$allowed_themes[ WP_DEFAULT_THEME ] = true;
 
 	if ( 1 == $network_id ) {
 		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path ) );

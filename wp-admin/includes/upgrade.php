@@ -1623,7 +1623,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		if ($oldfile == 'index.php') { // Check to make sure it's not a new index
 			$index = implode('', file("$oldpath/$oldfile"));
 			if (strpos($index, 'WP_USE_THEMES') !== false) {
-				if (! @copy(WP_CONTENT_DIR . '/themes/'.WP_FALLBACK_THEME.'/index.php', "$site_dir/$newfile"))
+				if (! @copy(WP_CONTENT_DIR . '/themes/' . WP_DEFAULT_THEME . '/index.php', "$site_dir/$newfile"))
 					return false;
 				continue; // Don't copy anything
 				}
@@ -1683,7 +1683,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
  */
 function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";
-	$default_dir = WP_CONTENT_DIR . '/themes/'.WP_FALLBACK_THEME;
+	$default_dir = WP_CONTENT_DIR . '/themes/' . WP_DEFAULT_THEME;
 
 	// Copy files from the default theme to the site theme.
 	//$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
@@ -1779,7 +1779,7 @@ function make_site_theme() {
 
 	// Make the new site theme active.
 	$current_template = __get_option('template');
-	if ($current_template == WP_FALLBACK_THEME) {
+	if ($current_template == WP_DEFAULT_THEME) {
 		update_option('template', $template);
 		update_option('stylesheet', $template);
 	}
