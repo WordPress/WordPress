@@ -4138,7 +4138,7 @@ function _transition_post_status($new_status, $old_status, $post) {
  */
 function _future_post_hook( $deprecated = '', $post ) {
 	wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) );
-	wp_schedule_single_event( strtotime( $post->post_date_gmt. ' GMT' ), 'publish_future_post', array( $post->ID ) );
+	wp_schedule_single_event( get_gmt_from_date( $post->post_date ) . ' GMT', 'publish_future_post', array( $post->ID ) );
 }
 
 /**

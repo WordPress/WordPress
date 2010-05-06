@@ -1553,7 +1553,8 @@ function wp_iso_descrambler($string) {
  *
  * Requires and returns a date in the Y-m-d H:i:s format. Simply subtracts the
  * value of the 'gmt_offset' option. Return format can be overridden using the
- * $format parameter
+ * $format parameter. If PHP5 is supported, the function uses the DateTime and
+ * DateTimeZone objects to respect time zone differences in DST.
  *
  * @since 1.2.0
  *
@@ -1564,8 +1565,23 @@ function wp_iso_descrambler($string) {
  */
 function get_gmt_from_date($string, $format = 'Y-m-d H:i:s') {
 	preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
-	$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-	$string_gmt = gmdate($format, $string_time - get_option('gmt_offset') * 3600);
+	$tz = get_option('timezone_string');
+	if( class_exists('DateTime') && $tz ) {
+		//PHP5
+		date_default_timezone_set( $tz );
+		$datetime = new DateTime( $string );
+		$datetime->setTimezone( new DateTimeZone('UTC') );
+		$offset = $datetime->getOffset();
+		$datetime->modify( '+' . $offset / 3600 . ' hours');
+		$string_gmt = gmdate($format, $datetime->format('U'));
+
+		date_default_timezone_set('UTC');
+	}
+	else {
+		//PHP4
+		$string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+		$string_gmt = gmdate($format, $string_time - get_option('gmt_offset') * 3600);
+	}
 	return $string_gmt;
 }
 
