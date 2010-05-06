@@ -13,7 +13,7 @@
 		<div id="container">
 			<div id="content">
 
-<?php the_post(); ?>
+<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 				<div id="nav-above" class="navigation">
 					<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'twentyten' ) . '</span> %title' ); ?></div>
@@ -77,6 +77,8 @@
 				</div><!-- #nav-below -->
 
 				<?php comments_template( '', true ); ?>
+
+<?php endwhile; // end of the loop. ?>
 
 			</div><!-- #content -->
 		</div><!-- #container -->
