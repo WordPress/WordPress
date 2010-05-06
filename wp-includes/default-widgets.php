@@ -558,7 +558,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		endif;
 
 		$cache[$args['widget_id']] = ob_get_flush();
-		wp_cache_add('widget_recent_posts', $cache, 'widget');
+		wp_cache_set('widget_recent_posts', $cache, 'widget');
 	}
 
 	function update( $new_instance, $old_instance ) {

@@ -906,7 +906,7 @@ function wp_get_archives($args = '') {
 		if ( !isset( $cache[ $key ] ) ) {
 			$arcresults = $wpdb->get_results($query);
 			$cache[ $key ] = $arcresults;
-			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+			wp_cache_set( 'wp_get_archives', $cache, 'general' );
 		} else {
 			$arcresults = $cache[ $key ];
 		}
@@ -928,7 +928,7 @@ function wp_get_archives($args = '') {
 		if ( !isset( $cache[ $key ] ) ) {
 			$arcresults = $wpdb->get_results($query);
 			$cache[ $key ] = $arcresults;
-			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+			wp_cache_set( 'wp_get_archives', $cache, 'general' );
 		} else {
 			$arcresults = $cache[ $key ];
 		}
@@ -949,7 +949,7 @@ function wp_get_archives($args = '') {
 		if ( !isset( $cache[ $key ] ) ) {
 			$arcresults = $wpdb->get_results($query);
 			$cache[ $key ] = $arcresults;
-			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+			wp_cache_set( 'wp_get_archives', $cache, 'general' );
 		} else {
 			$arcresults = $cache[ $key ];
 		}
@@ -972,7 +972,7 @@ function wp_get_archives($args = '') {
 		if ( !isset( $cache[ $key ] ) ) {
 			$arcresults = $wpdb->get_results($query);
 			$cache[ $key ] = $arcresults;
-			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+			wp_cache_set( 'wp_get_archives', $cache, 'general' );
 		} else {
 			$arcresults = $cache[ $key ];
 		}
@@ -1002,7 +1002,7 @@ function wp_get_archives($args = '') {
 		if ( !isset( $cache[ $key ] ) ) {
 			$arcresults = $wpdb->get_results($query);
 			$cache[ $key ] = $arcresults;
-			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+			wp_cache_set( 'wp_get_archives', $cache, 'general' );
 		} else {
 			$arcresults = $cache[ $key ];
 		}
