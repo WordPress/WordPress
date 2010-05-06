@@ -1177,7 +1177,6 @@ class WP_Query {
 			, 'attachment'
 			, 'attachment_id'
 			, 'name'
-			, 'hour'
 			, 'static'
 			, 'pagename'
 			, 'page_id'
