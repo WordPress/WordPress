@@ -164,7 +164,7 @@ columns = {
 				return id.substring( id, id.length - 5 );
 			}).get().join(',');
 		};
-	},
+	}
 }
 
 $(document).ready(function(){columns.init();});
