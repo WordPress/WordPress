@@ -665,7 +665,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		return;
 	}
 	// paginate browsing for large numbers of objects
-	$per_page = 13;
+	$per_page = 50;
 	$pagenum = isset( $_REQUEST[$taxonomy_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
 	$offset = 0 < $pagenum ? $per_page * ( $pagenum - 1 ) : 0;
 

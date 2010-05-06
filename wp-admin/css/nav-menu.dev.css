@@ -205,62 +205,6 @@ body {
 	height: 400px;
 }
 
-#side-sortables .potential-menu-item {
-	margin-left: 0;
-	position: relative;
-	margin: 6px 0;
-}
-#side-sortables .potential-menu-item ul {
-	margin-left: 0;
-	
-}
-#side-sortables .potential-menu-item li {
-	cursor: move;
-	padding: 1px 6px;
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	-khtml-border-radius: 4px;
-}
-	.potential-menu-item li {
-		background: #eee;
-		border: 1px solid #dfdfdf;
-		color: #646464;
-	}
-	.potential-menu-item li:hover {
-		color: #222;
-		border-color: #ccc;
-		background: #f9f9f9;
-	}
-		.selected-menu-item li {
-			background: #FFFFE0;
-			border-color: #E6DB55;
-		}
-		.selected-menu-item li:hover {
-			background: #ffffbe;
-			border-color: #e2d537;
-		}
-	.potential-menu-item .item-controls,
-	.potential-menu-item .menu-item-transport {
-		display: none;
-	}
-	.potential-menu-item .ui-draggable-dragging div,
-	.potential-menu-item .menu-item-handle .item-controls {
-		display: block;
-	}
-	#side-sortables .new-menu-item,
-	#side-sortables .new-menu-item li,
-	#side-sortables .additional-menu-items li {
-		background: transparent;
-		border: 0;
-	}
-	#side-sortables .additional-menu-items li {
-		margin-top: 13px;
-	}
-	.item-edit img.waiting {
-		display: block;
-	}
-
 /* Button Primary Actions */
 #menu-container .submit { margin: 0px 0px 10px; padding: 0px; }
 

@@ -114,8 +114,6 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 
 			this.initTabManager();
 		
-			this.initAddMenuItemDraggables();
-		
 			this.checkForEmptyMenu();
 		},
 		
@@ -177,27 +175,6 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 						});
 					});
 				},
-				selectItem : function() {
-					return this.each(function(){
-						$(this).addClass('selected-menu-item')
-							.next().children('input').attr('checked','checked');
-					});
-				},
-				deselectItem : function() {
-					return this.each(function(){
-						$(this).removeClass('selected-menu-item')
-							.next().children('input').removeAttr('checked');
-					});
-				},
-				toggleItem : function() {
-					return this.each(function(){
-						var t = $(this);
-						if( t.hasClass('selected-menu-item') )
-							t.deselectItem();
-						else
-							t.selectItem();
-					});
-				},
 				/**
 				 * Adds selected menu items to the menu.
 				 *
@@ -227,7 +204,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 						// Add the items
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
-							checkboxes.parent().prev().deselectItem();
+							checkboxes.removeAttr('checked');
 							t.find('img.waiting').hide();
 						});
 					});
@@ -263,20 +240,16 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 					var height, width, parent, children, maxChildDepth;
 
 					transport = ui.item.children('.menu-item-transport');
-					// Check if the item is in the menu, or new
-					newItem = ( ui.helper.hasClass('new-menu-item') );
 				
 					// Set depths. currentDepth must be set before children are located.
 					originalDepth = ( newItem ) ? 0 : ui.item.menuItemDepth();
 					updateCurrentDepth(ui, originalDepth);
 				
-					if( ! newItem ) {
-						// Attach child elements to parent
-						// Skip the placeholder
-						parent = ( ui.item.next()[0] == ui.placeholder[0] ) ? ui.item.next() : ui.item;
-						children = parent.childMenuItems();
-						transport.append( children );
-					}
+					// Attach child elements to parent
+					// Skip the placeholder
+					parent = ( ui.item.next()[0] == ui.placeholder[0] ) ? ui.item.next() : ui.item;
+					children = parent.childMenuItems();
+					transport.append( children );
 
 					// Now that the element is complete, we can update...
 					updateDepthRange(ui);
@@ -291,12 +264,10 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 
 					// Update the width of the placeholder to match the moving item.
 					maxChildDepth = originalDepth;
-					if( ! newItem ) { // Children have already been attached to new items
-						children.each(function(){
-							var depth = $(this).menuItemDepth();
-							maxChildDepth = (depth > maxChildDepth) ? depth : maxChildDepth;
-						});
-					}
+					children.each(function(){
+						var depth = $(this).menuItemDepth();
+						maxChildDepth = (depth > maxChildDepth) ? depth : maxChildDepth;
+					});
 					width = ui.helper.find('.menu-item-handle').outerWidth(); // Get original width
 					width += depthToPx(maxChildDepth - originalDepth); // Account for children
 					width -= 2; // Subtract 2 for borders
@@ -308,23 +279,13 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 					// Return child elements to the list
 					children = transport.children().insertAfter(ui.item);
 				
-					if( newItem ) {
-						// Remove the helper item
-						ui.item.remove();
-						// Update depth classes
-						if( depthChange != 0 )
-							children.shiftDepthClass( depthChange );
-						// All new menu items must be updated
-						children.updateParentMenuItemDBId();
-					} else {
-						// Update depth classes
-						if( depthChange != 0 ) {
-							ui.item.updateDepthClass( currentDepth );
-							children.shiftDepthClass( depthChange );
-						}
-						// Update the item data.
-						ui.item.updateParentMenuItemDBId();
+					// Update depth classes
+					if( depthChange != 0 ) {
+						ui.item.updateDepthClass( currentDepth );
+						children.shiftDepthClass( depthChange );
 					}
+					// Update the item data.
+					ui.item.updateParentMenuItemDBId();
 					// Update positions
 					recalculateMenuItemPositions();
 				},
@@ -345,9 +306,6 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
 				},
-				receive: function(e, ui) {
-					transport = ui.sender.children('.menu-item-transport');
-				}
 			});
 
 			function updateDepthRange(ui) {
@@ -370,54 +328,6 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 				ui.placeholder.updateDepthClass( depth, currentDepth );
 				currentDepth = depth;
 			}
-		},
-	
-		initAddMenuItemDraggables : function() {
-			var menuItems = $('.potential-menu-item');
-			menuItems.click(function(e){
-				$(this).toggleItem();
-			}).children().draggable({
-				helper: 'clone',
-				connectToSortable: 'ul#menu-to-edit',
-				distance: 5,
-				zIndex: 100,
-				start: function(e, ui) {
-					var target = $(e.target),
-					 	item = target.parent(),
-						li = item.parent(),
-						items;
-				
-					// Make sure the item we're dragging is selected.
-					item.selectItem();
-					// Set us to be the ajax target
-					targetList = target.children('.menu-item-transport');
-					// Get all checked elements and assemble selected items.
-					items = li.parents('.tabs-panel').find('.selected-menu-item').children().not( ui.helper ).clone();
-					ui.helper.children('.additional-menu-items').append( items );
-					// This class tells the sortables to treat it as a new item.
-					ui.helper.addClass('new-menu-item');
-				
-					// CSS tweaks to remove some unnecessary items
-					ui.helper.children('div').hide();
-					items.first().css('margin-top', 0);
-
-					// Make the items look like menu items
-					items.children('div').addClass('menu-item-handle');
-					ui.helper.children('div').addClass('hidden-handle');
-				
-					// Trigger the ajax
-					li.parents('.inside').find('.add-to-menu input').click();
-				
-					// Lock dimensions
-					ui.helper.width( ui.helper.width() );
-					ui.helper.height( ui.helper.height() );
-				},
-				stop: function(e, ui) {
-					// Reset the targetList and unselect the menu items
-					targetList = menuList;
-					$(e.target).parents('.tabs-panel').find('.selected-menu-item').deselectItem();
-				}
-			});
 		},
 
 		attachMenuEditListeners : function() {
@@ -598,7 +508,7 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 
 		attachTabsPanelListeners : function() {
 			$('#menu-settings-column').bind('click', function(e) {
-				var selectAreaMatch, activePanel, panelIdMatch, wrapper, inputs, i;
+				var selectAreaMatch, activePanel, panelIdMatch, wrapper, inputs, i, items;
 				
 				if ( e.target && e.target.className && -1 != e.target.className.indexOf('nav-tab-link') ) {
 					panelIdMatch = /#(.*)$/.exec(e.target.href);
@@ -630,13 +540,13 @@ var wpNavMenu, WPNavMenuHandler = function ($) {
 
 					return false;
 				} else if ( e.target && e.target.className && -1 != e.target.className.indexOf('select-all') ) {
-					selectAreaMatch = /#(.*)$/.exec(e.target.href), items;
+					selectAreaMatch = /#(.*)$/.exec(e.target.href);
 					if ( selectAreaMatch && selectAreaMatch[1] ) {
-						items = $('#' + selectAreaMatch[1] + ' .tabs-panel-active .potential-menu-item');
-						if( items.length === items.filter('.selected-menu-item').length )
-							items.deselectItem();
+						items = $('#' + selectAreaMatch[1] + ' .tabs-panel-active .menu-item-title input');
+						if( items.length === items.filter(':checked').length )
+							items.removeAttr('checked');
 						else
-							items.selectItem();
+							items.attr('checked', 'checked');
 						return false;
 					}
 				}

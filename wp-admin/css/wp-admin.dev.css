@@ -2008,7 +2008,7 @@ input#link_url {
 .nav-menus-php .posttypediv div.tabs-panel,
 .nav-menus-php .taxonomydiv div.tabs-panel {
 	height: auto;
-	overflow: visible;
+	max-height: 205px;
 }
 
 div.tabs-panel-active {
