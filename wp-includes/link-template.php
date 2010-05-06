@@ -2172,10 +2172,12 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 
 	global $wp_query;
 	$post_id = 0;
-	if ( 'query' == $context && is_single() )
+	if ( 'query' == $context && is_single() ) {
 		$post_id = $wp_query->get_queried_object_id();
-	elseif ( 'post' == $context )
-		$post_id = $id;
+	} elseif ( 'post' == $context ) {
+		$post = get_post($id);
+		$post_id = $post->ID; 
+	}
 
 	$shortlink = '';
 
