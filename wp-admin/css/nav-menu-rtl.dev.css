@@ -188,3 +188,13 @@
 	padding-left: 15px;
 	padding-right: 0;
 }
+
+/* Box controls */
+
+#menu-settings-column .handlediv {
+	background:url("images/menu-bits-rtl.gif") no-repeat scroll -37px -110px transparent;
+}
+
+.item-edit {
+	background:url("images/menu-bits-rtl.gif") no-repeat scroll -37px -105px transparent;
+}
