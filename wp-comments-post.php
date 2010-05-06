@@ -37,7 +37,7 @@ if ( !comments_open($comment_post_ID) ) {
 } elseif ( 'trash' == $status ) {
 	do_action('comment_on_trash', $comment_post_ID);
 	exit;
-} elseif ( !$status_obj->public ) {
+} elseif ( !$status_obj->public && !$status_obj->private ) {
 	do_action('comment_on_draft', $comment_post_ID);
 	exit;
 } elseif ( post_password_required($comment_post_ID) ) {
