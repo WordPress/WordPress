@@ -421,9 +421,9 @@ require_once( 'admin-header.php' );
 	<div id="menu-management-liquid">
 		<div id="menu-management">
 			<div id="select-nav-menu-container" class="hide-if-js">
-				<form id="select-nav-menu">
+				<form id="select-nav-menu" action="">
 					<strong><label for="select-nav-menu"><?php esc_html_e( 'Select Menu: ' ); ?></label></strong>
-					<select id="select-nav-menu" name="menu">
+					<select class="select-nav-menu" name="menu">
 						<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
 							<option value="<?php echo esc_attr($_nav_menu->term_id) ?>" <?php selected($nav_menu_selected_id, $_nav_menu->term_id); ?>>
 								<?php echo esc_html( $_nav_menu->truncated_name ); ?>
@@ -441,13 +441,13 @@ require_once( 'admin-header.php' );
 				foreach( (array) $nav_menus as $_nav_menu ) :
 
 					?><a href="<?php
-						echo add_query_arg(
+						echo esc_url(add_query_arg(
 							array(
 								'action' => 'edit',
 								'menu' => $_nav_menu->term_id,
 							),
 							admin_url( 'nav-menus.php' )
-						);
+						));
 					?>" class="nav-tab<?php
 						if ( $nav_menu_selected_id == $_nav_menu->term_id )
 							echo ' nav-tab-active';
@@ -456,13 +456,13 @@ require_once( 'admin-header.php' );
 					?>"><?php echo esc_html( $_nav_menu->truncated_name ); ?></a><?php
 				endforeach;
 				?><a href="<?php
-					echo add_query_arg(
+					echo esc_url(add_query_arg(
 						array(
 							'action' => 'edit',
 							'menu' => 0,
 						),
 						admin_url( 'nav-menus.php' )
-					);
+					));
 				?>" class="nav-tab menu-add-new<?php
 					if ( 0 == $nav_menu_selected_id )
 						echo ' nav-tab-active';
@@ -476,7 +476,7 @@ require_once( 'admin-header.php' );
 							<div class="major-publishing-actions">
 								<label class="menu-name-label howto open-label" for="menu-name">
 									<span><?php _e('Menu Name'); ?></span>
-									<input name="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="Enter menu name here." value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
+									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="Enter menu name here." value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
 									<br class="clear" />
 								</label>
 
@@ -486,7 +486,7 @@ require_once( 'admin-header.php' );
 
 								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
 								<div class="delete-action">
-									<a class="submitdelete deletion menu-delete" href="<?php echo wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ); ?>"><?php _e('Delete Menu'); ?></a>
+									<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ) ); ?>"><?php _e('Delete Menu'); ?></a>
 								</div><!--END .delete-action-->
 								<?php endif; ?>
 								<br class="clear" />
