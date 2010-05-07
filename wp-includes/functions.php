@@ -2933,8 +2933,12 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
 
 	foreach ( $list as $key => $obj ) {
 		$matched = count(array_intersect_assoc(get_object_vars($obj), $args));
-		if ( ('and' == $operator && $matched == $count) || ('or' == $operator && $matched <= $count) )
-			$filtered[$key] = $field ? $obj->$field : $obj;
+		if ( ('and' == $operator && $matched == $count) || ('or' == $operator && $matched <= $count) ) {
+			if ( $field )
+				$filtered[] = $obj->$field;
+			else
+				$filtered[$key] = $obj;
+		}
 	}
 
 	return $filtered;
