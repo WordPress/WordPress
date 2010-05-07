@@ -456,10 +456,12 @@ if ( $page_links )
 
 <?php } elseif ( 'moderated' == $comment_status ) { ?>
 <p><?php _e('No comments awaiting moderation&hellip; yet.') ?></p>
+</div>
 </form>
 
 <?php } else { ?>
 <p><?php _e('No comments found.') ?></p>
+</div>
 </form>
 
 <?php } ?>
