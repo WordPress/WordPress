@@ -2114,6 +2114,7 @@ function path_join( $base, $path ) {
  * @return array See above for description.
  */
 function wp_upload_dir( $time = null ) {
+	global $switched;
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
@@ -2136,12 +2137,12 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined('UPLOADS') && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) ) {
+	if ( defined('UPLOADS') && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) && ( !isset( $switched ) || $switched === false ) ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	if ( is_multisite() && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) ) {
+	if ( is_multisite() && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) && ( !isset( $switched ) || $switched === false ) ) {
 		if ( defined( 'BLOGUPLOADDIR' ) )
 			$dir = untrailingslashit(BLOGUPLOADDIR);
 		$url = str_replace( UPLOADS, 'files', $url );
