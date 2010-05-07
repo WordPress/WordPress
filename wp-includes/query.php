@@ -1780,7 +1780,7 @@ class WP_Query {
 		}
 
 		if ( $q['w'] )
-			$where .= " AND WEEK($wpdb->posts.post_date, 1)='" . $q['w'] . "'";
+			$where .= ' AND ' . _wp_mysql_week( "`$wpdb->posts`.`post_date`" ) . " = '" . $q['w'] . "'";
 
 		if ( intval($q['comments_popup']) )
 			$q['p'] = absint($q['comments_popup']);

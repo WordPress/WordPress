@@ -192,24 +192,15 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	$md = substr( $mysqlstring, 5, 2 ); // Mysql string day
 	$day = mktime( 0, 0, 0, $md, $mm, $my ); // The timestamp for mysqlstring day.
 	$weekday = date( 'w', $day ); // The day of the week from the timestamp
-	$i = 86400; // One day
 	if ( !is_numeric($start_of_week) )
 		$start_of_week = get_option( 'start_of_week' );
 
 	if ( $weekday < $start_of_week )
-		$weekday = 7 - $start_of_week - $weekday;
+		$weekday += 7;
 
-	while ( $weekday > $start_of_week ) {
-		$weekday = date( 'w', $day );
-		if ( $weekday < $start_of_week )
-			$weekday = 7 - $start_of_week - $weekday;
-
-		$day -= 86400;
-		$i = 0;
-	}
-	$week['start'] = $day + 86400 - $i;
-	$week['end'] = $week['start'] + 604799;
-	return $week;
+	$start = $day - 86400 * ( $weekday - $start_of_week ); // The most recent week start day on or before $day
+	$end = $start + 604799; // $start + 7 days - 1 second
+	return compact( 'start', 'end' );
 }
 
 /**
@@ -4166,6 +4157,30 @@ function __return_false() {
  */
 function send_nosniff_header() {
 	@header( 'X-Content-Type-Options: nosniff' );
+}
+
+/**
+ * Returns a MySQL expression for selecting the week number based on the start_of_week option.
+ *
+ * @internal
+ * @since 3.0.0
+ * @param string $column
+ * @return string
+ */
+function _wp_mysql_week( $column ) {
+	switch ( $start_of_week = (int) get_option( 'start_of_week' ) ) {
+	default :
+	case 0 :
+		return "WEEK( $column, 0 )";
+	case 1 :
+		return "WEEK( $column, 1 )";
+	case 2 :
+	case 3 :
+	case 4 :
+	case 5 :
+	case 6 :
+		return "WEEK( DATE_SUB( $column, INTERVAL $start_of_week DAY ), 0 )";
+	}
 }
 
 ?>
