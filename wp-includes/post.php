@@ -681,7 +681,7 @@ function is_post_type_hierarchical( $post = false ) {
 }
 
 /**
- * Checks if a post type is registered, can also check if the current or specified post is of a post type.
+ * Checks if a post type is registered. Can also check if the current or specified post is of a post type.
  *
  * @since 3.0.0
  * @uses get_post_type()
@@ -691,8 +691,13 @@ function is_post_type_hierarchical( $post = false ) {
  * @return bool
  */
 function is_post_type( $types = false, $id = false ) {
-	$types = ( $types === false ) ? get_post_types() : (array) $types;
-	return in_array( get_post_type( $id ), $types );
+	if ( $id ) {
+		$types = ( $types === false ) ? get_post_types() : (array) $types;
+
+		return in_array( get_post_type( $id ), $types );
+	}
+
+	return (bool) get_post_type_object($types);
 }
 
 /**
