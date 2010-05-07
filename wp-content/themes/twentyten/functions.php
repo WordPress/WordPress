@@ -206,15 +206,10 @@ endif;
 
 if ( ! function_exists( 'twentyten_page_menu_args' ) ) :
 /**
- * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link
+ * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  */
 function twentyten_page_menu_args($args) {
-	$args = array(
-		'sort_column' => 'menu_order, post_title',
-		'menu_class'  => 'menu',
-		'echo'        => true,		
-		'show_home' => true		
-	);
+	$args['show_home'] = true;
 	return $args;
 }
 add_filter('wp_page_menu_args', 'twentyten_page_menu_args');
