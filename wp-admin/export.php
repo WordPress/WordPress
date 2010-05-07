@@ -42,10 +42,12 @@ if ( isset( $_GET['download'] ) ) {
 
 require_once ('admin-header.php');
 
-$dateoptions = '';
-if ( $monthyears = $wpdb->get_results( "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC " ) ) {
+$dateoptions = array();
+$types = "'" . implode("', '", get_post_types( array( 'public' => true, 'can_export' => true ), 'names' )) . "'";
+$stati = "'" . implode("', '", get_post_stati( array( 'internal' => false ), 'names' )) . "'";
+if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $wpdb->posts WHERE post_type IN ($types) AND post_status IN ($stati) ORDER BY post_date ASC ") ) {
 	foreach ( $monthyears as $monthyear ) {
-		$dateoptions .= "\t<option value=\"" . $monthyear->year . '-' . zeroise( $monthyear->month, 2 ) . '">' . $wp_locale->get_month( $monthyear->month ) . ' ' . $monthyear->year . "</option>\n";
+		$dateoptions[] = "\t<option value=\"" . $monthyear->year . '-' . zeroise( $monthyear->month, 2 ) . '">' . $wp_locale->get_month( $monthyear->month ) . ' ' . $monthyear->year . "</option>\n";
 	}
 }
 
@@ -67,12 +69,12 @@ if ( $monthyears = $wpdb->get_results( "SELECT YEAR(post_date) AS `year`, MONTH(
 <td><strong><?php _e('Start:'); ?></strong> 
 <select name="mm_start" id="mm_start">
 	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo ($dateoptions); ?>
+<?php echo implode( '', $dateoptions ); ?>
 </select> <br/>
 <strong><?php _e('End:'); ?></strong> 
 <select name="mm_end" id="mm_end">
 	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo $dateoptions; ?>
+<?php echo implode( '', array_reverse( $dateoptions ) ); ?>
 </select>
 </td>
 </tr>
