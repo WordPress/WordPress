@@ -42,12 +42,15 @@ if ( isset( $_GET['download'] ) ) {
 
 require_once ('admin-header.php');
 
-$dateoptions = array();
+$dateoptions = $edateoptions = '';
 $types = "'" . implode("', '", get_post_types( array( 'public' => true, 'can_export' => true ), 'names' )) . "'";
 $stati = "'" . implode("', '", get_post_stati( array( 'internal' => false ), 'names' )) . "'";
-if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $wpdb->posts WHERE post_type IN ($types) AND post_status IN ($stati) ORDER BY post_date ASC ") ) {
-	foreach ( $monthyears as $monthyear ) {
-		$dateoptions[] = "\t<option value=\"" . $monthyear->year . '-' . zeroise( $monthyear->month, 2 ) . '">' . $wp_locale->get_month( $monthyear->month ) . ' ' . $monthyear->year . "</option>\n";
+if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, YEAR(DATE_ADD(post_date, INTERVAL 1 MONTH)) AS `eyear`, MONTH(DATE_ADD(post_date, INTERVAL 1 MONTH)) AS `emonth` FROM $wpdb->posts WHERE post_type IN ($types) AND post_status IN ($stati) ORDER BY post_date ASC ") ) {
+	foreach ( $monthyears as $k => $monthyear )
+		$monthyears[$k]->lmonth = $wp_locale->get_month( $monthyear->month, 2 );
+	for( $s = 0, $e = count( $monthyears ) - 1; $e >= 0; $s++, $e-- ) { 
+		$dateoptions .= "\t<option value=\"" . $monthyears[$s]->year . '-' . zeroise( $monthyears[$s]->month, 2 ) . '">' . $monthyears[$s]->lmonth . ' ' . $monthyears[$s]->year . "</option>\n";
+		$edateoptions .= "\t<option value=\"" . $monthyears[$e]->eyear . '-' . zeroise( $monthyears[$e]->emonth, 2 ) . '">' . $monthyears[$e]->lmonth . ' ' . $monthyears[$e]->year . "</option>\n";
 	}
 }
 
@@ -69,12 +72,12 @@ if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`
 <td><strong><?php _e('Start:'); ?></strong> 
 <select name="mm_start" id="mm_start">
 	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo implode( '', $dateoptions ); ?>
+<?php echo $dateoptions; ?>
 </select> <br/>
 <strong><?php _e('End:'); ?></strong> 
 <select name="mm_end" id="mm_end">
 	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
-<?php echo implode( '', array_reverse( $dateoptions ) ); ?>
+<?php echo $edateoptions; ?>
 </select>
 </td>
 </tr>
