@@ -472,8 +472,8 @@ class WP_Import {
 			$post_parent = (int) $post_parent;
 			if ($post_parent) {
 				// if we already know the parent, map it to the local ID
-				if ( $parent = $this->post_ids_processed[$post_parent] ) {
-					$post_parent = $parent;  // new ID of the parent
+				if ( isset( $this->post_ids_processed[$post_parent] ) ) {
+					$post_parent = $this->post_ids_processed[$post_parent];  // new ID of the parent
 				}
 				else {
 					// record the parent for later
@@ -760,8 +760,12 @@ class WP_Import {
 		global $wpdb;
 
 		foreach ($this->orphans as $child_id => $parent_id) {
-			$local_child_id = $this->post_ids_processed[$child_id];
-			$local_parent_id = $this->post_ids_processed[$parent_id];
+			$local_child_id = $local_parent_id = false;
+			if ( isset( $this->post_ids_processed[$child_id] ) )
+				$local_child_id = $this->post_ids_processed[$child_id];
+			if ( isset( $this->post_ids_processed[$parent_id] ) )
+				$local_parent_id = $this->post_ids_processed[$parent_id];
+
 			if ($local_child_id and $local_parent_id) {
 				$wpdb->update($wpdb->posts, array('post_parent' => $local_parent_id), array('ID' => $local_child_id) );
 			}
