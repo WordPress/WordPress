@@ -319,7 +319,7 @@ class WP_Import {
 
 			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name', 'category_description');
 
-			print "<em>" . __( "Importing category $cat_name" ) . "</em><br />\n";
+			print '<em>' . sprintf( __( 'Importing category <em>%s</em>&#8230;' ), esc_html($cat_name) ) . '</em><br />' . "\n";
 			$cat_ID = wp_insert_category($catarr);
 		}
 	}
@@ -341,7 +341,7 @@ class WP_Import {
 
 			$tagarr = compact('slug', 'description');
 
-			print "<em>" . __( "Importing tag $tag_name" ) . "</em><br />\n";
+			print '<em>' . sprintf( __( 'Importing tag <em>%s</em>&#8230;' ), esc_html($tag_name) ) . '</em><br />' . "\n";
 			$tag_ID = wp_insert_term($tag_name, 'post_tag', $tagarr);
 		}
 	}
@@ -379,7 +379,7 @@ class WP_Import {
 
 			$termarr = compact('slug', 'description');
 
-			print "<em>" . __( "Importing $term_name" ) . "</em><br />\n";
+			print '<em>' . sprintf( __( 'Importing <em>%s</em>&#8230;' ), esc_html($term_name) ) . '</em><br />' . "\n";
 			$term_ID = wp_insert_term($term_name, $this->get_tag( $c, 'wp:term_taxonomy' ), $termarr);
 		}
 	}
