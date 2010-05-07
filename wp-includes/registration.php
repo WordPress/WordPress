@@ -140,7 +140,7 @@ function wp_insert_user($userdata) {
 		$user_email = '';
 	$user_email = apply_filters('pre_user_email', $user_email);
 
-	if ( !$update && email_exists($user_email) )
+	if ( !$update && ! defined( 'WP_IMPORTING' ) && email_exists($user_email) )
 		return new WP_Error('existing_user_email', __('This email address is already registered.') );
 
 	if ( empty($display_name) )
