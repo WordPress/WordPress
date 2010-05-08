@@ -136,7 +136,6 @@ h3#reply-title,
 .page-title,
 .pingback p,
 .reply,
-.widget_search label,
 .widget-title,
 input[type=submit]
 {
@@ -1105,10 +1104,7 @@ h3#reply-title {
 	width: 60%;
 }
 .widget_search label {
-	font-size: 14px;
-	font-weight: bold;
-	color: #222;
-	display: block;
+	display:none;
 }
 .widget-container {
 	margin: 0 0 18px 0;
@@ -1244,7 +1240,6 @@ code {
 #access,
 .entry-meta,
 .entry-utility,
-.widget_search label,
 .navigation,
 .widget-area {
 	-webkit-text-size-adjust: 120%;
