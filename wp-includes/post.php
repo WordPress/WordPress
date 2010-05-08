@@ -666,38 +666,28 @@ function get_post_stati( $args = array(), $output = 'names', $operator = 'and' )
  * @since 3.0.0
  * @see get_post_type_object
  *
- * @param string|int|object $post Post type name, post id, or a post object.
- * @return bool true if post type is hierarchical, else false.
+ * @param string $post Post type name
+ * @return bool Whether post type is hierarchical.
  */
-function is_post_type_hierarchical( $post = false ) {
-	if ( is_string($post) && $is_post_type = get_post_type_object($post) )
-		return $is_post_type->hierarchical;
+function is_post_type_hierarchical( $post_type ) {
+	if ( ! is_post_type( $post_type ) )
+		return false;
 
-	$ptype = get_post( $post );
-	if ( $ptype && $is_post_type = get_post_type_object($ptype->post_type) )
-		return $is_post_type->hierarchical;
-
-	return false;
+	$post_type = get_post_type_object( $post_type );
+	return $post_type->hierarchical;
 }
 
 /**
- * Checks if a post type is registered. Can also check if the current or specified post is of a post type.
+ * Checks if a post type is registered.
  *
  * @since 3.0.0
  * @uses get_post_type()
  *
- * @param string|array $types Type or types to check. Defaults to all post types.
- * @param int $id Post ID. Defaults to current ID.
- * @return bool
+ * @param string Post type name
+ * @return bool Whether post type is registered.
  */
-function is_post_type( $types = false, $id = false ) {
-	if ( $id ) {
-		$types = ( $types === false ) ? get_post_types() : (array) $types;
-
-		return in_array( get_post_type( $id ), $types );
-	}
-
-	return (bool) get_post_type_object($types);
+function is_post_type( $post_type ) {
+	return (bool) get_post_type_object( $post_type );
 }
 
 /**
