@@ -50,6 +50,23 @@ function allow_subdomain_install() {
 	return true;
 }
 /**
+ * Allow folder install
+ *
+ * @since 3.0.0
+ * @return bool Whether folder install is allowed
+ */
+function allow_folder_install() {
+	global $wpdb;
+	if ( apply_filters( 'allow_folder_install', false ) )
+		return true;
+
+	$post = $wpdb->get_row( "SELECT ID FROM $wpdb->posts WHERE post_date < DATE_SUB(NOW(), INTERVAL 1 MONTH) AND post_status = 'publish'" );
+	if ( empty( $post ) )
+		return true;
+
+	return false;
+}
+/**
  * Get base domain of network.
  *
  * @since 3.0.0
@@ -108,10 +125,7 @@ function network_step1( $errors = false ) {
 	$has_ports = strstr( $hostname, ':' );
 	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) ) ) {
 		echo '<div class="error"><p><strong>' . __( 'Error:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</strong></p></div>';
-		if ( $no_ip )
-			echo '<p>' . __( 'You cannot use an IP address such as <code>127.0.0.1</code>.' ) . '</p>';
-		else
-			echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
+		echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
 		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		include( './admin-footer.php' );
 		die();
@@ -140,6 +154,8 @@ function network_step1( $errors = false ) {
 		$subdomain_install = (bool) $_POST['subdomain_install'];
 	} elseif ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
 		$subdomain_install = true;
+	} elseif ( !allow_folder_install() ) {
+		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
 		if ( got_mod_rewrite() ) // dangerous assumptions
@@ -149,7 +165,7 @@ function network_step1( $errors = false ) {
 		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled, ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p></div>';
 	}
 
-	if ( allow_subdomain_install() ) : ?>
+	if ( allow_subdomain_install() && allow_folder_install() ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
 		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
@@ -237,7 +253,7 @@ function network_step2( $errors = false ) {
 		echo '<div class="error">' . $errors->get_error_message() . '</div>';
 
 	if ( $_POST ) {
-		$subdomain_install = allow_subdomain_install() ? ! empty( $_POST['subdomain_install'] ) : false;
+		$subdomain_install = allow_subdomain_install() ? ( allow_folder_install() ? ! empty( $_POST['subdomain_install'] ) : true ) : false;
 	} else {
 		if ( is_multisite() ) {
 			$subdomain_install = is_subdomain_install();
@@ -332,7 +348,7 @@ $htaccess_file .= "\nRewriteRule . index.php [L]";
 </textarea></li>
 		</ol>
 <?php if ( !is_multisite() ) { ?>
-		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured.') ); ?> <a href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Return to Dashboard' ); ?></a></p>
+		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured. You will have to log in again.') ); ?> <a href="<?php echo esc_url( site_url( 'wp-login.php' ) ); ?>"><?php _e( 'Log In' ); ?></a></p>
 <?php
 	}
 }
