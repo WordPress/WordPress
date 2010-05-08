@@ -35,13 +35,18 @@ $time_difference = get_option('gmt_offset') * 3600;
 $phone_delim = '::';
 
 $pop3 = new POP3();
-$count = 0;
 
-if ( ! $pop3->connect(get_option('mailserver_url'), get_option('mailserver_port') ) ||
-	! $pop3->user(get_option('mailserver_login')) ||
-	( ! $count = $pop3->pass(get_option('mailserver_pass')) ) ) {
-		$pop3->quit();
-		wp_die( ( 0 === $count ) ? __('There doesn&#8217;t seem to be any new mail.') : esc_html($pop3->ERROR) );
+if ( !$pop3->connect( get_option('mailserver_url'), get_option('mailserver_port') ) || !$pop3->user( get_option('mailserver_login') ) ) 
+	wp_die( esc_html( $pop3->ERROR ) );
+
+$count = $pop3->pass( get_option('mailserver_pass') );
+
+if( false === $count ) 
+	wp_die( esc_html( $pop3->ERROR ) );
+	
+if( 0 === $count ) {
+	$pop3->quit();
+	wp_die( __('There doesn&#8217;t seem to be any new mail.') );
 }
 
 for ( $i = 1; $i <= $count; $i++ ) {
