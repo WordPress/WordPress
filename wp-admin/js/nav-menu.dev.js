@@ -163,7 +163,7 @@ var wpNavMenu;
 		},
 
 		initSortables : function() {
-			var currentDepth = 0, originalDepth, minDepth, maxDepth,
+			var currentDepth = 0, originalDepth, minDepth, maxDepth, prevBottom,
 				menuLeft = api.menuList.offset().left,
 				newItem, transport;
 
@@ -232,10 +232,13 @@ var wpNavMenu;
 					updateDepthRange(ui);
 				},
 				sort: function(e, ui) {
-					var depth = api.pxToDepth(ui.helper.offset().left - menuLeft);
+					var offset = ui.helper.offset(),
+						depth = api.pxToDepth( offset.left - menuLeft );
 					// Check and correct if depth is not within range.
-					if ( depth < minDepth ) depth = minDepth;
-					else if ( depth > maxDepth ) depth = maxDepth;
+					// Also, if the dragged element is dragged upwards over
+					// an item, shift the placeholder to a child position.
+					if ( depth > maxDepth || offset.top < prevBottom ) depth = maxDepth;
+					else if ( depth < minDepth ) depth = minDepth;
 
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
@@ -250,6 +253,7 @@ var wpNavMenu;
 				if( prev[0] == ui.item[0] ) prev = prev.prev();
 				if( next[0] == ui.item[0] ) next = next.next();
 
+				prevBottom = (prev.length) ? prev.offset().top + prev.height() : 0;
 				minDepth = (next.length) ? next.menuItemDepth() : 0;
 
 				if( prev.length )
