@@ -293,7 +293,6 @@ $page_links = paginate_links( array(
 
 <div class="tablenav">
 
-<?php if ( $comments ) { ?>
 <?php if ( $page_links ) : ?>
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 	number_format_i18n( $start + 1 ),
@@ -306,6 +305,7 @@ $page_links = paginate_links( array(
 <input type="hidden" name="_page" value="<?php echo esc_attr($page); ?>" />
 <?php endif; ?>
 
+<?php if ( $comments ) : ?>
 <div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Bulk Actions') ?></option>
@@ -331,6 +331,8 @@ $page_links = paginate_links( array(
 </select>
 <input type="submit" name="doaction" id="doaction" value="<?php esc_attr_e('Apply'); ?>" class="button-secondary apply" />
 <?php wp_nonce_field('bulk-comments'); ?>
+
+<?php endif; ?>
 
 <select name="comment_type">
 	<option value="all"><?php _e('Show all comment types'); ?></option>
@@ -369,6 +371,7 @@ if ( ( 'spam' == $comment_status || 'trash' == $comment_status) && current_user_
 </div>
 
 <div class="clear"></div>
+<?php if ( $comments ) { ?>
 
 <table class="widefat comments fixed" cellspacing="0">
 <thead>
