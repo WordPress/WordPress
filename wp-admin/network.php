@@ -211,6 +211,11 @@ function network_step1( $errors = false ) {
 				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
 				<td><?php _e( 'Because your install is in a directory, the sites in your WordPress network must use sub-directories.' ); ?></td>
 			</tr>
+		<?php elseif ( !allow_folder_install() ) : ?>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Sub-domain Install' ); ?></th>
+				<td><?php _e( 'Because your install is over 1 month old, the sites in your WordPress network must use sub-domains.' ); ?></td>
+			</tr>
 		<?php endif; ?>
 		<?php if ( ! $is_www ) : ?>
 			<tr>
