@@ -310,42 +310,41 @@ function get_option( $option, $default = false ) {
 	if ( defined( 'WP_SETUP_CONFIG' ) )
 		return false;
 
-	// prevent non-existent options from triggering multiple queries
-	if ( defined( 'WP_INSTALLING' ) && is_multisite() ) {
-		$notoptions = array();
-	} else {
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		// prevent non-existent options from triggering multiple queries
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
 		if ( isset( $notoptions[$option] ) )
 			return $default;
-	}
 
-	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
-	}
 
-	if ( isset( $alloptions[$option] ) ) {
-		$value = $alloptions[$option];
-	} else {
-		$value = wp_cache_get( $option, 'options' );
+		if ( isset( $alloptions[$option] ) ) {
+			$value = $alloptions[$option];
+		} else {
+			$value = wp_cache_get( $option, 'options' );
 
-		if ( false === $value ) {
-			if ( defined( 'WP_INSTALLING' ) )
-				$suppress = $wpdb->suppress_errors();
-			$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
-			if ( defined( 'WP_INSTALLING' ) )
-				$wpdb->suppress_errors( $suppress );
+			if ( false === $value ) {
+				$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 
-			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
-			if ( is_object( $row ) ) {
-				$value = $row->option_value;
-				if ( ! defined( 'WP_INSTALLING' ) )
+				// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+				if ( is_object( $row ) ) {
+					$value = $row->option_value;
 					wp_cache_add( $option, $value, 'options' );
-			} else { // option does not exist, so we must cache its non-existence
-				$notoptions[$option] = true;
-				wp_cache_set( 'notoptions', $notoptions, 'options' );
-				return $default;
+				} else { // option does not exist, so we must cache its non-existence
+					$notoptions[$option] = true;
+					wp_cache_set( 'notoptions', $notoptions, 'options' );
+					return $default;
+				}
 			}
 		}
+	} else {
+		$suppress = $wpdb->suppress_errors();
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
+		$wpdb->suppress_errors( $suppress );
+		if ( is_object( $row ) )
+			$value = $row->option_value;
+		else
+			return $default;
 	}
 
 	// If home is not set use siteurl.
