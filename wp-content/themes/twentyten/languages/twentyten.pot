@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-07 20:21+0000\n"
+"POT-Creation-Date: 2010-05-09 12:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,11 +171,17 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: footer.php:27
+#. #-#-#-#-#  twentyten.pot (Twenty Ten 1.0)  #-#-#-#-#
+#. Theme URI of the plugin/theme
+#: footer.php:28
+msgid "http://wordpress.org/"
+msgstr ""
+
+#: footer.php:29
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:27
+#: footer.php:30
 #, php-format
 msgid "Proudly powered by %s."
 msgstr ""
@@ -423,10 +429,6 @@ msgstr ""
 
 #. Theme Name of the plugin/theme
 msgid "Twenty Ten"
-msgstr ""
-
-#. Theme URI of the plugin/theme
-msgid "http://wordpress.org/"
 msgstr ""
 
 #. Description of the plugin/theme
