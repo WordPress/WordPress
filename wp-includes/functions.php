@@ -1911,7 +1911,7 @@ function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $ec
 		echo $nonce_field;
 
 	if ( $referer )
-		wp_referer_field( $echo, 'previous' );
+		wp_referer_field( $echo );
 
 	return $nonce_field;
 }
@@ -1929,7 +1929,7 @@ function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $ec
  * @param bool $echo Whether to echo or return the referer field.
  * @return string Referer field.
  */
-function wp_referer_field( $echo = true) {
+function wp_referer_field( $echo = true ) {
 	$ref = esc_attr( $_SERVER['REQUEST_URI'] );
 	$referer_field = '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
 
