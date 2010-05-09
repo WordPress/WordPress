@@ -1,8 +1,0 @@
-/*
- * CodePress color styles for JavaScript syntax highlighting
- */
-
-b {color:#7F0055;font-weight:bold;} /* reserved words */
-u {color:darkblue;font-weight:bold;} /* special words */
-i, i b, i s, i u {color:green;font-weight:normal;} /* comments */
-s, s b, s u {color:#2A00FF;font-weight:normal;} /* strings */
