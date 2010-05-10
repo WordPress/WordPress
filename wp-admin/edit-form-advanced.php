@@ -149,7 +149,7 @@ if ( post_type_supports($post_type, 'author') ) {
 	$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 	if ( $post->post_author && !in_array($post->post_author, $authors) )
 		$authors[] = $post->post_author;
-	if ( $authors && count( $authors ) > 1 )
+	if ( ( $authors && count( $authors ) > 1 ) || is_super_admin() )
 		add_meta_box('authordiv', __('Author'), 'post_author_meta_box', $post_type, 'normal', 'core');
 }
 
