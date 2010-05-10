@@ -238,11 +238,14 @@ function get_plugins($plugin_folder = '') {
 					$plugin_files[] = $file;
 			}
 		}
+	} else {
+		return $wp_plugins;
 	}
+
 	@closedir( $plugins_dir );
 	@closedir( $plugins_subdir );
 
-	if ( !$plugins_dir || empty($plugin_files) )
+	if ( empty($plugin_files) )
 		return $wp_plugins;
 
 	foreach ( $plugin_files as $plugin_file ) {
