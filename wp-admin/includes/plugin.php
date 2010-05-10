@@ -288,11 +288,13 @@ function get_mu_plugins() {
 			if ( substr( $file, -4 ) == '.php' )
 				$plugin_files[] = $file;
 		}
+	} else {
+		return $wp_plugins;
 	}
 
 	@closedir( $plugins_dir );
 
-	if ( !$plugins_dir || empty($plugin_files) )
+	if ( empty($plugin_files) )
 		return $wp_plugins;
 
 	foreach ( $plugin_files as $plugin_file ) {
@@ -333,12 +335,14 @@ function get_dropins() {
 			if ( isset( $_dropins[ $file ] ) )
 				$plugin_files[] = $file;
 			}
+	} else {
+		return $dropins;
 	}
 
 	@closedir( $plugins_dir );
 
-	if ( !$plugins_dir || empty($plugin_files) )
-			return $dropins;
+	if ( empty($plugin_files) )
+		return $dropins;
 
 	foreach ( $plugin_files as $plugin_file ) {
 			if ( !is_readable( WP_CONTENT_DIR . "/$plugin_file" ) )
