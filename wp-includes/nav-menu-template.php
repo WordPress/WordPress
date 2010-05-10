@@ -206,7 +206,7 @@ function wp_nav_menu( $args = array() ) {
 	if ( ! $menu ) {
 		$menus = wp_get_nav_menus();
 		foreach ( $menus as $menu_maybe ) {
-			if ( wp_get_nav_menu_items($menu_maybe->term_id) ) {
+			if ( $menu_items = wp_get_nav_menu_items($menu_maybe->term_id) ) {
 				$menu = $menu_maybe;
 				break;
 			}
@@ -214,7 +214,7 @@ function wp_nav_menu( $args = array() ) {
 	}
 
 	// If the menu exists, get its items.
-	if ( $menu && ! is_wp_error($menu) )
+	if ( $menu && ! is_wp_error($menu) && !isset($menu_items) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id );
 
 	// If no menu was found or if the menu has no items, call the fallback_cb
