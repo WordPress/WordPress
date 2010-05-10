@@ -161,20 +161,20 @@ var wpNavMenu;
 		},
 
 		initSortables : function() {
-			var currentDepth = 0, originalDepth, minDepth, maxDepth, prevBottom,
-				menuLeft = api.menuList.offset().left,
-				newItem, transport;
+			var currentDepth = 0, originalDepth, minDepth, maxDepth,
+				prev, next, prevBottom, nextThreshold, helperHeight, transport,
+				menuLeft = api.menuList.offset().left;
 
 			api.menuList.sortable({
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
-					var height, width, parent, children, maxChildDepth;
+					var height, width, parent, children, maxChildDepth, tempHolder;
 
 					transport = ui.item.children('.menu-item-transport');
 				
 					// Set depths. currentDepth must be set before children are located.
-					originalDepth = ( newItem ) ? 0 : ui.item.menuItemDepth();
+					originalDepth = ui.item.menuItemDepth();
 					updateCurrentDepth(ui, originalDepth);
 				
 					// Attach child elements to parent
@@ -183,14 +183,12 @@ var wpNavMenu;
 					children = parent.childMenuItems();
 					transport.append( children );
 
-					// Now that the element is complete, we can update...
-					updateDepthRange(ui);
-
 					// Update the height of the placeholder to match the moving item.
 					height = transport.outerHeight();
 					// If there are children, account for distance between top of children and parent
 					height += ( height > 0 ) ? (ui.placeholder.css('margin-top').slice(0, -2) * 1) : 0;
 					height += ui.helper.outerHeight();
+					helperHeight = height;
 					height -= 2; // Subtract 2 for borders
 					ui.placeholder.height(height);
 
@@ -204,6 +202,17 @@ var wpNavMenu;
 					width += api.depthToPx(maxChildDepth - originalDepth); // Account for children
 					width -= 2; // Subtract 2 for borders
 					ui.placeholder.width(width);
+					
+					// Update the list of menu items.
+					tempHolder = ui.placeholder.next();
+					tempHolder.css( 'margin-top', helperHeight + 'px' ); // Set the margin to absorb the placeholder
+					ui.placeholder.detach(); // detach or jQuery UI will think the placeholder is a menu item
+					$(this).sortable( "refresh" ); // The children aren't sortable. We should let jQ UI know.
+					ui.item.after( ui.placeholder ); // reattach the placeholder.
+					tempHolder.css('margin-top', 0); // reset the margin
+					
+					// Now that the element is complete, we can update...
+					updateSharedVars(ui);
 				},
 				stop: function(e, ui) {
 					var children, depthChange = currentDepth - originalDepth;
@@ -225,9 +234,9 @@ var wpNavMenu;
 					// Make sure the placeholder is inside the menu.
 					// Otherwise fix it, or we're in trouble.
 					if( ! ui.placeholder.parent().hasClass('menu') )
-						ui.placeholder.appendTo(api.menuList);
+						(prev.length) ? prev.after( ui.placeholder ) : api.menuList.prepend( ui.placeholder );
 
-					updateDepthRange(ui);
+					updateSharedVars(ui);
 				},
 				sort: function(e, ui) {
 					var offset = ui.helper.offset(),
@@ -240,18 +249,28 @@ var wpNavMenu;
 
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
+						
+					// If we overlap the next element, manually shift downwards
+					if( nextThreshold && offset.top + helperHeight > nextThreshold ) {
+						next.after( ui.placeholder );
+						updateSharedVars( ui );
+						$(this).sortable( "refreshPositions" );
+					}
 				}
 			});
 
-			function updateDepthRange(ui) {
-				var prev = ui.placeholder.prev(),
-					next = ui.placeholder.next(), depth;
+			function updateSharedVars(ui) {
+				var depth;
+				
+				prev = ui.placeholder.prev();
+				next = ui.placeholder.next();
 
 				// Make sure we don't select the moving item.
 				if( prev[0] == ui.item[0] ) prev = prev.prev();
 				if( next[0] == ui.item[0] ) next = next.next();
 
 				prevBottom = (prev.length) ? prev.offset().top + prev.height() : 0;
+				nextThreshold = (next.length) ? next.offset().top + next.height() / 3 : 0;
 				minDepth = (next.length) ? next.menuItemDepth() : 0;
 
 				if( prev.length )
