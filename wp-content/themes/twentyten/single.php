@@ -24,10 +24,7 @@
 					<h1 class="entry-title"><?php the_title(); ?></h1>
 
 					<div class="entry-meta">
-						<span class="meta-prep meta-prep-author"><?php _e( 'Posted on ', 'twentyten' ); ?></span>
-						<a href="<?php the_permalink(); ?>" title="<?php the_time(); ?>" rel="bookmark"><span class="entry-date"><?php echo get_the_date(); ?></span></a>
-						<span class="meta-sep"><?php _e( ' by ', 'twentyten' ); ?></span>
-						<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php the_author(); ?></a></span>
+						<?php echo twentyten_posted_on(); ?>
 					</div><!-- .entry-meta -->
 
 					<div class="entry-content">
@@ -51,23 +48,8 @@
 <?php endif; ?>
 
 					<div class="entry-utility">
-					<?php
-						$tag_list = get_the_tag_list('', ', ');
-						if ( '' != $tag_list ) {
-							$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
-						} else {
-							$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
-						}
-						printf(
-							$utility_text,
-							get_the_category_list( ', ' ),
-							$tag_list,
-							get_permalink(),
-							the_title_attribute( 'echo=0' )
-						);
-					?>
-
-<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
+						<?php echo twentyten_posted_in(); ?>
+						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
 				</div><!-- #post-<?php the_ID(); ?> -->
 

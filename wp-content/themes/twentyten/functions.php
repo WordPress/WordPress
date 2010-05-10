@@ -411,3 +411,44 @@ function twentyten_get_next_attachment_url() {
 	else
 		return get_permalink( $post->post_parent );
 }
+
+/**
+ * Returns HTML with meta information for the current post—date/time and author.
+ */
+function twentyten_posted_on() {
+	return sprintf( __( '<span %1$s>Posted on</span> %2$s by %3$s', 'twentyten' ),
+		'class="meta-prep meta-prep-author"',
+		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a> <span class="meta-sep">',
+			get_permalink(),
+			esc_attr( get_the_time() ),
+			get_the_date()
+		),
+		sprintf( '</span> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>', 
+			get_author_posts_url( get_the_author_meta( 'ID' ) ),
+			sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
+			get_the_author()
+		)
+	);
+	
+}
+
+/**
+ * Returns HTML with meta information for the current post—category, tags and permalink
+ */
+
+function twentyten_posted_in() {
+	$tag_list = get_the_tag_list();
+	if ( $tag_list ) {
+		$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
+	} else {
+		$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
+	}
+	return sprintf(
+		$utility_text,
+		get_the_category_list( ', ' ),
+		$tag_list,
+		get_permalink(),
+		the_title_attribute( 'echo=0' ),
+		get_post_comments_feed_link()
+	);	
+}
