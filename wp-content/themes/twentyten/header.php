@@ -14,8 +14,8 @@
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<title><?php
-	// Returns the title based on the type of page being viewed
+	<title>
+	<?php
 		if ( is_single() ) {
 			single_post_title(); echo ' | '; bloginfo( 'name' );
 		} elseif ( is_home() || is_front_page() ) {
@@ -26,13 +26,14 @@
 		} elseif ( is_page() ) {
 			single_post_title( '' ); echo ' | '; bloginfo( 'name' );
 		} elseif ( is_search() ) {
-			printf( __( 'Search results for "%s"', 'twentyten' ), get_search_query() ); twentyten_the_page_number(); echo ' | '; bloginfo( 'name' );
+			printf( __( 'Search results for %s', 'twentyten' ), '"'.get_search_query().'"' ); twentyten_the_page_number(); echo ' | '; bloginfo( 'name' );
 		} elseif ( is_404() ) {
 			_e( 'Not Found', 'twentyten' ); echo ' | '; bloginfo( 'name' );
 		} else {
 			wp_title( '' ); echo ' | '; bloginfo( 'name' ); twentyten_the_page_number();
 		}
-	?></title>
+	?>
+	</title>
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	<?php if ( is_singular() && get_option( 'thread_comments' ) ) wp_enqueue_script( 'comment-reply' ); ?>

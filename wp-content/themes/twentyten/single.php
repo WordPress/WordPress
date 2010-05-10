@@ -38,10 +38,12 @@
 							<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) ); ?>
 						</div><!-- #author-avatar -->
 						<div id="author-description">
-							<h2><?php _e( 'About ', 'twentyten' ); ?><?php the_author(); ?></h2>
+							<h2><?php printf( esc_attr__( 'About %s', 'twentyten' ), get_the_author() ); ?></h2>
 							<?php the_author_meta( 'description' ); ?>
 							<div id="author-link">
-								<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" title="<?php printf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ); ?>"><?php _e( 'View all posts by ', 'twentyten' ); ?><?php the_author(); ?> &rarr;</a>
+								<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
+									<?php printf( __( 'View all posts by %s &rarr;', 'twentyten' ), get_the_author() ); ?>
+								</a>
 							</div><!-- #author-link	-->
 						</div><!-- #author-description -->
 					</div><!-- .entry-author-info -->

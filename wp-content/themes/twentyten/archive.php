@@ -20,16 +20,17 @@
 
 <?php the_post(); ?>
 
+			<h1 class="page-title">
 <?php if ( is_day() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_date() ); ?></h1>
+				<?php printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_date() ); ?>
 <?php elseif ( is_month() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date('F Y') ); ?></h1>
+				<?php printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date('F Y') ); ?>
 <?php elseif ( is_year() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date('Y') ); ?></h1>
+				<?php printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date('Y') ); ?>
 <?php else : ?>
-				<h1 class="page-title"><?php _e( 'Blog Archives', 'twentyten' ); ?></h1>
+				<?php _e( 'Blog Archives', 'twentyten' ); ?>
 <?php endif; ?>
-
+			</h1>
 <?php rewind_posts(); ?>
 <?php
 	/* Run the loop for the archives page to output the posts.
