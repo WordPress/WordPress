@@ -75,11 +75,11 @@ include('./admin-header.php');
 $home_path = get_home_path();
 $iis7_permalinks = iis7_supports_permalinks();
 
-$prefix = '';
+$prefix = $blog_prefix = '';
 if ( ! got_mod_rewrite() && ! $iis7_permalinks )
-	$prefix .= '/index.php';
+	$prefix = '/index.php';
 if ( is_multisite() && !is_subdomain_install() && is_main_site() )
-	$prefix .= '/blog';
+	$blog_prefix = '/blog';
 
 if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	check_admin_referer('update-permalink');
@@ -174,9 +174,9 @@ if ( is_multisite() && !is_subdomain_install() && is_main_site() ) {
 
 $structures = array(
 	'',
-	'/%year%/%monthnum%/%day%/%postname%/',
-	'/%year%/%monthnum%/%postname%/',
-	'/archives/%post_id%'
+	$prefix . '/%year%/%monthnum%/%day%/%postname%/',
+	$prefix . '/%year%/%monthnum%/%postname%/',
+	$prefix . '/archives/%post_id%'
 	);
 ?>
 <h3><?php _e('Common settings'); ?></h3>
@@ -187,15 +187,15 @@ $structures = array(
 	</tr>
 	<tr>
 		<th><label><input name="selection" type="radio" value="<?php echo esc_attr($structures[1]); ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Day and name'); ?></label></th>
-		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
+		<td><code><?php echo get_option('home') . $blog_prefix . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
 		<th><label><input name="selection" type="radio" value="<?php echo esc_attr($structures[2]); ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Month and name'); ?></label></th>
-		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
+		<td><code><?php echo get_option('home') . $blog_prefix . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
 		<th><label><input name="selection" type="radio" value="<?php echo esc_attr($structures[3]); ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
-		<td><code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></td>
+		<td><code><?php echo get_option('home') . $blog_prefix . $prefix; ?>/archives/123</code></td>
 	</tr>
 	<tr>
 		<th>
@@ -204,7 +204,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<?php echo $prefix; ?>
+			<?php echo $blog_prefix; ?>
 			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo esc_attr($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
@@ -220,11 +220,11 @@ $structures = array(
 <table class="form-table">
 	<tr>
 		<th><label for="category_base"><?php /* translators: prefix for category permalinks */ _e('Category base'); ?></label></th>
-		<td><?php echo $prefix; ?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
+		<td><?php echo $blog_prefix; ?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
-		<td><?php echo $prefix; ?> <input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
+		<td><?php echo $blog_prefix; ?> <input name="tag_base" id="tag_base" type="text" value="<?php echo esc_attr($tag_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>
