@@ -881,8 +881,6 @@ function get_home_template() {
  * @return string
  */
 function get_front_page_template() {
-	global $wp_query;
-
 	return apply_filters( 'front_page_template', locate_template( array('front-page.php') ) );
 }
 
