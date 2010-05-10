@@ -8,7 +8,7 @@
  */
 ?>
 
-		<div id="primary" class="widget-area">
+		<div id="primary" class="widget-area" role="complementary">
 			<ul class="xoxo">
 <?php if ( ! dynamic_sidebar( 'primary-widget-area' ) ) : // begin primary widget area ?>
 			<li id="search" class="widget-container widget_search">
@@ -35,7 +35,7 @@
 		</div><!-- #primary .widget-area -->
 
 <?php if ( is_active_sidebar( 'secondary-widget-area' ) ) : // Nothing here by default and design ?>
-		<div id="secondary" class="widget-area">
+		<div id="secondary" class="widget-area" role="complementary">
 			<ul class="xoxo">
 				<?php dynamic_sidebar( 'secondary-widget-area' ); ?>
 			</ul>

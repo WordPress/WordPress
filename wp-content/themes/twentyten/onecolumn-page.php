@@ -14,7 +14,7 @@
 <?php get_header(); ?>
 
 		<div id="container" class="onecolumn">
-			<div id="content">
+			<div id="content" role="main">
 
 <?php the_post(); ?>
 

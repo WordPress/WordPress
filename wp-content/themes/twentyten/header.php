@@ -45,7 +45,7 @@
 <div id="wrapper" class="hfeed">
 	<div id="header">
 		<div id="masthead">
-			<div id="branding">
+			<div id="branding" role="banner">
 				<?php $heading_tag = ( is_home() || is_front_page() )? 'h1' : 'div'; ?>
 				<<?php echo $heading_tag; ?> id="site-title">
 					<span>
@@ -67,7 +67,7 @@
 					<?php endif; ?>
 			</div><!-- #branding -->
 
-			<div id="access">
+			<div id="access" role="navigation">
 				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
 				<?php wp_nav_menu( array( 'sort_column' => 'menu_order', 'container_class' => 'menu-header' ) ); ?>
 			</div><!-- #access -->

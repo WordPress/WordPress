@@ -16,7 +16,7 @@
 		is_active_sidebar( 'fourth-footer-widget-area' )
 	) :
 ?>
-			<div id="footer-widget-area">
+			<div id="footer-widget-area" role="complementary">
 <?php if ( is_active_sidebar( 'first-footer-widget-area' ) ) : ?>
 					<div id="first" class="widget-area">
 						<ul class="xoxo">

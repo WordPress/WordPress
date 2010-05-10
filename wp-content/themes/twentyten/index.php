@@ -17,7 +17,7 @@
 <?php get_header(); ?>
 
 		<div id="container">
-			<div id="content">
+			<div id="content" role="main">
 
 			<?php
 			/* Run the loop to output the posts.
