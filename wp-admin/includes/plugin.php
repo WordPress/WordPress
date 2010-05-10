@@ -334,7 +334,7 @@ function get_dropins() {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
 			if ( isset( $_dropins[ $file ] ) )
 				$plugin_files[] = $file;
-			}
+		}
 	} else {
 		return $dropins;
 	}
@@ -345,12 +345,12 @@ function get_dropins() {
 		return $dropins;
 
 	foreach ( $plugin_files as $plugin_file ) {
-			if ( !is_readable( WP_CONTENT_DIR . "/$plugin_file" ) )
-					continue;
-			$plugin_data = get_plugin_data( WP_CONTENT_DIR . "/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
-			if ( empty ( $plugin_data['Name'] ) )
-				$plugin_data['Name'] = $plugin_file;
-			$dropins[ $plugin_file ] = $plugin_data;
+		if ( !is_readable( WP_CONTENT_DIR . "/$plugin_file" ) )
+			continue;
+		$plugin_data = get_plugin_data( WP_CONTENT_DIR . "/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
+		if ( empty( $plugin_data['Name'] ) )
+			$plugin_data['Name'] = $plugin_file;
+		$dropins[ $plugin_file ] = $plugin_data;
 	}
 
 	uksort( $dropins, create_function( '$a, $b', 'return strnatcasecmp( $a, $b );' ));

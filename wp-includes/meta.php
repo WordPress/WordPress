@@ -21,7 +21,7 @@
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key
+ * @param string $meta_key Metadata key. Expected unslashed.
  * @param string $meta_value Metadata value
  * @param bool $unique Optional, default is false.  Whether the specified metadata key should be
  * 		unique for the object.  If true, and the object already has a value for the specified
@@ -41,9 +41,6 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	global $wpdb;
 
 	$column = esc_sql($meta_type . '_id');
-
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
 
 	if ( $unique && $wpdb->get_var( $wpdb->prepare(
 		"SELECT COUNT(*) FROM $table WHERE meta_key = %s AND $column = %d",
@@ -82,7 +79,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key
+ * @param string $meta_key Metadata key. Expected unslashed.
  * @param string $meta_value Metadata value
  * @param string $prev_value Optional.  If specified, only update existing metadata entries with
  * 		the specified value.  Otherwise, update all entries.
@@ -102,9 +99,6 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 
 	$column = esc_sql($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
-
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
 
 	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
 		return add_metadata($meta_type, $object_id, $meta_key, $meta_value);
@@ -143,7 +137,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key
+ * @param string $meta_key Metadata key. Expected unslashed.
  * @param string $meta_value Optional. Metadata value.  If specified, only delete metadata entries
  * 		with this value.  Otherwise, delete all entries with the specified meta_key.
  * @param bool $delete_all Optional, default is false.  If true, delete matching metadata entries
@@ -165,8 +159,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	$type_column = esc_sql($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
+
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
 	$query = $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s", $meta_key );
