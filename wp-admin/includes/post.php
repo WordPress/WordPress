@@ -156,6 +156,8 @@ function edit_post( $post_data = null ) {
 	}
 
 	$post_data = _wp_translate_postdata( true, $post_data );
+	if ( 'autosave' != $post_data['action']  && 'auto-draft' == $post_data['post_status'] )
+		$post_data['post_status'] = 'draft';
 	if ( is_wp_error($post_data) )
 		wp_die( $post_data->get_error_message() );
 
