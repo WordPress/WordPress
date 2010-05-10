@@ -1621,6 +1621,12 @@ class WP_Query {
 		if ( !isset($q['cache_results']) )
 			$q['cache_results'] = true;
 
+		if ( !isset($q['update_post_term_cache']) )
+			$q['update_post_term_cache'] = true;
+
+		if ( !isset($q['update_post_meta_cache']) )
+			$q['update_post_meta_cache'] = true;
+
 		if ( !isset($q['post_type']) ) {
 			if ( $this->is_search )
 				$q['post_type'] = 'any';
@@ -2504,7 +2510,7 @@ class WP_Query {
 		}
 
 		if ( $q['cache_results'] )
-			update_post_caches($this->posts, $post_type);
+			update_post_caches($this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache']);
 
 		if ( $this->post_count > 0 ) {
 			$this->post = $this->posts[0];

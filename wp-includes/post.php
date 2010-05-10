@@ -4003,9 +4003,11 @@ function clean_page_cache($id) {
  * @uses update_postmeta_cache()
  *
  * @param array $posts Array of Post objects
- * @param string $post_type The post type of the posts in $posts
+ * @param string $post_type The post type of the posts in $posts. Default is 'post'.
+ * @param bool $update_term_cache Whether to update the term cache. Default is true.
+ * @param bool $update_meta_cache Whether to update the meta cache. Default is true.
  */
-function update_post_caches(&$posts, $post_type = 'post') {
+function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = true, $update_meta_cache = true) {
 	// No point in doing all this work if we didn't match any posts.
 	if ( !$posts )
 		return;
@@ -4019,10 +4021,11 @@ function update_post_caches(&$posts, $post_type = 'post') {
 	if ( empty($post_type) )
 		$post_type = 'post';
 
-	if ( !is_array($post_type) && 'any' != $post_type )
+	if ( !is_array($post_type) && 'any' != $post_type && $update_term_cache )
 		update_object_term_cache($post_ids, $post_type);
 
-	update_postmeta_cache($post_ids);
+	if ( $update_meta_cache )
+		update_postmeta_cache($post_ids);
 }
 
 /**

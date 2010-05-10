@@ -413,7 +413,8 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$items = get_objects_in_term( $menu->term_id, 'nav_menu' );
 
 	if ( ! empty( $items ) ) {
-		$defaults = array( 'order' => 'ASC', 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order', 'nopaging' => true );
+		$defaults = array( 'order' => 'ASC', 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item', 'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order', 'nopaging' => true,
+						  'update_post_term_cache' => false);
 		$args = wp_parse_args( $args, $defaults );
 		if ( count( $items ) > 1 )
 			$args['include'] = implode( ',', $items );
