@@ -261,6 +261,7 @@ unset($type_links);
 </form>
 
 <form id="posts-filter" action="" method="get">
+<?php wp_nonce_field('bulk-media'); ?>
 <?php if ( have_posts() || isset( $orphans ) ) { ?>
 <div class="tablenav">
 <?php
@@ -300,7 +301,6 @@ if ( $page_links ) : ?>
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<?php wp_nonce_field('bulk-media'); ?>
 
 <?php
 if ( !is_singular() && !isset($_GET['detached']) && !$is_trash ) {
