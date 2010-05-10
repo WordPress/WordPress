@@ -1470,10 +1470,10 @@ function wp_list_comments($args = array(), $comments = null ) {
 /**
  * Outputs a complete commenting form for use within a template.
  * Most strings and form fields may be controlled through the $args array passed
- * into the function, while you may also choose to use the comments_form_default_fields
+ * into the function, while you may also choose to use the comment_form_default_fields
  * filter to modify the array of default fields if you'd just like to add a new
  * one or remove a single field. All fields are also individually passed through
- * a filter of the form comments_form_field_$name where $name is the key used
+ * a filter of the form comment_form_field_$name where $name is the key used
  * in the array of fields.
  *
  * @since 3.0.0
