@@ -47,8 +47,6 @@ var wpNavMenu;
 			this.initToggles();
 
 			this.initTabManager();
-		
-			this.checkForEmptyMenu();
 		},
 		
 		jQueryExtensions : function() {
@@ -759,14 +757,6 @@ var wpNavMenu;
 				el.remove();
 				children.shiftDepthClass(-1).updateParentMenuItemDBId();
 				api.recalculateMenuItemPositions();
-				that.checkForEmptyMenu();
-			});
-		},
-	
-		checkForEmptyMenu : function() {
-			if( api.menuList.children().length ) return;
-			api.menuList.height(80).one('sortstop', function(){
-				$(this).height('auto');
 			});
 		},
 		
