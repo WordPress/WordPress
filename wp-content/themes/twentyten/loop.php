@@ -119,7 +119,15 @@
 					?>					
 				</span>
 				<span class="meta-sep">|</span>
-				<?php the_tags( '<span class="tag-links"><span class="entry-utility-prep entry-utility-prep-tag-links">' . __( 'Tagged ', 'twentyten' ) . '</span>', ', ', '<span class="meta-sep">|</span>' ); ?>
+				<?php
+					$tags_list = get_the_tag_list( '', ', ' );
+					if ( $tags_list ):
+				?>
+					<span class="tag-links">
+						<span class="entry-utility-prep entry-utility-prep-tag-links"><?php printf( __('Tagged %s', 'twentyten'), '</span> ' . $tags_list ); ?>
+					</span>
+					<span class="meta-sep">|</span>
+				<?php endif; ?>
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- #entry-utility -->

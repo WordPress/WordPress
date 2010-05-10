@@ -437,7 +437,7 @@ function twentyten_posted_on() {
  */
 
 function twentyten_posted_in() {
-	$tag_list = get_the_tag_list();
+	$tag_list = get_the_tag_list( '', ', ', '' );
 	if ( $tag_list ) {
 		$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 	} else {
