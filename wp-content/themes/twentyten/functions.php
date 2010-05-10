@@ -50,7 +50,7 @@ if ( ! isset( $content_width ) )
 /** Tell WordPress to run twentyten_setup() when the 'after_setup_theme' hook is run. */
 add_action( 'after_setup_theme', 'twentyten_setup' );
 
-if ( ! function_exists('twentyten_setup') ):
+if ( ! function_exists( 'twentyten_setup' ) ):
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -121,45 +121,53 @@ function twentyten_setup() {
 	// ... and thus ends the changeable header business.
 
 	// Default custom headers packaged with the theme. %s is a placeholder for the theme template directory URI.
-	register_default_headers( array (
-		'berries' => array (
+	register_default_headers( array(
+		'berries' => array(
 			'url' => '%s/images/headers/berries.jpg',
 			'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg',
+			/* translators: header image description */
 			'description' => __( 'Berries', 'twentyten' )
 		),
-		'cherryblossom' => array (
+		'cherryblossom' => array(
 			'url' => '%s/images/headers/cherryblossoms.jpg',
 			'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Cherry Blossoms', 'twentyten' )
 		),
-		'concave' => array (
+		'concave' => array(
 			'url' => '%s/images/headers/concave.jpg',
 			'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Concave', 'twentyten' )
 		),
-		'fern' => array (
+		'fern' => array(
 			'url' => '%s/images/headers/fern.jpg',
 			'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Fern', 'twentyten' )
 		),
-		'forestfloor' => array (
+		'forestfloor' => array(
 			'url' => '%s/images/headers/forestfloor.jpg',
 			'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Forest Floor', 'twentyten' )
 		),
-		'inkwell' => array (
+		'inkwell' => array(
 			'url' => '%s/images/headers/inkwell.jpg',
 			'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Inkwell', 'twentyten' )
 		),
-		'path' => array (
+		'path' => array(
 			'url' => '%s/images/headers/path.jpg',
 			'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Path', 'twentyten' )
 		),
-		'sunset' => array (
+		'sunset' => array(
 			'url' => '%s/images/headers/sunset.jpg',
 			'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg',
+			/* translators: header image description */			
 			'description' => __( 'Sunset', 'twentyten' )
 		)
 	) );
@@ -200,7 +208,7 @@ if ( ! function_exists( 'twentyten_the_page_number' ) ) :
 function twentyten_the_page_number() {
 	global $paged; // Contains page number.
 	if ( $paged >= 2 )
-		echo ' | ' . sprintf( __( 'Page %s' , 'twentyten' ), $paged );
+		echo ' | ' . sprintf( __( 'Page %s', 'twentyten' ), $paged );
 }
 endif;
 
@@ -266,20 +274,25 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
  * @since 3.0.0
  */
 function twentyten_comment( $comment, $args, $depth ) {
-	$GLOBALS ['comment'] = $comment; ?>
+	$GLOBALS['comment'] = $comment; ?>
 	<?php if ( '' == $comment->comment_type ) : ?>
 	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 		<div id="comment-<?php comment_ID(); ?>">
 		<div class="comment-author vcard">
 			<?php echo get_avatar( $comment, 40 ); ?>
-			<?php printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>', 'twentyten' ), get_comment_author_link() ); ?>
+			<?php printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
 		</div>
 		<?php if ( $comment->comment_approved == '0' ) : ?>
 			<em><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
 			<br />
 		<?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ), ' ' ); ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
+			<?php
+				/* translators: 1: date, 2: time */
+				printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ), ' ' );
+			?>
+		</div>
 
 		<div class="comment-body"><?php comment_text(); ?></div>
 
@@ -290,7 +303,7 @@ function twentyten_comment( $comment, $args, $depth ) {
 
 	<?php else : ?>
 	<li class="post pingback">
-		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link ( __('(Edit)', 'twentyten'), ' ' ); ?></p>
+		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __('(Edit)', 'twentyten'), ' ' ); ?></p>
 	<?php endif;
 }
 endif;
@@ -304,67 +317,67 @@ endif;
  */
 function twentyten_widgets_init() {
 	// Area 1
-	register_sidebar( array (
+	register_sidebar( array(
 		'name' => __( 'Primary Widget Area', 'twentyten' ),
 		'id' => 'primary-widget-area',
 		'description' => __( 'The primary widget area', 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
+		'after_widget' => '</li>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
 
 	// Area 2
-	register_sidebar( array (
+	register_sidebar( array(
 		'name' => __( 'Secondary Widget Area', 'twentyten' ),
 		'id' => 'secondary-widget-area',
 		'description' => __( 'The secondary widget area', 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
+		'after_widget' => '</li>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
 
 	// Area 3
-	register_sidebar( array (
+	register_sidebar( array(
 		'name' => __( 'First Footer Widget Area', 'twentyten' ),
 		'id' => 'first-footer-widget-area',
 		'description' => __( 'The first footer widget area', 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
+		'after_widget' => '</li>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
 
 	// Area 4
-	register_sidebar( array (
+	register_sidebar( array(
 		'name' => __( 'Second Footer Widget Area', 'twentyten' ),
 		'id' => 'second-footer-widget-area',
 		'description' => __( 'The second footer widget area', 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
+		'after_widget' => '</li>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
 
 	// Area 5
-	register_sidebar( array (
+	register_sidebar( array(
 		'name' => __( 'Third Footer Widget Area', 'twentyten' ),
 		'id' => 'third-footer-widget-area',
 		'description' => __( 'The third footer widget area', 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
+		'after_widget' => '</li>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
 
 	// Area 6
-	register_sidebar( array (
+	register_sidebar( array(
 		'name' => __( 'Fourth Footer Widget Area', 'twentyten' ),
 		'id' => 'fourth-footer-widget-area',
 		'description' => __( 'The fourth footer widget area', 'twentyten' ),
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
+		'after_widget' => '</li>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
@@ -385,7 +398,7 @@ add_action( 'widgets_init', 'twentyten_remove_recent_comments_style' );
  */
 function twentyten_get_next_attachment_url() {
 	global $post;
-	$post = get_post($post);
+	$post = get_post( $post );
 	$attachments = array_values( get_children( array( 'post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID' ) ) );
  
 	foreach ( $attachments as $k => $attachment ) {
