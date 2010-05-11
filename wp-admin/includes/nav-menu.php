@@ -484,6 +484,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		'posts_per_page' => $per_page,
 		'post_type' => $post_type_name,
 		'suppress_filters' => true,
+		'update_post_term_cache' => false,
+		'update_post_meta_cache' => false
 	);
 
 	if ( isset( $post_type['args']->_default_query ) )
