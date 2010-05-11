@@ -518,13 +518,16 @@ function setup_userdata($for_user_id = '') {
 	else
 		$user = new WP_User($for_user_id);
 
-	if ( 0 == $user->ID )
-		return;
+	$userdata   = $user->data;
+	$user_ID    = (int) $user->ID;
+	$user_level = (int) isset($user->user_level) ? $user->user_level : 0;
 
-	$userdata = $user->data;
+	if ( 0 == $user->ID ) {
+		$user_login = $user_email = $user_url = $user_pass_md5 = $user_identity = '';
+		return;
+	}
+
 	$user_login	= $user->user_login;
-	$user_level	= (int) isset($user->user_level) ? $user->user_level : 0;
-	$user_ID = (int) $user->ID;
 	$user_email	= $user->user_email;
 	$user_url	= $user->user_url;
 	$user_pass_md5	= md5($user->user_pass);
