@@ -405,10 +405,14 @@ function _sort_nav_menu_items($a, $b) {
  * @return mixed $items array of menu items, else false.
  */
 function wp_get_nav_menu_items( $menu, $args = array() ) {
+	global $_wp_using_ext_object_cache;
+
 	$menu = wp_get_nav_menu_object( $menu );
 
 	if ( ! $menu )
 		return false;
+
+	static $fetched = array();
 
 	$items = get_objects_in_term( $menu->term_id, 'nav_menu' );
 
@@ -429,32 +433,35 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		return false;
 
 	// Get all posts and terms at once to prime the caches
-	$posts = array();
-	$terms = array();
-	foreach ( $items as $item ) {
-		$object_id = get_post_meta( $item->ID, '_menu_item_object_id', true );
-		$object = get_post_meta( $item->ID, '_menu_item_object', true );
-		$type = get_post_meta( $item->ID, '_menu_item_type', true );
-
-		if ( 'post_type' == $type )
-			$posts[$object][] = $object_id;
-		elseif ( 'taxonomy' == $type)
-			$terms[$object][] = $object_id;
-	}
-
-	if ( !empty($posts) ) {
-		foreach ( array_keys($posts) as $post_type ) {
-			get_posts( array('post__in' => $posts[$post_type], 'post_type' => $post_type, 'nopaging' => true, 'update_post_term_cache' => false) );
+	if ( empty($fetched[$menu->term_id]) || $_wp_using_ext_object_cache ) {
+		$fetched[$menu->term_id] = true;
+		$posts = array();
+		$terms = array();
+		foreach ( $items as $item ) {
+			$object_id = get_post_meta( $item->ID, '_menu_item_object_id', true );
+			$object = get_post_meta( $item->ID, '_menu_item_object', true );
+			$type = get_post_meta( $item->ID, '_menu_item_type', true );
+	
+			if ( 'post_type' == $type )
+				$posts[$object][] = $object_id;
+			elseif ( 'taxonomy' == $type)
+				$terms[$object][] = $object_id;
 		}
-	}
-	unset($posts);
-
-	if ( !empty($terms) ) {
-		foreach ( array_keys($terms) as $taxonomy ) {
-			get_terms($taxonomy, array('include' => $terms[$taxonomy]) );
+	
+		if ( !empty($posts) ) {
+			foreach ( array_keys($posts) as $post_type ) {
+				get_posts( array('post__in' => $posts[$post_type], 'post_type' => $post_type, 'nopaging' => true, 'update_post_term_cache' => false) );
+			}
 		}
+		unset($posts);
+	
+		if ( !empty($terms) ) {
+			foreach ( array_keys($terms) as $taxonomy ) {
+				get_terms($taxonomy, array('include' => $terms[$taxonomy]) );
+			}
+		}
+		unset($terms);
 	}
-	unset($terms);
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
 
