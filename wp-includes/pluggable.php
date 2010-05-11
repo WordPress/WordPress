@@ -799,7 +799,7 @@ function auth_redirect() {
 
 	$redirect = ( strpos($_SERVER['REQUEST_URI'], '/options.php') && wp_get_referer() ) ? wp_get_referer() : $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-	$login_url = wp_login_url($redirect);
+	$login_url = wp_login_url($redirect, true);
 
 	wp_redirect($login_url);
 	exit();

@@ -228,13 +228,17 @@ function wp_logout_url($redirect = '') {
  * @uses apply_filters() calls 'login_url' hook on final login url
  *
  * @param string $redirect Path to redirect to on login.
+ * @param bool $force_reauth Whether to force reauthorization, even if a cookie is present. Default is false.
+ * @return string A log in url
  */
-function wp_login_url($redirect = '') {
+function wp_login_url($redirect = '', $force_reauth = false) {
 	$login_url = site_url('wp-login.php', 'login');
 
-	if ( !empty($redirect) ) {
+	if ( !empty($redirect) )
 		$login_url = add_query_arg('redirect_to', urlencode($redirect), $login_url);
-	}
+
+	if ( $force_reauth )
+		$login_url = add_query_arg('reauth', '1', $login_url);
 
 	return apply_filters('login_url', $login_url, $redirect);
 }

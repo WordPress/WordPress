@@ -520,6 +520,8 @@ default:
 		$redirect_to = admin_url();
 	}
 
+	$reauth = empty($_REQUEST['reauth']) ? false : true;
+
 	// If the user was redirected to a secure login form from a non-secure admin page, and secure login is required but secure admin is not, then don't use a secure
 	// cookie and redirect back to the referring non-secure admin page.  This allows logins to always be POSTed over SSL while allowing the user to choose visiting
 	// the admin via http or https.
@@ -530,7 +532,7 @@ default:
 
 	$redirect_to = apply_filters('login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user);
 
-	if ( !is_wp_error($user) ) {
+	if ( !is_wp_error($user) && !$reauth ) {
 		if ( $interim_login ) {
 			$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
 			login_header( '', $message ); ?>
@@ -549,7 +551,7 @@ default:
 
 	$errors = $user;
 	// Clear errors if loggedout is set.
-	if ( !empty($_GET['loggedout']) )
+	if ( !empty($_GET['loggedout']) || $reauth )
 		$errors = new WP_Error();
 
 	// If cookies are disabled we can't log in even with a valid user+pass
@@ -569,6 +571,10 @@ default:
 		$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 	elseif	( $interim_login )
 		$errors->add('expired', __('Your session has expired. Please log-in again.'), 'message');
+
+	// Clear any stale cookies.
+	if ( $reauth )
+		wp_clear_auth_cookie();
 
 	login_header(__('Log In'), '', $errors);
 
