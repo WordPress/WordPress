@@ -56,20 +56,15 @@ class MT_Import {
 	}
 
 	function users_form($n) {
-		global $wpdb;
 		$users = get_users_of_blog();
 ?><select name="userselect[<?php echo $n; ?>]">
 	<option value="#NONE#"><?php _e('&mdash; Select &mdash;') ?></option>
 	<?php
-
-
-		foreach ($users as $user) {
-			echo '<option value="'.$user->user_login.'">'.$user->user_login.'</option>';
-		}
-?>
+		foreach ( $users as $user )
+			echo '<option value="' . $user->user_login . '">' . $user->user_login . '</option>';
+	?>
 	</select>
 	<?php
-
 	}
 
 	function has_gzip() {
