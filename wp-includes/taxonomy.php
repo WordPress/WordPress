@@ -819,10 +819,17 @@ function &get_terms($taxonomies, $args = '') {
 		$orderby = 't.slug';
 	else if ( 'term_group' == $_orderby )
 		$orderby = 't.term_group';
+	else if ( 'none' == $_orderby )
+		$orderby = '';
 	elseif ( empty($_orderby) || 'id' == $_orderby )
 		$orderby = 't.term_id';
 
 	$orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
+
+	if ( !empty($orderby) )
+		$orderby = "ORDER BY $orderby";
+	else
+		$order = '';
 
 	$where = '';
 	$inclusions = '';
@@ -916,11 +923,13 @@ function &get_terms($taxonomies, $args = '') {
  			$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
  			break;
  		case 'count':
+			$orderby = '';
+			$order = '';
  			$selects = array('COUNT(*)');
  	}
     $select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
 
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $limit";
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where $orderby $order $limit";
 
 	if ( 'count' == $fields ) {
 		$term_count = $wpdb->get_var($query);
