@@ -661,10 +661,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
  */
 function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 	$taxonomy_name = $taxonomy['args']->name;
-	if ( ! $term_count = wp_count_terms( $taxonomy_name ) ) {
-		echo '<p>' . __( 'No items.' ) . '</p>';
-		return;
-	}
+	
 	// paginate browsing for large numbers of objects
 	$per_page = 50;
 	$pagenum = isset( $_REQUEST[$taxonomy_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
@@ -684,7 +681,14 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		'pad_counts' => false,
 	);
 
-	$num_pages = ceil( $term_count / $per_page );
+	$terms = get_terms( $taxonomy_name, $args );
+
+	if ( ! $terms || is_wp_error($terms) ) {
+		echo '<p>' . __( 'No items.' ) . '</p>';
+		return;
+	}
+
+	$num_pages = ceil( count($terms) / $per_page );
 
 	$page_links = paginate_links( array(
 		'base' => add_query_arg(
@@ -701,11 +705,6 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 	));
 
 	$walker = new Walker_Nav_Menu_Checklist;
-	// @todo transient caching of these results with proper invalidation on updating of a tax of this type
-	$terms = get_terms( $taxonomy_name, $args );
-
-	if ( ! $terms || is_wp_error($terms) )
-		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $taxonomy['args']->label ) .'</li>';
 
 	$current_tab = 'most-used';
 	if ( isset( $_REQUEST[$taxonomy_name . '-tab'] ) && in_array( $_REQUEST[$taxonomy_name . '-tab'], array('all', 'most-used', 'search') ) ) {
