@@ -1544,7 +1544,7 @@ class WP_Query {
 		$this->init_query_flags();
 		$this->is_404 = true;
 
-		//$this->is_feed = $is_feed;
+		$this->is_feed = $is_feed;
 	}
 
 	/**
