@@ -241,8 +241,10 @@ function wp_nav_menu( $args = array() ) {
 	$sorted_menu_items = array();
 	foreach ( (array) $menu_items as $key => $menu_item )
 		$sorted_menu_items[$menu_item->menu_order] = $menu_item;
+	unset($menu_items);
 
 	$items .= walk_nav_menu_tree( $sorted_menu_items, $args->depth, $args );
+	unset($sorted_menu_items);
 
 	// Attributes
 	$attributes  = ' id="menu-' . $menu->slug . '"';
@@ -258,6 +260,7 @@ function wp_nav_menu( $args = array() ) {
 	} else {
 		$nav_menu .= $items;
 	}
+	unset($items);
 
 	$nav_menu .= '</ul>';
 
