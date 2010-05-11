@@ -329,9 +329,11 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		update_post_meta( $menu_item_db_id, '_menu_item_object_id', (int) $args['menu-item-object-id'] );
 		update_post_meta( $menu_item_db_id, '_menu_item_object', sanitize_key($args['menu-item-object']) );
 		update_post_meta( $menu_item_db_id, '_menu_item_target', sanitize_key($args['menu-item-target']) );
-		// @todo handle sanitizing multiple classes separated by whitespace.
-		update_post_meta( $menu_item_db_id, '_menu_item_classes', sanitize_html_class($args['menu-item-classes']) );
-		update_post_meta( $menu_item_db_id, '_menu_item_xfn', sanitize_html_class($args['menu-item-xfn']) );
+		// @todo sanitize_html_classes()
+		foreach( array( 'menu-item-classes', 'menu-item-xfn') as $arg )
+			$args[$arg] = implode( ' ', array_map( 'sanitize_html_class', explode( ' ', $args[$arg] ) ) );
+		update_post_meta( $menu_item_db_id, '_menu_item_classes', $args['menu-item-classes'] );
+		update_post_meta( $menu_item_db_id, '_menu_item_xfn', $args['menu-item-xfn'] );
 
 		// @todo: only save custom link urls.
 		update_post_meta( $menu_item_db_id, '_menu_item_url', esc_url_raw($args['menu-item-url']) );
