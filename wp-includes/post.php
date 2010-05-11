@@ -16,8 +16,6 @@
  */
 function create_initial_post_types() {
 	register_post_type( 'post', array(
-		'label' => __( 'Posts' ),
-		'singular_label' => __( 'Post' ),
 		'public'  => true,
 		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
@@ -30,8 +28,6 @@ function create_initial_post_types() {
 	) );
 
 	register_post_type( 'page', array(
-		'label' => __( 'Pages' ),
-		'singular_label' => __( 'Page' ),
 		'public' => true,
 		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
@@ -769,35 +765,33 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *
  * Optional $args contents:
  *
- * label - A (plural) descriptive name for the post type marked for translation. Defaults to $post_type.
- * singular_label - A (singular) descriptive name for the post type marked for translation. Defaults to $label.
- * description - A short descriptive summary of what the post type is. Defaults to blank.
- * public - Whether posts of this type should be shown in the admin UI. Defaults to false.
- * exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
- * publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
- * show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
- * menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
- * menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
- * inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
- * capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
- * edit_cap - The capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
- * edit_type_cap - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
- * edit_others_cap - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
- * publish_others_cap - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
- * read_cap - The capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
- * delete_cap - The capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
- * hierarchical - Whether the post type is hierarchical. Defaults to false.
- * supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
- * register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
- * taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
- *
- * @package WordPress
- * @subpackage Post
+ * - description - A short descriptive summary of what the post type is. Defaults to blank.
+ * - public - Whether posts of this type should be shown in the admin UI. Defaults to false.
+ * - exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
+ * - publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
+ * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
+ * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
+ * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
+ * - inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
+ * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
+ * - edit_cap - The capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
+ * - edit_type_cap - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
+ * - edit_others_cap - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
+ * - publish_others_cap - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
+ * - read_cap - The capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
+ * - delete_cap - The capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
+ * - hierarchical - Whether the post type is hierarchical. Defaults to false.
+ * - supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
+ * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
+ * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
+ * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
+ * 
  * @since 2.9.0
  * @uses $wp_post_types Inserts new post type object into the list
  *
  * @param string $post_type Name of the post type.
  * @param array|string $args See above description.
+ * @return object the registered post type object
  */
 function register_post_type($post_type, $args = array()) {
 	global $wp_post_types, $wp_rewrite, $wp;
@@ -806,7 +800,13 @@ function register_post_type($post_type, $args = array()) {
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array('label' => false, 'singular_label' => false, 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null, '_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false, 'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null, 'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null, 'permalink_epmask' => EP_PERMALINK, 'can_export' => true );
+	$defaults = array(
+		'labels' => array(), 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null,
+		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false,
+		'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null,
+		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
+		'permalink_epmask' => EP_PERMALINK, 'can_export' => true,
+	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
@@ -824,12 +824,6 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to true if not public, false if public.
 	if ( null === $args->exclude_from_search )
 		$args->exclude_from_search = !$args->public;
-
-	if ( false === $args->label )
-		$args->label = $post_type;
-
-	if ( false === $args->singular_label )
-		$args->singular_label = $args->label;
 
 	if ( empty($args->capability_type) )
 		$args->capability_type = 'post';
@@ -880,6 +874,13 @@ function register_post_type($post_type, $args = array()) {
 	if ( $args->register_meta_box_cb )
 		add_action('add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1);
 
+	$args->labels = get_post_type_labels( $args );
+	
+	// we keep these two only for backwards compatibility
+	// TODO: remove in 3.1	
+	$args->label = $args->labels->name;
+	$args->singular_label = $args->labels->singular_name;
+
 	$wp_post_types[$post_type] = $args;
 
 	add_action( 'future_' . $post_type, '_future_post_hook', 5, 2 );
@@ -889,6 +890,61 @@ function register_post_type($post_type, $args = array()) {
 	}
 
 	return $args;
+}
+
+/**
+ * Builds an object with all post type labels out of a post type object
+ * 
+ * Accepted keys of the label array in the post type object:
+ * - name - general name for the post type, usually plural. Default is Posts/Pages
+ * - singular_name - name for one object of this post type. Default is Post/Page
+ * - add_new - Default is Add New for both hierarchical and non-hierarchical types. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Add New', 'product');</code>
+ * - add_new_item - Default is Add New Post/Add New Page
+ * - edit_item - Default is Edit Post/Edit Page
+ * - edit - Default is Edit. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Edit', 'product');</code>
+ * - new_item - Default is New Post/New Page
+ * - view_item - Default is View Post/View Page
+ * - search_items - Default is Search Posts/Search Pages
+ * - not_found - Default is No posts found/No pages found
+ * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash
+ * - parent - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
+ * 
+ * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages.)
+ * 
+ * @since 3.0.0
+ * @param object $post_type_object
+ * @return object object with all the labels as member variables
+ */
+function get_post_type_labels( $post_type_object ) {
+	$nohier_vs_hier_defaults = array(
+		'name' => array( _x('Posts', 'post type general name'), _x('Pages', 'post type general name') ),
+		'singular_name' => array( _x('Post', 'post type singular name'), _x('Page', 'post type singular name') ),
+		'add_new' => array( _x('Add New', 'post'), _x('Add New', 'page') ),
+		'add_new_item' => array( __('Add New Post'), __('Add New Page') ),
+		'edit_item' => array( __('Edit Post'), __('Edit Page') ),
+		'edit' => array( _x('Edit', 'post'), _x('Edit', 'page') ),
+		'new_item' => array( __('New Post'), __('New Page') ),
+		'view_item' => array( __('View Post'), __('View Page') ),
+		'search_items' => array( __('Search Posts'), __('Search Pages') ),
+		'not_found' => array( __('No posts found'), __('No pages found') ),
+		'not_found_in_trash' => array( __('No posts found in Trash'), __('No pages found in Trash') ),
+		'view' => array( __('View Post'), __('View Page') ),
+		'parent' => array( null, __('Parent Page:') )
+	);
+	
+	// try to get missing (singular_)?name from older style (singular_)?label member variables
+	// we keep that for backwards compatibility
+	// TODO: remove in 3.1
+	if ( !isset( $post_type_object->labels['name'] ) && isset( $post_type_object->label ) ) {
+		$post_type_object->labels['name'] = $post_type_object->label;
+	}
+	if ( !isset( $post_type_object->labels['singular_name'] ) && isset( $post_type_object->singular_label ) ) {
+		$post_type_object->labels['singular_name'] = $post_type_object->singular_label;
+	}
+	
+	$defaults = array_map( create_function( '$x', $post_type_object->hierarchical? 'return $x[1];' : 'return $x[0];' ), $nohier_vs_hier_defaults );
+	$labels = array_merge( $defaults, $post_type_object->labels );
+	return (object)$labels;
 }
 
 /**

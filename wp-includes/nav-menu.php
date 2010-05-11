@@ -231,7 +231,6 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'menu-item-parent-id' => 0,
 		'menu-item-position' => 0,
 		'menu-item-type' => 'custom',
-		'menu-item-append' => 'custom',
 		'menu-item-title' => '',
 		'menu-item-url' => '',
 		'menu-item-description' => '',
@@ -277,11 +276,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			$original_title = $original_object->post_title;
 
 			if ( 'trash' == get_post_status( $args['menu-item-object-id'] ) ) {
-				$post_type_object = get_post_type_object( $args['menu-item-object'] );
-				if ( isset( $post_type_object->singular_label ) )
-					return new WP_Error('update_nav_menu_item_failed', sprintf(__('The menu item "%1$s" belongs to a %2$s that is in the trash, so it cannot be updated.'), $args['menu-item-title'], $post_type_object->singular_label ) );
-				else
-					return new WP_Error('update_nav_menu_item_failed', sprintf(__('The menu item "%1$s" belongs to something that is in the trash, so it cannot be updated.'), $args['menu-item-title'] ) );
+				return new WP_Error('update_nav_menu_item_failed', sprintf(__('The menu item "%1$s" belongs to something that is in the trash, so it cannot be updated.'), $args['menu-item-title'] ) );
 			}
 		}
 
@@ -485,7 +480,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
  * - object_id:		The DB ID of the original object this menu item represents, e.g. ID for posts and term_id for categories.
  * - type:		The family of objects originally represented, such as "post_type" or "taxonomy."
  * - object:		The type of object originally represented, such as "category," "post", or "attachment."
- * - append:		The singular label used to describe this type of menu item.
+ * - type_label:	The singular label used to describe this type of menu item.
  * - post_parent:	The DB ID of the original object's parent object, if any (0 otherwise).
  * - menu_item_parent: 	The DB ID of the nav_menu_item that is this item's menu parent, if any.  0 otherwise.
  * - url:		The URL to which this menu item points.
@@ -512,7 +507,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			if ( 'post_type' == $menu_item->type ) {
 				$object = get_post_type_object( $menu_item->object );
-				$menu_item->append = $object->singular_label;
+				$menu_item->type_label = $object->labels->singular_name;
 				$menu_item->url = get_permalink( $menu_item->object_id );
 
 				$original_object = get_post( $menu_item->object_id );
@@ -521,14 +516,14 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
-				$menu_item->append = $object->singular_label;
+				$menu_item->type_label = $object->singular_label;
 				$menu_item->url = get_term_link( (int) $menu_item->object_id, $menu_item->object );
 
 				$original_title = get_term_field( 'name', $menu_item->object_id, $menu_item->object, 'raw' );
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
 			} else {
-				$menu_item->append = __('Custom');
+				$menu_item->type_label = __('Custom');
 				$menu_item->title = $menu_item->post_title;
 				$menu_item->url = get_post_meta( $menu_item->ID, '_menu_item_url', true );
 			}
@@ -548,7 +543,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			$object = get_post_type_object( $menu_item->post_type );
 			$menu_item->object = $object->name;
-			$menu_item->append = strtolower( $object->singular_label );
+			$menu_item->type_label = $object->labels->singular_name;
 
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_permalink( $menu_item->ID );
@@ -569,7 +564,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 		$object = get_taxonomy( $menu_item->taxonomy );
 		$menu_item->object = $object->name;
-		$menu_item->append = strtolower( $object->singular_label );
+		$menu_item->type_label = $object->singular_label;
 
 		$menu_item->title = $menu_item->name;
 		$menu_item->url = get_term_link( $menu_item, $menu_item->taxonomy );

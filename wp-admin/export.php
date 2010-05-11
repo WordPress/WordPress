@@ -112,7 +112,7 @@ foreach ( (array) $authors as $author ) {
 <select name="post_type" id="post_type">
 	<option value="all" selected="selected"><?php _e('All Content'); ?></option>
 	<?php foreach ( get_post_types( array( 'public' => true, 'can_export' => true ), 'objects' ) as $post_type_obj ) { ?>
-		<option value="<?php echo $post_type_obj->name; ?>"><?php echo $post_type_obj->label; ?></option>
+		<option value="<?php echo $post_type_obj->name; ?>"><?php echo $post_type_obj->labels->name; ?></option>
 	<?php } ?>
 </select>
 </td>

@@ -809,7 +809,6 @@ var wpNavMenu;
 				'menu-item-parent-id',
 				'menu-item-position',
 				'menu-item-type',
-				'menu-item-append',
 				'menu-item-title',
 				'menu-item-url',
 				'menu-item-description',

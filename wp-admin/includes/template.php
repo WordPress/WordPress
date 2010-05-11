@@ -13,9 +13,9 @@
  *
  * @since 2.7
  *
- * Outputs the HTML for the hidden table rows used in Categories, Link Categories and Tags quick edit.
+ * Outputs the HTML for the hidden table rows used in Categories, Link Caregories and Tags quick edit.
  *
- * @param string $type "edit-tags", "categories" or "edit-link-categories"
+ * @param string $type "edit-tags", "categoried" or "edit-link-categories"
  * @param string $taxonomy The taxonomy of the row.
  * @return
  */
@@ -1566,7 +1566,7 @@ foreach ( $posts_columns as $column_name => $column_display_name ) {
 		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->edit_cap, $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . __('Parent Page: ') . esc_html($parent_name) : ''; ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->edit_cap, $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . $post_type_object->labels->parent . ' ' . esc_html($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
 		if ( current_user_can($post_type_object->edit_cap, $page->ID) && $post->post_status != 'trash' ) {
@@ -3328,10 +3328,10 @@ function favorite_actions( $screen = null ) {
 	if ( isset($post_type_object) ) {
 		switch ( $screen->id ) {
 			case $post_type_object->name:
-				$default_action = array('edit.php?post_type=' . $post_type_object->name => array(sprintf(__('Edit %s'), $post_type_object->label), $post_type_object->edit_type_cap));
+				$default_action = array('edit.php?post_type=' . $post_type_object->name => array($post_type_object->labels->edit_item, $post_type_object->edit_type_cap));
 				break;
 			case "edit-{$post_type_object->name}":
-				$default_action = array('post-new.php?post_type=' . $post_type_object->name => array(sprintf(__('New %s'), $post_type_object->singular_label), $post_type_object->edit_type_cap));
+				$default_action = array('post-new.php?post_type=' . $post_type_object->name => array($post_type_object->labels->new_item, $post_type_object->edit_type_cap));
 				break;
 		}
 	}
@@ -3746,7 +3746,7 @@ function screen_options($screen) {
 			if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) )
 				$post_type = $_GET['post_type'];
 			$post_type_object = get_post_type_object($post_type);
-			$per_page_label = $post_type_object->label;
+			$per_page_label = $post_type_object->labels->name;
 			break;
 		case 'ms-sites':
 			$per_page_label = __('Sites');

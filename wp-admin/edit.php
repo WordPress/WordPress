@@ -137,8 +137,6 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 	 exit;
 }
 
-$title = sprintf(__('Edit %s'), $post_type_object->label);
-
 wp_enqueue_script('inline-edit-post');
 
 $user_posts = false;
@@ -165,7 +163,7 @@ else
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $title ); ?> <a href="<?php echo $post_new_file ?>" class="button add-new-h2"><?php echo esc_html_x('Add New', 'post'); ?></a> <?php
+<h2><?php echo esc_html( $post_type_object->labels->edit_item ); ?> <a href="<?php echo $post_new_file ?>" class="button add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a> <?php
 if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
 </h2>
@@ -262,9 +260,9 @@ endif;
 </ul>
 
 <p class="search-box">
-	<label class="screen-reader-text" for="post-search-input"><?php printf( _x('Search %s', '%s: post type name'), $post_type_object->label ); ?>:</label>
+	<label class="screen-reader-text" for="post-search-input"><?php echo $post_type_object->labels->search_items; ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php echo esc_attr( sprintf( _x('Search %s', '%s: post type name'), $post_type_object->label ) ); ?>" class="button" />
+	<input type="submit" value="<?php echo esc_attr( $post_type_object->labels->search_items  ); ?>" class="button" />
 </p>
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_GET['post_status']) ? esc_attr($_GET['post_status']) : 'all'; ?>" />
@@ -410,9 +408,9 @@ if ( $page_links )
 <div class="clear"></div>
 <p><?php
 if ( isset($_GET['post_status']) && 'trash' == $_GET['post_status'] )
-	printf( __( 'No %s found in the Trash.' ), $post_type_object->label );
+	echo $post_type_object->labels->not_found_in_trash;
 else
-	printf( __( 'No %s found.' ), $post_type_object->label );
+	echo $post_type_object->labels->not_found;
 ?></p>
 <?php } ?>
 

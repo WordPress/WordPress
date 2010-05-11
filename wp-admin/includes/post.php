@@ -1079,14 +1079,8 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
 	if ( 'publish' == $post->post_status ) {
-		if ( 'post' == $post->post_type ) {
-			$view_post = __('View Post');
-		} elseif ( 'page' == $post->post_type ) {
-			$view_post = __('View Page');
-		} else {
-			$ptype = get_post_type_object($post->post_type);
-			$view_post = sprintf(__('View %s'), $ptype->singular_label);
-		}
+		$ptype = get_post_type_object($post->post_type);
+		$view_post = $ptype->labels->view_item;
 		$title = __('Click to edit this part of the permalink');
 	} else {
 		$title = __('Temporary permalink. Click to edit this part.');

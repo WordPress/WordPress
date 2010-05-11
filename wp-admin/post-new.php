@@ -26,7 +26,7 @@ if ( 'post' != $post_type ) {
 
 $post_type_object = get_post_type_object($post_type);
 
-$title = sprintf(__('Add New %s'), $post_type_object->singular_label);
+$title = $post_type_object->labels->add_new_item;
 
 $editing = true;
 

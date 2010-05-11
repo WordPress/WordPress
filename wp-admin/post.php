@@ -177,7 +177,7 @@ case 'edit':
 		wp_enqueue_script('autosave');
 	}
 
-	$title = sprintf(__('Edit %s'), $post_type_object->singular_label);
+	$title = $post_type_object->labels->edit_item;
 	$post = get_post_to_edit($post_id);
 
 	if ( post_type_supports($post_type, 'comments') ) {

@@ -59,7 +59,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 			$original_title = $original_object->post_title;
 		}
 		?>
-		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo strtolower(esc_attr( $item->append )); ?>">
+		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo esc_attr( $item->object ); ?>">
 			<dl class="menu-item-bar <?php
 				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
 					echo 'menu-item-edit-active';
@@ -69,7 +69,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				<dt class="menu-item-handle">
 					<span class="item-title"><?php echo esc_html( $item->title ); ?></span>
 					<span class="item-controls">
-						<span class="item-type"><?php echo esc_html( $item->append ); ?></span>
+						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
 						<span class="item-order">
 							<a href="<?php
 								echo wp_nonce_url(
@@ -161,10 +161,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 
 				<div class="menu-item-actions description-wide submitbox">
 					<?php if( 'custom' != $item->type ) : ?>
-						<p class="link-to-original"><?php
-							_e('Original ');
-							echo esc_html( $item->append );
-							echo ":"; ?>
+						<p class="link-to-original">
+							<?php _e('Original:'); ?>
 							<a href="<?php echo esc_attr( $item->url ); ?>">
 								<?php echo esc_html($original_title); ?>
 							</a>
@@ -184,7 +182,6 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 					<input class="button-primary save-menu-item" name="save_menu_item" type="submit" value="<?php esc_attr_e('Save Menu Item'); ?>" />
 				</div>
 
-				<input class="menu-item-data-append" type="hidden" name="menu-item-append[<?php echo $item_id; ?>]" value="<?php echo $item->append; ?>" />
 				<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
 				<input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
 				<input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
@@ -374,7 +371,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 		$post_type = apply_filters( 'nav_menu_meta_box_object', $post_type );
 		if ( $post_type ) {
 			$id = $post_type->name;
-			add_meta_box( "add-{$id}", $post_type->label, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', 'default', $post_type );
+			add_meta_box( "add-{$id}", $post_type->labels->name, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', 'default', $post_type );
 		}
 	}
 }
@@ -544,7 +541,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	));
 
 	if ( !$posts )
-		$error = '<li id="error">'. sprintf( __( 'No %s exists' ), $post_type['args']->label ) .'</li>';
+		$error = '<li id="error">'. $post_type['args']->labels->not_found .'</li>';
 
 	$current_tab = 'all';
 	if ( isset( $_REQUEST[$post_type_name . '-tab'] ) && in_array( $_REQUEST[$post_type_name . '-tab'], array('all', 'search') ) ) {
@@ -865,7 +862,6 @@ function wp_save_nav_menu_item( $menu_id = 0, $menu_data = array() ) {
 				'menu-item-parent-id' => ( isset( $_item_object_data['menu-item-parent-id'] ) ? $_item_object_data['menu-item-parent-id'] : '' ),
 				'menu-item-position' => ( isset( $_item_object_data['menu-item-position'] ) ? $_item_object_data['menu-item-position'] : '' ),
 				'menu-item-type' => ( isset( $_item_object_data['menu-item-type'] ) ? $_item_object_data['menu-item-type'] : '' ),
-				'menu-item-append' => ( isset( $_item_object_data['menu-item-append'] ) ? $_item_object_data['menu-item-append'] : '' ),
 				'menu-item-title' => ( isset( $_item_object_data['menu-item-title'] ) ? $_item_object_data['menu-item-title'] : '' ),
 				'menu-item-url' => ( isset( $_item_object_data['menu-item-url'] ) ? $_item_object_data['menu-item-url'] : '' ),
 				'menu-item-description' => ( isset( $_item_object_data['menu-item-description'] ) ? $_item_object_data['menu-item-description'] : '' ),
