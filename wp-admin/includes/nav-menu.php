@@ -492,8 +492,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
 	$get_posts = new WP_Query;
 	$posts = $get_posts->query( $args );
-	$count_posts = (int) @count( $posts );
-	if ( ! $count_posts ) {
+	if ( ! $get_posts->post_count ) {
 		echo '<p>' . __( 'No items.' ) . '</p>';
 		return;
 	}
@@ -502,7 +501,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 	$num_pages = $get_posts->max_num_pages;
 
-	if ( isset( $get_posts->found_posts ) && ( $get_posts->found_posts > $count_posts ) ) {
+	if ( isset( $get_posts->found_posts ) && ( $get_posts->found_posts > $get_posts->post_count ) ) {
 		// somewhat like display_page_row(), let's make sure ancestors show up on paged display
 		$parent_ids = array();
 		$child_ids = array();
