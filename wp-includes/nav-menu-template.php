@@ -240,7 +240,7 @@ function wp_nav_menu( $args = array() ) {
 	// Set up the $menu_item variables
 	$sorted_menu_items = array();
 	foreach ( (array) $menu_items as $key => $menu_item )
-		$sorted_menu_items[$menu_item->menu_order] = wp_setup_nav_menu_item( $menu_item );
+		$sorted_menu_items[$menu_item->menu_order] = $menu_item;
 
 	$items .= walk_nav_menu_tree( $sorted_menu_items, $args->depth, $args );
 
