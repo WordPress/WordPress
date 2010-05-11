@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-10 20:21+0000\n"
+"POT-Creation-Date: 2010-05-11 00:22+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,22 +27,22 @@ msgid ""
 "will help."
 msgstr ""
 
-#: archive.php:24
+#: archive.php:25
 #, php-format
 msgid "Daily Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:26
+#: archive.php:27
 #, php-format
 msgid "Monthly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:28
+#: archive.php:29
 #, php-format
 msgid "Yearly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:30
+#: archive.php:31
 msgid "Blog Archives"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "<span class=\"%1$s\">By</span> %2$s"
 msgstr ""
 
-#: attachment.php:29 functions.php:428 single.php:44
+#: attachment.php:29 functions.php:428
 #, php-format
 msgid "View all posts by %s"
 msgstr ""
@@ -75,8 +75,8 @@ msgstr ""
 msgid "Link to full-size image"
 msgstr ""
 
-#: attachment.php:56 attachment.php:84 loop.php:69 loop.php:90 loop.php:124
-#: onecolumn-page.php:26 page.php:33 single.php:52
+#: attachment.php:56 attachment.php:84 loop.php:69 loop.php:90 loop.php:132
+#: onecolumn-page.php:26 page.php:33 single.php:54
 msgid "Edit"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Author Archives: %s"
 msgstr ""
 
-#: author.php:26
+#: author.php:26 single.php:41
 #, php-format
 msgid "About %s"
 msgstr ""
@@ -281,18 +281,18 @@ msgstr ""
 
 #: header.php:29
 #, php-format
-msgid "Search results for \"%s\""
+msgid "Search results for %s"
 msgstr ""
 
-#: header.php:70
+#: header.php:71
 msgid "Skip to content"
 msgstr ""
 
-#: loop.php:19 loop.php:136
+#: loop.php:19 loop.php:144
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: loop.php:20 loop.php:137
+#: loop.php:20 loop.php:145
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -325,15 +325,15 @@ msgstr ""
 msgid "More Galleries"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:123
+#: loop.php:68 loop.php:89 loop.php:131
 msgid "Leave a comment"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:123
+#: loop.php:68 loop.php:89 loop.php:131
 msgid "1 Comment"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:123
+#: loop.php:68 loop.php:89 loop.php:131
 msgid "% Comments"
 msgstr ""
 
@@ -347,8 +347,9 @@ msgstr ""
 msgid "Posted in %s"
 msgstr ""
 
-#: loop.php:122
-msgid "Tagged "
+#: loop.php:127
+#, php-format
+msgid "Tagged %s"
 msgstr ""
 
 #: search.php:17
@@ -374,22 +375,19 @@ msgstr ""
 msgid "Meta"
 msgstr ""
 
-#: single.php:19 single.php:57
+#: single.php:19 single.php:59
 msgctxt "Previous post link"
 msgid "&larr;"
 msgstr ""
 
-#: single.php:20 single.php:58
+#: single.php:20 single.php:60
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr ""
 
-#: single.php:41
-msgid "About "
-msgstr ""
-
-#: single.php:44
-msgid "View all posts by "
+#: single.php:45
+#, php-format
+msgid "View all posts by %s &rarr;"
 msgstr ""
 
 #: tag.php:19
