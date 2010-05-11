@@ -1992,13 +1992,20 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	$post = get_post($postid, $mode);
 
 	// Set categories and tags
-	if($mode == OBJECT) {
-		$post->post_category = wp_get_post_categories($postid);
-		$post->tags_input = wp_get_post_tags($postid, array('fields' => 'names'));
-	}
-	else {
-		$post['post_category'] = wp_get_post_categories($postid);
-		$post['tags_input'] = wp_get_post_tags($postid, array('fields' => 'names'));
+	if ( $mode == OBJECT ) {
+		$post->post_category = array();
+		if ( is_object_in_taxonomy($post->post_type, 'category') )
+			$post->post_category = wp_get_post_categories($postid);
+		$post->tags_input = array();
+		if ( is_object_in_taxonomy($post->post_type, 'post_tag') )
+			$post->tags_input = wp_get_post_tags($postid, array('fields' => 'names'));
+	} else {
+		$post['post_category'] = array();
+		if ( is_object_in_taxonomy($post['post_type'], 'category') )
+			$post['post_category'] = wp_get_post_categories($postid);
+		$post['tags_input'] = array();
+		if ( is_object_in_taxonomy($post['post_type'], 'post_tag') )
+			$post['tags_input'] = wp_get_post_tags($postid, array('fields' => 'names'));
 	}
 
 	return $post;
@@ -2240,9 +2247,10 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 	}
 
-	wp_set_post_categories( $post_ID, $post_category );
-	// old-style tags_input
-	if ( isset( $tags_input ) )
+	if ( is_object_in_taxonomy($post_type, 'category') )
+		wp_set_post_categories( $post_ID, $post_category );
+
+	if ( isset( $tags_input ) && is_object_in_taxonomy($post_type, 'post_tag') )
 		wp_set_post_tags( $post_ID, $tags_input );
 
 	// new-style support for all custom taxonomies
