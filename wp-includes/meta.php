@@ -109,6 +109,15 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
 		return add_metadata($meta_type, $object_id, $meta_key, $meta_value);
 
+	// Compare existing value to new value if no prev value given and the key exists only once.
+	if ( empty($prev_value) ) {
+		$old_value = get_metadata($meta_type, $object_id, $meta_key);
+		if ( count($old_value) == 1 ) {
+			if ( $old_value[0] == $meta_value )
+				return false;
+		}
+	}
+
 	$_meta_value = $meta_value;
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
