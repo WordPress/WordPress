@@ -103,19 +103,19 @@ if ( !function_exists('get_userdata') ) :
 function get_userdata( $user_id ) {
 	global $wpdb;
 
-	$user_id = absint($user_id);
-	if ( $user_id == 0 )
+	$user_id = absint( $user_id );
+	if ( ! $user_id )
 		return false;
 
-	$user = wp_cache_get($user_id, 'users');
+	$user = wp_cache_get( $user_id, 'users' );
 
 	if ( $user )
 		return $user;
 
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id)) )
+	if ( ! $user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id ) ) )
 		return false;
 
-	_fill_user($user);
+	_fill_user( $user );
 
 	return $user;
 }
