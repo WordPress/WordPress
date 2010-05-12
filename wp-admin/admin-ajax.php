@@ -132,7 +132,7 @@ case 'imgedit-preview' :
 	die();
 	break;
 case 'menu-quick-search':
-	if ( ! current_user_can( 'switch_themes' ) )
+	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
@@ -399,7 +399,7 @@ case 'delete-link' :
 case 'delete-menu-item' :
 	$menu_item_id = (int) $_POST['menu-item'];
 	check_admin_referer( 'delete-menu_item_' . $menu_item_id );
-	if ( ! current_user_can( 'switch_themes' ) )
+	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
 	if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
@@ -817,7 +817,7 @@ case 'edit-comment' :
 	$x->send();
 	break;
 case 'add-menu-item' :
-	if ( ! current_user_can( 'switch_themes' ) )
+	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
 	check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
@@ -1091,7 +1091,7 @@ case 'hidden-columns' :
 	die('1');
 	break;
 case 'menu-quick-search':
-	if ( ! current_user_can( 'switch_themes' ) )
+	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
@@ -1328,7 +1328,7 @@ case 'lj-importer' :
 case 'widgets-order' :
 	check_ajax_referer( 'save-sidebar-widgets', 'savewidgets' );
 
-	if ( !current_user_can('switch_themes') )
+	if ( !current_user_can('edit_theme_options') )
 		die('-1');
 
 	unset( $_POST['savewidgets'], $_POST['action'] );
@@ -1358,7 +1358,7 @@ case 'widgets-order' :
 case 'save-widget' :
 	check_ajax_referer( 'save-sidebar-widgets', 'savewidgets' );
 
-	if ( !current_user_can('switch_themes') || !isset($_POST['id_base']) )
+	if ( !current_user_can('edit_theme_options') || !isset($_POST['id_base']) )
 		die('-1');
 
 	unset( $_POST['savewidgets'], $_POST['action'] );

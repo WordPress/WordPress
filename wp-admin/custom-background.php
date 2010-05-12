@@ -52,10 +52,10 @@ class Custom_Background {
 	 * @since 3.0.0
 	 */
 	function init() {
-		if ( ! current_user_can('switch_themes') )
+		if ( ! current_user_can('edit_theme_options') )
 			return;
 
-		$page = add_theme_page(__('Background'), __('Background'), 'switch_themes', 'custom-background', array(&$this, 'admin_page'));
+		$page = add_theme_page(__('Background'), __('Background'), 'edit_theme_options', 'custom-background', array(&$this, 'admin_page'));
 
 		add_action("load-$page", array(&$this, 'admin_load'));
 		add_action("load-$page", array(&$this, 'take_action'), 49);

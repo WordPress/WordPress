@@ -356,11 +356,15 @@ function wp_dashboard_right_now() {
 		}
 		$num = number_format_i18n( $num_widgets );
 
-		if ( current_user_can( 'switch_themes' ) ) {
+		$switch_themes = $ct->title;
+		if ( current_user_can( 'switch_themes') ) {
 			echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
-			printf(_n('Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $ct->title, $num);
+			$switch_themes = '<a href="themes.php">' . $switch_themes . '</a>';
+		}
+		if ( current_user_can( 'edit_theme_options' ) ) {
+			printf(_n('Theme <span class="b">%1$s</span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b">%1$s</span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $switch_themes, $num);
 		} else {
-			printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
+			printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $switch_themes, $num);
 		}
 	} else {
 		if ( current_user_can( 'switch_themes' ) ) {

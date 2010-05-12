@@ -16,8 +16,8 @@ require_once( 'admin.php' );
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
 
 // Permissions Check
-if ( ! current_user_can('switch_themes') )
-	wp_die( __( 'Cheatin&#8217; uh?' ));
+if ( ! current_user_can('edit_theme_options') )
+	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 // Nav Menu CSS
 wp_admin_css( 'nav-menu' );
@@ -51,12 +51,9 @@ $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
 
 switch ( $action ) {
 	case 'add-menu-item':
-		if ( current_user_can( 'switch_themes' ) ) {
-			check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
-			if ( isset( $_REQUEST['menu-item'] ) ) {
-				wp_save_nav_menu_item( $nav_menu_selected_id, $_REQUEST['menu-item'] );
-			}
-		}
+		check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
+		if ( isset( $_REQUEST['menu-item'] ) )
+			wp_save_nav_menu_item( $nav_menu_selected_id, $_REQUEST['menu-item'] );
 		break;
 	case 'move-down-menu-item' :
 		// moving down a menu item is the same as moving up the next in order

@@ -9,10 +9,10 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( !current_user_can('switch_themes') )
+if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-if ( isset($_GET['action']) ) {
+if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['template']);
 		switch_theme($_GET['template'], $_GET['stylesheet']);
@@ -31,6 +31,8 @@ if ( isset($_GET['action']) ) {
 $title = __('Manage Themes');
 $parent_file = 'themes.php';
 
+if ( current_user_can( 'switch_themes' ) ) :
+
 $help = '<p>' . __('Themes give your WordPress style. Once a theme is installed, you may preview it, activate it or deactivate it here.') . '</p>';
 if ( current_user_can('install_themes') ) {
 	$help .= '<p>' . sprintf(__('You can find additional themes for your site by using the new <a href="%1$s">Theme Browser/Installer</a> functionality or by browsing the <a href="http://wordpress.org/extend/themes/">WordPress Theme Directory</a> directly and installing manually.  To install a theme <em>manually</em>, <a href="%2$s">upload its ZIP archive with the new uploader</a> or copy its folder via FTP into your <code>wp-content/themes</code> directory.'), 'theme-install.php', 'theme-install.php?tab=upload' ) . '</p>';
@@ -42,6 +44,8 @@ add_contextual_help($current_screen, $help);
 add_thickbox();
 wp_enqueue_script( 'theme-preview' );
 
+endif;
+
 require_once('./admin-header.php');
 if ( is_multisite() && current_user_can('edit_themes') ) {
 	?><div id="message0" class="updated"><p><?php printf( __('Administrator: new themes must be activated in the <a href="%s">Network Themes</a> screen before they appear here.'), admin_url( 'ms-themes.php') ); ?></p></div><?php
@@ -51,7 +55,7 @@ if ( is_multisite() && current_user_can('edit_themes') ) {
 <?php if ( ! validate_current_theme() ) : ?>
 <div id="message1" class="updated"><p><?php _e('The active theme is broken.  Reverting to the default theme.'); ?></p></div>
 <?php elseif ( isset($_GET['activated']) ) :
-		if ( isset($wp_registered_sidebars) && count( (array) $wp_registered_sidebars ) ) { ?>
+		if ( isset($wp_registered_sidebars) && count( (array) $wp_registered_sidebars ) && current_user_can('edit_theme_options') ) { ?>
 <div id="message2" class="updated"><p><?php printf( __('New theme activated. This theme supports widgets, please visit the <a href="%s">widgets settings</a> screen to configure them.'), admin_url( 'widgets.php' ) ); ?></p></div><?php
 		} else { ?>
 <div id="message2" class="updated"><p><?php printf( __( 'New theme activated. <a href="%s">Visit site</a>' ), home_url( '/' ) ); ?></p></div><?php
@@ -114,6 +118,13 @@ $themes = array_slice( $themes, $start, $per_page );
 </div>
 
 <div class="clear"></div>
+<?php
+if ( ! current_user_can( 'switch_themes' ) ) {
+	echo '</div>';
+	require( './admin-footer.php' );
+	exit;
+}
+?>
 <h3><?php _e('Available Themes'); ?></h3>
 <div class="clear"></div>
 

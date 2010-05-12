@@ -145,9 +145,15 @@ unset($ptype, $ptype_obj);
 
 $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 
-$menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
-	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
-	$submenu['themes.php'][10] = array(__('Menus'), 'switch_themes', 'nav-menus.php');
+if ( current_user_can( 'switch_themes') ) {
+	$menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
+		$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
+		$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php');
+} else {
+	$menu[60] = array( __('Appearance'), 'edit_theme_options', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
+		$submenu['themes.php'][5]  = array(__('Themes'), 'edit_theme_options', 'themes.php');
+		$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php' );
+}
 
 // Add 'Editor' to the bottom of the Appearence menu.
 add_action('admin_menu', '_add_themes_utility_last', 101);
@@ -281,7 +287,7 @@ foreach ( array( 'submenu' ) as $sub_loop ) {
 unset($sub_loop);
 
 // Loop over the top-level menu.
-// Menus for which the original parent is not acessible due to lack of privs will have the next
+// Menus for which the original parent is not accessible due to lack of privs will have the next
 // submenu in line be assigned as the new menu parent.
 foreach ( $menu as $id => $data ) {
 	if ( empty($submenu[$data[2]]) )
