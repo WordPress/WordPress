@@ -2,6 +2,7 @@
 #dashboard_right_now p.musub {
 	margin-top: 12px;
 	border-top: 1px solid #ececec;
+	padding-left: 16px;
 	position: static;
 }
 

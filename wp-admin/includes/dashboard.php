@@ -215,8 +215,8 @@ function wp_dashboard_right_now() {
 
 	$num_comm = wp_count_comments( );
 
-	echo "\n\t".'<div class="table table_content">'."\n\t".'<table>';
-	echo "\n\t".'<p class="sub">' . __('Content') . '</p>';
+	echo "\n\t".'<div class="table table_content">';
+	echo "\n\t".'<p class="sub">' . __('Content') . '</p>'."\n\t".'<table>';
 	echo "\n\t".'<tr class="first">';
 
 	// Posts
@@ -286,8 +286,8 @@ function wp_dashboard_right_now() {
 	echo "\n\t</table>\n\t</div>";
 
 
-	echo "\n\t".'<div class="table table_discussion">'."\n\t".'<table>';
-	echo "\n\t".'<p class="sub">' . __('Discussion') . '</p>';
+	echo "\n\t".'<div class="table table_discussion">';
+	echo "\n\t".'<p class="sub">' . __('Discussion') . '</p>'."\n\t".'<table>';
 	echo "\n\t".'<tr class="first">';
 
 	// Total Comments
