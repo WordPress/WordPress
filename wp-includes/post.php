@@ -893,13 +893,13 @@ function register_post_type($post_type, $args = array()) {
  */
 function get_post_type_capabilities( $args ) {
 	$defaults = array(
-		'edit_post'          => 'edit_'         . $args->capabilities['capability_type'],
-		'edit_posts'         => 'edit_'         . $args->capabilities['capability_type'] . 's',
-		'edit_others_posts'  => 'edit_others_'  . $args->capabilities['capability_type'] . 's',
-		'publish_posts'      => 'publish_'      . $args->capabilities['capability_type'] . 's',
-		'read_post'          => 'edit_'         . $args->capabilities['capability_type'],
-		'read_private_posts' => 'read_private_' . $args->capabilities['capability_type'] . 's',
-		'delete_post'        => 'delete_'       . $args->capabilities['capability_type'],
+		'edit_post'          => 'edit_'         . $args->capability_type,
+		'edit_posts'         => 'edit_'         . $args->capability_type . 's',
+		'edit_others_posts'  => 'edit_others_'  . $args->capability_type . 's',
+		'publish_posts'      => 'publish_'      . $args->capability_type . 's',
+		'read_post'          => 'edit_'         . $args->capability_type,
+		'read_private_posts' => 'read_private_' . $args->capability_type . 's',
+		'delete_post'        => 'delete_'       . $args->capability_type,
 	);
 	$labels = array_merge( $defaults, $args->capabilities );
 	return (object) $labels;
