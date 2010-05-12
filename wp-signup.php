@@ -9,7 +9,7 @@ require( './wp-blog-header.php' );
 require_once( ABSPATH . WPINC . '/registration.php' );
 
 if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {
-	wp_redirect( "http://{$current_site->domain}{$current_site->path}" );
+	wp_redirect( network_home_url() );
 	die();
 }
 
@@ -28,9 +28,12 @@ if ( !is_multisite() ) {
 }
 
 if ( !is_main_site() ) {
-	wp_redirect( "http://" . $current_site->domain . $current_site->path . "wp-signup.php" );
+	wp_redirect( network_home_url( 'wp-signup.php' ) );
 	die();
 }
+
+// Fix for page title
+$wp_query->is_404 = false;
 
 function wpmu_signup_stylesheet() {
 	?>
@@ -75,7 +78,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="50" /><br />';
 	else
-		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . $current_site->path . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="50" /><span class="suffix_address">.' . $current_site->domain . '</span><br />';
 
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' );
@@ -83,7 +86,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 			print $current_site->domain . $current_site->path . __( 'sitename' );
 		else
 			print __( 'domain.' ) . $current_site->domain . $current_site->path;
-		echo '.</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
+		echo '.)</strong> ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 	}
 
 	// Blog Title
@@ -98,7 +101,7 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	<div id="privacy">
         <p class="privacy-intro">
             <label for="blog_public_on"><?php _e('Privacy:') ?></label>
-            <?php _e('I would like my site to appear in search engines like Google and Technorati, and in public listings around this network.'); ?>
+            <?php _e('Allow my site to appear in search engines like Google, Technorati, and in public listings around this network.'); ?>
             <div style="clear:both;"></div>
             <label class="checkbox" for="blog_public_on">
                 <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if ( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
@@ -137,7 +140,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php } ?>
-	<input name="user_email" type="text" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?>
+	<input name="user_email" type="text" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('We send your registration email to this address. (Double-check your email address before continuing.)') ?>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">' . $errmsg . '</p>';
@@ -177,7 +180,8 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 			<?php _e( 'Sites you are already a member of:' ) ?>
 			<ul>
 				<?php foreach ( $blogs as $blog ) {
-					echo "<li><a href='http://" . $blog->domain . $blog->path . "'>" . $blog->domain . $blog->path . "</a></li>";
+					$home_url = get_home_url( $blog->userblog_id );
+					echo '<li><a href="' . esc_url( $home_url ) . '">' . $home_url . '</a></li>';
 				} ?>
 			</ul>
 		</p>
@@ -360,15 +364,15 @@ function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user
 	<h2><?php printf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 
 	<p><?php _e( 'But, before you can start using your site, <strong>you must activate it</strong>.' ) ?></p>
-	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given. It should arrive within 30 minutes.' ),  $user_email) ?></p>
+	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given.' ),  $user_email) ?></p>
 	<p><?php _e( 'If you do not activate your site within two days, you will have to sign up again.' ); ?></p>
 	<h2><?php _e( 'Still waiting for your email?' ); ?></h2>
 	<p>
 		<?php _e( 'If you haven&#8217;t received your email yet, there are a number of things you can do:' ) ?>
 		<ul id="noemail-tips">
-			<li><p><strong><?php _e( 'Wait a little longer.  Sometimes delivery of email can be delayed by processes outside of our control.' ) ?></strong></p></li>
-			<li><p><?php _e( 'Check the junk or spam folder of your email client.  Sometime emails wind up there by mistake.' ) ?></p></li>
-			<li><?php printf( __( 'Have you entered your email correctly?  We think it&#8217;s %s but if you have entered it incorrectly, you will not receive it.' ), $user_email ) ?></li>
+			<li><p><strong><?php _e( 'Wait a little longer. Sometimes delivery of email can be delayed by processes outside of our control.' ) ?></strong></p></li>
+			<li><p><?php _e( 'Check the junk or spam folder of your email client. Sometime emails wind up there by mistake.' ) ?></p></li>
+			<li><?php printf( __( 'Have you entered your email correctly?  You have entered %s, if it&#8217;s incorrect, you will not receive your email.' ), $user_email ) ?></li>
 		</ul>
 	</p>
 	<?php
@@ -383,7 +387,7 @@ if ( !$active_signup )
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 
 if ( is_super_admin() )
-	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="wp-admin/ms-options.php">Options page</a>.' ), $active_signup ) . '</div>';
+	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="%s">Options page</a>.' ), $active_signup, esc_url( network_admin_url( 'ms-options.php' ) ) ) . '</div>';
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
@@ -424,7 +428,7 @@ if ( $active_signup == "none" ) {
 			elseif ( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )
 				signup_user( $newblogname, $user_email );
 			elseif ( is_user_logged_in() == false && ( $active_signup == 'blog' ) )
-				_e( 'We are sorry. We are not accepting new registrations at this time.' );
+				_e( 'Sorry, new registrations are not allowed at this time.' );
 			else
 				_e( 'You are logged in already. No need to register again!' );
 
