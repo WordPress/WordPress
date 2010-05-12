@@ -148,11 +148,11 @@ class Custom_Background {
 		call_user_func($this->admin_image_div_callback);
 	} else {
 ?>
-<h3><?php _e('Background Image'); ?></h3>
+<h3><?php _e('Background Preview'); ?></h3>
 <table class="form-table">
 <tbody>
 <tr valign="top">
-<th scope="row"><?php _e('Current Image'); ?></th>
+<th scope="row"><?php _e('Current Background'); ?></th>
 <td>
 <style type="text/css">
 #custom-background-image {

@@ -3685,19 +3685,9 @@ span.imgedit-scale-warn {
 
 /* Custom Background  */
 
-#custom-background table th, #custom-background table td {
-	text-align:left;
-	padding-right:40px;
-	padding-left:0;
-}
-
-#custom-background table label {
-	padding-right:10px;
-	width:80px;
-}
 div#custom-background-image {
 	min-height: 100px;
-	border: 1px solid #000;
+	border: 1px solid #dfdfdf;
 }
 
 div#custom-background-image img {

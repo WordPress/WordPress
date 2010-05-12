@@ -649,19 +649,6 @@ button.dismiss {
 	border-left-width: 1px;
 }
 
-/* Custom Background  */
-
-#custom-background table th, #custom-background table td {
-	text-align:right;
-	padding-right:0px;
-	padding-left:40px;
-}
-
-#custom-background table label {
-	padding-right:0;
-	padding-left:10px;
-}
-
 /* Custom Header */
 table#available-headers td {
 	padding: 0 0 10px 20px;
