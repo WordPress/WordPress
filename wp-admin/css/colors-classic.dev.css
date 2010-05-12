@@ -947,7 +947,7 @@ table.widefat .spam a:hover,
 
 #quicktags,
 .wp_themeSkin tr.mceFirst td.mceToolbar {
-	background: #e3eef7 url("../images/ed-bg-vs.gif") repeat-x scroll left top;
+	background: #d5e6f2 url("../images/ed-bg-vs.gif") repeat-x scroll left top;
 }
 .wp_themeSkin tr.mceFirst td.mceToolbar {
 	border-color: #dfdfdf;
@@ -1717,4 +1717,13 @@ div.widgets-sortables,
 
 .comment-ays th {
 	background-color: #f1f1f1;
+}
+
+#nav-menu-header, .menu-item-handle {
+	background: url("../images/blue-grad.png") repeat-x scroll left top #d5e6f2;
+}
+
+#menu-management .nav-tab-active {
+	background: #eaf3fa;
+	border-bottom-color: #eaf3fa;
 }

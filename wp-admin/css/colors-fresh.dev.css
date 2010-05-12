@@ -1693,3 +1693,12 @@ div.widgets-sortables,
 .comment-ays th {
 	background-color: #f1f1f1;
 }
+
+#nav-menu-header, .menu-item-handle {
+	background: url("../images/gray-grad.png") repeat-x scroll left top #dfdfdf;
+}
+
+#menu-management .nav-tab-active {
+	background: #ececec;
+	border-bottom-color: #ececec;
+}

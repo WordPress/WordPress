@@ -450,7 +450,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
-	$colors_version = '20100503';
+	$colors_version = '20100512';
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array(), $colors_version );
@@ -476,7 +476,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
-	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100506' );
+	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100512' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
