@@ -1525,7 +1525,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
 		$post_type_object = get_post_type_object($type);
-		if ( !current_user_can("read_private_{$post_type_object->capability_type}s") ) {
+		if ( !current_user_can( $post_type_object->read_private_cap ) ) {
 			$cache_key .= '_' . $perm . '_' . $user->ID;
 			$query .= " AND (post_status != 'private' OR ( post_author = '$user->ID' AND post_status = 'private' ))";
 		}
