@@ -46,7 +46,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	$ptype = get_post_type_object( $post_data['post_type'] );
 	if ( isset($post_data['user_ID']) && ($post_data['post_author'] != $post_data['user_ID']) ) {
-		if ( !current_user_can( $ptype->edit_others_cap ) ) {
+		if ( !current_user_can( $ptype->cap->edit_other_posts ) ) {
 			if ( 'page' == $post_data['post_type'] ) {
 				return new WP_Error( 'edit_others_pages', $update ?
 					__( 'You are not allowed to edit pages as this user.' ) :
@@ -81,7 +81,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( $ptype->publish_cap )) )
+	if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( $ptype->cap->publish_posts )) )
 		if ( $previous_status != 'publish' || !current_user_can( 'edit_post', $post_id ) )
 			$post_data['post_status'] = 'pending';
 
@@ -138,7 +138,7 @@ function edit_post( $post_data = null ) {
 	$post_ID = (int) $post_data['post_ID'];
 
 	$ptype = get_post_type_object($post_data['post_type']);
-	if ( !current_user_can( $ptype->edit_cap, $post_ID ) ) {
+	if ( !current_user_can( $ptype->cap->edit_post, $post_ID ) ) {
 		if ( 'page' == $post_data['post_type'] )
 			wp_die( __('You are not allowed to edit this page.' ));
 		else
@@ -237,7 +237,7 @@ function bulk_edit_posts( $post_data = null ) {
 	else
 		$ptype = get_post_type_object('post');
 
-	if ( !current_user_can( $ptype->edit_type_cap ) ) {
+	if ( !current_user_can( $ptype->cap->edit_posts ) ) {
 		if ( 'page' == $ptype->name )
 			wp_die( __('You are not allowed to edit pages.'));
 		else
@@ -494,7 +494,7 @@ function wp_write_post() {
 	else
 		$ptype = get_post_type_object('post');
 
-	if ( !current_user_can( $ptype->edit_type_cap ) ) {
+	if ( !current_user_can( $ptype->cap->edit_posts ) ) {
 		if ( 'page' == $ptype->name )
 			return new WP_Error( 'edit_pages', __( 'You are not allowed to create pages on this site.' ) );
 		else

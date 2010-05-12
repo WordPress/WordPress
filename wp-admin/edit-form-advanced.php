@@ -142,7 +142,7 @@ if ( post_type_supports($post_type, 'comments') )
 if ( ('publish' == $post->post_status || 'private' == $post->post_status) && post_type_supports($post_type, 'comments') )
 	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', $post_type, 'normal', 'core');
 
-if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) )
+if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->cap->publish_posts ) ) )
 	add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', $post_type, 'normal', 'core');
 
 if ( post_type_supports($post_type, 'author') ) {
@@ -221,7 +221,7 @@ $shortlink = wp_get_shortlink($post->ID, 'post');
 if ( !empty($shortlink) )
     $sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
 
-if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->publish_cap ) ) ) { ?>
+if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object->cap->publish_posts ) ) ) { ?>
 	<div id="edit-slug-box">
 	<?php
 		if ( ! empty($post->ID) && ! empty($sample_permalink_html) && 'auto-draft' != $post->post_status )

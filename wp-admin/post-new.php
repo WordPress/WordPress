@@ -46,7 +46,7 @@ When you&#8217;re promoted, just reload this page and you&#8217;ll be able to bl
 wp_enqueue_script('autosave');
 
 // Show post form.
-if ( current_user_can($post_type_object->edit_type_cap) ) {
+if ( current_user_can($post_type_object->cap->edit_posts) ) {
 	$post = get_default_post_to_edit( $post_type, true );
 	$post_ID = $post->ID;
 	include('edit-form-advanced.php');

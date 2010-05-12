@@ -129,9 +129,9 @@ foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 	while ( isset($menu[$ptype_menu_position]) || in_array($ptype_menu_position, $core_menu_positions) )
 		$ptype_menu_position++;
 
-	$menu[$ptype_menu_position] = array( esc_attr( $ptype_obj->labels->name ), $ptype_obj->edit_type_cap, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-' . $ptype_class, 'menu-' . $ptype_class, $menu_icon );
-	$submenu["edit.php?post_type=$ptype"][5]  = array( $ptype_obj->labels->edit, $ptype_obj->edit_type_cap,  "edit.php?post_type=$ptype");
-	$submenu["edit.php?post_type=$ptype"][10]  = array( $ptype_obj->labels->add_new, $ptype_obj->edit_type_cap, "post-new.php?post_type=$ptype" );
+	$menu[$ptype_menu_position] = array( esc_attr( $ptype_obj->labels->name ), $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-' . $ptype_class, 'menu-' . $ptype_class, $menu_icon );
+	$submenu["edit.php?post_type=$ptype"][5]  = array( $ptype_obj->labels->edit, $ptype_obj->cap->edit_posts,  "edit.php?post_type=$ptype");
+	$submenu["edit.php?post_type=$ptype"][10]  = array( $ptype_obj->labels->add_new, $ptype_obj->cap->edit_posts, "post-new.php?post_type=$ptype" );
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {

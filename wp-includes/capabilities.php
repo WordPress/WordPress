@@ -823,7 +823,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
 		if ( $post_type && 'post' != $post_type->capability_type ) {
-			$args = array_merge( array( $post_type->delete_cap, $user_id ), $args );
+			$args = array_merge( array( $post_type->cap->delete_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
 
@@ -900,7 +900,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
 		if ( $post_type && 'post' != $post_type->capability_type ) {
-			$args = array_merge( array( $post_type->edit_cap, $user_id ), $args );
+			$args = array_merge( array( $post_type->cap->edit_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
 		$post_author_data = get_userdata( $post->post_author );
@@ -959,7 +959,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
 		if ( $post_type && 'post' != $post_type->capability_type ) {
-			$args = array_merge( array( $post_type->read_cap, $user_id ), $args );
+			$args = array_merge( array( $post_type->cap->read_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
 

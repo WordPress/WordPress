@@ -14,7 +14,7 @@ function post_submit_meta_box($post) {
 
 	$post_type = $post->post_type;
 	$post_type_object = get_post_type_object($post_type);
-	$can_publish = current_user_can($post_type_object->publish_cap);
+	$can_publish = current_user_can($post_type_object->cap->publish_posts);
 ?>
 <div class="submitbox" id="submitpost">
 

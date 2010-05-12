@@ -2192,10 +2192,10 @@ class WP_Query {
 
 		if ( !empty($post_type_object) ) {
 			$post_type_cap = $post_type_object->capability_type;
-			$edit_cap = $post_type_object->edit_cap;
-			$read_cap = $post_type_object->read_cap;
-			$edit_others_cap = $post_type_object->edit_others_cap;
-			$read_private_cap = $post_type_object->read_private_cap;
+			$edit_cap = $post_type_object->cap->edit_post;
+			$read_cap = $post_type_object->cap->read_post;
+			$edit_others_cap = $post_type_object->cap->edit_other_posts;
+			$read_private_cap = $post_type_object->cap->read_private_posts;
 		} else {
 			$edit_cap = 'edit_' . $post_type_cap;
 			$read_cap = 'read_' . $post_type_cap;

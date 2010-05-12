@@ -876,7 +876,7 @@ function inline_edit_row( $screen ) {
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($screen) ) );
 	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
-	$can_publish = current_user_can($post_type_object->publish_cap);
+	$can_publish = current_user_can($post_type_object->cap->publish_posts);
 	$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
 
 ?>
@@ -1111,7 +1111,7 @@ endif; // post_type_supports comments or pings ?>
 				</select>
 			</label>
 
-<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->edit_others_cap ) ) : ?>
+<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_other_posts ) ) : ?>
 
 <?php	if ( $bulk ) : ?>
 
@@ -1181,7 +1181,7 @@ endif; // post_type_supports comments or pings ?>
  */
 function get_inline_data($post) {
 	$post_type_object = get_post_type_object($post->post_type);
-	if ( ! current_user_can($post_type_object->edit_cap, $post->ID) )
+	if ( ! current_user_can($post_type_object->cap->edit_post, $post->ID) )
 		return;
 
 	$title = esc_attr( get_the_title( $post->ID ) );
@@ -1298,7 +1298,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'cb':
 		?>
-		<th scope="row" class="check-column"><?php if ( current_user_can( $post_type_object->edit_cap, $post->ID ) ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
+		<th scope="row" class="check-column"><?php if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
 		<?php
 		break;
 
@@ -1341,17 +1341,17 @@ function _post_row($a_post, $pending_comments, $mode) {
 		case 'title':
 			$attributes = 'class="post-title column-title"' . $style;
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->edit_cap, $post->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states($post); ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->cap->edit_post, $post->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states($post); ?></strong>
 		<?php
 			if ( 'excerpt' == $mode )
 				the_excerpt();
 
 			$actions = array();
-			if ( current_user_can($post_type_object->edit_cap, $post->ID) && 'trash' != $post->post_status ) {
+			if ( current_user_can($post_type_object->cap->edit_post, $post->ID) && 'trash' != $post->post_status ) {
 				$actions['edit'] = '<a href="' . get_edit_post_link($post->ID, true) . '" title="' . esc_attr(__('Edit this post')) . '">' . __('Edit') . '</a>';
 				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__('Edit this post inline')) . '">' . __('Quick&nbsp;Edit') . '</a>';
 			}
-			if ( current_user_can($post_type_object->delete_cap, $post->ID) ) {
+			if ( current_user_can($post_type_object->cap->delete_post, $post->ID) ) {
 				if ( 'trash' == $post->post_status )
 					$actions['untrash'] = "<a title='" . esc_attr(__('Restore this post from the Trash')) . "' href='" . wp_nonce_url( admin_url( sprintf($post_type_object->_edit_link . '&amp;action=untrash', $post->ID) ), 'untrash-' . $post->post_type . '_' . $post->ID ) . "'>" . __('Restore') . "</a>";
 				elseif ( EMPTY_TRASH_DAYS )
@@ -1360,7 +1360,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this post permanently')) . "' href='" . get_delete_post_link($post->ID, '', true) . "'>" . __('Delete Permanently') . "</a>";
 			}
 			if ( in_array($post->post_status, array('pending', 'draft')) ) {
-				if ( current_user_can($post_type_object->edit_cap, $post->ID) )
+				if ( current_user_can($post_type_object->cap->edit_post, $post->ID) )
 					$actions['view'] = '<a href="' . add_query_arg( 'preview', 'true', get_permalink($post->ID) ) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
 			} elseif ( 'trash' != $post->post_status ) {
 				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
@@ -1443,13 +1443,13 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'control_edit':
 		?>
-		<td><?php if ( current_user_can($post_type_object->edit_cap, $post->ID) ) { echo "<a href='$edit_link' class='edit'>" . __('Edit') . "</a>"; } ?></td>
+		<td><?php if ( current_user_can($post_type_object->cap->edit_post, $post->ID) ) { echo "<a href='$edit_link' class='edit'>" . __('Edit') . "</a>"; } ?></td>
 		<?php
 		break;
 
 		case 'control_delete':
 		?>
-		<td><?php if ( current_user_can($post_type_object->delete_cap, $post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete'>" . __('Delete') . "</a>"; } ?></td>
+		<td><?php if ( current_user_can($post_type_object->cap->delete_post, $post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete'>" . __('Delete') . "</a>"; } ?></td>
 		<?php
 		break;
 
@@ -1566,14 +1566,14 @@ foreach ( $posts_columns as $column_name => $column_display_name ) {
 		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->edit_cap, $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . $post_type_object->labels->parent . ' ' . esc_html($parent_name) : ''; ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->cap->edit_post, $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . $post_type_object->labels->parent . ' ' . esc_html($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
-		if ( current_user_can($post_type_object->edit_cap, $page->ID) && $post->post_status != 'trash' ) {
+		if ( current_user_can($post_type_object->cap->edit_post, $page->ID) && $post->post_status != 'trash' ) {
 			$actions['edit'] = '<a href="' . $edit_link . '" title="' . esc_attr(__('Edit this page')) . '">' . __('Edit') . '</a>';
 			$actions['inline'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
 		}
-		if ( current_user_can($post_type_object->delete_cap, $page->ID) ) {
+		if ( current_user_can($post_type_object->cap->delete_post, $page->ID) ) {
 			if ( $post->post_status == 'trash' )
 				$actions['untrash'] = "<a title='" . esc_attr(__('Remove this page from the Trash')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=untrash&amp;post=$page->ID", 'untrash-' . $post->post_type . '_' . $page->ID) . "'>" . __('Restore') . "</a>";
 			elseif ( EMPTY_TRASH_DAYS )
@@ -1582,7 +1582,7 @@ foreach ( $posts_columns as $column_name => $column_display_name ) {
 				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this page permanently')) . "' href='" . wp_nonce_url("post.php?post_type=$post_type&amp;action=delete&amp;post=$page->ID", 'delete-' . $post->post_type . '_' . $page->ID) . "'>" . __('Delete Permanently') . "</a>";
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
-			if ( current_user_can($post_type_object->edit_cap, $page->ID) )
+			if ( current_user_can($post_type_object->cap->edit_post, $page->ID) )
 				$actions['view'] = '<a href="' . add_query_arg( 'preview', 'true', get_permalink($page->ID) ) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
 		} elseif ( $post->post_status != 'trash' ) {
 			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
@@ -2010,7 +2010,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$post = get_post($comment->comment_post_ID);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 	$post_type_object = get_post_type_object($post->post_type);
-	$user_can = current_user_can($post_type_object->edit_cap, $post->ID);
+	$user_can = current_user_can($post_type_object->cap->edit_post, $post->ID);
 
 	$comment_url = esc_url(get_comment_link($comment->comment_ID));
 	$author_url = get_comment_author_url();
@@ -3328,10 +3328,10 @@ function favorite_actions( $screen = null ) {
 	if ( isset($post_type_object) ) {
 		switch ( $screen->id ) {
 			case $post_type_object->name:
-				$default_action = array('edit.php?post_type=' . $post_type_object->name => array($post_type_object->labels->edit_item, $post_type_object->edit_type_cap));
+				$default_action = array('edit.php?post_type=' . $post_type_object->name => array($post_type_object->labels->edit_item, $post_type_object->cap->edit_posts));
 				break;
 			case "edit-{$post_type_object->name}":
-				$default_action = array('post-new.php?post_type=' . $post_type_object->name => array($post_type_object->labels->new_item, $post_type_object->edit_type_cap));
+				$default_action = array('post-new.php?post_type=' . $post_type_object->name => array($post_type_object->labels->new_item, $post_type_object->cap->edit_posts));
 				break;
 		}
 	}

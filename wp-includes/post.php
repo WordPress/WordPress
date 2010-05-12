@@ -774,12 +774,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
  * - inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
- * - edit_cap - The capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
- * - edit_type_cap - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
- * - edit_others_cap - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
- * - publish_others_cap - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
- * - read_cap - The capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
- * - delete_cap - The capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
+ * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used to construct capabilities.
  * - hierarchical - Whether the post type is hierarchical. Defaults to false.
  * - supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
  * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
@@ -802,7 +797,7 @@ function register_post_type($post_type, $args = array()) {
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
 		'labels' => array(), 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null,
-		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'hierarchical' => false,
+		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'capabilities' => array(), 'hierarchical' => false,
 		'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
 		'permalink_epmask' => EP_PERMALINK, 'can_export' => true,
@@ -827,20 +822,8 @@ function register_post_type($post_type, $args = array()) {
 
 	if ( empty($args->capability_type) )
 		$args->capability_type = 'post';
-	if ( empty($args->edit_cap) )
-		$args->edit_cap = 'edit_' . $args->capability_type;
-	if ( empty($args->edit_type_cap) )
-		$args->edit_type_cap = 'edit_' . $args->capability_type . 's';
-	if ( empty($args->edit_others_cap) )
-		$args->edit_others_cap = 'edit_others_' . $args->capability_type . 's';
-	if ( empty($args->publish_cap) )
-		$args->publish_cap = 'publish_' . $args->capability_type . 's';
-	if ( empty($args->read_cap) )
-		$args->read_cap = 'read_' . $args->capability_type;
-	if ( empty($args->read_private_cap) )
-		$args->read_private_cap = 'read_private_' . $args->capability_type . 's';
-	if ( empty($args->delete_cap) )
-		$args->delete_cap = 'delete_' . $args->capability_type;
+
+	$args->cap = get_post_type_capabilities( $args );
 
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
@@ -890,6 +873,36 @@ function register_post_type($post_type, $args = array()) {
 	}
 
 	return $args;
+}
+
+/**
+ * Builds an object with all post type capabilities out of a post type object
+ * 
+ * Accepted keys of the capabilities array in the post type object:
+ * - edit_post - The meta capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
+ * - edit_posts - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
+ * - edit_others_posts - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
+ * - publish_posts - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
+ * - read_post - The meta capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
+ * - read_private_posts - The capability that controls reading private posts. Defaults to "read_ . $capability_type . s" (read_private_posts).
+ * - delete_post - The meta capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
+ * 
+ * @since 3.0.0
+ * @param object $args
+ * @return object object with all the capabilities as member variables
+ */
+function get_post_type_capabilities( $args ) {
+	$defaults = array(
+		'edit_post'          => 'edit_'         . $args->capabilities['capability_type'],
+		'edit_posts'         => 'edit_'         . $args->capabilities['capability_type'] . 's',
+		'edit_others_posts'  => 'edit_others_'  . $args->capabilities['capability_type'] . 's',
+		'publish_posts'      => 'publish_'      . $args->capabilities['capability_type'] . 's',
+		'read_post'          => 'edit_'         . $args->capabilities['capability_type'],
+		'read_private_posts' => 'read_private_' . $args->capabilities['capability_type'] . 's',
+		'delete_post'        => 'delete_'       . $args->capabilities['capability_type'],
+	);
+	$labels = array_merge( $defaults, $args->capabilities );
+	return (object) $labels;
 }
 
 /**
@@ -1525,7 +1538,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
 		$post_type_object = get_post_type_object($type);
-		if ( !current_user_can( $post_type_object->read_private_cap ) ) {
+		if ( !current_user_can( $post_type_object->cap->read_private_posts ) ) {
 			$cache_key .= '_' . $perm . '_' . $user->ID;
 			$query .= " AND (post_status != 'private' OR ( post_author = '$user->ID' AND post_status = 'private' ))";
 		}

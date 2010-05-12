@@ -793,7 +793,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !$post_type_object )
 		return;
 
-	if ( !current_user_can( $post_type_object->edit_cap, $post->ID ) )
+	if ( !current_user_can( $post_type_object->cap->edit_post, $post->ID ) )
 		return;
 
 	return apply_filters( 'get_edit_post_link', admin_url( sprintf($post_type_object->_edit_link . $action, $post->ID) ), $post->ID, $context );
@@ -846,7 +846,7 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
 	if ( !$post_type_object )
 		return;
 
-	if ( !current_user_can( $post_type_object->delete_cap, $post->ID ) )
+	if ( !current_user_can( $post_type_object->cap->delete_post, $post->ID ) )
 		return;
 
 	$action = ( $force_delete || !EMPTY_TRASH_DAYS ) ? 'delete' : 'trash';
