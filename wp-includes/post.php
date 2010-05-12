@@ -824,6 +824,7 @@ function register_post_type($post_type, $args = array()) {
 		$args->capability_type = 'post';
 
 	$args->cap = get_post_type_capabilities( $args );
+	unset($args->capabilities);
 
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
