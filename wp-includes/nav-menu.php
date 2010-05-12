@@ -299,7 +299,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'post_parent' => $original_parent,
 		'post_title' => $args['menu-item-title'],
 		'post_type' => 'nav_menu_item',
-		'tax_input' => array( 'nav_menu' => $menu->name ),
+		'tax_input' => array( 'nav_menu' => array( intval( $menu->term_id ) ) ),
 	);
 
 	// New menu item
