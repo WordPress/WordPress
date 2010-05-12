@@ -88,7 +88,7 @@ class Custom_Background {
 		check_admin_referer('custom-background');
 
 		if ( isset($_POST['reset-background']) ) {
-			remove_theme_mods();
+			remove_theme_mod( 'background_image' );
 			return;
 		}
 		if ( isset($_POST['remove-background']) ) {
