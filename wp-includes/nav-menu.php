@@ -91,12 +91,7 @@ function wp_create_nav_menu( $menu_name, $args = array() ) {
 	if ( $menu_exists )
 		return new WP_Error( 'menu_exists', sprintf( __('The menu name <strong>%s</strong> conflicts with another menu name. Please try another.'), esc_html( $menu_name ) ) );
 
-	if ( isset($args['slug']) )
-		$slug = $args['slug'];
-	else
-		$slug = $menu_name;
-
-	$menu = wp_insert_term( $menu_name, 'nav_menu', array('slug' => $slug) );
+	$menu = wp_insert_term( $menu_name, 'nav_menu' );
 
 	if ( is_wp_error($menu) )
 		return $menu;
