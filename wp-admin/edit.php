@@ -140,7 +140,7 @@ if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delet
 wp_enqueue_script('inline-edit-post');
 
 $user_posts = false;
-if ( !current_user_can($post_type_object->cap->edit_other_posts) ) {
+if ( !current_user_can($post_type_object->cap->edit_others_posts) ) {
 	$user_posts_count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(1) FROM $wpdb->posts WHERE post_type = '%s' AND post_status NOT IN ('trash', 'auto-draft') AND post_author = %d", $post_type, $current_user->ID) );
 	$user_posts = true;
 	if ( $user_posts_count && empty($_GET['post_status']) && empty($_GET['all_posts']) && empty($_GET['author']) )
@@ -345,7 +345,7 @@ do_action('restrict_manage_posts');
 <input type="submit" id="post-query-submit" value="<?php esc_attr_e('Filter'); ?>" class="button-secondary" />
 <?php }
 
-if ( $is_trash && current_user_can($post_type_object->cap->edit_other_posts) ) { ?>
+if ( $is_trash && current_user_can($post_type_object->cap->edit_others_posts) ) { ?>
 <input type="submit" name="delete_all" id="delete_all" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
@@ -396,7 +396,7 @@ if ( $page_links )
 <?php } ?>
 </select>
 <input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-<?php if ( $is_trash && current_user_can($post_type_object->cap->edit_other_posts) ) { ?>
+<?php if ( $is_trash && current_user_can($post_type_object->cap->edit_others_posts) ) { ?>
 <input type="submit" name="delete_all2" id="delete_all2" value="<?php esc_attr_e('Empty Trash'); ?>" class="button-secondary apply" />
 <?php } ?>
 <br class="clear" />

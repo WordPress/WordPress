@@ -2194,7 +2194,7 @@ class WP_Query {
 			$post_type_cap = $post_type_object->capability_type;
 			$edit_cap = $post_type_object->cap->edit_post;
 			$read_cap = $post_type_object->cap->read_post;
-			$edit_others_cap = $post_type_object->cap->edit_other_posts;
+			$edit_others_cap = $post_type_object->cap->edit_others_posts;
 			$read_private_cap = $post_type_object->cap->read_private_posts;
 		} else {
 			$edit_cap = 'edit_' . $post_type_cap;

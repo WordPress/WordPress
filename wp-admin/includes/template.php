@@ -1111,7 +1111,7 @@ endif; // post_type_supports comments or pings ?>
 				</select>
 			</label>
 
-<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_other_posts ) ) : ?>
+<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
 
 <?php	if ( $bulk ) : ?>
 
