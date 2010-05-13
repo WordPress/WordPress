@@ -800,7 +800,7 @@ function register_post_type($post_type, $args = array()) {
 		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'capabilities' => array(), 'hierarchical' => false,
 		'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
-		'permalink_epmask' => EP_PERMALINK, 'can_export' => true,
+		'permalink_epmask' => EP_PERMALINK, 'can_export' => true, 'show_in_nav_menus' => null
 	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
@@ -815,6 +815,10 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to the setting for public.
 	if ( null === $args->show_ui )
 		$args->show_ui = $args->public;
+
+	// Whether to show this type in nav-menus.php.  Defaults to the setting for public.
+	if ( null === $args->show_in_nav_menus )
+		$args->show_in_nav_menus = $args->public;
 
 	// If not set, default to true if not public, false if public.
 	if ( null === $args->exclude_from_search )

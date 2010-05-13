@@ -362,7 +362,7 @@ function wp_initial_nav_menu_meta_boxes() {
  * @since 3.0.0
  */
 function wp_nav_menu_post_type_meta_boxes() {
-	$post_types = get_post_types( array( 'public' => true ), 'object' );
+	$post_types = get_post_types( array( 'show_in_nav_menus' => true ), 'object' );
 
 	if ( ! $post_types )
 		return;
