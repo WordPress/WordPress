@@ -334,7 +334,7 @@ function wp_nav_menu_setup() {
 function wp_initial_nav_menu_meta_boxes() {
 	global $wp_meta_boxes;
 
-	if ( get_user_option( 'metaboxhidden_nav-menus' ) || ! is_array($wp_meta_boxes) )
+	if ( get_user_option( 'metaboxhidden_nav-menus' ) !== false || ! is_array($wp_meta_boxes) )
 		return;
 
 	$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
