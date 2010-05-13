@@ -251,13 +251,9 @@ function wp_nav_menu( $args = array() ) {
 	$nav_menu .= '<ul'. $attributes .'>';
 
 	// Allow plugins to hook into the menu to add their own <li>'s
-	if ( 'frontend' == $args->context ) {
-		$items = apply_filters( 'wp_nav_menu_items', $items, $args );
-		$items = apply_filters( "wp_nav_menu_{$menu->slug}_items", $items, $args );
-		$nav_menu .= $items;
-	} else {
-		$nav_menu .= $items;
-	}
+	$items = apply_filters( 'wp_nav_menu_items', $items, $args );
+	$items = apply_filters( "wp_nav_menu_{$menu->slug}_items", $items, $args );
+	$nav_menu .= $items;
 	unset($items);
 
 	$nav_menu .= '</ul>';
