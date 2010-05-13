@@ -101,7 +101,7 @@ class Walker_Nav_Menu extends Walker {
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 
-		$output .= apply_filters( 'wp_get_nav_menu_item', $item_output, $args );
+		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
 
 	/**
