@@ -247,6 +247,7 @@ switch ( $action ) {
 			} else {
 				$messages[] = '<div id="message" class="updated"><p>' . __('The menu has been successfully deleted.') . '</p></div>';
 				$nav_menu_selected_id = 0; // Reset the selected menu
+				unset($_REQUEST['menu']);
 			}
 			unset( $delete_nav_menu );
 		}
