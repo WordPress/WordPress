@@ -170,16 +170,18 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
  *
  * Optional $args contents:
  *
- * menu - The menu id. Defaults to blank.
- * slug - The menu slug. Defaults to blank.
+ * menu - The menu that is desired.  Accepts (matching in order) id, slug, name. Defaults to blank.
  * menu_class - CSS class to use for the ul container of the menu list. Defaults to 'menu'.
  * container - Whether to wrap the ul, and what to wrap it with. Defaults to 'div'.
+ * conatiner_class - the class that is applied to the container. Defaults to blank.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
  * before - Text before the link text.
  * after - Text after the link text.
  * link_before - Text before the link.
  * link_after - Text after the link.
  * echo - Whether to echo the menu or return it. Defaults to echo.
+ * depth - how many levels of the hierarchy are to be included.  0 means all.  Defaults to 0.
+ *
  *
  * @todo show_home - If you set this argument, then it will display the link to the home page. The show_home argument really just needs to be set to the value of the text of the link.
  *
@@ -199,7 +201,7 @@ function wp_nav_menu( $args = array() ) {
 	// Get the nav menu
 	$menu = wp_get_nav_menu_object( $args->menu );
 
-	// If we couldn't find a menu based off the name, id or slug,
+	// If we couldn't find a menu based off the menu argument 
 	// get the first menu that has items.
 	if ( ! $menu ) {
 		$menus = wp_get_nav_menus();
