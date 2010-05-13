@@ -170,10 +170,10 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
  *
  * Optional $args contents:
  *
- * id - The menu id. Defaults to blank.
+ * menu - The menu id. Defaults to blank.
  * slug - The menu slug. Defaults to blank.
- * menu_class - CSS class to use for the div container of the menu list. Defaults to 'menu'.
- * format - Whether to format the ul. Defaults to 'div'.
+ * menu_class - CSS class to use for the ul container of the menu list. Defaults to 'menu'.
+ * container - Whether to wrap the ul, and what to wrap it with. Defaults to 'div'.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
  * before - Text before the link text.
  * after - Text after the link text.
