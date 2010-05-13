@@ -554,7 +554,9 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		</ul>
 		<?php echo $after_widget; ?>
 <?php
-			wp_reset_query();  // Restore global post data stomped by the_post().
+		// Reset the global $the_post as this query will have stomped on it
+		wp_reset_postdata();
+
 		endif;
 
 		$cache[$args['widget_id']] = ob_get_flush();
