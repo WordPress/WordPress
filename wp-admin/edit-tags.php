@@ -352,7 +352,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
 	<p><?php _e('The name is how it appears on your site.'); ?></p>
 </div>
-<?php if ( !is_multisite() ) : ?>
+<?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field">
 	<label for="tag-slug"><?php echo _x('Slug', 'Taxonomy Slug'); ?></label>
 	<input name="slug" id="tag-slug" type="text" value="" size="40" />
