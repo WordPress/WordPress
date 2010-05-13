@@ -646,7 +646,7 @@ function get_tag_feed_link($tag_id, $feed = '') {
 function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
 	global $post_type;
 	$tax = get_taxonomy($taxonomy);
-	if ( !current_user_can($tax->edit_cap) )
+	if ( !current_user_can($tax->cap->edit_terms) )
 		return;
 
 	$tag = get_term($tag_id, $taxonomy);
@@ -668,7 +668,7 @@ function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
  */
 function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
 	$tax = get_taxonomy('post_tag');
-	if ( !current_user_can($tax->edit_cap) )
+	if ( !current_user_can($tax->cap->edit_terms) )
 		return;
 
 	$tag = get_term($tag, 'post_tag');

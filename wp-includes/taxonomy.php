@@ -256,7 +256,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 						'show_ui' => null,
 						'label' => null,
 						'show_tagcloud' => null,
-						'_builtin' => false
+						'_builtin' => false,
+						'capabilities' => array(),
 						);
 	$args = wp_parse_args($args, $defaults);
 
@@ -285,12 +286,14 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	if ( is_null($args['label'] ) )
 		$args['label'] = $taxonomy;
 
-	foreach ( array('manage_cap', 'edit_cap', 'delete_cap') as $cap ) {
-		if ( empty($args[$cap]) )
-			$args[$cap] = 'manage_categories';
-	}
-	if ( empty($args['assign_cap']) )
-		$args['assign_cap'] = 'edit_posts';
+	$default_caps = array(
+		'manage_terms' => 'manage_categories',
+		'edit_terms'   => 'manage_categories',
+		'delete_terms' => 'manage_categories',
+		'assign_terms' => 'edit_posts',
+	);
+	$args['cap'] = (object) array_merge( $default_caps, $args['capabilities'] );
+	unset( $args['capabilities'] );
 
 	if ( empty($args['singular_label']) )
 		$args['singular_label'] = $args['label'];

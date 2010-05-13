@@ -249,14 +249,14 @@ function post_tags_meta_box($post, $box) {
 	$help_nojs  = isset( $taxonomy->help_nojs  ) ? $taxonomy->help_nojs         : __('Add or remove tags');
 	$help_cloud = isset( $taxonomy->help_cloud ) ? $taxonomy->help_cloud        : __('Choose from the most used tags in %s');
 
-	$disabled = !current_user_can($taxonomy->assign_cap) ? 'disabled="disabled"' : '';
+	$disabled = !current_user_can($taxonomy->cap->assign_terms) ? 'disabled="disabled"' : '';
 ?>
 <div class="tagsdiv" id="<?php echo $tax_name; ?>">
 	<div class="jaxtag">
 	<div class="nojs-tags hide-if-js">
 	<p><?php echo $help_nojs; ?></p>
 	<textarea name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" <?php echo $disabled; ?>><?php echo esc_attr(get_terms_to_edit( $post->ID, $tax_name )); ?></textarea></div>
- 	<?php if ( current_user_can($taxonomy->assign_cap) ) : ?>
+ 	<?php if ( current_user_can($taxonomy->cap->assign_terms) ) : ?>
 	<div class="ajaxtag hide-if-no-js">
 		<label class="screen-reader-text" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
 		<div class="taghint"><?php echo $help_hint; ?></div>
@@ -268,7 +268,7 @@ function post_tags_meta_box($post, $box) {
 	</div>
 	<div class="tagchecklist"></div>
 </div>
-<?php if ( current_user_can($taxonomy->assign_cap) ) : ?>
+<?php if ( current_user_can($taxonomy->cap->assign_terms) ) : ?>
 <p class="hide-if-no-js"><a href="#titlediv" class="tagcloud-link" id="link-<?php echo $tax_name; ?>"><?php printf( $help_cloud, $box['title'] ); ?></a></p>
 <?php else : ?>
 <p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
@@ -315,10 +315,10 @@ function post_categories_meta_box( $post, $box ) {
 				<?php wp_terms_checklist($post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
 			</ul>
 		</div>
-	<?php if ( !current_user_can($tax->assign_cap) ) : ?>
+	<?php if ( !current_user_can($tax->cap->assign_terms) ) : ?>
 	<p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
 	<?php endif; ?>
-	<?php if ( current_user_can($tax->edit_cap) ) : ?>
+	<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
 			<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
 				<h4><a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js" tabindex="3"><?php printf( __( '+ Add New %s' ), $tax->singular_label ); ?></a></h4>
 				<p id="<?php echo $taxonomy; ?>-add" class="category-add wp-hidden-child">

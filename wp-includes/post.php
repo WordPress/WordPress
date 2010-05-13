@@ -2329,7 +2329,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 			$taxonomy_obj = get_taxonomy($taxonomy);
 			if ( is_array($tags) ) // array = hierarchical, string = non-hierarchical.
 				$tags = array_filter($tags);
-			if ( current_user_can($taxonomy_obj->assign_cap) )
+			if ( current_user_can($taxonomy_obj->cap->assign_terms) )
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
 		}
 	}

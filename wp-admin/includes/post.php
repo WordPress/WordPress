@@ -318,7 +318,7 @@ function bulk_edit_posts( $post_data = null ) {
 
 		foreach ( $tax_names as $tax_name ) {
 			$taxonomy_obj = get_taxonomy($tax_name);
-			if(  isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->assign_cap ) )
+			if(  isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->cap->assign_terms ) )
 				$new_terms = $tax_input[$tax_name];
 			else 
 				$new_terms = array();

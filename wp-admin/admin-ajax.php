@@ -219,7 +219,7 @@ function _wp_ajax_add_hierarchical_term() {
 	$action = $_POST['action'];
 	$taxonomy = get_taxonomy(substr($action, 4));
 	check_ajax_referer( $action );
-	if ( !current_user_can( $taxonomy->edit_cap ) )
+	if ( !current_user_can( $taxonomy->cap->edit_terms ) )
 		die('-1');
 	$names = explode(',', $_POST['new'.$taxonomy->name]);
 	$parent = isset($_POST['new'.$taxonomy->name.'_parent']) ? (int) $_POST['new'.$taxonomy->name.'_parent'] : 0;
@@ -334,7 +334,7 @@ case 'delete-tag' :
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tax = get_taxonomy($taxonomy);
 
-	if ( !current_user_can( $tax->delete_cap ) )
+	if ( !current_user_can( $tax->cap->delete_terms ) )
 		die('-1');
 
 	$tag = get_term( $tag_id, $taxonomy );
@@ -566,7 +566,7 @@ case 'add-tag' : // From Manage->Tags
 
 	$x = new WP_Ajax_Response();
 
-	if ( !current_user_can( $tax->edit_cap ) )
+	if ( !current_user_can( $tax->cap->edit_terms ) )
 		die('-1');
 
 	$tag = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST );
@@ -1204,7 +1204,7 @@ case 'inline-save-tax':
 		die( __('Cheatin&#8217; uh?') );
 	$tax = get_taxonomy($taxonomy);
 
-	if ( ! current_user_can( $tax->edit_cap ) )
+	if ( ! current_user_can( $tax->cap->edit_terms ) )
 		die( __('Cheatin&#8217; uh?') );
 
 	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )

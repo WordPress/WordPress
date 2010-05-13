@@ -41,7 +41,7 @@ case 'add-tag':
 
 	check_admin_referer('add-tag');
 
-	if ( !current_user_can($tax->edit_cap) )
+	if ( !current_user_can($tax->cap->edit_terms) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$ret = wp_insert_term($_POST['tag-name'], $taxonomy, $_POST);
@@ -79,7 +79,7 @@ case 'delete':
 	$tag_ID = (int) $_GET['tag_ID'];
 	check_admin_referer('delete-tag_' .  $tag_ID);
 
-	if ( !current_user_can($tax->delete_cap) )
+	if ( !current_user_can($tax->cap->delete_terms) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	wp_delete_term( $tag_ID, $taxonomy);
@@ -93,7 +93,7 @@ break;
 case 'bulk-delete':
 	check_admin_referer('bulk-tags');
 
-	if ( !current_user_can($tax->delete_cap) )
+	if ( !current_user_can($tax->cap->delete_terms) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$tags = (array) $_GET['delete_tags'];
@@ -130,7 +130,7 @@ case 'editedtag':
 	$tag_ID = (int) $_POST['tag_ID'];
 	check_admin_referer('update-tag_' . $tag_ID);
 
-	if ( !current_user_can($tax->edit_cap) )
+	if ( !current_user_can($tax->cap->edit_terms) )
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$ret = wp_update_term($tag_ID, $taxonomy, $_POST);
@@ -161,7 +161,7 @@ if ( ! empty($_GET['_wp_http_referer']) ) {
 }
 
 wp_enqueue_script('admin-tags');
-if ( current_user_can($tax->edit_cap) )
+if ( current_user_can($tax->cap->edit_terms) )
 	wp_enqueue_script('inline-edit-tax');
 
 require_once ('admin-header.php');
@@ -318,7 +318,7 @@ do_action('after-' . $taxonomy . '-table', $taxonomy);
 <div class="col-wrap">
 
 <?php
-if ( current_user_can( $tax->edit_cap ) )
+if ( current_user_can( $tax->cap->edit_terms ) )
 	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false, 'link' => 'edit' ) );
 else
 	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
@@ -332,7 +332,7 @@ if ( $tag_cloud ) :
 <?php
 endif;
 
-if ( current_user_can($tax->edit_cap) ) {
+if ( current_user_can($tax->cap->edit_terms) ) {
 	if ( 'category' == $taxonomy )
 		do_action('add_category_form_pre', (object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_pre_add_form
 	else

@@ -22,7 +22,7 @@
 function inline_edit_term_row($type, $taxonomy) {
 
 	$tax = get_taxonomy($taxonomy);
-	if ( ! current_user_can( $tax->edit_cap ) )
+	if ( ! current_user_can( $tax->cap->edit_terms ) )
 		return;
 
 	$columns = get_column_headers($type);
@@ -261,7 +261,7 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 	$args = array('taxonomy' => $taxonomy);
 
 	$tax = get_taxonomy($taxonomy);
-	$args['disabled'] = !current_user_can($tax->assign_cap);
+	$args['disabled'] = !current_user_can($tax->cap->assign_terms);
 
 	if ( is_array( $selected_cats ) )
 		$args['selected_cats'] = $selected_cats;
@@ -324,7 +324,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	$terms = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
 
 	$tax = get_taxonomy($taxonomy);
-	if ( ! current_user_can($tax->assign_cap) )
+	if ( ! current_user_can($tax->cap->assign_terms) )
 		$disabled = 'disabled="disabled"';
 	else
 		$disabled = '';
@@ -436,7 +436,7 @@ function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
 
 			switch ($column_name) {
 				case 'cb':
-					if ( current_user_can($tax->delete_cap) && $tag->term_id != $default_term )
+					if ( current_user_can($tax->cap->delete_terms) && $tag->term_id != $default_term )
 						$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 					else
 						$out .= '<th scope="row" class="check-column">&nbsp;</th>';
@@ -444,11 +444,11 @@ function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
 				case 'name':
 					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $name)) . '">' . $name . '</a></strong><br />';
 					$actions = array();
-					if ( current_user_can($tax->edit_cap) ) {
+					if ( current_user_can($tax->cap->edit_terms) ) {
 						$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 						$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
 					}
-					if ( current_user_can($tax->delete_cap) && $tag->term_id != $default_term )
+					if ( current_user_can($tax->cap->delete_terms) && $tag->term_id != $default_term )
 						$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "'>" . __('Delete') . "</a>";
 
 					$actions = apply_filters('tag_row_actions', $actions, $tag);

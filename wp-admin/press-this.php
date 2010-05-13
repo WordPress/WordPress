@@ -504,10 +504,10 @@ var photostorage = false;
 						</ul>
 					</div>
 
-					<?php if ( !current_user_can($tax->assign_cap) ) : ?>
+					<?php if ( !current_user_can($tax->cap->assign_terms) ) : ?>
 					<p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
 					<?php endif; ?>
-					<?php if ( current_user_can($tax->edit_cap) ) : ?>
+					<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
 						<div id="category-adder" class="wp-hidden-children">
 							<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php printf( __( '+ Add New %s' ), $tax->singular_label ); ?></a></h4>
 							<p id="category-add" class="category-add wp-hidden-child">
