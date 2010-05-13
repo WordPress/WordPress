@@ -1843,6 +1843,8 @@ class WP_Query {
 					$search .= " AND ($wpdb->posts.post_password = '') ";
 			}
 		}
+		
+		// Allow plugins to contextually add/remove/modify the search section of the database query
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Category stuff
