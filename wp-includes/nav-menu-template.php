@@ -193,7 +193,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 function wp_nav_menu( $args = array() ) {
 	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'menu_class' => 'menu', 'echo' => true,
 	'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
-	'depth' => 0, 'walker' => '', 'context' => 'frontend' );
+	'depth' => 0, 'walker' => '', 'context' => 'frontend', 'theme_menu' => '' );
 
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_nav_menu_args', $args );
@@ -201,6 +201,12 @@ function wp_nav_menu( $args = array() ) {
 
 	// Get the nav menu
 	$menu = wp_get_nav_menu_object( $args->menu );
+
+	if ( ! $menu && $slot ) {
+		$slots = get_nav_menu_slots();
+		if ( isset($slots) && isset($slots['theme_menu']) )
+			$menu = wp_get_nav_menu_object( $slots['theme_menu'] );
+	}
 
 	// If we couldn't find a menu based off the menu argument 
 	// get the first menu that has items.

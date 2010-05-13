@@ -62,6 +62,31 @@ function is_nav_menu( $menu ) {
 }
 
 /**
+ * Register nav menus for a theme.
+ *
+ * @since 3.0.0
+ *
+ * @param array Associative array of menu slot identifiers and descriptions.
+ */
+function register_nav_menus( $menus = array() ) {
+	global $_wp_registered_nav_menus;
+
+	add_theme_support( 'nav-menus' );
+
+	$_wp_registered_nav_menus = $menus;
+}
+
+function get_registered_nav_menus() {
+	global $_wp_registered_nav_menus;
+
+	return $_wp_registered_nav_menus;
+}
+
+function get_nav_menu_slots() {
+	return get_theme_mod('nav_menu_slots');
+}
+
+/**
  * Determine whether the given ID is a nav menu item.
  *
  * @since 3.0.0

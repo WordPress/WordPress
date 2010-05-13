@@ -80,7 +80,7 @@ function twentyten_setup() {
 	add_theme_support( 'post-thumbnails' );
 
 	// This theme uses wp_nav_menu()
-	add_theme_support( 'nav-menus' );
+	register_nav_menus( array('main' => __('Main Menu')) );
 
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
