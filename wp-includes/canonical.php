@@ -83,9 +83,14 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	if ( is_404() ) {
 
 		// Redirect ?page_id, ?p=, ?attachment_id= to their respective url's
-		$id = max( get_query_var('p'), get_query_var('page_id'), get_query_var('attachment_id'));
-		if ( $id && $redirect_url = get_permalink($id) )
-			$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
+		$id = max( get_query_var('p'), get_query_var('page_id'), get_query_var('attachment_id') );
+		if ( $id && $redirect_post = get_post($id) ) {
+			$post_type_obj = get_post_type_object($redirect_post->post_type);
+			if ( $post_type_obj->public ) {
+				$redirect_url = get_permalink($redirect_post);
+				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
+			}
+		}
 
 		if ( ! $redirect_url )
 			$redirect_url = redirect_guess_404_permalink();
