@@ -1326,7 +1326,9 @@ function remove_theme_mods() {
  * @return string
  */
 function get_header_textcolor() {
-	return get_theme_mod('header_textcolor', HEADER_TEXTCOLOR);
+	$default = defined('HEADER_TEXTCOLOR') ? HEADER_TEXTCOLOR : '';
+
+	return get_theme_mod('header_textcolor', $default);
 }
 
 /**
@@ -1347,7 +1349,9 @@ function header_textcolor() {
  * @return string
  */
 function get_header_image() {
-	return get_theme_mod('header_image', HEADER_IMAGE);
+	$default = defined('HEADER_IMAGE') ? HEADER_IMAGE : '';
+
+	return get_theme_mod('header_image', $default);
 }
 
 /**
