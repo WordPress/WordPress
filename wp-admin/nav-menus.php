@@ -482,18 +482,7 @@ require_once( 'admin-header.php' );
 									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="Enter menu name here." value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
 									<br class="clear" />
 								</label>
-								<?php if ( ! empty( $nav_menu_selected_id ) && $slots = get_registered_nav_menus() ) : ?>
-								<label class="menu-name-label howto open-label" for="menu-slot">
-									<span><?php _e('Theme Menu'); ?></span>
-									<select id="menu-slot" name="menu-slot">
-									<?php foreach ( $slots as $slot_key => $slot_text ) {
-										echo '<option value="' . esc_attr($slot_key) . '">' . esc_html($slot_text) . '</option>';
-									}
-									?>
-									</select>
-									<br class="clear" />
-								</label>
-								<?php endif; ?>
+
 								<div class="publishing-action">
 									<input class="button-primary" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
 								</div><!--END .publishing-action-->
