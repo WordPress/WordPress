@@ -181,8 +181,9 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
  * link_after - Text after the link.
  * echo - Whether to echo the menu or return it. Defaults to echo.
  * depth - how many levels of the hierarchy are to be included.  0 means all.  Defaults to 0.
- *
- *
+ * walker - allows a custom walker to be specified.
+ * context - the context the menu is used in.
+ * 
  * @todo show_home - If you set this argument, then it will display the link to the home page. The show_home argument really just needs to be set to the value of the text of the link.
  *
  * @since 3.0.0
