@@ -779,7 +779,6 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
  * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
- * - inherit_type - The post type from which to inherit the edit link and capability type. Defaults to none.
  * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
  * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used to construct capabilities.
  * - hierarchical - Whether the post type is hierarchical. Defaults to false.
@@ -787,7 +786,14 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
  * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
  * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
- * 
+ * - permalink_epmask - The default rewrite endpoint bitmasks. 
+ * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $taxonomy as slug.
+ * - query_var - false to prevent queries, or string to value of the query var to use for this post type
+ * - can_export - true allows this post type to be exported.
+ * - show_in_nav_menus - true makes this post type available for selection in navigation menus. 
+ * - _builtin - true if this post type is a native or "built-in" post_type.  THIS IS FOR INTERNAL USE ONLY!
+ * - _edit_link - URL segement to use for edit link of this post type.  Set to 'post.php?post=%d'.  THIS IS FOR INTERNAL USE ONLY! 
+ *
  * @since 2.9.0
  * @uses $wp_post_types Inserts new post type object into the list
  *
