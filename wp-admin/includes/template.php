@@ -3610,7 +3610,7 @@ function screen_meta($screen) {
 			<br class="clear" />
 		</div>
 		<?php endif;
-		if ( isset($column_screens) ) : ?>
+		if ( ! empty($column_screens) ) : ?>
 		<h5><?php echo apply_filters('columns_prefs_header', $default_text); ?></h5>
 		<div class="metabox-prefs">
 			<?php manage_columns_prefs($screen); ?>
