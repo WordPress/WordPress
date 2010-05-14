@@ -155,7 +155,10 @@ class Custom_Background {
 <th scope="row"><?php _e('Current Background'); ?></th>
 <td>
 <?php
-$background_styles = "background-color: #" . get_background_color() . ";";
+$background_styles = '';
+if ( get_background_color() ) {
+	$background_styles .= "background-color: #" . get_background_color() . ";";
+}
 
 if ( get_background_image() ) { 
 	$background_styles .= "
@@ -202,7 +205,7 @@ if ( get_background_image() ) {
 <?php endif; ?>
 <tr valign="top">
 <th scope="row"><?php _e('Upload Image'); ?></th>
-<td><form enctype="multipart/form-data" id="uploadForm" method="POST" action="">
+<td><form enctype="multipart/form-data" id="uploadForm" method="post" action="">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-background') ?>
