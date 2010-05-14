@@ -1111,7 +1111,7 @@ function preview_theme() {
 	}
 
 	// Prevent theme mods to current theme being used on theme being previewed
-	add_filter( 'pre_option_mods_' . get_current_theme(), create_function( '', "return array();" ) );
+	add_filter( 'pre_option_mods_' . get_current_theme(), '__return_empty_array' );
 
 	ob_start( 'preview_theme_ob_filter' );
 }

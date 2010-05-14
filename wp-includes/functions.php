@@ -4163,6 +4163,19 @@ function __return_zero() {
 }
 
 /**
+ * Returns an empty array
+ *
+ * Useful for returning an empty array to filters easily
+ *
+ * @since 3.0.0
+ * @see __return_zero()
+ * @return array Empty array
+ */
+function __return_empty_array() {
+	return array();
+}
+
+/**
  * Send a HTTP header to disable content type sniffing in browsers which support it.
  *
  * @link http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
