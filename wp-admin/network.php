@@ -110,6 +110,7 @@ function network_step1( $errors = false ) {
 
 	if ( get_option( 'siteurl' ) != get_option( 'home' ) ) {
 		echo '<div class="error"><p><strong>' . __('Error:') . '</strong> ' . sprintf( __( 'Your <strong>WordPress address</strong> must match your <strong>Site address</strong> before creating a Network. See <a href="%s">General Settings</a>.' ), esc_url( admin_url( 'options-general.php' ) ) ) . '</strong></p></div>';
+		echo '</div>';
 		include ('./admin-footer.php' );
 		die();
 	}
@@ -117,6 +118,7 @@ function network_step1( $errors = false ) {
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
 		echo '<div class="updated"><p><strong>' . __('Warning:') . '</strong> ' . sprintf( __( 'Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.' ), admin_url( 'plugins.php?plugin_status=active' ) ) . '</p></div><p>' . __(' Once the network is created, you may reactivate your plugins.' ) . '</p>';
+		echo '</div>';
 		include( './admin-footer.php' );
 		die();
 	}
@@ -127,6 +129,7 @@ function network_step1( $errors = false ) {
 		echo '<div class="error"><p><strong>' . __( 'Error:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</strong></p></div>';
 		echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
 		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
+		echo '</div>';
 		include( './admin-footer.php' );
 		die();
 	}
