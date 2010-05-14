@@ -962,21 +962,26 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
 }
 
 /**
- * Returns the menu item formatted to edit.
+ * Returns the menu formatted to edit.
  *
  * @since 3.0.0
  *
- * @param string $menu_item_id The ID of the menu item to format.
+ * @param string $menu_id The ID of the menu to format.
  * @return string|WP_Error $output The menu formatted to edit or error object on failure.
  */
-function wp_get_nav_menu_to_edit( $menu_item_id = 0 ) {
-	$menu = wp_get_nav_menu_object( $menu_item_id );
+function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
+	$menu = wp_get_nav_menu_object( $menu_id );
 
 	// If the menu exists, get its items.
 	if ( is_nav_menu( $menu ) ) {
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, array('post_status' => 'any') );
 
-		$walker = new Walker_Nav_Menu_Edit;
+		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
+
+		if ( class_exists( $walker_class_name ) )
+			$walker = new $walker_class_name;
+		else
+			return new WP_Error( 'menu_walker_not_exist', sprintf( __('The Walker class named <strong>%s</strong> does not exist.'), $walker_class_name ) );
 
 		return walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
 	} elseif ( is_wp_error( $menu ) ) {
