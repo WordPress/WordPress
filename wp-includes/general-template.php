@@ -463,7 +463,11 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			break;
 		case 'text_direction':
 			//_deprecated_argument( __FUNCTION__, '2.2', sprintf( __('The <code>%s</code> option is deprecated for the family of <code>bloginfo()</code> functions.' ), $show ) . ' ' . sprintf( __( 'Use the <code>%s</code> function instead.' ), 'is_rtl()'  ) );
-			return function_exists( 'is_rtl' ) ? is_rtl() : 'ltr';
+			if ( function_exists( 'is_rtl' ) ) {
+				$output = is_rtl() ? 'rtl' : 'ltr';
+			} else {
+				$output = 'ltr';
+			}
 			break;
 		case 'name':
 		default:
