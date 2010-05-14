@@ -46,7 +46,7 @@ if ( empty($pagenum) )
 $per_page = 'edit_' . $post_type . '_per_page';
 $per_page = (int) get_user_option( $per_page );
 if ( empty( $per_page ) || $per_page < 1 )
-	$per_page = 15;
+	$per_page = 20;
 // @todo filter based on type
 $per_page = apply_filters( 'edit_posts_per_page', $per_page );
 
