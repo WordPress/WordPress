@@ -154,7 +154,7 @@ if ($allowed_files) :
 		$description = trim( get_file_description($template_file) );
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description<br /><span class='nonessential'>($template_show)</span>" : "$description";
-		$filedesc = ( $template_file == $file ) ? "<div class='highlight'>$description<br /><span class='nonessential'>($template_show)</span></div>" : $filedesc;
+		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description<br /><span class='nonessential'>($template_show)</span></span>" : $filedesc;
 
 		// If we have two files of the same name prefer the one in the Template Directory
 		// This means that we display the correct files for child themes which overload Templates as well as Styles
@@ -181,7 +181,7 @@ if ($allowed_files) :
 		$description = trim( get_file_description($style_file) );
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description<br /><span class='nonessential'>($style_show)</span>" : "$description";
-		$filedesc = ( $style_file == $file ) ? "<div class='highlight'>$description<br /><span class='nonessential'>($style_show)</span></div>" : $filedesc;
+		$filedesc = ( $style_file == $file ) ? "<span class='highlight'>$description<br /><span class='nonessential'>($style_show)</span></span>" : $filedesc;
 		$template_mapping[ $description ] = array( _get_template_edit_filename($style_file, $stylesheet_dir), $filedesc );
 	}
 	ksort( $template_mapping );

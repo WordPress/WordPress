@@ -33,6 +33,10 @@
 	margin: 4px 0;
 }
 
+#templateside ul li a span.highlight {
+	display:block;
+}
+
 .nonessential {
 	font-size: 11px;
 	font-style: italic;
