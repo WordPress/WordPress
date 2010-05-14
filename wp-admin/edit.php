@@ -154,6 +154,7 @@ if ( $post_type_object->hierarchical )
 else
 	$num_pages = $wp_query->max_num_pages;
 
+$title = $post_type_object->labels->name;
 require_once('./admin-header.php');
 
 if ( empty($_GET['mode']) )
@@ -163,7 +164,7 @@ else
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo esc_html( $post_type_object->labels->edit_item ); ?> <a href="<?php echo $post_new_file ?>" class="button add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a> <?php
+<h2><?php echo esc_html( $post_type_object->labels->name ); ?> <a href="<?php echo $post_new_file ?>" class="button add-new-h2"><?php echo esc_html($post_type_object->labels->add_new); ?></a> <?php
 if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
 </h2>
