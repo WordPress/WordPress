@@ -546,7 +546,7 @@ switch ( $action ) {
 										'visit' => '',
 									);
 
-									$actions['edit']	= '<span class="edit"><a href="' . esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a><span>';
+									$actions['edit']	= '<span class="edit"><a href="' . esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
 									$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url($blog['blog_id']) ) . "' class='edit'>" . __( 'Backend' ) . '</a></span>';
 									if ( $current_site->blog_id != $blog['blog_id'] ) {
 										if ( get_blog_status( $blog['blog_id'], 'deleted' ) == '1' )
@@ -567,7 +567,7 @@ switch ( $action ) {
 										$actions['delete']	= '<span class="delete"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
 									}
 
-									$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a>';
+									$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
 									$actions = array_filter( $actions );
 									if ( count( $actions ) ) : ?>
 									<div class="row-actions">

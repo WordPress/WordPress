@@ -170,7 +170,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 		<table class="widefat">
 			<thead>
 			<tr>
-				<th class="manage-column column-cb check-column" id="cb" scope="col">
+				<th class="manage-column column-cb check-column" scope="col">
 					<input type="checkbox" />
 				</th>
 				<?php
@@ -190,7 +190,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 			</thead>
 			<tfoot>
 			<tr>
-				<th class="manage-column column-cb check-column" id="cb" scope="col">
+				<th class="manage-column column-cb check-column" scope="col">
 					<input type="checkbox" />
 				</th>
 				<?php echo $col_url; ?>
