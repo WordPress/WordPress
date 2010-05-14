@@ -1069,7 +1069,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 		echo $args['before_widget'];
 
-		if ( isset($instance['title']) )
+		if ( !empty($instance['title']) )
 			echo $args['before_title'] . $instance['title'] . $args['after_title'];
 
 		wp_nav_menu( array( 'menu' => $nav_menu ) );
