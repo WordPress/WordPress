@@ -771,6 +771,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *
  * Optional $args contents:
  *
+ * - label - Name of the post type shown in the menu. Usually plural. If not set, labels['name'] will be used.
  * - description - A short descriptive summary of what the post type is. Defaults to blank.
  * - public - Whether posts of this type should be shown in the admin UI. Defaults to false.
  * - exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
@@ -869,11 +870,7 @@ function register_post_type($post_type, $args = array()) {
 		add_action('add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1);
 
 	$args->labels = get_post_type_labels( $args );
-	
-	// we keep these two only for backwards compatibility
-	// TODO: remove in 3.1	
 	$args->label = $args->labels->name;
-	$args->singular_label = $args->labels->singular_name;
 
 	$wp_post_types[$post_type] = $args;
 
@@ -920,7 +917,7 @@ function get_post_type_capabilities( $args ) {
  * Builds an object with all post type labels out of a post type object
  * 
  * Accepted keys of the label array in the post type object:
- * - name - general name for the post type, usually plural. Default is Posts/Pages
+ * - name - general name for the post type, usually plural. The same and overriden by $post_type_object->label. Default is Posts/Pages
  * - singular_name - name for one object of this post type. Default is Post/Page
  * - add_new - Default is Add New for both hierarchical and non-hierarchical types. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Add New', 'product');</code>
  * - add_new_item - Default is Add New Post/Add New Page
@@ -965,14 +962,8 @@ function get_post_type_labels( $post_type_object ) {
  */
 function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	
-	// try to get missing (singular_)?name from older style (singular_)?label member variables
-	// we keep that for backwards compatibility
-	// TODO: remove in 3.1
-	if ( !isset( $object->labels['name'] ) && isset( $object->label ) ) {
+	if ( isset( $object->label ) ) {
 		$object->labels['name'] = $object->label;
-	}
-	if ( !isset( $object->labels['singular_name'] ) && isset( $object->singular_label ) ) {
-		$object->labels['singular_name'] = $object->singular_label;
 	}
 	
 	if ( !isset( $object->labels['singular_name'] ) && isset( $object->labels['name'] ) ) {

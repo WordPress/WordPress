@@ -210,6 +210,8 @@ function is_taxonomy_hierarchical($taxonomy) {
  * whether taxonomy exists.
  *
  * Optional $args contents:
+ * 
+ * label - Name of the taxonomy shown in the menu. Usually plural. If not set, labels['name'] will be used.
  *
  * hierarchical - has some defined purpose at other parts of the API and is a
  * boolean value.
@@ -297,12 +299,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	$args['name'] = $taxonomy;
 	$args['object_type'] = (array) $object_type;
+
 	$args['labels'] = get_taxonomy_labels( (object) $args );
-	
-	// we keep these two only for backwards compatibility
-	// TODO: remove in 3.1	
 	$args['label'] = $args['labels']->name;
-	$args['singular_label'] = $args['labels']->singular_name;
 	
 	$wp_taxonomies[$taxonomy] = (object) $args;
 
@@ -314,7 +313,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * Builds an object with all taxonomy labels out of a taxonomy object
  * 
  * Accepted keys of the label array in the taxonomy object:
- * - name - general name for the taxonomy, usually plural. Default is Post Tags/Categories
+ * - name - general name for the taxonomy, usually plural. The same as and overriden by $tax->label. Default is Post Tags/Categories
  * - singular_name - name for one object of this taxonomy. Default is Post Tag/Category
  * - search_items - Default is Search Tags/Search Categories
  * - popular_items - Default is Popular Tags/Popular Categories
