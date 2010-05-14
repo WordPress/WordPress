@@ -1283,7 +1283,8 @@ function wp_create_post_autosave( $post_id ) {
 function post_preview() {
 
 	$post_ID = (int) $_POST['post_ID'];
-	if ( $post_ID < 1 )
+	$status = get_post_status( $post_ID );
+	if ( 'auto-draft' == $status )
 		wp_die( __('Preview not available. Please save as a draft first.') );
 
 	if ( isset($_POST['catslist']) )
