@@ -190,6 +190,21 @@ function _x( $single, $context, $domain = 'default' ) {
 	return translate_with_gettext_context( $single, $context, $domain );
 }
 
+/**
+ * Displays translated string with gettext context
+ * 
+ * @see _x
+ * @since 3.0.0
+ *
+ * @param string $text Text to translate
+ * @param string $context Context information for the translators
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated context string without pipe
+ */
+function _ex( $single, $context, $domain = 'default' ) {
+	echo _x( $single, $context, $domain );
+}
+
 function esc_attr_x( $single, $context, $domain = 'default' ) {
 	return esc_attr( translate_with_gettext_context( $single, $context, $domain ) );
 }

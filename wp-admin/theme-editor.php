@@ -172,7 +172,7 @@ if ($allowed_files) :
 		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>&amp;dir=theme"><?php echo $filedesc ?></a></li>
 <?php endwhile; ?>
 	</ul>
-	<h3><?php /* translators: Theme stylesheets in theme editor */ echo _x('Styles', 'Theme stylesheets in theme editor'); ?></h3>
+	<h3><?php /* translators: Theme stylesheets in theme editor */ _ex('Styles', 'Theme stylesheets in theme editor'); ?></h3>
 	<ul>
 <?php
 	$template_mapping = array();

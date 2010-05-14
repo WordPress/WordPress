@@ -47,9 +47,9 @@ $comment->comment_author_email = esc_attr($comment->comment_author_email);
 <div id="misc-publishing-actions">
 
 <div class="misc-pub-section" id="comment-status-radio">
-<label class="approved"><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php /* translators: comment type radio button */ echo _x('Approved', 'adjective') ?></label><br />
-<label class="waiting"><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php /* translators: comment type radio button */ echo _x('Pending', 'adjective') ?></label><br />
-<label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php /* translators: comment type radio button */ echo _x('Spam', 'adjective'); ?></label>
+<label class="approved"><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php /* translators: comment type radio button */ _ex('Approved', 'adjective') ?></label><br />
+<label class="waiting"><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php /* translators: comment type radio button */ _ex('Pending', 'adjective') ?></label><br />
+<label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php /* translators: comment type radio button */ _ex('Spam', 'adjective'); ?></label>
 </div>
 
 <div class="misc-pub-section curtime misc-pub-section-last">

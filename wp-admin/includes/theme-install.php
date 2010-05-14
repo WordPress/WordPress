@@ -156,7 +156,7 @@ function install_theme_search_form() {
 	<select	name="type" id="typeselector">
 	<option value="term" <?php selected('term', $type) ?>><?php _e('Term'); ?></option>
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
-	<option value="tag" <?php selected('tag', $type) ?>><?php echo _x('Tag', 'Theme Installer'); ?></option>
+	<option value="tag" <?php selected('tag', $type) ?>><?php _ex('Tag', 'Theme Installer'); ?></option>
 	</select>
 	<input type="text" name="s" size="30" value="<?php echo esc_attr($term) ?>" />
 	<input type="submit" name="search" value="<?php esc_attr_e('Search'); ?>" class="button" />

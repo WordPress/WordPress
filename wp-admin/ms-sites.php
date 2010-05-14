@@ -113,7 +113,7 @@ switch ( $action ) {
 							<?php } ?>
 						</tr>
 						<tr class="form-field">
-							<th scope="row"><?php echo _x( 'Registered', 'site' ) ?></th>
+							<th scope="row"><?php _ex( 'Registered', 'site' ) ?></th>
 							<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr( $details->registered ) ?>" size="40" /></td>
 						</tr>
 						<tr class="form-field">
@@ -414,8 +414,8 @@ switch ( $action ) {
 			<select name="action">
 				<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
 				<option value="delete"><?php _e( 'Delete' ); ?></option>
-				<option value="spam"><?php echo _x( 'Mark as Spam', 'site' ); ?></option>
-				<option value="notspam"><?php echo _x( 'Not Spam', 'site' ); ?></option>
+				<option value="spam"><?php _ex( 'Mark as Spam', 'site' ); ?></option>
+				<option value="notspam"><?php _ex( 'Not Spam', 'site' ); ?></option>
 			</select>
 			<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction" id="doaction" class="button-secondary action" />
 			<?php wp_nonce_field( 'bulk-ms-sites' ); ?>
@@ -665,8 +665,8 @@ switch ( $action ) {
 			<select name="action2">
 				<option value="-1" selected="selected"><?php _e( 'Bulk Actions' ); ?></option>
 				<option value="delete"><?php _e( 'Delete' ); ?></option>
-				<option value="spam"><?php echo _x( 'Mark as Spam', 'site' ); ?></option>
-				<option value="notspam"><?php echo _x( 'Not Spam', 'site' ); ?></option>
+				<option value="spam"><?php _ex( 'Mark as Spam', 'site' ); ?></option>
+				<option value="notspam"><?php _ex( 'Not Spam', 'site' ); ?></option>
 			</select>
 			<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 			</div>

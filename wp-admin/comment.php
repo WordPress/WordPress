@@ -159,7 +159,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 </tr>
 <?php } ?>
 <tr>
-<th scope="row" valign="top"><?php /* translators: field name in comment form */ echo _x('Comment', 'noun'); ?></th>
+<th scope="row" valign="top"><?php /* translators: field name in comment form */ _ex('Comment', 'noun'); ?></th>
 <td><?php echo $comment->comment_content; ?></td>
 </tr>
 </table>

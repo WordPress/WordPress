@@ -348,20 +348,20 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 <?php wp_nonce_field('add-tag'); ?>
 
 <div class="form-field form-required">
-	<label for="tag-name"><?php echo _x('Name', 'Taxonomy Name'); ?></label>
+	<label for="tag-name"><?php _ex('Name', 'Taxonomy Name'); ?></label>
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
 	<p><?php _e('The name is how it appears on your site.'); ?></p>
 </div>
 <?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field">
-	<label for="tag-slug"><?php echo _x('Slug', 'Taxonomy Slug'); ?></label>
+	<label for="tag-slug"><?php _ex('Slug', 'Taxonomy Slug'); ?></label>
 	<input name="slug" id="tag-slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 <?php endif; // is_multisite() ?>
 <?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 <div class="form-field">
-	<label for="parent"><?php echo _x('Parent', 'Taxonomy Parent'); ?></label>
+	<label for="parent"><?php _ex('Parent', 'Taxonomy Parent'); ?></label>
 	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
 	<?php if ( 'category' == $taxonomy ) : // @todo: Generic text for hierarchical taxonomies ?>
 		<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
@@ -369,7 +369,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 </div>
 <?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field">
-	<label for="tag-description"><?php echo _x('Description', 'Taxonomy Description'); ?></label>
+	<label for="tag-description"><?php _ex('Description', 'Taxonomy Description'); ?></label>
 	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>

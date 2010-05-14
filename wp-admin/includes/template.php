@@ -3602,7 +3602,7 @@ function screen_meta($screen) {
 <div id="screen-options-wrap" class="hidden">
 	<form id="adv-settings" action="" method="post">
 	<?php if ( isset($wp_meta_boxes[$screen->id]) ) : ?>
-		<h5><?php echo _x('Show on screen', 'Metaboxes') ?></h5>
+		<h5><?php _ex('Show on screen', 'Metaboxes') ?></h5>
 		<div class="metabox-prefs">
 			<?php meta_box_prefs($screen); ?>
 			<br class="clear" />

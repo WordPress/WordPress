@@ -363,9 +363,9 @@ if ( isset($_GET['detached']) ) { ?>
 <tr>
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"></th>
-	<th scope="col"><?php /* translators: column name in media */ echo _x('Media', 'media column name'); ?></th>
-	<th scope="col"><?php /* translators: column name in media */ echo _x('Author', 'media column name'); ?></th>
-	<th scope="col"><?php /* translators: column name in media */ echo _x('Date Added', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ _ex('Media', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ _ex('Author', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ _ex('Date Added', 'media column name'); ?></th>
 </tr>
 </thead>
 
@@ -373,9 +373,9 @@ if ( isset($_GET['detached']) ) { ?>
 <tr>
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"></th>
-	<th scope="col"><?php /* translators: column name in media */ echo _x('Media', 'media column name'); ?></th>
-	<th scope="col"><?php /* translators: column name in media */ echo _x('Author', 'media column name'); ?></th>
-	<th scope="col"><?php /* translators: column name in media */ echo _x('Date Added', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ _ex('Media', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ _ex('Author', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ _ex('Date Added', 'media column name'); ?></th>
 </tr>
 </tfoot>
 
