@@ -1247,7 +1247,7 @@ function get_media_item( $attachment_id, $args = null ) {
 			if ( !empty( $media_dims ) )
 				$item .= "<p><strong>" . __('Dimensions:') . "</strong> $media_dims</p>\n";
 
-			echo "</td></tr>\n";
+			$item .= "</td></tr>\n";
 
 
 
