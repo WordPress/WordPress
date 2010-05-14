@@ -3591,9 +3591,10 @@ function screen_meta($screen) {
 	switch ( $screen->id ) {
 		case 'widgets':
 			$settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
+			$show_screen = true;
 			break;
 	}
-	if( $settings )
+	if( !empty($settings) )
 		$show_screen = true;
 ?>
 <div id="screen-meta">
@@ -3608,7 +3609,7 @@ function screen_meta($screen) {
 		</div>
 		<?php endif;
 		if ( ! empty($column_screens) ) : ?>
-		<h5><?php echo _x('Show on screen', 'Columns') ?></h5>
+		<h5><?php echo ( isset( $column_screens['title'] ) ?  $column_screens['title'] :  _x('Show on screen', 'Columns') ) ?></h5>
 		<div class="metabox-prefs">
 			<?php manage_columns_prefs($screen); ?>
 			<br class="clear" />
