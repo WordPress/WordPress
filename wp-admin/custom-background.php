@@ -154,18 +154,19 @@ class Custom_Background {
 <tr valign="top">
 <th scope="row"><?php _e('Current Background'); ?></th>
 <td>
-<style type="text/css">
-#custom-background-image {
-	background-color: #<?php echo get_background_color()?>;
-	<?php if ( get_background_image() ) { ?>
-	background: url(<?php echo get_theme_mod('background_image_thumb', ''); ?>);
-	background-repeat: <?php echo get_theme_mod('background_repeat', 'no-repeat'); ?>;
-	background-position: top <?php echo get_theme_mod('background_position', 'left'); ?>;
-	background-attachment: <?php echo get_theme_mod('background_position', 'fixed'); ?>;
-	<?php } ?>
+<?php
+$background_styles = "background-color: #" . get_background_color() . ";";
+
+if ( get_background_image() ) { 
+	$background_styles .= "
+	background-image: url(" . get_theme_mod('background_image_thumb', '') . ");
+	background-repeat: ". get_theme_mod('background_repeat', 'no-repeat') . ";
+	background-position: top ". get_theme_mod('background_position', 'left') . ";
+	background-attachment: " . get_theme_mod('background_position', 'fixed') . ";
+	";
 }
-</style>
-<div id="custom-background-image">
+?>
+<div id="custom-background-image" style="<?php echo $background_styles; ?>">
 <?php if ( get_background_image() ) { ?>
 <img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" /><br />
 <img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" />
@@ -325,6 +326,10 @@ class Custom_Background {
 
 		$thumbnail = wp_get_attachment_image_src( $id, 'thumbnail' );
 		set_theme_mod('background_image_thumb', esc_url( $thumbnail[0] ) );
+		
+		set_theme_mod('background_position', get_theme_mod('background_position', 'left') );
+		set_theme_mod('background_repeat', get_theme_mod('background_repeat', 'tile') );
+		set_theme_mod('background-attachment',  get_theme_mod('background_position', 'fixed') );
 
 		do_action('wp_create_file_in_uploads', $file, $id); // For replication
 		$this->updated = true;
