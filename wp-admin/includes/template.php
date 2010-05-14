@@ -3597,21 +3597,18 @@ function screen_meta($screen) {
 		$show_screen = true;
 ?>
 <div id="screen-meta">
-<?php
-	if ( $show_screen ) :
-		$default_text = __('Show on screen');
-?>
+<?php if ( $show_screen ) : ?>
 <div id="screen-options-wrap" class="hidden">
 	<form id="adv-settings" action="" method="post">
 	<?php if ( isset($wp_meta_boxes[$screen->id]) ) : ?>
-		<h5><?php echo apply_filters('meta_box_prefs_header', $default_text); ?></h5>
+		<h5><?php echo _x('Show on screen', 'Metaboxes') ?></h5>
 		<div class="metabox-prefs">
 			<?php meta_box_prefs($screen); ?>
 			<br class="clear" />
 		</div>
 		<?php endif;
 		if ( ! empty($column_screens) ) : ?>
-		<h5><?php echo apply_filters('columns_prefs_header', $default_text); ?></h5>
+		<h5><?php echo _x('Show on screen', 'Columns') ?></h5>
 		<div class="metabox-prefs">
 			<?php manage_columns_prefs($screen); ?>
 			<br class="clear" />
@@ -3624,8 +3621,7 @@ function screen_meta($screen) {
 </form>
 </div>
 
-<?php
-	endif;
+<?php endif; // $show_screen
 
 	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen);
 	?>
