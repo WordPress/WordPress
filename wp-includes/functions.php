@@ -4128,6 +4128,7 @@ function _search_terms_tidy($t) {
  *
  * Useful for returning true to filters easily
  *
+ * @since 3.0.0
  * @see __return_false()
  * @return bool true
  */
@@ -4140,11 +4141,25 @@ function __return_true() {
  *
  * Useful for returning false to filters easily
  *
+ * @since 3.0.0
  * @see __return_true()
  * @return bool false
  */
 function __return_false() {
 	return false;
+}
+
+/**
+ * Returns 0
+ *
+ * Useful for returning 0 to filters easily
+ *
+ * @since 3.0.0
+ * @see __return_zero()
+ * @return int 0
+ */
+function __return_zero() {
+	return 0;
 }
 
 /**

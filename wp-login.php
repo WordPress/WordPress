@@ -42,7 +42,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	global $error, $is_iphone, $interim_login, $current_site;
 
 	// Don't index any of these forms
-	add_filter( 'pre_option_blog_public', create_function( '$a', 'return 0;' ) );
+	add_filter( 'pre_option_blog_public', '__return_zero' );
 	add_action( 'login_head', 'noindex' );
 
 	if ( empty($wp_error) )
