@@ -112,7 +112,7 @@ foreach ( get_object_taxonomies($post_type) as $tax_name ) {
 	if ( ! $taxonomy->show_ui )
 		continue;
 
-	$label = isset($taxonomy->label) ? esc_attr($taxonomy->label) : $tax_name;
+	$label = $taxonomy->labels->name;
 
 	if ( !is_taxonomy_hierarchical($tax_name) )
 		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', $post_type, 'side', 'core');

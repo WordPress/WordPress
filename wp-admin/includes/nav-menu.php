@@ -391,7 +391,7 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 		$tax = apply_filters( 'nav_menu_meta_box_object', $tax );
 		if ( $tax ) {
 			$id = $tax->name;
-			add_meta_box( "add-{$id}", $tax->label, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
+			add_meta_box( "add-{$id}", $tax->labels->name, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
 		}
 	}
 }

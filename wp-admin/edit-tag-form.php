@@ -24,7 +24,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php printf(_x('Edit %s', '%s: singular taxonomy name'), $tax->singular_label); ?></h2>
+<h2><?php echo $tax->labels->edit_item; ?></h2>
 <div id="ajax-response"></div>
 <form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate">
 <input type="hidden" name="action" value="editedtag" />
@@ -75,6 +75,6 @@ else
 	do_action('edit_tag_form', $tag);
 do_action($taxonomy . '_edit_form', $tag, $taxonomy);
 ?>
-<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr( sprintf(_x('Update %s', '%s: singular taxonomy name'), $tax->singular_label)); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr( __( 'Update' ) ); ?>" /></p>
 </form>
 </div>

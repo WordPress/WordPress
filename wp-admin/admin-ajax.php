@@ -281,7 +281,10 @@ function _wp_ajax_add_hierarchical_term() {
 	}
 
 	ob_start();
-		wp_dropdown_categories( array( 'taxonomy' => $taxonomy->name, 'hide_empty' => 0, 'name' => 'new'.$taxonomy->name.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => sprintf( __('&mdash; Parent %s &mdash;'), $taxonomy->singular_label ) ) );
+		wp_dropdown_categories( array(
+			'taxonomy' => $taxonomy->name, 'hide_empty' => 0, 'name' => 'new'.$taxonomy->name.'_parent', 'orderby' => 'name',
+			'hierarchical' => 1, 'show_option_none' => '&mdash; '.$taxonomy->labels->parent_item.' &mdash;'
+		) );
 	$sup = ob_get_contents();
 	ob_end_clean();
 	$add['supplemental'] = array( 'newcat_parent' => $sup );

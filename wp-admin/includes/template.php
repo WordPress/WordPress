@@ -63,7 +63,7 @@ function inline_edit_term_row($type, $taxonomy) {
 
 	<p class="inline-edit-save submit">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
-		<?php $update_text = sprintf( __('Update %s'), $tax->singular_label ); ?>
+		<?php $update_text = $tax->labels->update_item; ?>
 		<a accesskey="s" href="#inline-edit" title="<?php echo esc_attr( $update_text ); ?>" class="save button-primary alignright"><?php echo $update_text; ?></a>
 		<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 		<span class="error" style="display:none;"></span>
@@ -976,7 +976,7 @@ if ( !$bulk ) :
 
 <?php foreach ( $hierarchical_taxonomies as $taxonomy ) : ?>
 
-		<span class="title inline-edit-categories-label"><?php echo esc_html($taxonomy->label) ?>
+		<span class="title inline-edit-categories-label"><?php echo esc_html($taxonomy->labels->name) ?>
 			<span class="catshow"><?php _e('[more]'); ?></span>
 			<span class="cathide" style="display:none;"><?php _e('[less]'); ?></span>
 		</span>
@@ -1040,7 +1040,7 @@ endif; // $post_type_object->hierarchical ?>
 <?php foreach ( $flat_taxonomies as $taxonomy ) : ?>
 
 		<label class="inline-edit-tags">
-			<span class="title"><?php echo esc_html($taxonomy->label) ?></span>
+			<span class="title"><?php echo esc_html($taxonomy->labels->name) ?></span>
 			<textarea cols="22" rows="1" name="tax_input[<?php echo esc_attr($taxonomy->name)?>]" class="tax_input_<?php echo esc_attr($taxonomy->name)?>"></textarea>
 		</label>
 
@@ -1566,7 +1566,7 @@ foreach ( $posts_columns as $column_name => $column_display_name ) {
 		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->cap->edit_post, $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . $post_type_object->labels->parent . ' ' . esc_html($parent_name) : ''; ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can($post_type_object->cap->edit_post, $page->ID) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states($page); echo isset($parent_name) ? ' | ' . $post_type_object->labels->parent_item_colon . ' ' . esc_html($parent_name) : ''; ?></strong>
 		<?php
 		$actions = array();
 		if ( current_user_can($post_type_object->cap->edit_post, $page->ID) && $post->post_status != 'trash' ) {
@@ -3762,7 +3762,7 @@ function screen_options($screen) {
 			break;
 		case 'edit-tags':
 			global $tax;
-			$per_page_label = $tax->label;
+			$per_page_label = $tax->labels->name;
 			break;
 		case 'plugins':
 			$per_page_label = __('Plugins');

@@ -40,7 +40,9 @@ function create_initial_post_types() {
 	) );
 
 	register_post_type( 'attachment', array(
-		'label' => __( 'Media' ),
+		'labels' => array(
+			'name' => __( 'Media' ),
+		),
 		'public' => true,
 		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
@@ -53,8 +55,10 @@ function create_initial_post_types() {
 	) );
 
 	register_post_type( 'revision', array(
-		'label' => __( 'Revisions' ),
-		'singular_label' => __( 'Revision' ),
+		'labels' => array(
+			'name' => __( 'Revisions' ),
+			'singular_name' => __( 'Revision' ),
+		),
 		'public' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'revision.php?revision=%d', /* internal use only. don't use this when registering your own post type. */
@@ -65,8 +69,10 @@ function create_initial_post_types() {
 	) );
 
 	register_post_type( 'nav_menu_item', array(
-		'label' => __( 'Navigation Menu Items' ),
-		'singular_label' => __( 'Navigation Menu Item' ),
+		'labels' => array(
+			'name' => __( 'Navigation Menu Items' ),
+			'singular_name' => __( 'Navigation Menu Item' ),
+		),
 		'public' => false,
 		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
@@ -925,7 +931,7 @@ function get_post_type_capabilities( $args ) {
  * - search_items - Default is Search Posts/Search Pages
  * - not_found - Default is No posts found/No pages found
  * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash
- * - parent - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
+ * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
  * 
  * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages.)
  * 
@@ -947,22 +953,35 @@ function get_post_type_labels( $post_type_object ) {
 		'not_found' => array( __('No posts found'), __('No pages found') ),
 		'not_found_in_trash' => array( __('No posts found in Trash'), __('No pages found in Trash') ),
 		'view' => array( __('View Post'), __('View Page') ),
-		'parent' => array( null, __('Parent Page:') )
+		'parent_item_colon' => array( null, __('Parent Page:') )
 	);
+	return _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
+}
+
+/**
+ * Builds an object with custom-something object (post type, taxonomy) labels out of a custom-something object
+ * 
+ * @access private
+ */
+function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	
 	// try to get missing (singular_)?name from older style (singular_)?label member variables
 	// we keep that for backwards compatibility
 	// TODO: remove in 3.1
-	if ( !isset( $post_type_object->labels['name'] ) && isset( $post_type_object->label ) ) {
-		$post_type_object->labels['name'] = $post_type_object->label;
+	if ( !isset( $object->labels['name'] ) && isset( $object->label ) ) {
+		$object->labels['name'] = $object->label;
 	}
-	if ( !isset( $post_type_object->labels['singular_name'] ) && isset( $post_type_object->singular_label ) ) {
-		$post_type_object->labels['singular_name'] = $post_type_object->singular_label;
+	if ( !isset( $object->labels['singular_name'] ) && isset( $object->singular_label ) ) {
+		$object->labels['singular_name'] = $object->singular_label;
 	}
 	
-	$defaults = array_map( create_function( '$x', $post_type_object->hierarchical? 'return $x[1];' : 'return $x[0];' ), $nohier_vs_hier_defaults );
-	$labels = array_merge( $defaults, $post_type_object->labels );
-	return (object)$labels;
+	if ( !isset( $object->labels['singular_name'] ) && isset( $object->labels['name'] ) ) {
+		$object->labels['singular_name'] = $object->labels['name'];
+	}
+	
+	$defaults = array_map( create_function( '$x', $object->hierarchical? 'return $x[1];' : 'return $x[0];' ), $nohier_vs_hier_defaults );
+	$labels = array_merge( $defaults, $object->labels );
+	return (object)$labels;	
 }
 
 /**

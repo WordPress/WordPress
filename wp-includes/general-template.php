@@ -588,10 +588,9 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	if ( is_tax() ) {
 		$taxonomy = get_query_var( 'taxonomy' );
 		$tax = get_taxonomy( $taxonomy );
-		$tax = $tax->label;
 		$term = $wp_query->get_queried_object();
 		$term = $term->name;
-		$title = $tax . $t_sep . $term;
+		$title = $tax->labels->name . $t_sep . $term;
 	}
 
 	//If it's a search

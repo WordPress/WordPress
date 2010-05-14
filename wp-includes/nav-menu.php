@@ -538,7 +538,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
-				$menu_item->type_label = $object->singular_label;
+				$menu_item->type_label = $object->labels->singular_name;
 				$term_url = get_term_link( (int) $menu_item->object_id, $menu_item->object );
 				$menu_item->url = !is_wp_error( $term_url ) ? $term_url : '';
 
@@ -587,7 +587,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 		$object = get_taxonomy( $menu_item->taxonomy );
 		$menu_item->object = $object->name;
-		$menu_item->type_label = $object->singular_label;
+		$menu_item->type_label = $object->labels->singular_name;
 
 		$menu_item->title = $menu_item->name;
 		$menu_item->url = get_term_link( $menu_item, $menu_item->taxonomy );

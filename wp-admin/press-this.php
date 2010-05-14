@@ -488,7 +488,7 @@ var photostorage = false;
 				<div id="taxonomy-category" class="categorydiv">
 
 					<ul id="category-tabs" class="category-tabs">
-						<li class="tabs"><a href="#category-all" tabindex="3"><?php printf( __( 'All %s' ), $tax->label ); ?></a></li>
+						<li class="tabs"><a href="#category-all" tabindex="3"><?php echo $tax->labels->all_items; ?></a></li>
 						<li class="hide-if-no-js"><a href="#category-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
 					</ul>
 
@@ -509,11 +509,19 @@ var photostorage = false;
 					<?php endif; ?>
 					<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
 						<div id="category-adder" class="wp-hidden-children">
-							<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php printf( __( '+ Add New %s' ), $tax->singular_label ); ?></a></h4>
+							<h4>
+								<a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3">
+									<?php printf( __( '+ %s' ), $tax->labels->add_new_item ); ?>
+								</a>
+							</h4>
 							<p id="category-add" class="category-add wp-hidden-child">
-								<label class="screen-reader-text" for="newcategory"><?php printf( __( 'Add New %s' ), $tax->singular_label ); ?></label><input type="text" name="newcategory" id="newcategory" class="form-required form-input-tip" value="<?php echo esc_attr( sprintf( 'New %s Name', $tax->singular_label ) ); ?>" tabindex="3" aria-required="true"/>
-								<label class="screen-reader-text" for="newcategory_parent"><?php printf( __('Parent %s'), $tax->singular_label ); ?>:</label><?php wp_dropdown_categories( array( 'taxonomy' => 'category', 'hide_empty' => 0, 'name' => 'newcategory_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => sprintf( __('&mdash; Parent %s &mdash;'), $tax->singular_label ), 'tab_index' => 3 ) ); ?>
-								<input type="button" id="category-add-submit" class="add:categorychecklist:category-add button category-add-sumbit" value="<?php esc_attr_e( 'Add' ); ?>" tabindex="3" />
+								<label class="screen-reader-text" for="newcategory"><?php echo $tax->labels->add_new_item; ?></label>
+								<input type="text" name="newcategory" id="newcategory" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" tabindex="3" aria-required="true"/>
+								<label class="screen-reader-text" for="newcategory_parent">
+									<?php echo $tax->labels->parent_item_colon; ?>
+								</label>
+								<?php wp_dropdown_categories( array( 'taxonomy' => 'category', 'hide_empty' => 0, 'name' => 'newcategory_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;', 'tab_index' => 3 ) ); ?>
+								<input type="button" id="category-add-submit" class="add:categorychecklist:category-add button category-add-sumbit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
 								<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
 								<span id="category-ajax-response"></span>
 							</p>

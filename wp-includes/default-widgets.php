@@ -1003,7 +1003,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 				$title = __('Tags');
 			} else {
 				$tax = get_taxonomy($current_taxonomy);
-				$title = $tax->label;
+				$title = $tax->labels->name;
 			}
 		}
 		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
@@ -1032,10 +1032,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	<select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>">
 	<?php foreach ( get_object_taxonomies('post') as $taxonomy ) :
 				$tax = get_taxonomy($taxonomy);
-				if ( !$tax->show_tagcloud || empty($tax->label) )
+				if ( !$tax->show_tagcloud || empty($tax->labels->name) )
 					continue;
 	?>
-		<option value="<?php echo esc_attr($taxonomy) ?>" <?php selected($taxonomy, $current_taxonomy) ?>><?php echo $tax->label ?></option>
+		<option value="<?php echo esc_attr($taxonomy) ?>" <?php selected($taxonomy, $current_taxonomy) ?>><?php echo $tax->labels->name; ?></option>
 	<?php endforeach; ?>
 	</select></p><?php
 	}

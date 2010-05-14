@@ -101,7 +101,7 @@ foreach ( (array) $authors as $author ) {
 <?php foreach ( get_taxonomies( array( 'show_ui' => true ), 'objects' ) as $tax_obj ) {
 	$term_dropdown = wp_dropdown_categories( array( 'taxonomy' => $tax_obj->name, 'hide_if_empty' => true, 'show_option_all' => __( 'All Terms' ), 'name' => 'taxonomy[' . $tax_obj->name . ']', 'id' => 'taxonomy-' . $tax_obj->name, 'class' => '', 'echo' => false ) );
 	if ( $term_dropdown )
-		echo '<label for="taxonomy-' . $tax_obj->name . '">' . $tax_obj->label . '</label>: ' . $term_dropdown . '<br/>';
+		echo '<label for="taxonomy-' . $tax_obj->name . '">' . $tax_obj->labels->name . '</label>: ' . $term_dropdown . '<br/>';
 }
 ?>
 </td>

@@ -19,7 +19,7 @@ if ( !is_taxonomy($taxonomy) )
 
 $tax = get_taxonomy($taxonomy);
 
-$title = $tax->label;
+$title = $tax->labels->name;
 
 if ( empty($post_type) || !in_array( $post_type, get_post_types( array('public' => true) ) ) )
 	$post_type = 'post';
@@ -116,7 +116,7 @@ case 'bulk-delete':
 break;
 
 case 'edit':
-	$title = sprintf(_x('Edit %s', '%s: singular taxonomy name'), $tax->singular_label);
+	$title = $tax->labels->edit_item;
 
 	require_once ('admin-header.php');
 	$tag_ID = (int) $_GET['tag_ID'];
@@ -192,9 +192,9 @@ endif; ?>
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 <p class="search-box">
-	<label class="screen-reader-text" for="tag-search-input"><?php printf(_x('Search %s', '%s: plural taxonomy name'), $tax->label); ?>:</label>
+	<label class="screen-reader-text" for="tag-search-input"><?php echo $tax->labels->search_items; ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php echo esc_attr( sprintf(_x('Search %s', '%s: plural taxonomy name'), $tax->label) ); ?>" class="button" />
+	<input type="submit" value="<?php echo esc_attr( $tax->labels->search_items );  ?>" class="button" />
 </p>
 </form>
 <br class="clear" />
@@ -326,7 +326,7 @@ else
 if ( $tag_cloud ) :
 ?>
 <div class="tagcloud">
-<h3><?php printf(_x('Popular %s', '%s: plural taxonomy name'), $tax->label); ?></h3>
+<h3><?php echo $tax->labels->popular_items; ?></h3>
 <?php echo $tag_cloud; unset( $tag_cloud ); ?>
 </div>
 <?php
@@ -341,7 +341,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 ?>
 
 <div class="form-wrap">
-<h3><?php printf(_x('Add a New %s', '%s: singular taxonomy name'), $tax->singular_label); ?></h3>
+<h3><?php echo $tax->labels->add_new_item; ?></h3>
 <form id="addtag" method="post" action="edit-tags.php" class="validate">
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
@@ -379,7 +379,7 @@ if ( ! is_taxonomy_hierarchical($taxonomy) )
 	do_action('add_tag_form_fields', $taxonomy);
 do_action($taxonomy . '_add_form_fields', $taxonomy);
 ?>
-<p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php echo esc_attr(sprintf(_x('Add %s', '%s: singular  taxonomy name'), $tax->singular_label)); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" /></p>
 <?php
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form',	(object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_add_form
