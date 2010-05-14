@@ -544,7 +544,7 @@ function page_attributes_meta_box($post) {
 <?php
 		} // end empty pages check
 	} // end hierarchical check.
-	if ( 0 != count( get_page_templates() ) ) {
+	if ( 'page' == $post->post_type && 0 != count( get_page_templates() ) ) {
 		$template = !empty($post->page_template) ? $post->page_template : false;
 		?>
 <h5><?php _e('Template') ?></h5>
