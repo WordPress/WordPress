@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-11 00:22+0000\n"
+"POT-Creation-Date: 2010-05-14 00:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,6 +142,10 @@ msgstr ""
 #: footer.php:30
 #, php-format
 msgid "Proudly powered by %s."
+msgstr ""
+
+#: functions.php:83
+msgid "Main Menu"
 msgstr ""
 
 #. translators: header image description
