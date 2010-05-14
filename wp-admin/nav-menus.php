@@ -427,7 +427,7 @@ require_once( 'admin-header.php' );
 		<div id="menu-management">
 			<div id="select-nav-menu-container" class="hide-if-js">
 				<form id="select-nav-menu" action="">
-					<strong><label for="select-nav-menu"><?php esc_html_e( 'Select Menu: ' ); ?></label></strong>
+					<strong><label for="select-nav-menu"><?php esc_html_e( 'Select Menu:' ); ?></label></strong>
 					<select class="select-nav-menu" name="menu">
 						<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
 							<option value="<?php echo esc_attr($_nav_menu->term_id) ?>" <?php selected($nav_menu_selected_id, $_nav_menu->term_id); ?>>
