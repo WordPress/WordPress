@@ -210,6 +210,7 @@ class Custom_Background {
 </p>
 </form>
 </td>
+</tr>
 </tbody>
 </table>
 
