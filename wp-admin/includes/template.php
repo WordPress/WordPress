@@ -664,12 +664,12 @@ function wp_manage_pages_columns() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Get the column headers for a screen
  *
  * @since unknown
  *
- * @param unknown_type $screen
- * @return unknown
+ * @param string|object $screen The screen you want the headers for
+ * @return array Containing the headers in the format id => UI String
  */
 function get_column_headers($screen) {
 	global $_wp_column_headers;
@@ -3545,7 +3545,12 @@ function _post_states($post) {
 	}
 }
 
-// Convert a screen string to a screen object
+/**
+ * Convert a screen string to a screen object
+ * 
+ * @param string $screen The name of the screen
+ * @return object An object containing the safe screen name and id
+ */
 function convert_to_screen( $screen ) {
 	$screen = str_replace('.php', '', $screen);
 	$screen = str_replace('-new', '', $screen);
