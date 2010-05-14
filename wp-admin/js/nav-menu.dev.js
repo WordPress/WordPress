@@ -227,8 +227,6 @@ var wpNavMenu;
 					}
 					// Update the item data.
 					ui.item.updateParentMenuItemDBId();
-					// Update positions
-					api.recalculateMenuItemPositions();
 				},
 				change: function(e, ui) {
 					// Make sure the placeholder is inside the menu.
@@ -291,6 +289,8 @@ var wpNavMenu;
 				if ( e.target && e.target.className ) {
 					if ( -1 != e.target.className.indexOf('item-edit') ) {
 						return that.eventOnClickEditLink(e.target);
+					} else if ( -1 != e.target.className.indexOf('menu-save') ) {
+						return that.eventOnClickMenuSave(e.target);
 					} else if ( -1 != e.target.className.indexOf('menu-delete') ) {
 						return that.eventOnClickMenuDelete(e.target);
 					} else if ( -1 != e.target.className.indexOf('item-delete') ) {
@@ -456,7 +456,7 @@ var wpNavMenu;
 	
 		attachHomeLinkListener : function() {
 			$('.add-home-link', '.customlinkdiv').click(function(e) {
-				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop, api.recalculateMenuItemPositions );
+				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop );
 				return false;
 			});
 		},
@@ -669,6 +669,12 @@ var wpNavMenu;
 			return false;
 		},
 
+		eventOnClickMenuSave : function(clickedEl) {
+			// Update menu item position data
+			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
+			return true;
+		},
+
 		eventOnClickMenuDelete : function(clickedEl) {
 			// Delete warning AYS
 			if ( confirm( navMenuL10n.warnDeleteMenu ) )
@@ -775,7 +781,6 @@ var wpNavMenu;
 			el.addClass('deleting').fadeOut( 350 , function() {
 				el.remove();
 				children.shiftDepthClass(-1).updateParentMenuItemDBId();
-				api.recalculateMenuItemPositions();
 			});
 		},
 		
@@ -836,10 +841,6 @@ var wpNavMenu;
 			}
 
 			return itemData;
-		},
-
-		recalculateMenuItemPositions : function() {
-			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
 		},
 
 		depthToPx : function(depth) {

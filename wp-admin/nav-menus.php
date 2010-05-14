@@ -484,7 +484,7 @@ require_once( 'admin-header.php' );
 								</label>
 
 								<div class="publishing-action">
-									<input class="button-primary" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
+									<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
 								</div><!--END .publishing-action-->
 
 								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
