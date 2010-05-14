@@ -66,24 +66,34 @@ function is_nav_menu( $menu ) {
  *
  * @since 3.0.0
  *
- * @param array Associative array of menu slot identifiers and descriptions.
+ * @param array $locations Associative array of menu location identifiers (like a slug) and descriptive text.
  */
-function register_nav_menus( $menus = array() ) {
+function register_nav_menus( $locations = array() ) {
 	global $_wp_registered_nav_menus;
 
 	add_theme_support( 'nav-menus' );
 
-	$_wp_registered_nav_menus = $menus;
+	$_wp_registered_nav_menus = array_merge( (array) $_wp_registered_nav_menus, $locations );
+}
+
+/**
+ * Register nav menu for a theme.
+ *
+ * @since 3.0.0
+ *
+ * @param string $location Menu location identifier, like a slug.
+ * @param string $description Menu location descriptive text.
+ */
+function register_nav_menu( $location, $description ) {
+	register_nav_menus( array( $location => $description ) );
 }
 
 function get_registered_nav_menus() {
-	global $_wp_registered_nav_menus;
-
-	return $_wp_registered_nav_menus;
+	return $GLOBALS['_wp_registered_nav_menus'];
 }
 
-function get_nav_menu_slots() {
-	return get_theme_mod('nav_menu_slots');
+function get_nav_menu_locations() {
+	return get_theme_mod('nav_menu_locations');
 }
 
 /**

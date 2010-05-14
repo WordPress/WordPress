@@ -197,7 +197,12 @@ body {
 .customlinkdiv .howto input {
 	width: 210px;
 }
-
+#nav-menu-theme-locations .howto select {
+	width: 100%;
+}
+#nav-menu-theme-locations .button-controls {
+	text-align: right;
+}
 .add-menu-item-view-all {
 	height: 400px;
 }

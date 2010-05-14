@@ -193,23 +193,20 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 function wp_nav_menu( $args = array() ) {
 	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'menu_class' => 'menu', 'echo' => true,
 	'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
-	'depth' => 0, 'walker' => '', 'context' => 'frontend', 'theme_menu' => '' );
+	'depth' => 0, 'walker' => '', 'context' => 'frontend', 'theme_location' => '' );
 
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_nav_menu_args', $args );
 	$args = (object) $args;
 
-	// Get the nav menu
+	// Get the nav menu based on the requested menu
 	$menu = wp_get_nav_menu_object( $args->menu );
 
-	if ( ! $menu && $slot ) {
-		$slots = get_nav_menu_slots();
-		if ( isset($slots) && isset($slots['theme_menu']) )
-			$menu = wp_get_nav_menu_object( $slots['theme_menu'] );
-	}
+	// Get the nav menu based on the theme_location
+	if ( ! $menu && $args->theme_location && ( $locations = get_nav_menu_locations() ) && isset( $locations[ $args->theme_location ] ) )
+		$menu = wp_get_nav_menu_object( $locations[ $args->theme_location ] );
 
-	// If we couldn't find a menu based off the menu argument 
-	// get the first menu that has items.
+	// get the first menu that has items if we still can't find a menu
 	if ( ! $menu ) {
 		$menus = wp_get_nav_menus();
 		foreach ( $menus as $menu_maybe ) {

@@ -69,7 +69,7 @@
 
 			<div id="access" role="navigation">
 				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
-				<?php wp_nav_menu( array( 'sort_column' => 'menu_order', 'container_class' => 'menu-header', 'theme_menu' => 'main' ) ); ?>
+				<?php wp_nav_menu( array( 'sort_column' => 'menu_order', 'container_class' => 'menu-header', 'theme_location' => 'primary' ) ); ?>
 			</div><!-- #access -->
 		</div><!-- #masthead -->
 	</div><!-- #header -->

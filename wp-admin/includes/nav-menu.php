@@ -308,6 +308,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
  **/
 function wp_nav_menu_setup() {
 	// Register meta boxes
+	add_meta_box( 'nav-menu-theme-locations', __( 'Theme Locations' ), 'wp_nav_menu_locations_meta_box' , 'nav-menus', 'side', 'default' );
 	add_meta_box( 'add-custom-links', __('Custom Links'), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
 	wp_nav_menu_post_type_meta_boxes();
 	wp_nav_menu_taxonomy_meta_boxes();
@@ -337,7 +338,7 @@ function wp_initial_nav_menu_meta_boxes() {
 	if ( get_user_option( 'metaboxhidden_nav-menus' ) !== false || ! is_array($wp_meta_boxes) )
 		return;
 
-	$initial_meta_boxes = array( 'manage-menu', 'create-menu', 'add-custom-links', 'add-page', 'add-category' );
+	$initial_meta_boxes = array( 'nav-menu-theme-locations', 'add-custom-links', 'add-page', 'add-category' );
 	$hidden_meta_boxes = array();
 
 	foreach ( array_keys($wp_meta_boxes['nav-menus']) as $context ) {
@@ -394,6 +395,41 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 			add_meta_box( "add-{$id}", $tax->labels->name, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
 		}
 	}
+}
+
+/**
+ * Displays a metabox for the nav menu theme locations.
+ *
+ * @since 3.0.0
+ */
+function wp_nav_menu_locations_meta_box() {
+	$locations = get_registered_nav_menus();
+	$mods = get_nav_menu_locations();
+	$menus = wp_get_nav_menus();
+	$menu_locations = get_nav_menu_locations();
+	//var_dump( $menus );
+	foreach ( $locations as $location => $description ) {
+		?>
+		<p>
+			<label class="howto" for="locations-<?php echo $location; ?>">
+				<span><?php echo $description; ?></span>
+				<select name="menu-locations[<?php echo $location; ?>]" id="locations-<?php echo $location; ?>">
+					<option value=""></option>
+					<?php foreach ( $menus as $menu ) : ?>
+					<option<?php selected( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $menu->term_id ); ?>
+						value="<?php echo $menu->term_id; ?>"><?php echo $menu->name; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</label>
+		</p>
+	<?php
+	}
+	?>
+	<p class="button-controls">
+		<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+		<input type="submit" class="button-primary" name="nav-menu-locations" value="<?php esc_attr_e( 'Save' ); ?>" />
+	</p>
+	<?php
 }
 
 /**

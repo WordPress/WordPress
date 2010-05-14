@@ -79,9 +79,6 @@ function twentyten_setup() {
 	// This theme uses post thumbnails
 	add_theme_support( 'post-thumbnails' );
 
-	// This theme uses wp_nav_menu()
-	register_nav_menus( array('main' => __('Main Menu')) );
-
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
 
@@ -93,6 +90,11 @@ function twentyten_setup() {
 	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
 	if ( is_readable( $locale_file ) )
 		require_once( $locale_file );
+
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menus( array(
+		'primary' => __( 'Primary Menu', 'twentyten' ),
+	) );
 
 	// This theme allows users to set a custom background
 	add_custom_background();
