@@ -379,7 +379,7 @@ function media_buttons() {
 add_action( 'media_buttons', 'media_buttons' );
 
 function _media_button($title, $icon, $type) {
-	return "<a href='" . get_upload_iframe_src($type) . "' id='add_$type' class='thickbox' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' /></a>";
+	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='add_$type' class='thickbox' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' /></a>";
 }
 
 function get_upload_iframe_src($type) {
