@@ -951,6 +951,12 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
 				'orderby' => 'id',
 				'order' => 'DESC',
 			);
+
+		// custom post types should show only published items
+		} else {
+			$object->_default_query = array(
+				'post_status' => 'publish',
+			);
 		}
 	}
 
