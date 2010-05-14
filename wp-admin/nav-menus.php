@@ -269,6 +269,9 @@ switch ( $action ) {
 					if ( is_wp_error( $_nav_menu_selected_id ) ) {
 						$messages[] = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
 					} else {
+						if ( ( $_menu_locations = get_registered_nav_menus() ) && 1 == count( wp_get_nav_menus() ) )
+							set_theme_mod( 'nav_menu_locations', array( key( $_menu_locations ) => $_nav_menu_selected_id ) );
+						unset( $_menu_locations );
 						$_menu_object = wp_get_nav_menu_object( $_nav_menu_selected_id );
 						$nav_menu_selected_id = $_nav_menu_selected_id;
 						$nav_menu_selected_title = $_menu_object->name;
