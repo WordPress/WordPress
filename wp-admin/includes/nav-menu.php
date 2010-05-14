@@ -317,8 +317,6 @@ function wp_nav_menu_setup() {
 	// Register advanced menu items (columns)
 	add_filter( 'manage_nav-menus_columns', 'wp_nav_menu_manage_columns');
 
-	add_filter( 'columns_prefs_header', create_function( '', "return __('Show advanced menu properties');" ));
-
 	// If first time editing, disable advanced items by default.
 	if( false === get_user_option( 'managenav-menuscolumnshidden' ) ) {
 		$user = wp_get_current_user();
@@ -998,6 +996,7 @@ function wp_get_nav_menu_to_edit( $menu_item_id = 0 ) {
  */
 function wp_nav_menu_manage_columns() {
 	return array(
+		'title' => __('Show advanced menu properties'),
 		'cb' => '<input type="checkbox" />',
 		'link-target' => __('Link Target'),
 		'css-classes' => __('CSS Classes'),
