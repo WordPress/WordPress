@@ -581,7 +581,8 @@ class IXR_Client {
                 $gettingHeaders = false;
             }
             if (!$gettingHeaders) {
-                $contents .= trim($line);
+            	// WP#12559 remove trim so as to not strip newlines from received response.
+                $contents .= $line;
             }
             if ($this->debug) {
                 $debug_contents .= $line;
