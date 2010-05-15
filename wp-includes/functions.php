@@ -2117,12 +2117,14 @@ function wp_upload_dir( $time = null ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
+	$main_override = false;
 	if ( empty($upload_path) ) {
 		$dir = WP_CONTENT_DIR . '/uploads';
 	} else {
 		$dir = $upload_path;
 		if ( 'wp-content/uploads' == $upload_path ) {
 			$dir = WP_CONTENT_DIR . '/uploads';
+			$main_override = defined( 'MULTISITE' ) && is_main_site();
 		} elseif ( 0 !== strpos($dir, ABSPATH) ) {
 			// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
 			$dir = path_join( ABSPATH, $dir );
@@ -2136,12 +2138,12 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . $upload_path;
 	}
 
-	if ( defined('UPLOADS') && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) && ( !isset( $switched ) || $switched === false ) ) {
+	if ( defined('UPLOADS') && ( !$main_override || WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) && ( !isset( $switched ) || $switched === false ) ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	if ( is_multisite() && ( WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) && ( !isset( $switched ) || $switched === false ) ) {
+	if ( is_multisite() && ( !$main_override || WP_CONTENT_DIR . '/uploads' != ABSPATH . $upload_path ) && ( !isset( $switched ) || $switched === false ) ) {
 		if ( defined( 'BLOGUPLOADDIR' ) )
 			$dir = untrailingslashit(BLOGUPLOADDIR);
 		$url = str_replace( UPLOADS, 'files', $url );
