@@ -1600,7 +1600,7 @@ class WP_Query {
 	 * @return array List of posts.
 	 */
 	function &get_posts() {
-		global $wpdb, $user_ID;
+		global $wpdb, $user_ID, $_wp_using_ext_object_cache;
 
 		do_action_ref_array('pre_get_posts', array(&$this));
 
@@ -1629,8 +1629,12 @@ class WP_Query {
 		if ( !isset($q['suppress_filters']) )
 			$q['suppress_filters'] = false;
 
-		if ( !isset($q['cache_results']) )
-			$q['cache_results'] = true;
+		if ( !isset($q['cache_results']) ) {
+			if ( $_wp_using_ext_object_cache )
+				$q['cache_results'] = false;
+			else
+				$q['cache_results'] = true;
+		}
 
 		if ( !isset($q['update_post_term_cache']) )
 			$q['update_post_term_cache'] = true;
