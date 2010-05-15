@@ -447,21 +447,23 @@ require_once( 'admin-header.php' );
 			<div class="nav-tabs">
 				<?php
 				foreach( (array) $nav_menus as $_nav_menu ) :
-
-					?><a href="<?php
-						echo esc_url(add_query_arg(
-							array(
-								'action' => 'edit',
-								'menu' => $_nav_menu->term_id,
-							),
-							admin_url( 'nav-menus.php' )
-						));
-					?>" class="nav-tab<?php
-						if ( $nav_menu_selected_id == $_nav_menu->term_id )
-							echo ' nav-tab-active';
-						else
-							echo ' hide-if-no-js';
-					?>"><?php echo esc_html( $_nav_menu->truncated_name ); ?></a><?php
+					if ( $nav_menu_selected_id == $_nav_menu->term_id ) : ?>
+						<span class="nav-tab nav-tab-active">
+							<?php echo esc_html( $_nav_menu->truncated_name ); ?>
+						</span>
+					<?php else : ?>
+						<a href="<?php
+							echo esc_url(add_query_arg(
+								array(
+									'action' => 'edit',
+									'menu' => $_nav_menu->term_id,
+								),
+								admin_url( 'nav-menus.php' )
+							));
+						?>" class="nav-tab hide-if-no-js">
+							<?php echo esc_html( $_nav_menu->truncated_name ); ?>
+						</a>
+					<?php endif;
 				endforeach;
 				?><a href="<?php
 					echo esc_url(add_query_arg(
