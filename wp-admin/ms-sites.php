@@ -133,10 +133,10 @@ switch ( $action ) {
 						<tr>
 							<th scope="row"><?php echo $field_label; ?></th>
 							<td>
-								<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php $field_key; ?>_1" value="1"<?php checked( $details->$field_key, 1 ); ?> />
+								<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>_1" value="1"<?php checked( $details->$field_key, 1 ); ?> />
 								<label for="blog_<?php echo $field_key; ?>_1"><?php _e('Yes'); ?></label>
-								<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php $field_key; ?>_0" value="0"<?php checked( $details->$field_key, 0 ); ?> />
-								<label for="blog_<?php echo $field_key; ?>"><?php _e('No'); ?></label>
+								<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>_0" value="0"<?php checked( $details->$field_key, 0 ); ?> />
+								<label for="blog_<?php echo $field_key; ?>_0"><?php _e('No'); ?></label>
 							</td>
 						</tr>
 						<?php } ?>
