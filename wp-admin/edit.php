@@ -11,7 +11,7 @@ require_once('./admin.php');
 
 if ( !isset($_GET['post_type']) )
 	$post_type = 'post';
-elseif ( in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) )
+elseif ( in_array( $_GET['post_type'], get_post_types( array('show_ui' => true ) ) ) || in_array( $_GET['post_type'], array( 'post', 'page' ) ) )
 	$post_type = $_GET['post_type'];
 else
 	wp_die( __('Invalid post type') );
