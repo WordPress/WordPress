@@ -215,7 +215,6 @@ function populate_options() {
 	'mailserver_port' => 110,
 	'default_category' => 1,
 	'default_comment_status' => 'open',
-	'default_comment_status_page' => 'open',
 	'default_ping_status' => 'open',
 	'default_pingback_flag' => 1,
 	'default_post_edit_rows' => 10,

@@ -42,12 +42,6 @@ include('./admin-header.php');
 <?php _e('Allow people to post comments on new articles') ?></label>
 <br />
 <small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
-<br />
-<label for="default_comment_status_page">
-<input name="default_comment_status_page" type="checkbox" id="default_comment_status_page" value="open" <?php checked('open', get_option('default_comment_status_page')); ?> />
-<?php _e('Allow people to post comments on new pages') ?></label>
-<br />
-<small><em><?php echo '(' . __('These settings may be overridden for individual pages.') . ')'; ?></em></small>
 </fieldset></td>
 </tr>
 <tr valign="top">

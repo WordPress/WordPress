@@ -385,11 +385,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 		$post->post_status = 'draft';
 		$post->to_ping = '';
 		$post->pinged = '';
-		if ( 'page' == $post_type ) {
-			$post->comment_status = get_option( 'default_comment_status_page' );
-		} else {
-			$post->comment_status = get_option( 'default_comment_status' );
-		}
+		$post->comment_status = get_option( 'default_comment_status' );
 		$post->ping_status = get_option( 'default_ping_status' );
 		$post->post_pingback = get_option( 'default_pingback_flag' );
 		$post->post_category = get_option( 'default_category' );
