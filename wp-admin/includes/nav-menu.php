@@ -416,7 +416,10 @@ function wp_nav_menu_locations_meta_box() {
 					<option value=""></option>
 					<?php foreach ( $menus as $menu ) : ?>
 					<option<?php selected( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $menu->term_id ); ?>
-						value="<?php echo $menu->term_id; ?>"><?php echo $menu->name; ?></option>
+						value="<?php echo $menu->term_id; ?>"><?php
+						$truncated_name = wp_html_excerpt( $menu->name, 40 );
+						echo $truncated_name == $menu->name ? $menu->name : trim( $truncated_name ) . '&hellip;';
+					?></option>
 					<?php endforeach; ?>
 				</select>
 			</label>
