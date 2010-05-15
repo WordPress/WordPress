@@ -85,18 +85,22 @@ class Custom_Background {
 		if ( empty($_POST) )
 			return;
 
-		check_admin_referer('custom-background');
-
 		if ( isset($_POST['reset-background']) ) {
-			remove_theme_mod( 'background_image' );
+			check_admin_referer('custom-background-reset', '_wpnonce-custom-background-reset');
+			remove_theme_mod('background_image');
+			remove_theme_mod('background_image_thumb');
 			return;
 		}
 		if ( isset($_POST['remove-background']) ) {
 			// @TODO: Uploaded files are not removed here.
+			check_admin_referer('custom-background-remove', '_wpnonce-custom-background-remove');
 			set_theme_mod('background_image', '');
+			set_theme_mod('background_image_thumb', '');
+			return;
 		}
 
 		if ( isset($_POST['background-repeat']) ) {
+			check_admin_referer('custom-background');
 			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat', 'repeat-x', 'repeat-y')) )
 				$repeat = $_POST['background-repeat'];
 			else
@@ -104,6 +108,7 @@ class Custom_Background {
 			set_theme_mod('background_repeat', $repeat);
 		}
 		if ( isset($_POST['background-position']) ) {
+			check_admin_referer('custom-background');
 			if ( in_array($_POST['background-position'], array('center', 'right', 'left')) )
 				$position = $_POST['background-position'];
 			else
@@ -111,6 +116,7 @@ class Custom_Background {
 			set_theme_mod('background_position', $position);
 		}
 		if ( isset($_POST['background-attachment']) ) {
+			check_admin_referer('custom-background');
 			if ( in_array($_POST['background-attachment'], array('fixed', 'scroll')) )
 				$attachment = $_POST['background-attachment'];
 			else
@@ -118,6 +124,7 @@ class Custom_Background {
 			set_theme_mod('background_attachment', $attachment);
 		}
 		if ( isset($_POST['background-color']) ) {
+			check_admin_referer('custom-background');
 			$color = preg_replace('/[^0-9a-fA-F]/', '', $_POST['background-color']);
 			if ( strlen($color) == 6 || strlen($color) == 3 )
 				set_theme_mod('background_color', $color);
@@ -156,23 +163,23 @@ class Custom_Background {
 <td>
 <?php
 $background_styles = '';
-if ( get_background_color() ) {
-	$background_styles .= "background-color: #" . get_background_color() . ";";
+if ( $bgcolor = get_background_color() ) {
+	$background_styles .= "background-color: #{$bgcolor};";
 }
 
 if ( get_background_image() ) { 
 	$background_styles .= "
 	background-image: url(" . get_theme_mod('background_image_thumb', '') . ");
-	background-repeat: ". get_theme_mod('background_repeat', 'no-repeat') . ";
-	background-position: top ". get_theme_mod('background_position', 'left') . ";
-	background-attachment: " . get_theme_mod('background_position', 'fixed') . ";
+	background-repeat: ". get_theme_mod('background_repeat', 'repeat') . ";
+	background-position: ". get_theme_mod('background_position', 'left') . " top;
+	background-attachment: " . get_theme_mod('background_attachment', 'fixed') . ";
 	";
 }
 ?>
 <div id="custom-background-image" style="<?php echo $background_styles; ?>">
 <?php if ( get_background_image() ) { ?>
-<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" /><br />
-<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" />
+<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" alt="" /><br />
+<img class="custom-background-image" src="<?php echo get_theme_mod('background_image_thumb', ''); ?>" style="visibility:hidden;" alt="" />
 <?php } ?>
 <br class="clear" />
 </div>
@@ -184,7 +191,7 @@ if ( get_background_image() ) {
 <th scope="row"><?php _e('Remove Image'); ?></th>
 <td><p><?php _e('This will remove the background image. You will not be able to restore any customizations.') ?></p>
 <form method="post" action="">
-<?php wp_nonce_field('custom-background'); ?>
+<?php wp_nonce_field('custom-background-remove', '_wpnonce-custom-background-remove'); ?>
 <input type="submit" class="button" name="remove-background" value="<?php esc_attr_e('Remove Background'); ?>" />
 </form>
 </td>
@@ -196,19 +203,19 @@ if ( get_background_image() ) {
 <th scope="row"><?php _e('Restore Original Image'); ?></th>
 <td><p><?php _e('This will restore the original background image. You will not be able to restore any customizations.') ?></p>
 <form method="post" action="">
-<?php wp_nonce_field('custom-background'); ?>
+<?php wp_nonce_field('custom-background-reset', '_wpnonce-custom-background-reset'); ?>
 <input type="submit" class="button" name="reset-background" value="<?php esc_attr_e('Restore Original Image'); ?>" />
 </form>
 </td>
 </tr>
-</form>
+
 <?php endif; ?>
 <tr valign="top">
 <th scope="row"><?php _e('Upload Image'); ?></th>
-<td><form enctype="multipart/form-data" id="uploadForm" method="post" action="">
+<td><form enctype="multipart/form-data" id="upload-form" method="post" action="">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
-<?php wp_nonce_field('custom-background') ?>
+<?php wp_nonce_field('custom-background-upload', '_wpnonce-custom-background-upload') ?>
 <p class="submit">
 <input type="submit" value="<?php esc_attr_e('Upload'); ?>" />
 </p>
@@ -299,7 +306,7 @@ if ( get_background_image() ) {
 		if ( empty($_FILES) )
 			return;
 
-		check_admin_referer('custom-background');
+		check_admin_referer('custom-background-upload', '_wpnonce-custom-background-upload');
 		$overrides = array('test_form' => false);
 		$file = wp_handle_upload($_FILES['import'], $overrides);
 
@@ -329,10 +336,6 @@ if ( get_background_image() ) {
 
 		$thumbnail = wp_get_attachment_image_src( $id, 'thumbnail' );
 		set_theme_mod('background_image_thumb', esc_url( $thumbnail[0] ) );
-		
-		set_theme_mod('background_position', get_theme_mod('background_position', 'left') );
-		set_theme_mod('background_repeat', get_theme_mod('background_repeat', 'tile') );
-		set_theme_mod('background-attachment',  get_theme_mod('background_position', 'fixed') );
 
 		do_action('wp_create_file_in_uploads', $file, $id); // For replication
 		$this->updated = true;

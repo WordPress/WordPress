@@ -1,8 +1,8 @@
-var buttons = ['#pickcolor'], farbtastic;
+var farbtastic;
 
 function pickColor(color) {
-	jQuery('#background-color').val(color);
 	farbtastic.setColor(color);
+	jQuery('#background-color').val(color);
 	jQuery('#custom-background-image').css('background-color', color);
 }
 
@@ -10,6 +10,7 @@ jQuery(document).ready(function() {
 	jQuery('#pickcolor').click(function() {
 		jQuery('#colorPickerDiv').show();
 	});
+
 	jQuery('#background-color').keyup(function() {
 		var _hex = jQuery('#background-color').val();
 		var hex = _hex;
@@ -21,32 +22,29 @@ jQuery(document).ready(function() {
 		if ( hex.length == 4 || hex.length == 7 )
 			pickColor( hex );
 	});
+
 	jQuery('input[name="background-position"]').change(function() {
-		jQuery('#custom-background-image').css('background-position', 'top '+jQuery(this).val());
+		jQuery('#custom-background-image').css('background-position', 'top ' + jQuery(this).val());
 	});
+
 	jQuery('select[name="background-repeat"]').change(function() {
 		jQuery('#custom-background-image').css('background-repeat', jQuery(this).val());
+	});
+	
+	jQuery('input[name="background-attachment"]').change(function() {
+		jQuery('#custom-background-image').css('background-attachment', jQuery(this).val());
 	});
 
 	farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) {
 		pickColor(color);
 	});
-	pickColor(customBackgroundL10n.backgroundcolor);
-});
+	pickColor(jQuery('#background-color').val());
 
-jQuery(document).mousedown(function(){
-	hide_picker(); // Make the picker disappear if you click outside its div element
-});
-
-function hide_picker(what) {
-	var update = false;
-	jQuery('#colorPickerDiv').each(function(){
-		var id = jQuery(this).attr('id');
-		if ( id == what )
-			return;
-
-		var display = jQuery(this).css('display');
-		if ( display == 'block' )
-			jQuery(this).fadeOut(2);
+	jQuery(document).mousedown(function(){
+		jQuery('#colorPickerDiv').each(function(){
+			var display = jQuery(this).css('display');
+			if ( display == 'block' )
+				jQuery(this).fadeOut(2);
+		});
 	});
-}
+});
