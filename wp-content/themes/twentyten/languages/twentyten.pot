@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-14 08:21+0000\n"
+"POT-Creation-Date: 2010-05-15 12:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Link to full-size image"
 msgstr ""
 
-#: attachment.php:56 attachment.php:84 loop.php:69 loop.php:90 loop.php:132
+#: attachment.php:56 attachment.php:84 loop.php:69 loop.php:90 loop.php:131
 #: onecolumn-page.php:26 page.php:33 single.php:54
 msgid "Edit"
 msgstr ""
@@ -292,11 +292,11 @@ msgstr ""
 msgid "Skip to content"
 msgstr ""
 
-#: loop.php:19 loop.php:144
+#: loop.php:19 loop.php:143
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: loop.php:20 loop.php:145
+#: loop.php:20 loop.php:144
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -329,15 +329,15 @@ msgstr ""
 msgid "More Galleries"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:131
+#: loop.php:68 loop.php:89 loop.php:130
 msgid "Leave a comment"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:131
+#: loop.php:68 loop.php:89 loop.php:130
 msgid "1 Comment"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:131
+#: loop.php:68 loop.php:89 loop.php:130
 msgid "% Comments"
 msgstr ""
 
@@ -346,12 +346,12 @@ msgctxt "asides category slug"
 msgid "asides"
 msgstr ""
 
-#: loop.php:118
+#: loop.php:117
 #, php-format
 msgid "Posted in %s"
 msgstr ""
 
-#: loop.php:127
+#: loop.php:126
 #, php-format
 msgid "Tagged %s"
 msgstr ""
