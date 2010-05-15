@@ -1072,7 +1072,7 @@ function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $ex
 
 	$title = str_replace('%title', $post->post_title, $title);
 	$title = str_replace('%date', $date, $title);
-	$title = apply_filters('the_title', $title, $post);
+	$title = apply_filters('the_title', $title, $post->ID);
 
 	$link = $previous ? "<link rel='prev' title='" : "<link rel='next' title='";
 	$link .= esc_attr( $title );
@@ -1210,7 +1210,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
 
 	$title = str_replace('%title', $post->post_title, $title);
 	$title = str_replace('%date', $date, $title);
-	$title = apply_filters('the_title', $title, $post);
+	$title = apply_filters('the_title', $title, $post->ID);
 
 	$link = $start ? "<link rel='start' title='" : "<link rel='end' title='";
 	$link .= esc_attr($title);
@@ -1273,7 +1273,7 @@ function get_parent_post_rel_link($title = '%title') {
 
 	$title = str_replace('%title', $post->post_title, $title);
 	$title = str_replace('%date', $date, $title);
-	$title = apply_filters('the_title', $title, $post);
+	$title = apply_filters('the_title', $title, $post->ID);
 
 	$link = "<link rel='up' title='";
 	$link .= esc_attr( $title );
@@ -1346,7 +1346,7 @@ function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_cate
 	if ( empty($post->post_title) )
 		$title = $previous ? __('Previous Post') : __('Next Post');
 
-	$title = apply_filters('the_title', $title, $post);
+	$title = apply_filters('the_title', $title, $post->ID);
 	$date = mysql2date(get_option('date_format'), $post->post_date);
 	$rel = $previous ? 'prev' : 'next';
 
