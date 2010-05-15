@@ -1419,6 +1419,21 @@ jQuery(document).ready(function($){
 	<?php echo $errors['upload_error']->get_error_message(); ?>
 <?php } ?>
 </div>
+<div id="media-upload-size">
+<?php 
+	$upload_size_unit = $max_upload_size =  wp_max_upload_size();
+	$sizes = array( 'KB', 'MB', 'GB' );
+	for( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ )
+		$upload_size_unit /= 1024;
+	if ( $u < 0 ) {
+		$upload_size_unit = 0;
+		$u = 0;
+	} else {
+		$upload_size_unit = (int) $upload_size_unit;
+	}
+	printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] );
+?>
+</div>
 
 <?php
 // Check quota for this blog if multisite
@@ -1453,7 +1468,7 @@ SWFUpload.onload = function() {
 				"tab" : "<?php echo $tab; ?>",
 				"short" : "1"
 			},
-			file_size_limit : "<?php echo wp_max_upload_size(); ?>b",
+			file_size_limit : "<?php echo $max_upload_size; ?>b",
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			upload_start_handler : uploadStart,

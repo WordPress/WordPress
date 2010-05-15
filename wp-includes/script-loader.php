@@ -203,7 +203,7 @@ function wp_default_scripts( &$scripts ) {
 	// these error messages came from the sample swfupload js, they might need changing.
 	$scripts->localize( 'swfupload-handlers', 'swfuploadL10n', array(
 			'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
-			'file_exceeds_size_limit' => sprintf( __('This file is too big. The maximum upload size for your server is %s.'), $max_upload_size ),
+			'file_exceeds_size_limit' => __('This file exceeds the maximum upload size for this site.'),
 			'zero_byte_file' => __('This file is empty. Please try another.'),
 			'invalid_filetype' => __('This file type is not allowed. Please try another.'),
 			'default_error' => __('An error occurred in the upload. Please try again later.'),
