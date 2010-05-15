@@ -1433,7 +1433,7 @@ if ( $flash ) : ?>
 var swfu;
 SWFUpload.onload = function() {
 	var settings = {
-			button_text: '<span class="button"><?php _e('Select Files'); ?></span>',
+			button_text: '<span class="button"><?php _e('Select Files'); ?><\/span>',
 			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; font-size: 11px; text-shadow: 0 1px 0 #FFFFFF; color:#464646; }',
 			button_height: "23",
 			button_width: "132",
