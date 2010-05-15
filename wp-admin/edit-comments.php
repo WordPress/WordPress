@@ -101,9 +101,9 @@ if ( isset($_REQUEST['doaction']) ||  isset($_REQUEST['doaction2']) || isset($_R
 }
 
 if ( $post_id )
-	$title = sprintf(__('Edit Comments on &#8220;%s&#8221;'), wp_html_excerpt(_draft_or_post_title($post_id), 50));
+	$title = sprintf(__('Comments on &#8220;%s&#8221;'), wp_html_excerpt(_draft_or_post_title($post_id), 50));
 else
-	$title = __('Edit Comments');
+	$title = __('Comments');
 
 require_once('./admin-header.php');
 
