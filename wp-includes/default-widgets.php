@@ -644,7 +644,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
  		else if ( $number < 1 )
  			$number = 1;
 
-		$comments = get_comments(array('number' => $number));
+		$comments = get_comments( array( 'number' => $number, 'status' => 'approve' ) );
 		$output .= $before_widget;
 		if ( $title ) 
 			$output .= $before_title . $title . $after_title;
