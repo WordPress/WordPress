@@ -698,7 +698,7 @@ Thanks!
 		'fileupload_maxk' => 1500,
 		'site_admins' => $site_admins,
 		'allowedthemes' => $allowed_themes,
-		'illegal_names' => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ),
+		'illegal_names' => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' ),
 		'wpmu_upgrade_site' => $wp_db_version,
 		'welcome_email' => $welcome_email,
 		'first_post' => __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ),
