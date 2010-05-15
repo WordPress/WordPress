@@ -212,7 +212,7 @@ case 'doremove':
 			$update = 'err_admin_remove';
 			continue;
 		}
-		if ( !current_user_can('delete_user', $id) ) {
+		if ( !current_user_can('remove_user', $id) ) {
 			$update = 'err_admin_remove';
 			continue;
 		}
