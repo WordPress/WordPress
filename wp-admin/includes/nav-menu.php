@@ -1004,7 +1004,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  */
 function wp_nav_menu_manage_columns() {
 	return array(
-		'title' => __('Show advanced menu properties'),
+		'_title' => __('Show advanced menu properties'),
 		'cb' => '<input type="checkbox" />',
 		'link-target' => __('Link Target'),
 		'css-classes' => __('CSS Classes'),

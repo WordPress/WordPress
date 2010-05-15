@@ -3245,8 +3245,8 @@ function manage_columns_prefs($page) {
 	$hidden = get_hidden_columns($page);
 
 	foreach ( $columns as $column => $title ) {
-		// Can't hide these
-		if ( 'cb' == $column || 'title' == $column || 'name' == $column || 'username' == $column || 'media' == $column || 'comment' == $column )
+		// Can't hide these or they are special
+		if ( '_title' == $column || 'cb' == $column || 'title' == $column || 'name' == $column || 'username' == $column || 'media' == $column || 'comment' == $column )
 			continue;
 		if ( empty($title) )
 			continue;
@@ -3609,7 +3609,7 @@ function screen_meta($screen) {
 		</div>
 		<?php endif;
 		if ( ! empty($column_screens) ) : ?>
-		<h5><?php echo ( isset( $column_screens['title'] ) ?  $column_screens['title'] :  _x('Show on screen', 'Columns') ) ?></h5>
+		<h5><?php echo ( isset( $column_screens['_title'] ) ?  $column_screens['_title'] :  _x('Show on screen', 'Columns') ) ?></h5>
 		<div class="metabox-prefs">
 			<?php manage_columns_prefs($screen); ?>
 			<br class="clear" />
