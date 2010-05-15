@@ -5,15 +5,15 @@ div#media-upload-header {
 	position: relative;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	height: 2.5em;
 }
 
 body#media-upload ul#sidemenu {
 	font-weight: normal;
 	margin: 0 5px;
-	position: absolute;
 	left: 0;
 	bottom: -1px;
+	float: none;
+	overflow: hidden;
 }
 
 div#media-upload-error {
