@@ -2363,6 +2363,74 @@ function wp_check_filetype( $filename, $mimes = null ) {
 }
 
 /**
+ * Attempt to determine the real file type of a file.
+ * If unable to, the file name extension will be used to determine type.
+ *
+ * If it's determined that the extension does not match the file's real type,
+ * then the "proper_filename" value will be set with a proper filename and extension.
+ *
+ * Currently this function only supports validating images known to getimagesize().
+ *
+ * @since 3.0.0
+ *
+ * @param string $file Full path to the image.
+ * @param string $filename The filename of the image (may differ from $file due to $file being in a tmp directory)
+ * @param array $mimes Optional. Key is the file extension with value as the mime type.
+ * @return array Values for the extension, MIME, and either a corrected filename or false if original $filename is valid
+ */
+function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
+
+	$proper_filename = false;
+
+	// Do basic extension validation and MIME mapping
+	$wp_filetype = wp_check_filetype( $filename, $mimes );
+	extract( $wp_filetype );
+
+	// We can't do any further validation without a file to work with
+	if ( ! file_exists( $file ) )
+		return compact( 'ext', 'type', 'proper_filename' );
+
+	// We're able to validate images using GD
+	if ( $type && 0 === strpos( $type, 'image/' ) && function_exists('getimagesize') ) {
+
+		// Attempt to figure out what type of image it actually is
+		$imgstats = @getimagesize( $file );
+
+		// If getimagesize() knows what kind of image it really is and if the real MIME doesn't match the claimed MIME
+		if ( !empty($imgstats['mime']) && $imgstats['mime'] != $type ) {
+			// This is a simplified array of MIMEs that getimagesize() can detect and their extensions
+			// You shouldn't need to use this filter, but it's here just in case
+			$mime_to_ext = apply_filters( 'getimagesize_mimes_to_exts', array(
+				'image/jpeg' => 'jpg',
+				'image/png'  => 'png',
+				'image/gif'  => 'gif',
+				'image/bmp'  => 'bmp',
+				'image/tiff' => 'tif',
+			) );
+
+			// Replace whatever is after the last period in the filename with the correct extension
+			if ( ! empty( $mime_to_ext[ $imgstats['mime'] ] ) ) {
+				$filename_parts = explode( '.', $filename );
+				array_pop( $filename_parts );
+				$filename_parts[] = $mime_to_ext[ $imgstats['mime'] ];
+				$new_filename = implode( '.', $filename_parts );
+
+				if ( $new_filename != $filename )
+					$proper_filename = $new_filename; // Mark that it changed
+
+				// Redefine the extension / MIME
+				$wp_filetype = wp_check_filetype( $new_filename, $mimes );
+				extract( $wp_filetype );
+			}
+		}
+	}
+
+	// Let plugins try and validate other types of files
+	// Should return an array in the style of array( 'ext' => $ext, 'type' => $type, 'proper_filename' => $proper_filename )
+	return apply_filters( 'wp_check_filetype_and_ext', compact( 'ext', 'type', 'proper_filename' ), $file, $filename, $mimes );
+}
+
+/**
  * Retrieve list of allowed mime types and file extensions.
  *
  * @since 2.8.6

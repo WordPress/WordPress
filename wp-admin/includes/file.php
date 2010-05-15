@@ -306,9 +306,13 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
 	if ( $test_type ) {
-		$wp_filetype = wp_check_filetype( $file['name'], $mimes );
+		$wp_filetype = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'], $mimes );
 
 		extract( $wp_filetype );
+
+		// Check to see if wp_check_filetype_and_ext() determined the filename was incorrect
+		if ( $proper_filename )
+			$file['name'] = $proper_filename;
 
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
 			return call_user_func($upload_error_handler, $file, __( 'File type does not meet security guidelines. Try another.' ));
@@ -416,39 +420,13 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
 	if ( $test_type ) {
-		$wp_filetype = wp_check_filetype( $file['name'], $mimes );
+		$wp_filetype = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'], $mimes );
 
 		extract( $wp_filetype );
 
-		// If the file claims to be an image, validate it's extension
-		if ( function_exists('getimagesize') && !empty( $type ) && 'image/' == substr( $type, 0, 6 ) && is_uploaded_file( $file['tmp_name'] ) ) {
-			// Attempt to figure out what type of image it really is
-			$imgstats = @getimagesize( $file['tmp_name'] );
-
-			// If getimagesize() knows what kind of image it really is and if the real MIME doesn't match the claimed MIME
-			if ( !empty($imgstats['mime']) && $imgstats['mime'] != $type ) {
-				// This is a simplified array of MIMEs that getimagesize() can detect and their extensions
-				$mime_to_ext = apply_filters( 'getimagesize_mimes_to_exts', array(
-					'image/jpeg' => 'jpg',
-					'image/png'  => 'png',
-					'image/gif'  => 'gif',
-					'image/bmp'  => 'bmp',
-					'image/tiff' => 'tif',
-				) );
-
-				// Replace whatever's after the last period in the filename with the correct extension
-				if ( !empty($mime_to_ext[$imgstats['mime']]) ) {
-					$filename_parts = explode( '.', $file['name'] );
-					array_pop( $filename_parts );
-					$filename_parts[] = $mime_to_ext[$imgstats['mime']];
-					$file['name'] = implode( '.', $filename_parts );
-
-					// Re-validate the extension / MIME
-					$wp_filetype = wp_check_filetype( $file['name'], $mimes );
-					extract( $wp_filetype );
-				}
-			}
-		}
+		// Check to see if wp_check_filetype_and_ext() determined the filename was incorrect
+		if ( $proper_filename )
+			$file['name'] = $proper_filename;
 
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
 			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
