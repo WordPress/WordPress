@@ -175,6 +175,9 @@ function get_the_category_by_ID( $cat_ID ) {
 function get_the_category_list( $separator = '', $parents='', $post_id = false ) {
 	global $wp_rewrite;
 	$categories = get_the_category( $post_id );
+	if ( !is_object_in_taxonomy( get_post_type( $post_id ), 'category' ) )
+		return apply_filters( 'the_category', '', $separator, $parents );
+
 	if ( empty( $categories ) )
 		return apply_filters( 'the_category', __( 'Uncategorized' ), $separator, $parents );
 
