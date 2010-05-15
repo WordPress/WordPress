@@ -331,9 +331,6 @@ jQuery(document).ready( function($) {
 	if ( $('#postcustom').length ) {
 		$('#the-list').wpList( { addAfter: function( xml, s ) {
 			$('table#list-table').show();
-			if ( typeof( autosave_update_post_ID ) != 'undefined' ) {
-				autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
-			}
 		}, addBefore: function( s ) {
 			s.data += '&post_id=' + $('#post_ID').val();
 			return s;

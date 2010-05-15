@@ -132,24 +132,17 @@ function autosave_saved_new(response) {
 	if ( res && res.responses.length && !res.errors ) {
 		// An ID is sent only for real auto-saves, not for autosave=0 "keepalive" saves
 		postID = parseInt( res.responses[0].id, 10 );
-		autosave_update_post_ID( postID ); // disabled form buttons are re-enabled here
+		if ( !isNaN(postID) && postID > 0 ) {
+			notSaved = false;
+			jQuery('#auto_draft').val('0'); // No longer an auto-draft
+		}
+		autosave_enable_buttons();
 		if ( autosaveDelayPreview ) {
 			autosaveDelayPreview = false;
 			doPreview();
 		}
 	} else {
 		autosave_enable_buttons(); // re-enable disabled form buttons
-	}
-}
-
-function autosave_update_post_ID( postID ) {
-	if ( !isNaN(postID) && postID > 0 ) {
-		if ( postID == parseInt(jQuery('#post_ID').val(), 10) ) { return; } // no need to do this more than once
-		notSaved = false;
-		autosave_enable_buttons();
-		jQuery('#delete-action a.submitdelete').fadeIn();
-		jQuery('#hiddenaction').val('editpost');
-		jQuery('#auto_draft').val('0'); // No longer an auto-draft
 	}
 }
 
