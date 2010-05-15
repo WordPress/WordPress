@@ -55,8 +55,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e( 'Global Terms' ) ?></th>
 				<td>
-				<label><input type="radio" id="global_terms_enabled" name="global_terms_enabled" value="0"<?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label><br/>
-				<label><input type="radio" id="global_terms_enabled" name="global_terms_enabled" value="1"<?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></label><br />
+				<label><input type="radio" name="global_terms_enabled" value="0"<?php checked( get_site_option( 'global_terms_enabled' ), 0 ) ?>/> <?php _e( 'Disabled' ); ?></label><br/>
+				<label><input type="radio" name="global_terms_enabled" value="1"<?php checked( get_site_option( 'global_terms_enabled' ), 1 ) ?>/> <?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></label><br />
 				<?php if ( ! get_site_option( 'global_terms_enabled') ) { ?>
 				<strong><?php _e( 'Warning!' ); ?></strong> <?php _e( 'Enabling global terms will create a new table and synchronize terms across the network.' ); ?>
 				<?php } ?></td>
@@ -153,7 +153,8 @@ if (isset($_GET['updated'])) {
 				<td>
 					<?php $limited_email_domains = get_site_option( 'limited_email_domains' );
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
-					<textarea name="limited_email_domains" id="limited_email_domains" cols="45" rows="5"><?php echo wp_htmledit_pre( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
+					<textarea name="limited_email_domains" id="limited_email_domains" cols="45" rows="5">
+<?php echo wp_htmledit_pre( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
 					<br />
 					<?php _e( 'If you want to limit site registrations to certain domains. One domain per line.' ) ?>
 				</td>
@@ -162,7 +163,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="banned_email_domains"><?php _e('Banned Email Domains') ?></label></th>
 				<td>
-					<textarea name="banned_email_domains" id="banned_email_domains" cols="45" rows="5"><?php echo wp_htmledit_pre( get_site_option( 'banned_email_domains' ) == '' ? '' : implode( "\n", (array) get_site_option( 'banned_email_domains' ) ) ); ?></textarea>
+					<textarea name="banned_email_domains" id="banned_email_domains" cols="45" rows="5">
+<?php echo wp_htmledit_pre( get_site_option( 'banned_email_domains' ) == '' ? '' : implode( "\n", (array) get_site_option( 'banned_email_domains' ) ) ); ?></textarea>
 					<br />
 					<?php _e( 'If you want to ban domains from site registrations. One domain per line.' ) ?>
 				</td>
@@ -175,7 +177,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="welcome_email"><?php _e( 'Welcome Email' ) ?></label></th>
 				<td>
-					<textarea name="welcome_email" id="welcome_email" rows="5" cols="45" class="large-text"><?php echo stripslashes( get_site_option( 'welcome_email' ) ) ?></textarea>
+					<textarea name="welcome_email" id="welcome_email" rows="5" cols="45" class="large-text">
+<?php echo wp_htmledit_pre( stripslashes( get_site_option( 'welcome_email' ) ) ) ?></textarea>
 					<br />
 					<?php _e( 'The welcome email sent to new site owners.' ) ?>
 				</td>
@@ -183,7 +186,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="welcome_user_email"><?php _e( 'Welcome User Email' ) ?></label></th>
 				<td>
-			    	<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text"><?php echo stripslashes( get_site_option( 'welcome_user_email' ) ) ?></textarea>
+			    	<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text">
+<?php echo wp_htmledit_pre( stripslashes( get_site_option( 'welcome_user_email' ) ) ) ?></textarea>
 					<br />
 					<?php _e( 'The welcome email sent to new users.' ) ?>
 				</td>
@@ -191,7 +195,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="first_post"><?php _e( 'First Post' ) ?></label></th>
 				<td>
-					<textarea name="first_post" id="first_post" rows="5" cols="45" class="large-text"><?php echo stripslashes( get_site_option( 'first_post' ) ) ?></textarea>
+					<textarea name="first_post" id="first_post" rows="5" cols="45" class="large-text">
+<?php echo wp_htmledit_pre( stripslashes( get_site_option( 'first_post' ) ) ) ?></textarea>
 					<br />
 					<?php _e( 'The first post on a new site.' ) ?>
 				</td>
@@ -199,7 +204,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="first_page"><?php _e( 'First Page' ) ?></label></th>
 				<td>
-					<textarea name="first_page" id="first_page" rows="5" cols="45" class="large-text"><?php echo stripslashes( get_site_option('first_page') ) ?></textarea>
+					<textarea name="first_page" id="first_page" rows="5" cols="45" class="large-text">
+<?php echo wp_htmledit_pre( stripslashes( get_site_option('first_page') ) ) ?></textarea>
 					<br />
 					<?php _e( 'The first page on a new site.' ) ?>
 				</td>
@@ -207,7 +213,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="first_comment"><?php _e( 'First Comment' ) ?></label></th>
 				<td>
-					<textarea name="first_comment" id="first_comment" rows="5" cols="45" class="large-text"><?php echo stripslashes( get_site_option('first_comment') ) ?></textarea>
+					<textarea name="first_comment" id="first_comment" rows="5" cols="45" class="large-text">
+<?php echo wp_htmledit_pre( stripslashes( get_site_option('first_comment') ) ) ?></textarea>
 					<br />
 					<?php _e( 'The first comment on a new site.' ) ?>
 				</td>
@@ -244,6 +251,7 @@ if (isset($_GET['updated'])) {
 				<th scope="row"><?php _e( 'Site upload space' ) ?></th>
 				<td>
 				<label><input type="checkbox" id="upload_space_check_disabled" name="upload_space_check_disabled" value="0"<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '<input name="blog_upload_space" type="text" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 10) ) . '" size="3" />' ); ?></label><br />
+				</td>
 			</tr>
 
 			<tr valign="top">
