@@ -116,9 +116,10 @@ $_wp_last_object_menu = 25; // The index of the last top-level menu in the objec
 foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 	$ptype_obj = get_post_type_object( $ptype );
 	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : $_wp_last_object_menu++; // If we're to use $_wp_last_object_menu, increment it first.
+	$ptype_for_id = sanitize_html_class( $ptype );
 	if ( is_string( $ptype_obj->menu_icon ) ) {
 		$menu_icon   = esc_url( $ptype_obj->menu_icon );
-		$ptype_class = sanitize_html_class( $ptype );
+		$ptype_class = $ptype_for_id;
 	} else {
 		$menu_icon   = 'div';
 		$ptype_class = 'post';
@@ -129,7 +130,7 @@ foreach ( (array) get_post_types( array('show_ui' => true) ) as $ptype ) {
 	while ( isset($menu[$ptype_menu_position]) || in_array($ptype_menu_position, $core_menu_positions) )
 		$ptype_menu_position++;
 
-	$menu[$ptype_menu_position] = array( esc_attr( $ptype_obj->labels->name ), $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-' . $ptype_class, 'menu-' . $ptype_class, $menu_icon );
+	$menu[$ptype_menu_position] = array( esc_attr( $ptype_obj->labels->name ), $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype", '', 'menu-top menu-icon-' . $ptype_class, 'menu-posts-' . $ptype_for_id, $menu_icon );
 	$submenu["edit.php?post_type=$ptype"][5]  = array( $ptype_obj->labels->edit, $ptype_obj->cap->edit_posts,  "edit.php?post_type=$ptype");
 	$submenu["edit.php?post_type=$ptype"][10]  = array( $ptype_obj->labels->add_new, $ptype_obj->cap->edit_posts, "post-new.php?post_type=$ptype" );
 
