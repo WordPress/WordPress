@@ -1361,7 +1361,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			}
 			if ( in_array($post->post_status, array('pending', 'draft')) ) {
 				if ( current_user_can($post_type_object->cap->edit_post, $post->ID) )
-					$actions['view'] = '<a href="' . add_query_arg( 'preview', 'true', get_permalink($post->ID) ) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
+					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink($post->ID) ) ) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
 			} elseif ( 'trash' != $post->post_status ) {
 				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 			}
@@ -1583,7 +1583,7 @@ foreach ( $posts_columns as $column_name => $column_display_name ) {
 		}
 		if ( in_array($post->post_status, array('pending', 'draft')) ) {
 			if ( current_user_can($post_type_object->cap->edit_post, $page->ID) )
-				$actions['view'] = '<a href="' . add_query_arg( 'preview', 'true', get_permalink($page->ID) ) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
+				$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink($page->ID) ) ) . '" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('Preview') . '</a>';
 		} elseif ( $post->post_status != 'trash' ) {
 			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		}

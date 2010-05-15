@@ -796,6 +796,7 @@ td.media-icon {
 	text-align: center;
 	width: 80px;
 	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 td.media-icon img {

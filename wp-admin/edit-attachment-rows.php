@@ -84,14 +84,15 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 
 	case 'media':
 		?>
-		<td <?php echo $attributes ?>><strong><?php if ( $is_trash ) echo $att_title; else { ?><a href="<?php echo get_edit_post_link( $post->ID, true ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a><?php } ?></strong><br />
+		<td <?php echo $attributes ?>><strong><?php if ( $is_trash ) echo $att_title; else { ?><a href="<?php echo get_edit_post_link( $post->ID, true ); ?>" title="<?php echo esc_attr(sprintf(__('Edit &#8220;%s&#8221;'), $att_title)); ?>"><?php echo $att_title; ?></a><?php } ?></strong>
+		<p>
 		<?php
 		if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
 			echo esc_html( strtoupper( $matches[1] ) );
 		else
 			echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );
 		?>
-		<p>
+		</p>
 		<?php
 		$actions = array();
 		if ( current_user_can('edit_post', $post->ID) && !$is_trash )
@@ -120,7 +121,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 			echo "<span class='$action'>$link$sep</span>";
 		}
 		echo '</div>';
-		?></p></td>
+		?></td>
 		<?php
 		break;
 
