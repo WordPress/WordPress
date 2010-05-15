@@ -96,7 +96,7 @@ include( './admin-header.php' );
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form method="post">
+<form method="post" action="">
 <?php
 /**
  * Prints step 1 for Network installation process.
