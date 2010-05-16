@@ -1061,13 +1061,12 @@ h3#reply-title {
 #respond textarea {
 	width:98%;
 }
-#respond dt,
-#respond dd {
+#respond .form-allowed-tags {
 	color: #888;
 	font-size: 12px;
 	line-height: 18px;
 }
-#respond dd code {
+#respond .form-allowed-tags code {
 	font-size: 11px;
 }
 #respond .form-submit {
