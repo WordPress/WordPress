@@ -406,7 +406,7 @@ function wp_nav_menu_locations_meta_box() {
 	$mods = get_nav_menu_locations();
 	$menus = wp_get_nav_menus();
 	$menu_locations = get_nav_menu_locations();
-	//var_dump( $menus );
+
 	foreach ( $locations as $location => $description ) {
 		?>
 		<p>
@@ -619,8 +619,9 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			}
 			?>
 			<p class="quick-search-wrap">
-				<input type="text" class="quick-search regular-text" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" />
-				<input type="submit" class="quick-search-submit button-secondary" value="<?php esc_attr_e('Search'); ?>" />
+				<input type="text" class="quick-search regular-text input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" />
+				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<input type="submit" class="quick-search-submit button-secondary hide-if-js" value="<?php esc_attr_e('Search'); ?>" />
 			</p>
 
 			<ul id="<?php echo $post_type_name; ?>-search-checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
@@ -794,8 +795,9 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			}
 			?>
 			<p class="quick-search-wrap">
-				<input type="text" class="quick-search regular-text" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
-				<input type="submit" class="quick-search-submit button-secondary" value="<?php esc_attr_e('Search'); ?>" />
+				<input type="text" class="quick-search regular-text input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
+				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+				<input type="submit" class="quick-search-submit button-secondary hide-if-js" value="<?php esc_attr_e('Search'); ?>" />
 			</p>
 
 			<ul id="<?php echo $taxonomy_name; ?>-search-checklist" class="list:<?php echo $taxonomy_name?> categorychecklist form-no-clear">

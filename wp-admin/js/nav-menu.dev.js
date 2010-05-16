@@ -21,8 +21,6 @@ var wpNavMenu;
 		
 		menuList : undefined,	// Set in init.
 		targetList : undefined, // Set in init.
-		
-		autoCompleteData : {},
 
 		// Functions that run on init.
 		init : function() {
@@ -346,44 +344,45 @@ var wpNavMenu;
 		},
 	
 		attachQuickSearchListeners : function() {
-			var that = this,
-				form = $('#nav-menu-meta');
+			var searchTimer;
 			
-			// auto-suggest for the quick-search boxes
-			$('input.quick-search').each(function(i, el) {
-				that.setupQuickSearchEventListeners(el);
-			});
-			form.find('.quick-search-submit').click(function() {
-				$(this).trigger('wp-quick-search');
-				return false;
-			});
-			form.find('.inside').children().bind('wp-quick-search', function() {
-				that.quickSearch( $(this).attr('id') );
-			});
+			$('.quick-search').keypress(function(e){
+				var t = $(this);
+				
+				if( 13 == e.which ) {
+					api.updateQuickSearchResults( t );
+					return false;
+				}
+				
+				if( searchTimer ) clearTimeout(searchTimer);
+				
+				searchTimer = setTimeout(function(){
+					api.updateQuickSearchResults( t );
+				}, 400);
+			}).attr('autocomplete','off');
 		},
-	
-		quickSearch : function(id) {
-			var type = $('#' + id + ' .quick-search').attr('name'),
-			q = $('#' + id + ' .quick-search').val(),
-			menu = $('#menu').val(),
-			nonce = $('#menu-settings-column-nonce').val(),
-			params = {},
-			that = this,
-			processMethod = function(){};
-
-			processMethod = that.processQuickSearchQueryResponse;
-
+		
+		updateQuickSearchResults : function(input) {
+			var panel, params,
+			minSearchLength = 2,
+			q = input.val();
+			
+			if( q.length < minSearchLength ) return;
+			
+			panel = input.parents('.tabs-panel');
 			params = {
 				'action': 'menu-quick-search',
 				'response-format': 'markup',
-				'menu': menu,
-				'menu-settings-column-nonce': nonce,
+				'menu': $('#menu').val(),
+				'menu-settings-column-nonce': $('#menu-settings-column-nonce').val(),
 				'q': q,
-				'type': type
+				'type': input.attr('name')
 			};
 
+			$('img.waiting', panel).show();
+
 			$.post( ajaxurl, params, function(menuMarkup) {
-				processMethod.call(that, menuMarkup, params);
+				api.processQuickSearchQueryResponse(menuMarkup, params, panel);
 			});
 		},
 	
@@ -463,38 +462,32 @@ var wpNavMenu;
 
 		attachTabsPanelListeners : function() {
 			$('#menu-settings-column').bind('click', function(e) {
-				var selectAreaMatch, activePanel, panelIdMatch, wrapper, inputs, i, items;
+				var selectAreaMatch, activePanel, panelId, wrapper, items,
+					target = $(e.target);
 				
-				if ( e.target && e.target.className && -1 != e.target.className.indexOf('nav-tab-link') ) {
-					panelIdMatch = /#(.*)$/.exec(e.target.href);
-					wrapper = $(e.target).parents('.inside').first()[0];
-					inputs = wrapper ? wrapper.getElementsByTagName('input') : [];
-					i = inputs.length;
+				if ( target.hasClass('nav-tab-link') ) {
+					panelId = /#(.*)$/.exec(e.target.href);
+					if ( panelId && panelId[1] )
+						panelId = panelId[1]
+					else
+						return false;
+						
+					wrapper = target.parents('.inside').first();
 
 					// upon changing tabs, we want to uncheck all checkboxes
-					while( i-- )
-						inputs[i].checked = false;
+					$('input', wrapper).removeAttr('checked');
+					
+					$('.tabs-panel-active', wrapper).removeClass('tabs-panel-active').addClass('tabs-panel-inactive');
+					$('#' + panelId, wrapper).removeClass('tabs-panel-inactive').addClass('tabs-panel-active');
 
-					$('.tabs-panel', wrapper).each(function() {
-						if ( this.className )
-							this.className = this.className.replace('tabs-panel-active', 'tabs-panel-inactive');
-					});
+					$('.tabs', wrapper).removeClass('tabs');
+					target.parent().addClass('tabs');
 
-					$('.tabs', wrapper).each(function() {
-						this.className = this.className.replace('tabs', '');
-					});
-
-					e.target.parentNode.className += ' tabs';
-
-					if ( panelIdMatch && panelIdMatch[1] ) {
-						activePanel = document.getElementById(panelIdMatch[1]);
-						if ( activePanel ) {
-							activePanel.className = activePanel.className.replace('tabs-panel-inactive', 'tabs-panel-active');
-						}
-					}
+					// select the search bar
+					$('.quick-search', wrapper).focus();
 
 					return false;
-				} else if ( e.target && e.target.className && -1 != e.target.className.indexOf('select-all') ) {
+				} else if ( target.hasClass('select-all') ) {
 					selectAreaMatch = /#(.*)$/.exec(e.target.href);
 					if ( selectAreaMatch && selectAreaMatch[1] ) {
 						items = $('#' + selectAreaMatch[1] + ' .tabs-panel-active .menu-item-title input');
@@ -611,37 +604,6 @@ var wpNavMenu;
 			});
 		},
 
-		/**
-		 * Set up quick-search input fields' events.
-		 *
-		 * @param object el The input element.
-		 */
-		setupQuickSearchEventListeners : function(el) {
-			var that = this;
-			$(el).autocomplete( ajaxurl + '?action=menu-quick-search&type=' + el.name,
-				{
-					delay: 500,
-					formatItem: api.formatAutocompleteResponse,
-					formatResult: api.formatAutocompleteResult,
-					minchars: 2,
-					multiple: false
-				}
-			).bind('blur', function(e) {
-				var changedData = api.autoCompleteData[this.value],
-				inputEl = this;
-				if ( changedData ) {
-					$.post(
-						ajaxurl + '?action=menu-quick-search&type=get-post-item&response-format=markup',
-						changedData,
-						function(r) {
-							that.processQuickSearchQueryResponse.call(that, r, changedData);
-							api.autoCompleteData[inputEl.value] = false;
-						}
-					);
-				}
-			});
-		},
-
 		eventOnClickEditLink : function(clickedEl) {
 			var activeEdit,
 			matchedSection = /#(.*)$/.exec(clickedEl.href);
@@ -718,59 +680,40 @@ var wpNavMenu;
 		 *
 		 * @param string resp The server response to the query.
 		 * @param object req The request arguments.
+		 * @param jQuery panel The tabs panel we're searching in.
 		 */
-		processQuickSearchQueryResponse : function(resp, req) {
-			if ( ! req )
-				req = {};
-			var wrap = document.createElement('ul'),
+		processQuickSearchQueryResponse : function(resp, req, panel) {
+			var i, matched, newID,
+			takenIDs = {},
 			form = document.getElementById('nav-menu-meta'),
-			i,
-			items,
-			matched,
-			message,
-			newID,
-			pattern = new RegExp('menu-item\\[(\[^\\]\]*)'),
-			resultList;
+			pattern = new RegExp('menu-item\\[(\[^\\]\]*)', 'g'),
+			items = resp.match(/<li>.*<\/li>/g);
 
-			// make a unique DB ID number
-			matched = pattern.exec(resp);
-			if ( matched && matched[1] ) {
-				newID = matched[1];
-				while( form.elements['menu-item[' + newID + '][menu-item-type]'] ) {
-					newID--;
-				}
-
-				if ( newID != matched[1] ) {
-					resp = resp.replace(new RegExp('menu-item\\[' + matched[1] + '\\]', 'g'), 'menu-item[' + newID + ']');
-				}
+			if( ! items ) {				
+				$('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
+				$('img.waiting', panel).hide();
+				return;
 			}
 
-			wrap.innerHTML = resp;
+			i = items.length;
+			while( i-- ) {
+				// make a unique DB ID number
+				matched = pattern.exec(items[i]);
+				if ( matched && matched[1] ) {
+					newID = matched[1];
+					while( form.elements['menu-item[' + newID + '][menu-item-type]'] || takenIDs[ newID ] ) {
+						newID--;
+					}
 
-			items = wrap.getElementsByTagName('li');
-
-			if ( items[0] && req.object_type ) {
-				resultList = document.getElementById(req.object_type + '-search-checklist');
-				if ( resultList ) {
-					resultList.appendChild(items[0]);
-				}
-			} else if ( req.type ) {
-				matched = /quick-search-(posttype|taxonomy)-([a-zA-Z_-]*)/.exec(req.type);
-				if ( matched && matched[2] ) {
-					resultList = document.getElementById(matched[2] + '-search-checklist');
-					if ( resultList ) {
-						i = items.length;
-						if ( ! i ) {
-							message = document.createElement('li');
-							message.appendChild(document.createTextNode(navMenuL10n.noResultsFound));
-							resultList.appendChild(message);
-						}
-						while( i-- ) {
-							resultList.appendChild(items[i]);
-						}
+					takenIDs[newID] = true;
+					if ( newID != matched[1] ) {
+						items[i] = items[i].replace(new RegExp('menu-item\\[' + matched[1] + '\\]', 'g'), 'menu-item[' + newID + ']');
 					}
 				}
 			}
+
+			$('.categorychecklist', panel).html( items.join('') );
+			$('img.waiting', panel).hide();
 		},
 
 		removeMenuItem : function(el) {
@@ -782,25 +725,6 @@ var wpNavMenu;
 				el.remove();
 				children.shiftDepthClass(-1).updateParentMenuItemDBId();
 			});
-		},
-		
-		formatAutocompleteResponse : function( resultRow, pos, total, queryTerm ) {
-			if ( resultRow && resultRow[0] ) {
-				var data = $.parseJSON(resultRow[0]);
-				if ( data.post_title ) {
-					if ( data.ID && data.post_type )
-						api.autoCompleteData[data.post_title] = {ID: data.ID, object_type: data.post_type};
-					return data.post_title;
-				}
-			}
-		},
-
-		formatAutocompleteResult : function( resultRow, pos, total, queryTerm ) {
-			if ( resultRow && resultRow[0] ) {
-				var data = $.parseJSON(resultRow[0]);
-				if ( data.post_title )
-					return data.post_title;
-			}
 		},
 
 		getListDataFromID : function(menuItemID, parentEl) {
