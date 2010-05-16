@@ -408,9 +408,12 @@ function is_upload_space_available() {
 
 /*
  * @since 3.0.0
+ *
+ * @return int of upload size limit in bytes
  */
 function upload_size_limit_filter( $size ) {
-	return min( $size, get_upload_space_available() );
+	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
+	return min( $size, $fileupload_maxk, get_upload_space_available() );
 }
 /**
  * Determines if there is any upload space left in the current blog's quota.
