@@ -89,6 +89,7 @@ class Custom_Background {
 			check_admin_referer('custom-background-reset', '_wpnonce-custom-background-reset');
 			remove_theme_mod('background_image');
 			remove_theme_mod('background_image_thumb');
+			$this->updated = true;
 			return;
 		}
 
@@ -97,6 +98,7 @@ class Custom_Background {
 			check_admin_referer('custom-background-remove', '_wpnonce-custom-background-remove');
 			set_theme_mod('background_image', '');
 			set_theme_mod('background_image_thumb', '');
+			$this->updated = true;
 			return;
 		}
 
