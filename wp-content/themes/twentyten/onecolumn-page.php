@@ -6,7 +6,7 @@
  * Selectable from a dropdown menu on the edit page screen.
  *
  * @package WordPress
- * @subpackage Twenty Ten
+ * @subpackage Twenty_Ten
  * @since 3.0.0
  */
 ?>

@@ -3,7 +3,7 @@
  * The Search Results template
  *
  * @package WordPress
- * @subpackage Twenty Ten
+ * @subpackage Twenty_Ten
  * @since 3.0.0
  */
 ?>

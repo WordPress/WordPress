@@ -3,7 +3,7 @@
  * The template used to display Category Archive pages
  *
  * @package WordPress
- * @subpackage Twenty Ten
+ * @subpackage Twenty_Ten
  * @since 3.0.0
  */
 ?>

@@ -6,7 +6,7 @@
  * after.  Calls sidebar-footer.php for bottom widgets
  *
  * @package WordPress
- * @subpackage Twenty Ten
+ * @subpackage Twenty_Ten
  * @since 3.0.0
  */
 ?>

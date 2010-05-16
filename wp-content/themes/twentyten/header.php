@@ -5,7 +5,7 @@
  * Displays all of the <head> section and everything up till <div id="main">
  *
  * @package WordPress
- * @subpackage Twenty Ten
+ * @subpackage Twenty_Ten
  * @since 3.0.0
  */
 ?>
