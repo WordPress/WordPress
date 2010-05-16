@@ -3536,7 +3536,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
  * @param bool $unfiltered Optional, default is false. If true, filters are not run.
  * @return string|bool Attachment meta field. False on failure.
  */
-function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
+function wp_get_attachment_metadata( $post_id = 0, $unfiltered = false ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
 		return false;
