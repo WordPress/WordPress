@@ -486,7 +486,7 @@ require_once( 'admin-header.php' );
 							<div class="major-publishing-actions">
 								<label class="menu-name-label howto open-label" for="menu-name">
 									<span><?php _e('Menu Name'); ?></span>
-									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="Enter menu name here." value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
+									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here.'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
 									<br class="clear" />
 								</label>
 
