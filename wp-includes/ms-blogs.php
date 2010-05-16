@@ -29,10 +29,13 @@ function get_blogaddress_by_name( $blogname ) {
 	if ( is_subdomain_install() ) {
 		if ( $blogname == 'main' )
 			$blogname = 'www';
-		return esc_url( 'http://' . $blogname . '.' . $current_site->domain . $current_site->path );
+		$url = rtrim( network_home_url(), '/' );
+		if ( !empty( $blogname ) )
+			$url = preg_replace( '|^([^\.]+://)|', '$1' . $blogname . '.', $url );
 	} else {
-		return esc_url( 'http://' . $current_site->domain . $current_site->path . $blogname . '/' );
+		$url = network_home_url( $blogname );
 	}
+	return esc_url( $url . '/' );
 }
 
 function get_blogaddress_by_domain( $domain, $path ){
