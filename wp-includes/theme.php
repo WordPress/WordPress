@@ -1553,7 +1553,7 @@ function _custom_background_cb() {
 			$repeat = 'background-repeat: repeat;';
 	}
 
-	switch ( get_theme_mod('background_position', 'left') ) {
+	switch ( get_theme_mod('background_position_x', 'left') ) {
 		case 'center':
 			$position = 'background-position: top center;';
 			break;

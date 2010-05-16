@@ -12,8 +12,7 @@ jQuery(document).ready(function() {
 	});
 
 	jQuery('#background-color').keyup(function() {
-		var _hex = jQuery('#background-color').val();
-		var hex = _hex;
+		var _hex = jQuery('#background-color').val(), hex = _hex;
 		if ( hex[0] != '#' )
 			hex = '#' + hex;
 		hex = hex.replace(/[^#a-fA-F0-9]+/, '');
@@ -23,16 +22,12 @@ jQuery(document).ready(function() {
 			pickColor( hex );
 	});
 
-	jQuery('input[name="background-position"]').change(function() {
-		jQuery('#custom-background-image').css('background-position', 'top ' + jQuery(this).val());
+	jQuery('input[name="background-position-x"]').change(function() {
+		jQuery('#custom-background-image').css('background-position', jQuery(this).val() + ' top');
 	});
 
 	jQuery('select[name="background-repeat"]').change(function() {
 		jQuery('#custom-background-image').css('background-repeat', jQuery(this).val());
-	});
-	
-	jQuery('input[name="background-attachment"]').change(function() {
-		jQuery('#custom-background-image').css('background-attachment', jQuery(this).val());
 	});
 
 	farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) {
