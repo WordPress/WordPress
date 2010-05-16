@@ -737,8 +737,13 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 	if ( is_string($function) )
 		return $function;
 
-	$function = (array) $function;
-
+	// Closures are currently implemented as objects
+	if ( is_object($function) ) {
+		$function = array( $function );
+	} else {
+		$function = (array) $function;
+	}
+	
 	if (is_object($function[0]) ) {
 		// Object Class Calling
 		if ( function_exists('spl_object_hash') ) {
