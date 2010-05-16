@@ -432,11 +432,9 @@ if ( $active_signup == "none" ) {
 			else
 				_e( 'You are logged in already. No need to register again!' );
 
-			if ($newblogname) {
-				if ( !is_subdomain_install() )
-					$newblog = 'http://' . $current_site->domain . $current_site->path . $newblogname . '/';
-				else
-					$newblog = 'http://' . $newblogname . '.' . $current_site->domain . $current_site->path;
+			if ( $newblogname ) {
+				$newblog = get_blogaddress_by_name( $newblogname );
+
 				if ( $active_signup == 'blog' || $active_signup == 'all' )
 					printf( __( '<p><em>The site you were looking for, <strong>%s</strong> does not exist, but you can create it now!</em></p>' ), $newblog );
 				else
