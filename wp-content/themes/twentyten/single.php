@@ -24,7 +24,7 @@
 					<h1 class="entry-title"><?php the_title(); ?></h1>
 
 					<div class="entry-meta">
-						<?php echo twentyten_posted_on(); ?>
+						<?php twentyten_posted_on(); ?>
 					</div><!-- .entry-meta -->
 
 					<div class="entry-content">
@@ -50,7 +50,7 @@
 <?php endif; ?>
 
 					<div class="entry-utility">
-						<?php echo twentyten_posted_in(); ?>
+						<?php twentyten_posted_in(); ?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
 				</div><!-- #post-<?php the_ID(); ?> -->

@@ -58,8 +58,19 @@
 
 					<div class="entry-content">
 						<div class="entry-attachment">
-<?php if ( wp_attachment_is_image() ) : ?>
-						<p class="attachment"><a href="<?php echo twentyten_get_next_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
+<?php if ( wp_attachment_is_image() ) :
+	$attachments = array_values( get_children( array( 'post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID' ) ) );
+	foreach ( $attachments as $k => $attachment ) {
+		if ( $attachment->ID == $post->ID )
+			break;
+	}
+	$k++;
+	if ( isset( $attachments[ $k ] ) )
+		$next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
+	else
+		$next_attachment_url = get_permalink( $post->post_parent );
+?>
+						<p class="attachment"><a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
 							$attachment_size = apply_filters( 'twentyten_attachment_size', 900 );
 							echo wp_get_attachment_image( $post->ID, array( $attachment_size, 9999 ) ); // filterable image width with, essentially, no limit for image height.
 						?></a></p>
@@ -80,7 +91,7 @@
 					</div><!-- .entry-content -->
 
 					<div class="entry-utility">
-						<?php echo twentyten_posted_in(); ?>
+						<?php twentyten_posted_in(); ?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), ' <span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
 				</div><!-- #post-<?php the_ID(); ?> -->
