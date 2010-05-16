@@ -1846,13 +1846,13 @@ function home_url( $path = '', $scheme = null ) {
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	$orig_scheme = $scheme;
 
-	if ( !in_array($scheme, array('http', 'https')) )
+	if ( !in_array( $scheme, array( 'http', 'https' ) ) )
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
-	if ( empty($blog_id) || !is_multisite() )
-		$home = get_option('home');
+	if ( empty( $blog_id ) || !is_multisite() )
+		$home = get_option( 'home' );
 	else
-		$home = untrailingslashit(get_blogaddress_by_id($blog_id));
+		$home = get_blog_option( $blog_id, 'home' );
 
 	$url = str_replace( 'http://', "$scheme://", $home );
 
@@ -1900,28 +1900,28 @@ function site_url( $path = '', $scheme = null ) {
 function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	// should the list of allowed schemes be maintained elsewhere?
 	$orig_scheme = $scheme;
-	if ( !in_array($scheme, array('http', 'https')) ) {
+	if ( !in_array( $scheme, array( 'http', 'https' ) ) ) {
 		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
 			$scheme = 'https';
-		elseif ( ('login' == $scheme) && ( force_ssl_admin() ) )
+		elseif ( ( 'login' == $scheme ) && force_ssl_admin() )
 			$scheme = 'https';
-		elseif ( ('admin' == $scheme) && force_ssl_admin() )
+		elseif ( ( 'admin' == $scheme ) && force_ssl_admin() )
 			$scheme = 'https';
 		else
 			$scheme = ( is_ssl() ? 'https' : 'http' );
 	}
 
-	if ( empty($blog_id) || !is_multisite() )
-		$url = get_option('siteurl');
+	if ( empty( $blog_id ) || !is_multisite() )
+		$url = get_option( 'siteurl' );
 	else
-		$url = untrailingslashit(get_blogaddress_by_id($blog_id));
+		$url = get_blog_option( $blog_id, 'siteurl' );
 
 	$url = str_replace( 'http://', "{$scheme}://", $url );
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
-		$url .= '/' . ltrim($path, '/');
+	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+		$url .= '/' . ltrim( $path, '/' );
 
-	return apply_filters('site_url', $url, $path, $orig_scheme, $blog_id);
+	return apply_filters( 'site_url', $url, $path, $orig_scheme, $blog_id );
 }
 
 /**
