@@ -198,7 +198,7 @@ function wp_install_defaults($user_id) {
 		if ( empty($first_post) )
 			$first_post = stripslashes( __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ) );
 
-		$first_post = str_replace( "SITE_URL", esc_url("http://" . $current_site->domain . $current_site->path), $first_post );
+		$first_post = str_replace( "SITE_URL", esc_url( network_home_url() ), $first_post );
 		$first_post = str_replace( "SITE_NAME", $current_site->site_name, $first_post );
 	} else {
 		$first_post = __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!');
@@ -229,7 +229,7 @@ function wp_install_defaults($user_id) {
 	$first_comment = __('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
 		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
-		$first_comment_url = get_site_option( 'first_comment_url', 'http://' . $current_site->domain . $current_site->path );
+		$first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
 		$first_comment = get_site_option( 'first_comment', $first_comment );
 	}
 	$wpdb->insert( $wpdb->comments, array(

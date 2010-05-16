@@ -155,7 +155,7 @@ function export_wp( $args = array() ) {
 	
 		// mu: the base url
 		if ( isset( $current_site->domain ) )
-			return 'http://' . $current_site->domain . $current_site->path;
+			return network_home_url();
 		// wp: the blog url
 		else
 			return get_bloginfo_rss( 'url' );
