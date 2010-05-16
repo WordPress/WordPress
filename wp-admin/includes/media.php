@@ -1431,7 +1431,7 @@ jQuery(document).ready(function($){
 	} else {
 		$upload_size_unit = (int) $upload_size_unit;
 	}
-	printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] );
+	printf( '<h3>' . __( 'Maximum upload file size: %d%s' ) . '</h3>', $upload_size_unit, $sizes[$u] );
 ?>
 </div>
 
