@@ -17,10 +17,9 @@
 					printf( __( 'Category Archives: %s', 'twentyten' ), '<span>' . single_cat_title( '', false ) . '</span>' );
 				?></h1>
 				<?php
-					$categorydesc = category_description();
-					if ( ! empty( $categorydesc ) ) {
-						echo apply_filters( 'archive_meta', '<div class="archive-meta">' . $categorydesc . '</div>' );
-					}
+					$category_description = category_description();
+					if ( ! empty( $category_description ) )
+						echo '<div class="archive-meta">' . $categorydesc . '</div>';
 				?>
 
 				<?php
