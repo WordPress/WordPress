@@ -550,9 +550,11 @@ function sticky_class( $post_id = null ) {
  * 'after' - Default is '</p>' (string). The html or text to append to each
  *      bookmarks.
  * 'link_before' - Default is '' (string). The html or text to prepend to each
- *      Pages link inside the <a> tag.
+ *      Pages link inside the <a> tag. Also prepended to the current item, which
+ *      is not linked.
  * 'link_after' - Default is '' (string). The html or text to append to each
- *      Pages link inside the <a> tag.
+ *      Pages link inside the <a> tag. Also appended to the current item, which
+ *      is not linked.
  *
  * @since 1.2.0
  * @access private
