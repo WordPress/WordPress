@@ -103,10 +103,13 @@ if ( !function_exists('get_userdata') ) :
 function get_userdata( $user_id ) {
 	global $wpdb;
 
+	if ( ! is_numeric( $user_id ) )
+		return false;
+		
 	$user_id = absint( $user_id );
 	if ( ! $user_id )
 		return false;
-
+	
 	$user = wp_cache_get( $user_id, 'users' );
 
 	if ( $user )
