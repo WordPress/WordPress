@@ -403,7 +403,6 @@ function wp_nav_menu_taxonomy_meta_boxes() {
  */
 function wp_nav_menu_locations_meta_box() {
 	$locations = get_registered_nav_menus();
-	$mods = get_nav_menu_locations();
 	$menus = wp_get_nav_menus();
 	$menu_locations = get_nav_menu_locations();
 

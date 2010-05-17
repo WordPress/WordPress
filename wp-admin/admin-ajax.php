@@ -1103,6 +1103,14 @@ case 'menu-quick-search':
 
 	exit;
 	break;
+case 'menu-locations-save':
+	if ( ! current_user_can( 'edit_theme_options' ) )
+		die('-1');
+	if ( ! isset( $_POST['menu-locations' ] ) )
+		die('0');
+	set_theme_mod( 'nav_menu_locations', $_POST['menu-locations'] );
+	die('1');
+	break;
 case 'meta-box-order':
 	check_ajax_referer( 'meta-box-order' );
 	$order = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;

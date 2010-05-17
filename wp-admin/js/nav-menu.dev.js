@@ -329,7 +329,7 @@ var wpNavMenu;
 		},
 
 		attachAddMenuItemListeners : function() {
-			var form = $('#nav-menu-meta');
+			var form = $('#nav-menu-meta'), loc = form.find('#nav-menu-theme-locations');
 		
 			form.find('.add-to-menu input').click(function(){
 				$(this).trigger('wp-add-menu-item', [api.addMenuItemToBottom]);
@@ -340,6 +340,13 @@ var wpNavMenu;
 			});
 			form.find('.posttypediv, .taxonomydiv').bind('wp-add-menu-item', function(e, processMethod) {
 				$(this).addSelectedToMenu( processMethod );
+			});
+			loc.find('input[type=submit]').click(function() {
+				loc.find('.waiting').show();
+				$.post( ajaxurl, loc.find('select').serialize() + '&action=menu-locations-save', function(r) {
+					loc.find('.waiting').hide();
+				});
+				return false;
 			});
 		},
 	
