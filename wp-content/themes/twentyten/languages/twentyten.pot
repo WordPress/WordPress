@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-17 00:21+0000\n"
+"POT-Creation-Date: 2010-05-17 08:22+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: 404.php:17 header.php:31 loop.php:27
+#: 404.php:17 header.php:29 loop.php:27
 msgid "Not Found"
 msgstr ""
 
@@ -27,22 +27,22 @@ msgid ""
 "will help."
 msgstr ""
 
-#: archive.php:25
+#: archive.php:33
 #, php-format
 msgid "Daily Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:27
+#: archive.php:35
 #, php-format
 msgid "Monthly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:29
+#: archive.php:37
 #, php-format
 msgid "Yearly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:31
+#: archive.php:39
 msgid "Blog Archives"
 msgstr ""
 
@@ -75,27 +75,26 @@ msgstr ""
 msgid "Link to full-size image"
 msgstr ""
 
-#: attachment.php:56 attachment.php:95 loop.php:69 loop.php:90 loop.php:131
-#: onecolumn-page.php:26 page.php:33 single.php:54
+#: attachment.php:56 attachment.php:95 loop.php:84 loop.php:107 loop.php:149
+#: onecolumn-page.php:28 page.php:33 single.php:54
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:88 functions.php:255 loop.php:78 loop.php:82 loop.php:105
-#: loop.php:109
+#: attachment.php:88 functions.php:255 loop.php:99 loop.php:123 loop.php:127
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: attachment.php:89 loop.php:110 onecolumn-page.php:25 page.php:32
+#: attachment.php:89 loop.php:128 onecolumn-page.php:27 page.php:32
 #: single.php:32
 msgid "Pages:"
 msgstr ""
 
-#: author.php:18
+#: author.php:27
 #, php-format
 msgid "Author Archives: %s"
 msgstr ""
 
-#: author.php:26 single.php:41
+#: author.php:37 single.php:41
 #, php-format
 msgid "About %s"
 msgstr ""
@@ -110,36 +109,36 @@ msgid ""
 "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:32
+#: comments.php:35
 #, php-format
 msgid "One Response to %2$s"
 msgid_plural "%1$s Responses to %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:39 comments.php:50
+#: comments.php:41 comments.php:60
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:40 comments.php:51
+#: comments.php:42 comments.php:61
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:61
+#: comments.php:72
 msgid "Comments are closed."
 msgstr ""
 
 #. #-#-#-#-#  twentyten.pot (Twenty Ten 1.0)  #-#-#-#-#
 #. Theme URI of the plugin/theme
-#: footer.php:28
+#: footer.php:33
 msgid "http://wordpress.org/"
 msgstr ""
 
-#: footer.php:29
+#: footer.php:34
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:30
+#: footer.php:35
 #, php-format
 msgid "Proudly powered by %s."
 msgstr ""
@@ -283,75 +282,75 @@ msgid ""
 "\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: header.php:29
+#: header.php:27
 #, php-format
 msgid "Search results for %s"
 msgstr ""
 
-#: header.php:71
+#: header.php:69
 msgid "Skip to content"
 msgstr ""
 
-#: loop.php:19 loop.php:143
+#: loop.php:19 loop.php:162
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: loop.php:20 loop.php:144
+#: loop.php:20 loop.php:163
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: loop.php:29
 msgid ""
-"Apologies, but no results were found for the requested Archive. Perhaps "
+"Apologies, but no results were found for the requested archive. Perhaps "
 "searching will help find a related post."
 msgstr ""
 
-#: loop.php:39 loop.php:66
+#: loop.php:54 loop.php:81
 msgctxt "gallery category slug"
 msgid "gallery"
 msgstr ""
 
-#: loop.php:41 loop.php:58 loop.php:97
+#: loop.php:56 loop.php:73 loop.php:115
 #, php-format
 msgid "Permalink to %s"
 msgstr ""
 
-#: loop.php:57
+#: loop.php:72
 #, php-format
 msgid "This gallery contains <a %1$s>%2$s photos</a>."
 msgstr ""
 
-#: loop.php:66
+#: loop.php:81
 msgid "View posts in the Gallery category"
 msgstr ""
 
-#: loop.php:66
+#: loop.php:81
 msgid "More Galleries"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:130
+#: loop.php:83 loop.php:106 loop.php:148
 msgid "Leave a comment"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:130
+#: loop.php:83 loop.php:106 loop.php:148
 msgid "1 Comment"
 msgstr ""
 
-#: loop.php:68 loop.php:89 loop.php:130
+#: loop.php:83 loop.php:106 loop.php:148
 msgid "% Comments"
 msgstr ""
 
-#: loop.php:74
+#: loop.php:90
 msgctxt "asides category slug"
 msgid "asides"
 msgstr ""
 
-#: loop.php:117
+#: loop.php:135
 #, php-format
 msgid "Posted in %s"
 msgstr ""
 
-#: loop.php:126
+#: loop.php:144
 #, php-format
 msgid "Tagged %s"
 msgstr ""
@@ -371,11 +370,11 @@ msgid ""
 "different keywords."
 msgstr ""
 
-#: sidebar.php:19
+#: sidebar.php:27
 msgid "Archives"
 msgstr ""
 
-#: sidebar.php:26
+#: sidebar.php:34
 msgid "Meta"
 msgstr ""
 
@@ -394,7 +393,7 @@ msgstr ""
 msgid "View all posts by %s &rarr;"
 msgstr ""
 
-#: tag.php:19
+#: tag.php:17
 #, php-format
 msgid "Tag Archives: %s"
 msgstr ""
