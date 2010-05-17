@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Ten
- * @since 3.0.0
+ * @since Twenty Ten 1.0
  */
 ?>
 

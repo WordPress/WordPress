@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Ten
- * @since 3.0.0
+ * @since Twenty Ten 1.0
  */
 ?>
 
@@ -20,9 +20,7 @@
 					$category_description = category_description();
 					if ( ! empty( $category_description ) )
 						echo '<div class="archive-meta">' . $categorydesc . '</div>';
-				?>
 
-				<?php
 				/* Run the loop for the category page to output the posts.
 				 * If you want to overload this in a child theme then include a file
 				 * called loop-category.php and that will be used instead.

@@ -87,7 +87,7 @@ LAYOUT: One column, no sidebar
 DESCRIPTION: One centered column with no sidebar
 */
 
-.onecolumn #content {
+.one-column #content {
 	margin: 0 auto;
 	width: 640px;
 }
@@ -1303,7 +1303,7 @@ code {
 		margin: 0;
 	}
 	#content,
-	.onecolumn #content {
+	.one-column #content {
 		width: 100%;
 		margin: 24pt 0 0;
 	}

@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Ten
- * @since 3.0.0
+ * @since Twenty Ten 1.0
  */
 ?>
 
@@ -13,13 +13,9 @@
 		<div id="container">
 			<div id="content" role="main">
 
-<?php the_post(); ?>
-
-				<h1 class="page-title">
-					<?php printf( __( 'Tag Archives: %s', 'twentyten' ), '<span>' . single_tag_title( '', false ) . '</span>' ); ?>
-				</h1>
-
-<?php rewind_posts(); ?>
+				<h1 class="page-title"><?php
+					printf( __( 'Tag Archives: %s', 'twentyten' ), '<span>' . single_tag_title( '', false ) . '</span>' );
+				?></h1>
 
 <?php
 /* Run the loop for the tag archive to output the posts

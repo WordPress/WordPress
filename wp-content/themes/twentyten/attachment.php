@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Ten
- * @since 3.0.0
+ * @since Twenty Ten 1.0
  */
 ?>
 
@@ -13,7 +13,7 @@
 		<div id="container">
 			<div id="content" role="main">
 
-<?php the_post(); ?>
+<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 				<p class="page-title"><a href="<?php echo get_permalink( $post->post_parent ); ?>" title="<?php printf( esc_attr__( 'Return to %s', 'twentyten' ), esc_html( get_the_title( $post->post_parent ), 1 ) ); ?>" rel="gallery">&larr; <?php echo get_the_title( $post->post_parent ); ?></a></p>
 
@@ -97,6 +97,8 @@
 				</div><!-- #post-<?php the_ID(); ?> -->
 
 <?php comments_template(); ?>
+
+<?php endwhile; ?>
 
 			</div><!-- #content -->
 		</div><!-- #container -->

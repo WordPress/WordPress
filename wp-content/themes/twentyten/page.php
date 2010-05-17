@@ -9,7 +9,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Ten
- * @since 3.0.0
+ * @since Twenty Ten 1.0
  */
 ?>
 
@@ -18,7 +18,7 @@
 		<div id="container">
 			<div id="content" role="main">
 
-<?php the_post(); ?>
+<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<?php if ( is_front_page() ) { ?>
@@ -35,6 +35,8 @@
 				</div><!-- #post-<?php the_ID(); ?> -->
 
 				<?php comments_template( '', true ); ?>
+
+<?php endwhile; ?>
 
 			</div><!-- #content -->
 		</div><!-- #container -->
