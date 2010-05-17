@@ -17,7 +17,6 @@
 function create_initial_post_types() {
 	register_post_type( 'post', array(
 		'public'  => true,
-		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
@@ -29,7 +28,6 @@ function create_initial_post_types() {
 
 	register_post_type( 'page', array(
 		'public' => true,
-		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'page',
@@ -74,7 +72,6 @@ function create_initial_post_types() {
 			'singular_name' => __( 'Navigation Menu Item' ),
 		),
 		'public' => false,
-		'show_ui' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
 		'hierarchical' => false,

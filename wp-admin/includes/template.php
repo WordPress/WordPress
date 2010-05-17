@@ -3708,7 +3708,7 @@ function screen_layout($screen) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	$columns = array('dashboard' => 4, 'post' => 2, 'page' => 2, 'link' => 2);
+	$columns = array('dashboard' => 4, 'link' => 2);
 
 	// Add custom post types
 	foreach ( get_post_types( array('show_ui' => true) ) as $post_type )
