@@ -446,12 +446,9 @@ require_once( 'admin-header.php' );
 			<div class="nav-tabs">
 				<?php
 				foreach( (array) $nav_menus as $_nav_menu ) :
-					if ( $nav_menu_selected_id == $_nav_menu->term_id ) : ?>
-						<span class="nav-tab nav-tab-active">
+					if ( $nav_menu_selected_id == $_nav_menu->term_id ) : ?><span class="nav-tab nav-tab-active">
 							<?php echo esc_html( $_nav_menu->truncated_name ); ?>
-						</span>
-					<?php else : ?>
-						<a href="<?php
+						</span><?php else : ?><a href="<?php
 							echo esc_url(add_query_arg(
 								array(
 									'action' => 'edit',
@@ -461,10 +458,11 @@ require_once( 'admin-header.php' );
 							));
 						?>" class="nav-tab hide-if-no-js">
 							<?php echo esc_html( $_nav_menu->truncated_name ); ?>
-						</a>
-					<?php endif;
+						</a><?php endif;
 				endforeach;
-				?><a href="<?php
+				if ( 0 == $nav_menu_selected_id ) : ?><span class="nav-tab menu-add-new nav-tab-active">
+					<?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?>
+				</span><?php else : ?><a href="<?php
 					echo esc_url(add_query_arg(
 						array(
 							'action' => 'edit',
@@ -472,10 +470,9 @@ require_once( 'admin-header.php' );
 						),
 						admin_url( 'nav-menus.php' )
 					));
-				?>" class="nav-tab menu-add-new<?php
-					if ( 0 == $nav_menu_selected_id )
-						echo ' nav-tab-active';
-				?>"><?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?></a>
+				?>" class="nav-tab menu-add-new">
+					<?php printf( '<abbr title="%s">+</abbr>', esc_html__( 'Add menu' ) ); ?>
+				</a><?php endif; ?>
 			</div>
 			</div>
 			<div class="menu-edit">
