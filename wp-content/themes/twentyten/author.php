@@ -1,6 +1,6 @@
 <?php
 /**
- * The template used to display Author Archive pages
+ * The template for displaying Author Archive pages.
  *
  * @package WordPress
  * @subpackage Twenty_Ten

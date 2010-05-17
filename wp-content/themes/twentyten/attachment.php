@@ -1,6 +1,6 @@
 <?php
 /**
- * The template used to display attachments.
+ * The template for displaying attachments.
  *
  * @package WordPress
  * @subpackage Twenty_Ten

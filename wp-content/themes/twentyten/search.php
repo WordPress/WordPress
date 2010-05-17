@@ -1,6 +1,6 @@
 <?php
 /**
- * The Search Results template
+ * The template for displaying Search Results pages.
  *
  * @package WordPress
  * @subpackage Twenty_Ten

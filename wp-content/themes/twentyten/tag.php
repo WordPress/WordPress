@@ -1,6 +1,6 @@
 <?php
 /**
- * The template used to display Tag Archive pages
+ * The template for displaying Tag Archive pages.
  *
  * @package WordPress
  * @subpackage Twenty_Ten

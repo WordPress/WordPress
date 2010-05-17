@@ -1,6 +1,6 @@
 <?php
 /**
- * The Footer widget areas
+ * The Footer widget areas.
  *
  * @package WordPress
  * @subpackage Twenty_Ten
