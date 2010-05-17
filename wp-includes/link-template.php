@@ -568,31 +568,64 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  * @return string Link to the feed for the category specified by $cat_id.
 */
 function get_category_feed_link($cat_id, $feed = '') {
-	$cat_id = (int) $cat_id;
+	return get_term_feed_link($cat_id, 'category', $feed);
+}
 
-	$category = get_category($cat_id);
+/**
+ * Retrieve the feed link for a taxonomy.
+ *
+ * Returns a link to the feed for all post in a given term. A specific feed
+ * can be requested or left blank to get the default feed.
+ *
+ * @since 3.0
+ *
+ * @param int $term_id ID of a category.
+ * @param string $taxonomy Optional. Taxonomy of $term_id
+ * @param string $feed Optional. Feed type.
+ * @return string Link to the feed for the taxonomy specified by $term_id and $taxonomy.
+*/
+function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
+	global $wp_rewrite;
+	
+	$term_id = ( int ) $term_id;
 
-	if ( empty($category) || is_wp_error($category) )
+	$term = get_term( $term_id, $taxonomy  );
+	
+	if ( empty( $term ) || is_wp_error( $term ) )
 		return false;
 
-	if ( empty($feed) )
+	if ( empty( $feed ) )
 		$feed = get_default_feed();
 
-	$permalink_structure = get_option('permalink_structure');
+	$permalink_structure = get_option( 'permalink_structure' );
 
 	if ( '' == $permalink_structure ) {
-		$link = home_url("?feed=$feed&amp;cat=" . $cat_id);
+		if ( 'category' == $taxonomy ) {
+			$link = home_url("?feed=$feed&amp;cat=$term_id"); 
+		}
+		elseif ( 'post_tag' == $taxonomy ) {
+			$link = home_url("?feed=$feed&amp;tag=$term->slug"); 
+		} else {
+			$t = get_taxonomy( $taxonomy );
+			$link = home_url("?feed=$feed&amp;$t->query_var=$term->slug");
+		}
 	} else {
-		$link = get_category_link($cat_id);
-		if( $feed == get_default_feed() )
+		$link = get_term_link( $term_id, $term->taxonomy );
+		if ( $feed == get_default_feed() )
 			$feed_link = 'feed';
 		else
 			$feed_link = "feed/$feed";
 
-		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
+		$link = trailingslashit( $link ) . user_trailingslashit( $feed_link, 'feed' );
 	}
 
-	$link = apply_filters('category_feed_link', $link, $feed);
+	if ( 'category' == $taxonomy )
+		$link = apply_filters( 'category_feed_link', $link, $feed );
+	elseif ( 'post_tag' == $taxonomy )
+		$link = apply_filters( 'category_feed_link', $link, $feed );
+	else
+		$link = apply_filters( 'taxonomy_feed_link', $link, $feed, $taxonomy );
+	
 
 	return $link;
 }
@@ -607,32 +640,7 @@ function get_category_feed_link($cat_id, $feed = '') {
  * @return string
  */
 function get_tag_feed_link($tag_id, $feed = '') {
-	$tag_id = (int) $tag_id;
-
-	$tag = get_tag($tag_id);
-
-	if ( empty($tag) || is_wp_error($tag) )
-		return false;
-
-	$permalink_structure = get_option('permalink_structure');
-
-	if ( empty($feed) )
-		$feed = get_default_feed();
-
-	if ( '' == $permalink_structure ) {
-		$link = home_url("?feed=$feed&amp;tag=" . $tag->slug);
-	} else {
-		$link = get_tag_link($tag->term_id);
-		if ( $feed == get_default_feed() )
-			$feed_link = 'feed';
-		else
-			$feed_link = "feed/$feed";
-		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
-	}
-
-	$link = apply_filters('tag_feed_link', $link, $feed);
-
-	return $link;
+	return get_term_feed_link($tag_id, 'post_tag', $feed);
 }
 
 /**
