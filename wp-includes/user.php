@@ -729,7 +729,6 @@ function _fill_single_user( &$user, &$metavalues ) {
  *
  * @since 3.0.0
  * @param array $users User objects
- * @param array $metas User metavalues objects
  */
 function _fill_many_users( &$users ) {
 	$ids = array();
