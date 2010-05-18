@@ -45,7 +45,7 @@ if ( $updated ) { ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php esc_html_e( $title ); ?></h2>
+<h2><?php echo esc_html( $title ); ?></h2>
 <form id="myblogs" action="" method="post">
 	<?php
 	choose_primary_blog();

@@ -472,7 +472,7 @@ switch ( $_GET['action'] ) {
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
-					<p><?php esc_html_e( stripslashes( $_GET['msg'] ) ); ?></p>
+					<p><?php echo esc_html( stripslashes( $_GET['msg'] ) ); ?></p>
 					<p class="submit"><input class="button" type="submit" value="<?php _e( 'Confirm' ); ?>" /></p>
 				</form>
 			</body>
