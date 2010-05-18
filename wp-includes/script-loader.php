@@ -164,9 +164,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), '20090102' );
 	$scripts->add_data( 'jquery-table-hotkeys', 'group', 1 );
 
-	$scripts->add( 'jquery-autocomplete', "/wp-includes/js/jquery/autocomplete$suffix.js", array('jquery'), '1.1' );
-	$scripts->add_data( 'jquery-autocomplete', 'group', 1 );
-
 	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20100407');
 	$scripts->add_data( 'thickbox', 'group', 1 );
 	$scripts->localize( 'thickbox', 'thickboxL10n', array(
@@ -376,9 +373,6 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery-ui-draggable' ), '20090415' );
 		$scripts->add_data( 'media', 'group', 1 );
-
-		$scripts->add( 'codepress', '/wp-includes/js/codepress/codepress.js', false, '0.9.6' );
-		$scripts->add_data( 'codepress', 'group', 1 );
 
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), '20091111' );
 		$scripts->add_data( 'image-edit', 'group', 1 );

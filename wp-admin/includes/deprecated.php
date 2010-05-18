@@ -162,4 +162,39 @@ function remove_option_update_handler( $option_group, $option_name, $sanitize_ca
 	return unregister_setting( $option_group, $option_name, $sanitize_callback );
 }
 
+/**
+ * Determines the language to use for CodePress syntax highlighting.
+ *
+ * @since 2.8.0
+ * @deprecated 3.0.0
+ *
+ * @param string $filename
+**/
+function codepress_get_lang( $filename ) {
+	_deprecated_function( __FUNCTION__, '3.0' );
+	return;
+}
+
+/**
+ * Adds Javascript required to make CodePress work on the theme/plugin editors.
+ *
+ * @since 2.8.0
+ * @deprecated 3.0.0
+**/
+function codepress_footer_js() {
+	_deprecated_function( __FUNCTION__, '3.0' );
+	return;
+}
+
+/**
+ * Determine whether to use CodePress.
+ *
+ * @since 2.8
+ * @deprecated 3.0.0
+**/
+function use_codepress() {
+	_deprecated_function( __FUNCTION__, '3.0' );
+	return;
+}
+
 ?>

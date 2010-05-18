@@ -102,7 +102,6 @@ default:
 		}
 
 		$content = htmlspecialchars( $content );
-		$codepress_lang = codepress_get_lang($file);
 	}
 
 	?>
@@ -195,7 +194,7 @@ if ($allowed_files) :
 <?php if (!$error) { ?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
 	<?php wp_nonce_field('edit-theme_' . $file . $theme) ?>
-		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
+		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea>
 		 <input type="hidden" name="action" value="update" />
 		 <input type="hidden" name="file" value="<?php echo esc_attr($file) ?>" />
 		 <input type="hidden" name="theme" value="<?php echo esc_attr($theme) ?>" />
