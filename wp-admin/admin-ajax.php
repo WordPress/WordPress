@@ -1462,22 +1462,22 @@ case 'image-editor':
 	die();
 	break;
 case 'set-post-thumbnail':
-	$post_id = intval( $_POST['post_id'] );
-	if ( !current_user_can( 'edit_post', $post_id ) )
+	$post_ID = intval( $_POST['post_id'] );
+	if ( !current_user_can( 'edit_post', $post_ID ) )
 		die( '-1' );
 	$thumbnail_id = intval( $_POST['thumbnail_id'] );
 
-	check_ajax_referer( "set_post_thumbnail-$post_id" );
+	check_ajax_referer( "set_post_thumbnail-$post_ID" );
 
 	if ( $thumbnail_id == '-1' ) {
-		delete_post_meta( $post_id, '_thumbnail_id' );
+		delete_post_meta( $post_ID, '_thumbnail_id' );
 		die( _wp_post_thumbnail_html() );
 	}
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
 		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
 		if ( !empty( $thumbnail_html ) ) {
-			update_post_meta( $post_id, '_thumbnail_id', $thumbnail_id );
+			update_post_meta( $post_ID, '_thumbnail_id', $thumbnail_id );
 			die( _wp_post_thumbnail_html( $thumbnail_id ) );
 		}
 	}
