@@ -980,6 +980,7 @@ if ( !$bulk ) :
 			<span class="catshow"><?php _e('[more]'); ?></span>
 			<span class="cathide" style="display:none;"><?php _e('[less]'); ?></span>
 		</span>
+		<input type="hidden" name="<?php echo ( $taxonomy->name == 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr($taxonomy->name) . '][]'; ?>" value="0" />
 		<ul class="cat-checklist <?php echo esc_attr($taxonomy->name)?>-checklist">
 			<?php wp_terms_checklist(null, array('taxonomy' => $taxonomy->name)) ?>
 		</ul>
