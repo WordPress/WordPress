@@ -401,7 +401,7 @@ case 'delete-link' :
 	break;
 case 'delete-menu-item' :
 	$menu_item_id = (int) $_POST['menu-item'];
-	check_admin_referer( 'delete-menu_item_' . $menu_item_id );
+	check_ajax_referer( 'delete-menu_item_' . $menu_item_id );
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
@@ -823,7 +823,7 @@ case 'add-menu-item' :
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 
-	check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
+	check_ajax_referer( 'add-menu_item', 'menu-settings-column-nonce' );
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
