@@ -311,14 +311,9 @@ function bulk_edit_posts( $post_data = null ) {
 		}
 
 		$tax_names = get_object_taxonomies( get_post($post_ID) );
-		if ( isset($new_cats) && in_array( 'category', $tax_names ) ) {
-			$cats = (array) wp_get_post_categories($post_ID);
-			$post_data['post_category'] = array_unique( array_merge($cats, $new_cats) );
-		}
-
 		foreach ( $tax_names as $tax_name ) {
 			$taxonomy_obj = get_taxonomy($tax_name);
-			if(  isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->cap->assign_terms ) )
+			if (  isset( $tax_input[$tax_name]) && current_user_can( $taxonomy_obj->cap->assign_terms ) )
 				$new_terms = $tax_input[$tax_name];
 			else 
 				$new_terms = array();
@@ -329,6 +324,12 @@ function bulk_edit_posts( $post_data = null ) {
 				$current_terms = (array) wp_get_object_terms( $post_ID, $tax_name, array('fields' => 'names') );
 
 			$post_data['tax_input'][$tax_name] = array_merge( $current_terms, $new_terms );
+		}
+		
+		if ( isset($new_cats) && in_array( 'category', $tax_names ) ) {
+			$cats = (array) wp_get_post_categories($post_ID);
+			$post_data['post_category'] = array_unique( array_merge($cats, $new_cats) );
+			unset( $post_data['tax_input']['category'] );
 		}
 
 		$post_data['ID'] = $post_ID;
