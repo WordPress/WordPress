@@ -36,7 +36,7 @@ function check_upload_size( $file ) {
 	if ( upload_is_user_over_quota( false ) ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
-	if ( $file['error'] != '0' && isset($_POST['html-upload']) )
+	if ( $file['error'] != '0' && !isset($_POST['html-upload']) )
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 
 	return $file;
