@@ -149,9 +149,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-color', "/wp-includes/js/jquery/jquery.color$suffix.js", array('jquery'), '2.0-4561m');
 	$scripts->add_data( 'jquery-color', 'group', 1 );
 
-	// deprecated, not used in core
-	$scripts->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
-
 	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array('jquery'), '1.1-20090125');
 	$scripts->add_data( 'suggest', 'group', 1 );
 
