@@ -12,8 +12,11 @@
  *
  * @since 3.0.0
  *
- * @param string $menu Menu id
- * @return mixed $menu|false Or WP_Error
+ * @uses get_term
+ * @uses get_term_by
+ *
+ * @param string $menu Menu id, slug or name
+ * @return mixed false if $menu param isn't supplied or term does not exist, menu object if successfull
  */
 function wp_get_nav_menu_object( $menu ) {
 	if ( ! $menu )
@@ -41,7 +44,7 @@ function wp_get_nav_menu_object( $menu ) {
  *
  * @since 3.0.0
  *
- * @param int|string $menu The menu to check
+ * @param int|string $menu The menu to check (id, slug, or name)
  * @return bool Whether the menu exists.
  */
 function is_nav_menu( $menu ) {
@@ -87,10 +90,22 @@ function register_nav_menus( $locations = array() ) {
 function register_nav_menu( $location, $description ) {
 	register_nav_menus( array( $location => $description ) );
 }
-
+/**
+ * Returns an array of all registered nav menus in a theme
+ *
+ * @since 3.0.0
+ * @return array
+ */
 function get_registered_nav_menus() {
 	return $GLOBALS['_wp_registered_nav_menus'];
 }
+
+/**
+ * Returns an array with the registered nav menu locations and the menu assigned to it
+ *
+ * @since 3.0.0
+ * @return array
+ */
 
 function get_nav_menu_locations() {
 	return get_theme_mod('nav_menu_locations');
@@ -468,20 +483,20 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 			$object_id = get_post_meta( $item->ID, '_menu_item_object_id', true );
 			$object = get_post_meta( $item->ID, '_menu_item_object', true );
 			$type = get_post_meta( $item->ID, '_menu_item_type', true );
-	
+
 			if ( 'post_type' == $type )
 				$posts[$object][] = $object_id;
 			elseif ( 'taxonomy' == $type)
 				$terms[$object][] = $object_id;
 		}
-	
+
 		if ( !empty($posts) ) {
 			foreach ( array_keys($posts) as $post_type ) {
 				get_posts( array('post__in' => $posts[$post_type], 'post_type' => $post_type, 'nopaging' => true, 'update_post_term_cache' => false) );
 			}
 		}
 		unset($posts);
-	
+
 		if ( !empty($terms) ) {
 			foreach ( array_keys($terms) as $taxonomy ) {
 				get_terms($taxonomy, array('include' => $terms[$taxonomy]) );
