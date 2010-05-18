@@ -1138,8 +1138,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * @return string html
  */
 function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
-	global $content_width, $_wp_additional_image_sizes;
-
+	global $content_width, $_wp_additional_image_sizes, $post_ID;
 	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . esc_url( get_upload_iframe_src('image') ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
 	$content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image' ));
 
@@ -1151,8 +1150,9 @@ function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
 		else
 			$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'post-thumbnail' );
 		if ( !empty( $thumbnail_html ) ) {
+			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$post_ID" );
 			$content = sprintf($set_thumbnail_link, $thumbnail_html);
-			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail();return false;">' . esc_html__( 'Remove featured image' ) . '</a></p>';
+			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html__( 'Remove featured image' ) . '</a></p>';
 		}
 		$content_width = $old_content_width;
 	}

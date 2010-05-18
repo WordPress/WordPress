@@ -1467,6 +1467,8 @@ case 'set-post-thumbnail':
 		die( '-1' );
 	$thumbnail_id = intval( $_POST['thumbnail_id'] );
 
+	check_ajax_referer( "set_post_thumbnail-$post_id" );
+
 	if ( $thumbnail_id == '-1' ) {
 		delete_post_meta( $post_id, '_thumbnail_id' );
 		die( _wp_post_thumbnail_html() );
