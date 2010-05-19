@@ -55,8 +55,8 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><?php _e( 'Global Terms' ) ?></th>
 				<td>
-				<label><input type="radio" name="global_terms_enabled" value="0"<?php checked( !! get_site_option( 'global_terms_enabled' ), false ) ?>/> <?php _e( 'Disabled' ); ?></label><br/>
-				<label><input type="radio" name="global_terms_enabled" value="1"<?php checked( !! get_site_option( 'global_terms_enabled' ), true ) ?>/> <?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></label><br />
+				<label><input type="radio" name="global_terms_enabled" value="0"<?php checked( global_terms_enabled(), false ) ?>/> <?php _e( 'Disabled' ); ?></label><br/>
+				<label><input type="radio" name="global_terms_enabled" value="1"<?php checked( global_terms_enabled(), true ) ?>/> <?php _e( 'Maintain a global list of terms from all sites across the network.' ); ?></label><br />
 				<?php if ( ! get_site_option( 'global_terms_enabled') ) { ?>
 				<strong><?php _e( 'Warning!' ); ?></strong> <?php _e( 'Enabling global terms will create a new table and synchronize terms across the network.' ); ?>
 				<?php } ?></td>
