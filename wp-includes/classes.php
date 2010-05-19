@@ -1155,7 +1155,7 @@ class Walker_Page extends Walker {
 	 */
 	function start_lvl(&$output, $depth) {
 		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul>\n";
+		$output .= "\n$indent<ul class='children'>\n";
 	}
 
 	/**
