@@ -2865,7 +2865,7 @@ function setup_postdata($post) {
 		$pages = explode('<!--nextpage-->', $content);
 		$numpages = count($pages);
 	} else {
-		$pages[0] = $post->post_content;
+		$pages = array( $post->post_content );
 		$multipage = 0;
 	}
 
