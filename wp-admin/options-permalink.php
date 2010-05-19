@@ -86,8 +86,13 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 
 	if ( isset( $_POST['permalink_structure'] ) ) {
 		$permalink_structure = $_POST['permalink_structure'];
-		if ( ! empty( $permalink_structure ) )
-			$permalink_structure = $blog_prefix . preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
+		if ( ! empty( $permalink_structure ) ) {
+			$permalink_structure = preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
+			if ( $prefix && $blog_prefix )
+				$permalink_structure = $prefix . preg_replace( '#^/?index\.php#', '', $permalink_structure );
+			else
+				$permalink_structure = $blog_prefix . $permalink_structure;
+		}
 		$wp_rewrite->set_permalink_structure( $permalink_structure );
 	}
 
