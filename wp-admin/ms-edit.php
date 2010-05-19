@@ -141,7 +141,7 @@ switch ( $_GET['action'] ) {
 		exit();
 	break;
 	case 'addblog':
-		check_admin_referer( 'add-blog' );
+		check_admin_referer( 'add-blog', '_wpnonce_add-blog' );
 
 		if ( ! current_user_can( 'manage_sites' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
@@ -325,7 +325,7 @@ switch ( $_GET['action'] ) {
 
 	case 'allblogs':
 		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
-			check_admin_referer( 'bulk-ms-sites' );
+			check_admin_referer( 'bulk-ms-sites', '_wpnonce_bulk-ms-sites' );
 
 			if ( ! current_user_can( 'manage_sites' ) )
 				wp_die( __( 'You do not have permission to access this page.' ) );
@@ -507,7 +507,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
-			check_admin_referer( 'bulk-ms-users' );
+			check_admin_referer( 'bulk-ms-users', '_wpnonce_bulk-ms-users' );
 
 			if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
@@ -590,7 +590,7 @@ switch ( $_GET['action'] ) {
 	break;
 
 	case 'adduser':
-		check_admin_referer( 'add-user' );
+		check_admin_referer( 'add-user', '_wpnonce_add-user' );
 		if ( ! current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
