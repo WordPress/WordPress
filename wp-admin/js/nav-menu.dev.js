@@ -11,14 +11,14 @@
 var wpNavMenu;
 
 (function($) {
-	
+
 	var api = wpNavMenu = {
-		
+
 		options : {
 			menuItemDepthPerLevel : 30, // Do not use directly. Use depthToPx and pxToDepth instead.
 			globalMaxDepth : 11
 		},
-		
+
 		menuList : undefined,	// Set in init.
 		targetList : undefined, // Set in init.
 
@@ -28,9 +28,9 @@ var wpNavMenu;
 			api.targetList = api.menuList;
 
 			this.jQueryExtensions();
-			
+
 			this.attachMenuEditListeners();
-		
+
 			this.setupInputWithDefaultTitle();
 			this.attachAddMenuItemListeners();
 			this.attachQuickSearchListeners();
@@ -47,7 +47,7 @@ var wpNavMenu;
 
 			this.initTabManager();
 		},
-		
+
 		jQueryExtensions : function() {
 			// jQuery extensions
 			$.fn.extend({
@@ -171,11 +171,11 @@ var wpNavMenu;
 					var height, width, parent, children, maxChildDepth, tempHolder;
 
 					transport = ui.item.children('.menu-item-transport');
-				
+
 					// Set depths. currentDepth must be set before children are located.
 					originalDepth = ui.item.menuItemDepth();
 					updateCurrentDepth(ui, originalDepth);
-				
+
 					// Attach child elements to parent
 					// Skip the placeholder
 					parent = ( ui.item.next()[0] == ui.placeholder[0] ) ? ui.item.next() : ui.item;
@@ -201,7 +201,7 @@ var wpNavMenu;
 					width += api.depthToPx(maxChildDepth - originalDepth); // Account for children
 					width -= 2; // Subtract 2 for borders
 					ui.placeholder.width(width);
-					
+
 					// Update the list of menu items.
 					tempHolder = ui.placeholder.next();
 					tempHolder.css( 'margin-top', helperHeight + 'px' ); // Set the margin to absorb the placeholder
@@ -209,7 +209,7 @@ var wpNavMenu;
 					$(this).sortable( "refresh" ); // The children aren't sortable. We should let jQ UI know.
 					ui.item.after( ui.placeholder ); // reattach the placeholder.
 					tempHolder.css('margin-top', 0); // reset the margin
-					
+
 					// Now that the element is complete, we can update...
 					updateSharedVars(ui);
 				},
@@ -218,7 +218,7 @@ var wpNavMenu;
 
 					// Return child elements to the list
 					children = transport.children().insertAfter(ui.item);
-				
+
 					// Update depth classes
 					if( depthChange != 0 ) {
 						ui.item.updateDepthClass( currentDepth );
@@ -246,7 +246,7 @@ var wpNavMenu;
 
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
-						
+
 					// If we overlap the next element, manually shift downwards
 					if( nextThreshold && offset.top + helperHeight > nextThreshold ) {
 						next.after( ui.placeholder );
@@ -258,7 +258,7 @@ var wpNavMenu;
 
 			function updateSharedVars(ui) {
 				var depth;
-				
+
 				prev = ui.placeholder.prev();
 				next = ui.placeholder.next();
 
@@ -331,7 +331,7 @@ var wpNavMenu;
 
 		attachAddMenuItemListeners : function() {
 			var form = $('#nav-menu-meta');
-		
+
 			form.find('.add-to-menu input').click(function(){
 				$(this).trigger('wp-add-menu-item', [api.addMenuItemToBottom]);
 				return false;
@@ -343,7 +343,7 @@ var wpNavMenu;
 				$(this).addSelectedToMenu( processMethod );
 			});
 		},
-		
+
 		attachThemeLocationsListeners : function() {
 			var loc = $('#nav-menu-theme-locations'),
 			params = {
@@ -359,33 +359,33 @@ var wpNavMenu;
 				return false;
 			});
 		},
-	
+
 		attachQuickSearchListeners : function() {
 			var searchTimer;
-			
+
 			$('.quick-search').keypress(function(e){
 				var t = $(this);
-				
+
 				if( 13 == e.which ) {
 					api.updateQuickSearchResults( t );
 					return false;
 				}
-				
+
 				if( searchTimer ) clearTimeout(searchTimer);
-				
+
 				searchTimer = setTimeout(function(){
 					api.updateQuickSearchResults( t );
 				}, 400);
 			}).attr('autocomplete','off');
 		},
-		
+
 		updateQuickSearchResults : function(input) {
 			var panel, params,
 			minSearchLength = 2,
 			q = input.val();
-			
+
 			if( q.length < minSearchLength ) return;
-			
+
 			panel = input.parents('.tabs-panel');
 			params = {
 				'action': 'menu-quick-search',
@@ -402,16 +402,16 @@ var wpNavMenu;
 				api.processQuickSearchQueryResponse(menuMarkup, params, panel);
 			});
 		},
-	
+
 		addCustomLink : function( processMethod ) {
 			var url = $('#custom-menu-item-url').val(),
 				label = $('#custom-menu-item-name').val();
-			
+
 			processMethod = processMethod || api.addMenuItemToBottom;
-		
+
 			if ( '' == url || 'http://' == url )
 				return false;
-		
+
 			// Show the ajax spinner
 			$('.customlinkdiv img.waiting').show();
 			this.addLinkToMenu( url, label, processMethod, function() {
@@ -422,11 +422,11 @@ var wpNavMenu;
 				$('#custom-menu-item-url').val('http://');
 			});
 		},
-	
+
 		addLinkToMenu : function(url, label, processMethod, callback) {
 			processMethod = processMethod || api.addMenuItemToBottom;
 			callback = callback || function(){};
-		
+
 			api.addItemToMenu({
 				'-1': {
 					'menu-item-type': 'custom',
@@ -435,21 +435,21 @@ var wpNavMenu;
 				}
 			}, processMethod, callback);
 		},
-	
+
 		addItemToMenu : function(menuItem, processMethod, callback) {
 			var menu = $('#menu').val(),
 				nonce = $('#menu-settings-column-nonce').val();
-			
+
 			processMethod = processMethod || function(){};
 			callback = callback || function(){};
-		
+
 			params = {
 				'action': 'add-menu-item',
 				'menu': menu,
 				'menu-settings-column-nonce': nonce,
 				'menu-item': menuItem
 			};
-		
+
 			$.post( ajaxurl, params, function(menuMarkup) {
 				processMethod(menuMarkup, params);
 				callback();
@@ -465,11 +465,11 @@ var wpNavMenu;
 		addMenuItemToBottom : function( menuMarkup, req ) {
 			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( api.targetList );
 		},
-	
+
 		addMenuItemToTop : function( menuMarkup, req ) {
 			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( api.targetList );
 		},
-	
+
 		attachHomeLinkListener : function() {
 			$('.add-home-link', '.customlinkdiv').click(function(e) {
 				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop );
@@ -481,19 +481,19 @@ var wpNavMenu;
 			$('#menu-settings-column').bind('click', function(e) {
 				var selectAreaMatch, activePanel, panelId, wrapper, items,
 					target = $(e.target);
-				
+
 				if ( target.hasClass('nav-tab-link') ) {
 					panelId = /#(.*)$/.exec(e.target.href);
 					if ( panelId && panelId[1] )
 						panelId = panelId[1]
 					else
 						return false;
-						
+
 					wrapper = target.parents('.inside').first();
 
 					// upon changing tabs, we want to uncheck all checkboxes
 					$('input', wrapper).removeAttr('checked');
-					
+
 					$('.tabs-panel-active', wrapper).removeClass('tabs-panel-active').addClass('tabs-panel-inactive');
 					$('#' + panelId, wrapper).removeClass('tabs-panel-inactive').addClass('tabs-panel-active');
 
@@ -706,7 +706,7 @@ var wpNavMenu;
 			pattern = new RegExp('menu-item\\[(\[^\\]\]*)', 'g'),
 			items = resp.match(/<li>.*<\/li>/g);
 
-			if( ! items ) {				
+			if( ! items ) {
 				$('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
 				$('img.waiting', panel).hide();
 				return;
