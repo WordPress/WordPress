@@ -247,7 +247,7 @@ function post_tags_meta_box($post, $box) {
 	$helps      = isset( $taxonomy->helps      ) ? esc_attr( $taxonomy->helps ) : esc_attr__('Separate tags with commas.');
 	$help_hint  = isset( $taxonomy->help_hint  ) ? $taxonomy->help_hint         : __('Add new tag');
 	$help_nojs  = isset( $taxonomy->help_nojs  ) ? $taxonomy->help_nojs         : __('Add or remove tags');
-	$help_cloud = isset( $taxonomy->help_cloud ) ? $taxonomy->help_cloud        : __('Choose from the most used tags in %s');
+	$help_cloud = isset( $taxonomy->help_cloud ) ? $taxonomy->help_cloud        : __('Choose from the most used tags');
 
 	$disabled = !current_user_can($taxonomy->cap->assign_terms) ? 'disabled="disabled"' : '';
 ?>
@@ -269,7 +269,7 @@ function post_tags_meta_box($post, $box) {
 	<div class="tagchecklist"></div>
 </div>
 <?php if ( current_user_can($taxonomy->cap->assign_terms) ) : ?>
-<p class="hide-if-no-js"><a href="#titlediv" class="tagcloud-link" id="link-<?php echo $tax_name; ?>"><?php printf( $help_cloud, $box['title'] ); ?></a></p>
+<p class="hide-if-no-js"><a href="#titlediv" class="tagcloud-link" id="link-<?php echo $tax_name; ?>"><?php echo $help_cloud; ?></a></p>
 <?php else : ?>
 <p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
 <?php endif; ?>
