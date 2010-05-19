@@ -345,7 +345,7 @@ switch ( $action ) {
 }
 
 // Get all nav menus
-$nav_menus = wp_get_nav_menus();
+$nav_menus = wp_get_nav_menus( array('orderby' => 'name') );
 
 // Get recently edited nav menu
 $recently_edited = (int) get_user_option( 'nav_menu_recently_edited' );
