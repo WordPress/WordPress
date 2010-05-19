@@ -457,7 +457,7 @@ if ( isset($_GET['s']) ) {
 }
 
 $plugin_array_name = "${status}_plugins";
-if ( empty($$plugin_array_name) && $status != 'all' ) {
+if ( empty($$plugin_array_name) && !in_array($status, array('all', 'search')) ) {
 	$status = 'all';
 	$plugin_array_name = "${status}_plugins";
 }
