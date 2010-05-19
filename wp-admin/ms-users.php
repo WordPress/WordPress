@@ -134,7 +134,7 @@ if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' && ! empty( $_GET['
 					<option value="notspam"><?php _ex( 'Not Spam', 'user' ); ?></option>
 				</select>
 				<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction" id="doaction" class="button-secondary action" />
-				<?php wp_nonce_field( 'bulk-ms-users' ); ?>
+				<?php wp_nonce_field( 'bulk-ms-users', '_wpnonce_bulk-ms-users' ); ?>
 			</div>
 
 			<?php if ( $page_links ) { ?>
@@ -355,7 +355,7 @@ if ( apply_filters( 'show_adduser_fields', true ) ) :
 		</tr>
 	</table>
 	<p class="submit">
-		<?php wp_nonce_field( 'add-user' ) ?>
+		<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
 		<input class="button" type="submit" value="<?php esc_attr_e( 'Add user' ) ?>" /></p>
 	</form>
 </div>

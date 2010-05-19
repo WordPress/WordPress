@@ -246,10 +246,10 @@ switch ( $action ) {
 						if ( $val->user_id != $current_user->data->ID ) {
 							?>
 							<td>
-								<select name="role[<?php echo $val->user_id ?>]" id="new_role"><?php
+								<select name="role[<?php echo $val->user_id ?>]" id="new_role_1"><?php
 									foreach ( $editblog_roles as $role => $role_assoc ){
 										$name = translate_user_role( $role_assoc['name'] );
-										echo '<option ' . selected( $role, $existing_role ) . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
+										echo '<option ' . selected( $role, $existing_role, false ) . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
 									}
 									?>
 								</select>
@@ -282,7 +282,7 @@ switch ( $action ) {
 							<tr>
 								<th scope="row"><?php _e( 'Role:' ) ?></th>
 								<td>
-									<select name="new_role" id="new_role">
+									<select name="new_role" id="new_role_0">
 									<?php
 									reset( $editblog_roles );
 									foreach ( $editblog_roles as $role => $role_assoc ){
@@ -418,7 +418,7 @@ switch ( $action ) {
 				<option value="notspam"><?php _ex( 'Not Spam', 'site' ); ?></option>
 			</select>
 			<input type="submit" value="<?php esc_attr_e( 'Apply' ); ?>" name="doaction" id="doaction" class="button-secondary action" />
-			<?php wp_nonce_field( 'bulk-ms-sites' ); ?>
+			<?php wp_nonce_field( 'bulk-ms-sites', '_wpnonce_bulk-ms-sites' ); ?>
 		</div>
 
 		<?php if ( $page_links ) { ?>
@@ -679,7 +679,7 @@ switch ( $action ) {
 		<div id="form-add-site" class="wrap">
 			<h3><?php _e( 'Add Site' ) ?></h3>
 			<form method="post" action="ms-edit.php?action=addblog">
-				<?php wp_nonce_field( 'add-blog' ) ?>
+				<?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>
 				<table class="form-table">
 					<tr class="form-field form-required">
 						<th scope="row"><?php _e( 'Site Address' ) ?></th>
