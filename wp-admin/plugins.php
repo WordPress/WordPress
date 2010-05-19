@@ -436,7 +436,7 @@ $total_mustuse_plugins = count($mustuse_plugins);
 $total_dropins_plugins = count($dropins_plugins);
 
 //Searching.
-if ( isset($_GET['s']) ) {
+if ( !empty($_GET['s']) ) {
 	function _search_plugins_filter_callback($plugin) {
 		static $term;
 		if ( is_null($term) )
