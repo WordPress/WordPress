@@ -87,21 +87,21 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	if ( isset( $_POST['permalink_structure'] ) ) {
 		$permalink_structure = $_POST['permalink_structure'];
 		if ( ! empty( $permalink_structure ) )
-			$permalink_structure = $prefix . preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
+			$permalink_structure = $blog_prefix . preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
 		$wp_rewrite->set_permalink_structure( $permalink_structure );
 	}
 
 	if ( isset( $_POST['category_base'] ) ) {
 		$category_base = $_POST['category_base'];
 		if ( ! empty( $category_base ) )
-			$category_base = $prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $category_base ) );
+			$category_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $category_base ) );
 		$wp_rewrite->set_category_base( $category_base );
 	}
 
 	if ( isset( $_POST['tag_base'] ) ) {
 		$tag_base = $_POST['tag_base'];
 		if ( ! empty( $tag_base ) )
-			$tag_base = $prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
+			$tag_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
 		$wp_rewrite->set_tag_base( $tag_base );
 	}
 }
@@ -163,9 +163,6 @@ if ( ! is_multisite() ) {
   <p><?php _e('By default WordPress uses web <abbr title="Universal Resource Locator">URL</abbr>s which have question marks and lots of numbers in them, however WordPress offers you the ability to create a custom URL structure for your permalinks and archives. This can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="http://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
 
 <?php
-if ( ! got_mod_rewrite() && ! $iis7_permalinks )
-	$permalink_structure = preg_replace( '|^/?index\.php|', '', $permalink_structure );
-
 if ( is_multisite() && !is_subdomain_install() && is_main_site() ) {
 	$permalink_structure = preg_replace( '|^/?blog|', '', $permalink_structure );
 	$category_base = preg_replace( '|^/?blog|', '', $category_base );
