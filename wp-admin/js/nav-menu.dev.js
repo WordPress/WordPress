@@ -21,6 +21,7 @@ var wpNavMenu;
 
 		menuList : undefined,	// Set in init.
 		targetList : undefined, // Set in init.
+		menusChanged : false,
 
 		// Functions that run on init.
 		init : function() {
@@ -39,6 +40,8 @@ var wpNavMenu;
 			this.attachTabsPanelListeners();
 
 			this.attachHomeLinkListener();
+
+			this.attachUnsavedChangesListener();
 
 			if( api.menuList.length ) // If no menu, we're in the + tab.
 				this.initSortables();
@@ -223,6 +226,7 @@ var wpNavMenu;
 					if( depthChange != 0 ) {
 						ui.item.updateDepthClass( currentDepth );
 						children.shiftDepthClass( depthChange );
+						api.registerChange();
 					}
 					// Update the item data.
 					ui.item.updateParentMenuItemDBId();
@@ -253,6 +257,9 @@ var wpNavMenu;
 						updateSharedVars( ui );
 						$(this).sortable( "refreshPositions" );
 					}
+				},
+				update: function(e, ui) {
+					api.registerChange();
 				}
 			});
 
@@ -333,6 +340,7 @@ var wpNavMenu;
 			var form = $('#nav-menu-meta');
 
 			form.find('.add-to-menu input').click(function(){
+				api.registerChange();
 				$(this).trigger('wp-add-menu-item', [api.addMenuItemToBottom]);
 				return false;
 			});
@@ -475,6 +483,23 @@ var wpNavMenu;
 				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop );
 				return false;
 			});
+		},
+
+		attachUnsavedChangesListener : function() {
+			$('#menu-management input, #menu-management select, #menu-management, #menu-management textarea').change(function(){
+				api.registerChange();
+			});
+			window.onbeforeunload = function(){
+				if ( api.menusChanged )
+					return navMenuL10n.saveAlert;
+			};
+			$('input.menu-save, input.save-menu-item').click(function(){
+				window.onbeforeunload = null;
+			});
+		},
+
+		registerChange : function() {
+			api.menusChanged = true;
 		},
 
 		attachTabsPanelListeners : function() {
