@@ -54,7 +54,7 @@ switch ( $action ) {
 		if ( isset( $_REQUEST['nav-menu-locations'] ) )
 			set_theme_mod( 'nav_menu_locations', $_REQUEST['menu-locations'] );
 		elseif ( isset( $_REQUEST['menu-item'] ) )
-			wp_save_nav_menu_item( $nav_menu_selected_id, $_REQUEST['menu-item'] );
+			wp_save_nav_menu_items( $nav_menu_selected_id, $_REQUEST['menu-item'] );
 		break;
 	case 'move-down-menu-item' :
 		// moving down a menu item is the same as moving up the next in order
