@@ -183,7 +183,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 </select>
 
     <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n($timezone_format, false, 'gmt')); ?></span>
-<?php if ( get_option('timezone_string') ) : ?>
+<?php if ( get_option('timezone_string') || !empty($current_offset) ) : ?>
 	<span id="local-time"><?php printf(__('Local time is <code>%1$s</code>'), date_i18n($timezone_format)); ?></span>
 <?php endif; ?>
 <br />
