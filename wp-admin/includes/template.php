@@ -2837,24 +2837,22 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Meta-Box template function
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param unknown_type $page
- * @param unknown_type $context
- * @param unknown_type $object
+ * @param string $page page identifier, also known as screen identifier
+ * @param string $context box context
+ * @param mixed $object gets passed to the box callback function as first parameter
  * @return int number of meta_boxes
  */
 function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
 
-	//do_action('do_meta_boxes', $page, $context, $object);
-
 	$hidden = get_hidden_meta_boxes($page);
 
-	echo "<div id='$context-sortables' class='meta-box-sortables'>\n";
+	printf('<div id="%s-sortables" class="meta-box-sortables">', htmlspecialchars($context)); 
 
 	$i = 0;
 	do {
@@ -2954,14 +2952,22 @@ function meta_box_prefs($screen) {
 	}
 }
 
-function get_hidden_meta_boxes($screen) {
-	if ( is_string($screen) )
-		$screen = convert_to_screen($screen);
+/**
+ * Get Hidden Meta Boxes
+ *
+ * @since 2.7
+ *
+ * @param string|object $screen Screen identifier
+ * @return array Hidden Meta Boxes
+ */
+function get_hidden_meta_boxes( $screen ) {
+	if ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
 
-	$hidden = get_user_option( "metaboxhidden_$screen->id" );
+	$hidden = get_user_option( "metaboxhidden_{$screen->id}" );
 
 	// Hide slug boxes by default
-	if ( !is_array($hidden) )
+	if ( !is_array( $hidden ) )
 		$hidden = array('slugdiv');
 
 	return $hidden;
@@ -3240,20 +3246,20 @@ function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = F
  *
  * @param unknown_type $page
  */
-function manage_columns_prefs($page) {
-	$columns = get_column_headers($page);
-
-	$hidden = get_hidden_columns($page);
+function manage_columns_prefs( $page ) {
+	$columns = get_column_headers( $page );
+	$hidden  = get_hidden_columns( $page );	
+	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username');
 
 	foreach ( $columns as $column => $title ) {
 		// Can't hide these or they are special
-		if ( '_title' == $column || 'cb' == $column || 'title' == $column || 'name' == $column || 'username' == $column || 'media' == $column || 'comment' == $column )
+		if ( in_array( $column, $special ) )
 			continue;
-		if ( empty($title) )
+		if ( empty( $title ) )
 			continue;
 
 		if ( 'comments' == $column )
-			$title = __('Comments');
+			$title = __( 'Comments' );
 		$id = "$column-hide";
 		echo '<label for="' . $id . '">';
 		echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . (! in_array($column, $hidden) ? ' checked="checked"' : '') . ' />';
@@ -3549,17 +3555,16 @@ function _post_states($post) {
 /**
  * Convert a screen string to a screen object
  * 
+ * @since 3.0.0
+ * 
  * @param string $screen The name of the screen
  * @return object An object containing the safe screen name and id
  */
 function convert_to_screen( $screen ) {
-	$screen = str_replace('.php', '', $screen);
-	$screen = str_replace('-new', '', $screen);
-	$screen = str_replace('-add', '', $screen);
-	$screen = apply_filters('screen_meta_screen', $screen);
-
-	$screen = array('id' => $screen, 'base' => $screen);
-	return (object) $screen;
+	$screen = str_replace( array('.php', '-new', '-add' ), '', $screen);
+	$screen = (string) apply_filters( 'screen_meta_screen', $screen );
+	$screen = (object) array('id' => $screen, 'base' => $screen);
+	return $screen;
 }
 
 function screen_meta($screen) {
@@ -3595,7 +3600,7 @@ function screen_meta($screen) {
 			$show_screen = true;
 			break;
 	}
-	if( !empty($settings) )
+	if( ! empty( $settings ) )
 		$show_screen = true;
 ?>
 <div id="screen-meta">
