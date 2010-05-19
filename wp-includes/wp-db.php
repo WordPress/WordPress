@@ -108,6 +108,15 @@ class wpdb {
 	var $rows_affected = 0;
 
 	/**
+	 * The ID generated for an AUTO_INCREMENT column by the previous query (usually INSERT).
+	 *
+	 * @since 0.71
+	 * @access public
+	 * @var int
+	 */
+	var $insert_id = 0;
+
+	/**
 	 * Saved result of the last query made
 	 *
 	 * @since 1.2.0
