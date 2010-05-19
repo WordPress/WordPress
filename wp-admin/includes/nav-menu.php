@@ -537,32 +537,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 	$num_pages = $get_posts->max_num_pages;
 
-	if ( isset( $get_posts->found_posts ) && ( $get_posts->found_posts > $get_posts->post_count ) ) {
-		// somewhat like display_page_row(), let's make sure ancestors show up on paged display
-		$parent_ids = array();
-		$child_ids = array();
-		foreach( (array) $posts as $post ) {
-			$parent_ids[] = (int) $post->post_parent;
-			$child_ids[] = (int) $post->ID;
-		}
-		$parent_ids = array_unique($parent_ids);
-		$child_ids = array_unique($child_ids);
-
-		$missing_parents = array();
-		do {
-			foreach( (array) $missing_parents as $missing_parent_id ) {
-				$missing_parent = get_post($missing_parent_id);
-				$posts[] = $missing_parent;
-				$child_ids[] = $missing_parent_id;
-				$parent_ids[] = $missing_parent->post_parent;
-			}
-
-			$missing_parents = array_filter( array_diff( array_unique( $parent_ids ), array_unique( $child_ids ) ) );
-
-		} while( 0 < count( $missing_parents ) );
-
-	}
-
 	$page_links = paginate_links( array(
 		'base' => add_query_arg(
 			array(
@@ -936,8 +910,7 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
 		// pages should show most recent
 		if ( 'page' == $object->name ) {
 			$object->_default_query = array(
-				'orderby' => 'post_date',
-				'order' => 'DESC',
+				'orderby' => 'menu_order title',
 				'post_status' => 'publish',
 			);
 
