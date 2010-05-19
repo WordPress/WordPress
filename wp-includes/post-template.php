@@ -1169,12 +1169,12 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 			$class = $class ? '' : " class='alternate'";
 
 			if ( $post->ID != $revision->ID && $can_edit_post )
-				$actions = '<a href="' . wp_nonce_url( add_query_arg( array( 'revision' => $revision->ID, 'diff' => false, 'action' => 'restore' ) ), "restore-post_$post->ID|$revision->ID" ) . '">' . __( 'Restore' ) . '</a>';
+				$actions = '<a href="' . wp_nonce_url( add_query_arg( array( 'revision' => $revision->ID, 'action' => 'restore' ) ), "restore-post_$post->ID|$revision->ID" ) . '">' . __( 'Restore' ) . '</a>';
 			else
 				$actions = '';
 
 			$rows .= "<tr$class>\n";
-			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked />\n";
+			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked /></th>\n";
 			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='right' value='$revision->ID'$right_checked /></th>\n";
 			$rows .= "\t<td>$date</td>\n";
 			$rows .= "\t<td>$name</td>\n";
