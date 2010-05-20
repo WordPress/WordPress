@@ -188,7 +188,20 @@ $_old_files = array(
 'wp-admin/update-links.php',
 'wp-admin/wp-admin.css',
 'wp-admin/wp-admin.dev.css',
-'wp-includes/js/scriptaculous/prototype.js',
+'wp-includes/js/codepress',
+'wp-includes/js/jquery/autocomplete.dev.js',
+'wp-includes/js/jquery/interface.js',
+'wp-includes/js/jquery/autocomplete.js',
+'wp-includes/js/tinymce/wp-tinymce.js',
+'wp-content/themes/twentyten/searchform.php',
+'wp-admin/import',
+'wp-admin/images/ico-edit.png',
+'wp-admin/images/fav-top.png',
+'wp-admin/images/ico-close.png',
+'wp-admin/images/admin-header-footer.png',
+'wp-admin/images/ico-add.png',
+'wp-admin/images/browse-happy.gif',
+'wp-admin/images/ico-viewpage.png',
 );
 
 /**
