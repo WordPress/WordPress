@@ -241,16 +241,29 @@ switch ( $action ) {
 		check_admin_referer( 'delete-nav_menu-' . $nav_menu_selected_id );
 
 		if ( is_nav_menu( $nav_menu_selected_id ) ) {
+			$deleted_nav_menu = wp_get_nav_menu_object( $nav_menu_selected_id );
 			$delete_nav_menu = wp_delete_nav_menu( $nav_menu_selected_id );
 
 			if ( is_wp_error($delete_nav_menu) ) {
 				$messages[] = '<div id="message" class="error"><p>' . $delete_nav_menu->get_error_message() . '</p></div>';
 			} else {
 				$messages[] = '<div id="message" class="updated"><p>' . __('The menu has been successfully deleted.') . '</p></div>';
-				$nav_menu_selected_id = 0; // Reset the selected menu
-				unset($_REQUEST['menu']);
+				// Select the next available menu
+				$nav_menu_selected_id = 0;
+				$_nav_menus = wp_get_nav_menus( array('orderby' => 'name') );
+				foreach( $_nav_menus as $index => $_nav_menu ) {
+					if ( strcmp( $_nav_menu->name, $deleted_nav_menu->name ) >= 0
+					 || $index == count( $_nav_menus ) - 1 ) {
+						$nav_menu_selected_id = $_nav_menu->term_id;
+						break;
+					}
+				}
 			}
-			unset( $delete_nav_menu );
+			unset( $delete_nav_menu, $deleted_nav_menu, $_nav_menus );
+		} else {
+			// Reset the selected menu
+			$nav_menu_selected_id = 0;
+			unset( $_REQUEST['menu'] );
 		}
 		break;
 
