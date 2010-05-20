@@ -6,6 +6,8 @@
  * @subpackage Administration
  */
 
+define('WP_LOAD_IMPORTERS', true);
+
 /** Load WordPress Bootstrap */
 require_once ('admin.php');
 
@@ -13,6 +15,7 @@ if ( !current_user_can('edit_files') )
 	wp_die(__('You do not have sufficient permissions to import content in this site.'));
 
 $title = __('Import');
+add_thickbox();
 require_once ('admin-header.php');
 $parent_file = 'tools.php';
 ?>
@@ -39,7 +42,28 @@ if ($imports_dir) {
 }
 @closedir($imports_dir);
 
+$popular_importers = array();
+if ( current_user_can('install_plugins') )
+	$popular_importers = array(
+		'blogger' => array( __('Blogger'), __('Install the Blogger importer to import posts, comments, and users from a Blogger blog.'), 'install' ),
+		'livejournal' => array( __( 'LiveJournal' ), __( 'Install the LiveJounral importer to import posts from LiveJournal using their API.' ), 'install' ),
+		'mt' => array( __('Movable Type and TypePad'), __('Install the Movable Type importer to import posts and comments from a Movable Type or TypePad blog.'), 'install' ),
+		'opml' => array( __('Blogroll'), __('Install the blogroll importer to import links in OPML format.'), 'install' ),
+		'rss' => array( __('RSS'), __('Install the RSS importer to import posts from an RSS feed.'), 'install' ),
+		'wordpress' => array( 'WordPress', __('Install the WordPress importer to import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'), 'install' )
+	);
+
 $importers = get_importers();
+
+// If a popular importer is not registered, create a dummy registration that links to the plugin installer.
+foreach ( array_keys($popular_importers) as $pop_importer ) {
+	if ( isset($importers[$pop_importer] ) )
+		continue;
+
+	$importers[$pop_importer] = $popular_importers[$pop_importer];
+}
+
+uasort($importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
 
 if (empty ($importers)) {
 	echo '<p>'.__('No importers are available.').'</p>'; // TODO: make more helpful
@@ -51,7 +75,14 @@ if (empty ($importers)) {
 	$style = '';
 	foreach ($importers as $id => $data) {
 		$style = ('class="alternate"' == $style || 'class="alternate active"' == $style) ? '' : 'alternate';
-		$action = "<a href='admin.php?import=$id' title='".wptexturize(strip_tags($data[1]))."'>{$data[0]}</a>";
+		if ( 'install' == $data[2] ) {
+			$plugin_slug = $id . '-importer';
+			$action = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin_slug .
+									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
+									esc_attr__('Install importer') . '">' . $data[0] . '</a>';
+		} else {
+			$action = "<a href='" . esc_url('admin.php?import=$id') . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";
+		}
 
 		if ($style != '')
 			$style = 'class="'.$style.'"';
@@ -66,6 +97,9 @@ if (empty ($importers)) {
 </table>
 <?php
 }
+
+if ( current_user_can('install_plugins') )
+	echo '<p>' . sprintf('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.', admin_url('plugin-install.php?tab=search&type=tag&s=importer') ) . '</p>';
 ?>
 
 </div>
