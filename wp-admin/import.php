@@ -81,7 +81,7 @@ if (empty ($importers)) {
 									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
 									esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 		} else {
-			$action = "<a href='" . esc_url('admin.php?import=$id') . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";
+			$action = "<a href='" . esc_url("admin.php?import=$id") . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";
 		}
 
 		if ($style != '')
