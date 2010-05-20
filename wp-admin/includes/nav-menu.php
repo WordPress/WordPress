@@ -405,6 +405,9 @@ function wp_nav_menu_locations_meta_box() {
 	$locations = get_registered_nav_menus();
 	$menus = wp_get_nav_menus();
 	$menu_locations = get_nav_menu_locations();
+	$num_locations = count( array_keys($locations) );
+
+	echo '<p>' . sprintf( _n('Your theme supports %s menu.  Assign a menu to your theme.', 'Your theme supports %s menus. Assign menus to your theme.', $num_locations), number_format_i18n($num_locations) ) . '</p>';
 
 	foreach ( $locations as $location => $description ) {
 		?>
