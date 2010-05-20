@@ -692,29 +692,24 @@ var wpNavMenu;
 			matchedSection,
 			that = this;
 
-			// Delete warning AYS
-			if ( confirm( navMenuL10n.warnDeleteMenuItem ) ) {
-				matchedSection = /_wpnonce=([a-zA-Z0-9]*)$/.exec(clickedEl.href);
-				if ( matchedSection && matchedSection[1] ) {
-					itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
-					$.post(
-						ajaxurl,
-						{
-							action:'delete-menu-item',
-							'menu-item':itemID,
-							'_wpnonce':matchedSection[1]
-						},
-						function (resp) {
-							if ( '1' == resp )
-								that.removeMenuItem(document.getElementById('menu-item-' + itemID));
-						}
-					);
-					return false;
-				}
-				return true;
-			} else {
+			matchedSection = /_wpnonce=([a-zA-Z0-9]*)$/.exec(clickedEl.href);
+			if ( matchedSection && matchedSection[1] ) {
+				itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
+				$.post(
+					ajaxurl,
+					{
+						action:'delete-menu-item',
+						'menu-item':itemID,
+						'_wpnonce':matchedSection[1]
+					},
+					function (resp) {
+						if ( '1' == resp )
+							that.removeMenuItem(document.getElementById('menu-item-' + itemID));
+					}
+				);
 				return false;
 			}
+			return true;
 		},
 
 		/**
