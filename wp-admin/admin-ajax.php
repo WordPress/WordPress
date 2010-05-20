@@ -1107,7 +1107,7 @@ case 'menu-locations-save':
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		die('-1');
 	check_ajax_referer( 'add-menu_item', 'menu-settings-column-nonce' );
-	if ( ! isset( $_POST['menu-locations' ] ) )
+	if ( ! isset( $_POST['menu-locations'] ) )
 		die('0');
 	set_theme_mod( 'nav_menu_locations', $_POST['menu-locations'] );
 	die('1');

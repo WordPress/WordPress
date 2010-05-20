@@ -357,13 +357,13 @@ var wpNavMenu;
 		},
 
 		attachThemeLocationsListeners : function() {
-			var loc = $('#nav-menu-theme-locations'),
-			params = {
-				'action': 'menu-locations-save',
-				'menu-locations': loc.find('select').serialize(),
-				'menu-settings-column-nonce': $('#menu-settings-column-nonce').val()
-			};
+			var loc = $('#nav-menu-theme-locations'), params = {};
+			params['action'] = 'menu-locations-save';
+			params['menu-settings-column-nonce'] = $('#menu-settings-column-nonce').val();
 			loc.find('input[type=submit]').click(function() {
+				loc.find('select').each(function() {
+					params[this.name] = $(this).val();
+				});
 				loc.find('.waiting').show();
 				$.post( ajaxurl, params, function(r) {
 					loc.find('.waiting').hide();
