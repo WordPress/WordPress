@@ -62,9 +62,9 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo esc_attr( $item->object ); ?>">
 			<dl class="menu-item-bar <?php
 				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
-					echo 'menu-item-edit-active';
+					echo 'menu-item-edit-active menu-item-bar-active';
 				else
-					echo 'menu-item-edit-inactive';
+					echo 'menu-item-edit-inactive menu-item-bar-inactive';
 			?>">
 				<dt class="menu-item-handle">
 					<span class="item-title"><?php echo esc_html( $item->title ); ?></span>
@@ -106,9 +106,9 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 
 			<div class="menu-item-settings <?php
 				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
-					echo 'menu-item-edit-active';
+					echo 'menu-item-edit-active menu-item-settings-active';
 				else
-					echo 'menu-item-edit-inactive';
+					echo 'menu-item-edit-inactive menu-item-settings-inactive';
 			?>" id="menu-item-settings-<?php echo $item_id; ?>">
 				<?php if( 'custom' == $item->type ) : ?>
 					<p class="field-url description description-wide">
@@ -178,7 +178,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 							remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
 						),
 						'delete-menu_item_' . $item_id
-					); ?>"><?php _e('Remove'); ?></a> | <a class="item-close submitclose" id="close-<?php echo $item_id; ?>" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e('Close'); ?></a>
+					); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-close submitclose" id="close-<?php echo $item_id; ?>" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e('Close'); ?></a>
 					<input class="button-primary save-menu-item" name="save_menu_item" type="submit" value="<?php esc_attr_e('Save Menu Item'); ?>" />
 				</div>
 
@@ -490,7 +490,6 @@ function wp_nav_menu_item_link_meta_box() {
 			</span>
 		</p>
 
-		<div class="clear"></div>
 	</div><!-- /.customlinkdiv -->
 	<?php
 }
@@ -655,7 +654,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			</span>
 		</p>
 
-		<br class="clear" />
 	</div><!-- /.posttypediv -->
 	<?php
 }
@@ -823,7 +821,6 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			</span>
 		</p>
 
-		<br class="clear" />
 	</div><!-- /.taxonomydiv -->
 	<?php
 }

@@ -103,6 +103,7 @@ ul#adminmenu {
 }
 
 #adminmenu,
+.major-publishing-actions,
 .wp-submenu,
 .wp-submenu li,
 .wp-menu-toggle {
@@ -441,4 +442,28 @@ table.ie-fixed {
 
 * html input {
 	border: 1px solid #dfdfdf;
+}
+
+#nav-menu-header,
+#nav-menus-frame,
+#wpbody,
+.menu li {
+	zoom:100%;
+}
+
+#update-nav-menu {
+	border:1px solid #ccc;
+	overflow:hidden;
+}
+#nav-menu-header,
+#update-nav-menu #post-body {
+	border:none;
+}
+
+.menu li {
+	min-width:100%;
+}
+
+.menu li.sortable-placeholder {
+	min-width:400px;
 }

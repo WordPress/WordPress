@@ -496,7 +496,6 @@ require_once( 'admin-header.php' );
 								<label class="menu-name-label howto open-label" for="menu-name">
 									<span><?php _e('Menu Name'); ?></span>
 									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here.'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
-									<br class="clear" />
 								</label>
 
 								<div class="publishing-action">
@@ -508,7 +507,6 @@ require_once( 'admin-header.php' );
 									<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ) ); ?>"><?php _e('Delete Menu'); ?></a>
 								</div><!--END .delete-action-->
 								<?php endif; ?>
-								<br class="clear" />
 							</div><!--END .major-publishing-actions-->
 						</div><!--END #submitpost .submitbox-->
 						<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
@@ -537,7 +535,6 @@ require_once( 'admin-header.php' );
 								echo '<p>' . sprintf( __('For more information on this feature, see the <a href="%s">Custom Menus</a> article in the Codex.'), _x('http://codex.wordpress.org/Custom_Menus', 'Custom Menus codex page') ) . '</p>';
 								echo '</div>';
 							endif; ?>
-							<br class="clear" />
 						</div><!-- /#post-body-content-->
 					</div><!--- /#post-body -->
 				</form><!--/#update-nav-menu-->

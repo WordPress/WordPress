@@ -230,6 +230,10 @@ var wpNavMenu;
 					}
 					// Update the item data.
 					ui.item.updateParentMenuItemDBId();
+
+					// address sortable's incorrectly-calculated top in opera
+					ui.item[0].style.top = 0;
+
 				},
 				change: function(e, ui) {
 					// Make sure the placeholder is inside the menu.
