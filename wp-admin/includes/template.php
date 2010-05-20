@@ -3622,6 +3622,13 @@ function screen_meta($screen) {
 		</div>
 	<?php endif;
 	echo screen_layout($screen);
+
+	if ( !empty( $screen_options ) ) {
+		?> 
+		<h5><?php _ex('Show on screen', 'Screen Options') ?></h5>
+		<?php
+	}
+	
 	echo $screen_options;
 	echo $settings; ?>
 <div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
