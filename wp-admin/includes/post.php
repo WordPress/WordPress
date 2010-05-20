@@ -1551,7 +1551,9 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		script_concat_settings();
 
 	$language = $initArray['language'];
-	$zip = $compress_scripts ? 1 : 0;
+
+	$compressed = $compress_scripts && $concatenate_scripts && isset($_SERVER['HTTP_ACCEPT_ENCODING'])
+		&& false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip');
 
 	/**
 	 * Deprecated
@@ -1585,8 +1587,8 @@ tinyMCEPreInit = {
 </script>
 
 <?php
-	if ( $concatenate_scripts )
-		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&amp;$version'></script>\n";
+	if ( $compressed )
+		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=1&amp;$version'></script>\n";
 	else
 		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?$version'></script>\n";
 
@@ -1599,7 +1601,7 @@ tinyMCEPreInit = {
 <script type="text/javascript">
 /* <![CDATA[ */
 <?php if ( $ext_plugins ) echo "$ext_plugins\n"; ?>
-<?php if ( $concatenate_scripts ) { ?>
+<?php if ( $compressed ) { ?>
 tinyMCEPreInit.go();
 <?php } else { ?>
 (function(){var t=tinyMCEPreInit,sl=tinymce.ScriptLoader,ln=t.mceInit.language,th=t.mceInit.theme,pl=t.mceInit.plugins;sl.markDone(t.base+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'_dlg.js');tinymce.each(pl.split(','),function(n){if(n&&n.charAt(0)!='-'){sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'.js');sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'_dlg.js');}});})();
