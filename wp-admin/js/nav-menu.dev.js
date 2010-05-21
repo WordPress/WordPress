@@ -55,7 +55,8 @@ var wpNavMenu;
 			// jQuery extensions
 			$.fn.extend({
 				menuItemDepth : function() {
-					return api.pxToDepth( this.eq(0).css('margin-left').slice(0, -2) );
+					var margin = this.eq(0).css('margin-left');
+					return api.pxToDepth( margin && -1 != margin.indexOf('px') ? margin.slice(0, -2) : 0 );
 				},
 				updateDepthClass : function(current, prev) {
 					return this.each(function(){
