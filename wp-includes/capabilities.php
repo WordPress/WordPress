@@ -835,7 +835,7 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 
 		// If the user is the author...
-		if ( $user_id == $post_author_data->ID ) {
+		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = 'delete_published_posts';
@@ -871,7 +871,7 @@ function map_meta_cap( $cap, $user_id ) {
 			$page_author_data = $author_data;
 		}
 
-		if ( $user_id == $page_author_data->ID ) {
+		if ( is_object( $page_author_data ) && $user_id == $page_author_data->ID ) {
 			// If the page is published...
 			if ( $page->post_status == 'publish' ) {
 				$caps[] = 'delete_published_pages';
@@ -906,7 +906,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$post_author_data = get_userdata( $post->post_author );
 		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br />";
 		// If the user is the author...
-		if ( $user_id == $post_author_data->ID ) {
+		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = 'edit_published_posts';
@@ -934,7 +934,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$page_author_data = get_userdata( $page->post_author );
 		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br />";
 		// If the user is the author...
-		if ( $user_id == $page_author_data->ID ) {
+		if ( is_object( $page_author_data ) && $user_id == $page_author_data->ID ) {
 			// If the page is published...
 			if ( 'publish' == $page->post_status ) {
 				$caps[] = 'edit_published_pages';
@@ -970,7 +970,7 @@ function map_meta_cap( $cap, $user_id ) {
 
 		$author_data = get_userdata( $user_id );
 		$post_author_data = get_userdata( $post->post_author );
-		if ( $user_id == $post_author_data->ID )
+		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID )
 			$caps[] = 'read';
 		else
 			$caps[] = 'read_private_posts';
@@ -985,7 +985,7 @@ function map_meta_cap( $cap, $user_id ) {
 
 		$author_data = get_userdata( $user_id );
 		$page_author_data = get_userdata( $page->post_author );
-		if ( $user_id == $page_author_data->ID )
+		if ( is_object( $page_author_data ) && $user_id == $page_author_data->ID )
 			$caps[] = 'read';
 		else
 			$caps[] = 'read_private_pages';
