@@ -486,6 +486,9 @@ function update_option( $option, $newvalue ) {
 
 	wp_protect_special_option( $option );
 
+	if ( is_object($newvalue) )
+		$newvalue = wp_clone($newvalue);
+
 	$newvalue = sanitize_option( $option, $newvalue );
 	$oldvalue = get_option( $option );
 	$newvalue = apply_filters( 'pre_update_option_' . $option, $newvalue, $oldvalue );
@@ -565,6 +568,10 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		return false;
 
 	wp_protect_special_option( $option );
+
+	if ( is_object($value) )
+		$value = wp_clone($value);
+
 	$value = sanitize_option( $option, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
