@@ -2534,11 +2534,15 @@ fieldset {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: right;
-	background: transparent url( ../images/screen-options-left.gif ) no-repeat 0 0;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	height: 22px;
 	padding: 0;
 	margin: 0 6px 0 0;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	background: #e3e3e3;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
 }
 
 #screen-meta a.show-settings {

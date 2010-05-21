@@ -199,6 +199,7 @@ $_old_files = array(
 'wp-admin/images/fav-top.png',
 'wp-admin/images/ico-close.png',
 'wp-admin/images/admin-header-footer.png',
+'wp-admin/images/screen-options-left.gif',
 'wp-admin/images/ico-add.png',
 'wp-admin/images/browse-happy.gif',
 'wp-admin/images/ico-viewpage.png',
