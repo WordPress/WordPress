@@ -135,7 +135,7 @@ function core_upgrade_preamble() {
 		echo '</p></div>';
 
 		echo '<h3 class="response">';
-		_e( 'There is a new version of WordPress available for update' );
+		_e( 'An updated version of WordPress is available' );
 		echo '</h3>';
 	}
 
