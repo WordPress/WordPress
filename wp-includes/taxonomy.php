@@ -1554,7 +1554,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  * @uses do_action() Calls 'created_term' hook with the term id and taxonomy id as parameters.
  * @uses do_action() Calls 'created_$taxonomy' hook with term id and taxonomy id as parameters.
  *
- * @param int|string $term The term to add or update.
+ * @param string $term The term to add or update.
  * @param string $taxonomy The taxonomy to which to add the term
  * @param array|string $args Change the values of the inserted term
  * @return array|WP_Error The Term ID and Term Taxonomy ID
