@@ -64,17 +64,21 @@ if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
 <p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress site to import this site.'); ?></p>
 <form action="" method="get">
-<h3><?php _e('Options'); ?></h3>
+<h3><?php _e('Filters'); ?></h3>
 
 <table class="form-table">
 <tr>
-<th><label for="mm_start"><?php _e('Restrict Date'); ?></label></th>
-<td><strong><?php _e('Start:'); ?></strong> 
+<th><label for="mm_start"><?php _e('Start Date'); ?></label></th>
+<td>
 <select name="mm_start" id="mm_start">
 	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
 <?php echo $dateoptions; ?>
-</select> <br/>
-<strong><?php _e('End:'); ?></strong> 
+</select>
+</td>
+</tr>
+<tr>
+<th><label for="mm_end" id="mm_end"><?php _e('End Date'); ?></label></th>
+<td>
 <select name="mm_end" id="mm_end">
 	<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
 <?php echo $edateoptions; ?>
@@ -82,7 +86,7 @@ if ( $monthyears = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`
 </td>
 </tr>
 <tr>
-<th><label for="author"><?php _e('Restrict Author'); ?></label></th>
+<th><label for="author"><?php _e('Authors'); ?></label></th>
 <td>
 <select name="author" id="author">
 <option value="all" selected="selected"><?php _e('All Authors'); ?></option>
@@ -95,19 +99,14 @@ foreach ( (array) $authors as $author ) {
 </select>
 </td>
 </tr>
-<tr>
-<th><?php _e('Restrict Taxonomies'); ?></th>
-<td>
 <?php foreach ( get_taxonomies( array( 'show_ui' => true ), 'objects' ) as $tax_obj ) {
 	$term_dropdown = wp_dropdown_categories( array( 'taxonomy' => $tax_obj->name, 'hide_if_empty' => true, 'show_option_all' => __( 'All Terms' ), 'name' => 'taxonomy[' . $tax_obj->name . ']', 'id' => 'taxonomy-' . $tax_obj->name, 'class' => '', 'echo' => false ) );
 	if ( $term_dropdown )
-		echo '<label for="taxonomy-' . $tax_obj->name . '">' . $tax_obj->labels->name . '</label>: ' . $term_dropdown . '<br/>';
+		echo '<tr><th><label for="taxonomy-' . $tax_obj->name . '">' . $tax_obj->labels->name . '</label></th><td>' . $term_dropdown . '</td></tr>';
 }
 ?>
-</td>
-</tr>
 <tr>
-<th><label for="post_type"><?php _e('Restrict Content'); ?></label></th>
+<th><label for="post_type"><?php _e('Content Types'); ?></label></th>
 <td>
 <select name="post_type" id="post_type">
 	<option value="all" selected="selected"><?php _e('All Content'); ?></option>
@@ -118,7 +117,7 @@ foreach ( (array) $authors as $author ) {
 </td>
 </tr>
 <tr>
-<th><label for="status"><?php _e('Restrict Status'); ?></label></th>
+<th><label for="status"><?php _e('Statuses'); ?></label></th>
 <td>
 <select name="status" id="status">
 	<option value="all" selected="selected"><?php _e('All Statuses'); ?></option>
