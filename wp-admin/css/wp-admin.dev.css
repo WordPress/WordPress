@@ -3699,6 +3699,10 @@ div#custom-background-image img {
 	max-height: 300px;
 }
 
+#custom-background label {
+	padding-right: 15px;
+}
+
 /* Custom Header */
 
 table#available-headers td {
