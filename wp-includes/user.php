@@ -621,12 +621,14 @@ function wp_dropdown_users( $args = '' ) {
 		if ( $show_option_all )
 			$output .= "\t<option value='0'>$show_option_all</option>\n";
 
-		if ( $show_option_none )
-			$output .= "\t<option value='-1'>$show_option_none</option>\n";
+		if ( $show_option_none ) {
+			$_selected = selected( -1, $selected, false );
+			$output .= "\t<option value='-1'$_selected>$show_option_none</option>\n";
+		}
 
 		foreach ( (array) $users as $user ) {
 			$user->ID = (int) $user->ID;
-			$_selected = $user->ID == $selected ? " selected='selected'" : '';
+			$_selected = selected( $user->ID, $selected, false );
 			$display = !empty($user->$show) ? $user->$show : '('. $user->user_login . ')';
 			$output .= "\t<option value='$user->ID'$_selected>" . esc_html($display) . "</option>\n";
 		}
