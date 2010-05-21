@@ -1400,6 +1400,16 @@ function media_upload_form( $errors = null ) {
 	$flash = apply_filters('flash_uploader', $flash);
 	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
 
+	$upload_size_unit = $max_upload_size =  wp_max_upload_size();
+	$sizes = array( 'KB', 'MB', 'GB' );
+	for ( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ )
+		$upload_size_unit /= 1024;
+	if ( $u < 0 ) {
+		$upload_size_unit = 0;
+		$u = 0;
+	} else {
+		$upload_size_unit = (int) $upload_size_unit;
+	}
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -1421,26 +1431,12 @@ jQuery(document).ready(function($){
 	<?php echo $errors['upload_error']->get_error_message(); ?>
 <?php } ?>
 </div>
-<div id="media-upload-size">
-<?php 
-	$upload_size_unit = $max_upload_size =  wp_max_upload_size();
-	$sizes = array( 'KB', 'MB', 'GB' );
-	for( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ )
-		$upload_size_unit /= 1024;
-	if ( $u < 0 ) {
-		$upload_size_unit = 0;
-		$u = 0;
-	} else {
-		$upload_size_unit = (int) $upload_size_unit;
-	}
-	printf( '<h3>' . __( 'Maximum upload file size: %d%s' ) . '</h3>', $upload_size_unit, $sizes[$u] );
-?>
-</div>
-
 <?php
 // Check quota for this blog if multisite
-if ( is_multisite() && !is_upload_space_available() )
-	wp_die( __('Sorry, you must delete files before you can upload any more.') );
+if ( is_multisite() && !is_upload_space_available() ) {
+	echo '<p>' . __('Sorry, you must delete files before you can upload any more.') . '</p>';
+	return;
+}
 
 do_action('pre-upload-ui');
 
@@ -1463,7 +1459,7 @@ SWFUpload.onload = function() {
 			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 			post_params : {
 				"post_id" : "<?php echo $post_id; ?>",
-				"auth_cookie" : "<?php if ( is_ssl() ) echo $_COOKIE[SECURE_AUTH_COOKIE]; else echo $_COOKIE[AUTH_COOKIE]; ?>",
+				"auth_cookie" : "<?php echo (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]); ?>",
 				"logged_in_cookie": "<?php echo $_COOKIE[LOGGED_IN_COOKIE]; ?>",
 				"_wpnonce" : "<?php echo wp_create_nonce('media-form'); ?>",
 				"type" : "<?php echo $type; ?>",
@@ -1499,8 +1495,9 @@ SWFUpload.onload = function() {
 	<div>
 	<?php _e( 'Choose files to upload' ); ?>
 	<div id="flash-browse-button"></div>
-	<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+	<span><input id="cancel-upload" disabled="disabled" onClick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
 	</div>
+	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 </div>
@@ -1513,6 +1510,7 @@ SWFUpload.onload = function() {
 	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php esc_attr_e('Upload'); ?>" /> <a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
 	</p>
 	<div class="clear"></div>
+	<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
 	<?php if ( is_lighttpd_before_150() ): ?>
 	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
 	<?php endif;?>
