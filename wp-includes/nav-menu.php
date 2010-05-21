@@ -97,7 +97,10 @@ function register_nav_menu( $location, $description ) {
  * @return array
  */
 function get_registered_nav_menus() {
-	return $GLOBALS['_wp_registered_nav_menus'];
+	global $_wp_registered_nav_menus;
+	if ( isset( $_wp_registered_nav_menus ) )
+		return $_wp_registered_nav_menus;
+	return array();
 }
 
 /**
