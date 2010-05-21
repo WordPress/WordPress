@@ -29,7 +29,7 @@
 						<p><?php _e( 'Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'twentyten' ); ?></p>
 						<?php get_search_form(); ?>
 					</div><!-- .entry-content -->
-				</div>
+				</div><!-- #post-0 -->
 <?php endif; ?>
 			</div><!-- #content -->
 		</div><!-- #container -->

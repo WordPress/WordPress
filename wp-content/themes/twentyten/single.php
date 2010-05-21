@@ -46,14 +46,14 @@
 								</a>
 							</div><!-- #author-link	-->
 						</div><!-- #author-description -->
-					</div><!-- .entry-author-info -->
+					</div><!-- #entry-author-info -->
 <?php endif; ?>
 
 					<div class="entry-utility">
 						<?php twentyten_posted_in(); ?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
-				</div><!-- #post-(id) -->
+				</div><!-- #post-## -->
 
 				<div id="nav-below" class="navigation">
 					<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'twentyten' ) . '</span> %title' ); ?></div>

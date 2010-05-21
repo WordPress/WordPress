@@ -1,3 +1,9 @@
+/*
+Theme Name: Twenty Ten
+*/
+/*
+Used to style the TinyMCE editor.
+*/
 html .mceContentBody{
 	direction:rtl;
 	unicode-bidi:embed;

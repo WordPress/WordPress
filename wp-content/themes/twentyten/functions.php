@@ -31,7 +31,7 @@
  * }
  * </code>
  *
- * For more information on hooks, see http://codex.wordpress.org/Plugin_API.
+ * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
  *
  * @package WordPress
  * @subpackage Twenty_Ten
@@ -110,7 +110,8 @@ function twentyten_setup() {
 	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyten_header_image_height', 198 ) );
 
 	// We'll be using post thumbnails for custom header images on posts and pages.
-	// We want them to be 940 pixels wide by 198 pixels tall (larger images will be auto-cropped to fit).
+	// We want them to be 940 pixels wide by 198 pixels tall.
+	// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
 	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
 
 	// Don't support text inside the header image.
@@ -133,43 +134,43 @@ function twentyten_setup() {
 		'cherryblossom' => array(
 			'url' => '%s/images/headers/cherryblossoms.jpg',
 			'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Cherry Blossoms', 'twentyten' )
 		),
 		'concave' => array(
 			'url' => '%s/images/headers/concave.jpg',
 			'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Concave', 'twentyten' )
 		),
 		'fern' => array(
 			'url' => '%s/images/headers/fern.jpg',
 			'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Fern', 'twentyten' )
 		),
 		'forestfloor' => array(
 			'url' => '%s/images/headers/forestfloor.jpg',
 			'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Forest Floor', 'twentyten' )
 		),
 		'inkwell' => array(
 			'url' => '%s/images/headers/inkwell.jpg',
 			'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Inkwell', 'twentyten' )
 		),
 		'path' => array(
 			'url' => '%s/images/headers/path.jpg',
 			'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Path', 'twentyten' )
 		),
 		'sunset' => array(
 			'url' => '%s/images/headers/sunset.jpg',
 			'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg',
-			/* translators: header image description */			
+			/* translators: header image description */
 			'description' => __( 'Sunset', 'twentyten' )
 		)
 	) );
@@ -288,7 +289,7 @@ function twentyten_comment( $comment, $args, $depth ) {
 		<div class="comment-author vcard">
 			<?php echo get_avatar( $comment, 40 ); ?>
 			<?php printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
-		</div>
+		</div><!-- .comment-author .vcard -->
 		<?php if ( $comment->comment_approved == '0' ) : ?>
 			<em><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
 			<br />
@@ -299,14 +300,14 @@ function twentyten_comment( $comment, $args, $depth ) {
 				/* translators: 1: date, 2: time */
 				printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'twentyten' ), ' ' );
 			?>
-		</div>
+		</div><!-- .comment-meta .commentmetadata -->
 
 		<div class="comment-body"><?php comment_text(); ?></div>
 
 		<div class="reply">
 			<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-		</div>
-	</div>
+		</div><!-- .reply -->
+	</div><!-- #comment-##  -->
 
 	<?php else : ?>
 	<li class="post pingback">
@@ -325,7 +326,7 @@ endif;
  * @uses register_sidebar
  */
 function twentyten_widgets_init() {
-	// Area 1
+	// Area 1, located at the top of the sidebar.
 	register_sidebar( array(
 		'name' => __( 'Primary Widget Area', 'twentyten' ),
 		'id' => 'primary-widget-area',
@@ -336,7 +337,7 @@ function twentyten_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 
-	// Area 2
+	// Area 2, located below the Primary Widget Area in the sidebar. Empty by default.
 	register_sidebar( array(
 		'name' => __( 'Secondary Widget Area', 'twentyten' ),
 		'id' => 'secondary-widget-area',
@@ -347,7 +348,7 @@ function twentyten_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 
-	// Area 3
+	// Area 3, located in the footer. Empty by default.
 	register_sidebar( array(
 		'name' => __( 'First Footer Widget Area', 'twentyten' ),
 		'id' => 'first-footer-widget-area',
@@ -358,7 +359,7 @@ function twentyten_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 
-	// Area 4
+	// Area 4, located in the footer. Empty by default.
 	register_sidebar( array(
 		'name' => __( 'Second Footer Widget Area', 'twentyten' ),
 		'id' => 'second-footer-widget-area',
@@ -369,7 +370,7 @@ function twentyten_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 
-	// Area 5
+	// Area 5, located in the footer. Empty by default.
 	register_sidebar( array(
 		'name' => __( 'Third Footer Widget Area', 'twentyten' ),
 		'id' => 'third-footer-widget-area',
@@ -380,7 +381,7 @@ function twentyten_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 
-	// Area 6
+	// Area 6, located in the footer. Empty by default.
 	register_sidebar( array(
 		'name' => __( 'Fourth Footer Widget Area', 'twentyten' ),
 		'id' => 'fourth-footer-widget-area',
@@ -422,13 +423,12 @@ function twentyten_posted_on() {
 			esc_attr( get_the_time() ),
 			get_the_date()
 		),
-		sprintf( '</span> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>', 
+		sprintf( '</span> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
 			get_author_posts_url( get_the_author_meta( 'ID' ) ),
 			sprintf( esc_attr__( 'View all posts by %s', 'twentyten' ), get_the_author() ),
 			get_the_author()
 		)
 	);
-	
 }
 endif;
 
@@ -453,6 +453,6 @@ function twentyten_posted_in() {
 		$tag_list,
 		get_permalink(),
 		the_title_attribute( 'echo=0' )
-	);	
+	);
 }
 endif;

@@ -7,6 +7,12 @@
  * http://codex.wordpress.org/Template_Tags to understand
  * the tags used in it.
  *
+ * This can be overridden in child themes with loop.php or
+ * loop-template.php, where 'template' is the loop context
+ * requested by a template. For example, loop-index.php would
+ * be used if it exists and we ask for the loop with:
+ * <code>get_template_part( 'loop', 'index' );</code>
+ *
  * @package WordPress
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
@@ -68,7 +74,7 @@
 	$image_img_tag = wp_get_attachment_image( $image->ID, 'thumbnail' );
 ?>
 					<a class="size-thumbnail" href="<?php the_permalink(); ?>"><?php echo $image_img_tag; ?></a>
-				</div>
+				</div><!-- .gallery-thumb -->
 				<p><em><?php printf( __( 'This gallery contains <a %1$s>%2$s photos</a>.', 'twentyten' ),
 						'href="' . get_permalink() . '" title="' . sprintf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) . '" rel="bookmark"',
 						$total_images
@@ -82,8 +88,8 @@
 				<span class="meta-sep">|</span>
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
-			</div><!-- #entry-utility -->
-		</div>
+			</div><!-- .entry-utility -->
+		</div><!-- #post-## -->
 
 <?php /* How to display posts in the asides category */ ?>
 
@@ -105,8 +111,8 @@
 				<span class="meta-sep">|</span>
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
-			</div><!-- #entry-utility -->
-		</div><!-- #post-(id) -->
+			</div><!-- .entry-utility -->
+		</div><!-- #post-## -->
 
 <?php /* How to display all other posts. */ ?>
 
@@ -147,7 +153,7 @@
 				<?php endif; ?>
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
-			</div><!-- #entry-utility -->
+			</div><!-- .entry-utility -->
 		</div><!-- #post-<?php the_ID(); ?> -->
 
 		<?php comments_template( '', true ); ?>
