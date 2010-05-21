@@ -556,7 +556,9 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	if ( !$posts )
 		$error = '<li id="error">'. $post_type['args']->labels->not_found .'</li>';
 
-	$current_tab = 'all';
+	$walker = new Walker_Nav_Menu_Checklist;
+
+	$current_tab = 'most-recent';
 	if ( isset( $_REQUEST[$post_type_name . '-tab'] ) && in_array( $_REQUEST[$post_type_name . '-tab'], array('all', 'search') ) ) {
 		$current_tab = $_REQUEST[$post_type_name . '-tab'];
 	}
@@ -577,9 +579,23 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	?>
 	<div id="posttype-<?php echo $post_type_name; ?>" class="posttypediv">
 		<ul id="posttype-<?php echo $post_type_name; ?>-tabs" class="posttype-tabs add-menu-item-tabs">
+			<li <?php echo ( 'most-recent' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($post_type_name . '-tab', 'most-recent', remove_query_arg($removed_args))); ?>#tabs-panel-posttype-<?php echo $post_type_name; ?>-most-recent"><?php _e('Most Recent'); ?></a></li>
 			<li <?php echo ( 'all' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($post_type_name . '-tab', 'all', remove_query_arg($removed_args))); ?>#<?php echo $post_type_name; ?>-all"><?php _e('View All'); ?></a></li>
 			<li <?php echo ( 'search' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($post_type_name . '-tab', 'search', remove_query_arg($removed_args))); ?>#tabs-panel-posttype-<?php echo $post_type_name; ?>-search"><?php _e('Search'); ?></a></li>
 		</ul>
+
+		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-most-recent" class="tabs-panel <?php
+			echo ( 'most-recent' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
+		?>">
+			<ul id="<?php echo $post_type_name; ?>checklist-most-recent" class="categorychecklist form-no-clear">
+				<?php
+				$recent_args = array_merge( $args, array( 'orderby' => 'post_date', 'order' => 'DESC', 'showposts' => 15 ) );
+				$most_recent = $get_posts->query( $recent_args );
+				$args['walker'] = $walker;
+				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $most_recent), 0, (object) $args );
+				?>
+			</ul>
+		</div><!-- /.tabs-panel -->
 
 		<div class="tabs-panel <?php
 			echo ( 'search' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
@@ -602,7 +618,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			<ul id="<?php echo $post_type_name; ?>-search-checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
 			<?php if ( ! empty( $search_results ) && ! is_wp_error( $search_results ) ) : ?>
 				<?php
-				$args['walker'] = new Walker_Nav_Menu_Checklist;
+				$args['walker'] = $walker;
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $search_results), 0, (object) $args );
 				?>
 			<?php elseif ( is_wp_error( $search_results ) ) : ?>
@@ -622,7 +638,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			</div>
 			<ul id="<?php echo $post_type_name; ?>checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
 				<?php
-				$args['walker'] = new Walker_Nav_Menu_Checklist;
+				$args['walker'] = $walker;
 				$checkbox_items = walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $posts), 0, (object) $args );
 
 				if ( 'all' == $current_tab && ! empty( $_REQUEST['selectall'] ) ) {
@@ -750,8 +766,6 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 				$popular_terms = get_terms( $taxonomy_name, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
 				$args['walker'] = $walker;
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $popular_terms), 0, (object) $args );
-				?>
-				<?php
 				?>
 			</ul>
 		</div><!-- /.tabs-panel -->
@@ -907,7 +921,6 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
 		if ( 'attachment' == $object->name )
 			return false;
 
-		// pages should show most recent
 		if ( 'page' == $object->name ) {
 			$object->_default_query = array(
 				'orderby' => 'menu_order title',
