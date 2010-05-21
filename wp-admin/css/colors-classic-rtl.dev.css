@@ -78,3 +78,7 @@
 .meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/menu-bits-rtl-vs.gif) no-repeat scroll right -111px;
 }
+
+#favorite-toggle {
+	background: transparent url(../images/fav-arrow-vs-rtl.gif) no-repeat right -4px;
+}

@@ -66,11 +66,6 @@
 	background: #fff url(../images/menu-bits-rtl.gif) no-repeat scroll right -310px;
 }
 
-#adminmenu li.current a,
-#adminmenu .wp-submenu a:hover {
-	background: transparent url(../images/menu-bits-rtl.gif) no-repeat scroll  right -289px;
-}
-
 #adminmenu li.wp-has-current-submenu a.wp-has-submenu {
 	background: #b5b5b5 url(../images/menu-bits-rtl.gif) repeat-x scroll right top;
 }
