@@ -1626,6 +1626,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
 				return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
 			$term_id = (int) $wpdb->insert_id;
+		} elseif ( is_term( (int) $term_id, $taxonomy ) )  {
+			// Same name, same slug.
+			return new WP_Error('term_exists', __('A term with the name provided already exists.'));
 		}
 	} else {
 		// This term does not exist at all in the database, Create it.
