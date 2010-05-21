@@ -228,7 +228,7 @@ strong .post-com-count span {
 
 .highlight {
 	background-color: #e4f2fd;
-	color: #ee7600;
+	color: #d54e21;
 }
 
 .howto,
@@ -264,7 +264,7 @@ td.help {
 }
 
 .post-com-count:hover span {
-	background-color: #ee7600;
+	background-color: #d54e21;
 }
 
 .quicktags, .search {
@@ -357,7 +357,7 @@ a.button.disabled {
 a:hover,
 a:active,
 a:focus {
-	color: #ee7600;
+	color: #d54e21;
 }
 
 #wphead #viewsite a:hover,
@@ -373,7 +373,7 @@ div.dashboard-widget-submit input:hover,
 .plugins .inactive a:hover,
 #all-plugins-table .plugins .inactive a:hover,
 #search-plugins-table .plugins .inactive a:hover {
-	color: #ee7600;
+	color: #d54e21;
 }
 
 #the-comment-list .comment-item,
@@ -430,7 +430,7 @@ div.dashboard-widget-submit input:hover,
 .tablenav .next:hover,
 .tablenav .prev:hover {
 	border-color: transparent;
-	color: #ee7600;
+	color: #d54e21;
 }
 
 .updated,
@@ -498,7 +498,7 @@ body.press-this .tabs a:hover {
 	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;
-	color: #ee7600;
+	color: #d54e21;
 }
 
 #adminmenu #awaiting-mod,
@@ -506,7 +506,7 @@ body.press-this .tabs a:hover {
 #sidemenu a .update-plugins,
 #rightnow .reallynow,
 #plugin-information .action-button {
-	background-color: #ee7600;
+	background-color: #d54e21;
 	color: #fff;
 }
 
@@ -576,7 +576,7 @@ input.readonly, textarea.readonly {
 }
 
 .login #nav a:hover {
-	color: #ee7600 !important;
+	color: #d54e21 !important;
 }
 
 #footer {
@@ -1286,7 +1286,7 @@ table.diff .diff-addedline ins {
 #sidemenu a.current {
 	background-color: #fff;
 	border-color: #dfdfdf #dfdfdf #fff;
-	color: #ee7600;
+	color: #D54E21;
 }
 
 #screen-options-wrap,
@@ -1392,7 +1392,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .attention {
-	color: #ee7600;
+	color: #D54E21;
 }
 
 .meta-box-sortables .postbox:hover .handlediv {
@@ -1413,7 +1413,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .tablenav .tablenav-pages a:hover {
-	color: #ee7600;
+	color: #d54e21;
 	border-color: #d54321;
 }
 
@@ -1641,7 +1641,7 @@ div.widgets-sortables,
 
 .sidebar-name:hover,
 #removing-widget {
-	color: #ee7600;
+	color: #d54e21;
 }
 
 #removing-widget span {
