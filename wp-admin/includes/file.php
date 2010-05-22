@@ -585,7 +585,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 	// PHP4-compat - php4 classes can't contain constants
 	$zopen = $z->open($file, /* ZIPARCHIVE::CHECKCONS */ 4);
-	if ( true !== $zopen || /* ZIPARCHIVE::ZIP_ER_OK */ 0 !== $zopen ) // may return true, or (int)0 ZIP_ER_OK under certain versions
+	if ( true !== $zopen && /* ZIPARCHIVE::ZIP_ER_OK */ 0 !== $zopen ) // may return true, or (int)0 ZIP_ER_OK under certain versions
 		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
