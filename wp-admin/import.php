@@ -46,6 +46,7 @@ $popular_importers = array();
 if ( current_user_can('install_plugins') )
 	$popular_importers = array(
 		'blogger' => array( __('Blogger'), __('Install the Blogger importer to import posts, comments, and users from a Blogger blog.'), 'install' ),
+		'wpcat2tag' => array(__('Categories and Tags Converter'), __('Install the category/tag converter to convert existing categories to tags or tags to categories, selectively.'), 'install'),
 		'livejournal' => array( __( 'LiveJournal' ), __( 'Install the LiveJounral importer to import posts from LiveJournal using their API.' ), 'install' ),
 		'mt' => array( __('Movable Type and TypePad'), __('Install the Movable Type importer to import posts and comments from a Movable Type or TypePad blog.'), 'install' ),
 		'opml' => array( __('Blogroll'), __('Install the blogroll importer to import links in OPML format.'), 'install' ),
