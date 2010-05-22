@@ -74,6 +74,10 @@ if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $c
 		wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
 		die();
 	}
+} elseif ( is_multisite() && IS_PROFILE_PAGE && !empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' == $_GET['dismiss'] ) {
+	delete_option( $current_user->ID . '_new_email' );
+	wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
+	die();
 }
 
 switch ($action) {
@@ -285,7 +289,15 @@ else
 <table class="form-table">
 <tr>
 	<th><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
-	<td><input type="text" name="email" id="email" value="<?php echo esc_attr($profileuser->user_email) ?>" class="regular-text" /></td>
+	<td><input type="text" name="email" id="email" value="<?php echo esc_attr($profileuser->user_email) ?>" class="regular-text" />
+	<?php
+	$new_email = get_option( $current_user->ID . '_new_email' );
+	if ( $new_email && $new_email != $current_user->user_email ) : ?>
+	<div class="updated inline">
+	<p><?php printf( __('There is a pending change of your e-mail to <code>%1$s</code>. <a href="%2$s">Cancel</a>'), $new_email['newemail'], esc_url( admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) ) ); ?></p>
+	</div>
+	<?php endif; ?>
+	</td>
 </tr>
 
 <tr>
