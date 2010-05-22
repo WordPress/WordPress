@@ -20,8 +20,7 @@ if ( isset($_GET['find_detached']) ) {
 	if ( !current_user_can('edit_posts') )
 		wp_die( __('You are not allowed to scan for lost attachments.') );
 
-	$all_posts = implode( ',', $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type NOT IN ('attachment', '" . join("', '", get_post_types( array( 'public' => false ) ) ) . "')" ) );
-	$lost = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent > '0' and post_parent NOT IN ($all_posts)");
+	$lost = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent > '0' and post_parent NOT IN ( SELECT ID FROM $wpdb->posts WHERE post_type NOT IN ('attachment', '" . join("', '", get_post_types( array( 'public' => false ) ) ) . "') )");
 	
 	$_GET['detached'] = 1;
 
