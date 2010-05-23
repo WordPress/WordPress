@@ -386,8 +386,14 @@ if ( !$active_signup )
 
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 
+// Make the signup type translatable.
+$i18n_signup['all'] = _x('all', 'Mulitisite active signup type');
+$i18n_signup['none'] = _x('none', 'Mulitisite active signup type');
+$i18n_signup['blog'] = _x('blog', 'Mulitisite active signup type');
+$i18n_signup['user'] = _x('user', 'Mulitisite active signup type');
+
 if ( is_super_admin() )
-	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="%s">Options page</a>.' ), $active_signup, esc_url( network_admin_url( 'ms-options.php' ) ) ) . '</div>';
+	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="%s">Options page</a>.' ), $i18n_signup[$active_signup], esc_url( network_admin_url( 'ms-options.php' ) ) ) . '</div>';
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
