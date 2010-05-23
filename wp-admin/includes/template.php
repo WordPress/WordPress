@@ -2762,18 +2762,6 @@ function wp_import_upload_form( $action ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- */
-function wp_remember_old_slug() {
-	global $post;
-	$name = esc_attr($post->post_name); // just in case
-	if ( strlen($name) )
-		echo '<input type="hidden" id="wp-old-slug" name="wp-old-slug" value="' . $name . '" />';
-}
-
-/**
  * Add a meta box to an edit form.
  *
  * @since 2.5.0

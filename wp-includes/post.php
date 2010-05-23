@@ -1655,7 +1655,7 @@ function wp_match_mime_types($wildcard_mime_types, $real_mime_types) {
  * @since 2.5.0
  *
  * @param string|array $mime_types List of mime types or comma separated string of mime types.
- * @param string $table_alias Optional. Specify a table alias, if needed. 
+ * @param string $table_alias Optional. Specify a table alias, if needed.
  * @return string The SQL AND clause for mime searching.
  */
 function wp_post_mime_type_where($post_mime_types, $table_alias = '') {
@@ -2199,6 +2199,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( $update ) {
 		$post_ID = (int) $ID;
 		$guid = get_post_field( 'guid', $post_ID );
+		$post_before = get_post($post_ID);
 	}
 
 	// Don't allow contributors to set to set the post slug for pending review posts
@@ -2374,8 +2375,11 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	wp_transition_post_status($data['post_status'], $previous_status, $post);
 
-	if ( $update )
+	if ( $update ) {
 		do_action('edit_post', $post_ID, $post);
+		$post_after = get_post($post_ID);
+		do_action( 'post_updated', $post_ID, $post_after, $post_before);
+	}
 
 	do_action('save_post', $post_ID, $post);
 	do_action('wp_insert_post', $post_ID, $post);
@@ -3778,31 +3782,24 @@ function wp_mime_type_icon( $mime = 0 ) {
  * @param int $post_id Post ID.
  * @return int Same as $post_id
  */
-function wp_check_for_changed_slugs($post_id) {
-	if ( empty($_POST['wp-old-slug']) )
-		return $post_id;
-
-	$post = &get_post($post_id);
+function wp_check_for_changed_slugs($post_id, $post, $post_before) {
+	// dont bother if it hasnt changed
+	if ( $post->post_name == $post_before->post_name )
+		return;
 
 	// we're only concerned with published posts
 	if ( $post->post_status != 'publish' || $post->post_type != 'post' )
-		return $post_id;
-
-	// only bother if the slug has changed
-	if ( $post->post_name == $_POST['wp-old-slug'] )
-		return $post_id;
+		return;
 
 	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');
 
 	// if we haven't added this old slug before, add it now
-	if ( !count($old_slugs) || !in_array($_POST['wp-old-slug'], $old_slugs) )
-		add_post_meta($post_id, '_wp_old_slug', $_POST['wp-old-slug']);
+	if ( !in_array($post_before->post_name, $old_slugs) )
+		add_post_meta($post_id, '_wp_old_slug', $post_before->post_name);
 
 	// if the new slug was used previously, delete it from the list
 	if ( in_array($post->post_name, $old_slugs) )
 		delete_post_meta($post_id, '_wp_old_slug', $post->post_name);
-
-	return $post_id;
 }
 
 /**

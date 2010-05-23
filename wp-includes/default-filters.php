@@ -235,10 +235,11 @@ add_action( 'begin_fetch_post_thumbnail_html', '_wp_post_thumbnail_class_filter_
 add_action( 'end_fetch_post_thumbnail_html',   '_wp_post_thumbnail_class_filter_remove' );
 
 // Redirect Old Slugs
-add_action( 'template_redirect',  'wp_old_slug_redirect'       );
-add_action( 'edit_post',          'wp_check_for_changed_slugs' );
-add_action( 'edit_form_advanced', 'wp_remember_old_slug'       );
-add_action( 'init',               '_show_post_preview'         );
+add_action( 'template_redirect', 'wp_old_slug_redirect'              );
+add_action( 'post_updated',      'wp_check_for_changed_slugs', 12, 3 );
+
+// Nonce check for Post Previews
+add_action( 'init', '_show_post_preview' );
 
 // Timezone
 add_filter( 'pre_option_gmt_offset','wp_timezone_override_offset' );
