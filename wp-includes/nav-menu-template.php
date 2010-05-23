@@ -79,7 +79,11 @@ class Walker_Nav_Menu extends Walker {
 				$classes[] = 'current-menu-item';
 		} else {
 			$classes[] = 'menu-item-object-'. $item->object;
-			if ( $item->object_id == $wp_query->get_queried_object_id() )
+			if (
+				$item->object_id == $wp_query->get_queried_object_id() &&
+				( ( 'post_type' == $item->type && $wp_query->is_singular ) ||
+				( 'taxonomy' == $item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) ) ) 
+			)
 				$classes[] = 'current-menu-item';
 		}
 
