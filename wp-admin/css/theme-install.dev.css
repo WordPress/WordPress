@@ -93,7 +93,7 @@ div.star img {
 #theme-information .action-button {
 	border-top-width: 1px;
 	border-top-style: solid;
-	margin: 10px 5px 20px;
+	margin: 10px 5px 0;
 }
 
 #theme-information .action-button #cancel {
