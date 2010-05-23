@@ -898,6 +898,7 @@ class WP_Upgrader_Skin {
 
 	var $upgrader;
 	var $done_header = false;
+	var $result = false;
 
 	function WP_Upgrader_Skin($args = array()) {
 		return $this->__construct($args);
