@@ -383,18 +383,20 @@ function wp_dashboard_right_now() {
 	do_action( 'activity_box_end' );
 }
 
-function wp_dashboard_quick_press() {
+function wp_dashboard_quick_press_output() {
+	global $post_ID;
+
 	$drafts = false;
 	if ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) && isset( $_POST['action'] ) && 0 === strpos( $_POST['action'], 'post-quickpress' ) && (int) $_POST['post_ID'] ) {
 		$view = get_permalink( $_POST['post_ID'] );
 		$edit = esc_url( get_edit_post_link( $_POST['post_ID'] ) );
 		if ( 'post-quickpress-publish' == $_POST['action'] ) {
 			if ( current_user_can('publish_posts') )
-				printf( '<div class="message"><p>' . __( 'Post Published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( $view ), $edit );
+				printf( '<div class="updated"><p>' . __( 'Post published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( $view ), $edit );
 			else
-				printf( '<div class="message"><p>' . __( 'Post submitted. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
+				printf( '<div class="updated"><p>' . __( 'Post submitted. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
 		} else {
-			printf( '<div class="message"><p>' . __( 'Draft Saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
+			printf( '<div class="updated"><p>' . __( 'Draft saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
 			$drafts_query = new WP_Query( array(
 				'post_type' => 'post',
 				'post_status' => 'draft',
@@ -407,11 +409,26 @@ function wp_dashboard_quick_press() {
 			if ( $drafts_query->posts )
 				$drafts =& $drafts_query->posts;
 		}
-		printf('<p class="textright">' . __('You can also try %s, easy blogging from anywhere on the Web.') . '</p>', '<a href="tools.php">' . __('Press This') . '</a>' );
+		printf('<p class="textright">' . __('You can also try %s, easy blogging from anywhere on the Web.') . '</p>', '<a href="' . esc_url( admin_url( 'tools.php' ) ) . '">' . __('Press This') . '</a>' );
 		$_REQUEST = array(); // hack for get_default_post_to_edit()
 	}
 
-	$post = get_default_post_to_edit();
+	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
+	$last_post_id = (int) get_user_option( 'dashboard_quick_press_last_post_id' ); // Get the last post_ID
+	if ( $last_post_id ) {
+		$post = get_post( $last_post_id );
+		if ( empty( $post ) || $post->post_status != 'auto-draft' ) { // auto-draft doesn't exists anymore
+			$post = get_default_post_to_edit('post', true);
+			update_user_option( (int) $GLOBALS['current_user']->ID, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+		} else {
+			$post->post_title = ''; // Remove the auto draft title
+		}
+	} else {
+		$post = get_default_post_to_edit('post', true);
+		update_user_option( (int) $GLOBALS['current_user']->ID, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+	}
+
+	$post_ID = (int) $post->ID;
 ?>
 
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
@@ -440,7 +457,7 @@ function wp_dashboard_quick_press() {
 
 		<p class="submit">
 			<input type="hidden" name="action" id="quickpost-action" value="post-quickpress-save" />
-			<input type="hidden" name="quickpress_post_ID" value="<?php echo (int) $post->ID; ?>" />
+			<input type="hidden" name="quickpress_post_ID" value="<?php echo $post_ID; ?>" />
 			<input type="hidden" name="post_type" value="post" />
 			<?php wp_nonce_field('add-post'); ?>
 			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php esc_attr_e('Save Draft'); ?>" />
@@ -457,6 +474,10 @@ function wp_dashboard_quick_press() {
 <?php
 	if ( $drafts )
 		wp_dashboard_recent_drafts( $drafts );
+}
+
+function wp_dashboard_quick_press() {
+	echo '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="describe hide-if-js">' . __('This widget requires JavaScript.') . '</p>';
 }
 
 function wp_dashboard_recent_drafts( $drafts = false ) {

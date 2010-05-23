@@ -6,7 +6,8 @@ jQuery(document).ready( function($) {
 		'dashboard_incoming_links',
 		'dashboard_primary',
 		'dashboard_secondary',
-		'dashboard_plugins'
+		'dashboard_plugins',
+		'dashboard_quick_press'
 	];
 
 	ajaxPopulateWidgets = function(el) {
@@ -20,6 +21,10 @@ jQuery(document).ready( function($) {
 							$(this).css('display', '');
 							if ( 'dashboard_plugins' == id && $.isFunction(tb_init) )
 								tb_init('#dashboard_plugins a.thickbox');
+							if ( 'dashboard_quick_press' == id && $.isFunction(tb_init) ) {
+								tb_init('#dashboard_quick_press a.thickbox');
+								quickPressLoad();
+							}
 						});
 					});
 				}, i * 500 );
@@ -53,6 +58,7 @@ jQuery(document).ready( function($) {
 			$('#dashboard_quick_press div.inside').load( t.attr( 'action' ), t.serializeArray(), function() {
 				$('#dashboard_quick_press #publishing-action img.waiting').css('visibility', 'hidden');
 				$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').attr('disabled','');
+				$('#dashboard_quick_press ul').next('p').remove();
 				$('#dashboard_quick_press ul').find('li').each( function() {
 					$('#dashboard_recent_drafts ul').prepend( this );
 				} ).end().remove();
@@ -65,6 +71,5 @@ jQuery(document).ready( function($) {
 		$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );
 
 	};
-	quickPressLoad();
 
 } );
