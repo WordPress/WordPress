@@ -87,7 +87,7 @@ foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description',
 }
 
 // Format titles
-foreach ( array( 'single_post_title', 'single_cat_title', 'single_tag_title', 'single_month_title' ) as $filter ) {
+foreach ( array( 'single_post_title', 'single_cat_title', 'single_tag_title', 'single_month_title', 'nav_menu_attr_title', 'nav_menu_description' ) as $filter ) {
 	add_filter( $filter, 'wptexturize' );
 	add_filter( $filter, 'strip_tags'  );
 }

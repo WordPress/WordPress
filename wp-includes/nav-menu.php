@@ -584,8 +584,8 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			$menu_item->target = get_post_meta( $menu_item->ID, '_menu_item_target', true );
 
-			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
-			$menu_item->description = strip_tags( $menu_item->post_content );
+			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt );
+			$menu_item->description = apply_filters( 'nav_menu_description', $menu_item->post_content );
 
 			$menu_item->classes = get_post_meta( $menu_item->ID, '_menu_item_classes', true );
 			$menu_item->xfn = get_post_meta( $menu_item->ID, '_menu_item_xfn', true );
@@ -603,8 +603,8 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->url = get_permalink( $menu_item->ID );
 			$menu_item->target = '';
 
-			$menu_item->attr_title = strip_tags( $menu_item->post_excerpt );
-			$menu_item->description = strip_tags( $menu_item->post_content );
+			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt );
+			$menu_item->description = apply_filters( 'nav_menu_description', $menu_item->post_content );
 			$menu_item->classes = '';
 			$menu_item->xfn = '';
 		}
@@ -624,7 +624,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 		$menu_item->url = get_term_link( $menu_item, $menu_item->taxonomy );
 		$menu_item->target = '';
 		$menu_item->attr_title = '';
-		$menu_item->description = strip_tags( get_term_field( 'description', $menu_item->term_id, $menu_item->taxonomy ) );
+		$menu_item->description = get_term_field( 'description', $menu_item->term_id, $menu_item->taxonomy );
 		$menu_item->classes = '';
 		$menu_item->xfn = '';
 
