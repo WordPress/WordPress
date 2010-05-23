@@ -602,6 +602,17 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 	}
 
 	$needed_dirs = array_unique($needed_dirs);
+	foreach ( $needed_dirs as $dir ) {
+		// Check the parent folders of the folders all exist within the creation array. 
+		if ( untrailingslashit($to) == $dir ) // Skip over the working directory, We know this exists (or will exist)
+			continue;
+
+		$parent_folder = dirname($dir);
+		while ( !empty($parent_folder) && untrailingslashit($to) != $parent_folder && !in_array($parent_folder, $needed_dirs) ) {
+			$needed_dirs[] = $parent_folder;
+			$parent_folder = dirname($parent_folder);
+		}
+	}
 	asort($needed_dirs);
 
 	// Create those directories if need be:
@@ -670,11 +681,22 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	}
 
 	$needed_dirs = array_unique($needed_dirs);
+	foreach ( $needed_dirs as $dir ) {
+		// Check the parent folders of the folders all exist within the creation array. 
+		if ( untrailingslashit($to) == $dir ) // Skip over the working directory, We know this exists (or will exist)
+			continue;
+
+		$parent_folder = dirname($dir);
+		while ( !empty($parent_folder) && untrailingslashit($to) != $parent_folder && !in_array($parent_folder, $needed_dirs) ) {
+			$needed_dirs[] = $parent_folder;
+			$parent_folder = dirname($parent_folder);
+		}
+	}
 	asort($needed_dirs);
 
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
-		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
+		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the dir exists upon creation failure. Less I/O this way.
 			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
 	}
 	unset($needed_dirs);
