@@ -190,7 +190,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'swfupload-all', '/wp-includes/js/swfupload/swfupload-all.js', array(), '2201');
 	}
 
-	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20100106');
+	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload-all', 'jquery'), '2201-20100523');
 	$max_upload_size = ( (int) ( $max_up = @ini_get('upload_max_filesize') ) < (int) ( $max_post = @ini_get('post_max_size') ) ) ? $max_up : $max_post;
 	if ( empty($max_upload_size) )
 		$max_upload_size = __('not configured');
@@ -212,7 +212,8 @@ function wp_default_scripts( &$scripts ) {
 			'dismiss' => __('Dismiss'),
 			'crunching' => __('Crunching&hellip;'),
 			'deleted' => __('moved to the trash.'),
-			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
+			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};',
+			'error_uploading' => __('&#8220;%s&#8221; has failed to upload due to an error')
 	) );
 
 	$scripts->add( 'comment-reply', "/wp-includes/js/comment-reply$suffix.js", false, '20090102');
@@ -434,7 +435,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100521' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100523' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20100219' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

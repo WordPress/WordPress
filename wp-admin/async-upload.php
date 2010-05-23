@@ -43,16 +43,18 @@ if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id
 check_admin_referer('media-form');
 
 $id = media_handle_upload('async-upload', $_REQUEST['post_id']);
-if (is_wp_error($id)) {
-	echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
+if ( is_wp_error($id) ) {
+	echo '<div class="error-div">
+	<a class="dismiss" href="#" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">' . __('Dismiss') . '</a>
+	<strong>' . sprintf(__('&#8220;%s&#8221; has failed to upload due to an error'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
+	esc_html($id->get_error_message()) . '</div>';
 	exit;
 }
 
 if ( $_REQUEST['short'] ) {
 	// short form response - attachment ID only
 	echo $id;
-}
-else {
+} else {
 	// long form response - big chunk o html
 	$type = $_REQUEST['type'];
 	echo apply_filters("async_upload_{$type}", $id);
