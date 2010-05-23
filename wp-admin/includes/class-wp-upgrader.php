@@ -466,6 +466,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return false;
 		}
 
+		$this->skin->feedback('bulk_upgrade_start');
 		$this->maintenance_mode(true);
 
 		$results = array();
@@ -507,7 +508,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 			if ( false === $result )
 				break;
 		} //end foreach $plugins
+
 		$this->maintenance_mode(false);
+		$this->skin->feedback('bulk_upgrade_end');
+
 		$this->skin->footer();
 
 		// Cleanup our hooks, incase something else does a upgrade on this connection.
@@ -704,6 +708,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return false;
 		}
 
+		$this->skin->feedback('bulk_upgrade_start');
 		$this->maintenance_mode(true);
 
 		$results = array();
@@ -745,7 +750,9 @@ class Theme_Upgrader extends WP_Upgrader {
 			if ( false === $result )
 				break;
 		} //end foreach $plugins
+
 		$this->maintenance_mode(false);
+		$this->skin->feedback('bulk_upgrade_end');
 		$this->skin->footer();
 
 		// Cleanup our hooks, incase something else does a upgrade on this connection.
@@ -1057,9 +1064,11 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	function add_strings() {
+		$this->upgrader->strings['bulk_upgrade_start'] = __('The update process is starting. This process may take awhile on some hosts, so please be patient.');
 		$this->upgrader->strings['skin_update_failed_error'] = __('An error occured while updating %1$s: <strong>%2$s</strong>.');
 		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
 		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully.').' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>'.__('Show Details').'</span><span class="hidden">'.__('Hide Details').'</span>.</a>';
+		$this->upgrader->strings['bulk_upgrade_end'] = __('All upgrades have been completed.');
 	}
 
 	function feedback($string) {
@@ -1100,11 +1109,13 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 			}
 			$this->error = implode(', ', $messages);
 		}
+		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
 	}
 
 	function before($title = '') {
 		$this->in_loop = true;
-		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . '</h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
+		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <img alt="" src="' . admin_url( 'images/wpspin_light.gif' ) . '" class="hidden waiting-' . $this->upgrader->update_current . '" style="vertical-align:middle;"></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
+		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
 		echo '<div class="update-messages hide-if-js" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
 		$this->flush_output();
 	}
@@ -1121,6 +1132,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		}
 		if ( !empty($this->result) && !is_wp_error($this->result) ) {
 			echo '<div class="updated"><p>' . sprintf($this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').toggle();jQuery(\'span\', this).toggle(); return false;') . '</p></div>';
+			echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
 		}
 		$this->reset();
 		$this->flush_output();

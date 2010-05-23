@@ -418,7 +418,7 @@ if ( 'upgrade-core' == $action ) {
 	echo '<div class="wrap">';
 	screen_icon('plugins');
 	echo '<h2>' . esc_html__('Update Plugins') . '</h2>';
-	echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
+	echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 	echo '</div>';
 } elseif ( 'do-theme-upgrade' == $action ) {
 	check_admin_referer('upgrade-core');
@@ -441,7 +441,7 @@ if ( 'upgrade-core' == $action ) {
 	echo '<div class="wrap">';
 	screen_icon('themes');
 	echo '<h2>' . esc_html__('Update Themes') . '</h2>';
-	echo "<iframe src='$url' style='width: 100%; height:100%; min-height:850px;'></iframe>";
+	echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 	echo '</div>';
 }
 

@@ -3752,3 +3752,8 @@ h2 .nav-tab {
 	padding: 4px 20px 6px;
 	font: italic normal normal 24px/35px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
+
+/* Scrollbar fix for bulk upgrade iframe */
+body.update-php {
+	height: 98%;
+}
