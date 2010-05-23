@@ -633,9 +633,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		<div id="<?php echo $post_type_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
 			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
 		?>">
-			<div class="add-menu-item-pagelinks">
-				<?php echo $page_links; ?>
-			</div>
+			<?php if ( ! empty( $page_links ) ) : ?>
+				<div class="add-menu-item-pagelinks">
+					<?php echo $page_links; ?>
+				</div>
+			<?php endif; ?>
 			<ul id="<?php echo $post_type_name; ?>checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
 				<?php
 				$args['walker'] = $walker;
@@ -648,9 +650,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				echo $checkbox_items;
 				?>
 			</ul>
-			<div class="add-menu-item-pagelinks">
-				<?php echo $page_links; ?>
-			</div>
+			<?php if ( ! empty( $page_links ) ) : ?>
+				<div class="add-menu-item-pagelinks">
+					<?php echo $page_links; ?>
+				</div>
+			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
 
@@ -805,18 +809,22 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		<div id="tabs-panel-<?php echo $taxonomy_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
 			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
 		?>">
-			<div class="add-menu-item-pagelinks">
-				<?php echo $page_links; ?>
-			</div>
+			<?php if ( ! empty( $page_links ) ) : ?>
+				<div class="add-menu-item-pagelinks">
+					<?php echo $page_links; ?>
+				</div>
+			<?php endif; ?>
 			<ul id="<?php echo $taxonomy_name; ?>checklist" class="list:<?php echo $taxonomy_name?> categorychecklist form-no-clear">
 				<?php
 				$args['walker'] = $walker;
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $terms), 0, (object) $args );
 				?>
 			</ul>
-			<div class="add-menu-item-pagelinks">
-				<?php echo $page_links; ?>
-			</div>
+			<?php if ( ! empty( $page_links ) ) : ?>
+				<div class="add-menu-item-pagelinks">
+					<?php echo $page_links; ?>
+				</div>
+			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
 		<p class="button-controls">
