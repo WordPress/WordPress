@@ -142,6 +142,7 @@ class WP_Filesystem_Base {
 				if ( defined($constant) && $folder === $dir )
 					return trailingslashit(constant($constant));
 		} elseif ( 'direct' == $this->method ) {
+			$folder = str_replace('\\', '/', $folder); //Windows path sanitiation
 			return trailingslashit($folder);
 		}
 
