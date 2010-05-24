@@ -274,7 +274,8 @@ switch ( $action ) {
 		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
 		// Update menu theme locations
-		set_theme_mod( 'nav_menu_locations', $_POST['menu-locations'] );
+		if ( isset( $_POST['menu-locations'] ) )
+			set_theme_mod( 'nav_menu_locations', $_POST['menu-locations'] );
 
 		// Add Menu
 		if ( 0 == $nav_menu_selected_id ) {
