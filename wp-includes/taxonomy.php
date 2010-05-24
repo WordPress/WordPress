@@ -52,6 +52,7 @@ function create_initial_taxonomies() {
 		'labels' => array(
 			'name' => __( 'Categories' ),
 			'singular_name' => __( 'Category' ),
+			'update_item' => __( 'Update Category' ),
 		),
 		'query_var' => false,
 		'rewrite' => false,

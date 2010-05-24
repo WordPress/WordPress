@@ -13,7 +13,7 @@
  *
  * @since 2.7
  *
- * Outputs the HTML for the hidden table rows used in Categories, Link Caregories and Tags quick edit.
+ * Outputs the HTML for the hidden table rows used in Categories, Link Categories and Tags quick edit.
  *
  * @param string $type "edit-tags", "categoried" or "edit-link-categories"
  * @param string $taxonomy The taxonomy of the row.
