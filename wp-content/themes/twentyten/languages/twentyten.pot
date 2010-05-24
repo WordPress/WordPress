@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-21 20:22+0000\n"
+"POT-Creation-Date: 2010-05-24 12:22+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,22 +27,22 @@ msgid ""
 "will help."
 msgstr ""
 
-#: archive.php:33
+#: archive.php:34
 #, php-format
 msgid "Daily Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:35
+#: archive.php:36
 #, php-format
 msgid "Monthly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:37
+#: archive.php:38
 #, php-format
 msgid "Yearly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:39
+#: archive.php:40
 msgid "Blog Archives"
 msgstr ""
 
@@ -89,12 +89,12 @@ msgstr ""
 msgid "Pages:"
 msgstr ""
 
-#: author.php:27
+#: author.php:28
 #, php-format
 msgid "Author Archives: %s"
 msgstr ""
 
-#: author.php:37 single.php:41
+#: author.php:38 single.php:41
 #, php-format
 msgid "About %s"
 msgstr ""
@@ -144,7 +144,7 @@ msgid "Proudly powered by %s."
 msgstr ""
 
 #: functions.php:96
-msgid "Primary Menu"
+msgid "Primary Navigation"
 msgstr ""
 
 #. translators: header image description
