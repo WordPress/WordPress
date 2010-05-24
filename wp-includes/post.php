@@ -946,7 +946,6 @@ function get_post_type_labels( $post_type_object ) {
 		'add_new' => array( _x('Add New', 'post'), _x('Add New', 'page') ),
 		'add_new_item' => array( __('Add New Post'), __('Add New Page') ),
 		'edit_item' => array( __('Edit Post'), __('Edit Page') ),
-		'edit' => array( _x('Edit', 'post'), _x('Edit', 'page') ),
 		'new_item' => array( __('New Post'), __('New Page') ),
 		'view_item' => array( __('View Post'), __('View Page') ),
 		'search_items' => array( __('Search Posts'), __('Search Pages') ),
