@@ -407,7 +407,7 @@ function wp_nav_menu_locations_meta_box() {
 	$menu_locations = get_nav_menu_locations();
 	$num_locations = count( array_keys($locations) );
 
-	echo '<p class="howto">' . sprintf( _n('Your theme supports %s menu. Select where you would like it to appear.', 'Your theme supports %s menus. Select where you would like them to appear.', $num_locations), number_format_i18n($num_locations) ) . '</p>';
+	echo '<p class="howto">' . sprintf( _n('Your theme supports %s menu. Select which menu you would like to use.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n($num_locations) ) . '</p>';
 
 	foreach ( $locations as $location => $description ) {
 		?>
