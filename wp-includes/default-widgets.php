@@ -1056,8 +1056,8 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
  class WP_Nav_Menu_Widget extends WP_Widget {
 
 	function WP_Nav_Menu_Widget() {
-		$widget_ops = array( 'description' => __('Use this widget to add one of your navigation menus as a widget.') );
-		parent::WP_Widget( 'nav_menu', __('Navigation Menu'), $widget_ops );
+		$widget_ops = array( 'description' => __('Use this widget to add one of your custom menus as a widget.') );
+		parent::WP_Widget( 'nav_menu', __('Custom Menu'), $widget_ops );
 	}
 
 	function widget($args, $instance) {
