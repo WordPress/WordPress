@@ -149,11 +149,13 @@ $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 if ( current_user_can( 'switch_themes') ) {
 	$menu[60] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
 		$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
-		$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php');
+		if ( current_theme_supports( 'nav-menus' ) || current_theme_supports( 'widgets' ) )
+			$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php');
 } else {
 	$menu[60] = array( __('Appearance'), 'edit_theme_options', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
 		$submenu['themes.php'][5]  = array(__('Themes'), 'edit_theme_options', 'themes.php');
-		$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php' );
+		if ( current_theme_supports( 'nav-menus' ) || current_theme_supports( 'widgets' ) )
+			$submenu['themes.php'][10] = array(__('Menus'), 'edit_theme_options', 'nav-menus.php' );
 }
 
 // Add 'Editor' to the bottom of the Appearence menu.

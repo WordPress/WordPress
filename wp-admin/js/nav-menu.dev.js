@@ -509,7 +509,7 @@ var wpNavMenu;
 
 		attachTabsPanelListeners : function() {
 			$('#menu-settings-column').bind('click', function(e) {
-				var selectAreaMatch, activePanel, panelId, wrapper, items,
+				var selectAreaMatch, panelId, wrapper, items,
 					target = $(e.target);
 
 				if ( target.hasClass('nav-tab-link') ) {
@@ -679,6 +679,12 @@ var wpNavMenu;
 		},
 
 		eventOnClickMenuSave : function(clickedEl) {
+			var locs = '';
+			// Copy menu theme locations
+			$('#nav-menu-theme-locations select').each(function() {
+				locs += '<input type="hidden" name="' + this.name + '" value="' + $(this).val() + '" />';
+			});
+			$('#update-nav-menu').append( locs );
 			// Update menu item position data
 			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
 			return true;
@@ -759,9 +765,8 @@ var wpNavMenu;
 		},
 
 		removeMenuItem : function(el) {
-			el = $(el)
-			var children = el.childMenuItems(),
-				that = this;
+			el = $(el);
+			var children = el.childMenuItems();
 
 			el.addClass('deleting').fadeOut( 350 , function() {
 				el.remove();
