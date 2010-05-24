@@ -1715,8 +1715,12 @@ function require_if_theme_supports( $feature, $include) {
 }
 
 /**
- * Checks an attachment, if it's a header or background image. If true remove the theme modification.
+ * Checks an attachment being deleted to see if it's a header or background image.
+ * 
+ * If true it removes the theme modification which would be pointing at the deleted
+ * attachment
  *
+ * @access private
  * @since 3.0.0
  * @param int $id the attachment id
  */
