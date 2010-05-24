@@ -53,6 +53,7 @@ $sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 	<form name="searchform" action="ms-sites.php" method="get">
 		<p>
 			<input type="hidden" name="action" value="blogs" />
+			<input type="hidden" name="searchaction" value="name" />
 			<input type="text" name="s" value="" size="17" />
 			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e( 'Search Sites' ); ?>" />
 		</p>
