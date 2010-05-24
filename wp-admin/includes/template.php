@@ -1726,12 +1726,9 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 	}
 }
 
-/*
+/**
  * Given a top level page ID, display the nested hierarchy of sub-pages
  * together with paging support
- */
-/**
- * {@internal Missing Short Description}}
  *
  * @since unknown
  *
