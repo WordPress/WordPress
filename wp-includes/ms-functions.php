@@ -839,7 +839,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
 
 	restore_current_blog();
-	do_action( 'wpmu_new_blog', $blog_id, $user_id, $domain, $path, $site_id );
+	do_action( 'wpmu_new_blog', $blog_id, $user_id, $domain, $path, $site_id, $meta );
 
 	return $blog_id;
 }
