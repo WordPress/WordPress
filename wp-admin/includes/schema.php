@@ -689,7 +689,7 @@ Thanks!
 --The Team @ SITE_NAME' );
 
 	$sitemeta = array(
-		'site_name' => stripslashes($site_name),
+		'site_name' => $site_name,
 		'admin_email' => $site_user->user_email,
 		'admin_user_id' => $site_user->ID,
 		'registration' => 'none',

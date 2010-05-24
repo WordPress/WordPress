@@ -381,7 +381,7 @@ if ( $_POST ) {
 	$hostname = get_clean_basedomain();
 	$subdomain_install = !allow_subdomain_install() ? false : (bool) $_POST['subdomain_install'];
 	if ( ! network_domain_check() ) {
-		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), $_POST['sitename'], $base, $subdomain_install );
+		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), stripslashes( $_POST['sitename'] ), $base, $subdomain_install );
 		if ( is_wp_error( $result ) ) {
 			if ( 1 == count( $result->get_error_codes() ) && 'no_wildcard_dns' == $result->get_error_code() )
 				network_step2( $result );
