@@ -374,6 +374,11 @@ if ( 'do-plugin-upgrade' == $action && !isset($_GET['plugins']) && !isset($_POST
 $title = __('WordPress Updates');
 $parent_file = 'tools.php';
 
+add_contextual_help($current_screen, '<p>' . __('This screen lets you update to the latest version of WordPress as well as update your themes and plugins from the WordPress.org repository. When updates are available, the number of available updates will appear in a bubble on the left hand menu as a notification. It is very important to keep your WordPress installation up to date for security reasons, so when you see a number appear, make sure you take the time to update, which is an easy process.') . '</p>' .
+	'<p>' . __('Updating your WordPress installation is a simple one-click procedure; just click on the Update button when it says a new version is available. ') . '</p>' .
+	'<p>' . __('To upgrade themes or plugins from this screen, use the checkboxes to make your selection and click on the appropriate Update button. Check the box at the top of the Themes or Plugins section to select all and update them all at once.') . '</p>'
+);
+
 if ( 'upgrade-core' == $action ) {
 	wp_version_check();
 	require_once('./admin-header.php');
