@@ -362,13 +362,18 @@ if ( $is_trash && current_user_can($post_type_object->cap->edit_others_posts) ) 
 						);
 	echo $page_links_text;
 	?></div>
-<?php } ?>
+<?php
+}
+
+if ( !$post_type_object->hierarchical ) {
+?>
 
 <div class="view-switch">
 	<a href="<?php echo esc_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> id="view-switch-list" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e('List View') ?>" alt="<?php _e('List View') ?>" /></a>
 	<a href="<?php echo esc_url(add_query_arg('mode', 'excerpt', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> id="view-switch-excerpt" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" width="20" height="20" title="<?php _e('Excerpt View') ?>" alt="<?php _e('Excerpt View') ?>" /></a>
 </div>
 
+<?php } ?>
 <div class="clear"></div>
 </div>
 
