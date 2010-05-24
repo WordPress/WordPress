@@ -25,7 +25,8 @@
 	 * We reset this later so we can run the loop
 	 * properly with a call to rewind_posts().
 	 */
-	the_post();
+	if ( have_posts() )
+		the_post();
 ?>
 
 			<h1 class="page-title">
