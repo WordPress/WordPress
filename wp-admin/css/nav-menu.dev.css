@@ -218,7 +218,13 @@ body {
 	display:block;
 	float:left;
 	font-size: 11px;
+	margin: 4px 0;
+	line-height: 15px;
 }
+.meta-sep {
+	padding: 0 2px;
+}
+
 #cancel-save { color: #ff0000; text-decoration: underline; font-size: 11px; margin-left: 20px; margin-top: 5px; }
 #cancel-save:hover { background-color: #FF0000; color: #fff; }
 
@@ -466,7 +472,6 @@ body.js .item-order {
 
 .menu-item-actions {
 	padding-top: 15px;
-	line-height: 25px;
 }
 .save-menu-item {
 	float: right;
@@ -492,7 +497,6 @@ clear:both;
 	line-height: 23px;
 }
 .major-publishing-actions .delete-action {
-	line-height: 25px;
 	vertical-align: middle;
 	text-align: left;
 	float: right;
