@@ -1217,9 +1217,8 @@ h3#reply-title {
 	display:inline-block;
 	text-decoration: none;
 	background: url(images/wordpress.png) center left no-repeat;
-	padding-left: 19px;
+	padding-left: 20px;
 	line-height: 16px;
-	margin-left: 1px;
 }
 #site-generator a:hover {
 	text-decoration: underline;
