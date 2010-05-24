@@ -3829,7 +3829,7 @@ function is_main_site( $blog_id = '' ) {
 }
 
 /**
- * are global terms enabled
+ * Whether global terms are enabled.
  *
  *
  * @since 3.0.0
@@ -3842,8 +3842,13 @@ function global_terms_enabled() {
 		return false;
 
 	static $global_terms = null;
-	if ( is_null( $global_terms ) )
-		$global_terms = (bool) get_site_option( 'global_terms_enabled' );
+	if ( is_null( $global_terms ) ) {
+		$filter = apply_filters( 'global_terms_enabled', null );
+		if ( ! is_null( $filter ) )
+			$global_terms = (bool) $filter;
+		else
+			$global_terms = (bool) get_site_option( 'global_terms_enabled', false );
+	}
 	return $global_terms;
 }
 
