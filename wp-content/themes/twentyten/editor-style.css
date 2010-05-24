@@ -32,7 +32,7 @@ pre {
 	font-family: "Courier 10 Pitch", Courier, monospace;
 }
 code, code var {
-	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace !important;
+	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 }
 body, input, textarea {
 	font-size: 12px;
@@ -259,7 +259,9 @@ img.aligncenter {
 	margin-left: auto;
 	margin-right: auto;
 }
-img.alignleft, img.alignright, img.aligncenter {
+img.alignleft,
+img.alignright,
+img.aligncenter {
 	margin-bottom: 12px;
 }
 .wp-caption {
