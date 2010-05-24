@@ -203,3 +203,16 @@ textarea {
 	background-color: #c3ff88;
 	border-color: #8dff1c !important;
 }
+
+.message {
+	border: 1px solid #e6db55;
+	padding-top: 0.3em;
+	padding-right: 0.6em;
+	padding-bottom: 0.3em;
+	padding-left: 0.6em;
+	margin-top: 5px;
+	margin-right: 0pt;
+	margin-bottom: 15px;
+	margin-left: 0pt;
+	background-color: #ffffe0;
+}

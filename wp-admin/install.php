@@ -89,7 +89,7 @@ function display_setup_form( $error = null ) {
 
 	if ( ! is_null( $error ) ) {
 ?>
-<p><?php printf( __( '<strong>ERROR</strong>: %s' ), $error ); ?></p>
+<p class="message"><?php printf( __( '<strong>ERROR</strong>: %s' ), $error ); ?></p>
 <?php } ?>
 <form id="setup" method="post" action="install.php?step=2">
 	<table class="form-table">
