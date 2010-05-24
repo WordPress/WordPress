@@ -1121,6 +1121,9 @@ h3#reply-title {
 .widget-area a:hover {
 	text-decoration: underline;
 }
+.widget-area .entry-meta {
+	font-size: 11px;
+}
 #wp_tag_cloud div {
 	line-height: 1.6em;
 }
