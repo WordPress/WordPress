@@ -1714,4 +1714,24 @@ function require_if_theme_supports( $feature, $include) {
 		require ( $include );
 }
 
+/**
+ * Checks an attachment, if it's a header or background image. If true remove the theme modification.
+ *
+ * @since 3.0.0
+ * @param int $id the attachment id
+ */
+function _delete_attachment_theme_mod( $id ) {
+	$attachment_image = wp_get_attachment_url( $id );
+	$header_image = get_header_image();
+	$background_image = get_background_image();
+	
+	if ( $header_image && $header_image == $attachment_image )
+		remove_theme_mod( 'header_image' );
+
+	if ( $background_image && $background_image == $attachment_image )
+		remove_theme_mod( 'background_image' );
+}
+
+add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
+
 ?>
