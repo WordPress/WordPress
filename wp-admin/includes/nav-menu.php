@@ -59,13 +59,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 			$original_title = $original_object->post_title;
 		}
 		?>
-		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo esc_attr( $item->object ); ?>">
-			<dl class="menu-item-bar <?php
-				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
-					echo 'menu-item-edit-active menu-item-bar-active';
-				else
-					echo 'menu-item-edit-inactive menu-item-bar-inactive';
-			?>">
+		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo esc_attr( $item->object ); ?> menu-item-edit-<?php echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'; ?>">
+			<dl class="menu-item-bar">
 				<dt class="menu-item-handle">
 					<span class="item-title"><?php echo esc_html( $item->title ); ?></span>
 					<span class="item-controls">
@@ -104,12 +99,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				</dt>
 			</dl>
 
-			<div class="menu-item-settings <?php
-				if ( isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item'] )
-					echo 'menu-item-edit-active menu-item-settings-active';
-				else
-					echo 'menu-item-edit-inactive menu-item-settings-inactive';
-			?>" id="menu-item-settings-<?php echo $item_id; ?>">
+			<div class="menu-item-settings" id="menu-item-settings-<?php echo $item_id; ?>">
 				<?php if( 'custom' == $item->type ) : ?>
 					<p class="field-url description description-wide">
 						<label for="edit-menu-item-url-<?php echo $item_id; ?>">
@@ -178,8 +168,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 							remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
 						),
 						'delete-menu_item_' . $item_id
-					); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-close submitclose" id="close-<?php echo $item_id; ?>" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e('Close'); ?></a>
-					<input class="button-primary save-menu-item" name="save_menu_item" type="submit" value="<?php esc_attr_e('Save Menu Item'); ?>" />
+					); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e('Cancel'); ?></a>
 				</div>
 
 				<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />

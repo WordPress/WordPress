@@ -214,7 +214,7 @@ body {
 
 .meta-sep,
 .submitdelete, 
-.submitclose {
+.submitcancel {
 	display:block;
 	float:left;
 	font-size: 11px;
@@ -422,11 +422,11 @@ body.js .item-order {
 	-khtml-border-bottom-right-radius: 6px;
 	-khtml-border-bottom-left-radius: 6px;
 }
-.menu-item-settings-active {
+.menu-item-edit-active .menu-item-settings {
 	display:block;
 }
 
-.menu-item-settings-inactive {
+.menu-item-edit-inactive .menu-item-settings {
 	display:none;
 }
 
@@ -473,10 +473,6 @@ body.js .item-order {
 .menu-item-actions {
 	padding-top: 15px;
 }
-.save-menu-item {
-	float: right;
-	padding-left: 10px;
-}
 
 #cancel-save { cursor: pointer; }
 #cancel-save:hover { color: #fff !important; }
@@ -506,13 +502,13 @@ clear:both;
 	font-size: 11px;
 	font-style: normal;
 }
-.submitbox .submitclose {
+.submitbox .submitcancel {
 	color: #21759B;
 	border-bottom: 1px solid #21759B;
 	padding: 1px 2px;
 	text-decoration: none;
 }
-.submitbox .submitclose:hover {
+.submitbox .submitcancel:hover {
 	background: #21759B;
 	color: #fff;
 }

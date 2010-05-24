@@ -318,7 +318,12 @@ switch ( $action ) {
 			// Update menu items
 
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
+				$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
+				$menu_items = array();
+				// Index menu items by db ID
+				foreach( $unsorted_menu_items as $_item )
+					$menu_items[$_item->db_id] = $_item;
+
 				$post_fields = array( 'menu-item-db-id', 'menu-item-object-id', 'menu-item-object', 'menu-item-parent-id', 'menu-item-position', 'menu-item-type', 'menu-item-title', 'menu-item-url', 'menu-item-description', 'menu-item-attr-title', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn' );
 				wp_defer_term_counting(true);
 				// Loop through all the menu items' POST variables
@@ -356,7 +361,7 @@ switch ( $action ) {
 				do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
 
 				$messages[] = '<div id="message" class="updated"><p>' . sprintf( __('The <strong>%s</strong> menu has been updated.'), $nav_menu_selected_title ) . '</p></div>';
-				unset( $menu_items );
+				unset( $menu_items, $unsorted_menu_items );
 			}
 		}
 		break;
@@ -410,11 +415,6 @@ if ( current_theme_supports('nav-menus') ) {
 	// Set up nav menu
 	wp_nav_menu_setup();
 	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Navigation Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
-
-// The theme supports neither menus nor widgets.
-} else {
-	remove_meta_box( 'create-menu', 'nav-menus', 'side' );
-	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not support menus.') . '</p></div>';
 }
 
 wp_initial_nav_menu_meta_boxes();
@@ -512,9 +512,11 @@ require_once( 'admin-header.php' );
 								<?php endif; ?>
 							</div><!--END .major-publishing-actions-->
 						</div><!--END #submitpost .submitbox-->
-						<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-						<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
-						<?php wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' ); ?>
+						<?php
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+						wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' );
+						?>
 						<input type="hidden" name="action" value="update" />
 						<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 					</div><!--END #nav-menu-header-->

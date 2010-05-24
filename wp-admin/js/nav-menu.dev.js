@@ -132,9 +132,10 @@ var wpNavMenu;
 
 						// Retrieve menu item data
 						$(checkboxes).each(function(){
-							var listItemDBIDMatch = re.exec( $(this).attr('name') ),
+							var t = $(this),
+								listItemDBIDMatch = re.exec( t.attr('name') ),
 								listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
-							menuItems[listItemDBID] = api.getListDataFromID(listItemDBID);
+							menuItems[listItemDBID] = t.closest('li').getItemData( 'add-menu-item', listItemDBID );
 						});
 						// Add the items
 						api.addItemToMenu(menuItems, processMethod, function(){
@@ -143,6 +144,76 @@ var wpNavMenu;
 							t.find('img.waiting').hide();
 						});
 					});
+				},
+				getItemData : function( itemType, id ) {
+					itemType = itemType || 'menu-item';
+					
+					var itemData = {}, i,
+					fields = [
+						'menu-item-db-id',
+						'menu-item-object-id',
+						'menu-item-object',
+						'menu-item-parent-id',
+						'menu-item-position',
+						'menu-item-type',
+						'menu-item-title',
+						'menu-item-url',
+						'menu-item-description',
+						'menu-item-attr-title',
+						'menu-item-target',
+						'menu-item-classes',
+						'menu-item-xfn'
+					];
+					
+					if( !id && itemType == 'menu-item' ) {
+						id = this.find('.menu-item-data-db-id').val();
+					}
+					
+					if( !id ) return itemData;
+					
+					this.find('input').each(function() {
+						var field;
+						i = fields.length;
+						while ( i-- ) {
+							if( itemType == 'menu-item' )
+								field = fields[i] + '[' + id + ']';
+							else if( itemType == 'add-menu-item' )
+								field = 'menu-item[' + id + '][' + fields[i] + ']';
+								
+							if (
+								this.name &&
+								field == this.name
+							) {
+								itemData[fields[i]] = this.value;
+							}
+						}
+					});
+					
+					return itemData;
+				},
+				setItemData : function( itemData, itemType, id ) { // Can take a type, such as 'menu-item', or an id.
+					itemType = itemType || 'menu-item';
+					
+					if( !id && itemType == 'menu-item' ) {
+						id = $('.menu-item-data-db-id', this).val();
+					}
+					
+					if( !id ) return this;
+					
+					this.find('input').each(function() {
+						var t = $(this), field;
+						$.each( itemData, function( attr, val ) {
+							if( itemType == 'menu-item' )
+								field = attr + '[' + id + ']';
+							else if( itemType == 'add-menu-item' )
+								field = 'menu-item[' + id + '][' + attr + ']';
+							
+							if ( field == t.attr('name') ) {
+								t.val( val );
+							}
+						});
+					});
+					return this;
 				}
 			});
 		},
@@ -306,8 +377,8 @@ var wpNavMenu;
 						return that.eventOnClickMenuDelete(e.target);
 					} else if ( -1 != e.target.className.indexOf('item-delete') ) {
 						return that.eventOnClickMenuItemDelete(e.target);
-					} else if ( -1 != e.target.className.indexOf('item-close') ) {
-						return that.eventOnClickCloseLink(e.target);
+					} else if ( -1 != e.target.className.indexOf('item-cancel') ) {
+						return that.eventOnClickCancelLink(e.target);
 					}
 				}
 			});
@@ -498,7 +569,7 @@ var wpNavMenu;
 				if ( api.menusChanged )
 					return navMenuL10n.saveAlert;
 			};
-			$('input.menu-save, input.save-menu-item').click(function(){
+			$('input.menu-save').click(function(){
 				window.onbeforeunload = null;
 			});
 		},
@@ -652,20 +723,22 @@ var wpNavMenu;
 		},
 
 		eventOnClickEditLink : function(clickedEl) {
-			var activeEdit,
+			var settings, item,
 			matchedSection = /#(.*)$/.exec(clickedEl.href);
 			if ( matchedSection && matchedSection[1] ) {
-				activeEdit = $('#'+matchedSection[1]);
-				if( 0 != activeEdit.length ) {
-					if( activeEdit.hasClass('menu-item-edit-inactive') ) {
-						activeEdit.slideDown('fast')
-							.siblings('dl').andSelf()
-							.removeClass('menu-item-edit-inactive')
+				settings = $('#'+matchedSection[1]);
+				item = settings.parent();
+				if( 0 != item.length ) {
+					if( item.hasClass('menu-item-edit-inactive') ) {
+						if( ! settings.data('menu-item-data') ) {
+							settings.data( 'menu-item-data', settings.getItemData() );
+						}
+						settings.slideDown('fast');
+						item.removeClass('menu-item-edit-inactive')
 							.addClass('menu-item-edit-active');
 					} else {
-						activeEdit.slideUp('fast')
-							.siblings('dl').andSelf()
-							.removeClass('menu-item-edit-active')
+						settings.slideUp('fast');
+						item.removeClass('menu-item-edit-active')
 							.addClass('menu-item-edit-inactive');
 					}
 					return false;
@@ -673,8 +746,9 @@ var wpNavMenu;
 			}
 		},
 
-		eventOnClickCloseLink : function(clickedEl) {
-			$(clickedEl).closest('.menu-item-settings').siblings('dl').find('.item-edit').click();
+		eventOnClickCancelLink : function(clickedEl) {
+			var settings = $(clickedEl).closest('.menu-item-settings');
+			settings.setItemData( settings.data('menu-item-data') );
 			return false;
 		},
 
@@ -699,28 +773,9 @@ var wpNavMenu;
 		},
 
 		eventOnClickMenuItemDelete : function(clickedEl) {
-			var itemID,
-			matchedSection,
-			that = this;
-
-			matchedSection = /_wpnonce=([a-zA-Z0-9]*)$/.exec(clickedEl.href);
-			if ( matchedSection && matchedSection[1] ) {
-				itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
-				$.post(
-					ajaxurl,
-					{
-						action:'delete-menu-item',
-						'menu-item':itemID,
-						'_wpnonce':matchedSection[1]
-					},
-					function (resp) {
-						if ( '1' == resp )
-							that.removeMenuItem(document.getElementById('menu-item-' + itemID));
-					}
-				);
-				return false;
-			}
-			return true;
+			var itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
+			api.removeMenuItem( $('#menu-item-' + itemID) );
+			return false;
 		},
 
 		/**
@@ -765,53 +820,15 @@ var wpNavMenu;
 		},
 
 		removeMenuItem : function(el) {
-			el = $(el);
 			var children = el.childMenuItems();
 
-			el.addClass('deleting').fadeOut( 350 , function() {
-				el.remove();
-				children.shiftDepthClass(-1).updateParentMenuItemDBId();
-			});
-		},
-
-		getListDataFromID : function(menuItemID, parentEl) {
-			if ( ! menuItemID )
-				return false;
-			parentEl = parentEl || document;
-			var fields = [
-				'menu-item-db-id',
-				'menu-item-object-id',
-				'menu-item-object',
-				'menu-item-parent-id',
-				'menu-item-position',
-				'menu-item-type',
-				'menu-item-title',
-				'menu-item-url',
-				'menu-item-description',
-				'menu-item-attr-title',
-				'menu-item-target',
-				'menu-item-classes',
-				'menu-item-xfn'
-			],
-			itemData = {},
-			inputs = parentEl.getElementsByTagName('input'),
-			i = inputs.length,
-			j;
-
-			while ( i-- ) {
-				j = fields.length;
-				while ( j-- ) {
-					if (
-						inputs[i] &&
-						inputs[i].name &&
-						'menu-item[' + menuItemID + '][' + fields[j] + ']' == inputs[i].name
-					) {
-						itemData[fields[j]] = inputs[i].value;
-					}
-				}
-			}
-
-			return itemData;
+			el.addClass('deleting').animate({
+					opacity : 0,
+					height: 0
+				}, 350, function() {
+					el.remove();
+					children.shiftDepthClass(-1).updateParentMenuItemDBId();
+				});
 		},
 
 		depthToPx : function(depth) {

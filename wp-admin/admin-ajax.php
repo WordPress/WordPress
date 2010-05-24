@@ -399,17 +399,6 @@ case 'delete-link' :
 	else
 		die('0');
 	break;
-case 'delete-menu-item' :
-	$menu_item_id = (int) $_POST['menu-item'];
-	check_ajax_referer( 'delete-menu_item_' . $menu_item_id );
-	if ( ! current_user_can( 'edit_theme_options' ) )
-		die('-1');
-
-	if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
-		die('1');
-	else
-		die('0');
-	break;
 case 'delete-meta' :
 	check_ajax_referer( "delete-meta_$id" );
 	if ( !$meta = get_post_meta_by_id( $id ) )
