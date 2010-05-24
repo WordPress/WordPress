@@ -317,7 +317,7 @@ if ( is_multisite() && is_super_admin() ) {
 	unset($menu_perms);
 }
 
-$title = __('Manage Plugins');
+$title = __('Plugins');
 require_once('./admin-header.php');
 
 $invalid = validate_active_plugins();
