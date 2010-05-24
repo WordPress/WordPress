@@ -206,13 +206,7 @@ textarea {
 
 .message {
 	border: 1px solid #e6db55;
-	padding-top: 0.3em;
-	padding-right: 0.6em;
-	padding-bottom: 0.3em;
-	padding-left: 0.6em;
-	margin-top: 5px;
-	margin-right: 0pt;
-	margin-bottom: 15px;
-	margin-left: 0pt;
+	padding: 0.3em 0.6em;
+	margin: 5px 0 15px;	
 	background-color: #ffffe0;
 }
