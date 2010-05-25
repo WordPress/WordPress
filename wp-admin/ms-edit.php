@@ -103,7 +103,8 @@ switch ( $_GET['action'] ) {
 			$users = get_users_of_blog( get_site_option( 'dashboard_blog' ) );
 			$move_users = array();
 			foreach ( (array)$users as $user ) {
-				if ( array_pop( array_keys( unserialize( $user->meta_value ) ) ) == 'subscriber' )
+				$user_meta_value = unserialize( $user->meta_value );
+				if ( is_array( $user_meta_value ) && array_pop( array_keys( $user_meta_value ) ) == 'subscriber' )
 					$move_users[] = $user->user_id;
 			}
 			if ( false == empty( $move_users ) ) {
