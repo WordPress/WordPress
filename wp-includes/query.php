@@ -145,7 +145,7 @@ function is_attachment() {
  * @param string|int $author Optional. Is current page this author.
  * @return bool True if page is author or $author (if set).
  */
-function is_author ($author = '') {
+function is_author($author = '') {
 	global $wp_query;
 
 	if ( !$wp_query->is_author )
@@ -180,7 +180,7 @@ function is_author ($author = '') {
  * @param string|array $category Optional.
  * @return bool
  */
-function is_category ($category = '') {
+function is_category($category = '') {
 	global $wp_query;
 
 	if ( !$wp_query->is_category )
@@ -409,7 +409,7 @@ function is_month() {
  * @param mixed $page Either page or list of pages to test against.
  * @return bool
  */
-function is_page ($page = '') {
+function is_page($page = '') {
 	global $wp_query;
 
 	if ( !$wp_query->is_page )
@@ -529,7 +529,7 @@ function is_single($post = '') {
 	if ( !$wp_query->is_single )
 		return false;
 
-	if ( empty( $post) )
+	if ( empty($post) )
 		return true;
 
 	$post_obj = $wp_query->get_queried_object();
@@ -552,12 +552,18 @@ function is_single($post = '') {
  * @since 1.5.0
  * @uses $wp_query
  *
+ * @param string|array $post_types Optional. Post type or types to check in current query.
  * @return bool
  */
-function is_singular() {
+function is_singular($post_types = '') {
 	global $wp_query;
 
-	return $wp_query->is_singular;
+	if ( empty($post_types) || !$wp_query->is_singular )
+		return $wp_query->is_singular;
+
+	$post_obj = $wp_query->get_queried_object();
+
+	return in_array($post_obj->post_type, (array) $post_types);
 }
 
 /**
@@ -1237,7 +1243,7 @@ class WP_Query {
 	 *
 	 * @param string|array $query
 	 */
-	function parse_query($query ) {
+	function parse_query($query) {
 		if ( !empty($query) || !isset($this->query) ) {
 			$this->init();
 			if ( is_array($query) )
