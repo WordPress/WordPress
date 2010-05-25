@@ -1235,8 +1235,9 @@ function global_terms( $term_id, $deprecated = '' ) {
 			$global_id = $wpdb->insert_id;
 		} else {
 			$max_global_id = $wpdb->get_var( "SELECT MAX(cat_ID) FROM $wpdb->sitecategories" );
-			$max_global_id += mt_rand( 100, 400 );
-			$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => $global_id, 'cat_name' => $c->name, 'category_nicename' => $c->slug ) );
+			$max_local_id = $wpdb->get_var( "SELECT MAX(term_id) FROM $wpdb->terms" );
+			$new_global_id = max( $max_global_id, $max_local_id ) + mt_rand( 100, 400 );
+			$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => $new_global_id, 'cat_name' => $c->name, 'category_nicename' => $c->slug ) );
 			$global_id = $wpdb->insert_id;
 		}
 	} elseif ( $global_id != $term_id ) {
