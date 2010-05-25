@@ -848,16 +848,24 @@ case 'add-meta' :
 	check_ajax_referer( 'add-meta' );
 	$c = 0;
 	$pid = (int) $_POST['post_id'];
+	$post = get_post( $pid );
+
 	if ( isset($_POST['metakeyselect']) || isset($_POST['metakeyinput']) ) {
 		if ( !current_user_can( 'edit_post', $pid ) )
 			die('-1');
 		if ( isset($_POST['metakeyselect']) && '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
 			die('1');
-		if ( $pid < 0 ) {
+		if ( $post->post_status == 'auto-draft' ) {
+			$save_POST = $_POST; // Backup $_POST
+			$_POST = array(); // Make it empty for edit_post()
+			$_POST['action'] = 'draft'; // Warning fix
+			$_POST['post_ID'] = $pid;
+			$_POST['post_type'] = $post->post_type;
+			$_POST['post_status'] = 'draft';
 			$now = current_time('timestamp', 1);
-			if ( $pid = wp_insert_post( array(
-				'post_title' => sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now))
-			) ) ) {
+			$_POST['post_title'] = sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now));
+
+			if ( $pid = edit_post() ) {
 				if ( is_wp_error( $pid ) ) {
 					$x = new WP_Ajax_Response( array(
 						'what' => 'meta',
@@ -865,6 +873,7 @@ case 'add-meta' :
 					) );
 					$x->send();
 				}
+				$_POST = $save_POST; // Now we can restore original $_POST again
 				if ( !$mid = add_meta( $pid ) )
 					die(__('Please provide a custom field value.'));
 			} else {
