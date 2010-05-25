@@ -219,8 +219,6 @@ foreach ( $stati as $status => $label ) {
 
 	if ( !isset( $num_comments->$status ) )
 		$num_comments->$status = 10;
-	if ( empty( $num_comments->$status ) )
-		continue;
 	$link = add_query_arg( 'comment_status', $status, $link );
 	if ( $post_id )
 		$link = add_query_arg( 'p', absint( $post_id ), $link );
