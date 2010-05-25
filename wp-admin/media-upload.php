@@ -56,6 +56,16 @@ if ( isset($_GET['inline']) ) {
 
 	$title = __('Upload New Media');
 	$parent_file = 'upload.php';
+
+	add_contextual_help( $current_screen,
+
+		'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>' .
+		'<p>' . __('The first screen for <em>Upload New</em> provides two options: to <em>Select Files</em> (multiple file upload allowed) or to switch to a <em>Browser Uploader</em> (which has two similar options). Clicking <em>Select Files</em> opens a navigation window showing you files in your operating system. Selecting <em>Open</em> after clicking on the file you want activates a progress bar on the uploader screen, which gives percentages, says &#8220;crunching,&#8221; and upon completion adds a thumbnail and five metadata boxes on this screen. Basic image editing is available after upload is complete. Make sure you click <em>Save</em> before leaving this screen.') . '</p>' .
+		'<p>' . __('<a href="http://codex.wordpress.org/Media_Add_New_SubPanel">Add New Media in Codex</a>') . '</p>' .
+		'<p>' . __('<a href="http://codex.wordpress.org/">General Codex Documentation</a>') . '</p>' .
+		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	);
+
 	require_once('./admin-header.php'); ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
