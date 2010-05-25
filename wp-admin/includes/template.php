@@ -3275,10 +3275,16 @@ function find_posts_div($found_action = '') {
 				<input type="text" id="find-posts-input" name="ps" value="" />
 				<input type="button" onclick="findPosts.send();" value="<?php esc_attr_e( 'Search' ); ?>" class="button" /><br />
 
-				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
-				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
-				<input type="radio" name="find-posts-what" id="find-posts-pages" value="pages" />
-				<label for="find-posts-pages"><?php _e( 'Pages' ); ?></label>
+				<?php
+				$post_types = get_post_types( array('public' => true), 'objects' );
+				foreach ( $post_types as $post ) {
+					if ( 'attachment' == $post->name )
+						continue;
+				?>
+				<input type="radio" name="find-posts-what" id="find-posts-<?php echo esc_attr($post->name); ?>" value="<?php echo esc_attr($post->name); ?>" <?php checked($post->name,  'post'); ?> />
+				<label for="find-posts-<?php echo esc_attr($post->name); ?>"><?php echo $post->label; ?></label>
+				<?php
+				} ?>
 			</div>
 			<div id="find-posts-response"></div>
 		</div>

@@ -1254,7 +1254,11 @@ case 'find_posts':
 	if ( empty($_POST['ps']) )
 		exit;
 
-	$what = isset($_POST['pages']) ? 'page' : 'post';
+	if ( !empty($_POST['post_type']) && in_array( $_POST['post_type'], get_post_types() ) )
+		$what = $_POST['post_type'];
+	else
+		$what = 'post';
+
 	$s = stripslashes($_POST['ps']);
 	preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
 	$search_terms = array_map('_search_terms_tidy', $matches[0]);
@@ -1271,8 +1275,10 @@ case 'find_posts':
 
 	$posts = $wpdb->get_results( "SELECT ID, post_title, post_status, post_date FROM $wpdb->posts WHERE post_type = '$what' AND post_status IN ('draft', 'publish') AND ($search) ORDER BY post_date_gmt DESC LIMIT 50" );
 
-	if ( ! $posts )
-		exit( __('No posts found.') );
+	if ( ! $posts ) {
+		$posttype = get_post_type_object($what);
+		exit($posttype->labels->not_found);
+	}
 
 	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th>'.__('Date').'</th><th>'.__('Status').'</th></tr></thead><tbody>';
 	foreach ( $posts as $post ) {
