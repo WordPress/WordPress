@@ -81,7 +81,7 @@ class Walker_Nav_Menu extends Walker {
 				// Back compat classes for pages to match wp_page_menu()
 				$classes[] = 'page_item';
 				$classes[] = 'page-item-' . $item->object_id;
-				if ( !empty($item->classes) ) {
+				if ( ! empty( $item->classes ) ) {
 					if ( in_array('current-menu-item', $classes) )
 						$classes[] = 'current_page_item';
 					if ( in_array('current-menu-parent', $classes) )
@@ -361,8 +361,14 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 
 	// set parent's class
 	foreach ( (array) $menu_items as $key => $parent_item ) {
-		if ( 'post_type' == $parent_item->type && is_post_type_hierarchical( $queried_object->post_type ) && in_array( $parent_item->object_id, $queried_object->ancestors ) )
-			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $queried_object->post_type . '-ancestor' );
+		if ( 
+			isset( $parent_item->type ) && 
+			'post_type' == $parent_item->type && 
+			! empty( $queried_object->post_type ) &&
+			is_post_type_hierarchical( $queried_object->post_type ) && 
+			in_array( $parent_item->object_id, $queried_object->ancestors )
+		)
+			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $queried_object->post_type . '-ancestor current-menu-ancestor' );
 		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
 			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-menu-parent' );
 		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )

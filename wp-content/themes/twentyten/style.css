@@ -431,7 +431,9 @@ div.menu li {
 	display:block;
 }
 #access ul li.current_page_item a ,
-#access ul li.current-menu-item a {
+#access ul li.current-menu-ancestor a,
+#access ul li.current-menu-item a,
+#access ul li.current-menu-parent a {
 	color: #fff;
 }
 
