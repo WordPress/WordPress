@@ -336,35 +336,119 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 ?>
 </li>
 <?php
-// Construct an htaccess file.
-$htaccess_file = 'RewriteEngine On
-RewriteBase ' . $base . '
-RewriteRule ^index\.php$ - [L]
-
-# uploaded files
-RewriteRule ^' . ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
-
-if ( ! $subdomain_install )
-	$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
-
-$htaccess_file .= "\n" . 'RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]';
-
-// @todo custom content dir.
-if ( ! $subdomain_install )
-	$htaccess_file .= "\n" . 'RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
-RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]';
-
-$htaccess_file .= "\nRewriteRule . index.php [L]";
-
-?>
-			<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-				<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>">
-<?php echo wp_htmledit_pre( $htaccess_file ); ?>
-</textarea></li>
+	if (iis7_supports_permalinks()) { 
+			if (is_subdomain_install()) {
+				$web_config_file = 
+'<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <rewrite>
+            <rules>
+                <rule name="WordPress Rule 1" stopProcessing="true">
+                    <match url="^index\.php$" ignoreCase="false" />
+                    <action type="None" />
+                </rule>
+                <rule name="WordPress Rule 2" stopProcessing="true">
+                    <match url="^files/(.+)" ignoreCase="false" />
+                    <action type="Rewrite" url="wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
+                </rule>
+                <rule name="WordPress Rule 3" stopProcessing="true">
+                    <match url="^" ignoreCase="false" />
+                    <conditions logicalGrouping="MatchAny">
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" />
+                        <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" />
+                    </conditions>
+                    <action type="None" />
+                </rule>
+                <rule name="WordPress Rule 4" stopProcessing="true">
+                    <match url="." ignoreCase="false" />
+                    <action type="Rewrite" url="index.php" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>';
+			} else {
+				$web_config_file = 
+'<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <rewrite>
+            <rules>
+                <rule name="WordPress Rule 1" stopProcessing="true">
+                    <match url="^index\.php$" ignoreCase="false" />
+                    <action type="None" />
+                </rule>
+                <rule name="WordPress Rule 2" stopProcessing="true">
+                    <match url="^([_0-9a-zA-Z-]+/)?files/(.+)" ignoreCase="false" />
+                    <action type="Rewrite" url="wp-includes/ms-files.php?file={R:2}" appendQueryString="false" />
+                </rule>
+                <rule name="WordPress Rule 3" stopProcessing="true">
+                    <match url="^([_0-9a-zA-Z-]+/)?wp-admin$" ignoreCase="false" />
+                    <action type="Redirect" url="{R:1}wp-admin/" redirectType="Permanent" />
+                </rule>
+                <rule name="WordPress Rule 4" stopProcessing="true">
+                    <match url="^" ignoreCase="false" />
+                    <conditions logicalGrouping="MatchAny">
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" />
+                        <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" />
+                    </conditions>
+                    <action type="None" />
+                </rule>
+                <rule name="WordPress Rule 5" stopProcessing="true">
+                    <match url="^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*)" ignoreCase="false" />
+                    <action type="Rewrite" url="{R:2}" />
+                </rule>
+                <rule name="WordPress Rule 6" stopProcessing="true">
+                    <match url="^([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
+                    <action type="Rewrite" url="{R:2}" />
+                </rule>
+                <rule name="WordPress Rule 7" stopProcessing="true">
+                    <match url="." ignoreCase="false" />
+                    <action type="Rewrite" url="index.php" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>';
+			}
+	?>
+		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
+		<textarea class="code" readonly="readonly" cols="100" rows="20">
+		<?php echo wp_htmledit_pre( $web_config_file ); ?>
+		</textarea></li>
 		</ol>
-<?php if ( !is_multisite() ) { ?>
+	<?php } else {
+		// Construct an htaccess file.
+		$htaccess_file = 'RewriteEngine On
+				RewriteBase ' . $base . '
+				RewriteRule ^index\.php$ - [L]
+				
+				# uploaded files
+				RewriteRule ^' . ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
+		
+		if ( ! $subdomain_install )
+			$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
+		
+		$htaccess_file .= "\n" . 'RewriteCond %{REQUEST_FILENAME} -f [OR]
+				RewriteCond %{REQUEST_FILENAME} -d
+				RewriteRule ^ - [L]';
+		
+		// @todo custom content dir.
+		if ( ! $subdomain_install )
+			$htaccess_file .= "\n" . 'RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
+					RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]';
+		
+		$htaccess_file .= "\nRewriteRule . index.php [L]";
+		
+		?>
+		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
+		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>">
+		<?php echo wp_htmledit_pre( $htaccess_file ); ?>
+		</textarea></li>
+		</ol>
+	<?php }
+	if ( !is_multisite() ) { ?>
 		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured. You will have to log in again.') ); ?> <a href="<?php echo esc_url( site_url( 'wp-login.php' ) ); ?>"><?php _e( 'Log In' ); ?></a></p>
 <?php
 	}
