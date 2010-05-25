@@ -70,11 +70,29 @@ class Walker_Nav_Menu extends Walker {
 
 		$classes = $value = '';
 
-		$classes = array( 'menu-item', 'menu-item-type-' . $item->type, $item->classes );
+		$classes = array( 'menu-item', 'menu-item-type-' . $item->type );
+		if ( !empty($item->classes) )
+			$classes = array_merge($classes, explode(' ', $item->classes) );
 
 		if ( 'custom' != $item->type ) {
 			$classes[] = 'menu-item-object-' . $item->object;
 			$classes[] = 'menu-item-object-' . $item->type . '-' . $item->object_id;
+			if ( 'post_type' == $item->type && 'page' == $item->object ) {
+				// Back compat classes for pages to match wp_page_menu()
+				$classes[] = 'page_item';
+				$classes[] = 'page-item-' . $item->object_id;
+				if ( !empty($item->classes) ) {
+					if ( in_array('current-menu-item', $classes) )
+						$classes[] = 'current_page_item';
+					if ( in_array('current-menu-parent', $classes) )
+						$classes[] = 'current_page_parent';
+					if ( in_array('current-menu-ancestor', $classes) )
+						$classes[] = 'current_page_ancestor';
+				}
+			}
+		} elseif ( 'custom' == $item->type && in_array('current-menu-item', $classes) && in_array('menu-item-home', $classes) ) {
+			// Back compat for home limk to match wp_page_menu()
+			$classes[] = 'current_page_item';
 		}
 
 		$classes = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
@@ -303,7 +321,7 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 
 	$possible_object_parents = array_filter( $possible_object_parents );
 
-	foreach( (array) $menu_items as $key => $menu_item ) {
+	foreach ( (array) $menu_items as $key => $menu_item ) {
 		// if the menu item corresponds to a taxonomy term for the currently-queried non-hierarchical post object
 		if ( $wp_query->is_singular && 'taxonomy' == $menu_item->type && in_array( $menu_item->object_id, $possible_object_parents ) ) {
 			$active_parent_object_ids[] = (int) $menu_item->object_id;
@@ -329,6 +347,8 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 			$item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
 			if ( $item_url == $current_url ) {
 				$menu_items[$key]->classes = trim( $menu_item->classes . ' ' . 'current-menu-item' );
+				if ( untrailingslashit($current_url) == home_url() )
+					$menu_items[$key]->classes .= ' menu-item-home';
 				$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 				$active_parent_object_ids[] = (int) $menu_item->post_parent;
 				$active_object = $menu_item->object;
@@ -340,8 +360,8 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 	$active_parent_object_ids = array_filter( array_unique( $active_parent_object_ids ) );
 
 	// set parent's class
-	foreach( (array) $menu_items as $key => $parent_item ) {
-		if ( 'post_type' == $parent_item->type && is_post_type_hierarchical( $queried_object->post_type ) && in_array( $parent_item->object_id, $queried_object->ancestors ) ) 
+	foreach ( (array) $menu_items as $key => $parent_item ) {
+		if ( 'post_type' == $parent_item->type && is_post_type_hierarchical( $queried_object->post_type ) && in_array( $parent_item->object_id, $queried_object->ancestors ) )
 			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $queried_object->post_type . '-ancestor' );
 		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
 			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-menu-parent' );
