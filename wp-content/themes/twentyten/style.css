@@ -430,7 +430,10 @@ div.menu li {
 #access ul li:hover > ul {
 	display:block;
 }
-
+#access ul li.current_page_item a ,
+#access ul li.current-menu-item a {
+	color: #fff;
+}
 
 
 /* =Content
