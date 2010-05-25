@@ -244,18 +244,32 @@ function twentyten_excerpt_length( $length ) {
 add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
 /**
- * Sets the "read more" link to something pretty.
+ * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis.
  *
- * To override this link in a child theme, remove the filter and add your own
+ * To override this in a child theme, remove the filter and add your own
  * function tied to the excerpt_more filter hook.
  *
  * @since Twenty Ten 1.0
- * @return string A pretty 'Continue reading' link.
+ * @return string An ellipsis
  */
-function twentyten_excerpt_more( $more ) {
-	return ' &hellip; <a href="'. get_permalink() . '">' . __('Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten') . '</a>';
+function twentyten_auto_excerpt_more( $more ) {
+	return ' &hellip;';
 }
-add_filter( 'excerpt_more', 'twentyten_excerpt_more' );
+add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
+
+/**
+ * Adds a pretty "Continue Reading" link to post excerpts.
+ *
+ * To override this link in a child theme, remove the filter and add your own
+ * function tied to the get_the_excerpt filter hook.
+ *
+ * @since Twenty Ten 1.0
+ * @return string Excerpt with a pretty "Continue Reading" link
+ */
+function twentyten_custom_excerpt_more( $output ) {
+	return $output . ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
+}
+add_filter( 'get_the_excerpt', 'twentyten_custom_excerpt_more' );
 
 /**
  * Remove inline styles printed when the gallery shortcode is used.
