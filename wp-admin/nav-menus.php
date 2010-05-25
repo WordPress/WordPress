@@ -356,6 +356,20 @@ switch ( $action ) {
 					}
 				}
 
+				// Store 'auto-add' pages.
+				$auto_add = ! empty( $_POST['auto-add-pages'] );
+				$nav_menu_option = (array) get_option( 'nav_menu_options' );
+				if ( ! isset( $nav_menu_option['auto_add'] ) )
+					$nav_menu_option['auto_add'] = array();
+				if ( $auto_add ) {
+					if ( ! in_array( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) )
+						$nav_menu_option['auto_add'][] = $nav_menu_selected_id;
+				} else {
+					if ( false !== ( $key = array_search( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) ) )
+						unset( $nav_menu_option['auto_add'][$key] );
+				}
+				update_option( 'nav_menu_options', $nav_menu_option );
+
 				wp_defer_term_counting(false);
 
 				do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
@@ -509,6 +523,21 @@ require_once( 'admin-header.php' );
 								<div class="delete-action">
 									<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ) ); ?>"><?php _e('Delete Menu'); ?></a>
 								</div><!--END .delete-action-->
+								<?php endif; ?>
+								<?php if ( !empty( $nav_menu_selected_id ) ) :
+									if ( ! isset( $auto_add ) ) {
+										$auto_add = get_option( 'nav_menu_options' );
+										if ( ! isset( $auto_add['auto_add'] ) )
+											$auto_add = false;
+										elseif ( false !== array_search( $nav_menu_selected_id, $auto_add['auto_add'] ) )
+											$auto_add = true;
+										else
+											$auto_add = false;
+									}	
+								?>
+								<div class="auto-add-pages">
+									<label class="howto"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" value="1" /> <?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
+								</div>
 								<?php endif; ?>
 							</div><!--END .major-publishing-actions-->
 						</div><!--END #submitpost .submitbox-->

@@ -748,4 +748,31 @@ function _wp_delete_tax_menu_item( $object_id = 0 ) {
 	}
 }
 
+function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
+	if ( 'publish' != $new_status || 'publish' == $old_status || 'page' != $post->post_type )
+		return;
+	$auto_add = get_option( 'nav_menu_options' );
+	if ( empty( $auto_add ) || ! is_array( $auto_add ) || ! isset( $auto_add['auto_add'] ) )
+		return;
+	$auto_add = $auto_add['auto_add'];
+	if ( empty( $auto_add ) || ! is_array( $auto_add ) )
+		return;
+
+	$args = array(
+		'menu-item-object-id' => $post->ID,
+		'menu-item-object' => $post->post_type,
+		'menu-item-type' => 'post_type',
+	);
+	
+	foreach ( $auto_add as $menu_id ) {
+		$items = (array) wp_get_nav_menu_items( $menu_id );
+		foreach ( $items as $item ) {
+			if ( $post->ID == $item->object_id )
+				continue 2;
+		}
+		wp_update_nav_menu_item( $menu_id, 0, $args );
+	}
+}
+add_action( 'transition_post_status', '_wp_auto_add_pages_to_menu', 10, 3 );
+
 ?>

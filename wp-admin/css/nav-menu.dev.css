@@ -498,9 +498,15 @@ clear:both;
 	float: right;
 	padding-right: 15px;
 }
-.menu-name-label span {
+.menu-name-label span, .auto-add-pages label {
 	font-size: 11px;
 	font-style: normal;
+}
+.auto-add-pages label.howto {
+	display: inline;
+}
+.auto-add-pages {
+	clear: both;
 }
 .submitbox .submitcancel {
 	color: #21759B;
