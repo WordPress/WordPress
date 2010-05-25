@@ -70,7 +70,12 @@ class Walker_Nav_Menu extends Walker {
 
 		$classes = $value = '';
 
-		$classes = array( 'menu-item', 'menu-item-type-'. $item->type, $item->classes, 'menu-item-object-'. $item->object );
+		$classes = array( 'menu-item', 'menu-item-type-' . $item->type, $item->classes );
+
+		if ( 'custom' != $item->type ) {
+			$classes[] = 'menu-item-object-' . $item->object;
+			$classes[] = 'menu-item-object-' . $item->type . '-' . $item->object_id;
+		}
 
 		$classes = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
 		$classes = ' class="' . esc_attr( $classes ) . '"';
