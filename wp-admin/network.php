@@ -50,14 +50,14 @@ function allow_subdomain_install() {
 	return true;
 }
 /**
- * Allow folder install
+ * Allow subdirectory install
  *
  * @since 3.0.0
- * @return bool Whether folder install is allowed
+ * @return bool Whether subdirectory install is allowed
  */
-function allow_folder_install() {
+function allow_subdirectory_install() {
 	global $wpdb;
-	if ( apply_filters( 'allow_folder_install', false ) )
+	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
 
 	$post = $wpdb->get_row( "SELECT ID FROM $wpdb->posts WHERE post_date < DATE_SUB(NOW(), INTERVAL 1 MONTH) AND post_status = 'publish'" );
@@ -161,7 +161,7 @@ function network_step1( $errors = false ) {
 		$subdomain_install = (bool) $_POST['subdomain_install'];
 	} elseif ( apache_mod_loaded('mod_rewrite') ) { // assume nothing
 		$subdomain_install = true;
-	} elseif ( !allow_folder_install() ) {
+	} elseif ( !allow_subdirectory_install() ) {
 		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
@@ -172,7 +172,7 @@ function network_step1( $errors = false ) {
 		echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled, ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p></div>';
 	}
 
-	if ( allow_subdomain_install() && allow_folder_install() ) : ?>
+	if ( allow_subdomain_install() && allow_subdirectory_install() ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
 		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
@@ -211,17 +211,29 @@ function network_step1( $errors = false ) {
 		<?php if ( 'localhost' == $hostname ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
-				<td><?php _e( 'Because you are using <code>localhost</code>, the sites in your WordPress network must use sub-directories. Consider using <code>localhost.localdomain</code> if you wish to use sub-domains.' ); ?></td>
+				<td><?php
+					_e( 'Because you are using <code>localhost</code>, the sites in your WordPress network must use sub-directories. Consider using <code>localhost.localdomain</code> if you wish to use sub-domains.' );
+					// Uh oh:
+					if ( !allow_subdirectory_install() )
+						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
+				?></td>
 			</tr>
 		<?php elseif ( !allow_subdomain_install() ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
-				<td><?php _e( 'Because your install is in a directory, the sites in your WordPress network must use sub-directories.' ); ?></td>
+				<td><?php
+					_e( 'Because your install is in a directory, the sites in your WordPress network must use sub-directories.' );
+					// Uh oh:
+					if ( !allow_subdirectory_install() )
+						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';	
+				?></td>
 			</tr>
-		<?php elseif ( !allow_folder_install() ) : ?>
+		<?php elseif ( !allow_subdirectory_install() ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-domain Install' ); ?></th>
-				<td><?php _e( 'Because your install is over 1 month old, the sites in your WordPress network must use sub-domains.' ); ?></td>
+				<td><?php _e( 'Because your install is not new, the sites in your WordPress network must use sub-domains.' );
+					echo ' <strong>' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
+				?></td>
 			</tr>
 		<?php endif; ?>
 		<?php if ( ! $is_www ) : ?>
@@ -266,7 +278,7 @@ function network_step2( $errors = false ) {
 		echo '<div class="error">' . $errors->get_error_message() . '</div>';
 
 	if ( $_POST ) {
-		$subdomain_install = allow_subdomain_install() ? ( allow_folder_install() ? ! empty( $_POST['subdomain_install'] ) : true ) : false;
+		$subdomain_install = allow_subdomain_install() ? ( allow_subdirectory_install() ? ! empty( $_POST['subdomain_install'] ) : true ) : false;
 	} else {
 		if ( is_multisite() ) {
 			$subdomain_install = is_subdomain_install();
