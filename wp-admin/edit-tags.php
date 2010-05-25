@@ -164,6 +164,42 @@ wp_enqueue_script('admin-tags');
 if ( current_user_can($tax->cap->edit_terms) )
 	wp_enqueue_script('inline-edit-tax');
 
+if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
+	if ( 'category' == $taxonomy )
+		$help = '<p>' . sprintf(__('You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.'), 'options-writing.php') . '</p>';
+	else
+		$help = '<p>' . __('You can assign keywords to your posts using Post Tags. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.') . '</p>';
+
+	$help .='<p>' . __('What&#8217;s the difference between categories and tags? Normally, tags are ad-hoc keywords that identify important information in your post (names, subjects, etc) that may or may not recur in other posts, while categories are pre-determined sections. If you think of your site like a book, the categories are like the Table of Contents and the tags are like the terms in the index.') . '</p>';
+
+	if ( 'category' == $taxonomy )
+		$help .= '<p>' . __('When adding a new category on this screen, you&#8217;ll fill in the following fields:') . '</p>';
+	else
+		$help .= '<p>' . __('When adding a new tag on this screen, you&#8217;ll fill in the following fields:') . '</p>';
+
+	$help .= '<ul>' .
+		'<li>' . __('<strong>Name</strong> - The name is how it appears on your site.') . '</li>' .
+		'<li>' . __('<strong>Slug</strong> - The  &#8220;slug &#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.') . '</li>';
+
+	if ( 'category' == $taxonomy )
+		$help .= '<li>' . __('<strong>Parent</strong> - Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown.') . '</li>';
+
+	$help .= '<li>' . __('<strong>Description</strong> - The description is not prominent by default; however, some themes may display it.') . '</li>' .
+		'</ul>' .
+		'<p>' . __('You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.') . '</p>' .
+		'<p>' . __('For more information:') . '</p>';
+
+	if ( 'category' == $taxonomy )
+		$help .= '<p>' . sprintf(__('<a href="%s">Categories Documentation</a>'), 'http://codex.wordpress.org/Manage_Categories_SubPanel') . '</p>';
+	else
+		$help .= '<p>' . sprintf(__('<a href="%s">Tags Documentation</a>'), 'http://codex.wordpress.org/Post_Tags_SubPanel') . '</p>';
+
+	$help .= '<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>';
+
+	add_contextual_help($current_screen, $help);
+	unset($help);
+}
+
 require_once ('admin-header.php');
 
 $messages[1] = __('Item added.');
