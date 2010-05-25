@@ -833,7 +833,7 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 	}
 
 	add_option( 'WPLANG', get_site_option( 'WPLANG' ) );
-	update_option( 'blog_public', $meta['public'] );
+	update_option( 'blog_public', (int)$meta['public'] );
 
 	if ( !is_super_admin() && get_user_meta( $user_id, 'primary_blog', true ) == get_site_option( 'dashboard_blog', 1 ) )
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
