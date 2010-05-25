@@ -518,16 +518,14 @@ body.press-this .tabs a:hover {
 }
 
 #adminmenu li.current a #awaiting-mod,
-#adminmenu li.current a .update-plugins,
-#adminmenu li.wp-has-current-submenu a .update-plugins,
-#adminmenu li.wp-has-current-submenu a .update-plugins {
-	background-color: #ddd;
+#adminmenu  li a.wp-has-current-submenu .update-plugins{
+	background-color: #fff;
 	color: #000;
 	text-shadow: none;
-	-moz-box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
-	-khtml-box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
-	-webkit-box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
-	box-shadow: rgba(0,0,0,0.2) 0 -1px 0;
+	-moz-box-shadow: rgba(0,0,0,0.4) 0 -1px 0;
+	-khtml-box-shadow: rgba(0,0,0,0.4) 0 -1px 0;
+	-webkit-box-shadow: rgba(0,0,0,0.4) 0 -1px 0;
+	box-shadow: rgba(0,0,0,0.4) 0 -1px 0;
 }
 
 #adminmenu li.current a:hover #awaiting-mod,
@@ -536,6 +534,10 @@ body.press-this .tabs a:hover {
 #adminmenu li.wp-has-current-submenu a:hover .update-plugins {
 	background-color: #264761;
 	color: #fff;
+	-moz-box-shadow: none;  
+	-khtml-box-shadow: none;  
+	-webkit-box-shadow: none;  
+	box-shadow: none;
 }
 
 div#media-upload-header,
@@ -1075,17 +1077,26 @@ table.widefat .spam a:hover,
 	background: url(../images/menu-dark.gif) top left no-repeat !important;
 }
 
+.wp-has-current-submenu .wp-submenu {
+	border-top: none !important;
+}
+
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+	border-bottom: #aaa 1px solid;
+}
+
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu .menu-top .current {
-	background: #6d6d6d url(../images/menu-bits.gif) top left repeat-x;
-	border-color: #6d6d6d;
-	color: #fff;
-	text-shadow: rgba(0,0,0,0.4) 0 -1px 0;
+	background: #aaa url(../images/menu-bits.gif) top left repeat-x; 
+	border-color: #aaa;
+	color: #000;
+	text-shadow: #fff 0px 1px 0px;
 }
 
 #adminmenu li.wp-has-current-submenu .wp-submenu,
 #adminmenu li.wp-has-current-submenu ul li a {
-	border-color: #aaa !important;
+	border-right-color: #aaa !important;
+	border-left-color: #aaa !important;
 }
 
 #adminmenu li.wp-has-current-submenu ul li a {
@@ -1094,10 +1105,6 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu ul {
 	border-bottom-color: #aaa;
-}
-
-#adminmenu li.menu-top .current:hover {
-	border-color: #B5B5B5;
 }
 
 #adminmenu .wp-submenu .current a.current {
