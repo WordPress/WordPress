@@ -1434,7 +1434,7 @@ jQuery(document).ready(function($){
 <?php
 // Check quota for this blog if multisite
 if ( is_multisite() && !is_upload_space_available() ) {
-	echo '<p>' . __('Sorry, you must delete files before you can upload any more.') . '</p>';
+	echo '<p>' . sprintf( __( 'Sorry, you have filled your storage quota (%s MB).' ), get_space_allowed() ) . '</p>';
 	return;
 }
 
