@@ -428,7 +428,7 @@ if ( current_theme_supports('nav-menus') ) {
 } elseif ( current_theme_supports('widgets') ) {
 	// Set up nav menu
 	wp_nav_menu_setup();
-	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Navigation Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
+	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 }
 
 wp_initial_nav_menu_meta_boxes();
