@@ -115,12 +115,7 @@ switch ( $_GET['action'] ) {
 			}
 		}
 		update_site_option( 'dashboard_blog', $dashboard_blog_id );
-		// global terms
-		if ( !global_terms_enabled() && ! empty( $_POST['global_terms_enabled'] ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			// create global terms table
-			install_global_terms();
-		}
+
 		$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'admin_notice_feed', 'global_terms_enabled' );
 		$checked_options = array( 'mu_media_buttons' => array(), 'menu_items' => array(), 'registrationnotification' => 'no', 'upload_space_check_disabled' => 1 );
 		foreach ( $checked_options as $option_name => $option_unchecked_value ) {
