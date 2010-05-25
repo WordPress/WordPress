@@ -271,7 +271,7 @@ function post_tags_meta_box($post, $box) {
 <?php if ( current_user_can($taxonomy->cap->assign_terms) ) : ?>
 <p class="hide-if-no-js"><a href="#titlediv" class="tagcloud-link" id="link-<?php echo $tax_name; ?>"><?php echo $help_cloud; ?></a></p>
 <?php else : ?>
-<p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
+<p><em><?php _e('You cannot modify this taxonomy.'); ?></em></p>
 <?php endif; ?>
 <?php
 }
@@ -316,7 +316,7 @@ function post_categories_meta_box( $post, $box ) {
 			</ul>
 		</div>
 	<?php if ( !current_user_can($tax->cap->assign_terms) ) : ?>
-	<p><em><?php _e('You cannot modify this Taxonomy.'); ?></em></p>
+	<p><em><?php _e('You cannot modify this taxonomy.'); ?></em></p>
 	<?php endif; ?>
 	<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
 			<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
