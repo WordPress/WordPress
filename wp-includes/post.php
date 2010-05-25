@@ -2174,13 +2174,16 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( empty($post_type) )
 		$post_type = 'post';
 
+	if ( empty($post_status) )
+		$post_status = 'draft';
+
 	if ( !empty($post_category) )
 		$post_category = array_filter($post_category); // Filter out empty terms
 
 	// Make sure we set a valid category.
 	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
 		// 'post' requires at least one category.
-		if ( 'post' == $post_type )
+		if ( 'post' == $post_type && 'auto-draft' != $post_status )
 			$post_category = array( get_option('default_category') );
 		else
 			$post_category = array();
@@ -2188,9 +2191,6 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	if ( empty($post_author) )
 		$post_author = $user_ID;
-
-	if ( empty($post_status) )
-		$post_status = 'draft';
 
 	$post_ID = 0;
 
@@ -2660,9 +2660,10 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$post_ID = (int) $post_ID;
 	$post_type = get_post_type( $post_ID );
+	$post_status = get_post_status( $post_ID );
 	// If $post_categories isn't already an array, make it one:
 	if ( !is_array($post_categories) || empty($post_categories) ) {
-		if ( 'post' == $post_type )
+		if ( 'post' == $post_type && 'auto-draft' != $post_status )
 			$post_categories = array( get_option('default_category') );
 		else
 			$post_categories = array();
