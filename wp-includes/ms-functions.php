@@ -1210,14 +1210,14 @@ function fix_import_form_size( $size ) {
  */
 function global_terms( $term_id, $deprecated = '' ) {
 	global $wpdb;
-	static $global_terms_recurse;
+	static $global_terms_recurse = null;
 
 	if ( !global_terms_enabled() )
 		return $term_id;
 
 	// prevent a race condition
 	$recurse_start = false;
-	if ( !isset( $global_terms_recurse ) ) {
+	if ( $global_terms_recurse === null ) {
 		$recurse_start = true;
 		$global_terms_recurse = 1;
 	} elseif ( 10 < $global_terms_recurse++ ) {
@@ -1258,7 +1258,7 @@ function global_terms( $term_id, $deprecated = '' ) {
 		clean_term_cache($term_id);
 	}
 	if( $recurse_start )
-		unset( $global_terms_recurse );
+		$global_terms_recurse = null;
 
 	return $global_id;
 }
