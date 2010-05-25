@@ -188,12 +188,17 @@ if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 function twentyten_admin_header_style() {
 ?>
 <style type="text/css">
+/* Shows the same border as on front end */
 #headimg {
-	height: <?php echo HEADER_IMAGE_HEIGHT; ?>px;
-	width: <?php echo HEADER_IMAGE_WIDTH; ?>px;
+	border-bottom: 1px solid #000000;
+	border-top: 4px solid #000000;
 }
-#headimg h1, #headimg #desc {
-	display: none;
+
+/* If NO_HEADER_TEXT is false, you can style here the header text preview */
+#headimg #name {
+}
+
+#headimg #desc {
 }
 </style>
 <?php

@@ -3703,14 +3703,26 @@ div#custom-background-image img {
 }
 
 /* Custom Header */
+.appearance_page_custom-header #headimg {
+	border: 1px solid #DFDFDF;
+	min-height: 100px;
+	width: 100%;
+}
 
-table#available-headers td {
-	padding: 0 20px 10px 0;
+.appearance_page_custom-header #upload-form p label {
+	font-size: 11px;
 }
-table#available-headers label input {
-	margin-right: 8px;
+
+.appearance_page_custom-header  #available-headers .default-header {
+	float: left;
+	margin: 0 20px 20px 0;
 }
-table#available-headers label img {
+
+.appearance_page_custom-header #available-headers label input {
+	margin-right: 10px;
+}
+
+.appearance_page_custom-header #available-headers label img {
 	vertical-align: middle;
 }
 
