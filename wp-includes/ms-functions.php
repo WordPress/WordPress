@@ -1209,18 +1209,19 @@ function fix_import_form_size( $size ) {
  * @return int An ID from the global terms table mapped from $term_id.
  */
 function global_terms( $term_id, $deprecated = '' ) {
-	global $wpdb, $global_terms_recurse;
+	global $wpdb;
+	static $global_terms_recurse;
 
 	if ( !global_terms_enabled() )
 		return $term_id;
 
 	// prevent a race condition
+	$recurse_start = false;
 	if ( !isset( $global_terms_recurse ) ) {
 		$recurse_start = true;
 		$global_terms_recurse = 1;
 	} elseif ( 10 < $global_terms_recurse++ ) {
 		return $term_id;
-		$recurse_start = false;
 	}
 
 	$term_id = intval( $term_id );
