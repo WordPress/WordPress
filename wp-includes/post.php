@@ -951,7 +951,6 @@ function get_post_type_labels( $post_type_object ) {
 		'search_items' => array( __('Search Posts'), __('Search Pages') ),
 		'not_found' => array( __('No posts found'), __('No pages found') ),
 		'not_found_in_trash' => array( __('No posts found in Trash'), __('No pages found in Trash') ),
-		'view' => array( __('View Post'), __('View Page') ),
 		'parent_item_colon' => array( null, __('Parent Page:') )
 	);
 	return _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
