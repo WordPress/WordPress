@@ -908,7 +908,7 @@ function get_post_type_capabilities( $args ) {
 		'edit_posts'         => 'edit_'         . $args->capability_type . 's',
 		'edit_others_posts'  => 'edit_others_'  . $args->capability_type . 's',
 		'publish_posts'      => 'publish_'      . $args->capability_type . 's',
-		'read_post'          => 'edit_'         . $args->capability_type,
+		'read_post'          => 'read_'         . $args->capability_type,
 		'read_private_posts' => 'read_private_' . $args->capability_type . 's',
 		'delete_post'        => 'delete_'       . $args->capability_type,
 	);
