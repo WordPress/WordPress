@@ -827,7 +827,8 @@ function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
 	if ( null === $link )
 		$link = __('Edit This');
 
-	$link = '<a class="post-edit-link" href="' . $url . '" title="' . esc_attr( __( 'Edit Post' ) ) . '">' . $link . '</a>';
+	$post_type_obj = get_post_type_object( $post->post_type );
+	$link = '<a class="post-edit-link" href="' . $url . '" title="' . esc_attr( $post_type_obj->labels->edit_item ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
 
