@@ -292,6 +292,8 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 					$possible_object_parents = array_merge( $possible_object_parents, $terms );
 			}
 		}
+	} elseif ( ! empty( $queried_object->post_type ) && is_post_type_hierarchical( $queried_object->post_type ) ) {
+		_get_post_ancestors( $queried_object );
 	}
 
 	$possible_object_parents = array_filter( $possible_object_parents );
@@ -333,13 +335,13 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 	$active_parent_object_ids = array_filter( array_unique( $active_parent_object_ids ) );
 
 	// set parent's class
-	if ( ! empty( $active_parent_item_ids ) || ! empty( $active_parent_object_ids ) ) {
-		foreach( (array) $menu_items as $key => $parent_item ) {
-			if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
-				$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-menu-parent' );
-			if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
-				$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $active_object . '-parent' );
-		}
+	foreach( (array) $menu_items as $key => $parent_item ) {
+		if ( 'post_type' == $parent_item->type && is_post_type_hierarchical( $queried_object->post_type ) && in_array( $parent_item->object_id, $queried_object->ancestors ) ) 
+			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $queried_object->post_type . '-ancestor' );
+		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
+			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-menu-parent' );
+		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
+			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $active_object . '-parent' );
 	}
 }
 
