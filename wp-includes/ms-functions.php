@@ -1303,7 +1303,7 @@ function signup_nonce_check( $result ) {
 
 function maybe_redirect_404() {
 	global $current_site;
-	if ( apply_filters( 'blog_redirect_404', true ) && is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && ( $destination = NOBLOGREDIRECT ) ) {
+	if ( is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && ( $destination = apply_filters( 'blog_redirect_404', NOBLOGREDIRECT ) ) ) {
 		if ( $destination == '%siteurl%' )
 			$destination = network_home_url();
 		wp_redirect( $destination );
