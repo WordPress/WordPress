@@ -40,7 +40,33 @@ DESCRIPTION: Two-column fixed layout with one sidebar right of content
 body,
 input,
 textarea,
-.page-title span {
+.page-title span,
+.pingback a.url,
+h3#comments-title,
+h3#reply-title,
+#access .menu,
+#access div.menu ul,
+#cancel-comment-reply-link,
+.form-allowed-tags,
+#site-info,
+#site-title,
+#wp-calendar,
+.comment-meta,
+.comment-body tr th,
+.comment-body thead th,
+.entry-content label,
+.entry-content tr th,
+.entry-content thead th,
+.entry-meta,
+.entry-title,
+.entry-utility,
+#respond label,
+.navigation,
+.page-title,
+.pingback p,
+.reply,
+.widget-title,
+input[type=submit] {
 	font-family: Arial, Tahoma, sans-serif;
 }
 
@@ -251,8 +277,6 @@ div.menu li{
 }
 #site-generator a {
 	background-position: right center;
-	padding-right: 19px;
+	padding-right: 20px;
 	padding-left: 0;
-	margin-right: 1px;
-	margin-left: 0;
 }
