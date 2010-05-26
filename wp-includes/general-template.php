@@ -1197,7 +1197,7 @@ function get_calendar($initial = true, $echo = true) {
 		$ak_title_separator = ', ';
 
 	$ak_titles_for_day = array();
-	$ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH(post_date) as dom "
+	$ak_post_titles = $wpdb->get_results("SELECT ID, post_title, DAYOFMONTH(post_date) as dom "
 		."FROM $wpdb->posts "
 		."WHERE YEAR(post_date) = '$thisyear' "
 		."AND MONTH(post_date) = '$thismonth' "
@@ -1207,7 +1207,7 @@ function get_calendar($initial = true, $echo = true) {
 	if ( $ak_post_titles ) {
 		foreach ( (array) $ak_post_titles as $ak_post_title ) {
 
-				$post_title = esc_attr( apply_filters( 'the_title', $ak_post_title->post_title ) );
+				$post_title = esc_attr( apply_filters( 'the_title', $ak_post_title->post_title, $ak_post_title->ID ) );
 
 				if ( empty($ak_titles_for_day['day_'.$ak_post_title->dom]) )
 					$ak_titles_for_day['day_'.$ak_post_title->dom] = '';

@@ -107,7 +107,7 @@ class Walker_Nav_Menu extends Walker {
 
 		$item_output = $args->before;
 		$item_output .= '<a'. $attributes .'>';
-		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title ) . $args->link_after;
+		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 
