@@ -27,7 +27,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastcommentmodified('GMT'), false); ?></updated>
 
 <?php if ( is_singular() ) { ?>
-	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php echo get_comments_link(); ?>" />
+	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php comments_link_feed(); ?>" />
 	<link rel="self" type="application/atom+xml" href="<?php echo get_post_comments_feed_link('', 'atom'); ?>" />
 	<id><?php echo get_post_comments_feed_link('', 'atom'); ?></id>
 <?php } elseif(is_search()) { ?>

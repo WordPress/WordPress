@@ -34,7 +34,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 		<link><?php the_permalink_rss() ?></link>
-		<comments><?php comments_link(); ?></comments>
+		<comments><?php comments_link_feed(); ?></comments>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<dc:creator><?php the_author() ?></dc:creator>
 		<?php the_category_rss() ?>
@@ -50,7 +50,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<content:encoded><![CDATA[<?php the_excerpt_rss() ?>]]></content:encoded>
 	<?php endif; ?>
 <?php endif; ?>
-		<wfw:commentRss><?php echo get_post_comments_feed_link(null, 'rss2'); ?></wfw:commentRss>
+		<wfw:commentRss><?php echo esc_url( get_post_comments_feed_link(null, 'rss2') ); ?></wfw:commentRss>
 		<slash:comments><?php echo get_comments_number(); ?></slash:comments>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
