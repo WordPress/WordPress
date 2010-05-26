@@ -534,13 +534,12 @@ function post_revisions_meta_box($post) {
 function page_attributes_meta_box($post) {
 	$post_type_object = get_post_type_object($post->post_type);
 	if ( $post_type_object->hierarchical ) {
-		$pages = wp_dropdown_pages(array('post_type' => $post->post_type, 'exclude_tree' => $post->ID, 'selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('Main Page (no parent)'), 'sort_column'=> 'menu_order, post_title', 'echo' => 0));
+		$pages = wp_dropdown_pages(array('post_type' => $post->post_type, 'exclude_tree' => $post->ID, 'selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('(no parent)'), 'sort_column'=> 'menu_order, post_title', 'echo' => 0));
 		if ( ! empty($pages) ) {
 ?>
 <h5><?php _e('Parent') ?></h5>
-<label class="screen-reader-text" for="parent_id"><?php _e('Page Parent') ?></label>
+<label class="screen-reader-text" for="parent_id"><?php _e('Parent') ?></label>
 <?php echo $pages; ?>
-<p><?php _e('You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 <?php
 		} // end empty pages check
 	} // end hierarchical check.
@@ -552,12 +551,10 @@ function page_attributes_meta_box($post) {
 <option value='default'><?php _e('Default Template'); ?></option>
 <?php page_template_dropdown($template); ?>
 </select>
-<p><?php _e('Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them above.'); ?></p>
 <?php
 	} ?>
 <h5><?php _e('Order') ?></h5>
-<p><label class="screen-reader-text" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
-<p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in.'); ?></p>
+<p><label class="screen-reader-text" for="menu_order"><?php _e('Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
 <?php
 }
 
