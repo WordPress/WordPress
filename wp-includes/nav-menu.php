@@ -268,7 +268,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		return $menu;
 	}
 
-	$menu_items = (array) wp_get_nav_menu_items( $menu_id );
+	$menu_items = (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
 
 	$count = count( $menu_items );
 
@@ -286,21 +286,14 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'menu-item-target' => '',
 		'menu-item-classes' => '',
 		'menu-item-xfn' => '',
+		'menu-item-status' => '',
 	);
 
 	$args = wp_parse_args( $menu_item_data, $defaults );
 
 	if ( 0 == (int) $args['menu-item-position'] ) {
 		$last_item = array_pop( $menu_items );
-		if ( $last_item && isset( $last_item->ID ) ) {
-			$last_data = get_post( $last_item->ID );
-			if ( ! is_wp_error( $last_data ) && isset( $last_data->menu_order ) ) {
-				$args['menu-item-position'] = 1 + (int) $last_data->menu_order;
-			}
-
-		} else {
-			$args['menu-item-position'] = $count;
-		}
+		$args['menu-item-position'] = ( $last_item && isset( $last_item->menu_order ) ) ? 1 + $last_item->menu_order : $count;
 	}
 
 	$original_parent = 0 < $menu_item_db_id ? get_post_field( 'post_parent', $menu_item_db_id ) : 0;
@@ -350,16 +343,16 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'tax_input' => array( 'nav_menu' => array( intval( $menu->term_id ) ) ),
 	);
 
-	// New menu item
+	// New menu item. Default is draft status
 	if ( 0 == $menu_item_db_id ) {
 		$post['ID'] = 0;
-		$post['post_status'] = 'draft';
+		$post['post_status'] = 'publish' == $args['menu-item-status'] ? 'publish' : 'draft';
 		$menu_item_db_id = wp_insert_post( $post );
 
-	// Update existing menu item
+	// Update existing menu item. Default is publish status
 	} else {
 		$post['ID'] = $menu_item_db_id;
-		$post['post_status'] = 'publish';
+		$post['post_status'] = 'draft' == $args['menu-item-status'] ? 'draft' : 'publish';
 		wp_update_post( $post );
 	}
 
@@ -762,10 +755,11 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 		'menu-item-object-id' => $post->ID,
 		'menu-item-object' => $post->post_type,
 		'menu-item-type' => 'post_type',
+		'menu-item-status' => 'publish',
 	);
 
 	foreach ( $auto_add as $menu_id ) {
-		$items = wp_get_nav_menu_items( $menu_id );
+		$items = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
 		if ( ! is_array( $items ) )
 			continue;
 		foreach ( $items as $item ) {
