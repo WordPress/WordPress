@@ -75,7 +75,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$id = $vars->post_parent;
 
 			if ( $redirect_url = get_permalink($id) )
-				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
+				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id', 'post_type'), $redirect['query']);
 		}
 	}
 
@@ -88,7 +88,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			$post_type_obj = get_post_type_object($redirect_post->post_type);
 			if ( $post_type_obj->public ) {
 				$redirect_url = get_permalink($redirect_post);
-				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
+				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id', 'post_type'), $redirect['query']);
 			}
 		}
 
@@ -102,7 +102,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg('attachment_id', $redirect['query']);
 		} elseif ( is_single() && !empty($_GET['p']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('p')) )
-				$redirect['query'] = remove_query_arg('p', $redirect['query']);
+				$redirect['query'] = remove_query_arg(array('p', 'post_type'), $redirect['query']);
 			if ( get_query_var( 'page' ) ) {
 				$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
 				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
