@@ -188,7 +188,7 @@ if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
 	$help .= '<li>' . __('<strong>Description</strong> - The description is not prominent by default; however, some themes may display it.') . '</li>' .
 		'</ul>' .
 		'<p>' . __('You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.') . '</p>' .
-		'<p>' . __('For more information:') . '</p>';
+		'<p>' . __('<strong>For more information:</strong>') . '</p>';
 
 	if ( 'category' == $taxonomy )
 		$help .= '<p>' . sprintf(__('<a href="%s">Categories Documentation</a>'), 'http://codex.wordpress.org/Manage_Categories_SubPanel') . '</p>';
