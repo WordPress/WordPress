@@ -33,7 +33,6 @@ var wpNavMenu;
 			this.attachMenuEditListeners();
 
 			this.setupInputWithDefaultTitle();
-			this.attachAddMenuItemListeners();
 			this.attachQuickSearchListeners();
 			this.attachThemeLocationsListeners();
 
@@ -412,22 +411,6 @@ var wpNavMenu;
 			});
 		},
 
-		attachAddMenuItemListeners : function() {
-			var form = $('#nav-menu-meta');
-
-			form.find('.add-to-menu input').click(function(){
-				api.registerChange();
-				$(this).trigger('wp-add-menu-item', [api.addMenuItemToBottom]);
-				return false;
-			});
-			form.find('.customlinkdiv').bind('wp-add-menu-item', function(e, processMethod) {
-				api.addCustomLink( processMethod );
-			});
-			form.find('.posttypediv, .taxonomydiv').bind('wp-add-menu-item', function(e, processMethod) {
-				$(this).addSelectedToMenu( processMethod );
-			});
-		},
-
 		attachThemeLocationsListeners : function() {
 			var loc = $('#nav-menu-theme-locations'), params = {};
 			params['action'] = 'menu-locations-save';
@@ -618,6 +601,41 @@ var wpNavMenu;
 							items.attr('checked', 'checked');
 						return false;
 					}
+				} else if ( target.hasClass('submit-add-to-menu') ) {
+					api.registerChange();
+
+					if ( e.target.id && 'submit-customlinkdiv' == e.target.id )
+						api.addCustomLink( api.addMenuItemToBottom );
+					else if ( e.target.id && -1 != e.target.id.indexOf('submit-') )
+						$('#' + e.target.id.replace(/submit-/, '')).addSelectedToMenu( api.addMenuItemToBottom );
+					return false;
+				} else if ( target.hasClass('page-numbers') ) {
+					$.post( ajaxurl, e.target.href.replace(/.*\?/, '').replace(/action=([^&]*)/, '') + '&action=menu-get-metabox', 
+						function( resp ) {
+							if ( -1 == resp.indexOf('replace-id') )
+								return;
+
+							var metaBoxData = $.parseJSON(resp),
+							toReplace = document.getElementById(metaBoxData['replace-id']),
+							placeholder = document.createElement('div'),
+							wrap = document.createElement('div');
+
+							if ( ! metaBoxData['markup'] || ! toReplace )
+								return;
+
+							wrap.innerHTML = metaBoxData['markup'] ? metaBoxData['markup'] : '';
+
+							toReplace.parentNode.insertBefore( placeholder, toReplace );
+							placeholder.parentNode.removeChild( toReplace );
+
+							placeholder.parentNode.insertBefore( wrap, placeholder );
+
+							placeholder.parentNode.removeChild( placeholder );
+
+						}
+					);
+					
+					return false;
 				}
 			});
 		},

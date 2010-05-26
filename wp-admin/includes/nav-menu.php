@@ -455,7 +455,7 @@ function wp_nav_menu_item_link_meta_box() {
 	);
 
 	?>
-	<div class="customlinkdiv">
+	<div class="customlinkdiv" id="customlinkdiv">
 
 			<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
 			<p id="menu-item-url-wrap">
@@ -478,7 +478,7 @@ function wp_nav_menu_item_link_meta_box() {
 			</span>
 			<span class="add-to-menu">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" />
+				<input type="submit" class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" id="submit-customlinkdiv" />
 			</span>
 		</p>
 
@@ -533,6 +533,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			array(
 				$post_type_name . '-tab' => 'all',
 				'paged' => '%#%',
+				'item-type' => 'post_type',
+				'item-object' => $post_type_name,
 			)
 		),
 		'format' => '',
@@ -662,7 +664,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 			<span class="add-to-menu">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-post-type-menu-item" />
+				<input type="submit" class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-post-type-menu-item" id="submit-posttype-<?php echo $post_type_name; ?>" />
 			</span>
 		</p>
 
@@ -707,13 +709,15 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 		return;
 	}
 
-	$num_pages = ceil( count($terms) / $per_page );
+	$num_pages = ceil( wp_count_terms( $taxonomy_name , array_merge( $args, array('number' => '', 'offset' => '') ) ) / $per_page );
 
 	$page_links = paginate_links( array(
 		'base' => add_query_arg(
 			array(
 				$taxonomy_name . '-tab' => 'all',
 				'paged' => '%#%',
+				'item-type' => 'taxonomy',
+				'item-object' => $taxonomy_name,
 			)
 		),
 		'format' => '',
@@ -831,7 +835,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 
 			<span class="add-to-menu">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
-				<input type="submit" class="button-secondary" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-taxonomy-menu-item" />
+				<input type="submit" class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-taxonomy-menu-item" id="submit-taxonomy-<?php echo $taxonomy_name; ?>" />
 			</span>
 		</p>
 
