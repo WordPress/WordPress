@@ -432,13 +432,17 @@ div.menu li {
 #access ul li:hover > ul {
 	display:block;
 }
-#access ul li.current_page_item a ,
-#access ul li.current-menu-ancestor a,
-#access ul li.current-menu-item a,
-#access ul li.current-menu-parent a {
+#access ul li.current_page_item > a,
+#access ul li.current-menu-ancestor > a,
+#access ul li.current-menu-item > a,
+#access ul li.current-menu-parent > a {
 	color: #fff;
 }
 
+* html #access ul li.current_page_item a,
+* html #access ul li.current-menu-ancestor a,
+* html #access ul li.current-menu-item a,
+* html #access ul li.current-menu-parent a,
 * html #access ul li a:hover {
 	color:#fff;
 }
