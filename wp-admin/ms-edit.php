@@ -148,6 +148,14 @@ switch ( $_GET['action'] ) {
 		$domain = '';
 		if ( ! preg_match( '/(--)/', $blog['domain'] ) && preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) )
 			$domain = strtolower( $blog['domain'] );
+
+		// If not a subdomain install, make sure the domain isn't a reserved word
+		if ( ! is_subdomain_install() ) {
+			$subdirectory_reserved_names = apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) );
+			if ( in_array( $domain, $subdirectory_reserved_names ) )
+				wp_die( sprintf( __('The following words are reserved for use by WordPress functions and cannot be used as blog names: <code>%s</code>' ), implode( '</code>, <code>', $subdirectory_reserved_names ) ) );
+		}
+
 		$email = sanitize_email( $blog['email'] );
 		$title = $blog['title'];
 

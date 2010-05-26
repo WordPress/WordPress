@@ -556,6 +556,11 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		add_site_option( 'illegal_names', $illegal_names );
 	}
 
+	// On sub dir installs, Some names are so illegal, only a filter can spring them from jail
+	if (! is_subdomain_install() )
+		$illegal_names = array_merge($illegal_names, apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) ) );
+
+
 	if ( empty( $blogname ) )
 		$errors->add('blogname', __('Please enter a site name'));
 
