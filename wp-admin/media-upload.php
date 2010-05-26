@@ -88,9 +88,9 @@ if ( isset($_GET['inline']) ) {
 	</script>
 	<input type="hidden" name="post_id" id="post_id" value="0" />
 	<?php wp_nonce_field('media-form'); ?>
-	<div id="media-items"> </div>
+	<div id="media-items" class="hide-if-no-js"> </div>
 	<p>
-	<input type="submit" class="button savebutton" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
+	<input type="submit" class="button savebutton hide-if-no-js" name="save" value="<?php esc_attr_e( 'Save all changes' ); ?>" />
 	</p>
 	</form>
 	</div>

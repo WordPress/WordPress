@@ -1489,7 +1489,7 @@ SWFUpload.onload = function() {
 //]]>
 </script>
 
-<div id="flash-upload-ui">
+<div id="flash-upload-ui" class="hide-if-no-js">
 <?php do_action('pre-flash-upload-ui'); ?>
 
 	<div>
@@ -2231,7 +2231,7 @@ function media_upload_flash_bypass() {
  * @since unknown
  */
 function media_upload_html_bypass($flash = true) {
-	echo '<p class="upload-html-bypass">';
+	echo '<p class="upload-html-bypass hide-if-no-js">';
 	_e('You are using the Browser uploader.');
 	if ( $flash ) {
 		// the user manually selected the browser uploader, so let them switch back to Flash

@@ -201,10 +201,10 @@ if ($allowed_files) :
 		 <input type="hidden" name="scrollto" id="scrollto" value="<?php echo $scrollto; ?>" />
 		 </div>
 	<?php if ( isset($functions ) && count($functions) ) { ?>
-		<div id="documentation">
+		<div id="documentation" class="hide-if-no-js">
 		<label for="docs-list"><?php _e('Documentation:') ?></label>
 		<?php echo $docs_select; ?>
-		<input type="button" class="button" value=" <?php esc_attr_e( 'Lookup' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" />
+		<input type="button" class="button" value=" <?php esc_attr_e( 'Lookup' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_locale() ) ?>&amp;version=<?php echo urlencode( $wp_version ) ?>&amp;redirect=true'); }" />
 		</div>
 	<?php } ?>
 
