@@ -333,12 +333,12 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 		} elseif (
 			$menu_item->object_id == $queried_object_id &&
 			(
-				( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && $wp_query->is_home && $home_page_id = $menu_item->object_id ) ||
+				( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && $wp_query->is_home && $home_page_id == $menu_item->object_id ) ||
 				( 'post_type' == $menu_item->type && $wp_query->is_singular ) ||
 				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) )
 			)
 		) {
-			$menu_items[$key]->classes = trim( $menu_item->classes . ' ' . 'current-menu-item' );
+			$menu_items[$key]->classes = trim( $menu_items[$key]->classes . ' ' . 'current-menu-item' );
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 			$active_parent_object_ids[] = (int) $menu_item->post_parent;
 			$active_object = $menu_item->object;
@@ -356,6 +356,10 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 				$active_object = $menu_item->object;
 			}
 		}
+		
+		// back-compat with wp_page_menu: add "current_page_parent" to static home page link for any non-page query
+		if ( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && empty( $wp_query->is_page ) && $home_page_id == $menu_item->object_id ) 
+			$menu_items[$key]->classes = trim( $menu_items[$key]->classes . ' ' . 'current_page_parent' );
 	}
 
 	$active_parent_item_ids = array_filter( array_unique( $active_parent_item_ids ) );
