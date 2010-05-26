@@ -1092,7 +1092,6 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 			echo "$string<br />\n";
 		else
 			echo "<p>$string</p>\n";
-		$this->flush_output();
 	}
 
 	function header() {
@@ -1115,6 +1114,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 			}
 			$this->error = implode(', ', $messages);
 		}
+		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
 	}
 
 	function bulk_header() {
@@ -1127,8 +1127,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 
 	function before($title = '') {
 		$this->in_loop = true;
-		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . '</h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
-		echo '<div class="update-messages" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
+		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <img alt="" src="' . admin_url( 'images/wpspin_light.gif' ) . '" class="hidden waiting-' . $this->upgrader->update_current . '" style="vertical-align:middle;"></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
+		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
+		echo '<div class="update-messages hide-if-js" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
 		$this->flush_output();
 	}
 
@@ -1143,12 +1144,8 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
 		}
 		if ( !empty($this->result) && !is_wp_error($this->result) ) {
-			echo '<div class="updated" id="finished-' . $this->upgrader->update_current . '"><p>' . sprintf($this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').toggle();jQuery(\'span\', this).toggle(); return false;') . '</p></div>';
-
-			if ( $this->upgrader->update_count > 1 ) // Only hide the update steps if multiple items are being updated.
-				echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
-			else
-				echo '<script type="text/javascript">jQuery(\'#finished-' . esc_js($this->upgrader->update_current) . '\ span\').toggle();</script>';
+			echo '<div class="updated"><p>' . sprintf($this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').toggle();jQuery(\'span\', this).toggle(); return false;') . '</p></div>';
+			echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
 		}
 
 		$this->reset();
