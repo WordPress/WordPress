@@ -306,6 +306,7 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 	$active_parent_item_ids = array();
 	$active_parent_object_ids = array();
 	$possible_object_parents = array();
+	$home_page_id = (int) get_option( 'page_for_posts' );
 	
 	if ( $wp_query->is_singular && ! empty( $queried_object->post_type ) && ! is_post_type_hierarchical( $queried_object->post_type ) ) {
 		foreach ( (array) get_object_taxonomies( $queried_object->post_type ) as $taxonomy ) {
@@ -332,6 +333,7 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 		} elseif (
 			$menu_item->object_id == $queried_object_id &&
 			( 
+				( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && $wp_query->is_home && $home_page_id = $menu_item->object_id ) ||
 				( 'post_type' == $menu_item->type && $wp_query->is_singular ) ||
 				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) ) 
 			) 
