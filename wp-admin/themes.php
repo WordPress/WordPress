@@ -33,12 +33,14 @@ $parent_file = 'themes.php';
 
 if ( current_user_can( 'switch_themes' ) ) :
 
-$help = '<p>' . __('Themes give your WordPress style. Once a theme is installed, you may preview it, activate it or deactivate it here.') . '</p>';
-if ( current_user_can('install_themes') ) {
-	$help .= '<p>' . sprintf(__('You can find additional themes for your site by using the new <a href="%1$s">Theme Browser/Installer</a> functionality or by browsing the <a href="http://wordpress.org/extend/themes/">WordPress Theme Directory</a> directly and installing manually.  To install a theme <em>manually</em>, <a href="%2$s">upload its ZIP archive with the new uploader</a> or copy its folder via FTP into your <code>wp-content/themes</code> directory.'), 'theme-install.php', 'theme-install.php?tab=upload' ) . '</p>';
-	$help .= '<p>' . __('Once a theme is uploaded, you should see it on this screen.') . '</p>' ;
-}
-
+$help = '<p>' . __('Aside from the default theme included with your WordPress installation, themes are designed and developed by third parties.') . '</p>';
+$help .= '<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
+if ( current_user_can('install_themes') )
+	$help .= '<p>' . sprintf(__('If you would like to see more themes to choose from, click on the "Install Themes" tab and you will be able to browse or search for additional themes from the <a href="%s">WordPress.org theme repository</a>. Themes in the WordPress.org theme repository are designed and developed by third parties, and are licensed under the GNU General Public License, version 2, just like WordPress. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/') . '</p>';
+	
+$help .= '<p>' . __('<strong>For more information:</strong>') . '</p>'; 
+$help .= '<p>' . sprintf(__('<a href="%s">Documentation on Using Themes</a>'), 'http://codex.wordpress.org/Using_Themes') . '</p>';
+$help .= '<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>';
 add_contextual_help($current_screen, $help);
 
 add_thickbox();
