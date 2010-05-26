@@ -614,7 +614,7 @@ function wp_dropdown_users( $args = '' ) {
 		if ( $multi && ! $id )
 			$id = '';
 		else
-			$id = $id ? " id='" . esc_attr( $id ) . "'" : "id='$name'";
+			$id = $id ? " id='" . esc_attr( $id ) . "'" : " id='$name'";
 
 		$output = "<select name='{$name}'{$id} class='$class'>\n";
 
