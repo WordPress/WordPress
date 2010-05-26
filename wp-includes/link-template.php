@@ -185,7 +185,7 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 
 	$slug = $post->post_name;
 
-	$draft_or_pending = 'draft' == $post->post_status || 'pending' == $post->post_status;
+	$draft_or_pending = in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) );
 
 	$post_type = get_post_type_object($post->post_type);
 
