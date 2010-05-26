@@ -296,7 +296,7 @@ function wp_nav_menu( $args = array() ) {
  *
  * @param array $menu_items The current menu item objects to which to add the class property information.
  */
-function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
+function _wp_menu_item_classes_by_context( &$menu_items ) {
 	global $wp_query;
 
 	$queried_object = $wp_query->get_queried_object();
