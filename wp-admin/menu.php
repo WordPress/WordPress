@@ -108,6 +108,14 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'me
 	$submenu['edit.php?post_type=page'][5] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page' );
 	/* translators: add new page */
 	$submenu['edit.php?post_type=page'][10] = array( _x('Add New', 'page'), 'edit_pages', 'post-new.php?post_type=page' );
+	$i = 15;
+	foreach ( $wp_taxonomies as $tax ) {
+		if ( ! $tax->show_ui || ! in_array('page', (array) $tax->object_type, true) )
+			continue;
+
+		$submenu['edit.php?post_type=page'][$i++] = array( esc_attr( $tax->labels->name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name );
+	}
+	unset($tax);
 
 $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top menu-icon-comments', 'menu-comments', 'div' );
 
