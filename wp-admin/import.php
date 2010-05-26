@@ -15,6 +15,14 @@ if ( !current_user_can('edit_files') )
 	wp_die(__('You do not have sufficient permissions to import content in this site.'));
 
 $title = __('Import');
+
+add_contextual_help($current_screen, '<p>' . __('This screen lists links to plugins to import data from blogging/content management platforms. Choose the platform you want to import from, and click Install Now when you are prompted in the popup window. If your platform is not listed, click the link to search the plugin directory for other importer plugins to see if there is one for your platform.') . '</p>' .
+	'<p>' . __('In previous versions of WordPress, all the importers were built-in, but they have been turned into plugins as of version 3.0 since most people only use them once or infrequently.') . '</p>' .
+	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
+	'<p>' . sprintf(__('<a href="%s">Import Documentation</a>'), 'http://codex.wordpress.org/Tools_Import_SubPanel') . '</p>' .
+	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
+);
+
 add_thickbox();
 require_once ('admin-header.php');
 $parent_file = 'tools.php';
