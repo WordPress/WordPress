@@ -42,7 +42,7 @@
 							<?php the_author_meta( 'description' ); ?>
 							<div id="author-link">
 								<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-									<?php printf( __( 'View all posts by %s &rarr;', 'twentyten' ), get_the_author() ); ?>
+									<?php printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyten' ), get_the_author() ); ?>
 								</a>
 							</div><!-- #author-link	-->
 						</div><!-- #author-description -->
