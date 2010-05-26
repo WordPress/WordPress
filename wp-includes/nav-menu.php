@@ -763,7 +763,7 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 		'menu-item-object' => $post->post_type,
 		'menu-item-type' => 'post_type',
 	);
-	
+
 	foreach ( $auto_add as $menu_id ) {
 		$items = (array) wp_get_nav_menu_items( $menu_id );
 		foreach ( $items as $item ) {

@@ -105,7 +105,7 @@ function ms_file_constants(  ) {
 function ms_subdomain_constants() {
 	static $error = null;
 	static $error_warn = false;
-	
+
 	if ( false === $error )
 		return;
 
@@ -130,7 +130,7 @@ function ms_subdomain_constants() {
 	} elseif ( defined( 'VHOST' ) ) {
 		$error = true;
 		define( 'SUBDOMAIN_INSTALL', 'yes' == VHOST );
-	} else {	
+	} else {
 		define( 'SUBDOMAIN_INSTALL', false );
 		define( 'VHOST', 'no' );
 	}

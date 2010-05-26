@@ -257,7 +257,7 @@ function wp_nav_menu( $args = array() ) {
 	$sorted_menu_items = array();
 	foreach ( (array) $menu_items as $key => $menu_item )
 		$sorted_menu_items[$menu_item->menu_order] = $menu_item;
-	
+
 	unset($menu_items);
 
 	$items .= walk_nav_menu_tree( $sorted_menu_items, $args->depth, $args );
@@ -307,7 +307,7 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 	$active_parent_object_ids = array();
 	$possible_object_parents = array();
 	$home_page_id = (int) get_option( 'page_for_posts' );
-	
+
 	if ( $wp_query->is_singular && ! empty( $queried_object->post_type ) && ! is_post_type_hierarchical( $queried_object->post_type ) ) {
 		foreach ( (array) get_object_taxonomies( $queried_object->post_type ) as $taxonomy ) {
 			if ( is_taxonomy_hierarchical( $taxonomy ) ) {
@@ -328,15 +328,15 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 			$active_parent_object_ids[] = (int) $menu_item->object_id;
 			$active_parent_item_ids[] = (int) $menu_item->db_id;
 			$active_object = $queried_object->post_type;
-		
+
 		// if the menu item corresponds to the currently-queried post or taxonomy object
 		} elseif (
 			$menu_item->object_id == $queried_object_id &&
-			( 
+			(
 				( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && $wp_query->is_home && $home_page_id = $menu_item->object_id ) ||
 				( 'post_type' == $menu_item->type && $wp_query->is_singular ) ||
-				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) ) 
-			) 
+				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) )
+			)
 		) {
 			$menu_items[$key]->classes = trim( $menu_item->classes . ' ' . 'current-menu-item' );
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
@@ -363,11 +363,11 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 
 	// set parent's class
 	foreach ( (array) $menu_items as $key => $parent_item ) {
-		if ( 
-			isset( $parent_item->type ) && 
-			'post_type' == $parent_item->type && 
+		if (
+			isset( $parent_item->type ) &&
+			'post_type' == $parent_item->type &&
 			! empty( $queried_object->post_type ) &&
-			is_post_type_hierarchical( $queried_object->post_type ) && 
+			is_post_type_hierarchical( $queried_object->post_type ) &&
 			in_array( $parent_item->object_id, $queried_object->ancestors )
 		)
 			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $queried_object->post_type . '-ancestor current-menu-ancestor' );

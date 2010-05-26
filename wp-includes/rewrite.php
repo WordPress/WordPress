@@ -1775,7 +1775,7 @@ class WP_Rewrite {
 				 			<rules>
 				';
 			}
-			
+
 			$rules .= '
 			 <rule name="wordpress" patternSyntax="Wildcard">
 			 	<match url="*" />

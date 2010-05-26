@@ -118,7 +118,7 @@ class Custom_Image_Header {
 		elseif ( 2 == $step )
 			wp_enqueue_style('imgareaselect');
 	}
-	
+
 	/**
 	 * Check if header text is allowed
 	 *
@@ -272,7 +272,7 @@ class Custom_Image_Header {
 			jQuery('#text-color').val(old_color);
 			jQuery('#name').css('color', old_color);
 			jQuery('#desc').css('color', old_color);
-			pickColor(old_color); 
+			pickColor(old_color);
 		} else {
 			//Hide text
 			jQuery( text_objects.toString() ).hide();
@@ -371,7 +371,7 @@ class Custom_Image_Header {
 			y2: yinit,
 			maxHeight: <?php echo HEADER_IMAGE_HEIGHT; ?>,
 			maxWidth: <?php echo HEADER_IMAGE_WIDTH; ?>,
-			onInit: function () { 
+			onInit: function () {
 				jQuery('#width').val(xinit);
 				jQuery('#height').val(yinit);
 			},

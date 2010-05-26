@@ -213,7 +213,7 @@ body {
 #menu-container .submit { margin: 0px 0px 10px; padding: 0px; }
 
 .meta-sep,
-.submitdelete, 
+.submitdelete,
 .submitcancel {
 	display:block;
 	float:left;
@@ -239,7 +239,7 @@ body {
 	vertical-align: middle;
 }
 
-.button-controls { 
+.button-controls {
 	clear:both;
 	margin: 10px 0;
 }
@@ -280,7 +280,7 @@ body {
 	padding: 1em 0;
 }
 
-.menu ul { 
+.menu ul {
 	width: 100%;
 }
 .menu ul.sub-menu {
@@ -525,18 +525,18 @@ clear:both;
 
 /* Clearfix */
 #menu-item-name-wrap:after,
-#menu-item-url-wrap:after, 
+#menu-item-url-wrap:after,
 #menu-name-label:after,
 #menu-settings-column .inside:after,
-#nav-menus-frame:after, 
+#nav-menus-frame:after,
 #post-body-content:after,
-.button-controls:after, 
+.button-controls:after,
 .major-publishing-actions:after,
 .menu-item-settings:after {
-	clear: both; 
+	clear: both;
 	content: ".";
 	display: block;
-	height: 0; 
+	height: 0;
 	visibility: hidden;
 }
 #nav-menus-frame, .button-controls, #menu-item-url-wrap, #menu-item-name-wrap { display: block; }

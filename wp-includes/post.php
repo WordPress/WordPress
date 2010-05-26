@@ -783,13 +783,13 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
  * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
  * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
- * - permalink_epmask - The default rewrite endpoint bitmasks. 
+ * - permalink_epmask - The default rewrite endpoint bitmasks.
  * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $taxonomy as slug.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type
  * - can_export - true allows this post type to be exported.
- * - show_in_nav_menus - true makes this post type available for selection in navigation menus. 
+ * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
  * - _builtin - true if this post type is a native or "built-in" post_type.  THIS IS FOR INTERNAL USE ONLY!
- * - _edit_link - URL segement to use for edit link of this post type.  Set to 'post.php?post=%d'.  THIS IS FOR INTERNAL USE ONLY! 
+ * - _edit_link - URL segement to use for edit link of this post type.  Set to 'post.php?post=%d'.  THIS IS FOR INTERNAL USE ONLY!
  *
  * @since 2.9.0
  * @uses $wp_post_types Inserts new post type object into the list
@@ -888,7 +888,7 @@ function register_post_type($post_type, $args = array()) {
 
 /**
  * Builds an object with all post type capabilities out of a post type object
- * 
+ *
  * Accepted keys of the capabilities array in the post type object:
  * - edit_post - The meta capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
  * - edit_posts - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
@@ -897,7 +897,7 @@ function register_post_type($post_type, $args = array()) {
  * - read_post - The meta capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
  * - read_private_posts - The capability that controls reading private posts. Defaults to "read_ . $capability_type . s" (read_private_posts).
  * - delete_post - The meta capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
- * 
+ *
  * @since 3.0.0
  * @param object $args
  * @return object object with all the capabilities as member variables
@@ -918,7 +918,7 @@ function get_post_type_capabilities( $args ) {
 
 /**
  * Builds an object with all post type labels out of a post type object
- * 
+ *
  * Accepted keys of the label array in the post type object:
  * - name - general name for the post type, usually plural. The same and overriden by $post_type_object->label. Default is Posts/Pages
  * - singular_name - name for one object of this post type. Default is Post/Page
@@ -932,9 +932,9 @@ function get_post_type_capabilities( $args ) {
  * - not_found - Default is No posts found/No pages found
  * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
- * 
+ *
  * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages.)
- * 
+ *
  * @since 3.0.0
  * @param object $post_type_object
  * @return object object with all the labels as member variables
@@ -958,22 +958,22 @@ function get_post_type_labels( $post_type_object ) {
 
 /**
  * Builds an object with custom-something object (post type, taxonomy) labels out of a custom-something object
- * 
+ *
  * @access private
  */
 function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
-	
+
 	if ( isset( $object->label ) ) {
 		$object->labels['name'] = $object->label;
 	}
-	
+
 	if ( !isset( $object->labels['singular_name'] ) && isset( $object->labels['name'] ) ) {
 		$object->labels['singular_name'] = $object->labels['name'];
 	}
-	
+
 	$defaults = array_map( create_function( '$x', $object->hierarchical? 'return $x[1];' : 'return $x[0];' ), $nohier_vs_hier_defaults );
 	$labels = array_merge( $defaults, $object->labels );
-	return (object)$labels;	
+	return (object)$labels;
 }
 
 /**

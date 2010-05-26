@@ -680,7 +680,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
  */
 function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 	$taxonomy_name = $taxonomy['args']->name;
-	
+
 	// paginate browsing for large numbers of objects
 	$per_page = 50;
 	$pagenum = isset( $_REQUEST[$taxonomy_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
@@ -966,7 +966,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		$result .= ( ! empty($menu_items) ) ? ' menu-instructions-inactive">' : '">';
 		$result .= __('Select menu items (pages, categories, links) from the boxes at left to begin building your custom menu.');
 		$result .= '</div>';
-		
+
 		if( empty($menu_items) )
 			return $result;
 

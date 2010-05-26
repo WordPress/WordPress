@@ -21,7 +21,7 @@ if ( isset($_GET['find_detached']) ) {
 		wp_die( __('You are not allowed to scan for lost attachments.') );
 
 	$lost = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent > '0' and post_parent NOT IN ( SELECT ID FROM $wpdb->posts WHERE post_type NOT IN ('attachment', '" . join("', '", get_post_types( array( 'public' => false ) ) ) . "') )");
-	
+
 	$_GET['detached'] = 1;
 
 } elseif ( isset($_GET['found_post_id']) && isset($_GET['media']) ) {
@@ -168,7 +168,7 @@ add_contextual_help( $current_screen,
 	'<p>' . __('You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.') . '</p>' .
 	'<p>' . __('Hovering over a row reveals action links: <em>Edit</em>, <em>Delete Permanently</em>, and <em>View</em>. Clicking <em>Edit</em> or on the media file&#8217;s name displays a simple screen to edit that individual file&#8217;s metadata. Clicking <em>Delete Permanently</em> will delete the file from the media library (as well as from any posts to which it is currently attached). <em>View</em> will take you to the display page for that file. ') . '</p>' .
 	'<p>' . __('If a media file has not been attached to any post, you will see that in the <em>Attached To</em> column, and can click on <em>Attach File</em> to launch a small popup that will allow you to search for a post and attach the file.') . '</p>' .
-	'<p>' . __('For more information:<br /> 
+	'<p>' . __('For more information:<br />
 	<a href="http://codex.wordpress.org/Media_Library_SubPanel">Media Library Documentation</a> <br />
 	<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );

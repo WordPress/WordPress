@@ -83,14 +83,14 @@ switch ( $action ) {
 				}
 
 				// get next in order
-				if ( 
+				if (
 					isset( $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1] )
 				) {
 					$next_item_id = $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1];
 					$next_item_data = (array) wp_setup_nav_menu_item( get_post( $next_item_id ) );
 
 					// if not siblings of same parent, bubble menu item up but keep order
-					if ( 
+					if (
 						! empty( $menu_item_data['menu_item_parent'] ) &&
 						(
 							empty( $next_item_data['menu_item_parent'] ) ||
@@ -99,12 +99,12 @@ switch ( $action ) {
 					) {
 
 						$parent_db_id = in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids ) ? (int) $menu_item_data['menu_item_parent'] : 0;
-	
+
 						$parent_object = wp_setup_nav_menu_item( get_post( $parent_db_id ) );
 
 						if ( ! is_wp_error( $parent_object ) ) {
 							$parent_data = (array) $parent_object;
-							$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];	
+							$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];
 							update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 
 						}
@@ -114,16 +114,16 @@ switch ( $action ) {
 						$next_item_data['menu_order'] = $next_item_data['menu_order'] - 1;
 						$menu_item_data['menu_order'] = $menu_item_data['menu_order'] + 1;
 
-						$menu_item_data['menu_item_parent'] = $next_item_data['ID'];	
+						$menu_item_data['menu_item_parent'] = $next_item_data['ID'];
 						update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
-						
+
 						wp_update_post($menu_item_data);
 						wp_update_post($next_item_data);
 					}
-					
+
 
 				// the item is last but still has a parent, so bubble up
-				} elseif ( 
+				} elseif (
 					! empty( $menu_item_data['menu_item_parent'] ) &&
 					in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids )
 				) {
@@ -174,16 +174,16 @@ switch ( $action ) {
 							$parent_data = (array) $parent_object;
 
 							// if there is something before the parent and parent a child of it, make menu item a child also of it
-							if ( 
-								! empty( $dbids_to_orders[$parent_db_id] ) && 
+							if (
+								! empty( $dbids_to_orders[$parent_db_id] ) &&
 								! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] ) &&
 								! empty( $parent_data['menu_item_parent'] )
 							) {
 								$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];
 
 							// else if there is something before parent and parent not a child of it, make menu item a child of that something's parent
-							} elseif ( 
-								! empty( $dbids_to_orders[$parent_db_id] ) && 
+							} elseif (
+								! empty( $dbids_to_orders[$parent_db_id] ) &&
 								! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] )
 							) {
 								$_possible_parent_id = (int) get_post_meta( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1], '_menu_item_menu_item_parent', true);
@@ -210,12 +210,12 @@ switch ( $action ) {
 						}
 
 					// else this menu item is not a child of the previous
-					} elseif ( 
+					} elseif (
 						empty( $menu_item_data['menu_order'] ) ||
 						empty( $menu_item_data['menu_item_parent'] ) ||
 						! in_array( $menu_item_data['menu_item_parent'], array_keys( $dbids_to_orders ) ) ||
 						empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ||
-						$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] != $menu_item_data['menu_item_parent']	
+						$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] != $menu_item_data['menu_item_parent']
 					) {
 						// just make it a child of the previous; keep the order
 						$menu_item_data['menu_item_parent'] = (int) $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1];
@@ -533,7 +533,7 @@ require_once( 'admin-header.php' );
 											$auto_add = true;
 										else
 											$auto_add = false;
-									}	
+									}
 								?>
 								<div class="auto-add-pages">
 									<label class="howto"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" value="1" /> <?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>

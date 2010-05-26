@@ -624,12 +624,12 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		global $comments, $comment;
-		
+
 		$cache = wp_cache_get('widget_recent_comments', 'widget');
-		
+
 		if ( ! is_array( $cache ) )
 			$cache = array();
-		
+
 		if ( isset( $cache[$args['widget_id']] ) ) {
 			echo $cache[$args['widget_id']];
 			return;
@@ -646,11 +646,11 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
 		$comments = get_comments( array( 'number' => $number, 'status' => 'approve' ) );
 		$output .= $before_widget;
-		if ( $title ) 
+		if ( $title )
 			$output .= $before_title . $title . $after_title;
 
 		$output .= '<ul id="recentcomments">';
-		if ( $comments ) { 
+		if ( $comments ) {
 			foreach ( (array) $comments as $comment) {
 				$output .=  '<li class="recentcomments">' . /* translators: comments widget: 1: comment author, 2: post link */ sprintf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url( get_comment_link($comment->comment_ID) ) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 			}

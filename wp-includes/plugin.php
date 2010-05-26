@@ -743,7 +743,7 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 	} else {
 		$function = (array) $function;
 	}
-	
+
 	if (is_object($function[0]) ) {
 		// Object Class Calling
 		if ( function_exists('spl_object_hash') ) {

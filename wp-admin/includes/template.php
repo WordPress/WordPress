@@ -2837,7 +2837,7 @@ function do_meta_boxes($page, $context, $object) {
 
 	$hidden = get_hidden_meta_boxes($page);
 
-	printf('<div id="%s-sortables" class="meta-box-sortables">', htmlspecialchars($context)); 
+	printf('<div id="%s-sortables" class="meta-box-sortables">', htmlspecialchars($context));
 
 	$i = 0;
 	do {
@@ -3233,7 +3233,7 @@ function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = F
  */
 function manage_columns_prefs( $page ) {
 	$columns = get_column_headers( $page );
-	$hidden  = get_hidden_columns( $page );	
+	$hidden  = get_hidden_columns( $page );
 	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username');
 
 	foreach ( $columns as $column => $title ) {
@@ -3545,9 +3545,9 @@ function _post_states($post) {
 
 /**
  * Convert a screen string to a screen object
- * 
+ *
  * @since 3.0.0
- * 
+ *
  * @param string $screen The name of the screen
  * @return object An object containing the safe screen name and id
  */
@@ -3615,11 +3615,11 @@ function screen_meta($screen) {
 	echo screen_layout($screen);
 
 	if ( !empty( $screen_options ) ) {
-		?> 
+		?>
 		<h5><?php _ex('Show on screen', 'Screen Options') ?></h5>
 		<?php
 	}
-	
+
 	echo $screen_options;
 	echo $settings; ?>
 <div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>

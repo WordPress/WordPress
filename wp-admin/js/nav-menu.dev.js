@@ -147,7 +147,7 @@ var wpNavMenu;
 				},
 				getItemData : function( itemType, id ) {
 					itemType = itemType || 'menu-item';
-					
+
 					var itemData = {}, i,
 					fields = [
 						'menu-item-db-id',
@@ -164,13 +164,13 @@ var wpNavMenu;
 						'menu-item-classes',
 						'menu-item-xfn'
 					];
-					
+
 					if( !id && itemType == 'menu-item' ) {
 						id = this.find('.menu-item-data-db-id').val();
 					}
-					
+
 					if( !id ) return itemData;
-					
+
 					this.find('input').each(function() {
 						var field;
 						i = fields.length;
@@ -179,7 +179,7 @@ var wpNavMenu;
 								field = fields[i] + '[' + id + ']';
 							else if( itemType == 'add-menu-item' )
 								field = 'menu-item[' + id + '][' + fields[i] + ']';
-								
+
 							if (
 								this.name &&
 								field == this.name
@@ -188,18 +188,18 @@ var wpNavMenu;
 							}
 						}
 					});
-					
+
 					return itemData;
 				},
 				setItemData : function( itemData, itemType, id ) { // Can take a type, such as 'menu-item', or an id.
 					itemType = itemType || 'menu-item';
-					
+
 					if( !id && itemType == 'menu-item' ) {
 						id = $('.menu-item-data-db-id', this).val();
 					}
-					
+
 					if( !id ) return this;
-					
+
 					this.find('input').each(function() {
 						var t = $(this), field;
 						$.each( itemData, function( attr, val ) {
@@ -207,7 +207,7 @@ var wpNavMenu;
 								field = attr + '[' + id + ']';
 							else if( itemType == 'add-menu-item' )
 								field = 'menu-item[' + id + '][' + attr + ']';
-							
+
 							if ( field == t.attr('name') ) {
 								t.val( val );
 							}

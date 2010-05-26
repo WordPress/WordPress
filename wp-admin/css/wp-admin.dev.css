@@ -1175,14 +1175,14 @@ div.comment-item:hover .row-actions {
 #sidemenu li a span.update-plugins {
 	position: absolute;
 	font-family: Helvetica, Arial, sans-serif;
-	font-size: 9px; 
+	font-size: 9px;
 	line-height: 17px;
 	font-weight: bold;
-	margin-top: 1px; 
-	margin-left: 7px; 
-	-moz-border-radius: 10px; 
-	-khtml-border-radius: 10px; 
-	-webkit-border-radius: 10px; 
+	margin-top: 1px;
+	margin-left: 7px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
 

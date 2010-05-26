@@ -211,7 +211,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * whether taxonomy exists.
  *
  * Optional $args contents:
- * 
+ *
  * label - Name of the taxonomy shown in the menu. Usually plural. If not set, labels['name'] will be used.
  *
  * hierarchical - has some defined purpose at other parts of the API and is a
@@ -234,7 +234,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  *
  * show_tagcloud - false to prevent the taxonomy being listed in the Tag Cloud Widget;
  * defaults to show_ui which defalts to public.
- * 
+ *
  * labels - An array of labels for this taxonomy. You can see accepted values in {@link get_taxonomy_labels()}. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones.
  *
  * @package WordPress
@@ -303,7 +303,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	$args['labels'] = get_taxonomy_labels( (object) $args );
 	$args['label'] = $args['labels']->name;
-	
+
 	$wp_taxonomies[$taxonomy] = (object) $args;
 
 	// register callback handling for metabox
@@ -312,7 +312,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 /**
  * Builds an object with all taxonomy labels out of a taxonomy object
- * 
+ *
  * Accepted keys of the label array in the taxonomy object:
  * - name - general name for the taxonomy, usually plural. The same as and overriden by $tax->label. Default is Post Tags/Categories
  * - singular_name - name for one object of this taxonomy. Default is Post Tag/Category
@@ -325,9 +325,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * - update_item - Default is Update Tag/Update Category
  * - add_new_item - Default is Add New Tag/Add New Category
  * - new_item_name - Default is New Tag Name/New Category Name
- * 
+ *
  * Above, the first default value is for non-hierarchical taxonomies (like tags) and the second one is for hierarchical taxonomies (like categories.)
- * 
+ *
  * @since 3.0.0
  * @param object $tax Taxonomy object
  * @return object object with all the labels as member variables

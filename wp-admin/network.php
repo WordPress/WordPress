@@ -225,7 +225,7 @@ function network_step1( $errors = false ) {
 					_e( 'Because your install is in a directory, the sites in your WordPress network must use sub-directories.' );
 					// Uh oh:
 					if ( !allow_subdirectory_install() )
-						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';	
+						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
 				?></td>
 			</tr>
 		<?php elseif ( !allow_subdirectory_install() ) : ?>
@@ -348,9 +348,9 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 ?>
 </li>
 <?php
-	if (iis7_supports_permalinks()) { 
+	if (iis7_supports_permalinks()) {
 			if (is_subdomain_install()) {
-				$web_config_file = 
+				$web_config_file =
 '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
@@ -381,7 +381,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
     </system.webServer>
 </configuration>';
 			} else {
-				$web_config_file = 
+				$web_config_file =
 '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
@@ -438,24 +438,24 @@ RewriteRule ^index\.php$ - [L]
 
 # uploaded files
 RewriteRule ^' . ( $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?' ) . 'files/(.+) wp-includes/ms-files.php?file=$' . ( $subdomain_install ? 1 : 2 ) . ' [L]' . "\n";
-		
+
 		if ( ! $subdomain_install )
 			$htaccess_file .= "\n# add a trailing slash to /wp-admin\n" . 'RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]' . "\n";
-		
+
 		$htaccess_file .= "\n" . 'RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]';
-		
+
 		// @todo custom content dir.
 		if ( ! $subdomain_install )
 			$htaccess_file .= "\nRewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]\nRewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]";
-		
+
 		$htaccess_file .= "\nRewriteRule . index.php [L]";
-		
+
 		?>
 		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>"><?php 
-		echo wp_htmledit_pre( $htaccess_file ); 
+		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>"><?php
+		echo wp_htmledit_pre( $htaccess_file );
 		?>
 		</textarea></li>
 		</ol>

@@ -603,7 +603,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 	$needed_dirs = array_unique($needed_dirs);
 	foreach ( $needed_dirs as $dir ) {
-		// Check the parent folders of the folders all exist within the creation array. 
+		// Check the parent folders of the folders all exist within the creation array.
 		if ( untrailingslashit($to) == $dir ) // Skip over the working directory, We know this exists (or will exist)
 			continue;
 
@@ -682,7 +682,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 
 	$needed_dirs = array_unique($needed_dirs);
 	foreach ( $needed_dirs as $dir ) {
-		// Check the parent folders of the folders all exist within the creation array. 
+		// Check the parent folders of the folders all exist within the creation array.
 		if ( untrailingslashit($to) == $dir ) // Skip over the working directory, We know this exists (or will exist)
 			continue;
 
