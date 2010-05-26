@@ -39,7 +39,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<dc:creator><?php the_author() ?></dc:creator>
 		<?php the_category_rss() ?>
 
-		<guid isPermaLink="false"><?php esc_url( the_guid() ); ?></guid>
+		<guid isPermaLink="false"><?php the_guid(); ?></guid>
 <?php if (get_option('rss_use_excerpt')) : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php else : ?>

@@ -36,7 +36,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		</author>
 		<title type="<?php html_type_rss(); ?>"><![CDATA[<?php the_title_rss() ?>]]></title>
 		<link rel="alternate" type="text/html" href="<?php the_permalink_rss() ?>" />
-		<id><?php esc_url( the_guid() ); ?></id>
+		<id><?php the_guid() ; ?></id>
 		<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 		<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
 		<?php the_category_rss('atom') ?>
