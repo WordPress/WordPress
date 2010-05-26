@@ -439,6 +439,9 @@ div.menu li {
 	color: #fff;
 }
 
+* html #access ul li a:hover {
+	color:#fff;
+}
 
 /* =Content
 -------------------------------------------------------------- */
