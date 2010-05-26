@@ -209,7 +209,7 @@ function comments_link_feed() {
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  */
 function comment_guid($comment_id = null) {
-	echo get_comment_guid($comment_id);
+	echo esc_url( get_comment_guid($comment_id) );
 }
 
 /**
