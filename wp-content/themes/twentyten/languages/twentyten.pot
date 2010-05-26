@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-05-26 00:21+0000\n"
+"POT-Creation-Date: 2010-05-26 08:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,40 +51,46 @@ msgstr ""
 msgid "Return to %s"
 msgstr ""
 
-#: attachment.php:25
+#. translators: %s - title of parent post
+#: attachment.php:20
+#, php-format
+msgid "<span class=\"meta-nav\">&larr;</span> %s"
+msgstr ""
+
+#: attachment.php:28
 #, php-format
 msgid "<span class=\"%1$s\">By</span> %2$s"
 msgstr ""
 
-#: attachment.php:29 functions.php:447
+#: attachment.php:32 functions.php:447
 #, php-format
 msgid "View all posts by %s"
 msgstr ""
 
-#: attachment.php:36
+#: attachment.php:39
 #, php-format
 msgid "<span class=\"%1$s\">Published</span> %2$s"
 msgstr ""
 
-#: attachment.php:46
+#: attachment.php:49
 #, php-format
 msgid "Full size is %s pixels"
 msgstr ""
 
-#: attachment.php:49
+#: attachment.php:52
 msgid "Link to full-size image"
 msgstr ""
 
-#: attachment.php:56 attachment.php:95 loop.php:90 loop.php:113 loop.php:155
+#: attachment.php:59 attachment.php:98 loop.php:90 loop.php:113 loop.php:155
 #: onecolumn-page.php:28 page.php:33 single.php:54
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:88 functions.php:275 loop.php:105 loop.php:129 loop.php:133
+#: attachment.php:91 functions.php:275 loop.php:105 loop.php:129 loop.php:133
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: attachment.php:89 loop.php:134 onecolumn-page.php:27 page.php:32
+#: attachment.php:92 loop.php:134 onecolumn-page.php:27 page.php:32
 #: single.php:32
 msgid "Pages:"
 msgstr ""
@@ -117,11 +123,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: comments.php:41 comments.php:60
-msgid "&larr; Older Comments"
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
 msgstr ""
 
 #: comments.php:42 comments.php:61
-msgid "Newer Comments &rarr;"
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: comments.php:72
@@ -390,7 +396,7 @@ msgstr ""
 
 #: single.php:45
 #, php-format
-msgid "View all posts by %s &rarr;"
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: tag.php:17
