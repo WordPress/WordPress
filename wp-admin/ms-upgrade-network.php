@@ -47,7 +47,7 @@ switch ( $action ) {
 			echo "<li>$siteurl</li>";
 			$response = wp_remote_get( trailingslashit( $siteurl ) . "wp-admin/upgrade.php?step=upgrade_db", array( 'timeout' => 120, 'httpversion' => '1.1' ) );
 			if ( is_wp_error( $response ) )
-				wp_die( sprintf( __( 'Warning! Problem updating %$1s. Your server may not be able to connect to sites running on it. Error message: <em>%2$s</em>' ), $siteurl, $response->get_error_message() ) );
+				wp_die( sprintf( __( 'Warning! Problem updating %1$s. Your server may not be able to connect to sites running on it. Error message: <em>%2$s</em>' ), $siteurl, $response->get_error_message() ) );
 			do_action( 'after_mu_upgrade', $response );
 			do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 		}
