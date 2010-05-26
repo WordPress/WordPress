@@ -53,14 +53,9 @@ if ( current_user_can('manage_categories') )
 
 add_contextual_help($current_screen, '<p>' . __('You can create groups of links by using link categories. Link category names must be unique and link categories are separate from the categories you use for posts.') . '</p>' .
 	'<p>' . __('You can delete link categories, but that action does not delete the links within the category. Instead, it moves them to the default link category.') . '</p>' .
-'<p>'. __('For more information:').
-
-'</p>
-<ul>
-			<li>'.__( sprintf ('<a href="%1$s">%2$s</a>', 'http://codex.wordpress.org/Links_Link_Categories_SubPanel', 'Link Categories Documentation') ) .'</li>' .
-'			<li>'.__( sprintf ('<a href="%1$s">%2$s</a>', 'http://wordpress.org/support/', 'Support Forums') ) .'</li>' .
-
-		'</ul>'
+	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
+	'<p>' . sprintf(__('<a href="%1$s">Link Categories Documentation</a>'), 'http://codex.wordpress.org/Links_Link_Categories_SubPanel') . '</p>' .
+	'<p>' . sprintf(__('<a href="%1$s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
 );
 
 require_once ('admin-header.php');
