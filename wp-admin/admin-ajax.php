@@ -218,7 +218,7 @@ function _wp_ajax_delete_comment_response( $comment_id ) {
 function _wp_ajax_add_hierarchical_term() {
 	$action = $_POST['action'];
 	$taxonomy = get_taxonomy(substr($action, 4));
-	check_ajax_referer( $action );
+	check_ajax_referer( $action, '_ajax_nonce-add-' . $taxonomy->name );
 	if ( !current_user_can( $taxonomy->cap->edit_terms ) )
 		die('-1');
 	$names = explode(',', $_POST['new'.$taxonomy->name]);
@@ -702,7 +702,7 @@ case 'get-comments' :
 	$x->send();
 	break;
 case 'replyto-comment' :
-	check_ajax_referer( $action );
+	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( !current_user_can( 'edit_post', $comment_post_ID ) )
@@ -771,7 +771,7 @@ case 'replyto-comment' :
 	$x->send();
 	break;
 case 'edit-comment' :
-	check_ajax_referer( 'replyto-comment' );
+	check_ajax_referer( 'replyto-comment', '_ajax_nonce-replyto-comment' );
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( ! current_user_can( 'edit_post', $comment_post_ID ) )
@@ -845,7 +845,7 @@ case 'add-menu-item' :
 	}
 	break;
 case 'add-meta' :
-	check_ajax_referer( 'add-meta' );
+	check_ajax_referer( 'add-meta', '_ajax_nonce-add-meta' );
 	$c = 0;
 	$pid = (int) $_POST['post_id'];
 	$post = get_post( $pid );

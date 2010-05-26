@@ -2286,7 +2286,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />
 	<input type="hidden" name="checkbox" id="checkbox" value="<?php echo $checkbox ? 1 : 0; ?>" />
 	<input type="hidden" name="mode" id="mode" value="<?php echo esc_attr($mode); ?>" />
-	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
+	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce-replyto-comment', false ); ?>
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
 <?php if ( $table_row ) : ?>
 </td></tr></tbody></table>
@@ -2462,7 +2462,7 @@ function meta_form() {
 
 <tr><td colspan="2" class="submit">
 <input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php esc_attr_e( 'Add Custom Field' ) ?>" />
-<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>
+<?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
 </tbody>
 </table>
