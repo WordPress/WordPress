@@ -52,7 +52,14 @@ $body_id = $tab;
 
 do_action('install_plugins_pre_' . $tab); //Used to override the general interface, Eg, install or plugin information.
 
-add_contextual_help($current_screen, plugins_search_help());
+add_contextual_help($current_screen, '<p>' . __('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from WordPress core by thousands of developers all over the world. All plugins in the official <a href="http://wordpress.org/extend/plugins/">WordPress.org Plugin Directory</a> are compatible with the WordPress GPL v2 license. You can find new plugins to install by searching or browsing the Directory right here in your own Plugins section.') . '</p>' .
+	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to Search in the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting a popular tags. Tags in larger type mean more plugins have teen labeled with that tag.') . '</p>' .
+	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, Newest, and Recently Updated plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
+	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click Upload in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>' .
+	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
+	'<p>' . sprintf(__('<a href="%s">Documentation on Installing Plugins</a>'), 'http://codex.wordpress.org/Plugins_Add_New_SubPanel') . '</p>' .
+	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
+);
 
 include('./admin-header.php');
 ?>
