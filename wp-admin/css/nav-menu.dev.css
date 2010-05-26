@@ -409,6 +409,9 @@ body.js .item-order {
 }
 
 /* Menu editing */
+.menu-instructions-inactive {
+	display: none;
+}
 .menu-item-settings {
 	background: #F9F9F9;
 	display:block;

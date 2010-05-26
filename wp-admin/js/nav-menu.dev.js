@@ -535,7 +535,10 @@ var wpNavMenu;
 			};
 
 			$.post( ajaxurl, params, function(menuMarkup) {
+				var ins = $('#menu-instructions');
 				processMethod(menuMarkup, params);
+				if( ! ins.hasClass('menu-instructions-inactive') && ins.siblings().length )
+					ins.addClass('menu-instructions-inactive');
 				callback();
 			});
 		},
@@ -826,8 +829,11 @@ var wpNavMenu;
 					opacity : 0,
 					height: 0
 				}, 350, function() {
+					var ins = $('#menu-instructions');
 					el.remove();
 					children.shiftDepthClass(-1).updateParentMenuItemDBId();
+					if( ! ins.siblings().length )
+						ins.removeClass('menu-instructions-inactive');
 				});
 		},
 

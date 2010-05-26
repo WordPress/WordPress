@@ -962,6 +962,13 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 	// If the menu exists, get its items.
 	if ( is_nav_menu( $menu ) ) {
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, array('post_status' => 'any') );
+		$result = '<div id="menu-instructions" class="post-body-plain';
+		$result .= ( ! empty($menu_items) ) ? ' menu-instructions-inactive">' : '">';
+		$result .= __('Select menu items (pages, categories, links) from the boxes at left to begin building your custom menu.');
+		$result .= '</div>';
+		
+		if( empty($menu_items) )
+			return $result;
 
 		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
 
@@ -970,7 +977,8 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		else
 			return new WP_Error( 'menu_walker_not_exist', sprintf( __('The Walker class named <strong>%s</strong> does not exist.'), $walker_class_name ) );
 
-		return walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
+		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
+		return $result;
 	} elseif ( is_wp_error( $menu ) ) {
 		return $menu;
 	}
