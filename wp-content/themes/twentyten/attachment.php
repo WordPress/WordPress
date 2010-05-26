@@ -94,7 +94,7 @@
 						<?php twentyten_posted_in(); ?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), ' <span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
-				</div><!-- #post-<?php the_ID(); ?> -->
+				</div><!-- #post-## -->
 
 <?php comments_template(); ?>
 
