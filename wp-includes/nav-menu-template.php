@@ -72,7 +72,7 @@ class Walker_Nav_Menu extends Walker {
 
 		$classes = array( 'menu-item', 'menu-item-type-' . $item->type );
 		if ( !empty($item->classes) )
-			$classes = array_merge($classes, explode(' ', $item->classes) );
+			$classes = array_merge( $classes, $item->classes );
 
 		if ( 'custom' != $item->type ) {
 			$classes[] = 'menu-item-object-' . $item->object;
@@ -170,7 +170,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 		$output .= '<input type="hidden" class="menu-item-target" name="menu-item[' . $possible_object_id . '][menu-item-target]" value="'. esc_attr( $item->target ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-attr_title" name="menu-item[' . $possible_object_id . '][menu-item-attr_title]" value="'. esc_attr( $item->attr_title ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-description" name="menu-item[' . $possible_object_id . '][menu-item-description]" value="'. esc_attr( $item->description ) .'" />';
-		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="'. esc_attr( $item->classes ) .'" />';
+		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="'. esc_attr( implode( ' ', $item->classes ) ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="'. esc_attr( $item->xfn ) .'" />';
 	}
 }
@@ -338,7 +338,7 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) )
 			)
 		) {
-			$menu_items[$key]->classes = trim( $menu_items[$key]->classes . ' ' . 'current-menu-item' );
+			$menu_items[$key]->classes[] = 'current-menu-item';
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 			$active_parent_object_ids[] = (int) $menu_item->post_parent;
 			$active_object = $menu_item->object;
@@ -348,9 +348,9 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
 			if ( $item_url == $current_url ) {
-				$menu_items[$key]->classes = trim( $menu_item->classes . ' ' . 'current-menu-item' );
+				$menu_items[$key]->classes[] = 'current-menu-item';
 				if ( untrailingslashit($current_url) == home_url() )
-					$menu_items[$key]->classes .= ' menu-item-home';
+					$menu_items[$key]->classes[] = 'menu-item-home';
 				$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 				$active_parent_object_ids[] = (int) $menu_item->post_parent;
 				$active_object = $menu_item->object;
@@ -359,7 +359,7 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 		
 		// back-compat with wp_page_menu: add "current_page_parent" to static home page link for any non-page query
 		if ( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && empty( $wp_query->is_page ) && $home_page_id == $menu_item->object_id ) 
-			$menu_items[$key]->classes = trim( $menu_items[$key]->classes . ' ' . 'current_page_parent' );
+			$menu_items[$key]->classes[] = 'current_page_parent';
 	}
 
 	$active_parent_item_ids = array_filter( array_unique( $active_parent_item_ids ) );
@@ -374,11 +374,11 @@ function _wp_menu_item_classes_by_context( &$menu_items = array() ) {
 			is_post_type_hierarchical( $queried_object->post_type ) &&
 			in_array( $parent_item->object_id, $queried_object->ancestors )
 		)
-			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $queried_object->post_type . '-ancestor current-menu-ancestor' );
+			$menu_items[$key]->classes[] = 'current-' . $queried_object->post_type . '-ancestor current-menu-ancestor';
 		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
-			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-menu-parent' );
+			$menu_items[$key]->classes[] = 'current-menu-parent';
 		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
-			$menu_items[$key]->classes = trim( $parent_item->classes . ' ' . 'current-' . $active_object . '-parent' );
+			$menu_items[$key]->classes[] = 'current-' . $active_object . '-parent';
 	}
 }
 

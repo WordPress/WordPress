@@ -253,7 +253,6 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
  * @return int The menu item's database ID or WP_Error object on failure.
  */
 function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array() ) {
-
 	$menu_id = (int) $menu_id;
 	$menu_item_db_id = (int) $menu_item_db_id;
 
@@ -370,9 +369,9 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		update_post_meta( $menu_item_db_id, '_menu_item_object_id', (int) $args['menu-item-object-id'] );
 		update_post_meta( $menu_item_db_id, '_menu_item_object', sanitize_key($args['menu-item-object']) );
 		update_post_meta( $menu_item_db_id, '_menu_item_target', sanitize_key($args['menu-item-target']) );
-		// @todo sanitize_html_classes()
-		foreach( array( 'menu-item-classes', 'menu-item-xfn') as $arg )
-			$args[$arg] = implode( ' ', array_map( 'sanitize_html_class', explode( ' ', $args[$arg] ) ) );
+		
+		$args['menu-item-classes'] = array_map( 'sanitize_html_class', explode( ' ', $args['menu-item-classes'] ) );
+		$args['menu-item-xfn'] = implode( ' ', array_map( 'sanitize_html_class', explode( ' ', $args['menu-item-xfn'] ) ) );
 		update_post_meta( $menu_item_db_id, '_menu_item_classes', $args['menu-item-classes'] );
 		update_post_meta( $menu_item_db_id, '_menu_item_xfn', $args['menu-item-xfn'] );
 
@@ -533,7 +532,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
  * - title:		The title of this menu item.
  * - target: 		The target attribute of the link element for this menu item.
  * - attr_title:	The title attribute of the link element for this menu item.
- * - classes:		The class attribute value for the link element of this menu item.
+ * - classes:		The array of class attribute values for the link element of this menu item.
  * - xfn:		The XFN relationship expressed in the link of this menu item.
  * - description:	The description of this menu item.
  *
@@ -580,7 +579,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt );
 			$menu_item->description = apply_filters( 'nav_menu_description', $menu_item->post_content );
 
-			$menu_item->classes = get_post_meta( $menu_item->ID, '_menu_item_classes', true );
+			$menu_item->classes = (array) get_post_meta( $menu_item->ID, '_menu_item_classes', true );
 			$menu_item->xfn = get_post_meta( $menu_item->ID, '_menu_item_xfn', true );
 		} else {
 			$menu_item->db_id = 0;
@@ -598,7 +597,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt );
 			$menu_item->description = apply_filters( 'nav_menu_description', $menu_item->post_content );
-			$menu_item->classes = '';
+			$menu_item->classes = array();
 			$menu_item->xfn = '';
 		}
 	} elseif ( isset( $menu_item->taxonomy ) ) {
@@ -618,7 +617,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 		$menu_item->target = '';
 		$menu_item->attr_title = '';
 		$menu_item->description = get_term_field( 'description', $menu_item->term_id, $menu_item->taxonomy );
-		$menu_item->classes = '';
+		$menu_item->classes = array();
 		$menu_item->xfn = '';
 
 	}

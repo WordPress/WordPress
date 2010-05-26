@@ -132,7 +132,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				<p class="field-css-classes description description-thin">
 					<label for="edit-menu-item-classes-<?php echo $item_id; ?>">
 						<?php _e( 'CSS Classes (optional)' ); ?><br />
-						<input type="text" id="edit-menu-item-classes-<?php echo $item_id; ?>" class="widefat code edit-menu-item-classes" name="menu-item-classes[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->classes ); ?>" />
+						<input type="text" id="edit-menu-item-classes-<?php echo $item_id; ?>" class="widefat code edit-menu-item-classes" name="menu-item-classes[<?php echo $item_id; ?>]" value="<?php echo esc_attr( implode(' ', $item->classes ) ); ?>" />
 					</label>
 				</p>
 				<p class="field-xfn description description-thin">
