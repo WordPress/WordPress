@@ -174,7 +174,7 @@ if ( 'post' == $post_type ) {
 	'<p>' . __('<strong>Send Trackbacks</strong> - Trackbacks are a way to notify legacy blog systems that you’ve linked to them. Enter the URL(s) you want to send trackbacks. If you link other WordPress sites they&#8217;ll be notified automatically using pingbacks, and this field is unnecessary.') . '</p>' .
 	'<p>' . __('<strong>Discussion</strong> - You can turn comments and pings on or off, and if there are comments on the post, you can see them here and moderate them.') . '</p>' .
 	'<p>' . sprintf(__('You can also create posts with the <a href="%s">Press This bookmarklet</a>.'), 'tools.php') . '</p>' .
-	'<p>' . __('For more information:') . '</p>' .
+	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
 	'<p>' . sprintf(__('<a href="%s">Writing Posts Documentation</a>'), 'http://codex.wordpress.org/Writing_Posts') . '</p>' .
 	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
 	);
@@ -184,7 +184,7 @@ if ( 'post' == $post_type ) {
 	'<p>' . __('<strong>Parent</strong> - You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how many levels you can nest pages.') . '</p>' .
 	'<p>' . __('<strong>Template</strong> - Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them in this dropdown menu.') . '</p>' .
 	'<p>' . __('<strong>Order</strong> - Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in.') . '</p>' .
-	'<p>' . __('For more information:') . '</p>' .
+	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
 	'<p>' . sprintf(__('<a href="%s">Page Creation Documentation</a>'), 'http://codex.wordpress.org/Pages_Add_New_SubPanel') . '</p>' .
 	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
 	);
