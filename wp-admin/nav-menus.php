@@ -368,6 +368,8 @@ switch ( $action ) {
 					if ( false !== ( $key = array_search( $nav_menu_selected_id, $nav_menu_option['auto_add'] ) ) )
 						unset( $nav_menu_option['auto_add'][$key] );
 				}
+				// Remove nonexistent/deleted menus
+				$nav_menu_option['auto_add'] = array_intersect( $nav_menu_option['auto_add'], wp_get_nav_menus( array( 'fields' => 'ids' ) ) );
 				update_option( 'nav_menu_options', $nav_menu_option );
 
 				wp_defer_term_counting(false);

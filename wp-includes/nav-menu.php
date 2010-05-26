@@ -765,7 +765,9 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 	);
 
 	foreach ( $auto_add as $menu_id ) {
-		$items = (array) wp_get_nav_menu_items( $menu_id );
+		$items = wp_get_nav_menu_items( $menu_id );
+		if ( ! is_array( $items ) )
+			continue;
 		foreach ( $items as $item ) {
 			if ( $post->ID == $item->object_id )
 				continue 2;

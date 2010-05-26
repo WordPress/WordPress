@@ -714,7 +714,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * The 'get_terms_orderby' filter passes the ORDER BY clause for the query
  * along with the $args array.
-
+ *
  * The 'get_terms_fields' filter passes the fields for the SELECT query
  * along with the $args array.
  *
