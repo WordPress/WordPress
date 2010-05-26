@@ -347,7 +347,7 @@ function export_wp( $args = array() ) {
 		<dc:creator><?php echo wxr_cdata( get_the_author() ); ?></dc:creator>
 		<?php wxr_post_taxonomy() ?>
 
-		<guid isPermaLink="false"><?php the_guid(); ?></guid>
+		<guid isPermaLink="false"><?php esc_url( the_guid() ); ?></guid>
 		<description></description>
 		<content:encoded><?php echo wxr_cdata( apply_filters( 'the_content_export', $post->post_content ) ); ?></content:encoded>
 		<excerpt:encoded><?php echo wxr_cdata( apply_filters( 'the_excerpt_export', $post->post_excerpt ) ); ?></excerpt:encoded>

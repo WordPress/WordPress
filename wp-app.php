@@ -1150,7 +1150,7 @@ EOD;
 	function echo_entry() { ?>
 <entry xmlns="<?php echo $this->ATOM_NS ?>"
        xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
-	<id><?php the_guid($GLOBALS['post']->ID); ?></id>
+	<id><?php esc_url( the_guid( $GLOBALS['post']->ID ) ); ?></id>
 <?php list($content_type, $content) = prep_atom_text_construct(get_the_title()); ?>
 	<title type="<?php echo $content_type ?>"><?php echo $content ?></title>
 	<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
@@ -1167,7 +1167,7 @@ EOD;
 	</author>
 <?php if ($GLOBALS['post']->post_type == 'attachment') { ?>
 	<link rel="edit-media" href="<?php $this->the_media_url() ?>" />
-	<content type="<?php echo $GLOBALS['post']->post_mime_type ?>" src="<?php the_guid(); ?>"/>
+	<content type="<?php echo $GLOBALS['post']->post_mime_type ?>" src="<?php esc_url( the_guid() ); ?>"/>
 <?php } else { ?>
 	<link href="<?php the_permalink_rss() ?>" />
 <?php if ( strlen( $GLOBALS['post']->post_content ) ) :
