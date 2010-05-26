@@ -3634,23 +3634,16 @@ function screen_meta($screen) {
 	<?php
 	$contextual_help = '';
 	if ( isset($_wp_contextual_help[$screen->id]) ) {
-		if ( !empty($title) )
-			$contextual_help .= '<h5>' . sprintf(__('Get help with &#8220;%s&#8221;'), $title) . '</h5>';
-		else
-			$contextual_help .= '<h5>' . __('Get help with this page') . '</h5>';
 		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen->id] . "</div>\n";
-
-		$contextual_help .= '<h5>' . __('Other Help') . '</h5>';
 	} else {
-		$contextual_help .= '<h5>' . __('Help') . '</h5>';
+		$contextual_help .= '<div class="metabox-prefs">';
+		$default_help = __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
+		$default_help .= '<br />';
+		$default_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
+		$contextual_help .= apply_filters('default_contextual_help', $default_help);
+		$contextual_help .= "</div>\n";
 	}
 
-	$contextual_help .= '<div class="metabox-prefs">';
-	$default_help = __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
-	$default_help .= '<br />';
-	$default_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
-	$contextual_help .= apply_filters('default_contextual_help', $default_help);
-	$contextual_help .= "</div>\n";
 	echo apply_filters('contextual_help', $contextual_help, $screen->id, $screen);
 	?>
 	</div>
