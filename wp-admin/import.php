@@ -68,7 +68,6 @@ $importers = get_importers();
 foreach ( $popular_importers as $pop_importer => $pop_data ) {
 	if ( isset($importers[$pop_importer] ) )
 		continue;
-	var_dump( $pop_data );
 	if ( isset( $pop_data[3] ) && isset( $importers[ $pop_data[3] ] ) )
 		continue;
 
