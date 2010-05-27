@@ -272,7 +272,7 @@ class WP_oEmbed {
 	 * @return string Possibly modified $html
 	 */
 	function _strip_newlines( $html, $data, $url ) {
-		if ( false !== strpos( "\n", $html ) )
+		if ( false !== strpos( $html, "\n" ) )
 			$html = str_replace( array( "\r\n", "\n" ), '', $html );
 
 		return $html;
