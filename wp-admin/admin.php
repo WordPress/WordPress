@@ -160,14 +160,13 @@ if ( isset($plugin_page) ) {
 	if ( ! current_user_can('import') )
 		wp_die(__('You are not allowed to import.'));
 
-	if ( validate_file($importer) ) {
-		wp_die(__('Invalid importer.'));
-	}
+	if ( validate_file($importer) )
+		wp_redirect( admin_url( 'import.php?invalid=' . $importer ) );
 
 	// Allow plugins to define importers as well
 	if ( !isset($wp_importers) || !isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2])) {
 		if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
-			wp_die(__('Cannot load importer.'));
+			wp_redirect( admin_url( 'import.php?invalid=' . $importer ) );
 		include(ABSPATH . "wp-admin/import/$importer.php");
 	}
 
