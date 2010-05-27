@@ -278,16 +278,39 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 
 	$width_ratio = $height_ratio = 1.0;
 
-	if ( $max_width > 0 && $current_width > 0 && $current_width > $max_width )
+	if ( $max_width > 0 && $current_width > 0 && $current_width > $max_width ) {
 		$width_ratio = $max_width / $current_width;
+		$did_width = true;
+	}
 
-	if ( $max_height > 0 && $current_height > 0 && $current_height > $max_height )
+	if ( $max_height > 0 && $current_height > 0 && $current_height > $max_height ) {
 		$height_ratio = $max_height / $current_height;
+		$did_height = true;
+	}
 
-	// the smaller ratio is the one we need to fit it to the constraining box
-	$ratio = min( $width_ratio, $height_ratio );
+	// Calculate the larger/smaller ratios
+	$smaller_ratio = min( $width_ratio, $height_ratio );
+	$larger_ratio  = max( $width_ratio, $height_ratio );
 
-	return array( intval($current_width * $ratio), intval($current_height * $ratio) );
+	if ( intval( $current_width * $larger_ratio ) > $max_width || intval( $current_height * $larger_ratio ) > $max_height )
+ 		// The larger ratio is too big. It would result in an overflow.
+		$ratio = $smaller_ratio;
+	else
+		// The larger ratio fits, and is likely to be a more "snug" fit.
+		$ratio = $larger_ratio;
+
+	$w = intval( $current_width  * $ratio );
+	$h = intval( $current_height * $ratio );
+
+	// Sometimes, due to rounding, we'll end up with a result like this: 465x700 in a 177x177 box is 117x176... a pixel short
+	// We also have issues with recursive calls resulting in an ever-changing result. Contraining to the result of a constraint should yield the original result.
+	// Thus we look for dimensions that are one pixel shy of the max value and bump them up
+	if ( isset( $did_width ) && $did_width && $w == $max_width - 1 )
+		$w = $max_width; // Round it up
+	if ( isset( $did_height ) && $did_height && $h == $max_height - 1 )
+		$h = $max_height; // Round it up
+
+	return array( $w, $h );
 }
 
 /**
@@ -521,8 +544,8 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 					// Skip images with unexpectedly divergent aspect ratios (crops)
 					// First, we calculate what size the original image would be if constrained to a box the size of the current image in the loop
 					$maybe_cropped = image_resize_dimensions($imagedata['width'], $imagedata['height'], $data['width'], $data['height'], false );
-					// If the size doesn't match exactly, then it is of a different aspect ratio, so we skip it, unless it's the thumbnail size
-					if ( 'thumbnail' != $_size && ( !$maybe_cropped || $maybe_cropped[4] != $data['width'] || $maybe_cropped[5] != $data['height'] ) )
+					// If the size doesn't match within one pixel, then it is of a different aspect ratio, so we skip it, unless it's the thumbnail size
+					if ( 'thumbnail' != $_size && ( !$maybe_cropped || ( $maybe_cropped[4] != $data['width'] && $maybe_cropped[4] + 1 != $data['width'] ) || ( $maybe_cropped[5] != $data['height'] && $maybe_cropped[5] + 1 != $data['height'] ) ) )
 						continue;
 					// If we're still here, then we're going to use this size
 					$file = $data['file'];
