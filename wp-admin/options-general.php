@@ -50,7 +50,7 @@ function add_js() {
 }
 add_filter('admin_head', 'add_js');
 
-add_contextual_help($current_screen, __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>'));
+add_contextual_help($current_screen, __('<a href="http://codex.wordpress.org/Settings_General_SubPanel">General Settings Documentation</a>'));
 
 include('./admin-header.php');
 ?>

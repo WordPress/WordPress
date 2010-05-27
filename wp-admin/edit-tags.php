@@ -180,7 +180,7 @@ if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
 	$help .= '<ul>' .
 		'<li>' . __('<strong>Name</strong> - The name is how it appears on your site.') . '</li>';
 	if ( ! global_terms_enabled() )
-		$help .= '<li>' . __('<strong>Slug</strong> - The  &#8220;slug &#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.') . '</li>';
+		$help .= '<li>' . __('<strong>Slug</strong> - The  &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.') . '</li>';
 
 	if ( 'category' == $taxonomy )
 		$help .= '<li>' . __('<strong>Parent</strong> - Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown.') . '</li>';
@@ -188,14 +188,14 @@ if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
 	$help .= '<li>' . __('<strong>Description</strong> - The description is not prominent by default; however, some themes may display it.') . '</li>' .
 		'</ul>' .
 		'<p>' . __('You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.') . '</p>' .
-		'<p>' . __('<strong>For more information:</strong>') . '</p>';
+		'<p><strong>' . __('For more information:') . '</strong></p>';
 
 	if ( 'category' == $taxonomy )
-		$help .= '<p>' . sprintf(__('<a href="%s">Categories Documentation</a>'), 'http://codex.wordpress.org/Manage_Categories_SubPanel') . '</p>';
+		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Manage_Categories_SubPanel">Categories Documentation</a>') . '</p>';
 	else
-		$help .= '<p>' . sprintf(__('<a href="%s">Tags Documentation</a>'), 'http://codex.wordpress.org/Post_Tags_SubPanel') . '</p>';
+		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Post_Tags_SubPanel">Tags Documentation</a>') . '</p>';
 
-	$help .= '<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>';
+	$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
 
 	add_contextual_help($current_screen, $help);
 	unset($help);

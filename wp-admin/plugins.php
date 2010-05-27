@@ -305,13 +305,14 @@ if ( !empty($action) ) {
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
-add_contextual_help($current_screen, '<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .
+add_contextual_help($current_screen,
+	'<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .
 	'<p>' . sprintf(__('You can find additional plugins for your site by using the <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="%2$s">WordPress Plugin Directory</a> directly and installing new plugins manually. To manually install a plugin you generally just need to upload the plugin file into your <code>/wp-content/plugins</code> directory. Once a plugin has been installed, you can activate it here.'), 'plugin-install.php', 'http://wordpress.org/extend/plugins/') . '</p>' .
 	'<p>' . __('Most of the time, plugins play nicely with the core of WordPress and with other plugins. Sometimes, though, a plugin&#8217;s code will get in the way of another plugin, causing compatibility issues. If your site starts doing strange things, this may be the problem. Try deactivating all your plugins and re-activating them in various combinations until you isolate which one(s) caused the issue.') . '</p>' .
 	'<p>' . sprintf( __('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR) . '</p>' .	
-	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Documentation on Managing Plugins</a>'), 'http://codex.wordpress.org/Managing_Plugins#Plugin_Management') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Managing_Plugins#Plugin_Management">Documentation on Managing Plugins</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 
 if ( is_multisite() && is_super_admin() ) {

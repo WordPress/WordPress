@@ -20,13 +20,13 @@ $help .= '<p>' . __('Begin by choosing a theme to edit from the dropdown menu an
 $help .= '<p>' . __('For PHP files, you can use the Documentation dropdown to select from functions recognized in that file. Lookup takes you to a web page with reference material about that particular function.') . '</p>';
 $help .= '<p>' . __('After typing in your edits, click Update File.') . '</p>';
 $help .= '<p>' . __('<strong>Advice:</strong> think very carefully about your site crashing if you are live-editing the theme currently in use.') . '</p>';
-$help .= '<p>' . sprintf(__('Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href="%s">child theme</a> instead.'), 'http://codex.wordpress.org/Child_Themes') . '</p>';
-$help .= '<p>' . __('<strong>For more information:</strong>') . '</p>'; 
-$help .= '<p>' . sprintf(__('<a href="%s">Theme Development Documentation</a>'), 'http://codex.wordpress.org/Theme_Development') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Documentation on Using Themes</a>'), 'http://codex.wordpress.org/Using_Themes') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Documentation on Editing Files</a>'), 'http://codex.wordpress.org/Editing_Files') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Template Tags Documentation</a>'), 'http://codex.wordpress.org/Template_Tags') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>';
+$help .= '<p>' . __('Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href="http://codex.wordpress.org/Child_Themes">child theme</a> instead.') . '</p>';
+$help .= '<p><strong>' . __('For more information:') . '</strong></p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Theme_Development">Documentation on Theme Development</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes">Documentation on Using Themes</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Editing_Files">Documentation on Editing Files</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Template_Tags">Documentation on Template Tags</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
 add_contextual_help($current_screen, $help);
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme', 'dir'));

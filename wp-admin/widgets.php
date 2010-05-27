@@ -40,9 +40,9 @@ $help = '
 	<p>' . __('Widgets may be used multiple times. You can give each widget a title, to display on your site, but it&#8217;s not required.') . '</p>
 	<p>' . __('Enabling Accessibility Mode, via Screen Options, allows you to use Add and Edit buttons instead of using drag and drop.') . '</p>
 ';
-$help .= '<p>' . __('<strong>For more information:</strong>') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Widgets Documentation</a>'), 'http://codex.wordpress.org/Appearance_Widgets_SubPanel') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>';
+$help .= '<p><strong>' . __('For more information:') . '</strong></p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Appearance_Widgets_SubPanel">Widgets Documentation</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
 add_contextual_help($current_screen, $help);
 
 // register the inactive_widgets area as sidebar

@@ -11,11 +11,12 @@ require_once('./admin.php');
 
 $title = __('Tools');
 
-add_contextual_help($current_screen, '<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be you&#8217;ll be on your way to easier content creation.') . '</p>' .
+add_contextual_help($current_screen,
+	'<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be you&#8217;ll be on your way to easier content creation.') . '</p>' .
 	'<p>' . __('Note: Turbo/Gears is no longer promoted on this screen as it was in previous versions due to the fact that Google has discontinued support for it.') . '</p>' .
-	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Tools Documentation</a>'), 'http://codex.wordpress.org/Tools_Tools_SubPanel') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Tools_SubPanel">Tools Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 
 require_once('./admin-header.php');

@@ -56,9 +56,9 @@ do_action('install_themes_pre_' . $tab); //Used to override the general interfac
 $help = '<p>' . __('You can find additional themes for your site by using the Theme Browser/Installer on this screen, which will display themes from the WordPress.org theme repository. These themes are designed and developed by third parties, are available free of charge, and are licensed under the GNU General Public License, version 2, just like WordPress.') . '</p>';
 $help .= '<p>' . __('You can Search for themes by keyword, author, or tag, or can get more specific and search by criteria listed in the feature filter. Alternately, you can browse the themes that are Featured, Newest, or Recently Updated. When you find a theme you like, you can preview it or install it.') . '</p>';
 $help .= '<p>' . __('You can Upload a theme manually if you have already downloaded its ZIP archive onto your computer (make sure it is from a trusted and original source). You can also do it the old-fashioned way and copy a downloaded theme&#8217;s folder via FTP into your wp-content/themes directory.') . '</p>';
-$help .= '<p>' . __('<strong>For more information:</strong>') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Documentation on Using Themes</a>'), 'http://codex.wordpress.org/Using_Themes#Adding_New_Themes') . '</p>';
-$help .= '<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>';
+$help .= '<p><strong>' . __('For more information:') . '</strong></p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes#Adding_New_Themes">Documentation on Using Themes</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
 add_contextual_help($current_screen, $help);
 
 include('./admin-header.php');

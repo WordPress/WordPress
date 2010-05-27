@@ -157,7 +157,8 @@ else
 $title = $post_type_object->labels->name;
 
 if ( 'post' == $post_type ) {
-	add_contextual_help($current_screen, '<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
+	add_contextual_help($current_screen,
+	'<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
 	'<ul>' .
 	'<li>' . __('You can hide/display columns based on your needs and decide how many posts to list per screen using the Screen Options tab.') . '</li>' .
 	'<li>' . __('You can filter the list of posts by post status using the text links in the upper left to show All, Published, Draft, or Trashed posts. The default view is to show all posts.') . '</li>' .
@@ -172,17 +173,18 @@ if ( 'post' == $post_type ) {
 	'<li>' . __('Preview will show you what your draft post will look like if you publish it. View will take you to your live site to view the post. Which link is available depends on your post&#8217;s status.') . '</li>' .
 	'</ul>' .
 	'<p>' . __('You can also edit multiple posts at once. Select the posts you want to edit using the checkboxes, select Edit from the Bulk Actions menu and click Apply. You will be able to change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the x next to its name in the Bulk Edit area that appears.') . '</p>' .
-	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Edit Posts Documentation</a>'), 'http://codex.wordpress.org/Posts_Edit_SubPanel') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Posts_Edit_SubPanel">Edit Posts Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
 } elseif ( 'page' == $post_type ) {
-	add_contextual_help($current_screen, '<p>' . __('Pages are similar to to Posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest Pages under other Pages by making one the "Parent" of the other, creating a group of Pages.') . '</p>' .
+	add_contextual_help($current_screen,
+	'<p>' . __('Pages are similar to to Posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest Pages under other Pages by making one the "Parent" of the other, creating a group of Pages.') . '</p>' .
 	'<p>' . __('Managing Pages is very similar to managing Posts, and the screens can be customized in the same way. ') . '</p>' .
 	'<p>' . __('You can also perform the same types of actions, including narrowing the list by using the filters, acting on a Page using the action links that appear when you hover over a row, or using the Bulk Actions menu to edit the metadata for multiple Pages at once.') . '</p>' .
-	'<p>' . __('<strong>For more information:</strong>') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Page Management Documentation</a>'), 'http://codex.wordpress.org/Pages_Edit_SubPanel') . '</p>' .
-	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Pages_Edit_SubPanel">Page Management Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
 }
 
