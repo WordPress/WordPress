@@ -110,7 +110,12 @@ add_contextual_help( $current_screen, '<p>' . __('You can manage comments made o
 	'<p>' . __('In the Author column, in addition to the author&#8217;s name, email address, and blog URL, the commenter&#8217;s IP address is shown. Clicking on this link will show you all the comments made from this IP address.') . '</p>' .
 	'<p>' . __('In the Comment column, above each comment it says "Submitted on," followed by the date and time the comment was left on your site. Clicking on the date/time link will take you to that comment on your live site. ') . '</p>' .
 	'<p>' . __('In the In Response To column, there are three elements. The text is the name of the post that inspired the comment, and links to the post editor for that entry. The "#" permalink symbol below leads to that post on your live site. The small bubble with the number in it shows how many comments that post has received. If the bubble is gray, you have moderated all comments for that post. If it is blue, there are pending comments. Clicking the bubble will filter the comments screen to show only comments on that post.') . '</p>' .
-	'<p>' . __('Many people take advantage of keyboard shortcuts to moderate their comments more quickly. Use the link below to learn more.') . '</p>'
+	'<p>' . __('Many people take advantage of keyboard shortcuts to moderate their comments more quickly. Use the link below to learn more.') . '</p>' .
+	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+	'<p>' . __( '<a href="http://codex.wordpress.org/Administration_Panels#Comments">Comments Documentation</a>' ) . '</p>' .
+	'<p>' . __( '<a href="http://codex.wordpress.org/Comment_Spam">Comment Spam Documentation</a>') . '</p>' .
+	'<p>' . __( '<a href="http://codex.wordpress.org/Keyboard_Shortcuts">Keyboard Shortcuts Documentation</a>') . '</p>' .
+	'<p>' . __( '<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 require_once('./admin-header.php');
 
