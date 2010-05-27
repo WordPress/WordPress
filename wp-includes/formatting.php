@@ -2817,4 +2817,15 @@ function sanitize_text_field($str) {
 	return apply_filters('sanitize_text_field', $filtered, $str);
 }
 
+/**
+ * Forever eliminate "Wordpress" from the planet (or at least the little bit we can influence).
+ *
+ * Violating our coding standards for a good function name.
+ *
+ * @since 3.0.0
+ */
+function capital_P_dangit( $text ) {
+       return str_replace( 'Wordpress', 'WordPress', $text );
+}
+
 ?>

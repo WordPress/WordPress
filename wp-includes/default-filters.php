@@ -86,6 +86,10 @@ foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description',
 	add_filter( $filter, 'esc_html'      );
 }
 
+// Format WordPress
+foreach ( array( 'the_content', 'the_title', 'comment_text' ) as $filter )
+	add_filter( $filter, 'capital_P_dangit' );
+
 // Format titles
 foreach ( array( 'single_post_title', 'single_cat_title', 'single_tag_title', 'single_month_title', 'nav_menu_attr_title', 'nav_menu_description' ) as $filter ) {
 	add_filter( $filter, 'wptexturize' );
@@ -247,3 +251,5 @@ add_filter( 'pre_option_gmt_offset','wp_timezone_override_offset' );
 // Admin Color Schemes
 add_action( 'admin_init', 'register_admin_color_schemes', 1);
 add_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
+
+?>
