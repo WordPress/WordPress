@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 14726 )
+	if ( $wp_current_db_version < 14984 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1108,11 +1108,11 @@ function upgrade_290() {
 function upgrade_300() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version < 14139 ) {
+	if ( $wp_current_db_version < 14984 )
 		populate_roles_300();
-		if ( is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )
-			add_site_option( 'siteurl', '' );
-	}
+
+	if ( $wp_current_db_version < 14139 && is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )
+		add_site_option( 'siteurl', '' );
 
 	// 3.0-alpha nav menu postmeta changes. can be removed before release. // r13802
 	if ( $wp_current_db_version >= 13226 && $wp_current_db_version < 13974 )
