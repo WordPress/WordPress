@@ -1020,7 +1020,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		}
 
 		if ( $some_pending_menu_items )
-			$result .= '<div class="updated inline"><p>' . __('Click <em>Save Menu</em> to make pending menu items public.') . '</p></div>';
+			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make pending menu items public.') . '</p></div>';
 
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
 		return $result;

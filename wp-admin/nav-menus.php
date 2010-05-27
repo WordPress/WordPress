@@ -523,7 +523,7 @@ require_once( 'admin-header.php' );
 							<div class="major-publishing-actions">
 								<label class="menu-name-label howto open-label" for="menu-name">
 									<span><?php _e('Menu Name'); ?></span>
-									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here.'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
+									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
 								</label>
 								<?php if ( !empty( $nav_menu_selected_id ) ) :
 									if ( ! isset( $auto_add ) ) {
@@ -537,7 +537,7 @@ require_once( 'admin-header.php' );
 									}
 								?>
 								<div class="auto-add-pages">
-									<label class="howto"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" value="1" /> <?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
+									<label class="howto"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" value="1" /> <?php printf( __('Automatically add new top-level pages' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
 								</div>
 								<?php endif; ?>
 								<br class="clear" />
@@ -576,8 +576,6 @@ require_once( 'admin-header.php' );
 								echo '<p>' . __('To create a custom menu, give it a name above and click Create Menu. Then choose items like pages, categories or custom links from the left column to add to this menu.') . '</p>';
 								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want. You can also click each item to reveal additional configuration options.') . '</p>';
 								echo '<p>' . __('When you have finished building your custom menu, make sure you click the Save Menu button.') . '</p>';
-								echo '<p>' . __('You can create multiple menus. You can also display custom menus using the new "Custom Menu" widget.') . '</p>';
-								echo '<p>' . sprintf( __('For more information on this feature, see the <a href="%s">Custom Menus</a> article in the Codex.'), _x('http://codex.wordpress.org/Custom_Menus', 'Custom Menus codex page') ) . '</p>';
 								echo '</div>';
 							endif; ?>
 						</div><!-- /#post-body-content -->

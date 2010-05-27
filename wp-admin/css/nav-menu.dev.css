@@ -237,7 +237,7 @@ body {
 .hide-all { display: none; }
 
 /* Create Menu */
-#create-menu-name { width: 159px; }
+#menu-name { width: 270px; }
 #manage-menu .inside { padding: 0px 0px; }
 
 /* Custom Links */
