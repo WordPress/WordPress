@@ -54,9 +54,9 @@ $popular_importers = array();
 if ( current_user_can('install_plugins') )
 	$popular_importers = array(
 		'blogger' => array( __('Blogger'), __('Install the Blogger importer to import posts, comments, and users from a Blogger blog.'), 'install' ),
-		'wpcat2tag' => array(__('Categories and Tags Converter'), __('Install the category/tag converter to convert existing categories to tags or tags to categories, selectively.'), 'install'),
+		'wpcat2tag' => array(__('Categories and Tags Converter'), __('Install the category/tag converter to convert existing categories to tags or tags to categories, selectively.'), 'install', 'wp-cat2tag' ),
 		'livejournal' => array( __( 'LiveJournal' ), __( 'Install the LiveJournal importer to import posts from LiveJournal using their API.' ), 'install' ),
-		'movabletype' => array( __('Movable Type and TypePad'), __('Install the Movable Type importer to import posts and comments from a Movable Type or TypePad blog.'), 'install' ),
+		'movabletype' => array( __('Movable Type and TypePad'), __('Install the Movable Type importer to import posts and comments from a Movable Type or TypePad blog.'), 'install', 'mt' ),
 		'opml' => array( __('Blogroll'), __('Install the blogroll importer to import links in OPML format.'), 'install' ),
 		'rss' => array( __('RSS'), __('Install the RSS importer to import posts from an RSS feed.'), 'install' ),
 		'wordpress' => array( 'WordPress', __('Install the WordPress importer to import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'), 'install' )
@@ -65,8 +65,11 @@ if ( current_user_can('install_plugins') )
 $importers = get_importers();
 
 // If a popular importer is not registered, create a dummy registration that links to the plugin installer.
-foreach ( array_keys($popular_importers) as $pop_importer ) {
+foreach ( $popular_importers as $pop_importer => $pop_data ) {
 	if ( isset($importers[$pop_importer] ) )
+		continue;
+	var_dump( $pop_data );
+	if ( isset( $pop_data[3] ) && isset( $importers[ $pop_data[3] ] ) )
 		continue;
 
 	$importers[$pop_importer] = $popular_importers[$pop_importer];
