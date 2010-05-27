@@ -451,13 +451,8 @@ table.ie-fixed {
 	zoom:100%;
 }
 
-#update-nav-menu {
-	border:1px solid #ccc;
-	overflow:hidden;
-}
-#nav-menu-header,
 #update-nav-menu #post-body {
-	border:none;
+	overflow:hidden;
 }
 
 .menu li {

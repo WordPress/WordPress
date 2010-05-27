@@ -540,6 +540,7 @@ require_once( 'admin-header.php' );
 									<label class="howto"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" value="1" /> <?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
 								</div>
 								<?php endif; ?>
+								<br class="clear" />
 								<div class="publishing-action">
 									<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
 								</div><!--END .publishing-action-->

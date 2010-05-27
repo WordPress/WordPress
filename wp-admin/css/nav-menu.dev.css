@@ -479,10 +479,8 @@ body.js .item-order {
 .major-publishing-actions {
 	clear:both;
 	padding: 5px 10px;
-	zoom:1;
 }
 .major-publishing-actions .publishing-action {
-	clear: both;
 	text-align: right;
 	float: right;
 	line-height: 23px;
