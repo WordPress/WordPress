@@ -790,6 +790,7 @@ var wpNavMenu;
 		eventOnClickMenuItemDelete : function(clickedEl) {
 			var itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
 			api.removeMenuItem( $('#menu-item-' + itemID) );
+			api.registerChange();
 			return false;
 		},
 
