@@ -94,11 +94,23 @@ if (empty ($importers)) {
 	$style = '';
 	foreach ($importers as $id => $data) {
 		$style = ('class="alternate"' == $style || 'class="alternate active"' == $style) ? '' : 'alternate';
+		$action = '';
 		if ( 'install' == $data[2] ) {
 			$plugin_slug = $id . '-importer';
-			$action = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin_slug .
-									'&amp;from=import&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
-									esc_attr__('Install importer') . '">' . $data[0] . '</a>';
+			if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
+				// Looks like Importer is installed, But not active
+				$plugins = get_plugins( '/' . $plugin_slug );
+				if ( !empty($plugins) ) {
+					$keys = array_keys($plugins);
+					$plugin_file = $plugin_slug . '/' . $keys[0];
+					$action = '<a href="' . wp_nonce_url(admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;from=import'), 'activate-plugin_' . $plugin_file) .
+											'"title="' . esc_attr__('Activate importer') . '"">' . $data[0] . '</a>';
+				}
+			}
+			if ( empty($action) )
+				$action = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin_slug .
+										'&amp;from=import&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
+										esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 		} else {
 			$action = "<a href='" . esc_url("admin.php?import=$id") . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";
 		}
