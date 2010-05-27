@@ -127,7 +127,7 @@ function core_upgrade_preamble() {
 
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
 		echo '<h3>';
-		_e('You have the latest version of WordPress. You do not need to update');
+		_e('You have the latest version of WordPress.');
 		echo '</h3>';
 	} else {
 		echo '<div class="updated"><p>';
@@ -135,7 +135,7 @@ function core_upgrade_preamble() {
 		echo '</p></div>';
 
 		echo '<h3 class="response">';
-		_e( 'An updated version of WordPress is available' );
+		_e( 'An updated version of WordPress is available.' );
 		echo '</h3>';
 	}
 
@@ -149,6 +149,7 @@ function core_upgrade_preamble() {
 		echo '</li>';
 	}
 	echo '</ul>';
+	echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, your site will return to normal.' ) . '</p>';
 	dismissed_updates();
 
 	list_plugin_updates();
@@ -164,8 +165,11 @@ function list_plugin_updates() {
 
 	require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
 	$plugins = get_plugin_updates();
-	if ( empty($plugins) )
+	if ( empty( $plugins ) ) {
+		echo '<h3>' . __( 'Plugins' ) . '</h3>';
+		echo '<p>' . __( 'Your plugins are all up to date.' ) . '</p>';
 		return;
+	}
 	$form_action = 'update-core.php?action=do-plugin-upgrade';
 
 	$core_updates = get_core_updates();
@@ -237,8 +241,11 @@ function list_plugin_updates() {
 
 function list_theme_updates() {
 	$themes = get_theme_updates();
-	if ( empty($themes) )
+	if ( empty( $themes ) ) {
+		echo '<h3>' . __( 'Themes' ) . '</h3>';
+		echo '<p>' . __( 'Your themes are all up to date.' ) . '</p>';
 		return;
+	}
 
 	$form_action = 'update-core.php?action=do-theme-upgrade';
 
