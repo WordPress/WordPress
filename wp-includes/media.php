@@ -516,7 +516,7 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 					// First, we calculate what size the original image would be if constrained to a box the size of the current image in the loop
 					$maybe_cropped = image_resize_dimensions($imagedata['width'], $imagedata['height'], $data['width'], $data['height'], false );
 					// If the size doesn't match exactly, then it is of a different aspect ratio, so we skip it, unless it's the thumbnail size
-					if ( 'thumbnail' != $_size && ( !$maybe_cropped || $maybe_cropped[0] != $data['width'] || $maybe_cropped[1] != $data['height'] ) )
+					if ( 'thumbnail' != $_size && ( !$maybe_cropped || $maybe_cropped[4] != $data['width'] || $maybe_cropped[5] != $data['height'] ) )
 						continue;
 					// If we're still here, then we're going to use this size
 					$file = $data['file'];
