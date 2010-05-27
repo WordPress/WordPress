@@ -2544,6 +2544,11 @@ fieldset {
 	-webkit-border-bottom-right-radius: 3px;
 }
 
+#contextual-help-wrap li {
+	list-style-type: disc;
+	margin-left: 18px;
+}
+
 #screen-meta a.show-settings {
 	text-decoration: none;
 	z-index: 1;
