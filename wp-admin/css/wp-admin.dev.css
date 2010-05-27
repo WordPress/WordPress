@@ -2066,6 +2066,7 @@ ul.categorychecklist li {
 	margin: 0;
 	padding: 0;
 	line-height: 19px;
+	word-wrap: break-word;
 }
 
 .category-adder h4 {
