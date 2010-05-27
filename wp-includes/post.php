@@ -890,13 +890,13 @@ function register_post_type($post_type, $args = array()) {
  * Builds an object with all post type capabilities out of a post type object
  *
  * Accepted keys of the capabilities array in the post type object:
- * - edit_post - The meta capability that controls editing a particular object of this post type. Defaults to "edit_$capability_type" (edit_post).
+ * - edit_post - The meta capability that controls editing a particular object of this post type. Defaults to "edit_ . $capability_type" (edit_post).
  * - edit_posts - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
  * - edit_others_posts - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
  * - publish_posts - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
- * - read_post - The meta capability that controls reading a particular object of this post type. Defaults to "read_$capability_type" (read_post).
- * - read_private_posts - The capability that controls reading private posts. Defaults to "read_ . $capability_type . s" (read_private_posts).
- * - delete_post - The meta capability that controls deleting a particular object of this post type. Defaults to "delete_$capability_type" (delete_post).
+ * - read_post - The meta capability that controls reading a particular object of this post type. Defaults to "read_ . $capability_type" (read_post).
+ * - read_private_posts - The capability that controls reading private posts. Defaults to "read_private . $capability_type . s" (read_private_posts).
+ * - delete_post - The meta capability that controls deleting a particular object of this post type. Defaults to "delete_ . $capability_type" (delete_post).
  *
  * @since 3.0.0
  * @param object $args
@@ -925,7 +925,6 @@ function get_post_type_capabilities( $args ) {
  * - add_new - Default is Add New for both hierarchical and non-hierarchical types. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Add New', 'product');</code>
  * - add_new_item - Default is Add New Post/Add New Page
  * - edit_item - Default is Edit Post/Edit Page
- * - edit - Default is Edit. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Edit', 'product');</code>
  * - new_item - Default is New Post/New Page
  * - view_item - Default is View Post/View Page
  * - search_items - Default is Search Posts/Search Pages
