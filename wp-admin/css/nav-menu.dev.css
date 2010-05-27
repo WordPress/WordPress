@@ -162,12 +162,6 @@ body {
 		display: inline;
 	}
 
-/* Menu Toolbar */
-#menu-management .major-publishing-actions #delete-action {
-	float: right;
-	margin-right: 10px;
-}
-
 #menu-name-label {
 	margin-top: -2px;
 }
@@ -482,30 +476,37 @@ body.js .item-order {
 
 /* Major/minor publishing actions (classes) */
 .major-publishing-actions {
-clear:both;
+	clear:both;
 	padding: 5px 10px;
 	zoom:1;
 }
 .major-publishing-actions .publishing-action {
+	clear: both;
 	text-align: right;
 	float: right;
 	line-height: 23px;
+	margin: 5px 0 1px;
 }
 .major-publishing-actions .delete-action {
 	vertical-align: middle;
 	text-align: left;
-	float: right;
+	float: left;
 	padding-right: 15px;
+	margin-top: 5px;
 }
 .menu-name-label span, .auto-add-pages label {
 	font-size: 11px;
 	font-style: normal;
 }
-.auto-add-pages label.howto {
-	display: inline;
+.menu-name-label {
+	margin-right: 15px;
+}
+.auto-add-pages input {
+	margin-top: 0;
 }
 .auto-add-pages {
-	clear: both;
+	margin-top: 4px;
+	float: left;
 }
 .submitbox .submitcancel {
 	color: #21759B;

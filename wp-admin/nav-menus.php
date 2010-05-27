@@ -525,16 +525,6 @@ require_once( 'admin-header.php' );
 									<span><?php _e('Menu Name'); ?></span>
 									<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Enter menu name here.'); ?>" value="<?php echo esc_attr( $nav_menu_selected_title  ); ?>" />
 								</label>
-
-								<div class="publishing-action">
-									<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
-								</div><!--END .publishing-action-->
-
-								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
-								<div class="delete-action">
-									<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ) ); ?>"><?php _e('Delete Menu'); ?></a>
-								</div><!--END .delete-action-->
-								<?php endif; ?>
 								<?php if ( !empty( $nav_menu_selected_id ) ) :
 									if ( ! isset( $auto_add ) ) {
 										$auto_add = get_option( 'nav_menu_options' );
@@ -549,6 +539,15 @@ require_once( 'admin-header.php' );
 								<div class="auto-add-pages">
 									<label class="howto"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" value="1" /> <?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
 								</div>
+								<?php endif; ?>
+								<div class="publishing-action">
+									<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
+								</div><!--END .publishing-action-->
+
+								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
+								<div class="delete-action">
+									<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ) ); ?>"><?php _e('Delete Menu'); ?></a>
+								</div><!--END .delete-action-->
 								<?php endif; ?>
 							</div><!--END .major-publishing-actions-->
 						</div><!--END #submitpost .submitbox-->
