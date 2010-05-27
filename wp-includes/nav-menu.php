@@ -247,7 +247,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
  *
  * @since 3.0.0
  *
- * @param int $menu_id The ID of the menu. Required.
+ * @param int $menu_id The ID of the menu. Required. If "0", makes the menu item a draft orphan.
  * @param int $menu_item_db_id The ID of the menu item. If "0", creates a new menu item.
  * @param array $menu_item_data The menu item's data.
  * @return int The menu item's database ID or WP_Error object on failure.
@@ -257,17 +257,15 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	$menu_item_db_id = (int) $menu_item_db_id;
 
 	// make sure that we don't convert non-nav_menu_item objects into nav_menu_item objects
-	if ( ! empty( $menu_item_db_id ) && ! is_nav_menu_item( $menu_item_db_id ) ) {
+	if ( ! empty( $menu_item_db_id ) && ! is_nav_menu_item( $menu_item_db_id ) )
 		return new WP_Error('update_nav_menu_item_failed', __('The given object ID is not that of a menu item.'));
-	}
 
 	$menu = wp_get_nav_menu_object( $menu_id );
 
-	if ( ! $menu || is_wp_error( $menu ) ) {
+	if ( ( ! $menu && 0 !== $menu_id ) || is_wp_error( $menu ) )
 		return $menu;
-	}
 
-	$menu_items = (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
+	$menu_items = 0 == $menu_id ? array() : (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
 
 	$count = count( $menu_items );
 
@@ -289,8 +287,10 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	);
 
 	$args = wp_parse_args( $menu_item_data, $defaults );
-
-	if ( 0 == (int) $args['menu-item-position'] ) {
+	
+	if ( 0 == $menu_id ) {
+		$args['menu-item-position'] = 1;
+	} elseif ( 0 == (int) $args['menu-item-position'] ) {
 		$last_item = array_pop( $menu_items );
 		$args['menu-item-position'] = ( $last_item && isset( $last_item->menu_order ) ) ? 1 + $last_item->menu_order : $count;
 	}
@@ -339,8 +339,10 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		'post_parent' => $original_parent,
 		'post_title' => $args['menu-item-title'],
 		'post_type' => 'nav_menu_item',
-		'tax_input' => array( 'nav_menu' => array( intval( $menu->term_id ) ) ),
 	);
+
+	if ( 0 != $menu_id )
+		$post['tax_input'] = array( 'nav_menu' => array( intval( $menu->term_id ) ) );
 
 	// New menu item. Default is draft status
 	if ( 0 == $menu_item_db_id ) {
@@ -374,9 +376,12 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		$args['menu-item-xfn'] = implode( ' ', array_map( 'sanitize_html_class', explode( ' ', $args['menu-item-xfn'] ) ) );
 		update_post_meta( $menu_item_db_id, '_menu_item_classes', $args['menu-item-classes'] );
 		update_post_meta( $menu_item_db_id, '_menu_item_xfn', $args['menu-item-xfn'] );
-
-		// @todo: only save custom link urls.
 		update_post_meta( $menu_item_db_id, '_menu_item_url', esc_url_raw($args['menu-item-url']) );
+		
+		if ( 0 == $menu_id )
+			update_post_meta( $menu_item_db_id, '_menu_item_orphaned', time() );
+		else
+			delete_post_meta( $menu_item_db_id, '_menu_item_orphaned' );
 
 		do_action('wp_update_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 	}
@@ -740,6 +745,17 @@ function _wp_delete_tax_menu_item( $object_id = 0 ) {
 	}
 }
 
+/**
+ * Automatically add newly published page objects to menus with that as an option.
+ *
+ * @since 3.0.0
+ * @access private
+ *
+ * @param string $new_status The new status of the post object.
+ * @param string $old_status The old status of the post object.
+ * @param object $post The post object being transitioned from one status to another.
+ * @return void
+ */
 function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 	if ( 'publish' != $new_status || 'publish' == $old_status || 'page' != $post->post_type )
 		return;

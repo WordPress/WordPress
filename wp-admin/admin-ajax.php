@@ -816,14 +816,9 @@ case 'add-menu-item' :
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
-	$menu_id = (int) $_POST['menu'];
-	if ( isset( $_POST['menu-item'] ) ) {
-		$item_ids = wp_save_nav_menu_items( $menu_id, $_POST['menu-item'] );
-		if ( is_wp_error( $item_ids ) )
-			die('-1');
-	} else {
-		$item_ids = array();
-	}
+	$item_ids = wp_save_nav_menu_items( 0, $_POST['menu-item'] );
+	if ( is_wp_error( $item_ids ) )
+		die('-1');
 
 	foreach ( (array) $item_ids as $menu_item_id ) {
 		$menu_obj = get_post( $menu_item_id );

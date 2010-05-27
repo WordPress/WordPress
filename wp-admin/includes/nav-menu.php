@@ -58,11 +58,26 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 			$original_object = get_post( $item->object_id );
 			$original_title = $original_object->post_title;
 		}
+
+		$classes = array(
+			'menu-item menu-item-depth-' . $depth,
+			'menu-item-' . esc_attr( $item->object ),
+			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'),
+		);
+
+		$title = $item->title;
+
+		if ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
+			$classes[] = 'pending';
+			/* translators: %s: title of menu item in draft status */
+			$title = sprintf( __('%s (Pending)'), $item->title );
+		}
+
 		?>
-		<li id="menu-item-<?php echo $item_id; ?>" class="menu-item menu-item-depth-<?php echo $depth; ?> menu-item-<?php echo esc_attr( $item->object ); ?> menu-item-edit-<?php echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'; ?>">
+		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
 			<dl class="menu-item-bar">
 				<dt class="menu-item-handle">
-					<span class="item-title"><?php echo esc_html( $item->title ); ?></span>
+					<span class="item-title"><?php echo esc_html( $title ); ?></span>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
 						<span class="item-order">
@@ -865,7 +880,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
  *
  * @since 3.0.0
  *
- * @param int $menu_id The menu ID for which to save this item.
+ * @param int $menu_id The menu ID for which to save this item. $menu_id of 0 makes a draft, orphaned menu item.
  * @param array $menu_data The unsanitized posted menu item data.
  * @return array The database IDs of the items saved
  */
@@ -873,7 +888,7 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 	$menu_id = (int) $menu_id;
 	$items_saved = array();
 
-	if ( is_nav_menu( $menu_id ) ) {
+	if ( 0 == $menu_id || is_nav_menu( $menu_id ) ) {
 
 		// Loop through all the menu items' POST values
 		foreach( (array) $menu_data as $_possible_db_id => $_item_object_data ) {
@@ -882,7 +897,7 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 				(
 					! isset( $_item_object_data['menu-item-type'] ) || // and item type either isn't set
 					in_array( $_item_object_data['menu-item-url'], array( 'http://', '' ) ) || // or URL is the default
-					'custom' != $_item_object_data['menu-item-type'] ||  // or it's not a custom menu item
+					! ( 'custom' == $_item_object_data['menu-item-type'] && ! isset( $_item_object_data['menu-item-db-id'] ) ) ||  // or it's not a custom menu item (but not the custom home page)
 					! empty( $_item_object_data['menu-item-db-id'] ) // or it *is* a custom menu item that already exists
 				)
 			) {
@@ -998,6 +1013,15 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		else
 			return new WP_Error( 'menu_walker_not_exist', sprintf( __('The Walker class named <strong>%s</strong> does not exist.'), $walker_class_name ) );
 
+		$some_pending_menu_items = false;
+		foreach( (array) $menu_items as $menu_item ) {
+			if ( isset( $menu_item->post_status ) && 'draft' == $menu_item->post_status )
+				$some_pending_menu_items = true;
+		}
+
+		if ( $some_pending_menu_items )
+			$result .= '<div class="updated inline"><p>' . __('Click <em>Save Menu</em> to make pending menu items public.') . '</p></div>';
+
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
 		return $result;
 	} elseif ( is_wp_error( $menu ) ) {
@@ -1025,5 +1049,25 @@ function wp_nav_menu_manage_columns() {
 		'description' => __('Description'),
 	);
 }
+
+/** 
+ * Deletes orphaned draft menu items
+ *
+ * @access private
+ * @since 3.0.0
+ *
+ */
+function _wp_delete_orphaned_draft_menu_items() {
+	global $wpdb;
+	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
+
+	// delete orphaned draft menu items
+	$menu_items_to_delete = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts AS p LEFT JOIN $wpdb->postmeta AS m ON p.ID = m.post_id WHERE post_type = 'nav_menu_item' AND post_status = 'draft' AND meta_key = '_menu_item_orphaned' AND meta_value < '%d'", $delete_timestamp ) );
+
+	foreach( (array) $menu_items_to_delete as $menu_item_id )
+		wp_delete_post( $menu_item_id, true );
+}
+
+add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
 
 ?>

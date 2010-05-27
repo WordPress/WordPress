@@ -543,15 +543,15 @@ require_once( 'admin-header.php' );
 								<br class="clear" />
 								<div class="publishing-action">
 									<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
-								</div><!--END .publishing-action-->
+								</div><!-- END .publishing-action -->
 
 								<?php if ( ! empty( $nav_menu_selected_id ) ) : ?>
 								<div class="delete-action">
 									<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( admin_url('nav-menus.php?action=delete&amp;menu=' . $nav_menu_selected_id), 'delete-nav_menu-' . $nav_menu_selected_id ) ); ?>"><?php _e('Delete Menu'); ?></a>
-								</div><!--END .delete-action-->
+								</div><!-- END .delete-action -->
 								<?php endif; ?>
-							</div><!--END .major-publishing-actions-->
-						</div><!--END #submitpost .submitbox-->
+							</div><!-- END .major-publishing-actions -->
+						</div><!-- END #submitpost .submitbox -->
 						<?php
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
@@ -559,7 +559,7 @@ require_once( 'admin-header.php' );
 						?>
 						<input type="hidden" name="action" value="update" />
 						<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
-					</div><!--END #nav-menu-header-->
+					</div><!-- END #nav-menu-header -->
 					<div id="post-body">
 						<div id="post-body-content">
 							<?php if ( is_nav_menu( $nav_menu_selected_id ) ) : ?>
@@ -580,13 +580,13 @@ require_once( 'admin-header.php' );
 								echo '<p>' . sprintf( __('For more information on this feature, see the <a href="%s">Custom Menus</a> article in the Codex.'), _x('http://codex.wordpress.org/Custom_Menus', 'Custom Menus codex page') ) . '</p>';
 								echo '</div>';
 							endif; ?>
-						</div><!-- /#post-body-content-->
-					</div><!--- /#post-body -->
-				</form><!--/#update-nav-menu-->
+						</div><!-- /#post-body-content -->
+					</div><!-- /#post-body -->
+				</form><!-- /#update-nav-menu -->
 			</div><!-- /.menu-edit -->
 		</div><!-- /#menu-management -->
 	</div><!-- /#menu-management-liquid -->
-	</div><!-- /#nav-menus-frame-->
+	</div><!-- /#nav-menus-frame -->
 </div><!-- /.wrap-->
 
 
