@@ -737,6 +737,7 @@ Thanks!
 		if ( !$upload_path = get_option( 'upload_path' ) ) {
 			$upload_path = substr( WP_CONTENT_DIR, strlen( ABSPATH ) ) . '/uploads';
 			update_option( 'upload_path', $upload_path );
+			update_option( 'fileupload_url', get_option( 'siteurl' ) . '/' . $upload_path );
 		}
 	}
 
