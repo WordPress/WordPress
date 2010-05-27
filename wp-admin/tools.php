@@ -43,7 +43,7 @@ $tags = get_taxonomy('post_tag');
 if ( current_user_can($cats->cap->manage_terms) || current_user_can($tags->cap->manage_terms) ) : ?>
 <div class="tool-box">
     <h3 class="title"><?php _e( 'Categories and Tags Converter' ) ?></h3>
-    <p><?php printf( __('<a href="%s">Use this</a> to convert categories to tags or tags to categories</a>.'), 'import.php' ); ?></p>
+    <p><?php printf( __('<a href="%s">Use this</a> to convert categories to tags or tags to categories.'), 'import.php' ); ?></p>
 </div>
 <?php
 endif;
