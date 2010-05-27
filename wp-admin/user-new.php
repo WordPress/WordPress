@@ -110,7 +110,7 @@ $parent_file = 'users.php';
 
 add_contextual_help($current_screen, 
     '<p>' . __('To add a new user to your site, fill in the form on this screen. If you&#8217;re not sure which role to assign, you can use the link below to review the different roles and their capabilities. Here is a basic overview of roles:') . '</p>' . 
-    '<ul style="list-style: inside;">' . 
+    '<ul>' . 
         '<li>' . __('Administrators have access to all the administration features') . '</li>' .
         '<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.')  . '</li>' . 
         '<li>' . __('Authors can publish and manage their own posts') . '</li>' .
