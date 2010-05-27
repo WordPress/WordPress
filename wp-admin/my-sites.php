@@ -37,6 +37,15 @@ if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
 
 $title = __( 'My Sites' );
 $parent_file = 'index.php';
+
+add_contextual_help($current_screen, 
+	'<p>' . __('This screen shows an individual user all of their sites in this network, and also allows that user to set a primary site. He or she can use the links under each site to visit either the frontend or the dashboard for that site.') . '</p>' .
+	'<p>' . __('Up until WordPress version 3.0, what is now called a Multi-site Network had to be installed separately as WordPressMU (multiple user).') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Dashboard_My_Sites_SubPanel">My Sites Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+);
+
 require_once( './admin-header.php' );
 
 if ( $updated ) { ?>

@@ -87,8 +87,18 @@ if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALL
 $title = __( 'Create a Network of WordPress Sites' );
 $parent_file = 'tools.php';
 
-// @todo: Documentation?
-// add_contextual_help( $current_screen, ... );
+add_contextual_help($current_screen, 
+	'<p>' . __('This screen allows you to configure a network as having subdomains (site1.example.com) or subdirectories (example.com/site1). Subdomains require wildcard subdomains to be enabled in Apache and DNS records, if your host allows it.') . '</p>' .
+	'<p>' . __('Choose subdomains or subdirectories; this can only be switched afterwards by reconfiguring your install. Fill out the network details, and click install. If this does not work, you may have to add a wildcard DNS record (for subdomains) or change to another setting in Permalinks (for subdirectories).') . '</p>' .
+	'<p>' . __('The next screen for Network will give you individually-generated lines of code to add to your wp-config.php and .htaccess files. Make sure the settings of your FTP client make files starting with a dot visible, so that you can find .htaccess; you may have to create this file if it really is not there. Make backup copies of those two files.') . '</p>' .
+	'<p>' . __('Add a blogs.dir directory under /wp-content/ and add the designated lines of code to wp.config.php (just before /*...stop editing...*/) and .htaccess (replacing the existing text).') . '</p>' .
+	'<p>' . __('Refreshing your browser will take you to a screen with an archive of those added lines of code. A set of six links under Super Admin will appear at the top of the main left navigation menu. The multisite network is now enabled.') . '</p>' .
+	'<p>' . __('The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed soon in a future version.') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network">General Network Creation Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_SubPanel">Tools > Network Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+);
 
 include( './admin-header.php' );
 ?>
