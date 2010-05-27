@@ -432,12 +432,6 @@ function wp_nav_menu_item_link_meta_box() {
 	global $_nav_menu_placeholder;
 	$_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
 
-	// @note: hacky query, see #12660
-	$args = array( 'post_type' => 'nav_menu_item', 'post_status' => 'any', 'meta_key' => '_menu_item_type', 'numberposts' => -1, 'orderby' => 'title', );
-
-	// @todo transient caching of these results with proper invalidation on updating links
-	$links = get_posts( $args );
-
 	$current_tab = 'create';
 	if ( isset( $_REQUEST['customlink-tab'] ) && in_array( $_REQUEST['customlink-tab'], array('create', 'all') ) ) {
 		$current_tab = $_REQUEST['customlink-tab'];
