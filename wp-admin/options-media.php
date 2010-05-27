@@ -15,6 +15,16 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Media Settings');
 $parent_file = 'options-general.php';
 
+add_contextual_help($current_screen, 
+	'<p>' . __('You can set maximum sizes for images in the Add An Image popup window which appears when you insert images into your written content. These sizes can set limits for three of your four options; you can also insert an image as Full Size.') . '</p>' .
+	'<p>' . __('The Embed option allows for any URL linking to a video, image, or other media content to automatically become embedded in your post or page. Just type that URL on its own line when you&#8217;re creating your content.') . '</p>' .
+	'<p>' . __('Uploading Options gives you folder and path choices for storing your files in your installation&#8217;s directory.') . '</p>' .
+	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Media_SubPanel">Media Settings Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+);
+
 include('./admin-header.php');
 
 ?>
