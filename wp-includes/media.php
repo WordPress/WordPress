@@ -277,6 +277,7 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 		return array( $current_width, $current_height );
 
 	$width_ratio = $height_ratio = 1.0;
+	$did_width = $did_height = false;
 
 	if ( $max_width > 0 && $current_width > 0 && $current_width > $max_width ) {
 		$width_ratio = $max_width / $current_width;
@@ -305,9 +306,9 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 	// Sometimes, due to rounding, we'll end up with a result like this: 465x700 in a 177x177 box is 117x176... a pixel short
 	// We also have issues with recursive calls resulting in an ever-changing result. Contraining to the result of a constraint should yield the original result.
 	// Thus we look for dimensions that are one pixel shy of the max value and bump them up
-	if ( isset( $did_width ) && $did_width && $w == $max_width - 1 )
+	if ( $did_width && $w == $max_width - 1 )
 		$w = $max_width; // Round it up
-	if ( isset( $did_height ) && $did_height && $h == $max_height - 1 )
+	if ( $did_height && $h == $max_height - 1 )
 		$h = $max_height; // Round it up
 
 	return array( $w, $h );
