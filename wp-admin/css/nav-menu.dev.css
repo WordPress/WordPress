@@ -34,10 +34,6 @@ body {
 	padding:0 10px;
 }
 
-#menu-settings-column .handlediv {
-	background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
-}
-
 #wpbody {
 	position: relative;
 }
