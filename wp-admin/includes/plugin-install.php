@@ -473,6 +473,8 @@ function install_plugin_install_status($api, $loop = false) {
 				$url = wp_nonce_url(admin_url('update.php?action=install-plugin&plugin=' . $api->slug), 'install-plugin_' . $api->slug);
 		}
 	}
+	if ( isset($_GET['from']) )
+		$url .= '&amp;from=' . urlencode(stripslashes($_GET['from']));
 
 	return compact('status', 'url', 'version');
 }

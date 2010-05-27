@@ -23,6 +23,23 @@ add_contextual_help($current_screen, '<p>' . __('This screen lists links to plug
 	'<p>' . sprintf(__('<a href="%s">Support Forums</a>'), 'http://wordpress.org/support/') . '</p>'
 );
 
+$popular_importers = array();
+if ( current_user_can('install_plugins') )
+	$popular_importers = array(
+		'blogger' => array( __('Blogger'), __('Install the Blogger importer to import posts, comments, and users from a Blogger blog.'), 'install' ),
+		'wpcat2tag' => array(__('Categories and Tags Converter'), __('Install the category/tag converter to convert existing categories to tags or tags to categories, selectively.'), 'install', 'wp-cat2tag' ),
+		'livejournal' => array( __( 'LiveJournal' ), __( 'Install the LiveJournal importer to import posts from LiveJournal using their API.' ), 'install' ),
+		'movabletype' => array( __('Movable Type and TypePad'), __('Install the Movable Type importer to import posts and comments from a Movable Type or TypePad blog.'), 'install', 'mt' ),
+		'opml' => array( __('Blogroll'), __('Install the blogroll importer to import links in OPML format.'), 'install' ),
+		'rss' => array( __('RSS'), __('Install the RSS importer to import posts from an RSS feed.'), 'install' ),
+		'wordpress' => array( 'WordPress', __('Install the WordPress importer to import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'), 'install' )
+	);
+
+if ( ! empty( $_GET['invalid'] ) && !empty($popular_importers[$_GET['invalid']][3]) ) {
+	wp_redirect("import.php?import=" . $popular_importers[$_GET['invalid']][3]);
+	exit;
+}
+
 add_thickbox();
 require_once ('admin-header.php');
 $parent_file = 'tools.php';
@@ -53,18 +70,6 @@ if ($imports_dir) {
 }
 @closedir($imports_dir);
 
-$popular_importers = array();
-if ( current_user_can('install_plugins') )
-	$popular_importers = array(
-		'blogger' => array( __('Blogger'), __('Install the Blogger importer to import posts, comments, and users from a Blogger blog.'), 'install' ),
-		'wpcat2tag' => array(__('Categories and Tags Converter'), __('Install the category/tag converter to convert existing categories to tags or tags to categories, selectively.'), 'install', 'wp-cat2tag' ),
-		'livejournal' => array( __( 'LiveJournal' ), __( 'Install the LiveJournal importer to import posts from LiveJournal using their API.' ), 'install' ),
-		'movabletype' => array( __('Movable Type and TypePad'), __('Install the Movable Type importer to import posts and comments from a Movable Type or TypePad blog.'), 'install', 'mt' ),
-		'opml' => array( __('Blogroll'), __('Install the blogroll importer to import links in OPML format.'), 'install' ),
-		'rss' => array( __('RSS'), __('Install the RSS importer to import posts from an RSS feed.'), 'install' ),
-		'wordpress' => array( 'WordPress', __('Install the WordPress importer to import posts, pages, comments, custom fields, categories, and tags from a WordPress export file.'), 'install' )
-	);
-
 $importers = get_importers();
 
 // If a popular importer is not registered, create a dummy registration that links to the plugin installer.
@@ -92,7 +97,7 @@ if (empty ($importers)) {
 		if ( 'install' == $data[2] ) {
 			$plugin_slug = $id . '-importer';
 			$action = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin_slug .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
+									'&amp;from=import&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
 									esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 		} else {
 			$action = "<a href='" . esc_url("admin.php?import=$id") . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";

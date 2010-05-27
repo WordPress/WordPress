@@ -110,6 +110,9 @@ if ( isset($_GET['action']) ) {
 		$title = sprintf( __('Installing Plugin: %s'), $api->name . ' ' . $api->version );
 		$nonce = 'install-plugin_' . $plugin;
 		$url = 'update.php?action=install-plugin&plugin=' . $plugin;
+		if ( isset($_GET['from']) )
+			$url .= '&from=' . urlencode(stripslashes($_GET['from']));
+
 		$type = 'web'; //Install plugin type, From Web or an Upload.
 
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact('title', 'url', 'nonce', 'plugin', 'api') ) );

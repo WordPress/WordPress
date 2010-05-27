@@ -51,7 +51,7 @@ if ( !empty($action) ) {
 
 			$result = activate_plugin($plugin, 'plugins.php?error=true&plugin=' . $plugin, $network_wide);
 			if ( is_wp_error( $result ) ) {
-				if ('unexpected_output' == $result->get_error_code()) {
+				if ( 'unexpected_output' == $result->get_error_code() ) {
 					$redirect = 'plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . $plugin;
 					wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
 					exit;
@@ -65,8 +65,11 @@ if ( !empty($action) ) {
 				unset($recent[ $plugin ]);
 				update_option('recently_activated', $recent);
 			}
-
-			wp_redirect("plugins.php?activate=true&plugin_status=$status&paged=$page"); // overrides the ?error=true one above
+			if ( isset($_GET['from']) && 'import' == $_GET['from'] ) {
+				wp_redirect("import.php?import=" . str_replace('-importer', '', dirname($plugin)) ); // overrides the ?error=true one above and redirects to the Imports page, striping the -importer suffix
+			} else {
+				wp_redirect("plugins.php?activate=true&plugin_status=$status&paged=$page"); // overrides the ?error=true one above
+			}
 			exit;
 			break;
 		case 'activate-selected':
@@ -437,7 +440,7 @@ $total_network_plugins = count($network_plugins);
 $total_mustuse_plugins = count($mustuse_plugins);
 $total_dropins_plugins = count($dropins_plugins);
 
-//Searching.
+// Searching.
 if ( !empty($_GET['s']) ) {
 	function _search_plugins_filter_callback($plugin) {
 		static $term;
