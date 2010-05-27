@@ -484,7 +484,13 @@ function image_make_intermediate_size($file, $width, $height, $crop=false) {
  *
  * The url path will be given, when the $size parameter is a string.
  *
+ * If you are passing an array for the $size, you should consider using
+ * add_image_size() so that a cropped version is generated. It's much more
+ * efficient than having to find the closest-sized image and then having the
+ * browser scale down the image.
+ *
  * @since 2.5.0
+ * @see add_image_size()
  *
  * @param int $post_id Attachment ID for image.
  * @param array|string $size Optional, default is 'thumbnail'. Size of image, either array or string.
@@ -587,6 +593,12 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
 /**
  * Get an HTML img element representing an image attachment
  *
+ * While $size will accept an array, it is better to register a size with
+ * add_image_size() so that a cropped version is generated. It's much more
+ * efficient than having to find the closest-sized image and then having the
+ * browser scale down the image.
+ *
+ * @see add_image_size()
  * @uses apply_filters() Calls 'wp_get_attachment_image_attributes' hook on attributes array
  * @uses wp_get_attachment_image_src() Gets attachment file URL and dimensions
  * @since 2.5.0
