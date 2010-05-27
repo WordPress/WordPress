@@ -318,7 +318,7 @@ switch ( $action ) {
 			// Update menu items
 
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID') );
+				$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft,publish') );
 				$menu_items = array();
 				// Index menu items by db ID
 				foreach( $unsorted_menu_items as $_item )

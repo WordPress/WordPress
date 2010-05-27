@@ -473,9 +473,6 @@ function wp_nav_menu_item_link_meta_box() {
 			</p>
 
 		<p class="button-controls">
-			<span class="list-controls">
-				<a href="#" class="select-all add-home-link"><?php _e('Add Home Link'); ?></a>
-			</span>
 			<span class="add-to-menu">
 				<img class="waiting" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 				<input type="submit" class="button-secondary submit-add-to-menu" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" id="submit-customlinkdiv" />
@@ -495,6 +492,8 @@ function wp_nav_menu_item_link_meta_box() {
  * @param string $post_type The post type object.
  */
 function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
+	global $_nav_menu_placeholder;
+
 	$post_type_name = $post_type['args']->name;
 
 	// paginate browsing for large numbers of post objects
@@ -632,12 +631,38 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			<ul id="<?php echo $post_type_name; ?>checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
 				<?php
 				$args['walker'] = $walker;
+				
+				// if we're dealing with pages, let's put a checkbox for the front page at the top of the list
+				if ( 'page' == $post_type_name ) {
+					$front_page = 'page' == get_option('show_on_front') ? (int) get_option( 'page_on_front' ) : 0;
+					if ( ! empty( $front_page ) ) {
+						$front_page_obj = get_post( $front_page );
+						$front_page_obj->_add_to_top = true;
+						$front_page_obj->label = sprintf( _x('Home: %s', 'nav menu front page title'), $front_page_obj->post_title );
+						array_unshift( $posts, $front_page_obj );
+					} else {
+						$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;
+						array_unshift( $posts, (object) array(
+							'_add_to_top' => true,
+							'ID' => 0,
+							'object_id' => $_nav_menu_placeholder,
+							'post_content' => '',
+							'post_excerpt' => '',
+							'post_title' => _x('Home', 'nav menu home label'),
+							'post_type' => 'nav_menu_item',
+							'type' => 'custom',
+							'url' => home_url('/'),
+						) );
+					}
+				}
+
 				$checkbox_items = walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $posts), 0, (object) $args );
 
 				if ( 'all' == $current_tab && ! empty( $_REQUEST['selectall'] ) ) {
 					$checkbox_items = preg_replace('/(type=(.)checkbox(\2))/', '$1 checked=$2checked$2', $checkbox_items);
 
 				}
+
 				echo $checkbox_items;
 				?>
 			</ul>

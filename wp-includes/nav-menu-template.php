@@ -157,8 +157,13 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 
 		$output .= $indent . '<li>';
 		$output .= '<label class="menu-item-title">';
-		$output .= '<input type="checkbox" class="menu-item-checkbox" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
-		$output .= esc_html( $item->title ) .'</label>';
+		$output .= '<input type="checkbox" class="menu-item-checkbox';
+		if ( ! empty( $item->_add_to_top ) ) {
+			$output .= ' add-to-top';
+		}
+		$output .= '" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
+		$output .= empty( $item->label ) ? esc_html( $item->title ) : esc_html( $item->label );
+		$output .= '</label>';
 
 		// Menu item hidden fields
 		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';

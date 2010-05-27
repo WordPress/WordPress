@@ -38,8 +38,6 @@ var wpNavMenu;
 
 			this.attachTabsPanelListeners();
 
-			this.attachHomeLinkListener();
-
 			this.attachUnsavedChangesListener();
 
 			if( api.menuList.length ) // If no menu, we're in the + tab.
@@ -134,8 +132,11 @@ var wpNavMenu;
 							var t = $(this),
 								listItemDBIDMatch = re.exec( t.attr('name') ),
 								listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
+							if ( this.className && -1 != this.className.indexOf('add-to-top') )
+								processMethod = api.addMenuItemToTop; 
 							menuItems[listItemDBID] = t.closest('li').getItemData( 'add-menu-item', listItemDBID );
 						});
+						
 						// Add the items
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
@@ -538,13 +539,6 @@ var wpNavMenu;
 
 		addMenuItemToTop : function( menuMarkup, req ) {
 			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( api.targetList );
-		},
-
-		attachHomeLinkListener : function() {
-			$('.add-home-link', '.customlinkdiv').click(function(e) {
-				api.addLinkToMenu( navMenuL10n.homeurl, navMenuL10n.home, api.addMenuItemToTop );
-				return false;
-			});
 		},
 
 		attachUnsavedChangesListener : function() {
