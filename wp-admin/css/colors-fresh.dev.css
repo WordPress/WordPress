@@ -504,14 +504,17 @@ body.press-this .tabs a:hover {
 #adminmenu #awaiting-mod,
 #adminmenu .update-plugins,
 #sidemenu a .update-plugins,
-#rightnow .reallynow,
-#plugin-information .action-button {
+#rightnow .reallynow {
 	background-color: #464646;
 	color: #fff;
 	-moz-box-shadow: #fff 0 -1px 0;
 	-khtml-box-shadow: #fff 0 -1px 0;
 	-webkit-box-shadow: #fff 0 -1px 0;
 	box-shadow: #fff 0 -1px 0;
+}
+#plugin-information .action-button {
+	background-color: #d54e21;
+	color: #fff;
 }
 
 #adminmenu li.current a #awaiting-mod,
