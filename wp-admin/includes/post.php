@@ -299,8 +299,9 @@ function bulk_edit_posts( $post_data = null ) {
 
 	$updated = $skipped = $locked = array();
 	foreach ( $post_IDs as $post_ID ) {
+		$post_type_object = get_post_type_object( get_post_type( $post_ID ) );
 
-		if ( isset($children) && in_array($post_ID, $children) ) {
+		if ( !isset( $post_type_object ) || ( isset($children) && in_array($post_ID, $children) ) || !current_user_can( $post_type_object->cap->edit_post, $post_ID ) ) {
 			$skipped[] = $post_ID;
 			continue;
 		}
