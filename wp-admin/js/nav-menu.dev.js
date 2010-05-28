@@ -22,6 +22,7 @@ var wpNavMenu;
 		menuList : undefined,	// Set in init.
 		targetList : undefined, // Set in init.
 		menusChanged : false,
+		isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
 
 		// Functions that run on init.
 		init : function() {
@@ -52,7 +53,7 @@ var wpNavMenu;
 			// jQuery extensions
 			$.fn.extend({
 				menuItemDepth : function() {
-					var margin = this.eq(0).css('margin-left');
+					var margin = api.isRTL ? this.eq(0).css('margin-right') : this.eq(0).css('margin-left');
 					return api.pxToDepth( margin && -1 != margin.indexOf('px') ? margin.slice(0, -2) : 0 );
 				},
 				updateDepthClass : function(current, prev) {
@@ -244,6 +245,10 @@ var wpNavMenu;
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
 					var height, width, parent, children, maxChildDepth, tempHolder;
+					
+					// handle placement for rtl orientation
+					if ( api.isRTL )
+						ui.item[0].style.right = 'auto';
 
 					transport = ui.item.children('.menu-item-transport');
 
@@ -306,6 +311,12 @@ var wpNavMenu;
 					// address sortable's incorrectly-calculated top in opera
 					ui.item[0].style.top = 0;
 
+					// handle drop placement for rtl orientation
+					if ( api.isRTL ) {
+						ui.item[0].style.left = 'auto';
+						ui.item[0].style.right = 0;
+					}
+
 				},
 				change: function(e, ui) {
 					// Make sure the placeholder is inside the menu.
@@ -317,7 +328,7 @@ var wpNavMenu;
 				},
 				sort: function(e, ui) {
 					var offset = ui.helper.offset(),
-						depth = api.pxToDepth( offset.left - menuLeft );
+						depth = ( api.isRTL ? -1 : 1 ) * api.pxToDepth( offset.left - menuLeft );
 					// Check and correct if depth is not within range.
 					// Also, if the dragged element is dragged upwards over
 					// an item, shift the placeholder to a child position.
