@@ -1623,7 +1623,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'cb':
 		?>
-		<th scope="row" class="check-column"><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><?php if ( current_user_can( 'edit_page', $page->ID ) ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
 		<?php
 		break;
 	case 'date':

@@ -283,7 +283,9 @@ function bulk_edit_posts( $post_data = null ) {
 	$updated = $skipped = $locked = array();
 	foreach ( $post_IDs as $post_ID ) {
 
-		if ( isset($children) && in_array($post_ID, $children) ) {
+		$edit_cap = ( get_post_type( $post_ID ) == 'page' ) ? 'edit_page' : 'edit_post';
+
+		if ( ( isset($children) && in_array($post_ID, $children) ) || !current_user_can( $edit_cap, $post_ID ) ) {
 			$skipped[] = $post_ID;
 			continue;
 		}
