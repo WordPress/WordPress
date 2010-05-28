@@ -4,7 +4,7 @@ Theme URI: http://wordpress.org/
 Description: The 2010 default theme for WordPress.
 Author: the WordPress team
 Version: 1.0
-Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, theme-options, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
+Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
 */
 
 
@@ -785,7 +785,7 @@ div.menu li {
 	margin: 0;
 	max-width: 640px;
 }
-.single-attachment #content img {
+#content .attachment img {
 	max-width: 900px;
 }
 #content .alignleft,
