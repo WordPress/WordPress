@@ -153,7 +153,7 @@ function wp_install_defaults($user_id) {
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/development/',
-								'link_name' => 'Development Blog',
+								'link_name' => 'WordPress Blog',
 								'link_rss' => 'http://wordpress.org/development/feed/',
 								'link_notes' => '');
 
