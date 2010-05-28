@@ -209,6 +209,7 @@ $_old_files = array(
 'wp-includes/js/jquery/autocomplete.dev.js',
 'wp-includes/js/jquery/interface.js',
 'wp-includes/js/jquery/autocomplete.js',
+'wp-includes/js/scriptaculous/prototype.js',
 'wp-includes/js/tinymce/wp-tinymce.js',
 'wp-content/themes/twentyten/searchform.php',
 'wp-admin/import',
