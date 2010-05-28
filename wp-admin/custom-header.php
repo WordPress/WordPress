@@ -43,6 +43,15 @@ class Custom_Image_Header {
 	var $default_headers = array();
 
 	/**
+	 * Holds the page menu hook.
+	 *
+	 * @var string
+	 * @since 3.0.0
+	 * @access private
+	 */
+	var $page = '';
+
+	/**
 	 * PHP4 Constructor - Register administration header callback.
 	 *
 	 * @since 2.1.0
@@ -64,13 +73,28 @@ class Custom_Image_Header {
 		if ( ! current_user_can('edit_theme_options') )
 			return;
 
-		$page = add_theme_page(__('Header'), __('Header'), 'edit_theme_options', 'custom-header', array(&$this, 'admin_page'));
+		$this->page = $page = add_theme_page(__('Header'), __('Header'), 'edit_theme_options', 'custom-header', array(&$this, 'admin_page'));
 
 		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
 		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));
+		add_action("admin_head-$page", array(&$this, 'help') );
 		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
 		add_action("admin_head-$page", $this->admin_header_callback, 51);
+	}
+
+	/**
+	 * Adds contextual help.
+	 *
+	 * @since 3.0.0
+	 */
+	function help() {
+		add_contextual_help( $this->page, '<p>' . __( 'You can set a custom image header for your site. Simply upload the image and crop it, and the new header will go live immediately. ' ) . '</p>' .
+		'<p>' . __( 'If you want to discard your custom header and go back to the default included in your theme, click on the buttons to remove the custom image and restore the original header image. ' ) . '</p>' .
+		'<p>' . __( 'Some themes comes with additional header images bundled. If you see multiple images displayed, select the one you&#8217;d like and click the Save Changes button. ' ) . '</p>' .
+		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+		'<p>' . __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' ) . '</p>' .
+		'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>' );
 	}
 
 	/**
