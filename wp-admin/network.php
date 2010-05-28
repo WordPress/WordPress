@@ -175,11 +175,11 @@ function network_step1( $errors = false ) {
 		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
-		if ( got_mod_rewrite() ) // dangerous assumptions
+		if ( $got_mod_rewrite = got_mod_rewrite() ) // dangerous assumptions
 			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this installation.' ) . '</p>';
 		elseif ( $is_apache )
 			echo '<div class="error inline"><p><strong>' . __( 'Warning!' ) . '</strong> ' . __( 'It looks like the Apache <code>mod_rewrite</code> module is not installed.' ) . '</p>';
-		if ( $is_apache )
+		if ( $got_mod_rewrite || $is_apache ) // Protect against mod_rewrite mimicry (but ! Apache)
 			echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled, ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p></div>';
 	}
 
