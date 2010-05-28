@@ -184,6 +184,8 @@ $_old_files = array(
 'wp-includes/wpmu-functions.php',
 'wpmu-settings.php',
 'index-install.php',
+'README.txt',
+'htaccess.dist',
 'wp-admin/css/mu-rtl.css',
 'wp-admin/css/mu.css',
 'wp-admin/images/site-admin.png',
