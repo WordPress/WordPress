@@ -562,22 +562,20 @@ require_once( 'admin-header.php' );
 					</div><!-- END #nav-menu-header -->
 					<div id="post-body">
 						<div id="post-body-content">
-							<?php if ( is_nav_menu( $nav_menu_selected_id ) ) : ?>
-								<ul class="menu" id="menu-to-edit">
-								<?php
+							<?php 
+							if ( is_nav_menu( $nav_menu_selected_id ) ) :
 								$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  );
-								if ( ! is_wp_error( $edit_markup ) ) {
+								if ( ! is_wp_error( $edit_markup ) ) :
 									echo $edit_markup;
-								}
-								?>
-								</ul>
-							<?php elseif ( empty($nav_menu_selected_id) ):
+								endif;
+							elseif ( empty( $nav_menu_selected_id ) ) :
 								echo '<div class="post-body-plain">';
 								echo '<p>' . __('To create a custom menu, give it a name above and click Create Menu. Then choose items like pages, categories or custom links from the left column to add to this menu.') . '</p>';
 								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want. You can also click each item to reveal additional configuration options.') . '</p>';
 								echo '<p>' . __('When you have finished building your custom menu, make sure you click the Save Menu button.') . '</p>';
 								echo '</div>';
-							endif; ?>
+							endif; 
+							?>
 						</div><!-- /#post-body-content -->
 					</div><!-- /#post-body -->
 				</form><!-- /#update-nav-menu -->

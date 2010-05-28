@@ -93,9 +93,8 @@ var wpNavMenu;
 						if( depth == 0 ) { // Item is on the top level, has no parent
 							input.val(0);
 						} else { // Find the parent item, and retrieve its object id.
-							while( parent.menuItemDepth() != depth - 1 ) {
+							while( ! parent[0] || ! parent[0].className || -1 == parent[0].className.indexOf('menu-item') || ( parent.menuItemDepth() != depth - 1 ) )
 								parent = parent.prev();
-							}
 							input.val( parent.find('.menu-item-data-db-id').val() );
 						}
 					});

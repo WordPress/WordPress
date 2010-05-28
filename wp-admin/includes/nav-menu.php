@@ -1006,7 +1006,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		$result .= '</div>';
 
 		if( empty($menu_items) )
-			return $result;
+			return $result . ' <ul class="menu" id="menu-to-edit"> </ul>';
 
 		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
 
@@ -1024,7 +1024,9 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		if ( $some_pending_menu_items )
 			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make pending menu items public.') . '</p></div>';
 
+		$result .= '<ul class="menu" id="menu-to-edit"> ';
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
+		$result .= ' </ul> ';
 		return $result;
 	} elseif ( is_wp_error( $menu ) ) {
 		return $menu;
