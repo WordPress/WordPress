@@ -36,7 +36,7 @@ if ( isset( $_GET['action'] ) && 'editblog' == $_GET['action'] ) {
 		'<li>' . __('Backend means the Dashboard for that site') . '</li>' .
 		'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later by hover links attached to those sites in this table.') . '</li>' .
 		'<li>' . __('Delete which is a permanent action after the confirmations screen.') . '</li>' .
-		'<li>' . __('Visit to go the the frontend site live.') . '</li></ul>' .
+		'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
 		'<p>' . __('The site ID is used internally, and not shown on the front end of the site or to users/viewers.') . '</p>' .
 		'<p>' . __('Clicking on bold settings can re-sort this table. The upper right icons switch between list and excerpt views.') . '</p>' .
 		'<p>' . __('Clicking on Add Site after filling out the address, title, and email adds that new site instantly to the network and this table. You may want to then click on the hover link to edit options for that site.') . '</p>' .
