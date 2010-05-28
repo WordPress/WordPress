@@ -1281,9 +1281,10 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			$install_actions['plugins_page'] = '<a href="' . admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
 
 
-		if ( ! $this->result || is_wp_error($this->result) )
+		if ( ! $this->result || is_wp_error($this->result) ) {
 			unset( $install_actions['activate_plugin'] );
-
+			unset( $install_actions['network_activate'] );
+		}
 		$install_actions = apply_filters('install_plugin_complete_actions', $install_actions, $this->api, $plugin_file);
 		if ( ! empty($install_actions) )
 			$this->feedback('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
