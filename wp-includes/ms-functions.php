@@ -1238,6 +1238,8 @@ function global_terms( $term_id, $deprecated = '' ) {
 		if ( null == $used_global_id ) {
 			$wpdb->insert( $wpdb->sitecategories, array( 'cat_ID' => $term_id, 'cat_name' => $c->name, 'category_nicename' => $c->slug ) );
 			$global_id = $wpdb->insert_id;
+			if ( empty( $global_id ) )
+				return $term_id;
 		} else {
 			$max_global_id = $wpdb->get_var( "SELECT MAX(cat_ID) FROM $wpdb->sitecategories" );
 			$max_local_id = $wpdb->get_var( "SELECT MAX(term_id) FROM $wpdb->terms" );
