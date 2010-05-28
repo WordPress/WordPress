@@ -73,6 +73,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 			$title = sprintf( __('%s (Pending)'), $item->title );
 		}
 
+		$title = empty( $item->label ) ? $title : $item->label;
+
 		?>
 		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
 			<dl class="menu-item-bar">

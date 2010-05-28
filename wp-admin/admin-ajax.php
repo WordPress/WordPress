@@ -823,7 +823,9 @@ case 'add-menu-item' :
 	foreach ( (array) $item_ids as $menu_item_id ) {
 		$menu_obj = get_post( $menu_item_id );
 		if ( ! empty( $menu_obj->ID ) ) {
-			$menu_items[] = wp_setup_nav_menu_item( $menu_obj );
+			$menu_obj = wp_setup_nav_menu_item( $menu_obj );
+			$menu_obj->label = $menu_obj->title; // don't show "(pending)" in ajax-added items
+			$menu_items[] = $menu_obj;
 		}
 	}
 
