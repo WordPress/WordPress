@@ -232,14 +232,6 @@ if ( get_background_image() ) {
 <form method="post" action="">
 <table class="form-table">
 <tbody>
-<tr valign="top">
-<th scope="row"><?php _e( 'Color' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Color' ); ?></span></legend>
-<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr(get_background_color()) ?>" />
-<input type="button" class="button" value="<?php esc_attr_e('Select a Color'); ?>" id="pickcolor" />
-<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
-</fieldset></td>
-</tr>
 <?php if ( get_background_image() ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Position' ); ?></th>
@@ -261,7 +253,7 @@ if ( get_background_image() ) {
 
 <tr valign="top">
 <th scope="row"><?php _e( 'Repeat' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Repeat' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Repeat' ); ?></span></legend>
 <label><input type="radio" name="background-repeat" value="no-repeat"<?php checked('no-repeat', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('No Repeat'); ?></option></label>
 	<label><input type="radio" name="background-repeat" value="repeat"<?php checked('repeat', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('Tile'); ?></option></label>
 	<label><input type="radio" name="background-repeat" value="repeat-x"<?php checked('repeat-x', get_theme_mod('background_repeat', 'repeat')); ?>> <?php _e('Tile Horizontally'); ?></option></label>
@@ -271,7 +263,7 @@ if ( get_background_image() ) {
 
 <tr valign="top">
 <th scope="row"><?php _e( 'Attachment' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Attachment' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Attachment' ); ?></span></legend>
 <label>
 <input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'fixed')); ?> />
 <?php _e('Scroll') ?>
@@ -283,6 +275,14 @@ if ( get_background_image() ) {
 </fieldset></td>
 </tr>
 <?php endif; // get_background_image() ?>
+<tr valign="top">
+<th scope="row"><?php _e( 'Color' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Color' ); ?></span></legend>
+<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr(get_background_color()) ?>" />
+<a class="hide-if-no-js" href="#" id="pickcolor"><?php _e('Select a Color'); ?></a>
+<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
+</fieldset></td>
+</tr>
 </tbody>
 </table>
 

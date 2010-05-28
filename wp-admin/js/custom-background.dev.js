@@ -9,6 +9,7 @@ function pickColor(color) {
 jQuery(document).ready(function() {
 	jQuery('#pickcolor').click(function() {
 		jQuery('#colorPickerDiv').show();
+		return false;
 	});
 
 	jQuery('#background-color').keyup(function() {
