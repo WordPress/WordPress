@@ -322,10 +322,6 @@ td.available-theme {
 }
 /* 1800 - 2000
 =================================== */
-#side-sortables .category-tabs li,
-#side-sortables .add-menu-item-tabs li {
-	padding-left: 8px;
-}
 #front-page-warning,
 #front-static-pages ul,
 .inline-editor ul.cat-checklist ul,

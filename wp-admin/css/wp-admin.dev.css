@@ -2028,7 +2028,6 @@ div.tabs-panel-inactive {
 #side-sortables .category-tabs li,
 #side-sortables .add-menu-item-tabs li {
 	display: inline;
-	padding-right: 8px;
 }
 
 #side-sortables .category-tabs a,
@@ -2102,7 +2101,7 @@ ul.add-menu-item-tabs li.tabs {
 
 ul.category-tabs li,
 ul.add-menu-item-tabs li {
-	padding: 5px 8px;
+	padding: 5px;
 	-moz-border-radius: 3px 3px 0 0;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
