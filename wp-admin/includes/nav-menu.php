@@ -783,8 +783,8 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 	<div id="taxonomy-<?php echo $taxonomy_name; ?>" class="taxonomydiv">
 		<ul id="taxonomy-<?php echo $taxonomy_name; ?>-tabs" class="taxonomy-tabs add-menu-item-tabs">
 			<li <?php echo ( 'most-used' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($taxonomy_name . '-tab', 'most-used', remove_query_arg($removed_args))); ?>#tabs-panel-<?php echo $taxonomy_name; ?>-pop"><?php _e('Most Used'); ?></a></li>
-			<li <?php echo ( 'search' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($taxonomy_name . '-tab', 'search', remove_query_arg($removed_args))); ?>#tabs-panel-search-taxonomy-<?php echo $taxonomy_name; ?>"><?php _e('Search'); ?></a></li>
 			<li <?php echo ( 'all' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($taxonomy_name . '-tab', 'all', remove_query_arg($removed_args))); ?>#tabs-panel-<?php echo $taxonomy_name; ?>-all"><?php _e('View All'); ?></a></li>
+			<li <?php echo ( 'search' == $current_tab ? ' class="tabs"' : '' ); ?>><a class="nav-tab-link" href="<?php echo esc_url(add_query_arg($taxonomy_name . '-tab', 'search', remove_query_arg($removed_args))); ?>#tabs-panel-search-taxonomy-<?php echo $taxonomy_name; ?>"><?php _e('Search'); ?></a></li>
 		</ul>
 
 		<div id="tabs-panel-<?php echo $taxonomy_name; ?>-pop" class="tabs-panel <?php
@@ -797,6 +797,27 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $popular_terms), 0, (object) $args );
 				?>
 			</ul>
+		</div><!-- /.tabs-panel -->
+
+		<div id="tabs-panel-<?php echo $taxonomy_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
+			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
+		?>">
+			<?php if ( ! empty( $page_links ) ) : ?>
+				<div class="add-menu-item-pagelinks">
+					<?php echo $page_links; ?>
+				</div>
+			<?php endif; ?>
+			<ul id="<?php echo $taxonomy_name; ?>checklist" class="list:<?php echo $taxonomy_name?> categorychecklist form-no-clear">
+				<?php
+				$args['walker'] = $walker;
+				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $terms), 0, (object) $args );
+				?>
+			</ul>
+			<?php if ( ! empty( $page_links ) ) : ?>
+				<div class="add-menu-item-pagelinks">
+					<?php echo $page_links; ?>
+				</div>
+			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
 		<div class="tabs-panel <?php
@@ -829,27 +850,6 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 				<li><?php _e('No results found.'); ?></li>
 			<?php endif; ?>
 			</ul>
-		</div><!-- /.tabs-panel -->
-
-		<div id="tabs-panel-<?php echo $taxonomy_name; ?>-all" class="tabs-panel tabs-panel-view-all <?php
-			echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
-		?>">
-			<?php if ( ! empty( $page_links ) ) : ?>
-				<div class="add-menu-item-pagelinks">
-					<?php echo $page_links; ?>
-				</div>
-			<?php endif; ?>
-			<ul id="<?php echo $taxonomy_name; ?>checklist" class="list:<?php echo $taxonomy_name?> categorychecklist form-no-clear">
-				<?php
-				$args['walker'] = $walker;
-				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $terms), 0, (object) $args );
-				?>
-			</ul>
-			<?php if ( ! empty( $page_links ) ) : ?>
-				<div class="add-menu-item-pagelinks">
-					<?php echo $page_links; ?>
-				</div>
-			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
 		<p class="button-controls">
