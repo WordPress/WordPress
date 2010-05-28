@@ -307,7 +307,12 @@ function network_step2( $errors = false ) {
 ?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
-		<div class="updated inline"><p><?php _e( '<strong>Caution:</strong> We recommend you backup your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' ); ?></p></div>
+		<div class="updated inline"><p><?php
+			if ( iis7_supports_permalinks() )
+				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> file.' );
+			else
+				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>.htaccess</code> files.' );
+		?></p></div>
 <?php
 	}
 ?>
@@ -358,7 +363,8 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 ?>
 </li>
 <?php
-	if ( iis7_supports_permalinks() ) {
+	if ( iis7_supports_permalinks() ) :
+
 			if ( $subdomain_install ) {
 				$web_config_file =
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -440,8 +446,9 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 		<?php echo wp_htmledit_pre( $web_config_file ); ?>
 		</textarea></li>
 		</ol>
-	<?php } else {
-		// Construct an htaccess file.
+
+	<?php else : // end iis7_supports_permalinks(). construct an htaccess file instead:
+
 		$htaccess_file = 'RewriteEngine On
 RewriteBase ' . $base . '
 RewriteRule ^index\.php$ - [L]
@@ -469,7 +476,9 @@ RewriteRule ^ - [L]';
 		?>
 		</textarea></li>
 		</ol>
-	<?php }
+
+	<?php endif; // end IIS/Apache code branches.
+
 	if ( !is_multisite() ) { ?>
 		<p><?php printf( __( 'Once you complete these steps, your network is enabled and configured. You will have to log in again.') ); ?> <a href="<?php echo esc_url( site_url( 'wp-login.php' ) ); ?>"><?php _e( 'Log In' ); ?></a></p>
 <?php
