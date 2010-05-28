@@ -188,7 +188,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
  * menu - The menu that is desired.  Accepts (matching in order) id, slug, name. Defaults to blank.
  * menu_class - CSS class to use for the ul container of the menu list. Defaults to 'menu'.
  * container - Whether to wrap the ul, and what to wrap it with. Defaults to 'div'.
- * conatiner_class - the class that is applied to the container. Defaults to blank.
+ * container_class - the class that is applied to the container. Defaults to blank.
+ * container_id - The ID that is applied to the container.  Defaults to the menu slug, incremented.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
  * before - Text before the link text.
  * after - Text after the link text.
@@ -205,8 +206,9 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
-	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'menu_class' => 'menu', 'echo' => true,
-	'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
+	global $_wp_nav_menu_slugs;
+	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 
+	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
 	'depth' => 0, 'walker' => '', 'context' => 'frontend', 'theme_location' => '' );
 
 	$args = wp_parse_args( $args, $defaults );
@@ -269,7 +271,20 @@ function wp_nav_menu( $args = array() ) {
 	unset($sorted_menu_items);
 
 	// Attributes
-	$attributes  = ' id="menu-' . $menu->slug . '"';
+	$slug = 'menu-' . $menu->slug;
+	if ( ! is_array( $_wp_nav_menu_slugs ) )
+		$_wp_nav_menu_slugs = array();
+
+	while ( in_array( $slug, $_wp_nav_menu_slugs ) ) {
+		if ( preg_match( '#-(\d+)$#', $slug, $matches ) )
+			$slug = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $slug);
+		else
+			$slug = $slug . '-1';
+	}
+	
+	$_wp_nav_menu_slugs[] = $slug;
+		
+	$attributes = ' id="' . ( empty( $args->container_id ) ? $slug : $args->container_id ) . '"';
 	$attributes .= $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
 
 	$nav_menu .= '<ul'. $attributes .'>';
