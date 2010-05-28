@@ -43,7 +43,7 @@ function network_domain_check() {
  * @return bool Whether subdomain install is allowed
  */
 function allow_subdomain_install() {
-	$domain = preg_replace( '|https?://[^/]|', '', get_option( 'siteurl' ) );
+	$domain = preg_replace( '|https?://([^/]+)|', '$1', get_option( 'siteurl' ) );
 	if( false !== strpos( $domain, '/' ) || 'localhost' == $domain || preg_match( '|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|', $domain ) )
 		return false;
 
