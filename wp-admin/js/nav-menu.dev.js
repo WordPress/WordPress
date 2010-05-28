@@ -560,9 +560,6 @@ var wpNavMenu;
 				if ( api.menusChanged )
 					return navMenuL10n.saveAlert;
 			};
-			$('input.menu-save').click(function(){
-				window.onbeforeunload = null;
-			});
 		},
 
 		registerChange : function() {
@@ -787,15 +784,18 @@ var wpNavMenu;
 			$('#update-nav-menu').append( locs );
 			// Update menu item position data
 			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
+			window.onbeforeunload = null;
+
 			return true;
 		},
 
 		eventOnClickMenuDelete : function(clickedEl) {
 			// Delete warning AYS
-			if ( confirm( navMenuL10n.warnDeleteMenu ) )
+			if ( confirm( navMenuL10n.warnDeleteMenu ) ) {
+				window.onbeforeunload = null;
 				return true;
-			else
-				return false;
+			}
+			return false;
 		},
 
 		eventOnClickMenuItemDelete : function(clickedEl) {
