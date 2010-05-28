@@ -358,8 +358,8 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );</textarea>
 ?>
 </li>
 <?php
-	if (iis7_supports_permalinks()) {
-			if (is_subdomain_install()) {
+	if ( iis7_supports_permalinks() ) {
+			if ( $subdomain_install ) {
 				$web_config_file =
 '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
