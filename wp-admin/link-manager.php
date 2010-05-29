@@ -45,10 +45,10 @@ $title = __('Links');
 $this_file = $parent_file = 'link-manager.php';
 
 add_contextual_help( $current_screen,
-	'<p>' . sprintf(__('You can add links here to be displayed on your site, usually using <a href="%s">Widgets</a>. By default, links to several sites in the WordPress community are included as examples'), 'widgets.php') . '</p>' .
+	'<p>' . sprintf(__('You can add links here to be displayed on your site, usually using <a href="%s">Widgets</a>. By default, links to several sites in the WordPress community are included as examples.'), 'widgets.php') . '</p>' .
     '<p>' . __('Links may be separated into categories; these are different than the categories used on your posts.') . '</p>' .
     '<p>' . __('You can customize the display of this screen using the Screen Options tab and/or the dropdown filters above the links table.') . '</p>' .
-    '<p>' . __('If you delete a link, it will be removed permanently, as Links do not have a Trash function yet. ') . '</p>' .
+    '<p>' . __('If you delete a link, it will be removed permanently, as Links do not have a Trash function yet.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Links_Edit_SubPanel">Link Management Documentation</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'

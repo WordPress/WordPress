@@ -80,10 +80,10 @@ class Custom_Background {
 	 * @since 3.0.0
 	 */
 	function admin_load() {
-		add_contextual_help( $this->page, '<p>' . __( 'You can customize the look of your site without touching any of your theme&#8217;s code by using a custom background. Your background can be an image or a color. ' ) . '</p>' .
-		'<p>' . __( 'To use a background image, simply upload it, then choose your display options below. You can display a single instance of your image, or tile it to fill the screen. You can have your background fixed in place, so your site content moves on top of it, or you can have it scroll with your site. ' ) . '</p>' .
-		'<p>' . __( 'You can also choose a background color. If you know the hexadecimal code for the color you want, enter it in the Color field. If not, click on the Select a Color link, and a color picker will allow you to choose the exact shade you want. ' ) . '</p>' .
-		'<p>' . __( 'Don&#8217;t forget to click on the Save Changes button when you are finished. ' ) . '</p>' .
+		add_contextual_help( $this->page, '<p>' . __( 'You can customize the look of your site without touching any of your theme&#8217;s code by using a custom background. Your background can be an image or a color.' ) . '</p>' .
+		'<p>' . __( 'To use a background image, simply upload it, then choose your display options below. You can display a single instance of your image, or tile it to fill the screen. You can have your background fixed in place, so your site content moves on top of it, or you can have it scroll with your site.' ) . '</p>' .
+		'<p>' . __( 'You can also choose a background color. If you know the hexadecimal code for the color you want, enter it in the Color field. If not, click on the Select a Color link, and a color picker will allow you to choose the exact shade you want.' ) . '</p>' .
+		'<p>' . __( 'Don&#8217;t forget to click on the Save Changes button when you are finished.' ) . '</p>' .
 		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 		'<p>' . __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' ) . '</p>' .
 		'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>' );

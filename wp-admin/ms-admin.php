@@ -20,8 +20,8 @@ $parent_file = 'ms-admin.php';
 
 add_contextual_help($current_screen, 
 	'<p>' . __('Until WordPress 3.0, running multiple sites required using WordPress MU instead of regular WordPress. In version 3.0, these applications have merged. If you are a former MU user, you should be aware of the following changes:') . '</p>' .
-	'<ul><li>' . __('Site Admin is now Super Admin (we highly encourage you to get yourself a cape!)') . '</li>' .
-	'<li>' . __('Blogs are now called Sites; Site is now called Network') . '</li></ul>' .
+	'<ul><li>' . __('Site Admin is now Super Admin (we highly encourage you to get yourself a cape!).') . '</li>' .
+	'<li>' . __('Blogs are now called Sites; Site is now called Network.') . '</li></ul>' .
 	'<p>' . __('This screen provides the network administrator with links to the screens for Sites and Users to either create a new site or user, or to search existing users and sites. Those screens are also accessible through the left-hand navigation in the Super Admin section.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Super_Admin_Menu">Network Admin Documentation</a>') . '</p>' .
