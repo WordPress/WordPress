@@ -167,7 +167,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'Invalid email address.' ) );
 
 		if ( is_subdomain_install() ) {
-			$newdomain = $domain . '.' . $current_site->domain;
+			$newdomain = $domain . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
 			$path = $base;
 		} else {
 			$newdomain = $current_site->domain;

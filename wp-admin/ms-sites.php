@@ -714,7 +714,7 @@ switch ( $action ) {
 						<th scope="row"><?php _e( 'Site Address' ) ?></th>
 						<td>
 						<?php if ( is_subdomain_install() ) { ?>
-							<input name="blog[domain]" type="text" class="regular-text" title="<?php _e( 'Domain' ) ?>"/>.<?php echo $current_site->domain;?>
+							<input name="blog[domain]" type="text" class="regular-text" title="<?php _e( 'Domain' ) ?>"/>.<?php echo preg_replace( '|^www\.|', '', $current_site->domain );?>
 						<?php } else {
 							echo $current_site->domain . $current_site->path ?><input name="blog[domain]" class="regular-text" type="text" title="<?php _e( 'Domain' ) ?>"/>
 						<?php }

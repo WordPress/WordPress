@@ -597,7 +597,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 
 	// Check if the domain/path has been used already.
 	if ( is_subdomain_install() ) {
-		$mydomain = "$blogname.$domain";
+		$mydomain = $blogname . '.' . preg_replace( '|^www\.|', '', $domain );
 		$path = $base;
 	} else {
 		$mydomain = "$domain";
