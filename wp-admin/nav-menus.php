@@ -456,7 +456,7 @@ require_once( 'admin-header.php' );
 	endforeach;
 	?>
 	<div id="nav-menus-frame">
-	<div id="menu-settings-column" class="metabox-holder">
+	<div id="menu-settings-column" class="metabox-holder<?php if ( !$nav_menu_selected_id ) { echo ' metabox-holder-disabled'; } ?>">
 
 		<form id="nav-menu-meta" action="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-menu-meta" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="menu" id="nav-menu-meta-object-id" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />

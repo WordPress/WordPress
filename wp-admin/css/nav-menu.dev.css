@@ -34,6 +34,10 @@ body {
 	padding:0 10px;
 }
 
+.metabox-holder-disabled {
+	opacity: 0.5;
+}
+
 #wpbody {
 	position: relative;
 }

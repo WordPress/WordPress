@@ -113,6 +113,10 @@ var wpNavMenu;
 				 * @param jQuery metabox The metabox jQuery object.
 				 */
 				addSelectedToMenu : function(processMethod) {
+					if ( 0 == $('#menu-to-edit').length ) {
+						return false;
+					}
+
 					return this.each(function() {
 						var t = $(this), menuItems = {},
 							checkboxes = t.find('.tabs-panel-active .categorychecklist li input:checked'),
@@ -555,10 +559,16 @@ var wpNavMenu;
 			$('#menu-management input, #menu-management select, #menu-management, #menu-management textarea').change(function(){
 				api.registerChange();
 			});
-			window.onbeforeunload = function(){
-				if ( api.menusChanged )
-					return navMenuL10n.saveAlert;
-			};
+
+			if ( 0 != $('#menu-to-edit').length ) {
+				window.onbeforeunload = function(){
+					if ( api.menusChanged )
+						return navMenuL10n.saveAlert;
+				};
+			} else {
+				// Make the post boxes read-only, as they can't be used yet
+				$('#menu-settings-column').find('input,select').attr('disabled', 'disabled').end().find('a').attr('href', '#').unbind('click');
+			}
 		},
 
 		registerChange : function() {
