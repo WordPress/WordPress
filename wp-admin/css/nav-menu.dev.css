@@ -34,7 +34,7 @@ body {
 	padding:0 10px;
 }
 
-.metabox-holder-disabled {
+.metabox-holder-disabled .postbox {
 	opacity: 0.5;
 	filter: alpha(opacity=50);
 }
@@ -98,10 +98,6 @@ body {
 
 	#post-body-content {
 		position: relative;
-	}
-
-	.post-body-plain {
-		padding: 10px 10px 0 0;
 	}
 
 	#menu-management .menu-add-new abbr {
