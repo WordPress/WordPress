@@ -365,9 +365,11 @@ function unload_textdomain( $domain ) {
 function load_default_textdomain() {
 	$locale = get_locale();
 
-	$mofile = WP_LANG_DIR . "/$locale.mo";
-
-	return load_textdomain( 'default', $mofile );
+	load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
+	
+	if ( is_multisite() || ( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) ) {
+		load_textdomain( 'default', WP_LANG_DIR . "/ms-$locale.mo" );
+	}
 }
 
 /**
