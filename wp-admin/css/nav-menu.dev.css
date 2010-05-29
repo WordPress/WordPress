@@ -36,8 +36,12 @@ body {
 
 .metabox-holder-disabled {
 	opacity: 0.5;
+	filter: alpha(opacity=50);
 }
 
+.metabox-holder-disabled .button-controls .select-all {
+	display: none;
+}
 #wpbody {
 	position: relative;
 }
@@ -76,7 +80,7 @@ body {
 
 	#post-body {
 		background: #fff;
-		padding:0 0 10px 10px;
+		padding: 10px;
 		border-width: 0 1px 1px 1px;
 		-moz-border-radius-bottomleft: 6px;
 		-webkit-border-bottom-left-radius: 6px;
@@ -86,6 +90,10 @@ body {
 		-webkit-border-bottom-right-radius: 6px;
 		-khtml-border-bottom-right-radius: 6px;
 		border-bottom-right-radius: 6px;
+	}
+
+	#post-body div.updated {
+		margin: 0;
 	}
 
 	#post-body-content {
