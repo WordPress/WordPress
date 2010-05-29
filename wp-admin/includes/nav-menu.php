@@ -386,7 +386,7 @@ function wp_nav_menu_post_type_meta_boxes() {
  * @since 3.0.0
  */
 function wp_nav_menu_taxonomy_meta_boxes() {
-	$taxonomies = get_taxonomies( array( 'show_ui' => true ), 'object' );
+	$taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'object' );
 
 	if ( !$taxonomies )
 		return;
@@ -952,9 +952,6 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
  */
 function _wp_nav_menu_meta_box_object( $object = null ) {
 	if ( isset( $object->name ) ) {
-		// don't show media meta box
-		if ( 'attachment' == $object->name )
-			return false;
 
 		if ( 'page' == $object->name ) {
 			$object->_default_query = array(

@@ -45,6 +45,7 @@ function create_initial_taxonomies() {
 		'rewrite' => false,
 		'show_ui' => false,
 		'_builtin' => true,
+		'show_in_nav_menus' => false,
 	) ) ;
 
 	register_taxonomy( 'link_category', 'link', array(
@@ -232,6 +233,9 @@ function is_taxonomy_hierarchical($taxonomy) {
  * show_ui - If the WordPress UI admin tags UI should apply to this taxonomy;
  * defaults to public.
  *
+ * show_in_nav_menus - true makes this taxonomy available for selection in navigation menus.
+ * Defaults to public.
+ *
  * show_tagcloud - false to prevent the taxonomy being listed in the Tag Cloud Widget;
  * defaults to show_ui which defalts to public.
  *
@@ -264,6 +268,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 						'_builtin' => false,
 						'labels' => array(),
 						'capabilities' => array(),
+						'show_in_nav_menus' => null,
 					);
 	$args = wp_parse_args($args, $defaults);
 
@@ -285,6 +290,10 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	if ( is_null($args['show_ui']) )
 		$args['show_ui'] = $args['public'];
+
+	// Whether to show this type in nav-menus.php. Defaults to the setting for public.
+	if ( null === $args['show_in_nav_menus'] )
+		$args['show_in_nav_menus'] = $args['public'];
 
 	if ( is_null($args['show_tagcloud']) )
 		$args['show_tagcloud'] = $args['show_ui'];

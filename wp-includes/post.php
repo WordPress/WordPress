@@ -50,6 +50,7 @@ function create_initial_post_types() {
 		'rewrite' => false,
 		'query_var' => false,
 		'can_export' => false,
+		'show_in_nav_menus' => false,
 	) );
 
 	register_post_type( 'revision', array(
