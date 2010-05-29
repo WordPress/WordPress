@@ -1001,7 +1001,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, array('post_status' => 'any') );
 		$result = '<div id="menu-instructions" class="post-body-plain';
 		$result .= ( ! empty($menu_items) ) ? ' menu-instructions-inactive">' : '">';
-		$result .= __('Select menu items (pages, categories, links) from the boxes at left to begin building your custom menu.');
+		$result .= '<p>' . __('Select menu items (pages, categories, links) from the boxes at left to begin building your custom menu.') . '</p>';
 		$result .= '</div>';
 
 		if( empty($menu_items) )
