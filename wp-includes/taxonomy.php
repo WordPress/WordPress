@@ -347,7 +347,7 @@ function get_taxonomy_labels( $tax ) {
 		'name' => array( _x( 'Post Tags', 'taxonomy general name' ), _x( 'Categories', 'taxonomy general name' ) ),
 		'singular_name' => array( _x( 'Post Tag', 'taxonomy singular name' ), _x( 'Category', 'taxonomy singular name' ) ),
 		'search_items' => array( __( 'Search Tags' ), __( 'Search Categories' ) ),
-		'popular_items' => array( __( 'Popular Tags' ), __( 'Popular Category' ) ),
+		'popular_items' => array( __( 'Popular Tags' ), __( 'Popular Categories' ) ),
 		'all_items' => array( __( 'All Tags' ), __( 'All Categories' ) ),
 		'parent_item' => array( null, __( 'Parent Category' ) ),
 		'parent_item_colon' => array( null, __( 'Parent Category:' ) ),
