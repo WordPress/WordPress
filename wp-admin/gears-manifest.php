@@ -34,15 +34,15 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 $entries = '';
 
 foreach ( $files as $file ) {
+	// Set ignoreQuery, defaulting to true
+	$ignore_query = ( isset($file[2]) && !$file[2] ) ? '' : ', "ignoreQuery" : true ';
+
 	// If version is not set, just output the file
 	if ( !isset($file[1]) )
-		$entries .= '{ "url" : "' . $file[0] . '" },' . "\n";
-	// If ver is set but ignoreQuery is not, output file with ver tacked on
-	elseif ( !isset($file[2]) )
-		$entries .= '{ "url" : "' . $file[0] . '?' . $file[1] . '" },' . "\n";
-	// Output url, src, and ignoreQuery
+		$entries .= '{ "url" : "' . $file[0] . '"' . $ignore_query . ' }' . "\n";
+	// Output url and src
 	else
-		$entries .= '{ "url" : "' . $file[0] . '", "src" : "' . $file[0] . '?' . $file[1] . '", "ignoreQuery" : true },' . "\n";
+		$entries .= '{ "url" : "' . $file[0] . '", "src" : "' . $file[0] . '?' . $file[1] . '"' . $ignore_query . ' },' . "\n";
 }
 
 echo trim( trim($entries), ',' );

@@ -11,7 +11,7 @@ $mce_ver = "ver=$tinymce_version";
 /**
  * Retrieve list of all cacheable WP files
  *
- * Array format: file, version (optional), bool (whether to use src and set ignoreQuery)
+ * Array format: file, version (optional), bool (whether to use src and set ignoreQuery, defaults to true)
  */
 function &get_manifest() {
 	global $mce_ver;
@@ -89,70 +89,70 @@ function &get_manifest() {
 
 	if ( @is_file('../wp-includes/js/tinymce/tiny_mce.js') ) :
 	$mce = array(
-		array('../wp-includes/js/tinymce/wp-tinymce.php', $mce_ver, true),
+		array('../wp-includes/js/tinymce/wp-tinymce.php', $mce_ver),
 
-		array('../wp-includes/js/tinymce/tiny_mce.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/langs/wp-langs-en.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/utils/mctabs.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/utils/validate.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/utils/form_utils.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/utils/editable_selects.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/tiny_mce_popup.js', $mce_ver, true),
+		array('../wp-includes/js/tinymce/tiny_mce.js', $mce_ver),
+		array('../wp-includes/js/tinymce/langs/wp-langs-en.js', $mce_ver),
+		array('../wp-includes/js/tinymce/utils/mctabs.js', $mce_ver),
+		array('../wp-includes/js/tinymce/utils/validate.js', $mce_ver),
+		array('../wp-includes/js/tinymce/utils/form_utils.js', $mce_ver),
+		array('../wp-includes/js/tinymce/utils/editable_selects.js', $mce_ver),
+		array('../wp-includes/js/tinymce/tiny_mce_popup.js', $mce_ver),
 
-		array('../wp-includes/js/tinymce/themes/advanced/editor_template.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/source_editor.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/anchor.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/image.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/link.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/color_picker.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/charmap.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/js/color_picker.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/js/charmap.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/js/image.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/js/link.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/js/source_editor.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/js/anchor.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/content.css', $mce_ver, true),
-		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/dialog.css', $mce_ver, true),
+		array('../wp-includes/js/tinymce/themes/advanced/editor_template.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/source_editor.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/anchor.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/image.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/link.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/color_picker.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/charmap.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/js/color_picker.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/js/charmap.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/js/image.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/js/link.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/js/source_editor.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/js/anchor.js', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/content.css', $mce_ver),
+		array('../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/dialog.css', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/fullscreen/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/fullscreen/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/inlinepopups/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/inlinepopups/template.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/inlinepopups/skins/clearlooks2/window.css', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/inlinepopups/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/inlinepopups/template.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/inlinepopups/skins/clearlooks2/window.css', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/media/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/media/js/media.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/media/media.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/media/css/content.css', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/media/css/media.css', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/media/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/media/js/media.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/media/media.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/media/css/content.css', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/media/css/media.css', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/paste/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/js/pasteword.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/js/pastetext.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/pasteword.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/blank.htm', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/paste/pastetext.htm', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/paste/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/paste/js/pasteword.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/paste/js/pastetext.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/paste/pasteword.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/paste/blank.htm', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/paste/pastetext.htm', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/safari/editor_plugin.js', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/safari/editor_plugin.js', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/spellchecker/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/spellchecker/css/content.css', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/spellchecker/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/spellchecker/css/content.css', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/tabfocus/editor_plugin.js', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/tabfocus/editor_plugin.js', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/wordpress/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/wordpress/css/content.css', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/wordpress/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/wordpress/css/content.css', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/wpeditimage/editor_plugin.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css', $mce_ver, true),
-		array('../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage-rtl.css', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/wpeditimage/editor_plugin.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css', $mce_ver),
+		array('../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage-rtl.css', $mce_ver),
 
-		array('../wp-includes/js/tinymce/plugins/wpgallery/editor_plugin.js', $mce_ver, true),
+		array('../wp-includes/js/tinymce/plugins/wpgallery/editor_plugin.js', $mce_ver),
 
 		array('../wp-includes/js/tinymce/themes/advanced/img/icons.gif'),
 		array('../wp-includes/js/tinymce/themes/advanced/img/colorpicker.jpg'),

@@ -29,7 +29,7 @@ $tinymce_version = '327-1235';
  *
  * @global string $manifest_version
  */
-$manifest_version = '20100520';
+$manifest_version = '20100530';
 
 /**
  * Holds the required PHP version
