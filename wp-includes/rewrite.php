@@ -1576,6 +1576,13 @@ class WP_Rewrite {
 								'.*wp-feed.php$'	=>	$this->index . '?feed=feed',
 								'.*wp-commentsrss2.php$'	=>	$this->index . '?feed=rss2&withcomments=1');
 
+		// Registration rules
+		$registration_pages = array();
+		if ( is_multisite() && is_main_site() ) {
+			$registration_pages['.*wp-signup.php$'] = $this->index . '?signup=true';
+			$registration_pages['.*wp-activate.php$'] = $this->index . '?activate=true';
+		}
+
 		// Post
 		$post_rewrite = $this->generate_rewrite_rules($this->permalink_structure, EP_PERMALINK);
 		$post_rewrite = apply_filters('post_rewrite_rules', $post_rewrite);
@@ -1623,9 +1630,9 @@ class WP_Rewrite {
 
 		// Put them together.
 		if ( $this->use_verbose_page_rules )
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $registration_pages, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
 		else
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
 
 		do_action_ref_array('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
