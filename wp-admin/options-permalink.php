@@ -20,7 +20,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('If you pick an option other than Default, your general URL path with structure tags, terms surrounded by %, will also appear in the custom structure field and your path can be further modified there.') . '</p>' .
 	'<p>' . __('When you assign multiple categories or tags to a post, only one can show up in the permalink: the lowest numbered category. This applies if your custom structure includes %category% or %tag%.') . '</p>' .
 	'<p>' . __('Note that permalinks beginning with structure tags calling Category, Tag, Author, or Postname require more advanced server resources. Double-check your hosting details to make sure those are in place or start your permalinks with other structure tags.') . '</p>' .
-	'<p>' . __('The Optional fields lets you have add a base name that will appear in archive URLs intead of &#8220;category&#8221; or &#8220;tag.&#8221; For example, the page listing all posts in the category &#8220;uncategorized&#8221; could be /topics/uncategorized instead of /category/uncategorized.') . '</p>' .
+	'<p>' . __('The Optional fields let you have a base name that will appear in archive URLs instead of &#8220;category&#8221; or &#8220;tag.&#8221; For example, the page listing all posts in the category &#8220;uncategorized&#8221; could be /topics/uncategorized instead of /category/uncategorized.') . '</p>' .
 	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Permalinks_SubPanel">Permalinks Settings Documentation</a>') . '</p>' .
