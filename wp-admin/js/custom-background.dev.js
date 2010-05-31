@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
 		jQuery('#custom-background-image').css('background-position', jQuery(this).val() + ' top');
 	});
 
-	jQuery('select[name="background-repeat"]').change(function() {
+	jQuery('input[name="background-repeat"]').change(function() {
 		jQuery('#custom-background-image').css('background-repeat', jQuery(this).val());
 	});
 
