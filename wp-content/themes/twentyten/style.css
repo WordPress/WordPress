@@ -559,12 +559,6 @@ div.menu li {
 .page-title a:hover {
 	color: #FF4B33;
 }
-.entry-title,
-.entry-meta {
-	clear: left;
-	float: left;
-	margin-right: 68px;
-}
 #content .entry-title {
 	color: #000;
 	font-size: 21px;
