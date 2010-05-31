@@ -474,10 +474,8 @@ RewriteRule ^ - [L]';
 
 		?>
 		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>"><?php
-		echo wp_htmledit_pre( $htaccess_file );
-		?>
-		</textarea></li>
+		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $subdomain_install ? 11 : 16; ?>">
+<?php echo wp_htmledit_pre( $htaccess_file ); ?></textarea></li>
 		</ol>
 
 	<?php endif; // end IIS/Apache code branches.
