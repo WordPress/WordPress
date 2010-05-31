@@ -183,8 +183,8 @@ switch($step) {
 		// Fill in the data we gathered
 		$weblog_title = isset( $_POST['weblog_title'] ) ? trim( stripslashes( $_POST['weblog_title'] ) ) : '';
 		$user_name = isset($_POST['user_name']) ? trim( stripslashes( $_POST['user_name'] ) ) : 'admin';
-		$admin_password = isset($_POST['admin_password']) ? trim( stripslashes( $_POST['admin_password'] ) ) : '';
-		$admin_password_check = isset($_POST['admin_password2']) ? trim( stripslashes( $_POST['admin_password2'] ) ) : '';
+		$admin_password = isset($_POST['admin_password']) ? $_POST['admin_password'] : '';
+		$admin_password_check = isset($_POST['admin_password2']) ? $_POST['admin_password2'] : '';
 		$admin_email  = isset( $_POST['admin_email']  ) ?trim( stripslashes( $_POST['admin_email'] ) ) : '';
 		$public       = isset( $_POST['blog_public']  ) ? (int) $_POST['blog_public'] : 0;
 		// check e-mail address
