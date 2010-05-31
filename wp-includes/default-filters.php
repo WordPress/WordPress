@@ -229,10 +229,13 @@ add_action( 'save_post',                  '_save_post_hook',          5, 2 );
 add_action( 'transition_post_status',     '_transition_post_status',  5, 3 );
 add_action( 'comment_form', 'wp_comment_form_unfiltered_html_nonce'        );
 add_action( 'wp_scheduled_delete',        'wp_scheduled_delete'            );
+
+// Navigation menu actions
 add_action( 'trash_post',                 '_wp_trash_menu_item'            );
 add_action( 'untrash_post',               '_wp_untrash_menu_item'          );
 add_action( 'delete_post',                '_wp_delete_post_menu_item'      );
 add_action( 'delete_term',                '_wp_delete_tax_menu_item'       );
+add_action( 'transition_post_status', '_wp_auto_add_pages_to_menu',  10, 3 );
 
 // Post Thumbnail CSS class filtering
 add_action( 'begin_fetch_post_thumbnail_html', '_wp_post_thumbnail_class_filter_add'    );
