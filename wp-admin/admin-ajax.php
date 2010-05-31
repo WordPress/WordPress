@@ -833,7 +833,6 @@ case 'add-menu-item' :
 		$args = array(
 			'after' => '',
 			'before' => '',
-			'context' => 'backend',
 			'link_after' => '',
 			'link_before' => '',
 			'walker' => new Walker_Nav_Menu_Edit,

@@ -198,7 +198,6 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
  * echo - Whether to echo the menu or return it. Defaults to echo.
  * depth - how many levels of the hierarchy are to be included.  0 means all.  Defaults to 0.
  * walker - allows a custom walker to be specified.
- * context - the context the menu is used in.
  * theme_location - the location in the theme to be used.  Must be registered with register_nav_menu() in order to be selectable by the user.
  *
  * @since 3.0.0
@@ -209,7 +208,7 @@ function wp_nav_menu( $args = array() ) {
 	global $_wp_nav_menu_slugs;
 	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 
 	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
-	'depth' => 0, 'walker' => '', 'context' => 'frontend', 'theme_location' => '' );
+	'depth' => 0, 'walker' => '', 'theme_location' => '' );
 
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_nav_menu_args', $args );
@@ -237,12 +236,10 @@ function wp_nav_menu( $args = array() ) {
 	if ( $menu && ! is_wp_error($menu) && !isset($menu_items) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id );
 
-	// If no menu was found or if the menu has no items, call the fallback_cb
-	if ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) ) ) {
-		if ( 'frontend' == $args->context && ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) ) {
+	// If no menu was found or if the menu has no items, call the fallback_cb if it exists
+	if ( ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) ) )
+		&& ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) )
 			return call_user_func( $args->fallback_cb, (array) $args );
-		}
-	}
 
 	// If no fallback function was specified and the menu doesn't exists, bail.
 	if ( !$menu || is_wp_error($menu) )
@@ -258,8 +255,7 @@ function wp_nav_menu( $args = array() ) {
 	}
 
 	// Set up the $menu_item variables
-	if ( 'frontend' == $args->context )
-		_wp_menu_item_classes_by_context( $menu_items );
+	_wp_menu_item_classes_by_context( $menu_items );
 
 	$sorted_menu_items = array();
 	foreach ( (array) $menu_items as $key => $menu_item )
@@ -309,7 +305,7 @@ function wp_nav_menu( $args = array() ) {
 }
 
 /**
- * Add the class property classes for the current frontend context, if applicable.
+ * Add the class property classes for the current context, if applicable.
  *
  * @access private
  * @since 3.0
