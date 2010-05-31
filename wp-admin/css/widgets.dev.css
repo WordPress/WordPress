@@ -188,7 +188,7 @@ a.widget-action {
 }
 
 .widget-top a.widget-action {
-	background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
+	background: url("../images/menu-bits.gif?ver=20100531") no-repeat scroll 0 -110px;
 }
 
 .widget .widget-inside,

@@ -528,7 +528,7 @@ td.action-links, th.action-links {
 #favorite-toggle {
 	right: auto;
 	left: 0;
-	background:transparent url(../images/fav-arrow-rtl.gif) no-repeat 10px -4px;
+	background:transparent url(../images/fav-arrow-rtl.gif?ver=20100531) no-repeat 10px -4px;
 }
 #utc-time, #local-time {
 	padding-left: 0;

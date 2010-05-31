@@ -205,11 +205,11 @@ jQuery(document).ready( function($) {
 
 		$('#screen-options-wrap').slideToggle('fast', function(){
 			if ( $(this).hasClass('screen-options-open') ) {
-				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right.gif")'});
+				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right.gif?ver=20100531")'});
 				$('#contextual-help-link-wrap').css('visibility', '');
 				$(this).removeClass('screen-options-open');
 			} else {
-				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right-up.gif")'});
+				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right-up.gif?ver=20100531")'});
 				$(this).addClass('screen-options-open');
 			}
 		});
@@ -223,11 +223,11 @@ jQuery(document).ready( function($) {
 
 		$('#contextual-help-wrap').slideToggle('fast', function() {
 			if ( $(this).hasClass('contextual-help-open') ) {
-				$('#contextual-help-link').css({'backgroundImage':'url("images/screen-options-right.gif")'});
+				$('#contextual-help-link').css({'backgroundImage':'url("images/screen-options-right.gif?ver=20100531")'});
 				$('#screen-options-link-wrap').css('visibility', '');
 				$(this).removeClass('contextual-help-open');
 			} else {
-				$('#contextual-help-link').css({'backgroundImage':'url("images/screen-options-right-up.gif")'});
+				$('#contextual-help-link').css({'backgroundImage':'url("images/screen-options-right-up.gif?ver=20100531")'});
 				$(this).addClass('contextual-help-open');
 			}
 		});

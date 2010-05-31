@@ -1,9 +1,9 @@
 * html #wpcontent #adminmenu .wp-has-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -109px;
+	background: url(../images/menu-bits-rtl.gif?ver=20100531) no-repeat scroll right -109px;
 }
 
 * html #wpcontent #adminmenu li.wp-has-current-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -206px;
+	background: url(../images/menu-bits-rtl.gif?ver=20100531) no-repeat scroll right -206px;
 }
 * html #adminmenu {
 	margin-left:0;

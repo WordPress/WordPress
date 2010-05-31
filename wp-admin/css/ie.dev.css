@@ -87,11 +87,11 @@ ul#adminmenu {
 }
 
 * html #wpcontent #adminmenu .wp-has-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits.gif) no-repeat scroll left -109px;
+	background: url(../images/menu-bits.gif?ver=20100531) no-repeat scroll left -109px;
 }
 
 * html #wpcontent #adminmenu li.wp-has-current-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits.gif) no-repeat scroll left -206px;
+	background: url(../images/menu-bits.gif?ver=20100531) no-repeat scroll left -206px;
 }
 
 * html #adminmenu div.wp-menu-image {
@@ -372,7 +372,7 @@ table.ie-fixed {
 }
 
 * html .widget-top .widget-title-action a {
-	background: url("../images/menu-bits.gif") no-repeat scroll 0 -110px;
+	background: url("../images/menu-bits.gif?ver=20100531") no-repeat scroll 0 -110px;
 }
 
 * html div.widget-liquid-left {

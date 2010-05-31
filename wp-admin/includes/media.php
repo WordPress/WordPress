@@ -364,13 +364,13 @@ function media_buttons() {
 	$out = '';
 
 	if ( $do_image )
-		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif', 'image');
+		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif?ver=20100531', 'image');
 	if ( $do_video )
-		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif', 'video');
+		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif?ver=20100531', 'video');
 	if ( $do_audio )
-		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif', 'audio');
+		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif?ver=20100531', 'audio');
 
-	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif', 'media');
+	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif?ver=20100531', 'media');
 
 	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 
@@ -1451,7 +1451,7 @@ SWFUpload.onload = function() {
 			button_height: "23",
 			button_width: "132",
 			button_text_top_padding: 3,
-			button_image_url: '<?php echo includes_url('images/upload.png'); ?>',
+			button_image_url: '<?php echo includes_url('images/upload.png?ver=20100531'); ?>',
 			button_placeholder_id: "flash-browse-button",
 			upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
 			flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",

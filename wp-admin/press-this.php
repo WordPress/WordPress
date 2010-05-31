@@ -571,11 +571,11 @@ var photostorage = false;
 
 				<li id="photo_button">
 					Add: <?php if ( current_user_can('upload_files') ) { ?><a title="<?php _e('Insert an Image'); ?>" href="#">
-<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif' ) ); ?>"/></a>
+<img alt="<?php _e('Insert an Image'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-image.gif?ver=20100531' ) ); ?>"/></a>
 					<?php } ?>
 				</li>
 				<li id="video_button">
-					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif' ) ); ?>"/></a>
+					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="<?php echo esc_url( admin_url( 'images/media-button-video.gif?ver=20100531' ) ); ?>"/></a>
 				</li>
 				<?php if ( user_can_richedit() ) { ?>
 				<li id="switcher">
