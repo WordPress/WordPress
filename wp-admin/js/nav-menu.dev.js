@@ -23,6 +23,7 @@ var wpNavMenu;
 		targetList : undefined, // Set in init.
 		menusChanged : false,
 		isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
+		negateIfRTL: ( 'undefined' != typeof isRtl && isRtl ) ? -1 : 1,
 
 		// Functions that run on init.
 		init : function() {
@@ -331,7 +332,7 @@ var wpNavMenu;
 				},
 				sort: function(e, ui) {
 					var offset = ui.helper.offset(),
-						depth = ( api.isRTL ? -1 : 1 ) * api.pxToDepth( offset.left - menuLeft );
+						depth = api.negateIfRTL * api.pxToDepth( offset.left - menuLeft );
 					// Check and correct if depth is not within range.
 					// Also, if the dragged element is dragged upwards over
 					// an item, shift the placeholder to a child position.
@@ -658,26 +659,52 @@ var wpNavMenu;
 				tabs = fluid.children('.nav-tab'),
 				tabsWidth = 0,
 				fixedRight, fixedLeft,
-				arrowLeft, arrowRight,
-				resizing = false;
+				arrowLeft, arrowRight, resizeTimer, css = {},
+				marginFluid = api.isRTL ? 'margin-right' : 'margin-left',
+				marginFixed = api.isRTL ? 'margin-left' : 'margin-right',
+				msPerPx = 2;
 
 			function resetMenuTabs() {
+				var fixedWidth = fixed.width(),
+					margin = 0, css = {};
 				fixedLeft = fixed.offset().left;
-				fixedRight = fixedLeft + fixed.width();
+				fixedRight = fixedLeft + fixedWidth;
 				active.makeTabVisible();
+				
+				// Prevent space from building up next to the last tab if there's more to show
+				if( tabs.last().isTabVisible() ) {
+					margin = fixed.width() - tabsWidth;
+					margin = margin > 0 ? 0 : margin;
+					css[marginFluid] = margin + 'px';
+					fluid.animate( css, 100, "linear" );
+				}
+
+				// Show the arrows only when necessary
+				if( fixedWidth > tabsWidth )
+					arrowLeft.add( arrowRight ).hide();
+				else
+					arrowLeft.add( arrowRight ).show();
 			}
 
 			$.fn.extend({
 				makeTabVisible : function() {
-					var t = this.eq(0), left, right;
-					if( ! t.length ) return;
+					var t = this.eq(0), left, right, css = {}, shift = 0;
+
+					if( ! t.length ) return this;
+
 					left = t.offset().left;
 					right = left + t.outerWidth();
+
 					if( right > fixedRight )
-						fluid.animate({ 'margin-left' :  "+=" + (fixedRight - right) + 'px' }, 'fast');
+						shift = fixedRight - right;
 					else if ( left < fixedLeft )
-						fluid.animate({ 'margin-left' :  "-=" + (left - fixedLeft) + 'px' }, 'fast');
-					return t;
+						shift = fixedLeft - left;
+
+					if( ! shift ) return this;
+
+					css[marginFluid] = "+=" + api.negateIfRTL * shift + 'px';
+					fluid.animate( css, Math.abs( shift ) * msPerPx, "linear" );
+					return this;
 				},
 				isTabVisible : function() {
 					var t = this.eq(0),
@@ -692,17 +719,10 @@ var wpNavMenu;
 				tabsWidth += $(this).outerWidth(true);
 			});
 
-			// Check if we need the tab manager
-			if( tabsWidth <= fixed.width()
-				- fluid.css('padding-left').slice(0,-2)
-				- fluid.css('padding-right').slice(0,-2) )
-				return;
-
-			// Set up right margin for overflow, unset padding
-			fluid.css({
-				'margin-right'  : (-1 * tabsWidth) + 'px',
-				'padding' : 0
-			});
+			// Set up fixed margin for overflow, unset padding
+			css['padding'] = 0;
+			css[marginFixed] = (-1 * tabsWidth) + 'px';
+			fluid.css( css );
 
 			// Build tab navigation
 			arrowLeft = $('<div class="nav-tabs-arrow nav-tabs-arrow-left"><a>&laquo;</a></div>');
@@ -714,12 +734,8 @@ var wpNavMenu;
 			resetMenuTabs();
 			// Make sure the tabs reset on resize
 			$(window).resize(function() {
-				if( resizing ) return;
-				resizing = true;
-				setTimeout(function(){
-					resetMenuTabs();
-					resizing = false;
-				}, 1000);
+				if( resizeTimer ) clearTimeout(resizeTimer);
+				resizeTimer = setTimeout( resetMenuTabs, 200);
 			});
 
 			// Build arrow functions
@@ -736,12 +752,17 @@ var wpNavMenu;
 				}], function(){
 				var that = this;
 				this.arrow.mousedown(function(){
-					var last = tabs[that.last](),
-						fn = function() {
-							if( ! last.isTabVisible() )
-								fluid.animate({ 'margin-left' :  that.operator + '90px' }, 300, "linear", fn);
-						};
-						fn();
+					var marginFluidVal = Math.abs( parseInt( fluid.css(marginFluid) ) ),
+						shift = marginFluidVal,
+						css = {};
+
+					if( "-=" == that.operator )
+						shift = Math.abs( tabsWidth - fixed.width() ) - marginFluidVal;
+
+					if( ! shift ) return;
+
+					css[marginFluid] = that.operator + shift + 'px';
+					fluid.animate( css, shift * msPerPx, "linear" );
 				}).mouseup(function(){
 					var tab, next;
 					fluid.stop(true);
