@@ -35,7 +35,7 @@ $parent_file = 'users.php';
 
 // contextual help - choose Help on the top right of admin panel to preview this.
 add_contextual_help($current_screen,
-    '<p>' . __('Your profile contains information about you (your "account") as well as some personal options related to using WordPress.') . '</p>' .
+    '<p>' . __('Your profile contains information about you (your &#8220;account&#8221;) as well as some personal options related to using WordPress.') . '</p>' .
     '<p>' . __('You can change your password, turn on keyboard shortcuts, change the color scheme of your WordPress administration screens, and turn off the WYSIWYG (Visual) editor, among other things.') . '</p>' . 
     '<p>' . __('Your username cannot be changed, but you can use other fields to enter your real name or a nickname, and change which name to display on your posts.') . '</p>' .
     '<p>' . __('Required fields are indicated; the rest are optional. Profile information will only be displayed if your theme is set up to do so.') . '</p>' .
