@@ -13,8 +13,7 @@ form .forgetmenot {
 }
 form .submit { float: left; }
 #backtoblog a {
-	left: auto;
-	right: 15px;
+	padding: 8px 15px 0 0;
 }
 #login_error, .message {
 	margin: 0 8px 16px 0;

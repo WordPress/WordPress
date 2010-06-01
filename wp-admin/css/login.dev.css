@@ -3,7 +3,6 @@
 body {
 	padding-top: 30px;
 	font: 11px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-	background: url(../images/login-header.png?ver=20100531) top left repeat-x;
 }
 
 form {
@@ -81,11 +80,22 @@ h1 a {
 	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 
-#backtoblog a {
+#backtoblog {
 	position: absolute;
-	top: 8px;
-	left: 15px;
+	top: 0;
+	left: 0;
+	border-bottom: #c6c6c6 1px solid;
+	background: #d9d9d9; /* fallback color */
+	background: -moz-linear-gradient(bottom,  #d7d7d7,  #e4e4e4);
+	background: -webkit-gradient(linear, left bottom, left top, from(#d7d7d7), to(#e4e4e4));
+	height: 30px;
+	width: 100%;
+}
+
+#backtoblog a {
 	text-decoration: none;
+	display: block;
+	padding: 8px 0 0 15px;
 }
 
 #login { width: 320px; margin: 7em auto; }
