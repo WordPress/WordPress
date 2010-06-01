@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 14984 )
+	if ( $wp_current_db_version < 15093 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1108,7 +1108,7 @@ function upgrade_290() {
 function upgrade_300() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version < 14984 )
+	if ( $wp_current_db_version < 15093 )
 		populate_roles_300();
 
 	if ( $wp_current_db_version < 14139 && is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )

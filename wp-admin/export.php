@@ -9,7 +9,7 @@
 /** Load WordPress Bootstrap */
 require_once ('admin.php');
 
-if ( !current_user_can('edit_files') )
+if ( !current_user_can('export') )
 	wp_die(__('You do not have sufficient permissions to export the content of this site.'));
 
 /** Load WordPress export API */
