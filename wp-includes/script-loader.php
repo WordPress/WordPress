@@ -429,7 +429,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'nav-menu', 'farbtastic' );
+	$rtl_styles = array( 'wp-admin', 'global', 'colors', 'colors-fresh', 'colors-classic', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'nav-menu', 'farbtastic' );
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
@@ -446,9 +446,7 @@ function wp_default_styles( &$styles ) {
 
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array(), $colors_version );
-	$styles->add_data( 'colors-fresh', 'rtl', true );
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
-	$styles->add_data( 'colors-classic', 'rtl', true );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20100528' );
 	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20100108' );
