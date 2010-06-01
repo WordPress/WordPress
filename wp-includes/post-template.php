@@ -318,7 +318,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = 'type-' . $post->post_type;
 
 	// sticky for Sticky Posts
-	if ( is_sticky($post->ID) && is_home())
+	if ( is_sticky($post->ID) && is_home() && !is_paged() )
 		$classes[] = 'sticky';
 
 	// hentry for hAtom compliace
