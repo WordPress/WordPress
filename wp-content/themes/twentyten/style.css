@@ -164,6 +164,7 @@ div.menu,
 	width: 940px;
 }
 #wrapper {
+	margin-top: 20px;
 	background: #fff;
 	padding: 0 20px;
 }
@@ -334,7 +335,6 @@ a:hover {
 -------------------------------------------------------------- */
 
 #header {
-	margin-top: 20px;
 	padding: 30px 0 0 0;
 }
 #site-title {
