@@ -114,6 +114,18 @@ function get_nav_menu_locations() {
 }
 
 /**
+ * Whether a registered nav menu location has a menu assigned to it.
+ *
+ * @since 3.0.0
+ * @param string $location Menu location identifier.
+ * @return bool Whether location has a menu.
+ */
+function has_nav_menu( $location ) {
+	$locations = get_nav_menu_locations();
+	return ( ! empty( $locations[ $location ] ) );
+}
+
+/**
  * Determine whether the given ID is a nav menu item.
  *
  * @since 3.0.0
