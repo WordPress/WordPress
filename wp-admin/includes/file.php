@@ -964,8 +964,16 @@ jQuery(function($){
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php _e('Connection Information') ?></h2>
-<p><?php _e('To perform the requested action, connection information is required.') ?></p>
-
+<p><?php
+	_e('To perform the requested action, WordPress needs to access to your web server.');
+	if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
+		if ( isset( $types['ssh'] ) )
+			_e('Please enter your FTP or SSH credentials to proceed.');
+		else
+			_e('Please enter your FTP credentials to proceed.');
+	}
+	_e('If you do not remember your credentials, you should contact your web host.');
+?></p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="hostname"><?php _e('Hostname') ?></label></th>
