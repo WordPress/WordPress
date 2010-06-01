@@ -996,6 +996,7 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = 'do_not_allow';
 		break;
+	case 'edit_files':
 	case 'edit_plugins':
 	case 'edit_themes':
 		if ( defined('DISALLOW_FILE_EDIT') && DISALLOW_FILE_EDIT ) {
