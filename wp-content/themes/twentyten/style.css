@@ -658,6 +658,10 @@ div.menu li {
 .page-link a:hover {
 	color: #FF4B33;
 }
+.page .edit-link {
+	clear: both;
+	display: block;
+}
 #entry-author-info {
 	background: #F2F7FC;
 	border-top: 4px solid #000;
@@ -900,7 +904,9 @@ div.menu li {
 
 /* =Comments
 -------------------------------------------------------------- */
-
+#comments {
+	clear: both;
+}
 #comments .navigation {
 	padding: 0 0 18px 0;
 }
