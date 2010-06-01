@@ -966,11 +966,13 @@ jQuery(function($){
 <h2><?php _e('Connection Information') ?></h2>
 <p><?php
 	_e('To perform the requested action, WordPress needs to access to your web server.');
+	echo ' ';
 	if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
 		if ( isset( $types['ssh'] ) )
 			_e('Please enter your FTP or SSH credentials to proceed.');
 		else
 			_e('Please enter your FTP credentials to proceed.');
+		echo ' ';
 	}
 	_e('If you do not remember your credentials, you should contact your web host.');
 ?></p>
