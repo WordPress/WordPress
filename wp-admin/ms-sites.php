@@ -19,7 +19,7 @@ $title = __( 'Sites' );
 $parent_file = 'ms-admin.php';
 
 if ( isset( $_GET['action'] ) && 'editblog' == $_GET['action'] ) {
-	add_contextual_help($current_screen, 
+	add_contextual_help($current_screen,
 		'<p>' . __('The network admin arrives at this screen to make choices for a given site by clicking on the Edit link on the Sites screen available to them in the Super Admin navigation menu.') . '</p>' .
 		'<p>' . __('This extensive list of options has five modules: Site Info, Site Options, allowing Site Themes for this given site, changing the Site User(s) roles and passwords for that site, Adding a new user, and Miscellaneous Site Actions (upload size limits).') . '</p>' .
 		'<p>' . __('Note that some fields in Site Options are grayed out and say Serialized Data. These are stored values in the database which you cannot change from here.') . '</p>' .
@@ -28,7 +28,7 @@ if ( isset( $_GET['action'] ) && 'editblog' == $_GET['action'] ) {
 		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
 } else {
-	add_contextual_help($current_screen, 
+	add_contextual_help($current_screen,
 		'<p>' . __('Add New takes you farther down on this same page. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
 		'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .
 		'<p>' . __('Hovering over each site reveals seven options (only three for the primary or originating site for the network):') . '</p>' .

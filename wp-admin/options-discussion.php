@@ -15,7 +15,7 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Discussion Settings');
 $parent_file = 'options-general.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('This screen provides many options for controlling the management and display of comments and links to your posts/pages. So many, in fact, they won&#8217;t all fit here! :) Use the documentation link below to get information on what each discussion setting does.') . '</p>' .
 	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .

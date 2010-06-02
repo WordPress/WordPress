@@ -56,7 +56,7 @@ jQuery(document).ready( function($) {
 	if ( 'pop' == getUserSetting('cats') )
 		$('a[href="#categories-pop"]').click();
 
-	$('#category-add-toggle').click( function() {		
+	$('#category-add-toggle').click( function() {
 		$(this).parents('div:first').toggleClass( 'wp-hidden-children' );
 		$('#category-tabs a[href="#categories-all"]').click();
 		$('#newcategory').focus();

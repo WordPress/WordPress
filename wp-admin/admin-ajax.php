@@ -1115,9 +1115,9 @@ case 'menu-get-metabox' :
 				'args' => $item,
 			)
 		));
-		
+
 		$markup = ob_get_clean();
-		
+
 		echo json_encode(array(
 			'replace-id' => $type . '-' . $item->name,
 			'markup' => $markup,

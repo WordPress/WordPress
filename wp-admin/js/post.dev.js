@@ -315,7 +315,7 @@ jQuery(document).ready( function($) {
 
 		$('#' + taxonomy + '-add-toggle').click( function() {
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );
-			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').click();			
+			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').click();
 			$('#new'+taxonomy).focus();
 			return false;
 		});

@@ -18,7 +18,7 @@ if ( ! current_user_can( 'manage_network' ) )
 $title = __( 'Network Admin' );
 $parent_file = 'ms-admin.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('Until WordPress 3.0, running multiple sites required using WordPress MU instead of regular WordPress. In version 3.0, these applications have merged. If you are a former MU user, you should be aware of the following changes:') . '</p>' .
 	'<ul><li>' . __('Site Admin is now Super Admin (we highly encourage you to get yourself a cape!).') . '</li>' .
 	'<li>' . __('Blogs are now called Sites; Site is now called Network.') . '</li></ul>' .

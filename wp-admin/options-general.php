@@ -50,7 +50,7 @@ function add_js() {
 }
 add_filter('admin_head', 'add_js');
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('The fields on this screen determine some of the basics of your site setup.') . '</p>' .
 	'<p>' . __('Most themes display the site title at the top of every page, in the title bar of the browser, and as the identifying name for syndicated feeds. The tagline is also displayed by many themes.') . '</p>' .
 	'<p>' . __('The WordPress URL and the Site URL can be the same (example.com) or different; for example, having the WordPress core files (example.com/wordpress) in a subdirectory instead of the root directory.') . '</p>' .

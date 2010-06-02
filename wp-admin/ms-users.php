@@ -18,7 +18,7 @@ if ( ! current_user_can( 'manage_network_users' ) )
 $title = __( 'Users' );
 $parent_file = 'ms-admin.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('This table shows all users across the network and the sites to which they are assigned.') . '</p>' .
 	'<p>' . __('Hover over any user on the list to make the edit links appear. The Edit link on the left will take you to his or her Edit User profile page; the Edit link on the right by any site name goes to an Edit Site screen for that site.') . '</p>' .
 	'<p>' . __('You can also go to the user&#8217;s profile page by clicking on the individual username.') . '</p>' .

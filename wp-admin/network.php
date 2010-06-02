@@ -89,7 +89,7 @@ if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALL
 $title = __( 'Create a Network of WordPress Sites' );
 $parent_file = 'tools.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('This screen allows you to configure a network as having subdomains (site1.example.com) or subdirectories (example.com/site1). Subdomains require wildcard subdomains to be enabled in Apache and DNS records, if your host allows it.') . '</p>' .
 	'<p>' . __('Choose subdomains or subdirectories; this can only be switched afterwards by reconfiguring your install. Fill out the network details, and click install. If this does not work, you may have to add a wildcard DNS record (for subdomains) or change to another setting in Permalinks (for subdirectories).') . '</p>' .
 	'<p>' . __('The next screen for Network will give you individually-generated lines of code to add to your wp-config.php and .htaccess files. Make sure the settings of your FTP client make files starting with a dot visible, so that you can find .htaccess; you may have to create this file if it really is not there. Make backup copies of those two files.') . '</p>' .

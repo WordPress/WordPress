@@ -284,7 +284,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	);
 
 	$args = wp_parse_args( $menu_item_data, $defaults );
-	
+
 	if ( 0 == $menu_id ) {
 		$args['menu-item-position'] = 1;
 	} elseif ( 0 == (int) $args['menu-item-position'] ) {
@@ -367,13 +367,13 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	update_post_meta( $menu_item_db_id, '_menu_item_object_id', (int) $args['menu-item-object-id'] );
 	update_post_meta( $menu_item_db_id, '_menu_item_object', sanitize_key($args['menu-item-object']) );
 	update_post_meta( $menu_item_db_id, '_menu_item_target', sanitize_key($args['menu-item-target']) );
-	
+
 	$args['menu-item-classes'] = array_map( 'sanitize_html_class', explode( ' ', $args['menu-item-classes'] ) );
 	$args['menu-item-xfn'] = implode( ' ', array_map( 'sanitize_html_class', explode( ' ', $args['menu-item-xfn'] ) ) );
 	update_post_meta( $menu_item_db_id, '_menu_item_classes', $args['menu-item-classes'] );
 	update_post_meta( $menu_item_db_id, '_menu_item_xfn', $args['menu-item-xfn'] );
 	update_post_meta( $menu_item_db_id, '_menu_item_url', esc_url_raw($args['menu-item-url']) );
-	
+
 	if ( 0 == $menu_id )
 		update_post_meta( $menu_item_db_id, '_menu_item_orphaned', time() );
 	else

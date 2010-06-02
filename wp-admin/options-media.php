@@ -15,7 +15,7 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Media Settings');
 $parent_file = 'options-general.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('You can set maximum sizes for images inserted into your written content; you can also insert an image as Full Size.') . '</p>' .
 	'<p>' . __('The Embed option allows you embed a video, image, or other media content into your content automatically by typing the URL (of the web page where the file lives) on its own line when you create your content.') . '</p>' .
 	'<p>' . __('Uploading Options gives you folder and path choices for storing your files in your installation&#8217;s directory.') . '</p>' .

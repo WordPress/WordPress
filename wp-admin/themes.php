@@ -37,7 +37,7 @@ $help = '<p>' . __('Aside from the default theme included with your WordPress in
 $help .= '<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
 if ( current_user_can('install_themes') )
 	$help .= '<p>' . sprintf(__('If you would like to see more themes to choose from, click on the &#8220;Install Themes&#8221; tab and you will be able to browse or search for additional themes from the <a href="%s">WordPress.org theme repository</a>. Themes in the WordPress.org theme repository are designed and developed by third parties, and are licensed under the GNU General Public License, version 2, just like WordPress. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/') . '</p>';
-	
+
 $help .= '<p><strong>' . __('For more information:') . '</strong></p>';
 $help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes">Documentation on Using Themes</a>') . '</p>';
 $help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';

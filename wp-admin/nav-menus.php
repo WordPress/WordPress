@@ -441,7 +441,7 @@ wp_initial_nav_menu_meta_boxes();
 $help =  '<p>' . __('This feature is new in version 3.0; to use a custom menu in place of your theme&#8217;s default menus, support for this feature must be registered in the theme&#8217;s functions.php file. If your theme does not support the custom menus feature yet (the new default theme, Twenty Ten, does), you can learn about adding support yourself by following the below link.') . '</p>';
 $help .= '<p>' . __('You can create custom menus for your site. These menus may contain links to pages, categories, custom links or other content types (use the Screen Options tab to decide which ones to show on the screen). You can specify a different navigation label for a menu item as well as other attributes. You can create multiple menus. If your theme includes more than one menu, you can choose which custom menu to associate with each. You can also use custom menus in conjunction with the Custom Menus widget.') . '</p>';
 $help .= '<p>' . __('To create a new custom menu, click on the + tab, give the menu a name, and click Create Menu. Next, add menu items from the appropriate boxes. You&#8217;ll be able to edit the information for each menu item, and can drag and drop to put them in order. You can also drag a menu item a little to the right to make it a submenu, to create menus with hierarchy. You&#8217;ll see when the position of the drop target shifts over to create the nested placement. Don&#8217;t forget to click Save when you&#8217;re finished.') . '</p>';
-$help .= '<p><strong>' . __('For more information:') . '</strong></p>'; 
+$help .= '<p><strong>' . __('For more information:') . '</strong></p>';
 $help .= '<p>' . __('<a href="http://codex.wordpress.org/Appearance_Menus_SubPanel">Menus Documentation</a>') . '</p>';
 $help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
 
@@ -565,7 +565,7 @@ require_once( 'admin-header.php' );
 					</div><!-- END #nav-menu-header -->
 					<div id="post-body">
 						<div id="post-body-content">
-							<?php 
+							<?php
 							if ( is_nav_menu( $nav_menu_selected_id ) ) :
 								$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  );
 								if ( ! is_wp_error( $edit_markup ) ) :
@@ -577,7 +577,7 @@ require_once( 'admin-header.php' );
 								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want. You can also click each item to reveal additional configuration options.') . '</p>';
 								echo '<p>' . __('When you have finished building your custom menu, make sure you click the Save Menu button.') . '</p>';
 								echo '</div>';
-							endif; 
+							endif;
 							?>
 						</div><!-- /#post-body-content -->
 					</div><!-- /#post-body -->

@@ -108,20 +108,20 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 $title = __('Add New User');
 $parent_file = 'users.php';
 
-add_contextual_help($current_screen, 
-    '<p>' . __('To add a new user to your site, fill in the form on this screen. If you&#8217;re not sure which role to assign, you can use the link below to review the different roles and their capabilities. Here is a basic overview of roles:') . '</p>' . 
-    '<ul>' . 
+add_contextual_help($current_screen,
+    '<p>' . __('To add a new user to your site, fill in the form on this screen. If you&#8217;re not sure which role to assign, you can use the link below to review the different roles and their capabilities. Here is a basic overview of roles:') . '</p>' .
+    '<ul>' .
         '<li>' . __('Administrators have access to all the administration features.') . '</li>' .
-        '<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.')  . '</li>' . 
+        '<li>' . __('Editors can publish posts, manage posts as well as manage other people&#8217;s posts, etc.')  . '</li>' .
         '<li>' . __('Authors can publish and manage their own posts.') . '</li>' .
-        '<li>' . __('Contributors can write and manage their posts but not publish posts or upload media files.') . '</li>' . 
-        '<li>' . __('Subscribers can read comments/comment/receive newsletters, etc.') . '</li>' .  
+        '<li>' . __('Contributors can write and manage their posts but not publish posts or upload media files.') . '</li>' .
+        '<li>' . __('Subscribers can read comments/comment/receive newsletters, etc.') . '</li>' .
     '</ul>' .
     '<p>' . __('You must assign a password to the new user, but don&#8217;t worry; when they log in for the first time they will be prompted to change it. The username, however, cannot be changed.') . '</p>' .
     '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. By default, this email will also contain their password. Uncheck the box if you do not the password to be included in the welcome email.') . '</p>' .
     '<p>' . __('Remember to click the Add User button at the bottom of this screen when you are finished.') . '</p>' .
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Users_Add_New_SubPanel">Documentation on Adding New Users</a>') . '</p>' . 
+    '<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Users_Add_New_SubPanel">Documentation on Adding New Users</a>') . '</p>' .
     '<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 

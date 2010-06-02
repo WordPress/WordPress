@@ -18,7 +18,7 @@ if ( ! current_user_can( 'manage_network_options' ) )
 $title = __( 'Network Options' );
 $parent_file = 'ms-admin.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('This screen sets and changes options for the network as a whole. The first site is the main site in the network and network options are pulled from that original site&#8217;s options.') . '</p>' .
 	'<p>' . __('Operational settings has fields for the network&#8217;s name, admin email, and whether global terms will be disabled (the default) or maintained across all sites on the network.') . '</p>' .
 	'<p>' . __('Dashboard Site is an option to give a site to users who do not have a site on the system. Their default role is subscribed but that default can be changed. The Admin Notice Feed can provide a notice on all dashboards of the latest post via RSS or Atom, or provide no such notice if left blank.') . '</p>' .

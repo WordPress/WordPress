@@ -694,7 +694,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			<ul id="<?php echo $post_type_name; ?>checklist" class="list:<?php echo $post_type_name?> categorychecklist form-no-clear">
 				<?php
 				$args['walker'] = $walker;
-				
+
 				// if we're dealing with pages, let's put a checkbox for the front page at the top of the list
 				if ( 'page' == $post_type_name ) {
 					$front_page = 'page' == get_option('show_on_front') ? (int) get_option( 'page_on_front' ) : 0;
@@ -1106,7 +1106,7 @@ function wp_nav_menu_manage_columns() {
 	);
 }
 
-/** 
+/**
  * Deletes orphaned draft menu items
  *
  * @access private

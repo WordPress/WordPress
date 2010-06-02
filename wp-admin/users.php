@@ -21,12 +21,12 @@ $parent_file = 'users.php';
 // contextual help - choose Help on the top right of admin panel to preview this.
 add_contextual_help($current_screen,
     '<p>' . __('This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options when they are logged in, based on their role.') . '</p>' .
-    '<p>' . __('You can customize the display of information on this screen as you can on other screens, by using the Screen Options tab and the on-screen filters.') . '</p>' . 
-    '<p>' . __('To add a new user for your site, click the Add New button at the top of the screen or Add New in the Users menu section.') . '</p>' . 
+    '<p>' . __('You can customize the display of information on this screen as you can on other screens, by using the Screen Options tab and the on-screen filters.') . '</p>' .
+    '<p>' . __('To add a new user for your site, click the Add New button at the top of the screen or Add New in the Users menu section.') . '</p>' .
     '<p><strong>' . __('For more information:') . '</strong></p>' .
     '<p>' . __('<a target="_blank" href=http://codex.wordpress.org/Users_Authors_and_Users_SubPanel">Documentation on Authors and Users</a>') . '</p>' .
     '<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Roles_and_Capabilities">Roles and Capabilities Descriptions</a>') . '</p>' .
-    '<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>' 
+    '<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 
 $update = $doaction = '';

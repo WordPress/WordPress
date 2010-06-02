@@ -314,9 +314,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				$active_object = $menu_item->object;
 			}
 		}
-		
+
 		// back-compat with wp_page_menu: add "current_page_parent" to static home page link for any non-page query
-		if ( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && empty( $wp_query->is_page ) && $home_page_id == $menu_item->object_id ) 
+		if ( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && empty( $wp_query->is_page ) && $home_page_id == $menu_item->object_id )
 			$classes[] = 'current_page_parent';
 
 		$menu_items[$key]->classes = array_unique( $classes );
@@ -343,7 +343,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			$classes[] = 'current-menu-parent';
 		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
 			$classes[] = 'current-' . $active_object . '-parent';
-		
+
 		if ( 'post_type' == $parent_item->type && 'page' == $parent_item->object ) {
 			// Back compat classes for pages to match wp_page_menu()
 			if ( in_array('current-menu-parent', $classes) )
@@ -351,7 +351,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			if ( in_array('current-menu-ancestor', $classes) )
 				$classes[] = 'current_page_ancestor';
 		}
-		
+
 		$menu_items[$key]->classes = array_unique( $classes );
 	}
 }

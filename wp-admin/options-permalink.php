@@ -15,7 +15,7 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Permalink Settings');
 $parent_file = 'options-general.php';
 
-add_contextual_help($current_screen, 
+add_contextual_help($current_screen,
 	'<p>' . __('This screen provides some common options for your default permalinks URL structure.') . '</p>' .
 	'<p>' . __('If you pick an option other than Default, your general URL path with structure tags, terms surrounded by %, will also appear in the custom structure field and your path can be further modified there.') . '</p>' .
 	'<p>' . __('When you assign multiple categories or tags to a post, only one can show up in the permalink: the lowest numbered category. This applies if your custom structure includes %category% or %tag%.') . '</p>' .

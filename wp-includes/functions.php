@@ -2306,7 +2306,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	@fwrite( $ifp, $bits );
 	fclose( $ifp );
 	clearstatcache();
-	
+
 	// Set correct file permissions
 	$stat = @ stat( dirname( $new_file ) );
 	$perms = $stat['mode'] & 0007777;

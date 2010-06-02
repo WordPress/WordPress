@@ -138,10 +138,10 @@ var wpNavMenu;
 								listItemDBIDMatch = re.exec( t.attr('name') ),
 								listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
 							if ( this.className && -1 != this.className.indexOf('add-to-top') )
-								processMethod = api.addMenuItemToTop; 
+								processMethod = api.addMenuItemToTop;
 							menuItems[listItemDBID] = t.closest('li').getItemData( 'add-menu-item', listItemDBID );
 						});
-						
+
 						// Add the items
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
@@ -249,7 +249,7 @@ var wpNavMenu;
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
 					var height, width, parent, children, maxChildDepth, tempHolder;
-					
+
 					// handle placement for rtl orientation
 					if ( api.isRTL )
 						ui.item[0].style.right = 'auto';
@@ -622,7 +622,7 @@ var wpNavMenu;
 						$('#' + e.target.id.replace(/submit-/, '')).addSelectedToMenu( api.addMenuItemToBottom );
 					return false;
 				} else if ( target.hasClass('page-numbers') ) {
-					$.post( ajaxurl, e.target.href.replace(/.*\?/, '').replace(/action=([^&]*)/, '') + '&action=menu-get-metabox', 
+					$.post( ajaxurl, e.target.href.replace(/.*\?/, '').replace(/action=([^&]*)/, '') + '&action=menu-get-metabox',
 						function( resp ) {
 							if ( -1 == resp.indexOf('replace-id') )
 								return;
@@ -646,7 +646,7 @@ var wpNavMenu;
 
 						}
 					);
-					
+
 					return false;
 				}
 			});
@@ -670,7 +670,7 @@ var wpNavMenu;
 				fixedLeft = fixed.offset().left;
 				fixedRight = fixedLeft + fixedWidth;
 				active.makeTabVisible();
-				
+
 				// Prevent space from building up next to the last tab if there's more to show
 				if( tabs.last().isTabVisible() ) {
 					margin = fixed.width() - tabsWidth;
