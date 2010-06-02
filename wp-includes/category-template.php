@@ -521,7 +521,7 @@ function wp_list_categories( $args = '' ) {
 	if ( $title_li && 'list' == $style )
 		$output .= '</ul></li>';
 
-	$output = apply_filters( 'wp_list_categories', $output );
+	$output = apply_filters( 'wp_list_categories', $output, $args );
 
 	if ( $echo )
 		echo $output;
