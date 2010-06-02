@@ -2375,7 +2375,7 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
  */
 function _pad_term_counts(&$terms, $taxonomy) {
 	global $wpdb;
-
+error_log("here $taxonomy");
 	// This function only works for hierarchical taxonomies like post categories.
 	if ( !is_taxonomy_hierarchical( $taxonomy ) )
 		return;
@@ -2393,7 +2393,9 @@ function _pad_term_counts(&$terms, $taxonomy) {
 	}
 
 	// Get the object and term ids and stick them in a lookup table
-	$results = $wpdb->get_results("SELECT object_id, term_taxonomy_id FROM $wpdb->term_relationships INNER JOIN $wpdb->posts ON object_id = ID WHERE term_taxonomy_id IN (".join(',', array_keys($term_ids)).") AND post_type = 'post' AND post_status = 'publish'");
+	$tax_obj = get_taxonomy($taxonomy);
+	$object_types = esc_sql($tax_obj->object_type);
+	$results = $wpdb->get_results("SELECT object_id, term_taxonomy_id FROM $wpdb->term_relationships INNER JOIN $wpdb->posts ON object_id = ID WHERE term_taxonomy_id IN (" . implode(',', array_keys($term_ids)) . ") AND post_type IN ('" . implode("', '", $object_types) . "') AND post_status = 'publish'"); 
 	foreach ( $results as $row ) {
 		$id = $term_ids[$row->term_taxonomy_id];
 		$term_items[$id][$row->object_id] = isset($term_items[$id][$row->object_id]) ? ++$term_items[$id][$row->object_id] : 1;
