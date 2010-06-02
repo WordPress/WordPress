@@ -110,10 +110,11 @@ class Walker_Nav_Menu extends Walker {
  * Optional $args contents:
  *
  * menu - The menu that is desired.  Accepts (matching in order) id, slug, name. Defaults to blank.
- * menu_class - CSS class to use for the ul container of the menu list. Defaults to 'menu'.
+ * menu_class - CSS class to use for the ul element which forms the menu. Defaults to 'menu'.
+ * menu_id - The ID that is applied to the ul element which forms the menu. Defaults to the menu slug, incremented.
  * container - Whether to wrap the ul, and what to wrap it with. Defaults to 'div'.
- * container_class - the class that is applied to the container. Defaults to blank.
- * container_id - The ID that is applied to the container.  Defaults to the menu slug, incremented.
+ * container_class - the class that is applied to the container. Defaults to 'menu-{menu slug}-container'.
+ * container_id - The ID that is applied to the container. Defaults to blank.
  * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
  * before - Text before the link text.
  * after - Text after the link text.
@@ -129,8 +130,9 @@ class Walker_Nav_Menu extends Walker {
  * @param array $args Arguments
  */
 function wp_nav_menu( $args = array() ) {
-	global $_wp_nav_menu_slugs;
-	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 
+	static $menu_id_slugs = array();
+
+	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 'menu_id' => '',
 	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '',
 	'depth' => 0, 'walker' => '', 'theme_location' => '' );
 
@@ -169,13 +171,17 @@ function wp_nav_menu( $args = array() ) {
 	if ( !$menu || is_wp_error($menu) )
 		return false;
 
-	$nav_menu = '';
-	$items = '';
-	$container_allowedtags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav' ) );
+	$nav_menu = $items = '';
 
-	if ( in_array( $args->container, $container_allowedtags ) ) {
-		$class = $args->container_class ? ' class="' . esc_attr($args->container_class) . '"' : ' class="menu-'. $menu->slug .'-container"';
-		$nav_menu .= '<'. $args->container . $class .'>';
+	$show_container = false;
+	if ( $args->container ) {
+		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav' ) );
+		if ( in_array( $args->container, $allowed_tags ) ) {
+			$show_container = true;
+			$class = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-'. $menu->slug .'-container"';
+			$id = $args->container_id ? ' id="' . esc_attr( $args->container_id ) . '"' : '';
+			$nav_menu .= '<'. $args->container . $id . $class . '>';
+		}
 	}
 
 	// Set up the $menu_item variables
@@ -191,20 +197,19 @@ function wp_nav_menu( $args = array() ) {
 	unset($sorted_menu_items);
 
 	// Attributes
-	$slug = 'menu-' . $menu->slug;
-	if ( ! is_array( $_wp_nav_menu_slugs ) )
-		$_wp_nav_menu_slugs = array();
-
-	while ( in_array( $slug, $_wp_nav_menu_slugs ) ) {
-		if ( preg_match( '#-(\d+)$#', $slug, $matches ) )
-			$slug = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $slug);
-		else
-			$slug = $slug . '-1';
+	if ( ! empty( $args->menu_id ) ) {
+		$slug = $args->menu_id;
+	} else {
+		$slug = 'menu-' . $menu->slug;
+		while ( in_array( $slug, $menu_id_slugs ) ) {
+			if ( preg_match( '#-(\d+)$#', $slug, $matches ) )
+				$slug = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $slug);
+			else
+				$slug = $slug . '-1';
+		}
 	}
-	
-	$_wp_nav_menu_slugs[] = $slug;
-		
-	$attributes = ' id="' . ( empty( $args->container_id ) ? $slug : $args->container_id ) . '"';
+	$menu_id_slugs[] = $slug;
+	$attributes = ' id="' . $slug . '"';
 	$attributes .= $args->menu_class ? ' class="'. $args->menu_class .'"' : '';
 
 	$nav_menu .= '<ul'. $attributes .'>';
@@ -217,8 +222,8 @@ function wp_nav_menu( $args = array() ) {
 
 	$nav_menu .= '</ul>';
 
-	if ( in_array( $args->container, $container_allowedtags ) )
-		$nav_menu .= '</'. $args->container .'>';
+	if ( $show_container )
+		$nav_menu .= '</' . $args->container . '>';
 
 	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu, $args );
 
