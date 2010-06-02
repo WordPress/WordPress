@@ -748,6 +748,8 @@ function _wp_delete_tax_menu_item( $object_id = 0 ) {
 function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 	if ( 'publish' != $new_status || 'publish' == $old_status || 'page' != $post->post_type )
 		return;
+	if ( ! empty( $post->post_parent ) )
+		return;
 	$auto_add = get_option( 'nav_menu_options' );
 	if ( empty( $auto_add ) || ! is_array( $auto_add ) || ! isset( $auto_add['auto_add'] ) )
 		return;
