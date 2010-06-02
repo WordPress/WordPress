@@ -318,6 +318,9 @@ body {
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
+.no-js .menu-item-edit-active .item-edit {
+	display: none;
+}
 .js .menu-item-handle {
 	cursor: move;
 }
