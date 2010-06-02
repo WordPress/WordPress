@@ -204,7 +204,7 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 		$post_link = home_url($post_link);
 	}
 
-	return apply_filters('post_type_link', $post_link, $id, $leavename);
+	return apply_filters('post_type_link', $post_link, $id, $leavename, $sample);
 }
 
 /**
@@ -247,7 +247,7 @@ function get_page_link( $id = false, $leavename = false, $sample = false ) {
 	else
 		$link = _get_page_link( $id , $leavename, $sample );
 
-	return apply_filters('page_link', $link, $id);
+	return apply_filters('page_link', $link, $id, $sample);
 }
 
 /**
