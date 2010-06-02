@@ -473,7 +473,7 @@ function wp_nav_menu_locations_meta_box() {
 			<label class="howto" for="locations-<?php echo $location; ?>">
 				<span><?php echo $description; ?></span>
 				<select name="menu-locations[<?php echo $location; ?>]" id="locations-<?php echo $location; ?>">
-					<option value=""></option>
+					<option value="0"></option>
 					<?php foreach ( $menus as $menu ) : ?>
 					<option<?php selected( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $menu->term_id ); ?>
 						value="<?php echo $menu->term_id; ?>"><?php

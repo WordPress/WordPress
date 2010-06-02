@@ -55,7 +55,7 @@ switch ( $action ) {
 	case 'add-menu-item':
 		check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
 		if ( isset( $_REQUEST['nav-menu-locations'] ) )
-			set_theme_mod( 'nav_menu_locations', $_REQUEST['menu-locations'] );
+			set_theme_mod( 'nav_menu_locations', array_map( 'absint', $_REQUEST['menu-locations'] ) );
 		elseif ( isset( $_REQUEST['menu-item'] ) )
 			wp_save_nav_menu_items( $nav_menu_selected_id, $_REQUEST['menu-item'] );
 		break;
@@ -233,12 +233,8 @@ switch ( $action ) {
 		check_admin_referer( 'delete-menu_item_' . $menu_item_id );
 
 
-		if ( is_nav_menu_item( $menu_item_id ) ) {
-			if ( wp_delete_post( $menu_item_id, true ) ) {
-
-				$messages[] = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
-			}
-		}
+		if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) )
+			$messages[] = '<div id="message" class="updated"><p>' . __('The menu item has been successfully deleted.') . '</p></div>';
 		break;
 	case 'delete':
 		check_admin_referer( 'delete-nav_menu-' . $nav_menu_selected_id );
@@ -250,6 +246,13 @@ switch ( $action ) {
 			if ( is_wp_error($delete_nav_menu) ) {
 				$messages[] = '<div id="message" class="error"><p>' . $delete_nav_menu->get_error_message() . '</p></div>';
 			} else {
+				// Remove this menu from any locations.
+				$locations = get_theme_mod( 'nav_menu_locations' );
+				foreach ( $locations as $location => $menu_id ) {
+					if ( $menu_id == $nav_menu_selected_id )
+						$locations[ $location ] = 0;
+				}
+				set_theme_mod( 'nav_menu_locations', $locations );
 				$messages[] = '<div id="message" class="updated"><p>' . __('The menu has been successfully deleted.') . '</p></div>';
 				// Select the next available menu
 				$nav_menu_selected_id = 0;
@@ -275,7 +278,7 @@ switch ( $action ) {
 
 		// Update menu theme locations
 		if ( isset( $_POST['menu-locations'] ) )
-			set_theme_mod( 'nav_menu_locations', $_POST['menu-locations'] );
+			set_theme_mod( 'nav_menu_locations', array_map( 'absint', $_POST['menu-locations'] ) );
 
 		// Add Menu
 		if ( 0 == $nav_menu_selected_id ) {
