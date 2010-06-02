@@ -68,37 +68,14 @@ class Walker_Nav_Menu extends Walker {
 		global $wp_query;
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
-		$classes = $value = '';
+		$class_names = $value = '';
 
-		$classes = array( 'menu-item', 'menu-item-type-' . $item->type );
-		if ( !empty($item->classes) )
-			$classes = array_merge( $classes, $item->classes );
+		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
-		if ( 'custom' != $item->type ) {
-			$classes[] = 'menu-item-object-' . $item->object;
-			$classes[] = 'menu-item-object-' . $item->type . '-' . $item->object_id;
-			if ( 'post_type' == $item->type && 'page' == $item->object ) {
-				// Back compat classes for pages to match wp_page_menu()
-				$classes[] = 'page_item';
-				$classes[] = 'page-item-' . $item->object_id;
-				if ( ! empty( $item->classes ) ) {
-					if ( in_array('current-menu-item', $classes) )
-						$classes[] = 'current_page_item';
-					if ( in_array('current-menu-parent', $classes) )
-						$classes[] = 'current_page_parent';
-					if ( in_array('current-menu-ancestor', $classes) )
-						$classes[] = 'current_page_ancestor';
-				}
-			}
-		} elseif ( 'custom' == $item->type && in_array('current-menu-item', $classes) && in_array('menu-item-home', $classes) ) {
-			// Back compat for home limk to match wp_page_menu()
-			$classes[] = 'current_page_item';
-		}
+		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
+		$class_names = ' class="' . esc_attr( $class_names ) . '"';
 
-		$classes = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
-		$classes = ' class="' . esc_attr( $classes ) . '"';
-
-		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $classes .'>';
+		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names .'>';
 
 		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
 		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
@@ -286,6 +263,10 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	$possible_object_parents = array_filter( $possible_object_parents );
 
 	foreach ( (array) $menu_items as $key => $menu_item ) {
+		$classes = (array) $menu_item->classes;
+		$classes[] = 'menu-item';
+		$classes[] = 'menu-item-type-' . $menu_item->type;
+
 		// if the menu item corresponds to a taxonomy term for the currently-queried non-hierarchical post object
 		if ( $wp_query->is_singular && 'taxonomy' == $menu_item->type && in_array( $menu_item->object_id, $possible_object_parents ) ) {
 			$active_parent_object_ids[] = (int) $menu_item->object_id;
@@ -301,7 +282,13 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				( 'taxonomy' == $menu_item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) )
 			)
 		) {
-			$menu_items[$key]->classes[] = 'current-menu-item';
+			$classes[] = 'current-menu-item';
+			if ( 'post_type' == $menu_item->type && 'page' == $menu_item->object ) {
+				// Back compat classes for pages to match wp_page_menu()
+				$classes[] = 'page_item';
+				$classes[] = 'page-item-' . $menu_item->object_id;
+				$classes[] = 'current_page_item';
+			}
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 			$active_parent_object_ids[] = (int) $menu_item->post_parent;
 			$active_object = $menu_item->object;
@@ -311,9 +298,12 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
 			if ( $item_url == $current_url ) {
-				$menu_items[$key]->classes[] = 'current-menu-item';
-				if ( untrailingslashit($current_url) == home_url() )
-					$menu_items[$key]->classes[] = 'menu-item-home';
+				$classes[] = 'current-menu-item';
+				if ( untrailingslashit($current_url) == home_url() ) {
+					$classes[] = 'menu-item-home';
+					// Back compat for home limk to match wp_page_menu()
+					$classes[] = 'current_page_item';
+				}
 				$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 				$active_parent_object_ids[] = (int) $menu_item->post_parent;
 				$active_object = $menu_item->object;
@@ -322,7 +312,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		
 		// back-compat with wp_page_menu: add "current_page_parent" to static home page link for any non-page query
 		if ( ! empty( $home_page_id ) && 'post_type' == $menu_item->type && empty( $wp_query->is_page ) && $home_page_id == $menu_item->object_id ) 
-			$menu_items[$key]->classes[] = 'current_page_parent';
+			$classes[] = 'current_page_parent';
+
+		$menu_items[$key]->classes = array_unique( $classes );
 	}
 
 	$active_parent_item_ids = array_filter( array_unique( $active_parent_item_ids ) );
@@ -330,18 +322,32 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 
 	// set parent's class
 	foreach ( (array) $menu_items as $key => $parent_item ) {
+		$classes = (array) $parent_item->classes;
+
 		if (
 			isset( $parent_item->type ) &&
 			'post_type' == $parent_item->type &&
 			! empty( $queried_object->post_type ) &&
 			is_post_type_hierarchical( $queried_object->post_type ) &&
 			in_array( $parent_item->object_id, $queried_object->ancestors )
-		)
-			$menu_items[$key]->classes[] = 'current-' . $queried_object->post_type . '-ancestor current-menu-ancestor';
+		) {
+			$classes[] = 'current-' . $queried_object->post_type . '-ancestor';
+			$classes[] = 'current-menu-ancestor';
+		}
 		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
-			$menu_items[$key]->classes[] = 'current-menu-parent';
+			$classes[] = 'current-menu-parent';
 		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
-			$menu_items[$key]->classes[] = 'current-' . $active_object . '-parent';
+			$classes[] = 'current-' . $active_object . '-parent';
+		
+		if ( 'post_type' == $parent_item->type && 'page' == $parent_item->object ) {
+			// Back compat classes for pages to match wp_page_menu()
+			if ( in_array('current-menu-parent', $classes) )
+				$classes[] = 'current_page_parent';
+			if ( in_array('current-menu-ancestor', $classes) )
+				$classes[] = 'current_page_ancestor';
+		}
+		
+		$menu_items[$key]->classes = array_unique( $classes );
 	}
 }
 
