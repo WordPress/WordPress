@@ -58,10 +58,10 @@ if ( isset($_GET['inline']) ) {
 	$parent_file = 'upload.php';
 
 	add_contextual_help( $current_screen,
-		'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>' .
-		'<p>' . __('The first screen for <em>Upload New</em> provides two options: to <em>Select Files</em> (multiple file upload allowed) or to switch to a <em>Browser Uploader</em> (which has two similar options). Clicking <em>Select Files</em> opens a navigation window showing you files in your operating system. Selecting <em>Open</em> after clicking on the file you want activates a progress bar on the uploader screen, which gives percentages, says &#8220;crunching,&#8221; and upon completion adds a thumbnail and five metadata boxes on this screen. Basic image editing is available after upload is complete. Make sure you click <em>Save</em> before leaving this screen.') . '</p>' .
+'<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>' .
+		'<p>' . __('There are two options for uploading files: <em>Select Files</em> will open the Flash-based uploader (multiple file upload allowed), or you can use the <em>Browser Uploader</em>. Clicking <em>Select Files</em> opens a navigation window showing you files in your operating system. Selecting <em>Open</em> after clicking on the file you want activates a progress bar on the uploader screen. Basic image editing is available after upload is complete. Make sure you click <em>Save</em> before leaving this screen.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a href="http://codex.wordpress.org/Media_Add_New_SubPanel">Add New Media in Codex</a>') . '</p>' .
+		'<p>' . __('<a href="http://codex.wordpress.org/Media_Add_New_SubPanel">Documentaion on Uploading Media Files</a>') . '</p>' .
 		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
 

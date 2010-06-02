@@ -121,7 +121,7 @@ add_contextual_help($current_screen,
     '<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. By default, this email will also contain their password. Uncheck the box if you do not the password to be included in the welcome email.') . '</p>' .
     '<p>' . __('Remember to click the Add User button at the bottom of this screen when you are finished.') . '</p>' .
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Users_Add_New_SubPanel">Add New Users</a>') . '</p>' . 
+    '<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Users_Add_New_SubPanel">Documentation on Adding New Users</a>') . '</p>' . 
     '<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 
