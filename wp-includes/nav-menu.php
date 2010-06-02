@@ -395,7 +395,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 function wp_get_nav_menus( $args = array() ) {
 	$defaults = array( 'hide_empty' => false, 'orderby' => 'none' );
 	$args = wp_parse_args( $args, $defaults );
-	return get_terms( 'nav_menu',  $args);
+	return apply_filters( 'wp_get_nav_menus', get_terms( 'nav_menu',  $args), $args );
 }
 
 /**
