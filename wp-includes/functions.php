@@ -1285,6 +1285,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 
 	fwrite( $out_fp,  $response['body']);
 	fclose($out_fp);
+	clearstatcache();
 
 	return $headers;
 }
@@ -2304,11 +2305,14 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 
 	@fwrite( $ifp, $bits );
 	fclose( $ifp );
+	clearstatcache();
+	
 	// Set correct file permissions
 	$stat = @ stat( dirname( $new_file ) );
 	$perms = $stat['mode'] & 0007777;
 	$perms = $perms & 0000666;
 	@ chmod( $new_file, $perms );
+	clearstatcache();
 
 	// Compute the URL
 	$url = $upload['url'] . "/$filename";
