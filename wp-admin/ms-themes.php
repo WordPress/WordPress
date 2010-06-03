@@ -20,8 +20,8 @@ add_contextual_help($current_screen,
 	'<p>' . __('If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen.') . '</p>' .
 	'<p>' . __('Themes can be enabled on a site by site basis by the network admin on the Edit Site screen you go to via the Edit action link on the Sites screen.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Themes_SubPanel">Network Themes Documentation</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	'<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Super_Admin_Themes_SubPanel">Documentation on Network Themes</a>') . '</p>' .
+	'<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 );
 
 require_once( './admin-header.php' );

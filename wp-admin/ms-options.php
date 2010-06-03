@@ -13,7 +13,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_network_options' ) )
-    wp_die( __( 'You do not have permission to access this page.' ) );
+	wp_die( __( 'You do not have permission to access this page.' ) );
 
 $title = __( 'Network Options' );
 $parent_file = 'ms-admin.php';
@@ -21,7 +21,7 @@ $parent_file = 'ms-admin.php';
 add_contextual_help($current_screen,
 	'<p>' . __('This screen sets and changes options for the network as a whole. The first site is the main site in the network and network options are pulled from that original site&#8217;s options.') . '</p>' .
 	'<p>' . __('Operational settings has fields for the network&#8217;s name and admin email.') . '</p>' .
-	'<p>' . __('Dashboard Site is an option to give a site to users who do not have a site on the system. Their default role is subscribed but that default can be changed. The Admin Notice Feed can provide a notice on all dashboards of the latest post via RSS or Atom, or provide no such notice if left blank.') . '</p>' .
+	'<p>' . __('Dashboard Site is an option to give a site to users who do not have a site on the system. Their default role is Subscriber, but that default can be changed. The Admin Notice Feed can provide a notice on all dashboards of the latest post via RSS or Atom, or provide no such notice if left blank.') . '</p>' .
 	'<p>' . __('Registration settings can disable/enable public signups. If you let others sign up for a site, install spam plugins. Spaces, not commas, should separate names banned as sites for this network.') . '</p>' .
 	'<p>' . __('New site settings are defaults applied when a new site is created in the network. These include welcome email for when a new site or user account is registered, and what&#8127;s put in the first post, page, comment, comment author, and comment URL.') . '</p>' .
 	'<p>' . __('Upload settings control the size of the uploaded files and the amount of available upload space for each site. You can change the default value for specific sites when you edit a particular site. Allowed file types are also listed (space separated only).') . '</p>' .
@@ -82,7 +82,7 @@ if (isset($_GET['updated'])) {
 					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr( $blogname ); ?>" />
 					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr( $blogname ); ?>" class="regular-text" />
 					<br />
-					<?php _e( 'Site path (&#8220;dashboard&#8221;, &#8220;control&#8221;, &#8220;manager&#8221;, etc.) or blog ID.<br />New users are added to this site as the user role defined below if they don&#8217;t have a site. Leave blank for the main site. Users with the subscriber role on old site will be moved to the new site if changed. The new site will be created if it does not exist.' ); ?>
+					<?php _e( 'Site path (&#8220;dashboard&#8221;, &#8220;control&#8221;, &#8220;manager&#8221;, etc.) or blog ID.<br />New users are added to this site as the user role defined below if they don&#8217;t have a site. Leave blank for the main site. Users with the Subscriber role on the old site will be moved to the new site if changed. The new site will be created if it does not exist.' ); ?>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -191,7 +191,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="welcome_user_email"><?php _e( 'Welcome User Email' ) ?></label></th>
 				<td>
-			    	<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text">
+					<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text">
 <?php echo wp_htmledit_pre( stripslashes( get_site_option( 'welcome_user_email' ) ) ) ?></textarea>
 					<br />
 					<?php _e( 'The welcome email sent to new users.' ) ?>
