@@ -1000,6 +1000,7 @@ a.comment-edit-link:hover {
 	border: none;
 	margin: 0;
 }
+.nopassword,
 .nocomments {
 	display: none;
 }
