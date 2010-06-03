@@ -36,7 +36,7 @@ if ( current_user_can( 'switch_themes' ) ) :
 $help = '<p>' . __('Aside from the default theme included with your WordPress installation, themes are designed and developed by third parties.') . '</p>';
 $help .= '<p>' . __('You can see your active theme at the top of the screen. Below are the other themes you have installed that are not currently in use. You can see what your site would look like with one of these themes by clicking the Preview link. To change themes, click the Activate link.') . '</p>';
 if ( current_user_can('install_themes') )
-	$help .= '<p>' . sprintf(__('If you would like to see more themes to choose from, click on the &#8220;Install Themes&#8221; tab and you will be able to browse or search for additional themes from the <a href="%s">WordPress.org theme repository</a>. Themes in the WordPress.org theme repository are designed and developed by third parties, and are licensed under the GNU General Public License, version 2, just like WordPress. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/') . '</p>';
+	$help .= '<p>' . sprintf(__('If you would like to see more themes to choose from, click on the &#8220;Install Themes&#8221; tab and you will be able to browse or search for additional themes from the <a href="%s">WordPress.org Theme Directory</a>. Themes in the WordPress.org Theme Directory are designed and developed by third parties, and are licensed under the GNU General Public License, version 2, just like WordPress. Oh, and they&#8217;re free!'), 'http://wordpress.org/extend/themes/') . '</p>';
 
 $help .= '<p><strong>' . __('For more information:') . '</strong></p>';
 $help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes">Documentation on Using Themes</a>') . '</p>';
@@ -108,7 +108,7 @@ $themes = array_slice( $themes, $start, $per_page );
 	printf(__('%1$s %2$s by %3$s'), $ct->title, $ct->version, $ct->author) ; ?></h4>
 <p class="theme-description"><?php echo $ct->description; ?></p>
 <?php if ( current_user_can('edit_themes') && $ct->parent_theme ) { ?>
-	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ), $ct->title, $ct->parent_theme); ?></p>
+	<p><?php printf(__('The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ), $ct->title, $ct->parent_theme); ?></p>
 <?php } else { ?>
 	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ) ); ?></p>
 <?php } ?>
@@ -211,7 +211,7 @@ foreach ( $cols as $col => $theme_name ) {
 <span class='action-links'><?php echo $actions ?></span>
 	<?php if ( current_user_can('edit_themes') && $parent_theme ) {
 	/* translators: 1: theme title, 2:  template dir, 3: stylesheet_dir, 4: theme title, 5: parent_theme */ ?>
-	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ), $title, $parent_theme); ?></p>
+	<p><?php printf(__('The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.'), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ), $title, $parent_theme); ?></p>
 <?php } else { ?>
 	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $title, str_replace( WP_CONTENT_DIR, '', $template_dir ), str_replace( WP_CONTENT_DIR, '', $stylesheet_dir ) ); ?></p>
 <?php } ?>
@@ -228,7 +228,7 @@ foreach ( $cols as $col => $theme_name ) {
 <?php } else { ?>
 <p><?php
 	if ( current_user_can('install_themes') )
-		_e('You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org theme repository at any time: just click on the <em><a href="theme-install.php">Install Themes</a></em> tab above.');
+		printf(__('You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org Theme Directory at any time: just click on the <em><a href="%s">Install Themes</a></em> tab above.'), 'theme-install.php');
 	else
 		printf(__('Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.'), get_site_option('site_name'));
 	?></p>
@@ -251,7 +251,7 @@ if ( current_user_can('edit_themes') && count( $broken_themes ) ) {
 ?>
 
 <h2><?php _e('Broken Themes'); ?> <?php if ( is_multisite() ) _e( '(Site admin only)' ); ?></h2>
-<p><?php _e('The following themes are installed but incomplete.  Themes must have a stylesheet and a template.'); ?></p>
+<p><?php _e('The following themes are installed but incomplete. Themes must have a stylesheet and a template.'); ?></p>
 
 <table id="broken-themes">
 	<tr>

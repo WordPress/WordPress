@@ -35,8 +35,8 @@ add_contextual_help($current_screen,
 	'<p>' . __('<strong>Incoming Links</strong> - Shows links to your site found by Google Blog Search.') . '</p>' .
 	'<p>' . __('<strong>QuickPress</strong> - Allows you to create a new post and either publish it or save it as a draft.') . '</p>' .
 	'<p>' . __('<strong>Recent Drafts</strong> - Displays links to the 5 most recent draft posts you&#8217;ve started.') . '</p>' .
-	'<p>' . __('<strong>Other WordPress News</strong> - Shows the feed from http://planet.wordpress.org. You can configure it to show a different feed of your choosing.') . '</p>' .
-	'<p>' . __('<strong>Plugins</strong> - Features the most popular, newest, and recently updated plugins from the WordPress.org plugin repository.') . '</p>' .
+	'<p>' . sprintf(__('<strong>Other WordPress News</strong> - Shows the feed from <a href="%s" target="_blank">WordPress Planet</a>. You can configure it to show a different feed of your choosing.'), 'http://planet.wordpress.org') . '</p>' .
+	'<p>' . __('<strong>Plugins</strong> - Features the most popular, newest, and recently updated plugins from the WordPress.org Plugin Directory.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Dashboard_SubPanel">Dashboard Documentation</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'

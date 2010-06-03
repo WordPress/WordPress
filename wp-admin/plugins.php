@@ -735,9 +735,9 @@ unset( $status_links );
 
 <?php
 if ( 'mustuse' == $status )
-	echo '<div class="clear"><p>' . __( 'Files in the <code>wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
+	echo '<div class="clear"><p>' . __( 'Files in the <code>/wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
 elseif ( 'dropins' == $status )
-	echo '<div class="clear"><p>' . __( 'Drop-ins are advanced plugins in the <code>wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
+	echo '<div class="clear"><p>' . __( 'Drop-ins are advanced plugins in the <code>/wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
 
 if ( !empty( $plugins ) && ( ! in_array( $status, array( 'mustuse', 'dropins' ) ) || $page_links ) ) :
 ?>
