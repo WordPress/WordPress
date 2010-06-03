@@ -20,7 +20,7 @@ $parent_file = 'ms-admin.php';
 
 add_contextual_help($current_screen,
 	'<p>' . __('This screen sets and changes options for the network as a whole. The first site is the main site in the network and network options are pulled from that original site&#8217;s options.') . '</p>' .
-	'<p>' . __('Operational settings has fields for the network&#8217;s name, admin email, and whether global terms will be disabled (the default) or maintained across all sites on the network.') . '</p>' .
+	'<p>' . __('Operational settings has fields for the network&#8217;s name and admin email.') . '</p>' .
 	'<p>' . __('Dashboard Site is an option to give a site to users who do not have a site on the system. Their default role is subscribed but that default can be changed. The Admin Notice Feed can provide a notice on all dashboards of the latest post via RSS or Atom, or provide no such notice if left blank.') . '</p>' .
 	'<p>' . __('Registration settings can disable/enable public signups. If you let others sign up for a site, install spam plugins. Spaces, not commas, should separate names banned as sites for this network.') . '</p>' .
 	'<p>' . __('New site settings are defaults applied when a new site is created in the network. These include welcome email for when a new site or user account is registered, and what&#8127;s put in the first post, page, comment, comment author, and comment URL.') . '</p>' .
