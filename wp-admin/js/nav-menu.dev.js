@@ -806,7 +806,14 @@ var wpNavMenu;
 		},
 
 		eventOnClickMenuSave : function(clickedEl) {
-			var locs = '';
+			var locs = '',
+			menuName = $('#menu-name'),
+			menuNameVal = menuName.val();
+			// Cancel and warn if invalid menu name
+			if( !menuNameVal || menuNameVal == menuName.attr('title') || !menuNameVal.replace(/\s+/, '') ) {
+				menuName.parent().addClass('form-invalid');
+				return false;
+			}
 			// Copy menu theme locations
 			$('#nav-menu-theme-locations select').each(function() {
 				locs += '<input type="hidden" name="' + this.name + '" value="' + $(this).val() + '" />';

@@ -529,6 +529,14 @@ body.js .item-order {
 	color: #fff;
 }
 
+.major-publishing-actions .form-invalid {
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	padding-left: 4px;
+	margin-left: -4px;
+}
 
 /* Clearfix */
 #menu-item-name-wrap:after,
