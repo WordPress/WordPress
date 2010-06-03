@@ -965,13 +965,20 @@ jQuery(function($){
 <?php screen_icon(); ?>
 <h2><?php _e('Connection Information') ?></h2>
 <p><?php
+	$label_user = __('Username');
+	$label_pass = __('Password');
 	_e('To perform the requested action, WordPress needs to access to your web server.');
 	echo ' ';
 	if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
-		if ( isset( $types['ssh'] ) )
+		if ( isset( $types['ssh'] ) ) {
 			_e('Please enter your FTP or SSH credentials to proceed.');
-		else
+			$label_user = __('FTP/SSH Username');
+			$label_pass = __('FTP/SSH Password');
+		} else {
 			_e('Please enter your FTP credentials to proceed.');
+			$label_user = __('FTP Username');
+			$label_pass = __('FTP Password');
+		}
 		echo ' ';
 	}
 	_e('If you do not remember your credentials, you should contact your web host.');
@@ -983,12 +990,12 @@ jQuery(function($){
 </tr>
 
 <tr valign="top">
-<th scope="row"><label for="username"><?php _e('Username') ?></label></th>
+<th scope="row"><label for="username"><?php echo $label_user; ?></label></th>
 <td><input name="username" type="text" id="username" value="<?php echo esc_attr($username) ?>"<?php disabled( defined('FTP_USER') ); ?> size="40" /></td>
 </tr>
 
 <tr valign="top">
-<th scope="row"><label for="password"><?php _e('Password') ?></label></th>
+<th scope="row"><label for="password"><?php echo $label_pass; ?></label></th>
 <td><input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php disabled( defined('FTP_PASS') ); ?> size="40" /></td>
 </tr>
 
