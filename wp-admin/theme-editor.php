@@ -22,11 +22,11 @@ $help .= '<p>' . __('After typing in your edits, click Update File.') . '</p>';
 $help .= '<p>' . __('<strong>Advice:</strong> think very carefully about your site crashing if you are live-editing the theme currently in use.') . '</p>';
 $help .= '<p>' . __('Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href="http://codex.wordpress.org/Child_Themes">child theme</a> instead.') . '</p>';
 $help .= '<p><strong>' . __('For more information:') . '</strong></p>';
-$help .= '<p>' . __('<a href="http://codex.wordpress.org/Theme_Development">Documentation on Theme Development</a>') . '</p>';
-$help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes">Documentation on Using Themes</a>') . '</p>';
-$help .= '<p>' . __('<a href="http://codex.wordpress.org/Editing_Files">Documentation on Editing Files</a>') . '</p>';
-$help .= '<p>' . __('<a href="http://codex.wordpress.org/Template_Tags">Documentation on Template Tags</a>') . '</p>';
-$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Theme_Development" target="_blank">Documentation on Theme Development</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes" target="_blank">Documentation on Using Themes</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Editing_Files" target="_blank">Documentation on Editing Files</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Template_Tags" target="_blank">Documentation on Template Tags</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 add_contextual_help($current_screen, $help);
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme', 'dir'));

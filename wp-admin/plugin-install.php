@@ -58,8 +58,8 @@ add_contextual_help($current_screen,
 	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, Newest, and Recently Updated plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
 	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click Upload in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Add_New_SubPanel">Documentation on Installing Plugins</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Add_New_SubPanel" target="_blank">Documentation on Installing Plugins</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include('./admin-header.php');

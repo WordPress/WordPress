@@ -97,9 +97,9 @@ add_contextual_help($current_screen,
 	'<p>' . __('Refreshing your browser will take you to a screen with an archive of those added lines of code. A set of six links under Super Admin will appear at the top of the main left navigation menu. The multisite network is now enabled.') . '</p>' .
 	'<p>' . __('The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed soon in a future version.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network">General Network Creation Documentation</a>') . '</p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_SubPanel">Tools > Network Documentation</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network" target="_blank">General Network Creation Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_SubPanel" target="_blank">Tools > Network Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include( './admin-header.php' );

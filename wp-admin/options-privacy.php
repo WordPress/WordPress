@@ -20,8 +20,8 @@ add_contextual_help($current_screen,
 	'<p>' . __('When this setting is in effect a reminder is shown in the header of these administration screens that says, &#8220;Search Engines Blocked,&#8221; to remind you that your site is not being crawled.') . '</p>' .
 	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Privacy_SubPanel">Privacy Settings Documentation</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Privacy_SubPanel" target="_blank">Privacy Settings Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include('./admin-header.php');

@@ -42,8 +42,8 @@ $help = '
 	<p>' . __('Many themes show some sidebar widgets by default until you edit your sidebars, but they are not automatically displayed in your sidebar management tool. After you make your first widget change, you can re-add the default widgets by adding them from the Available Widgets area.') . '</p>
 ';
 $help .= '<p><strong>' . __('For more information:') . '</strong></p>';
-$help .= '<p>' . __('<a href="http://codex.wordpress.org/Appearance_Widgets_SubPanel">Widgets Documentation</a>') . '</p>';
-$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://codex.wordpress.org/Appearance_Widgets_SubPanel" target="_blank">Widgets Documentation</a>') . '</p>';
+$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 add_contextual_help($current_screen, $help);
 
 // register the inactive_widgets area as sidebar

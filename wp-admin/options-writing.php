@@ -19,8 +19,8 @@ add_contextual_help($current_screen,
 	'<p>' . __('You can submit content in several different ways; this screen holds the settings for all of them. The top section controls the editor within these administration screens, while the rest control external publishing methods. For more information on any of these methods, use the documentation links below.') . '</p>' .
 	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Writing_SubPanel">Writing Settings Documentation</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Writing_SubPanel" target="_blank">Writing Settings Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include('./admin-header.php');

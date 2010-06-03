@@ -61,8 +61,8 @@ if ( isset($_GET['inline']) ) {
 '<p>' . __('You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share.') . '</p>' .
 		'<p>' . __('There are two options for uploading files: <em>Select Files</em> will open the Flash-based uploader (multiple file upload allowed), or you can use the <em>Browser Uploader</em>. Clicking <em>Select Files</em> opens a navigation window showing you files in your operating system. Selecting <em>Open</em> after clicking on the file you want activates a progress bar on the uploader screen. Basic image editing is available after upload is complete. Make sure you click <em>Save</em> before leaving this screen.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a href="http://codex.wordpress.org/Media_Add_New_SubPanel">Documentation on Uploading Media Files</a>') . '</p>' .
-		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+		'<p>' . __('<a href="http://codex.wordpress.org/Media_Add_New_SubPanel" target="_blank">Documentation on Uploading Media Files</a>') . '</p>' .
+		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 
 	require_once('./admin-header.php'); ?>

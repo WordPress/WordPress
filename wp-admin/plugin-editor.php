@@ -113,8 +113,8 @@ default:
 		'<p>' . __('The Documentation menu below the editor lists the PHP functions recognized in the plugin file. Clicking Lookup takes you to a web page about that particular function.') . '</p>' .
 		'<p>' . __('If you want to make changes but don&#8217;t want them to be overwritten when the plugin is updated, you may be ready to think about writing your own plugin. For information on how to edit a plugin or start from scratch, check out the links below.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Editor_SubPanel">Documentation on Editing Plugins</a>') . '</p>' .
-		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+		'<p>' . __('<a href="http://codex.wordpress.org/Plugins_Editor_SubPanel" target="_blank">Documentation on Editing Plugins</a>') . '</p>' .
+		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 
 	require_once('./admin-header.php');

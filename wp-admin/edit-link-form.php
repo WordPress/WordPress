@@ -42,8 +42,8 @@ add_contextual_help($current_screen,
 	'<p>' . __( 'The boxes for link name, web address, and description have fixed positions, while the others may be repositioned using drag and drop. You can also hide boxes you don&#8217;t use in the Screen Options tab, or minimize boxes by clicking on the title bar of the box.' ) . '</p>' .
 	'<p>' . __( 'XFN stands for <a href="http://gmpg.org/xfn/">XHTML Friends Network</a>, which is optional. WordPress allows the generation of XFN attributes to show how you are related to the authors/owners of the site to which you are linking.' ) . '</p>' .
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="http://codex.wordpress.org/Links_Add_New_SubPanel">Documentation on Creating Links</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://wordpress.org/support/">Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="http://codex.wordpress.org/Links_Add_New_SubPanel" target="_blank">Documentation on Creating Links</a>' ) . '</p>' .
+	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
 require_once ('admin-header.php');
