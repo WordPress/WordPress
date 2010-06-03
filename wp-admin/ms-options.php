@@ -27,7 +27,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('Upload settings control the size of the uploaded files and the amount of available upload space for each site. You can change the default value for specific sites when you edit a particular site. Allowed file types are also listed (space separated only).') . '</p>' .
 	'<p>' . __('Checkboxes for media upload buttons set which are shown in the visual editor. If unchecked, a generic upload button is still visible; other media types can still be uploaded if on the allowed file types list.') . '</p>' .
 	'<p>' . __('Menu setting enables/disables the plugin menus from appearing for non super admins, so that only super admins, not site admins, have access to activate plugins.') . '</p>' .
-	'<p>' . __('Super admins can no longer be added on the Options screen. You must now go to the list of existing users on Super Admin > Users and click on Username or the Edit hover link below that name. This goes to an Edit User page where you can check a box to grant super admin privileges.') . '</p>' .
+	'<p>' . __('Super admins can no longer be added on the Options screen. You must now go to the list of existing users on Super Admin > Users and click on Username or the Edit action link below that name. This goes to an Edit User page where you can check a box to grant super admin privileges.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Options_SubPanel">Network Options Documentation</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'

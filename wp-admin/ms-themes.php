@@ -18,7 +18,7 @@ $parent_file = 'ms-admin.php';
 add_contextual_help($current_screen,
 	'<p>' . __('This screen enables and disables the inclusion of themes available to choose in the Appearance menu for each site. It does not activate or deactivate which theme a site is currently using.') . '</p>' .
 	'<p>' . __('If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen.') . '</p>' .
-	'<p>' . __('Themes can be enabled on a site by site basis by the network admin on the Edit Site screen you go to via the Edit hover link on the Sites screen.') . '</p>' .
+	'<p>' . __('Themes can be enabled on a site by site basis by the network admin on the Edit Site screen you go to via the Edit action link on the Sites screen.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Themes_SubPanel">Network Themes Documentation</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'

@@ -20,30 +20,29 @@ $parent_file = 'ms-admin.php';
 
 if ( isset( $_GET['action'] ) && 'editblog' == $_GET['action'] ) {
 	add_contextual_help($current_screen,
-		'<p>' . __('The network admin arrives at this screen to make choices for a given site by clicking on the Edit link on the Sites screen available to them in the Super Admin navigation menu.') . '</p>' .
-		'<p>' . __('This extensive list of options has five modules: Site Info, Site Options, allowing Site Themes for this given site, changing the Site User(s) roles and passwords for that site, Adding a new user, and Miscellaneous Site Actions (upload size limits).') . '</p>' .
+		'<p>' . __('This extensive list of options has five modules: Site Info, Site Options, allowing Site Themes for this given site, changing user roles and passwords for that site, adding a new user, and Miscellaneous Site Actions (upload size limits).') . '</p>' .
 		'<p>' . __('Note that some fields in Site Options are grayed out and say Serialized Data. These are stored values in the database which you cannot change from here.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Sites_Edit_Site">Site Editing Documentation</a>') . '</p>' .
-		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+		'<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Super_Admin_Sites_Edit_Site">Site Editing Documentation</a>') . '</p>' .
+		'<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
 } else {
 	add_contextual_help($current_screen,
 		'<p>' . __('Add New takes you farther down on this same page. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
 		'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .
-		'<p>' . __('Hovering over each site reveals seven options (only three for the primary or originating site for the network):') . '</p>' .
+		'<p>' . __('Hovering over each site reveals seven options (three for the primary site):') . '</p>' .
 		'<ul><li>' . __('an Edit link to a separate Edit Site screen.') . '</li>' .
 		'<li>' . __('Backend means the Dashboard for that site.') . '</li>' .
-		'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later by hover links attached to those sites in this table.') . '</li>' .
+		'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later.') . '</li>' .
 		'<li>' . __('Delete which is a permanent action after the confirmations screen.') . '</li>' .
 		'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
-		'<p>' . __('The site ID is used internally, and not shown on the front end of the site or to users/viewers.') . '</p>' .
+		'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
 		'<p>' . __('Clicking on bold settings can re-sort this table. The upper right icons switch between list and excerpt views.') . '</p>' .
-		'<p>' . __('Clicking on Add Site after filling out the address, title, and email adds that new site instantly to the network and this table. You may want to then click on the hover link to edit options for that site.') . '</p>' .
-		'<p>' . __('Make sure you do not add slashes or dots when you fill in the new site name. If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>' .
+		'<p>' . __("Clicking on Add Site, after filling out the address, title, and admin's email address, adds the site instantly to the network and this table. You may want to then click on the action link to edit options for that site.") . '</p>' .
+		'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Sites_SubPanel">Sites Documentation</a>') . '</p>' .
-		'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+		'<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Super_Admin_Sites_SubPanel">Sites Documentation</a>') . '</p>' .
+		'<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
 }
 
