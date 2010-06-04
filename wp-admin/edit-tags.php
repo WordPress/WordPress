@@ -355,19 +355,22 @@ do_action('after-' . $taxonomy . '-table', $taxonomy);
 <div class="col-wrap">
 
 <?php
-if ( current_user_can( $tax->cap->edit_terms ) )
-	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false, 'link' => 'edit' ) );
-else
-	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
 
-if ( $tag_cloud && !is_taxonomy_hierarchical($taxonomy) ) :
-?>
+if ( !is_taxonomy_hierarchical($taxonomy) ) {
+	if ( current_user_can( $tax->cap->edit_terms ) )
+		$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false, 'link' => 'edit' ) );
+	else
+		$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
+
+	if ( $tag_cloud ) :
+	?>
 <div class="tagcloud">
 <h3><?php echo $tax->labels->popular_items; ?></h3>
 <?php echo $tag_cloud; unset( $tag_cloud ); ?>
 </div>
 <?php
 endif;
+}
 
 if ( current_user_can($tax->cap->edit_terms) ) {
 	if ( 'category' == $taxonomy )
