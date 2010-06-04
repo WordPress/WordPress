@@ -142,6 +142,8 @@ function wp_maintenance() {
 	if ( !file_exists( ABSPATH . '.maintenance' ) || defined( 'WP_INSTALLING' ) )
 		return;
 
+	global $upgrading;
+
 	include( ABSPATH . '.maintenance' );
 	// If the $upgrading timestamp is older than 10 minutes, don't die.
 	if ( ( time() - $upgrading ) >= 600 )
