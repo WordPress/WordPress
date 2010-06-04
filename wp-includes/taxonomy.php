@@ -326,7 +326,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * - name - general name for the taxonomy, usually plural. The same as and overriden by $tax->label. Default is Post Tags/Categories
  * - singular_name - name for one object of this taxonomy. Default is Post Tag/Category
  * - search_items - Default is Search Tags/Search Categories
- * - popular_items - Default is Popular Tags/Popular Categories
+ * - popular_items - This string isn't used on hierarchical taxonomies. Default is Popular Tags
  * - all_items - Default is All Tags/All Categories
  * - parent_item - This string isn't used on non-hierarchical taxonomies. In hierarchical ones the default is Parent Category
  * - parent_item_colon - The same as <code>parent_item</code>, but with colon <code>:</code> in the end
@@ -347,7 +347,7 @@ function get_taxonomy_labels( $tax ) {
 		'name' => array( _x( 'Post Tags', 'taxonomy general name' ), _x( 'Categories', 'taxonomy general name' ) ),
 		'singular_name' => array( _x( 'Post Tag', 'taxonomy singular name' ), _x( 'Category', 'taxonomy singular name' ) ),
 		'search_items' => array( __( 'Search Tags' ), __( 'Search Categories' ) ),
-		'popular_items' => array( __( 'Popular Tags' ), __( 'Popular Categories' ) ),
+		'popular_items' => array( __( 'Popular Tags' ), null ),
 		'all_items' => array( __( 'All Tags' ), __( 'All Categories' ) ),
 		'parent_item' => array( null, __( 'Parent Category' ) ),
 		'parent_item_colon' => array( null, __( 'Parent Category:' ) ),
