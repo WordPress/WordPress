@@ -191,11 +191,11 @@ if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
 		'<p><strong>' . __('For more information:') . '</strong></p>';
 
 	if ( 'category' == $taxonomy )
-		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Manage_Categories_SubPanel">Categories Documentation</a>') . '</p>';
+		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Manage_Categories_SubPanel" target="_blank">Categories Documentation</a>') . '</p>';
 	else
-		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Post_Tags_SubPanel">Tags Documentation</a>') . '</p>';
+		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Post_Tags_SubPanel" target="_blank">Tags Documentation</a>') . '</p>';
 
-	$help .= '<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>';
+	$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 
 	add_contextual_help($current_screen, $help);
 	unset($help);

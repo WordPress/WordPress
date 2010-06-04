@@ -20,7 +20,7 @@ $help .= '<p>' . __('Begin by choosing a theme to edit from the dropdown menu an
 $help .= '<p>' . __('For PHP files, you can use the Documentation dropdown to select from functions recognized in that file. Lookup takes you to a web page with reference material about that particular function.') . '</p>';
 $help .= '<p>' . __('After typing in your edits, click Update File.') . '</p>';
 $help .= '<p>' . __('<strong>Advice:</strong> think very carefully about your site crashing if you are live-editing the theme currently in use.') . '</p>';
-$help .= '<p>' . __('Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href="http://codex.wordpress.org/Child_Themes">child theme</a> instead.') . '</p>';
+$help .= '<p>' . __('Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href="http://codex.wordpress.org/Child_Themes" target="_blank">child theme</a> instead.') . '</p>';
 $help .= '<p><strong>' . __('For more information:') . '</strong></p>';
 $help .= '<p>' . __('<a href="http://codex.wordpress.org/Theme_Development" target="_blank">Documentation on Theme Development</a>') . '</p>';
 $help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes" target="_blank">Documentation on Using Themes</a>') . '</p>';

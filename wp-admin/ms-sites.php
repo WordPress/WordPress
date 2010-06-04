@@ -23,8 +23,8 @@ if ( isset( $_GET['action'] ) && 'editblog' == $_GET['action'] ) {
 		'<p>' . __('This extensive list of options has five modules: Site Info, Site Options, allowing Site Themes for this given site, changing user roles and passwords for that site, adding a new user, and Miscellaneous Site Actions (upload size limits).') . '</p>' .
 		'<p>' . __('Note that some fields in Site Options are grayed out and say Serialized Data. These are stored values in the database which you cannot change from here.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Super_Admin_Sites_Edit_Site">Documentation on Editing Sites</a>') . '</p>' .
-		'<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+		'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Sites_Edit_Site" target="_blank">Documentation on Editing Sites</a>') . '</p>' .
+		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 } else {
 	add_contextual_help($current_screen,
@@ -41,8 +41,8 @@ if ( isset( $_GET['action'] ) && 'editblog' == $_GET['action'] ) {
 		'<p>' . __("Clicking on Add Site, after filling out the address, title, and admin's email address, adds the site instantly to the network and this table. You may want to then click on the action link to edit options for that site.") . '</p>' .
 		'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
-		'<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Super_Admin_Sites_SubPanel">Documentation on Sites</a>') . '</p>' .
-		'<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+		'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Sites_SubPanel" target="_blank">Documentation on Sites</a>') . '</p>' .
+		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 }
 

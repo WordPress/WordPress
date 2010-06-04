@@ -24,9 +24,9 @@ add_contextual_help($current_screen,
     '<p>' . __('You can customize the display of information on this screen as you can on other screens, by using the Screen Options tab and the on-screen filters.') . '</p>' .
     '<p>' . __('To add a new user for your site, click the Add New button at the top of the screen or Add New in the Users menu section.') . '</p>' .
     '<p><strong>' . __('For more information:') . '</strong></p>' .
-    '<p>' . __('<a target="_blank" href=http://codex.wordpress.org/Users_Authors_and_Users_SubPanel">Documentation on Authors and Users</a>') . '</p>' .
-    '<p>' . __('<a target="_blank" href="http://codex.wordpress.org/Roles_and_Capabilities">Roles and Capabilities Descriptions</a>') . '</p>' .
-    '<p>' . __('<a target="_blank" href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+    '<p>' . __('<a href="http://codex.wordpress.org/Users_Authors_and_Users_SubPanel" target="_blank">Documentation on Authors and Users</a>') . '</p>' .
+    '<p>' . __('<a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles and Capabilities Descriptions</a>') . '</p>' .
+    '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 $update = $doaction = '';

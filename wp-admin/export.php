@@ -20,8 +20,8 @@ add_contextual_help($current_screen,
 	'<p>' . __('You can export a file of your site&#8217;s content in order to import it into another installation or platform. The export file will be an XML file format called WXR. Posts, pages, comments, custom fields, categories, and tags can be included. You can set filters to have the WXR file only include a certain date, author, category, tag, all posts or all pages, certain publishing statuses.') . '</p>' .
 	'<p>' . __('Once generated, your WXR file can be imported by another WordPress site or by another blogging platform able to access this format.') . '</p>' .
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Export_SubPanel">Export Documentation</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Export_SubPanel" target="_blank">Export Documentation</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 if ( isset( $_GET['download'] ) ) {
