@@ -1135,7 +1135,7 @@ class WP_Http_ExtHTTP {
 
 		$arrURL = parse_url($url);
 
-		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
+		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
 			$url = preg_replace('|^' . preg_quote($arrURL['scheme'], '|') . '|', 'http', $url);
 
 		$is_local = isset($args['local']) && $args['local'];
