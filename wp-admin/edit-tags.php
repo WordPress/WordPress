@@ -360,7 +360,7 @@ if ( current_user_can( $tax->cap->edit_terms ) )
 else
 	$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
 
-if ( $tag_cloud ) :
+if ( $tag_cloud && !is_taxonomy_hierarchical($taxonomy) ) :
 ?>
 <div class="tagcloud">
 <h3><?php echo $tax->labels->popular_items; ?></h3>
