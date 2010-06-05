@@ -433,9 +433,9 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100531' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100605' );
 
-	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20100531' );
+	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20100605' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// all colors stylesheets need to have the same query strings (cache manifest compat)
@@ -453,7 +453,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20100519' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100531' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20100424' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20100313' ); // Readme as well
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20100605' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20100514' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20100424' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
