@@ -467,9 +467,12 @@ switch ( $_GET['action'] ) {
 				<title><?php _e( 'WordPress &rsaquo; Confirm your action' ); ?></title>
 
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<?php wp_admin_css( 'install', true ); ?>
+				<?php
+				wp_admin_css( 'install', true );
+				wp_admin_css( 'ie', true );
+				?>
 			</head>
-			<body id="error-page">
+			<body>
 				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png' ) ); ?>" /></h1>
 				<form action="ms-edit.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />

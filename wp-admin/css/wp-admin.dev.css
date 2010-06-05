@@ -1189,7 +1189,6 @@ div.comment-item:hover .row-actions {
 #adminmenu li #awaiting-mod span,
 #adminmenu li span.update-plugins span,
 #sidemenu li a span.update-plugins span {
-	float: left;
 	display: block;
 	padding: 0 6px;
 }

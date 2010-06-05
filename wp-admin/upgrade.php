@@ -47,7 +47,10 @@ $mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>='
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php echo get_option( 'blog_charset' ); ?>" />
 	<title><?php _e( 'WordPress &rsaquo; Upgrade' ); ?></title>
-	<?php wp_admin_css( 'install', true ); ?>
+	<?php
+	wp_admin_css( 'install', true );
+	wp_admin_css( 'ie', true );
+	?>
 </head>
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>

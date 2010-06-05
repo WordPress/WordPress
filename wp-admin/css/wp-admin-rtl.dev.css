@@ -179,12 +179,7 @@ td.available-theme {
 #sidemenu li a span.update-plugins {
 	font-family: Tahoma, Arial, sans-serif;
 	margin-left: 0;
-	margin-right: 2px;
-}
-#adminmenu li #awaiting-mod span,
-#adminmenu li span.update-plugins span,
-#sidemenu li a span.update-plugins span {
-	float: right;
+	margin-right: 7px;
 }
 .post-com-count-wrapper {
 	font-family: Tahoma, Arial, sans-serif;
@@ -252,6 +247,10 @@ td.available-theme {
 }
 /* 1500 - 1800
 =================================== */
+.autosave-info {
+	padding: 2px 2px 2px 15px;
+	text-align: left;
+}
 .meta-box-sortables .postbox .handlediv {
 	float: left;
 }
@@ -419,6 +418,10 @@ td.action-links, th.action-links {
 	float: left;
 	font-family: Tahoma, Arial, sans-serif;
 	margin: 0 0 0 6px;
+}
+#screen-meta a.show-settings {
+	padding: 0 6px 0 16px;
+	background-position: left bottom;
 }
 .metabox-prefs label {
 	padding-right: 0;
