@@ -74,6 +74,10 @@ case 'promote':
 			continue;
 		}
 
+		// If the user doesn't already belong to the blog, bail.
+		if ( !is_user_member_of_blog( $id ) )
+			wp_die(__('Cheatin&#8217; uh?'));
+
 		$user = new WP_User($id);
 		$user->set_role($_REQUEST['new_role']);
 	}
