@@ -137,6 +137,7 @@ h3#reply-title,
 .pingback p,
 .reply,
 .widget-title,
+.wp-caption-text,
 input[type=submit]
 {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
@@ -815,8 +816,6 @@ div.menu li {
 }
 #content .wp-caption {
 	background: #f1f1f1;
-	color: #888;
-	font-size: 12px;
 	line-height: 18px;
 	text-align: center;
 	margin-bottom: 20px;
@@ -827,6 +826,8 @@ div.menu li {
 }
 #content .wp-caption p.wp-caption-text {
 	margin: 5px;
+	color: #888;
+	font-size: 12px;
 }
 #content .wp-smiley {
 	margin:0;
