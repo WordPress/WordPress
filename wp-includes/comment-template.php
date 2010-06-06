@@ -160,7 +160,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
  * Display the html link to the url of the author of the current comment.
  *
  * @since 0.71
- * @see get_comment_author_link() Echos result
+ * @see get_comment_author_link() Echoes result
  *
  * @param int The ID of the comment for which to print the author's link. Optional.
  */
@@ -187,7 +187,7 @@ function get_comment_author_IP( $comment_ID = 0 ) {
  * Display the IP address of the author of the current comment.
  *
  * @since 0.71
- * @see get_comment_author_IP() Echos Result
+ * @see get_comment_author_IP() Echoes Result
  *
  * @param int $comment_ID The ID of the comment for which to print the author's IP address.  Optional.
  */
@@ -257,7 +257,7 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '' 
  * Displays the HTML link of the url of the author of the current comment.
  *
  * @since 0.71
- * @see get_comment_author_url_link() Echos result
+ * @see get_comment_author_url_link() Echoes result
  *
  * @param string $linktext The text to display instead of the comment author's email address
  * @param string $before The text or HTML to display before the email link.
@@ -453,7 +453,7 @@ function get_comment_ID() {
  * Displays the comment id of the current comment.
  *
  * @since 0.71
- * @see get_comment_ID() Echos Result
+ * @see get_comment_ID() Echoes Result
  */
 function comment_ID() {
 	echo get_comment_ID();

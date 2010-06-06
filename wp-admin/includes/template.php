@@ -2965,7 +2965,7 @@ function get_hidden_meta_boxes( $screen ) {
  * Show settings sections in your admin page callback function with do_settings_sections().
  * Add settings fields to your section with add_settings_field()
  *
- * The $callback argument should be the name of a function that echos out any
+ * The $callback argument should be the name of a function that echoes out any
  * content you want to show at the top of the settings section before the actual
  * fields. It can output nothing if you want.
  *

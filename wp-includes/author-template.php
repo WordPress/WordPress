@@ -176,7 +176,7 @@ function get_the_author_posts() {
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_posts
  * @since 0.71
- * @uses get_the_author_posts() Echos returned value from function.
+ * @uses get_the_author_posts() Echoes returned value from function.
  */
 function the_author_posts() {
 	echo get_the_author_posts();

@@ -439,7 +439,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Echos the stats of the caching.
+	 * Echoes the stats of the caching.
 	 *
 	 * Gives the cache hits, and cache misses. Also prints every cached group,
 	 * key and the data.

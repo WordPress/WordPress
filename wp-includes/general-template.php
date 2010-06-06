@@ -244,7 +244,7 @@ function wp_login_url($redirect = '', $force_reauth = false) {
 }
 
 /**
- * Provides a simple login form for use anywhere within WordPress. By default, it echos
+ * Provides a simple login form for use anywhere within WordPress. By default, it echoes
  * the HTML immediately. Pass array('echo'=>false) to return the string instead.
  *
  * @since 3.0.0
