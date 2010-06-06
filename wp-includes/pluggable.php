@@ -1111,7 +1111,7 @@ function wp_notify_moderator($comment_id) {
 	switch ($comment->comment_type)
 	{
 		case 'trackback':
-			$notify_message  = sprintf( __('A new trackback on the post"%s" is waiting for your approval'), $post->post_title ) . "\r\n";
+			$notify_message  = sprintf( __('A new trackback on the post "%s" is waiting for your approval'), $post->post_title ) . "\r\n";
 			$notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
 			$notify_message .= sprintf( __('Website : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 			$notify_message .= sprintf( __('URL    : %s'), $comment->comment_author_url ) . "\r\n";
