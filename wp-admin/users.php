@@ -77,7 +77,7 @@ case 'promote':
 		}
 
 		// If the user doesn't already belong to the blog, bail.
-		if ( !is_user_member_of_blog( $id ) )
+		if ( is_multisite() && !is_user_member_of_blog( $id ) )
 			wp_die(__('Cheatin&#8217; uh?'));
 
 		$user = new WP_User($id);
