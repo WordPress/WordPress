@@ -66,6 +66,8 @@ case 'promote':
 	$userids = $_REQUEST['users'];
 	$update = 'promote';
 	foreach ( $userids as $id ) {
+		$id = (int) $id;
+
 		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have promote_users caps
@@ -106,6 +108,8 @@ case 'dodelete':
 	$delete_count = 0;
 
 	foreach ( (array) $userids as $id) {
+		$id = (int) $id;
+
 		if ( ! current_user_can( 'delete_user', $id ) )
 			wp_die(__( 'You can&#8217;t delete that user.' ) );
 
