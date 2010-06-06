@@ -562,6 +562,7 @@ div.menu li {
 #content .entry-title {
 	color: #000;
 	font-size: 21px;
+	line-height: 1.3em;
 	font-weight: bold;
 	margin-bottom: 0;
 }
