@@ -823,10 +823,10 @@ div.menu li {
 	padding: 4px;
 }
 #content .wp-caption img {
-	margin: 5px;
+	margin: 5px 5px 0;
 }
 #content .wp-caption p.wp-caption-text {
-	margin: 0 0 4px;
+	margin: 5px;
 }
 #content .wp-smiley {
 	margin:0;
