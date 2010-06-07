@@ -606,6 +606,8 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		// Check the parent folders of the folders all exist within the creation array.
 		if ( untrailingslashit($to) == $dir ) // Skip over the working directory, We know this exists (or will exist)
 			continue;
+		if ( strpos($dir, $to) === false ) // If the directory is not within the working directory, Skip it
+			continue;
 
 		$parent_folder = dirname($dir);
 		while ( !empty($parent_folder) && untrailingslashit($to) != $parent_folder && !in_array($parent_folder, $needed_dirs) ) {
@@ -684,6 +686,8 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	foreach ( $needed_dirs as $dir ) {
 		// Check the parent folders of the folders all exist within the creation array.
 		if ( untrailingslashit($to) == $dir ) // Skip over the working directory, We know this exists (or will exist)
+			continue;
+		if ( strpos($dir, $to) === false ) // If the directory is not within the working directory, Skip it
 			continue;
 
 		$parent_folder = dirname($dir);
