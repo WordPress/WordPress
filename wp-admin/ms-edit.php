@@ -571,7 +571,7 @@ switch ( $_GET['action'] ) {
 		if ( ! current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
-		if ( is_array( $_POST['blog'] ) && ! empty( $_POST['blog'] ) ) {
+		if ( ! empty( $_POST['blog'] ) && is_array( $_POST['blog'] ) ) {
 			foreach ( $_POST['blog'] as $id => $users ) {
 				foreach ( $users as $blogid => $user_id ) {
 					if ( ! empty( $_POST['delete'] ) && 'reassign' == $_POST['delete'][$blogid][$id] )
