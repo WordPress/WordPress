@@ -1070,7 +1070,7 @@ function current_user_can( $capability ) {
 /**
  * Whether current user has a capability or role for a given blog.
  *
- * @since 2.0.0
+ * @since 3.0.0
  *
  * @param int $blog_id Blog ID
  * @param string $capability Capability or role name.
