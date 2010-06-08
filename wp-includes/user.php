@@ -211,6 +211,20 @@ function user_pass_ok($user_login, $user_pass) {
 //
 
 /**
+ * Get the current user's ID
+ * 
+ * @since MU
+ * 
+ * @uses wp_get_current_user
+ *
+ * @return int The current user's ID
+ */
+function get_current_user_id() {
+	$user = wp_get_current_user();
+	return ( isset( $user->ID ) ? (int) $user->ID : 0 );
+}
+
+/**
  * Retrieve user option that can be either per Site or per Network.
  *
  * If the user ID is not given, then the current user will be used instead. If
