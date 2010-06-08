@@ -785,7 +785,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
  * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
  * - permalink_epmask - The default rewrite endpoint bitmasks.
- * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $taxonomy as slug.
+ * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $post_type as slug.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type
  * - can_export - true allows this post type to be exported.
  * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
