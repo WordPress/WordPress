@@ -1034,7 +1034,7 @@ input[type=submit] {
 	color: #333;
 }
 #respond {
-	margin-top: 24px;
+	margin: 24px 0;
 	border-top: 1px solid #e7e7e7;
 	overflow: hidden;
 	position: relative;
@@ -1089,21 +1089,11 @@ h3#reply-title {
 	font-size: 11px;
 }
 #respond .form-submit {
-	margin: 0 0 24px;
+	margin: 12px 0;
 }
 #respond .form-submit input {
 	width: auto;
 	font-size: 14px;
-}
-#respond dl {
-	margin: 0 0 10px;
-}
-#respond dt {
-	 display: inline;
-	font-weight: normal;
-}
-#respond dd {
-	display: inline;
 }
 
 
