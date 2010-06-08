@@ -628,7 +628,7 @@ function search_theme_directories() {
 							@closedir($stylish_dir);
 						}
 					}
-					@closedir($theme_subdir);
+					@closedir($theme_subdirs);
 					if ( !$found_subdir_themes )
 						$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
 				}
