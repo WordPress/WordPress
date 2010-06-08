@@ -296,17 +296,16 @@ if ( $page_links )
 </div>
 
 <div class="clear"></div>
-<?php $table_type = ('category' == $taxonomy ? 'categories' : 'edit-tags'); ?>
 <table class="widefat tag fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers($table_type); ?>
+<?php print_column_headers($current_screen); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers($table_type, false); ?>
+<?php print_column_headers($current_screen, false); ?>
 	</tr>
 	</tfoot>
 

@@ -81,9 +81,14 @@ if ( isset($_GET['page']) ) {
 }
 
 if ( isset($_GET['post_type']) )
-	$typenow = sanitize_user($_GET['post_type'], true);
+	$typenow = sanitize_key($_GET['post_type']);
 else
 	$typenow = '';
+
+if ( isset($_GET['taxonomy']) )
+	$taxnow = sanitize_key($_GET['taxonomy']);
+else
+	$taxnow = '';
 
 require(ABSPATH . 'wp-admin/menu.php');
 

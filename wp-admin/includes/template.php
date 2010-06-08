@@ -396,7 +396,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
  * @return unknown
  */
 function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
-		global $post_type;
+		global $post_type, $current_screen;
 		static $row_class = '';
 		$row_class = ($row_class == '' ? ' class="alternate"' : '');
 
@@ -422,8 +422,8 @@ function _tag_row( $tag, $level, $taxonomy = 'post_tag' ) {
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $row_class . '>';
 
 
-		$columns = get_column_headers('edit-tags');
-		$hidden = get_hidden_columns('edit-tags');
+		$columns = get_column_headers($current_screen);
+		$hidden = get_hidden_columns($current_screen);
 		$default_term = get_option('default_' . $taxonomy);
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$class = "class=\"$column_name column-$column_name\"";
@@ -3900,7 +3900,7 @@ function compression_test() {
  * @param string $id Screen id, optional.
  */
 function set_current_screen( $id =  '' ) {
-	global $current_screen, $hook_suffix, $typenow;
+	global $current_screen, $hook_suffix, $typenow, $taxnow;
 
 	if ( empty($id) ) {
 		$current_screen = $hook_suffix;
@@ -3932,6 +3932,11 @@ function set_current_screen( $id =  '' ) {
 			$typenow = 'post';
 		$current_screen->id = $typenow;
 		$current_screen->post_type = $typenow;
+	} elseif ( 'edit-tags' == $current_screen->id ) {
+		if ( empty($taxnow) )
+			$taxnow = 'post_tag';
+		$current_screen->id = 'edit-' . $taxnow;
+		$current_screen->taxonomy = $taxnow;
 	}
 
 	$current_screen = apply_filters('current_screen', $current_screen);
