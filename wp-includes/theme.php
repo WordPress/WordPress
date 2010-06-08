@@ -634,8 +634,7 @@ function search_theme_directories() {
 				}
 			}
 		}
-		if ( is_dir( $theme_dir ) )
-			@closedir( $theme_dir );
+		@closedir( $themes_dir );
 	}
 	return $theme_files;
 }
