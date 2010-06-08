@@ -70,7 +70,7 @@ if ( isset($_GET['inline']) ) {
 	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
 
-	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&amp;upload-page-form=" class="media-upload-form type-form validate" id="file-form">
+	<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('media-upload.php?inline=&amp;upload-page-form='); ?>" class="media-upload-form type-form validate" id="file-form">
 
 	<?php media_upload_form(); ?>
 
