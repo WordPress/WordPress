@@ -148,4 +148,21 @@ function validate_email( $email, $check_domain = true) {
 	return is_email( $email, $check_domain );
 }
 
+/**
+ * @since MU
+ * @deprecated 3.0.0
+ */
+function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
+	_deprecated_function( __FUNCTION__, '3.0' );
+	return 0;
+}
+
+/**
+ * @since MU
+ * @deprecated 3.0.0
+ */
+function get_most_active_blogs( $num = 10, $display = true ) {
+	_deprecated_function( __FUNCTION__, '3.0' );
+	return 0;
+}
 ?>

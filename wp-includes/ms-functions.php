@@ -158,49 +158,6 @@ function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
 		return false;
 }
 
-function get_most_active_blogs( $num = 10, $display = true ) {
-	$most_active = get_site_option( 'most_active' );
-	$update = false;
-	if ( is_array( $most_active ) ) {
-		if ( ( $most_active['time'] + 60 ) < time() ) { // cache for 60 seconds.
-			$update = true;
-		}
-	} else {
-		$update = true;
-	}
-
-	if ( $update == true ) {
-		unset( $most_active );
-		$blogs = get_blog_list( 0, 'all', false ); // $blog_id -> $details
-		if ( is_array( $blogs ) ) {
-			reset( $blogs );
-			foreach ( (array) $blogs as $key => $details ) {
-				$most_active[ $details['blog_id'] ] = $details['postcount'];
-				$blog_list[ $details['blog_id'] ] = $details; // array_slice() removes keys!!
-			}
-			arsort( $most_active );
-			reset( $most_active );
-			foreach ( (array) $most_active as $key => $details )
-				$t[ $key ] = $blog_list[ $key ];
-
-			unset( $most_active );
-			$most_active = $t;
-		}
-		update_site_option( 'most_active', $most_active );
-	}
-
-	if ( $display == true ) {
-		if ( is_array( $most_active ) ) {
-			reset( $most_active );
-			foreach ( (array) $most_active as $key => $details ) {
-				$url = esc_url('http://' . $details['domain'] . $details['path']);
-				echo '<li>' . $details['postcount'] . " <a href='$url'>$url</a></li>";
-			}
-		}
-	}
-	return array_slice( $most_active, 0, $num );
-}
-
 function get_user_count() {
 	global $wpdb;
 

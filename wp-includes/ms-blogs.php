@@ -539,39 +539,4 @@ function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	return $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' AND last_updated != '0000-00-00 00:00:00' ORDER BY last_updated DESC limit %d, %d", $wpdb->siteid, $start, $quantity ) , ARRAY_A );
 }
 
-function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
-	global $wpdb;
-
-	$blogs = get_site_option( "blog_list" );
-	$update = false;
-	if ( is_array( $blogs ) ) {
-		if ( ( $blogs['time'] + 60 ) < time() ) { // cache for 60 seconds.
-			$update = true;
-		}
-	} else {
-		$update = true;
-	}
-
-	if ( $update == true ) {
-		unset( $blogs );
-		$blogs = $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", $wpdb->siteid), ARRAY_A );
-
-		foreach ( (array) $blogs as $details ) {
-			$blog_list[ $details['blog_id'] ] = $details;
-			$blog_list[ $details['blog_id'] ]['postcount'] = $wpdb->get_var( "SELECT COUNT(ID) FROM " . $wpdb->base_prefix . $details['blog_id'] . "_posts WHERE post_status='publish' AND post_type='post'" );
-		}
-		unset( $blogs );
-		$blogs = $blog_list;
-		update_site_option( "blog_list", $blogs );
-	}
-
-	if ( false == is_array( $blogs ) )
-		return array();
-
-	if ( $num == 'all' )
-		return array_slice( $blogs, $start, count( $blogs ) );
-	else
-		return array_slice( $blogs, $start, $num );
-}
-
 ?>
