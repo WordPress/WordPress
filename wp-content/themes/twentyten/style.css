@@ -462,7 +462,7 @@ div.menu li {
 #content,
 #content input,
 #content textarea {
-	color: #444;
+	color: #333;
 	font-size: 16px;
 	line-height: 24px;
 }
@@ -490,8 +490,6 @@ div.menu li {
 #content code {
 	font-size: 13px;
 }
-#content strong,
-#content b,
 #content dt,
 #content th {
 	color: #000;
@@ -547,7 +545,7 @@ div.menu li {
 	margin: 0 0 36px 0;
 }
 .page-title span {
-	color: #444;
+	color: #333;
 	font-size: 16px;
 	font-style: italic;
 	font-weight: normal;
@@ -649,7 +647,7 @@ div.menu li {
 .page-link a:link,
 .page-link a:visited {
 	background: #f1f1f1;
-	color:#444;
+	color:#333;
 	font-weight:normal;
 	padding:0.5em 0.75em;
 	text-decoration:none;
