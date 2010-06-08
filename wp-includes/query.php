@@ -2061,8 +2061,6 @@ class WP_Query {
 					} elseif ( in_array('attachment', (array)$post_type) ) {
 						$post_status_join = true;
 					}
-					if ( empty($q['post_status']) )
-						$q['post_status'] = 'publish';
 				} else {
 					$whichcat = " AND 0 ";
 				}
