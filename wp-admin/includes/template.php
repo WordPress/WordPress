@@ -3909,8 +3909,15 @@ function set_current_screen( $id =  '' ) {
 		$current_screen = str_replace('-add', '', $current_screen);
 		$current_screen = array('id' => $current_screen, 'base' => $current_screen);
 	} else {
-		if ( false !== strpos($id, '-') )
+		$id = sanitize_key($id);
+		if ( false !== strpos($id, '-') ) {
 			list( $id, $typenow ) = explode('-', $id, 2);
+			if ( is_taxonomy($typenow) ) {
+				$id = 'edit-tags';
+				$taxnow = $typenow;
+				$typenow = '';
+			}
+		}
 		$current_screen = array('id' => $id, 'base' => $id);
 	}
 

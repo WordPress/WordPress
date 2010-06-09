@@ -575,6 +575,9 @@ case 'add-tag' : // From Manage->Tags
 		$x->send();
 	}
 
+	if ( isset($_POST['screen']) )
+		set_current_screen($_POST['screen']);
+
 	$level = 0;
 	$tag_full_name = false;
 	$tag_full_name = $tag->name;
