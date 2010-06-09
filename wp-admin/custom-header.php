@@ -461,7 +461,7 @@ class Custom_Image_Header {
 <th scope="row"><?php _e( 'Upload Image' ); ?></th>
 <td>
 	<p><?php _e( 'You can upload a custom header image to be shown at the top of your site instead of the default one. On the next screen you will be able to crop the image.' ); ?><br />
-	<?php printf( __( 'Images of exactly <strong>%1$d x %2$d pixels</strong> will be used as-is.' ), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT ); ?></p>
+	<?php printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT ); ?></p>
 	<form enctype="multipart/form-data" id="upload-form" method="post" action="<?php echo esc_attr( add_query_arg( 'step', 2 ) ) ?>">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
