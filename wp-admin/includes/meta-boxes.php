@@ -242,10 +242,16 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
  * @param object $post
  */
 function post_tags_meta_box($post, $box) {
-	$tax_name = esc_attr(substr($box['id'], 8));
-	$taxonomy = get_taxonomy($tax_name);
+	$defaults = array('taxonomy' => 'post_tag');
+	if ( !isset($box['args']) || !is_array($box['args']) )
+		$args = array();
+	else
+		$args = $box['args'];
+	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
+	$tax_name = esc_attr($taxonomy);
+	$taxonomy = get_taxonomy($taxonomy);
+
 	$helps      = isset( $taxonomy->helps      ) ? esc_attr( $taxonomy->helps ) : esc_attr__('Separate tags with commas.');
-	$help_hint  = isset( $taxonomy->help_hint  ) ? $taxonomy->help_hint         : __('Add new tag');
 	$help_nojs  = isset( $taxonomy->help_nojs  ) ? $taxonomy->help_nojs         : __('Add or remove tags');
 	$help_cloud = isset( $taxonomy->help_cloud ) ? $taxonomy->help_cloud        : __('Choose from the most used tags');
 
@@ -259,7 +265,7 @@ function post_tags_meta_box($post, $box) {
  	<?php if ( current_user_can($taxonomy->cap->assign_terms) ) : ?>
 	<div class="ajaxtag hide-if-no-js">
 		<label class="screen-reader-text" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
-		<div class="taghint"><?php echo $help_hint; ?></div>
+		<div class="taghint"><?php echo $taxonomy->labels->add_new_item; ?></div>
 		<p><input type="text" id="new-tag-<?php echo $tax_name; ?>" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
 		<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" tabindex="3" /></p>
 	</div>
