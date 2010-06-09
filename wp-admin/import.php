@@ -83,11 +83,10 @@ foreach ( $popular_importers as $pop_importer => $pop_data ) {
 	$importers[$pop_importer] = $popular_importers[$pop_importer];
 }
 
-uasort($importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
-
 if (empty ($importers)) {
 	echo '<p>'.__('No importers are available.').'</p>'; // TODO: make more helpful
 } else {
+	uasort($importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
 ?>
 <table class="widefat" cellspacing="0">
 
@@ -140,4 +139,3 @@ if ( current_user_can('install_plugins') )
 
 include ('admin-footer.php');
 ?>
-
