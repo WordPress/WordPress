@@ -70,7 +70,7 @@ $allowed_themes = get_site_allowed_themes();
 					$disabled = true;
 				}
 				?>
-				<tr valign="top" class="<?php echo $class, $class1; ?>">
+				<tr valign="top" class="<?php echo $class . ' ' . $class1; ?>">
 					<td>
 						<label><input name="theme[<?php echo $theme_key ?>]" type="radio" id="enabled_<?php echo $theme_key ?>" value="enabled" <?php checked( $enabled ) ?> /> <?php _e( 'Yes' ) ?></label>
 						&nbsp;&nbsp;&nbsp;

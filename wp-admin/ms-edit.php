@@ -442,6 +442,7 @@ switch ( $_GET['action'] ) {
     	if ( is_array( $_POST['theme'] ) ) {
 			$themes = get_themes();
 			reset( $themes );
+			$allowed_themes = array();
 			foreach ( (array) $themes as $key => $theme ) {
 				if ( $_POST['theme'][ esc_html( $theme['Stylesheet'] ) ] == 'enabled' )
 					$allowed_themes[ esc_html( $theme['Stylesheet'] ) ] = true;
