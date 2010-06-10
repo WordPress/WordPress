@@ -1535,57 +1535,34 @@ function add_custom_background($header_callback = '', $admin_header_callback = '
 function _custom_background_cb() {
 	$background = get_background_image();
 	$color = get_background_color();
-	if ( !$background && !$color )
+	if ( ! $background && ! $color )
 		return;
 
-	switch ( get_theme_mod('background_repeat', 'repeat') ) {
-		case 'no-repeat':
-			$repeat = 'background-repeat: no-repeat;';
-			break;
-		case 'repeat-x':
-			$repeat = 'background-repeat: repeat-x;';
-			break;
-		case 'repeat-y':
-			$repeat = 'background-repeat: repeat-y;';
-			break;
-		default:
-			$repeat = 'background-repeat: repeat;';
+	$style = $color ? "background-color: #$color;" : '';
+
+	if ( $background ) {
+		$image = " background-image: url('$background');";
+
+		$repeat = get_theme_mod( 'background_repeat', 'repeat' );
+		if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
+			$repeat = 'repeat';
+		$repeat = " background-repeat: $repeat;";
+	
+		$position = get_theme_mod( 'background_position_x', 'left' );
+		if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
+			$position = 'left';
+		$position = " background-position: top $position;";
+	
+		$attachment = get_theme_mod( 'background_attachment', 'scroll' );
+		if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
+			$attachment = 'scroll';
+		$attachment = " background-attachment: $attachment;";
+
+		$style .= $image . $repeat . $position . $attachment;
 	}
-
-	switch ( get_theme_mod('background_position_x', 'left') ) {
-		case 'center':
-			$position = 'background-position: top center;';
-			break;
-		case 'right':
-			$position = 'background-position: top right;';
-			break;
-		default:
-			$position = 'background-position: top left;';
-	}
-
-	if ( 'scroll' == get_theme_mod('background_attachment', 'fixed') )
-		$attachment = 'background-attachment: scroll;';
-	else
-		$attachment = 'background-attachment: fixed;';
-
-	if ( !empty($background ) )
-		$image = "background-image: url('$background');";
-	else
-		$image = '';
-
-	if ( !empty($color) )
-		$color = "background-color: #$color;";
-	else
-		$color = '';
 ?>
 <style type="text/css">
-body {
-	<?php echo $image; ?>
-	<?php echo $color; ?>
-	<?php echo $repeat; ?>
-	<?php echo $position; ?>
-	<?php echo $attachment; ?>
-}
+body { <?php echo trim( $style ); ?> }
 </style>
 <?php
 }

@@ -281,11 +281,11 @@ if ( get_background_image() ) {
 <th scope="row"><?php _e( 'Attachment' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Attachment' ); ?></span></legend>
 <label>
-<input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'fixed')); ?> />
+<input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'scroll')); ?> />
 <?php _e('Scroll') ?>
 </label>
 <label>
-<input name="background-attachment" type="radio" value="fixed" <?php checked('fixed', get_theme_mod('background_attachment', 'fixed')); ?> />
+<input name="background-attachment" type="radio" value="fixed" <?php checked('fixed', get_theme_mod('background_attachment', 'scroll')); ?> />
 <?php _e('Fixed') ?>
 </label>
 </fieldset></td>
