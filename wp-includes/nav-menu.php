@@ -73,7 +73,7 @@ function is_nav_menu( $menu ) {
 function register_nav_menus( $locations = array() ) {
 	global $_wp_registered_nav_menus;
 
-	add_theme_support( 'nav-menus' );
+	add_theme_support( 'menus' );
 
 	$_wp_registered_nav_menus = array_merge( (array) $_wp_registered_nav_menus, $locations );
 }

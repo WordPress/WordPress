@@ -15,7 +15,7 @@ require_once( 'admin.php' );
 // Load all the nav menu interface functions
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
 
-if ( ! current_theme_supports( 'nav-menus' ) && ! current_theme_supports( 'widgets' ) )
+if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' ) )
 	wp_die( __( 'Your theme does not support navigation menus or widgets.' ) );
 
 // Permissions Check
@@ -433,7 +433,7 @@ foreach( (array) $nav_menus as $key => $_nav_menu ) {
 wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();
 
-if ( ! get_registered_nav_menus() && ! wp_get_nav_menus() )
+if ( ! current_theme_supports( 'menus' ) && ! wp_get_nav_menus() )
 	echo '<div id="message" class="updated"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 
 $help =  '<p>' . __('This feature is new in version 3.0; to use a custom menu in place of your theme&#8217;s default menus, support for this feature must be registered in the theme&#8217;s functions.php file. If your theme does not support the custom menus feature yet (the new default theme, Twenty Ten, does), you can learn about adding support yourself by following the below link.') . '</p>';
