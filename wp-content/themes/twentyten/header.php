@@ -11,31 +11,19 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<title>
-	<?php // Returns the title based on what is being viewed
-		if ( is_single() ) { // single posts
-			single_post_title(); echo ' | '; bloginfo( 'name' );
-		// The home page or, if using a static front page, the blog posts page.
-		} elseif ( is_home() || is_front_page() ) {
-			bloginfo( 'name' );
-			if( get_bloginfo( 'description' ) )
-				echo ' | ' ; bloginfo( 'description' );
-			twentyten_the_page_number();
-		} elseif ( is_page() ) { // WordPress Pages
-			single_post_title( '' ); echo ' | '; bloginfo( 'name' );
-		} elseif ( is_search() ) { // Search results
-			printf( __( 'Search results for %s', 'twentyten' ), '"'.get_search_query().'"' ); twentyten_the_page_number(); echo ' | '; bloginfo( 'name' );
-		} elseif ( is_404() ) {  // 404 (Not Found)
-			_e( 'Not Found', 'twentyten' ); echo ' | '; bloginfo( 'name' );
-		} else { // Otherwise:
-			wp_title( '' ); echo ' | '; bloginfo( 'name' ); twentyten_the_page_number();
-		}
-	?>
-	</title>
-	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+<meta charset="<?php bloginfo( 'charset' ); ?>" />
+<title><?php
+	/*
+	 * Print the <title> tag based on what is being viewed.
+	 * We filter the output of wp_title() a bit -- see
+	 * twentyten_filter_wp_title() in functions.php.
+	 */
+	wp_title( '|', true, 'right' );
+
+	?></title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <?php
 	/* We add some JavaScript to pages with the comment form
 	 * to support sites with threaded comments (when in use).
@@ -48,7 +36,6 @@
 	 * generally use this hook to add elements to <head> such
 	 * as styles, scripts, and meta tags.
 	 */
-
 	wp_head();
 ?>
 </head>
