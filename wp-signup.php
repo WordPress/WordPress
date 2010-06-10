@@ -95,14 +95,14 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php }
-	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_attr($blog_title).'" /></p>';
+	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_attr($blog_title).'" />';
 	?>
 
 	<div id="privacy">
         <p class="privacy-intro">
             <label for="blog_public_on"><?php _e('Privacy:') ?></label>
             <?php _e('Allow my site to appear in search engines like Google, Technorati, and in public listings around this network.'); ?>
-            <div style="clear:both;"></div>
+            <br style="clear:both" />
             <label class="checkbox" for="blog_public_on">
                 <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if ( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
                 <strong><?php _e( 'Yes' ); ?></strong>
@@ -176,15 +176,14 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	<?php
 	$blogs = get_blogs_of_user($current_user->ID);
 	if ( !empty($blogs) ) { ?>
-		<p>
-			<?php _e( 'Sites you are already a member of:' ) ?>
+		
+			<p><?php _e( 'Sites you are already a member of:' ) ?></p>
 			<ul>
 				<?php foreach ( $blogs as $blog ) {
 					$home_url = get_home_url( $blog->userblog_id );
 					echo '<li><a href="' . esc_url( $home_url ) . '">' . $home_url . '</a></li>';
 				} ?>
 			</ul>
-		</p>
 	<?php } ?>
 
 	<p><?php _e( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!' ) ?></p>
