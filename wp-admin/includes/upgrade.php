@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 15093 )
+	if ( $wp_current_db_version < 15187 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1129,10 +1129,11 @@ function upgrade_300() {
 	if ( $wp_current_db_version >= 13802 && $wp_current_db_version < 13974 )
 		$wpdb->update( $wpdb->postmeta, array( 'meta_value' => '' ), array( 'meta_key' => '_menu_item_target', 'meta_value' => '_self' ) );
 
-	// 3.0-beta metabox changes. can be removed before release (except metaboxorder). // r13551
-	if ( ( !is_multisite() || is_main_site() ) && $wp_current_db_version >= 13309 && $wp_current_db_version < 14726 ) {
+	// 3.0 screen options key name changes.
+	if ( !is_multisite() || is_main_site() ) {
 		$prefix = like_escape($wpdb->base_prefix);
-		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '{$prefix}%meta-box-hidden%' OR meta_key LIKE '{$prefix}%closedpostboxes%' OR meta_key LIKE '{$prefix}%manage-%-columns-hidden%' OR meta_key LIKE '{$prefix}%meta-box-order%' OR meta_key LIKE '{$prefix}%metaboxorder%' OR meta_key LIKE '{$prefix}%screen_layout%'" );
+		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '{$prefix}%meta-box-hidden%' OR meta_key LIKE '{$prefix}%closedpostboxes%' OR meta_key LIKE '{$prefix}%manage-%-columns-hidden%' OR meta_key LIKE '{$prefix}%meta-box-order%' OR meta_key LIKE '{$prefix}%metaboxorder%' OR meta_key LIKE '{$prefix}%screen_layout%'
+					 OR meta_key = 'manageedittagscolumnshidden' OR meta_key='managecategoriescolumnshidden' OR meta_key = 'manageedit-tagscolumnshidden' OR meta_key = 'manageeditcolumnshidden'" );
 	}
 
 }
