@@ -817,7 +817,7 @@ function uninstall_plugin($plugin) {
  * @param int $position The position in the menu order this one should appear
  */
 function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = NULL ) {
-	global $menu, $admin_page_hooks, $_registered_pages;
+	global $menu, $admin_page_hooks, $_registered_pages, $_parent_pages;
 
 	$menu_slug = plugin_basename( $menu_slug );
 
@@ -842,6 +842,9 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	$_registered_pages[$hookname] = true;
 
+	// No parent as top level
+	$_parent_pages[$menu_slug] = false;
+	
 	return $hookname;
 }
 
@@ -915,6 +918,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 	global $_wp_real_parent_file;
 	global $_wp_submenu_nopriv;
 	global $_registered_pages;
+	global $_parent_pages;
 
 	$menu_slug = plugin_basename( $menu_slug );
 	$parent_slug = plugin_basename( $parent_slug);
@@ -949,6 +953,9 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 	if ( 'tools.php' == $parent_slug )
 		$_registered_pages[get_plugin_page_hookname( $menu_slug, 'edit.php')] = true;
 
+	// No parent as top level
+	$_parent_pages[$menu_slug] = $parent_slug;
+		
 	return $hookname;
 }
 
@@ -1162,6 +1169,38 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  */
 function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $capability, $menu_slug, $function );
+}
+
+/**
+ * Get the url to access a particular menu page based on the slug it was registered with.
+ * 
+ * If the slug hasn't been registered properly no url will be returned
+ * 
+ * @since 3.0
+ * 
+ * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+ * @param bool $echo Whether or not to echo the url - default is true
+ * @return string the url
+ */
+function menu_page_url($menu_slug, $echo = true) {
+	global $_parent_pages;
+		
+	if ( isset( $_parent_pages[$menu_slug] ) ) {
+		if ( $_parent_pages[$menu_slug] ) {
+			$url = admin_url($_parent_pages[$menu_slug] . '?page=' . $menu_slug);
+		} else {
+			$url = admin_url('admin.php?page=' . $menu_slug);
+		}
+	} else {
+		$url = '';
+	}
+	
+	$url = esc_url($url);
+	
+	if ( $echo )
+		echo $url;
+	
+	return $url;
 }
 
 //
