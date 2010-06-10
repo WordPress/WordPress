@@ -3748,23 +3748,23 @@ function screen_options($screen) {
 			$per_page_label = $post_type_object->labels->name;
 			break;
 		case 'ms-sites':
-			$per_page_label = _x( 'Sites', 'sites per page (screen options)' );
+			$per_page_label = __('Sites');
 			break;
 		case 'ms-users':
-			$per_page_label = _x( 'Users', 'users per page (screen options)' );
+			$per_page_label = __('Users');
 			break;
 		case 'edit-comments':
-			$per_page_label = _x( 'Comments', 'comments per page (screen options)' );
+			$per_page_label = __('Comments');
 			break;
 		case 'upload':
-			$per_page_label = _x( 'Media items', 'items per page (screen options)' );
+			$per_page_label = __('Media items');
 			break;
 		case 'edit-tags':
 			global $tax;
 			$per_page_label = $tax->labels->name;
 			break;
 		case 'plugins':
-			$per_page_label = _x( 'Plugins', 'plugins per page (screen options)' );
+			$per_page_label = __('Plugins');
 			break;
 		default:
 			return '';
