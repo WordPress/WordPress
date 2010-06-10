@@ -248,7 +248,7 @@ switch ( $action ) {
 			} else {
 				// Remove this menu from any locations.
 				$locations = get_theme_mod( 'nav_menu_locations' );
-				foreach ( $locations as $location => $menu_id ) {
+				foreach ( (array) $locations as $location => $menu_id ) {
 					if ( $menu_id == $nav_menu_selected_id )
 						$locations[ $location ] = 0;
 				}
@@ -430,19 +430,11 @@ foreach( (array) $nav_menus as $key => $_nav_menu ) {
 	$nav_menus[$key]->truncated_name = $_nav_menu->truncated_name;
 }
 
-// The theme supports menus
-if ( current_theme_supports('nav-menus') ) {
-	// Set up nav menu
-	wp_nav_menu_setup();
-
-// The theme does not support menus but supports widgets
-} elseif ( current_theme_supports('widgets') ) {
-	// Set up nav menu
-	wp_nav_menu_setup();
-	$messages[] = '<div id="message" class="error"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
-}
-
+wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();
+
+if ( ! get_registered_nav_menus() && ! wp_get_nav_menus() )
+	echo '<div id="message" class="updated"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 
 $help =  '<p>' . __('This feature is new in version 3.0; to use a custom menu in place of your theme&#8217;s default menus, support for this feature must be registered in the theme&#8217;s functions.php file. If your theme does not support the custom menus feature yet (the new default theme, Twenty Ten, does), you can learn about adding support yourself by following the below link.') . '</p>';
 $help .= '<p>' . __('You can create custom menus for your site. These menus may contain links to pages, categories, custom links or other content types (use the Screen Options tab to decide which ones to show on the screen). You can specify a different navigation label for a menu item as well as other attributes. You can create multiple menus. If your theme includes more than one menu, you can choose which custom menu to associate with each. You can also use custom menus in conjunction with the Custom Menus widget.') . '</p>';

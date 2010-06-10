@@ -365,7 +365,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
  **/
 function wp_nav_menu_setup() {
 	// Register meta boxes
-	if ( get_registered_nav_menus() && wp_get_nav_menus() )
+	if ( ( current_theme_supports( 'widgets' ) || get_registered_nav_menus() ) && wp_get_nav_menus() )
 		add_meta_box( 'nav-menu-theme-locations', __( 'Theme Locations' ), 'wp_nav_menu_locations_meta_box' , 'nav-menus', 'side', 'default' );
 	add_meta_box( 'add-custom-links', __('Custom Links'), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
 	wp_nav_menu_post_type_meta_boxes();
@@ -461,6 +461,13 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 function wp_nav_menu_locations_meta_box() {
 	global $nav_menu_selected_id;
 	$locations = get_registered_nav_menus();
+
+	if ( empty( $locations ) ) {
+		// We must only support widgets. Leave a message and bail.
+		echo '<p class="howto">' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p>';
+		return;
+	}
+
 	$menus = wp_get_nav_menus();
 	$menu_locations = get_nav_menu_locations();
 	$num_locations = count( array_keys($locations) );
