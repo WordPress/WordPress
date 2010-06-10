@@ -66,6 +66,9 @@
 			</div><!-- .entry-meta -->
 
 			<div class="entry-content">
+<?php if ( post_password_required() ) : ?>
+				<?php the_content(); ?>
+<?php else : ?>
 				<div class="gallery-thumb">
 <?php
 	$images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
@@ -81,6 +84,7 @@
 					); ?></em></p>
 
 				<?php the_excerpt( '' ); ?>
+<?php endif; ?>
 			</div><!-- .entry-content -->
 
 			<div class="entry-utility">
