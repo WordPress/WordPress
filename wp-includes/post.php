@@ -369,10 +369,13 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 		wp_cache_add($post->ID, $_post, 'posts');
 	} else {
 		if ( is_object($post) )
-			$post = $post->ID;
-		$post = (int) $post;
-		if ( ! $_post = wp_cache_get($post, 'posts') ) {
-			$_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post));
+			$post_id = $post->ID;
+		else
+			$post_id = $post;
+
+		$post_id = (int) $post_id;
+		if ( ! $_post = wp_cache_get($post_id, 'posts') ) {
+			$_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post_id));
 			if ( ! $_post )
 				return $null;
 			_get_post_ancestors($_post);
@@ -2865,17 +2868,7 @@ function get_all_page_ids() {
  * @return mixed Page data.
  */
 function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
-	if ( empty($page) ) {
-		if ( isset( $GLOBALS['post'] ) && isset( $GLOBALS['post']->ID ) ) {
-			return get_post($GLOBALS['post'], $output, $filter);
-		} else {
-			$page = null;
-			return $page;
-		}
-	}
-
-	$the_page = get_post($page, $output, $filter);
-	return $the_page;
+	return get_post($page, $output, $filter);
 }
 
 /**
