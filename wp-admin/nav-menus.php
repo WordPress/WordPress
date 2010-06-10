@@ -282,7 +282,7 @@ switch ( $action ) {
 
 		// Add Menu
 		if ( 0 == $nav_menu_selected_id ) {
-			$new_menu_title = esc_html( $_POST['menu-name'] );
+			$new_menu_title = trim( esc_html( $_POST['menu-name'] ) );
 
 			if ( $new_menu_title ) {
 				$_nav_menu_selected_id = wp_update_nav_menu_object( 0, array('menu-name' => $new_menu_title) );
@@ -307,8 +307,14 @@ switch ( $action ) {
 
 			$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
 
+			$menu_title = trim( esc_html( $_POST['menu-name'] ) );
+			if ( ! $menu_title ) {
+				$messages[] = '<div id="message" class="error"><p>' . __('Please enter a valid menu name.') . '</p></div>';
+				$menu_title = $_menu_object->name;
+			}
+
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$_nav_menu_selected_id = wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $_POST['menu-name'] ) );
+				$_nav_menu_selected_id = wp_update_nav_menu_object( $nav_menu_selected_id, array( 'menu-name' => $menu_title ) );
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
 					$_menu_object = $_nav_menu_selected_id;
 					$messages[] = '<div id="message" class="error"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
