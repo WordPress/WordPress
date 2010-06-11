@@ -76,9 +76,9 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	<?php }
 
 	if ( !is_subdomain_install() )
-		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="50" /><br />';
+		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="60" /><br />';
 	else
-		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="50" /><span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_site->domain ) ) . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="60" /><span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_site->domain ) ) . '</span><br />';
 
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' );
@@ -132,7 +132,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	if ( $errmsg = $errors->get_error_message('user_name') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
-	echo '<input name="user_name" type="text" id="user_name" value="'. esc_attr($user_name) .'" maxlength="50" /><br />';
+	echo '<input name="user_name" type="text" id="user_name" value="'. esc_attr($user_name) .'" maxlength="60" /><br />';
 	_e( '(Must be at least 4 characters, letters and numbers only.)' );
 	?>
 
