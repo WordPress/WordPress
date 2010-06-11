@@ -98,7 +98,11 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	check_admin_referer('update-permalink');
 
 	if ( isset( $_POST['permalink_structure'] ) ) {
-		$permalink_structure = $_POST['permalink_structure'];
+		if ( isset( $_POST['selection'] ) && 'custom' != $_POST['selection'] )
+			$permalink_structure = $_POST['selection'];
+		else
+			$permalink_structure = $_POST['permalink_structure'];
+
 		if ( ! empty( $permalink_structure ) ) {
 			$permalink_structure = preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
 			if ( $prefix && $blog_prefix )
