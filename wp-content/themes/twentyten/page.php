@@ -11,9 +11,8 @@
  * @subpackage Twenty_Ten
  * @since Twenty Ten 1.0
  */
-?>
 
-<?php get_header(); ?>
+get_header(); ?>
 
 		<div id="container">
 			<div id="content" role="main">
