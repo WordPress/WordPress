@@ -2543,7 +2543,7 @@ function is_post_type( $post_type ) {
  */
 function is_taxonomy( $taxonomy ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'taxonomy_exists()' );
-	return taxonomy_exists( $post_type );
+	return taxonomy_exists( $taxonomy );
 }
 
 /**
