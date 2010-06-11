@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-06-11 04:21+0000\n"
+"POT-Creation-Date: 2010-06-11 16:22+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -276,7 +276,9 @@ msgstr ""
 
 #: functions.php:496
 #, php-format
-msgid "<span %1$s>Posted on</span> %2$s by %3$s"
+msgid ""
+"<span class=\"%1$s\">Posted on</span> %2$s <span class=\"meta-sep\">by</"
+"span> %3$s"
 msgstr ""
 
 #: functions.php:522
@@ -360,12 +362,12 @@ msgstr ""
 
 #: loop.php:145
 #, php-format
-msgid "Posted in %s"
+msgid "<span class=\"%1$s\">Posted in</span> %2$s"
 msgstr ""
 
 #: loop.php:154
 #, php-format
-msgid "Tagged %s"
+msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
 #: search.php:17
