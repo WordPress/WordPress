@@ -2515,22 +2515,6 @@ function trackback_rdf($deprecated = '') {
 }
 
 /**
- * Checks if a post type is registered.
- *
- * @since 3.0.0
- * @deprecated 3.0.0
- * @deprecated Use post_type_exists()
- * @see post_type_exists()
- *
- * @param string Post type name
- * @return bool Whether post type is registered.
- */
-function is_post_type( $post_type ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'post_type_exists()' );
-	return post_type_exists( $post_type );
-}
-
-/**
  * Checks that the taxonomy name exists.
  *
  * @since 2.3.0
