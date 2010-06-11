@@ -2955,6 +2955,7 @@ abbr.required {
 	padding: 0 0 0 5px;
 }
 
+.media-item .error-div a.dismiss,
 .describe-toggle-on,
 .describe-toggle-off {
 	display: block;
@@ -2991,6 +2992,10 @@ abbr.required {
 	overflow: hidden;
 }
 
+.media-item .error-div {
+	padding-left: 10px;
+}
+
 .media-item .pinkynail {
 	float: left;
 	margin: 2px;
@@ -3018,20 +3023,6 @@ abbr.required {
 	line-height: 32px;
 	text-align: right;
 	margin-right: 5px;
-}
-
-button.dismiss {
-	position: absolute;
-	top: 7px;
-	right: 5px;
-	z-index: 4;
-	width: 8em;
-}
-
-.file-error {
-	float: left;
-	font-weight: bold;
-	padding: 10px;
 }
 
 .progress {
