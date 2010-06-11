@@ -1401,9 +1401,7 @@ function dbDelta($queries, $execute = true) {
 		foreach ($tables as $table) {
 			// If a table query exists for the database table...
 			if ( array_key_exists(strtolower($table), $cqueries) ) {
-				// Clear the field and index arrays
-				unset($cfields);
-				unset($indices);
+				$cfields = $indices = array();
 				// Get all of the field names in the query from between the parens
 				preg_match("|\((.*)\)|ms", $cqueries[strtolower($table)], $match2);
 				$qryline = trim($match2[1]);
