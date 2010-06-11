@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-06-11 16:22+0000\n"
+"POT-Creation-Date: 2010-06-11 20:22+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,95 +17,95 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: 404.php:17 loop.php:33
+#: 404.php:16 loop.php:33
 msgid "Not Found"
 msgstr ""
 
-#: 404.php:19
+#: 404.php:18
 msgid ""
 "Apologies, but the page you requested could not be found. Perhaps searching "
 "will help."
 msgstr ""
 
-#: archive.php:34
+#: archive.php:33
 #, php-format
 msgid "Daily Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:36
+#: archive.php:35
 #, php-format
 msgid "Monthly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:38
+#: archive.php:37
 #, php-format
 msgid "Yearly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:40
+#: archive.php:39
 msgid "Blog Archives"
 msgstr ""
 
-#: attachment.php:18
+#: attachment.php:17
 #, php-format
 msgid "Return to %s"
 msgstr ""
 
 #. translators: %s - title of parent post
-#: attachment.php:20
+#: attachment.php:19
 #, php-format
 msgid "<span class=\"meta-nav\">&larr;</span> %s"
 msgstr ""
 
-#: attachment.php:28
+#: attachment.php:27
 #, php-format
 msgid "<span class=\"%1$s\">By</span> %2$s"
 msgstr ""
 
-#: attachment.php:32 functions.php:505
+#: attachment.php:31 functions.php:505
 #, php-format
 msgid "View all posts by %s"
 msgstr ""
 
-#: attachment.php:39
+#: attachment.php:38
 #, php-format
 msgid "<span class=\"%1$s\">Published</span> %2$s"
 msgstr ""
 
-#: attachment.php:49
+#: attachment.php:48
 #, php-format
 msgid "Full size is %s pixels"
 msgstr ""
 
-#: attachment.php:52
+#: attachment.php:51
 msgid "Link to full-size image"
 msgstr ""
 
-#: attachment.php:59 attachment.php:106 loop.php:94 loop.php:117 loop.php:159
-#: onecolumn-page.php:28 page.php:33 single.php:54
+#: attachment.php:58 attachment.php:105 loop.php:94 loop.php:117 loop.php:159
+#: onecolumn-page.php:27 page.php:32 single.php:53
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:99 functions.php:295 loop.php:109 loop.php:133 loop.php:137
+#: attachment.php:98 functions.php:295 loop.php:109 loop.php:133 loop.php:137
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: attachment.php:100 loop.php:138 onecolumn-page.php:27 page.php:32
-#: single.php:32
+#: attachment.php:99 loop.php:138 onecolumn-page.php:26 page.php:31
+#: single.php:31
 msgid "Pages:"
 msgstr ""
 
-#: author.php:28
+#: author.php:27
 #, php-format
 msgid "Author Archives: %s"
 msgstr ""
 
-#: author.php:38 single.php:41
+#: author.php:37 single.php:40
 #, php-format
 msgid "About %s"
 msgstr ""
 
-#: category.php:17
+#: category.php:16
 #, php-format
 msgid "Category Archives: %s"
 msgstr ""
@@ -370,16 +370,16 @@ msgstr ""
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
-#: search.php:17
+#: search.php:16
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
 
-#: search.php:27
+#: search.php:26
 msgid "Nothing Found"
 msgstr ""
 
-#: search.php:29
+#: search.php:28
 msgid ""
 "Sorry, but nothing matched your search criteria. Please try again with some "
 "different keywords."
@@ -393,22 +393,22 @@ msgstr ""
 msgid "Meta"
 msgstr ""
 
-#: single.php:19 single.php:59
+#: single.php:18 single.php:58
 msgctxt "Previous post link"
 msgid "&larr;"
 msgstr ""
 
-#: single.php:20 single.php:60
+#: single.php:19 single.php:59
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr ""
 
-#: single.php:45
+#: single.php:44
 #, php-format
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: tag.php:17
+#: tag.php:16
 #, php-format
 msgid "Tag Archives: %s"
 msgstr ""
