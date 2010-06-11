@@ -85,7 +85,7 @@ class Custom_Background {
 		'<p>' . __( 'You can also choose a background color. If you know the hexadecimal code for the color you want, enter it in the Color field. If not, click on the Select a Color link, and a color picker will allow you to choose the exact shade you want.' ) . '</p>' .
 		'<p>' . __( 'Don&#8217;t forget to click on the Save Changes button when you are finished.' ) . '</p>' .
 		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-		'<p>' . __( '<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>' ) . '</p>' .
+		'<p>' . __( '<a href="http://codex.wordpress.org/Appearance_Background_SubPanel" target="_blank">Documentation on Custom Background</a>' ) . '</p>' .
 		'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>' );
 		wp_enqueue_script('custom-background');
 		wp_enqueue_style('farbtastic');
