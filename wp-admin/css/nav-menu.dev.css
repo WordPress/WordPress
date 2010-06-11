@@ -377,6 +377,19 @@ li.menu-item.ui-sortable-helper dl {
 .menu-item-depth-10 .menu-item-transport { margin-left: -300px; }
 .menu-item-depth-11 .menu-item-transport { margin-left: -330px; }
 
+body.menu-max-depth-0 { min-width: 950px !important; }
+body.menu-max-depth-1 { min-width: 980px !important; }
+body.menu-max-depth-2 { min-width: 1010px !important; }
+body.menu-max-depth-3 { min-width: 1040px !important; }
+body.menu-max-depth-4 { min-width: 1070px !important; }
+body.menu-max-depth-5 { min-width: 1100px !important; }
+body.menu-max-depth-6 { min-width: 1130px !important; }
+body.menu-max-depth-7 { min-width: 1160px !important; }
+body.menu-max-depth-8 { min-width: 1190px !important; }
+body.menu-max-depth-9 { min-width: 1220px !important; }
+body.menu-max-depth-10 { min-width: 1250px !important; }
+body.menu-max-depth-11 { min-width: 1280px !important; }
+
 /* Menu item controls */
 .item-type { text-transform: uppercase; font-size: 11px; color: #999999; padding-right: 10px; }
 .item-controls { font-size: 11px; position: absolute; right: 20px; top: -1px; }

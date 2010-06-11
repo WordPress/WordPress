@@ -384,12 +384,9 @@ function wp_default_scripts( &$scripts ) {
 			'done' => __( 'Done' )
 		) );
 
-		// Custom Navigation
-		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100603' );
+		// Navigation Menus
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100611' );
 		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
-			'custom' => _x('Custom', 'menu nav item type'),
-			'thickbox' => _x('Edit Menu Item', 'Thickbox Title'),
-			'edit' => _x('Edit', 'menu item edit text'),
 			'noResultsFound' => _x('No results found.', 'search results'),
 			'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
 			'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
@@ -463,7 +460,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.css', array(), '0.9.8' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.1' );
-	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100610' );
+	$styles->add( 'nav-menu', "/wp-admin/css/nav-menu$suffix.css", array(), '20100611' );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

@@ -242,13 +242,18 @@ var wpNavMenu;
 		initSortables : function() {
 			var currentDepth = 0, originalDepth, minDepth, maxDepth,
 				prev, next, prevBottom, nextThreshold, helperHeight, transport,
-				menuLeft = api.menuList.offset().left;
+				menuEdge = api.menuList.offset().left,
+				body = $('body'), maxChildDepth,
+				menuMaxDepth = initialMenuMaxDepth();
+
+			// Use the right edge if RTL.
+			menuEdge += api.isRTL ? api.menuList.width() : 0;
 
 			api.menuList.sortable({
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
-					var height, width, parent, children, maxChildDepth, tempHolder;
+					var height, width, parent, children, tempHolder;
 
 					// handle placement for rtl orientation
 					if ( api.isRTL )
@@ -307,8 +312,10 @@ var wpNavMenu;
 					if( depthChange != 0 ) {
 						ui.item.updateDepthClass( currentDepth );
 						children.shiftDepthClass( depthChange );
-						api.registerChange();
+						updateMenuMaxDepth( depthChange );
 					}
+					// Register a change
+					api.registerChange();
 					// Update the item data.
 					ui.item.updateParentMenuItemDBId();
 
@@ -321,6 +328,8 @@ var wpNavMenu;
 						ui.item[0].style.right = 0;
 					}
 
+					// The width of the tab bar might have changed. Just in case.
+					api.refreshMenuTabs( true );
 				},
 				change: function(e, ui) {
 					// Make sure the placeholder is inside the menu.
@@ -332,7 +341,8 @@ var wpNavMenu;
 				},
 				sort: function(e, ui) {
 					var offset = ui.helper.offset(),
-						depth = api.negateIfRTL * api.pxToDepth( offset.left - menuLeft );
+						edge = api.isRTL ? offset.left + ui.helper.width() : offset.left,
+						depth = api.negateIfRTL * api.pxToDepth( edge - menuEdge );
 					// Check and correct if depth is not within range.
 					// Also, if the dragged element is dragged upwards over
 					// an item, shift the placeholder to a child position.
@@ -348,9 +358,6 @@ var wpNavMenu;
 						updateSharedVars( ui );
 						$(this).sortable( "refreshPositions" );
 					}
-				},
-				update: function(e, ui) {
-					api.registerChange();
 				}
 			});
 
@@ -377,6 +384,29 @@ var wpNavMenu;
 			function updateCurrentDepth(ui, depth) {
 				ui.placeholder.updateDepthClass( depth, currentDepth );
 				currentDepth = depth;
+			}
+
+			function initialMenuMaxDepth() {
+				if( ! body[0].className ) return 0;
+				var match = body[0].className.match(/menu-max-depth-(\d+)/);
+				return match && match[1] ? parseInt(match[1]) : 0;
+			}
+
+			function updateMenuMaxDepth( depthChange ) {
+				var depth, newDepth = menuMaxDepth;
+				if ( depthChange === 0 ) {
+					return;
+				} else if ( depthChange > 0 ) {
+					depth = maxChildDepth + depthChange;
+					if( depth > menuMaxDepth )
+						newDepth = depth;
+				} else if ( depthChange < 0 && maxChildDepth == menuMaxDepth ) {
+					while( ! $('.menu-item-depth-' + newDepth, api.menuList).length && newDepth > 0 )
+						newDepth--;
+				}
+				// Update the depth class.
+				body.removeClass( 'menu-max-depth-' + menuMaxDepth ).addClass( 'menu-max-depth-' + newDepth );
+				menuMaxDepth = newDepth;
 			}
 		},
 
@@ -664,12 +694,22 @@ var wpNavMenu;
 				marginFixed = api.isRTL ? 'margin-left' : 'margin-right',
 				msPerPx = 2;
 
-			function resetMenuTabs() {
+			/**
+			 * Refreshes the menu tabs.
+			 * Will show and hide arrows where necessary.
+			 * Scrolls to the active tab by default.
+			 * 
+			 * @param savePosition {boolean} Optional. Prevents scrolling so
+			 * 		  that the current position is maintained. Default false. 
+			 **/
+			api.refreshMenuTabs = function( savePosition ) {
 				var fixedWidth = fixed.width(),
 					margin = 0, css = {};
 				fixedLeft = fixed.offset().left;
 				fixedRight = fixedLeft + fixedWidth;
-				active.makeTabVisible();
+
+				if( !savePosition )
+					active.makeTabVisible();
 
 				// Prevent space from building up next to the last tab if there's more to show
 				if( tabs.last().isTabVisible() ) {
@@ -731,11 +771,11 @@ var wpNavMenu;
 			fixed.wrap('<div class="nav-tabs-nav"/>').parent().prepend( arrowLeft ).append( arrowRight );
 
 			// Set the menu tabs
-			resetMenuTabs();
+			api.refreshMenuTabs();
 			// Make sure the tabs reset on resize
 			$(window).resize(function() {
 				if( resizeTimer ) clearTimeout(resizeTimer);
-				resizeTimer = setTimeout( resetMenuTabs, 200);
+				resizeTimer = setTimeout( api.refreshMenuTabs, 200);
 			});
 
 			// Build arrow functions

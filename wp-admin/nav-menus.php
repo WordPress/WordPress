@@ -430,6 +430,22 @@ foreach( (array) $nav_menus as $key => $_nav_menu ) {
 	$nav_menus[$key]->truncated_name = $_nav_menu->truncated_name;
 }
 
+// Ensure the user will be able to scroll horizontally
+// by adding a class for the max menu depth.
+global $_wp_nav_menu_max_depth;
+$_wp_nav_menu_max_depth = 0;
+
+// Calling wp_get_nav_menu_to_edit generates $_wp_nav_menu_max_depth
+if ( is_nav_menu( $nav_menu_selected_id ) )
+	$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  );
+
+function wp_nav_menu_max_depth() {
+	global $_wp_nav_menu_max_depth;
+	return "menu-max-depth-$_wp_nav_menu_max_depth";
+}
+
+add_action('admin_body_class','wp_nav_menu_max_depth');
+
 wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();
 
@@ -564,18 +580,16 @@ require_once( 'admin-header.php' );
 					<div id="post-body">
 						<div id="post-body-content">
 							<?php
-							if ( is_nav_menu( $nav_menu_selected_id ) ) :
-								$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id  );
-								if ( ! is_wp_error( $edit_markup ) ) :
+							if ( isset( $edit_markup ) ) {
+								if ( ! is_wp_error( $edit_markup ) )
 									echo $edit_markup;
-								endif;
-							elseif ( empty( $nav_menu_selected_id ) ) :
+							} else if ( empty( $nav_menu_selected_id ) ) {
 								echo '<div class="post-body-plain">';
 								echo '<p>' . __('To create a custom menu, give it a name above and click Create Menu. Then choose items like pages, categories or custom links from the left column to add to this menu.') . '</p>';
 								echo '<p>' . __('After you have added your items, drag and drop to put them in the order you want. You can also click each item to reveal additional configuration options.') . '</p>';
 								echo '<p>' . __('When you have finished building your custom menu, make sure you click the Save Menu button.') . '</p>';
 								echo '</div>';
-							endif;
+							}
 							?>
 						</div><!-- /#post-body-content -->
 					</div><!-- /#post-body -->
