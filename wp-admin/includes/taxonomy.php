@@ -19,7 +19,7 @@
  * @return unknown
  */
 function category_exists($cat_name, $parent = 0) {
-	$id = is_term($cat_name, 'category', $parent);
+	$id = term_exists($cat_name, 'category', $parent);
 	if ( is_array($id) )
 		$id = $id['term_id'];
 	return $id;
@@ -240,7 +240,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
  * @return unknown
  */
 function tag_exists($tag_name) {
-	return is_term($tag_name, 'post_tag');
+	return term_exists($tag_name, 'post_tag');
 }
 
 /**
@@ -264,7 +264,7 @@ function wp_create_tag($tag_name) {
  * @return unknown
  */
 function wp_create_term($tag_name, $taxonomy = 'post_tag') {
-	if ( $id = is_term($tag_name, $taxonomy) )
+	if ( $id = term_exists($tag_name, $taxonomy) )
 		return $id;
 
 	return wp_insert_term($tag_name, $taxonomy);

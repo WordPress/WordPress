@@ -237,7 +237,7 @@ function _wp_ajax_add_hierarchical_term() {
 		$category_nicename = sanitize_title($cat_name);
 		if ( '' === $category_nicename )
 			continue;
-		if ( !($cat_id = is_term($cat_name, $taxonomy->name, $parent)) ) {
+		if ( !($cat_id = term_exists($cat_name, $taxonomy->name, $parent)) ) {
 			$new_term = wp_insert_term($cat_name, $taxonomy->name, array('parent' => $parent));
 			$cat_id = $new_term['term_id'];
 		}
@@ -501,7 +501,7 @@ case 'add-link-category' : // On the Fly
 		$slug = sanitize_title($cat_name);
 		if ( '' === $slug )
 			continue;
-		if ( !$cat_id = is_term( $cat_name, 'link_category' ) ) {
+		if ( !$cat_id = term_exists( $cat_name, 'link_category' ) ) {
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
 		}
 		$cat_id = $cat_id['term_id'];

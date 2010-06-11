@@ -14,7 +14,7 @@ wp_reset_vars( array('action', 'tag', 'taxonomy', 'post_type') );
 if ( empty($taxonomy) )
 	$taxonomy = 'post_tag';
 
-if ( !is_taxonomy($taxonomy) )
+if ( !taxonomy_exists($taxonomy) )
 	wp_die(__('Invalid taxonomy'));
 
 $tax = get_taxonomy($taxonomy);

@@ -279,7 +279,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 	}
 
 	if ( 'get-post-item' == $type ) {
-		if ( get_post_type_object( $object_type ) ) {
+		if ( post_type_exists( $object_type ) ) {
 			if ( isset( $request['ID'] ) ) {
 				$object_id = (int) $request['ID'];
 				if ( 'markup' == $response_format ) {
@@ -296,7 +296,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 					echo "\n";
 				}
 			}
-		} elseif ( is_taxonomy( $object_type ) ) {
+		} elseif ( taxonomy_exists( $object_type ) ) {
 			if ( isset( $request['ID'] ) ) {
 				$object_id = (int) $request['ID'];
 				if ( 'markup' == $response_format ) {

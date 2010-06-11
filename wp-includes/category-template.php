@@ -482,7 +482,7 @@ function wp_list_categories( $args = '' ) {
 
 	extract( $r );
 
-	if ( !is_taxonomy($taxonomy) )
+	if ( !taxonomy_exists($taxonomy) )
 		return false;
 
 	$categories = get_categories( $r );

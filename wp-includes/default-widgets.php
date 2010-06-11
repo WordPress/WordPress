@@ -1041,7 +1041,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	function _get_current_taxonomy($instance) {
-		if ( !empty($instance['taxonomy']) && is_taxonomy($instance['taxonomy']) )
+		if ( !empty($instance['taxonomy']) && taxonomy_exists($instance['taxonomy']) )
 			return $instance['taxonomy'];
 
 		return 'post_tag';

@@ -142,7 +142,7 @@ function get_object_taxonomies($object, $output = 'names') {
  * @since 2.3.0
  *
  * @uses $wp_taxonomies
- * @uses is_taxonomy() Checks whether taxonomy exists
+ * @uses taxonomy_exists() Checks whether taxonomy exists
  *
  * @param string $taxonomy Name of taxonomy object to return
  * @return object|bool The Taxonomy Object or false if $taxonomy doesn't exist
@@ -150,7 +150,7 @@ function get_object_taxonomies($object, $output = 'names') {
 function get_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
 
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists( $taxonomy ) )
 		return false;
 
 	return $wp_taxonomies[$taxonomy];
@@ -159,19 +159,21 @@ function get_taxonomy( $taxonomy ) {
 /**
  * Checks that the taxonomy name exists.
  *
+ * Formerly is_taxonomy(), introduced in 2.3.0.
+ *
  * @package WordPress
  * @subpackage Taxonomy
- * @since 2.3.0
+ * @since 3.0.0
  *
  * @uses $wp_taxonomies
  *
  * @param string $taxonomy Name of taxonomy object
  * @return bool Whether the taxonomy exists.
  */
-function is_taxonomy( $taxonomy ) {
+function taxonomy_exists( $taxonomy ) {
 	global $wp_taxonomies;
 
-	return isset($wp_taxonomies[$taxonomy]);
+	return isset( $wp_taxonomies[$taxonomy] );
 }
 
 /**
@@ -186,14 +188,14 @@ function is_taxonomy( $taxonomy ) {
  * @subpackage Taxonomy
  * @since 2.3.0
  *
- * @uses is_taxonomy() Checks whether taxonomy exists
+ * @uses taxonomy_exists() Checks whether taxonomy exists
  * @uses get_taxonomy() Used to get the taxonomy object
  *
  * @param string $taxonomy Name of taxonomy object
  * @return bool Whether the taxonomy is hierarchical
  */
 function is_taxonomy_hierarchical($taxonomy) {
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) )
 		return false;
 
 	$taxonomy = get_taxonomy($taxonomy);
@@ -208,7 +210,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * parameter), along with strings for the taxonomy name and another string for
  * the object type.
  *
- * Nothing is returned, so expect error maybe or use is_taxonomy() to check
+ * Nothing is returned, so expect error maybe or use taxonomy_exists() to check
  * whether taxonomy exists.
  *
  * Optional $args contents:
@@ -437,7 +439,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 		$taxonomies = array( $taxonomies );
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		if ( ! is_taxonomy( $taxonomy ) )
+		if ( ! taxonomy_exists( $taxonomy ) )
 			return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
 	}
 
@@ -509,7 +511,7 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 		return $error;
 	}
 
-	if ( ! is_taxonomy($taxonomy) ) {
+	if ( ! taxonomy_exists($taxonomy) ) {
 		$error = new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 		return $error;
 	}
@@ -576,7 +578,7 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) )
 		return false;
 
 	if ( 'slug' == $field ) {
@@ -634,7 +636,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  * @return array|WP_Error List of Term Objects. WP_Error returned if $taxonomy does not exist
  */
 function get_term_children( $term_id, $taxonomy ) {
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 
 	$term_id = intval( $term_id );
@@ -819,7 +821,7 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		if ( ! is_taxonomy($taxonomy) ) {
+		if ( ! taxonomy_exists($taxonomy) ) {
 			$error = & new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 			return $error;
 		}
@@ -1071,9 +1073,11 @@ function &get_terms($taxonomies, $args = '') {
  *
  * Returns the index of a defined term, or 0 (false) if the term doesn't exist.
  *
+ * Formerly is_term(), introduced in 2.3.0.
+ *
  * @package WordPress
  * @subpackage Taxonomy
- * @since 2.3.0
+ * @since 3.0.0
  *
  * @uses $wpdb
  *
@@ -1082,7 +1086,7 @@ function &get_terms($taxonomies, $args = '') {
  * @param int $parent ID of parent term under which to confine the exists search.
  * @return mixed Get the term id or Term Object, if exists.
  */
-function is_term($term, $taxonomy = '', $parent = 0) {
+function term_exists($term, $taxonomy = '', $parent = 0) {
 	global $wpdb;
 
 	$select = "SELECT term_id FROM $wpdb->terms as t WHERE ";
@@ -1343,7 +1347,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	$term = (int) $term;
 
-	if ( ! $ids = is_term($term, $taxonomy) )
+	if ( ! $ids = term_exists($term, $taxonomy) )
 		return false;
 	if ( is_wp_error( $ids ) )
 		return $ids;
@@ -1356,7 +1360,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	if ( isset($default) ) {
 		$default = (int) $default;
-		if ( ! is_term($default, $taxonomy) )
+		if ( ! term_exists($default, $taxonomy) )
 			unset($default);
 	}
 
@@ -1443,7 +1447,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$taxonomies = array($taxonomies);
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		if ( ! is_taxonomy($taxonomy) )
+		if ( ! taxonomy_exists($taxonomy) )
 			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 	}
 
@@ -1581,7 +1585,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
 
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
 	$term = apply_filters( 'pre_insert_term', $term, $taxonomy );
@@ -1623,10 +1627,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		}
 	}
 
-	if ( $term_id = is_term($slug) ) {
+	if ( $term_id = term_exists($slug) ) {
 		$existing_term = $wpdb->get_row( $wpdb->prepare( "SELECT name FROM $wpdb->terms WHERE term_id = %d", $term_id), ARRAY_A );
 		// We've got an existing term in the same taxonomy, which matches the name of the new term:
-		if ( is_taxonomy_hierarchical($taxonomy) && $existing_term['name'] == $name && is_term( (int) $term_id, $taxonomy ) ) {
+		if ( is_taxonomy_hierarchical($taxonomy) && $existing_term['name'] == $name && term_exists( (int) $term_id, $taxonomy ) ) {
 			// Hierarchical, and it matches an existing term, Do not allow same "name" in the same level.
 			$siblings = get_terms($taxonomy, array('fields' => 'names', 'get' => 'all', 'parent' => (int)$parent) );
 			if ( in_array($name, $siblings) ) {
@@ -1643,7 +1647,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
 				return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
 			$term_id = (int) $wpdb->insert_id;
-		} elseif ( is_term( (int) $term_id, $taxonomy ) )  {
+		} elseif ( term_exists( (int) $term_id, $taxonomy ) )  {
 			// Same name, same slug.
 			return new WP_Error('term_exists', __('A term with the name provided already exists.'));
 		}
@@ -1712,7 +1716,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 	$object_id = (int) $object_id;
 
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 
 	if ( !is_array($terms) )
@@ -1730,7 +1734,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		if ( !strlen(trim($term)) )
 			continue;
 
-		if ( !$term_info = is_term($term, $taxonomy) ) {
+		if ( !$term_info = term_exists($term, $taxonomy) ) {
 			// Skip if a non-existent term ID is passed.
 			if ( is_int($term) )
 				continue;
@@ -1805,7 +1809,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 function wp_unique_term_slug($slug, $term) {
 	global $wpdb;
 
-	if ( ! is_term( $slug ) )
+	if ( ! term_exists( $slug ) )
 		return $slug;
 
 	// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
@@ -1817,7 +1821,7 @@ function wp_unique_term_slug($slug, $term) {
 			if ( is_wp_error($parent_term) || empty($parent_term) )
 				break;
 			$slug .= '-' . $parent_term->slug;
-			if ( ! is_term( $slug ) )
+			if ( ! term_exists( $slug ) )
 				return $slug;
 
 			if ( empty($parent_term->parent) )
@@ -1883,7 +1887,7 @@ function wp_unique_term_slug($slug, $term) {
 function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	global $wpdb;
 
-	if ( ! is_taxonomy($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
 	$term_id = (int) $term_id;
