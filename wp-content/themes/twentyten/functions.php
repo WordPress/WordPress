@@ -378,7 +378,7 @@ function twentyten_comment( $comment, $args, $depth ) {
 		</div><!-- .reply -->
 	</div><!-- #comment-##  -->
 
-	<?php else : ?>
+	<?php elseif ( in_array($comment->comment_type, array('pingback', 'trackback')) ) : ?>
 	<li class="post pingback">
 		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __('(Edit)', 'twentyten'), ' ' ); ?></p>
 	<?php endif;
