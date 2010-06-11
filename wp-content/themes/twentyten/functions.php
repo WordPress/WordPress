@@ -351,8 +351,10 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
  * @since Twenty Ten 1.0
  */
 function twentyten_comment( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment; ?>
-	<?php if ( '' == $comment->comment_type ) : ?>
+	$GLOBALS['comment'] = $comment;
+	switch ( $comment->comment_type ) :
+		case '' :
+	?>
 	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 		<div id="comment-<?php comment_ID(); ?>">
 		<div class="comment-author vcard">
@@ -378,10 +380,16 @@ function twentyten_comment( $comment, $args, $depth ) {
 		</div><!-- .reply -->
 	</div><!-- #comment-##  -->
 
-	<?php elseif ( in_array($comment->comment_type, array('pingback', 'trackback')) ) : ?>
+	<?php
+			break;
+		case 'pingback'  :
+		case 'trackback' :
+	?>
 	<li class="post pingback">
 		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __('(Edit)', 'twentyten'), ' ' ); ?></p>
-	<?php endif;
+	<?php
+			break;
+	endswitch;
 }
 endif;
 
