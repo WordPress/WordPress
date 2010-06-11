@@ -62,6 +62,9 @@ function allow_subdirectory_install() {
 	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
 
+	if ( defined( 'ALLOW_SUBDIRECTORY_INSTALL' ) && ALLOW_SUBDIRECTORY_INSTALL )
+		return true;
+
 	$post = $wpdb->get_row( "SELECT ID FROM $wpdb->posts WHERE post_date < DATE_SUB(NOW(), INTERVAL 1 MONTH) AND post_status = 'publish'" );
 	if ( empty( $post ) )
 		return true;
