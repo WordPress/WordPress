@@ -212,9 +212,9 @@ function user_pass_ok($user_login, $user_pass) {
 
 /**
  * Get the current user's ID
- * 
+ *
  * @since MU
- * 
+ *
  * @uses wp_get_current_user
  *
  * @return int The current user's ID

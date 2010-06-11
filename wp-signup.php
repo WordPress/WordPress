@@ -176,7 +176,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	<?php
 	$blogs = get_blogs_of_user($current_user->ID);
 	if ( !empty($blogs) ) { ?>
-		
+
 			<p><?php _e( 'Sites you are already a member of:' ) ?></p>
 			<ul>
 				<?php foreach ( $blogs as $blog ) {

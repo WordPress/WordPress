@@ -266,7 +266,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 						foreach ( (array) $descs as $desc )
 							$term_to_ancestor[ $desc ] = $anc;
 					}
-					
+
 					foreach ( $terms as $desc ) {
 						do {
 							$possible_taxonomy_ancestors[ $taxonomy ][] = $desc;
@@ -382,7 +382,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				// ancestral term
 				(
 					'taxonomy' == $parent_item->type &&
-					isset( $possible_taxonomy_ancestors[ $parent_item->object ] ) && 
+					isset( $possible_taxonomy_ancestors[ $parent_item->object ] ) &&
 					in_array( $parent_item->object_id, $possible_taxonomy_ancestors[ $parent_item->object ] )
 				)
 			)

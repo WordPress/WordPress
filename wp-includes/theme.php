@@ -1547,12 +1547,12 @@ function _custom_background_cb() {
 		if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
 			$repeat = 'repeat';
 		$repeat = " background-repeat: $repeat;";
-	
+
 		$position = get_theme_mod( 'background_position_x', 'left' );
 		if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
 			$position = 'left';
 		$position = " background-position: top $position;";
-	
+
 		$attachment = get_theme_mod( 'background_attachment', 'scroll' );
 		if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
 			$attachment = 'scroll';

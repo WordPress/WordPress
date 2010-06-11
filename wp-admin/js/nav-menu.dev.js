@@ -698,9 +698,9 @@ var wpNavMenu;
 			 * Refreshes the menu tabs.
 			 * Will show and hide arrows where necessary.
 			 * Scrolls to the active tab by default.
-			 * 
+			 *
 			 * @param savePosition {boolean} Optional. Prevents scrolling so
-			 * 		  that the current position is maintained. Default false. 
+			 * 		  that the current position is maintained. Default false.
 			 **/
 			api.refreshMenuTabs = function( savePosition ) {
 				var fixedWidth = fixed.width(),

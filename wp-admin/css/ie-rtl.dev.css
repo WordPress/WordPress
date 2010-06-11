@@ -147,10 +147,10 @@ form#widgets-filter { /* fix widget page */
 	clear: both;
 	float: none;
 }
-#nav-menus-frame .open-label span { 
-	float: none; 
-	display: inline-block; 
-} 
-#nav-menus-frame .delete-action { 
-	float: none; 
+#nav-menus-frame .open-label span {
+	float: none;
+	display: inline-block;
+}
+#nav-menus-frame .delete-action {
+	float: none;
 }

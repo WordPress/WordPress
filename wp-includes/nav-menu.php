@@ -747,16 +747,16 @@ function _wp_delete_tax_menu_item( $object_id = 0 ) {
  */
 function _wp_menu_changing_status_observer( $new_status, $old_status, $post ) {
 	// append new top-level page objects to a menu for which that option is selected
-	if ( 
-		'publish' == $new_status && 
-		'publish' != $old_status && 
-		'page' == $post->post_type && 
+	if (
+		'publish' == $new_status &&
+		'publish' != $old_status &&
+		'page' == $post->post_type &&
 		empty( $post->post_parent )
 	) {
 		$auto_add = get_option( 'nav_menu_options' );
-		if ( 
+		if (
 			isset( $auto_add['auto_add'] ) &&
-			is_array( $auto_add['auto_add'] ) 
+			is_array( $auto_add['auto_add'] )
 		) {
 			$args = array(
 				'menu-item-object-id' => $post->ID,
@@ -776,14 +776,14 @@ function _wp_menu_changing_status_observer( $new_status, $old_status, $post ) {
 				wp_update_nav_menu_item( $menu_id, 0, $args );
 			}
 		}
-	} 
-	
+	}
+
 	// give menu items draft status if their associated post objects change from "publish" to "draft", or vice versa (draft item being re-published)
-	if ( 
+	if (
 		! empty( $post->ID ) &&
-		( 
+		(
 			( 'publish' == $old_status && 'draft' == $new_status ) ||
-			( 'draft' == $old_status && 'publish' == $new_status ) 
+			( 'draft' == $old_status && 'publish' == $new_status )
 		)
 	) {
 		$menu_items = get_posts(array(
