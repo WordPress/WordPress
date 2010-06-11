@@ -314,6 +314,10 @@ function populate_options() {
 	'embed_autourls' => 1,
 	'embed_size_w' => '',
 	'embed_size_h' => 600,
+
+	// 3.0
+	'page_for_posts' => 0,
+	'page_on_front' => 0,
 	);
 
 	// 3.0 multisite

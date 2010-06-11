@@ -2402,6 +2402,7 @@ function sanitize_option($option, $value) {
 		case 'mailserver_port':
 		case 'comment_max_links':
 		case 'page_on_front':
+		case 'page_for_posts':
 		case 'rss_excerpt_length':
 		case 'default_category':
 		case 'default_email_category':
