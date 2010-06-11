@@ -1040,20 +1040,20 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif?ver=20100531) no-repeat scroll left -207px;
+	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -207px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif?ver=20100531) no-repeat scroll left -109px;
+	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -109px;
 }
 
 #adminmenu a.menu-top {
-	background: #f1f1f1 url(../images/menu-bits.gif?ver=20100531) repeat-x scroll left -379px;
+	background: #f1f1f1 url(../images/menu-bits.gif?ver=20100610) repeat-x scroll left -379px;
 }
 
 #adminmenu .wp-submenu a {
-	background: #fff url(../images/menu-bits.gif?ver=20100531) no-repeat scroll 0 -310px;
+	background: #fff url(../images/menu-bits.gif?ver=20100610) no-repeat scroll 0 -310px;
 }
 
 #adminmenu .wp-has-current-submenu ul li a {
@@ -1074,7 +1074,7 @@ table.widefat .spam a:hover,
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top {
-	background: #aaa url(../images/menu-bits.gif?ver=20100531) top left repeat-x;
+	background: #e0e0e0 url(../images/menu-bits.gif?ver=20100610) top left repeat-x;
 	border: #aaa 1px solid;
 	color: #000;
 }
@@ -1094,7 +1094,7 @@ table.widefat .spam a:hover,
 }
 
 #adminmenu .wp-submenu .current a.current {
-	background: transparent url(../images/menu-bits.gif?ver=20100531) no-repeat scroll  0 -289px;
+	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll  0 -289px;
 }
 
 #adminmenu .wp-submenu a:hover {
@@ -1388,7 +1388,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 }
 
 .meta-box-sortables .postbox:hover .handlediv {
-	background: transparent url(../images/menu-bits.gif?ver=20100531) no-repeat scroll left -111px;
+	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -111px;
 }
 
 #major-publishing-actions {
@@ -1401,7 +1401,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 .tablenav .tablenav-pages a {
 	border-color: #e3e3e3;
-	background: #eee url('../images/menu-bits.gif?ver=20100531') repeat-x scroll left -379px;
+	background: #eee url('../images/menu-bits.gif?ver=20100610') repeat-x scroll left -379px;
 }
 
 .tablenav .tablenav-pages a:hover {
@@ -1641,7 +1641,7 @@ div.widgets-sortables,
 }
 
 #widgets-left .sidebar-name-arrow {
-	background: transparent url(../images/menu-bits.gif?ver=20100531) no-repeat scroll left -109px;
+	background: transparent url(../images/menu-bits.gif?ver=20100610) no-repeat scroll left -109px;
 }
 
 #widgets-right .sidebar-name-arrow {

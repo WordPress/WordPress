@@ -394,7 +394,7 @@ body.js .item-order {
 .item-controls .menu-item-delete:hover { color: #ff0000; }
 
 .item-edit {
-	background: url("../images/menu-bits.gif?ver=20100531") no-repeat scroll 0 -105px;
+	background: url("../images/menu-bits.gif?ver=20100610") no-repeat scroll 0 -105px;
 	position: absolute;
 	right: -20px;
 	top: 0;
