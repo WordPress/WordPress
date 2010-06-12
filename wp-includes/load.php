@@ -104,7 +104,7 @@ function wp_check_php_mysql_versions() {
 	global $required_php_version, $wp_version;
 	$php_version = phpversion();
 	if ( version_compare( $required_php_version, $php_version, '>' ) )
-		die( sprintf( /*WP_I18N_OLD_PHP*/'Your server is running PHP version %1$s but WordPress %2%s requires at least %2%s.'/*/WP_I18N_OLD_PHP*/, $php_version, $wp_version, $required_php_version ) );
+		die( sprintf( /*WP_I18N_OLD_PHP*/'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.'/*/WP_I18N_OLD_PHP*/, $php_version, $wp_version, $required_php_version ) );
 
 	if ( !extension_loaded( 'mysql' ) && !file_exists( WP_CONTENT_DIR . '/db.php' ) )
 		die( /*WP_I18N_OLD_MYSQL*/'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.'/*/WP_I18N_OLD_MYSQL*/ );
