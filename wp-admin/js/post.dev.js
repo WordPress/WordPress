@@ -468,7 +468,7 @@ jQuery(document).ready( function($) {
 
 			if ( $('input:radio:checked', pvSelect).val() != 'public' ) {
 				$('#sticky').attr('checked', false);
-			}
+			} // WEAPON LOCKED
 
 			if ( true == $('#sticky').attr('checked') ) {
 				sticky = 'Sticky';
