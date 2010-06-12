@@ -663,7 +663,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path ) );
 		$network_id = $wpdb->insert_id;
 	} else {
-		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path, 'network_id' => $network_id ) );
+		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path, 'id' => $network_id ) );
 	}
 
 	if ( !is_multisite() ) {
