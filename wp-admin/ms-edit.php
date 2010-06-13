@@ -537,7 +537,7 @@ switch ( $_GET['action'] ) {
 						case 'spam':
 							$user = new WP_User( $val );
 							if ( in_array( $user->user_login, get_super_admins() ) )
-								wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a network admnistrator.' ), esc_html( $user->user_login ) ) );
+								wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a network administrator.' ), esc_html( $user->user_login ) ) );
 
 							$userfunction = 'all_spam';
 							$blogs = get_blogs_of_user( $val, true );
