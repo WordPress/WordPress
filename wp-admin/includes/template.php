@@ -3912,7 +3912,7 @@ function set_current_screen( $id =  '' ) {
 		$id = sanitize_key($id);
 		if ( false !== strpos($id, '-') ) {
 			list( $id, $typenow ) = explode('-', $id, 2);
-			if ( is_taxonomy($typenow) ) {
+			if ( taxonomy_exists( $typenow ) ) {
 				$id = 'edit-tags';
 				$taxnow = $typenow;
 				$typenow = '';
