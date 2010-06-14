@@ -71,13 +71,14 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 		$title = $item->title;
 
 		if ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
-			$classes[] = 'draft';
-			/* translators: %s: title of menu item in draft status */
-			$title = sprintf( __('%s (Draft)'), $item->title );
+			$original_status = get_post_status_object( $original_object->post_status );
+			$classes[] = "draft post-status-$original_object->post_status";
+			/* translators: 1: title of menu item in draft status, 2: actual post status. */
+			$title = sprintf( __('%1$s (%2$s)'), $item->title, $original_status->label );
 		} elseif ( isset( $item->post_status ) && 'pending' == $item->post_status ) {
-			$classes[] = 'pending';
+			$classes[] = 'unsaved';
 			/* translators: %s: title of menu item in pending status */
-			$title = sprintf( __('%s (Pending)'), $item->title );
+			$title = sprintf( __('%s (Unsaved)'), $item->title );
 		}
 
 		$title = empty( $item->label ) ? $title : $item->label;
@@ -176,7 +177,27 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				<div class="menu-item-actions description-wide submitbox">
 					<?php if( 'custom' != $item->type ) : ?>
 						<p class="link-to-original">
-							<?php printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
+							<?php
+							$post_status = get_post_status( $item->object_id );
+							if( 'publish' == $post_status ) {
+								printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>', '' );
+							} else {
+								$original_url = $item->url;
+								if( 'trash' == $post_status ) {
+									$original_url = add_query_arg(
+										array(
+											'post_status' => 'trash',
+											'post_type' => $item->object,
+										),
+										admin_url( 'edit.php' )
+									);
+								}
+								$post_status_obj = get_post_status_object( $post_status );
+								/* translators: 1: title, 2: post status. */
+								printf( __('Original: %1$s (%2$s)'), '<a href="' . esc_attr( $original_url ) . '">' . esc_html( $original_title ) . '</a>',
+								$post_status_obj->label );
+							}
+							?>
 						</p>
 					<?php endif; ?>
 					<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="<?php
@@ -1089,7 +1110,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		}
 
 		if ( $some_pending_menu_items )
-			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make pending menu items public.') . '</p></div>';
+			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make unsaved menu items public.') . '</p></div>';
 
 		$result .= '<ul class="menu" id="menu-to-edit"> ';
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
