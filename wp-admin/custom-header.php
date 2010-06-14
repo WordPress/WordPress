@@ -371,8 +371,8 @@ class Custom_Image_Header {
 		var xinit = <?php echo HEADER_IMAGE_WIDTH; ?>;
 		var yinit = <?php echo HEADER_IMAGE_HEIGHT; ?>;
 		var ratio = xinit / yinit;
-		var ximg = jQuery('#upload').width();
-		var yimg = jQuery('#upload').height();
+		var ximg = jQuery('img#upload').width();
+		var yimg = jQuery('img#upload').height();
 
 		if ( yimg < yinit || ximg < xinit ) {
 			if ( ximg / yimg > ratio ) {
@@ -384,7 +384,7 @@ class Custom_Image_Header {
 			}
 		}
 
-		jQuery('#upload').imgAreaSelect({
+		jQuery('img#upload').imgAreaSelect({
 			handles: true,
 			keys: true,
 			aspectRatio: xinit + ':' + yinit,
