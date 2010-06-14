@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-06-11 20:22+0000\n"
+"POT-Creation-Date: 2010-06-14 12:21+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: attachment.php:98 functions.php:295 loop.php:109 loop.php:133 loop.php:137
+#: attachment.php:98 functions.php:295 loop.php:109 loop.php:137
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
