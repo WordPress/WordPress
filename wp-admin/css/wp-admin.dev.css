@@ -1790,6 +1790,7 @@ div.inside {
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
 	font-size: 1.7em;
+	line-height: 100%;
 	width: 100%;
 	outline: none;
 }
