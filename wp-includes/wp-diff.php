@@ -247,12 +247,19 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				continue;
 
 			// If we have a word based diff, use it.  Otherwise, use the normal line.
-			$orig_line  = isset($orig_diffs[$orig_rows[$row]])
-				? $orig_diffs[$orig_rows[$row]]
-				: htmlspecialchars($orig[$orig_rows[$row]]);
-			$final_line = isset($final_diffs[$final_rows[$row]])
-				? $final_diffs[$final_rows[$row]]
-				: htmlspecialchars($final[$final_rows[$row]]);
+			if ( isset( $orig_diffs[$orig_rows[$row]] ) )
+				$orig_line = $orig_diffs[$orig_rows[$row]];
+			elseif ( isset( $orig[$orig_rows[$row]] ) )
+				$orig_line = htmlspecialchars($orig[$orig_rows[$row]]);
+			else
+				$orig_line = '';
+
+			if ( isset( $final_diffs[$final_rows[$row]] ) ) 
+				$final_line = $final_diffs[$final_rows[$row]];
+			elseif ( isset( $final[$final_rows[$row]] ) )
+				$final_line = htmlspecialchars($final[$final_rows[$row]]);
+			else
+				$final_line = '';
 
 			if ( $orig_rows[$row] < 0 ) { // Orig is blank.  This is really an added row.
 				$r .= $this->_added( array($final_line), false );
