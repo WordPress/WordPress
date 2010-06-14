@@ -83,7 +83,7 @@
 						$total_images
 					); ?></em></p>
 
-				<?php the_excerpt( '' ); ?>
+				<?php the_excerpt(); ?>
 <?php endif; ?>
 			</div><!-- .entry-content -->
 
@@ -130,7 +130,7 @@
 
 	<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
 			<div class="entry-summary">
-				<?php the_excerpt( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
+				<?php the_excerpt(); ?>
 			</div><!-- .entry-summary -->
 	<?php else : ?>
 			<div class="entry-content">
