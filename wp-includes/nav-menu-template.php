@@ -248,6 +248,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	$queried_object_id = (int) $wp_query->queried_object_id;
 
 	$active_object = '';
+	$active_ancestor_item_ids = array();
 	$active_parent_item_ids = array();
 	$active_parent_object_ids = array();
 	$possible_taxonomy_ancestors = array();
@@ -327,6 +328,15 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			)
 		) {
 			$classes[] = 'current-menu-item';
+			$_anc_id = (int) $menu_item->db_id;
+
+			while( 
+				( $_anc_id = get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) ) && 
+				! in_array( $_anc_id, $active_ancestor_item_ids ) 
+			) {
+				$active_ancestor_item_ids[] = $_anc_id;
+			}
+
 			if ( 'post_type' == $menu_item->type && 'page' == $menu_item->object ) {
 				// Back compat classes for pages to match wp_page_menu()
 				$classes[] = 'page_item';
@@ -343,6 +353,15 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			$item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
 			if ( $item_url == $current_url ) {
 				$classes[] = 'current-menu-item';
+				$_anc_id = (int) $menu_item->db_id;
+
+				while( 
+					( $_anc_id = get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) ) && 
+					! in_array( $_anc_id, $active_ancestor_item_ids ) 
+				) {
+					$active_ancestor_item_ids[] = $_anc_id;
+				}
+
 				if ( untrailingslashit($current_url) == home_url() ) {
 					$classes[] = 'menu-item-home';
 					// Back compat for home limk to match wp_page_menu()
@@ -360,7 +379,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 
 		$menu_items[$key]->classes = array_unique( $classes );
 	}
-
+	$active_ancestor_item_ids = array_filter( array_unique( $active_ancestor_item_ids ) );
 	$active_parent_item_ids = array_filter( array_unique( $active_parent_item_ids ) );
 	$active_parent_object_ids = array_filter( array_unique( $active_parent_object_ids ) );
 
@@ -388,9 +407,11 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			)
 		) {
 			$classes[] = empty( $queried_object->taxonomy ) ? 'current-' . $queried_object->post_type . '-ancestor' : 'current-' . $queried_object->taxonomy . '-ancestor';
-			$classes[] = 'current-menu-ancestor';
 		}
 
+		if ( in_array(  intval( $parent_item->db_id ), $active_ancestor_item_ids ) ) {
+			$classes[] = 'current-menu-ancestor';
+		}
 		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
 			$classes[] = 'current-menu-parent';
 		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
