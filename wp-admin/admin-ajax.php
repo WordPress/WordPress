@@ -1282,7 +1282,9 @@ case 'inline-save-tax':
 						die( $tag->get_error_message() );
 					die( __('Item not updated.') );
 				}
-
+				
+				set_current_screen( 'edit-' . $taxonomy );
+				
 				echo _tag_row($tag, 0, $taxonomy);
 			} else {
 				if ( is_wp_error($updated) && $updated->get_error_message() )
