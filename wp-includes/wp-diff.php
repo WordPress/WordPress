@@ -254,7 +254,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			else
 				$orig_line = '';
 
-			if ( isset( $final_diffs[$final_rows[$row]] ) ) 
+			if ( isset( $final_diffs[$final_rows[$row]] ) )
 				$final_line = $final_diffs[$final_rows[$row]];
 			elseif ( isset( $final[$final_rows[$row]] ) )
 				$final_line = htmlspecialchars($final[$final_rows[$row]]);
