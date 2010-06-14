@@ -71,14 +71,9 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 		$title = $item->title;
 
 		if ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
-			$original_status = get_post_status_object( $original_object->post_status );
-			$classes[] = "draft post-status-$original_object->post_status";
-			/* translators: 1: title of menu item in draft status, 2: actual post status. */
-			$title = sprintf( __('%1$s (%2$s)'), $item->title, $original_status->label );
-		} elseif ( isset( $item->post_status ) && 'pending' == $item->post_status ) {
-			$classes[] = 'unsaved';
-			/* translators: %s: title of menu item in pending status */
-			$title = sprintf( __('%s (Unsaved)'), $item->title );
+			$classes[] = 'pending';
+			/* translators: %s: title of menu item in draft status */
+			$title = sprintf( __('%s (Pending)'), $item->title );
 		}
 
 		$title = empty( $item->label ) ? $title : $item->label;
@@ -177,27 +172,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				<div class="menu-item-actions description-wide submitbox">
 					<?php if( 'custom' != $item->type ) : ?>
 						<p class="link-to-original">
-							<?php
-							$post_status = get_post_status( $item->object_id );
-							if( 'publish' == $post_status ) {
-								printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>', '' );
-							} else {
-								$original_url = $item->url;
-								if( 'trash' == $post_status ) {
-									$original_url = add_query_arg(
-										array(
-											'post_status' => 'trash',
-											'post_type' => $item->object,
-										),
-										admin_url( 'edit.php' )
-									);
-								}
-								$post_status_obj = get_post_status_object( $post_status );
-								/* translators: 1: title, 2: post status. */
-								printf( __('Original: %1$s (%2$s)'), '<a href="' . esc_attr( $original_url ) . '">' . esc_html( $original_title ) . '</a>',
-								$post_status_obj->label );
-							}
-							?>
+							<?php printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
 						</p>
 					<?php endif; ?>
 					<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="<?php
@@ -219,7 +194,6 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 				<input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
 				<input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_item_parent ); ?>" />
 				<input class="menu-item-data-position" type="hidden" name="menu-item-position[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
-				<input class="menu-item-data-status" type="hidden" name="menu-item-status[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_status ); ?>" />
 				<input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
 			</div><!-- .menu-item-settings-->
 			<ul class="menu-item-transport"></ul>
@@ -973,7 +947,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
  *
  * @since 3.0.0
  *
- * @param int $menu_id The menu ID for which to save this item. $menu_id of 0 makes a pending, orphaned menu item.
+ * @param int $menu_id The menu ID for which to save this item. $menu_id of 0 makes a draft, orphaned menu item.
  * @param array $menu_data The unsanitized posted menu item data.
  * @return array The database IDs of the items saved
  */
@@ -1105,12 +1079,12 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 
 		$some_pending_menu_items = false;
 		foreach( (array) $menu_items as $menu_item ) {
-			if ( isset( $menu_item->post_status ) && 'pending' == $menu_item->post_status )
+			if ( isset( $menu_item->post_status ) && 'draft' == $menu_item->post_status )
 				$some_pending_menu_items = true;
 		}
 
 		if ( $some_pending_menu_items )
-			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make unsaved menu items public.') . '</p></div>';
+			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make pending menu items public.') . '</p></div>';
 
 		$result .= '<ul class="menu" id="menu-to-edit"> ';
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
@@ -1143,23 +1117,23 @@ function wp_nav_menu_manage_columns() {
 }
 
 /**
- * Deletes orphaned pending menu items
+ * Deletes orphaned draft menu items
  *
  * @access private
  * @since 3.0.0
  *
  */
-function _wp_delete_orphaned_pending_menu_items() {
+function _wp_delete_orphaned_draft_menu_items() {
 	global $wpdb;
 	$delete_timestamp = time() - (60*60*24*EMPTY_TRASH_DAYS);
 
-	// delete orphaned pending menu items
-	$menu_items_to_delete = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts AS p LEFT JOIN $wpdb->postmeta AS m ON p.ID = m.post_id WHERE post_type = 'nav_menu_item' AND post_status = 'pending' AND meta_key = '_menu_item_orphaned' AND meta_value < '%d'", $delete_timestamp ) );
+	// delete orphaned draft menu items
+	$menu_items_to_delete = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts AS p LEFT JOIN $wpdb->postmeta AS m ON p.ID = m.post_id WHERE post_type = 'nav_menu_item' AND post_status = 'draft' AND meta_key = '_menu_item_orphaned' AND meta_value < '%d'", $delete_timestamp ) );
 
 	foreach( (array) $menu_items_to_delete as $menu_item_id )
 		wp_delete_post( $menu_item_id, true );
 }
 
-add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_pending_menu_items');
+add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
 
 ?>

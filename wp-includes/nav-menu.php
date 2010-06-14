@@ -244,7 +244,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
  *
  * @since 3.0.0
  *
- * @param int $menu_id The ID of the menu. Required. If "0", makes the menu item a pending orphan.
+ * @param int $menu_id The ID of the menu. Required. If "0", makes the menu item a draft orphan.
  * @param int $menu_item_db_id The ID of the menu item. If "0", creates a new menu item.
  * @param array $menu_item_data The menu item's data.
  * @return int The menu item's database ID or WP_Error object on failure.
@@ -262,7 +262,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	if ( ( ! $menu && 0 !== $menu_id ) || is_wp_error( $menu ) )
 		return $menu;
 
-	$menu_items = 0 == $menu_id ? array() : (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'draft,pending,publish' ) );
+	$menu_items = 0 == $menu_id ? array() : (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
 
 	$count = count( $menu_items );
 
@@ -336,10 +336,10 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	if ( 0 != $menu_id )
 		$post['tax_input'] = array( 'nav_menu' => array( intval( $menu->term_id ) ) );
 
-	// New menu item. Default is pending status
+	// New menu item. Default is draft status
 	if ( 0 == $menu_item_db_id ) {
 		$post['ID'] = 0;
-		$post['post_status'] = 'publish' == $args['menu-item-status'] ? 'publish' : 'pending';
+		$post['post_status'] = 'publish' == $args['menu-item-status'] ? 'publish' : 'draft';
 		$menu_item_db_id = wp_insert_post( $post );
 
 	// Update existing menu item. Default is publish status
@@ -690,7 +690,7 @@ function _wp_delete_tax_menu_item( $object_id = 0 ) {
 }
 
 /**
- * Modify a navigational menu upon post object status change, if appropos.
+ * Automatically add newly published page objects to menus with that as an option.
  *
  * @since 3.0.0
  * @access private
@@ -700,61 +700,34 @@ function _wp_delete_tax_menu_item( $object_id = 0 ) {
  * @param object $post The post object being transitioned from one status to another.
  * @return void
  */
-function _wp_menu_changing_status_observer( $new_status, $old_status, $post ) {
-	// append new top-level page objects to a menu for which that option is selected
-	if (
-		'publish' == $new_status &&
-		'publish' != $old_status &&
-		'page' == $post->post_type &&
-		empty( $post->post_parent )
-	) {
-		$auto_add = get_option( 'nav_menu_options' );
-		if (
-			isset( $auto_add['auto_add'] ) &&
-			is_array( $auto_add['auto_add'] )
-		) {
-			$args = array(
-				'menu-item-object-id' => $post->ID,
-				'menu-item-object' => $post->post_type,
-				'menu-item-type' => 'post_type',
-				'menu-item-status' => 'publish',
-			);
+function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
+	if ( 'publish' != $new_status || 'publish' == $old_status || 'page' != $post->post_type )
+		return;
+	if ( ! empty( $post->post_parent ) )
+		return;
+	$auto_add = get_option( 'nav_menu_options' );
+	if ( empty( $auto_add ) || ! is_array( $auto_add ) || ! isset( $auto_add['auto_add'] ) )
+		return;
+	$auto_add = $auto_add['auto_add'];
+	if ( empty( $auto_add ) || ! is_array( $auto_add ) )
+		return;
 
-			foreach ( $auto_add['auto_add'] as $menu_id ) {
-				$items = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'draft,pending,publish' ) );
-				if ( ! is_array( $items ) )
-					continue;
-				foreach ( $items as $item ) {
-					if ( $post->ID == $item->object_id )
-						continue 2;
-				}
-				wp_update_nav_menu_item( $menu_id, 0, $args );
-			}
+	$args = array(
+		'menu-item-object-id' => $post->ID,
+		'menu-item-object' => $post->post_type,
+		'menu-item-type' => 'post_type',
+		'menu-item-status' => 'publish',
+	);
+
+	foreach ( $auto_add as $menu_id ) {
+		$items = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
+		if ( ! is_array( $items ) )
+			continue;
+		foreach ( $items as $item ) {
+			if ( $post->ID == $item->object_id )
+				continue 2;
 		}
-	}
-
-	// give menu items draft status if their associated post objects change from "publish" to "draft", or vice versa (draft item being re-published)
-	if (
-		( $new_status != $old_status ) &&
-		! empty( $post->ID ) && ! empty( $post->post_type ) &&
-		'nav_menu_item' != $post->post_type && 
-		( 'publish' == $old_status || 'publish' == $new_status )
-	) {
-		$menu_items = get_posts(array(
-			'meta_key' => '_menu_item_object_id',
-			'meta_value' => $post->ID,
-			'post_status' => 'any',
-			'post_type' => 'nav_menu_item',
-		));
-
-		foreach( (array) $menu_items as $menu_item ) {
-			if ( ! empty( $menu_item->ID ) ) {
-				$properties = get_object_vars( $menu_item );
-				$properties['post_status'] = 'publish' == $new_status ? 'publish' : 'draft';
-
-				wp_insert_post( $properties );
-			}
-		}
+		wp_update_nav_menu_item( $menu_id, 0, $args );
 	}
 }
 

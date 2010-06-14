@@ -327,13 +327,13 @@ switch ( $action ) {
 			// Update menu items
 
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft,pending,publish') );
+				$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array('orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft,publish') );
 				$menu_items = array();
 				// Index menu items by db ID
 				foreach( $unsorted_menu_items as $_item )
 					$menu_items[$_item->db_id] = $_item;
 
-				$post_fields = array( 'menu-item-db-id', 'menu-item-object-id', 'menu-item-object', 'menu-item-parent-id', 'menu-item-position', 'menu-item-type', 'menu-item-title', 'menu-item-url', 'menu-item-description', 'menu-item-attr-title', 'menu-item-status', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn' );
+				$post_fields = array( 'menu-item-db-id', 'menu-item-object-id', 'menu-item-object', 'menu-item-parent-id', 'menu-item-position', 'menu-item-type', 'menu-item-title', 'menu-item-url', 'menu-item-description', 'menu-item-attr-title', 'menu-item-target', 'menu-item-classes', 'menu-item-xfn' );
 				wp_defer_term_counting(true);
 				// Loop through all the menu items' POST variables
 				if ( ! empty( $_POST['menu-item-db-id'] ) ) {
