@@ -505,7 +505,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		}
 	}
 
-	return $items;
+	return apply_filters( 'wp_get_nav_menu_items',  $items, $menu, $args );
 }
 
 /**
