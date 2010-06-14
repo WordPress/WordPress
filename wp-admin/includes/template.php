@@ -3316,22 +3316,17 @@ function the_post_password() {
  * @since unknown
  */
 function favorite_actions( $screen = null ) {
-	global $post_type_object;
-
 	$default_action = false;
 
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	if ( isset($post_type_object) ) {
-		switch ( $screen->id ) {
-			case $post_type_object->name:
-				$default_action = array('edit.php?post_type=' . $post_type_object->name => array($post_type_object->labels->edit_item, $post_type_object->cap->edit_posts));
-				break;
-			case "edit-{$post_type_object->name}":
-				$default_action = array('post-new.php?post_type=' . $post_type_object->name => array($post_type_object->labels->new_item, $post_type_object->cap->edit_posts));
-				break;
-		}
+	if ( isset($screen->post_type) ) {
+		$post_type_object = get_post_type_object($screen->post_type);
+		if ( 'add' != $screen->action )
+			$default_action = array('post-new.php?post_type=' . $post_type_object->name => array($post_type_object->labels->new_item, $post_type_object->cap->edit_posts));
+		else
+			$default_action = array('edit.php?post_type=' . $post_type_object->name => array($post_type_object->labels->name, $post_type_object->cap->edit_posts));
 	}
 
 	if ( !$default_action ) {
@@ -3343,10 +3338,11 @@ function favorite_actions( $screen = null ) {
 				$default_action = array('upload.php' => array(__('Edit Media'), 'upload_files'));
 				break;
 			case 'link-manager':
-				$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
-				break;
-			case 'link-add':
-				$default_action = array('link-manager.php' => array(__('Edit Links'), 'manage_links'));
+			case 'link':
+				if ( 'add' != $screen->action )
+					$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
+				else
+					$default_action = array('link-manager.php' => array(__('Edit Links'), 'manage_links'));
 				break;
 			case 'users':
 				$default_action = array('user-new.php' => array(__('New User'), 'create_users'));
@@ -3902,9 +3898,13 @@ function compression_test() {
 function set_current_screen( $id =  '' ) {
 	global $current_screen, $hook_suffix, $typenow, $taxnow;
 
+	$action = '';
+
 	if ( empty($id) ) {
 		$current_screen = $hook_suffix;
 		$current_screen = str_replace('.php', '', $current_screen);
+		if ( preg_match('/-add|-new$/', $current_screen) )
+			$action = 'add';
 		$current_screen = str_replace('-new', '', $current_screen);
 		$current_screen = str_replace('-add', '', $current_screen);
 		$current_screen = array('id' => $current_screen, 'base' => $current_screen);
@@ -3922,6 +3922,8 @@ function set_current_screen( $id =  '' ) {
 	}
 
 	$current_screen = (object) $current_screen;
+
+	$current_screen->action = $action;
 
 	// Map index to dashboard
 	if ( 'index' == $current_screen->base )
