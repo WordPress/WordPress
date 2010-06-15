@@ -135,7 +135,7 @@ function get_the_title( $id = 0 ) {
  * @param int $id Optional. Post ID.
  */
 function the_guid( $id = 0 ) {
-	echo esc_url( get_the_guid($id) );
+	echo esc_url( get_the_guid( $id ) );
 }
 
 /**

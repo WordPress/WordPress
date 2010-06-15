@@ -103,13 +103,13 @@ if (empty ($importers)) {
 				if ( !empty($plugins) ) {
 					$keys = array_keys($plugins);
 					$plugin_file = $plugin_slug . '/' . $keys[0];
-					$action = '<a href="' . wp_nonce_url(admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;from=import'), 'activate-plugin_' . $plugin_file) .
+					$action = '<a href="' . esc_url(wp_nonce_url(admin_url('plugins.php?action=activate&plugin=' . $plugin_file . '&from=import'), 'activate-plugin_' . $plugin_file)) .
 											'"title="' . esc_attr__('Activate importer') . '"">' . $data[0] . '</a>';
 				}
 			}
 			if ( empty($action) )
-				$action = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin_slug .
-										'&amp;from=import&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
+				$action = '<a href="' . esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
+										'&from=import&TB_iframe=true&width=600&height=550')) . '" class="thickbox" title="' .
 										esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 		} else {
 			$action = "<a href='" . esc_url("admin.php?import=$id") . "' title='" . esc_attr( wptexturize(strip_tags($data[1])) ) ."'>{$data[0]}</a>";
@@ -130,7 +130,7 @@ if (empty ($importers)) {
 }
 
 if ( current_user_can('install_plugins') )
-	echo '<p>' . sprintf('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.', admin_url('plugin-install.php?tab=search&type=tag&s=importer') ) . '</p>';
+	echo '<p>' . sprintf('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.', esc_url(admin_url('plugin-install.php?tab=search&type=tag&s=importer')) ) . '</p>';
 ?>
 
 </div>
