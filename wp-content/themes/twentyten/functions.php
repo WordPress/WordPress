@@ -223,6 +223,10 @@ endif;
  * @return string The new title, ready for the <title> tag.
  */
 function twentyten_filter_wp_title( $title, $separator ) {
+	// Don't affect wp_title() calls in feeds.
+	if ( is_feed() )
+		return $title;
+
 	// The $paged global variable contains the page number of a listing of posts.
 	// The $page global variable contains the page number of a single post that is paged.
 	// We'll display whichever one applies, if we're not looking at the first page.
