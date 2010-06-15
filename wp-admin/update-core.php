@@ -193,7 +193,7 @@ function list_plugin_updates() {
 
 	<tfoot>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></label></th>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></th>
 		<th scope="col" class="manage-column"><label for="plugins-select-all-2"><?php _e('Select All'); ?></label></th>
 	</tr>
 	</tfoot>
