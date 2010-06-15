@@ -440,7 +440,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 11958 )
 		upgrade_290();
 
-	if ( $wp_current_db_version < 15187 )
+	if ( $wp_current_db_version < 15260 )
 		upgrade_300();
 
 	maybe_disable_automattic_widgets();
@@ -1133,7 +1133,7 @@ function upgrade_300() {
 	if ( !is_multisite() || is_main_site() ) {
 		$prefix = like_escape($wpdb->base_prefix);
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '{$prefix}%meta-box-hidden%' OR meta_key LIKE '{$prefix}%closedpostboxes%' OR meta_key LIKE '{$prefix}%manage-%-columns-hidden%' OR meta_key LIKE '{$prefix}%meta-box-order%' OR meta_key LIKE '{$prefix}%metaboxorder%' OR meta_key LIKE '{$prefix}%screen_layout%'
-					 OR meta_key = 'manageedittagscolumnshidden' OR meta_key='managecategoriescolumnshidden' OR meta_key = 'manageedit-tagscolumnshidden' OR meta_key = 'manageeditcolumnshidden'" );
+					 OR meta_key = 'manageedittagscolumnshidden' OR meta_key='managecategoriescolumnshidden' OR meta_key = 'manageedit-tagscolumnshidden' OR meta_key = 'manageeditcolumnshidden' OR meta_key = 'categories_per_page' OR meta_key = 'edit_tags_per_page'" );
 	}
 
 }
