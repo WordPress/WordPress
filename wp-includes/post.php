@@ -2866,7 +2866,8 @@ function get_all_page_ids() {
  * @return mixed Page data.
  */
 function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
-	return get_post($page, $output, $filter);
+	$page = get_post($page, $output, $filter);
+	return $page;
 }
 
 /**
