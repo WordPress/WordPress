@@ -1187,7 +1187,7 @@ function menu_page_url($menu_slug, $echo = true) {
 
 	if ( isset( $_parent_pages[$menu_slug] ) ) {
 		if ( $_parent_pages[$menu_slug] ) {
-			$url = admin_url($_parent_pages[$menu_slug] . '?page=' . $menu_slug);
+			$url = admin_url( add_query_arg( 'page', $menu_slug, $_parent_pages[$menu_slug] ) );
 		} else {
 			$url = admin_url('admin.php?page=' . $menu_slug);
 		}
