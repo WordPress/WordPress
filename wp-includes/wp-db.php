@@ -733,9 +733,13 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string $db MySQL database name
+	 * @param resource $dbh Optional link identifier.
 	 * @return null Always null.
 	 */
-	function select( $db, &$dbh ) {
+	function select( $db, $dbh = null) {
+		if ( is_null($dbh) ) 
+			$dbh = $this->dbh;
+
 		if ( !@mysql_select_db( $db, $dbh ) ) {
 			$this->ready = false;
 			$this->bail( sprintf( /*WP_I18N_DB_SELECT_DB*/'
