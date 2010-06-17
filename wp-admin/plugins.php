@@ -8,6 +8,14 @@
 
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
+if ( is_multisite() ) {
+	$menu_perms = get_site_option( 'menu_items', array() );
+
+	if ( empty($menu_perms['plugins']) && ! is_super_admin() )
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+	else if ( $menu_perms['plugins'] != 1 && is_super_admin() )
+		add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
+}
 
 if ( ! current_user_can( 'activate_plugins' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage plugins for this site.' ) );
@@ -314,13 +322,6 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://codex.wordpress.org/Managing_Plugins#Plugin_Management" target="_blank">Documentation on Managing Plugins</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
-
-if ( is_multisite() && is_super_admin() ) {
-	$menu_perms = get_site_option('menu_items', array());
-	if ( empty($menu_perms['plugins']) )
-		add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
-	unset($menu_perms);
-}
 
 $title = __('Plugins');
 
