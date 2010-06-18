@@ -1629,7 +1629,7 @@ function add_theme_support( $feature ) {
  */
 function remove_theme_support( $feature ) {
 	// Blacklist: for internal registrations not used directly by themes.
-	if ( in_array( $feature, array( 'custom-background', 'custom-header', 'editor-style', 'widgets' ) ) )
+	if ( in_array( $feature, array( 'custom-background', 'custom-header', 'editor-style', 'widgets', 'menus' ) ) )
 		return false;
 
 	global $_wp_theme_features;
