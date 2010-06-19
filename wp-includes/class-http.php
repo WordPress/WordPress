@@ -238,39 +238,39 @@ class WP_Http {
 		if ( false !== $pre )
 			return $pre;
 
-		$arrURL = parse_url($url);
+		$arrURL = parse_url( $url );
 
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) )
 			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
 
 		if ( $this->block_request( $url ) )
-			return new WP_Error('http_request_failed', __('User has blocked requests through HTTP.'));
+			return new WP_Error( 'http_request_failed', __( 'User has blocked requests through HTTP.' ) );
 
 		// Determine if this is a https call and pass that on to the transport functions
 		// so that we can blacklist the transports that do not support ssl verification
 		$r['ssl'] = $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl';
 
 		// Determine if this request is to OUR install of WordPress
-		$homeURL = parse_url( get_bloginfo('url') );
+		$homeURL = parse_url( get_bloginfo( 'url' ) );
 		$r['local'] = $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'];
-		unset($homeURL);
+		unset( $homeURL );
 
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
 
-		if ( ! is_array($r['headers']) ) {
-			$processedHeaders = WP_Http::processHeaders($r['headers']);
+		if ( ! is_array( $r['headers'] ) ) {
+			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
 			$r['headers'] = $processedHeaders['headers'];
 		}
 
-		if ( isset($r['headers']['User-Agent']) ) {
+		if ( isset( $r['headers']['User-Agent'] ) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset($r['headers']['User-Agent']);
+			unset( $r['headers']['User-Agent'] );
 		}
 
-		if ( isset($r['headers']['user-agent']) ) {
+		if ( isset( $r['headers']['user-agent'] ) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
-			unset($r['headers']['user-agent']);
+			unset( $r['headers']['user-agent'] );
 		}
 
 		// Construct Cookie: header if any cookies are set
@@ -283,42 +283,42 @@ class WP_Http {
 			// Some servers fail when sending content without the content-length header being set.
 			// Also, to fix another bug, we only send when doing POST and PUT and the content-length
 			// header isn't already set.
-			if( ($r['method'] == 'POST' || $r['method'] == 'PUT') && ! isset($r['headers']['Content-Length']) )
+			if ( ($r['method'] == 'POST' || $r['method'] == 'PUT') && ! isset( $r['headers']['Content-Length'] ) )
 				$r['headers']['Content-Length'] = 0;
 
 			// The method is ambiguous, because we aren't talking about HTTP methods, the "get" in
 			// this case is simply that we aren't sending any bodies and to get the transports that
 			// don't support sending bodies along with those which do.
-			$transports = WP_Http::_getTransport($r);
+			$transports = WP_Http::_getTransport( $r );
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
 				if ( ! version_compare(phpversion(), '5.1.2', '>=') )
-					$r['body'] = _http_build_query($r['body'], null, '&');
+					$r['body'] = _http_build_query( $r['body'], null, '&' );
 				else
-					$r['body'] = http_build_query($r['body'], null, '&');
-				$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option('blog_charset');
-				$r['headers']['Content-Length'] = strlen($r['body']);
+					$r['body'] = http_build_query( $r['body'], null, '&' );
+				$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
+				$r['headers']['Content-Length'] = strlen( $r['body'] );
 			}
 
 			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
-				$r['headers']['Content-Length'] = strlen($r['body']);
+				$r['headers']['Content-Length'] = strlen( $r['body'] );
 
 			// The method is ambiguous, because we aren't talking about HTTP methods, the "post" in
 			// this case is simply that we are sending HTTP body and to get the transports that do
 			// support sending the body. Not all do, depending on the limitations of the PHP core
 			// limitations.
-			$transports = WP_Http::_postTransport($r);
+			$transports = WP_Http::_postTransport( $r );
 		}
 
 		do_action( 'http_api_debug', $transports, 'transports_list' );
 
 		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		foreach ( (array) $transports as $transport ) {
-			$response = $transport->request($url, $r);
+			$response = $transport->request( $url, $r );
 
-			do_action( 'http_api_debug', $response, 'response', get_class($transport) );
+			do_action( 'http_api_debug', $response, 'response', get_class( $transport ) );
 
-			if ( ! is_wp_error($response) )
+			if ( ! is_wp_error( $response ) )
 				return apply_filters( 'http_response', $response, $r, $url );
 		}
 
@@ -621,7 +621,7 @@ class WP_Http_Fsockopen {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if( isset($r['headers']['user-agent']) ) {
+		} else if ( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
@@ -973,7 +973,7 @@ class WP_Http_Streams {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if( isset($r['headers']['user-agent']) ) {
+		} else if ( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
@@ -1146,7 +1146,7 @@ class WP_Http_ExtHTTP {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if( isset($r['headers']['user-agent']) ) {
+		} else if ( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
@@ -1296,7 +1296,7 @@ class WP_Http_Curl {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if( isset($r['headers']['user-agent']) ) {
+		} else if ( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
