@@ -240,7 +240,7 @@ class WP_Http {
 
 		$arrURL = parse_url($url);
 
-		if ( empty( $url ) || empty($url['scheme'] ) )
+		if ( empty( $url ) || empty( $arrURL['scheme'] ) )
 			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
 
 		if ( $this->block_request( $url ) )
