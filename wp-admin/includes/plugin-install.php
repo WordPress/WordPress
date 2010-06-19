@@ -65,21 +65,16 @@ function plugins_api($action, $args = null) {
  * @return array
  */
 function install_popular_tags( $args = array() ) {
-	if ( ! ($cache = wp_cache_get('popular_tags', 'api')) && ! ($cache = get_option('wporg_popular_tags')) )
-		add_option('wporg_popular_tags', array(), '', 'no'); ///No autoload.
-
-	if ( $cache && $cache->timeout + 3 * 60 * 60 > time() )
-		return $cache->cached;
+	$key = md5(serialize($args));
+	if ( false !== ($tags = get_site_transient('poptags_' . $key) ) )
+		return $tags;
 
 	$tags = plugins_api('hot_tags', $args);
 
 	if ( is_wp_error($tags) )
 		return $tags;
 
-	$cache = (object) array('timeout' => time(), 'cached' => $tags);
-
-	update_option('wporg_popular_tags', $cache);
-	wp_cache_set('popular_tags', $cache, 'api');
+	set_site_transient('poptags_' . $key, $tags, 10800); // 3 * 60 * 60 = 10800
 
 	return $tags;
 }
