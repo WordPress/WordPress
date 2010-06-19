@@ -35,48 +35,19 @@ add_contextual_help($current_screen,
  * @subpackage Permalink_Settings_Panel
  */
 function add_js() {
-?>
+	?>
 <script type="text/javascript">
 //<![CDATA[
-function GetElementsWithClassName(elementName, className) {
-var allElements = document.getElementsByTagName(elementName);
-var elemColl = new Array();
-for (i = 0; i < allElements.length; i++) {
-if (allElements[i].className == className) {
-elemColl[elemColl.length] = allElements[i];
-}
-}
-return elemColl;
-}
-
-function upit() {
-var inputColl = GetElementsWithClassName('input', 'tog');
-var structure = document.getElementById('permalink_structure');
-var inputs = '';
-for (i = 0; i < inputColl.length; i++) {
-if ( inputColl[i].checked && inputColl[i].value != '') {
-inputs += inputColl[i].value + ' ';
-}
-}
-inputs = inputs.substr(0,inputs.length - 1);
-if ( 'custom' != inputs )
-structure.value = inputs;
-}
-
-function blurry() {
-if (!document.getElementById) return;
-
-var structure = document.getElementById('permalink_structure');
-structure.onfocus = function () { document.getElementById('custom_selection').checked = 'checked'; }
-
-var aInputs = document.getElementsByTagName('input');
-
-for (var i = 0; i < aInputs.length; i++) {
-aInputs[i].onclick = aInputs[i].onkeyup = upit;
-}
-}
-
-window.onload = blurry;
+jQuery(document).ready(function() {
+	jQuery('input:radio.tog').change(function() {
+		if ( 'custom' == this.value )
+			return;
+		jQuery('#permalink_structure').val( this.value );
+	});
+	jQuery('#permalink_structure').focus(function() {
+		jQuery("#custom_selection").attr('checked', 'checked');
+	});
+});
 //]]>
 </script>
 <?php
