@@ -42,7 +42,7 @@ function list_core_update( $update ) {
 			elseif ( !$mysql_compat )
 				$message = sprintf( __('You cannot update because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s.'), $update->current, $update->mysql_version, $mysql_version );
 			else
-				$message = 	sprintf(__('You can update to <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> automatically or download the package and install it manually:'), $version_string);
+				$message = 	sprintf(__('You can update to <a href="http://codex.wordpress.org/Version_%1$s">WordPress %2$s</a> automatically or download the package and install it manually:'), $update->current, $version_string);
 			if ( !$mysql_compat || !$php_compat )
 				$show_buttons = false;
 		}
