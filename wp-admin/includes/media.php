@@ -2135,7 +2135,7 @@ function type_url_form_video() {
 			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
-		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8220;') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. &#8220;Lucy on YouTube&#8221;') . '</td></tr>
 	' . _insert_into_post_button('video') . '
 	</tbody></table>
 ';
