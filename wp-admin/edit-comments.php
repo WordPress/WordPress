@@ -239,8 +239,12 @@ foreach ( $stati as $status => $label ) {
 	if ( !empty( $_GET['s'] ) )
 		$link = add_query_arg( 's', esc_attr( stripslashes( $_GET['s'] ) ), $link );
 	*/
-	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf(
-		_n( $label[0], $label[1], $num_comments->$status ),
+	if ( isset( $label[2] ) )
+		$translated_label = _nx( $label[0], $label[1], $num_comments->$status, $label[2] );
+	else
+		$translated_label = _n( $label[0], $label[1], $num_comments->$status );
+	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf( 
+		$translated_label,
 		number_format_i18n( $num_comments->$status )
 	) . '</a>';
 }
