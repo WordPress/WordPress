@@ -38,14 +38,6 @@
  * @subpackage Plugin
  */
 
-/**
- * @global bool $wp_only_load_config
- * @name $wp_only_load_config
- * @var bool
- * @since unknown
- */
-$wp_only_load_config = true;
-
 /** Load WordPress Bootstrap */
 require_once(dirname(dirname(__FILE__)).'/wp-load.php');
 
