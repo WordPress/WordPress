@@ -194,11 +194,11 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 
 	echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update"><div class="update-message">';
 	if ( ! current_user_can('update_plugins') )
-		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
 	else if ( empty($r->package) )
-		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Automatic upgrade is unavailable for this plugin.</em>'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
 	else
-		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s Details</a> or <a href="%5$s">upgrade automatically</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version, wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $file, 'upgrade-plugin_' . $file) );
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s">upgrade automatically</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version, wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $file, 'upgrade-plugin_' . $file) );
 
 	do_action( "in_plugin_update_message-$file", $plugin_data, $r );
 
