@@ -363,7 +363,6 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				}
 
 				if ( untrailingslashit($current_url) == home_url() ) {
-					$classes[] = 'menu-item-home';
 					// Back compat for home limk to match wp_page_menu()
 					$classes[] = 'current_page_item';
 				}
@@ -371,6 +370,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				$active_parent_object_ids[] = (int) $menu_item->post_parent;
 				$active_object = $menu_item->object;
 			}
+			
+			if ( untrailingslashit($item_url) == home_url() )
+				$classes[] = 'menu-item-home';
 		}
 
 		// back-compat with wp_page_menu: add "current_page_parent" to static home page link for any non-page query
