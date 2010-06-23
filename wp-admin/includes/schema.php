@@ -714,7 +714,7 @@ Thanks!
 		'subdomain_install' => intval( $subdomain_install ),
 		'global_terms_enabled' => global_terms_enabled() ? '1' : '0'
 	);
-	if ( !intval( $subdomain_install ) )
+	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';
 
 	$insert = '';
