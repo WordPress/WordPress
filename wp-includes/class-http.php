@@ -241,7 +241,7 @@ class WP_Http {
 		$arrURL = parse_url( $url );
 
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) )
-			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
+			return new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
 
 		if ( $this->block_request( $url ) )
 			return new WP_Error( 'http_request_failed', __( 'User has blocked requests through HTTP.' ) );
@@ -260,7 +260,7 @@ class WP_Http {
 
 		if ( ! is_array( $r['headers'] ) ) {
 			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
-			$r['headers'] = $processedHeaders['headers'];
+			$r['headers']     = $processedHeaders['headers'];
 		}
 
 		if ( isset( $r['headers']['User-Agent'] ) ) {
@@ -296,7 +296,7 @@ class WP_Http {
 					$r['body'] = _http_build_query( $r['body'], null, '&' );
 				else
 					$r['body'] = http_build_query( $r['body'], null, '&' );
-				$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
+				$r['headers']['Content-Type']   = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
 			}
 
@@ -621,7 +621,7 @@ class WP_Http_Fsockopen {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if ( isset($r['headers']['user-agent']) ) {
+		} else if( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
@@ -973,7 +973,7 @@ class WP_Http_Streams {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if ( isset($r['headers']['user-agent']) ) {
+		} else if( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
@@ -1146,7 +1146,7 @@ class WP_Http_ExtHTTP {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if ( isset($r['headers']['user-agent']) ) {
+		} else if( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
@@ -1296,7 +1296,7 @@ class WP_Http_Curl {
 		if ( isset($r['headers']['User-Agent']) ) {
 			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
-		} else if ( isset($r['headers']['user-agent']) ) {
+		} else if( isset($r['headers']['user-agent']) ) {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
