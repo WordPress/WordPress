@@ -34,7 +34,7 @@ if ( isset( $_GET['download'] ) ) {
 		$mm_start = isset($_GET['mm_start']) ? $_GET['mm_start'] : 'all';
 		$mm_end = isset($_GET['mm_end']) ? $_GET['mm_end'] : 'all';
 		if( $mm_start != 'all' ) {
-			$start_date = sprintf( "%04d-%02d-%02d", substr( $MM._start, 0, 4 ), substr( $mm_start, 5, 2 ), 1 );
+			$start_date = sprintf( "%04d-%02d-%02d", substr( $mm_start, 0, 4 ), substr( $mm_start, 5, 2 ), 1 );
 		} else {
 			$start_date = 'all';
 		}
