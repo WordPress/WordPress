@@ -351,7 +351,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		} elseif ( 'custom' == $menu_item->object ) {
 			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
-			if ( $item_url == $current_url ) {
+			$_indexless_current = preg_replace( '/index.php$/', '', $current_url );
+			
+			if ( in_array( $item_url, array( $current_url, $_indexless_current ) ) ) {
 				$classes[] = 'current-menu-item';
 				$_anc_id = (int) $menu_item->db_id;
 
@@ -362,7 +364,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 					$active_ancestor_item_ids[] = $_anc_id;
 				}
 
-				if ( untrailingslashit($current_url) == home_url() ) {
+				if ( in_array( home_url(), array( untrailingslashit( $current_url ), untrailingslashit( $_indexless_current ) ) ) ) {
 					// Back compat for home limk to match wp_page_menu()
 					$classes[] = 'current_page_item';
 				}
