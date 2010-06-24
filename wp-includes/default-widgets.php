@@ -1067,6 +1067,8 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		if ( !$nav_menu )
 			return;
 
+		$instance['title'] = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
+
 		echo $args['before_widget'];
 
 		if ( !empty($instance['title']) )
