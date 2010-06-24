@@ -956,7 +956,6 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	define( 'DOING_AUTOSAVE', true );
 
 	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce' );
-	global $current_user;
 
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
 	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
