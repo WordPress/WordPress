@@ -1170,8 +1170,6 @@ function _wp_post_thumbnail_html( $thumbnail_id = NULL ) {
  * @return bool|int False: not locked or locked by current user. Int: user ID of user with lock.
  */
 function wp_check_post_lock( $post_id ) {
-	global $current_user;
-
 	if ( !$post = get_post( $post_id ) )
 		return false;
 
@@ -1180,7 +1178,7 @@ function wp_check_post_lock( $post_id ) {
 
 	$time_window = apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 );
 
-	if ( $lock && $lock > time() - $time_window && $last != $current_user->ID )
+	if ( $lock && $lock > time() - $time_window && $last != get_current_user_id() )
 		return $last;
 	return false;
 }
@@ -1194,10 +1192,9 @@ function wp_check_post_lock( $post_id ) {
  * @return bool Returns false if the post doesn't exist of there is no current user
  */
 function wp_set_post_lock( $post_id ) {
-	global $current_user;
 	if ( !$post = get_post( $post_id ) )
 		return false;
-	if ( !$current_user || !$current_user->ID )
+	if ( 0 == get_current_user_id() )
 		return false;
 
 	$now = time();
@@ -1252,8 +1249,7 @@ function wp_create_post_autosave( $post_id ) {
 	if ( $old_autosave = wp_get_post_autosave( $post_id ) ) {
 		$new_autosave = _wp_post_revision_fields( $_POST, true );
 		$new_autosave['ID'] = $old_autosave->ID;
-		$current_user = wp_get_current_user();
-		$new_autosave['post_author'] = $current_user->ID;
+		$new_autosave['post_author'] = get_current_user_id();
 		return wp_update_post( $new_autosave );
 	}
 

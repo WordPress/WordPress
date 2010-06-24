@@ -847,7 +847,7 @@ function get_hidden_columns($screen) {
  * @param string $screen
  */
 function inline_edit_row( $screen ) {
-	global $current_user, $mode;
+	global $mode;
 
 	if ( is_string($screen) ) {
 		$screen = array('id' => 'edit-' . $screen, 'base' => 'edit', 'post_type' => $screen );
@@ -928,7 +928,7 @@ endif; // post_type_supports title ?>
 <?php endif; // $bulk
 
 	if ( post_type_supports( $screen->post_type, 'author' ) ) :
-		$authors = get_editable_user_ids( $current_user->id, true, $screen->post_type ); // TODO: ROLE SYSTEM
+		$authors = get_editable_user_ids( get_current_user_id(), true, $screen->post_type ); // TODO: ROLE SYSTEM
 		$authors_dropdown = '';
 		if ( $authors && count( $authors ) > 1 ) :
 			$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1, 'echo' => 0);
@@ -1268,7 +1268,7 @@ function post_rows( $posts = array() ) {
  * @param unknown_type $mode
  */
 function _post_row($a_post, $pending_comments, $mode) {
-	global $post, $current_user, $current_screen;
+	global $post, $current_screen;
 	static $rowclass;
 
 	$global_post = $post;
@@ -1276,7 +1276,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 	setup_postdata($post);
 
 	$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
-	$post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
+	$post_owner = ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
 	$edit_link = get_edit_post_link( $post->ID );
 	$title = _draft_or_post_title();
 	$post_type_object = get_post_type_object($post->post_type);
@@ -1794,8 +1794,6 @@ function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_
 function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 	global $wp_roles;
 
-	$current_user = wp_get_current_user();
-
 	if ( !( is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
 		$user_object = new WP_User( (int) $user_object );
 	$user_object = sanitize_user_object($user_object, 'display');
@@ -1812,7 +1810,7 @@ function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 	if ( current_user_can( 'list_users' ) ) {
 		// Set up the user editing link
 		// TODO: make profile/user-edit determination a separate function
-		if ($current_user->ID == $user_object->ID) {
+		if ( get_current_user_id() == $user_object->ID) {
 			$edit_link = 'profile.php';
 		} else {
 			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( esc_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
@@ -1829,9 +1827,9 @@ function user_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 			$edit = "<strong>$user_object->user_login</strong><br />";
 		}
 
-		if ( !is_multisite() && $current_user->ID != $user_object->ID && current_user_can('delete_user', $user_object->ID) )
+		if ( !is_multisite() && get_current_user_id() != $user_object->ID && current_user_can('delete_user', $user_object->ID) )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . '</a>';
-		if ( is_multisite() && $current_user->ID != $user_object->ID && current_user_can('remove_user', $user_object->ID) )
+		if ( is_multisite() && get_current_user_id() != $user_object->ID && current_user_can('remove_user', $user_object->ID) )
 			$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=remove&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Remove') . '</a>';
 		$actions = apply_filters('user_row_actions', $actions, $user_object);
 		$action_count = count($actions);
@@ -2224,8 +2222,6 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
  * @param unknown_type $mode
  */
 function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
-	global $current_user;
-
 	// allow plugin to replace the popup content
 	$content = apply_filters( 'wp_comment_reply', '', array('position' => $position, 'checkbox' => $checkbox, 'mode' => $mode) );
 
@@ -2277,7 +2273,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<br class="clear" />
 	</p>
 
-	<input type="hidden" name="user_ID" id="user_ID" value="<?php echo $current_user->ID; ?>" />
+	<input type="hidden" name="user_ID" id="user_ID" value="<?php echo get_current_user_id(); ?>" />
 	<input type="hidden" name="action" id="action" value="" />
 	<input type="hidden" name="comment_ID" id="comment_ID" value="" />
 	<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="" />

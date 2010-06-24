@@ -153,7 +153,8 @@ function validate_user_form() {
 }
 
 function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
-	global $current_user, $current_site;
+	global $current_site;
+	$current_user = wp_get_current_user();
 
 	if ( ! is_wp_error($errors) ) {
 		$errors = new WP_Error();
@@ -197,7 +198,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 }
 
 function validate_another_blog_signup() {
-	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
+	global $wpdb, $blogname, $blog_title, $errors, $domain, $path;
 	$current_user = wp_get_current_user();
 	if ( !is_user_logged_in() )
 		die();

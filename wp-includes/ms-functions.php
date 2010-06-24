@@ -372,8 +372,9 @@ function wpmu_admin_redirect_add_updated_param( $url = '' ) {
 }
 
 function is_blog_user( $blog_id = 0 ) {
-	global $current_user, $wpdb;
-
+	global $wpdb;
+ 
+	$current_user = wp_get_current_user();
 	if ( !$blog_id )
 		$blog_id = $wpdb->blogid;
 
@@ -1319,8 +1320,7 @@ function fix_phpmailer_messageid( $phpmailer ) {
 
 function is_user_spammy( $username = 0 ) {
 	if ( $username == 0 ) {
-		global $current_user;
-		$user_id = $current_user->ID;
+		$user_id = get_current_user_id();
 	} else {
 		$user_id = get_user_id_from_string( $username );
 	}
@@ -1360,8 +1360,9 @@ function get_dashboard_blog() {
 }
 
 function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
-	global $current_user, $wpdb;
+	global $wpdb;
 
+	$current_user = wp_get_current_user();
 	if ( $user_id == 0 )
 		$user_id = $current_user->ID;
 	if ( $blog_id == 0 )

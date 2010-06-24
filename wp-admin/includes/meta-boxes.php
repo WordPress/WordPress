@@ -501,8 +501,8 @@ function post_slug_meta_box($post) {
  * @param object $post
  */
 function post_author_meta_box($post) {
-	global $current_user, $user_ID;
-	$authors = get_editable_user_ids( $current_user->id, true, $post->post_type ); // TODO: ROLE SYSTEM
+	global $user_ID;
+	$authors = get_editable_user_ids( get_current_user_id(), true, $post->post_type ); // TODO: ROLE SYSTEM
 	if ( $post->post_author && !in_array($post->post_author, $authors) )
 		$authors[] = $post->post_author;
 ?>

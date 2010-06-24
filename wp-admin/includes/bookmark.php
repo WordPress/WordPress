@@ -128,7 +128,7 @@ function get_link_to_edit( $link_id ) {
  * @return unknown
  */
 function wp_insert_link( $linkdata, $wp_error = false ) {
-	global $wpdb, $current_user;
+	global $wpdb;
 
 	$defaults = array( 'link_id' => 0, 'link_name' => '', 'link_url' => '', 'link_rating' => 0 );
 
@@ -166,7 +166,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 		$link_visible = 'Y';
 
 	if ( empty( $link_owner ) )
-		$link_owner = $current_user->id;
+		$link_owner = get_current_user_id();
 
 	if ( empty( $link_notes ) )
 		$link_notes = '';
