@@ -10,11 +10,13 @@
 require_once('./admin.php');
 if ( is_multisite() ) {
 	$menu_perms = get_site_option( 'menu_items', array() );
-
-	if ( empty($menu_perms['plugins']) && ! is_super_admin() )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
-	else if ( $menu_perms['plugins'] != 1 && is_super_admin() )
-		add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
+		
+	if ( empty($menu_perms['plugins'] ) || $menu_perms['plugins'] != 1 ) {
+		if ( ! is_super_admin() )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		else
+			add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
+	}
 }
 
 if ( ! current_user_can( 'activate_plugins' ) )
