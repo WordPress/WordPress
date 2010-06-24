@@ -555,9 +555,10 @@ function print_plugins_table($plugins, $context = '') {
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
 			} else {
 				$is_active = false;
-				$description = '<strong>' . $dropins[ $plugin_file ][0] . ' <span class="attention">' . __('Inactive:') . '</span></strong> ' . sprintf( __( 'Requires <code>%s</code> in <code>wp-config.php</code>.' ), "define('" . $dropins[ $plugin_file ][1] . "', true);" ) . '</p>';
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="attention">' . __('Inactive:') . '</span></strong> ' . sprintf( __( 'Requires <code>%s</code> in <code>wp-config.php</code>.' ), "define('" . $dropins[ $plugin_file ][1] . "', true);" ) . '</p>';
 			}
-			$description .= '<p>' . $plugin_data['Description'] . '</p>';
+			if ( $plugin_data['Description'] )
+				$description .= '<p>' . $plugin_data['Description'] . '</p>';
 		} else {
 			$is_active_for_network = is_plugin_active_for_network($plugin_file);
 			$is_active = $is_active_for_network || is_plugin_active( $plugin_file );
@@ -736,9 +737,9 @@ unset( $status_links );
 
 <?php
 if ( 'mustuse' == $status )
-	echo '<div class="clear"><p>' . __( 'Files in the <code>/wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
+	echo '<div class="clear"></div><p>' . __( 'Files in the <code>/wp-content/mu-plugins</code> directory are executed automatically.' ) . '</p>';
 elseif ( 'dropins' == $status )
-	echo '<div class="clear"><p>' . __( 'Drop-ins are advanced plugins in the <code>/wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
+	echo '<div class="clear"></div><p>' . __( 'Drop-ins are advanced plugins in the <code>/wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
 
 if ( !empty( $plugins ) && ( ! in_array( $status, array( 'mustuse', 'dropins' ) ) || $page_links ) ) :
 ?>
@@ -769,8 +770,6 @@ if ( $page_links )
 print_plugin_actions($status, "action2");
 ?>
 </div>
-<?php } elseif ( ! empty( $all_plugins ) ) { ?>
-<p><?php __( 'No plugins found.' ); ?></p>
 <?php } ?>
 </form>
 
