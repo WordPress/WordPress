@@ -407,9 +407,11 @@ function switch_to_blog( $new_blog, $validate = false ) {
 		$wpdb->suppress_errors( false );
 	}
  
-	$current_user = wp_get_current_user();
-	if ( is_object( $current_user ) )
-		$current_user->for_blog( $blog_id );
+	if ( ! did_action('init') ) {
+		$current_user = wp_get_current_user();	
+		if ( is_object( $current_user ) )
+			$current_user->for_blog( $blog_id );
+	}
 
 	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 		$global_groups = $wp_object_cache->global_groups;
@@ -461,9 +463,11 @@ function restore_current_blog() {
 		$wpdb->suppress_errors( false );
 	}
 
-	$current_user = wp_get_current_user();
-	if ( is_object( $current_user ) )
-		$current_user->for_blog( $blog_id );
+	if ( ! did_action('init') ) {
+		$current_user = wp_get_current_user();
+		if ( is_object( $current_user ) )
+			$current_user->for_blog( $blog_id );
+	}
 
 	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 		$global_groups = $wp_object_cache->global_groups;
