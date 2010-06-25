@@ -182,7 +182,6 @@ function wpmu_current_site() {
 	}
 
 	// Still no dice.
-	// @todo Update or remove WPMU codex link.
 	if ( 1 == count( $sites ) )
 		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'That site does not exist. Please try <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
 	else
