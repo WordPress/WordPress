@@ -365,7 +365,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				}
 
 				if ( in_array( home_url(), array( untrailingslashit( $current_url ), untrailingslashit( $_indexless_current ) ) ) ) {
-					// Back compat for home limk to match wp_page_menu()
+					// Back compat for home link to match wp_page_menu()
 					$classes[] = 'current_page_item';
 				}
 				$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
