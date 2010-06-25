@@ -130,7 +130,7 @@ if (empty ($importers)) {
 }
 
 if ( current_user_can('install_plugins') )
-	echo '<p>' . sprintf('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.', esc_url(admin_url('plugin-install.php?tab=search&type=tag&s=importer')) ) . '</p>';
+	echo '<p>' . sprintf( __('If the importer you need is not listed, <a href="%s">search the plugins directory</a> to see if an importer is available.'), esc_url(admin_url('plugin-install.php?tab=search&type=tag&s=importer')) ) . '</p>';
 ?>
 
 </div>
