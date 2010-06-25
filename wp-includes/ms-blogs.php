@@ -407,7 +407,7 @@ function switch_to_blog( $new_blog, $validate = false ) {
 		$wpdb->suppress_errors( false );
 	}
  
-	if ( ! did_action('init') ) {
+	if ( did_action('init') ) {
 		$current_user = wp_get_current_user();	
 		if ( is_object( $current_user ) )
 			$current_user->for_blog( $blog_id );
@@ -463,7 +463,7 @@ function restore_current_blog() {
 		$wpdb->suppress_errors( false );
 	}
 
-	if ( ! did_action('init') ) {
+	if ( did_action('init') ) {
 		$current_user = wp_get_current_user();
 		if ( is_object( $current_user ) )
 			$current_user->for_blog( $blog_id );
