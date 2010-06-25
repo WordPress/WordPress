@@ -48,10 +48,10 @@ function is_site_admin( $user_login = '' ) {
 		if ( !$user_id )
 			return false;
 	} else {
-		$user = new WP_User( null, $user_login) ;
-		if ( empty( $user->id ) )
+		$user = get_user_by( 'login', $user_login );
+		if ( empty( $user->ID ) )
 			return false;
-		$user_id = $user->id;
+		$user_id = $user->ID;
 	}
 
 	return is_super_admin( $user_id );
