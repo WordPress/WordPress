@@ -3736,7 +3736,7 @@ function screen_options($screen) {
 		case 'edit':
 		case 'edit-pages':
 			$post_type = 'post';
-			if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('public' => true ) ) ) )
+			if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array('show_ui' => true ) ) ) )
 				$post_type = $_GET['post_type'];
 			$post_type_object = get_post_type_object($post_type);
 			$per_page_label = $post_type_object->labels->name;
