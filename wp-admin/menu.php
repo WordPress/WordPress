@@ -123,7 +123,7 @@ $_wp_last_object_menu = 25; // The index of the last top-level menu in the objec
 
 foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false) ) as $ptype ) {
 	$ptype_obj = get_post_type_object( $ptype );
-	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : $_wp_last_object_menu++; // If we're to use $_wp_last_object_menu, increment it first.
+	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : ++$_wp_last_object_menu; // If we're to use $_wp_last_object_menu, increment it first.
 	$ptype_for_id = sanitize_html_class( $ptype );
 	if ( is_string( $ptype_obj->menu_icon ) ) {
 		$menu_icon   = esc_url( $ptype_obj->menu_icon );
