@@ -286,14 +286,14 @@ switch ( $_GET['action'] ) {
 				unset( $_POST['role'] );
 				$_POST['role'] = $newroles[ $userid ];
 				if ( $pass != '' ) {
-					$cap = $wpdb->get_var( "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = '{$userid}' AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'" );
+					$cap = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'", $userid ) );
 					$userdata = get_userdata($userid);
 					$_POST['pass1'] = $_POST['pass2'] = $pass;
 					$_POST['email'] = $userdata->user_email;
 					$_POST['rich_editing'] = $userdata->rich_editing;
 					edit_user( $userid );
 					if ( $cap == null )
-						$wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE user_id = '{$userid}' AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'" );
+						$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'", $userid ) );
 				}
 			}
 			unset( $_POST['role'] );
