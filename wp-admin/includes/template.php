@@ -1389,7 +1389,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			if ( !empty( $categories ) ) {
 				$out = array();
 				foreach ( $categories as $c )
-					$out[] = "<a href='edit.php?category_name=$c->slug'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'category', 'display')) . '</a>';
+					$out[] = "<a href='edit.php?post_type={$post->post_type}&amp;category_name={$c->slug}'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'category', 'display')) . '</a>';
 					echo join( ', ', $out );
 			} else {
 				_e('Uncategorized');
@@ -1405,7 +1405,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			if ( !empty( $tags ) ) {
 				$out = array();
 				foreach ( $tags as $c )
-					$out[] = "<a href='edit.php?tag=$c->slug'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'post_tag', 'display')) . '</a>';
+					$out[] = "<a href='edit.php?post_type={$post->post_type}&amp;tag={$c->slug}'> " . esc_html(sanitize_term_field('name', $c->name, $c->term_id, 'post_tag', 'display')) . '</a>';
 				echo join( ', ', $out );
 			} else {
 				_e('No Tags');

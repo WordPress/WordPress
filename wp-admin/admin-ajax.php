@@ -552,7 +552,7 @@ case 'add-link-cat' : // From Blogroll -> Categories
 	break;
 case 'add-tag' : // From Manage->Tags
 	check_ajax_referer( 'add-tag' );
-
+	$post_type = !empty($_POST['post_type']) ? $_POST['post_type'] : 'post';
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tax = get_taxonomy($taxonomy);
 
