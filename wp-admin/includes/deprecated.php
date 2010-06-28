@@ -32,7 +32,7 @@ function tinymce_include() {
  *
  */
 function documentation_link() {
-	_deprecated_function( __FUNCTION__, '2.5', '' );
+	_deprecated_function( __FUNCTION__, '2.5' );
 	return;
 }
 
@@ -58,7 +58,7 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
  * {@internal Missing Short Description}}
  *
  * @since unknown
- * @deprecated unknown
+ * @deprecated 2.6.0
  * @deprecated Use wp_category_checklist()
  * @see wp_category_checklist()
  *
@@ -67,7 +67,7 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
  * @param unknown_type $popular_ids
  */
 function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
-	_deprecated_function( __FUNCTION__, '0.0', 'wp_category_checklist()' );
+	_deprecated_function( __FUNCTION__, '2.6', 'wp_category_checklist()' );
 	global $post_ID;
 	wp_category_checklist( $post_ID );
 }
@@ -76,14 +76,14 @@ function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() 
  * {@internal Missing Short Description}}
  *
  * @since unknown
- * @deprecated unknown
+ * @deprecated 2.6.0
  * @deprecated Use wp_link_category_checklist()
  * @see wp_link_category_checklist()
  *
  * @param unknown_type $default
  */
 function dropdown_link_categories( $default = 0 ) {
-	_deprecated_function( __FUNCTION__, '0.0', 'wp_link_category_checklist()' );
+	_deprecated_function( __FUNCTION__, '2.6', 'wp_link_category_checklist()' );
 	global $link_id;
 	wp_link_category_checklist( $link_id );
 }

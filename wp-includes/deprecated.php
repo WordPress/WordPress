@@ -430,7 +430,7 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', 
  * @return bool|null
  */
 function wp_get_linksbyname($category, $args = '') {
-	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_bookmarks()');
+	_deprecated_function(__FUNCTION__, '2.1', 'wp_list_bookmarks()');
 
 	$defaults = array(
 		'after' => '<br />',
@@ -875,7 +875,7 @@ function permalink_link() {
  * @param string $file
  */
 function permalink_single_rss($deprecated = '') {
-	_deprecated_function( __FUNCTION__, '0.0', 'the_permalink_rss()' );
+	_deprecated_function( __FUNCTION__, '2.3', 'the_permalink_rss()' );
 	the_permalink_rss();
 }
 
@@ -892,7 +892,7 @@ function permalink_single_rss($deprecated = '') {
  * @return null|string
  */
 function wp_get_links($args = '') {
-	_deprecated_function( __FUNCTION__, '0.0', 'wp_list_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_bookmarks()' );
 
 	if ( strpos( $args, '=' ) === false ) {
 		$cat_id = $args;

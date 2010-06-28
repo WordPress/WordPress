@@ -141,10 +141,10 @@ function validate_email( $email, $check_domain = true) {
 /**
  * @since MU
  * @deprecated 3.0.0
- * @deprecated Don't use this, really.
+ * @deprecated No alternative available. For performance reasons this function is not recommended.
  */
 function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0', "Don't use this, really." );
+	_deprecated_function( __FUNCTION__, '3.0' );
 
 	global $wpdb;
 	$blogs = $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", $wpdb->siteid), ARRAY_A );
@@ -168,10 +168,10 @@ function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
 /**
  * @since MU
  * @deprecated 3.0.0
- * @deprecated Don't use this, really.
+ * @deprecated No alternative available. For performance reasons this function is not recommended.
  */
 function get_most_active_blogs( $num = 10, $display = true ) {
-	_deprecated_function( __FUNCTION__, '3.0', "Don't use this, really." );
+	_deprecated_function( __FUNCTION__, '3.0' );
 
 	$blogs = get_blog_list( 0, 'all', false ); // $blog_id -> $details
 	if ( is_array( $blogs ) ) {
