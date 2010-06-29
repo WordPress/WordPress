@@ -2531,7 +2531,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	if ( ! is_array( $feeds ) )
 		$feeds = array();
 
-	$hierarchical_post_types = apply_filters( 'hierarchical_post_types', array( 'page' ) );
+	$hierarchical_post_types = get_post_types( array('hierarchical' => true) );
 	if ( 'attachment' == $post_type ) {
 		// Attachment slugs must be unique across all types.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
