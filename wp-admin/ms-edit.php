@@ -226,8 +226,9 @@ switch ( $_GET['action'] ) {
 		if ( is_array( $_POST['option'] ) ) {
 			$c = 1;
 			$count = count( $_POST['option'] );
+			$skip_options = array( 'allowedthemes' ); // Don't update these options since they are handled elsewhere in the form.
 			foreach ( (array) $_POST['option'] as $key => $val ) {
-				if ( $key === 0 || is_array( $val ) )
+				if ( $key === 0 || is_array( $val ) || in_array($key, $skip_options) )
 					continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options
 				if ( $c == $count )
 					update_option( $key, stripslashes( $val ) );
