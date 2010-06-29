@@ -152,7 +152,7 @@ if ( isset($plugin_page) ) {
 		if ( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") )
 			include(WPMU_PLUGIN_DIR . "/$plugin_page");
 		else
-			include(ABSPATH . PLUGINDIR . "/$plugin_page");
+			include(WP_PLUGIN_DIR . "/$plugin_page");
 	}
 
 	include(ABSPATH . 'wp-admin/admin-footer.php');
