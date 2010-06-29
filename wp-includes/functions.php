@@ -27,16 +27,15 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 	if ( empty( $m ) )
 		return false;
 
-	if ( 'G' == $dateformatstring ) {
+	if ( 'G' == $dateformatstring )
 		return strtotime( $m . ' +0000' );
-	}
 
 	$i = strtotime( $m );
 
 	if ( 'U' == $dateformatstring )
 		return $i;
 
-	if ( $translate)
+	if ( $translate )
 		return date_i18n( $dateformatstring, $i );
 	else
 		return date( $dateformatstring, $i );
