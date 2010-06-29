@@ -37,9 +37,9 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 		return $i;
 
 	if ( $translate)
-	    return date_i18n( $dateformatstring, $i );
+		return date_i18n( $dateformatstring, $i );
 	else
-	    return date( $dateformatstring, $i );
+		return date( $dateformatstring, $i );
 }
 
 /**
