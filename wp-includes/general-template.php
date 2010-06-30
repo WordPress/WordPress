@@ -1542,7 +1542,7 @@ function the_weekday() {
  *
  * @param string $before Optional Output before the date.
  * @param string $after Optional Output after the date.
-  */
+ */
 function the_weekday_date($before='',$after='') {
 	global $wp_locale, $post, $day, $previousweekday;
 	$the_weekday_date = '';

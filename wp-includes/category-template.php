@@ -731,9 +731,9 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		break;
 	endswitch;
 
-    if ( $filter )
+	if ( $filter )
 		return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
-    else
+	else
 		return $return;
 }
 

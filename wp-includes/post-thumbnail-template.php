@@ -57,7 +57,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
  * @param int $post_id Optional. Post ID.
  * @param string $size Optional. Image size.  Defaults to 'thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes.
-  */
+ */
 function get_the_post_thumbnail( $post_id = NULL, $size = 'post-thumbnail', $attr = '' ) {
 	global $id;
 	$post_id = ( NULL === $post_id ) ? $id : $post_id;

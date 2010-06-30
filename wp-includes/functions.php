@@ -669,7 +669,7 @@ function delete_option( $option ) {
 function delete_transient( $transient ) {
 	global $_wp_using_ext_object_cache;
 
-    do_action( 'delete_transient_' . $transient, $transient );
+	do_action( 'delete_transient_' . $transient, $transient );
 
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_delete( $transient, 'transient' );
@@ -757,7 +757,7 @@ function get_transient( $transient ) {
 function set_transient( $transient, $value, $expiration = 0 ) {
 	global $_wp_using_ext_object_cache;
 
-    $value = apply_filters( 'pre_set_transient_' . $transient, $value );
+	$value = apply_filters( 'pre_set_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_set( $transient, $value, 'transient', $expiration );
@@ -3784,7 +3784,7 @@ function get_site_transient( $transient ) {
 function set_site_transient( $transient, $value, $expiration = 0 ) {
 	global $_wp_using_ext_object_cache;
 
-    $value = apply_filters( 'pre_set_site_transient_' . $transient, $value );
+	$value = apply_filters( 'pre_set_site_transient_' . $transient, $value );
 
 	if ( $_wp_using_ext_object_cache ) {
 		$result = wp_cache_set( $transient, $value, 'site-transient', $expiration );

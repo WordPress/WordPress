@@ -752,11 +752,11 @@ function _fill_many_users( &$users ) {
 		$ids[] = $user_object->ID;
 	}
 
-    $metas = get_user_metavalues($ids);
+	$metas = get_user_metavalues($ids);
 
 	foreach($users as $user_object) {
 		if (isset($metas[$user_object->ID])) {
-	        _fill_single_user($user_object, $metas[$user_object->ID]);
+			_fill_single_user($user_object, $metas[$user_object->ID]);
 		}
 	}
 }

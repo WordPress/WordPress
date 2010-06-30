@@ -90,10 +90,10 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 
 	$now = time();
 
-    if ( $timestamp >= $now )
-        $timestamp = $now + $interval;
-    else
-        $timestamp = $now + ($interval - (($now - $timestamp) % $interval));
+	if ( $timestamp >= $now )
+		$timestamp = $now + $interval;
+	else
+		$timestamp = $now + ($interval - (($now - $timestamp) % $interval));
 
 	wp_schedule_event( $timestamp, $recurrence, $hook, $args );
 }

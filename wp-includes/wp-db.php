@@ -790,8 +790,8 @@ class wpdb {
 	/**
 	 * Escape data. Works on arrays.
 	 *
-     * @uses wpdb::_escape()
-     * @uses wpdb::_real_escape()
+	 * @uses wpdb::_escape()
+	 * @uses wpdb::_real_escape()
 	 * @since  2.8
 	 * @access private
 	 *

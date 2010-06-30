@@ -981,22 +981,22 @@ function &get_terms($taxonomies, $args = '') {
 
 	$selects = array();
 	switch ( $fields ) {
- 		case 'all':
- 			$selects = array('t.*', 'tt.*');
- 			break;
- 		case 'ids':
+		case 'all':
+			$selects = array('t.*', 'tt.*');
+			break;
+		case 'ids':
 		case 'id=>parent':
- 			$selects = array('t.term_id', 'tt.parent', 'tt.count');
- 			break;
- 		case 'names':
- 			$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
- 			break;
- 		case 'count':
+			$selects = array('t.term_id', 'tt.parent', 'tt.count');
+			break;
+		case 'names':
+			$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
+			break;
+		case 'count':
 			$orderby = '';
 			$order = '';
- 			$selects = array('COUNT(*)');
- 	}
-    $select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
+			$selects = array('COUNT(*)');
+	}
+	$select_this = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where $orderby $order $limit";
 

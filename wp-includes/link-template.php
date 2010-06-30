@@ -2228,7 +2228,7 @@ function wp_shortlink_wp_head() {
  * @uses wp_get_shortlink()
  */
 function wp_shortlink_header() {
-    if ( headers_sent() )
+	if ( headers_sent() )
 		return;
 
 	$shortlink = wp_get_shortlink(0, 'query');

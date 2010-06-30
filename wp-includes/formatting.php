@@ -2826,7 +2826,7 @@ function sanitize_text_field($str) {
  * @since 3.0.0
  */
 function capital_P_dangit( $text ) {
-       return str_replace( 'Wordpress', 'WordPress', $text );
+	return str_replace( 'Wordpress', 'WordPress', $text );
 }
 
 ?>
