@@ -376,7 +376,8 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 		$old_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_status = 'auto-draft' AND DATE_SUB( NOW(), INTERVAL 7 DAY ) > post_date" );
 		foreach ( (array) $old_posts as $delete )
 			wp_delete_post( $delete, true ); // Force delete
-		$post = get_post( wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) ) );
+		$post_id = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) );
+		$post = get_post( $post_id );
 	} else {
 		$post->ID = 0;
 		$post->post_author = '';
