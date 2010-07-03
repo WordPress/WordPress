@@ -2502,19 +2502,6 @@ function funky_javascript_fix($text) {
 }
 
 /**
- * Generates and displays the RDF for the trackback information of current post.
- *
- * @since 0.71
- * @deprecated 3.0.0
- *
- * @param int $deprecated Not used (Was $timezone = 0)
- */
-function trackback_rdf($deprecated = '') {
-	_deprecated_function( __FUNCTION__, '3.0' );
-	return '';
-}
-
-/**
  * Checks that the taxonomy name exists.
  *
  * @since 2.3.0
