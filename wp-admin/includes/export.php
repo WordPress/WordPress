@@ -69,7 +69,7 @@ function export_wp( $args = array() ) {
 	}
 
 	if ( $post_status && $post_status != 'all' )
-		$where .= $wpdb->prepare( "AND post_status = %s", $status );
+		$where .= $wpdb->prepare( "AND post_status = %s", $post_status );
 
 	// grab a snapshot of post IDs, just in case it changes during the export
 	$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts $where ORDER BY post_date_gmt ASC" );
