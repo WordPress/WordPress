@@ -161,7 +161,7 @@ function get_the_content_feed($feed_type = null) {
  * @param string $feed_type The type of feed. rss2 | atom | rss | rdf
  */
 function the_content_feed($feed_type = null) {
-	echo get_the_content_feed();
+	echo get_the_content_feed($feed_type);
 }
 
 /**
