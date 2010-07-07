@@ -1231,14 +1231,15 @@ case 'inline-save':
 	// update the post
 	edit_post();
 
-	$post = array();
-	if ( 'page' == $_POST['post_type'] ) {
+	if ( in_array( $_POST['post_type'], get_post_types( array( 'show_ui' => true ) ) ) ) {
+		$post = array();
 		$post[] = get_post($_POST['post_ID']);
-		page_rows($post);
-	} elseif ( 'post' == $_POST['post_type'] || in_array($_POST['post_type'], get_post_types( array('public' => true) ) ) ) {
-		$mode = $_POST['post_view'];
-		$post[] = get_post($_POST['post_ID']);
-		post_rows($post);
+		if ( is_post_type_hierarchical( $_POST['post_type'] ) ) {
+			page_rows( $post );
+		} else {
+			$mode = $_POST['post_view'];
+			post_rows( $post );
+		}
 	}
 
 	exit;
