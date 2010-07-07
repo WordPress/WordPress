@@ -515,7 +515,8 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
  * @param bool $silent Optional, default is false. Prevent calling deactivate hook.
  */
 function deactivate_plugins( $plugins, $silent = false ) {
-	$network_current = get_site_option( 'active_sitewide_plugins', array() );
+	if ( is_multisite() )
+		$network_current = get_site_option( 'active_sitewide_plugins', array() );
 	$current = get_option( 'active_plugins', array() );
 	$do_blog = $do_network = false;
 
