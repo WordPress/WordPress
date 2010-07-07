@@ -1130,7 +1130,7 @@ function upgrade_300() {
 		$wpdb->update( $wpdb->postmeta, array( 'meta_value' => '' ), array( 'meta_key' => '_menu_item_target', 'meta_value' => '_self' ) );
 
 	// 3.0 screen options key name changes.
-	if ( !is_multisite() || is_main_site() ) {
+	if ( is_main_site() && !defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) {
 		$prefix = like_escape($wpdb->base_prefix);
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '{$prefix}%meta-box-hidden%' OR meta_key LIKE '{$prefix}%closedpostboxes%' OR meta_key LIKE '{$prefix}%manage-%-columns-hidden%' OR meta_key LIKE '{$prefix}%meta-box-order%' OR meta_key LIKE '{$prefix}%metaboxorder%' OR meta_key LIKE '{$prefix}%screen_layout%'
 					 OR meta_key = 'manageedittagscolumnshidden' OR meta_key='managecategoriescolumnshidden' OR meta_key = 'manageedit-tagscolumnshidden' OR meta_key = 'manageeditcolumnshidden' OR meta_key = 'categories_per_page' OR meta_key = 'edit_tags_per_page'" );
@@ -1399,6 +1399,10 @@ function dbDelta($queries, $execute = true) {
 	if ($tables = $wpdb->get_col('SHOW TABLES;')) {
 		// For every table in the database
 		foreach ($tables as $table) {
+			// Upgrade global tables only for the main site. Don't upgrade at all if DO_NOT_UPGRADE_GLOBAL_TABLES is defined.
+			if ( in_array($table, $wpdb->tables('global')) && ( !is_main_site() || defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) )
+				continue;
+
 			// If a table query exists for the database table...
 			if ( array_key_exists(strtolower($table), $cqueries) ) {
 				// Clear the field and index arrays
