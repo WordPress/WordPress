@@ -2825,8 +2825,20 @@ function sanitize_text_field($str) {
  *
  * @since 3.0.0
  */
+
 function capital_P_dangit( $text ) {
-	return str_replace( 'Wordpress', 'WordPress', $text );
+	// Simple replacement for titles
+	if ( 'the_title' === current_filter() )
+		return str_replace( 'Wordpress', 'WordPress', $text );
+	// Still here? Use the more judicious replacement
+	static $dblq = false;
+	if ( false === $dblq )
+		$dblq = _x('&#8220;', 'opening curly quote');
+	return str_replace(
+		array( ' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress' ),
+		array( ' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress' ),
+	$text );
+
 }
 
 ?>
