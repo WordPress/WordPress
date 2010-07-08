@@ -197,7 +197,7 @@ switch ( $action ) {
 							?>
 								<tr class="form-field">
 									<th scope="row"><?php echo ucwords( str_replace( "_", " ", $option->option_name ) ) ?></th>
-									<td><textarea class="<?php echo $class; ?>" rows="5" cols="40" name="option[<?php echo esc_attr( $option->option_name ) ?>]" id="<?php echo esc_attr( $option->option_name ) ?>"<?php disabled( $disabled ) ?>><?php wp_htmledit_pre( $option->option_value ) ?></textarea></td>
+									<td><textarea class="<?php echo $class; ?>" rows="5" cols="40" name="option[<?php echo esc_attr( $option->option_name ) ?>]" id="<?php echo esc_attr( $option->option_name ) ?>"<?php disabled( $disabled ) ?>><?php echo wp_htmledit_pre( $option->option_value ) ?></textarea></td>
 								</tr>
 							<?php
 							} else {
