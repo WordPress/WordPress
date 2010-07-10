@@ -653,20 +653,20 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 		if ( $code_lang == 'en_US' ) { // American English
 			$flag = true;
 			$ae = __( 'American English' );
-			$output[$ae] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang ) . '> ' . $ae . '</option>';
+			$output[$ae] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . $ae . '</option>';
 		} elseif ( $code_lang == 'en_GB' ) { // British English
 			$flag = true;
 			$be = __( 'British English' );
-			$output[$be] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang ) . '> ' . $be . '</option>';
+			$output[$be] = '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . $be . '</option>';
 		} else {
 			$translated = format_code_lang( $code_lang );
-			$output[$translated] =  '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang ) . '> ' . esc_html ( $translated ) . '</option>';
+			$output[$translated] =  '<option value="' . esc_attr( $code_lang ) . '"' . selected( $current, $code_lang, false ) . '> ' . esc_html ( $translated ) . '</option>';
 		}
 
 	}
 
 	if ( $flag === false ) // WordPress english
-		$output[] = '<option value=""' . selected( $current, '' ) . '>' . __( 'English' ) . "</option>";
+		$output[] = '<option value=""' . selected( $current, '', false ) . '>' . __( 'English' ) . "</option>";
 
 	// Order by name
 	uksort( $output, 'strnatcasecmp' );
