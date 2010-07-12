@@ -107,6 +107,9 @@ switch ( $action ) {
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
 		$options = $wpdb->get_results( "SELECT * FROM {$blog_prefix}options WHERE option_name NOT LIKE '\_%' AND option_name NOT LIKE '%user_roles'" );
 		$details = get_blog_details( $id );
+		if ( $details->site_id != $wpdb->siteid )
+			wp_die( __( 'You do not have permission to access this page.' ) );
+
 		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
 		$is_main_site = is_main_site( $id );
 		?>
