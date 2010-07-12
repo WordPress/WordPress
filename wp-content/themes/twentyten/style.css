@@ -3,9 +3,10 @@ Theme Name: Twenty Ten
 Theme URI: http://wordpress.org/
 Description: The 2010 default theme for WordPress.
 Author: the WordPress team
-Version: 1.0
+Version: 1.0.3
 Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
 */
+
 
 /* Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
 -------------------------------------------------------------- */
@@ -210,7 +211,7 @@ textarea {
 	line-height: 18px;
 }
 hr {
-	background-color: #E7E7E7;
+	background-color: #e7e7e7;
 	border:0;
 	height: 1px;
 	margin-bottom: 18px;
@@ -313,14 +314,14 @@ textarea {
 	-webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
 }
 a:link {
-	color:#0066CC;
+	color:#0066cc;
 }
 a:visited {
 	color:#743399;
 }
 a:active,
 a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 
 /* Text meant only for screen readers */
@@ -381,6 +382,7 @@ a:hover {
 div.menu {
 	font-size: 13px;
 	margin-left: 12px;
+	width: 928px;
 }
 #access .menu-header ul,
 div.menu ul {
@@ -447,6 +449,8 @@ div.menu li {
 * html #access ul li a:hover {
 	color:#fff;
 }
+
+
 
 /* =Content
 -------------------------------------------------------------- */
@@ -522,13 +526,13 @@ div.menu li {
 	padding: 6px 24px;
 }
 #content tr.odd td {
-	background: #F2F7FC;
+	background: #f2f7fc;
 }
 .hentry {
 	margin: 0 0 48px 0;
 }
 .home .sticky {
-	background: #F2F7FC;
+	background: #f2f7fc;
 	border-top: 4px solid #000;
 	padding: 18px 20px;
 	margin-left: -20px;
@@ -556,7 +560,7 @@ div.menu li {
 }
 .page-title a:active,
 .page-title a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 #content .entry-title {
 	color: #000;
@@ -572,7 +576,7 @@ div.menu li {
 }
 .entry-title a:active,
 .entry-title a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 .entry-meta {
 	color: #888;
@@ -595,7 +599,7 @@ div.menu li {
 	margin-bottom: 12px;
 }
 .entry-content fieldset {
-	border: 1px solid #E7E7E7;
+	border: 1px solid #e7e7e7;
 	margin: 0 0 24px 0;
 	padding: 24px;
 }
@@ -652,18 +656,18 @@ div.menu li {
 	text-decoration:none;
 }
 .home .sticky .page-link a {
-	background: #D9E8F7;
+	background: #d9e8f7;
 }
 .page-link a:active,
 .page-link a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
-.page .edit-link {
+body.page .edit-link {
 	clear: both;
 	display: block;
 }
 #entry-author-info {
-	background: #F2F7FC;
+	background: #f2f7fc;
 	border-top: 4px solid #000;
 	padding: 18px 20px;
 	margin: 24px 0;
@@ -702,7 +706,7 @@ div.menu li {
 }
 .entry-meta a:hover,
 .entry-utility a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 #content .video-player {
 	padding: 0;
@@ -732,14 +736,6 @@ div.menu li {
 /* Gallery listing
 -------------------------------------------------------------- */
 
-.category-gallery {
-	margin-bottom: 48px;
-}
-.category-gallery h2 {
-	margin-top: 10px;
-}
-.category-gallery .entry-meta {
-}
 .category-gallery .size-thumbnail img {
 	border: 10px solid #f1f1f1;
 	margin-bottom: 0;
@@ -748,9 +744,6 @@ div.menu li {
 	float: left;
 	margin-right:20px;
 	margin-top: -4px;
-}
-.home #content .category-gallery .entry-content p {
-	display: inline;
 }
 .home #content .category-gallery .entry-utility {
 	padding-top:4px;
@@ -778,6 +771,7 @@ div.menu li {
 
 #content img {
 	margin: 0;
+	height: auto;
 	max-width: 640px;
 }
 #content .attachment img {
@@ -828,7 +822,7 @@ div.menu li {
 	margin:0;
 }
 #content .gallery {
-	margin: auto;
+	margin: 0 auto 18px;
 }
 #content .gallery .gallery-item {
 	float: left;
@@ -875,7 +869,7 @@ div.menu li {
 }
 .navigation a:active,
 .navigation a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 .nav-previous {
 	float: left;
@@ -974,7 +968,7 @@ h3#comments-title {
 }
 .comment-meta a:active,
 .comment-meta a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 .commentlist .even {
 }
@@ -990,7 +984,7 @@ a.comment-edit-link {
 }
 .reply a:hover,
 a.comment-edit-link:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 .commentlist .children {
 	list-style: none;
@@ -1063,7 +1057,7 @@ h3#reply-title {
 	font-weight: normal;
 }
 #respond .required {
-	color:#FF4B33;
+	color:#ff4b33;
 	font-weight:bold;
 }
 #respond label {
@@ -1166,7 +1160,7 @@ h3#reply-title {
 	color: #000;
 }
 .widget_rss a.rsswidget:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 .widget_rss .widget-title img {
 	height: 11px;
