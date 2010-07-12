@@ -113,7 +113,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	if ( empty($prev_value) ) {
 		$old_value = get_metadata($meta_type, $object_id, $meta_key);
 		if ( count($old_value) == 1 ) {
-			if ( $old_value[0] == $meta_value )
+			if ( $old_value[0] === $meta_value )
 				return false;
 		}
 	}
