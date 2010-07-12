@@ -39,7 +39,7 @@ body, input, textarea {
 	line-height: 18px;
 }
 hr {
-	background-color: #E7E7E7;
+	background-color: #e7e7e7;
 	border:0;
 	height: 1px;
 	margin-bottom: 18px;
@@ -95,7 +95,7 @@ big {
 	font-size: 131.25%;
 }
 ins {
-	background: #FFFFCC;
+	background: #ffffcc;
 	border: none;
 	color: #333;
 }
@@ -142,14 +142,14 @@ sub {
 	top: .5ex;
 }
 a:link {
-	color:#0066CC;
+	color:#0066cc;
 }
 a:visited {
 	color:#743399;
 }
 a:active,
 a:hover {
-	color: #FF4B33;
+	color: #ff4b33;
 }
 p,
 ul,
