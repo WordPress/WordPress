@@ -15,10 +15,22 @@
 <title><?php
 	/*
 	 * Print the <title> tag based on what is being viewed.
-	 * We filter the output of wp_title() a bit -- see
-	 * twentyten_filter_wp_title() in functions.php.
 	 */
+	global $page, $paged;
+
 	wp_title( '|', true, 'right' );
+
+	// Add the blog name.
+	bloginfo( 'name' );
+
+	// Add the blog description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description && ( is_home() || is_front_page() ) )
+		echo " | $site_description";
+
+	// Add a page number if necessary:
+	if ( $paged >= 2 || $page >= 2 )
+		echo ' | ' . sprintf( __( 'Page %s', 'twentyten' ), max( $paged, $page ) );
 
 	?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
