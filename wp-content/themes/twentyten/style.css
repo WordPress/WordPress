@@ -760,9 +760,6 @@ div.menu li {
 /* Attachment pages
 -------------------------------------------------------------- */
 
-.entry-content .attachment img {
-	margin-bottom: 0;
-}
 .attachment .entry-content .entry-caption {
 	font-size: 140%;
 	margin-top: 24px;
@@ -856,7 +853,10 @@ div.menu li {
 #content .gallery br+br {
 	display: none;
 }
-
+#content .attachment img { /* single attachment images should be centered */
+	display: block;
+	margin: 0 auto;
+}
 
 
 /* =Navigation
