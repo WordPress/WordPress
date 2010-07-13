@@ -2642,7 +2642,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 		$tags = array_unique( $tags );
 	}
 
-	wp_set_object_terms($post_id, $tags, $taxonomy, $append);
+	return wp_set_object_terms($post_id, $tags, $taxonomy, $append);
 }
 
 /**
