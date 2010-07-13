@@ -474,7 +474,7 @@ class WP {
 	function handle_404() {
 		global $wp_query;
 
-		if ( ( 0 == count( $wp_query->posts ) ) && !is_404() && !is_robots() && !is_search() && !is_home() ) {
+		if ( !is_admin() && ( 0 == count( $wp_query->posts ) ) && !is_404() && !is_robots() && !is_search() && !is_home() ) {
 			// Don't 404 for these queries if they matched an object.
 			if ( ( is_tag() || is_category() || is_tax() || is_author() ) && $wp_query->get_queried_object() && !is_paged() ) {
 				if ( !is_404() )
