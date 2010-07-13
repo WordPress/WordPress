@@ -71,11 +71,15 @@ class Walker_Nav_Menu extends Walker {
 		$class_names = $value = '';
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
+		$classes[] = 'menu-item-' . $item->ID;
 
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
 		$class_names = ' class="' . esc_attr( $class_names ) . '"';
 
-		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names .'>';
+		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
+		$id = strlen( $id ) ? ' id="' . esc_attr( $id ) . '"' : '';
+
+		$output .= $indent . '<li' . $id . $value . $class_names .'>';
 
 		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
 		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
@@ -437,7 +441,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
  * Retrieve the HTML list content for nav menu items.
  *
  * @uses Walker_Nav_Menu to create HTML list content.
- * @since 2.1.0
+ * @since 3.0.0
  * @see Walker::walk() for parameters and return description.
  */
 function walk_nav_menu_tree( $items, $depth, $r ) {
@@ -446,5 +450,20 @@ function walk_nav_menu_tree( $items, $depth, $r ) {
 
 	return call_user_func_array( array(&$walker, 'walk'), $args );
 }
+
+/**
+ * Prevents a menu item ID from being used more than once.
+ *
+ * @since 3.0.1
+ * @access private
+ */
+function _nav_menu_item_id_use_once( $id, $item ) {
+	static $_used_ids = array();
+	if ( in_array( $item->ID, $_used_ids ) )
+		return '';
+	$_used_ids[] = $item->ID;
+	return $id;
+}
+add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
 
 ?>
