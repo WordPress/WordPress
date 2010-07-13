@@ -1112,7 +1112,7 @@ function author_can( $post, $capability ) {
 
 	$author = new WP_User( $post->post_author );
 
-	if ( empty( $author ) )
+	if ( empty( $author->ID ) )
 		return false;
 
 	$args = array_slice( func_get_args(), 2 );

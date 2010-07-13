@@ -265,7 +265,7 @@ switch ( $_GET['action'] ) {
 			reset( $newroles );
 			foreach ( (array) $newroles as $userid => $role ) {
 				$user = new WP_User( $userid );
-				if ( ! $user )
+				if ( empty( $user->ID ) )
 					continue;
 				$user->for_blog( $id );
 				$user->set_role( $role );
