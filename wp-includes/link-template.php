@@ -108,7 +108,7 @@ function get_permalink($id = 0, $leavename = false) {
 	elseif ( $post->post_type == 'attachment' )
 		return get_attachment_link($post->ID);
 	elseif ( in_array($post->post_type, get_post_types( array('_builtin' => false) ) ) )
-		return get_post_permalink($post, $leavename, $sample);
+		return get_post_permalink($post->ID, $leavename, $sample);
 
 	$permalink = get_option('permalink_structure');
 
@@ -204,7 +204,7 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 		$post_link = home_url($post_link);
 	}
 
-	return apply_filters('post_type_link', $post_link, $id, $leavename, $sample);
+	return apply_filters('post_type_link', $post_link, $post, $leavename, $sample);
 }
 
 /**
