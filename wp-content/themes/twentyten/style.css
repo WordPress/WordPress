@@ -762,6 +762,7 @@ body.page .edit-link {
 	margin: 0;
 	height: auto;
 	max-width: 640px;
+	width: auto;
 }
 #content .attachment img {
 	max-width: 900px;
