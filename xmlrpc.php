@@ -933,9 +933,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			"category_description"	=> $category["description"]
 		);
 
-		$cat_id = wp_insert_category($new_category);
-		if ( !$cat_id )
+		$cat_id = wp_insert_category($new_category, true);
+		if ( is_wp_error( $cat_id ) ) {
+			if ( 'term_exists' == $cat_id->get_error_code() )
+				return (int) $cat_id->get_error_data();
+			else
+				return(new IXR_Error(500, __("Sorry, the new category failed.")));
+		} elseif ( ! $cat_id ) {
 			return(new IXR_Error(500, __("Sorry, the new category failed.")));
+		}
 
 		return($cat_id);
 	}
