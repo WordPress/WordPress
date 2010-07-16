@@ -1023,7 +1023,7 @@ function get_comments_popup_template() {
 
 	// Backward compat code will be removed in a future release
 	if ('' == $template)
-		$template = WPINC . '/theme-compat/comments-popup.php';
+		$template = ABSPATH . WPINC . '/theme-compat/comments-popup.php';
 
 	return apply_filters('comments_popup_template', $template);
 }
@@ -1081,6 +1081,8 @@ function load_template( $_template_file, $require_once = true ) {
 
 	if ( is_array( $wp_query->query_vars ) )
 		extract( $wp_query->query_vars, EXTR_SKIP );
+
+	error_log( $_template_file );
 
 	if ( $require_once )
 		require_once( $_template_file );

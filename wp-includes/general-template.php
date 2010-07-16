@@ -32,7 +32,7 @@ function get_header( $name = null ) {
 
 	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
-		load_template( WPINC . '/theme-compat/header.php');
+		load_template( ABSPATH . WPINC . '/theme-compat/header.php');
 }
 
 /**
@@ -61,7 +61,7 @@ function get_footer( $name = null ) {
 
 	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
-		load_template( WPINC . '/theme-compat/footer.php');
+		load_template( ABSPATH . WPINC . '/theme-compat/footer.php');
 }
 
 /**
@@ -90,7 +90,7 @@ function get_sidebar( $name = null ) {
 
 	// Backward compat code will be removed in a future release
 	if ('' == locate_template($templates, true))
-		load_template( WPINC . '/theme-compat/sidebar.php');
+		load_template( ABSPATH . WPINC . '/theme-compat/sidebar.php');
 }
 
 /**
