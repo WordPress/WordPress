@@ -1082,8 +1082,6 @@ function load_template( $_template_file, $require_once = true ) {
 	if ( is_array( $wp_query->query_vars ) )
 		extract( $wp_query->query_vars, EXTR_SKIP );
 
-	error_log( $_template_file );
-
 	if ( $require_once )
 		require_once( $_template_file );
 	else
