@@ -343,6 +343,24 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	if ( !$redirect_url || $redirect_url == $requested_url )
 		return false;
+		
+	// Hex encoded octets are case-insensitive. 
+	if ( false !== strpos($requested_url, '%') ) {
+		if ( !function_exists('lowercase_octets') ) {
+			function lowercase_octets($matches) { 
+				return strtolower( $matches[0] ); 
+			} 
+		}
+		$requested_url = preg_replace_callback('|%[a-fA-F0-9][a-fA-F0-9]|', 'lowercase_octets', $requested_url);
+	}
+
+	// Hex encoded octets are case-insensitive.
+	if ( false !== strpos($requested_url, '%') ) {
+		function lowercase_octets($matches) {
+			return strtolower($matches[0]);
+		}
+		$requested_url = preg_replace_callback('|%[a-fA-F0-9][a-fA-F0-9]|', 'lowercase_octets', $requested_url);
+	}
 
 	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning FALSE
 	$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
