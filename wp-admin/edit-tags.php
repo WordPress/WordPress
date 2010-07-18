@@ -19,6 +19,9 @@ if ( !taxonomy_exists($taxonomy) )
 
 $tax = get_taxonomy($taxonomy);
 
+if ( ! current_user_can($tax->cap->manage_terms) )
+	wp_die(__('Cheatin&#8217; uh?'));
+
 $title = $tax->labels->name;
 
 if ( empty($post_type) || !in_array( $post_type, get_post_types( array('public' => true) ) ) )
