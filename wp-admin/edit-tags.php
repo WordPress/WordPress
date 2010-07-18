@@ -124,6 +124,9 @@ case 'edit':
 	require_once ('admin-header.php');
 	$tag_ID = (int) $_GET['tag_ID'];
 
+	if ( !current_user_can($tax->cap->edit_terms) )
+		wp_die( __('You are not allowed to edit this item.') );
+
 	$tag = get_term($tag_ID, $taxonomy, OBJECT, 'edit');
 	include('./edit-tag-form.php');
 
