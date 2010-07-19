@@ -742,8 +742,7 @@ class wpdb {
 
 		if ( !@mysql_select_db( $db, $dbh ) ) {
 			$this->ready = false;
-			$this->bail( sprintf( /*WP_I18N_DB_SELECT_DB*/'
-<h1>Can&#8217;t select database</h1>
+			$this->bail( sprintf( /*WP_I18N_DB_SELECT_DB*/'<h1>Can&#8217;t select database</h1>
 <p>We were able to connect to the database server (which means your username and password is okay) but not able to select the <code>%1$s</code> database.</p>
 <ul>
 <li>Are you sure it exists?</li>
