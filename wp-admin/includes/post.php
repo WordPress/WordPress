@@ -895,8 +895,9 @@ function wp_edit_posts_query( $q = false ) {
 	$posts_per_page = (int) get_user_option( $per_page );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 20;
-	$posts_per_page = apply_filters( $per_page, $posts_per_page );
 
+	$posts_per_page = apply_filters( $per_page, $posts_per_page );
+	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page, $post_type );
 
 	$query = compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page');
 
