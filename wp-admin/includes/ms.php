@@ -178,17 +178,17 @@ function wpmu_delete_user( $id ) {
 }
 
 function confirm_delete_users( $users ) {
-	global $current_user;
+	$current_user = wp_get_current_user();
 	if ( !is_array( $users ) )
 		return false;
 
-    screen_icon();
-    ?>
+	screen_icon();
+	?>
 	<h2><?php esc_html_e( 'Users' ); ?></h2>
 	<p><?php _e( 'Transfer or delete posts and links before deleting users.' ); ?></p>
 	<form action="ms-edit.php?action=dodelete" method="post">
 	<input type="hidden" name="dodelete" />
-    <?php
+	<?php
 	wp_nonce_field( 'ms-users-delete' );
 	$site_admins = get_super_admins();
 	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
@@ -311,7 +311,8 @@ add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10
 add_action( 'add_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
 
 function send_confirmation_on_profile_email() {
-	global $errors, $wpdb, $current_user;
+	global $errors, $wpdb;
+	$current_user = wp_get_current_user();
 	if ( ! is_object($errors) )
 		$errors = new WP_Error();
 
@@ -364,8 +365,7 @@ All at ###SITENAME###
 add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 
 function new_user_email_admin_notice() {
-	global $current_user;
-	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET['updated'] ) && $email = get_option( $current_user->ID . '_new_email' ) )
+	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET['updated'] ) && $email = get_option( get_current_user_id() . '_new_email' ) )
 		echo "<div class='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
 }
 add_action( 'admin_notices', 'new_user_email_admin_notice' );
@@ -598,7 +598,6 @@ function sync_category_tag_slugs( $term, $taxonomy ) {
 add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
 function redirect_user_to_blog() {
-	global $current_user;
 	$c = 0;
 	if ( isset( $_GET['c'] ) )
 		$c = (int) $_GET['c'];
@@ -608,7 +607,7 @@ function redirect_user_to_blog() {
 	}
 	$c ++;
 
-	$blog = get_active_blog_for_user( $current_user->ID );
+	$blog = get_active_blog_for_user( get_current_user_id() );
 	$dashboard_blog = get_dashboard_blog();
 	if ( is_object( $blog ) ) {
 		wp_redirect( get_admin_url( $blog->blog_id, '?c=' . $c ) ); // redirect and count to 5, "just in case"
@@ -619,16 +618,16 @@ function redirect_user_to_blog() {
 	   If the user is a member of only 1 blog and the user's primary_blog isn't set to that blog,
 	   then update the primary_blog record to match the user's blog
 	 */
-	$blogs = get_blogs_of_user( $current_user->ID );
+	$blogs = get_blogs_of_user( get_current_user_id() );
 
 	if ( !empty( $blogs ) ) {
 		foreach( $blogs as $blogid => $blog ) {
-			if ( $blogid != $dashboard_blog->blog_id && get_user_meta( $current_user->ID , 'primary_blog', true ) == $dashboard_blog->blog_id ) {
-				update_user_meta( $current_user->ID, 'primary_blog', $blogid );
+			if ( $blogid != $dashboard_blog->blog_id && get_user_meta( get_current_user_id() , 'primary_blog', true ) == $dashboard_blog->blog_id ) {
+				update_user_meta( get_current_user_id(), 'primary_blog', $blogid );
 				continue;
 			}
 		}
-		$blog = get_blog_details( get_user_meta( $current_user->ID, 'primary_blog', true ) );
+		$blog = get_blog_details( get_user_meta( get_current_user_id(), 'primary_blog', true ) );
 			wp_redirect( get_admin_url( $blog->blog_id, '?c=' . $c ) );
 		exit;
 	}
@@ -697,12 +696,12 @@ function secret_salt_warning() {
 add_action( 'admin_notices', 'secret_salt_warning' );
 
 function admin_notice_feed() {
-	global $current_user, $current_screen;
+	global $current_screen;
 	if ( $current_screen->id != 'dashboard' )
 		return;
 
 	if ( !empty( $_GET['feed_dismiss'] ) ) {
-		update_user_option( $current_user->id, 'admin_feed_dismiss', $_GET['feed_dismiss'], true );
+		update_user_option( get_current_user_id(), 'admin_feed_dismiss', $_GET['feed_dismiss'], true );
 		return;
 	}
 
@@ -728,7 +727,7 @@ function admin_notice_feed() {
 add_action( 'admin_notices', 'admin_notice_feed' );
 
 function site_admin_notice() {
-	global $current_user, $wp_db_version;
+	global $wp_db_version;
 	if ( !is_super_admin() )
 		return false;
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
@@ -760,7 +759,6 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 );
 
 function choose_primary_blog() {
-	global $current_user;
 	?>
 	<table class="form-table">
 	<tr>
@@ -768,8 +766,8 @@ function choose_primary_blog() {
 		<th scope="row"><?php _e( 'Primary Site' ); ?></th>
 		<td>
 		<?php
-		$all_blogs = get_blogs_of_user( $current_user->ID );
-		$primary_blog = get_user_meta( $current_user->ID, 'primary_blog', true );
+		$all_blogs = get_blogs_of_user( get_current_user_id() );
+		$primary_blog = get_user_meta( get_current_user_id(), 'primary_blog', true );
 		if ( count( $all_blogs ) > 1 ) {
 			$found = false;
 			?>
@@ -783,13 +781,13 @@ function choose_primary_blog() {
 			<?php
 			if ( !$found ) {
 				$blog = array_shift( $all_blogs );
-				update_user_meta( $current_user->ID, 'primary_blog', $blog->userblog_id );
+				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 			}
 		} elseif ( count( $all_blogs ) == 1 ) {
 			$blog = array_shift( $all_blogs );
 			echo $blog->domain;
 			if ( $primary_blog != $blog->userblog_id ) // Set the primary blog again if it's out of sync with blog list.
-				update_user_meta( $current_user->ID, 'primary_blog', $blog->userblog_id );
+				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 		} else {
 			echo "N/A";
 		}

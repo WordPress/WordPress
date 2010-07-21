@@ -21,13 +21,13 @@
  */
 function add_user() {
 	if ( func_num_args() ) { // The hackiest hack that ever did hack
-		global $current_user, $wp_roles;
+		global $wp_roles;
 		$user_id = (int) func_get_arg( 0 );
 
 		if ( isset( $_POST['role'] ) ) {
 			$new_role = sanitize_text_field( $_POST['role'] );
 			// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
-			if ( $user_id != $current_user->id || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ) ) {
+			if ( $user_id != get_current_user_id() || $wp_roles->role_objects[$new_role]->has_cap( 'edit_users' ) ) {
 				// If the new role isn't editable by the logged-in user die with error
 				$editable_roles = get_editable_roles();
 				if ( empty( $editable_roles[$new_role] ) )
@@ -54,7 +54,7 @@ function add_user() {
  * @return int user id of the updated user
  */
 function edit_user( $user_id = 0 ) {
-	global $current_user, $wp_roles, $wpdb;
+	global $wp_roles, $wpdb;
 	if ( $user_id != 0 ) {
 		$update = true;
 		$user->ID = (int) $user_id;
@@ -79,7 +79,7 @@ function edit_user( $user_id = 0 ) {
 		$potential_role = isset($wp_roles->role_objects[$new_role]) ? $wp_roles->role_objects[$new_role] : false;
 		// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
 		// Multisite super admins can freely edit their blog roles -- they possess all caps.
-		if ( ( is_multisite() && current_user_can( 'manage_sites' ) ) || $user_id != $current_user->id || ($potential_role && $potential_role->has_cap( 'edit_users' ) ) )
+		if ( ( is_multisite() && current_user_can( 'manage_sites' ) ) || $user_id != get_current_user_id() || ($potential_role && $potential_role->has_cap( 'edit_users' ) ) )
 			$user->role = $new_role;
 
 		// If the new role isn't editable by the logged-in user die with error

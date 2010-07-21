@@ -371,7 +371,7 @@ function update_blog_option( $id, $key, $value, $refresh = true ) {
 }
 
 function switch_to_blog( $new_blog, $validate = false ) {
-	global $wpdb, $table_prefix, $blog_id, $switched, $switched_stack, $wp_roles, $current_user, $wp_object_cache;
+	global $wpdb, $table_prefix, $blog_id, $switched, $switched_stack, $wp_roles, $wp_object_cache;
 
 	if ( empty($new_blog) )
 		$new_blog = $blog_id;
@@ -406,9 +406,12 @@ function switch_to_blog( $new_blog, $validate = false ) {
 			$wp_roles->__construct();
 		$wpdb->suppress_errors( false );
 	}
-
-	if ( is_object( $current_user ) )
-		$current_user->for_blog( $blog_id );
+ 
+	if ( did_action('init') ) {
+		$current_user = wp_get_current_user();	
+		if ( is_object( $current_user ) )
+			$current_user->for_blog( $blog_id );
+	}
 
 	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 		$global_groups = $wp_object_cache->global_groups;
@@ -430,7 +433,7 @@ function switch_to_blog( $new_blog, $validate = false ) {
 }
 
 function restore_current_blog() {
-	global $table_prefix, $wpdb, $blog_id, $switched, $switched_stack, $wp_roles, $current_user, $wp_object_cache;
+	global $table_prefix, $wpdb, $blog_id, $switched, $switched_stack, $wp_roles, $wp_object_cache;
 
 	if ( !$switched )
 		return false;
@@ -460,8 +463,11 @@ function restore_current_blog() {
 		$wpdb->suppress_errors( false );
 	}
 
-	if ( is_object( $current_user ) )
-		$current_user->for_blog( $blog_id );
+	if ( did_action('init') ) {
+		$current_user = wp_get_current_user();
+		if ( is_object( $current_user ) )
+			$current_user->for_blog( $blog_id );
+	}
 
 	if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
 		$global_groups = $wp_object_cache->global_groups;

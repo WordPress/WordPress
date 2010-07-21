@@ -39,8 +39,8 @@ elseif ( !$is_trash && $post->post_status == 'trash' )
 	continue;
 
 $alt = ( 'alternate' == $alt ) ? '' : 'alternate';
-global $current_user;
-$post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
+
+$post_owner = ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
 $att_title = _draft_or_post_title();
 ?>
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
