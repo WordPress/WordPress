@@ -2613,7 +2613,7 @@ function wp_add_post_tags($post_id = 0, $tags = '') {
  * @param int $post_id Post ID.
  * @param string $tags The tags to set for the post, separated by commas.
  * @param bool $append If true, don't delete existing tags, just add on. If false, replace the tags with the new tags.
- * @return bool|null Will return false if $post_id is not an integer or is 0. Will return null otherwise
+ * @return mixed Array of affected term IDs. WP_Error or false on failure.
  */
 function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	return wp_set_post_terms( $post_id, $tags, 'post_tag', $append);
@@ -2628,7 +2628,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
  * @param int $post_id Post ID.
  * @param string $tags The tags to set for the post, separated by commas.
  * @param bool $append If true, don't delete existing tags, just add on. If false, replace the tags with the new tags.
- * @return bool|null Will return false if $post_id is not an integer or is 0. Will return null otherwise
+ * @return mixed Array of affected term IDs. WP_Error or false on failure.
  */
 function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $append = false ) {
 	$post_id = (int) $post_id;
