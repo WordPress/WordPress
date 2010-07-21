@@ -43,12 +43,13 @@ if ( 'post' != $post_type ) {
 $pagenum = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-$per_page = 'edit_' . $post_type . '_per_page';
-$per_page = (int) get_user_option( $per_page );
+$edit_per_page = 'edit_' . $post_type . '_per_page';
+$per_page = (int) get_user_option( $edit_per_page );
 if ( empty( $per_page ) || $per_page < 1 )
 	$per_page = 20;
-// @todo filter based on type
-$per_page = apply_filters( 'edit_posts_per_page', $per_page );
+
+$per_page = apply_filters( $edit_per_page, $per_page );
+$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
 // Handle bulk actions
 if ( isset($_GET['doaction']) || isset($_GET['doaction2']) || isset($_GET['delete_all']) || isset($_GET['delete_all2']) || isset($_GET['bulk_edit']) ) {
