@@ -156,8 +156,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 			$obj = $wp_query->get_queried_object();
 
-			if ( $term_count <= 1 && !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) ) && !is_wp_error($tax_url) ) {
-
+			if ( $term_count <= 1 && !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) )
+					&& !is_wp_error($tax_url) && $redirect['query'] ) {
 				if ( is_category() ) {
 					$redirect['query'] = remove_query_arg( array( 'category_name', 'category', 'cat'), $redirect['query']);
 				} elseif ( is_tag() ) {
