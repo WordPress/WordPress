@@ -67,8 +67,8 @@ function wp_dashboard_setup() {
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
 		$update = true;
 		$widget_options['dashboard_primary'] = array(
-			'link' => apply_filters( 'dashboard_primary_link',  __( 'http://wordpress.org/development/' ) ),
-			'url' => apply_filters( 'dashboard_primary_feed',  __( 'http://wordpress.org/development/feed/' ) ),
+			'link' => apply_filters( 'dashboard_primary_link',  __( 'http://wordpress.org/news/' ) ),
+			'url' => apply_filters( 'dashboard_primary_feed',  __( 'http://wordpress.org/news/feed/' ) ),
 			'title' => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
 			'items' => 2,
 			'show_summary' => 1,

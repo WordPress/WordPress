@@ -152,9 +152,9 @@ function wp_install_defaults($user_id) {
 								'link_rss' => '',
 								'link_notes' => '');
 
-	$default_links[] = array(	'link_url' => 'http://wordpress.org/development/',
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/news/',
 								'link_name' => 'WordPress Blog',
-								'link_rss' => 'http://wordpress.org/development/feed/',
+								'link_rss' => 'http://wordpress.org/news/feed/',
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/ideas/',
