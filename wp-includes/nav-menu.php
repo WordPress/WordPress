@@ -79,6 +79,23 @@ function register_nav_menus( $locations = array() ) {
 }
 
 /**
+ * Unregisters a navigation menu for a theme.
+ *
+ * @param array $location the menu location identifier
+ *
+ * @return bool True on success, false on failure.
+ */
+function unregister_nav_menu( $location ) {
+	global $_wp_registered_nav_menus;
+
+	if ( is_array( $_wp_registered_nav_menus ) && isset( $_wp_registered_nav_menus[$location] ) ) {
+		unset( $_wp_registered_nav_menus[$location] );
+		return true;
+	}
+	return false;
+}
+
+/**
  * Register a navigation menu for a theme.
  *
  * @since 3.0.0
