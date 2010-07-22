@@ -211,36 +211,43 @@ function wp_update_themes( ) {
 		require_once( ABSPATH . 'wp-includes/theme.php' );
 
 	$installed_themes = get_themes( );
-	$current_theme = get_site_transient( 'update_themes' );
-	if ( ! is_object($current_theme) )
-		$current_theme = new stdClass;
+	$last_update = get_site_transient( 'update_themes' );
+	if ( ! is_object($last_update) )
+		$last_update = new stdClass;
 
-	$new_option = new stdClass;
-	$new_option->last_checked = time( );
 	$timeout = 'load-themes.php' == current_filter() ? 3600 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
-	$time_not_changed = isset( $current_theme->last_checked ) && $timeout > ( time( ) - $current_theme->last_checked );
+	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time( ) - $last_update->last_checked );
 
 	$themes = array();
 	$checked = array();
-	$themes['current_theme'] = (array) $current_theme;
+	$exclude_fields = array('Template Files', 'Stylesheet Files', 'Status', 'Theme Root', 'Theme Root URI', 'Template Dir', 'Stylesheet Dir', 'Description', 'Tags', 'Screenshot');
+
+	// Put slug of current theme into request.
+	$themes['current_theme'] = get_option( 'stylesheet' );
+
 	foreach ( (array) $installed_themes as $theme_title => $theme ) {
 		$themes[$theme['Stylesheet']] = array();
 		$checked[$theme['Stylesheet']] = $theme['Version'];
 
-		foreach ( (array) $theme as $key => $value )
-			$themes[$theme['Stylesheet']][$key] = $value;
+		$themes[$theme['Stylesheet']]['Name'] = $theme['Name'];
+		$themes[$theme['Stylesheet']]['Version'] = $theme['Version'];
+
+		foreach ( (array) $theme as $key => $value ) {
+			if ( !in_array($key, $exclude_fields) )
+				$themes[$theme['Stylesheet']][$key] = $value;
+		}
 	}
 
 	$theme_changed = false;
 	foreach ( $checked as $slug => $v ) {
-		$new_option->checked[ $slug ] = $v;
+		$update_request->checked[ $slug ] = $v;
 
-		if ( !isset( $current_theme->checked[ $slug ] ) || strval($current_theme->checked[ $slug ]) !== strval($v) )
+		if ( !isset( $last_update->checked[ $slug ] ) || strval($last_update->checked[ $slug ]) !== strval($v) )
 			$theme_changed = true;
 	}
 
-	if ( isset ( $current_theme->response ) && is_array( $current_theme->response ) ) {
-		foreach ( $current_theme->response as $slug => $update_details ) {
+	if ( isset ( $last_update->response ) && is_array( $last_update->response ) ) {
+		foreach ( $last_update->response as $slug => $update_details ) {
 			if ( ! isset($checked[ $slug ]) ) {
 				$theme_changed = true;
 				break;
@@ -252,10 +259,8 @@ function wp_update_themes( ) {
 		return false;
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
-	$current_theme->last_checked = time();
-	set_site_transient( 'update_themes', $current_theme );
-
-	$current_theme->template = get_option( 'template' );
+	$last_update->last_checked = time();
+	set_site_transient( 'update_themes', $last_update );
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
@@ -271,13 +276,15 @@ function wp_update_themes( ) {
 	if ( 200 != $raw_response['response']['code'] )
 		return false;
 
+	$new_update = new stdClass;
+	$new_update->last_checked = time( );
 	$response = unserialize( $raw_response['body'] );
 	if ( $response ) {
-		$new_option->checked = $checked;
-		$new_option->response = $response;
+		$new_update->checked = $checked;
+		$new_update->response = $response;
 	}
 
-	set_site_transient( 'update_themes', $new_option );
+	set_site_transient( 'update_themes', $new_update );
 }
 
 function _maybe_update_core() {
