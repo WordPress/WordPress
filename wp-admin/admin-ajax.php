@@ -1144,7 +1144,7 @@ case 'menu-locations-save':
 	check_ajax_referer( 'add-menu_item', 'menu-settings-column-nonce' );
 	if ( ! isset( $_POST['menu-locations'] ) )
 		die('0');
-	set_theme_mod( 'nav_menu_locations', $_POST['menu-locations'] );
+	set_theme_mod( 'nav_menu_locations', array_map( 'absint', $_POST['menu-locations'] ) );
 	die('1');
 	break;
 case 'meta-box-order':
