@@ -468,7 +468,12 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		$this->maintenance_mode(true);
+		// Only start maintenance mode if running in Multisite OR the plugin is in use
+		$maintenance = is_multisite(); // @TODO: This should only kick in for individual sites if at all possible.
+		foreach ( $plugins as $plugin )
+			$maintenance = $maintenance || (is_plugin_active($plugin) && isset($current->response[ $plugin ]) ); // Only activate Maintenance mode if a plugin is active AND has an update available
+		if ( $maintenance )
+			$this->maintenance_mode(true);
 
 		$results = array();
 
@@ -712,7 +717,12 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		$this->maintenance_mode(true);
+		// Only start maintenance mode if running in Multisite OR the theme is in use
+		$maintenance = is_multisite(); // @TODO: This should only kick in for individual sites if at all possible.
+		foreach ( $themes as $theme )
+			$maintenance = $maintenance || $theme == get_stylesheet() || $theme == get_template();
+		if ( $maintenance )
+			$this->maintenance_mode(true);
 
 		$results = array();
 
@@ -780,7 +790,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		if ( $theme != get_stylesheet() ) //If not current
 			return $return;
-		//Change to maintainence mode now.
+		//Change to maintenance mode now.
 		if ( ! $this->bulk )
 			$this->maintenance_mode(true);
 
@@ -796,6 +806,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $return;
 
 		//Ensure stylesheet name hasnt changed after the upgrade:
+		// @TODO: Note, This doesnt handle the Template changing, or the Template name changing.
 		if ( $theme == get_stylesheet() && $theme != $this->result['destination_name'] ) {
 			$theme_info = $this->theme_info();
 			$stylesheet = $this->result['destination_name'];
@@ -803,7 +814,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			switch_theme($template, $stylesheet, true);
 		}
 
-		//Time to remove maintainence mode
+		//Time to remove maintenance mode
 		if ( ! $this->bulk )
 			$this->maintenance_mode(false);
 		return $return;
