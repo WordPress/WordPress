@@ -2738,7 +2738,8 @@ class WP_Query {
 			$this->queried_object = $term;
 			$this->queried_object_id = $term->term_id;
 		} elseif ( $this->is_posts_page ) {
-			$this->queried_object = & get_page(get_option('page_for_posts'));
+			$page_for_posts = get_option('page_for_posts');
+			$this->queried_object = & get_page( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
 		} elseif ( $this->is_single && !is_null($this->post) ) {
 			$this->queried_object = $this->post;

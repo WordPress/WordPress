@@ -324,7 +324,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 			while ( have_posts() ) {
 				the_post();
 				if ( 'markup' == $response_format ) {
-					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( get_post( get_the_ID() ) ) ), 0, (object) $args );
+					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( get_post( $var_by_ref = get_the_ID() ) ) ), 0, (object) $args );
 				} elseif ( 'json' == $response_format ) {
 					echo json_encode(
 						array(

@@ -104,7 +104,7 @@ switch ( $_GET['action'] ) {
 			$move_users = array();
 			foreach ( (array)$users as $user ) {
 				$user_meta_value = unserialize( $user->meta_value );
-				if ( is_array( $user_meta_value ) && array_pop( array_keys( $user_meta_value ) ) == 'subscriber' )
+				if ( is_array( $user_meta_value ) && array_pop( $var_by_ref = array_keys( $user_meta_value ) ) == 'subscriber' )
 					$move_users[] = $user->user_id;
 			}
 			if ( false == empty( $move_users ) ) {
