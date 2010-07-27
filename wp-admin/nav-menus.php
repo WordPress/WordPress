@@ -70,7 +70,7 @@ switch ( $action ) {
 				$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
 				$menu_item_data = (array) wp_setup_nav_menu_item( get_post( $menu_item_id ) );
 
-				// setup the data we need in one pass through the array of menu items
+				// set up the data we need in one pass through the array of menu items
 				$dbids_to_orders = array();
 				$orders_to_dbids = array();
 				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
@@ -144,7 +144,7 @@ switch ( $action ) {
 				$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
 				$menu_item_data = (array) wp_setup_nav_menu_item( get_post( $menu_item_id ) );
 
-				// setup the data we need in one pass through the array of menu items
+				// set up the data we need in one pass through the array of menu items
 				$dbids_to_orders = array();
 				$orders_to_dbids = array();
 				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {

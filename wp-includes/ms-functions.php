@@ -284,7 +284,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 	if ( domain_exists($domain, $path, $site_id) )
 		return __( 'Error: Site URL already taken.' );
 
-	// Need to backup wpdb table names, and create a new wp_blogs entry for new blog.
+	// Need to back up wpdb table names, and create a new wp_blogs entry for new blog.
 	// Need to get blog_id from wp_blogs, and create new table names.
 	// Must restore table names at the end of function.
 
