@@ -253,7 +253,7 @@ var pwsL10n = {
  empty: "<?php echo esc_js( __( 'Strength indicator' ) ); ?>",
  short: "<?php echo esc_js( __( 'Very weak' ) ); ?>",
  bad: "<?php echo esc_js( __( 'Weak' ) ); ?>",
- good: "<?php echo esc_js( __( 'Medium' ) ); ?>",
+ good: "<?php echo esc_js( _x( 'Medium', 'password strength' ) ); ?>",
  strong: "<?php echo esc_js( __( 'Strong' ) ); ?>",
  mismatch: "<?php echo esc_js( __( 'Mismatch' ) ); ?>"
 };
