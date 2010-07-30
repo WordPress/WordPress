@@ -84,12 +84,12 @@ if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $c
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
 		wp_update_user( get_object_vars( $user ) );
 		delete_option( $current_user->ID . '_new_email' );
-		wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
+		wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
 		die();
 	}
 } elseif ( is_multisite() && IS_PROFILE_PAGE && !empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' == $_GET['dismiss'] ) {
 	delete_option( $current_user->ID . '_new_email' );
-	wp_redirect( add_query_arg( array('updated' => 'true'), admin_url( 'profile.php' ) ) );
+	wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
 	die();
 }
 
@@ -138,7 +138,7 @@ if ( !is_multisite() ) {
 	if ( $delete_role ) // stops users being added to current blog when they are edited
 		delete_user_meta( $user_id, $blog_prefix . 'capabilities' );
 
-	if ( is_multisite() && !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
+	if ( is_multisite() && is_network_admin() & !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
 		empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
 }
 
@@ -155,7 +155,7 @@ $profileuser = get_user_to_edit($user_id);
 if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('You do not have permission to edit this user.'));
 
-include ('admin-header.php');
+include (ABSPATH . 'wp-admin/admin-header.php');
 ?>
 
 <?php if ( !IS_PROFILE_PAGE && is_super_admin( $profileuser->ID ) && current_user_can( 'manage_network_options' ) ) { ?>
@@ -177,7 +177,7 @@ include ('admin-header.php');
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form id="your-profile" action="<?php echo esc_url( admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action('user_edit_form_tag'); ?>>
+<form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action('user_edit_form_tag'); ?>>
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url($wp_http_referer); ?>" />
@@ -245,7 +245,7 @@ else
 	echo '<option value="" selected="selected">' . __('&mdash; No role for this site &mdash;') . '</option>';
 ?>
 </select>
-<?php if ( is_multisite() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
+<?php if ( is_multisite() && is_network_admin() && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
 <p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.'); ?></label></p>
 <?php } ?>
 </td></tr>
@@ -307,7 +307,7 @@ else
 	$new_email = get_option( $current_user->ID . '_new_email' );
 	if ( $new_email && $new_email != $current_user->user_email ) : ?>
 	<div class="updated inline">
-	<p><?php printf( __('There is a pending change of your e-mail to <code>%1$s</code>. <a href="%2$s">Cancel</a>'), $new_email['newemail'], esc_url( admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) ) ); ?></p>
+	<p><?php printf( __('There is a pending change of your e-mail to <code>%1$s</code>. <a href="%2$s">Cancel</a>'), $new_email['newemail'], esc_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) ) ); ?></p>
 	</div>
 	<?php endif; ?>
 	</td>
@@ -398,5 +398,5 @@ break;
 	}
 </script>
 <?php
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php');
 ?>

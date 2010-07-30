@@ -569,6 +569,22 @@ function is_admin() {
 }
 
 /**
+ * Whether the current request is in WordPress network admin Panel
+ *
+ * Does not inform on whether the user is a network admin! Use capability checks to
+ * tell if the user should be accessing a section or not.
+ *
+ * @since 3.1.0
+ *
+ * @return bool True if inside WordPress network administration pages.
+ */
+function is_network_admin() {
+	if ( defined( 'WP_NETWORK_ADMIN' ) )
+		return WP_NETWORK_ADMIN;
+	return false;
+}
+
+/**
  * Whether Multisite support is enabled
  *
  * @since 3.0.0

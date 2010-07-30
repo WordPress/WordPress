@@ -14,6 +14,9 @@
 if ( !defined('WP_ADMIN') )
 	define('WP_ADMIN', TRUE);
 
+if ( !defined('WP_NETWORK_ADMIN') )
+	define('WP_NETWORK_ADMIN', FALSE);
+
 if ( isset($_GET['import']) && !defined('WP_LOAD_IMPORTERS') )
 	define('WP_LOAD_IMPORTERS', true);
 
@@ -90,7 +93,10 @@ if ( isset($_GET['taxonomy']) )
 else
 	$taxnow = '';
 
-require(ABSPATH . 'wp-admin/menu.php');
+if ( WP_NETWORK_ADMIN )
+	require(ABSPATH . 'wp-admin/network/menu.php');
+else
+	require(ABSPATH . 'wp-admin/menu.php');
 
 if ( current_user_can( 'manage_options' ) )
 	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
