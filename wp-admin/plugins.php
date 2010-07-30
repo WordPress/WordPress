@@ -326,6 +326,7 @@ add_contextual_help($current_screen,
 );
 
 $title = __('Plugins');
+$parent_file = 'plugins.php';
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 
