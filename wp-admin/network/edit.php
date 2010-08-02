@@ -13,7 +13,73 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( empty( $_GET['action'] ) )
-	wp_redirect( admin_url( 'ms-admin.php' ) );
+	wp_redirect( admin_url( 'index.php' ) );
+
+function confirm_delete_users( $users ) {
+	$current_user = wp_get_current_user();
+	if ( !is_array( $users ) )
+		return false;
+
+	screen_icon();
+	?>
+	<h2><?php esc_html_e( 'Users' ); ?></h2>
+	<p><?php _e( 'Transfer or delete posts and links before deleting users.' ); ?></p>
+	<form action="edit.php?action=dodelete" method="post">
+	<input type="hidden" name="dodelete" />
+	<?php
+	wp_nonce_field( 'ms-users-delete' );
+	$site_admins = get_super_admins();
+	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
+
+	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
+		if ( $val != '' && $val != '0' ) {
+			$delete_user = new WP_User( $val );
+
+			if ( in_array( $delete_user->user_login, $site_admins ) )
+				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network admnistrator.' ), $delete_user->user_login ) );
+
+			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
+			$blogs = get_blogs_of_user( $val, true );
+
+			if ( !empty( $blogs ) ) {
+				?>
+				<br /><fieldset><p><legend><?php printf( __( "What should be done with posts and links owned by <em>%s</em>?" ), $delete_user->user_login ); ?></legend></p>
+				<?php
+				foreach ( (array) $blogs as $key => $details ) {
+					$blog_users = get_users_of_blog( $details->userblog_id );
+					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
+						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
+						$user_dropdown = "<select name='blog[$val][{$key}]'>";
+						$user_list = '';
+						foreach ( $blog_users as $user ) {
+							if ( $user->user_id != $val && !in_array( $user->user_id, $allusers ) )
+								$user_list .= "<option value='{$user->user_id}'>{$user->user_login}</option>";
+						}
+						if ( '' == $user_list )
+							$user_list = $admin_out;
+						$user_dropdown .= $user_list;
+						$user_dropdown .= "</select>\n";
+						?>
+						<ul style="list-style:none;">
+							<li><?php printf( __( 'Site: %s' ), $user_site ); ?></li>
+							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="delete" checked="checked" />
+							<?php _e( 'Delete all posts and links.' ); ?></label></li>
+							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="reassign" />
+							<?php echo __( 'Attribute all posts and links to:' ) . '</label>' . $user_dropdown; ?></li>
+						</ul>
+						<?php
+					}
+				}
+				echo "</fieldset>";
+			}
+		}
+	}
+	?>
+	<p class="submit"><input type="submit" class="button-secondary delete" value="<?php esc_attr_e( 'Confirm Deletion' ); ?>" /></p>
+	</form>
+    <?php
+	return true;
+}
 
 do_action( 'wpmuadminedit' , '');
 
@@ -29,7 +95,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( empty( $_POST ) )
-			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">options page</a>.', esc_url( admin_url( 'ms-options.php' ) ) ) ) );
+			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">options page</a>.', esc_url( admin_url( 'settings.php' ) ) ) ) );
 
 		if ( isset($_POST['WPLANG']) && ( '' === $_POST['WPLANG'] || in_array( $_POST['WPLANG'], get_available_languages() ) ) )
 			update_site_option( 'WPLANG', $_POST['WPLANG'] );
@@ -133,7 +199,7 @@ switch ( $_GET['action'] ) {
 		// Update more options here
 		do_action( 'update_wpmu_options' );
 
-		wp_redirect( add_query_arg( 'updated', 'true', admin_url( 'ms-options.php' ) ) );
+		wp_redirect( add_query_arg( 'updated', 'true', admin_url( 'settings.php' ) ) );
 		exit();
 	break;
 	case 'addblog':
@@ -208,7 +274,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( empty( $_POST ) )
-			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">sites page</a>', esc_url( admin_url( 'ms-sites.php' ) ) ) ) );
+			wp_die( sprintf( __( 'You probably need to go back to the <a href="%s">sites page</a>', esc_url( network_admin_url( 'sites.php' ) ) ) ) );
 
 		switch_to_blog( $id );
 
@@ -367,7 +433,7 @@ switch ( $_GET['action'] ) {
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $blogfunction ), wp_get_referer() ) );
 			exit();
 		} else {
-			wp_redirect( admin_url( 'ms-sites.php' ) );
+			wp_redirect( network_admin_url( 'sites.php' ) );
 		}
 	break;
 
@@ -476,7 +542,7 @@ switch ( $_GET['action'] ) {
 			</head>
 			<body>
 				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png' ) ); ?>" /></h1>
-				<form action="ms-edit.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
+				<form action="edit.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
@@ -499,15 +565,15 @@ switch ( $_GET['action'] ) {
 		if ( $id != '0' && $id != '1' ) {
 			$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle with arrays
 			$title = __( 'Users' );
-			$parent_file = 'ms-admin.php';
-			require_once( 'admin-header.php' );
+			$parent_file = 'users.php';
+			require_once( '../admin-header.php' );
 			echo '<div class="wrap">';
 			confirm_delete_users( $_POST['allusers'] );
 			echo '</div>';
-            require_once( 'admin-footer.php' );
+            require_once( '../admin-footer.php' );
             exit();
 		} else {
-			wp_redirect( admin_url( 'ms-users.php' ) );
+			wp_redirect( network_admin_url( 'users.php' ) );
 		}
 	break;
 
@@ -526,12 +592,12 @@ switch ( $_GET['action'] ) {
 					switch ( $doaction ) {
 						case 'delete':
 							$title = __( 'Users' );
-							$parent_file = 'ms-admin.php';
-							require_once( 'admin-header.php' );
+							$parent_file = 'users.php';
+							require_once( '../admin-header.php' );
 							echo '<div class="wrap">';
 							confirm_delete_users( $_POST['allusers'] );
 							echo '</div>';
-				            require_once( 'admin-footer.php' );
+				            require_once( '../admin-footer.php' );
 				            exit();
        					break;
 
@@ -564,7 +630,7 @@ switch ( $_GET['action'] ) {
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $userfunction ), wp_get_referer() ) );
 			exit();
 		} else {
-			wp_redirect( admin_url( 'ms-users.php' ) );
+			wp_redirect( network_admin_url( 'users.php' ) );
 		}
 	break;
 
@@ -595,7 +661,7 @@ switch ( $_GET['action'] ) {
 		else
 			$deletefunction = 'all_delete';
 
-		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), admin_url( 'ms-users.php' ) ) );
+		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), network_admin_url( 'users.php' ) ) );
 	break;
 
 	case 'adduser':
@@ -631,7 +697,7 @@ switch ( $_GET['action'] ) {
 	break;
 
 	default:
-		wp_redirect( admin_url( 'ms-admin.php' ) );
+		wp_redirect( network_admin_url( 'index.php' ) );
 	break;
 }
 ?>
