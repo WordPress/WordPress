@@ -14,8 +14,6 @@ if ( is_multisite() ) {
 	if ( empty( $menu_perms['plugins'] ) ) { 
 		if ( ! is_super_admin() )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
-		else
-			add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
 	}
 }
 

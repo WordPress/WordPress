@@ -825,17 +825,6 @@ function ms_deprecated_blogs_file() {
 add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
 
 /**
- * Outputs the notice message for multisite regarding activation of plugin page.
- *
- * @since 3.0.0
- * @return none
- */
-function _admin_notice_multisite_activate_plugins_page() {
-	$message = sprintf( __( 'The plugins page is not visible to normal users. It must be activated first. %s' ), '<a href="' . esc_url( admin_url( 'ms-options.php#menu' ) ) . '">' . __( 'Activate' ) . '</a>' );
-	echo "<div class='error'><p>$message</p></div>";
-}
-
-/**
  * Grants super admin privileges.
  *
  * @since 3.0.0
