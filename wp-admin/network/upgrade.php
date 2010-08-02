@@ -62,7 +62,7 @@ switch ( $action ) {
 			do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 		}
 		echo "</ul>";
-		?><p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:' ); ?> <a class="button" href="ms-upgrade-network.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
+		?><p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:' ); ?> <a class="button" href="upgrade.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
 		<script type='text/javascript'>
 		<!--
 		function nextpage() {

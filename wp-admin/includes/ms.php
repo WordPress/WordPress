@@ -731,7 +731,7 @@ function site_admin_notice() {
 	if ( !is_super_admin() )
 		return false;
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
-		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), esc_url( admin_url( 'ms-upgrade-network.php' ) ) ) . "</div>";
+		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Update Network</a> page to update all your sites.' ), esc_url( network_admin_url( 'upgrade.php' ) ) ) . "</div>";
 }
 add_action( 'admin_notices', 'site_admin_notice' );
 
