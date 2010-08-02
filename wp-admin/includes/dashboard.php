@@ -1034,6 +1034,45 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
 }
 
+// Display File upload quota on dashboard
+function wp_dashboard_quota() {
+	if ( !is_multisite() || !current_user_can('edit_posts') || get_site_option( 'upload_space_check_disabled' ) )
+		return true;
+
+	$quota = get_space_allowed();
+	$used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
+
+	if ( $used > $quota )
+		$percentused = '100';
+	else
+		$percentused = ( $used / $quota ) * 100;
+	$used_color = ( $percentused < 70 ) ? ( ( $percentused >= 40 ) ? 'waiting' : 'approved' ) : 'spam';
+	$used = round( $used, 2 );
+	$percentused = number_format( $percentused );
+
+	?>
+	<p class="sub musub"><?php _e( 'Storage Space' ); ?></p>
+	<div class="table table_content musubtable">
+	<table>
+		<tr class="first">
+			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), $quota ); ?></td>
+			<td class="t posts"><?php _e( 'Space Allowed' ); ?></td>
+		</tr>
+	</table>
+	</div>
+	<div class="table table_discussion musubtable">
+	<table>
+		<tr class="first">
+			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
+			<td class="last t comments <?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
+		</tr>
+	</table>
+	</div>
+	<br class="clear" />
+	<?php
+}
+add_action( 'activity_box_end', 'wp_dashboard_quota' );
+
 /**
  * Empty function usable by plugins to output empty dashboard widget (to be populated later by JS).
  */

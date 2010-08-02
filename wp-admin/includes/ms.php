@@ -483,46 +483,6 @@ function display_space_usage() {
 	<?php
 }
 
-// Display File upload quota on dashboard
-function dashboard_quota() {
-	if ( get_site_option( 'upload_space_check_disabled' ) )
-		return true;
-
-	$quota = get_space_allowed();
-	$used = get_dirsize( BLOGUPLOADDIR ) / 1024 / 1024;
-
-	if ( $used > $quota )
-		$percentused = '100';
-	else
-		$percentused = ( $used / $quota ) * 100;
-	$used_color = ( $percentused < 70 ) ? ( ( $percentused >= 40 ) ? 'waiting' : 'approved' ) : 'spam';
-	$used = round( $used, 2 );
-	$percentused = number_format( $percentused );
-
-	?>
-	<p class="sub musub"><?php _e( 'Storage Space' ); ?></p>
-	<div class="table table_content musubtable">
-	<table>
-		<tr class="first">
-			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), $quota ); ?></td>
-			<td class="t posts"><?php _e( 'Space Allowed' ); ?></td>
-		</tr>
-	</table>
-	</div>
-	<div class="table table_discussion musubtable">
-	<table>
-		<tr class="first">
-			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
-			<td class="last t comments <?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
-		</tr>
-	</table>
-	</div>
-	<br class="clear" />
-	<?php
-}
-if ( current_user_can( 'edit_posts' ) )
-	add_action( 'activity_box_end', 'dashboard_quota' );
-
 // Edit blog upload space setting on Edit Blog page
 function upload_space_setting( $id ) {
 	$quota = get_blog_option( $id, 'blog_upload_space' );
