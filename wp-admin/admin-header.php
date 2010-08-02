@@ -153,7 +153,7 @@ echo implode(' ', $links);
 ?></p>
 </div>
 
-<?php !is_network_admin() ? favorite_actions($current_screen) : ''; ?>
+<?php favorite_actions($current_screen); ?>
 </div>
 </div>
 

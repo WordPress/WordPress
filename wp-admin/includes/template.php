@@ -3326,51 +3326,62 @@ function favorite_actions( $screen = null ) {
 	}
 
 	if ( !$default_action ) {
-		switch ( $screen->id ) {
-			case 'upload':
-				$default_action = array('media-new.php' => array(__('New Media'), 'upload_files'));
-				break;
-			case 'media':
-				$default_action = array('upload.php' => array(__('Edit Media'), 'upload_files'));
-				break;
-			case 'link-manager':
-			case 'link':
-				if ( 'add' != $screen->action )
-					$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
-				else
-					$default_action = array('link-manager.php' => array(__('Edit Links'), 'manage_links'));
-				break;
-			case 'users':
-				$default_action = array('user-new.php' => array(__('New User'), 'create_users'));
-				break;
-			case 'user':
-				$default_action = array('users.php' => array(__('Edit Users'), 'edit_users'));
-				break;
-			case 'plugins':
-				$default_action = array('plugin-install.php' => array(__('Install Plugins'), 'install_plugins'));
-				break;
-			case 'plugin-install':
-				$default_action = array('plugins.php' => array(__('Manage Plugins'), 'activate_plugins'));
-				break;
-			case 'themes':
-				$default_action = array('theme-install.php' => array(__('Install Themes'), 'install_themes'));
-				break;
-			case 'theme-install':
-				$default_action = array('themes.php' => array(__('Manage Themes'), 'switch_themes'));
-				break;
-			default:
-				$default_action = array('post-new.php' => array(__('New Post'), 'edit_posts'));
-				break;
+		if ( $screen->is_network ) {
+			$default_action = array('sites.php' => array( __('Sites'), 'manage_sites'));
+		} else {
+			switch ( $screen->id ) {
+				case 'upload':
+					$default_action = array('media-new.php' => array(__('New Media'), 'upload_files'));
+					break;
+				case 'media':
+					$default_action = array('upload.php' => array(__('Edit Media'), 'upload_files'));
+					break;
+				case 'link-manager':
+				case 'link':
+					if ( 'add' != $screen->action )
+						$default_action = array('link-add.php' => array(__('New Link'), 'manage_links'));
+					else
+						$default_action = array('link-manager.php' => array(__('Edit Links'), 'manage_links'));
+					break;
+				case 'users':
+					$default_action = array('user-new.php' => array(__('New User'), 'create_users'));
+					break;
+				case 'user':
+					$default_action = array('users.php' => array(__('Edit Users'), 'edit_users'));
+					break;
+				case 'plugins':
+					$default_action = array('plugin-install.php' => array(__('Install Plugins'), 'install_plugins'));
+					break;
+				case 'plugin-install':
+					$default_action = array('plugins.php' => array(__('Manage Plugins'), 'activate_plugins'));
+					break;
+				case 'themes':
+					$default_action = array('theme-install.php' => array(__('Install Themes'), 'install_themes'));
+					break;
+				case 'theme-install':
+					$default_action = array('themes.php' => array(__('Manage Themes'), 'switch_themes'));
+					break;
+				default:
+					$default_action = array('post-new.php' => array(__('New Post'), 'edit_posts'));
+					break;
+			}
 		}
 	}
 
-	$actions = array(
-		'post-new.php' => array(__('New Post'), 'edit_posts'),
-		'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),
-		'post-new.php?post_type=page' => array(__('New Page'), 'edit_pages'),
-		'media-new.php' => array(__('Upload'), 'upload_files'),
-		'edit-comments.php' => array(__('Comments'), 'moderate_comments')
+	if ( !$screen->is_network ) {
+		$actions = array(
+			'post-new.php' => array(__('New Post'), 'edit_posts'),
+			'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),
+			'post-new.php?post_type=page' => array(__('New Page'), 'edit_pages'),
+			'media-new.php' => array(__('Upload'), 'upload_files'),
+			'edit-comments.php' => array(__('Comments'), 'moderate_comments')
+			);
+	} else {
+		$actions = array(
+			'sites.php' => array( __('Sites'), 'manage_sites'),
+			'users.php' => array( __('Users'), 'manage_network_users')
 		);
+	}
 
 	$default_key = array_keys($default_action);
 	$default_key = $default_key[0];
@@ -3945,6 +3956,8 @@ function set_current_screen( $id = '' ) {
 		$current_screen->id = 'edit-' . $taxnow;
 		$current_screen->taxonomy = $taxnow;
 	}
+
+	$current_screen->is_network = is_network_admin() ? true : false;
 
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
