@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( './admin.php' );
 
 /** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
@@ -306,20 +306,11 @@ default:
 		exit;
 	}
 
+	require_once( './includes/default-list-tables.php' );
+
+	$table = new WP_Users_Table;
+
 	include('./admin-header.php');
-
-	$usersearch = isset($_GET['usersearch']) ? $_GET['usersearch'] : null;
-	$userspage = isset($_GET['userspage']) ? $_GET['userspage'] : null;
-	$role = isset($_GET['role']) ? $_GET['role'] : null;
-
-	// Query the user IDs for this page
-	$wp_user_search = new WP_User_Search($usersearch, $userspage, $role);
-
-	// Query the post counts for this page
-	$post_counts = count_many_users_posts($wp_user_search->get_results());
-
-	// Query the users for this page
-	cache_users($wp_user_search->get_results());
 
 	$messages = array();
 	if ( isset($_GET['update']) ) :
@@ -372,8 +363,8 @@ if ( ! empty($messages) ) {
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); if ( current_user_can( 'create_users' ) ) { ?>  <a href="user-new.php" class="button add-new-h2"><?php echo esc_html_x('Add New', 'user'); ?></a><?php }
-if ( isset($_GET['usersearch']) && $_GET['usersearch'] )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $_GET['usersearch'] ) ); ?>
+if ( $usersearch )
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) ); ?>
 </h2>
 
 <div class="filter">
@@ -415,109 +406,14 @@ unset($role_links);
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="screen-reader-text" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
-	<input type="text" id="user-search-input" name="usersearch" value="<?php echo esc_attr($wp_user_search->search_term); ?>" />
+	<input type="text" id="user-search-input" name="usersearch" value="<?php echo esc_attr($usersearch); ?>" />
 	<input type="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" class="button" />
 </p>
 </form>
 
-<form id="posts-filter" action="" method="get">
-<div class="tablenav">
-
-<?php if ( $wp_user_search->results_are_paged() ) : ?>
-	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
-<?php endif; ?>
-
-<div class="alignleft actions">
-<select name="action">
-<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<?php if ( !is_multisite() && current_user_can('delete_users') ) { ?>
-<option value="delete"><?php _e('Delete'); ?></option>
-<?php } else { ?>
-<option value="remove"><?php _e('Remove'); ?></option>
-<?php } ?>
-</select>
-<input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<label class="screen-reader-text" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option><?php wp_dropdown_roles(); ?></select>
-<input type="submit" value="<?php esc_attr_e('Change'); ?>" name="changeit" class="button-secondary" />
-<?php wp_nonce_field('bulk-users'); ?>
-</div>
-
-<br class="clear" />
-</div>
-
-	<?php if ( is_wp_error( $wp_user_search->search_errors ) ) : ?>
-		<div class="error">
-			<ul>
-			<?php
-				foreach ( $wp_user_search->search_errors->get_error_messages() as $message )
-					echo "<li>$message</li>";
-			?>
-			</ul>
-		</div>
-	<?php endif; ?>
-
-
-<?php if ( $wp_user_search->get_results() ) : ?>
-
-	<?php if ( $wp_user_search->is_search() ) : ?>
-		<p><a href="users.php"><?php _e('&larr; Back to All Users'); ?></a></p>
-	<?php endif; ?>
-
-<table class="widefat fixed" cellspacing="0">
-<thead>
-<tr class="thead">
-<?php print_column_headers('users') ?>
-</tr>
-</thead>
-
-<tfoot>
-<tr class="thead">
-<?php print_column_headers('users', false) ?>
-</tr>
-</tfoot>
-
-<tbody id="users" class="list:user user-list">
-<?php
-$style = '';
-foreach ( $wp_user_search->get_results() as $userid ) {
-	$user_object = new WP_User($userid);
-	$roles = $user_object->roles;
-	$role = array_shift($roles);
-
-	if ( is_multisite() && empty( $role ) )
-		continue;
-
-	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
-	echo "\n\t", user_row( $user_object, $style, $role, $post_counts[ $userid ] );
-}
-?>
-</tbody>
-</table>
-
-<div class="tablenav">
-
-<?php if ( $wp_user_search->results_are_paged() ) : ?>
-	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
-<?php endif; ?>
-
-<div class="alignleft actions">
-<select name="action2">
-<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
-<?php if ( !is_multisite() && current_user_can('delete_users') ) { ?>
-<option value="delete"><?php _e('Delete'); ?></option>
-<?php } else { ?>
-<option value="remove"><?php _e('Remove'); ?></option>
-<?php } ?></select>
-<input type="submit" value="<?php esc_attr_e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
-</div>
-
-<br class="clear" />
-</div>
-
-<?php endif; ?>
-
+<form id="posts-filter" action="" method="post">
+<?php $table->display(); ?>
 </form>
-</div>
 
 <?php
 if ( is_multisite() ) {
@@ -536,4 +432,3 @@ break;
 } // end of the $doaction switch
 
 include('./admin-footer.php');
-?>

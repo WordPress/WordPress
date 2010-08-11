@@ -88,59 +88,6 @@ function install_themes_feature_list( ) {
 	return $feature_list;
 }
 
-add_action('install_themes_search', 'install_theme_search', 10, 1);
-/**
- * Display theme search results
- *
- * @since 2.8.0
- *
- * @param string $page
- */
-function install_theme_search($page) {
-	global $theme_field_defaults;
-
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
-	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
-
-	$args = array();
-
-	switch( $type ){
-		case 'tag':
-			$terms = explode(',', $term);
-			$terms = array_map('trim', $terms);
-			$terms = array_map('sanitize_title_with_dashes', $terms);
-			$args['tag'] = $terms;
-			break;
-		case 'term':
-			$args['search'] = $term;
-			break;
-		case 'author':
-			$args['author'] = $term;
-			break;
-	}
-
-	$args['page'] = $page;
-	$args['fields'] = $theme_field_defaults;
-
-	if ( !empty( $_POST['features'] ) ) {
-		$terms = $_POST['features'];
-		$terms = array_map( 'trim', $terms );
-		$terms = array_map( 'sanitize_title_with_dashes', $terms );
-		$args['tag'] = $terms;
-		$_REQUEST['s'] = implode( ',', $terms );
-		$_REQUEST['type'] = 'tag';
-	}
-
-	$api = themes_api('query_themes', $args);
-
-	if ( is_wp_error($api) )
-		wp_die($api);
-
-	add_action('install_themes_table_header', 'install_theme_search_form');
-
-	display_themes($api->themes, $api->info['page'], $api->info['pages']);
-}
-
 /**
  * Display search form for searching themes.
  *
@@ -152,7 +99,8 @@ function install_theme_search_form() {
 	?>
 <p class="install-help"><?php _e('Search for themes by keyword, author, or tag.') ?></p>
 
-<form id="search-themes" method="post" action="<?php echo admin_url( 'theme-install.php?tab=search' ); ?>">
+<form id="search-themes" method="get" action="">
+	<input type="hidden" name="tab" value="search" />
 	<select	name="type" id="typeselector">
 	<option value="term" <?php selected('term', $type) ?>><?php _e('Term'); ?></option>
 	<option value="author" <?php selected('author', $type) ?>><?php _e('Author'); ?></option>
@@ -164,7 +112,6 @@ function install_theme_search_form() {
 <?php
 }
 
-add_action('install_themes_dashboard', 'install_themes_dashboard');
 /**
  * Display tags filter for themes.
  *
@@ -222,57 +169,8 @@ function install_themes_dashboard() {
 </form>
 <?php
 }
+add_action('install_themes_dashboard', 'install_themes_dashboard');
 
-add_action('install_themes_featured', 'install_themes_featured', 10, 1);
-/**
- * Display featured themes.
- *
- * @since 2.8.0
- *
- * @param string $page
- */
-function install_themes_featured($page = 1) {
-	global $theme_field_defaults;
-	$args = array('browse' => 'featured', 'page' => $page, 'fields' => $theme_field_defaults);
-	$api = themes_api('query_themes', $args);
-	if ( is_wp_error($api) )
-		wp_die($api);
-	display_themes($api->themes, $api->info['page'], $api->info['pages']);
-}
-
-add_action('install_themes_new', 'install_themes_new', 10, 1);
-/**
- * Display new themes/
- *
- * @since 2.8.0
- *
- * @param string $page
- */
-function install_themes_new($page = 1) {
-	global $theme_field_defaults;
-	$args = array('browse' => 'new', 'page' => $page, 'fields' => $theme_field_defaults);
-	$api = themes_api('query_themes', $args);
-	if ( is_wp_error($api) )
-		wp_die($api);
-	display_themes($api->themes, $api->info['page'], $api->info['pages']);
-}
-
-add_action('install_themes_updated', 'install_themes_updated', 10, 1);
-/**
- * Display recently updated themes.
- *
- * @since 2.8.0
- *
- * @param string $page
- */
-function install_themes_updated($page = 1) {
-	global $theme_field_defaults;
-	$args = array('browse' => 'updated', 'page' => $page, 'fields' => $theme_field_defaults);
-	$api = themes_api('query_themes', $args);
-	display_themes($api->themes, $api->info['page'], $api->info['pages']);
-}
-
-add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 function install_themes_upload($page = 1) {
 ?>
 <h4><?php _e('Install a theme in .zip format') ?></h4>
@@ -285,6 +183,7 @@ function install_themes_upload($page = 1) {
 </form>
 	<?php
 }
+add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 
 function display_theme($theme, $actions = null, $show_details = true) {
 	global $themes_allowedtags;
@@ -360,83 +259,16 @@ function display_theme($theme, $actions = null, $show_details = true) {
  * Display theme content based on theme list.
  *
  * @since 2.8.0
- *
- * @param array $themes List of themes.
- * @param string $page
- * @param int $totalpages Number of pages.
  */
-function display_themes($themes, $page = 1, $totalpages = 1) {
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
-	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
-	?>
-<div class="tablenav">
-<div class="alignleft actions"><?php do_action('install_themes_table_header'); ?></div>
-	<?php
-	$url = esc_url($_SERVER['REQUEST_URI']);
-	if ( ! empty($term) )
-		$url = add_query_arg('s', $term, $url);
-	if ( ! empty($type) )
-		$url = add_query_arg('type', $type, $url);
+function display_themes() {
+	global $table;
 
-	$page_links = paginate_links( array(
-			'base' => add_query_arg('paged', '%#%', $url),
-			'format' => '',
-			'prev_text' => __('&laquo;'),
-			'next_text' => __('&raquo;'),
-			'total' => $totalpages,
-			'current' => $page
-	));
-
-	if ( $page_links )
-		echo "\t\t<div class='tablenav-pages'>$page_links</div>";
-	?>
-</div>
-<br class="clear" />
-<?php
-	if ( empty($themes) ) {
-		_e('No themes found');
-		return;
-	}
-?>
-<table id="availablethemes" cellspacing="0" cellpadding="0">
-<?php
-	$rows = ceil(count($themes) / 3);
-	$table = array();
-	$theme_keys = array_keys($themes);
-	for ( $row = 1; $row <= $rows; $row++ )
-		for ( $col = 1; $col <= 3; $col++ )
-			$table[$row][$col] = array_shift($theme_keys);
-
-	foreach ( $table as $row => $cols ) {
-	?>
-	<tr>
-	<?php
-
-	foreach ( $cols as $col => $theme_index ) {
-		$class = array('available-theme');
-		if ( $row == 1 ) $class[] = 'top';
-		if ( $col == 1 ) $class[] = 'left';
-		if ( $row == $rows ) $class[] = 'bottom';
-		if ( $col == 3 ) $class[] = 'right';
-		?>
-		<td class="<?php echo join(' ', $class); ?>"><?php
-			if ( isset($themes[$theme_index]) )
-				display_theme($themes[$theme_index]);
-		?></td>
-		<?php } // end foreach $cols ?>
-	</tr>
-	<?php } // end foreach $table ?>
-</table>
-
-<div class="tablenav"><?php if ( $page_links )
-echo "\t\t<div class='tablenav-pages'>$page_links</div>"; ?> <br
-	class="clear" />
-</div>
-
-<?php
+	$table->display();
 }
-
-add_action('install_themes_pre_theme-information', 'install_theme_information');
+add_action('install_themes_search', 'display_themes');
+add_action('install_themes_featured', 'display_themes');
+add_action('install_themes_new', 'display_themes');
+add_action('install_themes_updated', 'display_themes');
 
 /**
  * Display theme information in dialog box form.
@@ -546,3 +378,5 @@ case 'latest_installed':
 	iframe_footer();
 	exit;
 }
+add_action('install_themes_pre_theme-information', 'install_theme_information');
+

@@ -204,6 +204,8 @@ function get_comments( $args = '' ) {
 		'status' => '',
 		'type' => '',
 		'user_id' => '',
+		'search' => '',
+		'count' => false
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -235,7 +237,7 @@ function get_comments( $args = '' ) {
 	else
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
 
-	$order = ( 'ASC' == $order ) ? 'ASC' : 'DESC';
+	$order = ( 'ASC' == strtoupper($order) ) ? 'ASC' : 'DESC';
 
 	if ( ! empty( $orderby ) ) {
 		$ordersby = is_array($orderby) ? $orderby : preg_split('/[,\s]/', $orderby);
@@ -269,32 +271,37 @@ function get_comments( $args = '' ) {
 
 	if ( !empty($number) ) {
 		if ( $offset )
-			$number = 'LIMIT ' . $offset . ',' . $number;
+			$limit = 'LIMIT ' . $offset . ',' . $number;
 		else
-			$number = 'LIMIT ' . $number;
-
+			$limit = 'LIMIT ' . $number;
 	} else {
-		$number = '';
+		$limit = '';
 	}
 
-	$post_where = '';
+	$post_where = "WHERE $approved";
 
 	if ( ! empty($post_id) )
-		$post_where .= $wpdb->prepare( 'comment_post_ID = %d AND ', $post_id );
+		$post_where .= $wpdb->prepare( ' AND comment_post_ID = %d', $post_id );
 	if ( '' !== $author_email )
-		$post_where .= $wpdb->prepare( 'comment_author_email = %s AND ', $author_email );
+		$post_where .= $wpdb->prepare( 'AND comment_author_email = %s', $author_email );
 	if ( '' !== $karma )
-		$post_where .= $wpdb->prepare( 'comment_karma = %d AND ', $karma );
+		$post_where .= $wpdb->prepare( 'AND comment_karma = %d', $karma );
 	if ( 'comment' == $type )
-		$post_where .= "comment_type = '' AND ";
+		$post_where .= " AND comment_type = ''";
 	elseif ( ! empty( $type ) )
-		$post_where .= $wpdb->prepare( 'comment_type = %s AND ', $type );
+		$post_where .= $wpdb->prepare( ' AND comment_type = %s', $type );
 	if ( '' !== $parent )
-		$post_where .= $wpdb->prepare( 'comment_parent = %d AND ', $parent );
+		$post_where .= $wpdb->prepare( ' AND comment_parent = %d', $parent );
 	if ( '' !== $user_id )
-		$post_where .= $wpdb->prepare( 'user_id = %d AND ', $user_id );
+		$post_where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
+	if ( '' !== $search )
+		$post_where .= _wp_search_sql($search, array('comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content'));
 
-	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE $post_where $approved ORDER BY $orderby $order $number" );
+	if ( $count )
+		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
+
+	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
+
 	wp_cache_add( $cache_key, $comments, 'comment' );
 
 	return $comments;
@@ -1282,7 +1289,7 @@ function wp_new_comment( $commentdata ) {
 		$post = &get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
 
 		if ( get_option('comments_notify') && $commentdata['comment_approved'] && ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) )
-			wp_notify_postauthor($comment_ID, empty( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '' );
+			wp_notify_postauthor($comment_ID, isset( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '' );
 	}
 
 	return $comment_ID;

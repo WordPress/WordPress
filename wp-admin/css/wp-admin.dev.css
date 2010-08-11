@@ -27,6 +27,8 @@ select option {
 	padding: 2px;
 }
 
+.plugins #name {width: 33%}
+
 .plugins .name,
 #pass-strength-result.strong,
 #pass-strength-result.short,
@@ -67,12 +69,11 @@ input.button-highlighted,
 	padding: 0;
 }
 
-.widefat tbody.plugins th.check-column {
+.plugins tbody th.check-column {
 	padding: 7px 0;
 }
 
-.widefat .plugins td,
-.widefat .plugins th {
+.plugins td, .plugins th {
 	border-bottom: 0 none;
 }
 
@@ -113,6 +114,16 @@ input.button-highlighted,
 
 .anchors {
 	margin: 10px 20px 10px 20px;
+}
+
+#loading-items {
+	position: absolute;
+	z-index: 9999;
+	padding: 10px;
+	background-color: #fff;
+	font-weight: bold;
+	text-align: center;
+	opacity: 0.5;
 }
 
 table#availablethemes {
@@ -714,12 +725,18 @@ div.nav {
 	padding: 2px 4px;
 }
 
-a.page-numbers {
+.tablenav-pages a {
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 	font-weight: bold;
 	margin-right: 1px;
 	padding: 0 2px;
+}
+.tablenav-pages .current-page {
+	text-align: center;
+}
+.tablenav-pages .next-page {
+	margin-left: 2px;
 }
 
 p.pagenav {
@@ -1346,12 +1363,12 @@ textarea.large-text {
 	width: 99%;
 }
 
-.form-table input.regular-text,
+input.regular-text,
 #adduser .form-field input {
 	width: 25em;
 }
 
-.form-table input.small-text {
+input.small-text {
 	width: 50px;
 }
 
@@ -3240,6 +3257,13 @@ table.fixed {
 .fixed .column-comments {
 	width: 4em;
 	padding-top: 8px;
+	text-align: left;
+}
+.fixed .column-comments .vers {
+	padding-left: 3px;
+}
+.fixed .column-comments a {
+	float: left;
 }
 
 .fixed .column-slug {
@@ -3272,6 +3296,25 @@ table .vers,
 table .column-visible,
 table .column-rating {
 	text-align: center;
+}
+
+.sorting-indicator {
+	display: none;
+	float: left;
+	width: 21px;
+	height: 4px;
+	margin-top: 5px;
+}
+th.sortable a, th.sorted-asc a, th.sorted-desc a {
+	float: left;
+}
+th.sorted-asc .sorting-indicator, th.sorted-desc:hover .sorting-indicator, th.sortable:hover .sorting-indicator {
+	display: block;
+	background: url(../images/sort_asc.gif) no-repeat scroll 0 0;
+}
+th.sorted-desc .sorting-indicator, th.sorted-asc:hover .sorting-indicator {
+	display: block;
+	background: url(../images/sort_desc.gif) no-repeat scroll 0 0;
 }
 
 .icon32 {

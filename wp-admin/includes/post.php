@@ -880,16 +880,15 @@ function wp_edit_posts_query( $q = false ) {
 		$perm = 'readable';
 	}
 
-	if ( isset($q['post_status']) && 'pending' === $q['post_status'] ) {
+	if ( isset($q['orderby']) )
+		$orderby = $q['orderby'];
+	elseif ( isset($q['post_status']) && in_array($q['post_status'], array('pending', 'draft')) )
+		$orderby = 'modified';
+
+	if ( isset($q['order']) )
+		$order = $q['order'];
+	elseif ( isset($q['post_status']) && 'pending' == $q['post_status'] )
 		$order = 'ASC';
-		$orderby = 'modified';
-	} elseif ( isset($q['post_status']) && 'draft' === $q['post_status'] ) {
-		$order = 'DESC';
-		$orderby = 'modified';
-	} else {
-		$order = 'DESC';
-		$orderby = 'date';
-	}
 
 	$per_page = 'edit_' . $post_type . '_per_page';
 	$posts_per_page = (int) get_user_option( $per_page );
@@ -902,7 +901,7 @@ function wp_edit_posts_query( $q = false ) {
 	$query = compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page');
 
 	// Hierarchical types require special args.
-	if ( is_post_type_hierarchical( $post_type ) ) {
+	if ( is_post_type_hierarchical( $post_type ) && !isset($orderby) ) {
 		$query['orderby'] = 'menu_order title';
 		$query['order'] = 'asc';
 		$query['posts_per_page'] = -1;
@@ -973,9 +972,19 @@ function wp_edit_attachments_query( $q = false ) {
 	if ( isset($q['post_mime_type']) && !array_intersect( (array) $q['post_mime_type'], array_keys($post_mime_types) ) )
 		unset($q['post_mime_type']);
 
+	if ( isset($q['detached']) )
+		add_filter('posts_where', '_edit_attachments_query_helper');
+
 	wp($q);
 
+	if ( isset($q['detached']) )
+		remove_filter('posts_where', '_edit_attachments_query_helper');
+
 	return array($post_mime_types, $avail_post_mime_types);
+}
+
+function _edit_attachments_query_helper($where) {
+	return $where .= ' AND post_parent < 1';
 }
 
 /**

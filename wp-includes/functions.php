@@ -4194,6 +4194,27 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 
 	return $file_data;
 }
+
+/*
+ * Used internally to generate an SQL string for searching across multiple columns
+ *
+ * @access private
+ * @since 3.1.0
+ *
+ * @param string $string
+ * @param array $cols
+ * @return string
+ */
+function _wp_search_sql($string, $cols) {
+	$string = esc_sql($string);
+
+	$searches = array();
+	foreach ( $cols as $col )
+		$searches[] = "$col LIKE '%$string%'";
+
+	return ' AND (' . implode(' OR ', $searches) . ')';
+}
+
 /*
  * Used internally to tidy up the search terms
  *

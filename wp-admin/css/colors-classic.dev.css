@@ -1592,7 +1592,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background: transparent url(../images/list-vs.png) no-repeat 0 0;
 }
 
-.view-switch #view-switch-list.current {
+.view-switch .current #view-switch-list {
 	background: transparent url(../images/list-vs.png) no-repeat -40px 0;
 }
 
@@ -1600,7 +1600,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	background: transparent url(../images/list-vs.png) no-repeat -20px 0;
 }
 
-.view-switch #view-switch-excerpt.current {
+.view-switch .current #view-switch-excerpt {
 	background: transparent url(../images/list-vs.png) no-repeat -60px 0;
 }
 

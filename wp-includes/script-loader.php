@@ -155,6 +155,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20m');
 	$scripts->add_data( 'schedule', 'group', 1 );
 
+	$scripts->add( 'jquery-query', "/wp-includes/js/jquery/jquery.query.js", array('jquery'), '2.1.7' );
+	$scripts->add_data( 'jquery-query', 'group', 1 );
+
 	$scripts->add( 'jquery-hotkeys', "/wp-includes/js/jquery/jquery.hotkeys$suffix.js", array('jquery'), '0.0.2m' );
 	$scripts->add_data( 'jquery-hotkeys', 'group', 1 );
 
@@ -335,7 +338,15 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20091202' );
+		$scripts->add( 'admin-table', "/wp-admin/js/admin-table$suffix.js", array( 'jquery', 'jquery-query' ), '20100626' );
+		$scripts->add_data( 'admin-table', 'group', 1 );
+		$scripts->localize( 'admin-table', 'adminTableL10n', array(
+			'loading' => __('Loading...'),
+			'error' => __('An error has occured while loading the items.'),
+			'search' => __('Search results for &#8220;%s&#8221;')
+		) );
+
+		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), '20100707' );
 		$scripts->add_data( 'inline-edit-post', 'group', 1 );
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),
@@ -344,7 +355,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery' ), '20090623' );
+		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery' ), '20100615' );
 		$scripts->add_data( 'inline-edit-tax', 'group', 1 );
 		$scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),
@@ -430,7 +441,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100614' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100624' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20100610' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

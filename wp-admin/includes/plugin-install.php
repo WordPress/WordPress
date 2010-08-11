@@ -78,48 +78,7 @@ function install_popular_tags( $args = array() ) {
 
 	return $tags;
 }
-add_action('install_plugins_search', 'install_search', 10, 1);
 
-/**
- * Display search results and display as tag cloud.
- *
- * @since 2.7.0
- *
- * @param string $page
- */
-function install_search($page) {
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
-	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
-
-	$args = array();
-
-	switch( $type ){
-		case 'tag':
-			$args['tag'] = sanitize_title_with_dashes($term);
-			break;
-		case 'term':
-			$args['search'] = $term;
-			break;
-		case 'author':
-			$args['author'] = $term;
-			break;
-	}
-
-	$args['page'] = $page;
-
-	$api = plugins_api('query_plugins', $args);
-
-	if ( is_wp_error($api) )
-		wp_die($api);
-
-	add_action('install_plugins_table_header', 'install_search_form');
-
-	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
-
-	return;
-}
-
-add_action('install_plugins_dashboard', 'install_dashboard');
 function install_dashboard() {
 	?>
 	<p><?php _e('Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via this page.') ?></p>
@@ -150,6 +109,7 @@ function install_dashboard() {
 	}
 	echo '</p><br class="clear" />';
 }
+add_action('install_plugins_dashboard', 'install_dashboard');
 
 /**
  * Display search form for searching plugins.
@@ -160,7 +120,8 @@ function install_search_form(){
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
-	?><form id="search-plugins" method="post" action="<?php echo admin_url('plugin-install.php?tab=search'); ?>">
+	?><form id="search-plugins" method="get" action="">
+		<input type="hidden" name="tab" value="search" />
 		<select name="type" id="typeselector">
 			<option value="term"<?php selected('term', $type) ?>><?php _e('Term'); ?></option>
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author'); ?></option>
@@ -168,43 +129,10 @@ function install_search_form(){
 		</select>
 		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
 		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<input type="submit" id="plugin-search-input" name="search" value="<?php esc_attr_e('Search Plugins'); ?>" class="button" />
+		<input type="submit" id="plugin-search-input" value="<?php esc_attr_e('Search Plugins'); ?>" class="button" />
 	</form><?php
 }
 
-add_action('install_plugins_featured', 'install_featured', 10, 1);
-/**
- * Display featured plugins.
- *
- * @since 2.7.0
- *
- * @param string $page
- */
-function install_featured($page = 1) {
-	$args = array('browse' => 'featured', 'page' => $page);
-	$api = plugins_api('query_plugins', $args);
-	if ( is_wp_error($api) )
-		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
-	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
-}
-
-add_action('install_plugins_popular', 'install_popular', 10, 1);
-/**
- * Display popular plugins.
- *
- * @since 2.7.0
- *
- * @param string $page
- */
-function install_popular($page = 1) {
-	$args = array('browse' => 'popular', 'page' => $page);
-	$api = plugins_api('query_plugins', $args);
-	if ( is_wp_error($api) )
-		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
-	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
-}
-
-add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
 /**
  * Upload from zip
  * @since 2.8.0
@@ -223,39 +151,7 @@ function install_plugins_upload( $page = 1 ) {
 	</form>
 <?php
 }
-
-add_action('install_plugins_new', 'install_new', 10, 1);
-/**
- * Display new plugins.
- *
- * @since 2.7.0
- *
- * @param string $page
- */
-function install_new($page = 1) {
-	$args = array('browse' => 'new', 'page' => $page);
-	$api = plugins_api('query_plugins', $args);
-	if ( is_wp_error($api) )
-		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
-	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
-}
-add_action('install_plugins_updated', 'install_updated', 10, 1);
-
-
-/**
- * Display recently updated plugins.
- *
- * @since 2.7.0
- *
- * @param string $page
- */
-function install_updated($page = 1) {
-	$args = array('browse' => 'updated', 'page' => $page);
-	$api = plugins_api('query_plugins', $args);
-	if ( is_wp_error($api) )
-		wp_die($api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __('Try again') . '</a>');
-	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
-}
+add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
 
 /**
  * Display plugin content based on plugin list.
@@ -263,153 +159,18 @@ function install_updated($page = 1) {
  * @since 2.7.0
  *
  * @param array $plugins List of plugins.
- * @param string $page
- * @param int $totalpages Number of pages.
+ * @param int $total_plugins Number of plugins.
  */
-function display_plugins_table($plugins, $page = 1, $totalpages = 1){
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
-	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
+function display_plugins_table() {
+	global $table;
 
-	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()),'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array(),
-								'ul' => array(), 'ol' => array(), 'li' => array(), 'p' => array(), 'br' => array());
-
-?>
-	<div class="tablenav">
-		<div class="alignleft actions">
-		<?php do_action('install_plugins_table_header'); ?>
-		</div>
-		<?php
-			$url = esc_url($_SERVER['REQUEST_URI']);
-			if ( ! empty($term) )
-				$url = add_query_arg('s', $term, $url);
-			if ( ! empty($type) )
-				$url = add_query_arg('type', $type, $url);
-
-			$page_links = paginate_links( array(
-				'base' => add_query_arg('paged', '%#%', $url),
-				'format' => '',
-				'prev_text' => __('&laquo;'),
-				'next_text' => __('&raquo;'),
-				'total' => $totalpages,
-				'current' => $page
-			));
-
-			if ( $page_links )
-				echo "\t\t<div class='tablenav-pages'>$page_links</div>";
-?>
-		<br class="clear" />
-	</div>
-	<table class="widefat" id="install-plugins" cellspacing="0">
-		<thead>
-			<tr>
-				<th scope="col" class="name"><?php _e('Name'); ?></th>
-				<th scope="col" class="num"><?php _e('Version'); ?></th>
-				<th scope="col" class="num"><?php _e('Rating'); ?></th>
-				<th scope="col" class="desc"><?php _e('Description'); ?></th>
-			</tr>
-		</thead>
-
-		<tfoot>
-			<tr>
-				<th scope="col" class="name"><?php _e('Name'); ?></th>
-				<th scope="col" class="num"><?php _e('Version'); ?></th>
-				<th scope="col" class="num"><?php _e('Rating'); ?></th>
-				<th scope="col" class="desc"><?php _e('Description'); ?></th>
-			</tr>
-		</tfoot>
-
-		<tbody class="plugins">
-		<?php
-			if ( empty($plugins) )
-				echo '<tr><td colspan="5">', __('No plugins match your request.'), '</td></tr>';
-
-			foreach ( (array) $plugins as $plugin ){
-				if ( is_object($plugin) )
-					$plugin = (array) $plugin;
-
-				$title = wp_kses($plugin['name'], $plugins_allowedtags);
-				//Limit description to 400char, and remove any HTML.
-				$description = strip_tags($plugin['description']);
-				if ( strlen($description) > 400 )
-					$description = mb_substr($description, 0, 400) . '&#8230;';
-				//remove any trailing entities
-				$description = preg_replace('/&[^;\s]{0,6}$/', '', $description);
-				//strip leading/trailing & multiple consecutive lines
-				$description = trim($description);
-				$description = preg_replace("|(\r?\n)+|", "\n", $description);
-				//\n => <br>
-				$description = nl2br($description);
-				$version = wp_kses($plugin['version'], $plugins_allowedtags);
-
-				$name = strip_tags($title . ' ' . $version);
-
-				$author = $plugin['author'];
-				if ( ! empty($plugin['author']) )
-					$author = ' <cite>' . sprintf( __('By %s'), $author ) . '.</cite>';
-
-				$author = wp_kses($author, $plugins_allowedtags);
-
-				$action_links = array();
-				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=550') . '" class="thickbox" title="' .
-									esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '">' . __('Details') . '</a>';
-
-				if ( current_user_can('install_plugins') || current_user_can('update_plugins') ) {
-					$status = install_plugin_install_status($plugin);
-
-					switch ( $status['status'] ) {
-						case 'install':
-							if ( $status['url'] )
-								$action_links[] = '<a class="install-now" href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Install %s' ), $name ) ) . '">' . __('Install Now') . '</a>';
-							break;
-						case 'update_available':
-							if ( $status['url'] )
-								$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to version %s' ), $status['version'] ) ) . '">' . sprintf( __('Update Now'), $status['version'] ) . '</a>';
-							break;
-						case 'latest_installed':
-						case 'newer_installed':
-							$action_links[] = '<span title="' . esc_attr__( 'This plugin is already installed and is up to date' ) . ' ">' . __('Installed') . '</span>';
-							break;
-					}
-				}
-
-				$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
-			?>
-			<tr>
-				<td class="name"><strong><?php echo $title; ?></strong>
-					<div class="action-links"><?php if ( !empty($action_links) ) echo implode(' | ', $action_links); ?></div>
-				</td>
-				<td class="vers"><?php echo $version; ?></td>
-				<td class="vers">
-					<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings']), number_format_i18n($plugin['num_ratings'])) ?>">
-						<div class="star star-rating" style="width: <?php echo esc_attr($plugin['rating']) ?>px"></div>
-						<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
-						<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
-						<div class="star star3"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('3 stars') ?>" /></div>
-						<div class="star star2"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('2 stars') ?>" /></div>
-						<div class="star star1"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('1 star') ?>" /></div>
-					</div>
-				</td>
-				<td class="desc"><?php echo $description, $author; ?></td>
-			</tr>
-			<?php
-			}
-			?>
-		</tbody>
-	</table>
-
-	<div class="tablenav">
-		<?php if ( $page_links )
-				echo "\t\t<div class='tablenav-pages'>$page_links</div>"; ?>
-		<br class="clear" />
-	</div>
-
-<?php
+	$table->display();
 }
-
-add_action('install_plugins_pre_plugin-information', 'install_plugin_information');
+add_action('install_plugins_search', 'display_plugins_table');
+add_action('install_plugins_featured', 'display_plugins_table');
+add_action('install_plugins_popular', 'display_plugins_table');
+add_action('install_plugins_new', 'display_plugins_table');
+add_action('install_plugins_updated', 'display_plugins_table');
 
 /**
  * Determine the status we can perform on a plugin.
@@ -608,3 +369,5 @@ function install_plugin_information() {
 	iframe_footer();
 	exit;
 }
+add_action('install_plugins_pre_plugin-information', 'install_plugin_information');
+

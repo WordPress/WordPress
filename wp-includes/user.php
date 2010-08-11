@@ -326,6 +326,222 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
 }
 
 /**
+ * WordPress User Query class.
+ *
+ * @since 3.1.0
+ */
+class WP_User_Query {
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 * @var array
+	 */
+	var $results;
+
+	/**
+	 * The total number of users for the current query
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 * @var int
+	 */
+	var $total_users = 0;
+
+	var $query_from;
+	var $query_where;
+	var $query_orderby;
+	var $query_limit;
+
+	/**
+	 * Sets up the object properties.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string|array $args The query variables
+	 * @return WP_User_Query
+	 */
+	function WP_User_Query( $query ) {
+		$this->query_vars = wp_parse_args( $query, array(
+			'search' => '', 'role' => '',
+			'offset' => '', 'number' => '', 'count_total' => true,
+			'orderby' => 'login', 'order' => 'ASC',
+			'meta_key' => '', 'meta_value' => '',
+			'include' => array(), 'exclude' => array(),
+			'fields' => 'all'
+		) );
+
+		$this->prepare_query();
+		$this->query();
+	}
+
+	/**
+	 * Prepare the query variables
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 */
+	function prepare_query() {
+		global $wpdb;
+
+		$qv = &$this->query_vars;
+
+		$this->query_from = " FROM $wpdb->users";
+		$this->query_where = " WHERE 1=1";
+
+		// sorting
+		if ( in_array( $qv['orderby'], array('email', 'url', 'registered') ) ) {
+			$orderby = 'user_' . $qv['orderby'];
+		}
+		elseif ( 'name' == $qv['orderby'] ) {
+			$orderby = 'display_name';
+		}
+		elseif ( 'post_count' == $qv['orderby'] ) {
+			$where = get_posts_by_author_sql('post');
+			$this->query_from .= " LEFT OUTER JOIN (
+				SELECT post_author, COUNT(*) as post_count
+				FROM wp_posts
+				$where
+				GROUP BY post_author
+			) p ON (wp_users.ID = p.post_author)
+			";
+			$orderby = 'post_count';
+		}
+		else {
+			$orderby = 'user_login';
+		}
+
+		$qv['order'] = strtoupper( $qv['order'] );
+		if ( 'ASC' == $qv['order'] )
+			$order = 'ASC';
+		else
+			$order = 'DESC';
+		$this->query_orderby = " ORDER BY $orderby $order";
+
+		// limit
+		if ( $qv['number'] ) {
+			if ( $qv['offset'] )
+				$this->query_limit = $wpdb->prepare(" LIMIT %d, %d", $qv['offset'], $qv['offset'] + $qv['number']);
+			else
+				$this->query_limit = $wpdb->prepare(" LIMIT %d", $qv['number']);
+		}
+
+		$search = trim( $qv['search'] );
+		if ( $search ) {
+			$this->query_where .= _wp_search_sql( $search, array('user_login', 'user_nicename', 'user_email', 'user_url', 'display_name') );
+		}
+
+		$role = trim( $qv['role'] );
+		if ( $role ) {
+			$this->query_from .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id";
+			$this->query_where .= $wpdb->prepare(" AND $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $role . '%');
+		} elseif ( is_multisite() ) {
+			$level_key = $wpdb->prefix . 'capabilities'; // wpmu site admins don't have user_levels
+			$this->query_from .= ", $wpdb->usermeta";
+			$this->query_where .= " AND $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
+		}
+
+		$meta_key = trim( $qv['meta_key'] );
+		$meta_value = trim( $qv['meta_value'] );
+		if ( $meta_key ) {
+			if ( empty( $meta_value ) ) {
+				$subquery = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s", $meta_key );
+			}
+			else {
+				$subquery = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s", $meta_key, $meta_value );
+			}
+
+			$this->query_where .= " AND $wpdb->users.ID IN ($subquery)";
+		}
+
+		if ( !empty($qv['include']) ) {
+			$ids = implode( ',', wp_parse_id_list( $qv['include'] ) );
+			$this->query_where .= " AND $wpdb->users.ID IN ($ids)";
+		}
+		elseif ( !empty($qv['exclude']) ) {
+			$ids = implode( ',', wp_parse_id_list( $qv['exclude'] ) );
+			$this->query_where .= " AND $wpdb->users.ID NOT IN ($ids)";
+		}
+
+		do_action_ref_array( 'pre_user_query', array( &$this ) );
+	}
+
+	/**
+	 * Execute the query, with the current variables
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 */
+	function query() {
+		global $wpdb;
+
+		$this->results = $wpdb->get_col("SELECT DISTINCT($wpdb->users.ID)" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
+
+		if ( !$this->results )
+			return;
+
+		if ( $this->query_vars['count_total'] )
+			$this->total_users = $wpdb->get_var("SELECT COUNT(DISTINCT($wpdb->users.ID))" . $this->query_from . $this->query_where);
+
+		if ( 'all' == $this->query_vars['fields'] ) {
+			cache_users($this->results);
+
+			$r = array();
+			foreach ( $this->results as $userid )
+				$r[ $userid ] = new WP_User( $userid );
+
+			$this->results = $r;
+		}
+	}
+
+	/**
+	 * Return the list of users
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @return array
+	 */
+	function get_results() {
+		return $this->results;
+	}
+
+	/**
+	 * Return the total number of users for the current query
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @return array
+	 */
+	function get_total() {
+		return $this->total_users;
+	}
+}
+
+/**
+ * Retrieve list of users matching criteria.
+ *
+ * @since 3.1.0
+ * @uses $wpdb
+ * @uses WP_User_Query See for default arguments and information.
+ *
+ * @param array $args
+ * @return array List of users.
+ */
+function get_users( $args ) {
+
+	$args = wp_parse_args( $args );
+	$args['count_total'] = false;
+
+	$user_search = new WP_User_Query($args);
+
+	return (array) $user_search->get_results();
+}
+
+/**
  * Get users for the blog.
  *
  * For setups that use the multi-blog feature. Can be used outside of the
@@ -429,7 +645,7 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  * Count number of users who have each of the user roles.
  *
  * Assumes there are neither duplicated nor orphaned capabilities meta_values.
- * Assumes role names are unique phrases.  Same assumption made by WP_User_Search::prepare_query()
+ * Assumes role names are unique phrases.  Same assumption made by WP_User_Query::prepare_query()
  * Using $strategy = 'time' this is CPU-intensive and should handle around 10^7 users.
  * Using $strategy = 'memory' this is memory-intensive and should handle around 10^5 users, but see WP Bug #12257.
  *
