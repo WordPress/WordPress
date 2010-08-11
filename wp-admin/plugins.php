@@ -299,15 +299,6 @@ if ( !empty($action) ) {
 	}
 }
 
-if ( is_multisite() && is_super_admin() ) {
-	$menu_perms = get_site_option('menu_items', array());
-	if ( empty($menu_perms['plugins']) )
-		add_action( 'admin_notices', '_admin_notice_multisite_activate_plugins_page' );
-	unset($menu_perms);
-}
-
-$invalid = validate_active_plugins();
-
 require_once( ABSPATH . 'wp-admin/includes/default-list-tables.php' );
 
 $table = new WP_Plugins_Table;
@@ -330,6 +321,7 @@ $parent_file = 'plugins.php';
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 
+$invalid = validate_active_plugins();
 if ( !empty($invalid) )
 	foreach ( $invalid as $plugin_file => $error )
 		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), esc_html($plugin_file), $error->get_error_message()) . '</p></div>';
