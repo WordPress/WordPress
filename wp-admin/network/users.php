@@ -32,11 +32,11 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-require_once( './includes/default-list-tables.php' );
+require_once( '../includes/default-list-tables.php' );
 
 $table = new WP_MS_Users_Table;
 
-require_once( './admin-header.php' );
+require_once( '../admin-header.php' );
 
 if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty( $_REQUEST['action'] ) ) {
 	?>
@@ -74,14 +74,14 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	?>
 	</h2>
 
-	<form action="ms-users.php" method="get" class="search-form">
+	<form action="" method="get" class="search-form">
 		<p class="search-box">
 		<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" class="search-input" id="user-search-input" />
 		<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Search Users' ) ?>" class="button" />
 		</p>
 	</form>
 
-	<form id="form-user-list" action='ms-edit.php?action=allusers' method='post'>
+	<form id="form-user-list" action='edit.php?action=allusers' method='post'>
 		<?php $table->display(); ?>
 	</form>
 </div>
@@ -91,7 +91,7 @@ if ( apply_filters( 'show_adduser_fields', true ) ) :
 ?>
 <div class="wrap" id="form-add-user">
 	<h3><?php _e( 'Add User' ) ?></h3>
-	<form action="ms-edit.php?action=adduser" method="post">
+	<form action="edit.php?action=adduser" method="post">
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Username' ) ?></th>
@@ -110,6 +110,6 @@ if ( apply_filters( 'show_adduser_fields', true ) ) :
 		<input class="button" type="submit" value="<?php esc_attr_e( 'Add user' ) ?>" /></p>
 	</form>
 </div>
-<?php endif; ?>
+<?php endif;
 
-<?php include( './admin-footer.php' ); ?>
+require_once( '../admin-footer.php' ); ?>

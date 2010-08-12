@@ -109,12 +109,12 @@ switch ( $action ) {
 		$editblog_roles = get_blog_option( $id, "{$blog_prefix}user_roles" );
 		$is_main_site = is_main_site( $id );
 
-		require_once( './admin-header.php' );
+		require_once( '../admin-header.php' );
 		?>
 		<div class="wrap">
 		<?php screen_icon(); ?>
 		<h2><?php _e( 'Edit Site' ); ?> - <a href="<?php echo esc_url( get_home_url( $id ) ); ?>"><?php echo esc_url( get_home_url( $id ) ); ?></a></h2>
-		<form method="post" action="ms-edit.php?action=updateblog">
+		<form method="post" action="edit.php?action=updateblog">
 			<?php wp_nonce_field( 'editblog' ); ?>
 			<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 			<div class="metabox-holder" style="width:49%;float:left;">
@@ -348,11 +348,11 @@ switch ( $action ) {
 	// List sites
 	case 'list':
 	default:
-		require_once( './includes/default-list-tables.php' );
+		require_once( '../includes/default-list-tables.php' );
 
 		$table = new WP_Sites_Table;
 
-		require_once( './admin-header.php' );
+		require_once( '../admin-header.php' );
 		?>
 
 		<div class="wrap">
@@ -364,7 +364,7 @@ switch ( $action ) {
 		} ?>
 		</h2>
 
-		<form action="ms-sites.php" method="get" id="ms-search">
+		<form action="" method="get" id="ms-search">
 		<p class="search-box">
 		<input type="hidden" name="action" value="blogs" />
 		<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" />
@@ -377,14 +377,14 @@ switch ( $action ) {
 		</p>
 		</form>
 
-		<form id="form-site-list" action="ms-edit.php?action=allblogs" method="post">
+		<form id="form-site-list" action="edit.php?action=allblogs" method="post">
 			<?php $table->display(); ?>
 		</form>
 		</div>
 
 		<div id="form-add-site" class="wrap">
 			<h3><?php _e( 'Add Site' ) ?></h3>
-			<form method="post" action="ms-edit.php?action=addblog">
+			<form method="post" action="edit.php?action=addblog">
 				<?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>
 				<table class="form-table">
 					<tr class="form-field form-required">
@@ -419,4 +419,4 @@ switch ( $action ) {
 	break;
 } // end switch( $action )
 
-include( './admin-footer.php' ); ?>
+require_once( '../admin-footer.php' ); ?>
