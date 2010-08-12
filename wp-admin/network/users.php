@@ -9,11 +9,11 @@
 
 require_once( './admin.php' );
 
-if ( !is_multisite() )
-	wp_die( __( 'Multisite support is not enabled.' ) );
+require_once( '../includes/default-list-tables.php' );
 
-if ( ! current_user_can( 'manage_network_users' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+$table = new WP_MS_Users_Table;
+$table->check_permissions();
+$table->prepare_items();
 
 $title = __( 'Users' );
 $parent_file = 'users.php';
@@ -31,10 +31,6 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Users_SubPanel" target="_blank">Network Users Documentation</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
-
-require_once( '../includes/default-list-tables.php' );
-
-$table = new WP_MS_Users_Table;
 
 require_once( '../admin-header.php' );
 

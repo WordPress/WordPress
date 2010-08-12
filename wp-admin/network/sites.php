@@ -12,8 +12,10 @@ require_once( './admin.php' );
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-if ( ! current_user_can( 'manage_sites' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+require_once( '../includes/default-list-tables.php' );
+
+$table = new WP_Sites_Table;
+$table->check_permissions();
 
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
@@ -348,9 +350,7 @@ switch ( $action ) {
 	// List sites
 	case 'list':
 	default:
-		require_once( '../includes/default-list-tables.php' );
-
-		$table = new WP_Sites_Table;
+		$table->prepare_items();
 
 		require_once( '../admin-header.php' );
 		?>

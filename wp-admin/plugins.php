@@ -8,17 +8,11 @@
 
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
-if ( is_multisite() ) {
-	$menu_perms = get_site_option( 'menu_items', array() );
-		
-	if ( empty( $menu_perms['plugins'] ) ) { 
-		if ( ! is_super_admin() )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
-	}
-}
 
-if ( ! current_user_can( 'activate_plugins' ) )
-	wp_die( __( 'You do not have sufficient permissions to manage plugins for this site.' ) );
+require_once( ABSPATH . 'wp-admin/includes/default-list-tables.php' );
+
+$table = new WP_Plugins_Table;
+$table->check_permissions();
 
 if ( isset($_POST['clear-recent-list']) )
 	$action = 'clear-recent-list';
@@ -299,9 +293,16 @@ if ( !empty($action) ) {
 	}
 }
 
-require_once( ABSPATH . 'wp-admin/includes/default-list-tables.php' );
+$default_status = get_user_option( 'plugins_last_view' );
+if ( empty( $default_status ) )
+	$default_status = 'all';
+$status = isset( $_REQUEST['plugin_status'] ) ? $_REQUEST['plugin_status'] : $default_status;
+if ( !in_array( $status, array( 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'network', 'mustuse', 'dropins', 'search' ) ) )
+	$status = 'all';
+if ( $status != $default_status && 'search' != $status )
+	update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
 
-$table = new WP_Plugins_Table;
+$table->prepare_items();
 
 wp_enqueue_script('plugin-install');
 add_thickbox();

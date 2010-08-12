@@ -9,14 +9,16 @@
 /** Load WordPress Administration Bootstrap */
 require_once ('admin.php');
 
+require_once( './includes/default-list-tables.php' );
+
+$table = new WP_Links_Table;
+$table->check_permissions();
+
 // Handle bulk deletes
 if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['linkcheck'] ) ) {
 	check_admin_referer( 'bulk-bookmarks' );
 
 	$doaction = $_REQUEST['action'] ? $_REQUEST['action'] : $_REQUEST['action2'];
-
-	if ( ! current_user_can( 'manage_links' ) )
-		wp_die( __( 'You do not have sufficient permissions to edit the links for this site.' ) );
 
 	if ( 'delete' == $doaction ) {
 		$bulklinks = (array) $_REQUEST['linkcheck'];
@@ -33,9 +35,7 @@ if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['linkcheck'] ) ) {
 	 exit;
 }
 
-require_once( './includes/default-list-tables.php' );
-
-$table = new WP_Links_Table;
+$table->prepare_items();
 
 $title = __('Links');
 $this_file = $parent_file = 'link-manager.php';

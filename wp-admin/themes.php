@@ -9,8 +9,10 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+require_once( './includes/default-list-tables.php' );
+
+$table = new WP_Themes_Table;
+$table->check_permissions();
 
 if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
 	if ( 'activate' == $_GET['action'] ) {
@@ -28,9 +30,7 @@ if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
 	}
 }
 
-require_once( './includes/default-list-tables.php' );
-
-$table = new WP_Themes_Table;
+$table->prepare_items();
 
 $title = __('Manage Themes');
 $parent_file = 'themes.php';

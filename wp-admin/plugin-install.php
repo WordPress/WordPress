@@ -9,12 +9,11 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( ! current_user_can('install_plugins') )
-	wp_die(__('You do not have sufficient permissions to install plugins on this site.'));
-
 require_once( './includes/default-list-tables.php' );
 
 $table = new WP_Plugin_Install_Table;
+$table->check_permissions();
+$table->prepare_items();
 
 $title = __('Install Plugins');
 $parent_file = 'plugins.php';

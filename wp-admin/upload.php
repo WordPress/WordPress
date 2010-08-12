@@ -9,11 +9,30 @@
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
-if ( !current_user_can('upload_files') )
-	wp_die(__('You do not have permission to upload files.'));
+require_once( './includes/default-list-tables.php' );
+
+$table = new WP_Media_Table;
+$table->check_permissions();
 
 // Handle bulk actions
-if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) ) {
+if ( isset($_REQUEST['find_detached']) ) {
+	check_admin_referer('bulk-media');
+
+	if ( !current_user_can('edit_posts') )
+		wp_die( __('You are not allowed to scan for lost attachments.') );
+
+	$lost = $wpdb->get_col( "
+		SELECT ID FROM $wpdb->posts
+		WHERE post_type = 'attachment' AND post_parent > '0'
+		AND post_parent NOT IN (
+			SELECT ID FROM $wpdb->posts
+			WHERE post_type NOT IN ( 'attachment', '" . join( "', '", get_post_types( array( 'public' => false ) ) ) . "' )
+		)
+	" );
+
+	$_REQUEST['detached'] = 1;
+
+} elseif ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) ) {
 	check_admin_referer( 'bulk-media' );
 
 	$parent_id = (int) $_REQUEST['found_post_id'];
@@ -111,9 +130,7 @@ if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) ) {
 	 exit;
 }
 
-require_once( './includes/default-list-tables.php' );
-
-$table = new WP_Media_Table;
+$table->prepare_items();
 
 $title = __('Media Library');
 $parent_file = 'upload.php';

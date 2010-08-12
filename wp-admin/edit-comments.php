@@ -9,8 +9,10 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-if ( !current_user_can('edit_posts') )
-	wp_die(__('Cheatin&#8217; uh?'));
+require_once( './includes/default-list-tables.php' );
+
+$table = new WP_Comments_Table;
+$table->check_permissions();
 
 if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {
 	check_admin_referer( 'bulk-comments' );
@@ -95,9 +97,7 @@ if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset
 	 exit;
 }
 
-require_once( './includes/default-list-tables.php' );
-
-$table = new WP_Comments_Table;
+$table->prepare_items();
 
 wp_enqueue_script('admin-comments');
 enqueue_comment_hotkeys_js();

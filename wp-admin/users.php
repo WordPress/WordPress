@@ -12,8 +12,10 @@ require_once( './admin.php' );
 /** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
 
-if ( !current_user_can('list_users') )
-	wp_die(__('Cheatin&#8217; uh?'));
+require_once( './includes/default-list-tables.php' );
+
+$table = new WP_Users_Table;
+$table->check_permissions();
 
 $title = __('Users');
 $parent_file = 'users.php';
@@ -306,9 +308,7 @@ default:
 		exit;
 	}
 
-	require_once( './includes/default-list-tables.php' );
-
-	$table = new WP_Users_Table;
+	$table->prepare_items();
 
 	include('./admin-header.php');
 

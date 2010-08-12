@@ -94,6 +94,28 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Checks the current user's permissions
+	 * @uses wp_die()
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 */
+	function check_permissions() {
+		die( 'function WP_List_Table::check_permissions() must be over-ridden in a sub-class.' );
+	}
+
+	/**
+	 * Prepares the list of items for displaying.
+	 * @uses WP_List_Table::set_pagination_args()
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 */
+	function prepare_items() {
+		die( 'function WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
+	}
+
+	/**
 	 * An internal method that sets all the necessary pagination arguments
 	 *
 	 * @param array $args An associative array with information about the pagination
@@ -568,6 +590,9 @@ class WP_List_Table {
 	 * @access public
 	 */
 	function ajax_response() {
+		$this->check_permissions();
+		$this->prepare_items();
+
 		extract( $this->_args );
 		extract( $this->_pagination_args );
 

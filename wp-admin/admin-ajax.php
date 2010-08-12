@@ -558,7 +558,7 @@ case 'add-tag' :
 		set_current_screen($_POST['screen']);
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Terms_Table( 'ajax' );
+	$table = new WP_Terms_Table();
 
 	$level = 0;
 	$tag_full_name = false;
@@ -626,7 +626,7 @@ case 'add-comment' :
 		die('-1');
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table( 'ajax' );
+	$table = new WP_Comments_Table();
 
 	global $comments;
 
@@ -659,7 +659,7 @@ case 'get-comments' :
 		die('-1');
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table( 'ajax' );
+	$table = new WP_Comments_Table();
 
 	global $comments;
 
@@ -685,7 +685,7 @@ case 'replyto-comment' :
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table( 'ajax' );
+	$table = new WP_Comments_Table();
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( !current_user_can( 'edit_post', $comment_post_ID ) )
@@ -776,7 +776,7 @@ case 'edit-comment' :
 		add_filter( 'comment_author', 'floated_admin_avatar' );
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table( 'ajax' );
+	$table = new WP_Comments_Table();
 
 	ob_start();
 		$table->single_row( $comment_id, $mode, $comments_listing, $checkbox );
@@ -925,7 +925,7 @@ case 'add-user' :
 	$user_object = new WP_User( $user_id );
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Users_Table( 'ajax' );
+	$table = new WP_Users_Table();
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
@@ -1218,7 +1218,7 @@ case 'inline-save':
 	edit_post();
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Posts_Table( 'ajax' );
+	$table = new WP_Posts_Table();
 
 	$mode = $_POST['post_view'];
 	$table->display_rows( array( get_post( $_POST['post_ID'] ) ) );
@@ -1228,18 +1228,13 @@ case 'inline-save':
 case 'inline-save-tax':
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
-	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : false;
-	if ( ! $taxonomy )
-		die( __('Cheatin&#8217; uh?') );
-	$tax = get_taxonomy($taxonomy);
+	require_once( './includes/default-list-tables.php' );
+	$table = new WP_Terms_Table();
 
-	if ( ! current_user_can( $tax->cap->edit_terms ) )
-		die( __('Cheatin&#8217; uh?') );
+	$table->check_permissions('edit');
 
 	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )
 		die(-1);
-
-	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 
 	$tag = get_term( $id, $taxonomy );
 	$_POST['description'] = $tag->description;
@@ -1252,11 +1247,6 @@ case 'inline-save-tax':
 				die( $tag->get_error_message() );
 			die( __('Item not updated.') );
 		}
-
-		set_current_screen( 'edit-' . $taxonomy );
-
-		require_once( './includes/default-list-tables.php' );
-		$table = new WP_Terms_Table( 'ajax' );
 
 		echo $table->single_row( $tag, 0, $taxonomy );
 	} else {

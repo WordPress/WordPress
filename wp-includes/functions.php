@@ -2656,9 +2656,12 @@ function wp_nonce_ays( $action ) {
  * @param string|array $args Optional arguements to control behaviour.
  */
 function wp_die( $message, $title = '', $args = array() ) {
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		die('-1');
+
 	if ( function_exists( 'apply_filters' ) ) {
 		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler');
-	}else {
+	} else {
 		$function = '_default_wp_die_handler';
 	}
 

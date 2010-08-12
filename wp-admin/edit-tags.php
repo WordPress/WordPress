@@ -12,6 +12,7 @@ require_once('./admin.php');
 require_once( './includes/default-list-tables.php' );
 
 $table = new WP_Terms_Table;
+$table->check_permissions();
 
 $title = $tax->labels->name;
 
@@ -150,6 +151,8 @@ if ( ! empty($_REQUEST['_wp_http_referer']) ) {
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
+
+$table->prepare_items();
 
 wp_enqueue_script('admin-tags');
 if ( current_user_can($tax->cap->edit_terms) )

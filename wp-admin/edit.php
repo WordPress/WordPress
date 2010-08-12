@@ -12,6 +12,7 @@ require_once( './admin.php' );
 require_once( './includes/default-list-tables.php' );
 
 $table = new WP_Posts_Table;
+$table->check_permissions();
 
 // Back-compat for viewing comments of an entry
 if ( $_redirect = intval( max( @$_REQUEST['p'], @$_REQUEST['attachment_id'], @$_REQUEST['page_id'] ) ) ) {
@@ -117,6 +118,8 @@ if ( 'post' != $post_type ) {
 	$submenu_file = 'edit.php';
 	$post_new_file = 'post-new.php';
 }
+
+$table->prepare_items();
 
 wp_enqueue_script('inline-edit-post');
 
