@@ -338,7 +338,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'admin-table', "/wp-admin/js/admin-table$suffix.js", array( 'jquery', 'jquery-query' ), '20100626' );
+		$scripts->add( 'admin-table', "/wp-admin/js/admin-table$suffix.js", array( 'jquery', 'jquery-query' ), '20100812' );
 		$scripts->add_data( 'admin-table', 'group', 1 );
 		$scripts->localize( 'admin-table', 'adminTableL10n', array(
 			'loading' => __('Loading...'),

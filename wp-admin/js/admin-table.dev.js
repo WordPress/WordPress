@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
 		data['list_args'] = list_args;
 
 		$.ajax({
-			url: 'admin-ajax.php',
+			url: ajaxurl,
 			global: false,
 			dataType: 'json',
 			data: data,
