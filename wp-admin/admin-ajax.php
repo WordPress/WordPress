@@ -62,7 +62,7 @@ case 'fetch-list' :
 		$table->ajax_response();
 	}
 
-	die('-1');
+	die('0');
 	break;
 case 'ajax-tag-search' :
 	if ( !current_user_can( 'edit_posts' ) )
