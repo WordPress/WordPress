@@ -2111,7 +2111,7 @@ class WP_Comments_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $comments, $extra_comments, $total_comments, $post_id, $comment_status, $mode;
+		global $post_id, $comment_status, $mode;
 
 		$post_id = isset( $_REQUEST['post_ID'] ) ? absint( $_REQUEST['post_ID'] ) : 0;
 

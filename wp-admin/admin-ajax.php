@@ -627,17 +627,16 @@ case 'add-comment' :
 
 	require_once( './includes/default-list-tables.php' );
 	$table = new WP_Comments_Table();
+	$table->prepare_items();
 
-	global $comments;
-
-	if ( !$comments )
+	if ( !$table->has_items() )
 		die('1');
 
 	if ( get_option('show_avatars') )
 		add_filter( 'comment_author', 'floated_admin_avatar' );
 
 	$x = new WP_Ajax_Response();
-	foreach ( (array) $comments as $comment ) {
+	foreach ( $table->items as $comment ) {
 		get_comment( $comment );
 		ob_start();
 			$table->single_row( $comment->comment_ID, $mode, $status, true, true );
@@ -660,15 +659,14 @@ case 'get-comments' :
 
 	require_once( './includes/default-list-tables.php' );
 	$table = new WP_Comments_Table();
+	$table->prepare_items();
 
-	global $comments;
-
-	if ( !$comments )
+	if ( !$table->has_items() )
 		die('1');
 
 	$comment_list_item = '';
 	$x = new WP_Ajax_Response();
-	foreach ( (array) $comments as $comment ) {
+	foreach ( $table->items as $comment ) {
 		get_comment( $comment );
 		ob_start();
 			$table->single_row( $comment->comment_ID, 'single', false, false );

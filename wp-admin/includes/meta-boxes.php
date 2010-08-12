@@ -460,11 +460,15 @@ function post_comment_meta_box($post) {
 
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 	add_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead', 8, 1);
+	add_filter('manage_edit-comments_sortable_columns', create_function('', 'return array();'), 8);
+
+	require_once( './includes/default-list-tables.php' );
+	$table = new WP_Comments_Table;
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
 <thead><tr>
-	<?php print_column_headers('edit-comments'); ?>
+	<?php $table->print_column_headers(); ?>
 </tr></thead>
 <tbody id="the-comment-list" class="list:comment"></tbody>
 </table>
