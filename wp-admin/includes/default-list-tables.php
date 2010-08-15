@@ -2885,7 +2885,7 @@ class WP_Sites_Table extends WP_List_Table {
 
 					case 'blogname': ?>
 						<td class="column-title">
-							<a href="<?php echo esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
+							<a href="<?php echo esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 							<?php
 							if ( 'list' != $mode )
 								echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s</em>', '%1$s: site name. %2$s: site tagline.' ), get_blog_option( $blog['blog_id'], 'blogname' ), get_blog_option( $blog['blog_id'], 'blogdescription ' ) ) . '</p>';
@@ -2900,25 +2900,25 @@ class WP_Sites_Table extends WP_List_Table {
 								'visit' => '',
 							);
 
-							$actions['edit']	= '<span class="edit"><a href="' . esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
+							$actions['edit']	= '<span class="edit"><a href="' . esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
 							$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url( $blog['blog_id'] ) ) . "' class='edit'>" . __( 'Backend' ) . '</a></span>';
 							if ( $current_site->blog_id != $blog['blog_id'] ) {
 								if ( get_blog_status( $blog['blog_id'], 'deleted' ) == '1' )
-									$actions['activate']	= '<span class="activate"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to activate the site %s' ), $blogname ) ) ) ) . '">' . __( 'Activate' ) . '</a></span>';
+									$actions['activate']	= '<span class="activate"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to activate the site %s' ), $blogname ) ) ) ) . '">' . __( 'Activate' ) . '</a></span>';
 								else
-									$actions['deactivate']	= '<span class="activate"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to deactivate the site %s' ), $blogname ) ) ) ) . '">' . __( 'Deactivate' ) . '</a></span>';
+									$actions['deactivate']	= '<span class="activate"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to deactivate the site %s' ), $blogname ) ) ) ) . '">' . __( 'Deactivate' ) . '</a></span>';
 
 								if ( get_blog_status( $blog['blog_id'], 'archived' ) == '1' )
-									$actions['unarchive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unarchive the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
+									$actions['unarchive']	= '<span class="archive"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=unarchiveblog&amp;id=' .  $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unarchive the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
 								else
-									$actions['archive']	= '<span class="archive"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ) ) . '">' . _x( 'Archive', 'verb; site' ) . '</a></span>';
+									$actions['archive']	= '<span class="archive"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ) ) . '">' . _x( 'Archive', 'verb; site' ) . '</a></span>';
 
 								if ( get_blog_status( $blog['blog_id'], 'spam' ) == '1' )
-									$actions['unspam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ) ) . '">' . _x( 'Not Spam', 'site' ) . '</a></span>';
+									$actions['unspam']	= '<span class="spam"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ) ) . '">' . _x( 'Not Spam', 'site' ) . '</a></span>';
 								else
-									$actions['spam']	= '<span class="spam"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ) ) . '">' . _x( 'Spam', 'site' ) . '</a></span>';
+									$actions['spam']	= '<span class="spam"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ) ) . '">' . _x( 'Spam', 'site' ) . '</a></span>';
 
-								$actions['delete']	= '<span class="delete"><a href="' . esc_url( admin_url( 'ms-edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
+								$actions['delete']	= '<span class="delete"><a href="' . esc_url( network_admin_url( 'edit.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ) ) . '">' . __( 'Delete' ) . '</a></span>';
 							}
 
 							$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
@@ -3167,7 +3167,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 							<div class="row-actions">
 								<span class="edit"><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>"><?php _e( 'Edit' ); ?></a></span>
 								<?php if ( ! in_array( $user['user_login'], $super_admins ) ) { ?>
-								| <span class="delete"><a href="<?php echo $delete	= esc_url( admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'ms-edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
+								| <span class="delete"><a href="<?php echo $delete	= esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
 								<?php } ?>
 							</div>
 						</td>
@@ -3202,11 +3202,11 @@ class WP_MS_Users_Table extends WP_List_Table {
 							if ( is_array( $blogs ) ) {
 								foreach ( (array) $blogs as $key => $val ) {
 									$path	= ( $val->path == '/' ) ? '' : $val->path;
-									echo '<a href="'. esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+									echo '<a href="'. esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 									echo ' <small class="row-actions">';
 
 									// Edit
-									echo '<a href="'. esc_url( admin_url( 'ms-sites.php?action=editblog&amp;id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a> | ';
+									echo '<a href="'. esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a> | ';
 
 									// View
 									echo '<a ';
