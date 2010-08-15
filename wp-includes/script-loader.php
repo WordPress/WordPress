@@ -457,7 +457,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20100528' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20100108' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20100815' );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20100519' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20100424' );
