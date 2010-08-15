@@ -12,15 +12,24 @@ require_once('list-table.php');
  */
 
 class WP_Posts_Table extends WP_List_Table {
-	
+
 	/**
 	 * Wether the items should be displayed hierarchically or linearly
 	 *
 	 * @since 3.1.0
 	 * @var bool
-	 * @access private
+	 * @access protected
 	 */
-	var $_hierarchical_display;
+	var $hierarchical_display;
+
+	/**
+	 * Holds the number of pending comments for each post
+	 *
+	 * @since 3.1.0
+	 * @var bool
+	 * @access protected
+	 */
+	var $comment_pending_count;
 
 	function WP_Posts_Table() {
 		global $post_type_object, $post_type, $current_screen;
@@ -53,9 +62,9 @@ class WP_Posts_Table extends WP_List_Table {
 
 		$avail_post_stati = wp_edit_posts_query();
 
-		$this->_hierarchical_display = ( $post_type_object->hierarchical && 0 === strpos( get_query_var( 'orderby' ), 'menu_order' ) );
+		$this->hierarchical_display = ( $post_type_object->hierarchical && 0 === strpos( get_query_var( 'orderby' ), 'menu_order' ) );
 
-		$total_items = $this->_hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
+		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
 		$edit_per_page = 'edit_' . $post_type . '_per_page'; 
  		$per_page = (int) get_user_option( $edit_per_page );
@@ -64,7 +73,7 @@ class WP_Posts_Table extends WP_List_Table {
 		$per_page = apply_filters( $edit_per_page, $per_page ); 
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type ); 
 
-		if ( $this->_hierarchical_display )
+		if ( $this->hierarchical_display )
 			$total_pages = ceil( $total_items / $per_page );
 		else
 			$total_pages = $wp_query->max_num_pages;
@@ -205,7 +214,7 @@ class WP_Posts_Table extends WP_List_Table {
 		if ( empty( $posts ) )
 			$posts = $wp_query->posts;
 
-		if ( $this->_hierarchical_display ) {
+		if ( $this->hierarchical_display ) {
 			$this->_display_rows_hierarchical( $posts, $this->get_pagenum(), $per_page );
 		} else {
 			$this->_display_rows( $posts );
@@ -223,14 +232,10 @@ class WP_Posts_Table extends WP_List_Table {
 		foreach ( $posts as $a_post )
 			$post_ids[] = $a_post->ID;
 
-		$comment_pending_count = get_pending_comments_num( $post_ids );
+		$this->comment_pending_count = get_pending_comments_num( $post_ids );
 
-		foreach ( $posts as $post ) {
-			if ( empty( $comment_pending_count[$post->ID] ) )
-				$comment_pending_count[$post->ID] = 0;
-
-			$this->_single_row( $post, $comment_pending_count[$post->ID], $mode );
-		}
+		foreach ( $posts as $post )
+			$this->single_row( $post );
 	}
 
 	function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
@@ -284,7 +289,7 @@ class WP_Posts_Table extends WP_List_Table {
 				break;
 
 			if ( $count >= $start )
-				echo "\t" . $this->_single_row_hierarchical( $page, $level );
+				echo "\t" . $this->single_row( $page, $level );
 
 			$count++;
 
@@ -299,7 +304,7 @@ class WP_Posts_Table extends WP_List_Table {
 					if ( $count >= $end )
 						break;
 					if ( $count >= $start )
-						echo "\t" . $this->_single_row_hierarchical( $op, 0 );
+						echo "\t" . $this->single_row( $op, 0 );
 					$count++;
 				}
 			}
@@ -345,13 +350,13 @@ class WP_Posts_Table extends WP_List_Table {
 				}
 				$num_parents = count( $my_parents );
 				while ( $my_parent = array_pop( $my_parents ) ) {
-					echo "\t" . $this->_single_row_hierarchical( $my_parent, $level - $num_parents );
+					echo "\t" . $this->single_row( $my_parent, $level - $num_parents );
 					$num_parents--;
 				}
 			}
 
 			if ( $count >= $start )
-				echo "\t" . $this->_single_row_hierarchical( $page, $level );
+				echo "\t" . $this->single_row( $page, $level );
 
 			$count++;
 
@@ -361,185 +366,8 @@ class WP_Posts_Table extends WP_List_Table {
 		unset( $children_pages[$parent] ); //required in order to keep track of orphans
 	}
 
-	/**
-	 * display one row if the page doesn't have any children
-	 * otherwise, display the row and its children in subsequent rows
-	 *
-	 * @since unknown
-	 *
-	 * @param unknown_type $page
-	 * @param unknown_type $level
-	 */
-	function _single_row_hierarchical( $page, $level = 0 ) {
-		global $post, $current_screen;
-		static $rowclass;
-
-		$post = $page;
-		setup_postdata( $page );
-
-		if ( 0 == $level && (int) $page->post_parent > 0 ) {
-			//sent level 0 by accident, by default, or because we don't know the actual level
-			$find_main_page = (int) $page->post_parent;
-			while ( $find_main_page > 0 ) {
-				$parent = get_page( $find_main_page );
-
-				if ( is_null( $parent ) )
-					break;
-
-				$level++;
-				$find_main_page = (int) $parent->post_parent;
-
-				if ( !isset( $parent_name ) )
-					$parent_name = $parent->post_title;
-			}
-		}
-
-		$page->post_title = esc_html( $page->post_title );
-		$pad = str_repeat( '&#8212; ', $level );
-		$id = (int) $page->ID;
-		$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
-		$title = _draft_or_post_title();
-		$post_type = $page->post_type;
-		$post_type_object = get_post_type_object( $post_type );
-?>
-	<tr id="post-<?php echo $id; ?>" class="<?php echo $rowclass; ?> iedit">
-<?php
-
-	list( $columns, $hidden ) = $this->get_column_headers();
-
-	foreach ( $columns as $column_name => $column_display_name ) {
-		$class = "class=\"$column_name column-$column_name\"";
-
-		$style = '';
-		if ( in_array( $column_name, $hidden ) )
-			$style = ' style="display:none;"';
-
-		$attributes = "$class$style";
-
-		switch ( $column_name ) {
-
-		case 'cb':
-			?>
-			<th scope="row" class="check-column"><?php if ( current_user_can( $post_type_object->cap->edit_post, $page->ID ) ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
-			<?php
-			break;
-		case 'date':
-			if ( '0000-00-00 00:00:00' == $page->post_date && 'date' == $column_name ) {
-				$t_time = $h_time = __( 'Unpublished' );
-				$time_diff = 0;
-			} else {
-				$t_time = get_the_time( __( 'Y/m/d g:i:s A' ) );
-				$m_time = $page->post_date;
-				$time = get_post_time( 'G', true );
-
-				$time_diff = time() - $time;
-
-				if ( $time_diff > 0 && $time_diff < 24*60*60 )
-					$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
-				else
-					$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
-			}
-			echo '<td ' . $attributes . '>';
-			echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $page, $column_name, '' ) . '</abbr>';
-			echo '<br />';
-			if ( 'publish' == $page->post_status ) {
-				_e( 'Published' );
-			} elseif ( 'future' == $page->post_status ) {
-				if ( $time_diff > 0 )
-					echo '<strong class="attention">' . __( 'Missed schedule' ) . '</strong>';
-				else
-					_e( 'Scheduled' );
-			} else {
-				_e( 'Last Modified' );
-			}
-			echo '</td>';
-			break;
-		case 'title':
-			$attributes = 'class="post-title page-title column-title"' . $style;
-			$edit_link = get_edit_post_link( $page->ID );
-			?>
-			<td <?php echo $attributes ?>><strong><?php if ( current_user_can( $post_type_object->cap->edit_post, $page->ID ) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $page ); echo isset( $parent_name ) ? ' | ' . $post_type_object->labels->parent_item_colon . ' ' . esc_html( $parent_name ) : ''; ?></strong>
-			<?php
-			$actions = array();
-			if ( current_user_can( $post_type_object->cap->edit_post, $page->ID ) && $post->post_status != 'trash' ) {
-				$actions['edit'] = '<a href="' . $edit_link . '" title="' . esc_attr( __( 'Edit this page' ) ) . '">' . __( 'Edit' ) . '</a>';
-				$actions['inline'] = '<a href="#" class="editinline">' . __( 'Quick&nbsp;Edit' ) . '</a>';
-			}
-			if ( current_user_can( $post_type_object->cap->delete_post, $page->ID ) ) {
-				if ( $post->post_status == 'trash' )
-					$actions['untrash'] = "<a title='" . esc_attr( __( 'Remove this page from the Trash' ) ) . "' href='" . wp_nonce_url( "post.php?post_type=$post_type&amp;action=untrash&amp;post=$page->ID", 'untrash-' . $post->post_type . '_' . $page->ID ) . "'>" . __( 'Restore' ) . "</a>";
-				elseif ( EMPTY_TRASH_DAYS )
-					$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this page to the Trash' ) ) . "' href='" . get_delete_post_link( $page->ID ) . "'>" . __( 'Trash' ) . "</a>";
-				if ( $post->post_status == 'trash' || !EMPTY_TRASH_DAYS )
-					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr( __( 'Delete this page permanently' ) ) . "' href='" . wp_nonce_url( "post.php?post_type=$post_type&amp;action=delete&amp;post=$page->ID", 'delete-' . $post->post_type . '_' . $page->ID ) . "'>" . __( 'Delete Permanently' ) . "</a>";
-			}
-			if ( in_array( $post->post_status, array( 'pending', 'draft' ) ) ) {
-				if ( current_user_can( $post_type_object->cap->edit_post, $page->ID ) )
-					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $page->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
-			} elseif ( $post->post_status != 'trash' ) {
-				$actions['view'] = '<a href="' . get_permalink( $page->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
-			}
-			$actions = apply_filters( 'page_row_actions', $actions, $page );
-			$action_count = count( $actions );
-
-			$i = 0;
-			echo '<div class="row-actions">';
-			foreach ( $actions as $action => $link ) {
-				++$i;
-				( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-				echo "<span class='$action'>$link$sep</span>";
-			}
-			echo '</div>';
-
-			get_inline_data( $post );
-			echo '</td>';
-			break;
-
-		case 'comments':
-			?>
-			<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
-			<?php
-			$left = get_pending_comments_num( $page->ID );
-			$pending_phrase = sprintf( __( '%s pending' ), number_format( $left ) );
-			if ( $left )
-				echo '<strong>';
-			comments_number(
-				"<a href='edit-comments.php?post_ID=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-				. /* translators: comment count link */ _x( '0', 'comment count' ) . '</span></a>',
-				"<a href='edit-comments.php?post_ID=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-				. /* translators: comment count link */ _x( '1', 'comment count' ) . '</span></a>',
-				"<a href='edit-comments.php?post_ID=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-				. /* translators: comment count link: % will be substituted by comment count */ _x( '%', 'comment count' ) . '</span></a>'
-			);
-			if ( $left )
-				echo '</strong>';
-			?>
-			</div></td>
-			<?php
-			break;
-
-		case 'author':
-			?>
-			<td <?php echo $attributes ?>><a href="edit.php?post_type=<?php echo $post_type; ?>&amp;author=<?php the_author_meta( 'ID' ); ?>"><?php the_author() ?></a></td>
-			<?php
-			break;
-
-		default:
-			?>
-			<td <?php echo $attributes ?>><?php do_action( 'manage_pages_custom_column', $column_name, $id ); ?></td>
-			<?php
-			break;
-		}
-	}
-?>
-
-	</tr>
-
-<?php
-	}
-
-	function _single_row( $a_post, $pending_comments, $mode ) {
-		global $post, $current_screen;
+	function single_row( $a_post, $level = 0 ) {
+		global $post, $current_screen, $mode;
 		static $rowclass;
 
 		$global_post = $post;
@@ -551,6 +379,7 @@ class WP_Posts_Table extends WP_List_Table {
 		$edit_link = get_edit_post_link( $post->ID );
 		$title = _draft_or_post_title();
 		$post_type_object = get_post_type_object( $post->post_type );
+		$can_edit_post = current_user_can( 'edit_post', $post->ID );
 	?>
 		<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $rowclass . ' author-' . $post_owner . ' status-' . $post->post_status ); ?> iedit' valign="top">
 	<?php
@@ -570,8 +399,79 @@ class WP_Posts_Table extends WP_List_Table {
 
 			case 'cb':
 			?>
-			<th scope="row" class="check-column"><?php if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
+			<th scope="row" class="check-column"><?php if ( $can_edit_post ) { ?><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /><?php } ?></th>
 			<?php
+			break;
+
+			case 'title':
+				if ( $this->hierarchical_display ) {
+					$attributes = 'class="post-title page-title column-title"' . $style;
+
+					if ( 0 == $level && (int) $post->post_parent > 0 ) {
+						//sent level 0 by accident, by default, or because we don't know the actual level
+						$find_main_page = (int) $post->post_parent;
+						while ( $find_main_page > 0 ) {
+							$parent = get_page( $find_main_page );
+
+							if ( is_null( $parent ) )
+								break;
+
+							$level++;
+							$find_main_page = (int) $parent->post_parent;
+
+							if ( !isset( $parent_name ) )
+								$parent_name = $parent->post_title;
+						}
+					}
+
+					$post->post_title = esc_html( $post->post_title );
+					$pad = str_repeat( '&#8212; ', $level );
+?>
+			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); echo isset( $parent_name ) ? ' | ' . $post_type_object->labels->parent_item_colon . ' ' . esc_html( $parent_name ) : ''; ?></strong>
+<?php
+				}
+				else {
+					$attributes = 'class="post-title page-title column-title"' . $style;
+?>
+			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states( $post ); ?></strong>
+<?php
+					if ( 'excerpt' == $mode ) {
+						the_excerpt();
+					}
+				}
+
+				$actions = array();
+				if ( $can_edit_post && 'trash' != $post->post_status ) {
+					$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '" title="' . esc_attr( __( 'Edit this item' ) ) . '">' . __( 'Edit' ) . '</a>';
+					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr( __( 'Edit this item inline' ) ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
+				}
+				if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
+					if ( 'trash' == $post->post_status )
+						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-' . $post->post_type . '_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
+					elseif ( EMPTY_TRASH_DAYS )
+						$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this item to the Trash' ) ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+					if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
+						$actions['delete'] = "<a class='submitdelete' title='" . esc_attr( __( 'Delete this item permanently' ) ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
+				}
+				if ( in_array( $post->post_status, array( 'pending', 'draft' ) ) ) {
+					if ( $can_edit_post )
+						$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
+				} elseif ( 'trash' != $post->post_status ) {
+					$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
+				}
+
+				$actions = apply_filters( $this->hierarchical_display ? 'page_row_actions' : 'post_row_actions', $actions, $post );
+				$action_count = count( $actions );
+				$i = 0;
+				echo '<div class="row-actions">';
+				foreach ( $actions as $action => $link ) {
+					++$i;
+					( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+					echo "<span class='$action'>$link$sep</span>";
+				}
+				echo '</div>';
+
+				get_inline_data( $post );
 			break;
 
 			case 'date':
@@ -610,59 +510,19 @@ class WP_Posts_Table extends WP_List_Table {
 				echo '</td>';
 			break;
 
-			case 'title':
-				$attributes = 'class="post-title column-title"' . $style;
-			?>
-			<td <?php echo $attributes ?>><strong><?php if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $title ?></a><?php } else { echo $title; }; _post_states( $post ); ?></strong>
-			<?php
-				if ( 'excerpt' == $mode )
-					the_excerpt();
-
-				$actions = array();
-				if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) && 'trash' != $post->post_status ) {
-					$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '" title="' . esc_attr( __( 'Edit this item' ) ) . '">' . __( 'Edit' ) . '</a>';
-					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr( __( 'Edit this item inline' ) ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
-				}
-				if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
-					if ( 'trash' == $post->post_status )
-						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-' . $post->post_type . '_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
-					elseif ( EMPTY_TRASH_DAYS )
-						$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this item to the Trash' ) ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
-					if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
-						$actions['delete'] = "<a class='submitdelete' title='" . esc_attr( __( 'Delete this item permanently' ) ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
-				}
-				if ( in_array( $post->post_status, array( 'pending', 'draft' ) ) ) {
-					if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) )
-						$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
-				} elseif ( 'trash' != $post->post_status ) {
-					$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
-				}
-				$actions = apply_filters( 'post_row_actions', $actions, $post );
-				$action_count = count( $actions );
-				$i = 0;
-				echo '<div class="row-actions">';
-				foreach ( $actions as $action => $link ) {
-					++$i;
-					( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-					echo "<span class='$action'>$link$sep</span>";
-				}
-				echo '</div>';
-
-				get_inline_data( $post );
-			?>
-			</td>
-			<?php
-			break;
-
 			case 'categories':
 			?>
 			<td <?php echo $attributes ?>><?php
 				$categories = get_the_category();
 				if ( !empty( $categories ) ) {
 					$out = array();
-					foreach ( $categories as $c )
-						$out[] = "<a href='edit.php?post_type={$post->post_type}&amp;category_name={$c->slug}'> " . esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'category', 'display' ) ) . '</a>';
-						echo join( ', ', $out );
+					foreach ( $categories as $c ) {
+						$out[] = sprintf( '<a href="%s">%s</a>',
+							add_query_arg( array( 'post_type' => $post->post_type, 'category_name' => $c->slug ), 'edit.php' ),
+							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'category', 'display' ) )
+						);
+					}
+					echo join( ', ', $out );
 				} else {
 					_e( 'Uncategorized' );
 				}
@@ -676,8 +536,12 @@ class WP_Posts_Table extends WP_List_Table {
 				$tags = get_the_tags( $post->ID );
 				if ( !empty( $tags ) ) {
 					$out = array();
-					foreach ( $tags as $c )
-						$out[] = "<a href='edit.php?post_type={$post->post_type}&amp;tag={$c->slug}'> " . esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'post_tag', 'display' ) ) . '</a>';
+					foreach ( $tags as $c ) {
+						$out[] = sprintf( '<a href="%s">%s</a>',
+							add_query_arg( array( 'post_type' => $post->post_type, 'tag' => $c->slug ), 'edit.php' ),
+							esc_html( sanitize_term_field( 'name', $c->name, $c->term_id, 'tag', 'display' ) )
+						);
+					}
 					echo join( ', ', $out );
 				} else {
 					_e( 'No Tags' );
@@ -690,6 +554,7 @@ class WP_Posts_Table extends WP_List_Table {
 			?>
 			<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 			<?php
+				$pending_comments = isset( $this->comment_pending_count[$post->ID] ) ? $this->comment_pending_count[$post->ID] : 0;
 				$pending_phrase = sprintf( __( '%s pending' ), number_format( $pending_comments ) );
 				if ( $pending_comments )
 					echo '<strong>';
@@ -710,25 +575,12 @@ class WP_Posts_Table extends WP_List_Table {
 
 			case 'author':
 			?>
-			<td <?php echo $attributes ?>><a href="edit.php?post_type=<?php echo $post->post_type; ?>&amp;author=<?php the_author_meta( 'ID' ); ?>"><?php the_author() ?></a></td>
-			<?php
-			break;
-
-			case 'control_view':
-			?>
-			<td><a href="<?php the_permalink(); ?>" rel="permalink" class="view"><?php _e( 'View' ); ?></a></td>
-			<?php
-			break;
-
-			case 'control_edit':
-			?>
-			<td><?php if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) ) { echo "<a href='$edit_link' class='edit'>" . __( 'Edit' ) . "</a>"; } ?></td>
-			<?php
-			break;
-
-			case 'control_delete':
-			?>
-			<td><?php if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) { echo "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID ) . "' class='delete'>" . __( 'Delete' ) . "</a>"; } ?></td>
+			<td <?php echo $attributes ?>><?php
+				printf( '<a href="%s">%s</a>',
+					add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' ),
+					get_the_author()
+				);
+			?></td>
 			<?php
 			break;
 
