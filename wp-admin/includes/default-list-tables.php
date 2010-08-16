@@ -62,7 +62,7 @@ class WP_Posts_Table extends WP_List_Table {
 
 		$avail_post_stati = wp_edit_posts_query();
 
-		$this->hierarchical_display = ( $post_type_object->hierarchical && 0 === strpos( get_query_var( 'orderby' ), 'menu_order' ) );
+		$this->hierarchical_display = ( $post_type_object->hierarchical && 'menu_order title' == $wp_query->query['orderby'] );
 
 		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
