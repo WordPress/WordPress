@@ -2081,9 +2081,9 @@ class WP_Comments_Table extends WP_List_Table {
 <?php
 		}
 ?>
-		</div>
 <?php
 		do_action( 'manage_comments_nav', $comment_status );
+		echo '</div>';
 	}
 
 	function get_columns() {
