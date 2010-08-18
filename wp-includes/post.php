@@ -4019,6 +4019,9 @@ function clean_post_cache($id) {
 
 	$id = (int) $id;
 
+	if ( 0 === $id )
+		return;
+
 	wp_cache_delete($id, 'posts');
 	wp_cache_delete($id, 'post_meta');
 
