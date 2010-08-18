@@ -1,52 +1,58 @@
 jQuery(document).ready(function($) {
-	$('form').each(function() {
-		this.reset();
-	});
 
-	if ( '' == $.query.GET('paged') )
-		$.query.SET('paged', 1);
+var adminTable = {
 
-	var total_pages;
-	var set_total_pages = function() {
-		total_pages = parseInt($('.total-pages').eq(0).text());
-	}
+	init: function() {
+		this.loading = false;
 
-	set_total_pages();
+		$('form').each(function() {
+			this.reset();
+		});
 
-	var loading = false,
-		$tbody = $('#the-list, #the-comment-list'),
-		$overlay = $('<div id="loading-items>')
+		if ( '' == $.query.GET('paged') )
+			$.query.SET('paged', 1);
+		this.set_total_pages();
+
+		this.$tbody = $('#the-list, #the-comment-list');
+
+		this.$overlay = $('<div id="loading-items>')
 			.html(adminTableL10n.loading)
 			.hide()
 			.prependTo($('body'));
+	},
 
-	var show_overlay = function() {
-		loading = true;
+	// paging
+	set_total_pages: function() {
+		this.total_pages = parseInt($('.total-pages').eq(0).text());
+	},
 
-		$('.error.ajax').remove();
+	get_total_pages: function() {
+		return this.total_pages;
+	},
 
-		$overlay
-			.css({
-				width: $tbody.width() + 'px',
-				height: $tbody.height() - 20 + 'px'
-			})
-			.css($tbody.offset())
-			.show();
-	}
+	change_page: function(paged) {
+		if ( paged < 1 || paged >this.total_pages )
+			return false;
 
-	var hide_overlay = function() {
-		loading = false;
-		$overlay.hide();
-	}
+		this.update_rows({'paged': paged});
+	},
 
-	var handle_error = function() {
-		hide_overlay();
+	// searching
+	change_search: function(s) {
+		this.update_rows({'s': s}, true, function() {
+			$('h2 .subtitle').remove();
 
-		$('h2').after('<div class="error ajax below-h2"><p>' + adminTableL10n.error + '</p></div>');
-	}
+			if ( s )
+				$('h2').eq(0).append($('<span class="subtitle">').html(adminTableL10n.search.replace('%s', this.htmlencode(s))));
+		});
+	},
 
-	var update_rows = function(args, reset_paging, callback) {
-		if ( loading )
+	htmlencode: function(value) {
+		return $('<div/>').text(value).html();
+	},
+
+	update_rows: function(args, reset_paging, callback) {
+		if ( this.loading )
 			return false;
 
 		var different = false;
@@ -57,11 +63,11 @@ jQuery(document).ready(function($) {
 				different = true;
 			}
 		});
-		
+
 		if ( !different )
 			return false;
 
-		show_overlay();
+		this.show_overlay();
 
 		if ( reset_paging )
 			$.query.SET('paged', 1);
@@ -71,44 +77,71 @@ jQuery(document).ready(function($) {
 		data['action'] = 'fetch-list';
 		data['list_args'] = list_args;
 
+		this._callback = callback;
+
 		$.ajax({
 			url: ajaxurl,
 			global: false,
 			dataType: 'json',
 			data: data,
-			success: function(response) {
-				if ( 'object' != typeof response ) {
-					handle_error();
-				} else {
-					hide_overlay();
-
-					$tbody.html(response.rows);
-
-					$('.displaying-num').html(response.total_items);
-
-					$('.total-pages').html(response.total_pages);
-					set_total_pages();
-
-					$('.current-page').val($.query.GET('paged'));
-
-					if ( callback )
-						callback();
-				}
-			},
-			error: handle_error
+			success: $.proxy(this, 'handle_success'),
+			error: $.proxy(this, 'handle_error')
 		});
 
 		return true;
+	},
+
+	handle_success: function(response) {
+		if ( 'object' != typeof response ) {
+			this.handle_error();
+		} else {
+			this.hide_overlay();
+
+			this.$tbody.html(response.rows);
+
+			$('.displaying-num').html(response.total_items);
+
+			$('.total-pages').html(response.total_pages);
+			this.set_total_pages();
+
+			$('.current-page').val($.query.GET('paged'));
+
+			if ( this._callback )
+				this._callback();
+		}
+	},
+
+	handle_error: function() {
+		this.hide_overlay();
+
+		$('h2').after('<div class="error ajax below-h2"><p>' + adminTableL10n.error + '</p></div>');
+	},
+
+	show_overlay: function() {
+		this.loading = true;
+
+		$('.error.ajax').remove();
+
+		this.$overlay
+			.css({
+				width: this.$tbody.width() + 'px',
+				height: this.$tbody.height() - 20 + 'px'
+			})
+			.css(this.$tbody.offset())
+			.show();
+	},
+
+	hide_overlay: function() {
+		this.loading = false;
+		this.$overlay.hide();
 	}
+}
 
-	// paging
-	var change_page = function(paged) {
-		if ( paged < 1 || paged > total_pages )
-			return false;
+adminTable.init();
 
-		update_rows({'paged': paged});
-	}
+// Ajaxify various UI elements
 
+	// pagination
 	$('.tablenav-pages a').click(function() {
 		var paged = $.query.GET('paged');
 
@@ -123,11 +156,11 @@ jQuery(document).ready(function($) {
 				paged += 1;
 				break;
 			case 'last-page':
-				paged = total_pages;
+				paged = adminTable.get_total_pages();
 				break;
 		}
 
-		change_page(paged);
+		adminTable.change_page(paged);
 
 		return false;
 	});
@@ -136,12 +169,12 @@ jQuery(document).ready(function($) {
 		if ( 13 != e.keyCode )
 			return;
 
-		change_page(parseInt($(this).val()));
+		adminTable.change_page(parseInt($(this).val()));
 
 		return false;
 	});
 
-	// sorting
+	// sortable columns
 	$('th a').click(function() {
 		var orderby = $.query.GET('orderby'),
 			order = $.query.GET('order'),
@@ -167,27 +200,14 @@ jQuery(document).ready(function($) {
 			$th.removeClass('sorted-desc').addClass('sorted-asc');
 		}
 
-		update_rows({'orderby': orderby, 'order': order}, true);
+		adminTable.update_rows({'orderby': orderby, 'order': order}, true);
 
 		return false;
 	});
 
-	// searching
-	var htmlencode = function(value) {
-		return $('<div/>').text(value).html();
-	}
-
-	var change_search = function(s) {
-		update_rows({'s': s}, true, function() {
-			$('h2 .subtitle').remove();
-
-			if ( s )
-				$('h2').eq(0).append($('<span class="subtitle">').html(adminTableL10n.search.replace('%s', htmlencode(s))));
-		});
-	}
-
+	// searchbox
 	$('.search-box :submit').click(function() {
-		change_search($(this).parent('.search-box').find(':text').val());
+		adminTable.change_search($(this).parent('.search-box').find(':text').val());
 
 		return false;
 	});
@@ -196,20 +216,22 @@ jQuery(document).ready(function($) {
 		if ( 13 != e.keyCode )
 			return;
 
-		change_search($(this).val());
+		adminTable.change_search($(this).val());
 
 		return false;
 	});
 
 	// tablenav dropdowns
 	$('#post-query-submit').click(function() {
-		var $this = $(this), key, val, args = {};
+		var key, val, args = {};
 
-		$this.parents('.actions').find('select[name!="action"]').each(function() {
-			args[$this.attr('name')] = $this.val();
+		$(this).parents('.actions').find('select[name!="action"]').each(function() {
+			var $el = $(this);
+
+			args[$el.attr('name')] = $el.val();
 		});
 
-		update_rows(args, true);
+		adminTable.update_rows(args, true);
 
 		return false;
 	});
@@ -218,26 +240,12 @@ jQuery(document).ready(function($) {
 	$('.view-switch a').click(function() {
 		var $this = $(this);
 
-		update_rows({'mode': $.query.load($this.attr('href')).get('mode')}, false, function() {
+		adminTable.update_rows({'mode': $.query.load($this.attr('href')).get('mode')}, false, function() {
 			$('.view-switch .current').removeClass('current');
 			$this.addClass('current');
 		});
 
 		return false;
 	});
-
-/*
-	// problem: when switching from one to the other, columns are not always the same
-	$('.subsubsub a').click(function() {
-		var $this = $(this);
-
-		update_rows($.query.load($this.attr('href')).get(), true, function() {
-			$('.subsubsub .current').removeClass('current');
-			$this.addClass('current');
-		});
-
-		return false;
-	});
-/**/
 });
 
