@@ -268,8 +268,8 @@ class WP_List_Table {
 <?php
 	}
 
-	/** Display a comment count bubble
-	 *
+	/**
+	 * Display a comment count bubble
 	 *
 	 * @since 3.1.0
 	 * @access protected
@@ -283,7 +283,7 @@ class WP_List_Table {
 		if ( $pending_comments )
 			echo '<strong>';
 
-		$link = "<a href='edit-comments.php?p=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>%s</span></a>";
+		$link = "<a href='" . add_query_arg( 'p', $post_id, admin_url('edit-comments.php') ) . "' title='$pending_phrase' class='post-com-count'><span class='comment-count'>%s</span></a>";
 
 		comments_number(
 			sprintf( $link, /* translators: comment count link */ _x( '0', 'comment count' ) ),
