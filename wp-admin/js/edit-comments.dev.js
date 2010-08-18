@@ -209,7 +209,7 @@ setCommentsList = function() {
 		}
 
 		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
-		$('#get-extra-comments').submit();
+//		$('#get-extra-comments').submit(); See http://core.trac.wordpress.org/ticket/14637
 	};
 
 	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
