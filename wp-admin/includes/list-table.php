@@ -136,6 +136,22 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Access the pagination args
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @param string $key
+	 * @return array
+	 */
+	function get_pagination_arg( $key ) {
+		if ( 'page' == $key )
+			return $this->get_pagenum();
+
+		return @$this->_pagination_args[ $key ];
+	}
+
+	/**
 	 * Wether the table has items to display or not
 	 *
 	 * @since 3.1.0

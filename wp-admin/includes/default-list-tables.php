@@ -1941,7 +1941,7 @@ class WP_Comments_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $post_id, $comment_status, $mode;
+		global $post_id, $comment_status, $mode, $search;
 
 		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
 
@@ -1955,8 +1955,8 @@ class WP_Comments_Table extends WP_List_Table {
 
 		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : '';
 
-		if ( isset( $_POST['num'] ) )
-			$comments_per_page = $_POST['num'];
+		if ( isset( $_POST['per_page'] ) )
+			$comments_per_page = $_POST['per_page'];
 		else
 			$comments_per_page = (int) get_user_option( 'edit_comments_per_page' );
 

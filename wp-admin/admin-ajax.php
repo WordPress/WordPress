@@ -639,7 +639,7 @@ case 'add-comment' :
 	foreach ( $table->items as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			$table->single_row( $comment->comment_ID, $mode, $status, true, true );
+			$table->single_row( $comment->comment_ID, $mode, $comment_status, true, true );
 			$comment_list_item = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(

@@ -257,9 +257,9 @@ unset($status_links);
 <input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
 <input type="hidden" name="pagegen_timestamp" value="<?php echo esc_attr(current_time('mysql', 1)); ?>" />
 
-<input type="hidden" name="_total" value="<?php echo esc_attr($total); ?>" />
-<input type="hidden" name="_per_page" value="<?php echo esc_attr($comments_per_page); ?>" />
-<input type="hidden" name="_page" value="<?php echo esc_attr($page); ?>" />
+<input type="hidden" name="_total" value="<?php echo esc_attr( $table->get_pagination_arg('total_items') ); ?>" />
+<input type="hidden" name="_per_page" value="<?php echo esc_attr( $table->get_pagination_arg('per_page') ); ?>" />
+<input type="hidden" name="_page" value="<?php echo esc_attr( $table->get_pagination_arg('page') ); ?>" />
 
 <?php if ( isset($_REQUEST['paged']) ) { ?>
 	<input type="hidden" name="paged" value="<?php echo esc_attr( absint( $_REQUEST['paged'] ) ); ?>" />
@@ -278,8 +278,8 @@ unset($status_links);
 	<input type="hidden" name="s" value="<?php echo esc_attr($search); ?>" />
 	<input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 	<input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
-	<input type="hidden" name="page" value="<?php echo esc_attr($page); ?>" />
-	<input type="hidden" name="per_page" value="<?php echo esc_attr($comments_per_page); ?>" />
+	<input type="hidden" name="page" value="<?php echo esc_attr( $table->get_pagination_arg('page') ); ?>" />
+	<input type="hidden" name="per_page" value="1" />
 	<input type="hidden" name="p" value="<?php echo esc_attr( $post_id ); ?>" />
 	<input type="hidden" name="comment_type" value="<?php echo esc_attr( $comment_type ); ?>" />
 	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
