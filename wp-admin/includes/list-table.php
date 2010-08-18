@@ -268,6 +268,33 @@ class WP_List_Table {
 <?php
 	}
 
+	/** Display a comment count bubble
+	 *
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @param int $post_id
+	 * @param int $pending_comments
+	 */
+	function comments_bubble( $post_id, $pending_comments ) {
+		$pending_phrase = sprintf( __( '%s pending' ), number_format( $pending_comments ) );
+
+		if ( $pending_comments )
+			echo '<strong>';
+
+		$link = "<a href='edit-comments.php?p=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>%s</span></a>";
+
+		comments_number(
+			sprintf( $link, /* translators: comment count link */ _x( '0', 'comment count' ) ),
+			sprintf( $link, /* translators: comment count link */ _x( '1', 'comment count' ) ),
+			sprintf( $link, /* translators: comment count link: % will be substituted by comment count */ _x( '%', 'comment count' ) )
+		);
+
+		if ( $pending_comments )
+			echo '</strong>';
+	}
+
 	/**
 	 * Get the current page number
 	 *

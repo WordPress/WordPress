@@ -225,7 +225,7 @@ foreach ( $stati as $status => $label ) {
 		$num_comments->$status = 10;
 	$link = add_query_arg( 'comment_status', $status, $link );
 	if ( $post_id )
-		$link = add_query_arg( 'post_ID', absint( $post_id ), $link );
+		$link = add_query_arg( 'p', absint( $post_id ), $link );
 	/*
 	// I toyed with this, but decided against it. Leaving it in here in case anyone thinks it is a good idea. ~ Mark
 	if ( !empty( $_REQUEST['s'] ) )
@@ -252,7 +252,7 @@ unset($status_links);
 
 <input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
 <?php if ( $post_id ) : ?>
-<input type="hidden" name="post_ID" value="<?php echo esc_attr( intval( $post_id ) ); ?>" />
+<input type="hidden" name="p" value="<?php echo esc_attr( intval( $post_id ) ); ?>" />
 <?php endif; ?>
 <input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
 <input type="hidden" name="pagegen_timestamp" value="<?php echo esc_attr(current_time('mysql', 1)); ?>" />
@@ -280,7 +280,7 @@ unset($status_links);
 	<input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
 	<input type="hidden" name="page" value="<?php echo esc_attr($page); ?>" />
 	<input type="hidden" name="per_page" value="<?php echo esc_attr($comments_per_page); ?>" />
-	<input type="hidden" name="post_ID" value="<?php echo esc_attr( $post_id ); ?>" />
+	<input type="hidden" name="p" value="<?php echo esc_attr( $post_id ); ?>" />
 	<input type="hidden" name="comment_type" value="<?php echo esc_attr( $comment_type ); ?>" />
 	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
 </form>

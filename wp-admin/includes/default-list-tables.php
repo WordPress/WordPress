@@ -555,19 +555,8 @@ class WP_Posts_Table extends WP_List_Table {
 			<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 			<?php
 				$pending_comments = isset( $this->comment_pending_count[$post->ID] ) ? $this->comment_pending_count[$post->ID] : 0;
-				$pending_phrase = sprintf( __( '%s pending' ), number_format( $pending_comments ) );
-				if ( $pending_comments )
-					echo '<strong>';
-				comments_number(
-					"<a href='edit-comments.php?post_ID=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-					. /* translators: comment count link */ _x( '0', 'comment count' ) . '</span></a>',
-					"<a href='edit-comments.php?post_ID=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-					. /* translators: comment count link */ _x( '1', 'comment count' ) . '</span></a>',
-					"<a href='edit-comments.php?post_ID=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-					. /* translators: comment count link: % will be substituted by comment count */ _x( '%', 'comment count' ) . '</span></a>'
-				);
-				if ( $pending_comments )
-					echo '</strong>';
+
+				$this->comments_bubble( $post->ID, $pending_comments );
 			?>
 			</div></td>
 			<?php
@@ -1216,21 +1205,10 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		<td <?php echo $attributes ?>>
 			<div class="post-com-count-wrapper">
 <?php
-		$left = get_pending_comments_num( $post->ID );
-		$pending_phrase = sprintf( __( '%s pending' ), number_format( $left ) );
-		if ( $left )
-			echo '<strong>';
-		comments_number(
-			"<a href='edit-comments.php?post_ID=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-			. /* translators: comment count link */ _x( '0', 'comment count' ) . '</span></a>',
-			"<a href='edit-comments.php?post_ID=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-			. /* translators: comment count link */ _x( '1', 'comment count' ) . '</span></a>',
-			"<a href='edit-comments.php?post_ID=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-			. /* translators: comment count link: % will be substituted by comment count */ _x( '%', 'comment count' ) . '</span></a>'
-		);
-		if ( $left )
-			echo '</strong>';
-		?>
+		$pending_comments = get_pending_comments_num( $post->ID );
+
+		$this->comments_bubble( $post->ID, $pending_comments );
+?>
 			</div>
 		</td>
 <?php
@@ -1965,7 +1943,7 @@ class WP_Comments_Table extends WP_List_Table {
 	function prepare_items() {
 		global $post_id, $comment_status, $mode;
 
-		$post_id = isset( $_REQUEST['post_ID'] ) ? absint( $_REQUEST['post_ID'] ) : 0;
+		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'detail' : $_REQUEST['mode'];
 
@@ -2338,19 +2316,7 @@ class WP_Comments_Table extends WP_List_Table {
 						echo "<td $attributes>\n";
 						echo '<div class="response-links"><span class="post-com-count-wrapper">';
 						echo $post_link . '<br />';
-						$pending_phrase = esc_attr( sprintf( __( '%s pending' ), number_format( $pending_comments ) ) );
-						if ( $pending_comments )
-							echo '<strong>';
-						comments_number(
-							"<a href='edit-comments.php?post_ID=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-							. /* translators: comment count link */ _x( '0', 'comment count' ) . '</span></a>',
-							"<a href='edit-comments.php?post_ID=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-							. /* translators: comment count link */ _x( '1', 'comment count' ) . '</span></a>',
-							"<a href='edit-comments.php?post_ID=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>"
-							. /* translators: comment count link: % will be substituted by comment count */ _x( '%', 'comment count' ) . '</span></a>'
-						);
-						if ( $pending_comments )
-							echo '</strong>';
+						$this->comments_bubble( $post->ID, $pending_comments );
 						echo '</span> ';
 						echo "<a href='" . get_permalink( $post->ID ) . "'>#</a>";
 						echo '</div>';
