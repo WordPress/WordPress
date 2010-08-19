@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-var adminTable = {
+window.adminTable = {
 
 	init: function() {
 		this.loading = false;
@@ -74,21 +74,31 @@ var adminTable = {
 
 		var data = $.query.get();
 
-		data['action'] = 'fetch-list';
-		data['list_args'] = list_args;
-
 		this._callback = callback;
+
+		this.fetch_list(
+			data, 
+			$.proxy(this, 'handle_success'),
+			$.proxy(this, 'handle_error')
+		);
+
+		return true;
+	},
+
+	fetch_list: function(data, success_callback, error_callback) {
+		data = $.extend(data, {
+			'action': 'fetch-list',
+			'list_args': list_args,
+		});
 
 		$.ajax({
 			url: ajaxurl,
 			global: false,
 			dataType: 'json',
 			data: data,
-			success: $.proxy(this, 'handle_success'),
-			error: $.proxy(this, 'handle_error')
+			success: success_callback,
+			error: error_callback,
 		});
-
-		return true;
 	},
 
 	handle_success: function(response) {

@@ -1964,6 +1964,11 @@ class WP_Comments_Table extends WP_List_Table {
 			$comments_per_page = 20;
 		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
 
+		if ( isset( $_POST['number'] ) )
+			$number = (int) $_POST['number'];
+		else
+			$number = $comments_per_page + min( 8, $comments_per_page ); // Grab a few extra
+
 		$page = $this->get_pagenum();
 
 		$start = $offset = ( $page - 1 ) * $comments_per_page;
@@ -1972,7 +1977,7 @@ class WP_Comments_Table extends WP_List_Table {
 			'status' => ( 'moderated' == $comment_status ) ? 'hold' : $comment_status, // TODO: replace all instances of 'moderated' with 'hold'
 			'search' => $search,
 			'offset' => $start,
-			'number' => $comments_per_page + 8, // Grab a few extra
+			'number' => $number,
 			'post_id' => $post_id,
 			'plural' => $comment_type,
 			'orderby' => @$_REQUEST['orderby'],
@@ -1983,10 +1988,10 @@ class WP_Comments_Table extends WP_List_Table {
 
 		update_comment_cache( $_comments );
 
-		$args['count'] = true;
-		$args['offset'] = 0;
-		$args['number'] = 0;
-		$total_comments = get_comments( $args );
+		$this->items = array_slice( $_comments, 0, $comments_per_page );
+		$this->extra_items = array_slice( $_comments, $comments_per_page );
+
+		$total_comments = get_comments( array_merge( $args, array('count' => true, 'offset' => 0, 'number' => 0) ) );
 
 		$_comment_post_ids = array();
 		foreach ( $_comments as $_c ) {
@@ -1994,9 +1999,6 @@ class WP_Comments_Table extends WP_List_Table {
 		}
 
 		$_comment_pending_count = get_pending_comments_num( $_comment_post_ids );
-
-		$this->items = array_slice( $_comments, 0, $comments_per_page );
-		$this->extra_items = array_slice( $_comments, $comments_per_page );
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_comments,
@@ -2114,10 +2116,10 @@ class WP_Comments_Table extends WP_List_Table {
 		$this->display_tablenav( 'bottom' );
 	}
 
-	function display_rows( $items = array() ) {
+	function display_rows( $items = false ) {
 		global $mode, $comment_status;
 
-		if ( empty( $items ) )
+		if ( false === $items )
 			$items = $this->items;
 
 		foreach ( $items as $comment )

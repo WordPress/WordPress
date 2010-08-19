@@ -274,17 +274,6 @@ unset($status_links);
 
 </form>
 
-<form id="get-extra-comments" method="post" action="" class="add:the-extra-comment-list:" style="display: none;">
-	<input type="hidden" name="s" value="<?php echo esc_attr($search); ?>" />
-	<input type="hidden" name="mode" value="<?php echo esc_attr($mode); ?>" />
-	<input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
-	<input type="hidden" name="page" value="<?php echo esc_attr( $table->get_pagination_arg('page') ); ?>" />
-	<input type="hidden" name="per_page" value="1" />
-	<input type="hidden" name="p" value="<?php echo esc_attr( $post_id ); ?>" />
-	<input type="hidden" name="comment_type" value="<?php echo esc_attr( $comment_type ); ?>" />
-	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
-</form>
-
 <div id="ajax-response"></div>
 
 <?php } elseif ( 'moderated' == $comment_status ) { ?>

@@ -259,11 +259,20 @@ wpList = {
 		e = $(e);
 
 		var list = $(this), old = false, _s = { pos: 0, id: 0, oldId: null }, ba, ref, color;
-		if ( 'string' == typeof s ) { s = { what: s }; }
+
+		if ( 'string' == typeof s )
+			s = { what: s };
+
 		s = $.extend(_s, this.wpList.settings, s);
-		if ( !e.size() || !s.what ) { return false; }
-		if ( s.oldId ) { old = $('#' + s.what + '-' + s.oldId); }
-		if ( s.id && ( s.id != s.oldId || !old || !old.size() ) ) { $('#' + s.what + '-' + s.id).remove(); }
+
+		if ( !e.size() || !s.what )
+			return false;
+
+		if ( s.oldId )
+			old = $('#' + s.what + '-' + s.oldId);
+
+		if ( s.id && ( s.id != s.oldId || !old || !old.size() ) )
+			$('#' + s.what + '-' + s.id).remove();
 
 		if ( old && old.size() ) {
 			old.before(e);
