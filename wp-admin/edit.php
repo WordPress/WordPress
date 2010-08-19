@@ -209,7 +209,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 </p></div>
 <?php } ?>
 
-<form id="posts-filter" action="" method="post">
+<form id="posts-filter" action="" method="get">
 
 <ul class="subsubsub">
 <?php
