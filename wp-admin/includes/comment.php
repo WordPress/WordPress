@@ -158,10 +158,4 @@ function enqueue_comment_hotkeys_js() {
 	if ( 'true' == get_user_option( 'comment_shortcuts' ) )
 		wp_enqueue_script( 'jquery-table-hotkeys' );
 }
-
-if ( is_admin() && isset($pagenow) && ('edit-comments.php' == $pagenow || 'edit.php' == $pagenow) ) {
-	if ( get_option('show_avatars') )
-		add_filter( 'comment_author', 'floated_admin_avatar' );
-}
-
 ?>

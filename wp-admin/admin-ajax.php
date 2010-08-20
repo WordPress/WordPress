@@ -632,9 +632,6 @@ case 'add-comment' :
 	if ( !$table->has_items() )
 		die('1');
 
-	if ( get_option('show_avatars') )
-		add_filter( 'comment_author', 'floated_admin_avatar' );
-
 	$x = new WP_Ajax_Response();
 	foreach ( $table->items as $comment ) {
 		get_comment( $comment );
@@ -727,9 +724,6 @@ case 'replyto-comment' :
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 
-	if ( get_option('show_avatars') && 'single' != $mode )
-		add_filter( 'comment_author', 'floated_admin_avatar' );
-
 	$x = new WP_Ajax_Response();
 
 	ob_start();
@@ -769,9 +763,6 @@ case 'edit-comment' :
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 	$comments_listing = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
-
-	if ( get_option('show_avatars') && 'single' != $mode )
-		add_filter( 'comment_author', 'floated_admin_avatar' );
 
 	require_once( './includes/default-list-tables.php' );
 	$table = new WP_Comments_Table();

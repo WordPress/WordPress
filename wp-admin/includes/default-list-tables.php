@@ -1929,6 +1929,13 @@ class WP_Users_Table extends WP_List_Table {
 class WP_Comments_Table extends WP_List_Table {
 
 	function WP_Comments_Table() {
+		global $mode;
+
+		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'detail' : $_REQUEST['mode'];
+
+		if ( get_option('show_avatars') && 'single' != $mode )
+			add_filter( 'comment_author', 'floated_admin_avatar' );
+
 		parent::WP_List_Table( array(
 			'screen' => 'edit-comments',
 			'plural' => 'comments'
@@ -1941,11 +1948,9 @@ class WP_Comments_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $post_id, $comment_status, $mode, $search;
+		global $post_id, $comment_status, $search;
 
 		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
-
-		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'detail' : $_REQUEST['mode'];
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
 		if ( !in_array( $comment_status, array( 'all', 'moderated', 'approved', 'spam', 'trash' ) ) )
