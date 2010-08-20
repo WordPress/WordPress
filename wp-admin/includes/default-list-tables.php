@@ -1984,7 +1984,7 @@ class WP_Comments_Table extends WP_List_Table {
 			'offset' => $start,
 			'number' => $number,
 			'post_id' => $post_id,
-			'plural' => $comment_type,
+			'type' => $comment_type,
 			'orderby' => @$_REQUEST['orderby'],
 			'order' => @$_REQUEST['order'],
 		);
@@ -2043,7 +2043,7 @@ class WP_Comments_Table extends WP_List_Table {
 		if ( 'top' == $which ) {
 ?>
 			<select name="comment_type">
-				<option value="all"><?php _e( 'Show all comment types' ); ?></option>
+				<option value=""><?php _e( 'Show all comment types' ); ?></option>
 <?php
 				$comment_types = apply_filters( 'admin_comment_types_dropdown', array(
 					'comment' => __( 'Comments' ),

@@ -719,8 +719,6 @@ case 'replyto-comment' :
 	$comment = get_comment($comment_id);
 	if ( ! $comment ) die('1');
 
-	$modes = array( 'single', 'detail', 'dashboard' );
-	$mode = isset($_POST['mode']) && in_array( $_POST['mode'], $modes ) ? $_POST['mode'] : 'detail';
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 
@@ -759,7 +757,6 @@ case 'edit-comment' :
 	$_POST['comment_status'] = $_POST['status'];
 	edit_comment();
 
-	$mode = ( isset($_POST['mode']) && 'single' == $_POST['mode'] ) ? 'single' : 'detail';
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 	$comments_listing = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
