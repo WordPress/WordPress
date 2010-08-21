@@ -464,8 +464,6 @@ class WP_List_Table {
 
 		list( $columns, $hidden, $sortable ) = $this->get_column_headers();
 
-		$styles = array();
-
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 		if ( isset( $_GET['orderby'] ) )
@@ -485,8 +483,6 @@ class WP_List_Table {
 			if ( in_array( $column_key, $hidden ) )
 				$style = 'display:none;';
 
-			if ( isset( $styles[$screen->id] ) && isset( $styles[$screen->id][$column_key] ) )
-				$style .= ' ' . $styles[$screen->id][$column_key];
 			$style = ' style="' . $style . '"';
 
 			if ( 'cb' == $column_key )
