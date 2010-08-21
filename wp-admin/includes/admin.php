@@ -39,6 +39,9 @@ require_once(ABSPATH . 'wp-admin/includes/taxonomy.php');
 /** WordPress Template Administration API */
 require_once(ABSPATH . 'wp-admin/includes/template.php');
 
+/** WordPress List Table Administration API */
+require_once(ABSPATH . 'wp-admin/includes/list-table.php');
+
 /** WordPress Theme Administration API */
 require_once(ABSPATH . 'wp-admin/includes/theme.php');
 

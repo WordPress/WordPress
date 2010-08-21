@@ -458,6 +458,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param bool $with_id Wether to set the id attribute or not
 	 */
 	function print_column_headers( $with_id = true ) {
 		$screen = $this->_screen;

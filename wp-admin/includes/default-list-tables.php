@@ -1,7 +1,5 @@
 <?php
 
-require_once('list-table.php');
-
 /**
  * List table classes
  *
