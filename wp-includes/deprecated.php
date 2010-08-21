@@ -2535,37 +2535,3 @@ function is_term( $term, $taxonomy = '', $parent = 0 ) {
 	return term_exists( $term, $taxonomy, $parent );
 }
 
-/**
- * Register column headers for a particular screen.
- *
- * @since 2.7.0
- * @deprecated 3.1.0
- * @deprecated Use WP_List_Table
- */
-function register_column_headers() {
-	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
-}
-
-/**
- * Prints column headers for a particular screen.
- *
- * @since 2.7.0
- * @deprecated 3.1.0
- * @deprecated Use WP_List_Table
- */
-function print_column_headers() {
-	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
-}
-
-/**
- * Gets hidden column names for a particular screen.
- *
- * @since unknown
- * @deprecated 3.1.0
- * @deprecated Use WP_List_Table
- */
-function get_hidden_columns() {
-	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
-	return array();
-}
-
