@@ -1634,7 +1634,7 @@ function screen_meta($screen) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	if ( is_object($table) )
+	if ( is_a($table, 'WP_List_Table') )
 		list( $screen_columns ) = $table->get_column_headers();
 	$meta_screens = array('index' => 'dashboard');
 
