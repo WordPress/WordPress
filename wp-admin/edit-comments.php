@@ -11,8 +11,8 @@ require_once('./admin.php');
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Comments_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Comments_Table;
+$wp_list_table->check_permissions();
 
 if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {
 	check_admin_referer( 'bulk-comments' );
@@ -97,7 +97,7 @@ if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset
 	 exit;
 }
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 wp_enqueue_script('admin-comments');
 enqueue_comment_hotkeys_js();
@@ -257,17 +257,17 @@ unset($status_links);
 <input type="hidden" name="comment_status" value="<?php echo esc_attr($comment_status); ?>" />
 <input type="hidden" name="pagegen_timestamp" value="<?php echo esc_attr(current_time('mysql', 1)); ?>" />
 
-<input type="hidden" name="_total" value="<?php echo esc_attr( $table->get_pagination_arg('total_items') ); ?>" />
-<input type="hidden" name="_per_page" value="<?php echo esc_attr( $table->get_pagination_arg('per_page') ); ?>" />
-<input type="hidden" name="_page" value="<?php echo esc_attr( $table->get_pagination_arg('page') ); ?>" />
+<input type="hidden" name="_total" value="<?php echo esc_attr( $wp_list_table->get_pagination_arg('total_items') ); ?>" />
+<input type="hidden" name="_per_page" value="<?php echo esc_attr( $wp_list_table->get_pagination_arg('per_page') ); ?>" />
+<input type="hidden" name="_page" value="<?php echo esc_attr( $wp_list_table->get_pagination_arg('page') ); ?>" />
 
 <?php if ( isset($_REQUEST['paged']) ) { ?>
 	<input type="hidden" name="paged" value="<?php echo esc_attr( absint( $_REQUEST['paged'] ) ); ?>" />
 <?php } ?>
 
-<?php if ( $table->has_items() ) { ?>
+<?php if ( $wp_list_table->has_items() ) { ?>
 
-<?php $table->display_table(); ?>
+<?php $wp_list_table->display_table(); ?>
 
 <br class="clear" />
 </div>

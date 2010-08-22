@@ -14,8 +14,8 @@ if ( ! is_multisite() )
 
 require_once( '../includes/default-list-tables.php' );
 
-$table = new WP_Sites_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Sites_Table;
+$wp_list_table->check_permissions();
 
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
@@ -350,7 +350,7 @@ switch ( $action ) {
 	// List sites
 	case 'list':
 	default:
-		$table->prepare_items();
+		$wp_list_table->prepare_items();
 
 		require_once( '../admin-header.php' );
 		?>
@@ -378,7 +378,7 @@ switch ( $action ) {
 		</form>
 
 		<form id="form-site-list" action="edit.php?action=allblogs" method="post">
-			<?php $table->display(); ?>
+			<?php $wp_list_table->display(); ?>
 		</form>
 		</div>
 

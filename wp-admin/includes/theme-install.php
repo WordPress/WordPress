@@ -261,9 +261,9 @@ function display_theme($theme, $actions = null, $show_details = true) {
  * @since 2.8.0
  */
 function display_themes() {
-	global $table;
+	global $wp_list_table;
 
-	$table->display();
+	$wp_list_table->display();
 }
 add_action('install_themes_search', 'display_themes');
 add_action('install_themes_featured', 'display_themes');

@@ -463,12 +463,12 @@ function post_comment_meta_box($post) {
 	add_filter('manage_edit-comments_sortable_columns', create_function('', 'return array();'), 8);
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table;
+	$wp_list_table = new WP_Comments_Table;
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
 <thead><tr>
-	<?php $table->print_column_headers(); ?>
+	<?php $wp_list_table->print_column_headers(); ?>
 </tr></thead>
 <tbody id="the-comment-list" class="list:comment"></tbody>
 </table>

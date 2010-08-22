@@ -11,8 +11,8 @@ require_once( './admin.php' );
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Media_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Media_Table;
+$wp_list_table->check_permissions();
 
 // Handle bulk actions
 if ( isset($_REQUEST['find_detached']) ) {
@@ -130,7 +130,7 @@ if ( isset($_REQUEST['find_detached']) ) {
 	 exit;
 }
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 $title = __('Media Library');
 $parent_file = 'upload.php';
@@ -247,7 +247,7 @@ unset($type_links);
 </form>
 
 <form id="posts-filter" action="" method="post">
-<?php $table->display(); ?>
+<?php $wp_list_table->display(); ?>
 <div id="ajax-response"></div>
 <?php find_posts_div(); ?>
 <br class="clear" />

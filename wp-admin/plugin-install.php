@@ -11,9 +11,9 @@ require_once('./admin.php');
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Plugin_Install_Table;
-$table->check_permissions();
-$table->prepare_items();
+$wp_list_table = new WP_Plugin_Install_Table;
+$wp_list_table->check_permissions();
+$wp_list_table->prepare_items();
 
 $title = __('Install Plugins');
 $parent_file = 'plugins.php';

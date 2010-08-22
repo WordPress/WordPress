@@ -58,8 +58,8 @@ case 'fetch-list' :
 	if ( class_exists( $class ) ) {
 		global $current_screen;
 		$current_screen = (object) $_GET['list_args']['screen'];
-		$table = new $class;
-		$table->ajax_response();
+		$wp_list_table = new $class;
+		$wp_list_table->ajax_response();
 	}
 
 	die('0');
@@ -558,7 +558,7 @@ case 'add-tag' :
 		set_current_screen($_POST['screen']);
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Terms_Table();
+	$wp_list_table = new WP_Terms_Table();
 
 	$level = 0;
 	$tag_full_name = false;
@@ -570,10 +570,10 @@ case 'add-tag' :
 			$tag_full_name = $_tag->name . ' &#8212; ' . $tag_full_name;
 			$level++;
 		}
-		$noparents = $table->single_row( $tag, $level, $taxonomy );
+		$noparents = $wp_list_table->single_row( $tag, $level, $taxonomy );
 	}
 	$tag->name = $tag_full_name;
-	$parents = $table->single_row( $tag, 0, $taxonomy);
+	$parents = $wp_list_table->single_row( $tag, 0, $taxonomy);
 
 	$x->add( array(
 		'what' => 'taxonomy',
@@ -626,17 +626,17 @@ case 'add-comment' :
 		die('-1');
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table();
-	$table->prepare_items();
+	$wp_list_table = new WP_Comments_Table();
+	$wp_list_table->prepare_items();
 
-	if ( !$table->has_items() )
+	if ( !$wp_list_table->has_items() )
 		die('1');
 
 	$x = new WP_Ajax_Response();
-	foreach ( $table->items as $comment ) {
+	foreach ( $wp_list_table->items as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			$table->single_row( $comment->comment_ID, $mode, $comment_status, true, true );
+			$wp_list_table->single_row( $comment->comment_ID, $mode, $comment_status, true, true );
 			$comment_list_item = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(
@@ -655,18 +655,18 @@ case 'get-comments' :
 		die('-1');
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table();
-	$table->prepare_items();
+	$wp_list_table = new WP_Comments_Table();
+	$wp_list_table->prepare_items();
 
-	if ( !$table->has_items() )
+	if ( !$wp_list_table->has_items() )
 		die('1');
 
 	$comment_list_item = '';
 	$x = new WP_Ajax_Response();
-	foreach ( $table->items as $comment ) {
+	foreach ( $wp_list_table->items as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			$table->single_row( $comment->comment_ID, 'single', false, false );
+			$wp_list_table->single_row( $comment->comment_ID, 'single', false, false );
 			$comment_list_item .= ob_get_contents();
 		ob_end_clean();
 	}
@@ -680,7 +680,7 @@ case 'replyto-comment' :
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table();
+	$wp_list_table = new WP_Comments_Table();
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( !current_user_can( 'edit_post', $comment_post_ID ) )
@@ -729,7 +729,7 @@ case 'replyto-comment' :
 			require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
 			_wp_dashboard_recent_comments_row( $comment, false );
 		} else {
-			$table->single_row( $comment->comment_ID, $mode, false, $checkbox );
+			$wp_list_table->single_row( $comment->comment_ID, $mode, false, $checkbox );
 		}
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
@@ -762,10 +762,10 @@ case 'edit-comment' :
 	$comments_listing = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table();
+	$wp_list_table = new WP_Comments_Table();
 
 	ob_start();
-		$table->single_row( $comment_id, $mode, $comments_listing, $checkbox );
+		$wp_list_table->single_row( $comment_id, $mode, $comments_listing, $checkbox );
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
 
@@ -911,12 +911,12 @@ case 'add-user' :
 	$user_object = new WP_User( $user_id );
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Users_Table();
+	$wp_list_table = new WP_Users_Table();
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
 		'id' => $user_id,
-		'data' => $table->single_row( $user_object, '', $user_object->roles[0] ),
+		'data' => $wp_list_table->single_row( $user_object, '', $user_object->roles[0] ),
 		'supplemental' => array(
 			'show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login),
 			'role' => $user_object->roles[0]
@@ -1204,10 +1204,10 @@ case 'inline-save':
 	edit_post();
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Posts_Table();
+	$wp_list_table = new WP_Posts_Table();
 
 	$mode = $_POST['post_view'];
-	$table->display_rows( array( get_post( $_POST['post_ID'] ) ) );
+	$wp_list_table->display_rows( array( get_post( $_POST['post_ID'] ) ) );
 
 	exit;
 	break;
@@ -1215,9 +1215,9 @@ case 'inline-save-tax':
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Terms_Table();
+	$wp_list_table = new WP_Terms_Table();
 
-	$table->check_permissions('edit');
+	$wp_list_table->check_permissions('edit');
 
 	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )
 		die(-1);
@@ -1234,7 +1234,7 @@ case 'inline-save-tax':
 			die( __('Item not updated.') );
 		}
 
-		echo $table->single_row( $tag, 0, $taxonomy );
+		echo $wp_list_table->single_row( $tag, 0, $taxonomy );
 	} else {
 		if ( is_wp_error($updated) && $updated->get_error_message() )
 			die( $updated->get_error_message() );

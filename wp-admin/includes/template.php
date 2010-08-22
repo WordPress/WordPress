@@ -294,10 +294,10 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	}
 
 	require_once( './includes/default-list-tables.php' );
-	$table = new WP_Comments_Table( 'reply' );
+	$wp_list_table = new WP_Comments_Table( 'reply' );
 
-	$columns = $table->get_column_headers();
-	$hidden = array_intersect( array_keys( $columns ), array_filter( $table->get_hidden_columns() ) );
+	$columns = $wp_list_table->get_column_headers();
+	$hidden = array_intersect( array_keys( $columns ), array_filter( $wp_list_table->get_hidden_columns() ) );
 	$col_count = count($columns) - count($hidden);
 
 ?>
@@ -1293,9 +1293,9 @@ function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = F
  * @param unknown_type $page
  */
 function manage_columns_prefs( $page ) {
-	global $table;
+	global $wp_list_table;
 
-	list( $columns, $hidden ) = $table->get_column_headers();
+	list( $columns, $hidden ) = $wp_list_table->get_column_headers();
 
 	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username');
 
@@ -1629,13 +1629,13 @@ function convert_to_screen( $screen ) {
 }
 
 function screen_meta($screen) {
-	global $wp_meta_boxes, $_wp_contextual_help, $title, $table;
+	global $wp_meta_boxes, $_wp_contextual_help, $title, $wp_list_table;
 
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	if ( is_a($table, 'WP_List_Table') )
-		list( $screen_columns ) = $table->get_column_headers();
+	if ( is_a($wp_list_table, 'WP_List_Table') )
+		list( $screen_columns ) = $wp_list_table->get_column_headers();
 	$meta_screens = array('index' => 'dashboard');
 
 	if ( isset($meta_screens[$screen->id]) ) {

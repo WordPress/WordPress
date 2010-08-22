@@ -162,9 +162,9 @@ add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
  * @param int $total_plugins Number of plugins.
  */
 function display_plugins_table() {
-	global $table;
+	global $wp_list_table;
 
-	$table->display();
+	$wp_list_table->display();
 }
 add_action('install_plugins_search', 'display_plugins_table');
 add_action('install_plugins_featured', 'display_plugins_table');

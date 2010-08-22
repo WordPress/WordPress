@@ -14,8 +14,8 @@ require_once( ABSPATH . WPINC . '/registration.php');
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Users_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Users_Table;
+$wp_list_table->check_permissions();
 
 $title = __('Users');
 $parent_file = 'users.php';
@@ -308,7 +308,7 @@ default:
 		exit;
 	}
 
-	$table->prepare_items();
+	$wp_list_table->prepare_items();
 
 	include('./admin-header.php');
 
@@ -412,7 +412,7 @@ unset($role_links);
 </form>
 
 <form id="posts-filter" action="" method="post">
-<?php $table->display(); ?>
+<?php $wp_list_table->display(); ?>
 </form>
 
 <?php

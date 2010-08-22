@@ -11,8 +11,8 @@ require_once ('admin.php');
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Links_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Links_Table;
+$wp_list_table->check_permissions();
 
 // Handle bulk deletes
 if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['linkcheck'] ) ) {
@@ -35,7 +35,7 @@ if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['linkcheck'] ) ) {
 	 exit;
 }
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 $title = __('Links');
 $this_file = $parent_file = 'link-manager.php';
@@ -84,7 +84,7 @@ if ( isset($_REQUEST['deleted']) ) {
 <br class="clear" />
 
 <form id="posts-filter" action="" method="post">
-<?php $table->display(); ?>
+<?php $wp_list_table->display(); ?>
 <div id="ajax-response"></div>
 </form>
 

@@ -11,9 +11,9 @@ require_once( './admin.php' );
 
 require_once( '../includes/default-list-tables.php' );
 
-$table = new WP_MS_Users_Table;
-$table->check_permissions();
-$table->prepare_items();
+$wp_list_table = new WP_MS_Users_Table;
+$wp_list_table->check_permissions();
+$wp_list_table->prepare_items();
 
 $title = __( 'Users' );
 $parent_file = 'users.php';
@@ -78,7 +78,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	</form>
 
 	<form id="form-user-list" action='edit.php?action=allusers' method='post'>
-		<?php $table->display(); ?>
+		<?php $wp_list_table->display(); ?>
 	</form>
 </div>
 

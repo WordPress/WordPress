@@ -11,8 +11,8 @@ require_once('./admin.php');
 
 require_once( ABSPATH . 'wp-admin/includes/default-list-tables.php' );
 
-$table = new WP_Plugins_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Plugins_Table;
+$wp_list_table->check_permissions();
 
 if ( isset($_POST['clear-recent-list']) )
 	$action = 'clear-recent-list';
@@ -302,7 +302,7 @@ if ( !in_array( $status, array( 'all', 'active', 'inactive', 'recently_activated
 if ( $status != $default_status && 'search' != $status )
 	update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 wp_enqueue_script('plugin-install');
 add_thickbox();
@@ -438,7 +438,7 @@ elseif ( 'dropins' == $status )
 	echo '<br class="clear"><p>' . __( 'Drop-ins are advanced plugins in the <code>/wp-content</code> directory that replace WordPress functionality when present.' ) . '</p>';
 ?>
 
-<?php $table->display(); ?>
+<?php $wp_list_table->display(); ?>
 </form>
 
 </div>

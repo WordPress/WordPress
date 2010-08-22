@@ -11,8 +11,8 @@ require_once('./admin.php');
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Terms_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Terms_Table;
+$wp_list_table->check_permissions();
 
 $title = $tax->labels->name;
 
@@ -152,7 +152,7 @@ if ( ! empty($_REQUEST['_wp_http_referer']) ) {
 	 exit;
 }
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 wp_enqueue_script('admin-tags');
 if ( current_user_can($tax->cap->edit_terms) )
@@ -241,7 +241,7 @@ endif; ?>
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 
-<?php $table->display_table(); ?>
+<?php $wp_list_table->display_table(); ?>
 
 <br class="clear" />
 </form>
@@ -351,7 +351,7 @@ do_action($taxonomy . '_add_form', $taxonomy);
 </div><!-- /col-container -->
 </div><!-- /wrap -->
 
-<?php $table->inline_edit(); ?>
+<?php $wp_list_table->inline_edit(); ?>
 
 <?php
 break;

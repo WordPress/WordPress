@@ -11,8 +11,8 @@ require_once( './admin.php' );
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Posts_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Posts_Table;
+$wp_list_table->check_permissions();
 
 // Back-compat for viewing comments of an entry
 if ( $_redirect = intval( max( @$_REQUEST['p'], @$_REQUEST['attachment_id'], @$_REQUEST['page_id'] ) ) ) {
@@ -119,7 +119,7 @@ if ( 'post' != $post_type ) {
 	$post_new_file = 'post-new.php';
 }
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 wp_enqueue_script('inline-edit-post');
 
@@ -280,11 +280,11 @@ endif;
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_REQUEST['post_status']) ? esc_attr($_REQUEST['post_status']) : 'all'; ?>" />
 <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
 
-<?php $table->display(); ?>
+<?php $wp_list_table->display(); ?>
 
 </form>
 
-<?php $table->inline_edit(); ?>
+<?php $wp_list_table->inline_edit(); ?>
 
 <div id="ajax-response"></div>
 <br class="clear" />

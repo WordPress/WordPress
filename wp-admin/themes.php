@@ -11,8 +11,8 @@ require_once('./admin.php');
 
 require_once( './includes/default-list-tables.php' );
 
-$table = new WP_Themes_Table;
-$table->check_permissions();
+$wp_list_table = new WP_Themes_Table;
+$wp_list_table->check_permissions();
 
 if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
 	if ( 'activate' == $_GET['action'] ) {
@@ -30,7 +30,7 @@ if ( current_user_can('switch_themes') && isset($_GET['action']) ) {
 	}
 }
 
-$table->prepare_items();
+$wp_list_table->prepare_items();
 
 $title = __('Manage Themes');
 $parent_file = 'themes.php';
@@ -105,7 +105,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 ?>
 <h3><?php _e('Available Themes'); ?></h3>
 
-<?php $table->display(); ?>
+<?php $wp_list_table->display(); ?>
 
 <br class="clear" />
 
