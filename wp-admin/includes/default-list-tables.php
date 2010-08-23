@@ -3093,8 +3093,7 @@ class WP_Plugins_Table extends WP_List_Table {
 			'search' => array(),
 			'active' => array(),
 			'inactive' => array(),
-			'recent' => array(),
-			'recently_activated' => get_option( 'recently_activated', array() ),
+			'recently_activated' => array(),
 			'upgrade' => array(),
 			'mustuse' => array(),
 			'dropins' => array()
@@ -3109,11 +3108,14 @@ class WP_Plugins_Table extends WP_List_Table {
 
 		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), 86400 );
 
-		// Clean out any plugins which were deactivated over a week ago.
-		foreach ( $plugins['recently_activated'] as $key => $time )
-			if ( $time + ( 7*24*60*60 ) < time() ) //1 week
-				unset( $plugins['recently_activated'][$key] );
-		update_option( 'recently_activated', $plugins['recently_activated'] );
+		$recently_activated = get_option( 'recently_activated', array() );
+
+		$one_week = 7*24*60*60;
+		foreach ( $recently_activated as $key => $time )
+			if ( $time + $one_week < time() )
+				unset( $recently_activated[$key] );
+		update_option( 'recently_activated', $recently_activated );
+
 		$current = get_site_transient( 'update_plugins' );
 
 		foreach ( array( 'all', 'mustuse', 'dropins' ) as $type ) {
@@ -3134,7 +3136,7 @@ class WP_Plugins_Table extends WP_List_Table {
 				$plugins['active'][ $plugin_file ] = $plugin_data;
 			} else {
 				if ( !is_network_admin() && isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
-					$plugins['recent'][ $plugin_file ] = $plugin_data;
+					$plugins['recently_activated'][ $plugin_file ] = $plugin_data;
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
 			}
 
