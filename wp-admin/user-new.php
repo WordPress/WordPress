@@ -20,9 +20,10 @@ require_once( ABSPATH . WPINC . '/registration.php');
 
 if ( is_multisite() ) {
 	function admin_created_user_email( $text ) {
+		/* translators: 1: Site name, 2: site URL, 3: role */
 		return sprintf( __( "Hi,
-You've been invited to join '%s' at
-%s as a %s.
+You've been invited to join '%1$s' at
+%2$s as a %3$s.
 If you do not want to join this site please ignore
 this email. This invitation will expire in a few days.
 
