@@ -293,15 +293,6 @@ if ( !empty($action) ) {
 	}
 }
 
-$default_status = get_user_option( 'plugins_last_view' );
-if ( empty( $default_status ) )
-	$default_status = 'all';
-$status = isset( $_REQUEST['plugin_status'] ) ? $_REQUEST['plugin_status'] : $default_status;
-if ( !in_array( $status, array( 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'network', 'mustuse', 'dropins', 'search' ) ) )
-	$status = 'all';
-if ( $status != $default_status && 'search' != $status )
-	update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
-
 $wp_list_table->prepare_items();
 
 wp_enqueue_script('plugin-install');

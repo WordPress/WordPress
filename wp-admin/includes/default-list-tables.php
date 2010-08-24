@@ -3061,6 +3061,19 @@ class WP_MS_Users_Table extends WP_List_Table {
 class WP_Plugins_Table extends WP_List_Table {
 
 	function WP_Plugins_Table() {
+		global $status, $page;
+
+		$default_status = get_user_option( 'plugins_last_view' );
+		if ( empty( $default_status ) )
+			$default_status = 'all';
+		$status = isset( $_REQUEST['plugin_status'] ) ? $_REQUEST['plugin_status'] : $default_status;
+		if ( !in_array( $status, array( 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'network', 'mustuse', 'dropins', 'search' ) ) )
+			$status = 'all';
+		if ( $status != $default_status && 'search' != $status )
+			update_user_meta( get_current_user_id(), 'plugins_last_view', $status );
+
+		$page = $this->get_pagenum();
+
 		parent::WP_List_Table( array(
 			'screen' => 'plugins',
 			'plural' => 'plugins',
@@ -3085,8 +3098,6 @@ class WP_Plugins_Table extends WP_List_Table {
 		global $status, $plugins, $totals, $page, $orderby, $order, $s;
 
 		wp_reset_vars( array( 'orderby', 'order', 's' ) );
-
-		$page = $this->get_pagenum();
 
 		$plugins = array(
 			'all' => apply_filters( 'all_plugins', get_plugins() ),
