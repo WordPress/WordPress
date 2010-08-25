@@ -628,8 +628,9 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Handle an incoming ajax request ( called from admin-ajax.php )
+	 * Handle an incoming ajax request (called from admin-ajax.php)
 	 *
+	 * @since 3.1.0
 	 * @access public
 	 */
 	function ajax_response() {
@@ -665,3 +666,23 @@ class WP_List_Table {
 		);
 	}
 }
+
+/**
+ * Fetch an instance of a WP_List_Table class
+ *
+ * @since 3.1.0
+ *
+ * @param string $type The type of the list table
+ * @return object
+ */
+function get_list_table( $type ) {
+	require_once( ABSPATH . '/wp-admin/includes/default-list-tables.php' );
+
+	$type = strtr( ucwords( strtr( $type, '-', ' ') ), ' ', '_' );
+
+	$class = "WP_{$type}_Table";
+	$class = apply_filters( "get_list_table_$type", $class );
+
+	return new $class;
+}
+

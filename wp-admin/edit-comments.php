@@ -9,9 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-require_once( './includes/default-list-tables.php' );
-
-$wp_list_table = new WP_Comments_Table;
+$wp_list_table = get_list_table('comments');
 $wp_list_table->check_permissions();
 
 if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {

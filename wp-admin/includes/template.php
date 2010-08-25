@@ -293,8 +293,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 		return;
 	}
 
-	require_once( './includes/default-list-tables.php' );
-	$wp_list_table = new WP_Comments_Table( 'reply' );
+	$wp_list_table = get_list_table('comments');
 
 	$columns = $wp_list_table->get_column_headers();
 	$hidden = array_intersect( array_keys( $columns ), array_filter( $wp_list_table->get_hidden_columns() ) );

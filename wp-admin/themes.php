@@ -9,9 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-require_once( './includes/default-list-tables.php' );
-
-$wp_list_table = new WP_Themes_Table;
+$wp_list_table = get_list_table('themes');
 $wp_list_table->check_permissions();
 
 if ( current_user_can('switch_themes') && isset($_GET['action']) ) {

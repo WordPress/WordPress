@@ -9,9 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-require_once( './includes/default-list-tables.php' );
-
-$wp_list_table = new WP_Plugin_Install_Table;
+$wp_list_table = get_list_table('plugin-install');
 $wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
 

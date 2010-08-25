@@ -9,9 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once( './admin.php' );
 
-require_once( './includes/default-list-tables.php' );
-
-$wp_list_table = new WP_Posts_Table;
+$wp_list_table = get_list_table('posts');
 $wp_list_table->check_permissions();
 
 // Back-compat for viewing comments of an entry

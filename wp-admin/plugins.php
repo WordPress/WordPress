@@ -9,9 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
 
-require_once( ABSPATH . 'wp-admin/includes/default-list-tables.php' );
-
-$wp_list_table = new WP_Plugins_Table;
+$wp_list_table = get_list_table('plugins');
 $wp_list_table->check_permissions();
 
 if ( isset($_POST['clear-recent-list']) )

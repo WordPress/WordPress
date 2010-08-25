@@ -462,8 +462,7 @@ function post_comment_meta_box($post) {
 	add_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead', 8, 1);
 	add_filter('manage_edit-comments_sortable_columns', create_function('', 'return array();'), 8);
 
-	require_once( './includes/default-list-tables.php' );
-	$wp_list_table = new WP_Comments_Table;
+	$wp_list_table = get_list_table('comments');
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">

@@ -9,9 +9,7 @@
 
 require_once( './admin.php' );
 
-require_once( '../includes/default-list-tables.php' );
-
-$wp_list_table = new WP_MS_Users_Table;
+$wp_list_table = get_list_table('ms-users');
 $wp_list_table->check_permissions();
 $wp_list_table->prepare_items();
 
