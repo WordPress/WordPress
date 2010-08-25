@@ -214,7 +214,7 @@ setCommentsList = function() {
 		var args = $.query.get();
 		args.number = 1;
 		args.paged++;
-		adminTable.fetch_list(args, function(response) {
+		listTable.fetch_list(args, function(response) {
 			theExtraList.get(0).wpList.add( response.rows );
 		});
 	};

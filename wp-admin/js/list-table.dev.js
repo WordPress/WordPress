@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-window.adminTable = {
+window.listTable = {
 
 	init: function() {
 		this.loading = false;
@@ -16,7 +16,7 @@ window.adminTable = {
 		this.$tbody = $('#the-list, #the-comment-list');
 
 		this.$overlay = $('<div id="loading-items>')
-			.html(adminTableL10n.loading)
+			.html(listTableL10n.loading)
 			.hide()
 			.prependTo($('body'));
 	},
@@ -43,7 +43,7 @@ window.adminTable = {
 			$('h2 .subtitle').remove();
 
 			if ( s )
-				$('h2').eq(0).append($('<span class="subtitle">').html(adminTableL10n.search.replace('%s', this.htmlencode(s))));
+				$('h2').eq(0).append($('<span class="subtitle">').html(listTableL10n.search.replace('%s', this.htmlencode(s))));
 		});
 	},
 
@@ -124,7 +124,7 @@ window.adminTable = {
 	handle_error: function() {
 		this.hide_overlay();
 
-		$('h2').after('<div class="error ajax below-h2"><p>' + adminTableL10n.error + '</p></div>');
+		$('h2').after('<div class="error ajax below-h2"><p>' + listTableL10n.error + '</p></div>');
 	},
 
 	show_overlay: function() {
@@ -147,7 +147,7 @@ window.adminTable = {
 	}
 }
 
-adminTable.init();
+listTable.init();
 
 // Ajaxify various UI elements
 
@@ -166,11 +166,11 @@ adminTable.init();
 				paged += 1;
 				break;
 			case 'last-page':
-				paged = adminTable.get_total_pages();
+				paged = listTable.get_total_pages();
 				break;
 		}
 
-		adminTable.change_page(paged);
+		listTable.change_page(paged);
 
 		return false;
 	});
@@ -179,7 +179,7 @@ adminTable.init();
 		if ( 13 != e.keyCode )
 			return;
 
-		adminTable.change_page(parseInt($(this).val()));
+		listTable.change_page(parseInt($(this).val()));
 
 		return false;
 	});
@@ -210,14 +210,14 @@ adminTable.init();
 			$th.removeClass('sorted-desc').addClass('sorted-asc');
 		}
 
-		adminTable.update_rows({'orderby': orderby, 'order': order}, true);
+		listTable.update_rows({'orderby': orderby, 'order': order}, true);
 
 		return false;
 	});
 
 	// searchbox
 	$('.search-box :submit').click(function() {
-		adminTable.change_search($(this).parent('.search-box').find(':text').val());
+		listTable.change_search($(this).parent('.search-box').find(':text').val());
 
 		return false;
 	});
@@ -226,7 +226,7 @@ adminTable.init();
 		if ( 13 != e.keyCode )
 			return;
 
-		adminTable.change_search($(this).val());
+		listTable.change_search($(this).val());
 
 		return false;
 	});
@@ -241,7 +241,7 @@ adminTable.init();
 			args[$el.attr('name')] = $el.val();
 		});
 
-		adminTable.update_rows(args, true);
+		listTable.update_rows(args, true);
 
 		return false;
 	});
@@ -250,7 +250,7 @@ adminTable.init();
 	$('.view-switch a').click(function() {
 		var $this = $(this);
 
-		adminTable.update_rows({'mode': $.query.load($this.attr('href')).get('mode')}, false, function() {
+		listTable.update_rows({'mode': $.query.load($this.attr('href')).get('mode')}, false, function() {
 			$('.view-switch .current').removeClass('current');
 			$this.addClass('current');
 		});

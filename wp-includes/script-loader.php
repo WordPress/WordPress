@@ -265,7 +265,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20100301' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
-		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'admin-table', 'jquery-ui-resizable', 'quicktags'), '20100818' );
+		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'list-table', 'jquery-ui-resizable', 'quicktags'), '20100818' );
 		$scripts->add_data( 'admin-comments', 'group', 1 );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
@@ -338,9 +338,9 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
-		$scripts->add( 'admin-table', "/wp-admin/js/admin-table$suffix.js", array( 'jquery', 'jquery-query' ), '20100818' );
-		$scripts->add_data( 'admin-table', 'group', 1 );
-		$scripts->localize( 'admin-table', 'adminTableL10n', array(
+		$scripts->add( 'list-table', "/wp-admin/js/list-table$suffix.js", array( 'jquery', 'jquery-query' ), '20100818' );
+		$scripts->add_data( 'list-table', 'group', 1 );
+		$scripts->localize( 'list-table', 'listTableL10n', array(
 			'loading' => __('Loading...'),
 			'error' => __('An error has occured while loading the items.'),
 			'search' => __('Search results for &#8220;%s&#8221;')
