@@ -98,182 +98,122 @@ function wp_reset_postdata() {
  */
 
 /**
- * Is query requesting an archive page.
+ * Is the query for an archive page?
  *
+ * Month, Year, Category, Author, ...
+ *
+ * @see WP_Query::is_archive()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @return bool True if page is archive.
+ * @return bool
  */
 function is_archive() {
 	global $wp_query;
 
-	return $wp_query->is_archive;
+	return $wp_query->is_archive();
 }
 
 /**
- * Is query requesting an attachment page.
+ * Is the query for an attachment page?
  *
+ * @see WP_Query::is_attachment()
  * @since 2.0.0
  * @uses $wp_query
  *
- * @return bool True if page is attachment.
+ * @return bool
  */
 function is_attachment() {
 	global $wp_query;
 
-	return $wp_query->is_attachment;
+	return $wp_query->is_attachment();
 }
 
 /**
- * Is query requesting an author page.
+ * Is the query for an author archive page?
  *
- * If the $author parameter is specified then the check will be expanded to
- * include whether the queried author matches the one given in the parameter.
- * You can match against integers and against strings.
+ * If the $author parameter is specified, this function will additionally
+ * check if the query is for one of the authors specified.
  *
- * If matching against an integer, the ID should be used of the author for the
- * test. If the $author is an ID and matches the author page user ID, then
- * 'true' will be returned.
- *
- * If matching against strings, then the test will be matched against both the
- * nickname and user nicename and will return true on success.
- *
+ * @see WP_Query::is_author()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param string|int $author Optional. Is current page this author.
- * @return bool True if page is author or $author (if set).
- */
-function is_author($author = '') {
-	global $wp_query;
-
-	if ( !$wp_query->is_author )
-		return false;
-
-	if ( empty($author) )
-		return true;
-
-	$author_obj = $wp_query->get_queried_object();
-
-	$author = (array) $author;
-
-	if ( in_array( $author_obj->ID, $author ) )
-		return true;
-	elseif ( in_array( $author_obj->nickname, $author ) )
-		return true;
-	elseif ( in_array( $author_obj->user_nicename, $author ) )
-		return true;
-
-	return false;
-}
-
-/**
- * Whether current page query contains a category name or given category name.
- *
- * The category list can contain category IDs, names, or category slugs. If any
- * of them are part of the query, then it will return true.
- *
- * @since 1.5.0
- * @uses $wp_query
- *
- * @param string|array $category Optional.
+ * @param mixed $author Optional. User ID, nickname, nicename, or array of User IDs, nicknames, and nicenames
  * @return bool
  */
-function is_category($category = '') {
+function is_author( $author = '' ) {
 	global $wp_query;
 
-	if ( !$wp_query->is_category )
-		return false;
-
-	if ( empty($category) )
-		return true;
-
-	$cat_obj = $wp_query->get_queried_object();
-
-	$category = (array) $category;
-
-	if ( in_array( $cat_obj->term_id, $category ) )
-		return true;
-	elseif ( in_array( $cat_obj->name, $category ) )
-		return true;
-	elseif ( in_array( $cat_obj->slug, $category ) )
-		return true;
-
-	return false;
+	return $wp_query->is_author( $author );
 }
 
 /**
- * Whether the current page query has the given tag slug or contains tag.
+ * Is the query for a category archive page?
  *
+ * If the $category parameter is specified, this function will additionally
+ * check if the query is for one of the categories specified.
+ *
+ * @see WP_Query::is_category()
+ * @since 1.5.0
+ * @uses $wp_query
+ *
+ * @param mixed $category Optional. Category ID, name, slug, or array of Category IDs, names, and slugs.
+ * @return bool
+ */
+function is_category( $category = '' ) {
+	global $wp_query;
+
+	return $wp_query->is_category( $category );
+}
+
+/**
+ * Is the query for a tag archive page?
+ *
+ * If the $tag parameter is specified, this function will additionally
+ * check if the query is for one of the tags specified.
+ *
+ * @see WP_Query::is_tag()
  * @since 2.3.0
  * @uses $wp_query
  *
- * @param string|array $slug Optional. Single tag or list of tags to check for.
+ * @param mixed $slug Optional. Tag slug or array of slugs.
  * @return bool
  */
 function is_tag( $slug = '' ) {
 	global $wp_query;
 
-	if ( !$wp_query->is_tag )
-		return false;
-
-	if ( empty( $slug ) )
-		return true;
-
-	$tag_obj = $wp_query->get_queried_object();
-
-	$slug = (array) $slug;
-
-	if ( in_array( $tag_obj->slug, $slug ) )
-		return true;
-
-	return false;
+	return $wp_query->is_tag( $slug );
 }
 
 /**
- * Whether the current query is for the given taxonomy and/or term.
+ * Is the query for a taxonomy archive page?
  *
- * If no taxonomy argument is set, returns true if any taxonomy is queried.
- * If the taxonomy argument is passed but no term argument, returns true
- *    if the taxonomy or taxonomies in the argument are being queried.
- * If both taxonomy and term arguments are passed, returns true
- *    if the current query is for a term contained in the terms argument
- *    which has a taxonomy contained in the taxonomy argument.
+ * If the $taxonomy parameter is specified, this function will additionally
+ * check if the query is for that specific $taxonomy.
  *
+ * If the $term parameter is specified in addition to the $taxonomy parameter,
+ * this function will additionally check if the query is for one of the terms
+ * specified.
+ *
+ * @see WP_Query::is_tax()
  * @since 2.5.0
  * @uses $wp_query
  *
- * @param string|array $taxonomy Optional. Taxonomy slug or slugs to check in current query.
- * @param int|array|string $term. Optional. A single or array of, The term's ID, Name or Slug
+ * @param mixed $taxonomy Optional. Taxonomy slug or slugs.
+ * @param mixed $term. Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
  * @return bool
  */
 function is_tax( $taxonomy = '', $term = '' ) {
 	global $wp_query, $wp_taxonomies;
 
-	$queried_object = $wp_query->get_queried_object();
-	$tax_array = array_intersect(array_keys($wp_taxonomies), (array) $taxonomy);
-	$term_array = (array) $term;
-
-	if ( !$wp_query->is_tax )
-		return false;
-
-	if ( empty( $taxonomy ) )
-		return true;
-
-	if ( empty( $term ) ) // Only a Taxonomy provided
-		return isset($queried_object->taxonomy) && count( $tax_array ) && in_array($queried_object->taxonomy, $tax_array);
-
-	return isset($queried_object->term_id) &&
-			count(array_intersect(
-				array($queried_object->term_id, $queried_object->name, $queried_object->slug),
-				$term_array
-			));
+	return $wp_query->is_tax( $taxonomy, $term );
 }
 
 /**
  * Whether the current URL is within the comments popup window.
  *
+ * @see WP_Query::is_comments_popup()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -282,12 +222,13 @@ function is_tax( $taxonomy = '', $term = '' ) {
 function is_comments_popup() {
 	global $wp_query;
 
-	return $wp_query->is_comments_popup;
+	return $wp_query->is_comments_popup();
 }
 
 /**
- * Whether current URL is based on a date.
+ * Is the query for a date archive?
  *
+ * @see WP_Query::is_date()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -296,12 +237,13 @@ function is_comments_popup() {
 function is_date() {
 	global $wp_query;
 
-	return $wp_query->is_date;
+	return $wp_query->is_date();
 }
 
 /**
- * Whether current blog URL contains a day.
+ * Is the query for a day archive?
  *
+ * @see WP_Query::is_day()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -310,12 +252,13 @@ function is_date() {
 function is_day() {
 	global $wp_query;
 
-	return $wp_query->is_day;
+	return $wp_query->is_day();
 }
 
 /**
- * Whether current page query is feed URL.
+ * Is the query for a feed?
  *
+ * @see WP_Query::is_feed()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -324,12 +267,13 @@ function is_day() {
 function is_feed() {
 	global $wp_query;
 
-	return $wp_query->is_feed;
+	return $wp_query->is_feed();
 }
 
 /**
- * Whether current page query is comment feed URL.
+ * Is the query for a comments feed?
  *
+ * @see WP_Query::is_comments_feed()
  * @since 3.0.0
  * @uses $wp_query
  *
@@ -338,12 +282,22 @@ function is_feed() {
 function is_comment_feed() {
 	global $wp_query;
 
-	return $wp_query->is_comment_feed;
+	return $wp_query->is_comment_feed();
 }
 
 /**
- * Whether current page query is the front of the site.
+ * Is the query for the front page of the site?
  *
+ * This is for what is displayed at your site's main URL.
+ *
+ * Depends on the site's "Front page displays" Reading Settings 'show_on_front' and 'page_on_front'.
+ *
+ * If you set a static page for the front page of your site, this function will return
+ * true when viewing that page.
+ *
+ * Otherwise the same as @see is_home()
+ *
+ * @see WP_Query::is_front_page()
  * @since 2.5.0
  * @uses is_home()
  * @uses get_option()
@@ -351,22 +305,24 @@ function is_comment_feed() {
  * @return bool True, if front of site.
  */
 function is_front_page() {
-	// most likely case
-	if ( 'posts' == get_option('show_on_front') && is_home() )
-		return true;
-	elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') && is_page(get_option('page_on_front')) )
-		return true;
-	else
-		return false;
+	global $wp_query;
+
+	return $wp_query->is_front_page();
 }
 
 /**
- * Whether current page view is the blog homepage.
+ * Is the query for the blog homepage?
  *
- * This is the page which is showing the time based blog content of your site
- * so if you set a static page for the front page of your site then this will
- * only be true on the page which you set as the "Posts page" in Reading Settings.
+ * This is the page which shows the time based blog content of your site.
  *
+ * Depends on the site's "Front page displays" Reading Settings 'show_on_front' and 'page_for_posts'.
+ *
+ * If you set a static page for the front page of your site, this function will return
+ * true only on the page you set as the "Posts page".
+ *
+ * @see is_front_page()
+ *
+ * @see WP_Query::is_home()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -375,12 +331,13 @@ function is_front_page() {
 function is_home() {
 	global $wp_query;
 
-	return $wp_query->is_home;
+	return $wp_query->is_home();
 }
 
 /**
- * Whether current page query contains a month.
+ * Is the query for a month archive?
  *
+ * @see WP_Query::is_month()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -389,52 +346,35 @@ function is_home() {
 function is_month() {
 	global $wp_query;
 
-	return $wp_query->is_month;
+	return $wp_query->is_month();
 }
 
 /**
- * Whether query is page or contains given page(s).
+ * Is the query for a single Page?
  *
- * Calls the function without any parameters will only test whether the current
- * query is of the page type. Either a list or a single item can be tested
- * against for whether the query is a page and also is the value or one of the
- * values in the page parameter.
+ * If the $page parameter is specified, this function will additionally
+ * check if the query is for one of the Pages specified.
  *
- * The parameter can contain the page ID, page title, or page name. The
- * parameter can also be an array of those three values.
+ * @see is_single()
+ * @see is_singular()
  *
+ * @see WP_Query::is_single()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param mixed $page Either page or list of pages to test against.
+ * @param mixed $page Page ID, title, slug, or array of Page IDs, titles, and slugs.
  * @return bool
  */
-function is_page($page = '') {
+function is_page( $page = '' ) {
 	global $wp_query;
 
-	if ( !$wp_query->is_page )
-		return false;
-
-	if ( empty($page) )
-		return true;
-
-	$page_obj = $wp_query->get_queried_object();
-
-	$page = (array) $page;
-
-	if ( in_array( $page_obj->ID, $page ) )
-		return true;
-	elseif ( in_array( $page_obj->post_title, $page ) )
-		return true;
-	else if ( in_array( $page_obj->post_name, $page ) )
-		return true;
-
-	return false;
+	return $wp_query->is_page( $page );
 }
 
 /**
- * Whether query contains multiple pages for the results.
+ * Is the query for paged result and not for the first page?
  *
+ * @see WP_Query::is_paged()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -443,32 +383,13 @@ function is_page($page = '') {
 function is_paged() {
 	global $wp_query;
 
-	return $wp_query->is_paged;
+	return $wp_query->is_paged();
 }
 
 /**
- * Whether the current page was created by a plugin.
+ * Is the query for a post or page preview?
  *
- * The plugin can set this by using the global $plugin_page and setting it to
- * true.
- *
- * @since 1.5.0
- * @global bool $plugin_page Used by plugins to tell the query that current is a plugin page.
- *
- * @return bool
- */
-function is_plugin_page() {
-	global $plugin_page;
-
-	if ( isset($plugin_page) )
-		return true;
-
-	return false;
-}
-
-/**
- * Whether the current query is preview of post or page.
- *
+ * @see WP_Query::is_preview()
  * @since 2.0.0
  * @uses $wp_query
  *
@@ -477,12 +398,13 @@ function is_plugin_page() {
 function is_preview() {
 	global $wp_query;
 
-	return $wp_query->is_preview;
+	return $wp_query->is_preview();
 }
 
 /**
- * Whether the current query post is robots.
+ * Is the query for the robots file?
  *
+ * @see WP_Query::is_robots()
  * @since 2.1.0
  * @uses $wp_query
  *
@@ -491,12 +413,13 @@ function is_preview() {
 function is_robots() {
 	global $wp_query;
 
-	return $wp_query->is_robots;
+	return $wp_query->is_robots();
 }
 
 /**
- * Whether current query is the result of a user search.
+ * Is the query for a search?
  *
+ * @see WP_Query::is_search()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -505,70 +428,59 @@ function is_robots() {
 function is_search() {
 	global $wp_query;
 
-	return $wp_query->is_search;
+	return $wp_query->is_search();
 }
 
 /**
- * Whether the current page query is single page.
+ * Is the query for a single post?
  *
- * The parameter can contain the post ID, post title, or post name. The
- * parameter can also be an array of those three values.
+ * If the $post parameter is specified, this function will additionally
+ * check if the query is for one of the Posts specified.
  *
- * This applies to other post types, attachments, pages, posts. Just means that
- * the current query has only a single object.
+ * Can also be used for attachments or any other post type except pages.
  *
+ * @see is_page()
+ * @see is_singular()
+ *
+ * @see WP_Query::is_single()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param mixed $post Either post or list of posts to test against.
+ * @param mixed $post Post ID, title, slug, or array of Post IDs, titles, and slugs.
  * @return bool
  */
-function is_single($post = '') {
+function is_single( $post = '' ) {
 	global $wp_query;
 
-	if ( !$wp_query->is_single )
-		return false;
-
-	if ( empty($post) )
-		return true;
-
-	$post_obj = $wp_query->get_queried_object();
-
-	$post = (array) $post;
-
-	if ( in_array( $post_obj->ID, $post ) )
-		return true;
-	elseif ( in_array( $post_obj->post_title, $post ) )
-		return true;
-	elseif ( in_array( $post_obj->post_name, $post ) )
-		return true;
-
-	return false;
+	return $wp_query->is_single( $post );
 }
 
 /**
- * Whether is single post, is a page, or is an attachment.
+ * Is the query for a single post of any post type (post, attachment, page, ... )?
  *
+ * If the $post_types parameter is specified, this function will additionally
+ * check if the query is for one of the Posts Types specified.
+ *
+ * @see is_page()
+ * @see is_single()
+ *
+ * @see WP_Query::is_singular()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param string|array $post_types Optional. Post type or types to check in current query.
+ * @param mixed $post_types Optional. Post Type or array of Post Types
  * @return bool
  */
-function is_singular($post_types = '') {
+function is_singular( $post_types = '' ) {
 	global $wp_query;
 
-	if ( empty($post_types) || !$wp_query->is_singular )
-		return $wp_query->is_singular;
-
-	$post_obj = $wp_query->get_queried_object();
-
-	return in_array($post_obj->post_type, (array) $post_types);
+	return $wp_query->is_singular( $post_types );
 }
 
 /**
- * Whether the query contains a time.
+ * Is the query for a specific time?
  *
+ * @see WP_Query::is_time()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -577,12 +489,13 @@ function is_singular($post_types = '') {
 function is_time() {
 	global $wp_query;
 
-	return $wp_query->is_time;
+	return $wp_query->is_time();
 }
 
 /**
- * Whether the query is a trackback.
+ * Is the query for a trackback endpoint call?
  *
+ * @see WP_Query::is_trackback()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -591,12 +504,13 @@ function is_time() {
 function is_trackback() {
 	global $wp_query;
 
-	return $wp_query->is_trackback;
+	return $wp_query->is_trackback();
 }
 
 /**
- * Whether the query contains a year.
+ * Is the query for a specific year?
  *
+ * @see WP_Query::is_year()
  * @since 1.5.0
  * @uses $wp_query
  *
@@ -605,21 +519,22 @@ function is_trackback() {
 function is_year() {
 	global $wp_query;
 
-	return $wp_query->is_year;
+	return $wp_query->is_year();
 }
 
 /**
- * Whether current page query is a 404 and no results for WordPress query.
+ * Is the query a 404 (returns no results)?
  *
+ * @see WP_Query::is_404()
  * @since 1.5.0
  * @uses $wp_query
  *
- * @return bool True, if nothing is found matching WordPress Query.
+ * @return bool
  */
 function is_404() {
 	global $wp_query;
 
-	return $wp_query->is_404;
+	return $wp_query->is_404();
 }
 
 /*
@@ -2786,6 +2701,459 @@ class WP_Query {
 		if ( ! empty($query) ) {
 			$this->query($query);
 		}
+	}
+
+	/**
+ 	 * Is the query for an archive page?
+ 	 *
+ 	 * Month, Year, Category, Author, ...
+ 	 *
+ 	 * @since 3.1.0
+ 	 *
+ 	 * @return bool
+ 	 */
+	function is_archive() {
+		return (bool) $this->is_archive;
+	}
+
+	/**
+	 * Is the query for an attachment page?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_attachment() {
+		return (bool) $this->is_attachment;
+	}
+
+	/**
+	 * Is the query for an author archive page?
+	 *
+	 * If the $author parameter is specified, this function will additionally
+	 * check if the query is for one of the authors specified.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $author Optional. User ID, nickname, nicename, or array of User IDs, nicknames, and nicenames
+	 * @return bool
+	 */
+	function is_author( $author = '' ) {
+		if ( !$this->is_author )
+			return false;
+
+		if ( empty($author) )
+			return true;
+
+		$author_obj = $this->get_queried_object();
+
+		$author = (array) $author;
+
+		if ( in_array( $author_obj->ID, $author ) )
+			return true;
+		elseif ( in_array( $author_obj->nickname, $author ) )
+			return true;
+		elseif ( in_array( $author_obj->user_nicename, $author ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Is the query for a category archive page?
+	 *
+	 * If the $category parameter is specified, this function will additionally
+	 * check if the query is for one of the categories specified.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $category Optional. Category ID, name, slug, or array of Category IDs, names, and slugs.
+	 * @return bool
+	 */
+	function is_category( $category = '' ) {
+		if ( !$this->is_category )
+			return false;
+
+		if ( empty($category) )
+			return true;
+
+		$cat_obj = $this->get_queried_object();
+
+		$category = (array) $category;
+
+		if ( in_array( $cat_obj->term_id, $category ) )
+			return true;
+		elseif ( in_array( $cat_obj->name, $category ) )
+			return true;
+		elseif ( in_array( $cat_obj->slug, $category ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Is the query for a tag archive page?
+	 *
+	 * If the $tag parameter is specified, this function will additionally
+	 * check if the query is for one of the tags specified.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $slug Optional. Tag slug or array of slugs.
+	 * @return bool
+	 */
+	function is_tag( $slug = '' ) {
+		if ( !$this->is_tag )
+			return false;
+
+		if ( empty( $slug ) )
+			return true;
+
+		$tag_obj = $this->get_queried_object();
+
+		$slug = (array) $slug;
+
+		if ( in_array( $tag_obj->slug, $slug ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Is the query for a taxonomy archive page?
+	 *
+	 * If the $taxonomy parameter is specified, this function will additionally
+	 * check if the query is for that specific $taxonomy.
+	 *
+	 * If the $term parameter is specified in addition to the $taxonomy parameter,
+	 * this function will additionally check if the query is for one of the terms
+	 * specified.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $taxonomy Optional. Taxonomy slug or slugs.
+	 * @param mixed $term. Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
+	 * @return bool
+	 */
+	function is_tax( $taxonomy = '', $term = '' ) {
+		global $wp_taxonomies;
+
+		if ( !$this->is_tax )
+			return false;
+
+		if ( empty( $taxonomy ) )
+			return true;
+
+		$queried_object = $this->get_queried_object();
+		$tax_array = array_intersect( array_keys( $wp_taxonomies ), (array) $taxonomy );
+		$term_array = (array) $term;
+
+		if ( empty( $term ) ) // Only a Taxonomy provided
+			return isset( $queried_object->taxonomy ) && count( $tax_array ) && in_array( $queried_object->taxonomy, $tax_array );
+
+		return isset( $queried_object->term_id ) &&
+			count( array_intersect(
+				array( $queried_object->term_id, $queried_object->name, $queried_object->slug ),
+				$term_array
+			) );
+	}
+
+	/**
+	 * Whether the current URL is within the comments popup window.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_comments_popup() {
+		return (bool) $this->is_comments_popup;
+	}
+
+	/**
+	 * Is the query for a date archive?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_date() {
+		return (bool) $this->is_date;
+	}
+
+
+	/**
+	 * Is the query for a day archive?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_day() {
+		return (bool) $this->is_day;
+	}
+
+	/**
+	 * Is the query for a feed?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_feed() {
+		return (bool) $this->is_feed;
+	}
+
+	/**
+	 * Is the query for a comments feed?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_comment_feed() {
+		return (bool) $this->is_comment_feed;
+	}
+
+	/**
+	 * Is the query for the front page of the site?
+	 *
+	 * This is for what is displayed at your site's main URL.
+	 *
+	 * Depends on the site's "Front page displays" Reading Settings 'show_on_front' and 'page_on_front'.
+	 *
+	 * If you set a static page for the front page of your site, this function will return
+	 * true when viewing that page.
+	 *
+	 * Otherwise the same as @see WP_Query::is_home()
+	 *
+	 * @since 3.1.0
+	 * @uses is_home()
+	 * @uses get_option()
+	 *
+	 * @return bool True, if front of site.
+	 */
+	function is_front_page() {
+		// most likely case
+		if ( 'posts' == get_option( 'show_on_front') && $this->is_home() )
+			return true;
+		elseif ( 'page' == get_option( 'show_on_front') && get_option( 'page_on_front' ) && $this->is_page( get_option( 'page_on_front' ) ) )
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Is the query for the blog homepage?
+	 *
+	 * This is the page which shows the time based blog content of your site.
+	 *
+	 * Depends on the site's "Front page displays" Reading Settings 'show_on_front' and 'page_for_posts'.
+	 *
+	 * If you set a static page for the front page of your site, this function will return
+	 * true only on the page you set as the "Posts page".
+	 *
+	 * @see WP_Query::is_front_page()
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool True if blog view homepage.
+	 */
+	function is_home() {
+		return (bool) $this->is_home;
+	}
+
+	/**
+	 * Is the query for a month archive?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_month() {
+		return (bool) $this->is_month;
+	}
+
+	/**
+	 * Is the query for a single Page?
+	 *
+	 * If the $page parameter is specified, this function will additionally
+	 * check if the query is for one of the Pages specified.
+	 *
+	 * @see WP_Query::is_single()
+	 * @see WP_Query::is_singular()
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $page Page ID, title, slug, or array of Page IDs, titles, and slugs.
+	 * @return bool
+	 */
+	function is_page( $page = '' ) {
+		if ( !$this->is_page )
+			return false;
+
+		if ( empty( $page ) )
+			return true;
+
+		$page_obj = $this->get_queried_object();
+
+		$page = (array) $page;
+
+		if ( in_array( $page_obj->ID, $page ) )
+			return true;
+		elseif ( in_array( $page_obj->post_title, $page ) )
+			return true;
+		else if ( in_array( $page_obj->post_name, $page ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Is the query for paged result and not for the first page?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool                                                                  
+	 */
+	function is_paged() {
+		return (bool) $this->is_paged;
+	}
+
+	/**
+	 * Is the query for a post or page preview?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_preview() {
+		return (bool) $this->is_preview;
+	}
+
+	/**
+	 * Is the query for the robots file?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_robots() {
+		return (bool) $this->is_robots;
+	}
+
+	/**
+	 * Is the query for a search?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_search() {
+		return (bool) $this->is_search;
+	}
+
+	/**
+	 * Is the query for a single post?
+	 *
+	 * If the $post parameter is specified, this function will additionally
+	 * check if the query is for one of the Posts specified.
+	 *
+	 * Can also be used for attachments or any other post type except pages.
+	 *
+	 * @see WP_Query::is_page()
+	 * @see WP_Query::is_singular()
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $post Post ID, title, slug, or array of Post IDs, titles, and slugs.
+	 * @return bool
+	 */
+	function is_single( $post = '' ) {
+		if ( !$this->is_single )
+			return false;
+
+		if ( empty($post) )
+			return true;
+
+		$post_obj = $this->get_queried_object();
+
+		$post = (array) $post;
+
+		if ( in_array( $post_obj->ID, $post ) )
+			return true;
+		elseif ( in_array( $post_obj->post_title, $post ) )
+			return true;
+		elseif ( in_array( $post_obj->post_name, $post ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Is the query for a single post of any post type (post, attachment, page, ... )?
+	 *
+	 * If the $post_types parameter is specified, this function will additionally
+	 * check if the query is for one of the Posts Types specified.
+	 *
+	 * @see WP_Query::is_page()
+	 * @see WP_Query::is_single()
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $post_types Optional. Post Type or array of Post Types
+	 * @return bool
+	 */
+	function is_singular( $post_types = '' ) {
+		if ( empty( $post_types ) || !$this->is_singular )
+			return $this->is_singular;
+
+		$post_obj = $this->get_queried_object();
+
+		return in_array( $post_obj->post_type, (array) $post_types );
+	}
+
+	/**
+	 * Is the query for a specific time?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_time() {
+		return (bool) $this->is_time;
+	}
+
+	/**
+	 * Is the query for a trackback endpoint call?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_trackback() {
+		return (bool) $this->is_trackback;
+	}
+
+	/**
+	 * Is the query for a specific year?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_year() {
+		return (bool) $this->is_year;
+	}
+
+	/**
+	 * Is the query a 404 (returns no results)?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	function is_404() {
+		return (bool) $this->is_404;
 	}
 }
 
