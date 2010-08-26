@@ -980,7 +980,7 @@ function balanceTags( $text, $force = false ) {
  * @since 2.0.4
  *
  * @author Leonard Lin <leonard@acm.org>
- * @license GPL v2.0
+ * @license GPL
  * @copyright November 4, 2001
  * @version 1.1
  * @todo Make better - change loop condition to $text in 1.2
