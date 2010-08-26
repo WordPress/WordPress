@@ -3256,7 +3256,7 @@ table.fixed {
 
 .fixed .column-comments {
 	width: 4em;
-	padding-top: 8px;
+	padding: 8px 0;
 	text-align: left;
 }
 .fixed .column-comments .vers {
