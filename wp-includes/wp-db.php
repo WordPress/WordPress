@@ -476,8 +476,6 @@ class wpdb {
 	 * @param string $dbhost MySQL database host
 	 */
 	function wpdb( $dbuser, $dbpassword, $dbname, $dbhost ) {
-		if( defined( 'WP_USE_MULTIPLE_DB' ) && WP_USE_MULTIPLE_DB )
-			$this->db_connect();
 		return $this->__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 	}
 
@@ -502,51 +500,14 @@ class wpdb {
 		if ( WP_DEBUG )
 			$this->show_errors();
 
-		if ( is_multisite() ) {
-			$this->charset = 'utf8';
-			if ( defined( 'DB_COLLATE' ) && DB_COLLATE )
-				$this->collate = DB_COLLATE;
-			else
-				$this->collate = 'utf8_general_ci';
-		} elseif ( defined( 'DB_COLLATE' ) ) {
-			$this->collate = DB_COLLATE;
-		}
-
-		if ( defined( 'DB_CHARSET' ) )
-			$this->charset = DB_CHARSET;
+		$this->init_charset();
 
 		$this->dbuser = $dbuser;
+		$this->dbpassword = $dbpassword;
+		$this->dbname = $dbname;
+		$this->dbhost = $dbhost;
 
-		$this->dbh = @mysql_connect( $dbhost, $dbuser, $dbpassword, true );
-		if ( !$this->dbh ) {
-			$this->bail( sprintf( /*WP_I18N_DB_CONN_ERROR*/"
-<h1>Error establishing a database connection</h1>
-<p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>%s</code>. This could mean your host's database server is down.</p>
-<ul>
-	<li>Are you sure you have the correct username and password?</li>
-	<li>Are you sure that you have typed the correct hostname?</li>
-	<li>Are you sure that the database server is running?</li>
-</ul>
-<p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
-"/*/WP_I18N_DB_CONN_ERROR*/, $dbhost ), 'db_connect_fail' );
-			return;
-		}
-
-		$this->ready = true;
-
-		if ( $this->has_cap( 'collation' ) && !empty( $this->charset ) ) {
-			if ( function_exists( 'mysql_set_charset' ) ) {
-				mysql_set_charset( $this->charset, $this->dbh );
-				$this->real_escape = true;
-			} else {
-				$query = $this->prepare( 'SET NAMES %s', $this->charset );
-				if ( ! empty( $this->collate ) )
-					$query .= $this->prepare( ' COLLATE %s', $this->collate );
-				$this->query( $query );
-			}
-		}
-
-		$this->select( $dbname, $this->dbh );
+		$this->db_connect();
 	}
 
 	/**
@@ -558,6 +519,49 @@ class wpdb {
 	 */
 	function __destruct() {
 		return true;
+	}
+
+	/**
+	 * Set $this->charset and $this->collate
+	 */
+	function init_charset() {
+		if ( function_exists('is_multisite') && is_multisite() ) {
+			$this->charset = 'utf8';
+			if ( defined( 'DB_COLLATE' ) && DB_COLLATE )
+				$this->collate = DB_COLLATE;
+			else
+				$this->collate = 'utf8_general_ci';
+		} elseif ( defined( 'DB_COLLATE' ) ) {
+			$this->collate = DB_COLLATE;
+		}
+
+		if ( defined( 'DB_CHARSET' ) )
+			$this->charset = DB_CHARSET;
+	}
+
+	/**
+	 * Sets the connection's character set.
+	 * 
+	 * @param resource $dbh     The resource given by mysql_connect
+	 * @param string   $charset The character set (optional)
+	 * @param string   $collate The collation (optional)
+	 */
+	function set_charset($dbh, $charset = null, $collate = null) {
+		if ( !isset($charset) )
+			$charset = $this->charset;
+		if ( !isset($collate) )
+			$collate = $this->collate;
+		if ( $this->has_cap( 'collation', $dbh ) && !empty( $charset ) ) {
+			if ( function_exists( 'mysql_set_charset' ) && $this->has_cap( 'set_charset', $dbh ) ) {
+				mysql_set_charset( $charset, $dbh );
+				$this->real_escape = true;
+			} else {
+				$query = $this->prepare( 'SET NAMES %s', $charset );
+				if ( ! empty( $collate ) )
+					$query .= $this->prepare( ' COLLATE %s', $collate );
+				mysql_query( $query, $dbh );
+			}
+		}
 	}
 
 	/**
@@ -1017,28 +1021,15 @@ class wpdb {
 		$this->last_query  = null;
 	}
 
-	function db_connect( $query = "SELECT" ) {
+	/**
+	 * Connect to and select database
+	 */
+	function db_connect() {
 		global $db_list, $global_db_list;
-		if ( ! is_array( $db_list ) )
-			return true;
 
-		if ( $this->blogs != '' && preg_match("/(" . $this->blogs . "|" . $this->users . "|" . $this->usermeta . "|" . $this->site . "|" . $this->sitemeta . "|" . $this->sitecategories . ")/i",$query) ) {
-			$action = 'global';
-			$details = $global_db_list[ mt_rand( 0, count( $global_db_list ) -1 ) ];
-			$this->db_global = $details;
-		} elseif ( preg_match("/^\\s*(alter table|create|insert|delete|update|replace) /i",$query) ) {
-			$action = 'write';
-			$details = $db_list[ 'write' ][ mt_rand( 0, count( $db_list[ 'write' ] ) -1 ) ];
-			$this->db_write = $details;
-		} else {
-			$action = '';
-			$details = $db_list[ 'read' ][ mt_rand( 0, count( $db_list[ 'read' ] ) -1 ) ];
-			$this->db_read = $details;
-		}
+		$this->dbh = @mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, true );
 
-		$dbhname = "dbh" . $action;
-		$this->$dbhname = @mysql_connect( $details[ 'db_host' ], $details[ 'db_user' ], $details[ 'db_password' ] );
-		if (!$this->$dbhname ) {
+		if ( !$this->dbh ) {
 			$this->bail( sprintf( /*WP_I18N_DB_CONN_ERROR*/"
 <h1>Error establishing a database connection</h1>
 <p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>%s</code>. This could mean your host's database server is down.</p>
@@ -1048,9 +1039,14 @@ class wpdb {
 	<li>Are you sure that the database server is running?</li>
 </ul>
 <p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
-"/*/WP_I18N_DB_CONN_ERROR*/, $details['db_host'] ), 'db_connect_fail' );
+"/*/WP_I18N_DB_CONN_ERROR*/, $this->dbhost ), 'db_connect_fail' );
 		}
-		$this->select( $details[ 'db_name' ], $this->$dbhname );
+
+		$this->set_charset( $this->dbh );
+
+		$this->ready = true;
+
+		$this->select( $this->dbname, $this->dbh );
 	}
 
 	/**
@@ -1083,48 +1079,23 @@ class wpdb {
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
 			$this->timer_start();
 
-		// use $this->dbh for read ops, and $this->dbhwrite for write ops
-		// use $this->dbhglobal for gloal table ops
-		unset( $dbh );
-		if( defined( 'WP_USE_MULTIPLE_DB' ) && WP_USE_MULTIPLE_DB ) {
-			if( $this->blogs != '' && preg_match("/(" . $this->blogs . "|" . $this->users . "|" . $this->usermeta . "|" . $this->site . "|" . $this->sitemeta . "|" . $this->sitecategories . ")/i",$query) ) {
-				if( false == isset( $this->dbhglobal ) ) {
-					$this->db_connect( $query );
-				}
-				$dbh =& $this->dbhglobal;
-				$this->last_db_used = "global";
-			} elseif ( preg_match("/^\\s*(alter table|create|insert|delete|update|replace) /i",$query) ) {
-				if( false == isset( $this->dbhwrite ) ) {
-					$this->db_connect( $query );
-				}
-				$dbh =& $this->dbhwrite;
-				$this->last_db_used = "write";
-			} else {
-				$dbh =& $this->dbh;
-				$this->last_db_used = "read";
-			}
-		} else {
-			$dbh =& $this->dbh;
-			$this->last_db_used = "other/read";
-		}
-
-		$this->result = @mysql_query( $query, $dbh );
+		$this->result = @mysql_query( $query, $this->dbh );
 		$this->num_queries++;
 
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
 			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
 
 		// If there is an error then take note of it..
-		if ( $this->last_error = mysql_error( $dbh ) ) {
+		if ( $this->last_error = mysql_error( $this->dbh ) ) {
 			$this->print_error();
 			return false;
 		}
 
 		if ( preg_match( "/^\\s*(insert|delete|update|replace|alter) /i", $query ) ) {
-			$this->rows_affected = mysql_affected_rows( $dbh );
+			$this->rows_affected = mysql_affected_rows( $this->dbh );
 			// Take note of the insert_id
 			if ( preg_match( "/^\\s*(insert|replace) /i", $query ) ) {
-				$this->insert_id = mysql_insert_id($dbh);
+				$this->insert_id = mysql_insert_id($this->dbh);
 			}
 			// Return number of rows affected
 			$return_val = $this->rows_affected;
@@ -1544,6 +1515,8 @@ class wpdb {
 			case 'group_concat' : // @since 2.7
 			case 'subqueries' :   // @since 2.7
 				return version_compare( $version, '4.1', '>=' );
+			case 'set_charset' :
+				return version_compare($version, '5.0.7', '>=');
 		};
 
 		return false;
