@@ -678,9 +678,7 @@ class WP_List_Table {
 function get_list_table( $type ) {
 	require_once( ABSPATH . '/wp-admin/includes/default-list-tables.php' );
 
-	$type = strtr( ucwords( strtr( $type, '-', ' ') ), ' ', '_' );
-
-	$class = "WP_{$type}_Table";
+	$class = 'WP_' . strtr( ucwords( strtr( $type, '-', ' ') ), ' ', '_' ) . '_Table';
 	$class = apply_filters( "get_list_table_$type", $class );
 
 	return new $class;
