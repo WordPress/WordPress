@@ -434,13 +434,14 @@ class WP_User_Query {
 		}
 
 		$role = trim( $qv['role'] );
-		if ( $role ) {
+
+		if ( $role || is_multisite() ) {
 			$this->query_from .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id";
-			$this->query_where .= $wpdb->prepare(" AND $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $role . '%');
-		} elseif ( is_multisite() ) {
-			$level_key = $wpdb->prefix . 'capabilities'; // wpmu site admins don't have user_levels
-			$this->query_from .= ", $wpdb->usermeta";
-			$this->query_where .= " AND $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
+			$this->query_where .= $wpdb->prepare( " AND $wpdb->usermeta.meta_key = %s", $wpdb->prefix . 'capabilities' );
+		}
+
+		if ( $role ) {
+			$this->query_where .= $wpdb->prepare( " AND $wpdb->usermeta.meta_value LIKE %s", '%' . like_escape( $role ) . '%' );
 		}
 
 		$meta_key = trim( $qv['meta_key'] );

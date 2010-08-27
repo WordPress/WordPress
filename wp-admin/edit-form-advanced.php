@@ -149,10 +149,11 @@ if ( !( 'pending' == $post->post_status && !current_user_can( $post_type_object-
 	add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', $post_type, 'normal', 'core');
 
 if ( post_type_supports($post_type, 'author') ) {
-	$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
-	if ( $post->post_author && !in_array($post->post_author, $authors) )
-		$authors[] = $post->post_author;
-	if ( ( $authors && count( $authors ) > 1 ) || is_super_admin() )
+	$_editable_user_ids = get_editable_user_ids( $current_user->id, true, $post_type ); // TODO: ROLE SYSTEM
+	if ( $post->post_author && !in_array($post->post_author, $_editable_user_ids) )
+		$_editable_user_ids[] = $post->post_author;
+
+	if ( !empty($_editable_user_ids) || is_super_admin() )
 		add_meta_box('authordiv', __('Author'), 'post_author_meta_box', $post_type, 'normal', 'core');
 }
 

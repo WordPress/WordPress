@@ -505,10 +505,8 @@ function post_slug_meta_box($post) {
  * @param object $post
  */
 function post_author_meta_box($post) {
-	global $user_ID;
-	$authors = get_editable_user_ids( get_current_user_id(), true, $post->post_type ); // TODO: ROLE SYSTEM
-	if ( $post->post_author && !in_array($post->post_author, $authors) )
-		$authors[] = $post->post_author;
+	global $user_ID, $_editable_user_ids;
+
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
 <?php

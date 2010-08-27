@@ -240,11 +240,14 @@ function get_editable_authors( $user_id ) {
  * @since unknown
  *
  * @param int $user_id User ID.
- * @param bool $exclude_zeros Optional, default is true. Whether to exclude zeros.
- * @return unknown
+ * @param bool $deprecated Not used.
+ * @return array
  */
-function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'post' ) {
+function get_editable_user_ids( $user_id, $deprecated = true, $post_type = 'post' ) {
 	global $wpdb;
+
+	if ( !$deprecated )
+		_deprecated_argument( __FUNCTION__, '3.1.0' );
 
 	$user = new WP_User( $user_id );
 	$post_type_obj = get_post_type_object($post_type);
@@ -256,16 +259,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 			return array();
 	}
 
-	if ( !is_multisite() )
-		$level_key = $wpdb->get_blog_prefix() . 'user_level';
-	else
-		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-
-	$query = $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s", $level_key);
-	if ( $exclude_zeros )
-		$query .= " AND meta_value != '0'";
-
-	return $wpdb->get_col( $query );
+	return get_users( array('fields' => 'ids') );
 }
 
 /**
