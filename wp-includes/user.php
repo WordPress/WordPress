@@ -333,7 +333,7 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
 class WP_User_Query {
 
 	/**
-	 * {@internal Missing Description}}
+	 * List of found user ids
 	 *
 	 * @since 3.1.0
 	 * @access private
@@ -342,7 +342,7 @@ class WP_User_Query {
 	var $results;
 
 	/**
-	 * The total number of users for the current query
+	 * Total number of found users for the current query
 	 *
 	 * @since 3.1.0
 	 * @access private
@@ -350,31 +350,41 @@ class WP_User_Query {
 	 */
 	var $total_users = 0;
 
+	// SQL pieces
 	var $query_from;
 	var $query_where;
 	var $query_orderby;
 	var $query_limit;
 
 	/**
-	 * Sets up the object properties.
+	 * PHP4 constructor
+	 */
+	function WP_User_Query( $query = null ) {
+		$this->__construct( $query );
+	}
+
+	/**
+	 * PHP5 constructor
 	 *
 	 * @since 3.1.0
 	 *
 	 * @param string|array $args The query variables
 	 * @return WP_User_Query
 	 */
-	function WP_User_Query( $query ) {
-		$this->query_vars = wp_parse_args( $query, array(
-			'search' => '', 'role' => '',
-			'offset' => '', 'number' => '', 'count_total' => true,
-			'orderby' => 'login', 'order' => 'ASC',
-			'meta_key' => '', 'meta_value' => '',
-			'include' => array(), 'exclude' => array(),
-			'fields' => 'all'
-		) );
+	function __construct( $query = null ) {
+		if ( !empty( $query ) ) {
+			$this->query_vars = wp_parse_args( $query, array(
+				'search' => '', 'role' => '',
+				'offset' => '', 'number' => '', 'count_total' => true,
+				'orderby' => 'login', 'order' => 'ASC',
+				'meta_key' => '', 'meta_value' => '',
+				'include' => array(), 'exclude' => array(),
+				'fields' => 'all'
+			) );
 
-		$this->prepare_query();
-		$this->query();
+			$this->prepare_query();
+			$this->query();
+		}
 	}
 
 	/**
