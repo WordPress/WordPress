@@ -197,6 +197,47 @@ function use_codepress() {
 	return;
 }
 
+
+/**
+ * @deprecated 3.1.0
+ *
+ * @return array List of user IDs.
+ */
+function get_author_user_ids() {
+	_deprecated_function( __FUNCTION__, '3.1' );
+
+	global $wpdb;
+	if ( !is_multisite() )
+		$level_key = $wpdb->get_blog_prefix() . 'user_level';
+	else
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+
+	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value != '0'", $level_key) );
+}
+
+/**
+ * @deprecated 3.1.0
+ *
+ * @param int $user_id User ID.
+ * @return array|bool List of editable authors. False if no editable users.
+ */
+function get_editable_authors( $user_id ) {
+	_deprecated_function( __FUNCTION__, '3.1' );
+
+	global $wpdb;
+
+	$editable = get_editable_user_ids( $user_id );
+
+	if ( !$editable ) {
+		return false;
+	} else {
+		$editable = join(',', $editable);
+		$authors = $wpdb->get_results( "SELECT * FROM $wpdb->users WHERE ID IN ($editable) ORDER BY display_name" );
+	}
+
+	return apply_filters('get_editable_authors', $authors);
+}
+
 /**
  * Register column headers for a particular screen.
  *
