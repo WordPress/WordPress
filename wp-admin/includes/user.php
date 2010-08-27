@@ -189,36 +189,6 @@ function edit_user( $user_id = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
- *
- * @since unknown
- *
- * @param int $user_id User ID.
- * @param bool $deprecated Not used.
- * @return array
- */
-function get_editable_user_ids( $user_id, $deprecated = true, $post_type = 'post' ) {
-	global $wpdb;
-
-	if ( !$deprecated )
-		_deprecated_argument( __FUNCTION__, '3.1.0' );
-
-	$user = new WP_User( $user_id );
-	$post_type_obj = get_post_type_object($post_type);
-
-	if ( ! $user->has_cap($post_type_obj->cap->edit_others_posts) ) {
-		if ( $user->has_cap($post_type_obj->cap->edit_posts) || ! $exclude_zeros )
-			return array($user->id);
-		else
-			return array();
-	}
-
-	return get_users( array('fields' => 'ids') );
-}
-
-/**
  * Fetch a filtered list of user roles that the current user is
  * allowed to edit.
  *
@@ -241,81 +211,6 @@ function get_editable_roles() {
 	$editable_roles = apply_filters('editable_roles', $all_roles);
 
 	return $editable_roles;
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
- *
- * @since unknown
- *
- * @return unknown
- */
-function get_nonauthor_user_ids() {
-	global $wpdb;
-
-	if ( !is_multisite() )
-		$level_key = $wpdb->get_blog_prefix() . 'user_level';
-	else
-		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
-
-	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
-}
-
-/**
- * Retrieve editable posts from other users.
- *
- * @since unknown
- *
- * @param int $user_id User ID to not retrieve posts from.
- * @param string $type Optional, defaults to 'any'. Post type to retrieve, can be 'draft' or 'pending'.
- * @return array List of posts from others.
- */
-function get_others_unpublished_posts($user_id, $type='any') {
-	global $wpdb;
-
-	$editable = get_editable_user_ids( $user_id );
-
-	if ( in_array($type, array('draft', 'pending')) )
-		$type_sql = " post_status = '$type' ";
-	else
-		$type_sql = " ( post_status = 'draft' OR post_status = 'pending' ) ";
-
-	$dir = ( 'pending' == $type ) ? 'ASC' : 'DESC';
-
-	if ( !$editable ) {
-		$other_unpubs = '';
-	} else {
-		$editable = join(',', $editable);
-		$other_unpubs = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_title, post_author FROM $wpdb->posts WHERE post_type = 'post' AND $type_sql AND post_author IN ($editable) AND post_author != %d ORDER BY post_modified $dir", $user_id) );
-	}
-
-	return apply_filters('get_others_drafts', $other_unpubs);
-}
-
-/**
- * Retrieve drafts from other users.
- *
- * @since unknown
- *
- * @param int $user_id User ID.
- * @return array List of drafts from other users.
- */
-function get_others_drafts($user_id) {
-	return get_others_unpublished_posts($user_id, 'draft');
-}
-
-/**
- * Retrieve pending review posts from other users.
- *
- * @since unknown
- *
- * @param int $user_id User ID.
- * @return array List of posts with pending review post type from other users.
- */
-function get_others_pending($user_id) {
-	return get_others_unpublished_posts($user_id, 'pending');
 }
 
 /**

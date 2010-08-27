@@ -668,17 +668,21 @@ class WP_Posts_Table extends WP_List_Table {
 	<?php endif; // $bulk
 
 		if ( post_type_supports( $screen->post_type, 'author' ) ) :
-			$authors = get_editable_user_ids( get_current_user_id(), true, $screen->post_type ); // TODO: ROLE SYSTEM
 			$authors_dropdown = '';
-			if ( $authors && count( $authors ) > 1 ) :
-				$users_opt = array( 'include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1, 'echo' => 0 );
+
+			if ( is_super_admin() || current_user_can( $post_type_object->cap->edit_others_posts ) ) :
+				$users_opt = array( 
+					'name' => 'post_author', 
+					'class'=> 'authors', 
+					'multi' => 1, 
+					'echo' => 0 
+				);
 				if ( $bulk )
 					$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
 				$authors_dropdown  = '<label>';
 				$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
 				$authors_dropdown .= wp_dropdown_users( $users_opt );
 				$authors_dropdown .= '</label>';
-
 			endif; // authors
 	?>
 
