@@ -196,6 +196,8 @@ function wp_nav_menu( $args = array() ) {
 		$sorted_menu_items[$menu_item->menu_order] = $menu_item;
 
 	unset($menu_items);
+	
+	$sorted_menu_items = apply_filters( 'wp_nav_menu_objects', $sorted_menu_items, $args );
 
 	$items .= walk_nav_menu_tree( $sorted_menu_items, $args->depth, $args );
 	unset($sorted_menu_items);
@@ -312,6 +314,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	$possible_object_parents = array_filter( $possible_object_parents );
 
 	foreach ( (array) $menu_items as $key => $menu_item ) {
+		
+		$menu_items[$key]->current = false;
+		
 		$classes = (array) $menu_item->classes;
 		$classes[] = 'menu-item';
 		$classes[] = 'menu-item-type-' . $menu_item->type;
@@ -332,6 +337,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			)
 		) {
 			$classes[] = 'current-menu-item';
+			$menu_items[$key]->current = true;
 			$_anc_id = (int) $menu_item->db_id;
 
 			while(
@@ -359,6 +365,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			
 			if ( in_array( $item_url, array( $current_url, $_indexless_current ) ) ) {
 				$classes[] = 'current-menu-item';
+				$menu_items[$key]->current = true;
 				$_anc_id = (int) $menu_item->db_id;
 
 				while(
@@ -394,7 +401,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	// set parent's class
 	foreach ( (array) $menu_items as $key => $parent_item ) {
 		$classes = (array) $parent_item->classes;
-
+		$menu_items[$key]->current_item_ancestor = false;
+		$menu_items[$key]->current_item_parrent = false;
+		
 		if (
 			isset( $parent_item->type ) &&
 			(
@@ -419,9 +428,12 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 
 		if ( in_array(  intval( $parent_item->db_id ), $active_ancestor_item_ids ) ) {
 			$classes[] = 'current-menu-ancestor';
+			$menu_items[$key]->current_item_ancestor = true;
 		}
-		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) )
+		if ( in_array( $parent_item->db_id, $active_parent_item_ids ) ) {
 			$classes[] = 'current-menu-parent';
+			$menu_items[$key]->current_item_parent = true;
+		}
 		if ( in_array( $parent_item->object_id, $active_parent_object_ids ) )
 			$classes[] = 'current-' . $active_object . '-parent';
 
@@ -465,5 +477,3 @@ function _nav_menu_item_id_use_once( $id, $item ) {
 	return $id;
 }
 add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
-
-?>
