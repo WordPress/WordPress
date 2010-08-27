@@ -402,7 +402,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	foreach ( (array) $menu_items as $key => $parent_item ) {
 		$classes = (array) $parent_item->classes;
 		$menu_items[$key]->current_item_ancestor = false;
-		$menu_items[$key]->current_item_parrent = false;
+		$menu_items[$key]->current_item_parent = false;
 		
 		if (
 			isset( $parent_item->type ) &&
