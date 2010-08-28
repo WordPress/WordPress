@@ -460,7 +460,7 @@ function post_comment_meta_box($post) {
 
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 	add_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead', 8, 1);
-	add_filter('manage_edit-comments_sortable_columns', create_function('', 'return array();'), 8);
+	add_filter('manage_edit-comments_sortable_columns', '__return_empty_array', 8);
 
 	$wp_list_table = get_list_table('comments');
 ?>
