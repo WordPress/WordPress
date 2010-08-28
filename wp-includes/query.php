@@ -644,16 +644,16 @@ function the_comment() {
 class WP_Query {
 
 	/**
-	 * Query string
+	 * Query vars set by the user
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @var string
+	 * @var array
 	 */
 	var $query;
 
 	/**
-	 * Query search variables set by the user.
+	 * Query vars, after parsing
 	 *
 	 * @since 1.5.0
 	 * @access public
