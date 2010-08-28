@@ -1123,6 +1123,7 @@ function get_posts($args = null) {
 		$r['post__not_in'] = wp_parse_id_list( $r['exclude'] );
 
 	$r['caller_get_posts'] = true;
+	$r['no_found_rows'] = true;
 
 	$get_posts = new WP_Query;
 	return $get_posts->query($r);
