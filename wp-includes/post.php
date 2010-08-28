@@ -1268,10 +1268,8 @@ function delete_post_meta_by_key($post_meta_key) {
  * @return array
  */
 function get_post_custom($post_id = 0) {
-	global $id;
-
 	if ( !$post_id )
-		$post_id = (int) $id;
+		$post_id = get_the_ID();
 
 	$post_id = (int) $post_id;
 
@@ -1336,12 +1334,10 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
  * @return bool Whether post is sticky.
  */
 function is_sticky($post_id = null) {
-	global $id;
+	if ( !$post_id )
+		$post_id = get_the_ID();
 
 	$post_id = absint($post_id);
-
-	if ( !$post_id )
-		$post_id = absint($id);
 
 	$stickies = get_option('sticky_posts');
 

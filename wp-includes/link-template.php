@@ -462,10 +462,10 @@ function get_feed_link($feed = '') {
  * @return string
  */
 function get_post_comments_feed_link($post_id = '', $feed = '') {
-	global $id;
+	if ( !$post_id )
+		$post_id = get_the_ID();
 
-	if ( empty($post_id) )
-		$post_id = (int) $id;
+	$post_id = absint($post_id);
 
 	if ( empty($feed) )
 		$feed = get_default_feed();

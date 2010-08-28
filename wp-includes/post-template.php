@@ -12,24 +12,22 @@
  * Display the ID of the current item in the WordPress Loop.
  *
  * @since 0.71
- * @uses $id
  */
 function the_ID() {
-	global $id;
-	echo $id;
+	echo get_the_ID();
 }
 
 /**
  * Retrieve the ID of the current item in the WordPress Loop.
  *
  * @since 2.1.0
- * @uses $id
+ * @uses $post
  *
- * @return unknown
+ * @return int
  */
 function get_the_ID() {
-	global $id;
-	return $id;
+	global $post;
+	return $post->ID;
 }
 
 /**
@@ -181,7 +179,7 @@ function the_content($more_link_text = null, $stripteaser = 0) {
  * @return string
  */
 function get_the_content($more_link_text = null, $stripteaser = 0) {
-	global $id, $post, $more, $page, $pages, $multipage, $preview;
+	global $post, $more, $page, $pages, $multipage, $preview;
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more...)' );
@@ -216,10 +214,10 @@ function get_the_content($more_link_text = null, $stripteaser = 0) {
 	$output .= $teaser;
 	if ( count($content) > 1 ) {
 		if ( $more ) {
-			$output .= '<span id="more-' . $id . '"></span>' . $content[1];
+			$output .= '<span id="more-' . $post->ID . '"></span>' . $content[1];
 		} else {
 			if ( ! empty($more_link_text) )
-				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
+				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-{$post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 			$output = force_balance_tags($output);
 		}
 

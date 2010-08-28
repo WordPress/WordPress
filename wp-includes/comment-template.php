@@ -545,11 +545,10 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
  * @return int The number of comments a post has
  */
 function get_comments_number( $post_id = 0 ) {
-	global $id;
-	$post_id = (int) $post_id;
-
 	if ( !$post_id )
-		$post_id = (int) $id;
+		$post_id = get_the_ID();
+
+	$post_id = absint($post_id);
 
 	$post = get_post($post_id);
 	if ( ! isset($post->comment_count) )
@@ -564,7 +563,6 @@ function get_comments_number( $post_id = 0 ) {
  * Display the language string for the number of comments the current post has.
  *
  * @since 0.71
- * @uses $id
  * @uses apply_filters() Calls the 'comments_number' hook on the output and number of comments respectively.
  *
  * @param string $zero Text for no comments
@@ -573,12 +571,10 @@ function get_comments_number( $post_id = 0 ) {
  * @param string $deprecated Not used.
  */
 function comments_number( $zero = false, $one = false, $more = false, $deprecated = '' ) {
-	global $id;
-
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '1.3' );
 
-	$number = get_comments_number($id);
+	$number = get_comments_number(get_the_ID());
 
 	if ( $number > 1 )
 		$output = str_replace('%', number_format_i18n($number), ( false === $more ) ? __('% Comments') : $more);
@@ -703,16 +699,14 @@ function comment_type($commenttxt = false, $trackbacktxt = false, $pingbacktxt =
  *
  * @since 1.5.0
  * @uses apply_filters() Calls 'trackback_url' on the resulting trackback URL
- * @uses $id
  *
  * @return string The trackback URL after being filtered
  */
 function get_trackback_url() {
-	global $id;
 	if ( '' != get_option('permalink_structure') ) {
 		$tb_url = trailingslashit(get_permalink()) . user_trailingslashit('trackback', 'single_trackback');
 	} else {
-		$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . $id;
+		$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . get_the_ID();
 	}
 	return apply_filters('trackback_url', $tb_url);
 }
@@ -844,7 +838,6 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @since 1.5.0
  * @global array $comment List of comment objects for the current post
  * @uses $wpdb
- * @uses $id
  * @uses $post
  * @uses $withcomments Will not try to get the comments if the post has none.
  *
@@ -961,7 +954,6 @@ function comments_popup_script($width=400, $height=400, $file='') {
  * lists of posts
  *
  * @since 0.71
- * @uses $id
  * @uses $wpcommentspopupfile
  * @uses $wpcommentsjavascript
  * @uses $post
@@ -974,7 +966,9 @@ function comments_popup_script($width=400, $height=400, $file='') {
  * @return null Returns null on single posts and pages.
  */
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
-	global $id, $wpcommentspopupfile, $wpcommentsjavascript;
+	global $wpcommentspopupfile, $wpcommentsjavascript;
+
+	$id = get_the_ID();
 
 	if ( false === $zero ) $zero = __( 'No Comments' );
 	if ( false === $one ) $one = __( '1 Comment' );
@@ -1168,7 +1162,7 @@ function cancel_comment_reply_link($text = '') {
  * @return string Hidden input HTML for replying to comments
  */
 function get_comment_id_fields() {
-	global $id;
+	$id = get_the_ID();
 
 	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
 	$result  = "<input type='hidden' name='comment_post_ID' value='$id' id='comment_post_ID' />\n";

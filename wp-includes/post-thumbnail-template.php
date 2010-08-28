@@ -18,8 +18,7 @@
  * @return bool Whether post has an image attached.
  */
 function has_post_thumbnail( $post_id = NULL ) {
-	global $id;
-	$post_id = ( NULL === $post_id ) ? $id : $post_id;
+	$post_id = ( NULL === $post_id ) ? get_the_ID() : $post_id;
 	return !! get_post_thumbnail_id( $post_id );
 }
 
@@ -32,8 +31,7 @@ function has_post_thumbnail( $post_id = NULL ) {
  * @return int
  */
 function get_post_thumbnail_id( $post_id = NULL ) {
-	global $id;
-	$post_id = ( NULL === $post_id ) ? $id : $post_id;
+	$post_id = ( NULL === $post_id ) ? get_the_ID() : $post_id;
 	return get_post_meta( $post_id, '_thumbnail_id', true );
 }
 
@@ -59,8 +57,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
  * @param string|array $attr Optional. Query string or array of attributes.
  */
 function get_the_post_thumbnail( $post_id = NULL, $size = 'post-thumbnail', $attr = '' ) {
-	global $id;
-	$post_id = ( NULL === $post_id ) ? $id : $post_id;
+	$post_id = ( NULL === $post_id ) ? get_the_ID() : $post_id;
 	$post_thumbnail_id = get_post_thumbnail_id( $post_id );
 	$size = apply_filters( 'post_thumbnail_size', $size );
 	if ( $post_thumbnail_id ) {
