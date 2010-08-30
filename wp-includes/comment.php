@@ -1859,6 +1859,8 @@ function weblog_ping($server = '', $path = '') {
 function clean_comment_cache($ids) {
 	foreach ( (array) $ids as $id )
 		wp_cache_delete($id, 'comment');
+
+	wp_cache_set('last_changed', time(), 'comment');
 }
 
 /**
