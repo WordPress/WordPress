@@ -654,9 +654,24 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf( apply_filters( 'wpmu_signup_blog_notification_email', __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" ) ), $activate_url, esc_url( "http://{$domain}{$path}" ), $key );
+	$message = sprintf(
+		apply_filters( 'wpmu_signup_blog_notification_email',
+			__( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" ),
+			$domain, $path, $title, $user, $user_email, $key, $meta
+		),
+		$activate_url,
+		esc_url( "http://{$domain}{$path}" ),
+		$key
+	);
 	// TODO: Don't hard code activation link.
-	$subject = sprintf( apply_filters( 'wpmu_signup_blog_notification_subject', __( '[%1$s] Activate %2$s' ) ), $from_name, esc_url( 'http://' . $domain . $path ) );
+	$subject = sprintf(
+		apply_filters( 'wpmu_signup_blog_notification_subject',
+			__( '[%1$s] Activate %2$s' ),
+			$domain, $path, $title, $user, $user_email, $key, $meta
+		),
+		$from_name,
+		esc_url( 'http://' . $domain . $path )
+	);
 	wp_mail($user_email, $subject, $message, $message_headers);
 	return true;
 }
@@ -671,9 +686,23 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf( apply_filters( 'wpmu_signup_user_notification_email', __( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ) ), site_url( "wp-activate.php?key=$key" ), $key );
+	$message = sprintf(
+		apply_filters( 'wpmu_signup_user_notification_email',
+			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\n" ),
+			$user, $user_email, $key, $meta
+		),
+		site_url( "wp-activate.php?key=$key" ),
+		$key
+	);
 	// TODO: Don't hard code activation link.
-	$subject = sprintf( __( apply_filters( 'wpmu_signup_user_notification_subject', '[%1$s] Activate %2$s' ) ), $from_name, $user);
+	$subject = sprintf(
+		apply_filters( 'wpmu_signup_user_notification_subject',
+			__( '[%1$s] Activate %2$s' ),
+			$user, $user_email, $key, $meta
+		),
+		$from_name,
+		$user
+	);
 	wp_mail($user_email, $subject, $message, $message_headers);
 	return true;
 }
