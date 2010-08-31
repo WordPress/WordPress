@@ -1424,13 +1424,11 @@ function translate_smiley($smiley) {
 		return '';
 	}
 
-	$siteurl = get_option( 'siteurl' );
-
 	$smiley = trim(reset($smiley));
 	$img = $wpsmiliestrans[$smiley];
 	$smiley_masked = esc_attr($smiley);
 
-	$srcurl = apply_filters('smilies_src', "$siteurl/wp-includes/images/smilies/$img", $img, $siteurl);
+	$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$img"), $img, site_url());
 
 	return " <img src='$srcurl' alt='$smiley_masked' class='wp-smiley' /> ";
 }
