@@ -1012,8 +1012,13 @@ function get_hidden_meta_boxes( $screen ) {
 	$hidden = get_user_option( "metaboxhidden_{$screen->id}" );
 
 	// Hide slug boxes by default
-	if ( !is_array( $hidden ) )
-		$hidden = array('slugdiv');
+	if ( !is_array( $hidden ) ) {
+		if ( 'post' == $screen->base )
+			$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt');
+		else
+			$hidden = array();
+		$hidden = apply_filters('default_hidden_meta_boxes', $hidden, $screen);
+	}
 
 	return $hidden;
 }
