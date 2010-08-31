@@ -87,16 +87,15 @@ function ms_site_check() {
  */
 function get_current_site_name( $current_site ) {
 	global $wpdb;
-	$current_site->site_name = wp_cache_get( $current_site->id . ':current_site_name', 'site-options' );
+
+	$current_site->site_name = wp_cache_get( $current_site->id . ':site_name', 'site-options' );
 	if ( ! $current_site->site_name ) {
-		$current_site->site_name = wp_cache_get( $current_site->id . ':site_name', 'site-options' );
-		if ( ! $current_site->site_name ) {
-			$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
-			if ( ! $current_site->site_name )
-				$current_site->site_name = ucfirst( $current_site->domain );
-		}
-		wp_cache_set( $current_site->id . ':current_site_name', $current_site->site_name, 'site-options' );
+		$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
+		if ( ! $current_site->site_name )
+			$current_site->site_name = ucfirst( $current_site->domain );
 	}
+	wp_cache_set( $current_site->id . ':site_name', $current_site->site_name, 'site-options' );
+
 	return $current_site;
 }
 
