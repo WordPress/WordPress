@@ -97,7 +97,7 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'me
 		if ( ! $tax->show_ui || ! in_array('page', (array) $tax->object_type, true) )
 			continue;
 
-		$submenu['edit.php?post_type=page'][$i++] = array( esc_attr( $tax->labels->name ), $tax->cap->manage_terms, 'edit-tags.php?post_type=page&taxonomy=' . $tax->name );
+		$submenu['edit.php?post_type=page'][$i++] = array( esc_attr( $tax->labels->name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&post_type=page' );
 	}
 	unset($tax);
 
