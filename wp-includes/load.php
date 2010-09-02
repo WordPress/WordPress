@@ -553,7 +553,7 @@ function wp_clone( $object ) {
 }
 
 /**
- * Whether the current request is in WordPress admin Panel
+ * Whether the current request is for a network or blog admin page
  *
  * Does not inform on whether the user is an admin! Use capability checks to
  * tell if the user should be accessing a section or not.
@@ -569,7 +569,23 @@ function is_admin() {
 }
 
 /**
- * Whether the current request is in WordPress network admin Panel
+ * Whether the current request is for a blog admin screen /wp-admin/
+ *
+ * Does not inform on whether the user is a blog admin! Use capability checks to
+ * tell if the user should be accessing a section or not.
+ *
+ * @since 3.1.0
+ *
+ * @return bool True if inside WordPress network administration pages.
+ */
+function is_blog_admin() {
+	if ( defined( 'WP_BLOG_ADMIN' ) )
+		return WP_BLOG_ADMIN;
+	return false;
+}
+
+/**
+ * Whether the current request is for a network admin screen /wp-admin/network/
  *
  * Does not inform on whether the user is a network admin! Use capability checks to
  * tell if the user should be accessing a section or not.

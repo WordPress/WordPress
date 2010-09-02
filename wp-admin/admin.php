@@ -14,8 +14,10 @@
 if ( !defined('WP_ADMIN') )
 	define('WP_ADMIN', TRUE);
 
-if ( !defined('WP_NETWORK_ADMIN') )
+if ( !defined('WP_NETWORK_ADMIN') ) {
 	define('WP_NETWORK_ADMIN', FALSE);
+	define('WP_BLOG_ADMIN', TRUE);
+}
 
 if ( isset($_GET['import']) && !defined('WP_LOAD_IMPORTERS') )
 	define('WP_LOAD_IMPORTERS', true);
