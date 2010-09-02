@@ -2,7 +2,6 @@
 /**
  * XML-RPC protocol support for WordPress
  *
- * @license GPL v2 <./license.txt>
  * @package WordPress
  */
 
