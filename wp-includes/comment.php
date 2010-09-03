@@ -1245,6 +1245,10 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * and whether comment is approved by WordPress. Also has 'preprocess_comment'
  * filter for processing the comment data before the function handles it.
  *
+ * We use REMOTE_ADDR here directly. If you are behind a proxy, you should ensure
+ * that it is properly set, such as in wp-config.php, for your environment.
+ * See {@link http://core.trac.wordpress.org/ticket/9235}
+ *
  * @since 1.5.0
  * @uses apply_filters() Calls 'preprocess_comment' hook on $commentdata parameter array before processing
  * @uses do_action() Calls 'comment_post' hook on $comment_ID returned from adding the comment and if the comment was approved.
