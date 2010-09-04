@@ -545,10 +545,10 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
  * @return int The number of comments a post has
  */
 function get_comments_number( $post_id = 0 ) {
+	$post_id = absint( $post_id );
+
 	if ( !$post_id )
 		$post_id = get_the_ID();
-
-	$post_id = absint($post_id);
 
 	$post = get_post($post_id);
 	if ( ! isset($post->comment_count) )

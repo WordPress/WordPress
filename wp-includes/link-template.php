@@ -461,13 +461,13 @@ function get_feed_link($feed = '') {
  * @param string $feed Optional. Feed type.
  * @return string
  */
-function get_post_comments_feed_link($post_id = '', $feed = '') {
-	if ( !$post_id )
+function get_post_comments_feed_link($post_id = 0, $feed = '') {
+	$post_id = absint( $post_id );
+
+	if ( ! $post_id )
 		$post_id = get_the_ID();
 
-	$post_id = absint($post_id);
-
-	if ( empty($feed) )
+	if ( empty( $feed ) )
 		$feed = get_default_feed();
 
 	if ( '' != get_option('permalink_structure') ) {

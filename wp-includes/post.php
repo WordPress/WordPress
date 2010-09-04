@@ -1267,16 +1267,16 @@ function delete_post_meta_by_key($post_meta_key) {
  * @param int $post_id post ID
  * @return array
  */
-function get_post_custom($post_id = 0) {
-	if ( !$post_id )
+function get_post_custom( $post_id = 0 ) {
+	$post_id = absint( $post_id );
+
+	if ( ! $post_id )
 		$post_id = get_the_ID();
 
-	$post_id = (int) $post_id;
+	if ( ! wp_cache_get( $post_id, 'post_meta' ) )
+		update_postmeta_cache( $post_id );
 
-	if ( ! wp_cache_get($post_id, 'post_meta') )
-		update_postmeta_cache($post_id);
-
-	return wp_cache_get($post_id, 'post_meta');
+	return wp_cache_get( $post_id, 'post_meta' );
 }
 
 /**
@@ -1333,18 +1333,18 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
  * @param int $post_id Optional. Post ID.
  * @return bool Whether post is sticky.
  */
-function is_sticky($post_id = null) {
-	if ( !$post_id )
+function is_sticky( $post_id = 0 ) {
+	$post_id = absint( $post_id );
+
+	if ( ! $post_id )
 		$post_id = get_the_ID();
 
-	$post_id = absint($post_id);
+	$stickies = get_option( 'sticky_posts' );
 
-	$stickies = get_option('sticky_posts');
-
-	if ( !is_array($stickies) )
+	if ( ! is_array( $stickies ) )
 		return false;
 
-	if ( in_array($post_id, $stickies) )
+	if ( in_array( $post_id, $stickies ) )
 		return true;
 
 	return false;
