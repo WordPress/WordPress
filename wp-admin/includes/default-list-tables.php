@@ -3565,9 +3565,9 @@ class WP_Themes_Table extends WP_List_Table {
 		uksort( $themes, "strnatcasecmp" );
 
 		$per_page = 15;
-		$page = $this->get_pagenum( 'pagenum' );
+		$page = $this->get_pagenum();
 
-		$start = $offset = ( $page - 1 ) * $per_page;
+		$start = ( $page - 1 ) * $per_page;
 
 		$this->items = array_slice( $themes, $start, $per_page );
 
