@@ -461,11 +461,7 @@ class WP_User_Query {
 			$meta_queries[] = $cap_meta_query;
 		}
 
-		$meta_query = array();
-		foreach ( array( 'meta_key', 'meta_value', 'meta_compare' ) as $key )
-			if ( isset( $qv[ $key ] ) )
-				$meta_query[ $key ] = $qv[ $key ];
-		$meta_queries[] = $meta_query;
+		$meta_queries[] = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
 
 		$meta_query_sql = _wp_meta_sql( $meta_queries, 'user_id', $wpdb->usermeta );
 
@@ -831,29 +827,7 @@ function wp_dropdown_users( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$blog_prefix = $wpdb->get_blog_prefix( $blog_id );
-	$query = "SELECT {$wpdb->users}.* FROM $wpdb->users, $wpdb->usermeta WHERE {$wpdb->users}.ID = {$wpdb->usermeta}.user_id AND meta_key = '{$blog_prefix}capabilities'";
-
-	$query_where = array();
-
-	if ( is_array($include) )
-		$include = join(',', $include);
-	$include = preg_replace('/[^0-9,]/', '', $include); // (int)
-	if ( $include )
-		$query_where[] = "ID IN ($include)";
-
-	if ( is_array($exclude) )
-		$exclude = join(',', $exclude);
-	$exclude = preg_replace('/[^0-9,]/', '', $exclude); // (int)
-	if ( $exclude )
-		$query_where[] = "ID NOT IN ($exclude)";
-
-	if ( $query_where )
-		$query .= " AND " . join(' AND', $query_where);
-
-	$query .= " ORDER BY $orderby $order";
-
-	$users = $wpdb->get_results( $query );
+	$users = get_users( wp_array_slice_assoc( $args, array( 'blog_id', 'include', 'exclude', 'orderby', 'order' ) ) );
 
 	$output = '';
 	if ( !empty($users) ) {

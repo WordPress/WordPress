@@ -2980,6 +2980,24 @@ function wp_parse_id_list( $list ) {
 }
 
 /**
+ * Extract a slice of an array, given a list of keys
+ *
+ * @since 3.1.0
+ *
+ * @param array $array The original array
+ * @param array $keys The list of keys
+ * @return array The array slice
+ */
+function wp_array_slice_assoc( $array, $keys ) {
+	$slice = array();
+	foreach ( $keys as $key )
+		if ( isset( $array[ $key ] ) )
+			$slice[ $key ] = $array[ $key ];
+
+	return $slice;
+}
+
+/**
  * Filters a list of objects, based on a set of key => value arguments
  *
  * @since 3.0.0
