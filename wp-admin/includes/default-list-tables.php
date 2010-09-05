@@ -455,15 +455,7 @@ class WP_Posts_Table extends WP_List_Table {
 				}
 
 				$actions = apply_filters( $this->hierarchical_display ? 'page_row_actions' : 'post_row_actions', $actions, $post );
-				$action_count = count( $actions );
-				$i = 0;
-				echo '<div class="row-actions">';
-				foreach ( $actions as $action => $link ) {
-					++$i;
-					( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-					echo "<span class='$action'>$link$sep</span>";
-				}
-				echo '</div>';
+				echo $this->row_actions( $actions );
 
 				get_inline_data( $post );
 			break;
@@ -1115,14 +1107,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
 		}
 		$actions = apply_filters( 'media_row_actions', $actions, $post );
-		$action_count = count( $actions );
-		$i = 0;
-		echo '<div class="row-actions">';
-		foreach ( $actions as $action => $link ) {
-			$sep = ( ++$i == $action_count ) ? '' : ' | ';
-			echo "<span class='$action'>$link$sep</span>";
-		}
-		echo '</div>';
+		echo $this->row_actions( $actions );
 ?>
 		</td>
 <?php
@@ -1268,7 +1253,6 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			else
 				echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );
 ?>
-			<div class="row-actions">
 <?php
 			$actions = array();
 			if ( current_user_can( 'edit_post', $post->ID ) )
@@ -1285,14 +1269,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 				$actions['attach'] = '<a href="#the-list" onclick="findPosts.open( \'media[]\',\''.$post->ID.'\' );return false;" class="hide-if-no-js">'.__( 'Attach' ).'</a>';
 			$actions = apply_filters( 'media_row_actions', $actions, $post );
 
-			$action_count = count( $actions );
-			$i = 0;
-			foreach ( $actions as $action => $link ) {
-				$sep = ( ++$i == $action_count ) ? '' : ' | ';
-				echo "<span class='$action'>$link$sep</span>";
-			}
+			echo $this->row_actions( $actions );
 ?>
-			</div>
 		</td>
 		<td class="author column-author">
 			<?php $author = get_userdata( $post->post_author ); echo $author->display_name; ?>
@@ -1564,6 +1542,7 @@ class WP_Terms_Table extends WP_List_Table {
 					break;
 				case 'name':
 					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
+
 					$actions = array();
 					if ( current_user_can( $tax->cap->edit_terms ) ) {
 						$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
@@ -1575,15 +1554,7 @@ class WP_Terms_Table extends WP_List_Table {
 					$actions = apply_filters( 'tag_row_actions', $actions, $tag );
 					$actions = apply_filters( "${taxonomy}_row_actions", $actions, $tag );
 
-					$action_count = count( $actions );
-					$i = 0;
-					$out .= '<div class="row-actions">';
-					foreach ( $actions as $action => $link ) {
-						++$i;
-						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-						$out .= "<span class='$action'>$link$sep</span>";
-					}
-					$out .= '</div>';
+					$out .= $this->row_actions( $actions );
 					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 					$out .= '<div class="name">' . $qe_data->name . '</div>';
 					$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug ) . '</div>';
@@ -1844,15 +1815,7 @@ class WP_Users_Table extends WP_List_Table {
 			if ( is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'remove_user', $user_object->ID ) )
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( "users.php?action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
 			$actions = apply_filters( 'user_row_actions', $actions, $user_object );
-			$action_count = count( $actions );
-			$i = 0;
-			$edit .= '<div class="row-actions">';
-			foreach ( $actions as $action => $link ) {
-				++$i;
-				( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-				$edit .= "<span class='$action'>$link$sep</span>";
-			}
-			$edit .= '</div>';
+			$edit .= $this->row_actions( $actions );
 
 			// Set up the checkbox ( because the user is editable, otherwise its empty )
 			$checkbox = "<input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' />";
@@ -2460,18 +2423,12 @@ class WP_Links_Table extends WP_List_Table {
 
 					case 'name':
 						echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) ) . "'>$link->link_name</a></strong><br />";
+
 						$actions = array();
 						$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
 						$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ) . "' onclick=\"if ( confirm( '" . esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ) . "' ) ) { return true;}return false;\">" . __( 'Delete' ) . "</a>";
-						$action_count = count( $actions );
-						$i = 0;
-						echo '<div class="row-actions">';
-						foreach ( $actions as $action => $linkaction ) {
-							++$i;
-							( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-							echo "<span class='$action'>$linkaction$sep</span>";
-						}
-						echo '</div>';
+						echo $this->row_actions( $actions );
+
 						echo '</td>';
 						break;
 					case 'url':
@@ -2727,11 +2684,8 @@ class WP_Sites_Table extends WP_List_Table {
 
 							$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'] ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
 							$actions = array_filter( $actions );
-							if ( count( $actions ) ) : ?>
-							<div class="row-actions">
-								<?php echo implode( ' | ', $actions ); ?>
-							</div>
-							<?php endif; ?>
+							echo $this->row_actions( $actions );
+					?>
 						</td>
 					<?php
 					break;
@@ -2964,11 +2918,16 @@ class WP_MS_Users_Table extends WP_List_Table {
 								echo ' - ' . __( 'Super admin' );
 							?></strong>
 							<br/>
-							<div class="row-actions">
-								<span class="edit"><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>"><?php _e( 'Edit' ); ?></a></span>
-								<?php if ( ! in_array( $user['user_login'], $super_admins ) ) { ?>
-								| <span class="delete"><a href="<?php echo $delete	= esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ); ?>" class="delete"><?php _e( 'Delete' ); ?></a></span>
-								<?php } ?>
+							<?php
+								$actions = array();
+								$actions['edit'] = '<a href="' . esc_url( admin_url( $edit_link ) ) . '">' . __( 'Edit' ) . '</a>';
+
+								if ( ! in_array( $user['user_login'], $super_admins ) ) {
+									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
+								}
+
+								echo $this->row_actions( $actions );
+							?>
 							</div>
 						</td>
 					<?php

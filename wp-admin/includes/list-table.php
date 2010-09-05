@@ -216,6 +216,33 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Generate row actions div
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @param array $actions The list of actions
+	 * @return string
+	 */
+	function row_actions( $actions ) {
+		$action_count = count( $actions );
+		$i = 0;
+
+		if ( !$action_count )
+			return '';
+
+		$out = '<div class="row-actions">';
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			$out .= "<span class='$action'>$link$sep</span>";
+		}
+		$out .= '</div>';
+
+		return $out;
+	}
+
+	/**
 	 * Display a monthly dropdown for filtering items
 	 *
 	 * @since 3.1.0
