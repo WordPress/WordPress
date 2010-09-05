@@ -2777,51 +2777,33 @@ class WP_MS_Users_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $s, $mode, $wpdb;
+		$usersearch = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
-		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
+		$users_per_page = $this->get_items_per_page( 'ms_users_per_page' );
 
-		$per_page = $this->get_items_per_page( 'ms_users_per_page' );
+		$paged = $this->get_pagenum();
 
-		$pagenum = $this->get_pagenum();
+		$args = array(
+			'number' => $users_per_page,
+			'offset' => ( $paged-1 ) * $users_per_page,
+			'search' => $usersearch,
+			'blog_id' => 0
+		);
 
-		$s = isset( $_REQUEST['s'] ) ? stripslashes( trim( $_REQUEST[ 's' ] ) ) : '';
-		$like_s = esc_sql( like_escape( $s ) );
+		if ( isset( $_REQUEST['orderby'] ) )
+			$args['orderby'] = $_REQUEST['orderby'];
 
-		$query = "SELECT * FROM {$wpdb->users}";
+		if ( isset( $_REQUEST['order'] ) )
+			$args['order'] = $_REQUEST['order'];
 
-		if ( !empty( $like_s ) ) {
-			$query .= " WHERE user_login LIKE '%$like_s%' OR user_email LIKE '%$like_s%'";
-		}
+		// Query the user IDs for this page
+		$wp_user_search = new WP_User_Query( $args );
 
-		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'id';
-		if ( $order_by == 'email' ) {
-			$query .= ' ORDER BY user_email ';
-		} elseif ( $order_by == 'login' ) {
-			$query .= ' ORDER BY user_login ';
-		} elseif ( $order_by == 'name' ) {
-			$query .= ' ORDER BY display_name ';
-		} elseif ( $order_by == 'registered' ) {
-			$query .= ' ORDER BY user_registered ';
-		} else {
-			$order_by = 'id';
-			$query .= ' ORDER BY ID ';
-		}
-
-		$order = ( isset( $_REQUEST['order'] ) && 'DESC' == strtoupper( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC';
-		$query .= $order;
-
-		$total = $wpdb->get_var( str_replace( 'SELECT *', 'SELECT COUNT( ID )', $query ) );
-
-		$query .= " LIMIT " . intval( ( $pagenum - 1 ) * $per_page ) . ", " . intval( $per_page );
-
-		$this->items = $wpdb->get_results( $query, ARRAY_A );
-
-		$num_pages = ceil( $total / $per_page );
-
+		$this->items = $wp_user_search->get_results();
+		
 		$this->set_pagination_args( array(
-			'total_items' => $total,
-			'per_page' => $per_page,
+			'total_items' => $wp_user_search->get_total(),
+			'per_page' => $users_per_page,		
 		) );
 	}
 
@@ -2882,7 +2864,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 			$status_list = array( 'spam' => 'site-spammed', 'deleted' => 'site-deleted' );
 
 			foreach ( $status_list as $status => $col ) {
-				if ( $user[$status] )
+				if ( $user->$status )
 					$class = $col;
 			}
 
@@ -2896,25 +2878,25 @@ class WP_MS_Users_Table extends WP_List_Table {
 				switch ( $column_name ) {
 					case 'cb': ?>
 						<th scope="row" class="check-column">
-							<input type="checkbox" id="blog_<?php echo $user['ID'] ?>" name="allusers[]" value="<?php echo esc_attr( $user['ID'] ) ?>" />
+							<input type="checkbox" id="blog_<?php echo $user->ID ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ) ?>" />
 						</th>
 					<?php
 					break;
 
 					case 'id': ?>
 						<th valign="top" scope="row">
-							<?php echo $user['ID'] ?>
+							<?php echo $user->ID ?>
 						</th>
 					<?php
 					break;
 
 					case 'login':
-						$avatar	= get_avatar( $user['user_email'], 32 );
-						$edit_link = ( get_current_user_id() == $user['ID'] ) ? 'profile.php' : 'user-edit.php?user_id=' . $user['ID'];
+						$avatar	= get_avatar( $user->user_email, 32 );
+						$edit_link = ( get_current_user_id() == $user->ID ) ? 'profile.php' : 'user-edit.php?user_id=' . $user->ID;
 						?>
 						<td class="username column-username">
-							<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user['user_login'] ); ?></a><?php
-							if ( in_array( $user['user_login'], $super_admins ) )
+							<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user->user_login ); ?></a><?php
+							if ( in_array( $user->user_login, $super_admins ) )
 								echo ' - ' . __( 'Super admin' );
 							?></strong>
 							<br/>
@@ -2922,8 +2904,8 @@ class WP_MS_Users_Table extends WP_List_Table {
 								$actions = array();
 								$actions['edit'] = '<a href="' . esc_url( admin_url( $edit_link ) ) . '">' . __( 'Edit' ) . '</a>';
 
-								if ( ! in_array( $user['user_login'], $super_admins ) ) {
-									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user['ID'] ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
+								if ( ! in_array( $user->user_login, $super_admins ) ) {
+									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 								}
 
 								echo $this->row_actions( $actions );
@@ -2934,12 +2916,12 @@ class WP_MS_Users_Table extends WP_List_Table {
 					break;
 
 					case 'name': ?>
-						<td class="name column-name"><?php echo $user['display_name'] ?></td>
+						<td class="name column-name"><?php echo $user->display_name ?></td>
 					<?php
 					break;
 
 					case 'email': ?>
-						<td class="email column-email"><a href="mailto:<?php echo $user['user_email'] ?>"><?php echo $user['user_email'] ?></a></td>
+						<td class="email column-email"><a href="mailto:<?php echo $user->user_email ?>"><?php echo $user->user_email ?></a></td>
 					<?php
 					break;
 
@@ -2949,12 +2931,12 @@ class WP_MS_Users_Table extends WP_List_Table {
 						else
 							$date = 'Y/m/d \<\b\r \/\> g:i:s a';
 					?>
-						<td><?php echo mysql2date( __( $date ), $user['user_registered'] ); ?></td>
+						<td><?php echo mysql2date( __( $date ), $user->user_registered ); ?></td>
 					<?php
 					break;
 
 					case 'blogs':
-						$blogs = get_blogs_of_user( $user['ID'], true );
+						$blogs = get_blogs_of_user( $user->ID, true );
 						?>
 						<td>
 							<?php
@@ -2982,7 +2964,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 					break;
 
 					default: ?>
-						<td><?php do_action( 'manage_users_custom_column', $column_name, $user['ID'] ); ?></td>
+						<td><?php do_action( 'manage_users_custom_column', $column_name, $user->ID ); ?></td>
 					<?php
 					break;
 				}
