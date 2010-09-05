@@ -4234,12 +4234,12 @@ function _wp_meta_sql( $queries, $meta_id_column, $table ) {
 
 	$clauses = array();
 
-	foreach ( $queries as $query ) {
-		$meta_key = trim( @$query['meta_key'] );
-		$meta_value = trim( @$query['meta_value'] );
-		$meta_compare = @$query['meta_compare'];
+	foreach ( $queries as $q ) {
+		$meta_key = isset( $q['meta_key'] ) ? trim( $q['meta_key'] ) : '';
+		$meta_value = isset( $q['meta_value'] ) ? trim( $q['meta_value'] ) : '';
+		$meta_compare = isset( $q['meta_compare'] ) ? $q['meta_compare'] : '=';
 
-		if ( empty( $meta_compare ) || !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
+		if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
 			$meta_compare = '=';
 
 		if ( empty( $meta_key ) )
