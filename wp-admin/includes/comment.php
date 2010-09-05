@@ -9,11 +9,11 @@
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  * @uses $wpdb
  *
- * @param string $comment_author
- * @param string $comment_date
+ * @param string $comment_author Author of the comment
+ * @param string $comment_date Date of the comment
  * @return mixed Comment ID on success.
  */
 function comment_exists($comment_author, $comment_date) {
@@ -27,16 +27,15 @@ function comment_exists($comment_author, $comment_date) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Update a comment with values provided in $_POST.
  *
- * @since unknown
+ * @since 2.0.0
  */
 function edit_comment() {
-
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 
 	if (!current_user_can( 'edit_post', $comment_post_ID ))
-		wp_die( __('You are not allowed to edit comments on this post, so you cannot edit this comment.' ));
+		wp_die( __('You are not allowed to edit comments on this post, so you cannot edit this comment.' ) );
 
 	$_POST['comment_author'] = $_POST['newcomment_author'];
 	$_POST['comment_author_email'] = $_POST['newcomment_author_email'];
@@ -52,7 +51,7 @@ function edit_comment() {
 		}
 	}
 
-	if (!empty ( $_POST['edit_date'] ) ) {
+	if ( !empty ( $_POST['edit_date'] ) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
@@ -66,16 +65,16 @@ function edit_comment() {
 		$_POST['comment_date'] = "$aa-$mm-$jj $hh:$mn:$ss";
 	}
 
-	wp_update_comment( $_POST);
+	wp_update_comment( $_POST );
 }
 
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.0.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id ID of comment to retrieve
+ * @return bool|object Comment if found. False on failure.
  */
 function get_comment_to_edit( $id ) {
 	if ( !$comment = get_comment($id) )
@@ -98,7 +97,7 @@ function get_comment_to_edit( $id ) {
 /**
  * Get the number of pending comments on a post or posts
  *
- * @since unknown
+ * @since 2.3.0
  * @uses $wpdb
  *
  * @param int|array $post_id Either a single Post ID or an array of Post IDs

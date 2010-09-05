@@ -9,7 +9,7 @@
 /**
  * Executing AJAX process.
  *
- * @since unknown
+ * @since 2.1.0
  */
 define('DOING_AJAX', true);
 define('WP_ADMIN', true);

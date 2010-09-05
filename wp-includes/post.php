@@ -2125,25 +2125,20 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
  *     'post_excerpt'  - Post excerpt.
  *
  * @since 1.0.0
- * @link http://core.trac.wordpress.org/ticket/9084 Bug report on 'wp_insert_post_data' filter.
  * @uses $wpdb
  * @uses $wp_rewrite
  * @uses $user_ID
- *
  * @uses do_action() Calls 'pre_post_update' on post ID if this is an update.
  * @uses do_action() Calls 'edit_post' action on post ID and post data if this is an update.
- * @uses do_action() Calls 'save_post' and 'wp_insert_post' on post id and post data just before
- *                   returning.
- *
- * @uses apply_filters() Calls 'wp_insert_post_data' passing $data, $postarr prior to database
- *                       update or insert.
+ * @uses do_action() Calls 'save_post' and 'wp_insert_post' on post id and post data just before returning.
+ * @uses apply_filters() Calls 'wp_insert_post_data' passing $data, $postarr prior to database update or insert.
  * @uses wp_transition_post_status()
  *
- * @param array $postarr Optional. Overrides defaults.
+ * @param array $postarr Elements that make up post to insert.
  * @param bool $wp_error Optional. Allow return of WP_Error on failure.
  * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
  */
-function wp_insert_post($postarr = array(), $wp_error = false) {
+function wp_insert_post($postarr, $wp_error = false) {
 	global $wpdb, $wp_rewrite, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,

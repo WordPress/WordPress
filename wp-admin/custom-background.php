@@ -311,7 +311,7 @@ if ( get_background_image() ) {
 	}
 
 	/**
-	 * Handle a Image upload for the background image.
+	 * Handle an Image upload for the background image.
 	 *
 	 * @since 3.0.0
 	 */

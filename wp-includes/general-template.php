@@ -381,7 +381,7 @@ function bloginfo( $show='' ) {
  *
  * The possible values for the 'show' parameter are listed below.
  * <ol>
- * <li><strong>url<strong> - Blog URI to homepage.</li>
+ * <li><strong>url</strong> - Blog URI to homepage.</li>
  * <li><strong>wpurl</strong> - Blog URI path to WordPress.</li>
  * <li><strong>description</strong> - Secondary title</li>
  * </ol>
@@ -1318,7 +1318,7 @@ function the_date_xml() {
  *
  * Will only output the date if the current post's date is different from the
  * previous one output.
-
+ *
  * i.e. Only one date listing will show per day worth of posts shown in the loop, even if the
  * function is called several times for each post.
  *

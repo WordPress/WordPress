@@ -48,7 +48,6 @@ define( 'ARRAY_N', 'ARRAY_N' );
  * @package WordPress
  * @subpackage Database
  * @since 0.71
- * @final
  */
 class wpdb {
 

@@ -9,9 +9,9 @@
 /**
  * Registers dashboard widgets.
  *
- * handles POST data, sets up filters.
+ * Handles POST data, sets up filters.
  *
- * @since unknown
+ * @since 2.5.0
  */
 function wp_dashboard_setup() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
@@ -150,7 +150,7 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 /**
  * Displays the dashboard.
  *
- * @since unknown
+ * @since 2.5.0
  */
 function wp_dashboard() {
 	global $screen_layout_columns;
@@ -517,7 +517,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 /**
  * Display recent comments dashboard widget content.
  *
- * @since unknown
+ * @since 2.5.0
  */
 function wp_dashboard_recent_comments() {
 	global $wpdb;
@@ -703,7 +703,7 @@ function wp_dashboard_incoming_links() {
 /**
  * Display incoming links dashboard widget content.
  *
- * @since unknown
+ * @since 2.5.0
  */
 function wp_dashboard_incoming_links_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
@@ -795,9 +795,9 @@ function wp_dashboard_primary_control() {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param int $widget_id
+ * @param string $widget_id
  */
 function wp_dashboard_rss_output( $widget_id ) {
 	$widgets = get_option( 'dashboard_widget_options' );
@@ -817,7 +817,7 @@ function wp_dashboard_secondary_control() {
 /**
  * Display secondary dashboard RSS widget feed.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @return unknown
  */
@@ -852,7 +852,7 @@ function wp_dashboard_plugins() {
 /**
  * Display plugins most popular, newest plugins, and recently updated widget text.
  *
- * @since unknown
+ * @since 2.5.0
  */
 function wp_dashboard_plugins_output() {
 	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
@@ -938,9 +938,9 @@ function wp_dashboard_plugins_output() {
  * echoes out output for this widget. If not cache, echo a "Loading..." stub
  * which is later replaced by AJAX call (see top of /wp-admin/index.php)
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param int $widget_id
+ * @param string $widget_id
  * @param callback $callback
  * @param array $check_urls RSS feeds
  * @return bool False on failure. True on success.
@@ -981,7 +981,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 /**
  * Calls widget control callback.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param int $widget_control_id Registered Widget ID.
  */
@@ -999,10 +999,10 @@ function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
  * Sets up $args to be used as input to wp_widget_rss_form(). Handles POST data
  * from RSS-type widgets.
  *
- * @since unknown
+ * @since 2.5.0
  *
- * @param string widget_id
- * @param array form_inputs
+ * @param string $widget_id
+ * @param array $form_inputs
  */
 function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
