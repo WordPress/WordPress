@@ -367,58 +367,11 @@ if ( !empty($invalid) )
 
 <?php do_action( 'pre_current_active_plugins', $plugins['all'] ) ?>
 
+<?php $wp_list_table->views(); ?>
+
 <form method="post" action="">
 <input type="hidden" name="plugin_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
-
-<ul class="subsubsub">
-<?php
-
-$status_links = array();
-foreach ( $totals as $type => $count ) {
-	if ( !$count )
-		continue;
-
-	switch ( $type ) {
-		case 'all':
-			$text = _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $count, 'plugins' );
-			break;
-		case 'active':
-			$text = _n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', $count );
-			break;
-		case 'recently_activated':
-			$text = _n( 'Recently Active <span class="count">(%s)</span>', 'Recently Active <span class="count">(%s)</span>', $count );
-			break;
-		case 'inactive':
-			$text = _n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', $count );
-			break;
-		case 'network':
-			$text = _n( 'Network <span class="count">(%s)</span>', 'Network <span class="count">(%s)</span>', $count );
-			break;
-		case 'mustuse':
-			$text = _n( 'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', $count );
-			break;
-		case 'dropins':
-			$text = _n( 'Drop-ins <span class="count">(%s)</span>', 'Drop-ins <span class="count">(%s)</span>', $count );
-			break;
-		case 'upgrade':
-			$text = _n( 'Upgrade Available <span class="count">(%s)</span>', 'Upgrade Available <span class="count">(%s)</span>', $count );
-			break;
-		case 'search':
-			$text = _n( 'Search Results <span class="count">(%s)</span>', 'Search Results <span class="count">(%s)</span>', $count );
-			break;
-	}
-
-	$status_links[] = sprintf( "<li><a href='%s' %s>%s</a>", 
-		add_query_arg('plugin_status', $type, 'plugins.php'),
-		( $type == $status ) ? ' class="current"' : '',
-		sprintf( $text, number_format_i18n( $count ) )
-	);
-}
-echo implode( " |</li>\n", $status_links ) . '</li>';
-unset( $status_links );
-?>
-</ul>
 
 <?php
 if ( 'mustuse' == $status )

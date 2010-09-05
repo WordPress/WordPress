@@ -359,41 +359,7 @@ if ( $usersearch )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) ); ?>
 </h2>
 
-<div class="filter">
-<form id="list-filter" action="" method="get">
-<ul class="subsubsub">
-<?php
-$users_of_blog = count_users();
-$total_users = $users_of_blog['total_users'];
-$avail_roles =& $users_of_blog['avail_roles'];
-unset($users_of_blog);
-
-$current_role = false;
-$class = empty($role) ? ' class="current"' : '';
-$role_links = array();
-$role_links[] = "<li><a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
-foreach ( $wp_roles->get_names() as $this_role => $name ) {
-	if ( !isset($avail_roles[$this_role]) )
-		continue;
-
-	$class = '';
-
-	if ( $this_role == $role ) {
-		$current_role = $role;
-		$class = ' class="current"';
-	}
-
-	$name = translate_user_role( $name );
-	/* translators: User role name with count */
-	$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, $avail_roles[$this_role] );
-	$role_links[] = "<li><a href='users.php?role=$this_role'$class>$name</a>";
-}
-echo implode( " |</li>\n", $role_links) . '</li>';
-unset($role_links);
-?>
-</ul>
-</form>
-</div>
+<?php $wp_list_table->views(); ?>
 
 <form class="search-form" action="" method="get">
 <p class="search-box">

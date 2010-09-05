@@ -96,6 +96,67 @@ class WP_Posts_Table extends WP_List_Table {
 			echo $post_type_object->labels->not_found;
 	}
 
+	function get_views() {
+		global $post_type, $post_type_object, $locked_post_status, $avail_post_stati;
+	
+		if ( !empty($locked_post_status) )
+			return array();
+
+		$status_links = array();
+		$num_posts = wp_count_posts( $post_type, 'readable' );
+		$class = '';
+		$allposts = '';
+
+		$user_posts = false;
+		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
+			$user_posts = true;
+
+			$user_posts_count = $wpdb->get_var( $wpdb->prepare( "
+				SELECT COUNT( 1 ) FROM $wpdb->posts
+				WHERE post_type = '%s' AND post_status NOT IN ( 'trash', 'auto-draft' )
+				AND post_author = %d
+			", $post_type, get_current_user_id() ) );
+
+			if ( $user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) )
+				$_REQUEST['author'] = get_current_user_id();
+		}
+
+		if ( $user_posts ) {
+			if ( isset( $_REQUEST['author'] ) && ( $_REQUEST['author'] == $current_user->ID ) )
+				$class = ' class="current"';
+			$status_links['author'] = "<li><a href='edit.php?post_type=$post_type&author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
+			$allposts = '&all_posts=1';
+		}
+
+		$total_posts = array_sum( (array) $num_posts );
+
+		// Subtract post types that are not included in the admin all list.
+		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
+			$total_posts -= $num_posts->$state;
+
+		$class = empty($class) && empty($_REQUEST['post_status']) ? ' class="current"' : '';
+		$status_links['all'] = "<li><a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
+
+		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
+			$class = '';
+
+			$status_name = $status->name;
+
+			if ( !in_array( $status_name, $avail_post_stati ) )
+				continue;
+
+			if ( empty( $num_posts->$status_name ) )
+				continue;
+
+			if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] )
+				$class = ' class="current"';
+
+			$status_links[$status_name] = "<li><a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( _n( $status->label_count[0], $status->label_count[1], $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
+		}
+		
+		return $status_links;
+	}
+
 	function get_bulk_actions() {
 		$actions = array();
 
@@ -943,6 +1004,40 @@ class WP_Media_Table extends WP_List_Table {
 		) );
 	}
 
+	function get_views() {
+		global $wpdb, $post_mime_types, $detached, $avail_post_mime_types;
+
+		$type_links = array();
+		$_num_posts = (array) wp_count_attachments();
+		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
+		if ( !isset( $total_orphans ) )
+				$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
+		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
+		foreach ( $matches as $type => $reals )
+			foreach ( $reals as $real )
+				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
+
+		$class = ( empty($_GET['post_mime_type']) && !$detached && !isset($_GET['status']) ) ? ' class="current"' : '';
+		$type_links['all'] = "<li><a href='upload.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</a>';
+		foreach ( $post_mime_types as $mime_type => $label ) {
+			$class = '';
+
+			if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
+				continue;
+
+			if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
+				$class = ' class="current"';
+			if ( !empty( $num_posts[$mime_type] ) )
+				$type_links[$mime_type] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
+		}
+		$type_links['detached'] = '<li><a href="upload.php?detached=1"' . ( $detached ? ' class="current"' : '' ) . '>' . sprintf( _nx( 'Unattached <span class="count">(%s)</span>', 'Unattached <span class="count">(%s)</span>', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</a>';
+
+		if ( !empty($_num_posts['trash']) )
+			$type_links['trash'] = '<li><a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
+
+		return $type_links;
+	}
+
 	function get_bulk_actions() {
 		global $detached;
 
@@ -1651,8 +1746,6 @@ class WP_Terms_Table extends WP_List_Table {
 class WP_Users_Table extends WP_List_Table {
 
 	function WP_Users_Table() {
-		global $role, $usersearch;
-
 		parent::WP_List_Table( array(
 			'screen' => 'users',
 			'plural' => 'users'
@@ -1665,6 +1758,8 @@ class WP_Users_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
+		global $role, $usersearch;
+
 		$usersearch = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
 		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
@@ -1699,6 +1794,38 @@ class WP_Users_Table extends WP_List_Table {
 
 	function no_items() {
 		_e( 'No matching users were found.' );
+	}
+
+	function get_views() {
+		global $wp_roles, $role;
+
+		$users_of_blog = count_users();
+		$total_users = $users_of_blog['total_users'];
+		$avail_roles =& $users_of_blog['avail_roles'];
+		unset($users_of_blog);
+
+		$current_role = false;
+		$class = empty($role) ? ' class="current"' : '';
+		$role_links = array();
+		$role_links['all'] = "<li><a href='users.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+		foreach ( $wp_roles->get_names() as $this_role => $name ) {
+			if ( !isset($avail_roles[$this_role]) )
+				continue;
+
+			$class = '';
+
+			if ( $this_role == $role ) {
+				$current_role = $role;
+				$class = ' class="current"';
+			}
+
+			$name = translate_user_role( $name );
+			/* translators: User role name with count */
+			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, $avail_roles[$this_role] );
+			$role_links[$this_role] = "<li><a href='users.php?role=$this_role'$class>$name</a>";
+		}
+
+		return $role_links;
 	}
 
 	function get_bulk_actions() {
@@ -1955,6 +2082,51 @@ class WP_Comments_Table extends WP_List_Table {
 			'total_items' => $total_comments,
 			'per_page' => $comments_per_page,
 		) );
+	}
+
+	function get_views() {
+		global $post_id, $comment_status;
+
+		$status_links = array();
+		$num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments();
+		//, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
+		//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
+		$stati = array(
+				'all' => _nx_noop('All', 'All', 'comments'), // singular not used
+				'moderated' => _n_noop('Pending <span class="count">(<span class="pending-count">%s</span>)</span>', 'Pending <span class="count">(<span class="pending-count">%s</span>)</span>'),
+				'approved' => _n_noop('Approved', 'Approved'), // singular not used
+				'spam' => _n_noop('Spam <span class="count">(<span class="spam-count">%s</span>)</span>', 'Spam <span class="count">(<span class="spam-count">%s</span>)</span>'),
+				'trash' => _n_noop('Trash <span class="count">(<span class="trash-count">%s</span>)</span>', 'Trash <span class="count">(<span class="trash-count">%s</span>)</span>')
+			);
+
+		if ( !EMPTY_TRASH_DAYS )
+			unset($stati['trash']);
+
+		$link = 'edit-comments.php';
+		if ( !empty($comment_type) && 'all' != $comment_type )
+			$link = add_query_arg( 'comment_type', $comment_type, $link );
+
+		foreach ( $stati as $status => $label ) {
+			$class = ( $status == $comment_status ) ? ' class="current"' : '';
+
+			if ( !isset( $num_comments->$status ) )
+				$num_comments->$status = 10;
+			$link = add_query_arg( 'comment_status', $status, $link );
+			if ( $post_id )
+				$link = add_query_arg( 'p', absint( $post_id ), $link );
+			/*
+			// I toyed with this, but decided against it. Leaving it in here in case anyone thinks it is a good idea. ~ Mark
+			if ( !empty( $_REQUEST['s'] ) )
+				$link = add_query_arg( 's', esc_attr( stripslashes( $_REQUEST['s'] ) ), $link );
+			*/
+			$status_links[$status] = "<li class='$status'><a href='$link'$class>" . sprintf(
+				_n( $label[0], $label[1], $num_comments->$status ),
+				number_format_i18n( $num_comments->$status )
+			) . '</a>';
+		}
+
+		$status_links = apply_filters( 'comment_status_links', $status_links );
+		return $status_links;
 	}
 
 	function get_bulk_actions() {
@@ -3169,6 +3341,54 @@ class WP_Plugins_Table extends WP_List_Table {
 			parent::display_tablenav( $which );
 	}
 
+	function get_views() {
+		global $totals, $status;
+	
+		$status_links = array();
+		foreach ( $totals as $type => $count ) {
+			if ( !$count )
+				continue;
+
+			switch ( $type ) {
+				case 'all':
+					$text = _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $count, 'plugins' );
+					break;
+				case 'active':
+					$text = _n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', $count );
+					break;
+				case 'recently_activated':
+					$text = _n( 'Recently Active <span class="count">(%s)</span>', 'Recently Active <span class="count">(%s)</span>', $count );
+					break;
+				case 'inactive':
+					$text = _n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', $count );
+					break;
+				case 'network':
+					$text = _n( 'Network <span class="count">(%s)</span>', 'Network <span class="count">(%s)</span>', $count );
+					break;
+				case 'mustuse':
+					$text = _n( 'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', $count );
+					break;
+				case 'dropins':
+					$text = _n( 'Drop-ins <span class="count">(%s)</span>', 'Drop-ins <span class="count">(%s)</span>', $count );
+					break;
+				case 'upgrade':
+					$text = _n( 'Upgrade Available <span class="count">(%s)</span>', 'Upgrade Available <span class="count">(%s)</span>', $count );
+					break;
+				case 'search':
+					$text = _n( 'Search Results <span class="count">(%s)</span>', 'Search Results <span class="count">(%s)</span>', $count );
+					break;
+			}
+
+			$status_links[$type] = sprintf( "<li><a href='%s' %s>%s</a>", 
+				add_query_arg('plugin_status', $type, 'plugins.php'),
+				( $type == $status ) ? ' class="current"' : '',
+				sprintf( $text, number_format_i18n( $count ) )
+			);
+		}
+
+		return $status_links;
+	}
+
 	function get_bulk_actions() {
 		global $status;
 
@@ -3425,6 +3645,19 @@ class WP_Plugin_Install_Table extends WP_List_Table {
 
 	function no_items() {
 		_e( 'No plugins match your request.' );
+	}
+
+	function get_views() {
+		global $tabs, $tab;
+
+		$display_tabs = array();
+		foreach ( (array) $tabs as $action => $text ) {
+			$class = ( $action == $tab ) ? ' class="current"' : '';
+			$href = admin_url('plugin-install.php?tab=' . $action);
+			$display_tabs[$action] = "<a href='$href'$class>$text</a>";
+		}
+
+		return $display_tabs;
 	}
 
 	function display_tablenav( $which ) {
@@ -3799,7 +4032,20 @@ class WP_Theme_Install_Table extends WP_List_Table {
 	function no_items() {
 		_e( 'No themes match your request.' );
 	}
-	
+
+	function get_views() {
+		global $tabs, $tab;
+
+		$display_tabs = array();
+		foreach ( (array) $tabs as $action => $text ) {
+			$class = ( $action == $tab ) ? ' class="current"' : '';
+			$href = admin_url('theme-install.php?tab=' . $action);
+			$display_tabs[$action] = "<a href='$href'$class>$text</a>";
+		}
+
+		return $display_tabs;
+	}
+
 	function get_columns() {
 		return array();
 	}

@@ -41,19 +41,11 @@ include('./admin-header.php');
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
-	<ul class="subsubsub">
-<?php
-$display_tabs = array();
-foreach ( (array) $tabs as $action => $text ) {
-	$sep = ( end($tabs) != $text ) ? ' | ' : '';
-	$class = ( $action == $tab ) ? ' class="current"' : '';
-	$href = admin_url('plugin-install.php?tab=' . $action);
-	echo "\t\t<li><a href='$href'$class>$text</a>$sep</li>\n";
-}
-?>
-	</ul>
-	<br class="clear" />
-	<?php do_action('install_plugins_' . $tab, $paged); ?>
+<?php $wp_list_table->views(); ?>
+
+<br class="clear" />
+<?php do_action('install_plugins_' . $tab, $paged); ?>
 </div>
 <?php
 include('./admin-footer.php');
+

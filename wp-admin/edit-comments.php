@@ -194,54 +194,9 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 }
 ?>
 
+<?php $wp_list_table->views(); ?>
+
 <form id="comments-form" action="" method="post">
-<ul class="subsubsub">
-<?php
-$status_links = array();
-$num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments();
-//, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
-//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
-$stati = array(
-		'all' => _nx_noop('All', 'All', 'comments'), // singular not used
-		'moderated' => _n_noop('Pending <span class="count">(<span class="pending-count">%s</span>)</span>', 'Pending <span class="count">(<span class="pending-count">%s</span>)</span>'),
-		'approved' => _n_noop('Approved', 'Approved'), // singular not used
-		'spam' => _n_noop('Spam <span class="count">(<span class="spam-count">%s</span>)</span>', 'Spam <span class="count">(<span class="spam-count">%s</span>)</span>'),
-		'trash' => _n_noop('Trash <span class="count">(<span class="trash-count">%s</span>)</span>', 'Trash <span class="count">(<span class="trash-count">%s</span>)</span>')
-	);
-
-if ( !EMPTY_TRASH_DAYS )
-	unset($stati['trash']);
-
-$link = 'edit-comments.php';
-if ( !empty($comment_type) && 'all' != $comment_type )
-	$link = add_query_arg( 'comment_type', $comment_type, $link );
-
-foreach ( $stati as $status => $label ) {
-	$class = ( $status == $comment_status ) ? ' class="current"' : '';
-
-	if ( !isset( $num_comments->$status ) )
-		$num_comments->$status = 10;
-	$link = add_query_arg( 'comment_status', $status, $link );
-	if ( $post_id )
-		$link = add_query_arg( 'p', absint( $post_id ), $link );
-	/*
-	// I toyed with this, but decided against it. Leaving it in here in case anyone thinks it is a good idea. ~ Mark
-	if ( !empty( $_REQUEST['s'] ) )
-		$link = add_query_arg( 's', esc_attr( stripslashes( $_REQUEST['s'] ) ), $link );
-	*/
-	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf(
-		_n( $label[0], $label[1], $num_comments->$status ),
-		number_format_i18n( $num_comments->$status )
-	) . '</a>';
-}
-
-$status_links = apply_filters( 'comment_status_links', $status_links );
-
-echo implode( " |</li>\n", $status_links) . '</li>';
-unset($status_links);
-?>
-</ul>
-
 <p class="search-box">
 	<label class="screen-reader-text" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />

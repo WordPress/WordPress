@@ -201,40 +201,7 @@ if ( !empty($message) ) { ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php } ?>
 
-<ul class="subsubsub">
-<?php
-$type_links = array();
-$_num_posts = (array) wp_count_attachments();
-$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
-if ( !isset( $total_orphans ) )
-		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
-$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
-foreach ( $matches as $type => $reals )
-	foreach ( $reals as $real )
-		$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
-
-$class = ( empty($_GET['post_mime_type']) && !$detached && !isset($_GET['status']) ) ? ' class="current"' : '';
-$type_links[] = "<li><a href='upload.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</a>';
-foreach ( $post_mime_types as $mime_type => $label ) {
-	$class = '';
-
-	if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
-		continue;
-
-	if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
-		$class = ' class="current"';
-	if ( !empty( $num_posts[$mime_type] ) )
-		$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
-}
-$type_links[] = '<li><a href="upload.php?detached=1"' . ( $detached ? ' class="current"' : '' ) . '>' . sprintf( _nx( 'Unattached <span class="count">(%s)</span>', 'Unattached <span class="count">(%s)</span>', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</a>';
-
-if ( !empty($_num_posts['trash']) )
-	$type_links[] = '<li><a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
-
-echo implode( " |</li>\n", $type_links) . '</li>';
-unset($type_links);
-?>
-</ul>
+<?php $wp_list_table->views(); ?>
 
 <form class="search-form" action="" method="get">
 <p class="search-box">

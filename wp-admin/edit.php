@@ -207,68 +207,9 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'
 </p></div>
 <?php } ?>
 
+<?php $wp_list_table->views(); ?>
+
 <form id="posts-filter" action="" method="get">
-
-<ul class="subsubsub">
-<?php
-if ( empty($locked_post_status) ) :
-$status_links = array();
-$num_posts = wp_count_posts( $post_type, 'readable' );
-$class = '';
-$allposts = '';
-
-$user_posts = false;
-if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-	$user_posts = true;
-
-	$user_posts_count = $wpdb->get_var( $wpdb->prepare( "
-		SELECT COUNT( 1 ) FROM $wpdb->posts
-		WHERE post_type = '%s' AND post_status NOT IN ( 'trash', 'auto-draft' )
-		AND post_author = %d
-	", $post_type, get_current_user_id() ) );
-
-	if ( $user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) )
-		$_REQUEST['author'] = get_current_user_id();
-}
-
-if ( $user_posts ) {
-	if ( isset( $_REQUEST['author'] ) && ( $_REQUEST['author'] == $current_user->ID ) )
-		$class = ' class="current"';
-	$status_links[] = "<li><a href='edit.php?post_type=$post_type&author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
-	$allposts = '&all_posts=1';
-}
-
-$total_posts = array_sum( (array) $num_posts );
-
-// Subtract post types that are not included in the admin all list.
-foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
-	$total_posts -= $num_posts->$state;
-
-$class = empty($class) && empty($_REQUEST['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
-
-foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
-	$class = '';
-
-	$status_name = $status->name;
-
-	if ( !in_array( $status_name, $avail_post_stati ) )
-		continue;
-
-	if ( empty( $num_posts->$status_name ) )
-		continue;
-
-	if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] )
-		$class = ' class="current"';
-
-	$status_links[] = "<li><a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( _n( $status->label_count[0], $status->label_count[1], $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
-}
-echo implode( " |</li>\n", $status_links ) . '</li>';
-unset( $status_links );
-endif;
-?>
-</ul>
-
 <p class="search-box">
 	<label class="screen-reader-text" for="post-search-input"><?php echo $post_type_object->labels->search_items; ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />

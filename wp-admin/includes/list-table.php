@@ -174,6 +174,37 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Get an associative array ( id => link ) with the list
+	 * of views available on this table.
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @return array
+	 */
+	function get_views() {
+		return array();
+	}
+
+	/**
+	 * Display the bulk actions dropdown.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 */
+	function views() {
+		$views = $this->get_views();
+		$views = apply_filters( 'views_' . $this->_screen->base, $views );
+
+		if ( empty( $views ) )
+			return;
+
+		echo "<ul class='subsubsub'>\n";
+		echo implode( " |</li>\n", $views ) . "</li>\n";
+		echo "</ul>";
+	}
+
+	/**
 	 * Get an associative array ( option_name => option_title ) with the list
 	 * of bulk actions available on this table.
 	 *

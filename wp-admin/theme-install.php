@@ -41,19 +41,10 @@ include('./admin-header.php');
 <?php screen_icon(); ?>
 <h2><a href="themes.php" class="nav-tab"><?php echo esc_html_x('Manage Themes', 'theme'); ?></a><a href="theme-install.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a></h2>
 
-	<ul class="subsubsub">
-<?php
-$display_tabs = array();
-foreach ( (array) $tabs as $action => $text ) {
-	$sep = ( end($tabs) != $text ) ? ' | ' : '';
-	$class = ( $action == $tab ) ? ' class="current"' : '';
-	$href = admin_url('theme-install.php?tab='. $action);
-	echo "\t\t<li><a href='$href'$class>$text</a>$sep</li>\n";
-}
-?>
-	</ul>
-	<br class="clear" />
-	<?php do_action('install_themes_' . $tab, $paged); ?>
+<?php $wp_list_table->views(); ?>
+
+<br class="clear" />
+<?php do_action('install_themes_' . $tab, $paged); ?>
 </div>
 <?php
 include('./admin-footer.php');
