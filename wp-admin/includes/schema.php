@@ -667,7 +667,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 
 	if ( !is_multisite() ) {
 		$site_admins = array( $site_user->user_login );
-		$users = get_users_of_blog();
+		$users = get_users();
 		if ( $users ) {
 			foreach ( $users as $user ) {
 				if ( is_super_admin( $user->ID ) && !in_array( $user->user_login, $site_admins ) )

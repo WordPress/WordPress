@@ -572,7 +572,7 @@ function get_users( $args ) {
  * @return array List of users that are part of that Blog ID
  */
 function get_users_of_blog( $id = '' ) {
-	global $wpdb, $blog_id;
+	global $blog_id;
 
 	if ( empty($id) )
 		$id = (int) $blog_id;

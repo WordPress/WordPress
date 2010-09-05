@@ -281,7 +281,7 @@ function wp_list_authors($args = '') {
 	$return = '';
 
 	/** @todo Move select to get_authors(). */
-	$users = get_users_of_blog();
+	$users = get_users();
 	$author_ids = array();
 	foreach ( (array) $users as $user )
 		$author_ids[] = $user->user_id;
