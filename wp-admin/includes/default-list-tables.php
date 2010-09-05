@@ -64,11 +64,7 @@ class WP_Posts_Table extends WP_List_Table {
 
 		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
-		$edit_per_page = 'edit_' . $post_type . '_per_page'; 
- 		$per_page = (int) get_user_option( $edit_per_page );
-		if ( empty( $per_page ) || $per_page < 1 )
-			$per_page = 20;
-		$per_page = apply_filters( $edit_per_page, $per_page ); 
+		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type ); 
 
 		if ( $this->hierarchical_display )
@@ -1367,18 +1363,13 @@ class WP_Terms_Table extends WP_List_Table {
 	function prepare_items() {
 		global $taxonomy;
 
-		$tags_per_page = (int) get_user_option( 'edit_' .  $taxonomy . '_per_page' );
-
-		if ( empty( $tags_per_page ) || $tags_per_page < 1 )
-			$tags_per_page = 20;
+		$tags_per_page = $this->get_items_per_page( 'edit_' .  $taxonomy . '_per_page' );
 
 		if ( 'post_tag' == $taxonomy ) {
 			$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
 			$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
 		} elseif ( 'category' == $taxonomy ) {
 			$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page ); // Old filter
-		} else {
-			$tags_per_page = apply_filters( 'edit_' . $taxonomy . '_per_page', $tags_per_page );
 		}
 
 		$search = !empty( $_REQUEST['s'] ) ? trim( stripslashes( $_REQUEST['s'] ) ) : '';
@@ -1707,10 +1698,7 @@ class WP_Users_Table extends WP_List_Table {
 
 		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
 
-		$users_per_page = (int) get_user_option( 'users_per_page' );
-		if ( empty( $users_per_page ) || $users_per_page < 1 )
-			$users_per_page = 20;
-		$users_per_page = apply_filters( 'users_per_page', $users_per_page );
+		$users_per_page = $this->get_items_per_page( 'users_per_page' );
 
 		$paged = $this->get_pagenum();
 
@@ -1961,13 +1949,7 @@ class WP_Comments_Table extends WP_List_Table {
 
 		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : '';
 
-		if ( isset( $_POST['per_page'] ) )
-			$comments_per_page = $_POST['per_page'];
-		else
-			$comments_per_page = (int) get_user_option( 'edit_comments_per_page' );
-
-		if ( empty( $comments_per_page ) || $comments_per_page < 1 )
-			$comments_per_page = 20;
+		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
 		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
 
 		if ( isset( $_POST['number'] ) )
@@ -2552,13 +2534,9 @@ class WP_Sites_Table extends WP_List_Table {
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
 
+		$per_page = $this->get_items_per_page( 'ms_sites_per_page' );
+
 		$pagenum = $this->get_pagenum();
-
-		$per_page = (int) get_user_option( 'ms_sites_per_page' );
-		if ( empty( $per_page ) || $per_page < 1 )
-			$per_page = 20;
-
-		$per_page = apply_filters( 'ms_sites_per_page', $per_page );
 
 		$s = isset( $_REQUEST['s'] ) ? stripslashes( trim( $_REQUEST[ 's' ] ) ) : '';
 		$like_s = esc_sql( like_escape( $s ) );
@@ -2836,7 +2814,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions() {			
+	function check_permissions() {
 		if ( !is_multisite() )
 			wp_die( __( 'Multisite support is not enabled.' ) );
 	
@@ -2849,13 +2827,9 @@ class WP_MS_Users_Table extends WP_List_Table {
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
 
+		$per_page = $this->get_items_per_page( 'ms_users_per_page' );
+
 		$pagenum = $this->get_pagenum();
-
-		$per_page = (int) get_user_option( 'ms_users_per_page' );
-		if ( empty( $per_page ) || $per_page < 1 )
-			$per_page = 20;
-
-		$per_page = apply_filters( 'ms_users_per_page', $per_page );
 
 		$s = isset( $_REQUEST['s'] ) ? stripslashes( trim( $_REQUEST[ 's' ] ) ) : '';
 		$like_s = esc_sql( like_escape( $s ) );
@@ -3207,11 +3181,8 @@ class WP_Plugins_Table extends WP_List_Table {
 			}
 			uasort( $this->items, '_order_plugins_callback' );
 		}
-
-		$plugins_per_page = (int) get_user_option( 'plugins_per_page' );
-		if ( empty( $plugins_per_page ) || $plugins_per_page < 1 )
-			$plugins_per_page = 999;
-		$plugins_per_page = apply_filters( 'plugins_per_page', $plugins_per_page );
+		
+		$plugins_per_page = $this->get_items_per_page( 'plugins_per_page', 999 );
 
 		$start = ( $page - 1 ) * $plugins_per_page;
 

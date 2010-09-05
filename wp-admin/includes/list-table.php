@@ -326,6 +326,22 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Get number of items to display on a single page
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @return int
+	 */	
+	function get_items_per_page( $option, $default = 20 ) {
+		$per_page = (int) get_user_option( $option );
+		if ( empty( $per_page ) || $per_page < 1 )
+			$per_page = $default;
+
+		return (int) apply_filters( $option, $per_page );
+	}
+
+	/**
 	 * Display the pagination.
 	 *
 	 * @since 3.1.0
