@@ -461,11 +461,11 @@ class WP_User_Query {
 			$meta_queries[] = $cap_meta_query;
 		}
 
-		$meta_queries[] = array(
-			'meta_key' => @$qv['meta_key'],
-			'meta_value' => @$qv['meta_key'],
-			'meta_compare' => @$qv['meta_key'],
-		);
+		$meta_query = array();
+		foreach ( array( 'meta_key', 'meta_value', 'meta_compare' ) as $key )
+			if ( isset( $qv[ $key ] ) )
+				$meta_query[ $key ] = $qv[ $key ];
+		$meta_queries[] = $meta_query;
 
 		$meta_query_sql = _wp_meta_sql( $meta_queries, 'user_id', $wpdb->usermeta );
 
@@ -576,7 +576,7 @@ function get_users_of_blog( $id = '' ) {
 
 	if ( empty($id) )
 		$id = (int) $blog_id;
-	
+
 	return get_users( array( 'blog_id' => $id ) );
 }
 
