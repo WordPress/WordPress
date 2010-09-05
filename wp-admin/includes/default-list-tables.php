@@ -2697,7 +2697,7 @@ class WP_Sites_Table extends WP_List_Table {
 								$date = 'Y/m/d';
 							else
 								$date = 'Y/m/d \<\b\r \/\> g:i:s a';
-							echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( __( $date ), $blog['last_updated'] ); ?>
+							echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] ); ?>
 						</td>
 					<?php
 					break;
@@ -2707,7 +2707,7 @@ class WP_Sites_Table extends WP_List_Table {
 						if ( $blog['registered'] == '0000-00-00 00:00:00' )
 							echo '&#x2014;';
 						else
-							echo mysql2date( __( $date ), $blog['registered'] );
+							echo mysql2date( $date, $blog['registered'] );
 						?>
 						</td>
 				<?php
@@ -2931,7 +2931,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 						else
 							$date = 'Y/m/d \<\b\r \/\> g:i:s a';
 					?>
-						<td><?php echo mysql2date( __( $date ), $user->user_registered ); ?></td>
+						<td><?php echo mysql2date( $date, $user->user_registered ); ?></td>
 					<?php
 					break;
 
