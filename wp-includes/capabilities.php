@@ -471,9 +471,10 @@ class WP_User {
 	 *
 	 * @param int|string $id User's ID or username
 	 * @param int $name Optional. User's username
+	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 * @return WP_User
 	 */
-	function WP_User( $id, $name = '' ) {
+	function WP_User( $id, $name = '', $blog_id = '' ) {
 
 		if ( empty( $id ) && empty( $name ) )
 			return;
@@ -496,7 +497,7 @@ class WP_User {
 		}
 
 		$this->id = $this->ID;
-		$this->_init_caps();
+		$this->for_blog( $blog_id );
 	}
 
 	/**

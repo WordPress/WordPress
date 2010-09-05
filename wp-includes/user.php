@@ -374,11 +374,12 @@ class WP_User_Query {
 	function __construct( $query = null ) {
 		if ( !empty( $query ) ) {
 			$this->query_vars = wp_parse_args( $query, array(
-				'search' => '', 'role' => '',
-				'offset' => '', 'number' => '', 'count_total' => true,
-				'orderby' => 'login', 'order' => 'ASC',
-				'meta_key' => '', 'meta_value' => '',
+				'role' => '', 'blog_id' => $GLOBALS['blog_id'],
+				'meta_key' => '', 'meta_value' => '', 'meta_compare' => '',
 				'include' => array(), 'exclude' => array(),
+				'search' => '',
+				'orderby' => 'login', 'order' => 'ASC',
+				'offset' => '', 'number' => '', 'count_total' => true,
 				'fields' => 'all',
 			) );
 
@@ -444,21 +445,21 @@ class WP_User_Query {
 		}
 
 		$role = trim( $qv['role'] );
+		$blog_id = absint( $qv['blog_id'] );
 
 		$meta_queries = array();
 
-		$cap_meta_query = array();
-		$cap_meta_key = $wpdb->prefix . 'capabilities';
+		if ( $blog_id ) {
+			$cap_meta_query = array();
+			$cap_meta_query['meta_key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
 
-		if ( $role || is_multisite() )
-			$cap_meta_query['meta_key'] = $cap_meta_key;
+			if ( $role ) {
+				$cap_meta_query['meta_value'] = $role;
+				$cap_meta_query['meta_compare'] = 'like';
+			}
 
-		if ( $role ) {
-			$cap_meta_query['meta_value'] = $role;
-			$cap_meta_query['meta_compare'] = 'like';
+			$meta_queries[] = $cap_meta_query;
 		}
-
-		$meta_queries[] = $cap_meta_query;
 
 		$meta_queries[] = array(
 			'meta_key' => @$qv['meta_key'],
@@ -506,7 +507,7 @@ class WP_User_Query {
 
 			$r = array();
 			foreach ( $this->results as $userid )
-				$r[ $userid ] = new WP_User( $userid );
+				$r[ $userid ] = new WP_User( $userid, '', $this->query_vars['blog_id'] );
 
 			$this->results = $r;
 		}
@@ -564,7 +565,7 @@ function get_users( $args ) {
  * multi-blog feature.
  *
  * @since 2.2.0
- * @uses $wpdb WordPress database object for queries
+ * @uses get_users() for queries
  * @uses $blog_id The Blog id of the blog for those that use more than one blog
  *
  * @param int $id Blog ID.
@@ -572,11 +573,11 @@ function get_users( $args ) {
  */
 function get_users_of_blog( $id = '' ) {
 	global $wpdb, $blog_id;
+
 	if ( empty($id) )
 		$id = (int) $blog_id;
-	$blog_prefix = $wpdb->get_blog_prefix($id);
-	$users = $wpdb->get_results( "SELECT user_id, user_id AS ID, user_login, display_name, user_email, meta_value FROM $wpdb->users, $wpdb->usermeta WHERE {$wpdb->users}.ID = {$wpdb->usermeta}.user_id AND meta_key = '{$blog_prefix}capabilities' ORDER BY {$wpdb->usermeta}.user_id" );
-	return $users;
+	
+	return get_users( array( 'blog_id' => $id ) );
 }
 
 /**

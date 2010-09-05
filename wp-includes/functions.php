@@ -4225,6 +4225,8 @@ function _wp_search_sql($string, $cols) {
  * @since 3.1.0
  *
  * @param array $queries An array of queries
+ * @param string $meta_id_column The column that holds the object id
+ * @param string $table Which meta table to look in
  * @return string
  */
 function _wp_meta_sql( $queries, $meta_id_column, $table ) {

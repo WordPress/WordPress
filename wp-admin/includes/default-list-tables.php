@@ -1794,8 +1794,7 @@ class WP_Users_Table extends WP_List_Table {
 
 		$style = '';
 		foreach ( $this->items as $userid => $user_object ) {
-			$roles = $user_object->roles;
-			$role = array_shift( $roles );
+			$role = reset( $user_object->roles );
 
 			if ( is_multisite() && empty( $role ) )
 				continue;
@@ -2791,10 +2790,10 @@ class WP_Sites_Table extends WP_List_Table {
 									$blogusers = array_slice( $blogusers, 0, 5 );
 									$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . esc_url( get_admin_url( $blog['blog_id'], 'users.php' ) ) . '">' . __( 'More' ) . '</a>';
 								}
-								foreach ( $blogusers as $key => $val ) {
-									echo '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $val->user_id ) ) . '">' . esc_html( $val->user_login ) . '</a> ';
+								foreach ( $blogusers as $user_object ) {
+									echo '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $user_object->ID ) ) . '">' . esc_html( $user_object->user_login ) . '</a> ';
 									if ( 'list' != $mode )
-										echo '( ' . $val->user_email . ' )';
+										echo '( ' . $user_object->user_email . ' )';
 									echo '<br />';
 								}
 								if ( $blogusers_warning != '' )

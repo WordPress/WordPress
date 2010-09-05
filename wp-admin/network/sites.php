@@ -258,24 +258,19 @@ switch ( $action ) {
 
 				// Site users
 				$blogusers = get_users_of_blog( $id );
+
 				if ( is_array( $blogusers ) ) {
 					echo '<div id="blogedit_blogusers" class="postbox"><h3 class="hndle"><span>' . __( 'Site Users' ) . '</span></h3><div class="inside">';
 					echo '<table class="form-table">';
 					echo "<tr><th>" . __( 'User' ) . "</th><th>" . __( 'Role' ) . "</th><th>" . __( 'Password' ) . "</th><th>" . __( 'Remove' ) . "</th></tr>";
-					reset( $blogusers );
-					foreach ( (array) $blogusers as $key => $val ) {
-						if ( isset( $val->meta_value ) && ! $val->meta_value )
-							continue;
-						$t = @unserialize( $val->meta_value );
-						if ( is_array( $t ) ) {
-							reset( $t );
-							$existing_role = key( $t );
-						}
-						echo '<tr><td><a href="user-edit.php?user_id=' . $val->user_id . '">' . $val->user_login . '</a></td>';
-						if ( $val->user_id != $current_user->data->ID ) {
+					foreach ( $blogusers as $user_id => $user_object ) {
+						$existing_role = reset( $user_object->roles );
+
+						echo '<tr><td><a href="user-edit.php?user_id=' . $user_id . '">' . $user_object->user_login . '</a></td>';
+						if ( $user_id != $current_user->data->ID ) {
 							?>
 							<td>
-								<select name="role[<?php echo $val->user_id ?>]" id="new_role_1"><?php
+								<select name="role[<?php echo $user_id ?>]" id="new_role_1"><?php
 									foreach ( $editblog_roles as $role => $role_assoc ){
 										$name = translate_user_role( $role_assoc['name'] );
 										echo '<option ' . selected( $role, $existing_role, false ) . ' value="' . esc_attr( $role ) . '">' . esc_html( $name ) . '</option>';
@@ -284,10 +279,10 @@ switch ( $action ) {
 								</select>
 							</td>
 							<td>
-								<input type="text" name="user_password[<?php echo esc_attr( $val->user_id ) ?>]" />
+								<input type="text" name="user_password[<?php echo esc_attr( $user_id ) ?>]" />
 							</td>
 							<?php
-							echo '<td><input title="' . __( 'Click to remove user' ) . '" type="checkbox" name="blogusers[' . esc_attr( $val->user_id ) . ']" /></td>';
+							echo '<td><input title="' . __( 'Click to remove user' ) . '" type="checkbox" name="blogusers[' . esc_attr( $user_id ) . ']" /></td>';
 						} else {
 							echo "<td><strong>" . __ ( 'N/A' ) . "</strong></td><td><strong>" . __ ( 'N/A' ) . "</strong></td><td><strong>" . __( 'N/A' ) . "</strong></td>";
 						}
