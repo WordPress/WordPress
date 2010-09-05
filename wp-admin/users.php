@@ -33,8 +33,8 @@ $update = $doaction = '';
 if ( isset($_REQUEST['action']) )
 	$doaction = $_REQUEST['action'] ? $_REQUEST['action'] : $_REQUEST['action2'];
 
-if ( empty($doaction) ) {
-	if ( isset($_GET['changeit']) && !empty($_GET['new_role']) )
+if ( "-1" == $doaction ) {
+	if ( isset($_REQUEST['changeit']) && !empty($_REQUEST['new_role']) )
 		$doaction = 'promote';
 }
 
