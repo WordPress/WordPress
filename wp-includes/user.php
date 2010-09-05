@@ -379,7 +379,7 @@ class WP_User_Query {
 				'orderby' => 'login', 'order' => 'ASC',
 				'meta_key' => '', 'meta_value' => '',
 				'include' => array(), 'exclude' => array(),
-				'fields' => 'all'
+				'fields' => 'all',
 			) );
 
 			$this->prepare_query();
@@ -445,26 +445,31 @@ class WP_User_Query {
 
 		$role = trim( $qv['role'] );
 
-		if ( $role || is_multisite() ) {
-			$this->query_from .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id";
-			$this->query_where .= $wpdb->prepare( " AND $wpdb->usermeta.meta_key = %s", $wpdb->prefix . 'capabilities' );
-		}
+		$meta_queries = array();
+
+		$cap_meta_query = array();
+		$cap_meta_key = $wpdb->prefix . 'capabilities';
+
+		if ( $role || is_multisite() )
+			$cap_meta_query['meta_key'] = $cap_meta_key;
 
 		if ( $role ) {
-			$this->query_where .= $wpdb->prepare( " AND $wpdb->usermeta.meta_value LIKE %s", '%' . like_escape( $role ) . '%' );
+			$cap_meta_query['meta_value'] = $role;
+			$cap_meta_query['meta_compare'] = 'like';
 		}
 
-		$meta_key = trim( $qv['meta_key'] );
-		$meta_value = trim( $qv['meta_value'] );
-		if ( $meta_key ) {
-			if ( empty( $meta_value ) ) {
-				$subquery = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s", $meta_key );
-			}
-			else {
-				$subquery = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s", $meta_key, $meta_value );
-			}
+		$meta_queries[] = $cap_meta_query;
 
-			$this->query_where .= " AND $wpdb->users.ID IN ($subquery)";
+		$meta_queries[] = array(
+			'meta_key' => @$qv['meta_key'],
+			'meta_value' => @$qv['meta_key'],
+			'meta_compare' => @$qv['meta_key'],
+		);
+
+		$meta_query_sql = _wp_meta_sql( $meta_queries, 'user_id', $wpdb->usermeta );
+
+		if ( !empty( $meta_query_sql ) ) {
+			$this->query_where .= " AND $wpdb->users.ID IN ($meta_query_sql)";
 		}
 
 		if ( !empty($qv['include']) ) {

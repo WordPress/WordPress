@@ -4219,6 +4219,56 @@ function _wp_search_sql($string, $cols) {
 }
 
 /*
+ * Used internally to generate an SQL string for searching across multiple meta key = value pairs
+ *
+ * @access private
+ * @since 3.1.0
+ *
+ * @param array $queries An array of queries
+ * @return string
+ */
+function _wp_meta_sql( $queries, $meta_id_column, $table ) {
+	global $wpdb;
+
+	$clauses = array();
+
+	foreach ( $queries as $query ) {
+		$meta_key = trim( @$query['meta_key'] );
+		$meta_value = trim( @$query['meta_value'] );
+		$meta_compare = @$query['meta_compare'];
+
+		if ( empty( $meta_compare ) || !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
+			$meta_compare = '=';
+
+		if ( empty( $meta_key ) )
+			continue;
+
+		$clause = $wpdb->prepare( "WHEN %s THEN meta_value ", $meta_key );
+
+		if ( empty( $meta_value ) ) {
+			$clauses[] = $clause . "IS NOT NULL";
+		} elseif ( 'like' == $meta_compare ) {
+			$clauses[] = $clause . $wpdb->prepare( "LIKE %s", '%' . like_escape( $meta_value ) . '%' );
+		} else {
+			$clauses[] = $clause . $wpdb->prepare( "$meta_compare %s", $meta_value );
+		}
+	}
+
+	if ( empty( $clauses ) )
+		return '';
+
+	return "
+		SELECT $meta_id_column 
+		FROM $table 
+		WHERE CASE meta_key 
+		" . implode( "\n", $clauses ) . "
+		END
+		GROUP BY $meta_id_column
+		HAVING COUNT(*) = " . count( $clauses );
+}
+
+
+/*
  * Used internally to tidy up the search terms
  *
  * @access private
