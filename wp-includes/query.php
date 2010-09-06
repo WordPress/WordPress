@@ -2211,16 +2211,10 @@ class WP_Query {
 		}
 
 		// postmeta queries
-		if ( ! empty($q['meta_key']) || ! empty($q['meta_value']) )
-			$join .= " JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
-		if ( ! empty($q['meta_key']) )
-			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s ", $q['meta_key']);
-		if ( ! empty($q['meta_value']) ) {
-			if ( empty($q['meta_compare']) || ! in_array($q['meta_compare'], array('=', '!=', '>', '>=', '<', '<=')) )
-				$q['meta_compare'] = '=';
-
-			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_value {$q['meta_compare']} %s ", $q['meta_value']);
-		}
+		$meta_query = wp_array_slice_assoc( $q, array( 'meta_key', 'meta_value', 'meta_compare' ) );
+		list( $meta_join, $meta_where ) = _wp_meta_sql( array( $meta_query ), $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
+		$join .= $meta_join;
+		$where .= $meta_where;
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.

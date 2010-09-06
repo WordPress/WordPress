@@ -4254,6 +4254,9 @@ function _wp_meta_sql( $queries, $primary_table, $primary_id_column, $meta_table
 
 	$clauses = array();
 
+	$join = '';
+	$where = '';
+	$i = 0;
 	foreach ( $queries as $q ) {
 		$meta_key = isset( $q['meta_key'] ) ? trim( $q['meta_key'] ) : '';
 		$meta_value = isset( $q['meta_value'] ) ? trim( $q['meta_value'] ) : '';
@@ -4262,37 +4265,28 @@ function _wp_meta_sql( $queries, $primary_table, $primary_id_column, $meta_table
 		if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
 			$meta_compare = '=';
 
-		if ( empty( $meta_key ) )
+		if ( empty( $meta_key ) && empty( $meta_value ) )
 			continue;
 
-		if ( empty( $meta_value ) ) {
-			$clauses[ $meta_key ] = "";
-		} elseif ( 'like' == $meta_compare ) {
-			$clauses[ $meta_key ] = $wpdb->prepare( "LIKE %s", '%' . like_escape( $meta_value ) . '%' );
-		} else {
-			$clauses[ $meta_key ] = $wpdb->prepare( "$meta_compare %s", $meta_value );
-		}
-	}
-
-	if ( empty( $clauses ) )
-		return array('', '');
-
-	$join = '';
-	$where = '';
-
-	$i = 0;
-	foreach ( $clauses as $meta_key => $value_query ) {
 		$alias = $i ? 'mt' . $i : $meta_table;
 
 		$join .= "\nINNER JOIN $meta_table";
 		$join .= $i ? " AS $alias" : '';
 		$join .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
 
-		$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
-		if ( !empty( $value_query ) )
-			$where .= " AND $alias.meta_value $value_query";
-			
 		$i++;
+
+		if ( !empty( $meta_key ) )
+			$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
+
+		if ( empty( $meta_value ) )
+			continue;
+
+		if ( 'like' == $meta_compare ) {
+			$where .= $wpdb->prepare( " AND $alias.meta_value LIKE %s", '%' . like_escape( $meta_value ) . '%' );
+		} else {
+			$where .= $wpdb->prepare( " AND $alias.meta_value $meta_compare %s", $meta_value );
+		}
 	}
 
 	return array( $join, $where );
