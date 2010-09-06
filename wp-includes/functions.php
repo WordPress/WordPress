@@ -4243,10 +4243,13 @@ function _wp_search_sql($string, $cols) {
  * @since 3.1.0
  *
  * @param array $queries An array of queries
- * @param string $meta_id_column The column that holds the object id
- * @return string
+ * @param string $primary_table
+ * @param string $primary_id_column
+ * @param string $meta_table
+ * @param string $meta_id_column
+ * @return array( $join_sql, $where_sql )
  */
-function _wp_meta_sql( $queries, $meta_id_column ) {
+function _wp_meta_sql( $queries, $primary_table, $primary_id_column, $meta_table, $meta_id_column ) {
 	global $wpdb;
 
 	$clauses = array();
@@ -4262,28 +4265,38 @@ function _wp_meta_sql( $queries, $meta_id_column ) {
 		if ( empty( $meta_key ) )
 			continue;
 
-		$clause = $wpdb->prepare( "WHEN %s THEN meta_value ", $meta_key );
-
 		if ( empty( $meta_value ) ) {
-			$clauses[] = $clause . "IS NOT NULL";
+			$clauses[ $meta_key ] = "";
 		} elseif ( 'like' == $meta_compare ) {
-			$clauses[] = $clause . $wpdb->prepare( "LIKE %s", '%' . like_escape( $meta_value ) . '%' );
+			$clauses[ $meta_key ] = $wpdb->prepare( "LIKE %s", '%' . like_escape( $meta_value ) . '%' );
 		} else {
-			$clauses[] = $clause . $wpdb->prepare( "$meta_compare %s", $meta_value );
+			$clauses[ $meta_key ] = $wpdb->prepare( "$meta_compare %s", $meta_value );
 		}
 	}
 
 	if ( empty( $clauses ) )
-		return '';
+		return array('', '');
 
-	return "
-		AND CASE meta_key 
-		" . implode( "\n", $clauses ) . "
-		END
-		GROUP BY $meta_id_column
-		HAVING COUNT(*) = " . count( $clauses );
+	$join = '';
+	$where = '';
+
+	$i = 0;
+	foreach ( $clauses as $meta_key => $value_query ) {
+		$alias = $i ? 'mt' . $i : $meta_table;
+
+		$join .= "\nINNER JOIN $meta_table";
+		$join .= $i ? " AS $alias" : '';
+		$join .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
+
+		$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
+		if ( !empty( $value_query ) )
+			$where .= " AND $alias.meta_value $value_query";
+			
+		$i++;
+	}
+
+	return array( $join, $where );
 }
-
 
 /*
  * Used internally to tidy up the search terms

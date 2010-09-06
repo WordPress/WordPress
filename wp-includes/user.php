@@ -463,12 +463,9 @@ class WP_User_Query {
 
 		$meta_queries[] = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
 
-		$meta_query_sql = _wp_meta_sql( $meta_queries, 'user_id' );
-
-		if ( !empty( $meta_query_sql ) ) {
-			$this->query_from .= " INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)";
-			$this->query_where .= $meta_query_sql;
-		}
+		list( $meta_join, $meta_where ) = _wp_meta_sql( $meta_queries, $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
+		$this->query_from .= $meta_join;
+		$this->query_where .= $meta_where;
 
 		if ( !empty($qv['include']) ) {
 			$ids = implode( ',', wp_parse_id_list( $qv['include'] ) );
