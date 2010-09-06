@@ -463,10 +463,11 @@ class WP_User_Query {
 
 		$meta_queries[] = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
 
-		$meta_query_sql = _wp_meta_sql( $meta_queries, 'user_id', $wpdb->usermeta );
+		$meta_query_sql = _wp_meta_sql( $meta_queries, 'user_id' );
 
 		if ( !empty( $meta_query_sql ) ) {
-			$this->query_where .= " AND $wpdb->users.ID IN ($meta_query_sql)";
+			$this->query_from .= " INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)";
+			$this->query_where .= $meta_query_sql;
 		}
 
 		if ( !empty($qv['include']) ) {
@@ -490,13 +491,13 @@ class WP_User_Query {
 	function query() {
 		global $wpdb;
 
-		$this->results = $wpdb->get_col("SELECT DISTINCT($wpdb->users.ID)" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
+		$this->results = $wpdb->get_col("SELECT $wpdb->users.ID" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
 
 		if ( !$this->results )
 			return;
 
 		if ( $this->query_vars['count_total'] )
-			$this->total_users = $wpdb->get_var("SELECT COUNT(DISTINCT($wpdb->users.ID))" . $this->query_from . $this->query_where);
+			$this->total_users = $wpdb->get_var("SELECT COUNT($wpdb->users.ID)" . $this->query_from . $this->query_where);
 
 		if ( 'all' == $this->query_vars['fields'] ) {
 			cache_users($this->results);

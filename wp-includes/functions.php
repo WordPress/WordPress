@@ -4244,10 +4244,9 @@ function _wp_search_sql($string, $cols) {
  *
  * @param array $queries An array of queries
  * @param string $meta_id_column The column that holds the object id
- * @param string $table Which meta table to look in
  * @return string
  */
-function _wp_meta_sql( $queries, $meta_id_column, $table ) {
+function _wp_meta_sql( $queries, $meta_id_column ) {
 	global $wpdb;
 
 	$clauses = array();
@@ -4278,9 +4277,7 @@ function _wp_meta_sql( $queries, $meta_id_column, $table ) {
 		return '';
 
 	return "
-		SELECT $meta_id_column 
-		FROM $table 
-		WHERE CASE meta_key 
+		AND CASE meta_key 
 		" . implode( "\n", $clauses ) . "
 		END
 		GROUP BY $meta_id_column
