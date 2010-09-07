@@ -588,7 +588,7 @@ function wp_allow_comment($commentdata) {
 			$approved = 'spam';
 	}
 
-	$approved = apply_filters('pre_comment_approved', $approved);
+	$approved = apply_filters( 'pre_comment_approved', $approved, $commentdata );
 	return $approved;
 }
 
