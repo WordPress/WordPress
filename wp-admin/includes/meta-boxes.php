@@ -433,8 +433,8 @@ function post_comment_status_meta_box($post) {
  *
  * @since 3.0.0
  *
- * @param $result table header rows
- * @return
+ * @param array $result table header rows
+ * @return array
  */
 function post_comment_meta_box_thead($result) {
 	unset($result['cb'], $result['response']);

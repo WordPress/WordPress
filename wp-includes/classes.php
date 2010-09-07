@@ -980,8 +980,8 @@ class Walker {
  	 *
  	 * @package WordPress
  	 * @since 2.7
- 	 * @param $max_depth = 0  means display all levels; $max_depth > 0  specifies the number of display levels.
- 	 * @param $page_num the specific page number, beginning with 1.
+ 	 * @param int $max_depth = 0 means display all levels; $max_depth > 0 specifies the number of display levels.
+ 	 * @param int $page_num the specific page number, beginning with 1.
  	 * @return XHTML of the specified page of elements
  	 */
 	function paged_walk( $elements, $max_depth, $page_num, $per_page ) {

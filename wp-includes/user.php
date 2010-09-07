@@ -162,7 +162,7 @@ function count_user_posts($userid) {
  * Number of posts written by a list of users.
  *
  * @since 3.0.0
- * @param array $userid User ID number list.
+ * @param array $users User ID number list.
  * @return array Amount of posts each user has written.
  */
 function count_many_users_posts($users) {
@@ -584,8 +584,8 @@ function get_users_of_blog( $id = '' ) {
  * @link http://codex.wordpress.org/Function_Reference/add_user_meta
  *
  * @param int $user_id Post ID.
- * @param string $key Metadata name.
- * @param mixed $value Metadata value.
+ * @param string $meta_key Metadata name.
+ * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
  * @return bool False for failure. True for success.
  */
@@ -643,8 +643,8 @@ function get_user_meta($user_id, $key, $single = false) {
  * @link http://codex.wordpress.org/Function_Reference/update_user_meta
  *
  * @param int $user_id Post ID.
- * @param string $key Metadata key.
- * @param mixed $value Metadata value.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
  * @return bool False on failure, true if success.
  */

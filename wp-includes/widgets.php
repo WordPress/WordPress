@@ -596,7 +596,7 @@ function unregister_sidebar( $name ) {
  * @param int|string $id Widget ID.
  * @param string $name Widget display title.
  * @param callback $output_callback Run when widget is called.
- * @param array|string Optional. $options Widget Options.
+ * @param array|string $options Optional. Widget Options.
  * @param mixed $params,... Widget parameters to add to widget.
  * @return null Will return if $output_callback is empty after removing widget.
  */
@@ -911,7 +911,7 @@ function dynamic_sidebar($index = 1) {
  *
  * @since 2.2.0
  *
- * @param callback Optional, Widget callback to check.
+ * @param string $callback Optional, Widget callback to check.
  * @param int $widget_id Optional, but needed for checking. Widget ID.
  * @param string $id_base Optional, the base ID of a widget created by extending WP_Widget.
  * @param bool $skip_inactive Optional, whether to check in 'wp_inactive_widgets'.
@@ -965,7 +965,7 @@ function is_dynamic_sidebar() {
  *
  * @since 2.8
  *
- * @param mixed $index, sidebar name, id or number to check.
+ * @param mixed $index Sidebar name, id or number to check.
  * @return bool true if the sidebar is in use, false otherwise.
  */
 function is_active_sidebar( $index ) {
@@ -988,7 +988,7 @@ function is_active_sidebar( $index ) {
  * @since 2.2.0
  * @access private
  *
- * @param bool $deprecated. Not used.
+ * @param bool $deprecated Not used (deprecated).
  * @return array Upgraded list of widgets to version 3 array format when called from the admin.
  */
 function wp_get_sidebars_widgets($deprecated = true) {

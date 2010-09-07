@@ -7,12 +7,12 @@
  */
 
 /**
- * Retrieve Bookmark data based on ID
+ * Retrieve Bookmark data
  *
  * @since 2.1.0
  * @uses $wpdb Database Object
  *
- * @param int $bookmark_id
+ * @param mixed $bookmark
  * @param string $output Optional. Either OBJECT, ARRAY_N, or ARRAY_A constant
  * @param string $filter Optional, default is 'raw'.
  * @return array|object Type returned depends on $output value.

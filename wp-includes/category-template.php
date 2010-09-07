@@ -250,8 +250,8 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
  *
  * @uses is_object_in_term()
  *
- * @param int|string|array $category. Category ID, name or slug, or array of said.
- * @param int|post object Optional.  Post to check instead of the current post. @since 2.7.0
+ * @param int|string|array $category Category ID, name or slug, or array of said.
+ * @param int|object $_post Optional. Post to check instead of the current post. (since 2.7.0)
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $_post = null ) {
@@ -987,7 +987,7 @@ function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
  * @uses is_object_in_term()
  *
  * @param string|int|array $tag Optional. The tag name/term_id/slug or array of them to check for.
- * @param int|post object Optional.  Post to check instead of the current post. @since 2.7.0
+ * @param int|object $_post Optional. Post to check instead of the current post. (since 2.7.0)
  * @return bool True if the current post has any of the the given tags (or any tag, if no tag specified).
  */
 function has_tag( $tag = '', $_post = null ) {

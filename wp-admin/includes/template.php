@@ -712,14 +712,11 @@ function the_attachment_links( $id = false ) {
 
 
 /**
- * Print out <option> html elements for role selectors based on $wp_roles
+ * Print out <option> html elements for role selectors
  *
- * @package WordPress
- * @subpackage Administration
  * @since 2.1
  *
- * @uses $wp_roles
- * @param string $default slug for the role that should be already selected
+ * @param string $selected slug for the role that should be already selected
  */
 function wp_dropdown_roles( $selected = false ) {
 	$p = '';
@@ -729,7 +726,7 @@ function wp_dropdown_roles( $selected = false ) {
 
 	foreach ( $editable_roles as $role => $details ) {
 		$name = translate_user_role($details['name'] );
-		if ( $selected == $role ) // Make default first in list
+		if ( $selected == $role ) // preselect specified role
 			$p = "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
 		else
 			$r .= "\n\t<option value='" . esc_attr($role) . "'>$name</option>";
@@ -1268,9 +1265,8 @@ function get_settings_errors( $setting = '', $sanitize = FALSE ) {
  * @param string $setting Optional slug title of a specific setting who's errors you want.
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
  * @param boolean $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
- * @return <type>
  */
-function settings_errors ( $setting = '', $sanitize = FALSE, $hide_on_update = FALSE ) {
+function settings_errors( $setting = '', $sanitize = FALSE, $hide_on_update = FALSE ) {
 
 	if ($hide_on_update AND $_GET['updated']) return;
 
@@ -1493,10 +1489,10 @@ function favorite_actions( $screen = null ) {
  * returned.
  *
  * @since 2.7.0
- * @param int $id The post id. If not supplied the global $post is used.
- *
+ * @param int $post_id The post id. If not supplied the global $post is used.
+ * @return string The post title if set
  */
-function _draft_or_post_title($post_id = 0) {
+function _draft_or_post_title( $post_id = 0 ) {
 	$title = get_the_title($post_id);
 	if ( empty($title) )
 		$title = __('(no title)');

@@ -403,7 +403,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
  *
  * @since 3.0.0
  *
- * @param $args array Array of arguments passed on to get_terms().
+ * @param array $args Array of arguments passed on to get_terms().
  * @return array menu objects
  */
 function wp_get_nav_menus( $args = array() ) {

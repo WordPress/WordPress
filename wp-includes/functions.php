@@ -4177,7 +4177,7 @@ function wp_scheduled_delete() {
  * @since 2.9.0
  *
  * @param string $file Path to the file
- * @param bool $markup If the returned data should have HTML markup applied
+ * @param array $default_headers Default metadata headers
  * @param string $context If specified adds filter hook "extra_<$context>_headers"
  */
 function get_file_data( $file, $default_headers, $context = '' ) {

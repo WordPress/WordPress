@@ -625,7 +625,7 @@ function register_post_status($post_status, $args = array()) {
  * @see register_post_status
  * @see get_post_statuses
  *
- * @param string $post_type The name of a registered post status
+ * @param string $post_status The name of a registered post status
  * @return object A post status object
  */
 function get_post_status_object( $post_status ) {
@@ -669,7 +669,7 @@ function get_post_stati( $args = array(), $output = 'names', $operator = 'and' )
  * @since 3.0.0
  * @see get_post_type_object
  *
- * @param string $post Post type name
+ * @param string $post_type Post type name
  * @return bool Whether post type is hierarchical.
  */
 function is_post_type_hierarchical( $post_type ) {
@@ -686,7 +686,7 @@ function is_post_type_hierarchical( $post_type ) {
  * @since 3.0.0
  * @uses get_post_type_object()
  *
- * @param string Post type name
+ * @param string $post_type Post type name
  * @return bool Whether post type is registered.
  */
 function post_type_exists( $post_type ) {
@@ -1144,8 +1144,8 @@ function get_posts($args = null) {
  * @link http://codex.wordpress.org/Function_Reference/add_post_meta
  *
  * @param int $post_id Post ID.
- * @param string $key Metadata name.
- * @param mixed $value Metadata value.
+ * @param string $meta_key Metadata name.
+ * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
  * @return bool False for failure. True for success.
  */
@@ -1211,8 +1211,8 @@ function get_post_meta($post_id, $key, $single = false) {
  * @link http://codex.wordpress.org/Function_Reference/update_post_meta
  *
  * @param int $post_id Post ID.
- * @param string $key Metadata key.
- * @param mixed $value Metadata value.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
  * @return bool False on failure, true if success.
  */
@@ -1650,7 +1650,7 @@ function wp_match_mime_types($wildcard_mime_types, $real_mime_types) {
  *
  * @since 2.5.0
  *
- * @param string|array $mime_types List of mime types or comma separated string of mime types.
+ * @param string|array $post_mime_types List of mime types or comma separated string of mime types.
  * @param string $table_alias Optional. Specify a table alias, if needed.
  * @return string The SQL AND clause for mime searching.
  */
@@ -1809,7 +1809,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
  * @uses do_action() on 'trashed_post' after trashing
  * @uses wp_delete_post() if trash is disabled
  *
- * @param int $postid Post ID.
+ * @param int $post_id Post ID.
  * @return mixed False on failure
  */
 function wp_trash_post($post_id = 0) {
@@ -1844,7 +1844,7 @@ function wp_trash_post($post_id = 0) {
  * @uses do_action() on 'untrash_post' before undeletion
  * @uses do_action() on 'untrashed_post' after undeletion
  *
- * @param int $postid Post ID.
+ * @param int $post_id Post ID.
  * @return mixed False on failure
  */
 function wp_untrash_post($post_id = 0) {
@@ -2964,12 +2964,11 @@ function &get_page_children($page_id, $pages) {
  *
  * @since 2.0.0
  *
- * @param array $posts Posts array.
- * @param int $parent Parent page ID.
+ * @param array $pages Posts array.
+ * @param int $page_id Parent page ID.
  * @return array A list arranged by hierarchy. Children immediately follow their parents.
  */
 function &get_page_hierarchy( &$pages, $page_id = 0 ) {
-
 	if ( empty( $pages ) ) {
 		$result = array();
 		return $result;
@@ -2977,13 +2976,12 @@ function &get_page_hierarchy( &$pages, $page_id = 0 ) {
 
 	$children = array();
 	foreach ( (array) $pages as $p ) {
-
 		$parent_id = intval( $p->post_parent );
 		$children[ $parent_id ][] = $p;
-	 }
+	}
 
-	 $result = array();
-	 _page_traverse_name( $page_id, $children, $result );
+	$result = array();
+	_page_traverse_name( $page_id, $children, $result );
 
 	return $result;
 }
@@ -2994,11 +2992,8 @@ function &get_page_hierarchy( &$pages, $page_id = 0 ) {
  *
  */
 function _page_traverse_name( $page_id, &$children, &$result ){
-
 	if ( isset( $children[ $page_id ] ) ){
-
 		foreach( (array)$children[ $page_id ] as $child ) {
-
 			$result[ $child->ID ] = $child->post_name;
 			_page_traverse_name( $child->ID, $children, $result );
 		}
@@ -3277,7 +3272,7 @@ function is_local_attachment($url) {
  *
  * @param string|array $object Arguments to override defaults.
  * @param string $file Optional filename.
- * @param int $post_parent Parent post ID.
+ * @param int $parent Parent post ID.
  * @return int Attachment ID.
  */
 function wp_insert_attachment($object, $file = false, $parent = 0) {
@@ -3427,7 +3422,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
  * @uses $wpdb
  * @uses do_action() Calls 'delete_attachment' hook on Attachment ID.
  *
- * @param int $postid Attachment ID.
+ * @param int $post_id Attachment ID.
  * @param bool $force_delete Whether to bypass trash and force deletion. Defaults to false.
  * @return mixed False on failure. Post data on success.
  */
@@ -4645,8 +4640,7 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
  * @uses wp_delete_post()
  *
  * @param int|object $revision_id Revision ID or revision object.
- * @param array $fields Optional. What fields to restore from.  Defaults to all.
- * @return mixed Null if error, false if no fields to restore, (int) post ID if success.
+ * @return mixed Null or WP_Error if error, deleted post if success.
  */
 function wp_delete_post_revision( $revision_id ) {
 	if ( !$revision = wp_get_post_revision( $revision_id ) )

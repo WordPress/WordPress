@@ -960,7 +960,7 @@ function get_attachment_taxonomies($attachment) {
  *
  * @since 2.9.0
  *
- * @param $mime_type string
+ * @param string $mime_type
  * @return bool
  */
 function gd_edit_image_support($mime_type) {
@@ -991,8 +991,8 @@ function gd_edit_image_support($mime_type) {
  *
  * @since 2.9.0
  *
- * @param $width
- * @param $height
+ * @param int $width Image width
+ * @param int $height Image height
  * @return image resource
  */
 function wp_imagecreatetruecolor($width, $height) {

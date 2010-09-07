@@ -201,7 +201,7 @@ function is_tag( $slug = '' ) {
  * @uses $wp_query
  *
  * @param mixed $taxonomy Optional. Taxonomy slug or slugs.
- * @param mixed $term. Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
+ * @param mixed $term Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
  * @return bool
  */
 function is_tax( $taxonomy = '', $term = '' ) {

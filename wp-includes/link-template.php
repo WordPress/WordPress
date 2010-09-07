@@ -27,8 +27,8 @@ function the_permalink() {
  * @since 2.2.0
  * @uses $wp_rewrite
  *
- * @param $string String a URL with or without a trailing slash.
- * @param $type_of_url String the type of URL being considered (e.g. single, category, etc) for use in the filter.
+ * @param string $string URL with or without a trailing slash.
+ * @param string $type_of_url The type of URL being considered (e.g. single, category, etc) for use in the filter.
  * @return string
  */
 function user_trailingslashit($string, $type_of_url = '') {
@@ -1154,7 +1154,7 @@ function prev_post_rel_link($title = '%title', $in_same_cat = false, $excluded_c
  *
  * @param bool $in_same_cat Optional. Whether returned post should be in same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
- * @param bool $previous Optional. Whether to retrieve first post.
+ * @param bool $start Optional. Whether to retrieve first or last post.
  * @return object
  */
 function get_boundary_post($in_same_cat = false, $excluded_categories = '', $start = true) {
@@ -1200,7 +1200,7 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
  * @param string $title Optional. Link title format.
  * @param bool $in_same_cat Optional. Whether link should be in same category.
  * @param string $excluded_categories Optional. Excluded categories IDs.
- * @param bool $start Optional, default is true. Whether display link to first post.
+ * @param bool $start Optional, default is true. Whether display link to first or last post.
  * @return string
  */
 function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
@@ -2186,7 +2186,7 @@ function rel_canonical() {
  * @since 3.0.0.
  *
  * @param int $id A post or blog id.  Default is 0, which means the current post or blog.
- * @param string $contex Whether the id is a 'blog' id, 'post' id, or 'media' id.  If 'post', the post_type of the post is consulted.  If 'query', the current query is consulted to determine the id and context. Default is 'post'.
+ * @param string $context Whether the id is a 'blog' id, 'post' id, or 'media' id. If 'post', the post_type of the post is consulted. If 'query', the current query is consulted to determine the id and context. Default is 'post'.
  * @param bool $allow_slugs Whether to allow post slugs in the shortlink. It is up to the plugin how and whether to honor this.
  * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks are not enabled.
  */

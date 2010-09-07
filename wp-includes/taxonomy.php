@@ -640,7 +640,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  * @uses _get_term_hierarchy()
  * @uses get_term_children() Used to get the children of both $taxonomy and the parent $term
  *
- * @param string $term ID of Term to get children
+ * @param string $term_id ID of Term to get children
  * @param string $taxonomy Taxonomy Name
  * @return array|WP_Error List of Term Objects. WP_Error returned if $taxonomy does not exist
  */
@@ -815,7 +815,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @uses $wpdb
  * @uses wp_parse_args() Merges the defaults with those defined by $args and allows for strings.
  *
- * @param string|array Taxonomy name or list of Taxonomy names
+ * @param string|array $taxonomies Taxonomy name or list of Taxonomy names
  * @param string|array $args The values of what to search for when returning terms
  * @return array|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies do not exist.
  */
@@ -1306,7 +1306,7 @@ function wp_count_terms( $taxonomy, $args = array() ) {
  * @uses $wpdb
  *
  * @param int $object_id The term Object Id that refers to the term
- * @param string|array $taxonomy List of Taxonomy Names or single Taxonomy name.
+ * @param string|array $taxonomies List of Taxonomy Names or single Taxonomy name.
  */
 function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 	global $wpdb;
@@ -1444,7 +1444,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
  * @since 2.3.0
  * @uses $wpdb
  *
- * @param int|array $object_id The id of the object(s) to retrieve.
+ * @param int|array $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
  * @param array|string $args Change what is returned
  * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if $taxonomy does not exist.
@@ -1714,7 +1714,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @uses $wpdb
  *
  * @param int $object_id The object to relate to.
- * @param array|int|string $term The slug or id of the term, will replace all existing
+ * @param array|int|string $terms The slug or id of the term, will replace all existing
  * related terms in this taxonomy.
  * @param array|string $taxonomy The context in which to relate the term to the object.
  * @param bool $append If false will delete difference of terms.
@@ -2633,8 +2633,8 @@ function get_post_taxonomies($post = 0) {
  * @uses get_object_term_cache()
  * @uses wp_get_object_terms()
  *
- * @param int $object_id.  ID of the object (post ID, link ID, ...)
- * @param string $taxonomy.  Single taxonomy name
+ * @param int $object_id ID of the object (post ID, link ID, ...)
+ * @param string $taxonomy Single taxonomy name
  * @param int|string|array $terms Optional.  Term term_id, name, slug or array of said
  * @return bool|WP_Error. WP_Error on input error.
  */
@@ -2679,7 +2679,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
  * @uses get_object_taxonomies()
  *
  * @param string $object_type Object type string
- * @param string $taxonomy.  Single taxonomy name
+ * @param string $taxonomy Single taxonomy name
  * @return bool True if object is associated with the taxonomy, otherwise false.
  */
 function is_object_in_taxonomy($object_type, $taxonomy) {

@@ -328,7 +328,7 @@ function update_meta_cache($meta_type, $object_ids) {
  * @since 2.9.0
  * @uses $wpdb WordPress database object for queries.
  *
- * @param string $meta_type Type of object to get metadata table for (e.g., comment, post, or user)
+ * @param string $type Type of object to get metadata table for (e.g., comment, post, or user)
  * @return mixed Metadata table name, or false if no metadata table exists
  */
 function _get_meta_table($type) {

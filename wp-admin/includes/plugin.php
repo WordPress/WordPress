@@ -428,8 +428,8 @@ function is_plugin_active_for_network( $plugin ) {
  *
  * @since 3.0.0
  *
- * @param $file Plugin to check
- * $return bool True if plugin is network only, false otherwise.
+ * @param string $plugin Plugin to check
+ * @return bool True if plugin is network only, false otherwise.
  */
 function is_network_only_plugin( $plugin ) {
 	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );

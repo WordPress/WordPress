@@ -712,7 +712,7 @@ add_action( 'admin_notices', 'ms_deprecated_blogs_file' );
  * Grants super admin privileges.
  *
  * @since 3.0.0
- * @param $user_id
+ * @param int $user_id
  */
 function grant_super_admin( $user_id ) {
 	global $super_admins;
@@ -740,7 +740,7 @@ function grant_super_admin( $user_id ) {
  * Revokes super admin privileges.
  *
  * @since 3.0.0
- * @param $user_id
+ * @param int $user_id
  */
 function revoke_super_admin( $user_id ) {
 	global $super_admins;

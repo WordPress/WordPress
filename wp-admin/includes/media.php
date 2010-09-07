@@ -835,7 +835,7 @@ function image_align_input_fields( $post, $checked = '' ) {
  * @since unknown
  *
  * @param unknown_type $post
- * @param unknown_type $checked
+ * @param unknown_type $check
  * @return unknown
  */
 function image_size_input_fields( $post, $check = '' ) {

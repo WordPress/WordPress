@@ -645,9 +645,9 @@ function search_theme_directories() {
  * Does not have trailing slash.
  *
  * @since 1.5.0
- * @param $stylesheet_or_template The stylesheet or template name of the theme
  * @uses apply_filters() Calls 'theme_root' filter on path.
  *
+ * @param string $stylesheet_or_template The stylesheet or template name of the theme
  * @return string Theme path.
  */
 function get_theme_root( $stylesheet_or_template = false ) {
@@ -671,8 +671,8 @@ function get_theme_root( $stylesheet_or_template = false ) {
  * Does not have trailing slash.
  *
  * @since 1.5.0
- * @param $stylesheet_or_template The stylesheet or template name of the theme
  *
+ * @param string $stylesheet_or_template The stylesheet or template name of the theme
  * @return string Themes URI.
  */
 function get_theme_root_uri( $stylesheet_or_template = false ) {
@@ -1432,7 +1432,7 @@ function register_default_headers( $headers ) {
  * @see register_default_headers()
  * @since 3.0.0
  *
- * @param string|array The header string id (key of array) to remove, or an array thereof.
+ * @param string|array $header The header string id (key of array) to remove, or an array thereof.
  * @return True on success, false on failure.
  */
 function unregister_default_headers( $header ) {

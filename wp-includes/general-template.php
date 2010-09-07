@@ -2037,7 +2037,7 @@ function paginate_links( $args = '' ) {
  * @param string $key The unique key for this theme.
  * @param string $name The name of the theme.
  * @param string $url The url of the css file containing the colour scheme.
- * @param array @colors Optional An array of CSS color definitions which are used to give the user a feel for the theme.
+ * @param array $colors Optional An array of CSS color definitions which are used to give the user a feel for the theme.
  */
 function wp_admin_css_color($key, $name, $url, $colors = array()) {
 	global $_wp_admin_css_colors;
@@ -2246,7 +2246,7 @@ function checked( $checked, $current = true, $echo = true ) {
  *
  * @since 1.0
  *
- * @param mixed selected One of the values to compare
+ * @param mixed $selected One of the values to compare
  * @param mixed $current (true) The other value to compare if not just true
  * @param bool $echo Whether to echo or just return the string
  * @return string html attribute or empty string

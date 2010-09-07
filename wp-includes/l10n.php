@@ -270,8 +270,8 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  *  $usable_text = sprintf(_n($message[0], $message[1], $count), $count);
  *
  * @since 2.5
- * @param $single Single form to be i18ned
- * @param $plural Plural form to be i18ned
+ * @param string $single Single form to be i18ned
+ * @param string $plural Plural form to be i18ned
  * @return array array($single, $plural)
  */
 function _n_noop( $single, $plural ) {

@@ -162,7 +162,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
  * @since 0.71
  * @see get_comment_author_link() Echoes result
  *
- * @param int The ID of the comment for which to print the author's link. Optional.
+ * @param int $comment_ID The ID of the comment for which to print the author's link. Optional.
  */
 function comment_author_link( $comment_ID = 0 ) {
 	echo get_comment_author_link( $comment_ID );

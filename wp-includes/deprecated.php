@@ -164,10 +164,10 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
  * @see next_post_link()
  *
  * @param string $format
- * @param string $previous
+ * @param string $next
  * @param string $title
  * @param string $in_same_cat
- * @param int $limitprev
+ * @param int $limitnext
  * @param string $excluded_categories
  */
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
@@ -872,7 +872,7 @@ function permalink_link() {
  * @deprecated Use the_permalink_rss()
  * @see the_permalink_rss()
  *
- * @param string $file
+ * @param string $deprecated
  */
 function permalink_single_rss($deprecated = '') {
 	_deprecated_function( __FUNCTION__, '2.3', 'the_permalink_rss()' );

@@ -110,7 +110,7 @@ function wp_cache_init() {
  * @uses $wp_object_cache Object Cache Class
  * @see WP_Object_Cache::replace()
  *
- * @param int|string $id What to call the contents in the cache
+ * @param int|string $key What to call the contents in the cache
  * @param mixed $data The contents to store in the cache
  * @param string $flag Where to group the cache contents
  * @param int $expire When to expire the cache contents
@@ -129,7 +129,7 @@ function wp_cache_replace($key, $data, $flag = '', $expire = 0) {
  * @uses $wp_object_cache Object Cache Class
  * @see WP_Object_Cache::set()
  *
- * @param int|string $id What to call the contents in the cache
+ * @param int|string $key What to call the contents in the cache
  * @param mixed $data The contents to store in the cache
  * @param string $flag Where to group the cache contents
  * @param int $expire When to expire the cache contents

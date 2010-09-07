@@ -727,7 +727,6 @@ function _wp_call_all_hook($args) {
  * @param string $tag Used in counting how many hooks were applied
  * @param callback $function Used for creating unique id
  * @param int|bool $priority Used in counting how many hooks were applied.  If === false and $function is an object reference, we return the unique id only if it already has one, false otherwise.
- * @param string $type filter or action
  * @return string|bool Unique ID for usage as array key or false if $priority === false and $function is an object reference, and it does not already have a uniqe id.
  */
 function _wp_filter_build_unique_id($tag, $function, $priority) {
