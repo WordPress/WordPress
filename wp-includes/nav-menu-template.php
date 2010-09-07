@@ -359,9 +359,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 
 		// if the menu item corresponds to the currently-requested URL
 		} elseif ( 'custom' == $menu_item->object ) {
-			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			$item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;
-			$_indexless_current = preg_replace( '/index.php$/', '', $current_url );
+			$current_url = untrailingslashit( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+			$item_url = untrailingslashit( strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url );
+			$_indexless_current = untrailingslashit( preg_replace( '/index.php$/', '', $current_url ) );
 			
 			if ( in_array( $item_url, array( $current_url, $_indexless_current ) ) ) {
 				$classes[] = 'current-menu-item';
