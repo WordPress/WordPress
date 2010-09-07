@@ -1020,7 +1020,7 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	if ( empty($terms) ) {
-		wp_cache_add( $cache_key, array(), 'terms' );
+		wp_cache_add( $cache_key, array(), 'terms', 86400 ); // one day
 		$terms = apply_filters('get_terms', array(), $taxonomies, $args);
 		return $terms;
 	}
@@ -1071,7 +1071,7 @@ function &get_terms($taxonomies, $args = '') {
 		$terms = array_slice($terms, $offset, $number);
 	}
 
-	wp_cache_add( $cache_key, $terms, 'terms' );
+	wp_cache_add( $cache_key, $terms, 'terms', 86400 ); // one day
 
 	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
 	return $terms;
