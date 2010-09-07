@@ -60,8 +60,8 @@ case 'editcomment' :
 	if ( !$comment = get_comment( $comment_id ) )
 		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'javascript:history.go(-1)') );
 
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		comment_footer_die( __('You are not allowed to edit comments on this post.') );
+	if ( !current_user_can( 'edit_comment', $comment_id ) )
+		comment_footer_die( __('You are not allowed to edit this comment.') );
 
 	if ( 'trash' == $comment->comment_approved )
 		comment_footer_die( __('This comment is in the Trash. Please move it out of the Trash if you want to edit it.') );
@@ -84,7 +84,7 @@ case 'spam'    :
 		die();
 	}
 
-	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) ) {
+	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		wp_redirect( admin_url('edit-comments.php?error=2') );
 		die();
 	}
@@ -184,7 +184,6 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 
 <?php wp_nonce_field( $nonce_action ); ?>
 <input type='hidden' name='action' value='<?php echo esc_attr($formaction); ?>' />
-<input type='hidden' name='p' value='<?php echo esc_attr($comment->comment_post_ID); ?>' />
 <input type='hidden' name='c' value='<?php echo esc_attr($comment->comment_ID); ?>' />
 <input type='hidden' name='noredir' value='1' />
 </form>
@@ -212,7 +211,7 @@ case 'unapprovecomment' :
 
 	if ( !$comment = get_comment($comment_id) )
 		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
-	if ( !current_user_can('edit_post', $comment->comment_post_ID ) )
+	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
 		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
 	if ( '' != wp_get_referer() && ! $noredir && false === strpos(wp_get_referer(), 'comment.php') )

@@ -875,15 +875,9 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
  */
 function get_edit_comment_link( $comment_id = 0 ) {
 	$comment = &get_comment( $comment_id );
-	$post = &get_post( $comment->comment_post_ID );
 
-	if ( $post->post_type == 'page' ) {
-		if ( !current_user_can( 'edit_page', $post->ID ) )
-			return;
-	} else {
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return;
-	}
+	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
+		return;
 
 	$location = admin_url('comment.php?action=editcomment&amp;c=') . $comment->comment_ID;
 	return apply_filters( 'get_edit_comment_link', $location );
@@ -900,15 +894,10 @@ function get_edit_comment_link( $comment_id = 0 ) {
  * @return string|null HTML content, if $echo is set to false.
  */
 function edit_comment_link( $link = null, $before = '', $after = '' ) {
-	global $comment, $post;
+	global $comment;
 
-	if ( $post->post_type == 'page' ) {
-		if ( !current_user_can( 'edit_page', $post->ID ) )
-			return;
-	} else {
-		if ( !current_user_can( 'edit_post', $post->ID ) )
-			return;
-	}
+	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
+		return;
 
 	if ( null === $link )
 		$link = __('Edit This');

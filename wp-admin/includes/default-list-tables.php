@@ -2254,8 +2254,7 @@ class WP_Comments_Table extends WP_List_Table {
 		$comment = get_comment( $comment_id );
 		$post = get_post( $comment->comment_post_ID );
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
-		$post_type_object = get_post_type_object( $post->post_type );
-		$user_can = current_user_can( $post_type_object->cap->edit_post, $post->ID );
+		$user_can = current_user_can( 'edit_comment', $comment_id );
 
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 		$author_url = get_comment_author_url();
@@ -2275,7 +2274,7 @@ class WP_Comments_Table extends WP_List_Table {
 			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 
-			$url = "comment.php?post_ID=$post->ID&c=$comment->comment_ID";
+			$url = "comment.php?c=$comment->comment_ID";
 
 			$approve_url = esc_url( $url . "&action=approvecomment&$approve_nonce" );
 			$unapprove_url = esc_url( $url . "&action=unapprovecomment&$approve_nonce" );

@@ -34,9 +34,7 @@ if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset
 	$redirect_to = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'spammed', 'unspammed', 'approved', 'unapproved', 'ids' ), wp_get_referer() );
 
 	foreach ( $comment_ids as $comment_id ) { // Check the permissions on each
-		$_post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id ) );
-
-		if ( !current_user_can( 'edit_post', $_post_id ) )
+		if ( !current_user_can( 'edit_comment', $comment_id ) )
 			continue;
 
 		switch ( $doaction ) {

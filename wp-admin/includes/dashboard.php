@@ -586,7 +586,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
 
 	$actions_string = '';
-	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+	if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		// preorder it: Approve | Reply | Edit | Spam | Trash
 		$actions = array(
 			'approve' => '', 'unapprove' => '',
