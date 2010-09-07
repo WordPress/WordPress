@@ -590,6 +590,13 @@ require_once( './admin-header.php' );
 							?>
 						</div><!-- /#post-body-content -->
 					</div><!-- /#post-body -->
+					<div id="nav-menu-footer">
+						<div class="major-publishing-actions">
+						<div class="publishing-action">
+							<input class="button-primary menu-save" name="save_menu" type="submit" value="<?php empty($nav_menu_selected_id) ? esc_attr_e('Create Menu') : esc_attr_e('Save Menu'); ?>" />
+						</div>
+						</div>
+					</div><!-- /#nav-menu-footer -->
 				</form><!-- /#update-nav-menu -->
 			</div><!-- /.menu-edit -->
 		</div><!-- /#menu-management -->

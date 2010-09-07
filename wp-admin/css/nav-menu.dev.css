@@ -61,7 +61,7 @@ body {
 		margin-bottom: 20px;
 	}
 
-	#nav-menu-header, #post-body {
+	#nav-menu-header, #post-body, #nav-menu-footer {
 		border-color: #ccc;
 		border-style: solid;
 	}
@@ -81,15 +81,7 @@ body {
 	#post-body {
 		background: #fff;
 		padding: 10px;
-		border-width: 0 1px 1px 1px;
-		-moz-border-radius-bottomleft: 6px;
-		-webkit-border-bottom-left-radius: 6px;
-		-khtml-border-bottom-left-radius: 6px;
-		border-bottom-left-radius: 6px;
-		-moz-border-radius-bottomright: 6px;
-		-webkit-border-bottom-right-radius: 6px;
-		-khtml-border-bottom-right-radius: 6px;
-		border-bottom-right-radius: 6px;
+		border-width: 0 1px;
 	}
 
 	#post-body div.updated {
@@ -103,6 +95,18 @@ body {
 	#menu-management .menu-add-new abbr {
 		font-weight:bold;
 	}
+	
+#nav-menu-footer {
+	border-width: 0 1px 1px 1px;
+	-moz-border-radius-bottomleft: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-khtml-border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	-khtml-border-bottom-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
 
 /* Menu Tabs */
 

@@ -1686,7 +1686,7 @@ div.widgets-sortables,
 	background-color: #f1f1f1;
 }
 
-#nav-menu-header, .menu-item-handle {
+#nav-menu-header, #nav-menu-footer, .menu-item-handle {
 	background: url("../images/gray-grad.png") repeat-x scroll left top #dfdfdf;
 }
 
