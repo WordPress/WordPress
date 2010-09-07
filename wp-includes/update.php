@@ -334,6 +334,9 @@ function _maybe_update_themes( ) {
 	wp_update_themes();
 }
 
+if ( ! is_main_site() )
+	return;
+
 add_action( 'admin_init', '_maybe_update_core' );
 add_action( 'wp_version_check', 'wp_version_check' );
 
