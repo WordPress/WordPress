@@ -971,7 +971,7 @@ jQuery(function($){
 <p><?php
 	$label_user = __('Username');
 	$label_pass = __('Password');
-	_e('To perform the requested action, WordPress needs to access to your web server.');
+	_e('To perform the requested action, WordPress needs to access your web server.');
 	echo ' ';
 	if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
 		if ( isset( $types['ssh'] ) ) {
