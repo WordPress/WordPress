@@ -542,7 +542,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		else if ( $number > 15 )
 			$number = 15;
 
-		$r = new WP_Query(array('showposts' => $number, 'nopaging' => 0, 'post_status' => 'publish', 'caller_get_posts' => 1));
+		$r = new WP_Query(array('showposts' => $number, 'nopaging' => 0, 'post_status' => 'publish', 'ignore_sticky_posts' => true));
 		if ($r->have_posts()) :
 ?>
 		<?php echo $before_widget; ?>

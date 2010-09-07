@@ -1540,8 +1540,14 @@ class WP_Query {
 		$post_status_join = false;
 		$page = 1;
 
-		if ( !isset($q['caller_get_posts']) )
-			$q['caller_get_posts'] = false;
+		if ( isset( $q['caller_get_posts'] ) ) {
+			_deprecated_argument( 'WP_Query', '3.1', __( '"caller_get_posts" is deprecated. Use "ignore_sticky_posts" instead.' ) );
+			if ( !isset( $q['ignore_sticky_posts'] ) )
+				$q['ignore_sticky_posts'] = $q['caller_get_posts'];
+		}
+
+		if ( !isset( $q['ignore_sticky_posts'] ) )
+			$q['ignore_sticky_posts'] = false;
 
 		if ( !isset($q['suppress_filters']) )
 			$q['suppress_filters'] = false;
@@ -2377,7 +2383,7 @@ class WP_Query {
 
 		// Put sticky posts at the top of the posts array
 		$sticky_posts = get_option('sticky_posts');
-		if ( $this->is_home && $page <= 1 && is_array($sticky_posts) && !empty($sticky_posts) && !$q['caller_get_posts'] ) {
+		if ( $this->is_home && $page <= 1 && is_array($sticky_posts) && !empty($sticky_posts) && !$q['ignore_sticky_posts'] ) {
 			$num_posts = count($this->posts);
 			$sticky_offset = 0;
 			// Loop over posts and relocate stickies to the front.
