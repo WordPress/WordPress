@@ -2481,10 +2481,10 @@ function _update_post_term_count( $terms, $taxonomy ) {
  * @since 2.5.0
  *
  * @param object|int|string $term
- * @param string $taxonomy
+ * @param string $taxonomy (optional if $term is object)
  * @return string HTML link to taxonomy term archive
  */
-function get_term_link( $term, $taxonomy ) {
+function get_term_link( $term, $taxonomy = '') {
 	global $wp_rewrite;
 
 	if ( !is_object($term) ) {
@@ -2500,6 +2500,8 @@ function get_term_link( $term, $taxonomy ) {
 
 	if ( is_wp_error( $term ) )
 		return $term;
+
+	$taxonomy = $term->taxonomy;
 
 	// use legacy functions for core taxonomies until they are fully plugged in
 	if ( $taxonomy == 'category' )
@@ -2597,7 +2599,7 @@ function get_the_taxonomies($post = 0) {
 		$links = array();
 
 		foreach ( $terms as $term )
-			$links[] = "<a href='" . esc_attr(get_term_link($term, $taxonomy)) . "'>$term->name</a>";
+			$links[] = "<a href='" . esc_attr( get_term_link($term) ) . "'>$term->name</a>";
 
 		if ( $links )
 			$taxonomies[$taxonomy] = wp_sprintf($t['template'], $t['label'], $links, $terms);

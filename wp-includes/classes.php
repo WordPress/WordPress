@@ -1340,9 +1340,9 @@ class Walker_Category extends Walker {
 	function start_el(&$output, $category, $depth, $args) {
 		extract($args);
 
-		$cat_name = esc_attr( $category->name);
+		$cat_name = esc_attr( $category->name );
 		$cat_name = apply_filters( 'list_cats', $cat_name, $category );
-		$link = '<a href="' . get_term_link( $category, $category->taxonomy ) . '" ';
+		$link = '<a href="' . esc_attr( get_term_link($category) ) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->description) )
 			$link .= 'title="' . sprintf(__( 'View all posts filed under %s' ), $cat_name) . '"';
 		else
