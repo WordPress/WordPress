@@ -575,7 +575,7 @@ function wp_link_pages($args = '') {
 	$r = apply_filters( 'wp_link_pages_args', $r );
 	extract( $r, EXTR_SKIP );
 
-	global $post, $page, $numpages, $multipage, $more, $pagenow;
+	global $page, $numpages, $multipage, $more, $pagenow;
 
 	$output = '';
 	if ( $multipage ) {
@@ -585,21 +585,9 @@ function wp_link_pages($args = '') {
 				$j = str_replace('%',$i,$pagelink);
 				$output .= ' ';
 				if ( ($i != $page) || ((!$more) && ($page==1)) ) {
-					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">';
-					} else {
-						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . add_query_arg('page', $i, get_permalink()) . '">';
-						elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit('page/' . $i, 'single_paged'). '">';
-						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
-					}
-
+					$output .= _wp_link_page($i);
 				}
-				$output .= $link_before;
-				$output .= $j;
-				$output .= $link_after;
+				$output .= $link_before . $j . $link_after;
 				if ( ($i != $page) || ((!$more) && ($page==1)) )
 					$output .= '</a>';
 			}
@@ -609,30 +597,12 @@ function wp_link_pages($args = '') {
 				$output .= $before;
 				$i = $page - 1;
 				if ( $i && $more ) {
-					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">';
-					} else {
-						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . add_query_arg('page', $i, get_permalink()) . '">';
-						elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit('page/' . $i, 'single_paged'). '">';
-						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
-					}
+					$output .= _wp_link_page($i);
 					$output .= $link_before. $previouspagelink . $link_after . '</a>';
 				}
 				$i = $page + 1;
 				if ( $i <= $numpages && $more ) {
-					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">';
-					} else {
-						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . add_query_arg('page', $i, get_permalink()) . '">';
-						elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit('page/' . $i, 'single_paged'). '">';
-						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
-					}
+					$output .= _wp_link_page($i);
 					$output .= $link_before. $nextpagelink . $link_after . '</a>';
 				}
 				$output .= $after;
@@ -646,6 +616,22 @@ function wp_link_pages($args = '') {
 	return $output;
 }
 
+function _wp_link_page( $i ) {
+	global $post, $wp_rewrite;
+
+	if ( 1 == $i ) {
+		$url .= get_permalink();
+	} else {
+		if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
+			$url = add_query_arg( 'page', $i, get_permalink() );
+		elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
+			$url = trailingslashit(get_permalink()) . user_trailingslashit("$wp_rewrite->pagination_base/" . $i, 'single_paged');
+		else
+			$url .= trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged');
+	}
+
+	return '<a href="' . $url  . '">';
+}
 
 //
 // Post-meta: Custom per-post fields.

@@ -1411,7 +1411,7 @@ function get_pagenum_link($pagenum = 1) {
 			$query_string = '';
 		}
 
-		$request = preg_replace( '|page/\d+/?$|', '', $request);
+		$request = preg_replace( "|$wp_rewrite->pagination_base/\d+/?$|", '', $request);
 		$request = preg_replace( '|^index\.php|', '', $request);
 		$request = ltrim($request, '/');
 
@@ -1421,7 +1421,7 @@ function get_pagenum_link($pagenum = 1) {
 			$base .= 'index.php/';
 
 		if ( $pagenum > 1 ) {
-			$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( 'page/' . $pagenum, 'paged' );
+			$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( $wp_rewrite->pagination_base . "/" . $pagenum, 'paged' );
 		}
 
 		$result = $base . $request . $query_string;
