@@ -516,11 +516,6 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	global $wpdb, $wp_locale, $wp_query;
 
-	$cat = get_query_var('cat');
-	$tag = get_query_var('tag_id');
-	$category_name = get_query_var('category_name');
-	$author = get_query_var('author');
-	$author_name = get_query_var('author_name');
 	$m = get_query_var('m');
 	$year = get_query_var('year');
 	$monthnum = get_query_var('monthnum');
@@ -530,51 +525,38 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 
 	$t_sep = '%WP_TITILE_SEP%'; // Temporary separator, for accurate flipping, if necessary
 
-	// If there's a category
-	if ( !empty($cat) ) {
-			// category exclusion
-			if ( !stristr($cat,'-') )
-				$title = apply_filters('single_cat_title', get_the_category_by_ID($cat));
-	} elseif ( !empty($category_name) ) {
-		if ( stristr($category_name,'/') ) {
-				$category_name = explode('/',$category_name);
-				if ( $category_name[count($category_name)-1] )
-					$category_name = $category_name[count($category_name)-1]; // no trailing slash
-				else
-					$category_name = $category_name[count($category_name)-2]; // there was a trailling slash
-		}
-		$cat = get_term_by('slug', $category_name, 'category', OBJECT, 'display');
-		if ( $cat )
-			$title = apply_filters('single_cat_title', $cat->name);
+	// If there is a post
+	if ( is_single() || ( is_home() && !is_front_page() ) || ( is_page() && !is_front_page() ) ) {
+		$title = single_post_title( '', false );
 	}
 
-	if ( !empty($tag) ) {
-		$tag = get_term($tag, 'post_tag', OBJECT, 'display');
-		if ( is_wp_error( $tag ) )
-			return $tag;
-		if ( ! empty($tag->name) )
-			$title = apply_filters('single_tag_title', $tag->name);
+	// If there's a category or tag
+	if ( is_category() || is_tag() ) {
+		$title = single_term_title( '', false );
+	}
+
+	// If there's a taxonomy
+	if ( is_tax() ) {
+		$tax = get_taxonomy( get_query_var('taxonomy') );
+		$title = single_term_title( $tax->labels->name . $t_sep, false );
 	}
 
 	// If there's an author
-	if ( !empty($author) ) {
-		$title = get_userdata($author);
-		$title = $title->display_name;
-	}
-	if ( !empty($author_name) ) {
-		// We do a direct query here because we don't cache by nicename.
-		$title = $wpdb->get_var($wpdb->prepare("SELECT display_name FROM $wpdb->users WHERE user_nicename = %s", $author_name));
+	if ( is_author() ) {
+		$author = $wp_query->get_queried_object();
+		$title = $author->display_name;
 	}
 
 	// If there's a month
-	if ( !empty($m) ) {
+	if ( is_archive() && !empty($m) ) {
 		$my_year = substr($m, 0, 4);
 		$my_month = $wp_locale->get_month(substr($m, 4, 2));
 		$my_day = intval(substr($m, 6, 2));
 		$title = $my_year . ($my_month ? $t_sep . $my_month : "") . ($my_day ? $t_sep . $my_day : "");
 	}
 
-	if ( !empty($year) ) {
+	// If there's a year
+	if ( is_archive() && !empty($year) ) {
 		$title = $year;
 		if ( !empty($monthnum) )
 			$title .= $t_sep . $wp_locale->get_month($monthnum);
@@ -582,27 +564,13 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 			$title .= $t_sep . zeroise($day, 2);
 	}
 
-	// If there is a post
-	if ( is_single() || ( is_home() && !is_front_page() ) || ( is_page() && !is_front_page() ) ) {
-		$post = $wp_query->get_queried_object();
-		$title = apply_filters( 'single_post_title', $post->post_title );
-	}
-
-	// If there's a taxonomy
-	if ( is_tax() ) {
-		$taxonomy = get_query_var( 'taxonomy' );
-		$tax = get_taxonomy( $taxonomy );
-		$term = $wp_query->get_queried_object();
-		$term = $term->name;
-		$title = $tax->labels->name . $t_sep . $term;
-	}
-
-	//If it's a search
+	// If it's a search
 	if ( is_search() ) {
 		/* translators: 1: separator, 2: search phrase */
 		$title = sprintf(__('Search Results %1$s %2$s'), $t_sep, strip_tags($search));
 	}
 
+	// If it's a 404 page
 	if ( is_404() ) {
 		$title = __('Page not found');
 	}
@@ -684,23 +652,8 @@ function single_post_title($prefix = '', $display = true) {
  * @param bool $display Optional, default is true. Whether to display or retrieve title.
  * @return string|null Title when retrieving, null when displaying or failure.
  */
-function single_cat_title($prefix = '', $display = true ) {
-	global $wp_query;
-
-	if ( is_tag() )
-		return single_tag_title($prefix, $display);
-
-	if ( !is_category() )
-		return;
-
-	$cat = $wp_query->get_queried_object();
-	$my_cat_name = apply_filters('single_cat_title', $cat->name);
-	if ( !empty($my_cat_name) ) {
-		if ( $display )
-			echo $prefix . $my_cat_name;
-		else
-			return $my_cat_name;
-	}
+function single_cat_title( $prefix = '', $display = true ) {
+	return single_term_title( $prefix, $display );
 }
 
 /**
@@ -720,23 +673,51 @@ function single_cat_title($prefix = '', $display = true ) {
  * @param bool $display Optional, default is true. Whether to display or retrieve title.
  * @return string|null Title when retrieving, null when displaying or failure.
  */
-function single_tag_title($prefix = '', $display = true ) {
+function single_tag_title( $prefix = '', $display = true ) {
+	return single_term_title( $prefix, $display );
+}
+
+/**
+ * Display or retrieve page title for taxonomy term archive.
+ *
+ * Useful for taxonomy term template files for displaying the taxonomy term page title.
+ * It has less overhead than {@link wp_title()}, because of its limited implementation.
+ *
+ * It does not support placing the separator after the title, but by leaving the
+ * prefix parameter empty, you can set the title separator manually. The prefix
+ * does not automatically place a space between the prefix, so if there should
+ * be a space, the parameter value will need to have it at the end.
+ *
+ * @since 3.1.0
+ *
+ * @param string $prefix Optional. What to display before the title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|null Title when retrieving, null when displaying or failure.
+ */
+function single_term_title( $prefix = '', $display = true ) {
 	global $wp_query;
-	if ( !is_tag() )
+
+	$term = $wp_query->get_queried_object();
+
+	if ( !$term )
 		return;
 
-	$tag = $wp_query->get_queried_object();
-
-	if ( ! $tag )
+	if ( is_category() )
+		$term_name = apply_filters( 'single_cat_title', $term->name );
+	elseif ( is_tag() )
+		$term_name = apply_filters( 'single_tag_title', $term->name );
+	elseif ( is_term() )
+		$term_name = apply_filters( 'single_term_title', $term->name );
+	else
 		return;
 
-	$my_tag_name = apply_filters('single_tag_title', $tag->name);
-	if ( !empty($my_tag_name) ) {
-		if ( $display )
-			echo $prefix . $my_tag_name;
-		else
-			return $my_tag_name;
-	}
+	if ( empty( $term_name ) )
+		return;
+
+	if ( $display )
+		echo $prefix . $term_name;
+
+	return $term_name;
 }
 
 /**
