@@ -706,7 +706,7 @@ function single_term_title( $prefix = '', $display = true ) {
 		$term_name = apply_filters( 'single_cat_title', $term->name );
 	elseif ( is_tag() )
 		$term_name = apply_filters( 'single_tag_title', $term->name );
-	elseif ( is_term() )
+	elseif ( is_tax() )
 		$term_name = apply_filters( 'single_term_title', $term->name );
 	else
 		return;
