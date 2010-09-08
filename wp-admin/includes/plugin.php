@@ -610,7 +610,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 		$checked[] = 'checked[]=' . $plugin;
 
 	ob_start();
-	$url = wp_nonce_url('plugins.php?action=delete-selected&verify-delete=1&' . implode('&', $checked), 'bulk-manage-plugins');
+	$url = wp_nonce_url('plugins.php?action=delete-selected&verify-delete=1&' . implode('&', $checked), 'bulk-plugins');
 	if ( false === ($credentials = request_filesystem_credentials($url)) ) {
 		$data = ob_get_contents();
 		ob_end_clean();
