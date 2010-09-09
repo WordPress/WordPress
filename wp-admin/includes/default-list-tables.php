@@ -2029,7 +2029,14 @@ class WP_Comments_Table extends WP_List_Table {
 	function prepare_items() {
 		global $post_id, $comment_status, $search;
 
-		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
+		if ( isset( $_REQUEST['p'] ) )
+			$post_id = absint( $_REQUEST['p'] );
+		elseif ( isset( $_REQUEST['post'] ) )
+			$post_id = absint( $_REQUEST['post'] );
+		elseif ( isset( $_REQUEST['post_ID'] ) )
+			$post_id = absint( $_REQUEST['post_ID'] );
+		else
+			$post_id = 0;
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
 		if ( !in_array( $comment_status, array( 'all', 'moderated', 'approved', 'spam', 'trash' ) ) )
