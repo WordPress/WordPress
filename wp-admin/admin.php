@@ -194,8 +194,8 @@ if ( isset($plugin_page) ) {
 
 	define('WP_IMPORTING', true);
 
-	if ( is_multisite() )
-		kses_init_filters();  // Always filter imported data with kses.
+	if ( apply_filters( 'force_filtered_html_on_import', false ) )
+		kses_init_filters();  // Always filter imported data with kses on multisite.
 
 	call_user_func($wp_importers[$importer][2]);
 
