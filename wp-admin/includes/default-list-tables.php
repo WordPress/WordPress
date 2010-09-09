@@ -2948,6 +2948,8 @@ class WP_MS_Users_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
+		global $usersearch;
+
 		$usersearch = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
 		$users_per_page = $this->get_items_per_page( 'ms_users_per_page' );

@@ -63,14 +63,14 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	<h2><?php esc_html_e( 'Users' ); ?>
 	<a href="#form-add-user" class="button add-new-h2"><?php echo esc_html_x( 'Add New' , 'users'); ?></a>
 	<?php
-	if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] )
-	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
+	if ( !empty( $usersearch ) )
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 	?>
 	</h2>
 
 	<form action="" method="get" class="search-form">
 		<p class="search-box">
-		<input type="text" name="s" value="<?php echo esc_attr( $s ); ?>" class="search-input" id="user-search-input" />
+		<input type="text" name="s" value="<?php echo esc_attr( $usersearch ); ?>" class="search-input" id="user-search-input" />
 		<input type="submit" id="post-query-submit" value="<?php esc_attr_e( 'Search Users' ) ?>" class="button" />
 		</p>
 	</form>
