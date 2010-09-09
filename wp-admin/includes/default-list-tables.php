@@ -29,8 +29,17 @@ class WP_Posts_Table extends WP_List_Table {
 	 */
 	var $comment_pending_count;
 
+	/**
+	 * Holds the number of posts for this user
+	 *
+	 * @since 3.1.0
+	 * @var bool
+	 * @access private
+	 */
+	var $user_posts_count;
+
 	function WP_Posts_Table() {
-		global $post_type_object, $post_type, $current_screen;
+		global $post_type_object, $post_type, $current_screen, $wpdb;
 
 		if ( !isset( $_REQUEST['post_type'] ) )
 			$post_type = 'post';
@@ -41,6 +50,17 @@ class WP_Posts_Table extends WP_List_Table {
 		$_REQUEST['post_type'] = $post_type;
 
 		$post_type_object = get_post_type_object( $post_type );
+
+		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
+			$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
+				SELECT COUNT( 1 ) FROM $wpdb->posts
+				WHERE post_type = '%s' AND post_status NOT IN ( 'trash', 'auto-draft' )
+				AND post_author = %d
+			", $post_type, get_current_user_id() ) );
+
+			if ( $this->user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) )
+				$_GET['author'] = get_current_user_id();
+		}
 
 		parent::WP_List_Table( array(
 			'screen' => $current_screen,
@@ -98,7 +118,7 @@ class WP_Posts_Table extends WP_List_Table {
 
 	function get_views() {
 		global $post_type, $post_type_object, $locked_post_status, $avail_post_stati;
-	
+
 		if ( !empty($locked_post_status) )
 			return array();
 
@@ -107,24 +127,12 @@ class WP_Posts_Table extends WP_List_Table {
 		$class = '';
 		$allposts = '';
 
-		$user_posts = false;
-		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-			$user_posts = true;
+		$current_user_id = get_current_user_id();
 
-			$user_posts_count = $wpdb->get_var( $wpdb->prepare( "
-				SELECT COUNT( 1 ) FROM $wpdb->posts
-				WHERE post_type = '%s' AND post_status NOT IN ( 'trash', 'auto-draft' )
-				AND post_author = %d
-			", $post_type, get_current_user_id() ) );
-
-			if ( $user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) )
-				$_REQUEST['author'] = get_current_user_id();
-		}
-
-		if ( $user_posts ) {
-			if ( isset( $_REQUEST['author'] ) && ( $_REQUEST['author'] == $current_user->ID ) )
+		if ( $this->user_posts_count ) {
+			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) )
 				$class = ' class="current"';
-			$status_links['author'] = "<li><a href='edit.php?post_type=$post_type&author=$current_user->ID'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $user_posts_count, 'posts' ), number_format_i18n( $user_posts_count ) ) . '</a>';
+			$status_links['mine'] = "<li><a href='edit.php?post_type=$post_type&author=$current_user_id'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $this->user_posts_count, 'posts' ), number_format_i18n( $this->user_posts_count ) ) . '</a>';
 			$allposts = '&all_posts=1';
 		}
 
