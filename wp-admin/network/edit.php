@@ -396,7 +396,7 @@ switch ( $_GET['action'] ) {
 
 	case 'allblogs':
 		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
-			check_admin_referer( 'bulk-ms-sites', '_wpnonce_bulk-ms-sites' );
+			check_admin_referer( 'bulk-sites' );
 
 			if ( ! current_user_can( 'manage_sites' ) )
 				wp_die( __( 'You do not have permission to access this page.' ) );
@@ -582,7 +582,7 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		if ( isset( $_POST['doaction']) || isset($_POST['doaction2'] ) ) {
-			check_admin_referer( 'bulk-ms-users', '_wpnonce_bulk-ms-users' );
+			check_admin_referer( 'bulk-ms-users' );
 
 			if ( $_GET['action'] != -1 || $_POST['action2'] != -1 )
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
