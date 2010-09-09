@@ -106,6 +106,20 @@ function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false,
 }
 
 /**
+ * Remove an enqueued style.
+ *
+ * @since WP 3.1
+ * @see WP_Styles::dequeue() For parameter information.
+ */
+function wp_dequeue_style( $handle ) {
+	global $wp_styles;
+	if ( !is_a($wp_styles, 'WP_Styles') )
+		$wp_styles = new WP_Styles();
+
+	$wp_styles->dequeue( $handle );
+}
+
+/**
  * Check whether style has been added to WordPress Styles.
  *
  * The values for list defaults to 'queue', which is the same as wp_enqueue_style().

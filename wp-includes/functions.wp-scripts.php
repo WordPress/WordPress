@@ -108,6 +108,20 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 }
 
 /**
+ * Remove an enqueued script.
+ *
+ * @since WP 3.1
+ * @see WP_Scripts::dequeue() For parameter information.
+ */
+function wp_dequeue_script( $handle ) {
+	global $wp_scripts;
+	if ( !is_a($wp_scripts, 'WP_Scripts') )
+		$wp_scripts = new WP_Scripts();
+
+	$wp_scripts->dequeue( $handle );
+}
+
+/**
  * Check whether script has been added to WordPress Scripts.
  *
  * The values for list defaults to 'queue', which is the same as enqueue for
