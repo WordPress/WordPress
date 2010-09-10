@@ -2124,7 +2124,7 @@ function wp_upload_dir( $time = null ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
-	$main_override = defined( 'MULTISITE' ) && is_main_site();
+	$main_override = is_multisite() && defined( 'MULTISITE' ) && is_main_site();
 	if ( empty($upload_path) ) {
 		$dir = WP_CONTENT_DIR . '/uploads';
 	} else {
