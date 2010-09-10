@@ -14,10 +14,10 @@
 define('DOING_AJAX', true);
 define('WP_ADMIN', true);
 
-require_once('../wp-load.php');
-
 if ( ! isset( $_REQUEST['action'] ) )
 	die('-1');
+
+require_once('../wp-load.php');
 
 require_once('./includes/admin.php');
 @header('Content-Type: text/html; charset=' . get_option('blog_charset'));
