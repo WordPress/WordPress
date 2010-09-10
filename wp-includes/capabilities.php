@@ -1213,15 +1213,13 @@ function get_super_admins() {
  * @return bool True if the user is a site admin.
  */
 function is_super_admin( $user_id = false ) {
-	if ( ! $user_id ) {
-		$current_user = wp_get_current_user();
-		$user_id = ! empty($current_user) ? $current_user->id : 0;
-	}
+	if ( $user_id )
+		$user = new WP_User( $user_id );
+	else
+		$user = wp_get_current_user();
 
-	if ( ! $user_id )
+	if ( empty( $user->id ) )
 		return false;
-
-	$user = new WP_User($user_id);
 
 	if ( is_multisite() ) {
 		$super_admins = get_super_admins();
