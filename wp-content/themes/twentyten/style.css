@@ -4,7 +4,7 @@ Theme URI: http://wordpress.org/
 Description: The 2010 theme for WordPress is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the "Asides" and "Gallery" categories, and has an optional one-column page template that removes the sidebar.
 Author: the WordPress team
 Version: 1.1
-Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style
+Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu
 */
 
 
@@ -761,86 +761,91 @@ body.page .edit-link {
 /* =Images
 -------------------------------------------------------------- */
 
-#content img {
-	margin: 0;
-	height: auto;
-	max-width: 640px;
-	width: auto;
+/*
+Resize images to fit the main content area.
+- Applies only to images uploaded via WordPress by targeting size-* classes.
+- Other images will be left alone. Use "size-auto" class to apply to other images.
+*/
+img.size-auto,
+img.size-full,
+img.size-large,
+img.size-medium,
+.attachment img {
+	max-width: 100%; /* When images are too wide for containing element, force them to fit. */
+	height: auto; /* Override height to match resized width for correct aspect ratio. */
 }
-#content .attachment img {
-	max-width: 900px;
-}
-#content .alignleft,
-#content img.alignleft {
+.alignleft,
+img.alignleft {
 	display: inline;
 	float: left;
 	margin-right: 24px;
 	margin-top: 4px;
 }
-#content .alignright,
-#content img.alignright {
+.alignright,
+img.alignright {
 	display: inline;
 	float: right;
 	margin-left: 24px;
 	margin-top: 4px;
 }
-#content .aligncenter,
-#content img.aligncenter {
+.aligncenter,
+img.aligncenter {
 	clear: both;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
-#content img.alignleft,
-#content img.alignright,
-#content img.aligncenter {
+img.alignleft,
+img.alignright,
+img.aligncenter {
 	margin-bottom: 12px;
 }
-#content .wp-caption {
+.wp-caption {
 	background: #f1f1f1;
 	line-height: 18px;
 	margin-bottom: 20px;
+	max-width: 632px !important; /* prevent too-wide images from breaking layout */
 	padding: 4px;
 	text-align: center;
 }
-#content .wp-caption img {
+.wp-caption img {
 	margin: 5px 5px 0;
 }
-#content .wp-caption p.wp-caption-text {
+.wp-caption p.wp-caption-text {
 	color: #888;
 	font-size: 12px;
 	margin: 5px;
 }
-#content .wp-smiley {
+.wp-smiley {
 	margin: 0;
 }
-#content .gallery {
+.gallery {
 	margin: 0 auto 18px;
 }
-#content .gallery .gallery-item {
+.gallery .gallery-item {
 	float: left;
 	margin-top: 0;
 	text-align: center;
 	width: 33%;
 }
-#content .gallery img {
+.gallery img {
 	border: 2px solid #cfcfcf;
 }
-#content .gallery .gallery-caption {
+.gallery .gallery-caption {
 	color: #888;
 	font-size: 12px;
 	margin: 0 0 12px;
 }
-#content .gallery dl {
+.gallery dl {
 	margin: 0;
 }
-#content .gallery img {
+.gallery img {
 	border: 10px solid #f1f1f1;
 }
-#content .gallery br+br {
+.gallery br+br {
 	display: none;
 }
-#content .attachment img { /* single attachment images should be centered */
+#content .attachment img {/* single attachment images should be centered */
 	display: block;
 	margin: 0 auto;
 }
