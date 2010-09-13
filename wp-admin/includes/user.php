@@ -355,7 +355,8 @@ function default_password_nag_edit_user($user_ID, $old_data) {
 
 add_action('admin_notices', 'default_password_nag');
 function default_password_nag() {
-	if ( ! get_user_option('default_password_nag') ) //Short circuit it.
+	global $pagenow;
+	if ( 'profile.php' == $pagenow || ! get_user_option('default_password_nag') ) //Short circuit it.
 		return;
 
 	echo '<div class="error default-password-nag">';
