@@ -662,6 +662,15 @@ class WP_Query {
 	var $query_vars = array();
 
 	/**
+	 * Taxonomy query, after parsing
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var array
+	 */
+	var $tax_query = array();
+
+	/**
 	 * Holds the data for a single object that is queried.
 	 *
 	 * Holds the contents of a post, page, category, attachment.
@@ -1528,7 +1537,6 @@ class WP_Query {
 
 		// First let's clear some variables
 		$distinct = '';
-		$whichcat = '';
 		$whichauthor = '';
 		$whichmimetype = '';
 		$where = '';
@@ -1785,13 +1793,38 @@ class WP_Query {
 		// Allow plugins to contextually add/remove/modify the search section of the database query
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
-		// Category stuff
+		// Taxonomies
+		$tax_query = array();
 
-		if ( empty($q['cat']) || ($q['cat'] == '0') ||
-				// Bypass cat checks if fetching specific posts
-				$this->is_singular ) {
-			$whichcat = '';
-		} else {
+		if ( $this->is_tax ) {
+			foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
+				if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
+					$tax_query_defaults = array(
+						'taxonomy' => $taxonomy,
+						'field' => 'slug',
+						'operator' => 'IN'
+					);
+
+					$term = str_replace( ' ', '+', $q[$t->query_var] );
+
+					if ( strpos($term, '+') !== false ) {
+						$terms = preg_split( '/[+\s]+/', $term );
+						foreach ( $terms as $term ) {
+							$tax_query[] = array_merge( $tax_query_defaults, array(
+								'terms' => array( $term )
+							) );
+						}
+					} else {
+						$tax_query[] = array_merge( $tax_query_defaults, array(
+							'terms' => preg_split('/[,\s]+/', $term)
+						) );
+					}
+				}
+			}
+		}
+
+		// Category stuff
+		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular ) {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
@@ -1804,25 +1837,29 @@ class WP_Query {
 				$cat = abs($cat);
 				if ( $in ) {
 					$q['category__in'][] = $cat;
-					$q['category__in'] = array_merge($q['category__in'], get_term_children($cat, 'category'));
 				} else {
 					$q['category__not_in'][] = $cat;
-					$q['category__not_in'] = array_merge($q['category__not_in'], get_term_children($cat, 'category'));
 				}
 			}
 			$q['cat'] = implode(',', $req_cats);
 		}
 
 		if ( !empty($q['category__in']) ) {
-			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
-			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
-			$include_cats = "'" . implode("', '", $q['category__in']) . "'";
-			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_cats) ";
+			$tax_query[] = array(
+				'taxonomy' => 'category',
+				'terms' => $q['category__in'],
+				'operator' => 'IN',
+				'field' => 'term_id'
+			);
 		}
 
 		if ( !empty($q['category__not_in']) ) {
-			$cat_string = "'" . implode("', '", $q['category__not_in']) . "'";
-			$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tt.term_id IN ($cat_string) )";
+			$tax_query[] = array(
+				'taxonomy' => 'category',
+				'terms' => $q['category__not_in'],
+				'operator' => 'NOT IN',
+				'field' => 'term_id'
+			);
 		}
 
 		// Category stuff for nice URLs
@@ -1851,137 +1888,50 @@ class WP_Query {
 
 			$q['cat'] = $reqcat;
 
-			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
-			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
-			$in_cats = array($q['cat']);
-			$in_cats = array_merge($in_cats, get_term_children($q['cat'], 'category'));
-			$in_cats = "'" . implode("', '", $in_cats) . "'";
-			$whichcat .= "AND $wpdb->term_taxonomy.term_id IN ($in_cats)";
-			$groupby = "{$wpdb->posts}.ID";
+			$tax_query[] = array(
+				'taxonomy' => 'category',
+				'terms' => array( $q['cat'] ),
+				'operator' => 'IN',
+				'field' => 'term_id'
+			);
 		}
 
-		// Tags
-		if ( '' != $q['tag'] ) {
-			if ( strpos($q['tag'], ',') !== false ) {
-				$tags = preg_split('/[,\s]+/', $q['tag']);
-				foreach ( (array) $tags as $tag ) {
-					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
-					$q['tag_slug__in'][] = $tag;
-				}
-			} else if ( preg_match('/[+\s]+/', $q['tag']) || !empty($q['cat']) ) {
-				$tags = preg_split('/[+\s]+/', $q['tag']);
-				foreach ( (array) $tags as $tag ) {
-					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
-					$q['tag_slug__and'][] = $tag;
-				}
-			} else {
-				$q['tag'] = sanitize_term_field('slug', $q['tag'], 0, 'post_tag', 'db');
-				$q['tag_slug__in'][] = $q['tag'];
-			}
+		// Tag stuff
+		if ( !empty($qv['tag_id']) ) {
+			$tax_query[] = array(
+				'taxonomy' => 'post_tag',
+				'terms' => $qv['tag_id'],
+				'operator' => 'IN',
+				'field' => 'term_id'
+			);
 		}
 
-		if ( !empty($q['category__in']) || !empty($q['meta_key']) || !empty($q['tag__in']) || !empty($q['tag_slug__in']) ) {
-			$groupby = "{$wpdb->posts}.ID";
-		}
-
-		if ( !empty($q['tag__in']) && empty($q['cat']) ) {
-			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
-			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
-			$include_tags = "'" . implode("', '", $q['tag__in']) . "'";
-			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_tags) ";
-			$reqtag = term_exists( $q['tag__in'][0], 'post_tag' );
-			if ( !empty($reqtag) )
-				$q['tag_id'] = $reqtag['term_id'];
-		}
-
-		if ( !empty($q['tag_slug__in']) && empty($q['cat']) ) {
-			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) INNER JOIN $wpdb->terms ON ($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id) ";
-			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
-			$include_tags = "'" . implode("', '", $q['tag_slug__in']) . "'";
-			$whichcat .= " AND $wpdb->terms.slug IN ($include_tags) ";
-			$reqtag = get_term_by( 'slug', $q['tag_slug__in'][0], 'post_tag' );
-			if ( !empty($reqtag) )
-				$q['tag_id'] = $reqtag->term_id;
+		if ( !empty($q['tag__in']) ) {
+			$tax_query[] = array(
+				'taxonomy' => 'post_tag',
+				'terms' => $q['tag__in'],
+				'operator' => 'IN',
+				'field' => 'term_id'
+			);
 		}
 
 		if ( !empty($q['tag__not_in']) ) {
-			$tag_string = "'" . implode("', '", $q['tag__not_in']) . "'";
-			$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'post_tag' AND tt.term_id IN ($tag_string) )";
+			$tax_query[] = array(
+				'taxonomy' => 'post_tag',
+				'terms' => $q['tag__not_in'],
+				'operator' => 'NOT IN',
+				'field' => 'term_id'
+			);
 		}
 
-		// Tag and slug intersections.
-		$intersections = array('category__and' => 'category', 'tag__and' => 'post_tag', 'tag_slug__and' => 'post_tag', 'tag__in' => 'post_tag', 'tag_slug__in' => 'post_tag');
-		$tagin = array('tag__in', 'tag_slug__in'); // These are used to make some exceptions below
-		foreach ( $intersections as $item => $taxonomy ) {
-			if ( empty($q[$item]) ) continue;
-			if ( in_array($item, $tagin) && empty($q['cat']) ) continue; // We should already have what we need if categories aren't being used
+		if ( !empty( $tax_query ) ) {
+			$this->tax_query = $tax_query;
 
-			if ( $item != 'category__and' ) {
-				$reqtag = term_exists( $q[$item][0], 'post_tag' );
-				if ( !empty($reqtag) )
-					$q['tag_id'] = $reqtag['term_id'];
-			}
-
-			if ( in_array( $item, array('tag_slug__and', 'tag_slug__in' ) ) )
-				$taxonomy_field = 'slug';
-			else
-				$taxonomy_field = 'term_id';
-
-			$q[$item] = array_unique($q[$item]);
-			$tsql = "SELECT p.ID FROM $wpdb->posts p INNER JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) INNER JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) INNER JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
-			$tsql .= " WHERE tt.taxonomy = '$taxonomy' AND t.$taxonomy_field IN ('" . implode("', '", $q[$item]) . "')";
-			if ( !in_array($item, $tagin) ) { // This next line is only helpful if we are doing an and relationship
-				$tsql .= " GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
-			}
-			$post_ids = $wpdb->get_col($tsql);
-
-			if ( count($post_ids) )
-				$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
-			else {
-				$whichcat = " AND 0 = 1";
-				break;
-			}
+			$where .= " AND $wpdb->posts.ID IN( " . implode( ', ', wp_tax_query( $tax_query ) ) . ")";
 		}
 
-		// Taxonomies
-		if ( $this->is_tax ) {
-			if ( '' != $q['taxonomy'] ) {
-				$taxonomy = $q['taxonomy'];
-				$tt[$taxonomy] = $q['term'];
-			} else {
-				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
-					if ( $t->query_var && '' != $q[$t->query_var] ) {
-						$tt[$taxonomy] = $q[$t->query_var];
-						break;
-					}
-				}
-			}
-
-			$terms = get_terms($taxonomy, array('slug' => $tt[$taxonomy], 'hide_empty' => !is_taxonomy_hierarchical($taxonomy)));
-
-			if ( is_wp_error($terms) || empty($terms) ) {
-				$whichcat = " AND 0 ";
-			} else {
-				foreach ( $terms as $term ) {
-					$term_ids[] = $term->term_id;
-					if ( is_taxonomy_hierarchical($taxonomy) ) {
-						$children = get_term_children($term->term_id, $taxonomy);
-						$term_ids = array_merge($term_ids, $children);
-					}
-				}
-				$post_ids = get_objects_in_term($term_ids, $taxonomy);
-				if ( !is_wp_error($post_ids) && !empty($post_ids) ) {
-					$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
-					if ( empty($post_type) ) {
-						$post_type = 'any';
-						$post_status_join = true;
-					} elseif ( in_array('attachment', (array)$post_type) ) {
-						$post_status_join = true;
-					}
-				} else {
-					$whichcat = " AND 0 ";
-				}
-			}
+		if ( !empty($q['meta_key']) ) {
+			$groupby = "{$wpdb->posts}.ID";
 		}
 
 		// Author/user stuff
@@ -2033,7 +1983,7 @@ class WP_Query {
 			$whichmimetype = wp_post_mime_type_where($q['post_mime_type'], $table_alias);
 		}
 
-		$where .= $search . $whichcat . $whichauthor . $whichmimetype;
+		$where .= $search . $whichauthor . $whichmimetype;
 
 		if ( empty($q['order']) || ((strtoupper($q['order']) != 'ASC') && (strtoupper($q['order']) != 'DESC')) )
 			$q['order'] = 'DESC';
@@ -2625,27 +2575,13 @@ class WP_Query {
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		if ( $this->is_category ) {
-			$cat = $this->get('cat');
-			$category = &get_category($cat);
-			if ( is_wp_error( $category ) )
-				return NULL;
-			$this->queried_object = &$category;
-			$this->queried_object_id = (int) $cat;
-		} elseif ( $this->is_tag ) {
-			$tag_id = $this->get('tag_id');
-			$tag = &get_term($tag_id, 'post_tag');
-			if ( is_wp_error( $tag ) )
-				return NULL;
-			$this->queried_object = &$tag;
-			$this->queried_object_id = (int) $tag_id;
-		} elseif ( $this->is_tax ) {
-			$tax = $this->get('taxonomy');
-			$slug = $this->get('term');
-			$term = &get_terms($tax, array( 'slug' => $slug, 'hide_empty' => false ) );
-			if ( is_wp_error($term) || empty($term) )
-				return NULL;
-			$term = $term[0];
+		if ( $this->tax_query ) {
+			$query = reset( $this->tax_query );
+			if ( 'term_id' == $query['field']  )
+				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
+			else
+				$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
+
 			$this->queried_object = $term;
 			$this->queried_object_id = $term->term_id;
 		} elseif ( $this->is_posts_page ) {

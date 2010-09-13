@@ -23,12 +23,12 @@ function create_initial_taxonomies() {
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
-	) ) ;
+	) );
 
 	register_taxonomy( 'post_tag', 'post', array(
 	 	'hierarchical' => false,
 		'update_count_callback' => '_update_post_term_count',
-		'query_var' => false,
+		'query_var' => 'tag',
 		'rewrite' => false,
 		'public' => true,
 		'show_ui' => true,
@@ -432,43 +432,125 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
  * @uses $wpdb
  * @uses wp_parse_args() Creates an array from string $args.
  *
- * @param int|array $term_ids Term id or array of term ids of terms that will be used
+ * @param mixed $terms Term id/slug/name or array of such to match against
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
- * @param array|string $args Change the order of the object_ids, either ASC or DESC
- * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success
- *	the array can be empty meaning that there are no $object_ids found or it will return the $object_ids found.
+ * @param array|string $args
+ *   'include_children' bool Wether to include term children (hierarchical taxonomies only)
+ *   'field' string Which term field is being used. Can be 'term_id', 'slug' or 'name'
+ *   'operator' string Can be 'IN' and 'NOT IN'
+ *   'do_query' bool Wether to execute the query or return the SQL string
+ *
+ * @return WP_Error If the taxonomy does not exist
+ * @return array The list of found object_ids
+ * @return string The SQL string, if do_query is set to false
  */
-function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
+function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	global $wpdb;
 
-	if ( ! is_array( $term_ids ) )
-		$term_ids = array( $term_ids );
+	extract( wp_parse_args( $args, array(
+		'include_children' => false,
+		'field' => 'term_id',
+		'operator' => 'IN',
+		'do_query' => true,
+	) ), EXTR_SKIP );
 
-	if ( ! is_array( $taxonomies ) )
-		$taxonomies = array( $taxonomies );
+	$taxonomies = (array) $taxonomies;
 
-	foreach ( (array) $taxonomies as $taxonomy ) {
+	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists( $taxonomy ) )
-			return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
+			return new WP_Error( 'invalid_taxonomy', sprintf( __( 'Invalid Taxonomy: %s' ), $taxonomy ) );
 	}
 
-	$defaults = array( 'order' => 'ASC' );
-	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
+	$terms = array_unique( (array) $terms );
+	if ( empty($terms) )
+		continue;
 
-	$order = ( 'desc' == strtolower( $order ) ) ? 'DESC' : 'ASC';
+	if ( !in_array( $field, array( 'term_id', 'slug', 'name' ) ) )
+		$field = 'term_id';
 
-	$term_ids = array_map('intval', $term_ids );
+	if ( !in_array( $operator, array( 'IN', 'NOT IN' ) ) )
+		$operator = 'IN';
 
 	$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
-	$term_ids = "'" . implode( "', '", $term_ids ) . "'";
 
-	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order");
+	switch ( $field ) {
+		case 'term_id':
+			$terms = array_map( 'intval', $terms );
 
-	if ( ! $object_ids )
-		return array();
+			if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
+				$children = $terms;
+				foreach ( $terms as $term )
+					$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
+				$terms = $children;
+			}
 
-	return $object_ids;
+			$terms = implode( ',', $terms );
+			$sql = "
+				SELECT object_id
+				FROM $wpdb->term_relationships
+				INNER JOIN $wpdb->term_taxonomy USING (term_taxonomy_id)
+				WHERE taxonomy IN ($taxonomies)
+				AND term_id $operator ($terms)
+			";
+		break;
+
+		case 'slug':
+		case 'name':
+			foreach ( $terms as $i => $term ) {
+				$terms[$i] = sanitize_term_field('slug', $term, 0, $taxonomy, 'db');
+			}
+			$terms = array_filter($terms);
+
+			$terms = "'" . implode( "','", $terms ) . "'";
+			$sql = "
+				SELECT object_id
+				FROM $wpdb->term_relationships
+				INNER JOIN $wpdb->term_taxonomy USING (term_taxonomy_id)
+				INNER JOIN $wpdb->terms USING (term_id)
+				WHERE taxonomy IN ($taxonomies)
+				AND $field $operator ($terms)
+			";
+		break;
+	}
+
+	if ( !$do_query )
+		return $sql;
+
+	return $wpdb->get_col( $sql );	
+}
+
+/*
+ * Retrieve object_ids matching one or more taxonomy queries
+ *
+ * @since 3.1.0
+ *
+ * @param array $queries A list of taxonomy queries. A query is an associative array:
+ *   'taxonomy' string|array The taxonomy being queried
+ *   'terms' string|array The list of terms
+ *   'field' string Which term field is being used. Can be 'term_id', 'slug' or 'name'
+ *   'operator' string Can be 'IN' and 'NOT IN'
+ *
+ * @return array|WP_Error List of matching object_ids; WP_Error on failure.
+ */
+function wp_tax_query( $queries ) {
+	global $wpdb;
+
+	$sql = array();
+	foreach ( $queries as $query ) {
+		if ( !isset( $query['include_children'] ) )
+			$query['include_children'] = true;
+		$query['do_query'] = false;
+		$sql[] = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
+	}
+
+	if ( 1 == count( $sql ) )
+		return $wpdb->get_col( $sql[0] );
+
+	$r = "SELECT object_id FROM $wpdb->term_relationships WHERE 1=1";
+	foreach ( $sql as $query )
+		$r .= " AND object_id IN ($query)";
+
+	return $wpdb->get_col( $r );
 }
 
 /**

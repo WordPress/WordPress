@@ -807,8 +807,11 @@ function get_category_template() {
  * @return string
  */
 function get_tag_template() {
-	$tag_id = absint( get_query_var('tag_id') );
-	$tag_name = get_query_var('tag');
+	global $wp_query;
+
+	$tag = $wp_query->get_queried_object();
+	$tag_name = $tag->slug;
+	$tag_id = $tag->term_id;
 
 	$templates = array();
 

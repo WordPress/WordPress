@@ -1589,6 +1589,8 @@ function feed_links( $args = array() ) {
  * @param array $args Optional arguments.
  */
 function feed_links_extra( $args = array() ) {
+	global $wp_query;
+
 	$defaults = array(
 		/* translators: Separator between blog name and feed type in feed links */
 		'separator'   => _x('&raquo;', 'feed link'),
@@ -1614,16 +1616,15 @@ function feed_links_extra( $args = array() ) {
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_category() ) {
-		$cat_id = intval( get_query_var('cat') );
+		$term = $wp_query->get_queried_object();
 
-		$title = esc_attr(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], get_cat_name( $cat_id ) ));
-		$href = get_category_feed_link( $cat_id );
+		$title = esc_attr(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name ));
+		$href = get_category_feed_link( $term->term_id );
 	} elseif ( is_tag() ) {
-		$tag_id = intval( get_query_var('tag_id') );
-		$tag = get_tag( $tag_id );
+		$term = $wp_query->get_queried_object();
 
-		$title = esc_attr(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $tag->name ));
-		$href = get_tag_feed_link( $tag_id );
+		$title = esc_attr(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name ));
+		$href = get_tag_feed_link( $term->term_id );
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
