@@ -324,7 +324,7 @@ function network_step2( $errors = false ) {
 ?>
 		<ol>
 			<li><p><?php
-				printf( __( 'Create a <code>blogs.dir</code> directory in <code>%s</code>. This directory is used to stored uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR );
+				printf( __( 'Create a <code>blogs.dir</code> directory at <code>%s/blogs.dir</code>. This directory is used to store uploaded media for your additional sites and must be writeable by the web server.' ), WP_CONTENT_DIR );
 				if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 					echo ' <strong>' . __('Warning:') . ' ' . __( 'Networks may not be fully compatible with custom wp-content directories.' ) . '</strong';
 			?></p></li>
