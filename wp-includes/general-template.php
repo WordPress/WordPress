@@ -2077,7 +2077,8 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  * @since 2.3.0
  * @uses $wp_styles WordPress Styles Object
  *
- * @param string $file Style handle name or file name (without ".css" extension) relative to wp-admin/
+ * @param string $file Optional. Style handle name or file name (without ".css" extension) relative
+ * 	 to wp-admin/. Defaults to 'wp-admin'.
  * @param bool $force_echo Optional.  Force the stylesheet link to be printed rather than enqueued.
  */
 function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
