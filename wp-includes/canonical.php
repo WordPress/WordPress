@@ -150,9 +150,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_category() || is_tag() || is_tax() ) { // Terms (Tags/categories)
 
 			$term_count = 0;
-			foreach ( array('category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in',
-			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and') as $key )
-				$term_count += count($wp_query->query_vars[$key]);
+			foreach ( $wp_query->tax_query as $tax_query )
+				$term_count += count( $tax_query['terms'] );
 
 			$obj = $wp_query->get_queried_object();
 
