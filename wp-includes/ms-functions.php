@@ -11,16 +11,8 @@ function get_sitestats() {
 	global $wpdb;
 
 	$stats['blogs'] = get_blog_count();
+	$stats['users'] = get_user_count();
 
-	$count_ts = get_site_option( 'user_count_ts' );
-	if ( time() - $count_ts > 3600 ) {
-		$count = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->users" );
-		update_site_option( 'user_count', $count );
-		update_site_option( 'user_count_ts', time() );
-	} else {
-		$count = get_site_option( 'user_count' );
-	}
-	$stats['users'] = $count;
 	return $stats;
 }
 
