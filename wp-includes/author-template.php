@@ -257,7 +257,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  * echoing.</li>
  * <li>style (string) ('list'): Whether to display list of authors in list form
  * or as a string.</li>
- * <li>html (bool) (true): Whether to list the items in html for or plaintext.
+ * <li>html (bool) (true): Whether to list the items in html form or plaintext.
  * </li>
  * </ul>
  *
@@ -270,101 +270,94 @@ function wp_list_authors($args = '') {
 	global $wpdb;
 
 	$defaults = array(
+		'orderby' => 'name', 'order' => 'ASC', 'number' => '',
 		'optioncount' => false, 'exclude_admin' => true,
 		'show_fullname' => false, 'hide_empty' => true,
 		'feed' => '', 'feed_image' => '', 'feed_type' => '', 'echo' => true,
 		'style' => 'list', 'html' => true
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract($r, EXTR_SKIP);
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );
+
 	$return = '';
 
-	/** @todo Move select to get_authors(). */
-	$users = get_users();
-	$author_ids = array();
-	foreach ( (array) $users as $user )
-		$author_ids[] = $user->user_id;
-	if ( count($author_ids) > 0  ) {
-		$author_ids = implode(',', $author_ids );
-		$authors = $wpdb->get_results( "SELECT ID, user_nicename from $wpdb->users WHERE ID IN($author_ids) " . ($exclude_admin ? "AND user_login <> 'admin' " : '') . "ORDER BY display_name" );
-	} else {
-		$authors = array();
-	}
+	$authors = get_users( wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number' ) ) );
 
 	$author_count = array();
 	foreach ( (array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row )
 		$author_count[$row->post_author] = $row->count;
 
-	foreach ( (array) $authors as $author ) {
+	foreach ( $authors as $author ) {
+
+		if ( $exclude_admin && 'admin' == $author->display_name )
+			continue;
+
+		$posts = isset( $author_count[$author->ID] ) ? $author_count[$author->ID] : 0;
+
+		if ( !$posts && $hide_empty )
+			continue;
 
 		$link = '';
 
-		$author = get_userdata( $author->ID );
-		$posts = (isset($author_count[$author->ID])) ? $author_count[$author->ID] : 0;
-		$name = $author->display_name;
-
-		if ( $show_fullname && ($author->first_name != '' && $author->last_name != '') )
+		if ( $show_fullname && $author->first_name && $author->last_name )
 			$name = "$author->first_name $author->last_name";
+		else
+			$name = $author->display_name;
 
-		if( !$html ) {
-			if ( $posts == 0 ) {
-				if ( ! $hide_empty )
-					$return .= $name . ', ';
-			} else
-				$return .= $name . ', ';
+		if ( !$html ) {
+			$return .= $name . ', ';
 
-			// No need to go further to process HTML.
-			continue;
+			continue; // No need to go further to process HTML.
 		}
 
-		if ( !($posts == 0 && $hide_empty) && 'list' == $style )
+		if ( 'list' == $style ) {
 			$return .= '<li>';
-		if ( $posts == 0 ) {
-			if ( ! $hide_empty )
-				$link = $name;
-		} else {
-			$link = '<a href="' . get_author_posts_url($author->ID, $author->user_nicename) . '" title="' . esc_attr( sprintf(__("Posts by %s"), $author->display_name) ) . '">' . $name . '</a>';
+		}
 
-			if ( (! empty($feed_image)) || (! empty($feed)) ) {
-				$link .= ' ';
-				if (empty($feed_image))
-					$link .= '(';
-				$link .= '<a href="' . get_author_feed_link($author->ID) . '"';
+		$link = '<a href="' . get_author_posts_url( $author->ID, $author->user_nicename ) . '" title="' . esc_attr( sprintf(__("Posts by %s"), $author->display_name) ) . '">' . $name . '</a>';
 
-				if ( !empty($feed) ) {
-					$title = ' title="' . esc_attr($feed) . '"';
-					$alt = ' alt="' . esc_attr($feed) . '"';
-					$name = $feed;
-					$link .= $title;
-				}
-
-				$link .= '>';
-
-				if ( !empty($feed_image) )
-					$link .= "<img src=\"" . esc_url($feed_image) . "\" style=\"border: none;\"$alt$title" . ' />';
-				else
-					$link .= $name;
-
-				$link .= '</a>';
-
-				if ( empty($feed_image) )
-					$link .= ')';
+		if ( !empty( $feed_image ) || !empty( $feed ) ) {
+			$link .= ' ';
+			if ( empty( $feed_image ) ) {
+				$link .= '(';
 			}
 
-			if ( $optioncount )
-				$link .= ' ('. $posts . ')';
+			$link .= '<a href="' . get_author_feed_link( $author->ID ) . '"';
 
+			$alt = $title = '';
+			if ( !empty( $feed ) ) {
+				$title = ' title="' . esc_attr( $feed ) . '"';
+				$alt = ' alt="' . esc_attr( $feed ) . '"';
+				$name = $feed;
+				$link .= $title;
+			}
+
+			$link .= '>';
+
+			if ( !empty( $feed_image ) )
+				$link .= '<img src="' . esc_url( $feed_image ) . '" style="border: none;"' . $alt . $title . ' />';
+			else
+				$link .= $name;
+
+			$link .= '</a>';
+
+			if ( empty( $feed_image ) )
+				$link .= ')';
 		}
 
-		if ( $posts || ! $hide_empty )
-			$return .= $link . ( ( 'list' == $style ) ? '</li>' : ', ' );
+		if ( $optioncount )
+			$link .= ' ('. $posts . ')';
+
+		$return .= $link;
+		$return .= ( 'list' == $style ) ? '</li>' : ', ';
 	}
 
-	$return = trim($return, ', ');
+	$return = rtrim($return, ', ');
 
-	if ( ! $echo )
+	if ( !$echo )
 		return $return;
+
 	echo $return;
 }
 
