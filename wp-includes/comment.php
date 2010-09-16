@@ -1135,7 +1135,7 @@ function wp_get_current_commenter() {
 	if ( isset($_COOKIE['comment_author_url_'.COOKIEHASH]) )
 		$comment_author_url = $_COOKIE['comment_author_url_'.COOKIEHASH];
 
-	return compact('comment_author', 'comment_author_email', 'comment_author_url');
+	return apply_filters('wp_get_current_commenter', compact('comment_author', 'comment_author_email', 'comment_author_url'));
 }
 
 /**
