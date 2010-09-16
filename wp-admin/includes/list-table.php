@@ -698,7 +698,53 @@ class WP_List_Table {
 	 * @access protected
 	 */
 	function display_rows() {
-		die( 'function WP_List_Table::display_rows() must be over-ridden in a sub-class.' );
+		foreach ( $this->items as $item )
+			$this->single_row( $item );
+	}
+
+	/**
+	 * Generates content for a single row of the table
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @param $object $item The current item
+	 */
+	function single_row( $item ) {
+		static $row_class = '';
+		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
+
+		echo '<tr' . $row_class . '>';
+
+		list( $columns, $hidden ) = $this->get_column_headers();
+
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$class = "class=\"$column_name column-$column_name\"";
+
+			$style = '';
+			if ( in_array( $column_name, $hidden ) )
+				$style = ' style="display:none;"';
+
+			$attributes = "$class$style";
+
+			if ( 'cb' == $column_name ) {
+				echo '<th scope="row" class="check-column">';
+				echo $this->column_cb( $item );
+				echo '</th>';
+			}
+			elseif ( method_exists( $this, 'column_' . $column_name ) ) {
+				echo "<td $attributes>";
+				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
+				echo "</td>";
+			}
+			else {
+				echo "<td $attributes>";
+				echo $this->column_default( $item, $column_name );
+				echo "</td>";
+			}
+		}
+
+		echo '</tr>';
 	}
 
 	/**
