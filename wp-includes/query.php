@@ -1286,34 +1286,30 @@ class WP_Query {
 			if ( empty($qv['cat']) || ($qv['cat'] == '0') ) {
 				$this->is_category = false;
 			} else {
-				if ( strpos($qv['cat'], '-') !== false ) {
-					$this->is_category = false;
-				} else {
-					$this->is_category = true;
-				}
+				$this->is_category = strpos($qv['cat'], '-') !== false;
 			}
 
-			if ( '' != $qv['category_name'] ) {
+			if ( !empty($qv['category_name']) ) {
 				$this->is_category = true;
 			}
 
-			if ( !is_array($qv['category__in']) || empty($qv['category__in']) ) {
+			if ( empty($qv['category__in']) ) {
 				$qv['category__in'] = array();
 			} else {
-				$qv['category__in'] = array_map('absint', $qv['category__in']);
+				$qv['category__in'] = array_map('absint', (array) $qv['category__in']);
 				$this->is_category = true;
 			}
 
-			if ( !is_array($qv['category__not_in']) || empty($qv['category__not_in']) ) {
+			if ( empty($qv['category__not_in']) ) {
 				$qv['category__not_in'] = array();
 			} else {
-				$qv['category__not_in'] = array_map('absint', $qv['category__not_in']);
+				$qv['category__not_in'] = array_map('absint', (array) $qv['category__not_in']);
 			}
 
-			if ( !is_array($qv['category__and']) || empty($qv['category__and']) ) {
+			if ( empty($qv['category__and']) ) {
 				$qv['category__and'] = array();
 			} else {
-				$qv['category__and'] = array_map('absint', $qv['category__and']);
+				$qv['category__and'] = array_map('absint', (array) $qv['category__and']);
 				$this->is_category = true;
 			}
 
@@ -1321,40 +1317,40 @@ class WP_Query {
 				$this->is_tag = true;
 
 			$qv['tag_id'] = absint($qv['tag_id']);
-			if (  !empty($qv['tag_id']) )
+			if ( !empty($qv['tag_id']) )
 				$this->is_tag = true;
 
-			if ( !is_array($qv['tag__in']) || empty($qv['tag__in']) ) {
+			if ( empty($qv['tag__in']) ) {
 				$qv['tag__in'] = array();
 			} else {
-				$qv['tag__in'] = array_map('absint', $qv['tag__in']);
+				$qv['tag__in'] = array_map('absint', (array) $qv['tag__in']);
 				$this->is_tag = true;
 			}
 
-			if ( !is_array($qv['tag__not_in']) || empty($qv['tag__not_in']) ) {
+			if ( empty($qv['tag__not_in']) ) {
 				$qv['tag__not_in'] = array();
 			} else {
-				$qv['tag__not_in'] = array_map('absint', $qv['tag__not_in']);
+				$qv['tag__not_in'] = array_map('absint', (array) $qv['tag__not_in']);
 			}
 
 			if ( !is_array($qv['tag__and']) || empty($qv['tag__and']) ) {
 				$qv['tag__and'] = array();
 			} else {
-				$qv['tag__and'] = array_map('absint', $qv['tag__and']);
-				$this->is_category = true;
-			}
-
-			if ( !is_array($qv['tag_slug__in']) || empty($qv['tag_slug__in']) ) {
-				$qv['tag_slug__in'] = array();
-			} else {
-				$qv['tag_slug__in'] = array_map('sanitize_title', $qv['tag_slug__in']);
+				$qv['tag__and'] = array_map('absint', (array) $qv['tag__and']);
 				$this->is_tag = true;
 			}
 
-			if ( !is_array($qv['tag_slug__and']) || empty($qv['tag_slug__and']) ) {
+			if ( empty($qv['tag_slug__in']) ) {
+				$qv['tag_slug__in'] = array();
+			} else {
+				$qv['tag_slug__in'] = array_map('sanitize_title', (array) $qv['tag_slug__in']);
+				$this->is_tag = true;
+			}
+
+			if ( empty($qv['tag_slug__and']) ) {
 				$qv['tag_slug__and'] = array();
 			} else {
-				$qv['tag_slug__and'] = array_map('sanitize_title', $qv['tag_slug__and']);
+				$qv['tag_slug__and'] = array_map('sanitize_title', (array) $qv['tag_slug__and']);
 				$this->is_tag = true;
 			}
 
