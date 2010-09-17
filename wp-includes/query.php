@@ -1283,11 +1283,10 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
-			if ( empty($qv['cat']) || ($qv['cat'] == '0') ) {
+			if ( empty($qv['cat']) || ($qv['cat'] == '0') )
 				$this->is_category = false;
-			} else {
-				$this->is_category = strpos($qv['cat'], '-') !== false;
-			}
+			else
+				$this->is_category = strpos($qv['cat'], '-') === false;
 
 			if ( !empty($qv['category_name']) ) {
 				$this->is_category = true;
