@@ -1877,35 +1877,14 @@ class WP_Query {
 
 		// Category stuff for nice URLs
 		if ( '' != $q['category_name'] && !$this->is_singular ) {
-			$q['category_name'] = implode('/', array_map('sanitize_title', explode('/', $q['category_name'])));
-			$reqcat = get_category_by_path($q['category_name']);
-			$q['category_name'] = str_replace('%2F', '/', urlencode(urldecode($q['category_name'])));
-			$cat_paths = '/' . trim($q['category_name'], '/');
-			$q['category_name'] = sanitize_title(basename($cat_paths));
-
-			$cat_paths = '/' . trim(urldecode($q['category_name']), '/');
-			$q['category_name'] = sanitize_title(basename($cat_paths));
-			$cat_paths = explode('/', $cat_paths);
-			$cat_path = '';
-			foreach ( (array) $cat_paths as $pathdir )
-				$cat_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
-
-			//if we don't match the entire hierarchy fallback on just matching the nicename
-			if ( empty($reqcat) )
-				$reqcat = get_category_by_path($q['category_name'], false);
-
-			if ( !empty($reqcat) )
-				$reqcat = $reqcat->term_id;
-			else
-				$reqcat = 0;
-
-			$q['cat'] = $reqcat;
+			$q['category_name'] = str_replace( '%2F', '/', urlencode(urldecode($q['category_name'])) );
+			$q['category_name'] = '/' . trim( $q['category_name'], '/' );
 
 			$tax_query[] = array(
 				'taxonomy' => 'category',
-				'terms' => array( $q['cat'] ),
+				'terms' => array( basename( $q['category_name'] ) ),
 				'operator' => 'IN',
-				'field' => 'term_id'
+				'field' => 'slug'
 			);
 		}
 
