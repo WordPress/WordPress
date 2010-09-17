@@ -671,6 +671,15 @@ class WP_Query {
 	var $tax_query = array();
 
 	/**
+	 * Metadata query
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var array
+	 */
+	var $meta_query = array();
+
+	/**
 	 * Holds the data for a single object that is queried.
 	 *
 	 * Holds the contents of a post, page, category, attachment.
@@ -1362,6 +1371,10 @@ class WP_Query {
 			} else {
 				$this->is_tax = true;
 			}
+
+			$meta_query = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
+			if ( !empty( $meta_query ) )
+				$this->meta_query[] = $meta_query;
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
@@ -2166,9 +2179,7 @@ class WP_Query {
 			$where .= ')';
 		}
 
-		// postmeta queries
-		$meta_query = wp_array_slice_assoc( $q, array( 'meta_key', 'meta_value', 'meta_compare' ) );
-		list( $meta_join, $meta_where ) = _wp_meta_sql( array( $meta_query ), $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
+		list( $meta_join, $meta_where ) = _wp_meta_sql( $this->meta_query, $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
 		$join .= $meta_join;
 		$where .= $meta_where;
 
