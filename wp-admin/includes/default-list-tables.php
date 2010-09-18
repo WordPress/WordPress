@@ -2071,8 +2071,13 @@ class WP_Comments_Table extends WP_List_Table {
 
 		$start = $offset = ( $page - 1 ) * $comments_per_page;
 
+		$status_map = array(
+			'moderated' => 'hold',
+			'approved' => 'approve'
+		);
+
 		$args = array(
-			'status' => ( 'moderated' == $comment_status ) ? 'hold' : $comment_status, // TODO: replace all instances of 'moderated' with 'hold'
+			'status' => isset( $status_map[$comment_status] ) ? $status_map[$comment_status] : $comment_status,
 			'search' => $search,
 			'offset' => $start,
 			'number' => $number,
