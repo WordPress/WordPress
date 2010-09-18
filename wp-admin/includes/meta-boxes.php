@@ -459,10 +459,8 @@ function post_comment_meta_box($post) {
 	}
 
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
-	add_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead', 8, 1);
-	add_filter('manage_edit-comments_sortable_columns', '__return_empty_array', 8);
 
-	$wp_list_table = get_list_table('comments');
+	$wp_list_table = get_list_table('post-comments');
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
@@ -478,7 +476,6 @@ function post_comment_meta_box($post) {
 		<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 <?php
 	}
-	remove_filter('manage_edit-comments_columns', 'post_comment_meta_box_thead');
 	wp_comment_trashnotice();
 }
 

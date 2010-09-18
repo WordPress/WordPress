@@ -624,6 +624,8 @@ case 'add-comment' :
 		die('-1');
 
 	$wp_list_table = get_list_table('comments');
+	$wp_list_table->from_ajax = true;
+
 	$wp_list_table->prepare_items();
 
 	if ( !$wp_list_table->has_items() )
@@ -631,9 +633,8 @@ case 'add-comment' :
 
 	$x = new WP_Ajax_Response();
 	foreach ( $wp_list_table->items as $comment ) {
-		get_comment( $comment );
 		ob_start();
-			$wp_list_table->single_row( $comment->comment_ID, $mode, $comment_status, true, true );
+			$wp_list_table->single_row( $comment );
 			$comment_list_item = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(
@@ -651,7 +652,8 @@ case 'get-comments' :
 	if ( !current_user_can( 'edit_post', $post_ID ) )
 		die('-1');
 
-	$wp_list_table = get_list_table('comments');
+	$wp_list_table = get_list_table('post-comments');
+
 	$wp_list_table->prepare_items();
 
 	if ( !$wp_list_table->has_items() )
@@ -662,7 +664,7 @@ case 'get-comments' :
 	foreach ( $wp_list_table->items as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			$wp_list_table->single_row( $comment->comment_ID, 'single', false, false );
+			$wp_list_table->single_row( $comment );
 			$comment_list_item .= ob_get_contents();
 		ob_end_clean();
 	}
@@ -676,6 +678,7 @@ case 'replyto-comment' :
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
 	$wp_list_table = get_list_table('comments');
+	$wp_list_table->checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	if ( !current_user_can( 'edit_post', $comment_post_ID ) )
@@ -715,16 +718,15 @@ case 'replyto-comment' :
 	if ( ! $comment ) die('1');
 
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
-	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 
 	$x = new WP_Ajax_Response();
 
 	ob_start();
 		if ( 'dashboard' == $mode ) {
 			require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
-			_wp_dashboard_recent_comments_row( $comment, false );
+			_wp_dashboard_recent_comments_row( $comment );
 		} else {
-			$wp_list_table->single_row( $comment->comment_ID, $mode, false, $checkbox );
+			$wp_list_table->single_row( $comment );
 		}
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
@@ -753,13 +755,13 @@ case 'edit-comment' :
 	edit_comment();
 
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
-	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
-	$comments_listing = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
+	$comments_status = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
 
-	$wp_list_table = get_list_table('comments');
+	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
+	$wp_list_table = get_list_table( $checkbox ? 'comments' : 'post-comments' );
 
 	ob_start();
-		$wp_list_table->single_row( $comment_id, $mode, $comments_listing, $checkbox );
+		$wp_list_table->single_row( get_comment( $comment_id ) );
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
 
