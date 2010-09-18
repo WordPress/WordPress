@@ -1597,13 +1597,72 @@ class WP_Terms_Table extends WP_List_Table {
 		return $output;
 	}
 
-	function single_row( $tag, $level, $taxonomy = 'post_tag' ) {
-		global $post_type, $current_screen;
+	function single_row( $tag, $level = 0 ) {
 		static $row_class = '';
 		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
 
+		$this->level = $level;
+
+		echo '<tr id="tag-' . $tag->term_id . '"' . $row_class . '>';
+		echo $this->single_row_columns( $tag );
+		echo '</tr>';
+	}
+
+	function column_cb( $tag ) {
+		global $taxonomy, $tax;
+
+		$default_term = get_option( 'default_' . $taxonomy );
+
+		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
+			return '<input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" />';
+		else
+			return '&nbsp;';
+	}
+
+	function column_name( $tag ) {
+		global $taxonomy, $tax, $post_type;
+
+		$default_term = get_option( 'default_' . $taxonomy );
+
+		$pad = str_repeat( '&#8212; ', max( 0, $this->level ) );
+		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
+		$qe_data = get_term( $tag->term_id, $taxonomy, OBJECT, 'edit' );
+		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;post_type=$post_type&amp;tag_ID=$tag->term_id";
+
+		$out = '<strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
+
+		$actions = array();
+		if ( current_user_can( $tax->cap->edit_terms ) ) {
+			$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __( 'Quick&nbsp;Edit' ) . '</a>';
+		}
+		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
+			$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
+
+		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
+		$actions = apply_filters( "${taxonomy}_row_actions", $actions, $tag );
+
+		$out .= $this->row_actions( $actions );
+		$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
+		$out .= '<div class="name">' . $qe_data->name . '</div>';
+		$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug ) . '</div>';
+		$out .= '<div class="parent">' . $qe_data->parent . '</div></div></td>';
+
+		return $out;
+	}
+	
+	function column_description( $tag ) {
+		return $tag->description;
+	}
+
+	function column_slug( $tag ) {
+		return apply_filters( 'editable_slug', $tag->slug );
+	}
+
+	function column_posts( $tag ) {
+		global $taxonomy, $post_type;
+
 		$count = number_format_i18n( $tag->count );
-		$tax = get_taxonomy( $taxonomy );
 
 		if ( 'post_tag' == $taxonomy ) {
 			$tagsel = 'tag';
@@ -1615,78 +1674,19 @@ class WP_Terms_Table extends WP_List_Table {
 			$tagsel = $taxonomy;
 		}
 
-		$pad = str_repeat( '&#8212; ', max( 0, $level ) );
-		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
-		$qe_data = get_term( $tag->term_id, $taxonomy, object, 'edit' );
-		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;post_type=$post_type&amp;tag_ID=$tag->term_id";
+		return "<a href='edit.php?$tagsel=$tag->slug&amp;post_type=$post_type'>$count</a>";
+	}
 
-		$out = '';
-		$out .= '<tr id="tag-' . $tag->term_id . '"' . $row_class . '>';
+	function column_links( $tag ) {
+		$count = number_format_i18n( $tag->count );
+		return $count;
+	}
 
-		$default_term = get_option( 'default_' . $taxonomy );
-
-		list( $columns, $hidden ) = $this->get_column_headers();
-
-		foreach ( $columns as $column_name => $column_display_name ) {
-			$class = "class=\"$column_name column-$column_name\"";
-
-			$style = '';
-			if ( in_array( $column_name, $hidden ) )
-				$style = ' style="display:none;"';
-
-			$attributes = "$class$style";
-
-			switch ( $column_name ) {
-				case 'cb':
-					if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
-						$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
-					else
-						$out .= '<th scope="row" class="check-column">&nbsp;</th>';
-					break;
-				case 'name':
-					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
-
-					$actions = array();
-					if ( current_user_can( $tax->cap->edit_terms ) ) {
-						$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
-						$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __( 'Quick&nbsp;Edit' ) . '</a>';
-					}
-					if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
-						$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
-
-					$actions = apply_filters( 'tag_row_actions', $actions, $tag );
-					$actions = apply_filters( "${taxonomy}_row_actions", $actions, $tag );
-
-					$out .= $this->row_actions( $actions );
-					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
-					$out .= '<div class="name">' . $qe_data->name . '</div>';
-					$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug ) . '</div>';
-					$out .= '<div class="parent">' . $qe_data->parent . '</div></div></td>';
-					break;
-				case 'description':
-					$out .= "<td $attributes>$tag->description</td>";
-					break;
-				case 'slug':
-					$out .= "<td $attributes>" . apply_filters( 'editable_slug', $tag->slug ) . "</td>";
-					break;
-				case 'posts':
-					$attributes = 'class="posts column-posts num"' . $style;
-					$out .= "<td $attributes><a href='edit.php?$tagsel=$tag->slug&amp;post_type=$post_type'>$count</a></td>";
-					break;
-				case 'links':
-					$attributes = 'class="links column-links num"' . $style;
-					$out .= "<td $attributes>$count</td>";
-					break;
-				default:
-					$out .= "<td $attributes>";
-					$out .= apply_filters( "manage_${taxonomy}_custom_column", '', $column_name, $tag->term_id );
-					$out .= "</td>";
-			}
-		}
-
-		$out .= "</tr>\n";
-
-		return $out;
+	function column_default( $tag, $column_name ) {
+		global $taxonomy;
+	
+		return apply_filters( "manage_${taxonomy}_custom_column", '', $column_name, $tag->term_id );
+		$out .= "</td>";
 	}
 
 	/**

@@ -559,19 +559,16 @@ case 'add-tag' :
 	$wp_list_table = get_list_table('terms');
 
 	$level = 0;
-	$tag_full_name = false;
-	$tag_full_name = $tag->name;
 	if ( is_taxonomy_hierarchical($taxonomy) ) {
-		$_tag = $tag;
-		while ( $_tag->parent  ) {
-			$_tag = get_term( $_tag->parent, $taxonomy );
-			$tag_full_name = $_tag->name . ' &#8212; ' . $tag_full_name;
-			$level++;
-		}
-		$noparents = $wp_list_table->single_row( $tag, $level, $taxonomy );
+		$level = count( get_ancestors( $tag->term_id, $taxonomy ) );
+		ob_start();
+		$wp_list_table->single_row( $tag, $level );
+		$noparents = ob_get_clean();
 	}
-	$tag->name = $tag_full_name;
-	$parents = $wp_list_table->single_row( $tag, 0, $taxonomy);
+
+	ob_start();
+	$wp_list_table->single_row( $tag );
+	$parents = ob_get_clean();
 
 	$x->add( array(
 		'what' => 'taxonomy',
@@ -580,7 +577,7 @@ case 'add-tag' :
 	$x->add( array(
 		'what' => 'term',
 		'position' => $level,
-		'supplemental' => get_term( $tag->term_id, $taxonomy, ARRAY_A ) // Refetch as $tag has been contaminated by the full name.
+		'supplemental' => $tag
 		) );
 	$x->send();
 	break;
@@ -1227,7 +1224,7 @@ case 'inline-save-tax':
 			die( __('Item not updated.') );
 		}
 
-		echo $wp_list_table->single_row( $tag, 0, $taxonomy );
+		echo $wp_list_table->single_row( $tag );
 	} else {
 		if ( is_wp_error($updated) && $updated->get_error_message() )
 			die( $updated->get_error_message() );
