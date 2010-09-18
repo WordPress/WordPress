@@ -715,7 +715,19 @@ class WP_List_Table {
 		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
 
 		echo '<tr' . $row_class . '>';
+		echo $this->single_row_columns( $item );
+		echo '</tr>';
+	}
 
+	/**
+	 * Generates the columns for a single row of the table
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @param $object $item The current item
+	 */
+	function single_row_columns( $item ) {
 		list( $columns, $hidden ) = $this->get_column_headers();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
@@ -743,8 +755,6 @@ class WP_List_Table {
 				echo "</td>";
 			}
 		}
-
-		echo '</tr>';
 	}
 
 	/**
