@@ -2775,3 +2775,40 @@ function is_object_in_taxonomy($object_type, $taxonomy) {
 
 	return false;
 }
+ 
+/**
+ * Get an array of ancestor IDs for a given object.
+ *
+ * @param int $object_id The ID of the object
+ * @param string $object_type The type of object for which we'll be retrieving ancestors.
+ * @return array of ancestors from lowest to highest in the hierarchy.
+ */
+function get_ancestors($object_id = 0, $object_type = '') {
+	$object_id = (int) $object_id;
+ 
+	$ancestors = array();
+
+	if ( empty( $object_id ) ) {
+		return apply_filters('get_ancestors', $ancestors, $object_id, $object_type);
+	}
+		
+	if ( is_taxonomy_hierarchical( $object_type ) ) {
+		$term = get_term($object_id, $object_type);
+		while ( ! is_wp_error($term) && ! empty( $term->parent ) && ! in_array( $term->parent, $ancestors ) ) {
+			$ancestors[] = (int) $term->parent;
+			$term = get_term($term->parent, $object_type);
+		}
+	} elseif ( null !== get_post_type_object( $object_type ) ) {
+		$object = get_post($object_id);
+		if ( ! is_wp_error( $object ) && isset( $object->ancestors ) && is_array( $object->ancestors ) ) 
+			$ancestors = $object->ancestors;
+		else {
+			while ( ! is_wp_error($object) && ! empty( $object->post_parent ) && ! in_array( $object->post_parent, $ancestors ) ) {
+				$ancestors[] = (int) $object->post_parent;
+				$object = get_post($object->post_parent);
+			}
+		}
+	}
+
+	return apply_filters('get_ancestors', $ancestors, $object_id, $object_type);
+}
