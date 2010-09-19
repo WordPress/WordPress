@@ -411,10 +411,11 @@ function wp_load_alloptions() {
 			$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
 		$wpdb->suppress_errors($suppress);
 		$alloptions = array();
-		foreach ( (array) $alloptions_db as $o )
+		foreach ( (array) $alloptions_db as $o ) {
 			$alloptions[$o->option_name] = $o->option_value;
-			if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
-				wp_cache_add( 'alloptions', $alloptions, 'options' );
+		}
+		if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
+			wp_cache_add( 'alloptions', $alloptions, 'options' );
 	}
 
 	return $alloptions;
