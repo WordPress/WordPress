@@ -232,10 +232,18 @@ function is_serialized( $data ) {
 	if ( !is_string( $data ) )
 		return false;
 	$data = trim( $data );
-	if ( 'N;' == $data )
+ 	if ( 'N;' == $data )
 		return true;
-	if ( !preg_match( '/^([adObis]):/', $data, $badions ) )
+	if ( function_exists('strpbrk') ) {
+		if ( strlen($data) > 1 && strpbrk($data,'adObis') == $data && $data[1] == ':' ) {
+			$badions = array();
+			$badions[1] = $data[0];
+		} else {
+			return false;
+		}
+	} elseif ( !preg_match( '/^([adObis]):/', $data, $badions ) ) {
 		return false;
+	}
 	switch ( $badions[1] ) {
 		case 'a' :
 		case 'O' :
