@@ -25,6 +25,13 @@ class WP_Dependencies {
 	var $groups = array();
 	var $group = 0;
 
+	function WP_Dependencies() {
+		$args = func_get_args();
+		call_user_func_array( array(&$this, '__construct'), $args );
+	}
+
+	function __construct() {}
+
 	/**
 	 * Do the dependencies
 	 *
