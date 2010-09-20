@@ -763,10 +763,6 @@ function sanitize_user( $username, $strict = false ) {
  */
 function sanitize_key( $key ) {
 	$raw_key = $key;
-	$key = wp_strip_all_tags($key);
-	// Kill octets
-	$key = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $key);
-	$key = preg_replace('/&.+?;/', '', $key); // Kill entities
 
 	$key = preg_replace('|[^a-z0-9 _.\-@]|i', '', $key);
 

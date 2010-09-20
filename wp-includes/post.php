@@ -571,7 +571,7 @@ function register_post_status($post_status, $args = array()) {
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
-	$post_status = sanitize_user($post_status, true);
+	$post_status = sanitize_key($post_status);
 	$args->name = $post_status;
 
 	if ( null === $args->public && null === $args->internal && null === $args->protected && null === $args->private )
@@ -819,7 +819,7 @@ function register_post_type($post_type, $args = array()) {
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
 
-	$post_type = sanitize_user($post_type, true);
+	$post_type = sanitize_key($post_type);
 	$args->name = $post_type;
 
 	// If not set, default to the setting for public.
