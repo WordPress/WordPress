@@ -3101,24 +3101,6 @@ function wp_ob_end_flush_all() {
 }
 
 /**
- * Load the correct database class file.
- *
- * This function is used to load the database class file either at runtime or by
- * wp-admin/setup-config.php We must globalise $wpdb to ensure that it is
- * defined globally by the inline code in wp-db.php.
- *
- * @since 2.5.0
- * @global $wpdb WordPress Database Object
- */
-function require_wp_db() {
-	global $wpdb;
-	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) )
-		require_once( WP_CONTENT_DIR . '/db.php' );
-	else
-		require_once( ABSPATH . WPINC . '/wp-db.php' );
-}
-
-/**
  * Load custom DB error or display WordPress DB error.
  *
  * If a file exists in the wp-content directory named db-error.php, then it will

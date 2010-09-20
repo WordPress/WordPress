@@ -308,6 +308,29 @@ function wp_set_lang_dir() {
 }
 
 /**
+ * Load the correct database class file.
+ *
+ * This function is used to load the database class file either at runtime or by
+ * wp-admin/setup-config.php. We must globalize $wpdb to ensure that it is
+ * defined globally by the inline code in wp-db.php.
+ *
+ * @since 2.5.0
+ * @global $wpdb WordPress Database Object
+ */
+function require_wp_db() {
+	global $wpdb;
+
+	require_once( ABSPATH . WPINC . '/wp-db.php' );
+	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) )
+		require_once( WP_CONTENT_DIR . '/db.php' );
+
+	if ( isset( $wpdb ) )
+		return;
+
+	$wpdb = new wpdb( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );
+}
+
+/**
  * Sets the database table prefix and the format specifiers for database table columns.
  *
  * Columns not listed here default to %s.
