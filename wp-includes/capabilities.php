@@ -1156,7 +1156,7 @@ function get_role( $role ) {
  *
  * @param string $role Role name.
  * @param string $display_name Display name for role.
- * @param array $capabilities List of capabilities.
+ * @param array $capabilities List of capabilities, e.g. array( 'edit_posts' => true, 'delete_posts' => false );
  * @return null|WP_Role WP_Role object if role is added, null if already exists.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
