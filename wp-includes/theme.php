@@ -466,9 +466,14 @@ function get_themes() {
  *
  * @since 2.9.0
  *
- * @return array Theme roots
+ * @return array|string An arry of theme roots keyed by template/stylesheet or a single theme root if all themes have the same root.
  */
 function get_theme_roots() {
+	global $wp_theme_directories;
+
+	if ( count($wp_theme_directories <= 1) )
+		return '/themes';
+
 	$theme_roots = get_site_transient( 'theme_roots' );
 	if ( false === $theme_roots ) {
 		get_themes();
@@ -651,11 +656,9 @@ function search_theme_directories() {
  * @return string Theme path.
  */
 function get_theme_root( $stylesheet_or_template = false ) {
-	if ($stylesheet_or_template) {
-		$theme_roots = get_theme_roots();
-
-		if ( ! empty( $theme_roots[$stylesheet_or_template] ) )
-			$theme_root = WP_CONTENT_DIR . $theme_roots[$stylesheet_or_template];
+	if ( $stylesheet_or_template ) {
+		if ( $theme_root = get_raw_theme_root($stylesheet_or_template) )
+			$theme_root = WP_CONTENT_DIR . $theme_root;
 		else
 			$theme_root = WP_CONTENT_DIR . '/themes';
 	} else {
@@ -676,14 +679,47 @@ function get_theme_root( $stylesheet_or_template = false ) {
  * @return string Themes URI.
  */
 function get_theme_root_uri( $stylesheet_or_template = false ) {
-	$theme_roots = get_theme_roots();
-
-	if ( isset( $theme_roots[$stylesheet_or_template] ) && $theme_roots[$stylesheet_or_template] )
-		$theme_root_uri = content_url( $theme_roots[$stylesheet_or_template] );
-	else
+	if ( $stylesheet_or_template ) {
+		if ( $theme_root = get_raw_theme_root($stylesheet_or_template) )
+			$theme_root_uri = content_url( $theme_root );
+		else
+			$theme_root_uri = content_url( 'themes' );
+	} else {
 		$theme_root_uri = content_url( 'themes' );
+	}
 
 	return apply_filters( 'theme_root_uri', $theme_root_uri, get_option('siteurl'), $stylesheet_or_template );
+}
+
+/**
+ * Get the raw theme root relative to the content directory with no filters applied.
+ *
+ * @since 3.1.0
+ *
+ * @param string $stylesheet_or_template The stylesheet or template name of the theme
+ * @return string Theme root
+ */
+function get_raw_theme_root( $stylesheet_or_template ) {
+	global $wp_theme_directories;
+
+	if ( count($wp_theme_directories <= 1) )
+		return '/themes';
+
+	$theme_root = false;
+
+	// If requesting the root for the current theme, consult options to avoid calling get_theme_roots()
+	if ( get_option('stylesheet') == $stylesheet_or_template )
+		$theme_root = get_option('stylesheet_root');
+	elseif ( get_option('template') == $stylesheet_or_template )
+		$theme_root = get_option('template_root');
+
+	if ( empty($theme_root) ) {
+		$theme_roots = get_theme_roots();
+		if ( !empty($theme_roots[$stylesheet_or_template]) )
+			$theme_root = $theme_roots[$stylesheet_or_template];
+	}
+
+	return $theme_root;
 }
 
 /**
@@ -1213,8 +1249,14 @@ function preview_theme_ob_filter_callback( $matches ) {
  * @param string $stylesheet Stylesheet name.
  */
 function switch_theme($template, $stylesheet) {
+	global $wp_theme_directories;
+
 	update_option('template', $template);
 	update_option('stylesheet', $stylesheet);
+	if ( count($wp_theme_directories) > 1 ) {
+		update_option('template_root', get_raw_theme_root($template));
+		update_option('stylesheet_root', get_raw_theme_root($stylesheet));
+	}
 	delete_option('current_theme');
 	$theme = get_current_theme();
 	do_action('switch_theme', $theme);
