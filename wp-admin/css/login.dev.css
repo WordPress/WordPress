@@ -117,9 +117,7 @@ h1 a {
 	padding: 16px;
 }
 
-#user_pass,
-#user_login,
-#user_email {
+body form .input {
 	font-size: 24px;
 	width: 97%;
 	padding: 3px;

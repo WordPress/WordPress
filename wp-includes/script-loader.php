@@ -465,7 +465,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20100514' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20100424' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
-	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20100815' );
+	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20100922' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20100402' );
 	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20100523' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
