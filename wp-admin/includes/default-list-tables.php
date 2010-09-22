@@ -3857,6 +3857,9 @@ class WP_Plugin_Install_Table extends WP_List_Table {
 
 class WP_Themes_Table extends WP_List_Table {
 
+	var $search = array();
+	var $features = array();
+
 	function WP_Themes_Table() {
 		parent::__construct( array(
 			'screen' => 'themes',
@@ -3874,6 +3877,18 @@ class WP_Themes_Table extends WP_List_Table {
 		$ct = current_theme_info();
 
 		$themes = get_allowed_themes();
+
+		$search = !empty( $_REQUEST['s'] ) ? trim( stripslashes( $_REQUEST['s'] ) ) : '';
+
+		if ( '' !== $this->search ) {
+			$this->search = array_merge( $this->search, array_filter( array_map( 'trim', explode( ',', $search ) ) ) );
+			$this->search = array_unique( $this->search );
+			foreach ( $themes as $key => $theme ) {
+				if ( !$this->search_theme( $theme ) )
+					unset( $themes[ $key ] );
+			}
+		}
+
 		unset( $themes[$ct->name] );
 		uksort( $themes, "strnatcasecmp" );
 
@@ -4001,6 +4016,42 @@ foreach ( $cols as $col => $theme_name ) {
 <?php } // end foreach $cols ?>
 </tr>
 <?php } // end foreach $table
+	}
+
+	function search_theme( $theme ) {
+		$matched = 0;
+
+		// Match all phrases
+		if ( count( $this->search ) > 0 ) {
+			foreach ( $this->search as $word ) {
+				$matched = 0;
+
+				// In a tag?
+				if ( in_array( $word, array_map( 'sanitize_title_with_dashes', $theme['Tags'] ) ) )
+					$matched = 1;
+
+				// In one of the fields?
+				foreach ( array( 'Name', 'Title', 'Description', 'Author', 'Template', 'Stylesheet' ) AS $field ) {
+					if ( stripos( $theme[$field], $word ) !== false )
+						$matched++;
+				}
+
+				if ( $matched == 0 )
+					return false;
+			}
+		}
+
+		// Now search the features
+		if ( count( $this->features ) > 0 ) {
+			foreach ( $this->features as $word ) {
+				// In a tag?
+				if ( !in_array( $word, array_map( 'sanitize_title_with_dashes', $theme['Tags'] ) ) )
+					return false;
+			}
+		}
+
+		// Only get here if each word exists in the tags or one of the fields
+		return true;
 	}
 }
 

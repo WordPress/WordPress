@@ -103,6 +103,15 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 ?>
 <h3><?php _e('Available Themes'); ?></h3>
 
+<form class="search-form" action="" method="get">
+<p class="search-box">
+	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Themes'); ?>:</label>
+	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<input type="submit" value="<?php esc_attr_e('Search Themes');  ?>" class="button" />
+</p>
+</form>
+<br class="clear" />
+
 <?php $wp_list_table->display(); ?>
 
 <br class="clear" />
