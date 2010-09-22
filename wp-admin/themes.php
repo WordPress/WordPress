@@ -81,14 +81,41 @@ if ( is_multisite() && current_user_can('edit_themes') ) {
 	/* translators: 1: theme title, 2: theme version, 3: theme author */
 	printf(__('%1$s %2$s by %3$s'), $ct->title, $ct->version, $ct->author) ; ?></h4>
 <p class="theme-description"><?php echo $ct->description; ?></p>
-<?php if ( current_user_can('edit_themes') && $ct->parent_theme ) { ?>
-	<p><?php printf(__('The template files are located in <code>%2$s</code>. The stylesheet files are located in <code>%3$s</code>. <strong>%4$s</strong> uses templates from <strong>%5$s</strong>. Changes made to the templates will affect both themes.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ), $ct->title, $ct->parent_theme); ?></p>
-<?php } else { ?>
-	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $ct->title, str_replace( WP_CONTENT_DIR, '', $ct->template_dir ), str_replace( WP_CONTENT_DIR, '', $ct->stylesheet_dir ) ); ?></p>
-<?php } ?>
-<?php if ( $ct->tags ) : ?>
-<p><?php _e('Tags:'); ?> <?php echo join(', ', $ct->tags); ?></p>
-<?php endif; ?>
+<div class="theme-options">
+	<span><?php _e( 'Options:' )?></span>
+	<?php
+	// Pretend you didn't see this.
+	$options = array();
+	if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
+		foreach ( (array) $submenu['themes.php'] as $item) {
+			$class = '';
+			if ( 'themes.php' == $item[2] || 'theme-editor.php' == $item[2] )
+				continue;
+			// 0 = name, 1 = capability, 2 = file
+			if ( ( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file)) ) $class = ' class="current"';
+
+			if ( !empty($submenu[$item[2]]) ) {
+				$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
+				$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
+				if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+					$options[] = "<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				else
+					$options[] = "<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+			} else if ( current_user_can($item[1]) ) {
+				if ( file_exists(ABSPATH . 'wp-admin/' . $item[2]) ) {
+					$options[] = "<a href='{$item[2]}'$class>{$item[0]}</a>";
+				} else {
+					$options[] = "<a href='themes.php?page={$item[2]}'$class>{$item[0]}</a>";
+				}
+			}
+		}
+	}
+	echo implode ( ' | ', $options );
+	
+	if ( $ct->tags ) : ?>
+	<p><?php _e('Tags:'); ?> <?php echo join(', ', $ct->tags); ?></p>
+	<?php endif; ?>
+</div>
 <?php theme_update_available($ct); ?>
 
 </div>
