@@ -202,6 +202,15 @@ table#availablethemes td.bottom {
 	width: 150px;
 }
 
+.theme-options span {
+	text-transform: uppercase;
+	font-size: 13px;
+}
+
+.theme-options a {
+	font-size: 15px;
+}
+
 #TB_window #TB_title a.tb-theme-preview-link,
 #TB_window #TB_title a.tb-theme-preview-link:visited {
 	font-weight: bold;
