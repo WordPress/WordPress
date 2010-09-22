@@ -13,73 +13,18 @@ $wp_list_table = get_list_table('media');
 $wp_list_table->check_permissions();
 
 // Handle bulk actions
-if ( isset($_REQUEST['find_detached']) ) {
+$doaction = $wp_list_table->current_action();
+
+if ( $doaction ) {
 	check_admin_referer('bulk-media');
 
-	if ( !current_user_can('edit_posts') )
-		wp_die( __('You are not allowed to scan for lost attachments.') );
-
-	$lost = $wpdb->get_col( "
-		SELECT ID FROM $wpdb->posts
-		WHERE post_type = 'attachment' AND post_parent > '0'
-		AND post_parent NOT IN (
-			SELECT ID FROM $wpdb->posts
-			WHERE post_type NOT IN ( 'attachment', '" . join( "', '", get_post_types( array( 'public' => false ) ) ) . "' )
-		)
-	" );
-
-	$_REQUEST['detached'] = 1;
-
-} elseif ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) ) {
-	check_admin_referer( 'bulk-media' );
-
-	$parent_id = (int) $_REQUEST['found_post_id'];
-	if ( !$parent_id )
-		return;
-
-	$parent = &get_post( $parent_id );
-	if ( !current_user_can( 'edit_post', $parent_id ) )
-		wp_die( __( 'You are not allowed to edit this post.' ) );
-
-	$attach = array();
-	foreach ( (array) $_REQUEST['media'] as $att_id ) {
-		$att_id = (int) $att_id;
-
-		if ( !current_user_can( 'edit_post', $att_id ) )
-			continue;
-
-		$attach[] = $att_id;
-		clean_attachment_cache( $att_id );
-	}
-
-	if ( ! empty( $attach ) ) {
-		$attach = implode( ',', $attach );
-		$attached = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $attach )", $parent_id ) );
-	}
-
-	if ( isset( $attached ) ) {
-		$location = 'upload.php';
-		if ( $referer = wp_get_referer() ) {
-			if ( false !== strpos( $referer, 'upload.php' ) )
-				$location = $referer;
-		}
-
-		$location = add_query_arg( array( 'attached' => $attached ) , $location );
-		wp_redirect( $location );
-		exit;
-	}
-
-} elseif ( isset( $_REQUEST['doaction'] ) || isset( $_REQUEST['doaction2'] ) || isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {
-	check_admin_referer( 'bulk-media' );
-
-	if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {
+	if ( 'delete_all' == $doaction ) {
 		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
 		$doaction = 'delete';
-	} elseif ( ( $_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1 ) && ( isset( $_REQUEST['media'] ) || isset( $_REQUEST['ids'] ) ) ) {
-		$post_ids = isset( $_REQUEST['media'] ) ? $_REQUEST['media'] : explode( ',', $_REQUEST['ids'] );
-		$doaction = ( $_REQUEST['action'] != -1 ) ? $_REQUEST['action'] : $_REQUEST['action2'];
-	} else {
-		wp_redirect( $_SERVER['HTTP_REFERER'] );
+	} elseif ( isset( $_REQUEST['media'] ) ) {
+		$post_ids = $_REQUEST['media'];
+	} elseif ( isset( $_REQUEST['ids'] ) ) {
+		$post_ids = explode( ',', $_REQUEST['ids'] );
 	}
 
 	$location = 'upload.php';
@@ -89,6 +34,58 @@ if ( isset($_REQUEST['find_detached']) ) {
 	}
 
 	switch ( $doaction ) {
+		case 'find_detached':
+			if ( !current_user_can('edit_posts') )
+				wp_die( __('You are not allowed to scan for lost attachments.') );
+
+			$lost = $wpdb->get_col( "
+				SELECT ID FROM $wpdb->posts
+				WHERE post_type = 'attachment' AND post_parent > '0'
+				AND post_parent NOT IN (
+					SELECT ID FROM $wpdb->posts
+					WHERE post_type NOT IN ( 'attachment', '" . join( "', '", get_post_types( array( 'public' => false ) ) ) . "' )
+				)
+			" );
+
+			$_REQUEST['detached'] = 1;
+			break;
+		case 'attach':
+			$parent_id = (int) $_REQUEST['found_post_id'];
+			if ( !$parent_id )
+				return;
+
+			$parent = &get_post( $parent_id );
+			if ( !current_user_can( 'edit_post', $parent_id ) )
+				wp_die( __( 'You are not allowed to edit this post.' ) );
+
+			$attach = array();
+			foreach ( (array) $_REQUEST['media'] as $att_id ) {
+				$att_id = (int) $att_id;
+
+				if ( !current_user_can( 'edit_post', $att_id ) )
+					continue;
+
+				$attach[] = $att_id;
+				clean_attachment_cache( $att_id );
+			}
+
+			if ( ! empty( $attach ) ) {
+				$attach = implode( ',', $attach );
+				$attached = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $attach )", $parent_id ) );
+			}
+
+			if ( isset( $attached ) ) {
+				$location = 'upload.php';
+				if ( $referer = wp_get_referer() ) {
+					if ( false !== strpos( $referer, 'upload.php' ) )
+						$location = $referer;
+				}
+
+				$location = add_query_arg( array( 'attached' => $attached ) , $location );
+				wp_redirect( $location );
+				exit;
+			}
+			break;
 		case 'trash':
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )

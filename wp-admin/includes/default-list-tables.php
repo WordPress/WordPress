@@ -215,6 +215,13 @@ class WP_Posts_Table extends WP_List_Table {
 		}
 	}
 
+	function current_action() {
+		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) )
+			return 'delete_all';
+
+		return parent::current_action();
+	}
+
 	function pagination( $which ) {
 		global $post_type_object, $mode;
 
@@ -1080,6 +1087,19 @@ class WP_Media_Table extends WP_List_Table {
 <?php
 	}
 
+	function current_action() {
+		if ( isset( $_REQUEST['find_detached'] ) )
+			return 'find_detached';
+
+		if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) )
+			return 'attach';
+
+		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) )
+			return 'delete_all';
+
+		return parent::current_action();
+	}
+
 	function has_items() {
 		return have_posts();
 	}
@@ -1482,6 +1502,13 @@ class WP_Terms_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	function current_action() {
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) )
+			return 'bulk-delete';
+
+		return parent::current_action();
+	}
+
 	function get_columns() {
 		global $taxonomy;
 
@@ -1861,6 +1888,13 @@ class WP_Users_Table extends WP_List_Table {
 	</div>
 <?php
 	}
+	
+	function current_action() {
+		if ( isset($_REQUEST['changeit']) && !empty($_REQUEST['new_role']) )
+			return 'promote';
+
+		return parent::current_action();
+	}
 
 	function get_columns() {
 		return array(
@@ -2212,6 +2246,13 @@ class WP_Comments_Table extends WP_List_Table {
 <?php
 		do_action( 'manage_comments_nav', $comment_status );
 		echo '</div>';
+	}
+
+	function current_action() {
+		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) )
+			return 'delete_all';
+
+		return parent::current_action();
 	}
 
 	function get_columns() {
@@ -3456,6 +3497,13 @@ class WP_Plugins_Table extends WP_List_Table {
 				<input type="submit" name="clear-recent-list" value="<?php esc_attr_e( 'Clear List' ) ?>" class="button-secondary" />
 			</div>
 		<?php }
+	}
+
+	function current_action() {
+		if ( isset($_POST['clear-recent-list']) )
+			return 'clear-recent-list';
+
+		return parent::current_action();
 	}
 
 	function display_rows() {

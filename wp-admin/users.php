@@ -29,15 +29,6 @@ add_contextual_help($current_screen,
     '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-$update = $doaction = '';
-if ( isset($_REQUEST['action']) )
-	$doaction = $_REQUEST['action'] ? $_REQUEST['action'] : $_REQUEST['action2'];
-
-if ( "-1" == $doaction ) {
-	if ( isset($_REQUEST['changeit']) && !empty($_REQUEST['new_role']) )
-		$doaction = 'promote';
-}
-
 if ( empty($_REQUEST) ) {
 	$referer = '<input type="hidden" name="wp_http_referer" value="'. esc_attr(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
 } elseif ( isset($_REQUEST['wp_http_referer']) ) {
@@ -48,7 +39,9 @@ if ( empty($_REQUEST) ) {
 	$referer = '';
 }
 
-switch ($doaction) {
+$update = '';
+
+switch ( $wp_list_table->current_action() ) {
 
 /* Bulk Dropdown menu Role changes */
 case 'promote':

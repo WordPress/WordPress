@@ -247,6 +247,24 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Get the current action selected from the bulk actions dropdown.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @return string|bool The action name or False if no action was selected
+	 */
+	function current_action() {
+		if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] )
+			return $_REQUEST['action'];
+
+		if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] )
+			return $_REQUEST['action2'];
+		
+		return false;
+	}
+
+	/**
 	 * Generate row actions div
 	 *
 	 * @since 3.1.0

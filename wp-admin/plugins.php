@@ -12,21 +12,14 @@ require_once('./admin.php');
 $wp_list_table = get_list_table('plugins');
 $wp_list_table->check_permissions();
 
-if ( isset($_POST['clear-recent-list']) )
-	$action = 'clear-recent-list';
-elseif ( !empty($_REQUEST['action']) )
-	$action = $_REQUEST['action'];
-elseif ( !empty($_REQUEST['action2']) )
-	$action = $_REQUEST['action2'];
-else
-	$action = false;
+$action = $wp_list_table->current_action();
 
 $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 
-//Clean up request URI from temporary args for screen options/paging uri's to work as expected.
+// Clean up request URI from temporary args for screen options/paging uri's to work as expected.
 $_SERVER['REQUEST_URI'] = remove_query_arg(array('error', 'deleted', 'activate', 'activate-multi', 'deactivate', 'deactivate-multi', '_error_nonce'), $_SERVER['REQUEST_URI']);
 
-if ( !empty($action) ) {
+if ( $action ) {
 	$network_wide = false;
 	if ( ( isset( $_GET['networkwide'] ) || 'network-activate-selected' == $action ) && is_multisite() && current_user_can( 'manage_network_plugins' ) )
 		$network_wide = true;

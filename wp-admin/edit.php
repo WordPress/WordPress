@@ -21,21 +21,25 @@ if ( $_redirect = intval( max( @$_REQUEST['p'], @$_REQUEST['attachment_id'], @$_
 }
 
 // Handle bulk actions
-if ( isset($_REQUEST['doaction']) || isset($_REQUEST['doaction2']) || isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2']) || isset($_REQUEST['bulk_edit']) ) {
+$doaction = $wp_list_table->current_action();
+
+if ( $doaction ) {
 	check_admin_referer('bulk-posts');
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
 
 	if ( strpos($sendback, 'post.php') !== false )
 		$sendback = admin_url($post_new_file);
 
-	if ( isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2']) ) {
-		$post_status = preg_replace('/[^a-z0-9_-]+/i', '', $_REQUEST['post_status']);
-		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_status = %s", $post_type, $post_status ) );
+	if ( 'delete_all' == $doaction ) {
+		$post_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND post_status = 'trash'" );
 		$doaction = 'delete';
-	} elseif ( ( $_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1 ) && ( isset($_REQUEST['post']) || isset($_REQUEST['ids']) ) ) {
-		$post_ids = isset($_REQUEST['post']) ? array_map( 'intval', (array) $_REQUEST['post'] ) : explode(',', $_REQUEST['ids']);
-		$doaction = ($_REQUEST['action'] != -1) ? $_REQUEST['action'] : $_REQUEST['action2'];
-	} else {
+	} elseif ( isset( $_REQUEST['media'] ) ) {
+		$post_ids = $_REQUEST['media'];
+	} elseif ( isset( $_REQUEST['ids'] ) ) {
+		$post_ids = explode( ',', $_REQUEST['ids'] );
+	}
+
+	if ( !isset( $post_ids ) ) {
 		wp_redirect( admin_url("edit.php?post_type=$post_type") );
 	}
 
@@ -97,8 +101,7 @@ if ( isset($_REQUEST['doaction']) || isset($_REQUEST['doaction2']) || isset($_RE
 			break;
 	}
 
-	if ( isset($_REQUEST['action']) )
-		$sendback = remove_query_arg( array('action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view'), $sendback );
+	$sendback = remove_query_arg( array('action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view'), $sendback );
 
 	wp_redirect($sendback);
 	exit();

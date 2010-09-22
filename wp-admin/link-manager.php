@@ -13,10 +13,10 @@ $wp_list_table = get_list_table('links');
 $wp_list_table->check_permissions();
 
 // Handle bulk deletes
-if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['linkcheck'] ) ) {
-	check_admin_referer( 'bulk-bookmarks' );
+$doaction = $wp_list_table->current_action();
 
-	$doaction = $_REQUEST['action'] ? $_REQUEST['action'] : $_REQUEST['action2'];
+if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {
+	check_admin_referer( 'bulk-bookmarks' );
 
 	if ( 'delete' == $doaction ) {
 		$bulklinks = (array) $_REQUEST['linkcheck'];

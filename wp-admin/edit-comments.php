@@ -12,20 +12,21 @@ require_once('./admin.php');
 $wp_list_table = get_list_table('comments');
 $wp_list_table->check_permissions();
 
-if ( isset( $_REQUEST['doaction'] ) ||  isset( $_REQUEST['doaction2'] ) || isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) {
+$doaction = $wp_list_table->current_action();
+
+if ( $doaction ) {
 	check_admin_referer( 'bulk-comments' );
 
-	if ( ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) ) && !empty( $_REQUEST['pagegen_timestamp'] ) ) {
+	if ( 'delete_all' == $do_action && !empty( $_REQUEST['pagegen_timestamp'] ) ) {
 		$comment_status = $wpdb->escape( $_REQUEST['comment_status'] );
 		$delete_time = $wpdb->escape( $_REQUEST['pagegen_timestamp'] );
 		$comment_ids = $wpdb->get_col( "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = '$comment_status' AND '$delete_time' > comment_date_gmt" );
 		$doaction = 'delete';
-	} elseif ( ( $_REQUEST['action'] != -1 || $_REQUEST['action2'] != -1 ) && isset( $_REQUEST['delete_comments'] ) ) {
+	} elseif ( isset( $_REQUEST['delete_comments'] ) ) {
 		$comment_ids = $_REQUEST['delete_comments'];
 		$doaction = ( $_REQUEST['action'] != -1 ) ? $_REQUEST['action'] : $_REQUEST['action2'];
-	} elseif ( $_REQUEST['doaction'] == 'undo' && isset( $_REQUEST['ids'] ) ) {
+	} elseif ( isset( $_REQUEST['ids'] ) ) {
 		$comment_ids = array_map( 'absint', explode( ',', $_REQUEST['ids'] ) );
-		$doaction = $_REQUEST['action'];
 	} else {
 		wp_redirect( wp_get_referer() );
 	}

@@ -22,10 +22,7 @@ if ( 'post' != $post_type ) {
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
 }
 
-if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) )
-	$action = 'bulk-delete';
-
-switch ( $action ) {
+switch ( $wp_list_table->current_action() ) {
 
 case 'add-tag':
 
