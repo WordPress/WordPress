@@ -1829,6 +1829,13 @@ class WP_Query {
 					}
 				}
 			}
+
+			if ( empty($post_type) ) {
+				$post_type = 'any';
+				$post_status_join = true;
+			} elseif ( in_array('attachment', (array) $post_type) ) {
+				$post_status_join = true;
+			}
 		}
 
 		// Category stuff
