@@ -1829,13 +1829,6 @@ class WP_Query {
 					}
 				}
 			}
-
-			if ( empty($post_type) ) {
-				$post_type = 'any';
-				$post_status_join = true;
-			} elseif ( in_array('attachment', (array) $post_type) ) {
-				$post_status_join = true;
-			}
 		}
 
 		// Category stuff
@@ -1920,6 +1913,13 @@ class WP_Query {
 
 		if ( !empty( $tax_query ) ) {
 			$this->tax_query = $tax_query;
+
+			if ( empty($post_type) ) {
+				$post_type = 'any';
+				$post_status_join = true;
+			} elseif ( in_array('attachment', (array) $post_type) ) {
+				$post_status_join = true;
+			}
 
 			$where .= " AND $wpdb->posts.ID IN( " . implode( ', ', wp_tax_query( $tax_query ) ) . ")";
 		}
