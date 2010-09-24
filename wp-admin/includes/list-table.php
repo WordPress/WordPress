@@ -69,10 +69,6 @@ class WP_List_Table {
 	 * @access protected
 	 */
 	function WP_List_Table( $args ) {
-		global $_wp_column_headers;
-
-		$_wp_column_headers = $this->get_columns();
-
 		$args = wp_parse_args( $args, array(
 			'screen' => '',
 			'plural' => '',
