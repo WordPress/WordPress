@@ -47,6 +47,8 @@ add_contextual_help($current_screen, $help);
 
 add_thickbox();
 wp_enqueue_script( 'theme-preview' );
+wp_enqueue_script( 'theme' );
+wp_enqueue_style( 'theme-install' );
 
 endif;
 
@@ -135,7 +137,48 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Themes'); ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php esc_attr_e('Search Themes');  ?>" class="button" />
+	<a id="filter-click" href="?filter=1"><?php _e( 'Feature Filter' ); ?></a>
 </p>
+
+<br class="clear"/>
+
+<div id="filters" <?php if ( $tpage != 'filter' ) echo ' style="display: none"' ?>>
+<?php $feature_list = get_theme_feature_list(); ?>
+	<div class="feature-filter">
+		<p class="install-help"><?php _e('Theme filters') ?></p>
+
+	<?php foreach ( $feature_list as $feature_name => $features ) : ?>
+		<?php	$feature_name = esc_html( $feature_name ); ?>
+		
+		<div class="feature-container">
+			<div class="feature-name"><?php echo $feature_name ?></div>
+		
+			<ol style="float: left; width: 725px;" class="feature-group">
+				<?php foreach ( $features as $key => $feature ) : ?>
+					<?php
+						$feature_name = $feature;
+						$feature_name = esc_html( $feature_name );
+						$feature = esc_attr($feature);
+						?>
+				<li>
+					<input type="checkbox" name="features[<?php echo $key; ?>]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php if ( in_array( $key, $checked_features ) ) echo ' checked="checked"' ?>/>
+					<label for="feature-id-<?php echo $key; ?>"><?php echo $feature_name; ?></label>
+				</li>
+				<?php	endforeach; ?>
+			</ol>
+		</div>
+	<?php	endforeach; ?>
+
+	<div class="feature-container">
+		<input style="margin-left: 120px" type="submit" class="button-secondary submitter" value="<?php _e( 'Apply Filters' ); ?>" />
+		&nbsp;
+		<small><a id="mini-filter-click" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Close filters' )?></a></small>
+	</div>
+	<br/>
+	</div>
+	<br class="clear"/>
+</div>
+
 </form>
 <br class="clear" />
 

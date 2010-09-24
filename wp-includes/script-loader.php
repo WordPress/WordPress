@@ -335,6 +335,9 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(wordCountL10n);}catch(e){};'
 		));
 
+		$scripts->add( 'theme-preview', "/wp-admin/js/theme$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
+		$scripts->add_data( 'theme', 'group', 1 );
+
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20100407' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 

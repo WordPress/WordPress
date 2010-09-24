@@ -143,3 +143,13 @@ body#theme-information {
 	padding-right: 25px;
 	min-width: 145px;
 }
+
+.feature-container {
+width: 100%;
+overflow: auto;
+margin-bottom: 10px;
+}
+
+.feature-group {
+	margin-bottom: 0px !important;
+}
