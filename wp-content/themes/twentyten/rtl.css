@@ -120,6 +120,9 @@ blockquote {
 	float: left;
 	font-style: normal;
 }
+#branding img {
+	float: right;
+}
 
 /* =Menu
 -------------------------------------------------------------- */
