@@ -414,7 +414,7 @@ function get_body_class( $class = '' ) {
 		} elseif ( is_category() ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
-			$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->cat_ID );
+			$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->term_id );
 		} elseif ( is_tag() ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
