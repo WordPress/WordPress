@@ -471,18 +471,27 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	if ( !in_array( $operator, array( 'IN', 'NOT IN' ) ) )
 		$operator = 'IN';
 
+	if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
+		$children = array();
+		foreach ( $terms as $term ) {
+			if ( 'term_id' != $field ) {
+				if ( $term = get_term_by( $field, $term, $taxonomy ) )
+					$term = $term->term_id;
+				else
+					continue;					
+			}
+			$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
+			$children[] = $term;
+		}
+		$terms = $children;
+		$field = 'term_id';
+	}
+
 	$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
 
 	switch ( $field ) {
 		case 'term_id':
 			$terms = array_map( 'intval', $terms );
-
-			if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
-				$children = $terms;
-				foreach ( $terms as $term )
-					$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
-				$terms = $children;
-			}
 
 			$terms = implode( ',', $terms );
 			$sql = "
