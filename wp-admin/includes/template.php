@@ -219,6 +219,42 @@ function wp_link_category_checklist( $link_id = 0 ) {
 	}
 }
 
+/**
+ * Get the column headers for a screen
+ *
+ * @since 2.7.0
+ *
+ * @param string|object $screen The screen you want the headers for
+ * @return array Containing the headers in the format id => UI String
+ */
+function get_column_headers( $screen ) {
+	if ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	global $_wp_column_headers;
+
+	if ( !isset( $_wp_column_headers[ $screen->id ] ) ) {
+		$_wp_column_headers[ $screen->id ] = apply_filters( 'manage_' . $screen->id . '_columns', $_wp_column_headers );
+	}
+
+	return $_wp_column_headers[ $screen->id ];
+}
+
+/**
+ * Get a list of hidden columns.
+ *
+ * @since 2.7.0
+ *
+ * @param string|object $screen The screen you want the hidden columns for
+ * @return array
+ */
+function get_hidden_columns( $screen ) {
+	if ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	return (array) get_user_option( 'manage' . $screen->id . 'columnshidden' );
+}
+
 // adds hidden fields with the data for use in the inline editor for posts and pages
 /**
  * {@internal Missing Short Description}}
@@ -295,8 +331,8 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 
 	$wp_list_table = get_list_table('comments');
 
-	$columns = $wp_list_table->get_column_headers();
-	$hidden = array_intersect( array_keys( $columns ), array_filter( $wp_list_table->get_hidden_columns() ) );
+	list ( $columns, $hidden ) = $wp_list_table->get_column_info();
+	$hidden = array_intersect( array_keys( $columns ), array_filter( $hidden ) );
 	$col_count = count($columns) - count($hidden);
 
 ?>
@@ -1290,36 +1326,6 @@ function settings_errors( $setting = '', $sanitize = FALSE, $hide_on_update = FA
  *
  * @since unknown
  *
- * @param unknown_type $page
- */
-function manage_columns_prefs( $page ) {
-	global $wp_list_table;
-
-	list( $columns, $hidden ) = $wp_list_table->get_column_headers();
-
-	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username');
-
-	foreach ( $columns as $column => $title ) {
-		// Can't hide these for they are special
-		if ( in_array( $column, $special ) )
-			continue;
-		if ( empty( $title ) )
-			continue;
-
-		if ( 'comments' == $column )
-			$title = __( 'Comments' );
-		$id = "$column-hide";
-		echo '<label for="' . $id . '">';
-		echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . (! in_array($column, $hidden) ? ' checked="checked"' : '') . ' />';
-		echo "$title</label>\n";
-	}
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
  * @param unknown_type $found_action
  */
 function find_posts_div($found_action = '') {
@@ -1634,8 +1640,9 @@ function screen_meta($screen) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	if ( is_a($wp_list_table, 'WP_List_Table') )
-		list( $screen_columns ) = $wp_list_table->get_column_headers();
+	$columns = get_column_headers( $screen );
+	$hidden = get_hidden_columns( $screen );
+
 	$meta_screens = array('index' => 'dashboard');
 
 	if ( isset($meta_screens[$screen->id]) ) {
@@ -1644,7 +1651,7 @@ function screen_meta($screen) {
 	}
 
 	$show_screen = false;
-	if ( !empty($wp_meta_boxes[$screen->id]) || !empty($screen_columns) )
+	if ( !empty($wp_meta_boxes[$screen->id]) || !empty($columns) )
 		$show_screen = true;
 
 	$screen_options = screen_options($screen);
@@ -1677,10 +1684,27 @@ function screen_meta($screen) {
 			<br class="clear" />
 		</div>
 		<?php endif;
-		if ( ! empty($screen_columns) ) : ?>
-		<h5><?php echo ( isset( $screen_columns['_title'] ) ?  $screen_columns['_title'] :  _x('Show on screen', 'Columns') ) ?></h5>
+		if ( ! empty($columns) ) : ?>
+		<h5><?php echo ( isset( $columns['_title'] ) ?  $columns['_title'] :  _x('Show on screen', 'Columns') ) ?></h5>
 		<div class="metabox-prefs">
-			<?php manage_columns_prefs($screen); ?>
+<?php
+	$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username');
+
+	foreach ( $columns as $column => $title ) {
+		// Can't hide these for they are special
+		if ( in_array( $column, $special ) )
+			continue;
+		if ( empty( $title ) )
+			continue;
+
+		if ( 'comments' == $column )
+			$title = __( 'Comments' );
+		$id = "$column-hide";
+		echo '<label for="' . $id . '">';
+		echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( !in_array($column, $hidden), true, false ) . ' />';
+		echo "$title</label>\n";
+	}
+?>
 			<br class="clear" />
 		</div>
 	<?php endif;

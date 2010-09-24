@@ -370,28 +370,6 @@ function register_column_headers($screen, $columns) {
 }
 
 /**
- * Get the column headers for a screen
- *
- * @since 2.7.0
- * @deprecated 3.1.0
- * @deprecated Use WP_List_Table
- *
- * @param string|object $screen The screen you want the headers for
- * @return array Containing the headers in the format id => UI String
- */
-function get_column_headers($screen) {
-	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
-
-	global $wp_list_table;
-	if ( !is_a($wp_list_table, 'WP_List_Table') )
-		$wp_list_table = new _WP_List_Table_Compat($screen);
-
-	list( $columns ) = $wp_list_table->get_column_headers();
-
-	return $columns;
-}
-
-/**
  * Prints column headers for a particular screen.
  *
  * @since 2.7.0
@@ -406,26 +384,6 @@ function print_column_headers($screen, $id = true) {
 		$wp_list_table = new _WP_List_Table_Compat($screen);
 
 	$wp_list_table->print_column_headers($id);
-}
-
-/**
- * Gets hidden column names for a particular screen.
- *
- * @since 2.7.0
- * @deprecated 3.1.0
- * @deprecated Use WP_List_Table
- *
- * @param string $screen
- * @return array
- */
-function get_hidden_columns($screen) {
-	_deprecated_function( __FUNCTION__, '3.1', 'WP_List_Table' );
-
-	global $wp_list_table;
-	if ( !is_a($wp_list_table, 'WP_List_Table') )
-		$wp_list_table = new _WP_List_Table_Compat($screen);
-
-	return $wp_list_table->get_hidden_columns();
 }
 
 // Helper class to be used only by deprecated functions

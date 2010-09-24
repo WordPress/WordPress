@@ -69,6 +69,9 @@ class WP_List_Table {
 	 * @access protected
 	 */
 	function WP_List_Table( $args ) {
+		global $_wp_column_headers;
+
+		$_wp_column_headers = $this->get_columns();
 
 		$args = wp_parse_args( $args, array(
 			'screen' => '',
@@ -81,6 +84,8 @@ class WP_List_Table {
 
 		if ( is_string( $this->_screen ) )
 			$this->_screen = convert_to_screen( $this->_screen );
+
+		add_filter( 'manage_' . $this->_screen->id . '_columns', array( $this, 'get_columns' ) );
 
 		if ( !$args['plural'] )
 			$args['plural'] = $this->_screen->base;
@@ -514,18 +519,6 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of hidden columns.
-	 *
-	 * @since 3.1.0
-	 * @access private
-	 *
-	 * @return array
-	 */
-	function get_hidden_columns() {
-		return (array) get_user_option( 'manage' . $this->_screen->id. 'columnshidden' );
-	}
-
-	/**
 	 * Get a list of all, hidden and sortable columns, with filter applied
 	 *
 	 * @since 3.1.0
@@ -533,11 +526,11 @@ class WP_List_Table {
 	 *
 	 * @return array
 	 */
-	function get_column_headers() {
+	function get_column_info() {
 		if ( !isset( $this->_column_headers ) ) {
-			$columns = apply_filters( 'manage_' . $this->_screen->id . '_columns', $this->get_columns() );
+			$columns = get_column_headers( $this->_screen );
+			$hidden = get_hidden_columns( $this->_screen );
 			$sortable = apply_filters( 'manage_' . $this->_screen->id . '_sortable_columns', $this->get_sortable_columns() );
-			$hidden = $this->get_hidden_columns();
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 		}
@@ -556,7 +549,7 @@ class WP_List_Table {
 	function print_column_headers( $with_id = true ) {
 		$screen = $this->_screen;
 
-		list( $columns, $hidden, $sortable ) = $this->get_column_headers();
+		list( $columns, $hidden, $sortable ) = $this->get_column_info();
 
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
@@ -746,7 +739,7 @@ class WP_List_Table {
 	 * @param $object $item The current item
 	 */
 	function single_row_columns( $item ) {
-		list( $columns, $hidden ) = $this->get_column_headers();
+		list( $columns, $hidden ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$class = "class=\"$column_name column-$column_name\"";

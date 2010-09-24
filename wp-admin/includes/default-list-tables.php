@@ -454,7 +454,7 @@ class WP_Posts_Table extends WP_List_Table {
 		<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $rowclass . ' author-' . $post_owner . ' status-' . $post->post_status ); ?> iedit' valign="top">
 	<?php
 
-		list( $columns, $hidden ) = $this->get_column_headers();
+		list( $columns, $hidden ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$class = "class=\"$column_name column-$column_name\"";
@@ -676,7 +676,7 @@ class WP_Posts_Table extends WP_List_Table {
 				$flat_taxonomies[] = $taxonomy;
 		}
 
-		list( $columns, $hidden ) = $this->get_column_headers();
+		list( $columns, $hidden ) = $this->get_column_info();
 
 		$col_count = count( $columns ) - count( $hidden );
 		$m = ( isset( $mode ) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
@@ -1162,7 +1162,7 @@ class WP_Media_Table extends WP_List_Table {
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 <?php
 
-list( $columns, $hidden ) = $this->get_column_headers();
+list( $columns, $hidden ) = $this->get_column_info();
 foreach ( $columns as $column_name => $column_display_name ) {
 	$class = "class='$column_name column-$column_name'";
 
@@ -1727,7 +1727,7 @@ class WP_Terms_Table extends WP_List_Table {
 		if ( ! current_user_can( $tax->cap->edit_terms ) )
 			return;
 
-		list( $columns, $hidden ) = $this->get_column_headers();
+		list( $columns, $hidden ) = $this->get_column_info();
 
 		$col_count = count( $columns ) - count( $hidden );
 		?>
@@ -1996,7 +1996,7 @@ class WP_Users_Table extends WP_List_Table {
 		$r = "<tr id='user-$user_object->ID'$style>";
 		$avatar = get_avatar( $user_object->ID, 32 );
 
-		list( $columns, $hidden ) = $this->get_column_headers();
+		list( $columns, $hidden ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$class = "class=\"$column_name column-$column_name\"";
@@ -2648,7 +2648,7 @@ class WP_Links_Table extends WP_List_Table {
 		<tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>>
 <?php
 
-			list( $columns, $hidden ) = $this->get_column_headers();
+			list( $columns, $hidden ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) {
 				$class = "class='column-$column_name'";
@@ -2869,7 +2869,7 @@ class WP_Sites_Table extends WP_List_Table {
 
 			$blogname = ( is_subdomain_install() ) ? str_replace( '.'.$current_site->domain, '', $blog['domain'] ) : $blog['path'];
 
-			list( $columns, $hidden ) = $this->get_column_headers();
+			list( $columns, $hidden ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) {
 				switch ( $column_name ) {
@@ -3117,7 +3117,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 			<tr class="<?php echo $class; ?>">
 			<?php
 
-			list( $columns, $hidden ) = $this->get_column_headers();
+			list( $columns, $hidden ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) :
 				switch ( $column_name ) {
