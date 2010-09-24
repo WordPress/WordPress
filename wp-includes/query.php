@@ -1921,7 +1921,11 @@ class WP_Query {
 				$post_status_join = true;
 			}
 
-			$where .= " AND $wpdb->posts.ID IN( " . implode( ', ', wp_tax_query( $tax_query ) ) . ")";
+			$ids = wp_tax_query( $tax_query );
+			if ( !empty($ids) )
+				$where .= " AND $wpdb->posts.ID IN(" . implode( ', ', $ids ) . ")";
+			else
+				$where .= ' AND 0 = 1';
 		}
 
 		if ( !empty($q['meta_key']) ) {
