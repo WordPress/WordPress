@@ -70,6 +70,8 @@ function themes_api($action, $args = null) {
  *
  * @since 2.8.0
  *
+ * @deprecated since 3.1.0  Use get_theme_feature_list() instead.
+ *
  * @return array
  */
 function install_themes_feature_list( ) {
@@ -124,30 +126,15 @@ function install_themes_dashboard() {
 <form method="post" action="<?php echo admin_url( 'theme-install.php?tab=search' ); ?>">
 <p class="install-help"><?php _e('Find a theme based on specific features') ?></p>
 	<?php
-	$feature_list = install_themes_feature_list( );
+	$feature_list = get_theme_feature_list( );
 	echo '<div class="feature-filter">';
-	$trans = array ('Colors' => __('Colors'), 'black' => __('Black'), 'blue' => __('Blue'), 'brown' => __('Brown'),
-		'green' => __('Green'), 'orange' => __('Orange'), 'pink' => __('Pink'), 'purple' => __('Purple'), 'red' => __('Red'),
-		'silver' => __('Silver'), 'tan' => __('Tan'), 'white' => __('White'), 'yellow' => __('Yellow'), 'dark' => __('Dark'),
-		'light' => __('Light'), 'Columns' => __('Columns'), 'one-column' => __('One Column'), 'two-columns' => __('Two Columns'),
-		'three-columns' => __('Three Columns'), 'four-columns' => __('Four Columns'), 'left-sidebar' => __('Left Sidebar'),
-		'right-sidebar' => __('Right Sidebar'), 'Width' => __('Width'), 'fixed-width' => __('Fixed Width'), 'flexible-width' => __('Flexible Width'),
-		'Features' => __('Features'), 'custom-colors' => __('Custom Colors'), 'custom-header' => __('Custom Header'), 'theme-options' => __('Theme Options'),
-		'threaded-comments' => __('Threaded Comments'), 'sticky-post' => __('Sticky Post'), 'microformats' => __('Microformats'),
-		'Subject' => __('Subject'), 'holiday' => __('Holiday'), 'photoblogging' => __('Photoblogging'), 'seasonal' => __('Seasonal'),
-	);
 
 	foreach ( (array) $feature_list as $feature_name => $features ) {
-		if ( isset($trans[$feature_name]) )
-			 $feature_name = $trans[$feature_name];
 		$feature_name = esc_html( $feature_name );
 		echo '<div class="feature-name">' . $feature_name . '</div>';
 
 		echo '<ol style="float: left; width: 725px;" class="feature-group">';
-		foreach ( $features as $feature ) {
-			$feature_name = $feature;
-			if ( isset($trans[$feature]) )
-				$feature_name = $trans[$feature];
+		foreach ( $features as $feature => $feature_name ) {
 			$feature_name = esc_html( $feature_name );
 			$feature = esc_attr($feature);
 ?>

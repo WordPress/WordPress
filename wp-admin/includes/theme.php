@@ -250,4 +250,107 @@ function theme_update_available( $theme ) {
 	}
 }
 
+/**
+ * Retrieve list of WordPress theme features (aka theme tags)
+ *
+ * @since 3.1.0
+ *
+ * @return array  Array of features keyed by category with translations keyed by slug.
+ */
+function get_theme_feature_list() {
+	// Hard-coded list is used if api not accessible.
+	$features = array(
+			__('Colors') => array(
+				'black'   => __( 'Black' ),
+				'blue'    => __( 'Blue' ),
+				'brown'   => __( 'Brown' ),
+				'green'   => __( 'Green' ),
+				'orange'  => __( 'Orange' ),
+				'pink'    => __( 'Pink' ),
+				'purple'  => __( 'Purple' ),
+				'red'     => __( 'Red' ),
+				'silver'  => __( 'Silver' ),
+				'tan'     => __( 'Tan' ),
+				'white'   => __( 'White' ),
+				'yellow'  => __( 'Yellow' ),
+				'dark'    => __( 'Dark' ),
+				'light'   => __( 'Light ')
+			),
+
+		__('Columns') => array(
+			'one-column'    => __( 'One Column' ),
+			'two-columns'   => __( 'Two Columns' ),
+			'three-columns' => __( 'Three Columns' ),
+			'four-columns'  => __( 'Four Columns' ),
+			'left-sidebar'  => __( 'Left Sidebar' ),
+			'right-sidebar' => __( 'Right Sidebar' )
+		),
+
+		__('Width') => array(
+			'fixed-width'    => __( 'Fixed Width' ),
+			'flexible-width' => __( 'Flexible Width' )
+		),
+
+		__( 'Features' ) => array(
+			'blavatar'             => __( 'Blavatar' ),
+			'buddypress'           => __( 'BuddyPress' ),
+			'custom-background'    => __( 'Custom Background' ),
+			'custom-colors'        => __( 'Custom Colors' ),
+			'custom-header'        => __( 'Custom Header' ),
+			'custom-menu'          => __( 'Custom Menu' ),
+			'editor-style'         => __( 'Editor Style' ),
+			'front-page-post-form' => __( 'Front Page Posting' ),
+			'microformats'         => __( 'Microformats' ),
+			'sticky-post'          => __( 'Sticky Post' ),
+			'theme-options'        => __( 'Theme Options' ),
+			'threaded-comments'    => __( 'Threaded Comments' ),
+			'translation-ready'    => __( 'Translation Ready' ),
+			'rtl-language-support' => __( 'RTL Language Support' )
+		),
+
+		__( 'Subject' )  => array(
+			'holiday' => __( 'Holiday' ),
+			'photoblogging' => __( 'Photoblogging' ),
+			'seasonal' => __( 'Seasonal' )
+		)
+	);
+
+	if ( !current_user_can('install_themes') )
+		return $features;
+
+	if ( !$feature_list = get_site_transient( 'wporg_theme_feature_list' ) )
+		set_site_transient( 'wporg_theme_feature_list', array( ),  10800);
+
+	if ( !$feature_list ) {
+		$feature_list = themes_api( 'feature_list', array( ) );
+		if ( is_wp_error( $feature_list ) )
+			return $features;
+	}
+
+	if ( !$feature_list )
+		return $features;
+
+	set_site_transient( 'wporg_theme_feature_list', $feature_list, 10800 );
+
+	$category_translations = array( 'Colors' => __('Colors'), 'Columns' => __('Columns'), 'Width' => __('Width'),
+								   'Features' => __('Features'), 'Subject' => __('Subject') );
+
+	// Loop over the wporg canonical list and apply translations
+	$wporg_features = array();
+	foreach ( (array) $feature_list as $feature_category => $feature_items ) {
+		if ( isset($category_translations[$feature_category]) )
+			$feature_category = $category_translations[$feature_category];
+		$wporg_features[$feature_category] = array();
+
+		foreach ( $feature_items as $feature ) {
+			if ( isset($features[$feature_category][$feature]) )
+				$wporg_features[$feature_category][$feature] = $features[$feature_category][$feature];
+			else
+				$wporg_features[$feature_category][$feature] = $feature;
+		}
+	}
+
+	return $wporg_features;
+}
+
 ?>
