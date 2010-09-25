@@ -32,6 +32,7 @@
 	$(document).ready( function() {
 		$('#pass1').val('').keyup( check_pass_strength );
 		$('#pass2').val('').keyup( check_pass_strength );
+		$('#pass-strength-result').show();
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
 		$('#nickname').blur(function(){
 			var str = $(this).val() || $('#user_login').val();

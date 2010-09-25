@@ -866,6 +866,7 @@ td.media-icon img {
 	padding: 3px 5px;
 	text-align: center;
 	width: 200px;
+	display: none;
 }
 
 .row-actions {

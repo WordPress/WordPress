@@ -262,7 +262,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20100301' );
+		$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20100925' );
 		$scripts->add_data( 'user-profile', 'group', 1 );
 
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'list-table', 'jquery-ui-resizable', 'quicktags'), '20100818' );
@@ -444,7 +444,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100827' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20100925' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20100610' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -464,7 +464,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20100519' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
 	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20100424' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20100605' ); // Readme as well
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20100925' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20100514' );
 	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20100424' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
