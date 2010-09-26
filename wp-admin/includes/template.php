@@ -1635,7 +1635,7 @@ function convert_to_screen( $screen ) {
 }
 
 function screen_meta($screen) {
-	global $wp_meta_boxes, $_wp_contextual_help, $title, $wp_list_table;
+	global $wp_meta_boxes, $_wp_contextual_help, $wp_list_table;
 
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
