@@ -77,6 +77,8 @@ case 'approve' :
 case 'trash'   :
 case 'spam'    :
 
+	$title = __('Moderate Comment');
+
 	$comment_id = absint( $_GET['c'] );
 
 	if ( !$comment = get_comment_to_edit( $comment_id ) ) {
@@ -107,7 +109,7 @@ case 'spam'    :
 <div class="narrow">
 
 <?php screen_icon(); ?>
-<h2><?php esc_html_e( 'Moderate Comment' ); ?></h2>
+<h2><?php esc_html( $title ); ?></h2>
 
 <?php
 switch ( $action ) {
