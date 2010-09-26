@@ -1136,7 +1136,7 @@ function prev_post_rel_link($title = '%title', $in_same_cat = false, $excluded_c
 /**
  * Retrieve boundary post.
  *
- * Boundary being either the first or last post by publish date within the contraitns specified
+ * Boundary being either the first or last post by publish date within the constraints specified
  * by in same category or excluded categories.
  *
  * @since 2.8.0
@@ -1176,7 +1176,7 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
 
 	$order = $start ? 'ASC' : 'DESC';
 
-	return get_posts( array('numberposts' => 1, 'no_found_rows' => true, 'order' => $order, 'orderby' => 'ID', 'category' => $categories) );
+	return get_posts( array('numberposts' => 1, 'category' => $categories, 'order' => $order) );
 }
 
 /**
