@@ -199,7 +199,7 @@ switch ( $_GET['action'] ) {
 		// Update more options here
 		do_action( 'update_wpmu_options' );
 
-		wp_redirect( add_query_arg( 'updated', 'true', admin_url( 'settings.php' ) ) );
+		wp_redirect( add_query_arg( 'updated', 'true', network_admin_url( 'settings.php' ) ) );
 		exit();
 	break;
 	case 'addblog':
