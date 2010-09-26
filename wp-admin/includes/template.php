@@ -1915,10 +1915,14 @@ function screen_icon($screen = '') {
 
 		if ( 'edit' == $name && isset($screen->post_type) && 'page' == $screen->post_type )
 			$name = 'edit-pages';
+
+		$class = 'icon32';
+		if ( isset( $screen->post_type ) )
+			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
 	}
 
 ?>
-	<div id="icon-<?php echo $name; ?>" class="icon32"><br /></div>
+	<div id="icon-<?php echo $name; ?>" class="<?php echo $class; ?>"><br /></div>
 <?php
 }
 
