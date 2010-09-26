@@ -1900,12 +1900,14 @@ function screen_options($screen) {
 }
 
 function screen_icon($screen = '') {
-	global $current_screen;
+	global $current_screen, $typenow;
 
 	if ( empty($screen) )
 		$screen = $current_screen;
 	elseif ( is_string($screen) )
 		$name = $screen;
+
+	$class = 'icon32';
 
 	if ( empty($name) ) {
 		if ( !empty($screen->parent_base) )
@@ -1916,9 +1918,13 @@ function screen_icon($screen = '') {
 		if ( 'edit' == $name && isset($screen->post_type) && 'page' == $screen->post_type )
 			$name = 'edit-pages';
 
-		$class = 'icon32';
+		$post_type = '';
 		if ( isset( $screen->post_type ) )
-			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
+			$post_type = $screen->post_type;
+		elseif ( $current_screen == $screen )
+			$post_type = $typenow;
+		if ( $post_type )
+			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $post_type );
 	}
 
 ?>
