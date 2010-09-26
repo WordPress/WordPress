@@ -17,7 +17,7 @@ $doaction = $wp_list_table->current_action();
 if ( $doaction ) {
 	check_admin_referer( 'bulk-comments' );
 
-	if ( 'delete_all' == $do_action && !empty( $_REQUEST['pagegen_timestamp'] ) ) {
+	if ( 'delete_all' == $doaction && !empty( $_REQUEST['pagegen_timestamp'] ) ) {
 		$comment_status = $wpdb->escape( $_REQUEST['comment_status'] );
 		$delete_time = $wpdb->escape( $_REQUEST['pagegen_timestamp'] );
 		$comment_ids = $wpdb->get_col( "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = '$comment_status' AND '$delete_time' > comment_date_gmt" );
@@ -29,6 +29,7 @@ if ( $doaction ) {
 		$comment_ids = array_map( 'absint', explode( ',', $_REQUEST['ids'] ) );
 	} else {
 		wp_redirect( wp_get_referer() );
+		exit;
 	}
 
 	$approved = $unapproved = $spammed = $unspammed = $trashed = $untrashed = $deleted = 0;
@@ -216,6 +217,8 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 <?php if ( isset($_REQUEST['paged']) ) { ?>
 	<input type="hidden" name="paged" value="<?php echo esc_attr( absint( $_REQUEST['paged'] ) ); ?>" />
 <?php } ?>
+
+<br class="clear" />
 
 <?php if ( $wp_list_table->has_items() ) { ?>
 
