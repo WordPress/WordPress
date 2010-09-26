@@ -161,11 +161,7 @@ echo implode(' ', $links);
 <?php
 unset($title_class, $blog_name);
 
-var_dump( $title );
-
 require(ABSPATH . 'wp-admin/menu-header.php');
-
-var_dump( $title );
 
 $current_screen->parent_file = $parent_file;
 $current_screen->parent_base = preg_replace('/\?.*$/', '', $parent_file);
@@ -174,10 +170,7 @@ $current_screen->parent_base = str_replace('.php', '', $current_screen->parent_b
 
 <div id="wpbody-content">
 <?php
-var_dump( $title );
 screen_meta($current_screen);
-
-var_dump( $title );
 
 if ( is_multisite() ) {
 	if ( is_network_admin() )
