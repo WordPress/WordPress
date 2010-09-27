@@ -997,6 +997,15 @@ class WP_Query {
 	var $is_comments_popup = false;
 
 	/**
+	 * Set if query is paged
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 * @var bool
+	 */
+	var $is_paged = false;
+
+	/**
 	 * Set if query is part of administration page.
 	 *
 	 * @since 1.5.0
@@ -1053,6 +1062,7 @@ class WP_Query {
 	 */
 	function init_query_flags() {
 		$this->is_single = false;
+		$this->is_preview = false;
 		$this->is_page = false;
 		$this->is_archive = false;
 		$this->is_date = false;
@@ -1070,6 +1080,7 @@ class WP_Query {
 		$this->is_trackback = false;
 		$this->is_home = false;
 		$this->is_404 = false;
+		$this->is_comments_popup = false;
 		$this->is_paged = false;
 		$this->is_admin = false;
 		$this->is_attachment = false;
@@ -1088,11 +1099,22 @@ class WP_Query {
 		unset($this->posts);
 		unset($this->query);
 		$this->query_vars = array();
+		$this->tax_query = array();
+		$this->meta_query = array();
 		unset($this->queried_object);
 		unset($this->queried_object_id);
 		$this->post_count = 0;
 		$this->current_post = -1;
 		$this->in_the_loop = false;
+		unset( $this->request );
+		unset( $this->post );
+		unset( $this->comments );
+		unset( $this->comment );
+		$this->comment_count = 0;
+		$this->current_comment = -1;
+		$this->found_posts = 0;
+		$this->max_num_pages = 0;
+		$this->max_num_comment_pages = 0;
 
 		$this->init_query_flags();
 	}
