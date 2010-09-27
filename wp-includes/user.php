@@ -575,6 +575,167 @@ function get_users_of_blog( $id = '' ) {
 }
 
 /**
+ * Get the blogs a user belong to.
+ *
+ * $since 3.0.0
+ *
+ * @param int $id User Id
+ * @param bool $all Whether to retrieve all blog details or an abbreviated set of details. Default is abbreviated.
+ * @return array A list of the user's blogs.
+ */
+function get_blogs_of_user( $id, $all = false ) {
+	global $wpdb;
+
+	if ( !is_multisite() ) {
+		global $blog_id;
+		$blogs = array();
+		$blogs[ $blog_id ]->userblog_id = $blog_id;
+		$blogs[ $blog_id ]->blogname = get_option('blogname');
+		$blogs[ $blog_id ]->domain = '';
+		$blogs[ $blog_id ]->path = '';
+		$blogs[ $blog_id ]->site_id = 1;
+		$blogs[ $blog_id ]->siteurl = get_option('siteurl');
+		return $blogs;
+	}
+
+	$cache_suffix = $all ? '_all' : '_short';
+	$return = wp_cache_get( 'blogs_of_user_' . $id . $cache_suffix, 'users' );
+	if ( $return )
+		return apply_filters( 'get_blogs_of_user', $return, $id, $all );
+
+	$user = get_userdata( (int) $id );
+	if ( !$user )
+		return false;
+
+	$blogs = $match = array();
+	$prefix_length = strlen($wpdb->base_prefix);
+	foreach ( (array) $user as $key => $value ) {
+		if ( $prefix_length && substr($key, 0, $prefix_length) != $wpdb->base_prefix )
+			continue;
+		if ( substr($key, -12, 12) != 'capabilities' )
+			continue;
+		if ( preg_match( '/^' . $wpdb->base_prefix . '((\d+)_)?capabilities$/', $key, $match ) ) {
+			if ( count( $match ) > 2 )
+				$blog_id = $match[ 2 ];
+			else
+				$blog_id = 1;
+			$blog = get_blog_details( $blog_id );
+			if ( $blog && isset( $blog->domain ) && ( $all == true || $all == false && ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
+				$blogs[ $blog_id ]->userblog_id	= $blog_id;
+				$blogs[ $blog_id ]->blogname		= $blog->blogname;
+				$blogs[ $blog_id ]->domain		= $blog->domain;
+				$blogs[ $blog_id ]->path			= $blog->path;
+				$blogs[ $blog_id ]->site_id		= $blog->site_id;
+				$blogs[ $blog_id ]->siteurl		= $blog->siteurl;
+			}
+		}
+	}
+
+	wp_cache_add( 'blogs_of_user_' . $id . $cache_suffix, $blogs, 'users', 5 );
+	return apply_filters( 'get_blogs_of_user', $blogs, $id, $all );
+}
+
+function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
+	$newblogs      = $ordered = array();
+	$blogs         = get_blogs_of_user( $user_id );
+	$order_meta    = get_user_meta( $user_id, 'blog_order' );
+	$visible_meta  = get_user_meta( $user_id, 'blog_visibility' );
+	
+	$order = $order_meta;
+	if ( !is_array( $order ) )
+		$order = array();
+
+	$visible = $visible_meta;
+	if ( !is_array( $visible ) )
+		$visible = array();
+	
+	// Index the blogs by userblog_id and set the visibility flag
+	// Visibility is on by default, unless a linked site then off
+	foreach ( $blogs AS $blog ) {
+		$blog->visible = true;
+
+		if ( isset( $visible[$blog->userblog_id] ) )
+			$blog->visible = $visible[$blog->userblog_id];
+
+		$newblogs[$blog->userblog_id] = $blog;
+	}
+
+	// Add the blogs to our list by order
+	foreach ( (array)$order AS $id ) {
+		// A previous change was saving the entire blog details into ordered, not just the blog ID - this detects it
+		if ( is_object( $id ) && isset( $id->userblog_id ) )
+			$id = $id->userblog_id;
+			
+		if ( is_numeric( $id ) && isset( $newblogs[intval( $id )] ) ) {
+			$ordered[$id] = $newblogs[$id];
+			unset( $newblogs[$id] );
+		}
+	}
+
+	// Add any blog not yet ordered to the end
+	foreach ( $newblogs AS $blog ) {
+		$ordered[$blog->userblog_id] = $blog;
+	}
+
+	// If we're only interested in visible blogs then remove the rest
+	if ( $visibility ) {
+		foreach ( (array)$ordered AS $pos => $blog ) {
+			if ( $blog->visible == false )
+				unset( $ordered[$pos] );
+		}
+	}
+
+/*
+	// Set the order and visible options if the user doesn't have any,
+	// but rate limit it so that the global DB doesn't get hammered
+	if ( !is_array( $order_meta ) && ( 1 == mt_rand( 1, 10 ) ) )
+		update_usermeta( $user_id, 'blog_order', array() );
+
+	if ( !is_array( $visible_meta ) && ( 1 == mt_rand( 1, 10 ) ) )
+		update_usermeta( $user_id, 'blog_visibility', array() );
+*/
+
+	return apply_filters( 'ordered_blogs', $ordered );
+}
+
+function set_blog_visibility( $blog_id, $visible ) {
+	global $current_user;
+
+	if ( is_blog_user( $blog_id ) ) {
+		$visibility = get_user_meta( $current_user->ID, 'blog_visibility' );
+		if ( !is_array( $visibility ) )
+			$visibility = array();
+
+		$visibility[$blog_id] = $visible;
+
+		update_user_meta( $current_user->ID, 'blog_visibility', $visibility );
+	}
+}
+
+/**
+ * Checks if the current user belong to a given blog.
+ *
+ * @since 3.0.0
+ *
+ * @param int $blog_id Blog ID
+ * @return bool True if the current users belong to $blog_id, false if not.
+ */
+function is_blog_user( $blog_id = 0 ) {
+	global $wpdb;
+ 
+	$current_user = wp_get_current_user();
+	if ( !$blog_id )
+		$blog_id = $wpdb->blogid;
+
+	$cap_key = $wpdb->base_prefix . $blog_id . '_capabilities';
+
+	if ( is_array($current_user->$cap_key) && in_array(1, $current_user->$cap_key) )
+		return true;
+
+	return false;
+}
+
+/**
  * Add meta data field to a user.
  *
  * Post meta data is called "Custom Fields" on the Administration Panels.

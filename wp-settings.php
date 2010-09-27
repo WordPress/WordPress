@@ -133,6 +133,7 @@ require( ABSPATH . WPINC . '/class-http.php' );
 require( ABSPATH . WPINC . '/widgets.php' );
 require( ABSPATH . WPINC . '/nav-menu.php' );
 require( ABSPATH . WPINC . '/nav-menu-template.php' );
+require( ABSPATH . WPINC . '/admin-bar.php' );
 
 // Load multisite-specific files.
 if ( is_multisite() ) {

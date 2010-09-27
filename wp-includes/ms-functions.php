@@ -30,46 +30,6 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	return false;
 }
 
-function get_blogs_of_user( $id, $all = false ) {
-	global $wpdb;
-
-	$cache_suffix = $all ? '_all' : '_short';
-	$return = wp_cache_get( 'blogs_of_user_' . $id . $cache_suffix, 'users' );
-	if ( $return )
-		return apply_filters( 'get_blogs_of_user', $return, $id, $all );
-
-	$user = get_userdata( (int) $id );
-	if ( !$user )
-		return false;
-
-	$blogs = $match = array();
-	$prefix_length = strlen($wpdb->base_prefix);
-	foreach ( (array) $user as $key => $value ) {
-		if ( $prefix_length && substr($key, 0, $prefix_length) != $wpdb->base_prefix )
-			continue;
-		if ( substr($key, -12, 12) != 'capabilities' )
-			continue;
-		if ( preg_match( '/^' . $wpdb->base_prefix . '((\d+)_)?capabilities$/', $key, $match ) ) {
-			if ( count( $match ) > 2 )
-				$blog_id = $match[ 2 ];
-			else
-				$blog_id = 1;
-			$blog = get_blog_details( $blog_id );
-			if ( $blog && isset( $blog->domain ) && ( $all == true || $all == false && ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
-				$blogs[ $blog_id ]->userblog_id	= $blog_id;
-				$blogs[ $blog_id ]->blogname		= $blog->blogname;
-				$blogs[ $blog_id ]->domain		= $blog->domain;
-				$blogs[ $blog_id ]->path			= $blog->path;
-				$blogs[ $blog_id ]->site_id		= $blog->site_id;
-				$blogs[ $blog_id ]->siteurl		= $blog->siteurl;
-			}
-		}
-	}
-
-	wp_cache_add( 'blogs_of_user_' . $id . $cache_suffix, $blogs, 'users', 5 );
-	return apply_filters( 'get_blogs_of_user', $blogs, $id, $all );
-}
-
 function get_active_blog_for_user( $user_id ) { // get an active blog for user - either primary blog or from blogs list
 	global $wpdb;
 	$blogs = get_blogs_of_user( $user_id );
@@ -364,21 +324,6 @@ function wpmu_admin_redirect_add_updated_param( $url = '' ) {
 			return $url . '&updated=true';
 	}
 	return $url;
-}
-
-function is_blog_user( $blog_id = 0 ) {
-	global $wpdb;
- 
-	$current_user = wp_get_current_user();
-	if ( !$blog_id )
-		$blog_id = $wpdb->blogid;
-
-	$cap_key = $wpdb->base_prefix . $blog_id . '_capabilities';
-
-	if ( is_array($current_user->$cap_key) && in_array(1, $current_user->$cap_key) )
-		return true;
-
-	return false;
 }
 
 function is_email_address_unsafe( $user_email ) {
