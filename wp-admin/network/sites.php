@@ -48,51 +48,48 @@ if ( isset( $_REQUEST['action'] ) && 'editblog' == $_REQUEST['action'] ) {
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
+$msg = '';
 if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty( $_REQUEST['action'] ) ) {
-	?>
-	<div id="message" class="updated"><p>
-		<?php
-		switch ( $_REQUEST['action'] ) {
-			case 'all_notspam':
-				_e( 'Sites removed from spam.' );
-			break;
-			case 'all_spam':
-				_e( 'Sites marked as spam.' );
-			break;
-			case 'all_delete':
-				_e( 'Sites deleted.' );
-			break;
-			case 'delete':
-				_e( 'Site deleted.' );
-			break;
-			case 'add-blog':
-				_e( 'Site added.' );
-			break;
-			case 'archive':
-				_e( 'Site archived.' );
-			break;
-			case 'unarchive':
-				_e( 'Site unarchived.' );
-			break;
-			case 'activate':
-				_e( 'Site activated.' );
-			break;
-			case 'deactivate':
-				_e( 'Site deactivated.' );
-			break;
-			case 'unspam':
-				_e( 'Site removed from spam.' );
-			break;
-			case 'spam':
-				_e( 'Site marked as spam.' );
-			break;
-			default:
-				_e( 'Settings saved.' );
-			break;
-		}
-		?>
-	</p></div>
-	<?php
+	switch ( $_REQUEST['action'] ) {
+		case 'all_notspam':
+			$msg = __( 'Sites removed from spam.' );
+		break;
+		case 'all_spam':
+			$msg = __( 'Sites marked as spam.' );
+		break;
+		case 'all_delete':
+			$msg = __( 'Sites deleted.' );
+		break;
+		case 'delete':
+			$msg = __( 'Site deleted.' );
+		break;
+		case 'add-blog':
+			$msg = __( 'Site added.' );
+		break;
+		case 'archive':
+			$msg = __( 'Site archived.' );
+		break;
+		case 'unarchive':
+			$msg = __( 'Site unarchived.' );
+		break;
+		case 'activate':
+			$msg = __( 'Site activated.' );
+		break;
+		case 'deactivate':
+			$msg = __( 'Site deactivated.' );
+		break;
+		case 'unspam':
+			$msg = __( 'Site removed from spam.' );
+		break;
+		case 'spam':
+			$msg = __( 'Site marked as spam.' );
+		break;
+		default:
+			$msg = __( 'Settings saved.' );
+		break;
+	}
+	if ( $msg )
+		$msg = '<div class="updated" id="message"><p>' . $msg . '</p></div>';
 }
 
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'list';
@@ -114,6 +111,7 @@ switch ( $action ) {
 		<div class="wrap">
 		<?php screen_icon(); ?>
 		<h2><?php _e( 'Edit Site' ); ?> - <a href="<?php echo esc_url( get_home_url( $id ) ); ?>"><?php echo esc_url( get_home_url( $id ) ); ?></a></h2>
+		<?php echo $msg; ?>
 		<form method="post" action="edit.php?action=updateblog">
 			<?php wp_nonce_field( 'editblog' ); ?>
 			<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
@@ -351,6 +349,7 @@ switch ( $action ) {
 		<div class="wrap">
 		<?php screen_icon(); ?>
 		<h2><?php _e('Sites') ?>
+		<?php echo $msg; ?>
 		<a href="#form-add-site" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
 		<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
 			printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
