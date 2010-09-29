@@ -109,7 +109,7 @@ case 'spam'    :
 <div class="narrow">
 
 <?php screen_icon(); ?>
-<h2><?php esc_html( $title ); ?></h2>
+<h2><?php echo esc_html( $title ); ?></h2>
 
 <?php
 switch ( $action ) {
