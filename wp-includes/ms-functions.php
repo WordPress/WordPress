@@ -7,6 +7,15 @@
  * @since 3.0.0
  */
 
+/**
+ * Gets the network's site and user counts.
+ *
+ * @since MU 1.0
+ * @uses get_blog_count()
+ * @uses get_user_count()
+ *
+ * @return array Site and user count for the network.
+ */
 function get_sitestats() {
 	global $wpdb;
 
@@ -16,6 +25,15 @@ function get_sitestats() {
 	return $stats;
 }
 
+/**
+ * Get the admin for a domain/path combination.
+ *
+ * @since MU 1.0
+ *
+ * @param string $sitedomain Optional. Site domain.
+ * @param string $path Optional. Site path.
+ * @return array The network admins
+ */
 function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	global $wpdb;
 
@@ -30,7 +48,28 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 	return false;
 }
 
-function get_active_blog_for_user( $user_id ) { // get an active blog for user - either primary blog or from blogs list
+/**
+ * Get one of a user's active blogs
+ *
+ * Returns the user's primary blog, if she has one and
+ * it is active. If it's inactive, function returns another
+ * active blog of the user. If none are found, the user
+ * is added as a Subscriber to the Dashboard Blog and that blog
+ * is returned.
+ *
+ * @since MU 1.0
+ * @uses get_blogs_of_user()
+ * @uses get_dashboard_blog()
+ * @uses add_user_to_blog()
+ * @uses update_user_meta()
+ * @uses wp_cache_delete()
+ * @uses get_user_meta()
+ * @uses get_blog_details()
+ *
+ * @param int $user_id The unique ID of the user
+ * @return object The blog object
+ */
+function get_active_blog_for_user( $user_id ) {
 	global $wpdb;
 	$blogs = get_blogs_of_user( $user_id );
 	if ( empty( $blogs ) ) {
@@ -44,7 +83,6 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	$details = get_dashboard_blog();
 	if ( $primary_blog ) {
-		$blogs = get_blogs_of_user( $user_id );
 		if ( isset( $blogs[ $primary_blog ] ) == false ) {
 			add_user_to_blog( $details->blog_id, $user_id, 'subscriber' );
 			update_user_meta( $user_id, 'primary_blog', $details->blog_id );
@@ -94,6 +132,16 @@ function get_active_blog_for_user( $user_id ) { // get an active blog for user -
 	}
 }
 
+/**
+ * Find out whether a user is a member of a given blog.
+ *
+ * @since MU 1.1
+ * @uses get_blogs_of_user()
+ * 
+ * @param int $user_id The unique ID of the user
+ * @param int $blog Optional. If no blog_id is provided, current site is used
+ * @return bool
+ */
 function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
 	$user_id = (int) $user_id;
 	$blog_id = (int) $blog_id;
@@ -110,6 +158,17 @@ function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
 		return false;
 }
 
+/**
+ * The number of active users in your installation.
+ *
+ * This function also saves the count as a site option,
+ * which speeds up future lookups.
+ *
+ * @since MU 2.7
+ * @uses update_site_option()
+ *
+ * @return int
+ */
 function get_user_count() {
 	global $wpdb;
 
@@ -125,6 +184,18 @@ function get_user_count() {
 	return $count;
 }
 
+/**
+ * The number of active sites on your installation.
+ *
+ * This function also saves the count as a site option,
+ * which speeds up future lookups.
+ *
+ * @since MU 1.0
+ * @uses update_site_option()
+ *
+ * @param int $id Optional. A site_id.
+ * @return int
+ */
 function get_blog_count( $id = 0 ) {
 	global $wpdb;
 
@@ -143,6 +214,15 @@ function get_blog_count( $id = 0 ) {
 	return $count;
 }
 
+/**
+ * Get a blog post from any site on the network.
+ *
+ * @since MU 1.0
+ *
+ * @param int $blog_id ID of the blog.
+ * @param int $post_id ID of the post you're looking for.
+ * @return object The post.
+ */
 function get_blog_post( $blog_id, $post_id ) {
 	global $wpdb;
 
@@ -156,6 +236,23 @@ function get_blog_post( $blog_id, $post_id ) {
 	return $post;
 }
 
+/**
+ * Add a user to a blog.
+ *
+ * Use the 'add_user_to_blog' action to fire an event when
+ * users are added to a blog.
+ *
+ * @since MU 1.0
+ * @uses switch_to_blog()
+ * @uses update_user_meta()
+ * @uses wp_cache_delete()
+ * @uses restore_current_blog()
+ *
+ * @param int $blog_id ID of the blog you're adding the user to.
+ * @param int $user_id ID of the user you're adding.
+ * @param string $role The role you want the user to have
+ * @return bool
+ */
 function add_user_to_blog( $blog_id, $user_id, $role ) {
 	switch_to_blog($blog_id);
 
@@ -178,6 +275,27 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 	return true;
 }
 
+/**
+ * Remove a user from a blog.
+ *
+ * Use the 'remove_user_from_blog' action to fire an event when
+ * users are removed from a blog.
+ *
+ * Accepts an optional $reassign parameter, if you want to 
+ * reassign the user's blog posts to another user upon removal.
+ *
+ * @since MU 1.0
+ * @uses switch_to_blog()
+ * @uses get_user_meta()
+ * @uses get_blogs_of_user()
+ * @uses update_user_meta()
+ * @uses restore_current_blog()
+ *
+ * @param int $user_id ID of the user you're removing.
+ * @param int $blog_id ID of the blog you're removing the user from.
+ * @param string $reassign Optional. A user to whom to reassign posts.
+ * @return bool
+ */
 function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 	global $wpdb;
 	switch_to_blog($blog_id);
@@ -225,6 +343,20 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 	restore_current_blog();
 }
 
+/**
+ * Create an empty blog.
+ *
+ * @since MU 1.0
+ * @uses switch_to_blog()
+ * @uses install_blog()
+ * @uses restore_current_blog()
+ *
+ * @param string $domain The new blog's domain.
+ * @param string $path The new blog's path.
+ * @param string $string The new blog's title.
+ * @param int $site Optional. Defaults to 1.
+ * @return int $blog_id The ID of the newly created blog
+ */
 function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 	$domain			= addslashes( $domain );
 	$weblog_title	= addslashes( $weblog_title );
@@ -250,6 +382,19 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 	return $blog_id;
 }
 
+/**
+ * Get the permalink for a post on another blog.
+ *
+ * @since MU 1.0
+ * @uses wp_cache_get()
+ * @uses switch_to_blog()
+ * @uses restore_current_blog()
+ * @uses wp_cache_add()
+ *
+ * @param int $_blog_id ID of the source blog.
+ * @param int $post_id ID of the desired post.
+ * @return string $link The post's permalink
+ */
 function get_blog_permalink( $_blog_id, $post_id ) {
 	$key = "{$_blog_id}-{$post_id}-blog_permalink";
 	$link = wp_cache_get( $key, 'site-options' );
@@ -262,6 +407,22 @@ function get_blog_permalink( $_blog_id, $post_id ) {
 	return $link;
 }
 
+/**
+ * Get a blog's numeric ID from its URL.
+ *
+ * On a subdirectory installation like example.com/blog1/,
+ * $domain will be the root 'example.com' and $path the
+ * subdirectory '/blog1/'. With subdomains like blog1.example.com,
+ * $domain is 'blog1.example.com' and $path is '/'.
+ *
+ * @since MU 2.6.5
+ * @uses wp_cache_get()
+ * @uses wp_cache_set()
+ *
+ * @param string $domain
+ * @param string $path Optional. Not required for subdomain installations.
+ * @return int $id
+ */
 function get_blog_id_from_url( $domain, $path = '/' ) {
 	global $wpdb;
 
