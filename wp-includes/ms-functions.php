@@ -1372,12 +1372,6 @@ function upload_is_file_too_big( $upload ) {
 	return $upload;
 }
 
-function wordpressmu_wp_mail_from( $email ) {
-	if ( strpos( $email, 'wordpress@' ) !== false )
-		$email = get_option( 'admin_email' );
-	return $email;
-}
-
 function signup_nonce_fields() {
 	$id = mt_rand();
 	echo "<input type='hidden' name='signup_form_id' value='{$id}' />";

@@ -47,7 +47,6 @@ add_filter( 'upload_mimes', 'check_upload_mimes' );
 add_filter( 'upload_size_limit', 'upload_size_limit_filter' );
 
 // Mail
-add_filter( 'wp_mail_from', 'wordpressmu_wp_mail_from' );
 add_action( 'phpmailer_init', 'fix_phpmailer_messageid' );
 
 // Disable somethings by default for multisite
