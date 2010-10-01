@@ -589,37 +589,6 @@ function secret_salt_warning() {
 }
 add_action( 'admin_notices', 'secret_salt_warning' );
 
-function admin_notice_feed() {
-	global $current_screen;
-	if ( $current_screen->id != 'dashboard' )
-		return;
-
-	if ( !empty( $_GET['feed_dismiss'] ) ) {
-		update_user_option( get_current_user_id(), 'admin_feed_dismiss', $_GET['feed_dismiss'], true );
-		return;
-	}
-
-	$url = get_site_option( 'admin_notice_feed' );
-	if ( empty( $url ) )
-		return;
-
-	$rss = fetch_feed( $url );
-	if ( ! is_wp_error( $rss ) && $item = $rss->get_item() ) {
-		$title = $item->get_title();
-		if ( md5( $title ) == get_user_option( 'admin_feed_dismiss' ) )
-			return;
-		$msg = "<h3>" . esc_html( $title ) . "</h3>\n";
-		$content = $item->get_description();
-		$content = $content ? wp_html_excerpt( $content, 200 ) . ' &hellip; ' : '';
-		$link = esc_url( strip_tags( $item->get_link() ) );
-		$msg .= "<p>" . $content . "<a href='$link'>" . __( 'Read More' ) . "</a> <a href='index.php?feed_dismiss=" . md5( $title ) . "'>" . __( 'Dismiss' ) . "</a></p>";
-		echo "<div class='updated'>$msg</div>";
-	} elseif ( is_super_admin() ) {
-		printf( '<div class="update-nag">' . __( 'Your feed at %s is empty.' ) . '</div>', esc_html( $url ) );
-	}
-}
-add_action( 'admin_notices', 'admin_notice_feed' );
-
 function site_admin_notice() {
 	global $wp_db_version;
 	if ( !is_super_admin() )
