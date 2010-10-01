@@ -5,12 +5,18 @@
  *
  * @package WordPress
  * @subpackage Multisite
- * @since 3.0.0
+ * @since MU
  */
 
-// @todo use update_blog_details
+/**
+ * Update the last_updated field for the current blog.
+ *
+ * @since MU
+ */
 function wpmu_update_blogs_date() {
 	global $wpdb;
+
+	// TODO: use update_blog_details
 
 	$wpdb->update( $wpdb->blogs, array('last_updated' => current_time('mysql', true)), array('blog_id' => $wpdb->blogid) );
 	refresh_blog_details( $wpdb->blogid );
@@ -18,11 +24,27 @@ function wpmu_update_blogs_date() {
 	do_action( 'wpmu_blog_updated', $wpdb->blogid );
 }
 
+/**
+ * Get a full blog URL, given a blog id.
+ *
+ * @since MU
+ *
+ * @param int $blog_id Blog ID
+ * @return string
+ */
 function get_blogaddress_by_id( $blog_id ) {
 	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
 	return esc_url( 'http://' . $bloginfo->domain . $bloginfo->path );
 }
 
+/**
+ * Get a full blog URL, given a blog name.
+ *
+ * @since MU
+ *
+ * @param string $blogname The (subdomain or directory) name
+ * @return string
+ */
 function get_blogaddress_by_name( $blogname ) {
 	global $current_site;
 
@@ -38,7 +60,16 @@ function get_blogaddress_by_name( $blogname ) {
 	return esc_url( $url . '/' );
 }
 
-function get_blogaddress_by_domain( $domain, $path ){
+/**
+ * Get a full blog URL, given a domain and a path.
+ *
+ * @since MU
+ *
+ * @param string $domain
+ * @param string $path
+ * @return string
+ */
+function get_blogaddress_by_domain( $domain, $path ) {
 	if ( is_subdomain_install() ) {
 		$url = "http://".$domain.$path;
 	} else {
@@ -55,6 +86,14 @@ function get_blogaddress_by_domain( $domain, $path ){
 	return esc_url( $url );
 }
 
+/**
+ * Given a blog's (subdomain or directory) name, retrieve it's id.
+ *
+ * @since MU
+ *
+ * @param string $name
+ * @return int A blog id
+ */
 function get_id_from_blogname( $name ) {
 	global $wpdb, $current_site;
 	$blog_id = wp_cache_get( "get_id_from_blogname_" . $name, 'blog-details' );
@@ -76,7 +115,8 @@ function get_id_from_blogname( $name ) {
 /**
  * Retrieve the details for a blog from the blogs table and blog options.
  *
- * @since 3.0.0
+ * @since MU
+ * 
  * @param int|string|array $fields A blog ID, a blog name, or an array of fields to query against.
  * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
  * @return object Blog details.
@@ -202,7 +242,7 @@ function get_blog_details( $fields, $get_all = true ) {
 /**
  * Clear the blog details cache.
  *
- * @since 3.0.0
+ * @since MU
  *
  * @param int $blog_id Blog ID
  */
@@ -220,7 +260,7 @@ function refresh_blog_details( $blog_id ) {
 /**
  * Update the details for a blog. Updates the blogs table for a given blog id.
  *
- * @since 3.0.0
+ * @since MU
  *
  * @param int $blog_id Blog ID
  * @param array $details Array of details keyed by blogs table field names.
@@ -280,13 +320,11 @@ function update_blog_details( $blog_id, $details = array() ) {
  * $blog_id. It returns $value.
  * The 'option_$option' filter in get_option() is not called.
  *
- * @since NA
- * @package WordPress MU
- * @subpackage Option
+ * @since MU
  * @uses apply_filters() Calls 'blog_option_$optionname' with the option name value.
  *
  * @param int $blog_id is the id of the blog.
- * @param string $setting Name of option to retrieve. Should already be SQL-escaped
+ * @param string $setting Name of option to retrieve. Should already be SQL-escaped.
  * @param string $default (optional) Default value returned if option not found.
  * @return mixed Value set for the option.
  */
@@ -340,6 +378,15 @@ function get_blog_option( $blog_id, $setting, $default = false ) {
 	return apply_filters( 'blog_option_' . $setting, maybe_unserialize( $value ), $blog_id );
 }
 
+/**
+ * Add an option for a particular blog.
+ *
+ * @since MU
+ *
+ * @param int $id The blog id
+ * @param string $key The option key
+ * @param mixed $value The option value
+ */
 function add_blog_option( $id, $key, $value ) {
 	$id = (int) $id;
 
@@ -349,6 +396,14 @@ function add_blog_option( $id, $key, $value ) {
 	wp_cache_set( $id."-".$key."-blog_option", $value, 'site-options' );
 }
 
+/**
+ * Delete an option for a particular blog.
+ *
+ * @since MU
+ *
+ * @param int $id The blog id
+ * @param string $key The option key
+ */
 function delete_blog_option( $id, $key ) {
 	$id = (int) $id;
 
@@ -358,6 +413,16 @@ function delete_blog_option( $id, $key ) {
 	wp_cache_set( $id."-".$key."-blog_option", '', 'site-options' );
 }
 
+/**
+ * Update an option for a particular blog.
+ *
+ * @since MU
+ *
+ * @param int $id The blog id
+ * @param string $key The option key
+ * @param mixed $value The option value
+ * @param bool $refresh Wether to refresh blog details or not
+ */
 function update_blog_option( $id, $key, $value, $refresh = true ) {
 	$id = (int) $id;
 
@@ -370,6 +435,23 @@ function update_blog_option( $id, $key, $value, $refresh = true ) {
 	wp_cache_set( $id."-".$key."-blog_option", $value, 'site-options');
 }
 
+/**
+ * Switch the current blog.
+ *
+ * This function is useful if you need to pull posts, or other information,
+ * from other blogs. You can switch back afterwards using restore_current_blog().
+ *
+ * Things that aren't switched:
+ *  - autoloaded options. See #14992
+ *  - plugins. See #14941
+ *
+ * @see restore_current_blog()
+ * @since MU
+ *
+ * @param int $new_blog The id of the blog you want to switch to. Default: current blog
+ * @param bool $validate Wether to check if $new_blog exists before proceeding
+ * @return bool	True on success, False if the validation failed
+ */
 function switch_to_blog( $new_blog, $validate = false ) {
 	global $wpdb, $table_prefix, $blog_id, $switched, $switched_stack, $wp_roles, $wp_object_cache;
 
@@ -432,6 +514,14 @@ function switch_to_blog( $new_blog, $validate = false ) {
 	return true;
 }
 
+/**
+ * Restore the current blog, after calling switch_to_blog()
+ *
+ * @see switch_to_blog()
+ * @since MU
+ *
+ * @return bool True on success, False if we're already on the current blog
+ */
 function restore_current_blog() {
 	global $table_prefix, $wpdb, $blog_id, $switched, $switched_stack, $wp_roles, $wp_object_cache;
 
@@ -490,10 +580,27 @@ function restore_current_blog() {
 	return true;
 }
 
+/**
+ * Check if a particular blog is archived.
+ *
+ * @since MU
+ *
+ * @param int $id The blog id
+ * @return string Wether the blog is archived or not
+ */
 function is_archived( $id ) {
 	return get_blog_status($id, 'archived');
 }
 
+/**
+ * Update the 'archived' status of a particular blog.
+ *
+ * @since MU
+ *
+ * @param int $id The blog id
+ * @param string $archived The new status
+ * @return string $archived
+ */
 function update_archived( $id, $archived ) {
 	update_blog_status($id, 'archived', $archived);
 	return $archived;
@@ -502,12 +609,13 @@ function update_archived( $id, $archived ) {
 /**
  * Update a blog details field.
  *
- * @since 3.0.0
+ * @since MU
  *
  * @param int $blog_id BLog ID
  * @param string $pref A field name
  * @param string $value Value for $pref
  * @param bool $refresh Whether to refresh the blog details cache. Default is true.
+ * @return string $value
  */
 function update_blog_status( $blog_id, $pref, $value, $refresh = true ) {
 	global $wpdb;
@@ -530,6 +638,15 @@ function update_blog_status( $blog_id, $pref, $value, $refresh = true ) {
 	return $value;
 }
 
+/**
+ * Get a blog details field.
+ *
+ * @since MU
+ *
+ * @param int $id The blog id
+ * @param string $pref A field name
+ * @return bool $value
+ */
 function get_blog_status( $id, $pref ) {
 	global $wpdb;
 
@@ -540,6 +657,16 @@ function get_blog_status( $id, $pref ) {
 	return $wpdb->get_var( $wpdb->prepare("SELECT %s FROM {$wpdb->blogs} WHERE blog_id = %d", $pref, $id) );
 }
 
+/**
+ * Get a list of most recently updated blogs.
+ *
+ * @since MU
+ * 
+ * @param $deprecated Not used
+ * @param int $start The offset
+ * @param int $quantity The maximum number of blogs to retrieve. Default is 40.
+ * @return array The list of blogs
+ */
 function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	global $wpdb;
 	return $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' AND last_updated != '0000-00-00 00:00:00' ORDER BY last_updated DESC limit %d, %d", $wpdb->siteid, $start, $quantity ) , ARRAY_A );
