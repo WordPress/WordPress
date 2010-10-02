@@ -13,8 +13,13 @@
 		<div id="iframecontainer"></div>
 
 		<div class="mceActionPanel">
-			<input type="submit" id="insert" name="insert" value="{#insert}" />
-			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			<div style="float: left">
+				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+
+			<div style="float: right">
+				<input type="submit" id="insert" name="insert" value="{#insert}" />
+			</div>
 		</div>
 	</form>
 </body>

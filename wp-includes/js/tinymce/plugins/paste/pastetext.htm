@@ -19,8 +19,13 @@
 		<textarea id="content" name="content" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,mono; font-size: 12px;" dir="ltr" wrap="soft" class="mceFocus"></textarea>
 
 		<div class="mceActionPanel">
-			<input type="submit" name="insert" value="{#insert}" id="insert" />
-			<input type="button" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" id="cancel" />
+			<div style="float: left">
+				<input type="button" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" id="cancel" />
+			</div>
+
+			<div style="float: right">
+				<input type="submit" name="insert" value="{#insert}" id="insert" />
+			</div>
 		</div>
 	</form>
 </body> 
