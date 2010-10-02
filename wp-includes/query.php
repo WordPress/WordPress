@@ -1948,6 +1948,21 @@ class WP_Query {
 				$where .= " AND $wpdb->posts.ID IN(" . implode( ', ', $ids ) . ")";
 			else
 				$where .= ' AND 0 = 1';
+
+			// Back-compat
+			if ( !empty( $ids ) ) {
+				$cat_query = wp_filter_object_list( $tax_query, array( 'taxonomy' => 'category' ) );
+				if ( !empty( $cat_query ) ) {
+					$cat_query = reset( $cat_query );
+					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
+					if ( $cat ) {
+						$this->set('cat', $cat->term_id);
+						$this->set('category_name', $cat->slug);
+					}
+				}
+			}
+
+			unset( $ids );
 		}
 
 		if ( !empty($q['meta_key']) ) {
