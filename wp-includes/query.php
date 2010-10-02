@@ -1951,7 +1951,7 @@ class WP_Query {
 
 			// Back-compat
 			if ( !empty( $ids ) ) {
-				$cat_query = wp_filter_object_list( $tax_query, array( 'taxonomy' => 'category' ) );
+				$cat_query = wp_list_filter( $tax_query, array( 'taxonomy' => 'category' ) );
 				if ( !empty( $cat_query ) ) {
 					$cat_query = reset( $cat_query );
 					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );

@@ -3019,30 +3019,59 @@ function wp_array_slice_assoc( $array, $keys ) {
  * @return array A list of objects or object fields
  */
 function wp_filter_object_list( $list, $args = array(), $operator = 'and', $field = false ) {
-	if ( !is_array($list) )
-		return array();
+	$list = wp_list_filter( $list, $args, $operator );
 
-	if ( empty($args) )
-		$args = array();
+	if ( $field )
+		$list = wp_list_pluck( $list, $field );
 
-	if ( empty($args) && !$field )
-		return $list;	// nothing to do
+	return $list;
+}
 
-	$count = count($args);
+/**
+ * Filters a list of objects, based on a set of key => value arguments
+ *
+ * @since 3.1.0
+ *
+ * @param array $list An array of objects to filter
+ * @param array $args An array of key => value arguments to match against each object
+ * @param string $operator The logical operation to perform. 'or' means only one element
+ *	from the array needs to match; 'and' means all elements must match. The default is 'and'.
+ * @return array
+ */
+function wp_list_filter( $list, $args = array(), $operator = 'and' ) {
+	if ( empty( $args ) )
+		return $list;
+
+	$count = count( $args );
 
 	$filtered = array();
 
 	foreach ( $list as $key => $obj ) {
-		$matched = count( array_intersect_assoc( (array) ($obj), $args ) );
+		$matched = count( array_intersect_assoc( (array) $obj, $args ) );
 		if ( ('and' == $operator && $matched == $count) || ('or' == $operator && $matched <= $count) ) {
-			if ( $field )
-				$filtered[] = $obj->$field;
-			else
-				$filtered[$key] = $obj;
+			$filtered[$key] = $obj;
 		}
 	}
 
 	return $filtered;
+}
+
+/**
+ * Pluck a certain field out of each object in a list
+ *
+ * @since 3.1.0
+ *
+ * @param array $list A list of objects or arrays
+ * @param int|string $field A field from the object to place instead of the entire object
+ * @return array
+ */
+function wp_list_pluck( $list, $field ) {
+	foreach ( $list as $key => $value ) {
+		$value = (array) $value;
+		$list[ $key ] = $value[ $field ];
+	}
+
+	return $list;
 }
 
 /**
