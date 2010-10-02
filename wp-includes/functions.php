@@ -3483,7 +3483,7 @@ function wp_guess_url() {
 		$schema = is_ssl() ? 'https://' : 'http://';
 		$url = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 	}
-	return $url;
+	return rtrim($url, '/');
 }
 
 /**
