@@ -346,7 +346,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_del {background-position:-940px -20px}
 .wp_themeSkin span.mce_ins {background-position:-960px -20px}
 .wp_themeSkin span.mce_pagebreak {background-position:0 -40px}
-.wp_themeSkin .mce_spellchecker span.mceAction {background-position:-540px -20px}
+.wp_themeSkin span.mce_spellchecker {background-position:-540px -20px}
 
 /* border */
 .wp_themeSkin .mceExternalToolbar, 

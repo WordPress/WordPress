@@ -160,8 +160,8 @@ var ImageDialog = {
 			}
 
 			// Merge
-			st = tinyMCEPopup.dom.parseStyle(dom.serializeStyle(st));
-			this.styleVal = dom.serializeStyle(st);
+			st = tinyMCEPopup.dom.parseStyle(dom.serializeStyle(st), 'img');
+			this.styleVal = dom.serializeStyle(st, 'img');
 		}
 	},
 

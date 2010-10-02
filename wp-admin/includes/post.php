@@ -1366,10 +1366,10 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 	$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
 
 	if ( $teeny ) {
-		$plugins = apply_filters( 'teeny_mce_plugins', array('safari', 'inlinepopups', 'media', 'fullscreen', 'wordpress') );
+		$plugins = apply_filters( 'teeny_mce_plugins', array('inlinepopups', 'media', 'fullscreen', 'wordpress') );
 		$ext_plugins = '';
 	} else {
-		$plugins = array( 'safari', 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus' );
+		$plugins = array( 'inlinepopups', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus' );
 
 		/*
 		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
@@ -1460,9 +1460,10 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 		$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv' ));
 		$mce_buttons = implode($mce_buttons, ',');
 
-		$mce_buttons_2 = array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|', 'media', 'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' );
-		if ( is_multisite() )
-			unset( $mce_buttons_2[ array_search( 'media', $mce_buttons_2 ) ] );
+		$mce_buttons_2 = array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|' );
+		if ( ! is_multisite() )
+			$mce_buttons_2[] = 'media';
+		array_push( $mce_buttons_2,  'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' );
 		$mce_buttons_2 = apply_filters('mce_buttons_2', $mce_buttons_2);
 		$mce_buttons_2 = implode($mce_buttons_2, ',');
 
@@ -1608,10 +1609,12 @@ tinyMCEPreInit = {
 
 <script type="text/javascript">
 /* <![CDATA[ */
-<?php if ( $ext_plugins ) echo "$ext_plugins\n"; ?>
-<?php if ( $compressed ) { ?>
-tinyMCEPreInit.go();
-<?php } else { ?>
+<?php
+	if ( $ext_plugins )
+		echo "$ext_plugins\n";
+
+	if ( ! $compressed ) {
+?>
 (function(){var t=tinyMCEPreInit,sl=tinymce.ScriptLoader,ln=t.mceInit.language,th=t.mceInit.theme,pl=t.mceInit.plugins;sl.markDone(t.base+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'_dlg.js');tinymce.each(pl.split(','),function(n){if(n&&n.charAt(0)!='-'){sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'.js');sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'_dlg.js');}});})();
 <?php } ?>
 tinyMCE.init(tinyMCEPreInit.mceInit);

@@ -42,10 +42,11 @@ width:94px; height:26px;
 background:url(../default/img/buttons.png) 0 -26px;
 cursor:pointer;
 padding-bottom:2px;
+float:left;
 }
 
-#insert {background:url(../default/img/buttons.png) 0 -52px;}
-#cancel {background:url(../default/img/buttons.png) 0 0;}
+#insert {background:url(../default/img/buttons.png) 0 -52px}
+#cancel {background:url(../default/img/buttons.png) 0 0; float:right}
 
 /* Browse */
 a.pickcolor, a.browse {text-decoration:none}

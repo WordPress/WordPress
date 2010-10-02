@@ -1,6 +1,7 @@
 /* Clearlooks 2 */
+
 /* Reset */
-.clearlooks2, .clearlooks2 div, .clearlooks2 span, .clearlooks2 a {vertical-align:baseline; text-align:left; position:absolute; border:0; padding:0; margin:0; background:transparent; font-family:Arial,Verdana; font-size:11px; color:#000; text-decoration:none; font-weight:normal; width:auto; height:auto; overflow:hidden; display:block;}
+.clearlooks2, .clearlooks2 div, .clearlooks2 span, .clearlooks2 a {vertical-align:baseline; text-align:left; position:absolute; border:0; padding:0; margin:0; background:transparent; font-family:Arial,Verdana; font-size:11px; color:#000; text-decoration:none; font-weight:normal; width:auto; height:auto; overflow:hidden; display:block}
 
 /* General */
 .clearlooks2 {position:absolute; direction:ltr}
@@ -116,10 +117,20 @@ color:#FFF
 .clearlooks2 .mceButton {font-weight:bold; bottom:10px; width:80px; height:30px; background:url(img/button.gif); line-height:30px; vertical-align:middle; text-align:center; outline:0}
 .clearlooks2 .mceMiddle .mceIcon {left:15px; top:35px; width:32px; height:32px}
 .clearlooks2 .mceAlert .mceMiddle span, .clearlooks2 .mceConfirm .mceMiddle span {background:transparent;left:60px; top:35px; width:320px; height:50px; font-weight:bold; overflow:auto; white-space:normal}
-.clearlooks2 a:hover {font-weight:bold}
+.clearlooks2 a:hover {font-weight:bold;}
 .clearlooks2 .mceAlert .mceMiddle, .clearlooks2 .mceConfirm .mceMiddle {background:#E4F2FD}
 .clearlooks2 .mceAlert .mceOk {left:50%; top:auto; margin-left: -40px}
 .clearlooks2 .mceAlert .mceIcon {background:url(img/alert.gif)}
 .clearlooks2 .mceConfirm .mceOk {left:50%; top:auto; margin-left: -90px}
 .clearlooks2 .mceConfirm .mceCancel {left:50%; top:auto}
 .clearlooks2 .mceConfirm .mceIcon {background:url(img/confirm.gif)}
+
+/* IE9 fixes */
+.clearlooks2.ie9 .mceTop .mceCenter {clip:auto;}
+.clearlooks2.ie9 .mceMiddle {clip:auto;}
+.clearlooks2.ie9 .mceMiddle .mceLeft, .clearlooks2.ie9 .mceMiddle .mceRight {top: 23px;}
+.clearlooks2.ie9 .mceAlert .mceMiddle span, .clearlooks2 .mceConfirm .mceMiddle span {top:13px;}
+.clearlooks2.ie9 .mceModal .mceMiddle {top:23px}
+.clearlooks2.ie9 .mceModal .mceMiddle .mceLeft, .clearlooks2.ie9 .mceModal .mceMiddle .mceRight {top: 0}
+.clearlooks2.ie9 .mceMiddle .mceIcon {top:13px}
+.clearlooks2.ie9 .mceTop .mceCenter {top:0; right:auto; left:6px; width:calc(100%-12px)}
