@@ -1247,10 +1247,12 @@ class WP_Query {
 		} elseif ( '' != $qv['static'] || '' != $qv['pagename'] || !empty($qv['page_id']) ) {
 			$this->is_page = true;
 			$this->is_single = false;
-		} elseif ( !empty($qv['s']) ) {
-			$this->is_search = true;
 		} else {
-		// Look for archive queries.  Dates, categories, authors.
+		// Look for archive queries.  Dates, categories, authors, search.
+
+			if ( !empty($qv['s']) ) {
+				$this->is_search = true;
+			}
 
 			if ( '' !== $qv['second'] ) {
 				$this->is_time = true;
