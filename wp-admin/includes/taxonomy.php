@@ -80,25 +80,6 @@ function wp_create_categories($categories, $post_id = '') {
 }
 
 /**
- * Deletes one existing category.
- *
- * @since 2.0.0
- *
- * @param int $cat_ID
- * @return mixed Returns true if completes delete action; false if term doesnt exist; Zero on attempted deletion of default Category; WP_Error object is also a possibility.
- */
-function wp_delete_category($cat_ID) {
-	$cat_ID = (int) $cat_ID;
-	$default = get_option('default_category');
-
-	// Don't delete the default cat
-	if ( $cat_ID == $default )
-		return 0;
-
-	return wp_delete_term($cat_ID, 'category', array('default' => $default));
-}
-
-/**
  * Updates an existing Category or creates a new Category.
  *
  * @since 2.0.0

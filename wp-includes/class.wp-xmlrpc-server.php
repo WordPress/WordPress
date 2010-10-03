@@ -859,7 +859,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.5.0
 	 *
 	 * @param array $args Method parameters.
-	 * @return mixed See {@link wp_delete_category()} for return info.
+	 * @return mixed See {@link wp_delete_term()} for return info.
 	 */
 	function wp_deleteCategory($args) {
 		$this->escape($args);
@@ -877,7 +877,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can("manage_categories") )
 			return new IXR_Error( 401, __( "Sorry, you do not have the right to delete a category." ) );
 
-		return wp_delete_category( $category_id );
+		return wp_delete_term( $category_id, 'category' );
 	}
 
 	/**

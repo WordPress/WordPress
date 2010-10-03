@@ -1455,10 +1455,17 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$tt_id = $ids['term_taxonomy_id'];
 
 	$defaults = array();
+	
+	if ( 'category' == $taxonomy ) {
+		$defaults['default'] = get_option( 'default_category' );
+		if ( $defaults['default'] == $term )
+			return 0; // Don't delete the default category
+	}
+	
 	$args = wp_parse_args($args, $defaults);
 	extract($args, EXTR_SKIP);
 
-	if ( isset($default) ) {
+	if ( isset( $default ) ) {
 		$default = (int) $default;
 		if ( ! term_exists($default, $taxonomy) )
 			unset($default);
