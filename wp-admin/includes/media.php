@@ -349,55 +349,6 @@ if ( is_string($content_func) )
  * {@internal Missing Short Description}}
  *
  * @since unknown
- */
-function media_buttons() {
-	$do_image = $do_audio = $do_video = true;
-	if ( is_multisite() ) {
-		$media_buttons = get_site_option( 'mu_media_buttons' );
-		if ( empty($media_buttons['image']) )
-			$do_image = false;
-		if ( empty($media_buttons['audio']) )
-			$do_audio = false;
-		if ( empty($media_buttons['video']) )
-			$do_video = false;
-	}
-	$out = '';
-
-	if ( $do_image )
-		$out .= _media_button(__('Add an Image'), 'images/media-button-image.gif?ver=20100531', 'image');
-	if ( $do_video )
-		$out .= _media_button(__('Add Video'), 'images/media-button-video.gif?ver=20100531', 'video');
-	if ( $do_audio )
-		$out .= _media_button(__('Add Audio'), 'images/media-button-music.gif?ver=20100531', 'audio');
-
-	$out .= _media_button(__('Add Media'), 'images/media-button-other.gif?ver=20100531', 'media');
-
-	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
-
-	printf($context, $out);
-}
-add_action( 'media_buttons', 'media_buttons' );
-
-function _media_button($title, $icon, $type) {
-	return "<a href='" . esc_url( get_upload_iframe_src($type) ) . "' id='add_$type' class='thickbox' title='$title'><img src='" . esc_url( admin_url( $icon ) ) . "' alt='$title' /></a>";
-}
-
-function get_upload_iframe_src($type) {
-	global $post_ID, $temp_ID;
-	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$upload_iframe_src = add_query_arg('post_id', $uploading_iframe_ID, 'media-upload.php');
-
-	if ( 'media' != $type )
-		$upload_iframe_src = add_query_arg('type', $type, $upload_iframe_src);
-	$upload_iframe_src = apply_filters($type . '_upload_iframe_src', $upload_iframe_src);
-
-	return add_query_arg('TB_iframe', true, $upload_iframe_src);
-}
-
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
  *
  * @return unknown
  */
