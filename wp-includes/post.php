@@ -4771,3 +4771,147 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 
 	return $post;
 }
+
+/**
+ * Returns or echos a form containing a post box.
+ *
+ * Used for the QuickPress dashboard module.
+ *
+ * @since 3.1.0
+ *
+ * @param array $args Arguments.
+ * @param string $post_type Post type.
+ */
+function wp_quickpress_form( $args = array(), $post_type = 'post'){
+	global $post_ID;
+
+	$fields = array(
+		'title' => array(
+			'capability' => '', // Capability to check before outputing field
+			'output' => '<h4 id="%s-title"><label for="title">'. __('Title') .'</label></h4>
+		<div class="input-text-wrap">
+			<input type="text" name="post_title" id="%s-title" tabindex="%d" autocomplete="off" value="'. esc_attr( $post->post_title ).'" />
+		</div>'
+		),
+		'media_buttons' => array(
+			'capability' => 'upload_files',
+			'output' => '<div id="%s-media-buttons" class="hide-if-no-js">'. get_media_buttons() .'</div>',
+		),
+		'content' => array(
+			'capability' => '',
+			'output' => '<h4 id="%s-content-label"><label for="content">'. __('Content') .'</label></h4>
+		<div class="textarea-wrap">
+			<textarea name="content" id="%s-content" class="mceEditor" rows="3" cols="15" tabindex="%d">'. $post->post_content.'</textarea>
+		</div>
+			'."     <script type='text/javascript'>edCanvas = document.getElementById('content');edInsertContent = null;</script>
+		"
+
+		),
+		'tags' => array(
+			'capability' =>'',
+			'output' => '
+			<h4><label for="%s-tags-input">'. __('Tags') .'</label></h4>
+			<div class="input-text-wrap">
+				<input type="text" name="%s-tags_input" id="tags-input" tabindex="%d" value="'. get_tags_to_edit( $post->ID ) .'" />
+			</div>
+'
+		),
+
+	);
+
+	$hidden_fields = array(
+		'action' => '<input type="hidden" name="action" id="quickpost-action" value="'.$post_type.'-quickpress-save" />',
+		'post_id' => '<input type="hidden" name="quickpress_post_ID" value="'. $post_ID .'" />',
+		'post_type' => '<input type="hidden" name="post_type" value="'.$post_type.'" />',
+	);
+
+	$submit_fields = array(
+		'save' => '<input type="submit" name="save" id="save-post" class="button" tabindex="%s" value="'.  esc_attr('Save Draft') .'" />',
+		'reset' => '<input type="reset" tabindex="%s" value="'. esc_attr( 'Reset' ).'" class="button" />',
+	);
+
+	$publishing_action = current_user_can('publish_posts') ? esc_attr('Publish') : esc_attr('Submit for Review');
+
+	$publishing_fields = array(
+	'submit' => '<input type="submit" name="publish" id="publish" accesskey="p" tabindex="%s" class="button-primary" value="' . $publishing_action . '" />',
+	/*'test' => '<input type="submit" name="publish" id="publish" accesskey="p" tabindex="%n" class="button-primary" value="'. esc_attr('Publish') .'" />', */
+
+	);
+
+	$defaults = array(
+		'action' => admin_url( 'post.php' ),
+		'fields' => $fields,
+		'form_id' => '',
+		'default_cap' => 'edit_posts',
+		'tabindex_start' => '1',
+		'ajax' => true,
+		'hidden_fields' => $hidden_fields,
+		'submit_fields' => $submit_fields,
+		'publishing_fields' => $publishing_fields,
+		'submit_class' => 'submit',
+		'publish_action_container' => 'span',
+		'publish_action_id' => 'publishing-action',
+		'hidden_and_submit_fields_container' => 'p',
+		'hidden_and_submit_fields_container_class' => 'submit',
+	);
+
+	$args = wp_parse_args($args, $defaults);
+
+	$tabindex =  apply_filters( 'quickpress_tabindex_start', $args['tabindex_start'], $args['form_id']  );
+
+	if ( current_user_can( $args['default_cap'] ) ): ?>
+		<?php do_action('quickpress_form_before_form', $args['form_id'] ); ?>
+		<form name="post" action="<?php echo $args['action'] ?>" method="post" id="<?php echo $args['form_id']; ?>">
+			<?php do_action('quickpress_form_before_fields', $args['form_id']);
+
+			$fields = apply_filters( 'quickpress_fields',  $args['fields'], $args['form_id'] );
+			foreach ($fields as $title => $field){
+				if ( empty( $field['capability'] ) || current_user_can( $field['capability'] ) ){
+					printf( $field['output'], $args['form_id'], $args['form_id'], $tabindex );
+					$tabindex++;
+				}
+			}
+			//Hidden Fields
+			do_action('quickpress_form_after_fields', $args['form_id'] );
+
+			echo "<{$args['hidden_and_submit_fields_container']} class='{$args['hidden_and_submit_fields_container_class']}'>";
+
+			$hidden_fields = apply_filters( 'quickpress_hidden_fields', $args['hidden_fields'] , $args['form_id'] );
+
+			foreach( $hidden_fields as $hidden_field )
+				echo $hidden_field;
+
+			// nonce
+			wp_nonce_field('add-post');
+
+			// submit
+			foreach( $args['submit_fields'] as $submit_field )
+				printf( $submit_field, $tabindex++ );
+
+			// publish
+			echo "<{$args['publish_action_container']} id='{$args['publish_action_id']}'>";
+
+			$publishing_fields = apply_filters( 'quickpress_publishing_fields', $args['publishing_fields'] , $args['form_id'] );
+
+			foreach( $publishing_fields as $publishing_field) {
+				printf( $publishing_field, $tabindex );
+					$tabindex++;
+			}
+
+			if ($args['ajax'] == true)
+				echo '<img class="waiting" src="'. esc_url( admin_url( 'images/wpspin_light.gif' ) ) .'" />';
+
+			echo "</{$args['publish_action_container']}>";
+			echo "<br class='clear' />";
+			do_action( 'quickpress_form_after_submit_fields', $args['form_id']);
+
+			echo "</{$args['hidden_and_submit_fields_container']}";
+		do_action( 'quickpress_form_after_form_content', $args['form_id']);
+		echo '</form>';
+		do_action('quickpress_form_after_form', $args['form_id'] );
+	else:
+		do_action( 'quickpress_form_no_form', $args['form_id'] );
+	endif;
+}
+
+?>
