@@ -154,21 +154,20 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$term_count += count( $tax_query['terms'] );
 
 			$obj = $wp_query->get_queried_object();
-
-			if ( $term_count <= 1 && !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) )
-					&& !is_wp_error($tax_url) && $redirect['query'] ) {
-				if ( is_category() ) {
-					$redirect['query'] = remove_query_arg( array( 'category_name', 'category', 'cat'), $redirect['query']);
-				} elseif ( is_tag() ) {
-					$redirect['query'] = remove_query_arg( array( 'tag', 'tag_id'), $redirect['query']);
-				} elseif ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
-					$tax = get_taxonomy( $obj->taxonomy );
-					if ( false !== $tax->query_var)
-						$redirect['query'] = remove_query_arg($tax->query_var, $redirect['query']);
-					else
-						$redirect['query'] = remove_query_arg( array( 'term', 'taxonomy'), $redirect['query']);
+			if ( $term_count <= 1 && !empty($obj->term_id) && ( $tax_url = get_term_link((int)$obj->term_id, $obj->taxonomy) ) && !is_wp_error($tax_url) ) {
+				if ( !empty($redirect['query']) ) {
+					if ( is_category() ) {
+						$redirect['query'] = remove_query_arg( array( 'category_name', 'category', 'cat'), $redirect['query']);
+					} elseif ( is_tag() ) {
+						$redirect['query'] = remove_query_arg( array( 'tag', 'tag_id'), $redirect['query']);
+					} elseif ( is_tax() ) { // Custom taxonomies will have a custom query var, remove those too:
+						$tax = get_taxonomy( $obj->taxonomy );
+						if ( false !== $tax->query_var)
+							$redirect['query'] = remove_query_arg($tax->query_var, $redirect['query']);
+						else
+							$redirect['query'] = remove_query_arg( array( 'term', 'taxonomy'), $redirect['query']);
+					}
 				}
-
 				$tax_url = parse_url($tax_url);
 				if ( ! empty($tax_url['query']) ) { // Custom taxonomies may only be accessable via ?taxonomy=..&term=..
 					parse_str($tax_url['query'], $query_vars);
@@ -176,7 +175,6 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				} else { // Taxonomy is accessable via a "pretty-URL"
 					$redirect['path'] = $tax_url['path'];
 				}
-
 			}
 		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false ) {
 			$category = get_term_by('slug', get_query_var('category_name'), 'category');

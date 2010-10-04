@@ -270,6 +270,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		$wp_taxonomies = array();
 
 	$defaults = array(	'hierarchical' => false,
+					  	'hierarchical_url' => false,
 						'update_count_callback' => '',
 						'rewrite' => true,
 						'query_var' => $taxonomy,
@@ -295,7 +296,10 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 			'slug' => sanitize_title_with_dashes($taxonomy),
 			'with_front' => true,
 		));
-		$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
+		if ( $args['hierarchical'] && $args['hierarchical_url'] )
+			$wp_rewrite->add_rewrite_tag("%$taxonomy%", '.*?/?([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
+		else
+			$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
 		$wp_rewrite->add_permastruct($taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front']);
 	}
 
@@ -2610,16 +2614,28 @@ function get_term_link( $term, $taxonomy = '') {
 	$termlink = $wp_rewrite->get_extra_permastruct($taxonomy);
 
 	$slug = $term->slug;
+	$t = get_taxonomy($taxonomy);
 
 	if ( empty($termlink) ) {
-		$t = get_taxonomy($taxonomy);
 		if ( $t->query_var )
 			$termlink = "?$t->query_var=$slug";
 		else
 			$termlink = "?taxonomy=$taxonomy&term=$slug";
 		$termlink = home_url($termlink);
 	} else {
-		$termlink = str_replace("%$taxonomy%", $slug, $termlink);
+		if ( $t->hierarchical_url ) {
+			$hierarchical_slugs = array();
+			$ancestors = get_ancestors($term->term_id, $taxonomy);
+			foreach ( (array)$ancestors as $ancestor ) {
+				$ancestor_term = get_term($ancestor, $taxonomy);
+				$hierarchical_slugs[] = $ancestor_term->slug;
+			}
+			$hierarchical_slugs = array_reverse($hierarchical_slugs);
+			$hierarchical_slugs[] = $slug;
+			$termlink = str_replace("%$taxonomy%", implode('/', $hierarchical_slugs), $termlink);
+		} else {
+			$termlink = str_replace("%$taxonomy%", $slug, $termlink);
+		}
 		$termlink = home_url( user_trailingslashit($termlink, 'category') );
 	}
 	return apply_filters('term_link', $termlink, $term, $taxonomy);
