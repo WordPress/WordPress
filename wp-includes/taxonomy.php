@@ -1519,6 +1519,20 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	return true;
 }
 
+/*
+ * Deletes one existing category.
+ *
+ * @since 2.0.0
+ * @uses wp_delete_term()
+ *
+ * @param int $cat_ID
+ * @return mixed Returns true if completes delete action; false if term doesnt exist;
+ * 	Zero on attempted deletion of default Category; WP_Error object is also a possibility.
+ */
+function wp_delete_category( $cat_ID ) {
+	return wp_delete_term( $cat_ID, 'category' );
+}
+
 /**
  * Retrieves the terms associated with the given object(s), in the supplied taxonomies.
  *
