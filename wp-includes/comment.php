@@ -188,123 +188,131 @@ function &get_comment(&$comment, $output = OBJECT) {
  * @return array List of comments.
  */
 function get_comments( $args = '' ) {
-	global $wpdb;
+	$query = new WP_Comment_Query;
+	return $query->query( $args );
+}
 
-	$defaults = array(
-		'author_email' => '',
-		'ID' => '',
-		'karma' => '',
-		'number' => '',
-		'offset' => '',
-		'orderby' => '',
-		'order' => 'DESC',
-		'parent' => '',
-		'post_ID' => '',
-		'post_id' => 0,
-		'status' => '',
-		'type' => '',
-		'user_id' => '',
-		'search' => '',
-		'count' => false
-	);
+class WP_Comment_Query extends WP_Object_Query {
 
-	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
+	function query( $args ) {
+		global $wpdb;
 
-	// $args can be whatever, only use the args defined in defaults to compute the key
-	$key = md5( serialize( compact(array_keys($defaults)) )  );
-	$last_changed = wp_cache_get('last_changed', 'comment');
-	if ( !$last_changed ) {
-		$last_changed = time();
-		wp_cache_set('last_changed', $last_changed, 'comment');
-	}
-	$cache_key = "get_comments:$key:$last_changed";
-
-	if ( $cache = wp_cache_get( $cache_key, 'comment' ) ) {
-		return $cache;
-	}
-
-	$post_id = absint($post_id);
-
-	if ( 'hold' == $status )
-		$approved = "comment_approved = '0'";
-	elseif ( 'approve' == $status )
-		$approved = "comment_approved = '1'";
-	elseif ( 'spam' == $status )
-		$approved = "comment_approved = 'spam'";
-	elseif ( 'trash' == $status )
-		$approved = "comment_approved = 'trash'";
-	else
-		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
-
-	$order = ( 'ASC' == strtoupper($order) ) ? 'ASC' : 'DESC';
-
-	if ( ! empty( $orderby ) ) {
-		$ordersby = is_array($orderby) ? $orderby : preg_split('/[,\s]/', $orderby);
-		$ordersby = array_intersect(
-			$ordersby,
-			array(
-				'comment_agent',
-				'comment_approved',
-				'comment_author',
-				'comment_author_email',
-				'comment_author_IP',
-				'comment_author_url',
-				'comment_content',
-				'comment_date',
-				'comment_date_gmt',
-				'comment_ID',
-				'comment_karma',
-				'comment_parent',
-				'comment_post_ID',
-				'comment_type',
-				'user_id',
-			)
+		$defaults = array(
+			'author_email' => '',
+			'ID' => '',
+			'karma' => '',
+			'number' => '',
+			'offset' => '',
+			'orderby' => '',
+			'order' => 'DESC',
+			'parent' => '',
+			'post_ID' => '',
+			'post_id' => 0,
+			'status' => '',
+			'type' => '',
+			'user_id' => '',
+			'search' => '',
+			'count' => false
 		);
-		$orderby = empty( $ordersby ) ? 'comment_date_gmt' : implode(', ', $ordersby);
-	} else {
-		$orderby = 'comment_date_gmt';
-	}
 
-	$number = absint($number);
-	$offset = absint($offset);
+		$args = wp_parse_args( $args, $defaults );
+		extract( $args, EXTR_SKIP );
 
-	if ( !empty($number) ) {
-		if ( $offset )
-			$limit = 'LIMIT ' . $offset . ',' . $number;
+		// $args can be whatever, only use the args defined in defaults to compute the key
+		$key = md5( serialize( compact(array_keys($defaults)) )  );
+		$last_changed = wp_cache_get('last_changed', 'comment');
+		if ( !$last_changed ) {
+			$last_changed = time();
+			wp_cache_set('last_changed', $last_changed, 'comment');
+		}
+		$cache_key = "get_comments:$key:$last_changed";
+
+		if ( $cache = wp_cache_get( $cache_key, 'comment' ) ) {
+			return $cache;
+		}
+
+		$post_id = absint($post_id);
+
+		if ( 'hold' == $status )
+			$approved = "comment_approved = '0'";
+		elseif ( 'approve' == $status )
+			$approved = "comment_approved = '1'";
+		elseif ( 'spam' == $status )
+			$approved = "comment_approved = 'spam'";
+		elseif ( 'trash' == $status )
+			$approved = "comment_approved = 'trash'";
 		else
-			$limit = 'LIMIT ' . $number;
-	} else {
-		$limit = '';
+			$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+
+		$order = ( 'ASC' == strtoupper($order) ) ? 'ASC' : 'DESC';
+
+		if ( ! empty( $orderby ) ) {
+			$ordersby = is_array($orderby) ? $orderby : preg_split('/[,\s]/', $orderby);
+			$ordersby = array_intersect(
+				$ordersby,
+				array(
+					'comment_agent',
+					'comment_approved',
+					'comment_author',
+					'comment_author_email',
+					'comment_author_IP',
+					'comment_author_url',
+					'comment_content',
+					'comment_date',
+					'comment_date_gmt',
+					'comment_ID',
+					'comment_karma',
+					'comment_parent',
+					'comment_post_ID',
+					'comment_type',
+					'user_id',
+				)
+			);
+			$orderby = empty( $ordersby ) ? 'comment_date_gmt' : implode(', ', $ordersby);
+		} else {
+			$orderby = 'comment_date_gmt';
+		}
+
+		$number = absint($number);
+		$offset = absint($offset);
+
+		if ( !empty($number) ) {
+			if ( $offset )
+				$limit = 'LIMIT ' . $offset . ',' . $number;
+			else
+				$limit = 'LIMIT ' . $number;
+		} else {
+			$limit = '';
+		}
+
+		$post_where = "WHERE $approved";
+
+		if ( ! empty($post_id) )
+			$post_where .= $wpdb->prepare( ' AND comment_post_ID = %d', $post_id );
+		if ( '' !== $author_email )
+			$post_where .= $wpdb->prepare( 'AND comment_author_email = %s', $author_email );
+		if ( '' !== $karma )
+			$post_where .= $wpdb->prepare( 'AND comment_karma = %d', $karma );
+		if ( 'comment' == $type )
+			$post_where .= " AND comment_type = ''";
+		elseif ( ! empty( $type ) )
+			$post_where .= $wpdb->prepare( ' AND comment_type = %s', $type );
+		if ( '' !== $parent )
+			$post_where .= $wpdb->prepare( ' AND comment_parent = %d', $parent );
+		if ( '' !== $user_id )
+			$post_where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
+		if ( '' !== $search )
+			$post_where .= $this->get_search_sql( $search, array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' ) );
+
+		if ( $count )
+			return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
+
+		$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
+
+		wp_cache_add( $cache_key, $comments, 'comment' );
+
+		return $comments;	
 	}
-
-	$post_where = "WHERE $approved";
-
-	if ( ! empty($post_id) )
-		$post_where .= $wpdb->prepare( ' AND comment_post_ID = %d', $post_id );
-	if ( '' !== $author_email )
-		$post_where .= $wpdb->prepare( 'AND comment_author_email = %s', $author_email );
-	if ( '' !== $karma )
-		$post_where .= $wpdb->prepare( 'AND comment_karma = %d', $karma );
-	if ( 'comment' == $type )
-		$post_where .= " AND comment_type = ''";
-	elseif ( ! empty( $type ) )
-		$post_where .= $wpdb->prepare( ' AND comment_type = %s', $type );
-	if ( '' !== $parent )
-		$post_where .= $wpdb->prepare( ' AND comment_parent = %d', $parent );
-	if ( '' !== $user_id )
-		$post_where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
-	if ( '' !== $search )
-		$post_where .= _wp_search_sql($search, array('comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content'));
-
-	if ( $count )
-		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
-
-	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments $post_where ORDER BY $orderby $order $limit" );
-
-	wp_cache_add( $cache_key, $comments, 'comment' );
-
-	return $comments;
 }
 
 /**

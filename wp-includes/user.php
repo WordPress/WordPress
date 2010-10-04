@@ -441,7 +441,7 @@ class WP_User_Query extends WP_Object_Query {
 
 		$search = trim( $qv['search'] );
 		if ( $search ) {
-			$this->query_where .= _wp_search_sql( $search, array('user_login', 'user_nicename', 'user_email', 'user_url', 'display_name') );
+			$this->query_where .= $this->get_search_sql( $search, array( 'user_login', 'user_nicename', 'user_email', 'user_url', 'display_name' ) );
 		}
 
 		$this->parse_meta_query( $qv );

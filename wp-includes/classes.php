@@ -546,7 +546,7 @@ class WP_Object_Query {
 	/*
 	 * Populates the $meta_query property
 	 *
-	 * @access private
+	 * @access protected
 	 * @since 3.1.0
 	 *
 	 * @param array $qv The query variables
@@ -570,7 +570,7 @@ class WP_Object_Query {
 	/*
 	 * Used internally to generate an SQL string for searching across multiple meta key = value pairs
 	 *
-	 * @access private
+	 * @access protected
 	 * @since 3.1.0
 	 *
 	 * @param string $primary_table
@@ -620,6 +620,26 @@ class WP_Object_Query {
 		}
 
 		return array( $join, $where );
+	}
+
+	/*
+	 * Used internally to generate an SQL string for searching across multiple columns
+	 *
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @param string $string
+	 * @param array $cols
+	 * @return string
+	 */
+	function get_search_sql( $string, $cols ) {
+		$string = esc_sql( $string );
+
+		$searches = array();
+		foreach ( $cols as $col )
+			$searches[] = "$col LIKE '%$string%'";
+
+		return ' AND (' . implode(' OR ', $searches) . ')';
 	}
 }
 
