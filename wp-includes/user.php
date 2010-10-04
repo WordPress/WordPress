@@ -330,7 +330,7 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
  *
  * @since 3.1.0
  */
-class WP_User_Query {
+class WP_User_Query extends WP_Object_Query {
 
 	/**
 	 * List of found user ids
@@ -444,10 +444,10 @@ class WP_User_Query {
 			$this->query_where .= _wp_search_sql( $search, array('user_login', 'user_nicename', 'user_email', 'user_url', 'display_name') );
 		}
 
+		$this->parse_meta_query( $qv );
+
 		$role = trim( $qv['role'] );
 		$blog_id = absint( $qv['blog_id'] );
-
-		$meta_queries = array();
 
 		if ( $blog_id ) {
 			$cap_meta_query = array();
@@ -458,20 +458,10 @@ class WP_User_Query {
 				$cap_meta_query['compare'] = 'like';
 			}
 
-			$meta_queries[] = $cap_meta_query;
+			$this->meta_query[] = $cap_meta_query;
 		}
 
-		$meta_query = array();
-		foreach ( array( 'key', 'value', 'compare' ) as $key ) {
-			if ( !empty( $qv[ "meta_$key" ] ) )
-				$meta_query[ $key ] = $qv[ "meta_$key" ];
-		}
-
-		if ( !empty( $meta_query ) ) {
-			$meta_queries[] = $meta_query;
-		}
-
-		list( $meta_join, $meta_where ) = _wp_meta_sql( $meta_queries, $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
+		list( $meta_join, $meta_where ) = $this->get_meta_sql( $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
 		$this->query_from .= $meta_join;
 		$this->query_where .= $meta_where;
 

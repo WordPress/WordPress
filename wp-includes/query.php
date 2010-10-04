@@ -641,7 +641,7 @@ function the_comment() {
  *
  * @since 1.5.0
  */
-class WP_Query {
+class WP_Query extends WP_Object_Query {
 
 	/**
 	 * Query vars set by the user
@@ -669,15 +669,6 @@ class WP_Query {
 	 * @var array
 	 */
 	var $tax_query = array();
-
-	/**
-	 * Metadata query
-	 *
-	 * @since 3.1.0
-	 * @access public
-	 * @var array
-	 */
-	var $meta_query = array();
 
 	/**
 	 * Holds the data for a single object that is queried.
@@ -1389,19 +1380,7 @@ class WP_Query {
 				$this->is_tax = true;
 			}
 
-			if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
-				$this->meta_query = $qv['meta_query'];
-			}
-
-			$meta_query = array();
-			foreach ( array( 'key', 'value', 'compare' ) as $key ) {
-				if ( !empty( $qv[ "meta_$key" ] ) )
-					$meta_query[ $key ] = $qv[ "meta_$key" ];
-			}
-
-			if ( !empty( $meta_query ) ) {
-				$this->meta_query[] = $meta_query;
-			}
+			$this->parse_meta_query( $qv );
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
@@ -2211,7 +2190,7 @@ class WP_Query {
 			$where .= ')';
 		}
 
-		list( $meta_join, $meta_where ) = _wp_meta_sql( $this->meta_query, $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
+		list( $meta_join, $meta_where ) = $this->get_meta_sql( $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
 		$join .= $meta_join;
 		$where .= $meta_where;
 

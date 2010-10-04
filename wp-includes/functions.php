@@ -4257,62 +4257,6 @@ function _wp_search_sql($string, $cols) {
 }
 
 /*
- * Used internally to generate an SQL string for searching across multiple meta key = value pairs
- *
- * @access private
- * @since 3.1.0
- *
- * @param array $queries An array of queries
- * @param string $primary_table
- * @param string $primary_id_column
- * @param string $meta_table
- * @param string $meta_id_column
- * @return array( $join_sql, $where_sql )
- */
-function _wp_meta_sql( $queries, $primary_table, $primary_id_column, $meta_table, $meta_id_column ) {
-	global $wpdb;
-
-	$clauses = array();
-
-	$join = '';
-	$where = '';
-	$i = 0;
-	foreach ( $queries as $q ) {
-		$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-		$meta_value = isset( $q['value'] ) ? trim( $q['value'] ) : '';
-		$meta_compare = isset( $q['compare'] ) ? $q['compare'] : '=';
-
-		if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
-			$meta_compare = '=';
-
-		if ( empty( $meta_key ) && empty( $meta_value ) )
-			continue;
-
-		$alias = $i ? 'mt' . $i : $meta_table;
-
-		$join .= "\nINNER JOIN $meta_table";
-		$join .= $i ? " AS $alias" : '';
-		$join .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
-
-		$i++;
-
-		if ( !empty( $meta_key ) )
-			$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
-
-		if ( empty( $meta_value ) )
-			continue;
-
-		if ( 'like' == $meta_compare ) {
-			$where .= $wpdb->prepare( " AND $alias.meta_value LIKE %s", '%' . like_escape( $meta_value ) . '%' );
-		} else {
-			$where .= $wpdb->prepare( " AND $alias.meta_value $meta_compare %s", $meta_value );
-		}
-	}
-
-	return array( $join, $where );
-}
-
-/*
  * Used internally to tidy up the search terms
  *
  * @access private
