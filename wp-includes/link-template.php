@@ -1176,7 +1176,7 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
 
 	$order = $start ? 'ASC' : 'DESC';
 
-	return get_posts( array('numberposts' => 1, 'category' => $categories, 'order' => $order) );
+	return get_posts( array('numberposts' => 1, 'category' => $categories, 'order' => $order, 'update_post_term_cache' => false, 'update_post_meta_cache' => false) );
 }
 
 /**
@@ -1193,7 +1193,7 @@ function get_boundary_post($in_same_cat = false, $excluded_categories = '', $sta
  * @return string
  */
 function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
-	$posts = get_boundary_post($in_same_cat,$excluded_categories,$start);
+	$posts = get_boundary_post($in_same_cat, $excluded_categories, $start);
 	// If there is no post stop.
 	if ( empty($posts) )
 		return;
