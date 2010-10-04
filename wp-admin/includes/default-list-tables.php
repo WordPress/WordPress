@@ -3140,14 +3140,14 @@ class WP_MS_Users_Table extends WP_List_Table {
 						$edit_link = ( get_current_user_id() == $user->ID ) ? 'profile.php' : 'user-edit.php?user_id=' . $user->ID;
 						?>
 						<td class="username column-username">
-							<?php echo $avatar; ?><strong><a href="<?php echo esc_url( admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user->user_login ); ?></a><?php
+							<?php echo $avatar; ?><strong><a href="<?php echo esc_url( self_admin_url( $edit_link ) ); ?>" class="edit"><?php echo stripslashes( $user->user_login ); ?></a><?php
 							if ( in_array( $user->user_login, $super_admins ) )
 								echo ' - ' . __( 'Super admin' );
 							?></strong>
 							<br/>
 							<?php
 								$actions = array();
-								$actions['edit'] = '<a href="' . esc_url( admin_url( $edit_link ) ) . '">' . __( 'Edit' ) . '</a>';
+								$actions['edit'] = '<a href="' . esc_url( self_admin_url( $edit_link ) ) . '">' . __( 'Edit' ) . '</a>';
 
 								if ( ! in_array( $user->user_login, $super_admins ) ) {
 									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'edit.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
