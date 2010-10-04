@@ -563,7 +563,7 @@ class WP_Object_Query {
 		}
 
 		if ( !empty( $meta_query ) ) {
-			$this->meta_query[] = $meta_query;
+			array_unshift( $this->meta_query, $meta_query );
 		}
 	}
 
