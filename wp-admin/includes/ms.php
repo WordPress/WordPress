@@ -502,14 +502,29 @@ function redirect_user_to_blog() {
 	$c ++;
 
 	$blog = get_active_blog_for_user( get_current_user_id() );
-
+	$dashboard_blog = get_dashboard_blog();
 	if ( is_object( $blog ) ) {
 		wp_redirect( get_admin_url( $blog->blog_id, '?c=' . $c ) ); // redirect and count to 5, "just in case"
 		exit;
-	} else {
-		wp_redirect( user_admin_url( '?c=' . $c ) ); // redirect and count to 5, "just in case"
 	}
 
+	/*
+	   If the user is a member of only 1 blog and the user's primary_blog isn't set to that blog,
+	   then update the primary_blog record to match the user's blog
+	 */
+	$blogs = get_blogs_of_user( get_current_user_id() );
+
+	if ( !empty( $blogs ) ) {
+		foreach( $blogs as $blogid => $blog ) {
+			if ( $blogid != $dashboard_blog->blog_id && get_user_meta( get_current_user_id() , 'primary_blog', true ) == $dashboard_blog->blog_id ) {
+				update_user_meta( get_current_user_id(), 'primary_blog', $blogid );
+				continue;
+			}
+		}
+		$blog = get_blog_details( get_user_meta( get_current_user_id(), 'primary_blog', true ) );
+			wp_redirect( get_admin_url( $blog->blog_id, '?c=' . $c ) );
+		exit;
+	}
 	wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 }
 add_action( 'admin_page_access_denied', 'redirect_user_to_blog', 99 );
