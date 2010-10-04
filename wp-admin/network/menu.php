@@ -18,6 +18,6 @@ $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
 $compat = array();
 $submenu = array();
 
-require(ABSPATH . 'wp-admin/includes/menu.php');
+require_once(ABSPATH . 'wp-admin/includes/menu.php');
 
 ?>
