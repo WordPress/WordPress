@@ -197,7 +197,7 @@ function wp_admin_bar_bloginfo_menu() {
 	/* Add the Blog Info menu */
 	$wp_admin_bar->add_menu( array( 'id' => 'bloginfo', 'title' => __( 'Blog Info' ), 'href' => '' ) );
 
-	$wp_admin_bar->add_menu( array( 'parent' => 'bloginfo', 'title' => __( 'Get Shortlink' ), 'href' => '', 'meta' => array( 'onclick' => 'javascript:function wpcomshort() { var url=document.location;var links=document.getElementsByTagName(&#39;link&#39;);var found=0;for(var i = 0, l; l = links[i]; i++){if(l.getAttribute(&#39;rel&#39;)==&#39;shortlink&#39;) {found=l.getAttribute(&#39;href&#39;);break;}}if (!found) {for (var i = 0; l = document.links[i]; i++) {if (l.getAttribute(&#39;rel&#39;) == &#39;shortlink&#39;) {found = l.getAttribute(&#39;href&#39;);break;}}}if (found) {prompt(&#39;URL:&#39;, found);} else {alert(&#39;No shortlink available for this page&#39;); } return false; } wpcomshort();' ) ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'bloginfo', 'title' => __( 'Get Shortlink' ), 'href' => '', 'meta' => array( 'onclick' => 'javascript:function wpcomshort() { var url=document.location;var links=document.getElementsByTagName(&#39;link&#39;);var found=0;for(var i = 0, l; l = links[i]; i++){if(l.getAttribute(&#39;rel&#39;)==&#39;shortlink&#39;) {found=l.getAttribute(&#39;href&#39;);break;}}if (!found) {for (var i = 0; l = document.links[i]; i++) {if (l.getAttribute(&#39;rel&#39;) == &#39;shortlink&#39;) {found = l.getAttribute(&#39;href&#39;);break;}}}if (found) {prompt(&#39;URL:&#39;, found);} else {alert(&#39;No shortlink available for this page&#39;); } } wpcomshort(); return false;' ) ) );
 }
 add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_bloginfo_menu', 50 );
 
