@@ -102,6 +102,8 @@ function get_the_author_meta($field = '', $user_id = false) {
 	else
 		$authordata = get_userdata( $user_id );
 
+	// Keys used as object vars cannot have dashes.
+	$field = str_replace('-', '', $field);
 	$field = strtolower($field);
 	$user_field = "user_$field";
 
