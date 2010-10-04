@@ -600,8 +600,7 @@ class WP_Object_Query {
 				$meta_type = 'CHAR';
 			elseif ( 'NUMERIC' == $meta_type )
 				$meta_type = 'SIGNED';
-
-			if ( !in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
+			elseif ( !in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
 				$meta_type = 'CHAR';
 
 			if ( empty( $meta_key ) && empty( $meta_value ) )
