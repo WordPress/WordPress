@@ -416,7 +416,7 @@ class WP_User_Query {
 				FROM wp_posts
 				$where
 				GROUP BY post_author
-			) p ON (wp_users.ID = p.post_author)
+			) p ON ({$wpdb->users}.ID = p.post_author)
 			";
 			$orderby = 'post_count';
 		}
