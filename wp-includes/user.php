@@ -1082,9 +1082,10 @@ function _fill_single_user( &$user, &$metavalues ) {
 	global $wpdb;
 
 	foreach ( $metavalues as $meta ) {
+		$value = maybe_unserialize($meta->meta_value);
 		// Keys used as object vars cannot have dashes.
 		$key = str_replace('-', '', $meta->meta_key);
-		$user->{$key} = $meta->meta_value;
+		$user->{$key} = $value;
 	}
 
 	$level = $wpdb->prefix . 'user_level';
