@@ -317,6 +317,11 @@ form p.submit a.cancel:hover {
 	float: left;
 }
 
+#minor-publishing .ajax-loading {
+	padding: 3px 0 0 4px;
+	float: left;
+}
+
 .preview {
 	float: right;
 }
@@ -1919,8 +1924,13 @@ input#link_url {
 }
 
 #media-buttons img,
-#submitpost #ajax-loading {
+#submitpost #ajax-loading,
+#submitpost .ajax-loading {
 	vertical-align: middle;
+}
+
+#wpcontent .ajax-loading {
+	visibility: hidden;
 }
 
 .submitbox .submit {
