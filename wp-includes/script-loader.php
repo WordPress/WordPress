@@ -399,7 +399,7 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		// Navigation Menus
-		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100611' );
+		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", false, '20100814' );
 		$scripts->localize( 'nav-menu', 'navMenuL10n', array(
 			'noResultsFound' => _x('No results found.', 'search results'),
 			'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
