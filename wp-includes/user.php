@@ -651,7 +651,7 @@ function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
 	
 	// Index the blogs by userblog_id and set the visibility flag
 	// Visibility is on by default, unless a linked site then off
-	foreach ( $blogs AS $blog ) {
+	foreach ( $blogs as $blog ) {
 		$blog->visible = true;
 
 		if ( isset( $visible[$blog->userblog_id] ) )
@@ -661,7 +661,7 @@ function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
 	}
 
 	// Add the blogs to our list by order
-	foreach ( (array)$order AS $id ) {
+	foreach ( (array)$order as $id ) {
 		// A previous change was saving the entire blog details into ordered, not just the blog ID - this detects it
 		if ( is_object( $id ) && isset( $id->userblog_id ) )
 			$id = $id->userblog_id;
@@ -673,13 +673,13 @@ function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
 	}
 
 	// Add any blog not yet ordered to the end
-	foreach ( $newblogs AS $blog ) {
+	foreach ( $newblogs as $blog ) {
 		$ordered[$blog->userblog_id] = $blog;
 	}
 
 	// If we're only interested in visible blogs then remove the rest
 	if ( $visibility ) {
-		foreach ( (array)$ordered AS $pos => $blog ) {
+		foreach ( (array)$ordered as $pos => $blog ) {
 			if ( $blog->visible == false )
 				unset( $ordered[$pos] );
 		}
@@ -1053,23 +1053,33 @@ function _fill_user( &$user ) {
 function get_user_metavalues($ids) {
 	global $wpdb;
 
-	$clean = array_map('intval', $ids);
-	if ( 0 == count($clean) )
-		return $objects;
+	$objects = array();
 
-	$list = implode(',', $clean);
+	$ids = array_map('intval', $ids);
+	foreach ( $ids as $id )
+		$objects[$id] = array();
+
+	if ( 0 == count($ids) ) {
+		return $objects;
+	} elseif ( 1 == count($ids) ) {
+		// Take advantage of the single-user cache
+		$id = $ids[0];
+		$meta = get_metadata('user', $id);
+		foreach ( $meta as $key => $metavalues )
+			foreach ( $metavalues as $value )
+				$objects[$id][] = (object)array( 'user_id' => $id, 'meta_key' => $key, 'meta_value' => $value);
+
+		return $objects;
+	}
+
+	$list = implode(',', $ids);
 
 	$show = $wpdb->hide_errors();
 	$metavalues = $wpdb->get_results("SELECT user_id, meta_key, meta_value FROM $wpdb->usermeta WHERE user_id IN ($list)");
 	$wpdb->show_errors($show);
 
-	$objects = array();
-	foreach($clean as $id) {
-		$objects[$id] = array();
-	}
-	foreach($metavalues as $meta_object) {
+	foreach ( $metavalues as $meta_object )
 		$objects[$meta_object->user_id][] = $meta_object;
-	}
 
 	return $objects;
 }
@@ -1114,14 +1124,14 @@ function _fill_single_user( &$user, &$metavalues ) {
  */
 function _fill_many_users( &$users ) {
 	$ids = array();
-	foreach($users as $user_object) {
+	foreach( $users as $user_object ) {
 		$ids[] = $user_object->ID;
 	}
 
 	$metas = get_user_metavalues($ids);
 
-	foreach($users as $user_object) {
-		if (isset($metas[$user_object->ID])) {
+	foreach ( $users as $user_object ) {
+		if ( isset($metas[$user_object->ID]) ) {
 			_fill_single_user($user_object, $metas[$user_object->ID]);
 		}
 	}
