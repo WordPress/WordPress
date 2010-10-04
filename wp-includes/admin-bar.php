@@ -78,7 +78,7 @@ function wp_admin_bar_me_separator() {
 	if ( !is_object( $wp_admin_bar ) )
 		return false;
 
-	$wp_admin_bar->add_menu( array( 'id' => 'me', 'title' => get_avatar( $current_user->ID, 16 ), 'href' => $wp_admin_bar->user->account_domain . 'wp-admin/profile.php' ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'me', 'title' => get_avatar( $current_user->ID, 16 ), 'href' => $wp_admin_bar->user->account_domain . '/wp-admin/profile.php' ) );
 }
 add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_me_separator', 10 );
 
