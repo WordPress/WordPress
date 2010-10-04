@@ -4278,9 +4278,9 @@ function _wp_meta_sql( $queries, $primary_table, $primary_id_column, $meta_table
 	$where = '';
 	$i = 0;
 	foreach ( $queries as $q ) {
-		$meta_key = isset( $q['meta_key'] ) ? trim( $q['meta_key'] ) : '';
-		$meta_value = isset( $q['meta_value'] ) ? trim( $q['meta_value'] ) : '';
-		$meta_compare = isset( $q['meta_compare'] ) ? $q['meta_compare'] : '=';
+		$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
+		$meta_value = isset( $q['value'] ) ? trim( $q['value'] ) : '';
+		$meta_compare = isset( $q['compare'] ) ? $q['compare'] : '=';
 
 		if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
 			$meta_compare = '=';

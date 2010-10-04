@@ -451,17 +451,25 @@ class WP_User_Query {
 
 		if ( $blog_id ) {
 			$cap_meta_query = array();
-			$cap_meta_query['meta_key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
+			$cap_meta_query['key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
 
 			if ( $role ) {
-				$cap_meta_query['meta_value'] = $role;
-				$cap_meta_query['meta_compare'] = 'like';
+				$cap_meta_query['value'] = $role;
+				$cap_meta_query['compare'] = 'like';
 			}
 
 			$meta_queries[] = $cap_meta_query;
 		}
 
-		$meta_queries[] = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
+		$meta_query = array();
+		foreach ( array( 'key', 'value', 'compare' ) as $key ) {
+			if ( !empty( $qv[ "meta_$key" ] ) )
+				$meta_query[ $key ] = $qv[ "meta_$key" ];
+		}
+
+		if ( !empty( $meta_query ) ) {
+			$meta_queries[] = $meta_query;
+		}
 
 		list( $meta_join, $meta_where ) = _wp_meta_sql( $meta_queries, $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
 		$this->query_from .= $meta_join;

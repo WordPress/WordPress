@@ -1393,10 +1393,15 @@ class WP_Query {
 				$this->meta_query = $qv['meta_query'];
 			}
 
-			$meta_query = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
+			$meta_query = array();
+			foreach ( array( 'key', 'value', 'compare' ) as $key ) {
+				if ( !empty( $qv[ "meta_$key" ] ) )
+					$meta_query[ $key ] = $qv[ "meta_$key" ];
+			}
 
-			if ( !empty( $meta_query ) )
+			if ( !empty( $meta_query ) ) {
 				$this->meta_query[] = $meta_query;
+			}
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
