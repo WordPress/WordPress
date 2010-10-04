@@ -1051,35 +1051,22 @@ function _fill_user( &$user ) {
  * @return array of arrays. The array is indexed by user_id, containing $metavalues object arrays.
  */
 function get_user_metavalues($ids) {
-	global $wpdb;
-
 	$objects = array();
 
 	$ids = array_map('intval', $ids);
 	foreach ( $ids as $id )
 		$objects[$id] = array();
 
-	if ( 0 == count($ids) ) {
-		return $objects;
-	} elseif ( 1 == count($ids) ) {
-		// Take advantage of the single-user cache
-		$id = $ids[0];
+	update_meta_cache('user', $ids);
+
+	foreach ( $ids as $id ) {
 		$meta = get_metadata('user', $id);
-		foreach ( $meta as $key => $metavalues )
-			foreach ( $metavalues as $value )
+		foreach ( $meta as $key => $metavalues ) {
+			foreach ( $metavalues as $value ) {
 				$objects[$id][] = (object)array( 'user_id' => $id, 'meta_key' => $key, 'meta_value' => $value);
-
-		return $objects;
+			}
+		}
 	}
-
-	$list = implode(',', $ids);
-
-	$show = $wpdb->hide_errors();
-	$metavalues = $wpdb->get_results("SELECT user_id, meta_key, meta_value FROM $wpdb->usermeta WHERE user_id IN ($list)");
-	$wpdb->show_errors($show);
-
-	foreach ( $metavalues as $meta_object )
-		$objects[$meta_object->user_id][] = $meta_object;
 
 	return $objects;
 }
@@ -1095,7 +1082,6 @@ function _fill_single_user( &$user, &$metavalues ) {
 	global $wpdb;
 
 	foreach ( $metavalues as $meta ) {
-		$value = maybe_unserialize($meta->meta_value);
 		// Keys used as object vars cannot have dashes.
 		$key = str_replace('-', '', $meta->meta_key);
 		$user->{$key} = $value;
