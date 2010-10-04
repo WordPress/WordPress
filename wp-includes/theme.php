@@ -399,10 +399,14 @@ function get_themes() {
 		// Check for theme name collision.  This occurs if a theme is copied to
 		// a new theme directory and the theme header is not updated.  Whichever
 		// theme is first keeps the name.  Subsequent themes get a suffix applied.
-		// The Default and Classic themes always trump their pretenders.
+		// The Twenty Ten, Default and Classic themes always trump their pretenders.
 		if ( isset($wp_themes[$name]) ) {
-			if ( ('WordPress Default' == $name || 'WordPress Classic' == $name) &&
-					 ('default' == $stylesheet || 'classic' == $stylesheet) ) {
+			$trump_cards = array(
+				'classic'   => 'WordPress Classic',
+				'default'   => 'WordPress Default',
+				'twentyten' => 'Twenty Ten',
+			);
+			if ( isset( $trump_cards[ $stylesheet ] ) && $name == $trump_cards[ $stylesheet ] ) {
 				// If another theme has claimed to be one of our default themes, move
 				// them aside.
 				$suffix = $wp_themes[$name]['Stylesheet'];
@@ -518,7 +522,7 @@ function get_current_theme() {
 	$theme_names = array_keys($themes);
 	$current_template = get_option('template');
 	$current_stylesheet = get_option('stylesheet');
-	$current_theme = 'WordPress Default';
+	$current_theme = 'Twenty Ten';
 
 	if ( $themes ) {
 		foreach ( (array) $theme_names as $theme_name ) {
