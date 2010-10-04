@@ -103,10 +103,6 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_single() && !empty($_GET['p']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('p')) )
 				$redirect['query'] = remove_query_arg(array('p', 'post_type'), $redirect['query']);
-			if ( get_query_var( 'page' ) ) {
-				$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
-				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
-			}
 		} elseif ( is_single() && !empty($_GET['name'])  && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink( $wp_query->get_queried_object_id() ) )
 				$redirect['query'] = remove_query_arg('name', $redirect['query']);
@@ -180,10 +176,16 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 			}
 		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false ) {
-			$category = get_term_by('slug', get_query_var('category_name'), 'category');
+			$category = get_category_by_path(get_query_var('category_name'));
 			$post_terms = wp_get_object_terms($wp_query->get_queried_object_id(), 'category', array('fields' => 'tt_ids'));
 			if ( (!$category || is_wp_error($category)) || ( !is_wp_error($post_terms) && !empty($post_terms) && !in_array($category->term_taxonomy_id, $post_terms) ) )
 				$redirect_url = get_permalink($wp_query->get_queried_object_id());
+		}
+
+		// Post Paging
+		if ( is_singular() && get_query_var('page') && $redirect_url ) {
+			$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
+			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
 		}
 
 		// paging and feeds
