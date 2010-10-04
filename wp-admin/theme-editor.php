@@ -100,6 +100,7 @@ default:
 	if ( !is_file($file) )
 		$error = 1;
 
+	$content = '';
 	if ( !$error && filesize($file) > 0 ) {
 		$f = fopen($file, 'r');
 		$content = fread($f, filesize($file));
