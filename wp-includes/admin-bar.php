@@ -229,10 +229,7 @@ add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_edit_menu', 100 );
 function wp_admin_bar_css() {
 	global $pagenow, $wp_locale;
 
-	if ( !is_user_logged_in() )
-		return false;
-
-	if ( 'press-this.php' == $pagenow || 'update.php' == $pagenow )
+	if ( !is_user_logged_in() || 'press-this.php' == $pagenow || 'update.php' == $pagenow || 'media-upload.php' == $pagenow )
 		return;
 
 	$nobump = false;
@@ -294,9 +291,9 @@ function wp_admin_bar_js() {
 				var par = jQuery(this).parent();
 				var children = par.children('ul');
 				if ( root.hasClass('ab-sadmin') )
-					jQuery(children[0]).css('<?php echo( is_rtl() ? 'left'  : 'right' ); ?>',par.parents('ul').width() - 1 +'px' );
+					jQuery(children[0]).css('<?php echo( is_rtl() ? 'left' : 'right' ); ?>',par.parents('ul').width() - 1 +'px' );
 				else
-					jQuery(children[0]).css('<?php echo( is_rtl() ? 'right'  : 'left' ); ?>',par.parents('ul').width() +'px' );
+					jQuery(children[0]).css('<?php echo( is_rtl() ? 'right' : 'left' ); ?>',par.parents('ul').width() +'px' );
 				
 				jQuery(children[0]).css('top', '0' );
 			});
