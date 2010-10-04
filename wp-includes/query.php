@@ -1168,8 +1168,6 @@ class WP_Query {
 			, 'tb'
 			, 'paged'
 			, 'comments_popup'
-			, 'meta_key'
-			, 'meta_value'
 			, 'preview'
 			, 's'
 			, 'sentence'
@@ -1391,7 +1389,12 @@ class WP_Query {
 				$this->is_tax = true;
 			}
 
+			if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
+				$this->meta_query = $qv['meta_query'];
+			}
+
 			$meta_query = wp_array_slice_assoc( $qv, array( 'meta_key', 'meta_value', 'meta_compare' ) );
+
 			if ( !empty( $meta_query ) )
 				$this->meta_query[] = $meta_query;
 
@@ -2984,7 +2987,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool                                                                  
+	 * @return bool
 	 */
 	function is_paged() {
 		return (bool) $this->is_paged;
