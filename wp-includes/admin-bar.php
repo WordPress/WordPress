@@ -16,7 +16,7 @@ function wp_admin_bar_init() {
 		if ( is_ssl() ) define( 'PROTO', 'https://' ); else define( 'PROTO', 'http://' );
 
 	/* Don't load the admin bar if the user is not logged in, or we are using press this */
-	if ( !is_user_logged_in() || 'press-this.php' ==  $pagenow )
+	if ( !is_user_logged_in() || 'press-this.php' == $pagenow || 'update.php' == $pagenow )
 		return false;
 
 	/* Set up the settings we need to render menu items */
@@ -232,7 +232,7 @@ function wp_admin_bar_css() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	if ( 'press-this.php' == $pagenow )
+	if ( 'press-this.php' == $pagenow || 'update.php' == $pagenow )
 		return;
 
 	$nobump = false;
