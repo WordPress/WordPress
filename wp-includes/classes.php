@@ -589,11 +589,21 @@ class WP_Object_Query {
 		$i = 0;
 		foreach ( $this->meta_query as $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-			$meta_value = isset( $q['value'] ) ? trim( $q['value'] ) : '';
-			$meta_compare = isset( $q['compare'] ) ? $q['compare'] : '=';
+			$meta_value = isset( $q['value'] ) ? $q['value'] : '';
+			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
+			$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
 
-			if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'like' ) ) )
+			if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'IN', 'BETWEEN' ) ) )
 				$meta_compare = '=';
+
+			if ( 'STRING' == $meta_type )
+				$meta_type = 'CHAR';
+
+			if ( 'NUMERIC' == $meta_type )
+				$meta_type = 'SIGNED';
+
+			if ( !in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
+				$meta_type = 'CHAR';
 
 			if ( empty( $meta_key ) && empty( $meta_value ) )
 				continue;
@@ -609,14 +619,31 @@ class WP_Object_Query {
 			if ( !empty( $meta_key ) )
 				$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
 
+			if ( in_array( $meta_compare, array( 'IN', 'BETWEEN' ) ) ) {
+				if ( !is_array( $meta_value ) )
+					$meta_value = preg_split( '/[,\s]+/', $meta_value );
+			} else {
+				$meta_value = trim( $meta_value );
+			}
+
 			if ( empty( $meta_value ) )
 				continue;
 
-			if ( 'like' == $meta_compare ) {
-				$where .= $wpdb->prepare( " AND $alias.meta_value LIKE %s", '%' . like_escape( $meta_value ) . '%' );
+			if ( 'IN' == $meta_compare ) {
+				$meta_field_types = substr( str_repeat( ',%s', count( $meta_value ) ), 1 );
+				$meta_compare_string = "($meta_field_types)";
+				unset( $meta_field_types );
+			} elseif ( 'BETWEEN' == $meta_compare ) {
+				$meta_value = array_slice( $meta_value, 0, 2 );
+				$meta_compare_string = '%s AND %s';
+			} elseif ( 'LIKE' == $meta_compare ) {
+				$meta_value = '%' . like_escape( $meta_value ) . '%';
+				$meta_compare_string = '%s';
 			} else {
-				$where .= $wpdb->prepare( " AND $alias.meta_value $meta_compare %s", $meta_value );
+				$meta_compare_string = '%s';
 			}
+			$where .= $wpdb->prepare( " AND CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
+			unset($meta_compare_string);
 		}
 
 		return array( $join, $where );
