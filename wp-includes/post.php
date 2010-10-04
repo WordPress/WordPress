@@ -4096,8 +4096,21 @@ function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = t
 	if ( empty($post_type) )
 		$post_type = 'post';
 
-	if ( !is_array($post_type) && 'any' != $post_type && $update_term_cache )
-		update_object_term_cache($post_ids, $post_type);
+	if ( $update_term_cache ) {
+		if ( is_array($post_type) ) {
+			$ptypes = $post_type;
+		} elseif ( 'any' == $post_type ) {
+			// Just use the post_types in the supplied posts.
+			foreach ( $posts as $post )
+				$ptypes[] = $post->post_type;
+			$ptypes = array_unique($ptypes);
+		} else {
+			$ptypes = array($post_type);
+		}
+
+		if ( ! empty($ptypes) )
+			update_object_term_cache($post_ids, $ptypes);
+	}
 
 	if ( $update_meta_cache )
 		update_postmeta_cache($post_ids);
