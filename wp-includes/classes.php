@@ -552,17 +552,17 @@ class WP_Object_Query {
 	 * @param array $qv The query variables
 	 */
 	function parse_meta_query( $qv ) {
-		if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
+		if ( ! empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
 			$this->meta_query = $qv['meta_query'];
 		}
 
 		$meta_query = array();
-		foreach ( array( 'key', 'value', 'compare' ) as $key ) {
-			if ( !empty( $qv[ "meta_$key" ] ) )
+		foreach ( array( 'key', 'value', 'compare', 'type' ) as $key ) {
+			if ( ! empty( $qv[ "meta_$key" ] ) )
 				$meta_query[ $key ] = $qv[ "meta_$key" ];
 		}
 
-		if ( !empty( $meta_query ) ) {
+		if ( ! empty( $meta_query ) ) {
 			array_unshift( $this->meta_query, $meta_query );
 		}
 	}
@@ -593,14 +593,12 @@ class WP_Object_Query {
 			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
 			$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
 
-			if ( !in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'IN', 'BETWEEN' ) ) )
+			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'IN', 'BETWEEN' ) ) )
 				$meta_compare = '=';
 
-			if ( 'STRING' == $meta_type )
-				$meta_type = 'CHAR';
-			elseif ( 'NUMERIC' == $meta_type )
+			if ( 'NUMERIC' == $meta_type )
 				$meta_type = 'SIGNED';
-			elseif ( !in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
+			elseif ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED' ) ) )
 				$meta_type = 'CHAR';
 
 			if ( empty( $meta_key ) && empty( $meta_value ) )
@@ -618,7 +616,7 @@ class WP_Object_Query {
 				$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
 
 			if ( in_array( $meta_compare, array( 'IN', 'BETWEEN' ) ) ) {
-				if ( !is_array( $meta_value ) )
+				if ( ! is_array( $meta_value ) )
 					$meta_value = preg_split( '/[,\s]+/', $meta_value );
 			} else {
 				$meta_value = trim( $meta_value );
