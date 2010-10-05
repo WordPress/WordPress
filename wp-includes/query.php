@@ -1159,6 +1159,8 @@ class WP_Query extends WP_Object_Query {
 			, 'tb'
 			, 'paged'
 			, 'comments_popup'
+			, 'meta_key'
+			, 'meta_value'
 			, 'preview'
 			, 's'
 			, 'sentence'
