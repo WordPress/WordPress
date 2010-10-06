@@ -1289,90 +1289,6 @@ class WP_Query extends WP_Object_Query {
 				$this->is_date = true;
 			}
 
-			if ( empty($qv['cat']) || ($qv['cat'] == '0') )
-				$this->is_category = false;
-			else
-				$this->is_category = strpos($qv['cat'], '-') === false;
-
-			if ( !empty($qv['category_name']) ) {
-				$this->is_category = true;
-			}
-
-			if ( empty($qv['category__in']) ) {
-				$qv['category__in'] = array();
-			} else {
-				$qv['category__in'] = array_map('absint', (array) $qv['category__in']);
-				$this->is_category = true;
-			}
-
-			if ( empty($qv['category__not_in']) ) {
-				$qv['category__not_in'] = array();
-			} else {
-				$qv['category__not_in'] = array_map('absint', (array) $qv['category__not_in']);
-			}
-
-			if ( empty($qv['category__and']) ) {
-				$qv['category__and'] = array();
-			} else {
-				$qv['category__and'] = array_map('absint', (array) $qv['category__and']);
-				$this->is_category = true;
-			}
-
-			if (  '' != $qv['tag'] )
-				$this->is_tag = true;
-
-			$qv['tag_id'] = absint($qv['tag_id']);
-			if ( !empty($qv['tag_id']) )
-				$this->is_tag = true;
-
-			if ( empty($qv['tag__in']) ) {
-				$qv['tag__in'] = array();
-			} else {
-				$qv['tag__in'] = array_map('absint', (array) $qv['tag__in']);
-				$this->is_tag = true;
-			}
-
-			if ( empty($qv['tag__not_in']) ) {
-				$qv['tag__not_in'] = array();
-			} else {
-				$qv['tag__not_in'] = array_map('absint', (array) $qv['tag__not_in']);
-			}
-
-			if ( !is_array($qv['tag__and']) || empty($qv['tag__and']) ) {
-				$qv['tag__and'] = array();
-			} else {
-				$qv['tag__and'] = array_map('absint', (array) $qv['tag__and']);
-				$this->is_tag = true;
-			}
-
-			if ( empty($qv['tag_slug__in']) ) {
-				$qv['tag_slug__in'] = array();
-			} else {
-				$qv['tag_slug__in'] = array_map('sanitize_title', (array) $qv['tag_slug__in']);
-				$this->is_tag = true;
-			}
-
-			if ( empty($qv['tag_slug__and']) ) {
-				$qv['tag_slug__and'] = array();
-			} else {
-				$qv['tag_slug__and'] = array_map('sanitize_title', (array) $qv['tag_slug__and']);
-				$this->is_tag = true;
-			}
-
-			if ( empty($qv['taxonomy']) || empty($qv['term']) ) {
-				$this->is_tax = false;
-				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
-					if ( $t->query_var && isset($qv[$t->query_var]) && '' != $qv[$t->query_var] ) {
-						$qv['taxonomy'] = $taxonomy;
-						$qv['term'] = $qv[$t->query_var];
-						$this->is_tax = true;
-						break;
-					}
-				}
-			} else {
-				$this->is_tax = true;
-			}
-
 			$this->parse_tax_query( $qv );
 
 			$this->parse_meta_query( $qv );
@@ -1583,6 +1499,21 @@ class WP_Query extends WP_Object_Query {
 		}
 
 		$this->tax_query = $tax_query;
+
+		foreach ( $this->tax_query as $query ) {
+			if ( 'IN' == $query['operator'] ) {
+				switch ( $query['taxonomy'] ) {
+					case 'category':
+						$this->is_category = true;
+						break;
+					case 'post_tag':
+						$this->is_tag = true;
+						break;
+					default:
+						$this->is_tax = true;
+				}
+			}
+		}
 	}
 
 	/**
