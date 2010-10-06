@@ -1298,6 +1298,26 @@ function validate_current_theme() {
 }
 
 /**
+ * Retrieve all theme modifications.
+ *
+ * @since 3.1.0
+ *
+ * @return mixed Theme modifications value.
+ */
+function get_theme_mods() {
+	$theme_slug = get_option( 'stylesheet' );
+	if ( false === ( $mods = get_option( "theme_mods_$theme_slug" ) ) ) {
+		$theme_name = get_current_theme();
+		$mods = get_option( "mods_$theme_name" );
+		if ( is_admin() && false !== $mods ) {
+			update_option( "theme_mods_$theme_slug", $mods );
+			delete_option( "mods_$theme_name" );
+		}
+	}
+	return $mods;
+}
+
+/**
  * Retrieve theme modification value for the current theme.
  *
  * If the modification name does not exist, then the $default will be passed
@@ -1313,9 +1333,7 @@ function validate_current_theme() {
  * @return string
  */
 function get_theme_mod($name, $default = false) {
-	$theme = get_current_theme();
-
-	$mods = get_option( "mods_$theme" );
+	$mods = get_theme_mods();
 
 	if ( isset($mods[$name]) )
 		return apply_filters( "theme_mod_$name", $mods[$name] );
@@ -1332,14 +1350,13 @@ function get_theme_mod($name, $default = false) {
  * @param string $value theme modification value.
  */
 function set_theme_mod($name, $value) {
-	$theme = get_current_theme();
-
-	$mods = get_option("mods_$theme");
+	$mods = get_theme_mods();
 
 	$mods[$name] = $value;
 
-	update_option("mods_$theme", $mods);
-	wp_cache_delete("mods_$theme", 'options');
+	$theme = get_option( 'stylesheet' );
+	update_option( "theme_mods_$theme", $mods );
+	wp_cache_delete( "theme_mods_$theme", 'options' );
 }
 
 /**
@@ -1354,9 +1371,7 @@ function set_theme_mod($name, $value) {
  * @return null
  */
 function remove_theme_mod( $name ) {
-	$theme = get_current_theme();
-
-	$mods = get_option("mods_$theme");
+	$mods = get_theme_mods();
 
 	if ( !isset($mods[$name]) )
 		return;
@@ -1366,8 +1381,9 @@ function remove_theme_mod( $name ) {
 	if ( empty($mods) )
 		return remove_theme_mods();
 
-	update_option("mods_$theme", $mods);
-	wp_cache_delete("mods_$theme", 'options');
+	$theme = get_option( 'stylesheet' );
+	update_option( "theme_mods_$theme", $mods );
+	wp_cache_delete( "theme_mods_$theme", 'options' );
 }
 
 /**
@@ -1376,9 +1392,8 @@ function remove_theme_mod( $name ) {
  * @since 2.1.0
  */
 function remove_theme_mods() {
-	$theme = get_current_theme();
-
-	delete_option("mods_$theme");
+	delete_option( 'theme_mods_' . get_option( 'stylesheet' ) );
+	delete_option( 'mods_' . get_current_theme() );
 }
 
 /**
