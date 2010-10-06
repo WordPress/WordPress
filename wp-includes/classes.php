@@ -274,7 +274,13 @@ class WP {
 				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
 
 			if ( !empty( $this->query_vars[$wpvar] ) ) {
-				$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
+				if ( ! is_array( $this->query_vars[$wpvar] ) ) {
+					$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar]; 
+				} else {
+					foreach ( $this->query_vars[$wpvar] as $vkey => $v )
+						$this->query_vars[$wpvar][$vkey] = (string) $v;
+				}
+
 				if ( isset( $taxonomy_query_vars[$wpvar] ) ) {
 					$this->query_vars['taxonomy'] = $taxonomy_query_vars[$wpvar];
 					$this->query_vars['term'] = $this->query_vars[$wpvar];
@@ -287,9 +293,13 @@ class WP {
 
 		// Limit publicly queried post_types to those that are publicly_queryable
 		if ( isset( $this->query_vars['post_type']) ) {
-			$queryable_post_types =  get_post_types( array('publicly_queryable' => true) );
-			if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types ) )
-				unset( $this->query_vars['post_type'] );
+			$queryable_post_types = get_post_types( array('publicly_queryable' => true) );
+			if ( ! is_array( $this->query_vars['post_type'] ) ) {
+				if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types ) )
+					unset( $this->query_vars['post_type'] );
+			} else {
+				$this->query_vars['post_type'] = array_intersect( $this->query_vars['post_type'], $queryable_post_types );
+			}
 		}
 
 		foreach ( (array) $this->private_query_vars as $var) {
