@@ -466,15 +466,13 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 			return new WP_Error( 'invalid_taxonomy', sprintf( __( 'Invalid Taxonomy: %s' ), $taxonomy ) );
 	}
 
-	$terms = array_unique( (array) $terms );
-	if ( empty($terms) )
-		continue;
-
 	if ( !in_array( $field, array( 'term_id', 'slug', 'name' ) ) )
 		$field = 'term_id';
 
 	if ( !in_array( $operator, array( 'IN', 'NOT IN' ) ) )
 		$operator = 'IN';
+
+	$terms = array_unique( (array) $terms );
 
 	if ( is_taxonomy_hierarchical( $taxonomy ) && $include_children ) {
 		$children = array();
@@ -491,6 +489,9 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 		$terms = $children;
 		$field = 'term_id';
 	}
+
+	if ( empty( $terms ) )
+		return $do_query ? array() : '';
 
 	$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
 
@@ -527,10 +528,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 		break;
 	}
 
-	if ( !$do_query )
-		return $sql;
-
-	return $wpdb->get_col( $sql );	
+	return $do_query ? $wpdb->get_col( $sql ) : $sql;
 }
 
 /**

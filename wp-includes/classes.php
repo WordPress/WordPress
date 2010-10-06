@@ -696,8 +696,15 @@ class WP_Object_Query {
 		foreach ( $this->tax_query as $query ) {
 			if ( !isset( $query['include_children'] ) )
 				$query['include_children'] = true;
+
 			$query['do_query'] = false;
-			$sql[] = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
+			
+			$sql_single = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
+
+			if ( empty( $sql_single ) )
+				return ' AND 0 = 1';
+
+			$sql[] = $sql_single;
 		}
 
 		if ( 1 == count( $sql ) ) {
