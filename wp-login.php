@@ -437,7 +437,7 @@ case 'rp' :
 	if ( isset($_POST['pass1']) && $_POST['pass1'] != $_POST['pass2'] ) {
 		$errors = new WP_Error('password_reset_mismatch', __('The passwords do not match.'));
 	} elseif ( isset($_POST['pass1']) && !empty($_POST['pass1']) ) {
-		reset_password($user, $_POST['pass']);
+		reset_password($user, $_POST['pass1']);
 		login_header(__('Password Reset'), '<p class="message reset-pass">' . __('Your password has been reset.') . ' <a href="' . site_url('wp-login.php', 'login') . '">' . __('Log in') . '</a></p>');
 		login_footer();
 		exit;
