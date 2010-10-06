@@ -535,13 +535,44 @@ class WP {
 class WP_Object_Query {
 
 	/**
-	 * Metadata query
+	 * List of metadata queries
+	 *
+	 * A query is an associative array:
+	 * - 'key' string The meta key
+	 * - 'value' string|array The meta value
+	 * - 'compare' (optional) string How to compare the key to the value. 
+	 *		Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'IN', 'BETWEEN'. 
+	 *		Default: '='
+	 * - 'type' string (optional) The type of the value.
+	 *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'. 
+	 *		Default: 'CHAR'
 	 *
 	 * @since 3.1.0
 	 * @access public
 	 * @var array
 	 */
 	var $meta_query = array();
+
+	/*
+	 * List of taxonomy queries
+	 *
+	 * A query is an associative array:
+	 * - 'taxonomy' string|array The taxonomy being queried
+	 * - 'terms' string|array The list of terms
+	 * - 'field' string (optional) Which term field is being used.
+	 *		Possible values: 'term_id', 'slug' or 'name'
+	 *		Default: 'slug'
+	 * - 'operator' string (optional)
+	 *		Possible values: 'IN' and 'NOT IN'. 
+	 *		Default: 'IN'
+	 * - 'include_children' bool (optional) Wether to include child terms. 
+	 *		Default: true
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var array
+	 */
+	var $tax_query = array();
 
 	/*
 	 * Populates the $meta_query property
@@ -572,6 +603,8 @@ class WP_Object_Query {
 	 *
 	 * @access protected
 	 * @since 3.1.0
+	 *
+	 * @uses $this->meta_query
 	 *
 	 * @param string $primary_table
 	 * @param string $primary_id_column
@@ -643,6 +676,44 @@ class WP_Object_Query {
 		}
 
 		return array( $join, $where );
+	}
+
+	/*
+	 * Used internally to generate an SQL string for searching across multiple taxonomies
+	 *
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @uses $this->tax_query
+	 *
+	 * @param string $object_id_column
+	 * @return string
+	 */
+	function get_tax_sql( $object_id_column ) {
+		global $wpdb;
+
+		$sql = array();
+		foreach ( $this->tax_query as $query ) {
+			if ( !isset( $query['include_children'] ) )
+				$query['include_children'] = true;
+			$query['do_query'] = false;
+			$sql[] = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
+		}
+
+		if ( 1 == count( $sql ) ) {
+			$ids = $wpdb->get_col( $sql[0] );
+		} else {
+			$r = "SELECT object_id FROM $wpdb->term_relationships WHERE 1=1";
+			foreach ( $sql as $query )
+				$r .= " AND object_id IN ($query)";
+
+			$ids = $wpdb->get_col( $r );
+		}
+
+		if ( !empty( $ids ) )
+			return " AND $object_id_column IN(" . implode( ', ', $ids ) . ")";
+		else
+			return ' AND 0 = 1';
 	}
 
 	/*

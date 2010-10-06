@@ -532,40 +532,6 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	return $wpdb->get_col( $sql );	
 }
 
-/*
- * Retrieve object_ids matching one or more taxonomy queries
- *
- * @since 3.1.0
- *
- * @param array $queries A list of taxonomy queries. A query is an associative array:
- *   'taxonomy' string|array The taxonomy being queried
- *   'terms' string|array The list of terms
- *   'field' string Which term field is being used. Can be 'term_id', 'slug' or 'name'
- *   'operator' string Can be 'IN' and 'NOT IN'
- *
- * @return array|WP_Error List of matching object_ids; WP_Error on failure.
- */
-function wp_tax_query( $queries ) {
-	global $wpdb;
-
-	$sql = array();
-	foreach ( $queries as $query ) {
-		if ( !isset( $query['include_children'] ) )
-			$query['include_children'] = true;
-		$query['do_query'] = false;
-		$sql[] = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
-	}
-
-	if ( 1 == count( $sql ) )
-		return $wpdb->get_col( $sql[0] );
-
-	$r = "SELECT object_id FROM $wpdb->term_relationships WHERE 1=1";
-	foreach ( $sql as $query )
-		$r .= " AND object_id IN ($query)";
-
-	return $wpdb->get_col( $r );
-}
-
 /**
  * Get all Term data from database by Term ID.
  *
