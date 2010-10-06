@@ -17,8 +17,9 @@
 function create_initial_taxonomies() {
 	register_taxonomy( 'category', 'post', array(
 		'hierarchical' => true,
+		'hierarchical_url' => true,
 	 	'update_count_callback' => '_update_post_term_count',
-		'query_var' => false,
+		'query_var' => 'category_name',
 		'rewrite' => false,
 		'public' => true,
 		'show_ui' => true,

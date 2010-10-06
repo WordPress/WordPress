@@ -1486,29 +1486,31 @@ class WP_Query extends WP_Object_Query {
 	function parse_tax_query( $q ) {
 		$tax_query = array();
 
-		if ( $this->is_tax ) {
-			foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
-				if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
-					$tax_query_defaults = array(
-						'taxonomy' => $taxonomy,
-						'field' => 'slug',
-						'operator' => 'IN'
-					);
+		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
+			if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
+				$tax_query_defaults = array(
+					'taxonomy' => $taxonomy,
+					'field' => 'slug',
+					'operator' => 'IN'
+				);
 
-					$term = str_replace( ' ', '+', $q[$t->query_var] );
+				$term = urlencode( urldecode( $q[$t->query_var] ) );
 
-					if ( strpos($term, '+') !== false ) {
-						$terms = preg_split( '/[+\s]+/', $term );
-						foreach ( $terms as $term ) {
-							$tax_query[] = array_merge( $tax_query_defaults, array(
-								'terms' => array( $term )
-							) );
-						}
-					} else {
+				if ( $t->hierarchical_url ) {
+					$tax_query[] = array_merge( $tax_query_defaults, array(
+						'terms' => array( basename( str_replace( '%2F', '/', $term ) ) )
+					) );
+				} elseif ( strpos($term, '+') !== false ) {
+					$terms = preg_split( '/[+\s]+/', $term );
+					foreach ( $terms as $term ) {
 						$tax_query[] = array_merge( $tax_query_defaults, array(
-							'terms' => preg_split('/[,\s]+/', $term)
+							'terms' => array( $term )
 						) );
 					}
+				} else {
+					$tax_query[] = array_merge( $tax_query_defaults, array(
+						'terms' => preg_split('/[,\s]+/', $term)
+					) );
 				}
 			}
 		}
@@ -1549,19 +1551,6 @@ class WP_Query extends WP_Object_Query {
 				'terms' => $q['category__not_in'],
 				'operator' => 'NOT IN',
 				'field' => 'term_id'
-			);
-		}
-
-		// Category stuff for nice URLs
-		if ( '' != $q['category_name'] && !$this->is_singular ) {
-			$q['category_name'] = str_replace( '%2F', '/', urlencode(urldecode($q['category_name'])) );
-			$q['category_name'] = '/' . trim( $q['category_name'], '/' );
-
-			$tax_query[] = array(
-				'taxonomy' => 'category',
-				'terms' => array( basename( $q['category_name'] ) ),
-				'operator' => 'IN',
-				'field' => 'slug'
 			);
 		}
 
