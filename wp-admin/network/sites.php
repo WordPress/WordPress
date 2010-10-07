@@ -18,6 +18,8 @@ $wp_list_table->check_permissions();
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
 
+add_screen_option( 'per_page', array('label' => _x( 'Sites', 'sites per page (screen options)' )) );
+
 if ( isset( $_REQUEST['action'] ) && 'editblog' == $_REQUEST['action'] ) {
 	add_contextual_help($current_screen,
 		'<p>' . __('This extensive list of options has five modules: Site Info, Site Options, allowing Site Themes for this given site, changing user roles and passwords for that site, adding a new user, and Miscellaneous Site Actions (upload size limits).') . '</p>' .
@@ -109,7 +111,7 @@ switch ( $action ) {
 		require_once( '../admin-header.php' );
 		?>
 		<div class="wrap">
-		<?php screen_icon(); ?>
+		<?php screen_icon('index'); ?>
 		<h2><?php _e( 'Edit Site' ); ?> - <a href="<?php echo esc_url( get_home_url( $id ) ); ?>"><?php echo esc_url( get_home_url( $id ) ); ?></a></h2>
 		<?php echo $msg; ?>
 		<form method="post" action="edit.php?action=updateblog">
@@ -347,7 +349,7 @@ switch ( $action ) {
 		?>
 
 		<div class="wrap">
-		<?php screen_icon(); ?>
+		<?php screen_icon('index'); ?>
 		<h2><?php _e('Sites') ?>
 		<?php echo $msg; ?>
 		<a href="#form-add-site" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>

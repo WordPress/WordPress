@@ -10,7 +10,7 @@
 require_once( './admin.php' );
 
 /** Load WordPress Administration Dashboard API */
-require( './includes/dashboard.php' );
+require(ABSPATH . 'wp-admin/includes/dashboard.php' );
 
 @header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 send_nosniff_header();

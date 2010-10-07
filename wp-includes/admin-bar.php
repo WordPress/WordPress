@@ -110,14 +110,6 @@ function wp_admin_bar_my_blogs_menu() {
 	if ( !is_object( $wp_admin_bar ) )
 		return false;
 
-	/* Remove the global dashboard */
-	if ( is_multisite() ) {
-		foreach ( (array) $wp_admin_bar->user->blogs as $key => $blog ) {
-			if ( get_dashboard_blog() == $blog->domain )
-				unset( $wp_admin_bar->user->blogs[$key] );
-		}
-	}
-
 	/* Add the 'My Dashboards' menu if the user has more than one blog. */
 	if ( count( $wp_admin_bar->user->blogs ) > 1 ) {
 		$wp_admin_bar->add_menu( array( 'id' => 'my-blogs', 'title' => __( 'My Blogs' ), 'href' => $wp_admin_bar->user->account_domain ) );

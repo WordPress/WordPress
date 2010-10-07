@@ -1390,6 +1390,9 @@ function favorite_actions( $screen = null ) {
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
+	if ( $screen->is_user )
+		return;
+
 	if ( isset($screen->post_type) ) {
 		$post_type_object = get_post_type_object($screen->post_type);
 		if ( 'add' != $screen->action )
@@ -1635,7 +1638,7 @@ function convert_to_screen( $screen ) {
 }
 
 function screen_meta($screen) {
-	global $wp_meta_boxes, $_wp_contextual_help, $wp_list_table;
+	global $wp_meta_boxes, $_wp_contextual_help, $wp_list_table, $wp_current_screen_options;
 
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
@@ -1669,7 +1672,10 @@ function screen_meta($screen) {
 			$show_screen = true;
 			break;
 	}
-	if( ! empty( $settings ) )
+	if ( ! empty( $settings ) )
+		$show_screen = true;
+
+	if ( !empty($wp_current_screen_options) )
 		$show_screen = true;
 
 ?>
@@ -1796,29 +1802,30 @@ function plugins_search_help() {
 }
 
 function screen_layout($screen) {
-	global $screen_layout_columns;
+	global $screen_layout_columns, $wp_current_screen_options;
 
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	$columns = array('dashboard' => 4, 'link' => 2);
+	// Back compat for plugins using the filter instead of add_screen_option()
+	$columns = apply_filters('screen_layout_columns', array(), $screen->id, $screen);
+	if ( !empty($columns) && isset($columns[$screen->id]) )
+		add_screen_option('layout_columns', array('max' => $columns[$screen->id]) );
 
-	// Add custom post types
-	foreach ( get_post_types( array('show_ui' => true) ) as $post_type )
-		$columns[$post_type] = 2;
-
-	$columns = apply_filters('screen_layout_columns', $columns, $screen->id, $screen);
-
-	if ( !isset($columns[$screen->id]) ) {
+	if ( !isset($wp_current_screen_options['layout_columns']) ) {
 		$screen_layout_columns = 0;
 		return '';
- 	}
+	}
 
 	$screen_layout_columns = get_user_option("screen_layout_$screen->id");
-	$num = $columns[$screen->id];
+	$num = $wp_current_screen_options['layout_columns']['max'];
 
-	if ( ! $screen_layout_columns )
+	if ( ! $screen_layout_columns ) {
+		if ( isset($wp_current_screen_options['layout_columns']['default']) )
+			$screen_layout_columns = $wp_current_screen_options['layout_columns']['default'];
+		else
 			$screen_layout_columns = 2;
+	}
 
 	$i = 1;
 	$return = '<h5>' . __('Screen Layout') . "</h5>\n<div class='columns-prefs'>" . __('Number of Columns:') . "\n";
@@ -1830,55 +1837,45 @@ function screen_layout($screen) {
 	return $return;
 }
 
+/**
+ * Register and configure an admin screen option
+ *
+ * @since 3.1.0
+ *
+ * @param string $option An option name.
+ * @param mixed $args Option dependent arguments
+ * @return void
+ */
+function add_screen_option( $option, $args = array() ) {
+	global $wp_current_screen_options;
+
+	if ( !isset($wp_current_screen_options) )
+		$wp_current_screen_options = array();
+
+	$wp_current_screen_options[$option] = $args;
+}
+
 function screen_options($screen) {
+	global $wp_current_screen_options;
+
 	if ( is_string($screen) )
 		$screen = convert_to_screen($screen);
 
-	switch ( $screen->base ) {
-		case 'edit':
-		case 'edit-pages':
-			$post_type = 'post';
-			if ( isset($_GET['post_type']) && in_array( $_GET['post_type'], get_post_types( array( 'show_ui' => true ) ) ) )
-				$post_type = $_GET['post_type'];
-			$post_type_object = get_post_type_object($post_type);
-			$per_page_label = $post_type_object->labels->name;
-			break;
-		case 'ms-sites':
-			$per_page_label = _x( 'Sites', 'sites per page (screen options)' );
-			break;
-		case 'users':
-		case 'ms-users':
-			$per_page_label = _x( 'Users', 'users per page (screen options)' );
-			break;
-		case 'edit-comments':
-			$per_page_label = _x( 'Comments', 'comments per page (screen options)' );
-			break;
-		case 'upload':
-			$per_page_label = _x( 'Media items', 'items per page (screen options)' );
-			break;
-		case 'edit-tags':
-			global $tax;
-			$per_page_label = $tax->labels->name;
-			break;
-		case 'plugins':
-			$per_page_label = _x( 'Plugins', 'plugins per page (screen options)' );
-			break;
-		default:
-			return '';
-	}
+	if ( !isset($wp_current_screen_options['per_page']) )
+		return '';
 
-	$option = str_replace( '-', '_', "{$screen->id}_per_page" );
-	if ( 'edit_tags_per_page' == $option ) {
-		if ( 'category' == $tax->name )
-			$option = 'categories_per_page';
-		elseif ( 'post_tag' != $tax->name )
-			$option = 'edit_' . $tax->name . '_per_page';
+	$per_page_label = $wp_current_screen_options['per_page']['label'];
+
+	if ( empty($wp_current_screen_options['per_page']['option']) ) {
+		$option = str_replace( '-', '_', "{$screen->id}_per_page" );
+	} else {
+		$option = $wp_current_screen_options['per_page']['option'];
 	}
 
 	$per_page = (int) get_user_option( $option );
 	if ( empty( $per_page ) || $per_page < 1 ) {
-		if ( 'plugins' == $screen->id )
-			$per_page = 999;
+		if ( isset($wp_current_screen_options['per_page']['default']) )
+			$per_page = $wp_current_screen_options['per_page']['default'];
 		else
 			$per_page = 20;
 	}
@@ -1998,6 +1995,22 @@ function compression_test() {
 }
 
 /**
+ *  Get the current screen object
+ *
+ *  @since 3.1.0
+ *
+ * @return object Current screen object
+ */
+function get_current_screen() {
+	global $current_screen;
+
+	if ( !isset($current_screen) )
+		return null;
+
+	return $current_screen;
+}
+
+/**
  * Set the current screen object
  *
  * @since 3.0.0
@@ -2060,6 +2073,15 @@ function set_current_screen( $id =  '' ) {
 	}
 
 	$current_screen->is_network = is_network_admin() ? true : false;
+	$current_screen->is_user = is_user_admin() ? true : false;
+	
+	if ( $current_screen->is_network ) {
+		$current_screen->base .= '-network';
+		$current_screen->id .= '-network';
+	} elseif ( $current_screen->is_user ) {
+		$current_screen->base .= '-user';
+		$current_screen->id .= '-user';
+	}
 
 	$current_screen = apply_filters('current_screen', $current_screen);
 }

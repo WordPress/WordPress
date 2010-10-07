@@ -18,6 +18,8 @@ $wp_list_table->check_permissions();
 $title = __('Users');
 $parent_file = 'users.php';
 
+add_screen_option( 'per_page', array('label' => _x( 'Users', 'users per page (screen options)' )) );
+
 // contextual help - choose Help on the top right of admin panel to preview this.
 add_contextual_help($current_screen,
     '<p>' . __('This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options when they are logged in, based on their role.') . '</p>' .

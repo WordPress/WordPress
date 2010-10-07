@@ -343,9 +343,9 @@ function set_screen_options() {
 
 		switch ( $map_option ) {
 			case 'edit_per_page':
-			case 'ms_sites_per_page':
+			case 'sites_network_per_page':
 			case 'users_per_page':
-			case 'ms_users_per_page':
+			case 'users_network_per_page':
 			case 'edit_comments_per_page':
 			case 'upload_per_page':
 			case 'edit_tags_per_page':

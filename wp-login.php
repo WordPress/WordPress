@@ -572,8 +572,13 @@ default:
 			</div></body></html>
 <?php		exit;
 		}
-		// If the user can't edit posts, send them to their profile.
-		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) )
+
+		// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
+		if ( is_multisite() && !get_active_blog_for_user($user->id) )
+			$redirect_to = user_admin_url();
+		elseif ( !is_multisite() && !$user->has_cap('read') )
+			$redirect_to = user_admin_url();
+		elseif ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) )
 			$redirect_to = admin_url('profile.php');
 		wp_safe_redirect($redirect_to);
 		exit();

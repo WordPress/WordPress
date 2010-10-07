@@ -81,7 +81,7 @@ function get_currentuserinfo() {
 		return;
 
 	if ( ! $user = wp_validate_auth_cookie() ) {
-		 if ( is_admin() || empty($_COOKIE[LOGGED_IN_COOKIE]) || !$user = wp_validate_auth_cookie($_COOKIE[LOGGED_IN_COOKIE], 'logged_in') ) {
+		 if ( is_blog_admin() || is_network_admin() || empty($_COOKIE[LOGGED_IN_COOKIE]) || !$user = wp_validate_auth_cookie($_COOKIE[LOGGED_IN_COOKIE], 'logged_in') ) {
 		 	wp_set_current_user(0);
 		 	return false;
 		 }
@@ -775,7 +775,12 @@ function auth_redirect() {
 		}
 	}
 
-	if ( $user_id = wp_validate_auth_cookie( '', apply_filters( 'auth_redirect_scheme', '' ) ) ) {
+	if ( is_user_admin() )
+		$scheme = 'logged_in';
+	else
+		$scheme = apply_filters( 'auth_redirect_scheme', '' );
+
+	if ( $user_id = wp_validate_auth_cookie( '',  $scheme) ) {
 		do_action('auth_redirect', $user_id);
 
 		// If the user wants ssl but the session is not ssl, redirect.

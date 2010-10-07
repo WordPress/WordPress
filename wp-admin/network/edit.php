@@ -52,8 +52,8 @@ function confirm_delete_users( $users ) {
 						$user_dropdown = "<select name='blog[$val][{$key}]'>";
 						$user_list = '';
 						foreach ( $blog_users as $user ) {
-							if ( $user->user_id != $val && !in_array( $user->user_id, $allusers ) )
-								$user_list .= "<option value='{$user->user_id}'>{$user->user_login}</option>";
+							if ( $user->user_id != $val && !in_array( $user->id, $allusers ) )
+								$user_list .= "<option value='{$user->id}'>{$user->user_login}</option>";
 						}
 						if ( '' == $user_list )
 							$user_list = $admin_out;
@@ -137,53 +137,8 @@ switch ( $_GET['action'] ) {
 		} else {
 			update_site_option( 'banned_email_domains', '' );
 		}
-		update_site_option( 'default_user_role', $_POST['default_user_role'] );
-		if ( trim( $_POST['dashboard_blog_orig'] ) == '' )
-			$_POST['dashboard_blog_orig'] = $current_site->blog_id;
-		if ( trim( $_POST['dashboard_blog'] ) == '' ) {
-			$_POST['dashboard_blog'] = $current_site->blog_id;
-			$dashboard_blog_id = $current_site->blog_id;
-		} elseif ( ! preg_match( '/(--|\.)/', $_POST['dashboard_blog'] ) && preg_match( '|^([a-zA-Z0-9-\.])+$|', $_POST['dashboard_blog'] ) ) {
-			$dashboard_blog = $_POST['dashboard_blog'];
-			$blog_details = get_blog_details( $dashboard_blog );
-			if ( false === $blog_details ) {
-				if ( is_numeric( $dashboard_blog ) )
-					wp_die( __( 'A dashboard site referenced by ID must already exist' ) );
-				if ( is_subdomain_install() ) {
-					$domain = $dashboard_blog . '.' . $current_site->domain;
-					$path = $current_site->path;
-				} else {
-					$domain = $current_site->domain;
-					$path = trailingslashit( $current_site->path . $dashboard_blog );
-				}
-				$wpdb->hide_errors();
-				$dashboard_blog_id = wpmu_create_blog( $domain, $path, __( 'My Dashboard' ), $current_user->id , array( 'public' => 0 ), $current_site->id );
-				$wpdb->show_errors();
-			} else {
-				$dashboard_blog_id = $blog_details->blog_id;
-			}
-		}
-		if ( is_wp_error( $dashboard_blog_id ) )
-			wp_die( __( 'Problem creating dashboard site: ' ) . $dashboard_blog_id->get_error_message() );
-		if ( $_POST['dashboard_blog_orig'] != $_POST['dashboard_blog'] ) {
-			$users = get_users_of_blog( get_site_option( 'dashboard_blog' ) );
-			$move_users = array();
-			foreach ( (array)$users as $user ) {
-				$user_meta_value = unserialize( $user->meta_value );
-				if ( is_array( $user_meta_value ) && array_pop( $var_by_ref = array_keys( $user_meta_value ) ) == 'subscriber' )
-					$move_users[] = $user->user_id;
-			}
-			if ( false == empty( $move_users ) ) {
-				foreach ( (array)$move_users as $user_id ) {
-					remove_user_from_blog($user_id, get_site_option( 'dashboard_blog' ) );
-					add_user_to_blog( $dashboard_blog_id, $user_id, get_site_option( 'default_user_role', 'subscriber' ) );
-					update_user_meta( $user_id, 'primary_blog', $dashboard_blog_id );
-				}
-			}
-		}
-		update_site_option( 'dashboard_blog', $dashboard_blog_id );
 
-		$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'admin_notice_feed', 'global_terms_enabled' );
+		$options = array( 'registrationnotification', 'registration', 'add_new_users', 'menu_items', 'mu_media_buttons', 'upload_space_check_disabled', 'blog_upload_space', 'upload_filetypes', 'site_name', 'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author', 'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled' );
 		$checked_options = array( 'mu_media_buttons' => array(), 'menu_items' => array(), 'registrationnotification' => 'no', 'upload_space_check_disabled' => 1, 'add_new_users' => 0 );
 		foreach ( $checked_options as $option_name => $option_unchecked_value ) {
 			if ( ! isset( $_POST[$option_name] ) )
@@ -255,8 +210,7 @@ switch ( $_GET['action'] ) {
 		$id = wpmu_create_blog( $newdomain, $path, $title, $user_id , array( 'public' => 1 ), $current_site->id );
 		$wpdb->show_errors();
 		if ( !is_wp_error( $id ) ) {
-			$dashboard_blog = get_dashboard_blog();
-			if ( !is_super_admin( $user_id ) && get_user_option( 'primary_blog', $user_id ) == $dashboard_blog->blog_id )
+			if ( !is_super_admin( $user_id ) && !get_user_option( 'primary_blog', $user_id ) )
 				update_user_option( $user_id, 'primary_blog', $id, true );
 			$content_mail = sprintf( __( "New site created by %1s\n\nAddress: http://%2s\nName: %3s"), $current_user->user_login , $newdomain . $path, stripslashes( $title ) );
 			wp_mail( get_site_option('admin_email'),  sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
@@ -686,11 +640,6 @@ switch ( $_GET['action'] ) {
  			wp_die( __( 'Duplicated username or email address.' ) );
 		else
 			wp_new_user_notification( $user_id, $password );
-
-		if ( get_site_option( 'dashboard_blog' ) == false )
-			add_user_to_blog( $current_site->blog_id, $user_id, get_site_option( 'default_user_role', 'subscriber' ) );
-		else
-			add_user_to_blog( get_site_option( 'dashboard_blog' ), $user_id, get_site_option( 'default_user_role', 'subscriber' ) );
 
 		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'add' ), wp_get_referer() ) );
 		exit();

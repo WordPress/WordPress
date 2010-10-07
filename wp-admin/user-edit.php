@@ -31,7 +31,11 @@ if ( current_user_can('edit_users') && !IS_PROFILE_PAGE )
 	$submenu_file = 'users.php';
 else
 	$submenu_file = 'profile.php';
-$parent_file = 'users.php';
+
+if ( current_user_can('edit_users') && !is_user_admin() )
+	$parent_file = 'users.php';
+else
+	$parent_file = 'profile.php';
 
 // contextual help - choose Help on the top right of admin panel to preview this.
 add_contextual_help($current_screen,

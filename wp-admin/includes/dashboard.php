@@ -16,6 +16,7 @@
 function wp_dashboard_setup() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
 	$wp_dashboard_control_callbacks = array();
+	$screen = get_current_screen();
 
 	$update = false;
 	$widget_options = get_option( 'dashboard_widget_options' );
@@ -25,42 +26,47 @@ function wp_dashboard_setup() {
 	/* Register Widgets and Controls */
 
 	// Right Now
-	wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
+	if ( is_blog_admin() && current_user_can('edit_posts') )
+		wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
 
 	// Recent Comments Widget
-	if ( !isset( $widget_options['dashboard_recent_comments'] ) || !isset( $widget_options['dashboard_recent_comments']['items'] ) ) {
-		$update = true;
-		$widget_options['dashboard_recent_comments'] = array(
-			'items' => 5,
-		);
+	if ( is_blog_admin() && current_user_can('moderate_comments') ) {
+		if ( !isset( $widget_options['dashboard_recent_comments'] ) || !isset( $widget_options['dashboard_recent_comments']['items'] ) ) {
+			$update = true;
+			$widget_options['dashboard_recent_comments'] = array(
+				'items' => 5,
+			);
+		}
+		$recent_comments_title = __( 'Recent Comments' );
+		wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments', 'wp_dashboard_recent_comments_control' );
 	}
-	$recent_comments_title = __( 'Recent Comments' );
-	wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments', 'wp_dashboard_recent_comments_control' );
 
 	// Incoming Links Widget
-	if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
-		$update = true;
-		$num_items = isset($widget_options['dashboard_incoming_links']['items']) ? $widget_options['dashboard_incoming_links']['items'] : 10;
-		$widget_options['dashboard_incoming_links'] = array(
-			'home' => get_option('home'),
-			'link' => apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.google.com/blogsearch?scoring=d&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
-			'url' => isset($widget_options['dashboard_incoming_links']['url']) ? apply_filters( 'dashboard_incoming_links_feed', $widget_options['dashboard_incoming_links']['url'] ) : apply_filters( 'dashboard_incoming_links_feed', 'http://blogsearch.google.com/blogsearch_feeds?scoring=d&ie=utf-8&num=' . $num_items . '&output=rss&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
-			'items' => $num_items,
-			'show_date' => isset($widget_options['dashboard_incoming_links']['show_date']) ? $widget_options['dashboard_incoming_links']['show_date'] : false
-		);
+	if ( is_blog_admin() && current_user_can('publish_posts') ) {
+		if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
+			$update = true;
+			$num_items = isset($widget_options['dashboard_incoming_links']['items']) ? $widget_options['dashboard_incoming_links']['items'] : 10;
+			$widget_options['dashboard_incoming_links'] = array(
+				'home' => get_option('home'),
+				'link' => apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.google.com/blogsearch?scoring=d&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
+				'url' => isset($widget_options['dashboard_incoming_links']['url']) ? apply_filters( 'dashboard_incoming_links_feed', $widget_options['dashboard_incoming_links']['url'] ) : apply_filters( 'dashboard_incoming_links_feed', 'http://blogsearch.google.com/blogsearch_feeds?scoring=d&ie=utf-8&num=' . $num_items . '&output=rss&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
+				'items' => $num_items,
+				'show_date' => isset($widget_options['dashboard_incoming_links']['show_date']) ? $widget_options['dashboard_incoming_links']['show_date'] : false
+			);
+		}
+		wp_add_dashboard_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_incoming_links', 'wp_dashboard_incoming_links_control' );
 	}
-	wp_add_dashboard_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_incoming_links', 'wp_dashboard_incoming_links_control' );
 
 	// WP Plugins Widget
-	if ( current_user_can( 'install_plugins' ) )
+	if ( is_blog_admin() && current_user_can( 'install_plugins' ) )
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
-	if ( current_user_can('edit_posts') )
+	if ( is_blog_admin() && current_user_can('edit_posts') )
 		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
 
 	// Recent Drafts
-	if ( current_user_can('edit_posts') )
+	if ( is_blog_admin() && current_user_can('edit_posts') )
 		wp_add_dashboard_widget( 'dashboard_recent_drafts', __('Recent Drafts'), 'wp_dashboard_recent_drafts' );
 
 	// Primary feed (Dev Blog) Widget
@@ -115,28 +121,32 @@ function wp_dashboard_setup() {
 	if ( $update )
 		update_option( 'dashboard_widget_options', $widget_options );
 
-	do_action('do_meta_boxes', 'dashboard', 'normal', '');
-	do_action('do_meta_boxes', 'dashboard', 'side', '');
+	do_action('do_meta_boxes', $screen->id, 'normal', '');
+	do_action('do_meta_boxes', $screen->id, 'side', '');
 }
 
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null ) {
+	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
 	if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 		$wp_dashboard_control_callbacks[$widget_id] = $control_callback;
 		if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
 			list($url) = explode( '#', add_query_arg( 'edit', false ), 2 );
 			$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '">' . __( 'Cancel' ) . '</a></span>';
-			add_meta_box( $widget_id, $widget_name, '_wp_dashboard_control_callback', 'dashboard', 'normal', 'core' );
+			add_meta_box( $widget_id, $widget_name, '_wp_dashboard_control_callback', $screen->id, 'normal', 'core' );
 			return;
 		}
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
 		$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 	}
-	$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
+	if ( is_user_admin() )
+		$side_widgets = array();
+	else
+		$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
 	$location = 'normal';
 	if ( in_array($widget_id, $side_widgets) )
 		$location = 'side';
-	add_meta_box( $widget_id, $widget_name , $callback, 'dashboard', $location, 'core' );
+	add_meta_box( $widget_id, $widget_name , $callback, $screen->id, $location, 'core' );
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
@@ -154,6 +164,8 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
  */
 function wp_dashboard() {
 	global $screen_layout_columns;
+
+	$screen = get_current_screen();
 
 	$hide2 = $hide3 = $hide4 = '';
 	switch ( $screen_layout_columns ) {
@@ -176,16 +188,16 @@ function wp_dashboard() {
 <div id="dashboard-widgets" class="metabox-holder">
 <?php
 	echo "\t<div class='postbox-container' style='$width'>\n";
-	do_meta_boxes( 'dashboard', 'normal', '' );
+	do_meta_boxes( $screen->id, 'normal', '' );
 
 	echo "\t</div><div class='postbox-container' style='{$hide2}$width'>\n";
-	do_meta_boxes( 'dashboard', 'side', '' );
+	do_meta_boxes( $screen->id, 'side', '' );
 
 	echo "\t</div><div class='postbox-container' style='{$hide3}$width'>\n";
-	do_meta_boxes( 'dashboard', 'column3', '' );
+	do_meta_boxes( $screen->id, 'column3', '' );
 
 	echo "\t</div><div class='postbox-container' style='{$hide4}$width'>\n";
-	do_meta_boxes( 'dashboard', 'column4', '' );
+	do_meta_boxes( $screen->id, 'column4', '' );
 ?>
 </div></div>
 

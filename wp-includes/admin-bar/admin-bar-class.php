@@ -15,7 +15,7 @@ class WP_Admin_Bar {
 		$this->user->blogs = get_ordered_blogs_of_user( $current_user->id );
 		if ( is_multisite() ) {
 			$this->user->active_blog = get_active_blog_for_user( $current_user->id );
-			$this->user->domain = ( $this->user->active_blog == 'username only' ) ? get_dashboard_blog() : trailingslashit( get_home_url( $this->user->active_blog->blog_id ) );
+			$this->user->domain = empty( $this->user->active_blog ) ? user_admin_url() : trailingslashit( get_home_url( $this->user->active_blog->blog_id ) );
 			$this->user->account_domain = $this->user->domain;
 		} else {
 			$this->user->active_blog = $this->user->blogs[$blog_id];

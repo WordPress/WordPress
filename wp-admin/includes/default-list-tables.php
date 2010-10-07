@@ -2719,7 +2719,7 @@ class WP_Sites_Table extends WP_List_Table {
 
 	function WP_Sites_Table() {
 		parent::WP_List_Table( array(
-			'screen' => 'ms-sites',
+			'screen' => 'sites-network',
 			'plural' => 'sites',
 		) );
 	}
@@ -2734,7 +2734,7 @@ class WP_Sites_Table extends WP_List_Table {
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
 
-		$per_page = $this->get_items_per_page( 'ms_sites_per_page' );
+		$per_page = $this->get_items_per_page( 'sites_network_per_page' );
 
 		$pagenum = $this->get_pagenum();
 
@@ -3007,7 +3007,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 
 	function WP_MS_Users_Table() {
 		parent::WP_List_Table( array(
-			'screen' => 'ms-users',
+			'screen' => 'users-network',
 		) );
 	}
 
@@ -3024,7 +3024,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 
 		$usersearch = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
-		$users_per_page = $this->get_items_per_page( 'ms_users_per_page' );
+		$users_per_page = $this->get_items_per_page( 'users_network_per_page' );
 
 		$paged = $this->get_pagenum();
 

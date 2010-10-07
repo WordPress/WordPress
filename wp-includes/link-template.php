@@ -2130,6 +2130,25 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 }
 
 /**
+ * Retrieve the url to the admin area for the current user.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ *
+ * @param string $path Optional path relative to the admin url
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @return string Admin url link with optional path appended
+*/
+function user_admin_url( $path = '', $scheme = 'admin' ) {
+	$url = network_site_url('wp-admin/user/', $scheme);
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= ltrim($path, '/');
+
+	return apply_filters('user_admin_url', $url, $path);
+}
+
+/**
  * Retrieve the url to the admin area for either the current blog or the network depending on context.
  *
  * @package WordPress
@@ -2142,6 +2161,8 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 function self_admin_url($path = '', $scheme = 'admin') {
 	if ( is_network_admin() )
 		return network_admin_url($path, $scheme);
+	elseif ( is_user_admin() )
+		return user_admin_url($path, $scheme);
 	else
 		return admin_url($path, $scheme);
 }

@@ -16,6 +16,8 @@ $wp_list_table->prepare_items();
 $title = __( 'Users' );
 $parent_file = 'users.php';
 
+add_screen_option( 'per_page', array('label' => _x( 'Users', 'users per page (screen options)' )) );
+
 add_contextual_help($current_screen,
 	'<p>' . __('This table shows all users across the network and the sites to which they are assigned.') . '</p>' .
 	'<p>' . __('Hover over any user on the list to make the edit links appear. The Edit link on the left will take you to his or her Edit User profile page; the Edit link on the right by any site name goes to an Edit Site screen for that site.') . '</p>' .

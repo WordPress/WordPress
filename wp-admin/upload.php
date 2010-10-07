@@ -134,6 +134,8 @@ wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'media' );
 
+add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
+
 add_contextual_help( $current_screen,
 	'<p>' . __('All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the <em>Screen Options</em> tab to customize the display of this screen.') . '</p>' .
 	'<p>' . __('You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.') . '</p>' .

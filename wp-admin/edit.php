@@ -163,6 +163,8 @@ if ( 'post' == $post_type ) {
 	);
 }
 
+add_screen_option( 'per_page', array('label' => $title, 'default' => 20) );
+
 require_once('./admin-header.php');
 ?>
 <div class="wrap">

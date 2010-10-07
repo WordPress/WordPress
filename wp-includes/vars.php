@@ -15,7 +15,12 @@
 // On which page are we ?
 if ( is_admin() ) {
 	// wp-admin pages are checked more carefully
-	preg_match('#/wp-admin/?(.*?)$#i', $PHP_SELF, $self_matches);
+	if ( is_network_admin() )
+		preg_match('#/wp-admin/network/?(.*?)$#i', $PHP_SELF, $self_matches);
+	elseif ( is_user_admin() )
+		preg_match('#/wp-admin/user/?(.*?)$#i', $PHP_SELF, $self_matches);
+	else
+		preg_match('#/wp-admin/?(.*?)$#i', $PHP_SELF, $self_matches);
 	$pagenow = $self_matches[1];
 	$pagenow = trim($pagenow, '/');
 	$pagenow = preg_replace('#\?.*?$#', '', $pagenow);

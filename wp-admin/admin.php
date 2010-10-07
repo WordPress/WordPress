@@ -11,11 +11,16 @@
  *
  * @since unknown
  */
-if ( !defined('WP_ADMIN') )
+if ( ! defined('WP_ADMIN') )
 	define('WP_ADMIN', TRUE);
 
-if ( !defined('WP_NETWORK_ADMIN') ) {
+if ( ! defined('WP_NETWORK_ADMIN') )
 	define('WP_NETWORK_ADMIN', FALSE);
+
+if ( ! defined('WP_USER_ADMIN') )
+	define('WP_USER_ADMIN', FALSE);
+
+if ( ! WP_NETWORK_ADMIN && ! WP_USER_ADMIN ) {
 	define('WP_BLOG_ADMIN', TRUE);
 }
 
@@ -97,6 +102,8 @@ else
 
 if ( WP_NETWORK_ADMIN )
 	require(ABSPATH . 'wp-admin/network/menu.php');
+elseif ( WP_USER_ADMIN )
+	require(ABSPATH . 'wp-admin/user/menu.php');
 else
 	require(ABSPATH . 'wp-admin/menu.php');
 

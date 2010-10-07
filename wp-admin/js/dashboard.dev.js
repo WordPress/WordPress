@@ -42,7 +42,7 @@ jQuery(document).ready( function($) {
 	};
 	ajaxPopulateWidgets();
 
-	postboxes.add_postbox_toggles('dashboard', { pbshow: ajaxPopulateWidgets } );
+	postboxes.add_postbox_toggles(pagenow, { pbshow: ajaxPopulateWidgets } );
 
 	/* QuickPress */
 	quickPressLoad = function() {

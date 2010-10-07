@@ -43,7 +43,7 @@ if (isset($_GET['updated'])) {
 ?>
 
 <div class="wrap">
-	<?php screen_icon(); ?>
+	<?php screen_icon('options-general'); ?>
 	<h2><?php _e( 'Network Options' ) ?></h2>
 	<form method="post" action="edit.php?action=siteoptions">
 		<?php wp_nonce_field( 'siteoptions' ); ?>
@@ -65,44 +65,6 @@ if (isset($_GET['updated'])) {
 					<br />
 					<?php printf( __( 'Registration and support emails will come from this address. An address such as <code>support@%s</code> is recommended.' ), $current_site->domain ); ?>
 				</td>
-			</tr>
-		</table>
-		<h3><?php _e( 'Dashboard Settings' ); ?></h3>
-		<table class="form-table">
-			<tr valign="top">
-				<th scope="row"><label for="dashboard_blog"><?php _e( 'Dashboard Site' ) ?></label></th>
-				<td>
-					<?php
-					if ( $dashboard_blog = get_site_option( 'dashboard_blog' ) ) {
-						$details = get_blog_details( $dashboard_blog );
-						$blogname = untrailingslashit( sanitize_user( str_replace( '.', '', str_replace( $current_site->domain . $current_site->path, '', $details->domain . $details->path ) ) ) );
-					} else {
-						$blogname = '';
-					}?>
-					<input name="dashboard_blog_orig" type="hidden" id="dashboard_blog_orig" value="<?php echo esc_attr( $blogname ); ?>" />
-					<input name="dashboard_blog" type="text" id="dashboard_blog" value="<?php echo esc_attr( $blogname ); ?>" class="regular-text" />
-					<br />
-					<?php _e( 'Site path (&#8220;dashboard&#8221;, &#8220;control&#8221;, &#8220;manager&#8221;, etc.) or blog ID.<br />New users are added to this site as the user role defined below if they don&#8217;t have a site. Leave blank for the main site. Users with the Subscriber role on the old site will be moved to the new site if changed. The new site will be created if it does not exist.' ); ?>
-				</td>
-			</tr>
-			<tr valign="top">
-				<th scope="row"><label for="default_user_role"><?php _e( 'Dashboard User Default Role' ) ?></label></th>
-				<td>
-					<select name="default_user_role" id="default_user_role"><?php
-					wp_dropdown_roles( get_site_option( 'default_user_role', 'subscriber' ) );
-					?>
-					</select>
-					<br />
-					<?php _e( 'The default role for new users on the Dashboard site. &#8220;Subscriber&#8221; or &#8220;Contributor&#8221; roles are recommended.' ); ?>
-				</td>
-			</tr>
-			<tr valign="top">
-				<th scope="row"><label for="admin_notice_feed"><?php _e( 'Admin Notice Feed' ) ?></label></th>
-				<td><input name="admin_notice_feed" class="large-text" type="text" id="admin_notice_feed" value="<?php echo esc_attr( get_site_option( 'admin_notice_feed' ) ) ?>" size="80" /><br />
-				<?php _e( 'Display the latest post from this RSS or Atom feed on all site dashboards. Leave blank to disable.' ); ?><br />
-
-				<?php if ( get_site_option( 'admin_notice_feed' ) != get_home_url( $current_site->id, 'feed/' ) )
-					echo __( 'A good one to use would be the feed from your main site: ' ) . esc_url( get_home_url( $current_site->id, 'feed/' ) ) ?></td>
 			</tr>
 		</table>
 		<h3><?php _e( 'Registration Settings' ); ?></h3>
