@@ -1291,6 +1291,8 @@ class WP_Query extends WP_Object_Query {
 
 			$this->parse_tax_query( $qv );
 
+debug($this->tax_query);
+
 			$this->parse_meta_query( $qv );
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
@@ -1400,7 +1402,11 @@ class WP_Query extends WP_Object_Query {
 	}
 
 	function parse_tax_query( $q ) {
-		$tax_query = array();
+		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
+			$tax_query = $q['tax_query'];
+		} else {
+			$tax_query = array();
+		}
 
 		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
 			if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
