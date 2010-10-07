@@ -1291,8 +1291,6 @@ class WP_Query extends WP_Object_Query {
 
 			$this->parse_tax_query( $qv );
 
-debug($this->tax_query);
-
 			$this->parse_meta_query( $qv );
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
