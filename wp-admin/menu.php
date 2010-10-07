@@ -22,9 +22,6 @@
  * @var array
  */
 
-$awaiting_mod = wp_count_comments();
-$awaiting_mod = $awaiting_mod->moderated;
-
 $menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'div' );
 
 if ( is_multisite() || is_super_admin() ) {
@@ -57,7 +54,7 @@ if ( is_multisite() || is_super_admin() ) {
 		$update_title = !empty($update_title) ? esc_attr(implode(', ', $update_title)) : '';
 
 		$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'install_plugins',  'update-core.php');
-		unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_count, $update_title);
+		unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $update_count, $update_title, $update_themes, $update_plugins, $update_wordpress);
 	}
 }
 
@@ -101,7 +98,10 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'me
 	}
 	unset($tax);
 
+$awaiting_mod = wp_count_comments();
+$awaiting_mod = $awaiting_mod->moderated;
 $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top menu-icon-comments', 'menu-comments', 'div' );
+unset($awaiting_mod);
 
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
@@ -134,7 +134,7 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false) 
 		$submenu["edit.php?post_type=$ptype"][$i++] = array( esc_attr( $tax->labels->name ), $tax->cap->manage_terms, "edit-tags.php?taxonomy=$tax->name&amp;post_type=$ptype" );
 	}
 }
-unset($ptype, $ptype_obj);
+unset($ptype, $ptype_obj, $ptype_class, $ptype_for_id, $ptype_menu_position, $menu_icon, $i);
 
 $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 

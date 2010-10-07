@@ -78,6 +78,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			if ( $current_blog )
 				wp_cache_set( 'current_blog_' . $domain . $path, $current_blog, 'site-options' );
 		}
+		unset($reserved_blognames);
 	}
 
 	if ( ! defined( 'WP_INSTALLING' ) && is_subdomain_install() && ! is_object( $current_blog ) ) {

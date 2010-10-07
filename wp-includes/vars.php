@@ -38,6 +38,7 @@ if ( is_admin() ) {
 	else
 		$pagenow = 'index.php';
 }
+unset($self_matches);
 
 // Simple browser detection
 $is_lynx = $is_gecko = $is_winIE = $is_macIE = $is_opera = $is_NS4 = $is_safari = $is_chrome = $is_iphone = false;
