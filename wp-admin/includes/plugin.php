@@ -483,6 +483,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 		ob_start();
 		include(WP_PLUGIN_DIR . '/' . $plugin);
 		do_action( 'activate_plugin', trim( $plugin) );
+		do_action( 'activate_' . trim( $plugin ) );
 		if ( $network_wide ) {
 			$current[$plugin] = time();
 			update_site_option( 'active_sitewide_plugins', $current );
@@ -491,7 +492,6 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false) {
 			sort($current);
 			update_option('active_plugins', $current);
 		}
-		do_action( 'activate_' . trim( $plugin ) );
 		do_action( 'activated_plugin', trim( $plugin) );
 		if ( ob_get_length() > 0 ) {
 			$output = ob_get_clean();
