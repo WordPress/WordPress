@@ -23,7 +23,7 @@ function create_initial_post_types() {
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
-		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions' ),
+		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'sticky', 'trackbacks', 'custom-fields', 'comments', 'revisions' ),
 	) );
 
 	register_post_type( 'page', array(

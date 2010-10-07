@@ -920,7 +920,7 @@ class WP_Posts_Table extends WP_List_Table {
 					</select>
 				</label>
 
-	<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
+	<?php if ( post_type_supports( $screen->post_type, 'sticky' ) && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
 
 	<?php	if ( $bulk ) : ?>
 
@@ -937,12 +937,12 @@ class WP_Posts_Table extends WP_List_Table {
 
 				<label class="alignleft">
 					<input type="checkbox" name="sticky" value="sticky" />
-					<span class="checkbox-title"><?php _e( 'Make this post sticky' ); ?></span>
+					<span class="checkbox-title"><?php _e( 'Make this sticky' ); ?></span>
 				</label>
 
 	<?php	endif; // $bulk ?>
 
-	<?php endif; // !$is_page && $can_publish && current_user_can( 'edit_others_cap' ) ?>
+	<?php endif; // post_type_supports(sticky) && $can_publish && current_user_can( 'edit_others_cap' ) ?>
 
 			</div>
 

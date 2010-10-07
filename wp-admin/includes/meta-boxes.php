@@ -117,7 +117,7 @@ if ( 'private' == $post->post_status ) {
 } elseif ( !empty( $post->post_password ) ) {
 	$visibility = 'password';
 	$visibility_trans = __('Password protected');
-} elseif ( $post_type == 'post' && is_sticky( $post->ID ) ) {
+} elseif ( post_type_supports( $post->post_type, 'sticky' ) && is_sticky( $post->ID ) ) {
 	$visibility = 'public';
 	$visibility_trans = __('Public, Sticky');
 } else {
@@ -131,15 +131,15 @@ echo esc_html( $visibility_trans ); ?></span>
 
 <div id="post-visibility-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
-<?php if ($post_type == 'post'): ?>
+<?php if ( post_type_supports( $post->post_type, 'sticky' ) ): ?>
 <input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
 <?php endif; ?>
 <input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo esc_attr( $visibility ); ?>" />
 
 
 <input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
-<?php if ($post_type == 'post'): ?>
-<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID)); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this post to the front page') ?></label><br /></span>
+<?php if ( post_type_supports( $post->post_type, 'sticky' ) ): ?>
+<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID)); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this to the front page') ?></label><br /></span>
 <?php endif; ?>
 <input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
 <span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
