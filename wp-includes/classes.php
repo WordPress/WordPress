@@ -440,7 +440,7 @@ class WP {
 
 		$GLOBALS['query_string'] = $this->query_string;
 		$GLOBALS['posts'] = & $wp_query->posts;
-		$GLOBALS['post'] = $wp_query->post;
+		$GLOBALS['post'] = (isset($wp_query->post)) ? $wp_query->post : null;
 		$GLOBALS['request'] = $wp_query->request;
 
 		if ( is_single() || is_page() ) {
