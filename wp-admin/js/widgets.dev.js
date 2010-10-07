@@ -100,7 +100,7 @@ wpWidgets = {
 				ui.item.css({'marginLeft':'','width':''});
 			},
 			stop: function(e,ui) {
-				if ( ui.item.hasClass('ui-draggable') )
+				if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') )
 					ui.item.draggable('destroy');
 
 				if ( ui.item.hasClass('deleting') ) {
