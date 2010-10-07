@@ -256,7 +256,7 @@ jQuery(document).ready( function($) {
 		return true;
 	});
 
-	$('thead, tfoot').find(':checkbox').click( function(e) {
+	$('thead, tfoot').find('.check-column :checkbox').click( function(e) {
 		var c = $(this).attr('checked'),
 			kbtoggle = 'undefined' == typeof toggleWithKeyboard ? false : toggleWithKeyboard,
 			toggle = e.shiftKey || kbtoggle;
