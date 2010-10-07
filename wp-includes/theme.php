@@ -1302,13 +1302,13 @@ function validate_current_theme() {
  *
  * @since 3.1.0
  *
- * @return mixed Theme modifications value.
+ * @return array Theme modifications.
  */
 function get_theme_mods() {
 	$theme_slug = get_option( 'stylesheet' );
 	if ( false === ( $mods = get_option( "theme_mods_$theme_slug" ) ) ) {
 		$theme_name = get_current_theme();
-		$mods = get_option( "mods_$theme_name" );
+		$mods = get_option( "mods_$theme_name" ); // Deprecated location.
 		if ( is_admin() && false !== $mods ) {
 			update_option( "theme_mods_$theme_slug", $mods );
 			delete_option( "mods_$theme_name" );
@@ -1332,13 +1332,13 @@ function get_theme_mods() {
  * @param bool|string $default
  * @return string
  */
-function get_theme_mod($name, $default = false) {
+function get_theme_mod( $name, $default = false ) {
 	$mods = get_theme_mods();
 
-	if ( isset($mods[$name]) )
-		return apply_filters( "theme_mod_$name", $mods[$name] );
+	if ( isset( $mods[ $name ] ) )
+		return apply_filters( "theme_mod_$name", $mods[ $name ] );
 
-	return apply_filters( "theme_mod_$name", sprintf($default, get_template_directory_uri(), get_stylesheet_directory_uri()) );
+	return apply_filters( "theme_mod_$name", sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() ) );
 }
 
 /**
@@ -1349,10 +1349,10 @@ function get_theme_mod($name, $default = false) {
  * @param string $name Theme modification name.
  * @param string $value theme modification value.
  */
-function set_theme_mod($name, $value) {
+function set_theme_mod( $name, $value ) {
 	$mods = get_theme_mods();
 
-	$mods[$name] = $value;
+	$mods[ $name ] = $value;
 
 	$theme = get_option( 'stylesheet' );
 	update_option( "theme_mods_$theme", $mods );
@@ -1373,12 +1373,12 @@ function set_theme_mod($name, $value) {
 function remove_theme_mod( $name ) {
 	$mods = get_theme_mods();
 
-	if ( !isset($mods[$name]) )
+	if ( ! isset( $mods[ $name ] ) )
 		return;
 
-	unset($mods[$name]);
+	unset( $mods[ $name ] );
 
-	if ( empty($mods) )
+	if ( empty( $mods ) )
 		return remove_theme_mods();
 
 	$theme = get_option( 'stylesheet' );
