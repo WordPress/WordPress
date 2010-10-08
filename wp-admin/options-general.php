@@ -30,7 +30,7 @@ function add_js() {
 	jQuery(document).ready(function($){
 		$("input[name='date_format']").click(function(){
 			if ( "date_format_custom_radio" != $(this).attr("id") )
-				$("input[name='date_format_custom']").val( $(this).val() );
+				$("input[name='date_format_custom']").val( $(this).val() ).siblings('.example').text( $(this).siblings('span').text() );
 		});
 		$("input[name='date_format_custom']").focus(function(){
 			$("#date_format_custom_radio").attr("checked", "checked");
@@ -38,10 +38,18 @@ function add_js() {
 
 		$("input[name='time_format']").click(function(){
 			if ( "time_format_custom_radio" != $(this).attr("id") )
-				$("input[name='time_format_custom']").val( $(this).val() );
+				$("input[name='time_format_custom']").val( $(this).val() ).siblings('.example').text( $(this).siblings('span').text() );
 		});
 		$("input[name='time_format_custom']").focus(function(){
 			$("#time_format_custom_radio").attr("checked", "checked");
+		});
+		$("input[name='date_format_custom'], input[name='time_format_custom']").change( function() {
+			var format = $(this);
+			format.siblings('img').css('visibility','visible');
+			$.post(ajaxurl, {
+					action: 'date_format_custom' == format.attr('name') ? 'date_format' : 'time_format',
+					date : format.val(),
+				}, function(d) { format.siblings('img').css('visibility','hidden'); format.siblings('.example').text(d); } );	
 		});
 	});
 //]]>
@@ -265,14 +273,14 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 			echo " checked='checked'";
 			$custom = false;
 		}
-		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
+		echo ' /> <span>' . date_i18n( $format ) . "</span></label><br />\n";
 	}
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . esc_attr( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . esc_attr( get_option('date_format') ) . '" class="small-text" /> <span class="example"> ' . date_i18n( get_option('date_format') ) . "</span> <img class='ajax-loading' src='" . esc_url( admin_url( 'images/wpspin_light.gif' ) ) . "' />\n";
 
-	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click &#8220;Save Changes&#8221; to update sample output.') . "</p>\n";
+	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.') . "</p>\n";
 ?>
 	</fieldset>
 </td>
@@ -297,12 +305,13 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 			echo " checked='checked'";
 			$custom = false;
 		}
-		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
+		echo ' /> <span>' . date_i18n( $format ) . "</span></label><br />\n";
 	}
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . esc_attr( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . esc_attr( get_option('time_format') ) . '" class="small-text" /> <span class="example"> ' . date_i18n( get_option('time_format') ) . "</span> <img class='ajax-loading' src='" . esc_url( admin_url( 'images/wpspin_light.gif' ) ) . "' />\n";
+	;
 ?>
 	</fieldset>
 </td>

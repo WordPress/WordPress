@@ -1463,6 +1463,12 @@ case 'set-post-thumbnail':
 	}
 	die( '0' );
 	break;
+case 'date_format' :
+	die( date_i18n( sanitize_option( 'date_format', $_POST['date'] ) ) );
+	break;
+case 'time_format' :
+	die( date_i18n( sanitize_option( 'time_format', $_POST['date'] ) ) );
+	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');
