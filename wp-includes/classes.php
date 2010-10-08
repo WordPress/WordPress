@@ -275,7 +275,7 @@ class WP {
 
 			if ( !empty( $this->query_vars[$wpvar] ) ) {
 				if ( ! is_array( $this->query_vars[$wpvar] ) ) {
-					$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar]; 
+					$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
 				} else {
 					foreach ( $this->query_vars[$wpvar] as $vkey => $v )
 						$this->query_vars[$wpvar][$vkey] = (string) $v;
@@ -550,11 +550,11 @@ class WP_Object_Query {
 	 * A query is an associative array:
 	 * - 'key' string The meta key
 	 * - 'value' string|array The meta value
-	 * - 'compare' (optional) string How to compare the key to the value. 
-	 *		Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'IN', 'BETWEEN'. 
+	 * - 'compare' (optional) string How to compare the key to the value.
+	 *		Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
 	 *		Default: '='
 	 * - 'type' string (optional) The type of the value.
-	 *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'. 
+	 *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
 	 *		Default: 'CHAR'
 	 *
 	 * @since 3.1.0
@@ -573,9 +573,9 @@ class WP_Object_Query {
 	 *		Possible values: 'term_id', 'slug' or 'name'
 	 *		Default: 'slug'
 	 * - 'operator' string (optional)
-	 *		Possible values: 'IN' and 'NOT IN'. 
+	 *		Possible values: 'IN' and 'NOT IN'.
 	 *		Default: 'IN'
-	 * - 'include_children' bool (optional) Wether to include child terms. 
+	 * - 'include_children' bool (optional) Wether to include child terms.
 	 *		Default: true
 	 *
 	 * @since 3.1.0
@@ -636,7 +636,7 @@ class WP_Object_Query {
 			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
 			$meta_type = isset( $q['type'] ) ? strtoupper( $q['type'] ) : 'CHAR';
 
-			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'IN', 'BETWEEN' ) ) )
+			if ( ! in_array( $meta_compare, array( '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
 				$meta_compare = '=';
 
 			if ( 'NUMERIC' == $meta_type )
@@ -658,7 +658,7 @@ class WP_Object_Query {
 			if ( !empty( $meta_key ) )
 				$where .= $wpdb->prepare( " AND $alias.meta_key = %s", $meta_key );
 
-			if ( in_array( $meta_compare, array( 'IN', 'BETWEEN' ) ) ) {
+			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $meta_value ) )
 					$meta_value = preg_split( '/[,\s]+/', $meta_value );
 			} else {
@@ -668,14 +668,14 @@ class WP_Object_Query {
 			if ( empty( $meta_value ) )
 				continue;
 
-			if ( 'IN' == $meta_compare ) {
+			if ( 'IN' == substr( $meta_compare, -2) ) {
 				$meta_field_types = substr( str_repeat( ',%s', count( $meta_value ) ), 1 );
 				$meta_compare_string = "($meta_field_types)";
 				unset( $meta_field_types );
-			} elseif ( 'BETWEEN' == $meta_compare ) {
+			} elseif ( 'BETWEEN' == substr( $meta_compare, -7) ) {
 				$meta_value = array_slice( $meta_value, 0, 2 );
 				$meta_compare_string = '%s AND %s';
-			} elseif ( 'LIKE' == $meta_compare ) {
+			} elseif ( 'LIKE' == substr( $meta_compare, -4 ) ) {
 				$meta_value = '%' . like_escape( $meta_value ) . '%';
 				$meta_compare_string = '%s';
 			} else {
@@ -708,7 +708,7 @@ class WP_Object_Query {
 				$query['include_children'] = true;
 
 			$query['do_query'] = false;
-			
+
 			$sql_single = get_objects_in_term( $query['terms'], $query['taxonomy'], $query );
 
 			if ( empty( $sql_single ) )
