@@ -440,10 +440,10 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
  * @param mixed $terms Term id/slug/name or array of such to match against
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
  * @param array|string $args
- *   'include_children' bool Wether to include term children (hierarchical taxonomies only)
+ *   'include_children' bool Whether to include term children (hierarchical taxonomies only)
  *   'field' string Which term field is being used. Can be 'term_id', 'slug' or 'name'
  *   'operator' string Can be 'IN' and 'NOT IN'
- *   'do_query' bool Wether to execute the query or return the SQL string
+ *   'do_query' bool Whether to execute the query or return the SQL string
  *
  * @return WP_Error If the taxonomy does not exist
  * @return array The list of found object_ids

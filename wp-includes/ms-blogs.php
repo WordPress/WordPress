@@ -421,7 +421,7 @@ function delete_blog_option( $id, $key ) {
  * @param int $id The blog id
  * @param string $key The option key
  * @param mixed $value The option value
- * @param bool $refresh Wether to refresh blog details or not
+ * @param bool $refresh Whether to refresh blog details or not
  */
 function update_blog_option( $id, $key, $value, $refresh = true ) {
 	$id = (int) $id;
@@ -449,7 +449,7 @@ function update_blog_option( $id, $key, $value, $refresh = true ) {
  * @since MU
  *
  * @param int $new_blog The id of the blog you want to switch to. Default: current blog
- * @param bool $validate Wether to check if $new_blog exists before proceeding
+ * @param bool $validate Whether to check if $new_blog exists before proceeding
  * @return bool	True on success, False if the validation failed
  */
 function switch_to_blog( $new_blog, $validate = false ) {
@@ -586,7 +586,7 @@ function restore_current_blog() {
  * @since MU
  *
  * @param int $id The blog id
- * @return string Wether the blog is archived or not
+ * @return string Whether the blog is archived or not
  */
 function is_archived( $id ) {
 	return get_blog_status($id, 'archived');

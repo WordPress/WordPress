@@ -575,7 +575,7 @@ class WP_Object_Query {
 	 * - 'operator' string (optional)
 	 *		Possible values: 'IN' and 'NOT IN'.
 	 *		Default: 'IN'
-	 * - 'include_children' bool (optional) Wether to include child terms.
+	 * - 'include_children' bool (optional) Whether to include child terms.
 	 *		Default: true
 	 *
 	 * @since 3.1.0

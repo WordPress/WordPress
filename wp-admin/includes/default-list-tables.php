@@ -12,7 +12,7 @@
 class WP_Posts_Table extends WP_List_Table {
 
 	/**
-	 * Wether the items should be displayed hierarchically or linearly
+	 * Whether the items should be displayed hierarchically or linearly
 	 *
 	 * @since 3.1.0
 	 * @var bool
