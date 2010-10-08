@@ -4019,8 +4019,12 @@ function clean_post_cache($id) {
 	do_action('clean_post_cache', $id);
 
 	if ( $children = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d", $id) ) ) {
-		foreach( $children as $cid )
+		foreach ( $children as $cid ) {
+			// Loop detection
+			if ( $cid == $id )
+				continue;
 			clean_post_cache( $cid );
+		}
 	}
 
 	if ( is_multisite() )
@@ -4325,7 +4329,8 @@ function _get_post_ancestors(&$_post) {
 
 	$id = $_post->ancestors[] = $_post->post_parent;
 	while ( $ancestor = $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE ID = %d LIMIT 1", $id) ) ) {
-		if ( $id == $ancestor )
+		// Loop detection: If the ancestor has been seen before, break.
+		if ( ( $ancestor == $_post->ID ) || in_array($ancestor,  $_post->ancestors) )
 			break;
 		$id = $_post->ancestors[] = $ancestor;
 	}
