@@ -29,17 +29,17 @@ function wp_admin_bar_superadmin_settings_menu() {
 
 	wp_admin_bar_build_snackmenu();
 
-	/* Get the settings we need for the current blog */
+	/* Get the settings we need for the current site */
 	$matureaction = $current_blog->mature ? 'unmatureblog' : 'matureblog';
 	$maturetext = $current_blog->mature ? esc_attr__('Unmark as mature') : esc_attr__('Mark as mature');
-	$suspendtext = $current_blog->spam ? esc_attr('Unsuspend blog') : esc_attr('Suspend blog');
+	$suspendtext = $current_blog->spam ? esc_attr('Unsuspend site') : esc_attr('Suspend site');
 	$suspendaction = $current_blog->spam ? 'unspamblog' : 'spamblog';
-	$mature_url = admin_url( "ms-edit.php?action=confirm&amp;action2={$matureaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( 'Are you sure you want to ' . strtolower( $maturetext ) . " {$current_blog->domain} as mature?" ) );
-	$suspend_url = admin_url( "ms-edit.php?action=confirm&amp;action2={$suspendaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( 'Are you sure you want to ' . strtolower( $suspendtext ) . " {$current_blog->domain} ?" ) );
+	$mature_url = network_admin_url( "edit.php?action=confirm&amp;action2={$matureaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( 'Are you sure you want to ' . strtolower( $maturetext ) . " {$current_blog->domain} as mature?" ) );
+	$suspend_url = network_admin_url( "edit.php?action=confirm&amp;action2={$suspendaction}&amp;id={$current_blog->blog_id}&amp;msg=" . urlencode( 'Are you sure you want to ' . strtolower( $suspendtext ) . " {$current_blog->domain} ?" ) );
 
 	/* Add the submenu items to the Super Admin menu */
-	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Blog Dashboard' ), 'href' => admin_url(), 'position' => 10 ) );
-	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Blog Options' ),  'href' => admin_url( "ms-sites.php?action=blogs&amp;searchaction=id&amp;s={$current_blog->blog_id}" ), 'position' => 30 ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Site Dashboard' ), 'href' => admin_url(), 'position' => 10 ) );
+	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => __( 'Site Options' ),  'href' => network_admin_url( "sites.php?action=blogs&amp;searchaction=id&amp;s={$current_blog->blog_id}" ), 'position' => 30 ) );
 	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => "$maturetext", 'href' => $mature_url, 'position' => 50 ) );
 	$wp_admin_bar->add_menu( array( 'parent' => 'superadmin', 'title' => "$suspendtext", 'href' => $suspend_url, 'position' => 80 ) );
 }

@@ -102,7 +102,7 @@ function wp_admin_bar_my_account_menu() {
 add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_my_account_menu', 20 );
 
 /**
- * Use the $wp_admin_bar global to add the "My Blogs/[Blog Name]" menu and all submenus.
+ * Use the $wp_admin_bar global to add the "My Sites/[Site Name]" menu and all submenus.
  */
 function wp_admin_bar_my_blogs_menu() {
 	global $wpdb, $wp_admin_bar;
@@ -110,9 +110,9 @@ function wp_admin_bar_my_blogs_menu() {
 	if ( !is_object( $wp_admin_bar ) )
 		return false;
 
-	/* Add the 'My Dashboards' menu if the user has more than one blog. */
+	/* Add the 'My Dashboards' menu if the user has more than one site. */
 	if ( count( $wp_admin_bar->user->blogs ) > 1 ) {
-		$wp_admin_bar->add_menu( array( 'id' => 'my-blogs', 'title' => __( 'My Blogs' ), 'href' => $wp_admin_bar->user->account_domain ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'my-blogs', 'title' => __( 'My Sites' ), 'href' => $wp_admin_bar->user->account_domain ) );
 
 		$default = includes_url('images/wpmini-blue.png');
 
@@ -137,33 +137,33 @@ function wp_admin_bar_my_blogs_menu() {
 				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-d', 'title' => __( 'Dashboard' ), 'href' => constant( 'PROTO' ) . $blogdomain . '/wp-admin/' ) );
 				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-n', 'title' => __( 'New Post' ), 'href' => constant( 'PROTO' ) . $blogdomain . '/wp-admin/post-new.php' ) );
 				// @todo, stats plugins should add this:
-				//$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-s', 'title' => __( 'Blog Stats' ), 'href' => constant( 'PROTO' ) . $blogdomain . '/wp-admin/index.php?page=stats' ) );
+				//$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-s', 'title' => __( 'Site Stats' ), 'href' => constant( 'PROTO' ) . $blogdomain . '/wp-admin/index.php?page=stats' ) );
 				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-c', 'title' => __( 'Manage Comments' ), 'href' => constant( 'PROTO' ) . $blogdomain . '/wp-admin/edit-comments.php' ) );
-				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Read Blog' ), 'href' => constant( 'PROTO' ) . $blogdomain ) );
+				$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Read Site' ), 'href' => constant( 'PROTO' ) . $blogdomain ) );
 			}
 			$counter++;
 		}
 
-		/* Add the "Manage Blogs" menu item */
-		// @todo, use dashboard blog.
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'manage-blogs', 'title' => __( 'Manage Blogs' ), admin_url('my-sites.php') ) );
+		/* Add the "Manage Sites" menu item */
+		// @todo, use dashboard site.
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'manage-blogs', 'title' => __( 'Manage Sites' ), admin_url('my-sites.php') ) );
 
-	/* Add the 'My Dashboard' menu if the user only has one blog. */
+	/* Add the 'My Dashboard' menu if the user only has one site. */
 	} else {
-		$wp_admin_bar->add_menu( array( 'id' => 'my-blogs', 'title' => __( 'My Blog' ), 'href' => $wp_admin_bar->user->account_domain ) );
+		$wp_admin_bar->add_menu( array( 'id' => 'my-blogs', 'title' => __( 'My Site' ), 'href' => $wp_admin_bar->user->account_domain ) );
 
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-d', 'title' => __( 'Dashboard' ), 'href' => admin_url() ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-n', 'title' => __( 'New Post' ), 'href' => admin_url('post-new.php') ) );
 		// @todo Stats plugins should add this.
-		//$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-s', 'title' => __( 'Blog Stats' ), 'href' => admin_ur;('index.php?page=stats') ) );
+		//$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-s', 'title' => __( 'Site Stats' ), 'href' => admin_ur;('index.php?page=stats') ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-c', 'title' => __( 'Manage Comments' ), 'href' => admin_url('edit-comments.php') ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-v', 'title' => __( 'Read Blog' ), 'href' => home_url() ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'my-blogs', 'id' => 'blog-1-v', 'title' => __( 'Read Site' ), 'href' => home_url() ) );
 	}
 }
 add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_my_blogs_menu', 30 );
 
 /**
- * Show the blavatar of the current blog as a separator.
+ * Show the blavatar of the current site as a separator.
  */
 function wp_admin_bar_blog_separator() {
 	global $wp_admin_bar, $current_user, $current_blog;
@@ -173,12 +173,12 @@ function wp_admin_bar_blog_separator() {
 
 	$default = includes_url('images/wpmini-blue.png');
 
-	$wp_admin_bar->add_menu( array( 'id' => 'blog', 'title' => '<img class="avatar" src="' . $default . '" alt="' . __( 'Current blog avatar' ) . '" width="16" height="16" />', 'href' => home_url() ) );
+	$wp_admin_bar->add_menu( array( 'id' => 'blog', 'title' => '<img class="avatar" src="' . $default . '" alt="' . __( 'Current site avatar' ) . '" width="16" height="16" />', 'href' => home_url() ) );
 }
 add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_blog_separator', 40 );
 
 /**
- * Use the $wp_admin_bar global to add a menu for blog info, accessable to all users.
+ * Use the $wp_admin_bar global to add a menu for site info, accessable to all users.
  */
 function wp_admin_bar_bloginfo_menu() {
 	global $wp_admin_bar;
@@ -186,8 +186,8 @@ function wp_admin_bar_bloginfo_menu() {
 	if ( !is_object( $wp_admin_bar ) )
 		return false;
 
-	/* Add the Blog Info menu */
-	$wp_admin_bar->add_menu( array( 'id' => 'bloginfo', 'title' => __( 'Blog Info' ), 'href' => '' ) );
+	/* Add the Site Info menu */
+	$wp_admin_bar->add_menu( array( 'id' => 'bloginfo', 'title' => __( 'Site Info' ), 'href' => '' ) );
 
 	$wp_admin_bar->add_menu( array( 'parent' => 'bloginfo', 'title' => __( 'Get Shortlink' ), 'href' => '', 'meta' => array( 'onclick' => 'javascript:function wpcomshort() { var url=document.location;var links=document.getElementsByTagName(&#39;link&#39;);var found=0;for(var i = 0, l; l = links[i]; i++){if(l.getAttribute(&#39;rel&#39;)==&#39;shortlink&#39;) {found=l.getAttribute(&#39;href&#39;);break;}}if (!found) {for (var i = 0; l = document.links[i]; i++) {if (l.getAttribute(&#39;rel&#39;) == &#39;shortlink&#39;) {found = l.getAttribute(&#39;href&#39;);break;}}}if (found) {prompt(&#39;URL:&#39;, found);} else {alert(&#39;No shortlink available for this page&#39;); } } wpcomshort(); return false;' ) ) );
 }
