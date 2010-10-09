@@ -33,8 +33,8 @@ if ( isset( $_REQUEST['action'] ) && 'editblog' == $_REQUEST['action'] ) {
 		'<p>' . __('Add New takes you farther down on this same page. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
 		'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .
 		'<p>' . __('Hovering over each site reveals seven options (three for the primary site):') . '</p>' .
-		'<ul><li>' . __('an Edit link to a separate Edit Site screen.') . '</li>' .
-		'<li>' . __('Backend means the Dashboard for that site.') . '</li>' .
+		'<ul><li>' . __('An Edit link to a separate Edit Site screen.') . '</li>' .
+		'<li>' . __('Dashboard to the Dashboard for that site.') . '</li>' .
 		'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later.') . '</li>' .
 		'<li>' . __('Delete which is a permanent action after the confirmations screen.') . '</li>' .
 		'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
