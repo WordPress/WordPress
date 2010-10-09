@@ -19,8 +19,8 @@ class WP_Admin_Bar {
 			$this->user->account_domain = $this->user->domain;
 		} else {
 			$this->user->active_blog = $this->user->blogs[$blog_id];
-			$this->user->domain = home_url();
-			$this->user->account_domain = home_url();
+			$this->user->domain = trailingslashit( home_url() );
+			$this->user->account_domain = $this->user->domain;
 		}
 		$this->user->locale = get_locale();
 	}
