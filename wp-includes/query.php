@@ -1081,7 +1081,6 @@ class WP_Query extends WP_Object_Query {
 		unset($this->posts);
 		unset($this->query);
 		$this->query_vars = array();
-		$this->tax_query = array();
 		$this->meta_query = array();
 		unset($this->queried_object);
 		unset($this->queried_object_id);
@@ -1399,7 +1398,15 @@ class WP_Query extends WP_Object_Query {
 			do_action_ref_array('parse_query', array(&$this));
 	}
 
-	function parse_tax_query( $q ) {
+	/*
+	 * Populates the 'tax_query' property
+	 *
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @param array &$q The query variables
+	 */
+	function parse_tax_query( &$q ) {
 		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
 			$tax_query = $q['tax_query'];
 		} else {
@@ -1502,9 +1509,9 @@ class WP_Query extends WP_Object_Query {
 			);
 		}
 
-		$this->tax_query = $tax_query;
+		$q['tax_query'] = $tax_query;
 
-		foreach ( $this->tax_query as $query ) {
+		foreach ( $q['tax_query'] as $query ) {
 			if ( 'IN' == $query['operator'] ) {
 				switch ( $query['taxonomy'] ) {
 					case 'category':
@@ -1845,7 +1852,7 @@ class WP_Query extends WP_Object_Query {
 		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
 
 		// Taxonomies
-		if ( !empty( $this->tax_query ) ) {
+		if ( !empty( $q['tax_query'] ) ) {
 			if ( empty($post_type) ) {
 				$post_type = 'any';
 				$post_status_join = true;
@@ -1853,11 +1860,11 @@ class WP_Query extends WP_Object_Query {
 				$post_status_join = true;
 			}
 
-			$where .= $this->get_tax_sql( "$wpdb->posts.ID" );
+			$where .= $this->get_tax_sql( $q['tax_query'], "$wpdb->posts.ID" );
 
 			// Back-compat
 			if ( !empty( $ids ) ) {
-				$cat_query = wp_list_filter( $this->tax_query, array( 'taxonomy' => 'category' ) );
+				$cat_query = wp_list_filter( $q['tax_query'], array( 'taxonomy' => 'category' ) );
 				if ( !empty( $cat_query ) ) {
 					$cat_query = reset( $cat_query );
 					$cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
@@ -2514,9 +2521,11 @@ class WP_Query extends WP_Object_Query {
 		$this->queried_object = NULL;
 		$this->queried_object_id = 0;
 
-		if ( $this->tax_query ) {
-			$query = reset( $this->tax_query );
-			if ( 'term_id' == $query['field']  )
+		$tax_query = $this->get('tax_query');
+
+		if ( !empty( $tax_query ) ) {
+			$query = reset( $tax_query );
+			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
 			else
 				$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
