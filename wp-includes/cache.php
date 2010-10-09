@@ -457,7 +457,7 @@ class WP_Object_Cache {
 			echo "<strong>Group:</strong> $group<br />";
 			echo "<strong>Cache:</strong>";
 			echo "<pre>";
-			print_r($cache);
+			echo esc_html( print_r( $cache, true ) );
 			echo "</pre>";
 		}
 	}
