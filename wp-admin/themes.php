@@ -136,41 +136,40 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 <p class="search-box">
 	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Themes'); ?>:</label>
 	<input type="text" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php esc_attr_e('Search Themes');  ?>" class="button" />
+	<input type="submit" value="<?php esc_attr_e('Search Themes'); ?>" class="button" />
 	<a id="filter-click" href="?filter=1"><?php _e( 'Feature Filter' ); ?></a>
 </p>
 
 <br class="clear"/>
 
-<div id="filters" <?php if ( $tpage != 'filter' ) echo ' style="display: none"' ?>>
+<div id="filters" <?php if ( ! isset( $tpage ) || $tpage != 'filter' ) echo ' style="display: none"' ?>>
 <?php $feature_list = get_theme_feature_list(); ?>
 	<div class="feature-filter">
 		<p class="install-help"><?php _e('Theme filters') ?></p>
 
-	<?php foreach ( $feature_list as $feature_name => $features ) : ?>
-		<?php	$feature_name = esc_html( $feature_name ); ?>
+	<?php foreach ( $feature_list as $feature_name => $features ) :
+			$feature_name = esc_html( $feature_name ); ?>
 		
 		<div class="feature-container">
 			<div class="feature-name"><?php echo $feature_name ?></div>
-		
+
 			<ol style="float: left; width: 725px;" class="feature-group">
-				<?php foreach ( $features as $key => $feature ) : ?>
-					<?php
+				<?php foreach ( $features as $key => $feature ) :
 						$feature_name = $feature;
 						$feature_name = esc_html( $feature_name );
 						$feature = esc_attr($feature);
 						?>
 				<li>
-					<input type="checkbox" name="features[<?php echo $key; ?>]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php if ( in_array( $key, $checked_features ) ) echo ' checked="checked"' ?>/>
+					<input type="checkbox" name="features[<?php echo $key; ?>]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( isset( $checked_features ) && in_array( $key, $checked_features ) ); ?>/>
 					<label for="feature-id-<?php echo $key; ?>"><?php echo $feature_name; ?></label>
 				</li>
-				<?php	endforeach; ?>
+				<?php endforeach; ?>
 			</ol>
 		</div>
-	<?php	endforeach; ?>
+	<?php endforeach; ?>
 
 	<div class="feature-container">
-		<input style="margin-left: 120px" type="submit" class="button-secondary submitter" value="<?php _e( 'Apply Filters' ); ?>" />
+		<input style="margin-left: 120px" type="submit" class="button-secondary submitter" value="<?php esc_attr_e( 'Apply Filters' ); ?>" />
 		&nbsp;
 		<small><a id="mini-filter-click" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Close filters' )?></a></small>
 	</div>
