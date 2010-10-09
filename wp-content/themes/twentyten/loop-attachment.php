@@ -1,16 +1,19 @@
 <?php
 /**
- * The template for displaying attachments.
+ * The loop that displays an attachment.
+ *
+ * The loop displays the posts and the post content.  See
+ * http://codex.wordpress.org/The_Loop to understand it and
+ * http://codex.wordpress.org/Template_Tags to understand
+ * the tags used in it.
+ *
+ * This can be overridden in child themes with loop-attachment.php.
  *
  * @package WordPress
  * @subpackage Twenty_Ten
- * @since Twenty Ten 1.0
+ * @since Twenty Ten 1.2
  */
-
-get_header(); ?>
-
-		<div id="container" class="single-attachment">
-			<div id="content" role="main">
+?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
@@ -110,9 +113,4 @@ get_header(); ?>
 
 <?php comments_template(); ?>
 
-<?php endwhile; ?>
-
-			</div><!-- #content -->
-		</div><!-- #container -->
-
-<?php get_footer(); ?>
+<?php endwhile; // end of the loop. ?>
