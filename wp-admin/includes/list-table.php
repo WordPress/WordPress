@@ -81,7 +81,7 @@ class WP_List_Table {
 		if ( is_string( $this->_screen ) )
 			$this->_screen = convert_to_screen( $this->_screen );
 
-		add_filter( 'manage_' . $this->_screen->id . '_columns', array( $this, 'get_columns' ) );
+		add_filter( 'manage_' . $this->_screen->id . '_columns', array( $this, 'get_columns' ), 0 );
 
 		if ( !$args['plural'] )
 			$args['plural'] = $this->_screen->base;

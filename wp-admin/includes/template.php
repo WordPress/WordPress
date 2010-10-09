@@ -234,7 +234,7 @@ function get_column_headers( $screen ) {
 	global $_wp_column_headers;
 
 	if ( !isset( $_wp_column_headers[ $screen->id ] ) ) {
-		$_wp_column_headers[ $screen->id ] = apply_filters( 'manage_' . $screen->id . '_columns', $_wp_column_headers );
+		$_wp_column_headers[ $screen->id ] = apply_filters( 'manage_' . $screen->id . '_columns', array() );
 	}
 
 	return $_wp_column_headers[ $screen->id ];
