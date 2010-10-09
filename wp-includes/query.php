@@ -2113,9 +2113,11 @@ class WP_Query extends WP_Object_Query {
 			$where .= ')';
 		}
 
-		list( $meta_join, $meta_where ) = $this->get_meta_sql( $q['meta_query'], $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
-		$join .= $meta_join;
-		$where .= $meta_where;
+		if ( !empty( $q['meta_query'] ) ) {
+			list( $meta_join, $meta_where ) = $this->get_meta_sql( $q['meta_query'], $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
+			$join .= $meta_join;
+			$where .= $meta_where;
+		}
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.

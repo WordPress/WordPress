@@ -461,11 +461,13 @@ class WP_User_Query extends WP_Object_Query {
 			$qv['meta_query'][] = $cap_meta_query;
 		}
 
-		list( $meta_join, $meta_where ) = $this->get_meta_sql( $qv['meta_query'], $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
-		$this->query_from .= $meta_join;
-		$this->query_where .= $meta_where;
+		if ( !empty( $qv['meta_query'] ) ) {
+			list( $meta_join, $meta_where ) = $this->get_meta_sql( $qv['meta_query'], $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
+			$this->query_from .= $meta_join;
+			$this->query_where .= $meta_where;
+		}
 
-		if ( !empty($qv['include']) ) {
+		if ( !empty( $qv['include'] ) ) {
 			$ids = implode( ',', wp_parse_id_list( $qv['include'] ) );
 			$this->query_where .= " AND $wpdb->users.ID IN ($ids)";
 		}
