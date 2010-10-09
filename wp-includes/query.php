@@ -1081,7 +1081,6 @@ class WP_Query extends WP_Object_Query {
 		unset($this->posts);
 		unset($this->query);
 		$this->query_vars = array();
-		$this->meta_query = array();
 		unset($this->queried_object);
 		unset($this->queried_object_id);
 		$this->post_count = 0;
@@ -2114,7 +2113,7 @@ class WP_Query extends WP_Object_Query {
 			$where .= ')';
 		}
 
-		list( $meta_join, $meta_where ) = $this->get_meta_sql( $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
+		list( $meta_join, $meta_where ) = $this->get_meta_sql( $q['meta_query'], $wpdb->posts, 'ID', $wpdb->postmeta, 'post_id' );
 		$join .= $meta_join;
 		$where .= $meta_where;
 

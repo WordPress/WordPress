@@ -458,10 +458,10 @@ class WP_User_Query extends WP_Object_Query {
 				$cap_meta_query['compare'] = 'like';
 			}
 
-			$this->meta_query[] = $cap_meta_query;
+			$qv['meta_query'][] = $cap_meta_query;
 		}
 
-		list( $meta_join, $meta_where ) = $this->get_meta_sql( $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
+		list( $meta_join, $meta_where ) = $this->get_meta_sql( $qv['meta_query'], $wpdb->users, 'ID', $wpdb->usermeta, 'user_id' );
 		$this->query_from .= $meta_join;
 		$this->query_where .= $meta_where;
 

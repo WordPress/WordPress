@@ -544,10 +544,37 @@ class WP {
  */
 class WP_Object_Query {
 
-	/**
-	 * List of metadata queries
+	/*
+	 * Populates the $meta_query property
 	 *
-	 * A query is an associative array:
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @param array $qv The query variables
+	 */
+	function parse_meta_query( &$qv ) {
+		$meta_query = array();
+
+		// Simple query needs to be first for orderby=meta_value to work correctly
+		foreach ( array( 'key', 'value', 'compare', 'type' ) as $key ) {
+			if ( !empty( $qv[ "meta_$key" ] ) )
+				$meta_query[0][ $key ] = $qv[ "meta_$key" ];
+		}
+
+		if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
+			$meta_query = array_merge( $meta_query, $qv['meta_query'] );
+		}
+
+		$qv['meta_query'] = $meta_query;
+	}
+
+	/*
+	 * Used internally to generate an SQL string for searching across multiple meta key = value pairs
+	 *
+	 * @access protected
+	 * @since 3.1.0
+	 *
+	 * @param array $meta_query List of metadata queries. A single query is an associative array:
 	 * - 'key' string The meta key
 	 * - 'value' string|array The meta value
 	 * - 'compare' (optional) string How to compare the key to the value.
@@ -557,51 +584,13 @@ class WP_Object_Query {
 	 *		Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
 	 *		Default: 'CHAR'
 	 *
-	 * @since 3.1.0
-	 * @access public
-	 * @var array
-	 */
-	var $meta_query = array();
-
-	/*
-	 * Populates the $meta_query property
-	 *
-	 * @access protected
-	 * @since 3.1.0
-	 *
-	 * @param array $qv The query variables
-	 */
-	function parse_meta_query( $qv ) {
-		if ( ! empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
-			$this->meta_query = $qv['meta_query'];
-		}
-
-		$meta_query = array();
-		foreach ( array( 'key', 'value', 'compare', 'type' ) as $key ) {
-			if ( ! empty( $qv[ "meta_$key" ] ) )
-				$meta_query[ $key ] = $qv[ "meta_$key" ];
-		}
-
-		if ( ! empty( $meta_query ) ) {
-			array_unshift( $this->meta_query, $meta_query );
-		}
-	}
-
-	/*
-	 * Used internally to generate an SQL string for searching across multiple meta key = value pairs
-	 *
-	 * @access protected
-	 * @since 3.1.0
-	 *
-	 * @uses $this->meta_query
-	 *
 	 * @param string $primary_table
 	 * @param string $primary_id_column
 	 * @param string $meta_table
 	 * @param string $meta_id_column
 	 * @return array( $join_sql, $where_sql )
 	 */
-	function get_meta_sql( $primary_table, $primary_id_column, $meta_table, $meta_id_column ) {
+	function get_meta_sql( $meta_query, $primary_table, $primary_id_column, $meta_table, $meta_id_column ) {
 		global $wpdb;
 
 		$clauses = array();
@@ -609,7 +598,7 @@ class WP_Object_Query {
 		$join = '';
 		$where = '';
 		$i = 0;
-		foreach ( $this->meta_query as $q ) {
+		foreach ( $meta_query as $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
 			$meta_value = isset( $q['value'] ) ? $q['value'] : '';
 			$meta_compare = isset( $q['compare'] ) ? strtoupper( $q['compare'] ) : '=';
