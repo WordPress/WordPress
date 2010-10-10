@@ -260,17 +260,16 @@ class WP {
 			if ( $t->query_var )
 				$post_type_query_vars[$t->query_var] = $post_type;
 
-		for ( $i = 0; $i < count($this->public_query_vars); $i += 1 ) {
-			$wpvar = $this->public_query_vars[$i];
-			if ( isset($this->extra_query_vars[$wpvar]) )
+		foreach ( $this->public_query_vars as $wpvar ) {
+			if ( isset( $this->extra_query_vars[$wpvar] ) )
 				$this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];
-			elseif ( isset($GLOBALS[$wpvar]) )
+			elseif ( isset( $GLOBALS[$wpvar] ) )
 				$this->query_vars[$wpvar] = $GLOBALS[$wpvar];
-			elseif ( !empty($_POST[$wpvar]) )
+			elseif ( isset( $_POST[$wpvar] ) )
 				$this->query_vars[$wpvar] = $_POST[$wpvar];
-			elseif ( !empty($_GET[$wpvar]) )
+			elseif ( isset( $_GET[$wpvar] ) )
 				$this->query_vars[$wpvar] = $_GET[$wpvar];
-			elseif ( !empty($perma_query_vars[$wpvar]) )
+			elseif ( isset( $perma_query_vars[$wpvar] ) )
 				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
 
 			if ( !empty( $this->query_vars[$wpvar] ) ) {
