@@ -1075,17 +1075,14 @@ function get_comments_popup_template() {
  *
  * @since 2.7.0
  *
- * @param array $template_names Array of template files to search for in priority order.
+ * @param string|array $template_names Template file(s) to search for, in order.
  * @param bool $load If true the template file will be loaded if it is found.
  * @param bool $require_once Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
 function locate_template($template_names, $load = false, $require_once = true ) {
-	if ( !is_array($template_names) )
-		return '';
-
 	$located = '';
-	foreach ( $template_names as $template_name ) {
+	foreach ( (array) $template_names as $template_name ) {
 		if ( !$template_name )
 			continue;
 		if ( file_exists(STYLESHEETPATH . '/' . $template_name)) {

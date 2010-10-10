@@ -151,7 +151,7 @@ function get_template_part( $slug, $name = null ) {
 function get_search_form($echo = true) {
 	do_action( 'get_search_form' );
 
-	$search_form_template = locate_template(array('searchform.php'));
+	$search_form_template = locate_template('searchform.php');
 	if ( '' != $search_form_template ) {
 		require($search_form_template);
 		return;
