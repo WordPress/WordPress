@@ -1420,11 +1420,11 @@ class WP_Query extends WP_Object_Query {
 					'operator' => 'IN'
 				);
 
-				$term = urlencode( urldecode( $q[$t->query_var] ) );
+				$term = $q[$t->query_var];
 
 				if ( $t->hierarchical_url ) {
 					$tax_query[] = array_merge( $tax_query_defaults, array(
-						'terms' => array( basename( str_replace( '%2F', '/', $term ) ) )
+						'terms' => array( basename( $term ) )
 					) );
 				} elseif ( strpos($term, '+') !== false ) {
 					$terms = preg_split( '/[+\s]+/', $term );
