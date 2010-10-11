@@ -168,7 +168,7 @@ function wp_nav_menu( $args = array() ) {
 
 	// If no menu was found or if the menu has no items and no location was requested, call the fallback_cb if it exists
 	if ( ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) && !$args->theme_location ) )
-		&& $args->fallback_cb && ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) )
+		&& $args->fallback_cb && is_callable( $args->fallback_cb ) )
 			return call_user_func( $args->fallback_cb, (array) $args );
 
 	// If no fallback function was specified and the menu doesn't exists, bail.
