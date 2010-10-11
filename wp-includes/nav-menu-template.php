@@ -119,7 +119,7 @@ class Walker_Nav_Menu extends Walker {
  * container - Whether to wrap the ul, and what to wrap it with. Defaults to 'div'.
  * container_class - the class that is applied to the container. Defaults to 'menu-{menu slug}-container'.
  * container_id - The ID that is applied to the container. Defaults to blank.
- * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'.
+ * fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to 'wp_page_menu'. Set to false for no fallback.
  * before - Text before the link text.
  * after - Text after the link text.
  * link_before - Text before the link.
@@ -168,7 +168,7 @@ function wp_nav_menu( $args = array() ) {
 
 	// If no menu was found or if the menu has no items and no location was requested, call the fallback_cb if it exists
 	if ( ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) && !$args->theme_location ) )
-		&& ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) )
+		&& $args->fallback_cb && ( function_exists($args->fallback_cb) || is_callable( $args->fallback_cb ) ) )
 			return call_user_func( $args->fallback_cb, (array) $args );
 
 	// If no fallback function was specified and the menu doesn't exists, bail.
