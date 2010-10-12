@@ -334,6 +334,28 @@ function register_new_user( $user_login, $user_email ) {
 	return $user_id;
 }
 
+// TODO: Eliminate duplicated code from wp_default_scripts()
+function load_password_strength_meter() {
+	if ( !$guessurl = site_url() )
+		$guessurl = wp_guess_url();
+
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+
+	wp_enqueue_script( 'user-profile', $guessurl . "/wp-admin/js/user-profile$suffix.js", array('jquery'), '20100331' );
+	wp_localize_script( 'user-profile', 'pwsL10n', array(
+		'empty' => __('Strength indicator'),
+		'short' => __('Very weak'),
+		'bad' => __('Weak'),
+		/* translators: password strength */
+		'good' => _x('Medium', 'password strength'),
+		'strong' => __('Strong'),
+		'mismatch' => __('Mismatch'),
+		'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
+	) );
+
+	wp_print_scripts( array('user-profile') );
+}
+
 //
 // Main
 //
@@ -445,18 +467,25 @@ case 'rp' :
 		exit;
 	}
 
-	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Reset your password') . '</p>', $errors );
+	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
+
+	load_password_strength_meter();
 
 ?>
 <form name="resetpassform" id="resetpassform" action="<?php echo site_url('wp-login.php?action=resetpass&key=' . urlencode($_GET['key']) . '&login=' . urlencode($_GET['login']), 'login_post') ?>" method="post">
+	<input type="hidden" id="user_login" value="<?php echo esc_attr( $_GET['login'] ); ?>" autocomplete="off" />
+
 	<p>
-		<label><?php _e('New Password') ?><br />
-		<input type="password" name="pass1" id="user_pass" class="input" size="20" value="" autocomplete="off" /></label>
+		<label><?php _e('New password') ?><br />
+		<input type="password" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" /></label>
 	</p>
 	<p>
-		<label><?php _e('New Password Again') ?><br />
-		<input type="password" name="pass2" id="user_pass" class="input" size="20" value="" autocomplete="off" /></label>
+		<label><?php _e('Confirm new password') ?><br />
+		<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" /></label>
 	</p>
+
+	<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator'); ?></div>
+	<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 
 	<br class="clear" />
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Reset Password'); ?>" tabindex="100" /></p>

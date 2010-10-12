@@ -135,3 +135,13 @@ input {
 .clear {
 	clear: both;
 }
+
+#pass-strength-result {
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	margin: 12px 0 6px;
+	padding: 6px 5px;
+	text-align: center;
+}
+
