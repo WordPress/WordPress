@@ -471,6 +471,45 @@ function get_post_mime_type($ID = '') {
 }
 
 /**
+ * Retrieve the format for a post
+ *
+ * @param int|object $post A post
+ *
+ * @return mixed The format if successful. False if no format is set.  WP_Error if errors.
+ */
+function get_post_format( $post ) {
+	$post = get_post($post);
+
+	$format = wp_get_object_terms( $post->ID, 'post_format', array('orderby' => 'none', 'fields' => 'names') );
+
+	if ( is_wp_error($format) )
+		return $format;
+
+	if ( empty($format) )
+		return false;
+
+	return ( str_replace('post-format-', '', $format[0]) );
+}
+
+/**
+ * Assign a format to a post
+ *
+ * @param int|object $post The post for which to assign a format
+ * @param string $format  A format to assign.
+ * @return mixed WP_Error on error. Array of affected term IDs on success.
+ */
+function set_post_format( $post, $format ) {
+	$post = get_post($post);
+
+	if ( empty($post) )
+		return new WP_Error('invalid_post', __('Invalid post'));
+
+	$format = sanitize_key($format);
+
+	return wp_set_post_terms($post->ID, array('post-format-' . $format), 'post_format');
+}
+
+/**
  * Retrieve the post status based on the Post ID.
  *
  * If the post ID is of an attachment, then the parent post status will be given

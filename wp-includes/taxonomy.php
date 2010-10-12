@@ -71,6 +71,19 @@ function create_initial_taxonomies() {
 		'show_ui' => false,
 		'_builtin' => true,
 	) ) ;
+
+	register_taxonomy( 'post_format', array('post', 'page', 'attachment'), array(
+		'hierarchical' => false,
+		'labels' => array(
+			'name' => '',
+			'singular_name' => '',
+		),
+		'query_var' => false,
+		'rewrite' => false,
+		'show_ui' => false,
+		'_builtin' => true,
+		'show_in_nav_menus' => false,
+	) ) ;
 }
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
