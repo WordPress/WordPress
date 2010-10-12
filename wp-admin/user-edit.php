@@ -24,7 +24,6 @@ elseif ( ! get_userdata( $user_id ) )
 	wp_die( __('Invalid user ID.') );
 
 wp_enqueue_script('user-profile');
-wp_enqueue_script('password-strength-meter');
 
 $title = IS_PROFILE_PAGE ? __('Profile') : __('Edit User');
 if ( current_user_can('edit_users') && !IS_PROFILE_PAGE )

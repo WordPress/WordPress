@@ -334,6 +334,28 @@ function register_new_user( $user_login, $user_email ) {
 	return $user_id;
 }
 
+// TODO: Eliminate duplicated code from wp_default_scripts()
+function load_password_strength_meter() {
+	if ( !$guessurl = site_url() )
+		$guessurl = wp_guess_url();
+
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+
+	wp_enqueue_script( 'password-strength-meter', $guessurl . "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20100331' );
+	wp_localize_script( 'password-strength-meter', 'pwsL10n', array(
+		'empty' => __('Strength indicator'),
+		'short' => __('Very weak'),
+		'bad' => __('Weak'),
+		/* translators: password strength */
+		'good' => _x('Medium', 'password strength'),
+		'strong' => __('Strong'),
+		'mismatch' => __('Mismatch'),
+		'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
+	) );
+
+	wp_print_scripts( array('password-strength-meter') );
+}
+
 //
 // Main
 //
@@ -384,6 +406,7 @@ break;
 
 case 'lostpassword' :
 case 'retrievepassword' :
+
 	if ( $http_post ) {
 		$errors = retrieve_password();
 		if ( !is_wp_error($errors) ) {
@@ -445,6 +468,9 @@ case 'rp' :
 	}
 
 	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Reset your password') . '</p>', $errors );
+
+	load_password_strength_meter();
+
 ?>
 <form name="resetpassform" id="resetpassform" action="<?php echo site_url('wp-login.php?action=resetpass&key=' . urlencode($_GET['key']) . '&login=' . urlencode($_GET['login']), 'login_post') ?>" method="post">
 	<p>
@@ -455,6 +481,10 @@ case 'rp' :
 		<label><?php _e('New Password Again') ?><br />
 		<input type="password" name="pass2" id="user_pass" class="input" size="20" value="" autocomplete="off" /></label>
 	</p>
+
+	<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
+	<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+
 	<br class="clear" />
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Reset Password'); ?>" tabindex="100" /></p>
 </form>

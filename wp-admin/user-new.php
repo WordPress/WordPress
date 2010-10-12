@@ -128,7 +128,6 @@ add_contextual_help($current_screen,
 
 wp_enqueue_script('wp-ajax-response');
 wp_enqueue_script('user-profile');
-wp_enqueue_script('password-strength-meter');
 
 require_once ('admin-header.php');
 
