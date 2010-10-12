@@ -510,7 +510,7 @@ function has_post_format( $format, $post = null ) {
  * Assign a format to a post
  *
  * @param int|object $post The post for which to assign a format
- * @param string $format  A format to assign.
+ * @param string $format  A format to assign.  Use an empty string or array to remove all formats from the post.
  * @return mixed WP_Error on error. Array of affected term IDs on success.
  */
 function set_post_format( $post, $format ) {
@@ -519,9 +519,10 @@ function set_post_format( $post, $format ) {
 	if ( empty($post) )
 		return new WP_Error('invalid_post', __('Invalid post'));
 
-	$format = sanitize_key($format);
+	if ( !empty($format) )
+		$format = 'post-format-' . sanitize_key($format);
 
-	return wp_set_post_terms($post->ID, array('post-format-' . $format), 'post_format');
+	return wp_set_post_terms($post->ID, $format, 'post_format');
 }
 
 /**
