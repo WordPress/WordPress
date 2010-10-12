@@ -492,6 +492,21 @@ function get_post_format( $post ) {
 }
 
 /**
+ *  Check if a post has a particular format
+ *
+ * @since 3.1
+ *
+ * @uses has_term()
+ * 
+ * @param string $format The format to check for
+ * @param object|id $post The post to check. If not supplied, defaults to the current post if used in the loop.
+ * @return bool True if the post has the format, false otherwise.
+ */
+function has_post_format( $format, $post = null ) {
+	return has_term('post-format-' . sanitize_key($format), 'post_format', $post);
+}
+
+/**
  * Assign a format to a post
  *
  * @param int|object $post The post for which to assign a format
