@@ -276,8 +276,11 @@ class WP {
 				if ( ! is_array( $this->query_vars[$wpvar] ) ) {
 					$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
 				} else {
-					foreach ( $this->query_vars[$wpvar] as $vkey => $v )
-						$this->query_vars[$wpvar][$vkey] = (string) $v;
+					foreach ( $this->query_vars[$wpvar] as $vkey => $v ) {
+						if ( !is_object( $v ) ) {
+							$this->query_vars[$wpvar][$vkey] = (string) $v;
+						}
+					}
 				}
 
 				if ( isset( $taxonomy_query_vars[$wpvar] ) ) {
