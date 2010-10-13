@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/twentyten\n"
-"POT-Creation-Date: 2010-09-12 16:21+0000\n"
+"POT-Creation-Date: 2010-10-13 12:29+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,61 +46,12 @@ msgstr ""
 msgid "Blog Archives"
 msgstr ""
 
-#: attachment.php:18
-#, php-format
-msgid "Return to %s"
-msgstr ""
-
-#. translators: %s - title of parent post
-#: attachment.php:20
-#, php-format
-msgid "<span class=\"meta-nav\">&larr;</span> %s"
-msgstr ""
-
-#: attachment.php:29
-#, php-format
-msgid "<span class=\"%1$s\">By</span> %2$s"
-msgstr ""
-
-#: attachment.php:33 functions.php:451
-#, php-format
-msgid "View all posts by %s"
-msgstr ""
-
-#: attachment.php:40
-#, php-format
-msgid "<span class=\"%1$s\">Published</span> %2$s"
-msgstr ""
-
-#: attachment.php:50
-#, php-format
-msgid "Full size is %s pixels"
-msgstr ""
-
-#: attachment.php:53
-msgid "Link to full-size image"
-msgstr ""
-
-#: attachment.php:60 attachment.php:107 loop.php:95 loop.php:118 loop.php:160
-#: onecolumn-page.php:27 page.php:32 single.php:53
-msgid "Edit"
-msgstr ""
-
-#: attachment.php:100 functions.php:241 loop.php:110 loop.php:138
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
-msgstr ""
-
-#: attachment.php:101 loop.php:139 onecolumn-page.php:26 page.php:31
-#: single.php:31
-msgid "Pages:"
-msgstr ""
-
 #: author.php:27
 #, php-format
 msgid "Author Archives: %s"
 msgstr ""
 
-#: author.php:37 single.php:40
+#: author.php:37 loop-single.php:43
 #, php-format
 msgid "About %s"
 msgstr ""
@@ -193,6 +144,10 @@ msgstr ""
 msgid "Sunset"
 msgstr ""
 
+#: functions.php:241 loop-attachment.php:103 loop.php:110 loop.php:138
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
 #: functions.php:308
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
@@ -271,6 +226,11 @@ msgid ""
 "span> %3$s"
 msgstr ""
 
+#: functions.php:451 loop-attachment.php:36
+#, php-format
+msgid "View all posts by %s"
+msgstr ""
+
 #: functions.php:468
 #, php-format
 msgid ""
@@ -299,6 +259,60 @@ msgstr ""
 
 #: header.php:83
 msgid "Skip to content"
+msgstr ""
+
+#: loop-attachment.php:21
+#, php-format
+msgid "Return to %s"
+msgstr ""
+
+#. translators: %s - title of parent post
+#: loop-attachment.php:23
+#, php-format
+msgid "<span class=\"meta-nav\">&larr;</span> %s"
+msgstr ""
+
+#: loop-attachment.php:32
+#, php-format
+msgid "<span class=\"%1$s\">By</span> %2$s"
+msgstr ""
+
+#: loop-attachment.php:43
+#, php-format
+msgid "<span class=\"%1$s\">Published</span> %2$s"
+msgstr ""
+
+#: loop-attachment.php:53
+#, php-format
+msgid "Full size is %s pixels"
+msgstr ""
+
+#: loop-attachment.php:56
+msgid "Link to full-size image"
+msgstr ""
+
+#: loop-attachment.php:63 loop-attachment.php:110 loop-page.php:30
+#: loop-single.php:56 loop.php:95 loop.php:118 loop.php:160
+msgid "Edit"
+msgstr ""
+
+#: loop-attachment.php:104 loop-page.php:29 loop-single.php:34 loop.php:139
+msgid "Pages:"
+msgstr ""
+
+#: loop-single.php:21 loop-single.php:61
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr ""
+
+#: loop-single.php:22 loop-single.php:62
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr ""
+
+#: loop-single.php:47
+#, php-format
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: loop.php:25 loop.php:173
@@ -386,21 +400,6 @@ msgstr ""
 
 #: sidebar.php:34
 msgid "Meta"
-msgstr ""
-
-#: single.php:18 single.php:58
-msgctxt "Previous post link"
-msgid "&larr;"
-msgstr ""
-
-#: single.php:19 single.php:59
-msgctxt "Next post link"
-msgid "&rarr;"
-msgstr ""
-
-#: single.php:44
-#, php-format
-msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
 #: tag.php:16
