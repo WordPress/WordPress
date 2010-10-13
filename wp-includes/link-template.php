@@ -652,15 +652,7 @@ function get_tag_feed_link($tag_id, $feed = '') {
  * @return string
  */
 function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
-	global $post_type;
-	$tax = get_taxonomy($taxonomy);
-	if ( !current_user_can($tax->cap->edit_terms) )
-		return;
-
-	$tag = get_term($tag_id, $taxonomy);
-
-	$location = admin_url('edit-tags.php?action=edit&amp;taxonomy=' . $taxonomy . '&amp;' . (!empty($post_type) ? 'post_type=' . $post_type .'&amp;' : '') .'tag_ID=' . $tag->term_id);
-	return apply_filters( 'get_edit_tag_link', $location );
+	return apply_filters( 'get_edit_tag_link', get_edit_term_url( $tag_id, $taxonomy ) );
 }
 
 /**
@@ -672,20 +664,66 @@ function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
  * @param int|object $tag Tag object or ID
- * @return string|null HTML content, if $echo is set to false.
+ * @return string HTML content.
  */
 function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
-	$tax = get_taxonomy('post_tag');
+	$link = edit_term_link( $link, '', '', false, $tag );
+	echo $before . apply_filters( 'edit_tag_link', $link ) . $after;
+}
+
+/**
+ * Retrieve edit term url.
+ *
+ * @since 3.1
+ *
+ * @param int $term_id Term ID
+ * @param int $taxonomy Taxonomy
+ * @return string
+ */
+function get_edit_term_url( $term_id = 0, $taxonomy = 'post_tag' ) {
+	$tax = get_taxonomy($taxonomy);
 	if ( !current_user_can($tax->cap->edit_terms) )
 		return;
 
-	$tag = get_term($tag, 'post_tag');
+	$term = get_term($term_id, $taxonomy);
+
+	$location = admin_url('edit-tags.php?action=edit&amp;taxonomy=' . $taxonomy .'&amp;tag_ID=' . $term->term_id);
+
+	return apply_filters( 'get_edit_term_url', $location );
+}
+
+/**
+ * Display or retrieve edit term link with formatting.
+ *
+ * @since 3.1
+ *
+ * @param string $link Optional. Anchor text.
+ * @param string $before Optional. Display before edit link.
+ * @param string $after Optional. Display after edit link.
+ * @param object $term Term object
+ * @return string HTML content.
+ */
+function edit_term_link( $link = '', $before = '', $after = '', $term = null, $echo = true ) {
+	
+	if ( $term == null ) {
+		global $wp_query;
+		$term = $wp_query->get_queried_object();
+	}
+	
+	$tax = get_taxonomy( $term->taxonomy );
+	if ( !current_user_can($tax->cap->edit_terms) )
+		return;
 
 	if ( empty($link) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . get_edit_tag_link( $tag->term_id ) . '" title="' . __( 'Edit Tag' ) . '">' . $link . '</a>';
-	echo $before . apply_filters( 'edit_tag_link', $link, $tag->term_id ) . $after;
+	$link = '<a href="' . get_edit_term_url( $term->term_id, $term->taxonomy ) . '" title="' . $link . '">' . $link . '</a>';
+	$link = $before . apply_filters( 'edit_term_link', $link, $term->term_id ) . $after;
+	
+	if ( $echo )
+		echo $link;
+	else
+		return $link;
 }
 
 /**
