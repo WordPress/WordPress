@@ -2186,13 +2186,13 @@ class WP_Query extends WP_Object_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		if ( !$q['suppress_filters'] ) {
-			$distinct	= apply_filters_ref_array( 'posts_distinct',	array( $distinct, &$this ) );
-			$fields		= apply_filters_ref_array( 'posts_fields',		array( $fields, &$this ) );
 			$where		= apply_filters_ref_array( 'posts_where_paged',	array( $where, &$this ) );
-			$join		= apply_filters_ref_array( 'posts_join_paged',	array( $join, &$this ) );
 			$groupby	= apply_filters_ref_array( 'posts_groupby',		array( $groupby, &$this ) );
+			$join		= apply_filters_ref_array( 'posts_join_paged',	array( $join, &$this ) );
 			$orderby	= apply_filters_ref_array( 'posts_orderby',		array( $orderby, &$this ) );
-			$limits		= apply_filters_ref_array( 'post_limits',		array( $limits, &$this ) );	
+			$distinct	= apply_filters_ref_array( 'posts_distinct',	array( $distinct, &$this ) );
+			$limits		= apply_filters_ref_array( 'post_limits',		array( $limits, &$this ) );
+			$fields		= apply_filters_ref_array( 'posts_fields',		array( $fields, &$this ) );
 
 			// Also apply a filter on all clauses at once, for convenience
 			$clauses = array();
@@ -2212,13 +2212,13 @@ class WP_Query extends WP_Object_Query {
 
 		// Filter again for the benefit of caching plugins.  Regular plugins should use the hooks above.
 		if ( !$q['suppress_filters'] ) {
-			$distinct	= apply_filters_ref_array( 'posts_distinct_request',array( $distinct, &$this ) );
-			$fields		= apply_filters_ref_array( 'posts_fields_request',	array( $fields, &$this ) );
-			$where		= apply_filters_ref_array( 'posts_where_request',	array( $where, &$this ) );
-			$join		= apply_filters_ref_array( 'posts_join_request',	array( $join, &$this ) );
-			$groupby	= apply_filters_ref_array( 'posts_groupby_request',	array( $groupby, &$this ) );
-			$orderby	= apply_filters_ref_array( 'posts_orderby_request',	array( $orderby, &$this ) );
-			$limits		= apply_filters_ref_array( 'post_limits_request',	array( $limits, &$this ) );
+			$where		= apply_filters_ref_array( 'posts_where_request',		array( $where, &$this ) );
+			$groupby	= apply_filters_ref_array( 'posts_groupby_request',		array( $groupby, &$this ) );
+			$join		= apply_filters_ref_array( 'posts_join_request',		array( $join, &$this ) );
+			$orderby	= apply_filters_ref_array( 'posts_orderby_request',		array( $orderby, &$this ) );
+			$distinct	= apply_filters_ref_array( 'posts_distinct_request',	array( $distinct, &$this ) );
+			$fields		= apply_filters_ref_array( 'posts_fields_request',		array( $fields, &$this ) );
+			$limits		= apply_filters_ref_array( 'post_limits_request',		array( $limits, &$this ) );
 		}
 
 		if ( ! empty($groupby) )
