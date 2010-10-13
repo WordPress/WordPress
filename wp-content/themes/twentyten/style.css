@@ -139,7 +139,9 @@ h3#reply-title,
 .pingback p,
 .reply,
 .widget-title,
-.wp-caption-text,
+.wp-caption-text {
+	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
+}
 input[type=submit] {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
