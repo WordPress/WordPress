@@ -652,7 +652,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		?>">
 			<ul id="<?php echo $post_type_name; ?>checklist-most-recent" class="categorychecklist form-no-clear">
 				<?php
-				$recent_args = array_merge( $args, array( 'orderby' => 'post_date', 'order' => 'DESC', 'showposts' => 15 ) );
+				$recent_args = array_merge( $args, array( 'orderby' => 'post_date', 'order' => 'DESC', 'posts_per_page' => 15 ) );
 				$most_recent = $get_posts->query( $recent_args );
 				$args['walker'] = $walker;
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $most_recent), 0, (object) $args );

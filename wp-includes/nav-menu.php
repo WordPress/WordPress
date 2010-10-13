@@ -653,7 +653,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 			'meta_value' => $object_id,
 			'post_status' => 'any',
 			'post_type' => 'nav_menu_item',
-			'showposts' => -1,
+			'posts_per_page' => -1,
 		)
 	);
 	foreach( (array) $menu_items as $menu_item ) {
