@@ -2186,25 +2186,18 @@ class WP_Query extends WP_Object_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		if ( !$q['suppress_filters'] ) {
-			$where		= apply_filters_ref_array( 'posts_where_paged',	array( $where, &$this ) );
-			$groupby	= apply_filters_ref_array( 'posts_groupby',		array( $groupby, &$this ) );
-			$join		= apply_filters_ref_array( 'posts_join_paged',	array( $join, &$this ) );
-			$orderby	= apply_filters_ref_array( 'posts_orderby',		array( $orderby, &$this ) );
-			$distinct	= apply_filters_ref_array( 'posts_distinct',	array( $distinct, &$this ) );
-			$limits		= apply_filters_ref_array( 'post_limits',		array( $limits, &$this ) );
-			$fields		= apply_filters_ref_array( 'posts_fields',		array( $fields, &$this ) );
-
-			// Also apply a filter on all clauses at once, for convenience
-			$clauses = array();
-			foreach ( array('distinct', 'fields', 'where', 'join', 'groupby', 'orderby', 'limits') as $var ) {
-				$clauses[ $var ] = $$var;
-				unset( $$var );	// so we can use EXTR_SKIP below
-			}
-
-			$clauses = apply_filters_ref_array( 'wp_query_clauses', array( $clauses, &$this ) );
-
-			extract( $clauses, EXTR_SKIP );
-			unset( $clauses );
+			$var_config = array(
+				'where'    => 'posts_where_paged',
+				'groupby'  => 'posts_groupby',
+				'join'     => 'posts_join_paged',
+				'orderby'  => 'posts_orderby',
+				'distinct' => 'posts_distinct',
+				'limits'   => 'post_limits',
+				'fields'   => 'posts_fields',
+			);
+			$var_values = compact( array_keys( $var_config ) );
+			$result = $this->_filter_clause_variables( $var_config, $var_values, 'posts_clauses' );
+			extract( $result );
 		}
 
 		// Announce current selection parameters.  For use by caching plugins.
@@ -2212,13 +2205,18 @@ class WP_Query extends WP_Object_Query {
 
 		// Filter again for the benefit of caching plugins.  Regular plugins should use the hooks above.
 		if ( !$q['suppress_filters'] ) {
-			$where		= apply_filters_ref_array( 'posts_where_request',		array( $where, &$this ) );
-			$groupby	= apply_filters_ref_array( 'posts_groupby_request',		array( $groupby, &$this ) );
-			$join		= apply_filters_ref_array( 'posts_join_request',		array( $join, &$this ) );
-			$orderby	= apply_filters_ref_array( 'posts_orderby_request',		array( $orderby, &$this ) );
-			$distinct	= apply_filters_ref_array( 'posts_distinct_request',	array( $distinct, &$this ) );
-			$fields		= apply_filters_ref_array( 'posts_fields_request',		array( $fields, &$this ) );
-			$limits		= apply_filters_ref_array( 'post_limits_request',		array( $limits, &$this ) );
+			$var_config = array(
+				'where'    => 'posts_where_request',
+				'groupby'  => 'posts_groupby_request',
+				'join'     => 'posts_join_request',
+				'orderby'  => 'posts_orderby_request',
+				'distinct' => 'posts_distinct_request',
+				'fields'   => 'posts_fields_request',
+				'limits'   => 'post_limits_request',
+			);
+			$var_values = compact( array_keys( $var_config ) );
+			$result = $this->_filter_clause_variables( $var_config, $var_values, 'posts_clauses_request' );
+			extract( $result );
 		}
 
 		if ( ! empty($groupby) )
@@ -2358,6 +2356,35 @@ class WP_Query extends WP_Object_Query {
 		}
 
 		return $this->posts;
+	}
+	
+	/**
+	 * Filter clause variables based on configuration. Once per clause and 
+	 * then all clauses at once.
+	 * 
+	 * @access private
+	 * @param array $config filternames keyed with their variable names
+	 * @param array $values values keyed with their variable names
+	 * @param string $all_filter_name for the "single filter"
+	 * @return array filtered values keyed with their names
+	 */
+	function _filter_clause_variables( $config, $values, $all_filter_name ) {
+		$clauses = array();
+		foreach ( $config as $variable_name => $filter ) {
+			$clauses[$variable_name] = apply_filters_ref_array( $filter, array( $values[$variable_name], &$this ) );
+		}
+		// run filter for all clauses at once
+		$clauses = apply_filters_ref_array( $all_filter_name, array( $clauses, &$this ) );
+		$is_array = is_array( $clauses );
+		$filtered = array();
+		foreach ( $config as $variable_name => $filter ) {
+			if ( $is_array && isset( $clauses[$variable_name] ) ) {
+				$filtered[$variable_name] = $clauses[$variable_name];
+			} else {
+				$filtered[$variable_name] = '';
+			}
+		}
+		return $filtered;
 	}
 
 	/**
