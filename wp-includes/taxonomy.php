@@ -1004,7 +1004,7 @@ function &get_terms($taxonomies, $args = '') {
 	if ( !empty( $exclude_tree ) ) {
 		$excluded_trunks = wp_parse_id_list($exclude_tree);
 		foreach ( $excluded_trunks as $extrunk ) {
-			$excluded_children = (array) get_terms($taxonomies[0], array('child_of' => intval($extrunk), 'fields' => 'ids'));
+			$excluded_children = (array) get_terms($taxonomies[0], array('child_of' => intval($extrunk), 'fields' => 'ids', 'hide_empty' => 0));
 			$excluded_children[] = $extrunk;
 			foreach( $excluded_children as $exterm ) {
 				if ( empty($exclusions) )
