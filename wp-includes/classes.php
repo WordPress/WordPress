@@ -263,8 +263,6 @@ class WP {
 		foreach ( $this->public_query_vars as $wpvar ) {
 			if ( isset( $this->extra_query_vars[$wpvar] ) )
 				$this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];
-			elseif ( isset( $GLOBALS[$wpvar] ) )
-				$this->query_vars[$wpvar] = $GLOBALS[$wpvar];
 			elseif ( isset( $_POST[$wpvar] ) )
 				$this->query_vars[$wpvar] = $_POST[$wpvar];
 			elseif ( isset( $_GET[$wpvar] ) )
@@ -307,8 +305,6 @@ class WP {
 		foreach ( (array) $this->private_query_vars as $var) {
 			if ( isset($this->extra_query_vars[$var]) )
 				$this->query_vars[$var] = $this->extra_query_vars[$var];
-			elseif ( isset($GLOBALS[$var]) && '' != $GLOBALS[$var] )
-				$this->query_vars[$var] = $GLOBALS[$var];
 		}
 
 		if ( isset($error) )
