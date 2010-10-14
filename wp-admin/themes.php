@@ -142,7 +142,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 <br class="clear"/>
 
-<div id="filters" <?php if ( ! isset( $tpage ) || $tpage != 'filter' ) echo ' style="display: none"' ?>>
+<div id="filters" style="display: none;">
 <?php $feature_list = get_theme_feature_list(); ?>
 	<div class="feature-filter">
 		<p class="install-help"><?php _e('Theme filters') ?></p>
@@ -160,7 +160,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 						$feature = esc_attr($feature);
 						?>
 				<li>
-					<input type="checkbox" name="features[<?php echo $key; ?>]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( isset( $checked_features ) && in_array( $key, $checked_features ) ); ?>/>
+					<input type="checkbox" name="features[<?php echo $key; ?>]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( in_array( $key, $wp_list_table->features ) ); ?>/>
 					<label for="feature-id-<?php echo $key; ?>"><?php echo $feature_name; ?></label>
 				</li>
 				<?php endforeach; ?>

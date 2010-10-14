@@ -3870,7 +3870,7 @@ class WP_Themes_Table extends WP_List_Table {
 		if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 	}
-	
+
 	function prepare_items() {
 		global $ct;
 
@@ -3880,9 +3880,19 @@ class WP_Themes_Table extends WP_List_Table {
 
 		$search = !empty( $_REQUEST['s'] ) ? trim( stripslashes( $_REQUEST['s'] ) ) : '';
 
-		if ( '' !== $this->search ) {
+		if ( '' !== $search ) {
 			$this->search = array_merge( $this->search, array_filter( array_map( 'trim', explode( ',', $search ) ) ) );
 			$this->search = array_unique( $this->search );
+		}
+
+		if ( !empty( $_REQUEST['features'] ) ) {
+			$this->features = $_REQUEST['features'];
+			$this->features = array_map( 'trim', $this->features );
+			$this->features = array_map( 'sanitize_title_with_dashes', $this->features );
+			$this->features = array_unique( $this->features );
+		}
+
+		if ( $this->search || $this->features ) {
 			foreach ( $themes as $key => $theme ) {
 				if ( !$this->search_theme( $theme ) )
 					unset( $themes[ $key ] );
