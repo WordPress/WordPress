@@ -553,6 +553,8 @@ class Custom_Image_Header {
 </tbody>
 </table>
 	<?php endif;
+	
+do_action( 'custom_header_options' ); 
 
 wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 <p class="submit"><input type="submit" class="button-primary" name="save-header-options" value="<?php esc_attr_e( 'Save Changes' ); ?>" /></p>
