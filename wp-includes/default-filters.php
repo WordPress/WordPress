@@ -117,6 +117,10 @@ foreach ( array( 'term_name_rss' ) as $filter ) {
 	add_filter( $filter, 'convert_chars' );
 }
 
+// Pre save hierarchy
+add_filter( 'wp_insert_post_parent', 'wp_check_post_hierarchy_for_loops', 10, 2 );
+add_filter( 'wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10, 3 );
+
 // Display filters
 add_filter( 'the_title', 'wptexturize'   );
 add_filter( 'the_title', 'convert_chars' );

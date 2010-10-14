@@ -2039,6 +2039,9 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		}
 	}
 
+	// Check $parent to see if it will cause a hierarchy loop
+	$parent = apply_filters( 'wp_update_term_parent', $parent, $term_id, $taxonomy, compact( array_keys( $args ) ), $args );
+
 	// Check for duplicate slug
 	$id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->terms WHERE slug = %s", $slug ) );
 	if ( $id && ($id != $term_id) ) {
@@ -2878,4 +2881,63 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	$tags_to_edit = apply_filters( 'terms_to_edit', $tags_to_edit, $taxonomy );
 
 	return $tags_to_edit;
+}
+
+/**
+ * Returns the term's parent's term_ID
+ *
+ * @since 3.1
+ *
+ * @param int $term_id
+ * @param string $taxonomy
+ *
+ * @return int|bool false on error
+ */
+function wp_get_term_taxonomy_parent_id( $term_id, $taxonomy ) {
+	$term = get_term( $term_id, $taxonomy );
+	if ( !$term || is_wp_error( $term ) )
+		return false;
+	return (int) $term->parent;
+}
+
+/**
+ * Checks the given subset of the term hierarchy for hierarchy loops.
+ * Prevents loops from forming and breaks those that it finds.
+ *
+ * Attached to the wp_update_term_parent filter.
+ *
+ * @since 3.1
+ * @uses wp_find_hierarchy_loop()
+ *
+ * @param int $parent term_id of the parent for the term we're checking.
+ * @param int $term_id The term we're checking.
+ * @param string $taxonomy The taxonomy of the term we're checking.
+ *
+ * @return int The new parent for the term.
+ */
+function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
+	// Nothing fancy here - bail
+	if ( !$parent )
+		return 0;
+
+	// Can't be its own parent
+	if ( $parent == $term_id )
+		return 0;
+
+	echo "larger loops\n";
+
+	// Now look for larger loops
+
+	if ( !$loop = wp_find_hierarchy_loop( 'wp_get_term_taxonomy_parent_id', $term_id, $parent, array( $taxonomy ) ) )
+		return $parent; // No loop
+
+	// Setting $parent to the given value causes a loop
+	if ( isset( $loop[$term_id] ) )
+		return 0;
+
+	// There's a loop, but it doesn't contain $term_id.  Break the loop.
+	foreach ( array_keys( $loop ) as $loop_member )
+		wp_update_term( $loop_member, $taxonomy, array( 'parent' => 0 ) );
+
+	return $parent;
 }
