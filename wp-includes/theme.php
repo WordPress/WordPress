@@ -781,7 +781,15 @@ function get_404_template() {
  * @return string
  */
 function get_archive_template() {
-	return get_query_template('archive');
+	$post_type = get_query_var( 'post_type' );
+
+	$templates = array();
+
+	if ( $post_type )
+		$templates[] = "archive-{$post_type}.php";
+	$templates[] = 'archive.php';
+
+	return get_query_template( 'archive', $templates );
 }
 
 /**

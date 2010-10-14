@@ -921,11 +921,28 @@ function register_post_type($post_type, $args = array()) {
 			$args->rewrite['slug'] = $post_type;
 		if ( !isset($args->rewrite['with_front']) )
 			$args->rewrite['with_front'] = true;
+		if ( !isset($args->rewrite['archive']) )
+			$args->rewrite['archive'] = false;
+		if ( !isset($args->rewrite['feeds']) || !$args->rewrite['archive'] )
+			$args->rewrite['feeds'] = false;
+
 		if ( $args->hierarchical )
 			$wp_rewrite->add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 		else
 			$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
-		$wp_rewrite->add_permastruct($post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite['with_front'], $args->permalink_epmask);
+
+		if ( $args->rewrite['archive'] ) {
+			$archive_slug = $args->rewrite['archive'] === true ? $args->rewrite['slug'] : $args->rewrite['archive'];
+			$wp_rewrite->add_rule( "{$archive_slug}/?$", "index.php?post_type=$post_type", 'top' );
+			if ( $args->rewrite['feeds'] && $wp_rewrite->feeds ) {
+				$feeds = '(' . trim( implode( '|', $wp_rewrite->feeds ) ) . ')';
+				$wp_rewrite->add_rule( "{$archive_slug}/feed/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
+				$wp_rewrite->add_rule( "{$archive_slug}/$feeds/?$", "index.php?post_type=$post_type" . '&feed=$matches[1]', 'top' );
+			}
+			$wp_rewrite->add_rule( "{$archive_slug}/page/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
+		}
+
+		$wp_rewrite->add_permastruct($post_type, "{$archive_slug}/%$post_type%", $args->rewrite['with_front'], $args->permalink_epmask);
 	}
 
 	if ( $args->register_meta_box_cb )
