@@ -653,7 +653,7 @@ function get_tag_feed_link($tag_id, $feed = '') {
  * @return string
  */
 function get_edit_tag_link( $tag_id, $taxonomy = 'post_tag' ) {
-	return apply_filters( 'get_edit_tag_link', get_edit_term_url( $tag_id, $taxonomy ) );
+	return apply_filters( 'get_edit_tag_link', get_edit_term_link( $tag_id, $taxonomy ) );
 }
 
 /**
@@ -682,7 +682,7 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  * @param string $object_type The object type
  * @return string
  */
-function get_edit_term_url( $term_id, $taxonomy, $object_type = '' ) {
+function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 	$tax = get_taxonomy( $taxonomy );
 	if ( !current_user_can( $tax->cap->edit_terms ) )
 		return;
@@ -700,7 +700,7 @@ function get_edit_term_url( $term_id, $taxonomy, $object_type = '' ) {
 
 	$location = add_query_arg( $args, admin_url( 'edit-tags.php' ) );
 
-	return apply_filters( 'get_edit_term_url', $location, $term_id, $taxonomy, $object_type );
+	return apply_filters( 'get_edit_term_link', $location, $term_id, $taxonomy, $object_type );
 }
 
 /**
@@ -727,7 +727,7 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 	if ( empty( $link ) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . get_edit_term_url( $term->term_id, $term->taxonomy ) . '" title="' . $link . '">' . $link . '</a>';
+	$link = '<a href="' . get_edit_term_link( $term->term_id, $term->taxonomy ) . '" title="' . $link . '">' . $link . '</a>';
 	$link = $before . apply_filters( 'edit_term_link', $link, $term->term_id ) . $after;
 
 	if ( $echo )
