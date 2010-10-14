@@ -1654,7 +1654,7 @@ class WP_Terms_Table extends WP_List_Table {
 		$pad = str_repeat( '&#8212; ', max( 0, $this->level ) );
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 		$qe_data = get_term( $tag->term_id, $taxonomy, OBJECT, 'edit' );
-		$edit_link = "edit-tags.php?action=edit&amp;taxonomy=$taxonomy&amp;post_type=$post_type&amp;tag_ID=$tag->term_id";
+		$edit_link = get_edit_term_url( $tag->term_id, $taxonomy, $post_type );
 
 		$out = '<strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
 

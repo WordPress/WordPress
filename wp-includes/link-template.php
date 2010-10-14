@@ -649,9 +649,10 @@ function get_tag_feed_link($tag_id, $feed = '') {
  * @since 2.7.0
  *
  * @param int $tag_id Tag ID
+ * @param string $taxonomy Taxonomy
  * @return string
  */
-function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
+function get_edit_tag_link( $tag_id, $taxonomy = 'post_tag' ) {
 	return apply_filters( 'get_edit_tag_link', get_edit_term_url( $tag_id, $taxonomy ) );
 }
 
@@ -677,19 +678,29 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  * @since 3.1
  *
  * @param int $term_id Term ID
- * @param int $taxonomy Taxonomy
+ * @param string $taxonomy Taxonomy
+ * @param string $object_type The object type
  * @return string
  */
-function get_edit_term_url( $term_id = 0, $taxonomy = 'post_tag' ) {
-	$tax = get_taxonomy($taxonomy);
-	if ( !current_user_can($tax->cap->edit_terms) )
+function get_edit_term_url( $term_id, $taxonomy, $object_type = '' ) {
+	$tax = get_taxonomy( $taxonomy );
+	if ( !current_user_can( $tax->cap->edit_terms ) )
 		return;
 
-	$term = get_term($term_id, $taxonomy);
+	$term = get_term( $term_id, $taxonomy );
 
-	$location = admin_url('edit-tags.php?action=edit&amp;taxonomy=' . $taxonomy .'&amp;tag_ID=' . $term->term_id);
+	$args = array(
+		'action' => 'edit',
+		'taxonomy' => $taxonomy,
+		'tag_ID' => $term->term_id,
+	);
 
-	return apply_filters( 'get_edit_term_url', $location );
+	if ( $object_type )
+		$args['post_type'] = $object_type;
+
+	$location = add_query_arg( $args, admin_url( 'edit-tags.php' ) );
+
+	return apply_filters( 'get_edit_term_url', $location, $term_id, $taxonomy, $object_type );
 }
 
 /**
@@ -704,22 +715,21 @@ function get_edit_term_url( $term_id = 0, $taxonomy = 'post_tag' ) {
  * @return string HTML content.
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $echo = true ) {
-	
-	if ( $term == null ) {
+	if ( is_null( $term ) ) {
 		global $wp_query;
 		$term = $wp_query->get_queried_object();
 	}
-	
+
 	$tax = get_taxonomy( $term->taxonomy );
 	if ( !current_user_can($tax->cap->edit_terms) )
 		return;
 
-	if ( empty($link) )
+	if ( empty( $link ) )
 		$link = __('Edit This');
 
 	$link = '<a href="' . get_edit_term_url( $term->term_id, $term->taxonomy ) . '" title="' . $link . '">' . $link . '</a>';
 	$link = $before . apply_filters( 'edit_term_link', $link, $term->term_id ) . $after;
-	
+
 	if ( $echo )
 		echo $link;
 	else
