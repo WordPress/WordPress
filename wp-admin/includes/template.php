@@ -1464,7 +1464,7 @@ function favorite_actions( $screen = null ) {
 	if ( isset($actions[$default_key]) )
 		unset($actions[$default_key]);
 	$actions = array_merge($default_action, $actions);
-	$actions = apply_filters('favorite_actions', $actions);
+	$actions = apply_filters( 'favorite_actions', $actions, $screen );
 
 	$allowed_actions = array();
 	foreach ( $actions as $action => $data ) {
