@@ -2086,3 +2086,41 @@ function set_current_screen( $id =  '' ) {
 	$current_screen = apply_filters('current_screen', $current_screen);
 }
 
+/**
+ * Echos a paragraph-wrapped submit button, with provided text and appropriate class
+ *
+ * @since 3.1.0
+ *
+ * @param string $text The text of the button (defaults to 'Save Changes')
+ * @param string $type The type of button. One of: primary, secondary, delete
+ * @param string $name The HTML name of the submit button. Defaults to "submit"
+ */
+function submit_button( $text = NULL, $type = 'primary', $name = 'submit' ) {
+	echo get_submit_button( $text, $type, $name );
+}
+
+/**
+ * Returns a paragraph-wrapped submit button, with provided text and appropriate class
+ *
+ * @since 3.1.0
+ *
+ * @param string $text The text of the button (defaults to 'Save Changes')
+ * @param string $type The type of button. One of: primary, secondary, delete
+ * @param string $name The HTML name of the submit button. Defaults to "submit"
+ */
+function get_submit_button( $text = NULL, $type = 'primary', $name = 'submit' ) {
+	switch ( $type ) :
+		case 'primary' :
+		case 'secondary' :
+			$class = 'button-' . $type;
+			break;
+		case 'delete' :
+			$class = 'button-secondary delete';
+			break;
+		default :
+			$class = $type; // Custom cases can just pass in the classes they want to be used
+	endswitch;
+	$text = ( NULL == $text ) ? __( 'Save Changes' ) : $text;
+	return '<p class="submit"><input type="submit" name="' . esc_attr( $name ) . '" class="' . esc_attr( $class ) . '" value="' . esc_attr( $text ) . '" /></p>';
+}
+

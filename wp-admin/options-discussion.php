@@ -240,9 +240,7 @@ echo apply_filters('default_avatar_select', $avatar_list);
 
 <?php do_settings_sections('discussion'); ?>
 
-<p class="submit">
-<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
-</p>
+<?php submit_button(); ?>
 </form>
 </div>
 

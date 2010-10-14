@@ -221,9 +221,7 @@ $structures = array(
 
 <?php do_settings_sections('permalink'); ?>
 
-<p class="submit">
-	<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
-</p>
+<?php submit_button(); ?>
   </form>
 <?php if ( !is_multisite() ) { ?>
 <?php if ( $iis7_permalinks ) :
