@@ -66,6 +66,7 @@ wp_set_lang_dir();
 require( ABSPATH . WPINC . '/compat.php' );
 require( ABSPATH . WPINC . '/functions.php' );
 require( ABSPATH . WPINC . '/classes.php' );
+require( ABSPATH . WPINC . '/plugin.php' );
 
 // Include the wpdb class and, if present, a db.php database drop-in.
 require_wp_db();
@@ -77,7 +78,6 @@ wp_set_wpdb_vars();
 wp_start_object_cache();
 
 // Load early WordPress files.
-require( ABSPATH . WPINC . '/plugin.php' );
 require( ABSPATH . WPINC . '/default-filters.php' );
 require( ABSPATH . WPINC . '/pomo/mo.php' );
 
