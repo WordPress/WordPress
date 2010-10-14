@@ -53,9 +53,6 @@ wp_enqueue_style( 'theme-install' );
 endif;
 
 require_once('./admin-header.php');
-if ( is_multisite() && current_user_can('edit_themes') ) {
-	?><div id="message0" class="updated"><p><?php printf( __('Administrator: new themes must be activated in the <a href="%s">Network Themes</a> screen before they appear here.'), admin_url( 'ms-themes.php') ); ?></p></div><?php
-}
 ?>
 
 <?php if ( ! validate_current_theme() ) : ?>
