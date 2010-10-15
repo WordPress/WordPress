@@ -37,6 +37,7 @@ function create_initial_taxonomies() {
 	) );
 
 	register_taxonomy( 'nav_menu', 'nav_menu_item', array(
+		'public' => false,
 		'hierarchical' => false,
 		'labels' => array(
 			'name' => __( 'Navigation Menus' ),
@@ -73,6 +74,7 @@ function create_initial_taxonomies() {
 	) ) ;
 
 	register_taxonomy( 'post_format', array('post', 'page', 'attachment'), array(
+		'public' => false,
 		'hierarchical' => false,
 		'labels' => array(
 			'name' => '',
