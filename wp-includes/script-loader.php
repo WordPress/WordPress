@@ -71,6 +71,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add_data( 'sack', 'group', 1 );
 
 	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20090307' );
+	$scripts->add_data( 'quicktags', 'group', 1 );
 	$scripts->localize( 'quicktags', 'quicktagsL10n', array(
 		'quickLinks' => __('(Quick Links)'),
 		'wordLookup' => __('Enter a word to look up:'),
