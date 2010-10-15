@@ -4356,7 +4356,6 @@ function _wp_mysql_week( $column ) {
 function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_args = array() ) {
 	$override = is_null( $start_parent ) ? array() : array( $start => $start_parent );
 
-	echo "wp_find_hierarchy_loop: $callback, $start, $callback_args\n";
 	if ( !$arbitrary_loop_member = wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override, $callback_args ) )
 		return array();
 
