@@ -924,7 +924,7 @@ function register_post_type($post_type, $args = array()) {
 		if ( !isset($args->rewrite['archive']) )
 			$args->rewrite['archive'] = false;
 		if ( !isset($args->rewrite['feeds']) || !$args->rewrite['archive'] )
-			$args->rewrite['feeds'] = false;
+			$args->rewrite['feeds'] = (bool) $args->rewrite['archive'];
 
 		if ( $args->hierarchical )
 			$wp_rewrite->add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");

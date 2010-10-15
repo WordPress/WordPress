@@ -121,6 +121,22 @@ function is_archive( $post_types = '' ) {
 }
 
 /**
+ * Is the query for a post type archive page?
+ *
+ * @see WP_Query::is_post_type_archive()
+ * @since 3.1.0
+ * @uses $wp_query
+ *
+ * @param mixed $post_types Optional. Post type or array of posts types to check against.
+ * @return bool
+ */
+function is_post_type_archive( $post_types = '' ) {
+	global $wp_query;
+
+	return $wp_query->is_post_type_archive( $post_types );
+}
+	
+/**
  * Is the query for an attachment page?
  *
  * @see WP_Query::is_attachment()
@@ -1041,6 +1057,15 @@ class WP_Query extends WP_Object_Query {
 	var $is_posts_page = false;
 
 	/**
+	 * Set if query is for a post type archive.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 * @var bool
+	 */
+	var $is_post_type_archive = false;
+
+	/**
 	 * Resets query flags to false.
 	 *
 	 * The query flags are what page info WordPress was able to figure out.
@@ -1075,6 +1100,7 @@ class WP_Query extends WP_Object_Query {
 		$this->is_singular = false;
 		$this->is_robots = false;
 		$this->is_posts_page = false;
+		$this->is_post_type_archive = false;
 	}
 
 	/**
@@ -1234,7 +1260,7 @@ class WP_Query extends WP_Object_Query {
 			$this->is_page = true;
 			$this->is_single = false;
 		} else {
-		// Look for archive queries.  Dates, categories, authors, search.
+		// Look for archive queries.  Dates, categories, authors, search, post type archives.
 
 			if ( !empty($qv['s']) ) {
 				$this->is_search = true;
@@ -1306,10 +1332,13 @@ class WP_Query extends WP_Object_Query {
 			if ( '' != $qv['author_name'] )
 				$this->is_author = true;
 
-			if ( !empty( $qv['post_type'] ) )
-				$this->is_archive = true;
+			if ( !empty( $qv['post_type'] ) && ! is_array( $qv['post_type'] ) ) {
+				$post_type_obj = get_post_type_object( $qv['post_type'] );
+				if ( is_array( $post_type_obj->rewrite ) && $post_type_obj->rewrite['archive'] )
+					$this->is_post_type_archive = true;
+			}
 
-			if ( $this->is_date || $this->is_author || $this->is_category || $this->is_tag || $this->is_tax )
+			if ( $this->is_post_type_archive || $this->is_date || $this->is_author || $this->is_category || $this->is_tag || $this->is_tax )
 				$this->is_archive = true;
 		}
 
@@ -2626,6 +2655,26 @@ class WP_Query extends WP_Object_Query {
 	function is_archive( $post_types ) {
 		if ( empty( $post_types ) || !$this->is_archive )
 			return (bool) $this->is_archive;
+
+		if ( ! isset( $this->posts[0] ) )
+			return false;
+
+		$post = $this->posts[0];
+
+		return in_array( $post->post_type, (array) $post_types );
+	}
+
+	/**
+	 * Is the query for a post type archive page?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param mixed $post_types Optional. Post type or array of posts types to check against.
+	 * @return bool
+	 */
+	function is_post_type_archive( $post_types = '' ) {
+		if ( empty( $post_types ) || !$this->is_post_type_archive )
+			return (bool) $this->is_post_type_archive;
 
 		if ( ! isset( $this->posts[0] ) )
 			return false;

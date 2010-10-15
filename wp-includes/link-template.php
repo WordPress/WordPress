@@ -39,7 +39,7 @@ function user_trailingslashit($string, $type_of_url = '') {
 		$string = untrailingslashit($string);
 
 	// Note that $type_of_url can be one of following:
-	// single, single_trackback, single_feed, single_paged, feed, category, page, year, month, day, paged
+	// single, single_trackback, single_feed, single_paged, feed, category, page, year, month, day, paged, post_type_archive
 	$string = apply_filters('user_trailingslashit', $string, $type_of_url);
 	return $string;
 }
@@ -822,6 +822,63 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 	$link = apply_filters('search_feed_link', $link, $feed, 'comments');
 
 	return $link;
+}
+
+/**
+ * Retrieve the permalink for a post type archive.
+ *
+ * @since 3.1.0
+ *
+ * @param string $post_type Post type
+ * @return string
+ */
+function get_post_type_archive_link( $post_type ) {
+	global $wp_rewrite;
+	if ( ! $post_type_obj = get_post_type_object( $post_type ) )
+		return false;
+
+	if ( ! is_array( $post_type_obj->rewrite ) || false === $post_type_obj->rewrite['archive'] )
+		return false;
+
+	if ( get_option( 'permalink_structure' ) ) {
+		$struct = ( true === $post_type_obj->rewrite['archive'] ) ? $post_type_obj->rewrite['slug'] : $post_type_obj->rewrite['archive'];
+		if ( $post_type_obj->rewrite['with_front'] )
+			$struct = $wp_rewrite->front . $struct;
+		$link = home_url( user_trailingslashit( $struct, 'post_type_archive' ) );
+	} else {
+		$link = home_url( '?post_type=' . $post_type );
+	}
+
+	return apply_filters( 'post_type_archive_link', $link, $post_type );
+}
+
+/**
+ * Retrieve the permalink for a post type archive feed.
+ *
+ * @since 3.1.0
+ *
+ * @param string $post_type Post type
+ * @param string $feed Optional. Feed type 
+ * @return string
+ */	
+function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
+	$default_feed = get_default_feed();
+	if ( empty( $feed ) )
+		$feed = $default_feed;
+
+	if ( ! $link = get_post_type_archive_link( $post_type ) )
+		return false;
+	$post_type_obj = get_post_type_object( $post_type );
+	if ( $post_type_obj->rewrite['feeds'] && get_option( 'permalink_structure' ) ) {
+		$link = trailingslashit($link);
+		$link .= 'feed/';
+		if ( $feed != $default_feed )
+			$link .= "$feed/";
+	} else {
+		$link = add_query_arg( 'feed', $feed, $link );
+	}
+
+	return apply_filters( 'post_type_archive_feed_link', $link, $feed );
 }
 
 /**

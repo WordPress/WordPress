@@ -407,7 +407,10 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'attachment-' . str_replace( $mime_prefix, '', $mime_type );
 		}
 	} elseif ( is_archive() ) {
-		if ( is_author() ) {
+		if ( is_post_type_archive() ) {
+			$classes[] = 'post-type-archive';
+			$classes[] = 'post-type-archive-' . sanitize_html_class( get_query_var( 'post_type' ) );
+		} else if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
 			$classes[] = 'author-' . sanitize_html_class( $author->user_nicename , $author->ID );
@@ -472,6 +475,8 @@ function get_body_class( $class = '' ) {
 			$classes[] = 'author-paged-' . $page;
 		elseif ( is_search() )
 			$classes[] = 'search-paged-' . $page;
+		elseif ( is_post_type_archive() )
+			$classes[] = 'post-type-paged-' . $page;
 	}
 
 	if ( !empty( $class ) ) {

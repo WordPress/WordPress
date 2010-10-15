@@ -547,6 +547,10 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$title = $author->display_name;
 	}
 
+	// If there's a post type archive
+	if ( is_post_type_archive() )
+		$title = post_type_archive_title( '', false );
+
 	// If there's a month
 	if ( is_archive() && !empty($m) ) {
 		$my_year = substr($m, 0, 4);
@@ -611,7 +615,6 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
  * be a space, the parameter value will need to have it at the end.
  *
  * @since 0.71
- * @uses $wpdb
  *
  * @param string $prefix Optional. What to display before the title.
  * @param bool $display Optional, default is true. Whether to display or retrieve title.
@@ -635,6 +638,32 @@ function single_post_title($prefix = '', $display = true) {
 		return $title;
 }
 
+/**
+ * Display or retrieve title for a post type archive.
+ *
+ * This is optimized for archive.php and archive-{$post_type}.php template files
+ * for displaying the title of the post type.
+ *
+ * @since 3.1.0
+ *
+ * @param string $prefix Optional. What to display before the title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|null Title when retrieving, null when displaying or failure.
+ */
+function post_type_archive_title() {
+	if ( ! is_post_type_archive() )
+		return;
+
+	
+	$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
+	$title = apply_filters('post_type_archive_title', $post_type_obj->labels->name );
+
+	if ( $display )
+		echo $prefix . $title;
+	else
+		return $title;
+}
+	
 /**
  * Display or retrieve page title for category archive.
  *
