@@ -13,7 +13,6 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
-	 * @param int $depth Depth of page.
 	 */
 	function start_lvl(&$output) {}
 
@@ -22,7 +21,6 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
-	 * @param int $depth Depth of page.
 	 */
 	function end_lvl(&$output) {
 	}
@@ -34,7 +32,6 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item Menu item data object.
 	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param int $current_page Menu item ID.
 	 * @param object $args
 	 */
 	function start_el(&$output, $item, $depth, $args) {
@@ -218,7 +215,6 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu  {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item Menu item data object.
 	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param int $current_page Menu item ID.
 	 * @param object $args
 	 */
 	function start_el(&$output, $item, $depth, $args) {
@@ -1102,7 +1098,6 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  *
  * @since 3.0.0
  *
- * @param string $menu_item_id The ID of the menu item to format.
  * @return string|WP_Error $output The menu formatted to edit or error object on failure.
  */
 function wp_nav_menu_manage_columns() {
