@@ -1089,9 +1089,6 @@ function current_user_can( $capability ) {
 function current_user_can_for_blog( $blog_id, $capability ) {
 	$current_user = wp_get_current_user();
 
-	if ( is_multisite() && is_super_admin() )
-		return true;
-
 	if ( empty( $current_user ) )
 		return false;
 
