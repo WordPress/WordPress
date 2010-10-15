@@ -1528,7 +1528,7 @@ function get_next_posts_link( $label = 'Next Page &raquo;', $max_page = 0 ) {
 
 	$nextpage = intval($paged) + 1;
 
-	if ( !is_single() && ( empty($paged) || $nextpage <= $max_page) ) {
+	if ( !is_single() && ( $nextpage <= $max_page ) ) {
 		$attr = apply_filters( 'next_posts_link_attributes', '' );
 		return '<a href="' . next_posts( $max_page, false ) . "\" $attr>" . preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label) . '</a>';
 	}
