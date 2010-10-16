@@ -339,9 +339,9 @@ do_action($taxonomy . '_add_form_fields', $taxonomy);
 <?php
 // Back compat hooks. Deprecated in preference to {$taxonomy}_add_form
 if ( 'category' == $taxonomy )
-	do_action('add_category_form', (object)array('parent' => 0) );
+	do_action('edit_category_form', (object)array('parent' => 0) );
 elseif ( 'link_category' == $taxonomy )
-	do_action('add_link_category_form', (object)array('parent' => 0) );
+	do_action('edit_link_category_form', (object)array('parent' => 0) );
 else
 	do_action('add_tag_form', $taxonomy);
 
