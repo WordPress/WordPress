@@ -283,10 +283,14 @@ endif;
 }
 
 if ( current_user_can($tax->cap->edit_terms) ) {
+	// Back compat hooks. Deprecated in preference to {$taxonomy}_pre_add_form
 	if ( 'category' == $taxonomy )
-		do_action('add_category_form_pre', (object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_pre_add_form
+		do_action('add_category_form_pre', (object)array('parent' => 0) );
+	elseif ( 'link_category' == $taxonomy )
+		do_action('add_link_category_form_pre', (object)array('parent' => 0) );
 	else
-		do_action('add_tag_form_pre', $taxonomy); // Back compat hook. Applies to all Taxonomies -not- categories
+		do_action('add_tag_form_pre', $taxonomy);
+
 	do_action($taxonomy . '_pre_add_form', $taxonomy);
 ?>
 
@@ -333,10 +337,14 @@ do_action($taxonomy . '_add_form_fields', $taxonomy);
 ?>
 <p class="submit"><input type="submit" class="button" name="submit" id="submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" /></p>
 <?php
+// Back compat hooks. Deprecated in preference to {$taxonomy}_add_form
 if ( 'category' == $taxonomy )
-	do_action('edit_category_form',	(object)array('parent' => 0) );  // Back compat hook. Deprecated in preference to $taxonomy_add_form
+	do_action('add_category_form', (object)array('parent' => 0) );
+elseif ( 'link_category' == $taxonomy )
+	do_action('add_link_category_form', (object)array('parent' => 0) );
 else
-	do_action('add_tag_form', $taxonomy); // Back compat hook. Applies to all Taxonomies -not- categories
+	do_action('add_tag_form', $taxonomy);
+
 do_action($taxonomy . '_add_form', $taxonomy);
 ?>
 </form></div>

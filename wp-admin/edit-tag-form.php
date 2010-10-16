@@ -16,10 +16,14 @@ if ( empty($tag_ID) ) { ?>
 	return;
 }
 
+// Back compat hooks
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form_pre', $tag );
+elseif ( 'link_category' == $taxonomy )
+	do_action('edit_link_category_form_pre', $tag );
 else
 	do_action('edit_tag_form_pre', $tag);
+
 do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 
 <div class="wrap">
@@ -61,18 +65,26 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy);  ?>
 			<span class="description"><?php _e('The description is not prominent by default, however some themes may show it.'); ?></span></td>
 		</tr>
 		<?php
+		// Back compat hooks
 		if ( 'category' == $taxonomy )
 			do_action('edit_category_form_fields', $tag);
+		if ( 'link_category' == $taxonomy )
+			do_action('edit_link_category_form_fields', $tag);
 		else
 			do_action('edit_tag_form_fields', $tag);
+
 		do_action($taxonomy . '_edit_form_fields', $tag, $taxonomy);
 		?>
 	</table>
 <?php
+// Back compat hooks
 if ( 'category' == $taxonomy )
 	do_action('edit_category_form', $tag);
+if ( 'link_category' == $taxonomy )
+	do_action('edit_link_category_form', $tag);
 else
 	do_action('edit_tag_form', $tag);
+
 do_action($taxonomy . '_edit_form', $tag, $taxonomy);
 ?>
 <p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr( __( 'Update' ) ); ?>" /></p>
