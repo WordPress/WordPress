@@ -17,7 +17,6 @@
 function create_initial_taxonomies() {
 	register_taxonomy( 'category', 'post', array(
 		'hierarchical' => true,
-		'hierarchical_url' => true,
 	 	'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'category_name',
 		'rewrite' => false,
@@ -286,7 +285,6 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		$wp_taxonomies = array();
 
 	$defaults = array(	'hierarchical' => false,
-					  	'hierarchical_url' => false,
 						'update_count_callback' => '',
 						'rewrite' => true,
 						'query_var' => $taxonomy,
@@ -307,15 +305,19 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		$wp->add_query_var($args['query_var']);
 	}
 
-	if ( false !== $args['rewrite'] && '' != get_option('permalink_structure') ) {
+	if ( false !== $args['rewrite'] && '' != get_option('permalink_structure') && !empty($wp_rewrite) ) {
 		$args['rewrite'] = wp_parse_args($args['rewrite'], array(
 			'slug' => sanitize_title_with_dashes($taxonomy),
 			'with_front' => true,
+			'hierarchical' => false
 		));
-		if ( $args['hierarchical'] && $args['hierarchical_url'] )
-			$wp_rewrite->add_rewrite_tag("%$taxonomy%", '.*?/?([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
+
+		if ( $args['hierarchical'] && $args['rewrite']['hierarchical'] )
+			$tag = '(.*?)';
 		else
-			$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
+			$tag = '([^/]+)';
+
+		$wp_rewrite->add_rewrite_tag("%$taxonomy%", $tag, $args['query_var'] ? "{$args['query_var']}=" : "taxonomy=$taxonomy&term=");
 		$wp_rewrite->add_permastruct($taxonomy, "{$args['rewrite']['slug']}/%$taxonomy%", $args['rewrite']['with_front']);
 	}
 
@@ -2620,7 +2622,7 @@ function get_term_link( $term, $taxonomy = '') {
 			$termlink = "?taxonomy=$taxonomy&term=$slug";
 		$termlink = home_url($termlink);
 	} else {
-		if ( $t->hierarchical_url ) {
+		if ( $t->rewrite['hierarchical'] ) {
 			$hierarchical_slugs = array();
 			$ancestors = get_ancestors($term->term_id, $taxonomy);
 			foreach ( (array)$ancestors as $ancestor ) {

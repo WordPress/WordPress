@@ -1459,7 +1459,7 @@ class WP_Query extends WP_Object_Query {
 
 				$term = $q[$t->query_var];
 
-				if ( $t->hierarchical_url ) {
+				if ( $t->rewrite['hierarchical'] ) {
 					$tax_query[] = array_merge( $tax_query_defaults, array(
 						'terms' => array( basename( $term ) )
 					) );
