@@ -2577,13 +2577,16 @@ class WP_Query extends WP_Object_Query {
 
 		if ( !empty( $tax_query ) ) {
 			$query = reset( $tax_query );
+
 			if ( 'term_id' == $query['field'] )
 				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
 			else
 				$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
 
-			$this->queried_object = $term;
-			$this->queried_object_id = $term->term_id;
+			if ( $term && ! is_wp_error($term) )  {
+				$this->queried_object = $term;
+				$this->queried_object_id = $term->term_id;
+			}
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
 			$this->queried_object = & get_page( $page_for_posts );
