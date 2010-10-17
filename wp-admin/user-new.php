@@ -265,9 +265,8 @@ $new_user_send_password = !$_POST || isset($_POST['send_password']);
 	</tr>
 	<?php } ?>
 </table>
-<p class="submit">
-	<input name="adduser" type="submit" id="addusersub" class="button-primary" value="<?php esc_attr_e('Add User') ?>" />
-</p>
+
+<?php submit_button( __('Add User'), 'primary', 'adduser' ); ?>
 </form>
 
 </div>

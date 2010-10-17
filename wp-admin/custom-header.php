@@ -562,7 +562,8 @@ class Custom_Image_Header {
 do_action( 'custom_header_options' ); 
 
 wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
-<p class="submit"><input type="submit" class="button-primary" name="save-header-options" value="<?php esc_attr_e( 'Save Changes' ); ?>" /></p>
+
+<?php submit_button(); ?>
 </form>
 </div>
 
@@ -636,7 +637,6 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		<img src="<?php echo esc_url( $url ); ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" />
 	</div>
 
-	<p class="submit">
 	<input type="hidden" name="x1" id="x1" value="0"/>
 	<input type="hidden" name="y1" id="y1" value="0"/>
 	<input type="hidden" name="width" id="width" value="<?php echo esc_attr( $width ); ?>"/>
@@ -644,7 +644,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $id ); ?>" />
 	<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr( $oitar ); ?>" />
 	<?php wp_nonce_field( 'custom-header-crop-image' ) ?>
-	<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Crop and Publish' ); ?>" />
+	
+	<?php submit_button( __( 'Crop and Publish' ) ); ?>
 	</p>
 </form>
 </div>

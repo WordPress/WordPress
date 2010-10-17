@@ -100,14 +100,13 @@ case 'edit' :
 </div>
 </div>
 
-<p class="submit">
-<input type="submit" class="button-primary" name="save" value="<?php esc_attr_e('Update Media'); ?>" />
+<?php submit_button( __('Update Media') ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo isset($post_id) ? esc_attr($post_id) : ''; ?>" />
 <input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr($att_id); ?>" />
 <input type="hidden" name="action" value="editattachment" />
 <?php wp_original_referer_field(true, 'previous'); ?>
 <?php wp_nonce_field('media-form'); ?>
-</p>
+
 </form>
 
 </div>

@@ -273,7 +273,7 @@ if (isset($_GET['updated'])) {
 
 		<?php do_action( 'wpmu_options' ); // Add more options here ?>
 
-		<p class="submit"><input type="submit" class="button-primary" name="Submit" value="<?php esc_attr_e( 'Save Changes' ) ?>" /></p>
+		<?php submit_button(); ?>
 	</form>
 </div>
 

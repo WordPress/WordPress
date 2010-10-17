@@ -86,7 +86,8 @@ else
 	do_action('edit_tag_form', $tag);
 
 do_action($taxonomy . '_edit_form', $tag, $taxonomy);
+
+submit_button( __('Update') );
 ?>
-<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo esc_attr( __( 'Update' ) ); ?>" /></p>
 </form>
 </div>

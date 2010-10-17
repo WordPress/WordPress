@@ -190,7 +190,7 @@ case 'delete':
 		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:')."</label> $user_dropdown"; ?></li>
 	</ul></fieldset>
 	<input type="hidden" name="action" value="dodelete" />
-	<p class="submit"><input type="submit" name="submit" value="<?php esc_attr_e('Confirm Deletion'); ?>" class="button-secondary" /></p>
+	<?php submit_button( __('Confirm Deletion'), 'secondary' ); ?>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
 <?php endif; ?>
@@ -278,7 +278,7 @@ case 'remove':
  	?>
 <?php if ( $go_remove ) : ?>
 		<input type="hidden" name="action" value="doremove" />
-		<p class="submit"><input type="submit" name="submit" value="<?php esc_attr_e('Confirm Removal'); ?>" class="button-secondary" /></p>
+		<?php submit_button( __('Confirm Removal'), 'secondary' ); ?>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for removal.'); ?></p>
 <?php endif; ?>

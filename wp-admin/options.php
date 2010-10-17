@@ -209,7 +209,11 @@ foreach ( (array) $options as $option ) :
 endforeach;
 ?>
   </table>
-<p class="submit"><input type="hidden" name="page_options" value="<?php echo esc_attr( implode( ',', $options_to_update ) ); ?>" /><input type="submit" name="Update" value="<?php esc_attr_e( 'Save Changes' ); ?>" class="button-primary" /></p>
+
+<input type="hidden" name="page_options" value="<?php echo esc_attr( implode( ',', $options_to_update ) ); ?>" />
+
+<?php submit_button( __('Save Changes') ); ?>
+
   </form>
 </div>
 

@@ -303,7 +303,7 @@ if ( get_background_image() ) {
 </table>
 
 <?php wp_nonce_field('custom-background'); ?>
-<p class="submit"><input type="submit" class="button-primary" name="save-background-options" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
+<?php submit_button( null, 'primary', 'save-background-options' ); ?>
 </form>
 
 </div>

@@ -136,7 +136,7 @@ foreach ( (array) $authors as $author ) {
 </td>
 </tr>
 </table>
-<p class="submit"><input type="submit" name="submit" class="button" value="<?php esc_attr_e('Download Export File'); ?>" />
+<?php submit_button( __('Download Export File'), 'secondary' ); ?>
 <input type="hidden" name="download" value="true" />
 </p>
 </form>

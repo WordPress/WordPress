@@ -74,8 +74,9 @@ function confirm_delete_users( $users ) {
 			}
 		}
 	}
+	
+	submit_button( __('Confirm Deletion'), 'delete' );
 	?>
-	<p class="submit"><input type="submit" class="button-secondary delete" value="<?php esc_attr_e( 'Confirm Deletion' ); ?>" /></p>
 	</form>
     <?php
 	return true;
@@ -502,7 +503,7 @@ switch ( $_GET['action'] ) {
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
 					<p><?php echo esc_html( stripslashes( $_GET['msg'] ) ); ?></p>
-					<p class="submit"><input class="button" type="submit" value="<?php _e( 'Confirm' ); ?>" /></p>
+					<?php submit_button( __('Confirm'), 'secondary' ); ?>
 				</form>
 			</body>
 		</html>
