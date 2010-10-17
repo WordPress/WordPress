@@ -19,7 +19,10 @@ function create_initial_taxonomies() {
 		'hierarchical' => true,
 	 	'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'category_name',
-		'rewrite' => false,
+		'rewrite' => array(
+					'hierarchical' => true,
+					'slug' => get_option('category_base') ? get_option('category_base') : 'category',
+					'with_front' => false),
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -29,7 +32,9 @@ function create_initial_taxonomies() {
 	 	'hierarchical' => false,
 		'update_count_callback' => '_update_post_term_count',
 		'query_var' => 'tag',
-		'rewrite' => false,
+		'rewrite' => array(
+					'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag' ,
+					'with_front' => false),
 		'public' => true,
 		'show_ui' => true,
 		'_builtin' => true,
@@ -313,7 +318,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		));
 
 		if ( $args['hierarchical'] && $args['rewrite']['hierarchical'] )
-			$tag = '(.*?)';
+			$tag = '(.+?)';
 		else
 			$tag = '([^/]+)';
 
@@ -349,7 +354,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$wp_taxonomies[$taxonomy] = (object) $args;
 
 	// register callback handling for metabox
- 	add_filter('wp_ajax_add-'.$taxonomy, '_wp_ajax_add_hierarchical_term');
+ 	add_filter('wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term');
 }
 
 /**
@@ -2581,6 +2586,10 @@ function _update_post_term_count( $terms, $taxonomy ) {
  *
  * @since 2.5.0
  *
+ * @uses apply_filters() Calls 'term_link' with term link and term object, and taxonomy parameters.
+ * @uses apply_filters() For the post_tag Taxonomy, Calls 'tag_link' with tag link and tag ID as parameters.
+ * @uses apply_filters() For the category Taxonomy, Calls 'category_link' filter on category link and category ID.
+ *
  * @param object|int|string $term
  * @param string $taxonomy (optional if $term is object)
  * @return string HTML link to taxonomy term archive
@@ -2603,12 +2612,6 @@ function get_term_link( $term, $taxonomy = '') {
 		return $term;
 
 	$taxonomy = $term->taxonomy;
-
-	// use legacy functions for core taxonomies until they are fully plugged in
-	if ( $taxonomy == 'category' )
-		return get_category_link((int) $term->term_id);
-	if ( $taxonomy == 'post_tag' )
-		return get_tag_link((int) $term->term_id);
 
 	$termlink = $wp_rewrite->get_extra_permastruct($taxonomy);
 
@@ -2637,6 +2640,12 @@ function get_term_link( $term, $taxonomy = '') {
 		}
 		$termlink = home_url( user_trailingslashit($termlink, 'category') );
 	}
+	// Back Compat filters.
+	if ( 'post_tag' == $taxonomy ) 
+		$termlink = apply_filters( 'tag_link', $termlink, $term->term_id );
+	elseif ( 'category' == $taxonomy )
+		$termlink = apply_filters( 'category_link', $termlink, $term->term_id );
+
 	return apply_filters('term_link', $termlink, $term, $taxonomy);
 }
 

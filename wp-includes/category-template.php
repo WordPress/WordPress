@@ -10,32 +10,13 @@
  * Retrieve category link URL.
  *
  * @since 1.0.0
- * @uses apply_filters() Calls 'category_link' filter on category link and category ID.
+ * @see get_term_link()
  *
  * @param int $category_id Category ID.
  * @return string
  */
 function get_category_link( $category_id ) {
-	global $wp_rewrite;
-	$catlink = $wp_rewrite->get_category_permastruct();
-
-	if ( empty( $catlink ) ) {
-		$catlink = home_url('?cat=' . $category_id);
-	} else {
-		$category = &get_category( $category_id );
-		if ( is_wp_error( $category ) )
-			return $category;
-		$category_nicename = $category->slug;
-
-		if ( $category->parent == $category_id ) // recursive recursion
-			$category->parent = 0;
-		elseif ($category->parent != 0 )
-			$category_nicename = get_category_parents( $category->parent, false, '/', true ) . $category_nicename;
-
-		$catlink = str_replace( '%category%', $category_nicename, $catlink );
-		$catlink = home_url( user_trailingslashit( $catlink, 'category' ) );
-	}
-	return apply_filters( 'category_link', $catlink, $category_id );
+	return get_term_link((int)$category_id, 'category');
 }
 
 /**
@@ -770,28 +751,13 @@ function walk_category_dropdown_tree() {
  * Retrieve the link to the tag.
  *
  * @since 2.3.0
- * @uses apply_filters() Calls 'tag_link' with tag link and tag ID as parameters.
+ * @see get_term_link()
  *
  * @param int $tag_id Tag (term) ID.
  * @return string
  */
 function get_tag_link( $tag_id ) {
-	global $wp_rewrite;
-	$taglink = $wp_rewrite->get_tag_permastruct();
-
-	$tag = &get_term( $tag_id, 'post_tag' );
-	if ( is_wp_error( $tag ) )
-		return $tag;
-	$slug = $tag->slug;
-
-	if ( empty( $taglink ) ) {
-		$file = get_option( 'home' ) . '/';
-		$taglink = $file . '?tag=' . $slug;
-	} else {
-		$taglink = str_replace( '%tag%', $slug, $taglink );
-		$taglink = get_option( 'home' ) . user_trailingslashit( $taglink, 'category' );
-	}
-	return apply_filters( 'tag_link', $taglink, $tag_id );
+	return get_term_link( (int)$tag_id, 'post_tag');
 }
 
 /**

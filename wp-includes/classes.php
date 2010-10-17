@@ -384,7 +384,7 @@ class WP {
 		foreach( (array) $headers as $name => $field_value )
 			@header("{$name}: {$field_value}");
 
-		if ($exit_required)
+		if ( $exit_required )
 			exit();
 
 		do_action_ref_array('send_headers', array(&$this));

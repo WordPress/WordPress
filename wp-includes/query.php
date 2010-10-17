@@ -1457,13 +1457,15 @@ class WP_Query extends WP_Object_Query {
 					'operator' => 'IN'
 				);
 
+				if ( $t->rewrite['hierarchical'] ) {
+					$q[$t->query_var] = basename($q[$t->query_var]);
+					if ( $taxonomy == $q['taxonomy'] )
+						$q['term'] = basename($q['term']);
+				}
+
 				$term = $q[$t->query_var];
 
-				if ( $t->rewrite['hierarchical'] ) {
-					$tax_query[] = array_merge( $tax_query_defaults, array(
-						'terms' => array( basename( $term ) )
-					) );
-				} elseif ( strpos($term, '+') !== false ) {
+				if ( strpos($term, '+') !== false ) {
 					$terms = preg_split( '/[+\s]+/', $term );
 					foreach ( $terms as $term ) {
 						$tax_query[] = array_merge( $tax_query_defaults, array(
