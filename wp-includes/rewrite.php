@@ -621,8 +621,6 @@ class WP_Rewrite {
 					'%second%',
 					'%postname%',
 					'%post_id%',
-					'%category%',
-					'%tag%',
 					'%author%',
 					'%pagename%',
 					'%search%'
