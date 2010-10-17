@@ -456,7 +456,7 @@ class Custom_Image_Header {
 	<?php } ?>
 </td>
 </tr>
-
+<?php if ( current_theme_supports( 'custom-header-uploads' ) ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Upload Image' ); ?></th>
 <td>
@@ -473,6 +473,7 @@ class Custom_Image_Header {
 	</form>
 </td>
 </tr>
+<?php endif; ?>
 </tbody>
 </table>
 
@@ -483,7 +484,11 @@ class Custom_Image_Header {
 <tr valign="top">
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
+<?php if ( current_theme_supports( 'custom-header-uploads' ) ) : ?>
 	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers.' ) ?></p>
+<?php else: ?>
+	<p><?php _e( 'You can use one of these cool headers.' ) ?>
+<?php endif; ?>
 	<?php
 		$this->show_default_header_selector();
 	?>
@@ -570,6 +575,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 */
 	function step_2() {
 		check_admin_referer('custom-header-upload', '_wpnonce-custom-header-upload');
+		if ( ! current_theme_supports( 'custom-header-uploads' ) )
+			wp_die( 'Cheatin&#8217; uh?' );
+
 		$overrides = array('test_form' => false);
 		$file = wp_handle_upload($_FILES['import'], $overrides);
 
@@ -650,6 +658,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 */
 	function step_3() {
 		check_admin_referer('custom-header-crop-image');
+		if ( ! current_theme_supports( 'custom-header-uploads' ) )
+			wp_die( 'Cheatin&#8217; uh?' );
+
 		if ( $_POST['oitar'] > 1 ) {
 			$_POST['x1'] = $_POST['x1'] * $_POST['oitar'];
 			$_POST['y1'] = $_POST['y1'] * $_POST['oitar'];

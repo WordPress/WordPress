@@ -1467,6 +1467,7 @@ function add_custom_image_header($header_callback, $admin_header_callback, $admi
 		add_action('wp_head', $header_callback);
 
 	add_theme_support( 'custom-header' );
+	add_theme_support( 'custom-header-uploads' );
 
 	if ( ! is_admin() )
 		return;
