@@ -16,7 +16,7 @@ function wp_admin_bar_init() {
 	else
 		$show_it = true;
 
-	if ( ! apply_filters('show_admin_bar', $show_it, get_current_screen() ) )
+	if ( ! apply_filters( 'show_admin_bar', $show_it ) )
 		return false;
 
 	/* Set the protocol constant used throughout this code */
