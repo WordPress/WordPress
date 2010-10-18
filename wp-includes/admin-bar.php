@@ -11,12 +11,20 @@
 function wp_admin_bar_init() {
 	global $current_user, $pagenow, $wp_admin_bar;
 
+	if ( defined('WP_SHOW_ADMIN_BAR') )
+		$show_it = (bool) WP_SHOW_ADMIN_BAR;
+	else
+		$show_it = true;
+
+	if ( ! apply_filters('show_admin_bar', $show_it, get_current_screen() ) )
+		return false;
+
 	/* Set the protocol constant used throughout this code */
 	if ( !defined( 'PROTO' ) )
 		if ( is_ssl() ) define( 'PROTO', 'https://' ); else define( 'PROTO', 'http://' );
 
-	/* Don't load the admin bar if the user is not logged in, or we are using press this */
-	if ( !is_user_logged_in() || 'press-this.php' == $pagenow || 'update.php' == $pagenow )
+	/* Don't load the admin bar if the user is not logged in */
+	if ( !is_user_logged_in() )
 		return false;
 
 	/* Set up the settings we need to render menu items */
@@ -26,7 +34,7 @@ function wp_admin_bar_init() {
 	/* Enqueue the JS files for the admin bar. */
 	if ( is_user_logged_in() )
 		wp_enqueue_script( 'jquery', false, false, false, true );
-	
+
 	/* Load the admin bar class code ready for instantiation */
 	require( ABSPATH . WPINC . '/admin-bar/admin-bar-class.php' );
 
@@ -38,6 +46,9 @@ function wp_admin_bar_init() {
 
 	/* Initialize the admin bar */
 	$wp_admin_bar = new wp_admin_bar();
+
+	add_action( 'wp_head', 'wp_admin_bar_css' );
+	add_action( 'admin_head', 'wp_admin_bar_css' );
 }
 add_action( 'init', 'wp_admin_bar_init' );
 
@@ -221,7 +232,7 @@ add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_edit_menu', 100 );
 function wp_admin_bar_css() {
 	global $pagenow, $wp_locale;
 
-	if ( !is_user_logged_in() || 'press-this.php' == $pagenow || 'update.php' == $pagenow || 'media-upload.php' == $pagenow )
+	if ( !is_user_logged_in() )
 		return;
 
 	$nobump = false;
@@ -232,8 +243,6 @@ function wp_admin_bar_css() {
 	<!--[if IE 6]><style type="text/css">#wpadminbar, #wpadminbar .menupop a span, #wpadminbar .menupop ul li a:hover, #wpadminbar .myaccount a, .quicklinks a:hover,#wpadminbar .menupop:hover { background-image: none !important; } #wpadminbar .myaccount a { margin-left:0 !important; padding-left:12px !important;}</style><![endif]-->
 	<style type="text/css" media="print">#wpadminbar { display:none; }</style><?php
 }
-add_action( 'wp_head', 'wp_admin_bar_css' );
-add_action( 'admin_head', 'wp_admin_bar_css' );
 
 /**
  * Load up the JS needed to allow the admin bar to function correctly.

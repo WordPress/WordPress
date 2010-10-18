@@ -9,6 +9,8 @@
  * @subpackage Administration
  */
 
+define('WP_SHOW_ADMIN_BAR' , false);
+
 /** Load WordPress Administration Bootstrap */
 require_once('./admin.php');
 

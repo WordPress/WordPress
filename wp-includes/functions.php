@@ -4408,3 +4408,14 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 
 	return false;
 }
+
+/**
+ * Prevents the admin bar from being shown for the current screen.
+ *
+ * This can be called immediately upon plugin load.  It does not need to be called from a function hooked to the init action.
+ *
+ * @since 3.1.0
+ */
+function no_admin_bar() {
+	define('WP_SHOW_ADMIN_BAR', false);
+}

@@ -6,8 +6,11 @@
  * @subpackage Press_This
  */
 
+define('WP_SHOW_ADMIN_BAR' , false);
+
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
+
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 if ( ! current_user_can('edit_posts') )
