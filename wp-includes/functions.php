@@ -280,6 +280,24 @@ function is_serialized_string( $data ) {
 }
 
 /**
+ * Generates a unique key from an argument
+ * 
+ * @since 3.1
+ *
+ * @param mixed $arg
+ * @return string
+ */
+function wp_cache_key( $arg ) {
+	if ( is_scalar( $arg ) )
+		return md5( $arg );
+
+	$arg = (array) $arg;
+	sort( $arg );
+
+	return md5( serialize( $arg ) );
+}
+
+/**
  * Retrieve option value based on name of option.
  *
  * If the option does not exist or does not have a value, then the return value

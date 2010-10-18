@@ -3945,36 +3945,13 @@ function get_posts_by_author_sql($post_type, $full = TRUE, $post_author = NULL) 
  *
  * @since 0.71
  *
- * @uses $wpdb
- * @uses $blog_id
  * @uses apply_filters() Calls 'get_lastpostdate' filter
- *
- * @global mixed $cache_lastpostdate Stores the last post date
- * @global mixed $pagenow The current page being viewed
  *
  * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
  * @return string The date of the last post.
  */
 function get_lastpostdate($timezone = 'server') {
-	global $cache_lastpostdate, $wpdb, $blog_id;
-	$add_seconds_server = date('Z');
-	if ( !isset($cache_lastpostdate[$blog_id][$timezone]) ) {
-		switch(strtolower($timezone)) {
-			case 'gmt':
-				$lastpostdate = $wpdb->get_var("SELECT post_date_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_date_gmt DESC LIMIT 1");
-				break;
-			case 'blog':
-				$lastpostdate = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_date_gmt DESC LIMIT 1");
-				break;
-			case 'server':
-				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_date_gmt DESC LIMIT 1");
-				break;
-		}
-		$cache_lastpostdate[$blog_id][$timezone] = $lastpostdate;
-	} else {
-		$lastpostdate = $cache_lastpostdate[$blog_id][$timezone];
-	}
-	return apply_filters( 'get_lastpostdate', $lastpostdate, $timezone );
+	return apply_filters( 'get_lastpostdate', _get_last_post_time( $timezone, 'date' ), $timezone );
 }
 
 /**
@@ -3985,43 +3962,60 @@ function get_lastpostdate($timezone = 'server') {
  * 'gmt' is when the last post was modified in GMT time.
  *
  * @since 1.2.0
- * @uses $wpdb
- * @uses $blog_id
  * @uses apply_filters() Calls 'get_lastpostmodified' filter
  *
  * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
  * @return string The date the post was last modified.
  */
 function get_lastpostmodified($timezone = 'server') {
-	global $wpdb;
-
-	$add_seconds_server = date('Z');
-	$timezone = strtolower( $timezone );
-
-	$lastpostmodified = wp_cache_get( "lastpostmodified:$timezone", 'timeinfo' );
-	if ( $lastpostmodified )
-		return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
-
-	switch ( strtolower($timezone) ) {
-		case 'gmt':
-			$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_modified_gmt DESC LIMIT 1");
-			break;
-		case 'blog':
-			$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_modified_gmt DESC LIMIT 1");
-			break;
-		case 'server':
-			$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post' ORDER BY post_modified_gmt DESC LIMIT 1");
-			break;
-	}
+	$lastpostmodified = _get_last_post_time( $timezone, 'modified' );
 
 	$lastpostdate = get_lastpostdate($timezone);
 	if ( $lastpostdate > $lastpostmodified )
 		$lastpostmodified = $lastpostdate;
 
-	if ( $lastpostmodified )
-		wp_cache_set( "lastpostmodified:$timezone", $lastpostmodified, 'timeinfo' );
-
 	return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
+}
+
+function _get_last_post_time( $timezone, $field ) {
+	global $wpdb, $blog_id;
+
+	if ( !in_array( $field, array( 'date', 'modified' ) ) )
+		return false;
+
+	$post_types = get_query_var('post_type');
+	if ( empty($post_types) )
+		$post_types = 'post';
+
+	$post_types = apply_filters( "get_lastpost{$field}_post_types", (array) $post_types );
+
+	$key = "lastpost{$field}:$blog_id:$timezone:" . wp_cache_key( $post_types );
+
+	$date = wp_cache_get( $key, 'timeinfo' );
+
+	if ( !$date ) {
+		$add_seconds_server = date('Z');
+
+		array_walk( $post_types, array( &$wpdb, 'escape_by_ref' ) );
+		$post_types = "'" . implode( "', '", $post_types ) . "'";
+
+		switch ( strtolower( $timezone ) ) {
+			case 'gmt':
+				$date = $wpdb->get_var("SELECT post_{$field}_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
+				break;
+			case 'blog':
+				$date = $wpdb->get_var("SELECT post_{$field} FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
+				break;
+			case 'server':
+				$date = $wpdb->get_var("SELECT DATE_ADD(post_{$field}_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
+				break;
+		}
+
+		if ( $date )
+			wp_cache_set( $key, $date, 'timeinfo' );
+	}
+
+	return $date;
 }
 
 /**
