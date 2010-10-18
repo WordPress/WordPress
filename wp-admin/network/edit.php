@@ -398,7 +398,6 @@ switch ( $_GET['action'] ) {
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
 		update_blog_status( $id, 'archived', '1' );
-		do_action( 'archive_blog', $id );
 		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'archive' ), wp_get_referer() ) );
 		exit();
 	break;
@@ -408,7 +407,6 @@ switch ( $_GET['action'] ) {
 		if ( ! current_user_can( 'manage_sites' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 
-		do_action( 'unarchive_blog', $id );
 		update_blog_status( $id, 'archived', '0' );
 		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unarchive' ), wp_get_referer() ) );
 		exit();
@@ -453,6 +451,26 @@ switch ( $_GET['action'] ) {
 
 		update_blog_status( $id, 'spam', '1' );
 		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'spam' ), wp_get_referer() ) );
+		exit();
+	break;
+
+	case 'unmatureblog':
+		check_admin_referer( 'unmatureblog' );
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __( 'You do not have permission to access this page.' ) );
+
+		update_blog_status( $id, 'mature', '0' );
+		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'unmature' ), wp_get_referer() ) );
+		exit();
+	break;
+
+	case 'matureblog':
+		check_admin_referer( 'matureblog' );
+		if ( ! current_user_can( 'manage_sites' ) )
+			wp_die( __( 'You do not have permission to access this page.' ) );
+
+		update_blog_status( $id, 'mature', '1' );
+		wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => 'mature' ), wp_get_referer() ) );
 		exit();
 	break;
 

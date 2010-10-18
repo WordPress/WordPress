@@ -628,12 +628,14 @@ function update_blog_status( $blog_id, $pref, $value, $refresh = true ) {
 	if ( $refresh )
 		refresh_blog_details($blog_id);
 
-	if ( $pref == 'spam' ) {
-		if ( $value == 1 )
-			do_action( "make_spam_blog", $blog_id );
-		else
-			do_action( "make_ham_blog", $blog_id );
-	}
+	if ( 'spam' == $pref )
+		( $value == 1 ) ? do_action( 'make_spam_blog', $blog_id ) :	do_action( 'make_ham_blog', $blog_id );
+	elseif ( 'mature' == $pref )
+		( $value == 1 ) ? do_action( 'mature_blog', $blog_id ) : do_action( 'unmature_blog', $blog_id );
+	elseif ( 'archived' == $pref )
+		( $value == 1 ) ? do_action( 'archive_blog', $blog_id ) : do_action( 'unarchive_blog', $blog_id );
+	elseif ( 'archived' == $pref )
+		( $value == 1 ) ? do_action( 'archive_blog', $blog_id ) : do_action( 'unarchive_blog', $blog_id );
 
 	return $value;
 }
