@@ -3989,7 +3989,7 @@ function _get_last_post_time( $timezone, $field ) {
 
 	$post_types = apply_filters( "get_lastpost{$field}_post_types", (array) $post_types );
 
-	$key = "lastpost{$field}:$blog_id:$timezone:" . wp_cache_key( $post_types );
+	$key = "lastpost{$field}:$blog_id:$timezone:" . md5( serialize( $post_types ) );
 
 	$date = wp_cache_get( $key, 'timeinfo' );
 
