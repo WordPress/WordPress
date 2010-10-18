@@ -3811,22 +3811,23 @@ function wp_mime_type_icon( $mime = 0 ) {
 }
 
 /**
- * Checked for changed slugs for published posts and save old slug.
+ * Checked for changed slugs for published post objects and save the old slug.
  *
- * The function is used along with form POST data. It checks for the wp-old-slug
- * POST field. Will only be concerned with published posts and the slug actually
- * changing.
+ * The function is used when a post object of any type is updated, 
+ * by comparing the current and previous post objects.
  *
  * If the slug was changed and not already part of the old slugs then it will be
  * added to the post meta field ('_wp_old_slug') for storing old slugs for that
  * post.
  *
- * The most logically usage of this function is redirecting changed posts, so
+ * The most logically usage of this function is redirecting changed post objects, so
  * that those that linked to an changed post will be redirected to the new post.
  *
  * @since 2.1.0
  *
  * @param int $post_id Post ID.
+ * @param object $post The Post Object
+ * @param object $post_before The Previous Post Object
  * @return int Same as $post_id
  */
 function wp_check_for_changed_slugs($post_id, $post, $post_before) {
@@ -3834,8 +3835,8 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
 	if ( $post->post_name == $post_before->post_name )
 		return;
 
-	// we're only concerned with published posts
-	if ( $post->post_status != 'publish' || $post->post_type != 'post' )
+	// we're only concerned with published objects
+	if ( $post->post_status != 'publish' )
 		return;
 
 	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');
