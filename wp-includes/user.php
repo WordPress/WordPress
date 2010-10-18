@@ -575,13 +575,13 @@ function get_users_of_blog( $id = '' ) {
 }
 
 /**
- * Get the blogs a user belong to.
+ * Get the blogs a user belongs to.
  *
- * $since 3.0.0
+ * @since 3.0.0
  *
  * @param int $id User Id
- * @param bool $all Whether to retrieve all blog details or an abbreviated set of details. Default is abbreviated.
- * @return array A list of the user's blogs.
+ * @param bool $all Whether to retrieve all blogs or only blogs that are not marked as deleted, archived, or spam.
+ * @return array A list of the user's blogs. False if the user was not found or an empty array if the user has no blogs.
  */
 function get_blogs_of_user( $id, $all = false ) {
 	global $wpdb;
@@ -598,41 +598,43 @@ function get_blogs_of_user( $id, $all = false ) {
 		return $blogs;
 	}
 
-	$cache_suffix = $all ? '_all' : '_short';
-	$return = wp_cache_get( 'blogs_of_user_' . $id . $cache_suffix, 'users' );
-	if ( $return )
-		return apply_filters( 'get_blogs_of_user', $return, $id, $all );
+	$blogs = wp_cache_get( 'blogs_of_user-' . $id, 'users' );
+	if ( false === $blogs ) {
+		$user = get_userdata( (int) $id );
+		if ( !$user )
+			return false;
 
-	$user = get_userdata( (int) $id );
-	if ( !$user )
-		return false;
-
-	$blogs = $match = array();
-	$prefix_length = strlen($wpdb->base_prefix);
-	foreach ( (array) $user as $key => $value ) {
-		if ( $prefix_length && substr($key, 0, $prefix_length) != $wpdb->base_prefix )
-			continue;
-		if ( substr($key, -12, 12) != 'capabilities' )
-			continue;
-		if ( preg_match( '/^' . $wpdb->base_prefix . '((\d+)_)?capabilities$/', $key, $match ) ) {
-			if ( count( $match ) > 2 )
-				$blog_id = $match[ 2 ];
-			else
-				$blog_id = 1;
-			$blog = get_blog_details( $blog_id );
-			if ( $blog && isset( $blog->domain ) && ( $all == true || $all == false && ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
-				$blogs[ $blog_id ]->userblog_id	= $blog_id;
-				$blogs[ $blog_id ]->blogname		= $blog->blogname;
-				$blogs[ $blog_id ]->domain		= $blog->domain;
-				$blogs[ $blog_id ]->path			= $blog->path;
-				$blogs[ $blog_id ]->site_id		= $blog->site_id;
-				$blogs[ $blog_id ]->siteurl		= $blog->siteurl;
+		$blogs = $match = array();
+		$prefix_length = strlen($wpdb->base_prefix);
+		foreach ( (array) $user as $key => $value ) {
+			if ( $prefix_length && substr($key, 0, $prefix_length) != $wpdb->base_prefix )
+				continue;
+			if ( substr($key, -12, 12) != 'capabilities' )
+				continue;
+			if ( preg_match( '/^' . $wpdb->base_prefix . '((\d+)_)?capabilities$/', $key, $match ) ) {
+				if ( count( $match ) > 2 )
+					$blogs[] = (int) $match[ 2 ];
+				else
+					$blogs[] = 1;
 			}
+		}
+		wp_cache_set( 'blogs_of_user-' . $id, $blogs, 'users' );
+	}
+
+	$blog_deets = array();
+	foreach ( (array) $blogs as $blog_id ) {
+		$blog = get_blog_details( $blog_id );
+		if ( $blog && isset( $blog->domain ) && ( $all == true || $all == false && ( $blog->archived == 0 && $blog->spam == 0 && $blog->deleted == 0 ) ) ) {
+			$blog_deets[ $blog_id ]->userblog_id	= $blog_id;
+			$blog_deets[ $blog_id ]->blogname		= $blog->blogname;
+			$blog_deets[ $blog_id ]->domain		= $blog->domain;
+			$blog_deets[ $blog_id ]->path			= $blog->path;
+			$blog_deets[ $blog_id ]->site_id		= $blog->site_id;
+			$blog_deets[ $blog_id ]->siteurl		= $blog->siteurl;
 		}
 	}
 
-	wp_cache_add( 'blogs_of_user_' . $id . $cache_suffix, $blogs, 'users', 5 );
-	return apply_filters( 'get_blogs_of_user', $blogs, $id, $all );
+	return apply_filters( 'get_blogs_of_user', $blog_deets, $id, $all );
 }
 
 function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
@@ -1268,6 +1270,7 @@ function clean_user_cache($id) {
 	wp_cache_delete($user->user_login, 'userlogins');
 	wp_cache_delete($user->user_email, 'useremail');
 	wp_cache_delete($user->user_nicename, 'userslugs');
+	wp_cache_delete('blogs_of_user-' . $id, 'users');
 }
 
 ?>
