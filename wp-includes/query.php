@@ -3146,20 +3146,20 @@ function wp_old_slug_redirect() {
 	if ( is_404() && '' != $wp_query->query_vars['name'] ) :
 		global $wpdb;
 
-		$query = "SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND meta_key = '_wp_old_slug' AND meta_value='" . $wp_query->query_vars['name'] . "'";
+		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND meta_key = '_wp_old_slug' AND meta_value=%s", $wp_query->query_vars['name']);
 
 		// if year, monthnum, or day have been specified, make our query more precise
 		// just in case there are multiple identical _wp_old_slug values
 		if ( '' != $wp_query->query_vars['year'] )
-			$query .= " AND YEAR(post_date) = '{$wp_query->query_vars['year']}'";
+			$query .= $wpdb->prepare(" AND YEAR(post_date) = %d", $wp_query->query_vars['year']);
 		if ( '' != $wp_query->query_vars['monthnum'] )
-			$query .= " AND MONTH(post_date) = '{$wp_query->query_vars['monthnum']}'";
+			$query .= $wpdb->prepare(" AND MONTH(post_date) = %d", $wp_query->query_vars['monthnum']);
 		if ( '' != $wp_query->query_vars['day'] )
-			$query .= " AND DAYOFMONTH(post_date) = '{$wp_query->query_vars['day']}'";
+			$query .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", $wp_query->query_vars['day']);
 
 		$id = (int) $wpdb->get_var($query);
 
-		if ( !$id )
+		if ( ! $id )
 			return;
 
 		$link = get_permalink($id);
