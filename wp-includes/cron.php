@@ -26,8 +26,16 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 		return;
 
 	$crons = _get_cron_array();
-	$key = md5(serialize($args));
-	$crons[$timestamp][$hook][$key] = array( 'schedule' => false, 'args' => $args );
+	$event = (object) array( 'hook' => $hook, 'timestamp' => $timestamp, 'schedule' => false, 'args' => $args );
+	$event = apply_filters('schedule_event', $event);
+
+	// A plugin disallowed this event
+	if ( ! $event )
+		return false;
+
+	$key = md5(serialize($event->args));
+
+	$crons[$event->timestamp][$event->hook][$key] = array( 'schedule' => $event->schedule, 'args' => $event->args );
 	uksort( $crons, "strnatcasecmp" );
 	_set_cron_array( $crons );
 }
@@ -53,10 +61,20 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 	$crons = _get_cron_array();
 	$schedules = wp_get_schedules();
-	$key = md5(serialize($args));
+
 	if ( !isset( $schedules[$recurrence] ) )
 		return false;
-	$crons[$timestamp][$hook][$key] = array( 'schedule' => $recurrence, 'args' => $args, 'interval' => $schedules[$recurrence]['interval'] );
+
+	$event = (object) array( 'hook' => $hook, 'timestamp' => $timestamp, 'schedule' => $recurrence, 'args' => $args, 'interval' => $schedules[$recurrence]['interval'] );
+	$event = apply_filters('schedule_event', $event);
+
+	// A plugin disallowed this event
+	if ( ! $event )
+		return false;
+
+	$key = md5(serialize($event->args));
+
+	$crons[$event->timestamp][$event->hook][$key] = array( 'schedule' => $event->schedule, 'args' => $event->args, 'interval' => $event->interval );
 	uksort( $crons, "strnatcasecmp" );
 	_set_cron_array( $crons );
 }
