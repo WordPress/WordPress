@@ -906,7 +906,7 @@ function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after 
  *
  * @since 2.5.0
  *
- * @param int $id Term ID.
+ * @param int $id Post ID.
  * @param string $taxonomy Taxonomy name.
  * @param string $before Optional. Before list.
  * @param string $sep Optional. Separate items using this.
