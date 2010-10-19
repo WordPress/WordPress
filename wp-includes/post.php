@@ -3977,6 +3977,16 @@ function get_lastpostmodified($timezone = 'server') {
 	return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
 }
 
+/**
+ * Retrieve latest post date data based on timezone.
+ *
+ * @access private
+ * @since 3.1.0
+ *
+ * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
+ * @param string $field Field to check. Can be 'date' or 'modified'.
+ * @return string The date.
+ */
 function _get_last_post_time( $timezone, $field ) {
 	global $wpdb, $blog_id;
 
