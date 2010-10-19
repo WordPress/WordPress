@@ -110,7 +110,7 @@ require_once('./admin-header.php');
 		}
 	}
 	echo implode ( ' | ', $options );
-	
+
 	if ( $ct->tags ) : ?>
 	<p><?php _e('Tags:'); ?> <?php echo join(', ', $ct->tags); ?></p>
 	<?php endif; ?>
@@ -146,7 +146,7 @@ if ( ! current_user_can( 'switch_themes' ) ) {
 
 	<?php foreach ( $feature_list as $feature_name => $features ) :
 			$feature_name = esc_html( $feature_name ); ?>
-		
+	
 		<div class="feature-container">
 			<div class="feature-name"><?php echo $feature_name ?></div>
 

@@ -120,7 +120,7 @@ function get_link_to_edit( $link_id ) {
 }
 
 /**
- * This function inserts/updates links into/in the database. 
+ * This function inserts/updates links into/in the database.
  *
  * @since 2.0.0
  *
@@ -221,7 +221,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
  * @since 2.1.0
  *
  * @param int $link_id ID of link to update
- * @param array $link_categories Array of categories to 
+ * @param array $link_categories Array of categories to
  */
 function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
 	// If $link_categories isn't already an array, make it one:

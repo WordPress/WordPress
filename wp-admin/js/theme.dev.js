@@ -47,7 +47,7 @@ var ThemeViewer;
 				// Set the options
 				opts.search = $( 'input[name=s]' ).val();
 				opts.order  = document.location.href.match( /order=(\w*)/ ) ? document.location.href.match( /order=(\w*)/ )[1] : 'random';
-				
+			
 				$( '#availablethemes td' ).fadeTo( 500, 0.1, function() {
 					$( '#availablethemes td img' ).hide();
 				} );
@@ -55,7 +55,7 @@ var ThemeViewer;
 				return false;
 			});
 		}
-		
+	
 		// These are the functions we expose
 		var api = {
 			init: init
@@ -68,4 +68,4 @@ var ThemeViewer;
 jQuery( document ).ready( function($) {
 	theme_viewer = new ThemeViewer();
 	theme_viewer.init();
-});	
+});

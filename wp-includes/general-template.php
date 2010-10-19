@@ -654,7 +654,7 @@ function post_type_archive_title() {
 	if ( ! is_post_type_archive() )
 		return;
 
-	
+
 	$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
 	$title = apply_filters('post_type_archive_title', $post_type_obj->labels->name );
 
@@ -663,7 +663,7 @@ function post_type_archive_title() {
 	else
 		return $title;
 }
-	
+
 /**
  * Display or retrieve page title for category archive.
  *

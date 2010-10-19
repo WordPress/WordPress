@@ -3,18 +3,18 @@
  * @package WordPress
  * @subpackage Theme_Compat
  * @deprecated 3.0
- * 
+ *
  * This file is here for Backwards compatibility with old themes and will be removed in a future version
- * 
+ *
  */
 _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.0', null, sprintf( __('Please include a %1$s template in your theme.'), basename(__FILE__) ) );
 
 // Do not delete these lines
 	if (!empty($_SERVER['SCRIPT_FILENAME']) && 'comments.php' == basename($_SERVER['SCRIPT_FILENAME']))
 		die ('Please do not load this page directly. Thanks!');
-	
+
 	if ( post_password_required() ) { ?>
-		<p class="nocomments"><?php _e('This post is password protected. Enter the password to view comments.'); ?></p> 
+		<p class="nocomments"><?php _e('This post is password protected. Enter the password to view comments.'); ?></p>
 	<?php
 		return;
 	}
@@ -58,9 +58,9 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 
 <h3><?php comment_form_title( __('Leave a Reply'), __('Leave a Reply to %s' ) ); ?></h3>
 
-<div id="cancel-comment-reply"> 
+<div id="cancel-comment-reply">
 	<small><?php cancel_comment_reply_link() ?></small>
-</div> 
+</div>
 
 <?php if ( get_option('comment_registration') && !is_user_logged_in() ) : ?>
 <p><?php printf(__('You must be <a href="%s">logged in</a> to post a comment.'), wp_login_url( get_permalink() )); ?></p>
@@ -90,7 +90,7 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 <p><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea></p>
 
 <p><input name="submit" type="submit" id="submit" tabindex="5" value="<?php _e('Submit Comment'); ?>" />
-<?php comment_id_fields(); ?> 
+<?php comment_id_fields(); ?>
 </p>
 <?php do_action('comment_form', $post->ID); ?>
 

@@ -4342,7 +4342,7 @@ function _wp_mysql_week( $column ) {
  * Finds hierarchy loops using a callback function that maps objects to parents.
  *
  * @since 3.1.0
- * @access private 
+ * @access private
  *
  * @param callback $callback function that accepts ( ID, callback_arg, ... ) and outputs parent_ID
  * @param $start The ID to start the loop check at

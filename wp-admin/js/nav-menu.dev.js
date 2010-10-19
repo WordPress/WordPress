@@ -918,7 +918,7 @@ var wpNavMenu;
 					takenIDs[newID] = true;
 					if ( newID != matched[1] ) {
 						$item.html( $item.html().replace(new RegExp(
-							'menu-item\\[' + matched[1] + '\\]', 'g'), 
+							'menu-item\\[' + matched[1] + '\\]', 'g'),
 							'menu-item[' + newID + ']'
 						) );
 					}

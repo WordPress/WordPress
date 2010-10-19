@@ -858,9 +858,9 @@ function get_post_type_archive_link( $post_type ) {
  * @since 3.1.0
  *
  * @param string $post_type Post type
- * @param string $feed Optional. Feed type 
+ * @param string $feed Optional. Feed type
  * @return string
- */	
+ */
 function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 	$default_feed = get_default_feed();
 	if ( empty( $feed ) )

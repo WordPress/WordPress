@@ -124,7 +124,7 @@ function get_active_blog_for_user( $user_id ) {
  *
  * @since MU 1.1
  * @uses get_blogs_of_user()
- * 
+ *
  * @param int $user_id The unique ID of the user
  * @param int $blog Optional. If no blog_id is provided, current site is used
  * @return bool
@@ -268,7 +268,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
  * Use the 'remove_user_from_blog' action to fire an event when
  * users are removed from a blog.
  *
- * Accepts an optional $reassign parameter, if you want to 
+ * Accepts an optional $reassign parameter, if you want to
  * reassign the user's blog posts to another user upon removal.
  *
  * @since MU 1.0

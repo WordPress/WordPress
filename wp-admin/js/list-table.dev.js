@@ -77,7 +77,7 @@ window.listTable = {
 		this._callback = callback;
 
 		this.fetch_list(
-			data, 
+			data,
 			$.proxy(this, 'handle_success'),
 			$.proxy(this, 'handle_error')
 		);

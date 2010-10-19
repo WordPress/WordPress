@@ -261,7 +261,7 @@ class WP_List_Table {
 
 		if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] )
 			return $_REQUEST['action2'];
-		
+	
 		return false;
 	}
 
@@ -398,7 +398,7 @@ class WP_List_Table {
 	 */
 	function get_pagenum( $query_var = 'paged' ) {
 		$pagenum = isset( $_REQUEST[$query_var] ) ? absint( $_REQUEST[$query_var] ) : 0;
-	
+
 		return max( 1, $pagenum );
 	}
 
@@ -409,7 +409,7 @@ class WP_List_Table {
 	 * @access protected
 	 *
 	 * @return int
-	 */	
+	 */
 	function get_items_per_page( $option, $default = 20 ) {
 		$per_page = (int) get_user_option( $option );
 		if ( empty( $per_page ) || $per_page < 1 )
@@ -621,7 +621,7 @@ class WP_List_Table {
 	 * @access protected
 	 *
 	 * @return array
-	 */	
+	 */
 	function get_table_classes() {
 		extract( $this->_args );
 

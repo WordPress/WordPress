@@ -85,7 +85,7 @@ class WP_Posts_Table extends WP_List_Table {
 		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
 		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
- 		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type ); 
+ 		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
 		if ( $this->hierarchical_display )
 			$total_pages = ceil( $total_items / $per_page );
@@ -161,7 +161,7 @@ class WP_Posts_Table extends WP_List_Table {
 
 			$status_links[$status_name] = "<li><a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( _n( $status->label_count[0], $status->label_count[1], $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
 		}
-		
+	
 		return $status_links;
 	}
 
@@ -735,11 +735,11 @@ class WP_Posts_Table extends WP_List_Table {
 			$authors_dropdown = '';
 
 			if ( is_super_admin() || current_user_can( $post_type_object->cap->edit_others_posts ) ) :
-				$users_opt = array( 
-					'name' => 'post_author', 
-					'class'=> 'authors', 
-					'multi' => 1, 
-					'echo' => 0 
+				$users_opt = array(
+					'name' => 'post_author',
+					'class'=> 'authors',
+					'multi' => 1,
+					'echo' => 0
 				);
 				if ( $bulk )
 					$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
@@ -998,7 +998,7 @@ class WP_Media_Table extends WP_List_Table {
 	function check_permissions() {
 		if ( !current_user_can('upload_files') )
 			wp_die( __( 'You do not have permission to upload files.' ) );
-	}		
+	}	
 
 	function prepare_items() {
 		global $lost, $wpdb, $wp_query, $post_mime_types, $avail_post_mime_types;
@@ -1488,10 +1488,10 @@ class WP_Terms_Table extends WP_List_Table {
 			$args['order'] = trim( stripslashes( $_REQUEST['order'] ) );
 
 		$this->callback_args = $args;
-		
+	
 		$this->set_pagination_args( array(
 			'total_items' => wp_count_terms( $taxonomy, compact( 'search' ) ),
-			'per_page' => $tags_per_page,		
+			'per_page' => $tags_per_page,	
 		) );
 	}
 
@@ -1677,7 +1677,7 @@ class WP_Terms_Table extends WP_List_Table {
 
 		return $out;
 	}
-	
+
 	function column_description( $tag ) {
 		return $tag->description;
 	}
@@ -1711,7 +1711,7 @@ class WP_Terms_Table extends WP_List_Table {
 
 	function column_default( $tag, $column_name ) {
 		global $taxonomy;
-	
+
 		return apply_filters( "manage_${taxonomy}_custom_column", '', $column_name, $tag->term_id );
 		$out .= "</td>";
 	}
@@ -1820,10 +1820,10 @@ class WP_Users_Table extends WP_List_Table {
 		$wp_user_search = new WP_User_Query( $args );
 
 		$this->items = $wp_user_search->get_results();
-		
+	
 		$this->set_pagination_args( array(
 			'total_items' => $wp_user_search->get_total(),
-			'per_page' => $users_per_page,		
+			'per_page' => $users_per_page,	
 		) );
 	}
 
@@ -1888,7 +1888,7 @@ class WP_Users_Table extends WP_List_Table {
 	</div>
 <?php
 	}
-	
+
 	function current_action() {
 		if ( isset($_REQUEST['changeit']) && !empty($_REQUEST['new_role']) )
 			return 'promote';
@@ -2563,7 +2563,7 @@ class WP_Links_Table extends WP_List_Table {
 			$args['order'] = $order;
 
 		$this->items = get_bookmarks( $args );
-	}		
+	}	
 
 	function no_items() {
 		_e( 'No links found.' );
@@ -2724,7 +2724,7 @@ class WP_Sites_Table extends WP_List_Table {
 		) );
 	}
 
-	function check_permissions() {		
+	function check_permissions() {	
 		if ( ! current_user_can( 'manage_sites' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 	}
@@ -3014,7 +3014,7 @@ class WP_MS_Users_Table extends WP_List_Table {
 	function check_permissions() {
 		if ( !is_multisite() )
 			wp_die( __( 'Multisite support is not enabled.' ) );
-	
+
 		if ( ! current_user_can( 'manage_network_users' ) )
 			wp_die( __( 'You do not have permission to access this page.' ) );
 	}
@@ -3045,10 +3045,10 @@ class WP_MS_Users_Table extends WP_List_Table {
 		$wp_user_search = new WP_User_Query( $args );
 
 		$this->items = $wp_user_search->get_results();
-		
+	
 		$this->set_pagination_args( array(
 			'total_items' => $wp_user_search->get_total(),
-			'per_page' => $users_per_page,		
+			'per_page' => $users_per_page,	
 		) );
 	}
 
@@ -3367,7 +3367,7 @@ class WP_Plugins_Table extends WP_List_Table {
 			}
 			uasort( $this->items, '_order_plugins_callback' );
 		}
-		
+	
 		$plugins_per_page = $this->get_items_per_page( 'plugins_per_page', 999 );
 
 		$start = ( $page - 1 ) * $plugins_per_page;
@@ -3416,7 +3416,7 @@ class WP_Plugins_Table extends WP_List_Table {
 
 	function get_views() {
 		global $totals, $status;
-	
+
 		$status_links = array();
 		foreach ( $totals as $type => $count ) {
 			if ( !$count )
@@ -3452,7 +3452,7 @@ class WP_Plugins_Table extends WP_List_Table {
 					break;
 			}
 
-			$status_links[$type] = sprintf( "<li><a href='%s' %s>%s</a>", 
+			$status_links[$type] = sprintf( "<li><a href='%s' %s>%s</a>",
 				add_query_arg('plugin_status', $type, 'plugins.php'),
 				( $type == $status ) ? ' class="current"' : '',
 				sprintf( $text, number_format_i18n( $count ) )
@@ -3640,7 +3640,7 @@ class WP_Plugin_Install_Table extends WP_List_Table {
 
 	function check_permissions() {
 		if ( ! current_user_can('install_plugins') )
-			wp_die(__('You do not have sufficient permissions to install plugins on this site.'));		
+			wp_die(__('You do not have sufficient permissions to install plugins on this site.'));	
 	}
 
 	function prepare_items() {
@@ -4081,8 +4081,8 @@ class WP_Theme_Install_Table extends WP_List_Table {
 	function prepare_items() {
 		include( ABSPATH . 'wp-admin/includes/theme-install.php' );
 
-		global $tabs, $tab, $paged, $type, $term, $theme_field_defaults;		
-		
+		global $tabs, $tab, $paged, $type, $term, $theme_field_defaults;	
+	
 		wp_reset_vars( array( 'tab' ) );
 
 		$paged = $this->get_pagenum();

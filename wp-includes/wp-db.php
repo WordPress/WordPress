@@ -540,7 +540,7 @@ class wpdb {
 
 	/**
 	 * Sets the connection's character set.
-	 * 
+	 *
 	 * @param resource $dbh     The resource given by mysql_connect
 	 * @param string   $charset The character set (optional)
 	 * @param string   $collate The collation (optional)
@@ -740,7 +740,7 @@ class wpdb {
 	 * @return null Always null.
 	 */
 	function select( $db, $dbh = null) {
-		if ( is_null($dbh) ) 
+		if ( is_null($dbh) )
 			$dbh = $this->dbh;
 
 		if ( !@mysql_select_db( $db, $dbh ) ) {
@@ -1043,7 +1043,7 @@ class wpdb {
 </ul>
 <p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
 "/*/WP_I18N_DB_CONN_ERROR*/, $this->dbhost ), 'db_connect_fail' );
-			
+		
 			//If show errors is disabled then we need to die anyway as we don't have a working DB connection
 			die();
 		}

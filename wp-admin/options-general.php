@@ -49,7 +49,7 @@ function add_js() {
 			$.post(ajaxurl, {
 					action: 'date_format_custom' == format.attr('name') ? 'date_format' : 'time_format',
 					date : format.val(),
-				}, function(d) { format.siblings('img').css('visibility','hidden'); format.siblings('.example').text(d); } );	
+				}, function(d) { format.siblings('img').css('visibility','hidden'); format.siblings('.example').text(d); } );
 		});
 	});
 //]]>

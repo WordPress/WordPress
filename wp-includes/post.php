@@ -496,7 +496,7 @@ function get_post_format( $post ) {
  *
  * @since 3.1.0
  * @uses has_term()
- * 
+ *
  * @param string $format The format to check for
  * @param object|id $post The post to check. If not supplied, defaults to the current post if used in the loop.
  * @return bool True if the post has the format, false otherwise.
@@ -3812,7 +3812,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 /**
  * Checked for changed slugs for published post objects and save the old slug.
  *
- * The function is used when a post object of any type is updated, 
+ * The function is used when a post object of any type is updated,
  * by comparing the current and previous post objects.
  *
  * If the slug was changed and not already part of the old slugs then it will be

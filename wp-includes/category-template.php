@@ -963,7 +963,7 @@ function has_tag( $tag = '', $post = null ) {
 
 /**
  * Check if the current post has any of given terms.
- * 
+ *
  * The given terms are checked against the post's terms' term_ids, names and slugs.
  * Terms given as integers will only be checked against the post's terms' term_ids.
  * If no terms are given, determines if post has any terms.

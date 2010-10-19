@@ -503,7 +503,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 				if ( $term = get_term_by( $field, $term, $taxonomy ) )
 					$term = $term->term_id;
 				else
-					continue;					
+					continue;				
 			}
 			$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
 			$children[] = $term;
@@ -1446,13 +1446,13 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$tt_id = $ids['term_taxonomy_id'];
 
 	$defaults = array();
-	
+
 	if ( 'category' == $taxonomy ) {
 		$defaults['default'] = get_option( 'default_category' );
 		if ( $defaults['default'] == $term )
 			return 0; // Don't delete the default category
 	}
-	
+
 	$args = wp_parse_args($args, $defaults);
 	extract($args, EXTR_SKIP);
 
@@ -2641,7 +2641,7 @@ function get_term_link( $term, $taxonomy = '') {
 		$termlink = home_url( user_trailingslashit($termlink, 'category') );
 	}
 	// Back Compat filters.
-	if ( 'post_tag' == $taxonomy ) 
+	if ( 'post_tag' == $taxonomy )
 		$termlink = apply_filters( 'tag_link', $termlink, $term->term_id );
 	elseif ( 'category' == $taxonomy )
 		$termlink = apply_filters( 'category_link', $termlink, $term->term_id );
@@ -2815,7 +2815,7 @@ function is_object_in_taxonomy($object_type, $taxonomy) {
 
 	return false;
 }
- 
+
 /**
  * Get an array of ancestor IDs for a given object.
  *
@@ -2825,13 +2825,13 @@ function is_object_in_taxonomy($object_type, $taxonomy) {
  */
 function get_ancestors($object_id = 0, $object_type = '') {
 	$object_id = (int) $object_id;
- 
+
 	$ancestors = array();
 
 	if ( empty( $object_id ) ) {
 		return apply_filters('get_ancestors', $ancestors, $object_id, $object_type);
 	}
-		
+	
 	if ( is_taxonomy_hierarchical( $object_type ) ) {
 		$term = get_term($object_id, $object_type);
 		while ( ! is_wp_error($term) && ! empty( $term->parent ) && ! in_array( $term->parent, $ancestors ) ) {
@@ -2840,7 +2840,7 @@ function get_ancestors($object_id = 0, $object_type = '') {
 		}
 	} elseif ( null !== get_post_type_object( $object_type ) ) {
 		$object = get_post($object_id);
-		if ( ! is_wp_error( $object ) && isset( $object->ancestors ) && is_array( $object->ancestors ) ) 
+		if ( ! is_wp_error( $object ) && isset( $object->ancestors ) && is_array( $object->ancestors ) )
 			$ancestors = $object->ancestors;
 		else {
 			while ( ! is_wp_error($object) && ! empty( $object->post_parent ) && ! in_array( $object->post_parent, $ancestors ) ) {

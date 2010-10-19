@@ -74,7 +74,7 @@ function confirm_delete_users( $users ) {
 			}
 		}
 	}
-	
+
 	submit_button( __('Confirm Deletion'), 'delete' );
 	?>
 	</form>

@@ -342,13 +342,13 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	if ( !$redirect_url || $redirect_url == $requested_url )
 		return false;
-		
-	// Hex encoded octets are case-insensitive. 
+	
+	// Hex encoded octets are case-insensitive.
 	if ( false !== strpos($requested_url, '%') ) {
 		if ( !function_exists('lowercase_octets') ) {
-			function lowercase_octets($matches) { 
-				return strtolower( $matches[0] ); 
-			} 
+			function lowercase_octets($matches) {
+				return strtolower( $matches[0] );
+			}
 		}
 		$requested_url = preg_replace_callback('|%[a-fA-F0-9][a-fA-F0-9]|', 'lowercase_octets', $requested_url);
 	}

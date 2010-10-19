@@ -508,8 +508,8 @@ function post_author_meta_box($post) {
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
 <?php
-	wp_dropdown_users( array( 
-		'name' => 'post_author_override', 
+	wp_dropdown_users( array(
+		'name' => 'post_author_override',
 		'selected' => empty($post->ID) ? $user_ID : $post->post_author
 	) );
 }

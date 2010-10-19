@@ -642,7 +642,7 @@ function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
 	$blogs         = get_blogs_of_user( $user_id );
 	$order_meta    = get_user_meta( $user_id, 'blog_order' );
 	$visible_meta  = get_user_meta( $user_id, 'blog_visibility' );
-	
+
 	$order = $order_meta;
 	if ( !is_array( $order ) )
 		$order = array();
@@ -650,7 +650,7 @@ function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
 	$visible = $visible_meta;
 	if ( !is_array( $visible ) )
 		$visible = array();
-	
+
 	// Index the blogs by userblog_id and set the visibility flag
 	// Visibility is on by default, unless a linked site then off
 	foreach ( $blogs as $blog ) {
@@ -667,7 +667,7 @@ function get_ordered_blogs_of_user( $user_id, $visibility = true ) {
 		// A previous change was saving the entire blog details into ordered, not just the blog ID - this detects it
 		if ( is_object( $id ) && isset( $id->userblog_id ) )
 			$id = $id->userblog_id;
-			
+		
 		if ( is_numeric( $id ) && isset( $newblogs[intval( $id )] ) ) {
 			$ordered[$id] = $newblogs[$id];
 			unset( $newblogs[$id] );
@@ -724,7 +724,7 @@ function set_blog_visibility( $blog_id, $visible ) {
  */
 function is_blog_user( $blog_id = 0 ) {
 	global $wpdb;
- 
+
 	$current_user = wp_get_current_user();
 	if ( !$blog_id )
 		$blog_id = $wpdb->blogid;

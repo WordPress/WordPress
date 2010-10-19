@@ -103,7 +103,7 @@ function wp_reset_postdata() {
  * Month, Year, Category, Author, ...
  *
  * If the $post_types parameter is specified, this function will additionally
- * check if the query is for exactly one of the post types specified. If a plugin 
+ * check if the query is for exactly one of the post types specified. If a plugin
  * is causing multiple post types to appear in the query, specifying a post type
  * will cause this check to return false.
  *
@@ -135,7 +135,7 @@ function is_post_type_archive( $post_types = '' ) {
 
 	return $wp_query->is_post_type_archive( $post_types );
 }
-	
+
 /**
  * Is the query for an attachment page?
  *
@@ -2648,7 +2648,7 @@ class WP_Query extends WP_Object_Query {
  	 * Month, Year, Category, Author, ...
  	 *
 	 * If the $post_types parameter is specified, this function will additionally
-	 * check if the query is for exactly one of the post types specified. If a plugin 
+	 * check if the query is for exactly one of the post types specified. If a plugin
 	 * is causing multiple post types to appear in the query, specifying a post type
 	 * will cause this check to return false.
 	 *

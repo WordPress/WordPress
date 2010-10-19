@@ -311,7 +311,7 @@ class WP_Comment_Query extends WP_Object_Query {
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
 
-		return $comments;	
+		return $comments;
 	}
 }
 

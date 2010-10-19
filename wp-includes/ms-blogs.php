@@ -116,7 +116,7 @@ function get_id_from_blogname( $name ) {
  * Retrieve the details for a blog from the blogs table and blog options.
  *
  * @since MU
- * 
+ *
  * @param int|string|array $fields A blog ID, a blog name, or an array of fields to query against.
  * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
  * @return object Blog details.
@@ -488,9 +488,9 @@ function switch_to_blog( $new_blog, $validate = false ) {
 			$wp_roles->__construct();
 		$wpdb->suppress_errors( false );
 	}
- 
+
 	if ( did_action('init') ) {
-		$current_user = wp_get_current_user();	
+		$current_user = wp_get_current_user();
 		if ( is_object( $current_user ) )
 			$current_user->for_blog( $blog_id );
 	}
@@ -663,7 +663,7 @@ function get_blog_status( $id, $pref ) {
  * Get a list of most recently updated blogs.
  *
  * @since MU
- * 
+ *
  * @param $deprecated Not used
  * @param int $start The offset
  * @param int $quantity The maximum number of blogs to retrieve. Default is 40.

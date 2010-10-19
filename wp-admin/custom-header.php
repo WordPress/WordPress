@@ -558,8 +558,8 @@ class Custom_Image_Header {
 </tbody>
 </table>
 	<?php endif;
-	
-do_action( 'custom_header_options' ); 
+
+do_action( 'custom_header_options' );
 
 wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
@@ -644,7 +644,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $id ); ?>" />
 	<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr( $oitar ); ?>" />
 	<?php wp_nonce_field( 'custom-header-crop-image' ) ?>
-	
+
 	<?php submit_button( __( 'Crop and Publish' ) ); ?>
 	</p>
 </form>
