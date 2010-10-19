@@ -1449,6 +1449,13 @@ class WP_Query extends WP_Object_Query {
 			$tax_query = array();
 		}
 
+		if ( !empty($q['taxonomy']) && !empty($q['term']) ) {
+			$tax_query[] = array(
+				'taxonomy' => $q['taxonomy'],
+				'terms' => $q['term'],
+			);
+		}
+
 		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
 			if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
 				$tax_query_defaults = array(
