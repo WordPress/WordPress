@@ -2899,7 +2899,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 /**
  * Returns the term's parent's term_ID
  *
- * @since 3.1
+ * @since 3.1.0
  *
  * @param int $term_id
  * @param string $taxonomy
@@ -2919,7 +2919,7 @@ function wp_get_term_taxonomy_parent_id( $term_id, $taxonomy ) {
  *
  * Attached to the wp_update_term_parent filter.
  *
- * @since 3.1
+ * @since 3.1.0
  * @uses wp_find_hierarchy_loop()
  *
  * @param int $parent term_id of the parent for the term we're checking.

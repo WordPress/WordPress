@@ -651,7 +651,7 @@ class WP_Posts_Table extends WP_List_Table {
 	/**
 	 * Outputs the hidden row displayed when inline editing
 	 *
-	 * @since 3.1
+	 * @since 3.1.0
 	 */
 	function inline_edit() {
 		global $mode;
@@ -1719,7 +1719,7 @@ class WP_Terms_Table extends WP_List_Table {
 	/**
 	 * Outputs the hidden row displayed when inline editing
 	 *
-	 * @since 3.1
+	 * @since 3.1.0
 	 */
 	function inline_edit() {
 		global $tax;

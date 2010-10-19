@@ -494,8 +494,7 @@ function get_post_format( $post ) {
 /**
  *  Check if a post has a particular format
  *
- * @since 3.1
- *
+ * @since 3.1.0
  * @uses has_term()
  * 
  * @param string $format The format to check for
@@ -4803,7 +4802,7 @@ function _show_post_preview() {
 /**
  * Returns the post's parent's post_ID
  *
- * @since 3.1
+ * @since 3.1.0
  *
  * @param int $post_id
  *
@@ -4822,7 +4821,7 @@ function wp_get_post_parent_id( $post_ID ) {
  *
  * Attached to the wp_insert_post_parent filter.
  *
- * @since 3.1
+ * @since 3.1.0
  * @uses wp_find_hierarchy_loop()
  *
  * @param int $post_parent ID of the parent for the post we're checking.

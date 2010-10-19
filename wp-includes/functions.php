@@ -4341,16 +4341,14 @@ function _wp_mysql_week( $column ) {
 /**
  * Finds hierarchy loops using a callback function that maps objects to parents.
  *
- * @since 3.1
+ * @since 3.1.0
+ * @access private 
  *
  * @param callback $callback function that accepts ( ID, callback_arg, ... ) and outputs parent_ID
  * @param $start The ID to start the loop check at
  * @param $start_parent the parent_ID of $start to use instead of calling $callback( $start ).  Use null to always use $callback
  * @param array $override an array of ( ID => parent_ID, ... ) to use instead of $callback
  * @param array $callback_arg optional additional arguments to send to $callback
- *
- * @internal
- *
  * @return array IDs of all members of loop
  */
 function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_args = array() ) {
@@ -4368,7 +4366,8 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
  * For every step of the algorithm, the hare takes two steps and the tortoise one.
  * If the hare ever laps the tortoise, there must be a loop.
  *
- * @since 3.1
+ * @since 3.1.0
+ * @access private
  *
  * @param callback $callback function that accupts ( ID, callback_arg, ... ) and outputs parent_ID
  * @param $start The ID to start the loop check at
@@ -4377,9 +4376,6 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
  * @param bool $_return_loop Return loop members or just detect presence of loop?
  *             Only set to true if you already know the given $start is part of a loop
  *             (otherwise the returned array might include branches)
- *
- * @internal
- *
  * @return mixed scalar ID of some arbitrary member of the loop, or array of IDs of all members of loop if $_return_loop
  */
 function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = array(), $callback_args = array(), $_return_loop = false ) {

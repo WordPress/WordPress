@@ -675,7 +675,7 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
 /**
  * Retrieve edit term url.
  *
- * @since 3.1
+ * @since 3.1.0
  *
  * @param int $term_id Term ID
  * @param string $taxonomy Taxonomy
@@ -706,7 +706,7 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 /**
  * Display or retrieve edit term link with formatting.
  *
- * @since 3.1
+ * @since 3.1.0
  *
  * @param string $link Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
