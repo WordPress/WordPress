@@ -1205,7 +1205,7 @@ function get_posts($args = null) {
 	$r = wp_parse_args( $args, $defaults );
 	if ( empty( $r['post_status'] ) )
 		$r['post_status'] = ( 'attachment' == $r['post_type'] ) ? 'inherit' : 'publish';
-	if ( ! empty($r['numberposts']) )
+	if ( ! empty($r['numberposts']) && empty($r['posts_per_page']) )
 		$r['posts_per_page'] = $r['numberposts'];
 	if ( ! empty($r['category']) )
 		$r['cat'] = $r['category'];
