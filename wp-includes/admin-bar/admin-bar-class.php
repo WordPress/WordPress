@@ -12,7 +12,7 @@ class WP_Admin_Bar {
 		$this->menu = new stdClass;
 
 		/* Populate settings we need for the menu based on the current user. */
-		$this->user->blogs = get_ordered_blogs_of_user( $current_user->id );
+		$this->user->blogs = get_blogs_of_user( $current_user->id );
 		if ( is_multisite() ) {
 			$this->user->active_blog = get_active_blog_for_user( $current_user->id );
 			$this->user->domain = empty( $this->user->active_blog ) ? user_admin_url() : trailingslashit( get_home_url( $this->user->active_blog->blog_id ) );
