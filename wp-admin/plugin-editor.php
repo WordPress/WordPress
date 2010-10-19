@@ -117,7 +117,7 @@ default:
 		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
 
-	require_once('./admin-header.php');
+	require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 	update_recently_edited(WP_PLUGIN_DIR . '/' . $file);
 
@@ -252,4 +252,4 @@ jQuery(document).ready(function($){
 <?php
 	break;
 }
-include("./admin-footer.php");
+include(ABSPATH . "wp-admin/admin-footer.php");

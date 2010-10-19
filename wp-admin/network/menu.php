@@ -18,6 +18,12 @@ $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
 $compat = array();
 $submenu = array();
 
+$submenu['plugins.php'][5]  = array( __('Plugins'), 'manage_network_plugins', 'plugins.php' ); 
+$submenu['plugins.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_plugins', 'plugin-editor.php' );
+
+$submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' ); 
+$submenu['themes.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_themes', 'theme-editor.php' );
+
 require_once(ABSPATH . 'wp-admin/includes/menu.php');
 
 ?>
