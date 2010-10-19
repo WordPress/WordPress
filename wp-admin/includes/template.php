@@ -1897,6 +1897,7 @@ function screen_options($screen) {
 function screen_icon($screen = '') {
 	global $current_screen, $typenow;
 
+	var_dump( $current_screen );
 	if ( empty($screen) )
 		$screen = $current_screen;
 	elseif ( is_string($screen) )

@@ -832,6 +832,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
  * - publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
  * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
+ * - show_in_menu - Where to show the post type in the admin menu. True for a top level menu, false for no menu, or can be a top level page like 'tools.php' or 'edit.php?post_type=page'. show_ui must be true.
  * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
  * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
@@ -868,7 +869,7 @@ function register_post_type($post_type, $args = array()) {
 		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'capabilities' => array(), 'hierarchical' => false,
 		'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
-		'permalink_epmask' => EP_PERMALINK, 'can_export' => true, 'show_in_nav_menus' => null
+		'permalink_epmask' => EP_PERMALINK, 'can_export' => true, 'show_in_nav_menus' => null, 'show_in_menu' => null,
 	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
@@ -883,6 +884,10 @@ function register_post_type($post_type, $args = array()) {
 	// If not set, default to the setting for public.
 	if ( null === $args->show_ui )
 		$args->show_ui = $args->public;
+
+	// If not set, default to the setting for show_ui.
+	if ( null === $args->show_in_menu || ! $args->show_ui )
+		$args->show_in_menu = $args->show_ui;
 
 	// Whether to show this type in nav-menus.php.  Defaults to the setting for public.
 	if ( null === $args->show_in_nav_menus )
@@ -1034,6 +1039,7 @@ function get_post_type_labels( $post_type_object ) {
  * Builds an object with custom-something object (post type, taxonomy) labels out of a custom-something object
  *
  * @access private
+ * @since 3.0.0
  */
 function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 
@@ -1047,6 +1053,23 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	$labels = array_merge( $defaults, $object->labels );
 	return (object)$labels;
 }
+
+/**
+ * Adds submenus for post types.
+ *
+ * @access private
+ * @since 3.1.0
+ */ 
+function _add_post_type_submenus() {
+	foreach ( get_post_types( array( 'show_ui' => true ) ) as $ptype ) {
+		$ptype_obj = get_post_type_object( $ptype );
+		// Submenus only.
+		if ( ! $ptype_obj->show_in_menu || $ptype_obj->show_in_menu === true )
+			continue;
+		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->name, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
+	}
+}
+add_action( 'admin_menu', '_add_post_type_submenus' );
 
 /**
  * Register support of certain features for a post type.

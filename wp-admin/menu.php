@@ -105,8 +105,11 @@ unset($awaiting_mod);
 
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
-foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false) ) as $ptype ) {
+foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 'show_in_menu' => true ) ) as $ptype ) {
 	$ptype_obj = get_post_type_object( $ptype );
+	// Check if it should be a submenu.
+	if ( $ptype_obj->show_in_menu !== true )
+		continue;
 	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : ++$_wp_last_object_menu; // If we're to use $_wp_last_object_menu, increment it first.
 	$ptype_for_id = sanitize_html_class( $ptype );
 	if ( is_string( $ptype_obj->menu_icon ) ) {
