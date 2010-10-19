@@ -913,7 +913,7 @@ function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after 
  * @param string $after Optional. After list.
  * @return null|bool False on WordPress error. Returns null when displaying.
  */
-function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
+function the_terms( $id = 0, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
 
 	if ( is_wp_error( $term_list ) )
