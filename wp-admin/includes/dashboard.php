@@ -775,8 +775,8 @@ function wp_dashboard_incoming_links_output() {
 			/* translators: incoming links feed, %1$s is other person, %3$s is content */
 			$text = __( '%1$s linked here saying, "%3$s"' );
 
-		if ( $show_date ) {
-			if ( $show_author || $show_summary )
+		if ( !empty($show_date) ) {
+			if ( !empty($show_author) || !empty($show_summary) )
 				/* translators: incoming links feed, %4$s is the date */
 				$text .= ' ' . __( 'on %4$s' );
 			$date = esc_html( strip_tags( $item->get_date() ) );
