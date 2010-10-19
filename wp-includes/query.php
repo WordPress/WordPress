@@ -3146,7 +3146,15 @@ function wp_old_slug_redirect() {
 	if ( is_404() && '' != $wp_query->query_vars['name'] ) :
 		global $wpdb;
 
-		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND meta_key = '_wp_old_slug' AND meta_value=%s", $wp_query->query_vars['name']);
+		// Guess the current post_type based on the query vars.
+		if ( get_query_var('post_type') )
+			$post_type = get_query_var('post_type');
+		elseif ( !empty($wp_query->query_vars['pagename']) )
+			$post_type = 'page';
+		else
+			$post_type = 'post';
+
+		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, $wp_query->query_vars['name']);
 
 		// if year, monthnum, or day have been specified, make our query more precise
 		// just in case there are multiple identical _wp_old_slug values
