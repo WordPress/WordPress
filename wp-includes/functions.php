@@ -4339,16 +4339,15 @@ function _wp_mysql_week( $column ) {
 }
 
 /**
- * Finds hierarchy loops using a callback function that maps objects to parents.
+ * Finds hierarchy loops using a callback function that maps object IDs to parent IDs.
  *
  * @since 3.1.0
  * @access private
  *
- * @param callback $callback function that accepts ( ID, callback_arg, ... ) and outputs parent_ID
+ * @param callback $callback function that accepts ( ID, $callback_args ) and outputs parent_ID
  * @param $start The ID to start the loop check at
  * @param $start_parent the parent_ID of $start to use instead of calling $callback( $start ).  Use null to always use $callback
- * @param array $override an array of ( ID => parent_ID, ... ) to use instead of $callback
- * @param array $callback_arg optional additional arguments to send to $callback
+ * @param array $callback_args optional additional arguments to send to $callback
  * @return array IDs of all members of loop
  */
 function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_args = array() ) {
