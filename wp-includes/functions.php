@@ -4426,7 +4426,7 @@ function show_admin_bar( $show = null ) {
 			$show_admin_bar = true;
 	}
 
-	if ( null == $show ) {
+	if ( null === $show ) {
 		return $show_admin_bar;
 	} else {
 		$old_value = $show_admin_bar;
