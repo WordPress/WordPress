@@ -1281,15 +1281,17 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		else
 			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>';
 
-		if ( is_multisite() && current_user_can( 'manage_network_plugins' ) )
+		if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
 			$install_actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin for all sites in this network') . '" target="_parent">' . __('Network Activate') . '</a>';
+			unset( $install_actions['activate_plugin'] );
+		}
 
 		if ( 'import' == $from )
 			$install_actions['importers_page'] = '<a href="' . admin_url('import.php') . '" title="' . esc_attr__('Return to Importers') . '" target="_parent">' . __('Return to Importers') . '</a>';
 		else if ( $this->type == 'web' )
-			$install_actions['plugins_page'] = '<a href="' . admin_url('plugin-install.php') . '" title="' . esc_attr__('Return to Plugin Installer') . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
+			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugin-install.php') . '" title="' . esc_attr__('Return to Plugin Installer') . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
 		else
-			$install_actions['plugins_page'] = '<a href="' . admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
+			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
 
 
 		if ( ! $this->result || is_wp_error($this->result) ) {

@@ -54,7 +54,7 @@ if ( isset($_GET['action']) ) {
 		$title = __('Upgrade Plugin');
 		$parent_file = 'plugins.php';
 		$submenu_file = 'plugins.php';
-		require_once('./admin-header.php');
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$nonce = 'upgrade-plugin_' . $plugin;
 		$url = 'update.php?action=upgrade-plugin&plugin=' . $plugin;
@@ -62,7 +62,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact('title', 'nonce', 'url', 'plugin') ) );
 		$upgrader->upgrade($plugin);
 
-		include('./admin-footer.php');
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	} elseif ('activate-plugin' == $action ) {
 		if ( ! current_user_can('update_plugins') )
@@ -107,7 +107,7 @@ if ( isset($_GET['action']) ) {
 		$title = __('Plugin Install');
 		$parent_file = 'plugins.php';
 		$submenu_file = 'plugin-install.php';
-		require_once('./admin-header.php');
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$title = sprintf( __('Installing Plugin: %s'), $api->name . ' ' . $api->version );
 		$nonce = 'install-plugin_' . $plugin;
@@ -120,7 +120,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact('title', 'url', 'nonce', 'plugin', 'api') ) );
 		$upgrader->install($api->download_link);
 
-		include('./admin-footer.php');
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	} elseif ( 'upload-plugin' == $action ) {
 
@@ -134,7 +134,7 @@ if ( isset($_GET['action']) ) {
 		$title = __('Upload Plugin');
 		$parent_file = 'plugins.php';
 		$submenu_file = 'plugin-install.php';
-		require_once('./admin-header.php');
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$title = sprintf( __('Installing Plugin from uploaded file: %s'), basename( $file_upload->filename ) );
 		$nonce = 'plugin-upload';
@@ -144,7 +144,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact('type', 'title', 'nonce', 'url') ) );
 		$upgrader->install( $file_upload->package );
 
-		include('./admin-footer.php');
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	} elseif ( 'upgrade-theme' == $action ) {
 
@@ -158,7 +158,7 @@ if ( isset($_GET['action']) ) {
 		$title = __('Upgrade Theme');
 		$parent_file = 'themes.php';
 		$submenu_file = 'themes.php';
-		require_once('./admin-header.php');
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$nonce = 'upgrade-theme_' . $theme;
 		$url = 'update.php?action=upgrade-theme&theme=' . $theme;
@@ -166,7 +166,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Theme_Upgrader( new Theme_Upgrader_Skin( compact('title', 'nonce', 'url', 'theme') ) );
 		$upgrader->upgrade($theme);
 
-		include('./admin-footer.php');
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 	} elseif ( 'update-selected-themes' == $action ) {
 		if ( ! current_user_can( 'update_themes' ) )
 			wp_die( __( 'You do not have sufficient permissions to update themes for this site.' ) );
@@ -211,7 +211,7 @@ if ( isset($_GET['action']) ) {
 		$title = __('Install Themes');
 		$parent_file = 'themes.php';
 		$submenu_file = 'themes.php';
-		require_once('./admin-header.php');
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$title = sprintf( __('Installing Theme: %s'), $api->name . ' ' . $api->version );
 		$nonce = 'install-theme_' . $theme;
@@ -221,7 +221,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact('title', 'url', 'nonce', 'plugin', 'api') ) );
 		$upgrader->install($api->download_link);
 
-		include('./admin-footer.php');
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	} elseif ( 'upload-theme' == $action ) {
 
@@ -237,7 +237,7 @@ if ( isset($_GET['action']) ) {
 		$submenu_file = 'theme-install.php';
 		add_thickbox();
 		wp_enqueue_script('theme-preview');
-		require_once('./admin-header.php');
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$title = sprintf( __('Installing Theme from uploaded file: %s'), basename( $file_upload->filename ) );
 		$nonce = 'theme-upload';
@@ -247,7 +247,7 @@ if ( isset($_GET['action']) ) {
 		$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact('type', 'title', 'nonce', 'url') ) );
 		$upgrader->install( $file_upload->package );
 
-		include('./admin-footer.php');
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	} else {
 		do_action('update-custom_' . $action);

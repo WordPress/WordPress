@@ -35,7 +35,7 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-include('./admin-header.php');
+include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -47,5 +47,5 @@ include('./admin-header.php');
 <?php do_action('install_plugins_' . $tab, $paged); ?>
 </div>
 <?php
-include('./admin-footer.php');
+include(ABSPATH . 'wp-admin/admin-footer.php');
 
