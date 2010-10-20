@@ -148,8 +148,7 @@ function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
 /**
  * The number of active users in your installation.
  *
- * This function also saves the count as a site option,
- * which speeds up future lookups.
+ * The count is cached and updated twice daily. This is not a live count.
  *
  * @since MU 2.7
  * @uses update_site_option()
@@ -157,25 +156,13 @@ function is_user_member_of_blog( $user_id, $blog_id = 0 ) {
  * @return int
  */
 function get_user_count() {
-	global $wpdb;
-
-	$count_ts = get_site_option( 'user_count_ts' );
-	if ( time() - $count_ts > 3600 ) {
-		$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'") );
-		update_site_option( 'user_count', $count );
-		update_site_option( 'user_count_ts', time() );
-	}
-
-	$count = get_site_option( 'user_count' );
-
-	return $count;
+	return get_site_option( 'user_count' );
 }
 
 /**
  * The number of active sites on your installation.
  *
- * This function also saves the count as a site option,
- * which speeds up future lookups.
+ * The count is cached and updated twice daily. This is not a live count.
  *
  * @since MU 1.0
  * @uses update_site_option()
@@ -184,21 +171,7 @@ function get_user_count() {
  * @return int
  */
 function get_blog_count( $id = 0 ) {
-	global $wpdb;
-
-	if ( $id == 0 )
-		$id = $wpdb->siteid;
-
-	$count_ts = get_site_option( 'blog_count_ts' );
-	if ( time() - $count_ts > 3600 ) {
-		$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(blog_id) as c FROM $wpdb->blogs WHERE site_id = %d AND spam = '0' AND deleted = '0' and archived = '0'", $id) );
-		update_site_option( 'blog_count', $count );
-		update_site_option( 'blog_count_ts', time() );
-	}
-
-	$count = get_site_option( 'blog_count' );
-
-	return $count;
+	return get_site_option( 'blog_count' );
 }
 
 /**
@@ -1531,6 +1504,34 @@ function filter_SSL( $url ) {
 	}
 
 	return $url;
+}
+
+/**
+ * Schedule update of the network-wide counts for the current network.
+ *
+ * @since 3.1.0
+ */
+function wp_schedule_update_network_counts() {
+	if ( !is_main_site() )
+		return;
+
+	if ( !wp_next_scheduled('update_network_counts') && !defined('WP_INSTALLING') )
+		wp_schedule_event(time(), 'twicedaily', 'update_network_counts');
+}
+
+/**
+ *  Update the network-wide counts for the current network.
+ *
+ *  @since 3.1.0
+ */
+function wp_update_network_counts() {
+	global $wpdb;
+
+	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(blog_id) as c FROM $wpdb->blogs WHERE site_id = %d AND spam = '0' AND deleted = '0' and archived = '0'", $wpdb->siteid) );
+	update_site_option( 'blog_count', $count );
+
+	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'") );
+	update_site_option( 'user_count', $count );
 }
 
 ?>
