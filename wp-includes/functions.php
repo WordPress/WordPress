@@ -4417,7 +4417,7 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 function show_admin_bar( $show = null ) {
 	static $show_admin_bar = null;
 
-	if ( !isset($show_admin_var) ) {
+	if ( !isset($show_admin_bar) ) {
 		if ( null !== $show )
 			$show_admin_bar = $show;
 		elseif ( defined('WP_SHOW_ADMIN_BAR') )
