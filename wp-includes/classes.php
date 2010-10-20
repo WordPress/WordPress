@@ -281,10 +281,7 @@ class WP {
 					}
 				}
 
-				if ( isset( $taxonomy_query_vars[$wpvar] ) ) {
-					$this->query_vars['taxonomy'] = $taxonomy_query_vars[$wpvar];
-					$this->query_vars['term'] = $this->query_vars[$wpvar];
-				} elseif ( isset($post_type_query_vars[$wpvar] ) ) {
+				if ( isset($post_type_query_vars[$wpvar] ) ) {
 					$this->query_vars['post_type'] = $post_type_query_vars[$wpvar];
 					$this->query_vars['name'] = $this->query_vars[$wpvar];
 				}
