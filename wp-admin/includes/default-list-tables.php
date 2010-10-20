@@ -3306,7 +3306,8 @@ class WP_Plugins_Table extends WP_List_Table {
 				continue;
 			} elseif ( is_multisite() && is_network_only_plugin( $plugin_file ) && !current_user_can( 'manage_network_plugins' ) ) {
 				$plugins['network'][ $plugin_file ] = $plugin_data;
-			} elseif ( is_plugin_active( $plugin_file ) ) {
+			} elseif ( ( !is_network_admin() && is_plugin_active( $plugin_file ) )
+				|| ( is_network_admin() && is_plugin_active_for_network( $plugin_file ) ) ) {
 				$plugins['active'][ $plugin_file ] = $plugin_data;
 			} else {
 				if ( !is_network_admin() && isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
