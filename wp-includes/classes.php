@@ -132,7 +132,6 @@ class WP {
 		global $wp_rewrite;
 
 		$this->query_vars = array();
-		$taxonomy_query_vars = array();
 		$post_type_query_vars = array();
 
 		if ( is_array($extra_query_vars) )
@@ -251,10 +250,6 @@ class WP {
 		}
 
 		$this->public_query_vars = apply_filters('query_vars', $this->public_query_vars);
-
-		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t )
-			if ( $t->query_var )
-				$taxonomy_query_vars[$t->query_var] = $taxonomy;
 
 		foreach ( $GLOBALS['wp_post_types'] as $post_type => $t )
 			if ( $t->query_var )
