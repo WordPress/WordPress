@@ -199,7 +199,7 @@ div.postbox div.inside {
 
 #dashboard_recent_comments .comment-meta .approve {
 	font-style: italic;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	font-size: 10px;
 }
 
@@ -263,7 +263,7 @@ div.postbox div.inside {
 /* QuickPress */
 
 #dashboard_quick_press h4 {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	float: left;
 	width: 5.5em;
 	clear: both;
@@ -330,7 +330,7 @@ div.postbox div.inside {
 }
 
 #dashboard_recent_drafts h4 abbr {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	font-size: 11px;
 	color: #999;
 	margin-left: 3px;
@@ -378,7 +378,7 @@ a.rsswidget {
 /* Plugins */
 
 #dashboard_plugins h4 {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 #dashboard_plugins h5 {

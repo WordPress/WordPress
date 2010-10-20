@@ -1,5 +1,5 @@
 body {
-	font: 13px "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+	font: 13px Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -312,7 +312,7 @@ h3.tb {
 
 .category-add input {
 	width: 94%;
-	font-family: "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+	font-family: Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	font-size: 12px;
 	margin: 1px;
 }
@@ -322,7 +322,7 @@ h3.tb {
 	-x-system-font: none;
 	border-style: solid;
 	border-width: 1px;
-	font-family: "Lucida Grande","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+	font-family: Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	font-size: 11px;
 	height: 2em;
 	line-height: 20px;
@@ -475,7 +475,7 @@ ul.category-tabs li {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+	font-family: Verdana,Arial,"Bitstream Vera Sans",sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;

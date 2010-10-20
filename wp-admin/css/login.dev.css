@@ -2,7 +2,7 @@
 
 body {
 	padding-top: 30px;
-	font: 11px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: 11px Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 form {
@@ -28,7 +28,7 @@ form .forgetmenot {
 }
 
 .button-primary {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	padding: 3px 10px;
 	border: none;
 	font-size: 12px;

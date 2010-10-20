@@ -973,7 +973,7 @@ div.comment-item:hover .row-actions {
 }
 
 #adminmenu .wp-submenu a {
-	font: normal 11px/18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: normal 11px/18px Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 #adminmenu .wp-submenu li.current,
@@ -1450,7 +1450,7 @@ span.description,
 .form-wrap p {
 	font-size: 12px;
 	font-style: italic;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .form-wrap .form-field {
@@ -1642,7 +1642,7 @@ div.inside {
 .howto {
 	font-style: italic;
 	display: block;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .ac_results {
@@ -2573,7 +2573,7 @@ fieldset {
 	height: 22px;
 	padding: 0;
 	margin: 0 6px 0 0;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	background: #e3e3e3;
 	-moz-border-radius-bottomleft: 3px;
 	-moz-border-radius-bottomright: 3px;
@@ -2865,7 +2865,7 @@ ul.cat-checklist {
 .inline-edit-row .catshow,
 .inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	font-style: normal;
 	font-size: 11px;
 }
@@ -3210,7 +3210,7 @@ abbr.required {
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 ul#dismissed-updates {

@@ -454,7 +454,7 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .dev version for ltr
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101004' );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array(), '20101020' );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css", array(), '20101004' );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -470,15 +470,15 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array(), $colors_version );
 
 	$styles->add( 'ms', "/wp-admin/css/ms$suffix.css", array(), '20100528' );
-	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20100815' );
-	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20100519' );
+	$styles->add( 'global', "/wp-admin/css/global$suffix.css", array(), '20101020' );
+	$styles->add( 'media', "/wp-admin/css/media$suffix.css", array(), '20101020' );
 	$styles->add( 'widgets', "/wp-admin/css/widgets$suffix.css", array(), '20100610' );
-	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20100424' );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20100925' ); // Readme as well
+	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css", array(), '20101020' );
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array(), '20101020' ); // Readme as well
 	$styles->add( 'theme-editor', "/wp-admin/css/theme-editor$suffix.css", array(), '20100514' );
-	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20100424' );
+	$styles->add( 'press-this', "/wp-admin/css/press-this$suffix.css", array(), '20101020' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20090514' );
-	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20101012' );
+	$styles->add( 'login', "/wp-admin/css/login$suffix.css", array(), '20101020' );
 	$styles->add( 'plugin-install', "/wp-admin/css/plugin-install$suffix.css", array(), '20100402' );
 	$styles->add( 'theme-install', "/wp-admin/css/theme-install$suffix.css", array(), '20100523' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
