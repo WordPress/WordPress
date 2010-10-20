@@ -109,7 +109,7 @@ if (isset($_GET['updated'])) {
 			<tr valign="top">
 				<th scope="row"><label for="illegal_names"><?php _e( 'Banned Names' ) ?></label></th>
 				<td>
-					<input name="illegal_names" type="text" id="illegal_names" class="large-text" value="<?php echo esc_attr( implode( " ", get_site_option( 'illegal_names' ) ) ); ?>" size="45" />
+					<input name="illegal_names" type="text" id="illegal_names" class="large-text" value="<?php echo esc_attr( implode( " ", (array) get_site_option( 'illegal_names' ) ) ); ?>" size="45" />
 					<br />
 					<?php _e( 'Users are not allowed to register these sites. Separate names by spaces.' ) ?>
 				</td>
