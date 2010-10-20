@@ -1470,10 +1470,10 @@ class WP_Query extends WP_Object_Query {
 							$q['term'] = basename($q['term']);
 					}
 
-					$term = $q[$t->query_var];
+					$term = str_replace( ' ', '+', $q[$t->query_var] );
 
 					if ( strpos($term, '+') !== false ) {
-						$terms = preg_split( '/[+\s]+/', $term );
+						$terms = preg_split( '/[+]+/', $term );
 						foreach ( $terms as $term ) {
 							$tax_query[] = array_merge( $tax_query_defaults, array(
 								'terms' => array( $term )
@@ -1481,7 +1481,7 @@ class WP_Query extends WP_Object_Query {
 						}
 					} else {
 						$tax_query[] = array_merge( $tax_query_defaults, array(
-							'terms' => preg_split('/[,\s]+/', $term)
+							'terms' => preg_split( '/[,]+/', $term )
 						) );
 					}
 				}
