@@ -422,6 +422,10 @@ function get_body_class( $class = '' ) {
 			$tags = $wp_query->get_queried_object();
 			$classes[] = 'tag';
 			$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
+		} elseif ( is_tax() ) {
+			$term = $wp_query->get_queried_object();
+			$classes[] = 'tax-' . sanitize_html_class( $term->taxonomy );
+			$classes[] = 'term-' . sanitize_html_class( $term->slug, $term->term_id );
 		}
 	} elseif ( is_page() ) {
 		$classes[] = 'page';
