@@ -539,10 +539,10 @@ class WP_User_Query extends WP_Object_Query {
  * @uses $wpdb
  * @uses WP_User_Query See for default arguments and information.
  *
- * @param array $args
+ * @param array $args Optional.
  * @return array List of users.
  */
-function get_users( $args ) {
+function get_users( $args = array() ) {
 
 	$args = wp_parse_args( $args );
 	$args['count_total'] = false;
