@@ -2958,7 +2958,7 @@ class WP_Sites_Table extends WP_List_Table {
 					case 'users': ?>
 						<td valign="top">
 							<?php
-							$blogusers = get_users_of_blog( $blog['blog_id'] );
+							$blogusers = get_users_of_blog( $blog['blog_id'], array('number' => 6) );
 							if ( is_array( $blogusers ) ) {
 								$blogusers_warning = '';
 								if ( count( $blogusers ) > 5 ) {

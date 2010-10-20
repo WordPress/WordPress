@@ -257,13 +257,14 @@ switch ( $action ) {
 				<?php }
 
 				// Site users
-				$blogusers = get_users_of_blog( $id );
-
+				$blogusers = get_users_of_blog( $id, array('number' => 20) );
 				if ( is_array( $blogusers ) ) {
 					echo '<div id="blogedit_blogusers" class="postbox"><h3 class="hndle"><span>' . __( 'Site Users' ) . '</span></h3><div class="inside">';
 					echo '<table class="form-table">';
 					echo "<tr><th>" . __( 'User' ) . "</th><th>" . __( 'Role' ) . "</th><th>" . __( 'Password' ) . "</th><th>" . __( 'Remove' ) . "</th></tr>";
+					$user_count = 0;
 					foreach ( $blogusers as $user_id => $user_object ) {
+						$user_count++;
 						$existing_role = reset( $user_object->roles );
 
 						echo '<tr><td><a href="user-edit.php?user_id=' . $user_id . '">' . $user_object->user_login . '</a></td>';
@@ -290,6 +291,8 @@ switch ( $action ) {
 					}
 					echo "</table>";
 					echo '<p class="submit" style="text-align:center;"><input type="submit" name="Submit" value="' . esc_attr__( 'Update Options' ) . '" /></p>';
+					if ( 20 == $user_count )
+						echo '<p>' . sprintf( __('First 20 users shown. <a href="%s">Manage all users</a>.'), get_admin_url($id, 'users.php') ) . '</p>';
 					echo "</div></div>";
 				}
 				?>
