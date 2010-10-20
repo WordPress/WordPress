@@ -49,6 +49,8 @@ function wp_admin_bar_init() {
 
 	add_action( 'wp_head', 'wp_admin_bar_css' );
 	add_action( 'admin_head', 'wp_admin_bar_css' );
+
+	do_action('admin_bar_init');
 }
 add_action( 'init', 'wp_admin_bar_init' );
 
