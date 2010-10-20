@@ -11,12 +11,7 @@
 function wp_admin_bar_init() {
 	global $current_user, $pagenow, $wp_admin_bar;
 
-	if ( defined('WP_SHOW_ADMIN_BAR') )
-		$show_it = (bool) WP_SHOW_ADMIN_BAR;
-	else
-		$show_it = true;
-
-	if ( ! apply_filters( 'show_admin_bar', $show_it ) )
+	if ( ! show_admin_bar() )
 		return false;
 
 	/* Set the protocol constant used throughout this code */
