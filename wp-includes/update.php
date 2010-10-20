@@ -334,6 +334,22 @@ function _maybe_update_themes( ) {
 	wp_update_themes();
 }
 
+/**
+ * Schedule core, theme, and plugin update checks.
+ *
+ * @since 3.1.0
+ */
+function wp_schedule_update_checks() {
+	if ( !wp_next_scheduled('wp_version_check') && !defined('WP_INSTALLING') )
+		wp_schedule_event(time(), 'twicedaily', 'wp_version_check');
+
+	if ( !wp_next_scheduled('wp_update_plugins') && !defined('WP_INSTALLING') )
+		wp_schedule_event(time(), 'twicedaily', 'wp_update_plugins');
+
+	if ( !wp_next_scheduled('wp_update_themes') && !defined('WP_INSTALLING') )
+		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
+}
+
 if ( ! is_main_site() )
 	return;
 
@@ -352,13 +368,6 @@ add_action( 'load-update-core.php', 'wp_update_themes' );
 add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
 
-if ( !wp_next_scheduled('wp_version_check') && !defined('WP_INSTALLING') )
-	wp_schedule_event(time(), 'twicedaily', 'wp_version_check');
-
-if ( !wp_next_scheduled('wp_update_plugins') && !defined('WP_INSTALLING') )
-	wp_schedule_event(time(), 'twicedaily', 'wp_update_plugins');
-
-if ( !wp_next_scheduled('wp_update_themes') && !defined('WP_INSTALLING') )
-	wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
+add_action('init', 'wp_schedule_update_checks');
 
 ?>
