@@ -213,7 +213,6 @@ $_old_files = array(
 'wp-includes/js/jquery/autocomplete.js',
 'wp-includes/js/scriptaculous/prototype.js',
 'wp-includes/js/tinymce/wp-tinymce.js',
-'wp-content/themes/twentyten/searchform.php',
 'wp-admin/import',
 'wp-admin/images/ico-edit.png',
 'wp-admin/images/fav-top.png',
@@ -223,6 +222,15 @@ $_old_files = array(
 'wp-admin/images/ico-add.png',
 'wp-admin/images/browse-happy.gif',
 'wp-admin/images/ico-viewpage.png',
+// 3.1
+'wp-includes/js/tinymce/blank.htm',
+'wp-includes/js/tinymce/plugins/safari',
+'wp-admin/edit-link-categories.php',
+'wp-admin/edit-post-rows.php',
+'wp-admin/edit-attachment-rows.php',
+'wp-admin/link-category.php',
+'wp-admin/edit-link-category-form.php',
+'wp-admin/sidebar.php',
 );
 
 /**
