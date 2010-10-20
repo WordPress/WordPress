@@ -1,7 +1,7 @@
 <?php
 
 /* translators: Network menu item */
-$menu[0] = array(__('Dashboard'), 'manage_network', 'index.php', '', 'menu-top menu-top-first menu-icon-site', 'menu-site', 'div');
+$menu[0] = array(__('Dashboard'), 'manage_network', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'div');
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
