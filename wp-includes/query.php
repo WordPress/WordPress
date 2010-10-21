@@ -1185,10 +1185,11 @@ class WP_Query extends WP_Object_Query {
 			, 'preview'
 			, 's'
 			, 'sentence'
+			, 'fields'
 		);
 
 		foreach ( $keys as $key ) {
-			if ( !isset($array[$key]))
+			if ( !isset($array[$key]) )
 				$array[$key] = '';
 		}
 
@@ -1196,7 +1197,7 @@ class WP_Query extends WP_Object_Query {
 			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and');
 
 		foreach ( $array_keys as $key ) {
-			if ( !isset($array[$key]))
+			if ( !isset($array[$key]) )
 				$array[$key] = array();
 		}
 		return $array;
@@ -1648,7 +1649,7 @@ class WP_Query extends WP_Object_Query {
 		$join = '';
 		$search = '';
 		$groupby = '';
-		$fields = "$wpdb->posts.*";
+		$fields = '';
 		$post_status_join = false;
 		$page = 1;
 
@@ -1728,6 +1729,17 @@ class WP_Query extends WP_Object_Query {
 			$q['no_found_rows'] = (bool) $q['no_found_rows'];
 		else
 			$q['no_found_rows'] = false;
+
+		switch ( $q['fields'] ) {
+			case 'ids':
+				$fields = "$wpdb->posts.ID";
+				break;
+			case 'id=>parent':
+				$fields = "$wpdb->posts.ID, $wpdb->posts.post_parent";
+				break;
+			default:
+				$fields = "$wpdb->posts.*";
+		}
 
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
@@ -2272,6 +2284,7 @@ class WP_Query extends WP_Object_Query {
 			$groupby = 'GROUP BY ' . $groupby;
 		if ( !empty( $orderby ) )
 			$orderby = 'ORDER BY ' . $orderby;
+
 		$found_rows = '';
 		if ( !$q['no_found_rows'] && !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
@@ -2280,7 +2293,24 @@ class WP_Query extends WP_Object_Query {
 		if ( !$q['suppress_filters'] )
 			$this->request = apply_filters_ref_array('posts_request', array( $this->request, &$this ) );
 
+		if ( 'ids' == $q['fields'] ) {
+			$this->posts = $wpdb->get_col($this->request);
+
+			return $this->posts;
+		}
+
+		if ( 'id=>parent' == $q['fields'] ) {
+			$this->posts = $wpdb->get_results($this->request);
+
+			$r = array();
+			foreach ( $this->posts as $post )
+				$r[ $post->ID ] = $post->post_parent;
+
+			return $r;
+		}
+
 		$this->posts = $wpdb->get_results($this->request);
+
 		// Raw results filter.  Prior to status checks.
 		if ( !$q['suppress_filters'] )
 			$this->posts = apply_filters_ref_array('posts_results', array( $this->posts, &$this ) );
