@@ -989,8 +989,6 @@ function register_post_type($post_type, $args = array()) {
  * @return object object with all the capabilities as member variables
  */
 function get_post_type_capabilities( $args ) {
-	global $_post_type_meta_capabilities;
-
 	$default_capabilities = array(
 		// Meta capabilities are generally mapped to primitive capabilities depending on the context
 		// (which would be the post being edited/deleted/read), instead of granted to users or roles:
@@ -1003,22 +1001,33 @@ function get_post_type_capabilities( $args ) {
 		'publish_posts'      => 'publish_'      . $args->capability_type . 's',
 		'read_private_posts' => 'read_private_' . $args->capability_type . 's',
 	);
+
 	// Primitive capabilities that are used within map_meta_cap():
 	if ( $args->map_meta_cap ) {
 		$default_capabilities_for_mapping = array(
 			'read'                   => 'read',
 			'delete_posts'           => 'delete_'           . $args->capability_type . 's',
 			'delete_private_posts'   => 'delete_private_'   . $args->capability_type . 's',
-			'delete_published_posts' => 'delete_published_' . $args->capability_type . 's', 
+			'delete_published_posts' => 'delete_published_' . $args->capability_type . 's',
 			'delete_others_posts'    => 'delete_others_'    . $args->capability_type . 's',
 			'edit_private_posts'     => 'edit_private_'     . $args->capability_type . 's',
 			'edit_published_posts'   => 'edit_published_'   . $args->capability_type . 's',
 		);
 		$default_capabilities = array_merge( $default_capabilities, $default_capabilities_for_mapping );
 	}
+
+	if ( ! post_type_supports( $args->name, 'author' ) ) {
+		// While these may be checked in core, users/roles shouldn't need to be granted these.
+		$default_capabilities['edit_others_posts']   = $default_capabilities['edit_posts'];
+		$default_capabilities['delete_others_posts'] = $default_capabilities['delete_posts'];
+	}
+
 	$capabilities = array_merge( $default_capabilities, $args->capabilities );
+
+	// Remember meta capabilities for future reference.
 	if ( $args->map_meta_cap )
 		_post_type_meta_capabilities( $capabilities );
+
 	return (object) $capabilities;
 }
 
