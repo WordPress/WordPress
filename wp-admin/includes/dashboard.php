@@ -104,6 +104,9 @@ function wp_dashboard_setup() {
 	if ( is_network_admin() ) {
 		do_action( 'wp_network_dashboard_setup' );
 		$dashboard_widgets = apply_filters( 'wp_network_dashboard_widgets', array() );
+	} elseif ( is_user_admin() ) {
+		do_action( 'wp_user_dashboard_setup' );
+		$dashboard_widgets = apply_filters( 'wp_user_dashboard_widgets', array() );		
 	} else {
 		do_action( 'wp_dashboard_setup' );
 		$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', array() );
