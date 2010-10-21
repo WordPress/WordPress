@@ -257,7 +257,7 @@ switch ( $action ) {
 				<?php }
 
 				// Site users
-				$blogusers = get_users_of_blog( $id, array('number' => 20) );
+				$blogusers = get_users( array( 'blog_id' => $id, 'number' => 20 ) );
 				if ( is_array( $blogusers ) ) {
 					echo '<div id="blogedit_blogusers" class="postbox"><h3 class="hndle"><span>' . __( 'Site Users' ) . '</span></h3><div class="inside">';
 					echo '<table class="form-table">';

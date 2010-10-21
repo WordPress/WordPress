@@ -563,7 +563,6 @@ function get_users( $args = array() ) {
  * @uses $blog_id The Blog id of the blog for those that use more than one blog
  *
  * @param int $id Blog ID.
- * @param array $args Optional query arguments passed to get_users()
  * @return array List of users that are part of that Blog ID
  */
 function get_users_of_blog( $id = '', $args = array() ) {
@@ -572,8 +571,7 @@ function get_users_of_blog( $id = '', $args = array() ) {
 	if ( empty($id) )
 		$id = (int) $blog_id;
 
-	$args['blog_id'] = $id;
-	return get_users( $args );
+	return get_users( array( 'blog_id' => $id ) );
 }
 
 /**
