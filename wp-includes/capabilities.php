@@ -819,18 +819,19 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_post':
 	case 'delete_page':
 		$author_data = get_userdata( $user_id );
-		//echo "post ID: {$args[0]}<br />";
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
+
 		if ( 'delete_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
 			$args = array_merge( array( $post_type->cap->delete_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
 
-		if ( '' != $post->post_author ) {
+		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
 			$post_author_data = get_userdata( $post->post_author );
 		} else {
-			//No author set yet so default to current user for cap checks
+			// No author set yet or post type doesn't support authors,
+			// so default to current user for cap checks.
 			$post_author_data = $author_data;
 		}
 
@@ -861,15 +862,22 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_post':
 	case 'edit_page':
 		$author_data = get_userdata( $user_id );
-		//echo "post ID: {$args[0]}<br />";
 		$post = get_post( $args[0] );
-
 		$post_type = get_post_type_object( $post->post_type );
+
 		if ( 'edit_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
 			$args = array_merge( array( $post_type->cap->edit_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
-		$post_author_data = get_userdata( $post->post_author );
+
+		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
+			$post_author_data = get_userdata( $post->post_author );
+		} else {
+			// No author set yet or post type doesn't support authors,
+			// so default to current user for cap checks.
+			$post_author_data = $author_data;
+		}
+
 		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br />";
 		// If the user is the author...
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
@@ -895,8 +903,10 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	case 'read_post':
 	case 'read_page':
+		$author_data = get_userdata( $user_id );
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
+
 		if ( 'read_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
 			$args = array_merge( array( $post_type->cap->read_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
@@ -907,8 +917,14 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		$author_data = get_userdata( $user_id );
-		$post_author_data = get_userdata( $post->post_author );
+		if ( '' != $post->post_author && post_type_supports( $post_type->name, 'author' ) ) {
+			$post_author_data = get_userdata( $post->post_author );
+		} else {
+			// No author set yet or post type doesn't support authors,
+			// so default to current user for cap checks.
+			$post_author_data = $author_data;
+		}
+
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID )
 			$caps[] = $post_type->cap->read;
 		else
