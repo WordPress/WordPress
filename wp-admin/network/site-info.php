@@ -47,6 +47,14 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 
 	// update blogs table
 	$blog_data = stripslashes_deep( $_POST['blog'] );
+	$existing_details = get_blog_details( $id, false );
+	$blog_data_checkboxes = array( 'public', 'archived', 'spam', 'mature', 'deleted' );
+	foreach ( $blog_data_checkboxes as $c ) {
+		if ( ! in_array( $existing_details->$c, array( 0, 1 ) ) )
+			$blog_data[ $c ] = $existing_details->$c;
+		else
+			$blog_data[ $c ] = isset( $_POST['blog'][ $c ] ) ? 1 : 0;
+	}
 	update_blog_details( $id, $blog_data );
 
 	do_action( 'wpmu_update_blog_options' );
@@ -114,29 +122,27 @@ if ( ! empty( $messages ) ) {
 			<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr( $details->registered ) ?>" size="40" /></td>
 		</tr>
 		<tr class="form-field">
-			<th scope="row"><?php _e('Last Updated') ?></th>
+			<th scope="row"><?php _e( 'Last Updated' ); ?></th>
 			<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr( $details->last_updated ) ?>" size="40" /></td>
 		</tr>
 		<?php
-		$radio_fields = array( 'public' => __( 'Public' ) );
+		$attribute_fields = array( 'public' => __( 'Public' ) );
 		if ( ! $is_main_site ) {
-			$radio_fields['archived'] = __( 'Archived' );
-			$radio_fields['spam']     = _x( 'Spam', 'site' );
-			$radio_fields['deleted']  = __( 'Deleted' );
+			$attribute_fields['archived'] = __( 'Archived' );
+			$attribute_fields['spam']     = _x( 'Spam', 'site' );
+			$attribute_fields['deleted']  = __( 'Deleted' );
 		}
-		$radio_fields['mature'] = __( 'Mature' );
-		foreach ( $radio_fields as $field_key => $field_label ) {
+		$attribute_fields['mature'] = __( 'Mature' );
 		?>
 		<tr>
-			<th scope="row"><?php echo $field_label; ?></th>
+			<th scope="row"><?php _e( 'Attributes' ); ?></th>
 			<td>
-				<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>_1" value="1"<?php checked( $details->$field_key, 1 ); ?> />
-				<label for="blog_<?php echo $field_key; ?>_1"><?php _e('Yes'); ?></label>
-				<input type="radio" name="blog[<?php echo $field_key; ?>]" id="blog_<?php echo $field_key; ?>_0" value="0"<?php checked( $details->$field_key, 0 ); ?> />
-				<label for="blog_<?php echo $field_key; ?>_0"><?php _e('No'); ?></label>
+			<?php foreach ( $attribute_fields as $field_key => $field_label ) : ?>
+				<label><input type="checkbox" name="blog[<?php echo $field_key; ?>]" value="1" <?php checked( (bool) $details->$field_key, true ); disabled( ! in_array( $details->$field_key, array( 0, 1 ) ) ); ?> />
+				<?php echo $field_label; ?></label><br/>
+			<?php endforeach; ?>
 			</td>
 		</tr>
-		<?php } ?>
 	</table>
 	<?php submit_button(); ?>
 </form>
