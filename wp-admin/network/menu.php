@@ -1,4 +1,11 @@
 <?php
+/**
+ * Build Network Administration Menu.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ * @since 3.1.0
+ */
 
 /* translators: Network menu item */
 $menu[0] = array(__('Dashboard'), 'manage_network', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'div');

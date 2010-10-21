@@ -1,4 +1,11 @@
 <?php
+/**
+ * WordPress Network Administration Bootstrap
+ *
+ * @package WordPress
+ * @subpackage Administration
+ * @since 3.1.0
+ */
 
 define('WP_NETWORK_ADMIN', TRUE);
 
