@@ -14,6 +14,10 @@ $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 /* translators: Sites menu item */
 $menu[5] = array(__('Sites'), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'div');
+
+$submenu['sites.php'][5]  = array( __('Sites'), 'manage_sites', 'sites.php' );
+$submenu['sites.php'][10]  = array( __('Add New'), 'manage_sites', 'site-new.php' );
+
 $menu[10] = array(__('Users'), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div');
 $menu[15] = array(__('Themes'), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div');
 

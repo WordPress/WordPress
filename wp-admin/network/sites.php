@@ -30,7 +30,7 @@ if ( isset( $_REQUEST['action'] ) && 'editblog' == $_REQUEST['action'] ) {
 	);
 } else {
 	add_contextual_help($current_screen,
-		'<p>' . __('Add New takes you farther down on this same page. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
+		'<p>' . __('Add New takes you to the Add New Site screen. You can search for a site by Name, ID number, or IP address. Screen Options allows you to choose how many sites to display on one page.') . '</p>' .
 		'<p>' . __('This is the main table of all sites on this network. Switch between list and excerpt views by using the icons above the right side of the table.') . '</p>' .
 		'<p>' . __('Hovering over each site reveals seven options (three for the primary site):') . '</p>' .
 		'<ul><li>' . __('An Edit link to a separate Edit Site screen.') . '</li>' .
@@ -40,7 +40,6 @@ if ( isset( $_REQUEST['action'] ) && 'editblog' == $_REQUEST['action'] ) {
 		'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
 		'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
 		'<p>' . __('Clicking on bold settings can re-sort this table. The upper right icons switch between list and excerpt views.') . '</p>' .
-		'<p>' . __("Clicking on Add Site, after filling out the address, title, and admin's email address, adds the site instantly to the network and this table. You may want to then click on the action link to edit options for that site.") . '</p>' .
 		'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>' .
 		'<p><strong>' . __('For more information:') . '</strong></p>' .
 		'<p>' . __('<a href="http://codex.wordpress.org/Super_Admin_Sites_SubPanel" target="_blank">Documentation on Sites</a>') . '</p>' .
@@ -64,9 +63,6 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 		break;
 		case 'delete':
 			$msg = __( 'Site deleted.' );
-		break;
-		case 'add-blog':
-			$msg = __( 'Site added.' );
 		break;
 		case 'archive':
 			$msg = __( 'Site archived.' );
@@ -355,7 +351,7 @@ switch ( $action ) {
 		<?php screen_icon('index'); ?>
 		<h2><?php _e('Sites') ?>
 		<?php echo $msg; ?>
-		<a href="#form-add-site" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
+		<a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>
 		<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
 			printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
 		} ?>
@@ -377,40 +373,6 @@ switch ( $action ) {
 		<form id="form-site-list" action="edit.php?action=allblogs" method="post">
 			<?php $wp_list_table->display(); ?>
 		</form>
-		</div>
-
-		<div id="form-add-site" class="wrap">
-			<h3><?php _e( 'Add Site' ) ?></h3>
-			<form method="post" action="edit.php?action=addblog">
-				<?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>
-				<table class="form-table">
-					<tr class="form-field form-required">
-						<th scope="row"><?php _e( 'Site Address' ) ?></th>
-						<td>
-						<?php if ( is_subdomain_install() ) { ?>
-							<input name="blog[domain]" type="text" class="regular-text" title="<?php _e( 'Domain' ) ?>"/>.<?php echo preg_replace( '|^www\.|', '', $current_site->domain );?>
-						<?php } else {
-							echo $current_site->domain . $current_site->path ?><input name="blog[domain]" class="regular-text" type="text" title="<?php _e( 'Domain' ) ?>"/>
-						<?php }
-						echo '<p>' . __( 'Only the characters a-z and 0-9 recommended.' ) . '</p>';
-						?>
-						</td>
-					</tr>
-					<tr class="form-field form-required">
-						<th scope="row"><?php _e( 'Site Title' ) ?></th>
-						<td><input name="blog[title]" type="text" class="regular-text" title="<?php _e( 'Title' ) ?>"/></td>
-					</tr>
-					<tr class="form-field form-required">
-						<th scope="row"><?php _e( 'Admin Email' ) ?></th>
-						<td><input name="blog[email]" type="text" class="regular-text" title="<?php _e( 'Email' ) ?>"/></td>
-					</tr>
-					<tr class="form-field">
-						<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ) ?><br /><?php _e( 'The username and password will be mailed to this email address.' ) ?></td>
-					</tr>
-				</table>
-				<p class="submit">
-					<input class="button" type="submit" name="go" value="<?php esc_attr_e( 'Add Site' ) ?>" /></p>
-			</form>
 		</div>
 		<?php
 	break;
