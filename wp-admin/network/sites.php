@@ -97,7 +97,7 @@ switch ( $action ) {
 		?>
 
 		<div class="wrap">
-		<?php screen_icon('index'); ?>
+		<?php screen_icon('ms-admin'); ?>
 		<h2><?php _e('Sites') ?>
 		<?php echo $msg; ?>
 		<a href="<?php echo network_admin_url('site-new.php'); ?>" class="button add-new-h2"><?php echo esc_html_x( 'Add New', 'sites' ); ?></a>

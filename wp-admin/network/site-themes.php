@@ -61,7 +61,7 @@ require('../admin-header.php');
 ?>
 
 <div class="wrap">
-<?php screen_icon('index'); ?>
+<?php screen_icon('ms-admin'); ?>
 <h2 id="edit-site"><?php echo $title ?></h2>
 <h3>
 <?php
