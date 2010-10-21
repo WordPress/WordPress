@@ -7,7 +7,11 @@
  * @since 3.0.0
  */
 
+/** Load WordPress Bootstrap */
 require_once( './admin.php' );
+
+/** Load WordPress dashboard API */
+require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -15,7 +19,7 @@ if ( !is_multisite() )
 if ( ! current_user_can( 'manage_network' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
-$title = __( 'Network Admin' );
+$title = __( 'Network Dashboard' );
 $parent_file = 'index.php';
 
 add_contextual_help($current_screen,
@@ -28,49 +32,29 @@ add_contextual_help($current_screen,
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+wp_dashboard_setup();
+
+wp_enqueue_script( 'dashboard' );
+wp_admin_css( 'dashboard' );
+add_thickbox();
+
+add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
+
 require_once( '../admin-header.php' );
 
-$c_users = get_user_count();
-$c_blogs = get_blog_count();
-
-$user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
-$blog_text = sprintf( _n( '%s site', '%s sites', $c_blogs ), number_format_i18n( $c_blogs ) );
-
-$sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 ?>
 
 <div class="wrap">
-	<?php screen_icon(); ?>
-	<h2><?php echo esc_html( $title ); ?></h2>
+<?php screen_icon(); ?>
+<h2><?php echo esc_html( $title ); ?></h2>
 
-	<ul class="subsubsub">
-	<li><a href="sites.php#form-add-site"><?php _e( 'Create a New Site' ); ?></a> |</li>
-	<li><a href="users.php#form-add-user"><?php _e( 'Create a New User' ); ?></a></li>
-	</ul>
-	<br class="clear" />
+<div id="dashboard-widgets-wrap">
 
-	<p class="youhave"><?php echo $sentence; ?></p>
-	<?php do_action( 'wpmuadminresult', '' ); ?>
+<?php wp_dashboard(); ?>
 
-	<form name="searchform" action="users.php" method="get">
-		<p>
-			<input type="hidden" name="action" value="users" />
-			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="submit" value="<?php esc_attr_e( 'Search Users' ); ?>" />
-		</p>
-	</form>
+<div class="clear"></div>
+</div><!-- dashboard-widgets-wrap -->
 
-	<form name="searchform" action="sites.php" method="get">
-		<p>
-			<input type="hidden" name="action" value="blogs" />
-			<input type="hidden" name="searchaction" value="name" />
-			<input type="text" name="s" value="" size="17" />
-			<input class="button" type="submit" name="blog_name" value="<?php esc_attr_e( 'Search Sites' ); ?>" />
-		</p>
-	</form>
-
-	<?php do_action( 'mu_rightnow_end' ); ?>
-	<?php do_action( 'mu_activity_box_end' ); ?>
-</div>
+</div><!-- wrap -->
 
 <?php include( '../admin-footer.php' ); ?>

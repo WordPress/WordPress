@@ -58,7 +58,7 @@ function wp_dashboard_setup() {
 	}
 
 	// WP Plugins Widget
-	if ( is_blog_admin() && current_user_can( 'install_plugins' ) )
+	if ( ( is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) ) )
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
@@ -100,10 +100,14 @@ function wp_dashboard_setup() {
 	wp_add_dashboard_widget( 'dashboard_secondary', $widget_options['dashboard_secondary']['title'], 'wp_dashboard_secondary', 'wp_dashboard_secondary_control' );
 
 	// Hook to register new widgets
-	do_action( 'wp_dashboard_setup' );
-
 	// Filter widget order
-	$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', array() );
+	if ( is_network_admin() ) {
+		do_action( 'wp_network_dashboard_setup' );
+		$dashboard_widgets = apply_filters( 'wp_network_dashboard_widgets', array() );
+	} else {
+		do_action( 'wp_dashboard_setup' );
+		$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', array() );
+	}
 
 	foreach ( $dashboard_widgets as $widget_id ) {
 		$name = empty( $wp_registered_widgets[$widget_id]['all_link'] ) ? $wp_registered_widgets[$widget_id]['name'] : $wp_registered_widgets[$widget_id]['name'] . " <a href='{$wp_registered_widgets[$widget_id]['all_link']}' class='edit-box open-box'>" . __('View all') . '</a>';
