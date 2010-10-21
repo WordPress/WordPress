@@ -565,10 +565,10 @@ function get_users( $args = array() ) {
  * @param int $id Blog ID.
  * @return array List of users that are part of that Blog ID
  */
-function get_users_of_blog( $id = '', $args = array() ) {
+function get_users_of_blog( $id = '' ) {
 	global $blog_id;
 
-	if ( empty($id) )
+	if ( empty( $id ) )
 		$id = (int) $blog_id;
 
 	return get_users( array( 'blog_id' => $id ) );
