@@ -215,7 +215,7 @@ if ( isset($plugin_page) ) {
 	exit();
 } else {
 	do_action("load-$pagenow");
-	// Backwards compatibility with old load-page-new.php, load-page.php, 
+	// Backwards compatibility with old load-page-new.php, load-page.php,
 	// and load-categories.php actions.
 	if ( $typenow == 'page' ) {
 		if ( $pagenow == 'post-new.php' )

@@ -503,7 +503,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 				if ( $term = get_term_by( $field, $term, $taxonomy ) )
 					$term = $term->term_id;
 				else
-					continue;				
+					continue;
 			}
 			$children = array_merge( $children, get_term_children( $term, $taxonomy ) );
 			$children[] = $term;
@@ -2831,7 +2831,7 @@ function get_ancestors($object_id = 0, $object_type = '') {
 	if ( empty( $object_id ) ) {
 		return apply_filters('get_ancestors', $ancestors, $object_id, $object_type);
 	}
-	
+
 	if ( is_taxonomy_hierarchical( $object_type ) ) {
 		$term = get_term($object_id, $object_type);
 		while ( ! is_wp_error($term) && ! empty( $term->parent ) && ! in_array( $term->parent, $ancestors ) ) {

@@ -1111,7 +1111,7 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
  *
  * @access private
  * @since 3.1.0
- */ 
+ */
 function _add_post_type_submenus() {
 	foreach ( get_post_types( array( 'show_ui' => true ) ) as $ptype ) {
 		$ptype_obj = get_post_type_object( $ptype );

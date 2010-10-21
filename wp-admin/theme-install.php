@@ -40,14 +40,14 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 <div class="wrap">
 <?php
-screen_icon(); 
+screen_icon();
 
 if ( is_network_admin() ) : ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 <?php else : ?>
 <h2><a href="themes.php" class="nav-tab"><?php echo esc_html_x('Manage Themes', 'theme'); ?></a><a href="theme-install.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a></h2>
 
-<?php 
+<?php
 endif;
 
 $wp_list_table->views(); ?>

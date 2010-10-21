@@ -26,9 +26,9 @@ $submenu['themes.php'][10] = array( _x('Add New', 'theme'), 'manage_network_them
 $submenu['themes.php'][15] = array( _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php' );
 
 $plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
-$update_plugins = get_site_transient( 'update_plugins' ); 
-if ( !empty($update_plugins->response) ) 
-	$plugin_update_count = count( $update_plugins->response ); 
+$update_plugins = get_site_transient( 'update_plugins' );
+if ( !empty($update_plugins->response) )
+	$plugin_update_count = count( $update_plugins->response );
 $menu[20] = array(sprintf( __('Plugins %s'), "<span class='update-plugins count-$plugin_update_count'><span class='plugin-count'>" . number_format_i18n($plugin_update_count) . "</span></span>" ), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'div');
 $submenu['plugins.php'][5]  = array( __('Plugins'), 'manage_network_plugins', 'plugins.php' );
 $submenu['plugins.php'][10] = array( _x('Add New', 'plugin editor'), 'install_plugins', 'plugin-install.php' );

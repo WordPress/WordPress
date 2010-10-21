@@ -1043,7 +1043,7 @@ class wpdb {
 </ul>
 <p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
 "/*/WP_I18N_DB_CONN_ERROR*/, $this->dbhost ), 'db_connect_fail' );
-		
+
 			//If show errors is disabled then we need to die anyway as we don't have a working DB connection
 			die();
 		}

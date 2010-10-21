@@ -261,7 +261,7 @@ function check_password_reset_key($key, $login) {
 
 	if ( empty( $user ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
-	
+
 	return $user;
 }
 
