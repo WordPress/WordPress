@@ -2892,7 +2892,7 @@ class WP_Sites_Table extends WP_List_Table {
 
 					case 'blogname': ?>
 						<td class="column-title">
-							<a href="<?php echo esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
+							<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 							<?php
 							if ( 'list' != $mode )
 								echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s</em>', '%1$s: site name. %2$s: site tagline.' ), get_blog_option( $blog['blog_id'], 'blogname' ), get_blog_option( $blog['blog_id'], 'blogdescription ' ) ) . '</p>';
@@ -2907,7 +2907,7 @@ class WP_Sites_Table extends WP_List_Table {
 								'visit' => '',
 							);
 
-							$actions['edit']	= '<span class="edit"><a href="' . esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
+							$actions['edit']	= '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
 							$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url( $blog['blog_id'] ) ) . "' class='edit'>" . __( 'Dashboard' ) . '</a></span>';
 							if ( $current_site->blog_id != $blog['blog_id'] ) {
 								if ( get_blog_status( $blog['blog_id'], 'deleted' ) == '1' )
@@ -3191,11 +3191,11 @@ class WP_MS_Users_Table extends WP_List_Table {
 							if ( is_array( $blogs ) ) {
 								foreach ( (array) $blogs as $key => $val ) {
 									$path	= ( $val->path == '/' ) ? '' : $val->path;
-									echo '<a href="'. esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
 									echo ' <small class="row-actions">';
 
 									// Edit
-									echo '<a href="'. esc_url( network_admin_url( 'sites.php?action=editblog&amp;id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a> | ';
+									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a> | ';
 
 									// View
 									echo '<a ';
