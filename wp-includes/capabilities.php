@@ -817,11 +817,12 @@ function map_meta_cap( $cap, $user_id ) {
 			$caps[] = 'edit_users'; // Explicit due to primitive fall through
 		break;
 	case 'delete_post':
+	case 'delete_page':
 		$author_data = get_userdata( $user_id );
 		//echo "post ID: {$args[0]}<br />";
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
-		if ( $post_type && 'post' != $post_type->capability_type ) {
+		if ( 'delete_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
 			$args = array_merge( array( $post_type->cap->delete_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
@@ -837,69 +838,34 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
-				$caps[] = 'delete_published_posts';
+				$caps[] = $post_type->cap->delete_published_posts;
 			} elseif ( 'trash' == $post->post_status ) {
 				if ('publish' == get_post_meta($post->ID, '_wp_trash_meta_status', true) )
-					$caps[] = 'delete_published_posts';
+					$caps[] = $post_type->cap->delete_published_posts;
 			} else {
 				// If the post is draft...
-				$caps[] = 'delete_posts';
+				$caps[] = $post_type->cap->delete_posts;
 			}
 		} else {
 			// The user is trying to edit someone else's post.
-			$caps[] = 'delete_others_posts';
+			$caps[] = $post_type->cap->delete_others_posts;
 			// The post is published, extra cap required.
 			if ( 'publish' == $post->post_status )
-				$caps[] = 'delete_published_posts';
+				$caps[] = $post_type->cap->delete_published_posts;
 			elseif ( 'private' == $post->post_status )
-				$caps[] = 'delete_private_posts';
-		}
-		break;
-	case 'delete_page':
-		$author_data = get_userdata( $user_id );
-		//echo "post ID: {$args[0]}<br />";
-		$page = get_page( $args[0] );
-		$page_author_data = get_userdata( $page->post_author );
-		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br />";
-		// If the user is the author...
-
-		if ('' != $page->post_author) {
-			$page_author_data = get_userdata( $page->post_author );
-		} else {
-			//No author set yet so default to current user for cap checks
-			$page_author_data = $author_data;
-		}
-
-		if ( is_object( $page_author_data ) && $user_id == $page_author_data->ID ) {
-			// If the page is published...
-			if ( $page->post_status == 'publish' ) {
-				$caps[] = 'delete_published_pages';
-			} elseif ( 'trash' == $page->post_status ) {
-				if ('publish' == get_post_meta($page->ID, '_wp_trash_meta_status', true) )
-					$caps[] = 'delete_published_pages';
-			} else {
-				// If the page is draft...
-				$caps[] = 'delete_pages';
-			}
-		} else {
-			// The user is trying to edit someone else's page.
-			$caps[] = 'delete_others_pages';
-			// The page is published, extra cap required.
-			if ( $page->post_status == 'publish' )
-				$caps[] = 'delete_published_pages';
-			elseif ( $page->post_status == 'private' )
-				$caps[] = 'delete_private_pages';
+				$caps[] = $post_type->cap->delete_private_posts;
 		}
 		break;
 		// edit_post breaks down to edit_posts, edit_published_posts, or
 		// edit_others_posts
 	case 'edit_post':
+	case 'edit_page':
 		$author_data = get_userdata( $user_id );
 		//echo "post ID: {$args[0]}<br />";
 		$post = get_post( $args[0] );
 
 		$post_type = get_post_type_object( $post->post_type );
-		if ( $post_type && 'post' != $post_type->capability_type ) {
+		if ( 'edit_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
 			$args = array_merge( array( $post_type->cap->edit_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
@@ -909,86 +875,44 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
-				$caps[] = 'edit_published_posts';
+				$caps[] = $post_type->cap->edit_published_posts;
 			} elseif ( 'trash' == $post->post_status ) {
 				if ('publish' == get_post_meta($post->ID, '_wp_trash_meta_status', true) )
-					$caps[] = 'edit_published_posts';
+					$caps[] = $post_type->cap->edit_published_posts;
 			} else {
 				// If the post is draft...
-				$caps[] = 'edit_posts';
+				$caps[] = $post_type->cap->edit_posts;
 			}
 		} else {
 			// The user is trying to edit someone else's post.
-			$caps[] = 'edit_others_posts';
+			$caps[] = $post_type->cap->edit_others_posts;
 			// The post is published, extra cap required.
 			if ( 'publish' == $post->post_status )
-				$caps[] = 'edit_published_posts';
+				$caps[] = $post_type->cap->edit_published_posts;
 			elseif ( 'private' == $post->post_status )
-				$caps[] = 'edit_private_posts';
-		}
-		break;
-	case 'edit_page':
-		$author_data = get_userdata( $user_id );
-		//echo "post ID: {$args[0]}<br />";
-		$page = get_page( $args[0] );
-		$page_author_data = get_userdata( $page->post_author );
-		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br />";
-		// If the user is the author...
-		if ( is_object( $page_author_data ) && $user_id == $page_author_data->ID ) {
-			// If the page is published...
-			if ( 'publish' == $page->post_status ) {
-				$caps[] = 'edit_published_pages';
-			} elseif ( 'trash' == $page->post_status ) {
-				if ('publish' == get_post_meta($page->ID, '_wp_trash_meta_status', true) )
-					$caps[] = 'edit_published_pages';
-			} else {
-				// If the page is draft...
-				$caps[] = 'edit_pages';
-			}
-		} else {
-			// The user is trying to edit someone else's page.
-			$caps[] = 'edit_others_pages';
-			// The page is published, extra cap required.
-			if ( 'publish' == $page->post_status )
-				$caps[] = 'edit_published_pages';
-			elseif ( 'private' == $page->post_status )
-				$caps[] = 'edit_private_pages';
+				$caps[] = $post_type->cap->edit_private_posts;
 		}
 		break;
 	case 'read_post':
+	case 'read_page':
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
-		if ( $post_type && 'post' != $post_type->capability_type ) {
+		if ( 'read_post' == $cap && $post_type && 'post' != $post_type->capability_type && ! $post_type->map_meta_cap ) {
 			$args = array_merge( array( $post_type->cap->read_post, $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
 		}
 
 		if ( 'private' != $post->post_status ) {
-			$caps[] = 'read';
+			$caps[] = $post_type->cap->read;
 			break;
 		}
 
 		$author_data = get_userdata( $user_id );
 		$post_author_data = get_userdata( $post->post_author );
 		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID )
-			$caps[] = 'read';
+			$caps[] = $post_type->cap->read;
 		else
-			$caps[] = 'read_private_posts';
-		break;
-	case 'read_page':
-		$page = get_page( $args[0] );
-
-		if ( 'private' != $page->post_status ) {
-			$caps[] = 'read';
-			break;
-		}
-
-		$author_data = get_userdata( $user_id );
-		$page_author_data = get_userdata( $page->post_author );
-		if ( is_object( $page_author_data ) && $user_id == $page_author_data->ID )
-			$caps[] = 'read';
-		else
-			$caps[] = 'read_private_pages';
+			$caps[] = $post_type->cap->read_private_posts;
 		break;
 	case 'edit_comment':
 		$comment = get_comment( $args[0] );
@@ -1050,6 +974,13 @@ function map_meta_cap( $cap, $user_id ) {
 			$caps[] = $cap;
 		break;
 	default:
+		// Handle meta capabilities for custom post types.
+		$post_type_meta_caps = _post_type_meta_capabilities();
+		if ( isset( $post_type_meta_caps[ $cap ] ) ) {
+			$args = array_merge( array( $post_type_meta_caps[ $cap ], $user_id ), $args );
+			return call_user_func_array( 'map_meta_cap', $args );
+		}
+
 		// If no meta caps match, return the original cap.
 		$caps[] = $cap;
 	}

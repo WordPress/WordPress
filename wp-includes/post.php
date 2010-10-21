@@ -20,6 +20,7 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
+		'map_meta_cap' => true,
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
@@ -31,6 +32,7 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'page',
+		'map_meta_cap' => true,
 		'hierarchical' => true,
 		'rewrite' => false,
 		'query_var' => false,
@@ -836,7 +838,8 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
  * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
- * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used to construct capabilities.
+ * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used as a base to construct capabilities.
+ * - map_meta_cap - Whether to use the internal default meta capability handling. Defaults to false.
  * - hierarchical - Whether the post type is hierarchical. Defaults to false.
  * - supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
  * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
@@ -866,7 +869,8 @@ function register_post_type($post_type, $args = array()) {
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
 		'labels' => array(), 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null,
-		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'capability_type' => 'post', 'capabilities' => array(), 'hierarchical' => false,
+		'capability_type' => 'post', 'capabilities' => array(), 'map_meta_cap' => false,
+		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'hierarchical' => false,
 		'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
 		'permalink_epmask' => EP_PERMALINK, 'can_export' => true, 'show_in_nav_menus' => null, 'show_in_menu' => null,
@@ -978,22 +982,60 @@ function register_post_type($post_type, $args = array()) {
  * - read_private_posts - The capability that controls reading private posts. Defaults to "read_private . $capability_type . s" (read_private_posts).
  * - delete_post - The meta capability that controls deleting a particular object of this post type. Defaults to "delete_ . $capability_type" (delete_post).
  *
+ * @see map_meta_cap()
  * @since 3.0.0
+ *
  * @param object $args
  * @return object object with all the capabilities as member variables
  */
 function get_post_type_capabilities( $args ) {
-	$defaults = array(
+	global $_post_type_meta_capabilities;
+
+	$default_capabilities = array(
+		// Meta capabilities are generally mapped to primitive capabilities depending on the context
+		// (which would be the post being edited/deleted/read), instead of granted to users or roles:
 		'edit_post'          => 'edit_'         . $args->capability_type,
+		'read_post'          => 'read_'         . $args->capability_type,
+		'delete_post'        => 'delete_'       . $args->capability_type,
+		// Primitive capabilities that are used outside of map_meta_cap():
 		'edit_posts'         => 'edit_'         . $args->capability_type . 's',
 		'edit_others_posts'  => 'edit_others_'  . $args->capability_type . 's',
 		'publish_posts'      => 'publish_'      . $args->capability_type . 's',
-		'read_post'          => 'read_'         . $args->capability_type,
 		'read_private_posts' => 'read_private_' . $args->capability_type . 's',
-		'delete_post'        => 'delete_'       . $args->capability_type,
 	);
-	$labels = array_merge( $defaults, $args->capabilities );
-	return (object) $labels;
+	// Primitive capabilities that are used within map_meta_cap():
+	if ( $args->map_meta_cap ) {
+		$default_capabilities_for_mapping = array(
+			'read'                   => 'read',
+			'delete_posts'           => 'delete_'           . $args->capability_type . 's',
+			'delete_private_posts'   => 'delete_private_'   . $args->capability_type . 's',
+			'delete_published_posts' => 'delete_published_' . $args->capability_type . 's', 
+			'delete_others_posts'    => 'delete_others_'    . $args->capability_type . 's',
+			'edit_private_posts'     => 'edit_private_'     . $args->capability_type . 's',
+			'edit_published_posts'   => 'edit_published_'   . $args->capability_type . 's',
+		);
+		$default_capabilities = array_merge( $default_capabilities, $default_capabilities_for_mapping );
+	}
+	$capabilities = array_merge( $default_capabilities, $args->capabilities );
+	if ( $args->map_meta_cap )
+		_post_type_meta_capabilities( $capabilities );
+	return (object) $capabilities;
+}
+
+/**
+ * Stores or returns a list of post type meta caps for map_meta_cap().
+ *
+ * @since 3.1.0
+ * @access private
+ */
+function _post_type_meta_capabilities( $capabilities = null ) {
+	static $meta_caps = array();
+	if ( null === $capabilities )
+		return $meta_caps;
+	foreach ( $capabilities as $core => $custom ) {
+		if ( in_array( $core, array( 'read_post', 'delete_post', 'edit_post' ) ) )
+			$meta_caps[ $custom ] = $core;
+	}
 }
 
 /**
