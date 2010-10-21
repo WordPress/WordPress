@@ -110,7 +110,7 @@ function edit_user( $user_id = 0 ) {
 	if ( isset( $_POST['description'] ) )
 		$user->description = trim( $_POST['description'] );
 
-	foreach ( _wp_get_user_contactmethods() as $method => $name ) {
+	foreach ( _wp_get_user_contactmethods( $user ) as $method => $name ) {
 		if ( isset( $_POST[$method] ))
 			$user->$method = sanitize_text_field( $_POST[$method] );
 	}
@@ -224,7 +224,7 @@ function get_editable_roles() {
 function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
 
-	$user_contactmethods = _wp_get_user_contactmethods();
+	$user_contactmethods = _wp_get_user_contactmethods( $user );
 	foreach ($user_contactmethods as $method => $name) {
 		if ( empty( $user->{$method} ) )
 			$user->{$method} = '';

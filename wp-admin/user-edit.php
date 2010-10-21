@@ -322,7 +322,7 @@ else
 </tr>
 
 <?php
-	foreach (_wp_get_user_contactmethods() as $name => $desc) {
+	foreach (_wp_get_user_contactmethods( $profileuser ) as $name => $desc) {
 ?>
 <tr>
 	<th><label for="<?php echo $name; ?>"><?php echo apply_filters('user_'.$name.'_label', $desc); ?></label></th>

@@ -211,20 +211,19 @@ function wp_insert_user($userdata) {
 	update_user_meta( $user_id, 'admin_color', $admin_color);
 	update_user_meta( $user_id, 'use_ssl', $use_ssl);
 
-	foreach ( _wp_get_user_contactmethods() as $method => $name ) {
+	$user = new WP_User($user_id);
+
+	foreach ( _wp_get_user_contactmethods( $user ) as $method => $name ) {
 		if ( empty($$method) )
 			$$method = '';
 
 		update_user_meta( $user_id, $method, $$method );
 	}
 
-	if ( isset($role) ) {
-		$user = new WP_User($user_id);
+	if ( isset($role) )
 		$user->set_role($role);
-	} elseif ( !$update ) {
-		$user = new WP_User($user_id);
+	elseif ( !$update )
 		$user->set_role(get_option('default_role'));
-	}
 
 	wp_cache_delete($user_id, 'users');
 	wp_cache_delete($user_login, 'userlogins');
@@ -319,15 +318,16 @@ function wp_create_user($username, $password, $email = '') {
  * @access private
  * @since
  *
+ * @param object $user User data object (optional)
  * @return array $user_contactmethods Array of contact methods and their labels.
  */
-function _wp_get_user_contactmethods() {
+function _wp_get_user_contactmethods( $user = null ) {
 	$user_contactmethods = array(
 		'aim' => __('AIM'),
 		'yim' => __('Yahoo IM'),
 		'jabber' => __('Jabber / Google Talk')
 	);
-	return apply_filters('user_contactmethods',$user_contactmethods);
+	return apply_filters( 'user_contactmethods', $user_contactmethods, $user );
 }
 
 ?>
