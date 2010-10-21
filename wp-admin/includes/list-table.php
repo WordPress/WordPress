@@ -148,8 +148,9 @@ class WP_List_Table {
 	function get_pagination_arg( $key ) {
 		if ( 'page' == $key )
 			return $this->get_pagenum();
-
-		return @$this->_pagination_args[ $key ];
+			
+		if ( isset( $this->_pagination_args[$key] ) )
+			return $this->_pagination_args[$key];
 	}
 
 	/**
