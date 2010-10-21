@@ -19,7 +19,11 @@ $submenu['sites.php'][5]  = array( __('Sites'), 'manage_sites', 'sites.php' );
 $submenu['sites.php'][10]  = array( __('Add New'), 'manage_sites', 'site-new.php' );
 
 $menu[10] = array(__('Users'), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'div');
+
 $menu[15] = array(__('Themes'), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div');
+$submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' );
+$submenu['themes.php'][10] = array( _x('Add New', 'theme'), 'manage_network_themes', 'theme-install.php' );
+$submenu['themes.php'][15] = array( _x('Editor', 'theme editor'), 'edit_themes', 'theme-editor.php' );
 
 $plugin_update_count = $theme_update_count = $wordpress_update_count = 0;
 $update_plugins = get_site_transient( 'update_plugins' ); 
@@ -58,9 +62,6 @@ unset($plugin_update_count, $theme_update_count, $wordpress_update_count, $updat
 
 
 $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
-
-$submenu['themes.php'][5]  = array( __('Themes'), 'manage_network_themes', 'themes.php' );
-$submenu['themes.php'][15] = array( _x('Editor', 'plugin editor'), 'edit_themes', 'theme-editor.php' );
 
 require_once(ABSPATH . 'wp-admin/includes/menu.php');
 

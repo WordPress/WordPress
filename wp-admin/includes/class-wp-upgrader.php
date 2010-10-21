@@ -1358,11 +1358,11 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 							);
 
 		if ( $this->type == 'web' )
-			$install_actions['themes_page'] = '<a href="' . admin_url('theme-install.php') . '" title="' . esc_attr__('Return to Theme Installer') . '" target="_parent">' . __('Return to Theme Installer') . '</a>';
+			$install_actions['themes_page'] = '<a href="' . self_admin_url('theme-install.php') . '" title="' . esc_attr__('Return to Theme Installer') . '" target="_parent">' . __('Return to Theme Installer') . '</a>';
 		else
-			$install_actions['themes_page'] = '<a href="' . admin_url('themes.php') . '" title="' . esc_attr__('Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
+			$install_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
-		if ( ! $this->result || is_wp_error($this->result) )
+		if ( ! $this->result || is_wp_error($this->result) || is_network_admin() )
 			unset( $install_actions['activate'], $install_actions['preview'] );
 
 		$install_actions = apply_filters('install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info);

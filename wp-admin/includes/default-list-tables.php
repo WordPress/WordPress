@@ -4184,7 +4184,7 @@ class WP_Theme_Install_Table extends WP_List_Table {
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
 			$class = ( $action == $tab ) ? ' class="current"' : '';
-			$href = admin_url('theme-install.php?tab=' . $action);
+			$href = self_admin_url('theme-install.php?tab=' . $action);
 			$display_tabs[$action] = "<a href='$href'$class>$text</a>";
 		}
 

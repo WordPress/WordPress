@@ -15,7 +15,8 @@ $wp_list_table->prepare_items();
 
 $title = __('Install Themes');
 $parent_file = 'themes.php';
-$submenu_file = 'themes.php';
+if ( !is_network_admin() )
+	$submenu_file = 'themes.php';
 
 wp_enqueue_style( 'theme-install' );
 wp_enqueue_script( 'theme-install' );
@@ -35,17 +36,25 @@ $help .= '<p>' . __('<a href="http://codex.wordpress.org/Using_Themes#Adding_New
 $help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
 add_contextual_help($current_screen, $help);
 
-include('./admin-header.php');
+include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 <div class="wrap">
-<?php screen_icon(); ?>
+<?php
+screen_icon(); 
+
+if ( is_network_admin() ) : ?>
+<h2><?php echo esc_html( $title ); ?></h2>
+<?php else : ?>
 <h2><a href="themes.php" class="nav-tab"><?php echo esc_html_x('Manage Themes', 'theme'); ?></a><a href="theme-install.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a></h2>
 
-<?php $wp_list_table->views(); ?>
+<?php 
+endif;
+
+$wp_list_table->views(); ?>
 
 <br class="clear" />
 <?php do_action('install_themes_' . $tab, $paged); ?>
 </div>
 <?php
-include('./admin-footer.php');
+include(ABSPATH . 'wp-admin/admin-footer.php');
 

@@ -77,7 +77,7 @@ function install_themes_dashboard() {
 	install_theme_search_form();
 ?>
 <h4><?php _e('Feature Filter') ?></h4>
-<form method="post" action="<?php echo admin_url( 'theme-install.php?tab=search' ); ?>">
+<form method="post" action="<?php echo self_admin_url( 'theme-install.php?tab=search' ); ?>">
 <p class="install-help"><?php _e('Find a theme based on specific features') ?></p>
 	<?php
 	$feature_list = get_theme_feature_list( );
@@ -116,7 +116,7 @@ function install_themes_upload($page = 1) {
 ?>
 <h4><?php _e('Install a theme in .zip format') ?></h4>
 <p class="install-help"><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.') ?></p>
-<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('update.php?action=upload-theme') ?>">
+<form method="post" enctype="multipart/form-data" action="<?php echo self_admin_url('update.php?action=upload-theme') ?>">
 	<?php wp_nonce_field( 'theme-upload') ?>
 	<input type="file" name="themezip" />
 	<input type="submit"
@@ -140,9 +140,10 @@ function display_theme($theme, $actions = null, $show_details = true) {
 	$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
 	if ( !is_array($actions) ) {
 		$actions = array();
-		$actions[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
+		$actions[] = '<a href="' . self_admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
 										'&amp;TB_iframe=true&amp;tbWidth=500&amp;tbHeight=385') . '" class="thickbox thickbox-preview onclick" title="' . esc_attr(sprintf(__('Install &#8220;%s&#8221;'), $name)) . '">' . __('Install') . '</a>';
-		$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
+		if ( !is_network_admin() )
+			$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . esc_attr(sprintf(__('Preview &#8220;%s&#8221;'), $name)) . '">' . __('Preview') . '</a>';
 		$actions = apply_filters('theme_install_action_links', $actions, $theme);
 	}
 
@@ -288,12 +289,12 @@ switch ( $type ) {
 default:
 case 'install':
 	if ( current_user_can('install_themes') ) :
-	$buttons .= '<a class="button-primary" id="install" href="' . wp_nonce_url(admin_url('update.php?action=install-theme&theme=' . $api->slug), 'install-theme_' . $api->slug) . '" target="_parent">' . __('Install Now') . '</a>';
+	$buttons .= '<a class="button-primary" id="install" href="' . wp_nonce_url(self_admin_url('update.php?action=install-theme&theme=' . $api->slug), 'install-theme_' . $api->slug) . '" target="_parent">' . __('Install Now') . '</a>';
 	endif;
 	break;
 case 'update_available':
 	if ( current_user_can('update_themes') ) :
-	$buttons .= '<a class="button-primary" id="install"	href="' . wp_nonce_url(admin_url('update.php?action=upgrade-theme&theme=' . $update_file), 'upgrade-theme_' . $update_file) . '" target="_parent">' . __('Install Update Now') . '</a>';
+	$buttons .= '<a class="button-primary" id="install"	href="' . wp_nonce_url(self_admin_url('update.php?action=upgrade-theme&theme=' . $update_file), 'upgrade-theme_' . $update_file) . '" target="_parent">' . __('Install Update Now') . '</a>';
 	endif;
 	break;
 case 'newer_installed':
