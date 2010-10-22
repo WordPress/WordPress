@@ -324,7 +324,7 @@ function wp_admin_bar_ajax_render() {
 	wp_admin_bar_render();
 	die;
 }
-add_action( 'wp_ajax_adminbar_render', 'wp_admin_bar_ajax_render' );
+add_action( 'wp_ajax_admin_bar_render', 'wp_admin_bar_ajax_render' );
 
 function is_admin_bar() {
 	return ( 0 === strpos($_SERVER['REQUEST_URI'], '/js/admin-bar') );
