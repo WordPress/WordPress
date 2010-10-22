@@ -48,6 +48,7 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'media.php?attachment_id=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
+		'map_meta_cap' => true,
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
@@ -64,6 +65,7 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'revision.php?revision=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
+		'map_meta_cap' => true,
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
@@ -76,7 +78,6 @@ function create_initial_post_types() {
 		),
 		'public' => false,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
-		'capability_type' => 'post',
 		'hierarchical' => false,
 		'rewrite' => false,
 		'query_var' => false,
