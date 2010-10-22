@@ -3326,19 +3326,8 @@ class WP_Plugins_Table extends WP_List_Table {
 			$plugins['upgrade'] = array();
 
 		if ( $s ) {
-			function _search_plugins_filter_callback( $plugin ) {
-				static $term;
-				if ( is_null( $term ) )
-					$term = stripslashes( $_REQUEST['s'] );
-
-				foreach ( $plugin as $value )
-					if ( stripos( $value, $term ) !== false )
-						return true;
-
-				return false;
-			}
 			$status = 'search';
-			$plugins['search'] = array_filter( $plugins['all'], '_search_plugins_filter_callback' );
+			$plugins['search'] = array_filter( $plugins['all'], array( $this, '_search_callback' ) );
 		}
 
 		$totals = array();
@@ -3355,21 +3344,7 @@ class WP_Plugins_Table extends WP_List_Table {
 			$orderby = ucfirst( $orderby );
 			$order = strtoupper( $order );
 
-			function _order_plugins_callback( $plugin_a, $plugin_b ) {
-				global $orderby, $order;
-
-				$a = $plugin_a[$orderby];
-				$b = $plugin_b[$orderby];
-
-				if ( $a == $b )
-					return 0;
-
-				if ( 'DESC' == $order )
-					return ( $a < $b ) ? 1 : -1;
-				else
-					return ( $a < $b ) ? -1 : 1;
-			}
-			uasort( $this->items, '_order_plugins_callback' );
+			uasort( $this->items, array( $this, '_order_callback' ) );
 		}
 
 		$plugins_per_page = $this->get_items_per_page( 'plugins_per_page', 999 );
@@ -3383,6 +3358,33 @@ class WP_Plugins_Table extends WP_List_Table {
 			'total_items' => $total_this_page,
 			'per_page' => $plugins_per_page,
 		) );
+	}
+
+	function _search_callback( $plugin ) {
+		static $term;
+		if ( is_null( $term ) )
+			$term = stripslashes( $_REQUEST['s'] );
+
+		foreach ( $plugin as $value )
+			if ( stripos( $value, $term ) !== false )
+				return true;
+
+		return false;
+	}
+
+	function _order_callback( $plugin_a, $plugin_b ) {
+		global $orderby, $order;
+
+		$a = $plugin_a[$orderby];
+		$b = $plugin_b[$orderby];
+
+		if ( $a == $b )
+			return 0;
+
+		if ( 'DESC' == $order )
+			return ( $a < $b ) ? 1 : -1;
+		else
+			return ( $a < $b ) ? -1 : 1;
 	}
 
 	function no_items() {
