@@ -27,8 +27,7 @@ function wp_admin_bar_init() {
 		$current_user = wp_get_current_user();
 
 	/* Enqueue the JS files for the admin bar. */
-	if ( is_user_logged_in() )
-		wp_enqueue_script( 'jquery', false, false, false, true );
+	wp_enqueue_script( 'jquery', false, false, false, true );
 
 	/* Load the admin bar class code ready for instantiation */
 	require( ABSPATH . WPINC . '/admin-bar/admin-bar-class.php' );
