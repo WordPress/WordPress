@@ -605,6 +605,10 @@ class WP_User {
 	function set_role( $role ) {
 		foreach ( (array) $this->roles as $oldrole )
 			unset( $this->caps[$oldrole] );
+
+		if ( 1 == count( $this->roles ) && $role == $this->roles[0] )
+			return;
+
 		if ( !empty( $role ) ) {
 			$this->caps[$role] = true;
 			$this->roles = array( $role => true );
