@@ -1466,8 +1466,6 @@ class WP_Query extends WP_Object_Query {
 
 					if ( $t->rewrite['hierarchical'] ) {
 						$q[$t->query_var] = basename($q[$t->query_var]);
-						if ( $taxonomy == $q['taxonomy'] )
-							$q['term'] = basename($q['term']);
 					}
 
 					$term = str_replace( ' ', '+', $q[$t->query_var] );
