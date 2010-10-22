@@ -2937,8 +2937,6 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 	if ( $parent == $term_id )
 		return 0;
 
-	echo "larger loops\n";
-
 	// Now look for larger loops
 
 	if ( !$loop = wp_find_hierarchy_loop( 'wp_get_term_taxonomy_parent_id', $term_id, $parent, array( $taxonomy ) ) )
