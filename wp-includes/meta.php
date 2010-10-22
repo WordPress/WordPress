@@ -53,6 +53,8 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	$_meta_value = $meta_value;
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
+	do_action( "add_{$meta_type}_meta", $object_id, $meta_key, $_meta_value );
+
 	$wpdb->insert( $table, array(
 		$column => $object_id,
 		'meta_key' => $meta_key,
@@ -189,6 +191,8 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	$meta_ids = $wpdb->get_col( $query );
 	if ( !count( $meta_ids ) )
 		return false;
+
+	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $meta_value );
 
 	$query = "DELETE FROM $table WHERE $id_column IN( " . implode( ',', $meta_ids ) . " )";
 
