@@ -1465,7 +1465,7 @@ class WP_Query extends WP_Object_Query {
 					);
 
 					if ( $t->rewrite['hierarchical'] ) {
-						$q[$t->query_var] = basename($q[$t->query_var]);
+						$q[$t->query_var] = $this->_qv_basename( $q[$t->query_var] );
 					}
 
 					$term = str_replace( ' ', '+', $q[$t->query_var] );
@@ -1784,7 +1784,7 @@ class WP_Query extends WP_Object_Query {
 		}
 
 		if ( '' != $q['name'] ) {
-			$q['name'] = sanitize_title($q['name']);
+			$q['name'] = sanitize_title( $q['name'] );
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
 		} elseif ( '' != $q['pagename'] ) {
 			if ( isset($this->queried_object_id) ) {
@@ -1812,9 +1812,7 @@ class WP_Query extends WP_Object_Query {
 
 			$page_for_posts = get_option('page_for_posts');
 			if  ( ('page' != get_option('show_on_front') ) || empty($page_for_posts) || ( $reqpage != $page_for_posts ) ) {
-				$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
-				$page_paths = '/' . trim($q['pagename'], '/');
-				$q['pagename'] = sanitize_title(basename($page_paths));
+				$q['pagename'] = sanitize_title( $this->_qv_basename( $q['pagename'] ) );
 				$q['name'] = $q['pagename'];
 				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
 				$reqpage_obj = get_page($reqpage);
@@ -1826,9 +1824,7 @@ class WP_Query extends WP_Object_Query {
 				}
 			}
 		} elseif ( '' != $q['attachment'] ) {
-			$q['attachment'] = str_replace('%2F', '/', urlencode(urldecode($q['attachment'])));
-			$attach_paths = '/' . trim($q['attachment'], '/');
-			$q['attachment'] = sanitize_title(basename($attach_paths));
+			$q['attachment'] = sanitize_title( $this->_qv_basename( $q['attachment'] ) );
 			$q['name'] = $q['attachment'];
 			$where .= " AND $wpdb->posts.post_name = '" . $q['attachment'] . "'";
 		}
@@ -1961,7 +1957,7 @@ class WP_Query extends WP_Object_Query {
 					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; // there was a trailling slash
 				}
 			}
-			$q['author_name'] = sanitize_title($q['author_name']);
+			$q['author_name'] = sanitize_title( $q['author_name'] );
 			$q['author'] = get_user_by('slug', $q['author_name']);
 			if ( $q['author'] )
 				$q['author'] = $q['author']->ID;
@@ -3133,6 +3129,19 @@ class WP_Query extends WP_Object_Query {
 	 */
 	function is_404() {
 		return (bool) $this->is_404;
+	}
+
+	/**
+	 * i18n friendly way to get the last segment in a path
+	 *
+	 * @since 3.1.0
+	 * @access private
+	 *
+	 * @param string $path The path
+	 * @return string
+	 */
+	function _qv_basename( $path ) {
+		return basename( str_replace( '%2F', '/', urlencode( urldecode( $path ) ) ) );
 	}
 }
 
