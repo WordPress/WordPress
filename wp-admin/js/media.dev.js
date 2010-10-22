@@ -77,6 +77,14 @@ var findPosts;
 			if ( '' == $('#find-posts-response').html() )
 				e.preventDefault();
 		});
+		$( '#find-posts .find-box-search :input' ).keypress( function( event ) {
+			if ( 13 == event.which ) {
+				findPosts.send();
+				return false;
+			}
+		} );
+		$( '#find-posts-search' ).click( findPosts.send );
+		$( '#find-posts-close' ).click( findPosts.close );
 		$('#doaction, #doaction2').click(function(e){
 			$('select[name^="action"]').each(function(){
 				if ( $(this).val() == 'attach' ) {
