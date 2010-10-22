@@ -100,7 +100,7 @@ class WP_Admin_Bar {
 		<?php $menuclass = ( !empty( $menu_item['children'] ) ) ? 'menupop ' : ''; ?>
 
 		<li class="<?php echo $menuclass . "ab-$id" ?><?php if ( !empty( $menu_item['meta']['class'] ) ) : ?><?php echo ' ' . $menu_item['meta']['class'] ?><?php endif; ?>">
-			<a href="<?php echo strip_tags( $menu_item['href'] ) ?>"<?php if ( !empty( $menu_item['meta']['onclick'] ) ) :?>onclick="<?php echo $menu_item['meta']['onclick'] ?>"<?php endif; ?><?php if ( !empty( $menu_item['meta']['target'] ) ) :?>target="<?php echo $menu_item['meta']['target'] ?>"<?php endif; ?>><?php if ( !empty( $menuclass ) ) : ?><span><?php endif; ?><?php echo $menu_item['title'] ?><?php if ( !empty( $menuclass ) ) : ?></span><?php endif; ?></a>
+			<a href="<?php echo strip_tags( $menu_item['href'] ) ?>"<?php if ( !empty( $menu_item['meta']['onclick'] ) ) :?> onclick="<?php echo $menu_item['meta']['onclick'] ?>"<?php endif; ?><?php if ( !empty( $menu_item['meta']['target'] ) ) :?> target="<?php echo $menu_item['meta']['target'] ?>"<?php endif; ?>><?php if ( !empty( $menuclass ) ) : ?><span><?php endif; ?><?php echo $menu_item['title'] ?><?php if ( !empty( $menuclass ) ) : ?></span><?php endif; ?></a>
 
 			<?php if ( !empty( $menu_item['children'] ) ) : ?>
 			<ul>
