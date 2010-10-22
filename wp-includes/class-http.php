@@ -540,10 +540,12 @@ class WP_Http {
 	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL as true in your wp-config.php
 	 * file and this will only allow localhost and your blog to make requests. The constant
 	 * WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the
-	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow.
+	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow, wildcard domains
+	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.
 	 *
 	 * @since 2.8.0
 	 * @link http://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
+	 * @link http://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
 	 *
 	 * @param string $uri URI of url.
 	 * @return bool True to block, false to allow.
@@ -577,10 +579,25 @@ class WP_Http {
 			return true;
 
 		static $accessible_hosts;
-		if ( null == $accessible_hosts )
+		static $wildcard_regex = false;
+		if ( null == $accessible_hosts ) {
 			$accessible_hosts = preg_split('|,\s*|', WP_ACCESSIBLE_HOSTS);
 
-		return !in_array( $check['host'], $accessible_hosts ); //Inverse logic, If its in the array, then we can't access it.
+			if ( false !== strpos(WP_ACCESSIBLE_HOSTS, '*') ) {
+				$wildcard_regex = array();
+				foreach ( $accessible_hosts as $host )
+					$wildcard_regex[] = str_replace('\*', '[\w.]+?', preg_quote($host, '/'));
+				$wildcard_regex = '/^(' . implode('|', $wildcard_regex) . ')$/i';
+			}
+		}
+
+		if ( !empty($wildcard_regex) )
+			return !preg_match($wildcard_regex, $check['host']);
+		else
+			return !in_array( $check['host'], $accessible_hosts ); //Inverse logic, If its in the array, then we can't access it.
+
+
+
 	}
 }
 
@@ -1478,17 +1495,18 @@ class WP_Http_Curl {
  * <li>WP_PROXY_PASSWORD - Proxy password, if it requires authentication.</li>
  * <li>WP_PROXY_BYPASS_HOSTS - Will prevent the hosts in this list from going through the proxy.
  * You do not need to have localhost and the blog host in this list, because they will not be passed
- * through the proxy. The list should be presented in a comma separated list</li>
+ * through the proxy. The list should be presented in a comma separated list, wildcards using * are supported, eg. *.wordpress.org</li>
  * </ol>
  *
  * An example can be as seen below.
  * <code>
  * define('WP_PROXY_HOST', '192.168.84.101');
  * define('WP_PROXY_PORT', '8080');
- * define('WP_PROXY_BYPASS_HOSTS', 'localhost, www.example.com');
+ * define('WP_PROXY_BYPASS_HOSTS', 'localhost, www.example.com, *.wordpress.org');
  * </code>
  *
  * @link http://core.trac.wordpress.org/ticket/4011 Proxy support ticket in WordPress.
+ * @link http://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_PROXY_BYPASS_HOSTS
  * @since 2.8
  */
 class WP_HTTP_Proxy {
@@ -1628,10 +1646,22 @@ class WP_HTTP_Proxy {
 			return true;
 
 		static $bypass_hosts;
-		if ( null == $bypass_hosts )
+		static $wildcard_regex = false;
+		if ( null == $bypass_hosts ) {
 			$bypass_hosts = preg_split('|,\s*|', WP_PROXY_BYPASS_HOSTS);
 
-		return !in_array( $check['host'], $bypass_hosts );
+			if ( false !== strpos(WP_PROXY_BYPASS_HOSTS, '*') ) {
+				$wildcard_regex = array();
+				foreach ( $bypass_hosts as $host )
+					$wildcard_regex[] = str_replace('\*', '[\w.]+?', preg_quote($host, '/'));
+				$wildcard_regex = '/^(' . implode('|', $wildcard_regex) . ')$/i';
+			}
+		}
+
+		if ( !empty($wildcard_regex) )
+			return !preg_match($wildcard_regex, $check['host']);
+		else
+			return !in_array( $check['host'], $bypass_hosts );
 	}
 }
 /**
