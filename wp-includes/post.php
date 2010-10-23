@@ -822,37 +822,50 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
 /**
  * Register a post type. Do not use before init.
  *
- * A simple function for creating or modifying a post type based on the
+ * A function for creating or modifying a post type based on the
  * parameters given. The function will accept an array (second optional
  * parameter), along with a string for the post type name.
- *
  *
  * Optional $args contents:
  *
  * - label - Name of the post type shown in the menu. Usually plural. If not set, labels['name'] will be used.
  * - description - A short descriptive summary of what the post type is. Defaults to blank.
  * - public - Whether posts of this type should be shown in the admin UI. Defaults to false.
- * - exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
- * - publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
- * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
- * - show_in_menu - Where to show the post type in the admin menu. True for a top level menu, false for no menu, or can be a top level page like 'tools.php' or 'edit.php?post_type=page'. show_ui must be true.
+ * - exclude_from_search - Whether to exclude posts with this post type from search results.
+ *     Defaults to true if the type is not public, false if the type is public.
+ * - publicly_queryable - Whether post_type queries can be performed from the front page.
+ *     Defaults to whatever public is set as.
+ * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true
+ *     if the type is public, false if the type is not public.
+ * - show_in_menu - Where to show the post type in the admin menu. True for a top level menu,
+ *     false for no menu, or can be a top level page like 'tools.php' or 'edit.php?post_type=page'.
+ *     show_ui must be true.
  * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
- * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
- * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used as a base to construct capabilities.
+ * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to 'post'.
+ *   May be passed as an array to allow for alternative plurals when using this argument as a base to construct the
+ *   capabilities, e.g. array('story', 'stories').
+ * - capabilities - Array of capabilities for this post type. By default the capability_type is used
+ *      as a base to construct capabilities. You can see accepted values in {@link get_post_type_capabilities()}.
  * - map_meta_cap - Whether to use the internal default meta capability handling. Defaults to false.
  * - hierarchical - Whether the post type is hierarchical. Defaults to false.
- * - supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
- * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
- * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
- * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
+ * - supports - An alias for calling add_post_type_support() directly. See {@link add_post_type_support()}
+ *     for documentation. Defaults to none.
+ * - register_meta_box_cb - Provide a callback function that will be called when setting up the
+ *     meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
+ * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.
+ *     Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or
+ *     register_taxonomy_for_object_type().
+ * - labels - An array of labels for this post type. By default post labels are used for non-hierarchical
+ *     types and page labels for hierarchical ones. You can see accepted values in {@link get_post_type_labels()}.
  * - permalink_epmask - The default rewrite endpoint bitmasks.
- * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $post_type as slug.
+ * - rewrite - false to prevent rewrite. Defaults to true. Use array('slug'=>$slug) to customize permastruct;
+ *     default will use $post_type as slug. Other options include 'with_front' and 'feeds'.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type
  * - can_export - true allows this post type to be exported.
  * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
- * - _builtin - true if this post type is a native or "built-in" post_type.  THIS IS FOR INTERNAL USE ONLY!
- * - _edit_link - URL segement to use for edit link of this post type.  Set to 'post.php?post=%d'.  THIS IS FOR INTERNAL USE ONLY!
+ * - _builtin - true if this post type is a native or "built-in" post_type. THIS IS FOR INTERNAL USE ONLY!
+ * - _edit_link - URL segement to use for edit link of this post type. THIS IS FOR INTERNAL USE ONLY!
  *
  * @since 2.9.0
  * @uses $wp_post_types Inserts new post type object into the list
@@ -907,6 +920,9 @@ function register_post_type($post_type, $args = array()) {
 
 	$args->cap = get_post_type_capabilities( $args );
 	unset($args->capabilities);
+
+	if ( is_array( $args->capability_type ) )
+		$args->capability_type = $args->capability_type[0];
 
 	if ( ! empty($args->supports) ) {
 		add_post_type_support($post_type, $args->supports);
@@ -974,45 +990,85 @@ function register_post_type($post_type, $args = array()) {
 /**
  * Builds an object with all post type capabilities out of a post type object
  *
- * Accepted keys of the capabilities array in the post type object:
- * - edit_post - The meta capability that controls editing a particular object of this post type. Defaults to "edit_ . $capability_type" (edit_post).
- * - edit_posts - The capability that controls editing objects of this post type as a class. Defaults to "edit_ . $capability_type . s" (edit_posts).
- * - edit_others_posts - The capability that controls editing objects of this post type that are owned by other users. Defaults to "edit_others_ . $capability_type . s" (edit_others_posts).
- * - publish_posts - The capability that controls publishing objects of this post type. Defaults to "publish_ . $capability_type . s" (publish_posts).
- * - read_post - The meta capability that controls reading a particular object of this post type. Defaults to "read_ . $capability_type" (read_post).
- * - read_private_posts - The capability that controls reading private posts. Defaults to "read_private . $capability_type . s" (read_private_posts).
- * - delete_post - The meta capability that controls deleting a particular object of this post type. Defaults to "delete_ . $capability_type" (delete_post).
+ * Post type capabilities use the 'capability_type' argument as a base, if the
+ * capability is not set in the 'capabilities' argument array or if the
+ * 'capabilities' argument is not supplied.
+ *
+ * The capability_type argument can optionally be registered as an array, with
+ * the first value being singular and the second plural, e.g. array('story, 'stories')
+ * Otherwise, an 's' will be added to the value for the plural form. After
+ * registration, capability_type will always be a string of the singular value.
+ *
+ * By default, seven keys are accepted as part of the capabilities array:
+ *
+ * - edit_post, read_post, and delete_post are meta capabilities, which are then
+ *   generally mapped to corresponding primitive capabilities depending on the
+ *   context, which would be the post being edited/read/deleted and the user or
+ *   role being checked. Thus these capabilities would generally not be granted
+ *   directly to users or roles.
+ *
+ * - edit_posts - Controls whether objects of this post type can be edited.
+ * - edit_others_posts - Controls whether objects of this type owned by other users
+ *   can be edited. If the post type does not support an author, then this will
+ *   behave like edit_posts.
+ * - publish_posts - Controls publishing objects of this post type.
+ * - read_private_posts - Controls whether private objects can be read.
+ 
+ * These four primitive capabilities are checked in core in various locations.
+ * There are also seven other primitive capabilities which are not referenced
+ * directly in core, except in map_meta_cap(), which takes the three aforementioned
+ * meta capabilities and translates them into one or more primitive capabilities
+ * that must then be checked against the user or role, depending on the context.
+ *
+ * - read - Controls whether objects of this post type can be read.
+ * - delete_posts - Controls whether objects of this post type can be deleted.
+ * - delete_private_posts - Controls whether private objects can be deleted.
+ * - delete_published_posts - Controls whether published objects can be deleted.
+ * - delete_others_posts - Controls whether objects owned by other users can be
+ *   can be deleted. If the post type does not support an author, then this will
+ *   behave like delete_posts.
+ * - edit_private_posts - Controls whether private objects can be edited.
+ * - edit_published_posts - Controls whether published objects can be deleted.
+ *
+ * These additional capabilities are only used in map_meta_cap(). Thus, they are
+ * only assigned by default if the post type is registered with the 'map_meta_cap'
+ * argument set to true (default is false).
  *
  * @see map_meta_cap()
  * @since 3.0.0
  *
- * @param object $args
+ * @param object $args Post type registration arguments
  * @return object object with all the capabilities as member variables
  */
 function get_post_type_capabilities( $args ) {
+	if ( ! is_array( $args->capability_type ) )
+		$args->capability_type = array( $args->capability_type, $args->capability_type . 's' );
+
+	// Singular base for meta capabilities, plural base for primitive capabilities.
+	list( $singular_base, $plural_base ) = $args->capability_type;
+
 	$default_capabilities = array(
-		// Meta capabilities are generally mapped to primitive capabilities depending on the context
-		// (which would be the post being edited/deleted/read), instead of granted to users or roles:
-		'edit_post'          => 'edit_'         . $args->capability_type,
-		'read_post'          => 'read_'         . $args->capability_type,
-		'delete_post'        => 'delete_'       . $args->capability_type,
-		// Primitive capabilities that are used outside of map_meta_cap():
-		'edit_posts'         => 'edit_'         . $args->capability_type . 's',
-		'edit_others_posts'  => 'edit_others_'  . $args->capability_type . 's',
-		'publish_posts'      => 'publish_'      . $args->capability_type . 's',
-		'read_private_posts' => 'read_private_' . $args->capability_type . 's',
+		// Meta capabilities
+		'edit_post'          => 'edit_'         . $singular_base,
+		'read_post'          => 'read_'         . $singular_base,
+		'delete_post'        => 'delete_'       . $singular_base,
+		// Primitive capabilities used outside of map_meta_cap():
+		'edit_posts'         => 'edit_'         . $plural_base,
+		'edit_others_posts'  => 'edit_others_'  . $plural_base,
+		'publish_posts'      => 'publish_'      . $plural_base,
+		'read_private_posts' => 'read_private_' . $plural_base,
 	);
 
-	// Primitive capabilities that are used within map_meta_cap():
+	// Primitive capabilities used within map_meta_cap():
 	if ( $args->map_meta_cap ) {
 		$default_capabilities_for_mapping = array(
 			'read'                   => 'read',
-			'delete_posts'           => 'delete_'           . $args->capability_type . 's',
-			'delete_private_posts'   => 'delete_private_'   . $args->capability_type . 's',
-			'delete_published_posts' => 'delete_published_' . $args->capability_type . 's',
-			'delete_others_posts'    => 'delete_others_'    . $args->capability_type . 's',
-			'edit_private_posts'     => 'edit_private_'     . $args->capability_type . 's',
-			'edit_published_posts'   => 'edit_published_'   . $args->capability_type . 's',
+			'delete_posts'           => 'delete_'           . $plural_base,
+			'delete_private_posts'   => 'delete_private_'   . $plural_base,
+			'delete_published_posts' => 'delete_published_' . $plural_base,
+			'delete_others_posts'    => 'delete_others_'    . $plural_base,
+			'edit_private_posts'     => 'edit_private_'     . $plural_base,
+			'edit_published_posts'   => 'edit_published_'   . $plural_base,
 		);
 		$default_capabilities = array_merge( $default_capabilities, $default_capabilities_for_mapping );
 	}
