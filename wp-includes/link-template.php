@@ -1957,7 +1957,8 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	else
 		$home = get_blog_option( $blog_id, 'home' );
 
-	$url = str_replace( 'http://', "$scheme://", $home );
+	if ( 'http' != $scheme )
+		$url = str_replace( 'http://', "$scheme://", $home );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
@@ -2019,7 +2020,8 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	else
 		$url = get_blog_option( $blog_id, 'siteurl' );
 
-	$url = str_replace( 'http://', "{$scheme}://", $url );
+	if ( 'http' != $scheme )
+		$url = str_replace( 'http://', "{$scheme}://", $url );
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= '/' . ltrim( $path, '/' );
@@ -2170,9 +2172,7 @@ function network_site_url( $path = '', $scheme = null ) {
 			$scheme = ( is_ssl() ? 'https' : 'http' );
 	}
 
-	$url = 'http://' . $current_site->domain . $current_site->path;
-
-	$url = str_replace( 'http://', "{$scheme}://", $url );
+	$url = $scheme . '://' . $current_site->domain . $current_site->path;
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
@@ -2205,9 +2205,7 @@ function network_home_url( $path = '', $scheme = null ) {
 	if ( !in_array($scheme, array('http', 'https')) )
 		$scheme = is_ssl() && !is_admin() ? 'https' : 'http';
 
-	$url = 'http://' . $current_site->domain . $current_site->path;
-
-	$url = str_replace( 'http://', "$scheme://", $url );
+	$url = $scheme . '://' . $current_site->domain . $current_site->path;
 
 	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
 		$url .= ltrim( $path, '/' );
