@@ -62,7 +62,7 @@ function wp_admin_bar_render() {
 
 	if ( !is_object( $wp_admin_bar ) )
 		return false;
-		
+
 	$wp_admin_bar->load_user_locale_translations();
 
 	do_action( 'wp_before_admin_bar_render' );
@@ -226,7 +226,10 @@ add_action( 'wp_before_admin_bar_render', 'wp_admin_bar_edit_menu', 100 );
  * Load up the CSS needed to render the admin bar nice and pretty.
  */
 function wp_admin_bar_css() {
-	global $pagenow, $wp_locale;
+	global $pagenow, $wp_locale, $wp_admin_bar;
+
+	if ( !is_object( $wp_admin_bar ) )
+		return false;
 
 	if ( !is_user_logged_in() )
 		return;

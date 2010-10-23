@@ -4431,6 +4431,11 @@ function show_admin_bar( $show = null ) {
 	} else {
 		$old_value = $show_admin_bar;
 		$show_admin_bar = $show;
+
+		// Prevent rendering if already initiated.
+		if ( ! $show_admin_bar && isset( $GLOBALS['wp_admin_bar'] ) )
+			$GLOBALS['wp_admin_bar'] = null;
+
 		return $old_value;
 	}
 }
