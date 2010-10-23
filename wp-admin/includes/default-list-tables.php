@@ -3606,12 +3606,10 @@ class WP_Plugins_Table extends WP_List_Table {
 		<tr class='$class second'>
 			<td></td>
 			<td class='plugin-title'>";
-			echo '<div class="row-actions-visible">';
-			foreach ( $actions as $action => $link ) {
-				$sep = end( $actions ) == $link ? '' : ' | ';
-				echo "<span class='$action'>$link$sep</span>";
-			}
-			echo "</div></td>
+
+			echo $this->row_actions( $actions, true );
+
+			echo "</td>
 			<td class='desc'>";
 			$plugin_meta = array();
 			if ( !empty( $plugin_data['Version'] ) )

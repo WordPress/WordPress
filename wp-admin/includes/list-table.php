@@ -273,16 +273,17 @@ class WP_List_Table {
 	 * @access protected
 	 *
 	 * @param array $actions The list of actions
+	 * @param bool $always_visible Wether the actions should be always visible
 	 * @return string
 	 */
-	function row_actions( $actions ) {
+	function row_actions( $actions, $always_visible = false ) {
 		$action_count = count( $actions );
 		$i = 0;
 
 		if ( !$action_count )
 			return '';
 
-		$out = '<div class="row-actions">';
+		$out = '<div class="' . ( $always_visible ? 'row-actions-visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
