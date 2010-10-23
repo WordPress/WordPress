@@ -55,7 +55,7 @@ window.listTable = {
 		if ( this.loading )
 			return false;
 
-		var different = false;
+		var different = false, data;
 
 		$.each(args, function(key, val) {
 			if ( val != $.query.GET(key) ) {
@@ -72,7 +72,7 @@ window.listTable = {
 		if ( reset_paging )
 			$.query.SET('paged', 1);
 
-		var data = $.query.get();
+		data = $.query.get();
 
 		this._callback = callback;
 
@@ -88,7 +88,7 @@ window.listTable = {
 	fetch_list: function(data, success_callback, error_callback) {
 		data = $.extend(data, {
 			'action': 'fetch-list',
-			'list_args': list_args,
+			'list_args': list_args
 		});
 
 		$.ajax({
@@ -97,7 +97,7 @@ window.listTable = {
 			dataType: 'json',
 			data: data,
 			success: success_callback,
-			error: error_callback,
+			error: error_callback
 		});
 	},
 
@@ -233,7 +233,7 @@ listTable.init();
 
 	// tablenav dropdowns
 	$('#post-query-submit').click(function() {
-		var key, val, args = {};
+		var args = {};
 
 		$(this).parents('.actions').find('select[name!="action"]').each(function() {
 			var $el = $(this);
