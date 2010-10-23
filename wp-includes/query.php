@@ -2033,13 +2033,11 @@ class WP_Query extends WP_Object_Query {
 				$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		}
 
-		if ( is_array($post_type) ) {
+		if ( is_array( $post_type ) ) {
 			$post_type_cap = 'multiple_post_type';
 		} else {
-			$post_type_object = get_post_type_object ( $post_type );
-			if ( !empty($post_type_object) )
-				$post_type_cap = $post_type_object->capability_type;
-			else
+			$post_type_object = get_post_type_object( $post_type );
+			if ( empty( $post_type_object ) )
 				$post_type_cap = $post_type;
 		}
 
@@ -2066,8 +2064,7 @@ class WP_Query extends WP_Object_Query {
 			$post_type_object = get_post_type_object ( 'post' );
 		}
 
-		if ( !empty($post_type_object) ) {
-			$post_type_cap = $post_type_object->capability_type;
+		if ( ! empty( $post_type_object ) ) {
 			$edit_cap = $post_type_object->cap->edit_post;
 			$read_cap = $post_type_object->cap->read_post;
 			$edit_others_cap = $post_type_object->cap->edit_others_posts;
