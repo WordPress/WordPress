@@ -12,10 +12,7 @@
  * @package WordPress
  */
 
-if ( empty($wp) ) {
-	require_once('./wp-load.php');
-	wp();
-}
+require_once('./wp-load.php');
 
 header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 $link_cat = '';
