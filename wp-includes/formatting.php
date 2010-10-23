@@ -631,7 +631,9 @@ function remove_accents($string) {
 		chr(197).chr(186) => 'z', chr(197).chr(187) => 'Z',
 		chr(197).chr(188) => 'z', chr(197).chr(189) => 'Z',
 		chr(197).chr(190) => 'z', chr(197).chr(191) => 's',
-		chr(200).chr(153) => 's', chr(200).chr(155) => 't',
+		// Decompositions for Latin Extended-B
+		chr(200).chr(152) => 'S', chr(200).chr(153) => 's',
+		chr(200).chr(154) => 'T', chr(200).chr(155) => 't',
 		// Euro Sign
 		chr(226).chr(130).chr(172) => 'E',
 		// GBP (Pound) Sign
