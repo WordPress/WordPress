@@ -859,6 +859,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - labels - An array of labels for this post type. By default post labels are used for non-hierarchical
  *     types and page labels for hierarchical ones. You can see accepted values in {@link get_post_type_labels()}.
  * - permalink_epmask - The default rewrite endpoint bitmasks.
+ * - has_archive - Whether to have a post type archive. Will generate the proper rewrite rules if rewrite is enabled.
  * - rewrite - false to prevent rewrite. Defaults to true. Use array('slug'=>$slug) to customize permastruct;
  *     default will use $post_type as slug. Other options include 'with_front' and 'feeds'.
  * - query_var - false to prevent queries, or string to value of the query var to use for this post type
@@ -885,7 +886,8 @@ function register_post_type($post_type, $args = array()) {
 		'labels' => array(), 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null,
 		'capability_type' => 'post', 'capabilities' => array(), 'map_meta_cap' => false,
 		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'hierarchical' => false,
-		'public' => false, 'rewrite' => true, 'query_var' => true, 'supports' => array(), 'register_meta_box_cb' => null,
+		'public' => false, 'rewrite' => true, 'has_archive' => false, 'query_var' => true,
+		'supports' => array(), 'register_meta_box_cb' => null,
 		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
 		'permalink_epmask' => EP_PERMALINK, 'can_export' => true, 'show_in_nav_menus' => null, 'show_in_menu' => null,
 	);
@@ -940,24 +942,22 @@ function register_post_type($post_type, $args = array()) {
 	}
 
 	if ( false !== $args->rewrite && '' != get_option('permalink_structure') ) {
-		if ( !is_array($args->rewrite) )
+		if ( ! is_array( $args->rewrite ) )
 			$args->rewrite = array();
-		if ( !isset($args->rewrite['slug']) )
+		if ( ! isset( $args->rewrite['slug'] ) )
 			$args->rewrite['slug'] = $post_type;
-		if ( !isset($args->rewrite['with_front']) )
+		if ( ! isset( $args->rewrite['with_front'] ) )
 			$args->rewrite['with_front'] = true;
-		if ( !isset($args->rewrite['archive']) )
-			$args->rewrite['archive'] = false;
-		if ( !isset($args->rewrite['feeds']) || !$args->rewrite['archive'] )
-			$args->rewrite['feeds'] = (bool) $args->rewrite['archive'];
+		if ( ! isset( $args->rewrite['feeds'] ) || ! $args->has_archive )
+			$args->rewrite['feeds'] = (bool) $args->has_archive;
 
 		if ( $args->hierarchical )
 			$wp_rewrite->add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 		else
 			$wp_rewrite->add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
 
-		if ( $args->rewrite['archive'] ) {
-			$archive_slug = $args->rewrite['archive'] === true ? $args->rewrite['slug'] : $args->rewrite['archive'];
+		if ( $args->has_archive ) {
+			$archive_slug = $args->has_archive === true ? $args->rewrite['slug'] : $args->has_archive;
 			$wp_rewrite->add_rule( "{$archive_slug}/?$", "index.php?post_type=$post_type", 'top' );
 			if ( $args->rewrite['feeds'] && $wp_rewrite->feeds ) {
 				$feeds = '(' . trim( implode( '|', $wp_rewrite->feeds ) ) . ')';
